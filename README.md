@@ -1,4 +1,4 @@
-CustomsForgeApp
+CustomsForge Song Manager
 ===============
 
 More information on the project:
