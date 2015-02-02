@@ -1,0 +1,124 @@
+﻿<Window x:Class="CDLCManagerCF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:CDLCManagerCF"
+       DataContext="{Binding RelativeSource={RelativeSource Self}}"
+        Title="CustomsForge Song Manager" Height="763.587" Width="1709.33">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="177*"/>
+            <ColumnDefinition Width="935*"/>
+        </Grid.ColumnDefinitions>
+        <TabControl Grid.ColumnSpan="2">
+            <TabItem Header="DLC List">
+                <ListView ItemsSource="{Binding SongCollection}" x:Name="listSongs" AlternationCount="2" Margin="10,0,10,302">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Width="120" Header="Select"  >
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding Path=IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}}}" x:Name="checkSelected" VerticalAlignment="Center" HorizontalAlignment="Center"></CheckBox>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Width="120" Header="Preview" >
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="Play" VerticalAlignment="Center" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Width="120" Header="Artist" DisplayMemberBinding="{Binding Artist}" />
+                            <GridViewColumn Width="120" Header="Song" DisplayMemberBinding="{Binding Song}" />
+                            <GridViewColumn Width="120" Header="Album" DisplayMemberBinding="{Binding Album}" />
+                            <GridViewColumn Width="120" Header="Tuning" DisplayMemberBinding="{Binding Tuning}" />
+                            <GridViewColumn Width="120" Header="Arrangements" DisplayMemberBinding="{Binding Arrangements}" />
+                            <GridViewColumn Width="120" Header="Updated" DisplayMemberBinding="{Binding Updated}" />
+                            <GridViewColumn Width="120" Header="User" DisplayMemberBinding="{Binding User}"/>
+                            <GridViewColumn Width="120" Header="New version available" DisplayMemberBinding="{Binding NewAvailable}"/>
+                      </GridView>
+                    </ListView.View>
+                </ListView>
+            </TabItem>
+            <TabItem Header="DLC Editor">
+                <Grid Margin="0,-3,0,3">
+                    <Grid.ColumnDefinitions>
+
+                    </Grid.ColumnDefinitions>
+                    <GroupBox Header="DLC Info" Margin="10,10,30,564">
+                        <Grid ShowGridLines="True">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <local:LabelTextBox Margin="200,10,437,4"/>
+                            <local:LabelTextBox Margin="10,10,627,4"/>
+                            <local:LabelTextBox Margin="400,10,237,4"/>
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox Header="Tones" Margin="10,270,30,318">
+
+                    </GroupBox>
+                    <GroupBox Header="Other" Margin="10,146,30,440">
+                        -
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+            <TabItem Header="DLC Page">
+            </TabItem>
+            <TabItem Header="Duplicate">
+    
+            </TabItem>
+            <TabItem Header="Config">
+                <StackPanel>
+                    <GroupBox Header="Download Settings">
+                        <StackPanel Orientation="Vertical">
+                            <local:LabelTextBox HorizontalAlignment="Left" Label="Max download size" Width="275" />
+                            <local:LabelTextBox HorizontalAlignment="Left" Width="100" Height="30" />
+                            <local:LabelTextBox HorizontalAlignment="Left" Width="100" />
+                        </StackPanel>
+                    </GroupBox>
+                    <GroupBox Header="Rocksmith Settings" Height="164">
+                        <WrapPanel Orientation="Horizontal">
+                            <Label Content="Rocksmith Location:" />
+                            <TextBox x:Name="txtLocation" VerticalAlignment="Center" HorizontalAlignment="Right" Width="234" />
+                            <Button Content="Set location"  x:Name="btnLocation" Click="btnLocation_Click"/>
+                            <Label Content="Testing folder location:" />
+                            <TextBox x:Name="txtTestLocation" VerticalAlignment="Center" HorizontalAlignment="Right" Width="234" />
+                            <Button Content="Set testing location"  x:Name="btnTestLocation" Click="btnTestLocation_Click"/>
+                            <local:LabelTextBox x:Name="lblTxtBackupLocation" Label="Backup location:" HorizontalAlignment="Left" Width="239" />
+                            <Button Content="Set backup location" x:Name="btnBackupLocation" Click="btnBackupLocation_Click" />
+                        </WrapPanel>
+                    </GroupBox>
+                </StackPanel>
+            </TabItem>
+            <!-- <Button x:Name="button1" Content="Button1" Height="100" Width="75" Click="Button_Click" Margin="94,490,1526,115"/>-->
+            <TabItem Header="About">
+                <Label Content="Customsforge 2015" />
+            </TabItem>
+        </TabControl>
+        <Button x:Name="btnUpdateCDLC" Margin="38,455,1297,233" Grid.ColumnSpan="2" Content="Update CDLC"/>
+        <Button Margin="509,455,555,233" Content="Edit CDLC" Grid.Column="1"/>
+        <Button Margin="138,455,926,233" Content="Save CDLC" Grid.Column="1"/>
+        <Button x:Name="button1" Content="Button1" Height="100" Width="75" Click="Button_Click" Margin="72,538,124,95" />
+        <Button Margin="880,455,184,233" Content="Backup CDLC" Grid.Column="1" Click="Button_Click_1"/>
+    </Grid>
+    <Window.Resources>
+        <Style TargetType="{x:Type ListViewItem}">
+            <Style.Triggers>
+                <Trigger Property="ItemsControl.AlternationIndex" Value="0">
+                    <Setter Property="Background" Value="#FFFFFF"></Setter>
+                </Trigger>
+                <Trigger Property="ItemsControl.AlternationIndex" Value="1">
+                    <Setter Property="Background" Value="#19000000">
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+</Window>
+
