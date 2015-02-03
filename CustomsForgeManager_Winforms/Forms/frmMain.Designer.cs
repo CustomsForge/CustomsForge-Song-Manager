@@ -33,8 +33,13 @@
             this.gbLog = new System.Windows.Forms.GroupBox();
             this.tbLog = new System.Windows.Forms.TextBox();
             this.tcMain = new System.Windows.Forms.TabControl();
-            this.tpMain = new System.Windows.Forms.TabPage();
+            this.tpManager = new System.Windows.Forms.TabPage();
             this.tpSettings = new System.Windows.Forms.TabPage();
+            this.tlpSettings_Wrapper = new System.Windows.Forms.TableLayoutPanel();
+            this.btnSettingsSave = new System.Windows.Forms.Button();
+            this.btnSettingsLoad = new System.Windows.Forms.Button();
+            this.lblSettingsRSDir = new System.Windows.Forms.Label();
+            this.tbSettingsRSDir = new System.Windows.Forms.TextBox();
             this.tpAbout = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.lnkAboutCF = new System.Windows.Forms.LinkLabel();
@@ -44,20 +49,16 @@
             this.statusStripMain = new System.Windows.Forms.StatusStrip();
             this.toolStripProgressBarMain = new System.Windows.Forms.ToolStripProgressBar();
             this.timerAutoUpdate = new System.Windows.Forms.Timer(this.components);
-            this.tlpSettings_Wrapper = new System.Windows.Forms.TableLayoutPanel();
-            this.btnSettingsSave = new System.Windows.Forms.Button();
-            this.btnSettingsLoad = new System.Windows.Forms.Button();
-            this.lblSettingsRSDir = new System.Windows.Forms.Label();
-            this.tbSettingsRSDir = new System.Windows.Forms.TextBox();
+            this.tpEditor = new System.Windows.Forms.TabPage();
             this.tlp_MainForm_Wrappper.SuspendLayout();
             this.gbLog.SuspendLayout();
             this.tcMain.SuspendLayout();
             this.tpSettings.SuspendLayout();
+            this.tlpSettings_Wrapper.SuspendLayout();
             this.tpAbout.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbAboutLogo)).BeginInit();
             this.statusStripMain.SuspendLayout();
-            this.tlpSettings_Wrapper.SuspendLayout();
             this.SuspendLayout();
             // 
             // tlp_MainForm_Wrappper
@@ -99,7 +100,8 @@
             // 
             // tcMain
             // 
-            this.tcMain.Controls.Add(this.tpMain);
+            this.tcMain.Controls.Add(this.tpManager);
+            this.tcMain.Controls.Add(this.tpEditor);
             this.tcMain.Controls.Add(this.tpSettings);
             this.tcMain.Controls.Add(this.tpAbout);
             this.tcMain.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -109,15 +111,15 @@
             this.tcMain.Size = new System.Drawing.Size(778, 415);
             this.tcMain.TabIndex = 2;
             // 
-            // tpMain
+            // tpManager
             // 
-            this.tpMain.BackColor = System.Drawing.SystemColors.Control;
-            this.tpMain.Location = new System.Drawing.Point(4, 22);
-            this.tpMain.Name = "tpMain";
-            this.tpMain.Padding = new System.Windows.Forms.Padding(3);
-            this.tpMain.Size = new System.Drawing.Size(770, 389);
-            this.tpMain.TabIndex = 0;
-            this.tpMain.Text = "Main";
+            this.tpManager.BackColor = System.Drawing.SystemColors.Control;
+            this.tpManager.Location = new System.Drawing.Point(4, 22);
+            this.tpManager.Name = "tpManager";
+            this.tpManager.Padding = new System.Windows.Forms.Padding(3);
+            this.tpManager.Size = new System.Drawing.Size(770, 389);
+            this.tpManager.TabIndex = 0;
+            this.tpManager.Text = "CLDC Manager";
             // 
             // tpSettings
             // 
@@ -129,6 +131,67 @@
             this.tpSettings.Size = new System.Drawing.Size(770, 389);
             this.tpSettings.TabIndex = 1;
             this.tpSettings.Text = "Settings";
+            // 
+            // tlpSettings_Wrapper
+            // 
+            this.tlpSettings_Wrapper.ColumnCount = 3;
+            this.tlpSettings_Wrapper.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.56544F));
+            this.tlpSettings_Wrapper.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 38.089F));
+            this.tlpSettings_Wrapper.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 49.47644F));
+            this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsSave, 1, 3);
+            this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsLoad, 2, 3);
+            this.tlpSettings_Wrapper.Controls.Add(this.lblSettingsRSDir, 1, 1);
+            this.tlpSettings_Wrapper.Controls.Add(this.tbSettingsRSDir, 2, 1);
+            this.tlpSettings_Wrapper.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlpSettings_Wrapper.Location = new System.Drawing.Point(3, 3);
+            this.tlpSettings_Wrapper.Name = "tlpSettings_Wrapper";
+            this.tlpSettings_Wrapper.RowCount = 4;
+            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 7.832898F));
+            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 74.93472F));
+            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.97128F));
+            this.tlpSettings_Wrapper.Size = new System.Drawing.Size(764, 383);
+            this.tlpSettings_Wrapper.TabIndex = 0;
+            // 
+            // btnSettingsSave
+            // 
+            this.btnSettingsSave.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnSettingsSave.Location = new System.Drawing.Point(165, 340);
+            this.btnSettingsSave.Name = "btnSettingsSave";
+            this.btnSettingsSave.Size = new System.Drawing.Size(150, 23);
+            this.btnSettingsSave.TabIndex = 0;
+            this.btnSettingsSave.Text = "Save Settings";
+            this.btnSettingsSave.UseVisualStyleBackColor = true;
+            // 
+            // btnSettingsLoad
+            // 
+            this.btnSettingsLoad.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnSettingsLoad.Location = new System.Drawing.Point(499, 340);
+            this.btnSettingsLoad.Name = "btnSettingsLoad";
+            this.btnSettingsLoad.Size = new System.Drawing.Size(150, 23);
+            this.btnSettingsLoad.TabIndex = 0;
+            this.btnSettingsLoad.Text = "Load Settings";
+            this.btnSettingsLoad.UseVisualStyleBackColor = true;
+            // 
+            // lblSettingsRSDir
+            // 
+            this.lblSettingsRSDir.AutoSize = true;
+            this.lblSettingsRSDir.Dock = System.Windows.Forms.DockStyle.Right;
+            this.lblSettingsRSDir.Location = new System.Drawing.Point(110, 20);
+            this.lblSettingsRSDir.Name = "lblSettingsRSDir";
+            this.lblSettingsRSDir.Size = new System.Drawing.Size(272, 28);
+            this.lblSettingsRSDir.TabIndex = 1;
+            this.lblSettingsRSDir.Text = "Rocksmith installation directory (double-click to change):";
+            this.lblSettingsRSDir.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // tbSettingsRSDir
+            // 
+            this.tbSettingsRSDir.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.tbSettingsRSDir.Location = new System.Drawing.Point(388, 24);
+            this.tbSettingsRSDir.Name = "tbSettingsRSDir";
+            this.tbSettingsRSDir.Size = new System.Drawing.Size(373, 20);
+            this.tbSettingsRSDir.TabIndex = 2;
+            this.tbSettingsRSDir.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.tbSettingsRSDir_MouseDoubleClick);
             // 
             // tpAbout
             // 
@@ -209,66 +272,14 @@
             this.timerAutoUpdate.Interval = 600000;
             this.timerAutoUpdate.Tick += new System.EventHandler(this.timerAutoUpdate_Tick);
             // 
-            // tlpSettings_Wrapper
+            // tpEditor
             // 
-            this.tlpSettings_Wrapper.ColumnCount = 3;
-            this.tlpSettings_Wrapper.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.56544F));
-            this.tlpSettings_Wrapper.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 38.089F));
-            this.tlpSettings_Wrapper.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 49.47644F));
-            this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsSave, 1, 3);
-            this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsLoad, 2, 3);
-            this.tlpSettings_Wrapper.Controls.Add(this.lblSettingsRSDir, 1, 1);
-            this.tlpSettings_Wrapper.Controls.Add(this.tbSettingsRSDir, 2, 1);
-            this.tlpSettings_Wrapper.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlpSettings_Wrapper.Location = new System.Drawing.Point(3, 3);
-            this.tlpSettings_Wrapper.Name = "tlpSettings_Wrapper";
-            this.tlpSettings_Wrapper.RowCount = 4;
-            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 7.832898F));
-            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 74.93472F));
-            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.97128F));
-            this.tlpSettings_Wrapper.Size = new System.Drawing.Size(764, 383);
-            this.tlpSettings_Wrapper.TabIndex = 0;
-            // 
-            // btnSettingsSave
-            // 
-            this.btnSettingsSave.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnSettingsSave.Location = new System.Drawing.Point(165, 340);
-            this.btnSettingsSave.Name = "btnSettingsSave";
-            this.btnSettingsSave.Size = new System.Drawing.Size(150, 23);
-            this.btnSettingsSave.TabIndex = 0;
-            this.btnSettingsSave.Text = "Save Settings";
-            this.btnSettingsSave.UseVisualStyleBackColor = true;
-            // 
-            // btnSettingsLoad
-            // 
-            this.btnSettingsLoad.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnSettingsLoad.Location = new System.Drawing.Point(499, 340);
-            this.btnSettingsLoad.Name = "btnSettingsLoad";
-            this.btnSettingsLoad.Size = new System.Drawing.Size(150, 23);
-            this.btnSettingsLoad.TabIndex = 0;
-            this.btnSettingsLoad.Text = "Load Settings";
-            this.btnSettingsLoad.UseVisualStyleBackColor = true;
-            // 
-            // lblSettingsRSDir
-            // 
-            this.lblSettingsRSDir.AutoSize = true;
-            this.lblSettingsRSDir.Dock = System.Windows.Forms.DockStyle.Right;
-            this.lblSettingsRSDir.Location = new System.Drawing.Point(110, 20);
-            this.lblSettingsRSDir.Name = "lblSettingsRSDir";
-            this.lblSettingsRSDir.Size = new System.Drawing.Size(272, 28);
-            this.lblSettingsRSDir.TabIndex = 1;
-            this.lblSettingsRSDir.Text = "Rocksmith installation directory (double-click to change):";
-            this.lblSettingsRSDir.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // tbSettingsRSDir
-            // 
-            this.tbSettingsRSDir.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.tbSettingsRSDir.Location = new System.Drawing.Point(388, 24);
-            this.tbSettingsRSDir.Name = "tbSettingsRSDir";
-            this.tbSettingsRSDir.Size = new System.Drawing.Size(373, 20);
-            this.tbSettingsRSDir.TabIndex = 2;
-            this.tbSettingsRSDir.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.tbSettingsRSDir_MouseDoubleClick);
+            this.tpEditor.Location = new System.Drawing.Point(4, 22);
+            this.tpEditor.Name = "tpEditor";
+            this.tpEditor.Size = new System.Drawing.Size(770, 389);
+            this.tpEditor.TabIndex = 3;
+            this.tpEditor.Text = "CDLC Editor";
+            this.tpEditor.UseVisualStyleBackColor = true;
             // 
             // frmMain
             // 
@@ -288,14 +299,14 @@
             this.gbLog.PerformLayout();
             this.tcMain.ResumeLayout(false);
             this.tpSettings.ResumeLayout(false);
+            this.tlpSettings_Wrapper.ResumeLayout(false);
+            this.tlpSettings_Wrapper.PerformLayout();
             this.tpAbout.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbAboutLogo)).EndInit();
             this.statusStripMain.ResumeLayout(false);
             this.statusStripMain.PerformLayout();
-            this.tlpSettings_Wrapper.ResumeLayout(false);
-            this.tlpSettings_Wrapper.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -307,7 +318,7 @@
         private System.Windows.Forms.GroupBox gbLog;
         private System.Windows.Forms.TextBox tbLog;
         private System.Windows.Forms.TabControl tcMain;
-        private System.Windows.Forms.TabPage tpMain;
+        private System.Windows.Forms.TabPage tpManager;
         private System.Windows.Forms.TabPage tpSettings;
         private System.Windows.Forms.TabPage tpAbout;
         private System.ComponentModel.BackgroundWorker bWorker;
@@ -323,6 +334,7 @@
         private System.Windows.Forms.Button btnSettingsLoad;
         private System.Windows.Forms.Label lblSettingsRSDir;
         private System.Windows.Forms.TextBox tbSettingsRSDir;
+        private System.Windows.Forms.TabPage tpEditor;
     }
 }
 
