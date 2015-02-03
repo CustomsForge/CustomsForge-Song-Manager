@@ -93,7 +93,11 @@ namespace CustomsForgeManager_Winforms
 
         private void frmMain_Load(object sender, EventArgs e)
         {
-            
+            string configFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\CFM";
+            if(!Directory.Exists(configFolderPath))
+            {
+                Directory.CreateDirectory(configFolderPath);
+            }
         }
 
         private void lnkAboutCF_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
