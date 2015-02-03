@@ -49,7 +49,7 @@ namespace CDLCManagerCF {
         #line hidden
         
         
-        #line 88 "..\..\MainWindow.xaml"
+        #line 89 "..\..\MainWindow.xaml"
         [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         internal System.Windows.Controls.TextBox txtLocation;
         
@@ -57,7 +57,7 @@ namespace CDLCManagerCF {
         #line hidden
         
         
-        #line 89 "..\..\MainWindow.xaml"
+        #line 90 "..\..\MainWindow.xaml"
         [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         internal System.Windows.Controls.Button btnLocation;
         
@@ -65,7 +65,7 @@ namespace CDLCManagerCF {
         #line hidden
         
         
-        #line 91 "..\..\MainWindow.xaml"
+        #line 92 "..\..\MainWindow.xaml"
         [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         internal System.Windows.Controls.TextBox txtTestLocation;
         
@@ -73,7 +73,7 @@ namespace CDLCManagerCF {
         #line hidden
         
         
-        #line 92 "..\..\MainWindow.xaml"
+        #line 93 "..\..\MainWindow.xaml"
         [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         internal System.Windows.Controls.Button btnTestLocation;
         
@@ -81,7 +81,7 @@ namespace CDLCManagerCF {
         #line hidden
         
         
-        #line 93 "..\..\MainWindow.xaml"
+        #line 94 "..\..\MainWindow.xaml"
         [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         internal CDLCManagerCF.LabelTextBox lblTxtBackupLocation;
         
@@ -89,7 +89,7 @@ namespace CDLCManagerCF {
         #line hidden
         
         
-        #line 94 "..\..\MainWindow.xaml"
+        #line 95 "..\..\MainWindow.xaml"
         [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         internal System.Windows.Controls.Button btnBackupLocation;
         
@@ -97,7 +97,7 @@ namespace CDLCManagerCF {
         #line hidden
         
         
-        #line 104 "..\..\MainWindow.xaml"
+        #line 105 "..\..\MainWindow.xaml"
         [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         internal System.Windows.Controls.Button btnUpdateCDLC;
         
@@ -105,7 +105,7 @@ namespace CDLCManagerCF {
         #line hidden
         
         
-        #line 107 "..\..\MainWindow.xaml"
+        #line 108 "..\..\MainWindow.xaml"
         [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         internal System.Windows.Controls.Button button1;
         
@@ -158,7 +158,7 @@ namespace CDLCManagerCF {
             case 3:
             this.btnLocation = ((System.Windows.Controls.Button)(target));
             
-            #line 89 "..\..\MainWindow.xaml"
+            #line 90 "..\..\MainWindow.xaml"
             this.btnLocation.Click += new System.Windows.RoutedEventHandler(this.btnLocation_Click);
             
             #line default
@@ -170,7 +170,7 @@ namespace CDLCManagerCF {
             case 5:
             this.btnTestLocation = ((System.Windows.Controls.Button)(target));
             
-            #line 92 "..\..\MainWindow.xaml"
+            #line 93 "..\..\MainWindow.xaml"
             this.btnTestLocation.Click += new System.Windows.RoutedEventHandler(this.btnTestLocation_Click);
             
             #line default
@@ -182,7 +182,7 @@ namespace CDLCManagerCF {
             case 7:
             this.btnBackupLocation = ((System.Windows.Controls.Button)(target));
             
-            #line 94 "..\..\MainWindow.xaml"
+            #line 95 "..\..\MainWindow.xaml"
             this.btnBackupLocation.Click += new System.Windows.RoutedEventHandler(this.btnBackupLocation_Click);
             
             #line default
@@ -194,7 +194,7 @@ namespace CDLCManagerCF {
             case 9:
             this.button1 = ((System.Windows.Controls.Button)(target));
             
-            #line 107 "..\..\MainWindow.xaml"
+            #line 108 "..\..\MainWindow.xaml"
             this.button1.Click += new System.Windows.RoutedEventHandler(this.Button_Click);
             
             #line default
@@ -202,7 +202,7 @@ namespace CDLCManagerCF {
             return;
             case 10:
             
-            #line 108 "..\..\MainWindow.xaml"
+            #line 109 "..\..\MainWindow.xaml"
             ((System.Windows.Controls.Button)(target)).Click += new System.Windows.RoutedEventHandler(this.Button_Click_1);
             
             #line default
