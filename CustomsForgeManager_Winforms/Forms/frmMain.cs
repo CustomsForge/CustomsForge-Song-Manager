@@ -1,42 +1,92 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Deployment.Application;
-using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using CustomsForgeManager_Winforms.Logging;
 using CustomsForgeManager_Winforms.Utilities;
 using Microsoft.Win32;
 
-namespace CustomsForgeManager_Winforms
+namespace CustomsForgeManager_Winforms.Forms
 {
     public partial class frmMain : Form
     {
-        public frmMain()
+        private readonly Log myLog;
+        private readonly Settings mySettings;
+
+        private frmMain()
         {
+            InitializeComponent();
+            Init();
+        }
+
+        public frmMain(Log myLog, Settings mySettings)
+        {
+            // TODO: Complete member initialization
+            this.myLog = myLog;
+            this.mySettings = mySettings;
             InitializeComponent();
             Init();
         }
 
         private void Init()
         {
+            #region Create directory structure if not exists
+
+            string configFolderPath = Constants.DefaultWorkingDirectory;
+            if (!Directory.Exists(configFolderPath))
+            {
+                Directory.CreateDirectory(configFolderPath);
+            }
+            
+            #endregion
+
+            #region Load Settings file and deserialize to Settings class
+
+            
+            #endregion
+
+            #region Logging setup
+
+            myLog.AddTargetFile(mySettings.LogFilePath);
+            myLog.AddTargetControls(tbLog);
+
+            #endregion
+
             if (ApplicationDeployment.IsNetworkDeployed)
                 Log(string.Format("Application loaded, using version: {0}", ApplicationDeployment.CurrentDeployment.CurrentVersion), 100);
-            Log("Getting Rocksmith 2014 install dir...");
-            string path = GetInstallDirFromRegistry();
-            if (!string.IsNullOrEmpty(path))
+
+            if (string.IsNullOrEmpty(mySettings.RSInstalledDir))
             {
-                Log(string.Format("Found at: {0}", path), 100);
-                tbSettingsRSDir.Text = path;
+                Log("Getting Rocksmith 2014 install dir...");
+                mySettings.RSInstalledDir = GetInstallDirFromRegistry();
+            }
+            if (!string.IsNullOrEmpty(mySettings.RSInstalledDir))
+            {
+                Log(string.Format("Found Rocksmith at: {0}", mySettings.RSInstalledDir), 100);
+                tbSettingsRSDir.Text = mySettings.RSInstalledDir;
             }
         }
 
-        public void CheckForUpdate()
+        #region GUIEventHandlers
+
+        private void lnkAboutCF_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://customsforge.com");
+        }
+
+        private void timerAutoUpdate_Tick(object sender, EventArgs e)
+        {
+            CheckForUpdate();
+        }
+
+        private void tbSettingsRSDir_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            ERR_NI();
+        }
+
+        #endregion
+
+        private void CheckForUpdate()
         {
             if (ApplicationDeployment.IsNetworkDeployed)
             {
@@ -90,25 +140,6 @@ namespace CustomsForgeManager_Winforms
             }
         }
 
-        #region GUIEventHandlers
-
-        private void frmMain_Load(object sender, EventArgs e)
-        {
-            string configFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\CFM";
-            if(!Directory.Exists(configFolderPath))
-            {
-                Directory.CreateDirectory(configFolderPath);
-            }
-        }
-
-        private void lnkAboutCF_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            System.Diagnostics.Process.Start("http://customsforge.com");
-        }
-
-        #endregion
-
-
         private string GetInstallDirFromRegistry()
         {
             string result = "";
@@ -127,31 +158,24 @@ namespace CustomsForgeManager_Winforms
             return result;
         }
 
+        private void Log(string message)
+        {
+            myLog.Write(message);
+        }
+
         private void Log(string logMessage, int progress = 1)
         {
-
-            Log message = new Log(logMessage);
+            Log(logMessage);
             toolStripProgressBarMain.ProgressBar.InvokeIfRequired(delegate
             {
                 if (toolStripProgressBarMain.ProgressBar != null)
                     toolStripProgressBarMain.ProgressBar
                         .Value = progress;
             });
-            tbLog.InvokeIfRequired(delegate
-            {
-                tbLog.AppendText(message.ToString() + Environment.NewLine);
-            }); 
+            
         }
 
-        private void timerAutoUpdate_Tick(object sender, EventArgs e)
-        {
-            CheckForUpdate();
-        }
-
-        private void tbSettingsRSDir_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            ERR_NI();
-        }
+        
 
         private void ERR_NI()
         {

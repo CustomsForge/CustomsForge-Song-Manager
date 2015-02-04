@@ -1,4 +1,4 @@
-﻿namespace CustomsForgeManager_Winforms
+﻿namespace CustomsForgeManager_Winforms.Forms
 {
     partial class frmMain
     {
@@ -34,6 +34,7 @@
             this.tbLog = new System.Windows.Forms.TextBox();
             this.tcMain = new System.Windows.Forms.TabControl();
             this.tpManager = new System.Windows.Forms.TabPage();
+            this.tpEditor = new System.Windows.Forms.TabPage();
             this.tpSettings = new System.Windows.Forms.TabPage();
             this.tlpSettings_Wrapper = new System.Windows.Forms.TableLayoutPanel();
             this.btnSettingsSave = new System.Windows.Forms.Button();
@@ -49,7 +50,6 @@
             this.statusStripMain = new System.Windows.Forms.StatusStrip();
             this.toolStripProgressBarMain = new System.Windows.Forms.ToolStripProgressBar();
             this.timerAutoUpdate = new System.Windows.Forms.Timer(this.components);
-            this.tpEditor = new System.Windows.Forms.TabPage();
             this.tlp_MainForm_Wrappper.SuspendLayout();
             this.gbLog.SuspendLayout();
             this.tcMain.SuspendLayout();
@@ -120,6 +120,15 @@
             this.tpManager.Size = new System.Drawing.Size(770, 389);
             this.tpManager.TabIndex = 0;
             this.tpManager.Text = "CLDC Manager";
+            // 
+            // tpEditor
+            // 
+            this.tpEditor.Location = new System.Drawing.Point(4, 22);
+            this.tpEditor.Name = "tpEditor";
+            this.tpEditor.Size = new System.Drawing.Size(770, 389);
+            this.tpEditor.TabIndex = 3;
+            this.tpEditor.Text = "CDLC Editor";
+            this.tpEditor.UseVisualStyleBackColor = true;
             // 
             // tpSettings
             // 
@@ -272,15 +281,6 @@
             this.timerAutoUpdate.Interval = 600000;
             this.timerAutoUpdate.Tick += new System.EventHandler(this.timerAutoUpdate_Tick);
             // 
-            // tpEditor
-            // 
-            this.tpEditor.Location = new System.Drawing.Point(4, 22);
-            this.tpEditor.Name = "tpEditor";
-            this.tpEditor.Size = new System.Drawing.Size(770, 389);
-            this.tpEditor.TabIndex = 3;
-            this.tpEditor.Text = "CDLC Editor";
-            this.tpEditor.UseVisualStyleBackColor = true;
-            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -293,7 +293,6 @@
             this.Name = "frmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "CustomsForge Manager";
-            this.Load += new System.EventHandler(this.frmMain_Load);
             this.tlp_MainForm_Wrappper.ResumeLayout(false);
             this.gbLog.ResumeLayout(false);
             this.gbLog.PerformLayout();
