@@ -34,6 +34,23 @@
             this.tbLog = new System.Windows.Forms.TextBox();
             this.tcMain = new System.Windows.Forms.TabControl();
             this.tpManager = new System.Windows.Forms.TabPage();
+            this.tlpSongListWrapper = new System.Windows.Forms.TableLayoutPanel();
+            this.listSongs = new System.Windows.Forms.ListView();
+            this.colBackup = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colPreview = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colArtist = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colSong = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colAlbum = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colTuning = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colArrangements = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colUpdated = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colUser = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colNewVer = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.panelSongListButtons = new System.Windows.Forms.Panel();
+            this.btnSaveDLC = new System.Windows.Forms.Button();
+            this.btnBackupDLC = new System.Windows.Forms.Button();
+            this.btnDLCPage = new System.Windows.Forms.Button();
+            this.btnEditDLC = new System.Windows.Forms.Button();
             this.tpEditor = new System.Windows.Forms.TabPage();
             this.tpSettings = new System.Windows.Forms.TabPage();
             this.tlpSettings_Wrapper = new System.Windows.Forms.TableLayoutPanel();
@@ -53,6 +70,9 @@
             this.tlp_MainForm_Wrappper.SuspendLayout();
             this.gbLog.SuspendLayout();
             this.tcMain.SuspendLayout();
+            this.tpManager.SuspendLayout();
+            this.tlpSongListWrapper.SuspendLayout();
+            this.panelSongListButtons.SuspendLayout();
             this.tpSettings.SuspendLayout();
             this.tlpSettings_Wrapper.SuspendLayout();
             this.tpAbout.SuspendLayout();
@@ -114,12 +134,148 @@
             // tpManager
             // 
             this.tpManager.BackColor = System.Drawing.SystemColors.Control;
+            this.tpManager.Controls.Add(this.tlpSongListWrapper);
             this.tpManager.Location = new System.Drawing.Point(4, 22);
             this.tpManager.Name = "tpManager";
             this.tpManager.Padding = new System.Windows.Forms.Padding(3);
             this.tpManager.Size = new System.Drawing.Size(770, 389);
             this.tpManager.TabIndex = 0;
             this.tpManager.Text = "CLDC Manager";
+            // 
+            // tlpSongListWrapper
+            // 
+            this.tlpSongListWrapper.ColumnCount = 1;
+            this.tlpSongListWrapper.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpSongListWrapper.Controls.Add(this.listSongs, 0, 0);
+            this.tlpSongListWrapper.Controls.Add(this.panelSongListButtons, 0, 1);
+            this.tlpSongListWrapper.Location = new System.Drawing.Point(0, 0);
+            this.tlpSongListWrapper.Name = "tlpSongListWrapper";
+            this.tlpSongListWrapper.RowCount = 2;
+            this.tlpSongListWrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 82.31017F));
+            this.tlpSongListWrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 17.68984F));
+            this.tlpSongListWrapper.Size = new System.Drawing.Size(765, 393);
+            this.tlpSongListWrapper.TabIndex = 2;
+            // 
+            // listSongs
+            // 
+            this.listSongs.CheckBoxes = true;
+            this.listSongs.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.colBackup,
+            this.colPreview,
+            this.colArtist,
+            this.colSong,
+            this.colAlbum,
+            this.colTuning,
+            this.colArrangements,
+            this.colUpdated,
+            this.colUser,
+            this.colNewVer});
+            this.listSongs.Location = new System.Drawing.Point(3, 3);
+            this.listSongs.Name = "listSongs";
+            this.listSongs.Size = new System.Drawing.Size(759, 317);
+            this.listSongs.TabIndex = 1;
+            this.listSongs.UseCompatibleStateImageBehavior = false;
+            this.listSongs.View = System.Windows.Forms.View.Details;
+            // 
+            // colBackup
+            // 
+            this.colBackup.Text = "Backup";
+            // 
+            // colPreview
+            // 
+            this.colPreview.Text = "Preview";
+            this.colPreview.Width = 84;
+            // 
+            // colArtist
+            // 
+            this.colArtist.Text = "Artist";
+            this.colArtist.Width = 84;
+            // 
+            // colSong
+            // 
+            this.colSong.Text = "Song";
+            this.colSong.Width = 84;
+            // 
+            // colAlbum
+            // 
+            this.colAlbum.Text = "Album";
+            this.colAlbum.Width = 84;
+            // 
+            // colTuning
+            // 
+            this.colTuning.Text = "Tuning";
+            this.colTuning.Width = 84;
+            // 
+            // colArrangements
+            // 
+            this.colArrangements.Text = "Arrangements";
+            this.colArrangements.Width = 84;
+            // 
+            // colUpdated
+            // 
+            this.colUpdated.Text = "Updated";
+            this.colUpdated.Width = 84;
+            // 
+            // colUser
+            // 
+            this.colUser.Text = "Creator";
+            this.colUser.Width = 84;
+            // 
+            // colNewVer
+            // 
+            this.colNewVer.Text = "New version available";
+            this.colNewVer.Width = 84;
+            // 
+            // panelSongListButtons
+            // 
+            this.panelSongListButtons.Controls.Add(this.btnSaveDLC);
+            this.panelSongListButtons.Controls.Add(this.btnBackupDLC);
+            this.panelSongListButtons.Controls.Add(this.btnDLCPage);
+            this.panelSongListButtons.Controls.Add(this.btnEditDLC);
+            this.panelSongListButtons.Location = new System.Drawing.Point(3, 326);
+            this.panelSongListButtons.Name = "panelSongListButtons";
+            this.panelSongListButtons.Size = new System.Drawing.Size(759, 64);
+            this.panelSongListButtons.TabIndex = 2;
+            // 
+            // btnSaveDLC
+            // 
+            this.btnSaveDLC.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnSaveDLC.Location = new System.Drawing.Point(530, 18);
+            this.btnSaveDLC.Name = "btnSaveDLC";
+            this.btnSaveDLC.Size = new System.Drawing.Size(150, 27);
+            this.btnSaveDLC.TabIndex = 7;
+            this.btnSaveDLC.Text = "Save DLC";
+            this.btnSaveDLC.UseVisualStyleBackColor = true;
+            // 
+            // btnBackupDLC
+            // 
+            this.btnBackupDLC.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnBackupDLC.Location = new System.Drawing.Point(374, 18);
+            this.btnBackupDLC.Name = "btnBackupDLC";
+            this.btnBackupDLC.Size = new System.Drawing.Size(150, 27);
+            this.btnBackupDLC.TabIndex = 6;
+            this.btnBackupDLC.Text = "Backup DLC";
+            this.btnBackupDLC.UseVisualStyleBackColor = true;
+            // 
+            // btnDLCPage
+            // 
+            this.btnDLCPage.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnDLCPage.Location = new System.Drawing.Point(218, 18);
+            this.btnDLCPage.Name = "btnDLCPage";
+            this.btnDLCPage.Size = new System.Drawing.Size(150, 27);
+            this.btnDLCPage.TabIndex = 5;
+            this.btnDLCPage.Text = "Open DLC Page";
+            this.btnDLCPage.UseVisualStyleBackColor = true;
+            // 
+            // btnEditDLC
+            // 
+            this.btnEditDLC.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnEditDLC.Location = new System.Drawing.Point(62, 18);
+            this.btnEditDLC.Name = "btnEditDLC";
+            this.btnEditDLC.Size = new System.Drawing.Size(150, 27);
+            this.btnEditDLC.TabIndex = 4;
+            this.btnEditDLC.Text = "Edit DLC";
+            this.btnEditDLC.UseVisualStyleBackColor = true;
             // 
             // tpEditor
             // 
@@ -171,6 +327,7 @@
             this.btnSettingsSave.TabIndex = 0;
             this.btnSettingsSave.Text = "Save Settings";
             this.btnSettingsSave.UseVisualStyleBackColor = true;
+            this.btnSettingsSave.Click += new System.EventHandler(this.btnSettingsSave_Click);
             // 
             // btnSettingsLoad
             // 
@@ -181,6 +338,7 @@
             this.btnSettingsLoad.TabIndex = 0;
             this.btnSettingsLoad.Text = "Load Settings";
             this.btnSettingsLoad.UseVisualStyleBackColor = true;
+            this.btnSettingsLoad.Click += new System.EventHandler(this.btnSettingsLoad_Click);
             // 
             // lblSettingsRSDir
             // 
@@ -297,6 +455,9 @@
             this.gbLog.ResumeLayout(false);
             this.gbLog.PerformLayout();
             this.tcMain.ResumeLayout(false);
+            this.tpManager.ResumeLayout(false);
+            this.tlpSongListWrapper.ResumeLayout(false);
+            this.panelSongListButtons.ResumeLayout(false);
             this.tpSettings.ResumeLayout(false);
             this.tlpSettings_Wrapper.ResumeLayout(false);
             this.tlpSettings_Wrapper.PerformLayout();
@@ -334,6 +495,23 @@
         private System.Windows.Forms.Label lblSettingsRSDir;
         private System.Windows.Forms.TextBox tbSettingsRSDir;
         private System.Windows.Forms.TabPage tpEditor;
+        private System.Windows.Forms.TableLayoutPanel tlpSongListWrapper;
+        private System.Windows.Forms.ListView listSongs;
+        private System.Windows.Forms.ColumnHeader colPreview;
+        private System.Windows.Forms.ColumnHeader colArtist;
+        private System.Windows.Forms.ColumnHeader colSong;
+        private System.Windows.Forms.ColumnHeader colAlbum;
+        private System.Windows.Forms.ColumnHeader colTuning;
+        private System.Windows.Forms.ColumnHeader colArrangements;
+        private System.Windows.Forms.ColumnHeader colUpdated;
+        private System.Windows.Forms.ColumnHeader colUser;
+        private System.Windows.Forms.ColumnHeader colNewVer;
+        private System.Windows.Forms.Panel panelSongListButtons;
+        private System.Windows.Forms.Button btnSaveDLC;
+        private System.Windows.Forms.Button btnBackupDLC;
+        private System.Windows.Forms.Button btnDLCPage;
+        private System.Windows.Forms.Button btnEditDLC;
+        private System.Windows.Forms.ColumnHeader colBackup;
     }
 }
 

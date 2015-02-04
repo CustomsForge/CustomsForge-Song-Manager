@@ -19,10 +19,10 @@ namespace CustomsForgeManager_Winforms
         {
             Log myLog = new Log();
             Settings mySettings = new Settings();
-
+            SettingsData settingsData = new SettingsData();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmMain(myLog, mySettings));
+            Application.Run(new frmMain(myLog, mySettings, settingsData));
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using CustomsForgeManager_Winforms.Logging;
 using CustomsForgeManager_Winforms.Utilities;
 using Microsoft.Win32;
+using System.Collections.Generic;
 
 namespace CustomsForgeManager_Winforms.Forms
 {
@@ -12,6 +13,8 @@ namespace CustomsForgeManager_Winforms.Forms
     {
         private readonly Log myLog;
         private readonly Settings mySettings;
+        private readonly SettingsData settingsData;
+        private List<SongData> SongCollection = new List<SongData>();
 
         private frmMain()
         {
@@ -19,13 +22,15 @@ namespace CustomsForgeManager_Winforms.Forms
             Init();
         }
 
-        public frmMain(Log myLog, Settings mySettings)
+        public frmMain(Log myLog, Settings mySettings, SettingsData settingsData)
         {
             // TODO: Complete member initialization
             this.myLog = myLog;
             this.mySettings = mySettings;
+            this.settingsData = settingsData;
             InitializeComponent();
             Init();
+            PopulateList();
         }
 
         private void Init()
@@ -41,8 +46,12 @@ namespace CustomsForgeManager_Winforms.Forms
             #endregion
 
             #region Load Settings file and deserialize to Settings class
-
-            
+            using (FileStream fs = new FileStream(Constants.DefaultWorkingDirectory + @"\settings.bin", FileMode.Open, FileAccess.Read, FileShare.Read))
+            {
+                SettingsData deserialized = (SettingsData)Extensions.DeSerialize(fs);
+                mySettings.RSInstalledDir = deserialized.RSInstalledDir;
+                mySettings.LogFilePath = deserialized.LogFilePath;
+            }
             #endregion
 
             #region Logging setup
@@ -65,6 +74,7 @@ namespace CustomsForgeManager_Winforms.Forms
                 Log(string.Format("Found Rocksmith at: {0}", mySettings.RSInstalledDir), 100);
                 tbSettingsRSDir.Text = mySettings.RSInstalledDir;
             }
+          
         }
 
         #region GUIEventHandlers
@@ -83,8 +93,95 @@ namespace CustomsForgeManager_Winforms.Forms
         {
             ERR_NI();
         }
-
+        private void btnSettingsSave_Click(object sender, EventArgs e)
+        {
+            using (FileStream fs = new FileStream(Constants.DefaultWorkingDirectory + @"\settings.bin", FileMode.Create, FileAccess.Write, FileShare.None))
+            {
+                Extensions.Serialze(settingsData, fs);
+            }
+        }
+        private void btnSettingsLoad_Click(object sender, EventArgs e)
+        {
+            using (FileStream fs = new FileStream(Constants.DefaultWorkingDirectory + @"\settings.bin", FileMode.Open, FileAccess.Read, FileShare.Read))
+            {
+                SettingsData deserialized = (SettingsData)Extensions.DeSerialize(fs);
+                mySettings.RSInstalledDir = deserialized.RSInstalledDir;
+                mySettings.LogFilePath = deserialized.LogFilePath;
+            }
+        }
         #endregion
+
+        public void PopulateList()
+        {
+            List<string> filesList = new List<string>(FilesList(mySettings.RSInstalledDir));
+            foreach (string file in filesList)
+            {
+                var browser = new PsarcBrowser(file);
+                var songList = browser.GetSongList();
+                foreach (var song in songList)
+                {
+                    var arrangements = "";
+                    foreach (string arrangement in song.Arrangements)
+                    {
+                        arrangements += "," + arrangement;
+                    }
+                    arrangements = arrangements.Remove(0, 1);
+                    SongCollection.Add(new SongData
+                    {
+                        Preview = "",
+                        Song = song.Title,
+                        Artist = song.Artist,
+                        Album = song.Album,
+                        Updated = song.Updated,
+                        Tuning = TuningToName(song.Tuning),
+                        Arrangements = arrangements,
+                        Author = song.Author,
+                        NewAvailable = ""
+                    });
+                }
+            }
+            foreach (SongData song in SongCollection)
+            {
+                listSongs.Items.Add(new ListViewItem(new string[] { " ", song.Preview, song.Artist, song.Song, song.Album, song.Tuning, song.Arrangements, song.Updated, song.Author, song.NewAvailable }));
+            }
+            listSongs.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+        }
+        public static List<string> FilesList(string path)
+        {
+            List<string> files = new List<string>(Directory.GetFiles(path, "*_p.psarc", SearchOption.AllDirectories));
+            return files;
+        }
+
+        public static string TuningToName(string tuning)
+        {
+            switch (tuning)
+            {
+                case "000000":
+                    return "E Standard";
+                case "-100000":
+                    return "E Drop D";
+                case "-2-2-2-2-2-2":
+                    return "D Standard";
+                case "-3-1-1-1-1-1":
+                    return "Eb Drop Db";
+                case "-3-3-3-3-3-3":
+                    return "C# Standard";
+                case "-4-4-4-4-4-4":
+                    return "C Standard";
+                case "-4-2-2-2-2-2":
+                    return "D Drop C";
+                case "-5-5-5-5-5-5":
+                    return "B Standard";
+                case "-5-3-3-3-3-3":
+                    return "C# Drop B";
+                case "-7-7-7-7-7-7":
+                    return "A Standard";
+                case "-7-5-5-5-5-5":
+                    return "B Drop A";
+                default:
+                    return "Other";
+            }
+        }
 
         private void CheckForUpdate()
         {
@@ -175,13 +272,9 @@ namespace CustomsForgeManager_Winforms.Forms
             
         }
 
-        
-
         private void ERR_NI()
         {
             MessageBox.Show("Not implemented yet!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
         }
-
-        
     }
 }
