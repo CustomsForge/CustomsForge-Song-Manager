@@ -80,28 +80,28 @@ namespace CustomsForgeManager_Winforms.Forms
             }
             #endregion
 
-            //#region Logging setup
+            #region Logging setup
 
-            //myLog.AddTargetFile(mySettings.LogFilePath);
-            //myLog.AddTargetControls(tbLog);
+            myLog.AddTargetFile(mySettings.LogFilePath);
+            myLog.AddTargetControls(tbLog);
 
-            //#endregion
+            #endregion
 
-            //if (ApplicationDeployment.IsNetworkDeployed)
-            //    Log(string.Format("Application loaded, using version: {0}", ApplicationDeployment.CurrentDeployment.CurrentVersion), 100);
+            if (ApplicationDeployment.IsNetworkDeployed)
+                Log(string.Format("Application loaded, using version: {0}", ApplicationDeployment.CurrentDeployment.CurrentVersion), 100);
 
-            //if (string.IsNullOrEmpty(mySettings.RSInstalledDir))
-            //{
-            //    Log("Getting Rocksmith 2014 install dir...");
-            //    mySettings.RSInstalledDir = GetInstallDirFromRegistry();
-            //}
-            //if (!string.IsNullOrEmpty(mySettings.RSInstalledDir))
-            //{
-            //    Log(string.Format("Found Rocksmith at: {0}", mySettings.RSInstalledDir), 100);
-            //    tbSettingsRSDir.Text = mySettings.RSInstalledDir;
-            //}
+            if (string.IsNullOrEmpty(mySettings.RSInstalledDir))
+            {
+                Log("Getting Rocksmith 2014 install dir...");
+                mySettings.RSInstalledDir = GetInstallDirFromRegistry();
+            }
+            if (!string.IsNullOrEmpty(mySettings.RSInstalledDir))
+            {
+                Log(string.Format("Found Rocksmith at: {0}", mySettings.RSInstalledDir), 100);
+                tbSettingsRSDir.Text = mySettings.RSInstalledDir;
+            }
 
-            //BackgroundScan();
+            BackgroundScan();
         }
 
         private void BackgroundScan()
