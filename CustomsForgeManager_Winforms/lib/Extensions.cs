@@ -18,17 +18,21 @@ namespace CustomsForgeManager_Winforms.Utilities
             else
                 action(c);
         }
-        public static void Serialze(object obj, FileStream Stream)
+        public static void Serialze(this object obj, FileStream Stream)
         {
             BinaryFormatter bin = new BinaryFormatter();
             bin.FilterLevel = System.Runtime.Serialization.Formatters.TypeFilterLevel.Low;
             bin.Serialize(Stream, obj);
         }
-        public static object DeSerialize(FileStream Stream)
+        public static object DeSerialize(this FileStream Stream)
         {
-            BinaryFormatter bin = new BinaryFormatter();
-            bin.FilterLevel = System.Runtime.Serialization.Formatters.TypeFilterLevel.Low;
-            object x = bin.Deserialize(Stream);
+            object x = null;
+            if (Stream.Length > 0)
+            {
+                BinaryFormatter bin = new BinaryFormatter();
+                bin.FilterLevel = System.Runtime.Serialization.Formatters.TypeFilterLevel.Low;
+                x = bin.Deserialize(Stream);
+            }
             return x;
         }
     }

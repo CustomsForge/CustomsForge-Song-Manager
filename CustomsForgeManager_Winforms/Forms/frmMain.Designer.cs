@@ -50,6 +50,7 @@
             this.btnSaveDLC = new System.Windows.Forms.Button();
             this.btnBackupDLC = new System.Windows.Forms.Button();
             this.btnDLCPage = new System.Windows.Forms.Button();
+            this.btnRescan = new System.Windows.Forms.Button();
             this.btnEditDLC = new System.Windows.Forms.Button();
             this.tpEditor = new System.Windows.Forms.TabPage();
             this.tpSettings = new System.Windows.Forms.TabPage();
@@ -67,6 +68,9 @@
             this.statusStripMain = new System.Windows.Forms.StatusStrip();
             this.toolStripProgressBarMain = new System.Windows.Forms.ToolStripProgressBar();
             this.timerAutoUpdate = new System.Windows.Forms.Timer(this.components);
+            this.contextMenuStrip_MainManager = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.openDLCPageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editDLCToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tlp_MainForm_Wrappper.SuspendLayout();
             this.gbLog.SuspendLayout();
             this.tcMain.SuspendLayout();
@@ -79,6 +83,7 @@
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbAboutLogo)).BeginInit();
             this.statusStripMain.SuspendLayout();
+            this.contextMenuStrip_MainManager.SuspendLayout();
             this.SuspendLayout();
             // 
             // tlp_MainForm_Wrappper
@@ -170,6 +175,11 @@
             this.colUpdated,
             this.colUser,
             this.colNewVer});
+            this.listSongs.ContextMenuStrip = this.contextMenuStrip_MainManager;
+            this.listSongs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listSongs.FullRowSelect = true;
+            this.listSongs.GridLines = true;
+            this.listSongs.HideSelection = false;
             this.listSongs.Location = new System.Drawing.Point(3, 3);
             this.listSongs.Name = "listSongs";
             this.listSongs.Size = new System.Drawing.Size(759, 317);
@@ -231,6 +241,7 @@
             this.panelSongListButtons.Controls.Add(this.btnSaveDLC);
             this.panelSongListButtons.Controls.Add(this.btnBackupDLC);
             this.panelSongListButtons.Controls.Add(this.btnDLCPage);
+            this.panelSongListButtons.Controls.Add(this.btnRescan);
             this.panelSongListButtons.Controls.Add(this.btnEditDLC);
             this.panelSongListButtons.Location = new System.Drawing.Point(3, 326);
             this.panelSongListButtons.Name = "panelSongListButtons";
@@ -240,7 +251,8 @@
             // btnSaveDLC
             // 
             this.btnSaveDLC.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnSaveDLC.Location = new System.Drawing.Point(530, 18);
+            this.btnSaveDLC.Enabled = false;
+            this.btnSaveDLC.Location = new System.Drawing.Point(594, 18);
             this.btnSaveDLC.Name = "btnSaveDLC";
             this.btnSaveDLC.Size = new System.Drawing.Size(150, 27);
             this.btnSaveDLC.TabIndex = 7;
@@ -250,7 +262,8 @@
             // btnBackupDLC
             // 
             this.btnBackupDLC.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnBackupDLC.Location = new System.Drawing.Point(374, 18);
+            this.btnBackupDLC.Enabled = false;
+            this.btnBackupDLC.Location = new System.Drawing.Point(438, 18);
             this.btnBackupDLC.Name = "btnBackupDLC";
             this.btnBackupDLC.Size = new System.Drawing.Size(150, 27);
             this.btnBackupDLC.TabIndex = 6;
@@ -260,17 +273,30 @@
             // btnDLCPage
             // 
             this.btnDLCPage.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnDLCPage.Location = new System.Drawing.Point(218, 18);
+            this.btnDLCPage.Enabled = false;
+            this.btnDLCPage.Location = new System.Drawing.Point(282, 18);
             this.btnDLCPage.Name = "btnDLCPage";
             this.btnDLCPage.Size = new System.Drawing.Size(150, 27);
             this.btnDLCPage.TabIndex = 5;
             this.btnDLCPage.Text = "Open DLC Page";
             this.btnDLCPage.UseVisualStyleBackColor = true;
             // 
+            // btnRescan
+            // 
+            this.btnRescan.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnRescan.Location = new System.Drawing.Point(17, 18);
+            this.btnRescan.Name = "btnRescan";
+            this.btnRescan.Size = new System.Drawing.Size(60, 27);
+            this.btnRescan.TabIndex = 4;
+            this.btnRescan.Text = "Rescan";
+            this.btnRescan.UseVisualStyleBackColor = true;
+            this.btnRescan.Click += new System.EventHandler(this.btnRescan_Click);
+            // 
             // btnEditDLC
             // 
             this.btnEditDLC.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnEditDLC.Location = new System.Drawing.Point(62, 18);
+            this.btnEditDLC.Enabled = false;
+            this.btnEditDLC.Location = new System.Drawing.Point(126, 18);
             this.btnEditDLC.Name = "btnEditDLC";
             this.btnEditDLC.Size = new System.Drawing.Size(150, 27);
             this.btnEditDLC.TabIndex = 4;
@@ -439,6 +465,26 @@
             this.timerAutoUpdate.Interval = 600000;
             this.timerAutoUpdate.Tick += new System.EventHandler(this.timerAutoUpdate_Tick);
             // 
+            // contextMenuStrip_MainManager
+            // 
+            this.contextMenuStrip_MainManager.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openDLCPageToolStripMenuItem,
+            this.editDLCToolStripMenuItem});
+            this.contextMenuStrip_MainManager.Name = "contextMenuStrip_MainManager";
+            this.contextMenuStrip_MainManager.Size = new System.Drawing.Size(158, 48);
+            // 
+            // openDLCPageToolStripMenuItem
+            // 
+            this.openDLCPageToolStripMenuItem.Name = "openDLCPageToolStripMenuItem";
+            this.openDLCPageToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.openDLCPageToolStripMenuItem.Text = "Open DLC Page";
+            // 
+            // editDLCToolStripMenuItem
+            // 
+            this.editDLCToolStripMenuItem.Name = "editDLCToolStripMenuItem";
+            this.editDLCToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.editDLCToolStripMenuItem.Text = "Edit DLC";
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -467,6 +513,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pbAboutLogo)).EndInit();
             this.statusStripMain.ResumeLayout(false);
             this.statusStripMain.PerformLayout();
+            this.contextMenuStrip_MainManager.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -512,6 +559,10 @@
         private System.Windows.Forms.Button btnDLCPage;
         private System.Windows.Forms.Button btnEditDLC;
         private System.Windows.Forms.ColumnHeader colBackup;
+        private System.Windows.Forms.Button btnRescan;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip_MainManager;
+        private System.Windows.Forms.ToolStripMenuItem openDLCPageToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem editDLCToolStripMenuItem;
     }
 }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Deployment.Application;
 using System.IO;
+using System.Security.Cryptography;
 using System.Windows.Forms;
 using CustomsForgeManager_Winforms.Logging;
 using CustomsForgeManager_Winforms.Utilities;
@@ -30,7 +31,7 @@ namespace CustomsForgeManager_Winforms.Forms
             this.settingsData = settingsData;
             InitializeComponent();
             Init();
-            PopulateList();
+            //PopulateList();
         }
 
         private void Init()
@@ -46,11 +47,14 @@ namespace CustomsForgeManager_Winforms.Forms
             #endregion
 
             #region Load Settings file and deserialize to Settings class
-            using (FileStream fs = new FileStream(Constants.DefaultWorkingDirectory + @"\settings.bin", FileMode.Open, FileAccess.Read, FileShare.Read))
+            using (FileStream fs = new FileStream(Constants.DefaultWorkingDirectory + @"\settings.bin", FileMode.OpenOrCreate, FileAccess.Read, FileShare.Read))
             {
-                SettingsData deserialized = (SettingsData)Extensions.DeSerialize(fs);
-                mySettings.RSInstalledDir = deserialized.RSInstalledDir;
-                mySettings.LogFilePath = deserialized.LogFilePath;
+                SettingsData deserialized = fs.DeSerialize() as SettingsData;
+                if (deserialized != null)
+                {
+                    mySettings.RSInstalledDir = deserialized.RSInstalledDir;
+                    mySettings.LogFilePath = deserialized.LogFilePath;
+                }
             }
             #endregion
 
@@ -74,7 +78,41 @@ namespace CustomsForgeManager_Winforms.Forms
                 Log(string.Format("Found Rocksmith at: {0}", mySettings.RSInstalledDir), 100);
                 tbSettingsRSDir.Text = mySettings.RSInstalledDir;
             }
-          
+
+            BackgroundScan();
+        }
+
+        private void BackgroundScan()
+        {
+            btnRescan.Enabled = false;
+            bWorker.DoWork -= PopulateListHandler;
+            bWorker.DoWork += PopulateListHandler;
+            bWorker.RunWorkerCompleted -= PopulateCompletedHandler;
+            bWorker.RunWorkerCompleted += PopulateCompletedHandler;
+            bWorker.RunWorkerAsync();
+        }
+
+        void PopulateCompletedHandler(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
+        {
+            listSongs.InvokeIfRequired(delegate{listSongs.Items.Clear();});
+            foreach (SongData song in SongCollection)
+            {
+                listSongs.InvokeIfRequired(delegate
+                {
+                    listSongs.Items.Add(new ListViewItem(new string[] { " ", song.Preview, song.Artist, song.Song, song.Album, song.Tuning, song.Arrangements, song.Updated, song.Author, song.NewAvailable }));
+                });
+            }
+            listSongs.InvokeIfRequired(delegate
+            {
+                listSongs.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);//.ColumnContent);
+            });
+            Log("Finished scanning songs...",100);
+            btnRescan.Enabled = true;
+        }
+
+        void PopulateListHandler(object sender, System.ComponentModel.DoWorkEventArgs e)
+        {
+            PopulateList();
         }
 
         #region GUIEventHandlers
@@ -111,40 +149,48 @@ namespace CustomsForgeManager_Winforms.Forms
         }
         #endregion
 
-        public void PopulateList()
+        private void PopulateList()
         {
+            Log("Scanning for songs...");
+
+            int counter = 1;
             List<string> filesList = new List<string>(FilesList(mySettings.RSInstalledDir));
             foreach (string file in filesList)
             {
-                var browser = new PsarcBrowser(file);
-                var songList = browser.GetSongList();
-                foreach (var song in songList)
+                Progress(counter++ * 100/filesList.Count);
+                try
                 {
-                    var arrangements = "";
-                    foreach (string arrangement in song.Arrangements)
+                    var browser = new PsarcBrowser(file);
+                    var songList = browser.GetSongList();
+                    foreach (var song in songList)
                     {
-                        arrangements += "," + arrangement;
+                        var arrangements = "";
+                        foreach (string arrangement in song.Arrangements)
+                        {
+                            arrangements += "," + arrangement;
+                        }
+                        arrangements = arrangements.Remove(0, 1);
+                        SongCollection.Add(new SongData
+                        {
+                            Preview = "",
+                            Song = song.Title,
+                            Artist = song.Artist,
+                            Album = song.Album,
+                            Updated = song.Updated,
+                            Tuning = TuningToName(song.Tuning),
+                            Arrangements = arrangements,
+                            Author = song.Author,
+                            NewAvailable = ""
+                        });
                     }
-                    arrangements = arrangements.Remove(0, 1);
-                    SongCollection.Add(new SongData
-                    {
-                        Preview = "",
-                        Song = song.Title,
-                        Artist = song.Artist,
-                        Album = song.Album,
-                        Updated = song.Updated,
-                        Tuning = TuningToName(song.Tuning),
-                        Arrangements = arrangements,
-                        Author = song.Author,
-                        NewAvailable = ""
-                    });
+                }
+                catch (Exception ex)
+                {
+                    Log(file + ":" + ex.Message);
                 }
             }
-            foreach (SongData song in SongCollection)
-            {
-                listSongs.Items.Add(new ListViewItem(new string[] { " ", song.Preview, song.Artist, song.Song, song.Album, song.Tuning, song.Arrangements, song.Updated, song.Author, song.NewAvailable }));
-            }
-            listSongs.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+            
+            
         }
         public static List<string> FilesList(string path)
         {
@@ -255,6 +301,17 @@ namespace CustomsForgeManager_Winforms.Forms
             return result;
         }
 
+
+        private void Progress(int value)
+        {
+            toolStripProgressBarMain.ProgressBar.InvokeIfRequired(delegate
+            {
+                if (toolStripProgressBarMain.ProgressBar != null)
+                    toolStripProgressBarMain.ProgressBar
+                        .Value = value;
+            });
+        }
+
         private void Log(string message)
         {
             myLog.Write(message);
@@ -263,18 +320,17 @@ namespace CustomsForgeManager_Winforms.Forms
         private void Log(string logMessage, int progress = 1)
         {
             Log(logMessage);
-            toolStripProgressBarMain.ProgressBar.InvokeIfRequired(delegate
-            {
-                if (toolStripProgressBarMain.ProgressBar != null)
-                    toolStripProgressBarMain.ProgressBar
-                        .Value = progress;
-            });
-            
+            Progress(progress);
         }
 
         private void ERR_NI()
         {
             MessageBox.Show("Not implemented yet!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+        }
+
+        private void btnRescan_Click(object sender, EventArgs e)
+        {
+            BackgroundScan();
         }
     }
 }

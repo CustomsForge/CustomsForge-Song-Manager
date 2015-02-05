@@ -27,7 +27,7 @@ namespace CustomsForgeManager_Winforms.Logging
 
         public string GetFormatted()
         {
-            return string.Format("[{0}]: {1}", TimeStamp.ToShortDateString(), Message);
+            return string.Format("[{0:d/M/yyyy HH:mm:ss}]: {1}", TimeStamp, Message);
         }
     }
 
@@ -112,6 +112,11 @@ namespace CustomsForgeManager_Winforms.Logging
                         control.InvokeIfRequired(delegate
                         {
                             myControl.Text += myLogEntry.GetFormatted() + Environment.NewLine;
+                            if (myControl is TextBox)
+                            {
+                                ((TextBox)myControl).SelectionStart = ((TextBox)myControl).TextLength;
+                                ((TextBox)myControl).ScrollToCaret();
+                            }
                         });
                     }
                 }

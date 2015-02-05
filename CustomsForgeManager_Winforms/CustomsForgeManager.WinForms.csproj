@@ -118,9 +118,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PsarcBrowser.cs" />
     <Compile Include="SongData.cs" />
-    <Compile Include="Utilities\Constants.cs" />
-    <Compile Include="Utilities\Extensions.cs" />
-    <Compile Include="Utilities\Settings.cs" />
+    <Compile Include="lib\Constants.cs" />
+    <Compile Include="lib\Extensions.cs" />
+    <Compile Include="lib\Settings.cs" />
     <EmbeddedResource Include="Forms\frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
     </EmbeddedResource>
@@ -169,6 +169,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Utilities\X360.xml" />
     <Content Include="Utilities\MiscUtil.dll" />
     <Content Include="Utilities\Newtonsoft.Json.dll" />
     <Content Include="Utilities\RocksmithToolkitLib.dll" />
