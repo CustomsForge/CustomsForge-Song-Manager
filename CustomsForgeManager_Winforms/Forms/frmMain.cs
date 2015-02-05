@@ -34,6 +34,28 @@ namespace CustomsForgeManager_Winforms.Forms
             //PopulateList();
         }
 
+        void SaveDefaultSettingsFile() 
+        {
+            using (FileStream fs = new FileStream(Constants.DefaultWorkingDirectory + @"\settings.bin", FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Read))
+            {
+                if (File.Exists(Constants.DefaultWorkingDirectory + @"\settings.bin"))
+                {
+                    SettingsData deserialized = fs.DeSerialize() as SettingsData;
+                    if (deserialized != null)
+                    {
+                        mySettings.RSInstalledDir = deserialized.RSInstalledDir;
+                        mySettings.LogFilePath = deserialized.LogFilePath;
+                    }
+                    else
+                    {
+                        settingsData.RSInstalledDir = Constants.DefaultRocksmithPath;
+                        settingsData.LogFilePath = Constants.DefaultLogName;
+                        mySettings.RSInstalledDir = Constants.DefaultRocksmithPath;
+                        Extensions.Serialze(settingsData, fs);
+                    }
+                }
+            }
+        }
         private void Init()
         {
             #region Create directory structure if not exists
@@ -43,43 +65,43 @@ namespace CustomsForgeManager_Winforms.Forms
             {
                 Directory.CreateDirectory(configFolderPath);
             }
-            
+
             #endregion
 
             #region Load Settings file and deserialize to Settings class
-            using (FileStream fs = new FileStream(Constants.DefaultWorkingDirectory + @"\settings.bin", FileMode.OpenOrCreate, FileAccess.Read, FileShare.Read))
+            if (Directory.Exists(Constants.DefaultWorkingDirectory))
             {
-                SettingsData deserialized = fs.DeSerialize() as SettingsData;
-                if (deserialized != null)
-                {
-                    mySettings.RSInstalledDir = deserialized.RSInstalledDir;
-                    mySettings.LogFilePath = deserialized.LogFilePath;
-                }
+                SaveDefaultSettingsFile();
+            }
+            else
+            {
+                Directory.CreateDirectory(Constants.DefaultWorkingDirectory);
+                SaveDefaultSettingsFile();
             }
             #endregion
 
-            #region Logging setup
+            //#region Logging setup
 
-            myLog.AddTargetFile(mySettings.LogFilePath);
-            myLog.AddTargetControls(tbLog);
+            //myLog.AddTargetFile(mySettings.LogFilePath);
+            //myLog.AddTargetControls(tbLog);
 
-            #endregion
+            //#endregion
 
-            if (ApplicationDeployment.IsNetworkDeployed)
-                Log(string.Format("Application loaded, using version: {0}", ApplicationDeployment.CurrentDeployment.CurrentVersion), 100);
+            //if (ApplicationDeployment.IsNetworkDeployed)
+            //    Log(string.Format("Application loaded, using version: {0}", ApplicationDeployment.CurrentDeployment.CurrentVersion), 100);
 
-            if (string.IsNullOrEmpty(mySettings.RSInstalledDir))
-            {
-                Log("Getting Rocksmith 2014 install dir...");
-                mySettings.RSInstalledDir = GetInstallDirFromRegistry();
-            }
-            if (!string.IsNullOrEmpty(mySettings.RSInstalledDir))
-            {
-                Log(string.Format("Found Rocksmith at: {0}", mySettings.RSInstalledDir), 100);
-                tbSettingsRSDir.Text = mySettings.RSInstalledDir;
-            }
+            //if (string.IsNullOrEmpty(mySettings.RSInstalledDir))
+            //{
+            //    Log("Getting Rocksmith 2014 install dir...");
+            //    mySettings.RSInstalledDir = GetInstallDirFromRegistry();
+            //}
+            //if (!string.IsNullOrEmpty(mySettings.RSInstalledDir))
+            //{
+            //    Log(string.Format("Found Rocksmith at: {0}", mySettings.RSInstalledDir), 100);
+            //    tbSettingsRSDir.Text = mySettings.RSInstalledDir;
+            //}
 
-            BackgroundScan();
+            //BackgroundScan();
         }
 
         private void BackgroundScan()
@@ -94,7 +116,7 @@ namespace CustomsForgeManager_Winforms.Forms
 
         void PopulateCompletedHandler(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
         {
-            listSongs.InvokeIfRequired(delegate{listSongs.Items.Clear();});
+            listSongs.InvokeIfRequired(delegate { listSongs.Items.Clear(); });
             toolStripStatusLabel_Main.Text = string.Format("{0} songs found", SongCollection.Count);
             foreach (SongData song in SongCollection)
             {
@@ -107,7 +129,7 @@ namespace CustomsForgeManager_Winforms.Forms
             {
                 listSongs.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);//.ColumnContent);
             });
-            Log("Finished scanning songs...",100);
+            Log("Finished scanning songs...", 100);
             btnRescan.Enabled = true;
         }
 
@@ -134,6 +156,8 @@ namespace CustomsForgeManager_Winforms.Forms
         }
         private void btnSettingsSave_Click(object sender, EventArgs e)
         {
+            mySettings.RSInstalledDir = tbSettingsRSDir.Text;
+            settingsData.RSInstalledDir = tbSettingsRSDir.Text;
             using (FileStream fs = new FileStream(Constants.DefaultWorkingDirectory + @"\settings.bin", FileMode.Create, FileAccess.Write, FileShare.None))
             {
                 Extensions.Serialze(settingsData, fs);
@@ -158,7 +182,7 @@ namespace CustomsForgeManager_Winforms.Forms
             List<string> filesList = new List<string>(FilesList(mySettings.RSInstalledDir));
             foreach (string file in filesList)
             {
-                Progress(counter++ * 100/filesList.Count);
+                Progress(counter++ * 100 / filesList.Count);
                 try
                 {
                     var browser = new PsarcBrowser(file);
@@ -190,8 +214,6 @@ namespace CustomsForgeManager_Winforms.Forms
                     Log(file + ":" + ex.Message);
                 }
             }
-            
-            
         }
         public static List<string> FilesList(string path)
         {
@@ -255,8 +277,8 @@ namespace CustomsForgeManager_Winforms.Forms
                         else
                         {
                             // Display a message that the app MUST reboot. Display the minimum required version.
-                            MessageBox.Show("This application has detected a mandatory update from your current version to version" 
-                                + info.MinimumRequiredVersion 
+                            MessageBox.Show("This application has detected a mandatory update from your current version to version"
+                                + info.MinimumRequiredVersion
                                 + "The application will now install the update and restart.",
                                 "Update_Available", MessageBoxButtons.OK,
                                 MessageBoxIcon.Information);
@@ -272,7 +294,7 @@ namespace CustomsForgeManager_Winforms.Forms
                             }
                             catch (DeploymentDownloadException dde)
                             {
-                                Log("<Error>: "+dde.Message);
+                                Log("<Error>: " + dde.Message);
                             }
                         }
                     }
@@ -302,7 +324,6 @@ namespace CustomsForgeManager_Winforms.Forms
             return result;
         }
 
-
         private void Progress(int value)
         {
             toolStripProgressBarMain.ProgressBar.InvokeIfRequired(delegate
@@ -331,6 +352,8 @@ namespace CustomsForgeManager_Winforms.Forms
 
         private void btnRescan_Click(object sender, EventArgs e)
         {
+            listSongs.Items.Clear();
+            SongCollection.Clear();
             BackgroundScan();
         }
     }
