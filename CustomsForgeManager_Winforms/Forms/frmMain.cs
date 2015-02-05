@@ -95,6 +95,7 @@ namespace CustomsForgeManager_Winforms.Forms
         void PopulateCompletedHandler(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
         {
             listSongs.InvokeIfRequired(delegate{listSongs.Items.Clear();});
+            toolStripStatusLabel_Main.Text = string.Format("{0} songs found", SongCollection.Count);
             foreach (SongData song in SongCollection)
             {
                 listSongs.InvokeIfRequired(delegate

@@ -46,6 +46,9 @@
             this.colUpdated = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colUser = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colNewVer = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.contextMenuStrip_MainManager = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.openDLCPageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editDLCToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panelSongListButtons = new System.Windows.Forms.Panel();
             this.btnSaveDLC = new System.Windows.Forms.Button();
             this.btnBackupDLC = new System.Windows.Forms.Button();
@@ -68,14 +71,13 @@
             this.statusStripMain = new System.Windows.Forms.StatusStrip();
             this.toolStripProgressBarMain = new System.Windows.Forms.ToolStripProgressBar();
             this.timerAutoUpdate = new System.Windows.Forms.Timer(this.components);
-            this.contextMenuStrip_MainManager = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.openDLCPageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.editDLCToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripStatusLabel_Main = new System.Windows.Forms.ToolStripStatusLabel();
             this.tlp_MainForm_Wrappper.SuspendLayout();
             this.gbLog.SuspendLayout();
             this.tcMain.SuspendLayout();
             this.tpManager.SuspendLayout();
             this.tlpSongListWrapper.SuspendLayout();
+            this.contextMenuStrip_MainManager.SuspendLayout();
             this.panelSongListButtons.SuspendLayout();
             this.tpSettings.SuspendLayout();
             this.tlpSettings_Wrapper.SuspendLayout();
@@ -83,7 +85,6 @@
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbAboutLogo)).BeginInit();
             this.statusStripMain.SuspendLayout();
-            this.contextMenuStrip_MainManager.SuspendLayout();
             this.SuspendLayout();
             // 
             // tlp_MainForm_Wrappper
@@ -235,6 +236,26 @@
             // 
             this.colNewVer.Text = "New version available";
             this.colNewVer.Width = 84;
+            // 
+            // contextMenuStrip_MainManager
+            // 
+            this.contextMenuStrip_MainManager.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openDLCPageToolStripMenuItem,
+            this.editDLCToolStripMenuItem});
+            this.contextMenuStrip_MainManager.Name = "contextMenuStrip_MainManager";
+            this.contextMenuStrip_MainManager.Size = new System.Drawing.Size(158, 48);
+            // 
+            // openDLCPageToolStripMenuItem
+            // 
+            this.openDLCPageToolStripMenuItem.Name = "openDLCPageToolStripMenuItem";
+            this.openDLCPageToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.openDLCPageToolStripMenuItem.Text = "Open DLC Page";
+            // 
+            // editDLCToolStripMenuItem
+            // 
+            this.editDLCToolStripMenuItem.Name = "editDLCToolStripMenuItem";
+            this.editDLCToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.editDLCToolStripMenuItem.Text = "Edit DLC";
             // 
             // panelSongListButtons
             // 
@@ -446,7 +467,8 @@
             // statusStripMain
             // 
             this.statusStripMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripProgressBarMain});
+            this.toolStripProgressBarMain,
+            this.toolStripStatusLabel_Main});
             this.statusStripMain.Location = new System.Drawing.Point(0, 540);
             this.statusStripMain.Name = "statusStripMain";
             this.statusStripMain.Size = new System.Drawing.Size(784, 22);
@@ -465,25 +487,10 @@
             this.timerAutoUpdate.Interval = 600000;
             this.timerAutoUpdate.Tick += new System.EventHandler(this.timerAutoUpdate_Tick);
             // 
-            // contextMenuStrip_MainManager
+            // toolStripStatusLabel_Main
             // 
-            this.contextMenuStrip_MainManager.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openDLCPageToolStripMenuItem,
-            this.editDLCToolStripMenuItem});
-            this.contextMenuStrip_MainManager.Name = "contextMenuStrip_MainManager";
-            this.contextMenuStrip_MainManager.Size = new System.Drawing.Size(158, 48);
-            // 
-            // openDLCPageToolStripMenuItem
-            // 
-            this.openDLCPageToolStripMenuItem.Name = "openDLCPageToolStripMenuItem";
-            this.openDLCPageToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
-            this.openDLCPageToolStripMenuItem.Text = "Open DLC Page";
-            // 
-            // editDLCToolStripMenuItem
-            // 
-            this.editDLCToolStripMenuItem.Name = "editDLCToolStripMenuItem";
-            this.editDLCToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
-            this.editDLCToolStripMenuItem.Text = "Edit DLC";
+            this.toolStripStatusLabel_Main.Name = "toolStripStatusLabel_Main";
+            this.toolStripStatusLabel_Main.Size = new System.Drawing.Size(0, 17);
             // 
             // frmMain
             // 
@@ -503,6 +510,7 @@
             this.tcMain.ResumeLayout(false);
             this.tpManager.ResumeLayout(false);
             this.tlpSongListWrapper.ResumeLayout(false);
+            this.contextMenuStrip_MainManager.ResumeLayout(false);
             this.panelSongListButtons.ResumeLayout(false);
             this.tpSettings.ResumeLayout(false);
             this.tlpSettings_Wrapper.ResumeLayout(false);
@@ -513,7 +521,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.pbAboutLogo)).EndInit();
             this.statusStripMain.ResumeLayout(false);
             this.statusStripMain.PerformLayout();
-            this.contextMenuStrip_MainManager.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -563,6 +570,7 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip_MainManager;
         private System.Windows.Forms.ToolStripMenuItem openDLCPageToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editDLCToolStripMenuItem;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel_Main;
     }
 }
 
