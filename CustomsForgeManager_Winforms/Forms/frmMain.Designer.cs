@@ -70,8 +70,8 @@
             this.timerMain = new System.Windows.Forms.Timer(this.components);
             this.statusStripMain = new System.Windows.Forms.StatusStrip();
             this.toolStripProgressBarMain = new System.Windows.Forms.ToolStripProgressBar();
-            this.timerAutoUpdate = new System.Windows.Forms.Timer(this.components);
             this.toolStripStatusLabel_Main = new System.Windows.Forms.ToolStripStatusLabel();
+            this.timerAutoUpdate = new System.Windows.Forms.Timer(this.components);
             this.tlp_MainForm_Wrappper.SuspendLayout();
             this.gbLog.SuspendLayout();
             this.tcMain.SuspendLayout();
@@ -146,7 +146,7 @@
             this.tpManager.Padding = new System.Windows.Forms.Padding(3);
             this.tpManager.Size = new System.Drawing.Size(770, 389);
             this.tpManager.TabIndex = 0;
-            this.tpManager.Text = "CLDC Manager";
+            this.tpManager.Text = "Song Manager";
             // 
             // tlpSongListWrapper
             // 
@@ -277,7 +277,7 @@
             this.btnSaveDLC.Name = "btnSaveDLC";
             this.btnSaveDLC.Size = new System.Drawing.Size(150, 27);
             this.btnSaveDLC.TabIndex = 7;
-            this.btnSaveDLC.Text = "Save DLC";
+            this.btnSaveDLC.Text = "Save Song";
             this.btnSaveDLC.UseVisualStyleBackColor = true;
             // 
             // btnBackupDLC
@@ -288,7 +288,7 @@
             this.btnBackupDLC.Name = "btnBackupDLC";
             this.btnBackupDLC.Size = new System.Drawing.Size(150, 27);
             this.btnBackupDLC.TabIndex = 6;
-            this.btnBackupDLC.Text = "Backup DLC";
+            this.btnBackupDLC.Text = "Backup Song";
             this.btnBackupDLC.UseVisualStyleBackColor = true;
             // 
             // btnDLCPage
@@ -299,7 +299,7 @@
             this.btnDLCPage.Name = "btnDLCPage";
             this.btnDLCPage.Size = new System.Drawing.Size(150, 27);
             this.btnDLCPage.TabIndex = 5;
-            this.btnDLCPage.Text = "Open DLC Page";
+            this.btnDLCPage.Text = "Open Song Page";
             this.btnDLCPage.UseVisualStyleBackColor = true;
             // 
             // btnRescan
@@ -321,7 +321,7 @@
             this.btnEditDLC.Name = "btnEditDLC";
             this.btnEditDLC.Size = new System.Drawing.Size(150, 27);
             this.btnEditDLC.TabIndex = 4;
-            this.btnEditDLC.Text = "Edit DLC";
+            this.btnEditDLC.Text = "Edit Song";
             this.btnEditDLC.UseVisualStyleBackColor = true;
             // 
             // tpEditor
@@ -330,7 +330,7 @@
             this.tpEditor.Name = "tpEditor";
             this.tpEditor.Size = new System.Drawing.Size(770, 389);
             this.tpEditor.TabIndex = 3;
-            this.tpEditor.Text = "CDLC Editor";
+            this.tpEditor.Text = "Song Editor";
             this.tpEditor.UseVisualStyleBackColor = true;
             // 
             // tpSettings
@@ -481,16 +481,16 @@
             this.toolStripProgressBarMain.Name = "toolStripProgressBarMain";
             this.toolStripProgressBarMain.Size = new System.Drawing.Size(200, 16);
             // 
+            // toolStripStatusLabel_Main
+            // 
+            this.toolStripStatusLabel_Main.Name = "toolStripStatusLabel_Main";
+            this.toolStripStatusLabel_Main.Size = new System.Drawing.Size(0, 17);
+            // 
             // timerAutoUpdate
             // 
             this.timerAutoUpdate.Enabled = true;
             this.timerAutoUpdate.Interval = 600000;
             this.timerAutoUpdate.Tick += new System.EventHandler(this.timerAutoUpdate_Tick);
-            // 
-            // toolStripStatusLabel_Main
-            // 
-            this.toolStripStatusLabel_Main.Name = "toolStripStatusLabel_Main";
-            this.toolStripStatusLabel_Main.Size = new System.Drawing.Size(0, 17);
             // 
             // frmMain
             // 
@@ -503,7 +503,7 @@
             this.MaximizeBox = false;
             this.Name = "frmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "CustomsForge Manager";
+            this.Text = "CustomsForge Song Manager";
             this.tlp_MainForm_Wrappper.ResumeLayout(false);
             this.gbLog.ResumeLayout(false);
             this.gbLog.PerformLayout();

@@ -101,7 +101,12 @@ namespace CustomsForgeManager_Winforms.Forms
         }
 
         #region GUIEventHandlers
-
+        private void btnRescan_Click(object sender, EventArgs e)
+        {
+            listSongs.Items.Clear();
+            SongCollection.Clear();
+            BackgroundScan();
+        }
         private void lnkAboutCF_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             System.Diagnostics.Process.Start("http://customsforge.com");
@@ -127,7 +132,6 @@ namespace CustomsForgeManager_Winforms.Forms
         #endregion
 
         #region Settings
-
         private void ResetSettings()
         {
             mySettings = new Settings();
@@ -188,18 +192,12 @@ namespace CustomsForgeManager_Winforms.Forms
                 }
 
             }
-
-
             catch (Exception ex)
             {
                 Log(string.Format("<Error>: {0}", ex.Message));
             }
         }
-
-
-
         #endregion
-
         private void PopulateList()
         {
             Log("Scanning for songs...");
@@ -234,7 +232,6 @@ namespace CustomsForgeManager_Winforms.Forms
                             NewAvailable = ""
                         });
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -242,11 +239,10 @@ namespace CustomsForgeManager_Winforms.Forms
                 }
                 finally
                 {
-                    toolStripStatusLabel_Main.Text = string.Format("{0} CDLCs found...", counter);
+                   toolStripStatusLabel_Main.Text = string.Format("{0} songs found...", counter);
                 }
             }
         }
-
         public static List<string> FilesList(string path)
         {
             List<string> files = new List<string>(Directory.GetFiles(path, "*_p.psarc", SearchOption.AllDirectories));
@@ -337,7 +333,6 @@ namespace CustomsForgeManager_Winforms.Forms
                 }
             }
         }
-
         private string GetInstallDirFromRegistry()
         {
             string result = "";
@@ -355,7 +350,6 @@ namespace CustomsForgeManager_Winforms.Forms
             }
             return result;
         }
-
         private void Progress(int value)
         {
             toolStripProgressBarMain.ProgressBar.InvokeIfRequired(delegate
@@ -365,28 +359,18 @@ namespace CustomsForgeManager_Winforms.Forms
                         .Value = value;
             });
         }
-
         private void Log(string message)
         {
             myLog.Write(message);
         }
-
         private void Log(string logMessage, int progress = 1)
         {
             Log(logMessage);
             Progress(progress);
         }
-
         private void ERR_NI()
         {
             MessageBox.Show("Not implemented yet!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-        }
-
-        private void btnRescan_Click(object sender, EventArgs e)
-        {
-            listSongs.Items.Clear();
-            SongCollection.Clear();
-            BackgroundScan();
         }
     }
 }
