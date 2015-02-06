@@ -56,6 +56,11 @@
             this.btnRescan = new System.Windows.Forms.Button();
             this.btnEditDLC = new System.Windows.Forms.Button();
             this.tpEditor = new System.Windows.Forms.TabPage();
+            this.tbDuplicates = new System.Windows.Forms.TabPage();
+            this.tlpDuplicates = new System.Windows.Forms.TableLayoutPanel();
+            this.listDupeSongs = new System.Windows.Forms.ListView();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.btnDeleteSongTwo = new System.Windows.Forms.Button();
             this.tpSettings = new System.Windows.Forms.TabPage();
             this.tlpSettings_Wrapper = new System.Windows.Forms.TableLayoutPanel();
             this.btnSettingsSave = new System.Windows.Forms.Button();
@@ -72,6 +77,13 @@
             this.toolStripProgressBarMain = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStripStatusLabel_Main = new System.Windows.Forms.ToolStripStatusLabel();
             this.timerAutoUpdate = new System.Windows.Forms.Timer(this.components);
+            this.colDupeSelect = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colDupeArtist = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colDupeSong = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colDupeAlbum = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colDupeSongOnePath = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colDupeSongTwoPath = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.btnDeleteSongOne = new System.Windows.Forms.Button();
             this.tlp_MainForm_Wrappper.SuspendLayout();
             this.gbLog.SuspendLayout();
             this.tcMain.SuspendLayout();
@@ -79,6 +91,9 @@
             this.tlpSongListWrapper.SuspendLayout();
             this.contextMenuStrip_MainManager.SuspendLayout();
             this.panelSongListButtons.SuspendLayout();
+            this.tbDuplicates.SuspendLayout();
+            this.tlpDuplicates.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.tpSettings.SuspendLayout();
             this.tlpSettings_Wrapper.SuspendLayout();
             this.tpAbout.SuspendLayout();
@@ -128,6 +143,7 @@
             // 
             this.tcMain.Controls.Add(this.tpManager);
             this.tcMain.Controls.Add(this.tpEditor);
+            this.tcMain.Controls.Add(this.tbDuplicates);
             this.tcMain.Controls.Add(this.tpSettings);
             this.tcMain.Controls.Add(this.tpAbout);
             this.tcMain.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -333,6 +349,72 @@
             this.tpEditor.Text = "Song Editor";
             this.tpEditor.UseVisualStyleBackColor = true;
             // 
+            // tbDuplicates
+            // 
+            this.tbDuplicates.Controls.Add(this.tlpDuplicates);
+            this.tbDuplicates.Location = new System.Drawing.Point(4, 22);
+            this.tbDuplicates.Name = "tbDuplicates";
+            this.tbDuplicates.Size = new System.Drawing.Size(770, 389);
+            this.tbDuplicates.TabIndex = 4;
+            this.tbDuplicates.Text = "Duplicate";
+            this.tbDuplicates.UseVisualStyleBackColor = true;
+            // 
+            // tlpDuplicates
+            // 
+            this.tlpDuplicates.ColumnCount = 1;
+            this.tlpDuplicates.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpDuplicates.Controls.Add(this.listDupeSongs, 0, 0);
+            this.tlpDuplicates.Controls.Add(this.panel1, 0, 1);
+            this.tlpDuplicates.Location = new System.Drawing.Point(1, 3);
+            this.tlpDuplicates.Name = "tlpDuplicates";
+            this.tlpDuplicates.RowCount = 2;
+            this.tlpDuplicates.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 80.73267F));
+            this.tlpDuplicates.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 19.26733F));
+            this.tlpDuplicates.Size = new System.Drawing.Size(768, 383);
+            this.tlpDuplicates.TabIndex = 2;
+            // 
+            // listDupeSongs
+            // 
+            this.listDupeSongs.CheckBoxes = true;
+            this.listDupeSongs.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.colDupeSelect,
+            this.colDupeArtist,
+            this.colDupeSong,
+            this.colDupeAlbum,
+            this.colDupeSongOnePath,
+            this.colDupeSongTwoPath});
+            this.listDupeSongs.ContextMenuStrip = this.contextMenuStrip_MainManager;
+            this.listDupeSongs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listDupeSongs.FullRowSelect = true;
+            this.listDupeSongs.GridLines = true;
+            this.listDupeSongs.HideSelection = false;
+            this.listDupeSongs.Location = new System.Drawing.Point(3, 3);
+            this.listDupeSongs.Name = "listDupeSongs";
+            this.listDupeSongs.Size = new System.Drawing.Size(762, 303);
+            this.listDupeSongs.TabIndex = 2;
+            this.listDupeSongs.UseCompatibleStateImageBehavior = false;
+            this.listDupeSongs.View = System.Windows.Forms.View.Details;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.btnDeleteSongOne);
+            this.panel1.Controls.Add(this.btnDeleteSongTwo);
+            this.panel1.Location = new System.Drawing.Point(3, 312);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(762, 68);
+            this.panel1.TabIndex = 0;
+            // 
+            // btnDeleteSongTwo
+            // 
+            this.btnDeleteSongTwo.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnDeleteSongTwo.Location = new System.Drawing.Point(374, 18);
+            this.btnDeleteSongTwo.Name = "btnDeleteSongTwo";
+            this.btnDeleteSongTwo.Size = new System.Drawing.Size(150, 27);
+            this.btnDeleteSongTwo.TabIndex = 7;
+            this.btnDeleteSongTwo.Text = "Delete dupe song #2";
+            this.btnDeleteSongTwo.UseVisualStyleBackColor = true;
+            this.btnDeleteSongTwo.Click += new System.EventHandler(this.btnDeleteSongTwo_Click);
+            // 
             // tpSettings
             // 
             this.tpSettings.BackColor = System.Drawing.SystemColors.Control;
@@ -492,6 +574,43 @@
             this.timerAutoUpdate.Interval = 600000;
             this.timerAutoUpdate.Tick += new System.EventHandler(this.timerAutoUpdate_Tick);
             // 
+            // colDupeSelect
+            // 
+            this.colDupeSelect.Text = "Select";
+            // 
+            // colDupeArtist
+            // 
+            this.colDupeArtist.Text = "Artist";
+            // 
+            // colDupeSong
+            // 
+            this.colDupeSong.Text = "Song";
+            // 
+            // colDupeAlbum
+            // 
+            this.colDupeAlbum.Text = "Album";
+            // 
+            // colDupeSongOnePath
+            // 
+            this.colDupeSongOnePath.Text = "First Song Path";
+            this.colDupeSongOnePath.Width = 122;
+            // 
+            // colDupeSongTwoPath
+            // 
+            this.colDupeSongTwoPath.Text = "Second Song Path";
+            this.colDupeSongTwoPath.Width = 139;
+            // 
+            // btnDeleteSongOne
+            // 
+            this.btnDeleteSongOne.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnDeleteSongOne.Location = new System.Drawing.Point(218, 18);
+            this.btnDeleteSongOne.Name = "btnDeleteSongOne";
+            this.btnDeleteSongOne.Size = new System.Drawing.Size(150, 27);
+            this.btnDeleteSongOne.TabIndex = 8;
+            this.btnDeleteSongOne.Text = "Delete dupe song #1";
+            this.btnDeleteSongOne.UseVisualStyleBackColor = true;
+            this.btnDeleteSongOne.Click += new System.EventHandler(this.btnDeleteSongOne_Click);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -512,6 +631,9 @@
             this.tlpSongListWrapper.ResumeLayout(false);
             this.contextMenuStrip_MainManager.ResumeLayout(false);
             this.panelSongListButtons.ResumeLayout(false);
+            this.tbDuplicates.ResumeLayout(false);
+            this.tlpDuplicates.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
             this.tpSettings.ResumeLayout(false);
             this.tlpSettings_Wrapper.ResumeLayout(false);
             this.tlpSettings_Wrapper.PerformLayout();
@@ -571,6 +693,19 @@
         private System.Windows.Forms.ToolStripMenuItem openDLCPageToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editDLCToolStripMenuItem;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel_Main;
+        private System.Windows.Forms.TabPage tbDuplicates;
+        private System.Windows.Forms.TableLayoutPanel tlpDuplicates;
+        private System.Windows.Forms.ListView listDupeSongs;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button btnDeleteSongTwo;
+        private System.Windows.Forms.Button btnDeleteDupeSongOme;
+        private System.Windows.Forms.ColumnHeader colDupeSelect;
+        private System.Windows.Forms.ColumnHeader colDupeArtist;
+        private System.Windows.Forms.ColumnHeader colDupeSong;
+        private System.Windows.Forms.ColumnHeader colDupeAlbum;
+        private System.Windows.Forms.ColumnHeader colDupeSongOnePath;
+        private System.Windows.Forms.ColumnHeader colDupeSongTwoPath;
+        private System.Windows.Forms.Button btnDeleteSongOne;
     }
 }
 

@@ -7,6 +7,7 @@ using CustomsForgeManager_Winforms.Logging;
 using CustomsForgeManager_Winforms.Utilities;
 using Microsoft.Win32;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CustomsForgeManager_Winforms.Forms
 {
@@ -15,8 +16,9 @@ namespace CustomsForgeManager_Winforms.Forms
 
         private readonly Log myLog;
         private Settings mySettings;
-        
+
         private List<SongData> SongCollection = new List<SongData>();
+        private List<SongDupeData> DupeCollection = new List<SongDupeData>();
 
         private frmMain()
         {
@@ -28,12 +30,12 @@ namespace CustomsForgeManager_Winforms.Forms
             // TODO: Complete member initialization
             this.myLog = myLog;
             this.mySettings = mySettings;
-            
+
             InitializeComponent();
             Init();
         }
 
-        
+
         private void Init()
         {
             #region Create directory structure if not exists
@@ -55,10 +57,8 @@ namespace CustomsForgeManager_Winforms.Forms
             #endregion
 
             #region Load Settings file and deserialize to Settings class
-                LoadSettingsFromFile();
+            LoadSettingsFromFile();
             #endregion
-
-
 
             if (ApplicationDeployment.IsNetworkDeployed)
                 Log(string.Format("Application loaded, using version: {0}", ApplicationDeployment.CurrentDeployment.CurrentVersion), 100);
@@ -91,16 +91,69 @@ namespace CustomsForgeManager_Winforms.Forms
             {
                 listSongs.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);//.ColumnContent);
             });
+            if (DupeCollection.Count > 0)
+            {
+                foreach (SongDupeData song in DupeCollection)
+                {
+                    listDupeSongs.InvokeIfRequired(delegate
+                    {
+                        listDupeSongs.Items.Add(new ListViewItem(new string[] { " ", song.Artist, song.Song, song.Album, song.SongOnePath, song.SongTwoPath }));
+                    });
+                }
+            }
             Log("Finished scanning songs...", 100);
             btnRescan.Enabled = true;
         }
 
         void PopulateListHandler(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
-            PopulateList();
+            PopulateSongList();
+            PopulateDupeList();
         }
 
         #region GUIEventHandlers
+        private void btnDeleteSongOne_Click(object sender, EventArgs e)
+        {
+            listDupeSongs.InvokeIfRequired(delegate
+                    {
+                        int i = 0;
+                        foreach (ListViewItem listItem in listDupeSongs.Items)
+                        {
+                            if (listItem.Checked)
+                            {
+                                //Is a try/catch block required here?
+                                File.Delete(DupeCollection[0].SongOnePath);
+                            }
+                            i++;
+                        }
+                    });
+            if (listDupeSongs.CheckedItems.Count != 0)
+            {
+                listDupeSongs.Items.Clear();
+                PopulateDupeList();
+            }
+        }
+
+        private void btnDeleteSongTwo_Click(object sender, EventArgs e)
+        {
+            listDupeSongs.InvokeIfRequired(delegate
+            {
+                int i = 0;
+                foreach (ListViewItem listItem in listDupeSongs.Items)
+                {
+                    if (listItem.Checked)
+                    {
+                        File.Delete(DupeCollection[0].SongTwoPath);
+                    }
+                    i++;
+                }
+            });
+            if (listDupeSongs.CheckedItems.Count != 0)
+            {
+                listDupeSongs.Items.Clear();
+                PopulateDupeList();
+            }
+        }
         private void btnRescan_Click(object sender, EventArgs e)
         {
             listSongs.Items.Clear();
@@ -138,7 +191,6 @@ namespace CustomsForgeManager_Winforms.Forms
             mySettings.LogFilePath = Constants.DefaultWorkingDirectory + "\\settings.bin";
             mySettings.RSInstalledDir = GetInstallDirFromRegistry();
         }
-
         private void SaveSettingsToFile(string path = "")
         {
             if (string.IsNullOrEmpty(path))
@@ -157,7 +209,6 @@ namespace CustomsForgeManager_Winforms.Forms
                 fs.Close();
             }
         }
-
         private void LoadSettingsFromFile(string path = "")
         {
             try
@@ -198,7 +249,7 @@ namespace CustomsForgeManager_Winforms.Forms
             }
         }
         #endregion
-        private void PopulateList()
+        private void PopulateSongList()
         {
             Log("Scanning for songs...");
 
@@ -229,7 +280,8 @@ namespace CustomsForgeManager_Winforms.Forms
                             Tuning = TuningToName(song.Tuning),
                             Arrangements = arrangements,
                             Author = song.Author,
-                            NewAvailable = ""
+                            NewAvailable = "",
+                            Path = file
                         });
                     }
                 }
@@ -239,7 +291,33 @@ namespace CustomsForgeManager_Winforms.Forms
                 }
                 finally
                 {
-                   toolStripStatusLabel_Main.Text = string.Format("{0} songs found...", counter);
+                    toolStripStatusLabel_Main.Text = string.Format("{0} songs found...", counter);
+                }
+            }
+        }
+
+        private void PopulateDupeList()
+        {
+            foreach (SongData song in SongCollection)
+            {
+                var dupes = SongCollection.Where(x => x.Song == song.Song).ToList();
+                if (dupes.Count > 1)
+                {
+                    if (DupeCollection.Where(x => x.Song == song.Song).ToList().Count > 0)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        DupeCollection.Add(new SongDupeData
+                                               {
+                                                   Song = dupes[0].Song,
+                                                   Artist = dupes[0].Artist,
+                                                   Album = dupes[0].Album,
+                                                   SongOnePath = dupes[0].Path,
+                                                   SongTwoPath = dupes[1].Path
+                                               });
+                    }
                 }
             }
         }

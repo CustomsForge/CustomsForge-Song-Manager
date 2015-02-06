@@ -73,7 +73,6 @@ namespace CustomsForgeManager_Winforms
                             ms.Position = 0;
                             JObject o = JObject.Parse(reader.ReadToEnd());
                             var attributes = o["Entries"].First.Last["Attributes"];
-                            TuningDefinition tun = new TuningDefinition();
 
                             currentSong = new SongInfo()
                             {
@@ -85,7 +84,7 @@ namespace CustomsForgeManager_Winforms
                                 Updated = attributes["LastConversionDateTime"].ToString(),
                                 Identifier = identifier,
                                 //Author = attributes["Version"].ToString(),
-                                Arrangements = new List<string>()
+                                Arrangements = new List<string>(),
                             };
                             songList.Add(currentSong);
                         }
