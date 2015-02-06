@@ -79,7 +79,7 @@ namespace CustomsForgeManager_Winforms.Forms
         void PopulateCompletedHandler(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
         {
             listSongs.InvokeIfRequired(delegate { listSongs.Items.Clear(); });
-            toolStripStatusLabel_Main.Text = string.Format("{0} songs found", SongCollection.Count);
+            toolStripStatusLabel_Main.Text = string.Format("{0} total Rocksmith songs found", SongCollection.Count);
             foreach (SongData song in SongCollection)
             {
                 listSongs.InvokeIfRequired(delegate
@@ -234,10 +234,15 @@ namespace CustomsForgeManager_Winforms.Forms
                             NewAvailable = ""
                         });
                     }
+
                 }
                 catch (Exception ex)
                 {
                     Log(file + ":" + ex.Message);
+                }
+                finally
+                {
+                    toolStripStatusLabel_Main.Text = string.Format("{0} CDLCs found...", counter);
                 }
             }
         }
