@@ -12,6 +12,7 @@ namespace CustomsForgeManager_Winforms.Forms
 {
     public partial class frmMain : Form
     {
+        
         private readonly Log myLog;
         private readonly Settings mySettings;
         private readonly SettingsData settingsData;
@@ -34,7 +35,7 @@ namespace CustomsForgeManager_Winforms.Forms
             //PopulateList();
         }
 
-        void SaveDefaultSettingsFile() 
+        void LoadSaveDefaultSettingsFile() 
         {
             using (FileStream fs = new FileStream(Constants.DefaultWorkingDirectory + @"\settings.bin", FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Read))
             {
@@ -71,12 +72,12 @@ namespace CustomsForgeManager_Winforms.Forms
             #region Load Settings file and deserialize to Settings class
             if (Directory.Exists(Constants.DefaultWorkingDirectory))
             {
-                SaveDefaultSettingsFile();
+                LoadSaveDefaultSettingsFile();
             }
             else
             {
                 Directory.CreateDirectory(Constants.DefaultWorkingDirectory);
-                SaveDefaultSettingsFile();
+                LoadSaveDefaultSettingsFile();
             }
             #endregion
 
@@ -90,17 +91,22 @@ namespace CustomsForgeManager_Winforms.Forms
             if (ApplicationDeployment.IsNetworkDeployed)
                 Log(string.Format("Application loaded, using version: {0}", ApplicationDeployment.CurrentDeployment.CurrentVersion), 100);
 
-            if (string.IsNullOrEmpty(mySettings.RSInstalledDir))
+            if (!Directory.Exists(mySettings.RSInstalledDir))
             {
                 Log("Getting Rocksmith 2014 install dir...");
                 mySettings.RSInstalledDir = GetInstallDirFromRegistry();
+                if (Directory.Exists(mySettings.RSInstalledDir))
+                {
+                    Log(string.Format("Found Rocksmith at: {0}", mySettings.RSInstalledDir), 100);
+                    tbSettingsRSDir.Text = mySettings.RSInstalledDir;
+                }
+                else 
+                {
+                    tcMain.SelectedTab = tpSettings;
+                    MessageBox.Show("Please enter Rocksmith path in the textbox and press Save button!");
+                }
             }
-            if (!string.IsNullOrEmpty(mySettings.RSInstalledDir))
-            {
-                Log(string.Format("Found Rocksmith at: {0}", mySettings.RSInstalledDir), 100);
-                tbSettingsRSDir.Text = mySettings.RSInstalledDir;
-            }
-
+            //Execute this if the dir exists or ...? 
             BackgroundScan();
         }
 
