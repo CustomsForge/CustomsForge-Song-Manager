@@ -12,51 +12,28 @@ namespace CustomsForgeManager_Winforms.Forms
 {
     public partial class frmMain : Form
     {
-        
+
         private readonly Log myLog;
-        private readonly Settings mySettings;
-        private readonly SettingsData settingsData;
+        private Settings mySettings;
+        
         private List<SongData> SongCollection = new List<SongData>();
 
         private frmMain()
         {
-            InitializeComponent();
-            Init();
+            throw new Exception("Improper constructor used");
         }
 
-        public frmMain(Log myLog, Settings mySettings, SettingsData settingsData)
+        public frmMain(Log myLog, Settings mySettings)
         {
             // TODO: Complete member initialization
             this.myLog = myLog;
             this.mySettings = mySettings;
-            this.settingsData = settingsData;
+            
             InitializeComponent();
             Init();
-            //PopulateList();
         }
 
-        void LoadSaveDefaultSettingsFile() 
-        {
-            using (FileStream fs = new FileStream(Constants.DefaultWorkingDirectory + @"\settings.bin", FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Read))
-            {
-                if (File.Exists(Constants.DefaultWorkingDirectory + @"\settings.bin"))
-                {
-                    SettingsData deserialized = fs.DeSerialize() as SettingsData;
-                    if (deserialized != null)
-                    {
-                        mySettings.RSInstalledDir = deserialized.RSInstalledDir;
-                        mySettings.LogFilePath = deserialized.LogFilePath;
-                    }
-                    else
-                    {
-                        settingsData.RSInstalledDir = Constants.DefaultRocksmithPath;
-                        settingsData.LogFilePath = Constants.DefaultLogName;
-                        mySettings.RSInstalledDir = Constants.DefaultRocksmithPath;
-                        Extensions.Serialze(settingsData, fs);
-                    }
-                }
-            }
-        }
+        
         private void Init()
         {
             #region Create directory structure if not exists
@@ -65,20 +42,9 @@ namespace CustomsForgeManager_Winforms.Forms
             if (!Directory.Exists(configFolderPath))
             {
                 Directory.CreateDirectory(configFolderPath);
+                Log(string.Format("Working directory created at {0}", configFolderPath));
             }
 
-            #endregion
-
-            #region Load Settings file and deserialize to Settings class
-            if (Directory.Exists(Constants.DefaultWorkingDirectory))
-            {
-                LoadSaveDefaultSettingsFile();
-            }
-            else
-            {
-                Directory.CreateDirectory(Constants.DefaultWorkingDirectory);
-                LoadSaveDefaultSettingsFile();
-            }
             #endregion
 
             #region Logging setup
@@ -88,25 +54,15 @@ namespace CustomsForgeManager_Winforms.Forms
 
             #endregion
 
+            #region Load Settings file and deserialize to Settings class
+                LoadSettingsFromFile();
+            #endregion
+
+
+
             if (ApplicationDeployment.IsNetworkDeployed)
                 Log(string.Format("Application loaded, using version: {0}", ApplicationDeployment.CurrentDeployment.CurrentVersion), 100);
 
-            if (!Directory.Exists(mySettings.RSInstalledDir))
-            {
-                Log("Getting Rocksmith 2014 install dir...");
-                mySettings.RSInstalledDir = GetInstallDirFromRegistry();
-                if (Directory.Exists(mySettings.RSInstalledDir))
-                {
-                    Log(string.Format("Found Rocksmith at: {0}", mySettings.RSInstalledDir), 100);
-                    tbSettingsRSDir.Text = mySettings.RSInstalledDir;
-                }
-                else 
-                {
-                    tcMain.SelectedTab = tpSettings;
-                    MessageBox.Show("Please enter Rocksmith path in the textbox and press Save button!");
-                }
-            }
-            //Execute this if the dir exists or ...? 
             BackgroundScan();
         }
 
@@ -162,22 +118,86 @@ namespace CustomsForgeManager_Winforms.Forms
         }
         private void btnSettingsSave_Click(object sender, EventArgs e)
         {
-            mySettings.RSInstalledDir = tbSettingsRSDir.Text;
-            settingsData.RSInstalledDir = tbSettingsRSDir.Text;
-            using (FileStream fs = new FileStream(Constants.DefaultWorkingDirectory + @"\settings.bin", FileMode.Create, FileAccess.Write, FileShare.None))
-            {
-                Extensions.Serialze(settingsData, fs);
-            }
+            SaveSettingsToFile();
         }
         private void btnSettingsLoad_Click(object sender, EventArgs e)
         {
-            using (FileStream fs = new FileStream(Constants.DefaultWorkingDirectory + @"\settings.bin", FileMode.Open, FileAccess.Read, FileShare.Read))
+            LoadSettingsFromFile();
+        }
+        #endregion
+
+        #region Settings
+
+        private void ResetSettings()
+        {
+            mySettings = new Settings();
+            mySettings.LogFilePath = Constants.DefaultWorkingDirectory + "\\settings.bin";
+            mySettings.RSInstalledDir = GetInstallDirFromRegistry();
+        }
+
+        private void SaveSettingsToFile(string path = "")
+        {
+            if (string.IsNullOrEmpty(path))
+                path = Constants.DefaultWorkingDirectory + "\\settings.bin";
+            using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Write))
             {
-                SettingsData deserialized = (SettingsData)Extensions.DeSerialize(fs);
-                mySettings.RSInstalledDir = deserialized.RSInstalledDir;
-                mySettings.LogFilePath = deserialized.LogFilePath;
+                if (mySettings == null)
+                {
+                    mySettings = new Settings();
+                    mySettings.LogFilePath = Constants.DefaultWorkingDirectory + Constants.DefaultLogName;
+                    mySettings.RSInstalledDir = tbSettingsRSDir.Text;
+                    Log("Default settings created...");
+                }
+                mySettings.Serialze(fs);
+                Log("Saved settings...");
+                fs.Close();
             }
         }
+
+        private void LoadSettingsFromFile(string path = "")
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(path))
+                    path = Constants.DefaultWorkingDirectory + "\\settings.bin";
+                if (!File.Exists(path))
+                {
+                    using (FileStream fs = new FileStream(path, FileMode.CreateNew, FileAccess.Write, FileShare.Write))
+                    {
+                        ResetSettings();
+                        Log("Settings file created...");
+                        fs.Close();
+                    }
+                    SaveSettingsToFile(path);
+                }
+                using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
+                {
+
+                    Settings deserialized = fs.DeSerialize() as Settings;
+                    if (deserialized != null)
+                    {
+                        mySettings.RSInstalledDir = deserialized.RSInstalledDir;
+                        mySettings.LogFilePath = deserialized.LogFilePath;
+                        tbSettingsRSDir.InvokeIfRequired(delegate
+                        {
+                            tbSettingsRSDir.Text = mySettings.RSInstalledDir;
+                        });
+                        Log("Loaded settings...");
+                        fs.Close();
+                    }
+                }
+
+            }
+
+
+            catch (Exception ex)
+            {
+                Log(string.Format("<Error>: {0}", ex.Message));
+            }
+        }
+
+
+
         #endregion
 
         private void PopulateList()
@@ -221,6 +241,7 @@ namespace CustomsForgeManager_Winforms.Forms
                 }
             }
         }
+
         public static List<string> FilesList(string path)
         {
             List<string> files = new List<string>(Directory.GetFiles(path, "*_p.psarc", SearchOption.AllDirectories));

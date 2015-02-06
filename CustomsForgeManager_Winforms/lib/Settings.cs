@@ -10,13 +10,10 @@ namespace CustomsForgeManager_Winforms.Utilities
 
     }
 
+    [Serializable]
     public class Settings
     {
         private SettingsData _settingsData;
-        private string _path;
-
-        public string Path { get { return _path; } }
-
         public string LogFilePath
         {
             get { return _settingsData.LogFilePath; }
@@ -44,7 +41,6 @@ namespace CustomsForgeManager_Winforms.Utilities
         /// </summary>
         public Settings()
         {
-            _path = Constants.DefaultWorkingDirectory;
             _settingsData = new SettingsData();
             _settingsData.LogFilePath = Constants.DefaultLogName;
         }
