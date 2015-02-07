@@ -129,7 +129,11 @@ namespace CustomsForgeManager_Winforms.Forms
 
         private void ToggleUIControls()
         {
-            btnRescan.Enabled = !btnRescan.Enabled;
+            btnRescan.InvokeIfRequired(delegate
+            {
+                btnRescan.Enabled = !btnRescan.Enabled;
+            });
+            
 
             //Uncomment after implementing:
             //btnEditDLC.Enabled = !btnEditDLC.Enabled;
@@ -137,15 +141,48 @@ namespace CustomsForgeManager_Winforms.Forms
             //btnSaveDLC.Enabled = !btnSaveDLC.Enabled;
             //btnDLCPage.Enabled = !btnDLCPage.Enabled;
 
-            btnSearch.Enabled = !btnSearch.Enabled;
-
-            btnSettingsSave.Enabled = !btnSettingsSave.Enabled;
-            btnSettingsLoad.Enabled = !btnSettingsLoad.Enabled;
-
-            tbSearch.Enabled = !tbSearch.Enabled;
+            btnSearch.InvokeIfRequired(delegate
+            {
+                btnSearch.Enabled = !btnSearch.Enabled;
+            });
             
-            tbSettingsRSDir.Enabled = !tbSettingsRSDir.Enabled;
+            btnSettingsSave.InvokeIfRequired(delegate
+            {
+                btnSettingsSave.Enabled = !btnSettingsSave.Enabled;
+            });
+
+            btnSettingsLoad.InvokeIfRequired(delegate
+            {
+                btnSettingsLoad.Enabled = !btnSettingsLoad.Enabled;
+            });
             
+            tbSearch.InvokeIfRequired(delegate
+            {
+                tbSearch.Enabled = !tbSearch.Enabled;
+            });
+
+            tbSettingsRSDir.InvokeIfRequired(delegate
+            {
+                tbSettingsRSDir.Enabled = !tbSettingsRSDir.Enabled;
+            });
+
+            btnDupeRescan.InvokeIfRequired(delegate
+            {
+                btnDupeRescan.Enabled = !btnDupeRescan.Enabled;
+            });
+
+            btnDeleteSongOne.InvokeIfRequired(delegate
+            {
+                btnDeleteSongOne.Enabled = !btnDeleteSongOne.Enabled;
+            });
+
+            btnDeleteSongTwo.InvokeIfRequired(delegate
+            {
+                btnDeleteSongTwo.Enabled = !btnDeleteSongTwo.Enabled;
+            });
+
+            
+
         }
 
         #region GUIEventHandlers
@@ -154,9 +191,9 @@ namespace CustomsForgeManager_Winforms.Forms
             listDupeSongs.Items.Clear();
             DupeCollection.Clear();
             SongCollection.Clear();
-            tbDuplicates.InvokeIfRequired(delegate
+            tpDuplicates.InvokeIfRequired(delegate
             {
-                tbDuplicates.Text = "Duplicates(0)";
+                tpDuplicates.Text = "Duplicates(0)";
             });
             BackgroundScan();
         }
@@ -199,7 +236,7 @@ namespace CustomsForgeManager_Winforms.Forms
                                 File.Delete(DupeCollection[i].SongOnePath);
                                 DupeCollection.RemoveAt(i);
                                 listDupeSongs.Items.RemoveAt(i);
-                                tbDuplicates.Text = "Duplicates(" + DupeCollection.Count.ToString() + ")";
+                                tpDuplicates.Text = "Duplicates(" + DupeCollection.Count.ToString() + ")";
                             }
                             i++;
                         }
@@ -218,7 +255,7 @@ namespace CustomsForgeManager_Winforms.Forms
                         File.Delete(DupeCollection[i].SongTwoPath);
                         DupeCollection.RemoveAt(i);
                         listDupeSongs.Items.RemoveAt(i);    
-                        tbDuplicates.Text = "Duplicates(" + DupeCollection.Count.ToString() + ")";
+                        tpDuplicates.Text = "Duplicates(" + DupeCollection.Count.ToString() + ")";
                     }
                     i++;
                 }
@@ -434,9 +471,9 @@ namespace CustomsForgeManager_Winforms.Forms
                     }
                 }
             }
-            tbDuplicates.InvokeIfRequired(delegate
+            tpDuplicates.InvokeIfRequired(delegate
             {
-                tbDuplicates.Text = "Duplicates(" + DupeCollection.Count.ToString() + ")";
+                tpDuplicates.Text = "Duplicates(" + DupeCollection.Count.ToString() + ")";
             });
         }
         public static List<string> FilesList(string path)

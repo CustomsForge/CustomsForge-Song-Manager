@@ -54,7 +54,7 @@
             this.tbSearch = new System.Windows.Forms.TextBox();
             this.btnSearch = new System.Windows.Forms.Button();
             this.tpEditor = new System.Windows.Forms.TabPage();
-            this.tbDuplicates = new System.Windows.Forms.TabPage();
+            this.tpDuplicates = new System.Windows.Forms.TabPage();
             this.tlpDuplicates = new System.Windows.Forms.TableLayoutPanel();
             this.listDupeSongs = new System.Windows.Forms.ListView();
             this.colDupeSelect = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -108,7 +108,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvSongs)).BeginInit();
             this.contextMenuStrip_MainManager.SuspendLayout();
             this.panel3.SuspendLayout();
-            this.tbDuplicates.SuspendLayout();
+            this.tpDuplicates.SuspendLayout();
             this.tlpDuplicates.SuspendLayout();
             this.panel1.SuspendLayout();
             this.tpSettings.SuspendLayout();
@@ -162,7 +162,7 @@
             // 
             this.tcMain.Controls.Add(this.tpManager);
             this.tcMain.Controls.Add(this.tpEditor);
-            this.tcMain.Controls.Add(this.tbDuplicates);
+            this.tcMain.Controls.Add(this.tpDuplicates);
             this.tcMain.Controls.Add(this.tpSettings);
             this.tcMain.Controls.Add(this.tpAbout);
             this.tcMain.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -377,15 +377,15 @@
             this.tpEditor.Text = "Song Editor";
             this.tpEditor.UseVisualStyleBackColor = true;
             // 
-            // tbDuplicates
+            // tpDuplicates
             // 
-            this.tbDuplicates.Controls.Add(this.tlpDuplicates);
-            this.tbDuplicates.Location = new System.Drawing.Point(4, 22);
-            this.tbDuplicates.Name = "tbDuplicates";
-            this.tbDuplicates.Size = new System.Drawing.Size(770, 389);
-            this.tbDuplicates.TabIndex = 4;
-            this.tbDuplicates.Text = "Duplicate";
-            this.tbDuplicates.UseVisualStyleBackColor = true;
+            this.tpDuplicates.Controls.Add(this.tlpDuplicates);
+            this.tpDuplicates.Location = new System.Drawing.Point(4, 22);
+            this.tpDuplicates.Name = "tpDuplicates";
+            this.tpDuplicates.Size = new System.Drawing.Size(770, 389);
+            this.tpDuplicates.TabIndex = 4;
+            this.tpDuplicates.Text = "Duplicates";
+            this.tpDuplicates.UseVisualStyleBackColor = true;
             // 
             // tlpDuplicates
             // 
@@ -876,7 +876,7 @@
             this.contextMenuStrip_MainManager.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
-            this.tbDuplicates.ResumeLayout(false);
+            this.tpDuplicates.ResumeLayout(false);
             this.tlpDuplicates.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.tpSettings.ResumeLayout(false);
@@ -924,7 +924,7 @@
         private System.Windows.Forms.ToolStripMenuItem openDLCPageToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editDLCToolStripMenuItem;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel_Main;
-        private System.Windows.Forms.TabPage tbDuplicates;
+        private System.Windows.Forms.TabPage tpDuplicates;
         private System.Windows.Forms.TableLayoutPanel tlpDuplicates;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button btnDeleteSongTwo;
