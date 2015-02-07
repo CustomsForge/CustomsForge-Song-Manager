@@ -72,7 +72,6 @@ namespace CustomsForgeManager_Winforms.Forms
 
         private void BackgroundScan()
         {
-            btnRescan.Enabled = false;
             bWorker.DoWork -= PopulateListHandler;
             bWorker.DoWork += PopulateListHandler;
             bWorker.RunWorkerCompleted -= PopulateCompletedHandler;
@@ -112,15 +111,41 @@ namespace CustomsForgeManager_Winforms.Forms
                 dgvSongs.DataSource = bs;
                 dgvSongs.Columns[0].Visible = true;
                 dgvSongs.Columns[1].Visible = true;
-            }); 
+                dgvSongs.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            });
             Log("Finished scanning songs...", 100);
-            btnRescan.Enabled = true;
+            ToggleUIControls();
+            
         }
+
+        
 
         void PopulateListHandler(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
+            ToggleUIControls();
             PopulateSongList();
             PopulateDupeList();
+        }
+
+        private void ToggleUIControls()
+        {
+            btnRescan.Enabled = !btnRescan.Enabled;
+
+            //Uncomment after implementing:
+            //btnEditDLC.Enabled = !btnEditDLC.Enabled;
+            //btnBackupDLC.Enabled = !btnBackupDLC.Enabled;
+            //btnSaveDLC.Enabled = !btnSaveDLC.Enabled;
+            //btnDLCPage.Enabled = !btnDLCPage.Enabled;
+
+            btnSearch.Enabled = !btnSearch.Enabled;
+
+            btnSettingsSave.Enabled = !btnSettingsSave.Enabled;
+            btnSettingsLoad.Enabled = !btnSettingsLoad.Enabled;
+
+            tbSearch.Enabled = !tbSearch.Enabled;
+            
+            tbSettingsRSDir.Enabled = !tbSettingsRSDir.Enabled;
+            
         }
 
         #region GUIEventHandlers
@@ -217,7 +242,13 @@ namespace CustomsForgeManager_Winforms.Forms
 
         private void tbSettingsRSDir_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            ERR_NI();
+            if (tbSettingsRSDir.Enabled)
+            {
+                if (folderBrowserDialog_SettingsRSPath.ShowDialog() == DialogResult.OK)
+                {
+                    tbSettingsRSDir.Text = folderBrowserDialog_SettingsRSPath.SelectedPath;
+                }
+            }
         }
         private void btnSettingsSave_Click(object sender, EventArgs e)
         {
@@ -227,6 +258,45 @@ namespace CustomsForgeManager_Winforms.Forms
         {
             LoadSettingsFromFile();
         }
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            SearchDLC(tbSearch.Text);
+        }
+
+        private void tbSearch_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (tbSearch.Text.Length > 0 && e.KeyCode == Keys.Enter)
+            {
+                SearchDLC(tbSearch.Text);
+            }
+        }
+
+        private void link_LovromanProfile_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://customsforge.com/user/43194-lovroman/");
+        }
+
+        private void link_DarjuszProfile_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://customsforge.com/user/5299-darjusz/");
+        }
+
+        private void link_Alex360Profile_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://customsforge.com/user/236-alex360/");
+        }
+
+        private void link_UnleashedProfile_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://customsforge.com/user/1-unleashed2k/");
+        }
+
+        private void link_ForgeOnProfile_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://customsforge.com/user/345-forgeon/");
+        }
+
         #endregion
 
         #region Settings
@@ -500,9 +570,15 @@ namespace CustomsForgeManager_Winforms.Forms
             MessageBox.Show("Not implemented yet!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
         }
 
-        private void btnSearch_Click(object sender, EventArgs e)
-        {
+        
 
+        private void SearchDLC(string criteria)
+        {
+            MessageBox.Show("Work in progress!","Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
+
+        
+
+        
     }
 }
