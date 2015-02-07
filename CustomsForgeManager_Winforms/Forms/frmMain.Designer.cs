@@ -59,7 +59,14 @@
             this.tbDuplicates = new System.Windows.Forms.TabPage();
             this.tlpDuplicates = new System.Windows.Forms.TableLayoutPanel();
             this.listDupeSongs = new System.Windows.Forms.ListView();
+            this.colDupeSelect = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colDupeArtist = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colDupeSong = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colDupeAlbum = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colDupeSongOnePath = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colDupeSongTwoPath = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnDeleteSongOne = new System.Windows.Forms.Button();
             this.btnDeleteSongTwo = new System.Windows.Forms.Button();
             this.tpSettings = new System.Windows.Forms.TabPage();
             this.tlpSettings_Wrapper = new System.Windows.Forms.TableLayoutPanel();
@@ -77,13 +84,7 @@
             this.toolStripProgressBarMain = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStripStatusLabel_Main = new System.Windows.Forms.ToolStripStatusLabel();
             this.timerAutoUpdate = new System.Windows.Forms.Timer(this.components);
-            this.colDupeSelect = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.colDupeArtist = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.colDupeSong = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.colDupeAlbum = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.colDupeSongOnePath = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.colDupeSongTwoPath = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.btnDeleteSongOne = new System.Windows.Forms.Button();
+            this.btnDupeRescan = new System.Windows.Forms.Button();
             this.tlp_MainForm_Wrappper.SuspendLayout();
             this.gbLog.SuspendLayout();
             this.tcMain.SuspendLayout();
@@ -299,13 +300,13 @@
             // btnBackupDLC
             // 
             this.btnBackupDLC.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnBackupDLC.Enabled = false;
             this.btnBackupDLC.Location = new System.Drawing.Point(438, 18);
             this.btnBackupDLC.Name = "btnBackupDLC";
             this.btnBackupDLC.Size = new System.Drawing.Size(150, 27);
             this.btnBackupDLC.TabIndex = 6;
             this.btnBackupDLC.Text = "Backup Song";
             this.btnBackupDLC.UseVisualStyleBackColor = true;
+            this.btnBackupDLC.Click += new System.EventHandler(this.btnBackupDLC_Click);
             // 
             // btnDLCPage
             // 
@@ -395,8 +396,35 @@
             this.listDupeSongs.UseCompatibleStateImageBehavior = false;
             this.listDupeSongs.View = System.Windows.Forms.View.Details;
             // 
+            // colDupeSelect
+            // 
+            this.colDupeSelect.Text = "Select";
+            // 
+            // colDupeArtist
+            // 
+            this.colDupeArtist.Text = "Artist";
+            // 
+            // colDupeSong
+            // 
+            this.colDupeSong.Text = "Song";
+            // 
+            // colDupeAlbum
+            // 
+            this.colDupeAlbum.Text = "Album";
+            // 
+            // colDupeSongOnePath
+            // 
+            this.colDupeSongOnePath.Text = "First Song Path";
+            this.colDupeSongOnePath.Width = 122;
+            // 
+            // colDupeSongTwoPath
+            // 
+            this.colDupeSongTwoPath.Text = "Second Song Path";
+            this.colDupeSongTwoPath.Width = 139;
+            // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.btnDupeRescan);
             this.panel1.Controls.Add(this.btnDeleteSongOne);
             this.panel1.Controls.Add(this.btnDeleteSongTwo);
             this.panel1.Location = new System.Drawing.Point(3, 312);
@@ -404,10 +432,21 @@
             this.panel1.Size = new System.Drawing.Size(762, 68);
             this.panel1.TabIndex = 0;
             // 
+            // btnDeleteSongOne
+            // 
+            this.btnDeleteSongOne.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnDeleteSongOne.Location = new System.Drawing.Point(285, 22);
+            this.btnDeleteSongOne.Name = "btnDeleteSongOne";
+            this.btnDeleteSongOne.Size = new System.Drawing.Size(150, 27);
+            this.btnDeleteSongOne.TabIndex = 8;
+            this.btnDeleteSongOne.Text = "Delete dupe song #1";
+            this.btnDeleteSongOne.UseVisualStyleBackColor = true;
+            this.btnDeleteSongOne.Click += new System.EventHandler(this.btnDeleteSongOne_Click);
+            // 
             // btnDeleteSongTwo
             // 
             this.btnDeleteSongTwo.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnDeleteSongTwo.Location = new System.Drawing.Point(374, 18);
+            this.btnDeleteSongTwo.Location = new System.Drawing.Point(441, 22);
             this.btnDeleteSongTwo.Name = "btnDeleteSongTwo";
             this.btnDeleteSongTwo.Size = new System.Drawing.Size(150, 27);
             this.btnDeleteSongTwo.TabIndex = 7;
@@ -574,42 +613,16 @@
             this.timerAutoUpdate.Interval = 600000;
             this.timerAutoUpdate.Tick += new System.EventHandler(this.timerAutoUpdate_Tick);
             // 
-            // colDupeSelect
+            // btnDupeRescan
             // 
-            this.colDupeSelect.Text = "Select";
-            // 
-            // colDupeArtist
-            // 
-            this.colDupeArtist.Text = "Artist";
-            // 
-            // colDupeSong
-            // 
-            this.colDupeSong.Text = "Song";
-            // 
-            // colDupeAlbum
-            // 
-            this.colDupeAlbum.Text = "Album";
-            // 
-            // colDupeSongOnePath
-            // 
-            this.colDupeSongOnePath.Text = "First Song Path";
-            this.colDupeSongOnePath.Width = 122;
-            // 
-            // colDupeSongTwoPath
-            // 
-            this.colDupeSongTwoPath.Text = "Second Song Path";
-            this.colDupeSongTwoPath.Width = 139;
-            // 
-            // btnDeleteSongOne
-            // 
-            this.btnDeleteSongOne.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnDeleteSongOne.Location = new System.Drawing.Point(218, 18);
-            this.btnDeleteSongOne.Name = "btnDeleteSongOne";
-            this.btnDeleteSongOne.Size = new System.Drawing.Size(150, 27);
-            this.btnDeleteSongOne.TabIndex = 8;
-            this.btnDeleteSongOne.Text = "Delete dupe song #1";
-            this.btnDeleteSongOne.UseVisualStyleBackColor = true;
-            this.btnDeleteSongOne.Click += new System.EventHandler(this.btnDeleteSongOne_Click);
+            this.btnDupeRescan.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnDupeRescan.Location = new System.Drawing.Point(129, 22);
+            this.btnDupeRescan.Name = "btnDupeRescan";
+            this.btnDupeRescan.Size = new System.Drawing.Size(150, 27);
+            this.btnDupeRescan.TabIndex = 9;
+            this.btnDupeRescan.Text = "Rescan duplicates";
+            this.btnDupeRescan.UseVisualStyleBackColor = true;
+            this.btnDupeRescan.Click += new System.EventHandler(this.btnDupeRescan_Click);
             // 
             // frmMain
             // 
@@ -706,6 +719,7 @@
         private System.Windows.Forms.ColumnHeader colDupeSongOnePath;
         private System.Windows.Forms.ColumnHeader colDupeSongTwoPath;
         private System.Windows.Forms.Button btnDeleteSongOne;
+        private System.Windows.Forms.Button btnDupeRescan;
     }
 }
 

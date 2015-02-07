@@ -112,6 +112,53 @@ namespace CustomsForgeManager_Winforms.Forms
         }
 
         #region GUIEventHandlers
+        private void btnDupeRescan_Click(object sender, EventArgs e)
+        {
+            listDupeSongs.Items.Clear();
+            DupeCollection.Clear();
+            SongCollection.Clear();
+            tbDuplicates.InvokeIfRequired(delegate
+            {
+                tbDuplicates.Text = "Duplicates(0)";
+            });
+            BackgroundScan();
+            if (DupeCollection.Count > 0)
+            {
+                foreach (SongDupeData song in DupeCollection)
+                {
+                    listDupeSongs.InvokeIfRequired(delegate
+                    {
+                        listDupeSongs.Items.Add(new ListViewItem(new string[] { " ", song.Artist, song.Song, song.Album, song.SongOnePath, song.SongTwoPath }));
+                    });
+                }
+            }
+        }
+        private void btnBackupDLC_Click(object sender, EventArgs e)
+        {
+            string backupPath = mySettings.RSInstalledDir + @"\backup";
+            string fileName = "";
+            try
+            {
+                 int i = 0;
+                 if(!Directory.Exists(backupPath))
+                 {
+                     Directory.CreateDirectory(backupPath);
+                 }
+                 foreach (ListViewItem listItem in listSongs.Items)
+                 {
+                     if (listItem.Checked)
+                     {
+                         fileName =  Path.GetFileName(SongCollection[i].Path);
+                         File.Copy(SongCollection[i].Path, Path.Combine(backupPath, fileName));
+                     }
+                     i++;
+                 }
+            }
+            catch(IOException)
+            {
+                Log("File" + fileName + "already exists!");
+            }
+        }
         private void btnDeleteSongOne_Click(object sender, EventArgs e)
         {
             listDupeSongs.InvokeIfRequired(delegate
@@ -122,16 +169,14 @@ namespace CustomsForgeManager_Winforms.Forms
                             if (listItem.Checked)
                             {
                                 //Is a try/catch block required here?
-                                File.Delete(DupeCollection[0].SongOnePath);
+                                File.Delete(DupeCollection[i].SongOnePath);
+                                DupeCollection.RemoveAt(i);
+                                listDupeSongs.Items.RemoveAt(i);
+                                tbDuplicates.Text = "Duplicates(" + DupeCollection.Count.ToString() + ")";
                             }
                             i++;
                         }
                     });
-            if (listDupeSongs.CheckedItems.Count != 0)
-            {
-                listDupeSongs.Items.Clear();
-                PopulateDupeList();
-            }
         }
 
         private void btnDeleteSongTwo_Click(object sender, EventArgs e)
@@ -143,16 +188,14 @@ namespace CustomsForgeManager_Winforms.Forms
                 {
                     if (listItem.Checked)
                     {
-                        File.Delete(DupeCollection[0].SongTwoPath);
+                        File.Delete(DupeCollection[i].SongTwoPath);
+                        DupeCollection.RemoveAt(i);
+                        listDupeSongs.Items.RemoveAt(i);
+                        tbDuplicates.Text = "Duplicates(" + DupeCollection.Count.ToString() + ")";
                     }
                     i++;
                 }
             });
-            if (listDupeSongs.CheckedItems.Count != 0)
-            {
-                listDupeSongs.Items.Clear();
-                PopulateDupeList();
-            }
         }
         private void btnRescan_Click(object sender, EventArgs e)
         {
@@ -320,6 +363,10 @@ namespace CustomsForgeManager_Winforms.Forms
                     }
                 }
             }
+            tbDuplicates.InvokeIfRequired(delegate
+            {
+                tbDuplicates.Text = "Duplicates(" + DupeCollection.Count.ToString() + ")";
+            });
         }
         public static List<string> FilesList(string path)
         {
