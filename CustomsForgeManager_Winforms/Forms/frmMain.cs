@@ -217,7 +217,7 @@ namespace CustomsForgeManager_Winforms.Forms
                     {
                         File.Delete(DupeCollection[i].SongTwoPath);
                         DupeCollection.RemoveAt(i);
-                        listDupeSongs.Items.RemoveAt(i);
+                        listDupeSongs.Items.RemoveAt(i);    
                         tbDuplicates.Text = "Duplicates(" + DupeCollection.Count.ToString() + ")";
                     }
                     i++;
@@ -226,7 +226,6 @@ namespace CustomsForgeManager_Winforms.Forms
         }
         private void btnRescan_Click(object sender, EventArgs e)
         {
-          //  dgvSongs.Items.Clear();
             SongCollection.Clear();
             BackgroundScan();
         }
@@ -415,7 +414,7 @@ namespace CustomsForgeManager_Winforms.Forms
         {
             foreach (SongData song in SongCollection)
             {
-                var dupes = SongCollection.Where(x => x.Song.ToLower() == song.Song.ToLower()).ToList();
+                var dupes = SongCollection.Where(x => x.Song.ToLower() == song.Song.ToLower() && x.Album == song.Album).ToList();
                 if (dupes.Count > 1)
                 {
                     if (DupeCollection.Where(x => x.Song.ToLower() == song.Song.ToLower()).ToList().Count > 0)
