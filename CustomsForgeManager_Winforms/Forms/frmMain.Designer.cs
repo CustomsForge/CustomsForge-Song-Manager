@@ -35,26 +35,17 @@
             this.tcMain = new System.Windows.Forms.TabControl();
             this.tpManager = new System.Windows.Forms.TabPage();
             this.tlpSongListWrapper = new System.Windows.Forms.TableLayoutPanel();
-            this.listSongs = new System.Windows.Forms.ListView();
-            this.colBackup = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.colPreview = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.colArtist = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.colSong = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.colAlbum = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.colTuning = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.colArrangements = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.colUpdated = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.colUser = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.colNewVer = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.contextMenuStrip_MainManager = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.openDLCPageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.editDLCToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panelSongListButtons = new System.Windows.Forms.Panel();
             this.btnSaveDLC = new System.Windows.Forms.Button();
             this.btnBackupDLC = new System.Windows.Forms.Button();
             this.btnDLCPage = new System.Windows.Forms.Button();
             this.btnRescan = new System.Windows.Forms.Button();
             this.btnEditDLC = new System.Windows.Forms.Button();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.dgvSongs = new System.Windows.Forms.DataGridView();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.tbSearch = new System.Windows.Forms.TextBox();
+            this.btnSearch = new System.Windows.Forms.Button();
             this.tpEditor = new System.Windows.Forms.TabPage();
             this.tbDuplicates = new System.Windows.Forms.TabPage();
             this.tlpDuplicates = new System.Windows.Forms.TableLayoutPanel();
@@ -65,7 +56,11 @@
             this.colDupeAlbum = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colDupeSongOnePath = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colDupeSongTwoPath = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.contextMenuStrip_MainManager = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.openDLCPageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editDLCToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnDupeRescan = new System.Windows.Forms.Button();
             this.btnDeleteSongOne = new System.Windows.Forms.Button();
             this.btnDeleteSongTwo = new System.Windows.Forms.Button();
             this.tpSettings = new System.Windows.Forms.TabPage();
@@ -84,16 +79,20 @@
             this.toolStripProgressBarMain = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStripStatusLabel_Main = new System.Windows.Forms.ToolStripStatusLabel();
             this.timerAutoUpdate = new System.Windows.Forms.Timer(this.components);
-            this.btnDupeRescan = new System.Windows.Forms.Button();
+            this.colBackup = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.colPreview = new System.Windows.Forms.DataGridViewButtonColumn();
             this.tlp_MainForm_Wrappper.SuspendLayout();
             this.gbLog.SuspendLayout();
             this.tcMain.SuspendLayout();
             this.tpManager.SuspendLayout();
             this.tlpSongListWrapper.SuspendLayout();
-            this.contextMenuStrip_MainManager.SuspendLayout();
             this.panelSongListButtons.SuspendLayout();
+            this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSongs)).BeginInit();
+            this.panel3.SuspendLayout();
             this.tbDuplicates.SuspendLayout();
             this.tlpDuplicates.SuspendLayout();
+            this.contextMenuStrip_MainManager.SuspendLayout();
             this.panel1.SuspendLayout();
             this.tpSettings.SuspendLayout();
             this.tlpSettings_Wrapper.SuspendLayout();
@@ -169,110 +168,17 @@
             // 
             this.tlpSongListWrapper.ColumnCount = 1;
             this.tlpSongListWrapper.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpSongListWrapper.Controls.Add(this.listSongs, 0, 0);
-            this.tlpSongListWrapper.Controls.Add(this.panelSongListButtons, 0, 1);
+            this.tlpSongListWrapper.Controls.Add(this.panelSongListButtons, 0, 2);
+            this.tlpSongListWrapper.Controls.Add(this.panel2, 0, 1);
+            this.tlpSongListWrapper.Controls.Add(this.panel3, 0, 0);
             this.tlpSongListWrapper.Location = new System.Drawing.Point(0, 0);
             this.tlpSongListWrapper.Name = "tlpSongListWrapper";
-            this.tlpSongListWrapper.RowCount = 2;
-            this.tlpSongListWrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 82.31017F));
-            this.tlpSongListWrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 17.68984F));
-            this.tlpSongListWrapper.Size = new System.Drawing.Size(765, 393);
+            this.tlpSongListWrapper.RowCount = 3;
+            this.tlpSongListWrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.071867F));
+            this.tlpSongListWrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 75.32058F));
+            this.tlpSongListWrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15.60755F));
+            this.tlpSongListWrapper.Size = new System.Drawing.Size(770, 393);
             this.tlpSongListWrapper.TabIndex = 2;
-            // 
-            // listSongs
-            // 
-            this.listSongs.CheckBoxes = true;
-            this.listSongs.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.colBackup,
-            this.colPreview,
-            this.colArtist,
-            this.colSong,
-            this.colAlbum,
-            this.colTuning,
-            this.colArrangements,
-            this.colUpdated,
-            this.colUser,
-            this.colNewVer});
-            this.listSongs.ContextMenuStrip = this.contextMenuStrip_MainManager;
-            this.listSongs.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listSongs.FullRowSelect = true;
-            this.listSongs.GridLines = true;
-            this.listSongs.HideSelection = false;
-            this.listSongs.Location = new System.Drawing.Point(3, 3);
-            this.listSongs.Name = "listSongs";
-            this.listSongs.Size = new System.Drawing.Size(759, 317);
-            this.listSongs.TabIndex = 1;
-            this.listSongs.UseCompatibleStateImageBehavior = false;
-            this.listSongs.View = System.Windows.Forms.View.Details;
-            // 
-            // colBackup
-            // 
-            this.colBackup.Text = "Backup";
-            // 
-            // colPreview
-            // 
-            this.colPreview.Text = "Preview";
-            this.colPreview.Width = 84;
-            // 
-            // colArtist
-            // 
-            this.colArtist.Text = "Artist";
-            this.colArtist.Width = 84;
-            // 
-            // colSong
-            // 
-            this.colSong.Text = "Song";
-            this.colSong.Width = 84;
-            // 
-            // colAlbum
-            // 
-            this.colAlbum.Text = "Album";
-            this.colAlbum.Width = 84;
-            // 
-            // colTuning
-            // 
-            this.colTuning.Text = "Tuning";
-            this.colTuning.Width = 84;
-            // 
-            // colArrangements
-            // 
-            this.colArrangements.Text = "Arrangements";
-            this.colArrangements.Width = 84;
-            // 
-            // colUpdated
-            // 
-            this.colUpdated.Text = "Updated";
-            this.colUpdated.Width = 84;
-            // 
-            // colUser
-            // 
-            this.colUser.Text = "Creator";
-            this.colUser.Width = 84;
-            // 
-            // colNewVer
-            // 
-            this.colNewVer.Text = "New version available";
-            this.colNewVer.Width = 84;
-            // 
-            // contextMenuStrip_MainManager
-            // 
-            this.contextMenuStrip_MainManager.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openDLCPageToolStripMenuItem,
-            this.editDLCToolStripMenuItem});
-            this.contextMenuStrip_MainManager.Name = "contextMenuStrip_MainManager";
-            this.contextMenuStrip_MainManager.Size = new System.Drawing.Size(158, 48);
-            // 
-            // openDLCPageToolStripMenuItem
-            // 
-            this.openDLCPageToolStripMenuItem.Name = "openDLCPageToolStripMenuItem";
-            this.openDLCPageToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
-            this.openDLCPageToolStripMenuItem.Text = "Open DLC Page";
-            // 
-            // editDLCToolStripMenuItem
-            // 
-            this.editDLCToolStripMenuItem.Name = "editDLCToolStripMenuItem";
-            this.editDLCToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
-            this.editDLCToolStripMenuItem.Text = "Edit DLC";
             // 
             // panelSongListButtons
             // 
@@ -281,16 +187,16 @@
             this.panelSongListButtons.Controls.Add(this.btnDLCPage);
             this.panelSongListButtons.Controls.Add(this.btnRescan);
             this.panelSongListButtons.Controls.Add(this.btnEditDLC);
-            this.panelSongListButtons.Location = new System.Drawing.Point(3, 326);
+            this.panelSongListButtons.Location = new System.Drawing.Point(3, 334);
             this.panelSongListButtons.Name = "panelSongListButtons";
-            this.panelSongListButtons.Size = new System.Drawing.Size(759, 64);
-            this.panelSongListButtons.TabIndex = 2;
+            this.panelSongListButtons.Size = new System.Drawing.Size(764, 52);
+            this.panelSongListButtons.TabIndex = 3;
             // 
             // btnSaveDLC
             // 
             this.btnSaveDLC.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnSaveDLC.Enabled = false;
-            this.btnSaveDLC.Location = new System.Drawing.Point(594, 18);
+            this.btnSaveDLC.Location = new System.Drawing.Point(597, 13);
             this.btnSaveDLC.Name = "btnSaveDLC";
             this.btnSaveDLC.Size = new System.Drawing.Size(150, 27);
             this.btnSaveDLC.TabIndex = 7;
@@ -300,19 +206,18 @@
             // btnBackupDLC
             // 
             this.btnBackupDLC.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnBackupDLC.Location = new System.Drawing.Point(438, 18);
+            this.btnBackupDLC.Location = new System.Drawing.Point(441, 13);
             this.btnBackupDLC.Name = "btnBackupDLC";
             this.btnBackupDLC.Size = new System.Drawing.Size(150, 27);
             this.btnBackupDLC.TabIndex = 6;
             this.btnBackupDLC.Text = "Backup Song";
             this.btnBackupDLC.UseVisualStyleBackColor = true;
-            this.btnBackupDLC.Click += new System.EventHandler(this.btnBackupDLC_Click);
             // 
             // btnDLCPage
             // 
             this.btnDLCPage.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnDLCPage.Enabled = false;
-            this.btnDLCPage.Location = new System.Drawing.Point(282, 18);
+            this.btnDLCPage.Location = new System.Drawing.Point(285, 13);
             this.btnDLCPage.Name = "btnDLCPage";
             this.btnDLCPage.Size = new System.Drawing.Size(150, 27);
             this.btnDLCPage.TabIndex = 5;
@@ -322,7 +227,7 @@
             // btnRescan
             // 
             this.btnRescan.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnRescan.Location = new System.Drawing.Point(17, 18);
+            this.btnRescan.Location = new System.Drawing.Point(36, 13);
             this.btnRescan.Name = "btnRescan";
             this.btnRescan.Size = new System.Drawing.Size(60, 27);
             this.btnRescan.TabIndex = 4;
@@ -334,12 +239,58 @@
             // 
             this.btnEditDLC.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnEditDLC.Enabled = false;
-            this.btnEditDLC.Location = new System.Drawing.Point(126, 18);
+            this.btnEditDLC.Location = new System.Drawing.Point(129, 13);
             this.btnEditDLC.Name = "btnEditDLC";
             this.btnEditDLC.Size = new System.Drawing.Size(150, 27);
             this.btnEditDLC.TabIndex = 4;
             this.btnEditDLC.Text = "Edit Song";
             this.btnEditDLC.UseVisualStyleBackColor = true;
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.dgvSongs);
+            this.panel2.Location = new System.Drawing.Point(3, 38);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(764, 290);
+            this.panel2.TabIndex = 4;
+            // 
+            // dgvSongs
+            // 
+            this.dgvSongs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvSongs.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colBackup,
+            this.colPreview});
+            this.dgvSongs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvSongs.Location = new System.Drawing.Point(0, 0);
+            this.dgvSongs.Name = "dgvSongs";
+            this.dgvSongs.Size = new System.Drawing.Size(764, 290);
+            this.dgvSongs.TabIndex = 0;
+            // 
+            // panel3
+            // 
+            this.panel3.Controls.Add(this.tbSearch);
+            this.panel3.Controls.Add(this.btnSearch);
+            this.panel3.Location = new System.Drawing.Point(3, 3);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(764, 29);
+            this.panel3.TabIndex = 5;
+            // 
+            // tbSearch
+            // 
+            this.tbSearch.Location = new System.Drawing.Point(246, 5);
+            this.tbSearch.Name = "tbSearch";
+            this.tbSearch.Size = new System.Drawing.Size(160, 20);
+            this.tbSearch.TabIndex = 1;
+            // 
+            // btnSearch
+            // 
+            this.btnSearch.Location = new System.Drawing.Point(412, 5);
+            this.btnSearch.Name = "btnSearch";
+            this.btnSearch.Size = new System.Drawing.Size(75, 21);
+            this.btnSearch.TabIndex = 0;
+            this.btnSearch.Text = "Search";
+            this.btnSearch.UseVisualStyleBackColor = true;
+            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
             // tpEditor
             // 
@@ -422,6 +373,26 @@
             this.colDupeSongTwoPath.Text = "Second Song Path";
             this.colDupeSongTwoPath.Width = 139;
             // 
+            // contextMenuStrip_MainManager
+            // 
+            this.contextMenuStrip_MainManager.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openDLCPageToolStripMenuItem,
+            this.editDLCToolStripMenuItem});
+            this.contextMenuStrip_MainManager.Name = "contextMenuStrip_MainManager";
+            this.contextMenuStrip_MainManager.Size = new System.Drawing.Size(158, 48);
+            // 
+            // openDLCPageToolStripMenuItem
+            // 
+            this.openDLCPageToolStripMenuItem.Name = "openDLCPageToolStripMenuItem";
+            this.openDLCPageToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.openDLCPageToolStripMenuItem.Text = "Open DLC Page";
+            // 
+            // editDLCToolStripMenuItem
+            // 
+            this.editDLCToolStripMenuItem.Name = "editDLCToolStripMenuItem";
+            this.editDLCToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.editDLCToolStripMenuItem.Text = "Edit DLC";
+            // 
             // panel1
             // 
             this.panel1.Controls.Add(this.btnDupeRescan);
@@ -431,6 +402,17 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(762, 68);
             this.panel1.TabIndex = 0;
+            // 
+            // btnDupeRescan
+            // 
+            this.btnDupeRescan.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnDupeRescan.Location = new System.Drawing.Point(129, 22);
+            this.btnDupeRescan.Name = "btnDupeRescan";
+            this.btnDupeRescan.Size = new System.Drawing.Size(150, 27);
+            this.btnDupeRescan.TabIndex = 9;
+            this.btnDupeRescan.Text = "Rescan duplicates";
+            this.btnDupeRescan.UseVisualStyleBackColor = true;
+            this.btnDupeRescan.Click += new System.EventHandler(this.btnDupeRescan_Click);
             // 
             // btnDeleteSongOne
             // 
@@ -613,16 +595,21 @@
             this.timerAutoUpdate.Interval = 600000;
             this.timerAutoUpdate.Tick += new System.EventHandler(this.timerAutoUpdate_Tick);
             // 
-            // btnDupeRescan
+            // colBackup
             // 
-            this.btnDupeRescan.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnDupeRescan.Location = new System.Drawing.Point(129, 22);
-            this.btnDupeRescan.Name = "btnDupeRescan";
-            this.btnDupeRescan.Size = new System.Drawing.Size(150, 27);
-            this.btnDupeRescan.TabIndex = 9;
-            this.btnDupeRescan.Text = "Rescan duplicates";
-            this.btnDupeRescan.UseVisualStyleBackColor = true;
-            this.btnDupeRescan.Click += new System.EventHandler(this.btnDupeRescan_Click);
+            this.colBackup.HeaderText = "Backup";
+            this.colBackup.Name = "colBackup";
+            this.colBackup.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colBackup.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.colBackup.Visible = false;
+            // 
+            // colPreview
+            // 
+            this.colPreview.HeaderText = "Preview";
+            this.colPreview.Name = "colPreview";
+            this.colPreview.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colPreview.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.colPreview.Visible = false;
             // 
             // frmMain
             // 
@@ -642,10 +629,14 @@
             this.tcMain.ResumeLayout(false);
             this.tpManager.ResumeLayout(false);
             this.tlpSongListWrapper.ResumeLayout(false);
-            this.contextMenuStrip_MainManager.ResumeLayout(false);
             this.panelSongListButtons.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSongs)).EndInit();
+            this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
             this.tbDuplicates.ResumeLayout(false);
             this.tlpDuplicates.ResumeLayout(false);
+            this.contextMenuStrip_MainManager.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.tpSettings.ResumeLayout(false);
             this.tlpSettings_Wrapper.ResumeLayout(false);
@@ -685,41 +676,37 @@
         private System.Windows.Forms.TextBox tbSettingsRSDir;
         private System.Windows.Forms.TabPage tpEditor;
         private System.Windows.Forms.TableLayoutPanel tlpSongListWrapper;
-        private System.Windows.Forms.ListView listSongs;
-        private System.Windows.Forms.ColumnHeader colPreview;
-        private System.Windows.Forms.ColumnHeader colArtist;
-        private System.Windows.Forms.ColumnHeader colSong;
-        private System.Windows.Forms.ColumnHeader colAlbum;
-        private System.Windows.Forms.ColumnHeader colTuning;
-        private System.Windows.Forms.ColumnHeader colArrangements;
-        private System.Windows.Forms.ColumnHeader colUpdated;
-        private System.Windows.Forms.ColumnHeader colUser;
-        private System.Windows.Forms.ColumnHeader colNewVer;
-        private System.Windows.Forms.Panel panelSongListButtons;
-        private System.Windows.Forms.Button btnSaveDLC;
-        private System.Windows.Forms.Button btnBackupDLC;
-        private System.Windows.Forms.Button btnDLCPage;
-        private System.Windows.Forms.Button btnEditDLC;
-        private System.Windows.Forms.ColumnHeader colBackup;
-        private System.Windows.Forms.Button btnRescan;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip_MainManager;
         private System.Windows.Forms.ToolStripMenuItem openDLCPageToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editDLCToolStripMenuItem;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel_Main;
         private System.Windows.Forms.TabPage tbDuplicates;
         private System.Windows.Forms.TableLayoutPanel tlpDuplicates;
-        private System.Windows.Forms.ListView listDupeSongs;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button btnDeleteSongTwo;
         private System.Windows.Forms.Button btnDeleteDupeSongOme;
+        private System.Windows.Forms.Button btnDeleteSongOne;
+        private System.Windows.Forms.Button btnDupeRescan;
+        private System.Windows.Forms.Panel panelSongListButtons;
+        private System.Windows.Forms.Button btnSaveDLC;
+        private System.Windows.Forms.Button btnBackupDLC;
+        private System.Windows.Forms.Button btnDLCPage;
+        private System.Windows.Forms.Button btnRescan;
+        private System.Windows.Forms.Button btnEditDLC;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.TextBox tbSearch;
+        private System.Windows.Forms.Button btnSearch;
+        private System.Windows.Forms.DataGridView dgvSongs;
+        private System.Windows.Forms.ListView listDupeSongs;
         private System.Windows.Forms.ColumnHeader colDupeSelect;
         private System.Windows.Forms.ColumnHeader colDupeArtist;
         private System.Windows.Forms.ColumnHeader colDupeSong;
         private System.Windows.Forms.ColumnHeader colDupeAlbum;
         private System.Windows.Forms.ColumnHeader colDupeSongOnePath;
         private System.Windows.Forms.ColumnHeader colDupeSongTwoPath;
-        private System.Windows.Forms.Button btnDeleteSongOne;
-        private System.Windows.Forms.Button btnDupeRescan;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn colBackup;
+        private System.Windows.Forms.DataGridViewButtonColumn colPreview;
     }
 }
 

@@ -8,6 +8,7 @@ using CustomsForgeManager_Winforms.Utilities;
 using Microsoft.Win32;
 using System.Collections.Generic;
 using System.Linq;
+using System.ComponentModel;
 
 namespace CustomsForgeManager_Winforms.Forms
 {
@@ -17,8 +18,9 @@ namespace CustomsForgeManager_Winforms.Forms
         private readonly Log myLog;
         private Settings mySettings;
 
-        private List<SongData> SongCollection = new List<SongData>();
+        private BindingList<SongData> SongCollection = new BindingList<SongData>();
         private List<SongDupeData> DupeCollection = new List<SongDupeData>();
+        private List<SongData> SongSearchCollection = new List<SongData>();
 
         private frmMain()
         {
@@ -64,6 +66,8 @@ namespace CustomsForgeManager_Winforms.Forms
                 Log(string.Format("Application loaded, using version: {0}", ApplicationDeployment.CurrentDeployment.CurrentVersion), 100);
 
             BackgroundScan();
+
+          
         }
 
         private void BackgroundScan()
@@ -78,19 +82,7 @@ namespace CustomsForgeManager_Winforms.Forms
 
         void PopulateCompletedHandler(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
         {
-            listSongs.InvokeIfRequired(delegate { listSongs.Items.Clear(); });
             toolStripStatusLabel_Main.Text = string.Format("{0} total Rocksmith songs found", SongCollection.Count);
-            foreach (SongData song in SongCollection)
-            {
-                listSongs.InvokeIfRequired(delegate
-                {
-                    listSongs.Items.Add(new ListViewItem(new string[] { " ", song.Preview, song.Artist, song.Song, song.Album, song.Tuning, song.Arrangements, song.Updated, song.Author, song.NewAvailable }));
-                });
-            }
-            listSongs.InvokeIfRequired(delegate
-            {
-                listSongs.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);//.ColumnContent);
-            });
             if (DupeCollection.Count > 0)
             {
                 foreach (SongDupeData song in DupeCollection)
@@ -101,6 +93,26 @@ namespace CustomsForgeManager_Winforms.Forms
                     });
                 }
             }
+
+            dgvSongs.InvokeIfRequired(delegate
+            {
+                BindingSource bs = new BindingSource();
+                var songsToShow = from song in SongCollection select new
+                                  {
+                                      Song = song.Song,
+                                      Artist = song.Artist,
+                                      Album = song.Album,
+                                      Updated = song.Updated,
+                                      Tuning = song.Tuning,
+                                      Arrangements = song.Arrangements,
+                                      Author = song.Author,
+                                      NewAvailable = song.NewAvailable
+                                  };
+                bs.DataSource = songsToShow;
+                dgvSongs.DataSource = bs;
+                dgvSongs.Columns[0].Visible = true;
+                dgvSongs.Columns[1].Visible = true;
+            }); 
             Log("Finished scanning songs...", 100);
             btnRescan.Enabled = true;
         }
@@ -122,16 +134,6 @@ namespace CustomsForgeManager_Winforms.Forms
                 tbDuplicates.Text = "Duplicates(0)";
             });
             BackgroundScan();
-            if (DupeCollection.Count > 0)
-            {
-                foreach (SongDupeData song in DupeCollection)
-                {
-                    listDupeSongs.InvokeIfRequired(delegate
-                    {
-                        listDupeSongs.Items.Add(new ListViewItem(new string[] { " ", song.Artist, song.Song, song.Album, song.SongOnePath, song.SongTwoPath }));
-                    });
-                }
-            }
         }
         private void btnBackupDLC_Click(object sender, EventArgs e)
         {
@@ -144,15 +146,15 @@ namespace CustomsForgeManager_Winforms.Forms
                  {
                      Directory.CreateDirectory(backupPath);
                  }
-                 foreach (ListViewItem listItem in listSongs.Items)
-                 {
-                     if (listItem.Checked)
-                     {
-                         fileName =  Path.GetFileName(SongCollection[i].Path);
-                         File.Copy(SongCollection[i].Path, Path.Combine(backupPath, fileName));
-                     }
-                     i++;
-                 }
+                 //foreach (ListViewItem listItem in dgvSongs.Items)
+                 //{
+                 //    if (listItem.Checked)
+                 //    {
+                 //        fileName =  Path.GetFileName(SongCollection[i].Path);
+                 //        File.Copy(SongCollection[i].Path, Path.Combine(backupPath, fileName));
+                 //    }
+                 //    i++;
+                 //}
             }
             catch(IOException)
             {
@@ -199,7 +201,7 @@ namespace CustomsForgeManager_Winforms.Forms
         }
         private void btnRescan_Click(object sender, EventArgs e)
         {
-            listSongs.Items.Clear();
+          //  dgvSongs.Items.Clear();
             SongCollection.Clear();
             BackgroundScan();
         }
@@ -343,10 +345,10 @@ namespace CustomsForgeManager_Winforms.Forms
         {
             foreach (SongData song in SongCollection)
             {
-                var dupes = SongCollection.Where(x => x.Song == song.Song).ToList();
+                var dupes = SongCollection.Where(x => x.Song.ToLower() == song.Song.ToLower()).ToList();
                 if (dupes.Count > 1)
                 {
-                    if (DupeCollection.Where(x => x.Song == song.Song).ToList().Count > 0)
+                    if (DupeCollection.Where(x => x.Song.ToLower() == song.Song.ToLower()).ToList().Count > 0)
                     {
                         continue;
                     }
@@ -496,6 +498,11 @@ namespace CustomsForgeManager_Winforms.Forms
         private void ERR_NI()
         {
             MessageBox.Show("Not implemented yet!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+        }
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
