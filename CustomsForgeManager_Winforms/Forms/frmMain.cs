@@ -304,6 +304,7 @@ namespace CustomsForgeManager_Winforms.Forms
                 if (folderBrowserDialog_SettingsRSPath.ShowDialog() == DialogResult.OK)
                 {
                     tbSettingsRSDir.Text = folderBrowserDialog_SettingsRSPath.SelectedPath;
+                    mySettings.RSInstalledDir = tbSettingsRSDir.Text;
                 }
             }
         }

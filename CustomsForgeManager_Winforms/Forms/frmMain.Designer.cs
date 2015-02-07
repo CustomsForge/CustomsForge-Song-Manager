@@ -69,11 +69,11 @@
             this.btnDeleteSongTwo = new System.Windows.Forms.Button();
             this.tpSettings = new System.Windows.Forms.TabPage();
             this.tlpSettings_Wrapper = new System.Windows.Forms.TableLayoutPanel();
-            this.btnSettingsSave = new System.Windows.Forms.Button();
-            this.btnSettingsLoad = new System.Windows.Forms.Button();
             this.lblSettingsRSDir = new System.Windows.Forms.Label();
             this.tbSettingsRSDir = new System.Windows.Forms.TextBox();
             this.checkRescanOnStartup = new System.Windows.Forms.CheckBox();
+            this.btnSettingsLoad = new System.Windows.Forms.Button();
+            this.btnSettingsSave = new System.Windows.Forms.Button();
             this.tpAbout = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.lnkAboutCF = new System.Windows.Forms.LinkLabel();
@@ -527,28 +527,6 @@
             this.tlpSettings_Wrapper.Size = new System.Drawing.Size(764, 383);
             this.tlpSettings_Wrapper.TabIndex = 0;
             // 
-            // btnSettingsSave
-            // 
-            this.btnSettingsSave.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnSettingsSave.Location = new System.Drawing.Point(165, 346);
-            this.btnSettingsSave.Name = "btnSettingsSave";
-            this.btnSettingsSave.Size = new System.Drawing.Size(150, 23);
-            this.btnSettingsSave.TabIndex = 0;
-            this.btnSettingsSave.Text = "Save Settings";
-            this.btnSettingsSave.UseVisualStyleBackColor = true;
-            this.btnSettingsSave.Click += new System.EventHandler(this.btnSettingsSave_Click);
-            // 
-            // btnSettingsLoad
-            // 
-            this.btnSettingsLoad.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnSettingsLoad.Location = new System.Drawing.Point(499, 346);
-            this.btnSettingsLoad.Name = "btnSettingsLoad";
-            this.btnSettingsLoad.Size = new System.Drawing.Size(150, 23);
-            this.btnSettingsLoad.TabIndex = 0;
-            this.btnSettingsLoad.Text = "Load Settings";
-            this.btnSettingsLoad.UseVisualStyleBackColor = true;
-            this.btnSettingsLoad.Click += new System.EventHandler(this.btnSettingsLoad_Click);
-            // 
             // lblSettingsRSDir
             // 
             this.lblSettingsRSDir.AutoSize = true;
@@ -582,6 +560,28 @@
             this.checkRescanOnStartup.Text = "Rescan on startup";
             this.checkRescanOnStartup.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.checkRescanOnStartup.UseVisualStyleBackColor = true;
+            // 
+            // btnSettingsLoad
+            // 
+            this.btnSettingsLoad.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnSettingsLoad.Location = new System.Drawing.Point(499, 346);
+            this.btnSettingsLoad.Name = "btnSettingsLoad";
+            this.btnSettingsLoad.Size = new System.Drawing.Size(150, 23);
+            this.btnSettingsLoad.TabIndex = 0;
+            this.btnSettingsLoad.Text = "Load Settings";
+            this.btnSettingsLoad.UseVisualStyleBackColor = true;
+            this.btnSettingsLoad.Click += new System.EventHandler(this.btnSettingsLoad_Click);
+            // 
+            // btnSettingsSave
+            // 
+            this.btnSettingsSave.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnSettingsSave.Location = new System.Drawing.Point(165, 346);
+            this.btnSettingsSave.Name = "btnSettingsSave";
+            this.btnSettingsSave.Size = new System.Drawing.Size(150, 23);
+            this.btnSettingsSave.TabIndex = 0;
+            this.btnSettingsSave.Text = "Save Settings";
+            this.btnSettingsSave.UseVisualStyleBackColor = true;
+            this.btnSettingsSave.Click += new System.EventHandler(this.btnSettingsSave_Click);
             // 
             // tpAbout
             // 
