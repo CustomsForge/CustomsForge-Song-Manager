@@ -7,7 +7,7 @@ namespace CustomsForgeManager_Winforms.Utilities
     {
         public string LogFilePath { get; set; }
         public string RSInstalledDir { get; set; }
-
+        public bool RescanOnStartup { get; set; }
     }
 
     [Serializable]
@@ -36,6 +36,16 @@ namespace CustomsForgeManager_Winforms.Utilities
             }
         }
 
+        public bool RescanOnStartup
+        {
+            get { return _settingsData.RescanOnStartup; }
+            set 
+            {
+                if (_settingsData == null)
+                    _settingsData = new SettingsData();
+                _settingsData.RescanOnStartup = value;
+            }
+        }
         /// <summary>
         /// Initialise settings with default values
         /// </summary>
@@ -45,7 +55,4 @@ namespace CustomsForgeManager_Winforms.Utilities
             _settingsData.LogFilePath = Constants.DefaultLogName;
         }
     }
-
-
-
 }

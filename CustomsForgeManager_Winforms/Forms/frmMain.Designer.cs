@@ -98,6 +98,7 @@
             this.toolStripStatusLabel_Main = new System.Windows.Forms.ToolStripStatusLabel();
             this.timerAutoUpdate = new System.Windows.Forms.Timer(this.components);
             this.folderBrowserDialog_SettingsRSPath = new System.Windows.Forms.FolderBrowserDialog();
+            this.checkRescanOnStartup = new System.Windows.Forms.CheckBox();
             this.tlp_MainForm_Wrappper.SuspendLayout();
             this.gbLog.SuspendLayout();
             this.tcMain.SuspendLayout();
@@ -513,6 +514,7 @@
             this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsLoad, 2, 3);
             this.tlpSettings_Wrapper.Controls.Add(this.lblSettingsRSDir, 1, 1);
             this.tlpSettings_Wrapper.Controls.Add(this.tbSettingsRSDir, 2, 1);
+            this.tlpSettings_Wrapper.Controls.Add(this.checkRescanOnStartup, 1, 2);
             this.tlpSettings_Wrapper.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpSettings_Wrapper.Location = new System.Drawing.Point(3, 3);
             this.tlpSettings_Wrapper.Name = "tlpSettings_Wrapper";
@@ -851,6 +853,18 @@
             this.folderBrowserDialog_SettingsRSPath.RootFolder = System.Environment.SpecialFolder.MyComputer;
             this.folderBrowserDialog_SettingsRSPath.ShowNewFolderButton = false;
             // 
+            // checkRescanOnStartup
+            // 
+            this.checkRescanOnStartup.AutoSize = true;
+            this.checkRescanOnStartup.Checked = true;
+            this.checkRescanOnStartup.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkRescanOnStartup.Location = new System.Drawing.Point(98, 51);
+            this.checkRescanOnStartup.Name = "checkRescanOnStartup";
+            this.checkRescanOnStartup.Size = new System.Drawing.Size(113, 17);
+            this.checkRescanOnStartup.TabIndex = 3;
+            this.checkRescanOnStartup.Text = "Rescan on startup";
+            this.checkRescanOnStartup.UseVisualStyleBackColor = true;
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -967,6 +981,7 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label lbl_ForgeRole;
         private System.Windows.Forms.LinkLabel link_ForgeOnProfile;
+        private System.Windows.Forms.CheckBox checkRescanOnStartup;
     }
 }
 

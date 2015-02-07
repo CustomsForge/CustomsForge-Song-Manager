@@ -22,11 +22,11 @@ namespace CustomsForgeManager_Winforms.Forms
         private List<SongDupeData> DupeCollection = new List<SongDupeData>();
         private List<SongData> SongSearchCollection = new List<SongData>();
 
+        #region Init
         private frmMain()
         {
             throw new Exception("Improper constructor used");
         }
-
         public frmMain(Log myLog, Settings mySettings)
         {
             // TODO: Complete member initialization
@@ -36,8 +36,6 @@ namespace CustomsForgeManager_Winforms.Forms
             InitializeComponent();
             Init();
         }
-
-
         private void Init()
         {
             #region Create directory structure if not exists
@@ -66,10 +64,7 @@ namespace CustomsForgeManager_Winforms.Forms
                 Log(string.Format("Application loaded, using version: {0}", ApplicationDeployment.CurrentDeployment.CurrentVersion), 100);
 
             BackgroundScan();
-
-          
         }
-
         private void BackgroundScan()
         {
             bWorker.DoWork -= PopulateListHandler;
@@ -78,8 +73,107 @@ namespace CustomsForgeManager_Winforms.Forms
             bWorker.RunWorkerCompleted += PopulateCompletedHandler;
             bWorker.RunWorkerAsync();
         }
-
         void PopulateCompletedHandler(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
+        {
+            PopulateDataGridView();
+        }
+        void PopulateListHandler(object sender, System.ComponentModel.DoWorkEventArgs e)
+        {
+        //    ToggleUIControls();
+            if(mySettings.RescanOnStartup)
+            {
+                PopulateSongList();
+            }
+            else 
+            {
+                LoadSongCollectionFromFile();
+            }
+            PopulateDupeList();
+        }
+        private void PopulateSongList()
+        {
+            Log("Scanning for songs...");
+
+            int counter = 1;
+            List<string> filesList = new List<string>(FilesList(mySettings.RSInstalledDir));
+            foreach (string file in filesList)
+            {
+                Progress(counter++ * 100 / filesList.Count);
+                try
+                {
+                    var browser = new PsarcBrowser(file);
+                    var songList = browser.GetSongList();
+                    foreach (var song in songList)
+                    {
+                        var arrangements = "";
+                        foreach (string arrangement in song.Arrangements)
+                        {
+                            arrangements += "," + arrangement;
+                        }
+                        arrangements = arrangements.Remove(0, 1);
+                        SongCollection.Add(new SongData
+                        {
+                            Preview = "",
+                            Song = song.Title,
+                            Artist = song.Artist,
+                            Album = song.Album,
+                            Updated = song.Updated,
+                            Tuning = TuningToName(song.Tuning),
+                            Arrangements = arrangements,
+                            Author = song.Author,
+                            NewAvailable = "",
+                            Path = file
+                        });
+                    }
+                    if (File.Exists(Constants.DefaultWorkingDirectory + "\\songs.bin") ) 
+                    {
+                        File.Delete(Constants.DefaultWorkingDirectory + "\\songs.bin");
+                    }
+                    if(checkRescanOnStartup.Checked)
+                    {
+                    SaveSongCollectionToFile();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Log(file + ":" + ex.Message);
+                }
+                finally
+                {
+                    toolStripStatusLabel_Main.Text = string.Format("{0} songs found...", counter);
+                }
+            }
+        }
+        private void PopulateDupeList()
+        {
+            foreach (SongData song in SongCollection)
+            {
+                var dupes = SongCollection.Where(x => x.Song.ToLower() == song.Song.ToLower() && x.Album == song.Album).ToList();
+                if (dupes.Count > 1)
+                {
+                    if (DupeCollection.Where(x => x.Song.ToLower() == song.Song.ToLower()).ToList().Count > 0)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        DupeCollection.Add(new SongDupeData
+                        {
+                            Song = dupes[0].Song,
+                            Artist = dupes[0].Artist,
+                            Album = dupes[0].Album,
+                            SongOnePath = dupes[0].Path,
+                            SongTwoPath = dupes[1].Path
+                        });
+                    }
+                }
+            }
+            tpDuplicates.InvokeIfRequired(delegate
+            {
+                tpDuplicates.Text = "Duplicates(" + DupeCollection.Count.ToString() + ")";
+            });
+        }
+        private void PopulateDataGridView() 
         {
             toolStripStatusLabel_Main.Text = string.Format("{0} total Rocksmith songs found", SongCollection.Count);
             if (DupeCollection.Count > 0)
@@ -96,7 +190,8 @@ namespace CustomsForgeManager_Winforms.Forms
             dgvSongs.InvokeIfRequired(delegate
             {
                 BindingSource bs = new BindingSource();
-                var songsToShow = from song in SongCollection select new
+                var songsToShow = from song in SongCollection
+                                  select new
                                   {
                                       Song = song.Song,
                                       Artist = song.Artist,
@@ -114,77 +209,9 @@ namespace CustomsForgeManager_Winforms.Forms
                 dgvSongs.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             });
             Log("Finished scanning songs...", 100);
-            ToggleUIControls();
-            
+          //  ToggleUIControls();
         }
-
-        
-
-        void PopulateListHandler(object sender, System.ComponentModel.DoWorkEventArgs e)
-        {
-            ToggleUIControls();
-            PopulateSongList();
-            PopulateDupeList();
-        }
-
-        private void ToggleUIControls()
-        {
-            btnRescan.InvokeIfRequired(delegate
-            {
-                btnRescan.Enabled = !btnRescan.Enabled;
-            });
-            
-
-            //Uncomment after implementing:
-            //btnEditDLC.Enabled = !btnEditDLC.Enabled;
-            //btnBackupDLC.Enabled = !btnBackupDLC.Enabled;
-            //btnSaveDLC.Enabled = !btnSaveDLC.Enabled;
-            //btnDLCPage.Enabled = !btnDLCPage.Enabled;
-
-            btnSearch.InvokeIfRequired(delegate
-            {
-                btnSearch.Enabled = !btnSearch.Enabled;
-            });
-            
-            btnSettingsSave.InvokeIfRequired(delegate
-            {
-                btnSettingsSave.Enabled = !btnSettingsSave.Enabled;
-            });
-
-            btnSettingsLoad.InvokeIfRequired(delegate
-            {
-                btnSettingsLoad.Enabled = !btnSettingsLoad.Enabled;
-            });
-            
-            tbSearch.InvokeIfRequired(delegate
-            {
-                tbSearch.Enabled = !tbSearch.Enabled;
-            });
-
-            tbSettingsRSDir.InvokeIfRequired(delegate
-            {
-                tbSettingsRSDir.Enabled = !tbSettingsRSDir.Enabled;
-            });
-
-            btnDupeRescan.InvokeIfRequired(delegate
-            {
-                btnDupeRescan.Enabled = !btnDupeRescan.Enabled;
-            });
-
-            btnDeleteSongOne.InvokeIfRequired(delegate
-            {
-                btnDeleteSongOne.Enabled = !btnDeleteSongOne.Enabled;
-            });
-
-            btnDeleteSongTwo.InvokeIfRequired(delegate
-            {
-                btnDeleteSongTwo.Enabled = !btnDeleteSongTwo.Enabled;
-            });
-
-            
-
-        }
-
+#endregion
         #region GUIEventHandlers
         private void btnDupeRescan_Click(object sender, EventArgs e)
         {
@@ -294,12 +321,10 @@ namespace CustomsForgeManager_Winforms.Forms
         {
             LoadSettingsFromFile();
         }
-
         private void btnSearch_Click(object sender, EventArgs e)
         {
             SearchDLC(tbSearch.Text);
         }
-
         private void tbSearch_KeyUp(object sender, KeyEventArgs e)
         {
             if (tbSearch.Text.Length > 0 && e.KeyCode == Keys.Enter)
@@ -332,15 +357,14 @@ namespace CustomsForgeManager_Winforms.Forms
         {
             System.Diagnostics.Process.Start("http://customsforge.com/user/345-forgeon/");
         }
-
         #endregion
-
         #region Settings
         private void ResetSettings()
         {
             mySettings = new Settings();
             mySettings.LogFilePath = Constants.DefaultWorkingDirectory + "\\settings.bin";
             mySettings.RSInstalledDir = GetInstallDirFromRegistry();
+            mySettings.RescanOnStartup = true;
         }
         private void SaveSettingsToFile(string path = "")
         {
@@ -353,8 +377,10 @@ namespace CustomsForgeManager_Winforms.Forms
                     mySettings = new Settings();
                     mySettings.LogFilePath = Constants.DefaultWorkingDirectory + Constants.DefaultLogName;
                     mySettings.RSInstalledDir = tbSettingsRSDir.Text;
+                    mySettings.RescanOnStartup = true;
                     Log("Default settings created...");
                 }
+                mySettings.RescanOnStartup = checkRescanOnStartup.Checked;
                 mySettings.Serialze(fs);
                 Log("Saved settings...");
                 fs.Close();
@@ -378,21 +404,24 @@ namespace CustomsForgeManager_Winforms.Forms
                 }
                 using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
-
                     Settings deserialized = fs.DeSerialize() as Settings;
                     if (deserialized != null)
                     {
                         mySettings.RSInstalledDir = deserialized.RSInstalledDir;
                         mySettings.LogFilePath = deserialized.LogFilePath;
+                        mySettings.RescanOnStartup = deserialized.RescanOnStartup;
                         tbSettingsRSDir.InvokeIfRequired(delegate
                         {
                             tbSettingsRSDir.Text = mySettings.RSInstalledDir;
+                        });
+                        checkRescanOnStartup.InvokeIfRequired(delegate
+                        {
+                            checkRescanOnStartup.Checked = mySettings.RescanOnStartup;
                         });
                         Log("Loaded settings...");
                         fs.Close();
                     }
                 }
-
             }
             catch (Exception ex)
             {
@@ -400,80 +429,92 @@ namespace CustomsForgeManager_Winforms.Forms
             }
         }
         #endregion
-        private void PopulateSongList()
+        private void SaveSongCollectionToFile() 
         {
-            Log("Scanning for songs...");
-
-            int counter = 1;
-            List<string> filesList = new List<string>(FilesList(mySettings.RSInstalledDir));
-            foreach (string file in filesList)
+            string path = Constants.DefaultWorkingDirectory + "\\songs.bin";
+            using (FileStream fs = new FileStream(path, FileMode.CreateNew, FileAccess.Write, FileShare.Write))
             {
-                Progress(counter++ * 100 / filesList.Count);
-                try
+                SongCollection.Serialze(fs);
+                Log("Song collection saved...");
+                fs.Close();
+            }
+        }
+        private void LoadSongCollectionFromFile() 
+        {
+            string path = Constants.DefaultWorkingDirectory + "\\songs.bin";
+            if (!File.Exists(path))
+            {
+                using (FileStream fs = new FileStream(path, FileMode.CreateNew, FileAccess.Write, FileShare.Write))
                 {
-                    var browser = new PsarcBrowser(file);
-                    var songList = browser.GetSongList();
-                    foreach (var song in songList)
-                    {
-                        var arrangements = "";
-                        foreach (string arrangement in song.Arrangements)
-                        {
-                            arrangements += "," + arrangement;
-                        }
-                        arrangements = arrangements.Remove(0, 1);
-                        SongCollection.Add(new SongData
-                        {
-                            Preview = "",
-                            Song = song.Title,
-                            Artist = song.Artist,
-                            Album = song.Album,
-                            Updated = song.Updated,
-                            Tuning = TuningToName(song.Tuning),
-                            Arrangements = arrangements,
-                            Author = song.Author,
-                            NewAvailable = "",
-                            Path = file
-                        });
-                    }
+                    BackgroundScan();
+                    Log("Song collection file created...");
+                    fs.Close();
                 }
-                catch (Exception ex)
+                SaveSettingsToFile(path);
+            }
+            using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
+            {
+                BindingList<SongData> songs = fs.DeSerialize() as BindingList<SongData>;
+                if (songs != null)
                 {
-                    Log(file + ":" + ex.Message);
-                }
-                finally
-                {
-                    toolStripStatusLabel_Main.Text = string.Format("{0} songs found...", counter);
+                    SongCollection = songs;
+                    PopulateDataGridView();
+                    Log("Song collection loaded...");
+                    fs.Close();
                 }
             }
         }
-
-        private void PopulateDupeList()
+        private void ToggleUIControls()
         {
-            foreach (SongData song in SongCollection)
+            btnRescan.InvokeIfRequired(delegate
             {
-                var dupes = SongCollection.Where(x => x.Song.ToLower() == song.Song.ToLower() && x.Album == song.Album).ToList();
-                if (dupes.Count > 1)
-                {
-                    if (DupeCollection.Where(x => x.Song.ToLower() == song.Song.ToLower()).ToList().Count > 0)
-                    {
-                        continue;
-                    }
-                    else
-                    {
-                        DupeCollection.Add(new SongDupeData
-                                               {
-                                                   Song = dupes[0].Song,
-                                                   Artist = dupes[0].Artist,
-                                                   Album = dupes[0].Album,
-                                                   SongOnePath = dupes[0].Path,
-                                                   SongTwoPath = dupes[1].Path
-                                               });
-                    }
-                }
-            }
-            tpDuplicates.InvokeIfRequired(delegate
+                btnRescan.Enabled = !btnRescan.Enabled;
+            });
+
+            //Uncomment after implementing:
+            //btnEditDLC.Enabled = !btnEditDLC.Enabled;
+            //btnBackupDLC.Enabled = !btnBackupDLC.Enabled;
+            //btnSaveDLC.Enabled = !btnSaveDLC.Enabled;
+            //btnDLCPage.Enabled = !btnDLCPage.Enabled;
+
+            btnSearch.InvokeIfRequired(delegate
             {
-                tpDuplicates.Text = "Duplicates(" + DupeCollection.Count.ToString() + ")";
+                btnSearch.Enabled = !btnSearch.Enabled;
+            });
+
+            btnSettingsSave.InvokeIfRequired(delegate
+            {
+                btnSettingsSave.Enabled = !btnSettingsSave.Enabled;
+            });
+
+            btnSettingsLoad.InvokeIfRequired(delegate
+            {
+                btnSettingsLoad.Enabled = !btnSettingsLoad.Enabled;
+            });
+
+            tbSearch.InvokeIfRequired(delegate
+            {
+                tbSearch.Enabled = !tbSearch.Enabled;
+            });
+
+            tbSettingsRSDir.InvokeIfRequired(delegate
+            {
+                tbSettingsRSDir.Enabled = !tbSettingsRSDir.Enabled;
+            });
+
+            btnDupeRescan.InvokeIfRequired(delegate
+            {
+                btnDupeRescan.Enabled = !btnDupeRescan.Enabled;
+            });
+
+            btnDeleteSongOne.InvokeIfRequired(delegate
+            {
+                btnDeleteSongOne.Enabled = !btnDeleteSongOne.Enabled;
+            });
+
+            btnDeleteSongTwo.InvokeIfRequired(delegate
+            {
+                btnDeleteSongTwo.Enabled = !btnDeleteSongTwo.Enabled;
             });
         }
         public static List<string> FilesList(string path)
@@ -481,7 +522,6 @@ namespace CustomsForgeManager_Winforms.Forms
             List<string> files = new List<string>(Directory.GetFiles(path, "*_p.psarc", SearchOption.AllDirectories));
             return files;
         }
-
         public static string TuningToName(string tuning)
         {
             switch (tuning)
@@ -512,7 +552,6 @@ namespace CustomsForgeManager_Winforms.Forms
                     return "Other";
             }
         }
-
         private void CheckForUpdate()
         {
             if (ApplicationDeployment.IsNetworkDeployed)
@@ -605,16 +644,9 @@ namespace CustomsForgeManager_Winforms.Forms
         {
             MessageBox.Show("Not implemented yet!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
         }
-
-        
-
         private void SearchDLC(string criteria)
         {
             MessageBox.Show("Work in progress!","Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
-
-        
-
-        
+        }  
     }
 }

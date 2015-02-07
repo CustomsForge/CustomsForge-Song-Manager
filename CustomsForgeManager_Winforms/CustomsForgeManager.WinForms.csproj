@@ -173,15 +173,11 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Utilities\X360.xml" />
     <None Include="Resources\cfsm.png" />
     <None Include="Resources\cfsm_48x48.ico" />
-    <Content Include="Utilities\MiscUtil.dll" />
-    <Content Include="Utilities\Newtonsoft.Json.dll" />
-    <Content Include="Utilities\RocksmithToolkitLib.dll" />
-    <Content Include="Utilities\SharpConfig.dll" />
-    <Content Include="Utilities\X360.dll" />
-    <Content Include="Utilities\zlib.net.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Utilities\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
