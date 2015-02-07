@@ -375,6 +375,7 @@ namespace CustomsForgeManager_Winforms.Forms
                     mySettings.RescanOnStartup = true;
                     Log("Default settings created...");
                 }
+                mySettings.RSInstalledDir = tbSettingsRSDir.Text;
                 mySettings.RescanOnStartup = checkRescanOnStartup.Checked;
                 mySettings.Serialze(fs);
                 Log("Saved settings...");
