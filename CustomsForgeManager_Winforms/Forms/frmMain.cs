@@ -22,7 +22,7 @@ namespace CustomsForgeManager_Winforms.Forms
         private List<SongDupeData> DupeCollection = new List<SongDupeData>();
         private List<SongData> SongSearchCollection = new List<SongData>();
 
-        #region Init
+
         private frmMain()
         {
             throw new Exception("Improper constructor used");
@@ -63,7 +63,10 @@ namespace CustomsForgeManager_Winforms.Forms
             if (ApplicationDeployment.IsNetworkDeployed)
                 Log(string.Format("Application loaded, using version: {0}", ApplicationDeployment.CurrentDeployment.CurrentVersion), 100);
 
-            BackgroundScan();
+            if (mySettings.RescanOnStartup)
+                BackgroundScan();
+            else
+                LoadSongCollectionFromFile();
         }
         private void BackgroundScan()
         {
@@ -76,18 +79,13 @@ namespace CustomsForgeManager_Winforms.Forms
         void PopulateCompletedHandler(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
         {
             PopulateDataGridView();
+            SaveSongCollectionToFile();
+            ToggleUIControls();
         }
         void PopulateListHandler(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
-        //    ToggleUIControls();
-            if(mySettings.RescanOnStartup)
-            {
-                PopulateSongList();
-            }
-            else 
-            {
-                LoadSongCollectionFromFile();
-            }
+            ToggleUIControls();
+            PopulateSongList();
             PopulateDupeList();
         }
         private void PopulateSongList()
@@ -125,14 +123,7 @@ namespace CustomsForgeManager_Winforms.Forms
                             Path = file
                         });
                     }
-                    if (File.Exists(Constants.DefaultWorkingDirectory + "\\songs.bin") ) 
-                    {
-                        File.Delete(Constants.DefaultWorkingDirectory + "\\songs.bin");
-                    }
-                    if(checkRescanOnStartup.Checked)
-                    {
-                    SaveSongCollectionToFile();
-                    }
+                    
                 }
                 catch (Exception ex)
                 {
@@ -209,9 +200,12 @@ namespace CustomsForgeManager_Winforms.Forms
                 dgvSongs.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             });
             Log("Finished scanning songs...", 100);
-          //  ToggleUIControls();
+            
+            
+            
         }
-#endregion
+        
+        
         #region GUIEventHandlers
         private void btnDupeRescan_Click(object sender, EventArgs e)
         {
@@ -429,10 +423,12 @@ namespace CustomsForgeManager_Winforms.Forms
             }
         }
         #endregion
+
+
         private void SaveSongCollectionToFile() 
         {
             string path = Constants.DefaultWorkingDirectory + "\\songs.bin";
-            using (FileStream fs = new FileStream(path, FileMode.CreateNew, FileAccess.Write, FileShare.Write))
+            using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Write))
             {
                 SongCollection.Serialze(fs);
                 Log("Song collection saved...");
@@ -458,9 +454,9 @@ namespace CustomsForgeManager_Winforms.Forms
                 if (songs != null)
                 {
                     SongCollection = songs;
-                    PopulateDataGridView();
                     Log("Song collection loaded...");
                     fs.Close();
+                    PopulateDataGridView();
                 }
             }
         }
