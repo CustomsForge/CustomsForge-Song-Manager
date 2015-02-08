@@ -9,6 +9,7 @@ using Microsoft.Win32;
 using System.Collections.Generic;
 using System.Linq;
 using System.ComponentModel;
+using System.IO.Compression;
 
 namespace CustomsForgeManager_Winforms.Forms
 {
@@ -645,6 +646,37 @@ namespace CustomsForgeManager_Winforms.Forms
         private void SearchDLC(string criteria)
         {
             MessageBox.Show("Work in progress!","Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void btnBackupRSProfile_Click(object sender, EventArgs e)
+        {
+            try 
+            {
+                string backupPath = Constants.DefaultWorkingDirectory + @"\profile_backup.zip";
+                string profilePath = " ";
+                string steamUserdataPath = Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Valve\Steam", "InstallPath", null).ToString() + @"\userdata";
+                DirectoryInfo dInfo = new DirectoryInfo(steamUserdataPath);
+                DirectoryInfo[] subdirs = dInfo.GetDirectories("*", SearchOption.AllDirectories);
+                foreach(DirectoryInfo info in subdirs)
+                {
+                    if (info.FullName.Contains(@"221680\remote"))
+                    {
+                        profilePath = info.FullName;
+                    }
+                }
+                if(profilePath != " ")
+                {
+                    ZipFile.CreateFromDirectory(profilePath, backupPath);
+                }
+                else 
+                {
+                    Log("Steam profile not found!");
+                }
+            }
+            catch(IOException ex)
+            {
+                Log("Error:" + ex.ToString());
+            }
         }  
     }
 }

@@ -99,6 +99,10 @@
             this.toolStripStatusLabel_Main = new System.Windows.Forms.ToolStripStatusLabel();
             this.timerAutoUpdate = new System.Windows.Forms.Timer(this.components);
             this.folderBrowserDialog_SettingsRSPath = new System.Windows.Forms.FolderBrowserDialog();
+            this.tpUtilities = new System.Windows.Forms.TabPage();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.btnBackupRSProfile = new System.Windows.Forms.Button();
             this.tlp_MainForm_Wrappper.SuspendLayout();
             this.gbLog.SuspendLayout();
             this.tcMain.SuspendLayout();
@@ -120,6 +124,9 @@
             this.tableLayoutPanel_Credits.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.statusStripMain.SuspendLayout();
+            this.tpUtilities.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
+            this.panel4.SuspendLayout();
             this.SuspendLayout();
             // 
             // tlp_MainForm_Wrappper
@@ -164,6 +171,7 @@
             this.tcMain.Controls.Add(this.tpManager);
             this.tcMain.Controls.Add(this.tpEditor);
             this.tcMain.Controls.Add(this.tpDuplicates);
+            this.tcMain.Controls.Add(this.tpUtilities);
             this.tcMain.Controls.Add(this.tpSettings);
             this.tcMain.Controls.Add(this.tpAbout);
             this.tcMain.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -868,6 +876,50 @@
             this.folderBrowserDialog_SettingsRSPath.RootFolder = System.Environment.SpecialFolder.MyComputer;
             this.folderBrowserDialog_SettingsRSPath.ShowNewFolderButton = false;
             // 
+            // tpUtilities
+            // 
+            this.tpUtilities.Controls.Add(this.tableLayoutPanel2);
+            this.tpUtilities.Location = new System.Drawing.Point(4, 22);
+            this.tpUtilities.Name = "tpUtilities";
+            this.tpUtilities.Size = new System.Drawing.Size(770, 389);
+            this.tpUtilities.TabIndex = 5;
+            this.tpUtilities.Text = "Utilities";
+            this.tpUtilities.UseVisualStyleBackColor = true;
+            // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.ColumnCount = 1;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel2.Controls.Add(this.panel4, 0, 0);
+            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 1;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(770, 389);
+            this.tableLayoutPanel2.TabIndex = 0;
+            // 
+            // panel4
+            // 
+            this.panel4.Controls.Add(this.btnBackupRSProfile);
+            this.panel4.Location = new System.Drawing.Point(3, 3);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(764, 383);
+            this.panel4.TabIndex = 0;
+            // 
+            // btnBackupRSProfile
+            // 
+            this.btnBackupRSProfile.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnBackupRSProfile.Location = new System.Drawing.Point(294, 15);
+            this.btnBackupRSProfile.Name = "btnBackupRSProfile";
+            this.btnBackupRSProfile.Size = new System.Drawing.Size(150, 23);
+            this.btnBackupRSProfile.TabIndex = 2;
+            this.btnBackupRSProfile.Text = "Backup Rocksmith Profile";
+            this.btnBackupRSProfile.UseVisualStyleBackColor = true;
+            this.btnBackupRSProfile.Click += new System.EventHandler(this.btnBackupRSProfile_Click);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -908,6 +960,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.statusStripMain.ResumeLayout(false);
             this.statusStripMain.PerformLayout();
+            this.tpUtilities.ResumeLayout(false);
+            this.tableLayoutPanel2.ResumeLayout(false);
+            this.panel4.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -985,6 +1040,10 @@
         private System.Windows.Forms.Label lbl_ForgeRole;
         private System.Windows.Forms.LinkLabel link_ForgeOnProfile;
         private System.Windows.Forms.CheckBox checkRescanOnStartup;
+        private System.Windows.Forms.TabPage tpUtilities;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.Button btnBackupRSProfile;
     }
 }
 
