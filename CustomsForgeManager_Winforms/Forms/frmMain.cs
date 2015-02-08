@@ -234,8 +234,10 @@ namespace CustomsForgeManager_Winforms.Forms
         {
             try
             {
-                string backupPath = Constants.DefaultWorkingDirectory + @"\profile_backup.zip";
-                string profilePath = " ";
+                string timestamp = string.Format("{0}-{1}-{2}.{3}-{4}-{5}", DateTime.Now.Day, DateTime.Now.Month,
+                    DateTime.Now.Year, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
+                string backupPath = string.Format("{0}\\profile.backup.{1}.zip", Constants.DefaultWorkingDirectory, timestamp); 
+                string profilePath = "";
                 string steamUserdataPath = Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Valve\Steam", "InstallPath", null).ToString() + @"\userdata";
                 DirectoryInfo dInfo = new DirectoryInfo(steamUserdataPath);
                 DirectoryInfo[] subdirs = dInfo.GetDirectories("*", SearchOption.AllDirectories);
@@ -246,18 +248,19 @@ namespace CustomsForgeManager_Winforms.Forms
                         profilePath = info.FullName;
                     }
                 }
-                if (profilePath != " ")
+                if (profilePath != "")
                 {
                     ZipFile.CreateFromDirectory(profilePath, backupPath);
+                    Log("Backup created at " + backupPath, 100);
                 }
                 else
                 {
                     Log("Steam profile not found!");
                 }
             }
-            catch (IOException ex)
+            catch (Exception ex)
             {
-                Log("Error:" + ex.ToString());
+                Log("<Error>:" + ex.Message);
             }
         }
         private void btnDupeRescan_Click(object sender, EventArgs e)
@@ -536,6 +539,21 @@ namespace CustomsForgeManager_Winforms.Forms
             //btnBackupDLC.Enabled = !btnBackupDLC.Enabled;
             //btnSaveDLC.Enabled = !btnSaveDLC.Enabled;
             //btnDLCPage.Enabled = !btnDLCPage.Enabled;
+
+            checkRescanOnStartup.InvokeIfRequired(delegate
+            {
+                checkRescanOnStartup.Enabled = !checkRescanOnStartup.Enabled;
+            });
+
+            btnBackupRSProfile.InvokeIfRequired(delegate
+            {
+                btnBackupRSProfile.Enabled = !btnBackupRSProfile.Enabled;
+            });
+
+            btnLaunchRocksmith.InvokeIfRequired(delegate
+            {
+                btnLaunchRocksmith.Enabled = !btnLaunchRocksmith.Enabled;
+            });
 
             btnSearch.InvokeIfRequired(delegate
             {
