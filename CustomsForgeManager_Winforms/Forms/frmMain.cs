@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.ComponentModel;
 using System.IO.Compression;
+using System.Diagnostics;
 
 namespace CustomsForgeManager_Winforms.Forms
 {
@@ -124,7 +125,7 @@ namespace CustomsForgeManager_Winforms.Forms
                             Path = file
                         });
                     }
-                    
+
                 }
                 catch (Exception ex)
                 {
@@ -165,7 +166,7 @@ namespace CustomsForgeManager_Winforms.Forms
                 tpDuplicates.Text = "Duplicates(" + DupeCollection.Count.ToString() + ")";
             });
         }
-        private void PopulateDataGridView() 
+        private void PopulateDataGridView()
         {
             toolStripStatusLabel_Main.Text = string.Format("{0} total Rocksmith songs found", SongCollection.Count);
             if (DupeCollection.Count > 0)
@@ -201,13 +202,64 @@ namespace CustomsForgeManager_Winforms.Forms
                 dgvSongs.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             });
             Log("Finished scanning songs...", 100);
-            
-            
-            
+
+
+
         }
-        
-        
+
+
         #region GUIEventHandlers
+        private void btnLaunchRocksmith_Click(object sender, EventArgs e)
+        {
+            Process[] rocksmithProcess = Process.GetProcessesByName("Rocksmith2014.exe");
+            string RSexePath = mySettings.RSInstalledDir + @"\Rocksmith2014.exe";
+            if (rocksmithProcess.Length > 0)
+            {
+                MessageBox.Show("Rocksmith is already running!");
+            }
+            else
+            {
+                if (!File.Exists(RSexePath))
+                {
+                    RSexePath = GetInstallDirFromRegistry() + @"\Rocksmith2014.exe";
+                    Process.Start(RSexePath);
+                }
+                else
+                {
+                    Process.Start(RSexePath);
+                }
+            }
+        }
+        private void btnBackupRSProfile_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string backupPath = Constants.DefaultWorkingDirectory + @"\profile_backup.zip";
+                string profilePath = " ";
+                string steamUserdataPath = Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Valve\Steam", "InstallPath", null).ToString() + @"\userdata";
+                DirectoryInfo dInfo = new DirectoryInfo(steamUserdataPath);
+                DirectoryInfo[] subdirs = dInfo.GetDirectories("*", SearchOption.AllDirectories);
+                foreach (DirectoryInfo info in subdirs)
+                {
+                    if (info.FullName.Contains(@"221680\remote"))
+                    {
+                        profilePath = info.FullName;
+                    }
+                }
+                if (profilePath != " ")
+                {
+                    ZipFile.CreateFromDirectory(profilePath, backupPath);
+                }
+                else
+                {
+                    Log("Steam profile not found!");
+                }
+            }
+            catch (IOException ex)
+            {
+                Log("Error:" + ex.ToString());
+            }
+        }
         private void btnDupeRescan_Click(object sender, EventArgs e)
         {
             listDupeSongs.Items.Clear();
@@ -225,22 +277,22 @@ namespace CustomsForgeManager_Winforms.Forms
             string fileName = "";
             try
             {
-                 int i = 0;
-                 if(!Directory.Exists(backupPath))
-                 {
-                     Directory.CreateDirectory(backupPath);
-                 }
-                 //foreach (ListViewItem listItem in dgvSongs.Items)
-                 //{
-                 //    if (listItem.Checked)
-                 //    {
-                 //        fileName =  Path.GetFileName(SongCollection[i].Path);
-                 //        File.Copy(SongCollection[i].Path, Path.Combine(backupPath, fileName));
-                 //    }
-                 //    i++;
-                 //}
+                int i = 0;
+                if (!Directory.Exists(backupPath))
+                {
+                    Directory.CreateDirectory(backupPath);
+                }
+                //foreach (ListViewItem listItem in dgvSongs.Items)
+                //{
+                //    if (listItem.Checked)
+                //    {
+                //        fileName =  Path.GetFileName(SongCollection[i].Path);
+                //        File.Copy(SongCollection[i].Path, Path.Combine(backupPath, fileName));
+                //    }
+                //    i++;
+                //}
             }
-            catch(IOException)
+            catch (IOException)
             {
                 Log("File" + fileName + "already exists!");
             }
@@ -254,17 +306,21 @@ namespace CustomsForgeManager_Winforms.Forms
                         {
                             if (listItem.Checked)
                             {
-                                //Is a try/catch block required here?
-                                File.Delete(DupeCollection[i].SongOnePath);
-                                DupeCollection.RemoveAt(i);
-                                listDupeSongs.Items.RemoveAt(i);
-                                tpDuplicates.Text = "Duplicates(" + DupeCollection.Count.ToString() + ")";
+                                try
+                                {
+                                    File.Delete(DupeCollection[i].SongOnePath);
+                                    DupeCollection.RemoveAt(i);
+                                    listDupeSongs.Items.RemoveAt(i);
+                                    tpDuplicates.Text = "Duplicates(" + DupeCollection.Count.ToString() + ")";
+                                }
+                                catch (IndexOutOfRangeException)
+                                {
+                                }
                             }
                             i++;
                         }
                     });
         }
-
         private void btnDeleteSongTwo_Click(object sender, EventArgs e)
         {
             listDupeSongs.InvokeIfRequired(delegate
@@ -274,10 +330,16 @@ namespace CustomsForgeManager_Winforms.Forms
                 {
                     if (listItem.Checked)
                     {
-                        File.Delete(DupeCollection[i].SongTwoPath);
-                        DupeCollection.RemoveAt(i);
-                        listDupeSongs.Items.RemoveAt(i);    
-                        tpDuplicates.Text = "Duplicates(" + DupeCollection.Count.ToString() + ")";
+                        try
+                        {
+                            File.Delete(DupeCollection[i].SongTwoPath);
+                            DupeCollection.RemoveAt(i);
+                            listDupeSongs.Items.RemoveAt(i);
+                            tpDuplicates.Text = "Duplicates(" + DupeCollection.Count.ToString() + ")";
+                        }
+                        catch (IndexOutOfRangeException)
+                        {
+                        }
                     }
                     i++;
                 }
@@ -427,8 +489,7 @@ namespace CustomsForgeManager_Winforms.Forms
         }
         #endregion
 
-
-        private void SaveSongCollectionToFile() 
+        private void SaveSongCollectionToFile()
         {
             string path = Constants.DefaultWorkingDirectory + "\\songs.bin";
             using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Write))
@@ -438,7 +499,7 @@ namespace CustomsForgeManager_Winforms.Forms
                 fs.Close();
             }
         }
-        private void LoadSongCollectionFromFile() 
+        private void LoadSongCollectionFromFile()
         {
             string path = Constants.DefaultWorkingDirectory + "\\songs.bin";
             if (!File.Exists(path))
@@ -645,38 +706,7 @@ namespace CustomsForgeManager_Winforms.Forms
         }
         private void SearchDLC(string criteria)
         {
-            MessageBox.Show("Work in progress!","Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("Work in progress!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
-
-        private void btnBackupRSProfile_Click(object sender, EventArgs e)
-        {
-            try 
-            {
-                string backupPath = Constants.DefaultWorkingDirectory + @"\profile_backup.zip";
-                string profilePath = " ";
-                string steamUserdataPath = Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Valve\Steam", "InstallPath", null).ToString() + @"\userdata";
-                DirectoryInfo dInfo = new DirectoryInfo(steamUserdataPath);
-                DirectoryInfo[] subdirs = dInfo.GetDirectories("*", SearchOption.AllDirectories);
-                foreach(DirectoryInfo info in subdirs)
-                {
-                    if (info.FullName.Contains(@"221680\remote"))
-                    {
-                        profilePath = info.FullName;
-                    }
-                }
-                if(profilePath != " ")
-                {
-                    ZipFile.CreateFromDirectory(profilePath, backupPath);
-                }
-                else 
-                {
-                    Log("Steam profile not found!");
-                }
-            }
-            catch(IOException ex)
-            {
-                Log("Error:" + ex.ToString());
-            }
-        }  
     }
 }
