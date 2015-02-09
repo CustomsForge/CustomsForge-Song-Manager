@@ -729,7 +729,11 @@ namespace CustomsForgeManager_Winforms.Forms
 
         private void btnLaunchSteam_Click(object sender, EventArgs e)
         {
-            Process.Start("steam://rungameid/221680");
+            Process[] rocksmithProcess = Process.GetProcessesByName("Rocksmith2014.exe");
+            if (rocksmithProcess.Length > 0)
+                MessageBox.Show("Rocksmith is already running!");
+            else
+                Process.Start("steam://rungameid/221680");
         }
     }
 }

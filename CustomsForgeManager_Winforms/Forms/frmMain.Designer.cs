@@ -70,6 +70,7 @@
             this.tpUtilities = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.btnLaunchSteam = new System.Windows.Forms.Button();
             this.btnLaunchRocksmith = new System.Windows.Forms.Button();
             this.btnBackupRSProfile = new System.Windows.Forms.Button();
             this.tpSettings = new System.Windows.Forms.TabPage();
@@ -104,7 +105,6 @@
             this.toolStripStatusLabel_Main = new System.Windows.Forms.ToolStripStatusLabel();
             this.timerAutoUpdate = new System.Windows.Forms.Timer(this.components);
             this.folderBrowserDialog_SettingsRSPath = new System.Windows.Forms.FolderBrowserDialog();
-            this.btnLaunchSteam = new System.Windows.Forms.Button();
             this.tlp_MainForm_Wrappper.SuspendLayout();
             this.gbLog.SuspendLayout();
             this.tcMain.SuspendLayout();
@@ -538,15 +538,28 @@
             this.panel4.Size = new System.Drawing.Size(764, 383);
             this.panel4.TabIndex = 0;
             // 
+            // btnLaunchSteam
+            // 
+            this.btnLaunchSteam.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnLaunchSteam.Location = new System.Drawing.Point(294, 44);
+            this.btnLaunchSteam.Name = "btnLaunchSteam";
+            this.btnLaunchSteam.Size = new System.Drawing.Size(150, 49);
+            this.btnLaunchSteam.TabIndex = 3;
+            this.btnLaunchSteam.Text = "Launch Rocksmith via Steam";
+            this.btnLaunchSteam.UseVisualStyleBackColor = true;
+            this.btnLaunchSteam.Click += new System.EventHandler(this.btnLaunchSteam_Click);
+            // 
             // btnLaunchRocksmith
             // 
             this.btnLaunchRocksmith.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnLaunchRocksmith.Location = new System.Drawing.Point(294, 54);
+            this.btnLaunchRocksmith.Enabled = false;
+            this.btnLaunchRocksmith.Location = new System.Drawing.Point(294, 127);
             this.btnLaunchRocksmith.Name = "btnLaunchRocksmith";
             this.btnLaunchRocksmith.Size = new System.Drawing.Size(150, 23);
             this.btnLaunchRocksmith.TabIndex = 3;
             this.btnLaunchRocksmith.Text = "Launch Rocksmith";
             this.btnLaunchRocksmith.UseVisualStyleBackColor = true;
+            this.btnLaunchRocksmith.Visible = false;
             this.btnLaunchRocksmith.Click += new System.EventHandler(this.btnLaunchRocksmith_Click);
             // 
             // btnBackupRSProfile
@@ -934,17 +947,6 @@
             this.folderBrowserDialog_SettingsRSPath.Description = "Browse for your Rocksmith 2014 installed directory";
             this.folderBrowserDialog_SettingsRSPath.RootFolder = System.Environment.SpecialFolder.MyComputer;
             this.folderBrowserDialog_SettingsRSPath.ShowNewFolderButton = false;
-            // 
-            // btnLaunchSteam
-            // 
-            this.btnLaunchSteam.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnLaunchSteam.Location = new System.Drawing.Point(294, 93);
-            this.btnLaunchSteam.Name = "btnLaunchSteam";
-            this.btnLaunchSteam.Size = new System.Drawing.Size(150, 49);
-            this.btnLaunchSteam.TabIndex = 3;
-            this.btnLaunchSteam.Text = "Launch Rocksmith via Steam";
-            this.btnLaunchSteam.UseVisualStyleBackColor = true;
-            this.btnLaunchSteam.Click += new System.EventHandler(this.btnLaunchSteam_Click);
             // 
             // frmMain
             // 
