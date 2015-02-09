@@ -726,5 +726,10 @@ namespace CustomsForgeManager_Winforms.Forms
         {
             MessageBox.Show("Work in progress!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
+
+        private void btnLaunchSteam_Click(object sender, EventArgs e)
+        {
+            Process.Start("steam://rungameid/221680");
+        }
     }
 }

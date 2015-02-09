@@ -32,7 +32,7 @@
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>index.html</WebPage>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>16</ApplicationRevision>
+    <ApplicationRevision>17</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -178,8 +178,17 @@
     <None Include="Resources\cfsm.png" />
     <None Include="Resources\cfsm_48x48.ico" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Utilities\" />
+    <Content Include="Utilities\MiscUtil.dll" />
+    <Content Include="Utilities\MiscUtil.xml" />
+    <Content Include="Utilities\Newtonsoft.Json.dll" />
+    <Content Include="Utilities\Newtonsoft.Json.xml" />
+    <Content Include="Utilities\RocksmithToolkitLib.dll" />
+    <Content Include="Utilities\SharpConfig.dll" />
+    <Content Include="Utilities\X360.dll" />
+    <Content Include="Utilities\X360.xml" />
+    <Content Include="Utilities\zlib.net.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

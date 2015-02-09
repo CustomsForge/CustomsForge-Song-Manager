@@ -104,6 +104,7 @@
             this.toolStripStatusLabel_Main = new System.Windows.Forms.ToolStripStatusLabel();
             this.timerAutoUpdate = new System.Windows.Forms.Timer(this.components);
             this.folderBrowserDialog_SettingsRSPath = new System.Windows.Forms.FolderBrowserDialog();
+            this.btnLaunchSteam = new System.Windows.Forms.Button();
             this.tlp_MainForm_Wrappper.SuspendLayout();
             this.gbLog.SuspendLayout();
             this.tcMain.SuspendLayout();
@@ -529,6 +530,7 @@
             // 
             // panel4
             // 
+            this.panel4.Controls.Add(this.btnLaunchSteam);
             this.panel4.Controls.Add(this.btnLaunchRocksmith);
             this.panel4.Controls.Add(this.btnBackupRSProfile);
             this.panel4.Location = new System.Drawing.Point(3, 3);
@@ -933,6 +935,17 @@
             this.folderBrowserDialog_SettingsRSPath.RootFolder = System.Environment.SpecialFolder.MyComputer;
             this.folderBrowserDialog_SettingsRSPath.ShowNewFolderButton = false;
             // 
+            // btnLaunchSteam
+            // 
+            this.btnLaunchSteam.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnLaunchSteam.Location = new System.Drawing.Point(294, 93);
+            this.btnLaunchSteam.Name = "btnLaunchSteam";
+            this.btnLaunchSteam.Size = new System.Drawing.Size(150, 49);
+            this.btnLaunchSteam.TabIndex = 3;
+            this.btnLaunchSteam.Text = "Launch Rocksmith via Steam";
+            this.btnLaunchSteam.UseVisualStyleBackColor = true;
+            this.btnLaunchSteam.Click += new System.EventHandler(this.btnLaunchSteam_Click);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1058,6 +1071,7 @@
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Button btnBackupRSProfile;
         private System.Windows.Forms.Button btnLaunchRocksmith;
+        private System.Windows.Forms.Button btnLaunchSteam;
     }
 }
 
