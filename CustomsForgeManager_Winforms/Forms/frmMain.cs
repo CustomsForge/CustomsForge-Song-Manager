@@ -16,7 +16,7 @@ namespace CustomsForgeManager_Winforms.Forms
 {
     public partial class frmMain : Form
     {
-
+        private bool sortDescending = true;
         private readonly Log myLog;
         private Settings mySettings;
 
@@ -224,23 +224,69 @@ namespace CustomsForgeManager_Winforms.Forms
                               };
             if (e.ColumnIndex == 2)
             {
-                bs.DataSource = songsToShow.OrderBy(song => song.Song);
+                if (sortDescending)
+                {
+                    bs.DataSource = songsToShow.OrderByDescending(song => song.Song);
+                    sortDescending = false;
+                }
+                else
+                {
+                    bs.DataSource = songsToShow.OrderBy(song => song.Song);
+                    sortDescending = true;
+                }
+
             }
             else if (e.ColumnIndex == 3)
             {
-                bs.DataSource = songsToShow.OrderBy(song => song.Artist);
+                if (sortDescending)
+                {
+                    bs.DataSource = songsToShow.OrderByDescending(song => song.Artist);
+                    sortDescending = false;
+                }
+                else
+                {
+                    bs.DataSource = songsToShow.OrderBy(song => song.Artist);
+                    sortDescending = true;
+                }
             }
             else if (e.ColumnIndex == 4)
             {
-                bs.DataSource = songsToShow.OrderBy(song => song.Album);
+                if (sortDescending)
+                {
+                    bs.DataSource = songsToShow.OrderByDescending(song => song.Album);
+                    sortDescending = false;
+                }
+                else
+                {
+                    bs.DataSource = songsToShow.OrderBy(song => song.Album);
+                    sortDescending = true;
+                }
             }
             else if (e.ColumnIndex == 6)
             {
-                bs.DataSource = songsToShow.OrderBy(song => song.Tuning);
+                if (sortDescending)
+                {
+                    bs.DataSource = songsToShow.OrderByDescending(song => song.Tuning);
+                    sortDescending = false;
+                }
+                else
+                {
+                    bs.DataSource = songsToShow.OrderBy(song => song.Tuning);
+                    sortDescending = true;
+                }
             }
             else
             {
-                bs.DataSource = songsToShow.OrderBy(song => song.Song);
+                if (sortDescending)
+                {
+                    bs.DataSource = songsToShow.OrderByDescending(song => song.Song);
+                    sortDescending = false;
+                }
+                else
+                {
+                    bs.DataSource = songsToShow.OrderBy(song => song.Song);
+                    sortDescending = true;
+                }
             }
             dgvSongs.DataSource = bs;
         }
@@ -279,7 +325,7 @@ namespace CustomsForgeManager_Winforms.Forms
             {
                 string timestamp = string.Format("{0}-{1}-{2}.{3}-{4}-{5}", DateTime.Now.Day, DateTime.Now.Month,
                     DateTime.Now.Year, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
-                string backupPath = string.Format("{0}\\profile.backup.{1}.zip", Constants.DefaultWorkingDirectory, timestamp); 
+                string backupPath = string.Format("{0}\\profile.backup.{1}.zip", Constants.DefaultWorkingDirectory, timestamp);
                 string profilePath = "";
                 string steamUserdataPath = Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Valve\Steam", "InstallPath", null).ToString() + @"\userdata";
                 DirectoryInfo dInfo = new DirectoryInfo(steamUserdataPath);
