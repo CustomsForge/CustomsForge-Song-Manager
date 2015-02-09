@@ -203,12 +203,55 @@ namespace CustomsForgeManager_Winforms.Forms
             });
             Log("Finished scanning songs...", 100);
 
-
-
         }
 
 
         #region GUIEventHandlers
+        private void dgvSongs_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            BindingSource bs = new BindingSource();
+            var songsToShow = from song in SongCollection
+                              select new
+                              {
+                                  Song = song.Song,
+                                  Artist = song.Artist,
+                                  Album = song.Album,
+                                  Updated = song.Updated,
+                                  Tuning = song.Tuning,
+                                  Arrangements = song.Arrangements,
+                                  Author = song.Author,
+                                  NewAvailable = song.NewAvailable
+                              };
+            if (e.ColumnIndex == 2)
+            {
+                bs.DataSource = songsToShow.OrderBy(song => song.Song);
+            }
+            else if (e.ColumnIndex == 3)
+            {
+                bs.DataSource = songsToShow.OrderBy(song => song.Artist);
+            }
+            else if (e.ColumnIndex == 4)
+            {
+                bs.DataSource = songsToShow.OrderBy(song => song.Album);
+            }
+            else if (e.ColumnIndex == 6)
+            {
+                bs.DataSource = songsToShow.OrderBy(song => song.Tuning);
+            }
+            else
+            {
+                bs.DataSource = songsToShow.OrderBy(song => song.Song);
+            }
+            dgvSongs.DataSource = bs;
+        }
+        private void btnLaunchSteam_Click(object sender, EventArgs e)
+        {
+            Process[] rocksmithProcess = Process.GetProcessesByName("Rocksmith2014.exe");
+            if (rocksmithProcess.Length > 0)
+                MessageBox.Show("Rocksmith is already running!");
+            else
+                Process.Start("steam://rungameid/221680");
+        }
         private void btnLaunchRocksmith_Click(object sender, EventArgs e)
         {
             Process[] rocksmithProcess = Process.GetProcessesByName("Rocksmith2014.exe");
@@ -725,15 +768,6 @@ namespace CustomsForgeManager_Winforms.Forms
         private void SearchDLC(string criteria)
         {
             MessageBox.Show("Work in progress!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
-
-        private void btnLaunchSteam_Click(object sender, EventArgs e)
-        {
-            Process[] rocksmithProcess = Process.GetProcessesByName("Rocksmith2014.exe");
-            if (rocksmithProcess.Length > 0)
-                MessageBox.Show("Rocksmith is already running!");
-            else
-                Process.Start("steam://rungameid/221680");
         }
     }
 }

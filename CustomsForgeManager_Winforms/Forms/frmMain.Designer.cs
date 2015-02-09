@@ -304,6 +304,7 @@
             this.dgvSongs.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvSongs.Size = new System.Drawing.Size(764, 290);
             this.dgvSongs.TabIndex = 0;
+            this.dgvSongs.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongs_ColumnHeaderMouseClick);
             // 
             // colBackup
             // 
