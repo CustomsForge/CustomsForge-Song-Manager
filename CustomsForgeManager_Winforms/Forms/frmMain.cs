@@ -11,6 +11,7 @@ using System.Linq;
 using System.ComponentModel;
 using System.IO.Compression;
 using System.Diagnostics;
+using System.Text;
 
 namespace CustomsForgeManager_Winforms.Forms
 {
@@ -118,6 +119,7 @@ namespace CustomsForgeManager_Winforms.Forms
                             Artist = song.Artist,
                             Album = song.Album,
                             Updated = song.Updated,
+                            SongYear = song.Year,
                             Tuning = TuningToName(song.Tuning),
                             Arrangements = arrangements,
                             Author = song.Author,
@@ -208,6 +210,41 @@ namespace CustomsForgeManager_Winforms.Forms
         }
 
         #region GUIEventHandlers
+        private void btnSongsToCSV_Click(object sender, EventArgs e)
+        {
+            string path = Constants.DefaultWorkingDirectory + @"\SongList.csv";
+            var sbCSV = new StringBuilder();
+            var songsToShow = from song in SongCollection
+                              select new
+                              {
+                                  Artist = song.Artist,
+                                  Song = song.Song,
+                                  Album = song.Album,
+                                  Year = song.SongYear,
+                                  Tuning = song.Tuning,
+                                  Arrangements = song.Arrangements
+                              };
+            foreach (var song in songsToShow)
+            {
+                sbCSV.AppendLine(song.Artist + "," + song.Song + "," + song.Album + "," + song.Year + "," + song.Tuning + "," + song.Arrangements);
+            }
+            try
+            {
+                if (File.Exists(path))
+                {
+                    File.Delete(path);
+                }
+                using (StreamWriter file = new StreamWriter(path))
+                {
+                    file.Write(sbCSV.ToString());
+                }
+                Log("Song list saved to:" + path);
+            }
+            catch (IOException ex)
+            {
+                Log("<Error>:" + ex.Message);
+            }
+        }
         private void dgvSongs_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             BindingSource bs = new BindingSource();
@@ -716,13 +753,13 @@ namespace CustomsForgeManager_Winforms.Forms
             List<string> files = new List<string>(Directory.GetFiles(path, "*_p.psarc", SearchOption.AllDirectories));
             return files;
         }
-        public string DifficultyToDD(string maxDifficulty) 
+        public string DifficultyToDD(string maxDifficulty)
         {
-            if(maxDifficulty == "0")
+            if (maxDifficulty == "0")
             {
                 return "No";
             }
-            else 
+            else
             {
                 return "Yes";
             }

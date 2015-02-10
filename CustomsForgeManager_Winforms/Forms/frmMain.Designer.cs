@@ -70,8 +70,10 @@
             this.tpUtilities = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btnLaunchSteam = new System.Windows.Forms.Button();
             this.btnLaunchRocksmith = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnBackupRSProfile = new System.Windows.Forms.Button();
             this.tpSettings = new System.Windows.Forms.TabPage();
             this.tlpSettings_Wrapper = new System.Windows.Forms.TableLayoutPanel();
@@ -105,6 +107,8 @@
             this.toolStripStatusLabel_Main = new System.Windows.Forms.ToolStripStatusLabel();
             this.timerAutoUpdate = new System.Windows.Forms.Timer(this.components);
             this.folderBrowserDialog_SettingsRSPath = new System.Windows.Forms.FolderBrowserDialog();
+            this.btnSongsToBBCode = new System.Windows.Forms.Button();
+            this.btnSongsToCSV = new System.Windows.Forms.Button();
             this.tlp_MainForm_Wrappper.SuspendLayout();
             this.gbLog.SuspendLayout();
             this.tcMain.SuspendLayout();
@@ -121,6 +125,8 @@
             this.tpUtilities.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.panel4.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.tpSettings.SuspendLayout();
             this.tlpSettings_Wrapper.SuspendLayout();
             this.tpAbout.SuspendLayout();
@@ -531,37 +537,57 @@
             // 
             // panel4
             // 
-            this.panel4.Controls.Add(this.btnLaunchSteam);
-            this.panel4.Controls.Add(this.btnLaunchRocksmith);
+            this.panel4.Controls.Add(this.groupBox2);
+            this.panel4.Controls.Add(this.groupBox1);
             this.panel4.Controls.Add(this.btnBackupRSProfile);
             this.panel4.Location = new System.Drawing.Point(3, 3);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(764, 383);
             this.panel4.TabIndex = 0;
             // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.btnLaunchSteam);
+            this.groupBox2.Controls.Add(this.btnLaunchRocksmith);
+            this.groupBox2.Location = new System.Drawing.Point(18, 53);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(726, 42);
+            this.groupBox2.TabIndex = 6;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Rocksmith launcher";
+            // 
             // btnLaunchSteam
             // 
             this.btnLaunchSteam.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnLaunchSteam.Location = new System.Drawing.Point(294, 44);
+            this.btnLaunchSteam.Location = new System.Drawing.Point(186, 12);
             this.btnLaunchSteam.Name = "btnLaunchSteam";
-            this.btnLaunchSteam.Size = new System.Drawing.Size(150, 49);
-            this.btnLaunchSteam.TabIndex = 3;
+            this.btnLaunchSteam.Size = new System.Drawing.Size(157, 26);
+            this.btnLaunchSteam.TabIndex = 4;
             this.btnLaunchSteam.Text = "Launch Rocksmith via Steam";
             this.btnLaunchSteam.UseVisualStyleBackColor = true;
-            this.btnLaunchSteam.Click += new System.EventHandler(this.btnLaunchSteam_Click);
             // 
             // btnLaunchRocksmith
             // 
             this.btnLaunchRocksmith.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnLaunchRocksmith.Enabled = false;
-            this.btnLaunchRocksmith.Location = new System.Drawing.Point(294, 127);
+            this.btnLaunchRocksmith.Location = new System.Drawing.Point(349, 12);
             this.btnLaunchRocksmith.Name = "btnLaunchRocksmith";
-            this.btnLaunchRocksmith.Size = new System.Drawing.Size(150, 23);
-            this.btnLaunchRocksmith.TabIndex = 3;
+            this.btnLaunchRocksmith.Size = new System.Drawing.Size(150, 26);
+            this.btnLaunchRocksmith.TabIndex = 5;
             this.btnLaunchRocksmith.Text = "Launch Rocksmith";
             this.btnLaunchRocksmith.UseVisualStyleBackColor = true;
             this.btnLaunchRocksmith.Visible = false;
-            this.btnLaunchRocksmith.Click += new System.EventHandler(this.btnLaunchRocksmith_Click);
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.btnSongsToBBCode);
+            this.groupBox1.Controls.Add(this.btnSongsToCSV);
+            this.groupBox1.Location = new System.Drawing.Point(18, 101);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(736, 58);
+            this.groupBox1.TabIndex = 5;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Save song list";
             // 
             // btnBackupRSProfile
             // 
@@ -949,6 +975,27 @@
             this.folderBrowserDialog_SettingsRSPath.RootFolder = System.Environment.SpecialFolder.MyComputer;
             this.folderBrowserDialog_SettingsRSPath.ShowNewFolderButton = false;
             // 
+            // btnSongsToBBCode
+            // 
+            this.btnSongsToBBCode.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnSongsToBBCode.Location = new System.Drawing.Point(349, 19);
+            this.btnSongsToBBCode.Name = "btnSongsToBBCode";
+            this.btnSongsToBBCode.Size = new System.Drawing.Size(150, 23);
+            this.btnSongsToBBCode.TabIndex = 11;
+            this.btnSongsToBBCode.Text = "Song list to BBCode";
+            this.btnSongsToBBCode.UseVisualStyleBackColor = true;
+            // 
+            // btnSongsToCSV
+            // 
+            this.btnSongsToCSV.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnSongsToCSV.Location = new System.Drawing.Point(186, 19);
+            this.btnSongsToCSV.Name = "btnSongsToCSV";
+            this.btnSongsToCSV.Size = new System.Drawing.Size(157, 23);
+            this.btnSongsToCSV.TabIndex = 10;
+            this.btnSongsToCSV.Text = "Song list to csv";
+            this.btnSongsToCSV.UseVisualStyleBackColor = true;
+            this.btnSongsToCSV.Click += new System.EventHandler(this.btnSongsToCSV_Click);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -980,6 +1027,8 @@
             this.tpUtilities.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
             this.tpSettings.ResumeLayout(false);
             this.tlpSettings_Wrapper.ResumeLayout(false);
             this.tlpSettings_Wrapper.PerformLayout();
@@ -1073,8 +1122,12 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Button btnBackupRSProfile;
-        private System.Windows.Forms.Button btnLaunchRocksmith;
+        private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button btnLaunchSteam;
+        private System.Windows.Forms.Button btnLaunchRocksmith;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Button btnSongsToBBCode;
+        private System.Windows.Forms.Button btnSongsToCSV;
     }
 }
 

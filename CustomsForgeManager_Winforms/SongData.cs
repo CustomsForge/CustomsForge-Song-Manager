@@ -16,6 +16,7 @@ namespace CustomsForgeManager_Winforms
         public string Album { get; set; }
         public string Tuning { get; set; }
         public string DD { get; set; }
+        public string SongYear { get; set; }
         public string Updated { get; set; }
         public string Arrangements { get; set; }
         public string User { get; set; }
