@@ -213,6 +213,10 @@ namespace CustomsForgeManager_Winforms.Forms
         private void btnSongsToCSV_Click(object sender, EventArgs e)
         {
             string path = Constants.DefaultWorkingDirectory + @"\SongList.csv";
+            if (sfdSongListToCSV.ShowDialog() == DialogResult.OK)
+            {
+                path = sfdSongListToCSV.FileName;
+            }
             var sbCSV = new StringBuilder();
             var songsToShow = from song in SongCollection
                               select new

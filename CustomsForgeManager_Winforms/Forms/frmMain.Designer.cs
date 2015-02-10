@@ -109,6 +109,7 @@
             this.folderBrowserDialog_SettingsRSPath = new System.Windows.Forms.FolderBrowserDialog();
             this.btnSongsToBBCode = new System.Windows.Forms.Button();
             this.btnSongsToCSV = new System.Windows.Forms.Button();
+            this.sfdSongListToCSV = new System.Windows.Forms.SaveFileDialog();
             this.tlp_MainForm_Wrappper.SuspendLayout();
             this.gbLog.SuspendLayout();
             this.tcMain.SuspendLayout();
@@ -996,6 +997,11 @@
             this.btnSongsToCSV.UseVisualStyleBackColor = true;
             this.btnSongsToCSV.Click += new System.EventHandler(this.btnSongsToCSV_Click);
             // 
+            // sfdSongListToCSV
+            // 
+            this.sfdSongListToCSV.FileName = "songList.csv";
+            this.sfdSongListToCSV.Filter = "csv files(*.csv)|*.csv|All files (*.*)|*.*";
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1128,6 +1134,7 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button btnSongsToBBCode;
         private System.Windows.Forms.Button btnSongsToCSV;
+        private System.Windows.Forms.SaveFileDialog sfdSongListToCSV;
     }
 }
 
