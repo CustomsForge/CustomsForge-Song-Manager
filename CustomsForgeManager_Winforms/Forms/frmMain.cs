@@ -122,7 +122,8 @@ namespace CustomsForgeManager_Winforms.Forms
                             Arrangements = arrangements,
                             Author = song.Author,
                             NewAvailable = "",
-                            Path = file
+                            Path = file,
+                            DD = song.DD
                         });
                     }
 
@@ -191,6 +192,7 @@ namespace CustomsForgeManager_Winforms.Forms
                                       Album = song.Album,
                                       Updated = song.Updated,
                                       Tuning = song.Tuning,
+                                      DD = DifficultyToDD(song.DD),
                                       Arrangements = song.Arrangements,
                                       Author = song.Author,
                                       NewAvailable = song.NewAvailable
@@ -205,7 +207,6 @@ namespace CustomsForgeManager_Winforms.Forms
 
         }
 
-
         #region GUIEventHandlers
         private void dgvSongs_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
@@ -218,6 +219,7 @@ namespace CustomsForgeManager_Winforms.Forms
                                   Album = song.Album,
                                   Updated = song.Updated,
                                   Tuning = song.Tuning,
+                                  DD = DifficultyToDD(song.DD),
                                   Arrangements = song.Arrangements,
                                   Author = song.Author,
                                   NewAvailable = song.NewAvailable
@@ -234,7 +236,6 @@ namespace CustomsForgeManager_Winforms.Forms
                     bs.DataSource = songsToShow.OrderBy(song => song.Song);
                     sortDescending = true;
                 }
-
             }
             else if (e.ColumnIndex == 3)
             {
@@ -262,6 +263,19 @@ namespace CustomsForgeManager_Winforms.Forms
                     sortDescending = true;
                 }
             }
+            else if (e.ColumnIndex == 5)
+            {
+                if (sortDescending)
+                {
+                    bs.DataSource = songsToShow.OrderByDescending(song => DateTime.ParseExact(song.Updated, "M-d-y H:m", System.Globalization.CultureInfo.InvariantCulture));
+                    sortDescending = false;
+                }
+                else
+                {
+                    bs.DataSource = songsToShow.OrderBy(song => DateTime.ParseExact(song.Updated, "M-d-y H:m", System.Globalization.CultureInfo.InvariantCulture));
+                    sortDescending = true;
+                }
+            }
             else if (e.ColumnIndex == 6)
             {
                 if (sortDescending)
@@ -272,6 +286,19 @@ namespace CustomsForgeManager_Winforms.Forms
                 else
                 {
                     bs.DataSource = songsToShow.OrderBy(song => song.Tuning);
+                    sortDescending = true;
+                }
+            }
+            else if (e.ColumnIndex == 7)
+            {
+                if (sortDescending)
+                {
+                    bs.DataSource = songsToShow.OrderByDescending(song => song.DD);
+                    sortDescending = false;
+                }
+                else
+                {
+                    bs.DataSource = songsToShow.OrderBy(song => song.DD);
                     sortDescending = true;
                 }
             }
@@ -688,6 +715,17 @@ namespace CustomsForgeManager_Winforms.Forms
         {
             List<string> files = new List<string>(Directory.GetFiles(path, "*_p.psarc", SearchOption.AllDirectories));
             return files;
+        }
+        public string DifficultyToDD(string maxDifficulty) 
+        {
+            if(maxDifficulty == "0")
+            {
+                return "No";
+            }
+            else 
+            {
+                return "Yes";
+            }
         }
         public static string TuningToName(string tuning)
         {

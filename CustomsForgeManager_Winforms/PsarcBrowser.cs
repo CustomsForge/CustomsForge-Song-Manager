@@ -83,6 +83,7 @@ namespace CustomsForgeManager_Winforms
                                 Tuning = Regex.Replace(attributes["Tuning"].ToString(), @"""(?:\\.|[^""\r\n\\])*""", "").Replace(@"\s+", "").Replace("{", "").Replace("}", "").Replace(",", "").Replace(": ", "").Replace(Environment.NewLine, string.Empty).Replace(" ", String.Empty),
                                 Updated = attributes["LastConversionDateTime"].ToString(),
                                 Identifier = identifier,
+                                DD = attributes["MaxPhraseDifficulty"].ToString(),
                                 //Author = attributes["Version"].ToString(),
                                 Arrangements = new List<string>(),
                             };
@@ -160,6 +161,7 @@ namespace CustomsForgeManager_Winforms
         public string Artist { get; set; }
         public string Album { get; set; }
         public string Year { get; set; }
+        public string DD { get; set; }
         public string Identifier { get; set; }
         public string Tuning { get; set; }
         public string Updated { get; set; }
