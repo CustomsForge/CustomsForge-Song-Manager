@@ -226,7 +226,7 @@ namespace CustomsForgeManager_Winforms.Forms
                               };
             foreach (var song in songsToShow)
             {
-                sbCSV.AppendLine(song.Artist + "," + song.Song + "," + song.Album + "," + song.Year + "," + song.Tuning + "," + song.Arrangements);
+                sbCSV.AppendLine(song.Artist + ";" + song.Song + ";" + song.Album + ";" + song.Year + ";" + song.Tuning + ";" + song.Arrangements);
             }
             try
             {
