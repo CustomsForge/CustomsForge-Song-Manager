@@ -11,6 +11,7 @@ using System.ComponentModel;
 using System.IO.Compression;
 using System.Diagnostics;
 using System.Text;
+using System.Xml.Linq;
 
 namespace CustomsForgeManager_Winforms.Forms
 {
@@ -19,6 +20,7 @@ namespace CustomsForgeManager_Winforms.Forms
         private bool sortDescending = true;
         private readonly Log myLog;
         private Settings mySettings;
+        private static XElement root;
 
         private BindingList<SongData> SongCollection = new BindingList<SongData>();
         private List<SongDupeData> DupeCollection = new List<SongDupeData>();
@@ -67,6 +69,7 @@ namespace CustomsForgeManager_Winforms.Forms
                 BackgroundScan();
             else
                 LoadSongCollectionFromFile();
+            root = XElement.Load(Constants.DefaultWorkingDirectory + @"\tunings.xml");
         }
         private void BackgroundScan()
         {
@@ -199,6 +202,10 @@ namespace CustomsForgeManager_Winforms.Forms
         }
 
         #region GUIEventHandlers
+        private void btnSongsToBBCode_Click(object sender, EventArgs e)
+        {
+
+        }
         private void btnSongsToCSV_Click(object sender, EventArgs e)
         {
             var sbCSV = new StringBuilder();
@@ -336,7 +343,6 @@ namespace CustomsForgeManager_Winforms.Forms
             else
                 Process.Start("steam://rungameid/221680");
         }
-
         private void btnBackupRSProfile_Click(object sender, EventArgs e)
         {
             try
@@ -464,12 +470,10 @@ namespace CustomsForgeManager_Winforms.Forms
         {
             Process.Start("http://customsforge.com");
         }
-
         private void timerAutoUpdate_Tick(object sender, EventArgs e)
         {
             CheckForUpdate();
         }
-
         private void tbSettingsRSDir_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             if (tbSettingsRSDir.Enabled)
@@ -513,7 +517,6 @@ namespace CustomsForgeManager_Winforms.Forms
             if (dataGridViewColumn != null && dataGridViewColumn.Visible)
                 dataGridViewColumn.Visible = false;
         }
-
         private void dgvSongs_SelectionChanged(object sender, EventArgs e)
         {
             if (dgvSongs.SelectedRows.Count > 0)
@@ -739,54 +742,14 @@ namespace CustomsForgeManager_Winforms.Forms
             }
             return "Yes";
         }
-
-        public static string TuningToName(string tuning)
+        public static string TuningToName(string tuningStrings)
         {
-            switch (tuning)
-            {
-                case "000000":
-                    return "E Standard";
-                case "-1-1-1-1-1-1":
-                    return "Eb Standard";
-                case "-2-2-2-2-2-2":
-                    return "D Standard";
-                case "-3-3-3-3-3-3":
-                    return "C# Standard";
-                case "-4-4-4-4-4-4":
-                    return "C Standard";
-                case "-5-5-5-5-5-5":
-                    return "B Standard";
-                case "-6-6-6-6-6-6":
-                    return "Bb Standard";
-                case "-7-7-7-7-7-7":
-                    return "A Standard";
-                case "-8-8-8-8-8-8":
-                    return "Ab Standard";
-                case "-100000":
-                    return "E Drop D";
-                case "-3-1-1-1-1-1":
-                    return "Eb Drop Db";
-                case "-4-2-2-2-2-2":
-                    return "D Drop C";
-                case "-5-3-3-3-3-3":
-                    return "C# Drop B";
-                case "-7-5-5-5-5-5":
-                    return "B Drop A";
-                case "-8-6-6-6-6-6":
-                    return "Bb Drop Ab";
-                case "00000-10":
-                    return "Open A";
-                case "-799900":
-                    return "Open B";
-                case "-4-2-2010":
-                    return "Open C";
-                case "-200-1-2-2":
-                    return "Open D";
-                case "-2-2000-2":
-                    return "Open G";
-                default:
-                    return "Other";
+            var tuningName = root.Elements("Tuning").Where(tuning => tuning.Attribute("Strings").Value == tuningStrings).Select(tuning => tuning.Attribute("Name")).ToList();
+            if(tuningName.Count == 0)
+            {   
+                return "Other";
             }
+            return tuningName[0].Value;
         }
         private void CheckForUpdate()
         {
@@ -885,9 +848,6 @@ namespace CustomsForgeManager_Winforms.Forms
             var results = SongCollection.Where(x => x.Artist.ToLower().Contains(criteria.ToLower()) || x.Album.ToLower().Contains(criteria.ToLower()) || x.Song.ToLower().Contains(criteria.ToLower())).ToList();
             dgvSongs.DataSource = results;
         }
-
-        
-
         private void PopulateSongInfo(SongData song)
         {
             lbl_PanelSongTitle.Text = song.Song;

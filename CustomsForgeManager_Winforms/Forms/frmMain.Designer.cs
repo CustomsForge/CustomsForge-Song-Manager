@@ -91,9 +91,6 @@
             this.panel4 = new System.Windows.Forms.Panel();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btnLaunchSteam = new System.Windows.Forms.Button();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.btnSongsToBBCode = new System.Windows.Forms.Button();
-            this.btnSongsToCSV = new System.Windows.Forms.Button();
             this.btnBackupRSProfile = new System.Windows.Forms.Button();
             this.tpSettings = new System.Windows.Forms.TabPage();
             this.tlpSettings_Wrapper = new System.Windows.Forms.TableLayoutPanel();
@@ -128,6 +125,8 @@
             this.timerAutoUpdate = new System.Windows.Forms.Timer(this.components);
             this.folderBrowserDialog_SettingsRSPath = new System.Windows.Forms.FolderBrowserDialog();
             this.sfdSongListToCSV = new System.Windows.Forms.SaveFileDialog();
+            this.btnSongsToBBCode = new System.Windows.Forms.Button();
+            this.btnSongsToCSV = new System.Windows.Forms.Button();
             this.tlp_MainForm_Wrappper.SuspendLayout();
             this.gbLog.SuspendLayout();
             this.tcMain.SuspendLayout();
@@ -147,7 +146,6 @@
             this.tableLayoutPanel2.SuspendLayout();
             this.panel4.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            this.groupBox1.SuspendLayout();
             this.tpSettings.SuspendLayout();
             this.tlpSettings_Wrapper.SuspendLayout();
             this.tpAbout.SuspendLayout();
@@ -459,6 +457,8 @@
             // 
             // panelSongListButtons
             // 
+            this.panelSongListButtons.Controls.Add(this.btnSongsToBBCode);
+            this.panelSongListButtons.Controls.Add(this.btnSongsToCSV);
             this.panelSongListButtons.Controls.Add(this.btnSaveDLC);
             this.panelSongListButtons.Controls.Add(this.btnBackupDLC);
             this.panelSongListButtons.Controls.Add(this.btnDLCPage);
@@ -479,6 +479,7 @@
             this.btnSaveDLC.TabIndex = 7;
             this.btnSaveDLC.Text = "Save Song";
             this.btnSaveDLC.UseVisualStyleBackColor = true;
+            this.btnSaveDLC.Visible = false;
             // 
             // btnBackupDLC
             // 
@@ -490,6 +491,7 @@
             this.btnBackupDLC.TabIndex = 6;
             this.btnBackupDLC.Text = "Backup Song";
             this.btnBackupDLC.UseVisualStyleBackColor = true;
+            this.btnBackupDLC.Visible = false;
             this.btnBackupDLC.Click += new System.EventHandler(this.btnBackupDLC_Click);
             // 
             // btnDLCPage
@@ -502,6 +504,7 @@
             this.btnDLCPage.TabIndex = 5;
             this.btnDLCPage.Text = "Open Song Page";
             this.btnDLCPage.UseVisualStyleBackColor = true;
+            this.btnDLCPage.Visible = false;
             // 
             // btnRescan
             // 
@@ -524,6 +527,7 @@
             this.btnEditDLC.TabIndex = 4;
             this.btnEditDLC.Text = "Edit Song";
             this.btnEditDLC.UseVisualStyleBackColor = true;
+            this.btnEditDLC.Visible = false;
             // 
             // panel2
             // 
@@ -786,7 +790,6 @@
             // panel4
             // 
             this.panel4.Controls.Add(this.groupBox2);
-            this.panel4.Controls.Add(this.groupBox1);
             this.panel4.Controls.Add(this.btnBackupRSProfile);
             this.panel4.Location = new System.Drawing.Point(3, 3);
             this.panel4.Name = "panel4";
@@ -813,38 +816,6 @@
             this.btnLaunchSteam.Text = "Launch Rocksmith via Steam";
             this.btnLaunchSteam.UseVisualStyleBackColor = true;
             this.btnLaunchSteam.Click += new System.EventHandler(this.btnLaunchSteam_Click);
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.btnSongsToBBCode);
-            this.groupBox1.Controls.Add(this.btnSongsToCSV);
-            this.groupBox1.Location = new System.Drawing.Point(18, 101);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(736, 58);
-            this.groupBox1.TabIndex = 5;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Save song list";
-            // 
-            // btnSongsToBBCode
-            // 
-            this.btnSongsToBBCode.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnSongsToBBCode.Location = new System.Drawing.Point(349, 19);
-            this.btnSongsToBBCode.Name = "btnSongsToBBCode";
-            this.btnSongsToBBCode.Size = new System.Drawing.Size(150, 23);
-            this.btnSongsToBBCode.TabIndex = 11;
-            this.btnSongsToBBCode.Text = "Song list to BBCode";
-            this.btnSongsToBBCode.UseVisualStyleBackColor = true;
-            // 
-            // btnSongsToCSV
-            // 
-            this.btnSongsToCSV.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnSongsToCSV.Location = new System.Drawing.Point(186, 19);
-            this.btnSongsToCSV.Name = "btnSongsToCSV";
-            this.btnSongsToCSV.Size = new System.Drawing.Size(157, 23);
-            this.btnSongsToCSV.TabIndex = 10;
-            this.btnSongsToCSV.Text = "Song list to csv";
-            this.btnSongsToCSV.UseVisualStyleBackColor = true;
-            this.btnSongsToCSV.Click += new System.EventHandler(this.btnSongsToCSV_Click);
             // 
             // btnBackupRSProfile
             // 
@@ -1239,6 +1210,27 @@
             this.sfdSongListToCSV.FileName = "songList.csv";
             this.sfdSongListToCSV.Filter = "csv files(*.csv)|*.csv|All files (*.*)|*.*";
             // 
+            // btnSongsToBBCode
+            // 
+            this.btnSongsToBBCode.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnSongsToBBCode.Location = new System.Drawing.Point(413, 15);
+            this.btnSongsToBBCode.Name = "btnSongsToBBCode";
+            this.btnSongsToBBCode.Size = new System.Drawing.Size(150, 23);
+            this.btnSongsToBBCode.TabIndex = 13;
+            this.btnSongsToBBCode.Text = "Song list to BBCode";
+            this.btnSongsToBBCode.UseVisualStyleBackColor = true;
+            this.btnSongsToBBCode.Click += new System.EventHandler(this.btnSongsToBBCode_Click);
+            // 
+            // btnSongsToCSV
+            // 
+            this.btnSongsToCSV.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnSongsToCSV.Location = new System.Drawing.Point(250, 15);
+            this.btnSongsToCSV.Name = "btnSongsToCSV";
+            this.btnSongsToCSV.Size = new System.Drawing.Size(157, 23);
+            this.btnSongsToCSV.TabIndex = 12;
+            this.btnSongsToCSV.Text = "Song list to csv";
+            this.btnSongsToCSV.UseVisualStyleBackColor = true;
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1274,7 +1266,6 @@
             this.tableLayoutPanel2.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
             this.tpSettings.ResumeLayout(false);
             this.tlpSettings_Wrapper.ResumeLayout(false);
             this.tlpSettings_Wrapper.PerformLayout();
@@ -1368,9 +1359,6 @@
         private System.Windows.Forms.Button btnBackupRSProfile;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button btnLaunchSteam;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button btnSongsToBBCode;
-        private System.Windows.Forms.Button btnSongsToCSV;
         private System.Windows.Forms.SaveFileDialog sfdSongListToCSV;
         private System.Windows.Forms.LinkLabel link_MainClearResults;
         private System.Windows.Forms.DataGridViewCheckBoxColumn colBackup;
@@ -1392,6 +1380,8 @@
         private System.Windows.Forms.Label lbl_PanelSongDD;
         private System.Windows.Forms.Label lbl_PanelSongArrangements;
         private System.Windows.Forms.Label lbl_PanelSongAuthor;
+        private System.Windows.Forms.Button btnSongsToBBCode;
+        private System.Windows.Forms.Button btnSongsToCSV;
     }
 }
 

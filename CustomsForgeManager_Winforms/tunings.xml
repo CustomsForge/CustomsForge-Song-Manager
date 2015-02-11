@@ -1,0 +1,26 @@
+<Tunings>
+ <Tuning Name="DADGAD" Strings="-2000-2-2"/>
+ <Tuning Name="CGCGGE" Strings="-4-2-2-20-40"/>
+ <Tuning Name="E Standard" Strings="000000"/>
+ <Tuning Name="Eb Stanard" Strings="-1-1-1-1-1-1"/>
+ <Tuning Name="Eb Standard" Strings="-1-1-1-1-1-1"/>                   
+ <Tuning Name="D Standard" Strings="-2-2-2-2-2-2"/> 
+ <Tuning Name="C# Standard" Strings="-3-3-3-3-3-3"/>
+ <Tuning Name="C Standard" Strings="-4-4-4-4-4-4"/>
+ <Tuning Name="B Standard" Strings="-5-5-5-5-5-5"/>
+ <Tuning Name="Bb Standard" Strings="6-6-6-6-6-6"/>   
+ <Tuning Name="A Standard" Strings="-7-7-7-7-7-7"/>
+ <Tuning Name="Ab Standard" Strings="-8-8-8-8-8-8"/>
+ <Tuning Name="E Drop D" Strings="-100000"/>
+ <Tuning Name="Eb Drop Db" Strings="-3-1-1-1-1-1"/>
+ <Tuning Name="D Drop C" Strings="-4-2-2-2-2-2"/>
+ <Tuning Name="C# Drop B" Strings="-5-3-3-3-3-3"/>
+ <Tuning Name="B Drop A" Strings="-7-5-5-5-5-5"/>
+ <Tuning Name="Bb Drop Ab" Strings="-8-6-6-6-6-6"/>
+ <Tuning Name="Open A" Strings="00000-10"/> 
+ <Tuning Name="Open B" Strings="-799900"/>
+ <Tuning Name="Open C" Strings="-4-2-2010"/>
+ <Tuning Name="Open D" Strings="-200-1-2-2"/>
+ <Tuning Name="Open E" Strings="022100"/>
+ <Tuning Name="Open G" Strings="-2-2000-2"/>
+</Tunings>
