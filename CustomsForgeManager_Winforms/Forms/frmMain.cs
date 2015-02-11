@@ -218,8 +218,8 @@ namespace CustomsForgeManager_Winforms.Forms
             {
                 path = sfdSongListToCSV.FileName;
             }
-            sbCSV.Append(@"sep=;");
-            sbCSV.Append(Environment.NewLine);
+            sbCSV.AppendLine(@"sep=;");
+            sbCSV.AppendLine("Artist;Song;Album;Year;Tuning;Arrangements");
             foreach (var song in SongCollection)
             {
                 sbCSV.AppendLine(song.Artist + ";" + song.Song + ";" + song.Album + ";" + song.SongYear + ";" + song.Tuning + ";" + song.Arrangements);
