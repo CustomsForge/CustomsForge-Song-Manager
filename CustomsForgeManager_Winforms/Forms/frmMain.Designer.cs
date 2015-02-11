@@ -74,6 +74,8 @@
             this.btnLaunchSteam = new System.Windows.Forms.Button();
             this.btnLaunchRocksmith = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnSongsToBBCode = new System.Windows.Forms.Button();
+            this.btnSongsToCSV = new System.Windows.Forms.Button();
             this.btnBackupRSProfile = new System.Windows.Forms.Button();
             this.tpSettings = new System.Windows.Forms.TabPage();
             this.tlpSettings_Wrapper = new System.Windows.Forms.TableLayoutPanel();
@@ -107,8 +109,6 @@
             this.toolStripStatusLabel_Main = new System.Windows.Forms.ToolStripStatusLabel();
             this.timerAutoUpdate = new System.Windows.Forms.Timer(this.components);
             this.folderBrowserDialog_SettingsRSPath = new System.Windows.Forms.FolderBrowserDialog();
-            this.btnSongsToBBCode = new System.Windows.Forms.Button();
-            this.btnSongsToCSV = new System.Windows.Forms.Button();
             this.sfdSongListToCSV = new System.Windows.Forms.SaveFileDialog();
             this.tlp_MainForm_Wrappper.SuspendLayout();
             this.gbLog.SuspendLayout();
@@ -250,6 +250,7 @@
             this.btnBackupDLC.TabIndex = 6;
             this.btnBackupDLC.Text = "Backup Song";
             this.btnBackupDLC.UseVisualStyleBackColor = true;
+            this.btnBackupDLC.Click += new System.EventHandler(this.btnBackupDLC_Click);
             // 
             // btnDLCPage
             // 
@@ -589,6 +590,27 @@
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Save song list";
+            // 
+            // btnSongsToBBCode
+            // 
+            this.btnSongsToBBCode.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnSongsToBBCode.Location = new System.Drawing.Point(349, 19);
+            this.btnSongsToBBCode.Name = "btnSongsToBBCode";
+            this.btnSongsToBBCode.Size = new System.Drawing.Size(150, 23);
+            this.btnSongsToBBCode.TabIndex = 11;
+            this.btnSongsToBBCode.Text = "Song list to BBCode";
+            this.btnSongsToBBCode.UseVisualStyleBackColor = true;
+            // 
+            // btnSongsToCSV
+            // 
+            this.btnSongsToCSV.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnSongsToCSV.Location = new System.Drawing.Point(186, 19);
+            this.btnSongsToCSV.Name = "btnSongsToCSV";
+            this.btnSongsToCSV.Size = new System.Drawing.Size(157, 23);
+            this.btnSongsToCSV.TabIndex = 10;
+            this.btnSongsToCSV.Text = "Song list to csv";
+            this.btnSongsToCSV.UseVisualStyleBackColor = true;
+            this.btnSongsToCSV.Click += new System.EventHandler(this.btnSongsToCSV_Click);
             // 
             // btnBackupRSProfile
             // 
@@ -975,27 +997,6 @@
             this.folderBrowserDialog_SettingsRSPath.Description = "Browse for your Rocksmith 2014 installed directory";
             this.folderBrowserDialog_SettingsRSPath.RootFolder = System.Environment.SpecialFolder.MyComputer;
             this.folderBrowserDialog_SettingsRSPath.ShowNewFolderButton = false;
-            // 
-            // btnSongsToBBCode
-            // 
-            this.btnSongsToBBCode.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnSongsToBBCode.Location = new System.Drawing.Point(349, 19);
-            this.btnSongsToBBCode.Name = "btnSongsToBBCode";
-            this.btnSongsToBBCode.Size = new System.Drawing.Size(150, 23);
-            this.btnSongsToBBCode.TabIndex = 11;
-            this.btnSongsToBBCode.Text = "Song list to BBCode";
-            this.btnSongsToBBCode.UseVisualStyleBackColor = true;
-            // 
-            // btnSongsToCSV
-            // 
-            this.btnSongsToCSV.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnSongsToCSV.Location = new System.Drawing.Point(186, 19);
-            this.btnSongsToCSV.Name = "btnSongsToCSV";
-            this.btnSongsToCSV.Size = new System.Drawing.Size(157, 23);
-            this.btnSongsToCSV.TabIndex = 10;
-            this.btnSongsToCSV.Text = "Song list to csv";
-            this.btnSongsToCSV.UseVisualStyleBackColor = true;
-            this.btnSongsToCSV.Click += new System.EventHandler(this.btnSongsToCSV_Click);
             // 
             // sfdSongListToCSV
             // 

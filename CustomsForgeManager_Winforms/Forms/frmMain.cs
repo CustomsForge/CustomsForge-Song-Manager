@@ -212,33 +212,19 @@ namespace CustomsForgeManager_Winforms.Forms
         #region GUIEventHandlers
         private void btnSongsToCSV_Click(object sender, EventArgs e)
         {
+            var sbCSV = new StringBuilder();
             string path = Constants.DefaultWorkingDirectory + @"\SongList.csv";
             if (sfdSongListToCSV.ShowDialog() == DialogResult.OK)
             {
                 path = sfdSongListToCSV.FileName;
             }
-            var sbCSV = new StringBuilder();
-            var songsToShow = from song in SongCollection
-                              select new
-                              {
-                                  Artist = song.Artist,
-                                  Song = song.Song,
-                                  Album = song.Album,
-                                  Year = song.SongYear,
-                                  Tuning = song.Tuning,
-                                  Arrangements = song.Arrangements
-                              };
-            foreach (var song in songsToShow)
+            foreach (var song in SongCollection)
             {
-                sbCSV.AppendLine(song.Artist + ";" + song.Song + ";" + song.Album + ";" + song.Year + ";" + song.Tuning + ";" + song.Arrangements);
+                sbCSV.AppendLine(song.Artist + ";" + song.Song + ";" + song.Album + ";" + song.SongYear + ";" + song.Tuning + ";" + song.Arrangements);
             }
             try
             {
-                if (File.Exists(path))
-                {
-                    File.Delete(path);
-                }
-                using (StreamWriter file = new StreamWriter(path))
+                using (StreamWriter file = new StreamWriter(path, false, Encoding.UTF8))
                 {
                     file.Write(sbCSV.ToString());
                 }
@@ -442,15 +428,15 @@ namespace CustomsForgeManager_Winforms.Forms
                 {
                     Directory.CreateDirectory(backupPath);
                 }
-                //foreach (ListViewItem listItem in dgvSongs.Items)
-                //{
-                //    if (listItem.Checked)
-                //    {
-                //        fileName =  Path.GetFileName(SongCollection[i].Path);
-                //        File.Copy(SongCollection[i].Path, Path.Combine(backupPath, fileName));
-                //    }
-                //    i++;
-                //}
+                foreach (DataGridViewRow row in dgvSongs.Rows)
+                {
+                    if ((bool)row.Cells[1].Value)
+                    {
+                        fileName =  Path.GetFileName(SongCollection[i].Path);
+                        File.Copy(SongCollection[i].Path, Path.Combine(backupPath, fileName));
+                    }
+                    i++;
+                }
             }
             catch (IOException)
             {
