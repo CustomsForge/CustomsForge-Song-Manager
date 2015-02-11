@@ -746,26 +746,44 @@ namespace CustomsForgeManager_Winforms.Forms
             {
                 case "000000":
                     return "E Standard";
-                case "-100000":
-                    return "E Drop D";
+                case "-1-1-1-1-1-1":
+                    return "Eb Standard";
                 case "-2-2-2-2-2-2":
                     return "D Standard";
-                case "-3-1-1-1-1-1":
-                    return "Eb Drop Db";
                 case "-3-3-3-3-3-3":
                     return "C# Standard";
                 case "-4-4-4-4-4-4":
                     return "C Standard";
-                case "-4-2-2-2-2-2":
-                    return "D Drop C";
                 case "-5-5-5-5-5-5":
                     return "B Standard";
-                case "-5-3-3-3-3-3":
-                    return "C# Drop B";
+                case "-6-6-6-6-6-6":
+                    return "Bb Standard";
                 case "-7-7-7-7-7-7":
                     return "A Standard";
+                case "-8-8-8-8-8-8":
+                    return "Ab Standard";
+                case "-100000":
+                    return "E Drop D";
+                case "-3-1-1-1-1-1":
+                    return "Eb Drop Db";
+                case "-4-2-2-2-2-2":
+                    return "D Drop C";
+                case "-5-3-3-3-3-3":
+                    return "C# Drop B";
                 case "-7-5-5-5-5-5":
                     return "B Drop A";
+                case "-8-6-6-6-6-6":
+                    return "Bb Drop Ab";
+                case "00000-10":
+                    return "Open A";
+                case "-799900":
+                    return "Open B";
+                case "-4-2-2010":
+                    return "Open C";
+                case "-200-1-2-2":
+                    return "Open D";
+                case "-2-2000-2":
+                    return "Open G";
                 default:
                     return "Other";
             }
