@@ -44,8 +44,6 @@
             this.btnEditDLC = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
             this.dgvSongs = new System.Windows.Forms.DataGridView();
-            this.colBackup = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.colPreview = new System.Windows.Forms.DataGridViewLinkColumn();
             this.contextMenuStrip_MainManager = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openDLCPageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editDLCToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -110,6 +108,8 @@
             this.timerAutoUpdate = new System.Windows.Forms.Timer(this.components);
             this.folderBrowserDialog_SettingsRSPath = new System.Windows.Forms.FolderBrowserDialog();
             this.sfdSongListToCSV = new System.Windows.Forms.SaveFileDialog();
+            this.link_MainClearResults = new System.Windows.Forms.LinkLabel();
+            this.colBackup = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.tlp_MainForm_Wrappper.SuspendLayout();
             this.gbLog.SuspendLayout();
             this.tcMain.SuspendLayout();
@@ -301,8 +301,7 @@
             this.dgvSongs.AllowUserToResizeRows = false;
             this.dgvSongs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvSongs.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.colBackup,
-            this.colPreview});
+            this.colBackup});
             this.dgvSongs.ContextMenuStrip = this.contextMenuStrip_MainManager;
             this.dgvSongs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvSongs.Location = new System.Drawing.Point(0, 0);
@@ -312,24 +311,8 @@
             this.dgvSongs.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvSongs.Size = new System.Drawing.Size(764, 290);
             this.dgvSongs.TabIndex = 0;
+            this.dgvSongs.DataSourceChanged += new System.EventHandler(this.dgvSongs_DataSourceChanged);
             this.dgvSongs.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongs_ColumnHeaderMouseClick);
-            // 
-            // colBackup
-            // 
-            this.colBackup.HeaderText = "Backup";
-            this.colBackup.Name = "colBackup";
-            this.colBackup.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colBackup.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.colBackup.Visible = false;
-            // 
-            // colPreview
-            // 
-            this.colPreview.HeaderText = "Preview";
-            this.colPreview.Name = "colPreview";
-            this.colPreview.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colPreview.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.colPreview.Text = "Preview";
-            this.colPreview.Visible = false;
             // 
             // contextMenuStrip_MainManager
             // 
@@ -353,6 +336,7 @@
             // 
             // panel3
             // 
+            this.panel3.Controls.Add(this.link_MainClearResults);
             this.panel3.Controls.Add(this.lbl_Search);
             this.panel3.Controls.Add(this.tbSearch);
             this.panel3.Controls.Add(this.btnSearch);
@@ -865,6 +849,7 @@
             this.lbl_AlexRole.TabIndex = 0;
             this.lbl_AlexRole.Text = "Developer:";
             this.lbl_AlexRole.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lbl_AlexRole.Visible = false;
             // 
             // link_UnleashedProfile
             // 
@@ -918,6 +903,7 @@
             this.link_Alex360Profile.TabStop = true;
             this.link_Alex360Profile.Text = "Alex360";
             this.link_Alex360Profile.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.link_Alex360Profile.Visible = false;
             this.link_Alex360Profile.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.link_Alex360Profile_LinkClicked);
             // 
             // lbl_ForgeRole
@@ -1002,6 +988,25 @@
             // 
             this.sfdSongListToCSV.FileName = "songList.csv";
             this.sfdSongListToCSV.Filter = "csv files(*.csv)|*.csv|All files (*.*)|*.*";
+            // 
+            // link_MainClearResults
+            // 
+            this.link_MainClearResults.AutoSize = true;
+            this.link_MainClearResults.Location = new System.Drawing.Point(597, 8);
+            this.link_MainClearResults.Name = "link_MainClearResults";
+            this.link_MainClearResults.Size = new System.Drawing.Size(68, 13);
+            this.link_MainClearResults.TabIndex = 3;
+            this.link_MainClearResults.TabStop = true;
+            this.link_MainClearResults.Text = "Clear Search";
+            this.link_MainClearResults.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.link_MainClearResults_LinkClicked);
+            // 
+            // colBackup
+            // 
+            this.colBackup.HeaderText = "Backup";
+            this.colBackup.Name = "colBackup";
+            this.colBackup.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colBackup.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.colBackup.Visible = false;
             // 
             // frmMain
             // 
@@ -1106,8 +1111,6 @@
         private System.Windows.Forms.ColumnHeader colDupeAlbum;
         private System.Windows.Forms.ColumnHeader colDupeSongOnePath;
         private System.Windows.Forms.ColumnHeader colDupeSongTwoPath;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn colBackup;
-        private System.Windows.Forms.DataGridViewLinkColumn colPreview;
         private System.Windows.Forms.Label lbl_Search;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel_Credits;
         private System.Windows.Forms.Label lbl_Credits;
@@ -1136,6 +1139,8 @@
         private System.Windows.Forms.Button btnSongsToBBCode;
         private System.Windows.Forms.Button btnSongsToCSV;
         private System.Windows.Forms.SaveFileDialog sfdSongListToCSV;
+        private System.Windows.Forms.LinkLabel link_MainClearResults;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn colBackup;
     }
 }
 

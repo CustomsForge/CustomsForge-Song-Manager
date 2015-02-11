@@ -12,6 +12,7 @@ using System.ComponentModel;
 using System.IO.Compression;
 using System.Diagnostics;
 using System.Text;
+using RocksmithToolkitLib.Sng;
 
 namespace CustomsForgeManager_Winforms.Forms
 {
@@ -23,8 +24,6 @@ namespace CustomsForgeManager_Winforms.Forms
 
         private BindingList<SongData> SongCollection = new BindingList<SongData>();
         private List<SongDupeData> DupeCollection = new List<SongDupeData>();
-        private List<SongData> SongSearchCollection = new List<SongData>();
-
 
         private frmMain()
         {
@@ -112,9 +111,8 @@ namespace CustomsForgeManager_Winforms.Forms
                             arrangements += "," + arrangement;
                         }
                         arrangements = arrangements.Remove(0, 1);
-                        SongCollection.Add(new SongData
+                        var newSong = new SongData
                         {
-                            Preview = "",
                             Song = song.Title,
                             Artist = song.Artist,
                             Album = song.Album,
@@ -126,7 +124,8 @@ namespace CustomsForgeManager_Winforms.Forms
                             NewAvailable = "",
                             Path = file,
                             DD = song.DD
-                        });
+                        };
+                        SongCollection.Add(newSong);
                     }
 
                 }
@@ -500,7 +499,7 @@ namespace CustomsForgeManager_Winforms.Forms
         }
         private void lnkAboutCF_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            System.Diagnostics.Process.Start("http://customsforge.com");
+            Process.Start("http://customsforge.com");
         }
 
         private void timerAutoUpdate_Tick(object sender, EventArgs e)
@@ -539,9 +538,22 @@ namespace CustomsForgeManager_Winforms.Forms
             }
         }
 
+        private void link_MainClearResults_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            dgvSongs.DataSource = SongCollection;
+            tbSearch.InvokeIfRequired(delegate { tbSearch.Text = ""; });
+        }
+
+        private void dgvSongs_DataSourceChanged(object sender, EventArgs e)
+        {
+            var dataGridViewColumn = ((DataGridView)sender).Columns["Preview"];
+            if (dataGridViewColumn != null && dataGridViewColumn.Visible)
+                dataGridViewColumn.Visible = false;
+        }
+
         private void link_LovromanProfile_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            System.Diagnostics.Process.Start("http://customsforge.com/user/43194-lovroman/");
+            Process.Start("http://customsforge.com/user/43194-lovroman/");
         }
 
         private void link_DarjuszProfile_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -880,7 +892,10 @@ namespace CustomsForgeManager_Winforms.Forms
         }
         private void SearchDLC(string criteria)
         {
-            MessageBox.Show("Work in progress!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            var results = SongCollection.Where(x => x.Artist.ToLower().Contains(criteria.ToLower()) || x.Album.ToLower().Contains(criteria.ToLower()) || x.Song.ToLower().Contains(criteria.ToLower())).ToList();
+            dgvSongs.DataSource = results;
         }
+
+        
     }
 }
