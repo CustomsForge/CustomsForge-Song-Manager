@@ -507,7 +507,20 @@ namespace CustomsForgeManager_Winforms.Forms
 
         private void link_MainClearResults_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            dgvSongs.DataSource = SongCollection;
+            var songsToShow = (from song in SongCollection
+                              select new
+                              {
+                                  song.Song,
+                                  song.Artist,
+                                  song.Album,
+                                  song.Updated,
+                                  song.Tuning,
+                                  DD = DifficultyToDD(song.DD),
+                                  song.Arrangements,
+                                  song.Author,
+                                  song.NewAvailable
+                              }).ToList();
+            dgvSongs.DataSource = songsToShow;
             tbSearch.InvokeIfRequired(delegate { tbSearch.Text = ""; });
         }
 
@@ -846,7 +859,20 @@ namespace CustomsForgeManager_Winforms.Forms
         }
         private void SearchDLC(string criteria)
         {
-            var results = SongCollection.Where(x => x.Artist.ToLower().Contains(criteria.ToLower()) || x.Album.ToLower().Contains(criteria.ToLower()) || x.Song.ToLower().Contains(criteria.ToLower())).ToList();
+            var songsToShow = from song in SongCollection
+                              select new
+                              {
+                                  song.Song,
+                                  song.Artist,
+                                  song.Album,
+                                  song.Updated,
+                                  song.Tuning,
+                                  DD = DifficultyToDD(song.DD),
+                                  song.Arrangements,
+                                  song.Author,
+                                  song.NewAvailable
+                              };
+            var results = songsToShow.Where(x => x.Artist.ToLower().Contains(criteria.ToLower()) || x.Album.ToLower().Contains(criteria.ToLower()) || x.Song.ToLower().Contains(criteria.ToLower()) || x.Tuning.ToLower().Contains(criteria.ToLower())).ToList();
             dgvSongs.DataSource = results;
         }
         private void PopulateSongInfo(SongData song)
