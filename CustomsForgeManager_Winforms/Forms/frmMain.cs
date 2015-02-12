@@ -69,7 +69,7 @@ namespace CustomsForgeManager_Winforms.Forms
                 BackgroundScan();
             else
                 LoadSongCollectionFromFile();
-            root = XElement.Load(Constants.DefaultWorkingDirectory + @"\tunings.xml");
+            root = XElement.Load("tunings.xml");
         }
         private void BackgroundScan()
         {
@@ -562,7 +562,7 @@ namespace CustomsForgeManager_Winforms.Forms
         private void ResetSettings()
         {
             mySettings = new Settings();
-            mySettings.LogFilePath = Constants.DefaultWorkingDirectory + "\\settings.bin";
+            mySettings.LogFilePath = Constants.DefaultWorkingDirectory + "\\debug.log";
             mySettings.RSInstalledDir = GetInstallDirFromRegistry();
             mySettings.RescanOnStartup = true;
         }
@@ -580,7 +580,8 @@ namespace CustomsForgeManager_Winforms.Forms
                     mySettings.RescanOnStartup = true;
                     Log("Default settings created...");
                 }
-                mySettings.RSInstalledDir = tbSettingsRSDir.Text;
+                if (!string.IsNullOrEmpty(tbSettingsRSDir.Text))
+                    mySettings.RSInstalledDir = tbSettingsRSDir.Text;
                 mySettings.RescanOnStartup = checkRescanOnStartup.Checked;
                 mySettings.Serialze(fs);
                 Log("Saved settings...");
