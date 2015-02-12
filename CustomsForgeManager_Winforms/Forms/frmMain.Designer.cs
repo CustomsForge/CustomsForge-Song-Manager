@@ -36,26 +36,10 @@
             this.tbLog = new System.Windows.Forms.TextBox();
             this.tcMain = new System.Windows.Forms.TabControl();
             this.tpManager = new System.Windows.Forms.TabPage();
-            this.gb_MainSongInfoPanel = new System.Windows.Forms.GroupBox();
-            this.tlp_MainSongInfoWrapper = new System.Windows.Forms.TableLayoutPanel();
-            this.lbl_PanelSongTitleLbl = new System.Windows.Forms.Label();
-            this.lbl_PanelSongAlbumLbl = new System.Windows.Forms.Label();
-            this.lbl_PanelSongArtistLbl = new System.Windows.Forms.Label();
-            this.lbl_PanelSongYearLbl = new System.Windows.Forms.Label();
-            this.lbl_PanelSongTuningLbl = new System.Windows.Forms.Label();
-            this.lbl_PanelSongDDLbl = new System.Windows.Forms.Label();
-            this.lbl_PanelSongArrangementsLbl = new System.Windows.Forms.Label();
-            this.lbl_PanelSongAuthorLbl = new System.Windows.Forms.Label();
-            this.lbl_PanelSongTitle = new System.Windows.Forms.Label();
-            this.lbl_PanelSongAlbum = new System.Windows.Forms.Label();
-            this.lbl_PanelSongArtist = new System.Windows.Forms.Label();
-            this.lbl_PanelSongYear = new System.Windows.Forms.Label();
-            this.lbl_PanelSongTuning = new System.Windows.Forms.Label();
-            this.lbl_PanelSongDD = new System.Windows.Forms.Label();
-            this.lbl_PanelSongArrangements = new System.Windows.Forms.Label();
-            this.lbl_PanelSongAuthor = new System.Windows.Forms.Label();
             this.tlpSongListWrapper = new System.Windows.Forms.TableLayoutPanel();
             this.panelSongListButtons = new System.Windows.Forms.Panel();
+            this.btnSongsToBBCode = new System.Windows.Forms.Button();
+            this.btnSongsToCSV = new System.Windows.Forms.Button();
             this.btnSaveDLC = new System.Windows.Forms.Button();
             this.btnBackupDLC = new System.Windows.Forms.Button();
             this.btnDLCPage = new System.Windows.Forms.Button();
@@ -125,14 +109,11 @@
             this.timerAutoUpdate = new System.Windows.Forms.Timer(this.components);
             this.folderBrowserDialog_SettingsRSPath = new System.Windows.Forms.FolderBrowserDialog();
             this.sfdSongListToCSV = new System.Windows.Forms.SaveFileDialog();
-            this.btnSongsToBBCode = new System.Windows.Forms.Button();
-            this.btnSongsToCSV = new System.Windows.Forms.Button();
+            this.showDLCInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tlp_MainForm_Wrappper.SuspendLayout();
             this.gbLog.SuspendLayout();
             this.tcMain.SuspendLayout();
             this.tpManager.SuspendLayout();
-            this.gb_MainSongInfoPanel.SuspendLayout();
-            this.tlp_MainSongInfoWrapper.SuspendLayout();
             this.tlpSongListWrapper.SuspendLayout();
             this.panelSongListButtons.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -168,7 +149,7 @@
             this.tlp_MainForm_Wrappper.RowCount = 2;
             this.tlp_MainForm_Wrappper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 75F));
             this.tlp_MainForm_Wrappper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tlp_MainForm_Wrappper.Size = new System.Drawing.Size(1184, 562);
+            this.tlp_MainForm_Wrappper.Size = new System.Drawing.Size(784, 562);
             this.tlp_MainForm_Wrappper.TabIndex = 0;
             // 
             // gbLog
@@ -176,7 +157,7 @@
             this.gbLog.Controls.Add(this.tbLog);
             this.gbLog.Location = new System.Drawing.Point(3, 424);
             this.gbLog.Name = "gbLog";
-            this.gbLog.Size = new System.Drawing.Size(1178, 113);
+            this.gbLog.Size = new System.Drawing.Size(778, 113);
             this.gbLog.TabIndex = 1;
             this.gbLog.TabStop = false;
             this.gbLog.Text = "Log";
@@ -190,7 +171,7 @@
             this.tbLog.Name = "tbLog";
             this.tbLog.ReadOnly = true;
             this.tbLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.tbLog.Size = new System.Drawing.Size(1172, 94);
+            this.tbLog.Size = new System.Drawing.Size(772, 94);
             this.tbLog.TabIndex = 0;
             // 
             // tcMain
@@ -205,239 +186,19 @@
             this.tcMain.Location = new System.Drawing.Point(3, 3);
             this.tcMain.Name = "tcMain";
             this.tcMain.SelectedIndex = 0;
-            this.tcMain.Size = new System.Drawing.Size(1178, 415);
+            this.tcMain.Size = new System.Drawing.Size(778, 415);
             this.tcMain.TabIndex = 2;
             // 
             // tpManager
             // 
             this.tpManager.BackColor = System.Drawing.SystemColors.Control;
-            this.tpManager.Controls.Add(this.gb_MainSongInfoPanel);
             this.tpManager.Controls.Add(this.tlpSongListWrapper);
             this.tpManager.Location = new System.Drawing.Point(4, 22);
             this.tpManager.Name = "tpManager";
             this.tpManager.Padding = new System.Windows.Forms.Padding(3);
-            this.tpManager.Size = new System.Drawing.Size(1170, 389);
+            this.tpManager.Size = new System.Drawing.Size(770, 389);
             this.tpManager.TabIndex = 0;
             this.tpManager.Text = "Song Manager";
-            // 
-            // gb_MainSongInfoPanel
-            // 
-            this.gb_MainSongInfoPanel.Controls.Add(this.tlp_MainSongInfoWrapper);
-            this.gb_MainSongInfoPanel.Location = new System.Drawing.Point(776, 6);
-            this.gb_MainSongInfoPanel.Name = "gb_MainSongInfoPanel";
-            this.gb_MainSongInfoPanel.Size = new System.Drawing.Size(388, 377);
-            this.gb_MainSongInfoPanel.TabIndex = 3;
-            this.gb_MainSongInfoPanel.TabStop = false;
-            this.gb_MainSongInfoPanel.Text = "Song Info Panel";
-            // 
-            // tlp_MainSongInfoWrapper
-            // 
-            this.tlp_MainSongInfoWrapper.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Inset;
-            this.tlp_MainSongInfoWrapper.ColumnCount = 2;
-            this.tlp_MainSongInfoWrapper.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
-            this.tlp_MainSongInfoWrapper.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70F));
-            this.tlp_MainSongInfoWrapper.Controls.Add(this.lbl_PanelSongTitleLbl, 0, 1);
-            this.tlp_MainSongInfoWrapper.Controls.Add(this.lbl_PanelSongAlbumLbl, 0, 2);
-            this.tlp_MainSongInfoWrapper.Controls.Add(this.lbl_PanelSongArtistLbl, 0, 3);
-            this.tlp_MainSongInfoWrapper.Controls.Add(this.lbl_PanelSongYearLbl, 0, 4);
-            this.tlp_MainSongInfoWrapper.Controls.Add(this.lbl_PanelSongTuningLbl, 0, 5);
-            this.tlp_MainSongInfoWrapper.Controls.Add(this.lbl_PanelSongDDLbl, 0, 6);
-            this.tlp_MainSongInfoWrapper.Controls.Add(this.lbl_PanelSongArrangementsLbl, 0, 7);
-            this.tlp_MainSongInfoWrapper.Controls.Add(this.lbl_PanelSongAuthorLbl, 0, 9);
-            this.tlp_MainSongInfoWrapper.Controls.Add(this.lbl_PanelSongTitle, 1, 1);
-            this.tlp_MainSongInfoWrapper.Controls.Add(this.lbl_PanelSongAlbum, 1, 2);
-            this.tlp_MainSongInfoWrapper.Controls.Add(this.lbl_PanelSongArtist, 1, 3);
-            this.tlp_MainSongInfoWrapper.Controls.Add(this.lbl_PanelSongYear, 1, 4);
-            this.tlp_MainSongInfoWrapper.Controls.Add(this.lbl_PanelSongTuning, 1, 5);
-            this.tlp_MainSongInfoWrapper.Controls.Add(this.lbl_PanelSongDD, 1, 6);
-            this.tlp_MainSongInfoWrapper.Controls.Add(this.lbl_PanelSongArrangements, 1, 7);
-            this.tlp_MainSongInfoWrapper.Controls.Add(this.lbl_PanelSongAuthor, 1, 9);
-            this.tlp_MainSongInfoWrapper.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_MainSongInfoWrapper.Location = new System.Drawing.Point(3, 16);
-            this.tlp_MainSongInfoWrapper.Name = "tlp_MainSongInfoWrapper";
-            this.tlp_MainSongInfoWrapper.RowCount = 11;
-            this.tlp_MainSongInfoWrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tlp_MainSongInfoWrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tlp_MainSongInfoWrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tlp_MainSongInfoWrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tlp_MainSongInfoWrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tlp_MainSongInfoWrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tlp_MainSongInfoWrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tlp_MainSongInfoWrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tlp_MainSongInfoWrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tlp_MainSongInfoWrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tlp_MainSongInfoWrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_MainSongInfoWrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tlp_MainSongInfoWrapper.Size = new System.Drawing.Size(382, 358);
-            this.tlp_MainSongInfoWrapper.TabIndex = 0;
-            // 
-            // lbl_PanelSongTitleLbl
-            // 
-            this.lbl_PanelSongTitleLbl.AutoSize = true;
-            this.lbl_PanelSongTitleLbl.Dock = System.Windows.Forms.DockStyle.Right;
-            this.lbl_PanelSongTitleLbl.Location = new System.Drawing.Point(53, 24);
-            this.lbl_PanelSongTitleLbl.Name = "lbl_PanelSongTitleLbl";
-            this.lbl_PanelSongTitleLbl.Size = new System.Drawing.Size(58, 20);
-            this.lbl_PanelSongTitleLbl.TabIndex = 0;
-            this.lbl_PanelSongTitleLbl.Text = "Song Title:";
-            this.lbl_PanelSongTitleLbl.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // lbl_PanelSongAlbumLbl
-            // 
-            this.lbl_PanelSongAlbumLbl.AutoSize = true;
-            this.lbl_PanelSongAlbumLbl.Dock = System.Windows.Forms.DockStyle.Right;
-            this.lbl_PanelSongAlbumLbl.Location = new System.Drawing.Point(72, 46);
-            this.lbl_PanelSongAlbumLbl.Name = "lbl_PanelSongAlbumLbl";
-            this.lbl_PanelSongAlbumLbl.Size = new System.Drawing.Size(39, 20);
-            this.lbl_PanelSongAlbumLbl.TabIndex = 1;
-            this.lbl_PanelSongAlbumLbl.Text = "Album:";
-            this.lbl_PanelSongAlbumLbl.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // lbl_PanelSongArtistLbl
-            // 
-            this.lbl_PanelSongArtistLbl.AutoSize = true;
-            this.lbl_PanelSongArtistLbl.Dock = System.Windows.Forms.DockStyle.Right;
-            this.lbl_PanelSongArtistLbl.Location = new System.Drawing.Point(78, 68);
-            this.lbl_PanelSongArtistLbl.Name = "lbl_PanelSongArtistLbl";
-            this.lbl_PanelSongArtistLbl.Size = new System.Drawing.Size(33, 20);
-            this.lbl_PanelSongArtistLbl.TabIndex = 1;
-            this.lbl_PanelSongArtistLbl.Text = "Artist:";
-            this.lbl_PanelSongArtistLbl.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // lbl_PanelSongYearLbl
-            // 
-            this.lbl_PanelSongYearLbl.AutoSize = true;
-            this.lbl_PanelSongYearLbl.Dock = System.Windows.Forms.DockStyle.Right;
-            this.lbl_PanelSongYearLbl.Location = new System.Drawing.Point(79, 90);
-            this.lbl_PanelSongYearLbl.Name = "lbl_PanelSongYearLbl";
-            this.lbl_PanelSongYearLbl.Size = new System.Drawing.Size(32, 20);
-            this.lbl_PanelSongYearLbl.TabIndex = 1;
-            this.lbl_PanelSongYearLbl.Text = "Year:";
-            this.lbl_PanelSongYearLbl.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // lbl_PanelSongTuningLbl
-            // 
-            this.lbl_PanelSongTuningLbl.AutoSize = true;
-            this.lbl_PanelSongTuningLbl.Dock = System.Windows.Forms.DockStyle.Right;
-            this.lbl_PanelSongTuningLbl.Location = new System.Drawing.Point(68, 112);
-            this.lbl_PanelSongTuningLbl.Name = "lbl_PanelSongTuningLbl";
-            this.lbl_PanelSongTuningLbl.Size = new System.Drawing.Size(43, 20);
-            this.lbl_PanelSongTuningLbl.TabIndex = 1;
-            this.lbl_PanelSongTuningLbl.Text = "Tuning:";
-            this.lbl_PanelSongTuningLbl.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // lbl_PanelSongDDLbl
-            // 
-            this.lbl_PanelSongDDLbl.AutoSize = true;
-            this.lbl_PanelSongDDLbl.Dock = System.Windows.Forms.DockStyle.Right;
-            this.lbl_PanelSongDDLbl.Location = new System.Drawing.Point(17, 134);
-            this.lbl_PanelSongDDLbl.Name = "lbl_PanelSongDDLbl";
-            this.lbl_PanelSongDDLbl.Size = new System.Drawing.Size(94, 20);
-            this.lbl_PanelSongDDLbl.TabIndex = 1;
-            this.lbl_PanelSongDDLbl.Text = "Dynamic Difficulty:";
-            this.lbl_PanelSongDDLbl.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // lbl_PanelSongArrangementsLbl
-            // 
-            this.lbl_PanelSongArrangementsLbl.AutoSize = true;
-            this.lbl_PanelSongArrangementsLbl.Dock = System.Windows.Forms.DockStyle.Right;
-            this.lbl_PanelSongArrangementsLbl.Location = new System.Drawing.Point(36, 156);
-            this.lbl_PanelSongArrangementsLbl.Name = "lbl_PanelSongArrangementsLbl";
-            this.lbl_PanelSongArrangementsLbl.Size = new System.Drawing.Size(75, 20);
-            this.lbl_PanelSongArrangementsLbl.TabIndex = 1;
-            this.lbl_PanelSongArrangementsLbl.Text = "Arrangements:";
-            this.lbl_PanelSongArrangementsLbl.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // lbl_PanelSongAuthorLbl
-            // 
-            this.lbl_PanelSongAuthorLbl.AutoSize = true;
-            this.lbl_PanelSongAuthorLbl.Dock = System.Windows.Forms.DockStyle.Right;
-            this.lbl_PanelSongAuthorLbl.Location = new System.Drawing.Point(70, 200);
-            this.lbl_PanelSongAuthorLbl.Name = "lbl_PanelSongAuthorLbl";
-            this.lbl_PanelSongAuthorLbl.Size = new System.Drawing.Size(41, 20);
-            this.lbl_PanelSongAuthorLbl.TabIndex = 1;
-            this.lbl_PanelSongAuthorLbl.Text = "Author:";
-            this.lbl_PanelSongAuthorLbl.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // lbl_PanelSongTitle
-            // 
-            this.lbl_PanelSongTitle.AutoSize = true;
-            this.lbl_PanelSongTitle.Dock = System.Windows.Forms.DockStyle.Left;
-            this.lbl_PanelSongTitle.Location = new System.Drawing.Point(119, 24);
-            this.lbl_PanelSongTitle.Name = "lbl_PanelSongTitle";
-            this.lbl_PanelSongTitle.Size = new System.Drawing.Size(0, 20);
-            this.lbl_PanelSongTitle.TabIndex = 2;
-            this.lbl_PanelSongTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // lbl_PanelSongAlbum
-            // 
-            this.lbl_PanelSongAlbum.AutoSize = true;
-            this.lbl_PanelSongAlbum.Dock = System.Windows.Forms.DockStyle.Left;
-            this.lbl_PanelSongAlbum.Location = new System.Drawing.Point(119, 46);
-            this.lbl_PanelSongAlbum.Name = "lbl_PanelSongAlbum";
-            this.lbl_PanelSongAlbum.Size = new System.Drawing.Size(0, 20);
-            this.lbl_PanelSongAlbum.TabIndex = 2;
-            this.lbl_PanelSongAlbum.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // lbl_PanelSongArtist
-            // 
-            this.lbl_PanelSongArtist.AutoSize = true;
-            this.lbl_PanelSongArtist.Dock = System.Windows.Forms.DockStyle.Left;
-            this.lbl_PanelSongArtist.Location = new System.Drawing.Point(119, 68);
-            this.lbl_PanelSongArtist.Name = "lbl_PanelSongArtist";
-            this.lbl_PanelSongArtist.Size = new System.Drawing.Size(0, 20);
-            this.lbl_PanelSongArtist.TabIndex = 2;
-            this.lbl_PanelSongArtist.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // lbl_PanelSongYear
-            // 
-            this.lbl_PanelSongYear.AutoSize = true;
-            this.lbl_PanelSongYear.Dock = System.Windows.Forms.DockStyle.Left;
-            this.lbl_PanelSongYear.Location = new System.Drawing.Point(119, 90);
-            this.lbl_PanelSongYear.Name = "lbl_PanelSongYear";
-            this.lbl_PanelSongYear.Size = new System.Drawing.Size(0, 20);
-            this.lbl_PanelSongYear.TabIndex = 2;
-            this.lbl_PanelSongYear.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // lbl_PanelSongTuning
-            // 
-            this.lbl_PanelSongTuning.AutoSize = true;
-            this.lbl_PanelSongTuning.Dock = System.Windows.Forms.DockStyle.Left;
-            this.lbl_PanelSongTuning.Location = new System.Drawing.Point(119, 112);
-            this.lbl_PanelSongTuning.Name = "lbl_PanelSongTuning";
-            this.lbl_PanelSongTuning.Size = new System.Drawing.Size(0, 20);
-            this.lbl_PanelSongTuning.TabIndex = 2;
-            this.lbl_PanelSongTuning.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // lbl_PanelSongDD
-            // 
-            this.lbl_PanelSongDD.AutoSize = true;
-            this.lbl_PanelSongDD.Dock = System.Windows.Forms.DockStyle.Left;
-            this.lbl_PanelSongDD.Location = new System.Drawing.Point(119, 134);
-            this.lbl_PanelSongDD.Name = "lbl_PanelSongDD";
-            this.lbl_PanelSongDD.Size = new System.Drawing.Size(0, 20);
-            this.lbl_PanelSongDD.TabIndex = 2;
-            this.lbl_PanelSongDD.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // lbl_PanelSongArrangements
-            // 
-            this.lbl_PanelSongArrangements.AutoSize = true;
-            this.lbl_PanelSongArrangements.Dock = System.Windows.Forms.DockStyle.Left;
-            this.lbl_PanelSongArrangements.Location = new System.Drawing.Point(119, 156);
-            this.lbl_PanelSongArrangements.Name = "lbl_PanelSongArrangements";
-            this.lbl_PanelSongArrangements.Size = new System.Drawing.Size(0, 20);
-            this.lbl_PanelSongArrangements.TabIndex = 2;
-            this.lbl_PanelSongArrangements.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // lbl_PanelSongAuthor
-            // 
-            this.lbl_PanelSongAuthor.AutoSize = true;
-            this.lbl_PanelSongAuthor.Dock = System.Windows.Forms.DockStyle.Left;
-            this.lbl_PanelSongAuthor.Location = new System.Drawing.Point(119, 200);
-            this.lbl_PanelSongAuthor.Name = "lbl_PanelSongAuthor";
-            this.lbl_PanelSongAuthor.Size = new System.Drawing.Size(0, 20);
-            this.lbl_PanelSongAuthor.TabIndex = 2;
-            this.lbl_PanelSongAuthor.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // tlpSongListWrapper
             // 
@@ -468,6 +229,27 @@
             this.panelSongListButtons.Name = "panelSongListButtons";
             this.panelSongListButtons.Size = new System.Drawing.Size(764, 52);
             this.panelSongListButtons.TabIndex = 3;
+            // 
+            // btnSongsToBBCode
+            // 
+            this.btnSongsToBBCode.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnSongsToBBCode.Location = new System.Drawing.Point(413, 15);
+            this.btnSongsToBBCode.Name = "btnSongsToBBCode";
+            this.btnSongsToBBCode.Size = new System.Drawing.Size(150, 23);
+            this.btnSongsToBBCode.TabIndex = 13;
+            this.btnSongsToBBCode.Text = "Song list to BBCode";
+            this.btnSongsToBBCode.UseVisualStyleBackColor = true;
+            this.btnSongsToBBCode.Click += new System.EventHandler(this.btnSongsToBBCode_Click);
+            // 
+            // btnSongsToCSV
+            // 
+            this.btnSongsToCSV.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnSongsToCSV.Location = new System.Drawing.Point(250, 15);
+            this.btnSongsToCSV.Name = "btnSongsToCSV";
+            this.btnSongsToCSV.Size = new System.Drawing.Size(157, 23);
+            this.btnSongsToCSV.TabIndex = 12;
+            this.btnSongsToCSV.Text = "Song list to csv";
+            this.btnSongsToCSV.UseVisualStyleBackColor = true;
             // 
             // btnSaveDLC
             // 
@@ -558,8 +340,8 @@
             this.dgvSongs.Size = new System.Drawing.Size(764, 290);
             this.dgvSongs.TabIndex = 0;
             this.dgvSongs.DataSourceChanged += new System.EventHandler(this.dgvSongs_DataSourceChanged);
+            this.dgvSongs.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSongs_CellDoubleClick);
             this.dgvSongs.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongs_ColumnHeaderMouseClick);
-            this.dgvSongs.SelectionChanged += new System.EventHandler(this.dgvSongs_SelectionChanged);
             // 
             // colBackup
             // 
@@ -572,10 +354,11 @@
             // contextMenuStrip_MainManager
             // 
             this.contextMenuStrip_MainManager.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.showDLCInfoToolStripMenuItem,
             this.openDLCPageToolStripMenuItem,
             this.editDLCToolStripMenuItem});
             this.contextMenuStrip_MainManager.Name = "contextMenuStrip_MainManager";
-            this.contextMenuStrip_MainManager.Size = new System.Drawing.Size(158, 48);
+            this.contextMenuStrip_MainManager.Size = new System.Drawing.Size(158, 70);
             // 
             // openDLCPageToolStripMenuItem
             // 
@@ -642,7 +425,7 @@
             // 
             this.tpEditor.Location = new System.Drawing.Point(4, 22);
             this.tpEditor.Name = "tpEditor";
-            this.tpEditor.Size = new System.Drawing.Size(1170, 389);
+            this.tpEditor.Size = new System.Drawing.Size(770, 389);
             this.tpEditor.TabIndex = 3;
             this.tpEditor.Text = "Song Editor";
             this.tpEditor.UseVisualStyleBackColor = true;
@@ -652,7 +435,7 @@
             this.tpDuplicates.Controls.Add(this.tlpDuplicates);
             this.tpDuplicates.Location = new System.Drawing.Point(4, 22);
             this.tpDuplicates.Name = "tpDuplicates";
-            this.tpDuplicates.Size = new System.Drawing.Size(1170, 389);
+            this.tpDuplicates.Size = new System.Drawing.Size(770, 389);
             this.tpDuplicates.TabIndex = 4;
             this.tpDuplicates.Text = "Duplicates";
             this.tpDuplicates.UseVisualStyleBackColor = true;
@@ -767,7 +550,7 @@
             this.tpUtilities.Controls.Add(this.tableLayoutPanel2);
             this.tpUtilities.Location = new System.Drawing.Point(4, 22);
             this.tpUtilities.Name = "tpUtilities";
-            this.tpUtilities.Size = new System.Drawing.Size(1170, 389);
+            this.tpUtilities.Size = new System.Drawing.Size(770, 389);
             this.tpUtilities.TabIndex = 5;
             this.tpUtilities.Text = "Utilities";
             this.tpUtilities.UseVisualStyleBackColor = true;
@@ -784,7 +567,7 @@
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 389F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(1170, 389);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(770, 389);
             this.tableLayoutPanel2.TabIndex = 0;
             // 
             // panel4
@@ -835,7 +618,7 @@
             this.tpSettings.Location = new System.Drawing.Point(4, 22);
             this.tpSettings.Name = "tpSettings";
             this.tpSettings.Padding = new System.Windows.Forms.Padding(3);
-            this.tpSettings.Size = new System.Drawing.Size(1170, 389);
+            this.tpSettings.Size = new System.Drawing.Size(770, 389);
             this.tpSettings.TabIndex = 1;
             this.tpSettings.Text = "Settings";
             // 
@@ -859,14 +642,14 @@
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10.86262F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 81.46965F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 49F));
-            this.tlpSettings_Wrapper.Size = new System.Drawing.Size(1164, 383);
+            this.tlpSettings_Wrapper.Size = new System.Drawing.Size(764, 383);
             this.tlpSettings_Wrapper.TabIndex = 0;
             // 
             // lblSettingsRSDir
             // 
             this.lblSettingsRSDir.AutoSize = true;
             this.lblSettingsRSDir.Dock = System.Windows.Forms.DockStyle.Right;
-            this.lblSettingsRSDir.Location = new System.Drawing.Point(313, 20);
+            this.lblSettingsRSDir.Location = new System.Drawing.Point(110, 20);
             this.lblSettingsRSDir.Name = "lblSettingsRSDir";
             this.lblSettingsRSDir.Size = new System.Drawing.Size(272, 24);
             this.lblSettingsRSDir.TabIndex = 1;
@@ -876,7 +659,7 @@
             // tbSettingsRSDir
             // 
             this.tbSettingsRSDir.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.tbSettingsRSDir.Location = new System.Drawing.Point(591, 23);
+            this.tbSettingsRSDir.Location = new System.Drawing.Point(388, 23);
             this.tbSettingsRSDir.Name = "tbSettingsRSDir";
             this.tbSettingsRSDir.Size = new System.Drawing.Size(373, 20);
             this.tbSettingsRSDir.TabIndex = 2;
@@ -888,7 +671,7 @@
             this.checkRescanOnStartup.AutoSize = true;
             this.checkRescanOnStartup.Checked = true;
             this.checkRescanOnStartup.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkRescanOnStartup.Location = new System.Drawing.Point(310, 52);
+            this.checkRescanOnStartup.Location = new System.Drawing.Point(183, 52);
             this.checkRescanOnStartup.Name = "checkRescanOnStartup";
             this.checkRescanOnStartup.Size = new System.Drawing.Size(113, 17);
             this.checkRescanOnStartup.TabIndex = 3;
@@ -899,7 +682,7 @@
             // btnSettingsLoad
             // 
             this.btnSettingsLoad.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnSettingsLoad.Location = new System.Drawing.Point(801, 346);
+            this.btnSettingsLoad.Location = new System.Drawing.Point(499, 346);
             this.btnSettingsLoad.Name = "btnSettingsLoad";
             this.btnSettingsLoad.Size = new System.Drawing.Size(150, 23);
             this.btnSettingsLoad.TabIndex = 0;
@@ -910,7 +693,7 @@
             // btnSettingsSave
             // 
             this.btnSettingsSave.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnSettingsSave.Location = new System.Drawing.Point(292, 346);
+            this.btnSettingsSave.Location = new System.Drawing.Point(165, 346);
             this.btnSettingsSave.Name = "btnSettingsSave";
             this.btnSettingsSave.Size = new System.Drawing.Size(150, 23);
             this.btnSettingsSave.TabIndex = 0;
@@ -924,7 +707,7 @@
             this.tpAbout.Controls.Add(this.tableLayoutPanel1);
             this.tpAbout.Location = new System.Drawing.Point(4, 22);
             this.tpAbout.Name = "tpAbout";
-            this.tpAbout.Size = new System.Drawing.Size(1170, 389);
+            this.tpAbout.Size = new System.Drawing.Size(770, 389);
             this.tpAbout.TabIndex = 2;
             this.tpAbout.Text = "About";
             // 
@@ -943,7 +726,7 @@
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1170, 389);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(770, 389);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // lnkAboutCF
@@ -951,7 +734,7 @@
             this.lnkAboutCF.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lnkAboutCF.AutoSize = true;
             this.lnkAboutCF.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lnkAboutCF.Location = new System.Drawing.Point(789, 84);
+            this.lnkAboutCF.Location = new System.Drawing.Point(489, 84);
             this.lnkAboutCF.Name = "lnkAboutCF";
             this.lnkAboutCF.Size = new System.Drawing.Size(177, 25);
             this.lnkAboutCF.TabIndex = 0;
@@ -963,7 +746,7 @@
             // 
             this.pbAboutLogo.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.pbAboutLogo.Image = global::CustomsForgeManager_Winforms.Properties.Resources.logo_black;
-            this.pbAboutLogo.Location = new System.Drawing.Point(752, 263);
+            this.pbAboutLogo.Location = new System.Drawing.Point(452, 263);
             this.pbAboutLogo.Name = "pbAboutLogo";
             this.pbAboutLogo.Size = new System.Drawing.Size(251, 56);
             this.pbAboutLogo.TabIndex = 1;
@@ -996,7 +779,7 @@
             this.tableLayoutPanel_Credits.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel_Credits.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel_Credits.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel_Credits.Size = new System.Drawing.Size(579, 189);
+            this.tableLayoutPanel_Credits.Size = new System.Drawing.Size(379, 189);
             this.tableLayoutPanel_Credits.TabIndex = 2;
             // 
             // lbl_Credits
@@ -1004,7 +787,7 @@
             this.lbl_Credits.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lbl_Credits.AutoSize = true;
             this.lbl_Credits.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_Credits.Location = new System.Drawing.Point(104, 29);
+            this.lbl_Credits.Location = new System.Drawing.Point(54, 29);
             this.lbl_Credits.Name = "lbl_Credits";
             this.lbl_Credits.Size = new System.Drawing.Size(81, 30);
             this.lbl_Credits.TabIndex = 0;
@@ -1016,9 +799,9 @@
             this.lbl_Credits_Description.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lbl_Credits_Description.AutoSize = true;
             this.lbl_Credits_Description.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_Credits_Description.Location = new System.Drawing.Point(295, 19);
+            this.lbl_Credits_Description.Location = new System.Drawing.Point(194, 7);
             this.lbl_Credits_Description.Name = "lbl_Credits_Description";
-            this.lbl_Credits_Description.Size = new System.Drawing.Size(278, 50);
+            this.lbl_Credits_Description.Size = new System.Drawing.Size(179, 75);
             this.lbl_Credits_Description.TabIndex = 0;
             this.lbl_Credits_Description.Text = "Thanks to these people this app was created:";
             this.lbl_Credits_Description.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1028,7 +811,7 @@
             this.lbl_UnleashedRole.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lbl_UnleashedRole.AutoSize = true;
             this.lbl_UnleashedRole.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_UnleashedRole.Location = new System.Drawing.Point(73, 89);
+            this.lbl_UnleashedRole.Location = new System.Drawing.Point(23, 89);
             this.lbl_UnleashedRole.Name = "lbl_UnleashedRole";
             this.lbl_UnleashedRole.Size = new System.Drawing.Size(143, 19);
             this.lbl_UnleashedRole.TabIndex = 0;
@@ -1040,7 +823,7 @@
             this.lbl_DarjuszRole.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lbl_DarjuszRole.AutoSize = true;
             this.lbl_DarjuszRole.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_DarjuszRole.Location = new System.Drawing.Point(91, 109);
+            this.lbl_DarjuszRole.Location = new System.Drawing.Point(41, 109);
             this.lbl_DarjuszRole.Name = "lbl_DarjuszRole";
             this.lbl_DarjuszRole.Size = new System.Drawing.Size(107, 19);
             this.lbl_DarjuszRole.TabIndex = 0;
@@ -1052,7 +835,7 @@
             this.lbl_LovromanRole.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lbl_LovromanRole.AutoSize = true;
             this.lbl_LovromanRole.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_LovromanRole.Location = new System.Drawing.Point(107, 129);
+            this.lbl_LovromanRole.Location = new System.Drawing.Point(57, 129);
             this.lbl_LovromanRole.Name = "lbl_LovromanRole";
             this.lbl_LovromanRole.Size = new System.Drawing.Size(74, 19);
             this.lbl_LovromanRole.TabIndex = 0;
@@ -1064,7 +847,7 @@
             this.lbl_AlexRole.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lbl_AlexRole.AutoSize = true;
             this.lbl_AlexRole.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_AlexRole.Location = new System.Drawing.Point(107, 149);
+            this.lbl_AlexRole.Location = new System.Drawing.Point(57, 149);
             this.lbl_AlexRole.Name = "lbl_AlexRole";
             this.lbl_AlexRole.Size = new System.Drawing.Size(74, 19);
             this.lbl_AlexRole.TabIndex = 0;
@@ -1077,7 +860,7 @@
             this.link_UnleashedProfile.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.link_UnleashedProfile.AutoSize = true;
             this.link_UnleashedProfile.LinkColor = System.Drawing.Color.Red;
-            this.link_UnleashedProfile.Location = new System.Drawing.Point(399, 92);
+            this.link_UnleashedProfile.Location = new System.Drawing.Point(249, 92);
             this.link_UnleashedProfile.Name = "link_UnleashedProfile";
             this.link_UnleashedProfile.Size = new System.Drawing.Size(70, 13);
             this.link_UnleashedProfile.TabIndex = 1;
@@ -1091,7 +874,7 @@
             this.link_DarjuszProfile.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.link_DarjuszProfile.AutoSize = true;
             this.link_DarjuszProfile.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.link_DarjuszProfile.Location = new System.Drawing.Point(413, 112);
+            this.link_DarjuszProfile.Location = new System.Drawing.Point(263, 112);
             this.link_DarjuszProfile.Name = "link_DarjuszProfile";
             this.link_DarjuszProfile.Size = new System.Drawing.Size(42, 13);
             this.link_DarjuszProfile.TabIndex = 1;
@@ -1104,7 +887,7 @@
             // 
             this.link_LovromanProfile.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.link_LovromanProfile.AutoSize = true;
-            this.link_LovromanProfile.Location = new System.Drawing.Point(407, 132);
+            this.link_LovromanProfile.Location = new System.Drawing.Point(257, 132);
             this.link_LovromanProfile.Name = "link_LovromanProfile";
             this.link_LovromanProfile.Size = new System.Drawing.Size(54, 13);
             this.link_LovromanProfile.TabIndex = 1;
@@ -1117,7 +900,7 @@
             // 
             this.link_Alex360Profile.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.link_Alex360Profile.AutoSize = true;
-            this.link_Alex360Profile.Location = new System.Drawing.Point(411, 152);
+            this.link_Alex360Profile.Location = new System.Drawing.Point(261, 152);
             this.link_Alex360Profile.Name = "link_Alex360Profile";
             this.link_Alex360Profile.Size = new System.Drawing.Size(45, 13);
             this.link_Alex360Profile.TabIndex = 1;
@@ -1132,7 +915,7 @@
             this.lbl_ForgeRole.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lbl_ForgeRole.AutoSize = true;
             this.lbl_ForgeRole.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_ForgeRole.Location = new System.Drawing.Point(120, 169);
+            this.lbl_ForgeRole.Location = new System.Drawing.Point(70, 169);
             this.lbl_ForgeRole.Name = "lbl_ForgeRole";
             this.lbl_ForgeRole.Size = new System.Drawing.Size(49, 19);
             this.lbl_ForgeRole.TabIndex = 0;
@@ -1144,7 +927,7 @@
             this.link_ForgeOnProfile.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.link_ForgeOnProfile.AutoSize = true;
             this.link_ForgeOnProfile.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.link_ForgeOnProfile.Location = new System.Drawing.Point(410, 172);
+            this.link_ForgeOnProfile.Location = new System.Drawing.Point(260, 172);
             this.link_ForgeOnProfile.Name = "link_ForgeOnProfile";
             this.link_ForgeOnProfile.Size = new System.Drawing.Size(48, 13);
             this.link_ForgeOnProfile.TabIndex = 1;
@@ -1157,7 +940,7 @@
             // 
             this.pictureBox1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.pictureBox1.Image = global::CustomsForgeManager_Winforms.Properties.Resources.logo_black;
-            this.pictureBox1.Location = new System.Drawing.Point(167, 69);
+            this.pictureBox1.Location = new System.Drawing.Point(67, 69);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(251, 56);
             this.pictureBox1.TabIndex = 1;
@@ -1178,7 +961,7 @@
             this.toolStripStatusLabel_Main});
             this.statusStripMain.Location = new System.Drawing.Point(0, 540);
             this.statusStripMain.Name = "statusStripMain";
-            this.statusStripMain.Size = new System.Drawing.Size(1184, 22);
+            this.statusStripMain.Size = new System.Drawing.Size(784, 22);
             this.statusStripMain.SizingGrip = false;
             this.statusStripMain.TabIndex = 1;
             this.statusStripMain.Text = "statusStrip1";
@@ -1210,32 +993,18 @@
             this.sfdSongListToCSV.FileName = "songList.csv";
             this.sfdSongListToCSV.Filter = "csv files(*.csv)|*.csv|All files (*.*)|*.*";
             // 
-            // btnSongsToBBCode
+            // showDLCInfoToolStripMenuItem
             // 
-            this.btnSongsToBBCode.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnSongsToBBCode.Location = new System.Drawing.Point(413, 15);
-            this.btnSongsToBBCode.Name = "btnSongsToBBCode";
-            this.btnSongsToBBCode.Size = new System.Drawing.Size(150, 23);
-            this.btnSongsToBBCode.TabIndex = 13;
-            this.btnSongsToBBCode.Text = "Song list to BBCode";
-            this.btnSongsToBBCode.UseVisualStyleBackColor = true;
-            this.btnSongsToBBCode.Click += new System.EventHandler(this.btnSongsToBBCode_Click);
-            // 
-            // btnSongsToCSV
-            // 
-            this.btnSongsToCSV.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnSongsToCSV.Location = new System.Drawing.Point(250, 15);
-            this.btnSongsToCSV.Name = "btnSongsToCSV";
-            this.btnSongsToCSV.Size = new System.Drawing.Size(157, 23);
-            this.btnSongsToCSV.TabIndex = 12;
-            this.btnSongsToCSV.Text = "Song list to csv";
-            this.btnSongsToCSV.UseVisualStyleBackColor = true;
+            this.showDLCInfoToolStripMenuItem.Name = "showDLCInfoToolStripMenuItem";
+            this.showDLCInfoToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.showDLCInfoToolStripMenuItem.Text = "Show DLC Info";
+            this.showDLCInfoToolStripMenuItem.Click += new System.EventHandler(this.showDLCInfoToolStripMenuItem_Click);
             // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1184, 562);
+            this.ClientSize = new System.Drawing.Size(784, 562);
             this.Controls.Add(this.statusStripMain);
             this.Controls.Add(this.tlp_MainForm_Wrappper);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -1249,9 +1018,6 @@
             this.gbLog.PerformLayout();
             this.tcMain.ResumeLayout(false);
             this.tpManager.ResumeLayout(false);
-            this.gb_MainSongInfoPanel.ResumeLayout(false);
-            this.tlp_MainSongInfoWrapper.ResumeLayout(false);
-            this.tlp_MainSongInfoWrapper.PerformLayout();
             this.tlpSongListWrapper.ResumeLayout(false);
             this.panelSongListButtons.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
@@ -1362,26 +1128,9 @@
         private System.Windows.Forms.SaveFileDialog sfdSongListToCSV;
         private System.Windows.Forms.LinkLabel link_MainClearResults;
         private System.Windows.Forms.DataGridViewCheckBoxColumn colBackup;
-        private System.Windows.Forms.GroupBox gb_MainSongInfoPanel;
-        private System.Windows.Forms.TableLayoutPanel tlp_MainSongInfoWrapper;
-        private System.Windows.Forms.Label lbl_PanelSongTitleLbl;
-        private System.Windows.Forms.Label lbl_PanelSongAlbumLbl;
-        private System.Windows.Forms.Label lbl_PanelSongArtistLbl;
-        private System.Windows.Forms.Label lbl_PanelSongYearLbl;
-        private System.Windows.Forms.Label lbl_PanelSongTuningLbl;
-        private System.Windows.Forms.Label lbl_PanelSongDDLbl;
-        private System.Windows.Forms.Label lbl_PanelSongArrangementsLbl;
-        private System.Windows.Forms.Label lbl_PanelSongAuthorLbl;
-        private System.Windows.Forms.Label lbl_PanelSongTitle;
-        private System.Windows.Forms.Label lbl_PanelSongAlbum;
-        private System.Windows.Forms.Label lbl_PanelSongArtist;
-        private System.Windows.Forms.Label lbl_PanelSongYear;
-        private System.Windows.Forms.Label lbl_PanelSongTuning;
-        private System.Windows.Forms.Label lbl_PanelSongDD;
-        private System.Windows.Forms.Label lbl_PanelSongArrangements;
-        private System.Windows.Forms.Label lbl_PanelSongAuthor;
         private System.Windows.Forms.Button btnSongsToBBCode;
         private System.Windows.Forms.Button btnSongsToCSV;
+        private System.Windows.Forms.ToolStripMenuItem showDLCInfoToolStripMenuItem;
     }
 }
 

@@ -32,7 +32,7 @@
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>index.html</WebPage>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>25</ApplicationRevision>
+    <ApplicationRevision>26</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -74,17 +74,12 @@
     <ApplicationIcon>Resources\cfsm_48x48.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MiscUtil, Version=1.0.0.0, Culture=neutral, PublicKeyToken=d3c42c4bfacf7596, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Utilities\MiscUtil.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Utilities\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="RocksmithToolkitLib, Version=2.6.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Utilities\RocksmithToolkitLib.dll</HintPath>
+      <HintPath>..\..\rocksmith-custom-song-toolkit\RocksmithToolkitLib\bin\x86\Debug\RocksmithToolkitLib.dll</HintPath>
     </Reference>
     <Reference Include="SharpConfig, Version=1.4.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -102,14 +97,6 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
-    <Reference Include="X360, Version=1.0.0.41, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Utilities\X360.dll</HintPath>
-    </Reference>
-    <Reference Include="zlib.net, Version=1.0.3.0, Culture=neutral, PublicKeyToken=47d7877cb3620160">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Utilities\zlib.net.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Forms\frmMain.cs">
@@ -118,17 +105,26 @@
     <Compile Include="Forms\frmMain.Designer.cs">
       <DependentUpon>frmMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\frmSongInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmSongInfo.Designer.cs">
+      <DependentUpon>frmSongInfo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Logging\LogClass.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PsarcBrowser.cs" />
-    <Compile Include="SongData.cs" />
     <Compile Include="lib\Constants.cs" />
     <Compile Include="lib\Extensions.cs" />
     <Compile Include="lib\Settings.cs" />
-    <Compile Include="SongDupeData.cs" />
+    <Compile Include="lib\RS\PsarcBrowser.cs" />
+    <Compile Include="Models\SongData.cs" />
+    <Compile Include="Models\SongDupeData.cs" />
     <EmbeddedResource Include="Forms\frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmSongInfo.resx">
+      <DependentUpon>frmSongInfo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -141,6 +137,7 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <None Include="CustomsForgeManager_Winforms_TemporaryKey.pfx" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -194,15 +191,6 @@
     <Content Include="tunings.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Utilities\MiscUtil.dll" />
-    <Content Include="Utilities\MiscUtil.xml" />
-    <Content Include="Utilities\Newtonsoft.Json.dll" />
-    <Content Include="Utilities\Newtonsoft.Json.xml" />
-    <Content Include="Utilities\RocksmithToolkitLib.dll" />
-    <Content Include="Utilities\SharpConfig.dll" />
-    <Content Include="Utilities\X360.dll" />
-    <Content Include="Utilities\X360.xml" />
-    <Content Include="Utilities\zlib.net.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

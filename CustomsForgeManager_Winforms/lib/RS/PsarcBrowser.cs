@@ -6,6 +6,7 @@ using System.IO;
 using RocksmithToolkitLib;
 using RocksmithToolkitLib.DLCPackage;
 using RocksmithToolkitLib.DLCPackage.Manifest;
+using RocksmithToolkitLib.Extensions;
 using RocksmithToolkitLib.PSARC;
 using RocksmithToolkitLib.Sng2014HSL;
 using RocksmithToolkitLib.Xml;
@@ -42,62 +43,83 @@ namespace CustomsForgeManager_Winforms
         /// <returns>List of included songs.</returns>
         public IList<SongInfo> GetSongList()
         {
-            var infoFiles = archive.Entries.Where(x => x.Name.StartsWith("manifests/songs")
-                                                       && x.Name.EndsWith(".json")).OrderBy(x => x.Name);
+            string author = "";
+
+            var infoFiles = archive.TOC.Where(x => (x.Name.StartsWith("manifests/songs")
+                                                        && x.Name.EndsWith(".json"))
+                                                        
+                                                        || x.Name.Equals("toolkit.version")).OrderBy(x => x.Name);
 
             var songList = new List<SongInfo>();
             SongInfo currentSong = null;
 
             foreach (var entry in infoFiles)
             {
-                var fileName = Path.GetFileNameWithoutExtension(entry.Name);
-                var splitPoint = fileName.LastIndexOf('_');
-                var identifier = fileName.Substring(0, splitPoint);
-                var arrangement = fileName.Substring(splitPoint + 1);
-
-                if (arrangement.ToLower() == "vocals" || arrangement.ToLower() == "jvocals")
-                    continue;
-
-                if (arrangement.ToLower() == "showlights" || arrangement.ToLower() == "jshowlights")
-                    continue;
-
-                if (currentSong == null || currentSong.Identifier != identifier)
+                if (entry.Name.Equals("toolkit.version"))
                 {
-                    using (var ms = new MemoryStream())
-                    using (var reader = new StreamReader(ms, new UTF8Encoding(), false, 1024))
-                    {
-                        try
-                        {
-                            entry.Data.CopyTo(ms);
-                            entry.Data.Position = 0;
-                            ms.Position = 0;
-                            JObject o = JObject.Parse(reader.ReadToEnd());
-                            var attributes = o["Entries"].First.Last["Attributes"];
+                        ToolkitInfo tkInfo = GeneralExtensions.GetToolkitInfo(new StreamReader(entry.Data));
+                        author = tkInfo.PackageAuthor;
+                }
+                else
+                {
+                    var fileName = Path.GetFileNameWithoutExtension(entry.Name);
+                    var splitPoint = fileName.LastIndexOf('_');
+                    var identifier = fileName.Substring(0, splitPoint);
+                    var arrangement = fileName.Substring(splitPoint + 1);
 
-                            currentSong = new SongInfo()
-                            {
-                                Title = attributes["SongName"].ToString(),
-                                Artist = attributes["ArtistName"].ToString(),
-                                Album = attributes["AlbumName"].ToString(),
-                                Year = attributes["SongYear"].ToString(),
-                                Tuning = Regex.Replace(attributes["Tuning"].ToString(), @"""(?:\\.|[^""\r\n\\])*""", "").Replace(@"\s+", "").Replace("{", "").Replace("}", "").Replace(",", "").Replace(": ", "").Replace(Environment.NewLine, string.Empty).Replace(" ", String.Empty),
-                                Updated = attributes["LastConversionDateTime"].ToString(),
-                                Identifier = identifier,
-                                DD = attributes["MaxPhraseDifficulty"].ToString(),
-                                //Author = attributes["Version"].ToString(),
-                                Arrangements = new List<string>(),
-                            };
-                            songList.Add(currentSong);
-                        }
-                        catch (NullReferenceException)
+                    if (arrangement.ToLower() == "vocals" || arrangement.ToLower() == "jvocals")
+                        continue;
+
+                    if (arrangement.ToLower() == "showlights" || arrangement.ToLower() == "jshowlights")
+                        continue;
+
+                    if (currentSong == null || currentSong.Identifier != identifier)
+                    {
+                        using (var ms = new MemoryStream())
+                        using (var reader = new StreamReader(ms, new UTF8Encoding(), false, 1024))
                         {
-                            // It appears the vocal arrangements don't contain all the track
-                            // information. Just ignore this.
+                            try
+                            {
+                                entry.Data.CopyTo(ms);
+                                entry.Data.Position = 0;
+                                ms.Position = 0;
+                                JObject o = JObject.Parse(reader.ReadToEnd());
+                                var attributes = o["Entries"].First.Last["Attributes"];
+
+                                currentSong = new SongInfo()
+                                {
+                                    Title = attributes["SongName"].ToString(),
+                                    Artist = attributes["ArtistName"].ToString(),
+                                    Album = attributes["AlbumName"].ToString(),
+                                    Year = attributes["SongYear"].ToString(),
+                                    Tuning =
+                                        Regex.Replace(attributes["Tuning"].ToString(), @"""(?:\\.|[^""\r\n\\])*""", "")
+                                            .Replace(@"\s+", "")
+                                            .Replace("{", "")
+                                            .Replace("}", "")
+                                            .Replace(",", "")
+                                            .Replace(": ", "")
+                                            .Replace(Environment.NewLine, string.Empty)
+                                            .Replace(" ", String.Empty),
+                                    Updated = attributes["LastConversionDateTime"].ToString(),
+                                    Identifier = identifier,
+                                    DD = attributes["MaxPhraseDifficulty"].ToString(),
+                                    //Author = attributes["Version"].ToString(),
+                                    Author = author,
+                                    Arrangements = new List<string>(),
+                                };
+                                songList.Add(currentSong);
+                            }
+                            catch (NullReferenceException)
+                            {
+                                // It appears the vocal arrangements don't contain all the track
+                                // information. Just ignore this.
+                            }
                         }
                     }
-                }
 
-                currentSong.Arrangements.Add(arrangement);
+                    currentSong.Arrangements.Add(arrangement);
+                }
             }
 
             return songList;
@@ -117,9 +139,9 @@ namespace CustomsForgeManager_Winforms
             // .json manifest.
             Console.WriteLine("GetArrangement called with identifier [{0}], arrangement {{{1}}}", identifier,
                               arrangement);
-            var sngFile = archive.Entries.FirstOrDefault(x => x.Name == "songs/bin/generic/" +
+            var sngFile = archive.TOC.FirstOrDefault(x => x.Name == "songs/bin/generic/" +
                                                                         identifier + "_" + arrangement + ".sng");
-            var jsonFile = archive.Entries.FirstOrDefault(x => x.Name.StartsWith("manifests/songs") &&
+            var jsonFile = archive.TOC.FirstOrDefault(x => x.Name.StartsWith("manifests/songs") &&
                                                                x.Name.EndsWith("/" + identifier + "_" + arrangement +
                                                                                ".json"));
             if (sngFile == null || jsonFile == null)

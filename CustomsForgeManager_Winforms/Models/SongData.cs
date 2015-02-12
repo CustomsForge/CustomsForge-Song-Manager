@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace CustomsForgeManager_Winforms
 {
     [Serializable]
-    class SongData
+    public class SongData
     {
         public string Preview { get; set; }
         public string Artist { get; set; }

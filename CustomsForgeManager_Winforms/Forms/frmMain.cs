@@ -202,6 +202,17 @@ namespace CustomsForgeManager_Winforms.Forms
         }
 
         #region GUIEventHandlers
+
+        private void showDLCInfoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowSongInfo();
+        }
+
+        private void dgvSongs_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            ShowSongInfo();
+        }
+
         private void btnSongsToBBCode_Click(object sender, EventArgs e)
         {
 
@@ -530,7 +541,8 @@ namespace CustomsForgeManager_Winforms.Forms
             if (dataGridViewColumn != null && dataGridViewColumn.Visible)
                 dataGridViewColumn.Visible = false;
         }
-        private void dgvSongs_SelectionChanged(object sender, EventArgs e)
+
+        private void ShowSongInfo()
         {
             if (dgvSongs.SelectedRows.Count > 0)
             {
@@ -542,7 +554,10 @@ namespace CustomsForgeManager_Winforms.Forms
                 var song =
                     SongCollection.SingleOrDefault(x => x.Song == title && x.Album == album && x.Artist == artist);
                 if (song != null)
-                    PopulateSongInfo(song);
+                {
+                    frmSongInfo infoWindow = new frmSongInfo(song);
+                    infoWindow.Show();
+                }
             }
         }
 
@@ -571,6 +586,9 @@ namespace CustomsForgeManager_Winforms.Forms
             System.Diagnostics.Process.Start("http://customsforge.com/user/345-forgeon/");
         }
         #endregion
+
+
+
         #region Settings
         private void ResetSettings()
         {
@@ -875,16 +893,7 @@ namespace CustomsForgeManager_Winforms.Forms
             var results = songsToShow.Where(x => x.Artist.ToLower().Contains(criteria.ToLower()) || x.Album.ToLower().Contains(criteria.ToLower()) || x.Song.ToLower().Contains(criteria.ToLower()) || x.Tuning.ToLower().Contains(criteria.ToLower())).ToList();
             dgvSongs.DataSource = results;
         }
-        private void PopulateSongInfo(SongData song)
-        {
-            lbl_PanelSongTitle.Text = song.Song;
-            lbl_PanelSongAlbum.Text = song.Album;
-            lbl_PanelSongArtist.Text = song.Artist;
-            lbl_PanelSongYear.Text = song.SongYear;
-            lbl_PanelSongTuning.Text = song.Tuning;
-            lbl_PanelSongArrangements.Text = song.Arrangements;
-            lbl_PanelSongDD.Text = DifficultyToDD(song.DD);
-            lbl_PanelSongAuthor.Text = song.Author;
-        }
+
+        
     }
 }
