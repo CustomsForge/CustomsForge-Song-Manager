@@ -22,6 +22,7 @@ namespace CustomsForgeManager_Winforms.Forms
         private readonly Log myLog;
         private Settings mySettings;
         private static XElement root;
+        private int lastSelectedColumn = 0;
 
         private BindingList<SongData> SongCollection = new BindingList<SongData>();
         private List<SongDupeData> DupeCollection = new List<SongDupeData>();
@@ -216,12 +217,164 @@ namespace CustomsForgeManager_Winforms.Forms
         {
             ShowSongInfo();
         }
-
+        private void dgvSongs_DataSourceChanged(object sender, EventArgs e)
+        {
+            var dataGridViewColumn = ((DataGridView)sender).Columns["Preview"];
+            if (dataGridViewColumn != null && dataGridViewColumn.Visible)
+                dataGridViewColumn.Visible = false;
+        }
         private void dgvSongs_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             ShowSongInfo();
         }
-
+        private void dgvSongs_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            BindingSource bs = new BindingSource();
+            var songsToShow = from song in SongCollection
+                              select new
+                              {
+                                  song.Song,
+                                  song.Artist,
+                                  song.Album,
+                                  song.Updated,
+                                  song.Tuning,
+                                  DD = DifficultyToDD(song.DD),
+                                  song.Arrangements,
+                                  song.Author,
+                                  song.NewAvailable
+                              };
+            if (e.ColumnIndex == 1)
+            {
+                if (sortDescending)
+                {
+                    bs.DataSource = songsToShow.OrderByDescending(song => song.Song);
+                    sortDescending = false;
+                }
+                else
+                {
+                    bs.DataSource = songsToShow.OrderBy(song => song.Song);
+                    sortDescending = true;
+                }
+                lastSelectedColumn = 1;
+            }
+            else if (e.ColumnIndex == 2)
+            {
+                if (sortDescending)
+                {
+                    bs.DataSource = songsToShow.OrderByDescending(song => song.Artist);
+                    sortDescending = false;
+                }
+                else
+                {
+                    bs.DataSource = songsToShow.OrderBy(song => song.Artist);
+                    sortDescending = true;
+                }
+                lastSelectedColumn = 2;
+            }
+            else if (e.ColumnIndex == 3)
+            {
+                if (sortDescending)
+                {
+                    bs.DataSource = songsToShow.OrderByDescending(song => song.Album);
+                    sortDescending = false;
+                }
+                else
+                {
+                    bs.DataSource = songsToShow.OrderBy(song => song.Album);
+                    sortDescending = true;
+                }
+                lastSelectedColumn = 3;
+            }
+            else if (e.ColumnIndex == 4)
+            {
+                if (sortDescending)
+                {
+                    bs.DataSource = songsToShow.OrderByDescending(song => DateTime.ParseExact(song.Updated, "M-d-y H:m", System.Globalization.CultureInfo.InvariantCulture));
+                    sortDescending = false;
+                }
+                else
+                {
+                    bs.DataSource = songsToShow.OrderBy(song => DateTime.ParseExact(song.Updated, "M-d-y H:m", System.Globalization.CultureInfo.InvariantCulture));
+                    sortDescending = true;
+                }
+                lastSelectedColumn = 4;
+            }
+            else if (e.ColumnIndex == 5)
+            {
+                if (sortDescending)
+                {
+                    bs.DataSource = songsToShow.OrderByDescending(song => song.Tuning);
+                    sortDescending = false;
+                }
+                else
+                {
+                    bs.DataSource = songsToShow.OrderBy(song => song.Tuning);
+                    sortDescending = true;
+                }
+                lastSelectedColumn = 5;
+            }
+            else if (e.ColumnIndex == 6)
+            {
+                if (sortDescending)
+                {
+                    bs.DataSource = songsToShow.OrderByDescending(song => song.DD);
+                    sortDescending = false;
+                }
+                else
+                {
+                    bs.DataSource = songsToShow.OrderBy(song => song.DD);
+                    sortDescending = true;
+                }
+                lastSelectedColumn = 6;
+            }
+            else if (e.ColumnIndex == 7)
+            {
+                if (sortDescending)
+                {
+                    bs.DataSource = songsToShow.OrderByDescending(song => song.Arrangements);
+                    sortDescending = false;
+                }
+                else
+                {
+                    bs.DataSource = songsToShow.OrderBy(song => song.Arrangements);
+                    sortDescending = true;
+                }
+                lastSelectedColumn = 7;
+            }
+            else if (e.ColumnIndex == 8)
+            {
+                if (sortDescending)
+                {
+                    bs.DataSource = songsToShow.OrderByDescending(song => song.Author);
+                    sortDescending = false;
+                }
+                else
+                {
+                    bs.DataSource = songsToShow.OrderBy(song => song.Author);
+                    sortDescending = true;
+                }
+                lastSelectedColumn = 8;
+            }
+            else if (e.ColumnIndex == 9)
+            {
+                lastSelectedColumn = 9;
+            }
+            else
+            {
+                if (sortDescending)
+                {
+                    bs.DataSource = songsToShow.OrderByDescending(song => song.Song);
+                    sortDescending = false;
+                }
+                else
+                {
+                    bs.DataSource = songsToShow.OrderBy(song => song.Song);
+                    sortDescending = true;
+                }
+            }   
+            dgvSongs.DataSource = bs;
+            dgvSongs.FirstDisplayedScrollingColumnIndex = lastSelectedColumn;
+        }
         private void btnSongsToBBCode_Click(object sender, EventArgs e)
         {
 
@@ -253,138 +406,7 @@ namespace CustomsForgeManager_Winforms.Forms
                 Log("<Error>:" + ex.Message);
             }
         }
-        private void dgvSongs_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            BindingSource bs = new BindingSource();
-            var songsToShow = from song in SongCollection
-                              select new
-                              {
-                                  song.Song, song.Artist, song.Album, song.Updated, song.Tuning,
-                                  DD = DifficultyToDD(song.DD), song.Arrangements, song.Author, song.NewAvailable
-                              };
-            if (e.ColumnIndex == 1)
-            {
-                if (sortDescending)
-                {
-                    bs.DataSource = songsToShow.OrderByDescending(song => song.Song);
-                    sortDescending = false;
-                }
-                else
-                {
-                    bs.DataSource = songsToShow.OrderBy(song => song.Song);
-                    sortDescending = true;
-                }
-            }
-            else if (e.ColumnIndex == 2)
-            {
-                if (sortDescending)
-                {
-                    bs.DataSource = songsToShow.OrderByDescending(song => song.Artist);
-                    sortDescending = false;
-                }
-                else
-                {
-                    bs.DataSource = songsToShow.OrderBy(song => song.Artist);
-                    sortDescending = true;
-                }
-            }
-            else if (e.ColumnIndex == 3)
-            {
-                if (sortDescending)
-                {
-                    bs.DataSource = songsToShow.OrderByDescending(song => song.Album);
-                    sortDescending = false;
-                }
-                else
-                {
-                    bs.DataSource = songsToShow.OrderBy(song => song.Album);
-                    sortDescending = true;
-                }
-            }
-            else if (e.ColumnIndex == 4)
-            {
-                if (sortDescending)
-                {
-                    bs.DataSource = songsToShow.OrderByDescending(song => DateTime.ParseExact(song.Updated, "M-d-y H:m", System.Globalization.CultureInfo.InvariantCulture));
-                    sortDescending = false;
-                }
-                else
-                {
-                    bs.DataSource = songsToShow.OrderBy(song => DateTime.ParseExact(song.Updated, "M-d-y H:m", System.Globalization.CultureInfo.InvariantCulture));
-                    sortDescending = true;
-                }
-            }
-            else if (e.ColumnIndex == 5)
-            {
-                if (sortDescending)
-                {
-                    bs.DataSource = songsToShow.OrderByDescending(song => song.Tuning);
-                    sortDescending = false;
-                }
-                else
-                {
-                    bs.DataSource = songsToShow.OrderBy(song => song.Tuning);
-                    sortDescending = true;
-                }
-            }
-            else if (e.ColumnIndex == 6)
-            {
-                if (sortDescending)
-                {
-                    bs.DataSource = songsToShow.OrderByDescending(song => song.DD);
-                    sortDescending = false;
-                }
-                else
-                {
-                    bs.DataSource = songsToShow.OrderBy(song => song.DD);
-                    sortDescending = true;
-                }
-            }
-            else if (e.ColumnIndex == 7)
-            {
-                if (sortDescending)
-                {
-                    bs.DataSource = songsToShow.OrderByDescending(song => song.Arrangements);
-                    sortDescending = false;
-                }
-                else
-                {
-                    bs.DataSource = songsToShow.OrderBy(song => song.Arrangements);
-                    sortDescending = true;
-                }
-            }
-            else if (e.ColumnIndex == 8)
-            {
-                if (sortDescending)
-                {
-                    bs.DataSource = songsToShow.OrderByDescending(song => song.Author);
-                    sortDescending = false;
-                }
-                else
-                {
-                    bs.DataSource = songsToShow.OrderBy(song => song.Author);
-                    sortDescending = true;
-                }
-            }
-            else if (e.ColumnIndex == 9)
-            {
-            
-            }
-            else
-            {
-                if (sortDescending)
-                {
-                    bs.DataSource = songsToShow.OrderByDescending(song => song.Song);
-                   sortDescending = false;
-                }
-               else
-                {
-                    bs.DataSource = songsToShow.OrderBy(song => song.Song);
-                    sortDescending = true;
-                }
-            }
-            dgvSongs.DataSource = bs;
-        }
+     
         private void btnLaunchSteam_Click(object sender, EventArgs e)
         {
             Process[] rocksmithProcess = Process.GetProcessesByName("Rocksmith2014.exe");
@@ -572,13 +594,6 @@ namespace CustomsForgeManager_Winforms.Forms
                               }).ToList();
             dgvSongs.DataSource = songsToShow;
             tbSearch.InvokeIfRequired(delegate { tbSearch.Text = ""; });
-        }
-
-        private void dgvSongs_DataSourceChanged(object sender, EventArgs e)
-        {
-            var dataGridViewColumn = ((DataGridView)sender).Columns["Preview"];
-            if (dataGridViewColumn != null && dataGridViewColumn.Visible)
-                dataGridViewColumn.Visible = false;
         }
 
         private void ShowSongInfo()
