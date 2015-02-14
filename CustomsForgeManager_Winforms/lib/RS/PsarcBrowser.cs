@@ -124,14 +124,7 @@ namespace CustomsForgeManager_Winforms
             {
                 if (authors.Count > 0)
                 {
-                    if(authors[i] == null)
-                    {
-                        songList[i].Author = "Author unknown";
-                    }
-                    else 
-                    { 
-                        songList[i].Author = authors[i]; 
-                    }
+                    songList[i].Author = authors[i];
                 }
             }
             return songList;

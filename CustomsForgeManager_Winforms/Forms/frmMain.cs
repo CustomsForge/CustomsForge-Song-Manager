@@ -255,7 +255,7 @@ namespace CustomsForgeManager_Winforms.Forms
                                   song.Song, song.Artist, song.Album, song.Updated, song.Tuning,
                                   DD = DifficultyToDD(song.DD), song.Arrangements, song.Author, song.NewAvailable
                               };
-            if (e.ColumnIndex == 3)
+            if (e.ColumnIndex == 1)
             {
                 if (sortDescending)
                 {
@@ -268,7 +268,7 @@ namespace CustomsForgeManager_Winforms.Forms
                     sortDescending = true;
                 }
             }
-            else if (e.ColumnIndex == 4)
+            else if (e.ColumnIndex == 2)
             {
                 if (sortDescending)
                 {
@@ -281,7 +281,7 @@ namespace CustomsForgeManager_Winforms.Forms
                     sortDescending = true;
                 }
             }
-            else if (e.ColumnIndex == 5)
+            else if (e.ColumnIndex == 3)
             {
                 if (sortDescending)
                 {
@@ -294,7 +294,7 @@ namespace CustomsForgeManager_Winforms.Forms
                     sortDescending = true;
                 }
             }
-            else if (e.ColumnIndex == 6)
+            else if (e.ColumnIndex == 4)
             {
                 if (sortDescending)
                 {
@@ -307,7 +307,7 @@ namespace CustomsForgeManager_Winforms.Forms
                     sortDescending = true;
                 }
             }
-            else if (e.ColumnIndex == 7)
+            else if (e.ColumnIndex == 5)
             {
                 if (sortDescending)
                 {
@@ -320,7 +320,7 @@ namespace CustomsForgeManager_Winforms.Forms
                     sortDescending = true;
                 }
             }
-            else if (e.ColumnIndex == 8)
+            else if (e.ColumnIndex == 6)
             {
                 if (sortDescending)
                 {
@@ -333,7 +333,20 @@ namespace CustomsForgeManager_Winforms.Forms
                     sortDescending = true;
                 }
             }
-            else if (e.ColumnIndex == 9)
+            else if (e.ColumnIndex == 7)
+            {
+                if (sortDescending)
+                {
+                    bs.DataSource = songsToShow.OrderByDescending(song => song.Arrangements);
+                    sortDescending = false;
+                }
+                else
+                {
+                    bs.DataSource = songsToShow.OrderBy(song => song.Arrangements);
+                    sortDescending = true;
+                }
+            }
+            else if (e.ColumnIndex == 8)
             {
                 if (sortDescending)
                 {
@@ -346,16 +359,20 @@ namespace CustomsForgeManager_Winforms.Forms
                     sortDescending = true;
                 }
             }
+            else if (e.ColumnIndex == 9)
+            {
+            
+            }
             else
             {
                 if (sortDescending)
                 {
                     bs.DataSource = songsToShow.OrderByDescending(song => song.Song);
-                    sortDescending = false;
+                   sortDescending = false;
                 }
-                else
+               else
                 {
-                    bs.DataSource = songsToShow.OrderBy(song => song.Song);
+                   bs.DataSource = songsToShow.OrderBy(song => song.Song);
                     sortDescending = true;
                 }
             }
