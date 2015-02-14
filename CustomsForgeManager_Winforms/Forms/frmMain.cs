@@ -22,7 +22,6 @@ namespace CustomsForgeManager_Winforms.Forms
         private readonly Log myLog;
         private Settings mySettings;
         private static XElement root;
-        private int lastSelectedColumn = 0;
 
         private BindingList<SongData> SongCollection = new BindingList<SongData>();
         private List<SongDupeData> DupeCollection = new List<SongDupeData>();
@@ -229,6 +228,7 @@ namespace CustomsForgeManager_Winforms.Forms
         }
         private void dgvSongs_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
+            int scrollOffset = 0;
             BindingSource bs = new BindingSource();
             var songsToShow = from song in SongCollection
                               select new
@@ -255,7 +255,6 @@ namespace CustomsForgeManager_Winforms.Forms
                     bs.DataSource = songsToShow.OrderBy(song => song.Song);
                     sortDescending = true;
                 }
-                lastSelectedColumn = 1;
             }
             else if (e.ColumnIndex == 2)
             {
@@ -269,7 +268,6 @@ namespace CustomsForgeManager_Winforms.Forms
                     bs.DataSource = songsToShow.OrderBy(song => song.Artist);
                     sortDescending = true;
                 }
-                lastSelectedColumn = 2;
             }
             else if (e.ColumnIndex == 3)
             {
@@ -283,7 +281,6 @@ namespace CustomsForgeManager_Winforms.Forms
                     bs.DataSource = songsToShow.OrderBy(song => song.Album);
                     sortDescending = true;
                 }
-                lastSelectedColumn = 3;
             }
             else if (e.ColumnIndex == 4)
             {
@@ -297,7 +294,6 @@ namespace CustomsForgeManager_Winforms.Forms
                     bs.DataSource = songsToShow.OrderBy(song => DateTime.ParseExact(song.Updated, "M-d-y H:m", System.Globalization.CultureInfo.InvariantCulture));
                     sortDescending = true;
                 }
-                lastSelectedColumn = 4;
             }
             else if (e.ColumnIndex == 5)
             {
@@ -311,7 +307,6 @@ namespace CustomsForgeManager_Winforms.Forms
                     bs.DataSource = songsToShow.OrderBy(song => song.Tuning);
                     sortDescending = true;
                 }
-                lastSelectedColumn = 5;
             }
             else if (e.ColumnIndex == 6)
             {
@@ -325,7 +320,6 @@ namespace CustomsForgeManager_Winforms.Forms
                     bs.DataSource = songsToShow.OrderBy(song => song.DD);
                     sortDescending = true;
                 }
-                lastSelectedColumn = 6;
             }
             else if (e.ColumnIndex == 7)
             {
@@ -339,7 +333,6 @@ namespace CustomsForgeManager_Winforms.Forms
                     bs.DataSource = songsToShow.OrderBy(song => song.Arrangements);
                     sortDescending = true;
                 }
-                lastSelectedColumn = 7;
             }
             else if (e.ColumnIndex == 8)
             {
@@ -353,11 +346,10 @@ namespace CustomsForgeManager_Winforms.Forms
                     bs.DataSource = songsToShow.OrderBy(song => song.Author);
                     sortDescending = true;
                 }
-                lastSelectedColumn = 8;
             }
             else if (e.ColumnIndex == 9)
             {
-                lastSelectedColumn = 9;
+               
             }
             else
             {
@@ -371,9 +363,10 @@ namespace CustomsForgeManager_Winforms.Forms
                     bs.DataSource = songsToShow.OrderBy(song => song.Song);
                     sortDescending = true;
                 }
-            }   
+            }
+            scrollOffset = dgvSongs.HorizontalScrollingOffset;
             dgvSongs.DataSource = bs;
-            dgvSongs.FirstDisplayedScrollingColumnIndex = lastSelectedColumn;
+            dgvSongs.HorizontalScrollingOffset = scrollOffset;
         }
         private void btnSongsToBBCode_Click(object sender, EventArgs e)
         {
