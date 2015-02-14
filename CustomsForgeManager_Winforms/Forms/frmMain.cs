@@ -12,6 +12,7 @@ using System.IO.Compression;
 using System.Diagnostics;
 using System.Text;
 using System.Xml.Linq;
+using RocksmithToolkitLib.Extensions;
 
 namespace CustomsForgeManager_Winforms.Forms
 {
@@ -104,6 +105,7 @@ namespace CustomsForgeManager_Winforms.Forms
                 {
                     var browser = new PsarcBrowser(file);
                     var songList = browser.GetSongList();
+              
                     foreach (var song in songList)
                     {
                         var arrangements = "";
@@ -253,7 +255,7 @@ namespace CustomsForgeManager_Winforms.Forms
                                   song.Song, song.Artist, song.Album, song.Updated, song.Tuning,
                                   DD = DifficultyToDD(song.DD), song.Arrangements, song.Author, song.NewAvailable
                               };
-            if (e.ColumnIndex == 2)
+            if (e.ColumnIndex == 3)
             {
                 if (sortDescending)
                 {
@@ -266,7 +268,7 @@ namespace CustomsForgeManager_Winforms.Forms
                     sortDescending = true;
                 }
             }
-            else if (e.ColumnIndex == 3)
+            else if (e.ColumnIndex == 4)
             {
                 if (sortDescending)
                 {
@@ -279,7 +281,7 @@ namespace CustomsForgeManager_Winforms.Forms
                     sortDescending = true;
                 }
             }
-            else if (e.ColumnIndex == 4)
+            else if (e.ColumnIndex == 5)
             {
                 if (sortDescending)
                 {
@@ -292,7 +294,7 @@ namespace CustomsForgeManager_Winforms.Forms
                     sortDescending = true;
                 }
             }
-            else if (e.ColumnIndex == 5)
+            else if (e.ColumnIndex == 6)
             {
                 if (sortDescending)
                 {
@@ -305,7 +307,7 @@ namespace CustomsForgeManager_Winforms.Forms
                     sortDescending = true;
                 }
             }
-            else if (e.ColumnIndex == 6)
+            else if (e.ColumnIndex == 7)
             {
                 if (sortDescending)
                 {
@@ -318,7 +320,7 @@ namespace CustomsForgeManager_Winforms.Forms
                     sortDescending = true;
                 }
             }
-            else if (e.ColumnIndex == 7)
+            else if (e.ColumnIndex == 8)
             {
                 if (sortDescending)
                 {
@@ -328,6 +330,19 @@ namespace CustomsForgeManager_Winforms.Forms
                 else
                 {
                     bs.DataSource = songsToShow.OrderBy(song => song.DD);
+                    sortDescending = true;
+                }
+            }
+            else if (e.ColumnIndex == 9)
+            {
+                if (sortDescending)
+                {
+                    bs.DataSource = songsToShow.OrderByDescending(song => song.Author);
+                    sortDescending = false;
+                }
+                else
+                {
+                    bs.DataSource = songsToShow.OrderBy(song => song.Author);
                     sortDescending = true;
                 }
             }
@@ -586,9 +601,6 @@ namespace CustomsForgeManager_Winforms.Forms
             System.Diagnostics.Process.Start("http://customsforge.com/user/345-forgeon/");
         }
         #endregion
-
-
-
         #region Settings
         private void ResetSettings()
         {
@@ -893,7 +905,5 @@ namespace CustomsForgeManager_Winforms.Forms
             var results = songsToShow.Where(x => x.Artist.ToLower().Contains(criteria.ToLower()) || x.Album.ToLower().Contains(criteria.ToLower()) || x.Song.ToLower().Contains(criteria.ToLower()) || x.Tuning.ToLower().Contains(criteria.ToLower())).ToList();
             dgvSongs.DataSource = results;
         }
-
-        
     }
 }
