@@ -13,6 +13,7 @@ using RocksmithToolkitLib.Xml;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Windows.Forms;
 
 namespace CustomsForgeManager_Winforms
 {
@@ -43,11 +44,11 @@ namespace CustomsForgeManager_Winforms
         /// <returns>List of included songs.</returns>
         public IList<SongInfo> GetSongList()
         {
-            string author = "";
+            List<string> authors = new List<string>();
 
             var infoFiles = archive.TOC.Where(x => (x.Name.StartsWith("manifests/songs")
                                                         && x.Name.EndsWith(".json"))
-                                                        
+
                                                         || x.Name.Equals("toolkit.version")).OrderBy(x => x.Name);
 
             var songList = new List<SongInfo>();
@@ -57,8 +58,8 @@ namespace CustomsForgeManager_Winforms
             {
                 if (entry.Name.Equals("toolkit.version"))
                 {
-                        ToolkitInfo tkInfo = GeneralExtensions.GetToolkitInfo(new StreamReader(entry.Data));
-                        author = tkInfo.PackageAuthor;
+                    ToolkitInfo tkInfo = GeneralExtensions.GetToolkitInfo(new StreamReader(entry.Data));
+                    authors.Add(tkInfo.PackageAuthor);
                 }
                 else
                 {
@@ -85,7 +86,6 @@ namespace CustomsForgeManager_Winforms
                                 ms.Position = 0;
                                 JObject o = JObject.Parse(reader.ReadToEnd());
                                 var attributes = o["Entries"].First.Last["Attributes"];
-
                                 currentSong = new SongInfo()
                                 {
                                     Title = attributes["SongName"].ToString(),
@@ -105,7 +105,6 @@ namespace CustomsForgeManager_Winforms
                                     Identifier = identifier,
                                     DD = attributes["MaxPhraseDifficulty"].ToString(),
                                     //Author = attributes["Version"].ToString(),
-                                    Author = author,
                                     Arrangements = new List<string>(),
                                 };
                                 songList.Add(currentSong);
@@ -116,12 +115,18 @@ namespace CustomsForgeManager_Winforms
                                 // information. Just ignore this.
                             }
                         }
-                    }
 
+                    }
                     currentSong.Arrangements.Add(arrangement);
                 }
             }
-
+            for (int i = 0; i < songList.Count; i++)
+            {
+                if (authors.Count > 0)
+                {
+                    songList[i].Author = authors[i];
+                }
+            }
             return songList;
         }
 
