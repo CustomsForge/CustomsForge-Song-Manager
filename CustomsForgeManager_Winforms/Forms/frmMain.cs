@@ -134,7 +134,14 @@ namespace CustomsForgeManager_Winforms.Forms
                 }
                 catch (Exception ex)
                 {
-                    Log(file + ":" + ex.Message);
+                    if (ex.Message.StartsWith("Error reading JObject"))
+                    {
+                        Log(file + ":" + "DLC is corrupt!");
+                    }
+                    else
+                    {
+                        Log(file + ":" + ex.Message);
+                    }
                 }
                 finally
                 {
@@ -372,7 +379,7 @@ namespace CustomsForgeManager_Winforms.Forms
                 }
                else
                 {
-                   bs.DataSource = songsToShow.OrderBy(song => song.Song);
+                    bs.DataSource = songsToShow.OrderBy(song => song.Song);
                     sortDescending = true;
                 }
             }
