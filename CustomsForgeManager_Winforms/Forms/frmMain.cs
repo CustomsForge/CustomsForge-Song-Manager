@@ -224,7 +224,8 @@ namespace CustomsForgeManager_Winforms.Forms
         }
         private void dgvSongs_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            ShowSongInfo();
+            if (e.RowIndex != -1) //if it's not header
+                ShowSongInfo();
         }
         private void dgvSongs_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
