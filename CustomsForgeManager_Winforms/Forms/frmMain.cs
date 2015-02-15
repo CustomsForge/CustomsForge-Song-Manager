@@ -990,26 +990,5 @@ namespace CustomsForgeManager_Winforms.Forms
             SortedSongCollection = (List<SongData>)(SongCollection.Where(x => x.Artist.ToLower().Contains(criteria.ToLower()) || x.Album.ToLower().Contains(criteria.ToLower()) || x.Song.ToLower().Contains(criteria.ToLower()) || x.Tuning.ToLower().Contains(criteria.ToLower()))).ToList();
             dgvSongs.DataSource = results;
         }
-        private void btnSaveDLC_Click(object sender, EventArgs e)
-        {
-            //     private BindingList<SongData> SongCollection = new BindingList<SongData>();
-            var songsToShow = (from song in SongCollection
-                              select new
-                              {
-                                  song.Artist,
-                                   song.NewAvailable,
-                                  song.Song,
-                                  
-                                  song.Album,
-                                  song.Updated,
-                                  song.Tuning,
-                                  DD = DifficultyToDD(song.DD),
-                                  song.Arrangements,
-                                  song.Author
-
-                              }).ToList();
-                        
-                        dgvSongs.DataSource = songsToShow;
-        }
     }
 }
