@@ -148,7 +148,6 @@ namespace CustomsForgeManager_Winforms.Forms
                     toolStripStatusLabel_Main.Text = string.Format("{0} songs found...", counter);
                 }
             }
-            SortedSongCollection = SongCollection.ToList();
         }
         private void PopulateDupeList()
         {
@@ -213,9 +212,9 @@ namespace CustomsForgeManager_Winforms.Forms
                 dgvSongs.Columns[0].Visible = true;
                 dgvSongs.Columns[1].Visible = true;
                 dgvSongs.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+                SortedSongCollection = SongCollection.ToList();
             });
             Log("Finished scanning songs...", 100);
-
         }
 
         #region GUIEventHandlers
@@ -253,7 +252,7 @@ namespace CustomsForgeManager_Winforms.Forms
                               };
             switch (dgvSongs.Columns[e.ColumnIndex].Name)
             {
-                case "Backup":
+                case "colBackup":
                     if (sortDescending)
                     {
                         bs.DataSource = songsToShow.OrderByDescending(song => song.Song);
