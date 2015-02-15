@@ -25,6 +25,7 @@ namespace CustomsForgeManager_Winforms.Forms
 
         private BindingList<SongData> SongCollection = new BindingList<SongData>();
         private List<SongDupeData> DupeCollection = new List<SongDupeData>();
+        private List<SongData> SortedSongCollection = new List<SongData>();
 
         private frmMain()
         {
@@ -105,7 +106,7 @@ namespace CustomsForgeManager_Winforms.Forms
                 {
                     var browser = new PsarcBrowser(file);
                     var songList = browser.GetSongList();
-              
+
                     foreach (var song in songList)
                     {
                         var arrangements = "";
@@ -130,7 +131,6 @@ namespace CustomsForgeManager_Winforms.Forms
                         };
                         SongCollection.Add(newSong);
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -148,6 +148,7 @@ namespace CustomsForgeManager_Winforms.Forms
                     toolStripStatusLabel_Main.Text = string.Format("{0} songs found...", counter);
                 }
             }
+            SortedSongCollection = SongCollection.ToList();
         }
         private void PopulateDupeList()
         {
@@ -197,8 +198,15 @@ namespace CustomsForgeManager_Winforms.Forms
                 var songsToShow = from song in SongCollection
                                   select new
                                   {
-                                      song.Song, song.Artist, song.Album, song.Updated, song.Tuning,
-                                      DD = DifficultyToDD(song.DD), song.Arrangements, song.Author, song.NewAvailable
+                                      song.Song,
+                                      song.Artist,
+                                      song.Album,
+                                      song.Updated,
+                                      song.Tuning,
+                                      DD = DifficultyToDD(song.DD),
+                                      song.Arrangements,
+                                      song.Author,
+                                      song.NewAvailable
                                   };
                 bs.DataSource = songsToShow;
                 dgvSongs.DataSource = bs;
@@ -211,7 +219,6 @@ namespace CustomsForgeManager_Winforms.Forms
         }
 
         #region GUIEventHandlers
-
         private void showDLCInfoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ShowSongInfo();
@@ -224,13 +231,14 @@ namespace CustomsForgeManager_Winforms.Forms
         }
         private void dgvSongs_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            ShowSongInfo();
+            if (e.RowIndex != -1) //if it's not header
+                ShowSongInfo();
         }
         private void dgvSongs_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             int scrollOffset = 0;
             BindingSource bs = new BindingSource();
-            var songsToShow = from song in SongCollection
+            var songsToShow = from song in SortedSongCollection
                               select new
                               {
                                   song.Song,
@@ -349,7 +357,16 @@ namespace CustomsForgeManager_Winforms.Forms
             }
             else if (e.ColumnIndex == 9)
             {
-               
+                if (sortDescending)
+                {
+                    bs.DataSource = songsToShow.OrderByDescending(song => song.Song);
+                    sortDescending = false;
+                }
+                else
+                {
+                    bs.DataSource = songsToShow.OrderBy(song => song.Song);
+                    sortDescending = true;
+                }
             }
             else
             {
@@ -370,16 +387,58 @@ namespace CustomsForgeManager_Winforms.Forms
         }
         private void btnSongsToBBCode_Click(object sender, EventArgs e)
         {
+            var sbTXT = new StringBuilder();
+            string path = Constants.DefaultWorkingDirectory + @"\SongListTXT.txt";
 
-        }
-        private void btnSongsToCSV_Click(object sender, EventArgs e)
-        {
-            var sbCSV = new StringBuilder();
-            string path = Constants.DefaultWorkingDirectory + @"\SongList.csv";
+            sfdSongListToCSV.Filter = "txt files(*.txt)|*.txt|All files (*.*)|*.*";
+            sfdSongListToCSV.FileName = "SongListTXT";
+
             if (sfdSongListToCSV.ShowDialog() == DialogResult.OK)
             {
                 path = sfdSongListToCSV.FileName;
             }
+
+            sbTXT.AppendLine("Song - Artist, Album, Updated, Tuning, DD, Arangements, Author");
+            sbTXT.AppendLine("[LIST=1]");
+            foreach (var song in SongCollection)
+            {
+                if(song.Author == null)
+                {
+                    sbTXT.AppendLine("[*]" + song.Song + " - " + song.Artist + ", " + song.Album + ", " + song.Updated + ", " + song.Tuning + ", " + DifficultyToDD(song.DD) + ", " + song.Arrangements + "[/*]");
+                }
+                else 
+                {
+                    sbTXT.AppendLine("[*]" + song.Song + " - " + song.Artist + ", " + song.Album + ", " + song.Updated + ", " + song.Tuning + ", " + DifficultyToDD(song.DD) + ", " + song.Arrangements + ", " + song.Author + "[/*]");
+                }
+            }
+            sbTXT.AppendLine("[/LIST]");
+        
+            try
+            {
+                using (StreamWriter file = new StreamWriter(path, false, Encoding.UTF8))
+                {
+                    file.Write(sbTXT.ToString());
+                }
+                Log("Song list saved to:" + path);
+            }
+            catch (IOException ex)
+            {
+                Log("<Error>:" + ex.Message);
+            }
+        }
+        private void btnSongsToCSV_Click(object sender, EventArgs e)
+        {
+            var sbCSV = new StringBuilder();
+            string path = Constants.DefaultWorkingDirectory + @"\SongListCSV.csv";
+
+            sfdSongListToCSV.Filter = "csv files(*.csv)|*.csv|All files (*.*)|*.*";
+            sfdSongListToCSV.FileName = "SongListCSV";
+
+            if (sfdSongListToCSV.ShowDialog() == DialogResult.OK)
+            {
+                path = sfdSongListToCSV.FileName;
+            }
+
             sbCSV.AppendLine(@"sep=;");
             sbCSV.AppendLine("Artist;Song;Album;Year;Tuning;Arrangements");
             foreach (var song in SongCollection)
@@ -399,7 +458,7 @@ namespace CustomsForgeManager_Winforms.Forms
                 Log("<Error>:" + ex.Message);
             }
         }
-     
+
         private void btnLaunchSteam_Click(object sender, EventArgs e)
         {
             Process[] rocksmithProcess = Process.GetProcessesByName("Rocksmith2014.exe");
@@ -458,19 +517,17 @@ namespace CustomsForgeManager_Winforms.Forms
             string fileName = "";
             try
             {
-                int i = 0;
                 if (!Directory.Exists(backupPath))
                 {
                     Directory.CreateDirectory(backupPath);
                 }
-                foreach (DataGridViewRow row in dgvSongs.Rows)
+                for (int i = 0; i < dgvSongs.Rows.Count; i++)
                 {
-                    if ((bool)row.Cells[1].Value)
+                    if (Convert.ToBoolean(dgvSongs.Rows[i].Cells[0].Value) == true)
                     {
-                        fileName =  Path.GetFileName(SongCollection[i].Path);
+                        fileName = Path.GetFileName(SongCollection[i].Path);
                         File.Copy(SongCollection[i].Path, Path.Combine(backupPath, fileName));
                     }
-                    i++;
                 }
             }
             catch (IOException)
@@ -482,10 +539,9 @@ namespace CustomsForgeManager_Winforms.Forms
         {
             listDupeSongs.InvokeIfRequired(delegate
                     {
-                        int i = 0;
-                        foreach (ListViewItem listItem in listDupeSongs.Items)
+                        for (int i = 0; i < listDupeSongs.Items.Count; i++)
                         {
-                            if (listItem.Checked)
+                            if (listDupeSongs.Items[i].Checked)
                             {
                                 try
                                 {
@@ -498,7 +554,6 @@ namespace CustomsForgeManager_Winforms.Forms
                                 {
                                 }
                             }
-                            i++;
                         }
                     });
         }
@@ -506,10 +561,9 @@ namespace CustomsForgeManager_Winforms.Forms
         {
             listDupeSongs.InvokeIfRequired(delegate
             {
-                int i = 0;
-                foreach (ListViewItem listItem in listDupeSongs.Items)
+                for (int i = 0; i < listDupeSongs.Items.Count; i++)
                 {
-                    if (listItem.Checked)
+                    if (listDupeSongs.Items[i].Checked)
                     {
                         try
                         {
@@ -522,7 +576,6 @@ namespace CustomsForgeManager_Winforms.Forms
                         {
                         }
                     }
-                    i++;
                 }
             });
         }
@@ -569,22 +622,21 @@ namespace CustomsForgeManager_Winforms.Forms
                 SearchDLC(tbSearch.Text);
             }
         }
-
         private void link_MainClearResults_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             var songsToShow = (from song in SongCollection
-                              select new
-                              {
-                                  song.Song,
-                                  song.Artist,
-                                  song.Album,
-                                  song.Updated,
-                                  song.Tuning,
-                                  DD = DifficultyToDD(song.DD),
-                                  song.Arrangements,
-                                  song.Author,
-                                  song.NewAvailable
-                              }).ToList();
+                               select new
+                               {
+                                   song.Song,
+                                   song.Artist,
+                                   song.Album,
+                                   song.Updated,
+                                   song.Tuning,
+                                   DD = DifficultyToDD(song.DD),
+                                   song.Arrangements,
+                                   song.Author,
+                                   song.NewAvailable
+                               }).ToList();
             dgvSongs.DataSource = songsToShow;
             tbSearch.InvokeIfRequired(delegate { tbSearch.Text = ""; });
         }
@@ -821,8 +873,8 @@ namespace CustomsForgeManager_Winforms.Forms
         public static string TuningToName(string tuningStrings)
         {
             var tuningName = root.Elements("Tuning").Where(tuning => tuning.Attribute("Strings").Value == tuningStrings).Select(tuning => tuning.Attribute("Name")).ToList();
-            if(tuningName.Count == 0)
-            {   
+            if (tuningName.Count == 0)
+            {
                 return "Other";
             }
             return tuningName[0].Value;
@@ -935,7 +987,29 @@ namespace CustomsForgeManager_Winforms.Forms
                                   song.NewAvailable
                               };
             var results = songsToShow.Where(x => x.Artist.ToLower().Contains(criteria.ToLower()) || x.Album.ToLower().Contains(criteria.ToLower()) || x.Song.ToLower().Contains(criteria.ToLower()) || x.Tuning.ToLower().Contains(criteria.ToLower())).ToList();
+            SortedSongCollection = (List<SongData>)(SongCollection.Where(x => x.Artist.ToLower().Contains(criteria.ToLower()) || x.Album.ToLower().Contains(criteria.ToLower()) || x.Song.ToLower().Contains(criteria.ToLower()) || x.Tuning.ToLower().Contains(criteria.ToLower()))).ToList();
             dgvSongs.DataSource = results;
+        }
+        private void btnSaveDLC_Click(object sender, EventArgs e)
+        {
+            //     private BindingList<SongData> SongCollection = new BindingList<SongData>();
+            var songsToShow = (from song in SongCollection
+                              select new
+                              {
+                                  song.Artist,
+                                   song.NewAvailable,
+                                  song.Song,
+                                  
+                                  song.Album,
+                                  song.Updated,
+                                  song.Tuning,
+                                  DD = DifficultyToDD(song.DD),
+                                  song.Arrangements,
+                                  song.Author
+
+                              }).ToList();
+                        
+                        dgvSongs.DataSource = songsToShow;
         }
     }
 }
