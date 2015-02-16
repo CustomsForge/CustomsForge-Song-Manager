@@ -10,10 +10,10 @@ using RocksmithToolkitLib.Extensions;
 using RocksmithToolkitLib.PSARC;
 using RocksmithToolkitLib.Sng2014HSL;
 using RocksmithToolkitLib.Xml;
-using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Windows.Forms;
+using System.Text.RegularExpressions;
 
 namespace CustomsForgeManager_Winforms
 {

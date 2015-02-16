@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace CustomsForgeManager_Winforms.Utilities
 {
@@ -11,9 +12,37 @@ namespace CustomsForgeManager_Winforms.Utilities
     }
 
     [Serializable]
+    public class RADataGridViewSettings
+    {
+        Dictionary<string, List<ColumnOrderItem>> columnOrder = new Dictionary<string, List<ColumnOrderItem>>();
+        public Dictionary<string, List<ColumnOrderItem>> ColumnOrder
+        {
+            get { return columnOrder as Dictionary<string, List<ColumnOrderItem>>; }
+            set { columnOrder = value; }
+        }
+    }
+
+    [Serializable]
+    public class ColumnOrderItem
+    {
+        public int DisplayIndex { get; set; }
+        public int Width { get; set; }
+        public bool Visible { get; set; }
+        public int ColumnIndex { get; set; }
+    }
+
+    [Serializable]
     public class Settings
     {
         private SettingsData _settingsData;
+        
+        Dictionary<string, List<ColumnOrderItem>> columnOrder = new Dictionary<string, List<ColumnOrderItem>>();
+        public Dictionary<string, List<ColumnOrderItem>> ColumnOrder
+        {
+            get { return columnOrder as Dictionary<string, List<ColumnOrderItem>>; }
+            set { columnOrder = value; }
+        }
+
         public string LogFilePath
         {
             get { return _settingsData.LogFilePath; }

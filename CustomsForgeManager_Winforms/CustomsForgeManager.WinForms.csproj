@@ -79,11 +79,7 @@
     </Reference>
     <Reference Include="RocksmithToolkitLib, Version=2.6.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\rocksmith-custom-song-toolkit\RocksmithToolkitLib\bin\x86\Debug\RocksmithToolkitLib.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpConfig, Version=1.4.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Utilities\SharpConfig.dll</HintPath>
+      <HintPath>..\..\..\Downloads\Windows\RocksmithToolkitLib.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -99,8 +95,17 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Forms\CueTextBox.cs">
+    <Compile Include="Controls\CueTextBox.cs">
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\RADataGridView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Forms\frmBBCode.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmBBCode.Designer.cs">
+      <DependentUpon>frmBBCode.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmMain.cs">
       <SubType>Form</SubType>
@@ -123,6 +128,9 @@
     <Compile Include="lib\RS\PsarcBrowser.cs" />
     <Compile Include="Models\SongData.cs" />
     <Compile Include="Models\SongDupeData.cs" />
+    <EmbeddedResource Include="Forms\frmBBCode.resx">
+      <DependentUpon>frmBBCode.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
     </EmbeddedResource>

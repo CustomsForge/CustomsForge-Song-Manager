@@ -13,6 +13,7 @@ using System.Diagnostics;
 using System.Text;
 using System.Xml.Linq;
 using RocksmithToolkitLib.Extensions;
+using CustomsForgeManager_Winforms.Controls;
 
 namespace CustomsForgeManager_Winforms.Forms
 {
@@ -148,7 +149,6 @@ namespace CustomsForgeManager_Winforms.Forms
                     toolStripStatusLabel_Main.Text = string.Format("{0} songs found...", counter);
                 }
             }
-            SortedSongCollection = SongCollection.ToList();
         }
         private void PopulateDupeList()
         {
@@ -210,9 +210,11 @@ namespace CustomsForgeManager_Winforms.Forms
                                   };
                 bs.DataSource = songsToShow;
                 dgvSongs.DataSource = bs;
-                dgvSongs.Columns[0].Visible = true;
-                dgvSongs.Columns[1].Visible = true;
                 dgvSongs.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+                SortedSongCollection = SongCollection.ToList();
+                dgvSongs.LoadColumnOrder(mySettings.ColumnOrder);
+                dgvSongs.Columns["colSelect"].Visible = true;
+                dgvSongs.Columns["colSelect"].DisplayIndex = 0;
             });
             Log("Finished scanning songs...", 100);
 
@@ -253,7 +255,7 @@ namespace CustomsForgeManager_Winforms.Forms
                               };
             switch (dgvSongs.Columns[e.ColumnIndex].Name)
             {
-                case "Backup":
+                case "colSelect":
                     if (sortDescending)
                     {
                         bs.DataSource = songsToShow.OrderByDescending(song => song.Song);
@@ -381,16 +383,6 @@ namespace CustomsForgeManager_Winforms.Forms
         private void btnSongsToBBCode_Click(object sender, EventArgs e)
         {
             var sbTXT = new StringBuilder();
-            string path = Constants.DefaultWorkingDirectory + @"\SongListTXT.txt";
-
-            sfdSongListToCSV.Filter = "txt files(*.txt)|*.txt|All files (*.*)|*.*";
-            sfdSongListToCSV.FileName = "SongListTXT";
-
-            if (sfdSongListToCSV.ShowDialog() == DialogResult.OK)
-            {
-                path = sfdSongListToCSV.FileName;
-            }
-
             sbTXT.AppendLine("Song - Artist, Album, Updated, Tuning, DD, Arangements, Author");
             sbTXT.AppendLine("[LIST=1]");
             foreach (var song in SongCollection)
@@ -405,18 +397,11 @@ namespace CustomsForgeManager_Winforms.Forms
                 }
             }
             sbTXT.AppendLine("[/LIST]");
-        
-            try
+
+            using (frmBBCode FormBBCode = new frmBBCode())
             {
-                using (StreamWriter file = new StreamWriter(path, false, Encoding.UTF8))
-                {
-                    file.Write(sbTXT.ToString());
-                }
-                Log("Song list saved to:" + path);
-            }
-            catch (IOException ex)
-            {
-                Log("<Error>:" + ex.Message);
+                FormBBCode.BBCode = sbTXT.ToString();
+                FormBBCode.ShowDialog();
             }
         }
         private void btnSongsToCSV_Click(object sender, EventArgs e)
@@ -701,8 +686,25 @@ namespace CustomsForgeManager_Winforms.Forms
                     Log("Default settings created...");
                 }
                 if (!string.IsNullOrEmpty(tbSettingsRSDir.Text))
-                    mySettings.RSInstalledDir = tbSettingsRSDir.Text;
+                mySettings.RSInstalledDir = tbSettingsRSDir.Text;
                 mySettings.RescanOnStartup = checkRescanOnStartup.Checked;
+
+                List<ColumnOrderItem> columnOrder = new List<ColumnOrderItem>();
+                DataGridViewColumnCollection columns = dgvSongs.Columns;
+                RADataGridViewSettings settings = new RADataGridViewSettings();
+
+                for (int i = 0; i < columns.Count; i++)
+                {
+                    columnOrder.Add(new ColumnOrderItem
+                    {
+                        ColumnIndex = i,
+                        DisplayIndex = columns[i].DisplayIndex,
+                        Visible = columns[i].Visible,
+                        Width = columns[i].Width
+                    });
+                }
+                mySettings.ColumnOrder.Remove(dgvSongs.Name);
+                mySettings.ColumnOrder.Add(dgvSongs.Name, columnOrder);
                 mySettings.Serialze(fs);
                 Log("Saved settings...");
                 fs.Close();
@@ -740,9 +742,10 @@ namespace CustomsForgeManager_Winforms.Forms
                         {
                             checkRescanOnStartup.Checked = mySettings.RescanOnStartup;
                         });
+                        mySettings.ColumnOrder = deserialized.ColumnOrder;
                         Log("Loaded settings...");
-                        fs.Close();
                     }
+                    fs.Close();
                 }
             }
             catch (Exception ex)
@@ -987,6 +990,11 @@ namespace CustomsForgeManager_Winforms.Forms
         {
             dgvSongs.Columns[2].DisplayIndex = 4;
             dgvSongs.Columns[4].DisplayIndex = 2;
+        }
+
+        private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            SaveSettingsToFile();
         }
     }
 }
