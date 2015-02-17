@@ -712,7 +712,6 @@ namespace CustomsForgeManager_Winforms.Forms
         }
         private void LoadSettingsFromFile(string path = "")
         {
-            Dictionary<string, List<ColumnOrderItem>> columnOrder = new Dictionary<string, List<ColumnOrderItem>>();
             try
             {
                 if (string.IsNullOrEmpty(path))
@@ -745,8 +744,8 @@ namespace CustomsForgeManager_Winforms.Forms
                         });
                         if(deserialized.ColumnOrder.Count > 0)
                         {
-                            columnOrder = deserialized.ColumnOrder;
-                            dgvSongs.LoadColumnOrder(columnOrder);
+                            mySettings.ColumnOrder = deserialized.ColumnOrder;
+                            dgvSongs.LoadColumnOrder(mySettings.ColumnOrder);
                         }
                         Log("Loaded settings...");
                     }
