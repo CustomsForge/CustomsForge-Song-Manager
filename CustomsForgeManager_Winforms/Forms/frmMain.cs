@@ -742,7 +742,11 @@ namespace CustomsForgeManager_Winforms.Forms
                         {
                             checkRescanOnStartup.Checked = mySettings.RescanOnStartup;
                         });
-                        mySettings.ColumnOrder = deserialized.ColumnOrder;
+                        if(deserialized.ColumnOrder.Count > 0)
+                        {
+                            mySettings.ColumnOrder = deserialized.ColumnOrder;
+                            dgvSongs.LoadColumnOrder(mySettings.ColumnOrder);
+                        }
                         Log("Loaded settings...");
                     }
                     fs.Close();

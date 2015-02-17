@@ -58,7 +58,7 @@ namespace CustomsForgeManager_Winforms.Controls
                             columnOrder = deserialized.ColumnOrder[this.Name];
                             var sorted = columnOrder.OrderBy(i => i.DisplayIndex);
                             foreach (var item in sorted)
-                            {   
+                            {
                                 this.Columns[item.ColumnIndex].DisplayIndex = item.DisplayIndex;
                                 this.Columns[item.ColumnIndex].Visible = item.Visible;
                                 this.Columns[item.ColumnIndex].Width = item.Width;
@@ -77,24 +77,26 @@ namespace CustomsForgeManager_Winforms.Controls
         {
             string path = Constants.DefaultWorkingDirectory + "\\settings.bin";
             List<ColumnOrderItem> columnOrder = new List<ColumnOrderItem>();
-
-                    try
+            try
+            {
+                columnOrder = ColumnOrderCollection[this.Name];
+                var sorted = columnOrder.OrderBy(i => i.DisplayIndex);
+                foreach (var item in sorted)
+                {
+                    if (item != null)
                     {
-                        columnOrder = ColumnOrderCollection[this.Name];
-                        var sorted = columnOrder.OrderBy(i => i.DisplayIndex);
-                            foreach (var item in sorted)
-                            {
-                                    if (item != null)
-                                    {
-                                        this.Columns[item.ColumnIndex].DisplayIndex = item.DisplayIndex;
-                                        this.Columns[item.ColumnIndex].Visible = item.Visible;
-                                        this.Columns[item.ColumnIndex].Width = item.Width;
-                                    }
-                            }
+                        this.Columns[item.ColumnIndex].DisplayIndex = item.DisplayIndex;
+                        this.Columns[item.ColumnIndex].Visible = item.Visible;
+                        this.Columns[item.ColumnIndex].Width = item.Width;
                     }
-                    catch (KeyNotFoundException)
-                    {
-                    }
+                }
+            }
+            catch (KeyNotFoundException)
+            {
+            }
+            catch (NullReferenceException)
+            {
             }
         }
     }
+}
