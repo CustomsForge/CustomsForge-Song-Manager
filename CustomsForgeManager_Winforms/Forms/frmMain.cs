@@ -12,8 +12,6 @@ using System.IO.Compression;
 using System.Diagnostics;
 using System.Text;
 using System.Xml.Linq;
-using RocksmithToolkitLib.Extensions;
-using CustomsForgeManager_Winforms.Controls;
 
 namespace CustomsForgeManager_Winforms.Forms
 {
@@ -74,6 +72,8 @@ namespace CustomsForgeManager_Winforms.Forms
                 LoadSongCollectionFromFile();
             root = XElement.Load("tunings.xml");
         }
+
+
         private void BackgroundScan()
         {
             bWorker.DoWork -= PopulateListHandler;
@@ -99,7 +99,7 @@ namespace CustomsForgeManager_Winforms.Forms
             Log("Scanning for songs...");
 
             int counter = 1;
-            List<string> filesList = new List<string>(FilesList(mySettings.RSInstalledDir));
+            List<string> filesList = new List<string>(FilesList(mySettings.RSInstalledDir + "\\dlc"));
             foreach (string file in filesList)
             {
                 Progress(counter++ * 100 / filesList.Count);
@@ -212,7 +212,8 @@ namespace CustomsForgeManager_Winforms.Forms
                 dgvSongs.DataSource = bs;
                 dgvSongs.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
                 SortedSongCollection = SongCollection.ToList();
-                dgvSongs.LoadColumnOrder(mySettings.ColumnOrder);
+                if (mySettings.ManagerGridSettings != null)
+                    dgvSongs.ReLoadColumnOrder(mySettings.ManagerGridSettings.ColumnOrder);
                 dgvSongs.Columns["colSelect"].Visible = true;
                 dgvSongs.Columns["colSelect"].DisplayIndex = 0;
             });
@@ -436,7 +437,6 @@ namespace CustomsForgeManager_Winforms.Forms
                 Log("<Error>:" + ex.Message);
             }
         }
-
         private void btnLaunchSteam_Click(object sender, EventArgs e)
         {
             Process[] rocksmithProcess = Process.GetProcessesByName("Rocksmith2014.exe");
@@ -453,7 +453,7 @@ namespace CustomsForgeManager_Winforms.Forms
                     DateTime.Now.Year, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
                 string backupPath = string.Format("{0}\\profile.backup.{1}.zip", Constants.DefaultWorkingDirectory, timestamp);
                 string profilePath = "";
-                string steamUserdataPath = Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Valve\Steam", "InstallPath", null).ToString() + @"\userdata";
+                string steamUserdataPath = Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Valve\Steam", "InstallPath", null) + @"\userdata";
                 DirectoryInfo dInfo = new DirectoryInfo(steamUserdataPath);
                 DirectoryInfo[] subdirs = dInfo.GetDirectories("*", SearchOption.AllDirectories);
                 foreach (DirectoryInfo info in subdirs)
@@ -488,30 +488,6 @@ namespace CustomsForgeManager_Winforms.Forms
                 tpDuplicates.Text = "Duplicates(0)";
             });
             BackgroundScan();
-        }
-        private void btnBackupDLC_Click(object sender, EventArgs e)
-        {
-            string backupPath = mySettings.RSInstalledDir + @"\backup";
-            string fileName = "";
-            try
-            {
-                if (!Directory.Exists(backupPath))
-                {
-                    Directory.CreateDirectory(backupPath);
-                }
-                for (int i = 0; i < dgvSongs.Rows.Count; i++)
-                {
-                    if (Convert.ToBoolean(dgvSongs.Rows[i].Cells[0].Value) == true)
-                    {
-                        fileName = Path.GetFileName(SongCollection[i].Path);
-                        File.Copy(SongCollection[i].Path, Path.Combine(backupPath, fileName));
-                    }
-                }
-            }
-            catch (IOException)
-            {
-                Log("File" + fileName + "already exists!");
-            }
         }
         private void btnDeleteSongOne_Click(object sender, EventArgs e)
         {
@@ -618,50 +594,31 @@ namespace CustomsForgeManager_Winforms.Forms
             dgvSongs.DataSource = songsToShow;
             tbSearch.InvokeIfRequired(delegate { tbSearch.Text = ""; });
         }
-
-        private void ShowSongInfo()
-        {
-            if (dgvSongs.SelectedRows.Count > 0)
-            {
-                var selectedRow = dgvSongs.SelectedRows[0];
-                var title = selectedRow.Cells["Song"].Value.ToString();
-                var artist = selectedRow.Cells["Artist"].Value.ToString();
-                var album = selectedRow.Cells["Album"].Value.ToString();
-
-                var song =
-                    SongCollection.SingleOrDefault(x => x.Song == title && x.Album == album && x.Artist == artist);
-                if (song != null)
-                {
-                    frmSongInfo infoWindow = new frmSongInfo(song);
-                    infoWindow.Show();
-                }
-            }
-        }
-
         private void link_LovromanProfile_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Process.Start("http://customsforge.com/user/43194-lovroman/");
         }
-
         private void link_DarjuszProfile_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             System.Diagnostics.Process.Start("http://customsforge.com/user/5299-darjusz/");
         }
-
         private void link_Alex360Profile_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             System.Diagnostics.Process.Start("http://customsforge.com/user/236-alex360/");
         }
-
         private void link_UnleashedProfile_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             System.Diagnostics.Process.Start("http://customsforge.com/user/1-unleashed2k/");
         }
-
         private void link_ForgeOnProfile_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             System.Diagnostics.Process.Start("http://customsforge.com/user/345-forgeon/");
         }
+        private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            SaveSettingsToFile();
+        }
+
         #endregion
         #region Settings
         private void ResetSettings()
@@ -686,25 +643,26 @@ namespace CustomsForgeManager_Winforms.Forms
                     Log("Default settings created...");
                 }
                 if (!string.IsNullOrEmpty(tbSettingsRSDir.Text))
-                mySettings.RSInstalledDir = tbSettingsRSDir.Text;
+                    mySettings.RSInstalledDir = tbSettingsRSDir.Text;
                 mySettings.RescanOnStartup = checkRescanOnStartup.Checked;
 
-                List<ColumnOrderItem> columnOrder = new List<ColumnOrderItem>();
-                DataGridViewColumnCollection columns = dgvSongs.Columns;
                 RADataGridViewSettings settings = new RADataGridViewSettings();
+                var columns = dgvSongs.Columns;
 
-                for (int i = 0; i < columns.Count; i++)
+                if (columns.Count > 1)
                 {
-                    columnOrder.Add(new ColumnOrderItem
+                    for (int i = 0; i < columns.Count; i++)
                     {
-                        ColumnIndex = i,
-                        DisplayIndex = columns[i].DisplayIndex,
-                        Visible = columns[i].Visible,
-                        Width = columns[i].Width
-                    });
+                        settings.ColumnOrder.Add(new ColumnOrderItem
+                        {
+                            ColumnIndex = i,
+                            DisplayIndex = columns[i].DisplayIndex,
+                            //Visible = columns[i].Visible,
+                            Width = columns[i].Width
+                        });
+                    }
+                    mySettings.ManagerGridSettings = settings;
                 }
-                mySettings.ColumnOrder.Remove(dgvSongs.Name);
-                mySettings.ColumnOrder.Add(dgvSongs.Name, columnOrder);
                 mySettings.Serialze(fs);
                 Log("Saved settings...");
                 fs.Close();
@@ -712,7 +670,7 @@ namespace CustomsForgeManager_Winforms.Forms
         }
         private void LoadSettingsFromFile(string path = "")
         {
-            Dictionary<string, List<ColumnOrderItem>> columnOrder = new Dictionary<string, List<ColumnOrderItem>>();
+            //Dictionary<string, List<ColumnOrderItem>> columnOrder = new Dictionary<string, List<ColumnOrderItem>>();
             try
             {
                 if (string.IsNullOrEmpty(path))
@@ -732,9 +690,8 @@ namespace CustomsForgeManager_Winforms.Forms
                     Settings deserialized = fs.DeSerialize() as Settings;
                     if (deserialized != null)
                     {
-                        mySettings.RSInstalledDir = deserialized.RSInstalledDir;
-                        mySettings.LogFilePath = deserialized.LogFilePath;
-                        mySettings.RescanOnStartup = deserialized.RescanOnStartup;
+                        mySettings = deserialized;
+                        
                         tbSettingsRSDir.InvokeIfRequired(delegate
                         {
                             tbSettingsRSDir.Text = mySettings.RSInstalledDir;
@@ -743,10 +700,9 @@ namespace CustomsForgeManager_Winforms.Forms
                         {
                             checkRescanOnStartup.Checked = mySettings.RescanOnStartup;
                         });
-                        if(deserialized.ColumnOrder.Count > 0)
+                        if (mySettings.ManagerGridSettings != null)
                         {
-                            columnOrder = deserialized.ColumnOrder;
-                            dgvSongs.LoadColumnOrder(columnOrder);
+                            dgvSongs.ReLoadColumnOrder(mySettings.ManagerGridSettings.ColumnOrder);
                         }
                         Log("Loaded settings...");
                     }
@@ -991,15 +947,24 @@ namespace CustomsForgeManager_Winforms.Forms
             SortedSongCollection = (List<SongData>)(SongCollection.Where(x => x.Artist.ToLower().Contains(criteria.ToLower()) || x.Album.ToLower().Contains(criteria.ToLower()) || x.Song.ToLower().Contains(criteria.ToLower()) || x.Tuning.ToLower().Contains(criteria.ToLower()))).ToList(); 
             dgvSongs.DataSource = results;
         }
-        private void btnSaveDLC_Click(object sender, EventArgs e)
+        private void ShowSongInfo()
         {
-            dgvSongs.Columns[2].DisplayIndex = 4;
-            dgvSongs.Columns[4].DisplayIndex = 2;
-        }
+            if (dgvSongs.SelectedRows.Count > 0)
+            {
+                var selectedRow = dgvSongs.SelectedRows[0];
+                var title = selectedRow.Cells["Song"].Value.ToString();
+                var artist = selectedRow.Cells["Artist"].Value.ToString();
+                var album = selectedRow.Cells["Album"].Value.ToString();
 
-        private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            SaveSettingsToFile();
+                var song =
+                    SongCollection.SingleOrDefault(x => x.Song == title && x.Album == album && x.Artist == artist);
+                if (song != null)
+                {
+                    frmSongInfo infoWindow = new frmSongInfo(song);
+                    infoWindow.Show();
+                }
+            }
         }
+        
     }
 }

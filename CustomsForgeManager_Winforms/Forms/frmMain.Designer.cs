@@ -39,11 +39,7 @@
             this.panelSongListButtons = new System.Windows.Forms.Panel();
             this.btnSongsToBBCode = new System.Windows.Forms.Button();
             this.btnSongsToCSV = new System.Windows.Forms.Button();
-            this.btnSaveDLC = new System.Windows.Forms.Button();
-            this.btnBackupDLC = new System.Windows.Forms.Button();
-            this.btnDLCPage = new System.Windows.Forms.Button();
             this.btnRescan = new System.Windows.Forms.Button();
-            this.btnEditDLC = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
             this.link_MainClearResults = new System.Windows.Forms.LinkLabel();
@@ -220,11 +216,7 @@
             // 
             this.panelSongListButtons.Controls.Add(this.btnSongsToBBCode);
             this.panelSongListButtons.Controls.Add(this.btnSongsToCSV);
-            this.panelSongListButtons.Controls.Add(this.btnSaveDLC);
-            this.panelSongListButtons.Controls.Add(this.btnBackupDLC);
-            this.panelSongListButtons.Controls.Add(this.btnDLCPage);
             this.panelSongListButtons.Controls.Add(this.btnRescan);
-            this.panelSongListButtons.Controls.Add(this.btnEditDLC);
             this.panelSongListButtons.Location = new System.Drawing.Point(3, 334);
             this.panelSongListButtons.Name = "panelSongListButtons";
             this.panelSongListButtons.Size = new System.Drawing.Size(764, 52);
@@ -250,43 +242,7 @@
             this.btnSongsToCSV.TabIndex = 12;
             this.btnSongsToCSV.Text = "Song list to csv";
             this.btnSongsToCSV.UseVisualStyleBackColor = true;
-            // 
-            // btnSaveDLC
-            // 
-            this.btnSaveDLC.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnSaveDLC.Location = new System.Drawing.Point(597, 13);
-            this.btnSaveDLC.Name = "btnSaveDLC";
-            this.btnSaveDLC.Size = new System.Drawing.Size(150, 27);
-            this.btnSaveDLC.TabIndex = 7;
-            this.btnSaveDLC.Text = "Save Song";
-            this.btnSaveDLC.UseVisualStyleBackColor = true;
-            this.btnSaveDLC.Visible = false;
-            this.btnSaveDLC.Click += new System.EventHandler(this.btnSaveDLC_Click);
-            // 
-            // btnBackupDLC
-            // 
-            this.btnBackupDLC.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnBackupDLC.Enabled = false;
-            this.btnBackupDLC.Location = new System.Drawing.Point(441, 13);
-            this.btnBackupDLC.Name = "btnBackupDLC";
-            this.btnBackupDLC.Size = new System.Drawing.Size(150, 27);
-            this.btnBackupDLC.TabIndex = 6;
-            this.btnBackupDLC.Text = "Backup Song";
-            this.btnBackupDLC.UseVisualStyleBackColor = true;
-            this.btnBackupDLC.Visible = false;
-            this.btnBackupDLC.Click += new System.EventHandler(this.btnBackupDLC_Click);
-            // 
-            // btnDLCPage
-            // 
-            this.btnDLCPage.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnDLCPage.Enabled = false;
-            this.btnDLCPage.Location = new System.Drawing.Point(285, 13);
-            this.btnDLCPage.Name = "btnDLCPage";
-            this.btnDLCPage.Size = new System.Drawing.Size(150, 27);
-            this.btnDLCPage.TabIndex = 5;
-            this.btnDLCPage.Text = "Open Song Page";
-            this.btnDLCPage.UseVisualStyleBackColor = true;
-            this.btnDLCPage.Visible = false;
+            this.btnSongsToCSV.Click += new System.EventHandler(this.btnSongsToCSV_Click);
             // 
             // btnRescan
             // 
@@ -298,18 +254,6 @@
             this.btnRescan.Text = "Rescan";
             this.btnRescan.UseVisualStyleBackColor = true;
             this.btnRescan.Click += new System.EventHandler(this.btnRescan_Click);
-            // 
-            // btnEditDLC
-            // 
-            this.btnEditDLC.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnEditDLC.Enabled = false;
-            this.btnEditDLC.Location = new System.Drawing.Point(129, 13);
-            this.btnEditDLC.Name = "btnEditDLC";
-            this.btnEditDLC.Size = new System.Drawing.Size(150, 27);
-            this.btnEditDLC.TabIndex = 4;
-            this.btnEditDLC.Text = "Edit Song";
-            this.btnEditDLC.UseVisualStyleBackColor = true;
-            this.btnEditDLC.Visible = false;
             // 
             // panel2
             // 
@@ -985,6 +929,7 @@
             this.colSelect});
             this.dgvSongs.Location = new System.Drawing.Point(3, 3);
             this.dgvSongs.Name = "dgvSongs";
+            this.dgvSongs.RowHeadersVisible = false;
             this.dgvSongs.Size = new System.Drawing.Size(758, 287);
             this.dgvSongs.TabIndex = 1;
             this.dgvSongs.DataSourceChanged += new System.EventHandler(this.dgvSongs_DataSourceChanged);
@@ -1084,11 +1029,7 @@
         private System.Windows.Forms.Button btnDeleteSongOne;
         private System.Windows.Forms.Button btnDupeRescan;
         private System.Windows.Forms.Panel panelSongListButtons;
-        private System.Windows.Forms.Button btnSaveDLC;
-        private System.Windows.Forms.Button btnBackupDLC;
-        private System.Windows.Forms.Button btnDLCPage;
         private System.Windows.Forms.Button btnRescan;
-        private System.Windows.Forms.Button btnEditDLC;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.TextBox tbSearch;

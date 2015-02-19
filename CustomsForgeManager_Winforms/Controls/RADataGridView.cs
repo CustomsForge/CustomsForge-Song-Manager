@@ -11,91 +11,26 @@ namespace CustomsForgeManager_Winforms.Controls
 {
     class RADataGridView : DataGridView
     {
-        protected override void Dispose(bool disposing)
+        public void ReLoadColumnOrder(List<ColumnOrderItem> ColumnOrderCollection)
         {
-            SaveColumnOrder();
-            base.Dispose(disposing);
-        }
-
-
-        private void SaveColumnOrder()
-        {
-            //string path = Constants.DefaultWorkingDirectory + "\\settings.bin";
-            //if (this.AllowUserToOrderColumns)
-            //{
-            //    List<ColumnOrderItem> columnOrder = new List<ColumnOrderItem>();
-            //    DataGridViewColumnCollection columns = this.Columns;
-            //    RADataGridViewSettings settings = new RADataGridViewSettings();
-
-            //    for (int i = 0; i < columns.Count; i++)
-            //    {
-            //        columnOrder.Add(new ColumnOrderItem
-            //        {
-            //            ColumnIndex = i,
-            //            DisplayIndex = columns[i].DisplayIndex,
-            //            Visible = columns[i].Visible,
-            //            Width = columns[i].Width
-            //        });
-            //    }
-            //}
-        }
-
-        public void LoadColumnOrder()
-        {
-            string path = Constants.DefaultWorkingDirectory + "\\settings.bin";
-            List<ColumnOrderItem> columnOrder = new List<ColumnOrderItem>();
-            RADataGridViewSettings settings = new RADataGridViewSettings();
-
-            using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
+            if (ColumnOrderCollection != null)
             {
-                RADataGridViewSettings deserialized = fs.DeSerialize() as RADataGridViewSettings;
-                if (deserialized != null)
+                if (Columns.Count > 1)
                 {
-                    try
+                    var sorted = ColumnOrderCollection.OrderBy(i => i.DisplayIndex);
+                    foreach (var item in sorted)
                     {
-                        if (deserialized.ColumnOrder[this.Name] != null)
+                        if (item != null)
                         {
-                            columnOrder = deserialized.ColumnOrder[this.Name];
-                            var sorted = columnOrder.OrderBy(i => i.DisplayIndex);
-                            foreach (var item in sorted)
+                            this.InvokeIfRequired(delegate
                             {
-                                this.Columns[item.ColumnIndex].DisplayIndex = item.DisplayIndex;
-                                this.Columns[item.ColumnIndex].Visible = item.Visible;
-                                this.Columns[item.ColumnIndex].Width = item.Width;
-                            }
+                                Columns[item.ColumnIndex].DisplayIndex = item.DisplayIndex;
+                                //Columns[item.ColumnIndex].Visible = item.Visible;
+                                Columns[item.ColumnIndex].Width = item.Width;
+                            });
                         }
                     }
-                    catch (KeyNotFoundException)
-                    {
-                    }
                 }
-                fs.Close();
-            }
-        }
-
-        public void LoadColumnOrder(Dictionary<string, List<ColumnOrderItem>> ColumnOrderCollection)
-        {
-            string path = Constants.DefaultWorkingDirectory + "\\settings.bin";
-            List<ColumnOrderItem> columnOrder = new List<ColumnOrderItem>();
-            try
-            {
-                columnOrder = ColumnOrderCollection[this.Name];
-                var sorted = columnOrder.OrderBy(i => i.DisplayIndex);
-                foreach (var item in sorted)
-                {
-                    if (item != null)
-                    {
-                        this.Columns[item.ColumnIndex].DisplayIndex = item.DisplayIndex;
-                        this.Columns[item.ColumnIndex].Visible = item.Visible;
-                        this.Columns[item.ColumnIndex].Width = item.Width;
-                    }
-                }
-            }
-            catch (KeyNotFoundException)
-            {
-            }
-            catch (NullReferenceException)
-            {
             }
         }
     }
