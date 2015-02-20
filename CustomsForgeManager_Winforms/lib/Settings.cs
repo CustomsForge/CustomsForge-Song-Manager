@@ -8,10 +8,9 @@ namespace CustomsForgeManager_Winforms.Utilities
     {
         public string LogFilePath { get; set; }
         public string RSInstalledDir { get; set; }
+        public string DisabledDLCDir { get; set; }
         public bool RescanOnStartup { get; set; }
         public RADataGridViewSettings ManagerGridSettings { get; set; }
-
-
     }
 
     [Serializable]
@@ -78,6 +77,17 @@ namespace CustomsForgeManager_Winforms.Utilities
                 if (_settingsData == null)
                     _settingsData = new SettingsData();
                 _settingsData.RSInstalledDir = value;
+            }
+        }
+
+        public string DisabledDLCDir
+        {
+            get { return _settingsData.DisabledDLCDir; }
+            set
+            {
+                if (_settingsData == null)
+                    _settingsData = new SettingsData();
+                _settingsData.DisabledDLCDir = value;
             }
         }
 

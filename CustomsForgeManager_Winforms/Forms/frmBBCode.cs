@@ -19,13 +19,12 @@ namespace CustomsForgeManager_Winforms.Forms
 
         public string BBCode 
         {
-            get { return BBCode; }
             set { txtBBCode.Text = value; }
         }
 
         private void btnCopyToClipboard_Click(object sender, EventArgs e)
         {
-            Clipboard.SetText(BBCode);
+            Clipboard.SetText(txtBBCode.Text);
         }
     }
 }

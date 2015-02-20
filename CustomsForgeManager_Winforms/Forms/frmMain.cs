@@ -23,6 +23,7 @@ namespace CustomsForgeManager_Winforms.Forms
 {
     public partial class frmMain : Form
     {
+        private bool allSelected = false;
         private bool sortDescending = true;
         private readonly Log myLog;
         private Settings mySettings;
@@ -79,7 +80,6 @@ namespace CustomsForgeManager_Winforms.Forms
             root = XElement.Load("tunings.xml");
         }
 
-
         private void BackgroundScan()
         {
             bWorker.DoWork -= PopulateListHandler;
@@ -104,11 +104,24 @@ namespace CustomsForgeManager_Winforms.Forms
         {
             Log("Scanning for songs...");
 
+            string enabled = "";
             int counter = 1;
             List<string> filesList = new List<string>(FilesList(mySettings.RSInstalledDir + "\\dlc"));
+            filesList.AddRange(FilesList(mySettings.DisabledDLCDir));
+
             foreach (string file in filesList)
             {
                 Progress(counter++ * 100 / filesList.Count);
+
+                if (file.Contains("disabledDLC"))
+                {
+                    enabled = "No";
+                }
+                else
+                {
+                    enabled = "Yes";
+                }
+
                 try
                 {
                     var browser = new PsarcBrowser(file);
@@ -134,9 +147,13 @@ namespace CustomsForgeManager_Winforms.Forms
                             Author = song.Author,
                             NewAvailable = "",
                             Path = file,
-                            DD = song.DD
+                            DD = DifficultyToDD(song.DD),
+                            Enabled = enabled
                         };
-                        SongCollection.Add(newSong);
+                        dgvSongs.InvokeIfRequired(delegate
+                        {
+                            SongCollection.Add(newSong);
+                        });
                     }
                 }
                 catch (Exception ex)
@@ -163,10 +180,7 @@ namespace CustomsForgeManager_Winforms.Forms
                 var dupes = SongCollection.Where(x => x.Song.ToLower() == song.Song.ToLower() && x.Album == song.Album).ToList();
                 if (dupes.Count > 1)
                 {
-                    if (DupeCollection.Where(x => x.Song.ToLower() == song.Song.ToLower()).ToList().Count > 0)
-                    {
-                    }
-                    else
+                    if (DupeCollection.Where(x => x.Song.ToLower() == song.Song.ToLower()).ToList().Count == 0)
                     {
                         DupeCollection.Add(new SongDupeData
                         {
@@ -201,20 +215,7 @@ namespace CustomsForgeManager_Winforms.Forms
             dgvSongs.InvokeIfRequired(delegate
             {
                 BindingSource bs = new BindingSource();
-                var songsToShow = from song in SongCollection
-                                  select new
-                                  {
-                                      song.Song,
-                                      song.Artist,
-                                      song.Album,
-                                      song.Updated,
-                                      song.Tuning,
-                                      DD = DifficultyToDD(song.DD),
-                                      song.Arrangements,
-                                      song.Author,
-                                      song.NewAvailable
-                                  };
-                bs.DataSource = songsToShow;
+                bs.DataSource = SongCollection;
                 dgvSongs.DataSource = bs;
                 dgvSongs.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
                 SortedSongCollection = SongCollection.ToList();
@@ -224,16 +225,15 @@ namespace CustomsForgeManager_Winforms.Forms
                 dgvSongs.Columns["colSelect"].DisplayIndex = 0;
             });
             Log("Finished scanning songs...", 100);
-
         }
 
-        
         #region Settings
         private void ResetSettings()
         {
             mySettings = new Settings();
             mySettings.LogFilePath = Constants.DefaultWorkingDirectory + "\\debug.log";
             mySettings.RSInstalledDir = GetInstallDirFromRegistry();
+            mySettings.DisabledDLCDir = mySettings.RSInstalledDir + @"\disabledDLC";
             mySettings.RescanOnStartup = true;
         }
         private void SaveSettingsToFile(string path = "")
@@ -247,12 +247,14 @@ namespace CustomsForgeManager_Winforms.Forms
                     mySettings = new Settings();
                     mySettings.LogFilePath = Constants.DefaultWorkingDirectory + Constants.DefaultLogName;
                     mySettings.RSInstalledDir = tbSettingsRSDir.Text;
+                    mySettings.DisabledDLCDir = mySettings.RSInstalledDir + @"\disabledDLC";
                     mySettings.RescanOnStartup = true;
                     Log("Default settings created...");
                 }
                 if (!string.IsNullOrEmpty(tbSettingsRSDir.Text))
                     mySettings.RSInstalledDir = tbSettingsRSDir.Text;
                 mySettings.RescanOnStartup = checkRescanOnStartup.Checked;
+                mySettings.DisabledDLCDir = mySettings.RSInstalledDir + @"\disabledDLC";
 
                 RADataGridViewSettings settings = new RADataGridViewSettings();
                 var columns = dgvSongs.Columns;
@@ -299,7 +301,7 @@ namespace CustomsForgeManager_Winforms.Forms
                     if (deserialized != null)
                     {
                         mySettings = deserialized;
-                        
+
                         tbSettingsRSDir.InvokeIfRequired(delegate
                         {
                             tbSettingsRSDir.Text = mySettings.RSInstalledDir;
@@ -543,22 +545,12 @@ namespace CustomsForgeManager_Winforms.Forms
         }
         private void SearchDLC(string criteria)
         {
-            var songsToShow = from song in SongCollection
-                              select new
-                              {
-                                  song.Song,
-                                  song.Artist,
-                                  song.Album,
-                                  song.Updated,
-                                  song.Tuning,
-                                  DD = DifficultyToDD(song.DD),
-                                  song.Arrangements,
-                                  song.Author,
-                                  song.NewAvailable
-                              };
-            var results = songsToShow.Where(x => x.Artist.ToLower().Contains(criteria.ToLower()) || x.Album.ToLower().Contains(criteria.ToLower()) || x.Song.ToLower().Contains(criteria.ToLower()) || x.Tuning.ToLower().Contains(criteria.ToLower())).ToList();
-            SortedSongCollection = (List<SongData>)(SongCollection.Where(x => x.Artist.ToLower().Contains(criteria.ToLower()) || x.Album.ToLower().Contains(criteria.ToLower()) || x.Song.ToLower().Contains(criteria.ToLower()) || x.Tuning.ToLower().Contains(criteria.ToLower()))).ToList(); 
-            dgvSongs.DataSource = results;
+            var results = SongCollection.Where(x => x.Artist.ToLower().Contains(criteria.ToLower()) || x.Album.ToLower().Contains(criteria.ToLower()) || x.Song.ToLower().Contains(criteria.ToLower()) || x.Tuning.ToLower().Contains(criteria.ToLower())).ToList();
+            SortedSongCollection = (List<SongData>)(SongCollection.Where(x => x.Artist.ToLower().Contains(criteria.ToLower()) || x.Album.ToLower().Contains(criteria.ToLower()) || x.Song.ToLower().Contains(criteria.ToLower()) || x.Tuning.ToLower().Contains(criteria.ToLower()))).ToList();
+            dgvSongs.InvokeIfRequired(delegate
+            {
+               dgvSongs.DataSource = results;
+            });
         }
         private void ShowSongInfo()
         {
@@ -579,8 +571,42 @@ namespace CustomsForgeManager_Winforms.Forms
             }
         }
 
-
         #region GUIEventHandlers
+        private void btnDisableEnableSongs_Click(object sender, EventArgs e)
+        {
+            string disabledFolderPath = mySettings.RSInstalledDir + @"\dlcDisabled";
+            string dlcPath = "";
+            if (!Directory.Exists(disabledFolderPath))
+            {
+                Directory.CreateDirectory(disabledFolderPath);
+            }
+            try
+            {
+                foreach (DataGridViewRow row in dgvSongs.Rows)
+                {
+                    if (Convert.ToBoolean(row.Cells["colSelect"].Value) == true)
+                    {
+                        SongData currentSong = SongCollection.Where(song => song.Song == (string)row.Cells["Song"].Value).ToList()[0];
+                        if (currentSong.Enabled == "Yes")
+                        {
+                            dlcPath = mySettings.DisabledDLCDir + @"\" + Path.GetFileName(currentSong.Path);
+                            File.Move(currentSong.Path, dlcPath);
+                            currentSong.Path = dlcPath;
+                        }
+                        else
+                        {
+                            dlcPath = mySettings.RSInstalledDir + @"\dlc\" + Path.GetFileName(currentSong.Path);
+                            File.Move(currentSong.Path, dlcPath);
+                            currentSong.Path = dlcPath;
+                        }
+                    }
+                }
+            }
+            catch (IOException ex)
+            {
+                Log(ex.Message);
+            }
+        }
         private void showDLCInfoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ShowSongInfo();
@@ -598,32 +624,27 @@ namespace CustomsForgeManager_Winforms.Forms
         }
         private void dgvSongs_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
+            bool selectAll = false; 
             int scrollOffset = 0;
             BindingSource bs = new BindingSource();
-            var songsToShow = from song in SortedSongCollection
-                              select new
-                              {
-                                  song.Song,
-                                  song.Artist,
-                                  song.Album,
-                                  song.Updated,
-                                  song.Tuning,
-                                  DD = DifficultyToDD(song.DD),
-                                  song.Arrangements,
-                                  song.Author,
-                                  song.NewAvailable
-                              };
+            var songsToShow = SortedSongCollection;
+            
             switch (dgvSongs.Columns[e.ColumnIndex].Name)
             {
                 case "colSelect":
+                    bs.DataSource = songsToShow.ToList();
+                    selectAll = true;
+                    allSelected = !allSelected;
+                    break;
+                case "Enabled":
                     if (sortDescending)
                     {
-                        bs.DataSource = songsToShow.OrderByDescending(song => song.Song);
+                        bs.DataSource = songsToShow.OrderByDescending(song => song.Enabled);
                         sortDescending = false;
                     }
                     else
                     {
-                        bs.DataSource = songsToShow.OrderBy(song => song.Song);
+                        bs.DataSource = songsToShow.OrderBy(song => song.Enabled);
                         sortDescending = true;
                     }
                     break;
@@ -739,6 +760,20 @@ namespace CustomsForgeManager_Winforms.Forms
             scrollOffset = dgvSongs.HorizontalScrollingOffset;
             dgvSongs.DataSource = bs;
             dgvSongs.HorizontalScrollingOffset = scrollOffset;
+            if(selectAll)
+            {
+                foreach (DataGridViewRow row in dgvSongs.Rows)
+                    {
+                        if (allSelected)
+                        {
+                            row.Cells["colSelect"].Value = false;
+                        }
+                        else
+                        {
+                            row.Cells["colSelect"].Value = true;
+                        }
+                    }
+            }
         }
         private void btnSongsToBBCode_Click(object sender, EventArgs e)
         {
@@ -937,20 +972,10 @@ namespace CustomsForgeManager_Winforms.Forms
         }
         private void link_MainClearResults_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            var songsToShow = (from song in SongCollection
-                               select new
-                               {
-                                   song.Song,
-                                   song.Artist,
-                                   song.Album,
-                                   song.Updated,
-                                   song.Tuning,
-                                   DD = DifficultyToDD(song.DD),
-                                   song.Arrangements,
-                                   song.Author,
-                                   song.NewAvailable
-                               }).ToList();
-            dgvSongs.DataSource = songsToShow;
+            dgvSongs.InvokeIfRequired(delegate
+            {
+                dgvSongs.DataSource = SongCollection;
+            });
             tbSearch.InvokeIfRequired(delegate { tbSearch.Text = ""; });
         }
         private void link_LovromanProfile_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -978,11 +1003,9 @@ namespace CustomsForgeManager_Winforms.Forms
             SaveSettingsToFile();
         }
 
-        
-
         private void dgvSongs_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
-            var grid = (DataGridView) sender;
+            var grid = (DataGridView)sender;
             if (e.Button == MouseButtons.Right)
             {
                 if (e.RowIndex != -1)
@@ -1003,21 +1026,16 @@ namespace CustomsForgeManager_Winforms.Forms
         private void btnCheckAllForUpdates_Click(object sender, EventArgs e)
         {
             int count = dgvSongs.RowCount;
-            int counter = 0;
             foreach (var row in dgvSongs.Rows)
             {
                 CheckRowForUpdate((DataGridViewRow)row);
             }
         }
 
-
         private void openDLCPageToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ERR_NI();
         }
-
-        
-
         #endregion
 
         private string GetDLCInfoFromURL(string apiUrl, string fieldName)
@@ -1030,7 +1048,6 @@ namespace CustomsForgeManager_Winforms.Forms
             result = jsonJToken.SelectToken(fieldName).ToString();
             return result;
         }
-
         private void CheckRowForUpdate(DataGridViewRow dataGridViewRow)
         {
             var selectedRow = dataGridViewRow;
@@ -1065,15 +1082,11 @@ namespace CustomsForgeManager_Winforms.Forms
                             myLog.Write(string.Format("No new version found for \"{0}\" from \"{1}\" album by {2}", name, album, artist));
                     }
                 }
-
             }
             catch (Exception wex)
             {
                 myLog.Write(string.Format("<Error>: {0}", wex.Message));
             }
         }
-
-        
-
     }
 }

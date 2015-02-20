@@ -106,7 +106,7 @@ namespace CustomsForgeManager_Winforms
                                     Identifier = identifier,
                                     DD = attributes["MaxPhraseDifficulty"].ToString(),
                                     //Author = attributes["Version"].ToString(),
-                                    Arrangements = new List<string>(),
+                                    Arrangements = new List<string>()
                                 };
                                 songList.Add(currentSong);
                             }

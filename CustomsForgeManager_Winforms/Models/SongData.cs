@@ -10,7 +10,7 @@ namespace CustomsForgeManager_Winforms
     [Serializable]
     public class SongData
     {
-        public string Preview { get; set; }
+        public string Enabled { get; set; }
         public string Artist { get; set; }
         public string Song { get; set; }
         public string Album { get; set; }
