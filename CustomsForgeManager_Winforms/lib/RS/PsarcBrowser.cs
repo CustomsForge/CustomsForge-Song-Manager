@@ -17,7 +17,7 @@ using System.Text.RegularExpressions;
 
 namespace CustomsForgeManager_Winforms
 {
-    public class PsarcBrowser
+    public class PsarcBrowser : IDisposable
     {
         private PSARC archive;
         private Platform platform;
@@ -84,7 +84,8 @@ namespace CustomsForgeManager_Winforms
                                 entry.Data.CopyTo(ms);
                                 entry.Data.Position = 0;
                                 ms.Position = 0;
-                                JObject o = JObject.Parse(reader.ReadToEnd());
+                                string strJson = reader.ReadToEnd();
+                                JObject o = JObject.Parse(strJson);
                                 var attributes = o["Entries"].First.Last["Attributes"];
                                 currentSong = new SongInfo()
                                 {
@@ -176,6 +177,11 @@ namespace CustomsForgeManager_Winforms
             Sng2014File sng = Sng2014File.ReadSng(sngFile.Data, platform);
 
             return new Song2014(sng, attr);
+        }
+
+        public void Dispose()
+        {
+            archive.Dispose();
         }
     }
 

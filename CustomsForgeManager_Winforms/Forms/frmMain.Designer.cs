@@ -104,6 +104,8 @@
             this.timerAutoUpdate = new System.Windows.Forms.Timer(this.components);
             this.folderBrowserDialog_SettingsRSPath = new System.Windows.Forms.FolderBrowserDialog();
             this.sfdSongListToCSV = new System.Windows.Forms.SaveFileDialog();
+            this.checkForUpdateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnCheckAllForUpdates = new System.Windows.Forms.Button();
             this.dgvSongs = new CustomsForgeManager_Winforms.Controls.RADataGridView();
             this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.tlp_MainForm_Wrappper.SuspendLayout();
@@ -216,6 +218,7 @@
             // 
             this.panelSongListButtons.Controls.Add(this.btnSongsToBBCode);
             this.panelSongListButtons.Controls.Add(this.btnSongsToCSV);
+            this.panelSongListButtons.Controls.Add(this.btnCheckAllForUpdates);
             this.panelSongListButtons.Controls.Add(this.btnRescan);
             this.panelSongListButtons.Location = new System.Drawing.Point(3, 334);
             this.panelSongListButtons.Name = "panelSongListButtons";
@@ -225,7 +228,7 @@
             // btnSongsToBBCode
             // 
             this.btnSongsToBBCode.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnSongsToBBCode.Location = new System.Drawing.Point(413, 15);
+            this.btnSongsToBBCode.Location = new System.Drawing.Point(600, 15);
             this.btnSongsToBBCode.Name = "btnSongsToBBCode";
             this.btnSongsToBBCode.Size = new System.Drawing.Size(150, 23);
             this.btnSongsToBBCode.TabIndex = 13;
@@ -236,7 +239,7 @@
             // btnSongsToCSV
             // 
             this.btnSongsToCSV.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnSongsToCSV.Location = new System.Drawing.Point(250, 15);
+            this.btnSongsToCSV.Location = new System.Drawing.Point(437, 15);
             this.btnSongsToCSV.Name = "btnSongsToCSV";
             this.btnSongsToCSV.Size = new System.Drawing.Size(157, 23);
             this.btnSongsToCSV.TabIndex = 12;
@@ -398,27 +401,29 @@
             this.contextMenuStrip_MainManager.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.showDLCInfoToolStripMenuItem,
             this.openDLCPageToolStripMenuItem,
+            this.checkForUpdateToolStripMenuItem,
             this.editDLCToolStripMenuItem});
             this.contextMenuStrip_MainManager.Name = "contextMenuStrip_MainManager";
-            this.contextMenuStrip_MainManager.Size = new System.Drawing.Size(158, 70);
+            this.contextMenuStrip_MainManager.Size = new System.Drawing.Size(246, 114);
             // 
             // showDLCInfoToolStripMenuItem
             // 
             this.showDLCInfoToolStripMenuItem.Name = "showDLCInfoToolStripMenuItem";
-            this.showDLCInfoToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.showDLCInfoToolStripMenuItem.Size = new System.Drawing.Size(245, 22);
             this.showDLCInfoToolStripMenuItem.Text = "Show DLC Info";
             this.showDLCInfoToolStripMenuItem.Click += new System.EventHandler(this.showDLCInfoToolStripMenuItem_Click);
             // 
             // openDLCPageToolStripMenuItem
             // 
             this.openDLCPageToolStripMenuItem.Name = "openDLCPageToolStripMenuItem";
-            this.openDLCPageToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.openDLCPageToolStripMenuItem.Size = new System.Drawing.Size(245, 22);
             this.openDLCPageToolStripMenuItem.Text = "Open DLC Page";
+            this.openDLCPageToolStripMenuItem.Click += new System.EventHandler(this.openDLCPageToolStripMenuItem_Click);
             // 
             // editDLCToolStripMenuItem
             // 
             this.editDLCToolStripMenuItem.Name = "editDLCToolStripMenuItem";
-            this.editDLCToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.editDLCToolStripMenuItem.Size = new System.Drawing.Size(245, 22);
             this.editDLCToolStripMenuItem.Text = "Edit DLC";
             // 
             // panel1
@@ -921,19 +926,42 @@
             this.sfdSongListToCSV.FileName = "songList.csv";
             this.sfdSongListToCSV.Filter = "csv files(*.csv)|*.csv|All files (*.*)|*.*";
             // 
+            // checkForUpdateToolStripMenuItem
+            // 
+            this.checkForUpdateToolStripMenuItem.Name = "checkForUpdateToolStripMenuItem";
+            this.checkForUpdateToolStripMenuItem.Size = new System.Drawing.Size(245, 22);
+            this.checkForUpdateToolStripMenuItem.Text = "[experimental] Check for Update";
+            this.checkForUpdateToolStripMenuItem.Click += new System.EventHandler(this.checkForUpdateToolStripMenuItem_Click);
+            // 
+            // btnCheckAllForUpdates
+            // 
+            this.btnCheckAllForUpdates.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnCheckAllForUpdates.Location = new System.Drawing.Point(102, 13);
+            this.btnCheckAllForUpdates.Name = "btnCheckAllForUpdates";
+            this.btnCheckAllForUpdates.Size = new System.Drawing.Size(218, 27);
+            this.btnCheckAllForUpdates.TabIndex = 4;
+            this.btnCheckAllForUpdates.Text = "[experimental] Check All for Update";
+            this.btnCheckAllForUpdates.UseVisualStyleBackColor = true;
+            this.btnCheckAllForUpdates.Click += new System.EventHandler(this.btnCheckAllForUpdates_Click);
+            // 
             // dgvSongs
             // 
             this.dgvSongs.AllowUserToOrderColumns = true;
+            this.dgvSongs.AllowUserToResizeRows = false;
             this.dgvSongs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvSongs.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colSelect});
+            this.dgvSongs.ContextMenuStrip = this.contextMenuStrip_MainManager;
             this.dgvSongs.Location = new System.Drawing.Point(3, 3);
+            this.dgvSongs.MultiSelect = false;
             this.dgvSongs.Name = "dgvSongs";
             this.dgvSongs.RowHeadersVisible = false;
+            this.dgvSongs.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvSongs.Size = new System.Drawing.Size(758, 287);
             this.dgvSongs.TabIndex = 1;
             this.dgvSongs.DataSourceChanged += new System.EventHandler(this.dgvSongs_DataSourceChanged);
             this.dgvSongs.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSongs_CellDoubleClick);
+            this.dgvSongs.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongs_CellMouseDown);
             this.dgvSongs.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongs_ColumnHeaderMouseClick);
             // 
             // colSelect
@@ -1072,6 +1100,8 @@
         private System.Windows.Forms.Panel panel5;
         private Controls.RADataGridView dgvSongs;
         private System.Windows.Forms.DataGridViewCheckBoxColumn colSelect;
+        private System.Windows.Forms.ToolStripMenuItem checkForUpdateToolStripMenuItem;
+        private System.Windows.Forms.Button btnCheckAllForUpdates;
     }
 }
 

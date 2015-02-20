@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Deployment.Application;
+using System.Drawing;
 using System.IO;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using CustomsForgeManager_Winforms.Logging;
 using CustomsForgeManager_Winforms.Utilities;
@@ -12,6 +16,8 @@ using System.IO.Compression;
 using System.Diagnostics;
 using System.Text;
 using System.Xml.Linq;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace CustomsForgeManager_Winforms.Forms
 {
@@ -221,405 +227,7 @@ namespace CustomsForgeManager_Winforms.Forms
 
         }
 
-        #region GUIEventHandlers
-        private void showDLCInfoToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ShowSongInfo();
-        }
-        private void dgvSongs_DataSourceChanged(object sender, EventArgs e)
-        {
-            var dataGridViewColumn = ((DataGridView)sender).Columns["Preview"];
-            if (dataGridViewColumn != null && dataGridViewColumn.Visible)
-                dataGridViewColumn.Visible = false;
-        }
-        private void dgvSongs_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex != -1) //if it's not header
-                ShowSongInfo();
-        }
-        private void dgvSongs_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            int scrollOffset = 0;
-            BindingSource bs = new BindingSource();
-            var songsToShow = from song in SortedSongCollection
-                              select new
-                              {
-                                  song.Song,
-                                  song.Artist,
-                                  song.Album,
-                                  song.Updated,
-                                  song.Tuning,
-                                  DD = DifficultyToDD(song.DD),
-                                  song.Arrangements,
-                                  song.Author,
-                                  song.NewAvailable
-                              };
-            switch (dgvSongs.Columns[e.ColumnIndex].Name)
-            {
-                case "colSelect":
-                    if (sortDescending)
-                    {
-                        bs.DataSource = songsToShow.OrderByDescending(song => song.Song);
-                        sortDescending = false;
-                    }
-                    else
-                    {
-                        bs.DataSource = songsToShow.OrderBy(song => song.Song);
-                        sortDescending = true;
-                    }
-                    break;
-                case "Song":
-                    if (sortDescending)
-                    {
-                        bs.DataSource = songsToShow.OrderByDescending(song => song.Song);
-                        sortDescending = false;
-                    }
-                    else
-                    {
-                        bs.DataSource = songsToShow.OrderBy(song => song.Song);
-                        sortDescending = true;
-                    }
-                    break;
-                case "Artist":
-                    if (sortDescending)
-                    {
-                        bs.DataSource = songsToShow.OrderByDescending(song => song.Artist);
-                        sortDescending = false;
-                    }
-                    else
-                    {
-                        bs.DataSource = songsToShow.OrderBy(song => song.Artist);
-                        sortDescending = true;
-                    }
-                    break;
-                case "Album":
-                    if (sortDescending)
-                    {
-                        bs.DataSource = songsToShow.OrderByDescending(song => song.Album);
-                        sortDescending = false;
-                    }
-                    else
-                    {
-                        bs.DataSource = songsToShow.OrderBy(song => song.Album);
-                        sortDescending = true;
-                    }
-                    break;
-                case "Updated":
-                    if (sortDescending)
-                    {
-                        bs.DataSource = songsToShow.OrderByDescending(song => DateTime.ParseExact(song.Updated, "M-d-y H:m", System.Globalization.CultureInfo.InvariantCulture));
-                        sortDescending = false;
-                    }
-                    else
-                    {
-                        bs.DataSource = songsToShow.OrderBy(song => DateTime.ParseExact(song.Updated, "M-d-y H:m", System.Globalization.CultureInfo.InvariantCulture));
-                        sortDescending = true;
-                    }
-                    break;
-                case "Tuning":
-                    if (sortDescending)
-                    {
-                        bs.DataSource = songsToShow.OrderByDescending(song => song.Tuning);
-                        sortDescending = false;
-                    }
-                    else
-                    {
-                        bs.DataSource = songsToShow.OrderBy(song => song.Tuning);
-                        sortDescending = true;
-                    }
-                    break;
-                case "DD":
-                    if (sortDescending)
-                    {
-                        bs.DataSource = songsToShow.OrderByDescending(song => song.DD);
-                        sortDescending = false;
-                    }
-                    else
-                    {
-                        bs.DataSource = songsToShow.OrderBy(song => song.DD);
-                        sortDescending = true;
-                    }
-                    break;
-                case "Arrangements":
-                    if (sortDescending)
-                    {
-                        bs.DataSource = songsToShow.OrderByDescending(song => song.Arrangements);
-                        sortDescending = false;
-                    }
-                    else
-                    {
-                        bs.DataSource = songsToShow.OrderBy(song => song.Arrangements);
-                        sortDescending = true;
-                    }
-                    break;
-                case "Author":
-                    if (sortDescending)
-                    {
-                        bs.DataSource = songsToShow.OrderByDescending(song => song.Author);
-                        sortDescending = false;
-                    }
-                    else
-                    {
-                        bs.DataSource = songsToShow.OrderBy(song => song.Author);
-                        sortDescending = true;
-                    }
-                    break;
-                case "NewAvailable":
-                    if (sortDescending)
-                    {
-                        bs.DataSource = songsToShow.OrderByDescending(song => song.Song);
-                        sortDescending = false;
-                    }
-                    else
-                    {
-                        bs.DataSource = songsToShow.OrderBy(song => song.Song);
-                        sortDescending = true;
-                    }
-                    break;
-            }
-            scrollOffset = dgvSongs.HorizontalScrollingOffset;
-            dgvSongs.DataSource = bs;
-            dgvSongs.HorizontalScrollingOffset = scrollOffset;
-        }
-        private void btnSongsToBBCode_Click(object sender, EventArgs e)
-        {
-            var sbTXT = new StringBuilder();
-            sbTXT.AppendLine("Song - Artist, Album, Updated, Tuning, DD, Arangements, Author");
-            sbTXT.AppendLine("[LIST=1]");
-            foreach (var song in SongCollection)
-            {
-                if(song.Author == null)
-                {
-                    sbTXT.AppendLine("[*]" + song.Song + " - " + song.Artist + ", " + song.Album + ", " + song.Updated + ", " + song.Tuning + ", " + DifficultyToDD(song.DD) + ", " + song.Arrangements + "[/*]");
-                }
-                else 
-                {
-                    sbTXT.AppendLine("[*]" + song.Song + " - " + song.Artist + ", " + song.Album + ", " + song.Updated + ", " + song.Tuning + ", " + DifficultyToDD(song.DD) + ", " + song.Arrangements + ", " + song.Author + "[/*]");
-                }
-            }
-            sbTXT.AppendLine("[/LIST]");
-
-            using (frmBBCode FormBBCode = new frmBBCode())
-            {
-                FormBBCode.BBCode = sbTXT.ToString();
-                FormBBCode.ShowDialog();
-            }
-        }
-        private void btnSongsToCSV_Click(object sender, EventArgs e)
-        {
-            var sbCSV = new StringBuilder();
-            string path = Constants.DefaultWorkingDirectory + @"\SongListCSV.csv";
-
-            sfdSongListToCSV.Filter = "csv files(*.csv)|*.csv|All files (*.*)|*.*";
-            sfdSongListToCSV.FileName = "SongListCSV";
-
-            if (sfdSongListToCSV.ShowDialog() == DialogResult.OK)
-            {
-                path = sfdSongListToCSV.FileName;
-            }
-
-            sbCSV.AppendLine(@"sep=;");
-            sbCSV.AppendLine("Artist;Song;Album;Year;Tuning;Arrangements");
-            foreach (var song in SongCollection)
-            {
-                sbCSV.AppendLine(song.Artist + ";" + song.Song + ";" + song.Album + ";" + song.SongYear + ";" + song.Tuning + ";" + song.Arrangements);
-            }
-            try
-            {
-                using (StreamWriter file = new StreamWriter(path, false, Encoding.UTF8))
-                {
-                    file.Write(sbCSV.ToString());
-                }
-                Log("Song list saved to:" + path);
-            }
-            catch (IOException ex)
-            {
-                Log("<Error>:" + ex.Message);
-            }
-        }
-        private void btnLaunchSteam_Click(object sender, EventArgs e)
-        {
-            Process[] rocksmithProcess = Process.GetProcessesByName("Rocksmith2014.exe");
-            if (rocksmithProcess.Length > 0)
-                MessageBox.Show("Rocksmith is already running!");
-            else
-                Process.Start("steam://rungameid/221680");
-        }
-        private void btnBackupRSProfile_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                string timestamp = string.Format("{0}-{1}-{2}.{3}-{4}-{5}", DateTime.Now.Day, DateTime.Now.Month,
-                    DateTime.Now.Year, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
-                string backupPath = string.Format("{0}\\profile.backup.{1}.zip", Constants.DefaultWorkingDirectory, timestamp);
-                string profilePath = "";
-                string steamUserdataPath = Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Valve\Steam", "InstallPath", null) + @"\userdata";
-                DirectoryInfo dInfo = new DirectoryInfo(steamUserdataPath);
-                DirectoryInfo[] subdirs = dInfo.GetDirectories("*", SearchOption.AllDirectories);
-                foreach (DirectoryInfo info in subdirs)
-                {
-                    if (info.FullName.Contains(@"221680\remote"))
-                    {
-                        profilePath = info.FullName;
-                    }
-                }
-                if (profilePath != "")
-                {
-                    ZipFile.CreateFromDirectory(profilePath, backupPath);
-                    Log("Backup created at " + backupPath, 100);
-                }
-                else
-                {
-                    Log("Steam profile not found!");
-                }
-            }
-            catch (Exception ex)
-            {
-                Log("<Error>:" + ex.Message);
-            }
-        }
-        private void btnDupeRescan_Click(object sender, EventArgs e)
-        {
-            listDupeSongs.Items.Clear();
-            DupeCollection.Clear();
-            SongCollection.Clear();
-            tpDuplicates.InvokeIfRequired(delegate
-            {
-                tpDuplicates.Text = "Duplicates(0)";
-            });
-            BackgroundScan();
-        }
-        private void btnDeleteSongOne_Click(object sender, EventArgs e)
-        {
-            listDupeSongs.InvokeIfRequired(delegate
-                    {
-                        for (int i = 0; i < listDupeSongs.Items.Count; i++)
-                        {
-                            if (listDupeSongs.Items[i].Checked)
-                            {
-                                try
-                                {
-                                    File.Delete(DupeCollection[i].SongOnePath);
-                                    DupeCollection.RemoveAt(i);
-                                    listDupeSongs.Items.RemoveAt(i);
-                                    tpDuplicates.Text = "Duplicates(" + DupeCollection.Count.ToString() + ")";
-                                }
-                                catch (IndexOutOfRangeException)
-                                {
-                                }
-                            }
-                        }
-                    });
-        }
-        private void btnDeleteSongTwo_Click(object sender, EventArgs e)
-        {
-            listDupeSongs.InvokeIfRequired(delegate
-            {
-                for (int i = 0; i < listDupeSongs.Items.Count; i++)
-                {
-                    if (listDupeSongs.Items[i].Checked)
-                    {
-                        try
-                        {
-                            File.Delete(DupeCollection[i].SongTwoPath);
-                            DupeCollection.RemoveAt(i);
-                            listDupeSongs.Items.RemoveAt(i);
-                            tpDuplicates.Text = "Duplicates(" + DupeCollection.Count.ToString() + ")";
-                        }
-                        catch (IndexOutOfRangeException)
-                        {
-                        }
-                    }
-                }
-            });
-        }
-        private void btnRescan_Click(object sender, EventArgs e)
-        {
-            SongCollection.Clear();
-            BackgroundScan();
-        }
-        private void lnkAboutCF_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            Process.Start("http://customsforge.com");
-        }
-        private void timerAutoUpdate_Tick(object sender, EventArgs e)
-        {
-            CheckForUpdate();
-        }
-        private void tbSettingsRSDir_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            if (tbSettingsRSDir.Enabled)
-            {
-                if (folderBrowserDialog_SettingsRSPath.ShowDialog() == DialogResult.OK)
-                {
-                    tbSettingsRSDir.Text = folderBrowserDialog_SettingsRSPath.SelectedPath;
-                    mySettings.RSInstalledDir = tbSettingsRSDir.Text;
-                }
-            }
-        }
-        private void btnSettingsSave_Click(object sender, EventArgs e)
-        {
-            SaveSettingsToFile();
-        }
-        private void btnSettingsLoad_Click(object sender, EventArgs e)
-        {
-            LoadSettingsFromFile();
-        }
-        private void btnSearch_Click(object sender, EventArgs e)
-        {
-            SearchDLC(tbSearch.Text);
-        }
-        private void tbSearch_KeyUp(object sender, KeyEventArgs e)
-        {
-            if (tbSearch.Text.Length > 0 && e.KeyCode == Keys.Enter)
-            {
-                SearchDLC(tbSearch.Text);
-            }
-        }
-        private void link_MainClearResults_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            var songsToShow = (from song in SongCollection
-                               select new
-                               {
-                                   song.Song,
-                                   song.Artist,
-                                   song.Album,
-                                   song.Updated,
-                                   song.Tuning,
-                                   DD = DifficultyToDD(song.DD),
-                                   song.Arrangements,
-                                   song.Author,
-                                   song.NewAvailable
-                               }).ToList();
-            dgvSongs.DataSource = songsToShow;
-            tbSearch.InvokeIfRequired(delegate { tbSearch.Text = ""; });
-        }
-        private void link_LovromanProfile_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            Process.Start("http://customsforge.com/user/43194-lovroman/");
-        }
-        private void link_DarjuszProfile_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            System.Diagnostics.Process.Start("http://customsforge.com/user/5299-darjusz/");
-        }
-        private void link_Alex360Profile_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            System.Diagnostics.Process.Start("http://customsforge.com/user/236-alex360/");
-        }
-        private void link_UnleashedProfile_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            System.Diagnostics.Process.Start("http://customsforge.com/user/1-unleashed2k/");
-        }
-        private void link_ForgeOnProfile_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            System.Diagnostics.Process.Start("http://customsforge.com/user/345-forgeon/");
-        }
-        private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            SaveSettingsToFile();
-        }
-
-        #endregion
+        
         #region Settings
         private void ResetSettings()
         {
@@ -756,6 +364,11 @@ namespace CustomsForgeManager_Winforms.Forms
             btnRescan.InvokeIfRequired(delegate
             {
                 btnRescan.Enabled = !btnRescan.Enabled;
+            });
+
+            btnCheckAllForUpdates.InvokeIfRequired(delegate
+            {
+                btnCheckAllForUpdates.Enabled = !btnCheckAllForUpdates.Enabled;
             });
 
             //Uncomment after implementing:
@@ -965,6 +578,502 @@ namespace CustomsForgeManager_Winforms.Forms
                 }
             }
         }
+
+
+        #region GUIEventHandlers
+        private void showDLCInfoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowSongInfo();
+        }
+        private void dgvSongs_DataSourceChanged(object sender, EventArgs e)
+        {
+            var dataGridViewColumn = ((DataGridView)sender).Columns["Preview"];
+            if (dataGridViewColumn != null && dataGridViewColumn.Visible)
+                dataGridViewColumn.Visible = false;
+        }
+        private void dgvSongs_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex != -1) //if it's not header
+                ShowSongInfo();
+        }
+        private void dgvSongs_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            int scrollOffset = 0;
+            BindingSource bs = new BindingSource();
+            var songsToShow = from song in SortedSongCollection
+                              select new
+                              {
+                                  song.Song,
+                                  song.Artist,
+                                  song.Album,
+                                  song.Updated,
+                                  song.Tuning,
+                                  DD = DifficultyToDD(song.DD),
+                                  song.Arrangements,
+                                  song.Author,
+                                  song.NewAvailable
+                              };
+            switch (dgvSongs.Columns[e.ColumnIndex].Name)
+            {
+                case "colSelect":
+                    if (sortDescending)
+                    {
+                        bs.DataSource = songsToShow.OrderByDescending(song => song.Song);
+                        sortDescending = false;
+                    }
+                    else
+                    {
+                        bs.DataSource = songsToShow.OrderBy(song => song.Song);
+                        sortDescending = true;
+                    }
+                    break;
+                case "Song":
+                    if (sortDescending)
+                    {
+                        bs.DataSource = songsToShow.OrderByDescending(song => song.Song);
+                        sortDescending = false;
+                    }
+                    else
+                    {
+                        bs.DataSource = songsToShow.OrderBy(song => song.Song);
+                        sortDescending = true;
+                    }
+                    break;
+                case "Artist":
+                    if (sortDescending)
+                    {
+                        bs.DataSource = songsToShow.OrderByDescending(song => song.Artist);
+                        sortDescending = false;
+                    }
+                    else
+                    {
+                        bs.DataSource = songsToShow.OrderBy(song => song.Artist);
+                        sortDescending = true;
+                    }
+                    break;
+                case "Album":
+                    if (sortDescending)
+                    {
+                        bs.DataSource = songsToShow.OrderByDescending(song => song.Album);
+                        sortDescending = false;
+                    }
+                    else
+                    {
+                        bs.DataSource = songsToShow.OrderBy(song => song.Album);
+                        sortDescending = true;
+                    }
+                    break;
+                case "Updated":
+                    if (sortDescending)
+                    {
+                        bs.DataSource = songsToShow.OrderByDescending(song => DateTime.ParseExact(song.Updated, "M-d-y H:m", System.Globalization.CultureInfo.InvariantCulture));
+                        sortDescending = false;
+                    }
+                    else
+                    {
+                        bs.DataSource = songsToShow.OrderBy(song => DateTime.ParseExact(song.Updated, "M-d-y H:m", System.Globalization.CultureInfo.InvariantCulture));
+                        sortDescending = true;
+                    }
+                    break;
+                case "Tuning":
+                    if (sortDescending)
+                    {
+                        bs.DataSource = songsToShow.OrderByDescending(song => song.Tuning);
+                        sortDescending = false;
+                    }
+                    else
+                    {
+                        bs.DataSource = songsToShow.OrderBy(song => song.Tuning);
+                        sortDescending = true;
+                    }
+                    break;
+                case "DD":
+                    if (sortDescending)
+                    {
+                        bs.DataSource = songsToShow.OrderByDescending(song => song.DD);
+                        sortDescending = false;
+                    }
+                    else
+                    {
+                        bs.DataSource = songsToShow.OrderBy(song => song.DD);
+                        sortDescending = true;
+                    }
+                    break;
+                case "Arrangements":
+                    if (sortDescending)
+                    {
+                        bs.DataSource = songsToShow.OrderByDescending(song => song.Arrangements);
+                        sortDescending = false;
+                    }
+                    else
+                    {
+                        bs.DataSource = songsToShow.OrderBy(song => song.Arrangements);
+                        sortDescending = true;
+                    }
+                    break;
+                case "Author":
+                    if (sortDescending)
+                    {
+                        bs.DataSource = songsToShow.OrderByDescending(song => song.Author);
+                        sortDescending = false;
+                    }
+                    else
+                    {
+                        bs.DataSource = songsToShow.OrderBy(song => song.Author);
+                        sortDescending = true;
+                    }
+                    break;
+                case "NewAvailable":
+                    if (sortDescending)
+                    {
+                        bs.DataSource = songsToShow.OrderByDescending(song => song.Song);
+                        sortDescending = false;
+                    }
+                    else
+                    {
+                        bs.DataSource = songsToShow.OrderBy(song => song.Song);
+                        sortDescending = true;
+                    }
+                    break;
+            }
+            scrollOffset = dgvSongs.HorizontalScrollingOffset;
+            dgvSongs.DataSource = bs;
+            dgvSongs.HorizontalScrollingOffset = scrollOffset;
+        }
+        private void btnSongsToBBCode_Click(object sender, EventArgs e)
+        {
+            var sbTXT = new StringBuilder();
+            sbTXT.AppendLine("Song - Artist, Album, Updated, Tuning, DD, Arangements, Author");
+            sbTXT.AppendLine("[LIST=1]");
+            foreach (var song in SongCollection)
+            {
+                if (song.Author == null)
+                {
+                    sbTXT.AppendLine("[*]" + song.Song + " - " + song.Artist + ", " + song.Album + ", " + song.Updated + ", " + song.Tuning + ", " + DifficultyToDD(song.DD) + ", " + song.Arrangements + "[/*]");
+                }
+                else
+                {
+                    sbTXT.AppendLine("[*]" + song.Song + " - " + song.Artist + ", " + song.Album + ", " + song.Updated + ", " + song.Tuning + ", " + DifficultyToDD(song.DD) + ", " + song.Arrangements + ", " + song.Author + "[/*]");
+                }
+            }
+            sbTXT.AppendLine("[/LIST]");
+
+            using (frmBBCode FormBBCode = new frmBBCode())
+            {
+                FormBBCode.BBCode = sbTXT.ToString();
+                FormBBCode.ShowDialog();
+            }
+        }
+        private void btnSongsToCSV_Click(object sender, EventArgs e)
+        {
+            var sbCSV = new StringBuilder();
+            string path = Constants.DefaultWorkingDirectory + @"\SongListCSV.csv";
+
+            sfdSongListToCSV.Filter = "csv files(*.csv)|*.csv|All files (*.*)|*.*";
+            sfdSongListToCSV.FileName = "SongListCSV";
+
+            if (sfdSongListToCSV.ShowDialog() == DialogResult.OK)
+            {
+                path = sfdSongListToCSV.FileName;
+            }
+
+            sbCSV.AppendLine(@"sep=;");
+            sbCSV.AppendLine("Artist;Song;Album;Year;Tuning;Arrangements");
+            foreach (var song in SongCollection)
+            {
+                sbCSV.AppendLine(song.Artist + ";" + song.Song + ";" + song.Album + ";" + song.SongYear + ";" + song.Tuning + ";" + song.Arrangements);
+            }
+            try
+            {
+                using (StreamWriter file = new StreamWriter(path, false, Encoding.UTF8))
+                {
+                    file.Write(sbCSV.ToString());
+                }
+                Log("Song list saved to:" + path);
+            }
+            catch (IOException ex)
+            {
+                Log("<Error>:" + ex.Message);
+            }
+        }
+        private void btnLaunchSteam_Click(object sender, EventArgs e)
+        {
+            Process[] rocksmithProcess = Process.GetProcessesByName("Rocksmith2014.exe");
+            if (rocksmithProcess.Length > 0)
+                MessageBox.Show("Rocksmith is already running!");
+            else
+                Process.Start("steam://rungameid/221680");
+        }
+        private void btnBackupRSProfile_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string timestamp = string.Format("{0}-{1}-{2}.{3}-{4}-{5}", DateTime.Now.Day, DateTime.Now.Month,
+                    DateTime.Now.Year, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
+                string backupPath = string.Format("{0}\\profile.backup.{1}.zip", Constants.DefaultWorkingDirectory, timestamp);
+                string profilePath = "";
+                string steamUserdataPath = Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Valve\Steam", "InstallPath", null) + @"\userdata";
+                DirectoryInfo dInfo = new DirectoryInfo(steamUserdataPath);
+                DirectoryInfo[] subdirs = dInfo.GetDirectories("*", SearchOption.AllDirectories);
+                foreach (DirectoryInfo info in subdirs)
+                {
+                    if (info.FullName.Contains(@"221680\remote"))
+                    {
+                        profilePath = info.FullName;
+                    }
+                }
+                if (profilePath != "")
+                {
+                    ZipFile.CreateFromDirectory(profilePath, backupPath);
+                    Log("Backup created at " + backupPath, 100);
+                }
+                else
+                {
+                    Log("Steam profile not found!");
+                }
+            }
+            catch (Exception ex)
+            {
+                Log("<Error>:" + ex.Message);
+            }
+        }
+        private void btnDupeRescan_Click(object sender, EventArgs e)
+        {
+            listDupeSongs.Items.Clear();
+            DupeCollection.Clear();
+            SongCollection.Clear();
+            tpDuplicates.InvokeIfRequired(delegate
+            {
+                tpDuplicates.Text = "Duplicates(0)";
+            });
+            BackgroundScan();
+        }
+        private void btnDeleteSongOne_Click(object sender, EventArgs e)
+        {
+            listDupeSongs.InvokeIfRequired(delegate
+            {
+                for (int i = 0; i < listDupeSongs.Items.Count; i++)
+                {
+                    if (listDupeSongs.Items[i].Checked)
+                    {
+                        try
+                        {
+                            File.Delete(DupeCollection[i].SongOnePath);
+                            DupeCollection.RemoveAt(i);
+                            listDupeSongs.Items.RemoveAt(i);
+                            tpDuplicates.Text = "Duplicates(" + DupeCollection.Count.ToString() + ")";
+                        }
+                        catch (IndexOutOfRangeException)
+                        {
+                        }
+                    }
+                }
+            });
+        }
+        private void btnDeleteSongTwo_Click(object sender, EventArgs e)
+        {
+            listDupeSongs.InvokeIfRequired(delegate
+            {
+                for (int i = 0; i < listDupeSongs.Items.Count; i++)
+                {
+                    if (listDupeSongs.Items[i].Checked)
+                    {
+                        try
+                        {
+                            File.Delete(DupeCollection[i].SongTwoPath);
+                            DupeCollection.RemoveAt(i);
+                            listDupeSongs.Items.RemoveAt(i);
+                            tpDuplicates.Text = "Duplicates(" + DupeCollection.Count.ToString() + ")";
+                        }
+                        catch (IndexOutOfRangeException)
+                        {
+                        }
+                    }
+                }
+            });
+        }
+        private void btnRescan_Click(object sender, EventArgs e)
+        {
+            SongCollection.Clear();
+            BackgroundScan();
+        }
+        private void lnkAboutCF_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("http://customsforge.com");
+        }
+        private void timerAutoUpdate_Tick(object sender, EventArgs e)
+        {
+            CheckForUpdate();
+        }
+        private void tbSettingsRSDir_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (tbSettingsRSDir.Enabled)
+            {
+                if (folderBrowserDialog_SettingsRSPath.ShowDialog() == DialogResult.OK)
+                {
+                    tbSettingsRSDir.Text = folderBrowserDialog_SettingsRSPath.SelectedPath;
+                    mySettings.RSInstalledDir = tbSettingsRSDir.Text;
+                }
+            }
+        }
+        private void btnSettingsSave_Click(object sender, EventArgs e)
+        {
+            SaveSettingsToFile();
+        }
+        private void btnSettingsLoad_Click(object sender, EventArgs e)
+        {
+            LoadSettingsFromFile();
+        }
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            SearchDLC(tbSearch.Text);
+        }
+        private void tbSearch_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (tbSearch.Text.Length > 0 && e.KeyCode == Keys.Enter)
+            {
+                SearchDLC(tbSearch.Text);
+            }
+        }
+        private void link_MainClearResults_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            var songsToShow = (from song in SongCollection
+                               select new
+                               {
+                                   song.Song,
+                                   song.Artist,
+                                   song.Album,
+                                   song.Updated,
+                                   song.Tuning,
+                                   DD = DifficultyToDD(song.DD),
+                                   song.Arrangements,
+                                   song.Author,
+                                   song.NewAvailable
+                               }).ToList();
+            dgvSongs.DataSource = songsToShow;
+            tbSearch.InvokeIfRequired(delegate { tbSearch.Text = ""; });
+        }
+        private void link_LovromanProfile_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("http://customsforge.com/user/43194-lovroman/");
+        }
+        private void link_DarjuszProfile_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://customsforge.com/user/5299-darjusz/");
+        }
+        private void link_Alex360Profile_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://customsforge.com/user/236-alex360/");
+        }
+        private void link_UnleashedProfile_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://customsforge.com/user/1-unleashed2k/");
+        }
+        private void link_ForgeOnProfile_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://customsforge.com/user/345-forgeon/");
+        }
+        private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            SaveSettingsToFile();
+        }
+
         
+
+        private void dgvSongs_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            var grid = (DataGridView) sender;
+            if (e.Button == MouseButtons.Right)
+            {
+                if (e.RowIndex != -1)
+                {
+                    grid.Rows[e.RowIndex].Selected = true;
+                }
+            }
+        }
+
+        private void checkForUpdateToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (dgvSongs.SelectedRows.Count > 0)
+            {
+                CheckRowForUpdate(dgvSongs.SelectedRows[0]);
+            }
+        }
+
+        private void btnCheckAllForUpdates_Click(object sender, EventArgs e)
+        {
+            int count = dgvSongs.RowCount;
+            int counter = 0;
+            foreach (var row in dgvSongs.Rows)
+            {
+                CheckRowForUpdate((DataGridViewRow)row);
+            }
+        }
+
+
+        private void openDLCPageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ERR_NI();
+        }
+
+        
+
+        #endregion
+
+        private string GetDLCInfoFromURL(string apiUrl, string fieldName)
+        {
+            string result = "";
+            WebClient client = new WebClient();
+            var response = client.DownloadString(apiUrl);
+            JArray jsonJArray = JArray.Parse(response);
+            JToken jsonJToken = jsonJArray.First;
+            result = jsonJToken.SelectToken(fieldName).ToString();
+            return result;
+        }
+
+        private void CheckRowForUpdate(DataGridViewRow dataGridViewRow)
+        {
+            var selectedRow = dataGridViewRow;
+            string name = selectedRow.Cells["Song"].Value.ToString();
+            string artist = selectedRow.Cells["Artist"].Value.ToString();
+            string album = selectedRow.Cells["Album"].Value.ToString();
+
+            string apiUrl = Constants.DefaultServiceURL + "/" + artist + "/" + album + "/" + name;
+
+            try
+            {
+                string ignition_updated = GetDLCInfoFromURL(apiUrl, "updated");
+                string file_updated = selectedRow.Cells["Updated"].Value.ToString();
+
+                DateTime ignitionDate;
+                DateTime fileDate;
+
+                if (DateTime.TryParse(ignition_updated, out ignitionDate))
+                {
+                    if (DateTime.TryParse(file_updated, out fileDate))
+                    {
+                        DateTime ignitionDays = new DateTime(year: ignitionDate.Year, month: ignitionDate.Month, day: ignitionDate.Day);
+                        DateTime fileDays = new DateTime(year: fileDate.Year, month: fileDate.Month, day: fileDate.Day);
+
+                        if (!ignitionDays.Equals(fileDays))
+                        {
+                            selectedRow.DefaultCellStyle.BackColor = Color.Red;
+                            myLog.Write(string.Format("New version available for \"{0}\" from \"{1}\" album by {2}", name, album, artist));
+                            selectedRow.Selected = false;
+                        }
+                        else
+                            myLog.Write(string.Format("No new version found for \"{0}\" from \"{1}\" album by {2}", name, album, artist));
+                    }
+                }
+
+            }
+            catch (Exception wex)
+            {
+                myLog.Write(string.Format("<Error>: {0}", wex.Message));
+            }
+        }
+
+        
+
     }
 }

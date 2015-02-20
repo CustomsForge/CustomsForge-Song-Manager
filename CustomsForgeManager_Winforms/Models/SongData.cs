@@ -23,5 +23,6 @@ namespace CustomsForgeManager_Winforms
         public string NewAvailable { get; set; }
         public string Author { get; set; }
         public string Path { get; set; }
+        public string Version { get; set; }
     }
 }
