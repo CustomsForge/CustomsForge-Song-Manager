@@ -624,7 +624,6 @@ namespace CustomsForgeManager_Winforms.Forms
         }
         private void dgvSongs_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            bool selectAll = false; 
             int scrollOffset = 0;
             BindingSource bs = new BindingSource();
             var songsToShow = SortedSongCollection;
@@ -633,8 +632,6 @@ namespace CustomsForgeManager_Winforms.Forms
             {
                 case "colSelect":
                     bs.DataSource = songsToShow.ToList();
-                    selectAll = true;
-                    allSelected = !allSelected;
                     break;
                 case "Enabled":
                     if (sortDescending)
@@ -760,20 +757,7 @@ namespace CustomsForgeManager_Winforms.Forms
             scrollOffset = dgvSongs.HorizontalScrollingOffset;
             dgvSongs.DataSource = bs;
             dgvSongs.HorizontalScrollingOffset = scrollOffset;
-            if(selectAll)
-            {
-                foreach (DataGridViewRow row in dgvSongs.Rows)
-                    {
-                        if (allSelected)
-                        {
-                            row.Cells["colSelect"].Value = false;
-                        }
-                        else
-                        {
-                            row.Cells["colSelect"].Value = true;
-                        }
-                    }
-            }
+           
         }
         private void btnSongsToBBCode_Click(object sender, EventArgs e)
         {
@@ -970,6 +954,22 @@ namespace CustomsForgeManager_Winforms.Forms
                 SearchDLC(tbSearch.Text);
             }
         }
+        private void linkLblSelectAll_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+                foreach (DataGridViewRow row in dgvSongs.Rows)
+                {
+                    if (allSelected)
+                    {
+                        row.Cells["colSelect"].Value = false;
+                    }
+                    else
+                    {
+                        row.Cells["colSelect"].Value = true;
+                    }
+                }
+                allSelected = !allSelected;
+        }
+
         private void link_MainClearResults_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             dgvSongs.InvokeIfRequired(delegate
