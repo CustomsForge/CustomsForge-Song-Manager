@@ -586,18 +586,29 @@ namespace CustomsForgeManager_Winforms.Forms
                 {
                     if (Convert.ToBoolean(row.Cells["colSelect"].Value) == true)
                     {
-                        SongData currentSong = SongCollection.Where(song => song.Song == (string)row.Cells["Song"].Value).ToList()[0];
+                        SongData currentSong = SongCollection.FirstOrDefault(song => song.Song == (string)row.Cells["Song"].Value);
                         if (currentSong.Enabled == "Yes")
                         {
-                            dlcPath = mySettings.DisabledDLCDir + @"\" + Path.GetFileName(currentSong.Path);
+                            dlcPath = Path.Combine(mySettings.DisabledDLCDir, Path.GetFileName(currentSong.Path));
                             File.Move(currentSong.Path, dlcPath);
                             currentSong.Path = dlcPath;
+                            currentSong.Enabled = "No";
+                            dgvSongs.InvokeIfRequired(delegate
+                            {
+                                dgvSongs.Refresh();
+                            });
+                            
                         }
                         else
                         {
-                            dlcPath = mySettings.RSInstalledDir + @"\dlc\" + Path.GetFileName(currentSong.Path);
+                            dlcPath = Path.Combine(mySettings.RSInstalledDir, "dlc", Path.GetFileName(currentSong.Path));
                             File.Move(currentSong.Path, dlcPath);
                             currentSong.Path = dlcPath;
+                            currentSong.Enabled = "Yes";
+                            dgvSongs.InvokeIfRequired(delegate
+                            {
+                                dgvSongs.Refresh();
+                            });
                         }
                     }
                 }
