@@ -593,11 +593,11 @@ namespace CustomsForgeManager_Winforms.Forms
                             File.Move(currentSong.Path, dlcPath);
                             currentSong.Path = dlcPath;
                             currentSong.Enabled = "No";
-                            row.Cells["colSelect"].Value = false;
                             dgvSongs.InvokeIfRequired(delegate
                             {
                                 dgvSongs.Refresh();
                             });
+                            
                         }
                         else
                         {
@@ -605,7 +605,6 @@ namespace CustomsForgeManager_Winforms.Forms
                             File.Move(currentSong.Path, dlcPath);
                             currentSong.Path = dlcPath;
                             currentSong.Enabled = "Yes";
-                            row.Cells["colSelect"].Value = false;
                             dgvSongs.InvokeIfRequired(delegate
                             {
                                 dgvSongs.Refresh();
