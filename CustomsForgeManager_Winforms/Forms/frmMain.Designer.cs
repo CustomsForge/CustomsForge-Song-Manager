@@ -43,14 +43,13 @@
             this.btnCheckAllForUpdates = new System.Windows.Forms.Button();
             this.btnRescan = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.dgvSongs = new CustomsForgeManager_Winforms.Controls.RADataGridView();
-            this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.contextMenuStrip_MainManager = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.showDLCInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openDLCPageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.checkForUpdateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editDLCToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.linkLblSelectAll = new System.Windows.Forms.LinkLabel();
             this.link_MainClearResults = new System.Windows.Forms.LinkLabel();
             this.lbl_Search = new System.Windows.Forms.Label();
             this.tbSearch = new System.Windows.Forms.TextBox();
@@ -106,10 +105,15 @@
             this.statusStripMain = new System.Windows.Forms.StatusStrip();
             this.toolStripProgressBarMain = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStripStatusLabel_Main = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel_MainCancel = new System.Windows.Forms.ToolStripStatusLabel();
             this.timerAutoUpdate = new System.Windows.Forms.Timer(this.components);
             this.folderBrowserDialog_SettingsRSPath = new System.Windows.Forms.FolderBrowserDialog();
             this.sfdSongListToCSV = new System.Windows.Forms.SaveFileDialog();
-            this.linkLblSelectAll = new System.Windows.Forms.LinkLabel();
+            this.notifyIcon_Main = new System.Windows.Forms.NotifyIcon(this.components);
+            this.contextMenuStrip_Tray = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dgvSongs = new CustomsForgeManager_Winforms.Controls.RADataGridView();
+            this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.tlp_MainForm_Wrappper.SuspendLayout();
             this.gbLog.SuspendLayout();
             this.tcMain.SuspendLayout();
@@ -117,7 +121,6 @@
             this.tlpSongListWrapper.SuspendLayout();
             this.panelSongListButtons.SuspendLayout();
             this.panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvSongs)).BeginInit();
             this.contextMenuStrip_MainManager.SuspendLayout();
             this.panel3.SuspendLayout();
             this.tpDuplicates.SuspendLayout();
@@ -135,6 +138,8 @@
             this.tableLayoutPanel_Credits.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.statusStripMain.SuspendLayout();
+            this.contextMenuStrip_Tray.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSongs)).BeginInit();
             this.SuspendLayout();
             // 
             // tlp_MainForm_Wrappper
@@ -264,11 +269,11 @@
             // btnCheckAllForUpdates
             // 
             this.btnCheckAllForUpdates.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnCheckAllForUpdates.Location = new System.Drawing.Point(102, 11);
+            this.btnCheckAllForUpdates.Location = new System.Drawing.Point(102, 13);
             this.btnCheckAllForUpdates.Name = "btnCheckAllForUpdates";
-            this.btnCheckAllForUpdates.Size = new System.Drawing.Size(183, 27);
+            this.btnCheckAllForUpdates.Size = new System.Drawing.Size(118, 27);
             this.btnCheckAllForUpdates.TabIndex = 4;
-            this.btnCheckAllForUpdates.Text = "[experimental] Check All for Update";
+            this.btnCheckAllForUpdates.Text = "Check All for Update";
             this.btnCheckAllForUpdates.UseVisualStyleBackColor = true;
             this.btnCheckAllForUpdates.Click += new System.EventHandler(this.btnCheckAllForUpdates_Click);
             // 
@@ -291,36 +296,6 @@
             this.panel2.Size = new System.Drawing.Size(764, 290);
             this.panel2.TabIndex = 4;
             // 
-            // dgvSongs
-            // 
-            this.dgvSongs.AllowUserToAddRows = false;
-            this.dgvSongs.AllowUserToOrderColumns = true;
-            this.dgvSongs.AllowUserToResizeRows = false;
-            this.dgvSongs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvSongs.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.colSelect});
-            this.dgvSongs.ContextMenuStrip = this.contextMenuStrip_MainManager;
-            this.dgvSongs.Location = new System.Drawing.Point(3, 3);
-            this.dgvSongs.MultiSelect = false;
-            this.dgvSongs.Name = "dgvSongs";
-            this.dgvSongs.RowHeadersVisible = false;
-            this.dgvSongs.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvSongs.Size = new System.Drawing.Size(758, 287);
-            this.dgvSongs.TabIndex = 1;
-            this.dgvSongs.DataSourceChanged += new System.EventHandler(this.dgvSongs_DataSourceChanged);
-            this.dgvSongs.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSongs_CellDoubleClick);
-            this.dgvSongs.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongs_CellMouseDown);
-            this.dgvSongs.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongs_ColumnHeaderMouseClick);
-            // 
-            // colSelect
-            // 
-            this.colSelect.FalseValue = "false";
-            this.colSelect.HeaderText = "Select";
-            this.colSelect.Name = "colSelect";
-            this.colSelect.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colSelect.TrueValue = "true";
-            this.colSelect.Visible = false;
-            // 
             // contextMenuStrip_MainManager
             // 
             this.contextMenuStrip_MainManager.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -329,33 +304,33 @@
             this.checkForUpdateToolStripMenuItem,
             this.editDLCToolStripMenuItem});
             this.contextMenuStrip_MainManager.Name = "contextMenuStrip_MainManager";
-            this.contextMenuStrip_MainManager.Size = new System.Drawing.Size(246, 92);
+            this.contextMenuStrip_MainManager.Size = new System.Drawing.Size(167, 92);
             // 
             // showDLCInfoToolStripMenuItem
             // 
             this.showDLCInfoToolStripMenuItem.Name = "showDLCInfoToolStripMenuItem";
-            this.showDLCInfoToolStripMenuItem.Size = new System.Drawing.Size(245, 22);
+            this.showDLCInfoToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.showDLCInfoToolStripMenuItem.Text = "Show DLC Info";
             this.showDLCInfoToolStripMenuItem.Click += new System.EventHandler(this.showDLCInfoToolStripMenuItem_Click);
             // 
             // openDLCPageToolStripMenuItem
             // 
             this.openDLCPageToolStripMenuItem.Name = "openDLCPageToolStripMenuItem";
-            this.openDLCPageToolStripMenuItem.Size = new System.Drawing.Size(245, 22);
+            this.openDLCPageToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.openDLCPageToolStripMenuItem.Text = "Open DLC Page";
             this.openDLCPageToolStripMenuItem.Click += new System.EventHandler(this.openDLCPageToolStripMenuItem_Click);
             // 
             // checkForUpdateToolStripMenuItem
             // 
             this.checkForUpdateToolStripMenuItem.Name = "checkForUpdateToolStripMenuItem";
-            this.checkForUpdateToolStripMenuItem.Size = new System.Drawing.Size(245, 22);
-            this.checkForUpdateToolStripMenuItem.Text = "[experimental] Check for Update";
+            this.checkForUpdateToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
+            this.checkForUpdateToolStripMenuItem.Text = "Check for Update";
             this.checkForUpdateToolStripMenuItem.Click += new System.EventHandler(this.checkForUpdateToolStripMenuItem_Click);
             // 
             // editDLCToolStripMenuItem
             // 
             this.editDLCToolStripMenuItem.Name = "editDLCToolStripMenuItem";
-            this.editDLCToolStripMenuItem.Size = new System.Drawing.Size(245, 22);
+            this.editDLCToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.editDLCToolStripMenuItem.Text = "Edit DLC";
             // 
             // panel3
@@ -369,6 +344,17 @@
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(764, 29);
             this.panel3.TabIndex = 5;
+            // 
+            // linkLblSelectAll
+            // 
+            this.linkLblSelectAll.AutoSize = true;
+            this.linkLblSelectAll.Location = new System.Drawing.Point(14, 8);
+            this.linkLblSelectAll.Name = "linkLblSelectAll";
+            this.linkLblSelectAll.Size = new System.Drawing.Size(112, 13);
+            this.linkLblSelectAll.TabIndex = 2;
+            this.linkLblSelectAll.TabStop = true;
+            this.linkLblSelectAll.Text = "Select All/Deselect All";
+            this.linkLblSelectAll.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLblSelectAll_LinkClicked);
             // 
             // link_MainClearResults
             // 
@@ -945,6 +931,7 @@
             // bWorker
             // 
             this.bWorker.WorkerReportsProgress = true;
+            this.bWorker.WorkerSupportsCancellation = true;
             // 
             // timerMain
             // 
@@ -954,7 +941,8 @@
             // 
             this.statusStripMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripProgressBarMain,
-            this.toolStripStatusLabel_Main});
+            this.toolStripStatusLabel_Main,
+            this.toolStripStatusLabel_MainCancel});
             this.statusStripMain.Location = new System.Drawing.Point(0, 540);
             this.statusStripMain.Name = "statusStripMain";
             this.statusStripMain.Size = new System.Drawing.Size(784, 22);
@@ -971,6 +959,15 @@
             // 
             this.toolStripStatusLabel_Main.Name = "toolStripStatusLabel_Main";
             this.toolStripStatusLabel_Main.Size = new System.Drawing.Size(0, 17);
+            // 
+            // toolStripStatusLabel_MainCancel
+            // 
+            this.toolStripStatusLabel_MainCancel.IsLink = true;
+            this.toolStripStatusLabel_MainCancel.Name = "toolStripStatusLabel_MainCancel";
+            this.toolStripStatusLabel_MainCancel.Size = new System.Drawing.Size(43, 17);
+            this.toolStripStatusLabel_MainCancel.Text = "Cancel";
+            this.toolStripStatusLabel_MainCancel.Visible = false;
+            this.toolStripStatusLabel_MainCancel.Click += new System.EventHandler(this.toolStripStatusLabel_MainCancel_Click);
             // 
             // timerAutoUpdate
             // 
@@ -989,16 +986,57 @@
             this.sfdSongListToCSV.FileName = "songList.csv";
             this.sfdSongListToCSV.Filter = "csv files(*.csv)|*.csv|All files (*.*)|*.*";
             // 
-            // linkLblSelectAll
+            // notifyIcon_Main
             // 
-            this.linkLblSelectAll.AutoSize = true;
-            this.linkLblSelectAll.Location = new System.Drawing.Point(14, 8);
-            this.linkLblSelectAll.Name = "linkLblSelectAll";
-            this.linkLblSelectAll.Size = new System.Drawing.Size(95, 13);
-            this.linkLblSelectAll.TabIndex = 2;
-            this.linkLblSelectAll.TabStop = true;
-            this.linkLblSelectAll.Text = "Select/deselect all";
-            this.linkLblSelectAll.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLblSelectAll_LinkClicked);
+            this.notifyIcon_Main.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.notifyIcon_Main.ContextMenuStrip = this.contextMenuStrip_Tray;
+            this.notifyIcon_Main.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon_Main.Icon")));
+            this.notifyIcon_Main.Text = "Notification";
+            this.notifyIcon_Main.Visible = true;
+            // 
+            // contextMenuStrip_Tray
+            // 
+            this.contextMenuStrip_Tray.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.closeToolStripMenuItem});
+            this.contextMenuStrip_Tray.Name = "contextMenuStrip_Tray";
+            this.contextMenuStrip_Tray.Size = new System.Drawing.Size(104, 26);
+            // 
+            // closeToolStripMenuItem
+            // 
+            this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.closeToolStripMenuItem.Text = "Close";
+            this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
+            // 
+            // dgvSongs
+            // 
+            this.dgvSongs.AllowUserToAddRows = false;
+            this.dgvSongs.AllowUserToOrderColumns = true;
+            this.dgvSongs.AllowUserToResizeRows = false;
+            this.dgvSongs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvSongs.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colSelect});
+            this.dgvSongs.ContextMenuStrip = this.contextMenuStrip_MainManager;
+            this.dgvSongs.Location = new System.Drawing.Point(3, 3);
+            this.dgvSongs.MultiSelect = false;
+            this.dgvSongs.Name = "dgvSongs";
+            this.dgvSongs.RowHeadersVisible = false;
+            this.dgvSongs.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvSongs.Size = new System.Drawing.Size(758, 287);
+            this.dgvSongs.TabIndex = 1;
+            this.dgvSongs.DataSourceChanged += new System.EventHandler(this.dgvSongs_DataSourceChanged);
+            this.dgvSongs.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSongs_CellDoubleClick);
+            this.dgvSongs.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongs_CellMouseDown);
+            this.dgvSongs.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongs_ColumnHeaderMouseClick);
+            // 
+            // colSelect
+            // 
+            this.colSelect.FalseValue = "false";
+            this.colSelect.HeaderText = "Select";
+            this.colSelect.Name = "colSelect";
+            this.colSelect.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colSelect.TrueValue = "true";
+            this.colSelect.Visible = false;
             // 
             // frmMain
             // 
@@ -1022,7 +1060,6 @@
             this.tlpSongListWrapper.ResumeLayout(false);
             this.panelSongListButtons.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvSongs)).EndInit();
             this.contextMenuStrip_MainManager.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
@@ -1045,6 +1082,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.statusStripMain.ResumeLayout(false);
             this.statusStripMain.PerformLayout();
+            this.contextMenuStrip_Tray.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSongs)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1132,6 +1171,10 @@
         private System.Windows.Forms.Button btnDisableEnableSongs;
         private System.Windows.Forms.DataGridViewCheckBoxColumn colSelect;
         private System.Windows.Forms.LinkLabel linkLblSelectAll;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel_MainCancel;
+        private System.Windows.Forms.NotifyIcon notifyIcon_Main;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip_Tray;
+        private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
     }
 }
 

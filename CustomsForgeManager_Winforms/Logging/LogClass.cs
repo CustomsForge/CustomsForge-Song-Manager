@@ -35,18 +35,24 @@ namespace CustomsForgeManager_Winforms.Logging
     {
         private List<LogMessage> logEntries; 
 
-        private List<Control> targetControls;
+        private List<TextBox> targetTextBoxes;
         private List<FileInfo> targetFiles;
+        private List<NotifyIcon> targetNotifyIcons;
 
-        public List<Control> TargetControls
+        public List<NotifyIcon> TargetNotifyIcons
         {
-            get { return targetControls; }
+            get { return targetNotifyIcons; }
         }
 
         public List<FileInfo> TargetFiles
         {
             get { return targetFiles; }
         }
+
+        public List<TextBox> TargetTextBoxes
+        {
+            get { return targetTextBoxes; }
+        } 
 
         /// <summary>
         /// Instanciates Log class
@@ -58,14 +64,14 @@ namespace CustomsForgeManager_Winforms.Logging
 
         
         /// <summary>
-        /// Adds control for log output target control list
+        /// Adds TextBox control for log output target control list
         /// </summary>
-        /// <param name="control">Control to add</param>
-        public void AddTargetControls(Control control)
+        /// <param name="textBox">TextBox to add</param>
+        public void AddTargetTextBox(TextBox textBox)
         {
-            if (targetControls == null)
-                targetControls = new List<Control>();
-            targetControls.Add(control);
+            if (targetTextBoxes == null)
+                targetTextBoxes = new List<TextBox>();
+            targetTextBoxes.Add(textBox);
         }
 
         /// <summary>
@@ -78,6 +84,17 @@ namespace CustomsForgeManager_Winforms.Logging
                 targetFiles = new List<FileInfo>();
             FileInfo newTargetFile = new FileInfo(path);
             targetFiles.Add(newTargetFile);
+        }
+
+        /// <summary>
+        /// Adds NotifyIcon control for log output 
+        /// </summary>
+        /// <param name="notifyIcon">NotifyIcon to add</param>
+        public void AddTargetNotifyIcon(NotifyIcon notifyIcon)
+        {
+            if (targetNotifyIcons == null)
+                targetNotifyIcons = new List<NotifyIcon>();
+            targetNotifyIcons.Add(notifyIcon);
         }
 
         /// <summary>
@@ -103,9 +120,9 @@ namespace CustomsForgeManager_Winforms.Logging
 
             foreach (var entry in logEntries)
             {
-                if (targetControls != null)
+                if (targetTextBoxes != null)
                 {
-                    foreach (Control control in targetControls)
+                    foreach (Control control in targetTextBoxes)
                     {
                         Control myControl = control;
                         LogMessage myLogEntry = entry;
@@ -136,6 +153,21 @@ namespace CustomsForgeManager_Winforms.Logging
                         {
                             sw.WriteLine(entry.GetFormatted());
                         }
+                    }
+                }
+                if (targetNotifyIcons != null)
+                {
+                    foreach (NotifyIcon notifyIcon in targetNotifyIcons)
+                    {
+                        ToolTipIcon icon;
+                        notifyIcon.BalloonTipText = entry.GetFormatted();
+                        notifyIcon.Visible = true;
+                        if (entry.Message.ToLower().Contains("error"))
+                            icon = ToolTipIcon.Error;
+                        else
+                            icon = ToolTipIcon.Info;
+
+                        notifyIcon.ShowBalloonTip(1, "Information", entry.Message,icon);
                     }
                 }
             }

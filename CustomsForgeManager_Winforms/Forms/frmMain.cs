@@ -28,6 +28,7 @@ namespace CustomsForgeManager_Winforms.Forms
         private readonly Log myLog;
         private Settings mySettings;
         private static XElement root;
+        private Stopwatch counterStopwatch = new Stopwatch();
 
         private BindingList<SongData> SongCollection = new BindingList<SongData>();
         private List<SongDupeData> DupeCollection = new List<SongDupeData>();
@@ -62,7 +63,8 @@ namespace CustomsForgeManager_Winforms.Forms
             #region Logging setup
 
             myLog.AddTargetFile(mySettings.LogFilePath);
-            myLog.AddTargetControls(tbLog);
+            myLog.AddTargetTextBox(tbLog);
+            myLog.AddTargetNotifyIcon(notifyIcon_Main);
 
             #endregion
 
@@ -77,14 +79,16 @@ namespace CustomsForgeManager_Winforms.Forms
                 BackgroundScan();
             else
                 LoadSongCollectionFromFile();
-            root = XElement.Load("tunings.xml");
+            
         }
 
         private void BackgroundScan()
         {
-            bWorker.DoWork -= PopulateListHandler;
+            bWorker = new BackgroundWorker();
+            bWorker.SetDefaults();
+
+            toolStripStatusLabel_MainCancel.Visible = true;
             bWorker.DoWork += PopulateListHandler;
-            bWorker.RunWorkerCompleted -= PopulateCompletedHandler;
             bWorker.RunWorkerCompleted += PopulateCompletedHandler;
             bWorker.RunWorkerAsync();
         }
@@ -93,6 +97,7 @@ namespace CustomsForgeManager_Winforms.Forms
             PopulateDataGridView();
             SaveSongCollectionToFile();
             ToggleUIControls();
+            toolStripStatusLabel_MainCancel.Visible = false;
         }
         void PopulateListHandler(object sender, DoWorkEventArgs e)
         {
@@ -103,99 +108,96 @@ namespace CustomsForgeManager_Winforms.Forms
         private void PopulateSongList()
         {
             Log("Scanning for songs...");
-
+            dgvSongs.InvokeIfRequired(delegate
+            {
+                var dataGridViewColumn = dgvSongs.Columns["colSelect"];
+                if (dataGridViewColumn != null) dataGridViewColumn.Visible = false;
+                dgvSongs.DataSource = null;
+                SongCollection.Clear();
+            });
             string enabled = "";
             int counter = 1;
             List<string> filesList = new List<string>(FilesList(mySettings.RSInstalledDir + "\\dlc"));
-            filesList.AddRange(FilesList(mySettings.DisabledDLCDir));
-
+            List<string> disabledFilesList = new List<string>(FilesList(mySettings.RSInstalledDir + "\\" + Constants.DefaultDisabledSubDirectory));
+            filesList.AddRange(disabledFilesList);
+            counterStopwatch.Start();
             foreach (string file in filesList)
             {
-                Progress(counter++ * 100 / filesList.Count);
-
-                if (file.Contains("disabledDLC"))
+                if (!bWorker.CancellationPending)
                 {
-                    enabled = "No";
-                }
-                else
-                {
-                    enabled = "Yes";
-                }
+                    Progress(counter++*100/filesList.Count);
 
-                try
-                {
-                    var browser = new PsarcBrowser(file);
-                    var songList = browser.GetSongList();
-
-                    foreach (var song in songList)
+                    if (file.Contains(Constants.DefaultDisabledSubDirectory))
                     {
-                        var arrangements = "";
-                        foreach (string arrangement in song.Arrangements)
-                        {
-                            arrangements += "," + arrangement;
-                        }
-                        arrangements = arrangements.Remove(0, 1);
-                        var newSong = new SongData
-                        {
-                            Song = song.Title,
-                            Artist = song.Artist,
-                            Album = song.Album,
-                            Updated = song.Updated,
-                            SongYear = song.Year,
-                            Tuning = TuningToName(song.Tuning),
-                            Arrangements = arrangements,
-                            Author = song.Author,
-                            NewAvailable = "",
-                            Path = file,
-                            DD = DifficultyToDD(song.DD),
-                            Enabled = enabled
-                        };
-                        dgvSongs.InvokeIfRequired(delegate
-                        {
-                            SongCollection.Add(newSong);
-                        });
-                    }
-                }
-                catch (Exception ex)
-                {
-                    if (ex.Message.StartsWith("Error reading JObject"))
-                    {
-                        Log(file + ":" + "DLC is corrupt!");
+                        enabled = "No";
                     }
                     else
                     {
-                        Log(file + ":" + ex.Message);
+                        enabled = "Yes";
+                    }
+
+                    try
+                    {
+                        var browser = new PsarcBrowser(file);
+                        var songInfo = browser.GetSongs();
+                        foreach (SongData songData in songInfo.Distinct())
+                        {
+                            songData.Enabled = enabled;
+                            SongCollection.Add(songData);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (ex.Message.StartsWith("Error reading JObject"))
+                        {
+                            Log("<ERROR>: " + file + ":" + "DLC is corrupt!");
+                        }
+                        else
+                        {
+                            Log("<ERROR>: " + file + ":" + ex.Message);
+                        }
+                    }
+                    finally
+                    {
+                        toolStripStatusLabel_Main.Text = string.Format("{0} songs found...", counter);
                     }
                 }
-                finally
-                {
-                    toolStripStatusLabel_Main.Text = string.Format("{0} songs found...", counter);
-                }
             }
+            dgvSongs.InvokeIfRequired(delegate
+            {
+                var dataGridViewColumn = dgvSongs.Columns["colSelect"];
+                if (dataGridViewColumn != null) dataGridViewColumn.Visible = true;
+                dgvSongs.DataSource = SongCollection;
+            });
         }
         private void PopulateDupeList()
         {
-            foreach (SongData song in SongCollection)
-            {
-                var dupes = SongCollection.Where(x => x.Song.ToLower() == song.Song.ToLower() && x.Album == song.Album).ToList();
-                if (dupes.Count > 1)
-                {
-                    if (DupeCollection.Where(x => x.Song.ToLower() == song.Song.ToLower()).ToList().Count == 0)
-                    {
-                        DupeCollection.Add(new SongDupeData
-                        {
-                            Song = dupes[0].Song,
-                            Artist = dupes[0].Artist,
-                            Album = dupes[0].Album,
-                            SongOnePath = dupes[0].Path,
-                            SongTwoPath = dupes[1].Path
-                        });
-                    }
-                }
-            }
+            //foreach (SongData song in SongCollection.ToList())
+            //{
+            //    var dupes = SongCollection.Where(x => x.Song.ToLower() == song.Song.ToLower() && x.Album == song.Album).ToList();
+            //    if (dupes.Count > 1)
+            //    {
+            //        if (DupeCollection.Where(x => x.Song.ToLower() == song.Song.ToLower() && x.Album == song.Album).ToList().Count == 0)
+            //        {
+            //            DupeCollection.Add(new SongDupeData
+            //            {
+            //                Song = dupes[0].Song,
+            //                Artist = dupes[0].Artist,
+            //                Album = dupes[0].Album,
+            //                SongOnePath = dupes[0].Path,
+            //                SongTwoPath = dupes[1].Path
+            //            });
+            //        }
+            //    }
+            //}
+
+            var dups = SongCollection.GroupBy(x => x)
+                        .Where(group => group.Count() > 1)
+                        .Select(group => group.Key).ToList();
+
             tpDuplicates.InvokeIfRequired(delegate
             {
-                tpDuplicates.Text = "Duplicates(" + DupeCollection.Count + ")";
+                tpDuplicates.Text = "Duplicates(" + dups.Count.ToString() + ")";
             });
         }
         private void PopulateDataGridView()
@@ -224,6 +226,10 @@ namespace CustomsForgeManager_Winforms.Forms
                 dgvSongs.Columns["colSelect"].Visible = true;
                 dgvSongs.Columns["colSelect"].DisplayIndex = 0;
             });
+
+            counterStopwatch.Stop();
+            Log(string.Format("Finished. Task took {0}", counterStopwatch.Elapsed));
+
             Log("Finished scanning songs...", 100);
         }
 
@@ -233,7 +239,6 @@ namespace CustomsForgeManager_Winforms.Forms
             mySettings = new Settings();
             mySettings.LogFilePath = Constants.DefaultWorkingDirectory + "\\debug.log";
             mySettings.RSInstalledDir = GetInstallDirFromRegistry();
-            mySettings.DisabledDLCDir = mySettings.RSInstalledDir + @"\disabledDLC";
             mySettings.RescanOnStartup = true;
         }
         private void SaveSettingsToFile(string path = "")
@@ -247,14 +252,12 @@ namespace CustomsForgeManager_Winforms.Forms
                     mySettings = new Settings();
                     mySettings.LogFilePath = Constants.DefaultWorkingDirectory + Constants.DefaultLogName;
                     mySettings.RSInstalledDir = tbSettingsRSDir.Text;
-                    mySettings.DisabledDLCDir = mySettings.RSInstalledDir + @"\disabledDLC";
                     mySettings.RescanOnStartup = true;
                     Log("Default settings created...");
                 }
                 if (!string.IsNullOrEmpty(tbSettingsRSDir.Text))
                     mySettings.RSInstalledDir = tbSettingsRSDir.Text;
                 mySettings.RescanOnStartup = checkRescanOnStartup.Checked;
-                mySettings.DisabledDLCDir = mySettings.RSInstalledDir + @"\disabledDLC";
 
                 RADataGridViewSettings settings = new RADataGridViewSettings();
                 var columns = dgvSongs.Columns;
@@ -428,29 +431,33 @@ namespace CustomsForgeManager_Winforms.Forms
             {
                 btnDeleteSongTwo.Enabled = !btnDeleteSongTwo.Enabled;
             });
+
+            btnDisableEnableSongs.InvokeIfRequired(delegate
+            {
+                btnDisableEnableSongs.Enabled = !btnDisableEnableSongs.Enabled;
+            });
+
+            btnSongsToCSV.InvokeIfRequired(delegate
+            {
+                btnSongsToCSV.Enabled = !btnSongsToCSV.Enabled;
+            });
+
+            btnSongsToBBCode.InvokeIfRequired(delegate
+            {
+                btnSongsToBBCode.Enabled = !btnSongsToBBCode.Enabled;
+            });
         }
         public static List<string> FilesList(string path)
         {
+            if (string.IsNullOrEmpty(path))
+                throw new Exception("<Error>: No path provided for file scanning");
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
             List<string> files = new List<string>(Directory.GetFiles(path, "*_p.psarc", SearchOption.AllDirectories));
             return files;
         }
-        public string DifficultyToDD(string maxDifficulty)
-        {
-            if (maxDifficulty == "0")
-            {
-                return "No";
-            }
-            return "Yes";
-        }
-        public static string TuningToName(string tuningStrings)
-        {
-            var tuningName = root.Elements("Tuning").Where(tuning => tuning.Attribute("Strings").Value == tuningStrings).Select(tuning => tuning.Attribute("Name")).ToList();
-            if (tuningName.Count == 0)
-            {
-                return "Other";
-            }
-            return tuningName[0].Value;
-        }
+        
+        
         private void CheckForUpdate()
         {
             if (ApplicationDeployment.IsNetworkDeployed)
@@ -574,7 +581,7 @@ namespace CustomsForgeManager_Winforms.Forms
         #region GUIEventHandlers
         private void btnDisableEnableSongs_Click(object sender, EventArgs e)
         {
-            string disabledFolderPath = mySettings.RSInstalledDir + @"\dlcDisabled";
+            string disabledFolderPath = mySettings.RSInstalledDir +"\\"+ Constants.DefaultDisabledSubDirectory;
             string dlcPath = "";
             if (!Directory.Exists(disabledFolderPath))
             {
@@ -584,27 +591,21 @@ namespace CustomsForgeManager_Winforms.Forms
             {
                 foreach (DataGridViewRow row in dgvSongs.Rows)
                 {
-                    if (Convert.ToBoolean(row.Cells["colSelect"].Value) == true)
+                    if (row.Cells["colSelect"].Value != null && row.Cells["colSelect"].Value.ToString() == "true")
                     {
-                        SongData currentSong = SongCollection.Where(song => song.Song == (string)row.Cells["Song"].Value).ToList()[0];
-                        if (currentSong.Enabled == "Yes")
-                        {
-                            dlcPath = mySettings.DisabledDLCDir + @"\" + Path.GetFileName(currentSong.Path);
-                            File.Move(currentSong.Path, dlcPath);
-                            currentSong.Path = dlcPath;
-                        }
-                        else
-                        {
-                            dlcPath = mySettings.RSInstalledDir + @"\dlc\" + Path.GetFileName(currentSong.Path);
-                            File.Move(currentSong.Path, dlcPath);
-                            currentSong.Path = dlcPath;
-                        }
+                        var originalPath = row.Cells["Path"].Value.ToString();
+                        var filename = row.Cells["FileName"].Value.ToString();
+                        if (row.Cells["Enabled"].Value.ToString() == "Yes")
+                            File.Move(originalPath, disabledFolderPath + "\\" + filename);
+                        else if (row.Cells["Enabled"].Value.ToString() == "No")
+                            File.Move(originalPath,mySettings.RSInstalledDir + "\\dlc\\" + filename);
                     }
                 }
+                Log("Rescan to see changes",100);
             }
             catch (IOException ex)
             {
-                Log(ex.Message);
+                Log("<ERROR>:" + ex.Message);
             }
         }
         private void showDLCInfoToolStripMenuItem_Click(object sender, EventArgs e)
@@ -624,140 +625,198 @@ namespace CustomsForgeManager_Winforms.Forms
         }
         private void dgvSongs_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            int scrollOffset = 0;
-            BindingSource bs = new BindingSource();
-            var songsToShow = SortedSongCollection;
-            
-            switch (dgvSongs.Columns[e.ColumnIndex].Name)
+            if (dgvSongs.DataSource != null)
             {
-                case "colSelect":
-                    bs.DataSource = songsToShow.ToList();
-                    break;
-                case "Enabled":
-                    if (sortDescending)
-                    {
-                        bs.DataSource = songsToShow.OrderByDescending(song => song.Enabled);
-                        sortDescending = false;
-                    }
-                    else
-                    {
-                        bs.DataSource = songsToShow.OrderBy(song => song.Enabled);
-                        sortDescending = true;
-                    }
-                    break;
-                case "Song":
-                    if (sortDescending)
-                    {
-                        bs.DataSource = songsToShow.OrderByDescending(song => song.Song);
-                        sortDescending = false;
-                    }
-                    else
-                    {
-                        bs.DataSource = songsToShow.OrderBy(song => song.Song);
-                        sortDescending = true;
-                    }
-                    break;
-                case "Artist":
-                    if (sortDescending)
-                    {
-                        bs.DataSource = songsToShow.OrderByDescending(song => song.Artist);
-                        sortDescending = false;
-                    }
-                    else
-                    {
-                        bs.DataSource = songsToShow.OrderBy(song => song.Artist);
-                        sortDescending = true;
-                    }
-                    break;
-                case "Album":
-                    if (sortDescending)
-                    {
-                        bs.DataSource = songsToShow.OrderByDescending(song => song.Album);
-                        sortDescending = false;
-                    }
-                    else
-                    {
-                        bs.DataSource = songsToShow.OrderBy(song => song.Album);
-                        sortDescending = true;
-                    }
-                    break;
-                case "Updated":
-                    if (sortDescending)
-                    {
-                        bs.DataSource = songsToShow.OrderByDescending(song => DateTime.ParseExact(song.Updated, "M-d-y H:m", System.Globalization.CultureInfo.InvariantCulture));
-                        sortDescending = false;
-                    }
-                    else
-                    {
-                        bs.DataSource = songsToShow.OrderBy(song => DateTime.ParseExact(song.Updated, "M-d-y H:m", System.Globalization.CultureInfo.InvariantCulture));
-                        sortDescending = true;
-                    }
-                    break;
-                case "Tuning":
-                    if (sortDescending)
-                    {
-                        bs.DataSource = songsToShow.OrderByDescending(song => song.Tuning);
-                        sortDescending = false;
-                    }
-                    else
-                    {
-                        bs.DataSource = songsToShow.OrderBy(song => song.Tuning);
-                        sortDescending = true;
-                    }
-                    break;
-                case "DD":
-                    if (sortDescending)
-                    {
-                        bs.DataSource = songsToShow.OrderByDescending(song => song.DD);
-                        sortDescending = false;
-                    }
-                    else
-                    {
-                        bs.DataSource = songsToShow.OrderBy(song => song.DD);
-                        sortDescending = true;
-                    }
-                    break;
-                case "Arrangements":
-                    if (sortDescending)
-                    {
-                        bs.DataSource = songsToShow.OrderByDescending(song => song.Arrangements);
-                        sortDescending = false;
-                    }
-                    else
-                    {
-                        bs.DataSource = songsToShow.OrderBy(song => song.Arrangements);
-                        sortDescending = true;
-                    }
-                    break;
-                case "Author":
-                    if (sortDescending)
-                    {
-                        bs.DataSource = songsToShow.OrderByDescending(song => song.Author);
-                        sortDescending = false;
-                    }
-                    else
-                    {
-                        bs.DataSource = songsToShow.OrderBy(song => song.Author);
-                        sortDescending = true;
-                    }
-                    break;
-                case "NewAvailable":
-                    if (sortDescending)
-                    {
-                        bs.DataSource = songsToShow.OrderByDescending(song => song.Song);
-                        sortDescending = false;
-                    }
-                    else
-                    {
-                        bs.DataSource = songsToShow.OrderBy(song => song.Song);
-                        sortDescending = true;
-                    }
-                    break;
+                int scrollOffset = 0;
+                BindingSource bs = new BindingSource{DataSource = SongCollection};
+                var songsToShow = SortedSongCollection;
+
+                switch (dgvSongs.Columns[e.ColumnIndex].Name)
+                {
+                    case "colSelect":
+                        bs.DataSource = songsToShow.ToList();
+                        break;
+                    case "Enabled":
+                        if (sortDescending)
+                        {
+                            bs.DataSource = songsToShow.OrderByDescending(song => song.Enabled);
+                            sortDescending = false;
+                        }
+                        else
+                        {
+                            bs.DataSource = songsToShow.OrderBy(song => song.Enabled);
+                            sortDescending = true;
+                        }
+                        break;
+                    case "Song":
+                        if (sortDescending)
+                        {
+                            bs.DataSource = songsToShow.OrderByDescending(song => song.Song);
+                            sortDescending = false;
+                        }
+                        else
+                        {
+                            bs.DataSource = songsToShow.OrderBy(song => song.Song);
+                            sortDescending = true;
+                        }
+                        break;
+                    case "Artist":
+                        if (sortDescending)
+                        {
+                            bs.DataSource = songsToShow.OrderByDescending(song => song.Artist);
+                            sortDescending = false;
+                        }
+                        else
+                        {
+                            bs.DataSource = songsToShow.OrderBy(song => song.Artist);
+                            sortDescending = true;
+                        }
+                        break;
+                    case "Album":
+                        if (sortDescending)
+                        {
+                            bs.DataSource = songsToShow.OrderByDescending(song => song.Album);
+                            sortDescending = false;
+                        }
+                        else
+                        {
+                            bs.DataSource = songsToShow.OrderBy(song => song.Album);
+                            sortDescending = true;
+                        }
+                        break;
+                    case "Updated":
+                        if (sortDescending)
+                        {
+                            bs.DataSource =
+                                songsToShow.OrderByDescending(
+                                    song =>
+                                        DateTime.ParseExact(song.Updated, "M-d-y H:m",
+                                            System.Globalization.CultureInfo.InvariantCulture));
+                            sortDescending = false;
+                        }
+                        else
+                        {
+                            bs.DataSource =
+                                songsToShow.OrderBy(
+                                    song =>
+                                        DateTime.ParseExact(song.Updated, "M-d-y H:m",
+                                            System.Globalization.CultureInfo.InvariantCulture));
+                            sortDescending = true;
+                        }
+                        break;
+                    case "Tuning":
+                        if (sortDescending)
+                        {
+                            bs.DataSource = songsToShow.OrderByDescending(song => song.Tuning);
+                            sortDescending = false;
+                        }
+                        else
+                        {
+                            bs.DataSource = songsToShow.OrderBy(song => song.Tuning);
+                            sortDescending = true;
+                        }
+                        break;
+                    case "DD":
+                        if (sortDescending)
+                        {
+                            bs.DataSource = songsToShow.OrderByDescending(song => song.DD);
+                            sortDescending = false;
+                        }
+                        else
+                        {
+                            bs.DataSource = songsToShow.OrderBy(song => song.DD);
+                            sortDescending = true;
+                        }
+                        break;
+                    case "Arrangements":
+                        if (sortDescending)
+                        {
+                            bs.DataSource = songsToShow.OrderByDescending(song => song.Arrangements);
+                            sortDescending = false;
+                        }
+                        else
+                        {
+                            bs.DataSource = songsToShow.OrderBy(song => song.Arrangements);
+                            sortDescending = true;
+                        }
+                        break;
+                    case "Author":
+                        if (sortDescending)
+                        {
+                            bs.DataSource = songsToShow.OrderByDescending(song => song.Author);
+                            sortDescending = false;
+                        }
+                        else
+                        {
+                            bs.DataSource = songsToShow.OrderBy(song => song.Author);
+                            sortDescending = true;
+                        }
+                        break;
+                    case "Version":
+                        if (sortDescending)
+                        {
+                            bs.DataSource = songsToShow.OrderByDescending(song => song.Version);
+                            sortDescending = false;
+                        }
+                        else
+                        {
+                            bs.DataSource = songsToShow.OrderBy(song => song.Version);
+                            sortDescending = true;
+                        }
+                        break;
+                    case "ToolkitVer":
+                        if (sortDescending)
+                        {
+                            bs.DataSource = songsToShow.OrderByDescending(song => song.ToolkitVer);
+                            sortDescending = false;
+                        }
+                        else
+                        {
+                            bs.DataSource = songsToShow.OrderBy(song => song.ToolkitVer);
+                            sortDescending = true;
+                        }
+                        break;
+                    case "Path":
+                        if (sortDescending)
+                        {
+                            bs.DataSource = songsToShow.OrderByDescending(song => song.Path);
+                            sortDescending = false;
+                        }
+                        else
+                        {
+                            bs.DataSource = songsToShow.OrderBy(song => song.Path);
+                            sortDescending = true;
+                        }
+                        break;
+                    case "FileName":
+                        if (sortDescending)
+                        {
+                            bs.DataSource = songsToShow.OrderByDescending(song => song.FileName);
+                            sortDescending = false;
+                        }
+                        else
+                        {
+                            bs.DataSource = songsToShow.OrderBy(song => song.FileName);
+                            sortDescending = true;
+                        }
+                        break;
+                    case "SongYear":
+                        if (sortDescending)
+                        {
+                            bs.DataSource = songsToShow.OrderByDescending(song => song.SongYear);
+                            sortDescending = false;
+                        }
+                        else
+                        {
+                            bs.DataSource = songsToShow.OrderBy(song => song.SongYear);
+                            sortDescending = true;
+                        }
+                        break;
+                }
+                scrollOffset = dgvSongs.HorizontalScrollingOffset;
+                dgvSongs.DataSource = bs;
+                dgvSongs.HorizontalScrollingOffset = scrollOffset;
             }
-            scrollOffset = dgvSongs.HorizontalScrollingOffset;
-            dgvSongs.DataSource = bs;
-            dgvSongs.HorizontalScrollingOffset = scrollOffset;
-           
         }
         private void btnSongsToBBCode_Click(object sender, EventArgs e)
         {
@@ -768,11 +827,11 @@ namespace CustomsForgeManager_Winforms.Forms
             {
                 if (song.Author == null)
                 {
-                    sbTXT.AppendLine("[*]" + song.Song + " - " + song.Artist + ", " + song.Album + ", " + song.Updated + ", " + song.Tuning + ", " + DifficultyToDD(song.DD) + ", " + song.Arrangements + "[/*]");
+                    sbTXT.AppendLine("[*]" + song.Song + " - " + song.Artist + ", " + song.Album + ", " + song.Updated + ", " + song.Tuning + ", " + song.DD.DifficultyToDD() + ", " + song.Arrangements + "[/*]");
                 }
                 else
                 {
-                    sbTXT.AppendLine("[*]" + song.Song + " - " + song.Artist + ", " + song.Album + ", " + song.Updated + ", " + song.Tuning + ", " + DifficultyToDD(song.DD) + ", " + song.Arrangements + ", " + song.Author + "[/*]");
+                    sbTXT.AppendLine("[*]" + song.Song + " - " + song.Artist + ", " + song.Album + ", " + song.Updated + ", " + song.Tuning + ", " + song.DD.DifficultyToDD() + ", " + song.Arrangements + ", " + song.Author + "[/*]");
                 }
             }
             sbTXT.AppendLine("[/LIST]");
@@ -913,7 +972,6 @@ namespace CustomsForgeManager_Winforms.Forms
         }
         private void btnRescan_Click(object sender, EventArgs e)
         {
-            SongCollection.Clear();
             BackgroundScan();
         }
         private void lnkAboutCF_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -949,9 +1007,13 @@ namespace CustomsForgeManager_Winforms.Forms
         }
         private void tbSearch_KeyUp(object sender, KeyEventArgs e)
         {
-            if (tbSearch.Text.Length > 0 && e.KeyCode == Keys.Enter)
+            if (tbSearch.Text.Length > 0)// && e.KeyCode == Keys.Enter)
             {
                 SearchDLC(tbSearch.Text);
+            }
+            else
+            {
+                dgvSongs.DataSource = new BindingSource().DataSource = SongCollection;
             }
         }
         private void linkLblSelectAll_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -969,7 +1031,6 @@ namespace CustomsForgeManager_Winforms.Forms
                 }
                 allSelected = !allSelected;
         }
-
         private void link_MainClearResults_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             dgvSongs.InvokeIfRequired(delegate
@@ -1002,7 +1063,6 @@ namespace CustomsForgeManager_Winforms.Forms
         {
             SaveSettingsToFile();
         }
-
         private void dgvSongs_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
             var grid = (DataGridView)sender;
@@ -1014,28 +1074,63 @@ namespace CustomsForgeManager_Winforms.Forms
                 }
             }
         }
-
         private void checkForUpdateToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (dgvSongs.SelectedRows.Count > 0)
-            {
-                CheckRowForUpdate(dgvSongs.SelectedRows[0]);
-            }
+            bWorker = new BackgroundWorker();
+            bWorker.SetDefaults();
+            bWorker.DoWork += CheckForUpdatesEvent;
+            bWorker.RunWorkerAsync();
         }
-
+        private void CheckForUpdatesEvent(object o, DoWorkEventArgs args)
+        {
+            dgvSongs.InvokeIfRequired(delegate
+            {
+                if (dgvSongs.SelectedRows.Count > 0)
+                {
+                    CheckRowForUpdate(dgvSongs.SelectedRows[0]);
+                }
+            });
+        }
         private void btnCheckAllForUpdates_Click(object sender, EventArgs e)
         {
-            int count = dgvSongs.RowCount;
-            foreach (var row in dgvSongs.Rows)
-            {
-                CheckRowForUpdate((DataGridViewRow)row);
-            }
+            bWorker = new BackgroundWorker();
+            bWorker.SetDefaults();
+            bWorker.DoWork += checkAllForUpdates;
+            toolStripStatusLabel_MainCancel.Visible = true;
+            bWorker.RunWorkerAsync();
+            
         }
-
+        void checkAllForUpdates(object sender, DoWorkEventArgs e)
+        {
+            counterStopwatch.Start();
+            dgvSongs.InvokeIfRequired(delegate
+            {
+                foreach (var row in dgvSongs.Rows)
+                {
+                    if (!bWorker.CancellationPending)
+                    {
+                        CheckRowForUpdate((DataGridViewRow) row);
+                    }
+                }
+            });
+            counterStopwatch.Stop();
+            Log(string.Format("Finished update check. Task took {0}", counterStopwatch.Elapsed));
+        }
         private void openDLCPageToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ERR_NI();
         }
+        private void toolStripStatusLabel_MainCancel_Click(object sender, EventArgs e)
+        {
+                    bWorker.CancelAsync();
+        }
+        private void closeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (bWorker.IsBusy)
+                bWorker.CancelAsync();
+            Application.Exit();
+        }
+
         #endregion
 
         private string GetDLCInfoFromURL(string apiUrl, string fieldName)
@@ -1050,6 +1145,7 @@ namespace CustomsForgeManager_Winforms.Forms
         }
         private void CheckRowForUpdate(DataGridViewRow dataGridViewRow)
         {
+            
             var selectedRow = dataGridViewRow;
             string name = selectedRow.Cells["Song"].Value.ToString();
             string artist = selectedRow.Cells["Artist"].Value.ToString();
@@ -1059,34 +1155,24 @@ namespace CustomsForgeManager_Winforms.Forms
 
             try
             {
-                string ignition_updated = GetDLCInfoFromURL(apiUrl, "updated");
-                string file_updated = selectedRow.Cells["Updated"].Value.ToString();
-
-                DateTime ignitionDate;
-                DateTime fileDate;
-
-                if (DateTime.TryParse(ignition_updated, out ignitionDate))
-                {
-                    if (DateTime.TryParse(file_updated, out fileDate))
-                    {
-                        DateTime ignitionDays = new DateTime(year: ignitionDate.Year, month: ignitionDate.Month, day: ignitionDate.Day);
-                        DateTime fileDays = new DateTime(year: fileDate.Year, month: fileDate.Month, day: fileDate.Day);
-
-                        if (!ignitionDays.Equals(fileDays))
+                string ignition_version = GetDLCInfoFromURL(apiUrl, "version");
+                string file_version = selectedRow.Cells["Version"].Value.ToString();
+                        if (!file_version.Equals(ignition_version))
                         {
                             selectedRow.DefaultCellStyle.BackColor = Color.Red;
-                            myLog.Write(string.Format("New version available for \"{0}\" from \"{1}\" album by {2}", name, album, artist));
+                            myLog.Write(string.Format("New version ({3}) available for \"{0}\" from \"{1}\" album by {2}", name, album, artist, ignition_version));
                             selectedRow.Selected = false;
                         }
                         else
                             myLog.Write(string.Format("No new version found for \"{0}\" from \"{1}\" album by {2}", name, album, artist));
-                    }
-                }
+
             }
             catch (Exception wex)
             {
                 myLog.Write(string.Format("<Error>: {0}", wex.Message));
             }
         }
+
+
     }
 }
