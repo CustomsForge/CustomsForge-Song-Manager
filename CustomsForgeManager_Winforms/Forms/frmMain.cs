@@ -1035,7 +1035,8 @@ namespace CustomsForgeManager_Winforms.Forms
         {
             dgvSongs.InvokeIfRequired(delegate
             {
-                dgvSongs.DataSource = SongCollection;
+                SortedSongCollection = SongCollection.ToList();
+                dgvSongs.DataSource = new BindingSource().DataSource = SongCollection;
             });
             tbSearch.InvokeIfRequired(delegate { tbSearch.Text = ""; });
         }
