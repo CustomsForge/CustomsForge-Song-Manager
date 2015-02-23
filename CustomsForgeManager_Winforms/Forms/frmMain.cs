@@ -81,7 +81,6 @@ namespace CustomsForgeManager_Winforms.Forms
                 LoadSongCollectionFromFile();
             
         }
-
         private void BackgroundScan()
         {
             bWorker = new BackgroundWorker();
@@ -457,7 +456,6 @@ namespace CustomsForgeManager_Winforms.Forms
             return files;
         }
         
-        
         private void CheckForUpdate()
         {
             if (ApplicationDeployment.IsNetworkDeployed)
@@ -578,39 +576,29 @@ namespace CustomsForgeManager_Winforms.Forms
             }
         }
 
-        #region GUIEventHandlers
-        private void btnDisableEnableSongs_Click(object sender, EventArgs e)
+        #region GUIEventHandlers     
+        #region DataGridView events
+        private void dgvSongs_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            string disabledFolderPath = mySettings.RSInstalledDir +"\\"+ Constants.DefaultDisabledSubDirectory;
-            string dlcPath = "";
-            if (!Directory.Exists(disabledFolderPath))
+            if (dgvSongs.Rows[e.RowIndex].Cells["colSelect"].Value != null && dgvSongs.Rows[e.RowIndex].Cells["colSelect"].Value.ToString().ToLower() == "true")
             {
-                Directory.CreateDirectory(disabledFolderPath);
+                dgvSongs.Rows[e.RowIndex].Cells["colSelect"].Value = false;
             }
-            try
+            else
             {
-                foreach (DataGridViewRow row in dgvSongs.Rows)
-                {
-                    if (row.Cells["colSelect"].Value != null && row.Cells["colSelect"].Value.ToString() == "true")
-                    {
-                        var originalPath = row.Cells["Path"].Value.ToString();
-                        var filename = row.Cells["FileName"].Value.ToString();
-                        if (row.Cells["Enabled"].Value.ToString() == "Yes")
-                            File.Move(originalPath, disabledFolderPath + "\\" + filename);
-                        else if (row.Cells["Enabled"].Value.ToString() == "No")
-                            File.Move(originalPath,mySettings.RSInstalledDir + "\\dlc\\" + filename);
-                    }
-                }
-                Log("Rescan to see changes",100);
-            }
-            catch (IOException ex)
-            {
-                Log("<ERROR>:" + ex.Message);
+                dgvSongs.Rows[e.RowIndex].Cells["colSelect"].Value = true;
             }
         }
-        private void showDLCInfoToolStripMenuItem_Click(object sender, EventArgs e)
+        private void dgvSongs_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
-            ShowSongInfo();
+            var grid = (DataGridView)sender;
+            if (e.Button == MouseButtons.Right)
+            {
+                if (e.RowIndex != -1)
+                {
+                    grid.Rows[e.RowIndex].Selected = true;
+                }
+            }
         }
         private void dgvSongs_DataSourceChanged(object sender, EventArgs e)
         {
@@ -818,6 +806,111 @@ namespace CustomsForgeManager_Winforms.Forms
                 dgvSongs.HorizontalScrollingOffset = scrollOffset;
             }
         }
+        #endregion
+        #region Link events
+        private void lnkAboutCF_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("http://customsforge.com");
+        }
+        private void linkLblSelectAll_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            foreach (DataGridViewRow row in dgvSongs.Rows)
+            {
+                if (allSelected)
+                {
+                    row.Cells["colSelect"].Value = false;
+                }
+                else
+                {
+                    row.Cells["colSelect"].Value = true;
+                }
+            }
+            allSelected = !allSelected;
+        }
+        private void link_MainClearResults_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            dgvSongs.InvokeIfRequired(delegate
+            {
+                SortedSongCollection = SongCollection.ToList();
+                dgvSongs.DataSource = new BindingSource().DataSource = SongCollection;
+            });
+            tbSearch.InvokeIfRequired(delegate { tbSearch.Text = ""; });
+        }
+        private void link_LovromanProfile_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("http://customsforge.com/user/43194-lovroman/");
+        }
+        private void link_DarjuszProfile_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://customsforge.com/user/5299-darjusz/");
+        }
+        private void link_Alex360Profile_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://customsforge.com/user/236-alex360/");
+        }
+        private void link_UnleashedProfile_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://customsforge.com/user/1-unleashed2k/");
+        }
+        private void link_ForgeOnProfile_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://customsforge.com/user/345-forgeon/");
+        }
+        #endregion
+        #region Button events
+        private void btnDisableEnableSongs_Click(object sender, EventArgs e)
+        {
+            string disabledFolderPath = mySettings.RSInstalledDir + "\\" + Constants.DefaultDisabledSubDirectory;
+            if (!Directory.Exists(disabledFolderPath))
+            {
+                Directory.CreateDirectory(disabledFolderPath);
+            }
+            try
+            {
+                foreach (DataGridViewRow row in dgvSongs.Rows)
+                {
+                    if (row.Cells["colSelect"].Value != null && row.Cells["colSelect"].Value.ToString().ToLower() == "true")
+                    {
+                        var currentSong = SongCollection.FirstOrDefault(song => song.Path == row.Cells["Path"].Value.ToString());
+                        var originalPath = row.Cells["Path"].Value.ToString();
+                        var filename = row.Cells["FileName"].Value.ToString();
+                        if (row.Cells["Enabled"].Value.ToString() == "Yes")
+                        {
+                            File.Move(originalPath, disabledFolderPath + "\\" + filename);
+                            currentSong.Path = disabledFolderPath + "\\" + filename;
+                            currentSong.Enabled = "No";
+                            row.Cells["Path"].Value = disabledFolderPath + "\\" + filename;
+                            row.Cells["Enabled"].Value = "No";
+                        }
+                        else if (row.Cells["Enabled"].Value.ToString() == "No")
+                        {
+                            File.Move(originalPath, mySettings.RSInstalledDir + "\\dlc\\" + filename);
+                            currentSong.Path = mySettings.RSInstalledDir + "\\dlc\\" + filename;
+                            currentSong.Enabled = "Yes";
+                            row.Cells["Path"].Value = mySettings.RSInstalledDir + "\\dlc\\" + filename;
+                            row.Cells["Enabled"].Value = "Yes";
+                        }
+                    }
+                }
+               //Log("Rescan to see changes", 100);
+            }
+            catch (IOException ex)
+            {
+                Log("<ERROR>:" + ex.Message);
+            }
+        }
+        private void btnSettingsSave_Click(object sender, EventArgs e)
+        {
+            SaveSettingsToFile();
+        }
+        private void btnSettingsLoad_Click(object sender, EventArgs e)
+        {
+            LoadSettingsFromFile();
+        }
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            SearchDLC(tbSearch.Text);
+        }
         private void btnSongsToBBCode_Click(object sender, EventArgs e)
         {
             var sbTXT = new StringBuilder();
@@ -974,9 +1067,10 @@ namespace CustomsForgeManager_Winforms.Forms
         {
             BackgroundScan();
         }
-        private void lnkAboutCF_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        #endregion
+        private void showDLCInfoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Process.Start("http://customsforge.com");
+            ShowSongInfo();
         }
         private void timerAutoUpdate_Tick(object sender, EventArgs e)
         {
@@ -993,18 +1087,6 @@ namespace CustomsForgeManager_Winforms.Forms
                 }
             }
         }
-        private void btnSettingsSave_Click(object sender, EventArgs e)
-        {
-            SaveSettingsToFile();
-        }
-        private void btnSettingsLoad_Click(object sender, EventArgs e)
-        {
-            LoadSettingsFromFile();
-        }
-        private void btnSearch_Click(object sender, EventArgs e)
-        {
-            SearchDLC(tbSearch.Text);
-        }
         private void tbSearch_KeyUp(object sender, KeyEventArgs e)
         {
             if (tbSearch.Text.Length > 0)// && e.KeyCode == Keys.Enter)
@@ -1016,64 +1098,9 @@ namespace CustomsForgeManager_Winforms.Forms
                 dgvSongs.DataSource = new BindingSource().DataSource = SongCollection;
             }
         }
-        private void linkLblSelectAll_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-                foreach (DataGridViewRow row in dgvSongs.Rows)
-                {
-                    if (allSelected)
-                    {
-                        row.Cells["colSelect"].Value = false;
-                    }
-                    else
-                    {
-                        row.Cells["colSelect"].Value = true;
-                    }
-                }
-                allSelected = !allSelected;
-        }
-        private void link_MainClearResults_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            dgvSongs.InvokeIfRequired(delegate
-            {
-                SortedSongCollection = SongCollection.ToList();
-                dgvSongs.DataSource = new BindingSource().DataSource = SongCollection;
-            });
-            tbSearch.InvokeIfRequired(delegate { tbSearch.Text = ""; });
-        }
-        private void link_LovromanProfile_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            Process.Start("http://customsforge.com/user/43194-lovroman/");
-        }
-        private void link_DarjuszProfile_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            System.Diagnostics.Process.Start("http://customsforge.com/user/5299-darjusz/");
-        }
-        private void link_Alex360Profile_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            System.Diagnostics.Process.Start("http://customsforge.com/user/236-alex360/");
-        }
-        private void link_UnleashedProfile_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            System.Diagnostics.Process.Start("http://customsforge.com/user/1-unleashed2k/");
-        }
-        private void link_ForgeOnProfile_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            System.Diagnostics.Process.Start("http://customsforge.com/user/345-forgeon/");
-        }
         private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
             SaveSettingsToFile();
-        }
-        private void dgvSongs_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            var grid = (DataGridView)sender;
-            if (e.Button == MouseButtons.Right)
-            {
-                if (e.RowIndex != -1)
-                {
-                    grid.Rows[e.RowIndex].Selected = true;
-                }
-            }
         }
         private void checkForUpdateToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1131,7 +1158,6 @@ namespace CustomsForgeManager_Winforms.Forms
                 bWorker.CancelAsync();
             Application.Exit();
         }
-
         #endregion
 
         private string GetDLCInfoFromURL(string apiUrl, string fieldName)
@@ -1173,7 +1199,5 @@ namespace CustomsForgeManager_Winforms.Forms
                 myLog.Write(string.Format("<Error>: {0}", wex.Message));
             }
         }
-
-
     }
 }
