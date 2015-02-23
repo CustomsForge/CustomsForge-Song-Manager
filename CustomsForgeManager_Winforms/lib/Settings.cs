@@ -9,6 +9,7 @@ namespace CustomsForgeManager_Winforms.Utilities
         public string LogFilePath { get; set; }
         public string RSInstalledDir { get; set; }
         public bool RescanOnStartup { get; set; }
+        public bool IncludeRS1DLCs { get; set; }
         public RADataGridViewSettings ManagerGridSettings { get; set; }
     }
 
@@ -89,6 +90,18 @@ namespace CustomsForgeManager_Winforms.Utilities
                 _settingsData.RescanOnStartup = value;
             }
         }
+
+        public bool IncludeRS1DLCs
+        {
+            get { return _settingsData.IncludeRS1DLCs; }
+            set
+            {
+                if (_settingsData == null)
+                    _settingsData = new SettingsData();
+                _settingsData.IncludeRS1DLCs = value;
+            }
+        }
+
         /// <summary>
         /// Initialise settings with default values
         /// </summary>

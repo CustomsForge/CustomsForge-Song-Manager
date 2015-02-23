@@ -112,6 +112,7 @@
             this.notifyIcon_Main = new System.Windows.Forms.NotifyIcon(this.components);
             this.contextMenuStrip_Tray = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.checkIncludeRS1DLC = new System.Windows.Forms.CheckBox();
             this.dgvSongs = new CustomsForgeManager_Winforms.Controls.RADataGridView();
             this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.tlp_MainForm_Wrappper.SuspendLayout();
@@ -604,16 +605,18 @@
             this.tlpSettings_Wrapper.Controls.Add(this.lblSettingsRSDir, 1, 1);
             this.tlpSettings_Wrapper.Controls.Add(this.tbSettingsRSDir, 2, 1);
             this.tlpSettings_Wrapper.Controls.Add(this.checkRescanOnStartup, 1, 2);
-            this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsLoad, 2, 4);
-            this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsSave, 1, 4);
-            this.tlpSettings_Wrapper.Controls.Add(this.panel5, 1, 3);
+            this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsLoad, 2, 5);
+            this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsSave, 1, 5);
+            this.tlpSettings_Wrapper.Controls.Add(this.panel5, 1, 4);
+            this.tlpSettings_Wrapper.Controls.Add(this.checkIncludeRS1DLC, 1, 3);
             this.tlpSettings_Wrapper.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpSettings_Wrapper.Location = new System.Drawing.Point(3, 3);
             this.tlpSettings_Wrapper.Name = "tlpSettings_Wrapper";
-            this.tlpSettings_Wrapper.RowCount = 5;
+            this.tlpSettings_Wrapper.RowCount = 6;
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 7.832898F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10.86262F));
+            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 81.46965F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 49F));
             this.tlpSettings_Wrapper.Size = new System.Drawing.Size(764, 383);
@@ -625,7 +628,7 @@
             this.lblSettingsRSDir.Dock = System.Windows.Forms.DockStyle.Right;
             this.lblSettingsRSDir.Location = new System.Drawing.Point(110, 20);
             this.lblSettingsRSDir.Name = "lblSettingsRSDir";
-            this.lblSettingsRSDir.Size = new System.Drawing.Size(272, 24);
+            this.lblSettingsRSDir.Size = new System.Drawing.Size(272, 22);
             this.lblSettingsRSDir.TabIndex = 1;
             this.lblSettingsRSDir.Text = "Rocksmith installation directory (double-click to change):";
             this.lblSettingsRSDir.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -641,13 +644,13 @@
             // 
             // checkRescanOnStartup
             // 
-            this.checkRescanOnStartup.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.checkRescanOnStartup.AutoSize = true;
             this.checkRescanOnStartup.Checked = true;
             this.checkRescanOnStartup.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkRescanOnStartup.Location = new System.Drawing.Point(183, 52);
+            this.checkRescanOnStartup.Dock = System.Windows.Forms.DockStyle.Right;
+            this.checkRescanOnStartup.Location = new System.Drawing.Point(269, 45);
             this.checkRescanOnStartup.Name = "checkRescanOnStartup";
-            this.checkRescanOnStartup.Size = new System.Drawing.Size(113, 17);
+            this.checkRescanOnStartup.Size = new System.Drawing.Size(113, 25);
             this.checkRescanOnStartup.TabIndex = 3;
             this.checkRescanOnStartup.Text = "Rescan on startup";
             this.checkRescanOnStartup.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -678,9 +681,9 @@
             // panel5
             // 
             this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel5.Location = new System.Drawing.Point(98, 81);
+            this.panel5.Location = new System.Drawing.Point(98, 104);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(284, 249);
+            this.panel5.Size = new System.Drawing.Size(284, 226);
             this.panel5.TabIndex = 4;
             // 
             // tpAbout
@@ -1008,6 +1011,20 @@
             this.closeToolStripMenuItem.Text = "Close";
             this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
             // 
+            // checkIncludeRS1DLC
+            // 
+            this.checkIncludeRS1DLC.AutoSize = true;
+            this.checkIncludeRS1DLC.Checked = true;
+            this.checkIncludeRS1DLC.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkIncludeRS1DLC.Dock = System.Windows.Forms.DockStyle.Right;
+            this.checkIncludeRS1DLC.Location = new System.Drawing.Point(208, 76);
+            this.checkIncludeRS1DLC.Name = "checkIncludeRS1DLC";
+            this.checkIncludeRS1DLC.Size = new System.Drawing.Size(174, 22);
+            this.checkIncludeRS1DLC.TabIndex = 3;
+            this.checkIncludeRS1DLC.Text = "Include RS1 Compatibility Pack";
+            this.checkIncludeRS1DLC.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkIncludeRS1DLC.UseVisualStyleBackColor = true;
+            // 
             // dgvSongs
             // 
             this.dgvSongs.AllowUserToAddRows = false;
@@ -1026,7 +1043,6 @@
             this.dgvSongs.Size = new System.Drawing.Size(758, 287);
             this.dgvSongs.TabIndex = 1;
             this.dgvSongs.DataSourceChanged += new System.EventHandler(this.dgvSongs_DataSourceChanged);
-            this.dgvSongs.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSongs_CellContentClick);
             this.dgvSongs.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSongs_CellDoubleClick);
             this.dgvSongs.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongs_CellMouseDown);
             this.dgvSongs.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongs_ColumnHeaderMouseClick);
@@ -1177,6 +1193,7 @@
         private System.Windows.Forms.NotifyIcon notifyIcon_Main;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip_Tray;
         private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
+        private System.Windows.Forms.CheckBox checkIncludeRS1DLC;
     }
 }
 

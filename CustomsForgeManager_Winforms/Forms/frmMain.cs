@@ -116,8 +116,8 @@ namespace CustomsForgeManager_Winforms.Forms
             });
             string enabled = "";
             int counter = 1;
-            List<string> filesList = new List<string>(FilesList(mySettings.RSInstalledDir + "\\dlc"));
-            List<string> disabledFilesList = new List<string>(FilesList(mySettings.RSInstalledDir + "\\" + Constants.DefaultDisabledSubDirectory));
+            List<string> filesList = new List<string>(FilesList(mySettings.RSInstalledDir + "\\dlc", mySettings.IncludeRS1DLCs));
+            List<string> disabledFilesList = new List<string>(FilesList(mySettings.RSInstalledDir + "\\" + Constants.DefaultDisabledSubDirectory,mySettings.IncludeRS1DLCs));
             filesList.AddRange(disabledFilesList);
             counterStopwatch.Start();
             foreach (string file in filesList)
@@ -239,6 +239,7 @@ namespace CustomsForgeManager_Winforms.Forms
             mySettings.LogFilePath = Constants.DefaultWorkingDirectory + "\\debug.log";
             mySettings.RSInstalledDir = GetInstallDirFromRegistry();
             mySettings.RescanOnStartup = true;
+            mySettings.IncludeRS1DLCs = false;
         }
         private void SaveSettingsToFile(string path = "")
         {
@@ -252,6 +253,7 @@ namespace CustomsForgeManager_Winforms.Forms
                     mySettings.LogFilePath = Constants.DefaultWorkingDirectory + Constants.DefaultLogName;
                     mySettings.RSInstalledDir = tbSettingsRSDir.Text;
                     mySettings.RescanOnStartup = true;
+                    mySettings.IncludeRS1DLCs = false;
                     Log("Default settings created...");
                 }
                 if (!string.IsNullOrEmpty(tbSettingsRSDir.Text))
@@ -316,6 +318,10 @@ namespace CustomsForgeManager_Winforms.Forms
                         {
                             dgvSongs.ReLoadColumnOrder(mySettings.ManagerGridSettings.ColumnOrder);
                         }
+                        checkIncludeRS1DLC.InvokeIfRequired(delegate
+                        {
+                            checkIncludeRS1DLC.Checked = mySettings.IncludeRS1DLCs;
+                        });
                         Log("Loaded settings...");
                     }
                     fs.Close();
@@ -445,14 +451,26 @@ namespace CustomsForgeManager_Winforms.Forms
             {
                 btnSongsToBBCode.Enabled = !btnSongsToBBCode.Enabled;
             });
+            checkIncludeRS1DLC.InvokeIfRequired(delegate
+            {
+                checkIncludeRS1DLC.Enabled = !checkIncludeRS1DLC.Enabled;
+            });
         }
-        public static List<string> FilesList(string path)
+        public static List<string> FilesList(string path, bool includeRS1Pack = false)
         {
             if (string.IsNullOrEmpty(path))
                 throw new Exception("<Error>: No path provided for file scanning");
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
             List<string> files = new List<string>(Directory.GetFiles(path, "*_p.psarc", SearchOption.AllDirectories));
+            if (!includeRS1Pack)
+            {
+                foreach (string file in files.ToList())
+                {
+                    if (file.Contains("rs1compatibilitydlc"))
+                        files.Remove(file);
+                }
+            }
             return files;
         }
 
@@ -578,20 +596,7 @@ namespace CustomsForgeManager_Winforms.Forms
 
         #region GUIEventHandlers
         #region DataGridView events
-        private void dgvSongs_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if(e.RowIndex != -1)
-            {
-                if (dgvSongs.Rows[e.RowIndex].Cells["colSelect"].Value != null && dgvSongs.Rows[e.RowIndex].Cells["colSelect"].Value.ToString().ToLower() == "true")
-                {
-                    dgvSongs.Rows[e.RowIndex].Cells["colSelect"].Value = false;
-                }
-                else
-                {
-                    dgvSongs.Rows[e.RowIndex].Cells["colSelect"].Value = true;
-                }
-            }
-        }
+
         private void dgvSongs_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
             var grid = (DataGridView)sender;
