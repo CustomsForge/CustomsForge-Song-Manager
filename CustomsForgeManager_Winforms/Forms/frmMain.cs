@@ -1178,7 +1178,7 @@ namespace CustomsForgeManager_Winforms.Forms
             string artist = selectedRow.Cells["Artist"].Value.ToString();
             string album = selectedRow.Cells["Album"].Value.ToString();
 
-            string apiUrl = Constants.DefaultServiceURL + "/" + artist + "/" + album + "/" + name;
+            string apiUrl = Constants.DefaultServiceURL + "/" + artist.CleanForAPI() + "/" + album.CleanForAPI() + "/" + name.CleanForAPI();
 
             try
             {

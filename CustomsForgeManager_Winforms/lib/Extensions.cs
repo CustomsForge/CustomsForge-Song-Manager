@@ -58,5 +58,10 @@ namespace CustomsForgeManager_Winforms.Utilities
         }
 
 
+        public static string CleanForAPI(this string text)
+        {
+            return text.Replace("/", "_");
+        }
+
     }
 }
