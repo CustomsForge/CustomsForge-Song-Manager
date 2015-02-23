@@ -16,6 +16,6 @@ namespace CustomsForgeManager_Winforms.Utilities
             }
         }
 
-        public static string DefaultDisabledSubDirectory { get { return "disabled"; } }
+        //public static string DefaultDisabledSubDirectory { get { return "disabled"; } }
     }
 }

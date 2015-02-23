@@ -30,6 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tlp_MainForm_Wrappper = new System.Windows.Forms.TableLayoutPanel();
             this.gbLog = new System.Windows.Forms.GroupBox();
             this.tbLog = new System.Windows.Forms.TextBox();
@@ -1030,17 +1031,21 @@
             this.dgvSongs.AllowUserToAddRows = false;
             this.dgvSongs.AllowUserToOrderColumns = true;
             this.dgvSongs.AllowUserToResizeRows = false;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.dgvSongs.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvSongs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvSongs.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colSelect});
             this.dgvSongs.ContextMenuStrip = this.contextMenuStrip_MainManager;
-            this.dgvSongs.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            this.dgvSongs.Location = new System.Drawing.Point(3, 3);
+            this.dgvSongs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvSongs.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnF2;
+            this.dgvSongs.GridColor = System.Drawing.SystemColors.ActiveCaption;
+            this.dgvSongs.Location = new System.Drawing.Point(0, 0);
             this.dgvSongs.MultiSelect = false;
             this.dgvSongs.Name = "dgvSongs";
             this.dgvSongs.RowHeadersVisible = false;
             this.dgvSongs.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvSongs.Size = new System.Drawing.Size(758, 287);
+            this.dgvSongs.Size = new System.Drawing.Size(764, 290);
             this.dgvSongs.TabIndex = 1;
             this.dgvSongs.DataSourceChanged += new System.EventHandler(this.dgvSongs_DataSourceChanged);
             this.dgvSongs.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSongs_CellDoubleClick);
@@ -1049,12 +1054,14 @@
             // 
             // colSelect
             // 
+            this.colSelect.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.colSelect.FalseValue = "false";
+            this.colSelect.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.colSelect.HeaderText = "Select";
             this.colSelect.Name = "colSelect";
-            this.colSelect.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.colSelect.TrueValue = "true";
             this.colSelect.Visible = false;
+            this.colSelect.Width = 43;
             // 
             // frmMain
             // 
@@ -1187,13 +1194,13 @@
         private System.Windows.Forms.ToolStripMenuItem checkForUpdateToolStripMenuItem;
         private System.Windows.Forms.Button btnCheckAllForUpdates;
         private System.Windows.Forms.Button btnDisableEnableSongs;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn colSelect;
         private System.Windows.Forms.LinkLabel linkLblSelectAll;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel_MainCancel;
         private System.Windows.Forms.NotifyIcon notifyIcon_Main;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip_Tray;
         private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
         private System.Windows.Forms.CheckBox checkIncludeRS1DLC;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn colSelect;
     }
 }
 

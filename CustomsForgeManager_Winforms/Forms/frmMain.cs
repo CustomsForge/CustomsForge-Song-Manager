@@ -117,8 +117,8 @@ namespace CustomsForgeManager_Winforms.Forms
             string enabled = "";
             int counter = 1;
             List<string> filesList = new List<string>(FilesList(mySettings.RSInstalledDir + "\\dlc", mySettings.IncludeRS1DLCs));
-            List<string> disabledFilesList = new List<string>(FilesList(mySettings.RSInstalledDir + "\\" + Constants.DefaultDisabledSubDirectory,mySettings.IncludeRS1DLCs));
-            filesList.AddRange(disabledFilesList);
+            //List<string> disabledFilesList = new List<string>(FilesList(mySettings.RSInstalledDir + "\\" + Constants.DefaultDisabledSubDirectory,mySettings.IncludeRS1DLCs));
+            //filesList.AddRange(disabledFilesList);
             counterStopwatch.Start();
             foreach (string file in filesList)
             {
@@ -126,7 +126,7 @@ namespace CustomsForgeManager_Winforms.Forms
                 {
                     Progress(counter++ * 100 / filesList.Count);
 
-                    if (file.Contains(Constants.DefaultDisabledSubDirectory))
+                    if (file.Contains(".disabled."))
                     {
                         enabled = "No";
                     }
@@ -465,6 +465,7 @@ namespace CustomsForgeManager_Winforms.Forms
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
             List<string> files = new List<string>(Directory.GetFiles(path, "*_p.psarc", SearchOption.AllDirectories));
+            files.AddRange(new List<string>(Directory.GetFiles(path,"*_p.disabled.psarc",SearchOption.AllDirectories)));
             if (!includeRS1Pack)
             {
                 foreach (string file in files.ToList())
@@ -870,44 +871,30 @@ namespace CustomsForgeManager_Winforms.Forms
         #region Button events
         private void btnDisableEnableSongs_Click(object sender, EventArgs e)
         {
-            string disabledFolderPath = mySettings.RSInstalledDir + "\\" + Constants.DefaultDisabledSubDirectory;
-            if (!Directory.Exists(disabledFolderPath))
-            {
-                Directory.CreateDirectory(disabledFolderPath);
-            }
-            try
-            {
                 foreach (DataGridViewRow row in dgvSongs.Rows)
                 {
-                    if (row.Cells["colSelect"].Value != null && row.Cells["colSelect"].Value.ToString().ToLower() == "true")
+                    DataGridViewCheckBoxCell cell = (DataGridViewCheckBoxCell)row.Cells["colSelect"];
+
+                    if (cell != null && cell.Value != null && cell.Value.ToString().ToLower() == "true")
                     {
-                        var currentSong = SongCollection.FirstOrDefault(song => song.Path == row.Cells["Path"].Value.ToString());
                         var originalPath = row.Cells["Path"].Value.ToString();
-                        var filename = row.Cells["FileName"].Value.ToString();
                         if (row.Cells["Enabled"].Value.ToString() == "Yes")
                         {
-                            File.Move(originalPath, disabledFolderPath + "\\" + filename);
-                            currentSong.Path = disabledFolderPath + "\\" + filename;
-                            currentSong.Enabled = "No";
-                            row.Cells["Path"].Value = disabledFolderPath + "\\" + filename;
+                            var disabledDLCPath = originalPath.Replace("_p.psarc", "_p.disabled.psarc");
+                            File.Move(originalPath, disabledDLCPath);
+                            row.Cells["Path"].Value = disabledDLCPath;
                             row.Cells["Enabled"].Value = "No";
                         }
                         else if (row.Cells["Enabled"].Value.ToString() == "No")
                         {
-                            File.Move(originalPath, mySettings.RSInstalledDir + "\\dlc\\" + filename);
-                            currentSong.Path = mySettings.RSInstalledDir + "\\dlc\\" + filename;
-                            currentSong.Enabled = "Yes";
-                            row.Cells["Path"].Value = mySettings.RSInstalledDir + "\\dlc\\" + filename;
+                            var enabledDLCPath = originalPath.Replace("_p.disabled.psarc", "_p.psarc");
+                            File.Move(originalPath, enabledDLCPath);
+                            row.Cells["Path"].Value = enabledDLCPath;
                             row.Cells["Enabled"].Value = "Yes";
                         }
+                        cell.Value = "false";
                     }
                 }
-                //Log("Rescan to see changes", 100);
-            }
-            catch (IOException ex)
-            {
-                Log("<ERROR>:" + ex.Message);
-            }
         }
         private void btnSettingsSave_Click(object sender, EventArgs e)
         {
