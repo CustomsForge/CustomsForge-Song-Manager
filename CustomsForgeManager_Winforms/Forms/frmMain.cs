@@ -259,6 +259,7 @@ namespace CustomsForgeManager_Winforms.Forms
                 if (!string.IsNullOrEmpty(tbSettingsRSDir.Text))
                     mySettings.RSInstalledDir = tbSettingsRSDir.Text;
                 mySettings.RescanOnStartup = checkRescanOnStartup.Checked;
+                mySettings.IncludeRS1DLCs = checkIncludeRS1DLC.Checked;
 
                 RADataGridViewSettings settings = new RADataGridViewSettings();
                 var columns = dgvSongs.Columns;
@@ -456,7 +457,8 @@ namespace CustomsForgeManager_Winforms.Forms
                 checkIncludeRS1DLC.Enabled = !checkIncludeRS1DLC.Enabled;
             });
         }
-        public static List<string> FilesList(string path, bool includeRS1Pack = false)
+
+        private static List<string> FilesList(string path, bool includeRS1Pack = false)
         {
             if (string.IsNullOrEmpty(path))
                 throw new Exception("<Error>: No path provided for file scanning");

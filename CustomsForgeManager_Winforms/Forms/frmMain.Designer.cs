@@ -82,6 +82,7 @@
             this.btnSettingsLoad = new System.Windows.Forms.Button();
             this.btnSettingsSave = new System.Windows.Forms.Button();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.checkIncludeRS1DLC = new System.Windows.Forms.CheckBox();
             this.tpAbout = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.lnkAboutCF = new System.Windows.Forms.LinkLabel();
@@ -112,7 +113,6 @@
             this.notifyIcon_Main = new System.Windows.Forms.NotifyIcon(this.components);
             this.contextMenuStrip_Tray = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.checkIncludeRS1DLC = new System.Windows.Forms.CheckBox();
             this.dgvSongs = new CustomsForgeManager_Winforms.Controls.RADataGridView();
             this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.tlp_MainForm_Wrappper.SuspendLayout();
@@ -686,6 +686,20 @@
             this.panel5.Size = new System.Drawing.Size(284, 226);
             this.panel5.TabIndex = 4;
             // 
+            // checkIncludeRS1DLC
+            // 
+            this.checkIncludeRS1DLC.AutoSize = true;
+            this.checkIncludeRS1DLC.Checked = true;
+            this.checkIncludeRS1DLC.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkIncludeRS1DLC.Dock = System.Windows.Forms.DockStyle.Right;
+            this.checkIncludeRS1DLC.Location = new System.Drawing.Point(208, 76);
+            this.checkIncludeRS1DLC.Name = "checkIncludeRS1DLC";
+            this.checkIncludeRS1DLC.Size = new System.Drawing.Size(174, 22);
+            this.checkIncludeRS1DLC.TabIndex = 3;
+            this.checkIncludeRS1DLC.Text = "Include RS1 Compatibility Pack";
+            this.checkIncludeRS1DLC.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkIncludeRS1DLC.UseVisualStyleBackColor = true;
+            // 
             // tpAbout
             // 
             this.tpAbout.BackColor = System.Drawing.SystemColors.Control;
@@ -1010,20 +1024,6 @@
             this.closeToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
             this.closeToolStripMenuItem.Text = "Close";
             this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
-            // 
-            // checkIncludeRS1DLC
-            // 
-            this.checkIncludeRS1DLC.AutoSize = true;
-            this.checkIncludeRS1DLC.Checked = true;
-            this.checkIncludeRS1DLC.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkIncludeRS1DLC.Dock = System.Windows.Forms.DockStyle.Right;
-            this.checkIncludeRS1DLC.Location = new System.Drawing.Point(208, 76);
-            this.checkIncludeRS1DLC.Name = "checkIncludeRS1DLC";
-            this.checkIncludeRS1DLC.Size = new System.Drawing.Size(174, 22);
-            this.checkIncludeRS1DLC.TabIndex = 3;
-            this.checkIncludeRS1DLC.Text = "Include RS1 Compatibility Pack";
-            this.checkIncludeRS1DLC.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkIncludeRS1DLC.UseVisualStyleBackColor = true;
             // 
             // dgvSongs
             // 
