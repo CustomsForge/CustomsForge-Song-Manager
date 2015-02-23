@@ -79,7 +79,7 @@ namespace CustomsForgeManager_Winforms.Forms
                 BackgroundScan();
             else
                 LoadSongCollectionFromFile();
-            
+
         }
         private void BackgroundScan()
         {
@@ -124,7 +124,7 @@ namespace CustomsForgeManager_Winforms.Forms
             {
                 if (!bWorker.CancellationPending)
                 {
-                    Progress(counter++*100/filesList.Count);
+                    Progress(counter++ * 100 / filesList.Count);
 
                     if (file.Contains(Constants.DefaultDisabledSubDirectory))
                     {
@@ -455,7 +455,7 @@ namespace CustomsForgeManager_Winforms.Forms
             List<string> files = new List<string>(Directory.GetFiles(path, "*_p.psarc", SearchOption.AllDirectories));
             return files;
         }
-        
+
         private void CheckForUpdate()
         {
             if (ApplicationDeployment.IsNetworkDeployed)
@@ -554,7 +554,7 @@ namespace CustomsForgeManager_Winforms.Forms
             SortedSongCollection = (List<SongData>)(SongCollection.Where(x => x.Artist.ToLower().Contains(criteria.ToLower()) || x.Album.ToLower().Contains(criteria.ToLower()) || x.Song.ToLower().Contains(criteria.ToLower()) || x.Tuning.ToLower().Contains(criteria.ToLower()))).ToList();
             dgvSongs.InvokeIfRequired(delegate
             {
-               dgvSongs.DataSource = results;
+                dgvSongs.DataSource = results;
             });
         }
         private void ShowSongInfo()
@@ -576,17 +576,20 @@ namespace CustomsForgeManager_Winforms.Forms
             }
         }
 
-        #region GUIEventHandlers     
+        #region GUIEventHandlers
         #region DataGridView events
         private void dgvSongs_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (dgvSongs.Rows[e.RowIndex].Cells["colSelect"].Value != null && dgvSongs.Rows[e.RowIndex].Cells["colSelect"].Value.ToString().ToLower() == "true")
+            if(e.RowIndex != -1)
             {
-                dgvSongs.Rows[e.RowIndex].Cells["colSelect"].Value = false;
-            }
-            else
-            {
-                dgvSongs.Rows[e.RowIndex].Cells["colSelect"].Value = true;
+                if (dgvSongs.Rows[e.RowIndex].Cells["colSelect"].Value != null && dgvSongs.Rows[e.RowIndex].Cells["colSelect"].Value.ToString().ToLower() == "true")
+                {
+                    dgvSongs.Rows[e.RowIndex].Cells["colSelect"].Value = false;
+                }
+                else
+                {
+                    dgvSongs.Rows[e.RowIndex].Cells["colSelect"].Value = true;
+                }
             }
         }
         private void dgvSongs_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
@@ -616,7 +619,7 @@ namespace CustomsForgeManager_Winforms.Forms
             if (dgvSongs.DataSource != null)
             {
                 int scrollOffset = 0;
-                BindingSource bs = new BindingSource{DataSource = SongCollection};
+                BindingSource bs = new BindingSource { DataSource = SongCollection };
                 var songsToShow = SortedSongCollection;
 
                 switch (dgvSongs.Columns[e.ColumnIndex].Name)
@@ -892,7 +895,7 @@ namespace CustomsForgeManager_Winforms.Forms
                         }
                     }
                 }
-               //Log("Rescan to see changes", 100);
+                //Log("Rescan to see changes", 100);
             }
             catch (IOException ex)
             {
@@ -1126,7 +1129,7 @@ namespace CustomsForgeManager_Winforms.Forms
             bWorker.DoWork += checkAllForUpdates;
             toolStripStatusLabel_MainCancel.Visible = true;
             bWorker.RunWorkerAsync();
-            
+
         }
         void checkAllForUpdates(object sender, DoWorkEventArgs e)
         {
@@ -1137,7 +1140,7 @@ namespace CustomsForgeManager_Winforms.Forms
                 {
                     if (!bWorker.CancellationPending)
                     {
-                        CheckRowForUpdate((DataGridViewRow) row);
+                        CheckRowForUpdate((DataGridViewRow)row);
                     }
                 }
             });
@@ -1150,7 +1153,7 @@ namespace CustomsForgeManager_Winforms.Forms
         }
         private void toolStripStatusLabel_MainCancel_Click(object sender, EventArgs e)
         {
-                    bWorker.CancelAsync();
+            bWorker.CancelAsync();
         }
         private void closeToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1172,7 +1175,7 @@ namespace CustomsForgeManager_Winforms.Forms
         }
         private void CheckRowForUpdate(DataGridViewRow dataGridViewRow)
         {
-            
+
             var selectedRow = dataGridViewRow;
             string name = selectedRow.Cells["Song"].Value.ToString();
             string artist = selectedRow.Cells["Artist"].Value.ToString();
@@ -1184,14 +1187,29 @@ namespace CustomsForgeManager_Winforms.Forms
             {
                 string ignition_version = GetDLCInfoFromURL(apiUrl, "version");
                 string file_version = selectedRow.Cells["Version"].Value.ToString();
-                        if (!file_version.Equals(ignition_version))
-                        {
-                            selectedRow.DefaultCellStyle.BackColor = Color.Red;
-                            myLog.Write(string.Format("New version ({3}) available for \"{0}\" from \"{1}\" album by {2}", name, album, artist, ignition_version));
-                            selectedRow.Selected = false;
-                        }
-                        else
-                            myLog.Write(string.Format("No new version found for \"{0}\" from \"{1}\" album by {2}", name, album, artist));
+
+                if (file_version == "N/A")
+                {
+                    string songPath = selectedRow.Cells["Path"].Value.ToString();
+                    if (songPath.Contains("_v"))
+                    {
+                        file_version = songPath.Substring(songPath.IndexOf("_v") + 2, songPath.LastIndexOf("_") - songPath.LastIndexOf("_v") - 2).Replace("_", "");
+                        if (!file_version.Any(c => char.IsDigit(c)) || file_version.Equals(string.Empty))
+                            file_version = "N/A";
+
+                        selectedRow.Cells["Version"].Value = file_version;
+                    }
+                }
+
+                
+                if (!file_version.Equals(ignition_version))
+                {
+                    selectedRow.DefaultCellStyle.BackColor = Color.Red;
+                    myLog.Write(string.Format("New version ({3}) available for \"{0}\" from \"{1}\" album by {2}", name, album, artist, ignition_version));
+                    selectedRow.Selected = false;
+                }
+                else
+                    myLog.Write(string.Format("No new version found for \"{0}\" from \"{1}\" album by {2}", name, album, artist));
 
             }
             catch (Exception wex)
