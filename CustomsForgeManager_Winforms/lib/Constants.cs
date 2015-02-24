@@ -11,8 +11,8 @@ namespace CustomsForgeManager_Winforms.Utilities
         {
             get
             {
-                return @"http://ignition.dev.customsforge.com/cdlc";
-                //return @"http://ignition.localhost:88/cdlc";
+                return @"http://ignition.dev.customsforge.com/api/cdlc";
+                //return @"http://ignition.localhost:88/api/cdlc";
             }
         }
 
