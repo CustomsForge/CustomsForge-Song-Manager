@@ -17,6 +17,11 @@ namespace CustomsForgeManager_Winforms
         public string SongYear { get; set; }
         public string Updated { get; set; }
 
+        public string IgnitionID { get; set; }
+        public string IgnitionVersion { get; set; }
+        public string IgnitionUpdated { get; set; }
+        public string IgnitionAuthor { get; set; }
+
         public string Arrangements
         {
             get

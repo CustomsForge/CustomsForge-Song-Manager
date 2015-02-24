@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using CustomsForgeManager_Winforms.lib;
 
 namespace CustomsForgeManager_Winforms.Utilities
 {
@@ -61,6 +62,21 @@ namespace CustomsForgeManager_Winforms.Utilities
         public static string CleanForAPI(this string text)
         {
             return text.Replace("/", "_");
+        }
+
+        public static string GetInfoURL(this SongData song)
+        {
+            var url = Constants.DefaultInfoURL + "/" + song.Artist.CleanForAPI() + "/" + song.Album.CleanForAPI() + "/" + song.Song.CleanForAPI();
+            return url;
+        }
+
+        public static void FetchInfo(this SongData song)
+        {
+            string url = song.GetInfoURL();
+            song.IgnitionID = Ignition.GetDLCInfoFromURL(url, "id");
+            song.IgnitionUpdated = Ignition.GetDLCInfoFromURL(url,"updated");
+            song.IgnitionVersion = Ignition.GetDLCInfoFromURL(url, "version");
+            song.IgnitionAuthor = Ignition.GetDLCInfoFromURL(url, "name");
         }
 
     }

@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using CustomsForgeManager_Winforms.lib;
 using CustomsForgeManager_Winforms.Logging;
 using CustomsForgeManager_Winforms.Utilities;
 using Microsoft.Win32;
@@ -1082,8 +1083,23 @@ namespace CustomsForgeManager_Winforms.Forms
         #region ToolStripMenuItem events
         private void openDLCPageToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ERR_NI();
+            if (dgvSongs.SelectedRows.Count == 1)
+            {
+                var song = GetSongByRow(dgvSongs.SelectedRows[0]);
+                if (song != null)
+                {
+                    if (song.IgnitionID == null)
+                        song.IgnitionID = Ignition.GetDLCInfoFromURL(song.GetInfoURL(), "id");
+                    if (song.IgnitionID == null)
+                        myLog.Write("<ERROR>: Song doesn't exist in Ignition anymore.");
+                    else
+                        Process.Start(Constants.DefaultDetailsURL + "/" + song.IgnitionID);
+                }
+            }
         }
+
+        
+
         private void toolStripStatusLabel_MainCancel_Click(object sender, EventArgs e)
         {
             bWorker.CancelAsync();
@@ -1164,6 +1180,7 @@ namespace CustomsForgeManager_Winforms.Forms
                 if (dgvSongs.SelectedRows.Count > 0)
                 {
                     CheckRowForUpdate(dgvSongs.SelectedRows[0]);
+                    SaveSongCollectionToFile();
                 }
             });
         }
@@ -1180,79 +1197,47 @@ namespace CustomsForgeManager_Winforms.Forms
                         CheckRowForUpdate((DataGridViewRow)row);
                     }
                 }
+                SaveSongCollectionToFile();
             });
             counterStopwatch.Stop();
             Log(string.Format("Finished update check. Task took {0}", counterStopwatch.Elapsed));
         }
-        private string GetDLCInfoFromURL(string apiUrl, string fieldName)
-        {
-            string result = "";
-            WebClient client = new WebClient();
-            var response = client.DownloadString(apiUrl);
-            JArray jsonJArray = JArray.Parse(response);
-            JToken jsonJToken = jsonJArray.First;
-            result = jsonJToken.SelectToken(fieldName).ToString();
-            return result;
-        }
+        
         private void UpdateAuthor(DataGridViewRow selectedRow)
         {
-           
-            string name = selectedRow.Cells["Song"].Value.ToString();
-            string artist = selectedRow.Cells["Artist"].Value.ToString();
-            string album = selectedRow.Cells["Album"].Value.ToString();
-
-            var currentSong = SongCollection.Where(song => song.Song == name && song.Artist == artist && song.Album == album).FirstOrDefault();
-
-            string apiUrl = Constants.DefaultServiceURL + "/" + artist.CleanForAPI() + "/" + album.CleanForAPI() + "/" + name.CleanForAPI();
-
-            string authorName = GetDLCInfoFromURL(apiUrl, "name");
-
-            selectedRow.Cells["Author"].Value = authorName;
-            currentSong.Author = authorName;
+            var currentSong = GetSongByRow(selectedRow);
+            if (currentSong != null)
+            {
+                currentSong.IgnitionAuthor = Ignition.GetDLCInfoFromURL(currentSong.GetInfoURL(), "name");
+                selectedRow.Cells["IgnitionAuthor"].Value = currentSong.IgnitionAuthor;
+            }
         }
 
         private void CheckRowForUpdate(DataGridViewRow dataGridViewRow)
         {
-            var selectedRow = dataGridViewRow;
-            string name = selectedRow.Cells["Song"].Value.ToString();
-            string artist = selectedRow.Cells["Artist"].Value.ToString();
-            string album = selectedRow.Cells["Album"].Value.ToString();
-
-            string apiUrl = Constants.DefaultServiceURL + "/" + artist.CleanForAPI() + "/" + album.CleanForAPI() + "/" + name.CleanForAPI();
-
-            try
+            var currentSong = GetSongByRow(dataGridViewRow);
+            if (currentSong != null)
             {
-                string ignition_version = GetDLCInfoFromURL(apiUrl, "version");
-                string file_version = selectedRow.Cells["Version"].Value.ToString();
-
-                if (file_version == "N/A")
+                //currentSong.IgnitionVersion = Ignition.GetDLCInfoFromURL(currentSong.GetInfoURL(), "version");
+                currentSong.FetchInfo();
+                dataGridViewRow.Cells["IgnitionVersion"].Value = currentSong.IgnitionVersion;
+                if (currentSong.IgnitionVersion == "No Results")
                 {
-                    string songPath = selectedRow.Cells["Path"].Value.ToString();
-                    if (songPath.Contains("_v"))
-                    {
-                        file_version = songPath.Substring(songPath.IndexOf("_v") + 2, songPath.LastIndexOf("_") - songPath.LastIndexOf("_v") - 2).Replace("_", "");
-                        if (!file_version.Any(c => char.IsDigit(c)) || file_version.Equals(string.Empty))
-                            file_version = "N/A";
-
-                        selectedRow.Cells["Version"].Value = file_version;
-                    }
+                    dataGridViewRow.DefaultCellStyle.BackColor = Color.OrangeRed;
+                    myLog.Write(string.Format("<ERROR>: Song \"{0}\" from \"{1}\" album by {2} not found in ignition.", currentSong.Song, currentSong.Album,currentSong.Author));
                 }
-
-                
-                if (!file_version.Equals(ignition_version))
+                else if (currentSong.IgnitionVersion != currentSong.Version)
                 {
-                    selectedRow.DefaultCellStyle.BackColor = Color.Red;
-                    myLog.Write(string.Format("New version ({3}) available for \"{0}\" from \"{1}\" album by {2}", name, album, artist, ignition_version));
-                    selectedRow.Selected = false;
+                    dataGridViewRow.DefaultCellStyle.BackColor = Color.Gold;
+                    myLog.Write(string.Format("Update found for \"{0}\" from \"{1}\" album by {2}. Local version: {3}, Ignition version: {4} ", currentSong.Song, currentSong.Album,currentSong.Author, currentSong.Version, currentSong.IgnitionVersion));
                 }
-                else
-                    myLog.Write(string.Format("No new version found for \"{0}\" from \"{1}\" album by {2}", name, album, artist));
-
-            }
-            catch (Exception wex)
-            {
-                myLog.Write(string.Format("<Error>: {0}", wex.Message));
             }
         }
+
+        private SongData GetSongByRow(DataGridViewRow dataGridViewRow)
+        {
+            return SongCollection.SingleOrDefault(x => x.Song == dataGridViewRow.Cells["Song"].Value.ToString() && x.Artist == dataGridViewRow.Cells["Artist"].Value.ToString() && x.Album == dataGridViewRow.Cells["Album"].Value.ToString());
+        }
+
     }
 }

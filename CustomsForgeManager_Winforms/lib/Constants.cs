@@ -7,7 +7,7 @@ namespace CustomsForgeManager_Winforms.Utilities
         public static string DefaultWorkingDirectory { get { return Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\CFM"; } }
         public static string DefaultLogName { get { return DefaultWorkingDirectory + @"\debug.log"; } }
 
-        public static string DefaultServiceURL
+        public static string DefaultInfoURL
         {
             get
             {
@@ -16,6 +16,9 @@ namespace CustomsForgeManager_Winforms.Utilities
             }
         }
 
-        //public static string DefaultDisabledSubDirectory { get { return "disabled"; } }
+        public static string DefaultDetailsURL
+        {
+            get { return @"http://ignition.dev.customsforge.com/api/details"; }
+        }
     }
 }
