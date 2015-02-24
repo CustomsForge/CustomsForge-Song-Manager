@@ -1165,6 +1165,7 @@ namespace CustomsForgeManager_Winforms.Forms
         private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
             SaveSettingsToFile();
+            SaveSongCollectionToFile();
         }
         private void checkForUpdateToolStripMenuItem_Click(object sender, EventArgs e)
         {
