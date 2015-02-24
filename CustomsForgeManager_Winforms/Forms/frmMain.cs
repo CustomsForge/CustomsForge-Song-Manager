@@ -1211,5 +1211,19 @@ namespace CustomsForgeManager_Winforms.Forms
                 myLog.Write(string.Format("<Error>: {0}", wex.Message));
             }
         }
+
+        private void openDLCLocationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var path = dgvSongs.SelectedRows[0].Cells["Path"].Value.ToString();
+            var directory = new FileInfo(path);
+            if (directory.DirectoryName != null) 
+                Process.Start(directory.DirectoryName);
+        }
+
+        private void btnBatchRenamer_Click(object sender, EventArgs e)
+        {
+            frmRenamer renamer = new frmRenamer(myLog);
+            renamer.ShowDialog();
+        }
     }
 }

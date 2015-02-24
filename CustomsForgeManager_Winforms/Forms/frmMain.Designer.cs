@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tlp_MainForm_Wrappper = new System.Windows.Forms.TableLayoutPanel();
             this.gbLog = new System.Windows.Forms.GroupBox();
             this.tbLog = new System.Windows.Forms.TextBox();
@@ -114,8 +114,10 @@
             this.notifyIcon_Main = new System.Windows.Forms.NotifyIcon(this.components);
             this.contextMenuStrip_Tray = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openDLCLocationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dgvSongs = new CustomsForgeManager_Winforms.Controls.RADataGridView();
             this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.btnBatchRenamer = new System.Windows.Forms.Button();
             this.tlp_MainForm_Wrappper.SuspendLayout();
             this.gbLog.SuspendLayout();
             this.tcMain.SuspendLayout();
@@ -225,6 +227,7 @@
             // 
             // panelSongListButtons
             // 
+            this.panelSongListButtons.Controls.Add(this.btnBatchRenamer);
             this.panelSongListButtons.Controls.Add(this.btnDisableEnableSongs);
             this.panelSongListButtons.Controls.Add(this.btnSongsToBBCode);
             this.panelSongListButtons.Controls.Add(this.btnSongsToCSV);
@@ -238,9 +241,9 @@
             // btnDisableEnableSongs
             // 
             this.btnDisableEnableSongs.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnDisableEnableSongs.Location = new System.Drawing.Point(304, 15);
+            this.btnDisableEnableSongs.Location = new System.Drawing.Point(264, 15);
             this.btnDisableEnableSongs.Name = "btnDisableEnableSongs";
-            this.btnDisableEnableSongs.Size = new System.Drawing.Size(127, 23);
+            this.btnDisableEnableSongs.Size = new System.Drawing.Size(120, 23);
             this.btnDisableEnableSongs.TabIndex = 14;
             this.btnDisableEnableSongs.Text = "Enable/disable songs";
             this.btnDisableEnableSongs.UseVisualStyleBackColor = true;
@@ -249,9 +252,9 @@
             // btnSongsToBBCode
             // 
             this.btnSongsToBBCode.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnSongsToBBCode.Location = new System.Drawing.Point(600, 15);
+            this.btnSongsToBBCode.Location = new System.Drawing.Point(641, 15);
             this.btnSongsToBBCode.Name = "btnSongsToBBCode";
-            this.btnSongsToBBCode.Size = new System.Drawing.Size(150, 23);
+            this.btnSongsToBBCode.Size = new System.Drawing.Size(120, 23);
             this.btnSongsToBBCode.TabIndex = 13;
             this.btnSongsToBBCode.Text = "Song list to BBCode";
             this.btnSongsToBBCode.UseVisualStyleBackColor = true;
@@ -260,9 +263,9 @@
             // btnSongsToCSV
             // 
             this.btnSongsToCSV.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnSongsToCSV.Location = new System.Drawing.Point(437, 15);
+            this.btnSongsToCSV.Location = new System.Drawing.Point(515, 15);
             this.btnSongsToCSV.Name = "btnSongsToCSV";
-            this.btnSongsToCSV.Size = new System.Drawing.Size(157, 23);
+            this.btnSongsToCSV.Size = new System.Drawing.Size(120, 23);
             this.btnSongsToCSV.TabIndex = 12;
             this.btnSongsToCSV.Text = "Song list to csv";
             this.btnSongsToCSV.UseVisualStyleBackColor = true;
@@ -271,9 +274,9 @@
             // btnCheckAllForUpdates
             // 
             this.btnCheckAllForUpdates.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnCheckAllForUpdates.Location = new System.Drawing.Point(102, 13);
+            this.btnCheckAllForUpdates.Location = new System.Drawing.Point(83, 13);
             this.btnCheckAllForUpdates.Name = "btnCheckAllForUpdates";
-            this.btnCheckAllForUpdates.Size = new System.Drawing.Size(118, 27);
+            this.btnCheckAllForUpdates.Size = new System.Drawing.Size(120, 27);
             this.btnCheckAllForUpdates.TabIndex = 4;
             this.btnCheckAllForUpdates.Text = "Check All for Update";
             this.btnCheckAllForUpdates.UseVisualStyleBackColor = true;
@@ -282,7 +285,7 @@
             // btnRescan
             // 
             this.btnRescan.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnRescan.Location = new System.Drawing.Point(36, 13);
+            this.btnRescan.Location = new System.Drawing.Point(17, 13);
             this.btnRescan.Name = "btnRescan";
             this.btnRescan.Size = new System.Drawing.Size(60, 27);
             this.btnRescan.TabIndex = 4;
@@ -304,35 +307,36 @@
             this.showDLCInfoToolStripMenuItem,
             this.openDLCPageToolStripMenuItem,
             this.checkForUpdateToolStripMenuItem,
+            this.openDLCLocationToolStripMenuItem,
             this.editDLCToolStripMenuItem});
             this.contextMenuStrip_MainManager.Name = "contextMenuStrip_MainManager";
-            this.contextMenuStrip_MainManager.Size = new System.Drawing.Size(167, 92);
+            this.contextMenuStrip_MainManager.Size = new System.Drawing.Size(178, 114);
             // 
             // showDLCInfoToolStripMenuItem
             // 
             this.showDLCInfoToolStripMenuItem.Name = "showDLCInfoToolStripMenuItem";
-            this.showDLCInfoToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
+            this.showDLCInfoToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.showDLCInfoToolStripMenuItem.Text = "Show DLC Info";
             this.showDLCInfoToolStripMenuItem.Click += new System.EventHandler(this.showDLCInfoToolStripMenuItem_Click);
             // 
             // openDLCPageToolStripMenuItem
             // 
             this.openDLCPageToolStripMenuItem.Name = "openDLCPageToolStripMenuItem";
-            this.openDLCPageToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
+            this.openDLCPageToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.openDLCPageToolStripMenuItem.Text = "Open DLC Page";
             this.openDLCPageToolStripMenuItem.Click += new System.EventHandler(this.openDLCPageToolStripMenuItem_Click);
             // 
             // checkForUpdateToolStripMenuItem
             // 
             this.checkForUpdateToolStripMenuItem.Name = "checkForUpdateToolStripMenuItem";
-            this.checkForUpdateToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
+            this.checkForUpdateToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.checkForUpdateToolStripMenuItem.Text = "Check for Update";
             this.checkForUpdateToolStripMenuItem.Click += new System.EventHandler(this.checkForUpdateToolStripMenuItem_Click);
             // 
             // editDLCToolStripMenuItem
             // 
             this.editDLCToolStripMenuItem.Name = "editDLCToolStripMenuItem";
-            this.editDLCToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
+            this.editDLCToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.editDLCToolStripMenuItem.Text = "Edit DLC";
             // 
             // panel3
@@ -1026,13 +1030,20 @@
             this.closeToolStripMenuItem.Text = "Close";
             this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
             // 
+            // openDLCLocationToolStripMenuItem
+            // 
+            this.openDLCLocationToolStripMenuItem.Name = "openDLCLocationToolStripMenuItem";
+            this.openDLCLocationToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.openDLCLocationToolStripMenuItem.Text = "Open DLC Location";
+            this.openDLCLocationToolStripMenuItem.Click += new System.EventHandler(this.openDLCLocationToolStripMenuItem_Click);
+            // 
             // dgvSongs
             // 
             this.dgvSongs.AllowUserToAddRows = false;
             this.dgvSongs.AllowUserToOrderColumns = true;
             this.dgvSongs.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.dgvSongs.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.dgvSongs.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
             this.dgvSongs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvSongs.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colSelect});
@@ -1061,7 +1072,17 @@
             this.colSelect.Name = "colSelect";
             this.colSelect.TrueValue = "true";
             this.colSelect.Visible = false;
-            this.colSelect.Width = 43;
+            // 
+            // btnBatchRenamer
+            // 
+            this.btnBatchRenamer.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnBatchRenamer.Location = new System.Drawing.Point(390, 15);
+            this.btnBatchRenamer.Name = "btnBatchRenamer";
+            this.btnBatchRenamer.Size = new System.Drawing.Size(120, 23);
+            this.btnBatchRenamer.TabIndex = 14;
+            this.btnBatchRenamer.Text = "Batch Renamer";
+            this.btnBatchRenamer.UseVisualStyleBackColor = true;
+            this.btnBatchRenamer.Click += new System.EventHandler(this.btnBatchRenamer_Click);
             // 
             // frmMain
             // 
@@ -1201,6 +1222,8 @@
         private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
         private System.Windows.Forms.CheckBox checkIncludeRS1DLC;
         private System.Windows.Forms.DataGridViewCheckBoxColumn colSelect;
+        private System.Windows.Forms.ToolStripMenuItem openDLCLocationToolStripMenuItem;
+        private System.Windows.Forms.Button btnBatchRenamer;
     }
 }
 
