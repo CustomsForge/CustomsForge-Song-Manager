@@ -383,6 +383,11 @@ namespace CustomsForgeManager_Winforms.Forms
                 btnCheckAllForUpdates.Enabled = !btnCheckAllForUpdates.Enabled;
             });
 
+            btnBatchRenamer.InvokeIfRequired(delegate
+            {
+                btnBatchRenamer.Enabled = !btnBatchRenamer.Enabled;
+            });
+
             //Uncomment after implementing:
             //btnEditDLC.Enabled = !btnEditDLC.Enabled;
             //btnBackupDLC.Enabled = !btnBackupDLC.Enabled;
@@ -1088,9 +1093,9 @@ namespace CustomsForgeManager_Winforms.Forms
                 var song = GetSongByRow(dgvSongs.SelectedRows[0]);
                 if (song != null)
                 {
-                    if (song.IgnitionID == null)
+                    if (song.IgnitionID == null || song.IgnitionID == "No Results")
                         song.IgnitionID = Ignition.GetDLCInfoFromURL(song.GetInfoURL(), "id");
-                    if (song.IgnitionID == null)
+                    if (song.IgnitionID == null || song.IgnitionID == "No Results")
                         myLog.Write("<ERROR>: Song doesn't exist in Ignition anymore.");
                     else
                         Process.Start(Constants.DefaultDetailsURL + "/" + song.IgnitionID);
