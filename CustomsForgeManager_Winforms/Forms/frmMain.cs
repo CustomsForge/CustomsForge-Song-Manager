@@ -1064,6 +1064,57 @@ namespace CustomsForgeManager_Winforms.Forms
         {
             BackgroundScan();
         }
+        private void btnCheckAllForUpdates_Click(object sender, EventArgs e)
+        {
+            bWorker = new BackgroundWorker();
+            bWorker.SetDefaults();
+            bWorker.DoWork += checkAllForUpdates;
+            toolStripStatusLabel_MainCancel.Visible = true;
+            bWorker.RunWorkerAsync();
+
+        }
+        private void btnBatchRenamer_Click(object sender, EventArgs e)
+        {
+            frmRenamer renamer = new frmRenamer(myLog);
+            renamer.ShowDialog();
+        }
+        #endregion
+        #region ToolStripMenuItem events
+        private void openDLCPageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ERR_NI();
+        }
+        private void toolStripStatusLabel_MainCancel_Click(object sender, EventArgs e)
+        {
+            bWorker.CancelAsync();
+        }
+        private void closeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (bWorker.IsBusy)
+                bWorker.CancelAsync();
+            Application.Exit();
+        }
+        private void getAuthorNameStripMenuItem_Click(object sender, EventArgs e)
+        {
+            dgvSongs.InvokeIfRequired(delegate
+            {
+                if (dgvSongs.SelectedRows.Count > 0)
+                {
+                    UpdateAuthor(dgvSongs.SelectedRows[0]);
+                }
+            });
+        }
+        private void editDLCToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void openDLCLocationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var path = dgvSongs.SelectedRows[0].Cells["Path"].Value.ToString();
+            var directory = new FileInfo(path);
+            if (directory.DirectoryName != null)
+                Process.Start(directory.DirectoryName);
+        }
         #endregion
         private void showDLCInfoToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1116,15 +1167,7 @@ namespace CustomsForgeManager_Winforms.Forms
                 }
             });
         }
-        private void btnCheckAllForUpdates_Click(object sender, EventArgs e)
-        {
-            bWorker = new BackgroundWorker();
-            bWorker.SetDefaults();
-            bWorker.DoWork += checkAllForUpdates;
-            toolStripStatusLabel_MainCancel.Visible = true;
-            bWorker.RunWorkerAsync();
-
-        }
+        #endregion
         void checkAllForUpdates(object sender, DoWorkEventArgs e)
         {
             counterStopwatch.Start();
@@ -1141,22 +1184,6 @@ namespace CustomsForgeManager_Winforms.Forms
             counterStopwatch.Stop();
             Log(string.Format("Finished update check. Task took {0}", counterStopwatch.Elapsed));
         }
-        private void openDLCPageToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ERR_NI();
-        }
-        private void toolStripStatusLabel_MainCancel_Click(object sender, EventArgs e)
-        {
-            bWorker.CancelAsync();
-        }
-        private void closeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (bWorker.IsBusy)
-                bWorker.CancelAsync();
-            Application.Exit();
-        }
-        #endregion
-
         private string GetDLCInfoFromURL(string apiUrl, string fieldName)
         {
             string result = "";
@@ -1167,9 +1194,25 @@ namespace CustomsForgeManager_Winforms.Forms
             result = jsonJToken.SelectToken(fieldName).ToString();
             return result;
         }
+        private void UpdateAuthor(DataGridViewRow selectedRow)
+        {
+           
+            string name = selectedRow.Cells["Song"].Value.ToString();
+            string artist = selectedRow.Cells["Artist"].Value.ToString();
+            string album = selectedRow.Cells["Album"].Value.ToString();
+
+            var currentSong = SongCollection.Where(song => song.Song == name && song.Artist == artist && song.Album == album).FirstOrDefault();
+
+            string apiUrl = Constants.DefaultServiceURL + "/" + artist.CleanForAPI() + "/" + album.CleanForAPI() + "/" + name.CleanForAPI();
+
+            string authorName = GetDLCInfoFromURL(apiUrl, "name");
+
+            selectedRow.Cells["Author"].Value = authorName;
+            currentSong.Author = authorName;
+        }
+
         private void CheckRowForUpdate(DataGridViewRow dataGridViewRow)
         {
-
             var selectedRow = dataGridViewRow;
             string name = selectedRow.Cells["Song"].Value.ToString();
             string artist = selectedRow.Cells["Artist"].Value.ToString();
@@ -1210,20 +1253,6 @@ namespace CustomsForgeManager_Winforms.Forms
             {
                 myLog.Write(string.Format("<Error>: {0}", wex.Message));
             }
-        }
-
-        private void openDLCLocationToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var path = dgvSongs.SelectedRows[0].Cells["Path"].Value.ToString();
-            var directory = new FileInfo(path);
-            if (directory.DirectoryName != null) 
-                Process.Start(directory.DirectoryName);
-        }
-
-        private void btnBatchRenamer_Click(object sender, EventArgs e)
-        {
-            frmRenamer renamer = new frmRenamer(myLog);
-            renamer.ShowDialog();
         }
     }
 }
