@@ -227,6 +227,10 @@ namespace CustomsForgeManager_Winforms.Forms
                 dgvSongs.Columns["colSelect"].DisplayIndex = 0;
             });
 
+            toolStripStatusLabel_DisabledCounter.Visible = true;
+            toolStripStatusLabel_DisabledCounter.Alignment = ToolStripItemAlignment.Right;
+            toolStripStatusLabel_DisabledCounter.Text = "Disabled DLCs: " + SongCollection.Where(song => song.Enabled == "No").ToList().Count().ToString();
+
             counterStopwatch.Stop();
             Log(string.Format("Finished. Task took {0}", counterStopwatch.Elapsed));
 
@@ -605,7 +609,26 @@ namespace CustomsForgeManager_Winforms.Forms
 
         #region GUIEventHandlers
         #region DataGridView events
-
+        private void dgvSongs_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Space)
+            {
+                foreach (DataGridViewRow row in dgvSongs.Rows)
+                {
+                    if(row.Selected)
+                    {
+                        if (row.Cells["colSelect"].Value != null && (bool)row.Cells["colSelect"].Value)
+                        {
+                            row.Cells["colSelect"].Value = false;
+                        }
+                        else
+                        {
+                            row.Cells["colSelect"].Value = true;
+                        }
+                    }
+                }
+            }
+        }
         private void dgvSongs_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
             var grid = (DataGridView)sender;
@@ -884,21 +907,29 @@ namespace CustomsForgeManager_Winforms.Forms
                     if (cell != null && cell.Value != null && cell.Value.ToString().ToLower() == "true")
                     {
                         var originalPath = row.Cells["Path"].Value.ToString();
-                        if (row.Cells["Enabled"].Value.ToString() == "Yes")
+                        if (!originalPath.Contains("rs1compatibilitydisc"))
                         {
-                            var disabledDLCPath = originalPath.Replace("_p.psarc", "_p.disabled.psarc");
-                            File.Move(originalPath, disabledDLCPath);
-                            row.Cells["Path"].Value = disabledDLCPath;
-                            row.Cells["Enabled"].Value = "No";
+                            if (row.Cells["Enabled"].Value.ToString() == "Yes")
+                            {
+                                var disabledDLCPath = originalPath.Replace("_p.psarc", "_p.disabled.psarc");
+                                File.Move(originalPath, disabledDLCPath);
+                                row.Cells["Path"].Value = disabledDLCPath;
+                                row.Cells["Enabled"].Value = "No";
+                            }
+                            else if (row.Cells["Enabled"].Value.ToString() == "No")
+                            {
+                                var enabledDLCPath = originalPath.Replace("_p.disabled.psarc", "_p.psarc");
+                                File.Move(originalPath, enabledDLCPath);
+                                row.Cells["Path"].Value = enabledDLCPath;
+                                row.Cells["Enabled"].Value = "Yes";
+                            }
+                            cell.Value = "false";
+                            toolStripStatusLabel_DisabledCounter.Text = "Disabled DLCs: " + SongCollection.Where(song => song.Enabled == "No").ToList().Count().ToString();
                         }
-                        else if (row.Cells["Enabled"].Value.ToString() == "No")
+                        else
                         {
-                            var enabledDLCPath = originalPath.Replace("_p.disabled.psarc", "_p.psarc");
-                            File.Move(originalPath, enabledDLCPath);
-                            row.Cells["Path"].Value = enabledDLCPath;
-                            row.Cells["Enabled"].Value = "Yes";
+                            Log("Rocksmith 1 song->can't be disabled at this moment.");
                         }
-                        cell.Value = "false";
                     }
                 }
         }
@@ -1244,6 +1275,5 @@ namespace CustomsForgeManager_Winforms.Forms
         {
             return SongCollection.SingleOrDefault(x => x.Song == dataGridViewRow.Cells["Song"].Value.ToString() && x.Artist == dataGridViewRow.Cells["Artist"].Value.ToString() && x.Album == dataGridViewRow.Cells["Album"].Value.ToString());
         }
-
     }
 }
