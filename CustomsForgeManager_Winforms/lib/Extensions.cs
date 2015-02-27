@@ -78,6 +78,5 @@ namespace CustomsForgeManager_Winforms.Utilities
             song.IgnitionVersion = Ignition.GetDLCInfoFromURL(url, "version");
             song.IgnitionAuthor = Ignition.GetDLCInfoFromURL(url, "name");
         }
-
     }
 }
