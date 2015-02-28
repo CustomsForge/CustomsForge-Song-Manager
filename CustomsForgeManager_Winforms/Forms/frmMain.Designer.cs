@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.tlp_MainForm_Wrappper = new System.Windows.Forms.TableLayoutPanel();
             this.gbLog = new System.Windows.Forms.GroupBox();
             this.tbLog = new System.Windows.Forms.TextBox();
@@ -45,6 +45,8 @@
             this.btnCheckAllForUpdates = new System.Windows.Forms.Button();
             this.btnRescan = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.dgvSongs = new CustomsForgeManager_Winforms.Controls.RADataGridView();
+            this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.contextMenuStrip_MainManager = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.showDLCInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openDLCPageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -90,7 +92,6 @@
             this.tpAbout = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.lnkAboutCF = new System.Windows.Forms.LinkLabel();
-            this.pbAboutLogo = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanel_Credits = new System.Windows.Forms.TableLayoutPanel();
             this.lbl_Credits = new System.Windows.Forms.Label();
             this.lbl_Credits_Description = new System.Windows.Forms.Label();
@@ -105,6 +106,16 @@
             this.lbl_ForgeRole = new System.Windows.Forms.Label();
             this.link_ForgeOnProfile = new System.Windows.Forms.LinkLabel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.tableLayoutPanel_CFQuicklinks = new System.Windows.Forms.TableLayoutPanel();
+            this.lbl_QuickLinks = new System.Windows.Forms.Label();
+            this.lbl_OpenOldSearch = new System.Windows.Forms.Label();
+            this.lbl_OpenIgniton = new System.Windows.Forms.Label();
+            this.label_OpenCFHomePage = new System.Windows.Forms.Label();
+            this.lbl_OpenRequestsPage = new System.Windows.Forms.Label();
+            this.lbl_OpenDonationsPage = new System.Windows.Forms.Label();
+            this.lbl_OpenCFVideos = new System.Windows.Forms.Label();
+            this.lbl_OpenCFFAQ = new System.Windows.Forms.Label();
+            this.linkOpenCFHomePage = new System.Windows.Forms.LinkLabel();
             this.bWorker = new System.ComponentModel.BackgroundWorker();
             this.timerMain = new System.Windows.Forms.Timer(this.components);
             this.statusStripMain = new System.Windows.Forms.StatusStrip();
@@ -119,8 +130,12 @@
             this.notifyIcon_Main = new System.Windows.Forms.NotifyIcon(this.components);
             this.contextMenuStrip_Tray = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.dgvSongs = new CustomsForgeManager_Winforms.Controls.RADataGridView();
-            this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.linkOpenIgnition = new System.Windows.Forms.LinkLabel();
+            this.linkOpenOldSearch = new System.Windows.Forms.LinkLabel();
+            this.linkOpenRequests = new System.Windows.Forms.LinkLabel();
+            this.linkDontainsPage = new System.Windows.Forms.LinkLabel();
+            this.linkOpenCFVideos = new System.Windows.Forms.LinkLabel();
+            this.linkCFFAQ = new System.Windows.Forms.LinkLabel();
             this.tlp_MainForm_Wrappper.SuspendLayout();
             this.gbLog.SuspendLayout();
             this.tcMain.SuspendLayout();
@@ -128,6 +143,7 @@
             this.tlpSongListWrapper.SuspendLayout();
             this.panelSongListButtons.SuspendLayout();
             this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSongs)).BeginInit();
             this.contextMenuStrip_MainManager.SuspendLayout();
             this.panel3.SuspendLayout();
             this.tpDuplicates.SuspendLayout();
@@ -141,12 +157,11 @@
             this.tlpSettings_Wrapper.SuspendLayout();
             this.tpAbout.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbAboutLogo)).BeginInit();
             this.tableLayoutPanel_Credits.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.tableLayoutPanel_CFQuicklinks.SuspendLayout();
             this.statusStripMain.SuspendLayout();
             this.contextMenuStrip_Tray.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvSongs)).BeginInit();
             this.SuspendLayout();
             // 
             // tlp_MainForm_Wrappper
@@ -314,6 +329,44 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(764, 290);
             this.panel2.TabIndex = 4;
+            // 
+            // dgvSongs
+            // 
+            this.dgvSongs.AllowUserToAddRows = false;
+            this.dgvSongs.AllowUserToOrderColumns = true;
+            this.dgvSongs.AllowUserToResizeRows = false;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.dgvSongs.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            this.dgvSongs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvSongs.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colSelect});
+            this.dgvSongs.ContextMenuStrip = this.contextMenuStrip_MainManager;
+            this.dgvSongs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvSongs.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnF2;
+            this.dgvSongs.GridColor = System.Drawing.SystemColors.ActiveCaption;
+            this.dgvSongs.Location = new System.Drawing.Point(0, 0);
+            this.dgvSongs.MultiSelect = false;
+            this.dgvSongs.Name = "dgvSongs";
+            this.dgvSongs.RowHeadersVisible = false;
+            this.dgvSongs.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvSongs.Size = new System.Drawing.Size(764, 290);
+            this.dgvSongs.TabIndex = 1;
+            this.dgvSongs.DataSourceChanged += new System.EventHandler(this.dgvSongs_DataSourceChanged);
+            this.dgvSongs.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSongs_CellDoubleClick);
+            this.dgvSongs.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongs_CellMouseDown);
+            this.dgvSongs.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongs_ColumnHeaderMouseClick);
+            this.dgvSongs.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvSongs_KeyDown);
+            // 
+            // colSelect
+            // 
+            this.colSelect.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.colSelect.FalseValue = "false";
+            this.colSelect.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.colSelect.HeaderText = "Select";
+            this.colSelect.IndeterminateValue = "false";
+            this.colSelect.Name = "colSelect";
+            this.colSelect.TrueValue = "true";
+            this.colSelect.Visible = false;
             // 
             // contextMenuStrip_MainManager
             // 
@@ -751,9 +804,9 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.Controls.Add(this.lnkAboutCF, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.pbAboutLogo, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel_Credits, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.pictureBox1, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel_CFQuicklinks, 1, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -775,16 +828,6 @@
             this.lnkAboutCF.TabStop = true;
             this.lnkAboutCF.Text = "CustomsForge 2015";
             this.lnkAboutCF.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkAboutCF_LinkClicked);
-            // 
-            // pbAboutLogo
-            // 
-            this.pbAboutLogo.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.pbAboutLogo.Image = global::CustomsForgeManager_Winforms.Properties.Resources.logo_black;
-            this.pbAboutLogo.Location = new System.Drawing.Point(452, 263);
-            this.pbAboutLogo.Name = "pbAboutLogo";
-            this.pbAboutLogo.Size = new System.Drawing.Size(251, 56);
-            this.pbAboutLogo.TabIndex = 1;
-            this.pbAboutLogo.TabStop = false;
             // 
             // tableLayoutPanel_Credits
             // 
@@ -980,6 +1023,149 @@
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
             // 
+            // tableLayoutPanel_CFQuicklinks
+            // 
+            this.tableLayoutPanel_CFQuicklinks.ColumnCount = 2;
+            this.tableLayoutPanel_CFQuicklinks.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 42.85714F));
+            this.tableLayoutPanel_CFQuicklinks.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 57.14286F));
+            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.lbl_QuickLinks, 0, 0);
+            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.lbl_OpenOldSearch, 0, 3);
+            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.lbl_OpenIgniton, 0, 2);
+            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.label_OpenCFHomePage, 0, 1);
+            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.lbl_OpenRequestsPage, 0, 4);
+            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.lbl_OpenDonationsPage, 0, 5);
+            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.lbl_OpenCFVideos, 0, 6);
+            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.lbl_OpenCFFAQ, 0, 7);
+            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.linkOpenCFHomePage, 1, 1);
+            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.linkOpenIgnition, 1, 2);
+            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.linkOpenOldSearch, 1, 3);
+            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.linkOpenRequests, 1, 4);
+            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.linkDontainsPage, 1, 5);
+            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.linkOpenCFVideos, 1, 6);
+            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.linkCFFAQ, 1, 7);
+            this.tableLayoutPanel_CFQuicklinks.Location = new System.Drawing.Point(388, 197);
+            this.tableLayoutPanel_CFQuicklinks.Name = "tableLayoutPanel_CFQuicklinks";
+            this.tableLayoutPanel_CFQuicklinks.RowCount = 9;
+            this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel_CFQuicklinks.Size = new System.Drawing.Size(379, 189);
+            this.tableLayoutPanel_CFQuicklinks.TabIndex = 3;
+            // 
+            // lbl_QuickLinks
+            // 
+            this.lbl_QuickLinks.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lbl_QuickLinks.AutoSize = true;
+            this.lbl_QuickLinks.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_QuickLinks.Location = new System.Drawing.Point(12, 2);
+            this.lbl_QuickLinks.Name = "lbl_QuickLinks";
+            this.lbl_QuickLinks.Size = new System.Drawing.Size(137, 30);
+            this.lbl_QuickLinks.TabIndex = 1;
+            this.lbl_QuickLinks.Text = "CF quicklinks";
+            this.lbl_QuickLinks.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbl_OpenOldSearch
+            // 
+            this.lbl_OpenOldSearch.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lbl_OpenOldSearch.AutoSize = true;
+            this.lbl_OpenOldSearch.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_OpenOldSearch.Location = new System.Drawing.Point(25, 75);
+            this.lbl_OpenOldSearch.Name = "lbl_OpenOldSearch";
+            this.lbl_OpenOldSearch.Size = new System.Drawing.Size(112, 19);
+            this.lbl_OpenOldSearch.TabIndex = 3;
+            this.lbl_OpenOldSearch.Text = "Open old search:";
+            this.lbl_OpenOldSearch.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // lbl_OpenIgniton
+            // 
+            this.lbl_OpenIgniton.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lbl_OpenIgniton.AutoSize = true;
+            this.lbl_OpenIgniton.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_OpenIgniton.Location = new System.Drawing.Point(32, 55);
+            this.lbl_OpenIgniton.Name = "lbl_OpenIgniton";
+            this.lbl_OpenIgniton.Size = new System.Drawing.Size(97, 19);
+            this.lbl_OpenIgniton.TabIndex = 2;
+            this.lbl_OpenIgniton.Text = "Open Ignition:";
+            this.lbl_OpenIgniton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label_OpenCFHomePage
+            // 
+            this.label_OpenCFHomePage.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label_OpenCFHomePage.AutoSize = true;
+            this.label_OpenCFHomePage.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_OpenCFHomePage.Location = new System.Drawing.Point(13, 35);
+            this.label_OpenCFHomePage.Name = "label_OpenCFHomePage";
+            this.label_OpenCFHomePage.Size = new System.Drawing.Size(135, 19);
+            this.label_OpenCFHomePage.TabIndex = 4;
+            this.label_OpenCFHomePage.Text = "Open CF homepage:";
+            this.label_OpenCFHomePage.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // lbl_OpenRequestsPage
+            // 
+            this.lbl_OpenRequestsPage.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lbl_OpenRequestsPage.AutoSize = true;
+            this.lbl_OpenRequestsPage.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_OpenRequestsPage.Location = new System.Drawing.Point(30, 95);
+            this.lbl_OpenRequestsPage.Name = "lbl_OpenRequestsPage";
+            this.lbl_OpenRequestsPage.Size = new System.Drawing.Size(102, 19);
+            this.lbl_OpenRequestsPage.TabIndex = 5;
+            this.lbl_OpenRequestsPage.Text = "Open requests:";
+            this.lbl_OpenRequestsPage.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // lbl_OpenDonationsPage
+            // 
+            this.lbl_OpenDonationsPage.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lbl_OpenDonationsPage.AutoSize = true;
+            this.lbl_OpenDonationsPage.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_OpenDonationsPage.Location = new System.Drawing.Point(8, 115);
+            this.lbl_OpenDonationsPage.Name = "lbl_OpenDonationsPage";
+            this.lbl_OpenDonationsPage.Size = new System.Drawing.Size(145, 19);
+            this.lbl_OpenDonationsPage.TabIndex = 6;
+            this.lbl_OpenDonationsPage.Text = "Open donations page:";
+            this.lbl_OpenDonationsPage.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // lbl_OpenCFVideos
+            // 
+            this.lbl_OpenCFVideos.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lbl_OpenCFVideos.AutoSize = true;
+            this.lbl_OpenCFVideos.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_OpenCFVideos.Location = new System.Drawing.Point(26, 135);
+            this.lbl_OpenCFVideos.Name = "lbl_OpenCFVideos";
+            this.lbl_OpenCFVideos.Size = new System.Drawing.Size(109, 19);
+            this.lbl_OpenCFVideos.TabIndex = 7;
+            this.lbl_OpenCFVideos.Text = "Open CF videos:";
+            this.lbl_OpenCFVideos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // lbl_OpenCFFAQ
+            // 
+            this.lbl_OpenCFFAQ.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lbl_OpenCFFAQ.AutoSize = true;
+            this.lbl_OpenCFFAQ.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_OpenCFFAQ.Location = new System.Drawing.Point(32, 155);
+            this.lbl_OpenCFFAQ.Name = "lbl_OpenCFFAQ";
+            this.lbl_OpenCFFAQ.Size = new System.Drawing.Size(97, 19);
+            this.lbl_OpenCFFAQ.TabIndex = 8;
+            this.lbl_OpenCFFAQ.Text = "Open CF FAQ:";
+            this.lbl_OpenCFFAQ.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // linkOpenCFHomePage
+            // 
+            this.linkOpenCFHomePage.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.linkOpenCFHomePage.AutoSize = true;
+            this.linkOpenCFHomePage.Location = new System.Drawing.Point(231, 38);
+            this.linkOpenCFHomePage.Name = "linkOpenCFHomePage";
+            this.linkOpenCFHomePage.Size = new System.Drawing.Size(78, 13);
+            this.linkOpenCFHomePage.TabIndex = 9;
+            this.linkOpenCFHomePage.TabStop = true;
+            this.linkOpenCFHomePage.Text = "CF Home page";
+            this.linkOpenCFHomePage.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkOpenCFHomePage_LinkClicked);
+            // 
             // bWorker
             // 
             this.bWorker.WorkerReportsProgress = true;
@@ -1076,43 +1262,77 @@
             this.closeToolStripMenuItem.Text = "Close";
             this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
             // 
-            // dgvSongs
+            // linkOpenIgnition
             // 
-            this.dgvSongs.AllowUserToAddRows = false;
-            this.dgvSongs.AllowUserToOrderColumns = true;
-            this.dgvSongs.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.dgvSongs.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.dgvSongs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvSongs.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.colSelect});
-            this.dgvSongs.ContextMenuStrip = this.contextMenuStrip_MainManager;
-            this.dgvSongs.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvSongs.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnF2;
-            this.dgvSongs.GridColor = System.Drawing.SystemColors.ActiveCaption;
-            this.dgvSongs.Location = new System.Drawing.Point(0, 0);
-            this.dgvSongs.MultiSelect = false;
-            this.dgvSongs.Name = "dgvSongs";
-            this.dgvSongs.RowHeadersVisible = false;
-            this.dgvSongs.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvSongs.Size = new System.Drawing.Size(764, 290);
-            this.dgvSongs.TabIndex = 1;
-            this.dgvSongs.DataSourceChanged += new System.EventHandler(this.dgvSongs_DataSourceChanged);
-            this.dgvSongs.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSongs_CellDoubleClick);
-            this.dgvSongs.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongs_CellMouseDown);
-            this.dgvSongs.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongs_ColumnHeaderMouseClick);
-            this.dgvSongs.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvSongs_KeyDown);
+            this.linkOpenIgnition.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.linkOpenIgnition.AutoSize = true;
+            this.linkOpenIgnition.Location = new System.Drawing.Point(250, 58);
+            this.linkOpenIgnition.Name = "linkOpenIgnition";
+            this.linkOpenIgnition.Size = new System.Drawing.Size(41, 13);
+            this.linkOpenIgnition.TabIndex = 10;
+            this.linkOpenIgnition.TabStop = true;
+            this.linkOpenIgnition.Text = "Ignition";
+            this.linkOpenIgnition.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkOpenIgnition_LinkClicked);
             // 
-            // colSelect
+            // linkOpenOldSearch
             // 
-            this.colSelect.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.colSelect.FalseValue = "false";
-            this.colSelect.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.colSelect.HeaderText = "Select";
-            this.colSelect.IndeterminateValue = "false";
-            this.colSelect.Name = "colSelect";
-            this.colSelect.TrueValue = "true";
-            this.colSelect.Visible = false;
+            this.linkOpenOldSearch.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.linkOpenOldSearch.AutoSize = true;
+            this.linkOpenOldSearch.Location = new System.Drawing.Point(241, 78);
+            this.linkOpenOldSearch.Name = "linkOpenOldSearch";
+            this.linkOpenOldSearch.Size = new System.Drawing.Size(58, 13);
+            this.linkOpenOldSearch.TabIndex = 11;
+            this.linkOpenOldSearch.TabStop = true;
+            this.linkOpenOldSearch.Text = "Old search";
+            this.linkOpenOldSearch.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkOpenOldSearch_LinkClicked);
+            // 
+            // linkOpenRequests
+            // 
+            this.linkOpenRequests.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.linkOpenRequests.AutoSize = true;
+            this.linkOpenRequests.Location = new System.Drawing.Point(244, 98);
+            this.linkOpenRequests.Name = "linkOpenRequests";
+            this.linkOpenRequests.Size = new System.Drawing.Size(52, 13);
+            this.linkOpenRequests.TabIndex = 12;
+            this.linkOpenRequests.TabStop = true;
+            this.linkOpenRequests.Text = "Requests";
+            this.linkOpenRequests.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkOpenRequests_LinkClicked);
+            // 
+            // linkDontainsPage
+            // 
+            this.linkDontainsPage.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.linkDontainsPage.AutoSize = true;
+            this.linkDontainsPage.Location = new System.Drawing.Point(243, 118);
+            this.linkDontainsPage.Name = "linkDontainsPage";
+            this.linkDontainsPage.Size = new System.Drawing.Size(55, 13);
+            this.linkDontainsPage.TabIndex = 13;
+            this.linkDontainsPage.TabStop = true;
+            this.linkDontainsPage.Text = "Dontaions";
+            this.linkDontainsPage.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkDontainsPage_LinkClicked);
+            // 
+            // linkOpenCFVideos
+            // 
+            this.linkOpenCFVideos.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.linkOpenCFVideos.AutoSize = true;
+            this.linkOpenCFVideos.Location = new System.Drawing.Point(243, 138);
+            this.linkOpenCFVideos.Name = "linkOpenCFVideos";
+            this.linkOpenCFVideos.Size = new System.Drawing.Size(54, 13);
+            this.linkOpenCFVideos.TabIndex = 14;
+            this.linkOpenCFVideos.TabStop = true;
+            this.linkOpenCFVideos.Text = "CF videos";
+            this.linkOpenCFVideos.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkOpenCFVideos_LinkClicked);
+            // 
+            // linkCFFAQ
+            // 
+            this.linkCFFAQ.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.linkCFFAQ.AutoSize = true;
+            this.linkCFFAQ.Location = new System.Drawing.Point(248, 158);
+            this.linkCFFAQ.Name = "linkCFFAQ";
+            this.linkCFFAQ.Size = new System.Drawing.Size(44, 13);
+            this.linkCFFAQ.TabIndex = 15;
+            this.linkCFFAQ.TabStop = true;
+            this.linkCFFAQ.Text = "CF FAQ";
+            this.linkCFFAQ.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkCFFAQ_LinkClicked);
             // 
             // frmMain
             // 
@@ -1138,6 +1358,7 @@
             this.tlpSongListWrapper.ResumeLayout(false);
             this.panelSongListButtons.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSongs)).EndInit();
             this.contextMenuStrip_MainManager.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
@@ -1154,14 +1375,14 @@
             this.tpAbout.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbAboutLogo)).EndInit();
             this.tableLayoutPanel_Credits.ResumeLayout(false);
             this.tableLayoutPanel_Credits.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.tableLayoutPanel_CFQuicklinks.ResumeLayout(false);
+            this.tableLayoutPanel_CFQuicklinks.PerformLayout();
             this.statusStripMain.ResumeLayout(false);
             this.statusStripMain.PerformLayout();
             this.contextMenuStrip_Tray.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvSongs)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1182,7 +1403,6 @@
         private System.Windows.Forms.ToolStripProgressBar toolStripProgressBarMain;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.LinkLabel lnkAboutCF;
-        private System.Windows.Forms.PictureBox pbAboutLogo;
         private System.Windows.Forms.Timer timerAutoUpdate;
         private System.Windows.Forms.TableLayoutPanel tlpSettings_Wrapper;
         private System.Windows.Forms.Button btnSettingsSave;
@@ -1259,6 +1479,22 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel_DisabledCounter;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelSpringer;
         private System.Windows.Forms.DataGridViewCheckBoxColumn colSelect;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel_CFQuicklinks;
+        private System.Windows.Forms.Label lbl_QuickLinks;
+        private System.Windows.Forms.Label lbl_OpenOldSearch;
+        private System.Windows.Forms.Label lbl_OpenIgniton;
+        private System.Windows.Forms.Label label_OpenCFHomePage;
+        private System.Windows.Forms.Label lbl_OpenRequestsPage;
+        private System.Windows.Forms.Label lbl_OpenDonationsPage;
+        private System.Windows.Forms.Label lbl_OpenCFVideos;
+        private System.Windows.Forms.Label lbl_OpenCFFAQ;
+        private System.Windows.Forms.LinkLabel linkOpenCFHomePage;
+        private System.Windows.Forms.LinkLabel linkOpenIgnition;
+        private System.Windows.Forms.LinkLabel linkOpenOldSearch;
+        private System.Windows.Forms.LinkLabel linkOpenRequests;
+        private System.Windows.Forms.LinkLabel linkDontainsPage;
+        private System.Windows.Forms.LinkLabel linkOpenCFVideos;
+        private System.Windows.Forms.LinkLabel linkCFFAQ;
     }
 }
 

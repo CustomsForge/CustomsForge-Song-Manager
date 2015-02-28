@@ -580,8 +580,18 @@ namespace CustomsForgeManager_Winforms.Forms
         }
         private void SearchDLC(string criteria)
         {
-            var results = SongCollection.Where(x => x.Artist.ToLower().Contains(criteria.ToLower()) || x.Album.ToLower().Contains(criteria.ToLower()) || x.Song.ToLower().Contains(criteria.ToLower()) || x.Tuning.ToLower().Contains(criteria.ToLower()) || x.Author.ToLower().Contains(criteria.ToLower()) || x.IgnitionAuthor.ToLower().Contains(criteria.ToLower())).ToList();
-            SortedSongCollection = (List<SongData>)(SongCollection.Where(x => x.Artist.ToLower().Contains(criteria.ToLower()) || x.Album.ToLower().Contains(criteria.ToLower()) || x.Song.ToLower().Contains(criteria.ToLower()) || x.Tuning.ToLower().Contains(criteria.ToLower()))).ToList();
+            var results = SongCollection.Where(x => x.Artist.ToLower().Contains(criteria.ToLower()) || x.Album.ToLower().Contains(criteria.ToLower()) || 
+                                               x.Song.ToLower().Contains(criteria.ToLower()) || x.Tuning.ToLower().Contains(criteria.ToLower()) ||
+                                               x.Author.ToLower().Contains(criteria.ToLower()) || (x.IgnitionAuthor != null && 
+                                               x.IgnitionAuthor.ToLower().Contains(criteria.ToLower()) || (x.IgnitionID != null
+                                               && x.IgnitionID.ToLower().Contains(criteria.ToLower())))).ToList();
+
+            SortedSongCollection = (List<SongData>)(SongCollection.Where(x => x.Artist.ToLower().Contains(criteria.ToLower()) || x.Album.ToLower().Contains(criteria.ToLower()) ||
+                                   x.Song.ToLower().Contains(criteria.ToLower()) || x.Tuning.ToLower().Contains(criteria.ToLower()) || 
+                                   x.Author.ToLower().Contains(criteria.ToLower()) || (x.IgnitionAuthor != null &&
+                                   x.IgnitionAuthor.ToLower().Contains(criteria.ToLower())) || (x.IgnitionID != null &&
+                                   x.IgnitionID.ToLower().Contains(criteria.ToLower()))).ToList());
+
             dgvSongs.InvokeIfRequired(delegate
             {
                 dgvSongs.DataSource = results;
@@ -849,7 +859,7 @@ namespace CustomsForgeManager_Winforms.Forms
         #region Link events
         private void lnkAboutCF_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start("http://customsforge.com");
+            Process.Start("http://cfmanager.com");
         }
         private void linkLblSelectAll_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
@@ -1294,6 +1304,41 @@ namespace CustomsForgeManager_Winforms.Forms
         private SongData GetSongByRow(DataGridViewRow dataGridViewRow)
         {
             return SongCollection.Distinct().SingleOrDefault(x => x.Song == dataGridViewRow.Cells["Song"].Value.ToString() && x.Artist == dataGridViewRow.Cells["Artist"].Value.ToString() && x.Album == dataGridViewRow.Cells["Album"].Value.ToString() && x.Path == dataGridViewRow.Cells["Path"].Value.ToString());
+        }
+
+        private void linkOpenCFHomePage_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("http://customsforge.com/");
+        }
+
+        private void linkOpenIgnition_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("http://ignition.customsforge.com/");
+        }
+
+        private void linkOpenOldSearch_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("http://search.customsforge.com/");
+        }
+
+        private void linkOpenRequests_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("http://requests.customsforge.com/?b");
+        }
+
+        private void linkDontainsPage_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("http://customsforge.com/donate/");
+        }
+
+        private void linkOpenCFVideos_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("http://customsforge.com/videos/");
+        }
+
+        private void linkCFFAQ_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+             Process.Start("http://customsforge.com/faq/");
         }
     }
 }
