@@ -18,14 +18,14 @@ namespace CustomsForgeManager_Winforms.lib
             string result = "";
             var response = "";
             WebClient client = new WebClient();
-            client.DownloadStringCompleted += (sender, e) =>
+            client.DownloadString(apiUrl);
+            if (response == "No Results")
+                result = response;
+            else if (response == "No album with that name")
+                result = "No Results";
+            else
             {
-                response = e.Result;
-                if (response == "No Results")
-                    result = response;
-                else if (response == "No album with that name")
-                    result = "No Results";
-                else
+                if (response != "")
                 {
                     JArray jsonJArray = JArray.Parse(response);
                     JToken jsonJToken = jsonJArray.First;
@@ -34,8 +34,32 @@ namespace CustomsForgeManager_Winforms.lib
                     else
                         result = "No Results";
                 }
-            };
-            client.DownloadStringAsync(new Uri(apiUrl));
+                else
+                    result = "No Results";
+            }
+            return result;
+        }
+        public static string GetDLCInfoFromResponse(string response, string fieldName)
+        {
+            string result = "";
+            if (response == "No Results")
+                result = response;
+            else if (response == "No album with that name")
+                result = "No Results";
+            else
+            {
+                if (response != "")
+                {
+                    JArray jsonJArray = JArray.Parse(response);
+                    JToken jsonJToken = jsonJArray.First;
+                    if (jsonJToken != null)
+                        result = jsonJToken.SelectToken(fieldName).ToString();
+                    else
+                        result = "No Results";
+                }
+                else
+                    result = "No Results";
+            }
             return result;
         }
     }

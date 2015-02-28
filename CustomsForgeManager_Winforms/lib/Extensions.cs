@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using CustomsForgeManager_Winforms.lib;
+using System.Net;
 
 namespace CustomsForgeManager_Winforms.Utilities
 {
@@ -73,10 +74,20 @@ namespace CustomsForgeManager_Winforms.Utilities
         public static void FetchInfo(this SongData song)
         {
             string url = song.GetInfoURL();
-            song.IgnitionID = Ignition.GetDLCInfoFromURL(url, "id");
-            song.IgnitionUpdated = Ignition.GetDLCInfoFromURL(url,"updated");
-            song.IgnitionVersion = Ignition.GetDLCInfoFromURL(url, "version");
-            song.IgnitionAuthor = Ignition.GetDLCInfoFromURL(url, "name");
+            //= client.DownloadString(url);
+            string response = "";
+            var client = new WebClient();
+            client.DownloadStringCompleted += (sender, e) =>
+            {
+                response = e.Result;
+
+                song.IgnitionID = Ignition.GetDLCInfoFromResponse(response, "id");
+                song.IgnitionUpdated = Ignition.GetDLCInfoFromResponse(response, "updated");
+                song.IgnitionVersion = Ignition.GetDLCInfoFromResponse(response, "version");
+                song.IgnitionAuthor = Ignition.GetDLCInfoFromResponse(response, "name");
+                MessageBox.Show(DateTime.Now + " " + response);
+            };
+            client.DownloadStringAsync(new Uri(url));
         }
     }
 }
