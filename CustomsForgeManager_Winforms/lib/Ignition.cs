@@ -16,27 +16,26 @@ namespace CustomsForgeManager_Winforms.lib
         public static string GetDLCInfoFromURL(string apiUrl, string fieldName)
         {
             string result = "";
-            var response = "";
             WebClient client = new WebClient();
-            client.DownloadString(apiUrl);
-            if (response == "No Results")
-                result = response;
-            else if (response == "No album with that name")
-                result = "No Results";
-            else
-            {
-                if (response != "")
+            var response = client.DownloadString(apiUrl);
+                if (response == "No Results")
+                    result = response;
+                else if (response == "No album with that name")
+                    result = "No Results";
+                else
                 {
-                    JArray jsonJArray = JArray.Parse(response);
-                    JToken jsonJToken = jsonJArray.First;
-                    if (jsonJToken != null)
-                        result = jsonJToken.SelectToken(fieldName).ToString();
+                    if (response != "")
+                    {
+                        JArray jsonJArray = JArray.Parse(response);
+                        JToken jsonJToken = jsonJArray.First;
+                        if (jsonJToken != null)
+                            result = jsonJToken.SelectToken(fieldName).ToString();
+                        else
+                            result = "No Results";
+                    }
                     else
                         result = "No Results";
                 }
-                else
-                    result = "No Results";
-            }
             return result;
         }
         public static string GetDLCInfoFromResponse(string response, string fieldName)

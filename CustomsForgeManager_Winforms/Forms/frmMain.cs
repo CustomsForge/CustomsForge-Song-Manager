@@ -580,7 +580,7 @@ namespace CustomsForgeManager_Winforms.Forms
         }
         private void SearchDLC(string criteria)
         {
-            var results = SongCollection.Where(x => x.Artist.ToLower().Contains(criteria.ToLower()) || x.Album.ToLower().Contains(criteria.ToLower()) || x.Song.ToLower().Contains(criteria.ToLower()) || x.Tuning.ToLower().Contains(criteria.ToLower())).ToList();
+            var results = SongCollection.Where(x => x.Artist.ToLower().Contains(criteria.ToLower()) || x.Album.ToLower().Contains(criteria.ToLower()) || x.Song.ToLower().Contains(criteria.ToLower()) || x.Tuning.ToLower().Contains(criteria.ToLower()) || x.Author.ToLower().Contains(criteria.ToLower()) || x.IgnitionAuthor.ToLower().Contains(criteria.ToLower())).ToList();
             SortedSongCollection = (List<SongData>)(SongCollection.Where(x => x.Artist.ToLower().Contains(criteria.ToLower()) || x.Album.ToLower().Contains(criteria.ToLower()) || x.Song.ToLower().Contains(criteria.ToLower()) || x.Tuning.ToLower().Contains(criteria.ToLower()))).ToList();
             dgvSongs.InvokeIfRequired(delegate
             {
@@ -1115,6 +1115,10 @@ namespace CustomsForgeManager_Winforms.Forms
         }
         #endregion
         #region ToolStripMenuItem events
+        private void showDLCInfoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowSongInfo();
+        }
         private void openDLCPageToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (dgvSongs.SelectedRows.Count == 1)
@@ -1131,7 +1135,13 @@ namespace CustomsForgeManager_Winforms.Forms
                 }
             }
         }
-
+        private void checkForUpdateToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            bWorker = new BackgroundWorker();
+            bWorker.SetDefaults();
+            bWorker.DoWork += CheckForUpdatesEvent;
+            bWorker.RunWorkerAsync();
+        }
         private void toolStripStatusLabel_MainCancel_Click(object sender, EventArgs e)
         {
             bWorker.CancelAsync();
@@ -1164,10 +1174,6 @@ namespace CustomsForgeManager_Winforms.Forms
                 Process.Start(directory.DirectoryName);
         }
         #endregion
-        private void showDLCInfoToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ShowSongInfo();
-        }
         private void timerAutoUpdate_Tick(object sender, EventArgs e)
         {
             CheckForUpdate();
@@ -1199,13 +1205,17 @@ namespace CustomsForgeManager_Winforms.Forms
             SaveSettingsToFile();
             SaveSongCollectionToFile();
         }
-        private void checkForUpdateToolStripMenuItem_Click(object sender, EventArgs e)
+        private void frmMain_KeyUp(object sender, KeyEventArgs e)
         {
-            bWorker = new BackgroundWorker();
-            bWorker.SetDefaults();
-            bWorker.DoWork += CheckForUpdatesEvent;
-            bWorker.RunWorkerAsync();
+             if(e.Modifiers == Keys.Control && e.KeyCode == Keys.A)
+             {
+                 foreach(DataGridViewRow row in dgvSongs.Rows)
+                 {
+                     row.Cells["colSelect"].Value = true;
+                 }
+             }
         }
+  
         private void CheckForUpdatesEvent(object o, DoWorkEventArgs args)
         {
             dgvSongs.InvokeIfRequired(delegate
@@ -1238,12 +1248,12 @@ namespace CustomsForgeManager_Winforms.Forms
         
         private void UpdateAuthor(DataGridViewRow selectedRow)
         {
-            //var currentSong = GetSongByRow(selectedRow);
-            //if (currentSong != null)
-            //{
-            //    currentSong.IgnitionAuthor = Ignition.GetDLCInfoFromURL(currentSong.GetInfoURL(), "name");
-            //    selectedRow.Cells["IgnitionAuthor"].Value = currentSong.IgnitionAuthor;
-            //}
+            var currentSong = GetSongByRow(selectedRow);
+            if (currentSong != null)
+            {
+                currentSong.IgnitionAuthor = Ignition.GetDLCInfoFromURL(currentSong.GetInfoURL(), "name");
+                selectedRow.Cells["IgnitionAuthor"].Value = currentSong.IgnitionAuthor;
+            }
         }
 
         private void CheckRowForUpdate(DataGridViewRow dataGridViewRow)
@@ -1278,13 +1288,12 @@ namespace CustomsForgeManager_Winforms.Forms
                     }
                 };
                 client.DownloadStringAsync(new Uri(url));
-             
             }
         }
 
         private SongData GetSongByRow(DataGridViewRow dataGridViewRow)
         {
-            return SongCollection.SingleOrDefault(x => x.Song == dataGridViewRow.Cells["Song"].Value.ToString() && x.Artist == dataGridViewRow.Cells["Artist"].Value.ToString() && x.Album == dataGridViewRow.Cells["Album"].Value.ToString());
+            return SongCollection.Distinct().SingleOrDefault(x => x.Song == dataGridViewRow.Cells["Song"].Value.ToString() && x.Artist == dataGridViewRow.Cells["Artist"].Value.ToString() && x.Album == dataGridViewRow.Cells["Album"].Value.ToString() && x.Path == dataGridViewRow.Cells["Path"].Value.ToString());
         }
     }
 }
