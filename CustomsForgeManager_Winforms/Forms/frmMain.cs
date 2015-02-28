@@ -28,7 +28,6 @@ namespace CustomsForgeManager_Winforms.Forms
         private bool sortDescending = true;
         private readonly Log myLog;
         private Settings mySettings;
-        private static XElement root;
         private Stopwatch counterStopwatch = new Stopwatch();
 
         private BindingList<SongData> SongCollection = new BindingList<SongData>();
@@ -617,15 +616,15 @@ namespace CustomsForgeManager_Winforms.Forms
                 {
                     if(row.Selected)
                     {
-                        if (row.Cells["colSelect"].Value != null && (bool)row.Cells["colSelect"].Value)
-                        {
-                            row.Cells["colSelect"].Value = false;
+                            if (row.Cells["colSelect"].Value != null && (bool)row.Cells["colSelect"].Value)
+                            {
+                                row.Cells["colSelect"].Value = false;
+                            }
+                            else
+                            {
+                                row.Cells["colSelect"].Value = true;
+                            }
                         }
-                        else
-                        {
-                            row.Cells["colSelect"].Value = true;
-                        }
-                    }
                 }
             }
         }
@@ -1108,7 +1107,6 @@ namespace CustomsForgeManager_Winforms.Forms
             bWorker.DoWork += checkAllForUpdates;
             toolStripStatusLabel_MainCancel.Visible = true;
             bWorker.RunWorkerAsync();
-
         }
         private void btnBatchRenamer_Click(object sender, EventArgs e)
         {
@@ -1133,8 +1131,6 @@ namespace CustomsForgeManager_Winforms.Forms
                 }
             }
         }
-
-        
 
         private void toolStripStatusLabel_MainCancel_Click(object sender, EventArgs e)
         {
@@ -1242,12 +1238,12 @@ namespace CustomsForgeManager_Winforms.Forms
         
         private void UpdateAuthor(DataGridViewRow selectedRow)
         {
-            var currentSong = GetSongByRow(selectedRow);
-            if (currentSong != null)
-            {
-                currentSong.IgnitionAuthor = Ignition.GetDLCInfoFromURL(currentSong.GetInfoURL(), "name");
-                selectedRow.Cells["IgnitionAuthor"].Value = currentSong.IgnitionAuthor;
-            }
+            //var currentSong = GetSongByRow(selectedRow);
+            //if (currentSong != null)
+            //{
+            //    currentSong.IgnitionAuthor = Ignition.GetDLCInfoFromURL(currentSong.GetInfoURL(), "name");
+            //    selectedRow.Cells["IgnitionAuthor"].Value = currentSong.IgnitionAuthor;
+            //}
         }
 
         private void CheckRowForUpdate(DataGridViewRow dataGridViewRow)
@@ -1256,18 +1252,33 @@ namespace CustomsForgeManager_Winforms.Forms
             if (currentSong != null)
             {
                 //currentSong.IgnitionVersion = Ignition.GetDLCInfoFromURL(currentSong.GetInfoURL(), "version");
-                currentSong.FetchInfo();
-                dataGridViewRow.Cells["IgnitionVersion"].Value = currentSong.IgnitionVersion;
-                if (currentSong.IgnitionVersion == "No Results")
+                string url = currentSong.GetInfoURL();
+                //= client.DownloadString(url);
+                string response = "";
+                var client = new WebClient();
+                client.DownloadStringCompleted += (sender, e) =>
                 {
-                    dataGridViewRow.DefaultCellStyle.BackColor = Color.OrangeRed;
-                    myLog.Write(string.Format("<ERROR>: Song \"{0}\" from \"{1}\" album by {2} not found in ignition.", currentSong.Song, currentSong.Album,currentSong.Author));
-                }
-                else if (currentSong.IgnitionVersion != currentSong.Version)
-                {
-                    dataGridViewRow.DefaultCellStyle.BackColor = Color.Gold;
-                    myLog.Write(string.Format("Update found for \"{0}\" from \"{1}\" album by {2}. Local version: {3}, Ignition version: {4} ", currentSong.Song, currentSong.Album,currentSong.Author, currentSong.Version, currentSong.IgnitionVersion));
-                }
+                    response = e.Result;
+
+                    currentSong.IgnitionID = Ignition.GetDLCInfoFromResponse(response, "id");
+                    currentSong.IgnitionUpdated = Ignition.GetDLCInfoFromResponse(response, "updated");
+                    currentSong.IgnitionVersion = Ignition.GetDLCInfoFromResponse(response, "version");
+                    currentSong.IgnitionAuthor = Ignition.GetDLCInfoFromResponse(response, "name");
+
+                    dataGridViewRow.Cells["IgnitionVersion"].Value = currentSong.IgnitionVersion;
+                    if (currentSong.IgnitionVersion == "No Results")
+                    {
+                        dataGridViewRow.DefaultCellStyle.BackColor = Color.OrangeRed;
+                        myLog.Write(string.Format("<ERROR>: Song \"{0}\" from \"{1}\" album by {2} not found in ignition.", currentSong.Song, currentSong.Album, currentSong.Author));
+                    }
+                    else if (currentSong.IgnitionVersion != currentSong.Version)
+                    {
+                        dataGridViewRow.DefaultCellStyle.BackColor = Color.Gold;
+                        myLog.Write(string.Format("Update found for \"{0}\" from \"{1}\" album by {2}. Local version: {3}, Ignition version: {4} ", currentSong.Song, currentSong.Album, currentSong.Author, currentSong.Version, currentSong.IgnitionVersion));
+                    }
+                };
+                client.DownloadStringAsync(new Uri(url));
+             
             }
         }
 

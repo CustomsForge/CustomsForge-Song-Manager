@@ -85,7 +85,6 @@ namespace CustomsForgeManager_Winforms.Utilities
                 song.IgnitionUpdated = Ignition.GetDLCInfoFromResponse(response, "updated");
                 song.IgnitionVersion = Ignition.GetDLCInfoFromResponse(response, "version");
                 song.IgnitionAuthor = Ignition.GetDLCInfoFromResponse(response, "name");
-                MessageBox.Show(DateTime.Now + " " + response);
             };
             client.DownloadStringAsync(new Uri(url));
         }
