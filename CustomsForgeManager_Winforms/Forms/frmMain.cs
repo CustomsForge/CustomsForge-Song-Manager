@@ -31,7 +31,7 @@ namespace CustomsForgeManager_Winforms.Forms
         private Stopwatch counterStopwatch = new Stopwatch();
 
         private BindingList<SongData> SongCollection = new BindingList<SongData>();
-        private List<SongDupeData> DupeCollection = new List<SongDupeData>();
+        private List<SongData> DupeCollection = new List<SongData>();
         private List<SongData> SortedSongCollection = new List<SongData>();
 
         private frmMain()
@@ -171,28 +171,22 @@ namespace CustomsForgeManager_Winforms.Forms
         }
         private void PopulateDupeList()
         {
-            //foreach (SongData song in SongCollection.ToList())
-            //{
-            //    var dupes = SongCollection.Where(x => x.Song.ToLower() == song.Song.ToLower() && x.Album == song.Album).ToList();
-            //    if (dupes.Count > 1)
-            //    {
-            //        if (DupeCollection.Where(x => x.Song.ToLower() == song.Song.ToLower() && x.Album == song.Album).ToList().Count == 0)
-            //        {
-            //            DupeCollection.Add(new SongDupeData
-            //            {
-            //                Song = dupes[0].Song,
-            //                Artist = dupes[0].Artist,
-            //                Album = dupes[0].Album,
-            //                SongOnePath = dupes[0].Path,
-            //                SongTwoPath = dupes[1].Path
-            //            });
-            //        }
-            //    }
-            //}
-
-            var dups = SongCollection.GroupBy(x => x)
+            var dups = SongCollection.GroupBy(x => new { x.Song, x.Album, x.Artist })
                         .Where(group => group.Count() > 1)
-                        .Select(group => group.Key).ToList();
+                        .SelectMany(group => group).ToList();
+            
+            if(dups.Count > 0)
+            {
+                foreach (var song in dups)
+                {
+                    listDupeSongs.InvokeIfRequired(delegate
+                    {
+                        listDupeSongs.Items.Add(new ListViewItem(new[] { " ", song.Artist, song.Song, song.Album, song.Path }));
+                    });
+                }
+            }
+
+            DupeCollection.AddRange(dups);
 
             tpDuplicates.InvokeIfRequired(delegate
             {
@@ -202,16 +196,7 @@ namespace CustomsForgeManager_Winforms.Forms
         private void PopulateDataGridView()
         {
             toolStripStatusLabel_Main.Text = string.Format("{0} total Rocksmith songs found", SongCollection.Count);
-            if (DupeCollection.Count > 0)
-            {
-                foreach (SongDupeData song in DupeCollection)
-                {
-                    listDupeSongs.InvokeIfRequired(delegate
-                    {
-                        listDupeSongs.Items.Add(new ListViewItem(new[] { " ", song.Artist, song.Song, song.Album, song.SongOnePath, song.SongTwoPath }));
-                    });
-                }
-            }
+ 
 
             dgvSongs.InvokeIfRequired(delegate
             {
@@ -437,14 +422,9 @@ namespace CustomsForgeManager_Winforms.Forms
                 btnDupeRescan.Enabled = !btnDupeRescan.Enabled;
             });
 
-            btnDeleteSongOne.InvokeIfRequired(delegate
+            btnDeleteDupeSong.InvokeIfRequired(delegate
             {
-                btnDeleteSongOne.Enabled = !btnDeleteSongOne.Enabled;
-            });
-
-            btnDeleteSongTwo.InvokeIfRequired(delegate
-            {
-                btnDeleteSongTwo.Enabled = !btnDeleteSongTwo.Enabled;
+                btnDeleteDupeSong.Enabled = !btnDeleteDupeSong.Enabled;
             });
 
             btnDisableEnableSongs.InvokeIfRequired(delegate
@@ -857,7 +837,41 @@ namespace CustomsForgeManager_Winforms.Forms
         }
         #endregion
         #region Link events
-        private void lnkAboutCF_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void linkOpenCFHomePage_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("http://customsforge.com/");
+        }
+
+        private void linkOpenIgnition_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("http://ignition.customsforge.com/");
+        }
+
+        private void linkOpenOldSearch_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("http://search.customsforge.com/");
+        }
+
+        private void linkOpenRequests_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("http://requests.customsforge.com/?b");
+        }
+
+        private void linkDontainsPage_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("http://customsforge.com/donate/");
+        }
+
+        private void linkOpenCFVideos_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("http://customsforge.com/videos/");
+        }
+
+        private void linkCFFAQ_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("http://customsforge.com/faq/");
+        }
+        private void linkAboutCF_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Process.Start("http://cfmanager.com");
         }
@@ -1072,31 +1086,25 @@ namespace CustomsForgeManager_Winforms.Forms
                     {
                         try
                         {
-                            File.Delete(DupeCollection[i].SongOnePath);
-                            DupeCollection.RemoveAt(i);
-                            listDupeSongs.Items.RemoveAt(i);
-                            tpDuplicates.Text = "Duplicates(" + DupeCollection.Count.ToString() + ")";
-                        }
-                        catch (IndexOutOfRangeException)
-                        {
-                        }
-                    }
-                }
-            });
-        }
-        private void btnDeleteSongTwo_Click(object sender, EventArgs e)
-        {
-            listDupeSongs.InvokeIfRequired(delegate
-            {
-                for (int i = 0; i < listDupeSongs.Items.Count; i++)
-                {
-                    if (listDupeSongs.Items[i].Checked)
-                    {
-                        try
-                        {
-                            File.Delete(DupeCollection[i].SongTwoPath);
-                            DupeCollection.RemoveAt(i);
-                            listDupeSongs.Items.RemoveAt(i);
+                            File.Delete(DupeCollection[i].Path);
+                            if (DupeCollection.Where(song => song.Song == DupeCollection[i].Song && song.Album == DupeCollection[i].Album).ToList().Count == 2)
+                            {
+                                DupeCollection.RemoveAll(song => song.Song == DupeCollection[i].Song && song.Album == DupeCollection[i].Album);
+                                listDupeSongs.Items.Clear();
+                                foreach (var song in DupeCollection)
+                                {
+                                    listDupeSongs.InvokeIfRequired(delegate
+                                    {
+                                        listDupeSongs.Items.Add(new ListViewItem(new[] { " ", song.Artist, song.Song, song.Album, song.Path }));
+                                    });
+                                }
+                            }
+                            else
+                            {
+                                DupeCollection.RemoveAt(i);
+                                listDupeSongs.Items.RemoveAt(i);
+                            }
+                                
                             tpDuplicates.Text = "Duplicates(" + DupeCollection.Count.ToString() + ")";
                         }
                         catch (IndexOutOfRangeException)
@@ -1273,7 +1281,6 @@ namespace CustomsForgeManager_Winforms.Forms
             {
                 //currentSong.IgnitionVersion = Ignition.GetDLCInfoFromURL(currentSong.GetInfoURL(), "version");
                 string url = currentSong.GetInfoURL();
-                //= client.DownloadString(url);
                 string response = "";
                 var client = new WebClient();
                 client.DownloadStringCompleted += (sender, e) =>
@@ -1285,7 +1292,11 @@ namespace CustomsForgeManager_Winforms.Forms
                     currentSong.IgnitionVersion = Ignition.GetDLCInfoFromResponse(response, "version");
                     currentSong.IgnitionAuthor = Ignition.GetDLCInfoFromResponse(response, "name");
 
-                    dataGridViewRow.Cells["IgnitionVersion"].Value = currentSong.IgnitionVersion;
+                    if(!bWorker.CancellationPending)
+                    {
+                        dataGridViewRow.Cells["IgnitionVersion"].Value = currentSong.IgnitionVersion;
+                    }
+                    
                     if (currentSong.IgnitionVersion == "No Results")
                     {
                         dataGridViewRow.DefaultCellStyle.BackColor = Color.OrangeRed;
@@ -1304,41 +1315,6 @@ namespace CustomsForgeManager_Winforms.Forms
         private SongData GetSongByRow(DataGridViewRow dataGridViewRow)
         {
             return SongCollection.Distinct().SingleOrDefault(x => x.Song == dataGridViewRow.Cells["Song"].Value.ToString() && x.Artist == dataGridViewRow.Cells["Artist"].Value.ToString() && x.Album == dataGridViewRow.Cells["Album"].Value.ToString() && x.Path == dataGridViewRow.Cells["Path"].Value.ToString());
-        }
-
-        private void linkOpenCFHomePage_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            Process.Start("http://customsforge.com/");
-        }
-
-        private void linkOpenIgnition_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            Process.Start("http://ignition.customsforge.com/");
-        }
-
-        private void linkOpenOldSearch_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            Process.Start("http://search.customsforge.com/");
-        }
-
-        private void linkOpenRequests_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            Process.Start("http://requests.customsforge.com/?b");
-        }
-
-        private void linkDontainsPage_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            Process.Start("http://customsforge.com/donate/");
-        }
-
-        private void linkOpenCFVideos_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            Process.Start("http://customsforge.com/videos/");
-        }
-
-        private void linkCFFAQ_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-             Process.Start("http://customsforge.com/faq/");
         }
     }
 }
