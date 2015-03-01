@@ -1229,8 +1229,16 @@ namespace CustomsForgeManager_Winforms.Forms
              {
                  foreach(DataGridViewRow row in dgvSongs.Rows)
                  {
-                     row.Cells["colSelect"].Value = true;
+                     if (allSelected)
+                     {
+                         row.Cells["colSelect"].Value = false;
+                     }
+                     else
+                     {
+                         row.Cells["colSelect"].Value = true;
+                     }
                  }
+                 allSelected = !allSelected;
              }
         }
   
