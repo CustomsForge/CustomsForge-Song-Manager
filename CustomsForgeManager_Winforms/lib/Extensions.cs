@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using CustomsForgeManager_Winforms.Controls;
 using CustomsForgeManager_Winforms.lib;
 using System.Net;
 
@@ -53,10 +54,11 @@ namespace CustomsForgeManager_Winforms.Utilities
         }
 
 
-        public static void SetDefaults(this BackgroundWorker bWorker)
+        public static void SetDefaults(this AbortableBackgroundWorker bWorker)
         {
             bWorker.WorkerSupportsCancellation = true;
             bWorker.WorkerReportsProgress = true;
+            
         }
 
 

@@ -118,7 +118,7 @@
             this.linkDontainsPage = new System.Windows.Forms.LinkLabel();
             this.linkOpenCFVideos = new System.Windows.Forms.LinkLabel();
             this.linkCFFAQ = new System.Windows.Forms.LinkLabel();
-            this.bWorker = new System.ComponentModel.BackgroundWorker();
+            this.bWorker = new Controls.AbortableBackgroundWorker();
             this.timerMain = new System.Windows.Forms.Timer(this.components);
             this.statusStripMain = new System.Windows.Forms.StatusStrip();
             this.toolStripProgressBarMain = new System.Windows.Forms.ToolStripProgressBar();
@@ -1372,7 +1372,7 @@
         private System.Windows.Forms.TabPage tpManager;
         private System.Windows.Forms.TabPage tpSettings;
         private System.Windows.Forms.TabPage tpAbout;
-        private System.ComponentModel.BackgroundWorker bWorker;
+        private Controls.AbortableBackgroundWorker bWorker;
         private System.Windows.Forms.Timer timerMain;
         private System.Windows.Forms.StatusStrip statusStripMain;
         private System.Windows.Forms.ToolStripProgressBar toolStripProgressBarMain;

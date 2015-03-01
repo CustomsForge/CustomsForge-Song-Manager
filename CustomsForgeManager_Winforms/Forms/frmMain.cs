@@ -4,8 +4,10 @@ using System.Drawing;
 using System.IO;
 using System.Net;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using CustomsForgeManager_Winforms.Controls;
 using CustomsForgeManager_Winforms.lib;
 using CustomsForgeManager_Winforms.Logging;
 using CustomsForgeManager_Winforms.Utilities;
@@ -83,7 +85,7 @@ namespace CustomsForgeManager_Winforms.Forms
         }
         private void BackgroundScan()
         {
-            bWorker = new BackgroundWorker();
+            bWorker = new AbortableBackgroundWorker();
             bWorker.SetDefaults();
 
             toolStripStatusLabel_MainCancel.Visible = true;
@@ -1120,10 +1122,15 @@ namespace CustomsForgeManager_Winforms.Forms
         }
         private void btnCheckAllForUpdates_Click(object sender, EventArgs e)
         {
-            bWorker = new BackgroundWorker();
+            bWorker = new AbortableBackgroundWorker();
             bWorker.SetDefaults();
             bWorker.DoWork += checkAllForUpdates;
             toolStripStatusLabel_MainCancel.Visible = true;
+            //toolStripStatusLabel_MainCancel.Click += delegate
+            //{
+            //    bWorker.CancelAsync();
+            //    bWorker.Abort();
+            //};
             bWorker.RunWorkerAsync();
         }
         private void btnBatchRenamer_Click(object sender, EventArgs e)
@@ -1155,7 +1162,7 @@ namespace CustomsForgeManager_Winforms.Forms
         }
         private void checkForUpdateToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            bWorker = new BackgroundWorker();
+            bWorker = new AbortableBackgroundWorker();
             bWorker.SetDefaults();
             bWorker.DoWork += CheckForUpdatesEvent;
             bWorker.RunWorkerAsync();
@@ -1163,6 +1170,10 @@ namespace CustomsForgeManager_Winforms.Forms
         private void toolStripStatusLabel_MainCancel_Click(object sender, EventArgs e)
         {
             bWorker.CancelAsync();
+            bWorker.Abort();
+            //bWorker.Dispose();
+            //bWorker = null;
+            toolStripStatusLabel_MainCancel.Visible = false;
         }
         private void closeToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1256,14 +1267,23 @@ namespace CustomsForgeManager_Winforms.Forms
         #endregion
         void checkAllForUpdates(object sender, DoWorkEventArgs e)
         {
+            //Thread.Sleep(3000);
             counterStopwatch.Start();
             dgvSongs.InvokeIfRequired(delegate
             {
-                foreach (var row in dgvSongs.Rows)
+                if (!bWorker.CancellationPending)
                 {
-                    if (!bWorker.CancellationPending)
+                    foreach (DataGridViewRow row in dgvSongs.Rows)
                     {
-                        CheckRowForUpdate((DataGridViewRow)row);
+                        //string songname = row.Cells[3].Value.ToString();
+                        if (!bWorker.CancellationPending)
+                        {
+                            CheckRowForUpdate((DataGridViewRow) row);
+                        }
+                        else
+                        {
+                            bWorker.Abort();
+                        }
                     }
                 }
                 SaveSongCollectionToFile();
@@ -1284,39 +1304,55 @@ namespace CustomsForgeManager_Winforms.Forms
 
         private void CheckRowForUpdate(DataGridViewRow dataGridViewRow)
         {
-            var currentSong = GetSongByRow(dataGridViewRow);
-            if (currentSong != null)
+            if (!bWorker.CancellationPending)
             {
-                //currentSong.IgnitionVersion = Ignition.GetDLCInfoFromURL(currentSong.GetInfoURL(), "version");
-                string url = currentSong.GetInfoURL();
-                string response = "";
-                var client = new WebClient();
-                client.DownloadStringCompleted += (sender, e) =>
+                var currentSong = GetSongByRow(dataGridViewRow);
+                if (currentSong != null)
                 {
-                    response = e.Result;
+                    //currentSong.IgnitionVersion = Ignition.GetDLCInfoFromURL(currentSong.GetInfoURL(), "version");
+                    string url = currentSong.GetInfoURL();
+                    string response = "";
+                    var client = new WebClient();
+                    client.DownloadStringCompleted += (sender, e) =>
+                    {
+                        if (!bWorker.CancellationPending)
+                        {
+                            response = e.Result;
 
-                    currentSong.IgnitionID = Ignition.GetDLCInfoFromResponse(response, "id");
-                    currentSong.IgnitionUpdated = Ignition.GetDLCInfoFromResponse(response, "updated");
-                    currentSong.IgnitionVersion = Ignition.GetDLCInfoFromResponse(response, "version");
-                    currentSong.IgnitionAuthor = Ignition.GetDLCInfoFromResponse(response, "name");
+                            currentSong.IgnitionID = Ignition.GetDLCInfoFromResponse(response, "id");
+                            currentSong.IgnitionUpdated = Ignition.GetDLCInfoFromResponse(response, "updated");
+                            currentSong.IgnitionVersion = Ignition.GetDLCInfoFromResponse(response, "version");
+                            currentSong.IgnitionAuthor = Ignition.GetDLCInfoFromResponse(response, "name");
 
-                    if(!bWorker.CancellationPending)
+                            if (!bWorker.CancellationPending)
+                            {
+                                dataGridViewRow.Cells["IgnitionVersion"].Value = currentSong.IgnitionVersion;
+                            }
+
+                            if (currentSong.IgnitionVersion == "No Results")
+                            {
+                                dataGridViewRow.DefaultCellStyle.BackColor = Color.OrangeRed;
+                                myLog.Write(
+                                    string.Format(
+                                        "<ERROR>: Song \"{0}\" from \"{1}\" album by {2} not found in ignition.",
+                                        currentSong.Song, currentSong.Album, currentSong.Author));
+                            }
+                            else if (currentSong.IgnitionVersion != currentSong.Version)
+                            {
+                                dataGridViewRow.DefaultCellStyle.BackColor = Color.Gold;
+                                myLog.Write(
+                                    string.Format(
+                                        "Update found for \"{0}\" from \"{1}\" album by {2}. Local version: {3}, Ignition version: {4} ",
+                                        currentSong.Song, currentSong.Album, currentSong.Author, currentSong.Version,
+                                        currentSong.IgnitionVersion));
+                            }
+                        }
+                    };
+                    if (!bWorker.CancellationPending)
                     {
-                        dataGridViewRow.Cells["IgnitionVersion"].Value = currentSong.IgnitionVersion;
+                        client.DownloadStringAsync(new Uri(url));
                     }
-                    
-                    if (currentSong.IgnitionVersion == "No Results")
-                    {
-                        dataGridViewRow.DefaultCellStyle.BackColor = Color.OrangeRed;
-                        myLog.Write(string.Format("<ERROR>: Song \"{0}\" from \"{1}\" album by {2} not found in ignition.", currentSong.Song, currentSong.Album, currentSong.Author));
-                    }
-                    else if (currentSong.IgnitionVersion != currentSong.Version)
-                    {
-                        dataGridViewRow.DefaultCellStyle.BackColor = Color.Gold;
-                        myLog.Write(string.Format("Update found for \"{0}\" from \"{1}\" album by {2}. Local version: {3}, Ignition version: {4} ", currentSong.Song, currentSong.Album, currentSong.Author, currentSong.Version, currentSong.IgnitionVersion));
-                    }
-                };
-                client.DownloadStringAsync(new Uri(url));
+                }
             }
         }
 
