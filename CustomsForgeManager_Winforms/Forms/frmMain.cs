@@ -464,7 +464,7 @@ namespace CustomsForgeManager_Winforms.Forms
 
             //  }
             //}
-            files = files.Where(file => !file.Contains("rs1comp")).ToList();
+            //files = files.Where(file => !file.Contains("rs1comp")).ToList();
             return files;
         }
 
@@ -587,9 +587,10 @@ namespace CustomsForgeManager_Winforms.Forms
                 var title = selectedRow.Cells["Song"].Value.ToString();
                 var artist = selectedRow.Cells["Artist"].Value.ToString();
                 var album = selectedRow.Cells["Album"].Value.ToString();
+                var path = selectedRow.Cells["Path"].Value.ToString();
 
                 var song =
-                    SongCollection.SingleOrDefault(x => x.Song == title && x.Album == album && x.Artist == artist);
+                    SongCollection.FirstOrDefault(x => x.Song == title && x.Album == album && x.Artist == artist && x.Path == path);
                 if (song != null)
                 {
                     frmSongInfo infoWindow = new frmSongInfo(song);
