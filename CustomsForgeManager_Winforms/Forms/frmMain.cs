@@ -457,14 +457,10 @@ namespace CustomsForgeManager_Winforms.Forms
                 Directory.CreateDirectory(path);
             List<string> files = new List<string>(Directory.GetFiles(path, "*_p.psarc", SearchOption.AllDirectories));
             files.AddRange(new List<string>(Directory.GetFiles(path, "*_p.disabled.psarc", SearchOption.AllDirectories)));
-            // if (!includeRS1Pack)
-            //{
-            //  foreach (string file in files.ToList())
-            //  {
-
-            //  }
-            //}
-            //files = files.Where(file => !file.Contains("rs1comp")).ToList();
+            if (!includeRS1Pack)
+            {
+                files = files.Where(file => !file.Contains("rs1comp")).ToList()
+            }
             return files;
         }
 
