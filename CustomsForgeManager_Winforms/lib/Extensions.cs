@@ -64,7 +64,9 @@ namespace CustomsForgeManager_Winforms.Utilities
 
         public static string CleanForAPI(this string text)
         {
-            return text.Replace("/", "_");
+            //return text.Replace("/", "_"); //.Replace("\\","");
+            var result = text.Replace("/", "_1_").Replace("\\","_2_"); //WebUtility.HtmlEncode(text);
+            return result; //WebUtility.HtmlDecode(text);
         }
 
         public static string GetInfoURL(this SongData song)
