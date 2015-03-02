@@ -176,8 +176,8 @@ namespace CustomsForgeManager_Winforms.Forms
             var dups = SongCollection.GroupBy(x => new { x.Song, x.Album, x.Artist })
                         .Where(group => group.Count() > 1)
                         .SelectMany(group => group).ToList();
-            
-            if(dups.Count > 0)
+
+            if (dups.Count > 0)
             {
                 foreach (var song in dups)
                 {
@@ -198,7 +198,7 @@ namespace CustomsForgeManager_Winforms.Forms
         private void PopulateDataGridView()
         {
             toolStripStatusLabel_Main.Text = string.Format("{0} total Rocksmith songs found", SongCollection.Count);
- 
+
 
             dgvSongs.InvokeIfRequired(delegate
             {
@@ -456,15 +456,15 @@ namespace CustomsForgeManager_Winforms.Forms
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
             List<string> files = new List<string>(Directory.GetFiles(path, "*_p.psarc", SearchOption.AllDirectories));
-            files.AddRange(new List<string>(Directory.GetFiles(path,"*_p.disabled.psarc",SearchOption.AllDirectories)));
-            if (!includeRS1Pack)
-            {
-                foreach (string file in files.ToList())
-                {
-                    if (file.Contains("rs1compatibilitydlc"))
-                        files.Remove(file);
-                }
-            }
+            files.AddRange(new List<string>(Directory.GetFiles(path, "*_p.disabled.psarc", SearchOption.AllDirectories)));
+            // if (!includeRS1Pack)
+            //{
+            //  foreach (string file in files.ToList())
+            //  {
+
+            //  }
+            //}
+            files = files.Where(file => !file.Contains("rs1comp")).ToList();
             return files;
         }
 
@@ -562,14 +562,14 @@ namespace CustomsForgeManager_Winforms.Forms
         }
         private void SearchDLC(string criteria)
         {
-            var results = SongCollection.Where(x => x.Artist.ToLower().Contains(criteria.ToLower()) || x.Album.ToLower().Contains(criteria.ToLower()) || 
+            var results = SongCollection.Where(x => x.Artist.ToLower().Contains(criteria.ToLower()) || x.Album.ToLower().Contains(criteria.ToLower()) ||
                                                x.Song.ToLower().Contains(criteria.ToLower()) || x.Tuning.ToLower().Contains(criteria.ToLower()) ||
-                                               x.Author.ToLower().Contains(criteria.ToLower()) || (x.IgnitionAuthor != null && 
+                                               x.Author.ToLower().Contains(criteria.ToLower()) || (x.IgnitionAuthor != null &&
                                                x.IgnitionAuthor.ToLower().Contains(criteria.ToLower()) || (x.IgnitionID != null
                                                && x.IgnitionID.ToLower().Contains(criteria.ToLower())))).ToList();
 
             SortedSongCollection = (List<SongData>)(SongCollection.Where(x => x.Artist.ToLower().Contains(criteria.ToLower()) || x.Album.ToLower().Contains(criteria.ToLower()) ||
-                                   x.Song.ToLower().Contains(criteria.ToLower()) || x.Tuning.ToLower().Contains(criteria.ToLower()) || 
+                                   x.Song.ToLower().Contains(criteria.ToLower()) || x.Tuning.ToLower().Contains(criteria.ToLower()) ||
                                    x.Author.ToLower().Contains(criteria.ToLower()) || (x.IgnitionAuthor != null &&
                                    x.IgnitionAuthor.ToLower().Contains(criteria.ToLower())) || (x.IgnitionID != null &&
                                    x.IgnitionID.ToLower().Contains(criteria.ToLower()))).ToList());
@@ -606,17 +606,17 @@ namespace CustomsForgeManager_Winforms.Forms
             {
                 foreach (DataGridViewRow row in dgvSongs.Rows)
                 {
-                    if(row.Selected)
+                    if (row.Selected)
                     {
-                            if (row.Cells["colSelect"].Value != null && (bool)row.Cells["colSelect"].Value)
-                            {
-                                row.Cells["colSelect"].Value = false;
-                            }
-                            else
-                            {
-                                row.Cells["colSelect"].Value = true;
-                            }
+                        if (row.Cells["colSelect"].Value != null && (bool)row.Cells["colSelect"].Value)
+                        {
+                            row.Cells["colSelect"].Value = false;
                         }
+                        else
+                        {
+                            row.Cells["colSelect"].Value = true;
+                        }
+                    }
                 }
             }
         }
@@ -925,38 +925,38 @@ namespace CustomsForgeManager_Winforms.Forms
         #region Button events
         private void btnDisableEnableSongs_Click(object sender, EventArgs e)
         {
-                foreach (DataGridViewRow row in dgvSongs.Rows)
-                {
-                    DataGridViewCheckBoxCell cell = (DataGridViewCheckBoxCell)row.Cells["colSelect"];
+            foreach (DataGridViewRow row in dgvSongs.Rows)
+            {
+                DataGridViewCheckBoxCell cell = (DataGridViewCheckBoxCell)row.Cells["colSelect"];
 
-                    if (cell != null && cell.Value != null && cell.Value.ToString().ToLower() == "true")
+                if (cell != null && cell.Value != null && cell.Value.ToString().ToLower() == "true")
+                {
+                    var originalPath = row.Cells["Path"].Value.ToString();
+                    if (!originalPath.Contains("rs1compatibilitydisc"))
                     {
-                        var originalPath = row.Cells["Path"].Value.ToString();
-                        if (!originalPath.Contains("rs1compatibilitydisc"))
+                        if (row.Cells["Enabled"].Value.ToString() == "Yes")
                         {
-                            if (row.Cells["Enabled"].Value.ToString() == "Yes")
-                            {
-                                var disabledDLCPath = originalPath.Replace("_p.psarc", "_p.disabled.psarc");
-                                File.Move(originalPath, disabledDLCPath);
-                                row.Cells["Path"].Value = disabledDLCPath;
-                                row.Cells["Enabled"].Value = "No";
-                            }
-                            else if (row.Cells["Enabled"].Value.ToString() == "No")
-                            {
-                                var enabledDLCPath = originalPath.Replace("_p.disabled.psarc", "_p.psarc");
-                                File.Move(originalPath, enabledDLCPath);
-                                row.Cells["Path"].Value = enabledDLCPath;
-                                row.Cells["Enabled"].Value = "Yes";
-                            }
-                            cell.Value = "false";
-                            toolStripStatusLabel_DisabledCounter.Text = "Disabled DLCs: " + SongCollection.Where(song => song.Enabled == "No").ToList().Count().ToString();
+                            var disabledDLCPath = originalPath.Replace("_p.psarc", "_p.disabled.psarc");
+                            File.Move(originalPath, disabledDLCPath);
+                            row.Cells["Path"].Value = disabledDLCPath;
+                            row.Cells["Enabled"].Value = "No";
                         }
-                        else
+                        else if (row.Cells["Enabled"].Value.ToString() == "No")
                         {
-                            Log("Rocksmith 1 song->can't be disabled at this moment.");
+                            var enabledDLCPath = originalPath.Replace("_p.disabled.psarc", "_p.psarc");
+                            File.Move(originalPath, enabledDLCPath);
+                            row.Cells["Path"].Value = enabledDLCPath;
+                            row.Cells["Enabled"].Value = "Yes";
                         }
+                        cell.Value = "false";
+                        toolStripStatusLabel_DisabledCounter.Text = "Disabled DLCs: " + SongCollection.Where(song => song.Enabled == "No").ToList().Count().ToString();
+                    }
+                    else
+                    {
+                        Log("Rocksmith 1 song->can't be disabled at this moment.");
                     }
                 }
+            }
         }
         private void btnSettingsSave_Click(object sender, EventArgs e)
         {
@@ -1106,7 +1106,7 @@ namespace CustomsForgeManager_Winforms.Forms
                                 DupeCollection.RemoveAt(i);
                                 listDupeSongs.Items.RemoveAt(i);
                             }
-                                
+
                             tpDuplicates.Text = "Duplicates(" + DupeCollection.Count.ToString() + ")";
                         }
                         catch (IndexOutOfRangeException)
@@ -1236,23 +1236,23 @@ namespace CustomsForgeManager_Winforms.Forms
         }
         private void frmMain_KeyUp(object sender, KeyEventArgs e)
         {
-             if(e.Modifiers == Keys.Control && e.KeyCode == Keys.A)
-             {
-                 foreach(DataGridViewRow row in dgvSongs.Rows)
-                 {
-                     if (allSelected)
-                     {
-                         row.Cells["colSelect"].Value = false;
-                     }
-                     else
-                     {
-                         row.Cells["colSelect"].Value = true;
-                     }
-                 }
-                 allSelected = !allSelected;
-             }
+            if (e.Modifiers == Keys.Control && e.KeyCode == Keys.A)
+            {
+                foreach (DataGridViewRow row in dgvSongs.Rows)
+                {
+                    if (allSelected)
+                    {
+                        row.Cells["colSelect"].Value = false;
+                    }
+                    else
+                    {
+                        row.Cells["colSelect"].Value = true;
+                    }
+                }
+                allSelected = !allSelected;
+            }
         }
-  
+
         private void CheckForUpdatesEvent(object o, DoWorkEventArgs args)
         {
             dgvSongs.InvokeIfRequired(delegate
@@ -1278,7 +1278,7 @@ namespace CustomsForgeManager_Winforms.Forms
                         //string songname = row.Cells[3].Value.ToString();
                         if (!bWorker.CancellationPending)
                         {
-                            CheckRowForUpdate((DataGridViewRow) row);
+                            CheckRowForUpdate((DataGridViewRow)row);
                         }
                         else
                         {
@@ -1291,7 +1291,7 @@ namespace CustomsForgeManager_Winforms.Forms
             counterStopwatch.Stop();
             Log(string.Format("Finished update check. Task took {0}", counterStopwatch.Elapsed));
         }
-        
+
         private void UpdateAuthor(DataGridViewRow selectedRow)
         {
             var currentSong = GetSongByRow(selectedRow);
