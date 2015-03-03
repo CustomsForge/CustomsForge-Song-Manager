@@ -21,6 +21,7 @@ using System.Text;
 using System.Xml.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Reflection;
 
 namespace CustomsForgeManager_Winforms.Forms
 {
@@ -82,6 +83,7 @@ namespace CustomsForgeManager_Winforms.Forms
             else
                 LoadSongCollectionFromFile();
 
+            lbl_AppVersion.Text = "Version: " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
         private void BackgroundScan()
         {
@@ -144,6 +146,12 @@ namespace CustomsForgeManager_Winforms.Forms
                         foreach (SongData songData in songInfo.Distinct())
                         {
                             songData.Enabled = enabled;
+                            if(songData.Version == "N/A")
+                            {
+                                string fileNameVersion = songData.GetVersionFromFileName();
+                                if (fileNameVersion != "")
+                                    songData.Version = fileNameVersion; 
+                            }
                             SongCollection.Add(songData);
                         }
                     }
@@ -459,7 +467,7 @@ namespace CustomsForgeManager_Winforms.Forms
             files.AddRange(new List<string>(Directory.GetFiles(path, "*_p.disabled.psarc", SearchOption.AllDirectories)));
             if (!includeRS1Pack)
             {
-                files = files.Where(file => !file.Contains("rs1comp")).ToList()
+                files = files.Where(file => !file.Contains("rs1comp")).ToList();
             }
             return files;
         }
@@ -836,6 +844,15 @@ namespace CustomsForgeManager_Winforms.Forms
         }
         #endregion
         #region Link events
+        private void lnkAboutCF_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("http://customsforge.com/");
+        }
+
+        private void link_CFManager_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("http://cfmanager.com/");
+        }
         private void linkOpenCFHomePage_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Process.Start("http://customsforge.com/");
@@ -856,11 +873,10 @@ namespace CustomsForgeManager_Winforms.Forms
             Process.Start("http://requests.customsforge.com/?b");
         }
 
-        private void linkDontainsPage_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void linkDonationsPage_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Process.Start("http://customsforge.com/donate/");
         }
-
         private void linkOpenCFVideos_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Process.Start("http://customsforge.com/videos/");
@@ -869,10 +885,6 @@ namespace CustomsForgeManager_Winforms.Forms
         private void linkCFFAQ_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Process.Start("http://customsforge.com/faq/");
-        }
-        private void linkAboutCF_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            Process.Start("http://cfmanager.com");
         }
         private void linkLblSelectAll_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {

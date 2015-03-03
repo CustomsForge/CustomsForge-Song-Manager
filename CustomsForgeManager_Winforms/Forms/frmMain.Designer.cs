@@ -87,20 +87,6 @@
             this.checkIncludeRS1DLC = new System.Windows.Forms.CheckBox();
             this.tpAbout = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.lnkAboutCF = new System.Windows.Forms.LinkLabel();
-            this.tableLayoutPanel_Credits = new System.Windows.Forms.TableLayoutPanel();
-            this.lbl_Credits = new System.Windows.Forms.Label();
-            this.lbl_Credits_Description = new System.Windows.Forms.Label();
-            this.lbl_UnleashedRole = new System.Windows.Forms.Label();
-            this.lbl_DarjuszRole = new System.Windows.Forms.Label();
-            this.lbl_LovromanRole = new System.Windows.Forms.Label();
-            this.lbl_AlexRole = new System.Windows.Forms.Label();
-            this.link_UnleashedProfile = new System.Windows.Forms.LinkLabel();
-            this.link_DarjuszProfile = new System.Windows.Forms.LinkLabel();
-            this.link_LovromanProfile = new System.Windows.Forms.LinkLabel();
-            this.link_Alex360Profile = new System.Windows.Forms.LinkLabel();
-            this.lbl_ForgeRole = new System.Windows.Forms.Label();
-            this.link_ForgeOnProfile = new System.Windows.Forms.LinkLabel();
             this.pictureBoxCF = new System.Windows.Forms.PictureBox();
             this.group_CFquickLinks = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel_CFQuicklinks = new System.Windows.Forms.TableLayoutPanel();
@@ -118,7 +104,9 @@
             this.linkDontainsPage = new System.Windows.Forms.LinkLabel();
             this.linkOpenCFVideos = new System.Windows.Forms.LinkLabel();
             this.linkCFFAQ = new System.Windows.Forms.LinkLabel();
-            this.bWorker = new Controls.AbortableBackgroundWorker();
+            this.panel6 = new System.Windows.Forms.Panel();
+            this.link_CFManager = new System.Windows.Forms.LinkLabel();
+            this.lnkAboutCF = new System.Windows.Forms.LinkLabel();
             this.timerMain = new System.Windows.Forms.Timer(this.components);
             this.statusStripMain = new System.Windows.Forms.StatusStrip();
             this.toolStripProgressBarMain = new System.Windows.Forms.ToolStripProgressBar();
@@ -132,8 +120,24 @@
             this.notifyIcon_Main = new System.Windows.Forms.NotifyIcon(this.components);
             this.contextMenuStrip_Tray = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.tableLayoutPanel_Credits = new System.Windows.Forms.TableLayoutPanel();
+            this.lbl_Credits = new System.Windows.Forms.Label();
+            this.lbl_Credits_Description = new System.Windows.Forms.Label();
+            this.lbl_UnleashedRole = new System.Windows.Forms.Label();
+            this.lbl_DarjuszRole = new System.Windows.Forms.Label();
+            this.lbl_LovromanRole = new System.Windows.Forms.Label();
+            this.lbl_AlexRole = new System.Windows.Forms.Label();
+            this.link_UnleashedProfile = new System.Windows.Forms.LinkLabel();
+            this.link_DarjuszProfile = new System.Windows.Forms.LinkLabel();
+            this.link_LovromanProfile = new System.Windows.Forms.LinkLabel();
+            this.link_Alex360Profile = new System.Windows.Forms.LinkLabel();
+            this.lbl_ForgeRole = new System.Windows.Forms.Label();
+            this.link_ForgeOnProfile = new System.Windows.Forms.LinkLabel();
+            this.lbl_AppVersion = new System.Windows.Forms.Label();
             this.dgvSongs = new CustomsForgeManager_Winforms.Controls.RADataGridView();
             this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.bWorker = new CustomsForgeManager_Winforms.Controls.AbortableBackgroundWorker();
             this.tlp_MainForm_Wrappper.SuspendLayout();
             this.gbLog.SuspendLayout();
             this.tcMain.SuspendLayout();
@@ -154,12 +158,14 @@
             this.tlpSettings_Wrapper.SuspendLayout();
             this.tpAbout.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
-            this.tableLayoutPanel_Credits.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCF)).BeginInit();
             this.group_CFquickLinks.SuspendLayout();
             this.tableLayoutPanel_CFQuicklinks.SuspendLayout();
+            this.panel6.SuspendLayout();
             this.statusStripMain.SuspendLayout();
             this.contextMenuStrip_Tray.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            this.tableLayoutPanel_Credits.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSongs)).BeginInit();
             this.SuspendLayout();
             // 
@@ -749,10 +755,10 @@
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Controls.Add(this.lnkAboutCF, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel_Credits, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.pictureBoxCF, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.group_CFquickLinks, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.panel6, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.groupBox1, 0, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -761,203 +767,6 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(770, 389);
             this.tableLayoutPanel1.TabIndex = 0;
-            // 
-            // lnkAboutCF
-            // 
-            this.lnkAboutCF.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.lnkAboutCF.AutoSize = true;
-            this.lnkAboutCF.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lnkAboutCF.Location = new System.Drawing.Point(489, 84);
-            this.lnkAboutCF.Name = "lnkAboutCF";
-            this.lnkAboutCF.Size = new System.Drawing.Size(177, 25);
-            this.lnkAboutCF.TabIndex = 0;
-            this.lnkAboutCF.TabStop = true;
-            this.lnkAboutCF.Text = "CustomsForge 2015";
-            this.lnkAboutCF.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkAboutCF_LinkClicked);
-            // 
-            // tableLayoutPanel_Credits
-            // 
-            this.tableLayoutPanel_Credits.ColumnCount = 2;
-            this.tableLayoutPanel_Credits.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel_Credits.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel_Credits.Controls.Add(this.lbl_Credits, 0, 0);
-            this.tableLayoutPanel_Credits.Controls.Add(this.lbl_Credits_Description, 1, 0);
-            this.tableLayoutPanel_Credits.Controls.Add(this.lbl_UnleashedRole, 0, 1);
-            this.tableLayoutPanel_Credits.Controls.Add(this.lbl_DarjuszRole, 0, 2);
-            this.tableLayoutPanel_Credits.Controls.Add(this.lbl_LovromanRole, 0, 3);
-            this.tableLayoutPanel_Credits.Controls.Add(this.lbl_AlexRole, 0, 4);
-            this.tableLayoutPanel_Credits.Controls.Add(this.link_UnleashedProfile, 1, 1);
-            this.tableLayoutPanel_Credits.Controls.Add(this.link_DarjuszProfile, 1, 2);
-            this.tableLayoutPanel_Credits.Controls.Add(this.link_LovromanProfile, 1, 3);
-            this.tableLayoutPanel_Credits.Controls.Add(this.link_Alex360Profile, 1, 4);
-            this.tableLayoutPanel_Credits.Controls.Add(this.lbl_ForgeRole, 0, 5);
-            this.tableLayoutPanel_Credits.Controls.Add(this.link_ForgeOnProfile, 1, 5);
-            this.tableLayoutPanel_Credits.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel_Credits.Location = new System.Drawing.Point(3, 197);
-            this.tableLayoutPanel_Credits.Name = "tableLayoutPanel_Credits";
-            this.tableLayoutPanel_Credits.RowCount = 6;
-            this.tableLayoutPanel_Credits.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel_Credits.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel_Credits.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel_Credits.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel_Credits.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel_Credits.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel_Credits.Size = new System.Drawing.Size(379, 189);
-            this.tableLayoutPanel_Credits.TabIndex = 2;
-            // 
-            // lbl_Credits
-            // 
-            this.lbl_Credits.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.lbl_Credits.AutoSize = true;
-            this.lbl_Credits.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_Credits.Location = new System.Drawing.Point(54, 29);
-            this.lbl_Credits.Name = "lbl_Credits";
-            this.lbl_Credits.Size = new System.Drawing.Size(81, 30);
-            this.lbl_Credits.TabIndex = 0;
-            this.lbl_Credits.Text = "Credits";
-            this.lbl_Credits.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lbl_Credits_Description
-            // 
-            this.lbl_Credits_Description.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.lbl_Credits_Description.AutoSize = true;
-            this.lbl_Credits_Description.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_Credits_Description.Location = new System.Drawing.Point(194, 7);
-            this.lbl_Credits_Description.Name = "lbl_Credits_Description";
-            this.lbl_Credits_Description.Size = new System.Drawing.Size(179, 75);
-            this.lbl_Credits_Description.TabIndex = 0;
-            this.lbl_Credits_Description.Text = "Thanks to these people this app was created:";
-            this.lbl_Credits_Description.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lbl_UnleashedRole
-            // 
-            this.lbl_UnleashedRole.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.lbl_UnleashedRole.AutoSize = true;
-            this.lbl_UnleashedRole.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_UnleashedRole.Location = new System.Drawing.Point(23, 89);
-            this.lbl_UnleashedRole.Name = "lbl_UnleashedRole";
-            this.lbl_UnleashedRole.Size = new System.Drawing.Size(143, 19);
-            this.lbl_UnleashedRole.TabIndex = 0;
-            this.lbl_UnleashedRole.Text = "CustomsForge owner:";
-            this.lbl_UnleashedRole.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // lbl_DarjuszRole
-            // 
-            this.lbl_DarjuszRole.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.lbl_DarjuszRole.AutoSize = true;
-            this.lbl_DarjuszRole.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_DarjuszRole.Location = new System.Drawing.Point(41, 109);
-            this.lbl_DarjuszRole.Name = "lbl_DarjuszRole";
-            this.lbl_DarjuszRole.Size = new System.Drawing.Size(107, 19);
-            this.lbl_DarjuszRole.TabIndex = 0;
-            this.lbl_DarjuszRole.Text = "Lead Developer:";
-            this.lbl_DarjuszRole.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // lbl_LovromanRole
-            // 
-            this.lbl_LovromanRole.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.lbl_LovromanRole.AutoSize = true;
-            this.lbl_LovromanRole.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_LovromanRole.Location = new System.Drawing.Point(57, 129);
-            this.lbl_LovromanRole.Name = "lbl_LovromanRole";
-            this.lbl_LovromanRole.Size = new System.Drawing.Size(74, 19);
-            this.lbl_LovromanRole.TabIndex = 0;
-            this.lbl_LovromanRole.Text = "Developer:";
-            this.lbl_LovromanRole.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // lbl_AlexRole
-            // 
-            this.lbl_AlexRole.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.lbl_AlexRole.AutoSize = true;
-            this.lbl_AlexRole.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_AlexRole.Location = new System.Drawing.Point(57, 149);
-            this.lbl_AlexRole.Name = "lbl_AlexRole";
-            this.lbl_AlexRole.Size = new System.Drawing.Size(74, 19);
-            this.lbl_AlexRole.TabIndex = 0;
-            this.lbl_AlexRole.Text = "Developer:";
-            this.lbl_AlexRole.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lbl_AlexRole.Visible = false;
-            // 
-            // link_UnleashedProfile
-            // 
-            this.link_UnleashedProfile.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.link_UnleashedProfile.AutoSize = true;
-            this.link_UnleashedProfile.LinkColor = System.Drawing.Color.Red;
-            this.link_UnleashedProfile.Location = new System.Drawing.Point(249, 92);
-            this.link_UnleashedProfile.Name = "link_UnleashedProfile";
-            this.link_UnleashedProfile.Size = new System.Drawing.Size(70, 13);
-            this.link_UnleashedProfile.TabIndex = 1;
-            this.link_UnleashedProfile.TabStop = true;
-            this.link_UnleashedProfile.Text = "Unleashed2k";
-            this.link_UnleashedProfile.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.link_UnleashedProfile.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.link_UnleashedProfile_LinkClicked);
-            // 
-            // link_DarjuszProfile
-            // 
-            this.link_DarjuszProfile.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.link_DarjuszProfile.AutoSize = true;
-            this.link_DarjuszProfile.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.link_DarjuszProfile.Location = new System.Drawing.Point(263, 112);
-            this.link_DarjuszProfile.Name = "link_DarjuszProfile";
-            this.link_DarjuszProfile.Size = new System.Drawing.Size(42, 13);
-            this.link_DarjuszProfile.TabIndex = 1;
-            this.link_DarjuszProfile.TabStop = true;
-            this.link_DarjuszProfile.Text = "Darjusz";
-            this.link_DarjuszProfile.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.link_DarjuszProfile.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.link_DarjuszProfile_LinkClicked);
-            // 
-            // link_LovromanProfile
-            // 
-            this.link_LovromanProfile.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.link_LovromanProfile.AutoSize = true;
-            this.link_LovromanProfile.Location = new System.Drawing.Point(257, 132);
-            this.link_LovromanProfile.Name = "link_LovromanProfile";
-            this.link_LovromanProfile.Size = new System.Drawing.Size(54, 13);
-            this.link_LovromanProfile.TabIndex = 1;
-            this.link_LovromanProfile.TabStop = true;
-            this.link_LovromanProfile.Text = "Lovroman";
-            this.link_LovromanProfile.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.link_LovromanProfile.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.link_LovromanProfile_LinkClicked);
-            // 
-            // link_Alex360Profile
-            // 
-            this.link_Alex360Profile.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.link_Alex360Profile.AutoSize = true;
-            this.link_Alex360Profile.Location = new System.Drawing.Point(261, 152);
-            this.link_Alex360Profile.Name = "link_Alex360Profile";
-            this.link_Alex360Profile.Size = new System.Drawing.Size(45, 13);
-            this.link_Alex360Profile.TabIndex = 1;
-            this.link_Alex360Profile.TabStop = true;
-            this.link_Alex360Profile.Text = "Alex360";
-            this.link_Alex360Profile.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.link_Alex360Profile.Visible = false;
-            this.link_Alex360Profile.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.link_Alex360Profile_LinkClicked);
-            // 
-            // lbl_ForgeRole
-            // 
-            this.lbl_ForgeRole.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.lbl_ForgeRole.AutoSize = true;
-            this.lbl_ForgeRole.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_ForgeRole.Location = new System.Drawing.Point(70, 169);
-            this.lbl_ForgeRole.Name = "lbl_ForgeRole";
-            this.lbl_ForgeRole.Size = new System.Drawing.Size(49, 19);
-            this.lbl_ForgeRole.TabIndex = 0;
-            this.lbl_ForgeRole.Text = "Tester:";
-            this.lbl_ForgeRole.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // link_ForgeOnProfile
-            // 
-            this.link_ForgeOnProfile.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.link_ForgeOnProfile.AutoSize = true;
-            this.link_ForgeOnProfile.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.link_ForgeOnProfile.Location = new System.Drawing.Point(260, 172);
-            this.link_ForgeOnProfile.Name = "link_ForgeOnProfile";
-            this.link_ForgeOnProfile.Size = new System.Drawing.Size(48, 13);
-            this.link_ForgeOnProfile.TabIndex = 1;
-            this.link_ForgeOnProfile.TabStop = true;
-            this.link_ForgeOnProfile.Text = "ForgeOn";
-            this.link_ForgeOnProfile.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.link_ForgeOnProfile.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.link_ForgeOnProfile_LinkClicked);
             // 
             // pictureBoxCF
             // 
@@ -998,7 +807,7 @@
             this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.linkDontainsPage, 1, 4);
             this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.linkOpenCFVideos, 1, 5);
             this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.linkCFFAQ, 1, 6);
-            this.tableLayoutPanel_CFQuicklinks.Location = new System.Drawing.Point(6, 19);
+            this.tableLayoutPanel_CFQuicklinks.Location = new System.Drawing.Point(10, 22);
             this.tableLayoutPanel_CFQuicklinks.Name = "tableLayoutPanel_CFQuicklinks";
             this.tableLayoutPanel_CFQuicklinks.RowCount = 8;
             this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
@@ -1010,7 +819,7 @@
             this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel_CFQuicklinks.Size = new System.Drawing.Size(367, 164);
+            this.tableLayoutPanel_CFQuicklinks.Size = new System.Drawing.Size(367, 143);
             this.tableLayoutPanel_CFQuicklinks.TabIndex = 4;
             // 
             // lbl_OpenOldSearch
@@ -1107,6 +916,7 @@
             this.linkOpenCFHomePage.TabIndex = 9;
             this.linkOpenCFHomePage.TabStop = true;
             this.linkOpenCFHomePage.Text = "CF Home page";
+            this.linkOpenCFHomePage.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkOpenCFHomePage_LinkClicked);
             // 
             // linkOpenIgnition
             // 
@@ -1118,6 +928,7 @@
             this.linkOpenIgnition.TabIndex = 10;
             this.linkOpenIgnition.TabStop = true;
             this.linkOpenIgnition.Text = "Ignition";
+            this.linkOpenIgnition.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkOpenIgnition_LinkClicked);
             // 
             // linkOpenOldSearch
             // 
@@ -1129,6 +940,7 @@
             this.linkOpenOldSearch.TabIndex = 11;
             this.linkOpenOldSearch.TabStop = true;
             this.linkOpenOldSearch.Text = "Old search";
+            this.linkOpenOldSearch.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkOpenOldSearch_LinkClicked);
             // 
             // linkOpenRequests
             // 
@@ -1140,6 +952,7 @@
             this.linkOpenRequests.TabIndex = 12;
             this.linkOpenRequests.TabStop = true;
             this.linkOpenRequests.Text = "Requests";
+            this.linkOpenRequests.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkOpenRequests_LinkClicked);
             // 
             // linkDontainsPage
             // 
@@ -1151,6 +964,7 @@
             this.linkDontainsPage.TabIndex = 13;
             this.linkDontainsPage.TabStop = true;
             this.linkDontainsPage.Text = "Donations";
+            this.linkDontainsPage.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkDonationsPage_LinkClicked);
             // 
             // linkOpenCFVideos
             // 
@@ -1162,6 +976,7 @@
             this.linkOpenCFVideos.TabIndex = 14;
             this.linkOpenCFVideos.TabStop = true;
             this.linkOpenCFVideos.Text = "CF videos";
+            this.linkOpenCFVideos.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkOpenCFVideos_LinkClicked);
             // 
             // linkCFFAQ
             // 
@@ -1173,11 +988,43 @@
             this.linkCFFAQ.TabIndex = 15;
             this.linkCFFAQ.TabStop = true;
             this.linkCFFAQ.Text = "CF FAQ";
+            this.linkCFFAQ.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkCFFAQ_LinkClicked);
             // 
-            // bWorker
+            // panel6
             // 
-            this.bWorker.WorkerReportsProgress = true;
-            this.bWorker.WorkerSupportsCancellation = true;
+            this.panel6.Controls.Add(this.lbl_AppVersion);
+            this.panel6.Controls.Add(this.link_CFManager);
+            this.panel6.Controls.Add(this.lnkAboutCF);
+            this.panel6.Location = new System.Drawing.Point(388, 3);
+            this.panel6.Name = "panel6";
+            this.panel6.Size = new System.Drawing.Size(379, 188);
+            this.panel6.TabIndex = 4;
+            // 
+            // link_CFManager
+            // 
+            this.link_CFManager.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.link_CFManager.AutoSize = true;
+            this.link_CFManager.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.link_CFManager.Location = new System.Drawing.Point(123, 97);
+            this.link_CFManager.Name = "link_CFManager";
+            this.link_CFManager.Size = new System.Drawing.Size(154, 25);
+            this.link_CFManager.TabIndex = 2;
+            this.link_CFManager.TabStop = true;
+            this.link_CFManager.Text = "CFManager 2015";
+            this.link_CFManager.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.link_CFManager_LinkClicked);
+            // 
+            // lnkAboutCF
+            // 
+            this.lnkAboutCF.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lnkAboutCF.AutoSize = true;
+            this.lnkAboutCF.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lnkAboutCF.Location = new System.Drawing.Point(111, 44);
+            this.lnkAboutCF.Name = "lnkAboutCF";
+            this.lnkAboutCF.Size = new System.Drawing.Size(177, 25);
+            this.lnkAboutCF.TabIndex = 1;
+            this.lnkAboutCF.TabStop = true;
+            this.lnkAboutCF.Text = "CustomsForge 2015";
+            this.lnkAboutCF.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkAboutCF_LinkClicked);
             // 
             // timerMain
             // 
@@ -1270,6 +1117,203 @@
             this.closeToolStripMenuItem.Text = "Close";
             this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.tableLayoutPanel_Credits);
+            this.groupBox1.Location = new System.Drawing.Point(3, 197);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(379, 189);
+            this.groupBox1.TabIndex = 5;
+            this.groupBox1.TabStop = false;
+            // 
+            // tableLayoutPanel_Credits
+            // 
+            this.tableLayoutPanel_Credits.ColumnCount = 2;
+            this.tableLayoutPanel_Credits.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel_Credits.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel_Credits.Controls.Add(this.lbl_Credits, 0, 0);
+            this.tableLayoutPanel_Credits.Controls.Add(this.lbl_Credits_Description, 1, 0);
+            this.tableLayoutPanel_Credits.Controls.Add(this.lbl_UnleashedRole, 0, 1);
+            this.tableLayoutPanel_Credits.Controls.Add(this.lbl_DarjuszRole, 0, 2);
+            this.tableLayoutPanel_Credits.Controls.Add(this.lbl_LovromanRole, 0, 3);
+            this.tableLayoutPanel_Credits.Controls.Add(this.lbl_AlexRole, 0, 4);
+            this.tableLayoutPanel_Credits.Controls.Add(this.link_UnleashedProfile, 1, 1);
+            this.tableLayoutPanel_Credits.Controls.Add(this.link_DarjuszProfile, 1, 2);
+            this.tableLayoutPanel_Credits.Controls.Add(this.link_LovromanProfile, 1, 3);
+            this.tableLayoutPanel_Credits.Controls.Add(this.link_Alex360Profile, 1, 4);
+            this.tableLayoutPanel_Credits.Controls.Add(this.lbl_ForgeRole, 0, 5);
+            this.tableLayoutPanel_Credits.Controls.Add(this.link_ForgeOnProfile, 1, 5);
+            this.tableLayoutPanel_Credits.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel_Credits.Location = new System.Drawing.Point(3, 16);
+            this.tableLayoutPanel_Credits.Name = "tableLayoutPanel_Credits";
+            this.tableLayoutPanel_Credits.RowCount = 6;
+            this.tableLayoutPanel_Credits.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel_Credits.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel_Credits.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel_Credits.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel_Credits.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel_Credits.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel_Credits.Size = new System.Drawing.Size(373, 170);
+            this.tableLayoutPanel_Credits.TabIndex = 3;
+            // 
+            // lbl_Credits
+            // 
+            this.lbl_Credits.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lbl_Credits.AutoSize = true;
+            this.lbl_Credits.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_Credits.Location = new System.Drawing.Point(52, 20);
+            this.lbl_Credits.Name = "lbl_Credits";
+            this.lbl_Credits.Size = new System.Drawing.Size(81, 30);
+            this.lbl_Credits.TabIndex = 0;
+            this.lbl_Credits.Text = "Credits";
+            this.lbl_Credits.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbl_Credits_Description
+            // 
+            this.lbl_Credits_Description.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lbl_Credits_Description.AutoSize = true;
+            this.lbl_Credits_Description.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_Credits_Description.Location = new System.Drawing.Point(190, 0);
+            this.lbl_Credits_Description.Name = "lbl_Credits_Description";
+            this.lbl_Credits_Description.Size = new System.Drawing.Size(179, 70);
+            this.lbl_Credits_Description.TabIndex = 0;
+            this.lbl_Credits_Description.Text = "Thanks to these people this app was created:";
+            this.lbl_Credits_Description.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbl_UnleashedRole
+            // 
+            this.lbl_UnleashedRole.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lbl_UnleashedRole.AutoSize = true;
+            this.lbl_UnleashedRole.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_UnleashedRole.Location = new System.Drawing.Point(21, 70);
+            this.lbl_UnleashedRole.Name = "lbl_UnleashedRole";
+            this.lbl_UnleashedRole.Size = new System.Drawing.Size(143, 19);
+            this.lbl_UnleashedRole.TabIndex = 0;
+            this.lbl_UnleashedRole.Text = "CustomsForge owner:";
+            this.lbl_UnleashedRole.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // lbl_DarjuszRole
+            // 
+            this.lbl_DarjuszRole.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lbl_DarjuszRole.AutoSize = true;
+            this.lbl_DarjuszRole.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_DarjuszRole.Location = new System.Drawing.Point(39, 90);
+            this.lbl_DarjuszRole.Name = "lbl_DarjuszRole";
+            this.lbl_DarjuszRole.Size = new System.Drawing.Size(107, 19);
+            this.lbl_DarjuszRole.TabIndex = 0;
+            this.lbl_DarjuszRole.Text = "Lead Developer:";
+            this.lbl_DarjuszRole.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // lbl_LovromanRole
+            // 
+            this.lbl_LovromanRole.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lbl_LovromanRole.AutoSize = true;
+            this.lbl_LovromanRole.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_LovromanRole.Location = new System.Drawing.Point(56, 110);
+            this.lbl_LovromanRole.Name = "lbl_LovromanRole";
+            this.lbl_LovromanRole.Size = new System.Drawing.Size(74, 19);
+            this.lbl_LovromanRole.TabIndex = 0;
+            this.lbl_LovromanRole.Text = "Developer:";
+            this.lbl_LovromanRole.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // lbl_AlexRole
+            // 
+            this.lbl_AlexRole.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lbl_AlexRole.AutoSize = true;
+            this.lbl_AlexRole.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_AlexRole.Location = new System.Drawing.Point(56, 130);
+            this.lbl_AlexRole.Name = "lbl_AlexRole";
+            this.lbl_AlexRole.Size = new System.Drawing.Size(74, 19);
+            this.lbl_AlexRole.TabIndex = 0;
+            this.lbl_AlexRole.Text = "Developer:";
+            this.lbl_AlexRole.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lbl_AlexRole.Visible = false;
+            // 
+            // link_UnleashedProfile
+            // 
+            this.link_UnleashedProfile.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.link_UnleashedProfile.AutoSize = true;
+            this.link_UnleashedProfile.LinkColor = System.Drawing.Color.Red;
+            this.link_UnleashedProfile.Location = new System.Drawing.Point(244, 73);
+            this.link_UnleashedProfile.Name = "link_UnleashedProfile";
+            this.link_UnleashedProfile.Size = new System.Drawing.Size(70, 13);
+            this.link_UnleashedProfile.TabIndex = 1;
+            this.link_UnleashedProfile.TabStop = true;
+            this.link_UnleashedProfile.Text = "Unleashed2k";
+            this.link_UnleashedProfile.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // link_DarjuszProfile
+            // 
+            this.link_DarjuszProfile.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.link_DarjuszProfile.AutoSize = true;
+            this.link_DarjuszProfile.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.link_DarjuszProfile.Location = new System.Drawing.Point(258, 93);
+            this.link_DarjuszProfile.Name = "link_DarjuszProfile";
+            this.link_DarjuszProfile.Size = new System.Drawing.Size(42, 13);
+            this.link_DarjuszProfile.TabIndex = 1;
+            this.link_DarjuszProfile.TabStop = true;
+            this.link_DarjuszProfile.Text = "Darjusz";
+            this.link_DarjuszProfile.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // link_LovromanProfile
+            // 
+            this.link_LovromanProfile.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.link_LovromanProfile.AutoSize = true;
+            this.link_LovromanProfile.Location = new System.Drawing.Point(252, 113);
+            this.link_LovromanProfile.Name = "link_LovromanProfile";
+            this.link_LovromanProfile.Size = new System.Drawing.Size(54, 13);
+            this.link_LovromanProfile.TabIndex = 1;
+            this.link_LovromanProfile.TabStop = true;
+            this.link_LovromanProfile.Text = "Lovroman";
+            this.link_LovromanProfile.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // link_Alex360Profile
+            // 
+            this.link_Alex360Profile.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.link_Alex360Profile.AutoSize = true;
+            this.link_Alex360Profile.Location = new System.Drawing.Point(257, 133);
+            this.link_Alex360Profile.Name = "link_Alex360Profile";
+            this.link_Alex360Profile.Size = new System.Drawing.Size(45, 13);
+            this.link_Alex360Profile.TabIndex = 1;
+            this.link_Alex360Profile.TabStop = true;
+            this.link_Alex360Profile.Text = "Alex360";
+            this.link_Alex360Profile.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.link_Alex360Profile.Visible = false;
+            // 
+            // lbl_ForgeRole
+            // 
+            this.lbl_ForgeRole.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lbl_ForgeRole.AutoSize = true;
+            this.lbl_ForgeRole.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_ForgeRole.Location = new System.Drawing.Point(68, 150);
+            this.lbl_ForgeRole.Name = "lbl_ForgeRole";
+            this.lbl_ForgeRole.Size = new System.Drawing.Size(49, 19);
+            this.lbl_ForgeRole.TabIndex = 0;
+            this.lbl_ForgeRole.Text = "Tester:";
+            this.lbl_ForgeRole.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // link_ForgeOnProfile
+            // 
+            this.link_ForgeOnProfile.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.link_ForgeOnProfile.AutoSize = true;
+            this.link_ForgeOnProfile.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.link_ForgeOnProfile.Location = new System.Drawing.Point(255, 153);
+            this.link_ForgeOnProfile.Name = "link_ForgeOnProfile";
+            this.link_ForgeOnProfile.Size = new System.Drawing.Size(48, 13);
+            this.link_ForgeOnProfile.TabIndex = 1;
+            this.link_ForgeOnProfile.TabStop = true;
+            this.link_ForgeOnProfile.Text = "ForgeOn";
+            this.link_ForgeOnProfile.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbl_AppVersion
+            // 
+            this.lbl_AppVersion.AutoSize = true;
+            this.lbl_AppVersion.Location = new System.Drawing.Point(157, 156);
+            this.lbl_AppVersion.Name = "lbl_AppVersion";
+            this.lbl_AppVersion.Size = new System.Drawing.Size(45, 13);
+            this.lbl_AppVersion.TabIndex = 3;
+            this.lbl_AppVersion.Text = "Version:";
+            // 
             // dgvSongs
             // 
             this.dgvSongs.AllowUserToAddRows = false;
@@ -1307,6 +1351,11 @@
             this.colSelect.Name = "colSelect";
             this.colSelect.TrueValue = "true";
             this.colSelect.Visible = false;
+            // 
+            // bWorker
+            // 
+            this.bWorker.WorkerReportsProgress = true;
+            this.bWorker.WorkerSupportsCancellation = true;
             // 
             // frmMain
             // 
@@ -1347,16 +1396,18 @@
             this.tlpSettings_Wrapper.PerformLayout();
             this.tpAbout.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel1.PerformLayout();
-            this.tableLayoutPanel_Credits.ResumeLayout(false);
-            this.tableLayoutPanel_Credits.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCF)).EndInit();
             this.group_CFquickLinks.ResumeLayout(false);
             this.tableLayoutPanel_CFQuicklinks.ResumeLayout(false);
             this.tableLayoutPanel_CFQuicklinks.PerformLayout();
+            this.panel6.ResumeLayout(false);
+            this.panel6.PerformLayout();
             this.statusStripMain.ResumeLayout(false);
             this.statusStripMain.PerformLayout();
             this.contextMenuStrip_Tray.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            this.tableLayoutPanel_Credits.ResumeLayout(false);
+            this.tableLayoutPanel_Credits.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSongs)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -1376,8 +1427,6 @@
         private System.Windows.Forms.Timer timerMain;
         private System.Windows.Forms.StatusStrip statusStripMain;
         private System.Windows.Forms.ToolStripProgressBar toolStripProgressBarMain;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.LinkLabel lnkAboutCF;
         private System.Windows.Forms.Timer timerAutoUpdate;
         private System.Windows.Forms.TableLayoutPanel tlpSettings_Wrapper;
         private System.Windows.Forms.Button btnSettingsSave;
@@ -1408,21 +1457,7 @@
         private System.Windows.Forms.ColumnHeader colDupeAlbum;
         private System.Windows.Forms.ColumnHeader colDupeSongPath;
         private System.Windows.Forms.Label lbl_Search;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel_Credits;
-        private System.Windows.Forms.Label lbl_Credits;
-        private System.Windows.Forms.Label lbl_Credits_Description;
-        private System.Windows.Forms.Label lbl_UnleashedRole;
-        private System.Windows.Forms.Label lbl_DarjuszRole;
-        private System.Windows.Forms.Label lbl_LovromanRole;
-        private System.Windows.Forms.Label lbl_AlexRole;
-        private System.Windows.Forms.LinkLabel link_UnleashedProfile;
-        private System.Windows.Forms.LinkLabel link_DarjuszProfile;
-        private System.Windows.Forms.LinkLabel link_LovromanProfile;
-        private System.Windows.Forms.LinkLabel link_Alex360Profile;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog_SettingsRSPath;
-        private System.Windows.Forms.PictureBox pictureBoxCF;
-        private System.Windows.Forms.Label lbl_ForgeRole;
-        private System.Windows.Forms.LinkLabel link_ForgeOnProfile;
         private System.Windows.Forms.CheckBox checkRescanOnStartup;
         private System.Windows.Forms.TabPage tpUtilities;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
@@ -1452,6 +1487,8 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel_DisabledCounter;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelSpringer;
         private System.Windows.Forms.DataGridViewCheckBoxColumn colSelect;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.PictureBox pictureBoxCF;
         private System.Windows.Forms.GroupBox group_CFquickLinks;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel_CFQuicklinks;
         private System.Windows.Forms.Label lbl_OpenOldSearch;
@@ -1468,6 +1505,24 @@
         private System.Windows.Forms.LinkLabel linkDontainsPage;
         private System.Windows.Forms.LinkLabel linkOpenCFVideos;
         private System.Windows.Forms.LinkLabel linkCFFAQ;
+        private System.Windows.Forms.Panel panel6;
+        private System.Windows.Forms.LinkLabel link_CFManager;
+        private System.Windows.Forms.LinkLabel lnkAboutCF;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel_Credits;
+        private System.Windows.Forms.Label lbl_Credits;
+        private System.Windows.Forms.Label lbl_Credits_Description;
+        private System.Windows.Forms.Label lbl_UnleashedRole;
+        private System.Windows.Forms.Label lbl_DarjuszRole;
+        private System.Windows.Forms.Label lbl_LovromanRole;
+        private System.Windows.Forms.Label lbl_AlexRole;
+        private System.Windows.Forms.LinkLabel link_UnleashedProfile;
+        private System.Windows.Forms.LinkLabel link_DarjuszProfile;
+        private System.Windows.Forms.LinkLabel link_LovromanProfile;
+        private System.Windows.Forms.LinkLabel link_Alex360Profile;
+        private System.Windows.Forms.Label lbl_ForgeRole;
+        private System.Windows.Forms.LinkLabel link_ForgeOnProfile;
+        private System.Windows.Forms.Label lbl_AppVersion;
     }
 }
 

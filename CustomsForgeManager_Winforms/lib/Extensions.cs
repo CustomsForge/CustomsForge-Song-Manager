@@ -11,6 +11,7 @@ using System.Xml.Linq;
 using CustomsForgeManager_Winforms.Controls;
 using CustomsForgeManager_Winforms.lib;
 using System.Net;
+using System.Reflection;
 
 namespace CustomsForgeManager_Winforms.Utilities
 {
@@ -61,7 +62,6 @@ namespace CustomsForgeManager_Winforms.Utilities
             
         }
 
-
         public static string CleanForAPI(this string text)
         {
             //return text.Replace("/", "_"); //.Replace("\\","");
@@ -91,6 +91,15 @@ namespace CustomsForgeManager_Winforms.Utilities
                 song.IgnitionAuthor = Ignition.GetDLCInfoFromResponse(response, "name");
             };
             client.DownloadStringAsync(new Uri(url));
+        }
+
+        public static string GetVersionFromFileName(this SongData song)
+        {
+            if (song.FileName.Contains("_v"))
+                return song.FileName.Substring(song.FileName.IndexOf("_v")+2, (song.FileName.IndexOf("_v") + 2) - song.FileName.IndexOf('_', song.FileName.IndexOf('_') + 1)).Replace("_", "");
+            else
+                return "";
+           // return song.Path.Split(new string[] { "_v", "_"}, StringSplitOptions.None)[1];  
         }
     }
 }
