@@ -96,7 +96,7 @@ namespace CustomsForgeManager_Winforms.Utilities
         public static string GetVersionFromFileName(this SongData song)
         {
             if (song.FileName.Contains("_v"))
-                return song.FileName.Substring(song.FileName.IndexOf("_v")+2, (song.FileName.IndexOf("_v") + 2) - song.FileName.IndexOf('_', song.FileName.IndexOf('_') + 1)).Replace("_", "");
+                return song.FileName.Split(new string[] { "_v", "_p" }, StringSplitOptions.None)[1].Replace("_DD", "").Replace("_", ".");
             else
                 return "";
            // return song.Path.Split(new string[] { "_v", "_"}, StringSplitOptions.None)[1];  

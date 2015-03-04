@@ -10,21 +10,26 @@ using System.Windows.Forms;
 
 namespace CustomsForgeManager_Winforms.Forms
 {
-    public partial class frmBBCode : Form
+    public partial class frmSongListExport : Form
     {
-        public frmBBCode()
+        public frmSongListExport()
         {
             InitializeComponent();
         }
 
-        public string BBCode 
+        public string SongList
         {
-            set { txtBBCode.Text = value; }
+            set { txtSongList.Text = value; }
+        }
+
+        public string FormTitle
+        {
+            set { this.Text = value; }
         }
 
         private void btnCopyToClipboard_Click(object sender, EventArgs e)
         {
-            Clipboard.SetText(txtBBCode.Text);
+            Clipboard.SetText(txtSongList.Text);
         }
     }
 }

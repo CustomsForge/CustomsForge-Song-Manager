@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.tlp_MainForm_Wrappper = new System.Windows.Forms.TableLayoutPanel();
             this.gbLog = new System.Windows.Forms.GroupBox();
             this.tbLog = new System.Windows.Forms.TextBox();
@@ -39,12 +39,17 @@
             this.tlpSongListWrapper = new System.Windows.Forms.TableLayoutPanel();
             this.panelSongListButtons = new System.Windows.Forms.Panel();
             this.btnBatchRenamer = new System.Windows.Forms.Button();
+            this.radioBtn_ExportToHTML = new System.Windows.Forms.RadioButton();
+            this.radioBtn_ExportToCSV = new System.Windows.Forms.RadioButton();
+            this.btnExportSongList = new System.Windows.Forms.Button();
+            this.lbl_ExportTo = new System.Windows.Forms.Label();
+            this.radioBtn_ExportToBBCode = new System.Windows.Forms.RadioButton();
             this.btnDisableEnableSongs = new System.Windows.Forms.Button();
-            this.btnSongsToBBCode = new System.Windows.Forms.Button();
-            this.btnSongsToCSV = new System.Windows.Forms.Button();
             this.btnCheckAllForUpdates = new System.Windows.Forms.Button();
             this.btnRescan = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.dgvSongs = new CustomsForgeManager_Winforms.Controls.RADataGridView();
+            this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.contextMenuStrip_MainManager = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.showDLCInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openDLCPageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -105,21 +110,9 @@
             this.linkOpenCFVideos = new System.Windows.Forms.LinkLabel();
             this.linkCFFAQ = new System.Windows.Forms.LinkLabel();
             this.panel6 = new System.Windows.Forms.Panel();
+            this.lbl_AppVersion = new System.Windows.Forms.Label();
             this.link_CFManager = new System.Windows.Forms.LinkLabel();
             this.lnkAboutCF = new System.Windows.Forms.LinkLabel();
-            this.timerMain = new System.Windows.Forms.Timer(this.components);
-            this.statusStripMain = new System.Windows.Forms.StatusStrip();
-            this.toolStripProgressBarMain = new System.Windows.Forms.ToolStripProgressBar();
-            this.toolStripStatusLabel_Main = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel_MainCancel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabelSpringer = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel_DisabledCounter = new System.Windows.Forms.ToolStripStatusLabel();
-            this.timerAutoUpdate = new System.Windows.Forms.Timer(this.components);
-            this.folderBrowserDialog_SettingsRSPath = new System.Windows.Forms.FolderBrowserDialog();
-            this.sfdSongListToCSV = new System.Windows.Forms.SaveFileDialog();
-            this.notifyIcon_Main = new System.Windows.Forms.NotifyIcon(this.components);
-            this.contextMenuStrip_Tray = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel_Credits = new System.Windows.Forms.TableLayoutPanel();
             this.lbl_Credits = new System.Windows.Forms.Label();
@@ -134,10 +127,21 @@
             this.link_Alex360Profile = new System.Windows.Forms.LinkLabel();
             this.lbl_ForgeRole = new System.Windows.Forms.Label();
             this.link_ForgeOnProfile = new System.Windows.Forms.LinkLabel();
-            this.lbl_AppVersion = new System.Windows.Forms.Label();
-            this.dgvSongs = new CustomsForgeManager_Winforms.Controls.RADataGridView();
-            this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.timerMain = new System.Windows.Forms.Timer(this.components);
+            this.statusStripMain = new System.Windows.Forms.StatusStrip();
+            this.toolStripProgressBarMain = new System.Windows.Forms.ToolStripProgressBar();
+            this.toolStripStatusLabel_Main = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel_MainCancel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabelSpringer = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel_DisabledCounter = new System.Windows.Forms.ToolStripStatusLabel();
+            this.timerAutoUpdate = new System.Windows.Forms.Timer(this.components);
+            this.folderBrowserDialog_SettingsRSPath = new System.Windows.Forms.FolderBrowserDialog();
+            this.sfdSongListToCSV = new System.Windows.Forms.SaveFileDialog();
+            this.notifyIcon_Main = new System.Windows.Forms.NotifyIcon(this.components);
+            this.contextMenuStrip_Tray = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bWorker = new CustomsForgeManager_Winforms.Controls.AbortableBackgroundWorker();
+            this.toolStripStatusLabel_ClearLog = new System.Windows.Forms.ToolStripStatusLabel();
             this.tlp_MainForm_Wrappper.SuspendLayout();
             this.gbLog.SuspendLayout();
             this.tcMain.SuspendLayout();
@@ -145,6 +149,7 @@
             this.tlpSongListWrapper.SuspendLayout();
             this.panelSongListButtons.SuspendLayout();
             this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSongs)).BeginInit();
             this.contextMenuStrip_MainManager.SuspendLayout();
             this.panel3.SuspendLayout();
             this.tpDuplicates.SuspendLayout();
@@ -162,11 +167,10 @@
             this.group_CFquickLinks.SuspendLayout();
             this.tableLayoutPanel_CFQuicklinks.SuspendLayout();
             this.panel6.SuspendLayout();
-            this.statusStripMain.SuspendLayout();
-            this.contextMenuStrip_Tray.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tableLayoutPanel_Credits.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvSongs)).BeginInit();
+            this.statusStripMain.SuspendLayout();
+            this.contextMenuStrip_Tray.SuspendLayout();
             this.SuspendLayout();
             // 
             // tlp_MainForm_Wrappper
@@ -251,9 +255,12 @@
             // panelSongListButtons
             // 
             this.panelSongListButtons.Controls.Add(this.btnBatchRenamer);
+            this.panelSongListButtons.Controls.Add(this.radioBtn_ExportToHTML);
+            this.panelSongListButtons.Controls.Add(this.radioBtn_ExportToCSV);
+            this.panelSongListButtons.Controls.Add(this.btnExportSongList);
+            this.panelSongListButtons.Controls.Add(this.lbl_ExportTo);
+            this.panelSongListButtons.Controls.Add(this.radioBtn_ExportToBBCode);
             this.panelSongListButtons.Controls.Add(this.btnDisableEnableSongs);
-            this.panelSongListButtons.Controls.Add(this.btnSongsToBBCode);
-            this.panelSongListButtons.Controls.Add(this.btnSongsToCSV);
             this.panelSongListButtons.Controls.Add(this.btnCheckAllForUpdates);
             this.panelSongListButtons.Controls.Add(this.btnRescan);
             this.panelSongListButtons.Location = new System.Drawing.Point(3, 334);
@@ -264,46 +271,77 @@
             // btnBatchRenamer
             // 
             this.btnBatchRenamer.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnBatchRenamer.Location = new System.Drawing.Point(390, 15);
+            this.btnBatchRenamer.Location = new System.Drawing.Point(369, 15);
             this.btnBatchRenamer.Name = "btnBatchRenamer";
-            this.btnBatchRenamer.Size = new System.Drawing.Size(120, 23);
+            this.btnBatchRenamer.Size = new System.Drawing.Size(91, 23);
             this.btnBatchRenamer.TabIndex = 14;
             this.btnBatchRenamer.Text = "Batch Renamer";
             this.btnBatchRenamer.UseVisualStyleBackColor = true;
             this.btnBatchRenamer.Click += new System.EventHandler(this.btnBatchRenamer_Click);
             // 
+            // radioBtn_ExportToHTML
+            // 
+            this.radioBtn_ExportToHTML.AutoSize = true;
+            this.radioBtn_ExportToHTML.Location = new System.Drawing.Point(641, 18);
+            this.radioBtn_ExportToHTML.Name = "radioBtn_ExportToHTML";
+            this.radioBtn_ExportToHTML.Size = new System.Drawing.Size(55, 17);
+            this.radioBtn_ExportToHTML.TabIndex = 18;
+            this.radioBtn_ExportToHTML.TabStop = true;
+            this.radioBtn_ExportToHTML.Text = "HTML";
+            this.radioBtn_ExportToHTML.UseVisualStyleBackColor = true;
+            // 
+            // radioBtn_ExportToCSV
+            // 
+            this.radioBtn_ExportToCSV.AutoSize = true;
+            this.radioBtn_ExportToCSV.Location = new System.Drawing.Point(589, 18);
+            this.radioBtn_ExportToCSV.Name = "radioBtn_ExportToCSV";
+            this.radioBtn_ExportToCSV.Size = new System.Drawing.Size(46, 17);
+            this.radioBtn_ExportToCSV.TabIndex = 17;
+            this.radioBtn_ExportToCSV.TabStop = true;
+            this.radioBtn_ExportToCSV.Text = "CSV";
+            this.radioBtn_ExportToCSV.UseVisualStyleBackColor = true;
+            // 
+            // btnExportSongList
+            // 
+            this.btnExportSongList.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnExportSongList.Location = new System.Drawing.Point(697, 15);
+            this.btnExportSongList.Name = "btnExportSongList";
+            this.btnExportSongList.Size = new System.Drawing.Size(55, 23);
+            this.btnExportSongList.TabIndex = 12;
+            this.btnExportSongList.Text = "Export";
+            this.btnExportSongList.UseVisualStyleBackColor = true;
+            this.btnExportSongList.Click += new System.EventHandler(this.btnExportSongList_Click);
+            // 
+            // lbl_ExportTo
+            // 
+            this.lbl_ExportTo.AutoSize = true;
+            this.lbl_ExportTo.Location = new System.Drawing.Point(466, 20);
+            this.lbl_ExportTo.Name = "lbl_ExportTo";
+            this.lbl_ExportTo.Size = new System.Drawing.Size(52, 13);
+            this.lbl_ExportTo.TabIndex = 16;
+            this.lbl_ExportTo.Text = "Export to:";
+            // 
+            // radioBtn_ExportToBBCode
+            // 
+            this.radioBtn_ExportToBBCode.AutoSize = true;
+            this.radioBtn_ExportToBBCode.Location = new System.Drawing.Point(519, 18);
+            this.radioBtn_ExportToBBCode.Name = "radioBtn_ExportToBBCode";
+            this.radioBtn_ExportToBBCode.Size = new System.Drawing.Size(64, 17);
+            this.radioBtn_ExportToBBCode.TabIndex = 15;
+            this.radioBtn_ExportToBBCode.TabStop = true;
+            this.radioBtn_ExportToBBCode.Text = "BBCode";
+            this.radioBtn_ExportToBBCode.UseVisualStyleBackColor = true;
+            // 
             // btnDisableEnableSongs
             // 
             this.btnDisableEnableSongs.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnDisableEnableSongs.Location = new System.Drawing.Point(264, 15);
+            this.btnDisableEnableSongs.Location = new System.Drawing.Point(243, 15);
             this.btnDisableEnableSongs.Name = "btnDisableEnableSongs";
             this.btnDisableEnableSongs.Size = new System.Drawing.Size(120, 23);
             this.btnDisableEnableSongs.TabIndex = 14;
             this.btnDisableEnableSongs.Text = "Enable/disable songs";
             this.btnDisableEnableSongs.UseVisualStyleBackColor = true;
             this.btnDisableEnableSongs.Click += new System.EventHandler(this.btnDisableEnableSongs_Click);
-            // 
-            // btnSongsToBBCode
-            // 
-            this.btnSongsToBBCode.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnSongsToBBCode.Location = new System.Drawing.Point(641, 15);
-            this.btnSongsToBBCode.Name = "btnSongsToBBCode";
-            this.btnSongsToBBCode.Size = new System.Drawing.Size(120, 23);
-            this.btnSongsToBBCode.TabIndex = 13;
-            this.btnSongsToBBCode.Text = "Song list to BBCode";
-            this.btnSongsToBBCode.UseVisualStyleBackColor = true;
-            this.btnSongsToBBCode.Click += new System.EventHandler(this.btnSongsToBBCode_Click);
-            // 
-            // btnSongsToCSV
-            // 
-            this.btnSongsToCSV.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnSongsToCSV.Location = new System.Drawing.Point(515, 15);
-            this.btnSongsToCSV.Name = "btnSongsToCSV";
-            this.btnSongsToCSV.Size = new System.Drawing.Size(120, 23);
-            this.btnSongsToCSV.TabIndex = 12;
-            this.btnSongsToCSV.Text = "Song list to csv";
-            this.btnSongsToCSV.UseVisualStyleBackColor = true;
-            this.btnSongsToCSV.Click += new System.EventHandler(this.btnSongsToCSV_Click);
             // 
             // btnCheckAllForUpdates
             // 
@@ -334,6 +372,44 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(764, 290);
             this.panel2.TabIndex = 4;
+            // 
+            // dgvSongs
+            // 
+            this.dgvSongs.AllowUserToAddRows = false;
+            this.dgvSongs.AllowUserToOrderColumns = true;
+            this.dgvSongs.AllowUserToResizeRows = false;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.dgvSongs.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            this.dgvSongs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvSongs.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colSelect});
+            this.dgvSongs.ContextMenuStrip = this.contextMenuStrip_MainManager;
+            this.dgvSongs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvSongs.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnF2;
+            this.dgvSongs.GridColor = System.Drawing.SystemColors.ActiveCaption;
+            this.dgvSongs.Location = new System.Drawing.Point(0, 0);
+            this.dgvSongs.MultiSelect = false;
+            this.dgvSongs.Name = "dgvSongs";
+            this.dgvSongs.RowHeadersVisible = false;
+            this.dgvSongs.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvSongs.Size = new System.Drawing.Size(764, 290);
+            this.dgvSongs.TabIndex = 1;
+            this.dgvSongs.DataSourceChanged += new System.EventHandler(this.dgvSongs_DataSourceChanged);
+            this.dgvSongs.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSongs_CellDoubleClick);
+            this.dgvSongs.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongs_CellMouseDown);
+            this.dgvSongs.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongs_ColumnHeaderMouseClick);
+            this.dgvSongs.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvSongs_KeyDown);
+            // 
+            // colSelect
+            // 
+            this.colSelect.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.colSelect.FalseValue = "false";
+            this.colSelect.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.colSelect.HeaderText = "Select";
+            this.colSelect.IndeterminateValue = "false";
+            this.colSelect.Name = "colSelect";
+            this.colSelect.TrueValue = "true";
+            this.colSelect.Visible = false;
             // 
             // contextMenuStrip_MainManager
             // 
@@ -404,6 +480,8 @@
             // linkLblSelectAll
             // 
             this.linkLblSelectAll.AutoSize = true;
+            this.linkLblSelectAll.ForeColor = System.Drawing.Color.DimGray;
+            this.linkLblSelectAll.LinkColor = System.Drawing.Color.DimGray;
             this.linkLblSelectAll.Location = new System.Drawing.Point(14, 8);
             this.linkLblSelectAll.Name = "linkLblSelectAll";
             this.linkLblSelectAll.Size = new System.Drawing.Size(112, 13);
@@ -415,6 +493,8 @@
             // link_MainClearResults
             // 
             this.link_MainClearResults.AutoSize = true;
+            this.link_MainClearResults.ForeColor = System.Drawing.Color.DimGray;
+            this.link_MainClearResults.LinkColor = System.Drawing.Color.DimGray;
             this.link_MainClearResults.Location = new System.Drawing.Point(597, 8);
             this.link_MainClearResults.Name = "link_MainClearResults";
             this.link_MainClearResults.Size = new System.Drawing.Size(68, 13);
@@ -910,6 +990,7 @@
             // 
             this.linkOpenCFHomePage.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.linkOpenCFHomePage.AutoSize = true;
+            this.linkOpenCFHomePage.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(133)))), ((int)(((byte)(133)))), ((int)(((byte)(133)))));
             this.linkOpenCFHomePage.Location = new System.Drawing.Point(223, 3);
             this.linkOpenCFHomePage.Name = "linkOpenCFHomePage";
             this.linkOpenCFHomePage.Size = new System.Drawing.Size(78, 13);
@@ -922,6 +1003,7 @@
             // 
             this.linkOpenIgnition.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.linkOpenIgnition.AutoSize = true;
+            this.linkOpenIgnition.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(133)))), ((int)(((byte)(133)))), ((int)(((byte)(133)))));
             this.linkOpenIgnition.Location = new System.Drawing.Point(241, 23);
             this.linkOpenIgnition.Name = "linkOpenIgnition";
             this.linkOpenIgnition.Size = new System.Drawing.Size(41, 13);
@@ -934,6 +1016,7 @@
             // 
             this.linkOpenOldSearch.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.linkOpenOldSearch.AutoSize = true;
+            this.linkOpenOldSearch.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(133)))), ((int)(((byte)(133)))), ((int)(((byte)(133)))));
             this.linkOpenOldSearch.Location = new System.Drawing.Point(233, 43);
             this.linkOpenOldSearch.Name = "linkOpenOldSearch";
             this.linkOpenOldSearch.Size = new System.Drawing.Size(58, 13);
@@ -946,6 +1029,7 @@
             // 
             this.linkOpenRequests.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.linkOpenRequests.AutoSize = true;
+            this.linkOpenRequests.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(133)))), ((int)(((byte)(133)))), ((int)(((byte)(133)))));
             this.linkOpenRequests.Location = new System.Drawing.Point(236, 63);
             this.linkOpenRequests.Name = "linkOpenRequests";
             this.linkOpenRequests.Size = new System.Drawing.Size(52, 13);
@@ -958,6 +1042,7 @@
             // 
             this.linkDontainsPage.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.linkDontainsPage.AutoSize = true;
+            this.linkDontainsPage.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(133)))), ((int)(((byte)(133)))), ((int)(((byte)(133)))));
             this.linkDontainsPage.Location = new System.Drawing.Point(234, 83);
             this.linkDontainsPage.Name = "linkDontainsPage";
             this.linkDontainsPage.Size = new System.Drawing.Size(55, 13);
@@ -970,6 +1055,7 @@
             // 
             this.linkOpenCFVideos.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.linkOpenCFVideos.AutoSize = true;
+            this.linkOpenCFVideos.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(133)))), ((int)(((byte)(133)))), ((int)(((byte)(133)))));
             this.linkOpenCFVideos.Location = new System.Drawing.Point(235, 103);
             this.linkOpenCFVideos.Name = "linkOpenCFVideos";
             this.linkOpenCFVideos.Size = new System.Drawing.Size(54, 13);
@@ -982,6 +1068,7 @@
             // 
             this.linkCFFAQ.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.linkCFFAQ.AutoSize = true;
+            this.linkCFFAQ.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(133)))), ((int)(((byte)(133)))), ((int)(((byte)(133)))));
             this.linkCFFAQ.Location = new System.Drawing.Point(240, 123);
             this.linkCFFAQ.Name = "linkCFFAQ";
             this.linkCFFAQ.Size = new System.Drawing.Size(44, 13);
@@ -1000,11 +1087,21 @@
             this.panel6.Size = new System.Drawing.Size(379, 188);
             this.panel6.TabIndex = 4;
             // 
+            // lbl_AppVersion
+            // 
+            this.lbl_AppVersion.AutoSize = true;
+            this.lbl_AppVersion.Location = new System.Drawing.Point(157, 156);
+            this.lbl_AppVersion.Name = "lbl_AppVersion";
+            this.lbl_AppVersion.Size = new System.Drawing.Size(45, 13);
+            this.lbl_AppVersion.TabIndex = 3;
+            this.lbl_AppVersion.Text = "Version:";
+            // 
             // link_CFManager
             // 
             this.link_CFManager.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.link_CFManager.AutoSize = true;
             this.link_CFManager.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.link_CFManager.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(133)))), ((int)(((byte)(133)))), ((int)(((byte)(133)))));
             this.link_CFManager.Location = new System.Drawing.Point(123, 97);
             this.link_CFManager.Name = "link_CFManager";
             this.link_CFManager.Size = new System.Drawing.Size(154, 25);
@@ -1018,6 +1115,7 @@
             this.lnkAboutCF.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lnkAboutCF.AutoSize = true;
             this.lnkAboutCF.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lnkAboutCF.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(133)))), ((int)(((byte)(133)))), ((int)(((byte)(133)))));
             this.lnkAboutCF.Location = new System.Drawing.Point(111, 44);
             this.lnkAboutCF.Name = "lnkAboutCF";
             this.lnkAboutCF.Size = new System.Drawing.Size(177, 25);
@@ -1025,97 +1123,6 @@
             this.lnkAboutCF.TabStop = true;
             this.lnkAboutCF.Text = "CustomsForge 2015";
             this.lnkAboutCF.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkAboutCF_LinkClicked);
-            // 
-            // timerMain
-            // 
-            this.timerMain.Interval = 1000;
-            // 
-            // statusStripMain
-            // 
-            this.statusStripMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripProgressBarMain,
-            this.toolStripStatusLabel_Main,
-            this.toolStripStatusLabel_MainCancel,
-            this.toolStripStatusLabelSpringer,
-            this.toolStripStatusLabel_DisabledCounter});
-            this.statusStripMain.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
-            this.statusStripMain.Location = new System.Drawing.Point(0, 540);
-            this.statusStripMain.Name = "statusStripMain";
-            this.statusStripMain.Size = new System.Drawing.Size(784, 22);
-            this.statusStripMain.SizingGrip = false;
-            this.statusStripMain.TabIndex = 1;
-            this.statusStripMain.Text = "statusStrip1";
-            // 
-            // toolStripProgressBarMain
-            // 
-            this.toolStripProgressBarMain.Name = "toolStripProgressBarMain";
-            this.toolStripProgressBarMain.Size = new System.Drawing.Size(200, 16);
-            // 
-            // toolStripStatusLabel_Main
-            // 
-            this.toolStripStatusLabel_Main.Name = "toolStripStatusLabel_Main";
-            this.toolStripStatusLabel_Main.Size = new System.Drawing.Size(0, 17);
-            // 
-            // toolStripStatusLabel_MainCancel
-            // 
-            this.toolStripStatusLabel_MainCancel.IsLink = true;
-            this.toolStripStatusLabel_MainCancel.Name = "toolStripStatusLabel_MainCancel";
-            this.toolStripStatusLabel_MainCancel.Size = new System.Drawing.Size(43, 17);
-            this.toolStripStatusLabel_MainCancel.Text = "Cancel";
-            this.toolStripStatusLabel_MainCancel.Visible = false;
-            this.toolStripStatusLabel_MainCancel.Click += new System.EventHandler(this.toolStripStatusLabel_MainCancel_Click);
-            // 
-            // toolStripStatusLabelSpringer
-            // 
-            this.toolStripStatusLabelSpringer.Name = "toolStripStatusLabelSpringer";
-            this.toolStripStatusLabelSpringer.Size = new System.Drawing.Size(0, 17);
-            this.toolStripStatusLabelSpringer.Spring = true;
-            // 
-            // toolStripStatusLabel_DisabledCounter
-            // 
-            this.toolStripStatusLabel_DisabledCounter.Name = "toolStripStatusLabel_DisabledCounter";
-            this.toolStripStatusLabel_DisabledCounter.Size = new System.Drawing.Size(55, 17);
-            this.toolStripStatusLabel_DisabledCounter.Text = "Disabled:";
-            this.toolStripStatusLabel_DisabledCounter.Visible = false;
-            // 
-            // timerAutoUpdate
-            // 
-            this.timerAutoUpdate.Enabled = true;
-            this.timerAutoUpdate.Interval = 600000;
-            this.timerAutoUpdate.Tick += new System.EventHandler(this.timerAutoUpdate_Tick);
-            // 
-            // folderBrowserDialog_SettingsRSPath
-            // 
-            this.folderBrowserDialog_SettingsRSPath.Description = "Browse for your Rocksmith 2014 installed directory";
-            this.folderBrowserDialog_SettingsRSPath.RootFolder = System.Environment.SpecialFolder.MyComputer;
-            this.folderBrowserDialog_SettingsRSPath.ShowNewFolderButton = false;
-            // 
-            // sfdSongListToCSV
-            // 
-            this.sfdSongListToCSV.FileName = "songList.csv";
-            this.sfdSongListToCSV.Filter = "csv files(*.csv)|*.csv|All files (*.*)|*.*";
-            // 
-            // notifyIcon_Main
-            // 
-            this.notifyIcon_Main.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
-            this.notifyIcon_Main.ContextMenuStrip = this.contextMenuStrip_Tray;
-            this.notifyIcon_Main.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon_Main.Icon")));
-            this.notifyIcon_Main.Text = "Notification";
-            this.notifyIcon_Main.Visible = true;
-            // 
-            // contextMenuStrip_Tray
-            // 
-            this.contextMenuStrip_Tray.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.closeToolStripMenuItem});
-            this.contextMenuStrip_Tray.Name = "contextMenuStrip_Tray";
-            this.contextMenuStrip_Tray.Size = new System.Drawing.Size(104, 26);
-            // 
-            // closeToolStripMenuItem
-            // 
-            this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            this.closeToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
-            this.closeToolStripMenuItem.Text = "Close";
-            this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
             // 
             // groupBox1
             // 
@@ -1305,57 +1312,112 @@
             this.link_ForgeOnProfile.Text = "ForgeOn";
             this.link_ForgeOnProfile.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // lbl_AppVersion
+            // timerMain
             // 
-            this.lbl_AppVersion.AutoSize = true;
-            this.lbl_AppVersion.Location = new System.Drawing.Point(157, 156);
-            this.lbl_AppVersion.Name = "lbl_AppVersion";
-            this.lbl_AppVersion.Size = new System.Drawing.Size(45, 13);
-            this.lbl_AppVersion.TabIndex = 3;
-            this.lbl_AppVersion.Text = "Version:";
+            this.timerMain.Interval = 1000;
             // 
-            // dgvSongs
+            // statusStripMain
             // 
-            this.dgvSongs.AllowUserToAddRows = false;
-            this.dgvSongs.AllowUserToOrderColumns = true;
-            this.dgvSongs.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.dgvSongs.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.dgvSongs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvSongs.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.colSelect});
-            this.dgvSongs.ContextMenuStrip = this.contextMenuStrip_MainManager;
-            this.dgvSongs.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvSongs.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnF2;
-            this.dgvSongs.GridColor = System.Drawing.SystemColors.ActiveCaption;
-            this.dgvSongs.Location = new System.Drawing.Point(0, 0);
-            this.dgvSongs.MultiSelect = false;
-            this.dgvSongs.Name = "dgvSongs";
-            this.dgvSongs.RowHeadersVisible = false;
-            this.dgvSongs.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvSongs.Size = new System.Drawing.Size(764, 290);
-            this.dgvSongs.TabIndex = 1;
-            this.dgvSongs.DataSourceChanged += new System.EventHandler(this.dgvSongs_DataSourceChanged);
-            this.dgvSongs.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSongs_CellDoubleClick);
-            this.dgvSongs.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongs_CellMouseDown);
-            this.dgvSongs.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongs_ColumnHeaderMouseClick);
-            this.dgvSongs.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvSongs_KeyDown);
+            this.statusStripMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripProgressBarMain,
+            this.toolStripStatusLabel_Main,
+            this.toolStripStatusLabel_MainCancel,
+            this.toolStripStatusLabel_ClearLog,
+            this.toolStripStatusLabelSpringer,
+            this.toolStripStatusLabel_DisabledCounter});
+            this.statusStripMain.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
+            this.statusStripMain.Location = new System.Drawing.Point(0, 540);
+            this.statusStripMain.Name = "statusStripMain";
+            this.statusStripMain.Size = new System.Drawing.Size(784, 22);
+            this.statusStripMain.SizingGrip = false;
+            this.statusStripMain.TabIndex = 1;
+            this.statusStripMain.Text = "statusStrip1";
             // 
-            // colSelect
+            // toolStripProgressBarMain
             // 
-            this.colSelect.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.colSelect.FalseValue = "false";
-            this.colSelect.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.colSelect.HeaderText = "Select";
-            this.colSelect.IndeterminateValue = "false";
-            this.colSelect.Name = "colSelect";
-            this.colSelect.TrueValue = "true";
-            this.colSelect.Visible = false;
+            this.toolStripProgressBarMain.Name = "toolStripProgressBarMain";
+            this.toolStripProgressBarMain.Size = new System.Drawing.Size(200, 16);
+            // 
+            // toolStripStatusLabel_Main
+            // 
+            this.toolStripStatusLabel_Main.Name = "toolStripStatusLabel_Main";
+            this.toolStripStatusLabel_Main.Size = new System.Drawing.Size(0, 17);
+            // 
+            // toolStripStatusLabel_MainCancel
+            // 
+            this.toolStripStatusLabel_MainCancel.IsLink = true;
+            this.toolStripStatusLabel_MainCancel.LinkColor = System.Drawing.Color.DimGray;
+            this.toolStripStatusLabel_MainCancel.Name = "toolStripStatusLabel_MainCancel";
+            this.toolStripStatusLabel_MainCancel.Size = new System.Drawing.Size(43, 17);
+            this.toolStripStatusLabel_MainCancel.Text = "Cancel";
+            this.toolStripStatusLabel_MainCancel.Visible = false;
+            this.toolStripStatusLabel_MainCancel.Click += new System.EventHandler(this.toolStripStatusLabel_MainCancel_Click);
+            // 
+            // toolStripStatusLabelSpringer
+            // 
+            this.toolStripStatusLabelSpringer.Name = "toolStripStatusLabelSpringer";
+            this.toolStripStatusLabelSpringer.Size = new System.Drawing.Size(0, 17);
+            this.toolStripStatusLabelSpringer.Spring = true;
+            // 
+            // toolStripStatusLabel_DisabledCounter
+            // 
+            this.toolStripStatusLabel_DisabledCounter.Name = "toolStripStatusLabel_DisabledCounter";
+            this.toolStripStatusLabel_DisabledCounter.Size = new System.Drawing.Size(55, 17);
+            this.toolStripStatusLabel_DisabledCounter.Text = "Disabled:";
+            this.toolStripStatusLabel_DisabledCounter.Visible = false;
+            // 
+            // timerAutoUpdate
+            // 
+            this.timerAutoUpdate.Enabled = true;
+            this.timerAutoUpdate.Interval = 600000;
+            this.timerAutoUpdate.Tick += new System.EventHandler(this.timerAutoUpdate_Tick);
+            // 
+            // folderBrowserDialog_SettingsRSPath
+            // 
+            this.folderBrowserDialog_SettingsRSPath.Description = "Browse for your Rocksmith 2014 installed directory";
+            this.folderBrowserDialog_SettingsRSPath.RootFolder = System.Environment.SpecialFolder.MyComputer;
+            this.folderBrowserDialog_SettingsRSPath.ShowNewFolderButton = false;
+            // 
+            // sfdSongListToCSV
+            // 
+            this.sfdSongListToCSV.FileName = "songList.csv";
+            this.sfdSongListToCSV.Filter = "csv files(*.csv)|*.csv|All files (*.*)|*.*";
+            // 
+            // notifyIcon_Main
+            // 
+            this.notifyIcon_Main.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.notifyIcon_Main.ContextMenuStrip = this.contextMenuStrip_Tray;
+            this.notifyIcon_Main.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon_Main.Icon")));
+            this.notifyIcon_Main.Text = "Notification";
+            this.notifyIcon_Main.Visible = true;
+            // 
+            // contextMenuStrip_Tray
+            // 
+            this.contextMenuStrip_Tray.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.closeToolStripMenuItem});
+            this.contextMenuStrip_Tray.Name = "contextMenuStrip_Tray";
+            this.contextMenuStrip_Tray.Size = new System.Drawing.Size(104, 26);
+            // 
+            // closeToolStripMenuItem
+            // 
+            this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.closeToolStripMenuItem.Text = "Close";
+            this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
             // 
             // bWorker
             // 
             this.bWorker.WorkerReportsProgress = true;
             this.bWorker.WorkerSupportsCancellation = true;
+            // 
+            // toolStripStatusLabel_ClearLog
+            // 
+            this.toolStripStatusLabel_ClearLog.IsLink = true;
+            this.toolStripStatusLabel_ClearLog.LinkColor = System.Drawing.Color.DimGray;
+            this.toolStripStatusLabel_ClearLog.Name = "toolStripStatusLabel_ClearLog";
+            this.toolStripStatusLabel_ClearLog.Size = new System.Drawing.Size(54, 17);
+            this.toolStripStatusLabel_ClearLog.Text = "Clear log";
+            this.toolStripStatusLabel_ClearLog.Click += new System.EventHandler(this.toolStripStatusLabel_ClearLog_Click);
             // 
             // frmMain
             // 
@@ -1380,7 +1442,9 @@
             this.tpManager.ResumeLayout(false);
             this.tlpSongListWrapper.ResumeLayout(false);
             this.panelSongListButtons.ResumeLayout(false);
+            this.panelSongListButtons.PerformLayout();
             this.panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSongs)).EndInit();
             this.contextMenuStrip_MainManager.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
@@ -1402,13 +1466,12 @@
             this.tableLayoutPanel_CFQuicklinks.PerformLayout();
             this.panel6.ResumeLayout(false);
             this.panel6.PerformLayout();
-            this.statusStripMain.ResumeLayout(false);
-            this.statusStripMain.PerformLayout();
-            this.contextMenuStrip_Tray.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.tableLayoutPanel_Credits.ResumeLayout(false);
             this.tableLayoutPanel_Credits.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvSongs)).EndInit();
+            this.statusStripMain.ResumeLayout(false);
+            this.statusStripMain.PerformLayout();
+            this.contextMenuStrip_Tray.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1467,8 +1530,7 @@
         private System.Windows.Forms.Button btnLaunchSteam;
         private System.Windows.Forms.SaveFileDialog sfdSongListToCSV;
         private System.Windows.Forms.LinkLabel link_MainClearResults;
-        private System.Windows.Forms.Button btnSongsToBBCode;
-        private System.Windows.Forms.Button btnSongsToCSV;
+        private System.Windows.Forms.Button btnExportSongList;
         private System.Windows.Forms.ToolStripMenuItem showDLCInfoToolStripMenuItem;
         private System.Windows.Forms.Panel panel5;
         private Controls.RADataGridView dgvSongs;
@@ -1523,6 +1585,11 @@
         private System.Windows.Forms.Label lbl_ForgeRole;
         private System.Windows.Forms.LinkLabel link_ForgeOnProfile;
         private System.Windows.Forms.Label lbl_AppVersion;
+        private System.Windows.Forms.RadioButton radioBtn_ExportToHTML;
+        private System.Windows.Forms.RadioButton radioBtn_ExportToCSV;
+        private System.Windows.Forms.Label lbl_ExportTo;
+        private System.Windows.Forms.RadioButton radioBtn_ExportToBBCode;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel_ClearLog;
     }
 }
 

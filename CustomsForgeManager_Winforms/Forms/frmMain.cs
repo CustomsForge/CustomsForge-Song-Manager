@@ -32,6 +32,8 @@ namespace CustomsForgeManager_Winforms.Forms
         private readonly Log myLog;
         private Settings mySettings;
         private Stopwatch counterStopwatch = new Stopwatch();
+        private int numberOfDLCPendingUpdate = 0;
+        private int numberOfDisabledDLC = 0;
 
         private BindingList<SongData> SongCollection = new BindingList<SongData>();
         private List<SongData> DupeCollection = new List<SongData>();
@@ -142,7 +144,7 @@ namespace CustomsForgeManager_Winforms.Forms
                     try
                     {
                         var browser = new PsarcBrowser(file);
-                        var songInfo = browser.GetSongs();
+                        var songInfo = browser.GetSongs();  
                         foreach (SongData songData in songInfo.Distinct())
                         {
                             songData.Enabled = enabled;
@@ -152,7 +154,13 @@ namespace CustomsForgeManager_Winforms.Forms
                                 if (fileNameVersion != "")
                                     songData.Version = fileNameVersion; 
                             }
-                            SongCollection.Add(songData);
+                            //if (songData.ToolkitVer == "")
+                            //{
+                            //    if (songData.FileName.Contains("rs1comp"))
+                            //        SongCollection.Add(songData);
+                            //}
+                            //else
+                                SongCollection.Add(songData);
                         }
                     }
                     catch (Exception ex)
@@ -221,9 +229,12 @@ namespace CustomsForgeManager_Winforms.Forms
                 dgvSongs.Columns["colSelect"].DisplayIndex = 0;
             });
 
+            numberOfDisabledDLC = SongCollection.Where(song => song.Enabled == "No").ToList().Count();
+            numberOfDLCPendingUpdate = 0;
+
             toolStripStatusLabel_DisabledCounter.Visible = true;
             toolStripStatusLabel_DisabledCounter.Alignment = ToolStripItemAlignment.Right;
-            toolStripStatusLabel_DisabledCounter.Text = "Disabled DLCs: " + SongCollection.Where(song => song.Enabled == "No").ToList().Count().ToString();
+            toolStripStatusLabel_DisabledCounter.Text = "Outdated: " + numberOfDLCPendingUpdate + " | Disabled DLC: " + numberOfDisabledDLC.ToString();
 
             counterStopwatch.Stop();
             Log(string.Format("Finished. Task took {0}", counterStopwatch.Elapsed));
@@ -442,18 +453,44 @@ namespace CustomsForgeManager_Winforms.Forms
                 btnDisableEnableSongs.Enabled = !btnDisableEnableSongs.Enabled;
             });
 
-            btnSongsToCSV.InvokeIfRequired(delegate
+            btnExportSongList.InvokeIfRequired(delegate
             {
-                btnSongsToCSV.Enabled = !btnSongsToCSV.Enabled;
+                btnExportSongList.Enabled = !btnExportSongList.Enabled;
             });
 
-            btnSongsToBBCode.InvokeIfRequired(delegate
+            radioBtn_ExportToBBCode.InvokeIfRequired(delegate
             {
-                btnSongsToBBCode.Enabled = !btnSongsToBBCode.Enabled;
+                radioBtn_ExportToBBCode.Enabled = !radioBtn_ExportToBBCode.Enabled;
             });
+
+            radioBtn_ExportToCSV.InvokeIfRequired(delegate
+            {
+                radioBtn_ExportToCSV.Enabled = !radioBtn_ExportToCSV.Enabled;
+            });
+
+            radioBtn_ExportToHTML.InvokeIfRequired(delegate
+            {
+                radioBtn_ExportToHTML.Enabled = !radioBtn_ExportToHTML.Enabled;
+            });
+
             checkIncludeRS1DLC.InvokeIfRequired(delegate
             {
                 checkIncludeRS1DLC.Enabled = !checkIncludeRS1DLC.Enabled;
+            });
+
+            linkLblSelectAll.InvokeIfRequired(delegate
+            {
+                linkLblSelectAll.Enabled = !linkLblSelectAll.Enabled;
+            });
+
+            link_MainClearResults.InvokeIfRequired(delegate
+            {
+                link_MainClearResults.Enabled = !link_MainClearResults.Enabled;
+            });
+
+            lbl_ExportTo.InvokeIfRequired(delegate
+            {
+                lbl_ExportTo.Enabled = !lbl_ExportTo.Enabled;
             });
         }
 
@@ -932,6 +969,17 @@ namespace CustomsForgeManager_Winforms.Forms
         }
         #endregion
         #region Button events
+        private void btnExportSongList_Click(object sender, EventArgs e)
+        {
+            if (radioBtn_ExportToBBCode.Checked)
+                SongListToBBCode();
+            else if (radioBtn_ExportToHTML.Checked)
+                SongListToHTML();
+            else if (radioBtn_ExportToCSV.Checked)
+                SongListToCSV();
+            else
+                MessageBox.Show("Export format not selected", "Please select export format!");
+        }
         private void btnDisableEnableSongs_Click(object sender, EventArgs e)
         {
             foreach (DataGridViewRow row in dgvSongs.Rows)
@@ -958,7 +1006,9 @@ namespace CustomsForgeManager_Winforms.Forms
                             row.Cells["Enabled"].Value = "Yes";
                         }
                         cell.Value = "false";
-                        toolStripStatusLabel_DisabledCounter.Text = "Disabled DLCs: " + SongCollection.Where(song => song.Enabled == "No").ToList().Count().ToString();
+
+                        numberOfDisabledDLC = SongCollection.Where(song => song.Enabled == "No").ToList().Count();
+                        toolStripStatusLabel_DisabledCounter.Text = "Outdated: " + numberOfDLCPendingUpdate.ToString() + " | Disabled DLC:" + numberOfDisabledDLC.ToString(); 
                     }
                     else
                     {
@@ -981,59 +1031,7 @@ namespace CustomsForgeManager_Winforms.Forms
         }
         private void btnSongsToBBCode_Click(object sender, EventArgs e)
         {
-            var sbTXT = new StringBuilder();
-            sbTXT.AppendLine("Song - Artist, Album, Updated, Tuning, DD, Arangements, Author");
-            sbTXT.AppendLine("[LIST=1]");
-            foreach (var song in SongCollection)
-            {
-                if (song.Author == null)
-                {
-                    sbTXT.AppendLine("[*]" + song.Song + " - " + song.Artist + ", " + song.Album + ", " + song.Updated + ", " + song.Tuning + ", " + song.DD.DifficultyToDD() + ", " + song.Arrangements + "[/*]");
-                }
-                else
-                {
-                    sbTXT.AppendLine("[*]" + song.Song + " - " + song.Artist + ", " + song.Album + ", " + song.Updated + ", " + song.Tuning + ", " + song.DD.DifficultyToDD() + ", " + song.Arrangements + ", " + song.Author + "[/*]");
-                }
-            }
-            sbTXT.AppendLine("[/LIST]");
 
-            using (frmBBCode FormBBCode = new frmBBCode())
-            {
-                FormBBCode.BBCode = sbTXT.ToString();
-                FormBBCode.ShowDialog();
-            }
-        }
-        private void btnSongsToCSV_Click(object sender, EventArgs e)
-        {
-            var sbCSV = new StringBuilder();
-            string path = Constants.DefaultWorkingDirectory + @"\SongListCSV.csv";
-
-            sfdSongListToCSV.Filter = "csv files(*.csv)|*.csv|All files (*.*)|*.*";
-            sfdSongListToCSV.FileName = "SongListCSV";
-
-            if (sfdSongListToCSV.ShowDialog() == DialogResult.OK)
-            {
-                path = sfdSongListToCSV.FileName;
-            }
-
-            sbCSV.AppendLine(@"sep=;");
-            sbCSV.AppendLine("Artist;Song;Album;Year;Tuning;Arrangements");
-            foreach (var song in SongCollection)
-            {
-                sbCSV.AppendLine(song.Artist + ";" + song.Song + ";" + song.Album + ";" + song.SongYear + ";" + song.Tuning + ";" + song.Arrangements);
-            }
-            try
-            {
-                using (StreamWriter file = new StreamWriter(path, false, Encoding.UTF8))
-                {
-                    file.Write(sbCSV.ToString());
-                }
-                Log("Song list saved to:" + path);
-            }
-            catch (IOException ex)
-            {
-                Log("<Error>:" + ex.Message);
-            }
         }
         private void btnLaunchSteam_Click(object sender, EventArgs e)
         {
@@ -1149,6 +1147,11 @@ namespace CustomsForgeManager_Winforms.Forms
         }
         #endregion
         #region ToolStripMenuItem events
+        private void toolStripStatusLabel_ClearLog_Click(object sender, EventArgs e)
+        {
+            tbLog.Clear();
+        }
+
         private void showDLCInfoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ShowSongInfo();
@@ -1311,6 +1314,94 @@ namespace CustomsForgeManager_Winforms.Forms
             }
         }
 
+        private void SongListToHTML() 
+        {
+            var sbTXT = new StringBuilder();
+            sbTXT.AppendLine("[table]");
+            sbTXT.AppendLine("<tr>");
+            sbTXT.AppendLine("<th>Song</th><th>Artist</th><th>Album</th><th>Updated</th><th>Tuning</th><th>DD</th><th>Arangements</th><th>Author</th>");
+            sbTXT.AppendLine("</tr>");
+            foreach (var song in SongCollection)
+            {
+                sbTXT.AppendLine("<tr>");
+                if (song.Author == null)
+                {
+                    sbTXT.AppendLine("<td>" + song.Song + "</td><td>" + song.Artist + "</td><td>" + song.Album + "</td><td>" + song.Updated + "</td><td>" + song.Tuning + "</td><td>" + song.DD.DifficultyToDD() + "</td><td>" + song.Arrangements + "</td>");
+                }
+                else
+                {
+                    sbTXT.AppendLine("<td>" + song.Song + "</td><td>" + song.Artist + "</td><td>" + song.Album + "</td><td>" + song.Updated + "</td><td>" + song.Tuning + "</td><td>" + song.DD.DifficultyToDD() + "</td><td>" + song.Arrangements + "</td><td>" + song.Author + "</td>");
+                }
+                sbTXT.AppendLine("</tr>");
+            }
+            sbTXT.AppendLine("[/table]");
+
+            using (frmSongListExport FormSongListExport = new frmSongListExport())
+            {
+                FormSongListExport.SongList = sbTXT.ToString();
+                FormSongListExport.Text = "Song list to HTML";
+                FormSongListExport.ShowDialog();
+            }
+        }
+
+        private void SongListToBBCode() 
+        {
+            var sbTXT = new StringBuilder();
+            sbTXT.AppendLine("Song - Artist, Album, Updated, Tuning, DD, Arangements, Author");
+            sbTXT.AppendLine("[LIST=1]");
+            foreach (var song in SongCollection)
+            {
+                if (song.Author == null)
+                {
+                    sbTXT.AppendLine("[*]" + song.Song + " - " + song.Artist + ", " + song.Album + ", " + song.Updated + ", " + song.Tuning + ", " + song.DD.DifficultyToDD() + ", " + song.Arrangements + "[/*]");
+                }
+                else
+                {
+                    sbTXT.AppendLine("[*]" + song.Song + " - " + song.Artist + ", " + song.Album + ", " + song.Updated + ", " + song.Tuning + ", " + song.DD.DifficultyToDD() + ", " + song.Arrangements + ", " + song.Author + "[/*]");
+                }
+            }
+            sbTXT.AppendLine("[/LIST]");
+
+            using (frmSongListExport FormSongListExport = new frmSongListExport())
+            {
+                FormSongListExport.SongList = sbTXT.ToString();
+                FormSongListExport.Text = "Song list to BBCode";
+                FormSongListExport.ShowDialog();
+            }
+        }
+
+        private void SongListToCSV() 
+        {
+            var sbCSV = new StringBuilder();
+            string path = Constants.DefaultWorkingDirectory + @"\SongListCSV.csv";
+
+            sfdSongListToCSV.Filter = "csv files(*.csv)|*.csv|All files (*.*)|*.*";
+            sfdSongListToCSV.FileName = "SongListCSV";
+
+            if (sfdSongListToCSV.ShowDialog() == DialogResult.OK)
+            {
+                path = sfdSongListToCSV.FileName;
+            }
+
+            sbCSV.AppendLine(@"sep=;");
+            sbCSV.AppendLine("Artist;Song;Album;Year;Tuning;Arrangements");
+            foreach (var song in SongCollection)
+            {
+                sbCSV.AppendLine(song.Artist + ";" + song.Song + ";" + song.Album + ";" + song.SongYear + ";" + song.Tuning + ";" + song.Arrangements);
+            }
+            try
+            {
+                using (StreamWriter file = new StreamWriter(path, false, Encoding.UTF8))
+                {
+                    file.Write(sbCSV.ToString());
+                }
+                Log("Song list saved to:" + path);
+            }
+            catch (IOException ex)
+            {
+                Log("<Error>:" + ex.Message);
+            }        
+        }
         private void CheckRowForUpdate(DataGridViewRow dataGridViewRow)
         {
             if (!bWorker.CancellationPending)
@@ -1344,7 +1435,7 @@ namespace CustomsForgeManager_Winforms.Forms
                                 myLog.Write(
                                     string.Format(
                                         "<ERROR>: Song \"{0}\" from \"{1}\" album by {2} not found in ignition.",
-                                        currentSong.Song, currentSong.Album, currentSong.Author));
+                                        currentSong.Song, currentSong.Album, currentSong.Author), false);
                             }
                             else if (currentSong.IgnitionVersion != currentSong.Version)
                             {
@@ -1353,7 +1444,10 @@ namespace CustomsForgeManager_Winforms.Forms
                                     string.Format(
                                         "Update found for \"{0}\" from \"{1}\" album by {2}. Local version: {3}, Ignition version: {4} ",
                                         currentSong.Song, currentSong.Album, currentSong.Author, currentSong.Version,
-                                        currentSong.IgnitionVersion));
+                                        currentSong.IgnitionVersion), false);
+
+                                numberOfDLCPendingUpdate++;
+                                toolStripStatusLabel_DisabledCounter.Text = "Outdated: " + numberOfDLCPendingUpdate.ToString() + " | Disabled DLC:" + numberOfDisabledDLC.ToString();
                             }
                         }
                     };

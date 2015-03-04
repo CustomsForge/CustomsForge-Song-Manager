@@ -111,7 +111,7 @@ namespace CustomsForgeManager_Winforms.Logging
         /// Outputs log to controls and files (if previously set)
         /// </summary>
         /// <param name="message">Log message</param>
-        public void Write(string message)
+        public void Write(string message, bool popup = true)
         {
             LogMessage msg = new LogMessage(message);
             if (logEntries == null)
@@ -155,25 +155,26 @@ namespace CustomsForgeManager_Winforms.Logging
                         }
                     }
                 }
-                if (targetNotifyIcons != null)
+                if(popup)
                 {
-                    foreach (NotifyIcon notifyIcon in targetNotifyIcons)
+                    if (targetNotifyIcons != null)
                     {
-                        ToolTipIcon icon;
-                        notifyIcon.BalloonTipText = entry.GetFormatted();
-                        notifyIcon.Visible = true;
-                        if (entry.Message.ToLower().Contains("error"))
-                            icon = ToolTipIcon.Error;
-                        else
-                            icon = ToolTipIcon.Info;
+                        foreach (NotifyIcon notifyIcon in targetNotifyIcons)
+                        {
+                            ToolTipIcon icon;
+                            notifyIcon.BalloonTipText = entry.GetFormatted();
+                            notifyIcon.Visible = true;
+                            if (entry.Message.ToLower().Contains("error"))
+                                icon = ToolTipIcon.Error;
+                            else
+                                icon = ToolTipIcon.Info;
 
-                        notifyIcon.ShowBalloonTip(1, "Information", entry.Message,icon);
+                            notifyIcon.ShowBalloonTip(1, "Information", entry.Message, icon);
+                        }
                     }
                 }
             }
             logEntries = new List<LogMessage>();
         }
-
-        
     }
 }
