@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.tlp_MainForm_Wrappper = new System.Windows.Forms.TableLayoutPanel();
             this.gbLog = new System.Windows.Forms.GroupBox();
             this.tbLog = new System.Windows.Forms.TextBox();
@@ -48,6 +48,8 @@
             this.btnCheckAllForUpdates = new System.Windows.Forms.Button();
             this.btnRescan = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.dgvSongs = new CustomsForgeManager_Winforms.Controls.RADataGridView();
+            this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.contextMenuStrip_MainManager = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.showDLCInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openDLCPageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -55,7 +57,6 @@
             this.openDLCLocationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editDLCToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.getAuthorNameStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.disableColumn_toolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel3 = new System.Windows.Forms.Panel();
             this.linkLblSelectAll = new System.Windows.Forms.LinkLabel();
             this.link_MainClearResults = new System.Windows.Forms.LinkLabel();
@@ -92,9 +93,12 @@
             this.lblDisabledColumns = new System.Windows.Forms.Label();
             this.listDisabledColumns = new System.Windows.Forms.ListView();
             this.columnSelect = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.colSettingsColumnEnabled = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colSettingsColumnName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colSettingsColumnEnabled = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.checkIncludeRS1DLC = new System.Windows.Forms.CheckBox();
+            this.panel7 = new System.Windows.Forms.Panel();
+            this.radioButton2 = new System.Windows.Forms.RadioButton();
+            this.radioBtnResize = new System.Windows.Forms.RadioButton();
             this.tpAbout = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.pictureBoxCF = new System.Windows.Forms.PictureBox();
@@ -146,10 +150,6 @@
             this.notifyIcon_Main = new System.Windows.Forms.NotifyIcon(this.components);
             this.contextMenuStrip_Tray = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.contextMenuStrip_DGVHeader = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.disableColumnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.dgvSongs = new CustomsForgeManager_Winforms.Controls.RADataGridView();
-            this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.bWorker = new CustomsForgeManager_Winforms.Controls.AbortableBackgroundWorker();
             this.tlp_MainForm_Wrappper.SuspendLayout();
             this.gbLog.SuspendLayout();
@@ -158,6 +158,7 @@
             this.tlpSongListWrapper.SuspendLayout();
             this.panelSongListButtons.SuspendLayout();
             this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSongs)).BeginInit();
             this.contextMenuStrip_MainManager.SuspendLayout();
             this.panel3.SuspendLayout();
             this.tpDuplicates.SuspendLayout();
@@ -170,6 +171,7 @@
             this.tpSettings.SuspendLayout();
             this.tlpSettings_Wrapper.SuspendLayout();
             this.panel5.SuspendLayout();
+            this.panel7.SuspendLayout();
             this.tpAbout.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCF)).BeginInit();
@@ -180,8 +182,6 @@
             this.tableLayoutPanel_Credits.SuspendLayout();
             this.statusStripMain.SuspendLayout();
             this.contextMenuStrip_Tray.SuspendLayout();
-            this.contextMenuStrip_DGVHeader.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvSongs)).BeginInit();
             this.SuspendLayout();
             // 
             // tlp_MainForm_Wrappper
@@ -384,6 +384,44 @@
             this.panel2.Size = new System.Drawing.Size(764, 290);
             this.panel2.TabIndex = 4;
             // 
+            // dgvSongs
+            // 
+            this.dgvSongs.AllowUserToAddRows = false;
+            this.dgvSongs.AllowUserToOrderColumns = true;
+            this.dgvSongs.AllowUserToResizeRows = false;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.dgvSongs.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            this.dgvSongs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvSongs.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colSelect});
+            this.dgvSongs.ContextMenuStrip = this.contextMenuStrip_MainManager;
+            this.dgvSongs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvSongs.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnF2;
+            this.dgvSongs.GridColor = System.Drawing.SystemColors.ActiveCaption;
+            this.dgvSongs.Location = new System.Drawing.Point(0, 0);
+            this.dgvSongs.MultiSelect = false;
+            this.dgvSongs.Name = "dgvSongs";
+            this.dgvSongs.RowHeadersVisible = false;
+            this.dgvSongs.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvSongs.Size = new System.Drawing.Size(764, 290);
+            this.dgvSongs.TabIndex = 1;
+            this.dgvSongs.DataSourceChanged += new System.EventHandler(this.dgvSongs_DataSourceChanged);
+            this.dgvSongs.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSongs_CellDoubleClick);
+            this.dgvSongs.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongs_CellMouseDown);
+            this.dgvSongs.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongs_ColumnHeaderMouseClick);
+            this.dgvSongs.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvSongs_KeyDown);
+            // 
+            // colSelect
+            // 
+            this.colSelect.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.colSelect.FalseValue = "false";
+            this.colSelect.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.colSelect.HeaderText = "Select";
+            this.colSelect.IndeterminateValue = "false";
+            this.colSelect.Name = "colSelect";
+            this.colSelect.TrueValue = "true";
+            this.colSelect.Visible = false;
+            // 
             // contextMenuStrip_MainManager
             // 
             this.contextMenuStrip_MainManager.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -392,10 +430,9 @@
             this.checkForUpdateToolStripMenuItem,
             this.openDLCLocationToolStripMenuItem,
             this.editDLCToolStripMenuItem,
-            this.getAuthorNameStripMenuItem,
-            this.disableColumn_toolStripMenuItem});
+            this.getAuthorNameStripMenuItem});
             this.contextMenuStrip_MainManager.Name = "contextMenuStrip_MainManager";
-            this.contextMenuStrip_MainManager.Size = new System.Drawing.Size(178, 158);
+            this.contextMenuStrip_MainManager.Size = new System.Drawing.Size(178, 136);
             // 
             // showDLCInfoToolStripMenuItem
             // 
@@ -438,11 +475,6 @@
             this.getAuthorNameStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.getAuthorNameStripMenuItem.Text = "Get author name";
             this.getAuthorNameStripMenuItem.Click += new System.EventHandler(this.getAuthorNameStripMenuItem_Click);
-            // 
-            // disableColumn_toolStripMenuItem
-            // 
-            this.disableColumn_toolStripMenuItem.Name = "disableColumn_toolStripMenuItem";
-            this.disableColumn_toolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             // 
             // panel3
             // 
@@ -708,6 +740,7 @@
             this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsSave, 1, 5);
             this.tlpSettings_Wrapper.Controls.Add(this.panel5, 1, 4);
             this.tlpSettings_Wrapper.Controls.Add(this.checkIncludeRS1DLC, 1, 3);
+            this.tlpSettings_Wrapper.Controls.Add(this.panel7, 2, 2);
             this.tlpSettings_Wrapper.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpSettings_Wrapper.Location = new System.Drawing.Point(3, 3);
             this.tlpSettings_Wrapper.Name = "tlpSettings_Wrapper";
@@ -827,15 +860,15 @@
             this.columnSelect.Text = "Select";
             this.columnSelect.Width = 51;
             // 
-            // colSettingsColumnEnabled
-            // 
-            this.colSettingsColumnEnabled.Text = "Enabled";
-            this.colSettingsColumnEnabled.Width = 105;
-            // 
             // colSettingsColumnName
             // 
             this.colSettingsColumnName.Text = "Column Name";
             this.colSettingsColumnName.Width = 93;
+            // 
+            // colSettingsColumnEnabled
+            // 
+            this.colSettingsColumnEnabled.Text = "Enabled";
+            this.colSettingsColumnEnabled.Width = 105;
             // 
             // checkIncludeRS1DLC
             // 
@@ -850,6 +883,38 @@
             this.checkIncludeRS1DLC.Text = "Include RS1 Compatibility Pack";
             this.checkIncludeRS1DLC.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.checkIncludeRS1DLC.UseVisualStyleBackColor = true;
+            // 
+            // panel7
+            // 
+            this.panel7.Controls.Add(this.radioButton2);
+            this.panel7.Controls.Add(this.radioBtnResize);
+            this.panel7.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel7.Location = new System.Drawing.Point(388, 45);
+            this.panel7.Name = "panel7";
+            this.panel7.Size = new System.Drawing.Size(373, 25);
+            this.panel7.TabIndex = 5;
+            // 
+            // radioButton2
+            // 
+            this.radioButton2.AutoSize = true;
+            this.radioButton2.Location = new System.Drawing.Point(206, 5);
+            this.radioButton2.Name = "radioButton2";
+            this.radioButton2.Size = new System.Drawing.Size(85, 17);
+            this.radioButton2.TabIndex = 7;
+            this.radioButton2.TabStop = true;
+            this.radioButton2.Text = "radioButton2";
+            this.radioButton2.UseVisualStyleBackColor = true;
+            // 
+            // radioBtnResize
+            // 
+            this.radioBtnResize.AutoSize = true;
+            this.radioBtnResize.Location = new System.Drawing.Point(93, 5);
+            this.radioBtnResize.Name = "radioBtnResize";
+            this.radioBtnResize.Size = new System.Drawing.Size(85, 17);
+            this.radioBtnResize.TabIndex = 6;
+            this.radioBtnResize.TabStop = true;
+            this.radioBtnResize.Text = "radioButton1";
+            this.radioBtnResize.UseVisualStyleBackColor = true;
             // 
             // tpAbout
             // 
@@ -1448,58 +1513,6 @@
             this.closeToolStripMenuItem.Text = "Close";
             this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
             // 
-            // contextMenuStrip_DGVHeader
-            // 
-            this.contextMenuStrip_DGVHeader.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.disableColumnToolStripMenuItem});
-            this.contextMenuStrip_DGVHeader.Name = "contextMenuStrip_DGVHeader";
-            this.contextMenuStrip_DGVHeader.Size = new System.Drawing.Size(157, 26);
-            // 
-            // disableColumnToolStripMenuItem
-            // 
-            this.disableColumnToolStripMenuItem.Name = "disableColumnToolStripMenuItem";
-            this.disableColumnToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
-            this.disableColumnToolStripMenuItem.Text = "Disable column";
-            this.disableColumnToolStripMenuItem.Click += new System.EventHandler(this.disableColumnToolStripMenuItem_Click);
-            // 
-            // dgvSongs
-            // 
-            this.dgvSongs.AllowUserToAddRows = false;
-            this.dgvSongs.AllowUserToOrderColumns = true;
-            this.dgvSongs.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.dgvSongs.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.dgvSongs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvSongs.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.colSelect});
-            this.dgvSongs.ContextMenuStrip = this.contextMenuStrip_MainManager;
-            this.dgvSongs.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvSongs.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnF2;
-            this.dgvSongs.GridColor = System.Drawing.SystemColors.ActiveCaption;
-            this.dgvSongs.Location = new System.Drawing.Point(0, 0);
-            this.dgvSongs.MultiSelect = false;
-            this.dgvSongs.Name = "dgvSongs";
-            this.dgvSongs.RowHeadersVisible = false;
-            this.dgvSongs.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvSongs.Size = new System.Drawing.Size(764, 290);
-            this.dgvSongs.TabIndex = 1;
-            this.dgvSongs.DataSourceChanged += new System.EventHandler(this.dgvSongs_DataSourceChanged);
-            this.dgvSongs.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSongs_CellDoubleClick);
-            this.dgvSongs.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongs_CellMouseDown);
-            this.dgvSongs.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongs_ColumnHeaderMouseClick);
-            this.dgvSongs.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvSongs_KeyDown);
-            // 
-            // colSelect
-            // 
-            this.colSelect.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.colSelect.FalseValue = "false";
-            this.colSelect.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.colSelect.HeaderText = "Select";
-            this.colSelect.IndeterminateValue = "false";
-            this.colSelect.Name = "colSelect";
-            this.colSelect.TrueValue = "true";
-            this.colSelect.Visible = false;
-            // 
             // bWorker
             // 
             this.bWorker.WorkerReportsProgress = true;
@@ -1530,6 +1543,7 @@
             this.panelSongListButtons.ResumeLayout(false);
             this.panelSongListButtons.PerformLayout();
             this.panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSongs)).EndInit();
             this.contextMenuStrip_MainManager.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
@@ -1545,6 +1559,8 @@
             this.tlpSettings_Wrapper.PerformLayout();
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
+            this.panel7.ResumeLayout(false);
+            this.panel7.PerformLayout();
             this.tpAbout.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCF)).EndInit();
@@ -1559,8 +1575,6 @@
             this.statusStripMain.ResumeLayout(false);
             this.statusStripMain.PerformLayout();
             this.contextMenuStrip_Tray.ResumeLayout(false);
-            this.contextMenuStrip_DGVHeader.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvSongs)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1684,10 +1698,10 @@
         private System.Windows.Forms.ListView listDisabledColumns;
         private System.Windows.Forms.ColumnHeader columnSelect;
         private System.Windows.Forms.ColumnHeader colSettingsColumnName;
-        private System.Windows.Forms.ToolStripMenuItem disableColumn_toolStripMenuItem;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip_DGVHeader;
-        private System.Windows.Forms.ToolStripMenuItem disableColumnToolStripMenuItem;
         private System.Windows.Forms.ColumnHeader colSettingsColumnEnabled;
+        private System.Windows.Forms.Panel panel7;
+        private System.Windows.Forms.RadioButton radioButton2;
+        private System.Windows.Forms.RadioButton radioBtnResize;
     }
 }
 

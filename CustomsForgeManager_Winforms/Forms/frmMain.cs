@@ -34,7 +34,6 @@ namespace CustomsForgeManager_Winforms.Forms
         private Stopwatch counterStopwatch = new Stopwatch();
         private int numberOfDLCPendingUpdate = 0;
         private int numberOfDisabledDLC = 0;
-        private int currentColumn = 0;
 
         private BindingList<SongData> SongCollection = new BindingList<SongData>();
         private List<SongData> DupeCollection = new List<SongData>();
@@ -166,12 +165,12 @@ namespace CustomsForgeManager_Winforms.Forms
                                 if (fileNameVersion != "")
                                     songData.Version = fileNameVersion;
                             }
-                            if (songData.ToolkitVer == "")
-                            {
-                                if (songData.FileName.Contains("rs1comp"))
-                                    SongCollection.Add(songData);
-                            }
-                            else
+                            //if (songData.ToolkitVer == "")
+                            //{
+                            //    if (songData.FileName.Contains("rs1comp"))
+                            //        SongCollection.Add(songData);
+                            //}
+                            //else
                                 SongCollection.Add(songData);
                         }
                     }
@@ -1179,13 +1178,7 @@ namespace CustomsForgeManager_Winforms.Forms
         }
         #endregion
         #region ToolStripMenuItem events
-        private void disableColumnToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            dgvSongs.InvokeIfRequired(delegate
-            {
-                dgvSongs.Columns[currentColumn].Visible = false;
-            });
-        }
+ 
         private void toolStripStatusLabel_ClearLog_Click(object sender, EventArgs e)
         {
             tbLog.Clear();
