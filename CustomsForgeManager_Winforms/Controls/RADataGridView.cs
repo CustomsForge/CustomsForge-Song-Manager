@@ -25,7 +25,7 @@ namespace CustomsForgeManager_Winforms.Controls
                             this.InvokeIfRequired(delegate
                             {
                                 Columns[item.ColumnIndex].DisplayIndex = item.DisplayIndex;
-                                //Columns[item.ColumnIndex].Visible = item.Visible;
+                                Columns[item.ColumnIndex].Visible = item.Visible;
                                 Columns[item.ColumnIndex].Width = item.Width;
                             });
                         }

@@ -99,7 +99,6 @@ namespace CustomsForgeManager_Winforms.Utilities
                 return song.FileName.Split(new string[] { "_v", "_p" }, StringSplitOptions.None)[1].Replace("_DD", "").Replace("_", ".");
             else
                 return "";
-           // return song.Path.Split(new string[] { "_v", "_"}, StringSplitOptions.None)[1];  
         }
     }
 }

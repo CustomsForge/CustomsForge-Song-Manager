@@ -34,6 +34,7 @@ namespace CustomsForgeManager_Winforms.Forms
         private Stopwatch counterStopwatch = new Stopwatch();
         private int numberOfDLCPendingUpdate = 0;
         private int numberOfDisabledDLC = 0;
+        private int currentColumn = 0;
 
         private BindingList<SongData> SongCollection = new BindingList<SongData>();
         private List<SongData> DupeCollection = new List<SongData>();
@@ -102,6 +103,7 @@ namespace CustomsForgeManager_Winforms.Forms
             PopulateDataGridView();
             SaveSongCollectionToFile();
             ToggleUIControls();
+            PopulateColumnList();
             toolStripStatusLabel_MainCancel.Visible = false;
         }
         void PopulateListHandler(object sender, DoWorkEventArgs e)
@@ -110,6 +112,16 @@ namespace CustomsForgeManager_Winforms.Forms
             PopulateSongList();
             PopulateDupeList();
         }
+
+        private void PopulateColumnList()
+        {
+            listDisabledColumns.Items.Clear();
+            foreach (DataGridViewColumn col in dgvSongs.Columns)
+            {
+                listDisabledColumns.Items.Add(new ListViewItem(new[] { "", col.HeaderText, col.Visible ? "Yes" : "No" }));
+            }
+        }
+
         private void PopulateSongList()
         {
             Log("Scanning for songs...");
@@ -144,22 +156,22 @@ namespace CustomsForgeManager_Winforms.Forms
                     try
                     {
                         var browser = new PsarcBrowser(file);
-                        var songInfo = browser.GetSongs();  
+                        var songInfo = browser.GetSongs();
                         foreach (SongData songData in songInfo.Distinct())
                         {
                             songData.Enabled = enabled;
-                            if(songData.Version == "N/A")
+                            if (songData.Version == "N/A")
                             {
                                 string fileNameVersion = songData.GetVersionFromFileName();
                                 if (fileNameVersion != "")
-                                    songData.Version = fileNameVersion; 
+                                    songData.Version = fileNameVersion;
                             }
-                            //if (songData.ToolkitVer == "")
-                            //{
-                            //    if (songData.FileName.Contains("rs1comp"))
-                            //        SongCollection.Add(songData);
-                            //}
-                            //else
+                            if (songData.ToolkitVer == "")
+                            {
+                                if (songData.FileName.Contains("rs1comp"))
+                                    SongCollection.Add(songData);
+                            }
+                            else
                                 SongCollection.Add(songData);
                         }
                     }
@@ -282,7 +294,7 @@ namespace CustomsForgeManager_Winforms.Forms
                         {
                             ColumnIndex = i,
                             DisplayIndex = columns[i].DisplayIndex,
-                            //Visible = columns[i].Visible,
+                            Visible = columns[i].Visible,
                             Width = columns[i].Width
                         });
                     }
@@ -953,22 +965,45 @@ namespace CustomsForgeManager_Winforms.Forms
         }
         private void link_DarjuszProfile_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            System.Diagnostics.Process.Start("http://customsforge.com/user/5299-darjusz/");
+            Process.Start("http://customsforge.com/user/5299-darjusz/");
         }
         private void link_Alex360Profile_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            System.Diagnostics.Process.Start("http://customsforge.com/user/236-alex360/");
+            Process.Start("http://customsforge.com/user/236-alex360/");
         }
         private void link_UnleashedProfile_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            System.Diagnostics.Process.Start("http://customsforge.com/user/1-unleashed2k/");
+            Process.Start("http://customsforge.com/user/1-unleashed2k/");
         }
         private void link_ForgeOnProfile_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            System.Diagnostics.Process.Start("http://customsforge.com/user/345-forgeon/");
+            Process.Start("http://customsforge.com/user/345-forgeon/");
         }
         #endregion
         #region Button events
+        private void btnEnableColumns_Click(object sender, EventArgs e)
+        {
+            dgvSongs.InvokeIfRequired(delegate
+            {
+                foreach (ListViewItem column in listDisabledColumns.CheckedItems)
+                {
+                    bool visible = false;
+                    if (column.SubItems[1].Text == "Select")
+                    {
+                        visible = dgvSongs.Columns["colSelect"].Visible;
+                        dgvSongs.Columns["colSelect"].Visible = !visible;
+                        column.SubItems[2].Text = !visible ? "Yes" : "No";
+                    }
+                    else
+                    {
+                        visible = dgvSongs.Columns[column.SubItems[1].Text].Visible;
+                        dgvSongs.Columns[column.SubItems[1].Text].Visible = !visible;
+                        column.SubItems[2].Text = !visible ? "Yes" : "No";
+                    }
+                    column.Checked = false;
+                }
+            });
+        }
         private void btnExportSongList_Click(object sender, EventArgs e)
         {
             if (radioBtn_ExportToBBCode.Checked)
@@ -1008,7 +1043,7 @@ namespace CustomsForgeManager_Winforms.Forms
                         cell.Value = "false";
 
                         numberOfDisabledDLC = SongCollection.Where(song => song.Enabled == "No").ToList().Count();
-                        toolStripStatusLabel_DisabledCounter.Text = "Outdated: " + numberOfDLCPendingUpdate.ToString() + " | Disabled DLC:" + numberOfDisabledDLC.ToString(); 
+                        toolStripStatusLabel_DisabledCounter.Text = "Outdated: " + numberOfDLCPendingUpdate.ToString() + " | Disabled DLC:" + numberOfDisabledDLC.ToString();
                     }
                     else
                     {
@@ -1029,10 +1064,7 @@ namespace CustomsForgeManager_Winforms.Forms
         {
             SearchDLC(tbSearch.Text);
         }
-        private void btnSongsToBBCode_Click(object sender, EventArgs e)
-        {
 
-        }
         private void btnLaunchSteam_Click(object sender, EventArgs e)
         {
             Process[] rocksmithProcess = Process.GetProcessesByName("Rocksmith2014.exe");
@@ -1147,6 +1179,13 @@ namespace CustomsForgeManager_Winforms.Forms
         }
         #endregion
         #region ToolStripMenuItem events
+        private void disableColumnToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            dgvSongs.InvokeIfRequired(delegate
+            {
+                dgvSongs.Columns[currentColumn].Visible = false;
+            });
+        }
         private void toolStripStatusLabel_ClearLog_Click(object sender, EventArgs e)
         {
             tbLog.Clear();
@@ -1301,6 +1340,7 @@ namespace CustomsForgeManager_Winforms.Forms
                 SaveSongCollectionToFile();
             });
             counterStopwatch.Stop();
+            toolStripStatusLabel_MainCancel.Visible = false;
             Log(string.Format("Finished update check. Task took {0}", counterStopwatch.Elapsed));
         }
 
@@ -1314,7 +1354,7 @@ namespace CustomsForgeManager_Winforms.Forms
             }
         }
 
-        private void SongListToHTML() 
+        private void SongListToHTML()
         {
             var sbTXT = new StringBuilder();
             sbTXT.AppendLine("[table]");
@@ -1344,7 +1384,7 @@ namespace CustomsForgeManager_Winforms.Forms
             }
         }
 
-        private void SongListToBBCode() 
+        private void SongListToBBCode()
         {
             var sbTXT = new StringBuilder();
             sbTXT.AppendLine("Song - Artist, Album, Updated, Tuning, DD, Arangements, Author");
@@ -1370,7 +1410,7 @@ namespace CustomsForgeManager_Winforms.Forms
             }
         }
 
-        private void SongListToCSV() 
+        private void SongListToCSV()
         {
             var sbCSV = new StringBuilder();
             string path = Constants.DefaultWorkingDirectory + @"\SongListCSV.csv";
@@ -1400,7 +1440,7 @@ namespace CustomsForgeManager_Winforms.Forms
             catch (IOException ex)
             {
                 Log("<Error>:" + ex.Message);
-            }        
+            }
         }
         private void CheckRowForUpdate(DataGridViewRow dataGridViewRow)
         {
