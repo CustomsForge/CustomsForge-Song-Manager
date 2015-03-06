@@ -96,9 +96,6 @@
             this.colSettingsColumnName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colSettingsColumnEnabled = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.checkIncludeRS1DLC = new System.Windows.Forms.CheckBox();
-            this.panel7 = new System.Windows.Forms.Panel();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.radioBtnResize = new System.Windows.Forms.RadioButton();
             this.tpAbout = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.pictureBoxCF = new System.Windows.Forms.PictureBox();
@@ -171,7 +168,6 @@
             this.tpSettings.SuspendLayout();
             this.tlpSettings_Wrapper.SuspendLayout();
             this.panel5.SuspendLayout();
-            this.panel7.SuspendLayout();
             this.tpAbout.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCF)).BeginInit();
@@ -740,7 +736,6 @@
             this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsSave, 1, 5);
             this.tlpSettings_Wrapper.Controls.Add(this.panel5, 1, 4);
             this.tlpSettings_Wrapper.Controls.Add(this.checkIncludeRS1DLC, 1, 3);
-            this.tlpSettings_Wrapper.Controls.Add(this.panel7, 2, 2);
             this.tlpSettings_Wrapper.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpSettings_Wrapper.Location = new System.Drawing.Point(3, 3);
             this.tlpSettings_Wrapper.Name = "tlpSettings_Wrapper";
@@ -883,38 +878,6 @@
             this.checkIncludeRS1DLC.Text = "Include RS1 Compatibility Pack";
             this.checkIncludeRS1DLC.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.checkIncludeRS1DLC.UseVisualStyleBackColor = true;
-            // 
-            // panel7
-            // 
-            this.panel7.Controls.Add(this.radioButton2);
-            this.panel7.Controls.Add(this.radioBtnResize);
-            this.panel7.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel7.Location = new System.Drawing.Point(388, 45);
-            this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(373, 25);
-            this.panel7.TabIndex = 5;
-            // 
-            // radioButton2
-            // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(206, 5);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(85, 17);
-            this.radioButton2.TabIndex = 7;
-            this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "radioButton2";
-            this.radioButton2.UseVisualStyleBackColor = true;
-            // 
-            // radioBtnResize
-            // 
-            this.radioBtnResize.AutoSize = true;
-            this.radioBtnResize.Location = new System.Drawing.Point(93, 5);
-            this.radioBtnResize.Name = "radioBtnResize";
-            this.radioBtnResize.Size = new System.Drawing.Size(85, 17);
-            this.radioBtnResize.TabIndex = 6;
-            this.radioBtnResize.TabStop = true;
-            this.radioBtnResize.Text = "radioButton1";
-            this.radioBtnResize.UseVisualStyleBackColor = true;
             // 
             // tpAbout
             // 
@@ -1559,8 +1522,6 @@
             this.tlpSettings_Wrapper.PerformLayout();
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
-            this.panel7.ResumeLayout(false);
-            this.panel7.PerformLayout();
             this.tpAbout.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCF)).EndInit();
@@ -1699,9 +1660,6 @@
         private System.Windows.Forms.ColumnHeader columnSelect;
         private System.Windows.Forms.ColumnHeader colSettingsColumnName;
         private System.Windows.Forms.ColumnHeader colSettingsColumnEnabled;
-        private System.Windows.Forms.Panel panel7;
-        private System.Windows.Forms.RadioButton radioButton2;
-        private System.Windows.Forms.RadioButton radioBtnResize;
     }
 }
 
