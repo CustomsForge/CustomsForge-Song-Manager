@@ -106,6 +106,12 @@
     <Compile Include="Controls\RADataGridView.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Forms\frmOutdatedSongs.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmOutdatedSongs.Designer.cs">
+      <DependentUpon>frmOutdatedSongs.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\frmSongListExport.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -140,6 +146,9 @@
     <Compile Include="lib\RS\PsarcBrowser.cs" />
     <Compile Include="Models\SongData.cs" />
     <Compile Include="Models\SongDupeData.cs" />
+    <EmbeddedResource Include="Forms\frmOutdatedSongs.resx">
+      <DependentUpon>frmOutdatedSongs.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmSongListExport.resx">
       <DependentUpon>frmSongListExport.cs</DependentUpon>
     </EmbeddedResource>

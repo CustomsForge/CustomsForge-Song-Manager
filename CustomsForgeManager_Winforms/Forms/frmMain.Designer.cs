@@ -383,6 +383,7 @@
             // dgvSongs
             // 
             this.dgvSongs.AllowUserToAddRows = false;
+            this.dgvSongs.AllowUserToDeleteRows = false;
             this.dgvSongs.AllowUserToOrderColumns = true;
             this.dgvSongs.AllowUserToResizeRows = false;
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));

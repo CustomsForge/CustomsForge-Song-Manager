@@ -20,5 +20,10 @@ namespace CustomsForgeManager_Winforms.Utilities
         {
             get { return @"http://ignition.dev.customsforge.com/api/details"; }
         }
+
+        public static string DefaultCFSongUrl 
+        {
+            get { return @"http://customsforge.com/page/customsforge_rs_2014_cdlc.html/_/pc-enabled-rs-2014-cdlc/"; }
+        }
     }
 }
