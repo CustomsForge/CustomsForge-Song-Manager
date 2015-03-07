@@ -38,6 +38,7 @@ namespace CustomsForgeManager_Winforms.Forms
         private BindingList<SongData> SongCollection = new BindingList<SongData>();
         private List<SongData> DupeCollection = new List<SongData>();
         private List<SongData> SortedSongCollection = new List<SongData>();
+        private Dictionary<string, SongData> OutdatedSongList = new Dictionary<string, SongData>();
 
         private frmMain()
         {
@@ -1164,7 +1165,6 @@ namespace CustomsForgeManager_Winforms.Forms
             bWorker = new AbortableBackgroundWorker();
             bWorker.SetDefaults();
             bWorker.DoWork += checkAllForUpdates;
-            bWorker.RunWorkerCompleted += CheckAllForUpdatedCompleted;
             toolStripStatusLabel_MainCancel.Visible = true;
             //toolStripStatusLabel_MainCancel.Click += delegate
             //{
@@ -1175,8 +1175,8 @@ namespace CustomsForgeManager_Winforms.Forms
         }
         private void btnBatchRenamer_Click(object sender, EventArgs e)
         {
-            frmRenamer renamer = new frmRenamer(myLog);
-            renamer.ShowDialog();
+            //frmRenamer renamer = new frmRenamer(myLog);
+            //renamer.ShowDialog();
         }
         #endregion
         #region ToolStripMenuItem events
@@ -1449,6 +1449,7 @@ namespace CustomsForgeManager_Winforms.Forms
                     //currentSong.IgnitionVersion = Ignition.GetDLCInfoFromURL(currentSong.GetInfoURL(), "version");
                     string url = currentSong.GetInfoURL();
                     string response = "";
+                    string cfUrl = "";
                     var client = new WebClient();
                     client.DownloadStringCompleted += (sender, e) =>
                     {
@@ -1474,6 +1475,12 @@ namespace CustomsForgeManager_Winforms.Forms
                                 {
                                     currentSong.Version += ".0";
                                 }
+
+                                if (int.TryParse(currentSong.IgnitionVersion, out version))
+                                {
+                                    currentSong.IgnitionVersion += ".0";
+                                }
+
                                 if (currentSong.IgnitionVersion == "No Results")
                                 {
                                     dataGridViewRow.DefaultCellStyle.BackColor = Color.OrangeRed;
@@ -1493,7 +1500,21 @@ namespace CustomsForgeManager_Winforms.Forms
 
                                     numberOfDLCPendingUpdate++;
                                     toolStripStatusLabel_DisabledCounter.Text = "Outdated: " + numberOfDLCPendingUpdate.ToString() + " | Disabled DLC:" + numberOfDisabledDLC.ToString();
+                                    
+                                    cfUrl = Constants.DefaultCFSongUrl + currentSong.Song.Replace("'", "").Replace("(","").Replace(")","").Replace(" ", "-") + "-r" + currentSong.IgnitionID;
+
+                                    if (!OutdatedSongList.ContainsKey(cfUrl))
+                                    {
+                                        OutdatedSongList.Add(cfUrl, currentSong);
+                                    }
                                 }
+                            }
+                            if (dataGridViewRow.Index == dgvSongs.Rows.Count - 1)
+                            {
+                                frmOutdatedSongs frmOutdated = new frmOutdatedSongs();
+                                frmOutdated.OutdatedSongList = OutdatedSongList;
+                                frmOutdated.ShowDialog();
+                                Log(string.Format("Finished update check. Task took {0}", counterStopwatch.Elapsed));
                             }
                         }
                     };
@@ -1503,11 +1524,6 @@ namespace CustomsForgeManager_Winforms.Forms
                     }
                 }
             }
-        }
-
-        void CheckAllForUpdatedCompleted(object sender, RunWorkerCompletedEventArgs e) 
-        {
-            Log(string.Format("Finished update check. Task took {0}", counterStopwatch.Elapsed));
         }
 
         private SongData GetSongByRow(DataGridViewRow dataGridViewRow)
