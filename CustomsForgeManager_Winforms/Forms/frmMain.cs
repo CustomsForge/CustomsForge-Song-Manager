@@ -205,14 +205,18 @@ namespace CustomsForgeManager_Winforms.Forms
                         .Where(group => group.Count() > 1)
                         .SelectMany(group => group).ToList();
 
+
             if (dups.Count > 0)
             {
                 foreach (var song in dups)
                 {
-                    listDupeSongs.InvokeIfRequired(delegate
+                    if (!song.FileName.Contains("rs1comp"))
                     {
-                        listDupeSongs.Items.Add(new ListViewItem(new[] { " ", song.Artist, song.Song, song.Album, song.Path }));
-                    });
+                        listDupeSongs.InvokeIfRequired(delegate
+                        {
+                            listDupeSongs.Items.Add(new ListViewItem(new[] { " ", song.Artist, song.Song, song.Album, song.Path }));
+                        });
+                    }
                 }
             }
 
@@ -1177,6 +1181,7 @@ namespace CustomsForgeManager_Winforms.Forms
         {
             //frmRenamer renamer = new frmRenamer(myLog);
             //renamer.ShowDialog();
+          
         }
         #endregion
         #region ToolStripMenuItem events
@@ -1511,10 +1516,10 @@ namespace CustomsForgeManager_Winforms.Forms
                             }
                             if (dataGridViewRow.Index == dgvSongs.Rows.Count - 1)
                             {
+                                Log(string.Format("Finished update check. Task took {0}", counterStopwatch.Elapsed));
                                 frmOutdatedSongs frmOutdated = new frmOutdatedSongs();
                                 frmOutdated.OutdatedSongList = OutdatedSongList;
                                 frmOutdated.ShowDialog();
-                                Log(string.Format("Finished update check. Task took {0}", counterStopwatch.Elapsed));
                             }
                         }
                     };
