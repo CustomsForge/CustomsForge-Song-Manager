@@ -204,7 +204,7 @@ namespace CustomsForgeManager_Winforms.Forms
             var dups = SongCollection.GroupBy(x => new { x.Song, x.Album, x.Artist })
                         .Where(group => group.Count() > 1)
                         .SelectMany(group => group).ToList();
-
+            dups.RemoveAll(x => x.FileName.Contains("rs1comp"));
 
             if (dups.Count > 0)
             {
