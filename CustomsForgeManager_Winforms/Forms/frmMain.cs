@@ -204,16 +204,19 @@ namespace CustomsForgeManager_Winforms.Forms
             var dups = SongCollection.GroupBy(x => new { x.Song, x.Album, x.Artist })
                         .Where(group => group.Count() > 1)
                         .SelectMany(group => group).ToList();
-            dups.RemoveAll(song => song.FileName.Contains("rs1comp"));
-            
+
+
             if (dups.Count > 0)
             {
                 foreach (var song in dups)
                 {
-                    listDupeSongs.InvokeIfRequired(delegate
+                    if (!song.FileName.Contains("rs1comp"))
                     {
-                        listDupeSongs.Items.Add(new ListViewItem(new[] { " ", song.Artist, song.Song, song.Album, song.Path }));
-                    });
+                        listDupeSongs.InvokeIfRequired(delegate
+                        {
+                            listDupeSongs.Items.Add(new ListViewItem(new[] { " ", song.Artist, song.Song, song.Album, song.Path }));
+                        });
+                    }
                 }
             }
 
@@ -1178,8 +1181,7 @@ namespace CustomsForgeManager_Winforms.Forms
         {
             //frmRenamer renamer = new frmRenamer(myLog);
             //renamer.ShowDialog();
-            PsarcBrowser browser = new PsarcBrowser(@"E:\Rocksmith 2014\dlc\ACDC_Rock-or-Bust_v1_p.psarc");
-            browser.test();
+          
         }
         #endregion
         #region ToolStripMenuItem events
