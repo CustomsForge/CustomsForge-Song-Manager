@@ -208,15 +208,12 @@ namespace CustomsForgeManager_Winforms.Forms
 
             if (dups.Count > 0)
             {
-                foreach (var song in dups)
+                foreach (var song in dups)  
                 {
-                    if (!song.FileName.Contains("rs1comp"))
-                    {
                         listDupeSongs.InvokeIfRequired(delegate
                         {
                             listDupeSongs.Items.Add(new ListViewItem(new[] { " ", song.Artist, song.Song, song.Album, song.Path }));
                         });
-                    }
                 }
             }
 
@@ -704,7 +701,8 @@ namespace CustomsForgeManager_Winforms.Forms
         {
             if (dgvSongs.DataSource != null)
             {
-                int scrollOffset = 0;
+                int scrollHorizontalOffset = 0;
+                int scrollVerticalOffset = 0;
                 BindingSource bs = new BindingSource { DataSource = SongCollection };
                 var songsToShow = SortedSongCollection;
 
@@ -890,9 +888,13 @@ namespace CustomsForgeManager_Winforms.Forms
                         }
                         break;
                 }
-                scrollOffset = dgvSongs.HorizontalScrollingOffset;
+                scrollHorizontalOffset = dgvSongs.HorizontalScrollingOffset;
+                scrollVerticalOffset = dgvSongs.VerticalScrollingOffset;
                 dgvSongs.DataSource = bs;
-                dgvSongs.HorizontalScrollingOffset = scrollOffset;
+                dgvSongs.HorizontalScrollingOffset = scrollHorizontalOffset;
+
+                PropertyInfo verticalOffset = dgvSongs.GetType().GetProperty("VerticalOffset", BindingFlags.NonPublic | BindingFlags.Instance);
+                verticalOffset.SetValue(this.dgvSongs, scrollVerticalOffset, null); 
             }
         }
         #endregion
@@ -1152,8 +1154,9 @@ namespace CustomsForgeManager_Winforms.Forms
 
                             tpDuplicates.Text = "Duplicates(" + DupeCollection.Count.ToString() + ")";
                         }
-                        catch (IndexOutOfRangeException)
+                        catch (IndexOutOfRangeException ex)
                         {
+                            MessageBox.Show(ex.Message);
                         }
                     }
                 }
@@ -1181,7 +1184,7 @@ namespace CustomsForgeManager_Winforms.Forms
         {
             //frmRenamer renamer = new frmRenamer(myLog);
             //renamer.ShowDialog();
-          
+          //  RocksmithToolkitLib.SngToTab  
         }
         #endregion
         #region ToolStripMenuItem events

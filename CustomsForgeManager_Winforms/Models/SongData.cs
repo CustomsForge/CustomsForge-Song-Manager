@@ -18,9 +18,10 @@ namespace CustomsForgeManager_Winforms
         public string Updated { get; set; }
 
         public string IgnitionID { get; set; }
-        public string IgnitionVersion { get; set; }
         public string IgnitionUpdated { get; set; }
         public string IgnitionAuthor { get; set; }
+        public string IgnitionVersion { get; set; }
+        public string Version { get; set; }
 
         public string Arrangements
         {
@@ -38,8 +39,6 @@ namespace CustomsForgeManager_Winforms
             get { return (new FileInfo(Path).Name); }
         }
 
-
-        public string Version { get; set; }
         public string ToolkitVer { get; set; }
 
 
