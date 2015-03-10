@@ -212,7 +212,7 @@ namespace CustomsForgeManager_Winforms.Forms
                 {
                         listDupeSongs.InvokeIfRequired(delegate
                         {
-                            listDupeSongs.Items.Add(new ListViewItem(new[] { " ", song.Artist, song.Song, song.Album, song.Path }));
+                            listDupeSongs.Items.Add(new ListViewItem(new[] { " ", song.Artist, song.Song, song.Album, song.Updated, song.Path }));
                         });
                 }
             }
@@ -1129,7 +1129,7 @@ namespace CustomsForgeManager_Winforms.Forms
             {
                 for (int i = 0; i < listDupeSongs.Items.Count; i++)
                 {
-                    if (listDupeSongs.Items[i].Checked)
+                    if (listDupeSongs.Items[i].Checked || listDupeSongs.Items[i].Selected)
                     {
                         try
                         {
@@ -1184,11 +1184,20 @@ namespace CustomsForgeManager_Winforms.Forms
         {
             //frmRenamer renamer = new frmRenamer(myLog);
             //renamer.ShowDialog();
-          //  RocksmithToolkitLib.SngToTab  
         }
         #endregion
         #region ToolStripMenuItem events
-
+        private void deleteSongToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try 
+            {
+            File.Delete(SongCollection[dgvSongs.SelectedRows[0].Index].Path);
+            SongCollection.RemoveAt(dgvSongs.SelectedRows[0].Index);
+            }catch(IOException ex)
+            {
+                myLog.Write("<ERROR>:" + ex.Message, false);
+            }
+        }
         private void toolStripStatusLabel_ClearLog_Click(object sender, EventArgs e)
         {
             tbLog.Clear();
