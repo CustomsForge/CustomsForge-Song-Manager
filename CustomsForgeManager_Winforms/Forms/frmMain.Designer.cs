@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tlp_MainForm_Wrappper = new System.Windows.Forms.TableLayoutPanel();
             this.gbLog = new System.Windows.Forms.GroupBox();
             this.tbLog = new System.Windows.Forms.TextBox();
@@ -139,8 +139,11 @@
             this.notifyIcon_Main = new System.Windows.Forms.NotifyIcon(this.components);
             this.contextMenuStrip_Tray = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tpCreators = new System.Windows.Forms.TabPage();
             this.dgvSongs = new CustomsForgeManager_Winforms.Controls.RADataGridView();
             this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.btnEOFSite = new System.Windows.Forms.Button();
+            this.btnRSTKSite = new System.Windows.Forms.Button();
             this.tlp_MainForm_Wrappper.SuspendLayout();
             this.gbLog.SuspendLayout();
             this.tcMain.SuspendLayout();
@@ -172,6 +175,7 @@
             this.tableLayoutPanel_Credits.SuspendLayout();
             this.statusStripMain.SuspendLayout();
             this.contextMenuStrip_Tray.SuspendLayout();
+            this.tpCreators.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSongs)).BeginInit();
             this.SuspendLayout();
             // 
@@ -217,6 +221,7 @@
             this.tcMain.Controls.Add(this.tpManager);
             this.tcMain.Controls.Add(this.tpEditor);
             this.tcMain.Controls.Add(this.tpDuplicates);
+            this.tcMain.Controls.Add(this.tpCreators);
             this.tcMain.Controls.Add(this.tpUtilities);
             this.tcMain.Controls.Add(this.tpSettings);
             this.tcMain.Controls.Add(this.tpAbout);
@@ -1364,14 +1369,26 @@
             this.closeToolStripMenuItem.Text = "Close";
             this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
             // 
+            // tpCreators
+            // 
+            this.tpCreators.Controls.Add(this.btnRSTKSite);
+            this.tpCreators.Controls.Add(this.btnEOFSite);
+            this.tpCreators.Location = new System.Drawing.Point(4, 25);
+            this.tpCreators.Name = "tpCreators";
+            this.tpCreators.Padding = new System.Windows.Forms.Padding(3);
+            this.tpCreators.Size = new System.Drawing.Size(770, 386);
+            this.tpCreators.TabIndex = 6;
+            this.tpCreators.Text = "Creators";
+            this.tpCreators.UseVisualStyleBackColor = true;
+            // 
             // dgvSongs
             // 
             this.dgvSongs.AllowUserToAddRows = false;
             this.dgvSongs.AllowUserToDeleteRows = false;
             this.dgvSongs.AllowUserToOrderColumns = true;
             this.dgvSongs.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.dgvSongs.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.dgvSongs.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
             this.dgvSongs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvSongs.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colSelect});
@@ -1402,6 +1419,26 @@
             this.colSelect.Name = "colSelect";
             this.colSelect.TrueValue = "true";
             this.colSelect.Visible = false;
+            // 
+            // btnEOFSite
+            // 
+            this.btnEOFSite.Location = new System.Drawing.Point(275, 19);
+            this.btnEOFSite.Name = "btnEOFSite";
+            this.btnEOFSite.Size = new System.Drawing.Size(195, 25);
+            this.btnEOFSite.TabIndex = 0;
+            this.btnEOFSite.Text = "Editor on Fire";
+            this.btnEOFSite.UseVisualStyleBackColor = true;
+            this.btnEOFSite.Click += new System.EventHandler(this.btnEOFSite_Click);
+            // 
+            // btnRSTKSite
+            // 
+            this.btnRSTKSite.Location = new System.Drawing.Point(275, 67);
+            this.btnRSTKSite.Name = "btnRSTKSite";
+            this.btnRSTKSite.Size = new System.Drawing.Size(195, 25);
+            this.btnRSTKSite.TabIndex = 1;
+            this.btnRSTKSite.Text = "Rocksmith Toolkit";
+            this.btnRSTKSite.UseVisualStyleBackColor = true;
+            this.btnRSTKSite.Click += new System.EventHandler(this.btnRSTKSite_Click);
             // 
             // frmMain
             // 
@@ -1459,6 +1496,7 @@
             this.statusStripMain.ResumeLayout(false);
             this.statusStripMain.PerformLayout();
             this.contextMenuStrip_Tray.ResumeLayout(false);
+            this.tpCreators.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvSongs)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -1578,6 +1616,9 @@
         private System.Windows.Forms.LinkLabel linkOpenCFVideos;
         private System.Windows.Forms.LinkLabel linkCFFAQ;
         private Controls.RADataGridView dgvSongs;
+        private System.Windows.Forms.TabPage tpCreators;
+        private System.Windows.Forms.Button btnRSTKSite;
+        private System.Windows.Forms.Button btnEOFSite;
     }
 }
 

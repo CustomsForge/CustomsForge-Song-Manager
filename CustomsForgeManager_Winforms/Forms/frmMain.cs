@@ -1376,6 +1376,11 @@ namespace CustomsForgeManager_Winforms.Forms
         {
             //Thread.Sleep(3000);
             counterStopwatch.Start();
+            btnCheckAllForUpdates.InvokeIfRequired(delegate
+            {
+                btnCheckAllForUpdates.Enabled = false;
+            });
+            
             dgvSongs.InvokeIfRequired(delegate
             {
                 if (!bWorker.CancellationPending)
@@ -1570,6 +1575,10 @@ namespace CustomsForgeManager_Winforms.Forms
                         }
                         if (dataGridViewRow.Index == dgvSongs.Rows.Count - 1)
                         {
+                            btnCheckAllForUpdates.InvokeIfRequired(delegate
+                            {
+                                btnCheckAllForUpdates.Enabled = true;
+                            });
                             Log(string.Format("Finished update check. Task took {0}", counterStopwatch.Elapsed));
                             frmOutdatedSongs frmOutdated = new frmOutdatedSongs();
                             frmOutdated.OutdatedSongList = OutdatedSongList;
@@ -1618,6 +1627,16 @@ namespace CustomsForgeManager_Winforms.Forms
         private void lblSettingsRSDir_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnEOFSite_Click(object sender, EventArgs e)
+        {
+            Process.Start("http://ignition.customsforge.com/eof");
+        }
+
+        private void btnRSTKSite_Click(object sender, EventArgs e)
+        {
+            Process.Start("http://www.rscustom.net/");
         }
     }
 }

@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmOutdatedSongs));
             this.dgvOutdatedSongs = new System.Windows.Forms.DataGridView();
             this.btnOpenSongInBrowser = new System.Windows.Forms.Button();
+            this.btnOpenAllOutdatedSongs = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvOutdatedSongs)).BeginInit();
             this.SuspendLayout();
             // 
@@ -51,7 +52,7 @@
             // 
             // btnOpenSongInBrowser
             // 
-            this.btnOpenSongInBrowser.Location = new System.Drawing.Point(360, 513);
+            this.btnOpenSongInBrowser.Location = new System.Drawing.Point(300, 513);
             this.btnOpenSongInBrowser.Name = "btnOpenSongInBrowser";
             this.btnOpenSongInBrowser.Size = new System.Drawing.Size(134, 23);
             this.btnOpenSongInBrowser.TabIndex = 1;
@@ -59,11 +60,22 @@
             this.btnOpenSongInBrowser.UseVisualStyleBackColor = true;
             this.btnOpenSongInBrowser.Click += new System.EventHandler(this.btnOpenSongInBrowser_Click);
             // 
+            // btnOpenAllOutdatedSongs
+            // 
+            this.btnOpenAllOutdatedSongs.Location = new System.Drawing.Point(440, 513);
+            this.btnOpenAllOutdatedSongs.Name = "btnOpenAllOutdatedSongs";
+            this.btnOpenAllOutdatedSongs.Size = new System.Drawing.Size(134, 23);
+            this.btnOpenAllOutdatedSongs.TabIndex = 2;
+            this.btnOpenAllOutdatedSongs.Text = "Open song in browser";
+            this.btnOpenAllOutdatedSongs.UseVisualStyleBackColor = true;
+            this.btnOpenAllOutdatedSongs.Click += new System.EventHandler(this.btnOpenAllOutdatedSongs_Click);
+            // 
             // frmOutdatedSongs
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(872, 548);
+            this.Controls.Add(this.btnOpenAllOutdatedSongs);
             this.Controls.Add(this.btnOpenSongInBrowser);
             this.Controls.Add(this.dgvOutdatedSongs);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -80,5 +92,6 @@
 
         private System.Windows.Forms.DataGridView dgvOutdatedSongs;
         private System.Windows.Forms.Button btnOpenSongInBrowser;
+        private System.Windows.Forms.Button btnOpenAllOutdatedSongs;
     }
 }

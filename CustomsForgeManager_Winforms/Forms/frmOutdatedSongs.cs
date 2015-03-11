@@ -36,5 +36,11 @@ namespace CustomsForgeManager_Winforms.Forms
             dgvOutdatedSongs.DataSource = outdatedSongsInfo;
             dgvOutdatedSongs.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
         }
+
+        private void btnOpenAllOutdatedSongs_Click(object sender, EventArgs e)
+        {
+            foreach(DataGridViewRow row in dgvOutdatedSongs.Rows)
+                Process.Start(row.Cells["Link"].Value.ToString());
+        }
     }
 }
