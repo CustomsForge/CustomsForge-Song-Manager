@@ -975,7 +975,7 @@ namespace CustomsForgeManager_Winforms.Forms
         }
         private void link_Alex360Profile_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start("http://customsforge.com/user/236-alex360/");
+            Process.Start("http://customsforge.com/user/20759-zerkz/");
         }
         private void link_UnleashedProfile_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
