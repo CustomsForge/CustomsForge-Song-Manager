@@ -1565,15 +1565,5 @@ namespace CustomsForgeManager_Winforms.Forms
             var releaseNotes = new frmReleaseNotes();
             releaseNotes.ShowDialog();
         }
-
-        private void lbl_Credits_Description_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tableLayoutPanel_CFQuicklinks_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
     }
 }
