@@ -81,6 +81,8 @@ namespace CustomsForgeManager_Winforms.Forms
             if (ApplicationDeployment.IsNetworkDeployed)
                 Log(string.Format("Application loaded, using version: {0}", ApplicationDeployment.CurrentDeployment.CurrentVersion), 100);
 
+            Log(GetRSTKLibVersion());
+
             if (mySettings.RescanOnStartup)
                 BackgroundScan();
             else
@@ -88,6 +90,14 @@ namespace CustomsForgeManager_Winforms.Forms
 
             lbl_AppVersion.Text = "Version: " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
+
+        private string GetRSTKLibVersion()
+        {
+            Assembly assembly = Assembly.LoadFrom("RocksmithToolkitLib.dll");
+            Version ver = assembly.GetName().Version;
+            return string.Format("RocksmithToolkitLib version: {0}", ver);
+        }
+
         private void BackgroundScan()
         {
             bWorker = new AbortableBackgroundWorker();

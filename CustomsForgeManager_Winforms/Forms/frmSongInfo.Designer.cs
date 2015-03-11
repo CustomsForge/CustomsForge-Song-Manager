@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmSongInfo));
             this.gb_MainSongInfoPanel = new System.Windows.Forms.GroupBox();
             this.tlp_MainSongInfoWrapper = new System.Windows.Forms.TableLayoutPanel();
             this.lbl_PanelSongTitleLbl = new System.Windows.Forms.Label();
@@ -277,6 +278,7 @@
             this.ClientSize = new System.Drawing.Size(411, 402);
             this.Controls.Add(this.gb_MainSongInfoPanel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmSongInfo";
             this.ShowIcon = false;
             this.Text = "Song Info";

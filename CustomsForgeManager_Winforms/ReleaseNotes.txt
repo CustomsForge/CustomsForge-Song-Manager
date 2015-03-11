@@ -1,4 +1,8 @@
-﻿0.1.1.50
+﻿0.1.1.51
+-Included RocksmithToolkitLib version on app startup
+-All windows now have CSFM icons
+
+0.1.1.50
 -Included Release Notes
 
 0.1.1.49

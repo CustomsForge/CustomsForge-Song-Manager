@@ -24,6 +24,10 @@ namespace CustomsForgeManager_Winforms.Forms
             {
                 tbNotes.Text = "Could not find release notes...";
             }
+            finally
+            {
+                tbNotes.Select(0,0);
+            }
         }
     }
 }

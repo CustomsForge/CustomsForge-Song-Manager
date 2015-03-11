@@ -28,13 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmReleaseNotes));
             this.tbNotes = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // tbNotes
             // 
             this.tbNotes.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbNotes.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tbNotes.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.tbNotes.Location = new System.Drawing.Point(0, 0);
             this.tbNotes.Multiline = true;
             this.tbNotes.Name = "tbNotes";
@@ -47,6 +48,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 262);
             this.Controls.Add(this.tbNotes);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmReleaseNotes";
             this.Text = "Release Notes";
             this.ResumeLayout(false);
