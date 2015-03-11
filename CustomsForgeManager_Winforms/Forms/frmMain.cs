@@ -1575,5 +1575,20 @@ namespace CustomsForgeManager_Winforms.Forms
         {
 
         }
+
+        private void lbl_UnleashedRole_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tableLayoutPanel3_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void lblSettingsRSDir_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

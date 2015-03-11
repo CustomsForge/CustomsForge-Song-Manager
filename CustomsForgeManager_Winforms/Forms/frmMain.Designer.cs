@@ -634,7 +634,7 @@
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 389F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 386F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(770, 386);
             this.tableLayoutPanel2.TabIndex = 0;
             // 
@@ -726,6 +726,7 @@
             this.lblSettingsRSDir.TabIndex = 1;
             this.lblSettingsRSDir.Text = "Rocksmith installation directory (double-click to change):";
             this.lblSettingsRSDir.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblSettingsRSDir.Click += new System.EventHandler(this.lblSettingsRSDir_Click);
             // 
             // tbSettingsRSDir
             // 
@@ -932,6 +933,7 @@
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel3.Size = new System.Drawing.Size(373, 168);
             this.tableLayoutPanel3.TabIndex = 4;
+            this.tableLayoutPanel3.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel3_Paint);
             // 
             // lbl_AppVersion
             // 
@@ -1042,12 +1044,13 @@
             this.lbl_UnleashedRole.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lbl_UnleashedRole.AutoSize = true;
             this.lbl_UnleashedRole.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_UnleashedRole.Location = new System.Drawing.Point(21, 88);
+            this.lbl_UnleashedRole.Location = new System.Drawing.Point(20, 88);
             this.lbl_UnleashedRole.Name = "lbl_UnleashedRole";
-            this.lbl_UnleashedRole.Size = new System.Drawing.Size(143, 19);
+            this.lbl_UnleashedRole.Size = new System.Drawing.Size(146, 19);
             this.lbl_UnleashedRole.TabIndex = 0;
-            this.lbl_UnleashedRole.Text = "CustomsForge owner:";
+            this.lbl_UnleashedRole.Text = "CustomsForge Owner:";
             this.lbl_UnleashedRole.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lbl_UnleashedRole.Click += new System.EventHandler(this.lbl_UnleashedRole_Click);
             // 
             // lbl_DarjuszRole
             // 
@@ -1255,7 +1258,7 @@
             this.tableLayoutPanel_CFQuicklinks.ColumnCount = 3;
             this.tableLayoutPanel_CFQuicklinks.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25.34247F));
             this.tableLayoutPanel_CFQuicklinks.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 74.65753F));
-            this.tableLayoutPanel_CFQuicklinks.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
+            this.tableLayoutPanel_CFQuicklinks.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 76F));
             this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.linkOpenCFHomePage, 1, 0);
             this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.linkOpenIgnition, 1, 1);
             this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.linkOpenRequests, 1, 3);
@@ -1272,8 +1275,7 @@
             this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-            this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 22F));
+            this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel_CFQuicklinks.Size = new System.Drawing.Size(373, 168);
             this.tableLayoutPanel_CFQuicklinks.TabIndex = 4;
@@ -1284,9 +1286,9 @@
             this.linkCFFAQ.AutoSize = true;
             this.linkCFFAQ.Dock = System.Windows.Forms.DockStyle.Fill;
             this.linkCFFAQ.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(133)))), ((int)(((byte)(133)))), ((int)(((byte)(133)))));
-            this.linkCFFAQ.Location = new System.Drawing.Point(77, 120);
+            this.linkCFFAQ.Location = new System.Drawing.Point(78, 120);
             this.linkCFFAQ.Name = "linkCFFAQ";
-            this.linkCFFAQ.Size = new System.Drawing.Size(212, 25);
+            this.linkCFFAQ.Size = new System.Drawing.Size(215, 20);
             this.linkCFFAQ.TabIndex = 15;
             this.linkCFFAQ.TabStop = true;
             this.linkCFFAQ.Text = "FAQ";
@@ -1298,9 +1300,9 @@
             this.linkOpenCFVideos.AutoSize = true;
             this.linkOpenCFVideos.Dock = System.Windows.Forms.DockStyle.Fill;
             this.linkOpenCFVideos.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(133)))), ((int)(((byte)(133)))), ((int)(((byte)(133)))));
-            this.linkOpenCFVideos.Location = new System.Drawing.Point(77, 100);
+            this.linkOpenCFVideos.Location = new System.Drawing.Point(78, 100);
             this.linkOpenCFVideos.Name = "linkOpenCFVideos";
-            this.linkOpenCFVideos.Size = new System.Drawing.Size(212, 20);
+            this.linkOpenCFVideos.Size = new System.Drawing.Size(215, 20);
             this.linkOpenCFVideos.TabIndex = 14;
             this.linkOpenCFVideos.TabStop = true;
             this.linkOpenCFVideos.Text = "Videos";
@@ -1312,9 +1314,9 @@
             this.linkDontainsPage.AutoSize = true;
             this.linkDontainsPage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.linkDontainsPage.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(133)))), ((int)(((byte)(133)))), ((int)(((byte)(133)))));
-            this.linkDontainsPage.Location = new System.Drawing.Point(77, 80);
+            this.linkDontainsPage.Location = new System.Drawing.Point(78, 80);
             this.linkDontainsPage.Name = "linkDontainsPage";
-            this.linkDontainsPage.Size = new System.Drawing.Size(212, 20);
+            this.linkDontainsPage.Size = new System.Drawing.Size(215, 20);
             this.linkDontainsPage.TabIndex = 13;
             this.linkDontainsPage.TabStop = true;
             this.linkDontainsPage.Text = "Donations";
@@ -1326,9 +1328,9 @@
             this.linkOpenRequests.AutoSize = true;
             this.linkOpenRequests.Dock = System.Windows.Forms.DockStyle.Fill;
             this.linkOpenRequests.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(133)))), ((int)(((byte)(133)))), ((int)(((byte)(133)))));
-            this.linkOpenRequests.Location = new System.Drawing.Point(77, 60);
+            this.linkOpenRequests.Location = new System.Drawing.Point(78, 60);
             this.linkOpenRequests.Name = "linkOpenRequests";
-            this.linkOpenRequests.Size = new System.Drawing.Size(212, 20);
+            this.linkOpenRequests.Size = new System.Drawing.Size(215, 20);
             this.linkOpenRequests.TabIndex = 12;
             this.linkOpenRequests.TabStop = true;
             this.linkOpenRequests.Text = "Requests";
@@ -1340,9 +1342,9 @@
             this.linkOpenIgnition.AutoSize = true;
             this.linkOpenIgnition.Dock = System.Windows.Forms.DockStyle.Fill;
             this.linkOpenIgnition.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(133)))), ((int)(((byte)(133)))), ((int)(((byte)(133)))));
-            this.linkOpenIgnition.Location = new System.Drawing.Point(77, 20);
+            this.linkOpenIgnition.Location = new System.Drawing.Point(78, 20);
             this.linkOpenIgnition.Name = "linkOpenIgnition";
-            this.linkOpenIgnition.Size = new System.Drawing.Size(212, 20);
+            this.linkOpenIgnition.Size = new System.Drawing.Size(215, 20);
             this.linkOpenIgnition.TabIndex = 10;
             this.linkOpenIgnition.TabStop = true;
             this.linkOpenIgnition.Text = "Ignition";
@@ -1354,9 +1356,9 @@
             this.linkOpenCFHomePage.AutoSize = true;
             this.linkOpenCFHomePage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.linkOpenCFHomePage.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(133)))), ((int)(((byte)(133)))), ((int)(((byte)(133)))));
-            this.linkOpenCFHomePage.Location = new System.Drawing.Point(77, 0);
+            this.linkOpenCFHomePage.Location = new System.Drawing.Point(78, 0);
             this.linkOpenCFHomePage.Name = "linkOpenCFHomePage";
-            this.linkOpenCFHomePage.Size = new System.Drawing.Size(212, 20);
+            this.linkOpenCFHomePage.Size = new System.Drawing.Size(215, 20);
             this.linkOpenCFHomePage.TabIndex = 9;
             this.linkOpenCFHomePage.TabStop = true;
             this.linkOpenCFHomePage.Text = "CustomsForge Home";
@@ -1530,12 +1532,12 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel_CFQuicklinks;
-        private System.Windows.Forms.LinkLabel linkOpenCFHomePage;
         private System.Windows.Forms.LinkLabel linkOpenIgnition;
         private System.Windows.Forms.LinkLabel linkOpenRequests;
         private System.Windows.Forms.LinkLabel linkDontainsPage;
         private System.Windows.Forms.LinkLabel linkOpenCFVideos;
         private System.Windows.Forms.LinkLabel linkCFFAQ;
+        private System.Windows.Forms.LinkLabel linkOpenCFHomePage;
     }
 }
 
