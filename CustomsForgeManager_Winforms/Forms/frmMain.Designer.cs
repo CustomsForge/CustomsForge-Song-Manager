@@ -30,6 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tlp_MainForm_Wrappper = new System.Windows.Forms.TableLayoutPanel();
             this.gbLog = new System.Windows.Forms.GroupBox();
             this.tbLog = new System.Windows.Forms.TextBox();
@@ -47,6 +48,14 @@
             this.btnCheckAllForUpdates = new System.Windows.Forms.Button();
             this.btnRescan = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.contextMenuStrip_MainManager = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.showDLCInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openDLCPageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.checkForUpdateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openDLCLocationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editDLCToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.getAuthorNameStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteSongToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel3 = new System.Windows.Forms.Panel();
             this.linkLblSelectAll = new System.Windows.Forms.LinkLabel();
             this.link_MainClearResults = new System.Windows.Forms.LinkLabel();
@@ -63,14 +72,6 @@
             this.colDupeAlbum = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colDupeLastUpdated = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colDupeSongPath = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.contextMenuStrip_MainManager = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.showDLCInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openDLCPageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.checkForUpdateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openDLCLocationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.editDLCToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.getAuthorNameStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.deleteSongToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnDupeRescan = new System.Windows.Forms.Button();
             this.btnDeleteDupeSong = new System.Windows.Forms.Button();
@@ -99,6 +100,13 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.pictureBoxCF = new System.Windows.Forms.PictureBox();
             this.group_CFquickLinks = new System.Windows.Forms.GroupBox();
+            this.tableLayoutPanel_CFQuicklinks = new System.Windows.Forms.TableLayoutPanel();
+            this.linkOpenCFHomePage = new System.Windows.Forms.LinkLabel();
+            this.linkOpenIgnition = new System.Windows.Forms.LinkLabel();
+            this.linkOpenRequests = new System.Windows.Forms.LinkLabel();
+            this.linkDontainsPage = new System.Windows.Forms.LinkLabel();
+            this.linkOpenCFVideos = new System.Windows.Forms.LinkLabel();
+            this.linkCFFAQ = new System.Windows.Forms.LinkLabel();
             this.panel6 = new System.Windows.Forms.Panel();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
@@ -131,24 +139,19 @@
             this.notifyIcon_Main = new System.Windows.Forms.NotifyIcon(this.components);
             this.contextMenuStrip_Tray = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dgvSongs = new CustomsForgeManager_Winforms.Controls.RADataGridView();
             this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.tableLayoutPanel_CFQuicklinks = new System.Windows.Forms.TableLayoutPanel();
-            this.linkCFFAQ = new System.Windows.Forms.LinkLabel();
-            this.linkOpenCFVideos = new System.Windows.Forms.LinkLabel();
-            this.linkDontainsPage = new System.Windows.Forms.LinkLabel();
-            this.linkOpenRequests = new System.Windows.Forms.LinkLabel();
-            this.linkOpenIgnition = new System.Windows.Forms.LinkLabel();
-            this.linkOpenCFHomePage = new System.Windows.Forms.LinkLabel();
             this.tlp_MainForm_Wrappper.SuspendLayout();
             this.gbLog.SuspendLayout();
             this.tcMain.SuspendLayout();
             this.tpManager.SuspendLayout();
             this.tlpSongListWrapper.SuspendLayout();
             this.panelSongListButtons.SuspendLayout();
+            this.panel2.SuspendLayout();
+            this.contextMenuStrip_MainManager.SuspendLayout();
             this.panel3.SuspendLayout();
             this.tpDuplicates.SuspendLayout();
             this.tlpDuplicates.SuspendLayout();
-            this.contextMenuStrip_MainManager.SuspendLayout();
             this.panel1.SuspendLayout();
             this.tpUtilities.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -161,6 +164,7 @@
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCF)).BeginInit();
             this.group_CFquickLinks.SuspendLayout();
+            this.tableLayoutPanel_CFQuicklinks.SuspendLayout();
             this.panel6.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
@@ -168,7 +172,7 @@
             this.tableLayoutPanel_Credits.SuspendLayout();
             this.statusStripMain.SuspendLayout();
             this.contextMenuStrip_Tray.SuspendLayout();
-            this.tableLayoutPanel_CFQuicklinks.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSongs)).BeginInit();
             this.SuspendLayout();
             // 
             // tlp_MainForm_Wrappper
@@ -366,10 +370,73 @@
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.dgvSongs);
             this.panel2.Location = new System.Drawing.Point(3, 38);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(764, 290);
             this.panel2.TabIndex = 4;
+            // 
+            // contextMenuStrip_MainManager
+            // 
+            this.contextMenuStrip_MainManager.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.showDLCInfoToolStripMenuItem,
+            this.openDLCPageToolStripMenuItem,
+            this.checkForUpdateToolStripMenuItem,
+            this.openDLCLocationToolStripMenuItem,
+            this.editDLCToolStripMenuItem,
+            this.getAuthorNameStripMenuItem,
+            this.deleteSongToolStripMenuItem});
+            this.contextMenuStrip_MainManager.Name = "contextMenuStrip_MainManager";
+            this.contextMenuStrip_MainManager.Size = new System.Drawing.Size(178, 158);
+            // 
+            // showDLCInfoToolStripMenuItem
+            // 
+            this.showDLCInfoToolStripMenuItem.Name = "showDLCInfoToolStripMenuItem";
+            this.showDLCInfoToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.showDLCInfoToolStripMenuItem.Text = "Show DLC Info";
+            this.showDLCInfoToolStripMenuItem.Click += new System.EventHandler(this.showDLCInfoToolStripMenuItem_Click);
+            // 
+            // openDLCPageToolStripMenuItem
+            // 
+            this.openDLCPageToolStripMenuItem.Name = "openDLCPageToolStripMenuItem";
+            this.openDLCPageToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.openDLCPageToolStripMenuItem.Text = "Open DLC Page";
+            this.openDLCPageToolStripMenuItem.Click += new System.EventHandler(this.openDLCPageToolStripMenuItem_Click);
+            // 
+            // checkForUpdateToolStripMenuItem
+            // 
+            this.checkForUpdateToolStripMenuItem.Name = "checkForUpdateToolStripMenuItem";
+            this.checkForUpdateToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.checkForUpdateToolStripMenuItem.Text = "Check for Update";
+            this.checkForUpdateToolStripMenuItem.Click += new System.EventHandler(this.checkForUpdateToolStripMenuItem_Click);
+            // 
+            // openDLCLocationToolStripMenuItem
+            // 
+            this.openDLCLocationToolStripMenuItem.Name = "openDLCLocationToolStripMenuItem";
+            this.openDLCLocationToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.openDLCLocationToolStripMenuItem.Text = "Open DLC Location";
+            this.openDLCLocationToolStripMenuItem.Click += new System.EventHandler(this.openDLCLocationToolStripMenuItem_Click);
+            // 
+            // editDLCToolStripMenuItem
+            // 
+            this.editDLCToolStripMenuItem.Name = "editDLCToolStripMenuItem";
+            this.editDLCToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.editDLCToolStripMenuItem.Text = "Edit DLC";
+            this.editDLCToolStripMenuItem.Click += new System.EventHandler(this.editDLCToolStripMenuItem_Click);
+            // 
+            // getAuthorNameStripMenuItem
+            // 
+            this.getAuthorNameStripMenuItem.Name = "getAuthorNameStripMenuItem";
+            this.getAuthorNameStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.getAuthorNameStripMenuItem.Text = "Get author name";
+            this.getAuthorNameStripMenuItem.Click += new System.EventHandler(this.getAuthorNameStripMenuItem_Click);
+            // 
+            // deleteSongToolStripMenuItem
+            // 
+            this.deleteSongToolStripMenuItem.Name = "deleteSongToolStripMenuItem";
+            this.deleteSongToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.deleteSongToolStripMenuItem.Text = "Delete song";
+            this.deleteSongToolStripMenuItem.Click += new System.EventHandler(this.deleteSongToolStripMenuItem_Click);
             // 
             // panel3
             // 
@@ -390,7 +457,7 @@
             this.linkLblSelectAll.LinkColor = System.Drawing.Color.Black;
             this.linkLblSelectAll.Location = new System.Drawing.Point(14, 8);
             this.linkLblSelectAll.Name = "linkLblSelectAll";
-            this.linkLblSelectAll.Size = new System.Drawing.Size(113, 16);
+            this.linkLblSelectAll.Size = new System.Drawing.Size(111, 16);
             this.linkLblSelectAll.TabIndex = 2;
             this.linkLblSelectAll.TabStop = true;
             this.linkLblSelectAll.Text = "Select All/Deselect All";
@@ -519,68 +586,6 @@
             // 
             this.colDupeSongPath.Text = "Song Path";
             this.colDupeSongPath.Width = 284;
-            // 
-            // contextMenuStrip_MainManager
-            // 
-            this.contextMenuStrip_MainManager.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.showDLCInfoToolStripMenuItem,
-            this.openDLCPageToolStripMenuItem,
-            this.checkForUpdateToolStripMenuItem,
-            this.openDLCLocationToolStripMenuItem,
-            this.editDLCToolStripMenuItem,
-            this.getAuthorNameStripMenuItem,
-            this.deleteSongToolStripMenuItem});
-            this.contextMenuStrip_MainManager.Name = "contextMenuStrip_MainManager";
-            this.contextMenuStrip_MainManager.Size = new System.Drawing.Size(178, 158);
-            // 
-            // showDLCInfoToolStripMenuItem
-            // 
-            this.showDLCInfoToolStripMenuItem.Name = "showDLCInfoToolStripMenuItem";
-            this.showDLCInfoToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
-            this.showDLCInfoToolStripMenuItem.Text = "Show DLC Info";
-            this.showDLCInfoToolStripMenuItem.Click += new System.EventHandler(this.showDLCInfoToolStripMenuItem_Click);
-            // 
-            // openDLCPageToolStripMenuItem
-            // 
-            this.openDLCPageToolStripMenuItem.Name = "openDLCPageToolStripMenuItem";
-            this.openDLCPageToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
-            this.openDLCPageToolStripMenuItem.Text = "Open DLC Page";
-            this.openDLCPageToolStripMenuItem.Click += new System.EventHandler(this.openDLCPageToolStripMenuItem_Click);
-            // 
-            // checkForUpdateToolStripMenuItem
-            // 
-            this.checkForUpdateToolStripMenuItem.Name = "checkForUpdateToolStripMenuItem";
-            this.checkForUpdateToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
-            this.checkForUpdateToolStripMenuItem.Text = "Check for Update";
-            this.checkForUpdateToolStripMenuItem.Click += new System.EventHandler(this.checkForUpdateToolStripMenuItem_Click);
-            // 
-            // openDLCLocationToolStripMenuItem
-            // 
-            this.openDLCLocationToolStripMenuItem.Name = "openDLCLocationToolStripMenuItem";
-            this.openDLCLocationToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
-            this.openDLCLocationToolStripMenuItem.Text = "Open DLC Location";
-            this.openDLCLocationToolStripMenuItem.Click += new System.EventHandler(this.openDLCLocationToolStripMenuItem_Click);
-            // 
-            // editDLCToolStripMenuItem
-            // 
-            this.editDLCToolStripMenuItem.Name = "editDLCToolStripMenuItem";
-            this.editDLCToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
-            this.editDLCToolStripMenuItem.Text = "Edit DLC";
-            this.editDLCToolStripMenuItem.Click += new System.EventHandler(this.editDLCToolStripMenuItem_Click);
-            // 
-            // getAuthorNameStripMenuItem
-            // 
-            this.getAuthorNameStripMenuItem.Name = "getAuthorNameStripMenuItem";
-            this.getAuthorNameStripMenuItem.Size = new System.Drawing.Size(177, 22);
-            this.getAuthorNameStripMenuItem.Text = "Get author name";
-            this.getAuthorNameStripMenuItem.Click += new System.EventHandler(this.getAuthorNameStripMenuItem_Click);
-            // 
-            // deleteSongToolStripMenuItem
-            // 
-            this.deleteSongToolStripMenuItem.Name = "deleteSongToolStripMenuItem";
-            this.deleteSongToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
-            this.deleteSongToolStripMenuItem.Text = "Delete song";
-            this.deleteSongToolStripMenuItem.Click += new System.EventHandler(this.deleteSongToolStripMenuItem_Click);
             // 
             // panel1
             // 
@@ -780,9 +785,9 @@
             this.checkIncludeRS1DLC.Checked = true;
             this.checkIncludeRS1DLC.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkIncludeRS1DLC.Dock = System.Windows.Forms.DockStyle.Right;
-            this.checkIncludeRS1DLC.Location = new System.Drawing.Point(203, 75);
+            this.checkIncludeRS1DLC.Location = new System.Drawing.Point(204, 75);
             this.checkIncludeRS1DLC.Name = "checkIncludeRS1DLC";
-            this.checkIncludeRS1DLC.Size = new System.Drawing.Size(179, 22);
+            this.checkIncludeRS1DLC.Size = new System.Drawing.Size(178, 22);
             this.checkIncludeRS1DLC.TabIndex = 3;
             this.checkIncludeRS1DLC.Text = "Include RS1 Compatibility Pack";
             this.checkIncludeRS1DLC.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -895,6 +900,118 @@
             this.group_CFquickLinks.TabIndex = 3;
             this.group_CFquickLinks.TabStop = false;
             this.group_CFquickLinks.Text = "CustomsForge Links";
+            // 
+            // tableLayoutPanel_CFQuicklinks
+            // 
+            this.tableLayoutPanel_CFQuicklinks.ColumnCount = 3;
+            this.tableLayoutPanel_CFQuicklinks.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel_CFQuicklinks.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 75F));
+            this.tableLayoutPanel_CFQuicklinks.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 77F));
+            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.linkOpenCFHomePage, 1, 0);
+            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.linkOpenIgnition, 1, 1);
+            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.linkOpenRequests, 1, 3);
+            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.linkDontainsPage, 1, 4);
+            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.linkOpenCFVideos, 1, 5);
+            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.linkCFFAQ, 1, 6);
+            this.tableLayoutPanel_CFQuicklinks.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel_CFQuicklinks.Location = new System.Drawing.Point(3, 16);
+            this.tableLayoutPanel_CFQuicklinks.Name = "tableLayoutPanel_CFQuicklinks";
+            this.tableLayoutPanel_CFQuicklinks.RowCount = 8;
+            this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel_CFQuicklinks.Size = new System.Drawing.Size(373, 168);
+            this.tableLayoutPanel_CFQuicklinks.TabIndex = 4;
+            this.tableLayoutPanel_CFQuicklinks.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel_CFQuicklinks_Paint);
+            // 
+            // linkOpenCFHomePage
+            // 
+            this.linkOpenCFHomePage.AutoSize = true;
+            this.linkOpenCFHomePage.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.linkOpenCFHomePage.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(133)))), ((int)(((byte)(133)))), ((int)(((byte)(133)))));
+            this.linkOpenCFHomePage.Location = new System.Drawing.Point(77, 0);
+            this.linkOpenCFHomePage.Name = "linkOpenCFHomePage";
+            this.linkOpenCFHomePage.Size = new System.Drawing.Size(216, 16);
+            this.linkOpenCFHomePage.TabIndex = 9;
+            this.linkOpenCFHomePage.TabStop = true;
+            this.linkOpenCFHomePage.Text = "CustomsForge Home";
+            this.linkOpenCFHomePage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.linkOpenCFHomePage.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkOpenCFHomePage_LinkClicked);
+            // 
+            // linkOpenIgnition
+            // 
+            this.linkOpenIgnition.AutoSize = true;
+            this.linkOpenIgnition.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.linkOpenIgnition.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(133)))), ((int)(((byte)(133)))), ((int)(((byte)(133)))));
+            this.linkOpenIgnition.Location = new System.Drawing.Point(77, 16);
+            this.linkOpenIgnition.Name = "linkOpenIgnition";
+            this.linkOpenIgnition.Size = new System.Drawing.Size(216, 16);
+            this.linkOpenIgnition.TabIndex = 10;
+            this.linkOpenIgnition.TabStop = true;
+            this.linkOpenIgnition.Text = "Ignition";
+            this.linkOpenIgnition.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.linkOpenIgnition.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkOpenIgnition_LinkClicked);
+            // 
+            // linkOpenRequests
+            // 
+            this.linkOpenRequests.AutoSize = true;
+            this.linkOpenRequests.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.linkOpenRequests.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(133)))), ((int)(((byte)(133)))), ((int)(((byte)(133)))));
+            this.linkOpenRequests.Location = new System.Drawing.Point(77, 32);
+            this.linkOpenRequests.Name = "linkOpenRequests";
+            this.linkOpenRequests.Size = new System.Drawing.Size(216, 16);
+            this.linkOpenRequests.TabIndex = 12;
+            this.linkOpenRequests.TabStop = true;
+            this.linkOpenRequests.Text = "Requests";
+            this.linkOpenRequests.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.linkOpenRequests.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkOpenRequests_LinkClicked);
+            // 
+            // linkDontainsPage
+            // 
+            this.linkDontainsPage.AutoSize = true;
+            this.linkDontainsPage.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.linkDontainsPage.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(133)))), ((int)(((byte)(133)))), ((int)(((byte)(133)))));
+            this.linkDontainsPage.Location = new System.Drawing.Point(77, 48);
+            this.linkDontainsPage.Name = "linkDontainsPage";
+            this.linkDontainsPage.Size = new System.Drawing.Size(216, 16);
+            this.linkDontainsPage.TabIndex = 13;
+            this.linkDontainsPage.TabStop = true;
+            this.linkDontainsPage.Text = "Donations";
+            this.linkDontainsPage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.linkDontainsPage.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkDonationsPage_LinkClicked);
+            // 
+            // linkOpenCFVideos
+            // 
+            this.linkOpenCFVideos.AutoSize = true;
+            this.linkOpenCFVideos.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.linkOpenCFVideos.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(133)))), ((int)(((byte)(133)))), ((int)(((byte)(133)))));
+            this.linkOpenCFVideos.Location = new System.Drawing.Point(77, 64);
+            this.linkOpenCFVideos.Name = "linkOpenCFVideos";
+            this.linkOpenCFVideos.Size = new System.Drawing.Size(216, 16);
+            this.linkOpenCFVideos.TabIndex = 14;
+            this.linkOpenCFVideos.TabStop = true;
+            this.linkOpenCFVideos.Text = "Videos";
+            this.linkOpenCFVideos.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.linkOpenCFVideos.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkOpenCFVideos_LinkClicked);
+            // 
+            // linkCFFAQ
+            // 
+            this.linkCFFAQ.AutoSize = true;
+            this.linkCFFAQ.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.linkCFFAQ.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(133)))), ((int)(((byte)(133)))), ((int)(((byte)(133)))));
+            this.linkCFFAQ.Location = new System.Drawing.Point(77, 80);
+            this.linkCFFAQ.Name = "linkCFFAQ";
+            this.linkCFFAQ.Size = new System.Drawing.Size(216, 16);
+            this.linkCFFAQ.TabIndex = 15;
+            this.linkCFFAQ.TabStop = true;
+            this.linkCFFAQ.Text = "FAQ";
+            this.linkCFFAQ.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.linkCFFAQ.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkCFFAQ_LinkClicked);
             // 
             // panel6
             // 
@@ -1115,6 +1232,7 @@
             this.link_DarjuszProfile.TabStop = true;
             this.link_DarjuszProfile.Text = "Darjusz";
             this.link_DarjuszProfile.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.link_DarjuszProfile.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.link_DarjuszProfile_LinkClicked);
             // 
             // link_LovromanProfile
             // 
@@ -1128,6 +1246,7 @@
             this.link_LovromanProfile.TabStop = true;
             this.link_LovromanProfile.Text = "Lovroman";
             this.link_LovromanProfile.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.link_LovromanProfile.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.link_LovromanProfile_LinkClicked);
             // 
             // link_ZerkzProfile
             // 
@@ -1245,6 +1364,34 @@
             this.closeToolStripMenuItem.Text = "Close";
             this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
             // 
+            // dgvSongs
+            // 
+            this.dgvSongs.AllowUserToAddRows = false;
+            this.dgvSongs.AllowUserToDeleteRows = false;
+            this.dgvSongs.AllowUserToOrderColumns = true;
+            this.dgvSongs.AllowUserToResizeRows = false;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.dgvSongs.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            this.dgvSongs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvSongs.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colSelect});
+            this.dgvSongs.ContextMenuStrip = this.contextMenuStrip_MainManager;
+            this.dgvSongs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvSongs.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnF2;
+            this.dgvSongs.GridColor = System.Drawing.SystemColors.ActiveCaption;
+            this.dgvSongs.Location = new System.Drawing.Point(0, 0);
+            this.dgvSongs.MultiSelect = false;
+            this.dgvSongs.Name = "dgvSongs";
+            this.dgvSongs.RowHeadersVisible = false;
+            this.dgvSongs.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvSongs.Size = new System.Drawing.Size(764, 290);
+            this.dgvSongs.TabIndex = 1;
+            this.dgvSongs.DataSourceChanged += new System.EventHandler(this.dgvSongs_DataSourceChanged);
+            this.dgvSongs.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSongs_CellDoubleClick);
+            this.dgvSongs.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongs_CellMouseDown);
+            this.dgvSongs.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongs_ColumnHeaderMouseClick);
+            this.dgvSongs.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvSongs_KeyDown);
+            // 
             // colSelect
             // 
             this.colSelect.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
@@ -1255,118 +1402,6 @@
             this.colSelect.Name = "colSelect";
             this.colSelect.TrueValue = "true";
             this.colSelect.Visible = false;
-            // 
-            // tableLayoutPanel_CFQuicklinks
-            // 
-            this.tableLayoutPanel_CFQuicklinks.ColumnCount = 3;
-            this.tableLayoutPanel_CFQuicklinks.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel_CFQuicklinks.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 75F));
-            this.tableLayoutPanel_CFQuicklinks.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 75F));
-            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.linkOpenCFHomePage, 1, 0);
-            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.linkOpenIgnition, 1, 1);
-            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.linkOpenRequests, 1, 3);
-            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.linkDontainsPage, 1, 4);
-            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.linkOpenCFVideos, 1, 5);
-            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.linkCFFAQ, 1, 6);
-            this.tableLayoutPanel_CFQuicklinks.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel_CFQuicklinks.Location = new System.Drawing.Point(3, 16);
-            this.tableLayoutPanel_CFQuicklinks.Name = "tableLayoutPanel_CFQuicklinks";
-            this.tableLayoutPanel_CFQuicklinks.RowCount = 8;
-            this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel_CFQuicklinks.Size = new System.Drawing.Size(373, 168);
-            this.tableLayoutPanel_CFQuicklinks.TabIndex = 4;
-            this.tableLayoutPanel_CFQuicklinks.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel_CFQuicklinks_Paint);
-            // 
-            // linkCFFAQ
-            // 
-            this.linkCFFAQ.AutoSize = true;
-            this.linkCFFAQ.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.linkCFFAQ.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(133)))), ((int)(((byte)(133)))), ((int)(((byte)(133)))));
-            this.linkCFFAQ.Location = new System.Drawing.Point(77, 80);
-            this.linkCFFAQ.Name = "linkCFFAQ";
-            this.linkCFFAQ.Size = new System.Drawing.Size(217, 16);
-            this.linkCFFAQ.TabIndex = 15;
-            this.linkCFFAQ.TabStop = true;
-            this.linkCFFAQ.Text = "FAQ";
-            this.linkCFFAQ.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.linkCFFAQ.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkCFFAQ_LinkClicked);
-            // 
-            // linkOpenCFVideos
-            // 
-            this.linkOpenCFVideos.AutoSize = true;
-            this.linkOpenCFVideos.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.linkOpenCFVideos.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(133)))), ((int)(((byte)(133)))), ((int)(((byte)(133)))));
-            this.linkOpenCFVideos.Location = new System.Drawing.Point(77, 64);
-            this.linkOpenCFVideos.Name = "linkOpenCFVideos";
-            this.linkOpenCFVideos.Size = new System.Drawing.Size(217, 16);
-            this.linkOpenCFVideos.TabIndex = 14;
-            this.linkOpenCFVideos.TabStop = true;
-            this.linkOpenCFVideos.Text = "Videos";
-            this.linkOpenCFVideos.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.linkOpenCFVideos.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkOpenCFVideos_LinkClicked);
-            // 
-            // linkDontainsPage
-            // 
-            this.linkDontainsPage.AutoSize = true;
-            this.linkDontainsPage.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.linkDontainsPage.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(133)))), ((int)(((byte)(133)))), ((int)(((byte)(133)))));
-            this.linkDontainsPage.Location = new System.Drawing.Point(77, 48);
-            this.linkDontainsPage.Name = "linkDontainsPage";
-            this.linkDontainsPage.Size = new System.Drawing.Size(217, 16);
-            this.linkDontainsPage.TabIndex = 13;
-            this.linkDontainsPage.TabStop = true;
-            this.linkDontainsPage.Text = "Donations";
-            this.linkDontainsPage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.linkDontainsPage.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkDonationsPage_LinkClicked);
-            // 
-            // linkOpenRequests
-            // 
-            this.linkOpenRequests.AutoSize = true;
-            this.linkOpenRequests.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.linkOpenRequests.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(133)))), ((int)(((byte)(133)))), ((int)(((byte)(133)))));
-            this.linkOpenRequests.Location = new System.Drawing.Point(77, 32);
-            this.linkOpenRequests.Name = "linkOpenRequests";
-            this.linkOpenRequests.Size = new System.Drawing.Size(217, 16);
-            this.linkOpenRequests.TabIndex = 12;
-            this.linkOpenRequests.TabStop = true;
-            this.linkOpenRequests.Text = "Requests";
-            this.linkOpenRequests.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.linkOpenRequests.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkOpenRequests_LinkClicked);
-            // 
-            // linkOpenIgnition
-            // 
-            this.linkOpenIgnition.AutoSize = true;
-            this.linkOpenIgnition.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.linkOpenIgnition.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(133)))), ((int)(((byte)(133)))), ((int)(((byte)(133)))));
-            this.linkOpenIgnition.Location = new System.Drawing.Point(77, 16);
-            this.linkOpenIgnition.Name = "linkOpenIgnition";
-            this.linkOpenIgnition.Size = new System.Drawing.Size(217, 16);
-            this.linkOpenIgnition.TabIndex = 10;
-            this.linkOpenIgnition.TabStop = true;
-            this.linkOpenIgnition.Text = "Ignition";
-            this.linkOpenIgnition.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.linkOpenIgnition.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkOpenIgnition_LinkClicked);
-            // 
-            // linkOpenCFHomePage
-            // 
-            this.linkOpenCFHomePage.AutoSize = true;
-            this.linkOpenCFHomePage.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.linkOpenCFHomePage.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(133)))), ((int)(((byte)(133)))), ((int)(((byte)(133)))));
-            this.linkOpenCFHomePage.Location = new System.Drawing.Point(77, 0);
-            this.linkOpenCFHomePage.Name = "linkOpenCFHomePage";
-            this.linkOpenCFHomePage.Size = new System.Drawing.Size(217, 16);
-            this.linkOpenCFHomePage.TabIndex = 9;
-            this.linkOpenCFHomePage.TabStop = true;
-            this.linkOpenCFHomePage.Text = "CustomsForge Home";
-            this.linkOpenCFHomePage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.linkOpenCFHomePage.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkOpenCFHomePage_LinkClicked);
             // 
             // frmMain
             // 
@@ -1392,11 +1427,12 @@
             this.tlpSongListWrapper.ResumeLayout(false);
             this.panelSongListButtons.ResumeLayout(false);
             this.panelSongListButtons.PerformLayout();
+            this.panel2.ResumeLayout(false);
+            this.contextMenuStrip_MainManager.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             this.tpDuplicates.ResumeLayout(false);
             this.tlpDuplicates.ResumeLayout(false);
-            this.contextMenuStrip_MainManager.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.tpUtilities.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
@@ -1411,6 +1447,8 @@
             this.tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCF)).EndInit();
             this.group_CFquickLinks.ResumeLayout(false);
+            this.tableLayoutPanel_CFQuicklinks.ResumeLayout(false);
+            this.tableLayoutPanel_CFQuicklinks.PerformLayout();
             this.panel6.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);
@@ -1421,8 +1459,7 @@
             this.statusStripMain.ResumeLayout(false);
             this.statusStripMain.PerformLayout();
             this.contextMenuStrip_Tray.ResumeLayout(false);
-            this.tableLayoutPanel_CFQuicklinks.ResumeLayout(false);
-            this.tableLayoutPanel_CFQuicklinks.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSongs)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1484,7 +1521,6 @@
         private System.Windows.Forms.Button btnExportSongList;
         private System.Windows.Forms.ToolStripMenuItem showDLCInfoToolStripMenuItem;
         private System.Windows.Forms.Panel panel5;
-        private Controls.RADataGridView dgvSongs;
         private System.Windows.Forms.ToolStripMenuItem checkForUpdateToolStripMenuItem;
         private System.Windows.Forms.Button btnCheckAllForUpdates;
         private System.Windows.Forms.Button btnDisableEnableSongs;
@@ -1541,6 +1577,7 @@
         private System.Windows.Forms.LinkLabel linkDontainsPage;
         private System.Windows.Forms.LinkLabel linkOpenCFVideos;
         private System.Windows.Forms.LinkLabel linkCFFAQ;
+        private Controls.RADataGridView dgvSongs;
     }
 }
 

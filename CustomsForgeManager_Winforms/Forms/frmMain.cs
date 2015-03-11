@@ -34,6 +34,7 @@ namespace CustomsForgeManager_Winforms.Forms
         private Stopwatch counterStopwatch = new Stopwatch();
         private int numberOfDLCPendingUpdate = 0;
         private int numberOfDisabledDLC = 0;
+        private Version appVersion;
 
         private BindingList<SongData> SongCollection = new BindingList<SongData>();
         private List<SongData> DupeCollection = new List<SongData>();
@@ -88,7 +89,10 @@ namespace CustomsForgeManager_Winforms.Forms
             else
                 LoadSongCollectionFromFile();
 
-            lbl_AppVersion.Text = "Version: " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            if(appVersion != null)
+            {
+                lbl_AppVersion.Text = "Version: " + appVersion.ToString();
+            }
         }
 
         private string GetRSTKLibVersion()
@@ -218,12 +222,12 @@ namespace CustomsForgeManager_Winforms.Forms
 
             if (dups.Count > 0)
             {
-                foreach (var song in dups)  
+                foreach (var song in dups)
                 {
-                        listDupeSongs.InvokeIfRequired(delegate
-                        {
-                            listDupeSongs.Items.Add(new ListViewItem(new[] { " ", song.Artist, song.Song, song.Album, song.Updated, song.Path }));
-                        });
+                    listDupeSongs.InvokeIfRequired(delegate
+                    {
+                        listDupeSongs.Items.Add(new ListViewItem(new[] { " ", song.Artist, song.Song, song.Album, song.Updated, song.Path }));
+                    });
                 }
             }
 
@@ -542,6 +546,8 @@ namespace CustomsForgeManager_Winforms.Forms
                 try
                 {
                     info = ad.CheckForDetailedUpdate();
+                    appVersion = info.MinimumRequiredVersion;
+
                     if (info.UpdateAvailable)
                     {
                         Boolean doUpdate = true;
@@ -701,7 +707,7 @@ namespace CustomsForgeManager_Winforms.Forms
             var dataGridViewColumn = ((DataGridView)sender).Columns["Preview"];
             if (dataGridViewColumn != null && dataGridViewColumn.Visible)
                 dataGridViewColumn.Visible = false;
-            
+
             PopulateColumnList();
         }
         private void dgvSongs_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -717,6 +723,14 @@ namespace CustomsForgeManager_Winforms.Forms
                 int scrollVerticalOffset = 0;
                 BindingSource bs = new BindingSource { DataSource = SongCollection };
                 var songsToShow = SortedSongCollection;
+
+                Dictionary<SongData, Color> currentRows = new Dictionary<SongData, Color>();
+
+                foreach (DataGridViewRow row in dgvSongs.Rows)
+                {
+                    if (row.DefaultCellStyle.BackColor != Color.White || row.DefaultCellStyle.BackColor != Color.Gray)
+                        currentRows.Add((SongData)row.DataBoundItem, row.DefaultCellStyle.BackColor);
+                }
 
                 switch (dgvSongs.Columns[e.ColumnIndex].Name)
                 {
@@ -906,7 +920,12 @@ namespace CustomsForgeManager_Winforms.Forms
                 dgvSongs.HorizontalScrollingOffset = scrollHorizontalOffset;
 
                 PropertyInfo verticalOffset = dgvSongs.GetType().GetProperty("VerticalOffset", BindingFlags.NonPublic | BindingFlags.Instance);
-                verticalOffset.SetValue(this.dgvSongs, scrollVerticalOffset, null); 
+                verticalOffset.SetValue(this.dgvSongs, scrollVerticalOffset, null);
+
+                foreach (KeyValuePair<SongData, Color> row in currentRows)
+                {
+                    dgvSongs.Rows.Cast<DataGridViewRow>().FirstOrDefault(r => r.DataBoundItem == row.Key).DefaultCellStyle.BackColor = row.Value;
+                }
             }
         }
         #endregion
@@ -972,8 +991,20 @@ namespace CustomsForgeManager_Winforms.Forms
         {
             dgvSongs.InvokeIfRequired(delegate
             {
+                Dictionary<SongData, Color> currentRows = new Dictionary<SongData, Color>();
+                foreach (DataGridViewRow row in dgvSongs.Rows)
+                {
+                    if (row.DefaultCellStyle.BackColor != Color.White || row.DefaultCellStyle.BackColor != Color.Gray)
+                        currentRows.Add((SongData)row.DataBoundItem, row.DefaultCellStyle.BackColor);
+                }
+
                 SortedSongCollection = SongCollection.ToList();
                 dgvSongs.DataSource = new BindingSource().DataSource = SongCollection;
+
+                foreach (KeyValuePair<SongData, Color> row in currentRows)
+                {
+                    dgvSongs.Rows.Cast<DataGridViewRow>().FirstOrDefault(r => r.DataBoundItem == row.Key).DefaultCellStyle.BackColor = row.Value;
+                }
             });
             tbSearch.InvokeIfRequired(delegate { tbSearch.Text = ""; });
         }
@@ -1201,11 +1232,12 @@ namespace CustomsForgeManager_Winforms.Forms
         #region ToolStripMenuItem events
         private void deleteSongToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            try 
+            try
             {
-            File.Delete(SongCollection[dgvSongs.SelectedRows[0].Index].Path);
-            SongCollection.RemoveAt(dgvSongs.SelectedRows[0].Index);
-            }catch(IOException ex)
+                File.Delete(SongCollection[dgvSongs.SelectedRows[0].Index].Path);
+                SongCollection.RemoveAt(dgvSongs.SelectedRows[0].Index);
+            }
+            catch (IOException ex)
             {
                 myLog.Write("<ERROR>:" + ex.Message, false);
             }
@@ -1402,12 +1434,10 @@ namespace CustomsForgeManager_Winforms.Forms
             }
             sbTXT.AppendLine("[/table]");
 
-            using (frmSongListExport FormSongListExport = new frmSongListExport())
-            {
-                FormSongListExport.SongList = sbTXT.ToString();
-                FormSongListExport.Text = "Song list to HTML";
-                FormSongListExport.ShowDialog();
-            }
+            frmSongListExport FormSongListExport = new frmSongListExport();
+            FormSongListExport.SongList = sbTXT.ToString();
+            FormSongListExport.Text = "Song list to HTML";
+            FormSongListExport.ShowDialog();
         }
 
         private void SongListToBBCode()
@@ -1428,12 +1458,10 @@ namespace CustomsForgeManager_Winforms.Forms
             }
             sbTXT.AppendLine("[/LIST]");
 
-            using (frmSongListExport FormSongListExport = new frmSongListExport())
-            {
-                FormSongListExport.SongList = sbTXT.ToString();
-                FormSongListExport.Text = "Song list to BBCode";
-                FormSongListExport.ShowDialog();
-            }
+            frmSongListExport FormSongListExport = new frmSongListExport();
+            FormSongListExport.SongList = sbTXT.ToString();
+            FormSongListExport.Text = "Song list to BBCode";
+            FormSongListExport.Show();
         }
 
         private void SongListToCSV()
@@ -1480,6 +1508,8 @@ namespace CustomsForgeManager_Winforms.Forms
                     string response = "";
                     string cfUrl = "";
                     var client = new WebClient();
+                    int version = 0;
+
                     client.DownloadStringCompleted += (sender, e) =>
                     {
                         if (!bWorker.CancellationPending)
@@ -1496,55 +1526,54 @@ namespace CustomsForgeManager_Winforms.Forms
                                 dataGridViewRow.Cells["IgnitionVersion"].Value = currentSong.IgnitionVersion;
                             }
 
-                            if (currentSong.Version != "N/A")
+                            if (int.TryParse(currentSong.Version, out version))
                             {
-                                int version = 0;
+                                currentSong.Version += ".0";
+                            }
 
-                                if (int.TryParse(currentSong.Version, out version))
+                            if (int.TryParse(currentSong.IgnitionVersion, out version))
+                            {
+                                currentSong.IgnitionVersion += ".0";
+                            }
+
+                            if (currentSong.IgnitionVersion == "No Results")
+                            {
+                                dataGridViewRow.DefaultCellStyle.BackColor = Color.OrangeRed;
+                                myLog.Write(
+                                    string.Format(
+                                        "<ERROR>: Song \"{0}\" from \"{1}\" album by {2} not found in ignition.",
+                                        currentSong.Song, currentSong.Album, currentSong.Author), false);
+                            }
+                            else if (currentSong.Version != "N/A")
+                            {
+                                //TODO: Check for updates by release/update date
+                            }
+                            else if (currentSong.IgnitionVersion != currentSong.Version)
+                            {
+                                dataGridViewRow.DefaultCellStyle.BackColor = Color.Gold;
+                                myLog.Write(
+                                    string.Format(
+                                        "Update found for \"{0}\" from \"{1}\" album by {2}. Local version: {3}, Ignition version: {4} ",
+                                        currentSong.Song, currentSong.Album, currentSong.Author, currentSong.Version,
+                                        currentSong.IgnitionVersion), false);
+
+                                numberOfDLCPendingUpdate++;
+                                toolStripStatusLabel_DisabledCounter.Text = "Outdated: " + numberOfDLCPendingUpdate.ToString() + " | Disabled DLC:" + numberOfDisabledDLC.ToString();
+
+                                cfUrl = Constants.DefaultCFSongUrl + currentSong.Song.Replace("'", "").Replace("(", "").Replace(")", "").Replace(" ", "-") + "-r" + currentSong.IgnitionID;
+
+                                if (!OutdatedSongList.ContainsKey(cfUrl))
                                 {
-                                    currentSong.Version += ".0";
-                                }
-
-                                if (int.TryParse(currentSong.IgnitionVersion, out version))
-                                {
-                                    currentSong.IgnitionVersion += ".0";
-                                }
-
-                                if (currentSong.IgnitionVersion == "No Results")
-                                {
-                                    dataGridViewRow.DefaultCellStyle.BackColor = Color.OrangeRed;
-                                    myLog.Write(
-                                        string.Format(
-                                            "<ERROR>: Song \"{0}\" from \"{1}\" album by {2} not found in ignition.",
-                                            currentSong.Song, currentSong.Album, currentSong.Author), false);
-                                }
-                                else if (currentSong.IgnitionVersion != currentSong.Version)
-                                {
-                                    dataGridViewRow.DefaultCellStyle.BackColor = Color.Gold;
-                                    myLog.Write(
-                                        string.Format(
-                                            "Update found for \"{0}\" from \"{1}\" album by {2}. Local version: {3}, Ignition version: {4} ",
-                                            currentSong.Song, currentSong.Album, currentSong.Author, currentSong.Version,
-                                            currentSong.IgnitionVersion), false);
-
-                                    numberOfDLCPendingUpdate++;
-                                    toolStripStatusLabel_DisabledCounter.Text = "Outdated: " + numberOfDLCPendingUpdate.ToString() + " | Disabled DLC:" + numberOfDisabledDLC.ToString();
-                                    
-                                    cfUrl = Constants.DefaultCFSongUrl + currentSong.Song.Replace("'", "").Replace("(","").Replace(")","").Replace(" ", "-") + "-r" + currentSong.IgnitionID;
-
-                                    if (!OutdatedSongList.ContainsKey(cfUrl))
-                                    {
-                                        OutdatedSongList.Add(cfUrl, currentSong);
-                                    }
+                                    OutdatedSongList.Add(cfUrl, currentSong);
                                 }
                             }
-                            if (dataGridViewRow.Index == dgvSongs.Rows.Count - 1)
-                            {
-                                Log(string.Format("Finished update check. Task took {0}", counterStopwatch.Elapsed));
-                                frmOutdatedSongs frmOutdated = new frmOutdatedSongs();
-                                frmOutdated.OutdatedSongList = OutdatedSongList;
-                                frmOutdated.ShowDialog();
-                            }
+                        }
+                        if (dataGridViewRow.Index == dgvSongs.Rows.Count - 1)
+                        {
+                            Log(string.Format("Finished update check. Task took {0}", counterStopwatch.Elapsed));
+                            frmOutdatedSongs frmOutdated = new frmOutdatedSongs();
+                            frmOutdated.OutdatedSongList = OutdatedSongList;
+                            frmOutdated.Show();
                         }
                     };
                     if (!bWorker.CancellationPending)

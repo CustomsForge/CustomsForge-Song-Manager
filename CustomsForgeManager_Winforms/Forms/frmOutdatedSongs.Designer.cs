@@ -46,12 +46,12 @@
             this.dgvOutdatedSongs.ReadOnly = true;
             this.dgvOutdatedSongs.RowHeadersVisible = false;
             this.dgvOutdatedSongs.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvOutdatedSongs.Size = new System.Drawing.Size(544, 374);
+            this.dgvOutdatedSongs.Size = new System.Drawing.Size(848, 495);
             this.dgvOutdatedSongs.TabIndex = 0;
             // 
             // btnOpenSongInBrowser
             // 
-            this.btnOpenSongInBrowser.Location = new System.Drawing.Point(215, 392);
+            this.btnOpenSongInBrowser.Location = new System.Drawing.Point(360, 513);
             this.btnOpenSongInBrowser.Name = "btnOpenSongInBrowser";
             this.btnOpenSongInBrowser.Size = new System.Drawing.Size(134, 23);
             this.btnOpenSongInBrowser.TabIndex = 1;
@@ -63,9 +63,10 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(572, 422);
+            this.ClientSize = new System.Drawing.Size(872, 548);
             this.Controls.Add(this.btnOpenSongInBrowser);
             this.Controls.Add(this.dgvOutdatedSongs);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmOutdatedSongs";
             this.Text = "Outdated Songs";
