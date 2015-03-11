@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.tlp_MainForm_Wrappper = new System.Windows.Forms.TableLayoutPanel();
             this.gbLog = new System.Windows.Forms.GroupBox();
@@ -150,6 +150,7 @@
             this.contextMenuStrip_Tray = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bWorker = new CustomsForgeManager_Winforms.Controls.AbortableBackgroundWorker();
+            this.lnk_ReleaseNotes = new System.Windows.Forms.LinkLabel();
             this.tlp_MainForm_Wrappper.SuspendLayout();
             this.gbLog.SuspendLayout();
             this.tcMain.SuspendLayout();
@@ -388,8 +389,8 @@
             this.dgvSongs.AllowUserToDeleteRows = false;
             this.dgvSongs.AllowUserToOrderColumns = true;
             this.dgvSongs.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.dgvSongs.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.dgvSongs.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
             this.dgvSongs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvSongs.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colSelect});
@@ -432,7 +433,7 @@
             this.getAuthorNameStripMenuItem,
             this.deleteSongToolStripMenuItem});
             this.contextMenuStrip_MainManager.Name = "contextMenuStrip_MainManager";
-            this.contextMenuStrip_MainManager.Size = new System.Drawing.Size(178, 180);
+            this.contextMenuStrip_MainManager.Size = new System.Drawing.Size(178, 158);
             // 
             // showDLCInfoToolStripMenuItem
             // 
@@ -1156,6 +1157,7 @@
             // panel6
             // 
             this.panel6.Controls.Add(this.lbl_AppVersion);
+            this.panel6.Controls.Add(this.lnk_ReleaseNotes);
             this.panel6.Controls.Add(this.link_CFManager);
             this.panel6.Controls.Add(this.lnkAboutCF);
             this.panel6.Location = new System.Drawing.Point(388, 3);
@@ -1178,7 +1180,7 @@
             this.link_CFManager.AutoSize = true;
             this.link_CFManager.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.link_CFManager.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(133)))), ((int)(((byte)(133)))), ((int)(((byte)(133)))));
-            this.link_CFManager.Location = new System.Drawing.Point(123, 97);
+            this.link_CFManager.Location = new System.Drawing.Point(123, 55);
             this.link_CFManager.Name = "link_CFManager";
             this.link_CFManager.Size = new System.Drawing.Size(154, 25);
             this.link_CFManager.TabIndex = 2;
@@ -1192,7 +1194,7 @@
             this.lnkAboutCF.AutoSize = true;
             this.lnkAboutCF.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lnkAboutCF.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(133)))), ((int)(((byte)(133)))), ((int)(((byte)(133)))));
-            this.lnkAboutCF.Location = new System.Drawing.Point(111, 44);
+            this.lnkAboutCF.Location = new System.Drawing.Point(111, 25);
             this.lnkAboutCF.Name = "lnkAboutCF";
             this.lnkAboutCF.Size = new System.Drawing.Size(177, 25);
             this.lnkAboutCF.TabIndex = 1;
@@ -1496,6 +1498,20 @@
             this.bWorker.WorkerReportsProgress = true;
             this.bWorker.WorkerSupportsCancellation = true;
             // 
+            // lnk_ReleaseNotes
+            // 
+            this.lnk_ReleaseNotes.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lnk_ReleaseNotes.AutoSize = true;
+            this.lnk_ReleaseNotes.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lnk_ReleaseNotes.LinkColor = System.Drawing.Color.DodgerBlue;
+            this.lnk_ReleaseNotes.Location = new System.Drawing.Point(144, 109);
+            this.lnk_ReleaseNotes.Name = "lnk_ReleaseNotes";
+            this.lnk_ReleaseNotes.Size = new System.Drawing.Size(108, 21);
+            this.lnk_ReleaseNotes.TabIndex = 2;
+            this.lnk_ReleaseNotes.TabStop = true;
+            this.lnk_ReleaseNotes.Text = "Release Notes";
+            this.lnk_ReleaseNotes.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnk_ReleaseNotes_LinkClicked);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1677,6 +1693,7 @@
         private System.Windows.Forms.ColumnHeader colSettingsColumnEnabled;
         private System.Windows.Forms.ColumnHeader colDupeLastUpdated;
         private System.Windows.Forms.ToolStripMenuItem deleteSongToolStripMenuItem;
+        private System.Windows.Forms.LinkLabel lnk_ReleaseNotes;
     }
 }
 

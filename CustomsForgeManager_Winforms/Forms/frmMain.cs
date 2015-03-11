@@ -1547,5 +1547,11 @@ namespace CustomsForgeManager_Winforms.Forms
         {
             return SongCollection.Distinct().FirstOrDefault(x => x.Song == dataGridViewRow.Cells["Song"].Value.ToString() && x.Artist == dataGridViewRow.Cells["Artist"].Value.ToString() && x.Album == dataGridViewRow.Cells["Album"].Value.ToString() && x.Path == dataGridViewRow.Cells["Path"].Value.ToString());
         }
+
+        private void lnk_ReleaseNotes_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            var releaseNotes = new frmReleaseNotes();
+            releaseNotes.ShowDialog();
+        }
     }
 }

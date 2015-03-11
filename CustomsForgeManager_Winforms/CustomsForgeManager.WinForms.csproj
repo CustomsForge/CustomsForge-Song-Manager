@@ -32,7 +32,7 @@
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>index.html</WebPage>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>50</ApplicationRevision>
+    <ApplicationRevision>51</ApplicationRevision>
     <ApplicationVersion>0.1.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -112,6 +112,12 @@
     <Compile Include="Forms\frmOutdatedSongs.Designer.cs">
       <DependentUpon>frmOutdatedSongs.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\frmReleaseNotes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmReleaseNotes.Designer.cs">
+      <DependentUpon>frmReleaseNotes.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\frmSongListExport.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -148,6 +154,9 @@
     <Compile Include="Models\SongDupeData.cs" />
     <EmbeddedResource Include="Forms\frmOutdatedSongs.resx">
       <DependentUpon>frmOutdatedSongs.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmReleaseNotes.resx">
+      <DependentUpon>frmReleaseNotes.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmSongListExport.resx">
       <DependentUpon>frmSongListExport.cs</DependentUpon>
@@ -211,6 +220,16 @@
     <None Include="Resources\cfsm_48x48.ico" />
   </ItemGroup>
   <ItemGroup>
+    <PublishFile Include="ReleaseNotes.txt">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
     <PublishFile Include="tunings.xml">
       <Visible>False</Visible>
       <Group>
@@ -223,6 +242,9 @@
     </PublishFile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ReleaseNotes.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="tunings.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

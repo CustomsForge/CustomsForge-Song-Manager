@@ -1,0 +1,9 @@
+﻿0.1.1.50
+-Included Release Notes
+
+0.1.1.49
+-Open DLC location preselects file
+
+0.1.1.48
+-Updated RSTK Toolkit to latest GitHub version
+-Added zerkz to About Page
