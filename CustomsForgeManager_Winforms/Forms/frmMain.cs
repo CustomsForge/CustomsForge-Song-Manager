@@ -1263,7 +1263,7 @@ namespace CustomsForgeManager_Winforms.Forms
             var path = dgvSongs.SelectedRows[0].Cells["Path"].Value.ToString();
             var directory = new FileInfo(path);
             if (directory.DirectoryName != null)
-                Process.Start(directory.DirectoryName);
+                Process.Start("explorer.exe", string.Format("/select,\"{0}\"", directory.FullName));
         }
         #endregion
         private void timerAutoUpdate_Tick(object sender, EventArgs e)
