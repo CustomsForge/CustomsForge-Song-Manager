@@ -701,6 +701,8 @@ namespace CustomsForgeManager_Winforms.Forms
             var dataGridViewColumn = ((DataGridView)sender).Columns["Preview"];
             if (dataGridViewColumn != null && dataGridViewColumn.Visible)
                 dataGridViewColumn.Visible = false;
+            
+            PopulateColumnList();
         }
         private void dgvSongs_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
