@@ -41,6 +41,7 @@
             this.radioBtn_ExportToHTML = new System.Windows.Forms.RadioButton();
             this.radioBtn_ExportToCSV = new System.Windows.Forms.RadioButton();
             this.btnExportSongList = new System.Windows.Forms.Button();
+            this.lbl_ExportTo = new System.Windows.Forms.Label();
             this.radioBtn_ExportToBBCode = new System.Windows.Forms.RadioButton();
             this.btnDisableEnableSongs = new System.Windows.Forms.Button();
             this.btnCheckAllForUpdates = new System.Windows.Forms.Button();
@@ -261,6 +262,7 @@
             this.panelSongListButtons.Controls.Add(this.radioBtn_ExportToHTML);
             this.panelSongListButtons.Controls.Add(this.radioBtn_ExportToCSV);
             this.panelSongListButtons.Controls.Add(this.btnExportSongList);
+            this.panelSongListButtons.Controls.Add(this.lbl_ExportTo);
             this.panelSongListButtons.Controls.Add(this.radioBtn_ExportToBBCode);
             this.panelSongListButtons.Controls.Add(this.btnDisableEnableSongs);
             this.panelSongListButtons.Controls.Add(this.btnCheckAllForUpdates);
@@ -284,19 +286,18 @@
             // radioBtn_ExportToHTML
             // 
             this.radioBtn_ExportToHTML.AutoSize = true;
-            this.radioBtn_ExportToHTML.Location = new System.Drawing.Point(709, 29);
+            this.radioBtn_ExportToHTML.Location = new System.Drawing.Point(636, 35);
             this.radioBtn_ExportToHTML.Name = "radioBtn_ExportToHTML";
             this.radioBtn_ExportToHTML.Size = new System.Drawing.Size(53, 20);
             this.radioBtn_ExportToHTML.TabIndex = 18;
             this.radioBtn_ExportToHTML.TabStop = true;
             this.radioBtn_ExportToHTML.Text = "HTML";
             this.radioBtn_ExportToHTML.UseVisualStyleBackColor = true;
-            this.radioBtn_ExportToHTML.CheckedChanged += new System.EventHandler(this.radioBtn_ExportToHTML_CheckedChanged);
             // 
             // radioBtn_ExportToCSV
             // 
             this.radioBtn_ExportToCSV.AutoSize = true;
-            this.radioBtn_ExportToCSV.Location = new System.Drawing.Point(709, 3);
+            this.radioBtn_ExportToCSV.Location = new System.Drawing.Point(636, 15);
             this.radioBtn_ExportToCSV.Name = "radioBtn_ExportToCSV";
             this.radioBtn_ExportToCSV.Size = new System.Drawing.Size(45, 20);
             this.radioBtn_ExportToCSV.TabIndex = 17;
@@ -307,18 +308,27 @@
             // btnExportSongList
             // 
             this.btnExportSongList.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnExportSongList.Location = new System.Drawing.Point(647, 3);
+            this.btnExportSongList.Location = new System.Drawing.Point(697, 15);
             this.btnExportSongList.Name = "btnExportSongList";
-            this.btnExportSongList.Size = new System.Drawing.Size(50, 23);
+            this.btnExportSongList.Size = new System.Drawing.Size(55, 23);
             this.btnExportSongList.TabIndex = 12;
             this.btnExportSongList.Text = "Export";
             this.btnExportSongList.UseVisualStyleBackColor = true;
             this.btnExportSongList.Click += new System.EventHandler(this.btnExportSongList_Click);
             // 
+            // lbl_ExportTo
+            // 
+            this.lbl_ExportTo.AutoSize = true;
+            this.lbl_ExportTo.Location = new System.Drawing.Point(578, 20);
+            this.lbl_ExportTo.Name = "lbl_ExportTo";
+            this.lbl_ExportTo.Size = new System.Drawing.Size(60, 16);
+            this.lbl_ExportTo.TabIndex = 16;
+            this.lbl_ExportTo.Text = "Export to:";
+            // 
             // radioBtn_ExportToBBCode
             // 
             this.radioBtn_ExportToBBCode.AutoSize = true;
-            this.radioBtn_ExportToBBCode.Location = new System.Drawing.Point(647, 29);
+            this.radioBtn_ExportToBBCode.Location = new System.Drawing.Point(636, -3);
             this.radioBtn_ExportToBBCode.Name = "radioBtn_ExportToBBCode";
             this.radioBtn_ExportToBBCode.Size = new System.Drawing.Size(63, 20);
             this.radioBtn_ExportToBBCode.TabIndex = 15;
@@ -1557,6 +1567,7 @@
         private System.Windows.Forms.Label lbl_AppVersion;
         private System.Windows.Forms.RadioButton radioBtn_ExportToHTML;
         private System.Windows.Forms.RadioButton radioBtn_ExportToCSV;
+        private System.Windows.Forms.Label lbl_ExportTo;
         private System.Windows.Forms.RadioButton radioBtn_ExportToBBCode;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel_ClearLog;
         private System.Windows.Forms.Label lblDisabledColumns;

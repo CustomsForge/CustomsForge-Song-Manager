@@ -1638,10 +1638,5 @@ namespace CustomsForgeManager_Winforms.Forms
         {
             Process.Start("http://www.rscustom.net/");
         }
-
-        private void radioBtn_ExportToHTML_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
     }
 }
