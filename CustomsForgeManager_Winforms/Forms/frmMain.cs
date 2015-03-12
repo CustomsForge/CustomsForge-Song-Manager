@@ -937,7 +937,7 @@ namespace CustomsForgeManager_Winforms.Forms
 
         private void link_CFManager_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start("http://cfmanager.com/");
+            Process.Start("http://customsforge.com/forum/81-customsforge-song-manager/");
         }
         private void linkOpenCFHomePage_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {

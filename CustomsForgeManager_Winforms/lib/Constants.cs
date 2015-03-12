@@ -11,7 +11,11 @@ namespace CustomsForgeManager_Winforms.Utilities
         {
             get
             {
+#if (DEBUG)
                 return @"http://ignition.dev.customsforge.com/api/cdlc";
+#else
+                return @"http://ignition.dev.customsforge.com/api/cdlc";
+#endif
                 //return @"http://ignition.localhost:88/api/cdlc";
             }
         }
