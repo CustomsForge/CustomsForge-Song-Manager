@@ -7,7 +7,7 @@
 -Changed Multiple colors to black (clear log, about links, and more)
 -Modified grid for CustomsForge Links
 -Added background in credits (might change in future again)
--Misc changes
+-Misc changes :)
 
 0.1.1.58
 -Changed Support Link
