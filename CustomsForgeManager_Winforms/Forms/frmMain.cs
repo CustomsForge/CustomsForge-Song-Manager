@@ -1442,7 +1442,7 @@ namespace CustomsForgeManager_Winforms.Forms
             frmSongListExport FormSongListExport = new frmSongListExport();
             FormSongListExport.SongList = sbTXT.ToString();
             FormSongListExport.Text = "Song list to HTML";
-            FormSongListExport.ShowDialog();
+            FormSongListExport.Show();
         }
 
         private void SongListToBBCode()
