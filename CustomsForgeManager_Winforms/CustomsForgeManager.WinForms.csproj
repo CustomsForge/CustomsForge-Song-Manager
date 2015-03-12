@@ -245,6 +245,7 @@
     <Content Include="ReleaseNotes.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\eof-bg.jpg" />
     <Content Include="tunings.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

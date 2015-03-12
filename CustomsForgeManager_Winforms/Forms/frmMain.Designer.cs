@@ -290,29 +290,31 @@
             // radioBtn_ExportToHTML
             // 
             this.radioBtn_ExportToHTML.AutoSize = true;
-            this.radioBtn_ExportToHTML.Location = new System.Drawing.Point(636, 35);
+            this.radioBtn_ExportToHTML.Location = new System.Drawing.Point(708, 29);
             this.radioBtn_ExportToHTML.Name = "radioBtn_ExportToHTML";
             this.radioBtn_ExportToHTML.Size = new System.Drawing.Size(53, 20);
             this.radioBtn_ExportToHTML.TabIndex = 18;
             this.radioBtn_ExportToHTML.TabStop = true;
             this.radioBtn_ExportToHTML.Text = "HTML";
             this.radioBtn_ExportToHTML.UseVisualStyleBackColor = true;
+            this.radioBtn_ExportToHTML.CheckedChanged += new System.EventHandler(this.radioBtn_ExportToHTML_CheckedChanged);
             // 
             // radioBtn_ExportToCSV
             // 
             this.radioBtn_ExportToCSV.AutoSize = true;
-            this.radioBtn_ExportToCSV.Location = new System.Drawing.Point(636, 15);
+            this.radioBtn_ExportToCSV.Location = new System.Drawing.Point(708, 7);
             this.radioBtn_ExportToCSV.Name = "radioBtn_ExportToCSV";
             this.radioBtn_ExportToCSV.Size = new System.Drawing.Size(45, 20);
             this.radioBtn_ExportToCSV.TabIndex = 17;
             this.radioBtn_ExportToCSV.TabStop = true;
             this.radioBtn_ExportToCSV.Text = "CSV";
             this.radioBtn_ExportToCSV.UseVisualStyleBackColor = true;
+            this.radioBtn_ExportToCSV.CheckedChanged += new System.EventHandler(this.radioBtn_ExportToCSV_CheckedChanged);
             // 
             // btnExportSongList
             // 
             this.btnExportSongList.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnExportSongList.Location = new System.Drawing.Point(697, 15);
+            this.btnExportSongList.Location = new System.Drawing.Point(647, 6);
             this.btnExportSongList.Name = "btnExportSongList";
             this.btnExportSongList.Size = new System.Drawing.Size(55, 23);
             this.btnExportSongList.TabIndex = 12;
@@ -323,7 +325,7 @@
             // lbl_ExportTo
             // 
             this.lbl_ExportTo.AutoSize = true;
-            this.lbl_ExportTo.Location = new System.Drawing.Point(578, 20);
+            this.lbl_ExportTo.Location = new System.Drawing.Point(581, 31);
             this.lbl_ExportTo.Name = "lbl_ExportTo";
             this.lbl_ExportTo.Size = new System.Drawing.Size(60, 16);
             this.lbl_ExportTo.TabIndex = 16;
@@ -332,7 +334,7 @@
             // radioBtn_ExportToBBCode
             // 
             this.radioBtn_ExportToBBCode.AutoSize = true;
-            this.radioBtn_ExportToBBCode.Location = new System.Drawing.Point(636, -3);
+            this.radioBtn_ExportToBBCode.Location = new System.Drawing.Point(647, 29);
             this.radioBtn_ExportToBBCode.Name = "radioBtn_ExportToBBCode";
             this.radioBtn_ExportToBBCode.Size = new System.Drawing.Size(63, 20);
             this.radioBtn_ExportToBBCode.TabIndex = 15;
@@ -664,6 +666,8 @@
             // 
             // tpCreators
             // 
+            this.tpCreators.BackgroundImage = global::CustomsForgeManager_Winforms.Properties.Resources.eof_bg;
+            this.tpCreators.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.tpCreators.Controls.Add(this.btnRSTKSite);
             this.tpCreators.Controls.Add(this.btnEOFSite);
             this.tpCreators.Location = new System.Drawing.Point(4, 25);
@@ -676,7 +680,7 @@
             // 
             // btnRSTKSite
             // 
-            this.btnRSTKSite.Location = new System.Drawing.Point(275, 67);
+            this.btnRSTKSite.Location = new System.Drawing.Point(275, 258);
             this.btnRSTKSite.Name = "btnRSTKSite";
             this.btnRSTKSite.Size = new System.Drawing.Size(195, 25);
             this.btnRSTKSite.TabIndex = 1;
@@ -686,7 +690,7 @@
             // 
             // btnEOFSite
             // 
-            this.btnEOFSite.Location = new System.Drawing.Point(275, 19);
+            this.btnEOFSite.Location = new System.Drawing.Point(275, 105);
             this.btnEOFSite.Name = "btnEOFSite";
             this.btnEOFSite.Size = new System.Drawing.Size(195, 25);
             this.btnEOFSite.TabIndex = 0;
@@ -1009,7 +1013,7 @@
             // 
             this.linkOpenCFHomePage.AutoSize = true;
             this.linkOpenCFHomePage.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.linkOpenCFHomePage.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(133)))), ((int)(((byte)(133)))), ((int)(((byte)(133)))));
+            this.linkOpenCFHomePage.LinkColor = System.Drawing.Color.Black;
             this.linkOpenCFHomePage.Location = new System.Drawing.Point(77, 0);
             this.linkOpenCFHomePage.Name = "linkOpenCFHomePage";
             this.linkOpenCFHomePage.Size = new System.Drawing.Size(216, 16);
@@ -1023,7 +1027,7 @@
             // 
             this.linkOpenIgnition.AutoSize = true;
             this.linkOpenIgnition.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.linkOpenIgnition.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(133)))), ((int)(((byte)(133)))), ((int)(((byte)(133)))));
+            this.linkOpenIgnition.LinkColor = System.Drawing.Color.Black;
             this.linkOpenIgnition.Location = new System.Drawing.Point(77, 16);
             this.linkOpenIgnition.Name = "linkOpenIgnition";
             this.linkOpenIgnition.Size = new System.Drawing.Size(216, 16);
@@ -1037,7 +1041,7 @@
             // 
             this.linkOpenRequests.AutoSize = true;
             this.linkOpenRequests.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.linkOpenRequests.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(133)))), ((int)(((byte)(133)))), ((int)(((byte)(133)))));
+            this.linkOpenRequests.LinkColor = System.Drawing.Color.Black;
             this.linkOpenRequests.Location = new System.Drawing.Point(77, 32);
             this.linkOpenRequests.Name = "linkOpenRequests";
             this.linkOpenRequests.Size = new System.Drawing.Size(216, 16);
@@ -1051,7 +1055,7 @@
             // 
             this.linkDontainsPage.AutoSize = true;
             this.linkDontainsPage.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.linkDontainsPage.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(133)))), ((int)(((byte)(133)))), ((int)(((byte)(133)))));
+            this.linkDontainsPage.LinkColor = System.Drawing.Color.Black;
             this.linkDontainsPage.Location = new System.Drawing.Point(77, 48);
             this.linkDontainsPage.Name = "linkDontainsPage";
             this.linkDontainsPage.Size = new System.Drawing.Size(216, 16);
@@ -1065,7 +1069,7 @@
             // 
             this.linkOpenCFVideos.AutoSize = true;
             this.linkOpenCFVideos.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.linkOpenCFVideos.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(133)))), ((int)(((byte)(133)))), ((int)(((byte)(133)))));
+            this.linkOpenCFVideos.LinkColor = System.Drawing.Color.Black;
             this.linkOpenCFVideos.Location = new System.Drawing.Point(77, 64);
             this.linkOpenCFVideos.Name = "linkOpenCFVideos";
             this.linkOpenCFVideos.Size = new System.Drawing.Size(216, 16);
@@ -1079,7 +1083,7 @@
             // 
             this.linkCFFAQ.AutoSize = true;
             this.linkCFFAQ.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.linkCFFAQ.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(133)))), ((int)(((byte)(133)))), ((int)(((byte)(133)))));
+            this.linkCFFAQ.LinkColor = System.Drawing.Color.Black;
             this.linkCFFAQ.Location = new System.Drawing.Point(77, 80);
             this.linkCFFAQ.Name = "linkCFFAQ";
             this.linkCFFAQ.Size = new System.Drawing.Size(216, 16);
@@ -1372,7 +1376,7 @@
             // toolStripStatusLabel_MainCancel
             // 
             this.toolStripStatusLabel_MainCancel.IsLink = true;
-            this.toolStripStatusLabel_MainCancel.LinkColor = System.Drawing.Color.DimGray;
+            this.toolStripStatusLabel_MainCancel.LinkColor = System.Drawing.Color.Black;
             this.toolStripStatusLabel_MainCancel.Name = "toolStripStatusLabel_MainCancel";
             this.toolStripStatusLabel_MainCancel.Size = new System.Drawing.Size(43, 17);
             this.toolStripStatusLabel_MainCancel.Text = "Cancel";
@@ -1382,7 +1386,7 @@
             // toolStripStatusLabel_ClearLog
             // 
             this.toolStripStatusLabel_ClearLog.IsLink = true;
-            this.toolStripStatusLabel_ClearLog.LinkColor = System.Drawing.Color.DimGray;
+            this.toolStripStatusLabel_ClearLog.LinkColor = System.Drawing.Color.Black;
             this.toolStripStatusLabel_ClearLog.Name = "toolStripStatusLabel_ClearLog";
             this.toolStripStatusLabel_ClearLog.Size = new System.Drawing.Size(54, 17);
             this.toolStripStatusLabel_ClearLog.Text = "Clear log";
@@ -1594,7 +1598,6 @@
         private System.Windows.Forms.Label lbl_AppVersion;
         private System.Windows.Forms.RadioButton radioBtn_ExportToHTML;
         private System.Windows.Forms.RadioButton radioBtn_ExportToCSV;
-        private System.Windows.Forms.Label lbl_ExportTo;
         private System.Windows.Forms.RadioButton radioBtn_ExportToBBCode;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel_ClearLog;
         private System.Windows.Forms.Label lblDisabledColumns;
@@ -1619,6 +1622,7 @@
         private System.Windows.Forms.TabPage tpCreators;
         private System.Windows.Forms.Button btnRSTKSite;
         private System.Windows.Forms.Button btnEOFSite;
+        private System.Windows.Forms.Label lbl_ExportTo;
     }
 }
 

@@ -64,9 +64,9 @@
             // 
             this.btnOpenAllOutdatedSongs.Location = new System.Drawing.Point(440, 513);
             this.btnOpenAllOutdatedSongs.Name = "btnOpenAllOutdatedSongs";
-            this.btnOpenAllOutdatedSongs.Size = new System.Drawing.Size(134, 23);
+            this.btnOpenAllOutdatedSongs.Size = new System.Drawing.Size(144, 23);
             this.btnOpenAllOutdatedSongs.TabIndex = 2;
-            this.btnOpenAllOutdatedSongs.Text = "Open song in browser";
+            this.btnOpenAllOutdatedSongs.Text = "Open all songs in browser";
             this.btnOpenAllOutdatedSongs.UseVisualStyleBackColor = true;
             this.btnOpenAllOutdatedSongs.Click += new System.EventHandler(this.btnOpenAllOutdatedSongs_Click);
             // 
