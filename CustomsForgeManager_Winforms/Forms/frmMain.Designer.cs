@@ -30,7 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tlp_MainForm_Wrappper = new System.Windows.Forms.TableLayoutPanel();
             this.gbLog = new System.Windows.Forms.GroupBox();
             this.tbLog = new System.Windows.Forms.TextBox();
@@ -48,14 +47,6 @@
             this.btnCheckAllForUpdates = new System.Windows.Forms.Button();
             this.btnRescan = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.contextMenuStrip_MainManager = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.showDLCInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openDLCPageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.checkForUpdateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openDLCLocationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.editDLCToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.getAuthorNameStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.deleteSongToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel3 = new System.Windows.Forms.Panel();
             this.linkLblSelectAll = new System.Windows.Forms.LinkLabel();
             this.link_MainClearResults = new System.Windows.Forms.LinkLabel();
@@ -72,9 +63,20 @@
             this.colDupeAlbum = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colDupeLastUpdated = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colDupeSongPath = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.contextMenuStrip_MainManager = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.showDLCInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openDLCPageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.checkForUpdateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openDLCLocationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editDLCToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.getAuthorNameStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteSongToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnDupeRescan = new System.Windows.Forms.Button();
             this.btnDeleteDupeSong = new System.Windows.Forms.Button();
+            this.tpCreators = new System.Windows.Forms.TabPage();
+            this.btnRSTKSite = new System.Windows.Forms.Button();
+            this.btnEOFSite = new System.Windows.Forms.Button();
             this.tpUtilities = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.panel4 = new System.Windows.Forms.Panel();
@@ -139,23 +141,19 @@
             this.notifyIcon_Main = new System.Windows.Forms.NotifyIcon(this.components);
             this.contextMenuStrip_Tray = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tpCreators = new System.Windows.Forms.TabPage();
-            this.dgvSongs = new CustomsForgeManager_Winforms.Controls.RADataGridView();
             this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.btnEOFSite = new System.Windows.Forms.Button();
-            this.btnRSTKSite = new System.Windows.Forms.Button();
             this.tlp_MainForm_Wrappper.SuspendLayout();
             this.gbLog.SuspendLayout();
             this.tcMain.SuspendLayout();
             this.tpManager.SuspendLayout();
             this.tlpSongListWrapper.SuspendLayout();
             this.panelSongListButtons.SuspendLayout();
-            this.panel2.SuspendLayout();
-            this.contextMenuStrip_MainManager.SuspendLayout();
             this.panel3.SuspendLayout();
             this.tpDuplicates.SuspendLayout();
             this.tlpDuplicates.SuspendLayout();
+            this.contextMenuStrip_MainManager.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.tpCreators.SuspendLayout();
             this.tpUtilities.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -175,8 +173,6 @@
             this.tableLayoutPanel_Credits.SuspendLayout();
             this.statusStripMain.SuspendLayout();
             this.contextMenuStrip_Tray.SuspendLayout();
-            this.tpCreators.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvSongs)).BeginInit();
             this.SuspendLayout();
             // 
             // tlp_MainForm_Wrappper
@@ -375,73 +371,10 @@
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.dgvSongs);
             this.panel2.Location = new System.Drawing.Point(3, 38);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(764, 290);
             this.panel2.TabIndex = 4;
-            // 
-            // contextMenuStrip_MainManager
-            // 
-            this.contextMenuStrip_MainManager.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.showDLCInfoToolStripMenuItem,
-            this.openDLCPageToolStripMenuItem,
-            this.checkForUpdateToolStripMenuItem,
-            this.openDLCLocationToolStripMenuItem,
-            this.editDLCToolStripMenuItem,
-            this.getAuthorNameStripMenuItem,
-            this.deleteSongToolStripMenuItem});
-            this.contextMenuStrip_MainManager.Name = "contextMenuStrip_MainManager";
-            this.contextMenuStrip_MainManager.Size = new System.Drawing.Size(178, 158);
-            // 
-            // showDLCInfoToolStripMenuItem
-            // 
-            this.showDLCInfoToolStripMenuItem.Name = "showDLCInfoToolStripMenuItem";
-            this.showDLCInfoToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
-            this.showDLCInfoToolStripMenuItem.Text = "Show DLC Info";
-            this.showDLCInfoToolStripMenuItem.Click += new System.EventHandler(this.showDLCInfoToolStripMenuItem_Click);
-            // 
-            // openDLCPageToolStripMenuItem
-            // 
-            this.openDLCPageToolStripMenuItem.Name = "openDLCPageToolStripMenuItem";
-            this.openDLCPageToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
-            this.openDLCPageToolStripMenuItem.Text = "Open DLC Page";
-            this.openDLCPageToolStripMenuItem.Click += new System.EventHandler(this.openDLCPageToolStripMenuItem_Click);
-            // 
-            // checkForUpdateToolStripMenuItem
-            // 
-            this.checkForUpdateToolStripMenuItem.Name = "checkForUpdateToolStripMenuItem";
-            this.checkForUpdateToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
-            this.checkForUpdateToolStripMenuItem.Text = "Check for Update";
-            this.checkForUpdateToolStripMenuItem.Click += new System.EventHandler(this.checkForUpdateToolStripMenuItem_Click);
-            // 
-            // openDLCLocationToolStripMenuItem
-            // 
-            this.openDLCLocationToolStripMenuItem.Name = "openDLCLocationToolStripMenuItem";
-            this.openDLCLocationToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
-            this.openDLCLocationToolStripMenuItem.Text = "Open DLC Location";
-            this.openDLCLocationToolStripMenuItem.Click += new System.EventHandler(this.openDLCLocationToolStripMenuItem_Click);
-            // 
-            // editDLCToolStripMenuItem
-            // 
-            this.editDLCToolStripMenuItem.Name = "editDLCToolStripMenuItem";
-            this.editDLCToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
-            this.editDLCToolStripMenuItem.Text = "Edit DLC";
-            this.editDLCToolStripMenuItem.Click += new System.EventHandler(this.editDLCToolStripMenuItem_Click);
-            // 
-            // getAuthorNameStripMenuItem
-            // 
-            this.getAuthorNameStripMenuItem.Name = "getAuthorNameStripMenuItem";
-            this.getAuthorNameStripMenuItem.Size = new System.Drawing.Size(177, 22);
-            this.getAuthorNameStripMenuItem.Text = "Get author name";
-            this.getAuthorNameStripMenuItem.Click += new System.EventHandler(this.getAuthorNameStripMenuItem_Click);
-            // 
-            // deleteSongToolStripMenuItem
-            // 
-            this.deleteSongToolStripMenuItem.Name = "deleteSongToolStripMenuItem";
-            this.deleteSongToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
-            this.deleteSongToolStripMenuItem.Text = "Delete song";
-            this.deleteSongToolStripMenuItem.Click += new System.EventHandler(this.deleteSongToolStripMenuItem_Click);
             // 
             // panel3
             // 
@@ -462,7 +395,7 @@
             this.linkLblSelectAll.LinkColor = System.Drawing.Color.Black;
             this.linkLblSelectAll.Location = new System.Drawing.Point(14, 8);
             this.linkLblSelectAll.Name = "linkLblSelectAll";
-            this.linkLblSelectAll.Size = new System.Drawing.Size(111, 16);
+            this.linkLblSelectAll.Size = new System.Drawing.Size(113, 16);
             this.linkLblSelectAll.TabIndex = 2;
             this.linkLblSelectAll.TabStop = true;
             this.linkLblSelectAll.Text = "Select All/Deselect All";
@@ -592,6 +525,68 @@
             this.colDupeSongPath.Text = "Song Path";
             this.colDupeSongPath.Width = 284;
             // 
+            // contextMenuStrip_MainManager
+            // 
+            this.contextMenuStrip_MainManager.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.showDLCInfoToolStripMenuItem,
+            this.openDLCPageToolStripMenuItem,
+            this.checkForUpdateToolStripMenuItem,
+            this.openDLCLocationToolStripMenuItem,
+            this.editDLCToolStripMenuItem,
+            this.getAuthorNameStripMenuItem,
+            this.deleteSongToolStripMenuItem});
+            this.contextMenuStrip_MainManager.Name = "contextMenuStrip_MainManager";
+            this.contextMenuStrip_MainManager.Size = new System.Drawing.Size(178, 158);
+            // 
+            // showDLCInfoToolStripMenuItem
+            // 
+            this.showDLCInfoToolStripMenuItem.Name = "showDLCInfoToolStripMenuItem";
+            this.showDLCInfoToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.showDLCInfoToolStripMenuItem.Text = "Show DLC Info";
+            this.showDLCInfoToolStripMenuItem.Click += new System.EventHandler(this.showDLCInfoToolStripMenuItem_Click);
+            // 
+            // openDLCPageToolStripMenuItem
+            // 
+            this.openDLCPageToolStripMenuItem.Name = "openDLCPageToolStripMenuItem";
+            this.openDLCPageToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.openDLCPageToolStripMenuItem.Text = "Open DLC Page";
+            this.openDLCPageToolStripMenuItem.Click += new System.EventHandler(this.openDLCPageToolStripMenuItem_Click);
+            // 
+            // checkForUpdateToolStripMenuItem
+            // 
+            this.checkForUpdateToolStripMenuItem.Name = "checkForUpdateToolStripMenuItem";
+            this.checkForUpdateToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.checkForUpdateToolStripMenuItem.Text = "Check for Update";
+            this.checkForUpdateToolStripMenuItem.Click += new System.EventHandler(this.checkForUpdateToolStripMenuItem_Click);
+            // 
+            // openDLCLocationToolStripMenuItem
+            // 
+            this.openDLCLocationToolStripMenuItem.Name = "openDLCLocationToolStripMenuItem";
+            this.openDLCLocationToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.openDLCLocationToolStripMenuItem.Text = "Open DLC Location";
+            this.openDLCLocationToolStripMenuItem.Click += new System.EventHandler(this.openDLCLocationToolStripMenuItem_Click);
+            // 
+            // editDLCToolStripMenuItem
+            // 
+            this.editDLCToolStripMenuItem.Name = "editDLCToolStripMenuItem";
+            this.editDLCToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.editDLCToolStripMenuItem.Text = "Edit DLC";
+            this.editDLCToolStripMenuItem.Click += new System.EventHandler(this.editDLCToolStripMenuItem_Click);
+            // 
+            // getAuthorNameStripMenuItem
+            // 
+            this.getAuthorNameStripMenuItem.Name = "getAuthorNameStripMenuItem";
+            this.getAuthorNameStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.getAuthorNameStripMenuItem.Text = "Get author name";
+            this.getAuthorNameStripMenuItem.Click += new System.EventHandler(this.getAuthorNameStripMenuItem_Click);
+            // 
+            // deleteSongToolStripMenuItem
+            // 
+            this.deleteSongToolStripMenuItem.Name = "deleteSongToolStripMenuItem";
+            this.deleteSongToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.deleteSongToolStripMenuItem.Text = "Delete song";
+            this.deleteSongToolStripMenuItem.Click += new System.EventHandler(this.deleteSongToolStripMenuItem_Click);
+            // 
             // panel1
             // 
             this.panel1.Controls.Add(this.btnDupeRescan);
@@ -622,6 +617,38 @@
             this.btnDeleteDupeSong.Text = "Delete song";
             this.btnDeleteDupeSong.UseVisualStyleBackColor = true;
             this.btnDeleteDupeSong.Click += new System.EventHandler(this.btnDeleteSongOne_Click);
+            // 
+            // tpCreators
+            // 
+            this.tpCreators.Controls.Add(this.btnRSTKSite);
+            this.tpCreators.Controls.Add(this.btnEOFSite);
+            this.tpCreators.Location = new System.Drawing.Point(4, 25);
+            this.tpCreators.Name = "tpCreators";
+            this.tpCreators.Padding = new System.Windows.Forms.Padding(3);
+            this.tpCreators.Size = new System.Drawing.Size(770, 386);
+            this.tpCreators.TabIndex = 6;
+            this.tpCreators.Text = "Creators";
+            this.tpCreators.UseVisualStyleBackColor = true;
+            // 
+            // btnRSTKSite
+            // 
+            this.btnRSTKSite.Location = new System.Drawing.Point(275, 67);
+            this.btnRSTKSite.Name = "btnRSTKSite";
+            this.btnRSTKSite.Size = new System.Drawing.Size(195, 25);
+            this.btnRSTKSite.TabIndex = 1;
+            this.btnRSTKSite.Text = "Rocksmith Toolkit";
+            this.btnRSTKSite.UseVisualStyleBackColor = true;
+            this.btnRSTKSite.Click += new System.EventHandler(this.btnRSTKSite_Click);
+            // 
+            // btnEOFSite
+            // 
+            this.btnEOFSite.Location = new System.Drawing.Point(275, 19);
+            this.btnEOFSite.Name = "btnEOFSite";
+            this.btnEOFSite.Size = new System.Drawing.Size(195, 25);
+            this.btnEOFSite.TabIndex = 0;
+            this.btnEOFSite.Text = "Editor on Fire";
+            this.btnEOFSite.UseVisualStyleBackColor = true;
+            this.btnEOFSite.Click += new System.EventHandler(this.btnEOFSite_Click);
             // 
             // tpUtilities
             // 
@@ -790,9 +817,9 @@
             this.checkIncludeRS1DLC.Checked = true;
             this.checkIncludeRS1DLC.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkIncludeRS1DLC.Dock = System.Windows.Forms.DockStyle.Right;
-            this.checkIncludeRS1DLC.Location = new System.Drawing.Point(204, 75);
+            this.checkIncludeRS1DLC.Location = new System.Drawing.Point(203, 75);
             this.checkIncludeRS1DLC.Name = "checkIncludeRS1DLC";
-            this.checkIncludeRS1DLC.Size = new System.Drawing.Size(178, 22);
+            this.checkIncludeRS1DLC.Size = new System.Drawing.Size(179, 22);
             this.checkIncludeRS1DLC.TabIndex = 3;
             this.checkIncludeRS1DLC.Text = "Include RS1 Compatibility Pack";
             this.checkIncludeRS1DLC.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1074,7 +1101,7 @@
             this.link_CFManager.AutoSize = true;
             this.link_CFManager.Dock = System.Windows.Forms.DockStyle.Fill;
             this.link_CFManager.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.link_CFManager.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(133)))), ((int)(((byte)(133)))), ((int)(((byte)(133)))));
+            this.link_CFManager.LinkColor = System.Drawing.Color.Black;
             this.link_CFManager.Location = new System.Drawing.Point(77, 42);
             this.link_CFManager.Name = "link_CFManager";
             this.link_CFManager.Size = new System.Drawing.Size(217, 42);
@@ -1369,46 +1396,6 @@
             this.closeToolStripMenuItem.Text = "Close";
             this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
             // 
-            // tpCreators
-            // 
-            this.tpCreators.Controls.Add(this.btnRSTKSite);
-            this.tpCreators.Controls.Add(this.btnEOFSite);
-            this.tpCreators.Location = new System.Drawing.Point(4, 25);
-            this.tpCreators.Name = "tpCreators";
-            this.tpCreators.Padding = new System.Windows.Forms.Padding(3);
-            this.tpCreators.Size = new System.Drawing.Size(770, 386);
-            this.tpCreators.TabIndex = 6;
-            this.tpCreators.Text = "Creators";
-            this.tpCreators.UseVisualStyleBackColor = true;
-            // 
-            // dgvSongs
-            // 
-            this.dgvSongs.AllowUserToAddRows = false;
-            this.dgvSongs.AllowUserToDeleteRows = false;
-            this.dgvSongs.AllowUserToOrderColumns = true;
-            this.dgvSongs.AllowUserToResizeRows = false;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.dgvSongs.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
-            this.dgvSongs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvSongs.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.colSelect});
-            this.dgvSongs.ContextMenuStrip = this.contextMenuStrip_MainManager;
-            this.dgvSongs.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvSongs.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnF2;
-            this.dgvSongs.GridColor = System.Drawing.SystemColors.ActiveCaption;
-            this.dgvSongs.Location = new System.Drawing.Point(0, 0);
-            this.dgvSongs.MultiSelect = false;
-            this.dgvSongs.Name = "dgvSongs";
-            this.dgvSongs.RowHeadersVisible = false;
-            this.dgvSongs.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvSongs.Size = new System.Drawing.Size(764, 290);
-            this.dgvSongs.TabIndex = 1;
-            this.dgvSongs.DataSourceChanged += new System.EventHandler(this.dgvSongs_DataSourceChanged);
-            this.dgvSongs.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSongs_CellDoubleClick);
-            this.dgvSongs.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongs_CellMouseDown);
-            this.dgvSongs.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongs_ColumnHeaderMouseClick);
-            this.dgvSongs.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvSongs_KeyDown);
-            // 
             // colSelect
             // 
             this.colSelect.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
@@ -1419,26 +1406,6 @@
             this.colSelect.Name = "colSelect";
             this.colSelect.TrueValue = "true";
             this.colSelect.Visible = false;
-            // 
-            // btnEOFSite
-            // 
-            this.btnEOFSite.Location = new System.Drawing.Point(275, 19);
-            this.btnEOFSite.Name = "btnEOFSite";
-            this.btnEOFSite.Size = new System.Drawing.Size(195, 25);
-            this.btnEOFSite.TabIndex = 0;
-            this.btnEOFSite.Text = "Editor on Fire";
-            this.btnEOFSite.UseVisualStyleBackColor = true;
-            this.btnEOFSite.Click += new System.EventHandler(this.btnEOFSite_Click);
-            // 
-            // btnRSTKSite
-            // 
-            this.btnRSTKSite.Location = new System.Drawing.Point(275, 67);
-            this.btnRSTKSite.Name = "btnRSTKSite";
-            this.btnRSTKSite.Size = new System.Drawing.Size(195, 25);
-            this.btnRSTKSite.TabIndex = 1;
-            this.btnRSTKSite.Text = "Rocksmith Toolkit";
-            this.btnRSTKSite.UseVisualStyleBackColor = true;
-            this.btnRSTKSite.Click += new System.EventHandler(this.btnRSTKSite_Click);
             // 
             // frmMain
             // 
@@ -1464,13 +1431,13 @@
             this.tlpSongListWrapper.ResumeLayout(false);
             this.panelSongListButtons.ResumeLayout(false);
             this.panelSongListButtons.PerformLayout();
-            this.panel2.ResumeLayout(false);
-            this.contextMenuStrip_MainManager.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             this.tpDuplicates.ResumeLayout(false);
             this.tlpDuplicates.ResumeLayout(false);
+            this.contextMenuStrip_MainManager.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
+            this.tpCreators.ResumeLayout(false);
             this.tpUtilities.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
@@ -1496,8 +1463,6 @@
             this.statusStripMain.ResumeLayout(false);
             this.statusStripMain.PerformLayout();
             this.contextMenuStrip_Tray.ResumeLayout(false);
-            this.tpCreators.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvSongs)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
