@@ -1,4 +1,15 @@
-﻿0.1.1.58
+﻿0.1.1.63
+-Rearranged Export Area
+-Fixed wording on "Check All for Update" popup's 2nd link that opened all links in a browser
+-Redesigned Creators w/ a new background
+-Moved buttons on "Creators"
+-Changed font for Rocksmith installation setting area so it better fits
+-Changed Multiple colors to black (clear log, about links, and more)
+-Modified grid for CustomsForge Links
+-Added background in credits (might change in future again)
+-Misc changes
+
+0.1.1.58
 -Changed Support Link
 -Look'n'Feel changes
 
