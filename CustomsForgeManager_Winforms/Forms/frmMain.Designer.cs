@@ -610,6 +610,8 @@
             // 
             // tpCreators
             // 
+            this.tpCreators.BackgroundImage = global::CustomsForgeManager_Winforms.Properties.Resources.eof_bg;
+            this.tpCreators.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.tpCreators.Controls.Add(this.btnRSTKSite);
             this.tpCreators.Controls.Add(this.btnEOFSite);
             this.tpCreators.Location = new System.Drawing.Point(4, 25);
@@ -622,7 +624,7 @@
             // 
             // btnRSTKSite
             // 
-            this.btnRSTKSite.Location = new System.Drawing.Point(275, 67);
+            this.btnRSTKSite.Location = new System.Drawing.Point(275, 236);
             this.btnRSTKSite.Name = "btnRSTKSite";
             this.btnRSTKSite.Size = new System.Drawing.Size(195, 25);
             this.btnRSTKSite.TabIndex = 1;
@@ -632,7 +634,7 @@
             // 
             // btnEOFSite
             // 
-            this.btnEOFSite.Location = new System.Drawing.Point(275, 19);
+            this.btnEOFSite.Location = new System.Drawing.Point(275, 108);
             this.btnEOFSite.Name = "btnEOFSite";
             this.btnEOFSite.Size = new System.Drawing.Size(195, 25);
             this.btnEOFSite.TabIndex = 0;
