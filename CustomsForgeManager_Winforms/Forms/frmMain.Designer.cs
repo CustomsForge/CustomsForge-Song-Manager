@@ -937,8 +937,8 @@
             // 
             this.tableLayoutPanel_CFQuicklinks.ColumnCount = 3;
             this.tableLayoutPanel_CFQuicklinks.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel_CFQuicklinks.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 75F));
-            this.tableLayoutPanel_CFQuicklinks.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 77F));
+            this.tableLayoutPanel_CFQuicklinks.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel_CFQuicklinks.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.linkOpenCFHomePage, 1, 0);
             this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.linkOpenIgnition, 1, 1);
             this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.linkOpenRequests, 1, 3);
@@ -948,7 +948,7 @@
             this.tableLayoutPanel_CFQuicklinks.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel_CFQuicklinks.Location = new System.Drawing.Point(3, 16);
             this.tableLayoutPanel_CFQuicklinks.Name = "tableLayoutPanel_CFQuicklinks";
-            this.tableLayoutPanel_CFQuicklinks.RowCount = 8;
+            this.tableLayoutPanel_CFQuicklinks.RowCount = 10;
             this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -957,6 +957,8 @@
             this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel_CFQuicklinks.Size = new System.Drawing.Size(373, 168);
             this.tableLayoutPanel_CFQuicklinks.TabIndex = 4;
             this.tableLayoutPanel_CFQuicklinks.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel_CFQuicklinks_Paint);
@@ -965,10 +967,11 @@
             // 
             this.linkOpenCFHomePage.AutoSize = true;
             this.linkOpenCFHomePage.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.linkOpenCFHomePage.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(133)))), ((int)(((byte)(133)))), ((int)(((byte)(133)))));
-            this.linkOpenCFHomePage.Location = new System.Drawing.Point(77, 0);
+            this.linkOpenCFHomePage.Font = new System.Drawing.Font("Trebuchet MS", 12F);
+            this.linkOpenCFHomePage.LinkColor = System.Drawing.Color.Black;
+            this.linkOpenCFHomePage.Location = new System.Drawing.Point(96, 0);
             this.linkOpenCFHomePage.Name = "linkOpenCFHomePage";
-            this.linkOpenCFHomePage.Size = new System.Drawing.Size(216, 16);
+            this.linkOpenCFHomePage.Size = new System.Drawing.Size(180, 22);
             this.linkOpenCFHomePage.TabIndex = 9;
             this.linkOpenCFHomePage.TabStop = true;
             this.linkOpenCFHomePage.Text = "CustomsForge Home";
@@ -979,10 +982,11 @@
             // 
             this.linkOpenIgnition.AutoSize = true;
             this.linkOpenIgnition.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.linkOpenIgnition.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(133)))), ((int)(((byte)(133)))), ((int)(((byte)(133)))));
-            this.linkOpenIgnition.Location = new System.Drawing.Point(77, 16);
+            this.linkOpenIgnition.Font = new System.Drawing.Font("Trebuchet MS", 12F);
+            this.linkOpenIgnition.LinkColor = System.Drawing.Color.Black;
+            this.linkOpenIgnition.Location = new System.Drawing.Point(96, 22);
             this.linkOpenIgnition.Name = "linkOpenIgnition";
-            this.linkOpenIgnition.Size = new System.Drawing.Size(216, 16);
+            this.linkOpenIgnition.Size = new System.Drawing.Size(180, 22);
             this.linkOpenIgnition.TabIndex = 10;
             this.linkOpenIgnition.TabStop = true;
             this.linkOpenIgnition.Text = "Ignition";
@@ -993,10 +997,11 @@
             // 
             this.linkOpenRequests.AutoSize = true;
             this.linkOpenRequests.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.linkOpenRequests.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(133)))), ((int)(((byte)(133)))), ((int)(((byte)(133)))));
-            this.linkOpenRequests.Location = new System.Drawing.Point(77, 32);
+            this.linkOpenRequests.Font = new System.Drawing.Font("Trebuchet MS", 12F);
+            this.linkOpenRequests.LinkColor = System.Drawing.Color.Black;
+            this.linkOpenRequests.Location = new System.Drawing.Point(96, 44);
             this.linkOpenRequests.Name = "linkOpenRequests";
-            this.linkOpenRequests.Size = new System.Drawing.Size(216, 16);
+            this.linkOpenRequests.Size = new System.Drawing.Size(180, 22);
             this.linkOpenRequests.TabIndex = 12;
             this.linkOpenRequests.TabStop = true;
             this.linkOpenRequests.Text = "Requests";
@@ -1007,10 +1012,11 @@
             // 
             this.linkDontainsPage.AutoSize = true;
             this.linkDontainsPage.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.linkDontainsPage.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(133)))), ((int)(((byte)(133)))), ((int)(((byte)(133)))));
-            this.linkDontainsPage.Location = new System.Drawing.Point(77, 48);
+            this.linkDontainsPage.Font = new System.Drawing.Font("Trebuchet MS", 12F);
+            this.linkDontainsPage.LinkColor = System.Drawing.Color.Black;
+            this.linkDontainsPage.Location = new System.Drawing.Point(96, 66);
             this.linkDontainsPage.Name = "linkDontainsPage";
-            this.linkDontainsPage.Size = new System.Drawing.Size(216, 16);
+            this.linkDontainsPage.Size = new System.Drawing.Size(180, 22);
             this.linkDontainsPage.TabIndex = 13;
             this.linkDontainsPage.TabStop = true;
             this.linkDontainsPage.Text = "Donations";
@@ -1021,10 +1027,11 @@
             // 
             this.linkOpenCFVideos.AutoSize = true;
             this.linkOpenCFVideos.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.linkOpenCFVideos.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(133)))), ((int)(((byte)(133)))), ((int)(((byte)(133)))));
-            this.linkOpenCFVideos.Location = new System.Drawing.Point(77, 64);
+            this.linkOpenCFVideos.Font = new System.Drawing.Font("Trebuchet MS", 12F);
+            this.linkOpenCFVideos.LinkColor = System.Drawing.Color.Black;
+            this.linkOpenCFVideos.Location = new System.Drawing.Point(96, 88);
             this.linkOpenCFVideos.Name = "linkOpenCFVideos";
-            this.linkOpenCFVideos.Size = new System.Drawing.Size(216, 16);
+            this.linkOpenCFVideos.Size = new System.Drawing.Size(180, 22);
             this.linkOpenCFVideos.TabIndex = 14;
             this.linkOpenCFVideos.TabStop = true;
             this.linkOpenCFVideos.Text = "Videos";
@@ -1035,10 +1042,11 @@
             // 
             this.linkCFFAQ.AutoSize = true;
             this.linkCFFAQ.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.linkCFFAQ.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(133)))), ((int)(((byte)(133)))), ((int)(((byte)(133)))));
-            this.linkCFFAQ.Location = new System.Drawing.Point(77, 80);
+            this.linkCFFAQ.Font = new System.Drawing.Font("Trebuchet MS", 12F);
+            this.linkCFFAQ.LinkColor = System.Drawing.Color.Black;
+            this.linkCFFAQ.Location = new System.Drawing.Point(96, 110);
             this.linkCFFAQ.Name = "linkCFFAQ";
-            this.linkCFFAQ.Size = new System.Drawing.Size(216, 16);
+            this.linkCFFAQ.Size = new System.Drawing.Size(180, 22);
             this.linkCFFAQ.TabIndex = 15;
             this.linkCFFAQ.TabStop = true;
             this.linkCFFAQ.Text = "FAQ";
@@ -1101,7 +1109,7 @@
             this.link_CFManager.AutoSize = true;
             this.link_CFManager.Dock = System.Windows.Forms.DockStyle.Fill;
             this.link_CFManager.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.link_CFManager.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(133)))), ((int)(((byte)(133)))), ((int)(((byte)(133)))));
+            this.link_CFManager.LinkColor = System.Drawing.Color.Black;
             this.link_CFManager.Location = new System.Drawing.Point(77, 42);
             this.link_CFManager.Name = "link_CFManager";
             this.link_CFManager.Size = new System.Drawing.Size(217, 42);
