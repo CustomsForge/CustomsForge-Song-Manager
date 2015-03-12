@@ -246,6 +246,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="Resources\eof-bg.jpg" />
+    <None Include="Resources\Rocksmith_2014_Background_Guitar.jpg" />
     <Content Include="tunings.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

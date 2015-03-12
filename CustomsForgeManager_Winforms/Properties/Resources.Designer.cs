@@ -89,5 +89,15 @@ namespace CustomsForgeManager_Winforms.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Rocksmith_2014_Background_Guitar {
+            get {
+                object obj = ResourceManager.GetObject("Rocksmith_2014_Background_Guitar", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

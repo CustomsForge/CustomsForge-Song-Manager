@@ -109,6 +109,7 @@
             this.linkOpenRequests = new System.Windows.Forms.LinkLabel();
             this.linkDontainsPage = new System.Windows.Forms.LinkLabel();
             this.linkOpenCFVideos = new System.Windows.Forms.LinkLabel();
+            this.linkCFFAQ = new System.Windows.Forms.LinkLabel();
             this.panel6 = new System.Windows.Forms.Panel();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
@@ -143,7 +144,6 @@
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dgvSongs = new CustomsForgeManager_Winforms.Controls.RADataGridView();
             this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.linkCFFAQ = new System.Windows.Forms.LinkLabel();
             this.tlp_MainForm_Wrappper.SuspendLayout();
             this.gbLog.SuspendLayout();
             this.tcMain.SuspendLayout();
@@ -290,7 +290,7 @@
             // radioBtn_ExportToHTML
             // 
             this.radioBtn_ExportToHTML.AutoSize = true;
-            this.radioBtn_ExportToHTML.Location = new System.Drawing.Point(708, 29);
+            this.radioBtn_ExportToHTML.Location = new System.Drawing.Point(709, 3);
             this.radioBtn_ExportToHTML.Name = "radioBtn_ExportToHTML";
             this.radioBtn_ExportToHTML.Size = new System.Drawing.Size(53, 20);
             this.radioBtn_ExportToHTML.TabIndex = 18;
@@ -302,7 +302,7 @@
             // radioBtn_ExportToCSV
             // 
             this.radioBtn_ExportToCSV.AutoSize = true;
-            this.radioBtn_ExportToCSV.Location = new System.Drawing.Point(708, 7);
+            this.radioBtn_ExportToCSV.Location = new System.Drawing.Point(648, 27);
             this.radioBtn_ExportToCSV.Name = "radioBtn_ExportToCSV";
             this.radioBtn_ExportToCSV.Size = new System.Drawing.Size(45, 20);
             this.radioBtn_ExportToCSV.TabIndex = 17;
@@ -314,7 +314,7 @@
             // btnExportSongList
             // 
             this.btnExportSongList.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnExportSongList.Location = new System.Drawing.Point(647, 6);
+            this.btnExportSongList.Location = new System.Drawing.Point(709, 24);
             this.btnExportSongList.Name = "btnExportSongList";
             this.btnExportSongList.Size = new System.Drawing.Size(55, 23);
             this.btnExportSongList.TabIndex = 12;
@@ -325,16 +325,17 @@
             // lbl_ExportTo
             // 
             this.lbl_ExportTo.AutoSize = true;
-            this.lbl_ExportTo.Location = new System.Drawing.Point(581, 31);
+            this.lbl_ExportTo.Location = new System.Drawing.Point(582, 18);
             this.lbl_ExportTo.Name = "lbl_ExportTo";
             this.lbl_ExportTo.Size = new System.Drawing.Size(60, 16);
             this.lbl_ExportTo.TabIndex = 16;
             this.lbl_ExportTo.Text = "Export to:";
+            this.lbl_ExportTo.Click += new System.EventHandler(this.lbl_ExportTo_Click);
             // 
             // radioBtn_ExportToBBCode
             // 
             this.radioBtn_ExportToBBCode.AutoSize = true;
-            this.radioBtn_ExportToBBCode.Location = new System.Drawing.Point(647, 29);
+            this.radioBtn_ExportToBBCode.Location = new System.Drawing.Point(648, 3);
             this.radioBtn_ExportToBBCode.Name = "radioBtn_ExportToBBCode";
             this.radioBtn_ExportToBBCode.Size = new System.Drawing.Size(63, 20);
             this.radioBtn_ExportToBBCode.TabIndex = 15;
@@ -764,12 +765,12 @@
             // 
             // lblSettingsRSDir
             // 
+            this.lblSettingsRSDir.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.lblSettingsRSDir.AutoSize = true;
-            this.lblSettingsRSDir.Dock = System.Windows.Forms.DockStyle.Right;
-            this.lblSettingsRSDir.Font = new System.Drawing.Font("Trebuchet MS", 7F);
-            this.lblSettingsRSDir.Location = new System.Drawing.Point(121, 20);
+            this.lblSettingsRSDir.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSettingsRSDir.Location = new System.Drawing.Point(98, 24);
             this.lblSettingsRSDir.Name = "lblSettingsRSDir";
-            this.lblSettingsRSDir.Size = new System.Drawing.Size(261, 22);
+            this.lblSettingsRSDir.Size = new System.Drawing.Size(276, 13);
             this.lblSettingsRSDir.TabIndex = 1;
             this.lblSettingsRSDir.Text = "Rocksmith installation directory (double-click to change):";
             this.lblSettingsRSDir.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1044,6 +1045,21 @@
             this.linkOpenCFVideos.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.linkOpenCFVideos.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkOpenCFVideos_LinkClicked);
             // 
+            // linkCFFAQ
+            // 
+            this.linkCFFAQ.AutoSize = true;
+            this.linkCFFAQ.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.linkCFFAQ.Font = new System.Drawing.Font("Trebuchet MS", 12F);
+            this.linkCFFAQ.LinkColor = System.Drawing.Color.Black;
+            this.linkCFFAQ.Location = new System.Drawing.Point(77, 140);
+            this.linkCFFAQ.Name = "linkCFFAQ";
+            this.linkCFFAQ.Size = new System.Drawing.Size(216, 28);
+            this.linkCFFAQ.TabIndex = 15;
+            this.linkCFFAQ.TabStop = true;
+            this.linkCFFAQ.Text = "FAQ";
+            this.linkCFFAQ.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.linkCFFAQ.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkCFFAQ_LinkClicked);
+            // 
             // panel6
             // 
             this.panel6.Controls.Add(this.groupBox3);
@@ -1137,6 +1153,9 @@
             // 
             // tableLayoutPanel_Credits
             // 
+            this.tableLayoutPanel_Credits.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.tableLayoutPanel_Credits.BackgroundImage = global::CustomsForgeManager_Winforms.Properties.Resources.Rocksmith_2014_Background_Guitar;
+            this.tableLayoutPanel_Credits.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.tableLayoutPanel_Credits.ColumnCount = 2;
             this.tableLayoutPanel_Credits.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel_Credits.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -1151,6 +1170,7 @@
             this.tableLayoutPanel_Credits.Controls.Add(this.link_LovromanProfile, 1, 3);
             this.tableLayoutPanel_Credits.Controls.Add(this.link_ZerkzProfile, 1, 4);
             this.tableLayoutPanel_Credits.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel_Credits.ForeColor = System.Drawing.SystemColors.ActiveBorder;
             this.tableLayoutPanel_Credits.Location = new System.Drawing.Point(3, 16);
             this.tableLayoutPanel_Credits.Name = "tableLayoutPanel_Credits";
             this.tableLayoutPanel_Credits.RowCount = 5;
@@ -1168,6 +1188,7 @@
             this.lbl_Credits.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lbl_Credits.AutoSize = true;
             this.lbl_Credits.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.lbl_Credits.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.lbl_Credits.Location = new System.Drawing.Point(25, 34);
             this.lbl_Credits.Name = "lbl_Credits";
             this.lbl_Credits.Size = new System.Drawing.Size(136, 19);
@@ -1179,7 +1200,9 @@
             // 
             this.lbl_Credits_Description.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lbl_Credits_Description.AutoSize = true;
+            this.lbl_Credits_Description.BackColor = System.Drawing.Color.Black;
             this.lbl_Credits_Description.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_Credits_Description.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.lbl_Credits_Description.Location = new System.Drawing.Point(223, 33);
             this.lbl_Credits_Description.Name = "lbl_Credits_Description";
             this.lbl_Credits_Description.Size = new System.Drawing.Size(112, 21);
@@ -1193,6 +1216,7 @@
             this.lbl_UnleashedRole.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lbl_UnleashedRole.AutoSize = true;
             this.lbl_UnleashedRole.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_UnleashedRole.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.lbl_UnleashedRole.Location = new System.Drawing.Point(20, 88);
             this.lbl_UnleashedRole.Name = "lbl_UnleashedRole";
             this.lbl_UnleashedRole.Size = new System.Drawing.Size(146, 19);
@@ -1206,6 +1230,7 @@
             this.lbl_DarjuszRole.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lbl_DarjuszRole.AutoSize = true;
             this.lbl_DarjuszRole.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_DarjuszRole.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.lbl_DarjuszRole.Location = new System.Drawing.Point(39, 108);
             this.lbl_DarjuszRole.Name = "lbl_DarjuszRole";
             this.lbl_DarjuszRole.Size = new System.Drawing.Size(107, 19);
@@ -1218,6 +1243,7 @@
             this.lbl_LovromanRole.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lbl_LovromanRole.AutoSize = true;
             this.lbl_LovromanRole.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_LovromanRole.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.lbl_LovromanRole.Location = new System.Drawing.Point(56, 128);
             this.lbl_LovromanRole.Name = "lbl_LovromanRole";
             this.lbl_LovromanRole.Size = new System.Drawing.Size(74, 19);
@@ -1230,6 +1256,7 @@
             this.lbl_ZerkzRole.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lbl_ZerkzRole.AutoSize = true;
             this.lbl_ZerkzRole.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_ZerkzRole.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.lbl_ZerkzRole.Location = new System.Drawing.Point(56, 148);
             this.lbl_ZerkzRole.Name = "lbl_ZerkzRole";
             this.lbl_ZerkzRole.Size = new System.Drawing.Size(74, 19);
@@ -1253,12 +1280,14 @@
             // 
             // link_DarjuszProfile
             // 
+            this.link_DarjuszProfile.ActiveLinkColor = System.Drawing.Color.Purple;
             this.link_DarjuszProfile.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.link_DarjuszProfile.AutoSize = true;
+            this.link_DarjuszProfile.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.link_DarjuszProfile.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.link_DarjuszProfile.Location = new System.Drawing.Point(256, 110);
+            this.link_DarjuszProfile.Location = new System.Drawing.Point(255, 110);
             this.link_DarjuszProfile.Name = "link_DarjuszProfile";
-            this.link_DarjuszProfile.Size = new System.Drawing.Size(47, 16);
+            this.link_DarjuszProfile.Size = new System.Drawing.Size(48, 16);
             this.link_DarjuszProfile.TabIndex = 1;
             this.link_DarjuszProfile.TabStop = true;
             this.link_DarjuszProfile.Text = "Darjusz";
@@ -1269,7 +1298,7 @@
             // 
             this.link_LovromanProfile.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.link_LovromanProfile.AutoSize = true;
-            this.link_LovromanProfile.LinkColor = System.Drawing.Color.MidnightBlue;
+            this.link_LovromanProfile.LinkColor = System.Drawing.Color.Orange;
             this.link_LovromanProfile.Location = new System.Drawing.Point(251, 130);
             this.link_LovromanProfile.Name = "link_LovromanProfile";
             this.link_LovromanProfile.Size = new System.Drawing.Size(57, 16);
@@ -1283,7 +1312,7 @@
             // 
             this.link_ZerkzProfile.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.link_ZerkzProfile.AutoSize = true;
-            this.link_ZerkzProfile.LinkColor = System.Drawing.Color.MidnightBlue;
+            this.link_ZerkzProfile.LinkColor = System.Drawing.Color.Orange;
             this.link_ZerkzProfile.Location = new System.Drawing.Point(261, 150);
             this.link_ZerkzProfile.Name = "link_ZerkzProfile";
             this.link_ZerkzProfile.Size = new System.Drawing.Size(37, 16);
@@ -1433,21 +1462,6 @@
             this.colSelect.Name = "colSelect";
             this.colSelect.TrueValue = "true";
             this.colSelect.Visible = false;
-            // 
-            // linkCFFAQ
-            // 
-            this.linkCFFAQ.AutoSize = true;
-            this.linkCFFAQ.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.linkCFFAQ.Font = new System.Drawing.Font("Trebuchet MS", 12F);
-            this.linkCFFAQ.LinkColor = System.Drawing.Color.Black;
-            this.linkCFFAQ.Location = new System.Drawing.Point(77, 140);
-            this.linkCFFAQ.Name = "linkCFFAQ";
-            this.linkCFFAQ.Size = new System.Drawing.Size(216, 28);
-            this.linkCFFAQ.TabIndex = 15;
-            this.linkCFFAQ.TabStop = true;
-            this.linkCFFAQ.Text = "FAQ";
-            this.linkCFFAQ.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.linkCFFAQ.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkCFFAQ_LinkClicked);
             // 
             // frmMain
             // 
