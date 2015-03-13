@@ -4,48 +4,20 @@ using System.Collections.Generic;
 namespace CustomsForgeManager_Winforms.Utilities
 {
     [Serializable]
-    public class SettingsData
+    public class OldSettingsData
     {
         public string LogFilePath { get; set; }
         public string RSInstalledDir { get; set; }
         public bool RescanOnStartup { get; set; }
         public bool IncludeRS1DLCs { get; set; }
-        public bool EnableLogBaloon { get; set; }
         public RADataGridViewSettings ManagerGridSettings { get; set; }
     }
 
     [Serializable]
-    public class RADataGridViewSettings
+    public class OldSettings
     {
-        List<ColumnOrderItem> columnOrder = new List<ColumnOrderItem>();
-        public List<ColumnOrderItem> ColumnOrder
-        {
-            get { return columnOrder as List<ColumnOrderItem>; }
-            set { columnOrder = value; }
-        }
-    }
-
-    [Serializable]
-    public class ColumnOrderItem
-    {
-        public int DisplayIndex { get; set; }
-        public int Width { get; set; }
-        public bool Visible { get; set; }
-        public int ColumnIndex { get; set; }
-    }
-
-    [Serializable]
-    public class Settings
-    {
-        private SettingsData _settingsData;
+        private OldSettingsData _settingsData;
         
-        //Dictionary<string, List<ColumnOrderItem>> columnOrder = new Dictionary<string, List<ColumnOrderItem>>();
-        //public Dictionary<string, List<ColumnOrderItem>> ColumnOrder
-        //{
-        //    get { return columnOrder as Dictionary<string, List<ColumnOrderItem>>; }
-        //    set { columnOrder = value; }
-        //}
-
         public RADataGridViewSettings ManagerGridSettings
         {
             get
@@ -54,7 +26,7 @@ namespace CustomsForgeManager_Winforms.Utilities
             }
             set
             {
-                if (_settingsData == null) _settingsData = new SettingsData();
+                if (_settingsData == null) _settingsData = new OldSettingsData();
                 _settingsData.ManagerGridSettings = value;
             }
         }
@@ -64,8 +36,8 @@ namespace CustomsForgeManager_Winforms.Utilities
             get { return _settingsData.LogFilePath; }
             set
             {
-                if (_settingsData == null) 
-                    _settingsData = new SettingsData();
+                if (_settingsData == null)
+                    _settingsData = new OldSettingsData();
                 _settingsData.LogFilePath = value;
             }
         }
@@ -76,7 +48,7 @@ namespace CustomsForgeManager_Winforms.Utilities
             set
             {
                 if (_settingsData == null)
-                    _settingsData = new SettingsData();
+                    _settingsData = new OldSettingsData();
                 _settingsData.RSInstalledDir = value;
             }
         }
@@ -87,7 +59,7 @@ namespace CustomsForgeManager_Winforms.Utilities
             set 
             {
                 if (_settingsData == null)
-                    _settingsData = new SettingsData();
+                    _settingsData = new OldSettingsData();
                 _settingsData.RescanOnStartup = value;
             }
         }
@@ -98,28 +70,17 @@ namespace CustomsForgeManager_Winforms.Utilities
             set
             {
                 if (_settingsData == null)
-                    _settingsData = new SettingsData();
+                    _settingsData = new OldSettingsData();
                 _settingsData.IncludeRS1DLCs = value;
-            }
-        }
-
-        public bool EnabledLogBaloon
-        {
-            get { return _settingsData.EnableLogBaloon; }
-            set
-            {
-                if (_settingsData == null)
-                    _settingsData = new SettingsData();
-                _settingsData.EnableLogBaloon = value;
             }
         }
 
         /// <summary>
         /// Initialise settings with default values
         /// </summary>
-        public Settings()
+        public OldSettings()
         {
-            _settingsData = new SettingsData();
+            _settingsData = new OldSettingsData();
             _settingsData.LogFilePath = Constants.DefaultLogName;
         }
     }

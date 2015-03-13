@@ -277,6 +277,7 @@ namespace CustomsForgeManager_Winforms.Forms
             mySettings.RSInstalledDir = GetInstallDirFromRegistry();
             mySettings.RescanOnStartup = true;
             mySettings.IncludeRS1DLCs = false;
+            mySettings.EnabledLogBaloon = true;
         }
         private void SaveSettingsToFile(string path = "")
         {
@@ -297,6 +298,7 @@ namespace CustomsForgeManager_Winforms.Forms
                     mySettings.RSInstalledDir = tbSettingsRSDir.Text;
                 mySettings.RescanOnStartup = checkRescanOnStartup.Checked;
                 mySettings.IncludeRS1DLCs = checkIncludeRS1DLC.Checked;
+                mySettings.EnabledLogBaloon = checkEnableLogBaloon.Checked;
 
                 RADataGridViewSettings settings = new RADataGridViewSettings();
                 var columns = dgvSongs.Columns;
@@ -359,6 +361,10 @@ namespace CustomsForgeManager_Winforms.Forms
                         checkIncludeRS1DLC.InvokeIfRequired(delegate
                         {
                             checkIncludeRS1DLC.Checked = mySettings.IncludeRS1DLCs;
+                        });
+                        checkEnableLogBaloon.InvokeIfRequired(delegate
+                        {
+                            checkEnableLogBaloon.Checked = mySettings.EnabledLogBaloon;
                         });
                         Log("Loaded settings...");
                     }
@@ -1652,6 +1658,14 @@ namespace CustomsForgeManager_Winforms.Forms
         private void lbl_ExportTo_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void checkEnableLogBaloon_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!checkEnableLogBaloon.Checked)
+                myLog.RemoveTargetNotifyIcon(notifyIcon_Main);
+            else
+                myLog.AddTargetNotifyIcon(notifyIcon_Main);
         }
     }
 }

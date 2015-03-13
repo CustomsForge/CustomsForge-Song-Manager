@@ -176,5 +176,13 @@ namespace CustomsForgeManager_Winforms.Logging
             }
             logEntries = new List<LogMessage>();
         }
+
+        public void RemoveTargetNotifyIcon(NotifyIcon notifyIconMain)
+        {
+            if (targetNotifyIcons != null)
+            {
+                targetNotifyIcons.Remove(notifyIconMain);
+            }
+        }
     }
 }

@@ -142,6 +142,7 @@
             this.notifyIcon_Main = new System.Windows.Forms.NotifyIcon(this.components);
             this.contextMenuStrip_Tray = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.checkEnableLogBaloon = new System.Windows.Forms.CheckBox();
             this.dgvSongs = new CustomsForgeManager_Winforms.Controls.RADataGridView();
             this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.tlp_MainForm_Wrappper.SuspendLayout();
@@ -750,6 +751,7 @@
             this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsSave, 1, 5);
             this.tlpSettings_Wrapper.Controls.Add(this.checkIncludeRS1DLC, 1, 3);
             this.tlpSettings_Wrapper.Controls.Add(this.panel5, 2, 4);
+            this.tlpSettings_Wrapper.Controls.Add(this.checkEnableLogBaloon, 2, 2);
             this.tlpSettings_Wrapper.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpSettings_Wrapper.Location = new System.Drawing.Point(3, 3);
             this.tlpSettings_Wrapper.Name = "tlpSettings_Wrapper";
@@ -1424,6 +1426,21 @@
             this.closeToolStripMenuItem.Text = "Close";
             this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
             // 
+            // checkEnableLogBaloon
+            // 
+            this.checkEnableLogBaloon.AutoSize = true;
+            this.checkEnableLogBaloon.Checked = true;
+            this.checkEnableLogBaloon.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkEnableLogBaloon.Dock = System.Windows.Forms.DockStyle.Left;
+            this.checkEnableLogBaloon.Location = new System.Drawing.Point(388, 45);
+            this.checkEnableLogBaloon.Name = "checkEnableLogBaloon";
+            this.checkEnableLogBaloon.Size = new System.Drawing.Size(118, 24);
+            this.checkEnableLogBaloon.TabIndex = 5;
+            this.checkEnableLogBaloon.Text = "Enable Log Baloon ";
+            this.checkEnableLogBaloon.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkEnableLogBaloon.UseVisualStyleBackColor = true;
+            this.checkEnableLogBaloon.CheckedChanged += new System.EventHandler(this.checkEnableLogBaloon_CheckedChanged);
+            // 
             // dgvSongs
             // 
             this.dgvSongs.AllowUserToAddRows = false;
@@ -1642,6 +1659,7 @@
         private System.Windows.Forms.Button btnEOFSite;
         private System.Windows.Forms.Label lbl_ExportTo;
         private System.Windows.Forms.LinkLabel linkCFFAQ;
+        private System.Windows.Forms.CheckBox checkEnableLogBaloon;
     }
 }
 

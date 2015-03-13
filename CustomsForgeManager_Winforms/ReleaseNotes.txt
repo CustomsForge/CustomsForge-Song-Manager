@@ -1,4 +1,8 @@
-﻿0.1.1.63
+﻿0.1.1.65
+-Added "Enable Log Baloon" is settings
+-Prepaired settings migration environment
+
+0.1.1.63
 -Rearranged Export Area
 -Fixed wording on "Check All for Update" popup's 2nd link that opened all links in a browser
 -Redesigned Creators w/ a new background

@@ -32,7 +32,7 @@
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>index.html</WebPage>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>63</ApplicationRevision>
+    <ApplicationRevision>65</ApplicationRevision>
     <ApplicationVersion>0.1.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -143,6 +143,7 @@
       <DependentUpon>frmSongInfo.cs</DependentUpon>
     </Compile>
     <Compile Include="lib\Ignition.cs" />
+    <Compile Include="lib\OldSettings.cs" />
     <Compile Include="Logging\LogClass.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
