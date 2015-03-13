@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.IO;
-using CustomsForgeManager_Winforms.Utilities;
+﻿using CustomsForgeManager_Winforms.Utilities;
+
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using RocksmithToolkitLib;
 using RocksmithToolkitLib.DLCPackage;
 using RocksmithToolkitLib.DLCPackage.Manifest;
@@ -12,8 +9,12 @@ using RocksmithToolkitLib.Extensions;
 using RocksmithToolkitLib.PSARC;
 using RocksmithToolkitLib.Sng2014HSL;
 using RocksmithToolkitLib.Xml;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace CustomsForgeManager_Winforms
@@ -22,7 +23,7 @@ namespace CustomsForgeManager_Winforms
     {
         private string FilePath;
         private PSARC archive;
-        private Platform platform;
+        //private Platform platform;
 
         /// <summary>
         /// Loads archive file to memory.
@@ -32,10 +33,10 @@ namespace CustomsForgeManager_Winforms
         {
             FilePath = fileName;
             archive = new PSARC();
-            platform = FilePath.GetPlatform();
-            using (var stream = File.OpenRead(FilePath))
+            //platform = FilePath.GetPlatform();
+            var stream = File.OpenRead(FilePath);
             {
-                archive.Read(stream);
+                archive.Read(stream, true);
             }
         }
 
@@ -47,19 +48,18 @@ namespace CustomsForgeManager_Winforms
         /// <returns>List of included songs.</returns>
         public IEnumerable<SongData> GetSongs()
         {
-            List<SongData> songsFromPsarcFileList = new List<SongData>();
             string author = "";
             string version = "";
             string tkversion = "";
-
-            var singleSongCount = archive.TOC.Where(x => x.Name.Contains("showlights.xml") && x.Name.Contains("arr"));
+            var songsFromPsarcFileList = new List<SongData>();
 
             var toolkitVersionFiles = archive.TOC.Where(x => (x.Name.Equals("toolkit.version")));
-
-            foreach (Entry toolkitVersionFile in toolkitVersionFiles)
+            foreach (var toolkitVersionFile in toolkitVersionFiles)
             {
                 if (toolkitVersionFile.Name.Equals("toolkit.version"))
                 {
+                    //if (toolkitVersionFile.Compressed)// it's planned
+                        archive.InflateEntry(toolkitVersionFile);
                     ToolkitInfo tkInfo = GeneralExtensions.GetToolkitInfo(new StreamReader(toolkitVersionFile.Data));
                     author = tkInfo.PackageAuthor ?? "N/A";
                     version = tkInfo.PackageVersion ?? "N/A";
@@ -67,29 +67,30 @@ namespace CustomsForgeManager_Winforms
                 }
             }
 
-
+            var singleSongCount = archive.TOC.Where(x => x.Name.Contains("showlights.xml") && x.Name.Contains("arr"));
             foreach (var singleSong in singleSongCount)
             {
+
                 string strippedName = singleSong.Name.Replace("_showlights.xml", "").Replace("songs/arr/","");
-                var infoFiles = archive.TOC.Where(x => x.Name.StartsWith("manifests/songs")
-                                                    && !x.Name.Contains("vocals")
-                                                   && x.Name.EndsWith(".json")
-                                                   && x.Name.Contains(strippedName))
-                                                   .OrderBy(x => x.Name);
+                var infoFiles = archive.TOC.Where(x => 
+                    x.Name.StartsWith("manifests/songs")
+                    && !x.Name.Contains("vocals")
+                    && x.Name.EndsWith(".json")
+                    && x.Name.Contains(strippedName)
+                ).OrderBy(x => x.Name);
 
-                SongData currentSong = new SongData { Author = author, Version = version, ToolkitVer = tkversion, Path = FilePath };
-
+                var currentSong = new SongData { Author = author, Version = version, ToolkitVer = tkversion, Path = FilePath };
                 foreach (var entry in infoFiles)
                 {
+                    archive.InflateEntry(entry);
                     using (var ms = new MemoryStream())
-                    using (var reader = new StreamReader(ms, new UTF8Encoding(), false, 1024))
+                    using (var reader = new StreamReader(ms, new UTF8Encoding(), false, 65536))//4Kb is default alloc sise for windows.. 64Kb is default PSARC alloc
                     {
                             entry.Data.CopyTo(ms);
                             entry.Data.Position = 0;
                             ms.Position = 0;
-                            string strJson = reader.ReadToEnd();
 
-                            JObject o = JObject.Parse(strJson);
+                            var o = JObject.Parse(reader.ReadToEnd());
                             var attributes = o["Entries"].First.Last["Attributes"];
 
                             currentSong.Song = attributes["SongName"].ToString();
@@ -117,7 +118,6 @@ namespace CustomsForgeManager_Winforms
                 }
             }
 
-           
             return songsFromPsarcFileList;
         }
 
