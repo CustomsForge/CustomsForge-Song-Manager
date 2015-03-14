@@ -973,11 +973,11 @@ namespace CustomsForgeManager_Winforms.Forms
                 dgvSongs.DataSource = bs;
                 dgvSongs.HorizontalScrollingOffset = scrollHorizontalOffset;
 
-                if(scrollHorizontalOffset != 0)
-                {
+                 if(scrollVerticalOffset != 0)
+                 {
                     PropertyInfo verticalOffset = dgvSongs.GetType().GetProperty("VerticalOffset", BindingFlags.NonPublic | BindingFlags.Instance);
                     verticalOffset.SetValue(this.dgvSongs, scrollVerticalOffset, null);
-                }
+                  }
                 
 
                 foreach (KeyValuePair<SongData, Color> row in currentRows)
@@ -1477,25 +1477,48 @@ namespace CustomsForgeManager_Winforms.Forms
 
         private void SongListToHTML()
         {
+            var checkedRows = dgvSongs.Rows.Cast<DataGridViewRow>().Where(r => r.Cells["colSelect"].Value != null).Where(r => Convert.ToBoolean(r.Cells["colSelect"].Value)).ToList(); 
+
             var sbTXT = new StringBuilder();
-            sbTXT.AppendLine("[table]");
+            sbTXT.AppendLine("<table>");
             sbTXT.AppendLine("<tr>");
             sbTXT.AppendLine("<th>Song</th><th>Artist</th><th>Album</th><th>Updated</th><th>Tuning</th><th>DD</th><th>Arangements</th><th>Author</th>");
             sbTXT.AppendLine("</tr>");
-            foreach (var song in SongCollection)
+
+            if (checkedRows.Count == 0)
             {
-                sbTXT.AppendLine("<tr>");
-                if (song.Author == null)
+                foreach (var song in SongCollection)
                 {
-                    sbTXT.AppendLine("<td>" + song.Song + "</td><td>" + song.Artist + "</td><td>" + song.Album + "</td><td>" + song.Updated + "</td><td>" + song.Tuning + "</td><td>" + song.DD.DifficultyToDD() + "</td><td>" + song.Arrangements + "</td>");
+                    sbTXT.AppendLine("<tr>");
+                    if (song.Author == null)
+                    {
+                        sbTXT.AppendLine("<td>" + song.Song + "</td><td>" + song.Artist + "</td><td>" + song.Album + "</td><td>" + song.Updated + "</td><td>" + song.Tuning + "</td><td>" + song.DD.DifficultyToDD() + "</td><td>" + song.Arrangements + "</td>");
+                    }
+                    else
+                    {
+                        sbTXT.AppendLine("<td>" + song.Song + "</td><td>" + song.Artist + "</td><td>" + song.Album + "</td><td>" + song.Updated + "</td><td>" + song.Tuning + "</td><td>" + song.DD.DifficultyToDD() + "</td><td>" + song.Arrangements + "</td><td>" + song.Author + "</td>");
+                    }
+                    sbTXT.AppendLine("</tr>");
                 }
-                else
-                {
-                    sbTXT.AppendLine("<td>" + song.Song + "</td><td>" + song.Artist + "</td><td>" + song.Album + "</td><td>" + song.Updated + "</td><td>" + song.Tuning + "</td><td>" + song.DD.DifficultyToDD() + "</td><td>" + song.Arrangements + "</td><td>" + song.Author + "</td>");
-                }
-                sbTXT.AppendLine("</tr>");
             }
-            sbTXT.AppendLine("[/table]");
+            else
+            {
+                foreach (var row in checkedRows)
+                {
+                    sbTXT.AppendLine("<tr>");
+                    if (row.Cells["Author"].Value == null)
+                    {
+                        sbTXT.AppendLine("<td>" + row.Cells["Song"].Value + "</td><td>" + row.Cells["Artist"].Value + "</td><td>" + row.Cells["Album"].Value + "</td><td>" + row.Cells["Updated"].Value + "</td><td>" + row.Cells["Tuning"].Value + "</td><td>" + (row.Cells["DD"].Value == "0" ? "No" : "Yes") + "</td><td>" + row.Cells["Arrangements"].Value + "</td>");
+                    }
+                    else
+                    {
+                        sbTXT.AppendLine("<td>" + row.Cells["Song"].Value + "</td><td>" + row.Cells["Artist"].Value + "</td><td>" + row.Cells["Album"].Value + "</td><td>" + row.Cells["Updated"].Value + "</td><td>" + row.Cells["Tuning"].Value + "</td><td>" + (row.Cells["DD"].Value == "0" ? "No" : "Yes") + "</td><td>" + row.Cells["Arrangements"].Value + "</td><td>" + row.Cells["Author"].Value + "</td>");
+                    }
+                    sbTXT.AppendLine("</tr>");
+                }
+            }
+
+            sbTXT.AppendLine("</table>");
 
             frmSongListExport FormSongListExport = new frmSongListExport();
             FormSongListExport.SongList = sbTXT.ToString();
@@ -1508,17 +1531,38 @@ namespace CustomsForgeManager_Winforms.Forms
             var sbTXT = new StringBuilder();
             sbTXT.AppendLine("Song - Artist, Album, Updated, Tuning, DD, Arangements, Author");
             sbTXT.AppendLine("[LIST=1]");
-            foreach (var song in SongCollection)
+
+            var checkedRows = dgvSongs.Rows.Cast<DataGridViewRow>().Where(r => r.Cells["colSelect"].Value != null).Where(r => Convert.ToBoolean(r.Cells["colSelect"].Value)).ToList(); 
+
+            if(checkedRows.Count == 0)
             {
-                if (song.Author == null)
+                foreach (var song in SongCollection)
                 {
-                    sbTXT.AppendLine("[*]" + song.Song + " - " + song.Artist + ", " + song.Album + ", " + song.Updated + ", " + song.Tuning + ", " + song.DD.DifficultyToDD() + ", " + song.Arrangements + "[/*]");
-                }
-                else
-                {
-                    sbTXT.AppendLine("[*]" + song.Song + " - " + song.Artist + ", " + song.Album + ", " + song.Updated + ", " + song.Tuning + ", " + song.DD.DifficultyToDD() + ", " + song.Arrangements + ", " + song.Author + "[/*]");
+                    if (song.Author == null)
+                    {
+                        sbTXT.AppendLine("[*]" + song.Song + " - " + song.Artist + ", " + song.Album + ", " + song.Updated + ", " + song.Tuning + ", " + song.DD.DifficultyToDD() + ", " + song.Arrangements + "[/*]");
+                    }
+                    else
+                    {
+                        sbTXT.AppendLine("[*]" + song.Song + " - " + song.Artist + ", " + song.Album + ", " + song.Updated + ", " + song.Tuning + ", " + song.DD.DifficultyToDD() + ", " + song.Arrangements + ", " + song.Author + "[/*]");
+                    }
                 }
             }
+            else 
+            {
+                foreach (var row in checkedRows)
+                {
+                    if (row.Cells["Author"].Value == null)
+                    {
+                        sbTXT.AppendLine("[*]" + row.Cells["Song"].Value + " - " + row.Cells["Artist"].Value + ", " + row.Cells["Album"].Value + ", " + row.Cells["Updated"].Value + ", " + row.Cells["Tuning"].Value + ", " + row.Cells["DD"].Value == "0" ? "No" : "Yes" + ", " + row.Cells["Arrangements"].Value + "[/*]");
+                    }
+                    else
+                    {
+                        sbTXT.AppendLine("[*]" + row.Cells["Song"].Value + " - " + row.Cells["Artist"].Value + ", " + row.Cells["Album"].Value + ", " + row.Cells["Updated"].Value + ", " + row.Cells["Tuning"].Value + ", " + row.Cells["DD"].Value + ", " + row.Cells["Arrangements"].Value + ", " + row.Cells["Author"].Value);
+                    }
+                }
+            }
+            
             sbTXT.AppendLine("[/LIST]");
 
             frmSongListExport FormSongListExport = new frmSongListExport();
@@ -1531,6 +1575,7 @@ namespace CustomsForgeManager_Winforms.Forms
         {
             var sbCSV = new StringBuilder();
             string path = Constants.DefaultWorkingDirectory + @"\SongListCSV.csv";
+            var checkedRows = dgvSongs.Rows.Cast<DataGridViewRow>().Where(r => r.Cells["colSelect"].Value != null).Where(r =>  Convert.ToBoolean(r.Cells["colSelect"].Value)).ToList(); 
 
             sfdSongListToCSV.Filter = "csv files(*.csv)|*.csv|All files (*.*)|*.*";
             sfdSongListToCSV.FileName = "SongListCSV";
@@ -1542,10 +1587,36 @@ namespace CustomsForgeManager_Winforms.Forms
 
             sbCSV.AppendLine(@"sep=;");
             sbCSV.AppendLine("Artist;Song;Album;Year;Tuning;Arrangements");
-            foreach (var song in SongCollection)
+
+            if (checkedRows.Count == 0)
             {
-                sbCSV.AppendLine(song.Artist + ";" + song.Song + ";" + song.Album + ";" + song.SongYear + ";" + song.Tuning + ";" + song.Arrangements);
+                foreach (var song in SongCollection)
+                {
+                    if (song.Author == null)
+                    {
+                        sbCSV.AppendLine(song.Song + ";" + song.Artist + ";" + song.Album + ";" + song.Updated + ";" + song.Tuning + ";" + song.DD.DifficultyToDD() + ";" + song.Arrangements);
+                    }
+                    else
+                    {
+                        sbCSV.AppendLine(song.Song + ";" + song.Artist + ";" + song.Album + ";" + song.Updated + ";" + song.Tuning + ";" + song.DD.DifficultyToDD() + ";" + song.Arrangements + ";" + song.Author);
+                    }
+                }
             }
+            else
+            {
+                foreach (var row in checkedRows)
+                {
+                    if (row.Cells["Author"].Value == null)
+                    {
+                        sbCSV.AppendLine(row.Cells["Song"].Value + ";" + row.Cells["Artist"].Value + ";" + row.Cells["Album"].Value + ";" + row.Cells["Updated"].Value + ";" + row.Cells["Tuning"].Value + ";" + row.Cells["DD"].Value == "0" ? "No" : "Yes" + ";" + row.Cells["Arrangements"].Value);
+                    }
+                    else
+                    {
+                        sbCSV.AppendLine(row.Cells["Song"].Value + ";" + row.Cells["Artist"].Value + ";" + row.Cells["Album"].Value + ";" + row.Cells["Updated"].Value + ";" + row.Cells["Tuning"].Value + ";" + row.Cells["DD"].Value + ";" + row.Cells["Arrangements"].Value + ";" + row.Cells["Author"].Value);
+                    }
+                }
+            }
+
             try
             {
                 using (StreamWriter file = new StreamWriter(path, false, Encoding.UTF8))
