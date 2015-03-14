@@ -99,6 +99,7 @@
             this.columnSelect = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colSettingsColumnName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colSettingsColumnEnabled = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.checkEnableLogBaloon = new System.Windows.Forms.CheckBox();
             this.tpAbout = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.pictureBoxCF = new System.Windows.Forms.PictureBox();
@@ -142,7 +143,6 @@
             this.notifyIcon_Main = new System.Windows.Forms.NotifyIcon(this.components);
             this.contextMenuStrip_Tray = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.checkEnableLogBaloon = new System.Windows.Forms.CheckBox();
             this.dgvSongs = new CustomsForgeManager_Winforms.Controls.RADataGridView();
             this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.tlp_MainForm_Wrappper.SuspendLayout();
@@ -466,7 +466,7 @@
             this.linkLblSelectAll.LinkColor = System.Drawing.Color.Black;
             this.linkLblSelectAll.Location = new System.Drawing.Point(14, 8);
             this.linkLblSelectAll.Name = "linkLblSelectAll";
-            this.linkLblSelectAll.Size = new System.Drawing.Size(113, 16);
+            this.linkLblSelectAll.Size = new System.Drawing.Size(111, 16);
             this.linkLblSelectAll.TabIndex = 2;
             this.linkLblSelectAll.TabStop = true;
             this.linkLblSelectAll.Text = "Select All/Deselect All";
@@ -829,9 +829,9 @@
             this.checkIncludeRS1DLC.Checked = true;
             this.checkIncludeRS1DLC.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkIncludeRS1DLC.Dock = System.Windows.Forms.DockStyle.Right;
-            this.checkIncludeRS1DLC.Location = new System.Drawing.Point(203, 75);
+            this.checkIncludeRS1DLC.Location = new System.Drawing.Point(204, 75);
             this.checkIncludeRS1DLC.Name = "checkIncludeRS1DLC";
-            this.checkIncludeRS1DLC.Size = new System.Drawing.Size(179, 22);
+            this.checkIncludeRS1DLC.Size = new System.Drawing.Size(178, 22);
             this.checkIncludeRS1DLC.TabIndex = 3;
             this.checkIncludeRS1DLC.Text = "Include RS1 Compatibility Pack";
             this.checkIncludeRS1DLC.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -896,6 +896,21 @@
             // 
             this.colSettingsColumnEnabled.Text = "Enabled";
             this.colSettingsColumnEnabled.Width = 105;
+            // 
+            // checkEnableLogBaloon
+            // 
+            this.checkEnableLogBaloon.AutoSize = true;
+            this.checkEnableLogBaloon.Checked = true;
+            this.checkEnableLogBaloon.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkEnableLogBaloon.Dock = System.Windows.Forms.DockStyle.Left;
+            this.checkEnableLogBaloon.Location = new System.Drawing.Point(388, 45);
+            this.checkEnableLogBaloon.Name = "checkEnableLogBaloon";
+            this.checkEnableLogBaloon.Size = new System.Drawing.Size(118, 24);
+            this.checkEnableLogBaloon.TabIndex = 5;
+            this.checkEnableLogBaloon.Text = "Enable Log Baloon ";
+            this.checkEnableLogBaloon.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkEnableLogBaloon.UseVisualStyleBackColor = true;
+            this.checkEnableLogBaloon.CheckedChanged += new System.EventHandler(this.checkEnableLogBaloon_CheckedChanged);
             // 
             // tpAbout
             // 
@@ -1426,21 +1441,6 @@
             this.closeToolStripMenuItem.Text = "Close";
             this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
             // 
-            // checkEnableLogBaloon
-            // 
-            this.checkEnableLogBaloon.AutoSize = true;
-            this.checkEnableLogBaloon.Checked = true;
-            this.checkEnableLogBaloon.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkEnableLogBaloon.Dock = System.Windows.Forms.DockStyle.Left;
-            this.checkEnableLogBaloon.Location = new System.Drawing.Point(388, 45);
-            this.checkEnableLogBaloon.Name = "checkEnableLogBaloon";
-            this.checkEnableLogBaloon.Size = new System.Drawing.Size(118, 24);
-            this.checkEnableLogBaloon.TabIndex = 5;
-            this.checkEnableLogBaloon.Text = "Enable Log Baloon ";
-            this.checkEnableLogBaloon.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkEnableLogBaloon.UseVisualStyleBackColor = true;
-            this.checkEnableLogBaloon.CheckedChanged += new System.EventHandler(this.checkEnableLogBaloon_CheckedChanged);
-            // 
             // dgvSongs
             // 
             this.dgvSongs.AllowUserToAddRows = false;
@@ -1454,7 +1454,7 @@
             this.colSelect});
             this.dgvSongs.ContextMenuStrip = this.contextMenuStrip_MainManager;
             this.dgvSongs.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvSongs.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnF2;
+            this.dgvSongs.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dgvSongs.GridColor = System.Drawing.SystemColors.ActiveCaption;
             this.dgvSongs.Location = new System.Drawing.Point(0, 0);
             this.dgvSongs.MultiSelect = false;

@@ -919,14 +919,66 @@ namespace CustomsForgeManager_Winforms.Forms
                             sortDescending = true;
                         }
                         break;
+                    case "IgntionVersion":
+                        if (sortDescending)
+                        {
+                            bs.DataSource = songsToShow.OrderByDescending(song => song.IgnitionVersion);
+                            sortDescending = false;
+                        }
+                        else
+                        {
+                            bs.DataSource = songsToShow.OrderBy(song => song.IgnitionVersion);
+                            sortDescending = true;
+                        }
+                        break;
+                    case "IgnitionID":
+                        if (sortDescending)
+                        {
+                            bs.DataSource = songsToShow.OrderByDescending(song => song.IgnitionID);
+                            sortDescending = false;
+                        }
+                        else
+                        {
+                            bs.DataSource = songsToShow.OrderBy(song => song.IgnitionID);
+                            sortDescending = true;
+                        }
+                        break;
+                    case "IgnitionUpdated":
+                        if (sortDescending)
+                        {
+                            bs.DataSource = songsToShow.OrderByDescending(song => song.Updated);
+                            sortDescending = false;
+                        }
+                        else
+                        {
+                            bs.DataSource = songsToShow.OrderBy(song => song.Updated);
+                            sortDescending = true;
+                        }
+                        break;
+                    case "IgnitionAuthor":
+                        if (sortDescending)
+                        {
+                            bs.DataSource = songsToShow.OrderByDescending(song => song.IgnitionAuthor);
+                            sortDescending = false;
+                        }
+                        else
+                        {
+                            bs.DataSource = songsToShow.OrderBy(song => song.IgnitionAuthor);
+                            sortDescending = true;
+                        }
+                        break;
                 }
                 scrollHorizontalOffset = dgvSongs.HorizontalScrollingOffset;
                 scrollVerticalOffset = dgvSongs.VerticalScrollingOffset;
                 dgvSongs.DataSource = bs;
                 dgvSongs.HorizontalScrollingOffset = scrollHorizontalOffset;
 
-                PropertyInfo verticalOffset = dgvSongs.GetType().GetProperty("VerticalOffset", BindingFlags.NonPublic | BindingFlags.Instance);
-                verticalOffset.SetValue(this.dgvSongs, scrollVerticalOffset, null);
+                if(scrollHorizontalOffset != 0)
+                {
+                    PropertyInfo verticalOffset = dgvSongs.GetType().GetProperty("VerticalOffset", BindingFlags.NonPublic | BindingFlags.Instance);
+                    verticalOffset.SetValue(this.dgvSongs, scrollVerticalOffset, null);
+                }
+                
 
                 foreach (KeyValuePair<SongData, Color> row in currentRows)
                 {
@@ -1555,7 +1607,7 @@ namespace CustomsForgeManager_Winforms.Forms
                                         "<ERROR>: Song \"{0}\" from \"{1}\" album by {2} not found in ignition.",
                                         currentSong.Song, currentSong.Album, currentSong.Author), false);
                             }
-                            else if (currentSong.Version != "N/A")
+                            else if (currentSong.Version == "N/A")
                             {
                                 //TODO: Check for updates by release/update date
                             }
@@ -1586,9 +1638,12 @@ namespace CustomsForgeManager_Winforms.Forms
                                 btnCheckAllForUpdates.Enabled = true;
                             });
                             Log(string.Format("Finished update check. Task took {0}", counterStopwatch.Elapsed));
-                            frmOutdatedSongs frmOutdated = new frmOutdatedSongs();
-                            frmOutdated.OutdatedSongList = OutdatedSongList;
-                            frmOutdated.Show();
+                            if(OutdatedSongList.Count != 0)
+                            {
+                                frmOutdatedSongs frmOutdated = new frmOutdatedSongs();
+                                frmOutdated.OutdatedSongList = OutdatedSongList;
+                                frmOutdated.Show();
+                            }
                         }
                     };
                     if (!bWorker.CancellationPending)
