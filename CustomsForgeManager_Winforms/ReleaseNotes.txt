@@ -1,4 +1,7 @@
-﻿0.1.1.65
+﻿0.1.1.66
+-Modified Credits
+
+0.1.1.65
 -Added "Enable Log Baloon" is settings
 -Prepaired settings migration environment
 

@@ -1793,5 +1793,11 @@ namespace CustomsForgeManager_Winforms.Forms
             else
                 myLog.AddTargetNotifyIcon(notifyIcon_Main);
         }
+
+        private void tableLayoutPanel_Credits_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
     }
 }
