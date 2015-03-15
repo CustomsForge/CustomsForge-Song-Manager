@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.tlp_MainForm_Wrappper = new System.Windows.Forms.TableLayoutPanel();
             this.gbLog = new System.Windows.Forms.GroupBox();
             this.tbLog = new System.Windows.Forms.TextBox();
@@ -48,6 +48,8 @@
             this.btnCheckAllForUpdates = new System.Windows.Forms.Button();
             this.btnRescan = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.dgvSongs = new CustomsForgeManager_Winforms.Controls.RADataGridView();
+            this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.contextMenuStrip_MainManager = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.showDLCInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openDLCPageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -119,6 +121,10 @@
             this.lnk_ReleaseNotes = new System.Windows.Forms.LinkLabel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel_Credits = new System.Windows.Forms.TableLayoutPanel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.lbl_Credits = new System.Windows.Forms.Label();
+            this.lbl_Credits_Description = new System.Windows.Forms.Label();
             this.lbl_UnleashedRole = new System.Windows.Forms.Label();
             this.lbl_DarjuszRole = new System.Windows.Forms.Label();
             this.lbl_LovromanRole = new System.Windows.Forms.Label();
@@ -141,12 +147,6 @@
             this.notifyIcon_Main = new System.Windows.Forms.NotifyIcon(this.components);
             this.contextMenuStrip_Tray = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.lbl_Credits_Description = new System.Windows.Forms.Label();
-            this.lbl_Credits = new System.Windows.Forms.Label();
-            this.dgvSongs = new CustomsForgeManager_Winforms.Controls.RADataGridView();
-            this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.tlp_MainForm_Wrappper.SuspendLayout();
             this.gbLog.SuspendLayout();
             this.tcMain.SuspendLayout();
@@ -154,6 +154,7 @@
             this.tlpSongListWrapper.SuspendLayout();
             this.panelSongListButtons.SuspendLayout();
             this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSongs)).BeginInit();
             this.contextMenuStrip_MainManager.SuspendLayout();
             this.panel3.SuspendLayout();
             this.tpDuplicates.SuspendLayout();
@@ -179,7 +180,6 @@
             this.tableLayoutPanel_Credits.SuspendLayout();
             this.statusStripMain.SuspendLayout();
             this.contextMenuStrip_Tray.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvSongs)).BeginInit();
             this.SuspendLayout();
             // 
             // tlp_MainForm_Wrappper
@@ -200,6 +200,7 @@
             // gbLog
             // 
             this.gbLog.Controls.Add(this.tbLog);
+            this.gbLog.Font = new System.Drawing.Font("Trebuchet MS", 8.25F);
             this.gbLog.Location = new System.Drawing.Point(3, 424);
             this.gbLog.Name = "gbLog";
             this.gbLog.Size = new System.Drawing.Size(778, 113);
@@ -386,6 +387,45 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(764, 290);
             this.panel2.TabIndex = 4;
+            // 
+            // dgvSongs
+            // 
+            this.dgvSongs.AllowUserToAddRows = false;
+            this.dgvSongs.AllowUserToDeleteRows = false;
+            this.dgvSongs.AllowUserToOrderColumns = true;
+            this.dgvSongs.AllowUserToResizeRows = false;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.dgvSongs.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            this.dgvSongs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvSongs.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colSelect});
+            this.dgvSongs.ContextMenuStrip = this.contextMenuStrip_MainManager;
+            this.dgvSongs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvSongs.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnF2;
+            this.dgvSongs.GridColor = System.Drawing.SystemColors.ActiveCaption;
+            this.dgvSongs.Location = new System.Drawing.Point(0, 0);
+            this.dgvSongs.MultiSelect = false;
+            this.dgvSongs.Name = "dgvSongs";
+            this.dgvSongs.RowHeadersVisible = false;
+            this.dgvSongs.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvSongs.Size = new System.Drawing.Size(764, 290);
+            this.dgvSongs.TabIndex = 1;
+            this.dgvSongs.DataSourceChanged += new System.EventHandler(this.dgvSongs_DataSourceChanged);
+            this.dgvSongs.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSongs_CellDoubleClick);
+            this.dgvSongs.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongs_CellMouseDown);
+            this.dgvSongs.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongs_ColumnHeaderMouseClick);
+            this.dgvSongs.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvSongs_KeyDown);
+            // 
+            // colSelect
+            // 
+            this.colSelect.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.colSelect.FalseValue = "false";
+            this.colSelect.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.colSelect.HeaderText = "Select";
+            this.colSelect.IndeterminateValue = "false";
+            this.colSelect.Name = "colSelect";
+            this.colSelect.TrueValue = "true";
+            this.colSelect.Visible = false;
             // 
             // contextMenuStrip_MainManager
             // 
@@ -1134,7 +1174,7 @@
             // 
             this.link_CFManager.AutoSize = true;
             this.link_CFManager.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.link_CFManager.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.link_CFManager.Font = new System.Drawing.Font("Trebuchet MS", 14F);
             this.link_CFManager.LinkColor = System.Drawing.Color.Black;
             this.link_CFManager.Location = new System.Drawing.Point(77, 42);
             this.link_CFManager.Name = "link_CFManager";
@@ -1149,7 +1189,7 @@
             // 
             this.lnk_ReleaseNotes.AutoSize = true;
             this.lnk_ReleaseNotes.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lnk_ReleaseNotes.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lnk_ReleaseNotes.Font = new System.Drawing.Font("Trebuchet MS", 12F);
             this.lnk_ReleaseNotes.LinkColor = System.Drawing.Color.DodgerBlue;
             this.lnk_ReleaseNotes.Location = new System.Drawing.Point(77, 84);
             this.lnk_ReleaseNotes.Name = "lnk_ReleaseNotes";
@@ -1205,15 +1245,71 @@
             this.tableLayoutPanel_Credits.TabIndex = 3;
             this.tableLayoutPanel_Credits.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel_Credits_Paint);
             // 
+            // label1
+            // 
+            this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Trebuchet MS", 10F);
+            this.label1.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.label1.Location = new System.Drawing.Point(43, 132);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(99, 18);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "Alpha Testers:";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // linkLabel1
+            // 
+            this.linkLabel1.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.linkLabel1.AutoSize = true;
+            this.linkLabel1.BackColor = System.Drawing.SystemColors.WindowText;
+            this.linkLabel1.Font = new System.Drawing.Font("Trebuchet MS", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.linkLabel1.LinkColor = System.Drawing.Color.HotPink;
+            this.linkLabel1.Location = new System.Drawing.Point(191, 126);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(177, 30);
+            this.linkLabel1.TabIndex = 2;
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.Text = "ForgeOn, rummhamm87, CustomsForge Staff & other users. (thank you!)";
+            this.linkLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbl_Credits
+            // 
+            this.lbl_Credits.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lbl_Credits.AutoSize = true;
+            this.lbl_Credits.Font = new System.Drawing.Font("Trebuchet MS", 10F);
+            this.lbl_Credits.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.lbl_Credits.Location = new System.Drawing.Point(26, 8);
+            this.lbl_Credits.Name = "lbl_Credits";
+            this.lbl_Credits.Size = new System.Drawing.Size(133, 18);
+            this.lbl_Credits.TabIndex = 0;
+            this.lbl_Credits.Text = "Song Manager Team";
+            this.lbl_Credits.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbl_Credits_Description
+            // 
+            this.lbl_Credits_Description.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lbl_Credits_Description.AutoSize = true;
+            this.lbl_Credits_Description.BackColor = System.Drawing.Color.Black;
+            this.lbl_Credits_Description.Font = new System.Drawing.Font("Trebuchet MS", 12F);
+            this.lbl_Credits_Description.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.lbl_Credits_Description.Location = new System.Drawing.Point(222, 6);
+            this.lbl_Credits_Description.Name = "lbl_Credits_Description";
+            this.lbl_Credits_Description.Size = new System.Drawing.Size(115, 22);
+            this.lbl_Credits_Description.TabIndex = 0;
+            this.lbl_Credits_Description.Text = "Maintained By:";
+            this.lbl_Credits_Description.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbl_Credits_Description.Click += new System.EventHandler(this.lbl_Credits_Description_Click);
+            // 
             // lbl_UnleashedRole
             // 
             this.lbl_UnleashedRole.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lbl_UnleashedRole.AutoSize = true;
-            this.lbl_UnleashedRole.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_UnleashedRole.Font = new System.Drawing.Font("Trebuchet MS", 10F);
             this.lbl_UnleashedRole.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.lbl_UnleashedRole.Location = new System.Drawing.Point(20, 35);
+            this.lbl_UnleashedRole.Location = new System.Drawing.Point(20, 36);
             this.lbl_UnleashedRole.Name = "lbl_UnleashedRole";
-            this.lbl_UnleashedRole.Size = new System.Drawing.Size(146, 19);
+            this.lbl_UnleashedRole.Size = new System.Drawing.Size(146, 18);
             this.lbl_UnleashedRole.TabIndex = 0;
             this.lbl_UnleashedRole.Text = "CustomsForge Owner:";
             this.lbl_UnleashedRole.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1223,11 +1319,11 @@
             // 
             this.lbl_DarjuszRole.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lbl_DarjuszRole.AutoSize = true;
-            this.lbl_DarjuszRole.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_DarjuszRole.Font = new System.Drawing.Font("Trebuchet MS", 10F);
             this.lbl_DarjuszRole.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.lbl_DarjuszRole.Location = new System.Drawing.Point(39, 55);
+            this.lbl_DarjuszRole.Location = new System.Drawing.Point(37, 56);
             this.lbl_DarjuszRole.Name = "lbl_DarjuszRole";
-            this.lbl_DarjuszRole.Size = new System.Drawing.Size(107, 19);
+            this.lbl_DarjuszRole.Size = new System.Drawing.Size(111, 18);
             this.lbl_DarjuszRole.TabIndex = 0;
             this.lbl_DarjuszRole.Text = "Lead Developer:";
             this.lbl_DarjuszRole.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1236,11 +1332,11 @@
             // 
             this.lbl_LovromanRole.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lbl_LovromanRole.AutoSize = true;
-            this.lbl_LovromanRole.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_LovromanRole.Font = new System.Drawing.Font("Trebuchet MS", 10F);
             this.lbl_LovromanRole.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.lbl_LovromanRole.Location = new System.Drawing.Point(56, 75);
+            this.lbl_LovromanRole.Location = new System.Drawing.Point(54, 76);
             this.lbl_LovromanRole.Name = "lbl_LovromanRole";
-            this.lbl_LovromanRole.Size = new System.Drawing.Size(74, 19);
+            this.lbl_LovromanRole.Size = new System.Drawing.Size(77, 18);
             this.lbl_LovromanRole.TabIndex = 0;
             this.lbl_LovromanRole.Text = "Developer:";
             this.lbl_LovromanRole.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1249,11 +1345,11 @@
             // 
             this.lbl_ZerkzRole.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lbl_ZerkzRole.AutoSize = true;
-            this.lbl_ZerkzRole.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_ZerkzRole.Font = new System.Drawing.Font("Trebuchet MS", 10F);
             this.lbl_ZerkzRole.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.lbl_ZerkzRole.Location = new System.Drawing.Point(56, 95);
+            this.lbl_ZerkzRole.Location = new System.Drawing.Point(54, 96);
             this.lbl_ZerkzRole.Name = "lbl_ZerkzRole";
-            this.lbl_ZerkzRole.Size = new System.Drawing.Size(74, 19);
+            this.lbl_ZerkzRole.Size = new System.Drawing.Size(77, 18);
             this.lbl_ZerkzRole.TabIndex = 0;
             this.lbl_ZerkzRole.Text = "Developer:";
             this.lbl_ZerkzRole.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1325,14 +1421,14 @@
             this.statusStripMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripProgressBarMain,
             this.toolStripStatusLabel_Main,
-            this.toolStripStatusLabel_MainCancel,
             this.toolStripStatusLabel_ClearLog,
+            this.toolStripStatusLabel_MainCancel,
             this.toolStripStatusLabelSpringer,
             this.toolStripStatusLabel_DisabledCounter});
             this.statusStripMain.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
-            this.statusStripMain.Location = new System.Drawing.Point(0, 540);
+            this.statusStripMain.Location = new System.Drawing.Point(0, 539);
             this.statusStripMain.Name = "statusStripMain";
-            this.statusStripMain.Size = new System.Drawing.Size(784, 22);
+            this.statusStripMain.Size = new System.Drawing.Size(784, 23);
             this.statusStripMain.SizingGrip = false;
             this.statusStripMain.TabIndex = 1;
             this.statusStripMain.Text = "statusStrip1";
@@ -1340,42 +1436,45 @@
             // toolStripProgressBarMain
             // 
             this.toolStripProgressBarMain.Name = "toolStripProgressBarMain";
-            this.toolStripProgressBarMain.Size = new System.Drawing.Size(200, 16);
+            this.toolStripProgressBarMain.Size = new System.Drawing.Size(200, 17);
             // 
             // toolStripStatusLabel_Main
             // 
             this.toolStripStatusLabel_Main.Name = "toolStripStatusLabel_Main";
-            this.toolStripStatusLabel_Main.Size = new System.Drawing.Size(0, 17);
+            this.toolStripStatusLabel_Main.Size = new System.Drawing.Size(0, 18);
             // 
             // toolStripStatusLabel_MainCancel
             // 
+            this.toolStripStatusLabel_MainCancel.Font = new System.Drawing.Font("Trebuchet MS", 9F);
             this.toolStripStatusLabel_MainCancel.IsLink = true;
             this.toolStripStatusLabel_MainCancel.LinkColor = System.Drawing.Color.Black;
             this.toolStripStatusLabel_MainCancel.Name = "toolStripStatusLabel_MainCancel";
-            this.toolStripStatusLabel_MainCancel.Size = new System.Drawing.Size(43, 17);
+            this.toolStripStatusLabel_MainCancel.Size = new System.Drawing.Size(45, 18);
             this.toolStripStatusLabel_MainCancel.Text = "Cancel";
             this.toolStripStatusLabel_MainCancel.Visible = false;
             this.toolStripStatusLabel_MainCancel.Click += new System.EventHandler(this.toolStripStatusLabel_MainCancel_Click);
             // 
             // toolStripStatusLabel_ClearLog
             // 
+            this.toolStripStatusLabel_ClearLog.Font = new System.Drawing.Font("Trebuchet MS", 9F);
             this.toolStripStatusLabel_ClearLog.IsLink = true;
             this.toolStripStatusLabel_ClearLog.LinkColor = System.Drawing.Color.Black;
             this.toolStripStatusLabel_ClearLog.Name = "toolStripStatusLabel_ClearLog";
-            this.toolStripStatusLabel_ClearLog.Size = new System.Drawing.Size(54, 17);
+            this.toolStripStatusLabel_ClearLog.Size = new System.Drawing.Size(56, 18);
             this.toolStripStatusLabel_ClearLog.Text = "Clear log";
             this.toolStripStatusLabel_ClearLog.Click += new System.EventHandler(this.toolStripStatusLabel_ClearLog_Click);
             // 
             // toolStripStatusLabelSpringer
             // 
             this.toolStripStatusLabelSpringer.Name = "toolStripStatusLabelSpringer";
-            this.toolStripStatusLabelSpringer.Size = new System.Drawing.Size(0, 17);
+            this.toolStripStatusLabelSpringer.Size = new System.Drawing.Size(0, 18);
             this.toolStripStatusLabelSpringer.Spring = true;
             // 
             // toolStripStatusLabel_DisabledCounter
             // 
+            this.toolStripStatusLabel_DisabledCounter.Font = new System.Drawing.Font("Trebuchet MS", 9F);
             this.toolStripStatusLabel_DisabledCounter.Name = "toolStripStatusLabel_DisabledCounter";
-            this.toolStripStatusLabel_DisabledCounter.Size = new System.Drawing.Size(55, 17);
+            this.toolStripStatusLabel_DisabledCounter.Size = new System.Drawing.Size(57, 18);
             this.toolStripStatusLabel_DisabledCounter.Text = "Disabled:";
             this.toolStripStatusLabel_DisabledCounter.Visible = false;
             // 
@@ -1418,101 +1517,6 @@
             this.closeToolStripMenuItem.Text = "Close";
             this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
             // 
-            // linkLabel1
-            // 
-            this.linkLabel1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.linkLabel1.AutoSize = true;
-            this.linkLabel1.BackColor = System.Drawing.SystemColors.WindowText;
-            this.linkLabel1.Font = new System.Drawing.Font("Trebuchet MS", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.linkLabel1.LinkColor = System.Drawing.Color.HotPink;
-            this.linkLabel1.Location = new System.Drawing.Point(191, 126);
-            this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(177, 30);
-            this.linkLabel1.TabIndex = 2;
-            this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "ForgeOn, rummhamm87, CustomsForge Staff & other users. (thank you!)";
-            this.linkLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label1
-            // 
-            this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.label1.Location = new System.Drawing.Point(46, 132);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(94, 19);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "Alpha Testers:";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // lbl_Credits_Description
-            // 
-            this.lbl_Credits_Description.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.lbl_Credits_Description.AutoSize = true;
-            this.lbl_Credits_Description.BackColor = System.Drawing.Color.Black;
-            this.lbl_Credits_Description.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_Credits_Description.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.lbl_Credits_Description.Location = new System.Drawing.Point(223, 7);
-            this.lbl_Credits_Description.Name = "lbl_Credits_Description";
-            this.lbl_Credits_Description.Size = new System.Drawing.Size(112, 21);
-            this.lbl_Credits_Description.TabIndex = 0;
-            this.lbl_Credits_Description.Text = "Maintained By:";
-            this.lbl_Credits_Description.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lbl_Credits_Description.Click += new System.EventHandler(this.lbl_Credits_Description_Click);
-            // 
-            // lbl_Credits
-            // 
-            this.lbl_Credits.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.lbl_Credits.AutoSize = true;
-            this.lbl_Credits.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.lbl_Credits.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.lbl_Credits.Location = new System.Drawing.Point(25, 8);
-            this.lbl_Credits.Name = "lbl_Credits";
-            this.lbl_Credits.Size = new System.Drawing.Size(136, 19);
-            this.lbl_Credits.TabIndex = 0;
-            this.lbl_Credits.Text = "Song Manager Team";
-            this.lbl_Credits.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // dgvSongs
-            // 
-            this.dgvSongs.AllowUserToAddRows = false;
-            this.dgvSongs.AllowUserToDeleteRows = false;
-            this.dgvSongs.AllowUserToOrderColumns = true;
-            this.dgvSongs.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.dgvSongs.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.dgvSongs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvSongs.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.colSelect});
-            this.dgvSongs.ContextMenuStrip = this.contextMenuStrip_MainManager;
-            this.dgvSongs.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvSongs.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnF2;
-            this.dgvSongs.GridColor = System.Drawing.SystemColors.ActiveCaption;
-            this.dgvSongs.Location = new System.Drawing.Point(0, 0);
-            this.dgvSongs.MultiSelect = false;
-            this.dgvSongs.Name = "dgvSongs";
-            this.dgvSongs.RowHeadersVisible = false;
-            this.dgvSongs.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvSongs.Size = new System.Drawing.Size(764, 290);
-            this.dgvSongs.TabIndex = 1;
-            this.dgvSongs.DataSourceChanged += new System.EventHandler(this.dgvSongs_DataSourceChanged);
-            this.dgvSongs.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSongs_CellDoubleClick);
-            this.dgvSongs.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongs_CellMouseDown);
-            this.dgvSongs.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongs_ColumnHeaderMouseClick);
-            this.dgvSongs.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvSongs_KeyDown);
-            // 
-            // colSelect
-            // 
-            this.colSelect.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.colSelect.FalseValue = "false";
-            this.colSelect.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.colSelect.HeaderText = "Select";
-            this.colSelect.IndeterminateValue = "false";
-            this.colSelect.Name = "colSelect";
-            this.colSelect.TrueValue = "true";
-            this.colSelect.Visible = false;
-            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1538,6 +1542,7 @@
             this.panelSongListButtons.ResumeLayout(false);
             this.panelSongListButtons.PerformLayout();
             this.panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSongs)).EndInit();
             this.contextMenuStrip_MainManager.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
@@ -1570,7 +1575,6 @@
             this.statusStripMain.ResumeLayout(false);
             this.statusStripMain.PerformLayout();
             this.contextMenuStrip_Tray.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvSongs)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

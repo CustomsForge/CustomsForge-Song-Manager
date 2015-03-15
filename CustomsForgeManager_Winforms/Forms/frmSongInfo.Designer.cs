@@ -55,6 +55,7 @@
             // 
             this.gb_MainSongInfoPanel.Controls.Add(this.tlp_MainSongInfoWrapper);
             this.gb_MainSongInfoPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gb_MainSongInfoPanel.Font = new System.Drawing.Font("Trebuchet MS", 8.25F);
             this.gb_MainSongInfoPanel.Location = new System.Drawing.Point(0, 0);
             this.gb_MainSongInfoPanel.Name = "gb_MainSongInfoPanel";
             this.gb_MainSongInfoPanel.Size = new System.Drawing.Size(411, 402);
@@ -107,9 +108,9 @@
             // 
             this.lbl_PanelSongTitleLbl.AutoSize = true;
             this.lbl_PanelSongTitleLbl.Dock = System.Windows.Forms.DockStyle.Right;
-            this.lbl_PanelSongTitleLbl.Location = new System.Drawing.Point(60, 24);
+            this.lbl_PanelSongTitleLbl.Location = new System.Drawing.Point(58, 24);
             this.lbl_PanelSongTitleLbl.Name = "lbl_PanelSongTitleLbl";
-            this.lbl_PanelSongTitleLbl.Size = new System.Drawing.Size(58, 20);
+            this.lbl_PanelSongTitleLbl.Size = new System.Drawing.Size(60, 20);
             this.lbl_PanelSongTitleLbl.TabIndex = 0;
             this.lbl_PanelSongTitleLbl.Text = "Song Title:";
             this.lbl_PanelSongTitleLbl.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -118,9 +119,9 @@
             // 
             this.lbl_PanelSongAlbumLbl.AutoSize = true;
             this.lbl_PanelSongAlbumLbl.Dock = System.Windows.Forms.DockStyle.Right;
-            this.lbl_PanelSongAlbumLbl.Location = new System.Drawing.Point(79, 46);
+            this.lbl_PanelSongAlbumLbl.Location = new System.Drawing.Point(78, 46);
             this.lbl_PanelSongAlbumLbl.Name = "lbl_PanelSongAlbumLbl";
-            this.lbl_PanelSongAlbumLbl.Size = new System.Drawing.Size(39, 20);
+            this.lbl_PanelSongAlbumLbl.Size = new System.Drawing.Size(40, 20);
             this.lbl_PanelSongAlbumLbl.TabIndex = 1;
             this.lbl_PanelSongAlbumLbl.Text = "Album:";
             this.lbl_PanelSongAlbumLbl.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -129,9 +130,9 @@
             // 
             this.lbl_PanelSongArtistLbl.AutoSize = true;
             this.lbl_PanelSongArtistLbl.Dock = System.Windows.Forms.DockStyle.Right;
-            this.lbl_PanelSongArtistLbl.Location = new System.Drawing.Point(85, 68);
+            this.lbl_PanelSongArtistLbl.Location = new System.Drawing.Point(77, 68);
             this.lbl_PanelSongArtistLbl.Name = "lbl_PanelSongArtistLbl";
-            this.lbl_PanelSongArtistLbl.Size = new System.Drawing.Size(33, 20);
+            this.lbl_PanelSongArtistLbl.Size = new System.Drawing.Size(41, 20);
             this.lbl_PanelSongArtistLbl.TabIndex = 1;
             this.lbl_PanelSongArtistLbl.Text = "Artist:";
             this.lbl_PanelSongArtistLbl.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -140,9 +141,9 @@
             // 
             this.lbl_PanelSongYearLbl.AutoSize = true;
             this.lbl_PanelSongYearLbl.Dock = System.Windows.Forms.DockStyle.Right;
-            this.lbl_PanelSongYearLbl.Location = new System.Drawing.Point(86, 90);
+            this.lbl_PanelSongYearLbl.Location = new System.Drawing.Point(82, 90);
             this.lbl_PanelSongYearLbl.Name = "lbl_PanelSongYearLbl";
-            this.lbl_PanelSongYearLbl.Size = new System.Drawing.Size(32, 20);
+            this.lbl_PanelSongYearLbl.Size = new System.Drawing.Size(36, 20);
             this.lbl_PanelSongYearLbl.TabIndex = 1;
             this.lbl_PanelSongYearLbl.Text = "Year:";
             this.lbl_PanelSongYearLbl.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -151,9 +152,9 @@
             // 
             this.lbl_PanelSongTuningLbl.AutoSize = true;
             this.lbl_PanelSongTuningLbl.Dock = System.Windows.Forms.DockStyle.Right;
-            this.lbl_PanelSongTuningLbl.Location = new System.Drawing.Point(75, 112);
+            this.lbl_PanelSongTuningLbl.Location = new System.Drawing.Point(73, 112);
             this.lbl_PanelSongTuningLbl.Name = "lbl_PanelSongTuningLbl";
-            this.lbl_PanelSongTuningLbl.Size = new System.Drawing.Size(43, 20);
+            this.lbl_PanelSongTuningLbl.Size = new System.Drawing.Size(45, 20);
             this.lbl_PanelSongTuningLbl.TabIndex = 1;
             this.lbl_PanelSongTuningLbl.Text = "Tuning:";
             this.lbl_PanelSongTuningLbl.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -162,9 +163,9 @@
             // 
             this.lbl_PanelSongDDLbl.AutoSize = true;
             this.lbl_PanelSongDDLbl.Dock = System.Windows.Forms.DockStyle.Right;
-            this.lbl_PanelSongDDLbl.Location = new System.Drawing.Point(24, 134);
+            this.lbl_PanelSongDDLbl.Location = new System.Drawing.Point(15, 134);
             this.lbl_PanelSongDDLbl.Name = "lbl_PanelSongDDLbl";
-            this.lbl_PanelSongDDLbl.Size = new System.Drawing.Size(94, 20);
+            this.lbl_PanelSongDDLbl.Size = new System.Drawing.Size(103, 20);
             this.lbl_PanelSongDDLbl.TabIndex = 1;
             this.lbl_PanelSongDDLbl.Text = "Dynamic Difficulty:";
             this.lbl_PanelSongDDLbl.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -173,9 +174,9 @@
             // 
             this.lbl_PanelSongArrangementsLbl.AutoSize = true;
             this.lbl_PanelSongArrangementsLbl.Dock = System.Windows.Forms.DockStyle.Right;
-            this.lbl_PanelSongArrangementsLbl.Location = new System.Drawing.Point(43, 156);
+            this.lbl_PanelSongArrangementsLbl.Location = new System.Drawing.Point(36, 156);
             this.lbl_PanelSongArrangementsLbl.Name = "lbl_PanelSongArrangementsLbl";
-            this.lbl_PanelSongArrangementsLbl.Size = new System.Drawing.Size(75, 20);
+            this.lbl_PanelSongArrangementsLbl.Size = new System.Drawing.Size(82, 20);
             this.lbl_PanelSongArrangementsLbl.TabIndex = 1;
             this.lbl_PanelSongArrangementsLbl.Text = "Arrangements:";
             this.lbl_PanelSongArrangementsLbl.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -184,9 +185,9 @@
             // 
             this.lbl_PanelSongAuthorLbl.AutoSize = true;
             this.lbl_PanelSongAuthorLbl.Dock = System.Windows.Forms.DockStyle.Right;
-            this.lbl_PanelSongAuthorLbl.Location = new System.Drawing.Point(77, 200);
+            this.lbl_PanelSongAuthorLbl.Location = new System.Drawing.Point(72, 200);
             this.lbl_PanelSongAuthorLbl.Name = "lbl_PanelSongAuthorLbl";
-            this.lbl_PanelSongAuthorLbl.Size = new System.Drawing.Size(41, 20);
+            this.lbl_PanelSongAuthorLbl.Size = new System.Drawing.Size(46, 20);
             this.lbl_PanelSongAuthorLbl.TabIndex = 1;
             this.lbl_PanelSongAuthorLbl.Text = "Author:";
             this.lbl_PanelSongAuthorLbl.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

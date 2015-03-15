@@ -41,20 +41,23 @@
             this.dgvOutdatedSongs.AllowUserToDeleteRows = false;
             this.dgvOutdatedSongs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvOutdatedSongs.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            this.dgvOutdatedSongs.Location = new System.Drawing.Point(12, 12);
+            this.dgvOutdatedSongs.Location = new System.Drawing.Point(12, 15);
+            this.dgvOutdatedSongs.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgvOutdatedSongs.MultiSelect = false;
             this.dgvOutdatedSongs.Name = "dgvOutdatedSongs";
             this.dgvOutdatedSongs.ReadOnly = true;
             this.dgvOutdatedSongs.RowHeadersVisible = false;
             this.dgvOutdatedSongs.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvOutdatedSongs.Size = new System.Drawing.Size(848, 495);
+            this.dgvOutdatedSongs.Size = new System.Drawing.Size(848, 609);
             this.dgvOutdatedSongs.TabIndex = 0;
             // 
             // btnOpenSongInBrowser
             // 
-            this.btnOpenSongInBrowser.Location = new System.Drawing.Point(300, 513);
+            this.btnOpenSongInBrowser.Font = new System.Drawing.Font("Trebuchet MS", 8.25F);
+            this.btnOpenSongInBrowser.Location = new System.Drawing.Point(300, 631);
+            this.btnOpenSongInBrowser.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnOpenSongInBrowser.Name = "btnOpenSongInBrowser";
-            this.btnOpenSongInBrowser.Size = new System.Drawing.Size(134, 23);
+            this.btnOpenSongInBrowser.Size = new System.Drawing.Size(134, 28);
             this.btnOpenSongInBrowser.TabIndex = 1;
             this.btnOpenSongInBrowser.Text = "Open song in browser";
             this.btnOpenSongInBrowser.UseVisualStyleBackColor = true;
@@ -62,9 +65,11 @@
             // 
             // btnOpenAllOutdatedSongs
             // 
-            this.btnOpenAllOutdatedSongs.Location = new System.Drawing.Point(440, 513);
+            this.btnOpenAllOutdatedSongs.Font = new System.Drawing.Font("Trebuchet MS", 8.25F);
+            this.btnOpenAllOutdatedSongs.Location = new System.Drawing.Point(440, 631);
+            this.btnOpenAllOutdatedSongs.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnOpenAllOutdatedSongs.Name = "btnOpenAllOutdatedSongs";
-            this.btnOpenAllOutdatedSongs.Size = new System.Drawing.Size(144, 23);
+            this.btnOpenAllOutdatedSongs.Size = new System.Drawing.Size(144, 28);
             this.btnOpenAllOutdatedSongs.TabIndex = 2;
             this.btnOpenAllOutdatedSongs.Text = "Open all songs in browser";
             this.btnOpenAllOutdatedSongs.UseVisualStyleBackColor = true;
@@ -72,14 +77,16 @@
             // 
             // frmOutdatedSongs
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(872, 548);
+            this.ClientSize = new System.Drawing.Size(872, 674);
             this.Controls.Add(this.btnOpenAllOutdatedSongs);
             this.Controls.Add(this.btnOpenSongInBrowser);
             this.Controls.Add(this.dgvOutdatedSongs);
+            this.Font = new System.Drawing.Font("Trebuchet MS", 8.25F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "frmOutdatedSongs";
             this.Text = "Outdated Songs";
             this.Load += new System.EventHandler(this.frmOutdatedSongs_Load);
