@@ -27,6 +27,8 @@ namespace CustomsForgeManager_Winforms.Forms
 {
     public partial class frmMain : Form
     {
+        const string rscompatibility = "rs1compatibility";
+
         private bool allSelected = false;
         private bool sortDescending = true;
         private readonly Log myLog;
@@ -75,31 +77,38 @@ namespace CustomsForgeManager_Winforms.Forms
 
             #endregion
 
-            #region Load Settings file and deserialize to Settings class
-            LoadSettingsFromFile();
-            #endregion
+            #region Get version information
 
+            string cfm_version = String.Format("Version: {0}", Assembly.GetExecutingAssembly().GetName().Version);
             if (ApplicationDeployment.IsNetworkDeployed)
                 Log(string.Format("Application loaded, using version: {0}", ApplicationDeployment.CurrentDeployment.CurrentVersion), 100);
-
-            Log(GetRSTKLibVersion());
-
-            if (mySettings.RescanOnStartup)
-                BackgroundScan();
-            else
-                LoadSongCollectionFromFile();
 
             if(appVersion != null)
             {
                 lbl_AppVersion.Text = "Version: " + appVersion.ToString();
             }
+
+            Log(GetRSTKLibVersion());
+
+            #endregion
+
+            #region Load Settings file and deserialize to Settings class
+
+            LoadSettingsFromFile();
+
+            #endregion
+
+            if (mySettings.RescanOnStartup)
+                BackgroundScan();
+            else
+                LoadSongCollectionFromFile();
         }
 
         private string GetRSTKLibVersion()
         {
             Assembly assembly = Assembly.LoadFrom("RocksmithToolkitLib.dll");
             Version ver = assembly.GetName().Version;
-            return string.Format("RocksmithToolkitLib version: {0}", ver);
+            return String.Format("RocksmithToolkitLib version: {0}", ver);
         }
 
         private void BackgroundScan()
@@ -115,6 +124,7 @@ namespace CustomsForgeManager_Winforms.Forms
         void PopulateCompletedHandler(object sender, RunWorkerCompletedEventArgs e)
         {
             PopulateDataGridView();
+            Log("Finished scanning songs...", 100);
             SaveSongCollectionToFile();
             ToggleUIControls();
             PopulateColumnList();
@@ -136,21 +146,68 @@ namespace CustomsForgeManager_Winforms.Forms
             }
         }
 
+        private void parsePSARC(int counter, string enabled, string file)
+        {
+            try
+            {
+                var browser = new PsarcBrowser(file);
+                var songInfo = browser.GetSongs();
+                foreach (var songData in songInfo.Distinct())
+                {
+                    songData.Enabled = enabled;
+                    if (songData.Version == "N/A")
+                    {
+                        string fileNameVersion = songData.GetVersionFromFileName();
+                        if (fileNameVersion != "")
+                            songData.Version = fileNameVersion;
+                    }
+                    if (songData.ToolkitVer == "")
+                    {//ODLC
+                        if (!songData.FileName.Contains(rscompatibility))
+                            SongCollection.Add(songData);
+                        else if (songData.FileName.Contains(rscompatibility) && mySettings.IncludeRS1DLCs)
+                            SongCollection.Add(songData);
+                        //else skip
+                    }
+                    else
+                        SongCollection.Add(songData);
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message.StartsWith("Error reading JObject"))
+                {
+                    Log("<ERROR>: " + file + ":" + "DLC is corrupt!");
+                }
+                else
+                {
+                    Log("<ERROR>: " + file + ":" + ex.Message);
+                }
+            }
+            finally
+            {
+                toolStripStatusLabel_Main.Text = string.Format(" Songs found: {0}", counter);
+                //populate dgv here
+            }
+        }
+
         private void PopulateSongList()
         {
             Log("Scanning for songs...");
             dgvSongs.InvokeIfRequired(delegate
             {
                 var dataGridViewColumn = dgvSongs.Columns["colSelect"];
-                if (dataGridViewColumn != null) dataGridViewColumn.Visible = false;
+                if (dataGridViewColumn != null)
+                    dataGridViewColumn.Visible = false;
                 dgvSongs.DataSource = null;
                 SongCollection.Clear();
             });
-            string enabled = "";
             int counter = 1;
-            List<string> filesList = new List<string>(FilesList(mySettings.RSInstalledDir + "\\dlc", mySettings.IncludeRS1DLCs));
+            string enabled = "";
+            List<string> filesList = FilesList(mySettings.RSInstalledDir + "\\dlc", mySettings.IncludeRS1DLCs);
             //List<string> disabledFilesList = new List<string>(FilesList(mySettings.RSInstalledDir + "\\" + Constants.DefaultDisabledSubDirectory,mySettings.IncludeRS1DLCs));
             //filesList.AddRange(disabledFilesList);
+            Log(String.Format("Raw songs count: {0}", filesList.Count));
             counterStopwatch.Start();
             foreach (string file in filesList)
             {
@@ -158,52 +215,8 @@ namespace CustomsForgeManager_Winforms.Forms
                 {
                     Progress(counter++ * 100 / filesList.Count);
 
-                    if (file.Contains(".disabled."))
-                    {
-                        enabled = "No";
-                    }
-                    else
-                    {
-                        enabled = "Yes";
-                    }
-
-                    try
-                    {
-                        var browser = new PsarcBrowser(file);
-                        var songInfo = browser.GetSongs();
-                        foreach (SongData songData in songInfo.Distinct())
-                        {
-                            songData.Enabled = enabled;
-                            if (songData.Version == "N/A")
-                            {
-                                string fileNameVersion = songData.GetVersionFromFileName();
-                                if (fileNameVersion != "")
-                                    songData.Version = fileNameVersion;
-                            }
-                            if (songData.ToolkitVer == "")
-                            {
-                                if (songData.FileName.Contains("rs1comp"))
-                                    SongCollection.Add(songData);
-                            }
-                            else
-                                SongCollection.Add(songData);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        if (ex.Message.StartsWith("Error reading JObject"))
-                        {
-                            Log("<ERROR>: " + file + ":" + "DLC is corrupt!");
-                        }
-                        else
-                        {
-                            Log("<ERROR>: " + file + ":" + ex.Message);
-                        }
-                    }
-                    finally
-                    {
-                        toolStripStatusLabel_Main.Text = string.Format("{0} songs found...", counter);
-                    }
+                    enabled = file.Contains(".disabled.") ? "No" : "Yes";
+                    parsePSARC(counter, enabled, file);
                 }
             }
             dgvSongs.InvokeIfRequired(delegate
@@ -218,7 +231,7 @@ namespace CustomsForgeManager_Winforms.Forms
             var dups = SongCollection.GroupBy(x => new { x.Song, x.Album, x.Artist })
                         .Where(group => group.Count() > 1)
                         .SelectMany(group => group).ToList();
-            dups.RemoveAll(x => x.FileName.Contains("rs1comp"));
+            dups.RemoveAll(x => x.FileName.Contains(rscompatibility));
 
             if (dups.Count > 0)
             {
@@ -235,7 +248,7 @@ namespace CustomsForgeManager_Winforms.Forms
 
             tpDuplicates.InvokeIfRequired(delegate
             {
-                tpDuplicates.Text = "Duplicates(" + dups.Count.ToString() + ")";
+                tpDuplicates.Text = "Duplicates(" + dups.Count + ")";
             });
         }
         private void PopulateDataGridView()
@@ -245,7 +258,7 @@ namespace CustomsForgeManager_Winforms.Forms
 
             dgvSongs.InvokeIfRequired(delegate
             {
-                BindingSource bs = new BindingSource();
+                var bs = new BindingSource();
                 bs.DataSource = SongCollection;
                 dgvSongs.DataSource = bs;
                 dgvSongs.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
@@ -265,61 +278,57 @@ namespace CustomsForgeManager_Winforms.Forms
 
             counterStopwatch.Stop();
             Log(string.Format("Finished. Task took {0}", counterStopwatch.Elapsed));
-
-            Log("Finished scanning songs...", 100);
         }
 
         #region Settings
         private void ResetSettings()
         {
             mySettings = new Settings();
-            mySettings.LogFilePath = Constants.DefaultWorkingDirectory + "\\debug.log";
+            mySettings.LogFilePath = Constants.DefaultWorkingDirectory + Constants.DefaultLogName;
             mySettings.RSInstalledDir = GetInstallDirFromRegistry();
             mySettings.RescanOnStartup = true;
             mySettings.IncludeRS1DLCs = false;
             mySettings.EnabledLogBaloon = true;
+            Log("Settings reset to defaults...");
         }
         private void SaveSettingsToFile(string path = "")
         {
             if (string.IsNullOrEmpty(path))
                 path = Constants.DefaultWorkingDirectory + "\\settings.bin";
-            using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Write))
+
+            using (var fs = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Write))
             {
                 if (mySettings == null)
-                {
-                    mySettings = new Settings();
-                    mySettings.LogFilePath = Constants.DefaultWorkingDirectory + Constants.DefaultLogName;
-                    mySettings.RSInstalledDir = tbSettingsRSDir.Text;
-                    mySettings.RescanOnStartup = true;
-                    mySettings.IncludeRS1DLCs = false;
-                    Log("Default settings created...");
+                {//Odd cases!
+                    ResetSettings();
                 }
-                if (!string.IsNullOrEmpty(tbSettingsRSDir.Text))
-                    mySettings.RSInstalledDir = tbSettingsRSDir.Text;
-                mySettings.RescanOnStartup = checkRescanOnStartup.Checked;
-                mySettings.IncludeRS1DLCs = checkIncludeRS1DLC.Checked;
-                mySettings.EnabledLogBaloon = checkEnableLogBaloon.Checked;
-
-                RADataGridViewSettings settings = new RADataGridViewSettings();
-                var columns = dgvSongs.Columns;
-
-                if (columns.Count > 1)
-                {
-                    for (int i = 0; i < columns.Count; i++)
+                else
+                {//getMySettings();
+                    mySettings.RSInstalledDir = tbSettingsRSDir.Text ?? "";
+                    mySettings.RescanOnStartup = checkRescanOnStartup.Checked;
+                    mySettings.IncludeRS1DLCs = checkIncludeRS1DLC.Checked;
+                    if (dgvSongs != null)
                     {
-                        settings.ColumnOrder.Add(new ColumnOrderItem
+                        var settings = new RADataGridViewSettings();
+                        var columns = dgvSongs.Columns;
+                        if (columns.Count > 1)//HACK:dirt
                         {
-                            ColumnIndex = i,
-                            DisplayIndex = columns[i].DisplayIndex,
-                            Visible = columns[i].Visible,
-                            Width = columns[i].Width
-                        });
+                            for (int i = 0; i < columns.Count; i++)
+                            {
+                                settings.ColumnOrder.Add(new ColumnOrderItem {
+                                    ColumnIndex = i,
+                                    DisplayIndex = columns[i].DisplayIndex,
+                                    Visible = columns[i].Visible,
+                                    Width = columns[i].Width
+                                });
+                            }
+                            mySettings.ManagerGridSettings = settings;
+                        }
                     }
-                    mySettings.ManagerGridSettings = settings;
                 }
                 mySettings.Serialze(fs);
                 Log("Saved settings...");
-                fs.Close();
+                fs.Flush();
             }
         }
         private void LoadSettingsFromFile(string path = "")
@@ -335,13 +344,13 @@ namespace CustomsForgeManager_Winforms.Forms
                     {
                         ResetSettings();
                         Log("Settings file created...");
-                        fs.Close();
+                        fs.Flush();
                     }
                     SaveSettingsToFile(path);
                 }
                 using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
-                    Settings deserialized = fs.DeSerialize() as Settings;
+                    var deserialized = fs.DeSerialize() as Settings;
                     if (deserialized != null)
                     {
                         mySettings = deserialized;
@@ -368,7 +377,7 @@ namespace CustomsForgeManager_Winforms.Forms
                         });
                         Log("Loaded settings...");
                     }
-                    fs.Close();
+                    fs.Flush();
                 }
             }
             catch (Exception ex)
@@ -380,35 +389,35 @@ namespace CustomsForgeManager_Winforms.Forms
 
         private void SaveSongCollectionToFile()
         {
-            string path = Constants.DefaultWorkingDirectory + "\\songs.bin";
-            using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Write))
+            string path = Constants.DefaultWorkingDirectory + @"\songs.bin";
+            using (var fs = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Write))
             {
                 SongCollection.Serialze(fs);
                 Log("Song collection saved...");
-                fs.Close();
+                fs.Flush();
             }
         }
         private void LoadSongCollectionFromFile()
         {
-            string path = Constants.DefaultWorkingDirectory + "\\songs.bin";
+            string path = Constants.DefaultWorkingDirectory + @"\songs.bin";
             if (!File.Exists(path))
             {
-                using (FileStream fs = new FileStream(path, FileMode.CreateNew, FileAccess.Write, FileShare.Write))
+                using (var fs = new FileStream(path, FileMode.CreateNew, FileAccess.Write, FileShare.Write))
                 {
                     BackgroundScan();
                     Log("Song collection file created...");
-                    fs.Close();
+                    fs.Flush();
                 }
                 SaveSettingsToFile(path);
             }
-            using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
+            using (var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
-                BindingList<SongData> songs = fs.DeSerialize() as BindingList<SongData>;
+                var songs = fs.DeSerialize() as BindingList<SongData>;
                 if (songs != null)
                 {
                     SongCollection = songs;
                     Log("Song collection loaded...");
-                    fs.Close();
+                    fs.Flush();
                     PopulateDataGridView();
                 }
             }
@@ -533,11 +542,11 @@ namespace CustomsForgeManager_Winforms.Forms
                 throw new Exception("<Error>: No path provided for file scanning");
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
-            List<string> files = new List<string>(Directory.GetFiles(path, "*_p.psarc", SearchOption.AllDirectories));
-            files.AddRange(new List<string>(Directory.GetFiles(path, "*_p.disabled.psarc", SearchOption.AllDirectories)));
+            var files = Directory.EnumerateFiles(path, "*_p.psarc", SearchOption.AllDirectories).ToList();
+            files.AddRange(Directory.EnumerateFiles(path, "*_p.disabled.psarc", SearchOption.AllDirectories).ToList());
             if (!includeRS1Pack)
             {
-                files = files.Where(file => !file.Contains("rs1comp")).ToList();
+                files = files.Where(file => !file.Contains(rscompatibility)).ToList();
             }
             return files;
         }
@@ -599,20 +608,15 @@ namespace CustomsForgeManager_Winforms.Forms
         }
         private string GetInstallDirFromRegistry()
         {
-            string result = "";
-            object test = Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Ubisoft\Rocksmith2014", "installdir", null);
-            if (test != null)
-                result = test.ToString();
-            else
-            {
-                test =
-                    Registry.GetValue(
-                        @"HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\Steam App 221680",
-                        "InstallLocation", null);
-                if (test != null)
-                    result = test.ToString();
-            }
-            return result;
+            string test = String.Empty;
+            const string rsX64Path = @"HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Ubisoft\Rocksmith2014";
+            const string rsX64Steam = @"HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\Steam App 221680";
+
+            test = Registry.GetValue(rsX64Path, "installdir", null).ToString();
+            if (!String.IsNullOrEmpty(test))
+                return test;
+            test = Registry.GetValue(rsX64Steam,"InstallLocation", null).ToString();
+            return test;
         }
         private void Progress(int value)
         {
@@ -638,17 +642,21 @@ namespace CustomsForgeManager_Winforms.Forms
         }
         private void SearchDLC(string criteria)
         {
-            var results = SongCollection.Where(x => x.Artist.ToLower().Contains(criteria.ToLower()) || x.Album.ToLower().Contains(criteria.ToLower()) ||
-                                               x.Song.ToLower().Contains(criteria.ToLower()) || x.Tuning.ToLower().Contains(criteria.ToLower()) ||
-                                               x.Author.ToLower().Contains(criteria.ToLower()) || (x.IgnitionAuthor != null &&
-                                               x.IgnitionAuthor.ToLower().Contains(criteria.ToLower()) || (x.IgnitionID != null
-                                               && x.IgnitionID.ToLower().Contains(criteria.ToLower())))).ToList();
+            var results = SongCollection.Where(x => 
+                x.Artist.ToLower().Contains(criteria.ToLower()) || x.Album.ToLower().Contains(criteria.ToLower()) ||
+                x.Song.ToLower().Contains(criteria.ToLower()) || x.Tuning.ToLower().Contains(criteria.ToLower()) ||
+                x.Author.ToLower().Contains(criteria.ToLower()) || (x.IgnitionAuthor != null &&
+                x.IgnitionAuthor.ToLower().Contains(criteria.ToLower()) || (x.IgnitionID != null
+                && x.IgnitionID.ToLower().Contains(criteria.ToLower())))
+            ).ToList();
 
-            SortedSongCollection = (List<SongData>)(SongCollection.Where(x => x.Artist.ToLower().Contains(criteria.ToLower()) || x.Album.ToLower().Contains(criteria.ToLower()) ||
-                                   x.Song.ToLower().Contains(criteria.ToLower()) || x.Tuning.ToLower().Contains(criteria.ToLower()) ||
-                                   x.Author.ToLower().Contains(criteria.ToLower()) || (x.IgnitionAuthor != null &&
-                                   x.IgnitionAuthor.ToLower().Contains(criteria.ToLower())) || (x.IgnitionID != null &&
-                                   x.IgnitionID.ToLower().Contains(criteria.ToLower()))).ToList());
+            SortedSongCollection = SongCollection.Where(x => 
+                x.Artist.ToLower().Contains(criteria.ToLower()) || x.Album.ToLower().Contains(criteria.ToLower()) ||
+                x.Song.ToLower().Contains(criteria.ToLower()) || x.Tuning.ToLower().Contains(criteria.ToLower()) ||
+                x.Author.ToLower().Contains(criteria.ToLower()) || (x.IgnitionAuthor != null &&
+                x.IgnitionAuthor.ToLower().Contains(criteria.ToLower())) || (x.IgnitionID != null &&
+                x.IgnitionID.ToLower().Contains(criteria.ToLower()))
+            ).ToList();
 
             dgvSongs.InvokeIfRequired(delegate
             {
@@ -1034,14 +1042,7 @@ namespace CustomsForgeManager_Winforms.Forms
         {
             foreach (DataGridViewRow row in dgvSongs.Rows)
             {
-                if (allSelected)
-                {
-                    row.Cells["colSelect"].Value = false;
-                }
-                else
-                {
-                    row.Cells["colSelect"].Value = true;
-                }
+                row.Cells["colSelect"].Value = !allSelected;
             }
             allSelected = !allSelected;
         }
@@ -1126,12 +1127,12 @@ namespace CustomsForgeManager_Winforms.Forms
         {
             foreach (DataGridViewRow row in dgvSongs.Rows)
             {
-                DataGridViewCheckBoxCell cell = (DataGridViewCheckBoxCell)row.Cells["colSelect"];
+                var cell = (DataGridViewCheckBoxCell)row.Cells["colSelect"];
 
                 if (cell != null && cell.Value != null && cell.Value.ToString().ToLower() == "true")
                 {
                     var originalPath = row.Cells["Path"].Value.ToString();
-                    if (!originalPath.Contains("rs1compatibilitydisc"))
+                    if (!originalPath.Contains(rscompatibility+"disc"))
                     {
                         if (row.Cells["Enabled"].Value.ToString() == "Yes")
                         {
@@ -1154,7 +1155,7 @@ namespace CustomsForgeManager_Winforms.Forms
                     }
                     else
                     {
-                        Log("Rocksmith 1 song->can't be disabled at this moment.");
+                        Log("This is Rocksmith 1 song. It can't be disabled at this moment. (You just can disable all of them!)");
                     }
                 }
             }
@@ -1174,7 +1175,7 @@ namespace CustomsForgeManager_Winforms.Forms
 
         private void btnLaunchSteam_Click(object sender, EventArgs e)
         {
-            Process[] rocksmithProcess = Process.GetProcessesByName("Rocksmith2014.exe");
+            var rocksmithProcess = Process.GetProcessesByName("Rocksmith2014.exe");
             if (rocksmithProcess.Length > 0)
                 MessageBox.Show("Rocksmith is already running!");
             else
@@ -1184,13 +1185,12 @@ namespace CustomsForgeManager_Winforms.Forms
         {
             try
             {
-                string timestamp = string.Format("{0}-{1}-{2}.{3}-{4}-{5}", DateTime.Now.Day, DateTime.Now.Month,
-                    DateTime.Now.Year, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
+                string timestamp = string.Format("{0}-{1}-{2}.{3}-{4}-{5}", DateTime.Now.Day, DateTime.Now.Month, DateTime.Now.Year, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
                 string backupPath = string.Format("{0}\\profile.backup.{1}.zip", Constants.DefaultWorkingDirectory, timestamp);
                 string profilePath = "";
                 string steamUserdataPath = Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Valve\Steam", "InstallPath", null) + @"\userdata";
-                DirectoryInfo dInfo = new DirectoryInfo(steamUserdataPath);
-                DirectoryInfo[] subdirs = dInfo.GetDirectories("*", SearchOption.AllDirectories);
+
+                var subdirs = new DirectoryInfo(steamUserdataPath).GetDirectories("*", SearchOption.AllDirectories).ToArray();
                 foreach (DirectoryInfo info in subdirs)
                 {
                     if (info.FullName.Contains(@"221680\remote"))
@@ -1198,7 +1198,7 @@ namespace CustomsForgeManager_Winforms.Forms
                         profilePath = info.FullName;
                     }
                 }
-                if (profilePath != "")
+                if (File.Exists(profilePath))
                 {
                     ZipFile.CreateFromDirectory(profilePath, backupPath);
                     Log("Backup created at " + backupPath, 100);
@@ -1214,15 +1214,16 @@ namespace CustomsForgeManager_Winforms.Forms
             }
         }
         private void btnDupeRescan_Click(object sender, EventArgs e)
-        {
+        {//Same issue as with regular rescan..
+
             listDupeSongs.Items.Clear();
             DupeCollection.Clear();
             SongCollection.Clear();
-            tpDuplicates.InvokeIfRequired(delegate
-            {
+            tpDuplicates.InvokeIfRequired(delegate {
                 tpDuplicates.Text = "Duplicates(0)";
             });
-            BackgroundScan();
+            btnRescan_Click(null, null);
+
         }
         private void btnDeleteSongOne_Click(object sender, EventArgs e)
         {
@@ -1265,7 +1266,12 @@ namespace CustomsForgeManager_Winforms.Forms
         }
         private void btnRescan_Click(object sender, EventArgs e)
         {
-            BackgroundScan();
+            if (String.IsNullOrEmpty(mySettings.RSInstalledDir))
+            {
+                MessageBox.Show("Please, make sure that you've got Rocksmith 2014 installed.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            else
+                BackgroundScan();
         }
 
         private void btnCheckAllForUpdates_Click(object sender, EventArgs e)
@@ -1396,8 +1402,12 @@ namespace CustomsForgeManager_Winforms.Forms
         }
         private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
-            SaveSettingsToFile();
-            SaveSongCollectionToFile();
+            //TODO: if nothing changed, just close or serialize default settings.
+            if (dgvSongs != null)
+            {
+                SaveSettingsToFile();
+                SaveSongCollectionToFile();
+            }
         }
         private void frmMain_KeyUp(object sender, KeyEventArgs e)
         {
@@ -1438,7 +1448,7 @@ namespace CustomsForgeManager_Winforms.Forms
             {
                 btnCheckAllForUpdates.Enabled = false;
             });
-            
+
             dgvSongs.InvokeIfRequired(delegate
             {
                 if (!bWorker.CancellationPending)
@@ -1474,7 +1484,7 @@ namespace CustomsForgeManager_Winforms.Forms
                 selectedRow.Cells["IgnitionAuthor"].Value = currentSong.IgnitionAuthor;
             }
         }
-
+        #region Export SongList
         private void SongListToHTML()
         {
             var checkedRows = dgvSongs.Rows.Cast<DataGridViewRow>().Where(r => r.Cells["colSelect"].Value != null).Where(r => Convert.ToBoolean(r.Cells["colSelect"].Value)).ToList(); 
@@ -1562,7 +1572,7 @@ namespace CustomsForgeManager_Winforms.Forms
                     }
                 }
             }
-            
+
             sbTXT.AppendLine("[/LIST]");
 
             frmSongListExport FormSongListExport = new frmSongListExport();
@@ -1630,6 +1640,7 @@ namespace CustomsForgeManager_Winforms.Forms
                 Log("<Error>:" + ex.Message);
             }
         }
+        #endregion
         private void CheckRowForUpdate(DataGridViewRow dataGridViewRow)
         {
             if (!bWorker.CancellationPending)
