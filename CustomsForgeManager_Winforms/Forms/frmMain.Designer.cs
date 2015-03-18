@@ -137,8 +137,8 @@
             this.statusStripMain = new System.Windows.Forms.StatusStrip();
             this.toolStripProgressBarMain = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStripStatusLabel_Main = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel_MainCancel = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel_ClearLog = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel_MainCancel = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabelSpringer = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel_DisabledCounter = new System.Windows.Forms.ToolStripStatusLabel();
             this.timerAutoUpdate = new System.Windows.Forms.Timer(this.components);
@@ -236,6 +236,7 @@
             this.tcMain.SelectedIndex = 0;
             this.tcMain.Size = new System.Drawing.Size(778, 415);
             this.tcMain.TabIndex = 2;
+            this.tcMain.SelectedIndexChanged += new System.EventHandler(this.tcMain_SelectedIndexChanged);
             // 
             // tpManager
             // 
@@ -301,7 +302,6 @@
             this.radioBtn_ExportToHTML.TabStop = true;
             this.radioBtn_ExportToHTML.Text = "HTML";
             this.radioBtn_ExportToHTML.UseVisualStyleBackColor = true;
-            this.radioBtn_ExportToHTML.CheckedChanged += new System.EventHandler(this.radioBtn_ExportToHTML_CheckedChanged);
             // 
             // radioBtn_ExportToCSV
             // 
@@ -313,7 +313,6 @@
             this.radioBtn_ExportToCSV.TabStop = true;
             this.radioBtn_ExportToCSV.Text = "CSV";
             this.radioBtn_ExportToCSV.UseVisualStyleBackColor = true;
-            this.radioBtn_ExportToCSV.CheckedChanged += new System.EventHandler(this.radioBtn_ExportToCSV_CheckedChanged);
             // 
             // btnExportSongList
             // 
@@ -334,7 +333,6 @@
             this.lbl_ExportTo.Size = new System.Drawing.Size(60, 16);
             this.lbl_ExportTo.TabIndex = 16;
             this.lbl_ExportTo.Text = "Export to:";
-            this.lbl_ExportTo.Click += new System.EventHandler(this.lbl_ExportTo_Click);
             // 
             // radioBtn_ExportToBBCode
             // 
@@ -508,7 +506,7 @@
             this.linkLblSelectAll.LinkColor = System.Drawing.Color.Black;
             this.linkLblSelectAll.Location = new System.Drawing.Point(14, 8);
             this.linkLblSelectAll.Name = "linkLblSelectAll";
-            this.linkLblSelectAll.Size = new System.Drawing.Size(113, 16);
+            this.linkLblSelectAll.Size = new System.Drawing.Size(111, 16);
             this.linkLblSelectAll.TabIndex = 2;
             this.linkLblSelectAll.TabStop = true;
             this.linkLblSelectAll.Text = "Select All/Deselect All";
@@ -818,7 +816,6 @@
             this.lblSettingsRSDir.TabIndex = 1;
             this.lblSettingsRSDir.Text = "Rocksmith installation directory (double-click to change):";
             this.lblSettingsRSDir.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lblSettingsRSDir.Click += new System.EventHandler(this.lblSettingsRSDir_Click);
             // 
             // tbSettingsRSDir
             // 
@@ -871,9 +868,9 @@
             this.checkIncludeRS1DLC.Checked = true;
             this.checkIncludeRS1DLC.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkIncludeRS1DLC.Dock = System.Windows.Forms.DockStyle.Right;
-            this.checkIncludeRS1DLC.Location = new System.Drawing.Point(203, 75);
+            this.checkIncludeRS1DLC.Location = new System.Drawing.Point(204, 75);
             this.checkIncludeRS1DLC.Name = "checkIncludeRS1DLC";
-            this.checkIncludeRS1DLC.Size = new System.Drawing.Size(179, 22);
+            this.checkIncludeRS1DLC.Size = new System.Drawing.Size(178, 22);
             this.checkIncludeRS1DLC.TabIndex = 3;
             this.checkIncludeRS1DLC.Text = "Include RS1 Compatibility Pack";
             this.checkIncludeRS1DLC.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1027,7 +1024,6 @@
             this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 0F));
             this.tableLayoutPanel_CFQuicklinks.Size = new System.Drawing.Size(373, 168);
             this.tableLayoutPanel_CFQuicklinks.TabIndex = 4;
-            this.tableLayoutPanel_CFQuicklinks.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel_CFQuicklinks_Paint);
             // 
             // linkOpenCFHomePage
             // 
@@ -1157,7 +1153,6 @@
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel3.Size = new System.Drawing.Size(373, 168);
             this.tableLayoutPanel3.TabIndex = 4;
-            this.tableLayoutPanel3.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel3_Paint);
             // 
             // lbl_AppVersion
             // 
@@ -1243,7 +1238,6 @@
             this.tableLayoutPanel_Credits.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel_Credits.Size = new System.Drawing.Size(373, 168);
             this.tableLayoutPanel_Credits.TabIndex = 3;
-            this.tableLayoutPanel_Credits.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel_Credits_Paint);
             // 
             // label1
             // 
@@ -1251,9 +1245,9 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Trebuchet MS", 10F);
             this.label1.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.label1.Location = new System.Drawing.Point(43, 132);
+            this.label1.Location = new System.Drawing.Point(44, 132);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(99, 18);
+            this.label1.Size = new System.Drawing.Size(97, 18);
             this.label1.TabIndex = 3;
             this.label1.Text = "Alpha Testers:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1279,9 +1273,9 @@
             this.lbl_Credits.AutoSize = true;
             this.lbl_Credits.Font = new System.Drawing.Font("Trebuchet MS", 10F);
             this.lbl_Credits.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.lbl_Credits.Location = new System.Drawing.Point(26, 8);
+            this.lbl_Credits.Location = new System.Drawing.Point(27, 8);
             this.lbl_Credits.Name = "lbl_Credits";
-            this.lbl_Credits.Size = new System.Drawing.Size(133, 18);
+            this.lbl_Credits.Size = new System.Drawing.Size(131, 18);
             this.lbl_Credits.TabIndex = 0;
             this.lbl_Credits.Text = "Song Manager Team";
             this.lbl_Credits.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1299,7 +1293,6 @@
             this.lbl_Credits_Description.TabIndex = 0;
             this.lbl_Credits_Description.Text = "Maintained By:";
             this.lbl_Credits_Description.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lbl_Credits_Description.Click += new System.EventHandler(this.lbl_Credits_Description_Click);
             // 
             // lbl_UnleashedRole
             // 
@@ -1443,6 +1436,16 @@
             this.toolStripStatusLabel_Main.Name = "toolStripStatusLabel_Main";
             this.toolStripStatusLabel_Main.Size = new System.Drawing.Size(0, 18);
             // 
+            // toolStripStatusLabel_ClearLog
+            // 
+            this.toolStripStatusLabel_ClearLog.Font = new System.Drawing.Font("Trebuchet MS", 9F);
+            this.toolStripStatusLabel_ClearLog.IsLink = true;
+            this.toolStripStatusLabel_ClearLog.LinkColor = System.Drawing.Color.Black;
+            this.toolStripStatusLabel_ClearLog.Name = "toolStripStatusLabel_ClearLog";
+            this.toolStripStatusLabel_ClearLog.Size = new System.Drawing.Size(56, 18);
+            this.toolStripStatusLabel_ClearLog.Text = "Clear log";
+            this.toolStripStatusLabel_ClearLog.Click += new System.EventHandler(this.toolStripStatusLabel_ClearLog_Click);
+            // 
             // toolStripStatusLabel_MainCancel
             // 
             this.toolStripStatusLabel_MainCancel.Font = new System.Drawing.Font("Trebuchet MS", 9F);
@@ -1453,16 +1456,6 @@
             this.toolStripStatusLabel_MainCancel.Text = "Cancel";
             this.toolStripStatusLabel_MainCancel.Visible = false;
             this.toolStripStatusLabel_MainCancel.Click += new System.EventHandler(this.toolStripStatusLabel_MainCancel_Click);
-            // 
-            // toolStripStatusLabel_ClearLog
-            // 
-            this.toolStripStatusLabel_ClearLog.Font = new System.Drawing.Font("Trebuchet MS", 9F);
-            this.toolStripStatusLabel_ClearLog.IsLink = true;
-            this.toolStripStatusLabel_ClearLog.LinkColor = System.Drawing.Color.Black;
-            this.toolStripStatusLabel_ClearLog.Name = "toolStripStatusLabel_ClearLog";
-            this.toolStripStatusLabel_ClearLog.Size = new System.Drawing.Size(56, 18);
-            this.toolStripStatusLabel_ClearLog.Text = "Clear log";
-            this.toolStripStatusLabel_ClearLog.Click += new System.EventHandler(this.toolStripStatusLabel_ClearLog_Click);
             // 
             // toolStripStatusLabelSpringer
             // 

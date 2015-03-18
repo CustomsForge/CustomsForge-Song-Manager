@@ -37,11 +37,13 @@ namespace CustomsForgeManager_Winforms.Forms
         private int numberOfDLCPendingUpdate = 0;
         private int numberOfDisabledDLC = 0;
         private Version appVersion;
+        private int songCounter = 1;
 
         private BindingList<SongData> SongCollection = new BindingList<SongData>();
         private List<SongData> DupeCollection = new List<SongData>();
         private List<SongData> SortedSongCollection = new List<SongData>();
         private Dictionary<string, SongData> OutdatedSongList = new Dictionary<string, SongData>();
+        private List<string> CurrentFileList = new List<string>();
 
         private frmMain()
         {
@@ -83,7 +85,7 @@ namespace CustomsForgeManager_Winforms.Forms
             if (ApplicationDeployment.IsNetworkDeployed)
                 Log(string.Format("Application loaded, using version: {0}", ApplicationDeployment.CurrentDeployment.CurrentVersion), 100);
 
-            if(appVersion != null)
+            if (appVersion != null)
             {
                 lbl_AppVersion.Text = "Version: " + appVersion.ToString();
             }
@@ -202,21 +204,20 @@ namespace CustomsForgeManager_Winforms.Forms
                 dgvSongs.DataSource = null;
                 SongCollection.Clear();
             });
-            int counter = 1;
             string enabled = "";
-            List<string> filesList = FilesList(mySettings.RSInstalledDir + "\\dlc", mySettings.IncludeRS1DLCs);
+            CurrentFileList = FilesList(mySettings.RSInstalledDir + "\\dlc", mySettings.IncludeRS1DLCs);
             //List<string> disabledFilesList = new List<string>(FilesList(mySettings.RSInstalledDir + "\\" + Constants.DefaultDisabledSubDirectory,mySettings.IncludeRS1DLCs));
             //filesList.AddRange(disabledFilesList);
-            Log(String.Format("Raw songs count: {0}", filesList.Count));
+            Log(String.Format("Raw songs count: {0}", CurrentFileList.Count));
             counterStopwatch.Start();
-            foreach (string file in filesList)
+            foreach (string file in CurrentFileList)
             {
                 if (!bWorker.CancellationPending)
                 {
-                    Progress(counter++ * 100 / filesList.Count);
+                    Progress(songCounter++ * 100 / CurrentFileList.Count);
 
                     enabled = file.Contains(".disabled.") ? "No" : "Yes";
-                    parsePSARC(counter, enabled, file);
+                    parsePSARC(songCounter, enabled, file);
                 }
             }
             dgvSongs.InvokeIfRequired(delegate
@@ -315,7 +316,8 @@ namespace CustomsForgeManager_Winforms.Forms
                         {
                             for (int i = 0; i < columns.Count; i++)
                             {
-                                settings.ColumnOrder.Add(new ColumnOrderItem {
+                                settings.ColumnOrder.Add(new ColumnOrderItem
+                                {
                                     ColumnIndex = i,
                                     DisplayIndex = columns[i].DisplayIndex,
                                     Visible = columns[i].Visible,
@@ -615,7 +617,7 @@ namespace CustomsForgeManager_Winforms.Forms
             test = Registry.GetValue(rsX64Path, "installdir", null).ToString();
             if (!String.IsNullOrEmpty(test))
                 return test;
-            test = Registry.GetValue(rsX64Steam,"InstallLocation", null).ToString();
+            test = Registry.GetValue(rsX64Steam, "InstallLocation", null).ToString();
             return test;
         }
         private void Progress(int value)
@@ -642,7 +644,7 @@ namespace CustomsForgeManager_Winforms.Forms
         }
         private void SearchDLC(string criteria)
         {
-            var results = SongCollection.Where(x => 
+            var results = SongCollection.Where(x =>
                 x.Artist.ToLower().Contains(criteria.ToLower()) || x.Album.ToLower().Contains(criteria.ToLower()) ||
                 x.Song.ToLower().Contains(criteria.ToLower()) || x.Tuning.ToLower().Contains(criteria.ToLower()) ||
                 x.Author.ToLower().Contains(criteria.ToLower()) || (x.IgnitionAuthor != null &&
@@ -650,7 +652,7 @@ namespace CustomsForgeManager_Winforms.Forms
                 && x.IgnitionID.ToLower().Contains(criteria.ToLower())))
             ).ToList();
 
-            SortedSongCollection = SongCollection.Where(x => 
+            SortedSongCollection = SongCollection.Where(x =>
                 x.Artist.ToLower().Contains(criteria.ToLower()) || x.Album.ToLower().Contains(criteria.ToLower()) ||
                 x.Song.ToLower().Contains(criteria.ToLower()) || x.Tuning.ToLower().Contains(criteria.ToLower()) ||
                 x.Author.ToLower().Contains(criteria.ToLower()) || (x.IgnitionAuthor != null &&
@@ -981,12 +983,12 @@ namespace CustomsForgeManager_Winforms.Forms
                 dgvSongs.DataSource = bs;
                 dgvSongs.HorizontalScrollingOffset = scrollHorizontalOffset;
 
-                 if(scrollVerticalOffset != 0)
-                 {
+                if (scrollVerticalOffset != 0)
+                {
                     PropertyInfo verticalOffset = dgvSongs.GetType().GetProperty("VerticalOffset", BindingFlags.NonPublic | BindingFlags.Instance);
                     verticalOffset.SetValue(this.dgvSongs, scrollVerticalOffset, null);
-                  }
-                
+                }
+
 
                 foreach (KeyValuePair<SongData, Color> row in currentRows)
                 {
@@ -1132,7 +1134,7 @@ namespace CustomsForgeManager_Winforms.Forms
                 if (cell != null && cell.Value != null && cell.Value.ToString().ToLower() == "true")
                 {
                     var originalPath = row.Cells["Path"].Value.ToString();
-                    if (!originalPath.Contains(rscompatibility+"disc"))
+                    if (!originalPath.Contains(rscompatibility + "disc"))
                     {
                         if (row.Cells["Enabled"].Value.ToString() == "Yes")
                         {
@@ -1215,15 +1217,14 @@ namespace CustomsForgeManager_Winforms.Forms
         }
         private void btnDupeRescan_Click(object sender, EventArgs e)
         {//Same issue as with regular rescan..
-
             listDupeSongs.Items.Clear();
             DupeCollection.Clear();
-            SongCollection.Clear();
-            tpDuplicates.InvokeIfRequired(delegate {
+            tpDuplicates.InvokeIfRequired(delegate
+            {
                 tpDuplicates.Text = "Duplicates(0)";
             });
-            btnRescan_Click(null, null);
-
+            // btnRescan_Click(null, null);
+            Rescan();
         }
         private void btnDeleteSongOne_Click(object sender, EventArgs e)
         {
@@ -1271,7 +1272,16 @@ namespace CustomsForgeManager_Winforms.Forms
                 MessageBox.Show("Please, make sure that you've got Rocksmith 2014 installed.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             else
-                BackgroundScan();
+            {
+                //BackgroundScan();
+                listDupeSongs.Items.Clear();
+                DupeCollection.Clear();
+                tpDuplicates.InvokeIfRequired(delegate
+                {
+                    tpDuplicates.Text = "Duplicates(0)";
+                });
+                Rescan();
+            }
         }
 
         private void btnCheckAllForUpdates_Click(object sender, EventArgs e)
@@ -1487,7 +1497,7 @@ namespace CustomsForgeManager_Winforms.Forms
         #region Export SongList
         private void SongListToHTML()
         {
-            var checkedRows = dgvSongs.Rows.Cast<DataGridViewRow>().Where(r => r.Cells["colSelect"].Value != null).Where(r => Convert.ToBoolean(r.Cells["colSelect"].Value)).ToList(); 
+            var checkedRows = dgvSongs.Rows.Cast<DataGridViewRow>().Where(r => r.Cells["colSelect"].Value != null).Where(r => Convert.ToBoolean(r.Cells["colSelect"].Value)).ToList();
 
             var sbTXT = new StringBuilder();
             sbTXT.AppendLine("<table>");
@@ -1542,9 +1552,9 @@ namespace CustomsForgeManager_Winforms.Forms
             sbTXT.AppendLine("Song - Artist, Album, Updated, Tuning, DD, Arangements, Author");
             sbTXT.AppendLine("[LIST=1]");
 
-            var checkedRows = dgvSongs.Rows.Cast<DataGridViewRow>().Where(r => r.Cells["colSelect"].Value != null).Where(r => Convert.ToBoolean(r.Cells["colSelect"].Value)).ToList(); 
+            var checkedRows = dgvSongs.Rows.Cast<DataGridViewRow>().Where(r => r.Cells["colSelect"].Value != null).Where(r => Convert.ToBoolean(r.Cells["colSelect"].Value)).ToList();
 
-            if(checkedRows.Count == 0)
+            if (checkedRows.Count == 0)
             {
                 foreach (var song in SongCollection)
                 {
@@ -1558,7 +1568,7 @@ namespace CustomsForgeManager_Winforms.Forms
                     }
                 }
             }
-            else 
+            else
             {
                 foreach (var row in checkedRows)
                 {
@@ -1585,7 +1595,7 @@ namespace CustomsForgeManager_Winforms.Forms
         {
             var sbCSV = new StringBuilder();
             string path = Constants.DefaultWorkingDirectory + @"\SongListCSV.csv";
-            var checkedRows = dgvSongs.Rows.Cast<DataGridViewRow>().Where(r => r.Cells["colSelect"].Value != null).Where(r =>  Convert.ToBoolean(r.Cells["colSelect"].Value)).ToList(); 
+            var checkedRows = dgvSongs.Rows.Cast<DataGridViewRow>().Where(r => r.Cells["colSelect"].Value != null).Where(r => Convert.ToBoolean(r.Cells["colSelect"].Value)).ToList();
 
             sfdSongListToCSV.Filter = "csv files(*.csv)|*.csv|All files (*.*)|*.*";
             sfdSongListToCSV.FileName = "SongListCSV";
@@ -1720,7 +1730,7 @@ namespace CustomsForgeManager_Winforms.Forms
                                 btnCheckAllForUpdates.Enabled = true;
                             });
                             Log(string.Format("Finished update check. Task took {0}", counterStopwatch.Elapsed));
-                            if(OutdatedSongList.Count != 0)
+                            if (OutdatedSongList.Count != 0)
                             {
                                 frmOutdatedSongs frmOutdated = new frmOutdatedSongs();
                                 frmOutdated.OutdatedSongList = OutdatedSongList;
@@ -1747,27 +1757,7 @@ namespace CustomsForgeManager_Winforms.Forms
             releaseNotes.ShowDialog();
         }
 
-        private void lbl_Credits_Description_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tableLayoutPanel_CFQuicklinks_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
         private void lbl_UnleashedRole_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tableLayoutPanel3_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void lblSettingsRSDir_Click(object sender, EventArgs e)
         {
 
         }
@@ -1782,20 +1772,6 @@ namespace CustomsForgeManager_Winforms.Forms
             Process.Start("http://www.rscustom.net/");
         }
 
-        private void radioBtn_ExportToCSV_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void radioBtn_ExportToHTML_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lbl_ExportTo_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void checkEnableLogBaloon_CheckedChanged(object sender, EventArgs e)
         {
@@ -1805,10 +1781,68 @@ namespace CustomsForgeManager_Winforms.Forms
                 myLog.AddTargetNotifyIcon(notifyIcon_Main);
         }
 
-        private void tableLayoutPanel_Credits_Paint(object sender, PaintEventArgs e)
+
+        public void Rescan()
+        {
+            bWorker = new AbortableBackgroundWorker();
+            bWorker.SetDefaults();
+
+            bWorker.DoWork += RescanSongs;
+            bWorker.RunWorkerCompleted += RescanCompleted;
+            bWorker.RunWorkerAsync();
+            counterStopwatch.Start();
+        }
+
+        public void RescanCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            toolStripStatusLabel_Main.Text = string.Format("{0} total Rocksmith songs found", SongCollection.Count);
+
+            numberOfDisabledDLC = SongCollection.Where(song => song.Enabled == "No").ToList().Count();
+            numberOfDLCPendingUpdate = 0;
+
+            toolStripStatusLabel_DisabledCounter.Visible = true;
+            toolStripStatusLabel_DisabledCounter.Alignment = ToolStripItemAlignment.Right;
+            toolStripStatusLabel_DisabledCounter.Text = "Outdated: " + numberOfDLCPendingUpdate + " | Disabled DLC: " + numberOfDisabledDLC.ToString();
+
+            counterStopwatch.Stop();
+            Log(string.Format("Finished. Task took {0}", counterStopwatch.Elapsed));
+        }
+
+        public void RescanSongs(object sender, DoWorkEventArgs e)
+        {
+            var newFileList = FilesList(mySettings.RSInstalledDir + "\\dlc", mySettings.IncludeRS1DLCs);
+            var oldFileList = CurrentFileList;
+            string enabled = "";
+
+            CurrentFileList = newFileList; //update the main file list
+
+            foreach (string file in oldFileList) //check if there's a song that was deleted after the first scan
+            {
+                if (!newFileList.Any(file.Contains))
+                {
+                    dgvSongs.InvokeIfRequired(delegate
+                    {
+                        var deletedSong = SongCollection.FirstOrDefault(song => song.Path == file);
+                        SongCollection.Remove(deletedSong);
+                        songCounter--;
+                    });
+                }
+            }
+
+            foreach (string file in newFileList)//check if there's any new songs, if there is, add them to the GridView/SongCollection
+            {
+                if (!oldFileList.Any(file.Contains))
+                {
+                    enabled = file.Contains(".disabled.") ? "No" : "Yes";
+                    parsePSARC(songCounter, enabled, file);
+                }
+            }
+            PopulateDupeList();
+        }
+
+        private void tcMain_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
-
     }
 }
