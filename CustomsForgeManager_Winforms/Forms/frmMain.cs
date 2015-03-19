@@ -1844,5 +1844,31 @@ namespace CustomsForgeManager_Winforms.Forms
         {
 
         }
+
+        private void backupDLCToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string backupPath = mySettings.RSInstalledDir + @"\backup";
+            string fileName = "";
+            string filePath = "";
+            try
+            {
+                if (!Directory.Exists(backupPath))
+                {
+                    Directory.CreateDirectory(backupPath);
+                }
+
+                filePath = SongCollection[dgvSongs.SelectedRows[0].Index].Path;
+                fileName = Path.GetFileName(filePath);
+
+                if (File.Exists(Path.Combine(backupPath, fileName)))
+                    File.Delete(filePath);
+                File.Copy(filePath, Path.Combine(backupPath, fileName));
+
+            }
+            catch (IOException ex)
+            {
+                Log("<ERROR>: " + ex.Message);
+            }
+        }
     }
 }
