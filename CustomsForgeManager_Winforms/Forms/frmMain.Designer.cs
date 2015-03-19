@@ -145,9 +145,10 @@
             this.notifyIcon_Main = new System.Windows.Forms.NotifyIcon(this.components);
             this.contextMenuStrip_Tray = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.backupDLCToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dgvSongs = new CustomsForgeManager_Winforms.Controls.RADataGridView();
             this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.backupDLCToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnBackupSelectedDLCs = new System.Windows.Forms.Button();
             this.tlp_MainForm_Wrappper.SuspendLayout();
             this.gbLog.SuspendLayout();
             this.tcMain.SuspendLayout();
@@ -268,6 +269,7 @@
             // 
             // panelSongListButtons
             // 
+            this.panelSongListButtons.Controls.Add(this.btnBackupSelectedDLCs);
             this.panelSongListButtons.Controls.Add(this.btnBatchRenamer);
             this.panelSongListButtons.Controls.Add(this.radioBtn_ExportToHTML);
             this.panelSongListButtons.Controls.Add(this.radioBtn_ExportToCSV);
@@ -399,7 +401,7 @@
             this.deleteSongToolStripMenuItem,
             this.backupDLCToolStripMenuItem});
             this.contextMenuStrip_MainManager.Name = "contextMenuStrip_MainManager";
-            this.contextMenuStrip_MainManager.Size = new System.Drawing.Size(178, 202);
+            this.contextMenuStrip_MainManager.Size = new System.Drawing.Size(178, 180);
             // 
             // showDLCInfoToolStripMenuItem
             // 
@@ -1473,6 +1475,13 @@
             this.closeToolStripMenuItem.Text = "Close";
             this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
             // 
+            // backupDLCToolStripMenuItem
+            // 
+            this.backupDLCToolStripMenuItem.Name = "backupDLCToolStripMenuItem";
+            this.backupDLCToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.backupDLCToolStripMenuItem.Text = "Backup DLC";
+            this.backupDLCToolStripMenuItem.Click += new System.EventHandler(this.backupDLCToolStripMenuItem_Click);
+            // 
             // dgvSongs
             // 
             this.dgvSongs.AllowUserToAddRows = false;
@@ -1512,12 +1521,16 @@
             this.colSelect.TrueValue = "true";
             this.colSelect.Visible = false;
             // 
-            // backupDLCToolStripMenuItem
+            // btnBackupSelectedDLCs
             // 
-            this.backupDLCToolStripMenuItem.Name = "backupDLCToolStripMenuItem";
-            this.backupDLCToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
-            this.backupDLCToolStripMenuItem.Text = "Backup DLC";
-            this.backupDLCToolStripMenuItem.Click += new System.EventHandler(this.backupDLCToolStripMenuItem_Click);
+            this.btnBackupSelectedDLCs.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnBackupSelectedDLCs.Location = new System.Drawing.Point(466, 15);
+            this.btnBackupSelectedDLCs.Name = "btnBackupSelectedDLCs";
+            this.btnBackupSelectedDLCs.Size = new System.Drawing.Size(101, 23);
+            this.btnBackupSelectedDLCs.TabIndex = 19;
+            this.btnBackupSelectedDLCs.Text = "Backup selected";
+            this.btnBackupSelectedDLCs.UseVisualStyleBackColor = true;
+            this.btnBackupSelectedDLCs.Click += new System.EventHandler(this.btnBackupSelectedDLCs_Click);
             // 
             // frmMain
             // 
@@ -1702,6 +1715,7 @@
         private System.Windows.Forms.Label lbl_Credits;
         private System.Windows.Forms.Label lbl_Credits_Description;
         private System.Windows.Forms.ToolStripMenuItem backupDLCToolStripMenuItem;
+        private System.Windows.Forms.Button btnBackupSelectedDLCs;
     }
 }
 

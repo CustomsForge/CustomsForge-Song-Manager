@@ -1870,5 +1870,47 @@ namespace CustomsForgeManager_Winforms.Forms
                 Log("<ERROR>: " + ex.Message);
             }
         }
+
+        private void btnBackupSelectedDLCs_Click(object sender, EventArgs e)
+        {
+            string backupPath = mySettings.RSInstalledDir + @"\backup";
+            string fileName = "";
+            string filePath = "";
+            try
+            {
+                if (!Directory.Exists(backupPath))
+                {
+                    Directory.CreateDirectory(backupPath);
+                }
+
+                foreach (DataGridViewRow row in dgvSongs.Rows)
+                {
+                    if (row.Selected)
+                    {
+                        filePath = row.Cells["Path"].Value.ToString();
+                        fileName = Path.GetFileName(filePath);
+
+                        if (File.Exists(Path.Combine(backupPath, fileName)))
+                            File.Delete(filePath);
+                        File.Copy(filePath, Path.Combine(backupPath, fileName));
+                        continue;
+                    }
+
+                    if (row.Cells["colSelect"].Value != null && Convert.ToBoolean(row.Cells["colSelect"].Value))
+                    {
+                        filePath = row.Cells["Path"].Value.ToString();
+                        fileName = Path.GetFileName(filePath);
+
+                        if (File.Exists(Path.Combine(backupPath, fileName)))
+                            File.Delete(filePath);
+                        File.Copy(filePath, Path.Combine(backupPath, fileName));
+                    }
+                }
+            }
+            catch (IOException ex)
+            {
+                Log("<ERROR>: " + ex.Message);
+            }
+        }
     }
 }
