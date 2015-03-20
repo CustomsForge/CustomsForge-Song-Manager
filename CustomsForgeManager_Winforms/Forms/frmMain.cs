@@ -290,6 +290,7 @@ namespace CustomsForgeManager_Winforms.Forms
             mySettings.RescanOnStartup = true;
             mySettings.IncludeRS1DLCs = false;
             mySettings.EnabledLogBaloon = true;
+            tbSettingsRSDir.Text = mySettings.RSInstalledDir;
             Log("Settings reset to defaults...");
         }
         private void SaveSettingsToFile(string path = "")
@@ -305,7 +306,7 @@ namespace CustomsForgeManager_Winforms.Forms
                 }
                 else
                 {//getMySettings();
-                    mySettings.RSInstalledDir = tbSettingsRSDir.Text ?? "";
+                    mySettings.RSInstalledDir = tbSettingsRSDir.Text ?? mySettings.RSInstalledDir;
                     mySettings.RescanOnStartup = checkRescanOnStartup.Checked;
                     mySettings.IncludeRS1DLCs = checkIncludeRS1DLC.Checked;
                     if (dgvSongs != null)
@@ -350,36 +351,40 @@ namespace CustomsForgeManager_Winforms.Forms
                     }
                     SaveSettingsToFile(path);
                 }
-                using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
+                else
                 {
-                    var deserialized = fs.DeSerialize() as Settings;
-                    if (deserialized != null)
+                    using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
                     {
-                        mySettings = deserialized;
+                        var deserialized = fs.DeSerialize() as Settings;
 
-                        tbSettingsRSDir.InvokeIfRequired(delegate
+                        if (deserialized != null)
                         {
-                            tbSettingsRSDir.Text = mySettings.RSInstalledDir;
-                        });
-                        checkRescanOnStartup.InvokeIfRequired(delegate
-                        {
-                            checkRescanOnStartup.Checked = mySettings.RescanOnStartup;
-                        });
-                        if (mySettings.ManagerGridSettings != null)
-                        {
-                            dgvSongs.ReLoadColumnOrder(mySettings.ManagerGridSettings.ColumnOrder);
+                            mySettings = deserialized;
+
+                            tbSettingsRSDir.InvokeIfRequired(delegate
+                            {
+                                tbSettingsRSDir.Text = mySettings.RSInstalledDir;
+                            });
+                            checkRescanOnStartup.InvokeIfRequired(delegate
+                            {
+                                checkRescanOnStartup.Checked = mySettings.RescanOnStartup;
+                            });
+                            if (mySettings.ManagerGridSettings != null)
+                            {
+                                dgvSongs.ReLoadColumnOrder(mySettings.ManagerGridSettings.ColumnOrder);
+                            }
+                            checkIncludeRS1DLC.InvokeIfRequired(delegate
+                            {
+                                checkIncludeRS1DLC.Checked = mySettings.IncludeRS1DLCs;
+                            });
+                            checkEnableLogBaloon.InvokeIfRequired(delegate
+                            {
+                                checkEnableLogBaloon.Checked = mySettings.EnabledLogBaloon;
+                            });
+                            Log("Loaded settings...");
                         }
-                        checkIncludeRS1DLC.InvokeIfRequired(delegate
-                        {
-                            checkIncludeRS1DLC.Checked = mySettings.IncludeRS1DLCs;
-                        });
-                        checkEnableLogBaloon.InvokeIfRequired(delegate
-                        {
-                            checkEnableLogBaloon.Checked = mySettings.EnabledLogBaloon;
-                        });
-                        Log("Loaded settings...");
+                        fs.Flush();
                     }
-                    fs.Flush();
                 }
             }
             catch (Exception ex)
@@ -500,6 +505,11 @@ namespace CustomsForgeManager_Winforms.Forms
             btnExportSongList.InvokeIfRequired(delegate
             {
                 btnExportSongList.Enabled = !btnExportSongList.Enabled;
+            });
+
+            btnBackupSelectedDLCs.InvokeIfRequired(delegate
+            {
+                btnBackupSelectedDLCs.Enabled = !btnBackupSelectedDLCs.Enabled;
             });
 
             radioBtn_ExportToBBCode.InvokeIfRequired(delegate
