@@ -1163,7 +1163,7 @@ namespace CustomsForgeManager_Winforms.Forms
                         cell.Value = "false";
 
                         numberOfDisabledDLC = SongCollection.Where(song => song.Enabled == "No").ToList().Count();
-                        toolStripStatusLabel_DisabledCounter.Text = "Outdated: " + numberOfDLCPendingUpdate.ToString() + " | Disabled DLC:" + numberOfDisabledDLC.ToString();
+                        toolStripStatusLabel_DisabledCounter.Text = "Outdated: " + numberOfDLCPendingUpdate.ToString() + " | Disabled DLC: " + numberOfDisabledDLC.ToString();
                     }
                     else
                     {
@@ -1704,10 +1704,10 @@ namespace CustomsForgeManager_Winforms.Forms
                             if (currentSong.IgnitionVersion == "No Results")
                             {
                                 dataGridViewRow.DefaultCellStyle.BackColor = Color.OrangeRed;
-                                myLog.Write(
-                                    string.Format(
-                                        "<ERROR>: Song \"{0}\" from \"{1}\" album by {2} not found in ignition.",
-                                        currentSong.Song, currentSong.Album, currentSong.Author), false);
+                                //myLog.Write(
+                                //    string.Format(
+                                //        "<ERROR>: Song \"{0}\" from \"{1}\" album by {2} not found in ignition.",
+                                //        currentSong.Song, currentSong.Album, currentSong.Author), false);
                             }
                             else if (currentSong.Version == "N/A")
                             {
@@ -1810,12 +1810,10 @@ namespace CustomsForgeManager_Winforms.Forms
             numberOfDisabledDLC = SongCollection.Where(song => song.Enabled == "No").ToList().Count();
             numberOfDLCPendingUpdate = 0;
 
-            toolStripStatusLabel_DisabledCounter.Visible = true;
-            toolStripStatusLabel_DisabledCounter.Alignment = ToolStripItemAlignment.Right;
             toolStripStatusLabel_DisabledCounter.Text = "Outdated: " + numberOfDLCPendingUpdate + " | Disabled DLC: " + numberOfDisabledDLC.ToString();
 
             counterStopwatch.Stop();
-            Log(string.Format("Finished. Task took {0}", counterStopwatch.Elapsed));
+            Log(string.Format("Finished rescanning. Task took {0}", counterStopwatch.Elapsed));
         }
 
         public void RescanSongs(object sender, DoWorkEventArgs e)
