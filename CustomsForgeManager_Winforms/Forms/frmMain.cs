@@ -205,19 +205,20 @@ namespace CustomsForgeManager_Winforms.Forms
                 SongCollection.Clear();
             });
             string enabled = "";
-            CurrentFileList = FilesList(mySettings.RSInstalledDir + "\\dlc", mySettings.IncludeRS1DLCs);
+            List<string> fileList = FilesList(mySettings.RSInstalledDir + "\\dlc", mySettings.IncludeRS1DLCs);
             //List<string> disabledFilesList = new List<string>(FilesList(mySettings.RSInstalledDir + "\\" + Constants.DefaultDisabledSubDirectory,mySettings.IncludeRS1DLCs));
             //filesList.AddRange(disabledFilesList);
-            Log(String.Format("Raw songs count: {0}", CurrentFileList.Count));
+            Log(String.Format("Raw songs count: {0}", fileList.Count));
             counterStopwatch.Start();
-            foreach (string file in CurrentFileList)
+            foreach (string file in fileList)
             {
                 if (!bWorker.CancellationPending)
                 {
-                    Progress(songCounter++ * 100 / CurrentFileList.Count);
+                    Progress(songCounter++ * 100 / fileList.Count);
 
                     enabled = file.Contains(".disabled.") ? "No" : "Yes";
                     parsePSARC(songCounter, enabled, file);
+                    CurrentFileList.Add(file);
                 }
             }
             dgvSongs.InvokeIfRequired(delegate
@@ -1052,11 +1053,19 @@ namespace CustomsForgeManager_Winforms.Forms
         }
         private void linkLblSelectAll_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            foreach (DataGridViewRow row in dgvSongs.Rows)
-            {
-                row.Cells["colSelect"].Value = !allSelected;
-            }
-            allSelected = !allSelected;
+            bWorker = new AbortableBackgroundWorker();
+            bWorker.DoWork += (se, ev) =>
+                {
+                    foreach (DataGridViewRow row in dgvSongs.Rows)
+                    {
+                        row.Cells["colSelect"].Value = !allSelected;
+                    }
+                };
+            bWorker.RunWorkerCompleted += (se, ev) =>
+                {
+                    allSelected = !allSelected;
+                };
+            bWorker.RunWorkerAsync();
         }
         private void link_MainClearResults_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
@@ -1841,8 +1850,11 @@ namespace CustomsForgeManager_Winforms.Forms
             {
                 if (!oldFileList.Any(file.Contains))
                 {
-                    enabled = file.Contains(".disabled.") ? "No" : "Yes";
-                    parsePSARC(songCounter, enabled, file);
+                   dgvSongs.InvokeIfRequired(delegate
+                   {
+                       enabled = file.Contains(".disabled.") ? "No" : "Yes";
+                       parsePSARC(songCounter, enabled, file);
+                   });
                 }
             }
             PopulateDupeList();
