@@ -90,7 +90,7 @@ namespace CustomsForgeManager_Winforms.Forms
                 lbl_AppVersion.Text = "Version: " + appVersion.ToString();
             }
 
-            Log(GetRSTKLibVersion());
+            myLog.Write(GetRSTKLibVersion(),false);
 
             #endregion
 
@@ -310,6 +310,7 @@ namespace CustomsForgeManager_Winforms.Forms
                     mySettings.RSInstalledDir = tbSettingsRSDir.Text ?? mySettings.RSInstalledDir;
                     mySettings.RescanOnStartup = checkRescanOnStartup.Checked;
                     mySettings.IncludeRS1DLCs = checkIncludeRS1DLC.Checked;
+                    mySettings.EnabledLogBaloon = checkEnableLogBaloon.Checked;
                     if (dgvSongs != null)
                     {
                         var settings = new RADataGridViewSettings();
@@ -352,8 +353,6 @@ namespace CustomsForgeManager_Winforms.Forms
                     }
                     SaveSettingsToFile(path);
                 }
-                else
-                {
                     using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
                     {
                         var deserialized = fs.DeSerialize() as Settings;
@@ -385,7 +384,6 @@ namespace CustomsForgeManager_Winforms.Forms
                             Log("Loaded settings...");
                         }
                         fs.Flush();
-                    }
                 }
             }
             catch (Exception ex)
@@ -456,6 +454,11 @@ namespace CustomsForgeManager_Winforms.Forms
             checkRescanOnStartup.InvokeIfRequired(delegate
             {
                 checkRescanOnStartup.Enabled = !checkRescanOnStartup.Enabled;
+            });
+
+            checkEnableLogBaloon.InvokeIfRequired(delegate
+            {
+                checkEnableLogBaloon.Enabled = !checkEnableLogBaloon.Enabled;
             });
 
             btnBackupRSProfile.InvokeIfRequired(delegate
