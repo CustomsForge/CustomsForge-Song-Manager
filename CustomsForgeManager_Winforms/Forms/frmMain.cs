@@ -90,7 +90,7 @@ namespace CustomsForgeManager_Winforms.Forms
                 lbl_AppVersion.Text = "Version: " + appVersion.ToString();
             }
 
-            myLog.Write(GetRSTKLibVersion(),false);
+            myLog.Write(GetRSTKLibVersion(), false);
 
             #endregion
 
@@ -353,37 +353,37 @@ namespace CustomsForgeManager_Winforms.Forms
                     }
                     SaveSettingsToFile(path);
                 }
-                    using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
+                using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
+                {
+                    var deserialized = fs.DeSerialize() as Settings;
+
+                    if (deserialized != null)
                     {
-                        var deserialized = fs.DeSerialize() as Settings;
+                        mySettings = deserialized;
 
-                        if (deserialized != null)
+                        tbSettingsRSDir.InvokeIfRequired(delegate
                         {
-                            mySettings = deserialized;
-
-                            tbSettingsRSDir.InvokeIfRequired(delegate
-                            {
-                                tbSettingsRSDir.Text = mySettings.RSInstalledDir;
-                            });
-                            checkRescanOnStartup.InvokeIfRequired(delegate
-                            {
-                                checkRescanOnStartup.Checked = mySettings.RescanOnStartup;
-                            });
-                            if (mySettings.ManagerGridSettings != null)
-                            {
-                                dgvSongs.ReLoadColumnOrder(mySettings.ManagerGridSettings.ColumnOrder);
-                            }
-                            checkIncludeRS1DLC.InvokeIfRequired(delegate
-                            {
-                                checkIncludeRS1DLC.Checked = mySettings.IncludeRS1DLCs;
-                            });
-                            checkEnableLogBaloon.InvokeIfRequired(delegate
-                            {
-                                checkEnableLogBaloon.Checked = mySettings.EnabledLogBaloon;
-                            });
-                            Log("Loaded settings...");
+                            tbSettingsRSDir.Text = mySettings.RSInstalledDir;
+                        });
+                        checkRescanOnStartup.InvokeIfRequired(delegate
+                        {
+                            checkRescanOnStartup.Checked = mySettings.RescanOnStartup;
+                        });
+                        if (mySettings.ManagerGridSettings != null)
+                        {
+                            dgvSongs.ReLoadColumnOrder(mySettings.ManagerGridSettings.ColumnOrder);
                         }
-                        fs.Flush();
+                        checkIncludeRS1DLC.InvokeIfRequired(delegate
+                        {
+                            checkIncludeRS1DLC.Checked = mySettings.IncludeRS1DLCs;
+                        });
+                        checkEnableLogBaloon.InvokeIfRequired(delegate
+                        {
+                            checkEnableLogBaloon.Checked = mySettings.EnabledLogBaloon;
+                        });
+                        Log("Loaded settings...");
+                    }
+                    fs.Flush();
                 }
             }
             catch (Exception ex)
@@ -1296,6 +1296,8 @@ namespace CustomsForgeManager_Winforms.Forms
             else
             {
                 //BackgroundScan();
+         
+                toolStripStatusLabel_MainCancel.Visible = true;
                 listDupeSongs.Items.Clear();
                 DupeCollection.Clear();
                 tpDuplicates.InvokeIfRequired(delegate
@@ -1806,13 +1808,14 @@ namespace CustomsForgeManager_Winforms.Forms
 
         public void Rescan()
         {
+            counterStopwatch.Reset();
+            counterStopwatch.Start();
             bWorker = new AbortableBackgroundWorker();
             bWorker.SetDefaults();
 
             bWorker.DoWork += RescanSongs;
             bWorker.RunWorkerCompleted += RescanCompleted;
             bWorker.RunWorkerAsync();
-            counterStopwatch.Start();
         }
 
         public void RescanCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -1821,6 +1824,8 @@ namespace CustomsForgeManager_Winforms.Forms
 
             numberOfDisabledDLC = SongCollection.Where(song => song.Enabled == "No").ToList().Count();
             numberOfDLCPendingUpdate = 0;
+
+            toolStripStatusLabel_MainCancel.Visible = false;
 
             toolStripStatusLabel_DisabledCounter.Text = "Outdated: " + numberOfDLCPendingUpdate + " | Disabled DLC: " + numberOfDisabledDLC.ToString();
 
@@ -1835,6 +1840,22 @@ namespace CustomsForgeManager_Winforms.Forms
             string enabled = "";
 
             CurrentFileList = newFileList; //update the main file list
+
+
+            if (checkIncludeRS1DLC.Checked == false && SongCollection.Any(sng => sng.Path.Contains(rscompatibility)))
+            {
+                var rs1Songs = SongCollection.Where(sng => sng.Path.Contains(rscompatibility)).ToList();
+                songCounter -= rs1Songs.Count;
+                dgvSongs.InvokeIfRequired(delegate
+                {
+                    dgvSongs.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells; 
+                    foreach (var rs1Song in rs1Songs)
+                    {
+                        SongCollection.Remove(rs1Song);
+                    }
+                    dgvSongs.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+                });
+            }
 
             foreach (string file in oldFileList) //check if there's a song that was deleted after the first scan
             {
@@ -1851,13 +1872,19 @@ namespace CustomsForgeManager_Winforms.Forms
 
             foreach (string file in newFileList)//check if there's any new songs, if there is, add them to the GridView/SongCollection
             {
-                if (!oldFileList.Any(file.Contains))
+                if (file != rscompatibility)
                 {
-                   dgvSongs.InvokeIfRequired(delegate
-                   {
-                       enabled = file.Contains(".disabled.") ? "No" : "Yes";
-                       parsePSARC(songCounter, enabled, file);
-                   });
+                    if (!oldFileList.Any(file.Contains))
+                    {
+                        dgvSongs.InvokeIfRequired(delegate
+                        {
+                            enabled = file.Contains(".disabled.") ? "No" : "Yes";
+                            if (checkIncludeRS1DLC.Checked == false && !file.Contains(rscompatibility))
+                                parsePSARC(songCounter, enabled, file);
+                            else
+                                parsePSARC(songCounter, enabled, file);
+                        });
+                    }
                 }
             }
             PopulateDupeList();
