@@ -1289,22 +1289,27 @@ namespace CustomsForgeManager_Winforms.Forms
         }
         private void btnRescan_Click(object sender, EventArgs e)
         {
-            if (String.IsNullOrEmpty(mySettings.RSInstalledDir))
+            if(CurrentFileList.Count > 0)
             {
-                MessageBox.Show("Please, make sure that you've got Rocksmith 2014 installed.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                if (String.IsNullOrEmpty(mySettings.RSInstalledDir))
+                {
+                    MessageBox.Show("Please, make sure that you've got Rocksmith 2014 installed.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                else
+                {
+                    toolStripStatusLabel_MainCancel.Visible = true;
+                    listDupeSongs.Items.Clear();
+                    DupeCollection.Clear();
+                    tpDuplicates.InvokeIfRequired(delegate
+                    {
+                        tpDuplicates.Text = "Duplicates(0)";
+                    });
+                    Rescan();
+                }
             }
             else
             {
-                //BackgroundScan();
-         
-                toolStripStatusLabel_MainCancel.Visible = true;
-                listDupeSongs.Items.Clear();
-                DupeCollection.Clear();
-                tpDuplicates.InvokeIfRequired(delegate
-                {
-                    tpDuplicates.Text = "Duplicates(0)";
-                });
-                Rescan();
+                BackgroundScan();
             }
         }
 
