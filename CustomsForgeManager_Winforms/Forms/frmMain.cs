@@ -22,6 +22,7 @@ using System.Xml.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Reflection;
+using Antlr4.StringTemplate;
 
 namespace CustomsForgeManager_Winforms.Forms
 {
@@ -51,6 +52,24 @@ namespace CustomsForgeManager_Winforms.Forms
             this.mySettings = mySettings;
 
             InitializeComponent();
+            this.renamerPropertyDataGridView.AutoGenerateColumns = true;
+            try
+            {
+                Assembly assembly = Assembly.GetExecutingAssembly();
+                using (Stream stream = assembly.GetManifestResourceStream("CustomsForgeManager_Winforms.Resources.renamer_properties.json"))
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    string json = reader.ReadToEnd();
+                    this.renamerPropertyDataSet = (System.Data.DataSet)JsonConvert.DeserializeObject(json, (typeof(System.Data.DataSet)));
+                    this.renamerPropertyDataGridView.DataSource = this.renamerPropertyDataSet.Tables[0];
+
+                };
+            }
+            catch (Exception e)
+            {
+                this.myLog.Write(e.Message);
+            }
+      
             Init();
         }
         private void Init()
@@ -1175,8 +1194,15 @@ namespace CustomsForgeManager_Winforms.Forms
         }
         private void btnBatchRenamer_Click(object sender, EventArgs e)
         {
-            //frmRenamer renamer = new frmRenamer(myLog);
-            //renamer.ShowDialog();
+            if (SortedSongCollection != null && SortedSongCollection.Count > 0)
+            {
+                frmRenamer renamer = new frmRenamer(myLog, mySettings, SortedSongCollection);
+                renamer.ShowDialog();
+            }
+            else
+            {
+                System.Windows.Forms.MessageBox.Show("Please scan in atleast one song.");
+            }
         }
         #endregion
         #region ToolStripMenuItem events
@@ -1529,6 +1555,82 @@ namespace CustomsForgeManager_Winforms.Forms
         private SongData GetSongByRow(DataGridViewRow dataGridViewRow)
         {
             return SongCollection.Distinct().FirstOrDefault(x => x.Song == dataGridViewRow.Cells["Song"].Value.ToString() && x.Artist == dataGridViewRow.Cells["Artist"].Value.ToString() && x.Album == dataGridViewRow.Cells["Album"].Value.ToString() && x.Path == dataGridViewRow.Cells["Path"].Value.ToString());
+        }
+
+        private void renameAllButton_Click(object sender, EventArgs e)
+        {
+            SortedSongCollection = SongCollection.ToList();
+            if (!renameTemplateTextBox.Text.Contains("<title>"))
+            {
+                MessageBox.Show("Rename Template requires <title> atleast once to prevent overwriting songs.");
+                return;
+            }
+            if (SortedSongCollection == null || SortedSongCollection.Count == 0)
+            {
+                MessageBox.Show("Please scan in atleast one song.");
+                return;
+            }
+            bWorker = new AbortableBackgroundWorker();
+            bWorker.SetDefaults();
+            bWorker.DoWork += doRenameSongs;
+            bWorker.DoWork += PopulateListHandler;
+            bWorker.RunWorkerCompleted += PopulateCompletedHandler;
+            bWorker.RunWorkerAsync();
+        }
+
+        //TODO: Refactor this somewhere else?
+        private void renameSongs(List<SongData> songList, String templateString, Boolean deleteEmptyDirectories)
+        {
+            try
+            {
+                foreach (SongData data in songList)
+                {    
+                    Template template = new Template(templateString);
+                    template.Add("title", data.Song);
+                    template.Add("artist", data.Artist);
+                    template.Add("version", data.Version);
+                    template.Add("author", data.Author);
+                    template.Add("album", data.Album);
+                    if ("Yes".Equals(data.DD))
+                    {
+                        template.Add("dd", "_dd");
+                    }
+                    else
+                    {
+                        template.Add("dd","");
+                    }
+
+                    template.Add("year", data.SongYear);
+                    template.Add("author", data.Updated);
+                    String newFilePath = mySettings.RSInstalledDir + "\\dlc\\" + template.Render() + "_p.psarc";
+                    string oldFilePath = data.Path;
+                    FileInfo newFileInfo = new FileInfo(newFilePath);
+                    System.IO.Directory.CreateDirectory(newFileInfo.Directory.FullName);
+                    myLog.Write("Renaming/Moving:" + oldFilePath);
+                  
+                    myLog.Write("---> " + newFilePath);
+                    System.IO.File.Move(oldFilePath, newFilePath);
+                }
+                if (deleteEmptyDirectories)
+                {
+                    new DirectoryInfo(mySettings.RSInstalledDir + "\\dlc\\").DeleteEmptyDirs();
+                }
+                
+            }
+            //lazy exception catch for now. Future me will punch me for such astrocities, alas its a desktop app.
+            catch (Exception e)
+            {
+                myLog.Write(e.Message);
+            }
+
+        }
+
+        private void doRenameSongs(object sender, DoWorkEventArgs e)
+        {
+            if (!bWorker.CancellationPending)
+            {
+                renameSongs(SortedSongCollection, renameTemplateTextBox.Text, deleteEmptyDirCheckBox.Checked);
+            }
         }
     }
 }

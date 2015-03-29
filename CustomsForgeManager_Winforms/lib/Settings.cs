@@ -11,6 +11,7 @@ namespace CustomsForgeManager_Winforms.Utilities
         public bool RescanOnStartup { get; set; }
         public bool IncludeRS1DLCs { get; set; }
         public RADataGridViewSettings ManagerGridSettings { get; set; }
+        public string RenameTemplate { get; set; }
     }
 
     [Serializable]

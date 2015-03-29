@@ -1,4 +1,7 @@
-﻿namespace CustomsForgeManager_Winforms.Forms
+﻿using Newtonsoft.Json;
+using System.IO;
+using System.Reflection;
+namespace CustomsForgeManager_Winforms.Forms
 {
     partial class frmMain
     {
@@ -75,6 +78,16 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnDupeRescan = new System.Windows.Forms.Button();
             this.btnDeleteDupeSong = new System.Windows.Forms.Button();
+            this.tpBatchRenamer = new System.Windows.Forms.TabPage();
+            this.slashLabel = new System.Windows.Forms.Label();
+            this.propertiesGroupBox = new System.Windows.Forms.GroupBox();
+            this.renamerPropertyDataGridView = new System.Windows.Forms.DataGridView();
+            this.howToGroupBox = new System.Windows.Forms.GroupBox();
+            this.instructionsLabel = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.renameTemplateLabel = new System.Windows.Forms.Label();
+            this.renameTemplateTextBox = new System.Windows.Forms.TextBox();
+            this.renameAllButton = new System.Windows.Forms.Button();
             this.tpUtilities = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.panel4 = new System.Windows.Forms.Panel();
@@ -148,6 +161,8 @@
             this.contextMenuStrip_Tray = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bWorker = new CustomsForgeManager_Winforms.Controls.AbortableBackgroundWorker();
+            this.frmMainBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.deleteEmptyDirCheckBox = new System.Windows.Forms.CheckBox();
             this.tlp_MainForm_Wrappper.SuspendLayout();
             this.gbLog.SuspendLayout();
             this.tcMain.SuspendLayout();
@@ -161,6 +176,10 @@
             this.tpDuplicates.SuspendLayout();
             this.tlpDuplicates.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.tpBatchRenamer.SuspendLayout();
+            this.propertiesGroupBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.renamerPropertyDataGridView)).BeginInit();
+            this.howToGroupBox.SuspendLayout();
             this.tpUtilities.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -178,6 +197,7 @@
             this.tableLayoutPanel_Credits.SuspendLayout();
             this.statusStripMain.SuspendLayout();
             this.contextMenuStrip_Tray.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.frmMainBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // tlp_MainForm_Wrappper
@@ -222,6 +242,7 @@
             this.tcMain.Controls.Add(this.tpManager);
             this.tcMain.Controls.Add(this.tpEditor);
             this.tcMain.Controls.Add(this.tpDuplicates);
+            this.tcMain.Controls.Add(this.tpBatchRenamer);
             this.tcMain.Controls.Add(this.tpUtilities);
             this.tcMain.Controls.Add(this.tpSettings);
             this.tcMain.Controls.Add(this.tpAbout);
@@ -646,6 +667,118 @@
             this.btnDeleteDupeSong.Text = "Delete song";
             this.btnDeleteDupeSong.UseVisualStyleBackColor = true;
             this.btnDeleteDupeSong.Click += new System.EventHandler(this.btnDeleteSongOne_Click);
+            // 
+            // tpBatchRenamer
+            // 
+            this.tpBatchRenamer.Controls.Add(this.deleteEmptyDirCheckBox);
+            this.tpBatchRenamer.Controls.Add(this.slashLabel);
+            this.tpBatchRenamer.Controls.Add(this.propertiesGroupBox);
+            this.tpBatchRenamer.Controls.Add(this.howToGroupBox);
+            this.tpBatchRenamer.Controls.Add(this.renameTemplateLabel);
+            this.tpBatchRenamer.Controls.Add(this.renameTemplateTextBox);
+            this.tpBatchRenamer.Controls.Add(this.renameAllButton);
+            this.tpBatchRenamer.Location = new System.Drawing.Point(4, 22);
+            this.tpBatchRenamer.Name = "tpBatchRenamer";
+            this.tpBatchRenamer.Padding = new System.Windows.Forms.Padding(3);
+            this.tpBatchRenamer.Size = new System.Drawing.Size(770, 389);
+            this.tpBatchRenamer.TabIndex = 6;
+            this.tpBatchRenamer.Text = "Batch Renamer";
+            this.tpBatchRenamer.UseVisualStyleBackColor = true;
+            // 
+            // slashLabel
+            // 
+            this.slashLabel.AutoSize = true;
+            this.slashLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.slashLabel.Location = new System.Drawing.Point(118, 10);
+            this.slashLabel.Name = "slashLabel";
+            this.slashLabel.Size = new System.Drawing.Size(37, 20);
+            this.slashLabel.TabIndex = 9;
+            this.slashLabel.Text = "dlc/";
+            // 
+            // propertiesGroupBox
+            // 
+            this.propertiesGroupBox.Controls.Add(this.renamerPropertyDataGridView);
+            this.propertiesGroupBox.Location = new System.Drawing.Point(352, 58);
+            this.propertiesGroupBox.Name = "propertiesGroupBox";
+            this.propertiesGroupBox.Size = new System.Drawing.Size(412, 320);
+            this.propertiesGroupBox.TabIndex = 8;
+            this.propertiesGroupBox.TabStop = false;
+            this.propertiesGroupBox.Text = "Usuable Properties";
+            // 
+            // renamerPropertyDataGridView
+            // 
+            this.renamerPropertyDataGridView.AllowUserToAddRows = false;
+            this.renamerPropertyDataGridView.AllowUserToDeleteRows = false;
+            this.renamerPropertyDataGridView.AllowUserToResizeColumns = false;
+            this.renamerPropertyDataGridView.AllowUserToResizeRows = false;
+            this.renamerPropertyDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.renamerPropertyDataGridView.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.renamerPropertyDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.renamerPropertyDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.renamerPropertyDataGridView.Location = new System.Drawing.Point(3, 16);
+            this.renamerPropertyDataGridView.MultiSelect = false;
+            this.renamerPropertyDataGridView.Name = "renamerPropertyDataGridView";
+            this.renamerPropertyDataGridView.ReadOnly = true;
+            this.renamerPropertyDataGridView.RowHeadersVisible = false;
+            this.renamerPropertyDataGridView.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            this.renamerPropertyDataGridView.Size = new System.Drawing.Size(406, 301);
+            this.renamerPropertyDataGridView.TabIndex = 2;
+            // 
+            // howToGroupBox
+            // 
+            this.howToGroupBox.Controls.Add(this.instructionsLabel);
+            this.howToGroupBox.Controls.Add(this.label1);
+            this.howToGroupBox.Location = new System.Drawing.Point(9, 58);
+            this.howToGroupBox.Name = "howToGroupBox";
+            this.howToGroupBox.Size = new System.Drawing.Size(337, 320);
+            this.howToGroupBox.TabIndex = 7;
+            this.howToGroupBox.TabStop = false;
+            this.howToGroupBox.Text = "How To Use:";
+            // 
+            // instructionsLabel
+            // 
+            this.instructionsLabel.AutoSize = true;
+            this.instructionsLabel.Location = new System.Drawing.Point(6, 16);
+            this.instructionsLabel.Name = "instructionsLabel";
+            this.instructionsLabel.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.instructionsLabel.Size = new System.Drawing.Size(335, 260);
+            this.instructionsLabel.TabIndex = 1;
+            this.instructionsLabel.Text = resources.GetString("instructionsLabel.Text");
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(83, 50);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(0, 13);
+            this.label1.TabIndex = 0;
+            // 
+            // renameTemplateLabel
+            // 
+            this.renameTemplateLabel.AutoSize = true;
+            this.renameTemplateLabel.Location = new System.Drawing.Point(15, 12);
+            this.renameTemplateLabel.Name = "renameTemplateLabel";
+            this.renameTemplateLabel.Size = new System.Drawing.Size(97, 13);
+            this.renameTemplateLabel.TabIndex = 6;
+            this.renameTemplateLabel.Text = "Rename Template:";
+            // 
+            // renameTemplateTextBox
+            // 
+            this.renameTemplateTextBox.Location = new System.Drawing.Point(161, 12);
+            this.renameTemplateTextBox.Name = "renameTemplateTextBox";
+            this.renameTemplateTextBox.Size = new System.Drawing.Size(379, 20);
+            this.renameTemplateTextBox.TabIndex = 5;
+            this.renameTemplateTextBox.Text = "<title>_<artist>";
+            // 
+            // renameAllButton
+            // 
+            this.renameAllButton.Location = new System.Drawing.Point(546, 8);
+            this.renameAllButton.Name = "renameAllButton";
+            this.renameAllButton.Size = new System.Drawing.Size(218, 30);
+            this.renameAllButton.TabIndex = 4;
+            this.renameAllButton.Text = "Rename All";
+            this.renameAllButton.UseVisualStyleBackColor = true;
+            this.renameAllButton.Click += new System.EventHandler(this.renameAllButton_Click);
             // 
             // tpUtilities
             // 
@@ -1482,6 +1615,20 @@
             this.bWorker.WorkerReportsProgress = true;
             this.bWorker.WorkerSupportsCancellation = true;
             // 
+            // frmMainBindingSource
+            // 
+            this.frmMainBindingSource.DataSource = typeof(CustomsForgeManager_Winforms.Forms.frmMain);
+            // 
+            // deleteEmptyDirCheckBox
+            // 
+            this.deleteEmptyDirCheckBox.AutoSize = true;
+            this.deleteEmptyDirCheckBox.Location = new System.Drawing.Point(161, 38);
+            this.deleteEmptyDirCheckBox.Name = "deleteEmptyDirCheckBox";
+            this.deleteEmptyDirCheckBox.Size = new System.Drawing.Size(209, 17);
+            this.deleteEmptyDirCheckBox.TabIndex = 10;
+            this.deleteEmptyDirCheckBox.Text = "Delete Empty Directories after Rename";
+            this.deleteEmptyDirCheckBox.UseVisualStyleBackColor = true;
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1514,6 +1661,12 @@
             this.tpDuplicates.ResumeLayout(false);
             this.tlpDuplicates.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
+            this.tpBatchRenamer.ResumeLayout(false);
+            this.tpBatchRenamer.PerformLayout();
+            this.propertiesGroupBox.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.renamerPropertyDataGridView)).EndInit();
+            this.howToGroupBox.ResumeLayout(false);
+            this.howToGroupBox.PerformLayout();
             this.tpUtilities.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
@@ -1537,6 +1690,7 @@
             this.statusStripMain.ResumeLayout(false);
             this.statusStripMain.PerformLayout();
             this.contextMenuStrip_Tray.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.frmMainBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1661,6 +1815,21 @@
         private System.Windows.Forms.ColumnHeader columnSelect;
         private System.Windows.Forms.ColumnHeader colSettingsColumnName;
         private System.Windows.Forms.ColumnHeader colSettingsColumnEnabled;
+        private System.Windows.Forms.TabPage tpBatchRenamer;
+        private System.Windows.Forms.Button renameAllButton;
+        private System.Windows.Forms.TextBox renameTemplateTextBox;
+        private System.Windows.Forms.GroupBox howToGroupBox;
+        private System.Windows.Forms.Label renameTemplateLabel;
+        private System.Windows.Forms.GroupBox propertiesGroupBox;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label instructionsLabel;
+        private System.Windows.Forms.DataGridView renamerPropertyDataGridView;
+        private System.Data.DataSet renamerPropertyDataSet;
+        private System.Windows.Forms.BindingSource frmMainBindingSource;
+        private System.Windows.Forms.Label slashLabel;
+        private System.Windows.Forms.CheckBox deleteEmptyDirCheckBox;
+
+
     }
 }
 

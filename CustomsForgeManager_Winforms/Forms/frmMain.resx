@@ -123,6 +123,29 @@
   <metadata name="contextMenuStrip_MainManager.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>505, 17</value>
   </metadata>
+  <data name="instructionsLabel.Text" xml:space="preserve">
+    <value>Type the property key surrounded by &lt; and &gt;.  
+
+Example - Using "Space Time" by Gojira.
+
+&lt;title&gt;_&lt;artist&gt; = "dlc/Space Time_Gojira.psarc"
+\\&lt;artist&gt;\\&lt;title&gt;_&lt;artist&gt; = "dlc/Gojira/Space Time_Gojira.psarc"
+
+You can add directories as seen above, using "\\".
+
+The "dd" property generates "_dd" if the song has Dynamic Difficulty.
+It generates nothing if the song does not.
+
+Ex. &lt;title&gt;_&lt;dd&gt; and Dynamic Difficulty exists:
+
+Space Time_dd.psarc
+
+If Dynamic Difficulty does not exist:
+
+Space Time.psarc
+
+</value>
+  </data>
   <metadata name="timerMain.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>116, 17</value>
   </metadata>
@@ -403,6 +426,9 @@
   </data>
   <metadata name="bWorker.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
+  </metadata>
+  <metadata name="frmMainBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 56</value>
   </metadata>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
