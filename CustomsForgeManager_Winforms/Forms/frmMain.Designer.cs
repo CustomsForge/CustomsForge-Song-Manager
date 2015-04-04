@@ -1,4 +1,7 @@
-﻿namespace CustomsForgeManager_Winforms.Forms
+﻿using Newtonsoft.Json;
+using System.IO;
+using System.Reflection;
+namespace CustomsForgeManager_Winforms.Forms
 {
     partial class frmMain
     {
@@ -85,12 +88,19 @@
             this.renamerPropertyDataGridView = new System.Windows.Forms.DataGridView();
             this.howToGroupBox = new System.Windows.Forms.GroupBox();
             this.instructionsLabel = new System.Windows.Forms.Label();
+<<<<<<< HEAD
             this.renameTemplateLabel = new System.Windows.Forms.Label();
             this.renameTemplateTextBox = new System.Windows.Forms.TextBox();
             this.renameAllButton = new System.Windows.Forms.Button();
             this.tpCreators = new System.Windows.Forms.TabPage();
             this.btnRSTKSite = new System.Windows.Forms.Button();
             this.btnEOFSite = new System.Windows.Forms.Button();
+=======
+            this.label1 = new System.Windows.Forms.Label();
+            this.renameTemplateLabel = new System.Windows.Forms.Label();
+            this.renameTemplateTextBox = new System.Windows.Forms.TextBox();
+            this.renameAllButton = new System.Windows.Forms.Button();
+>>>>>>> origin/batch_renamer_v1
             this.tpUtilities = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.panel4 = new System.Windows.Forms.Panel();
@@ -157,10 +167,16 @@
             this.notifyIcon_Main = new System.Windows.Forms.NotifyIcon(this.components);
             this.contextMenuStrip_Tray = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+<<<<<<< HEAD
             this.frmMainBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.deleteEmptyDirCheckBox = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
             this.labelAlphaTesters = new System.Windows.Forms.Label();
+=======
+            this.bWorker = new CustomsForgeManager_Winforms.Controls.AbortableBackgroundWorker();
+            this.frmMainBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.deleteEmptyDirCheckBox = new System.Windows.Forms.CheckBox();
+>>>>>>> origin/batch_renamer_v1
             this.tlp_MainForm_Wrappper.SuspendLayout();
             this.gbLog.SuspendLayout();
             this.tcMain.SuspendLayout();
@@ -178,7 +194,10 @@
             this.propertiesGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.renamerPropertyDataGridView)).BeginInit();
             this.howToGroupBox.SuspendLayout();
+<<<<<<< HEAD
             this.tpCreators.SuspendLayout();
+=======
+>>>>>>> origin/batch_renamer_v1
             this.tpUtilities.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -198,6 +217,7 @@
             this.tableLayoutPanel_Credits.SuspendLayout();
             this.statusStripMain.SuspendLayout();
             this.contextMenuStrip_Tray.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.frmMainBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // tlp_MainForm_Wrappper
@@ -243,7 +263,11 @@
             this.tcMain.Controls.Add(this.tpManager);
             this.tcMain.Controls.Add(this.tpEditor);
             this.tcMain.Controls.Add(this.tpDuplicates);
+<<<<<<< HEAD
             this.tcMain.Controls.Add(this.tpCreators);
+=======
+            this.tcMain.Controls.Add(this.tpBatchRenamer);
+>>>>>>> origin/batch_renamer_v1
             this.tcMain.Controls.Add(this.tpUtilities);
             this.tcMain.Controls.Add(this.tpSettings);
             this.tcMain.Controls.Add(this.tpAbout);
@@ -818,6 +842,7 @@
             this.renameAllButton.UseVisualStyleBackColor = true;
             this.renameAllButton.Click += new System.EventHandler(this.renameAllButton_Click);
             // 
+<<<<<<< HEAD
             // tpCreators
             // 
             this.tpCreators.BackgroundImage = global::CustomsForgeManager_Winforms.Properties.Resources.eof_bg;
@@ -852,6 +877,8 @@
             this.btnEOFSite.UseVisualStyleBackColor = true;
             this.btnEOFSite.Click += new System.EventHandler(this.btnEOFSite_Click);
             // 
+=======
+>>>>>>> origin/batch_renamer_v1
             // tpUtilities
             // 
             this.tpUtilities.Controls.Add(this.tableLayoutPanel2);
@@ -1675,6 +1702,20 @@
             this.deleteEmptyDirCheckBox.Text = "Delete Empty Directories after Rename";
             this.deleteEmptyDirCheckBox.UseVisualStyleBackColor = true;
             // 
+            // frmMainBindingSource
+            // 
+            this.frmMainBindingSource.DataSource = typeof(CustomsForgeManager_Winforms.Forms.frmMain);
+            // 
+            // deleteEmptyDirCheckBox
+            // 
+            this.deleteEmptyDirCheckBox.AutoSize = true;
+            this.deleteEmptyDirCheckBox.Location = new System.Drawing.Point(161, 38);
+            this.deleteEmptyDirCheckBox.Name = "deleteEmptyDirCheckBox";
+            this.deleteEmptyDirCheckBox.Size = new System.Drawing.Size(209, 17);
+            this.deleteEmptyDirCheckBox.TabIndex = 10;
+            this.deleteEmptyDirCheckBox.Text = "Delete Empty Directories after Rename";
+            this.deleteEmptyDirCheckBox.UseVisualStyleBackColor = true;
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1713,7 +1754,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.renamerPropertyDataGridView)).EndInit();
             this.howToGroupBox.ResumeLayout(false);
             this.howToGroupBox.PerformLayout();
+<<<<<<< HEAD
             this.tpCreators.ResumeLayout(false);
+=======
+>>>>>>> origin/batch_renamer_v1
             this.tpUtilities.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
@@ -1842,6 +1886,7 @@
         private System.Windows.Forms.ColumnHeader columnSelect;
         private System.Windows.Forms.ColumnHeader colSettingsColumnName;
         private System.Windows.Forms.ColumnHeader colSettingsColumnEnabled;
+<<<<<<< HEAD
         private System.Windows.Forms.ColumnHeader colDupeLastUpdated;
         private System.Windows.Forms.ToolStripMenuItem deleteSongToolStripMenuItem;
         private System.Windows.Forms.LinkLabel lnk_ReleaseNotes;
@@ -1866,19 +1911,30 @@
         private System.Windows.Forms.Label lbl_Credits_Description;
         private System.Windows.Forms.ToolStripMenuItem backupDLCToolStripMenuItem;
         private System.Windows.Forms.Button btnBackupSelectedDLCs;
+=======
+>>>>>>> origin/batch_renamer_v1
         private System.Windows.Forms.TabPage tpBatchRenamer;
         private System.Windows.Forms.Button renameAllButton;
         private System.Windows.Forms.TextBox renameTemplateTextBox;
         private System.Windows.Forms.GroupBox howToGroupBox;
         private System.Windows.Forms.Label renameTemplateLabel;
         private System.Windows.Forms.GroupBox propertiesGroupBox;
+<<<<<<< HEAD
         private System.Windows.Forms.Label labelAlphaTesters;
+=======
+        private System.Windows.Forms.Label label1;
+>>>>>>> origin/batch_renamer_v1
         private System.Windows.Forms.Label instructionsLabel;
         private System.Windows.Forms.DataGridView renamerPropertyDataGridView;
         private System.Data.DataSet renamerPropertyDataSet;
         private System.Windows.Forms.BindingSource frmMainBindingSource;
         private System.Windows.Forms.Label slashLabel;
         private System.Windows.Forms.CheckBox deleteEmptyDirCheckBox;
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> origin/batch_renamer_v1
     }
 }
 
