@@ -75,6 +75,9 @@
     <ApplicationIcon>Resources\cfsm_48x48.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Antlr4.StringTemplate">
+      <HintPath>..\packages\Antlr4.StringTemplate.4.0.6.9004\lib\net35\Antlr4.StringTemplate.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -247,7 +250,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="Resources\eof-bg.jpg" />
+    <None Include="Resources\Renamer_Properties.json" />
     <None Include="Resources\Rocksmith_2014_Background_Guitar.jpg" />
+    <None Include="Resources\instructionLabel.txt" />
     <Content Include="tunings.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

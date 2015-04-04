@@ -12,6 +12,7 @@ namespace CustomsForgeManager_Winforms.Utilities
         public bool IncludeRS1DLCs { get; set; }
         public bool EnableLogBaloon { get; set; }
         public RADataGridViewSettings ManagerGridSettings { get; set; }
+        public string RenameTemplate { get; set; }
     }
 
     [Serializable]

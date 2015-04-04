@@ -117,34 +117,35 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="colSelect.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="colSelect.UserAddedColumn" type="System.Boolean, mscorlib">
     <value>True</value>
-  </metadata>
-  <metadata name="contextMenuStrip_MainManager.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>505, 17</value>
-  </metadata>
-  <metadata name="timerMain.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>116, 17</value>
-  </metadata>
-  <metadata name="statusStripMain.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>223, 17</value>
-  </metadata>
-  <metadata name="timerAutoUpdate.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>359, 17</value>
-  </metadata>
-  <metadata name="folderBrowserDialog_SettingsRSPath.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>735, 17</value>
-  </metadata>
-  <metadata name="sfdSongListToCSV.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>985, 17</value>
-  </metadata>
-  <metadata name="notifyIcon_Main.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>1135, 17</value>
-  </metadata>
-  <metadata name="contextMenuStrip_Tray.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>1274, 17</value>
-  </metadata>
+  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="contextMenuStrip_MainManager.TrayLocation" type="System.Drawing.Point, System.Drawing">
+    <value>505, 17</value>
+  </data>
+  <data name="timerMain.TrayLocation" type="System.Drawing.Point, System.Drawing">
+    <value>116, 17</value>
+  </data>
+  <data name="statusStripMain.TrayLocation" type="System.Drawing.Point, System.Drawing">
+    <value>223, 17</value>
+  </data>
+  <data name="timerAutoUpdate.TrayLocation" type="System.Drawing.Point, System.Drawing">
+    <value>359, 17</value>
+  </data>
+  <data name="folderBrowserDialog_SettingsRSPath.TrayLocation" type="System.Drawing.Point, System.Drawing">
+    <value>735, 17</value>
+  </data>
+  <data name="sfdSongListToCSV.TrayLocation" type="System.Drawing.Point, System.Drawing">
+    <value>985, 17</value>
+  </data>
+  <data name="notifyIcon_Main.TrayLocation" type="System.Drawing.Point, System.Drawing">
+    <value>1135, 17</value>
+  </data>
+  <data name="contextMenuStrip_Tray.TrayLocation" type="System.Drawing.Point, System.Drawing">
+    <value>1274, 17</value>
+  </data>
   <data name="notifyIcon_Main.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         AAABAAMAEBAAAAAAIABoBAAANgAAACAgAAAAACAAqBAAAJ4EAAAwMAAAAAAgAKglAABGFQAAKAAAABAA
@@ -656,5 +657,9 @@
         AAAAAP//AAAAAAAA//8AAAAAAAD//wAAAAAAAP//AAAAAAAA//8AAAAAAAD//wAAAAAAAP//AAAAAAAA
         //8AAAAAAAD//wAAAAAAAP//AAAAAAAA//8=
 </value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="instructionLabel" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\instructionLabel.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1250</value>
   </data>
 </root>
