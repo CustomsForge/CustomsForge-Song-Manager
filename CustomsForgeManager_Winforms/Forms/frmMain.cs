@@ -1823,8 +1823,6 @@ namespace CustomsForgeManager_Winforms.Forms
         {
             return SongCollection.Distinct().FirstOrDefault(x => x.Song == dataGridViewRow.Cells["Song"].Value.ToString() && x.Artist == dataGridViewRow.Cells["Artist"].Value.ToString() && x.Album == dataGridViewRow.Cells["Album"].Value.ToString() && x.Path == dataGridViewRow.Cells["Path"].Value.ToString());
         }
-
-<<<<<<< HEAD
         private void lnk_ReleaseNotes_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             var releaseNotes = new frmReleaseNotes();
@@ -2013,8 +2011,6 @@ namespace CustomsForgeManager_Winforms.Forms
             }
         }
 
-=======
->>>>>>> origin/batch_renamer_v1
         private void renameAllButton_Click(object sender, EventArgs e)
         {
             SortedSongCollection = SongCollection.ToList();
@@ -2060,11 +2056,9 @@ namespace CustomsForgeManager_Winforms.Forms
 
                     template.Add("year", data.SongYear);
                     template.Add("author", data.Updated);
-<<<<<<< HEAD
+
                     String newFilePath = mySettings.RSInstalledDir +  "\\dlc\\" + template.Render() + "_p.psarc";
-=======
-                    String newFilePath = mySettings.RSInstalledDir + "\\dlc\\" + template.Render() + "_p.psarc";
->>>>>>> origin/batch_renamer_v1
+
                     string oldFilePath = data.Path;
                     FileInfo newFileInfo = new FileInfo(newFilePath);
                     System.IO.Directory.CreateDirectory(newFileInfo.Directory.FullName);

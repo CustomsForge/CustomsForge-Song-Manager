@@ -100,10 +100,6 @@ namespace CustomsForgeManager_Winforms.Utilities
             else
                 return "";
         }
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/batch_renamer_v1
         public static void DeleteEmptyDirs(this DirectoryInfo dir)
         {
             foreach (DirectoryInfo d in dir.GetDirectories())

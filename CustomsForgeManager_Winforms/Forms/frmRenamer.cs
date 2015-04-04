@@ -54,11 +54,7 @@ namespace CustomsForgeManager_Winforms.Forms
                     System.IO.File.Move(settings.RSInstalledDir + "\\dlc\\" + data.FileName, renameFilePath);
                 }
             }
-<<<<<<< HEAD
             //lazy exception catch for now.
-=======
-                //lazy exception catch for now.
->>>>>>> origin/batch_renamer_v1
             catch (Exception e)
             {
                 myLog.Write(e.Message);
@@ -77,20 +73,21 @@ namespace CustomsForgeManager_Winforms.Forms
 
         private void renameAllButton_Click(object sender, EventArgs e)
         {
-<<<<<<< HEAD
             if (!renameTemplateTextBox.Text.Contains("<title>"))
             {
                 MessageBox.Show("Rename Template requires <title> atleast once to prevent overwriting songs.");
             }
             else
             {
-=======
-            if (!renameTemplateTextBox.Text.Contains("<title>")) {
-                MessageBox.Show("Rename Template requires <title> atleast once to prevent overwriting songs.");
-            } else {
->>>>>>> origin/batch_renamer_v1
-                renameWorker.DoWork += doRenameSongs;
-                renameWorker.RunWorkerAsync();
+                if (!renameTemplateTextBox.Text.Contains("<title>"))
+                {
+                    MessageBox.Show("Rename Template requires <title> atleast once to prevent overwriting songs.");
+                }
+                else
+                {
+                    renameWorker.DoWork += doRenameSongs;
+                    renameWorker.RunWorkerAsync();
+                }
             }
         }
 
@@ -103,9 +100,5 @@ namespace CustomsForgeManager_Winforms.Forms
         {
 
         }
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/batch_renamer_v1
     }
 }
