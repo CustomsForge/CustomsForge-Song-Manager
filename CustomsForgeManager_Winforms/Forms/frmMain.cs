@@ -66,7 +66,6 @@ namespace CustomsForgeManager_Winforms.Forms
                     string json = reader.ReadToEnd();
                     this.renamerPropertyDataSet = (System.Data.DataSet)JsonConvert.DeserializeObject(json, (typeof(System.Data.DataSet)));
                     this.renamerPropertyDataGridView.DataSource = this.renamerPropertyDataSet.Tables[0];
-
                 };
             }
             catch (Exception e)

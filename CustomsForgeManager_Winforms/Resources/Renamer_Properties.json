@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 { 
-=======
-﻿{ 
->>>>>>> origin/batch_renamer_v1
     "propertyTable" :  [
         { "key": "title", "description": "Song Title" },
         { "key": "artist", "description": "Song Artist/Band Name" },
@@ -11,8 +7,4 @@
         { "key": "dd", "description": "Dynamic Difficulty" },
         { "key": "author", "description": "CDLC Author" }
     ]
-<<<<<<< HEAD
-=======
 }
-
->>>>>>> origin/batch_renamer_v1

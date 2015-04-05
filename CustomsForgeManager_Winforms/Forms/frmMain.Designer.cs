@@ -123,7 +123,6 @@
             this.lnk_ReleaseNotes = new System.Windows.Forms.LinkLabel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel_Credits = new System.Windows.Forms.TableLayoutPanel();
-            this.label1 = new System.Windows.Forms.Label();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.lbl_Credits = new System.Windows.Forms.Label();
             this.lbl_Credits_Description = new System.Windows.Forms.Label();
@@ -142,6 +141,7 @@
             this.renamerPropertyDataGridView = new System.Windows.Forms.DataGridView();
             this.howToGroupBox = new System.Windows.Forms.GroupBox();
             this.instructionsLabel = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.renameTemplateLabel = new System.Windows.Forms.Label();
             this.renameTemplateTextBox = new System.Windows.Forms.TextBox();
             this.renameAllButton = new System.Windows.Forms.Button();
@@ -546,7 +546,7 @@
             this.linkLblSelectAll.LinkColor = System.Drawing.Color.Black;
             this.linkLblSelectAll.Location = new System.Drawing.Point(14, 8);
             this.linkLblSelectAll.Name = "linkLblSelectAll";
-            this.linkLblSelectAll.Size = new System.Drawing.Size(111, 16);
+            this.linkLblSelectAll.Size = new System.Drawing.Size(113, 16);
             this.linkLblSelectAll.TabIndex = 2;
             this.linkLblSelectAll.TabStop = true;
             this.linkLblSelectAll.Text = "Select All/Deselect All";
@@ -908,9 +908,9 @@
             this.checkIncludeRS1DLC.Checked = true;
             this.checkIncludeRS1DLC.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkIncludeRS1DLC.Dock = System.Windows.Forms.DockStyle.Right;
-            this.checkIncludeRS1DLC.Location = new System.Drawing.Point(204, 75);
+            this.checkIncludeRS1DLC.Location = new System.Drawing.Point(203, 75);
             this.checkIncludeRS1DLC.Name = "checkIncludeRS1DLC";
-            this.checkIncludeRS1DLC.Size = new System.Drawing.Size(178, 22);
+            this.checkIncludeRS1DLC.Size = new System.Drawing.Size(179, 22);
             this.checkIncludeRS1DLC.TabIndex = 3;
             this.checkIncludeRS1DLC.Text = "Include RS1 Compatibility Pack";
             this.checkIncludeRS1DLC.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1278,14 +1278,6 @@
             this.tableLayoutPanel_Credits.Size = new System.Drawing.Size(373, 168);
             this.tableLayoutPanel_Credits.TabIndex = 3;
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 115);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(0, 16);
-            this.label1.TabIndex = 0;
-            // 
             // linkLabel1
             // 
             this.linkLabel1.Anchor = System.Windows.Forms.AnchorStyles.None;
@@ -1307,9 +1299,9 @@
             this.lbl_Credits.AutoSize = true;
             this.lbl_Credits.Font = new System.Drawing.Font("Trebuchet MS", 10F);
             this.lbl_Credits.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.lbl_Credits.Location = new System.Drawing.Point(27, 8);
+            this.lbl_Credits.Location = new System.Drawing.Point(26, 8);
             this.lbl_Credits.Name = "lbl_Credits";
-            this.lbl_Credits.Size = new System.Drawing.Size(131, 18);
+            this.lbl_Credits.Size = new System.Drawing.Size(133, 18);
             this.lbl_Credits.TabIndex = 0;
             this.lbl_Credits.Text = "Song Manager Team";
             this.lbl_Credits.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1479,9 +1471,9 @@
             // propertiesGroupBox
             // 
             this.propertiesGroupBox.Controls.Add(this.renamerPropertyDataGridView);
-            this.propertiesGroupBox.Location = new System.Drawing.Point(352, 58);
+            this.propertiesGroupBox.Location = new System.Drawing.Point(440, 58);
             this.propertiesGroupBox.Name = "propertiesGroupBox";
-            this.propertiesGroupBox.Size = new System.Drawing.Size(412, 320);
+            this.propertiesGroupBox.Size = new System.Drawing.Size(324, 320);
             this.propertiesGroupBox.TabIndex = 8;
             this.propertiesGroupBox.TabStop = false;
             this.propertiesGroupBox.Text = "Usuable Properties";
@@ -1502,7 +1494,7 @@
             this.renamerPropertyDataGridView.ReadOnly = true;
             this.renamerPropertyDataGridView.RowHeadersVisible = false;
             this.renamerPropertyDataGridView.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            this.renamerPropertyDataGridView.Size = new System.Drawing.Size(406, 301);
+            this.renamerPropertyDataGridView.Size = new System.Drawing.Size(318, 301);
             this.renamerPropertyDataGridView.TabIndex = 2;
             // 
             // howToGroupBox
@@ -1511,7 +1503,7 @@
             this.howToGroupBox.Controls.Add(this.label1);
             this.howToGroupBox.Location = new System.Drawing.Point(9, 58);
             this.howToGroupBox.Name = "howToGroupBox";
-            this.howToGroupBox.Size = new System.Drawing.Size(337, 320);
+            this.howToGroupBox.Size = new System.Drawing.Size(428, 317);
             this.howToGroupBox.TabIndex = 7;
             this.howToGroupBox.TabStop = false;
             this.howToGroupBox.Text = "How To Use:";
@@ -1519,18 +1511,28 @@
             // instructionsLabel
             // 
             this.instructionsLabel.AutoSize = true;
-            this.instructionsLabel.Location = new System.Drawing.Point(6, 16);
+            this.instructionsLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.instructionsLabel.Location = new System.Drawing.Point(3, 16);
             this.instructionsLabel.Name = "instructionsLabel";
             this.instructionsLabel.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.instructionsLabel.Size = new System.Drawing.Size(0, 16);
+            this.instructionsLabel.Size = new System.Drawing.Size(354, 304);
             this.instructionsLabel.TabIndex = 1;
+            this.instructionsLabel.Text = resources.GetString("instructionsLabel.Text");
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(3, 115);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(0, 16);
+            this.label1.TabIndex = 0;
             // 
             // renameTemplateLabel
             // 
             this.renameTemplateLabel.AutoSize = true;
             this.renameTemplateLabel.Location = new System.Drawing.Point(15, 12);
             this.renameTemplateLabel.Name = "renameTemplateLabel";
-            this.renameTemplateLabel.Size = new System.Drawing.Size(97, 16);
+            this.renameTemplateLabel.Size = new System.Drawing.Size(98, 16);
             this.renameTemplateLabel.TabIndex = 6;
             this.renameTemplateLabel.Text = "Rename Template:";
             // 
