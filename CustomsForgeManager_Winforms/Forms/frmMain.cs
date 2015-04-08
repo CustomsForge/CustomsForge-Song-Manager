@@ -153,7 +153,6 @@ namespace CustomsForgeManager_Winforms.Forms
         {
             bWorker = new AbortableBackgroundWorker();
             bWorker.SetDefaults();
-
             toolStripStatusLabel_MainCancel.Visible = true;
             bWorker.DoWork += PopulateListHandler;
             bWorker.RunWorkerCompleted += PopulateCompletedHandler;
@@ -674,7 +673,7 @@ namespace CustomsForgeManager_Winforms.Forms
         {
             toolStripProgressBarMain.ProgressBar.InvokeIfRequired(delegate
             {
-                if (toolStripProgressBarMain.ProgressBar != null)
+                if (toolStripProgressBarMain.ProgressBar != null && value <= 100)
                     toolStripProgressBarMain.ProgressBar
                         .Value = value;
             });
@@ -1362,18 +1361,7 @@ namespace CustomsForgeManager_Winforms.Forms
             //};
             bWorker.RunWorkerAsync();
         }
-        private void btnBatchRenamer_Click(object sender, EventArgs e)
-        {
-            if (SortedSongCollection != null && SortedSongCollection.Count > 0)
-            {
-                frmRenamer renamer = new frmRenamer(myLog, mySettings, SortedSongCollection);
-                renamer.ShowDialog();
-            }
-            else
-            {
-                System.Windows.Forms.MessageBox.Show("Please scan in atleast one song.");
-            }
-        }
+ 
         #endregion
         #region ToolStripMenuItem events
         private void deleteSongToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2028,6 +2016,7 @@ namespace CustomsForgeManager_Winforms.Forms
             bWorker.DoWork += doRenameSongs;
             bWorker.DoWork += PopulateListHandler;
             bWorker.RunWorkerCompleted += PopulateCompletedHandler;
+
             bWorker.RunWorkerAsync();
         }
 

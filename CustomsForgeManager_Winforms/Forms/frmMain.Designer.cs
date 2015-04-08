@@ -322,7 +322,6 @@
             this.btnBatchRenamer.TabIndex = 14;
             this.btnBatchRenamer.Text = "Batch Renamer";
             this.btnBatchRenamer.UseVisualStyleBackColor = true;
-            this.btnBatchRenamer.Click += new System.EventHandler(this.btnBatchRenamer_Click);
             // 
             // radioBtn_ExportToHTML
             // 
