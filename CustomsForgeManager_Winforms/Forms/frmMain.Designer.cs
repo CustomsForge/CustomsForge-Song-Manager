@@ -36,7 +36,24 @@
             this.tbLog = new System.Windows.Forms.TextBox();
             this.tcMain = new System.Windows.Forms.TabControl();
             this.tpManager = new System.Windows.Forms.TabPage();
-            this.tlpSongListWrapper = new System.Windows.Forms.TableLayoutPanel();
+            this.gb_Main_Grid = new System.Windows.Forms.GroupBox();
+            this.linkLblSelectAll = new System.Windows.Forms.LinkLabel();
+            this.contextMenuStrip_MainManager = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.showDLCInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openDLCPageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.checkForUpdateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openDLCLocationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editDLCToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.getAuthorNameStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteSongToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.backupDLCToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.gb_Main_Search = new System.Windows.Forms.GroupBox();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.link_MainClearResults = new System.Windows.Forms.LinkLabel();
+            this.lbl_Search = new System.Windows.Forms.Label();
+            this.tbSearch = new System.Windows.Forms.TextBox();
+            this.btnSearch = new System.Windows.Forms.Button();
+            this.gb_Main_Actions = new System.Windows.Forms.GroupBox();
             this.panelSongListButtons = new System.Windows.Forms.Panel();
             this.btnBackupSelectedDLCs = new System.Windows.Forms.Button();
             this.btnBatchRenamer = new System.Windows.Forms.Button();
@@ -48,23 +65,6 @@
             this.btnDisableEnableSongs = new System.Windows.Forms.Button();
             this.btnCheckAllForUpdates = new System.Windows.Forms.Button();
             this.btnRescan = new System.Windows.Forms.Button();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.contextMenuStrip_MainManager = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.showDLCInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openDLCPageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.checkForUpdateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openDLCLocationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.editDLCToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.getAuthorNameStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.deleteSongToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.backupDLCToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.linkLblSelectAll = new System.Windows.Forms.LinkLabel();
-            this.link_MainClearResults = new System.Windows.Forms.LinkLabel();
-            this.lbl_Search = new System.Windows.Forms.Label();
-            this.tbSearch = new System.Windows.Forms.TextBox();
-            this.btnSearch = new System.Windows.Forms.Button();
-            this.tpEditor = new System.Windows.Forms.TabPage();
             this.tpDuplicates = new System.Windows.Forms.TabPage();
             this.tlpDuplicates = new System.Windows.Forms.TableLayoutPanel();
             this.listDupeSongs = new System.Windows.Forms.ListView();
@@ -77,15 +77,24 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnDupeRescan = new System.Windows.Forms.Button();
             this.btnDeleteDupeSong = new System.Windows.Forms.Button();
-            this.tpCreators = new System.Windows.Forms.TabPage();
-            this.btnRSTKSite = new System.Windows.Forms.Button();
-            this.btnEOFSite = new System.Windows.Forms.Button();
+            this.tpBatchRenamer = new System.Windows.Forms.TabPage();
+            this.deleteEmptyDirCheckBox = new System.Windows.Forms.CheckBox();
+            this.slashLabel = new System.Windows.Forms.Label();
+            this.propertiesGroupBox = new System.Windows.Forms.GroupBox();
+            this.renamerPropertyDataGridView = new System.Windows.Forms.DataGridView();
+            this.howToGroupBox = new System.Windows.Forms.GroupBox();
+            this.instructionsLabel = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.renameTemplateLabel = new System.Windows.Forms.Label();
+            this.renameTemplateTextBox = new System.Windows.Forms.TextBox();
+            this.renameAllButton = new System.Windows.Forms.Button();
             this.tpUtilities = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.panel4 = new System.Windows.Forms.Panel();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btnLaunchSteam = new System.Windows.Forms.Button();
             this.btnBackupRSProfile = new System.Windows.Forms.Button();
+            this.tpEditor = new System.Windows.Forms.TabPage();
             this.tpSettings = new System.Windows.Forms.TabPage();
             this.tlpSettings_Wrapper = new System.Windows.Forms.TableLayoutPanel();
             this.lblSettingsRSDir = new System.Windows.Forms.Label();
@@ -102,6 +111,9 @@
             this.colSettingsColumnName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colSettingsColumnEnabled = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.checkEnableLogBaloon = new System.Windows.Forms.CheckBox();
+            this.tpCreators = new System.Windows.Forms.TabPage();
+            this.btnRSTKSite = new System.Windows.Forms.Button();
+            this.btnEOFSite = new System.Windows.Forms.Button();
             this.tpAbout = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.pictureBoxCF = new System.Windows.Forms.PictureBox();
@@ -132,17 +144,6 @@
             this.link_DarjuszProfile = new System.Windows.Forms.LinkLabel();
             this.link_LovromanProfile = new System.Windows.Forms.LinkLabel();
             this.link_ZerkzProfile = new System.Windows.Forms.LinkLabel();
-            this.tpBatchRenamer = new System.Windows.Forms.TabPage();
-            this.deleteEmptyDirCheckBox = new System.Windows.Forms.CheckBox();
-            this.slashLabel = new System.Windows.Forms.Label();
-            this.propertiesGroupBox = new System.Windows.Forms.GroupBox();
-            this.renamerPropertyDataGridView = new System.Windows.Forms.DataGridView();
-            this.howToGroupBox = new System.Windows.Forms.GroupBox();
-            this.instructionsLabel = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.renameTemplateLabel = new System.Windows.Forms.Label();
-            this.renameTemplateTextBox = new System.Windows.Forms.TextBox();
-            this.renameAllButton = new System.Windows.Forms.Button();
             this.timerMain = new System.Windows.Forms.Timer(this.components);
             this.statusStripMain = new System.Windows.Forms.StatusStrip();
             this.toolStripProgressBarMain = new System.Windows.Forms.ToolStripProgressBar();
@@ -165,15 +166,19 @@
             this.gbLog.SuspendLayout();
             this.tcMain.SuspendLayout();
             this.tpManager.SuspendLayout();
-            this.tlpSongListWrapper.SuspendLayout();
-            this.panelSongListButtons.SuspendLayout();
-            this.panel2.SuspendLayout();
+            this.gb_Main_Grid.SuspendLayout();
             this.contextMenuStrip_MainManager.SuspendLayout();
+            this.gb_Main_Search.SuspendLayout();
             this.panel3.SuspendLayout();
+            this.gb_Main_Actions.SuspendLayout();
+            this.panelSongListButtons.SuspendLayout();
             this.tpDuplicates.SuspendLayout();
             this.tlpDuplicates.SuspendLayout();
             this.panel1.SuspendLayout();
-            this.tpCreators.SuspendLayout();
+            this.tpBatchRenamer.SuspendLayout();
+            this.propertiesGroupBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.renamerPropertyDataGridView)).BeginInit();
+            this.howToGroupBox.SuspendLayout();
             this.tpUtilities.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -181,6 +186,7 @@
             this.tpSettings.SuspendLayout();
             this.tlpSettings_Wrapper.SuspendLayout();
             this.panel5.SuspendLayout();
+            this.tpCreators.SuspendLayout();
             this.tpAbout.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCF)).BeginInit();
@@ -191,10 +197,6 @@
             this.tableLayoutPanel3.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tableLayoutPanel_Credits.SuspendLayout();
-            this.tpBatchRenamer.SuspendLayout();
-            this.propertiesGroupBox.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.renamerPropertyDataGridView)).BeginInit();
-            this.howToGroupBox.SuspendLayout();
             this.statusStripMain.SuspendLayout();
             this.contextMenuStrip_Tray.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSongs)).BeginInit();
@@ -213,30 +215,35 @@
             this.tlp_MainForm_Wrappper.RowCount = 2;
             this.tlp_MainForm_Wrappper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 75F));
             this.tlp_MainForm_Wrappper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tlp_MainForm_Wrappper.Size = new System.Drawing.Size(784, 562);
+            this.tlp_MainForm_Wrappper.Size = new System.Drawing.Size(1011, 629);
             this.tlp_MainForm_Wrappper.TabIndex = 0;
             // 
             // gbLog
             // 
+            this.gbLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.gbLog.Controls.Add(this.tbLog);
             this.gbLog.Font = new System.Drawing.Font("Trebuchet MS", 8.25F);
-            this.gbLog.Location = new System.Drawing.Point(3, 424);
+            this.gbLog.Location = new System.Drawing.Point(3, 474);
             this.gbLog.Name = "gbLog";
-            this.gbLog.Size = new System.Drawing.Size(778, 113);
+            this.gbLog.Size = new System.Drawing.Size(1005, 152);
             this.gbLog.TabIndex = 1;
             this.gbLog.TabStop = false;
             this.gbLog.Text = "Log";
             // 
             // tbLog
             // 
+            this.tbLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tbLog.BackColor = System.Drawing.SystemColors.Window;
-            this.tbLog.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tbLog.Location = new System.Drawing.Point(3, 16);
             this.tbLog.Multiline = true;
             this.tbLog.Name = "tbLog";
             this.tbLog.ReadOnly = true;
             this.tbLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.tbLog.Size = new System.Drawing.Size(772, 94);
+            this.tbLog.Size = new System.Drawing.Size(999, 94);
             this.tbLog.TabIndex = 0;
             // 
             // tcMain
@@ -254,168 +261,50 @@
             this.tcMain.Location = new System.Drawing.Point(3, 3);
             this.tcMain.Name = "tcMain";
             this.tcMain.SelectedIndex = 0;
-            this.tcMain.Size = new System.Drawing.Size(778, 415);
+            this.tcMain.Size = new System.Drawing.Size(1005, 465);
             this.tcMain.TabIndex = 2;
             this.tcMain.SelectedIndexChanged += new System.EventHandler(this.tcMain_SelectedIndexChanged);
             // 
             // tpManager
             // 
             this.tpManager.BackColor = System.Drawing.SystemColors.Control;
-            this.tpManager.Controls.Add(this.tlpSongListWrapper);
+            this.tpManager.Controls.Add(this.gb_Main_Grid);
+            this.tpManager.Controls.Add(this.gb_Main_Search);
+            this.tpManager.Controls.Add(this.gb_Main_Actions);
             this.tpManager.Location = new System.Drawing.Point(4, 25);
             this.tpManager.Name = "tpManager";
             this.tpManager.Padding = new System.Windows.Forms.Padding(3);
-            this.tpManager.Size = new System.Drawing.Size(770, 386);
+            this.tpManager.Size = new System.Drawing.Size(997, 436);
             this.tpManager.TabIndex = 0;
             this.tpManager.Text = "Song Manager";
             // 
-            // tlpSongListWrapper
+            // gb_Main_Grid
             // 
-            this.tlpSongListWrapper.ColumnCount = 1;
-            this.tlpSongListWrapper.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpSongListWrapper.Controls.Add(this.panelSongListButtons, 0, 2);
-            this.tlpSongListWrapper.Controls.Add(this.panel2, 0, 1);
-            this.tlpSongListWrapper.Controls.Add(this.panel3, 0, 0);
-            this.tlpSongListWrapper.Location = new System.Drawing.Point(0, 0);
-            this.tlpSongListWrapper.Name = "tlpSongListWrapper";
-            this.tlpSongListWrapper.RowCount = 3;
-            this.tlpSongListWrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.071867F));
-            this.tlpSongListWrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 75.32058F));
-            this.tlpSongListWrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15.60755F));
-            this.tlpSongListWrapper.Size = new System.Drawing.Size(770, 393);
-            this.tlpSongListWrapper.TabIndex = 2;
+            this.gb_Main_Grid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gb_Main_Grid.Controls.Add(this.linkLblSelectAll);
+            this.gb_Main_Grid.Controls.Add(this.dgvSongs);
+            this.gb_Main_Grid.Location = new System.Drawing.Point(6, 79);
+            this.gb_Main_Grid.Name = "gb_Main_Grid";
+            this.gb_Main_Grid.Size = new System.Drawing.Size(985, 261);
+            this.gb_Main_Grid.TabIndex = 5;
+            this.gb_Main_Grid.TabStop = false;
+            this.gb_Main_Grid.Text = "Results Grid:";
             // 
-            // panelSongListButtons
+            // linkLblSelectAll
             // 
-            this.panelSongListButtons.Controls.Add(this.btnBackupSelectedDLCs);
-            this.panelSongListButtons.Controls.Add(this.btnBatchRenamer);
-            this.panelSongListButtons.Controls.Add(this.radioBtn_ExportToHTML);
-            this.panelSongListButtons.Controls.Add(this.radioBtn_ExportToCSV);
-            this.panelSongListButtons.Controls.Add(this.btnExportSongList);
-            this.panelSongListButtons.Controls.Add(this.lbl_ExportTo);
-            this.panelSongListButtons.Controls.Add(this.radioBtn_ExportToBBCode);
-            this.panelSongListButtons.Controls.Add(this.btnDisableEnableSongs);
-            this.panelSongListButtons.Controls.Add(this.btnCheckAllForUpdates);
-            this.panelSongListButtons.Controls.Add(this.btnRescan);
-            this.panelSongListButtons.Location = new System.Drawing.Point(3, 334);
-            this.panelSongListButtons.Name = "panelSongListButtons";
-            this.panelSongListButtons.Size = new System.Drawing.Size(764, 52);
-            this.panelSongListButtons.TabIndex = 3;
-            // 
-            // btnBackupSelectedDLCs
-            // 
-            this.btnBackupSelectedDLCs.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnBackupSelectedDLCs.Location = new System.Drawing.Point(466, 15);
-            this.btnBackupSelectedDLCs.Name = "btnBackupSelectedDLCs";
-            this.btnBackupSelectedDLCs.Size = new System.Drawing.Size(101, 23);
-            this.btnBackupSelectedDLCs.TabIndex = 19;
-            this.btnBackupSelectedDLCs.Text = "Backup selected";
-            this.btnBackupSelectedDLCs.UseVisualStyleBackColor = true;
-            this.btnBackupSelectedDLCs.Click += new System.EventHandler(this.btnBackupSelectedDLCs_Click);
-            // 
-            // btnBatchRenamer
-            // 
-            this.btnBatchRenamer.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnBatchRenamer.Location = new System.Drawing.Point(369, 15);
-            this.btnBatchRenamer.Name = "btnBatchRenamer";
-            this.btnBatchRenamer.Size = new System.Drawing.Size(91, 23);
-            this.btnBatchRenamer.TabIndex = 14;
-            this.btnBatchRenamer.Text = "Batch Renamer";
-            this.btnBatchRenamer.UseVisualStyleBackColor = true;
-            // 
-            // radioBtn_ExportToHTML
-            // 
-            this.radioBtn_ExportToHTML.AutoSize = true;
-            this.radioBtn_ExportToHTML.Location = new System.Drawing.Point(709, 3);
-            this.radioBtn_ExportToHTML.Name = "radioBtn_ExportToHTML";
-            this.radioBtn_ExportToHTML.Size = new System.Drawing.Size(53, 20);
-            this.radioBtn_ExportToHTML.TabIndex = 18;
-            this.radioBtn_ExportToHTML.TabStop = true;
-            this.radioBtn_ExportToHTML.Text = "HTML";
-            this.radioBtn_ExportToHTML.UseVisualStyleBackColor = true;
-            // 
-            // radioBtn_ExportToCSV
-            // 
-            this.radioBtn_ExportToCSV.AutoSize = true;
-            this.radioBtn_ExportToCSV.Location = new System.Drawing.Point(648, 27);
-            this.radioBtn_ExportToCSV.Name = "radioBtn_ExportToCSV";
-            this.radioBtn_ExportToCSV.Size = new System.Drawing.Size(45, 20);
-            this.radioBtn_ExportToCSV.TabIndex = 17;
-            this.radioBtn_ExportToCSV.TabStop = true;
-            this.radioBtn_ExportToCSV.Text = "CSV";
-            this.radioBtn_ExportToCSV.UseVisualStyleBackColor = true;
-            // 
-            // btnExportSongList
-            // 
-            this.btnExportSongList.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnExportSongList.Location = new System.Drawing.Point(709, 24);
-            this.btnExportSongList.Name = "btnExportSongList";
-            this.btnExportSongList.Size = new System.Drawing.Size(55, 23);
-            this.btnExportSongList.TabIndex = 12;
-            this.btnExportSongList.Text = "Export";
-            this.btnExportSongList.UseVisualStyleBackColor = true;
-            this.btnExportSongList.Click += new System.EventHandler(this.btnExportSongList_Click);
-            // 
-            // lbl_ExportTo
-            // 
-            this.lbl_ExportTo.AutoSize = true;
-            this.lbl_ExportTo.Location = new System.Drawing.Point(582, 18);
-            this.lbl_ExportTo.Name = "lbl_ExportTo";
-            this.lbl_ExportTo.Size = new System.Drawing.Size(60, 16);
-            this.lbl_ExportTo.TabIndex = 16;
-            this.lbl_ExportTo.Text = "Export to:";
-            // 
-            // radioBtn_ExportToBBCode
-            // 
-            this.radioBtn_ExportToBBCode.AutoSize = true;
-            this.radioBtn_ExportToBBCode.Location = new System.Drawing.Point(648, 3);
-            this.radioBtn_ExportToBBCode.Name = "radioBtn_ExportToBBCode";
-            this.radioBtn_ExportToBBCode.Size = new System.Drawing.Size(63, 20);
-            this.radioBtn_ExportToBBCode.TabIndex = 15;
-            this.radioBtn_ExportToBBCode.TabStop = true;
-            this.radioBtn_ExportToBBCode.Text = "BBCode";
-            this.radioBtn_ExportToBBCode.UseVisualStyleBackColor = true;
-            // 
-            // btnDisableEnableSongs
-            // 
-            this.btnDisableEnableSongs.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnDisableEnableSongs.Location = new System.Drawing.Point(243, 15);
-            this.btnDisableEnableSongs.Name = "btnDisableEnableSongs";
-            this.btnDisableEnableSongs.Size = new System.Drawing.Size(120, 23);
-            this.btnDisableEnableSongs.TabIndex = 14;
-            this.btnDisableEnableSongs.Text = "Enable/Disable songs";
-            this.btnDisableEnableSongs.UseVisualStyleBackColor = true;
-            this.btnDisableEnableSongs.Click += new System.EventHandler(this.btnDisableEnableSongs_Click);
-            // 
-            // btnCheckAllForUpdates
-            // 
-            this.btnCheckAllForUpdates.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnCheckAllForUpdates.Location = new System.Drawing.Point(83, 13);
-            this.btnCheckAllForUpdates.Name = "btnCheckAllForUpdates";
-            this.btnCheckAllForUpdates.Size = new System.Drawing.Size(120, 27);
-            this.btnCheckAllForUpdates.TabIndex = 4;
-            this.btnCheckAllForUpdates.Text = "Check All for Update";
-            this.btnCheckAllForUpdates.UseVisualStyleBackColor = true;
-            this.btnCheckAllForUpdates.Click += new System.EventHandler(this.btnCheckAllForUpdates_Click);
-            // 
-            // btnRescan
-            // 
-            this.btnRescan.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnRescan.Location = new System.Drawing.Point(17, 13);
-            this.btnRescan.Name = "btnRescan";
-            this.btnRescan.Size = new System.Drawing.Size(60, 27);
-            this.btnRescan.TabIndex = 4;
-            this.btnRescan.Text = "Rescan";
-            this.btnRescan.UseVisualStyleBackColor = true;
-            this.btnRescan.Click += new System.EventHandler(this.btnRescan_Click);
-            // 
-            // panel2
-            // 
-            this.panel2.Controls.Add(this.dgvSongs);
-            this.panel2.Location = new System.Drawing.Point(3, 38);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(764, 290);
-            this.panel2.TabIndex = 4;
+            this.linkLblSelectAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.linkLblSelectAll.AutoSize = true;
+            this.linkLblSelectAll.ForeColor = System.Drawing.Color.Black;
+            this.linkLblSelectAll.LinkColor = System.Drawing.Color.Black;
+            this.linkLblSelectAll.Location = new System.Drawing.Point(6, 233);
+            this.linkLblSelectAll.Name = "linkLblSelectAll";
+            this.linkLblSelectAll.Size = new System.Drawing.Size(113, 16);
+            this.linkLblSelectAll.TabIndex = 2;
+            this.linkLblSelectAll.TabStop = true;
+            this.linkLblSelectAll.Text = "Select All/Deselect All";
+            this.linkLblSelectAll.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLblSelectAll_LinkClicked);
             // 
             // contextMenuStrip_MainManager
             // 
@@ -487,37 +376,40 @@
             this.backupDLCToolStripMenuItem.Text = "Backup DLC";
             this.backupDLCToolStripMenuItem.Click += new System.EventHandler(this.backupDLCToolStripMenuItem_Click);
             // 
+            // gb_Main_Search
+            // 
+            this.gb_Main_Search.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gb_Main_Search.Controls.Add(this.panel3);
+            this.gb_Main_Search.Location = new System.Drawing.Point(6, 6);
+            this.gb_Main_Search.Name = "gb_Main_Search";
+            this.gb_Main_Search.Size = new System.Drawing.Size(985, 67);
+            this.gb_Main_Search.TabIndex = 4;
+            this.gb_Main_Search.TabStop = false;
+            this.gb_Main_Search.Text = "Search:";
+            // 
             // panel3
             // 
-            this.panel3.Controls.Add(this.linkLblSelectAll);
+            this.panel3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panel3.Controls.Add(this.link_MainClearResults);
             this.panel3.Controls.Add(this.lbl_Search);
             this.panel3.Controls.Add(this.tbSearch);
             this.panel3.Controls.Add(this.btnSearch);
-            this.panel3.Location = new System.Drawing.Point(3, 3);
+            this.panel3.Location = new System.Drawing.Point(6, 19);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(764, 29);
+            this.panel3.Size = new System.Drawing.Size(973, 35);
             this.panel3.TabIndex = 5;
-            // 
-            // linkLblSelectAll
-            // 
-            this.linkLblSelectAll.AutoSize = true;
-            this.linkLblSelectAll.ForeColor = System.Drawing.Color.Black;
-            this.linkLblSelectAll.LinkColor = System.Drawing.Color.Black;
-            this.linkLblSelectAll.Location = new System.Drawing.Point(14, 8);
-            this.linkLblSelectAll.Name = "linkLblSelectAll";
-            this.linkLblSelectAll.Size = new System.Drawing.Size(113, 16);
-            this.linkLblSelectAll.TabIndex = 2;
-            this.linkLblSelectAll.TabStop = true;
-            this.linkLblSelectAll.Text = "Select All/Deselect All";
-            this.linkLblSelectAll.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLblSelectAll_LinkClicked);
             // 
             // link_MainClearResults
             // 
+            this.link_MainClearResults.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.link_MainClearResults.AutoSize = true;
             this.link_MainClearResults.ForeColor = System.Drawing.Color.DimGray;
             this.link_MainClearResults.LinkColor = System.Drawing.Color.Black;
-            this.link_MainClearResults.Location = new System.Drawing.Point(597, 8);
+            this.link_MainClearResults.Location = new System.Drawing.Point(894, 9);
             this.link_MainClearResults.Name = "link_MainClearResults";
             this.link_MainClearResults.Size = new System.Drawing.Size(71, 16);
             this.link_MainClearResults.TabIndex = 3;
@@ -527,8 +419,11 @@
             // 
             // lbl_Search
             // 
+            this.lbl_Search.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lbl_Search.AutoSize = true;
-            this.lbl_Search.Location = new System.Drawing.Point(126, 8);
+            this.lbl_Search.Location = new System.Drawing.Point(3, 9);
             this.lbl_Search.Name = "lbl_Search";
             this.lbl_Search.Size = new System.Drawing.Size(64, 16);
             this.lbl_Search.TabIndex = 2;
@@ -536,15 +431,20 @@
             // 
             // tbSearch
             // 
-            this.tbSearch.Location = new System.Drawing.Point(191, 5);
+            this.tbSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbSearch.Location = new System.Drawing.Point(68, 6);
             this.tbSearch.Name = "tbSearch";
-            this.tbSearch.Size = new System.Drawing.Size(319, 20);
+            this.tbSearch.Size = new System.Drawing.Size(739, 20);
             this.tbSearch.TabIndex = 1;
             this.tbSearch.KeyUp += new System.Windows.Forms.KeyEventHandler(this.tbSearch_KeyUp);
             // 
             // btnSearch
             // 
-            this.btnSearch.Location = new System.Drawing.Point(516, 4);
+            this.btnSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSearch.Location = new System.Drawing.Point(813, 6);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(75, 21);
             this.btnSearch.TabIndex = 0;
@@ -552,21 +452,165 @@
             this.btnSearch.UseVisualStyleBackColor = true;
             this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
-            // tpEditor
+            // gb_Main_Actions
             // 
-            this.tpEditor.Location = new System.Drawing.Point(4, 25);
-            this.tpEditor.Name = "tpEditor";
-            this.tpEditor.Size = new System.Drawing.Size(770, 386);
-            this.tpEditor.TabIndex = 3;
-            this.tpEditor.Text = "Song Editor";
-            this.tpEditor.UseVisualStyleBackColor = true;
+            this.gb_Main_Actions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gb_Main_Actions.Controls.Add(this.panelSongListButtons);
+            this.gb_Main_Actions.Location = new System.Drawing.Point(6, 346);
+            this.gb_Main_Actions.Name = "gb_Main_Actions";
+            this.gb_Main_Actions.Size = new System.Drawing.Size(985, 84);
+            this.gb_Main_Actions.TabIndex = 3;
+            this.gb_Main_Actions.TabStop = false;
+            this.gb_Main_Actions.Text = "Actions:";
+            // 
+            // panelSongListButtons
+            // 
+            this.panelSongListButtons.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelSongListButtons.Controls.Add(this.btnBackupSelectedDLCs);
+            this.panelSongListButtons.Controls.Add(this.btnBatchRenamer);
+            this.panelSongListButtons.Controls.Add(this.radioBtn_ExportToHTML);
+            this.panelSongListButtons.Controls.Add(this.radioBtn_ExportToCSV);
+            this.panelSongListButtons.Controls.Add(this.btnExportSongList);
+            this.panelSongListButtons.Controls.Add(this.lbl_ExportTo);
+            this.panelSongListButtons.Controls.Add(this.radioBtn_ExportToBBCode);
+            this.panelSongListButtons.Controls.Add(this.btnDisableEnableSongs);
+            this.panelSongListButtons.Controls.Add(this.btnCheckAllForUpdates);
+            this.panelSongListButtons.Controls.Add(this.btnRescan);
+            this.panelSongListButtons.Location = new System.Drawing.Point(6, 19);
+            this.panelSongListButtons.Name = "panelSongListButtons";
+            this.panelSongListButtons.Size = new System.Drawing.Size(973, 52);
+            this.panelSongListButtons.TabIndex = 3;
+            // 
+            // btnBackupSelectedDLCs
+            // 
+            this.btnBackupSelectedDLCs.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnBackupSelectedDLCs.Location = new System.Drawing.Point(472, 15);
+            this.btnBackupSelectedDLCs.Name = "btnBackupSelectedDLCs";
+            this.btnBackupSelectedDLCs.Size = new System.Drawing.Size(101, 23);
+            this.btnBackupSelectedDLCs.TabIndex = 19;
+            this.btnBackupSelectedDLCs.Text = "Backup selected";
+            this.btnBackupSelectedDLCs.UseVisualStyleBackColor = true;
+            this.btnBackupSelectedDLCs.Click += new System.EventHandler(this.btnBackupSelectedDLCs_Click);
+            // 
+            // btnBatchRenamer
+            // 
+            this.btnBatchRenamer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnBatchRenamer.Location = new System.Drawing.Point(375, 15);
+            this.btnBatchRenamer.Name = "btnBatchRenamer";
+            this.btnBatchRenamer.Size = new System.Drawing.Size(91, 23);
+            this.btnBatchRenamer.TabIndex = 14;
+            this.btnBatchRenamer.Text = "Batch Renamer";
+            this.btnBatchRenamer.UseVisualStyleBackColor = true;
+            // 
+            // radioBtn_ExportToHTML
+            // 
+            this.radioBtn_ExportToHTML.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.radioBtn_ExportToHTML.AutoSize = true;
+            this.radioBtn_ExportToHTML.Location = new System.Drawing.Point(800, 16);
+            this.radioBtn_ExportToHTML.Name = "radioBtn_ExportToHTML";
+            this.radioBtn_ExportToHTML.Size = new System.Drawing.Size(53, 20);
+            this.radioBtn_ExportToHTML.TabIndex = 18;
+            this.radioBtn_ExportToHTML.TabStop = true;
+            this.radioBtn_ExportToHTML.Text = "HTML";
+            this.radioBtn_ExportToHTML.UseVisualStyleBackColor = true;
+            // 
+            // radioBtn_ExportToCSV
+            // 
+            this.radioBtn_ExportToCSV.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.radioBtn_ExportToCSV.AutoSize = true;
+            this.radioBtn_ExportToCSV.Location = new System.Drawing.Point(859, 16);
+            this.radioBtn_ExportToCSV.Name = "radioBtn_ExportToCSV";
+            this.radioBtn_ExportToCSV.Size = new System.Drawing.Size(45, 20);
+            this.radioBtn_ExportToCSV.TabIndex = 17;
+            this.radioBtn_ExportToCSV.TabStop = true;
+            this.radioBtn_ExportToCSV.Text = "CSV";
+            this.radioBtn_ExportToCSV.UseVisualStyleBackColor = true;
+            // 
+            // btnExportSongList
+            // 
+            this.btnExportSongList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnExportSongList.Location = new System.Drawing.Point(910, 15);
+            this.btnExportSongList.Name = "btnExportSongList";
+            this.btnExportSongList.Size = new System.Drawing.Size(55, 23);
+            this.btnExportSongList.TabIndex = 12;
+            this.btnExportSongList.Text = "Export";
+            this.btnExportSongList.UseVisualStyleBackColor = true;
+            this.btnExportSongList.Click += new System.EventHandler(this.btnExportSongList_Click);
+            // 
+            // lbl_ExportTo
+            // 
+            this.lbl_ExportTo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbl_ExportTo.AutoSize = true;
+            this.lbl_ExportTo.Location = new System.Drawing.Point(665, 18);
+            this.lbl_ExportTo.Name = "lbl_ExportTo";
+            this.lbl_ExportTo.Size = new System.Drawing.Size(60, 16);
+            this.lbl_ExportTo.TabIndex = 16;
+            this.lbl_ExportTo.Text = "Export to:";
+            // 
+            // radioBtn_ExportToBBCode
+            // 
+            this.radioBtn_ExportToBBCode.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.radioBtn_ExportToBBCode.AutoSize = true;
+            this.radioBtn_ExportToBBCode.Location = new System.Drawing.Point(731, 16);
+            this.radioBtn_ExportToBBCode.Name = "radioBtn_ExportToBBCode";
+            this.radioBtn_ExportToBBCode.Size = new System.Drawing.Size(63, 20);
+            this.radioBtn_ExportToBBCode.TabIndex = 15;
+            this.radioBtn_ExportToBBCode.TabStop = true;
+            this.radioBtn_ExportToBBCode.Text = "BBCode";
+            this.radioBtn_ExportToBBCode.UseVisualStyleBackColor = true;
+            // 
+            // btnDisableEnableSongs
+            // 
+            this.btnDisableEnableSongs.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnDisableEnableSongs.Location = new System.Drawing.Point(249, 15);
+            this.btnDisableEnableSongs.Name = "btnDisableEnableSongs";
+            this.btnDisableEnableSongs.Size = new System.Drawing.Size(120, 23);
+            this.btnDisableEnableSongs.TabIndex = 14;
+            this.btnDisableEnableSongs.Text = "Enable/Disable songs";
+            this.btnDisableEnableSongs.UseVisualStyleBackColor = true;
+            this.btnDisableEnableSongs.Click += new System.EventHandler(this.btnDisableEnableSongs_Click);
+            // 
+            // btnCheckAllForUpdates
+            // 
+            this.btnCheckAllForUpdates.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnCheckAllForUpdates.Location = new System.Drawing.Point(86, 13);
+            this.btnCheckAllForUpdates.Name = "btnCheckAllForUpdates";
+            this.btnCheckAllForUpdates.Size = new System.Drawing.Size(120, 27);
+            this.btnCheckAllForUpdates.TabIndex = 4;
+            this.btnCheckAllForUpdates.Text = "Check All for Update";
+            this.btnCheckAllForUpdates.UseVisualStyleBackColor = true;
+            this.btnCheckAllForUpdates.Click += new System.EventHandler(this.btnCheckAllForUpdates_Click);
+            // 
+            // btnRescan
+            // 
+            this.btnRescan.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnRescan.Location = new System.Drawing.Point(20, 13);
+            this.btnRescan.Name = "btnRescan";
+            this.btnRescan.Size = new System.Drawing.Size(60, 27);
+            this.btnRescan.TabIndex = 4;
+            this.btnRescan.Text = "Rescan";
+            this.btnRescan.UseVisualStyleBackColor = true;
+            this.btnRescan.Click += new System.EventHandler(this.btnRescan_Click);
             // 
             // tpDuplicates
             // 
             this.tpDuplicates.Controls.Add(this.tlpDuplicates);
             this.tpDuplicates.Location = new System.Drawing.Point(4, 25);
             this.tpDuplicates.Name = "tpDuplicates";
-            this.tpDuplicates.Size = new System.Drawing.Size(770, 386);
+            this.tpDuplicates.Size = new System.Drawing.Size(997, 436);
             this.tpDuplicates.TabIndex = 4;
             this.tpDuplicates.Text = "Duplicates";
             this.tpDuplicates.UseVisualStyleBackColor = true;
@@ -667,46 +711,135 @@
             this.btnDeleteDupeSong.UseVisualStyleBackColor = true;
             this.btnDeleteDupeSong.Click += new System.EventHandler(this.btnDeleteSongOne_Click);
             // 
-            // tpCreators
+            // tpBatchRenamer
             // 
-            this.tpCreators.BackgroundImage = global::CustomsForgeManager_Winforms.Properties.Resources.eof_bg;
-            this.tpCreators.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.tpCreators.Controls.Add(this.btnRSTKSite);
-            this.tpCreators.Controls.Add(this.btnEOFSite);
-            this.tpCreators.Location = new System.Drawing.Point(4, 25);
-            this.tpCreators.Name = "tpCreators";
-            this.tpCreators.Padding = new System.Windows.Forms.Padding(3);
-            this.tpCreators.Size = new System.Drawing.Size(770, 386);
-            this.tpCreators.TabIndex = 6;
-            this.tpCreators.Text = "Creators";
-            this.tpCreators.UseVisualStyleBackColor = true;
+            this.tpBatchRenamer.Controls.Add(this.deleteEmptyDirCheckBox);
+            this.tpBatchRenamer.Controls.Add(this.slashLabel);
+            this.tpBatchRenamer.Controls.Add(this.propertiesGroupBox);
+            this.tpBatchRenamer.Controls.Add(this.howToGroupBox);
+            this.tpBatchRenamer.Controls.Add(this.renameTemplateLabel);
+            this.tpBatchRenamer.Controls.Add(this.renameTemplateTextBox);
+            this.tpBatchRenamer.Controls.Add(this.renameAllButton);
+            this.tpBatchRenamer.Location = new System.Drawing.Point(4, 25);
+            this.tpBatchRenamer.Name = "tpBatchRenamer";
+            this.tpBatchRenamer.Padding = new System.Windows.Forms.Padding(3);
+            this.tpBatchRenamer.Size = new System.Drawing.Size(997, 436);
+            this.tpBatchRenamer.TabIndex = 6;
+            this.tpBatchRenamer.Text = "Batch Renamer";
+            this.tpBatchRenamer.UseVisualStyleBackColor = true;
             // 
-            // btnRSTKSite
+            // deleteEmptyDirCheckBox
             // 
-            this.btnRSTKSite.Location = new System.Drawing.Point(275, 221);
-            this.btnRSTKSite.Name = "btnRSTKSite";
-            this.btnRSTKSite.Size = new System.Drawing.Size(195, 25);
-            this.btnRSTKSite.TabIndex = 1;
-            this.btnRSTKSite.Text = "Rocksmith Toolkit";
-            this.btnRSTKSite.UseVisualStyleBackColor = true;
-            this.btnRSTKSite.Click += new System.EventHandler(this.btnRSTKSite_Click);
+            this.deleteEmptyDirCheckBox.AutoSize = true;
+            this.deleteEmptyDirCheckBox.Location = new System.Drawing.Point(161, 38);
+            this.deleteEmptyDirCheckBox.Name = "deleteEmptyDirCheckBox";
+            this.deleteEmptyDirCheckBox.Size = new System.Drawing.Size(223, 20);
+            this.deleteEmptyDirCheckBox.TabIndex = 10;
+            this.deleteEmptyDirCheckBox.Text = "Delete Empty Directories after Rename";
+            this.deleteEmptyDirCheckBox.UseVisualStyleBackColor = true;
             // 
-            // btnEOFSite
+            // slashLabel
             // 
-            this.btnEOFSite.Location = new System.Drawing.Point(275, 105);
-            this.btnEOFSite.Name = "btnEOFSite";
-            this.btnEOFSite.Size = new System.Drawing.Size(195, 25);
-            this.btnEOFSite.TabIndex = 0;
-            this.btnEOFSite.Text = "Editor on Fire";
-            this.btnEOFSite.UseVisualStyleBackColor = true;
-            this.btnEOFSite.Click += new System.EventHandler(this.btnEOFSite_Click);
+            this.slashLabel.AutoSize = true;
+            this.slashLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.slashLabel.Location = new System.Drawing.Point(118, 10);
+            this.slashLabel.Name = "slashLabel";
+            this.slashLabel.Size = new System.Drawing.Size(37, 20);
+            this.slashLabel.TabIndex = 9;
+            this.slashLabel.Text = "dlc/";
+            // 
+            // propertiesGroupBox
+            // 
+            this.propertiesGroupBox.Controls.Add(this.renamerPropertyDataGridView);
+            this.propertiesGroupBox.Location = new System.Drawing.Point(440, 58);
+            this.propertiesGroupBox.Name = "propertiesGroupBox";
+            this.propertiesGroupBox.Size = new System.Drawing.Size(324, 320);
+            this.propertiesGroupBox.TabIndex = 8;
+            this.propertiesGroupBox.TabStop = false;
+            this.propertiesGroupBox.Text = "Usuable Properties";
+            // 
+            // renamerPropertyDataGridView
+            // 
+            this.renamerPropertyDataGridView.AllowUserToAddRows = false;
+            this.renamerPropertyDataGridView.AllowUserToDeleteRows = false;
+            this.renamerPropertyDataGridView.AllowUserToResizeColumns = false;
+            this.renamerPropertyDataGridView.AllowUserToResizeRows = false;
+            this.renamerPropertyDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.renamerPropertyDataGridView.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.renamerPropertyDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.renamerPropertyDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.renamerPropertyDataGridView.Location = new System.Drawing.Point(3, 16);
+            this.renamerPropertyDataGridView.MultiSelect = false;
+            this.renamerPropertyDataGridView.Name = "renamerPropertyDataGridView";
+            this.renamerPropertyDataGridView.ReadOnly = true;
+            this.renamerPropertyDataGridView.RowHeadersVisible = false;
+            this.renamerPropertyDataGridView.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            this.renamerPropertyDataGridView.Size = new System.Drawing.Size(318, 301);
+            this.renamerPropertyDataGridView.TabIndex = 2;
+            // 
+            // howToGroupBox
+            // 
+            this.howToGroupBox.Controls.Add(this.instructionsLabel);
+            this.howToGroupBox.Controls.Add(this.label1);
+            this.howToGroupBox.Location = new System.Drawing.Point(9, 58);
+            this.howToGroupBox.Name = "howToGroupBox";
+            this.howToGroupBox.Size = new System.Drawing.Size(428, 317);
+            this.howToGroupBox.TabIndex = 7;
+            this.howToGroupBox.TabStop = false;
+            this.howToGroupBox.Text = "How To Use:";
+            // 
+            // instructionsLabel
+            // 
+            this.instructionsLabel.AutoSize = true;
+            this.instructionsLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.instructionsLabel.Location = new System.Drawing.Point(3, 16);
+            this.instructionsLabel.Name = "instructionsLabel";
+            this.instructionsLabel.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.instructionsLabel.Size = new System.Drawing.Size(354, 304);
+            this.instructionsLabel.TabIndex = 1;
+            this.instructionsLabel.Text = resources.GetString("instructionsLabel.Text");
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(3, 115);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(0, 16);
+            this.label1.TabIndex = 0;
+            // 
+            // renameTemplateLabel
+            // 
+            this.renameTemplateLabel.AutoSize = true;
+            this.renameTemplateLabel.Location = new System.Drawing.Point(15, 12);
+            this.renameTemplateLabel.Name = "renameTemplateLabel";
+            this.renameTemplateLabel.Size = new System.Drawing.Size(98, 16);
+            this.renameTemplateLabel.TabIndex = 6;
+            this.renameTemplateLabel.Text = "Rename Template:";
+            // 
+            // renameTemplateTextBox
+            // 
+            this.renameTemplateTextBox.Location = new System.Drawing.Point(161, 12);
+            this.renameTemplateTextBox.Name = "renameTemplateTextBox";
+            this.renameTemplateTextBox.Size = new System.Drawing.Size(379, 20);
+            this.renameTemplateTextBox.TabIndex = 5;
+            this.renameTemplateTextBox.Text = "<title>_<artist>";
+            // 
+            // renameAllButton
+            // 
+            this.renameAllButton.Location = new System.Drawing.Point(546, 8);
+            this.renameAllButton.Name = "renameAllButton";
+            this.renameAllButton.Size = new System.Drawing.Size(218, 30);
+            this.renameAllButton.TabIndex = 4;
+            this.renameAllButton.Text = "Rename All";
+            this.renameAllButton.UseVisualStyleBackColor = true;
+            this.renameAllButton.Click += new System.EventHandler(this.renameAllButton_Click);
             // 
             // tpUtilities
             // 
             this.tpUtilities.Controls.Add(this.tableLayoutPanel2);
             this.tpUtilities.Location = new System.Drawing.Point(4, 25);
             this.tpUtilities.Name = "tpUtilities";
-            this.tpUtilities.Size = new System.Drawing.Size(770, 386);
+            this.tpUtilities.Size = new System.Drawing.Size(997, 436);
             this.tpUtilities.TabIndex = 5;
             this.tpUtilities.Text = "Utilities";
             this.tpUtilities.UseVisualStyleBackColor = true;
@@ -722,8 +855,8 @@
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 386F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(770, 386);
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 436F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(997, 436);
             this.tableLayoutPanel2.TabIndex = 0;
             // 
             // panel4
@@ -767,6 +900,15 @@
             this.btnBackupRSProfile.UseVisualStyleBackColor = true;
             this.btnBackupRSProfile.Click += new System.EventHandler(this.btnBackupRSProfile_Click);
             // 
+            // tpEditor
+            // 
+            this.tpEditor.Location = new System.Drawing.Point(4, 25);
+            this.tpEditor.Name = "tpEditor";
+            this.tpEditor.Size = new System.Drawing.Size(997, 436);
+            this.tpEditor.TabIndex = 3;
+            this.tpEditor.Text = "Song Editor";
+            this.tpEditor.UseVisualStyleBackColor = true;
+            // 
             // tpSettings
             // 
             this.tpSettings.BackColor = System.Drawing.SystemColors.Control;
@@ -774,7 +916,7 @@
             this.tpSettings.Location = new System.Drawing.Point(4, 25);
             this.tpSettings.Name = "tpSettings";
             this.tpSettings.Padding = new System.Windows.Forms.Padding(3);
-            this.tpSettings.Size = new System.Drawing.Size(770, 386);
+            this.tpSettings.Size = new System.Drawing.Size(997, 436);
             this.tpSettings.TabIndex = 1;
             this.tpSettings.Text = "Settings";
             // 
@@ -802,7 +944,7 @@
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 81.46965F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 49F));
-            this.tlpSettings_Wrapper.Size = new System.Drawing.Size(764, 380);
+            this.tlpSettings_Wrapper.Size = new System.Drawing.Size(991, 430);
             this.tlpSettings_Wrapper.TabIndex = 0;
             // 
             // lblSettingsRSDir
@@ -810,7 +952,7 @@
             this.lblSettingsRSDir.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.lblSettingsRSDir.AutoSize = true;
             this.lblSettingsRSDir.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSettingsRSDir.Location = new System.Drawing.Point(98, 24);
+            this.lblSettingsRSDir.Location = new System.Drawing.Point(127, 26);
             this.lblSettingsRSDir.Name = "lblSettingsRSDir";
             this.lblSettingsRSDir.Size = new System.Drawing.Size(276, 13);
             this.lblSettingsRSDir.TabIndex = 1;
@@ -820,7 +962,7 @@
             // tbSettingsRSDir
             // 
             this.tbSettingsRSDir.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.tbSettingsRSDir.Location = new System.Drawing.Point(388, 23);
+            this.tbSettingsRSDir.Location = new System.Drawing.Point(503, 23);
             this.tbSettingsRSDir.Name = "tbSettingsRSDir";
             this.tbSettingsRSDir.Size = new System.Drawing.Size(373, 20);
             this.tbSettingsRSDir.TabIndex = 2;
@@ -832,9 +974,9 @@
             this.checkRescanOnStartup.Checked = true;
             this.checkRescanOnStartup.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkRescanOnStartup.Dock = System.Windows.Forms.DockStyle.Right;
-            this.checkRescanOnStartup.Location = new System.Drawing.Point(264, 45);
+            this.checkRescanOnStartup.Location = new System.Drawing.Point(379, 49);
             this.checkRescanOnStartup.Name = "checkRescanOnStartup";
-            this.checkRescanOnStartup.Size = new System.Drawing.Size(118, 24);
+            this.checkRescanOnStartup.Size = new System.Drawing.Size(118, 30);
             this.checkRescanOnStartup.TabIndex = 3;
             this.checkRescanOnStartup.Text = "Rescan on startup";
             this.checkRescanOnStartup.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -843,7 +985,7 @@
             // btnSettingsLoad
             // 
             this.btnSettingsLoad.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnSettingsLoad.Location = new System.Drawing.Point(499, 343);
+            this.btnSettingsLoad.Location = new System.Drawing.Point(670, 393);
             this.btnSettingsLoad.Name = "btnSettingsLoad";
             this.btnSettingsLoad.Size = new System.Drawing.Size(150, 23);
             this.btnSettingsLoad.TabIndex = 0;
@@ -854,7 +996,7 @@
             // btnSettingsSave
             // 
             this.btnSettingsSave.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnSettingsSave.Location = new System.Drawing.Point(165, 343);
+            this.btnSettingsSave.Location = new System.Drawing.Point(237, 393);
             this.btnSettingsSave.Name = "btnSettingsSave";
             this.btnSettingsSave.Size = new System.Drawing.Size(150, 23);
             this.btnSettingsSave.TabIndex = 0;
@@ -868,7 +1010,7 @@
             this.checkIncludeRS1DLC.Checked = true;
             this.checkIncludeRS1DLC.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkIncludeRS1DLC.Dock = System.Windows.Forms.DockStyle.Right;
-            this.checkIncludeRS1DLC.Location = new System.Drawing.Point(203, 75);
+            this.checkIncludeRS1DLC.Location = new System.Drawing.Point(318, 85);
             this.checkIncludeRS1DLC.Name = "checkIncludeRS1DLC";
             this.checkIncludeRS1DLC.Size = new System.Drawing.Size(179, 22);
             this.checkIncludeRS1DLC.TabIndex = 3;
@@ -882,15 +1024,15 @@
             this.panel5.Controls.Add(this.lblDisabledColumns);
             this.panel5.Controls.Add(this.listDisabledColumns);
             this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel5.Location = new System.Drawing.Point(388, 103);
+            this.panel5.Location = new System.Drawing.Point(503, 113);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(373, 224);
+            this.panel5.Size = new System.Drawing.Size(485, 264);
             this.panel5.TabIndex = 4;
             // 
             // btnEnableColumns
             // 
             this.btnEnableColumns.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnEnableColumns.Location = new System.Drawing.Point(111, 197);
+            this.btnEnableColumns.Location = new System.Drawing.Point(167, 217);
             this.btnEnableColumns.Name = "btnEnableColumns";
             this.btnEnableColumns.Size = new System.Drawing.Size(150, 23);
             this.btnEnableColumns.TabIndex = 2;
@@ -942,14 +1084,48 @@
             this.checkEnableLogBaloon.Checked = true;
             this.checkEnableLogBaloon.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkEnableLogBaloon.Dock = System.Windows.Forms.DockStyle.Left;
-            this.checkEnableLogBaloon.Location = new System.Drawing.Point(388, 45);
+            this.checkEnableLogBaloon.Location = new System.Drawing.Point(503, 49);
             this.checkEnableLogBaloon.Name = "checkEnableLogBaloon";
-            this.checkEnableLogBaloon.Size = new System.Drawing.Size(118, 24);
+            this.checkEnableLogBaloon.Size = new System.Drawing.Size(118, 30);
             this.checkEnableLogBaloon.TabIndex = 5;
             this.checkEnableLogBaloon.Text = "Enable Log Baloon ";
             this.checkEnableLogBaloon.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.checkEnableLogBaloon.UseVisualStyleBackColor = true;
             this.checkEnableLogBaloon.CheckedChanged += new System.EventHandler(this.checkEnableLogBaloon_CheckedChanged);
+            // 
+            // tpCreators
+            // 
+            this.tpCreators.BackgroundImage = global::CustomsForgeManager_Winforms.Properties.Resources.eof_bg;
+            this.tpCreators.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.tpCreators.Controls.Add(this.btnRSTKSite);
+            this.tpCreators.Controls.Add(this.btnEOFSite);
+            this.tpCreators.Location = new System.Drawing.Point(4, 25);
+            this.tpCreators.Name = "tpCreators";
+            this.tpCreators.Padding = new System.Windows.Forms.Padding(3);
+            this.tpCreators.Size = new System.Drawing.Size(997, 436);
+            this.tpCreators.TabIndex = 6;
+            this.tpCreators.Text = "Creators";
+            this.tpCreators.UseVisualStyleBackColor = true;
+            // 
+            // btnRSTKSite
+            // 
+            this.btnRSTKSite.Location = new System.Drawing.Point(275, 221);
+            this.btnRSTKSite.Name = "btnRSTKSite";
+            this.btnRSTKSite.Size = new System.Drawing.Size(195, 25);
+            this.btnRSTKSite.TabIndex = 1;
+            this.btnRSTKSite.Text = "Rocksmith Toolkit";
+            this.btnRSTKSite.UseVisualStyleBackColor = true;
+            this.btnRSTKSite.Click += new System.EventHandler(this.btnRSTKSite_Click);
+            // 
+            // btnEOFSite
+            // 
+            this.btnEOFSite.Location = new System.Drawing.Point(275, 105);
+            this.btnEOFSite.Name = "btnEOFSite";
+            this.btnEOFSite.Size = new System.Drawing.Size(195, 25);
+            this.btnEOFSite.TabIndex = 0;
+            this.btnEOFSite.Text = "Editor on Fire";
+            this.btnEOFSite.UseVisualStyleBackColor = true;
+            this.btnEOFSite.Click += new System.EventHandler(this.btnEOFSite_Click);
             // 
             // tpAbout
             // 
@@ -957,7 +1133,7 @@
             this.tpAbout.Controls.Add(this.tableLayoutPanel1);
             this.tpAbout.Location = new System.Drawing.Point(4, 25);
             this.tpAbout.Name = "tpAbout";
-            this.tpAbout.Size = new System.Drawing.Size(770, 386);
+            this.tpAbout.Size = new System.Drawing.Size(997, 436);
             this.tpAbout.TabIndex = 2;
             this.tpAbout.Text = "About";
             // 
@@ -976,14 +1152,14 @@
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(770, 386);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(997, 436);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // pictureBoxCF
             // 
             this.pictureBoxCF.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.pictureBoxCF.Image = global::CustomsForgeManager_Winforms.Properties.Resources.logo_black;
-            this.pictureBoxCF.Location = new System.Drawing.Point(67, 68);
+            this.pictureBoxCF.Location = new System.Drawing.Point(123, 81);
             this.pictureBoxCF.Name = "pictureBoxCF";
             this.pictureBoxCF.Size = new System.Drawing.Size(251, 56);
             this.pictureBoxCF.TabIndex = 1;
@@ -992,7 +1168,7 @@
             // group_CFquickLinks
             // 
             this.group_CFquickLinks.Controls.Add(this.tableLayoutPanel_CFQuicklinks);
-            this.group_CFquickLinks.Location = new System.Drawing.Point(388, 196);
+            this.group_CFquickLinks.Location = new System.Drawing.Point(501, 221);
             this.group_CFquickLinks.Name = "group_CFquickLinks";
             this.group_CFquickLinks.Size = new System.Drawing.Size(379, 187);
             this.group_CFquickLinks.TabIndex = 3;
@@ -1118,7 +1294,7 @@
             // panel6
             // 
             this.panel6.Controls.Add(this.groupBox3);
-            this.panel6.Location = new System.Drawing.Point(388, 3);
+            this.panel6.Location = new System.Drawing.Point(501, 3);
             this.panel6.Name = "panel6";
             this.panel6.Size = new System.Drawing.Size(379, 187);
             this.panel6.TabIndex = 4;
@@ -1198,7 +1374,7 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.tableLayoutPanel_Credits);
-            this.groupBox1.Location = new System.Drawing.Point(3, 196);
+            this.groupBox1.Location = new System.Drawing.Point(3, 221);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(379, 187);
             this.groupBox1.TabIndex = 5;
@@ -1391,129 +1567,6 @@
             this.link_ZerkzProfile.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.link_ZerkzProfile.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.link_Alex360Profile_LinkClicked);
             // 
-            // tpBatchRenamer
-            // 
-            this.tpBatchRenamer.Controls.Add(this.deleteEmptyDirCheckBox);
-            this.tpBatchRenamer.Controls.Add(this.slashLabel);
-            this.tpBatchRenamer.Controls.Add(this.propertiesGroupBox);
-            this.tpBatchRenamer.Controls.Add(this.howToGroupBox);
-            this.tpBatchRenamer.Controls.Add(this.renameTemplateLabel);
-            this.tpBatchRenamer.Controls.Add(this.renameTemplateTextBox);
-            this.tpBatchRenamer.Controls.Add(this.renameAllButton);
-            this.tpBatchRenamer.Location = new System.Drawing.Point(4, 25);
-            this.tpBatchRenamer.Name = "tpBatchRenamer";
-            this.tpBatchRenamer.Padding = new System.Windows.Forms.Padding(3);
-            this.tpBatchRenamer.Size = new System.Drawing.Size(770, 386);
-            this.tpBatchRenamer.TabIndex = 6;
-            this.tpBatchRenamer.Text = "Batch Renamer";
-            this.tpBatchRenamer.UseVisualStyleBackColor = true;
-            // 
-            // deleteEmptyDirCheckBox
-            // 
-            this.deleteEmptyDirCheckBox.AutoSize = true;
-            this.deleteEmptyDirCheckBox.Location = new System.Drawing.Point(161, 38);
-            this.deleteEmptyDirCheckBox.Name = "deleteEmptyDirCheckBox";
-            this.deleteEmptyDirCheckBox.Size = new System.Drawing.Size(223, 20);
-            this.deleteEmptyDirCheckBox.TabIndex = 10;
-            this.deleteEmptyDirCheckBox.Text = "Delete Empty Directories after Rename";
-            this.deleteEmptyDirCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // slashLabel
-            // 
-            this.slashLabel.AutoSize = true;
-            this.slashLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.slashLabel.Location = new System.Drawing.Point(118, 10);
-            this.slashLabel.Name = "slashLabel";
-            this.slashLabel.Size = new System.Drawing.Size(37, 20);
-            this.slashLabel.TabIndex = 9;
-            this.slashLabel.Text = "dlc/";
-            // 
-            // propertiesGroupBox
-            // 
-            this.propertiesGroupBox.Controls.Add(this.renamerPropertyDataGridView);
-            this.propertiesGroupBox.Location = new System.Drawing.Point(440, 58);
-            this.propertiesGroupBox.Name = "propertiesGroupBox";
-            this.propertiesGroupBox.Size = new System.Drawing.Size(324, 320);
-            this.propertiesGroupBox.TabIndex = 8;
-            this.propertiesGroupBox.TabStop = false;
-            this.propertiesGroupBox.Text = "Usuable Properties";
-            // 
-            // renamerPropertyDataGridView
-            // 
-            this.renamerPropertyDataGridView.AllowUserToAddRows = false;
-            this.renamerPropertyDataGridView.AllowUserToDeleteRows = false;
-            this.renamerPropertyDataGridView.AllowUserToResizeColumns = false;
-            this.renamerPropertyDataGridView.AllowUserToResizeRows = false;
-            this.renamerPropertyDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.renamerPropertyDataGridView.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            this.renamerPropertyDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.renamerPropertyDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.renamerPropertyDataGridView.Location = new System.Drawing.Point(3, 16);
-            this.renamerPropertyDataGridView.MultiSelect = false;
-            this.renamerPropertyDataGridView.Name = "renamerPropertyDataGridView";
-            this.renamerPropertyDataGridView.ReadOnly = true;
-            this.renamerPropertyDataGridView.RowHeadersVisible = false;
-            this.renamerPropertyDataGridView.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            this.renamerPropertyDataGridView.Size = new System.Drawing.Size(318, 301);
-            this.renamerPropertyDataGridView.TabIndex = 2;
-            // 
-            // howToGroupBox
-            // 
-            this.howToGroupBox.Controls.Add(this.instructionsLabel);
-            this.howToGroupBox.Controls.Add(this.label1);
-            this.howToGroupBox.Location = new System.Drawing.Point(9, 58);
-            this.howToGroupBox.Name = "howToGroupBox";
-            this.howToGroupBox.Size = new System.Drawing.Size(428, 317);
-            this.howToGroupBox.TabIndex = 7;
-            this.howToGroupBox.TabStop = false;
-            this.howToGroupBox.Text = "How To Use:";
-            // 
-            // instructionsLabel
-            // 
-            this.instructionsLabel.AutoSize = true;
-            this.instructionsLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.instructionsLabel.Location = new System.Drawing.Point(3, 16);
-            this.instructionsLabel.Name = "instructionsLabel";
-            this.instructionsLabel.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.instructionsLabel.Size = new System.Drawing.Size(354, 304);
-            this.instructionsLabel.TabIndex = 1;
-            this.instructionsLabel.Text = resources.GetString("instructionsLabel.Text");
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 115);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(0, 16);
-            this.label1.TabIndex = 0;
-            // 
-            // renameTemplateLabel
-            // 
-            this.renameTemplateLabel.AutoSize = true;
-            this.renameTemplateLabel.Location = new System.Drawing.Point(15, 12);
-            this.renameTemplateLabel.Name = "renameTemplateLabel";
-            this.renameTemplateLabel.Size = new System.Drawing.Size(98, 16);
-            this.renameTemplateLabel.TabIndex = 6;
-            this.renameTemplateLabel.Text = "Rename Template:";
-            // 
-            // renameTemplateTextBox
-            // 
-            this.renameTemplateTextBox.Location = new System.Drawing.Point(161, 12);
-            this.renameTemplateTextBox.Name = "renameTemplateTextBox";
-            this.renameTemplateTextBox.Size = new System.Drawing.Size(379, 20);
-            this.renameTemplateTextBox.TabIndex = 5;
-            this.renameTemplateTextBox.Text = "<title>_<artist>";
-            // 
-            // renameAllButton
-            // 
-            this.renameAllButton.Location = new System.Drawing.Point(546, 8);
-            this.renameAllButton.Name = "renameAllButton";
-            this.renameAllButton.Size = new System.Drawing.Size(218, 30);
-            this.renameAllButton.TabIndex = 4;
-            this.renameAllButton.Text = "Rename All";
-            this.renameAllButton.UseVisualStyleBackColor = true;
-            this.renameAllButton.Click += new System.EventHandler(this.renameAllButton_Click);
-            // 
             // timerMain
             // 
             this.timerMain.Interval = 1000;
@@ -1528,9 +1581,9 @@
             this.toolStripStatusLabelSpringer,
             this.toolStripStatusLabel_DisabledCounter});
             this.statusStripMain.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
-            this.statusStripMain.Location = new System.Drawing.Point(0, 539);
+            this.statusStripMain.Location = new System.Drawing.Point(0, 606);
             this.statusStripMain.Name = "statusStripMain";
-            this.statusStripMain.Size = new System.Drawing.Size(784, 23);
+            this.statusStripMain.Size = new System.Drawing.Size(1011, 23);
             this.statusStripMain.SizingGrip = false;
             this.statusStripMain.TabIndex = 1;
             this.statusStripMain.Text = "statusStrip1";
@@ -1640,19 +1693,22 @@
             this.dgvSongs.AllowUserToResizeRows = false;
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.dgvSongs.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            this.dgvSongs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgvSongs.BackgroundColor = System.Drawing.SystemColors.ActiveCaption;
             this.dgvSongs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvSongs.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colSelect});
             this.dgvSongs.ContextMenuStrip = this.contextMenuStrip_MainManager;
-            this.dgvSongs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvSongs.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnF2;
             this.dgvSongs.GridColor = System.Drawing.SystemColors.ActiveCaption;
-            this.dgvSongs.Location = new System.Drawing.Point(0, 0);
+            this.dgvSongs.Location = new System.Drawing.Point(6, 19);
             this.dgvSongs.MultiSelect = false;
             this.dgvSongs.Name = "dgvSongs";
             this.dgvSongs.RowHeadersVisible = false;
             this.dgvSongs.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvSongs.Size = new System.Drawing.Size(764, 290);
+            this.dgvSongs.Size = new System.Drawing.Size(973, 211);
             this.dgvSongs.TabIndex = 1;
             this.dgvSongs.DataSourceChanged += new System.EventHandler(this.dgvSongs_DataSourceChanged);
             this.dgvSongs.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSongs_CellDoubleClick);
@@ -1679,7 +1735,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(784, 562);
+            this.ClientSize = new System.Drawing.Size(1011, 629);
             this.Controls.Add(this.statusStripMain);
             this.Controls.Add(this.tlp_MainForm_Wrappper);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -1694,17 +1750,24 @@
             this.gbLog.PerformLayout();
             this.tcMain.ResumeLayout(false);
             this.tpManager.ResumeLayout(false);
-            this.tlpSongListWrapper.ResumeLayout(false);
-            this.panelSongListButtons.ResumeLayout(false);
-            this.panelSongListButtons.PerformLayout();
-            this.panel2.ResumeLayout(false);
+            this.gb_Main_Grid.ResumeLayout(false);
+            this.gb_Main_Grid.PerformLayout();
             this.contextMenuStrip_MainManager.ResumeLayout(false);
+            this.gb_Main_Search.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
+            this.gb_Main_Actions.ResumeLayout(false);
+            this.panelSongListButtons.ResumeLayout(false);
+            this.panelSongListButtons.PerformLayout();
             this.tpDuplicates.ResumeLayout(false);
             this.tlpDuplicates.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
-            this.tpCreators.ResumeLayout(false);
+            this.tpBatchRenamer.ResumeLayout(false);
+            this.tpBatchRenamer.PerformLayout();
+            this.propertiesGroupBox.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.renamerPropertyDataGridView)).EndInit();
+            this.howToGroupBox.ResumeLayout(false);
+            this.howToGroupBox.PerformLayout();
             this.tpUtilities.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
@@ -1714,6 +1777,7 @@
             this.tlpSettings_Wrapper.PerformLayout();
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
+            this.tpCreators.ResumeLayout(false);
             this.tpAbout.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCF)).EndInit();
@@ -1727,12 +1791,6 @@
             this.groupBox1.ResumeLayout(false);
             this.tableLayoutPanel_Credits.ResumeLayout(false);
             this.tableLayoutPanel_Credits.PerformLayout();
-            this.tpBatchRenamer.ResumeLayout(false);
-            this.tpBatchRenamer.PerformLayout();
-            this.propertiesGroupBox.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.renamerPropertyDataGridView)).EndInit();
-            this.howToGroupBox.ResumeLayout(false);
-            this.howToGroupBox.PerformLayout();
             this.statusStripMain.ResumeLayout(false);
             this.statusStripMain.PerformLayout();
             this.contextMenuStrip_Tray.ResumeLayout(false);
@@ -1763,7 +1821,6 @@
         private System.Windows.Forms.Label lblSettingsRSDir;
         private System.Windows.Forms.TextBox tbSettingsRSDir;
         private System.Windows.Forms.TabPage tpEditor;
-        private System.Windows.Forms.TableLayoutPanel tlpSongListWrapper;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip_MainManager;
         private System.Windows.Forms.ToolStripMenuItem openDLCPageToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editDLCToolStripMenuItem;
@@ -1775,17 +1832,12 @@
         private System.Windows.Forms.Button btnDupeRescan;
         private System.Windows.Forms.Panel panelSongListButtons;
         private System.Windows.Forms.Button btnRescan;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.TextBox tbSearch;
-        private System.Windows.Forms.Button btnSearch;
         private System.Windows.Forms.ListView listDupeSongs;
         private System.Windows.Forms.ColumnHeader colDupeSelect;
         private System.Windows.Forms.ColumnHeader colDupeArtist;
         private System.Windows.Forms.ColumnHeader colDupeSong;
         private System.Windows.Forms.ColumnHeader colDupeAlbum;
         private System.Windows.Forms.ColumnHeader colDupeSongPath;
-        private System.Windows.Forms.Label lbl_Search;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog_SettingsRSPath;
         private System.Windows.Forms.CheckBox checkRescanOnStartup;
         private System.Windows.Forms.TabPage tpUtilities;
@@ -1795,14 +1847,12 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button btnLaunchSteam;
         private System.Windows.Forms.SaveFileDialog sfdSongListToCSV;
-        private System.Windows.Forms.LinkLabel link_MainClearResults;
         private System.Windows.Forms.Button btnExportSongList;
         private System.Windows.Forms.ToolStripMenuItem showDLCInfoToolStripMenuItem;
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.ToolStripMenuItem checkForUpdateToolStripMenuItem;
         private System.Windows.Forms.Button btnCheckAllForUpdates;
         private System.Windows.Forms.Button btnDisableEnableSongs;
-        private System.Windows.Forms.LinkLabel linkLblSelectAll;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel_MainCancel;
         private System.Windows.Forms.NotifyIcon notifyIcon_Main;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip_Tray;
@@ -1813,7 +1863,6 @@
         private System.Windows.Forms.ToolStripMenuItem getAuthorNameStripMenuItem;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel_DisabledCounter;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelSpringer;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn colSelect;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.PictureBox pictureBoxCF;
         private System.Windows.Forms.GroupBox group_CFquickLinks;
@@ -1851,7 +1900,6 @@
         private System.Windows.Forms.LinkLabel linkOpenRequests;
         private System.Windows.Forms.LinkLabel linkDontainsPage;
         private System.Windows.Forms.LinkLabel linkOpenCFVideos;
-        private Controls.RADataGridView dgvSongs;
         private System.Windows.Forms.TabPage tpCreators;
         private System.Windows.Forms.Button btnRSTKSite;
         private System.Windows.Forms.Button btnEOFSite;
@@ -1877,5 +1925,16 @@
         private System.Windows.Forms.BindingSource frmMainBindingSource;
         private System.Windows.Forms.Label slashLabel;
         private System.Windows.Forms.CheckBox deleteEmptyDirCheckBox;
+        private Controls.RADataGridView dgvSongs;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn colSelect;
+        private System.Windows.Forms.GroupBox gb_Main_Grid;
+        private System.Windows.Forms.LinkLabel linkLblSelectAll;
+        private System.Windows.Forms.GroupBox gb_Main_Search;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.LinkLabel link_MainClearResults;
+        private System.Windows.Forms.Label lbl_Search;
+        private System.Windows.Forms.TextBox tbSearch;
+        private System.Windows.Forms.Button btnSearch;
+        private System.Windows.Forms.GroupBox gb_Main_Actions;
     }
 }
