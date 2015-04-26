@@ -159,9 +159,11 @@
             this.contextMenuStrip_Tray = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.labelAlphaTesters = new System.Windows.Forms.Label();
+            this.colDupeEnabled = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.dgvSongs = new CustomsForgeManager_Winforms.Controls.RADataGridView();
             this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.frmMainBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.btnDisableEnableSong = new System.Windows.Forms.Button();
             this.tlp_MainForm_Wrappper.SuspendLayout();
             this.gbLog.SuspendLayout();
             this.tcMain.SuspendLayout();
@@ -300,7 +302,7 @@
             this.linkLblSelectAll.LinkColor = System.Drawing.Color.Black;
             this.linkLblSelectAll.Location = new System.Drawing.Point(6, 233);
             this.linkLblSelectAll.Name = "linkLblSelectAll";
-            this.linkLblSelectAll.Size = new System.Drawing.Size(113, 16);
+            this.linkLblSelectAll.Size = new System.Drawing.Size(111, 16);
             this.linkLblSelectAll.TabIndex = 2;
             this.linkLblSelectAll.TabStop = true;
             this.linkLblSelectAll.Text = "Select All/Deselect All";
@@ -634,6 +636,7 @@
             this.listDupeSongs.CheckBoxes = true;
             this.listDupeSongs.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.colDupeSelect,
+            this.colDupeEnabled,
             this.colDupeArtist,
             this.colDupeSong,
             this.colDupeAlbum,
@@ -682,6 +685,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.btnDisableEnableSong);
             this.panel1.Controls.Add(this.btnDupeRescan);
             this.panel1.Controls.Add(this.btnDeleteDupeSong);
             this.panel1.Location = new System.Drawing.Point(3, 312);
@@ -692,7 +696,7 @@
             // btnDupeRescan
             // 
             this.btnDupeRescan.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnDupeRescan.Location = new System.Drawing.Point(222, 21);
+            this.btnDupeRescan.Location = new System.Drawing.Point(147, 20);
             this.btnDupeRescan.Name = "btnDupeRescan";
             this.btnDupeRescan.Size = new System.Drawing.Size(150, 27);
             this.btnDupeRescan.TabIndex = 9;
@@ -703,7 +707,7 @@
             // btnDeleteDupeSong
             // 
             this.btnDeleteDupeSong.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnDeleteDupeSong.Location = new System.Drawing.Point(378, 21);
+            this.btnDeleteDupeSong.Location = new System.Drawing.Point(459, 20);
             this.btnDeleteDupeSong.Name = "btnDeleteDupeSong";
             this.btnDeleteDupeSong.Size = new System.Drawing.Size(150, 27);
             this.btnDeleteDupeSong.TabIndex = 8;
@@ -795,7 +799,7 @@
             this.instructionsLabel.Location = new System.Drawing.Point(3, 16);
             this.instructionsLabel.Name = "instructionsLabel";
             this.instructionsLabel.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.instructionsLabel.Size = new System.Drawing.Size(354, 304);
+            this.instructionsLabel.Size = new System.Drawing.Size(353, 304);
             this.instructionsLabel.TabIndex = 1;
             this.instructionsLabel.Text = resources.GetString("instructionsLabel.Text");
             // 
@@ -812,7 +816,7 @@
             this.renameTemplateLabel.AutoSize = true;
             this.renameTemplateLabel.Location = new System.Drawing.Point(15, 12);
             this.renameTemplateLabel.Name = "renameTemplateLabel";
-            this.renameTemplateLabel.Size = new System.Drawing.Size(98, 16);
+            this.renameTemplateLabel.Size = new System.Drawing.Size(97, 16);
             this.renameTemplateLabel.TabIndex = 6;
             this.renameTemplateLabel.Text = "Rename Template:";
             // 
@@ -1010,9 +1014,9 @@
             this.checkIncludeRS1DLC.Checked = true;
             this.checkIncludeRS1DLC.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkIncludeRS1DLC.Dock = System.Windows.Forms.DockStyle.Right;
-            this.checkIncludeRS1DLC.Location = new System.Drawing.Point(318, 85);
+            this.checkIncludeRS1DLC.Location = new System.Drawing.Point(319, 85);
             this.checkIncludeRS1DLC.Name = "checkIncludeRS1DLC";
-            this.checkIncludeRS1DLC.Size = new System.Drawing.Size(179, 22);
+            this.checkIncludeRS1DLC.Size = new System.Drawing.Size(178, 22);
             this.checkIncludeRS1DLC.TabIndex = 3;
             this.checkIncludeRS1DLC.Text = "Include RS1 Compatibility Pack";
             this.checkIncludeRS1DLC.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1435,9 +1439,9 @@
             this.lbl_Credits.AutoSize = true;
             this.lbl_Credits.Font = new System.Drawing.Font("Trebuchet MS", 10F);
             this.lbl_Credits.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.lbl_Credits.Location = new System.Drawing.Point(26, 8);
+            this.lbl_Credits.Location = new System.Drawing.Point(27, 8);
             this.lbl_Credits.Name = "lbl_Credits";
-            this.lbl_Credits.Size = new System.Drawing.Size(133, 18);
+            this.lbl_Credits.Size = new System.Drawing.Size(131, 18);
             this.lbl_Credits.TabIndex = 0;
             this.lbl_Credits.Text = "Song Manager Team";
             this.lbl_Credits.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1685,6 +1689,10 @@
             this.labelAlphaTesters.Text = "Alpha Testers:";
             this.labelAlphaTesters.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // colDupeEnabled
+            // 
+            this.colDupeEnabled.Text = "Enabled";
+            // 
             // dgvSongs
             // 
             this.dgvSongs.AllowUserToAddRows = false;
@@ -1730,6 +1738,17 @@
             // frmMainBindingSource
             // 
             this.frmMainBindingSource.DataSource = typeof(CustomsForgeManager_Winforms.Forms.frmMain);
+            // 
+            // btnDisableEnableSong
+            // 
+            this.btnDisableEnableSong.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnDisableEnableSong.Location = new System.Drawing.Point(303, 20);
+            this.btnDisableEnableSong.Name = "btnDisableEnableSong";
+            this.btnDisableEnableSong.Size = new System.Drawing.Size(150, 27);
+            this.btnDisableEnableSong.TabIndex = 10;
+            this.btnDisableEnableSong.Text = "Enable/disable song";
+            this.btnDisableEnableSong.UseVisualStyleBackColor = true;
+            this.btnDisableEnableSong.Click += new System.EventHandler(this.btnDisableEnableSong_Click);
             // 
             // frmMain
             // 
@@ -1936,5 +1955,7 @@
         private System.Windows.Forms.TextBox tbSearch;
         private System.Windows.Forms.Button btnSearch;
         private System.Windows.Forms.GroupBox gb_Main_Actions;
+        private System.Windows.Forms.ColumnHeader colDupeEnabled;
+        private System.Windows.Forms.Button btnDisableEnableSong;
     }
 }

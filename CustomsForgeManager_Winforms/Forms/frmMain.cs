@@ -91,7 +91,7 @@ namespace CustomsForgeManager_Winforms.Forms
             {
                 this.myLog.Write(e.Message);
             }
-      
+
             Init();
         }
         private void Init()
@@ -276,7 +276,7 @@ namespace CustomsForgeManager_Winforms.Forms
                 {
                     listDupeSongs.InvokeIfRequired(delegate
                     {
-                        listDupeSongs.Items.Add(new ListViewItem(new[] { " ", song.Artist, song.Song, song.Album, song.Updated, song.Path }));
+                        listDupeSongs.Items.Add(new ListViewItem(new[] { " ", song.Enabled, song.Artist, song.Song, song.Album, song.Updated, song.Path }));
                     });
                 }
             }
@@ -1148,6 +1148,40 @@ namespace CustomsForgeManager_Winforms.Forms
         }
         #endregion
         #region Button events
+        private void btnDisableEnableSong_Click(object sender, EventArgs e)
+        {
+            listDupeSongs.InvokeIfRequired(delegate
+            {
+                try
+                {
+                    for (int i = 0; i < listDupeSongs.Items.Count; i++)
+                    {
+                        if (listDupeSongs.Items[i].Checked || listDupeSongs.Items[i].Selected)
+                        {
+                            string songPath = listDupeSongs.Items[i].SubItems[6].Text;
+                            if (songPath.Contains("_p.disabled.psarc"))
+                            {
+                                string enabledSongPath = songPath.Replace("_p.disabled.psarc", "_p.psarc");
+                                File.Move(songPath, enabledSongPath);
+                                listDupeSongs.Items[i].SubItems[1].Text = "Yes";
+                                listDupeSongs.Items[i].SubItems[6].Text = enabledSongPath;
+                            }
+                            else
+                            {
+                                string disabledSongPath = songPath.Replace("_p.psarc", "_p.disabled.psarc");
+                                File.Move(songPath, disabledSongPath);
+                                listDupeSongs.Items[i].SubItems[1].Text = "No";
+                                listDupeSongs.Items[i].SubItems[6].Text = disabledSongPath;
+                            }
+                        }
+                    }
+                }
+                catch (IOException)
+                {
+                    myLog.Write("<ERROR>: Unable to disable the song(s)!");
+                }
+            });
+        }
         private void btnEnableColumns_Click(object sender, EventArgs e)
         {
             dgvSongs.InvokeIfRequired(delegate
@@ -1361,7 +1395,7 @@ namespace CustomsForgeManager_Winforms.Forms
             //};
             bWorker.RunWorkerAsync();
         }
- 
+
         #endregion
         #region ToolStripMenuItem events
         private void deleteSongToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2026,7 +2060,7 @@ namespace CustomsForgeManager_Winforms.Forms
             try
             {
                 foreach (SongData data in songList)
-                {    
+                {
                     Template template = new Template(templateString);
                     template.Add("title", data.Song);
                     template.Add("artist", data.Artist);
@@ -2039,19 +2073,19 @@ namespace CustomsForgeManager_Winforms.Forms
                     }
                     else
                     {
-                        template.Add("dd","");
+                        template.Add("dd", "");
                     }
 
                     template.Add("year", data.SongYear);
                     template.Add("author", data.Updated);
 
-                    String newFilePath = mySettings.RSInstalledDir +  "\\dlc\\" + template.Render() + "_p.psarc";
+                    String newFilePath = mySettings.RSInstalledDir + "\\dlc\\" + template.Render() + "_p.psarc";
 
                     string oldFilePath = data.Path;
                     FileInfo newFileInfo = new FileInfo(newFilePath);
                     System.IO.Directory.CreateDirectory(newFileInfo.Directory.FullName);
                     myLog.Write("Renaming/Moving:" + oldFilePath);
-                  
+
                     myLog.Write("---> " + newFilePath);
                     System.IO.File.Move(oldFilePath, newFilePath);
                 }
@@ -2059,7 +2093,7 @@ namespace CustomsForgeManager_Winforms.Forms
                 {
                     new DirectoryInfo(mySettings.RSInstalledDir + "\\dlc\\").DeleteEmptyDirs();
                 }
-                
+
             }
             //lazy exception catch for now. Future me will punch me for such astrocities, alas its a desktop app.
             catch (Exception e)
