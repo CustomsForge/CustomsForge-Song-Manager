@@ -1308,14 +1308,28 @@ namespace CustomsForgeManager_Winforms.Forms
         }
         private void btnDupeRescan_Click(object sender, EventArgs e)
         {//Same issue as with regular rescan..
-            listDupeSongs.Items.Clear();
-            DupeCollection.Clear();
-            tpDuplicates.InvokeIfRequired(delegate
+            if (CurrentFileList.Count > 0)
             {
-                tpDuplicates.Text = "Duplicates(0)";
-            });
-            // btnRescan_Click(null, null);
-            Rescan();
+                if (String.IsNullOrEmpty(mySettings.RSInstalledDir))
+                {
+                    MessageBox.Show("Please, make sure that you've got Rocksmith 2014 installed.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                else
+                {
+                    toolStripStatusLabel_MainCancel.Visible = true;
+                    listDupeSongs.Items.Clear();
+                    DupeCollection.Clear();
+                    tpDuplicates.InvokeIfRequired(delegate
+                    {
+                        tpDuplicates.Text = "Duplicates(0)";
+                    });
+                    Rescan();
+                }
+            }
+            else
+            {
+                BackgroundScan();
+            }
         }
         private void btnDeleteSongOne_Click(object sender, EventArgs e)
         {
@@ -1873,7 +1887,6 @@ namespace CustomsForgeManager_Winforms.Forms
             else
                 myLog.AddTargetNotifyIcon(notifyIcon_Main);
         }
-
 
         public void Rescan()
         {
