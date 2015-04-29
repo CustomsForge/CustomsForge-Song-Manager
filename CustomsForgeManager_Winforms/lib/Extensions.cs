@@ -24,7 +24,7 @@ namespace CustomsForgeManager_Winforms.Utilities
             else
                 action(c);
         }
-        public static void Serialze(this object obj, FileStream Stream)
+        public static void Serialize(this object obj, FileStream Stream)
         {
             BinaryFormatter bin = new BinaryFormatter();
             bin.FilterLevel = System.Runtime.Serialization.Formatters.TypeFilterLevel.Low;

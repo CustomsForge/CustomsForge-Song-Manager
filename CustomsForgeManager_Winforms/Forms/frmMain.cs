@@ -366,7 +366,7 @@ namespace CustomsForgeManager_Winforms.Forms
                         }
                     }
                 }
-                mySettings.Serialze(fs);
+                mySettings.Serialize(fs);
                 Log("Saved settings...");
                 fs.Flush();
             }
@@ -433,7 +433,8 @@ namespace CustomsForgeManager_Winforms.Forms
             string path = Constants.DefaultWorkingDirectory + @"\songs.bin";
             using (var fs = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Write))
             {
-                SongCollection.Serialze(fs);
+                SongCollection.Serialize(fs);
+                CurrentFileList.Serialize(fs);
                 Log("Song collection saved...");
                 fs.Flush();
             }
@@ -453,7 +454,12 @@ namespace CustomsForgeManager_Winforms.Forms
             }
             using (var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
-                var songs = fs.DeSerialize() as BindingList<SongData>;
+                var songs = (BindingList<SongData>)fs.DeSerialize();
+                var fileList = (List<string>)fs.DeSerialize();
+                if(fileList != null)
+                {
+                    CurrentFileList = fileList;
+                }
                 if (songs != null)
                 {
                     SongCollection = songs;
