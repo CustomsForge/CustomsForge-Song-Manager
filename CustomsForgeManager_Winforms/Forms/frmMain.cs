@@ -442,33 +442,49 @@ namespace CustomsForgeManager_Winforms.Forms
         private void LoadSongCollectionFromFile()
         {
             string path = Constants.DefaultWorkingDirectory + @"\songs.bin";
-            if (!File.Exists(path))
+            try
             {
-                using (var fs = new FileStream(path, FileMode.CreateNew, FileAccess.Write, FileShare.Write))
+                
+                if (!File.Exists(path))
                 {
-                    BackgroundScan();
-                    Log("Song collection file created...");
-                    fs.Flush();
+                    using (var fs = new FileStream(path, FileMode.CreateNew, FileAccess.Write, FileShare.Write))
+                    {
+                        BackgroundScan();
+                        Log("Song collection file created...");
+                        fs.Flush();
+                    }
+                    SaveSettingsToFile(path);
                 }
-                SaveSettingsToFile(path);
+                using (var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
+                {
+                    var songs = (BindingList<SongData>) fs.DeSerialize();
+                    var fileList = (List<string>) fs.DeSerialize();
+                    if (fileList != null)
+                    {
+                        CurrentFileList = fileList;
+                    }
+                    if (songs != null)
+                    {
+                        SongCollection = songs;
+                        Log("Song collection loaded...");
+                        fs.Flush();
+                        PopulateDataGridView();
+                    }
+                }
             }
-            using (var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
+            catch (Exception)
             {
-                var songs = (BindingList<SongData>)fs.DeSerialize();
-                var fileList = (List<string>)fs.DeSerialize();
-                if(fileList != null)
-                {
-                    CurrentFileList = fileList;
-                }
-                if (songs != null)
-                {
-                    SongCollection = songs;
-                    Log("Song collection loaded...");
-                    fs.Flush();
-                    PopulateDataGridView();
-                }
+                MessageBox.Show("Application couldn't read song collection file and it has to be deleted. Restart is needed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                File.Delete(path);
             }
         }
+
+        private void RestartApp()
+        {
+            Process.Start(Application.ExecutablePath);
+            Process.GetCurrentProcess().Kill();
+        }
+
         private void ToggleUIControls()
         {
             btnRescan.InvokeIfRequired(delegate
