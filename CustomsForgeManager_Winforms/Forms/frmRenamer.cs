@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using Antlr4.StringTemplate;
 using CustomsForgeManager_Winforms.Controls;
 using CustomsForgeManager_Winforms.Utilities;
+using DLog.NET;
 
 namespace CustomsForgeManager_Winforms.Forms
 {
@@ -18,12 +19,12 @@ namespace CustomsForgeManager_Winforms.Forms
     //TODO: currently contains tons of logic/functions that should be refactored into another class.
     public partial class frmRenamer : Form
     {
-        private Logging.Log myLog;
+        private DLogger myLog;
         private AbortableBackgroundWorker renameWorker = new AbortableBackgroundWorker();
         private List<SongData> songList;
         private Settings settings;
 
-        public frmRenamer(Logging.Log myLog, Settings settings, List<SongData> songList)
+        public frmRenamer(DLogger myLog, Settings settings, List<SongData> songList)
         {
             // TODO: Complete member initialization
             this.myLog = myLog;
