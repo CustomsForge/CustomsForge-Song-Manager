@@ -172,7 +172,9 @@ namespace CustomsForgeManager_Winforms
         public void Dispose()
         {
             archive.Dispose();
+            GC.SuppressFinalize(this);
         }
+
     }
 
     ///// <summary>

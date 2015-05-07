@@ -3,14 +3,11 @@ using System.Deployment.Application;
 using System.Drawing;
 using System.IO;
 using System.Net;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using CustomsForgeManager_Winforms.Controls;
 using CustomsForgeManager_Winforms.lib;
-using CustomsForgeManager_Winforms.Logging;
 using CustomsForgeManager_Winforms.Utilities;
+using DLog.NET;
 using Microsoft.Win32;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,9 +15,7 @@ using System.ComponentModel;
 using System.IO.Compression;
 using System.Diagnostics;
 using System.Text;
-using System.Xml.Linq;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System.Reflection;
 using Antlr4.StringTemplate;
 
@@ -32,7 +27,7 @@ namespace CustomsForgeManager_Winforms.Forms
 
         private bool allSelected = false;
         private bool sortDescending = true;
-        private readonly Log myLog;
+        private readonly DLogger myLog;
         private Settings mySettings;
         private Stopwatch counterStopwatch = new Stopwatch();
         private int numberOfDLCPendingUpdate = 0;
@@ -50,7 +45,7 @@ namespace CustomsForgeManager_Winforms.Forms
         {
             throw new Exception("Improper constructor used");
         }
-        public frmMain(Log myLog, Settings mySettings)
+        public frmMain(DLogger myLog, Settings mySettings)
         {
             // TODO: Complete member initialization
             this.myLog = myLog;
@@ -109,7 +104,7 @@ namespace CustomsForgeManager_Winforms.Forms
 
             #region Logging setup
 
-            myLog.AddTargetFile(mySettings.LogFilePath);
+            //myLog.AddTargetFile(mySettings.LogFilePath);
             myLog.AddTargetTextBox(tbLog);
             myLog.AddTargetNotifyIcon(notifyIcon_Main);
 
@@ -126,7 +121,7 @@ namespace CustomsForgeManager_Winforms.Forms
                 lbl_AppVersion.Text = "Version: " + appVersion.ToString();
             }
 
-            myLog.Write(GetRSTKLibVersion(), false);
+            myLog.Write(GetRSTKLibVersion());
 
             #endregion
 
@@ -1443,7 +1438,7 @@ namespace CustomsForgeManager_Winforms.Forms
             }
             catch (IOException ex)
             {
-                myLog.Write("<ERROR>:" + ex.Message, false);
+                myLog.Write("<ERROR>:" + ex.Message);
             }
         }
         private void toolStripStatusLabel_ClearLog_Click(object sender, EventArgs e)
@@ -1840,7 +1835,7 @@ namespace CustomsForgeManager_Winforms.Forms
                                     string.Format(
                                         "Update found for \"{0}\" from \"{1}\" album by {2}. Local version: {3}, Ignition version: {4} ",
                                         currentSong.Song, currentSong.Album, currentSong.Author, currentSong.Version,
-                                        currentSong.IgnitionVersion), false);
+                                        currentSong.IgnitionVersion));
 
                                 numberOfDLCPendingUpdate++;
                                 toolStripStatusLabel_DisabledCounter.Text = "Outdated: " + numberOfDLCPendingUpdate.ToString() + " | Disabled DLC:" + numberOfDisabledDLC.ToString();
