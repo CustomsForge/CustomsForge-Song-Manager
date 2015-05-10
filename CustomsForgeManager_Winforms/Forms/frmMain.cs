@@ -48,6 +48,11 @@ namespace CustomsForgeManager_Winforms.Forms
         public frmMain(DLogger myLog, Settings mySettings)
         {
             // TODO: Complete member initialization
+            this.SetStyle(
+                  ControlStyles.AllPaintingInWmPaint |
+                  ControlStyles.UserPaint |
+                  ControlStyles.DoubleBuffer, true);
+
             this.myLog = myLog;
             this.mySettings = mySettings;
 
@@ -187,6 +192,11 @@ namespace CustomsForgeManager_Winforms.Forms
                 foreach (var songData in songInfo.Distinct())
                 {
                     songData.Enabled = enabled;
+                    
+                    DateTime updateDateTime = new DateTime();
+                    if (DateTime.TryParse(songData.Updated, out updateDateTime))
+                        songData.Updated = updateDateTime.ToString("g");
+
                     if (songData.Version == "N/A")
                     {
                         string fileNameVersion = songData.GetVersionFromFileName();
@@ -1340,7 +1350,7 @@ namespace CustomsForgeManager_Winforms.Forms
                     {
                         tpDuplicates.Text = "Duplicates(0)";
                     });
-                    Rescan();
+                    BackgroundScan();
                 }
             }
             else
@@ -1397,6 +1407,7 @@ namespace CustomsForgeManager_Winforms.Forms
                 }
                 else
                 {
+                    CurrentFileList.Clear();
                     toolStripStatusLabel_MainCancel.Visible = true;
                     listDupeSongs.Items.Clear();
                     DupeCollection.Clear();
@@ -1404,7 +1415,7 @@ namespace CustomsForgeManager_Winforms.Forms
                     {
                         tpDuplicates.Text = "Duplicates(0)";
                     });
-                    Rescan();
+                    BackgroundScan();
                 }
             }
             else
