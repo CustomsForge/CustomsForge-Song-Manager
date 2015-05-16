@@ -69,12 +69,14 @@
             this.tlpDuplicates = new System.Windows.Forms.TableLayoutPanel();
             this.listDupeSongs = new System.Windows.Forms.ListView();
             this.colDupeSelect = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colDupeEnabled = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colDupeArtist = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colDupeSong = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colDupeAlbum = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colDupeLastUpdated = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colDupeSongPath = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnDisableEnableSong = new System.Windows.Forms.Button();
             this.btnDupeRescan = new System.Windows.Forms.Button();
             this.btnDeleteDupeSong = new System.Windows.Forms.Button();
             this.tpBatchRenamer = new System.Windows.Forms.TabPage();
@@ -91,26 +93,15 @@
             this.tpUtilities = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.panel4 = new System.Windows.Forms.Panel();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.gb_Utilities = new System.Windows.Forms.GroupBox();
             this.btnLaunchSteam = new System.Windows.Forms.Button();
             this.btnBackupRSProfile = new System.Windows.Forms.Button();
-            this.tpEditor = new System.Windows.Forms.TabPage();
             this.tpSettings = new System.Windows.Forms.TabPage();
             this.tlpSettings_Wrapper = new System.Windows.Forms.TableLayoutPanel();
-            this.lblSettingsRSDir = new System.Windows.Forms.Label();
-            this.tbSettingsRSDir = new System.Windows.Forms.TextBox();
             this.checkRescanOnStartup = new System.Windows.Forms.CheckBox();
             this.btnSettingsLoad = new System.Windows.Forms.Button();
-            this.btnSettingsSave = new System.Windows.Forms.Button();
             this.checkIncludeRS1DLC = new System.Windows.Forms.CheckBox();
-            this.panel5 = new System.Windows.Forms.Panel();
-            this.btnEnableColumns = new System.Windows.Forms.Button();
-            this.lblDisabledColumns = new System.Windows.Forms.Label();
-            this.listDisabledColumns = new System.Windows.Forms.ListView();
-            this.columnSelect = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.colSettingsColumnName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.colSettingsColumnEnabled = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.checkEnableLogBaloon = new System.Windows.Forms.CheckBox();
+            this.btnSettingsSave = new System.Windows.Forms.Button();
             this.tpCreators = new System.Windows.Forms.TabPage();
             this.btnRSTKSite = new System.Windows.Forms.Button();
             this.btnEOFSite = new System.Windows.Forms.Button();
@@ -159,11 +150,19 @@
             this.contextMenuStrip_Tray = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.labelAlphaTesters = new System.Windows.Forms.Label();
-            this.colDupeEnabled = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.tbSettingsRSDir = new System.Windows.Forms.TextBox();
+            this.lblSettingsRSDir = new System.Windows.Forms.Label();
+            this.checkEnableLogBaloon = new System.Windows.Forms.CheckBox();
+            this.listDisabledColumns = new System.Windows.Forms.ListView();
+            this.columnSelect = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colSettingsColumnName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colSettingsColumnEnabled = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.lblDisabledColumns = new System.Windows.Forms.Label();
+            this.btnEnableColumns = new System.Windows.Forms.Button();
+            this.panel5 = new System.Windows.Forms.Panel();
             this.dgvSongs = new CustomsForgeManager_Winforms.Controls.RADataGridView();
             this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.frmMainBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.btnDisableEnableSong = new System.Windows.Forms.Button();
             this.tlp_MainForm_Wrappper.SuspendLayout();
             this.gbLog.SuspendLayout();
             this.tcMain.SuspendLayout();
@@ -184,10 +183,9 @@
             this.tpUtilities.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.panel4.SuspendLayout();
-            this.groupBox2.SuspendLayout();
+            this.gb_Utilities.SuspendLayout();
             this.tpSettings.SuspendLayout();
             this.tlpSettings_Wrapper.SuspendLayout();
-            this.panel5.SuspendLayout();
             this.tpCreators.SuspendLayout();
             this.tpAbout.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -201,6 +199,7 @@
             this.tableLayoutPanel_Credits.SuspendLayout();
             this.statusStripMain.SuspendLayout();
             this.contextMenuStrip_Tray.SuspendLayout();
+            this.panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSongs)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.frmMainBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -254,7 +253,6 @@
             this.tcMain.Controls.Add(this.tpDuplicates);
             this.tcMain.Controls.Add(this.tpBatchRenamer);
             this.tcMain.Controls.Add(this.tpUtilities);
-            this.tcMain.Controls.Add(this.tpEditor);
             this.tcMain.Controls.Add(this.tpSettings);
             this.tcMain.Controls.Add(this.tpCreators);
             this.tcMain.Controls.Add(this.tpAbout);
@@ -302,7 +300,7 @@
             this.linkLblSelectAll.LinkColor = System.Drawing.Color.Black;
             this.linkLblSelectAll.Location = new System.Drawing.Point(6, 233);
             this.linkLblSelectAll.Name = "linkLblSelectAll";
-            this.linkLblSelectAll.Size = new System.Drawing.Size(111, 16);
+            this.linkLblSelectAll.Size = new System.Drawing.Size(113, 16);
             this.linkLblSelectAll.TabIndex = 2;
             this.linkLblSelectAll.TabStop = true;
             this.linkLblSelectAll.Text = "Select All/Deselect All";
@@ -623,12 +621,13 @@
             this.tlpDuplicates.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlpDuplicates.Controls.Add(this.listDupeSongs, 0, 0);
             this.tlpDuplicates.Controls.Add(this.panel1, 0, 1);
-            this.tlpDuplicates.Location = new System.Drawing.Point(1, 3);
+            this.tlpDuplicates.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlpDuplicates.Location = new System.Drawing.Point(0, 0);
             this.tlpDuplicates.Name = "tlpDuplicates";
             this.tlpDuplicates.RowCount = 2;
             this.tlpDuplicates.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 80.73267F));
             this.tlpDuplicates.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 19.26733F));
-            this.tlpDuplicates.Size = new System.Drawing.Size(768, 383);
+            this.tlpDuplicates.Size = new System.Drawing.Size(997, 436);
             this.tlpDuplicates.TabIndex = 2;
             // 
             // listDupeSongs
@@ -649,7 +648,7 @@
             this.listDupeSongs.HideSelection = false;
             this.listDupeSongs.Location = new System.Drawing.Point(3, 3);
             this.listDupeSongs.Name = "listDupeSongs";
-            this.listDupeSongs.Size = new System.Drawing.Size(762, 303);
+            this.listDupeSongs.Size = new System.Drawing.Size(991, 345);
             this.listDupeSongs.TabIndex = 2;
             this.listDupeSongs.UseCompatibleStateImageBehavior = false;
             this.listDupeSongs.View = System.Windows.Forms.View.Details;
@@ -657,6 +656,10 @@
             // colDupeSelect
             // 
             this.colDupeSelect.Text = "Select";
+            // 
+            // colDupeEnabled
+            // 
+            this.colDupeEnabled.Text = "Enabled";
             // 
             // colDupeArtist
             // 
@@ -688,15 +691,27 @@
             this.panel1.Controls.Add(this.btnDisableEnableSong);
             this.panel1.Controls.Add(this.btnDupeRescan);
             this.panel1.Controls.Add(this.btnDeleteDupeSong);
-            this.panel1.Location = new System.Drawing.Point(3, 312);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(3, 354);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(762, 68);
+            this.panel1.Size = new System.Drawing.Size(991, 79);
             this.panel1.TabIndex = 0;
+            // 
+            // btnDisableEnableSong
+            // 
+            this.btnDisableEnableSong.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnDisableEnableSong.Location = new System.Drawing.Point(417, 25);
+            this.btnDisableEnableSong.Name = "btnDisableEnableSong";
+            this.btnDisableEnableSong.Size = new System.Drawing.Size(150, 27);
+            this.btnDisableEnableSong.TabIndex = 10;
+            this.btnDisableEnableSong.Text = "Enable/disable song";
+            this.btnDisableEnableSong.UseVisualStyleBackColor = true;
+            this.btnDisableEnableSong.Click += new System.EventHandler(this.btnDisableEnableSong_Click);
             // 
             // btnDupeRescan
             // 
             this.btnDupeRescan.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnDupeRescan.Location = new System.Drawing.Point(147, 20);
+            this.btnDupeRescan.Location = new System.Drawing.Point(261, 25);
             this.btnDupeRescan.Name = "btnDupeRescan";
             this.btnDupeRescan.Size = new System.Drawing.Size(150, 27);
             this.btnDupeRescan.TabIndex = 9;
@@ -707,7 +722,7 @@
             // btnDeleteDupeSong
             // 
             this.btnDeleteDupeSong.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnDeleteDupeSong.Location = new System.Drawing.Point(459, 20);
+            this.btnDeleteDupeSong.Location = new System.Drawing.Point(573, 25);
             this.btnDeleteDupeSong.Name = "btnDeleteDupeSong";
             this.btnDeleteDupeSong.Size = new System.Drawing.Size(150, 27);
             this.btnDeleteDupeSong.TabIndex = 8;
@@ -754,10 +769,13 @@
             // 
             // propertiesGroupBox
             // 
+            this.propertiesGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.propertiesGroupBox.Controls.Add(this.renamerPropertyDataGridView);
             this.propertiesGroupBox.Location = new System.Drawing.Point(440, 58);
             this.propertiesGroupBox.Name = "propertiesGroupBox";
-            this.propertiesGroupBox.Size = new System.Drawing.Size(324, 320);
+            this.propertiesGroupBox.Size = new System.Drawing.Size(551, 372);
             this.propertiesGroupBox.TabIndex = 8;
             this.propertiesGroupBox.TabStop = false;
             this.propertiesGroupBox.Text = "Usuable Properties";
@@ -778,16 +796,19 @@
             this.renamerPropertyDataGridView.ReadOnly = true;
             this.renamerPropertyDataGridView.RowHeadersVisible = false;
             this.renamerPropertyDataGridView.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            this.renamerPropertyDataGridView.Size = new System.Drawing.Size(318, 301);
+            this.renamerPropertyDataGridView.Size = new System.Drawing.Size(545, 353);
             this.renamerPropertyDataGridView.TabIndex = 2;
             // 
             // howToGroupBox
             // 
+            this.howToGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.howToGroupBox.Controls.Add(this.instructionsLabel);
             this.howToGroupBox.Controls.Add(this.label1);
             this.howToGroupBox.Location = new System.Drawing.Point(9, 58);
             this.howToGroupBox.Name = "howToGroupBox";
-            this.howToGroupBox.Size = new System.Drawing.Size(428, 317);
+            this.howToGroupBox.Size = new System.Drawing.Size(428, 372);
             this.howToGroupBox.TabIndex = 7;
             this.howToGroupBox.TabStop = false;
             this.howToGroupBox.Text = "How To Use:";
@@ -799,7 +820,7 @@
             this.instructionsLabel.Location = new System.Drawing.Point(3, 16);
             this.instructionsLabel.Name = "instructionsLabel";
             this.instructionsLabel.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.instructionsLabel.Size = new System.Drawing.Size(353, 304);
+            this.instructionsLabel.Size = new System.Drawing.Size(354, 304);
             this.instructionsLabel.TabIndex = 1;
             this.instructionsLabel.Text = resources.GetString("instructionsLabel.Text");
             // 
@@ -816,7 +837,7 @@
             this.renameTemplateLabel.AutoSize = true;
             this.renameTemplateLabel.Location = new System.Drawing.Point(15, 12);
             this.renameTemplateLabel.Name = "renameTemplateLabel";
-            this.renameTemplateLabel.Size = new System.Drawing.Size(97, 16);
+            this.renameTemplateLabel.Size = new System.Drawing.Size(98, 16);
             this.renameTemplateLabel.TabIndex = 6;
             this.renameTemplateLabel.Text = "Rename Template:";
             // 
@@ -865,27 +886,31 @@
             // 
             // panel4
             // 
-            this.panel4.Controls.Add(this.groupBox2);
-            this.panel4.Controls.Add(this.btnBackupRSProfile);
+            this.panel4.Controls.Add(this.gb_Utilities);
+            this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel4.Location = new System.Drawing.Point(3, 3);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(764, 380);
+            this.panel4.Size = new System.Drawing.Size(991, 430);
             this.panel4.TabIndex = 0;
             // 
-            // groupBox2
+            // gb_Utilities
             // 
-            this.groupBox2.Controls.Add(this.btnLaunchSteam);
-            this.groupBox2.Location = new System.Drawing.Point(18, 53);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(726, 42);
-            this.groupBox2.TabIndex = 6;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Rocksmith launcher";
+            this.gb_Utilities.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gb_Utilities.Controls.Add(this.btnLaunchSteam);
+            this.gb_Utilities.Controls.Add(this.btnBackupRSProfile);
+            this.gb_Utilities.Location = new System.Drawing.Point(3, 3);
+            this.gb_Utilities.Name = "gb_Utilities";
+            this.gb_Utilities.Size = new System.Drawing.Size(985, 42);
+            this.gb_Utilities.TabIndex = 6;
+            this.gb_Utilities.TabStop = false;
+            this.gb_Utilities.Text = "Utilities";
             // 
             // btnLaunchSteam
             // 
-            this.btnLaunchSteam.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnLaunchSteam.Location = new System.Drawing.Point(186, 12);
+            this.btnLaunchSteam.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnLaunchSteam.Location = new System.Drawing.Point(666, 12);
             this.btnLaunchSteam.Name = "btnLaunchSteam";
             this.btnLaunchSteam.Size = new System.Drawing.Size(157, 26);
             this.btnLaunchSteam.TabIndex = 4;
@@ -895,23 +920,15 @@
             // 
             // btnBackupRSProfile
             // 
-            this.btnBackupRSProfile.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnBackupRSProfile.Location = new System.Drawing.Point(294, 14);
+            this.btnBackupRSProfile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnBackupRSProfile.Location = new System.Drawing.Point(829, 12);
             this.btnBackupRSProfile.Name = "btnBackupRSProfile";
-            this.btnBackupRSProfile.Size = new System.Drawing.Size(150, 23);
+            this.btnBackupRSProfile.Size = new System.Drawing.Size(150, 26);
             this.btnBackupRSProfile.TabIndex = 2;
             this.btnBackupRSProfile.Text = "Backup Rocksmith Profile";
             this.btnBackupRSProfile.UseVisualStyleBackColor = true;
             this.btnBackupRSProfile.Click += new System.EventHandler(this.btnBackupRSProfile_Click);
-            // 
-            // tpEditor
-            // 
-            this.tpEditor.Location = new System.Drawing.Point(4, 25);
-            this.tpEditor.Name = "tpEditor";
-            this.tpEditor.Size = new System.Drawing.Size(997, 436);
-            this.tpEditor.TabIndex = 3;
-            this.tpEditor.Text = "Song Editor";
-            this.tpEditor.UseVisualStyleBackColor = true;
             // 
             // tpSettings
             // 
@@ -926,51 +943,30 @@
             // 
             // tlpSettings_Wrapper
             // 
-            this.tlpSettings_Wrapper.ColumnCount = 3;
-            this.tlpSettings_Wrapper.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.56544F));
-            this.tlpSettings_Wrapper.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 38.089F));
-            this.tlpSettings_Wrapper.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 49.47644F));
-            this.tlpSettings_Wrapper.Controls.Add(this.lblSettingsRSDir, 1, 1);
-            this.tlpSettings_Wrapper.Controls.Add(this.tbSettingsRSDir, 2, 1);
-            this.tlpSettings_Wrapper.Controls.Add(this.checkRescanOnStartup, 1, 2);
-            this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsLoad, 2, 5);
+            this.tlpSettings_Wrapper.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Inset;
+            this.tlpSettings_Wrapper.ColumnCount = 2;
+            this.tlpSettings_Wrapper.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
+            this.tlpSettings_Wrapper.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70F));
+            this.tlpSettings_Wrapper.Controls.Add(this.lblSettingsRSDir, 0, 0);
+            this.tlpSettings_Wrapper.Controls.Add(this.tbSettingsRSDir, 1, 0);
+            this.tlpSettings_Wrapper.Controls.Add(this.checkRescanOnStartup, 0, 3);
+            this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsLoad, 0, 5);
+            this.tlpSettings_Wrapper.Controls.Add(this.checkIncludeRS1DLC, 0, 2);
+            this.tlpSettings_Wrapper.Controls.Add(this.panel5, 1, 1);
+            this.tlpSettings_Wrapper.Controls.Add(this.checkEnableLogBaloon, 0, 1);
             this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsSave, 1, 5);
-            this.tlpSettings_Wrapper.Controls.Add(this.checkIncludeRS1DLC, 1, 3);
-            this.tlpSettings_Wrapper.Controls.Add(this.panel5, 2, 4);
-            this.tlpSettings_Wrapper.Controls.Add(this.checkEnableLogBaloon, 2, 2);
             this.tlpSettings_Wrapper.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpSettings_Wrapper.Location = new System.Drawing.Point(3, 3);
             this.tlpSettings_Wrapper.Name = "tlpSettings_Wrapper";
             this.tlpSettings_Wrapper.RowCount = 6;
-            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 7.832898F));
-            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10.86262F));
-            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
-            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 81.46965F));
-            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 49F));
+            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
             this.tlpSettings_Wrapper.Size = new System.Drawing.Size(991, 430);
             this.tlpSettings_Wrapper.TabIndex = 0;
-            // 
-            // lblSettingsRSDir
-            // 
-            this.lblSettingsRSDir.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.lblSettingsRSDir.AutoSize = true;
-            this.lblSettingsRSDir.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSettingsRSDir.Location = new System.Drawing.Point(127, 26);
-            this.lblSettingsRSDir.Name = "lblSettingsRSDir";
-            this.lblSettingsRSDir.Size = new System.Drawing.Size(276, 13);
-            this.lblSettingsRSDir.TabIndex = 1;
-            this.lblSettingsRSDir.Text = "Rocksmith installation directory (double-click to change):";
-            this.lblSettingsRSDir.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // tbSettingsRSDir
-            // 
-            this.tbSettingsRSDir.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.tbSettingsRSDir.Location = new System.Drawing.Point(503, 23);
-            this.tbSettingsRSDir.Name = "tbSettingsRSDir";
-            this.tbSettingsRSDir.Size = new System.Drawing.Size(373, 20);
-            this.tbSettingsRSDir.TabIndex = 2;
-            this.tbSettingsRSDir.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.tbSettingsRSDir_MouseDoubleClick);
             // 
             // checkRescanOnStartup
             // 
@@ -978,9 +974,9 @@
             this.checkRescanOnStartup.Checked = true;
             this.checkRescanOnStartup.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkRescanOnStartup.Dock = System.Windows.Forms.DockStyle.Right;
-            this.checkRescanOnStartup.Location = new System.Drawing.Point(379, 49);
+            this.checkRescanOnStartup.Location = new System.Drawing.Point(176, 134);
             this.checkRescanOnStartup.Name = "checkRescanOnStartup";
-            this.checkRescanOnStartup.Size = new System.Drawing.Size(118, 30);
+            this.checkRescanOnStartup.Size = new System.Drawing.Size(118, 35);
             this.checkRescanOnStartup.TabIndex = 3;
             this.checkRescanOnStartup.Text = "Rescan on startup";
             this.checkRescanOnStartup.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -988,25 +984,14 @@
             // 
             // btnSettingsLoad
             // 
-            this.btnSettingsLoad.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnSettingsLoad.Location = new System.Drawing.Point(670, 393);
+            this.btnSettingsLoad.Dock = System.Windows.Forms.DockStyle.Left;
+            this.btnSettingsLoad.Location = new System.Drawing.Point(5, 387);
             this.btnSettingsLoad.Name = "btnSettingsLoad";
-            this.btnSettingsLoad.Size = new System.Drawing.Size(150, 23);
+            this.btnSettingsLoad.Size = new System.Drawing.Size(150, 38);
             this.btnSettingsLoad.TabIndex = 0;
             this.btnSettingsLoad.Text = "Load Settings";
             this.btnSettingsLoad.UseVisualStyleBackColor = true;
             this.btnSettingsLoad.Click += new System.EventHandler(this.btnSettingsLoad_Click);
-            // 
-            // btnSettingsSave
-            // 
-            this.btnSettingsSave.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnSettingsSave.Location = new System.Drawing.Point(237, 393);
-            this.btnSettingsSave.Name = "btnSettingsSave";
-            this.btnSettingsSave.Size = new System.Drawing.Size(150, 23);
-            this.btnSettingsSave.TabIndex = 0;
-            this.btnSettingsSave.Text = "Save Settings";
-            this.btnSettingsSave.UseVisualStyleBackColor = true;
-            this.btnSettingsSave.Click += new System.EventHandler(this.btnSettingsSave_Click);
             // 
             // checkIncludeRS1DLC
             // 
@@ -1014,88 +999,25 @@
             this.checkIncludeRS1DLC.Checked = true;
             this.checkIncludeRS1DLC.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkIncludeRS1DLC.Dock = System.Windows.Forms.DockStyle.Right;
-            this.checkIncludeRS1DLC.Location = new System.Drawing.Point(319, 85);
+            this.checkIncludeRS1DLC.Location = new System.Drawing.Point(115, 91);
             this.checkIncludeRS1DLC.Name = "checkIncludeRS1DLC";
-            this.checkIncludeRS1DLC.Size = new System.Drawing.Size(178, 22);
+            this.checkIncludeRS1DLC.Size = new System.Drawing.Size(179, 35);
             this.checkIncludeRS1DLC.TabIndex = 3;
             this.checkIncludeRS1DLC.Text = "Include RS1 Compatibility Pack";
             this.checkIncludeRS1DLC.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.checkIncludeRS1DLC.UseVisualStyleBackColor = true;
             // 
-            // panel5
+            // btnSettingsSave
             // 
-            this.panel5.Controls.Add(this.btnEnableColumns);
-            this.panel5.Controls.Add(this.lblDisabledColumns);
-            this.panel5.Controls.Add(this.listDisabledColumns);
-            this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel5.Location = new System.Drawing.Point(503, 113);
-            this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(485, 264);
-            this.panel5.TabIndex = 4;
-            // 
-            // btnEnableColumns
-            // 
-            this.btnEnableColumns.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnEnableColumns.Location = new System.Drawing.Point(167, 217);
-            this.btnEnableColumns.Name = "btnEnableColumns";
-            this.btnEnableColumns.Size = new System.Drawing.Size(150, 23);
-            this.btnEnableColumns.TabIndex = 2;
-            this.btnEnableColumns.Text = "Enable/disable column(s)";
-            this.btnEnableColumns.UseVisualStyleBackColor = true;
-            this.btnEnableColumns.Click += new System.EventHandler(this.btnEnableColumns_Click);
-            // 
-            // lblDisabledColumns
-            // 
-            this.lblDisabledColumns.AutoSize = true;
-            this.lblDisabledColumns.Location = new System.Drawing.Point(137, 3);
-            this.lblDisabledColumns.Name = "lblDisabledColumns";
-            this.lblDisabledColumns.Size = new System.Drawing.Size(91, 16);
-            this.lblDisabledColumns.TabIndex = 1;
-            this.lblDisabledColumns.Text = "Song list columns";
-            // 
-            // listDisabledColumns
-            // 
-            this.listDisabledColumns.CheckBoxes = true;
-            this.listDisabledColumns.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnSelect,
-            this.colSettingsColumnName,
-            this.colSettingsColumnEnabled});
-            this.listDisabledColumns.Location = new System.Drawing.Point(15, 19);
-            this.listDisabledColumns.Name = "listDisabledColumns";
-            this.listDisabledColumns.Size = new System.Drawing.Size(355, 173);
-            this.listDisabledColumns.TabIndex = 5;
-            this.listDisabledColumns.UseCompatibleStateImageBehavior = false;
-            this.listDisabledColumns.View = System.Windows.Forms.View.Details;
-            // 
-            // columnSelect
-            // 
-            this.columnSelect.Text = "Select";
-            this.columnSelect.Width = 51;
-            // 
-            // colSettingsColumnName
-            // 
-            this.colSettingsColumnName.Text = "Column Name";
-            this.colSettingsColumnName.Width = 169;
-            // 
-            // colSettingsColumnEnabled
-            // 
-            this.colSettingsColumnEnabled.Text = "Enabled";
-            this.colSettingsColumnEnabled.Width = 105;
-            // 
-            // checkEnableLogBaloon
-            // 
-            this.checkEnableLogBaloon.AutoSize = true;
-            this.checkEnableLogBaloon.Checked = true;
-            this.checkEnableLogBaloon.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkEnableLogBaloon.Dock = System.Windows.Forms.DockStyle.Left;
-            this.checkEnableLogBaloon.Location = new System.Drawing.Point(503, 49);
-            this.checkEnableLogBaloon.Name = "checkEnableLogBaloon";
-            this.checkEnableLogBaloon.Size = new System.Drawing.Size(118, 30);
-            this.checkEnableLogBaloon.TabIndex = 5;
-            this.checkEnableLogBaloon.Text = "Enable Log Baloon ";
-            this.checkEnableLogBaloon.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkEnableLogBaloon.UseVisualStyleBackColor = true;
-            this.checkEnableLogBaloon.CheckedChanged += new System.EventHandler(this.checkEnableLogBaloon_CheckedChanged);
+            this.btnSettingsSave.BackColor = System.Drawing.Color.Chartreuse;
+            this.btnSettingsSave.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnSettingsSave.Location = new System.Drawing.Point(836, 387);
+            this.btnSettingsSave.Name = "btnSettingsSave";
+            this.btnSettingsSave.Size = new System.Drawing.Size(150, 38);
+            this.btnSettingsSave.TabIndex = 0;
+            this.btnSettingsSave.Text = "Save Settings";
+            this.btnSettingsSave.UseVisualStyleBackColor = false;
+            this.btnSettingsSave.Click += new System.EventHandler(this.btnSettingsSave_Click);
             // 
             // tpCreators
             // 
@@ -1439,9 +1361,9 @@
             this.lbl_Credits.AutoSize = true;
             this.lbl_Credits.Font = new System.Drawing.Font("Trebuchet MS", 10F);
             this.lbl_Credits.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.lbl_Credits.Location = new System.Drawing.Point(27, 8);
+            this.lbl_Credits.Location = new System.Drawing.Point(26, 8);
             this.lbl_Credits.Name = "lbl_Credits";
-            this.lbl_Credits.Size = new System.Drawing.Size(131, 18);
+            this.lbl_Credits.Size = new System.Drawing.Size(133, 18);
             this.lbl_Credits.TabIndex = 0;
             this.lbl_Credits.Text = "Song Manager Team";
             this.lbl_Credits.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1689,9 +1611,111 @@
             this.labelAlphaTesters.Text = "Alpha Testers:";
             this.labelAlphaTesters.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // colDupeEnabled
+            // tbSettingsRSDir
             // 
-            this.colDupeEnabled.Text = "Enabled";
+            this.tbSettingsRSDir.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbSettingsRSDir.Location = new System.Drawing.Point(302, 5);
+            this.tbSettingsRSDir.Multiline = true;
+            this.tbSettingsRSDir.Name = "tbSettingsRSDir";
+            this.tbSettingsRSDir.ReadOnly = true;
+            this.tbSettingsRSDir.Size = new System.Drawing.Size(684, 35);
+            this.tbSettingsRSDir.TabIndex = 2;
+            this.tbSettingsRSDir.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.tbSettingsRSDir_MouseDoubleClick);
+            // 
+            // lblSettingsRSDir
+            // 
+            this.lblSettingsRSDir.AutoSize = true;
+            this.lblSettingsRSDir.Dock = System.Windows.Forms.DockStyle.Right;
+            this.lblSettingsRSDir.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSettingsRSDir.Location = new System.Drawing.Point(18, 2);
+            this.lblSettingsRSDir.Name = "lblSettingsRSDir";
+            this.lblSettingsRSDir.Size = new System.Drawing.Size(276, 41);
+            this.lblSettingsRSDir.TabIndex = 1;
+            this.lblSettingsRSDir.Text = "Rocksmith installation directory (double-click to change):";
+            this.lblSettingsRSDir.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // checkEnableLogBaloon
+            // 
+            this.checkEnableLogBaloon.AutoSize = true;
+            this.checkEnableLogBaloon.Checked = true;
+            this.checkEnableLogBaloon.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkEnableLogBaloon.Dock = System.Windows.Forms.DockStyle.Right;
+            this.checkEnableLogBaloon.Location = new System.Drawing.Point(176, 48);
+            this.checkEnableLogBaloon.Name = "checkEnableLogBaloon";
+            this.checkEnableLogBaloon.Size = new System.Drawing.Size(118, 35);
+            this.checkEnableLogBaloon.TabIndex = 5;
+            this.checkEnableLogBaloon.Text = "Enable Log Baloon ";
+            this.checkEnableLogBaloon.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkEnableLogBaloon.UseVisualStyleBackColor = true;
+            this.checkEnableLogBaloon.CheckedChanged += new System.EventHandler(this.checkEnableLogBaloon_CheckedChanged);
+            // 
+            // listDisabledColumns
+            // 
+            this.listDisabledColumns.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.listDisabledColumns.CheckBoxes = true;
+            this.listDisabledColumns.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnSelect,
+            this.colSettingsColumnName,
+            this.colSettingsColumnEnabled});
+            this.listDisabledColumns.Location = new System.Drawing.Point(3, 22);
+            this.listDisabledColumns.Name = "listDisabledColumns";
+            this.listDisabledColumns.Size = new System.Drawing.Size(686, 277);
+            this.listDisabledColumns.TabIndex = 5;
+            this.listDisabledColumns.UseCompatibleStateImageBehavior = false;
+            this.listDisabledColumns.View = System.Windows.Forms.View.Details;
+            // 
+            // columnSelect
+            // 
+            this.columnSelect.Text = "Select";
+            this.columnSelect.Width = 51;
+            // 
+            // colSettingsColumnName
+            // 
+            this.colSettingsColumnName.Text = "Column Name";
+            this.colSettingsColumnName.Width = 169;
+            // 
+            // colSettingsColumnEnabled
+            // 
+            this.colSettingsColumnEnabled.Text = "Enabled";
+            this.colSettingsColumnEnabled.Width = 105;
+            // 
+            // lblDisabledColumns
+            // 
+            this.lblDisabledColumns.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblDisabledColumns.AutoSize = true;
+            this.lblDisabledColumns.Location = new System.Drawing.Point(247, 2);
+            this.lblDisabledColumns.Name = "lblDisabledColumns";
+            this.lblDisabledColumns.Size = new System.Drawing.Size(119, 16);
+            this.lblDisabledColumns.TabIndex = 1;
+            this.lblDisabledColumns.Text = "Song Manager columns";
+            // 
+            // btnEnableColumns
+            // 
+            this.btnEnableColumns.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnEnableColumns.Location = new System.Drawing.Point(232, 305);
+            this.btnEnableColumns.Name = "btnEnableColumns";
+            this.btnEnableColumns.Size = new System.Drawing.Size(150, 23);
+            this.btnEnableColumns.TabIndex = 2;
+            this.btnEnableColumns.Text = "Enable/disable column(s)";
+            this.btnEnableColumns.UseVisualStyleBackColor = true;
+            this.btnEnableColumns.Click += new System.EventHandler(this.btnEnableColumns_Click);
+            // 
+            // panel5
+            // 
+            this.panel5.Controls.Add(this.btnEnableColumns);
+            this.panel5.Controls.Add(this.lblDisabledColumns);
+            this.panel5.Controls.Add(this.listDisabledColumns);
+            this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel5.Location = new System.Drawing.Point(302, 48);
+            this.panel5.Name = "panel5";
+            this.tlpSettings_Wrapper.SetRowSpan(this.panel5, 4);
+            this.panel5.Size = new System.Drawing.Size(684, 331);
+            this.panel5.TabIndex = 4;
             // 
             // dgvSongs
             // 
@@ -1739,17 +1763,6 @@
             // 
             this.frmMainBindingSource.DataSource = typeof(CustomsForgeManager_Winforms.Forms.frmMain);
             // 
-            // btnDisableEnableSong
-            // 
-            this.btnDisableEnableSong.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnDisableEnableSong.Location = new System.Drawing.Point(303, 20);
-            this.btnDisableEnableSong.Name = "btnDisableEnableSong";
-            this.btnDisableEnableSong.Size = new System.Drawing.Size(150, 27);
-            this.btnDisableEnableSong.TabIndex = 10;
-            this.btnDisableEnableSong.Text = "Enable/disable song";
-            this.btnDisableEnableSong.UseVisualStyleBackColor = true;
-            this.btnDisableEnableSong.Click += new System.EventHandler(this.btnDisableEnableSong_Click);
-            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1790,12 +1803,10 @@
             this.tpUtilities.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
-            this.groupBox2.ResumeLayout(false);
+            this.gb_Utilities.ResumeLayout(false);
             this.tpSettings.ResumeLayout(false);
             this.tlpSettings_Wrapper.ResumeLayout(false);
             this.tlpSettings_Wrapper.PerformLayout();
-            this.panel5.ResumeLayout(false);
-            this.panel5.PerformLayout();
             this.tpCreators.ResumeLayout(false);
             this.tpAbout.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
@@ -1813,6 +1824,8 @@
             this.statusStripMain.ResumeLayout(false);
             this.statusStripMain.PerformLayout();
             this.contextMenuStrip_Tray.ResumeLayout(false);
+            this.panel5.ResumeLayout(false);
+            this.panel5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSongs)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.frmMainBindingSource)).EndInit();
             this.ResumeLayout(false);
@@ -1837,9 +1850,6 @@
         private System.Windows.Forms.TableLayoutPanel tlpSettings_Wrapper;
         private System.Windows.Forms.Button btnSettingsSave;
         private System.Windows.Forms.Button btnSettingsLoad;
-        private System.Windows.Forms.Label lblSettingsRSDir;
-        private System.Windows.Forms.TextBox tbSettingsRSDir;
-        private System.Windows.Forms.TabPage tpEditor;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip_MainManager;
         private System.Windows.Forms.ToolStripMenuItem openDLCPageToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editDLCToolStripMenuItem;
@@ -1863,12 +1873,11 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Button btnBackupRSProfile;
-        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox gb_Utilities;
         private System.Windows.Forms.Button btnLaunchSteam;
         private System.Windows.Forms.SaveFileDialog sfdSongListToCSV;
         private System.Windows.Forms.Button btnExportSongList;
         private System.Windows.Forms.ToolStripMenuItem showDLCInfoToolStripMenuItem;
-        private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.ToolStripMenuItem checkForUpdateToolStripMenuItem;
         private System.Windows.Forms.Button btnCheckAllForUpdates;
         private System.Windows.Forms.Button btnDisableEnableSongs;
@@ -1902,12 +1911,6 @@
         private System.Windows.Forms.RadioButton radioBtn_ExportToCSV;
         private System.Windows.Forms.RadioButton radioBtn_ExportToBBCode;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel_ClearLog;
-        private System.Windows.Forms.Label lblDisabledColumns;
-        private System.Windows.Forms.Button btnEnableColumns;
-        private System.Windows.Forms.ListView listDisabledColumns;
-        private System.Windows.Forms.ColumnHeader columnSelect;
-        private System.Windows.Forms.ColumnHeader colSettingsColumnName;
-        private System.Windows.Forms.ColumnHeader colSettingsColumnEnabled;
         private System.Windows.Forms.ColumnHeader colDupeLastUpdated;
         private System.Windows.Forms.ToolStripMenuItem deleteSongToolStripMenuItem;
         private System.Windows.Forms.LinkLabel lnk_ReleaseNotes;
@@ -1924,7 +1927,6 @@
         private System.Windows.Forms.Button btnEOFSite;
         private System.Windows.Forms.Label lbl_ExportTo;
         private System.Windows.Forms.LinkLabel linkCFFAQ;
-        private System.Windows.Forms.CheckBox checkEnableLogBaloon;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.Label lbl_Credits;
@@ -1957,5 +1959,15 @@
         private System.Windows.Forms.GroupBox gb_Main_Actions;
         private System.Windows.Forms.ColumnHeader colDupeEnabled;
         private System.Windows.Forms.Button btnDisableEnableSong;
+        private System.Windows.Forms.Label lblSettingsRSDir;
+        private System.Windows.Forms.TextBox tbSettingsRSDir;
+        private System.Windows.Forms.Panel panel5;
+        private System.Windows.Forms.Button btnEnableColumns;
+        private System.Windows.Forms.Label lblDisabledColumns;
+        private System.Windows.Forms.ListView listDisabledColumns;
+        private System.Windows.Forms.ColumnHeader columnSelect;
+        private System.Windows.Forms.ColumnHeader colSettingsColumnName;
+        private System.Windows.Forms.ColumnHeader colSettingsColumnEnabled;
+        private System.Windows.Forms.CheckBox checkEnableLogBaloon;
     }
 }
