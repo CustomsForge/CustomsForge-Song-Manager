@@ -2157,5 +2157,10 @@ namespace CustomsForgeManager_Winforms.Forms
         {
             Process.Start("http://requests.customsforge.com/");
         }
+
+        private void btn_UploadCDLC_Click(object sender, EventArgs e)
+        {
+            Process.Start("http://ignition.customsforge.com/creators/submit");
+        }
     }
 }

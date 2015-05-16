@@ -96,6 +96,7 @@
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.panel4 = new System.Windows.Forms.Panel();
             this.gb_Utilities = new System.Windows.Forms.GroupBox();
+            this.btnRequestSong = new System.Windows.Forms.Button();
             this.btnLaunchSteam = new System.Windows.Forms.Button();
             this.btnBackupRSProfile = new System.Windows.Forms.Button();
             this.tpSettings = new System.Windows.Forms.TabPage();
@@ -163,7 +164,7 @@
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.labelAlphaTesters = new System.Windows.Forms.Label();
             this.frmMainBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.btnRequestSong = new System.Windows.Forms.Button();
+            this.btn_UploadCDLC = new System.Windows.Forms.Button();
             this.tlp_MainForm_Wrappper.SuspendLayout();
             this.gbLog.SuspendLayout();
             this.tcMain.SuspendLayout();
@@ -940,6 +941,7 @@
             // 
             this.gb_Utilities.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.gb_Utilities.Controls.Add(this.btn_UploadCDLC);
             this.gb_Utilities.Controls.Add(this.btnRequestSong);
             this.gb_Utilities.Controls.Add(this.btnLaunchSteam);
             this.gb_Utilities.Controls.Add(this.btnBackupRSProfile);
@@ -949,6 +951,18 @@
             this.gb_Utilities.TabIndex = 6;
             this.gb_Utilities.TabStop = false;
             this.gb_Utilities.Text = "Utilities";
+            // 
+            // btnRequestSong
+            // 
+            this.btnRequestSong.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnRequestSong.Location = new System.Drawing.Point(503, 12);
+            this.btnRequestSong.Name = "btnRequestSong";
+            this.btnRequestSong.Size = new System.Drawing.Size(157, 26);
+            this.btnRequestSong.TabIndex = 4;
+            this.btnRequestSong.Text = "Request a Song";
+            this.btnRequestSong.UseVisualStyleBackColor = true;
+            this.btnRequestSong.Click += new System.EventHandler(this.btnRequestSong_Click);
             // 
             // btnLaunchSteam
             // 
@@ -1765,17 +1779,17 @@
             // 
             this.frmMainBindingSource.DataSource = typeof(CustomsForgeManager_Winforms.Forms.frmMain);
             // 
-            // btnRequestSong
+            // btn_UploadCDLC
             // 
-            this.btnRequestSong.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.btn_UploadCDLC.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnRequestSong.Location = new System.Drawing.Point(503, 12);
-            this.btnRequestSong.Name = "btnRequestSong";
-            this.btnRequestSong.Size = new System.Drawing.Size(157, 26);
-            this.btnRequestSong.TabIndex = 4;
-            this.btnRequestSong.Text = "Request a Song";
-            this.btnRequestSong.UseVisualStyleBackColor = true;
-            this.btnRequestSong.Click += new System.EventHandler(this.btnRequestSong_Click);
+            this.btn_UploadCDLC.Location = new System.Drawing.Point(340, 12);
+            this.btn_UploadCDLC.Name = "btn_UploadCDLC";
+            this.btn_UploadCDLC.Size = new System.Drawing.Size(157, 26);
+            this.btn_UploadCDLC.TabIndex = 4;
+            this.btn_UploadCDLC.Text = "Upload a Song";
+            this.btn_UploadCDLC.UseVisualStyleBackColor = true;
+            this.btn_UploadCDLC.Click += new System.EventHandler(this.btn_UploadCDLC_Click);
             // 
             // frmMain
             // 
@@ -1984,5 +1998,6 @@
         private System.Windows.Forms.ColumnHeader colSettingsColumnEnabled;
         private System.Windows.Forms.CheckBox checkEnableLogBaloon;
         private System.Windows.Forms.Button btnRequestSong;
+        private System.Windows.Forms.Button btn_UploadCDLC;
     }
 }
