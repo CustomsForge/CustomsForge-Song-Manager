@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.tlp_MainForm_Wrappper = new System.Windows.Forms.TableLayoutPanel();
             this.gbLog = new System.Windows.Forms.GroupBox();
             this.tbLog = new System.Windows.Forms.TextBox();
@@ -38,6 +38,8 @@
             this.tpManager = new System.Windows.Forms.TabPage();
             this.gb_Main_Grid = new System.Windows.Forms.GroupBox();
             this.linkLblSelectAll = new System.Windows.Forms.LinkLabel();
+            this.dgvSongs = new CustomsForgeManager_Winforms.Controls.RADataGridView();
+            this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.contextMenuStrip_MainManager = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.showDLCInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openDLCPageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -94,13 +96,24 @@
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.panel4 = new System.Windows.Forms.Panel();
             this.gb_Utilities = new System.Windows.Forms.GroupBox();
+            this.btnRequestSong = new System.Windows.Forms.Button();
             this.btnLaunchSteam = new System.Windows.Forms.Button();
             this.btnBackupRSProfile = new System.Windows.Forms.Button();
             this.tpSettings = new System.Windows.Forms.TabPage();
             this.tlpSettings_Wrapper = new System.Windows.Forms.TableLayoutPanel();
+            this.lblSettingsRSDir = new System.Windows.Forms.Label();
+            this.tbSettingsRSDir = new System.Windows.Forms.TextBox();
             this.checkRescanOnStartup = new System.Windows.Forms.CheckBox();
             this.btnSettingsLoad = new System.Windows.Forms.Button();
             this.checkIncludeRS1DLC = new System.Windows.Forms.CheckBox();
+            this.panel5 = new System.Windows.Forms.Panel();
+            this.btnEnableColumns = new System.Windows.Forms.Button();
+            this.lblDisabledColumns = new System.Windows.Forms.Label();
+            this.listDisabledColumns = new System.Windows.Forms.ListView();
+            this.columnSelect = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colSettingsColumnName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colSettingsColumnEnabled = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.checkEnableLogBaloon = new System.Windows.Forms.CheckBox();
             this.btnSettingsSave = new System.Windows.Forms.Button();
             this.tpCreators = new System.Windows.Forms.TabPage();
             this.btnRSTKSite = new System.Windows.Forms.Button();
@@ -150,24 +163,14 @@
             this.contextMenuStrip_Tray = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.labelAlphaTesters = new System.Windows.Forms.Label();
-            this.tbSettingsRSDir = new System.Windows.Forms.TextBox();
-            this.lblSettingsRSDir = new System.Windows.Forms.Label();
-            this.checkEnableLogBaloon = new System.Windows.Forms.CheckBox();
-            this.listDisabledColumns = new System.Windows.Forms.ListView();
-            this.columnSelect = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.colSettingsColumnName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.colSettingsColumnEnabled = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.lblDisabledColumns = new System.Windows.Forms.Label();
-            this.btnEnableColumns = new System.Windows.Forms.Button();
-            this.panel5 = new System.Windows.Forms.Panel();
-            this.dgvSongs = new CustomsForgeManager_Winforms.Controls.RADataGridView();
-            this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.frmMainBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.btn_UploadCDLC = new System.Windows.Forms.Button();
             this.tlp_MainForm_Wrappper.SuspendLayout();
             this.gbLog.SuspendLayout();
             this.tcMain.SuspendLayout();
             this.tpManager.SuspendLayout();
             this.gb_Main_Grid.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSongs)).BeginInit();
             this.contextMenuStrip_MainManager.SuspendLayout();
             this.gb_Main_Search.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -186,6 +189,7 @@
             this.gb_Utilities.SuspendLayout();
             this.tpSettings.SuspendLayout();
             this.tlpSettings_Wrapper.SuspendLayout();
+            this.panel5.SuspendLayout();
             this.tpCreators.SuspendLayout();
             this.tpAbout.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -199,8 +203,6 @@
             this.tableLayoutPanel_Credits.SuspendLayout();
             this.statusStripMain.SuspendLayout();
             this.contextMenuStrip_Tray.SuspendLayout();
-            this.panel5.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvSongs)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.frmMainBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
@@ -305,6 +307,48 @@
             this.linkLblSelectAll.TabStop = true;
             this.linkLblSelectAll.Text = "Select All/Deselect All";
             this.linkLblSelectAll.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLblSelectAll_LinkClicked);
+            // 
+            // dgvSongs
+            // 
+            this.dgvSongs.AllowUserToAddRows = false;
+            this.dgvSongs.AllowUserToDeleteRows = false;
+            this.dgvSongs.AllowUserToOrderColumns = true;
+            this.dgvSongs.AllowUserToResizeRows = false;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.dgvSongs.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            this.dgvSongs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgvSongs.BackgroundColor = System.Drawing.SystemColors.ActiveCaption;
+            this.dgvSongs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvSongs.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colSelect});
+            this.dgvSongs.ContextMenuStrip = this.contextMenuStrip_MainManager;
+            this.dgvSongs.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnF2;
+            this.dgvSongs.GridColor = System.Drawing.SystemColors.ActiveCaption;
+            this.dgvSongs.Location = new System.Drawing.Point(6, 19);
+            this.dgvSongs.MultiSelect = false;
+            this.dgvSongs.Name = "dgvSongs";
+            this.dgvSongs.RowHeadersVisible = false;
+            this.dgvSongs.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvSongs.Size = new System.Drawing.Size(973, 211);
+            this.dgvSongs.TabIndex = 1;
+            this.dgvSongs.DataSourceChanged += new System.EventHandler(this.dgvSongs_DataSourceChanged);
+            this.dgvSongs.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSongs_CellDoubleClick);
+            this.dgvSongs.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongs_CellMouseDown);
+            this.dgvSongs.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongs_ColumnHeaderMouseClick);
+            this.dgvSongs.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvSongs_KeyDown);
+            // 
+            // colSelect
+            // 
+            this.colSelect.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.colSelect.FalseValue = "false";
+            this.colSelect.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.colSelect.HeaderText = "Select";
+            this.colSelect.IndeterminateValue = "false";
+            this.colSelect.Name = "colSelect";
+            this.colSelect.TrueValue = "true";
+            this.colSelect.Visible = false;
             // 
             // contextMenuStrip_MainManager
             // 
@@ -897,6 +941,8 @@
             // 
             this.gb_Utilities.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.gb_Utilities.Controls.Add(this.btn_UploadCDLC);
+            this.gb_Utilities.Controls.Add(this.btnRequestSong);
             this.gb_Utilities.Controls.Add(this.btnLaunchSteam);
             this.gb_Utilities.Controls.Add(this.btnBackupRSProfile);
             this.gb_Utilities.Location = new System.Drawing.Point(3, 3);
@@ -905,6 +951,18 @@
             this.gb_Utilities.TabIndex = 6;
             this.gb_Utilities.TabStop = false;
             this.gb_Utilities.Text = "Utilities";
+            // 
+            // btnRequestSong
+            // 
+            this.btnRequestSong.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnRequestSong.Location = new System.Drawing.Point(503, 12);
+            this.btnRequestSong.Name = "btnRequestSong";
+            this.btnRequestSong.Size = new System.Drawing.Size(157, 26);
+            this.btnRequestSong.TabIndex = 4;
+            this.btnRequestSong.Text = "Request a Song";
+            this.btnRequestSong.UseVisualStyleBackColor = true;
+            this.btnRequestSong.Click += new System.EventHandler(this.btnRequestSong_Click);
             // 
             // btnLaunchSteam
             // 
@@ -968,6 +1026,29 @@
             this.tlpSettings_Wrapper.Size = new System.Drawing.Size(991, 430);
             this.tlpSettings_Wrapper.TabIndex = 0;
             // 
+            // lblSettingsRSDir
+            // 
+            this.lblSettingsRSDir.AutoSize = true;
+            this.lblSettingsRSDir.Dock = System.Windows.Forms.DockStyle.Right;
+            this.lblSettingsRSDir.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSettingsRSDir.Location = new System.Drawing.Point(18, 2);
+            this.lblSettingsRSDir.Name = "lblSettingsRSDir";
+            this.lblSettingsRSDir.Size = new System.Drawing.Size(276, 41);
+            this.lblSettingsRSDir.TabIndex = 1;
+            this.lblSettingsRSDir.Text = "Rocksmith installation directory (double-click to change):";
+            this.lblSettingsRSDir.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // tbSettingsRSDir
+            // 
+            this.tbSettingsRSDir.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbSettingsRSDir.Location = new System.Drawing.Point(302, 5);
+            this.tbSettingsRSDir.Multiline = true;
+            this.tbSettingsRSDir.Name = "tbSettingsRSDir";
+            this.tbSettingsRSDir.ReadOnly = true;
+            this.tbSettingsRSDir.Size = new System.Drawing.Size(684, 35);
+            this.tbSettingsRSDir.TabIndex = 2;
+            this.tbSettingsRSDir.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.tbSettingsRSDir_MouseDoubleClick);
+            // 
             // checkRescanOnStartup
             // 
             this.checkRescanOnStartup.AutoSize = true;
@@ -1006,6 +1087,89 @@
             this.checkIncludeRS1DLC.Text = "Include RS1 Compatibility Pack";
             this.checkIncludeRS1DLC.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.checkIncludeRS1DLC.UseVisualStyleBackColor = true;
+            // 
+            // panel5
+            // 
+            this.panel5.Controls.Add(this.btnEnableColumns);
+            this.panel5.Controls.Add(this.lblDisabledColumns);
+            this.panel5.Controls.Add(this.listDisabledColumns);
+            this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel5.Location = new System.Drawing.Point(302, 48);
+            this.panel5.Name = "panel5";
+            this.tlpSettings_Wrapper.SetRowSpan(this.panel5, 4);
+            this.panel5.Size = new System.Drawing.Size(684, 331);
+            this.panel5.TabIndex = 4;
+            // 
+            // btnEnableColumns
+            // 
+            this.btnEnableColumns.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnEnableColumns.Location = new System.Drawing.Point(232, 305);
+            this.btnEnableColumns.Name = "btnEnableColumns";
+            this.btnEnableColumns.Size = new System.Drawing.Size(150, 23);
+            this.btnEnableColumns.TabIndex = 2;
+            this.btnEnableColumns.Text = "Enable/disable column(s)";
+            this.btnEnableColumns.UseVisualStyleBackColor = true;
+            this.btnEnableColumns.Click += new System.EventHandler(this.btnEnableColumns_Click);
+            // 
+            // lblDisabledColumns
+            // 
+            this.lblDisabledColumns.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblDisabledColumns.AutoSize = true;
+            this.lblDisabledColumns.Location = new System.Drawing.Point(247, 2);
+            this.lblDisabledColumns.Name = "lblDisabledColumns";
+            this.lblDisabledColumns.Size = new System.Drawing.Size(119, 16);
+            this.lblDisabledColumns.TabIndex = 1;
+            this.lblDisabledColumns.Text = "Song Manager columns";
+            // 
+            // listDisabledColumns
+            // 
+            this.listDisabledColumns.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.listDisabledColumns.CheckBoxes = true;
+            this.listDisabledColumns.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnSelect,
+            this.colSettingsColumnName,
+            this.colSettingsColumnEnabled});
+            this.listDisabledColumns.Location = new System.Drawing.Point(3, 22);
+            this.listDisabledColumns.Name = "listDisabledColumns";
+            this.listDisabledColumns.Size = new System.Drawing.Size(686, 277);
+            this.listDisabledColumns.TabIndex = 5;
+            this.listDisabledColumns.UseCompatibleStateImageBehavior = false;
+            this.listDisabledColumns.View = System.Windows.Forms.View.Details;
+            // 
+            // columnSelect
+            // 
+            this.columnSelect.Text = "Select";
+            this.columnSelect.Width = 51;
+            // 
+            // colSettingsColumnName
+            // 
+            this.colSettingsColumnName.Text = "Column Name";
+            this.colSettingsColumnName.Width = 169;
+            // 
+            // colSettingsColumnEnabled
+            // 
+            this.colSettingsColumnEnabled.Text = "Enabled";
+            this.colSettingsColumnEnabled.Width = 105;
+            // 
+            // checkEnableLogBaloon
+            // 
+            this.checkEnableLogBaloon.AutoSize = true;
+            this.checkEnableLogBaloon.Checked = true;
+            this.checkEnableLogBaloon.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkEnableLogBaloon.Dock = System.Windows.Forms.DockStyle.Right;
+            this.checkEnableLogBaloon.Location = new System.Drawing.Point(176, 48);
+            this.checkEnableLogBaloon.Name = "checkEnableLogBaloon";
+            this.checkEnableLogBaloon.Size = new System.Drawing.Size(118, 35);
+            this.checkEnableLogBaloon.TabIndex = 5;
+            this.checkEnableLogBaloon.Text = "Enable Log Baloon ";
+            this.checkEnableLogBaloon.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkEnableLogBaloon.UseVisualStyleBackColor = true;
+            this.checkEnableLogBaloon.CheckedChanged += new System.EventHandler(this.checkEnableLogBaloon_CheckedChanged);
             // 
             // btnSettingsSave
             // 
@@ -1611,157 +1775,21 @@
             this.labelAlphaTesters.Text = "Alpha Testers:";
             this.labelAlphaTesters.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // tbSettingsRSDir
-            // 
-            this.tbSettingsRSDir.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbSettingsRSDir.Location = new System.Drawing.Point(302, 5);
-            this.tbSettingsRSDir.Multiline = true;
-            this.tbSettingsRSDir.Name = "tbSettingsRSDir";
-            this.tbSettingsRSDir.ReadOnly = true;
-            this.tbSettingsRSDir.Size = new System.Drawing.Size(684, 35);
-            this.tbSettingsRSDir.TabIndex = 2;
-            this.tbSettingsRSDir.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.tbSettingsRSDir_MouseDoubleClick);
-            // 
-            // lblSettingsRSDir
-            // 
-            this.lblSettingsRSDir.AutoSize = true;
-            this.lblSettingsRSDir.Dock = System.Windows.Forms.DockStyle.Right;
-            this.lblSettingsRSDir.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSettingsRSDir.Location = new System.Drawing.Point(18, 2);
-            this.lblSettingsRSDir.Name = "lblSettingsRSDir";
-            this.lblSettingsRSDir.Size = new System.Drawing.Size(276, 41);
-            this.lblSettingsRSDir.TabIndex = 1;
-            this.lblSettingsRSDir.Text = "Rocksmith installation directory (double-click to change):";
-            this.lblSettingsRSDir.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // checkEnableLogBaloon
-            // 
-            this.checkEnableLogBaloon.AutoSize = true;
-            this.checkEnableLogBaloon.Checked = true;
-            this.checkEnableLogBaloon.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkEnableLogBaloon.Dock = System.Windows.Forms.DockStyle.Right;
-            this.checkEnableLogBaloon.Location = new System.Drawing.Point(176, 48);
-            this.checkEnableLogBaloon.Name = "checkEnableLogBaloon";
-            this.checkEnableLogBaloon.Size = new System.Drawing.Size(118, 35);
-            this.checkEnableLogBaloon.TabIndex = 5;
-            this.checkEnableLogBaloon.Text = "Enable Log Baloon ";
-            this.checkEnableLogBaloon.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkEnableLogBaloon.UseVisualStyleBackColor = true;
-            this.checkEnableLogBaloon.CheckedChanged += new System.EventHandler(this.checkEnableLogBaloon_CheckedChanged);
-            // 
-            // listDisabledColumns
-            // 
-            this.listDisabledColumns.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.listDisabledColumns.CheckBoxes = true;
-            this.listDisabledColumns.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnSelect,
-            this.colSettingsColumnName,
-            this.colSettingsColumnEnabled});
-            this.listDisabledColumns.Location = new System.Drawing.Point(3, 22);
-            this.listDisabledColumns.Name = "listDisabledColumns";
-            this.listDisabledColumns.Size = new System.Drawing.Size(686, 277);
-            this.listDisabledColumns.TabIndex = 5;
-            this.listDisabledColumns.UseCompatibleStateImageBehavior = false;
-            this.listDisabledColumns.View = System.Windows.Forms.View.Details;
-            // 
-            // columnSelect
-            // 
-            this.columnSelect.Text = "Select";
-            this.columnSelect.Width = 51;
-            // 
-            // colSettingsColumnName
-            // 
-            this.colSettingsColumnName.Text = "Column Name";
-            this.colSettingsColumnName.Width = 169;
-            // 
-            // colSettingsColumnEnabled
-            // 
-            this.colSettingsColumnEnabled.Text = "Enabled";
-            this.colSettingsColumnEnabled.Width = 105;
-            // 
-            // lblDisabledColumns
-            // 
-            this.lblDisabledColumns.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblDisabledColumns.AutoSize = true;
-            this.lblDisabledColumns.Location = new System.Drawing.Point(247, 2);
-            this.lblDisabledColumns.Name = "lblDisabledColumns";
-            this.lblDisabledColumns.Size = new System.Drawing.Size(119, 16);
-            this.lblDisabledColumns.TabIndex = 1;
-            this.lblDisabledColumns.Text = "Song Manager columns";
-            // 
-            // btnEnableColumns
-            // 
-            this.btnEnableColumns.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnEnableColumns.Location = new System.Drawing.Point(232, 305);
-            this.btnEnableColumns.Name = "btnEnableColumns";
-            this.btnEnableColumns.Size = new System.Drawing.Size(150, 23);
-            this.btnEnableColumns.TabIndex = 2;
-            this.btnEnableColumns.Text = "Enable/disable column(s)";
-            this.btnEnableColumns.UseVisualStyleBackColor = true;
-            this.btnEnableColumns.Click += new System.EventHandler(this.btnEnableColumns_Click);
-            // 
-            // panel5
-            // 
-            this.panel5.Controls.Add(this.btnEnableColumns);
-            this.panel5.Controls.Add(this.lblDisabledColumns);
-            this.panel5.Controls.Add(this.listDisabledColumns);
-            this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel5.Location = new System.Drawing.Point(302, 48);
-            this.panel5.Name = "panel5";
-            this.tlpSettings_Wrapper.SetRowSpan(this.panel5, 4);
-            this.panel5.Size = new System.Drawing.Size(684, 331);
-            this.panel5.TabIndex = 4;
-            // 
-            // dgvSongs
-            // 
-            this.dgvSongs.AllowUserToAddRows = false;
-            this.dgvSongs.AllowUserToDeleteRows = false;
-            this.dgvSongs.AllowUserToOrderColumns = true;
-            this.dgvSongs.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.dgvSongs.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.dgvSongs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dgvSongs.BackgroundColor = System.Drawing.SystemColors.ActiveCaption;
-            this.dgvSongs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvSongs.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.colSelect});
-            this.dgvSongs.ContextMenuStrip = this.contextMenuStrip_MainManager;
-            this.dgvSongs.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnF2;
-            this.dgvSongs.GridColor = System.Drawing.SystemColors.ActiveCaption;
-            this.dgvSongs.Location = new System.Drawing.Point(6, 19);
-            this.dgvSongs.MultiSelect = false;
-            this.dgvSongs.Name = "dgvSongs";
-            this.dgvSongs.RowHeadersVisible = false;
-            this.dgvSongs.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvSongs.Size = new System.Drawing.Size(973, 211);
-            this.dgvSongs.TabIndex = 1;
-            this.dgvSongs.DataSourceChanged += new System.EventHandler(this.dgvSongs_DataSourceChanged);
-            this.dgvSongs.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSongs_CellDoubleClick);
-            this.dgvSongs.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongs_CellMouseDown);
-            this.dgvSongs.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongs_ColumnHeaderMouseClick);
-            this.dgvSongs.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvSongs_KeyDown);
-            // 
-            // colSelect
-            // 
-            this.colSelect.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.colSelect.FalseValue = "false";
-            this.colSelect.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.colSelect.HeaderText = "Select";
-            this.colSelect.IndeterminateValue = "false";
-            this.colSelect.Name = "colSelect";
-            this.colSelect.TrueValue = "true";
-            this.colSelect.Visible = false;
-            // 
             // frmMainBindingSource
             // 
             this.frmMainBindingSource.DataSource = typeof(CustomsForgeManager_Winforms.Forms.frmMain);
+            // 
+            // btn_UploadCDLC
+            // 
+            this.btn_UploadCDLC.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_UploadCDLC.Location = new System.Drawing.Point(340, 12);
+            this.btn_UploadCDLC.Name = "btn_UploadCDLC";
+            this.btn_UploadCDLC.Size = new System.Drawing.Size(157, 26);
+            this.btn_UploadCDLC.TabIndex = 4;
+            this.btn_UploadCDLC.Text = "Upload a Song";
+            this.btn_UploadCDLC.UseVisualStyleBackColor = true;
+            this.btn_UploadCDLC.Click += new System.EventHandler(this.btn_UploadCDLC_Click);
             // 
             // frmMain
             // 
@@ -1784,6 +1812,7 @@
             this.tpManager.ResumeLayout(false);
             this.gb_Main_Grid.ResumeLayout(false);
             this.gb_Main_Grid.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSongs)).EndInit();
             this.contextMenuStrip_MainManager.ResumeLayout(false);
             this.gb_Main_Search.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
@@ -1807,6 +1836,8 @@
             this.tpSettings.ResumeLayout(false);
             this.tlpSettings_Wrapper.ResumeLayout(false);
             this.tlpSettings_Wrapper.PerformLayout();
+            this.panel5.ResumeLayout(false);
+            this.panel5.PerformLayout();
             this.tpCreators.ResumeLayout(false);
             this.tpAbout.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
@@ -1824,9 +1855,6 @@
             this.statusStripMain.ResumeLayout(false);
             this.statusStripMain.PerformLayout();
             this.contextMenuStrip_Tray.ResumeLayout(false);
-            this.panel5.ResumeLayout(false);
-            this.panel5.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvSongs)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.frmMainBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -1969,5 +1997,7 @@
         private System.Windows.Forms.ColumnHeader colSettingsColumnName;
         private System.Windows.Forms.ColumnHeader colSettingsColumnEnabled;
         private System.Windows.Forms.CheckBox checkEnableLogBaloon;
+        private System.Windows.Forms.Button btnRequestSong;
+        private System.Windows.Forms.Button btn_UploadCDLC;
     }
 }
