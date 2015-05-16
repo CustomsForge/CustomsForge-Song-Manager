@@ -1446,6 +1446,7 @@ namespace CustomsForgeManager_Winforms.Forms
             {
                 File.Delete(SongCollection[dgvSongs.SelectedRows[0].Index].Path);
                 SongCollection.RemoveAt(dgvSongs.SelectedRows[0].Index);
+                dgvSongs.Rows.RemoveAt(dgvSongs.SelectedRows[0].Index);
             }
             catch (IOException ex)
             {
