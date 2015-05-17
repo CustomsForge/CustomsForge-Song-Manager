@@ -721,11 +721,17 @@ namespace CustomsForgeManager_Winforms.Forms
         private void SearchDLC(string criteria)
         {
             var results = SongCollection.Where(x =>
-                x.Artist.ToLower().Contains(criteria.ToLower()) || x.Album.ToLower().Contains(criteria.ToLower()) ||
-                x.Song.ToLower().Contains(criteria.ToLower()) || x.Tuning.ToLower().Contains(criteria.ToLower()) ||
-                x.Author.ToLower().Contains(criteria.ToLower()) || (x.IgnitionAuthor != null &&
-                x.IgnitionAuthor.ToLower().Contains(criteria.ToLower()) || (x.IgnitionID != null
-                && x.IgnitionID.ToLower().Contains(criteria.ToLower())))
+                x.Artist.ToLower().Contains(criteria.ToLower()) || 
+                x.Album.ToLower().Contains(criteria.ToLower()) ||
+                x.Song.ToLower().Contains(criteria.ToLower()) || 
+                x.Tuning.ToLower().Contains(criteria.ToLower()) ||
+                x.Author.ToLower().Contains(criteria.ToLower()) || 
+                (x.IgnitionAuthor != null && x.IgnitionAuthor.ToLower().Contains(criteria.ToLower()) || 
+                (x.IgnitionID != null && x.IgnitionID.ToLower().Contains(criteria.ToLower())) ||
+                x.SongYear.Contains(criteria) ||
+                x.Path.ToLower().Contains(criteria.ToLower()) 
+
+                )
             ).ToList();
 
             SortedSongCollection = SongCollection.Where(x =>
@@ -733,7 +739,8 @@ namespace CustomsForgeManager_Winforms.Forms
                 x.Song.ToLower().Contains(criteria.ToLower()) || x.Tuning.ToLower().Contains(criteria.ToLower()) ||
                 x.Author.ToLower().Contains(criteria.ToLower()) || (x.IgnitionAuthor != null &&
                 x.IgnitionAuthor.ToLower().Contains(criteria.ToLower())) || (x.IgnitionID != null &&
-                x.IgnitionID.ToLower().Contains(criteria.ToLower()))
+                x.IgnitionID.ToLower().Contains(criteria.ToLower()) || x.SongYear.Contains(criteria) ||
+                x.Path.ToLower().Contains(criteria.ToLower()) )
             ).ToList();
 
             dgvSongs.InvokeIfRequired(delegate
