@@ -331,6 +331,7 @@ namespace CustomsForgeManager_Winforms.Forms
             mySettings.RescanOnStartup = true;
             mySettings.IncludeRS1DLCs = false;
             mySettings.EnabledLogBaloon = true;
+            mySettings.CheckForUpdateOnScan = false;
             tbSettingsRSDir.Text = mySettings.RSInstalledDir;
             Log("Settings reset to defaults...");
         }
@@ -351,6 +352,7 @@ namespace CustomsForgeManager_Winforms.Forms
                     mySettings.RescanOnStartup = checkRescanOnStartup.Checked;
                     mySettings.IncludeRS1DLCs = checkIncludeRS1DLC.Checked;
                     mySettings.EnabledLogBaloon = checkEnableLogBaloon.Checked;
+                    mySettings.CheckForUpdateOnScan = checkUpdateWhileScan.Checked;
                     if (dgvSongs != null)
                     {
                         var settings = new RADataGridViewSettings();
@@ -420,6 +422,10 @@ namespace CustomsForgeManager_Winforms.Forms
                         checkEnableLogBaloon.InvokeIfRequired(delegate
                         {
                             checkEnableLogBaloon.Checked = mySettings.EnabledLogBaloon;
+                        });
+                        checkUpdateWhileScan.InvokeIfRequired(delegate
+                        {
+                            checkUpdateWhileScan.Checked = mySettings.CheckForUpdateOnScan;
                         });
                         Log("Loaded settings...");
                     }
@@ -1802,90 +1808,51 @@ namespace CustomsForgeManager_Winforms.Forms
                 var currentSong = GetSongByRow(dataGridViewRow);
                 if (currentSong != null)
                 {
-                    //currentSong.IgnitionVersion = Ignition.GetDLCInfoFromURL(currentSong.GetInfoURL(), "version");
-                    string url = currentSong.GetInfoURL();
-                    string response = "";
-                    string cfUrl = "";
-                    var client = new WebClient();
-                    int version = 0;
-
-                    client.DownloadStringCompleted += (sender, e) =>
-                    {
-                        if (!bWorker.CancellationPending)
-                        {
-                            response = e.Result;
-
-                            currentSong.IgnitionID = Ignition.GetDLCInfoFromResponse(response, "id");
-                            currentSong.IgnitionUpdated = Ignition.GetDLCInfoFromResponse(response, "updated");
-                            currentSong.IgnitionVersion = Ignition.GetDLCInfoFromResponse(response, "version");
-                            currentSong.IgnitionAuthor = Ignition.GetDLCInfoFromResponse(response, "name");
-
-                            if (!bWorker.CancellationPending)
-                            {
-                                dataGridViewRow.Cells["IgnitionVersion"].Value = currentSong.IgnitionVersion;
-                            }
-
-                            if (int.TryParse(currentSong.Version, out version))
-                            {
-                                currentSong.Version += ".0";
-                            }
-
-                            if (int.TryParse(currentSong.IgnitionVersion, out version))
-                            {
-                                currentSong.IgnitionVersion += ".0";
-                            }
-
-                            if (currentSong.IgnitionVersion == "No Results")
-                            {
-                                dataGridViewRow.DefaultCellStyle.BackColor = Color.OrangeRed;
-                                //myLog.Write(
-                                //    string.Format(
-                                //        "<ERROR>: Song \"{0}\" from \"{1}\" album by {2} not found in ignition.",
-                                //        currentSong.Song, currentSong.Album, currentSong.Author), false);
-                            }
-                            else if (currentSong.Version == "N/A")
-                            {
-                                //TODO: Check for updates by release/update date
-                            }
-                            else if (currentSong.IgnitionVersion != currentSong.Version)
-                            {
-                                dataGridViewRow.DefaultCellStyle.BackColor = Color.Gold;
-                                myLog.Write(
-                                    string.Format(
-                                        "Update found for \"{0}\" from \"{1}\" album by {2}. Local version: {3}, Ignition version: {4} ",
-                                        currentSong.Song, currentSong.Album, currentSong.Author, currentSong.Version,
-                                        currentSong.IgnitionVersion));
-
-                                numberOfDLCPendingUpdate++;
-                                toolStripStatusLabel_DisabledCounter.Text = "Outdated: " + numberOfDLCPendingUpdate.ToString() + " | Disabled DLC:" + numberOfDisabledDLC.ToString();
-
-                                cfUrl = Constants.DefaultCFSongUrl + currentSong.Song.Replace("'", "").Replace("(", "").Replace(")", "").Replace(" ", "-") + "-r" + currentSong.IgnitionID;
-
-                                if (!OutdatedSongList.ContainsKey(cfUrl))
-                                {
-                                    OutdatedSongList.Add(cfUrl, currentSong);
-                                }
-                            }
-                        }
-                        if (dataGridViewRow.Index == dgvSongs.Rows.Count - 1)
-                        {
-                            btnCheckAllForUpdates.InvokeIfRequired(delegate
-                            {
-                                btnCheckAllForUpdates.Enabled = true;
-                            });
-                            Log(string.Format("Finished update check. Task took {0}", counterStopwatch.Elapsed));
-                            if (OutdatedSongList.Count != 0)
-                            {
-                                frmOutdatedSongs frmOutdated = new frmOutdatedSongs();
-                                frmOutdated.OutdatedSongList = OutdatedSongList;
-                                frmOutdated.Show();
-                            }
-                        }
-                    };
                     if (!bWorker.CancellationPending)
+                        currentSong.CheckForUpdateStatus();
+
+                    switch (currentSong.Status)
                     {
-                        client.DownloadStringAsync(new Uri(url));
+                            case SongDataStatus.None:
+                                dataGridViewRow.DefaultCellStyle.BackColor = Color.White;
+                            break;
+                            case SongDataStatus.NotFound:
+                                dataGridViewRow.DefaultCellStyle.BackColor = Color.Red;
+                            break;
+                            case SongDataStatus.OutDated:
+                                dataGridViewRow.DefaultCellStyle.BackColor = Color.DarkOrange;
+                            break;
+                            case SongDataStatus.UpToDate:
+                                dataGridViewRow.DefaultCellStyle.BackColor = Color.LightGreen;
+                            break;
                     }
+
+
+                    dataGridViewRow.Cells["IgnitionVersion"].Value = currentSong.IgnitionVersion;
+                    btnCheckAllForUpdates.InvokeIfRequired(delegate
+                    {
+                        btnCheckAllForUpdates.Enabled = true;
+                    });
+                    Log(string.Format("Finished update check. Task took {0}", counterStopwatch.Elapsed));
+
+                    numberOfDLCPendingUpdate++;
+                    toolStripStatusLabel_DisabledCounter.Text = "Outdated: " + numberOfDLCPendingUpdate.ToString() + " | Disabled DLC:" + numberOfDisabledDLC.ToString();
+                    
+                    string cfUrl = Constants.DefaultCFSongUrl + currentSong.Song.Replace("'", "").Replace("(", "").Replace(")", "").Replace(" ", "-") + "-r" + currentSong.IgnitionID;
+
+                    if (!OutdatedSongList.ContainsKey(cfUrl))
+                    {
+                        OutdatedSongList.Add(cfUrl, currentSong);
+                    }
+                    
+                    if (OutdatedSongList.Count != 0)
+                    {
+                        frmOutdatedSongs frmOutdated = new frmOutdatedSongs();
+                        frmOutdated.OutdatedSongList = OutdatedSongList;
+                        frmOutdated.Show();
+                    }
+
+
                 }
             }
         }
