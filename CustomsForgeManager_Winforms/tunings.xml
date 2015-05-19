@@ -11,7 +11,7 @@
  <Tuning Name="Bb Standard" Strings="6-6-6-6-6-6"/>   
  <Tuning Name="A Standard" Strings="-7-7-7-7-7-7"/>
  <Tuning Name="Ab Standard" Strings="-8-8-8-8-8-8"/>
- <Tuning Name="E Drop D" Strings="-100000"/>
+ <Tuning Name="E Drop D" Strings="-200000"/>
  <Tuning Name="Eb Drop Db" Strings="-3-1-1-1-1-1"/>
  <Tuning Name="D Drop C" Strings="-4-2-2-2-2-2"/>
  <Tuning Name="C# Drop B" Strings="-5-3-3-3-3-3"/>
