@@ -2314,23 +2314,20 @@ namespace CustomsForgeManager_Winforms.Forms
             string rs1DLCPack = "";
             var rocksmithProcess = Process.GetProcessesByName("Rocksmith2014.exe");
 
-            IEnumerable<string> rs1DLCFiles = Directory.EnumerateFiles(Path.Combine(mySettings.RSInstalledDir, "dlc"), "rs1compatibilitydlc*");
-            IEnumerable<string> rs1Files = Directory.EnumerateFiles(Path.Combine(mySettings.RSInstalledDir, "dlc"), "rs1compatibilitydisc*");
+            List<string> rs1DLCFiles = Directory.EnumerateFiles(Path.Combine(tbRSPath.Text, "dlc"), "rs1compatibilitydlc*", SearchOption.AllDirectories).Where(sp => !sp.Contains(".disabled")).ToList();
+            List<string> rs1Files = Directory.EnumerateFiles(Path.Combine(tbRSPath.Text, "dlc"), "rs1compatibilitydisc*", SearchOption.AllDirectories).Where(sp => !sp.Contains(".disabled")).ToList();
 
             frmComboBoxPopup comboPopup = new frmComboBoxPopup();
-            ComboBox.ObjectCollection comboItems = new ComboBox.ObjectCollection(comboPopup.Combo);
 
-            if (rs1DLCFiles.Count() > 0)
+            if (rs1DLCFiles.Count > 0)
             {
-                comboItems.Clear();
-                comboItems.Add("Select a setlist");
+                comboPopup.ComboBoxItems.Add("Select a setlist");
 
                 foreach (string rs1DLCFile in rs1DLCFiles)
-                    comboItems.Add(new FileInfo(rs1DLCFile).Directory.Name);
+                    comboPopup.ComboBoxItems.Add(new FileInfo(rs1DLCFile).Directory.Name);
 
                 comboPopup.LblText = "Select a RS1 DLC pack to restore from the selected setlist:";
                 comboPopup.FrmText = "Duplicate RS1 DLC pack detected";
-                comboPopup.ComboBoxItems = comboItems;
                 comboPopup.BtnText = "OK";
 
                 comboPopup.ShowDialog();
@@ -2341,25 +2338,24 @@ namespace CustomsForgeManager_Winforms.Forms
                 {
                     foreach (string rs1DLCFile in rs1DLCFiles)
                     {
-                        if (Path.GetDirectoryName(rs1DLCFile) != Path.Combine(mySettings.RSInstalledDir, "dlc", rs1DLCPack))
+                        if (Path.GetDirectoryName(rs1DLCFile) != Path.Combine(tbRSPath.Text, "dlc", rs1DLCPack))
                         {
-                            File.Move(rs1DLCPack, rs1DLCPack.Replace("_p.psarc", "_p.disabled.psarc"));
+                            File.Move(rs1DLCFile, rs1DLCFile.Replace("_p.psarc", "_p.disabled.psarc"));
                         }
                     }
                 }
             }
 
-            if (rs1Files.Count() > 0)
+            if (rs1Files.Count > 0)
             {
-                comboItems.Clear();
-                comboItems.Add("Select a setlist");
+                comboPopup.ComboBoxItems.Clear();
+                comboPopup.ComboBoxItems.Add("Select a setlist");
 
                 foreach (string rs1File in rs1Files)
-                    comboItems.Add(new FileInfo(rs1File).Directory.Name);
+                    comboPopup.ComboBoxItems.Add(new FileInfo(rs1File).Directory.Name);
 
                 comboPopup.LblText = "Select a RS1 pack to restore from the selected setlist:";
                 comboPopup.FrmText = "Duplicate RS1 pack detected";
-                comboPopup.ComboBoxItems = comboItems;
                 comboPopup.BtnText = "OK";
 
                 comboPopup.ShowDialog();
@@ -2370,7 +2366,7 @@ namespace CustomsForgeManager_Winforms.Forms
                 {
                     foreach (string rs1File in rs1Files)
                     {
-                        if (Path.GetDirectoryName(rs1File) != Path.Combine(mySettings.RSInstalledDir, "dlc", rs1MainPack))
+                        if (Path.GetDirectoryName(rs1File) != Path.Combine(tbRSPath.Text, "dlc", rs1MainPack))
                         {
                             File.Move(rs1File, rs1File.Replace("_p.psarc", "_p.disabled.psarc"));
                         }
