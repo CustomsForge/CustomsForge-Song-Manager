@@ -96,6 +96,7 @@
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.panel4 = new System.Windows.Forms.Panel();
             this.gb_Utilities = new System.Windows.Forms.GroupBox();
+            this.btn_UploadCDLC = new System.Windows.Forms.Button();
             this.btnRequestSong = new System.Windows.Forms.Button();
             this.btnLaunchSteam = new System.Windows.Forms.Button();
             this.btnBackupRSProfile = new System.Windows.Forms.Button();
@@ -164,7 +165,24 @@
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.labelAlphaTesters = new System.Windows.Forms.Label();
             this.frmMainBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.btn_UploadCDLC = new System.Windows.Forms.Button();
+            this.tpSetlistManager = new System.Windows.Forms.TabPage();
+            this.groupZippedPacks = new System.Windows.Forms.GroupBox();
+            this.btnZipToSetlist = new System.Windows.Forms.Button();
+            this.btnCombineSongPacks = new System.Windows.Forms.Button();
+            this.btnDeleteSongPackZip = new System.Windows.Forms.Button();
+            this.btnZipSelectedPlaylists = new System.Windows.Forms.Button();
+            this.dgvSongPackZips = new System.Windows.Forms.DataGridView();
+            this.colZipSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.colZipSongPack = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.groupUnsortedDLCs = new System.Windows.Forms.GroupBox();
+            this.btnDeleteSelectedSongs = new System.Windows.Forms.Button();
+            this.btnEnableDisableSelectedSongs = new System.Windows.Forms.Button();
+            this.dgvUnsortedDLCs = new System.Windows.Forms.DataGridView();
+            this.colUnsortedSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.colUnsortedEnabled = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colUnsortedSong = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnMoveSongToSetlist = new System.Windows.Forms.Button();
+            this.btnRunRSWithSetlist = new System.Windows.Forms.Button();
             this.tlp_MainForm_Wrappper.SuspendLayout();
             this.gbLog.SuspendLayout();
             this.tcMain.SuspendLayout();
@@ -204,6 +222,11 @@
             this.statusStripMain.SuspendLayout();
             this.contextMenuStrip_Tray.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.frmMainBindingSource)).BeginInit();
+            this.tpSetlistManager.SuspendLayout();
+            this.groupZippedPacks.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSongPackZips)).BeginInit();
+            this.groupUnsortedDLCs.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvUnsortedDLCs)).BeginInit();
             this.SuspendLayout();
             // 
             // tlp_MainForm_Wrappper
@@ -254,6 +277,7 @@
             this.tcMain.Controls.Add(this.tpManager);
             this.tcMain.Controls.Add(this.tpDuplicates);
             this.tcMain.Controls.Add(this.tpBatchRenamer);
+            this.tcMain.Controls.Add(this.tpSetlistManager);
             this.tcMain.Controls.Add(this.tpUtilities);
             this.tcMain.Controls.Add(this.tpSettings);
             this.tcMain.Controls.Add(this.tpCreators);
@@ -302,7 +326,7 @@
             this.linkLblSelectAll.LinkColor = System.Drawing.Color.Black;
             this.linkLblSelectAll.Location = new System.Drawing.Point(6, 233);
             this.linkLblSelectAll.Name = "linkLblSelectAll";
-            this.linkLblSelectAll.Size = new System.Drawing.Size(113, 16);
+            this.linkLblSelectAll.Size = new System.Drawing.Size(111, 16);
             this.linkLblSelectAll.TabIndex = 2;
             this.linkLblSelectAll.TabStop = true;
             this.linkLblSelectAll.Text = "Select All/Deselect All";
@@ -864,7 +888,7 @@
             this.instructionsLabel.Location = new System.Drawing.Point(3, 16);
             this.instructionsLabel.Name = "instructionsLabel";
             this.instructionsLabel.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.instructionsLabel.Size = new System.Drawing.Size(354, 304);
+            this.instructionsLabel.Size = new System.Drawing.Size(353, 304);
             this.instructionsLabel.TabIndex = 1;
             this.instructionsLabel.Text = resources.GetString("instructionsLabel.Text");
             // 
@@ -881,7 +905,7 @@
             this.renameTemplateLabel.AutoSize = true;
             this.renameTemplateLabel.Location = new System.Drawing.Point(15, 12);
             this.renameTemplateLabel.Name = "renameTemplateLabel";
-            this.renameTemplateLabel.Size = new System.Drawing.Size(98, 16);
+            this.renameTemplateLabel.Size = new System.Drawing.Size(97, 16);
             this.renameTemplateLabel.TabIndex = 6;
             this.renameTemplateLabel.Text = "Rename Template:";
             // 
@@ -951,6 +975,18 @@
             this.gb_Utilities.TabIndex = 6;
             this.gb_Utilities.TabStop = false;
             this.gb_Utilities.Text = "Utilities";
+            // 
+            // btn_UploadCDLC
+            // 
+            this.btn_UploadCDLC.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_UploadCDLC.Location = new System.Drawing.Point(340, 12);
+            this.btn_UploadCDLC.Name = "btn_UploadCDLC";
+            this.btn_UploadCDLC.Size = new System.Drawing.Size(157, 26);
+            this.btn_UploadCDLC.TabIndex = 4;
+            this.btn_UploadCDLC.Text = "Upload a Song";
+            this.btn_UploadCDLC.UseVisualStyleBackColor = true;
+            this.btn_UploadCDLC.Click += new System.EventHandler(this.btn_UploadCDLC_Click);
             // 
             // btnRequestSong
             // 
@@ -1080,9 +1116,9 @@
             this.checkIncludeRS1DLC.Checked = true;
             this.checkIncludeRS1DLC.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkIncludeRS1DLC.Dock = System.Windows.Forms.DockStyle.Right;
-            this.checkIncludeRS1DLC.Location = new System.Drawing.Point(115, 91);
+            this.checkIncludeRS1DLC.Location = new System.Drawing.Point(116, 91);
             this.checkIncludeRS1DLC.Name = "checkIncludeRS1DLC";
-            this.checkIncludeRS1DLC.Size = new System.Drawing.Size(179, 35);
+            this.checkIncludeRS1DLC.Size = new System.Drawing.Size(178, 35);
             this.checkIncludeRS1DLC.TabIndex = 3;
             this.checkIncludeRS1DLC.Text = "Include RS1 Compatibility Pack";
             this.checkIncludeRS1DLC.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1525,9 +1561,9 @@
             this.lbl_Credits.AutoSize = true;
             this.lbl_Credits.Font = new System.Drawing.Font("Trebuchet MS", 10F);
             this.lbl_Credits.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.lbl_Credits.Location = new System.Drawing.Point(26, 8);
+            this.lbl_Credits.Location = new System.Drawing.Point(27, 8);
             this.lbl_Credits.Name = "lbl_Credits";
-            this.lbl_Credits.Size = new System.Drawing.Size(133, 18);
+            this.lbl_Credits.Size = new System.Drawing.Size(131, 18);
             this.lbl_Credits.TabIndex = 0;
             this.lbl_Credits.Text = "Song Manager Team";
             this.lbl_Credits.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1779,17 +1815,189 @@
             // 
             this.frmMainBindingSource.DataSource = typeof(CustomsForgeManager_Winforms.Forms.frmMain);
             // 
-            // btn_UploadCDLC
+            // tpSetlistManager
             // 
-            this.btn_UploadCDLC.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_UploadCDLC.Location = new System.Drawing.Point(340, 12);
-            this.btn_UploadCDLC.Name = "btn_UploadCDLC";
-            this.btn_UploadCDLC.Size = new System.Drawing.Size(157, 26);
-            this.btn_UploadCDLC.TabIndex = 4;
-            this.btn_UploadCDLC.Text = "Upload a Song";
-            this.btn_UploadCDLC.UseVisualStyleBackColor = true;
-            this.btn_UploadCDLC.Click += new System.EventHandler(this.btn_UploadCDLC_Click);
+            this.tpSetlistManager.Controls.Add(this.groupUnsortedDLCs);
+            this.tpSetlistManager.Controls.Add(this.groupZippedPacks);
+            this.tpSetlistManager.Location = new System.Drawing.Point(4, 25);
+            this.tpSetlistManager.Name = "tpSetlistManager";
+            this.tpSetlistManager.Size = new System.Drawing.Size(997, 436);
+            this.tpSetlistManager.TabIndex = 7;
+            this.tpSetlistManager.Text = "Setlist Manger";
+            this.tpSetlistManager.UseVisualStyleBackColor = true;
+            // 
+            // groupZippedPacks
+            // 
+            this.groupZippedPacks.Controls.Add(this.btnZipToSetlist);
+            this.groupZippedPacks.Controls.Add(this.btnCombineSongPacks);
+            this.groupZippedPacks.Controls.Add(this.btnDeleteSongPackZip);
+            this.groupZippedPacks.Controls.Add(this.btnZipSelectedPlaylists);
+            this.groupZippedPacks.Controls.Add(this.dgvSongPackZips);
+            this.groupZippedPacks.Location = new System.Drawing.Point(106, 65);
+            this.groupZippedPacks.Name = "groupZippedPacks";
+            this.groupZippedPacks.Size = new System.Drawing.Size(752, 123);
+            this.groupZippedPacks.TabIndex = 23;
+            this.groupZippedPacks.TabStop = false;
+            this.groupZippedPacks.Text = "Setlist zips";
+            // 
+            // btnZipToSetlist
+            // 
+            this.btnZipToSetlist.Location = new System.Drawing.Point(539, 61);
+            this.btnZipToSetlist.Name = "btnZipToSetlist";
+            this.btnZipToSetlist.Size = new System.Drawing.Size(108, 36);
+            this.btnZipToSetlist.TabIndex = 23;
+            this.btnZipToSetlist.Text = "Add selected zip to a setlist";
+            this.btnZipToSetlist.UseVisualStyleBackColor = true;
+            // 
+            // btnCombineSongPacks
+            // 
+            this.btnCombineSongPacks.Location = new System.Drawing.Point(361, 61);
+            this.btnCombineSongPacks.Name = "btnCombineSongPacks";
+            this.btnCombineSongPacks.Size = new System.Drawing.Size(108, 36);
+            this.btnCombineSongPacks.TabIndex = 22;
+            this.btnCombineSongPacks.Text = "Combine selected song packs";
+            this.btnCombineSongPacks.UseVisualStyleBackColor = true;
+            // 
+            // btnDeleteSongPackZip
+            // 
+            this.btnDeleteSongPackZip.Location = new System.Drawing.Point(539, 19);
+            this.btnDeleteSongPackZip.Name = "btnDeleteSongPackZip";
+            this.btnDeleteSongPackZip.Size = new System.Drawing.Size(108, 36);
+            this.btnDeleteSongPackZip.TabIndex = 21;
+            this.btnDeleteSongPackZip.Text = "Delete selected zip pack(s)";
+            this.btnDeleteSongPackZip.UseVisualStyleBackColor = true;
+            // 
+            // btnZipSelectedPlaylists
+            // 
+            this.btnZipSelectedPlaylists.Location = new System.Drawing.Point(361, 19);
+            this.btnZipSelectedPlaylists.Name = "btnZipSelectedPlaylists";
+            this.btnZipSelectedPlaylists.Size = new System.Drawing.Size(108, 36);
+            this.btnZipSelectedPlaylists.TabIndex = 20;
+            this.btnZipSelectedPlaylists.Text = "Zip selected setlist(s)";
+            this.btnZipSelectedPlaylists.UseVisualStyleBackColor = true;
+            // 
+            // dgvSongPackZips
+            // 
+            this.dgvSongPackZips.AllowUserToAddRows = false;
+            this.dgvSongPackZips.AllowUserToDeleteRows = false;
+            this.dgvSongPackZips.AllowUserToOrderColumns = true;
+            this.dgvSongPackZips.AllowUserToResizeRows = false;
+            this.dgvSongPackZips.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvSongPackZips.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colZipSelect,
+            this.colZipSongPack});
+            this.dgvSongPackZips.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnF2;
+            this.dgvSongPackZips.Location = new System.Drawing.Point(63, 15);
+            this.dgvSongPackZips.MultiSelect = false;
+            this.dgvSongPackZips.Name = "dgvSongPackZips";
+            this.dgvSongPackZips.RowHeadersVisible = false;
+            this.dgvSongPackZips.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvSongPackZips.Size = new System.Drawing.Size(234, 99);
+            this.dgvSongPackZips.TabIndex = 18;
+            // 
+            // colZipSelect
+            // 
+            this.colZipSelect.HeaderText = "Select";
+            this.colZipSelect.Name = "colZipSelect";
+            this.colZipSelect.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colZipSelect.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.colZipSelect.Width = 50;
+            // 
+            // colZipSongPack
+            // 
+            this.colZipSongPack.HeaderText = "Song Pack";
+            this.colZipSongPack.Name = "colZipSongPack";
+            this.colZipSongPack.Width = 181;
+            // 
+            // groupUnsortedDLCs
+            // 
+            this.groupUnsortedDLCs.Controls.Add(this.btnDeleteSelectedSongs);
+            this.groupUnsortedDLCs.Controls.Add(this.btnEnableDisableSelectedSongs);
+            this.groupUnsortedDLCs.Controls.Add(this.dgvUnsortedDLCs);
+            this.groupUnsortedDLCs.Controls.Add(this.btnMoveSongToSetlist);
+            this.groupUnsortedDLCs.Controls.Add(this.btnRunRSWithSetlist);
+            this.groupUnsortedDLCs.Location = new System.Drawing.Point(31, 194);
+            this.groupUnsortedDLCs.Name = "groupUnsortedDLCs";
+            this.groupUnsortedDLCs.Size = new System.Drawing.Size(384, 207);
+            this.groupUnsortedDLCs.TabIndex = 24;
+            this.groupUnsortedDLCs.TabStop = false;
+            this.groupUnsortedDLCs.Text = "Unsorted DLCs";
+            // 
+            // btnDeleteSelectedSongs
+            // 
+            this.btnDeleteSelectedSongs.Location = new System.Drawing.Point(260, 113);
+            this.btnDeleteSelectedSongs.Name = "btnDeleteSelectedSongs";
+            this.btnDeleteSelectedSongs.Size = new System.Drawing.Size(113, 36);
+            this.btnDeleteSelectedSongs.TabIndex = 18;
+            this.btnDeleteSelectedSongs.Text = "Delete selected song(s)";
+            this.btnDeleteSelectedSongs.UseVisualStyleBackColor = true;
+            // 
+            // btnEnableDisableSelectedSongs
+            // 
+            this.btnEnableDisableSelectedSongs.Location = new System.Drawing.Point(260, 71);
+            this.btnEnableDisableSelectedSongs.Name = "btnEnableDisableSelectedSongs";
+            this.btnEnableDisableSelectedSongs.Size = new System.Drawing.Size(113, 36);
+            this.btnEnableDisableSelectedSongs.TabIndex = 17;
+            this.btnEnableDisableSelectedSongs.Text = "Enable/disable selected song(s)";
+            this.btnEnableDisableSelectedSongs.UseVisualStyleBackColor = true;
+            // 
+            // dgvUnsortedDLCs
+            // 
+            this.dgvUnsortedDLCs.AllowUserToAddRows = false;
+            this.dgvUnsortedDLCs.AllowUserToDeleteRows = false;
+            this.dgvUnsortedDLCs.AllowUserToOrderColumns = true;
+            this.dgvUnsortedDLCs.AllowUserToResizeRows = false;
+            this.dgvUnsortedDLCs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvUnsortedDLCs.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colUnsortedSelect,
+            this.colUnsortedEnabled,
+            this.colUnsortedSong});
+            this.dgvUnsortedDLCs.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnF2;
+            this.dgvUnsortedDLCs.Location = new System.Drawing.Point(6, 19);
+            this.dgvUnsortedDLCs.MultiSelect = false;
+            this.dgvUnsortedDLCs.Name = "dgvUnsortedDLCs";
+            this.dgvUnsortedDLCs.RowHeadersVisible = false;
+            this.dgvUnsortedDLCs.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvUnsortedDLCs.Size = new System.Drawing.Size(238, 182);
+            this.dgvUnsortedDLCs.TabIndex = 16;
+            // 
+            // colUnsortedSelect
+            // 
+            this.colUnsortedSelect.HeaderText = "Select";
+            this.colUnsortedSelect.Name = "colUnsortedSelect";
+            this.colUnsortedSelect.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colUnsortedSelect.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.colUnsortedSelect.Width = 50;
+            // 
+            // colUnsortedEnabled
+            // 
+            this.colUnsortedEnabled.HeaderText = "Enabled";
+            this.colUnsortedEnabled.Name = "colUnsortedEnabled";
+            this.colUnsortedEnabled.Width = 60;
+            // 
+            // colUnsortedSong
+            // 
+            this.colUnsortedSong.HeaderText = "Song";
+            this.colUnsortedSong.Name = "colUnsortedSong";
+            this.colUnsortedSong.Width = 130;
+            // 
+            // btnMoveSongToSetlist
+            // 
+            this.btnMoveSongToSetlist.Location = new System.Drawing.Point(260, 29);
+            this.btnMoveSongToSetlist.Name = "btnMoveSongToSetlist";
+            this.btnMoveSongToSetlist.Size = new System.Drawing.Size(113, 36);
+            this.btnMoveSongToSetlist.TabIndex = 14;
+            this.btnMoveSongToSetlist.Text = "Add selected song(s) to setlist";
+            this.btnMoveSongToSetlist.UseVisualStyleBackColor = true;
+            // 
+            // btnRunRSWithSetlist
+            // 
+            this.btnRunRSWithSetlist.Location = new System.Drawing.Point(260, 155);
+            this.btnRunRSWithSetlist.Name = "btnRunRSWithSetlist";
+            this.btnRunRSWithSetlist.Size = new System.Drawing.Size(113, 36);
+            this.btnRunRSWithSetlist.TabIndex = 6;
+            this.btnRunRSWithSetlist.Text = "Run RS with selected setlist(s)";
+            this.btnRunRSWithSetlist.UseVisualStyleBackColor = true;
             // 
             // frmMain
             // 
@@ -1856,6 +2064,11 @@
             this.statusStripMain.PerformLayout();
             this.contextMenuStrip_Tray.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.frmMainBindingSource)).EndInit();
+            this.tpSetlistManager.ResumeLayout(false);
+            this.groupZippedPacks.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSongPackZips)).EndInit();
+            this.groupUnsortedDLCs.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvUnsortedDLCs)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1999,5 +2212,23 @@
         private System.Windows.Forms.CheckBox checkEnableLogBaloon;
         private System.Windows.Forms.Button btnRequestSong;
         private System.Windows.Forms.Button btn_UploadCDLC;
+        private System.Windows.Forms.TabPage tpSetlistManager;
+        private System.Windows.Forms.GroupBox groupUnsortedDLCs;
+        private System.Windows.Forms.Button btnDeleteSelectedSongs;
+        private System.Windows.Forms.Button btnEnableDisableSelectedSongs;
+        private System.Windows.Forms.DataGridView dgvUnsortedDLCs;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn colUnsortedSelect;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colUnsortedEnabled;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colUnsortedSong;
+        private System.Windows.Forms.Button btnMoveSongToSetlist;
+        private System.Windows.Forms.Button btnRunRSWithSetlist;
+        private System.Windows.Forms.GroupBox groupZippedPacks;
+        private System.Windows.Forms.Button btnZipToSetlist;
+        private System.Windows.Forms.Button btnCombineSongPacks;
+        private System.Windows.Forms.Button btnDeleteSongPackZip;
+        private System.Windows.Forms.Button btnZipSelectedPlaylists;
+        private System.Windows.Forms.DataGridView dgvSongPackZips;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn colZipSelect;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colZipSongPack;
     }
 }
