@@ -82,6 +82,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\DLog.NET.1.0.1\lib\DLog.NET.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -109,6 +110,12 @@
     </Compile>
     <Compile Include="Controls\CueTextBox.cs">
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\ComboBoxPopup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\ComboBoxPopup.Designer.cs">
+      <DependentUpon>ComboBoxPopup.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\RADataGridView.cs">
       <SubType>Component</SubType>
@@ -159,6 +166,9 @@
     <Compile Include="lib\RS\PsarcBrowser.cs" />
     <Compile Include="Models\SongData.cs" />
     <Compile Include="Models\SongDupeData.cs" />
+    <EmbeddedResource Include="Controls\ComboBoxPopup.resx">
+      <DependentUpon>ComboBoxPopup.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmOutdatedSongs.resx">
       <DependentUpon>frmOutdatedSongs.cs</DependentUpon>
     </EmbeddedResource>
