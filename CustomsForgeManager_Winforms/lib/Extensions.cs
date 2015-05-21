@@ -93,6 +93,105 @@ namespace CustomsForgeManager_Winforms.Utilities
             client.DownloadStringAsync(new Uri(url));
         }
 
+        public static void CheckForUpdateStatus(this SongData currentSong, bool isAsync = false)
+        {
+            currentSong.Status = SongDataStatus.None;
+            
+            string url = currentSong.GetInfoURL();
+            string response = "";
+            string cfUrl = "";
+            var client = new WebClient();
+            int version = 0;
+
+            //isAsync = false;
+
+            if (!isAsync)
+            {
+
+                response = client.DownloadString(new Uri(url));
+
+                currentSong.IgnitionID = Ignition.GetDLCInfoFromResponse(response, "id");
+                currentSong.IgnitionUpdated = Ignition.GetDLCInfoFromResponse(response, "updated");
+                currentSong.IgnitionVersion = Ignition.GetDLCInfoFromResponse(response, "version");
+                currentSong.IgnitionAuthor = Ignition.GetDLCInfoFromResponse(response, "name");
+
+
+
+                if (int.TryParse(currentSong.Version, out version))
+                {
+                    currentSong.Version += ".0";
+                }
+
+                if (int.TryParse(currentSong.IgnitionVersion, out version))
+                {
+                    currentSong.IgnitionVersion += ".0";
+                }
+
+                if (currentSong.IgnitionVersion == "No Results")
+                {
+                    currentSong.Status = SongDataStatus.NotFound;
+                }
+                else if (currentSong.Version == "N/A")
+                {
+                    //TODO: Check for updates by release/update date
+                }
+                else if (currentSong.IgnitionVersion != currentSong.Version)
+                {
+                    currentSong.Status = SongDataStatus.OutDated;
+                }
+                else if (currentSong.IgnitionVersion == currentSong.Version)
+                {
+                    currentSong.Status = SongDataStatus.UpToDate;
+                }
+            }
+            else
+            {
+                client.DownloadStringCompleted += (sender, e) =>
+                {
+
+                    response = e.Result;
+
+                    currentSong.IgnitionID = Ignition.GetDLCInfoFromResponse(response, "id");
+                    currentSong.IgnitionUpdated = Ignition.GetDLCInfoFromResponse(response, "updated");
+                    currentSong.IgnitionVersion = Ignition.GetDLCInfoFromResponse(response, "version");
+                    currentSong.IgnitionAuthor = Ignition.GetDLCInfoFromResponse(response, "name");
+
+
+
+                    if (int.TryParse(currentSong.Version, out version))
+                    {
+                        currentSong.Version += ".0";
+                    }
+
+                    if (int.TryParse(currentSong.IgnitionVersion, out version))
+                    {
+                        currentSong.IgnitionVersion += ".0";
+                    }
+
+                    if (currentSong.IgnitionVersion == "No Results")
+                    {
+                        currentSong.Status = SongDataStatus.NotFound;
+                    }
+                    else if (currentSong.Version == "N/A")
+                    {
+                        //TODO: Check for updates by release/update date
+                    }
+                    else if (currentSong.IgnitionVersion != currentSong.Version)
+                    {
+                        currentSong.Status = SongDataStatus.OutDated;
+                    }
+                    else if (currentSong.IgnitionVersion == currentSong.Version)
+                    {
+                        currentSong.Status = SongDataStatus.UpToDate;
+                    }
+
+                };
+
+                client.DownloadStringAsync(new Uri(url));
+            }
+
+        }
+
         public static string GetVersionFromFileName(this SongData song)
         {
             if (song.FileName.Contains("_v"))
