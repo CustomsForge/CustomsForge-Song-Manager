@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.tlp_MainForm_Wrappper = new System.Windows.Forms.TableLayoutPanel();
             this.gbLog = new System.Windows.Forms.GroupBox();
             this.tbLog = new System.Windows.Forms.TextBox();
@@ -38,6 +38,8 @@
             this.tpManager = new System.Windows.Forms.TabPage();
             this.gb_Main_Grid = new System.Windows.Forms.GroupBox();
             this.linkLblSelectAll = new System.Windows.Forms.LinkLabel();
+            this.dgvSongs = new CustomsForgeManager_Winforms.Controls.RADataGridView();
+            this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.contextMenuStrip_MainManager = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.showDLCInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openDLCPageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -56,7 +58,6 @@
             this.gb_Main_Actions = new System.Windows.Forms.GroupBox();
             this.panelSongListButtons = new System.Windows.Forms.Panel();
             this.btnBackupSelectedDLCs = new System.Windows.Forms.Button();
-            this.btnBatchRenamer = new System.Windows.Forms.Button();
             this.radioBtn_ExportToHTML = new System.Windows.Forms.RadioButton();
             this.radioBtn_ExportToCSV = new System.Windows.Forms.RadioButton();
             this.btnExportSongList = new System.Windows.Forms.Button();
@@ -100,6 +101,9 @@
             this.colDLCPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnEnableAllSetlists = new System.Windows.Forms.Button();
             this.dgvSetlists = new System.Windows.Forms.DataGridView();
+            this.colSetlistSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.colEnabled = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSetlist = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.checkDeleteSongsAndSetlists = new System.Windows.Forms.CheckBox();
             this.btnCreateNewSetlist = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
@@ -201,20 +205,13 @@
             this.contextMenuStrip_Tray = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.labelAlphaTesters = new System.Windows.Forms.Label();
-            this.dgvSongs = new CustomsForgeManager_Winforms.Controls.RADataGridView();
-            this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.frmMainBindingSource = new System.Windows.Forms.BindingSource(this.components);
-<<<<<<< .merge_file_a12116
-            this.colSetlistSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.colEnabled = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSetlist = new System.Windows.Forms.DataGridViewTextBoxColumn();
-=======
->>>>>>> .merge_file_a16100
             this.tlp_MainForm_Wrappper.SuspendLayout();
             this.gbLog.SuspendLayout();
             this.tcMain.SuspendLayout();
             this.tpManager.SuspendLayout();
             this.gb_Main_Grid.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSongs)).BeginInit();
             this.contextMenuStrip_MainManager.SuspendLayout();
             this.gb_Main_Search.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -255,7 +252,6 @@
             this.tableLayoutPanel_Credits.SuspendLayout();
             this.statusStripMain.SuspendLayout();
             this.contextMenuStrip_Tray.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvSongs)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.frmMainBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
@@ -356,14 +352,12 @@
             this.linkLblSelectAll.LinkColor = System.Drawing.Color.Black;
             this.linkLblSelectAll.Location = new System.Drawing.Point(6, 233);
             this.linkLblSelectAll.Name = "linkLblSelectAll";
-            this.linkLblSelectAll.Size = new System.Drawing.Size(111, 16);
+            this.linkLblSelectAll.Size = new System.Drawing.Size(113, 16);
             this.linkLblSelectAll.TabIndex = 2;
             this.linkLblSelectAll.TabStop = true;
             this.linkLblSelectAll.Text = "Select All/Deselect All";
             this.linkLblSelectAll.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLblSelectAll_LinkClicked);
             // 
-<<<<<<< .merge_file_a12116
-=======
             // dgvSongs
             // 
             this.dgvSongs.AllowUserToAddRows = false;
@@ -407,7 +401,6 @@
             this.colSelect.TrueValue = "true";
             this.colSelect.Visible = false;
             // 
->>>>>>> .merge_file_a16100
             // contextMenuStrip_MainManager
             // 
             this.contextMenuStrip_MainManager.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -572,7 +565,6 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panelSongListButtons.Controls.Add(this.btnBackupSelectedDLCs);
-            this.panelSongListButtons.Controls.Add(this.btnBatchRenamer);
             this.panelSongListButtons.Controls.Add(this.radioBtn_ExportToHTML);
             this.panelSongListButtons.Controls.Add(this.radioBtn_ExportToCSV);
             this.panelSongListButtons.Controls.Add(this.btnExportSongList);
@@ -597,17 +589,6 @@
             this.btnBackupSelectedDLCs.Text = "Backup selected";
             this.btnBackupSelectedDLCs.UseVisualStyleBackColor = true;
             this.btnBackupSelectedDLCs.Click += new System.EventHandler(this.btnBackupSelectedDLCs_Click);
-            // 
-            // btnBatchRenamer
-            // 
-            this.btnBatchRenamer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnBatchRenamer.Location = new System.Drawing.Point(375, 15);
-            this.btnBatchRenamer.Name = "btnBatchRenamer";
-            this.btnBatchRenamer.Size = new System.Drawing.Size(91, 23);
-            this.btnBatchRenamer.TabIndex = 14;
-            this.btnBatchRenamer.Text = "Batch Renamer";
-            this.btnBatchRenamer.UseVisualStyleBackColor = true;
             // 
             // radioBtn_ExportToHTML
             // 
@@ -675,7 +656,7 @@
             // 
             this.btnDisableEnableSongs.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnDisableEnableSongs.Location = new System.Drawing.Point(249, 15);
+            this.btnDisableEnableSongs.Location = new System.Drawing.Point(346, 15);
             this.btnDisableEnableSongs.Name = "btnDisableEnableSongs";
             this.btnDisableEnableSongs.Size = new System.Drawing.Size(120, 23);
             this.btnDisableEnableSongs.TabIndex = 14;
@@ -922,7 +903,7 @@
             this.instructionsLabel.Location = new System.Drawing.Point(3, 16);
             this.instructionsLabel.Name = "instructionsLabel";
             this.instructionsLabel.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.instructionsLabel.Size = new System.Drawing.Size(353, 304);
+            this.instructionsLabel.Size = new System.Drawing.Size(354, 304);
             this.instructionsLabel.TabIndex = 1;
             this.instructionsLabel.Text = resources.GetString("instructionsLabel.Text");
             // 
@@ -939,7 +920,7 @@
             this.renameTemplateLabel.AutoSize = true;
             this.renameTemplateLabel.Location = new System.Drawing.Point(15, 12);
             this.renameTemplateLabel.Name = "renameTemplateLabel";
-            this.renameTemplateLabel.Size = new System.Drawing.Size(97, 16);
+            this.renameTemplateLabel.Size = new System.Drawing.Size(98, 16);
             this.renameTemplateLabel.TabIndex = 6;
             this.renameTemplateLabel.Text = "Rename Template:";
             // 
@@ -1079,6 +1060,26 @@
             this.dgvSetlists.Size = new System.Drawing.Size(243, 164);
             this.dgvSetlists.TabIndex = 13;
             this.dgvSetlists.SelectionChanged += new System.EventHandler(this.dgvSetlists_SelectionChanged);
+            // 
+            // colSetlistSelect
+            // 
+            this.colSetlistSelect.HeaderText = "Select";
+            this.colSetlistSelect.Name = "colSetlistSelect";
+            this.colSetlistSelect.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colSetlistSelect.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.colSetlistSelect.Width = 50;
+            // 
+            // colEnabled
+            // 
+            this.colEnabled.HeaderText = "Enabled";
+            this.colEnabled.Name = "colEnabled";
+            this.colEnabled.Width = 60;
+            // 
+            // colSetlist
+            // 
+            this.colSetlist.HeaderText = "Setlist";
+            this.colSetlist.Name = "colSetlist";
+            this.colSetlist.Width = 130;
             // 
             // checkDeleteSongsAndSetlists
             // 
@@ -1539,17 +1540,10 @@
             this.checkIncludeRS1DLC.AutoSize = true;
             this.checkIncludeRS1DLC.Checked = true;
             this.checkIncludeRS1DLC.CheckState = System.Windows.Forms.CheckState.Checked;
-<<<<<<< .merge_file_a12116
-            this.checkIncludeRS1DLC.Dock = System.Windows.Forms.DockStyle.Right;
-            this.checkIncludeRS1DLC.Location = new System.Drawing.Point(116, 91);
-            this.checkIncludeRS1DLC.Name = "checkIncludeRS1DLC";
-            this.checkIncludeRS1DLC.Size = new System.Drawing.Size(178, 35);
-=======
             this.checkIncludeRS1DLC.Dock = System.Windows.Forms.DockStyle.Left;
             this.checkIncludeRS1DLC.Location = new System.Drawing.Point(5, 169);
             this.checkIncludeRS1DLC.Name = "checkIncludeRS1DLC";
             this.checkIncludeRS1DLC.Size = new System.Drawing.Size(179, 30);
->>>>>>> .merge_file_a16100
             this.checkIncludeRS1DLC.TabIndex = 3;
             this.checkIncludeRS1DLC.Text = "Include RS1 Compatibility Pack";
             this.checkIncludeRS1DLC.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -2013,9 +2007,9 @@
             this.lbl_Credits.AutoSize = true;
             this.lbl_Credits.Font = new System.Drawing.Font("Trebuchet MS", 10F);
             this.lbl_Credits.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.lbl_Credits.Location = new System.Drawing.Point(27, 8);
+            this.lbl_Credits.Location = new System.Drawing.Point(26, 8);
             this.lbl_Credits.Name = "lbl_Credits";
-            this.lbl_Credits.Size = new System.Drawing.Size(131, 18);
+            this.lbl_Credits.Size = new System.Drawing.Size(133, 18);
             this.lbl_Credits.TabIndex = 0;
             this.lbl_Credits.Text = "Song Manager Team";
             this.lbl_Credits.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -2263,75 +2257,10 @@
             this.labelAlphaTesters.Text = "Alpha Testers:";
             this.labelAlphaTesters.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // dgvSongs
-            // 
-            this.dgvSongs.AllowUserToAddRows = false;
-            this.dgvSongs.AllowUserToDeleteRows = false;
-            this.dgvSongs.AllowUserToOrderColumns = true;
-            this.dgvSongs.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.dgvSongs.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.dgvSongs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dgvSongs.BackgroundColor = System.Drawing.SystemColors.ActiveCaption;
-            this.dgvSongs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvSongs.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.colSelect});
-            this.dgvSongs.ContextMenuStrip = this.contextMenuStrip_MainManager;
-            this.dgvSongs.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnF2;
-            this.dgvSongs.GridColor = System.Drawing.SystemColors.ActiveCaption;
-            this.dgvSongs.Location = new System.Drawing.Point(6, 19);
-            this.dgvSongs.MultiSelect = false;
-            this.dgvSongs.Name = "dgvSongs";
-            this.dgvSongs.RowHeadersVisible = false;
-            this.dgvSongs.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvSongs.Size = new System.Drawing.Size(973, 211);
-            this.dgvSongs.TabIndex = 1;
-            this.dgvSongs.DataSourceChanged += new System.EventHandler(this.dgvSongs_DataSourceChanged);
-            this.dgvSongs.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSongs_CellDoubleClick);
-            this.dgvSongs.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongs_CellMouseDown);
-            this.dgvSongs.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongs_ColumnHeaderMouseClick);
-            this.dgvSongs.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvSongs_KeyDown);
-            // 
-            // colSelect
-            // 
-            this.colSelect.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.colSelect.FalseValue = "false";
-            this.colSelect.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.colSelect.HeaderText = "Select";
-            this.colSelect.IndeterminateValue = "false";
-            this.colSelect.Name = "colSelect";
-            this.colSelect.TrueValue = "true";
-            this.colSelect.Visible = false;
-            // 
             // frmMainBindingSource
             // 
             this.frmMainBindingSource.DataSource = typeof(CustomsForgeManager_Winforms.Forms.frmMain);
             // 
-<<<<<<< .merge_file_a12116
-            // colSetlistSelect
-            // 
-            this.colSetlistSelect.HeaderText = "Select";
-            this.colSetlistSelect.Name = "colSetlistSelect";
-            this.colSetlistSelect.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colSetlistSelect.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.colSetlistSelect.Width = 50;
-            // 
-            // colEnabled
-            // 
-            this.colEnabled.HeaderText = "Enabled";
-            this.colEnabled.Name = "colEnabled";
-            this.colEnabled.Width = 60;
-            // 
-            // colSetlist
-            // 
-            this.colSetlist.HeaderText = "Setlist";
-            this.colSetlist.Name = "colSetlist";
-            this.colSetlist.Width = 130;
-            // 
-=======
->>>>>>> .merge_file_a16100
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2353,6 +2282,7 @@
             this.tpManager.ResumeLayout(false);
             this.gb_Main_Grid.ResumeLayout(false);
             this.gb_Main_Grid.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSongs)).EndInit();
             this.contextMenuStrip_MainManager.ResumeLayout(false);
             this.gb_Main_Search.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
@@ -2404,7 +2334,6 @@
             this.statusStripMain.ResumeLayout(false);
             this.statusStripMain.PerformLayout();
             this.contextMenuStrip_Tray.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvSongs)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.frmMainBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -2465,7 +2394,6 @@
         private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
         private System.Windows.Forms.CheckBox checkIncludeRS1DLC;
         private System.Windows.Forms.ToolStripMenuItem openDLCLocationToolStripMenuItem;
-        private System.Windows.Forms.Button btnBatchRenamer;
         private System.Windows.Forms.ToolStripMenuItem getAuthorNameStripMenuItem;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel_DisabledCounter;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelSpringer;
@@ -2549,7 +2477,7 @@
         private System.Windows.Forms.CheckBox checkEnableLogBaloon;
         private System.Windows.Forms.Button btnRequestSong;
         private System.Windows.Forms.Button btn_UploadCDLC;
-<<<<<<< .merge_file_a12116
+//<<<<<<< .merge_file_a12116
         private System.Windows.Forms.TabPage tpSetlistManager;
         private System.Windows.Forms.GroupBox groupUnsortedDLCs;
         private System.Windows.Forms.Button btnDeleteSelectedSongs;
@@ -2590,9 +2518,9 @@
         private System.Windows.Forms.DataGridViewCheckBoxColumn colSetlistSelect;
         private System.Windows.Forms.DataGridViewTextBoxColumn colEnabled;
         private System.Windows.Forms.DataGridViewTextBoxColumn colSetlist;
-=======
+//=======
         private System.Windows.Forms.Label lbl_Settings_Other;
         private System.Windows.Forms.CheckBox checkUpdateWhileScan;
->>>>>>> .merge_file_a16100
+//>>>>>>> .merge_file_a16100
     }
 }

@@ -456,10 +456,10 @@ namespace CustomsForgeManager_Winforms.Forms
             string path = CustomsForgeManager_Winforms.Utilities.Constants.DefaultWorkingDirectory + @"\songs.bin";
             try
             {
-<<<<<<< HEAD
-=======
+//<<<<<<< HEAD
+//=======
 
->>>>>>> feature/ignition_check_while_scan
+//>>>>>>> feature/ignition_check_while_scan
                 if (!File.Exists(path))
                 {
                     using (var fs = new FileStream(path, FileMode.CreateNew, FileAccess.Write, FileShare.Write))
@@ -510,11 +510,6 @@ namespace CustomsForgeManager_Winforms.Forms
             btnCheckAllForUpdates.InvokeIfRequired(delegate
             {
                 btnCheckAllForUpdates.Enabled = !btnCheckAllForUpdates.Enabled;
-            });
-
-            btnBatchRenamer.InvokeIfRequired(delegate
-            {
-                btnBatchRenamer.Enabled = !btnBatchRenamer.Enabled;
             });
 
             //Uncomment after implementing:
@@ -1847,15 +1842,15 @@ namespace CustomsForgeManager_Winforms.Forms
 
 
 
-<<<<<<< HEAD
-                                cfUrl = CustomsForgeManager_Winforms.Utilities.Constants.DefaultCFSongUrl + currentSong.Song.Replace("'", "").Replace("(", "").Replace(")", "").Replace(" ", "-") + "-r" + currentSong.IgnitionID;
-=======
+//<<<<<<< HEAD
+//                                cfUrl = CustomsForgeManager_Winforms.Utilities.Constants.DefaultCFSongUrl + currentSong.Song.Replace("'", "").Replace("(", "").Replace(")", "").Replace(" ", "-") + "-r" + currentSong.IgnitionID;
+//=======
                 dataGridViewRow.Cells["IgnitionVersion"].Value = currentSong.IgnitionVersion;
                 btnCheckAllForUpdates.InvokeIfRequired(delegate
                 {
                     btnCheckAllForUpdates.Enabled = true;
                 });
->>>>>>> feature/ignition_check_while_scan
+//>>>>>>> feature/ignition_check_while_scan
 
             }
         }
@@ -2139,7 +2134,6 @@ namespace CustomsForgeManager_Winforms.Forms
         {
             Process.Start("http://ignition.customsforge.com/creators/submit");
         }
-<<<<<<< HEAD
         #region Setlist Manager
         private bool DirOK()
         {
@@ -2790,13 +2784,13 @@ namespace CustomsForgeManager_Winforms.Forms
         }
         #endregion
         #endregion
-=======
+
 
         private void dgvSongs_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
             dgvSongs.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvSongs.AutoResizeColumns();
         }
->>>>>>> feature/ignition_check_while_scan
+
     }
 }
