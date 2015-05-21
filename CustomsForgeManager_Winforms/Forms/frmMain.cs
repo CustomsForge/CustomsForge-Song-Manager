@@ -2224,22 +2224,27 @@ namespace CustomsForgeManager_Winforms.Forms
                             string[] unsortedSongs = Directory.GetFiles(Path.Combine(mySettings.RSInstalledDir, "dlc"), "*_p.psarc*", SearchOption.TopDirectoryOnly);
                             string[] zipFiles = Directory.GetFiles(Path.Combine(mySettings.RSInstalledDir, "dlc"), "*zip", SearchOption.TopDirectoryOnly);
 
-                            listDLCsInSetlist.InvokeIfRequired(delegate
+                            dgvDLCsInSetlist.InvokeIfRequired(delegate
                             {
-                                foreach (string song in filesInSetlist)
-                                    listDLCsInSetlist.Items.Add(Path.GetFileName(song));
+                                foreach (string songPath in filesInSetlist)
+                                {
+                                    var song = SongCollection.FirstOrDefault(sng => sng.Path == songPath);
+                                    if (song != null)
+                                        dgvDLCsInSetlist.Rows.Add(song.Artist, song.Song, song.Album, song.Path);
+                                }
                             });
 
                             dgvUnsortedDLCs.InvokeIfRequired(delegate
                             {
-                                foreach (string song in unsortedSongs)
+                                foreach (string songPath in unsortedSongs)
                                 {
-                                    if (!song.Contains("rs1"))
+                                    var song = SongCollection.FirstOrDefault(sng => sng.Path == songPath);
+                                    if (!songPath.Contains("rs1"))
                                     {
-                                        if (song.Contains(".disabled"))
-                                            dgvUnsortedDLCs.Rows.Add(true, "No", Path.GetFileName(song.Replace(".disabled", "")));
+                                        if (songPath.Contains(".disabled"))
+                                            dgvUnsortedDLCs.Rows.Add(true, "No", song.Artist, song.Song, song.Path);
                                         else
-                                            dgvUnsortedDLCs.Rows.Add(false, "Yes", Path.GetFileName(song));
+                                            dgvUnsortedDLCs.Rows.Add(false, "Yes", song.Artist, song.Song, song.Path);
                                     }
                                 }
                             });
@@ -2247,13 +2252,13 @@ namespace CustomsForgeManager_Winforms.Forms
                             dgvOfficialSongs.InvokeIfRequired(delegate
                             {
                                 string cachePsarcPath = Path.Combine(mySettings.RSInstalledDir, "cache.psarc");
-                                string cachePsarcBackupPath = Path.Combine(mySettings.RSInstalledDir, "disabled.cache.psarc.disabled");
+                                string cachePsarcBackupPath = Path.Combine(mySettings.RSInstalledDir, "cache.disabled.psarc");
 
                                 string rs1PsarcPath = Path.Combine(mySettings.RSInstalledDir, "dlc", "rs1compatibilitydlc_p.psarc");
-                                string rs1PsarcBackupPath = Path.Combine(mySettings.RSInstalledDir, "dlc", "disabled.rs1compatibilitydlc_p.psarc.disabled");
+                                string rs1PsarcBackupPath = Path.Combine(mySettings.RSInstalledDir, "dlc", "rs1compatibilitydlc_p.disabled.psarc");
 
                                 string rs1DLCPsarcPath = Path.Combine(mySettings.RSInstalledDir, "dlc", "rs1compatibilitydisc_p.psarc");
-                                string rs1DLCPsarcBackupPath = Path.Combine(mySettings.RSInstalledDir, "dlc", "disabled.rs1compatibilitydisc_p.psarc.disabled");
+                                string rs1DLCPsarcBackupPath = Path.Combine(mySettings.RSInstalledDir, "dlc", "rs1compatibilitydisc_p.disabled.psarc");
 
                                 if (File.Exists(cachePsarcPath))
                                     dgvOfficialSongs.Rows.Add(false, "Yes", "cache.psarc");
@@ -2282,17 +2287,19 @@ namespace CustomsForgeManager_Winforms.Forms
             bWorker = new AbortableBackgroundWorker();
             bWorker.DoWork += (se, ev) =>
             {
-                listDLCsInSetlist.InvokeIfRequired(delegate
+                dgvDLCsInSetlist.InvokeIfRequired(delegate
                 {
-                    listDLCsInSetlist.Items.Clear();
+                    dgvDLCsInSetlist.Rows.Clear();
                 });
                 string setlistPath = Path.Combine(mySettings.RSInstalledDir, "dlc", dgvSetlists.SelectedRows[0].Cells["colSetlist"].Value.ToString());
 
-                foreach (string song in Directory.GetFiles(setlistPath))
+                foreach (string songPath in Directory.GetFiles(setlistPath))
                 {
-                    listDLCsInSetlist.InvokeIfRequired(delegate
+                    var song = SongCollection.FirstOrDefault(sng => sng.Path == songPath);
+                    dgvDLCsInSetlist.InvokeIfRequired(delegate
                     {
-                        listDLCsInSetlist.Items.Add(Path.GetFileName(song));
+                        if (song != null)
+                            dgvDLCsInSetlist.Rows.Add(song.Artist, song.Song, song.Album, song.Path);
                     });
                 }
             };
@@ -2301,7 +2308,7 @@ namespace CustomsForgeManager_Winforms.Forms
         }
         private void btnLoadSetlists_Click(object sender, EventArgs e)
         {
-            listDLCsInSetlist.Items.Clear();
+            dgvDLCsInSetlist.Rows.Clear();
             dgvSetlists.Rows.Clear();
             dgvOfficialSongs.Rows.Clear();
             dgvUnsortedDLCs.Rows.Clear();
@@ -2314,8 +2321,8 @@ namespace CustomsForgeManager_Winforms.Forms
             string rs1DLCPack = "";
             var rocksmithProcess = Process.GetProcessesByName("Rocksmith2014.exe");
 
-            List<string> rs1DLCFiles = Directory.EnumerateFiles(Path.Combine(tbRSPath.Text, "dlc"), "rs1compatibilitydlc*", SearchOption.AllDirectories).Where(sp => !sp.Contains(".disabled")).ToList();
-            List<string> rs1Files = Directory.EnumerateFiles(Path.Combine(tbRSPath.Text, "dlc"), "rs1compatibilitydisc*", SearchOption.AllDirectories).Where(sp => !sp.Contains(".disabled")).ToList();
+            List<string> rs1DLCFiles = Directory.EnumerateFiles(Path.Combine(mySettings.RSInstalledDir, "dlc"), "rs1compatibilitydlc*", SearchOption.AllDirectories).Where(sp => !sp.Contains(".disabled")).ToList();
+            List<string> rs1Files = Directory.EnumerateFiles(Path.Combine(mySettings.RSInstalledDir, "dlc"), "rs1compatibilitydisc*", SearchOption.AllDirectories).Where(sp => !sp.Contains(".disabled")).ToList();
 
             frmComboBoxPopup comboPopup = new frmComboBoxPopup();
 
@@ -2338,7 +2345,7 @@ namespace CustomsForgeManager_Winforms.Forms
                 {
                     foreach (string rs1DLCFile in rs1DLCFiles)
                     {
-                        if (Path.GetDirectoryName(rs1DLCFile) != Path.Combine(tbRSPath.Text, "dlc", rs1DLCPack))
+                        if (Path.GetDirectoryName(rs1DLCFile) != Path.Combine(mySettings.RSInstalledDir, "dlc", rs1DLCPack))
                         {
                             File.Move(rs1DLCFile, rs1DLCFile.Replace("_p.psarc", "_p.disabled.psarc"));
                         }
@@ -2366,7 +2373,7 @@ namespace CustomsForgeManager_Winforms.Forms
                 {
                     foreach (string rs1File in rs1Files)
                     {
-                        if (Path.GetDirectoryName(rs1File) != Path.Combine(tbRSPath.Text, "dlc", rs1MainPack))
+                        if (Path.GetDirectoryName(rs1File) != Path.Combine(mySettings.RSInstalledDir, "dlc", rs1MainPack))
                         {
                             File.Move(rs1File, rs1File.Replace("_p.psarc", "_p.disabled.psarc"));
                         }
@@ -2408,23 +2415,23 @@ namespace CustomsForgeManager_Winforms.Forms
         {
             try
             {
-                for (int i = 0; i < listDLCsInSetlist.SelectedItems.Count; i++)
+                foreach (DataGridViewRow row in dgvDLCsInSetlist.Rows)
                 {
-                    if (DirOK() && listDLCsInSetlist.SelectedItems.Count > 0)
+                    if (DirOK())
                     {
-                        string song = listDLCsInSetlist.SelectedItems[i].ToString();
-
                         string dlcFolderPath = Path.Combine(mySettings.RSInstalledDir, "dlc");
                         string setlistSongPath = Path.Combine(dlcFolderPath, dgvSetlists.SelectedRows[0].Cells["colSetlist"].Value.ToString());
-                        string songPath = Path.Combine(setlistSongPath, song);
-                        string finalSongPath = Path.Combine(dlcFolderPath, song).Replace("_p.disabled.psarc", "_p.psarc");
+                        string songPath = row.Cells["colDLCPath"].Value.ToString();
+                        string finalSongPath = Path.Combine(dlcFolderPath, Path.GetFileName(songPath)).Replace("_p.disabled.psarc", "_p.psarc");
+
+                        var song = SongCollection.FirstOrDefault(sng => sng.Path == songPath);
 
                         if (File.Exists(finalSongPath))
                             File.Delete(finalSongPath);
                         File.Move(songPath, finalSongPath);
 
-                        listDLCsInSetlist.Items.Remove(song);
-                        dgvUnsortedDLCs.Rows.Add(false, "Yes", Path.GetFileName(finalSongPath));
+                        dgvDLCsInSetlist.Rows.Remove(row);
+                        dgvUnsortedDLCs.Rows.Add(false, "Yes", song.Artist, song.Album, finalSongPath);
                     }
                     else
                     {
@@ -2444,17 +2451,19 @@ namespace CustomsForgeManager_Winforms.Forms
             {
                 foreach (DataGridViewRow row in dgvSetlists.Rows)
                 {
-                    listDLCsInSetlist.Items.Clear();
+                    dgvDLCsInSetlist.Rows.Clear();
                     if (Convert.ToBoolean(row.Cells["colSetlistSelect"].Value) == true || row.Selected)
                     {
                         string setlistPath = Path.Combine(mySettings.RSInstalledDir, "dlc", row.Cells["colSetlist"].Value.ToString());
 
-                        foreach (string song in Directory.GetFiles(setlistPath))
+                        foreach (string songPath in Directory.GetFiles(setlistPath))
                         {
-                            string newPath = row.Cells["colSetlistEnabled"].Value == "Yes" ? song.Replace("_p.psarc", "_p.disabled.psarc") : song.Replace("_p.disabled.psarc", "_p.psarc");
-                            File.Move(song, newPath);
+                            var song = SongCollection.FirstOrDefault(sng => sng.Path == songPath);
+                            string newPath = row.Cells["colSetlistEnabled"].Value == "Yes" ? song.Path.Replace("_p.psarc", "_p.disabled.psarc") : song.Path.Replace("_p.disabled.psarc", "_p.psarc");
 
-                            listDLCsInSetlist.Items.Add(Path.GetFileName(newPath));
+                            File.Move(song.Path, newPath);
+
+                            dgvDLCsInSetlist.Rows.Add(song.Artist, song.Song, song.Album, Path.GetFileName(newPath));
                         }
 
                         if (row.Cells["colSetlistEnabled"].Value == "Yes")
@@ -2474,28 +2483,28 @@ namespace CustomsForgeManager_Winforms.Forms
                 {
                     if (Convert.ToBoolean(row.Cells["colSetlistSelect"].Value) == true || row.Selected)
                     {
-                        string songArchivePath = row.Cells["colSetlistSetlist"].Value.ToString();
-
-                        if (mySettings.RSInstalledDir != "")
-                            songArchivePath = Path.Combine(mySettings.RSInstalledDir, "dlc", songArchivePath);
-
-                        if (Directory.Exists(songArchivePath))
+                        if (DirOK())
                         {
-                            if (checkDeleteSongsAndSetlists.Checked)
+                            string songArchivePath = Path.Combine(mySettings.RSInstalledDir, "dlc", row.Cells["colSetlist"].Value.ToString());
+                            
+                            if (Directory.Exists(songArchivePath))
                             {
-                                Directory.Delete(songArchivePath, true);
-                                dgvSetlists.Rows.Remove(row);
-                            }
-                            else
-                            {
-                                string[] songs = Directory.GetFiles(songArchivePath);
-                                foreach (string song in songs)
+                                if (checkDeleteSongsAndSetlists.Checked)
                                 {
-                                    if (song.Contains("dlc"))
-                                        File.Move(Path.Combine(songArchivePath, song), Path.Combine(mySettings.RSInstalledDir, "dlc", song));
+                                    Directory.Delete(songArchivePath, true);
+                                    dgvSetlists.Rows.Remove(row);
                                 }
-                                Directory.Delete(songArchivePath, true);
-                                dgvSetlists.Rows.Remove(row);
+                                else
+                                {
+                                    string[] songs = Directory.GetFiles(songArchivePath);
+                                    foreach (string song in songs)
+                                    {
+                                        if (song.Contains("dlc"))
+                                            File.Move(Path.Combine(songArchivePath, song), Path.Combine(mySettings.RSInstalledDir, "dlc", song));
+                                    }
+                                    Directory.Delete(songArchivePath, true);
+                                    dgvSetlists.Rows.Remove(row);
+                                }
                             }
                         }
                     }
@@ -2519,7 +2528,7 @@ namespace CustomsForgeManager_Winforms.Forms
                         {
                             if (Convert.ToBoolean(row.Cells["colSetlistSelect"].Value) == true || row.Selected)
                             {
-                                string setlistPath = Path.Combine(mySettings.RSInstalledDir, "dlc", row.Cells["colSetlistSetlist"].Value.ToString());
+                                string setlistPath = Path.Combine(mySettings.RSInstalledDir, "dlc", row.Cells["colSetlist"].Value.ToString());
                                 List<string> setlistDisabledSongs = Directory.GetFiles(setlistPath).Where(sng => sng.Contains(".disabled")).ToList();
 
                                 foreach (string song in setlistDisabledSongs)
@@ -2559,37 +2568,35 @@ namespace CustomsForgeManager_Winforms.Forms
                             {
                                 if (unsortedRow.Selected || (bool)unsortedRow.Cells["colUnsortedSelect"].Value == true)
                                 {
-                                    string song = unsortedRow.Cells["colUnsortedSong"].Value.ToString();
-                                    string songPath = Path.Combine(mySettings.RSInstalledDir, "dlc", song);
+                                    string songPath = unsortedRow.Cells["colUnsortedPath"].Value.ToString();
                                     string setlistSongPath = Path.Combine(mySettings.RSInstalledDir, "dlc", row.Cells["colSetlist"].Value.ToString());
 
-                                    if (unsortedRow.Cells["colUnsortedEnabled"].Value.ToString() == "No")
-                                        song += ".disabled";
+                                    var song = SongCollection.FirstOrDefault(sng => sng.Path == songPath);
 
                                     if (row.Cells["colSetlistEnabled"].Value == "Yes")
                                     {
-                                        if (File.Exists(Path.Combine(setlistSongPath, song.Replace(".disabled", ""))))
-                                            File.Delete(Path.Combine(setlistSongPath, song.Replace(".disabled", "")));
-                                        File.Move(songPath, Path.Combine(setlistSongPath, song.Replace(".disabled", "")));
+                                        if (File.Exists(Path.Combine(setlistSongPath, songPath.Replace(".disabled", ""))))
+                                            File.Delete(Path.Combine(setlistSongPath, songPath.Replace(".disabled", "")));
+                                        File.Move(songPath, Path.Combine(setlistSongPath, songPath.Replace(".disabled", "")));
                                     }
                                     else
                                     {
                                         if (unsortedRow.Cells["colUnsortedEnabled"].Value.ToString() == "No")
                                         {
-                                            if (File.Exists(Path.Combine(setlistSongPath, song)))
-                                                File.Delete(Path.Combine(setlistSongPath, song));
-                                            File.Move(songPath, Path.Combine(setlistSongPath, song));
+                                            if (File.Exists(Path.Combine(setlistSongPath, songPath)))
+                                                File.Delete(Path.Combine(setlistSongPath, songPath));
+                                            File.Move(songPath, Path.Combine(setlistSongPath, songPath));
                                         }
                                         else
                                         {
-                                            if (File.Exists(Path.Combine(setlistSongPath, song + ".disabled")))
-                                                File.Delete(Path.Combine(setlistSongPath, song + ".disabled"));
-                                            File.Move(songPath, Path.Combine(setlistSongPath, song + ".disabled"));
+                                            if (File.Exists(Path.Combine(setlistSongPath, songPath.Replace("_p.psarc", "_p.disabled.psarc"))))
+                                                File.Delete(Path.Combine(setlistSongPath, songPath.Replace("_p.psarc", "_p.disabled.psarc")));
+                                            File.Move(songPath, Path.Combine(setlistSongPath, songPath.Replace("_p.psarc", "_p.disabled.psarc")));
                                         }
                                     }
 
                                     dgvUnsortedDLCs.Rows.Remove(unsortedRow);
-                                    listDLCsInSetlist.Items.Add(song);
+                                    dgvDLCsInSetlist.Rows.Add(song.Artist, song.Song, song.Album, song.Path);
                                 }
                             }
                         }
@@ -2614,7 +2621,7 @@ namespace CustomsForgeManager_Winforms.Forms
                     {
                         if (Convert.ToBoolean(row.Cells["colUnsortedSelect"].Value) == true || row.Selected)
                         {
-                            string songPath = Path.Combine(mySettings.RSInstalledDir, "dlc", row.Cells["colUnsortedSong"].Value.ToString());
+                            string songPath = row.Cells["colUnsortedPath"].Value.ToString();
                             if (row.Cells["colUnsortedEnabled"].Value.ToString() == "No")
                             {
                                 File.Move(songPath.Replace("_p.psarc", "_p.disabled.psarc"), songPath);
@@ -2645,10 +2652,7 @@ namespace CustomsForgeManager_Winforms.Forms
                     {
                         if (Convert.ToBoolean(row.Cells["colUnsortedSelect"].Value) == true || row.Selected)
                         {
-                            string songPath = Path.Combine(mySettings.RSInstalledDir, "dlc", row.Cells["colUnsortedSong"].Value.ToString());
-
-                            if (row.Cells["colUnsortedEnabled"].Value.ToString() == "No")
-                                songPath.Replace("_p.psarc", "_p.disabled.psarc");
+                            string songPath = row.Cells["colUnsortedPath"].Value.ToString();
 
                             File.Delete(songPath);
 
