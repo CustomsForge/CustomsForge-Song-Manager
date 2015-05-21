@@ -116,6 +116,8 @@
             this.colSettingsColumnEnabled = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.checkEnableLogBaloon = new System.Windows.Forms.CheckBox();
             this.btnSettingsSave = new System.Windows.Forms.Button();
+            this.lbl_Settings_Other = new System.Windows.Forms.Label();
+            this.checkUpdateWhileScan = new System.Windows.Forms.CheckBox();
             this.tpCreators = new System.Windows.Forms.TabPage();
             this.btnRSTKSite = new System.Windows.Forms.Button();
             this.btnEOFSite = new System.Windows.Forms.Button();
@@ -165,8 +167,6 @@
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.labelAlphaTesters = new System.Windows.Forms.Label();
             this.frmMainBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.lbl_Settings_Other = new System.Windows.Forms.Label();
-            this.checkUpdateWhileScan = new System.Windows.Forms.CheckBox();
             this.tlp_MainForm_Wrappper.SuspendLayout();
             this.gbLog.SuspendLayout();
             this.tcMain.SuspendLayout();
@@ -339,6 +339,7 @@
             this.dgvSongs.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSongs_CellDoubleClick);
             this.dgvSongs.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongs_CellMouseDown);
             this.dgvSongs.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongs_ColumnHeaderMouseClick);
+            this.dgvSongs.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgvSongs_DataBindingComplete);
             this.dgvSongs.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvSongs_KeyDown);
             // 
             // colSelect
@@ -1202,6 +1203,27 @@
             this.btnSettingsSave.UseVisualStyleBackColor = false;
             this.btnSettingsSave.Click += new System.EventHandler(this.btnSettingsSave_Click);
             // 
+            // lbl_Settings_Other
+            // 
+            this.lbl_Settings_Other.AutoSize = true;
+            this.lbl_Settings_Other.Dock = System.Windows.Forms.DockStyle.Left;
+            this.lbl_Settings_Other.Location = new System.Drawing.Point(5, 66);
+            this.lbl_Settings_Other.Name = "lbl_Settings_Other";
+            this.lbl_Settings_Other.Size = new System.Drawing.Size(82, 30);
+            this.lbl_Settings_Other.TabIndex = 6;
+            this.lbl_Settings_Other.Text = "Other options:";
+            // 
+            // checkUpdateWhileScan
+            // 
+            this.checkUpdateWhileScan.AutoSize = true;
+            this.checkUpdateWhileScan.Dock = System.Windows.Forms.DockStyle.Left;
+            this.checkUpdateWhileScan.Location = new System.Drawing.Point(5, 133);
+            this.checkUpdateWhileScan.Name = "checkUpdateWhileScan";
+            this.checkUpdateWhileScan.Size = new System.Drawing.Size(189, 28);
+            this.checkUpdateWhileScan.TabIndex = 7;
+            this.checkUpdateWhileScan.Text = "Check for update while scanning";
+            this.checkUpdateWhileScan.UseVisualStyleBackColor = true;
+            // 
             // tpCreators
             // 
             this.tpCreators.BackgroundImage = global::CustomsForgeManager_Winforms.Properties.Resources.eof_bg;
@@ -1797,27 +1819,6 @@
             // frmMainBindingSource
             // 
             this.frmMainBindingSource.DataSource = typeof(CustomsForgeManager_Winforms.Forms.frmMain);
-            // 
-            // lbl_Settings_Other
-            // 
-            this.lbl_Settings_Other.AutoSize = true;
-            this.lbl_Settings_Other.Dock = System.Windows.Forms.DockStyle.Left;
-            this.lbl_Settings_Other.Location = new System.Drawing.Point(5, 66);
-            this.lbl_Settings_Other.Name = "lbl_Settings_Other";
-            this.lbl_Settings_Other.Size = new System.Drawing.Size(82, 30);
-            this.lbl_Settings_Other.TabIndex = 6;
-            this.lbl_Settings_Other.Text = "Other options:";
-            // 
-            // checkUpdateWhileScan
-            // 
-            this.checkUpdateWhileScan.AutoSize = true;
-            this.checkUpdateWhileScan.Dock = System.Windows.Forms.DockStyle.Left;
-            this.checkUpdateWhileScan.Location = new System.Drawing.Point(5, 133);
-            this.checkUpdateWhileScan.Name = "checkUpdateWhileScan";
-            this.checkUpdateWhileScan.Size = new System.Drawing.Size(189, 28);
-            this.checkUpdateWhileScan.TabIndex = 7;
-            this.checkUpdateWhileScan.Text = "Check for update while scanning";
-            this.checkUpdateWhileScan.UseVisualStyleBackColor = true;
             // 
             // frmMain
             // 
