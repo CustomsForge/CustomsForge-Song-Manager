@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tlp_MainForm_Wrappper = new System.Windows.Forms.TableLayoutPanel();
             this.gbLog = new System.Windows.Forms.GroupBox();
             this.tbLog = new System.Windows.Forms.TextBox();
@@ -38,6 +38,8 @@
             this.tpManager = new System.Windows.Forms.TabPage();
             this.gb_Main_Grid = new System.Windows.Forms.GroupBox();
             this.linkLblSelectAll = new System.Windows.Forms.LinkLabel();
+            this.dgvSongs = new CustomsForgeManager_Winforms.Controls.RADataGridView();
+            this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.contextMenuStrip_MainManager = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.showDLCInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openDLCPageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -160,12 +162,15 @@
             this.pictureBoxCF = new System.Windows.Forms.PictureBox();
             this.group_CFquickLinks = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel_CFQuicklinks = new System.Windows.Forms.TableLayoutPanel();
+            this.btnRSTKSite = new System.Windows.Forms.Button();
+            this.btnEOFSite = new System.Windows.Forms.Button();
             this.linkOpenCFHomePage = new System.Windows.Forms.LinkLabel();
             this.linkOpenIgnition = new System.Windows.Forms.LinkLabel();
             this.linkOpenRequests = new System.Windows.Forms.LinkLabel();
             this.linkDontainsPage = new System.Windows.Forms.LinkLabel();
             this.linkOpenCFVideos = new System.Windows.Forms.LinkLabel();
             this.linkCFFAQ = new System.Windows.Forms.LinkLabel();
+            this.lbl_AboutTools = new System.Windows.Forms.Label();
             this.panel6 = new System.Windows.Forms.Panel();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
@@ -200,17 +205,15 @@
             this.contextMenuStrip_Tray = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.labelAlphaTesters = new System.Windows.Forms.Label();
-            this.btnEOFSite = new System.Windows.Forms.Button();
-            this.btnRSTKSite = new System.Windows.Forms.Button();
-            this.lbl_AboutTools = new System.Windows.Forms.Label();
-            this.dgvSongs = new CustomsForgeManager_Winforms.Controls.RADataGridView();
-            this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.frmMainBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.tlp_Settings_RSPath = new System.Windows.Forms.TableLayoutPanel();
+            this.btn_Settings_RSPathBrowse = new System.Windows.Forms.Button();
             this.tlp_MainForm_Wrappper.SuspendLayout();
             this.gbLog.SuspendLayout();
             this.tcMain.SuspendLayout();
             this.tpManager.SuspendLayout();
             this.gb_Main_Grid.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSongs)).BeginInit();
             this.contextMenuStrip_MainManager.SuspendLayout();
             this.gb_Main_Search.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -250,8 +253,8 @@
             this.tableLayoutPanel_Credits.SuspendLayout();
             this.statusStripMain.SuspendLayout();
             this.contextMenuStrip_Tray.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvSongs)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.frmMainBindingSource)).BeginInit();
+            this.tlp_Settings_RSPath.SuspendLayout();
             this.SuspendLayout();
             // 
             // tlp_MainForm_Wrappper
@@ -355,6 +358,49 @@
             this.linkLblSelectAll.TabStop = true;
             this.linkLblSelectAll.Text = "Select All/Deselect All";
             this.linkLblSelectAll.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLblSelectAll_LinkClicked);
+            // 
+            // dgvSongs
+            // 
+            this.dgvSongs.AllowUserToAddRows = false;
+            this.dgvSongs.AllowUserToDeleteRows = false;
+            this.dgvSongs.AllowUserToOrderColumns = true;
+            this.dgvSongs.AllowUserToResizeRows = false;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.dgvSongs.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
+            this.dgvSongs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgvSongs.BackgroundColor = System.Drawing.SystemColors.ActiveCaption;
+            this.dgvSongs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvSongs.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colSelect});
+            this.dgvSongs.ContextMenuStrip = this.contextMenuStrip_MainManager;
+            this.dgvSongs.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnF2;
+            this.dgvSongs.GridColor = System.Drawing.SystemColors.ActiveCaption;
+            this.dgvSongs.Location = new System.Drawing.Point(6, 19);
+            this.dgvSongs.MultiSelect = false;
+            this.dgvSongs.Name = "dgvSongs";
+            this.dgvSongs.RowHeadersVisible = false;
+            this.dgvSongs.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvSongs.Size = new System.Drawing.Size(973, 211);
+            this.dgvSongs.TabIndex = 1;
+            this.dgvSongs.DataSourceChanged += new System.EventHandler(this.dgvSongs_DataSourceChanged);
+            this.dgvSongs.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSongs_CellDoubleClick);
+            this.dgvSongs.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongs_CellMouseDown);
+            this.dgvSongs.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongs_ColumnHeaderMouseClick);
+            this.dgvSongs.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgvSongs_DataBindingComplete);
+            this.dgvSongs.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvSongs_KeyDown);
+            // 
+            // colSelect
+            // 
+            this.colSelect.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.colSelect.FalseValue = "false";
+            this.colSelect.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.colSelect.HeaderText = "Select";
+            this.colSelect.IndeterminateValue = "false";
+            this.colSelect.Name = "colSelect";
+            this.colSelect.TrueValue = "true";
+            this.colSelect.Visible = false;
             // 
             // contextMenuStrip_MainManager
             // 
@@ -1417,7 +1463,6 @@
             this.tlpSettings_Wrapper.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
             this.tlpSettings_Wrapper.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70F));
             this.tlpSettings_Wrapper.Controls.Add(this.lblSettingsRSDir, 0, 0);
-            this.tlpSettings_Wrapper.Controls.Add(this.tbSettingsRSDir, 1, 0);
             this.tlpSettings_Wrapper.Controls.Add(this.checkRescanOnStartup, 0, 3);
             this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsLoad, 0, 8);
             this.tlpSettings_Wrapper.Controls.Add(this.checkIncludeRS1DLC, 0, 5);
@@ -1426,19 +1471,20 @@
             this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsSave, 1, 8);
             this.tlpSettings_Wrapper.Controls.Add(this.lbl_Settings_Other, 0, 2);
             this.tlpSettings_Wrapper.Controls.Add(this.checkUpdateWhileScan, 0, 4);
+            this.tlpSettings_Wrapper.Controls.Add(this.tlp_Settings_RSPath, 1, 0);
             this.tlpSettings_Wrapper.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpSettings_Wrapper.Location = new System.Drawing.Point(3, 3);
             this.tlpSettings_Wrapper.Name = "tlpSettings_Wrapper";
             this.tlpSettings_Wrapper.RowCount = 9;
-            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.58646F));
+            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.712615F));
+            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.712615F));
+            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.712615F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 34F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 36F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 37F));
-            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 48.56308F));
+            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.712615F));
             this.tlpSettings_Wrapper.Size = new System.Drawing.Size(991, 430);
             this.tlpSettings_Wrapper.TabIndex = 0;
             // 
@@ -1449,19 +1495,18 @@
             this.lblSettingsRSDir.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSettingsRSDir.Location = new System.Drawing.Point(18, 2);
             this.lblSettingsRSDir.Name = "lblSettingsRSDir";
-            this.lblSettingsRSDir.Size = new System.Drawing.Size(276, 30);
+            this.lblSettingsRSDir.Size = new System.Drawing.Size(276, 38);
             this.lblSettingsRSDir.TabIndex = 1;
             this.lblSettingsRSDir.Text = "Rocksmith installation directory (double-click to change):";
             this.lblSettingsRSDir.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // tbSettingsRSDir
             // 
-            this.tbSettingsRSDir.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbSettingsRSDir.Location = new System.Drawing.Point(302, 5);
+            this.tbSettingsRSDir.Location = new System.Drawing.Point(3, 3);
             this.tbSettingsRSDir.Multiline = true;
             this.tbSettingsRSDir.Name = "tbSettingsRSDir";
             this.tbSettingsRSDir.ReadOnly = true;
-            this.tbSettingsRSDir.Size = new System.Drawing.Size(684, 24);
+            this.tbSettingsRSDir.Size = new System.Drawing.Size(526, 24);
             this.tbSettingsRSDir.TabIndex = 2;
             this.tbSettingsRSDir.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.tbSettingsRSDir_MouseDoubleClick);
             // 
@@ -1471,9 +1516,9 @@
             this.checkRescanOnStartup.Checked = true;
             this.checkRescanOnStartup.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkRescanOnStartup.Dock = System.Windows.Forms.DockStyle.Left;
-            this.checkRescanOnStartup.Location = new System.Drawing.Point(5, 101);
+            this.checkRescanOnStartup.Location = new System.Drawing.Point(5, 107);
             this.checkRescanOnStartup.Name = "checkRescanOnStartup";
-            this.checkRescanOnStartup.Size = new System.Drawing.Size(118, 24);
+            this.checkRescanOnStartup.Size = new System.Drawing.Size(118, 23);
             this.checkRescanOnStartup.TabIndex = 3;
             this.checkRescanOnStartup.Text = "Rescan on startup";
             this.checkRescanOnStartup.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1482,9 +1527,9 @@
             // btnSettingsLoad
             // 
             this.btnSettingsLoad.Dock = System.Windows.Forms.DockStyle.Left;
-            this.btnSettingsLoad.Location = new System.Drawing.Point(5, 399);
+            this.btnSettingsLoad.Location = new System.Drawing.Point(5, 400);
             this.btnSettingsLoad.Name = "btnSettingsLoad";
-            this.btnSettingsLoad.Size = new System.Drawing.Size(150, 26);
+            this.btnSettingsLoad.Size = new System.Drawing.Size(150, 25);
             this.btnSettingsLoad.TabIndex = 0;
             this.btnSettingsLoad.Text = "Load Settings";
             this.btnSettingsLoad.UseVisualStyleBackColor = true;
@@ -1496,7 +1541,7 @@
             this.checkIncludeRS1DLC.Checked = true;
             this.checkIncludeRS1DLC.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkIncludeRS1DLC.Dock = System.Windows.Forms.DockStyle.Left;
-            this.checkIncludeRS1DLC.Location = new System.Drawing.Point(5, 169);
+            this.checkIncludeRS1DLC.Location = new System.Drawing.Point(5, 174);
             this.checkIncludeRS1DLC.Name = "checkIncludeRS1DLC";
             this.checkIncludeRS1DLC.Size = new System.Drawing.Size(179, 30);
             this.checkIncludeRS1DLC.TabIndex = 3;
@@ -1510,17 +1555,17 @@
             this.panel5.Controls.Add(this.lblDisabledColumns);
             this.panel5.Controls.Add(this.listDisabledColumns);
             this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel5.Location = new System.Drawing.Point(302, 37);
+            this.panel5.Location = new System.Drawing.Point(302, 45);
             this.panel5.Name = "panel5";
             this.tlpSettings_Wrapper.SetRowSpan(this.panel5, 7);
-            this.panel5.Size = new System.Drawing.Size(684, 354);
+            this.panel5.Size = new System.Drawing.Size(684, 347);
             this.panel5.TabIndex = 4;
             // 
             // btnEnableColumns
             // 
             this.btnEnableColumns.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnEnableColumns.Location = new System.Drawing.Point(232, 328);
+            this.btnEnableColumns.Location = new System.Drawing.Point(232, 321);
             this.btnEnableColumns.Name = "btnEnableColumns";
             this.btnEnableColumns.Size = new System.Drawing.Size(150, 23);
             this.btnEnableColumns.TabIndex = 2;
@@ -1552,7 +1597,7 @@
             this.colSettingsColumnEnabled});
             this.listDisabledColumns.Location = new System.Drawing.Point(3, 22);
             this.listDisabledColumns.Name = "listDisabledColumns";
-            this.listDisabledColumns.Size = new System.Drawing.Size(686, 300);
+            this.listDisabledColumns.Size = new System.Drawing.Size(686, 293);
             this.listDisabledColumns.TabIndex = 5;
             this.listDisabledColumns.UseCompatibleStateImageBehavior = false;
             this.listDisabledColumns.View = System.Windows.Forms.View.Details;
@@ -1578,7 +1623,7 @@
             this.checkEnableLogBaloon.Checked = true;
             this.checkEnableLogBaloon.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkEnableLogBaloon.Dock = System.Windows.Forms.DockStyle.Left;
-            this.checkEnableLogBaloon.Location = new System.Drawing.Point(5, 207);
+            this.checkEnableLogBaloon.Location = new System.Drawing.Point(5, 212);
             this.checkEnableLogBaloon.Name = "checkEnableLogBaloon";
             this.checkEnableLogBaloon.Size = new System.Drawing.Size(118, 31);
             this.checkEnableLogBaloon.TabIndex = 5;
@@ -1591,9 +1636,9 @@
             // 
             this.btnSettingsSave.BackColor = System.Drawing.Color.Chartreuse;
             this.btnSettingsSave.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnSettingsSave.Location = new System.Drawing.Point(836, 399);
+            this.btnSettingsSave.Location = new System.Drawing.Point(836, 400);
             this.btnSettingsSave.Name = "btnSettingsSave";
-            this.btnSettingsSave.Size = new System.Drawing.Size(150, 26);
+            this.btnSettingsSave.Size = new System.Drawing.Size(150, 25);
             this.btnSettingsSave.TabIndex = 0;
             this.btnSettingsSave.Text = "Save Settings";
             this.btnSettingsSave.UseVisualStyleBackColor = false;
@@ -1603,9 +1648,9 @@
             // 
             this.lbl_Settings_Other.AutoSize = true;
             this.lbl_Settings_Other.Dock = System.Windows.Forms.DockStyle.Left;
-            this.lbl_Settings_Other.Location = new System.Drawing.Point(5, 66);
+            this.lbl_Settings_Other.Location = new System.Drawing.Point(5, 73);
             this.lbl_Settings_Other.Name = "lbl_Settings_Other";
-            this.lbl_Settings_Other.Size = new System.Drawing.Size(82, 30);
+            this.lbl_Settings_Other.Size = new System.Drawing.Size(82, 29);
             this.lbl_Settings_Other.TabIndex = 6;
             this.lbl_Settings_Other.Text = "Other options:";
             // 
@@ -1613,7 +1658,7 @@
             // 
             this.checkUpdateWhileScan.AutoSize = true;
             this.checkUpdateWhileScan.Dock = System.Windows.Forms.DockStyle.Left;
-            this.checkUpdateWhileScan.Location = new System.Drawing.Point(5, 133);
+            this.checkUpdateWhileScan.Location = new System.Drawing.Point(5, 138);
             this.checkUpdateWhileScan.Name = "checkUpdateWhileScan";
             this.checkUpdateWhileScan.Size = new System.Drawing.Size(189, 28);
             this.checkUpdateWhileScan.TabIndex = 7;
@@ -1696,6 +1741,28 @@
             this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 0F));
             this.tableLayoutPanel_CFQuicklinks.Size = new System.Drawing.Size(487, 193);
             this.tableLayoutPanel_CFQuicklinks.TabIndex = 4;
+            // 
+            // btnRSTKSite
+            // 
+            this.btnRSTKSite.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnRSTKSite.Location = new System.Drawing.Point(274, 67);
+            this.btnRSTKSite.Name = "btnRSTKSite";
+            this.btnRSTKSite.Size = new System.Drawing.Size(210, 26);
+            this.btnRSTKSite.TabIndex = 17;
+            this.btnRSTKSite.Text = "Rocksmith Toolkit";
+            this.btnRSTKSite.UseVisualStyleBackColor = true;
+            this.btnRSTKSite.Click += new System.EventHandler(this.btnRSTKSite_Click);
+            // 
+            // btnEOFSite
+            // 
+            this.btnEOFSite.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnEOFSite.Location = new System.Drawing.Point(274, 35);
+            this.btnEOFSite.Name = "btnEOFSite";
+            this.btnEOFSite.Size = new System.Drawing.Size(210, 26);
+            this.btnEOFSite.TabIndex = 16;
+            this.btnEOFSite.Text = "Editor on Fire";
+            this.btnEOFSite.UseVisualStyleBackColor = true;
+            this.btnEOFSite.Click += new System.EventHandler(this.btnEOFSite_Click);
             // 
             // linkOpenCFHomePage
             // 
@@ -1786,6 +1853,17 @@
             this.linkCFFAQ.Text = "FAQ";
             this.linkCFFAQ.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.linkCFFAQ.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkCFFAQ_LinkClicked);
+            // 
+            // lbl_AboutTools
+            // 
+            this.lbl_AboutTools.AutoSize = true;
+            this.lbl_AboutTools.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.lbl_AboutTools.Location = new System.Drawing.Point(274, 16);
+            this.lbl_AboutTools.Name = "lbl_AboutTools";
+            this.lbl_AboutTools.Size = new System.Drawing.Size(210, 16);
+            this.lbl_AboutTools.TabIndex = 18;
+            this.lbl_AboutTools.Text = "Tools for Creators:";
+            this.lbl_AboutTools.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // panel6
             // 
@@ -2186,85 +2264,35 @@
             this.labelAlphaTesters.Text = "Alpha Testers:";
             this.labelAlphaTesters.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // btnEOFSite
-            // 
-            this.btnEOFSite.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnEOFSite.Location = new System.Drawing.Point(274, 35);
-            this.btnEOFSite.Name = "btnEOFSite";
-            this.btnEOFSite.Size = new System.Drawing.Size(210, 26);
-            this.btnEOFSite.TabIndex = 16;
-            this.btnEOFSite.Text = "Editor on Fire";
-            this.btnEOFSite.UseVisualStyleBackColor = true;
-            this.btnEOFSite.Click += new System.EventHandler(this.btnEOFSite_Click);
-            // 
-            // btnRSTKSite
-            // 
-            this.btnRSTKSite.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnRSTKSite.Location = new System.Drawing.Point(274, 67);
-            this.btnRSTKSite.Name = "btnRSTKSite";
-            this.btnRSTKSite.Size = new System.Drawing.Size(210, 26);
-            this.btnRSTKSite.TabIndex = 17;
-            this.btnRSTKSite.Text = "Rocksmith Toolkit";
-            this.btnRSTKSite.UseVisualStyleBackColor = true;
-            this.btnRSTKSite.Click += new System.EventHandler(this.btnRSTKSite_Click);
-            // 
-            // lbl_AboutTools
-            // 
-            this.lbl_AboutTools.AutoSize = true;
-            this.lbl_AboutTools.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.lbl_AboutTools.Location = new System.Drawing.Point(274, 16);
-            this.lbl_AboutTools.Name = "lbl_AboutTools";
-            this.lbl_AboutTools.Size = new System.Drawing.Size(210, 16);
-            this.lbl_AboutTools.TabIndex = 18;
-            this.lbl_AboutTools.Text = "Tools for Creators:";
-            this.lbl_AboutTools.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // dgvSongs
-            // 
-            this.dgvSongs.AllowUserToAddRows = false;
-            this.dgvSongs.AllowUserToDeleteRows = false;
-            this.dgvSongs.AllowUserToOrderColumns = true;
-            this.dgvSongs.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.dgvSongs.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.dgvSongs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dgvSongs.BackgroundColor = System.Drawing.SystemColors.ActiveCaption;
-            this.dgvSongs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvSongs.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.colSelect});
-            this.dgvSongs.ContextMenuStrip = this.contextMenuStrip_MainManager;
-            this.dgvSongs.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnF2;
-            this.dgvSongs.GridColor = System.Drawing.SystemColors.ActiveCaption;
-            this.dgvSongs.Location = new System.Drawing.Point(6, 19);
-            this.dgvSongs.MultiSelect = false;
-            this.dgvSongs.Name = "dgvSongs";
-            this.dgvSongs.RowHeadersVisible = false;
-            this.dgvSongs.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvSongs.Size = new System.Drawing.Size(973, 211);
-            this.dgvSongs.TabIndex = 1;
-            this.dgvSongs.DataSourceChanged += new System.EventHandler(this.dgvSongs_DataSourceChanged);
-            this.dgvSongs.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSongs_CellDoubleClick);
-            this.dgvSongs.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongs_CellMouseDown);
-            this.dgvSongs.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongs_ColumnHeaderMouseClick);
-            this.dgvSongs.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgvSongs_DataBindingComplete);
-            this.dgvSongs.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvSongs_KeyDown);
-            // 
-            // colSelect
-            // 
-            this.colSelect.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.colSelect.FalseValue = "false";
-            this.colSelect.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.colSelect.HeaderText = "Select";
-            this.colSelect.IndeterminateValue = "false";
-            this.colSelect.Name = "colSelect";
-            this.colSelect.TrueValue = "true";
-            this.colSelect.Visible = false;
-            // 
             // frmMainBindingSource
             // 
             this.frmMainBindingSource.DataSource = typeof(CustomsForgeManager_Winforms.Forms.frmMain);
+            // 
+            // tlp_Settings_RSPath
+            // 
+            this.tlp_Settings_RSPath.ColumnCount = 2;
+            this.tlp_Settings_RSPath.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 77.77778F));
+            this.tlp_Settings_RSPath.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 22.22222F));
+            this.tlp_Settings_RSPath.Controls.Add(this.tbSettingsRSDir, 0, 0);
+            this.tlp_Settings_RSPath.Controls.Add(this.btn_Settings_RSPathBrowse, 1, 0);
+            this.tlp_Settings_RSPath.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlp_Settings_RSPath.Location = new System.Drawing.Point(302, 5);
+            this.tlp_Settings_RSPath.Name = "tlp_Settings_RSPath";
+            this.tlp_Settings_RSPath.RowCount = 1;
+            this.tlp_Settings_RSPath.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlp_Settings_RSPath.Size = new System.Drawing.Size(684, 32);
+            this.tlp_Settings_RSPath.TabIndex = 8;
+            // 
+            // btn_Settings_RSPathBrowse
+            // 
+            this.btn_Settings_RSPathBrowse.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn_Settings_RSPathBrowse.Location = new System.Drawing.Point(535, 3);
+            this.btn_Settings_RSPathBrowse.Name = "btn_Settings_RSPathBrowse";
+            this.btn_Settings_RSPathBrowse.Size = new System.Drawing.Size(146, 26);
+            this.btn_Settings_RSPathBrowse.TabIndex = 3;
+            this.btn_Settings_RSPathBrowse.Text = "Browse";
+            this.btn_Settings_RSPathBrowse.UseVisualStyleBackColor = true;
+            this.btn_Settings_RSPathBrowse.Click += new System.EventHandler(this.btn_Settings_RSPathBrowse_Click);
             // 
             // frmMain
             // 
@@ -2287,6 +2315,7 @@
             this.tpManager.ResumeLayout(false);
             this.gb_Main_Grid.ResumeLayout(false);
             this.gb_Main_Grid.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSongs)).EndInit();
             this.contextMenuStrip_MainManager.ResumeLayout(false);
             this.gb_Main_Search.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
@@ -2337,8 +2366,9 @@
             this.statusStripMain.ResumeLayout(false);
             this.statusStripMain.PerformLayout();
             this.contextMenuStrip_Tray.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvSongs)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.frmMainBindingSource)).EndInit();
+            this.tlp_Settings_RSPath.ResumeLayout(false);
+            this.tlp_Settings_RSPath.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2525,6 +2555,8 @@
         private System.Windows.Forms.Button btnRSTKSite;
         private System.Windows.Forms.Button btnEOFSite;
         private System.Windows.Forms.Label lbl_AboutTools;
+        private System.Windows.Forms.TableLayoutPanel tlp_Settings_RSPath;
+        private System.Windows.Forms.Button btn_Settings_RSPathBrowse;
 //>>>>>>> .merge_file_a16100
     }
 }

@@ -1547,6 +1547,11 @@ namespace CustomsForgeManager_Winforms.Forms
         }
         private void tbSettingsRSDir_MouseDoubleClick(object sender, MouseEventArgs e)
         {
+            ChangeRSPath();
+        }
+
+        private void ChangeRSPath()
+        {
             if (tbSettingsRSDir.Enabled)
             {
                 if (folderBrowserDialog_SettingsRSPath.ShowDialog() == DialogResult.OK)
@@ -1556,6 +1561,7 @@ namespace CustomsForgeManager_Winforms.Forms
                 }
             }
         }
+
         private void tbSearch_KeyUp(object sender, KeyEventArgs e)
         {
             if (tbSearch.Text.Length > 0)// && e.KeyCode == Keys.Enter)
@@ -2790,6 +2796,11 @@ namespace CustomsForgeManager_Winforms.Forms
         {
             dgvSongs.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvSongs.AutoResizeColumns();
+        }
+
+        private void btn_Settings_RSPathBrowse_Click(object sender, EventArgs e)
+        {
+            ChangeRSPath();
         }
 
     }
