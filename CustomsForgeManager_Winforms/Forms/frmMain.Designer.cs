@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.tlp_MainForm_Wrappper = new System.Windows.Forms.TableLayoutPanel();
             this.gbLog = new System.Windows.Forms.GroupBox();
@@ -157,20 +157,20 @@
             this.btnSettingsSave = new System.Windows.Forms.Button();
             this.lbl_Settings_Other = new System.Windows.Forms.Label();
             this.checkUpdateWhileScan = new System.Windows.Forms.CheckBox();
-            this.tpCreators = new System.Windows.Forms.TabPage();
-            this.btnRSTKSite = new System.Windows.Forms.Button();
-            this.btnEOFSite = new System.Windows.Forms.Button();
             this.tpAbout = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.pictureBoxCF = new System.Windows.Forms.PictureBox();
             this.group_CFquickLinks = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel_CFQuicklinks = new System.Windows.Forms.TableLayoutPanel();
+            this.btnRSTKSite = new System.Windows.Forms.Button();
+            this.btnEOFSite = new System.Windows.Forms.Button();
             this.linkOpenCFHomePage = new System.Windows.Forms.LinkLabel();
             this.linkOpenIgnition = new System.Windows.Forms.LinkLabel();
             this.linkOpenRequests = new System.Windows.Forms.LinkLabel();
             this.linkDontainsPage = new System.Windows.Forms.LinkLabel();
             this.linkOpenCFVideos = new System.Windows.Forms.LinkLabel();
             this.linkCFFAQ = new System.Windows.Forms.LinkLabel();
+            this.lbl_AboutTools = new System.Windows.Forms.Label();
             this.panel6 = new System.Windows.Forms.Panel();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
@@ -206,6 +206,8 @@
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.labelAlphaTesters = new System.Windows.Forms.Label();
             this.frmMainBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.tlp_Settings_RSPath = new System.Windows.Forms.TableLayoutPanel();
+            this.btn_Settings_RSPathBrowse = new System.Windows.Forms.Button();
             this.tlp_MainForm_Wrappper.SuspendLayout();
             this.gbLog.SuspendLayout();
             this.tcMain.SuspendLayout();
@@ -239,7 +241,6 @@
             this.tpSettings.SuspendLayout();
             this.tlpSettings_Wrapper.SuspendLayout();
             this.panel5.SuspendLayout();
-            this.tpCreators.SuspendLayout();
             this.tpAbout.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCF)).BeginInit();
@@ -253,6 +254,7 @@
             this.statusStripMain.SuspendLayout();
             this.contextMenuStrip_Tray.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.frmMainBindingSource)).BeginInit();
+            this.tlp_Settings_RSPath.SuspendLayout();
             this.SuspendLayout();
             // 
             // tlp_MainForm_Wrappper
@@ -306,7 +308,6 @@
             this.tcMain.Controls.Add(this.tpSetlistManager);
             this.tcMain.Controls.Add(this.tpUtilities);
             this.tcMain.Controls.Add(this.tpSettings);
-            this.tcMain.Controls.Add(this.tpCreators);
             this.tcMain.Controls.Add(this.tpAbout);
             this.tcMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tcMain.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -364,8 +365,8 @@
             this.dgvSongs.AllowUserToDeleteRows = false;
             this.dgvSongs.AllowUserToOrderColumns = true;
             this.dgvSongs.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.dgvSongs.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.dgvSongs.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
             this.dgvSongs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -1462,7 +1463,6 @@
             this.tlpSettings_Wrapper.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
             this.tlpSettings_Wrapper.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70F));
             this.tlpSettings_Wrapper.Controls.Add(this.lblSettingsRSDir, 0, 0);
-            this.tlpSettings_Wrapper.Controls.Add(this.tbSettingsRSDir, 1, 0);
             this.tlpSettings_Wrapper.Controls.Add(this.checkRescanOnStartup, 0, 3);
             this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsLoad, 0, 8);
             this.tlpSettings_Wrapper.Controls.Add(this.checkIncludeRS1DLC, 0, 5);
@@ -1471,19 +1471,20 @@
             this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsSave, 1, 8);
             this.tlpSettings_Wrapper.Controls.Add(this.lbl_Settings_Other, 0, 2);
             this.tlpSettings_Wrapper.Controls.Add(this.checkUpdateWhileScan, 0, 4);
+            this.tlpSettings_Wrapper.Controls.Add(this.tlp_Settings_RSPath, 1, 0);
             this.tlpSettings_Wrapper.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpSettings_Wrapper.Location = new System.Drawing.Point(3, 3);
             this.tlpSettings_Wrapper.Name = "tlpSettings_Wrapper";
             this.tlpSettings_Wrapper.RowCount = 9;
-            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.58646F));
+            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.712615F));
+            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.712615F));
+            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.712615F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 34F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 36F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 37F));
-            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 48.56308F));
+            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.712615F));
             this.tlpSettings_Wrapper.Size = new System.Drawing.Size(991, 430);
             this.tlpSettings_Wrapper.TabIndex = 0;
             // 
@@ -1494,19 +1495,18 @@
             this.lblSettingsRSDir.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSettingsRSDir.Location = new System.Drawing.Point(18, 2);
             this.lblSettingsRSDir.Name = "lblSettingsRSDir";
-            this.lblSettingsRSDir.Size = new System.Drawing.Size(276, 30);
+            this.lblSettingsRSDir.Size = new System.Drawing.Size(276, 38);
             this.lblSettingsRSDir.TabIndex = 1;
             this.lblSettingsRSDir.Text = "Rocksmith installation directory (double-click to change):";
             this.lblSettingsRSDir.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // tbSettingsRSDir
             // 
-            this.tbSettingsRSDir.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbSettingsRSDir.Location = new System.Drawing.Point(302, 5);
+            this.tbSettingsRSDir.Location = new System.Drawing.Point(3, 3);
             this.tbSettingsRSDir.Multiline = true;
             this.tbSettingsRSDir.Name = "tbSettingsRSDir";
             this.tbSettingsRSDir.ReadOnly = true;
-            this.tbSettingsRSDir.Size = new System.Drawing.Size(684, 24);
+            this.tbSettingsRSDir.Size = new System.Drawing.Size(526, 24);
             this.tbSettingsRSDir.TabIndex = 2;
             this.tbSettingsRSDir.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.tbSettingsRSDir_MouseDoubleClick);
             // 
@@ -1516,9 +1516,9 @@
             this.checkRescanOnStartup.Checked = true;
             this.checkRescanOnStartup.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkRescanOnStartup.Dock = System.Windows.Forms.DockStyle.Left;
-            this.checkRescanOnStartup.Location = new System.Drawing.Point(5, 101);
+            this.checkRescanOnStartup.Location = new System.Drawing.Point(5, 107);
             this.checkRescanOnStartup.Name = "checkRescanOnStartup";
-            this.checkRescanOnStartup.Size = new System.Drawing.Size(118, 24);
+            this.checkRescanOnStartup.Size = new System.Drawing.Size(118, 23);
             this.checkRescanOnStartup.TabIndex = 3;
             this.checkRescanOnStartup.Text = "Rescan on startup";
             this.checkRescanOnStartup.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1527,9 +1527,9 @@
             // btnSettingsLoad
             // 
             this.btnSettingsLoad.Dock = System.Windows.Forms.DockStyle.Left;
-            this.btnSettingsLoad.Location = new System.Drawing.Point(5, 399);
+            this.btnSettingsLoad.Location = new System.Drawing.Point(5, 400);
             this.btnSettingsLoad.Name = "btnSettingsLoad";
-            this.btnSettingsLoad.Size = new System.Drawing.Size(150, 26);
+            this.btnSettingsLoad.Size = new System.Drawing.Size(150, 25);
             this.btnSettingsLoad.TabIndex = 0;
             this.btnSettingsLoad.Text = "Load Settings";
             this.btnSettingsLoad.UseVisualStyleBackColor = true;
@@ -1541,7 +1541,7 @@
             this.checkIncludeRS1DLC.Checked = true;
             this.checkIncludeRS1DLC.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkIncludeRS1DLC.Dock = System.Windows.Forms.DockStyle.Left;
-            this.checkIncludeRS1DLC.Location = new System.Drawing.Point(5, 169);
+            this.checkIncludeRS1DLC.Location = new System.Drawing.Point(5, 174);
             this.checkIncludeRS1DLC.Name = "checkIncludeRS1DLC";
             this.checkIncludeRS1DLC.Size = new System.Drawing.Size(179, 30);
             this.checkIncludeRS1DLC.TabIndex = 3;
@@ -1555,17 +1555,17 @@
             this.panel5.Controls.Add(this.lblDisabledColumns);
             this.panel5.Controls.Add(this.listDisabledColumns);
             this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel5.Location = new System.Drawing.Point(302, 37);
+            this.panel5.Location = new System.Drawing.Point(302, 45);
             this.panel5.Name = "panel5";
             this.tlpSettings_Wrapper.SetRowSpan(this.panel5, 7);
-            this.panel5.Size = new System.Drawing.Size(684, 354);
+            this.panel5.Size = new System.Drawing.Size(684, 347);
             this.panel5.TabIndex = 4;
             // 
             // btnEnableColumns
             // 
             this.btnEnableColumns.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnEnableColumns.Location = new System.Drawing.Point(232, 328);
+            this.btnEnableColumns.Location = new System.Drawing.Point(232, 321);
             this.btnEnableColumns.Name = "btnEnableColumns";
             this.btnEnableColumns.Size = new System.Drawing.Size(150, 23);
             this.btnEnableColumns.TabIndex = 2;
@@ -1597,7 +1597,7 @@
             this.colSettingsColumnEnabled});
             this.listDisabledColumns.Location = new System.Drawing.Point(3, 22);
             this.listDisabledColumns.Name = "listDisabledColumns";
-            this.listDisabledColumns.Size = new System.Drawing.Size(686, 300);
+            this.listDisabledColumns.Size = new System.Drawing.Size(686, 293);
             this.listDisabledColumns.TabIndex = 5;
             this.listDisabledColumns.UseCompatibleStateImageBehavior = false;
             this.listDisabledColumns.View = System.Windows.Forms.View.Details;
@@ -1623,7 +1623,7 @@
             this.checkEnableLogBaloon.Checked = true;
             this.checkEnableLogBaloon.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkEnableLogBaloon.Dock = System.Windows.Forms.DockStyle.Left;
-            this.checkEnableLogBaloon.Location = new System.Drawing.Point(5, 207);
+            this.checkEnableLogBaloon.Location = new System.Drawing.Point(5, 212);
             this.checkEnableLogBaloon.Name = "checkEnableLogBaloon";
             this.checkEnableLogBaloon.Size = new System.Drawing.Size(118, 31);
             this.checkEnableLogBaloon.TabIndex = 5;
@@ -1636,9 +1636,9 @@
             // 
             this.btnSettingsSave.BackColor = System.Drawing.Color.Chartreuse;
             this.btnSettingsSave.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnSettingsSave.Location = new System.Drawing.Point(836, 399);
+            this.btnSettingsSave.Location = new System.Drawing.Point(836, 400);
             this.btnSettingsSave.Name = "btnSettingsSave";
-            this.btnSettingsSave.Size = new System.Drawing.Size(150, 26);
+            this.btnSettingsSave.Size = new System.Drawing.Size(150, 25);
             this.btnSettingsSave.TabIndex = 0;
             this.btnSettingsSave.Text = "Save Settings";
             this.btnSettingsSave.UseVisualStyleBackColor = false;
@@ -1648,9 +1648,9 @@
             // 
             this.lbl_Settings_Other.AutoSize = true;
             this.lbl_Settings_Other.Dock = System.Windows.Forms.DockStyle.Left;
-            this.lbl_Settings_Other.Location = new System.Drawing.Point(5, 66);
+            this.lbl_Settings_Other.Location = new System.Drawing.Point(5, 73);
             this.lbl_Settings_Other.Name = "lbl_Settings_Other";
-            this.lbl_Settings_Other.Size = new System.Drawing.Size(82, 30);
+            this.lbl_Settings_Other.Size = new System.Drawing.Size(82, 29);
             this.lbl_Settings_Other.TabIndex = 6;
             this.lbl_Settings_Other.Text = "Other options:";
             // 
@@ -1658,46 +1658,12 @@
             // 
             this.checkUpdateWhileScan.AutoSize = true;
             this.checkUpdateWhileScan.Dock = System.Windows.Forms.DockStyle.Left;
-            this.checkUpdateWhileScan.Location = new System.Drawing.Point(5, 133);
+            this.checkUpdateWhileScan.Location = new System.Drawing.Point(5, 138);
             this.checkUpdateWhileScan.Name = "checkUpdateWhileScan";
             this.checkUpdateWhileScan.Size = new System.Drawing.Size(189, 28);
             this.checkUpdateWhileScan.TabIndex = 7;
             this.checkUpdateWhileScan.Text = "Check for update while scanning";
             this.checkUpdateWhileScan.UseVisualStyleBackColor = true;
-            // 
-            // tpCreators
-            // 
-            this.tpCreators.BackgroundImage = global::CustomsForgeManager_Winforms.Properties.Resources.eof_bg;
-            this.tpCreators.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.tpCreators.Controls.Add(this.btnRSTKSite);
-            this.tpCreators.Controls.Add(this.btnEOFSite);
-            this.tpCreators.Location = new System.Drawing.Point(4, 25);
-            this.tpCreators.Name = "tpCreators";
-            this.tpCreators.Padding = new System.Windows.Forms.Padding(3);
-            this.tpCreators.Size = new System.Drawing.Size(997, 436);
-            this.tpCreators.TabIndex = 6;
-            this.tpCreators.Text = "Creators";
-            this.tpCreators.UseVisualStyleBackColor = true;
-            // 
-            // btnRSTKSite
-            // 
-            this.btnRSTKSite.Location = new System.Drawing.Point(275, 221);
-            this.btnRSTKSite.Name = "btnRSTKSite";
-            this.btnRSTKSite.Size = new System.Drawing.Size(195, 25);
-            this.btnRSTKSite.TabIndex = 1;
-            this.btnRSTKSite.Text = "Rocksmith Toolkit";
-            this.btnRSTKSite.UseVisualStyleBackColor = true;
-            this.btnRSTKSite.Click += new System.EventHandler(this.btnRSTKSite_Click);
-            // 
-            // btnEOFSite
-            // 
-            this.btnEOFSite.Location = new System.Drawing.Point(275, 105);
-            this.btnEOFSite.Name = "btnEOFSite";
-            this.btnEOFSite.Size = new System.Drawing.Size(195, 25);
-            this.btnEOFSite.TabIndex = 0;
-            this.btnEOFSite.Text = "Editor on Fire";
-            this.btnEOFSite.UseVisualStyleBackColor = true;
-            this.btnEOFSite.Click += new System.EventHandler(this.btnEOFSite_Click);
             // 
             // tpAbout
             // 
@@ -1740,38 +1706,63 @@
             // group_CFquickLinks
             // 
             this.group_CFquickLinks.Controls.Add(this.tableLayoutPanel_CFQuicklinks);
+            this.group_CFquickLinks.Dock = System.Windows.Forms.DockStyle.Fill;
             this.group_CFquickLinks.Location = new System.Drawing.Point(501, 221);
             this.group_CFquickLinks.Name = "group_CFquickLinks";
-            this.group_CFquickLinks.Size = new System.Drawing.Size(379, 187);
+            this.group_CFquickLinks.Size = new System.Drawing.Size(493, 212);
             this.group_CFquickLinks.TabIndex = 3;
             this.group_CFquickLinks.TabStop = false;
             this.group_CFquickLinks.Text = "CustomsForge Links";
             // 
             // tableLayoutPanel_CFQuicklinks
             // 
-            this.tableLayoutPanel_CFQuicklinks.ColumnCount = 3;
-            this.tableLayoutPanel_CFQuicklinks.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel_CFQuicklinks.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 75F));
-            this.tableLayoutPanel_CFQuicklinks.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 77F));
-            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.linkOpenCFHomePage, 1, 0);
-            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.linkOpenIgnition, 1, 1);
-            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.linkOpenRequests, 1, 2);
-            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.linkDontainsPage, 1, 3);
-            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.linkOpenCFVideos, 1, 4);
-            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.linkCFFAQ, 1, 5);
+            this.tableLayoutPanel_CFQuicklinks.ColumnCount = 2;
+            this.tableLayoutPanel_CFQuicklinks.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel_CFQuicklinks.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 216F));
+            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.btnRSTKSite, 1, 2);
+            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.btnEOFSite, 1, 1);
+            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.linkOpenCFHomePage, 0, 0);
+            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.linkOpenIgnition, 0, 1);
+            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.linkOpenRequests, 0, 2);
+            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.linkDontainsPage, 0, 3);
+            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.linkOpenCFVideos, 0, 4);
+            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.linkCFFAQ, 0, 5);
+            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.lbl_AboutTools, 1, 0);
             this.tableLayoutPanel_CFQuicklinks.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel_CFQuicklinks.Location = new System.Drawing.Point(3, 16);
             this.tableLayoutPanel_CFQuicklinks.Name = "tableLayoutPanel_CFQuicklinks";
             this.tableLayoutPanel_CFQuicklinks.RowCount = 7;
-            this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
-            this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
-            this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
+            this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
+            this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
+            this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
             this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
             this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
             this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
             this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 0F));
-            this.tableLayoutPanel_CFQuicklinks.Size = new System.Drawing.Size(373, 168);
+            this.tableLayoutPanel_CFQuicklinks.Size = new System.Drawing.Size(487, 193);
             this.tableLayoutPanel_CFQuicklinks.TabIndex = 4;
+            // 
+            // btnRSTKSite
+            // 
+            this.btnRSTKSite.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnRSTKSite.Location = new System.Drawing.Point(274, 67);
+            this.btnRSTKSite.Name = "btnRSTKSite";
+            this.btnRSTKSite.Size = new System.Drawing.Size(210, 26);
+            this.btnRSTKSite.TabIndex = 17;
+            this.btnRSTKSite.Text = "Rocksmith Toolkit";
+            this.btnRSTKSite.UseVisualStyleBackColor = true;
+            this.btnRSTKSite.Click += new System.EventHandler(this.btnRSTKSite_Click);
+            // 
+            // btnEOFSite
+            // 
+            this.btnEOFSite.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnEOFSite.Location = new System.Drawing.Point(274, 35);
+            this.btnEOFSite.Name = "btnEOFSite";
+            this.btnEOFSite.Size = new System.Drawing.Size(210, 26);
+            this.btnEOFSite.TabIndex = 16;
+            this.btnEOFSite.Text = "Editor on Fire";
+            this.btnEOFSite.UseVisualStyleBackColor = true;
+            this.btnEOFSite.Click += new System.EventHandler(this.btnEOFSite_Click);
             // 
             // linkOpenCFHomePage
             // 
@@ -1779,9 +1770,9 @@
             this.linkOpenCFHomePage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.linkOpenCFHomePage.Font = new System.Drawing.Font("Trebuchet MS", 12F);
             this.linkOpenCFHomePage.LinkColor = System.Drawing.Color.Black;
-            this.linkOpenCFHomePage.Location = new System.Drawing.Point(77, 0);
+            this.linkOpenCFHomePage.Location = new System.Drawing.Point(3, 0);
             this.linkOpenCFHomePage.Name = "linkOpenCFHomePage";
-            this.linkOpenCFHomePage.Size = new System.Drawing.Size(216, 28);
+            this.linkOpenCFHomePage.Size = new System.Drawing.Size(265, 32);
             this.linkOpenCFHomePage.TabIndex = 9;
             this.linkOpenCFHomePage.TabStop = true;
             this.linkOpenCFHomePage.Text = "CustomsForge Home";
@@ -1794,9 +1785,9 @@
             this.linkOpenIgnition.Dock = System.Windows.Forms.DockStyle.Fill;
             this.linkOpenIgnition.Font = new System.Drawing.Font("Trebuchet MS", 12F);
             this.linkOpenIgnition.LinkColor = System.Drawing.Color.Black;
-            this.linkOpenIgnition.Location = new System.Drawing.Point(77, 28);
+            this.linkOpenIgnition.Location = new System.Drawing.Point(3, 32);
             this.linkOpenIgnition.Name = "linkOpenIgnition";
-            this.linkOpenIgnition.Size = new System.Drawing.Size(216, 28);
+            this.linkOpenIgnition.Size = new System.Drawing.Size(265, 32);
             this.linkOpenIgnition.TabIndex = 10;
             this.linkOpenIgnition.TabStop = true;
             this.linkOpenIgnition.Text = "Ignition";
@@ -1809,9 +1800,9 @@
             this.linkOpenRequests.Dock = System.Windows.Forms.DockStyle.Fill;
             this.linkOpenRequests.Font = new System.Drawing.Font("Trebuchet MS", 12F);
             this.linkOpenRequests.LinkColor = System.Drawing.Color.Black;
-            this.linkOpenRequests.Location = new System.Drawing.Point(77, 56);
+            this.linkOpenRequests.Location = new System.Drawing.Point(3, 64);
             this.linkOpenRequests.Name = "linkOpenRequests";
-            this.linkOpenRequests.Size = new System.Drawing.Size(216, 28);
+            this.linkOpenRequests.Size = new System.Drawing.Size(265, 32);
             this.linkOpenRequests.TabIndex = 12;
             this.linkOpenRequests.TabStop = true;
             this.linkOpenRequests.Text = "Requests";
@@ -1824,9 +1815,9 @@
             this.linkDontainsPage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.linkDontainsPage.Font = new System.Drawing.Font("Trebuchet MS", 12F);
             this.linkDontainsPage.LinkColor = System.Drawing.Color.Black;
-            this.linkDontainsPage.Location = new System.Drawing.Point(77, 84);
+            this.linkDontainsPage.Location = new System.Drawing.Point(3, 96);
             this.linkDontainsPage.Name = "linkDontainsPage";
-            this.linkDontainsPage.Size = new System.Drawing.Size(216, 28);
+            this.linkDontainsPage.Size = new System.Drawing.Size(265, 28);
             this.linkDontainsPage.TabIndex = 13;
             this.linkDontainsPage.TabStop = true;
             this.linkDontainsPage.Text = "Donations";
@@ -1839,9 +1830,9 @@
             this.linkOpenCFVideos.Dock = System.Windows.Forms.DockStyle.Fill;
             this.linkOpenCFVideos.Font = new System.Drawing.Font("Trebuchet MS", 12F);
             this.linkOpenCFVideos.LinkColor = System.Drawing.Color.Black;
-            this.linkOpenCFVideos.Location = new System.Drawing.Point(77, 112);
+            this.linkOpenCFVideos.Location = new System.Drawing.Point(3, 124);
             this.linkOpenCFVideos.Name = "linkOpenCFVideos";
-            this.linkOpenCFVideos.Size = new System.Drawing.Size(216, 28);
+            this.linkOpenCFVideos.Size = new System.Drawing.Size(265, 28);
             this.linkOpenCFVideos.TabIndex = 14;
             this.linkOpenCFVideos.TabStop = true;
             this.linkOpenCFVideos.Text = "Videos";
@@ -1854,14 +1845,25 @@
             this.linkCFFAQ.Dock = System.Windows.Forms.DockStyle.Fill;
             this.linkCFFAQ.Font = new System.Drawing.Font("Trebuchet MS", 12F);
             this.linkCFFAQ.LinkColor = System.Drawing.Color.Black;
-            this.linkCFFAQ.Location = new System.Drawing.Point(77, 140);
+            this.linkCFFAQ.Location = new System.Drawing.Point(3, 152);
             this.linkCFFAQ.Name = "linkCFFAQ";
-            this.linkCFFAQ.Size = new System.Drawing.Size(216, 28);
+            this.linkCFFAQ.Size = new System.Drawing.Size(265, 28);
             this.linkCFFAQ.TabIndex = 15;
             this.linkCFFAQ.TabStop = true;
             this.linkCFFAQ.Text = "FAQ";
             this.linkCFFAQ.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.linkCFFAQ.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkCFFAQ_LinkClicked);
+            // 
+            // lbl_AboutTools
+            // 
+            this.lbl_AboutTools.AutoSize = true;
+            this.lbl_AboutTools.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.lbl_AboutTools.Location = new System.Drawing.Point(274, 16);
+            this.lbl_AboutTools.Name = "lbl_AboutTools";
+            this.lbl_AboutTools.Size = new System.Drawing.Size(210, 16);
+            this.lbl_AboutTools.TabIndex = 18;
+            this.lbl_AboutTools.Text = "Tools for Creators:";
+            this.lbl_AboutTools.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // panel6
             // 
@@ -1992,6 +1994,7 @@
             this.linkLabel1.AutoSize = true;
             this.linkLabel1.BackColor = System.Drawing.SystemColors.WindowText;
             this.linkLabel1.Font = new System.Drawing.Font("Trebuchet MS", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.linkLabel1.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
             this.linkLabel1.LinkColor = System.Drawing.Color.HotPink;
             this.linkLabel1.Location = new System.Drawing.Point(4, 126);
             this.linkLabel1.Name = "linkLabel1";
@@ -2085,6 +2088,7 @@
             // 
             this.link_UnleashedProfile.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.link_UnleashedProfile.AutoSize = true;
+            this.link_UnleashedProfile.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
             this.link_UnleashedProfile.LinkColor = System.Drawing.Color.Red;
             this.link_UnleashedProfile.Location = new System.Drawing.Point(244, 37);
             this.link_UnleashedProfile.Name = "link_UnleashedProfile";
@@ -2101,6 +2105,7 @@
             this.link_DarjuszProfile.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.link_DarjuszProfile.AutoSize = true;
             this.link_DarjuszProfile.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.link_DarjuszProfile.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
             this.link_DarjuszProfile.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.link_DarjuszProfile.Location = new System.Drawing.Point(255, 57);
             this.link_DarjuszProfile.Name = "link_DarjuszProfile";
@@ -2115,6 +2120,7 @@
             // 
             this.link_LovromanProfile.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.link_LovromanProfile.AutoSize = true;
+            this.link_LovromanProfile.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
             this.link_LovromanProfile.LinkColor = System.Drawing.Color.Orange;
             this.link_LovromanProfile.Location = new System.Drawing.Point(251, 77);
             this.link_LovromanProfile.Name = "link_LovromanProfile";
@@ -2129,6 +2135,7 @@
             // 
             this.link_ZerkzProfile.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.link_ZerkzProfile.AutoSize = true;
+            this.link_ZerkzProfile.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
             this.link_ZerkzProfile.LinkColor = System.Drawing.Color.Orange;
             this.link_ZerkzProfile.Location = new System.Drawing.Point(261, 97);
             this.link_ZerkzProfile.Name = "link_ZerkzProfile";
@@ -2261,6 +2268,32 @@
             // 
             this.frmMainBindingSource.DataSource = typeof(CustomsForgeManager_Winforms.Forms.frmMain);
             // 
+            // tlp_Settings_RSPath
+            // 
+            this.tlp_Settings_RSPath.ColumnCount = 2;
+            this.tlp_Settings_RSPath.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 77.77778F));
+            this.tlp_Settings_RSPath.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 22.22222F));
+            this.tlp_Settings_RSPath.Controls.Add(this.tbSettingsRSDir, 0, 0);
+            this.tlp_Settings_RSPath.Controls.Add(this.btn_Settings_RSPathBrowse, 1, 0);
+            this.tlp_Settings_RSPath.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlp_Settings_RSPath.Location = new System.Drawing.Point(302, 5);
+            this.tlp_Settings_RSPath.Name = "tlp_Settings_RSPath";
+            this.tlp_Settings_RSPath.RowCount = 1;
+            this.tlp_Settings_RSPath.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlp_Settings_RSPath.Size = new System.Drawing.Size(684, 32);
+            this.tlp_Settings_RSPath.TabIndex = 8;
+            // 
+            // btn_Settings_RSPathBrowse
+            // 
+            this.btn_Settings_RSPathBrowse.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn_Settings_RSPathBrowse.Location = new System.Drawing.Point(535, 3);
+            this.btn_Settings_RSPathBrowse.Name = "btn_Settings_RSPathBrowse";
+            this.btn_Settings_RSPathBrowse.Size = new System.Drawing.Size(146, 26);
+            this.btn_Settings_RSPathBrowse.TabIndex = 3;
+            this.btn_Settings_RSPathBrowse.Text = "Browse";
+            this.btn_Settings_RSPathBrowse.UseVisualStyleBackColor = true;
+            this.btn_Settings_RSPathBrowse.Click += new System.EventHandler(this.btn_Settings_RSPathBrowse_Click);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2317,7 +2350,6 @@
             this.tlpSettings_Wrapper.PerformLayout();
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
-            this.tpCreators.ResumeLayout(false);
             this.tpAbout.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCF)).EndInit();
@@ -2335,6 +2367,8 @@
             this.statusStripMain.PerformLayout();
             this.contextMenuStrip_Tray.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.frmMainBindingSource)).EndInit();
+            this.tlp_Settings_RSPath.ResumeLayout(false);
+            this.tlp_Settings_RSPath.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2428,9 +2462,6 @@
         private System.Windows.Forms.LinkLabel linkOpenRequests;
         private System.Windows.Forms.LinkLabel linkDontainsPage;
         private System.Windows.Forms.LinkLabel linkOpenCFVideos;
-        private System.Windows.Forms.TabPage tpCreators;
-        private System.Windows.Forms.Button btnRSTKSite;
-        private System.Windows.Forms.Button btnEOFSite;
         private System.Windows.Forms.Label lbl_ExportTo;
         private System.Windows.Forms.LinkLabel linkCFFAQ;
         private System.Windows.Forms.Label label1;
@@ -2521,6 +2552,11 @@
 //=======
         private System.Windows.Forms.Label lbl_Settings_Other;
         private System.Windows.Forms.CheckBox checkUpdateWhileScan;
+        private System.Windows.Forms.Button btnRSTKSite;
+        private System.Windows.Forms.Button btnEOFSite;
+        private System.Windows.Forms.Label lbl_AboutTools;
+        private System.Windows.Forms.TableLayoutPanel tlp_Settings_RSPath;
+        private System.Windows.Forms.Button btn_Settings_RSPathBrowse;
 //>>>>>>> .merge_file_a16100
     }
 }
