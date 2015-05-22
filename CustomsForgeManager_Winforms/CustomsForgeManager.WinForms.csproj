@@ -270,6 +270,7 @@
     <None Include="Resources\Renamer_Properties.json" />
     <None Include="Resources\Rocksmith_2014_Background_Guitar.jpg" />
     <None Include="Resources\instructionLabel.txt" />
+    <EmbeddedResource Include="Resources\SngMgrHelp.txt" />
     <Content Include="tunings.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

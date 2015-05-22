@@ -2187,7 +2187,7 @@ namespace CustomsForgeManager_Winforms.Forms
             }
             return true;
         }
-        public void LoadSetlists()
+        public void LoadSetlists(object sender, RunWorkerCompletedEventArgs e)
         {
             string[] dirs = null;
             bWorker = new AbortableBackgroundWorker();
@@ -2199,7 +2199,7 @@ namespace CustomsForgeManager_Winforms.Forms
 
                     if (Directory.Exists(dlcFolderPath))
                     {
-                        dirs = Directory.GetDirectories(Path.Combine(mySettings.RSInstalledDir, "dlc"), "*", SearchOption.TopDirectoryOnly);
+                        dirs = Directory.GetDirectories(Path.Combine(mySettings.RSInstalledDir, "dlc"), "*", SearchOption.AllDirectories);
                         foreach (var setlistPath in dirs)
                         {
                             bool setlistEnabled = true;
@@ -2230,7 +2230,7 @@ namespace CustomsForgeManager_Winforms.Forms
                                 {
                                     var song = SongCollection.FirstOrDefault(sng => sng.Path == songPath);
                                     if (song != null)
-                                        dgvDLCsInSetlist.Rows.Add(song.Artist, song.Song, song.Album, song.Path);
+                                        dgvDLCsInSetlist.Rows.Add(false, song.Artist, song.Song, song.Album, song.Path);
                                 }
                             });
 
@@ -2239,7 +2239,7 @@ namespace CustomsForgeManager_Winforms.Forms
                                 foreach (string songPath in unsortedSongs)
                                 {
                                     var song = SongCollection.FirstOrDefault(sng => sng.Path == songPath);
-                                    if (!songPath.Contains("rs1"))
+                                    if (!songPath.Contains("rs1") && song != null)
                                     {
                                         if (songPath.Contains(".disabled"))
                                             dgvUnsortedDLCs.Rows.Add(true, "No", song.Artist, song.Song, song.Path);
@@ -2299,7 +2299,7 @@ namespace CustomsForgeManager_Winforms.Forms
                     dgvDLCsInSetlist.InvokeIfRequired(delegate
                     {
                         if (song != null)
-                            dgvDLCsInSetlist.Rows.Add(song.Artist, song.Song, song.Album, song.Path);
+                            dgvDLCsInSetlist.Rows.Add(false, song.Artist, song.Song, song.Album, song.Path);
                     });
                 }
             };
@@ -2312,7 +2312,14 @@ namespace CustomsForgeManager_Winforms.Forms
             dgvSetlists.Rows.Clear();
             dgvOfficialSongs.Rows.Clear();
             dgvUnsortedDLCs.Rows.Clear();
-            LoadSetlists();
+
+            bWorker = new AbortableBackgroundWorker();
+            bWorker.SetDefaults();
+
+            bWorker.DoWork += RescanSongs;   //to make sure that all songs are shown
+            bWorker.RunWorkerCompleted += RescanCompleted;
+            bWorker.RunWorkerCompleted += LoadSetlists;
+            bWorker.RunWorkerAsync();
         }
 
         private void btnRunRSWithSetlist_Click(object sender, EventArgs e)
@@ -2387,6 +2394,15 @@ namespace CustomsForgeManager_Winforms.Forms
                 Process.Start("steam://rungameid/221680");
         }
         #region Setlists
+        private void linkOpenSngMgrHelp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            using (Stream stream = assembly.GetManifestResourceStream("CustomsForgeManager_Winforms.Resources.SngMgrHelp.txt"))
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                MessageBox.Show(reader.ReadToEnd(), "Help");
+            }
+        }
         private void btnCreateNewSetlist_Click(object sender, EventArgs e)
         {
             string setlistName = Interaction.InputBox("Please enter setlist name", "Setlist name");
@@ -2426,16 +2442,24 @@ namespace CustomsForgeManager_Winforms.Forms
 
                         var song = SongCollection.FirstOrDefault(sng => sng.Path == songPath);
 
-                        if (File.Exists(finalSongPath))
-                            File.Delete(finalSongPath);
-                        File.Move(songPath, finalSongPath);
+                        if (checkDeleteSongsAndSetlists.Checked)
+                        {
+                            File.Delete(songPath);
+                            SongCollection.Remove(song);
+                        }
+                        else
+                        {
+                            if (File.Exists(finalSongPath))
+                                File.Delete(finalSongPath);
+                            File.Move(songPath, finalSongPath);
+                            dgvUnsortedDLCs.Rows.Add(false, "Yes", song.Artist, song.Album, finalSongPath);
+                        }
 
                         dgvDLCsInSetlist.Rows.Remove(row);
-                        dgvUnsortedDLCs.Rows.Add(false, "Yes", song.Artist, song.Album, finalSongPath);
                     }
                     else
                     {
-                        MessageBox.Show("Please fill RS path textbox!s", "RS path empty!");
+                        MessageBox.Show("Please fill RS path textbox!", "RS path empty!");
                     }
                 }
             }
@@ -2485,24 +2509,30 @@ namespace CustomsForgeManager_Winforms.Forms
                     {
                         if (DirOK())
                         {
-                            string songArchivePath = Path.Combine(mySettings.RSInstalledDir, "dlc", row.Cells["colSetlist"].Value.ToString());
-                            
-                            if (Directory.Exists(songArchivePath))
+                            string setlistPath = Path.Combine(mySettings.RSInstalledDir, "dlc", row.Cells["colSetlist"].Value.ToString());
+
+                            if (Directory.Exists(setlistPath))
                             {
+                                string[] songs = Directory.GetFiles(setlistPath);
+
                                 if (checkDeleteSongsAndSetlists.Checked)
                                 {
-                                    Directory.Delete(songArchivePath, true);
+                                    foreach (string song in songs)
+                                    {
+                                        var songToBeDeleted = SongCollection.FirstOrDefault(sng => sng.Path == song);
+                                        SongCollection.Remove(songToBeDeleted);
+                                    }
+                                    Directory.Delete(setlistPath, true);
                                     dgvSetlists.Rows.Remove(row);
                                 }
                                 else
                                 {
-                                    string[] songs = Directory.GetFiles(songArchivePath);
                                     foreach (string song in songs)
                                     {
                                         if (song.Contains("dlc"))
-                                            File.Move(Path.Combine(songArchivePath, song), Path.Combine(mySettings.RSInstalledDir, "dlc", song));
+                                            File.Move(song, song.Replace(row.Cells["colSetlist"].Value.ToString(), ""));
                                     }
-                                    Directory.Delete(songArchivePath, true);
+                                    Directory.Delete(setlistPath, true);
                                     dgvSetlists.Rows.Remove(row);
                                 }
                             }
@@ -2653,11 +2683,14 @@ namespace CustomsForgeManager_Winforms.Forms
                         if (Convert.ToBoolean(row.Cells["colUnsortedSelect"].Value) == true || row.Selected)
                         {
                             string songPath = row.Cells["colUnsortedPath"].Value.ToString();
+                            var sngToBeDeleted = SongCollection.FirstOrDefault(sng => sng.Path == songPath);
 
                             File.Delete(songPath);
 
                             if (!File.Exists(songPath))
                                 dgvUnsortedDLCs.Rows.Remove(row);
+
+                            SongCollection.Remove(sngToBeDeleted);
                         }
                     }
                 }
