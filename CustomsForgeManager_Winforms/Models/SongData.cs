@@ -5,21 +5,6 @@ using System.Linq;
 
 namespace CustomsForgeManager_Winforms
 {
-
-    #region SongDataStatus
-
-    public enum SongDataStatus : byte
-    {
-        None = 0,
-        UpToDate = 1,
-        OutDated = 2,
-        NotFound = 3
-    }
-
-
-    #endregion
-
-
     [Serializable]
     public class SongData
     {
@@ -37,8 +22,6 @@ namespace CustomsForgeManager_Winforms
         public string IgnitionAuthor { get; set; }
         public string IgnitionVersion { get; set; }
         public string Version { get; set; }
-
-        public SongDataStatus Status { get; set; }
 
         public string Arrangements
         {

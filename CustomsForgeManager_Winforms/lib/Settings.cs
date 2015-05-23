@@ -11,7 +11,6 @@ namespace CustomsForgeManager_Winforms.Utilities
         public bool RescanOnStartup { get; set; }
         public bool IncludeRS1DLCs { get; set; }
         public bool EnableLogBaloon { get; set; }
-        public bool CheckForUpdateOnScan { get; set; }
         public RADataGridViewSettings ManagerGridSettings { get; set; }
         public string RenameTemplate { get; set; }
     }
@@ -114,16 +113,6 @@ namespace CustomsForgeManager_Winforms.Utilities
                     _settingsData = new SettingsData();
                 _settingsData.EnableLogBaloon = value;
             }
-        }
-
-        public bool CheckForUpdateOnScan 
-        {
-            get { return _settingsData.CheckForUpdateOnScan; }
-            set
-            {
-                if (_settingsData == null) _settingsData = new SettingsData();
-                _settingsData.CheckForUpdateOnScan = value;
-            } 
         }
 
         /// <summary>
