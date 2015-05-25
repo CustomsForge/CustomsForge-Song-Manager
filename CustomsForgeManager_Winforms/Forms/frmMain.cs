@@ -808,7 +808,34 @@ namespace CustomsForgeManager_Winforms.Forms
                 dataGridViewColumn.Visible = false;
 
             PopulateColumnList();
+            ShowHideArrangementColumns();
         }
+
+        private void ShowHideArrangementColumns()
+        {
+            foreach (DataGridViewRow row in dgvSongs.Rows)
+            {
+                ((DataGridViewImageCell)row.Cells["cLead"]).Style.BackColor = Color.Red;
+                ((DataGridViewImageCell)row.Cells["cRhythm"]).Style.BackColor = Color.Red;
+                ((DataGridViewImageCell)row.Cells["cBass"]).Style.BackColor = Color.Red;
+                ((DataGridViewImageCell)row.Cells["cVocals"]).Style.BackColor = Color.Red;
+
+
+                string arr = row.Cells["Arrangements"].Value.ToString();
+                if (!string.IsNullOrEmpty(arr))
+                {
+                    foreach (string arrangment in arr.Split(new []{","}, StringSplitOptions.RemoveEmptyEntries))
+                    {
+                        if (arrangment.ToLower() != "combo")
+                        {
+                            string columnName = "c" + arrangment;
+                            row.Cells[columnName].Style.BackColor = Color.Green;
+                        }
+                    }
+                }
+            }
+        }
+
         private void dgvSongs_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex != -1) //if it's not header
@@ -1922,18 +1949,6 @@ namespace CustomsForgeManager_Winforms.Forms
                 myLog.RemoveTargetNotifyIcon(notifyIcon_Main);
             else
                 myLog.AddTargetNotifyIcon(notifyIcon_Main);
-        }
-
-        public void Rescan()
-        {
-            counterStopwatch.Reset();
-            counterStopwatch.Start();
-            bWorker = new AbortableBackgroundWorker();
-            bWorker.SetDefaults();
-
-            bWorker.DoWork += RescanSongs;
-            bWorker.RunWorkerCompleted += RescanCompleted;
-            bWorker.RunWorkerAsync();
         }
 
         public void RescanCompleted(object sender, RunWorkerCompletedEventArgs e)
