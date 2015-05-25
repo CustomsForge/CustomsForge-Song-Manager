@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tlp_MainForm_Wrappper = new System.Windows.Forms.TableLayoutPanel();
             this.gbLog = new System.Windows.Forms.GroupBox();
             this.tbLog = new System.Windows.Forms.TextBox();
@@ -38,8 +38,6 @@
             this.tpManager = new System.Windows.Forms.TabPage();
             this.gb_Main_Grid = new System.Windows.Forms.GroupBox();
             this.linkLblSelectAll = new System.Windows.Forms.LinkLabel();
-            this.dgvSongs = new CustomsForgeManager_Winforms.Controls.RADataGridView();
-            this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.contextMenuStrip_MainManager = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.showDLCInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openDLCPageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -58,6 +56,7 @@
             this.gb_Main_Actions = new System.Windows.Forms.GroupBox();
             this.panelSongListButtons = new System.Windows.Forms.Panel();
             this.btnBackupSelectedDLCs = new System.Windows.Forms.Button();
+            this.btnBatchRenamer = new System.Windows.Forms.Button();
             this.radioBtn_ExportToHTML = new System.Windows.Forms.RadioButton();
             this.radioBtn_ExportToCSV = new System.Windows.Forms.RadioButton();
             this.btnExportSongList = new System.Windows.Forms.Button();
@@ -95,6 +94,7 @@
             this.btnLoadSetlists = new System.Windows.Forms.Button();
             this.groupSetlists = new System.Windows.Forms.GroupBox();
             this.dgvDLCsInSetlist = new System.Windows.Forms.DataGridView();
+            this.colDLCSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.colDLCArtist = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colDLCSong = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colDLCAlbum = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -102,7 +102,7 @@
             this.btnEnableAllSetlists = new System.Windows.Forms.Button();
             this.dgvSetlists = new System.Windows.Forms.DataGridView();
             this.colSetlistSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.colEnabled = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSetlistEnabled = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colSetlist = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.checkDeleteSongsAndSetlists = new System.Windows.Forms.CheckBox();
             this.btnCreateNewSetlist = new System.Windows.Forms.Button();
@@ -155,22 +155,20 @@
             this.colSettingsColumnEnabled = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.checkEnableLogBaloon = new System.Windows.Forms.CheckBox();
             this.btnSettingsSave = new System.Windows.Forms.Button();
-            this.lbl_Settings_Other = new System.Windows.Forms.Label();
-            this.checkUpdateWhileScan = new System.Windows.Forms.CheckBox();
+            this.tpCreators = new System.Windows.Forms.TabPage();
+            this.btnRSTKSite = new System.Windows.Forms.Button();
+            this.btnEOFSite = new System.Windows.Forms.Button();
             this.tpAbout = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.pictureBoxCF = new System.Windows.Forms.PictureBox();
             this.group_CFquickLinks = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel_CFQuicklinks = new System.Windows.Forms.TableLayoutPanel();
-            this.btnRSTKSite = new System.Windows.Forms.Button();
-            this.btnEOFSite = new System.Windows.Forms.Button();
             this.linkOpenCFHomePage = new System.Windows.Forms.LinkLabel();
             this.linkOpenIgnition = new System.Windows.Forms.LinkLabel();
             this.linkOpenRequests = new System.Windows.Forms.LinkLabel();
             this.linkDontainsPage = new System.Windows.Forms.LinkLabel();
             this.linkOpenCFVideos = new System.Windows.Forms.LinkLabel();
             this.linkCFFAQ = new System.Windows.Forms.LinkLabel();
-            this.lbl_AboutTools = new System.Windows.Forms.Label();
             this.panel6 = new System.Windows.Forms.Panel();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
@@ -205,15 +203,15 @@
             this.contextMenuStrip_Tray = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.labelAlphaTesters = new System.Windows.Forms.Label();
+            this.linkOpenSngMgrHelp = new System.Windows.Forms.LinkLabel();
+            this.dgvSongs = new CustomsForgeManager_Winforms.Controls.RADataGridView();
+            this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.frmMainBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.tlp_Settings_RSPath = new System.Windows.Forms.TableLayoutPanel();
-            this.btn_Settings_RSPathBrowse = new System.Windows.Forms.Button();
             this.tlp_MainForm_Wrappper.SuspendLayout();
             this.gbLog.SuspendLayout();
             this.tcMain.SuspendLayout();
             this.tpManager.SuspendLayout();
             this.gb_Main_Grid.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvSongs)).BeginInit();
             this.contextMenuStrip_MainManager.SuspendLayout();
             this.gb_Main_Search.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -241,6 +239,7 @@
             this.tpSettings.SuspendLayout();
             this.tlpSettings_Wrapper.SuspendLayout();
             this.panel5.SuspendLayout();
+            this.tpCreators.SuspendLayout();
             this.tpAbout.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCF)).BeginInit();
@@ -253,8 +252,8 @@
             this.tableLayoutPanel_Credits.SuspendLayout();
             this.statusStripMain.SuspendLayout();
             this.contextMenuStrip_Tray.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSongs)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.frmMainBindingSource)).BeginInit();
-            this.tlp_Settings_RSPath.SuspendLayout();
             this.SuspendLayout();
             // 
             // tlp_MainForm_Wrappper
@@ -274,8 +273,8 @@
             // 
             // gbLog
             // 
-            this.gbLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.gbLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gbLog.Controls.Add(this.tbLog);
             this.gbLog.Font = new System.Drawing.Font("Trebuchet MS", 8.25F);
@@ -288,8 +287,8 @@
             // 
             // tbLog
             // 
-            this.tbLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.tbLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tbLog.BackColor = System.Drawing.SystemColors.Window;
             this.tbLog.Location = new System.Drawing.Point(3, 16);
@@ -308,6 +307,7 @@
             this.tcMain.Controls.Add(this.tpSetlistManager);
             this.tcMain.Controls.Add(this.tpUtilities);
             this.tcMain.Controls.Add(this.tpSettings);
+            this.tcMain.Controls.Add(this.tpCreators);
             this.tcMain.Controls.Add(this.tpAbout);
             this.tcMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tcMain.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -333,8 +333,8 @@
             // 
             // gb_Main_Grid
             // 
-            this.gb_Main_Grid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.gb_Main_Grid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gb_Main_Grid.Controls.Add(this.linkLblSelectAll);
             this.gb_Main_Grid.Controls.Add(this.dgvSongs);
@@ -353,54 +353,11 @@
             this.linkLblSelectAll.LinkColor = System.Drawing.Color.Black;
             this.linkLblSelectAll.Location = new System.Drawing.Point(6, 233);
             this.linkLblSelectAll.Name = "linkLblSelectAll";
-            this.linkLblSelectAll.Size = new System.Drawing.Size(113, 16);
+            this.linkLblSelectAll.Size = new System.Drawing.Size(111, 16);
             this.linkLblSelectAll.TabIndex = 2;
             this.linkLblSelectAll.TabStop = true;
             this.linkLblSelectAll.Text = "Select All/Deselect All";
             this.linkLblSelectAll.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLblSelectAll_LinkClicked);
-            // 
-            // dgvSongs
-            // 
-            this.dgvSongs.AllowUserToAddRows = false;
-            this.dgvSongs.AllowUserToDeleteRows = false;
-            this.dgvSongs.AllowUserToOrderColumns = true;
-            this.dgvSongs.AllowUserToResizeRows = false;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.dgvSongs.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
-            this.dgvSongs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dgvSongs.BackgroundColor = System.Drawing.SystemColors.ActiveCaption;
-            this.dgvSongs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvSongs.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.colSelect});
-            this.dgvSongs.ContextMenuStrip = this.contextMenuStrip_MainManager;
-            this.dgvSongs.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnF2;
-            this.dgvSongs.GridColor = System.Drawing.SystemColors.ActiveCaption;
-            this.dgvSongs.Location = new System.Drawing.Point(6, 19);
-            this.dgvSongs.MultiSelect = false;
-            this.dgvSongs.Name = "dgvSongs";
-            this.dgvSongs.RowHeadersVisible = false;
-            this.dgvSongs.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvSongs.Size = new System.Drawing.Size(973, 211);
-            this.dgvSongs.TabIndex = 1;
-            this.dgvSongs.DataSourceChanged += new System.EventHandler(this.dgvSongs_DataSourceChanged);
-            this.dgvSongs.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSongs_CellDoubleClick);
-            this.dgvSongs.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongs_CellMouseDown);
-            this.dgvSongs.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongs_ColumnHeaderMouseClick);
-            this.dgvSongs.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgvSongs_DataBindingComplete);
-            this.dgvSongs.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvSongs_KeyDown);
-            // 
-            // colSelect
-            // 
-            this.colSelect.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.colSelect.FalseValue = "false";
-            this.colSelect.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.colSelect.HeaderText = "Select";
-            this.colSelect.IndeterminateValue = "false";
-            this.colSelect.Name = "colSelect";
-            this.colSelect.TrueValue = "true";
-            this.colSelect.Visible = false;
             // 
             // contextMenuStrip_MainManager
             // 
@@ -474,7 +431,7 @@
             // 
             // gb_Main_Search
             // 
-            this.gb_Main_Search.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.gb_Main_Search.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gb_Main_Search.Controls.Add(this.panel3);
             this.gb_Main_Search.Location = new System.Drawing.Point(6, 6);
@@ -486,8 +443,8 @@
             // 
             // panel3
             // 
-            this.panel3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.panel3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel3.Controls.Add(this.link_MainClearResults);
             this.panel3.Controls.Add(this.lbl_Search);
@@ -500,7 +457,7 @@
             // 
             // link_MainClearResults
             // 
-            this.link_MainClearResults.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.link_MainClearResults.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.link_MainClearResults.AutoSize = true;
             this.link_MainClearResults.ForeColor = System.Drawing.Color.DimGray;
@@ -515,8 +472,8 @@
             // 
             // lbl_Search
             // 
-            this.lbl_Search.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.lbl_Search.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lbl_Search.AutoSize = true;
             this.lbl_Search.Location = new System.Drawing.Point(3, 9);
@@ -527,8 +484,8 @@
             // 
             // tbSearch
             // 
-            this.tbSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.tbSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tbSearch.Location = new System.Drawing.Point(68, 6);
             this.tbSearch.Name = "tbSearch";
@@ -538,7 +495,7 @@
             // 
             // btnSearch
             // 
-            this.btnSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.btnSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSearch.Location = new System.Drawing.Point(813, 6);
             this.btnSearch.Name = "btnSearch";
@@ -550,7 +507,7 @@
             // 
             // gb_Main_Actions
             // 
-            this.gb_Main_Actions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.gb_Main_Actions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gb_Main_Actions.Controls.Add(this.panelSongListButtons);
             this.gb_Main_Actions.Location = new System.Drawing.Point(6, 346);
@@ -562,10 +519,11 @@
             // 
             // panelSongListButtons
             // 
-            this.panelSongListButtons.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.panelSongListButtons.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panelSongListButtons.Controls.Add(this.btnBackupSelectedDLCs);
+            this.panelSongListButtons.Controls.Add(this.btnBatchRenamer);
             this.panelSongListButtons.Controls.Add(this.radioBtn_ExportToHTML);
             this.panelSongListButtons.Controls.Add(this.radioBtn_ExportToCSV);
             this.panelSongListButtons.Controls.Add(this.btnExportSongList);
@@ -581,7 +539,7 @@
             // 
             // btnBackupSelectedDLCs
             // 
-            this.btnBackupSelectedDLCs.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.btnBackupSelectedDLCs.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)));
             this.btnBackupSelectedDLCs.Location = new System.Drawing.Point(472, 15);
             this.btnBackupSelectedDLCs.Name = "btnBackupSelectedDLCs";
@@ -591,9 +549,20 @@
             this.btnBackupSelectedDLCs.UseVisualStyleBackColor = true;
             this.btnBackupSelectedDLCs.Click += new System.EventHandler(this.btnBackupSelectedDLCs_Click);
             // 
+            // btnBatchRenamer
+            // 
+            this.btnBatchRenamer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnBatchRenamer.Location = new System.Drawing.Point(375, 15);
+            this.btnBatchRenamer.Name = "btnBatchRenamer";
+            this.btnBatchRenamer.Size = new System.Drawing.Size(91, 23);
+            this.btnBatchRenamer.TabIndex = 14;
+            this.btnBatchRenamer.Text = "Batch Renamer";
+            this.btnBatchRenamer.UseVisualStyleBackColor = true;
+            // 
             // radioBtn_ExportToHTML
             // 
-            this.radioBtn_ExportToHTML.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.radioBtn_ExportToHTML.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.radioBtn_ExportToHTML.AutoSize = true;
             this.radioBtn_ExportToHTML.Location = new System.Drawing.Point(800, 16);
@@ -606,7 +575,7 @@
             // 
             // radioBtn_ExportToCSV
             // 
-            this.radioBtn_ExportToCSV.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.radioBtn_ExportToCSV.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.radioBtn_ExportToCSV.AutoSize = true;
             this.radioBtn_ExportToCSV.Location = new System.Drawing.Point(859, 16);
@@ -619,7 +588,7 @@
             // 
             // btnExportSongList
             // 
-            this.btnExportSongList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.btnExportSongList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnExportSongList.Location = new System.Drawing.Point(910, 15);
             this.btnExportSongList.Name = "btnExportSongList";
@@ -631,7 +600,7 @@
             // 
             // lbl_ExportTo
             // 
-            this.lbl_ExportTo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.lbl_ExportTo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lbl_ExportTo.AutoSize = true;
             this.lbl_ExportTo.Location = new System.Drawing.Point(665, 18);
@@ -642,7 +611,7 @@
             // 
             // radioBtn_ExportToBBCode
             // 
-            this.radioBtn_ExportToBBCode.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.radioBtn_ExportToBBCode.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.radioBtn_ExportToBBCode.AutoSize = true;
             this.radioBtn_ExportToBBCode.Location = new System.Drawing.Point(731, 16);
@@ -655,9 +624,9 @@
             // 
             // btnDisableEnableSongs
             // 
-            this.btnDisableEnableSongs.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.btnDisableEnableSongs.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnDisableEnableSongs.Location = new System.Drawing.Point(346, 15);
+            this.btnDisableEnableSongs.Location = new System.Drawing.Point(249, 15);
             this.btnDisableEnableSongs.Name = "btnDisableEnableSongs";
             this.btnDisableEnableSongs.Size = new System.Drawing.Size(120, 23);
             this.btnDisableEnableSongs.TabIndex = 14;
@@ -667,7 +636,7 @@
             // 
             // btnCheckAllForUpdates
             // 
-            this.btnCheckAllForUpdates.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.btnCheckAllForUpdates.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)));
             this.btnCheckAllForUpdates.Location = new System.Drawing.Point(86, 13);
             this.btnCheckAllForUpdates.Name = "btnCheckAllForUpdates";
@@ -679,7 +648,7 @@
             // 
             // btnRescan
             // 
-            this.btnRescan.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.btnRescan.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)));
             this.btnRescan.Location = new System.Drawing.Point(20, 13);
             this.btnRescan.Name = "btnRescan";
@@ -853,8 +822,8 @@
             // 
             // propertiesGroupBox
             // 
-            this.propertiesGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.propertiesGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.propertiesGroupBox.Controls.Add(this.renamerPropertyDataGridView);
             this.propertiesGroupBox.Location = new System.Drawing.Point(440, 58);
@@ -885,8 +854,8 @@
             // 
             // howToGroupBox
             // 
-            this.howToGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.howToGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.howToGroupBox.Controls.Add(this.instructionsLabel);
             this.howToGroupBox.Controls.Add(this.label1);
@@ -904,7 +873,7 @@
             this.instructionsLabel.Location = new System.Drawing.Point(3, 16);
             this.instructionsLabel.Name = "instructionsLabel";
             this.instructionsLabel.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.instructionsLabel.Size = new System.Drawing.Size(354, 304);
+            this.instructionsLabel.Size = new System.Drawing.Size(353, 304);
             this.instructionsLabel.TabIndex = 1;
             this.instructionsLabel.Text = resources.GetString("instructionsLabel.Text");
             // 
@@ -921,7 +890,7 @@
             this.renameTemplateLabel.AutoSize = true;
             this.renameTemplateLabel.Location = new System.Drawing.Point(15, 12);
             this.renameTemplateLabel.Name = "renameTemplateLabel";
-            this.renameTemplateLabel.Size = new System.Drawing.Size(98, 16);
+            this.renameTemplateLabel.Size = new System.Drawing.Size(97, 16);
             this.renameTemplateLabel.TabIndex = 6;
             this.renameTemplateLabel.Text = "Rename Template:";
             // 
@@ -945,6 +914,7 @@
             // 
             // tpSetlistManager
             // 
+            this.tpSetlistManager.Controls.Add(this.linkOpenSngMgrHelp);
             this.tpSetlistManager.Controls.Add(this.btnLoadSetlists);
             this.tpSetlistManager.Controls.Add(this.groupSetlists);
             this.tpSetlistManager.Controls.Add(this.groupOfficialSongs);
@@ -995,6 +965,7 @@
             this.dgvDLCsInSetlist.AllowUserToResizeRows = false;
             this.dgvDLCsInSetlist.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvDLCsInSetlist.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colDLCSelect,
             this.colDLCArtist,
             this.colDLCSong,
             this.colDLCAlbum,
@@ -1007,23 +978,29 @@
             this.dgvDLCsInSetlist.Size = new System.Drawing.Size(243, 164);
             this.dgvDLCsInSetlist.TabIndex = 21;
             // 
+            // colDLCSelect
+            // 
+            this.colDLCSelect.HeaderText = "Select";
+            this.colDLCSelect.Name = "colDLCSelect";
+            this.colDLCSelect.Width = 45;
+            // 
             // colDLCArtist
             // 
             this.colDLCArtist.HeaderText = "Artist";
             this.colDLCArtist.Name = "colDLCArtist";
-            this.colDLCArtist.Width = 75;
+            this.colDLCArtist.Width = 70;
             // 
             // colDLCSong
             // 
             this.colDLCSong.HeaderText = "Song";
             this.colDLCSong.Name = "colDLCSong";
-            this.colDLCSong.Width = 90;
+            this.colDLCSong.Width = 70;
             // 
             // colDLCAlbum
             // 
             this.colDLCAlbum.HeaderText = "Album";
             this.colDLCAlbum.Name = "colDLCAlbum";
-            this.colDLCAlbum.Width = 75;
+            this.colDLCAlbum.Width = 70;
             // 
             // colDLCPath
             // 
@@ -1050,11 +1027,10 @@
             this.dgvSetlists.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvSetlists.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colSetlistSelect,
-            this.colEnabled,
+            this.colSetlistEnabled,
             this.colSetlist});
             this.dgvSetlists.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnF2;
             this.dgvSetlists.Location = new System.Drawing.Point(23, 32);
-            this.dgvSetlists.MultiSelect = false;
             this.dgvSetlists.Name = "dgvSetlists";
             this.dgvSetlists.RowHeadersVisible = false;
             this.dgvSetlists.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -1070,11 +1046,11 @@
             this.colSetlistSelect.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.colSetlistSelect.Width = 50;
             // 
-            // colEnabled
+            // colSetlistEnabled
             // 
-            this.colEnabled.HeaderText = "Enabled";
-            this.colEnabled.Name = "colEnabled";
-            this.colEnabled.Width = 60;
+            this.colSetlistEnabled.HeaderText = "Enabled";
+            this.colSetlistEnabled.Name = "colSetlistEnabled";
+            this.colSetlistEnabled.Width = 60;
             // 
             // colSetlist
             // 
@@ -1207,7 +1183,6 @@
             this.colOfficialPath});
             this.dgvOfficialSongs.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnF2;
             this.dgvOfficialSongs.Location = new System.Drawing.Point(67, 19);
-            this.dgvOfficialSongs.MultiSelect = false;
             this.dgvOfficialSongs.Name = "dgvOfficialSongs";
             this.dgvOfficialSongs.RowHeadersVisible = false;
             this.dgvOfficialSongs.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -1288,7 +1263,6 @@
             this.colUnsortedPath});
             this.dgvUnsortedDLCs.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnF2;
             this.dgvUnsortedDLCs.Location = new System.Drawing.Point(6, 19);
-            this.dgvUnsortedDLCs.MultiSelect = false;
             this.dgvUnsortedDLCs.Name = "dgvUnsortedDLCs";
             this.dgvUnsortedDLCs.RowHeadersVisible = false;
             this.dgvUnsortedDLCs.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -1384,7 +1358,7 @@
             // 
             // gb_Utilities
             // 
-            this.gb_Utilities.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.gb_Utilities.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gb_Utilities.Controls.Add(this.btn_UploadCDLC);
             this.gb_Utilities.Controls.Add(this.btnRequestSong);
@@ -1399,7 +1373,7 @@
             // 
             // btn_UploadCDLC
             // 
-            this.btn_UploadCDLC.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.btn_UploadCDLC.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_UploadCDLC.Location = new System.Drawing.Point(340, 12);
             this.btn_UploadCDLC.Name = "btn_UploadCDLC";
@@ -1411,7 +1385,7 @@
             // 
             // btnRequestSong
             // 
-            this.btnRequestSong.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.btnRequestSong.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnRequestSong.Location = new System.Drawing.Point(503, 12);
             this.btnRequestSong.Name = "btnRequestSong";
@@ -1423,7 +1397,7 @@
             // 
             // btnLaunchSteam
             // 
-            this.btnLaunchSteam.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.btnLaunchSteam.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnLaunchSteam.Location = new System.Drawing.Point(666, 12);
             this.btnLaunchSteam.Name = "btnLaunchSteam";
@@ -1435,7 +1409,7 @@
             // 
             // btnBackupRSProfile
             // 
-            this.btnBackupRSProfile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.btnBackupRSProfile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnBackupRSProfile.Location = new System.Drawing.Point(829, 12);
             this.btnBackupRSProfile.Name = "btnBackupRSProfile";
@@ -1463,28 +1437,23 @@
             this.tlpSettings_Wrapper.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
             this.tlpSettings_Wrapper.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70F));
             this.tlpSettings_Wrapper.Controls.Add(this.lblSettingsRSDir, 0, 0);
+            this.tlpSettings_Wrapper.Controls.Add(this.tbSettingsRSDir, 1, 0);
             this.tlpSettings_Wrapper.Controls.Add(this.checkRescanOnStartup, 0, 3);
-            this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsLoad, 0, 8);
-            this.tlpSettings_Wrapper.Controls.Add(this.checkIncludeRS1DLC, 0, 5);
+            this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsLoad, 0, 5);
+            this.tlpSettings_Wrapper.Controls.Add(this.checkIncludeRS1DLC, 0, 2);
             this.tlpSettings_Wrapper.Controls.Add(this.panel5, 1, 1);
-            this.tlpSettings_Wrapper.Controls.Add(this.checkEnableLogBaloon, 0, 6);
-            this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsSave, 1, 8);
-            this.tlpSettings_Wrapper.Controls.Add(this.lbl_Settings_Other, 0, 2);
-            this.tlpSettings_Wrapper.Controls.Add(this.checkUpdateWhileScan, 0, 4);
-            this.tlpSettings_Wrapper.Controls.Add(this.tlp_Settings_RSPath, 1, 0);
+            this.tlpSettings_Wrapper.Controls.Add(this.checkEnableLogBaloon, 0, 1);
+            this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsSave, 1, 5);
             this.tlpSettings_Wrapper.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpSettings_Wrapper.Location = new System.Drawing.Point(3, 3);
             this.tlpSettings_Wrapper.Name = "tlpSettings_Wrapper";
-            this.tlpSettings_Wrapper.RowCount = 9;
-            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.58646F));
-            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.712615F));
-            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.712615F));
-            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.712615F));
-            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 34F));
-            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 36F));
-            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 37F));
-            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 48.56308F));
-            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.712615F));
+            this.tlpSettings_Wrapper.RowCount = 6;
+            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
             this.tlpSettings_Wrapper.Size = new System.Drawing.Size(991, 430);
             this.tlpSettings_Wrapper.TabIndex = 0;
             // 
@@ -1495,18 +1464,19 @@
             this.lblSettingsRSDir.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSettingsRSDir.Location = new System.Drawing.Point(18, 2);
             this.lblSettingsRSDir.Name = "lblSettingsRSDir";
-            this.lblSettingsRSDir.Size = new System.Drawing.Size(276, 38);
+            this.lblSettingsRSDir.Size = new System.Drawing.Size(276, 41);
             this.lblSettingsRSDir.TabIndex = 1;
             this.lblSettingsRSDir.Text = "Rocksmith installation directory (double-click to change):";
             this.lblSettingsRSDir.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // tbSettingsRSDir
             // 
-            this.tbSettingsRSDir.Location = new System.Drawing.Point(3, 3);
+            this.tbSettingsRSDir.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbSettingsRSDir.Location = new System.Drawing.Point(302, 5);
             this.tbSettingsRSDir.Multiline = true;
             this.tbSettingsRSDir.Name = "tbSettingsRSDir";
             this.tbSettingsRSDir.ReadOnly = true;
-            this.tbSettingsRSDir.Size = new System.Drawing.Size(526, 24);
+            this.tbSettingsRSDir.Size = new System.Drawing.Size(684, 35);
             this.tbSettingsRSDir.TabIndex = 2;
             this.tbSettingsRSDir.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.tbSettingsRSDir_MouseDoubleClick);
             // 
@@ -1515,10 +1485,10 @@
             this.checkRescanOnStartup.AutoSize = true;
             this.checkRescanOnStartup.Checked = true;
             this.checkRescanOnStartup.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkRescanOnStartup.Dock = System.Windows.Forms.DockStyle.Left;
-            this.checkRescanOnStartup.Location = new System.Drawing.Point(5, 107);
+            this.checkRescanOnStartup.Dock = System.Windows.Forms.DockStyle.Right;
+            this.checkRescanOnStartup.Location = new System.Drawing.Point(176, 134);
             this.checkRescanOnStartup.Name = "checkRescanOnStartup";
-            this.checkRescanOnStartup.Size = new System.Drawing.Size(118, 23);
+            this.checkRescanOnStartup.Size = new System.Drawing.Size(118, 35);
             this.checkRescanOnStartup.TabIndex = 3;
             this.checkRescanOnStartup.Text = "Rescan on startup";
             this.checkRescanOnStartup.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1527,9 +1497,9 @@
             // btnSettingsLoad
             // 
             this.btnSettingsLoad.Dock = System.Windows.Forms.DockStyle.Left;
-            this.btnSettingsLoad.Location = new System.Drawing.Point(5, 400);
+            this.btnSettingsLoad.Location = new System.Drawing.Point(5, 387);
             this.btnSettingsLoad.Name = "btnSettingsLoad";
-            this.btnSettingsLoad.Size = new System.Drawing.Size(150, 25);
+            this.btnSettingsLoad.Size = new System.Drawing.Size(150, 38);
             this.btnSettingsLoad.TabIndex = 0;
             this.btnSettingsLoad.Text = "Load Settings";
             this.btnSettingsLoad.UseVisualStyleBackColor = true;
@@ -1540,10 +1510,10 @@
             this.checkIncludeRS1DLC.AutoSize = true;
             this.checkIncludeRS1DLC.Checked = true;
             this.checkIncludeRS1DLC.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkIncludeRS1DLC.Dock = System.Windows.Forms.DockStyle.Left;
-            this.checkIncludeRS1DLC.Location = new System.Drawing.Point(5, 174);
+            this.checkIncludeRS1DLC.Dock = System.Windows.Forms.DockStyle.Right;
+            this.checkIncludeRS1DLC.Location = new System.Drawing.Point(116, 91);
             this.checkIncludeRS1DLC.Name = "checkIncludeRS1DLC";
-            this.checkIncludeRS1DLC.Size = new System.Drawing.Size(179, 30);
+            this.checkIncludeRS1DLC.Size = new System.Drawing.Size(178, 35);
             this.checkIncludeRS1DLC.TabIndex = 3;
             this.checkIncludeRS1DLC.Text = "Include RS1 Compatibility Pack";
             this.checkIncludeRS1DLC.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1555,17 +1525,17 @@
             this.panel5.Controls.Add(this.lblDisabledColumns);
             this.panel5.Controls.Add(this.listDisabledColumns);
             this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel5.Location = new System.Drawing.Point(302, 45);
+            this.panel5.Location = new System.Drawing.Point(302, 48);
             this.panel5.Name = "panel5";
-            this.tlpSettings_Wrapper.SetRowSpan(this.panel5, 7);
-            this.panel5.Size = new System.Drawing.Size(684, 347);
+            this.tlpSettings_Wrapper.SetRowSpan(this.panel5, 4);
+            this.panel5.Size = new System.Drawing.Size(684, 331);
             this.panel5.TabIndex = 4;
             // 
             // btnEnableColumns
             // 
-            this.btnEnableColumns.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.btnEnableColumns.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnEnableColumns.Location = new System.Drawing.Point(232, 321);
+            this.btnEnableColumns.Location = new System.Drawing.Point(232, 305);
             this.btnEnableColumns.Name = "btnEnableColumns";
             this.btnEnableColumns.Size = new System.Drawing.Size(150, 23);
             this.btnEnableColumns.TabIndex = 2;
@@ -1575,8 +1545,8 @@
             // 
             // lblDisabledColumns
             // 
-            this.lblDisabledColumns.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.lblDisabledColumns.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblDisabledColumns.AutoSize = true;
             this.lblDisabledColumns.Location = new System.Drawing.Point(247, 2);
@@ -1587,8 +1557,8 @@
             // 
             // listDisabledColumns
             // 
-            this.listDisabledColumns.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.listDisabledColumns.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.listDisabledColumns.CheckBoxes = true;
             this.listDisabledColumns.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
@@ -1597,7 +1567,7 @@
             this.colSettingsColumnEnabled});
             this.listDisabledColumns.Location = new System.Drawing.Point(3, 22);
             this.listDisabledColumns.Name = "listDisabledColumns";
-            this.listDisabledColumns.Size = new System.Drawing.Size(686, 293);
+            this.listDisabledColumns.Size = new System.Drawing.Size(686, 277);
             this.listDisabledColumns.TabIndex = 5;
             this.listDisabledColumns.UseCompatibleStateImageBehavior = false;
             this.listDisabledColumns.View = System.Windows.Forms.View.Details;
@@ -1622,10 +1592,10 @@
             this.checkEnableLogBaloon.AutoSize = true;
             this.checkEnableLogBaloon.Checked = true;
             this.checkEnableLogBaloon.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkEnableLogBaloon.Dock = System.Windows.Forms.DockStyle.Left;
-            this.checkEnableLogBaloon.Location = new System.Drawing.Point(5, 212);
+            this.checkEnableLogBaloon.Dock = System.Windows.Forms.DockStyle.Right;
+            this.checkEnableLogBaloon.Location = new System.Drawing.Point(176, 48);
             this.checkEnableLogBaloon.Name = "checkEnableLogBaloon";
-            this.checkEnableLogBaloon.Size = new System.Drawing.Size(118, 31);
+            this.checkEnableLogBaloon.Size = new System.Drawing.Size(118, 35);
             this.checkEnableLogBaloon.TabIndex = 5;
             this.checkEnableLogBaloon.Text = "Enable Log Baloon ";
             this.checkEnableLogBaloon.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1636,34 +1606,47 @@
             // 
             this.btnSettingsSave.BackColor = System.Drawing.Color.Chartreuse;
             this.btnSettingsSave.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnSettingsSave.Location = new System.Drawing.Point(836, 400);
+            this.btnSettingsSave.Location = new System.Drawing.Point(836, 387);
             this.btnSettingsSave.Name = "btnSettingsSave";
-            this.btnSettingsSave.Size = new System.Drawing.Size(150, 25);
+            this.btnSettingsSave.Size = new System.Drawing.Size(150, 38);
             this.btnSettingsSave.TabIndex = 0;
             this.btnSettingsSave.Text = "Save Settings";
             this.btnSettingsSave.UseVisualStyleBackColor = false;
             this.btnSettingsSave.Click += new System.EventHandler(this.btnSettingsSave_Click);
             // 
-            // lbl_Settings_Other
+            // tpCreators
             // 
-            this.lbl_Settings_Other.AutoSize = true;
-            this.lbl_Settings_Other.Dock = System.Windows.Forms.DockStyle.Left;
-            this.lbl_Settings_Other.Location = new System.Drawing.Point(5, 73);
-            this.lbl_Settings_Other.Name = "lbl_Settings_Other";
-            this.lbl_Settings_Other.Size = new System.Drawing.Size(82, 29);
-            this.lbl_Settings_Other.TabIndex = 6;
-            this.lbl_Settings_Other.Text = "Other options:";
+            this.tpCreators.BackgroundImage = global::CustomsForgeManager_Winforms.Properties.Resources.eof_bg;
+            this.tpCreators.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.tpCreators.Controls.Add(this.btnRSTKSite);
+            this.tpCreators.Controls.Add(this.btnEOFSite);
+            this.tpCreators.Location = new System.Drawing.Point(4, 25);
+            this.tpCreators.Name = "tpCreators";
+            this.tpCreators.Padding = new System.Windows.Forms.Padding(3);
+            this.tpCreators.Size = new System.Drawing.Size(997, 436);
+            this.tpCreators.TabIndex = 6;
+            this.tpCreators.Text = "Creators";
+            this.tpCreators.UseVisualStyleBackColor = true;
             // 
-            // checkUpdateWhileScan
+            // btnRSTKSite
             // 
-            this.checkUpdateWhileScan.AutoSize = true;
-            this.checkUpdateWhileScan.Dock = System.Windows.Forms.DockStyle.Left;
-            this.checkUpdateWhileScan.Location = new System.Drawing.Point(5, 138);
-            this.checkUpdateWhileScan.Name = "checkUpdateWhileScan";
-            this.checkUpdateWhileScan.Size = new System.Drawing.Size(189, 28);
-            this.checkUpdateWhileScan.TabIndex = 7;
-            this.checkUpdateWhileScan.Text = "Check for update while scanning";
-            this.checkUpdateWhileScan.UseVisualStyleBackColor = true;
+            this.btnRSTKSite.Location = new System.Drawing.Point(275, 221);
+            this.btnRSTKSite.Name = "btnRSTKSite";
+            this.btnRSTKSite.Size = new System.Drawing.Size(195, 25);
+            this.btnRSTKSite.TabIndex = 1;
+            this.btnRSTKSite.Text = "Rocksmith Toolkit";
+            this.btnRSTKSite.UseVisualStyleBackColor = true;
+            this.btnRSTKSite.Click += new System.EventHandler(this.btnRSTKSite_Click);
+            // 
+            // btnEOFSite
+            // 
+            this.btnEOFSite.Location = new System.Drawing.Point(275, 105);
+            this.btnEOFSite.Name = "btnEOFSite";
+            this.btnEOFSite.Size = new System.Drawing.Size(195, 25);
+            this.btnEOFSite.TabIndex = 0;
+            this.btnEOFSite.Text = "Editor on Fire";
+            this.btnEOFSite.UseVisualStyleBackColor = true;
+            this.btnEOFSite.Click += new System.EventHandler(this.btnEOFSite_Click);
             // 
             // tpAbout
             // 
@@ -1706,63 +1689,38 @@
             // group_CFquickLinks
             // 
             this.group_CFquickLinks.Controls.Add(this.tableLayoutPanel_CFQuicklinks);
-            this.group_CFquickLinks.Dock = System.Windows.Forms.DockStyle.Fill;
             this.group_CFquickLinks.Location = new System.Drawing.Point(501, 221);
             this.group_CFquickLinks.Name = "group_CFquickLinks";
-            this.group_CFquickLinks.Size = new System.Drawing.Size(493, 212);
+            this.group_CFquickLinks.Size = new System.Drawing.Size(379, 187);
             this.group_CFquickLinks.TabIndex = 3;
             this.group_CFquickLinks.TabStop = false;
             this.group_CFquickLinks.Text = "CustomsForge Links";
             // 
             // tableLayoutPanel_CFQuicklinks
             // 
-            this.tableLayoutPanel_CFQuicklinks.ColumnCount = 2;
-            this.tableLayoutPanel_CFQuicklinks.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel_CFQuicklinks.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 216F));
-            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.btnRSTKSite, 1, 2);
-            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.btnEOFSite, 1, 1);
-            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.linkOpenCFHomePage, 0, 0);
-            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.linkOpenIgnition, 0, 1);
-            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.linkOpenRequests, 0, 2);
-            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.linkDontainsPage, 0, 3);
-            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.linkOpenCFVideos, 0, 4);
-            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.linkCFFAQ, 0, 5);
-            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.lbl_AboutTools, 1, 0);
+            this.tableLayoutPanel_CFQuicklinks.ColumnCount = 3;
+            this.tableLayoutPanel_CFQuicklinks.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel_CFQuicklinks.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 75F));
+            this.tableLayoutPanel_CFQuicklinks.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 77F));
+            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.linkOpenCFHomePage, 1, 0);
+            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.linkOpenIgnition, 1, 1);
+            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.linkOpenRequests, 1, 2);
+            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.linkDontainsPage, 1, 3);
+            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.linkOpenCFVideos, 1, 4);
+            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.linkCFFAQ, 1, 5);
             this.tableLayoutPanel_CFQuicklinks.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel_CFQuicklinks.Location = new System.Drawing.Point(3, 16);
             this.tableLayoutPanel_CFQuicklinks.Name = "tableLayoutPanel_CFQuicklinks";
             this.tableLayoutPanel_CFQuicklinks.RowCount = 7;
-            this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
-            this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
-            this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
+            this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
+            this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
+            this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
             this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
             this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
             this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
             this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 0F));
-            this.tableLayoutPanel_CFQuicklinks.Size = new System.Drawing.Size(487, 193);
+            this.tableLayoutPanel_CFQuicklinks.Size = new System.Drawing.Size(373, 168);
             this.tableLayoutPanel_CFQuicklinks.TabIndex = 4;
-            // 
-            // btnRSTKSite
-            // 
-            this.btnRSTKSite.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnRSTKSite.Location = new System.Drawing.Point(274, 67);
-            this.btnRSTKSite.Name = "btnRSTKSite";
-            this.btnRSTKSite.Size = new System.Drawing.Size(210, 26);
-            this.btnRSTKSite.TabIndex = 17;
-            this.btnRSTKSite.Text = "Rocksmith Toolkit";
-            this.btnRSTKSite.UseVisualStyleBackColor = true;
-            this.btnRSTKSite.Click += new System.EventHandler(this.btnRSTKSite_Click);
-            // 
-            // btnEOFSite
-            // 
-            this.btnEOFSite.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnEOFSite.Location = new System.Drawing.Point(274, 35);
-            this.btnEOFSite.Name = "btnEOFSite";
-            this.btnEOFSite.Size = new System.Drawing.Size(210, 26);
-            this.btnEOFSite.TabIndex = 16;
-            this.btnEOFSite.Text = "Editor on Fire";
-            this.btnEOFSite.UseVisualStyleBackColor = true;
-            this.btnEOFSite.Click += new System.EventHandler(this.btnEOFSite_Click);
             // 
             // linkOpenCFHomePage
             // 
@@ -1770,9 +1728,9 @@
             this.linkOpenCFHomePage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.linkOpenCFHomePage.Font = new System.Drawing.Font("Trebuchet MS", 12F);
             this.linkOpenCFHomePage.LinkColor = System.Drawing.Color.Black;
-            this.linkOpenCFHomePage.Location = new System.Drawing.Point(3, 0);
+            this.linkOpenCFHomePage.Location = new System.Drawing.Point(77, 0);
             this.linkOpenCFHomePage.Name = "linkOpenCFHomePage";
-            this.linkOpenCFHomePage.Size = new System.Drawing.Size(265, 32);
+            this.linkOpenCFHomePage.Size = new System.Drawing.Size(216, 28);
             this.linkOpenCFHomePage.TabIndex = 9;
             this.linkOpenCFHomePage.TabStop = true;
             this.linkOpenCFHomePage.Text = "CustomsForge Home";
@@ -1785,9 +1743,9 @@
             this.linkOpenIgnition.Dock = System.Windows.Forms.DockStyle.Fill;
             this.linkOpenIgnition.Font = new System.Drawing.Font("Trebuchet MS", 12F);
             this.linkOpenIgnition.LinkColor = System.Drawing.Color.Black;
-            this.linkOpenIgnition.Location = new System.Drawing.Point(3, 32);
+            this.linkOpenIgnition.Location = new System.Drawing.Point(77, 28);
             this.linkOpenIgnition.Name = "linkOpenIgnition";
-            this.linkOpenIgnition.Size = new System.Drawing.Size(265, 32);
+            this.linkOpenIgnition.Size = new System.Drawing.Size(216, 28);
             this.linkOpenIgnition.TabIndex = 10;
             this.linkOpenIgnition.TabStop = true;
             this.linkOpenIgnition.Text = "Ignition";
@@ -1800,9 +1758,9 @@
             this.linkOpenRequests.Dock = System.Windows.Forms.DockStyle.Fill;
             this.linkOpenRequests.Font = new System.Drawing.Font("Trebuchet MS", 12F);
             this.linkOpenRequests.LinkColor = System.Drawing.Color.Black;
-            this.linkOpenRequests.Location = new System.Drawing.Point(3, 64);
+            this.linkOpenRequests.Location = new System.Drawing.Point(77, 56);
             this.linkOpenRequests.Name = "linkOpenRequests";
-            this.linkOpenRequests.Size = new System.Drawing.Size(265, 32);
+            this.linkOpenRequests.Size = new System.Drawing.Size(216, 28);
             this.linkOpenRequests.TabIndex = 12;
             this.linkOpenRequests.TabStop = true;
             this.linkOpenRequests.Text = "Requests";
@@ -1815,9 +1773,9 @@
             this.linkDontainsPage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.linkDontainsPage.Font = new System.Drawing.Font("Trebuchet MS", 12F);
             this.linkDontainsPage.LinkColor = System.Drawing.Color.Black;
-            this.linkDontainsPage.Location = new System.Drawing.Point(3, 96);
+            this.linkDontainsPage.Location = new System.Drawing.Point(77, 84);
             this.linkDontainsPage.Name = "linkDontainsPage";
-            this.linkDontainsPage.Size = new System.Drawing.Size(265, 28);
+            this.linkDontainsPage.Size = new System.Drawing.Size(216, 28);
             this.linkDontainsPage.TabIndex = 13;
             this.linkDontainsPage.TabStop = true;
             this.linkDontainsPage.Text = "Donations";
@@ -1830,9 +1788,9 @@
             this.linkOpenCFVideos.Dock = System.Windows.Forms.DockStyle.Fill;
             this.linkOpenCFVideos.Font = new System.Drawing.Font("Trebuchet MS", 12F);
             this.linkOpenCFVideos.LinkColor = System.Drawing.Color.Black;
-            this.linkOpenCFVideos.Location = new System.Drawing.Point(3, 124);
+            this.linkOpenCFVideos.Location = new System.Drawing.Point(77, 112);
             this.linkOpenCFVideos.Name = "linkOpenCFVideos";
-            this.linkOpenCFVideos.Size = new System.Drawing.Size(265, 28);
+            this.linkOpenCFVideos.Size = new System.Drawing.Size(216, 28);
             this.linkOpenCFVideos.TabIndex = 14;
             this.linkOpenCFVideos.TabStop = true;
             this.linkOpenCFVideos.Text = "Videos";
@@ -1845,25 +1803,14 @@
             this.linkCFFAQ.Dock = System.Windows.Forms.DockStyle.Fill;
             this.linkCFFAQ.Font = new System.Drawing.Font("Trebuchet MS", 12F);
             this.linkCFFAQ.LinkColor = System.Drawing.Color.Black;
-            this.linkCFFAQ.Location = new System.Drawing.Point(3, 152);
+            this.linkCFFAQ.Location = new System.Drawing.Point(77, 140);
             this.linkCFFAQ.Name = "linkCFFAQ";
-            this.linkCFFAQ.Size = new System.Drawing.Size(265, 28);
+            this.linkCFFAQ.Size = new System.Drawing.Size(216, 28);
             this.linkCFFAQ.TabIndex = 15;
             this.linkCFFAQ.TabStop = true;
             this.linkCFFAQ.Text = "FAQ";
             this.linkCFFAQ.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.linkCFFAQ.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkCFFAQ_LinkClicked);
-            // 
-            // lbl_AboutTools
-            // 
-            this.lbl_AboutTools.AutoSize = true;
-            this.lbl_AboutTools.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.lbl_AboutTools.Location = new System.Drawing.Point(274, 16);
-            this.lbl_AboutTools.Name = "lbl_AboutTools";
-            this.lbl_AboutTools.Size = new System.Drawing.Size(210, 16);
-            this.lbl_AboutTools.TabIndex = 18;
-            this.lbl_AboutTools.Text = "Tools for Creators:";
-            this.lbl_AboutTools.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // panel6
             // 
@@ -1994,7 +1941,6 @@
             this.linkLabel1.AutoSize = true;
             this.linkLabel1.BackColor = System.Drawing.SystemColors.WindowText;
             this.linkLabel1.Font = new System.Drawing.Font("Trebuchet MS", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.linkLabel1.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
             this.linkLabel1.LinkColor = System.Drawing.Color.HotPink;
             this.linkLabel1.Location = new System.Drawing.Point(4, 126);
             this.linkLabel1.Name = "linkLabel1";
@@ -2010,9 +1956,9 @@
             this.lbl_Credits.AutoSize = true;
             this.lbl_Credits.Font = new System.Drawing.Font("Trebuchet MS", 10F);
             this.lbl_Credits.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.lbl_Credits.Location = new System.Drawing.Point(26, 8);
+            this.lbl_Credits.Location = new System.Drawing.Point(27, 8);
             this.lbl_Credits.Name = "lbl_Credits";
-            this.lbl_Credits.Size = new System.Drawing.Size(133, 18);
+            this.lbl_Credits.Size = new System.Drawing.Size(131, 18);
             this.lbl_Credits.TabIndex = 0;
             this.lbl_Credits.Text = "Song Manager Team";
             this.lbl_Credits.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -2088,7 +2034,6 @@
             // 
             this.link_UnleashedProfile.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.link_UnleashedProfile.AutoSize = true;
-            this.link_UnleashedProfile.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
             this.link_UnleashedProfile.LinkColor = System.Drawing.Color.Red;
             this.link_UnleashedProfile.Location = new System.Drawing.Point(244, 37);
             this.link_UnleashedProfile.Name = "link_UnleashedProfile";
@@ -2105,7 +2050,6 @@
             this.link_DarjuszProfile.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.link_DarjuszProfile.AutoSize = true;
             this.link_DarjuszProfile.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.link_DarjuszProfile.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
             this.link_DarjuszProfile.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.link_DarjuszProfile.Location = new System.Drawing.Point(255, 57);
             this.link_DarjuszProfile.Name = "link_DarjuszProfile";
@@ -2120,7 +2064,6 @@
             // 
             this.link_LovromanProfile.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.link_LovromanProfile.AutoSize = true;
-            this.link_LovromanProfile.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
             this.link_LovromanProfile.LinkColor = System.Drawing.Color.Orange;
             this.link_LovromanProfile.Location = new System.Drawing.Point(251, 77);
             this.link_LovromanProfile.Name = "link_LovromanProfile";
@@ -2135,7 +2078,6 @@
             // 
             this.link_ZerkzProfile.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.link_ZerkzProfile.AutoSize = true;
-            this.link_ZerkzProfile.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
             this.link_ZerkzProfile.LinkColor = System.Drawing.Color.Orange;
             this.link_ZerkzProfile.Location = new System.Drawing.Point(261, 97);
             this.link_ZerkzProfile.Name = "link_ZerkzProfile";
@@ -2264,35 +2206,65 @@
             this.labelAlphaTesters.Text = "Alpha Testers:";
             this.labelAlphaTesters.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // linkOpenSngMgrHelp
+            // 
+            this.linkOpenSngMgrHelp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.linkOpenSngMgrHelp.AutoSize = true;
+            this.linkOpenSngMgrHelp.ForeColor = System.Drawing.Color.Black;
+            this.linkOpenSngMgrHelp.LinkColor = System.Drawing.Color.Black;
+            this.linkOpenSngMgrHelp.Location = new System.Drawing.Point(475, 387);
+            this.linkOpenSngMgrHelp.Name = "linkOpenSngMgrHelp";
+            this.linkOpenSngMgrHelp.Size = new System.Drawing.Size(57, 16);
+            this.linkOpenSngMgrHelp.TabIndex = 26;
+            this.linkOpenSngMgrHelp.TabStop = true;
+            this.linkOpenSngMgrHelp.Text = "Open help";
+            this.linkOpenSngMgrHelp.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkOpenSngMgrHelp_LinkClicked);
+            // 
+            // dgvSongs
+            // 
+            this.dgvSongs.AllowUserToAddRows = false;
+            this.dgvSongs.AllowUserToDeleteRows = false;
+            this.dgvSongs.AllowUserToOrderColumns = true;
+            this.dgvSongs.AllowUserToResizeRows = false;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.dgvSongs.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            this.dgvSongs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgvSongs.BackgroundColor = System.Drawing.SystemColors.ActiveCaption;
+            this.dgvSongs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvSongs.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colSelect});
+            this.dgvSongs.ContextMenuStrip = this.contextMenuStrip_MainManager;
+            this.dgvSongs.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnF2;
+            this.dgvSongs.GridColor = System.Drawing.SystemColors.ActiveCaption;
+            this.dgvSongs.Location = new System.Drawing.Point(6, 19);
+            this.dgvSongs.MultiSelect = false;
+            this.dgvSongs.Name = "dgvSongs";
+            this.dgvSongs.RowHeadersVisible = false;
+            this.dgvSongs.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvSongs.Size = new System.Drawing.Size(973, 211);
+            this.dgvSongs.TabIndex = 1;
+            this.dgvSongs.DataSourceChanged += new System.EventHandler(this.dgvSongs_DataSourceChanged);
+            this.dgvSongs.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSongs_CellDoubleClick);
+            this.dgvSongs.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongs_CellMouseDown);
+            this.dgvSongs.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongs_ColumnHeaderMouseClick);
+            this.dgvSongs.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvSongs_KeyDown);
+            // 
+            // colSelect
+            // 
+            this.colSelect.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.colSelect.FalseValue = "false";
+            this.colSelect.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.colSelect.HeaderText = "Select";
+            this.colSelect.IndeterminateValue = "false";
+            this.colSelect.Name = "colSelect";
+            this.colSelect.TrueValue = "true";
+            this.colSelect.Visible = false;
+            // 
             // frmMainBindingSource
             // 
             this.frmMainBindingSource.DataSource = typeof(CustomsForgeManager_Winforms.Forms.frmMain);
-            // 
-            // tlp_Settings_RSPath
-            // 
-            this.tlp_Settings_RSPath.ColumnCount = 2;
-            this.tlp_Settings_RSPath.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 77.77778F));
-            this.tlp_Settings_RSPath.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 22.22222F));
-            this.tlp_Settings_RSPath.Controls.Add(this.tbSettingsRSDir, 0, 0);
-            this.tlp_Settings_RSPath.Controls.Add(this.btn_Settings_RSPathBrowse, 1, 0);
-            this.tlp_Settings_RSPath.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_Settings_RSPath.Location = new System.Drawing.Point(302, 5);
-            this.tlp_Settings_RSPath.Name = "tlp_Settings_RSPath";
-            this.tlp_Settings_RSPath.RowCount = 1;
-            this.tlp_Settings_RSPath.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlp_Settings_RSPath.Size = new System.Drawing.Size(684, 32);
-            this.tlp_Settings_RSPath.TabIndex = 8;
-            // 
-            // btn_Settings_RSPathBrowse
-            // 
-            this.btn_Settings_RSPathBrowse.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btn_Settings_RSPathBrowse.Location = new System.Drawing.Point(535, 3);
-            this.btn_Settings_RSPathBrowse.Name = "btn_Settings_RSPathBrowse";
-            this.btn_Settings_RSPathBrowse.Size = new System.Drawing.Size(146, 26);
-            this.btn_Settings_RSPathBrowse.TabIndex = 3;
-            this.btn_Settings_RSPathBrowse.Text = "Browse";
-            this.btn_Settings_RSPathBrowse.UseVisualStyleBackColor = true;
-            this.btn_Settings_RSPathBrowse.Click += new System.EventHandler(this.btn_Settings_RSPathBrowse_Click);
             // 
             // frmMain
             // 
@@ -2315,7 +2287,6 @@
             this.tpManager.ResumeLayout(false);
             this.gb_Main_Grid.ResumeLayout(false);
             this.gb_Main_Grid.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvSongs)).EndInit();
             this.contextMenuStrip_MainManager.ResumeLayout(false);
             this.gb_Main_Search.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
@@ -2333,6 +2304,7 @@
             this.howToGroupBox.ResumeLayout(false);
             this.howToGroupBox.PerformLayout();
             this.tpSetlistManager.ResumeLayout(false);
+            this.tpSetlistManager.PerformLayout();
             this.groupSetlists.ResumeLayout(false);
             this.groupSetlists.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDLCsInSetlist)).EndInit();
@@ -2350,6 +2322,7 @@
             this.tlpSettings_Wrapper.PerformLayout();
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
+            this.tpCreators.ResumeLayout(false);
             this.tpAbout.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCF)).EndInit();
@@ -2366,9 +2339,8 @@
             this.statusStripMain.ResumeLayout(false);
             this.statusStripMain.PerformLayout();
             this.contextMenuStrip_Tray.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSongs)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.frmMainBindingSource)).EndInit();
-            this.tlp_Settings_RSPath.ResumeLayout(false);
-            this.tlp_Settings_RSPath.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2428,6 +2400,7 @@
         private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
         private System.Windows.Forms.CheckBox checkIncludeRS1DLC;
         private System.Windows.Forms.ToolStripMenuItem openDLCLocationToolStripMenuItem;
+        private System.Windows.Forms.Button btnBatchRenamer;
         private System.Windows.Forms.ToolStripMenuItem getAuthorNameStripMenuItem;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel_DisabledCounter;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelSpringer;
@@ -2462,6 +2435,9 @@
         private System.Windows.Forms.LinkLabel linkOpenRequests;
         private System.Windows.Forms.LinkLabel linkDontainsPage;
         private System.Windows.Forms.LinkLabel linkOpenCFVideos;
+        private System.Windows.Forms.TabPage tpCreators;
+        private System.Windows.Forms.Button btnRSTKSite;
+        private System.Windows.Forms.Button btnEOFSite;
         private System.Windows.Forms.Label lbl_ExportTo;
         private System.Windows.Forms.LinkLabel linkCFFAQ;
         private System.Windows.Forms.Label label1;
@@ -2508,7 +2484,6 @@
         private System.Windows.Forms.CheckBox checkEnableLogBaloon;
         private System.Windows.Forms.Button btnRequestSong;
         private System.Windows.Forms.Button btn_UploadCDLC;
-//<<<<<<< .merge_file_a12116
         private System.Windows.Forms.TabPage tpSetlistManager;
         private System.Windows.Forms.GroupBox groupUnsortedDLCs;
         private System.Windows.Forms.Button btnDeleteSelectedSongs;
@@ -2533,10 +2508,6 @@
         private System.Windows.Forms.DataGridView dgvOfficialSongs;
         private System.Windows.Forms.Button btnLoadSetlists;
         private System.Windows.Forms.DataGridView dgvDLCsInSetlist;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colDLCArtist;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colDLCSong;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colDLCAlbum;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colDLCPath;
         private System.Windows.Forms.DataGridViewCheckBoxColumn colOfficialSelect;
         private System.Windows.Forms.DataGridViewTextBoxColumn colOfficialEnabled;
         private System.Windows.Forms.DataGridViewTextBoxColumn colOfficialSongPack;
@@ -2546,17 +2517,14 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colUnsortedArtist;
         private System.Windows.Forms.DataGridViewTextBoxColumn colUnsortedSong;
         private System.Windows.Forms.DataGridViewTextBoxColumn colUnsortedPath;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn colDLCSelect;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colDLCArtist;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colDLCSong;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colDLCAlbum;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colDLCPath;
         private System.Windows.Forms.DataGridViewCheckBoxColumn colSetlistSelect;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colEnabled;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colSetlistEnabled;
         private System.Windows.Forms.DataGridViewTextBoxColumn colSetlist;
-//=======
-        private System.Windows.Forms.Label lbl_Settings_Other;
-        private System.Windows.Forms.CheckBox checkUpdateWhileScan;
-        private System.Windows.Forms.Button btnRSTKSite;
-        private System.Windows.Forms.Button btnEOFSite;
-        private System.Windows.Forms.Label lbl_AboutTools;
-        private System.Windows.Forms.TableLayoutPanel tlp_Settings_RSPath;
-        private System.Windows.Forms.Button btn_Settings_RSPathBrowse;
-//>>>>>>> .merge_file_a16100
+        private System.Windows.Forms.LinkLabel linkOpenSngMgrHelp;
     }
 }
