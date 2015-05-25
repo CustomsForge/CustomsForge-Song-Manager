@@ -1616,7 +1616,7 @@
             // 
             // tpCreators
             // 
-            this.tpCreators.BackgroundImage = global::CustomsForgeManager_Winforms.Properties.Resources.eof_bg;
+            //this.tpCreators.BackgroundImage = global::CustomsForgeManager_Winforms.Properties.Resources.eof_bg;
             this.tpCreators.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.tpCreators.Controls.Add(this.btnRSTKSite);
             this.tpCreators.Controls.Add(this.btnEOFSite);

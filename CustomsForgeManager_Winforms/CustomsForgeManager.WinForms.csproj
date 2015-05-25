@@ -32,7 +32,7 @@
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>index.html</WebPage>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>87</ApplicationRevision>
+    <ApplicationRevision>88</ApplicationRevision>
     <ApplicationVersion>0.1.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -271,6 +271,11 @@
     <None Include="Resources\Rocksmith_2014_Background_Guitar.jpg" />
     <None Include="Resources\instructionLabel.txt" />
     <EmbeddedResource Include="Resources\SngMgrHelp.txt" />
+    <None Include="Resources\Letter D black_small.png" />
+    <None Include="Resources\Letter L black_small.png" />
+    <None Include="Resources\Letter R black_small.png" />
+    <None Include="Resources\Letter V black_small.png" />
+    <None Include="Resources\Letter B black_small.png" />
     <Content Include="tunings.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
