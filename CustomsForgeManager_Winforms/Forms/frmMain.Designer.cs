@@ -91,6 +91,7 @@
             this.renameTemplateTextBox = new System.Windows.Forms.TextBox();
             this.renameAllButton = new System.Windows.Forms.Button();
             this.tpSetlistManager = new System.Windows.Forms.TabPage();
+            this.linkOpenSngMgrHelp = new System.Windows.Forms.LinkLabel();
             this.btnLoadSetlists = new System.Windows.Forms.Button();
             this.groupSetlists = new System.Windows.Forms.GroupBox();
             this.dgvDLCsInSetlist = new System.Windows.Forms.DataGridView();
@@ -203,10 +204,13 @@
             this.contextMenuStrip_Tray = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.labelAlphaTesters = new System.Windows.Forms.Label();
-            this.linkOpenSngMgrHelp = new System.Windows.Forms.LinkLabel();
             this.dgvSongs = new CustomsForgeManager_Winforms.Controls.RADataGridView();
-            this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.frmMainBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.cLead = new System.Windows.Forms.DataGridViewImageColumn();
+            this.cRhythm = new System.Windows.Forms.DataGridViewImageColumn();
+            this.cBass = new System.Windows.Forms.DataGridViewImageColumn();
+            this.cVocals = new System.Windows.Forms.DataGridViewImageColumn();
             this.tlp_MainForm_Wrappper.SuspendLayout();
             this.gbLog.SuspendLayout();
             this.tcMain.SuspendLayout();
@@ -273,8 +277,8 @@
             // 
             // gbLog
             // 
-            this.gbLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.gbLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gbLog.Controls.Add(this.tbLog);
             this.gbLog.Font = new System.Drawing.Font("Trebuchet MS", 8.25F);
@@ -287,8 +291,8 @@
             // 
             // tbLog
             // 
-            this.tbLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.tbLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tbLog.BackColor = System.Drawing.SystemColors.Window;
             this.tbLog.Location = new System.Drawing.Point(3, 16);
@@ -333,8 +337,8 @@
             // 
             // gb_Main_Grid
             // 
-            this.gb_Main_Grid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.gb_Main_Grid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gb_Main_Grid.Controls.Add(this.linkLblSelectAll);
             this.gb_Main_Grid.Controls.Add(this.dgvSongs);
@@ -353,7 +357,7 @@
             this.linkLblSelectAll.LinkColor = System.Drawing.Color.Black;
             this.linkLblSelectAll.Location = new System.Drawing.Point(6, 233);
             this.linkLblSelectAll.Name = "linkLblSelectAll";
-            this.linkLblSelectAll.Size = new System.Drawing.Size(111, 16);
+            this.linkLblSelectAll.Size = new System.Drawing.Size(113, 16);
             this.linkLblSelectAll.TabIndex = 2;
             this.linkLblSelectAll.TabStop = true;
             this.linkLblSelectAll.Text = "Select All/Deselect All";
@@ -431,7 +435,7 @@
             // 
             // gb_Main_Search
             // 
-            this.gb_Main_Search.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.gb_Main_Search.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gb_Main_Search.Controls.Add(this.panel3);
             this.gb_Main_Search.Location = new System.Drawing.Point(6, 6);
@@ -443,8 +447,8 @@
             // 
             // panel3
             // 
-            this.panel3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.panel3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel3.Controls.Add(this.link_MainClearResults);
             this.panel3.Controls.Add(this.lbl_Search);
@@ -457,7 +461,7 @@
             // 
             // link_MainClearResults
             // 
-            this.link_MainClearResults.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.link_MainClearResults.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.link_MainClearResults.AutoSize = true;
             this.link_MainClearResults.ForeColor = System.Drawing.Color.DimGray;
@@ -472,8 +476,8 @@
             // 
             // lbl_Search
             // 
-            this.lbl_Search.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.lbl_Search.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lbl_Search.AutoSize = true;
             this.lbl_Search.Location = new System.Drawing.Point(3, 9);
@@ -484,8 +488,8 @@
             // 
             // tbSearch
             // 
-            this.tbSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.tbSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tbSearch.Location = new System.Drawing.Point(68, 6);
             this.tbSearch.Name = "tbSearch";
@@ -495,7 +499,7 @@
             // 
             // btnSearch
             // 
-            this.btnSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.btnSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSearch.Location = new System.Drawing.Point(813, 6);
             this.btnSearch.Name = "btnSearch";
@@ -507,7 +511,7 @@
             // 
             // gb_Main_Actions
             // 
-            this.gb_Main_Actions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+            this.gb_Main_Actions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gb_Main_Actions.Controls.Add(this.panelSongListButtons);
             this.gb_Main_Actions.Location = new System.Drawing.Point(6, 346);
@@ -519,8 +523,8 @@
             // 
             // panelSongListButtons
             // 
-            this.panelSongListButtons.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.panelSongListButtons.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panelSongListButtons.Controls.Add(this.btnBackupSelectedDLCs);
             this.panelSongListButtons.Controls.Add(this.btnBatchRenamer);
@@ -539,7 +543,7 @@
             // 
             // btnBackupSelectedDLCs
             // 
-            this.btnBackupSelectedDLCs.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.btnBackupSelectedDLCs.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.btnBackupSelectedDLCs.Location = new System.Drawing.Point(472, 15);
             this.btnBackupSelectedDLCs.Name = "btnBackupSelectedDLCs";
@@ -551,7 +555,7 @@
             // 
             // btnBatchRenamer
             // 
-            this.btnBatchRenamer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.btnBatchRenamer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.btnBatchRenamer.Location = new System.Drawing.Point(375, 15);
             this.btnBatchRenamer.Name = "btnBatchRenamer";
@@ -562,7 +566,7 @@
             // 
             // radioBtn_ExportToHTML
             // 
-            this.radioBtn_ExportToHTML.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.radioBtn_ExportToHTML.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.radioBtn_ExportToHTML.AutoSize = true;
             this.radioBtn_ExportToHTML.Location = new System.Drawing.Point(800, 16);
@@ -575,7 +579,7 @@
             // 
             // radioBtn_ExportToCSV
             // 
-            this.radioBtn_ExportToCSV.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.radioBtn_ExportToCSV.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.radioBtn_ExportToCSV.AutoSize = true;
             this.radioBtn_ExportToCSV.Location = new System.Drawing.Point(859, 16);
@@ -588,7 +592,7 @@
             // 
             // btnExportSongList
             // 
-            this.btnExportSongList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.btnExportSongList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnExportSongList.Location = new System.Drawing.Point(910, 15);
             this.btnExportSongList.Name = "btnExportSongList";
@@ -600,7 +604,7 @@
             // 
             // lbl_ExportTo
             // 
-            this.lbl_ExportTo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.lbl_ExportTo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lbl_ExportTo.AutoSize = true;
             this.lbl_ExportTo.Location = new System.Drawing.Point(665, 18);
@@ -611,7 +615,7 @@
             // 
             // radioBtn_ExportToBBCode
             // 
-            this.radioBtn_ExportToBBCode.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.radioBtn_ExportToBBCode.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.radioBtn_ExportToBBCode.AutoSize = true;
             this.radioBtn_ExportToBBCode.Location = new System.Drawing.Point(731, 16);
@@ -624,7 +628,7 @@
             // 
             // btnDisableEnableSongs
             // 
-            this.btnDisableEnableSongs.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.btnDisableEnableSongs.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.btnDisableEnableSongs.Location = new System.Drawing.Point(249, 15);
             this.btnDisableEnableSongs.Name = "btnDisableEnableSongs";
@@ -636,7 +640,7 @@
             // 
             // btnCheckAllForUpdates
             // 
-            this.btnCheckAllForUpdates.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.btnCheckAllForUpdates.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.btnCheckAllForUpdates.Location = new System.Drawing.Point(86, 13);
             this.btnCheckAllForUpdates.Name = "btnCheckAllForUpdates";
@@ -648,7 +652,7 @@
             // 
             // btnRescan
             // 
-            this.btnRescan.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.btnRescan.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.btnRescan.Location = new System.Drawing.Point(20, 13);
             this.btnRescan.Name = "btnRescan";
@@ -822,8 +826,8 @@
             // 
             // propertiesGroupBox
             // 
-            this.propertiesGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.propertiesGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.propertiesGroupBox.Controls.Add(this.renamerPropertyDataGridView);
             this.propertiesGroupBox.Location = new System.Drawing.Point(440, 58);
@@ -854,8 +858,8 @@
             // 
             // howToGroupBox
             // 
-            this.howToGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.howToGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.howToGroupBox.Controls.Add(this.instructionsLabel);
             this.howToGroupBox.Controls.Add(this.label1);
@@ -873,7 +877,7 @@
             this.instructionsLabel.Location = new System.Drawing.Point(3, 16);
             this.instructionsLabel.Name = "instructionsLabel";
             this.instructionsLabel.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.instructionsLabel.Size = new System.Drawing.Size(353, 304);
+            this.instructionsLabel.Size = new System.Drawing.Size(354, 304);
             this.instructionsLabel.TabIndex = 1;
             this.instructionsLabel.Text = resources.GetString("instructionsLabel.Text");
             // 
@@ -890,7 +894,7 @@
             this.renameTemplateLabel.AutoSize = true;
             this.renameTemplateLabel.Location = new System.Drawing.Point(15, 12);
             this.renameTemplateLabel.Name = "renameTemplateLabel";
-            this.renameTemplateLabel.Size = new System.Drawing.Size(97, 16);
+            this.renameTemplateLabel.Size = new System.Drawing.Size(98, 16);
             this.renameTemplateLabel.TabIndex = 6;
             this.renameTemplateLabel.Text = "Rename Template:";
             // 
@@ -926,6 +930,20 @@
             this.tpSetlistManager.TabIndex = 7;
             this.tpSetlistManager.Text = "Setlist Manger";
             this.tpSetlistManager.UseVisualStyleBackColor = true;
+            // 
+            // linkOpenSngMgrHelp
+            // 
+            this.linkOpenSngMgrHelp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.linkOpenSngMgrHelp.AutoSize = true;
+            this.linkOpenSngMgrHelp.ForeColor = System.Drawing.Color.Black;
+            this.linkOpenSngMgrHelp.LinkColor = System.Drawing.Color.Black;
+            this.linkOpenSngMgrHelp.Location = new System.Drawing.Point(475, 387);
+            this.linkOpenSngMgrHelp.Name = "linkOpenSngMgrHelp";
+            this.linkOpenSngMgrHelp.Size = new System.Drawing.Size(57, 16);
+            this.linkOpenSngMgrHelp.TabIndex = 26;
+            this.linkOpenSngMgrHelp.TabStop = true;
+            this.linkOpenSngMgrHelp.Text = "Open help";
+            this.linkOpenSngMgrHelp.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkOpenSngMgrHelp_LinkClicked);
             // 
             // btnLoadSetlists
             // 
@@ -1358,7 +1376,7 @@
             // 
             // gb_Utilities
             // 
-            this.gb_Utilities.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.gb_Utilities.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gb_Utilities.Controls.Add(this.btn_UploadCDLC);
             this.gb_Utilities.Controls.Add(this.btnRequestSong);
@@ -1373,7 +1391,7 @@
             // 
             // btn_UploadCDLC
             // 
-            this.btn_UploadCDLC.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.btn_UploadCDLC.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_UploadCDLC.Location = new System.Drawing.Point(340, 12);
             this.btn_UploadCDLC.Name = "btn_UploadCDLC";
@@ -1385,7 +1403,7 @@
             // 
             // btnRequestSong
             // 
-            this.btnRequestSong.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.btnRequestSong.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnRequestSong.Location = new System.Drawing.Point(503, 12);
             this.btnRequestSong.Name = "btnRequestSong";
@@ -1397,7 +1415,7 @@
             // 
             // btnLaunchSteam
             // 
-            this.btnLaunchSteam.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.btnLaunchSteam.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnLaunchSteam.Location = new System.Drawing.Point(666, 12);
             this.btnLaunchSteam.Name = "btnLaunchSteam";
@@ -1409,7 +1427,7 @@
             // 
             // btnBackupRSProfile
             // 
-            this.btnBackupRSProfile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.btnBackupRSProfile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnBackupRSProfile.Location = new System.Drawing.Point(829, 12);
             this.btnBackupRSProfile.Name = "btnBackupRSProfile";
@@ -1511,9 +1529,9 @@
             this.checkIncludeRS1DLC.Checked = true;
             this.checkIncludeRS1DLC.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkIncludeRS1DLC.Dock = System.Windows.Forms.DockStyle.Right;
-            this.checkIncludeRS1DLC.Location = new System.Drawing.Point(116, 91);
+            this.checkIncludeRS1DLC.Location = new System.Drawing.Point(115, 91);
             this.checkIncludeRS1DLC.Name = "checkIncludeRS1DLC";
-            this.checkIncludeRS1DLC.Size = new System.Drawing.Size(178, 35);
+            this.checkIncludeRS1DLC.Size = new System.Drawing.Size(179, 35);
             this.checkIncludeRS1DLC.TabIndex = 3;
             this.checkIncludeRS1DLC.Text = "Include RS1 Compatibility Pack";
             this.checkIncludeRS1DLC.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1533,7 +1551,7 @@
             // 
             // btnEnableColumns
             // 
-            this.btnEnableColumns.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+            this.btnEnableColumns.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnEnableColumns.Location = new System.Drawing.Point(232, 305);
             this.btnEnableColumns.Name = "btnEnableColumns";
@@ -1545,8 +1563,8 @@
             // 
             // lblDisabledColumns
             // 
-            this.lblDisabledColumns.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.lblDisabledColumns.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblDisabledColumns.AutoSize = true;
             this.lblDisabledColumns.Location = new System.Drawing.Point(247, 2);
@@ -1557,8 +1575,8 @@
             // 
             // listDisabledColumns
             // 
-            this.listDisabledColumns.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.listDisabledColumns.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.listDisabledColumns.CheckBoxes = true;
             this.listDisabledColumns.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
@@ -1616,7 +1634,6 @@
             // 
             // tpCreators
             // 
-            this.tpCreators.BackgroundImage = global::CustomsForgeManager_Winforms.Properties.Resources.eof_bg;
             this.tpCreators.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.tpCreators.Controls.Add(this.btnRSTKSite);
             this.tpCreators.Controls.Add(this.btnEOFSite);
@@ -1956,9 +1973,9 @@
             this.lbl_Credits.AutoSize = true;
             this.lbl_Credits.Font = new System.Drawing.Font("Trebuchet MS", 10F);
             this.lbl_Credits.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.lbl_Credits.Location = new System.Drawing.Point(27, 8);
+            this.lbl_Credits.Location = new System.Drawing.Point(26, 8);
             this.lbl_Credits.Name = "lbl_Credits";
-            this.lbl_Credits.Size = new System.Drawing.Size(131, 18);
+            this.lbl_Credits.Size = new System.Drawing.Size(133, 18);
             this.lbl_Credits.TabIndex = 0;
             this.lbl_Credits.Text = "Song Manager Team";
             this.lbl_Credits.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -2206,20 +2223,6 @@
             this.labelAlphaTesters.Text = "Alpha Testers:";
             this.labelAlphaTesters.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // linkOpenSngMgrHelp
-            // 
-            this.linkOpenSngMgrHelp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.linkOpenSngMgrHelp.AutoSize = true;
-            this.linkOpenSngMgrHelp.ForeColor = System.Drawing.Color.Black;
-            this.linkOpenSngMgrHelp.LinkColor = System.Drawing.Color.Black;
-            this.linkOpenSngMgrHelp.Location = new System.Drawing.Point(475, 387);
-            this.linkOpenSngMgrHelp.Name = "linkOpenSngMgrHelp";
-            this.linkOpenSngMgrHelp.Size = new System.Drawing.Size(57, 16);
-            this.linkOpenSngMgrHelp.TabIndex = 26;
-            this.linkOpenSngMgrHelp.TabStop = true;
-            this.linkOpenSngMgrHelp.Text = "Open help";
-            this.linkOpenSngMgrHelp.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkOpenSngMgrHelp_LinkClicked);
-            // 
             // dgvSongs
             // 
             this.dgvSongs.AllowUserToAddRows = false;
@@ -2228,13 +2231,17 @@
             this.dgvSongs.AllowUserToResizeRows = false;
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.dgvSongs.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.dgvSongs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.dgvSongs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvSongs.BackgroundColor = System.Drawing.SystemColors.ActiveCaption;
             this.dgvSongs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvSongs.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.colSelect});
+            this.colSelect,
+            this.cLead,
+            this.cRhythm,
+            this.cBass,
+            this.cVocals});
             this.dgvSongs.ContextMenuStrip = this.contextMenuStrip_MainManager;
             this.dgvSongs.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnF2;
             this.dgvSongs.GridColor = System.Drawing.SystemColors.ActiveCaption;
@@ -2251,6 +2258,10 @@
             this.dgvSongs.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongs_ColumnHeaderMouseClick);
             this.dgvSongs.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvSongs_KeyDown);
             // 
+            // frmMainBindingSource
+            // 
+            this.frmMainBindingSource.DataSource = typeof(CustomsForgeManager_Winforms.Forms.frmMain);
+            // 
             // colSelect
             // 
             this.colSelect.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
@@ -2261,10 +2272,51 @@
             this.colSelect.Name = "colSelect";
             this.colSelect.TrueValue = "true";
             this.colSelect.Visible = false;
+            this.colSelect.Width = 44;
             // 
-            // frmMainBindingSource
+            // cLead
             // 
-            this.frmMainBindingSource.DataSource = typeof(CustomsForgeManager_Winforms.Forms.frmMain);
+            this.cLead.HeaderText = "L";
+            this.cLead.Image = global::CustomsForgeManager_Winforms.Properties.Resources.Letter_L;
+            this.cLead.MinimumWidth = 20;
+            this.cLead.Name = "cLead";
+            this.cLead.ReadOnly = true;
+            this.cLead.ToolTipText = "Lead";
+            this.cLead.Visible = false;
+            this.cLead.Width = 20;
+            // 
+            // cRhythm
+            // 
+            this.cRhythm.HeaderText = "R";
+            this.cRhythm.Image = global::CustomsForgeManager_Winforms.Properties.Resources.Letter_R;
+            this.cRhythm.MinimumWidth = 20;
+            this.cRhythm.Name = "cRhythm";
+            this.cRhythm.ReadOnly = true;
+            this.cRhythm.ToolTipText = "Rhythm";
+            this.cRhythm.Visible = false;
+            this.cRhythm.Width = 20;
+            // 
+            // cBass
+            // 
+            this.cBass.HeaderText = "B";
+            this.cBass.Image = global::CustomsForgeManager_Winforms.Properties.Resources.Letter_B;
+            this.cBass.MinimumWidth = 20;
+            this.cBass.Name = "cBass";
+            this.cBass.ReadOnly = true;
+            this.cBass.ToolTipText = "Bass";
+            this.cBass.Visible = false;
+            this.cBass.Width = 20;
+            // 
+            // cVocals
+            // 
+            this.cVocals.HeaderText = "V";
+            this.cVocals.Image = global::CustomsForgeManager_Winforms.Properties.Resources.Letter_V;
+            this.cVocals.MinimumWidth = 20;
+            this.cVocals.Name = "cVocals";
+            this.cVocals.ReadOnly = true;
+            this.cVocals.ToolTipText = "Vocals";
+            this.cVocals.Visible = false;
+            this.cVocals.Width = 20;
             // 
             // frmMain
             // 
@@ -2460,7 +2512,6 @@
         private System.Windows.Forms.Label slashLabel;
         private System.Windows.Forms.CheckBox deleteEmptyDirCheckBox;
         private Controls.RADataGridView dgvSongs;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn colSelect;
         private System.Windows.Forms.GroupBox gb_Main_Grid;
         private System.Windows.Forms.LinkLabel linkLblSelectAll;
         private System.Windows.Forms.GroupBox gb_Main_Search;
@@ -2526,5 +2577,10 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colSetlistEnabled;
         private System.Windows.Forms.DataGridViewTextBoxColumn colSetlist;
         private System.Windows.Forms.LinkLabel linkOpenSngMgrHelp;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn colSelect;
+        private System.Windows.Forms.DataGridViewImageColumn cLead;
+        private System.Windows.Forms.DataGridViewImageColumn cRhythm;
+        private System.Windows.Forms.DataGridViewImageColumn cBass;
+        private System.Windows.Forms.DataGridViewImageColumn cVocals;
     }
 }

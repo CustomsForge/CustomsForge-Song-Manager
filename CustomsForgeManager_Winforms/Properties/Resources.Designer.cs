@@ -73,9 +73,39 @@ namespace CustomsForgeManager_Winforms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap eof_bg {
+        internal static System.Drawing.Bitmap Letter_B {
             get {
-                object obj = ResourceManager.GetObject("eof-bg", resourceCulture);
+                object obj = ResourceManager.GetObject("Letter_B", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Letter_L {
+            get {
+                object obj = ResourceManager.GetObject("Letter_L", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Letter_R {
+            get {
+                object obj = ResourceManager.GetObject("Letter_R", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Letter_V {
+            get {
+                object obj = ResourceManager.GetObject("Letter_V", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
