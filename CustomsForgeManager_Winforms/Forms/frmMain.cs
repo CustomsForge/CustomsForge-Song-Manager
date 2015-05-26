@@ -824,7 +824,7 @@ namespace CustomsForgeManager_Winforms.Forms
                 string arr = row.Cells["Arrangements"].Value.ToString();
                 if (!string.IsNullOrEmpty(arr))
                 {
-                    foreach (string arrangment in arr.Split(new []{","}, StringSplitOptions.RemoveEmptyEntries))
+                    foreach (string arrangment in arr.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries))
                     {
                         if (arrangment.ToLower() != "combo")
                         {
@@ -1411,7 +1411,7 @@ namespace CustomsForgeManager_Winforms.Forms
                                 {
                                     listDupeSongs.InvokeIfRequired(delegate
                                     {
-                                        listDupeSongs.Items.Add(new ListViewItem(new[] { " ", song.Artist, song.Song, song.Album, song.Path }));
+                                        listDupeSongs.Items.Add(new ListViewItem(new[] { " ", song.Enabled, song.Artist, song.Song, song.Album, song.Updated, song.Path }));
                                     });
                                 }
                             }
