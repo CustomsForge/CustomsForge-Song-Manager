@@ -29,15 +29,20 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.tlp_MainForm_Wrappper = new System.Windows.Forms.TableLayoutPanel();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.gbLog = new System.Windows.Forms.GroupBox();
             this.tbLog = new System.Windows.Forms.TextBox();
             this.tcMain = new System.Windows.Forms.TabControl();
             this.tpManager = new System.Windows.Forms.TabPage();
             this.gb_Main_Grid = new System.Windows.Forms.GroupBox();
             this.linkLblSelectAll = new System.Windows.Forms.LinkLabel();
+            this.dgvSongs = new CustomsForgeManager_Winforms.Controls.RADataGridView();
+            this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.cLead = new System.Windows.Forms.DataGridViewImageColumn();
+            this.cRhythm = new System.Windows.Forms.DataGridViewImageColumn();
+            this.cBass = new System.Windows.Forms.DataGridViewImageColumn();
+            this.cVocals = new System.Windows.Forms.DataGridViewImageColumn();
             this.contextMenuStrip_MainManager = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.showDLCInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openDLCPageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -204,18 +209,14 @@
             this.contextMenuStrip_Tray = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.labelAlphaTesters = new System.Windows.Forms.Label();
-            this.dgvSongs = new CustomsForgeManager_Winforms.Controls.RADataGridView();
             this.frmMainBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.cLead = new System.Windows.Forms.DataGridViewImageColumn();
-            this.cRhythm = new System.Windows.Forms.DataGridViewImageColumn();
-            this.cBass = new System.Windows.Forms.DataGridViewImageColumn();
-            this.cVocals = new System.Windows.Forms.DataGridViewImageColumn();
-            this.tlp_MainForm_Wrappper.SuspendLayout();
+            this.lbl_ShowHideLog = new System.Windows.Forms.ToolStripStatusLabel();
+            this.scMain = new System.Windows.Forms.SplitContainer();
             this.gbLog.SuspendLayout();
             this.tcMain.SuspendLayout();
             this.tpManager.SuspendLayout();
             this.gb_Main_Grid.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSongs)).BeginInit();
             this.contextMenuStrip_MainManager.SuspendLayout();
             this.gb_Main_Search.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -256,51 +257,35 @@
             this.tableLayoutPanel_Credits.SuspendLayout();
             this.statusStripMain.SuspendLayout();
             this.contextMenuStrip_Tray.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvSongs)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.frmMainBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.scMain)).BeginInit();
+            this.scMain.Panel1.SuspendLayout();
+            this.scMain.Panel2.SuspendLayout();
+            this.scMain.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // tlp_MainForm_Wrappper
-            // 
-            this.tlp_MainForm_Wrappper.ColumnCount = 1;
-            this.tlp_MainForm_Wrappper.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_MainForm_Wrappper.Controls.Add(this.gbLog, 0, 1);
-            this.tlp_MainForm_Wrappper.Controls.Add(this.tcMain, 0, 0);
-            this.tlp_MainForm_Wrappper.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_MainForm_Wrappper.Location = new System.Drawing.Point(0, 0);
-            this.tlp_MainForm_Wrappper.Name = "tlp_MainForm_Wrappper";
-            this.tlp_MainForm_Wrappper.RowCount = 2;
-            this.tlp_MainForm_Wrappper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 75F));
-            this.tlp_MainForm_Wrappper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tlp_MainForm_Wrappper.Size = new System.Drawing.Size(1011, 629);
-            this.tlp_MainForm_Wrappper.TabIndex = 0;
             // 
             // gbLog
             // 
-            this.gbLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.gbLog.Controls.Add(this.tbLog);
+            this.gbLog.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gbLog.Font = new System.Drawing.Font("Trebuchet MS", 8.25F);
-            this.gbLog.Location = new System.Drawing.Point(3, 474);
+            this.gbLog.Location = new System.Drawing.Point(0, 0);
             this.gbLog.Name = "gbLog";
-            this.gbLog.Size = new System.Drawing.Size(1005, 152);
+            this.gbLog.Size = new System.Drawing.Size(1011, 100);
             this.gbLog.TabIndex = 1;
             this.gbLog.TabStop = false;
             this.gbLog.Text = "Log";
             // 
             // tbLog
             // 
-            this.tbLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.tbLog.BackColor = System.Drawing.SystemColors.Window;
+            this.tbLog.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tbLog.Location = new System.Drawing.Point(3, 16);
             this.tbLog.Multiline = true;
             this.tbLog.Name = "tbLog";
             this.tbLog.ReadOnly = true;
             this.tbLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.tbLog.Size = new System.Drawing.Size(999, 94);
+            this.tbLog.Size = new System.Drawing.Size(1005, 81);
             this.tbLog.TabIndex = 0;
             // 
             // tcMain
@@ -315,10 +300,10 @@
             this.tcMain.Controls.Add(this.tpAbout);
             this.tcMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tcMain.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tcMain.Location = new System.Drawing.Point(3, 3);
+            this.tcMain.Location = new System.Drawing.Point(0, 0);
             this.tcMain.Name = "tcMain";
             this.tcMain.SelectedIndex = 0;
-            this.tcMain.Size = new System.Drawing.Size(1005, 465);
+            this.tcMain.Size = new System.Drawing.Size(1011, 502);
             this.tcMain.TabIndex = 2;
             this.tcMain.SelectedIndexChanged += new System.EventHandler(this.tcMain_SelectedIndexChanged);
             // 
@@ -331,7 +316,7 @@
             this.tpManager.Location = new System.Drawing.Point(4, 25);
             this.tpManager.Name = "tpManager";
             this.tpManager.Padding = new System.Windows.Forms.Padding(3);
-            this.tpManager.Size = new System.Drawing.Size(997, 436);
+            this.tpManager.Size = new System.Drawing.Size(1003, 473);
             this.tpManager.TabIndex = 0;
             this.tpManager.Text = "Song Manager";
             // 
@@ -344,7 +329,7 @@
             this.gb_Main_Grid.Controls.Add(this.dgvSongs);
             this.gb_Main_Grid.Location = new System.Drawing.Point(6, 79);
             this.gb_Main_Grid.Name = "gb_Main_Grid";
-            this.gb_Main_Grid.Size = new System.Drawing.Size(985, 261);
+            this.gb_Main_Grid.Size = new System.Drawing.Size(991, 298);
             this.gb_Main_Grid.TabIndex = 5;
             this.gb_Main_Grid.TabStop = false;
             this.gb_Main_Grid.Text = "Results Grid:";
@@ -355,13 +340,103 @@
             this.linkLblSelectAll.AutoSize = true;
             this.linkLblSelectAll.ForeColor = System.Drawing.Color.Black;
             this.linkLblSelectAll.LinkColor = System.Drawing.Color.Black;
-            this.linkLblSelectAll.Location = new System.Drawing.Point(6, 233);
+            this.linkLblSelectAll.Location = new System.Drawing.Point(6, 270);
             this.linkLblSelectAll.Name = "linkLblSelectAll";
             this.linkLblSelectAll.Size = new System.Drawing.Size(113, 16);
             this.linkLblSelectAll.TabIndex = 2;
             this.linkLblSelectAll.TabStop = true;
             this.linkLblSelectAll.Text = "Select All/Deselect All";
             this.linkLblSelectAll.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLblSelectAll_LinkClicked);
+            // 
+            // dgvSongs
+            // 
+            this.dgvSongs.AllowUserToAddRows = false;
+            this.dgvSongs.AllowUserToDeleteRows = false;
+            this.dgvSongs.AllowUserToOrderColumns = true;
+            this.dgvSongs.AllowUserToResizeRows = false;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.dgvSongs.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            this.dgvSongs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgvSongs.BackgroundColor = System.Drawing.SystemColors.ActiveCaption;
+            this.dgvSongs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvSongs.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colSelect,
+            this.cLead,
+            this.cRhythm,
+            this.cBass,
+            this.cVocals});
+            this.dgvSongs.ContextMenuStrip = this.contextMenuStrip_MainManager;
+            this.dgvSongs.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnF2;
+            this.dgvSongs.GridColor = System.Drawing.SystemColors.ActiveCaption;
+            this.dgvSongs.Location = new System.Drawing.Point(6, 19);
+            this.dgvSongs.MultiSelect = false;
+            this.dgvSongs.Name = "dgvSongs";
+            this.dgvSongs.RowHeadersVisible = false;
+            this.dgvSongs.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvSongs.Size = new System.Drawing.Size(979, 248);
+            this.dgvSongs.TabIndex = 1;
+            this.dgvSongs.DataSourceChanged += new System.EventHandler(this.dgvSongs_DataSourceChanged);
+            this.dgvSongs.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSongs_CellDoubleClick);
+            this.dgvSongs.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongs_CellMouseDown);
+            this.dgvSongs.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongs_ColumnHeaderMouseClick);
+            this.dgvSongs.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvSongs_KeyDown);
+            // 
+            // colSelect
+            // 
+            this.colSelect.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.colSelect.FalseValue = "false";
+            this.colSelect.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.colSelect.HeaderText = "Select";
+            this.colSelect.IndeterminateValue = "false";
+            this.colSelect.Name = "colSelect";
+            this.colSelect.TrueValue = "true";
+            this.colSelect.Visible = false;
+            // 
+            // cLead
+            // 
+            this.cLead.HeaderText = "L";
+            this.cLead.Image = global::CustomsForgeManager_Winforms.Properties.Resources.Letter_L;
+            this.cLead.MinimumWidth = 20;
+            this.cLead.Name = "cLead";
+            this.cLead.ReadOnly = true;
+            this.cLead.ToolTipText = "Lead";
+            this.cLead.Visible = false;
+            this.cLead.Width = 20;
+            // 
+            // cRhythm
+            // 
+            this.cRhythm.HeaderText = "R";
+            this.cRhythm.Image = global::CustomsForgeManager_Winforms.Properties.Resources.Letter_R;
+            this.cRhythm.MinimumWidth = 20;
+            this.cRhythm.Name = "cRhythm";
+            this.cRhythm.ReadOnly = true;
+            this.cRhythm.ToolTipText = "Rhythm";
+            this.cRhythm.Visible = false;
+            this.cRhythm.Width = 20;
+            // 
+            // cBass
+            // 
+            this.cBass.HeaderText = "B";
+            this.cBass.Image = global::CustomsForgeManager_Winforms.Properties.Resources.Letter_B;
+            this.cBass.MinimumWidth = 20;
+            this.cBass.Name = "cBass";
+            this.cBass.ReadOnly = true;
+            this.cBass.ToolTipText = "Bass";
+            this.cBass.Visible = false;
+            this.cBass.Width = 20;
+            // 
+            // cVocals
+            // 
+            this.cVocals.HeaderText = "V";
+            this.cVocals.Image = global::CustomsForgeManager_Winforms.Properties.Resources.Letter_V;
+            this.cVocals.MinimumWidth = 20;
+            this.cVocals.Name = "cVocals";
+            this.cVocals.ReadOnly = true;
+            this.cVocals.ToolTipText = "Vocals";
+            this.cVocals.Visible = false;
+            this.cVocals.Width = 20;
             // 
             // contextMenuStrip_MainManager
             // 
@@ -440,7 +515,7 @@
             this.gb_Main_Search.Controls.Add(this.panel3);
             this.gb_Main_Search.Location = new System.Drawing.Point(6, 6);
             this.gb_Main_Search.Name = "gb_Main_Search";
-            this.gb_Main_Search.Size = new System.Drawing.Size(985, 67);
+            this.gb_Main_Search.Size = new System.Drawing.Size(991, 67);
             this.gb_Main_Search.TabIndex = 4;
             this.gb_Main_Search.TabStop = false;
             this.gb_Main_Search.Text = "Search:";
@@ -456,7 +531,7 @@
             this.panel3.Controls.Add(this.btnSearch);
             this.panel3.Location = new System.Drawing.Point(6, 19);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(973, 35);
+            this.panel3.Size = new System.Drawing.Size(979, 35);
             this.panel3.TabIndex = 5;
             // 
             // link_MainClearResults
@@ -466,7 +541,7 @@
             this.link_MainClearResults.AutoSize = true;
             this.link_MainClearResults.ForeColor = System.Drawing.Color.DimGray;
             this.link_MainClearResults.LinkColor = System.Drawing.Color.Black;
-            this.link_MainClearResults.Location = new System.Drawing.Point(894, 9);
+            this.link_MainClearResults.Location = new System.Drawing.Point(900, 9);
             this.link_MainClearResults.Name = "link_MainClearResults";
             this.link_MainClearResults.Size = new System.Drawing.Size(71, 16);
             this.link_MainClearResults.TabIndex = 3;
@@ -493,7 +568,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tbSearch.Location = new System.Drawing.Point(68, 6);
             this.tbSearch.Name = "tbSearch";
-            this.tbSearch.Size = new System.Drawing.Size(739, 20);
+            this.tbSearch.Size = new System.Drawing.Size(745, 20);
             this.tbSearch.TabIndex = 1;
             this.tbSearch.KeyUp += new System.Windows.Forms.KeyEventHandler(this.tbSearch_KeyUp);
             // 
@@ -501,7 +576,7 @@
             // 
             this.btnSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSearch.Location = new System.Drawing.Point(813, 6);
+            this.btnSearch.Location = new System.Drawing.Point(819, 6);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(75, 21);
             this.btnSearch.TabIndex = 0;
@@ -514,9 +589,9 @@
             this.gb_Main_Actions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gb_Main_Actions.Controls.Add(this.panelSongListButtons);
-            this.gb_Main_Actions.Location = new System.Drawing.Point(6, 346);
+            this.gb_Main_Actions.Location = new System.Drawing.Point(6, 383);
             this.gb_Main_Actions.Name = "gb_Main_Actions";
-            this.gb_Main_Actions.Size = new System.Drawing.Size(985, 84);
+            this.gb_Main_Actions.Size = new System.Drawing.Size(991, 84);
             this.gb_Main_Actions.TabIndex = 3;
             this.gb_Main_Actions.TabStop = false;
             this.gb_Main_Actions.Text = "Actions:";
@@ -538,7 +613,7 @@
             this.panelSongListButtons.Controls.Add(this.btnRescan);
             this.panelSongListButtons.Location = new System.Drawing.Point(6, 19);
             this.panelSongListButtons.Name = "panelSongListButtons";
-            this.panelSongListButtons.Size = new System.Drawing.Size(973, 52);
+            this.panelSongListButtons.Size = new System.Drawing.Size(979, 52);
             this.panelSongListButtons.TabIndex = 3;
             // 
             // btnBackupSelectedDLCs
@@ -569,7 +644,7 @@
             this.radioBtn_ExportToHTML.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.radioBtn_ExportToHTML.AutoSize = true;
-            this.radioBtn_ExportToHTML.Location = new System.Drawing.Point(800, 16);
+            this.radioBtn_ExportToHTML.Location = new System.Drawing.Point(806, 16);
             this.radioBtn_ExportToHTML.Name = "radioBtn_ExportToHTML";
             this.radioBtn_ExportToHTML.Size = new System.Drawing.Size(53, 20);
             this.radioBtn_ExportToHTML.TabIndex = 18;
@@ -582,7 +657,7 @@
             this.radioBtn_ExportToCSV.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.radioBtn_ExportToCSV.AutoSize = true;
-            this.radioBtn_ExportToCSV.Location = new System.Drawing.Point(859, 16);
+            this.radioBtn_ExportToCSV.Location = new System.Drawing.Point(865, 16);
             this.radioBtn_ExportToCSV.Name = "radioBtn_ExportToCSV";
             this.radioBtn_ExportToCSV.Size = new System.Drawing.Size(45, 20);
             this.radioBtn_ExportToCSV.TabIndex = 17;
@@ -594,7 +669,7 @@
             // 
             this.btnExportSongList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnExportSongList.Location = new System.Drawing.Point(910, 15);
+            this.btnExportSongList.Location = new System.Drawing.Point(916, 15);
             this.btnExportSongList.Name = "btnExportSongList";
             this.btnExportSongList.Size = new System.Drawing.Size(55, 23);
             this.btnExportSongList.TabIndex = 12;
@@ -607,7 +682,7 @@
             this.lbl_ExportTo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lbl_ExportTo.AutoSize = true;
-            this.lbl_ExportTo.Location = new System.Drawing.Point(665, 18);
+            this.lbl_ExportTo.Location = new System.Drawing.Point(671, 18);
             this.lbl_ExportTo.Name = "lbl_ExportTo";
             this.lbl_ExportTo.Size = new System.Drawing.Size(60, 16);
             this.lbl_ExportTo.TabIndex = 16;
@@ -618,7 +693,7 @@
             this.radioBtn_ExportToBBCode.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.radioBtn_ExportToBBCode.AutoSize = true;
-            this.radioBtn_ExportToBBCode.Location = new System.Drawing.Point(731, 16);
+            this.radioBtn_ExportToBBCode.Location = new System.Drawing.Point(737, 16);
             this.radioBtn_ExportToBBCode.Name = "radioBtn_ExportToBBCode";
             this.radioBtn_ExportToBBCode.Size = new System.Drawing.Size(63, 20);
             this.radioBtn_ExportToBBCode.TabIndex = 15;
@@ -2112,6 +2187,7 @@
             // statusStripMain
             // 
             this.statusStripMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.lbl_ShowHideLog,
             this.toolStripProgressBarMain,
             this.toolStripStatusLabel_Main,
             this.toolStripStatusLabel_ClearLog,
@@ -2129,7 +2205,7 @@
             // toolStripProgressBarMain
             // 
             this.toolStripProgressBarMain.Name = "toolStripProgressBarMain";
-            this.toolStripProgressBarMain.Size = new System.Drawing.Size(200, 17);
+            this.toolStripProgressBarMain.Size = new System.Drawing.Size(666, 17);
             // 
             // toolStripStatusLabel_Main
             // 
@@ -2223,108 +2299,45 @@
             this.labelAlphaTesters.Text = "Alpha Testers:";
             this.labelAlphaTesters.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // dgvSongs
-            // 
-            this.dgvSongs.AllowUserToAddRows = false;
-            this.dgvSongs.AllowUserToDeleteRows = false;
-            this.dgvSongs.AllowUserToOrderColumns = true;
-            this.dgvSongs.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.dgvSongs.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.dgvSongs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dgvSongs.BackgroundColor = System.Drawing.SystemColors.ActiveCaption;
-            this.dgvSongs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvSongs.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.colSelect,
-            this.cLead,
-            this.cRhythm,
-            this.cBass,
-            this.cVocals});
-            this.dgvSongs.ContextMenuStrip = this.contextMenuStrip_MainManager;
-            this.dgvSongs.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnF2;
-            this.dgvSongs.GridColor = System.Drawing.SystemColors.ActiveCaption;
-            this.dgvSongs.Location = new System.Drawing.Point(6, 19);
-            this.dgvSongs.MultiSelect = false;
-            this.dgvSongs.Name = "dgvSongs";
-            this.dgvSongs.RowHeadersVisible = false;
-            this.dgvSongs.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvSongs.Size = new System.Drawing.Size(973, 211);
-            this.dgvSongs.TabIndex = 1;
-            this.dgvSongs.DataSourceChanged += new System.EventHandler(this.dgvSongs_DataSourceChanged);
-            this.dgvSongs.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSongs_CellDoubleClick);
-            this.dgvSongs.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongs_CellMouseDown);
-            this.dgvSongs.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongs_ColumnHeaderMouseClick);
-            this.dgvSongs.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvSongs_KeyDown);
-            // 
             // frmMainBindingSource
             // 
             this.frmMainBindingSource.DataSource = typeof(CustomsForgeManager_Winforms.Forms.frmMain);
             // 
-            // colSelect
+            // lbl_ShowHideLog
             // 
-            this.colSelect.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.colSelect.FalseValue = "false";
-            this.colSelect.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.colSelect.HeaderText = "Select";
-            this.colSelect.IndeterminateValue = "false";
-            this.colSelect.Name = "colSelect";
-            this.colSelect.TrueValue = "true";
-            this.colSelect.Visible = false;
-            this.colSelect.Width = 44;
+            this.lbl_ShowHideLog.Font = new System.Drawing.Font("Trebuchet MS", 9F, System.Drawing.FontStyle.Underline);
+            this.lbl_ShowHideLog.IsLink = true;
+            this.lbl_ShowHideLog.LinkColor = System.Drawing.Color.Black;
+            this.lbl_ShowHideLog.Name = "lbl_ShowHideLog";
+            this.lbl_ShowHideLog.Size = new System.Drawing.Size(56, 18);
+            this.lbl_ShowHideLog.Text = "Hide Log";
+            this.lbl_ShowHideLog.Click += new System.EventHandler(this.lbl_ShowHideLog_Click);
             // 
-            // cLead
+            // scMain
             // 
-            this.cLead.HeaderText = "L";
-            this.cLead.Image = global::CustomsForgeManager_Winforms.Properties.Resources.Letter_L;
-            this.cLead.MinimumWidth = 20;
-            this.cLead.Name = "cLead";
-            this.cLead.ReadOnly = true;
-            this.cLead.ToolTipText = "Lead";
-            this.cLead.Visible = false;
-            this.cLead.Width = 20;
+            this.scMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.scMain.Location = new System.Drawing.Point(0, 0);
+            this.scMain.Name = "scMain";
+            this.scMain.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
-            // cRhythm
+            // scMain.Panel1
             // 
-            this.cRhythm.HeaderText = "R";
-            this.cRhythm.Image = global::CustomsForgeManager_Winforms.Properties.Resources.Letter_R;
-            this.cRhythm.MinimumWidth = 20;
-            this.cRhythm.Name = "cRhythm";
-            this.cRhythm.ReadOnly = true;
-            this.cRhythm.ToolTipText = "Rhythm";
-            this.cRhythm.Visible = false;
-            this.cRhythm.Width = 20;
+            this.scMain.Panel1.Controls.Add(this.tcMain);
             // 
-            // cBass
+            // scMain.Panel2
             // 
-            this.cBass.HeaderText = "B";
-            this.cBass.Image = global::CustomsForgeManager_Winforms.Properties.Resources.Letter_B;
-            this.cBass.MinimumWidth = 20;
-            this.cBass.Name = "cBass";
-            this.cBass.ReadOnly = true;
-            this.cBass.ToolTipText = "Bass";
-            this.cBass.Visible = false;
-            this.cBass.Width = 20;
-            // 
-            // cVocals
-            // 
-            this.cVocals.HeaderText = "V";
-            this.cVocals.Image = global::CustomsForgeManager_Winforms.Properties.Resources.Letter_V;
-            this.cVocals.MinimumWidth = 20;
-            this.cVocals.Name = "cVocals";
-            this.cVocals.ReadOnly = true;
-            this.cVocals.ToolTipText = "Vocals";
-            this.cVocals.Visible = false;
-            this.cVocals.Width = 20;
+            this.scMain.Panel2.Controls.Add(this.gbLog);
+            this.scMain.Size = new System.Drawing.Size(1011, 606);
+            this.scMain.SplitterDistance = 502;
+            this.scMain.TabIndex = 2;
             // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1011, 629);
+            this.Controls.Add(this.scMain);
             this.Controls.Add(this.statusStripMain);
-            this.Controls.Add(this.tlp_MainForm_Wrappper);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.Name = "frmMain";
@@ -2332,13 +2345,13 @@
             this.Text = "CustomsForge Song Manager";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmMain_FormClosing);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.frmMain_KeyUp);
-            this.tlp_MainForm_Wrappper.ResumeLayout(false);
             this.gbLog.ResumeLayout(false);
             this.gbLog.PerformLayout();
             this.tcMain.ResumeLayout(false);
             this.tpManager.ResumeLayout(false);
             this.gb_Main_Grid.ResumeLayout(false);
             this.gb_Main_Grid.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSongs)).EndInit();
             this.contextMenuStrip_MainManager.ResumeLayout(false);
             this.gb_Main_Search.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
@@ -2391,8 +2404,11 @@
             this.statusStripMain.ResumeLayout(false);
             this.statusStripMain.PerformLayout();
             this.contextMenuStrip_Tray.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvSongs)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.frmMainBindingSource)).EndInit();
+            this.scMain.Panel1.ResumeLayout(false);
+            this.scMain.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.scMain)).EndInit();
+            this.scMain.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2400,7 +2416,6 @@
 
         #endregion
 
-        private System.Windows.Forms.TableLayoutPanel tlp_MainForm_Wrappper;
         private System.Windows.Forms.GroupBox gbLog;
         private System.Windows.Forms.TextBox tbLog;
         private System.Windows.Forms.TabControl tcMain;
@@ -2582,5 +2597,7 @@
         private System.Windows.Forms.DataGridViewImageColumn cRhythm;
         private System.Windows.Forms.DataGridViewImageColumn cBass;
         private System.Windows.Forms.DataGridViewImageColumn cVocals;
+        private System.Windows.Forms.ToolStripStatusLabel lbl_ShowHideLog;
+        private System.Windows.Forms.SplitContainer scMain;
     }
 }

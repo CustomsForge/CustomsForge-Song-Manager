@@ -2866,6 +2866,12 @@ namespace CustomsForgeManager_Winforms.Forms
             }
         }
         #endregion
+
+        private void lbl_ShowHideLog_Click(object sender, EventArgs e)
+        {
+            scMain.Panel2Collapsed = !scMain.Panel2Collapsed;
+            lbl_ShowHideLog.Text = scMain.Panel2Collapsed ? "Show Log" : "Hide Log";
+        }
         #endregion
     }
 }
