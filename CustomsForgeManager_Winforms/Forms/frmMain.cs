@@ -528,10 +528,10 @@ namespace CustomsForgeManager_Winforms.Forms
                 btnBackupRSProfile.Enabled = !btnBackupRSProfile.Enabled;
             });
 
-            btnSearch.InvokeIfRequired(delegate
-            {
-                btnSearch.Enabled = !btnSearch.Enabled;
-            });
+            //btnSearch.InvokeIfRequired(delegate
+            //{
+            //    btnSearch.Enabled = !btnSearch.Enabled;
+            //});
 
             btnSettingsSave.InvokeIfRequired(delegate
             {
