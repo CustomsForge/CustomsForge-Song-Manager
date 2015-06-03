@@ -229,7 +229,7 @@ namespace CustomsForgeManager_Winforms.Forms
             }
             finally
             {
-                toolStripStatusLabel_Main.Text = string.Format(" Songs found: {0}", counter);
+                toolStripStatusLabel_Main.Text = string.Format(" files found: {0}", counter);
                 //populate dgv here
             }
         }
@@ -250,6 +250,7 @@ namespace CustomsForgeManager_Winforms.Forms
             //List<string> disabledFilesList = new List<string>(FilesList(mySettings.RSInstalledDir + "\\" + Constants.DefaultDisabledSubDirectory,mySettings.IncludeRS1DLCs));
             //filesList.AddRange(disabledFilesList);
             Log(String.Format("Raw songs count: {0}", fileList.Count));
+            songCounter = 0;
             counterStopwatch.Start();
             foreach (string file in fileList)
             {
