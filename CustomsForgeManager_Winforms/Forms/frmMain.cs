@@ -334,6 +334,12 @@ namespace CustomsForgeManager_Winforms.Forms
             mySettings.IncludeRS1DLCs = false;
             mySettings.EnabledLogBaloon = true;
             tbSettingsRSDir.Text = mySettings.RSInstalledDir;
+
+            dgvSongs.Columns["cLead"].Visible = true;
+            dgvSongs.Columns["cRythm"].Visible = true;
+            dgvSongs.Columns["cBass"].Visible = true;
+            dgvSongs.Columns["cVocals"].Visible = true;
+
             Log("Settings reset to defaults...");
         }
         private void SaveSettingsToFile(string path = "")

@@ -41,6 +41,7 @@
             this.txtSongList.ReadOnly = true;
             this.txtSongList.Size = new System.Drawing.Size(990, 533);
             this.txtSongList.TabIndex = 0;
+            this.txtSongList.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSongList_KeyDown);
             // 
             // btnCopyToClipboard
             // 
