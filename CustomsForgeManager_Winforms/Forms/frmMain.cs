@@ -670,6 +670,7 @@ namespace CustomsForgeManager_Winforms.Forms
                             }
                             catch (DeploymentDownloadException dde)
                             {
+                                if (!dde.Message.ToLower().Contains("update not available"))
                                 Log("<Error>: " + dde.Message);
                             }
                         }
