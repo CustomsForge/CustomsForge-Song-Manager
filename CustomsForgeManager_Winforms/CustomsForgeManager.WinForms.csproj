@@ -86,9 +86,9 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="RocksmithToolkitLib, Version=2.6.1.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="RocksmithToolkitLib, Version=2.6.1.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\rocksmith-custom-song-toolkit\RocksmithToolkitLib\bin\x86\Debug\RocksmithToolkitLib.dll</HintPath>
+      <HintPath>..\..\rocksmith-custom-song-toolkit\RocksmithToolkitLib\bin\Release\RocksmithToolkitLib.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
