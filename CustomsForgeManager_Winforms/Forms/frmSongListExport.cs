@@ -31,5 +31,20 @@ namespace CustomsForgeManager_Winforms.Forms
         {
             Clipboard.SetText(txtSongList.Text);
         }
+
+        private void txtSongList_Enter(object sender, EventArgs e)
+        {
+            txtSongList.SelectAll();
+        }
+
+        private void txtSongList_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Modifiers == Keys.Control && e.KeyCode == Keys.A)
+            {
+                if (sender != null)
+                    ((TextBox)sender).SelectAll();
+                e.Handled = true;
+            }
+        }
     }
 }

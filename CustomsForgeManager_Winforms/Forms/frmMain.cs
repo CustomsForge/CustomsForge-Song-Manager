@@ -334,6 +334,12 @@ namespace CustomsForgeManager_Winforms.Forms
             mySettings.IncludeRS1DLCs = false;
             mySettings.EnabledLogBaloon = true;
             tbSettingsRSDir.Text = mySettings.RSInstalledDir;
+
+            dgvSongs.Columns["cLead"].Visible = true;
+            dgvSongs.Columns["cRythm"].Visible = true;
+            dgvSongs.Columns["cBass"].Visible = true;
+            dgvSongs.Columns["cVocals"].Visible = true;
+
             Log("Settings reset to defaults...");
         }
         private void SaveSettingsToFile(string path = "")
@@ -670,6 +676,7 @@ namespace CustomsForgeManager_Winforms.Forms
                             }
                             catch (DeploymentDownloadException dde)
                             {
+                                if (!dde.Message.ToLower().Contains("update not available"))
                                 Log("<Error>: " + dde.Message);
                             }
                         }
@@ -677,6 +684,7 @@ namespace CustomsForgeManager_Winforms.Forms
                 }
                 catch (Exception dde)
                 {
+                    if (!dde.Message.ToLower().Contains("update not available"))
                     Log("<Error>: " + dde.Message);
                 }
             }
