@@ -503,10 +503,6 @@ namespace CustomsForgeManager_Winforms.Forms
                 btnCheckAllForUpdates.Enabled = !btnCheckAllForUpdates.Enabled;
             });
 
-            btnBatchRenamer.InvokeIfRequired(delegate
-            {
-                btnBatchRenamer.Enabled = !btnBatchRenamer.Enabled;
-            });
 
             //Uncomment after implementing:
             //btnEditDLC.Enabled = !btnEditDLC.Enabled;

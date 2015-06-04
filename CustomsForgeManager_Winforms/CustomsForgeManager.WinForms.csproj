@@ -276,6 +276,23 @@
     <None Include="Resources\Letter R black_small.png" />
     <None Include="Resources\Letter V black_small.png" />
     <None Include="Resources\Letter B black_small.png" />
+    <None Include="Resources\rescan.png" />
+    <None Include="Resources\rescan1.png" />
+    <None Include="Resources\clear.png" />
+    <None Include="Resources\update.png" />
+    <None Include="Resources\backup.png" />
+    <None Include="Resources\disable.png" />
+    <None Include="Resources\export.png" />
+    <None Include="Resources\delete.png" />
+    <None Include="Resources\rename.png" />
+    <None Include="Resources\launch.png" />
+    <None Include="Resources\internet.png" />
+    <None Include="Resources\load.png" />
+    <None Include="Resources\save.png" />
+    <None Include="Resources\close.png" />
+    <None Include="Resources\info.png" />
+    <None Include="Resources\folder_open.png" />
+    <None Include="Resources\edit.png" />
     <Content Include="tunings.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
