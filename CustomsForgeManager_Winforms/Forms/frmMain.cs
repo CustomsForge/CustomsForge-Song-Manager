@@ -180,7 +180,9 @@ namespace CustomsForgeManager_Winforms.Forms
             listDisabledColumns.Items.Clear();
             foreach (DataGridViewColumn col in dgvSongs.Columns)
             {
-                listDisabledColumns.Items.Add(new ListViewItem(new[] { "", col.HeaderText, col.Visible ? "Yes" : "No" }));
+                ListViewItem newItem = new ListViewItem(new[] { string.Empty, col.Name, col.HeaderText });
+                newItem.Checked = col.Visible;
+                listDisabledColumns.Items.Add(newItem);
             }
         }
 
@@ -403,7 +405,7 @@ namespace CustomsForgeManager_Winforms.Forms
                 }
                 using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
-                    var deserialized = fs.DeSerialize() as Settings;
+                    Settings deserialized = fs.DeSerialize() as Settings;
 
                     if (deserialized != null)
                     {
@@ -417,10 +419,6 @@ namespace CustomsForgeManager_Winforms.Forms
                         {
                             checkRescanOnStartup.Checked = mySettings.RescanOnStartup;
                         });
-                        if (mySettings.ManagerGridSettings != null)
-                        {
-                            dgvSongs.ReLoadColumnOrder(mySettings.ManagerGridSettings.ColumnOrder);
-                        }
                         checkIncludeRS1DLC.InvokeIfRequired(delegate
                         {
                             checkIncludeRS1DLC.Checked = mySettings.IncludeRS1DLCs;
@@ -429,6 +427,11 @@ namespace CustomsForgeManager_Winforms.Forms
                         {
                             checkEnableLogBaloon.Checked = mySettings.EnabledLogBaloon;
                         });
+                        if (mySettings.ManagerGridSettings != null)
+                        {
+                            dgvSongs.ReLoadColumnOrder(mySettings.ManagerGridSettings.ColumnOrder);
+                        }
+
                         Log("Loaded settings...");
                     }
                     fs.Flush();
@@ -677,7 +680,7 @@ namespace CustomsForgeManager_Winforms.Forms
                             catch (DeploymentDownloadException dde)
                             {
                                 if (!dde.Message.ToLower().Contains("update not available"))
-                                Log("<Error>: " + dde.Message);
+                                    Log("<Error>: " + dde.Message);
                             }
                         }
                     }
@@ -685,7 +688,7 @@ namespace CustomsForgeManager_Winforms.Forms
                 catch (Exception dde)
                 {
                     if (!dde.Message.ToLower().Contains("update not available"))
-                    Log("<Error>: " + dde.Message);
+                        Log("<Error>: " + dde.Message);
                 }
             }
         }
@@ -1271,6 +1274,31 @@ namespace CustomsForgeManager_Winforms.Forms
                 }
             });
         }
+
+        //private void btnEnableColumns_Click(object sender, EventArgs e)
+        //{
+        //    dgvSongs.InvokeIfRequired(delegate
+        //    {
+        //        foreach (ListViewItem column in listDisabledColumns.CheckedItems)
+        //        {
+        //            bool visible = false;
+        //            if (column.SubItems[1].Text == "Select")
+        //            {
+        //                visible = dgvSongs.Columns["colSelect"].Visible;
+        //                dgvSongs.Columns["colSelect"].Visible = !visible;
+        //                column.SubItems[2].Text = !visible ? "Yes" : "No";
+        //            }
+        //            else
+        //            {
+        //                visible = dgvSongs.Columns[column.SubItems[1].Text].Visible;
+        //                dgvSongs.Columns[column.SubItems[1].Text].Visible = !visible;
+        //                column.SubItems[2].Text = !visible ? "Yes" : "No";
+        //            }
+        //            column.Checked = false;
+        //        }
+        //    });
+        //}
+
         private void btnExportSongList_Click(object sender, EventArgs e)
         {
             if (radioBtn_ExportToBBCode.Checked)
@@ -2211,7 +2239,7 @@ namespace CustomsForgeManager_Winforms.Forms
         {
             string[] dirs = null;
             bWorker = new AbortableBackgroundWorker();
-            bWorker.DoWork += (se, ev) =>
+            bWorker.DoWork += delegate
             {
                 if (DirOK())
                 {
@@ -2231,7 +2259,7 @@ namespace CustomsForgeManager_Winforms.Forms
                                         setlistEnabled = false;
                                 }
                                 if (setlistEnabled == false)
-                                    dgvSetlists.Rows.Add(true, "No", Path.GetFileName(setlistPath.Replace("-disabled", "")));
+                                    dgvSetlists.Rows.Add(false, "No", Path.GetFileName(setlistPath.Replace("-disabled", "")));
                                 else
                                     dgvSetlists.Rows.Add(false, "Yes", Path.GetFileName(setlistPath));
                             });
@@ -2241,7 +2269,7 @@ namespace CustomsForgeManager_Winforms.Forms
                         if (dirs.Length > 0 && dirs[0] != null)
                         {
                             filesInSetlist = Directory.GetFiles(dirs[0]);
-                            string[] unsortedSongs = Directory.GetFiles(Path.Combine(mySettings.RSInstalledDir, "dlc"), "*_p.psarc*", SearchOption.TopDirectoryOnly);
+                            string[] unsortedSongs = Directory.GetFiles(Path.Combine(mySettings.RSInstalledDir, "dlc"), "*_p.*psarc", SearchOption.TopDirectoryOnly);
                             string[] zipFiles = Directory.GetFiles(Path.Combine(mySettings.RSInstalledDir, "dlc"), "*zip", SearchOption.TopDirectoryOnly);
 
                             dgvDLCsInSetlist.InvokeIfRequired(delegate
@@ -2262,7 +2290,7 @@ namespace CustomsForgeManager_Winforms.Forms
                                     if (!songPath.Contains("rs1") && song != null)
                                     {
                                         if (songPath.Contains(".disabled"))
-                                            dgvUnsortedDLCs.Rows.Add(true, "No", song.Artist, song.Song, song.Path);
+                                            dgvUnsortedDLCs.Rows.Add(false, "No", song.Artist, song.Song, song.Path);
                                         else
                                             dgvUnsortedDLCs.Rows.Add(false, "Yes", song.Artist, song.Song, song.Path);
                                     }
@@ -2344,74 +2372,114 @@ namespace CustomsForgeManager_Winforms.Forms
 
         private void btnRunRSWithSetlist_Click(object sender, EventArgs e)
         {
+            string rs2014Pack = "";
             string rs1MainPack = "";
             string rs1DLCPack = "";
             var rocksmithProcess = Process.GetProcessesByName("Rocksmith2014.exe");
 
             List<string> rs1DLCFiles = Directory.EnumerateFiles(Path.Combine(mySettings.RSInstalledDir, "dlc"), "rs1compatibilitydlc*", SearchOption.AllDirectories).Where(sp => !sp.Contains(".disabled")).ToList();
             List<string> rs1Files = Directory.EnumerateFiles(Path.Combine(mySettings.RSInstalledDir, "dlc"), "rs1compatibilitydisc*", SearchOption.AllDirectories).Where(sp => !sp.Contains(".disabled")).ToList();
+            List<string> rs2014Files = Directory.EnumerateFiles(Path.Combine(mySettings.RSInstalledDir, "dlc"), "cache.psarc*", SearchOption.AllDirectories).Where(sp => !sp.Contains(".disabled")).ToList();
 
             frmComboBoxPopup comboPopup = new frmComboBoxPopup();
 
-            if (rs1DLCFiles.Count > 0)
+            bWorker = new AbortableBackgroundWorker();
+            bWorker.DoWork += delegate
             {
-                comboPopup.ComboBoxItems.Add("Select a setlist");
-
-                foreach (string rs1DLCFile in rs1DLCFiles)
-                    comboPopup.ComboBoxItems.Add(new FileInfo(rs1DLCFile).Directory.Name);
-
-                comboPopup.LblText = "Select a RS1 DLC pack to restore from the selected setlist:";
-                comboPopup.FrmText = "Duplicate RS1 DLC pack detected";
-                comboPopup.BtnText = "OK";
-
-                comboPopup.ShowDialog();
-
-                rs1DLCPack = comboPopup.Combo.SelectedItem.ToString();
-
-                if (rs1DLCPack != "Select a setlist")
+                if (rs2014Files.Count > 0)
                 {
+                    comboPopup.ComboBoxItems.Add("Use actual (rootdir) pack");
+
+                    foreach (string rs2014File in rs2014Files)
+                        comboPopup.ComboBoxItems.Add(new FileInfo(rs2014File).Directory.Name);
+
+                    comboPopup.LblText = "Select a RS2014 official song pack to restore from the selected setlist:";
+                    comboPopup.FrmText = "Duplicate RS2014 official song pack detected";
+                    comboPopup.BtnText = "OK";
+                    comboPopup.Combo.SelectedIndex = 0;
+
+                    comboPopup.ShowDialog();
+
+                    rs2014Pack = comboPopup.Combo.SelectedItem.ToString();
+
+                    if (rs2014Pack != "Use actual (rootdir) pack")
+                    {
+                        foreach (string rs2014File in rs2014Files)
+                        {
+                            if (Path.GetDirectoryName(rs2014File) != Path.Combine(mySettings.RSInstalledDir, rs2014Pack))
+                            {
+                                File.Move(rs2014File, rs2014File + ".disabled");
+                            }
+                        }
+
+                        if (File.Exists(Path.Combine(mySettings.RSInstalledDir, "dlc", rs2014Pack.Replace("dlc", ""), "cache.psarc")))
+                            File.Copy(Path.Combine(mySettings.RSInstalledDir, "dlc", rs2014Pack.Replace("dlc", ""), "cache.psarc"), Path.Combine(mySettings.RSInstalledDir, "cache.psarc"), true);
+                        else if (File.Exists(Path.Combine(mySettings.RSInstalledDir, "dlc", rs2014Pack.Replace("dlc", ""), "cache.psarc.disabled")))
+                            File.Copy(Path.Combine(mySettings.RSInstalledDir, "dlc", rs2014Pack.Replace("dlc", ""), "cache.psarc.disabled"), Path.Combine(mySettings.RSInstalledDir, "cache.psarc"), true);
+                    }
+                }
+
+                if (rs1DLCFiles.Count > 1)
+                {
+                    comboPopup.ComboBoxItems.Add("Select a setlist");
+
                     foreach (string rs1DLCFile in rs1DLCFiles)
+                        comboPopup.ComboBoxItems.Add(new FileInfo(rs1DLCFile).Directory.Name);
+
+                    comboPopup.LblText = "Select a RS1 DLC pack to restore from the selected setlist:";
+                    comboPopup.FrmText = "Duplicate RS1 DLC pack detected";
+                    comboPopup.BtnText = "OK";
+
+                    comboPopup.ShowDialog();
+
+                    rs1DLCPack = comboPopup.Combo.SelectedItem.ToString();
+
+                    if (rs1DLCPack != "Select a setlist")
                     {
-                        if (Path.GetDirectoryName(rs1DLCFile) != Path.Combine(mySettings.RSInstalledDir, "dlc", rs1DLCPack))
+                        foreach (string rs1DLCFile in rs1DLCFiles)
                         {
-                            File.Move(rs1DLCFile, rs1DLCFile.Replace("_p.psarc", "_p.disabled.psarc"));
+                            if (Path.GetDirectoryName(rs1DLCFile) != Path.Combine(mySettings.RSInstalledDir, "dlc", rs1DLCPack))
+                            {
+                                File.Move(rs1DLCFile, rs1DLCFile.Replace("_p.psarc", "_p.disabled.psarc"));
+                            }
                         }
                     }
                 }
-            }
 
-            if (rs1Files.Count > 0)
-            {
-                comboPopup.ComboBoxItems.Clear();
-                comboPopup.ComboBoxItems.Add("Select a setlist");
-
-                foreach (string rs1File in rs1Files)
-                    comboPopup.ComboBoxItems.Add(new FileInfo(rs1File).Directory.Name);
-
-                comboPopup.LblText = "Select a RS1 pack to restore from the selected setlist:";
-                comboPopup.FrmText = "Duplicate RS1 pack detected";
-                comboPopup.BtnText = "OK";
-
-                comboPopup.ShowDialog();
-
-                rs1MainPack = comboPopup.Combo.SelectedItem.ToString();
-
-                if (rs1MainPack != "Select a setlist")
+                if (rs1Files.Count > 1)
                 {
+                    comboPopup.ComboBoxItems.Clear();
+                    comboPopup.ComboBoxItems.Add("Select a setlist");
+
                     foreach (string rs1File in rs1Files)
+                        comboPopup.ComboBoxItems.Add(new FileInfo(rs1File).Directory.Name);
+
+                    comboPopup.LblText = "Select a RS1 pack to restore from the selected setlist:";
+                    comboPopup.FrmText = "Duplicate RS1 pack detected";
+                    comboPopup.BtnText = "OK";
+
+                    comboPopup.ShowDialog();
+
+                    rs1MainPack = comboPopup.Combo.SelectedItem.ToString();
+
+                    if (rs1MainPack != "Select a setlist")
                     {
-                        if (Path.GetDirectoryName(rs1File) != Path.Combine(mySettings.RSInstalledDir, "dlc", rs1MainPack))
+                        foreach (string rs1File in rs1Files)
                         {
-                            File.Move(rs1File, rs1File.Replace("_p.psarc", "_p.disabled.psarc"));
+                            if (Path.GetDirectoryName(rs1File) != Path.Combine(mySettings.RSInstalledDir, "dlc", rs1MainPack))
+                            {
+                                File.Move(rs1File, rs1File.Replace("_p.psarc", "_p.disabled.psarc"));
+                            }
                         }
                     }
                 }
-            }
 
-            if (rocksmithProcess.Length > 0)
-                MessageBox.Show("Rocksmith is already running!");
-            else
-                Process.Start("steam://rungameid/221680");
+                if (rocksmithProcess.Length > 0)
+                    MessageBox.Show("Rocksmith is already running!");
+                else
+                    Process.Start("steam://rungameid/221680");
+            };
+            bWorker.RunWorkerAsync();
         }
         #region Setlists
         private void linkOpenSngMgrHelp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -2449,37 +2517,61 @@ namespace CustomsForgeManager_Winforms.Forms
 
         private void btnRemoveSongsFromSetlist_Click(object sender, EventArgs e)
         {
+            bool permaDelete = false;
             try
             {
                 foreach (DataGridViewRow row in dgvDLCsInSetlist.Rows)
                 {
                     if (DirOK())
                     {
-                        string dlcFolderPath = Path.Combine(mySettings.RSInstalledDir, "dlc");
-                        string setlistSongPath = Path.Combine(dlcFolderPath, dgvSetlists.SelectedRows[0].Cells["colSetlist"].Value.ToString());
-                        string songPath = row.Cells["colDLCPath"].Value.ToString();
-                        string finalSongPath = Path.Combine(dlcFolderPath, Path.GetFileName(songPath)).Replace("_p.disabled.psarc", "_p.psarc");
-
-                        var song = SongCollection.FirstOrDefault(sng => sng.Path == songPath);
-
-                        if (checkDeleteSongsAndSetlists.Checked)
+                        if (row.Selected || Convert.ToBoolean(row.Cells["colDLCSelect"].Value) == true)
                         {
-                            File.Delete(songPath);
-                            SongCollection.Remove(song);
+                            if (checkDeleteSongsAndSetlists.Checked)
+                            {
+                                var confirmResult = MessageBox.Show("Are you sure you want to permanently delete all selected songs?", "Permanently delete songs?", MessageBoxButtons.YesNo);
+                                if (confirmResult == DialogResult.Yes)
+                                    permaDelete = true;
+                            }
+
+                            string dlcFolderPath = Path.Combine(mySettings.RSInstalledDir, "dlc");
+                            string setlistSongPath = Path.Combine(dlcFolderPath, dgvSetlists.SelectedRows[0].Cells["colSetlist"].Value.ToString());
+                            string songPath = row.Cells["colDLCPath"].Value.ToString();
+                            string finalSongPath = Path.Combine(dlcFolderPath, Path.GetFileName(songPath)).Replace("_p.disabled.psarc", "_p.psarc");
+
+                            var song = SongCollection.FirstOrDefault(sng => sng.Path == songPath);
+
+                            if (permaDelete || songPath.Contains("rs1comp") || songPath.Contains("cache.psarc"))
+                            {
+                                File.Delete(songPath);
+                                SongCollection.Remove(song);
+                                dgvDLCsInSetlist.Rows.Remove(row);
+                            }
+                            else if (!checkDeleteSongsAndSetlists.Checked)
+                            {
+                                if (File.Exists(finalSongPath))
+                                    File.Delete(finalSongPath);
+
+                                if (File.Exists(finalSongPath.Replace("_p.psarc", "_p.disabled.psarc")))
+                                    File.Delete(finalSongPath.Replace("_p.psarc", "_p.disabled.psarc"));
+
+                                if (File.Exists(finalSongPath + ".disabled"))
+                                    File.Delete(finalSongPath + ".disabled");
+
+                                File.Move(songPath, finalSongPath);
+                                dgvUnsortedDLCs.Rows.Add(false, "Yes", song.Artist, song.Album, finalSongPath);
+                                dgvUnsortedDLCs.Sort(dgvUnsortedDLCs.Columns["colUnsortedSong"], ListSortDirection.Ascending);
+
+                                dgvDLCsInSetlist.Rows.Remove(row);
+                            }
+                            else if (permaDelete == false)
+                            {
+                                continue;
+                            }
                         }
                         else
                         {
-                            if (File.Exists(finalSongPath))
-                                File.Delete(finalSongPath);
-                            File.Move(songPath, finalSongPath);
-                            dgvUnsortedDLCs.Rows.Add(false, "Yes", song.Artist, song.Album, finalSongPath);
+                            MessageBox.Show("Please fill RS path textbox!", "RS path empty!");
                         }
-
-                        dgvDLCsInSetlist.Rows.Remove(row);
-                    }
-                    else
-                    {
-                        MessageBox.Show("Please fill RS path textbox!", "RS path empty!");
                     }
                 }
             }
@@ -2507,13 +2599,21 @@ namespace CustomsForgeManager_Winforms.Forms
 
                             File.Move(song.Path, newPath);
 
-                            dgvDLCsInSetlist.Rows.Add(song.Artist, song.Song, song.Album, Path.GetFileName(newPath));
+                            song.Path = newPath;
+
+                            dgvDLCsInSetlist.Rows.Add(false, song.Artist, song.Song, song.Album, Path.GetFileName(newPath));
                         }
 
-                        if (row.Cells["colSetlistEnabled"].Value == "Yes")
+                        if (row.Cells["colSetlistEnabled"].Value.ToString() == "Yes")
+                        {
                             row.Cells["colSetlistEnabled"].Value = "No";
+                            row.DefaultCellStyle.BackColor = Color.LightGray;
+                        }
                         else
+                        {
                             row.Cells["colSetlistEnabled"].Value = "Yes";
+                            row.DefaultCellStyle.BackColor = Color.White;
+                        }
                     }
                 }
             }
@@ -2521,49 +2621,102 @@ namespace CustomsForgeManager_Winforms.Forms
 
         private void btnDeleteSelectedSetlist_Click(object sender, EventArgs e)
         {
-            try
+            bWorker = new AbortableBackgroundWorker();
+            bWorker.DoWork += delegate
             {
-                foreach (DataGridViewRow row in dgvSetlists.Rows)
+                try
                 {
-                    if (Convert.ToBoolean(row.Cells["colSetlistSelect"].Value) == true || row.Selected)
+                    foreach (DataGridViewRow row in dgvSetlists.Rows)
                     {
-                        if (DirOK())
+                        if (Convert.ToBoolean(row.Cells["colSetlistSelect"].Value) == true || row.Selected)
                         {
-                            string setlistPath = Path.Combine(mySettings.RSInstalledDir, "dlc", row.Cells["colSetlist"].Value.ToString());
-
-                            if (Directory.Exists(setlistPath))
+                            if (DirOK())
                             {
-                                string[] songs = Directory.GetFiles(setlistPath);
+                                string setlistName = row.Cells["colSetlist"].Value.ToString();
+                                string setlistPath = Path.Combine(mySettings.RSInstalledDir, "dlc", setlistName);
 
-                                if (checkDeleteSongsAndSetlists.Checked)
+                                if (Directory.Exists(setlistPath))
                                 {
-                                    foreach (string song in songs)
+                                    string[] songs = Directory.GetFiles(setlistPath);
+
+                                    if (checkDeleteSongsAndSetlists.Checked)
                                     {
-                                        var songToBeDeleted = SongCollection.FirstOrDefault(sng => sng.Path == song);
-                                        SongCollection.Remove(songToBeDeleted);
+                                        var confirmResult = MessageBox.Show("Are you sure you want to permanently delete this setlist (" + setlistName + ") and all songs it contains?",
+                                        "Permanently delete setlist?", MessageBoxButtons.YesNo);
+                                        if (confirmResult == DialogResult.Yes)
+                                        {
+                                            foreach (string song in songs)
+                                            {
+                                                var songToBeDeleted = SongCollection.FirstOrDefault(sng => sng.Path == song);
+                                                SongCollection.Remove(songToBeDeleted);
+                                            }
+                                            Directory.Delete(setlistPath, true);
+                                        }
                                     }
-                                    Directory.Delete(setlistPath, true);
-                                    dgvSetlists.Rows.Remove(row);
-                                }
-                                else
-                                {
-                                    foreach (string song in songs)
+                                    else
                                     {
-                                        if (song.Contains("dlc"))
-                                            File.Move(song, song.Replace(row.Cells["colSetlist"].Value.ToString(), ""));
+                                        foreach (string songPath in songs)
+                                        {
+                                            var song = SongCollection.FirstOrDefault(sng => sng.Path == songPath);
+
+                                            if (songPath.Contains("dlc"))
+                                            {
+                                                string finalSongPath = songPath.Replace(row.Cells["colSetlist"].Value.ToString(), "").Replace("_p.disabled.psarc", "_p.psarc");
+
+                                                dgvSongs.InvokeIfRequired(delegate
+                                                {
+                                                    if (File.Exists(finalSongPath))
+                                                    {
+                                                        var songDupe = SongCollection.FirstOrDefault(sng => sng.Path == finalSongPath);
+
+                                                        File.Delete(finalSongPath);
+
+                                                        SongCollection.Remove(songDupe);
+                                                    }
+
+                                                    if (File.Exists(finalSongPath + ".disabled"))
+                                                    {
+                                                        var songDupe = SongCollection.FirstOrDefault(sng => sng.Path == (finalSongPath + ".disabled"));
+
+                                                        File.Delete(finalSongPath + ".disabled");
+
+                                                        SongCollection.Remove(songDupe);
+                                                    }
+
+                                                    if (File.Exists(finalSongPath.Replace("_p.psarc", "_p.disabled.psarc")))
+                                                    {
+                                                        var songDupe = SongCollection.FirstOrDefault(sng => sng.Path == finalSongPath);
+
+                                                        File.Delete(finalSongPath.Replace("_p.psarc", "_p.disabled.psarc"));
+
+                                                        SongCollection.Remove(songDupe);
+                                                    }
+                                                });
+
+                                                File.Move(songPath, finalSongPath);
+
+                                                song.Path = finalSongPath;
+                                            }
+
+                                            dgvUnsortedDLCs.Rows.Add(false, "Yes", song.Artist, song.Song, song.Path);
+                                        }
+
+                                        Directory.Delete(setlistPath, true);
+                                        dgvUnsortedDLCs.Sort(dgvUnsortedDLCs.Columns["colUnsortedSong"], ListSortDirection.Ascending);
                                     }
-                                    Directory.Delete(setlistPath, true);
+
                                     dgvSetlists.Rows.Remove(row);
                                 }
                             }
                         }
                     }
                 }
-            }
-            catch (IOException ex)
-            {
-                MessageBox.Show("Unable to delete the song archive! \n" + ex.ToString(), "IO Error");
-            }
+                catch (IOException ex)
+                {
+                    MessageBox.Show("Unable to delete the song archive! \n" + ex.ToString(), "IO Error");
+                }
+            };
+            bWorker.RunWorkerAsync();
         }
         private void btnEnableAllSetlists_Click(object sender, EventArgs e)
         {
@@ -2579,15 +2732,22 @@ namespace CustomsForgeManager_Winforms.Forms
                             if (Convert.ToBoolean(row.Cells["colSetlistSelect"].Value) == true || row.Selected)
                             {
                                 string setlistPath = Path.Combine(mySettings.RSInstalledDir, "dlc", row.Cells["colSetlist"].Value.ToString());
+                                string finalPath = "";
                                 List<string> setlistDisabledSongs = Directory.GetFiles(setlistPath).Where(sng => sng.Contains(".disabled")).ToList();
 
-                                foreach (string song in setlistDisabledSongs)
+                                foreach (string songPath in setlistDisabledSongs)
                                 {
-                                    File.Move(song, song.Replace("_p.psarc", "_p.disabled.psarc"));
+                                    var song = SongCollection.FirstOrDefault(sng => sng.Path == songPath);
+                                    finalPath = songPath.Replace("_p.psarc", "_p.disabled.psarc");
+
+                                    File.Move(songPath, finalPath);
+
+                                    song.Path = finalPath;
 
                                     dgvSetlists.InvokeIfRequired(delegate
                                     {
                                         row.Cells["colSetlistEnabled"].Value = "Yes";
+                                        row.DefaultCellStyle.BackColor = Color.White;
                                     });
                                 }
                             }
@@ -2606,59 +2766,77 @@ namespace CustomsForgeManager_Winforms.Forms
         #region Unsorted songs
         private void btnMoveSongToSetlist_Click(object sender, EventArgs e)
         {
-            try
+            List<DataGridViewRow> rowsToDelete = new List<DataGridViewRow>();
+            bWorker = new AbortableBackgroundWorker();
+            bWorker.DoWork += delegate
             {
-                foreach (DataGridViewRow row in dgvSetlists.Rows)
+                try
                 {
-                    if (Convert.ToBoolean(row.Cells["colSetlistSelect"].Value) == true || row.Selected)
+                    foreach (DataGridViewRow row in dgvSetlists.Rows)
                     {
-                        foreach (DataGridViewRow unsortedRow in dgvUnsortedDLCs.Rows)
+                        if (Convert.ToBoolean(row.Cells["colSetlistSelect"].Value) == true || row.Selected)
                         {
-                            if (DirOK())
+                            foreach (DataGridViewRow unsortedRow in dgvUnsortedDLCs.Rows)
                             {
-                                if (unsortedRow.Selected || (bool)unsortedRow.Cells["colUnsortedSelect"].Value == true)
+                                if (DirOK())
                                 {
-                                    string songPath = unsortedRow.Cells["colUnsortedPath"].Value.ToString();
-                                    string setlistSongPath = Path.Combine(mySettings.RSInstalledDir, "dlc", row.Cells["colSetlist"].Value.ToString());
-
-                                    var song = SongCollection.FirstOrDefault(sng => sng.Path == songPath);
-
-                                    if (row.Cells["colSetlistEnabled"].Value == "Yes")
+                                    if (unsortedRow.Selected || (bool)unsortedRow.Cells["colUnsortedSelect"].Value == true)
                                     {
-                                        if (File.Exists(Path.Combine(setlistSongPath, songPath.Replace(".disabled", ""))))
-                                            File.Delete(Path.Combine(setlistSongPath, songPath.Replace(".disabled", "")));
-                                        File.Move(songPath, Path.Combine(setlistSongPath, songPath.Replace(".disabled", "")));
-                                    }
-                                    else
-                                    {
-                                        if (unsortedRow.Cells["colUnsortedEnabled"].Value.ToString() == "No")
-                                        {
-                                            if (File.Exists(Path.Combine(setlistSongPath, songPath)))
-                                                File.Delete(Path.Combine(setlistSongPath, songPath));
-                                            File.Move(songPath, Path.Combine(setlistSongPath, songPath));
-                                        }
+                                        string songPath = unsortedRow.Cells["colUnsortedPath"].Value.ToString();
+                                        string setlistPath = Path.Combine(mySettings.RSInstalledDir, "dlc", row.Cells["colSetlist"].Value.ToString());
+                                        string finalSongPath = "";
+
+                                        bool setlistEnabled = row.Cells["colSetlistEnabled"].Value.ToString() == "Yes" ? true : false;
+
+                                        var song = SongCollection.FirstOrDefault(sng => sng.Path == songPath);
+
+                                        if (row.Cells["colSetlistEnabled"].Value == "Yes")
+                                            finalSongPath = Path.Combine(setlistPath, Path.GetFileName(songPath.Replace(".disabled", "")));
                                         else
                                         {
-                                            if (File.Exists(Path.Combine(setlistSongPath, songPath.Replace("_p.psarc", "_p.disabled.psarc"))))
-                                                File.Delete(Path.Combine(setlistSongPath, songPath.Replace("_p.psarc", "_p.disabled.psarc")));
-                                            File.Move(songPath, Path.Combine(setlistSongPath, songPath.Replace("_p.psarc", "_p.disabled.psarc")));
-                                        }
-                                    }
+                                            finalSongPath = Path.Combine(setlistPath, Path.GetFileName(songPath));
 
-                                    dgvUnsortedDLCs.Rows.Remove(unsortedRow);
-                                    dgvDLCsInSetlist.Rows.Add(song.Artist, song.Song, song.Album, song.Path);
+                                            if (unsortedRow.Cells["colUnsortedEnabled"].Value.ToString() != "No")
+                                                finalSongPath = finalSongPath.Replace("_p.psarc", "_p.disabled.psarc");
+                                        }
+
+                                        if (File.Exists(finalSongPath))
+                                            File.Delete(finalSongPath);
+                                        File.Move(songPath, finalSongPath);
+
+                                        dgvDLCsInSetlist.InvokeIfRequired(delegate
+                                        {
+                                            dgvDLCsInSetlist.Rows.Add(song.Artist, song.Song, song.Album, song.Path);
+
+                                            if (row == dgvSetlists.SelectedRows[0])
+                                            {
+                                                if (setlistEnabled)
+                                                    dgvDLCsInSetlist.Rows.Add(false, "Yes", song.Artist, song.Song, song.Album, song.Path);
+                                                else
+                                                    dgvDLCsInSetlist.Rows.Add(false, "No", song.Artist, song.Song, song.Album, song.Path);
+                                            }
+                                        });
+
+                                        dgvUnsortedDLCs.InvokeIfRequired(delegate
+                                        {
+                                            dgvUnsortedDLCs.Rows.Remove(unsortedRow);
+                                        });
+
+                                        song.Path = finalSongPath;
+                                    }
                                 }
                             }
+                            //   row.Selected = false;
+                            //   row.Cells["colSelect"].Value = false;
                         }
-                        //   row.Selected = false;
-                        //   row.Cells["colSelect"].Value = false;
                     }
                 }
-            }
-            catch (IOException ex)
-            {
-                MessageBox.Show("Unable to move the song(s) to the setlist! \n" + ex.ToString(), "IO Error");
-            }
+                catch (IOException ex)
+                {
+                    MessageBox.Show("Unable to move the song(s) to the setlist! \n" + ex.ToString(), "IO Error");
+                }
+            };
+            bWorker.RunWorkerAsync();
         }
 
         private void btnEnableDisableSelectedSongs_Click(object sender, EventArgs e)
@@ -2672,16 +2850,30 @@ namespace CustomsForgeManager_Winforms.Forms
                         if (Convert.ToBoolean(row.Cells["colUnsortedSelect"].Value) == true || row.Selected)
                         {
                             string songPath = row.Cells["colUnsortedPath"].Value.ToString();
+                            string finalSongPath = "";
+                            var song = SongCollection.FirstOrDefault(sng => sng.Path == songPath);
+
                             if (row.Cells["colUnsortedEnabled"].Value.ToString() == "No")
                             {
-                                File.Move(songPath.Replace("_p.psarc", "_p.disabled.psarc"), songPath);
+                                finalSongPath = songPath.Replace("_p.disabled.psarc", "_p.psarc");
+
+                                File.Move(songPath, finalSongPath);
+
                                 row.Cells["colUnsortedEnabled"].Value = "Yes";
+                                row.DefaultCellStyle.BackColor = Color.White;
                             }
                             else
                             {
-                                File.Move(songPath, songPath.Replace("_p.psarc", "_p.disabled.psarc"));
+                                finalSongPath = songPath.Replace("_p.psarc", "_p.disabled.psarc");
+
+                                File.Move(songPath, finalSongPath);
+
                                 row.Cells["colUnsortedEnabled"].Value = "No";
+                                row.DefaultCellStyle.BackColor = Color.LightGray;
                             }
+
+                            song.Path = finalSongPath;
+                            row.Cells["colUnsortedPath"].Value = finalSongPath;
                         }
                     }
                 }
@@ -2694,31 +2886,49 @@ namespace CustomsForgeManager_Winforms.Forms
 
         private void btnDeleteSelectedSongs_Click(object sender, EventArgs e)
         {
-            try
+            List<DataGridViewRow> rowsToDelete = new List<DataGridViewRow>();
+            bWorker = new AbortableBackgroundWorker();
+            bWorker.DoWork += delegate
             {
-                if (DirOK())
+                try
                 {
-                    foreach (DataGridViewRow row in dgvUnsortedDLCs.Rows)
+                    if (DirOK())
                     {
-                        if (Convert.ToBoolean(row.Cells["colUnsortedSelect"].Value) == true || row.Selected)
+                        var confirmResult = MessageBox.Show("Are you sure you want to permanently delete all selected songs?", "Permanently delete songs?", MessageBoxButtons.YesNo);
+                        if (confirmResult == DialogResult.Yes)
                         {
-                            string songPath = row.Cells["colUnsortedPath"].Value.ToString();
-                            var sngToBeDeleted = SongCollection.FirstOrDefault(sng => sng.Path == songPath);
+                            foreach (DataGridViewRow row in dgvUnsortedDLCs.Rows)
+                            {
+                                if (Convert.ToBoolean(row.Cells["colUnsortedSelect"].Value) == true || row.Selected)
+                                {
+                                    string songPath = row.Cells["colUnsortedPath"].Value.ToString();
+                                    var song = SongCollection.FirstOrDefault(sng => sng.Path == songPath);
 
-                            File.Delete(songPath);
+                                    File.Delete(songPath);
 
-                            if (!File.Exists(songPath))
-                                dgvUnsortedDLCs.Rows.Remove(row);
+                                    if (!File.Exists(songPath))
+                                        rowsToDelete.Add(row);
 
-                            SongCollection.Remove(sngToBeDeleted);
+                                    dgvSongs.InvokeIfRequired(delegate
+                                    {
+                                        SongCollection.Remove(song);
+                                    });
+                                }
+                            }
                         }
+                        dgvUnsortedDLCs.InvokeIfRequired(delegate
+                        {
+                            foreach (DataGridViewRow dataGridViewRow in rowsToDelete)
+                                dgvUnsortedDLCs.Rows.Remove(dataGridViewRow);
+                        });
                     }
                 }
-            }
-            catch (IOException ex)
-            {
-                MessageBox.Show("Unable to delete selected song(s)! Error: \n\n" + ex.ToString());
-            }
+                catch (IOException ex)
+                {
+                    MessageBox.Show("Unable to delete selected song(s)! Error: \n\n" + ex.ToString());
+                }
+            };
+            bWorker.RunWorkerAsync();
         }
         #endregion
 
@@ -2766,7 +2976,20 @@ namespace CustomsForgeManager_Winforms.Forms
                                 MessageBox.Show("Unable to disable the offical song pack(s)! Error: \n\n" + ex.ToString());
                             }
 
-                            row.Cells["colOfficialEnabled"].Value = row.Cells["colOfficialEnabled"].Value.ToString() == "Yes" ? "No" : "Yes";
+                            if (row.Cells["colOfficialEnabled"].Value == "Yes")
+                            {
+                                row.Cells["colOfficialEnabled"].Value = "No";
+                                row.DefaultCellStyle.BackColor = Color.LightGray;
+                                row.Selected = false;
+                                row.Cells["colOfficialSelect"].Value = false;
+                            }
+                            else
+                            {
+                                row.Cells["colOfficialEnabled"].Value = "Yes";
+                                row.DefaultCellStyle.BackColor = Color.White;
+                                row.Selected = false;
+                                row.Cells["colOfficialSelect"].Value = false;
+                            }
                         }
                     }
                 }
@@ -2797,16 +3020,22 @@ namespace CustomsForgeManager_Winforms.Forms
                                     {
                                         if (File.Exists(finalSongPackPath))
                                             File.Delete(finalSongPackPath);
-                                        File.Move(songPackPath, finalSongPackPath);
+                                        File.Copy(songPackPath, finalSongPackPath);
                                     }
                                     else
                                     {
-                                        if (File.Exists(finalSongPackPath.Replace("_p.psarc", "_p.disabled.psarc")))
-                                            File.Delete(finalSongPackPath.Replace("_p.psarc", "_p.disabled.psarc"));
-                                        File.Move(songPackPath.Replace("_p.psarc", "_p.disabled.psarc"), finalSongPackPath.Replace("_p.psarc", "_p.disabled.psarc"));
+                                        finalSongPackPath = finalSongPackPath.Replace("_p.psarc", "_p.disabled.psarc");
+                                        songPackPath = songPackPath.Replace("_p.psarc", "_p.disabled.psarc");
+
+                                        if (File.Exists(finalSongPackPath))
+                                            File.Delete(finalSongPackPath);
+                                        File.Copy(songPackPath, finalSongPackPath);
                                     }
 
                                     dgvOfficialSongs.Rows.Remove(officialSPRow);
+
+                                    var song = new SongData { Song = songPack.Replace(".psarc", ""), Artist = "Ubisoft", Author = "Ubisoft", Path = finalSongPackPath };
+                                    SongCollection.Add(song);
                                 }
                             }
                         }
@@ -2840,12 +3069,18 @@ namespace CustomsForgeManager_Winforms.Forms
                 {
                     if (File.Exists(rs1BackupPath))
                     {
+                        if (File.Exists(rs1FinalPath.Replace("_p.psarc", "_p.disabled.psarc")))
+                            File.Delete(rs1FinalPath.Replace("_p.psarc", "_p.disabled.psarc"));
+
                         File.Copy(rs1BackupPath, rs1FinalPath, true);
                         if (dgvOfficialSongs.Rows.Cast<DataGridViewRow>().Where(row => row.Cells["colOfficialSong"].Value.ToString().Contains("disc")).ToList().Count == 0)
                             dgvOfficialSongs.Rows.Add(false, "Yes", "rs1compatibilitydisc_p.psarc");
                     }
                     if (File.Exists(rs1DLCBackupPath))
                     {
+                        if (File.Exists(rs1DLCFinalPath.Replace("_p.psarc", "_p.disabled.psarc")))
+                            File.Delete(rs1DLCFinalPath.Replace("_p.psarc", "_p.disabled.psarc"));
+
                         File.Copy(rs1DLCBackupPath, rs1DLCFinalPath, true);
                         if (dgvOfficialSongs.Rows.Cast<DataGridViewRow>().Where(row => row.Cells["colOfficialSong"].Value.ToString().Contains("dlc")).ToList().Count == 0)
                             dgvOfficialSongs.Rows.Add(false, "Yes", "rs1compatibilitydlc_p.psarc");
@@ -2878,5 +3113,38 @@ namespace CustomsForgeManager_Winforms.Forms
             lbl_ShowHideLog.Text = scMain.Panel2Collapsed ? "Show Log" : "Hide Log";
         }
         #endregion
+
+        private void listDisabledColumns_ItemChecked(object sender, ItemCheckedEventArgs e)
+        {
+            DataGridViewColumn column = dgvSongs.Columns[e.Item.SubItems[1].Text];
+            if (column != null)
+                column.Visible = e.Item.Checked;
+        }
+
+        private void lnk_SettingsSelectAllColumns_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            bool deselect = listDisabledColumns.Items[1].Checked;
+
+            for (int i = 1; i < listDisabledColumns.Items.Count; i++)
+            {
+                listDisabledColumns.Items[i].Checked = !deselect;
+            }
+        }
+
+        private void tbUnsortedSearch_TextChanged(object sender, EventArgs e)
+        {
+            if (tbUnsortedSearch.Text != "Search")
+            {
+                dgvUnsortedDLCs.Rows.Clear();
+                foreach (var song in SongCollection.Where(sng => sng.Artist.ToLower().Contains(tbUnsortedSearch.Text.ToLower()) ||
+                    sng.Song.ToLower().Contains(tbUnsortedSearch.Text.ToLower()) && Path.GetFileName(Path.GetDirectoryName(sng.Path)) == "dlc"))
+                {
+                    if (song.Path.Contains(".disabled"))
+                        dgvUnsortedDLCs.Rows.Add(false, "No", song.Artist, song.Song, song.Path);
+                    else
+                        dgvUnsortedDLCs.Rows.Add(false, "Yes", song.Artist, song.Song, song.Path);
+                }
+            }
+        }
     }
 }
