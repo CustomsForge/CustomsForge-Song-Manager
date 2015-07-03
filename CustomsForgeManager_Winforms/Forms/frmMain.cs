@@ -1385,7 +1385,7 @@ namespace CustomsForgeManager_Winforms.Forms
                         profilePath = info.FullName;
                     }
                 }
-                if (File.Exists(profilePath))
+                if (Directory.Exists(profilePath))
                 {
                     ZipFile.CreateFromDirectory(profilePath, backupPath);
                     Log("Backup created at " + backupPath, 100);
@@ -1511,9 +1511,15 @@ namespace CustomsForgeManager_Winforms.Forms
         {
             try
             {
-                File.Delete(SongCollection[dgvSongs.SelectedRows[0].Index].Path);
-                SongCollection.RemoveAt(dgvSongs.SelectedRows[0].Index);
-                dgvSongs.Rows.RemoveAt(dgvSongs.SelectedRows[0].Index);
+                if (
+                    MessageBox.Show("Do you really want to remove this CDLC? This cannot be undone?", "Warning",
+                        MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) ==
+                    DialogResult.Yes)
+                {
+                    File.Delete(SongCollection[dgvSongs.SelectedRows[0].Index].Path);
+                    SongCollection.RemoveAt(dgvSongs.SelectedRows[0].Index);
+                    dgvSongs.Rows.RemoveAt(dgvSongs.SelectedRows[0].Index);
+                }
             }
             catch (IOException ex)
             {
