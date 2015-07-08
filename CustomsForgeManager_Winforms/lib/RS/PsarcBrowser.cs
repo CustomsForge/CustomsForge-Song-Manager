@@ -1,23 +1,16 @@
-﻿using CustomsForgeManager_Winforms.Utilities;
-
-using Newtonsoft.Json;
+﻿using CustomsForgeManager_Winforms.Models;
 using Newtonsoft.Json.Linq;
-using RocksmithToolkitLib;
 using RocksmithToolkitLib.DLCPackage;
-using RocksmithToolkitLib.DLCPackage.Manifest;
 using RocksmithToolkitLib.Extensions;
 using RocksmithToolkitLib.PSARC;
-using RocksmithToolkitLib.Sng2014HSL;
-using RocksmithToolkitLib.Xml;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace CustomsForgeManager_Winforms
+namespace CustomsForgeManager_Winforms.lib.RS
 {
     public class PsarcBrowser : IDisposable
     {

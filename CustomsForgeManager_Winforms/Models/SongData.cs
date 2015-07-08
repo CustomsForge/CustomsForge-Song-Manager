@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Xml.Serialization;
 
-namespace CustomsForgeManager_Winforms
+namespace CustomsForgeManager_Winforms.Models
 {
 
     #region SongDataStatus
@@ -42,10 +43,12 @@ namespace CustomsForgeManager_Winforms
 
         public string Arrangements
         {
-            get
-            {
-                return _arrangements != null ? String.Join(",", _arrangements.Select(x => x.Name).ToArray()) : "";
-            }
+            get { return _arrangements != null ? String.Join(",", _arrangements.Select(x => x.Name).ToArray()) : ""; }
+#if(DEBUG)
+            set { XmlArrangementsHelper(value); } // required for XML file usage 
+            // TODO: convert XmlArrangementsHelper to LINQ
+            // set {AddArrangement(value.Split(',').Select((x) => new SongDataArrangement {Name = x});]
+#endif
         }
 
         public string Author { get; set; }
@@ -54,13 +57,15 @@ namespace CustomsForgeManager_Winforms
         public string FileName
         {
             get { return (new FileInfo(Path).Name); }
+#if (DEBUG)
+            set { } // required for XML file usage
+#endif
         }
 
         public string ToolkitVer { get; set; }
 
 
         private List<SongDataArrangement> _arrangements;
-
 
         public void AddArrangement(SongDataArrangement arrangement)
         {
@@ -69,6 +74,12 @@ namespace CustomsForgeManager_Winforms
             _arrangements.Add(arrangement);
         }
 
+        private void XmlArrangementsHelper(string xmlArrangements)
+        {
+            var arrangements = xmlArrangements.Split(',');
+            foreach (var arrangment in arrangements)
+                AddArrangement(new SongDataArrangement { Name = arrangment });
+        }
     }
 
     [Serializable]

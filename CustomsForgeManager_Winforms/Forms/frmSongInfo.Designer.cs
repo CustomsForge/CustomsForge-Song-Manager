@@ -285,7 +285,7 @@
             this.dgv_Arrangements.AllowUserToDeleteRows = false;
             this.dgv_Arrangements.AllowUserToResizeColumns = false;
             this.dgv_Arrangements.AllowUserToResizeRows = false;
-            this.dgv_Arrangements.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.dgv_Arrangements.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)));
             this.dgv_Arrangements.BackgroundColor = System.Drawing.SystemColors.Control;
             this.dgv_Arrangements.BorderStyle = System.Windows.Forms.BorderStyle.None;

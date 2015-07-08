@@ -1,11 +1,12 @@
 ﻿using System;
+using System.IO;
 
-namespace CustomsForgeManager_Winforms.Utilities
+namespace CustomsForgeManager_Winforms.lib
 {
     public static class Constants
     {
-        public static string DefaultWorkingDirectory { get { return Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\CFM"; } }
-        public static string DefaultLogName { get { return DefaultWorkingDirectory + @"\debug.log"; } }
+        public static string DefaultWorkingDirectory { get { return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "CFM"); } }
+        public static string DefaultLogName { get { return Path.Combine(DefaultWorkingDirectory, "debug.log"); } }
 
         public static string DefaultInfoURL
         {
@@ -25,7 +26,7 @@ namespace CustomsForgeManager_Winforms.Utilities
             get { return @"http://ignition.dev.customsforge.com/api/details"; }
         }
 
-        public static string DefaultCFSongUrl 
+        public static string DefaultCFSongUrl
         {
             get { return @"http://customsforge.com/page/customsforge_rs_2014_cdlc.html/_/pc-enabled-rs-2014-cdlc/"; }
         }

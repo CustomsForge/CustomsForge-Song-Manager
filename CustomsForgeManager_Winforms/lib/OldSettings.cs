@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 
-namespace CustomsForgeManager_Winforms.Utilities
+namespace CustomsForgeManager_Winforms.lib
 {
     [Serializable]
     public class OldSettingsData

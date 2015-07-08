@@ -1,19 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using System.Xml.Serialization;
 using CustomsForgeManager_Winforms.Controls;
-using CustomsForgeManager_Winforms.lib;
 using System.Net;
-using System.Reflection;
+using CustomsForgeManager_Winforms.Models;
 
-namespace CustomsForgeManager_Winforms.Utilities
+namespace CustomsForgeManager_Winforms.lib
 {
     public static class Extensions
     {
@@ -24,13 +20,15 @@ namespace CustomsForgeManager_Winforms.Utilities
             else
                 action(c);
         }
-        public static void Serialize(this object obj, FileStream Stream)
+
+        public static void SerializeBin(this object obj, FileStream Stream)
         {
             BinaryFormatter bin = new BinaryFormatter();
             bin.FilterLevel = System.Runtime.Serialization.Formatters.TypeFilterLevel.Low;
             bin.Serialize(Stream, obj);
         }
-        public static object DeSerialize(this FileStream Stream)
+
+        public static object DeserializeBin(this FileStream Stream)
         {
             object x = null;
             if (Stream.Length > 0)
@@ -54,18 +52,16 @@ namespace CustomsForgeManager_Winforms.Utilities
             return maxDifficulty == "0" ? "No" : "Yes";
         }
 
-
         public static void SetDefaults(this AbortableBackgroundWorker bWorker)
         {
             bWorker.WorkerSupportsCancellation = true;
             bWorker.WorkerReportsProgress = true;
-            
         }
 
         public static string CleanForAPI(this string text)
         {
             //return text.Replace("/", "_"); //.Replace("\\","");
-            var result = text.Replace("/", "_1_").Replace("\\","_2_"); //WebUtility.HtmlEncode(text);
+            var result = text.Replace("/", "_1_").Replace("\\", "_2_"); //WebUtility.HtmlEncode(text);
             return result; //WebUtility.HtmlDecode(text);
         }
 
@@ -82,21 +78,21 @@ namespace CustomsForgeManager_Winforms.Utilities
             string response = "";
             var client = new WebClient();
             client.DownloadStringCompleted += (sender, e) =>
-            {
-                response = e.Result;
+                {
+                    response = e.Result;
 
-                song.IgnitionID = Ignition.GetDLCInfoFromResponse(response, "id");
-                song.IgnitionUpdated = Ignition.GetDLCInfoFromResponse(response, "updated");
-                song.IgnitionVersion = Ignition.GetDLCInfoFromResponse(response, "version");
-                song.IgnitionAuthor = Ignition.GetDLCInfoFromResponse(response, "name");
-            };
+                    song.IgnitionID = Ignition.GetDLCInfoFromResponse(response, "id");
+                    song.IgnitionUpdated = Ignition.GetDLCInfoFromResponse(response, "updated");
+                    song.IgnitionVersion = Ignition.GetDLCInfoFromResponse(response, "version");
+                    song.IgnitionAuthor = Ignition.GetDLCInfoFromResponse(response, "name");
+                };
             client.DownloadStringAsync(new Uri(url));
         }
 
         public static void CheckForUpdateStatus(this SongData currentSong, bool isAsync = false)
         {
             currentSong.Status = SongDataStatus.None;
-            
+
             string url = currentSong.GetInfoURL();
             string response = "";
             string cfUrl = "";
@@ -107,15 +103,12 @@ namespace CustomsForgeManager_Winforms.Utilities
 
             if (!isAsync)
             {
-
                 response = client.DownloadString(new Uri(url));
 
                 currentSong.IgnitionID = Ignition.GetDLCInfoFromResponse(response, "id");
                 currentSong.IgnitionUpdated = Ignition.GetDLCInfoFromResponse(response, "updated");
                 currentSong.IgnitionVersion = Ignition.GetDLCInfoFromResponse(response, "version");
                 currentSong.IgnitionAuthor = Ignition.GetDLCInfoFromResponse(response, "name");
-
-
 
                 if (int.TryParse(currentSong.Version, out version))
                 {
@@ -147,49 +140,44 @@ namespace CustomsForgeManager_Winforms.Utilities
             else
             {
                 client.DownloadStringCompleted += (sender, e) =>
-                {
-
-                    response = e.Result;
-
-                    currentSong.IgnitionID = Ignition.GetDLCInfoFromResponse(response, "id");
-                    currentSong.IgnitionUpdated = Ignition.GetDLCInfoFromResponse(response, "updated");
-                    currentSong.IgnitionVersion = Ignition.GetDLCInfoFromResponse(response, "version");
-                    currentSong.IgnitionAuthor = Ignition.GetDLCInfoFromResponse(response, "name");
-
-
-
-                    if (int.TryParse(currentSong.Version, out version))
                     {
-                        currentSong.Version += ".0";
-                    }
+                        response = e.Result;
 
-                    if (int.TryParse(currentSong.IgnitionVersion, out version))
-                    {
-                        currentSong.IgnitionVersion += ".0";
-                    }
+                        currentSong.IgnitionID = Ignition.GetDLCInfoFromResponse(response, "id");
+                        currentSong.IgnitionUpdated = Ignition.GetDLCInfoFromResponse(response, "updated");
+                        currentSong.IgnitionVersion = Ignition.GetDLCInfoFromResponse(response, "version");
+                        currentSong.IgnitionAuthor = Ignition.GetDLCInfoFromResponse(response, "name");
 
-                    if (currentSong.IgnitionVersion == "No Results")
-                    {
-                        currentSong.Status = SongDataStatus.NotFound;
-                    }
-                    else if (currentSong.Version == "N/A")
-                    {
-                        //TODO: Check for updates by release/update date
-                    }
-                    else if (currentSong.IgnitionVersion != currentSong.Version)
-                    {
-                        currentSong.Status = SongDataStatus.OutDated;
-                    }
-                    else if (currentSong.IgnitionVersion == currentSong.Version)
-                    {
-                        currentSong.Status = SongDataStatus.UpToDate;
-                    }
+                        if (int.TryParse(currentSong.Version, out version))
+                        {
+                            currentSong.Version += ".0";
+                        }
 
-                };
+                        if (int.TryParse(currentSong.IgnitionVersion, out version))
+                        {
+                            currentSong.IgnitionVersion += ".0";
+                        }
+
+                        if (currentSong.IgnitionVersion == "No Results")
+                        {
+                            currentSong.Status = SongDataStatus.NotFound;
+                        }
+                        else if (currentSong.Version == "N/A")
+                        {
+                            //TODO: Check for updates by release/update date
+                        }
+                        else if (currentSong.IgnitionVersion != currentSong.Version)
+                        {
+                            currentSong.Status = SongDataStatus.OutDated;
+                        }
+                        else if (currentSong.IgnitionVersion == currentSong.Version)
+                        {
+                            currentSong.Status = SongDataStatus.UpToDate;
+                        }
+                    };
 
                 client.DownloadStringAsync(new Uri(url));
             }
-
         }
 
         public static string GetVersionFromFileName(this SongData song)
@@ -199,14 +187,35 @@ namespace CustomsForgeManager_Winforms.Utilities
             else
                 return "";
         }
+
         public static void DeleteEmptyDirs(this DirectoryInfo dir)
         {
             foreach (DirectoryInfo d in dir.GetDirectories())
                 d.DeleteEmptyDirs();
 
-            try { dir.Delete(); }
-            catch (IOException) { }
-            catch (UnauthorizedAccessException) { }
+            try
+            {
+                dir.Delete();
+            }
+            catch (IOException)
+            {
+            }
+            catch (UnauthorizedAccessException)
+            {
+            }
         }
+
+        public static void SerializeXml<T>(this T obj, FileStream stream)
+        {
+            XmlSerializer serializer = new XmlSerializer(typeof(T));
+            serializer.Serialize(stream, obj);
+        }
+
+        public static T DeserializeXml<T>(this FileStream stream, T obj)
+        {
+            XmlSerializer serializer = new XmlSerializer(typeof(T));
+            return (T)serializer.Deserialize(stream);
+        }
+
     }
 }

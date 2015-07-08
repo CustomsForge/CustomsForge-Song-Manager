@@ -1,4 +1,22 @@
-﻿0.1.1.66
+﻿0.1.2.0 VS2010, .NET 4.0 compatibility release
+-Added support for WinXp SP3 OS
+-Added support for x86 machines
+-Added zlib.net.dll for .Net 4.0 compatibility
+-Retarget application build for x86 for DLL functionality on all machine types
+-Cleaned up string concatenations for cross platform compatibility
+-Added prompt on initial application startup so that user specifies the Rocksmith installation directory if application does not find it in the Registry.
+-Changed GUI color contrast of dgvSongs, listDupeSongs and listDisabledColumns for better user visual experience
+-Allow users to resize dgvSongs columns and save to settings file
+-Added column to show Column Width changes in listDisabledColumns
+-Fixed reload saved settings and configurations issues on x86 machines
+-Added humanly readable XML serialization and deserialization for debugging settings files
+-Fixed object not set to an instance of an object errors
+-Restructured code efficiency to reduce data being loaded into non viewable tab controls
+-Added additional error checking and log output
+-Fixed issues with rescan and save settings
+
+
+0.1.1.66
 -Modified Credits
 -Font Fixes
 
