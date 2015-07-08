@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 
-namespace CustomsForgeManager_Winforms.Utilities
+namespace CustomsForgeManager_Winforms.lib
 {
     [Serializable]
     public class SettingsData
@@ -39,15 +40,15 @@ namespace CustomsForgeManager_Winforms.Utilities
     [Serializable]
     public class Settings
     {
+
         private SettingsData _settingsData;
-        
+
         //Dictionary<string, List<ColumnOrderItem>> columnOrder = new Dictionary<string, List<ColumnOrderItem>>();
         //public Dictionary<string, List<ColumnOrderItem>> ColumnOrder
         //{
         //    get { return columnOrder as Dictionary<string, List<ColumnOrderItem>>; }
         //    set { columnOrder = value; }
         //}
-
         public RADataGridViewSettings ManagerGridSettings
         {
             get
@@ -61,12 +62,12 @@ namespace CustomsForgeManager_Winforms.Utilities
             }
         }
 
-        public string LogFilePath
+         public string LogFilePath
         {
             get { return _settingsData.LogFilePath; }
             set
             {
-                if (_settingsData == null) 
+                if (_settingsData == null)
                     _settingsData = new SettingsData();
                 _settingsData.LogFilePath = value;
             }
@@ -86,7 +87,7 @@ namespace CustomsForgeManager_Winforms.Utilities
         public bool RescanOnStartup
         {
             get { return _settingsData.RescanOnStartup; }
-            set 
+            set
             {
                 if (_settingsData == null)
                     _settingsData = new SettingsData();
@@ -94,7 +95,7 @@ namespace CustomsForgeManager_Winforms.Utilities
             }
         }
 
-        public bool IncludeRS1DLCs
+         public bool IncludeRS1DLCs
         {
             get { return _settingsData.IncludeRS1DLCs; }
             set
@@ -116,14 +117,14 @@ namespace CustomsForgeManager_Winforms.Utilities
             }
         }
 
-        public bool CheckForUpdateOnScan 
+        public bool CheckForUpdateOnScan
         {
             get { return _settingsData.CheckForUpdateOnScan; }
             set
             {
                 if (_settingsData == null) _settingsData = new SettingsData();
                 _settingsData.CheckForUpdateOnScan = value;
-            } 
+            }
         }
 
         /// <summary>

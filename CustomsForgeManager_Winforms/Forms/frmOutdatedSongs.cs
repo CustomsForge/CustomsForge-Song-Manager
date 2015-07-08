@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using CustomsForgeManager_Winforms.Models;
 
 namespace CustomsForgeManager_Winforms.Forms
 {

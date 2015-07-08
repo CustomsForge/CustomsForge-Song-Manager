@@ -1,11 +1,11 @@
-﻿using CustomsForgeManager_Winforms.Utilities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using CustomsForgeManager_Winforms.lib;
 
 namespace CustomsForgeManager_Winforms.Controls
 {
@@ -13,25 +13,44 @@ namespace CustomsForgeManager_Winforms.Controls
     {
         public void ReLoadColumnOrder(List<ColumnOrderItem> ColumnOrderCollection)
         {
-            if (ColumnOrderCollection != null)
+            int errNdx = 0;
+            try
             {
-                if (Columns.Count > 1)
+                if (ColumnOrderCollection != null)
                 {
-                    var sorted = ColumnOrderCollection.OrderBy(i => i.DisplayIndex);
-                    foreach (var item in sorted)
+                    if (Columns.Count > 1)
                     {
-                        if (item != null)
+                        var sorted = ColumnOrderCollection.OrderBy(i => i.DisplayIndex);
+
+                        // alt method to catch error
+                        // if (sorted.Count() != Columns.Count)
+                        //    return;
+
+                        foreach (var item in sorted)
                         {
-                            this.InvokeIfRequired(delegate
+                            if (item != null)
                             {
-                                Columns[item.ColumnIndex].DisplayIndex = item.DisplayIndex;
-                                Columns[item.ColumnIndex].Visible = item.Visible;
-                                Columns[item.ColumnIndex].Width = item.Width;
-                            });
+                                // for debugging
+                                // Console.WriteLine(item.DisplayIndex + " : " + item.Visible + " : " + item.Width);
+
+                                this.InvokeIfRequired(delegate
+                                    {
+                                        Columns[item.ColumnIndex].DisplayIndex = item.DisplayIndex;
+                                        Columns[item.ColumnIndex].Visible = item.Visible;
+                                        Columns[item.ColumnIndex].Width = item.Width;
+                                    });
+                            }
+                            ++errNdx; // for debugging
                         }
                     }
                 }
             }
+            catch (Exception)
+            {
+                // usually cause by calling method before dgv has columns
+                Console.WriteLine("Failure at Item.ColumnIndex: " + errNdx);
+            }
+
         }
     }
 }

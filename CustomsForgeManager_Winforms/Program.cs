@@ -2,8 +2,8 @@
 using System.Diagnostics;
 using System.Windows.Forms;
 using CustomsForgeManager_Winforms.Forms;
-using CustomsForgeManager_Winforms.Utilities;
-using DLog.NET;
+using CustomsForgeManager_Winforms.lib;
+using DLogNet;
 
 namespace CustomsForgeManager_Winforms
 {

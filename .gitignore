@@ -69,3 +69,8 @@ packages/
 
 #others
 *.jmconfig
+*.bat
+BinForRelease/
+libs/DLogNet/
+libs/AntlrCs/
+
