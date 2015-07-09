@@ -3274,14 +3274,8 @@ namespace CustomsForgeManager_Winforms.Forms
                 case "BATC":
                     PopulateRenamer();
                     break;
-<<<<<<< HEAD
-                case "Setlist Manger":
-                    //   PopulateSongList();
-                    LoadSetlists();
-=======
                 case "SETL":
                     PopulateSongList();
->>>>>>> VS2010Net40
                     break;
                 case "UTIL":
                     // do nothing for now

@@ -138,15 +138,6 @@
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="btnRescan.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
-<<<<<<< HEAD
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6
-        JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAABJElEQVQ4T83RO0vDUBjG8dxD7oRI3NTZ
-        wcHFC4rgoqObg4WOQhVcVEQUQSs6iH4EN3UtXcVREAqKiPhx/J/YlBMTbcHFF37kXHIe3pMo/6YmcYxT
-        yQnm0beG0IYIGZdM4BrTGKswiqymsPM1LNUMLnBV4RI+soBtMfihajj85gCzyEoOcCCulFvBG54rPMFD
-        L2AR7/iQiHnV4dwwegFNlF6yLKsVhmHd87yG7/ubrHWk/UKA+G2Fw0Icx2s8RScvuq7fESS+Qb7/e4Cm
-        aZ0gCDbktSiK1qX5QB2s0vq54zhNDu8xrtPJfXe/f4Cqqg+u6zZM09wyDGM/SZK5NE2XbNu+Zb8QsItS
-        gOS1+3ykgxrXu2EcQBnBMhIc4WwA4o8t4K+lKJ/Cu2OyQ49nfQAAAABJRU5ErkJggg==
-=======
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
         YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAASRJREFUOE/N0TtL
         w1AYxvHcQ+6ESNzU2cHBxQuK4KKjm4OFjkIVXFREFEErOoh+BDd1LV3FURAKioj4cfyf2JQTE23BxRd+
@@ -155,20 +146,10 @@
         L7qu3xEkvkG+/3uApmmdIAg25LUoital+UAdrNL6ueM4TQ7vMa7TyX13v3+AqqoPrus2TNPcMgxjP0mS
         uTRNl2zbvmW/ELCLUoDktft8pIMa17thHEAZwTISHOFsAOKPLeCvpSifwrtjskOPZ30AAAAASUVORK5C
         YII=
->>>>>>> VS2010Net40
 </value>
   </data>
   <data name="btnDupeRescan.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
-<<<<<<< HEAD
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6
-        JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAABJElEQVQ4T83RO0vDUBjG8dxD7oRI3NTZ
-        wcHFC4rgoqObg4WOQhVcVEQUQSs6iH4EN3UtXcVREAqKiPhx/J/YlBMTbcHFF37kXHIe3pMo/6YmcYxT
-        yQnm0beG0IYIGZdM4BrTGKswiqymsPM1LNUMLnBV4RI+soBtMfihajj85gCzyEoOcCCulFvBG54rPMFD
-        L2AR7/iQiHnV4dwwegFNlF6yLKsVhmHd87yG7/ubrHWk/UKA+G2Fw0Icx2s8RScvuq7fESS+Qb7/e4Cm
-        aZ0gCDbktSiK1qX5QB2s0vq54zhNDu8xrtPJfXe/f4Cqqg+u6zZM09wyDGM/SZK5NE2XbNu+Zb8QsItS
-        gOS1+3ykgxrXu2EcQBnBMhIc4WwA4o8t4K+lKJ/Cu2OyQ49nfQAAAABJRU5ErkJggg==
-=======
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
         YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAASRJREFUOE/N0TtL
         w1AYxvHcQ+6ESNzU2cHBxQuK4KKjm4OFjkIVXFREFEErOoh+BDd1LV3FURAKioj4cfyf2JQTE23BxRd+
@@ -177,7 +158,6 @@
         L7qu3xEkvkG+/3uApmmdIAg25LUoital+UAdrNL6ueM4TQ7vMa7TyX13v3+AqqoPrus2TNPcMgxjP0mS
         uTRNl2zbvmW/ELCLUoDktft8pIMa17thHEAZwTISHOFsAOKPLeCvpSifwrtjskOPZ30AAAAASUVORK5C
         YII=
->>>>>>> VS2010Net40
 </value>
   </data>
   <data name="instructionsLabel.Text" xml:space="preserve">
@@ -257,24 +237,6 @@ Space Time.psarc</value>
   </metadata>
   <data name="btn_UploadCDLC.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
-<<<<<<< HEAD
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6
-        JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAACXBIWXMAAA3PAAANzwEvtoPXAAADD0lE
-        QVQ4T22T+09SYRzGXX9Lf0kXLjkx/aGsLctaa3JM0mHXTdCgyNokL10loTRaOBsSGpKOjCNRDFDICFS8
-        oCZCODgHKdCn8x6zZeuH796zc97n836f5/2eIgC7SiRV7BVJlWphzXVaSDWlSQmoZlrIvSPf/t3/t3CP
-        kFLKy+Ua1vzet/U5uoR4Ko1UOgNXaBG3TI5NSd0NlgPJyd5dgG1xs/P2U/OPpW9xJJNJpFIpZDIZrGcY
-        fJr7jujqOmZWvqP6jiErkCqdOxAeQKhnbnZnneEVjAbmsZZIgGVZ5PN5bG1t8SvDMAjMxzExv4azGl1W
-        KFXIeQDxVXJBzXaNTeOKeQq37NMILSWRy+VQKBSwubnJA7LZLOKJJKbnFmAcj6BEpmKJlgMo1bUPLIVr
-        A19wzjgBjX2GOyWBjY0NHkA6YDZyiCXTiMTiaB8JQ2P7CqrNVOC6UBeRhK8Ynag0eHGqx49Gaxh6dwze
-        hRTWMlnkfvzEQCAOnWsRHe9mITMFUPXMiwa9HQelSrqIXFPjqwlIHnxE2WMPzvdNQTU8g07nIvSfVjjx
-        KoKLCfR7F9Bq/4oaoxeCNhqXX4yDyy7NA+pfeFB87wNKHn7E0W4fKNMUrlojaB6eBR2KYXl5GdFoFMFg
-        EGNjY3husYN6MsoBFGneQmX7IEofuiG+50Z5lwfHDX6c7J3E6ecBXLd+hi8Ygt/vB03TGBoaQp/ZgoqW
-        lzhYTSxwQZQqu/Nlj9w40DaO4vtu3sqRJ14c0/txXO9D17AXDoeDFxtN/ZDp7Dh0qSPPh0iuQkw1s4e1
-        wxyAxn4OIuGsVHGB1nCB1ZqC0A75YbPZYDCZUX7XDrHKBBGl3L7G7UFSyA/V32Yk7e+wT+tEhc7Dp62w
-        hqB+E0aT9QssgzY0GR0QagYgkmkYovkziWQsyXiK61oYyZ3XqNS5cLF/Eq0jERhcc9C+DeGZzYUTra8g
-        lN1kBNX/jPIOhFDFVBMr4vyVqnpR2TGIqs5BlKl6IGy4mydtkz074l2AnSK+SDgkYW5Nk/r9/J/fGUW/
-        ABNsxtkS0CjwAAAAAElFTkSuQmCC
-=======
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
         YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAANzgAA
         Dc4B/fFhMwAAAw9JREFUOE9tk/tPUmEcxl1/S39JFy45Mf2hrC3LWmtyTNJh103QoMjaJC9dJaE0Wjgb
@@ -291,29 +253,10 @@ Space Time.psarc</value>
         JO3vsE/rRIXOw6etsIagfhNGk/ULLIM2NBkdEGoGIJJpGKL5M4lkLMl4iutaGMmd16jUuXCxfxKtIxEY
         XHPQvg3hmc2FE62vIJTdZATV/4zyDoRQxVQTK+L8lap6UdkxiKrOQZSpeiBsuJsnbZM9O+JdgJ0ivkg4
         JGFuTZP6/fyf3xlFvwATbMbZEtAo8AAAAABJRU5ErkJggg==
->>>>>>> VS2010Net40
 </value>
   </data>
   <data name="btnRequestSong.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
-<<<<<<< HEAD
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6
-        JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAACXBIWXMAAA3PAAANzwEvtoPXAAADD0lE
-        QVQ4T22T+09SYRzGXX9Lf0kXLjkx/aGsLctaa3JM0mHXTdCgyNokL10loTRaOBsSGpKOjCNRDFDICFS8
-        oCZCODgHKdCn8x6zZeuH796zc97n836f5/2eIgC7SiRV7BVJlWphzXVaSDWlSQmoZlrIvSPf/t3/t3CP
-        kFLKy+Ua1vzet/U5uoR4Ko1UOgNXaBG3TI5NSd0NlgPJyd5dgG1xs/P2U/OPpW9xJJNJpFIpZDIZrGcY
-        fJr7jujqOmZWvqP6jiErkCqdOxAeQKhnbnZnneEVjAbmsZZIgGVZ5PN5bG1t8SvDMAjMxzExv4azGl1W
-        KFXIeQDxVXJBzXaNTeOKeQq37NMILSWRy+VQKBSwubnJA7LZLOKJJKbnFmAcj6BEpmKJlgMo1bUPLIVr
-        A19wzjgBjX2GOyWBjY0NHkA6YDZyiCXTiMTiaB8JQ2P7CqrNVOC6UBeRhK8Ynag0eHGqx49Gaxh6dwze
-        hRTWMlnkfvzEQCAOnWsRHe9mITMFUPXMiwa9HQelSrqIXFPjqwlIHnxE2WMPzvdNQTU8g07nIvSfVjjx
-        KoKLCfR7F9Bq/4oaoxeCNhqXX4yDyy7NA+pfeFB87wNKHn7E0W4fKNMUrlojaB6eBR2KYXl5GdFoFMFg
-        EGNjY3husYN6MsoBFGneQmX7IEofuiG+50Z5lwfHDX6c7J3E6ecBXLd+hi8Ygt/vB03TGBoaQp/ZgoqW
-        lzhYTSxwQZQqu/Nlj9w40DaO4vtu3sqRJ14c0/txXO9D17AXDoeDFxtN/ZDp7Dh0qSPPh0iuQkw1s4e1
-        wxyAxn4OIuGsVHGB1nCB1ZqC0A75YbPZYDCZUX7XDrHKBBGl3L7G7UFSyA/V32Yk7e+wT+tEhc7Dp62w
-        hqB+E0aT9QssgzY0GR0QagYgkmkYovkziWQsyXiK61oYyZ3XqNS5cLF/Eq0jERhcc9C+DeGZzYUTra8g
-        lN1kBNX/jPIOhFDFVBMr4vyVqnpR2TGIqs5BlKl6IGy4mydtkz074l2AnSK+SDgkYW5Nk/r9/J/fGUW/
-        ABNsxtkS0CjwAAAAAElFTkSuQmCC
-=======
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
         YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAANzgAA
         Dc4B/fFhMwAAAw9JREFUOE9tk/tPUmEcxl1/S39JFy45Mf2hrC3LWmtyTNJh103QoMjaJC9dJaE0Wjgb
@@ -330,29 +273,10 @@ Space Time.psarc</value>
         JO3vsE/rRIXOw6etsIagfhNGk/ULLIM2NBkdEGoGIJJpGKL5M4lkLMl4iutaGMmd16jUuXCxfxKtIxEY
         XHPQvg3hmc2FE62vIJTdZATV/4zyDoRQxVQTK+L8lap6UdkxiKrOQZSpeiBsuJsnbZM9O+JdgJ0ivkg4
         JGFuTZP6/fyf3xlFvwATbMbZEtAo8AAAAABJRU5ErkJggg==
->>>>>>> VS2010Net40
 </value>
   </data>
   <data name="btnRSTKSite.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
-<<<<<<< HEAD
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6
-        JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAACXBIWXMAAA3PAAANzwEvtoPXAAADD0lE
-        QVQ4T22T+09SYRzGXX9Lf0kXLjkx/aGsLctaa3JM0mHXTdCgyNokL10loTRaOBsSGpKOjCNRDFDICFS8
-        oCZCODgHKdCn8x6zZeuH796zc97n836f5/2eIgC7SiRV7BVJlWphzXVaSDWlSQmoZlrIvSPf/t3/t3CP
-        kFLKy+Ua1vzet/U5uoR4Ko1UOgNXaBG3TI5NSd0NlgPJyd5dgG1xs/P2U/OPpW9xJJNJpFIpZDIZrGcY
-        fJr7jujqOmZWvqP6jiErkCqdOxAeQKhnbnZnneEVjAbmsZZIgGVZ5PN5bG1t8SvDMAjMxzExv4azGl1W
-        KFXIeQDxVXJBzXaNTeOKeQq37NMILSWRy+VQKBSwubnJA7LZLOKJJKbnFmAcj6BEpmKJlgMo1bUPLIVr
-        A19wzjgBjX2GOyWBjY0NHkA6YDZyiCXTiMTiaB8JQ2P7CqrNVOC6UBeRhK8Ynag0eHGqx49Gaxh6dwze
-        hRTWMlnkfvzEQCAOnWsRHe9mITMFUPXMiwa9HQelSrqIXFPjqwlIHnxE2WMPzvdNQTU8g07nIvSfVjjx
-        KoKLCfR7F9Bq/4oaoxeCNhqXX4yDyy7NA+pfeFB87wNKHn7E0W4fKNMUrlojaB6eBR2KYXl5GdFoFMFg
-        EGNjY3husYN6MsoBFGneQmX7IEofuiG+50Z5lwfHDX6c7J3E6ecBXLd+hi8Ygt/vB03TGBoaQp/ZgoqW
-        lzhYTSxwQZQqu/Nlj9w40DaO4vtu3sqRJ14c0/txXO9D17AXDoeDFxtN/ZDp7Dh0qSPPh0iuQkw1s4e1
-        wxyAxn4OIuGsVHGB1nCB1ZqC0A75YbPZYDCZUX7XDrHKBBGl3L7G7UFSyA/V32Yk7e+wT+tEhc7Dp62w
-        hqB+E0aT9QssgzY0GR0QagYgkmkYovkziWQsyXiK61oYyZ3XqNS5cLF/Eq0jERhcc9C+DeGZzYUTra8g
-        lN1kBNX/jPIOhFDFVBMr4vyVqnpR2TGIqs5BlKl6IGy4mydtkz074l2AnSK+SDgkYW5Nk/r9/J/fGUW/
-        ABNsxtkS0CjwAAAAAElFTkSuQmCC
-=======
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
         YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAANzgAA
         Dc4B/fFhMwAAAw9JREFUOE9tk/tPUmEcxl1/S39JFy45Mf2hrC3LWmtyTNJh103QoMjaJC9dJaE0Wjgb
@@ -369,29 +293,10 @@ Space Time.psarc</value>
         JO3vsE/rRIXOw6etsIagfhNGk/ULLIM2NBkdEGoGIJJpGKL5M4lkLMl4iutaGMmd16jUuXCxfxKtIxEY
         XHPQvg3hmc2FE62vIJTdZATV/4zyDoRQxVQTK+L8lap6UdkxiKrOQZSpeiBsuJsnbZM9O+JdgJ0ivkg4
         JGFuTZP6/fyf3xlFvwATbMbZEtAo8AAAAABJRU5ErkJggg==
->>>>>>> VS2010Net40
 </value>
   </data>
   <data name="btnEOFSite.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
-<<<<<<< HEAD
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6
-        JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAACXBIWXMAAA3PAAANzwEvtoPXAAADD0lE
-        QVQ4T22T+09SYRzGXX9Lf0kXLjkx/aGsLctaa3JM0mHXTdCgyNokL10loTRaOBsSGpKOjCNRDFDICFS8
-        oCZCODgHKdCn8x6zZeuH796zc97n836f5/2eIgC7SiRV7BVJlWphzXVaSDWlSQmoZlrIvSPf/t3/t3CP
-        kFLKy+Ua1vzet/U5uoR4Ko1UOgNXaBG3TI5NSd0NlgPJyd5dgG1xs/P2U/OPpW9xJJNJpFIpZDIZrGcY
-        fJr7jujqOmZWvqP6jiErkCqdOxAeQKhnbnZnneEVjAbmsZZIgGVZ5PN5bG1t8SvDMAjMxzExv4azGl1W
-        KFXIeQDxVXJBzXaNTeOKeQq37NMILSWRy+VQKBSwubnJA7LZLOKJJKbnFmAcj6BEpmKJlgMo1bUPLIVr
-        A19wzjgBjX2GOyWBjY0NHkA6YDZyiCXTiMTiaB8JQ2P7CqrNVOC6UBeRhK8Ynag0eHGqx49Gaxh6dwze
-        hRTWMlnkfvzEQCAOnWsRHe9mITMFUPXMiwa9HQelSrqIXFPjqwlIHnxE2WMPzvdNQTU8g07nIvSfVjjx
-        KoKLCfR7F9Bq/4oaoxeCNhqXX4yDyy7NA+pfeFB87wNKHn7E0W4fKNMUrlojaB6eBR2KYXl5GdFoFMFg
-        EGNjY3husYN6MsoBFGneQmX7IEofuiG+50Z5lwfHDX6c7J3E6ecBXLd+hi8Ygt/vB03TGBoaQp/ZgoqW
-        lzhYTSxwQZQqu/Nlj9w40DaO4vtu3sqRJ14c0/txXO9D17AXDoeDFxtN/ZDp7Dh0qSPPh0iuQkw1s4e1
-        wxyAxn4OIuGsVHGB1nCB1ZqC0A75YbPZYDCZUX7XDrHKBBGl3L7G7UFSyA/V32Yk7e+wT+tEhc7Dp62w
-        hqB+E0aT9QssgzY0GR0QagYgkmkYovkziWQsyXiK61oYyZ3XqNS5cLF/Eq0jERhcc9C+DeGZzYUTra8g
-        lN1kBNX/jPIOhFDFVBMr4vyVqnpR2TGIqs5BlKl6IGy4mydtkz074l2AnSK+SDgkYW5Nk/r9/J/fGUW/
-        ABNsxtkS0CjwAAAAAElFTkSuQmCC
-=======
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
         YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAANzgAA
         Dc4B/fFhMwAAAw9JREFUOE9tk/tPUmEcxl1/S39JFy45Mf2hrC3LWmtyTNJh103QoMjaJC9dJaE0Wjgb
@@ -408,7 +313,6 @@ Space Time.psarc</value>
         JO3vsE/rRIXOw6etsIagfhNGk/ULLIM2NBkdEGoGIJJpGKL5M4lkLMl4iutaGMmd16jUuXCxfxKtIxEY
         XHPQvg3hmc2FE62vIJTdZATV/4zyDoRQxVQTK+L8lap6UdkxiKrOQZSpeiBsuJsnbZM9O+JdgJ0ivkg4
         JGFuTZP6/fyf3xlFvwATbMbZEtAo8AAAAABJRU5ErkJggg==
->>>>>>> VS2010Net40
 </value>
   </data>
   <metadata name="timerMain.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
