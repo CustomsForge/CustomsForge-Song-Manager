@@ -596,6 +596,11 @@ namespace CustomsForgeManager_Winforms.Forms
             mySettings.IncludeRS1DLCs = true;
             mySettings.EnabledLogBaloon = true;
 
+            Extensions.InvokeIfRequired(tbSettingsRSDir, delegate { tbSettingsRSDir.Text = mySettings.RSInstalledDir; });
+            Extensions.InvokeIfRequired(checkIncludeRS1DLC, delegate { checkIncludeRS1DLC.Checked = mySettings.IncludeRS1DLCs; });
+            Extensions.InvokeIfRequired(tbSettingsRSDir, delegate { checkRescanOnStartup.Checked = mySettings.RescanOnStartup; });
+            Extensions.InvokeIfRequired(tbSettingsRSDir, delegate { checkEnableLogBaloon.Checked = mySettings.EnabledLogBaloon; });
+
             Log("Reset settings to defaults ...");
         }
 
@@ -607,15 +612,18 @@ namespace CustomsForgeManager_Winforms.Forms
 
         private void SaveSettingsToFile()
         {
-            if (mySettings == null)
+            if (mySettings.RSInstalledDir == null)
                 ResetSettings();
 
             // save user options
-
-            mySettings.RSInstalledDir = tbSettingsRSDir.Text;
-            mySettings.RescanOnStartup = checkRescanOnStartup.Checked;
-            mySettings.IncludeRS1DLCs = checkIncludeRS1DLC.Checked;
-            mySettings.EnabledLogBaloon = checkEnableLogBaloon.Checked;
+            if (mySettings.RSInstalledDir != tbSettingsRSDir.Text)
+                mySettings.RSInstalledDir = tbSettingsRSDir.Text;
+            if (mySettings.RescanOnStartup != checkRescanOnStartup.Checked)
+                mySettings.RescanOnStartup = checkRescanOnStartup.Checked;
+            if (mySettings.IncludeRS1DLCs != checkIncludeRS1DLC.Checked)
+                mySettings.IncludeRS1DLCs = checkIncludeRS1DLC.Checked;
+            if (mySettings.EnabledLogBaloon != checkEnableLogBaloon.Checked)
+                mySettings.EnabledLogBaloon = checkEnableLogBaloon.Checked;
 
             // validate Rocksmith installation directory information
             if (tbSettingsRSDir.Text.Contains("Click here") || String.IsNullOrEmpty(tbSettingsRSDir.Text))
