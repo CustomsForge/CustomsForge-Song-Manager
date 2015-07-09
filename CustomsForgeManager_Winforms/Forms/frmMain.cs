@@ -555,7 +555,7 @@ namespace CustomsForgeManager_Winforms.Forms
 
             foreach (string file in fileList)
             {
-                if (!bWorker.CancellationPending)
+                if (bWorker == null || (bWorker != null || !bWorker.CancellationPending))
                 {
                     Progress(songCounter++ * 100 / fileList.Count);
 
