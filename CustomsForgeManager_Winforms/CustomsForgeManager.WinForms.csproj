@@ -95,15 +95,21 @@
   </PropertyGroup>
   <PropertyGroup />
   <ItemGroup>
-    <Reference Include="Antlr4.StringTemplate">
-      <HintPath>..\libs\Antlr4.StringTemplate.dll</HintPath>
+    <Reference Include="Antlr4.StringTemplate, Version=4.0.6.9004, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Antlr4.StringTemplate.4.0.6.9004\lib\net35\Antlr4.StringTemplate.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DLog.NET, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0ee017a32251d3c2, processorArchitecture=MSIL">
+      <HintPath>..\packages\DLog.NET.1.0.1\lib\DLog.NET.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="DLogNet">
       <HintPath>..\libs\DLogNet.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\libs\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="RocksmithToolkitLib">
       <HintPath>..\libs\RocksmithToolkitLib.dll</HintPath>
@@ -218,7 +224,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="app.config" />
     <None Include="CustomsForgeManager_Winforms_TemporaryKey.pfx" />
+    <None Include="packages.config" />
     <None Include="Properties\DataSources\CustomsForgeManager_Winforms.Forms.frmMain.datasource" />
   </ItemGroup>
   <ItemGroup>

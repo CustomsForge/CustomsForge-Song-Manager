@@ -1,4 +1,17 @@
-﻿0.1.2.0 VS2010, .NET 4.0 compatibility release
+﻿0.1.2.1
+-Fixed dgvSongs display issues on application startups (changing formats) 
+-Fixed Duplicates(n) tabcontrol display issue
+-Fixed dgvSongs column header rescan issue showing LRBV headers
+-Fixed tcMain_SelectedIndexChanged so that responds to Duplicates(n) tab updates
+-Eliminated recursive calls in load settings and load songs, and restructured (code efficiency)
+-Added additional detail to log output to aid with debugging
+-Added check for bWorker.IsBusy (loading much better now)
+-Added protected override to avoiding abrupt bwWorker disposal
+-Cleaned up processing order of background work
+-Added application version number to frmMain title to help developers ... help users
+
+
+0.1.2.0 VS2010, .NET 4.0 compatibility release
 -Added support for WinXp SP3 OS
 -Added support for x86 machines
 -Added zlib.net.dll for .Net 4.0 compatibility

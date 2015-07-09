@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Reflection;
 
 namespace CustomsForgeManager_Winforms.lib
 {
@@ -29,6 +30,15 @@ namespace CustomsForgeManager_Winforms.lib
         public static string DefaultCFSongUrl
         {
             get { return @"http://customsforge.com/page/customsforge_rs_2014_cdlc.html/_/pc-enabled-rs-2014-cdlc/"; }
+        }
+
+        public static string CSMVersion()
+        {
+            return String.Format("{0}.{1}.{2}.{3}",
+                                 Assembly.GetExecutingAssembly().GetName().Version.Major,
+                                 Assembly.GetExecutingAssembly().GetName().Version.Minor,
+                                 Assembly.GetExecutingAssembly().GetName().Version.Build,
+                                 Assembly.GetExecutingAssembly().GetName().Version.Revision);      
         }
     }
 }
