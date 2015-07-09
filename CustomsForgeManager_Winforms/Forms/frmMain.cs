@@ -470,6 +470,9 @@ namespace CustomsForgeManager_Winforms.Forms
 
         private void PopulateDupeList()
         {
+            DupeCollection.Clear();
+            listDupeSongs.Items.Clear();
+
             var dups = SongCollection.GroupBy(x => new { x.Song, x.Album, x.Artist }).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
             dups.RemoveAll(x => x.FileName.Contains(rscompatibility));
 
