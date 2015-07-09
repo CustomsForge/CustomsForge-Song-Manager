@@ -2283,7 +2283,7 @@ namespace CustomsForgeManager_Winforms.Forms
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvSongs.BackgroundColor = System.Drawing.SystemColors.ActiveCaption;
-            this.dgvSongs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvSongs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize; 
             this.dgvSongs.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colSelect,
             this.cLead,

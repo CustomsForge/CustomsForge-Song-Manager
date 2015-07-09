@@ -73,4 +73,5 @@ packages/
 BinForRelease/
 libs/DLogNet/
 libs/AntlrCs/
+libs/RocksmithToolkitLib.dll
 

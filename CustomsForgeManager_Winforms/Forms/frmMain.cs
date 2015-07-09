@@ -30,7 +30,6 @@ namespace CustomsForgeManager_Winforms.Forms
     //
     // TODO: add a sepereate user controls for each tab control in frmMain
     // TODO: improve code sepeartion, flexiblity and efficiency
-    // TODO: find memory leak, IDE slows to crawl after many builds (Extensions.InvokeIfRequired)
     // AVOID USE OF: simple string concatinations "+" as this may cause cross/multi platform issues 
     //
     public partial class frmMain : Form
@@ -65,11 +64,15 @@ namespace CustomsForgeManager_Winforms.Forms
             this.myLog = myLog;
             this.mySettings = mySettings;
             InitializeComponent();
+            this.Text = String.Format("CustomsForge Song Manager (v{0})", Constants.CSMVersion());
             ApplicationInitialize();
         }
 
         private void ApplicationInitialize()
         {
+            // Hide main dgvSongs until load completes
+            dgvSongs.Visible = false;
+
             // Create directory structure if not exists
             string configFolderPath = Constants.DefaultWorkingDirectory;
             if (!Directory.Exists(configFolderPath))
@@ -95,22 +98,24 @@ namespace CustomsForgeManager_Winforms.Forms
             // Load Settings file
             LoadSettingsFromFile();
 
-            // Load Song Collection file
+            // Load Song Collection
             if (mySettings.RescanOnStartup)
                 BackgroundScan();
             else
                 LoadSongCollectionFromFile();
-
         }
 
         private void BackgroundScan()
         {
+            ToggleUIControls();
+            toolStripStatusLabel_MainCancel.Visible = true;
             bWorker = new AbortableBackgroundWorker();
             bWorker.SetDefaults();
-            toolStripStatusLabel_MainCancel.Visible = true;
             bWorker.DoWork += PopulateListHandler;
             bWorker.RunWorkerCompleted += PopulateCompletedHandler;
-            bWorker.RunWorkerAsync();
+            // don't run bWorker more than once
+            if (!bWorker.IsBusy)
+                bWorker.RunWorkerAsync();
         }
 
         private void CheckForUpdate()
@@ -323,23 +328,17 @@ namespace CustomsForgeManager_Winforms.Forms
             return SongCollection.Distinct().FirstOrDefault(x => x.Song == dataGridViewRow.Cells["Song"].Value.ToString() && x.Artist == dataGridViewRow.Cells["Artist"].Value.ToString() && x.Album == dataGridViewRow.Cells["Album"].Value.ToString() && x.Path == dataGridViewRow.Cells["Path"].Value.ToString());
         }
 
-        private void LoadSettingsFromFile(string settingsPath = "")
+        private void LoadSettingsFromFile()
         {
-
-            if (String.IsNullOrEmpty(settingsPath))
-                settingsPath = Path.Combine(Constants.DefaultWorkingDirectory, "settings.bin");
+            var settingsPath = Path.Combine(Constants.DefaultWorkingDirectory, "settings.bin");
 
 #if (DEBUG) // make config files humanly readable
             settingsPath = Path.ChangeExtension(settingsPath, ".xml");
 #endif
 
+            // initial application startup or bad settings file
             if (!File.Exists(settingsPath))
-            {
-                SaveSettingsToFile(settingsPath);
-                Log("Settings file created ...");
-                // recursive confirmation that file was created
-                LoadSettingsFromFile(settingsPath);
-            }
+                SaveSettingsToFile();
 
             try
             {
@@ -360,7 +359,7 @@ namespace CustomsForgeManager_Winforms.Forms
                         Extensions.InvokeIfRequired(checkRescanOnStartup, delegate { checkRescanOnStartup.Checked = mySettings.RescanOnStartup; });
                         Extensions.InvokeIfRequired(checkIncludeRS1DLC, delegate { checkIncludeRS1DLC.Checked = mySettings.IncludeRS1DLCs; });
                         Extensions.InvokeIfRequired(checkEnableLogBaloon, delegate { checkEnableLogBaloon.Checked = mySettings.EnabledLogBaloon; });
-                        Log("Settings file loaded ...");
+                        Log("Loaded settings file ...");
                     }
                     fs.Flush();
                 }
@@ -371,35 +370,34 @@ namespace CustomsForgeManager_Winforms.Forms
             }
         }
 
-        private void LoadSongCollectionFromFile(string songsPath = "")
-        {
-            toolStripStatusLabel_MainCancel.Visible = true;
 
-            if (String.IsNullOrEmpty(songsPath))
-                songsPath = Path.Combine(Constants.DefaultWorkingDirectory, "songs.bin");
+        private void LoadSongCollectionFromFile()
+        {
+            var songsPath = Path.Combine(Constants.DefaultWorkingDirectory, "songs.bin");
 
 #if (DEBUG) // make config files humanly readable
             songsPath = Path.ChangeExtension(songsPath, ".xml");
 #endif
 
+            if (!File.Exists(songsPath))
+            {
+                // load songs into memory
+                BackgroundScan();
+                return;
+            }
+
             try
             {
-                if (!File.Exists(songsPath))
-                {
-                    BackgroundScan();
-                    SaveSongCollectionToFile(songsPath);
-                    Log("Song collection file created ...");
-                    // recursive confirmation that file was created
-                    LoadSongCollectionFromFile(songsPath);
-                }
-
                 using (var fs = new FileStream(songsPath, FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
                     BindingList<SongData> songs = null;
                     List<string> fileList = null;
 
-#if (DEBUG) // make config files humanly readable
+#if (DEBUG)
+                    // make config files humanly readable
                     songs = fs.DeserializeXml(new BindingList<SongData>());
+                    fs.Flush(); // free up memory asap
+
                     var fileListPath = Path.Combine(Constants.DefaultWorkingDirectory, "filelist.xml");
                     using (var fsfl = new FileStream(fileListPath, FileMode.Open, FileAccess.Read, FileShare.Read))
                         fileList = fsfl.DeserializeXml(new List<string>());
@@ -414,9 +412,9 @@ namespace CustomsForgeManager_Winforms.Forms
                     if (songs != null)
                     {
                         SongCollection = songs;
-                        Log("Song collection file loaded ...");
-                        fs.Flush();
                         PopulateDataGridView();
+                        Log("Loaded song collection file ...");
+                        // update Duplicates(n) tabcontrol text
                         PopulateDupeList();
                     }
                 }
@@ -442,7 +440,6 @@ namespace CustomsForgeManager_Winforms.Forms
         private void PopulateDataGridView()
         {
             toolStripStatusLabel_Main.Text = string.Format("{0} total Rocksmith songs found", SongCollection.Count);
-
             Extensions.InvokeIfRequired(dgvSongs, delegate
                 {
                     var bs = new BindingSource();
@@ -450,11 +447,12 @@ namespace CustomsForgeManager_Winforms.Forms
                     dgvSongs.DataSource = bs;
                     SortedSongCollection = SongCollection.ToList();
 
-                    // Change datagrid appearance
+                    // update datagrid appearance
                     DgvSongsAppearance();
 
                     if (mySettings.ManagerGridSettings != null)
                         dgvSongs.ReLoadColumnOrder(mySettings.ManagerGridSettings.ColumnOrder);
+                   
                     dgvSongs.Columns["colSelect"].Visible = true;
                     dgvSongs.Columns["colSelect"].DisplayIndex = 0;
                 });
@@ -472,8 +470,6 @@ namespace CustomsForgeManager_Winforms.Forms
 
         private void PopulateDupeList()
         {
-            Log("Scanned duplicates ...");
-
             var dups = SongCollection.GroupBy(x => new { x.Song, x.Album, x.Artist }).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
             dups.RemoveAll(x => x.FileName.Contains(rscompatibility));
 
@@ -486,7 +482,10 @@ namespace CustomsForgeManager_Winforms.Forms
             }
 
             DupeCollection.AddRange(dups);
+            // updates tabcontrol Duplicates(n) text
             Extensions.InvokeIfRequired(tpDuplicates, delegate { tpDuplicates.Text = "Duplicates(" + dups.Count + ")"; });
+
+            Log("Scanned memory for duplicate songs ...");
         }
 
         private void PopulateRenamer()
@@ -531,9 +530,8 @@ namespace CustomsForgeManager_Winforms.Forms
             checkEnableLogBaloon.Checked = mySettings.EnabledLogBaloon;
         }
 
-        private bool PopulateSongList()
+        private void PopulateSongList()
         {
-            Log("Scanned songs ...");
             Extensions.InvokeIfRequired(dgvSongs, delegate
                 {
                     var dataGridViewColumn = dgvSongs.Columns["colSelect"];
@@ -542,14 +540,14 @@ namespace CustomsForgeManager_Winforms.Forms
                     dgvSongs.DataSource = null;
                     SongCollection.Clear();
                 });
-            string enabled = "";
-            List<string> fileList = FilesList(mySettings.RSInstalledDir + "\\dlc", mySettings.IncludeRS1DLCs);
-            //List<string> disabledFilesList = new List<string>(FilesList(mySettings.RSInstalledDir + "\\" + Constants.DefaultDisabledSubDirectory,mySettings.IncludeRS1DLCs));
-            //filesList.AddRange(disabledFilesList);
-            Log(String.Format("Raw songs count: {0}", fileList.Count));
 
+            List<string> fileList = FilesList(Path.Combine(mySettings.RSInstalledDir, "dlc"), mySettings.IncludeRS1DLCs);
+            //List<string> disabledFilesList = new List<string>(FilesList(Path.Combine(mySettings.RSInstalledDir, Constants.DefaultDisabledSubDirectory),mySettings.IncludeRS1DLCs));
+            //filesList.AddRange(disabledFilesList);
+
+            Log(String.Format("Raw songs count: {0}", fileList.Count));
             if (fileList.Count == 0)
-                return false;
+                return;
 
             songCounter = 0;
             counterStopwatch.Start();
@@ -561,11 +559,12 @@ namespace CustomsForgeManager_Winforms.Forms
                 {
                     Progress(songCounter++ * 100 / fileList.Count);
 
-                    enabled = file.Contains(".disabled.") ? "No" : "Yes";
+                    string enabled = file.Contains(".disabled.") ? "No" : "Yes";
                     parsePSARC(songCounter, enabled, file);
                     CurrentFileList.Add(file);
                 }
             }
+
             Extensions.InvokeIfRequired(dgvSongs, delegate
                 {
                     var dataGridViewColumn = dgvSongs.Columns["colSelect"];
@@ -573,7 +572,7 @@ namespace CustomsForgeManager_Winforms.Forms
                     dgvSongs.DataSource = SongCollection;
                 });
 
-            return true;
+            Log("Populated song list ...");
         }
 
         private void Progress(int value)
@@ -606,7 +605,7 @@ namespace CustomsForgeManager_Winforms.Forms
             Process.GetCurrentProcess().Kill();
         }
 
-        private void SaveSettingsToFile(string settingsPath = "")
+        private void SaveSettingsToFile()
         {
             if (mySettings == null)
                 ResetSettings();
@@ -639,8 +638,7 @@ namespace CustomsForgeManager_Winforms.Forms
                 }
             }
 
-            if (String.IsNullOrEmpty(settingsPath))
-                settingsPath = Path.Combine(Constants.DefaultWorkingDirectory, "settings.bin");
+            var settingsPath = Path.Combine(Constants.DefaultWorkingDirectory, "settings.bin");
 
 #if (DEBUG) // make config files humanly readable
             settingsPath = Path.ChangeExtension(settingsPath, ".xml");
@@ -655,15 +653,14 @@ namespace CustomsForgeManager_Winforms.Forms
                 mySettings.SerializeBin(fs);
 #endif
 
-                Log("Saved settings ...");
+                Log("Saved settings file ...");
                 fs.Flush();
             }
         }
 
-        private void SaveSongCollectionToFile(string songsinPath = "")
+        private void SaveSongCollectionToFile()
         {
-            if (String.IsNullOrEmpty(songsinPath))
-                songsinPath = Path.Combine(Constants.DefaultWorkingDirectory, "songs.bin");
+            var songsinPath = Path.Combine(Constants.DefaultWorkingDirectory, "songs.bin");
 
 #if (DEBUG) // make config files humanly readable
             songsinPath = Path.ChangeExtension(songsinPath, ".xml");
@@ -677,13 +674,15 @@ namespace CustomsForgeManager_Winforms.Forms
                 var fileListPath = Path.Combine(Constants.DefaultWorkingDirectory, "filelist.xml");
                 using (var fsfl = new FileStream(fileListPath, FileMode.Create, FileAccess.Write, FileShare.Write))
                     CurrentFileList.SerializeXml(fsfl);
+
+                Log("Saved file list file ...");
 #else
                 SongCollection.SerializeBin(fs);
                 CurrentFileList.SerializeBin(fs);
 #endif
 
-                Log("Song collection saved ...");
                 fs.Flush();
+                Log("Saved song collection file ...");
             }
         }
 
@@ -699,18 +698,20 @@ namespace CustomsForgeManager_Winforms.Forms
         // Code from CGT used with permission
         private void DgvSongsAppearance()
         {
+            // processing order is important to appearance
+            dgvSongs.Visible = true;
             dgvSongs.Font = new Font("Arial", 8);
             dgvSongs.ColumnHeadersVisible = true;
             dgvSongs.RowHeadersVisible = false; // remove row arrow
             dgvSongs.AllowUserToAddRows = false; // removes empty row at bottom
             dgvSongs.AllowUserToDeleteRows = false;
             dgvSongs.ReadOnly = true;
-            dgvSongs.AlternatingRowsDefaultCellStyle.BackColor = Color.Beige;
+            //dgvSongs.AlternatingRowsDefaultCellStyle.BackColor = Color.Beige;
             dgvSongs.EnableHeadersVisualStyles = true;
             dgvSongs.AllowUserToResizeColumns = true;
             // set initial column width to column header width
             dgvSongs.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.ColumnHeader);
-
+            
             dgvSongs.ClearSelection();
         }
 
@@ -718,10 +719,14 @@ namespace CustomsForgeManager_Winforms.Forms
         {
             foreach (DataGridViewRow row in dgvSongs.Rows)
             {
-                ((DataGridViewImageCell)row.Cells["cLead"]).Style.BackColor = Color.Red;
-                ((DataGridViewImageCell)row.Cells["cRhythm"]).Style.BackColor = Color.Red;
-                ((DataGridViewImageCell)row.Cells["cBass"]).Style.BackColor = Color.Red;
-                ((DataGridViewImageCell)row.Cells["cVocals"]).Style.BackColor = Color.Red;
+                if (row.Cells["cLead"].Visible)
+                    (row.Cells["cLead"]).Style.BackColor = Color.Red;
+                if (row.Cells["cRhythm"].Visible)
+                    (row.Cells["cRhythm"]).Style.BackColor = Color.Red;
+                if (row.Cells["cBass"].Visible)
+                    (row.Cells["cBass"]).Style.BackColor = Color.Red;
+                if (row.Cells["cVocals"].Visible)
+                    (row.Cells["cVocals"]).Style.BackColor = Color.Red;
 
                 string arr = row.Cells["Arrangements"].Value.ToString();
                 if (!string.IsNullOrEmpty(arr))
@@ -1277,16 +1282,16 @@ namespace CustomsForgeManager_Winforms.Forms
 
         private void PopulateCompletedHandler(object sender, RunWorkerCompletedEventArgs e)
         {
+            // processing order is important
+            Log("Songs loaded into memory ...", 100);
+            PopulateDupeList(); // update Duplicates(n) tabcontrol text            
             PopulateDataGridView();
-            Log("Finished scanning songs ...", 100);
-            SaveSongCollectionToFile();
             ToggleUIControls();
             toolStripStatusLabel_MainCancel.Visible = false;
         }
 
         private void PopulateListHandler(object sender, DoWorkEventArgs e)
         {
-            ToggleUIControls();
             PopulateSongList();
         }
 
@@ -2116,6 +2121,9 @@ namespace CustomsForgeManager_Winforms.Forms
 
             // rescan preserves column width, display settings and duplicates
             LoadSongCollectionFromFile();
+
+            // update Duplicates(n) tabcontrol
+            //PopulateDupeList();
         }
 
         private void btnRestoreOfficialsBackup_Click(object sender, EventArgs e)
@@ -2730,6 +2738,7 @@ namespace CustomsForgeManager_Winforms.Forms
                 dataGridViewColumn.Visible = false;
 
             // PopulateColumnList();
+            // source of LRBV column headers during rescan
             ShowHideArrangementColumns();
         }
 
@@ -3039,26 +3048,29 @@ namespace CustomsForgeManager_Winforms.Forms
         private void tcMain_SelectedIndexChanged(object sender, EventArgs e)
         {
             // populate tab control item only as needed for efficiency
-
-            switch (tcMain.SelectedTab.Text)
+            // get first four charters from tab control text
+            switch (tcMain.SelectedTab.Text.Substring(0, 4).ToUpper())
             {
-                case "Song Manager":
+                case "SONG":
+                    // do nothing for now
                     break;
-                case "Duplicates":
+                case "DUPL": // works with Duplicates(n)                    
                     PopulateDupeList();
                     break;
-                case "Batch Renamer":
+                case "BATC":
                     PopulateRenamer();
                     break;
-                case "Setlist Manger":
+                case "SETL":
                     PopulateSongList();
                     break;
-                case "Utilities":
+                case "UTIL":
+                    // do nothing for now
                     break;
-                case "Settings":
+                case "SETT":
                     PopulateSettings();
                     break;
-                case "About":
+                case "ABOU":
+                    // do nothing for now
                     break;
             }
 
@@ -3083,6 +3095,21 @@ namespace CustomsForgeManager_Winforms.Forms
             //bWorker = null;
             toolStripStatusLabel_MainCancel.Visible = false;
         }
+
+        // taken from CGT used with permission
+        // avoid abrupt bwWorker disposal on e.Cancelled
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            if (toolStripStatusLabel_MainCancel.Visible)
+            {
+                bWorker.CancelAsync();
+                e.Cancel = true;
+                return;
+            }
+
+            base.OnFormClosing(e);
+        }
+
 
         #region Class Methods
 
