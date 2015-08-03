@@ -1,3 +1,17 @@
+0.1.4.0
+-Replaced search textbox with cuetextbox
+-Added all columns to SongManager grid
+-Fixed grid behavior and default settings
+-Hide log by default
+-Dock split panel set to fill to make maximizing work properly
+-Fixed SongManager and Duplicates conditional rescanning
+-Implimented reusable background worker class for parsing songs
+-Fixed cancel background worker
+-Added error checking to Renamer ... duplicates must be removed/renamed first
+-Added error checking to context menu cmsSongManagerColumns
+-Added a usable property to renamer: filename - original file name before renaming.
+-Changed Start() to Restart to avoid counter time additions.
+
 0.1.3.8
 -Fixed SongManager and Duplicates conditional rescanning
 -Implimented reusable background worker class for parsing songs
