@@ -88,9 +88,10 @@ namespace CustomsForgeManager.UControls
                 // BLRV is colored as expected after sorting, toggling tabs to->from->to
                 // SongManager->Settings->SongManager, or if songs are parsed on startup 
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                MessageBox.Show("Song collection file(s) could not be read.  " + Environment.NewLine + "Hit 'Rescan' when application starts.", Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //MessageBox.Show("Song collection file(s) could not be read.  " + Environment.NewLine + "Hit 'Rescan' when application starts.", Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Globals.Log("Error: "+e.Message);
             }
         }
 
@@ -99,7 +100,7 @@ namespace CustomsForgeManager.UControls
             Globals.Log("Populating SongManager GUI ...");
 
             // Hide main dgvSongs until load completes
-            dgvSongs.Visible = false;
+            //dgvSongs.Visible = false;
 
             // Load Song Collection
             if (Globals.MySettings.RescanOnStartup)
@@ -168,22 +169,22 @@ namespace CustomsForgeManager.UControls
                 (row.Cells["cVocals"]).Style = style3;
 
                 // combo's are combinations of lead and rhythm
-                if (row.Cells["Arrangements"].Value.ToString().ToUpper().Contains("COMBO"))
+                if (row.Cells["colArrangements"].Value.ToString().ToUpper().Contains("COMBO"))
                 {
                     (row.Cells["cLead"]).Style = style2;
                     (row.Cells["cRhythm"]).Style = style2;
                 }
 
-                if (row.Cells["Arrangements"].Value.ToString().ToUpper().Contains("VOCAL"))
+                if (row.Cells["colArrangements"].Value.ToString().ToUpper().Contains("VOCAL"))
                     (row.Cells["cVocals"]).Style = style1;
 
-                if (row.Cells["Arrangements"].Value.ToString().ToUpper().Contains("BASS"))
+                if (row.Cells["colArrangements"].Value.ToString().ToUpper().Contains("BASS"))
                     (row.Cells["cBass"]).Style = style1;
 
-                if (row.Cells["Arrangements"].Value.ToString().ToUpper().Contains("LEAD"))
+                if (row.Cells["colArrangements"].Value.ToString().ToUpper().Contains("LEAD"))
                     (row.Cells["cLead"]).Style = style1;
 
-                if (row.Cells["Arrangements"].Value.ToString().ToUpper().Contains("RHYTHM"))
+                if (row.Cells["colArrangements"].Value.ToString().ToUpper().Contains("RHYTHM"))
                     (row.Cells["cRhythm"]).Style = style1;
             }
         }
@@ -278,7 +279,7 @@ namespace CustomsForgeManager.UControls
             dgvSongs.Columns["colSelect"].Visible = true;
             dgvSongs.Columns["colSelect"].Width = 43;
             dgvSongs.Columns["colSelect"].DisplayIndex = 0;
-            dgvSongs.Columns["Enabled"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dgvSongs.Columns["colEnabled"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
             // see SongManager.Designer for custom appearance settings
             dgvSongs.Visible = true; // must come first for setting to apply correctly
@@ -689,6 +690,11 @@ namespace CustomsForgeManager.UControls
                     Application.DoEvents();
                     // updates display while working
                     dgvSongs.DataSource = worker.bwSongCollection;
+                    //dgvSongs.DataSource = worker.bwSongCollection.Select(x => new
+                    //{
+                    //    colEnabled = x.Enabled,
+                    //    colPath = x.Path
+                    //}).ToList();
                 }
 
                 ToggleUIControls();
@@ -908,112 +914,112 @@ namespace CustomsForgeManager.UControls
                     bs.DataSource = songsToShow.ToList();
                     break;
 
-                case "Enabled":
+                case "colEnabled":
                     if (sortDescending)
                         bs.DataSource = songsToShow.OrderByDescending(song => song.Enabled);
                     else
                         bs.DataSource = songsToShow.OrderBy(song => song.Enabled);
                     break;
 
-                case "Song":
+                case "colSongTitle":
                     if (sortDescending)
                         bs.DataSource = songsToShow.OrderByDescending(song => song.Song);
                     else
                         bs.DataSource = songsToShow.OrderBy(song => song.Song);
                     break;
 
-                case "Artist":
+                case "colSongArtist":
                     if (sortDescending)
                         bs.DataSource = songsToShow.OrderByDescending(song => song.Artist);
                     else
                         bs.DataSource = songsToShow.OrderBy(song => song.Artist);
                     break;
 
-                case "Album":
+                case "colSongAlbum":
                     if (sortDescending)
                         bs.DataSource = songsToShow.OrderByDescending(song => song.Album);
                     else
                         bs.DataSource = songsToShow.OrderBy(song => song.Album);
                     break;
 
-                case "Updated":
+                case "colUpdated":
                     if (sortDescending)
                         bs.DataSource = songsToShow.OrderByDescending(song => DateTime.ParseExact(song.Updated, "M-d-y H:m", System.Globalization.CultureInfo.InvariantCulture));
                     else
                         bs.DataSource = songsToShow.OrderBy(song => DateTime.ParseExact(song.Updated, "M-d-y H:m", System.Globalization.CultureInfo.InvariantCulture));
                     break;
 
-                case "Tuning":
+                case "colSongTuning":
                     if (sortDescending)
                         bs.DataSource = songsToShow.OrderByDescending(song => song.Tuning);
                     else
                         bs.DataSource = songsToShow.OrderBy(song => song.Tuning);
                     break;
 
-                case "DD":
+                case "colDD":
                     if (sortDescending)
                         bs.DataSource = songsToShow.OrderByDescending(song => song.DD);
                     else
                         bs.DataSource = songsToShow.OrderBy(song => song.DD);
                     break;
 
-                case "Arrangements":
+                case "colArrangements":
                     if (sortDescending)
                         bs.DataSource = songsToShow.OrderByDescending(song => song.Arrangements);
                     else
                         bs.DataSource = songsToShow.OrderBy(song => song.Arrangements);
                     break;
 
-                case "Author":
+                case "colAuthor":
                     if (sortDescending)
                         bs.DataSource = songsToShow.OrderByDescending(song => song.Author);
                     else
                         bs.DataSource = songsToShow.OrderBy(song => song.Author);
                     break;
 
-                case "Version":
+                case "colVersion":
                     if (sortDescending)
                         bs.DataSource = songsToShow.OrderByDescending(song => song.Version);
                     else
                         bs.DataSource = songsToShow.OrderBy(song => song.Version);
                     break;
 
-                case "ToolkitVer":
+                case "colToolkitVer":
                     if (sortDescending)
                         bs.DataSource = songsToShow.OrderByDescending(song => song.ToolkitVer);
                     else
                         bs.DataSource = songsToShow.OrderBy(song => song.ToolkitVer);
                     break;
 
-                case "Path":
+                case "colPath":
                     if (sortDescending)
                         bs.DataSource = songsToShow.OrderByDescending(song => song.Path);
                     else
                         bs.DataSource = songsToShow.OrderBy(song => song.Path);
                     break;
 
-                case "FileName":
+                case "colFileName":
                     if (sortDescending)
                         bs.DataSource = songsToShow.OrderByDescending(song => song.FileName);
                     else
                         bs.DataSource = songsToShow.OrderBy(song => song.FileName);
                     break;
 
-                case "SongYear":
+                case "colSongYear":
                     if (sortDescending)
                         bs.DataSource = songsToShow.OrderByDescending(song => song.SongYear);
                     else
                         bs.DataSource = songsToShow.OrderBy(song => song.SongYear);
                     break;
 
-                case "IgntionVersion":
+                case "colIgntionVersion":
                     if (sortDescending)
                         bs.DataSource = songsToShow.OrderByDescending(song => song.IgnitionVersion);
                     else
                         bs.DataSource = songsToShow.OrderBy(song => song.IgnitionVersion);
                     break;
 
-                case "IgnitionID":
+                case "colIgnitionID":
                     if (sortDescending)
 
                         bs.DataSource = songsToShow.OrderByDescending(song => song.IgnitionID);
@@ -1023,14 +1029,14 @@ namespace CustomsForgeManager.UControls
                         bs.DataSource = songsToShow.OrderBy(song => song.IgnitionID);
                     break;
 
-                case "IgnitionUpdated":
+                case "colIgnitionUpdated":
                     if (sortDescending)
                         bs.DataSource = songsToShow.OrderByDescending(song => song.Updated);
                     else
                         bs.DataSource = songsToShow.OrderBy(song => song.Updated);
                     break;
 
-                case "IgnitionAuthor":
+                case "colIgnitionAuthor":
                     if (sortDescending)
                         bs.DataSource = songsToShow.OrderByDescending(song => song.IgnitionAuthor);
                     else
