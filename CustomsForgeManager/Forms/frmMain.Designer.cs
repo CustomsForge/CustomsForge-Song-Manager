@@ -40,9 +40,9 @@ namespace CustomsForgeManager.Forms
             this.statusStripMain = new System.Windows.Forms.StatusStrip();
             this.tsLabel_ShowHideLog = new System.Windows.Forms.ToolStripStatusLabel();
             this.tsProgressBar_Main = new System.Windows.Forms.ToolStripProgressBar();
+            this.tsLabel_ClearLog = new System.Windows.Forms.ToolStripStatusLabel();
             this.tsLabel_MainMsg = new System.Windows.Forms.ToolStripStatusLabel();
             this.tsLabel_StatusMsg = new System.Windows.Forms.ToolStripStatusLabel();
-            this.tsLabel_ClearLog = new System.Windows.Forms.ToolStripStatusLabel();
             this.tsLabel_Cancel = new System.Windows.Forms.ToolStripStatusLabel();
             this.tsLabel_DisabledCounter = new System.Windows.Forms.ToolStripStatusLabel();
             this.timerAutoUpdate = new System.Windows.Forms.Timer(this.components);
@@ -124,7 +124,7 @@ namespace CustomsForgeManager.Forms
             this.tsLabel_ShowHideLog.Name = "tsLabel_ShowHideLog";
             this.tsLabel_ShowHideLog.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
             this.tsLabel_ShowHideLog.Size = new System.Drawing.Size(68, 18);
-            this.tsLabel_ShowHideLog.Text = "Hide Log ";
+            this.tsLabel_ShowHideLog.Text = "Show Log ";
             this.tsLabel_ShowHideLog.Click += new System.EventHandler(this.tsLabelShowHideLog_Click);
             // 
             // tsProgressBar_Main
@@ -132,6 +132,17 @@ namespace CustomsForgeManager.Forms
             this.tsProgressBar_Main.Name = "tsProgressBar_Main";
             this.tsProgressBar_Main.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
             this.tsProgressBar_Main.Size = new System.Drawing.Size(408, 17);
+            // 
+            // tsLabel_ClearLog
+            // 
+            this.tsLabel_ClearLog.Font = new System.Drawing.Font("Trebuchet MS", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tsLabel_ClearLog.IsLink = true;
+            this.tsLabel_ClearLog.LinkColor = System.Drawing.Color.Black;
+            this.tsLabel_ClearLog.Name = "tsLabel_ClearLog";
+            this.tsLabel_ClearLog.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
+            this.tsLabel_ClearLog.Size = new System.Drawing.Size(64, 18);
+            this.tsLabel_ClearLog.Text = "Clear log";
+            this.tsLabel_ClearLog.Click += new System.EventHandler(this.tsLabelClearLog_Click);
             // 
             // tsLabel_MainMsg
             // 
@@ -151,17 +162,6 @@ namespace CustomsForgeManager.Forms
             this.tsLabel_StatusMsg.Size = new System.Drawing.Size(50, 18);
             this.tsLabel_StatusMsg.Spring = true;
             this.tsLabel_StatusMsg.Text = "Status";
-            // 
-            // tsLabel_ClearLog
-            // 
-            this.tsLabel_ClearLog.Font = new System.Drawing.Font("Trebuchet MS", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tsLabel_ClearLog.IsLink = true;
-            this.tsLabel_ClearLog.LinkColor = System.Drawing.Color.Black;
-            this.tsLabel_ClearLog.Name = "tsLabel_ClearLog";
-            this.tsLabel_ClearLog.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
-            this.tsLabel_ClearLog.Size = new System.Drawing.Size(64, 18);
-            this.tsLabel_ClearLog.Text = "Clear log";
-            this.tsLabel_ClearLog.Click += new System.EventHandler(this.tsLabelClearLog_Click);
             // 
             // tsLabel_Cancel
             // 
@@ -200,18 +200,18 @@ namespace CustomsForgeManager.Forms
             this.contextMenuStrip_Tray.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.closeToolStripMenuItem});
             this.contextMenuStrip_Tray.Name = "contextMenuStrip_Tray";
-            this.contextMenuStrip_Tray.Size = new System.Drawing.Size(112, 26);
+            this.contextMenuStrip_Tray.Size = new System.Drawing.Size(104, 26);
             // 
             // closeToolStripMenuItem
             // 
             this.closeToolStripMenuItem.Image = global::CustomsForgeManager.Properties.Resources.close;
             this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            this.closeToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
             this.closeToolStripMenuItem.Text = "Close";
             // 
             // scMain
             // 
-            this.scMain.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.scMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.scMain.Location = new System.Drawing.Point(0, 0);
             this.scMain.Name = "scMain";
             this.scMain.Orientation = System.Windows.Forms.Orientation.Horizontal;
@@ -223,6 +223,7 @@ namespace CustomsForgeManager.Forms
             // scMain.Panel2
             // 
             this.scMain.Panel2.Controls.Add(this.gbLog);
+            this.scMain.Panel2Collapsed = true;
             this.scMain.Size = new System.Drawing.Size(1011, 636);
             this.scMain.SplitterDistance = 526;
             this.scMain.TabIndex = 2;
@@ -241,7 +242,7 @@ namespace CustomsForgeManager.Forms
             this.tcMain.Location = new System.Drawing.Point(0, 0);
             this.tcMain.Name = "tcMain";
             this.tcMain.SelectedIndex = 0;
-            this.tcMain.Size = new System.Drawing.Size(1011, 526);
+            this.tcMain.Size = new System.Drawing.Size(1011, 636);
             this.tcMain.TabIndex = 2;
             this.tcMain.SelectedIndexChanged += new System.EventHandler(this.tcMain_SelectedIndexChanged);
             // 
@@ -250,7 +251,7 @@ namespace CustomsForgeManager.Forms
             this.tpSongManager.Location = new System.Drawing.Point(4, 25);
             this.tpSongManager.Name = "tpSongManager";
             this.tpSongManager.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
-            this.tpSongManager.Size = new System.Drawing.Size(1003, 497);
+            this.tpSongManager.Size = new System.Drawing.Size(1003, 607);
             this.tpSongManager.TabIndex = 0;
             this.tpSongManager.Text = "Song Manager";
             this.tpSongManager.UseVisualStyleBackColor = true;
