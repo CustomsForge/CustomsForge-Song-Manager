@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 using System.Reflection;
 
@@ -59,6 +60,11 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
                                  Assembly.GetExecutingAssembly().GetName().Version.Minor,
                                  Assembly.GetExecutingAssembly().GetName().Version.Build,
                                  Assembly.GetExecutingAssembly().GetName().Version.Revision);
+        }
+
+        public static string DefaultSystemDateFormat
+        {
+            get { return CultureInfo.CurrentUICulture.DateTimeFormat.ShortDatePattern; }
         }
 
     }

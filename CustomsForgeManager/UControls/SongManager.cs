@@ -684,7 +684,7 @@ namespace CustomsForgeManager.UControls
             {
                 ToggleUIControls();
                 dgvSongs.Rows.Clear();
-                worker.BackgroundScan(this);
+                worker.BackgroundScan(this, bWorker);
                 while (Globals.WorkerFinished == Globals.Tristate.False)
                 {
                     Application.DoEvents();
@@ -1135,6 +1135,13 @@ namespace CustomsForgeManager.UControls
                 SearchDLC(tbSearch.Text);
             else
                 dgvSongs.DataSource = new BindingSource().DataSource = smSongCollection;
+        }
+
+        private void btnCancelScan_Click(object sender, EventArgs e)
+        {
+            bWorker.CancelAsync();
+            //bWorker.Abort();
+            
         }
 
 

@@ -23,7 +23,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
         public BindingList<SongData> bwSongCollection = new BindingList<SongData>();
         private Control workOrder;
 
-        public void BackgroundScan(object sender)
+        public void BackgroundScan(object sender, AbortableBackgroundWorker backgroundWorker = null)
         {
             // keep track of UC that started worker
             workOrder = ((Control)sender);
@@ -32,7 +32,10 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
             Globals.TsLabel_Cancel.Enabled = true;
             Globals.TsLabel_MainMsg.Visible = true;
             Globals.WorkerFinished = Globals.Tristate.False;
-            bWorker = new AbortableBackgroundWorker();
+            if (backgroundWorker == null)
+                bWorker = new AbortableBackgroundWorker();
+            else
+                bWorker = backgroundWorker;
             bWorker.SetDefaults();
             if (workOrder.Name == "SongManager" || workOrder.Name == "Duplicates")
                 bWorker.DoWork += WorkerParseSongs;
@@ -155,7 +158,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
 
                         DateTime updateDateTime = new DateTime();
                         if (DateTime.TryParse(songData.Updated, out updateDateTime))
-                            songData.Updated = updateDateTime.ToString("g");
+                            songData.Updated = updateDateTime.ToString(Constants.DefaultSystemDateFormat);
 
                         if (songData.Version == "N/A")
                         {
