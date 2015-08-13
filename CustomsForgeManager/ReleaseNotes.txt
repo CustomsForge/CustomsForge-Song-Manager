@@ -1,3 +1,8 @@
+0.1.4.1
+-Fixed arrangement columns' names
+-Fixed row double click crashing
+-Fixed column resizing by setting AutoSize Columns to None
+
 0.1.4.0
 -Replaced search textbox with cuetextbox
 -Added all columns to SongManager grid
