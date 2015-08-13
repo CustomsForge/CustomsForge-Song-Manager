@@ -47,7 +47,6 @@ namespace CustomsForgeManager.UControls
             this.lbl_ExportTo = new System.Windows.Forms.Label();
             this.radioBtn_ExportToBBCode = new System.Windows.Forms.RadioButton();
             this.btnDisableEnableSongs = new System.Windows.Forms.Button();
-            this.btnCancelScan = new System.Windows.Forms.Button();
             this.btnRescan = new System.Windows.Forms.Button();
             this.gb_Main_Actions = new System.Windows.Forms.GroupBox();
             this.sfdSongListToCSV = new System.Windows.Forms.SaveFileDialog();
@@ -166,7 +165,6 @@ namespace CustomsForgeManager.UControls
             this.panelSongListButtons.Controls.Add(this.lbl_ExportTo);
             this.panelSongListButtons.Controls.Add(this.radioBtn_ExportToBBCode);
             this.panelSongListButtons.Controls.Add(this.btnDisableEnableSongs);
-            this.panelSongListButtons.Controls.Add(this.btnCancelScan);
             this.panelSongListButtons.Controls.Add(this.btnRescan);
             this.panelSongListButtons.Location = new System.Drawing.Point(6, 13);
             this.panelSongListButtons.Name = "panelSongListButtons";
@@ -276,21 +274,6 @@ namespace CustomsForgeManager.UControls
             this.btnDisableEnableSongs.UseVisualStyleBackColor = true;
             this.btnDisableEnableSongs.Click += new System.EventHandler(this.btnDisableEnableSongs_Click);
             // 
-            // btnCancelScan
-            // 
-            this.btnCancelScan.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnCancelScan.Image = global::CustomsForgeManager.Properties.Resources.close;
-            this.btnCancelScan.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnCancelScan.Location = new System.Drawing.Point(100, 6);
-            this.btnCancelScan.Name = "btnCancelScan";
-            this.btnCancelScan.Size = new System.Drawing.Size(74, 29);
-            this.btnCancelScan.TabIndex = 4;
-            this.btnCancelScan.Text = "Cancel";
-            this.btnCancelScan.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnCancelScan.UseVisualStyleBackColor = true;
-            this.btnCancelScan.Visible = false;
-            this.btnCancelScan.Click += new System.EventHandler(this.btnCancelScan_Click);
-            // 
             // btnRescan
             // 
             this.btnRescan.Anchor = System.Windows.Forms.AnchorStyles.None;
@@ -298,10 +281,9 @@ namespace CustomsForgeManager.UControls
             this.btnRescan.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnRescan.Location = new System.Drawing.Point(20, 6);
             this.btnRescan.Name = "btnRescan";
-            this.btnRescan.Size = new System.Drawing.Size(74, 29);
+            this.btnRescan.Size = new System.Drawing.Size(131, 29);
             this.btnRescan.TabIndex = 4;
             this.btnRescan.Text = "Rescan";
-            this.btnRescan.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnRescan.UseVisualStyleBackColor = true;
             this.btnRescan.Click += new System.EventHandler(this.btnRescan_Click);
             // 
@@ -830,7 +812,6 @@ namespace CustomsForgeManager.UControls
         private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn4;
         private System.Windows.Forms.ContextMenuStrip cmsSongManagerColumns;
         private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem;
-        private System.Windows.Forms.Button btnCancelScan;
         private System.Windows.Forms.DataGridViewCheckBoxColumn colSelect;
         private System.Windows.Forms.DataGridViewImageColumn colBass;
         private System.Windows.Forms.DataGridViewImageColumn colLead;

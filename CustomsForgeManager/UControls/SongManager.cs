@@ -366,10 +366,10 @@ namespace CustomsForgeManager.UControls
             if (dgvSongs.SelectedRows.Count > 0)
             {
                 var selectedRow = dgvSongs.SelectedRows[0];
-                var title = selectedRow.Cells["Song"].Value.ToString();
-                var artist = selectedRow.Cells["Artist"].Value.ToString();
-                var album = selectedRow.Cells["Album"].Value.ToString();
-                var path = selectedRow.Cells["Path"].Value.ToString();
+                var title = selectedRow.Cells["colSongTitle"].Value.ToString();
+                var artist = selectedRow.Cells["colSongArtist"].Value.ToString();
+                var album = selectedRow.Cells["colSongAlbum"].Value.ToString();
+                var path = selectedRow.Cells["colPath"].Value.ToString();
 
                 var song = smSongCollection.FirstOrDefault(x => x.Song == title && x.Album == album && x.Artist == artist && x.Path == path);
                 if (song != null)
