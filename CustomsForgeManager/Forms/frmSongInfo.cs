@@ -43,14 +43,14 @@ namespace CustomsForgeManager.Forms
             {
                 if (split.ToLower().Contains("combo"))
                 {
-                    dgv_Arrangements.Columns["cLead"].DefaultCellStyle.BackColor = Color.Yellow;
-                    dgv_Arrangements.Columns["cRhythm"].DefaultCellStyle.BackColor = Color.Yellow;
-                    dgv_Arrangements.Columns["cLead"].Visible = true;
-                    dgv_Arrangements.Columns["cRhythm"].Visible = true;
+                    dgv_Arrangements.Columns["colLead"].DefaultCellStyle.BackColor = Color.Yellow;
+                    dgv_Arrangements.Columns["colRhythm"].DefaultCellStyle.BackColor = Color.Yellow;
+                    dgv_Arrangements.Columns["colLead"].Visible = true;
+                    dgv_Arrangements.Columns["colRhythm"].Visible = true;
                 }
                 else
                 {
-                    string column_name = "c" + split;
+                    string column_name = "col" + split;
                     var dataGridViewColumn = dgv_Arrangements.Columns[column_name];
                     if (dataGridViewColumn != null)
                     {

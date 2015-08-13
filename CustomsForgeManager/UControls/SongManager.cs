@@ -163,29 +163,29 @@ namespace CustomsForgeManager.UControls
 
             foreach (DataGridViewRow row in dgvSongs.Rows)
             {
-                (row.Cells["cBass"]).Style = style3;
-                (row.Cells["cLead"]).Style = style3;
-                (row.Cells["cRhythm"]).Style = style3;
-                (row.Cells["cVocals"]).Style = style3;
+                (row.Cells["colBass"]).Style = style3;
+                (row.Cells["colLead"]).Style = style3;
+                (row.Cells["colRhythm"]).Style = style3;
+                (row.Cells["colVocals"]).Style = style3;
 
                 // combo's are combinations of lead and rhythm
                 if (row.Cells["colArrangements"].Value.ToString().ToUpper().Contains("COMBO"))
                 {
-                    (row.Cells["cLead"]).Style = style2;
-                    (row.Cells["cRhythm"]).Style = style2;
+                    (row.Cells["colLead"]).Style = style2;
+                    (row.Cells["colRhythm"]).Style = style2;
                 }
 
                 if (row.Cells["colArrangements"].Value.ToString().ToUpper().Contains("VOCAL"))
-                    (row.Cells["cVocals"]).Style = style1;
+                    (row.Cells["colVocals"]).Style = style1;
 
                 if (row.Cells["colArrangements"].Value.ToString().ToUpper().Contains("BASS"))
-                    (row.Cells["cBass"]).Style = style1;
+                    (row.Cells["colBass"]).Style = style1;
 
                 if (row.Cells["colArrangements"].Value.ToString().ToUpper().Contains("LEAD"))
-                    (row.Cells["cLead"]).Style = style1;
+                    (row.Cells["colLead"]).Style = style1;
 
                 if (row.Cells["colArrangements"].Value.ToString().ToUpper().Contains("RHYTHM"))
-                    (row.Cells["cRhythm"]).Style = style1;
+                    (row.Cells["colRhythm"]).Style = style1;
             }
         }
 
