@@ -139,13 +139,11 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                 bwFileCollection.Add(file);
             }
 
-            // TODO: to help find memory leak moved timer
             counterStopwatch.Stop();
         }
 
         private void ParsePSARC(string enabled, string file)
         {
-            // TODO: find memory leak somewhere here (rescan times continously increase)
             try
             {
                 using (var browser = new PsarcBrowser(file))

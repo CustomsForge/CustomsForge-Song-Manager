@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -8,6 +9,7 @@ using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 using CustomsForgeManager.CustomsForgeManagerLib;
 using CustomsForgeManager.CustomsForgeManagerLib.CustomControls;
@@ -20,12 +22,14 @@ namespace CustomsForgeManager.UControls
 {
     public partial class SongManager : UserControl
     {
-        private AbortableBackgroundWorker bWorker;
-        private Stopwatch counterStopwatch = new Stopwatch();
         private bool allSelected = false;
-        private List<string> smFileCollection = new List<string>();
+        private AbortableBackgroundWorker bWorker;
+        private bool bindingCompleted = false;
+        private Stopwatch counterStopwatch = new Stopwatch();
+        private bool dgvPainted = false;
         private int numberOfDLCPendingUpdate = 0;
         private int numberOfDisabledDLC = 0;
+        private List<string> smFileCollection = new List<string>();
         private BindingList<SongData> smSongCollection = new BindingList<SongData>();
         private string sortColumnName = String.Empty;
         private bool sortDescending = true;
@@ -34,7 +38,6 @@ namespace CustomsForgeManager.UControls
         public SongManager()
         {
             InitializeComponent();
-            // TODO: EH LEAVE NOT FIRED AFTER INITIAL LOAD AND LEAVE ...  WHY?
             Leave += SongManager_Leave;
             PopulateSongManager();
         }
@@ -60,16 +63,16 @@ namespace CustomsForgeManager.UControls
 
             try
             {
-                using (var fs = new FileStream(songsInfoPath, FileMode.Open, FileAccess.Read, FileShare.Read))
+                using (var fsSongCollection = new FileStream(songsInfoPath, FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
-                    smSongCollection = fs.DeserializeXml(new BindingList<SongData>());
-                    fs.Flush(); // seems redundant?
+                    smSongCollection = fsSongCollection.DeserializeXml(new BindingList<SongData>());
+                    fsSongCollection.Flush(); // seems redundant?
                 }
 
-                using (var fs2 = new FileStream(songFilesPath, FileMode.Open, FileAccess.Read, FileShare.Read))
+                using (var fsFileCollection = new FileStream(songFilesPath, FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
-                    smFileCollection = fs2.DeserializeXml(new List<string>());
-                    fs2.Flush(); // seems redundant?
+                    smFileCollection = fsFileCollection.DeserializeXml(new List<string>());
+                    fsFileCollection.Flush(); // seems redundant?
                 }
 
                 if (smFileCollection == null || smFileCollection.Count == 0)
@@ -82,16 +85,11 @@ namespace CustomsForgeManager.UControls
                 Globals.SongCollection = smSongCollection;
                 Globals.Log("Loaded song collection file ...");
                 PopulateDataGridView();
-
-                // TODO: figure out why this does not work as expected on startup 
-                // BLRV is not colored when song collection is loaded from a file 
-                // BLRV is colored as expected after sorting, toggling tabs to->from->to
-                // SongManager->Settings->SongManager, or if songs are parsed on startup 
             }
             catch (Exception e)
             {
                 //MessageBox.Show("Song collection file(s) could not be read.  " + Environment.NewLine + "Hit 'Rescan' when application starts.", Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Globals.Log("Error: "+e.Message);
+                Globals.Log("Error: " + e.Message);
             }
         }
 
@@ -100,13 +98,12 @@ namespace CustomsForgeManager.UControls
             Globals.Log("Populating SongManager GUI ...");
 
             // Hide main dgvSongs until load completes
-            //dgvSongs.Visible = false;
+            dgvSongs.Visible = false;
 
-            // Load Song Collection
             if (Globals.MySettings.RescanOnStartup)
                 Rescan();
-            else
-                LoadSongCollectionFromFile();
+
+            LoadSongCollectionFromFile();
         }
 
         public void SaveSongCollectionToFile()
@@ -114,16 +111,16 @@ namespace CustomsForgeManager.UControls
             var songsInfoPath = Constants.SongsInfoPath;
             var songFilesPath = Constants.SongFilesPath;
 
-            using (var fsSip = new FileStream(songsInfoPath, FileMode.Create, FileAccess.Write, FileShare.Write))
+            using (var fsSc = new FileStream(songsInfoPath, FileMode.Create, FileAccess.Write, FileShare.Write))
             {
-                smSongCollection.SerializeXml(fsSip);
-                fsSip.Flush();
+                smSongCollection.SerializeXml(fsSc);
+                fsSc.Flush();
             }
 
-            using (var fsFlp = new FileStream(songFilesPath, FileMode.Create, FileAccess.Write, FileShare.Write))
+            using (var fsFc = new FileStream(songFilesPath, FileMode.Create, FileAccess.Write, FileShare.Write))
             {
-                smFileCollection.SerializeXml(fsFlp);
-                fsFlp.Flush();
+                smFileCollection.SerializeXml(fsFc);
+                fsFc.Flush();
             }
 
             Globals.Log("Saved song collection file ...");
@@ -136,9 +133,12 @@ namespace CustomsForgeManager.UControls
                 Globals.RescanSongManager = false;
 
                 if (Globals.RescanDuplicates)
+                {
+                    Globals.RescanDuplicates = false;
                     Rescan();
-                else
-                    LoadSongCollectionFromFile();
+                }
+
+                LoadSongCollectionFromFile();
             }
 
             Globals.TsLabel_MainMsg.Text = string.Format("Rocksmith Songs Count: {0}", smSongCollection.Count);
@@ -168,6 +168,9 @@ namespace CustomsForgeManager.UControls
                 (row.Cells["colRhythm"]).Style = style3;
                 (row.Cells["colVocals"]).Style = style3;
 
+                if (row.Cells["colArrangements"].Value == null)
+                    continue;
+
                 // combo's are combinations of lead and rhythm
                 if (row.Cells["colArrangements"].Value.ToString().ToUpper().Contains("COMBO"))
                 {
@@ -187,6 +190,19 @@ namespace CustomsForgeManager.UControls
                 if (row.Cells["colArrangements"].Value.ToString().ToUpper().Contains("RHYTHM"))
                     (row.Cells["colRhythm"]).Style = style1;
             }
+        }
+
+        private void CheckForUpdatesEvent(object o, DoWorkEventArgs args)
+        {
+            // part of ContextMenuStrip action
+            Extensions.InvokeIfRequired(dgvSongs, delegate
+                {
+                    if (dgvSongs.SelectedRows.Count > 0)
+                    {
+                        CheckRowForUpdate(dgvSongs.SelectedRows[0]);
+                        SaveSongCollectionToFile();
+                    }
+                });
         }
 
         private void CheckRowForUpdate(DataGridViewRow dataGridViewRow)
@@ -281,8 +297,8 @@ namespace CustomsForgeManager.UControls
             dgvSongs.Columns["colSelect"].DisplayIndex = 0;
             dgvSongs.Columns["colEnabled"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
+            dgvSongs.Visible = true;
             // see SongManager.Designer for custom appearance settings
-            dgvSongs.Visible = true; // must come first for setting to apply correctly
             dgvSongs.AllowUserToAddRows = false; // removes empty row at bottom
             dgvSongs.AllowUserToDeleteRows = false;
             dgvSongs.AllowUserToOrderColumns = true;
@@ -292,7 +308,11 @@ namespace CustomsForgeManager.UControls
             dgvSongs.BackgroundColor = SystemColors.AppWorkspace;
             dgvSongs.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dgvSongs.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvSongs.EditMode = DataGridViewEditMode.EditOnEnter;
+            // set custom selection (highlighting) color
+            dgvSongs.DefaultCellStyle.SelectionBackColor = Color.Gold; // dgvSongs.DefaultCellStyle.BackColor; // or removes selection highlight
+            dgvSongs.DefaultCellStyle.SelectionForeColor = dgvSongs.DefaultCellStyle.ForeColor;
+            dgvSongs.EditMode = DataGridViewEditMode.EditProgrammatically;
+            // dgvSongs.EditMode = DataGridViewEditMode.EditOnEnter;
             dgvSongs.EnableHeadersVisualStyles = true;
             dgvSongs.Font = new Font("Arial", 8);
             dgvSongs.GridColor = SystemColors.ActiveCaption;
@@ -301,8 +321,6 @@ namespace CustomsForgeManager.UControls
             // dgvSongs.ReadOnly = true;
             dgvSongs.RowHeadersVisible = false; // remove row arrow
             dgvSongs.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-
-            dgvSongs.ClearSelection();
         }
 
         private SongData GetSongByRow(DataGridViewRow dataGridViewRow)
@@ -310,9 +328,11 @@ namespace CustomsForgeManager.UControls
             return smSongCollection.Distinct().FirstOrDefault(x => x.Song == dataGridViewRow.Cells["Song"].Value.ToString() && x.Artist == dataGridViewRow.Cells["Artist"].Value.ToString() && x.Album == dataGridViewRow.Cells["Album"].Value.ToString() && x.Path == dataGridViewRow.Cells["Path"].Value.ToString());
         }
 
-        private void PopulateDataGridView()
+        private void PopulateDataGridView() // binding data to grid
         {
-            // processing order is important
+            bindingCompleted = false;
+            dgvPainted = false;
+
             dgvSongs.DataSource = smSongCollection;
             sortedSongCollection = smSongCollection.ToList();
 
@@ -322,15 +342,6 @@ namespace CustomsForgeManager.UControls
             // reload column order, width, visibility
             if (Globals.MySettings.ManagerGridSettings != null)
                 dgvSongs.ReLoadColumnOrder(Globals.MySettings.ManagerGridSettings.ColumnOrder);
-
-            // update BLRV columns
-            ArrangementColumnsColors();
-
-            // set custom selection (highlighting) color
-            dgvSongs.DefaultCellStyle.SelectionBackColor = Color.Gold; // dgvSongs.DefaultCellStyle.BackColor;
-            dgvSongs.DefaultCellStyle.SelectionForeColor = dgvSongs.DefaultCellStyle.ForeColor;
-            dgvSongs.ClearSelection();
-            UpdateToolStrip();
         }
 
         private void PopulateMenuWithColumnHeaders(ContextMenuStrip contextMenuStrip)
@@ -338,7 +349,7 @@ namespace CustomsForgeManager.UControls
             // save current column status
             Globals.DgvSongs = dgvSongs;
             Globals.Settings.SaveSettingsToFile();
-            
+
             if (Globals.MySettings == null || Globals.MySettings.ManagerGridSettings == null)
                 return;
 
@@ -350,6 +361,48 @@ namespace CustomsForgeManager.UControls
                 columnsMenuItem.Checked = dgvSongs.Columns[columnOrderItem.ColumnIndex].Visible;
                 columnsMenuItem.Tag = dgvSongs.Columns[columnOrderItem.ColumnIndex].Name;
                 contextMenuStrip.Items.Add(columnsMenuItem);
+            }
+        }
+
+        private void Rescan()
+        {
+            // save settings (column widths) in case user has modified
+            Globals.Settings.SaveSettingsToFile();
+
+            // this should never happen
+            if (String.IsNullOrEmpty(Globals.MySettings.RSInstalledDir))
+            {
+                MessageBox.Show("Error: Rocksmith 2014 installation directory setting is null or empty.", Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            // run new worker
+            using (Worker worker = new Worker())
+            {
+                ToggleUIControls();
+                dgvSongs.Rows.Clear();
+                worker.BackgroundScan(this, bWorker);
+                while (Globals.WorkerFinished == Globals.Tristate.False)
+                {
+                    Application.DoEvents();
+                    // updates display while working
+                    dgvSongs.DataSource = worker.bwSongCollection;
+                    //dgvSongs.DataSource = worker.bwSongCollection.Select(x => new
+                    //{
+                    //    colEnabled = x.Enabled,
+                    //    colPath = x.Path
+                    //}).ToList();
+                }
+
+                ToggleUIControls();
+
+                if (Globals.WorkerFinished == Globals.Tristate.Cancelled)
+                    return;
+
+                smSongCollection = Globals.SongCollection;
+                smFileCollection = Globals.FileCollection;
+                sortedSongCollection = smSongCollection.ToList();
+                SaveSongCollectionToFile();
             }
         }
 
@@ -539,19 +592,6 @@ namespace CustomsForgeManager.UControls
             }
         }
 
-        private void CheckForUpdatesEvent(object o, DoWorkEventArgs args)
-        {
-            // part of ContextMenuStrip action
-            Extensions.InvokeIfRequired(dgvSongs, delegate
-                {
-                    if (dgvSongs.SelectedRows.Count > 0)
-                    {
-                        CheckRowForUpdate(dgvSongs.SelectedRows[0]);
-                        SaveSongCollectionToFile();
-                    }
-                });
-        }
-
         private void SongManager_Leave(object sender, EventArgs e)
         {
             // TODO: this EH does not get fired after initial load and leave
@@ -664,48 +704,11 @@ namespace CustomsForgeManager.UControls
 
         private void btnRescan_Click(object sender, EventArgs e)
         {
+            bindingCompleted = false;
+            dgvPainted = false;
             Rescan();
-        }
-
-        private void Rescan()
-        {
-            // save settings (column widths) in case user has modified
-            Globals.Settings.SaveSettingsToFile();
-
-            // this should never happen
-            if (String.IsNullOrEmpty(Globals.MySettings.RSInstalledDir))
-            {
-                MessageBox.Show("Error: Rocksmith 2014 installation directory setting is null or empty.", Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            // run new worker
-            using (Worker worker = new Worker())
-            {
-                ToggleUIControls();
-                dgvSongs.Rows.Clear();
-                worker.BackgroundScan(this, bWorker);
-                while (Globals.WorkerFinished == Globals.Tristate.False)
-                {
-                    Application.DoEvents();
-                    // updates display while working
-                    dgvSongs.DataSource = worker.bwSongCollection;
-                    //dgvSongs.DataSource = worker.bwSongCollection.Select(x => new
-                    //{
-                    //    colEnabled = x.Enabled,
-                    //    colPath = x.Path
-                    //}).ToList();
-                }
-
-                ToggleUIControls();
-
-                if (Globals.WorkerFinished == Globals.Tristate.Cancelled)
-                    return;
-
-                smSongCollection = Globals.SongCollection;
-                smFileCollection = Globals.FileCollection;
-                SaveSongCollectionToFile();
-            }
+            ArrangementColumnsColors();
+            UpdateToolStrip();
         }
 
         private void checkAllForUpdates(object sender, DoWorkEventArgs e)
@@ -722,7 +725,7 @@ namespace CustomsForgeManager.UControls
             }
 
             //Thread.Sleep(3000);
-            counterStopwatch.Start();
+            counterStopwatch.Restart();
             Extensions.InvokeIfRequired(btnCheckAllForUpdates, delegate { btnCheckAllForUpdates.Enabled = false; });
 
             Extensions.InvokeIfRequired(dgvSongs, delegate
@@ -1023,9 +1026,7 @@ namespace CustomsForgeManager.UControls
                     if (sortDescending)
 
                         bs.DataSource = songsToShow.OrderByDescending(song => song.IgnitionID);
-
                     else
-
                         bs.DataSource = songsToShow.OrderBy(song => song.IgnitionID);
                     break;
 
@@ -1065,7 +1066,19 @@ namespace CustomsForgeManager.UControls
             else
                 dgvSongs.Columns[e.ColumnIndex].HeaderCell.SortGlyphDirection = SortOrder.Ascending;
 
-            ArrangementColumnsColors();
+            //  ArrangementColumnsColors();
+        }
+
+        private void dgvSongs_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            // need to wait for DataBinding and DataGridView Paint to complete before  
+            // changing BLRV column color (cell formating) on initial loading
+
+            if (!bindingCompleted)
+            {
+                Debug.WriteLine("DataBinding Complete ... ");
+                bindingCompleted = true;
+            }
         }
 
         private void dgvSongs_KeyDown(object sender, KeyEventArgs e)
@@ -1092,6 +1105,21 @@ namespace CustomsForgeManager.UControls
                         row.Cells["colSelect"].Value = true;
                 }
                 allSelected = !allSelected;
+            }
+        }
+
+        private void dgvSongs_Paint(object sender, PaintEventArgs e)
+        {
+            // need to wait for DataBinding and DataGridView Paint to complete before  
+            // changing BLRV column color (cell formating) on initial loading
+
+            if (bindingCompleted && !dgvPainted)
+            {
+                bindingCompleted = false;
+                dgvPainted = true;
+                Debug.WriteLine("dgvSongs Painted ... ");
+                ArrangementColumnsColors();
+                UpdateToolStrip();
             }
         }
 
@@ -1136,14 +1164,5 @@ namespace CustomsForgeManager.UControls
             else
                 dgvSongs.DataSource = new BindingSource().DataSource = smSongCollection;
         }
-
-        private void btnCancelScan_Click(object sender, EventArgs e)
-        {
-            bWorker.CancelAsync();
-            //bWorker.Abort();
-            
-        }
-
-
     }
 }

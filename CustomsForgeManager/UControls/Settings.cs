@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using CustomsForgeManager.CustomsForgeManagerLib;
 using CustomsForgeManager.CustomsForgeManagerLib.Objects;
@@ -147,6 +148,14 @@ namespace CustomsForgeManager.UControls
 
                     cueRsDir.Text = fbd.SelectedPath;
                 }
+
+                if (!Directory.Exists(Path.Combine(cueRsDir.Text, "dlc")))
+                {
+                    MessageBox.Show("Please select a directory that  " + Environment.NewLine +
+                                    "contains a 'dlc' subdirectory.", Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    ValidateRsDir();
+                }
+
                 Globals.MySettings.RSInstalledDir = cueRsDir.Text;
             }
         }
@@ -254,7 +263,5 @@ namespace CustomsForgeManager.UControls
         }
 
         #endregion
-
-
     }
 }

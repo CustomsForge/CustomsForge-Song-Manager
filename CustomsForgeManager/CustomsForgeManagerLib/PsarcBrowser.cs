@@ -88,7 +88,8 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                                 .Replace(": ", "")
                                 .Replace(Environment.NewLine, string.Empty)
                                 .Replace(" ", String.Empty).TuningToName();
-
+                      
+                        // TODO: fix Vocals parsing and display
                         currentSong.AddArrangement(new SongDataArrangement
                         {
                             Name = attributes["ArrangementName"].ToString()

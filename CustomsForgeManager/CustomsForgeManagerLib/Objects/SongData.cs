@@ -31,7 +31,6 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         public string IgnitionAuthor { get; set; }
         public string IgnitionVersion { get; set; }
         public string Version { get; set; }
-
         public SongDataStatus Status { get; set; }
 
         public string Arrangements

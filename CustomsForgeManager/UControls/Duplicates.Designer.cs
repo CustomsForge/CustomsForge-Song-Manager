@@ -45,6 +45,12 @@ namespace CustomsForgeManager.UControls
             this.gbResults = new System.Windows.Forms.GroupBox();
             this.dgvDups = new CustomsForgeManager.CustomsForgeManagerLib.CustomControls.RADataGridView();
             this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.colEnabled = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSongArtist = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSongTitle = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSongAlbum = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colUpdated = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cmsDuplicate.SuspendLayout();
             this.gbActions.SuspendLayout();
             this.panelActions.SuspendLayout();
@@ -57,12 +63,12 @@ namespace CustomsForgeManager.UControls
             this.cmsDuplicate.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.exploreToolStripMenuItem});
             this.cmsDuplicate.Name = "cmsDuplicate";
-            this.cmsDuplicate.Size = new System.Drawing.Size(122, 26);
+            this.cmsDuplicate.Size = new System.Drawing.Size(153, 48);
             // 
             // exploreToolStripMenuItem
             // 
             this.exploreToolStripMenuItem.Name = "exploreToolStripMenuItem";
-            this.exploreToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
+            this.exploreToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.exploreToolStripMenuItem.Text = "Explore";
             this.exploreToolStripMenuItem.Click += new System.EventHandler(this.exploreToolStripMenuItem_Click);
             // 
@@ -172,10 +178,17 @@ namespace CustomsForgeManager.UControls
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dgvDups.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dgvDups.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.colSelect});
+            this.colSelect,
+            this.colEnabled,
+            this.colSongArtist,
+            this.colSongTitle,
+            this.colSongAlbum,
+            this.colUpdated,
+            this.colPath});
             this.dgvDups.ContextMenuStrip = this.cmsDuplicate;
             this.dgvDups.Location = new System.Drawing.Point(6, 19);
             this.dgvDups.Name = "dgvDups";
+            this.dgvDups.RowHeadersVisible = false;
             this.dgvDups.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
             this.dgvDups.Size = new System.Drawing.Size(970, 394);
             this.dgvDups.TabIndex = 15;
@@ -185,9 +198,63 @@ namespace CustomsForgeManager.UControls
             // 
             // colSelect
             // 
+            this.colSelect.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.colSelect.FalseValue = "false";
+            this.colSelect.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.colSelect.HeaderText = "Select";
+            this.colSelect.IndeterminateValue = "false";
             this.colSelect.Name = "colSelect";
-            this.colSelect.Width = 40;
+            this.colSelect.ReadOnly = true;
+            this.colSelect.TrueValue = "true";
+            this.colSelect.Width = 43;
+            // 
+            // colEnabled
+            // 
+            this.colEnabled.DataPropertyName = "Enabled";
+            this.colEnabled.HeaderText = "Enabled";
+            this.colEnabled.Name = "colEnabled";
+            this.colEnabled.ReadOnly = true;
+            this.colEnabled.Width = 50;
+            // 
+            // colSongArtist
+            // 
+            this.colSongArtist.DataPropertyName = "Artist";
+            this.colSongArtist.HeaderText = "Artist";
+            this.colSongArtist.Name = "colSongArtist";
+            this.colSongArtist.ReadOnly = true;
+            this.colSongArtist.Width = 50;
+            // 
+            // colSongTitle
+            // 
+            this.colSongTitle.DataPropertyName = "Song";
+            this.colSongTitle.HeaderText = "Song Title";
+            this.colSongTitle.Name = "colSongTitle";
+            this.colSongTitle.ReadOnly = true;
+            this.colSongTitle.Width = 50;
+            // 
+            // colSongAlbum
+            // 
+            this.colSongAlbum.DataPropertyName = "Album";
+            this.colSongAlbum.HeaderText = "Album";
+            this.colSongAlbum.Name = "colSongAlbum";
+            this.colSongAlbum.ReadOnly = true;
+            this.colSongAlbum.Width = 50;
+            // 
+            // colUpdated
+            // 
+            this.colUpdated.DataPropertyName = "Updated";
+            this.colUpdated.HeaderText = "Updated";
+            this.colUpdated.Name = "colUpdated";
+            this.colUpdated.ReadOnly = true;
+            this.colUpdated.Width = 50;
+            // 
+            // colPath
+            // 
+            this.colPath.DataPropertyName = "Path";
+            this.colPath.HeaderText = "Path";
+            this.colPath.Name = "colPath";
+            this.colPath.ReadOnly = true;
+            this.colPath.Width = 50;
             // 
             // Duplicates
             // 
@@ -216,7 +283,13 @@ namespace CustomsForgeManager.UControls
         private ContextMenuStrip cmsDuplicate;
         private ToolStripMenuItem exploreToolStripMenuItem;
         private CustomsForgeManagerLib.CustomControls.RADataGridView dgvDups;
-        private DataGridViewCheckBoxColumn colSelect;
         private GroupBox gbResults;
+        private DataGridViewCheckBoxColumn colSelect;
+        private DataGridViewTextBoxColumn colEnabled;
+        private DataGridViewTextBoxColumn colSongArtist;
+        private DataGridViewTextBoxColumn colSongTitle;
+        private DataGridViewTextBoxColumn colSongAlbum;
+        private DataGridViewTextBoxColumn colUpdated;
+        private DataGridViewTextBoxColumn colPath;
     }
 }

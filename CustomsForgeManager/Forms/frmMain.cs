@@ -32,7 +32,11 @@ namespace CustomsForgeManager.Forms
             this.Text = String.Format("{0} (v{1})", Constants.ApplicationName, Constants.CustomVersion());
 
             if (Constants.DebugMode)
+            {
                 this.TopMost = false;
+                tsLabel_ShowHideLog.Text = "Hide Log ";
+                scMain.Panel2Collapsed = false;
+            }
 
             Globals.MyLog = myLog;
             Globals.MySettings = mySettings;
@@ -102,7 +106,7 @@ namespace CustomsForgeManager.Forms
                 Globals.Log("<ERROR>: Save on close failed ...");
                 return;
             }
-            
+
             Globals.SongManager.LeaveSongManager();
             Globals.Settings.SaveSettingsToFile();
             Globals.SongManager.SaveSongCollectionToFile();
