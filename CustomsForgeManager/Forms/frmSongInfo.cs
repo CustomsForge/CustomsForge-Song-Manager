@@ -43,8 +43,8 @@ namespace CustomsForgeManager.Forms
             {
                 if (split.ToLower().Contains("combo"))
                 {
-                    dgv_Arrangements.Columns["colLead"].DefaultCellStyle.BackColor = Color.Yellow;
-                    dgv_Arrangements.Columns["colRhythm"].DefaultCellStyle.BackColor = Color.Yellow;
+                    dgv_Arrangements.Columns["colLead"].DefaultCellStyle.BackColor = Color.Lime;
+                    dgv_Arrangements.Columns["colRhythm"].DefaultCellStyle.BackColor = Color.Lime;
                     dgv_Arrangements.Columns["colLead"].Visible = true;
                     dgv_Arrangements.Columns["colRhythm"].Visible = true;
                 }

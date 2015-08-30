@@ -157,7 +157,7 @@ namespace CustomsForgeManager.UControls
             DataGridViewCellStyle style1 = new DataGridViewCellStyle();
             style1.BackColor = Color.Lime;
             DataGridViewCellStyle style2 = new DataGridViewCellStyle();
-            style2.BackColor = Color.Yellow;
+            style2.BackColor = Color.Lime;
             DataGridViewCellStyle style3 = new DataGridViewCellStyle();
             style3.BackColor = Color.Red;
 
