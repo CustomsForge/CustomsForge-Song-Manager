@@ -206,16 +206,18 @@ namespace CustomsForgeManager.UControls
                 {
                     try
                     {
-                        if (buttonName.Text.ToLower().Contains("move"))
+                        if (File.Exists(duplicates[i].Path))//In case that the user manually (re)moved the song & hasn't rescanned since he did that 
                         {
-                            var filePath = duplicates[i].Path;
-                            var dupFileName = String.Format("{0}{1}", Path.GetFileName(filePath), ".dup");
-                            var dupFilePath = Path.Combine(duplicatesDir, dupFileName);
-                            File.Move(duplicates[i].Path, dupFilePath);
+                            if (buttonName.Text.ToLower().Contains("move"))
+                            {
+                                var filePath = duplicates[i].Path;
+                                var dupFileName = String.Format("{0}{1}", Path.GetFileName(filePath), ".dup");
+                                var dupFilePath = Path.Combine(duplicatesDir, dupFileName);
+                                File.Move(duplicates[i].Path, dupFilePath);
+                            }
+                            else
+                                File.Delete(duplicates[i].Path);
                         }
-                        else
-                            File.Delete(duplicates[i].Path);
-
                     }
                     catch (IndexOutOfRangeException ex)
                     {
