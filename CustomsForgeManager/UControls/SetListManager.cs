@@ -10,7 +10,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Diagnostics;
 
-
 namespace CustomsForgeManager.UControls
 {
     public partial class SetListManager : UserControl
@@ -477,17 +476,20 @@ namespace CustomsForgeManager.UControls
         {
             if (tbUnsortedSearch.Text != "Search")
             {
+                string search = tbUnsortedSearch.Text.ToLower();
+
                 dgvUnsortedDLCs.Rows.Clear();
-                var matchingSongs = Globals.SongCollection.Where(sng => sng.Artist.ToLower().Contains(tbUnsortedSearch.Text.ToLower()) || sng.Song.ToLower().Contains(tbUnsortedSearch.Text.ToLower()) && Path.GetFileName(Path.GetDirectoryName(sng.Path)) == "dlc");
+                var matchingSongs = Globals.SongCollection.Where(sng => sng.Artist.ToLower().Contains(search) || sng.Song.ToLower().Contains(search) || sng.Tuning.ToLower().Contains(search)
+                    && Path.GetFileName(Path.GetDirectoryName(sng.Path)) == "dlc");
 
                 if (matchingSongs.Where(sng => sng.Path.Contains(".disabled")).Count() > matchingSongs.Where(sng => !sng.Path.Contains(".disabled")).Count())
                 {
                     foreach (var song in matchingSongs)
                     {
                         if (song.Path.Contains(".disabled"))
-                            dgvUnsortedDLCs.Rows.Add(false, "No", song.Artist, song.Song, song.Path);
+                            dgvUnsortedDLCs.Rows.Add(false, "No", song.Artist, song.Song, song.Tuning, song.Path);
                         else
-                            dgvUnsortedDLCs.Rows.Add(false, "Yes", song.Artist, song.Song, song.Path);
+                            dgvUnsortedDLCs.Rows.Add(false, "Yes", song.Artist, song.Song, song.Tuning, song.Path);
                     }
                 }
                 else
@@ -495,9 +497,9 @@ namespace CustomsForgeManager.UControls
                     foreach (var song in matchingSongs)
                     {
                         if (!song.Path.Contains(".disabled"))
-                            dgvUnsortedDLCs.Rows.Add(false, "Yes", song.Artist, song.Song, song.Path);
+                            dgvUnsortedDLCs.Rows.Add(false, "Yes", song.Artist, song.Song, song.Tuning, song.Path);
                         else
-                            dgvUnsortedDLCs.Rows.Add(false, "No", song.Artist, song.Song, song.Path);
+                            dgvUnsortedDLCs.Rows.Add(false, "No", song.Artist, song.Song, song.Tuning, song.Path);
                     }
                 }
 
@@ -925,7 +927,7 @@ namespace CustomsForgeManager.UControls
                                 {
                                     var song = Globals.SongCollection.FirstOrDefault(sng => sng.Path == songPath);
                                     if (song != null)
-                                        dgvDLCsInSetlist.Rows.Add(false, song.Enabled, song.Artist, song.Song, song.Album, song.Path);
+                                        dgvDLCsInSetlist.Rows.Add(false, song.Enabled, song.Artist, song.Song, song.Album, song.Tuning, song.Path);
                                 }
                             });
 
@@ -937,9 +939,9 @@ namespace CustomsForgeManager.UControls
                                     if (!songPath.Contains("rs1") && song != null)
                                     {
                                         if (songPath.Contains(".disabled"))
-                                            dgvUnsortedDLCs.Rows.Add(false, "No", song.Artist, song.Song, song.Path);
+                                            dgvUnsortedDLCs.Rows.Add(false, "No", song.Artist, song.Song, song.Tuning, song.Path);
                                         else
-                                            dgvUnsortedDLCs.Rows.Add(false, "Yes", song.Artist, song.Song, song.Path);
+                                            dgvUnsortedDLCs.Rows.Add(false, "Yes", song.Artist, song.Song, song.Tuning, song.Path);
                                     }
                                 }
                             });
@@ -1088,9 +1090,6 @@ namespace CustomsForgeManager.UControls
             bWorker.RunWorkerAsync();
         }
         #endregion
-
-
-
     }
 }
 
