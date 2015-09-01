@@ -75,7 +75,7 @@ namespace CustomsForgeManager.Forms
             this.gbLog.Font = new System.Drawing.Font("Trebuchet MS", 8.25F);
             this.gbLog.Location = new System.Drawing.Point(0, 0);
             this.gbLog.Name = "gbLog";
-            this.gbLog.Size = new System.Drawing.Size(1011, 106);
+            this.gbLog.Size = new System.Drawing.Size(150, 46);
             this.gbLog.TabIndex = 1;
             this.gbLog.TabStop = false;
             this.gbLog.Text = "Log";
@@ -90,7 +90,7 @@ namespace CustomsForgeManager.Forms
             this.tbLog.Name = "tbLog";
             this.tbLog.ReadOnly = true;
             this.tbLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.tbLog.Size = new System.Drawing.Size(1005, 87);
+            this.tbLog.Size = new System.Drawing.Size(144, 27);
             this.tbLog.TabIndex = 0;
             // 
             // timerMain
@@ -260,7 +260,7 @@ namespace CustomsForgeManager.Forms
             // 
             this.tpDuplicates.Location = new System.Drawing.Point(4, 25);
             this.tpDuplicates.Name = "tpDuplicates";
-            this.tpDuplicates.Size = new System.Drawing.Size(1003, 497);
+            this.tpDuplicates.Size = new System.Drawing.Size(1003, 607);
             this.tpDuplicates.TabIndex = 4;
             this.tpDuplicates.Text = "Duplicates";
             this.tpDuplicates.UseVisualStyleBackColor = true;
@@ -270,7 +270,7 @@ namespace CustomsForgeManager.Forms
             this.tpRenamer.Location = new System.Drawing.Point(4, 25);
             this.tpRenamer.Name = "tpRenamer";
             this.tpRenamer.Padding = new System.Windows.Forms.Padding(3);
-            this.tpRenamer.Size = new System.Drawing.Size(1003, 497);
+            this.tpRenamer.Size = new System.Drawing.Size(1003, 607);
             this.tpRenamer.TabIndex = 6;
             this.tpRenamer.Text = "Renamer";
             this.tpRenamer.UseVisualStyleBackColor = true;
@@ -279,7 +279,7 @@ namespace CustomsForgeManager.Forms
             // 
             this.tpSetListManager.Location = new System.Drawing.Point(4, 25);
             this.tpSetListManager.Name = "tpSetListManager";
-            this.tpSetListManager.Size = new System.Drawing.Size(1003, 497);
+            this.tpSetListManager.Size = new System.Drawing.Size(1003, 607);
             this.tpSetListManager.TabIndex = 7;
             this.tpSetListManager.Text = "Setlist Manger";
             this.tpSetListManager.UseVisualStyleBackColor = true;
@@ -288,7 +288,7 @@ namespace CustomsForgeManager.Forms
             // 
             this.tpUtilities.Location = new System.Drawing.Point(4, 25);
             this.tpUtilities.Name = "tpUtilities";
-            this.tpUtilities.Size = new System.Drawing.Size(1003, 497);
+            this.tpUtilities.Size = new System.Drawing.Size(1003, 607);
             this.tpUtilities.TabIndex = 5;
             this.tpUtilities.Text = "Utilities";
             this.tpUtilities.UseVisualStyleBackColor = true;
@@ -298,7 +298,7 @@ namespace CustomsForgeManager.Forms
             this.tpSettings.Location = new System.Drawing.Point(4, 25);
             this.tpSettings.Name = "tpSettings";
             this.tpSettings.Padding = new System.Windows.Forms.Padding(3);
-            this.tpSettings.Size = new System.Drawing.Size(1003, 497);
+            this.tpSettings.Size = new System.Drawing.Size(1003, 607);
             this.tpSettings.TabIndex = 1;
             this.tpSettings.Text = "Settings";
             this.tpSettings.UseVisualStyleBackColor = true;
@@ -307,7 +307,7 @@ namespace CustomsForgeManager.Forms
             // 
             this.tpAbout.Location = new System.Drawing.Point(4, 25);
             this.tpAbout.Name = "tpAbout";
-            this.tpAbout.Size = new System.Drawing.Size(1003, 497);
+            this.tpAbout.Size = new System.Drawing.Size(1003, 607);
             this.tpAbout.TabIndex = 8;
             this.tpAbout.Text = "About";
             this.tpAbout.UseVisualStyleBackColor = true;

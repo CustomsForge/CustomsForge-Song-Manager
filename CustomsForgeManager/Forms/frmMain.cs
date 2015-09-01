@@ -7,7 +7,6 @@ using System.Reflection;
 using CustomsForgeManager.CustomsForgeManagerLib.Objects;
 using DLogNet;
 
-// TODO: determine whether "*_p.disabled.psarc" are actually disabled in game
 
 namespace CustomsForgeManager.Forms
 {

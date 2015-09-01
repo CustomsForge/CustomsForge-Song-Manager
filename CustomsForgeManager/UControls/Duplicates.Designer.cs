@@ -142,7 +142,7 @@ namespace CustomsForgeManager.UControls
             this.btnRescan.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnRescan.Location = new System.Drawing.Point(17, 6);
             this.btnRescan.Name = "btnRescan";
-            this.btnRescan.Size = new System.Drawing.Size(74, 29);
+            this.btnRescan.Size = new System.Drawing.Size(75, 29);
             this.btnRescan.TabIndex = 4;
             this.btnRescan.Text = "Rescan";
             this.btnRescan.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

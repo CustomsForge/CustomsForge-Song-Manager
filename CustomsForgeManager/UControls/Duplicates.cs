@@ -105,15 +105,15 @@ namespace CustomsForgeManager.UControls
             dgvDups.Visible = true; // must come first for setting to apply correctly
             dgvDups.AllowUserToAddRows = false; // removes empty row at bottom
             dgvDups.AllowUserToDeleteRows = false;
-            dgvDups.AllowUserToOrderColumns = false;
+            dgvDups.AllowUserToOrderColumns = true;
             dgvDups.AllowUserToResizeColumns = true;
-            dgvDups.AllowUserToResizeRows = false;
+            dgvDups.AllowUserToResizeRows = true;
             // dgvDups.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.ColumnHeader);
             dgvDups.BackgroundColor = SystemColors.AppWorkspace;
             dgvDups.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dgvDups.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvDups.EditMode = DataGridViewEditMode.EditOnEnter;
-            dgvDups.EnableHeadersVisualStyles = false;
+            dgvDups.EnableHeadersVisualStyles = true;
             dgvDups.Font = new Font("Arial", 8);
             dgvDups.GridColor = SystemColors.ActiveCaption;
             dgvDups.MultiSelect = false;
@@ -202,7 +202,10 @@ namespace CustomsForgeManager.UControls
 
             for (int i = 0; i < dgvDups.Rows.Count; i++)
             {
-                if (Convert.ToBoolean(dgvDups.Rows[i].Cells[0].Value))
+                if (dgvDups.Rows[i].Cells["colSelect"].Value == null)
+                    dgvDups.Rows[i].Cells["colSelect"].Value = false;
+
+                if (Convert.ToBoolean(dgvDups.Rows[i].Cells["colSelect"].Value))
                 {
                     try
                     {
@@ -228,7 +231,7 @@ namespace CustomsForgeManager.UControls
 
             // safely remove rows now that file(s) are deleted/moved 
             for (int ndx = 0; ndx < dgvDups.Rows.Count; ++ndx)
-                if (Convert.ToBoolean(dgvDups.Rows[ndx].Cells[0].Value))
+                if (Convert.ToBoolean(dgvDups.Rows[ndx].Cells["colSelect"].Value))
                 {
                     dgvDups.Rows.RemoveAt(ndx);
                     ndx--;
@@ -245,33 +248,57 @@ namespace CustomsForgeManager.UControls
 
         private void btnEnableDisable_Click(object sender, EventArgs e)
         {
+            bool updateSongCollection = false;
+
             try
             {
-                for (int i = 0; i < dgvDups.Rows.Count; i++)
+                foreach (DataGridViewRow row in dgvDups.Rows)
                 {
-                    if (Convert.ToBoolean(dgvDups.Rows[i].Cells[0].Value))
+                    var cell = (DataGridViewCheckBoxCell)row.Cells["colSelect"];
+
+                    if (cell.Value == null)
+                        cell.Value = false;
+
+                    if (Convert.ToBoolean(cell.Value))
                     {
-                        string songPath = dgvDups.Rows[i].Cells["colPath"].Value.ToString();
-                        if (songPath.Contains("_p.disabled.psarc"))
+                        var originalPath = row.Cells["colPath"].Value.ToString();
+                        if (!originalPath.ToLower().Contains(String.Format("{0}{1}", Constants.RS1COMP, "disc")))
                         {
-                            string enabledSongPath = songPath.Replace("_p.disabled.psarc", "_p.psarc");
-                            File.Move(songPath, enabledSongPath);
-                            dgvDups.Rows[i].Cells[1].Value = "Yes";
-                            dgvDups.Rows[i].Cells[6].Value = enabledSongPath;
+                            // confirmed CDLC is disabled in game when using this file naming method
+                            if (row.Cells["colEnabled"].Value.ToString() == "Yes")
+                            {
+                                var disabledDLCPath = originalPath.Replace("_p.psarc", "_p.disabled.psarc");
+                                File.Move(originalPath, disabledDLCPath);
+                                row.Cells["colPath"].Value = disabledDLCPath;
+                                row.Cells["colEnabled"].Value = "No";
+                                updateSongCollection = true;
+                            }
+                            else
+                            {
+                                var enabledDLCPath = originalPath.Replace("_p.disabled.psarc", "_p.psarc");
+                                File.Move(originalPath, enabledDLCPath);
+                                row.Cells["colPath"].Value = enabledDLCPath;
+                                row.Cells["colEnabled"].Value = "Yes";
+                                updateSongCollection = true;
+                            }
+
+                            cell.Value = "false";
                         }
                         else
-                        {
-                            string disabledSongPath = songPath.Replace("_p.psarc", "_p.disabled.psarc");
-                            File.Move(songPath, disabledSongPath);
-                            dgvDups.Rows[i].Cells[1].Value = "No";
-                            dgvDups.Rows[i].Cells[6].Value = disabledSongPath;
-                        }
+                            Globals.Log("This is a Rocksmith 1 song. It can't be disabled at this moment. (You just can disable all of them!)");
                     }
                 }
             }
             catch (IOException)
             {
                 Globals.Log("<ERROR>: Unable to disable the song(s)!");
+            }
+
+            if (updateSongCollection)
+            {
+                UpdateToolStrip();
+                Globals.RescanSongManager = true;
+                Globals.RescanDuplicates = true;
             }
         }
 
@@ -315,10 +342,15 @@ namespace CustomsForgeManager.UControls
             if (e.KeyCode == Keys.Space)
                 foreach (DataGridViewRow row in dgvDups.Rows)
                     if (row.Selected)
-                        if (row.Cells["colSelect"].Value != null && (bool)row.Cells["colSelect"].Value)
+                    {
+                        if (row.Cells["colSelect"].Value == null)
+                            row.Cells["colSelect"].Value = false;
+
+                        if (Convert.ToBoolean(row.Cells["colSelect"].Value))
                             row.Cells["colSelect"].Value = false;
                         else
                             row.Cells["colSelect"].Value = true;
+                    }
         }
 
         private void exploreToolStripMenuItem_Click(object sender, EventArgs e)

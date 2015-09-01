@@ -291,7 +291,7 @@ namespace CustomsForgeManager.UControls
                 col.ReadOnly = true;
 
             // always visible and first
-            dgvSongs.Columns["colSelect"].ReadOnly = false;
+            dgvSongs.Columns["colSelect"].ReadOnly = false; // overridden by EditProgrammatically
             dgvSongs.Columns["colSelect"].Visible = true;
             dgvSongs.Columns["colSelect"].Width = 43;
             dgvSongs.Columns["colSelect"].DisplayIndex = 0;
@@ -311,6 +311,7 @@ namespace CustomsForgeManager.UControls
             // set custom selection (highlighting) color
             dgvSongs.DefaultCellStyle.SelectionBackColor = Color.Gold; // dgvSongs.DefaultCellStyle.BackColor; // or removes selection highlight
             dgvSongs.DefaultCellStyle.SelectionForeColor = dgvSongs.DefaultCellStyle.ForeColor;
+            // this overrides any user ability to make changes 
             dgvSongs.EditMode = DataGridViewEditMode.EditProgrammatically;
             // dgvSongs.EditMode = DataGridViewEditMode.EditOnEnter;
             dgvSongs.EnableHeadersVisualStyles = true;
@@ -653,30 +654,36 @@ namespace CustomsForgeManager.UControls
 
         private void btnDisableEnableSongs_Click(object sender, EventArgs e)
         {
+            bool updateSongCollection = false;
+
             foreach (DataGridViewRow row in dgvSongs.Rows)
             {
                 var cell = (DataGridViewCheckBoxCell)row.Cells["colSelect"];
 
-                if (cell != null && cell.Value != null && cell.Value.ToString().ToLower() == "true")
+                if (cell.Value == null)
+                    cell.Value = false;
+
+                if (Convert.ToBoolean(cell.Value))
                 {
-                    var originalPath = row.Cells["Path"].Value.ToString();
+                    var originalPath = row.Cells["colPath"].Value.ToString();
                     if (!originalPath.ToLower().Contains(String.Format("{0}{1}", Constants.RS1COMP, "disc")))
                     {
-                        if (row.Cells["Enabled"].Value.ToString() == "Yes")
+                        // confirmed CDLC is disabled in game when using this file naming method
+                        if (row.Cells["colEnabled"].Value.ToString() == "Yes")
                         {
-                            // TODO confirm this works, could need to be "*.disabled.psarc" to work
                             var disabledDLCPath = originalPath.Replace("_p.psarc", "_p.disabled.psarc");
                             File.Move(originalPath, disabledDLCPath);
-                            row.Cells["Path"].Value = disabledDLCPath;
-                            row.Cells["Enabled"].Value = "No";
+                            row.Cells["colPath"].Value = disabledDLCPath;
+                            row.Cells["colEnabled"].Value = "No";
+                            updateSongCollection = true;
                         }
-                        else if (row.Cells["Enabled"].Value.ToString() == "No")
+                        else
                         {
-                            // TODO confirm this works, could need to be "*.disabled.psarc" to work
                             var enabledDLCPath = originalPath.Replace("_p.disabled.psarc", "_p.psarc");
                             File.Move(originalPath, enabledDLCPath);
-                            row.Cells["Path"].Value = enabledDLCPath;
-                            row.Cells["Enabled"].Value = "Yes";
+                            row.Cells["colPath"].Value = enabledDLCPath;
+                            row.Cells["colEnabled"].Value = "Yes";
+                            updateSongCollection = true;
                         }
 
                         cell.Value = "false";
@@ -687,6 +694,13 @@ namespace CustomsForgeManager.UControls
                     else
                         Globals.Log("This is a Rocksmith 1 song. It can't be disabled at this moment. (You just can disable all of them!)");
                 }
+            }
+
+            if (updateSongCollection)
+            {
+                SaveSongCollectionToFile();
+                Globals.RescanSongManager = true;
+                Globals.RescanDuplicates = true;
             }
         }
 
@@ -874,6 +888,20 @@ namespace CustomsForgeManager.UControls
                     PopulateMenuWithColumnHeaders(cmsSongManagerColumns);
                     cmsSongManagerColumns.Show(Cursor.Position);
                 }
+
+            // programmatic left clicking on colSelect
+            if (e.Button == MouseButtons.Left)
+                if (e.RowIndex != -1)
+                    if (grid.Columns[e.ColumnIndex].Name == "colSelect")
+                    {
+                        if (grid.Rows[e.RowIndex].Cells["colSelect"].Value == null)
+                            grid.Rows[e.RowIndex].Cells["colSelect"].Value = false;
+
+                        if (Convert.ToBoolean(grid.Rows[e.RowIndex].Cells["colSelect"].Value))
+                            grid.Rows[e.RowIndex].Cells["colSelect"].Value = false;
+                        else
+                            grid.Rows[e.RowIndex].Cells["colSelect"].Value = true;
+                    }
         }
 
         private void dgvSongs_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
@@ -1087,10 +1115,15 @@ namespace CustomsForgeManager.UControls
             if (e.KeyCode == Keys.Space)
                 foreach (DataGridViewRow row in dgvSongs.Rows)
                     if (row.Selected)
-                        if (row.Cells["colSelect"].Value != null && (bool)row.Cells["colSelect"].Value)
+                    {
+                        if (row.Cells["colSelect"].Value == null)
+                            row.Cells["colSelect"].Value = false;
+
+                        if (Convert.ToBoolean(row.Cells["colSelect"].Value))
                             row.Cells["colSelect"].Value = false;
                         else
                             row.Cells["colSelect"].Value = true;
+                    }
         }
 
         private void dgvSongs_KeyUp(object sender, KeyEventArgs e)
@@ -1164,5 +1197,7 @@ namespace CustomsForgeManager.UControls
             else
                 dgvSongs.DataSource = new BindingSource().DataSource = smSongCollection;
         }
+
+
     }
 }

@@ -1,3 +1,11 @@
+1.0.0.1
+-Enabled left mouse button clicking on 'Select' checkbox in SongManager
+-Fixed 'Enable/Disable selected' in Song Manager
+-Fixed 'Enable/Disable selected' in Duplicates
+-Fixed bug in Duplicates that will occure if user reorders columns
+-Made Duplicates and Song Manager button placement consistent
+-Reverted to VS2010 solution again, please try to keep it this way ;)
+
 0.1.4.2
 -Added ShowLog for Developers use when in Debug mode
 -Made Duplicates dgvDups naming consistent with SongMangager dgvSongs naming

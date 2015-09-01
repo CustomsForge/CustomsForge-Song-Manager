@@ -173,7 +173,7 @@ namespace CustomsForgeManager.UControls
             this.btnBackupSelectedDLCs.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnBackupSelectedDLCs.Image = global::CustomsForgeManager.Properties.Resources.backup;
             this.btnBackupSelectedDLCs.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnBackupSelectedDLCs.Location = new System.Drawing.Point(365, 6);
+            this.btnBackupSelectedDLCs.Location = new System.Drawing.Point(289, 6);
             this.btnBackupSelectedDLCs.Name = "btnBackupSelectedDLCs";
             this.btnBackupSelectedDLCs.Size = new System.Drawing.Size(116, 29);
             this.btnBackupSelectedDLCs.TabIndex = 19;
@@ -187,7 +187,7 @@ namespace CustomsForgeManager.UControls
             this.btnCheckAllForUpdates.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnCheckAllForUpdates.Image = global::CustomsForgeManager.Properties.Resources.update;
             this.btnCheckAllForUpdates.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnCheckAllForUpdates.Location = new System.Drawing.Point(487, 6);
+            this.btnCheckAllForUpdates.Location = new System.Drawing.Point(431, 6);
             this.btnCheckAllForUpdates.Name = "btnCheckAllForUpdates";
             this.btnCheckAllForUpdates.Size = new System.Drawing.Size(135, 29);
             this.btnCheckAllForUpdates.TabIndex = 4;
@@ -262,7 +262,7 @@ namespace CustomsForgeManager.UControls
             this.btnDisableEnableSongs.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnDisableEnableSongs.Image = global::CustomsForgeManager.Properties.Resources.disable;
             this.btnDisableEnableSongs.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnDisableEnableSongs.Location = new System.Drawing.Point(209, 6);
+            this.btnDisableEnableSongs.Location = new System.Drawing.Point(117, 6);
             this.btnDisableEnableSongs.Name = "btnDisableEnableSongs";
             this.btnDisableEnableSongs.Size = new System.Drawing.Size(150, 29);
             this.btnDisableEnableSongs.TabIndex = 14;
@@ -278,9 +278,10 @@ namespace CustomsForgeManager.UControls
             this.btnRescan.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnRescan.Location = new System.Drawing.Point(20, 6);
             this.btnRescan.Name = "btnRescan";
-            this.btnRescan.Size = new System.Drawing.Size(131, 29);
+            this.btnRescan.Size = new System.Drawing.Size(75, 29);
             this.btnRescan.TabIndex = 4;
             this.btnRescan.Text = "Rescan";
+            this.btnRescan.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnRescan.UseVisualStyleBackColor = true;
             this.btnRescan.Click += new System.EventHandler(this.btnRescan_Click);
             // 
