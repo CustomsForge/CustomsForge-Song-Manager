@@ -114,7 +114,7 @@ namespace CustomsForgeManager.UControls
                                 var matchingSongs = Globals.SongCollection.Where(sng => (sng.Artist.ToLower().Contains(search) || sng.Album.ToLower().Contains(search) || sng.Song.ToLower().Contains(search) || sng.Path.ToLower().Contains(search)) && sng.Path.Contains(setlistPath)).ToList();
                                 foreach (SongData song in matchingSongs)
                                 {
-                                    dgvDLCsInSetlist.Rows.Add(false, song.Enabled, song.Artist, song.Song, song.Album, song.Path);
+                                    dgvDLCsInSetlist.Rows.Add(false, song.Enabled, song.Artist, song.Song, song.Album, song.Tuning, song.Path);
                                 }
                             }
                         }
@@ -228,14 +228,22 @@ namespace CustomsForgeManager.UControls
                                                 song.Path = finalSongPath;
                                             }
 
-                                            dgvUnsortedDLCs.Rows.Add(false, "Yes", song.Artist, song.Song, song.Path);
+                                            Extensions.InvokeIfRequired(dgvSetlists, delegate
+                                            {
+                                                dgvUnsortedDLCs.Rows.Add(false, "Yes", song.Artist, song.Song, song.Path);
+                                            });
                                         }
 
                                         Directory.Delete(setlistPath, true);
-                                        dgvUnsortedDLCs.Sort(dgvUnsortedDLCs.Columns["colUnsortedSong"], ListSortDirection.Ascending);
+                                        Extensions.InvokeIfRequired(dgvSetlists, delegate
+                                        {
+                                            dgvUnsortedDLCs.Sort(dgvUnsortedDLCs.Columns["colUnsortedSong"], ListSortDirection.Ascending);
+                                        });
                                     }
-
-                                    dgvSetlists.Rows.Remove(row);
+                                    Extensions.InvokeIfRequired(dgvSetlists, delegate
+                                    {
+                                        dgvSetlists.Rows.Remove(row);
+                                    });
                                 }
                             }
                         }
@@ -900,7 +908,7 @@ namespace CustomsForgeManager.UControls
 
                     if (Directory.Exists(dlcFolderPath))
                     {
-                        dirs = Directory.GetDirectories(Path.Combine(Globals.MySettings.RSInstalledDir, "dlc"), "*", SearchOption.AllDirectories);
+                        dirs = Directory.GetDirectories(Path.Combine(Globals.MySettings.RSInstalledDir, "dlc"), "*", SearchOption.TopDirectoryOnly);
                         foreach (var setlistPath in dirs)
                         {
                             bool setlistEnabled = true;

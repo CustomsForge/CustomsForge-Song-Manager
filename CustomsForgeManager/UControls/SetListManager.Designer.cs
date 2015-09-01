@@ -32,9 +32,16 @@ namespace CustomsForgeManager.UControls
         {
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.groupSetlists = new System.Windows.Forms.GroupBox();
-            this.radioEnableDisableSongs = new System.Windows.Forms.RadioButton();
             this.radioEnableDisableSetlists = new System.Windows.Forms.RadioButton();
+            this.radioEnableDisableSongs = new System.Windows.Forms.RadioButton();
             this.dgvDLCsInSetlist = new System.Windows.Forms.DataGridView();
+            this.colDLCSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.colDLCEnabled = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colDLCArtist = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colDLCSong = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colDLCAlbum = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colDLCTuning = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colDLCPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnEnableAllSetlists = new System.Windows.Forms.Button();
             this.dgvSetlists = new System.Windows.Forms.DataGridView();
             this.colSetlistSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
@@ -64,22 +71,15 @@ namespace CustomsForgeManager.UControls
             this.btnDeleteSelectedSongs = new System.Windows.Forms.Button();
             this.btnEnableDisableSelectedSongs = new System.Windows.Forms.Button();
             this.dgvUnsortedDLCs = new System.Windows.Forms.DataGridView();
-            this.btnMoveSongToSetlist = new System.Windows.Forms.Button();
-            this.colDLCSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.colDLCEnabled = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colDLCArtist = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colDLCSong = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colDLCAlbum = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colDLCTuning = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colDLCPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tbUnsortedSearch = new CustomsForgeManager.CustomsForgeManagerLib.CustomControls.CueTextBox();
-            this.bWorker = new CustomsForgeManager.CustomsForgeManagerLib.CustomControls.AbortableBackgroundWorker();
             this.colUnsortedSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.colUnsortedEnabled = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colUnsortedArtist = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colUnsortedSong = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colUnsortedTuning = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colUnsortedPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnMoveSongToSetlist = new System.Windows.Forms.Button();
+            this.tbUnsortedSearch = new CustomsForgeManager.CustomsForgeManagerLib.CustomControls.CueTextBox();
+            this.bWorker = new CustomsForgeManager.CustomsForgeManagerLib.CustomControls.AbortableBackgroundWorker();
             this.tableLayoutPanel1.SuspendLayout();
             this.groupSetlists.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDLCsInSetlist)).BeginInit();
@@ -118,8 +118,8 @@ namespace CustomsForgeManager.UControls
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel1.SetColumnSpan(this.groupSetlists, 3);
-            this.groupSetlists.Controls.Add(this.radioEnableDisableSongs);
             this.groupSetlists.Controls.Add(this.radioEnableDisableSetlists);
+            this.groupSetlists.Controls.Add(this.radioEnableDisableSongs);
             this.groupSetlists.Controls.Add(this.dgvDLCsInSetlist);
             this.groupSetlists.Controls.Add(this.btnEnableAllSetlists);
             this.groupSetlists.Controls.Add(this.dgvSetlists);
@@ -137,25 +137,25 @@ namespace CustomsForgeManager.UControls
             this.groupSetlists.TabStop = false;
             this.groupSetlists.Text = "Setlists";
             // 
-            // radioEnableDisableSongs
-            // 
-            this.radioEnableDisableSongs.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.radioEnableDisableSongs.AutoSize = true;
-            this.radioEnableDisableSongs.Location = new System.Drawing.Point(903, 149);
-            this.radioEnableDisableSongs.Name = "radioEnableDisableSongs";
-            this.radioEnableDisableSongs.Size = new System.Drawing.Size(56, 17);
-            this.radioEnableDisableSongs.TabIndex = 0;
-            this.radioEnableDisableSongs.Text = "setlists";
-            // 
             // radioEnableDisableSetlists
             // 
             this.radioEnableDisableSetlists.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.radioEnableDisableSetlists.AutoSize = true;
-            this.radioEnableDisableSetlists.Location = new System.Drawing.Point(844, 149);
+            this.radioEnableDisableSetlists.Location = new System.Drawing.Point(903, 149);
             this.radioEnableDisableSetlists.Name = "radioEnableDisableSetlists";
-            this.radioEnableDisableSetlists.Size = new System.Drawing.Size(53, 17);
-            this.radioEnableDisableSetlists.TabIndex = 1;
-            this.radioEnableDisableSetlists.Text = "songs";
+            this.radioEnableDisableSetlists.Size = new System.Drawing.Size(56, 17);
+            this.radioEnableDisableSetlists.TabIndex = 0;
+            this.radioEnableDisableSetlists.Text = "setlists";
+            // 
+            // radioEnableDisableSongs
+            // 
+            this.radioEnableDisableSongs.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.radioEnableDisableSongs.AutoSize = true;
+            this.radioEnableDisableSongs.Location = new System.Drawing.Point(844, 149);
+            this.radioEnableDisableSongs.Name = "radioEnableDisableSongs";
+            this.radioEnableDisableSongs.Size = new System.Drawing.Size(53, 17);
+            this.radioEnableDisableSongs.TabIndex = 1;
+            this.radioEnableDisableSongs.Text = "songs";
             // 
             // dgvDLCsInSetlist
             // 
@@ -181,6 +181,47 @@ namespace CustomsForgeManager.UControls
             this.dgvDLCsInSetlist.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvDLCsInSetlist.Size = new System.Drawing.Size(374, 194);
             this.dgvDLCsInSetlist.TabIndex = 21;
+            // 
+            // colDLCSelect
+            // 
+            this.colDLCSelect.HeaderText = "Select";
+            this.colDLCSelect.Name = "colDLCSelect";
+            this.colDLCSelect.Width = 45;
+            // 
+            // colDLCEnabled
+            // 
+            this.colDLCEnabled.HeaderText = "Enabled";
+            this.colDLCEnabled.Name = "colDLCEnabled";
+            this.colDLCEnabled.Width = 55;
+            // 
+            // colDLCArtist
+            // 
+            this.colDLCArtist.HeaderText = "Artist";
+            this.colDLCArtist.Name = "colDLCArtist";
+            this.colDLCArtist.Width = 90;
+            // 
+            // colDLCSong
+            // 
+            this.colDLCSong.HeaderText = "Song";
+            this.colDLCSong.Name = "colDLCSong";
+            this.colDLCSong.Width = 90;
+            // 
+            // colDLCAlbum
+            // 
+            this.colDLCAlbum.HeaderText = "Album";
+            this.colDLCAlbum.Name = "colDLCAlbum";
+            this.colDLCAlbum.Width = 90;
+            // 
+            // colDLCTuning
+            // 
+            this.colDLCTuning.HeaderText = "Tuning";
+            this.colDLCTuning.Name = "colDLCTuning";
+            // 
+            // colDLCPath
+            // 
+            this.colDLCPath.HeaderText = "Path";
+            this.colDLCPath.Name = "colDLCPath";
+            this.colDLCPath.Visible = false;
             // 
             // btnEnableAllSetlists
             // 
@@ -240,9 +281,9 @@ namespace CustomsForgeManager.UControls
             this.checkDeleteSongsAndSetlists.AutoSize = true;
             this.checkDeleteSongsAndSetlists.Location = new System.Drawing.Point(750, 194);
             this.checkDeleteSongsAndSetlists.Name = "checkDeleteSongsAndSetlists";
-            this.checkDeleteSongsAndSetlists.Size = new System.Drawing.Size(174, 30);
+            this.checkDeleteSongsAndSetlists.Size = new System.Drawing.Size(201, 30);
             this.checkDeleteSongsAndSetlists.TabIndex = 12;
-            this.checkDeleteSongsAndSetlists.Text = "Delete setlist(s) without moving \r\nsongs to the main dlc folder";
+            this.checkDeleteSongsAndSetlists.Text = "Delete setlists/songs without moving \r\nsongs to the main dlc folder";
             this.checkDeleteSongsAndSetlists.UseVisualStyleBackColor = true;
             // 
             // btnCreateNewSetlist
@@ -504,68 +545,6 @@ namespace CustomsForgeManager.UControls
             this.dgvUnsortedDLCs.Size = new System.Drawing.Size(259, 203);
             this.dgvUnsortedDLCs.TabIndex = 16;
             // 
-            // btnMoveSongToSetlist
-            // 
-            this.btnMoveSongToSetlist.Location = new System.Drawing.Point(275, 75);
-            this.btnMoveSongToSetlist.Name = "btnMoveSongToSetlist";
-            this.btnMoveSongToSetlist.Size = new System.Drawing.Size(115, 46);
-            this.btnMoveSongToSetlist.TabIndex = 14;
-            this.btnMoveSongToSetlist.Text = "Add selected song(s) to setlist";
-            this.btnMoveSongToSetlist.UseVisualStyleBackColor = true;
-            this.btnMoveSongToSetlist.Click += new System.EventHandler(this.btnMoveSongToSetlist_Click);
-            // 
-            // colDLCSelect
-            // 
-            this.colDLCSelect.HeaderText = "Select";
-            this.colDLCSelect.Name = "colDLCSelect";
-            this.colDLCSelect.Width = 45;
-            // 
-            // colDLCEnabled
-            // 
-            this.colDLCEnabled.HeaderText = "Enabled";
-            this.colDLCEnabled.Name = "colDLCEnabled";
-            this.colDLCEnabled.Width = 55;
-            // 
-            // colDLCArtist
-            // 
-            this.colDLCArtist.HeaderText = "Artist";
-            this.colDLCArtist.Name = "colDLCArtist";
-            this.colDLCArtist.Width = 90;
-            // 
-            // colDLCSong
-            // 
-            this.colDLCSong.HeaderText = "Song";
-            this.colDLCSong.Name = "colDLCSong";
-            this.colDLCSong.Width = 90;
-            // 
-            // colDLCAlbum
-            // 
-            this.colDLCAlbum.HeaderText = "Album";
-            this.colDLCAlbum.Name = "colDLCAlbum";
-            this.colDLCAlbum.Width = 90;
-            // 
-            // colDLCTuning
-            // 
-            this.colDLCTuning.HeaderText = "Tuning";
-            this.colDLCTuning.Name = "colDLCTuning";
-            // 
-            // colDLCPath
-            // 
-            this.colDLCPath.HeaderText = "Path";
-            this.colDLCPath.Name = "colDLCPath";
-            this.colDLCPath.Visible = false;
-            // 
-            // tbUnsortedSearch
-            // 
-            this.tbUnsortedSearch.Cue = "Search";
-            this.tbUnsortedSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.tbUnsortedSearch.ForeColor = System.Drawing.Color.Gray;
-            this.tbUnsortedSearch.Location = new System.Drawing.Point(272, 22);
-            this.tbUnsortedSearch.Name = "tbUnsortedSearch";
-            this.tbUnsortedSearch.Size = new System.Drawing.Size(127, 20);
-            this.tbUnsortedSearch.TabIndex = 19;
-            this.tbUnsortedSearch.TextChanged += new System.EventHandler(this.tbUnsortedSearch_TextChanged);
-            // 
             // colUnsortedSelect
             // 
             this.colUnsortedSelect.HeaderText = "Select";
@@ -603,6 +582,27 @@ namespace CustomsForgeManager.UControls
             this.colUnsortedPath.Name = "colUnsortedPath";
             this.colUnsortedPath.Visible = false;
             // 
+            // btnMoveSongToSetlist
+            // 
+            this.btnMoveSongToSetlist.Location = new System.Drawing.Point(275, 75);
+            this.btnMoveSongToSetlist.Name = "btnMoveSongToSetlist";
+            this.btnMoveSongToSetlist.Size = new System.Drawing.Size(115, 46);
+            this.btnMoveSongToSetlist.TabIndex = 14;
+            this.btnMoveSongToSetlist.Text = "Add selected song(s) to setlist";
+            this.btnMoveSongToSetlist.UseVisualStyleBackColor = true;
+            this.btnMoveSongToSetlist.Click += new System.EventHandler(this.btnMoveSongToSetlist_Click);
+            // 
+            // tbUnsortedSearch
+            // 
+            this.tbUnsortedSearch.Cue = "Search";
+            this.tbUnsortedSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.tbUnsortedSearch.ForeColor = System.Drawing.Color.Gray;
+            this.tbUnsortedSearch.Location = new System.Drawing.Point(272, 22);
+            this.tbUnsortedSearch.Name = "tbUnsortedSearch";
+            this.tbUnsortedSearch.Size = new System.Drawing.Size(127, 20);
+            this.tbUnsortedSearch.TabIndex = 19;
+            this.tbUnsortedSearch.TextChanged += new System.EventHandler(this.tbUnsortedSearch_TextChanged);
+            // 
             // SetListManager
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -628,8 +628,8 @@ namespace CustomsForgeManager.UControls
         #endregion
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.GroupBox groupSetlists;
-        private System.Windows.Forms.RadioButton radioEnableDisableSongs;
         private System.Windows.Forms.RadioButton radioEnableDisableSetlists;
+        private System.Windows.Forms.RadioButton radioEnableDisableSongs;
         private System.Windows.Forms.DataGridView dgvDLCsInSetlist;
         private System.Windows.Forms.Button btnEnableAllSetlists;
         private System.Windows.Forms.DataGridView dgvSetlists;

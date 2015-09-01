@@ -251,7 +251,7 @@ namespace CustomsForgeManager.UControls
                 {
                     if (Convert.ToBoolean(dgvDups.Rows[i].Cells[0].Value))
                     {
-                        string songPath = dgvDups.Rows[i].Cells[6].Value.ToString();
+                        string songPath = dgvDups.Rows[i].Cells["colPath"].Value.ToString();
                         if (songPath.Contains("_p.disabled.psarc"))
                         {
                             string enabledSongPath = songPath.Replace("_p.disabled.psarc", "_p.psarc");
