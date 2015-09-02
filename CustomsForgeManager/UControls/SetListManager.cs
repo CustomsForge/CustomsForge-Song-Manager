@@ -230,7 +230,7 @@ namespace CustomsForgeManager.UControls
 
                                             Extensions.InvokeIfRequired(dgvSetlists, delegate
                                             {
-                                                dgvUnsortedDLCs.Rows.Add(false, "Yes", song.Artist, song.Song, song.Path);
+                                                dgvUnsortedDLCs.Rows.Add(false, "Yes", song.Artist, song.Song, song.Tuning, song.Path);
                                             });
                                         }
 
@@ -305,8 +305,8 @@ namespace CustomsForgeManager.UControls
                                 if (tagged)
                                     File.SetCreationTime(finalSongPath, new DateTime(1990, 1, 1));
 
-                                dgvUnsortedDLCs.Rows.Add(false, "Yes", song.Artist, song.Album, finalSongPath);
-                                dgvUnsortedDLCs.Sort(dgvUnsortedDLCs.Columns["colUnsortedSong"], ListSortDirection.Ascending);
+                                dgvUnsortedDLCs.Rows.Add(false, "Yes", song.Artist, song.Album, song.Tuning, finalSongPath);
+                                dgvUnsortedDLCs.Sort(dgvUnsortedDLCs.Columns["colUnsortedArtist"], ListSortDirection.Ascending);
 
                                 dgvDLCsInSetlist.Rows.Remove(row);
 
@@ -412,7 +412,7 @@ namespace CustomsForgeManager.UControls
                                         song.Path = finalSongPath;
                                         song.Enabled = songEnabled;
 
-                                        dgvDLCsInSetlist.Rows.Add(false, songEnabled, song.Artist, song.Song, song.Album, Path.GetFileName(finalSongPath));
+                                        dgvDLCsInSetlist.Rows.Add(false, songEnabled, song.Artist, song.Song, song.Album, song.Tuning, Path.GetFileName(finalSongPath));
                                     }
 
                                     if (setlistEnabled)
@@ -589,7 +589,7 @@ namespace CustomsForgeManager.UControls
 
                                         Extensions.InvokeIfRequired(dgvDLCsInSetlist, delegate
                                         {
-                                            dgvDLCsInSetlist.Rows.Add(false, setlistEnabled ? "Yes" : "No", song.Artist, song.Song, song.Album, song.Path);
+                                            dgvDLCsInSetlist.Rows.Add(false, setlistEnabled ? "Yes" : "No", song.Artist, song.Song, song.Album, song.Tuning, finalSongPath);
                                         });
 
                                         song.Path = finalSongPath;
