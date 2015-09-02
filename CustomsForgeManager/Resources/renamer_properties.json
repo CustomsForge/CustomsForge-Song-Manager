@@ -1,11 +1,12 @@
 { 
-    "propertyTable" :  [
-        { "key": "title", "description": "Song Title" },
-        { "key": "artist", "description": "Song Artist/Band Name" },
-        { "key": "album", "description": "Album Title" },
-        { "key": "version", "description": "Version (of the song)" },
-        { "key": "dd", "description": "Dynamic Difficulty" },
-        { "key": "author", "description": "CDLC Author" },
-	    { "key": "filename", "description": "Original Filename" }
+    "propertyTable" :  [       
+        { "Key": "artist", "Description": "Song Artist/Band Name" },
+        { "Key": "title", "Description": "Song Title" },
+		{ "Key": "album", "Description": "Album Title" },
+		{ "Key": "year", "Description": "Album Year" },
+        { "Key": "version", "Description": "Version (of the song)" },
+        { "Key": "dd", "Description": "Dynamic Difficulty" },
+        { "Key": "author", "Description": "CDLC Author" },
+	    { "Key": "filename", "Description": "Original Filename" }
     ]
 }

@@ -55,7 +55,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         public static string CustomVersion()
         {
             // this can be customized easily wheres ApplicationVersion can not
-            return String.Format("{0}.{1}.{2}.{3} alpha",
+            return String.Format("{0}.{1}.{2}.{3}",
                                  Assembly.GetExecutingAssembly().GetName().Version.Major,
                                  Assembly.GetExecutingAssembly().GetName().Version.Minor,
                                  Assembly.GetExecutingAssembly().GetName().Version.Build,

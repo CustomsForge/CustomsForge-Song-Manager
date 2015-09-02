@@ -117,10 +117,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="instructionsLabel.Text" xml:space="preserve">
-    <value>Type the property key surrounded by &lt; and &gt;.  
-
-Example - Using "Space Time" by Gojira.
+  <data name="lblInstructions.Text" xml:space="preserve">
+    <value>Example - Using "Space Time" by Gojira.
 
 &lt;title&gt;_&lt;artist&gt; = "dlc/Space Time_Gojira.psarc"
 \\&lt;artist&gt;\\&lt;title&gt;_&lt;artist&gt; = "dlc/Gojira/Space Time_Gojira.psarc"

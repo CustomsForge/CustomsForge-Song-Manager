@@ -1,3 +1,11 @@
+1.0.0.2
+-Fixed Renamer and provide ablity to rename only user selected (checked) songs
+-Added renamer template builder (simply double click any Key(s) to select and build template)
+-Added Clear button for the renamer template
+-Added 'The' mover checkbox to Renamer, i.e. The Beatles -> Beatles, The
+-Added 'The' mover checkbox to Song Manager, i.e. The Beatles -> Beatles, The
+-Removed 'alpha' from application title
+
 1.0.0.1
 -Enabled left mouse button clicking on 'Select' checkbox in SongManager
 -Fixed 'Enable/Disable selected' in Song Manager

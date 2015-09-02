@@ -18,6 +18,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
     [Serializable]
     public class SongData
     {
+        public bool Selected { get; set; }
         public string Enabled { get; set; }
         public string Artist { get; set; }
         public string Song { get; set; }
@@ -31,6 +32,9 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         public string IgnitionAuthor { get; set; }
         public string IgnitionVersion { get; set; }
         public string Version { get; set; }
+        public string Author { get; set; }
+        public string Path { get; set; }
+        public string ToolkitVer { get; set; }
         public SongDataStatus Status { get; set; }
 
         public string Arrangements
@@ -41,20 +45,13 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
             // set {AddArrangement(value.Split(',').Select((x) => new SongDataArrangement {Name = x});]
         }
 
-        public string Author { get; set; }
-        public string Path { get; set; }
-
         public string FileName
         {
             get { return (new FileInfo(Path).Name); }
             set { } // required for XML file usage
         }
 
-        public string ToolkitVer { get; set; }
-
-
         private List<SongDataArrangement> _arrangements;
-
         public void AddArrangement(SongDataArrangement arrangement)
         {
             if (_arrangements == null)

@@ -343,6 +343,14 @@ namespace CustomsForgeManager.UControls
             // reload column order, width, visibility
             if (Globals.MySettings.ManagerGridSettings != null)
                 dgvSongs.ReLoadColumnOrder(Globals.MySettings.ManagerGridSettings.ColumnOrder);
+
+            // start fresh ... clear Selected in dgvSongs and object SongData
+            for (int i = 0; i < dgvSongs.Rows.Count; i++)
+            {
+                DataGridViewRow row = dgvSongs.Rows[i];
+                row.Cells["colSelect"].Value = false;
+                smSongCollection[i].Selected = false;
+            }
         }
 
         private void PopulateMenuWithColumnHeaders(ContextMenuStrip contextMenuStrip)
@@ -604,6 +612,7 @@ namespace CustomsForgeManager.UControls
             string backupDir = Path.Combine(Globals.MySettings.RSInstalledDir, "backups");
             string fileName = String.Empty;
             string filePath = String.Empty;
+
             try
             {
                 if (!Directory.Exists(backupDir))
@@ -622,7 +631,10 @@ namespace CustomsForgeManager.UControls
                         continue;
                     }
 
-                    if (row.Cells["colSelect"].Value != null && Convert.ToBoolean(row.Cells["colSelect"].Value))
+                    if (row.Cells["colSelect"].Value == null)
+                        row.Cells["colSelect"].Value = false;
+
+                    if (Convert.ToBoolean(row.Cells["colSelect"].Value))
                     {
                         filePath = row.Cells["Path"].Value.ToString();
                         fileName = Path.GetFileName(filePath);
@@ -901,6 +913,9 @@ namespace CustomsForgeManager.UControls
                             grid.Rows[e.RowIndex].Cells["colSelect"].Value = false;
                         else
                             grid.Rows[e.RowIndex].Cells["colSelect"].Value = true;
+
+                        // as long as the data is bound this should be OK to do
+                        smSongCollection[e.RowIndex].Selected = (bool)grid.Rows[e.RowIndex].Cells["colSelect"].Value;
                     }
         }
 
@@ -1113,7 +1128,11 @@ namespace CustomsForgeManager.UControls
         {
             // space bar used to select a song (w/ checkbox "Select")
             if (e.KeyCode == Keys.Space)
-                foreach (DataGridViewRow row in dgvSongs.Rows)
+            {
+                for (int i = 0; i < dgvSongs.Rows.Count; i++)
+                {
+                    DataGridViewRow row = dgvSongs.Rows[i];
+
                     if (row.Selected)
                     {
                         if (row.Cells["colSelect"].Value == null)
@@ -1123,7 +1142,12 @@ namespace CustomsForgeManager.UControls
                             row.Cells["colSelect"].Value = false;
                         else
                             row.Cells["colSelect"].Value = true;
+
+                        // as long as the data is bound this should be OK to do
+                        smSongCollection[i].Selected = (bool)row.Cells["colSelect"].Value;
                     }
+                }
+            }
         }
 
         private void dgvSongs_KeyUp(object sender, KeyEventArgs e)
@@ -1198,6 +1222,31 @@ namespace CustomsForgeManager.UControls
                 dgvSongs.DataSource = new BindingSource().DataSource = smSongCollection;
         }
 
+
+
+        private void chkTheMover_CheckedChanged(object sender, EventArgs e)
+        {
+            if (dgvSongs.DataSource == null)
+                return;
+
+            for (int i = 0; i < dgvSongs.Rows.Count; i++)
+            {
+                DataGridViewRow row = dgvSongs.Rows[i];
+                var artist = (string)row.Cells["colSongArtist"].Value;
+
+                // 'The' mover
+                if (chkTheMover.Checked)
+                {
+                    if (artist.StartsWith("The ", StringComparison.CurrentCultureIgnoreCase))
+                        row.Cells["colSongArtist"].Value = String.Format("{0}, The", artist.Substring(4, artist.Length - 4)).Trim();
+                }
+                else
+                {
+                    if (artist.EndsWith(", The", StringComparison.CurrentCultureIgnoreCase))
+                        row.Cells["colSongArtist"].Value = String.Format("The {0}", artist.Substring(0, artist.Length - 5)).Trim();
+                }
+            }
+        }
 
     }
 }

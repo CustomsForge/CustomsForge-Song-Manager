@@ -64,6 +64,7 @@ namespace CustomsForgeManager.UControls
             this.gb_Main_Grid = new System.Windows.Forms.GroupBox();
             this.cmsSongManagerColumns = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.chkTheMover = new System.Windows.Forms.CheckBox();
             this.tbSearch = new CustomsForgeManager.CustomsForgeManagerLib.CustomControls.CueTextBox();
             this.dgvSongs = new CustomsForgeManager.CustomsForgeManagerLib.CustomControls.RADataGridView();
             this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
@@ -102,9 +103,9 @@ namespace CustomsForgeManager.UControls
             // 
             // panelSearch
             // 
-            this.panelSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.panelSearch.Controls.Add(this.lnkClearSearch);
             this.panelSearch.Controls.Add(this.lbl_Search);
             this.panelSearch.Controls.Add(this.tbSearch);
@@ -115,8 +116,8 @@ namespace CustomsForgeManager.UControls
             // 
             // lnkClearSearch
             // 
-            this.lnkClearSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lnkClearSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.lnkClearSearch.AutoSize = true;
             this.lnkClearSearch.ForeColor = System.Drawing.Color.DimGray;
             this.lnkClearSearch.LinkColor = System.Drawing.Color.Black;
@@ -130,9 +131,9 @@ namespace CustomsForgeManager.UControls
             // 
             // lbl_Search
             // 
-            this.lbl_Search.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbl_Search.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.lbl_Search.AutoSize = true;
             this.lbl_Search.Location = new System.Drawing.Point(3, 9);
             this.lbl_Search.Name = "lbl_Search";
@@ -141,8 +142,8 @@ namespace CustomsForgeManager.UControls
             // 
             // gb_Main_Search
             // 
-            this.gb_Main_Search.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gb_Main_Search.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.gb_Main_Search.Controls.Add(this.panelSearch);
             this.gb_Main_Search.Location = new System.Drawing.Point(3, 3);
             this.gb_Main_Search.Name = "gb_Main_Search";
@@ -287,8 +288,8 @@ namespace CustomsForgeManager.UControls
             // 
             // gb_Main_Actions
             // 
-            this.gb_Main_Actions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gb_Main_Actions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.gb_Main_Actions.Controls.Add(this.panelSongListButtons);
             this.gb_Main_Actions.Location = new System.Drawing.Point(3, 427);
             this.gb_Main_Actions.Name = "gb_Main_Actions";
@@ -305,7 +306,7 @@ namespace CustomsForgeManager.UControls
             // cmsGetAuthorName
             // 
             this.cmsGetAuthorName.Name = "cmsGetAuthorName";
-            this.cmsGetAuthorName.Size = new System.Drawing.Size(177, 22);
+            this.cmsGetAuthorName.Size = new System.Drawing.Size(176, 22);
             this.cmsGetAuthorName.Text = "Get Author Name";
             this.cmsGetAuthorName.Visible = false;
             this.cmsGetAuthorName.Click += new System.EventHandler(this.cmsGetAuthorName_Click);
@@ -322,13 +323,13 @@ namespace CustomsForgeManager.UControls
             this.cmsDeleteSong,
             this.cmsBackupDLC});
             this.cmsSongManager.Name = "contextMenuStrip_MainManager";
-            this.cmsSongManager.Size = new System.Drawing.Size(178, 202);
+            this.cmsSongManager.Size = new System.Drawing.Size(177, 180);
             // 
             // cmsShowDLCInfo
             // 
             this.cmsShowDLCInfo.Image = global::CustomsForgeManager.Properties.Resources.info;
             this.cmsShowDLCInfo.Name = "cmsShowDLCInfo";
-            this.cmsShowDLCInfo.Size = new System.Drawing.Size(177, 22);
+            this.cmsShowDLCInfo.Size = new System.Drawing.Size(176, 22);
             this.cmsShowDLCInfo.Text = "Show DLC Info";
             this.cmsShowDLCInfo.Click += new System.EventHandler(this.cmsShowDLCInfo_Click);
             // 
@@ -336,7 +337,7 @@ namespace CustomsForgeManager.UControls
             // 
             this.cmsOpenDLCPage.Image = global::CustomsForgeManager.Properties.Resources.internet;
             this.cmsOpenDLCPage.Name = "cmsOpenDLCPage";
-            this.cmsOpenDLCPage.Size = new System.Drawing.Size(177, 22);
+            this.cmsOpenDLCPage.Size = new System.Drawing.Size(176, 22);
             this.cmsOpenDLCPage.Text = "Open DLC Page";
             this.cmsOpenDLCPage.Visible = false;
             this.cmsOpenDLCPage.Click += new System.EventHandler(this.cmsOpenDLCPage_Click);
@@ -345,7 +346,7 @@ namespace CustomsForgeManager.UControls
             // 
             this.cmsCheckForUpdate.Image = global::CustomsForgeManager.Properties.Resources.update;
             this.cmsCheckForUpdate.Name = "cmsCheckForUpdate";
-            this.cmsCheckForUpdate.Size = new System.Drawing.Size(177, 22);
+            this.cmsCheckForUpdate.Size = new System.Drawing.Size(176, 22);
             this.cmsCheckForUpdate.Text = "Check for Update";
             this.cmsCheckForUpdate.Visible = false;
             this.cmsCheckForUpdate.Click += new System.EventHandler(this.cmsCheckForUpdate_Click);
@@ -354,7 +355,7 @@ namespace CustomsForgeManager.UControls
             // 
             this.cmsOpenDLCLocation.Image = global::CustomsForgeManager.Properties.Resources.folder_open;
             this.cmsOpenDLCLocation.Name = "cmsOpenDLCLocation";
-            this.cmsOpenDLCLocation.Size = new System.Drawing.Size(177, 22);
+            this.cmsOpenDLCLocation.Size = new System.Drawing.Size(176, 22);
             this.cmsOpenDLCLocation.Text = "Open DLC Location";
             this.cmsOpenDLCLocation.Click += new System.EventHandler(this.cmsOpenDLCLocation_Click);
             // 
@@ -362,7 +363,7 @@ namespace CustomsForgeManager.UControls
             // 
             this.cmsEditDLC.Image = global::CustomsForgeManager.Properties.Resources.edit;
             this.cmsEditDLC.Name = "cmsEditDLC";
-            this.cmsEditDLC.Size = new System.Drawing.Size(177, 22);
+            this.cmsEditDLC.Size = new System.Drawing.Size(176, 22);
             this.cmsEditDLC.Text = "Edit DLC";
             this.cmsEditDLC.Visible = false;
             this.cmsEditDLC.Click += new System.EventHandler(this.cmsEditDLC_Click);
@@ -371,7 +372,7 @@ namespace CustomsForgeManager.UControls
             // 
             this.cmsDeleteSong.Image = global::CustomsForgeManager.Properties.Resources.delete;
             this.cmsDeleteSong.Name = "cmsDeleteSong";
-            this.cmsDeleteSong.Size = new System.Drawing.Size(177, 22);
+            this.cmsDeleteSong.Size = new System.Drawing.Size(176, 22);
             this.cmsDeleteSong.Text = "Delete song";
             this.cmsDeleteSong.Click += new System.EventHandler(this.cmsDeleteSong_Click);
             // 
@@ -379,7 +380,7 @@ namespace CustomsForgeManager.UControls
             // 
             this.cmsBackupDLC.Image = global::CustomsForgeManager.Properties.Resources.backup;
             this.cmsBackupDLC.Name = "cmsBackupDLC";
-            this.cmsBackupDLC.Size = new System.Drawing.Size(177, 22);
+            this.cmsBackupDLC.Size = new System.Drawing.Size(176, 22);
             this.cmsBackupDLC.Text = "Backup DLC";
             this.cmsBackupDLC.Click += new System.EventHandler(this.cmsBackupDLC_Click);
             // 
@@ -399,9 +400,10 @@ namespace CustomsForgeManager.UControls
             // 
             // gb_Main_Grid
             // 
-            this.gb_Main_Grid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gb_Main_Grid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.gb_Main_Grid.Controls.Add(this.chkTheMover);
             this.gb_Main_Grid.Controls.Add(this.lnkLblSelectAll);
             this.gb_Main_Grid.Controls.Add(this.dgvSongs);
             this.gb_Main_Grid.Location = new System.Drawing.Point(3, 67);
@@ -416,7 +418,7 @@ namespace CustomsForgeManager.UControls
             this.cmsSongManagerColumns.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.testToolStripMenuItem});
             this.cmsSongManagerColumns.Name = "cmsSongManagerColumns";
-            this.cmsSongManagerColumns.Size = new System.Drawing.Size(97, 26);
+            this.cmsSongManagerColumns.Size = new System.Drawing.Size(107, 26);
             // 
             // testToolStripMenuItem
             // 
@@ -425,14 +427,27 @@ namespace CustomsForgeManager.UControls
             this.testToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.testToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.testToolStripMenuItem.Name = "testToolStripMenuItem";
-            this.testToolStripMenuItem.Size = new System.Drawing.Size(96, 22);
+            this.testToolStripMenuItem.Size = new System.Drawing.Size(106, 22);
             this.testToolStripMenuItem.Text = "Test";
+            // 
+            // chkTheMover
+            // 
+            this.chkTheMover.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkTheMover.AutoSize = true;
+            this.chkTheMover.Location = new System.Drawing.Point(170, 329);
+            this.chkTheMover.Name = "chkTheMover";
+            this.chkTheMover.Size = new System.Drawing.Size(241, 17);
+            this.chkTheMover.TabIndex = 20;
+            this.chkTheMover.Text = "\'The\' Mover e.g., The Beatles -> Beatles, The\r\n";
+            this.chkTheMover.UseVisualStyleBackColor = true;
+            this.chkTheMover.CheckedChanged += new System.EventHandler(this.chkTheMover_CheckedChanged);
             // 
             // tbSearch
             // 
-            this.tbSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.tbSearch.Cue = "Type characters to search...";
             this.tbSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.tbSearch.ForeColor = System.Drawing.Color.Gray;
@@ -446,9 +461,9 @@ namespace CustomsForgeManager.UControls
             // 
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.dgvSongs.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.dgvSongs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgvSongs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -498,7 +513,7 @@ namespace CustomsForgeManager.UControls
             // colSelect
             // 
             this.colSelect.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.colSelect.DataPropertyName = "Select";
+            this.colSelect.DataPropertyName = "Selected";
             this.colSelect.FalseValue = "false";
             this.colSelect.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.colSelect.HeaderText = "Select";
@@ -789,6 +804,7 @@ namespace CustomsForgeManager.UControls
         private System.Windows.Forms.DataGridViewTextBoxColumn colPath;
         private System.Windows.Forms.DataGridViewTextBoxColumn colFileName;
         private System.Windows.Forms.DataGridViewTextBoxColumn colToolkitVersion;
+        private System.Windows.Forms.CheckBox chkTheMover;
 
     }
 }

@@ -195,7 +195,6 @@
     <Compile Include="CustomsForgeManagerLib\Objects\AppSettings.cs" />
     <Compile Include="CustomsForgeManagerLib\PsarcBrowser.cs" />
     <Compile Include="CustomsForgeManagerLib\Objects\SongData.cs" />
-    <Compile Include="CustomsForgeManagerLib\Objects\SongDupeData.cs" />
     <Compile Include="UControls\Duplicates.cs">
       <SubType>UserControl</SubType>
     </Compile>
