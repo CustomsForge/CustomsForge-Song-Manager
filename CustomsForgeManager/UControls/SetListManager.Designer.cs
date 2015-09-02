@@ -250,15 +250,18 @@ namespace CustomsForgeManager.UControls
             this.dgvSetlists.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnF2;
             this.dgvSetlists.Location = new System.Drawing.Point(22, 32);
             this.dgvSetlists.Name = "dgvSetlists";
+            this.dgvSetlists.ReadOnly = true;
             this.dgvSetlists.RowHeadersVisible = false;
             this.dgvSetlists.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvSetlists.Size = new System.Drawing.Size(243, 194);
             this.dgvSetlists.TabIndex = 13;
+            this.dgvSetlists.SelectionChanged += new System.EventHandler(this.dgvSetlists_SelectionChanged);
             // 
             // colSetlistSelect
             // 
             this.colSetlistSelect.HeaderText = "Select";
             this.colSetlistSelect.Name = "colSetlistSelect";
+            this.colSetlistSelect.ReadOnly = true;
             this.colSetlistSelect.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.colSetlistSelect.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.colSetlistSelect.Width = 50;
@@ -267,12 +270,14 @@ namespace CustomsForgeManager.UControls
             // 
             this.colSetlistEnabled.HeaderText = "Enabled";
             this.colSetlistEnabled.Name = "colSetlistEnabled";
+            this.colSetlistEnabled.ReadOnly = true;
             this.colSetlistEnabled.Width = 60;
             // 
             // colSetlist
             // 
             this.colSetlist.HeaderText = "Setlist";
             this.colSetlist.Name = "colSetlist";
+            this.colSetlist.ReadOnly = true;
             this.colSetlist.Width = 130;
             // 
             // checkDeleteSongsAndSetlists
@@ -444,6 +449,7 @@ namespace CustomsForgeManager.UControls
             this.dgvOfficialSongs.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnF2;
             this.dgvOfficialSongs.Location = new System.Drawing.Point(88, 22);
             this.dgvOfficialSongs.Name = "dgvOfficialSongs";
+            this.dgvOfficialSongs.ReadOnly = true;
             this.dgvOfficialSongs.RowHeadersVisible = false;
             this.dgvOfficialSongs.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvOfficialSongs.Size = new System.Drawing.Size(243, 143);
@@ -453,6 +459,7 @@ namespace CustomsForgeManager.UControls
             // 
             this.colOfficialSelect.HeaderText = "Select";
             this.colOfficialSelect.Name = "colOfficialSelect";
+            this.colOfficialSelect.ReadOnly = true;
             this.colOfficialSelect.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.colOfficialSelect.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.colOfficialSelect.Width = 50;
@@ -461,18 +468,21 @@ namespace CustomsForgeManager.UControls
             // 
             this.colOfficialEnabled.HeaderText = "Enabled";
             this.colOfficialEnabled.Name = "colOfficialEnabled";
+            this.colOfficialEnabled.ReadOnly = true;
             this.colOfficialEnabled.Width = 60;
             // 
             // colOfficialSongPack
             // 
             this.colOfficialSongPack.HeaderText = "Song Pack";
             this.colOfficialSongPack.Name = "colOfficialSongPack";
+            this.colOfficialSongPack.ReadOnly = true;
             this.colOfficialSongPack.Width = 130;
             // 
             // colOfficialPath
             // 
             this.colOfficialPath.HeaderText = "Path";
             this.colOfficialPath.Name = "colOfficialPath";
+            this.colOfficialPath.ReadOnly = true;
             this.colOfficialPath.Visible = false;
             // 
             // groupUnsortedDLCs
@@ -540,6 +550,7 @@ namespace CustomsForgeManager.UControls
             this.dgvUnsortedDLCs.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnF2;
             this.dgvUnsortedDLCs.Location = new System.Drawing.Point(6, 22);
             this.dgvUnsortedDLCs.Name = "dgvUnsortedDLCs";
+            this.dgvUnsortedDLCs.ReadOnly = true;
             this.dgvUnsortedDLCs.RowHeadersVisible = false;
             this.dgvUnsortedDLCs.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvUnsortedDLCs.Size = new System.Drawing.Size(259, 203);
@@ -549,6 +560,7 @@ namespace CustomsForgeManager.UControls
             // 
             this.colUnsortedSelect.HeaderText = "Select";
             this.colUnsortedSelect.Name = "colUnsortedSelect";
+            this.colUnsortedSelect.ReadOnly = true;
             this.colUnsortedSelect.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.colUnsortedSelect.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.colUnsortedSelect.Width = 45;
@@ -557,29 +569,34 @@ namespace CustomsForgeManager.UControls
             // 
             this.colUnsortedEnabled.HeaderText = "Enabled";
             this.colUnsortedEnabled.Name = "colUnsortedEnabled";
+            this.colUnsortedEnabled.ReadOnly = true;
             this.colUnsortedEnabled.Width = 55;
             // 
             // colUnsortedArtist
             // 
             this.colUnsortedArtist.HeaderText = "Artist";
             this.colUnsortedArtist.Name = "colUnsortedArtist";
+            this.colUnsortedArtist.ReadOnly = true;
             this.colUnsortedArtist.Width = 75;
             // 
             // colUnsortedSong
             // 
             this.colUnsortedSong.HeaderText = "Song";
             this.colUnsortedSong.Name = "colUnsortedSong";
+            this.colUnsortedSong.ReadOnly = true;
             this.colUnsortedSong.Width = 81;
             // 
             // colUnsortedTuning
             // 
             this.colUnsortedTuning.HeaderText = "Tuning";
             this.colUnsortedTuning.Name = "colUnsortedTuning";
+            this.colUnsortedTuning.ReadOnly = true;
             // 
             // colUnsortedPath
             // 
             this.colUnsortedPath.HeaderText = "Path";
             this.colUnsortedPath.Name = "colUnsortedPath";
+            this.colUnsortedPath.ReadOnly = true;
             this.colUnsortedPath.Visible = false;
             // 
             // btnMoveSongToSetlist

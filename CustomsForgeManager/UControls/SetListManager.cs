@@ -1098,6 +1098,14 @@ namespace CustomsForgeManager.UControls
             bWorker.RunWorkerAsync();
         }
         #endregion
+
+        private void dgvSetlists_SelectionChanged(object sender, EventArgs e)
+        {
+            if (tbUnsortedSearch.Text != "Search")
+                RefreshSelectedSongs(tbUnsortedSearch.Text);
+            else
+                RefreshSelectedSongs();
+        }
     }
 }
 
