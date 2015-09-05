@@ -26,7 +26,7 @@ Removing songs from a setlist:
 
 Deleting setlists or deleting setlist songs: (**PERMENANT DELETION**)
 *******  READ THESE NEXT FEW LINES VERY CAREFULLY  ********
-- select the setlist(s) or song(s) to deleted
+- select the setlist(s) or song(s) to delete
 - check the box "Delete setlists/songs without moving songs back
   to the main dlc folder" 
 - for safety this checkbox is disable until you enable it 

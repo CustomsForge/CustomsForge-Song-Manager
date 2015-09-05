@@ -1281,6 +1281,59 @@ namespace CustomsForgeManager.UControls
                 dgvSongs.DataSource = new BindingSource().DataSource = smSongCollection;
         }
 
+        private void chkEnableDelete_CheckedChanged(object sender, EventArgs e)
+        {
+            btnDeleteSongs.Enabled = chkEnableDelete.Checked;
+
+            if (btnDeleteSongs.Enabled)
+                btnDeleteSongs.BackColor = Color.Red;
+            else
+                btnDeleteSongs.BackColor = SystemColors.Control;
+
+        }
+
+        private void btnDeleteSongs_Click(object sender, EventArgs e)
+        {
+            bool safe2Delete = false;
+
+            // remove rows from datagridview going backward to avoid index issues
+            for (int ndx = dgvSongs.Rows.Count - 1; ndx >= 0; ndx--)
+            {
+                DataGridViewRow row = dgvSongs.Rows[ndx];
+
+                if (Convert.ToBoolean(row.Cells["colSelect"].Value))
+                {
+                    string songPath = row.Cells["colPath"].Value.ToString();
+
+                    // redundant for file safety
+                    if (chkEnableDelete.Checked && !safe2Delete)
+                    {
+                        // DANGER ZONE
+                        if (MessageBox.Show("You are about to permanently delete all 'Selected' songs(s).  " + Environment.NewLine + Environment.NewLine +
+                            "Are you sure you want to permanently delete the(se) songs(s)", Constants.ApplicationName + " ... Warning ... Warning",
+                            MessageBoxButtons.YesNo) == DialogResult.No)
+                            return;
+
+                        safe2Delete = true;
+                    }
+
+                    // redundant for file safety
+                    if (safe2Delete)
+                    {
+                        try
+                        {
+                            File.Delete(songPath);
+                            dgvSongs.Rows.Remove(row);
+                        }
+                        catch (IOException ex)
+                        {
+                            MessageBox.Show("Unable to delete song :" + songPath + Environment.NewLine + "Error: " + ex.Message, Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                }
+            }
+        }
+
 
     }
 }

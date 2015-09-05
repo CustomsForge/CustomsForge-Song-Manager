@@ -558,7 +558,9 @@ namespace CustomsForgeManager.UControls
                     if (chkDeleteSetlistOrSetlistSongs.Checked && !safe2Delete)
                     {
                         // DANGER ZONE
-                        if (MessageBox.Show(@"You are about to permanently deleted all 'Selected' songs(s).  " + Environment.NewLine + Environment.NewLine + @"Are you sure you want to permanently delete the(se) songs(s)", @"Warning ... " + MESSAGE_CAPTION + @" ... Warning", MessageBoxButtons.YesNo) == DialogResult.No)
+                        if (MessageBox.Show("You are about to permanently delete all 'Selected' songs(s).  " + Environment.NewLine + Environment.NewLine +
+                                            "Are you sure you want to permanently delete the(se) songs(s)", MESSAGE_CAPTION + " ... Warning ... Warning",
+                                            MessageBoxButtons.YesNo) == DialogResult.No)
                             return;
 
                         safe2Delete = true;
@@ -617,8 +619,11 @@ namespace CustomsForgeManager.UControls
 
                     if (chkDeleteSetlistOrSetlistSongs.Checked)
                     {
-                        // DANGER ZONE ... Confirm deletion for every setlist selected
-                        if (MessageBox.Show(@"You are about to permanently deleted setlist '" + setlistName + @"'" + @"including all songs contained in the setlist!" + Environment.NewLine + Environment.NewLine + @"Are you sure you want to permanently delete setlist '" + setlistName + @"' and its' songs?", @"Warning ... " + MESSAGE_CAPTION + @" ... Warning", MessageBoxButtons.YesNo) == DialogResult.No)
+                        // DANGER ZONE ... Confirm deletion for every setlist selected .. redundant safety interlock
+                        if (MessageBox.Show("You are about to permanently delete setlist '" + setlistName + "'" + Environment.NewLine +
+                                             "including all songs contained in the setlist!" + Environment.NewLine + Environment.NewLine +
+                                             "Are you sure you want to permanently delete setlist '" + setlistName + "' and its' songs?",
+                                             MESSAGE_CAPTION + " ... Warning ... Warning", MessageBoxButtons.YesNo) == DialogResult.No)
                             return;
                     }
 

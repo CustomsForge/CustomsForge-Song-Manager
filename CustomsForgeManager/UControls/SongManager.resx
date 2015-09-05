@@ -118,6 +118,39 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="btnDeleteSongs.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALEwAA
+        CxMBAJqcGAAAA1tJREFUOE9j/P//P8Pnz58Zvn37wQACbGxsSvz8fBYvXrxWu337oSArG+sfWRnJj7Ky
+        4neePXt14t79R/d4edgZ5OVlGAQEBBkYQAZ8+vSJ4fWbtwx37z5QP3r0RO2lS5dXbN++Y09n58T9rW19
+        W5csWb3vxo1bm+7de1R/7Ng59UuXrjC8f/8OrBdM/Pv3j+Hhw8f+vr6BF4WEhJcLCAjUsLGzZwJdk8HB
+        wZ4BpAv5+fkbtbV1FwYGhh08ceK07/fv3xEGlFdUM+TkFExmYWGZysTMlMPFxVnEy8uXz8fHl8rHz58J
+        pPN4eXnLgfK1jIyME6qq6ttmzVqIMICVlZ1BWVktMS+v+FpwcMhUTU3NHBER0VSgplRubu4YYWHhDGVl
+        lUo7O/v5Pr6Bt2Ljk/PCIqIRBtjZ2zMYGBqa6hsYXq+pqd/f3T1pR3vHhKO1tW3Hampbj8ydt/DYwkWL
+        L/j5B+8XE5c45uPv75Gdl48wIDwyisHPP0BDSlr6EdDJq/gFBCaLi0v0ysrJ94OwmLh4N1C8R1hEeIGM
+        rOzlsIhIs7SMTIQBkdHRDCFhYcJy8vLbJaWkNklISs4Wl5CYBtQ4UVRMrAtITxCXkJwCFF8ur6h4JDoh
+        STYlKxthQGBwCENEVDSruobmaglJqR1AhdOBTu0EuqIbaBDYBUB6MlB8s7qGxjag7TzJqWkIA5iZmRmE
+        hIQY5BUUFwNdcBCoYYGQsNB0YHROFhAUmCAkLDwRKDZbQkJyi7Kq6iZ5BQUGTk5OhAHABMgISoRAv88A
+        hsMFoFd2GxqZnHJ0cjtra+d4XkdX7yxQfIeUlPQxoKFLgGo5QHrgCQnI4QViIS4url6gLd8lpaT/e3oF
+        /i8srv8fl5D139rG4b+MjNx/oPe+AqN1BlCtMEgPsgFcIANkZOVm8fML/heXkPlvZe303z8w6r+vX8R/
+        W3v3/wqKav+FhUX/K6uozgeqBWYCBi5kA0D5iEleQamuprbpv7dPANAAx/+OTl5A213+m1vaA9nu/1PT
+        sv87Obm2gNSCNKAbABITnzx5xoGr1+7+z8uv/F9cUv9/2/a9///8+ft/ypQ5//X0TY4A84UUONviMAAs
+        IS+vaK2lpVdua+s0LSsrZ3p2dnaFvLyCDUwjsgEA5ndtyrezF80AAAAASUVORK5CYII=
+</value>
+  </data>
+  <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>490, -2</value>
+  </metadata>
+  <data name="chkEnableDelete.ToolTip" xml:space="preserve">
+    <value>This is a safety interlock that enables the
+ 'Delete Selected' button so that you 
+do not accidentally delete all your CDLC.
+
+Check this box to enable 'Delete Selected'
+only if you understand/accept the risk!
+</value>
+  </data>
   <data name="btnRescan.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
