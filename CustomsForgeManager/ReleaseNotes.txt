@@ -1,4 +1,10 @@
 CFM Release Notes
+
+1.0.0.5
+-Removed renaming of cache.psarc in SetlistManager
+-Highlight dgvDlcSongs that have already been used in a setlist
+-Removed some redundant code from SetlistManager, more optimization
+
 1.0.0.4
 -Fixed issue causing SongManager columns not to be colored after sorting
 
