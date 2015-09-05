@@ -1162,7 +1162,7 @@ namespace CustomsForgeManager.UControls
             else
                 dgvSongs.Columns[e.ColumnIndex].HeaderCell.SortGlyphDirection = SortOrder.Ascending;
 
-            //  ArrangementColumnsColors();
+            ArrangementColumnsColors();
         }
 
         private void dgvSongs_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)

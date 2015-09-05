@@ -1,4 +1,6 @@
 CFM Release Notes
+1.0.0.4
+-Fixed issue causing SongManager columns not to be colored after sorting
 
 1.0.0.3
 -Code cleanup and refactoring
@@ -7,7 +9,7 @@ CFM Release Notes
 -Added ignore Inlay(s) folder to SetListManager
 -Force user to check 'Select' in SetListManager, for fewer mistakes/accidents
 -Add FirstRun detection to remove old application directory contents if it exists
--Corrected bug in SongManager, RS1Compatiblity songs can not be individually enable/disabled
+-Corrected bug in SongManager, RS1Compatiblity songs can not be individually enabled/disabled
 -Restructured SetlistManager for safety, optimized code, improved exception feedback
 -Added generic Note Viewer Form (for viewing Release Notes, Setlist Manager help, etc)
 -Added file path to SongInfo form

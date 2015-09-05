@@ -127,6 +127,9 @@ namespace CustomsForgeManager.UControls
 
         private void LoadSetlists()
         {
+            // TODO: highlight (yellow) dgvDlcSongs rows that are already
+            // included in setlist so they user does not try to reuse
+
             if (Globals.MySettings.IncludeRS1DLCs)
             {
                 // force user to rescan song collect, to remove all RS1 Compatiblity songs
