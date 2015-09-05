@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -9,7 +8,6 @@ using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Text;
-using System.Threading;
 using System.Windows.Forms;
 using CustomsForgeManager.CustomsForgeManagerLib;
 using CustomsForgeManager.CustomsForgeManagerLib.CustomControls;
@@ -88,7 +86,6 @@ namespace CustomsForgeManager.UControls
             }
             catch (Exception e)
             {
-                //MessageBox.Show("Song collection file(s) could not be read.  " + Environment.NewLine + "Hit 'Rescan' when application starts.", Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Globals.Log("Error: " + e.Message);
             }
         }
@@ -132,9 +129,10 @@ namespace CustomsForgeManager.UControls
             {
                 Globals.RescanSongManager = false;
 
-                if (Globals.RescanDuplicates)
+                if (Globals.RescanDuplicates || Globals.RescanSongManager)
                 {
                     Globals.RescanDuplicates = false;
+                    Globals.RescanSongManager = false;
                     Rescan();
                 }
 
@@ -350,6 +348,15 @@ namespace CustomsForgeManager.UControls
                 DataGridViewRow row = dgvSongs.Rows[i];
                 row.Cells["colSelect"].Value = false;
                 smSongCollection[i].Selected = false;
+            }
+        }
+
+        private void DisableEnabled()
+        {
+            foreach (DataGridViewRow row in dgvSongs.Rows)
+            {
+                if (row.Cells["colPath"].Value.ToString().ToLower().Contains(Constants.RS1COMP))
+                    row.Cells["colEnabled"].Value = false;
             }
         }
 
@@ -622,6 +629,13 @@ namespace CustomsForgeManager.UControls
                 {
                     if (row.Selected)
                     {
+                        // beyound current scope of CFM
+                        if (row.Cells["colSelect"].Value.ToString().Contains(Constants.RS1COMP))
+                        {
+                            Globals.Log("Can not 'Backup' individual RS1 Compatiblity DLC");
+                            continue;
+                        }
+
                         filePath = row.Cells["Path"].Value.ToString();
                         fileName = Path.GetFileName(filePath);
 
@@ -653,6 +667,7 @@ namespace CustomsForgeManager.UControls
 
         private void btnCheckAllForUpdates_Click(object sender, EventArgs e)
         {
+            // TODO: need to remove RS1 Compatiblity DLCs from this check
             Extensions.InvokeIfRequired(this, delegate { Globals.TsLabel_Cancel.Enabled = true; });
             bWorker = new AbortableBackgroundWorker();
             bWorker.SetDefaults();
@@ -777,6 +792,30 @@ namespace CustomsForgeManager.UControls
             counterStopwatch.Stop();
         }
 
+        private void chkTheMover_CheckedChanged(object sender, EventArgs e)
+        {
+            if (dgvSongs.DataSource == null)
+                return;
+
+            for (int i = 0; i < dgvSongs.Rows.Count; i++)
+            {
+                DataGridViewRow row = dgvSongs.Rows[i];
+                var artist = (string)row.Cells["colSongArtist"].Value;
+
+                // 'The' mover
+                if (chkTheMover.Checked)
+                {
+                    if (artist.StartsWith("The ", StringComparison.CurrentCultureIgnoreCase))
+                        row.Cells["colSongArtist"].Value = String.Format("{0}, The", artist.Substring(4, artist.Length - 4)).Trim();
+                }
+                else
+                {
+                    if (artist.EndsWith(", The", StringComparison.CurrentCultureIgnoreCase))
+                        row.Cells["colSongArtist"].Value = String.Format("The {0}", artist.Substring(0, artist.Length - 5)).Trim();
+                }
+            }
+        }
+
         private void cmsBackupDLC_Click(object sender, EventArgs e)
         {
             string backupPath = Path.Combine(Globals.MySettings.RSInstalledDir, "backup");
@@ -817,6 +856,14 @@ namespace CustomsForgeManager.UControls
 
         private void cmsDeleteSong_Click(object sender, EventArgs e)
         {
+            if (dgvSongs.SelectedRows[0].Cells["colPath"].Value.ToString().ToLower().Contains(Constants.RS1COMP))
+            {
+                Globals.Log("Can not delete individual RS1 Compatiblity DLC");
+                Globals.Log("Go to Setting tab and uncheck 'Include RS1 Compatibility Pack'");
+                Globals.Log("Then click 'Rescan' to remove all RS1 Compatiblity DLCs");
+                return;
+            }
+
             try
             {
                 if (MessageBox.Show("Do you really want to remove this CDLC?  " + Environment.NewLine + "Warning:  This cannot be undone!", Constants.ApplicationName, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
@@ -906,16 +953,22 @@ namespace CustomsForgeManager.UControls
                 if (e.RowIndex != -1)
                     if (grid.Columns[e.ColumnIndex].Name == "colSelect")
                     {
-                        if (grid.Rows[e.RowIndex].Cells["colSelect"].Value == null)
-                            grid.Rows[e.RowIndex].Cells["colSelect"].Value = false;
-
-                        if (Convert.ToBoolean(grid.Rows[e.RowIndex].Cells["colSelect"].Value))
-                            grid.Rows[e.RowIndex].Cells["colSelect"].Value = false;
+                        // beyound current scope of CFM
+                        if (grid.Rows[e.RowIndex].Cells["colSelect"].Value.ToString().Contains(Constants.RS1COMP))
+                            Globals.Log("Can not 'Select' individual RS1 Compatiblity DLC");
                         else
-                            grid.Rows[e.RowIndex].Cells["colSelect"].Value = true;
+                        {
+                            if (grid.Rows[e.RowIndex].Cells["colSelect"].Value == null)
+                                grid.Rows[e.RowIndex].Cells["colSelect"].Value = false;
 
-                        // as long as the data is bound this should be OK to do
-                        smSongCollection[e.RowIndex].Selected = (bool)grid.Rows[e.RowIndex].Cells["colSelect"].Value;
+                            if (Convert.ToBoolean(grid.Rows[e.RowIndex].Cells["colSelect"].Value))
+                                grid.Rows[e.RowIndex].Cells["colSelect"].Value = false;
+                            else
+                                grid.Rows[e.RowIndex].Cells["colSelect"].Value = true;
+
+                            // as long as the data is bound this should be OK to do
+                            smSongCollection[e.RowIndex].Selected = (bool)grid.Rows[e.RowIndex].Cells["colSelect"].Value;
+                        }
                     }
         }
 
@@ -1135,16 +1188,22 @@ namespace CustomsForgeManager.UControls
 
                     if (row.Selected)
                     {
-                        if (row.Cells["colSelect"].Value == null)
-                            row.Cells["colSelect"].Value = false;
-
-                        if (Convert.ToBoolean(row.Cells["colSelect"].Value))
-                            row.Cells["colSelect"].Value = false;
+                        // beyound current scope of CFM
+                        if (row.Cells["colSelect"].Value.ToString().Contains(Constants.RS1COMP))
+                            Globals.Log("Can not 'Select' individual RS1 Compatiblity DLC");
                         else
-                            row.Cells["colSelect"].Value = true;
+                        {
+                            if (row.Cells["colSelect"].Value == null)
+                                row.Cells["colSelect"].Value = false;
 
-                        // as long as the data is bound this should be OK to do
-                        smSongCollection[i].Selected = (bool)row.Cells["colSelect"].Value;
+                            if (Convert.ToBoolean(row.Cells["colSelect"].Value))
+                                row.Cells["colSelect"].Value = false;
+                            else
+                                row.Cells["colSelect"].Value = true;
+
+                            // as long as the data is bound this should be OK to do
+                            smSongCollection[i].Selected = (bool)row.Cells["colSelect"].Value;
+                        }
                     }
                 }
             }
@@ -1222,31 +1281,6 @@ namespace CustomsForgeManager.UControls
                 dgvSongs.DataSource = new BindingSource().DataSource = smSongCollection;
         }
 
-
-
-        private void chkTheMover_CheckedChanged(object sender, EventArgs e)
-        {
-            if (dgvSongs.DataSource == null)
-                return;
-
-            for (int i = 0; i < dgvSongs.Rows.Count; i++)
-            {
-                DataGridViewRow row = dgvSongs.Rows[i];
-                var artist = (string)row.Cells["colSongArtist"].Value;
-
-                // 'The' mover
-                if (chkTheMover.Checked)
-                {
-                    if (artist.StartsWith("The ", StringComparison.CurrentCultureIgnoreCase))
-                        row.Cells["colSongArtist"].Value = String.Format("{0}, The", artist.Substring(4, artist.Length - 4)).Trim();
-                }
-                else
-                {
-                    if (artist.EndsWith(", The", StringComparison.CurrentCultureIgnoreCase))
-                        row.Cells["colSongArtist"].Value = String.Format("The {0}", artist.Substring(0, artist.Length - 5)).Trim();
-                }
-            }
-        }
 
     }
 }

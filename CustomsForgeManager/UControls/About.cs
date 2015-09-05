@@ -85,8 +85,9 @@ namespace CustomsForgeManager.UControls
 
         private void lnkReleaseNotes_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            var releaseNotes = new frmReleaseNotes();
-            releaseNotes.ShowDialog();
+            // ensures proper disposal of objects and variables
+            using (var noteViewer = new frmNoteViewer(File.ReadAllText("ReleaseNotes.txt")))
+                noteViewer.ShowDialog();
         }
 
         private void lnkRequests_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

@@ -148,6 +148,7 @@ namespace CustomsForgeManager.Forms
                     this.tpSetListManager.Controls.Clear();
                     this.tpSetListManager.Controls.Add(Globals.SetListManager);
                     Globals.SetListManager.Dock = DockStyle.Fill;
+                    Globals.SetListManager.UpdateToolStrip();
                     Globals.SetListManager.Location = UCLocation;
                     Globals.SetListManager.Size = UCSize;
                     break;

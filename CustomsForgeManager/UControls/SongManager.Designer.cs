@@ -36,8 +36,10 @@ namespace CustomsForgeManager.UControls
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panelSearch = new System.Windows.Forms.Panel();
+            this.chkTheMover = new System.Windows.Forms.CheckBox();
             this.lnkClearSearch = new System.Windows.Forms.LinkLabel();
             this.lbl_Search = new System.Windows.Forms.Label();
+            this.tbSearch = new CustomsForgeManager.CustomsForgeManagerLib.CustomControls.CueTextBox();
             this.gb_Main_Search = new System.Windows.Forms.GroupBox();
             this.panelSongListButtons = new System.Windows.Forms.Panel();
             this.btnBackupSelectedDLCs = new System.Windows.Forms.Button();
@@ -62,11 +64,9 @@ namespace CustomsForgeManager.UControls
             this.cmsBackupDLC = new System.Windows.Forms.ToolStripMenuItem();
             this.lnkLblSelectAll = new System.Windows.Forms.LinkLabel();
             this.gb_Main_Grid = new System.Windows.Forms.GroupBox();
+            this.dgvSongs = new CustomsForgeManager.CustomsForgeManagerLib.CustomControls.RADataGridView();
             this.cmsSongManagerColumns = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.chkTheMover = new System.Windows.Forms.CheckBox();
-            this.tbSearch = new CustomsForgeManager.CustomsForgeManagerLib.CustomControls.CueTextBox();
-            this.dgvSongs = new CustomsForgeManager.CustomsForgeManagerLib.CustomControls.RADataGridView();
             this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.colBass = new System.Windows.Forms.DataGridViewImageColumn();
             this.colLead = new System.Windows.Forms.DataGridViewImageColumn();
@@ -74,8 +74,8 @@ namespace CustomsForgeManager.UControls
             this.colVocals = new System.Windows.Forms.DataGridViewImageColumn();
             this.colEnabled = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colSongArtist = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSongAlbum = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colSongTitle = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSongAlbum = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colSongTuning = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colDD = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colSongYear = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -97,8 +97,8 @@ namespace CustomsForgeManager.UControls
             this.gb_Main_Actions.SuspendLayout();
             this.cmsSongManager.SuspendLayout();
             this.gb_Main_Grid.SuspendLayout();
-            this.cmsSongManagerColumns.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSongs)).BeginInit();
+            this.cmsSongManagerColumns.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelSearch
@@ -106,6 +106,7 @@ namespace CustomsForgeManager.UControls
             this.panelSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelSearch.Controls.Add(this.chkTheMover);
             this.panelSearch.Controls.Add(this.lnkClearSearch);
             this.panelSearch.Controls.Add(this.lbl_Search);
             this.panelSearch.Controls.Add(this.tbSearch);
@@ -114,6 +115,19 @@ namespace CustomsForgeManager.UControls
             this.panelSearch.Size = new System.Drawing.Size(970, 33);
             this.panelSearch.TabIndex = 5;
             // 
+            // chkTheMover
+            // 
+            this.chkTheMover.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkTheMover.AutoSize = true;
+            this.chkTheMover.Location = new System.Drawing.Point(708, 8);
+            this.chkTheMover.Name = "chkTheMover";
+            this.chkTheMover.Size = new System.Drawing.Size(241, 17);
+            this.chkTheMover.TabIndex = 20;
+            this.chkTheMover.Text = "\'The\' Mover e.g., The Beatles -> Beatles, The\r\n";
+            this.chkTheMover.UseVisualStyleBackColor = true;
+            this.chkTheMover.CheckedChanged += new System.EventHandler(this.chkTheMover_CheckedChanged);
+            // 
             // lnkClearSearch
             // 
             this.lnkClearSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
@@ -121,7 +135,7 @@ namespace CustomsForgeManager.UControls
             this.lnkClearSearch.AutoSize = true;
             this.lnkClearSearch.ForeColor = System.Drawing.Color.DimGray;
             this.lnkClearSearch.LinkColor = System.Drawing.Color.Black;
-            this.lnkClearSearch.Location = new System.Drawing.Point(891, 9);
+            this.lnkClearSearch.Location = new System.Drawing.Point(558, 10);
             this.lnkClearSearch.Name = "lnkClearSearch";
             this.lnkClearSearch.Size = new System.Drawing.Size(68, 13);
             this.lnkClearSearch.TabIndex = 3;
@@ -139,6 +153,20 @@ namespace CustomsForgeManager.UControls
             this.lbl_Search.Name = "lbl_Search";
             this.lbl_Search.Size = new System.Drawing.Size(0, 13);
             this.lbl_Search.TabIndex = 2;
+            // 
+            // tbSearch
+            // 
+            this.tbSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbSearch.Cue = "Type characters to search...";
+            this.tbSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.tbSearch.ForeColor = System.Drawing.Color.Gray;
+            this.tbSearch.Location = new System.Drawing.Point(9, 6);
+            this.tbSearch.Name = "tbSearch";
+            this.tbSearch.Size = new System.Drawing.Size(543, 20);
+            this.tbSearch.TabIndex = 1;
+            this.tbSearch.KeyUp += new System.Windows.Forms.KeyEventHandler(this.tbSearch_KeyUp);
             // 
             // gb_Main_Search
             // 
@@ -390,7 +418,7 @@ namespace CustomsForgeManager.UControls
             this.lnkLblSelectAll.AutoSize = true;
             this.lnkLblSelectAll.ForeColor = System.Drawing.Color.Black;
             this.lnkLblSelectAll.LinkColor = System.Drawing.Color.Black;
-            this.lnkLblSelectAll.Location = new System.Drawing.Point(6, 326);
+            this.lnkLblSelectAll.Location = new System.Drawing.Point(7, 335);
             this.lnkLblSelectAll.Name = "lnkLblSelectAll";
             this.lnkLblSelectAll.Size = new System.Drawing.Size(112, 13);
             this.lnkLblSelectAll.TabIndex = 2;
@@ -403,7 +431,6 @@ namespace CustomsForgeManager.UControls
             this.gb_Main_Grid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.gb_Main_Grid.Controls.Add(this.chkTheMover);
             this.gb_Main_Grid.Controls.Add(this.lnkLblSelectAll);
             this.gb_Main_Grid.Controls.Add(this.dgvSongs);
             this.gb_Main_Grid.Location = new System.Drawing.Point(3, 67);
@@ -412,50 +439,6 @@ namespace CustomsForgeManager.UControls
             this.gb_Main_Grid.TabIndex = 8;
             this.gb_Main_Grid.TabStop = false;
             this.gb_Main_Grid.Text = "Results Grid:";
-            // 
-            // cmsSongManagerColumns
-            // 
-            this.cmsSongManagerColumns.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.testToolStripMenuItem});
-            this.cmsSongManagerColumns.Name = "cmsSongManagerColumns";
-            this.cmsSongManagerColumns.Size = new System.Drawing.Size(107, 26);
-            // 
-            // testToolStripMenuItem
-            // 
-            this.testToolStripMenuItem.Checked = true;
-            this.testToolStripMenuItem.CheckOnClick = true;
-            this.testToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.testToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.testToolStripMenuItem.Name = "testToolStripMenuItem";
-            this.testToolStripMenuItem.Size = new System.Drawing.Size(106, 22);
-            this.testToolStripMenuItem.Text = "Test";
-            // 
-            // chkTheMover
-            // 
-            this.chkTheMover.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.chkTheMover.AutoSize = true;
-            this.chkTheMover.Location = new System.Drawing.Point(170, 329);
-            this.chkTheMover.Name = "chkTheMover";
-            this.chkTheMover.Size = new System.Drawing.Size(241, 17);
-            this.chkTheMover.TabIndex = 20;
-            this.chkTheMover.Text = "\'The\' Mover e.g., The Beatles -> Beatles, The\r\n";
-            this.chkTheMover.UseVisualStyleBackColor = true;
-            this.chkTheMover.CheckedChanged += new System.EventHandler(this.chkTheMover_CheckedChanged);
-            // 
-            // tbSearch
-            // 
-            this.tbSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbSearch.Cue = "Type characters to search...";
-            this.tbSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.tbSearch.ForeColor = System.Drawing.Color.Gray;
-            this.tbSearch.Location = new System.Drawing.Point(9, 6);
-            this.tbSearch.Name = "tbSearch";
-            this.tbSearch.Size = new System.Drawing.Size(876, 20);
-            this.tbSearch.TabIndex = 1;
-            this.tbSearch.KeyUp += new System.Windows.Forms.KeyEventHandler(this.tbSearch_KeyUp);
             // 
             // dgvSongs
             // 
@@ -480,8 +463,8 @@ namespace CustomsForgeManager.UControls
             this.colVocals,
             this.colEnabled,
             this.colSongArtist,
-            this.colSongAlbum,
             this.colSongTitle,
+            this.colSongAlbum,
             this.colSongTuning,
             this.colDD,
             this.colSongYear,
@@ -500,7 +483,7 @@ namespace CustomsForgeManager.UControls
             this.dgvSongs.Location = new System.Drawing.Point(6, 19);
             this.dgvSongs.Name = "dgvSongs";
             this.dgvSongs.RowHeadersVisible = false;
-            this.dgvSongs.Size = new System.Drawing.Size(970, 304);
+            this.dgvSongs.Size = new System.Drawing.Size(970, 312);
             this.dgvSongs.TabIndex = 1;
             this.dgvSongs.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSongs_CellDoubleClick);
             this.dgvSongs.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongs_CellMouseDown);
@@ -509,6 +492,23 @@ namespace CustomsForgeManager.UControls
             this.dgvSongs.Paint += new System.Windows.Forms.PaintEventHandler(this.dgvSongs_Paint);
             this.dgvSongs.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvSongs_KeyDown);
             this.dgvSongs.KeyUp += new System.Windows.Forms.KeyEventHandler(this.dgvSongs_KeyUp);
+            // 
+            // cmsSongManagerColumns
+            // 
+            this.cmsSongManagerColumns.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.testToolStripMenuItem});
+            this.cmsSongManagerColumns.Name = "cmsSongManagerColumns";
+            this.cmsSongManagerColumns.Size = new System.Drawing.Size(107, 26);
+            // 
+            // testToolStripMenuItem
+            // 
+            this.testToolStripMenuItem.Checked = true;
+            this.testToolStripMenuItem.CheckOnClick = true;
+            this.testToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.testToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.testToolStripMenuItem.Name = "testToolStripMenuItem";
+            this.testToolStripMenuItem.Size = new System.Drawing.Size(106, 22);
+            this.testToolStripMenuItem.Text = "Test";
             // 
             // colSelect
             // 
@@ -584,14 +584,6 @@ namespace CustomsForgeManager.UControls
             this.colSongArtist.ReadOnly = true;
             this.colSongArtist.Width = 50;
             // 
-            // colSongAlbum
-            // 
-            this.colSongAlbum.DataPropertyName = "Album";
-            this.colSongAlbum.HeaderText = "Album";
-            this.colSongAlbum.Name = "colSongAlbum";
-            this.colSongAlbum.ReadOnly = true;
-            this.colSongAlbum.Width = 50;
-            // 
             // colSongTitle
             // 
             this.colSongTitle.DataPropertyName = "Song";
@@ -599,6 +591,14 @@ namespace CustomsForgeManager.UControls
             this.colSongTitle.Name = "colSongTitle";
             this.colSongTitle.ReadOnly = true;
             this.colSongTitle.Width = 50;
+            // 
+            // colSongAlbum
+            // 
+            this.colSongAlbum.DataPropertyName = "Album";
+            this.colSongAlbum.HeaderText = "Album";
+            this.colSongAlbum.Name = "colSongAlbum";
+            this.colSongAlbum.ReadOnly = true;
+            this.colSongAlbum.Width = 50;
             // 
             // colSongTuning
             // 
@@ -741,8 +741,8 @@ namespace CustomsForgeManager.UControls
             this.cmsSongManager.ResumeLayout(false);
             this.gb_Main_Grid.ResumeLayout(false);
             this.gb_Main_Grid.PerformLayout();
-            this.cmsSongManagerColumns.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvSongs)).EndInit();
+            this.cmsSongManagerColumns.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -780,6 +780,7 @@ namespace CustomsForgeManager.UControls
         private System.Windows.Forms.GroupBox gb_Main_Grid;
         private System.Windows.Forms.ContextMenuStrip cmsSongManagerColumns;
         private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem;
+        private System.Windows.Forms.CheckBox chkTheMover;
         private System.Windows.Forms.DataGridViewCheckBoxColumn colSelect;
         private System.Windows.Forms.DataGridViewImageColumn colBass;
         private System.Windows.Forms.DataGridViewImageColumn colLead;
@@ -787,8 +788,8 @@ namespace CustomsForgeManager.UControls
         private System.Windows.Forms.DataGridViewImageColumn colVocals;
         private System.Windows.Forms.DataGridViewTextBoxColumn colEnabled;
         private System.Windows.Forms.DataGridViewTextBoxColumn colSongArtist;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colSongAlbum;
         private System.Windows.Forms.DataGridViewTextBoxColumn colSongTitle;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colSongAlbum;
         private System.Windows.Forms.DataGridViewTextBoxColumn colSongTuning;
         private System.Windows.Forms.DataGridViewTextBoxColumn colDD;
         private System.Windows.Forms.DataGridViewTextBoxColumn colSongYear;
@@ -804,7 +805,6 @@ namespace CustomsForgeManager.UControls
         private System.Windows.Forms.DataGridViewTextBoxColumn colPath;
         private System.Windows.Forms.DataGridViewTextBoxColumn colFileName;
         private System.Windows.Forms.DataGridViewTextBoxColumn colToolkitVersion;
-        private System.Windows.Forms.CheckBox chkTheMover;
 
     }
 }

@@ -25,6 +25,7 @@ namespace CustomsForgeManager.Forms
             lbl_PanelSongArrangements.Text = song.Arrangements;
             lbl_PanelSongDD.Text = song.DD == "0" ? "No" : "Yes";
             lbl_PanelSongAuthor.Text = song.Author;
+            lbl_PanelSongPath.Text = song.Path;
 
             FillGridWithArrangements(song.Arrangements);
 
