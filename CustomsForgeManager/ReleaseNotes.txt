@@ -5,6 +5,8 @@ CFM Release Notes
 -Highlight dgvDlcSongs that have already been used in a setlist
 -Removed some redundant code from SetlistManager, more code optimization
 -Added 'Delete Selected' button to SongManager with saftety interlock checkbox
+-Fixed SetlistManager UC window docking and positioning when in release mode
+-Fixed NoteViewer window position to always be topmost in release mode
 
 1.0.0.4
 -Fixed issue causing SongManager columns not to be colored after sorting

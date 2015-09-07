@@ -22,7 +22,7 @@ namespace CustomsForgeManager
                 if (Process.GetProcessesByName(Process.GetCurrentProcess().ProcessName).Length > 1)
                     return;
 
-            if (FirstRun())
+            if (FirstRun() && !Constants.DebugMode)
             {
                 if (Directory.Exists(Constants.WorkDirectory))
                     Directory.Delete(Constants.WorkDirectory, true);

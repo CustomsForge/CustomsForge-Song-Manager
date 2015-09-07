@@ -21,13 +21,17 @@ using CustomsForgeManager.Forms;
 // multiple versions of the same song are loaded it will hang the game
 // so when a song is added to any setlist it removed from dgvSetlistsSongs
 // and added to the cooresponding dgvDlcSongs
-// cache.psarc may not be renamed
 
 namespace CustomsForgeManager.UControls
 {
-    public partial class SetListManager : UserControl
+    public partial class New : UserControl
     {
+        #region Constants
+
         private const string MESSAGE_CAPTION = "Setlist Manager";
+
+        #endregion
+
         private bool bindingCompleted = false;
         private bool dgvPainted = false;
         private string dlcDir = Path.Combine(Globals.MySettings.RSInstalledDir, "dlc");
@@ -37,30 +41,10 @@ namespace CustomsForgeManager.UControls
         private string rs1CompDiscPath;
         private string rs1CompDlcPath;
 
-        public SetListManager()
+        public New()
         {
             InitializeComponent();
             PopulateSetListManager();
-            // add event handles
-            dgvSetlists.SelectionChanged += dgvSetlists_SelectionChanged;
-            btnCreateSetlist.Click += btnCreateSetlist_Click;
-            chkDeleteSetlistOrSetlistSongs.UseVisualStyleBackColor = false;
-            chkDeleteSetlistOrSetlistSongs.CheckedChanged += chkDeleteSetlistOrSetlistSongs_CheckedChanged;
-            btnRemoveSetlistSong.Click += btnRemoveSetlistSong_Click;
-            btnToggleSetlistSong.Click += btnToggleSongsInSetlist_Click;
-            btnEnDiSetlist.Click += btnEnDiSetlist_Click;
-            btnRemoveSetlist.Click += btnRemoveSetlist_Click;
-            btnToggleSetlist.Click += btnToggleSetlists_Click;
-            dgvDlcSongs.DataBindingComplete += dgvDlcSongs_DataBindingComplete;
-            dgvDlcSongs.Paint += dgvDlcSongs_Paint;
-            btnToggleDlcSongs.Click += btnToggleDSongs_Click;
-            btnEnDiDlcSongs.Click += btnEnDiDlcSongs_Click;
-            chkEnableDelete.CheckedChanged += chkEnableDelete_CheckedChanged;
-            btnEnDiSongPack.Click += btnEnDiSongPack_Click;
-            cueDlcSongsSearch.TextChanged += cueDlcSongsSearch_TextChanged;
-            lnkOpenSngMgrHelp.LinkClicked += lnkOpenSngMgrHelp_LinkClicked;
-            btnRunRSWithSetlist.Click += btnRunRSWithSetlist_Click;
-            lnkClearSearch.LinkClicked += lnkClearSearch_LinkClicked;
         }
 
         public void PopulateSetListManager()
@@ -175,6 +159,9 @@ namespace CustomsForgeManager.UControls
                 MessageBox.Show(@"Please go back to the SongManager menu tab and rescan" + Environment.NewLine + @"the song collection before working in SetlistManager.  ", MESSAGE_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Hand);
                 return;
             }
+
+            // clear the datagrids
+            dgvDlcSongs.Rows.Clear();
 
             // CDLC song collection is loaded in Globals.SongCollection
             dlcSongCollection = Globals.SongCollection;
@@ -335,71 +322,6 @@ namespace CustomsForgeManager.UControls
             return false;
         }
 
-        private void btnCreateSetlist_Click(object sender, System.EventArgs e)
-        {
-            string setlistName = Microsoft.VisualBasic.Interaction.InputBox("Please enter setlist name", "Setlist name");
-            if (String.IsNullOrEmpty(setlistName))
-                return;
-
-            if (setlistName.ToLower().Contains("disabled"))
-            {
-                MessageBox.Show(@"'Disabled' is a Reserved Word ..." + Environment.NewLine +
-                    @"Setlist names may not contain" + Environment.NewLine +
-                    @"any form of the word 'disabled'", MESSAGE_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Hand);
-                return;
-            }
-
-            try
-            {
-                string setlistPath = Path.Combine(dlcDir, setlistName);
-                if (!Directory.Exists(setlistPath))
-                {
-                    Directory.CreateDirectory(setlistPath);
-                    if (Directory.Exists(setlistPath))
-                        dgvSetlists.Rows.Add(false, "Yes", setlistName); // interesting feature ;)
-                }
-                else
-                    MessageBox.Show(@"A setlist named '" + setlistName + @"' already exists!", MESSAGE_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Hand);
-            }
-            catch (IOException ex)
-            {
-                MessageBox.Show(@"Unable to create a new setlist: " + setlistName + Environment.NewLine + @"Error: " + ex.Message, MESSAGE_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void btnEnDiDlcSongs_Click(object sender, EventArgs e)
-        {
-            foreach (DataGridViewRow row in dgvDlcSongs.Rows)
-            {
-                if (Convert.ToBoolean(row.Cells["colSelect"].Value))
-                {
-                    var originalPath = row.Cells["colPath"].Value.ToString();
-
-                    try
-                    {
-                        if (row.Cells["colEnabled"].Value.ToString() == "Yes")
-                        {
-                            var disabledDLCPath = originalPath.Replace("_p.psarc", "_p.disabled.psarc");
-                            File.Move(originalPath, disabledDLCPath);
-                            row.Cells["colPath"].Value = disabledDLCPath;
-                            row.Cells["colEnabled"].Value = "No";
-                        }
-                        else
-                        {
-                            var enabledDLCPath = originalPath.Replace("_p.disabled.psarc", "_p.psarc");
-                            File.Move(originalPath, enabledDLCPath);
-                            row.Cells["colPath"].Value = enabledDLCPath;
-                            row.Cells["colEnabled"].Value = "Yes";
-                        }
-                    }
-                    catch (IOException ex)
-                    {
-                        MessageBox.Show(@"Unable to enable/disable song: " + Path.GetFileName(originalPath) + @" in 'dlc' folder." + Environment.NewLine + "Error: " + ex.Message);
-                    }
-                }
-            }
-        }
-
         private void btnAddDlcSong_Click(object sender, EventArgs e)
         {
             // see Setlist Manager Safety Rules!
@@ -470,6 +392,71 @@ namespace CustomsForgeManager.UControls
             Globals.RescanSongManager = true;
             Globals.RescanDuplicates = true;
             Globals.RescanSetListManager = true;
+        }
+
+        private void btnCreateSetlist_Click(object sender, System.EventArgs e)
+        {
+            string setlistName = Microsoft.VisualBasic.Interaction.InputBox("Please enter setlist name", "Setlist name");
+            if (String.IsNullOrEmpty(setlistName))
+                return;
+
+            if (setlistName.ToLower().Contains("disabled"))
+            {
+                MessageBox.Show(@"'Disabled' is a Reserved Word ..." + Environment.NewLine +
+                    @"Setlist names may not contain" + Environment.NewLine +
+                    @"any form of the word 'disabled'", MESSAGE_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                return;
+            }
+
+            try
+            {
+                string setlistPath = Path.Combine(dlcDir, setlistName);
+                if (!Directory.Exists(setlistPath))
+                {
+                    Directory.CreateDirectory(setlistPath);
+                    if (Directory.Exists(setlistPath))
+                        dgvSetlists.Rows.Add(false, "Yes", setlistName); // interesting feature ;)
+                }
+                else
+                    MessageBox.Show(@"A setlist named '" + setlistName + @"' already exists!", MESSAGE_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Hand);
+            }
+            catch (IOException ex)
+            {
+                MessageBox.Show(@"Unable to create a new setlist: " + setlistName + Environment.NewLine + @"Error: " + ex.Message, MESSAGE_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnEnDiDlcSongs_Click(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow row in dgvDlcSongs.Rows)
+            {
+                if (Convert.ToBoolean(row.Cells["colSelect"].Value))
+                {
+                    var originalPath = row.Cells["colPath"].Value.ToString();
+
+                    try
+                    {
+                        if (row.Cells["colEnabled"].Value.ToString() == "Yes")
+                        {
+                            var disabledDLCPath = originalPath.Replace("_p.psarc", "_p.disabled.psarc");
+                            File.Move(originalPath, disabledDLCPath);
+                            row.Cells["colPath"].Value = disabledDLCPath;
+                            row.Cells["colEnabled"].Value = "No";
+                        }
+                        else
+                        {
+                            var enabledDLCPath = originalPath.Replace("_p.disabled.psarc", "_p.psarc");
+                            File.Move(originalPath, enabledDLCPath);
+                            row.Cells["colPath"].Value = enabledDLCPath;
+                            row.Cells["colEnabled"].Value = "Yes";
+                        }
+                    }
+                    catch (IOException ex)
+                    {
+                        MessageBox.Show(@"Unable to enable/disable song: " + Path.GetFileName(originalPath) + @" in 'dlc' folder." + Environment.NewLine + "Error: " + ex.Message);
+                    }
+                }
+            }
         }
 
         private void btnEnDiSetlist_Click(object sender, EventArgs e)
@@ -544,6 +531,14 @@ namespace CustomsForgeManager.UControls
                     }
                 }
             }
+        }
+
+        private void btnReloadGui_Click(object sender, EventArgs e)
+        {
+            PopulateSetListManager();
+            HighlightUsedSongs(Color.Yellow);
+            cueDlcSongsSearch.Text = String.Empty;
+            cueDlcSongsSearch.Cue = "Search";
         }
 
         private void btnRemoveSetlistSong_Click(object sender, EventArgs e)
@@ -930,7 +925,7 @@ namespace CustomsForgeManager.UControls
                 LoadSetlistSongs();
         }
 
-        private void lnkOpenSngMgrHelp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void linkOpenSngMgrHelp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             // ensures proper disposal of objects and variables
             Assembly assembly = Assembly.GetExecutingAssembly();
@@ -945,14 +940,6 @@ namespace CustomsForgeManager.UControls
                     noteViewer.ShowDialog();
                 }
             }
-        }
-
-        private void lnkClearSearch_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            PopulateSetListManager();
-            HighlightUsedSongs(Color.Yellow);
-            cueDlcSongsSearch.Text = String.Empty;
-            cueDlcSongsSearch.Cue = "Search";
         }
 
     }

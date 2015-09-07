@@ -49,8 +49,9 @@
             this.Controls.Add(this.rtbNotes);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmNoteViewer";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "CFM Note Viewer";
+            this.TopMost = true;
             this.ResumeLayout(false);
 
         }

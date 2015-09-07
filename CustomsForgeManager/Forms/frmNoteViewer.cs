@@ -5,10 +5,13 @@ namespace CustomsForgeManager.Forms
 {
     public partial class frmNoteViewer : Form
     {
-        public frmNoteViewer(string notes2View)
+        public frmNoteViewer()
         {
             InitializeComponent();
+        }
 
+        public void PopulateText(string notes2View)
+        {
             if (String.IsNullOrEmpty(notes2View))
                 rtbNotes.Text = @"Could not find any notes to view";
             else
