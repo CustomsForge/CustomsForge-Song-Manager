@@ -31,8 +31,8 @@
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>index.html</WebPage>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>2</ApplicationRevision>
-    <ApplicationVersion>1.0.0.2</ApplicationVersion>
+    <ApplicationRevision>6</ApplicationRevision>
+    <ApplicationVersion>1.0.0.6</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -155,11 +155,11 @@
     <Compile Include="Forms\frmOutdatedSongs.Designer.cs">
       <DependentUpon>frmOutdatedSongs.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmReleaseNotes.cs">
+    <Compile Include="Forms\frmNoteViewer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmReleaseNotes.Designer.cs">
-      <DependentUpon>frmReleaseNotes.cs</DependentUpon>
+    <Compile Include="Forms\frmNoteViewer.Designer.cs">
+      <DependentUpon>frmNoteViewer.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmSongListExport.cs">
       <SubType>Form</SubType>
@@ -172,12 +172,6 @@
     </Compile>
     <Compile Include="Forms\frmMain.Designer.cs">
       <DependentUpon>frmMain.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\frmRenamer.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\frmRenamer.Designer.cs">
-      <DependentUpon>frmRenamer.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmSongInfo.cs">
       <SubType>Form</SubType>
@@ -249,8 +243,8 @@
     <EmbeddedResource Include="Forms\frmOutdatedSongs.resx">
       <DependentUpon>frmOutdatedSongs.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmReleaseNotes.resx">
-      <DependentUpon>frmReleaseNotes.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\frmNoteViewer.resx">
+      <DependentUpon>frmNoteViewer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmSongListExport.resx">
       <DependentUpon>frmSongListExport.cs</DependentUpon>
@@ -258,9 +252,6 @@
     <EmbeddedResource Include="Forms\frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmRenamer.resx">
-      <DependentUpon>frmRenamer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmSongInfo.resx">
       <DependentUpon>frmSongInfo.cs</DependentUpon>
@@ -356,7 +347,7 @@
     <None Include="Resources\eof-bg.jpg" />
     <None Include="Resources\Rocksmith_2014_Background_Guitar.jpg" />
     <None Include="Resources\instructionLabel.txt" />
-    <EmbeddedResource Include="Resources\SngMgrHelp.txt" />
+    <EmbeddedResource Include="Resources\SetlistHelp.txt" />
     <None Include="Resources\Letter D black_small.png" />
     <None Include="Resources\Letter L black_small.png" />
     <None Include="Resources\Letter R black_small.png" />
@@ -383,6 +374,7 @@
     <None Include="Resources\dardev.jpeg" />
     <None Include="Resources\Lovroman.jpeg" />
     <None Include="Resources\Unleashed2k.jpeg" />
+    <Content Include="Resources\StartRs.jpg" />
     <Content Include="tunings.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

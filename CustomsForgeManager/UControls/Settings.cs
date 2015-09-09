@@ -82,7 +82,7 @@ namespace CustomsForgeManager.UControls
             Globals.MySettings.LogFilePath = Constants.LogFilePath;
             Globals.MySettings.RSInstalledDir = GetInstallDirFromRegistry();
             Globals.MySettings.RescanOnStartup = false;
-            Globals.MySettings.IncludeRS1DLCs = true;
+            Globals.MySettings.IncludeRS1DLCs = false;  // changed to false (fewer issues)
             Globals.MySettings.EnabledLogBaloon = true;
             cueRsDir.Text = Globals.MySettings.RSInstalledDir;
             chkRescanOnStartup.Checked = Globals.MySettings.RescanOnStartup;

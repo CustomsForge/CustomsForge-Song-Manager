@@ -44,10 +44,10 @@ namespace CustomsForgeManager.UControls
             this.colSettingsColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colSettingsWidth = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chkEnableLogBallon = new System.Windows.Forms.CheckBox();
+            this.cueRsDir = new CustomsForgeManager.CustomsForgeManagerLib.CustomControls.CueTextBox();
             this.btnSettingsLoad = new System.Windows.Forms.Button();
             this.btnSettingsSave = new System.Windows.Forms.Button();
             this.lblSettingsRSDir = new System.Windows.Forms.Label();
-            this.cueRsDir = new CustomsForgeManager.CustomsForgeManagerLib.CustomControls.CueTextBox();
             this.tlpSettings_Wrapper.SuspendLayout();
             this.panel5.SuspendLayout();
             this.SuspendLayout();
@@ -65,7 +65,7 @@ namespace CustomsForgeManager.UControls
             this.tlpSettings_Wrapper.Controls.Add(this.cueRsDir, 2, 0);
             this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsLoad, 0, 6);
             this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsSave, 1, 6);
-            this.tlpSettings_Wrapper.Controls.Add(this.lblSettingsRSDir, 1, 0);
+            this.tlpSettings_Wrapper.Controls.Add(this.lblSettingsRSDir, 0, 0);
             this.tlpSettings_Wrapper.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpSettings_Wrapper.Location = new System.Drawing.Point(0, 0);
             this.tlpSettings_Wrapper.Name = "tlpSettings_Wrapper";
@@ -211,6 +211,19 @@ namespace CustomsForgeManager.UControls
             this.chkEnableLogBallon.UseVisualStyleBackColor = true;
             this.chkEnableLogBallon.CheckedChanged += new System.EventHandler(this.chkEnableLogBaloon_CheckedChanged);
             // 
+            // cueRsDir
+            // 
+            this.cueRsDir.Cue = "Click here and specify Rocksmith installation directory";
+            this.cueRsDir.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.cueRsDir.ForeColor = System.Drawing.Color.Gray;
+            this.cueRsDir.Location = new System.Drawing.Point(347, 3);
+            this.cueRsDir.Multiline = true;
+            this.cueRsDir.Name = "cueRsDir";
+            this.cueRsDir.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.cueRsDir.Size = new System.Drawing.Size(516, 19);
+            this.cueRsDir.TabIndex = 8;
+            this.cueRsDir.MouseClick += new System.Windows.Forms.MouseEventHandler(this.cueRsDir_MouseClick);
+            // 
             // btnSettingsLoad
             // 
             this.btnSettingsLoad.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
@@ -244,26 +257,16 @@ namespace CustomsForgeManager.UControls
             // 
             this.lblSettingsRSDir.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.lblSettingsRSDir.AutoSize = true;
+            this.tlpSettings_Wrapper.SetColumnSpan(this.lblSettingsRSDir, 2);
             this.lblSettingsRSDir.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSettingsRSDir.Location = new System.Drawing.Point(196, 0);
+            this.lblSettingsRSDir.Location = new System.Drawing.Point(126, 3);
+            this.lblSettingsRSDir.Margin = new System.Windows.Forms.Padding(3);
             this.lblSettingsRSDir.Name = "lblSettingsRSDir";
-            this.lblSettingsRSDir.Size = new System.Drawing.Size(145, 25);
+            this.lblSettingsRSDir.Padding = new System.Windows.Forms.Padding(3);
+            this.lblSettingsRSDir.Size = new System.Drawing.Size(215, 19);
             this.lblSettingsRSDir.TabIndex = 7;
             this.lblSettingsRSDir.Text = "Rocksmith Installation Directory:";
             this.lblSettingsRSDir.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // cueRsDir
-            // 
-            this.cueRsDir.Cue = "Click here and specify Rocksmith installation directory";
-            this.cueRsDir.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.cueRsDir.ForeColor = System.Drawing.Color.Gray;
-            this.cueRsDir.Location = new System.Drawing.Point(347, 3);
-            this.cueRsDir.Multiline = true;
-            this.cueRsDir.Name = "cueRsDir";
-            this.cueRsDir.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.cueRsDir.Size = new System.Drawing.Size(516, 19);
-            this.cueRsDir.TabIndex = 8;
-            this.cueRsDir.MouseClick += new System.Windows.Forms.MouseEventHandler(this.cueRsDir_MouseClick);
             // 
             // Settings
             // 

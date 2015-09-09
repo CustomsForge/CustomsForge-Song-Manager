@@ -10,8 +10,6 @@ using CustomsForgeManager.CustomsForgeManagerLib;
 using CustomsForgeManager.CustomsForgeManagerLib.Objects;
 using CustomsForgeManager.Forms;
 
-// TODO: incorporate Dups into SongManager or split out common reusable code
-
 namespace CustomsForgeManager.UControls
 {
     public partial class Duplicates : UserControl

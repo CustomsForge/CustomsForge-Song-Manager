@@ -1,3 +1,32 @@
+CFM Release Notes
+
+1.0.0.6
+-Revised toggle functions in SetlistManager to toggle 'Select' checkboxes
+-Fixed SetlistManager button bugs
+
+1.0.0.5
+-Removed renaming of cache.psarc in SetlistManager
+-Highlight dgvDlcSongs that have already been used in a setlist
+-Removed some redundant code from SetlistManager, more code optimization
+-Added 'Delete Selected' button to SongManager with saftety interlock checkbox
+-Fixed SetlistManager UC window docking and positioning when in release mode
+-Fixed NoteViewer window position to always be topmost in release mode
+
+1.0.0.4
+-Fixed issue causing SongManager columns not to be colored after sorting
+
+1.0.0.3
+-Code cleanup and refactoring
+-Fixed 'Select' checkboxes in SetListManager to allow user to check 'Select'
+-Fixed 'Enable/Disable' for multiple selection in SetListManager
+-Added ignore Inlay(s) folder to SetListManager
+-Force user to check 'Select' in SetListManager, for fewer mistakes/accidents
+-Add FirstRun detection to remove old application directory contents if it exists
+-Corrected bug in SongManager, RS1Compatiblity songs can not be individually enabled/disabled
+-Restructured SetlistManager for safety, optimized code, improved exception feedback
+-Added generic Note Viewer Form (for viewing Release Notes, Setlist Manager help, etc)
+-Added file path to SongInfo form
+
 1.0.0.2
 -Fixed Renamer and provide ablity to rename only user selected (checked) songs
 -Added renamer template builder (simply double click any Key(s) to select and build template)
@@ -31,11 +60,11 @@
 0.1.4.0
 -Replaced search textbox with cuetextbox
 -Added all columns to SongManager grid
--Fixed grid behavior and default settings
+-Fixed grid behaviour and default settings
 -Hide log by default
 -Dock split panel set to fill to make maximizing work properly
 -Fixed SongManager and Duplicates conditional rescanning
--Implimented reusable background worker class for parsing songs
+-Implemented reusable background worker class for parsing songs
 -Fixed cancel background worker
 -Added error checking to Renamer ... duplicates must be removed/renamed first
 -Added error checking to context menu cmsSongManagerColumns
@@ -51,7 +80,7 @@
 
 0.1.3.7
 -Optimized/Minimized (re)populating of UC tabpages
--Converted Duplicates UC to datagridview to give greater flexiblity
+-Converted Duplicates UC to datagridview to give greater flexibility
 -Made Duplicates UC appearance and shortcut keystrokes the same as SongManager for consistency (user friendliness)
 -Fixed Duplicates context menu so that it does not fire if column header is clicked
 -Fixed Duplicates toolstripstatuslabel display count
@@ -66,7 +95,7 @@
 0.1.3.5
 -Cleaned up SongManger column sorting method
 -Enabled column header sort glyph (icon)
--Changed tabpage behavior to populate only on initial selection instead of every selection
+-Changed tabpage behaviour to populate only on initial selection instead of every selection
 
 0.1.3.4
 -Fixed some issues with Renamer background worker (template is working)
@@ -90,7 +119,7 @@
 
 0.1.2.7
 -Added Duplicates user control and features
--Added feature to move duplictates to a seperate folder and user prompt to confirm delete
+-Added feature to move duplicates to a separate folder and user prompt to confirm delete
 
 0.1.2.6
 -Restored About links
@@ -106,8 +135,8 @@
 
 
 0.1.2.4
--Code seperation into User Controls (rough first attempt)
--Issues with sharing variables (data) across tabs and with frmMain still to be resloved
+-Code separation into User Controls (rough first attempt)
+-Issues with sharing variables (data) across tabs and with frmMain still to be resolved
 -Partially working UCs for SongManager, Settings, About
 -Porting for Duplicates, Renamer, SetListManager, and Utilities to UCs still to be done
 
@@ -119,8 +148,8 @@
 -Restructured ShowHideArrangementColumns method and how it is called (part of LRBV fix)
 -Rearrange LRBV column headers to BLRV for consistency with Arrangements storage
 -Fixed BLRV header click sorting issue (BLRV colors change correctly with resort)
--Fixed Rescan button BLRV column header dispaly issue
--Added arrangement highlighting to BLRV columns for Combo arrangments
+-Fixed Rescan button BLRV column header display issue
+-Added arrangement highlighting to BLRV columns for Combo arrangements
 -TODO: there is still an issue, BLRV is not colored on restart if songs not rescanned
 -Fixed some conditional error traps
 -Made application topmost when started in Release mode

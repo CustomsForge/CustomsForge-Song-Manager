@@ -242,6 +242,13 @@ namespace CustomsForgeManager.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap StartRs {
+            get {
+                object obj = ResourceManager.GetObject("StartRs", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap Unleashed2k {
             get {
                 object obj = ResourceManager.GetObject("Unleashed2k", resourceCulture);
