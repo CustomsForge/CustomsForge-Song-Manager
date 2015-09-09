@@ -1,0 +1,19 @@
+Type the property key surrounded by &lt; and &gt;.  
+
+Example - Using "Space Time" by Gojira.
+
+&lt;title&gt;_&lt;artist&gt; = "dlc/Space Time_Gojira.psarc"
+\\&lt;artist&gt;\\&lt;title&gt;_&lt;artist&gt; = "dlc/Gojira/Space Time_Gojira.psarc"
+
+You can add directories as seen above, using "\\".
+
+The "dd" property generates "_dd" if the song has Dynamic Difficulty.
+It generates nothing if the song does not.
+
+Ex. &lt;title&gt;_&lt;dd&gt; and Dynamic Difficulty exists:
+
+Space Time_dd.psarc
+
+If Dynamic Difficulty does not exist:
+
+Space Time.psarc
