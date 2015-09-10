@@ -159,6 +159,26 @@ namespace CustomsForgeManager.UControls
                     ValidateRsDir();
                 }
 
+                // this is done in UC SongManager for better protection
+                // the default initial load condition does not include RS1 Compatiblity files
+                //var dlcFiles = Directory.EnumerateFiles(Path.Combine(Globals.MySettings.RSInstalledDir, "dlc"), "*.psarc", SearchOption.AllDirectories)
+                //    .Where(fi => !fi.ToLower().Contains(Constants.RS1COMP)).ToArray();
+
+                //if (!dlcFiles.Any())
+                //{
+                //    var msgText = "Houston ... we have a problem!" + Environment.NewLine +
+                //                  "There are no Rocksmith 2014 songs in:" + Environment.NewLine +
+                //                  Path.Combine(cueRsDir.Text, "dlc") + Environment.NewLine + Environment.NewLine +
+                //                  "Please select a Rocksmith 2014" + Environment.NewLine +
+                //                  "installation directory that has some songs.";
+                //    MessageBox.Show(msgText, Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Stop);
+
+                //    //// prevents write log attempt
+                //    //Environment.Exit(0);
+
+                //    ValidateRsDir();
+                //}
+
                 Globals.MySettings.RSInstalledDir = cueRsDir.Text;
             }
         }

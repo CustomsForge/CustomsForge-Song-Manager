@@ -81,18 +81,35 @@ namespace CustomsForgeManager.UControls
                 Globals.SongCollection = smSongCollection;
                 Globals.Log("Loaded song collection file ...");
                 PopulateDataGridView();
-
-                // smart rescan technology
-                if (!Globals.MySettings.RescanOnStartup)
-                {
-                    var dlcFiles = Directory.EnumerateFiles(Path.Combine(Globals.MySettings.RSInstalledDir, "dlc"), "*.psarc", SearchOption.AllDirectories).ToArray();
-                    if (dgvSongs.RowCount != (Globals.MySettings.IncludeRS1DLCs ? dlcFiles.Length + 193 : dlcFiles.Length - 2))
-                        Rescan();
-                }
+                SmartRescan();
             }
             catch (Exception e)
             {
                 Globals.Log("Error: " + e.Message);
+            }
+        }
+
+        private void SmartRescan()
+        {
+            // smart rescan technology
+            if (!Globals.MySettings.RescanOnStartup)
+            {
+                var rs1CompFiles = Directory.EnumerateFiles(Path.Combine(Globals.MySettings.RSInstalledDir, "dlc"), Constants.RS1COMP + "*", SearchOption.AllDirectories).ToArray();
+                var dlcFiles = Directory.EnumerateFiles(Path.Combine(Globals.MySettings.RSInstalledDir, "dlc"), "*.psarc", SearchOption.AllDirectories).ToArray();
+                int rs1CompSongs;
+
+                if (rs1CompFiles.Count() == 2)
+                    rs1CompSongs = 193;
+                else if (!rs1CompFiles.Any())
+                    rs1CompSongs = 0;
+                else // there is only one RS1 Compatibility file
+                    if (rs1CompFiles[0].ToLower().Contains("disc"))
+                        rs1CompSongs = 52;
+                    else
+                        rs1CompSongs = 193 - 52;
+
+                if (dgvSongs.RowCount != (Globals.MySettings.IncludeRS1DLCs ? dlcFiles.Length + rs1CompSongs - rs1CompFiles.Count() : dlcFiles.Length - rs1CompFiles.Count()))
+                    Rescan();
             }
         }
 
@@ -393,6 +410,27 @@ namespace CustomsForgeManager.UControls
                 return;
             }
 
+            // this is done here in case user decided to manually delete all songs
+            // the default initial load condition does not include RS1 Compatiblity files
+            var dlcFiles = Directory.EnumerateFiles(Path.Combine(Globals.MySettings.RSInstalledDir, "dlc"), "*.psarc", SearchOption.AllDirectories)
+                .Where(fi => !fi.ToLower().Contains(Constants.RS1COMP)).ToArray();
+
+            if (!dlcFiles.Any())
+            {
+                if (Directory.Exists(Constants.WorkDirectory))
+                    Directory.Delete(Constants.WorkDirectory, true);
+
+                var msgText = "Houston ... we have a problem!" + Environment.NewLine +
+                    "There are no Rocksmith 2014 songs in:" + Environment.NewLine +
+                    Path.Combine(Globals.MySettings.RSInstalledDir, "dlc") + Environment.NewLine + Environment.NewLine +
+                    "Please select a valid Rocksmith 2014" + Environment.NewLine +
+                    "installation directory when you restart CFM.  ";
+                MessageBox.Show(msgText, Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Stop);
+
+                // prevents write log attempt
+                Environment.Exit(0);
+            }
+
             ToggleUIControls();
 
             // run new worker
@@ -420,7 +458,7 @@ namespace CustomsForgeManager.UControls
             smSongCollection = Globals.SongCollection;
             smFileCollection = Globals.FileCollection;
             sortedSongCollection = smSongCollection.ToList();
-            SaveSongCollectionToFile();           
+            SaveSongCollectionToFile();
         }
 
         private void SearchDLC(string criteria)

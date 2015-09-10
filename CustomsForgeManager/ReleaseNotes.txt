@@ -1,5 +1,9 @@
 CFM Release Notes
 
+1.0.0.8
+-Improved auto rescan technology
+-Added conditional check to validate 'dlc' folder songs.
+
 1.0.0.7
 -Fixed Renamer template file path
 -Added check to Renamer for invalid file names
