@@ -37,7 +37,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
             else
                 bWorker = backgroundWorker;
             bWorker.SetDefaults();
-            if (workOrder.Name == "SongManager" || workOrder.Name == "Duplicates")
+            if (workOrder.Name == "SongManager" || workOrder.Name == "Duplicates" || workOrder.Name == "SetlistManager")
                 bWorker.DoWork += WorkerParseSongs;
 
             else if (workOrder.Name == "Renamer")
@@ -80,7 +80,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
             {
                 WorkerProgress(100);
 
-                if (workOrder.Name == "SongManager" || workOrder.Name == "Duplicates")
+                if (workOrder.Name == "SongManager" || workOrder.Name == "Duplicates" || workOrder.Name == "SetlistManager")
                     Globals.Log(String.Format("Finished parsing ... took {0}", counterStopwatch.Elapsed));
 
                 else if (workOrder.Name == "Renamer")
@@ -106,12 +106,10 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
             bwFileCollection.Clear();
             Extensions.InvokeIfRequired(workOrder, delegate
               {
-                  bwSongCollection.Clear();
+                 // bwSongCollection.Clear();
+                  bwSongCollection = new BindingList<SongData>();
               });
             List<string> fileList = Extensions.FilesList(Path.Combine(Globals.MySettings.RSInstalledDir, "dlc"), Globals.MySettings.IncludeRS1DLCs);
-            //List<string> disabledFilesList = Extensions.FilesList(Path.Combine(Globals.MySettings.RSInstalledDir, Constants.DefaultDisabledSubDirectory),Globals.MySettings.IncludeRS1DLCs));
-            //TODO: rename *.disabled.psarc to *.disabled.psarc
-            //filesList.AddRange(disabledFilesList);
 
             // "Raw" is good descriptor :)
             Globals.Log(String.Format("Raw songs count: {0}", fileList.Count));
@@ -171,7 +169,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                                 bwSongCollection.Add(songData);
                             });
 
-                        else if (!songData.FileName.Contains(Constants.RS1COMP) && Globals.MySettings.IncludeRS1DLCs)
+                        if (songData.FileName.ToLower( ).Contains(Constants.RS1COMP) && Globals.MySettings.IncludeRS1DLCs)
                             Extensions.InvokeIfRequired(workOrder, delegate
                             {
                                 bwSongCollection.Add(songData);

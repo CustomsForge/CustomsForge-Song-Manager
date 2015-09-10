@@ -1,6 +1,6 @@
 ﻿namespace CustomsForgeManager.UControls
 {
-    partial class SetListManager
+    partial class SetlistManager
     {
         /// <summary> 
         /// Required designer variable.
@@ -1071,11 +1071,11 @@
             this.cueDlcSongsSearch.TabIndex = 44;
             this.cueDlcSongsSearch.TextChanged += new System.EventHandler(this.cueDlcSongsSearch_TextChanged);
             // 
-            // SetListManager
+            // SetlistManager
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.tableLayoutPanel1);
-            this.Name = "SetListManager";
+            this.Name = "SetlistManager";
             this.Size = new System.Drawing.Size(990, 490);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);

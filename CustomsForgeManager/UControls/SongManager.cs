@@ -48,16 +48,14 @@ namespace CustomsForgeManager.UControls
 
         public void LoadSongCollectionFromFile()
         {
-            var songsInfoPath = Constants.SongsInfoPath;
-            var songFilesPath = Constants.SongFilesPath;
             smSongCollection.Clear();
             smFileCollection.Clear();
+            var songsInfoPath = Constants.SongsInfoPath;
+            var songFilesPath = Constants.SongFilesPath;
 
+            // load songs into memory
             if (!File.Exists(songsInfoPath) || !File.Exists(songFilesPath))
-            {
-                // load songs into memory
                 Rescan();
-            }
 
             try
             {
@@ -83,6 +81,14 @@ namespace CustomsForgeManager.UControls
                 Globals.SongCollection = smSongCollection;
                 Globals.Log("Loaded song collection file ...");
                 PopulateDataGridView();
+
+                // smart rescan technology
+                if (!Globals.MySettings.RescanOnStartup)
+                {
+                    var dlcFiles = Directory.EnumerateFiles(Path.Combine(Globals.MySettings.RSInstalledDir, "dlc"), "*.psarc", SearchOption.AllDirectories).ToArray();
+                    if (dgvSongs.RowCount != (Globals.MySettings.IncludeRS1DLCs ? dlcFiles.Length + 193 : dlcFiles.Length - 2))
+                        Rescan();
+                }
             }
             catch (Exception e)
             {
@@ -128,14 +134,9 @@ namespace CustomsForgeManager.UControls
             if (Globals.RescanSongManager)
             {
                 Globals.RescanSongManager = false;
-
-                if (Globals.RescanDuplicates || Globals.RescanSongManager)
-                {
-                    Globals.RescanDuplicates = false;
-                    Globals.RescanSongManager = false;
-                    Rescan();
-                }
-
+                Globals.ReloadSetlistManager = true;
+                Globals.ReloadDuplicates = true;
+                Rescan();
                 LoadSongCollectionFromFile();
             }
 
@@ -322,6 +323,15 @@ namespace CustomsForgeManager.UControls
             dgvSongs.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
         }
 
+        private void DisableEnabled()
+        {
+            foreach (DataGridViewRow row in dgvSongs.Rows)
+            {
+                if (row.Cells["colPath"].Value.ToString().ToLower().Contains(Constants.RS1COMP))
+                    row.Cells["colEnabled"].Value = false;
+            }
+        }
+
         private SongData GetSongByRow(DataGridViewRow dataGridViewRow)
         {
             return smSongCollection.Distinct().FirstOrDefault(x => x.Song == dataGridViewRow.Cells["Song"].Value.ToString() && x.Artist == dataGridViewRow.Cells["Artist"].Value.ToString() && x.Album == dataGridViewRow.Cells["Album"].Value.ToString() && x.Path == dataGridViewRow.Cells["Path"].Value.ToString());
@@ -348,15 +358,6 @@ namespace CustomsForgeManager.UControls
                 DataGridViewRow row = dgvSongs.Rows[i];
                 row.Cells["colSelect"].Value = false;
                 smSongCollection[i].Selected = false;
-            }
-        }
-
-        private void DisableEnabled()
-        {
-            foreach (DataGridViewRow row in dgvSongs.Rows)
-            {
-                if (row.Cells["colPath"].Value.ToString().ToLower().Contains(Constants.RS1COMP))
-                    row.Cells["colEnabled"].Value = false;
             }
         }
 
@@ -392,11 +393,11 @@ namespace CustomsForgeManager.UControls
                 return;
             }
 
+            ToggleUIControls();
+
             // run new worker
             using (Worker worker = new Worker())
             {
-                ToggleUIControls();
-                dgvSongs.Rows.Clear();
                 worker.BackgroundScan(this, bWorker);
                 while (Globals.WorkerFinished == Globals.Tristate.False)
                 {
@@ -409,17 +410,17 @@ namespace CustomsForgeManager.UControls
                     //    colPath = x.Path
                     //}).ToList();
                 }
-
-                ToggleUIControls();
-
-                if (Globals.WorkerFinished == Globals.Tristate.Cancelled)
-                    return;
-
-                smSongCollection = Globals.SongCollection;
-                smFileCollection = Globals.FileCollection;
-                sortedSongCollection = smSongCollection.ToList();
-                SaveSongCollectionToFile();
             }
+
+            ToggleUIControls();
+
+            if (Globals.WorkerFinished == Globals.Tristate.Cancelled)
+                return;
+
+            smSongCollection = Globals.SongCollection;
+            smFileCollection = Globals.FileCollection;
+            sortedSongCollection = smSongCollection.ToList();
+            SaveSongCollectionToFile();           
         }
 
         private void SearchDLC(string criteria)
@@ -679,6 +680,52 @@ namespace CustomsForgeManager.UControls
             Extensions.InvokeIfRequired(this, delegate { Globals.TsLabel_Cancel.Visible = false; });
         }
 
+        private void btnDeleteSongs_Click(object sender, EventArgs e)
+        {
+            bool safe2Delete = false;
+
+            // remove rows from datagridview going backward to avoid index issues
+            for (int ndx = dgvSongs.Rows.Count - 1; ndx >= 0; ndx--)
+            {
+                DataGridViewRow row = dgvSongs.Rows[ndx];
+
+                if (Convert.ToBoolean(row.Cells["colSelect"].Value))
+                {
+                    string songPath = row.Cells["colPath"].Value.ToString();
+
+                    // redundant for file safety
+                    if (chkEnableDelete.Checked && !safe2Delete)
+                    {
+                        // DANGER ZONE
+                        if (MessageBox.Show("You are about to permanently delete all 'Selected' songs(s).  " + Environment.NewLine + Environment.NewLine +
+                                            "Are you sure you want to permanently delete the(se) songs(s)", Constants.ApplicationName + " ... Warning ... Warning",
+                                            MessageBoxButtons.YesNo) == DialogResult.No)
+                            return;
+
+                        safe2Delete = true;
+                    }
+
+                    // redundant for file safety
+                    if (safe2Delete)
+                    {
+                        try
+                        {
+                            File.Delete(songPath);
+                            dgvSongs.Rows.Remove(row);
+                        }
+                        catch (IOException ex)
+                        {
+                            MessageBox.Show("Unable to delete song :" + songPath + Environment.NewLine + "Error: " + ex.Message, Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                }
+            }
+
+            Globals.RescanSongManager = true;
+            Globals.RescanSetlistManager = true;
+            Globals.RescanDuplicates = true;
+        }
+
         private void btnDisableEnableSongs_Click(object sender, EventArgs e)
         {
             bool updateSongCollection = false;
@@ -750,6 +797,9 @@ namespace CustomsForgeManager.UControls
             Rescan();
             ArrangementColumnsColors();
             UpdateToolStrip();
+            Globals.RescanDuplicates = true;
+            Globals.RescanSetlistManager = true;
+            Globals.RescanRenamer = true;
         }
 
         private void checkAllForUpdates(object sender, DoWorkEventArgs e)
@@ -790,6 +840,17 @@ namespace CustomsForgeManager.UControls
                 });
 
             counterStopwatch.Stop();
+        }
+
+        private void chkEnableDelete_CheckedChanged(object sender, EventArgs e)
+        {
+            btnDeleteSongs.Enabled = chkEnableDelete.Checked;
+
+            if (btnDeleteSongs.Enabled)
+                btnDeleteSongs.BackColor = Color.Red;
+            else
+                btnDeleteSongs.BackColor = SystemColors.Control;
+
         }
 
         private void chkTheMover_CheckedChanged(object sender, EventArgs e)
@@ -1007,138 +1068,151 @@ namespace CustomsForgeManager.UControls
 
             sortColumnName = columnName;
 
-            switch (sortColumnName)
+            try
             {
-                case "colSelect":
-                    bs.DataSource = songsToShow.ToList();
-                    break;
+                switch (sortColumnName)
+                {
+                    case "colSelect":
+                        bs.DataSource = songsToShow.ToList();
+                        break;
 
-                case "colEnabled":
-                    if (sortDescending)
-                        bs.DataSource = songsToShow.OrderByDescending(song => song.Enabled);
-                    else
-                        bs.DataSource = songsToShow.OrderBy(song => song.Enabled);
-                    break;
+                    case "colEnabled":
+                        if (sortDescending)
+                            bs.DataSource = songsToShow.OrderByDescending(song => song.Enabled);
+                        else
+                            bs.DataSource = songsToShow.OrderBy(song => song.Enabled);
+                        break;
 
-                case "colSongTitle":
-                    if (sortDescending)
-                        bs.DataSource = songsToShow.OrderByDescending(song => song.Song);
-                    else
-                        bs.DataSource = songsToShow.OrderBy(song => song.Song);
-                    break;
+                    case "colSongTitle":
+                        if (sortDescending)
+                            bs.DataSource = songsToShow.OrderByDescending(song => song.Song);
+                        else
+                            bs.DataSource = songsToShow.OrderBy(song => song.Song);
+                        break;
 
-                case "colSongArtist":
-                    if (sortDescending)
-                        bs.DataSource = songsToShow.OrderByDescending(song => song.Artist);
-                    else
-                        bs.DataSource = songsToShow.OrderBy(song => song.Artist);
-                    break;
+                    case "colSongArtist":
+                        if (sortDescending)
+                            bs.DataSource = songsToShow.OrderByDescending(song => song.Artist);
+                        else
+                            bs.DataSource = songsToShow.OrderBy(song => song.Artist);
+                        break;
 
-                case "colSongAlbum":
-                    if (sortDescending)
-                        bs.DataSource = songsToShow.OrderByDescending(song => song.Album);
-                    else
-                        bs.DataSource = songsToShow.OrderBy(song => song.Album);
-                    break;
+                    case "colSongAlbum":
+                        if (sortDescending)
+                            bs.DataSource = songsToShow.OrderByDescending(song => song.Album);
+                        else
+                            bs.DataSource = songsToShow.OrderBy(song => song.Album);
+                        break;
 
-                case "colUpdated":
-                    if (sortDescending)
-                        bs.DataSource = songsToShow.OrderByDescending(song => DateTime.ParseExact(song.Updated, "M-d-y H:m", System.Globalization.CultureInfo.InvariantCulture));
-                    else
-                        bs.DataSource = songsToShow.OrderBy(song => DateTime.ParseExact(song.Updated, "M-d-y H:m", System.Globalization.CultureInfo.InvariantCulture));
-                    break;
+                    case "colUpdated":
+                        if (sortDescending)
+                            bs.DataSource = songsToShow.OrderByDescending(song => DateTime.Parse(song.Updated));
+                        else
+                            bs.DataSource = songsToShow.OrderBy(song => DateTime.Parse(song.Updated));
 
-                case "colSongTuning":
-                    if (sortDescending)
-                        bs.DataSource = songsToShow.OrderByDescending(song => song.Tuning);
-                    else
-                        bs.DataSource = songsToShow.OrderBy(song => song.Tuning);
-                    break;
+                        // this does not work, probably should be "M/d/yyyy hh:mm" or some such thing
+                        //if (sortDescending)
+                        //    bs.DataSource = songsToShow.OrderByDescending(song => DateTime.ParseExact(song.Updated, "M-d-y H:m", System.Globalization.CultureInfo.InvariantCulture));
+                        //else
+                        //    bs.DataSource = songsToShow.OrderBy(song => DateTime.ParseExact(song.Updated, "M-d-y H:m", System.Globalization.CultureInfo.InvariantCulture));
 
-                case "colDD":
-                    if (sortDescending)
-                        bs.DataSource = songsToShow.OrderByDescending(song => song.DD);
-                    else
-                        bs.DataSource = songsToShow.OrderBy(song => song.DD);
-                    break;
+                        break;
 
-                case "colArrangements":
-                    if (sortDescending)
-                        bs.DataSource = songsToShow.OrderByDescending(song => song.Arrangements);
-                    else
-                        bs.DataSource = songsToShow.OrderBy(song => song.Arrangements);
-                    break;
+                    case "colSongTuning":
+                        if (sortDescending)
+                            bs.DataSource = songsToShow.OrderByDescending(song => song.Tuning);
+                        else
+                            bs.DataSource = songsToShow.OrderBy(song => song.Tuning);
+                        break;
 
-                case "colAuthor":
-                    if (sortDescending)
-                        bs.DataSource = songsToShow.OrderByDescending(song => song.Author);
-                    else
-                        bs.DataSource = songsToShow.OrderBy(song => song.Author);
-                    break;
+                    case "colDD":
+                        if (sortDescending)
+                            bs.DataSource = songsToShow.OrderByDescending(song => song.DD);
+                        else
+                            bs.DataSource = songsToShow.OrderBy(song => song.DD);
+                        break;
 
-                case "colVersion":
-                    if (sortDescending)
-                        bs.DataSource = songsToShow.OrderByDescending(song => song.Version);
-                    else
-                        bs.DataSource = songsToShow.OrderBy(song => song.Version);
-                    break;
+                    case "colArrangements":
+                        if (sortDescending)
+                            bs.DataSource = songsToShow.OrderByDescending(song => song.Arrangements);
+                        else
+                            bs.DataSource = songsToShow.OrderBy(song => song.Arrangements);
+                        break;
 
-                case "colToolkitVer":
-                    if (sortDescending)
-                        bs.DataSource = songsToShow.OrderByDescending(song => song.ToolkitVer);
-                    else
-                        bs.DataSource = songsToShow.OrderBy(song => song.ToolkitVer);
-                    break;
+                    case "colAuthor":
+                        if (sortDescending)
+                            bs.DataSource = songsToShow.OrderByDescending(song => song.Author);
+                        else
+                            bs.DataSource = songsToShow.OrderBy(song => song.Author);
+                        break;
 
-                case "colPath":
-                    if (sortDescending)
-                        bs.DataSource = songsToShow.OrderByDescending(song => song.Path);
-                    else
-                        bs.DataSource = songsToShow.OrderBy(song => song.Path);
-                    break;
+                    case "colVersion":
+                        if (sortDescending)
+                            bs.DataSource = songsToShow.OrderByDescending(song => song.Version);
+                        else
+                            bs.DataSource = songsToShow.OrderBy(song => song.Version);
+                        break;
 
-                case "colFileName":
-                    if (sortDescending)
-                        bs.DataSource = songsToShow.OrderByDescending(song => song.FileName);
-                    else
-                        bs.DataSource = songsToShow.OrderBy(song => song.FileName);
-                    break;
+                    case "colToolkitVer":
+                        if (sortDescending)
+                            bs.DataSource = songsToShow.OrderByDescending(song => song.ToolkitVer);
+                        else
+                            bs.DataSource = songsToShow.OrderBy(song => song.ToolkitVer);
+                        break;
 
-                case "colSongYear":
-                    if (sortDescending)
-                        bs.DataSource = songsToShow.OrderByDescending(song => song.SongYear);
-                    else
-                        bs.DataSource = songsToShow.OrderBy(song => song.SongYear);
-                    break;
+                    case "colPath":
+                        if (sortDescending)
+                            bs.DataSource = songsToShow.OrderByDescending(song => song.Path);
+                        else
+                            bs.DataSource = songsToShow.OrderBy(song => song.Path);
+                        break;
 
-                case "colIgntionVersion":
-                    if (sortDescending)
-                        bs.DataSource = songsToShow.OrderByDescending(song => song.IgnitionVersion);
-                    else
-                        bs.DataSource = songsToShow.OrderBy(song => song.IgnitionVersion);
-                    break;
+                    case "colFileName":
+                        if (sortDescending)
+                            bs.DataSource = songsToShow.OrderByDescending(song => song.FileName);
+                        else
+                            bs.DataSource = songsToShow.OrderBy(song => song.FileName);
+                        break;
 
-                case "colIgnitionID":
-                    if (sortDescending)
+                    case "colSongYear":
+                        if (sortDescending)
+                            bs.DataSource = songsToShow.OrderByDescending(song => song.SongYear);
+                        else
+                            bs.DataSource = songsToShow.OrderBy(song => song.SongYear);
+                        break;
 
-                        bs.DataSource = songsToShow.OrderByDescending(song => song.IgnitionID);
-                    else
-                        bs.DataSource = songsToShow.OrderBy(song => song.IgnitionID);
-                    break;
+                    case "colIgntionVersion":
+                        if (sortDescending)
+                            bs.DataSource = songsToShow.OrderByDescending(song => song.IgnitionVersion);
+                        else
+                            bs.DataSource = songsToShow.OrderBy(song => song.IgnitionVersion);
+                        break;
 
-                case "colIgnitionUpdated":
-                    if (sortDescending)
-                        bs.DataSource = songsToShow.OrderByDescending(song => song.Updated);
-                    else
-                        bs.DataSource = songsToShow.OrderBy(song => song.Updated);
-                    break;
+                    case "colIgnitionID":
+                        if (sortDescending)
+                            bs.DataSource = songsToShow.OrderByDescending(song => song.IgnitionID);
+                        else
+                            bs.DataSource = songsToShow.OrderBy(song => song.IgnitionID);
+                        break;
 
-                case "colIgnitionAuthor":
-                    if (sortDescending)
-                        bs.DataSource = songsToShow.OrderByDescending(song => song.IgnitionAuthor);
-                    else
-                        bs.DataSource = songsToShow.OrderBy(song => song.IgnitionAuthor);
-                    break;
+                    case "colIgnitionUpdated":
+                        if (sortDescending)
+                            bs.DataSource = songsToShow.OrderByDescending(song => DateTime.Parse(song.IgnitionUpdated));
+                        else
+                            bs.DataSource = songsToShow.OrderBy(song => DateTime.Parse(song.IgnitionUpdated));
+                        break;
+
+                    case "colIgnitionAuthor":
+                        if (sortDescending)
+                            bs.DataSource = songsToShow.OrderByDescending(song => song.IgnitionAuthor);
+                        else
+                            bs.DataSource = songsToShow.OrderBy(song => song.IgnitionAuthor);
+                        break;
+                }
+            }
+            catch (Exception)
+            {
+                Globals.Log("Error: Sorting failed. Can not sort on an empty column.");
             }
 
             scrollHorizontalOffset = dgvSongs.HorizontalScrollingOffset;
@@ -1280,60 +1354,5 @@ namespace CustomsForgeManager.UControls
             else
                 dgvSongs.DataSource = new BindingSource().DataSource = smSongCollection;
         }
-
-        private void chkEnableDelete_CheckedChanged(object sender, EventArgs e)
-        {
-            btnDeleteSongs.Enabled = chkEnableDelete.Checked;
-
-            if (btnDeleteSongs.Enabled)
-                btnDeleteSongs.BackColor = Color.Red;
-            else
-                btnDeleteSongs.BackColor = SystemColors.Control;
-
-        }
-
-        private void btnDeleteSongs_Click(object sender, EventArgs e)
-        {
-            bool safe2Delete = false;
-
-            // remove rows from datagridview going backward to avoid index issues
-            for (int ndx = dgvSongs.Rows.Count - 1; ndx >= 0; ndx--)
-            {
-                DataGridViewRow row = dgvSongs.Rows[ndx];
-
-                if (Convert.ToBoolean(row.Cells["colSelect"].Value))
-                {
-                    string songPath = row.Cells["colPath"].Value.ToString();
-
-                    // redundant for file safety
-                    if (chkEnableDelete.Checked && !safe2Delete)
-                    {
-                        // DANGER ZONE
-                        if (MessageBox.Show("You are about to permanently delete all 'Selected' songs(s).  " + Environment.NewLine + Environment.NewLine +
-                            "Are you sure you want to permanently delete the(se) songs(s)", Constants.ApplicationName + " ... Warning ... Warning",
-                            MessageBoxButtons.YesNo) == DialogResult.No)
-                            return;
-
-                        safe2Delete = true;
-                    }
-
-                    // redundant for file safety
-                    if (safe2Delete)
-                    {
-                        try
-                        {
-                            File.Delete(songPath);
-                            dgvSongs.Rows.Remove(row);
-                        }
-                        catch (IOException ex)
-                        {
-                            MessageBox.Show("Unable to delete song :" + songPath + Environment.NewLine + "Error: " + ex.Message, Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
-                    }
-                }
-            }
-        }
-
-
     }
 }

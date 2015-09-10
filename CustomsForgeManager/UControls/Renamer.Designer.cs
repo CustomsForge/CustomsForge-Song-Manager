@@ -45,6 +45,7 @@
             this.lbl2 = new System.Windows.Forms.Label();
             this.btnClearTemplate = new System.Windows.Forms.Button();
             this.chkTheMover = new System.Windows.Forms.CheckBox();
+            this.chkRemoveSpaces = new System.Windows.Forms.CheckBox();
             this.propertiesGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRenamer)).BeginInit();
             this.howToGroupBox.SuspendLayout();
@@ -138,11 +139,11 @@
             // chkDeleteEmptyDir
             // 
             this.chkDeleteEmptyDir.AutoSize = true;
-            this.chkDeleteEmptyDir.Location = new System.Drawing.Point(149, 37);
+            this.chkDeleteEmptyDir.Location = new System.Drawing.Point(393, 39);
             this.chkDeleteEmptyDir.Name = "chkDeleteEmptyDir";
             this.chkDeleteEmptyDir.Size = new System.Drawing.Size(209, 17);
             this.chkDeleteEmptyDir.TabIndex = 15;
-            this.chkDeleteEmptyDir.Text = "Delete Empty Directories after Rename";
+            this.chkDeleteEmptyDir.Text = "Delete empty directories after renaming";
             this.chkDeleteEmptyDir.UseVisualStyleBackColor = true;
             // 
             // slashLabel
@@ -223,21 +224,32 @@
             // chkTheMover
             // 
             this.chkTheMover.AutoSize = true;
-            this.chkTheMover.Location = new System.Drawing.Point(381, 39);
+            this.chkTheMover.Location = new System.Drawing.Point(658, 39);
             this.chkTheMover.Name = "chkTheMover";
             this.chkTheMover.Size = new System.Drawing.Size(241, 17);
             this.chkTheMover.TabIndex = 19;
             this.chkTheMover.Text = "\'The\' Mover e.g., The Beatles -> Beatles, The\r\n";
             this.chkTheMover.UseVisualStyleBackColor = true;
             // 
+            // chkRemoveSpaces
+            // 
+            this.chkRemoveSpaces.AutoSize = true;
+            this.chkRemoveSpaces.Location = new System.Drawing.Point(149, 39);
+            this.chkRemoveSpaces.Name = "chkRemoveSpaces";
+            this.chkRemoveSpaces.Size = new System.Drawing.Size(183, 17);
+            this.chkRemoveSpaces.TabIndex = 20;
+            this.chkRemoveSpaces.Text = "Remove spaces from new names\r\n";
+            this.chkRemoveSpaces.UseVisualStyleBackColor = true;
+            // 
             // Renamer
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.Controls.Add(this.chkRemoveSpaces);
             this.Controls.Add(this.chkTheMover);
             this.Controls.Add(this.btnClearTemplate);
+            this.Controls.Add(this.chkDeleteEmptyDir);
             this.Controls.Add(this.lbl2);
             this.Controls.Add(this.chkRenameOnlySelected);
-            this.Controls.Add(this.chkDeleteEmptyDir);
             this.Controls.Add(this.slashLabel);
             this.Controls.Add(this.renameTemplateLabel);
             this.Controls.Add(this.txtRenameTemplate);
@@ -275,5 +287,6 @@
         private System.Windows.Forms.Label lblHeader;
         private System.Windows.Forms.Button btnClearTemplate;
         private System.Windows.Forms.CheckBox chkTheMover;
+        private System.Windows.Forms.CheckBox chkRemoveSpaces;
     }
 }

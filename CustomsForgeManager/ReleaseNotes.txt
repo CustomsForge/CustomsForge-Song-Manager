@@ -1,5 +1,15 @@
 CFM Release Notes
 
+1.0.0.7
+-Fixed Renamer template file path
+-Added check to Renamer for invalid file names
+-Added option to remove spaces from Renamer file name
+-Fixed some rescanning issues in SongManager, Duplicates, and SetlistManager
+-Fixed SongManager column Update sort issues and implimented exception handler
+-Add smart scan technology (detects when songs have been added or removed and rescans automatically)
+-Fixed SongManager RS1Compatiblity scanner
+-Fixed some tabpage reloading issues
+
 1.0.0.6
 -Revised toggle functions in SetlistManager to toggle 'Select' checkboxes
 -Fixed SetlistManager button bugs
@@ -17,10 +27,10 @@ CFM Release Notes
 
 1.0.0.3
 -Code cleanup and refactoring
--Fixed 'Select' checkboxes in SetListManager to allow user to check 'Select'
--Fixed 'Enable/Disable' for multiple selection in SetListManager
--Added ignore Inlay(s) folder to SetListManager
--Force user to check 'Select' in SetListManager, for fewer mistakes/accidents
+-Fixed 'Select' checkboxes in SetlistManager to allow user to check 'Select'
+-Fixed 'Enable/Disable' for multiple selection in SetlistManager
+-Added ignore Inlay(s) folder to SetlistManager
+-Force user to check 'Select' in SetlistManager, for fewer mistakes/accidents
 -Add FirstRun detection to remove old application directory contents if it exists
 -Corrected bug in SongManager, RS1Compatiblity songs can not be individually enabled/disabled
 -Restructured SetlistManager for safety, optimized code, improved exception feedback
@@ -138,7 +148,7 @@ CFM Release Notes
 -Code separation into User Controls (rough first attempt)
 -Issues with sharing variables (data) across tabs and with frmMain still to be resolved
 -Partially working UCs for SongManager, Settings, About
--Porting for Duplicates, Renamer, SetListManager, and Utilities to UCs still to be done
+-Porting for Duplicates, Renamer, SetlistManager, and Utilities to UCs still to be done
 
 
 0.1.2.3

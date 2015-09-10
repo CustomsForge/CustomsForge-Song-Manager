@@ -145,12 +145,12 @@ namespace CustomsForgeManager.Forms
                     Globals.Renamer.Size = UCSize;
                     break;
                 case "SETL":
-                    this.tpSetListManager.Controls.Clear();
-                    this.tpSetListManager.Controls.Add(Globals.SetListManager);
-                    Globals.SetListManager.Dock = DockStyle.Fill;
-                    Globals.SetListManager.UpdateToolStrip();
-                    Globals.SetListManager.Location = UCLocation;
-                    Globals.SetListManager.Size = UCSize;
+                    this.tpSetlistManager.Controls.Clear();
+                    this.tpSetlistManager.Controls.Add(Globals.SetlistManager);
+                    Globals.SetlistManager.Dock = DockStyle.Fill;
+                    Globals.SetlistManager.UpdateToolStrip();
+                    Globals.SetlistManager.Location = UCLocation;
+                    Globals.SetlistManager.Size = UCSize;
                     break;
                 case "UTIL":
                     this.tpUtilities.Controls.Clear();

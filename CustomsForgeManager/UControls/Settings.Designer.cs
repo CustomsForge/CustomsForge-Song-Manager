@@ -296,8 +296,8 @@ namespace CustomsForgeManager.UControls
         private Button btnSettingsSave;
         private Label lblSettingsRSDir;
         private CheckBox chkRescanOnStartup;
-        private CheckBox chkIncludeRS1DLC;
         private CheckBox chkEnableLogBallon;
         private CueTextBox cueRsDir;
+        public CheckBox chkIncludeRS1DLC;
     }
 }

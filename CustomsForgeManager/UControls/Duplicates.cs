@@ -61,11 +61,12 @@ namespace CustomsForgeManager.UControls
             if (Globals.RescanDuplicates)
             {
                 Globals.RescanDuplicates = false;
+                Rescan();
+            }
 
-                if (Globals.RescanSongManager)
-                    Rescan();
-
-                Globals.SongManager.LoadSongCollectionFromFile();
+            if (Globals.ReloadDuplicates)
+            {
+                Globals.ReloadDuplicates = false;
                 PopulateDuplicates();
             }
 
@@ -137,19 +138,15 @@ namespace CustomsForgeManager.UControls
             // run new worker
             using (Worker worker = new Worker())
             {
-                dgvDups.Rows.Clear();
                 worker.BackgroundScan(this);
                 while (Globals.WorkerFinished == Globals.Tristate.False)
-                {
                     Application.DoEvents();
-                }
-
-                if (Globals.WorkerFinished == Globals.Tristate.Cancelled)
-                    return;
-
-                PopulateDuplicates();
-                UpdateToolStrip();
             }
+
+            if (Globals.WorkerFinished == Globals.Tristate.Cancelled)
+                return;
+
+            PopulateDuplicates();
         }
 
         private void ShowSongInfo()
@@ -241,6 +238,7 @@ namespace CustomsForgeManager.UControls
             UpdateToolStrip();
             Globals.RescanSongManager = true;
             Globals.RescanDuplicates = true;
+            Globals.RescanSetlistManager = true;
         }
 
 
@@ -296,6 +294,7 @@ namespace CustomsForgeManager.UControls
             {
                 UpdateToolStrip();
                 Globals.RescanSongManager = true;
+                Globals.RescanSetlistManager = true;
                 Globals.RescanDuplicates = true;
             }
         }

@@ -92,15 +92,18 @@ namespace CustomsForgeManager.UControls
             Globals.MyLog.Write("Reset settings to defaults ...");
         }
 
-        public void SaveSettingsToFile()
+        public void SaveSettingsToFile(bool includeUcSettings = true)
         {
             if (Globals.MySettings == null)
                 ResetSettings();
 
-            Globals.MySettings.RSInstalledDir = cueRsDir.Text;
-            Globals.MySettings.RescanOnStartup = chkRescanOnStartup.Checked;
-            Globals.MySettings.IncludeRS1DLCs = chkIncludeRS1DLC.Checked;
-            Globals.MySettings.EnabledLogBaloon = chkEnableLogBallon.Checked;
+            if (includeUcSettings)
+            {
+                Globals.MySettings.RSInstalledDir = cueRsDir.Text;
+                Globals.MySettings.RescanOnStartup = chkRescanOnStartup.Checked;
+                Globals.MySettings.IncludeRS1DLCs = chkIncludeRS1DLC.Checked;
+                Globals.MySettings.EnabledLogBaloon = chkEnableLogBallon.Checked;
+            }
 
             if (Globals.DgvSongs != null)
             {

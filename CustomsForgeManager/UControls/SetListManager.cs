@@ -25,7 +25,7 @@ using CustomsForgeManager.Forms;
 
 namespace CustomsForgeManager.UControls
 {
-    public partial class SetListManager : UserControl
+    public partial class SetlistManager : UserControl
     {
         private const string MESSAGE_CAPTION = "Setlist Manager";
         private bool bindingCompleted = false;
@@ -37,13 +37,13 @@ namespace CustomsForgeManager.UControls
         private string rs1CompDiscPath;
         private string rs1CompDlcPath;
 
-        public SetListManager()
+        public SetlistManager()
         {
             InitializeComponent();
-            PopulateSetListManager();
+            PopulateSetlistManager();
         }
 
-        public void PopulateSetListManager()
+        public void PopulateSetlistManager()
         {
             Globals.Log("Populating SetlistManager GUI ...");
 
@@ -63,16 +63,16 @@ namespace CustomsForgeManager.UControls
 
         public void UpdateToolStrip()
         {
-            if (Globals.RescanSetListManager)
+            if (Globals.RescanSetlistManager)
             {
-                if (Globals.RescanSongManager)
-                    Rescan();
+                Globals.RescanSetlistManager = false;
+                Rescan();
+            }
 
-                Globals.SongManager.LoadSongCollectionFromFile();
-                PopulateSetListManager();
-                Globals.RescanDuplicates = false;
-                Globals.RescanSongManager = false;
-                Globals.RescanSetListManager = false;
+            if (Globals.ReloadSetlistManager)
+            {
+                Globals.ReloadSetlistManager = false;
+                PopulateSetlistManager();
             }
 
             Globals.TsLabel_StatusMsg.Text = String.Format("Rocksmith Songs Count: {0}", dgvDlcSongs.Rows.Count);
@@ -81,7 +81,7 @@ namespace CustomsForgeManager.UControls
 
         private void DgvDlcSongsAppearance()
         {
-            // overrides SetListManager.Desinger.cs, easier to change setting here than in IDE
+            // overrides SetlistManager.Desinger.cs, easier to change setting here than in IDE
             foreach (DataGridViewColumn col in dgvDlcSongs.Columns)
             {
                 col.ReadOnly = true;
@@ -145,14 +145,13 @@ namespace CustomsForgeManager.UControls
             bindingCompleted = false;
             dgvPainted = false;
 
-            // TODO: highlight (yellow) dgvDlcSongs rows that are already
-            // included in setlist so they user does not try to reuse
-
             if (Globals.MySettings.IncludeRS1DLCs)
             {
-                // force user to rescan song collect, to remove all RS1 Compatiblity songs
-                Globals.MySettings.IncludeRS1DLCs = false;
-                MessageBox.Show(@"Please go back to the SongManager menu tab and rescan" + Environment.NewLine + @"the song collection before working in SetlistManager.  ", MESSAGE_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                Globals.Settings.chkIncludeRS1DLC.Checked = false;
+                // ask user to rescan song collection to remove all RS1 Compatiblity songs
+                MessageBox.Show("Can not include RS1 compatiblity files as individual" + Environment.NewLine +
+                                "songs in a setlist.  Please return to SongManager and  " + Environment.NewLine +
+                                "rescan before returning to Setlist Manager. ", MESSAGE_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Hand);
                 return;
             }
 
@@ -287,16 +286,13 @@ namespace CustomsForgeManager.UControls
             {
                 worker.BackgroundScan(this);
                 while (Globals.WorkerFinished == Globals.Tristate.False)
-                {
                     Application.DoEvents();
-                }
-
-                if (Globals.WorkerFinished == Globals.Tristate.Cancelled)
-                    return;
-
-                PopulateSetListManager();
-                UpdateToolStrip();
             }
+
+            if (Globals.WorkerFinished == Globals.Tristate.Cancelled)
+                return;
+
+            PopulateSetlistManager();
         }
 
         private void btnAddDlcSong_Click(object sender, EventArgs e)
@@ -368,7 +364,7 @@ namespace CustomsForgeManager.UControls
             // force a rescan for data safety on next entry
             Globals.RescanSongManager = true;
             Globals.RescanDuplicates = true;
-            Globals.RescanSetListManager = true;
+            Globals.RescanSetlistManager = true;
         }
 
         private void btnCreateSetlist_Click(object sender, System.EventArgs e)
@@ -622,7 +618,7 @@ namespace CustomsForgeManager.UControls
                     {
                         // DANGER ZONE ... Confirm deletion for every setlist selected .. redundant safety interlock
                         if (MessageBox.Show("You are about to permanently delete setlist '" + setlistName + "'" + Environment.NewLine +
-                                             "including all songs contained in the setlist!" + Environment.NewLine + Environment.NewLine +
+                                             "Including all songs contained in the setlist!" + Environment.NewLine + Environment.NewLine +
                                              "Are you sure you want to permanently delete setlist '" + setlistName + "' and its' songs?",
                                              MESSAGE_CAPTION + " ... Warning ... Warning", MessageBoxButtons.YesNo) == DialogResult.No)
                             return;
@@ -816,6 +812,10 @@ namespace CustomsForgeManager.UControls
                 btnRemoveSetlist.BackColor = SystemColors.Control;
                 btnRemoveSetlistSong.BackColor = SystemColors.Control;
             }
+
+            Globals.RescanSongManager = true;
+            Globals.RescanDuplicates = true;
+            Globals.RescanSetlistManager = true;
         }
 
         private void chkEnableDelete_CheckedChanged(object sender, EventArgs e)
@@ -869,10 +869,7 @@ namespace CustomsForgeManager.UControls
             {
                 bindingCompleted = false;
                 dgvPainted = true;
-                Debug.WriteLine("dgvDlcSongs Painted ... ");
                 HighlightUsedSongs(Color.Yellow);
-                // gets correct song count
-                UpdateToolStrip();
             }
         }
 
@@ -886,7 +883,7 @@ namespace CustomsForgeManager.UControls
 
         private void lnkClearSearch_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            PopulateSetListManager();
+            PopulateSetlistManager();
             HighlightUsedSongs(Color.Yellow);
             cueDlcSongsSearch.Text = String.Empty;
             cueDlcSongsSearch.Cue = "Search";

@@ -35,6 +35,8 @@ namespace CustomsForgeManager.UControls
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SongManager));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panelSearch = new System.Windows.Forms.Panel();
             this.btnCheckAllForUpdates = new System.Windows.Forms.Button();
             this.chkTheMover = new System.Windows.Forms.CheckBox();
@@ -221,7 +223,7 @@ namespace CustomsForgeManager.UControls
             // 
             this.chkEnableDelete.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.chkEnableDelete.AutoSize = true;
-            this.chkEnableDelete.Location = new System.Drawing.Point(493, 13);
+            this.chkEnableDelete.Location = new System.Drawing.Point(487, 12);
             this.chkEnableDelete.Name = "chkEnableDelete";
             this.chkEnableDelete.Size = new System.Drawing.Size(100, 17);
             this.chkEnableDelete.TabIndex = 21;
@@ -665,6 +667,9 @@ namespace CustomsForgeManager.UControls
             // colUpdated
             // 
             this.colUpdated.DataPropertyName = "Updated";
+            dataGridViewCellStyle3.Format = "g";
+            dataGridViewCellStyle3.NullValue = null;
+            this.colUpdated.DefaultCellStyle = dataGridViewCellStyle3;
             this.colUpdated.HeaderText = "Updated";
             this.colUpdated.Name = "colUpdated";
             this.colUpdated.ReadOnly = true;
@@ -682,6 +687,9 @@ namespace CustomsForgeManager.UControls
             // colIgnitionUpdated
             // 
             this.colIgnitionUpdated.DataPropertyName = "IgnitionUpdated";
+            dataGridViewCellStyle4.Format = "g";
+            dataGridViewCellStyle4.NullValue = null;
+            this.colIgnitionUpdated.DefaultCellStyle = dataGridViewCellStyle4;
             this.colIgnitionUpdated.HeaderText = "Ignition Updated";
             this.colIgnitionUpdated.Name = "colIgnitionUpdated";
             this.colIgnitionUpdated.ReadOnly = true;
@@ -819,6 +827,9 @@ namespace CustomsForgeManager.UControls
         private System.Windows.Forms.ContextMenuStrip cmsSongManagerColumns;
         private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem;
         private System.Windows.Forms.CheckBox chkTheMover;
+        private System.Windows.Forms.Button btnDeleteSongs;
+        private System.Windows.Forms.CheckBox chkEnableDelete;
+        private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.DataGridViewCheckBoxColumn colSelect;
         private System.Windows.Forms.DataGridViewImageColumn colBass;
         private System.Windows.Forms.DataGridViewImageColumn colLead;
@@ -843,9 +854,6 @@ namespace CustomsForgeManager.UControls
         private System.Windows.Forms.DataGridViewTextBoxColumn colPath;
         private System.Windows.Forms.DataGridViewTextBoxColumn colFileName;
         private System.Windows.Forms.DataGridViewTextBoxColumn colToolkitVersion;
-        private System.Windows.Forms.Button btnDeleteSongs;
-        private System.Windows.Forms.CheckBox chkEnableDelete;
-        private System.Windows.Forms.ToolTip toolTip;
 
     }
 }

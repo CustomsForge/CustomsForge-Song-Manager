@@ -23,7 +23,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         private static Duplicates _duplicates;
         private static Dictionary<string, SongData> _outdatedSongList;
         private static Renamer _renamer;
-        private static SetListManager _setListManager;
+        private static SetlistManager _SetlistManager;
         private static Settings _settings;
         private static BindingList<SongData> _songCollection;
         private static SongManager _songManager;
@@ -79,15 +79,22 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         public static bool RescanAbout { get; set; }
         public static bool RescanDuplicates { get; set; }
         public static bool RescanRenamer { get; set; }
-        public static bool RescanSetListManager { get; set; }
+        public static bool RescanSetlistManager { get; set; }
         public static bool RescanSettings { get; set; }
         public static bool RescanSongManager { get; set; }
         public static bool RescanUtilities { get; set; }
+        public static bool ReloadAbout { get; set; }
+        public static bool ReloadDuplicates { get; set; }
+        public static bool ReloadRenamer { get; set; }
+        public static bool ReloadSetlistManager { get; set; }
+        public static bool ReloadSettings { get; set; }
+        public static bool ReloadSongManager { get; set; }
+        public static bool ReloadUtilities { get; set; }
 
-        public static SetListManager SetListManager
+        public static SetlistManager SetlistManager
         {
-            get { return _setListManager ?? (_setListManager = new SetListManager()); }
-            set { _setListManager = value; }
+            get { return _SetlistManager ?? (_SetlistManager = new SetlistManager()); }
+            set { _SetlistManager = value; }
         }
 
         public static Settings Settings

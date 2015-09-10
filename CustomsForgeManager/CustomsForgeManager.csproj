@@ -31,8 +31,8 @@
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>index.html</WebPage>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>6</ApplicationRevision>
-    <ApplicationVersion>1.0.0.6</ApplicationVersion>
+    <ApplicationRevision>2</ApplicationRevision>
+    <ApplicationVersion>1.0.0.2</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -201,11 +201,11 @@
     <Compile Include="UControls\Renamer.Designer.cs">
       <DependentUpon>Renamer.cs</DependentUpon>
     </Compile>
-    <Compile Include="UControls\SetListManager.cs">
+    <Compile Include="UControls\SetlistManager.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UControls\SetListManager.Designer.cs">
-      <DependentUpon>SetListManager.cs</DependentUpon>
+    <Compile Include="UControls\SetlistManager.Designer.cs">
+      <DependentUpon>SetlistManager.cs</DependentUpon>
     </Compile>
     <Compile Include="UControls\Settings.cs">
       <SubType>UserControl</SubType>
@@ -272,8 +272,8 @@
     <EmbeddedResource Include="UControls\Renamer.resx">
       <DependentUpon>Renamer.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UControls\SetListManager.resx">
-      <DependentUpon>SetListManager.cs</DependentUpon>
+    <EmbeddedResource Include="UControls\SetlistManager.resx">
+      <DependentUpon>SetlistManager.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UControls\Settings.resx">
       <DependentUpon>Settings.cs</DependentUpon>

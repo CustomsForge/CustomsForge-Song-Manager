@@ -12,7 +12,7 @@ using System.Reflection;
 using Newtonsoft.Json;
 
 namespace CustomsForgeManager.UControls
-{ 
+{
     public partial class Renamer : UserControl
     {
         private List<SongData> renSongCollection = new List<SongData>();
@@ -50,48 +50,56 @@ namespace CustomsForgeManager.UControls
 
         public void RenameSongs()
         {
-            try
+            foreach (SongData data in renSongCollection)
             {
-                foreach (SongData data in renSongCollection)
+                // 'The' mover
+                if (chkTheMover.Checked)
+                    if (data.Artist.StartsWith("The ", StringComparison.CurrentCultureIgnoreCase))
+                        data.Artist = String.Format("{0}, The", data.Artist.Substring(4, data.Artist.Length - 4)).Trim();
+
+                Template template = new Template(txtRenameTemplate.Text);
+                template.Add("artist", data.Artist);
+                template.Add("title", data.Song);
+                template.Add("album", data.Album);
+                template.Add("version", data.Version);
+                template.Add("author", data.Author);
+                template.Add("filename", data.FileName);
+                template.Add("year", data.SongYear);
+
+                if ("Yes".Equals(data.DD))
+                    template.Add("dd", "_dd");
+                else
+                    template.Add("dd", "");
+
+                // take into account setlist directories when renaming
+                var oldFilePath = data.Path;
+                var newFileName = String.Format("{0}_p.psarc", template.Render());
+                // check new file name for invalid characters
+                newFileName = String.Join("", newFileName.Split(Path.GetInvalidFileNameChars()));
+
+                if (chkRemoveSpaces.Checked)
+                    newFileName = newFileName.Replace(" ", "");
+
+                var newFilePath = Path.Combine(Path.GetDirectoryName(oldFilePath), newFileName);
+
+                try
                 {
-                    // 'The' mover
-                    if (chkTheMover.Checked)
-                        if (data.Artist.StartsWith("The ", StringComparison.CurrentCultureIgnoreCase))
-                            data.Artist = String.Format("{0}, The", data.Artist.Substring(4, data.Artist.Length - 4)).Trim();
-
-                    Template template = new Template(txtRenameTemplate.Text);
-                    template.Add("artist", data.Artist);
-                    template.Add("title", data.Song);
-                    template.Add("album", data.Album);
-                    template.Add("version", data.Version);
-                    template.Add("author", data.Author);
-                    template.Add("filename", data.FileName);
-                    template.Add("year", data.SongYear);
-
-                    if ("Yes".Equals(data.DD))
-                        template.Add("dd", "_dd");
-                    else
-                        template.Add("dd", "");
-
-                    string newFilePath = Globals.MySettings.RSInstalledDir + "\\dlc\\" + template.Render() + "_p.psarc";
-                    string oldFilePath = data.Path;
                     FileInfo newFileInfo = new FileInfo(newFilePath);
                     Directory.CreateDirectory(newFileInfo.Directory.FullName);
-                    Globals.Log("Renaming/Moving:" + oldFilePath);
-
-                    Globals.Log("---> " + newFilePath);
+                    Globals.Log("Renaming From: " + oldFilePath);
+                    Globals.Log("To: " + newFilePath);
                     File.Move(oldFilePath, newFilePath);
-                }
 
-                if (chkDeleteEmptyDir.Checked)
-                    new DirectoryInfo(Path.Combine(Globals.MySettings.RSInstalledDir, "dlc")).DeleteEmptyDirs();
-            }
-            catch (Exception e)
-            {
-                Globals.Log(e.Message);
-                // this should not occure if initial error checking works as expected
-                if (e.Message.ToLower().Contains("cannot create a file"))
-                    Globals.Log("Use Duplicates to delete/move duplicates before using Renamer.");
+                    if (chkDeleteEmptyDir.Checked)
+                        new DirectoryInfo(Path.Combine(Globals.MySettings.RSInstalledDir, "dlc")).DeleteEmptyDirs();
+                }
+                catch (Exception e)
+                {
+                    if (e.Message.ToLower().Contains("cannot create a file"))
+                        Globals.Log("Use Duplicates to delete/move '" + Path.GetFileName(newFilePath) + "' before using Renamer.");
+
+                    Globals.Log("Error: " + e.Message);
+                }
             }
         }
 
@@ -103,24 +111,28 @@ namespace CustomsForgeManager.UControls
                 return;
             }
 
-            Globals.TsLabel_StatusMsg.Text = String.Format("Renamer Song Count: {0}", renSongCollection.Count);
-            Globals.TsLabel_StatusMsg.Visible = true;
+            Globals.TsLabel_MainMsg.Text = string.Format("Rocksmith Songs Count: {0}", Globals.SongCollection.Count);
+            Globals.TsLabel_MainMsg.Visible = true;
+            var selectedDLC = Globals.SongCollection.Where(song => song.Selected).ToList().Count();
+            var tsldcMsg = String.Format("Selected Songs in SongManager Count: {0}", selectedDLC);
+            Globals.TsLabel_DisabledCounter.Alignment = ToolStripItemAlignment.Right;
+            Globals.TsLabel_DisabledCounter.Text = tsldcMsg;
+            Globals.TsLabel_DisabledCounter.Visible = true;
         }
 
         private void BackgroundRenamer()
         {
+            ToggleUIControls();
+            
             // run new worker
             using (Worker worker = new Worker())
             {
-                ToggleUIControls();
                 worker.BackgroundScan(this);
                 while (Globals.WorkerFinished == Globals.Tristate.False)
-                {
                     Application.DoEvents();
-                }
+             }
 
-                ToggleUIControls();
-            }
+            ToggleUIControls();
         }
 
         private void ToggleUIControls()
@@ -188,6 +200,7 @@ namespace CustomsForgeManager.UControls
             // RenameSongs();
             Globals.RescanSongManager = true;
             Globals.RescanDuplicates = true;
+            Globals.RescanSetlistManager = true;
         }
 
         private void dgvRenamerProperties_CellDoubleClick(object sender, DataGridViewCellEventArgs e)

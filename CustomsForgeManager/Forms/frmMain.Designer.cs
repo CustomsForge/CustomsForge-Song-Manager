@@ -54,7 +54,7 @@ namespace CustomsForgeManager.Forms
             this.tpSongManager = new System.Windows.Forms.TabPage();
             this.tpDuplicates = new System.Windows.Forms.TabPage();
             this.tpRenamer = new System.Windows.Forms.TabPage();
-            this.tpSetListManager = new System.Windows.Forms.TabPage();
+            this.tpSetlistManager = new System.Windows.Forms.TabPage();
             this.tpUtilities = new System.Windows.Forms.TabPage();
             this.tpSettings = new System.Windows.Forms.TabPage();
             this.tpAbout = new System.Windows.Forms.TabPage();
@@ -233,7 +233,7 @@ namespace CustomsForgeManager.Forms
             this.tcMain.Controls.Add(this.tpSongManager);
             this.tcMain.Controls.Add(this.tpDuplicates);
             this.tcMain.Controls.Add(this.tpRenamer);
-            this.tcMain.Controls.Add(this.tpSetListManager);
+            this.tcMain.Controls.Add(this.tpSetlistManager);
             this.tcMain.Controls.Add(this.tpUtilities);
             this.tcMain.Controls.Add(this.tpSettings);
             this.tcMain.Controls.Add(this.tpAbout);
@@ -275,14 +275,14 @@ namespace CustomsForgeManager.Forms
             this.tpRenamer.Text = "Renamer";
             this.tpRenamer.UseVisualStyleBackColor = true;
             // 
-            // tpSetListManager
+            // tpSetlistManager
             // 
-            this.tpSetListManager.Location = new System.Drawing.Point(4, 25);
-            this.tpSetListManager.Name = "tpSetListManager";
-            this.tpSetListManager.Size = new System.Drawing.Size(1003, 607);
-            this.tpSetListManager.TabIndex = 7;
-            this.tpSetListManager.Text = "Setlist Manger";
-            this.tpSetListManager.UseVisualStyleBackColor = true;
+            this.tpSetlistManager.Location = new System.Drawing.Point(4, 25);
+            this.tpSetlistManager.Name = "tpSetlistManager";
+            this.tpSetlistManager.Size = new System.Drawing.Size(1003, 607);
+            this.tpSetlistManager.TabIndex = 7;
+            this.tpSetlistManager.Text = "Setlist Manger";
+            this.tpSetlistManager.UseVisualStyleBackColor = true;
             // 
             // tpUtilities
             // 
@@ -352,7 +352,7 @@ namespace CustomsForgeManager.Forms
         private TabPage tpSongManager;
         private TabPage tpDuplicates;
         private TabPage tpRenamer;
-        private TabPage tpSetListManager;
+        private TabPage tpSetlistManager;
         private TabPage tpUtilities;
         private TabPage tpSettings;
         private TabPage tpAbout;
