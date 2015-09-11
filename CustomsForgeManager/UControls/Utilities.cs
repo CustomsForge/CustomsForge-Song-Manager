@@ -64,7 +64,9 @@ namespace CustomsForgeManager.UControls
 
                 if (String.IsNullOrEmpty(steamProfileDir))
                     using (var fbd = new FolderBrowserDialog())
-                    {
+                    {    
+                        var srcDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), @"Steam\userdata\YOUR_USER_ID\221680\remote");
+                        fbd.SelectedPath = srcDir;
                         fbd.Description = "Select Rocksmith 2014 user profile directory location";
 
                         if (fbd.ShowDialog() != DialogResult.OK) return;

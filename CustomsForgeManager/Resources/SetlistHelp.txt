@@ -3,8 +3,8 @@ Setlist Manager Safety Rules
 - only one copy of a song may exist and it can be enabled or disabled
 - a song can only be loaded into the game one time because if
   multiple versions of the same song are loaded it will hang the game
-- so when a song is added to any setlist it removed from dgvSetlistsSongs
-  and added to the corresponding dgvDlcSongs
+- when a DLC song is added to any setlist the background changes to red
+  and it is added to the corresponding SetlistSongs
 
 Setlist Manager Usage
 ----------------------

@@ -75,8 +75,8 @@ namespace CustomsForgeManager.UControls
                 PopulateSetlistManager();
             }
 
-            Globals.TsLabel_StatusMsg.Text = String.Format("Rocksmith Songs Count: {0}", dgvDlcSongs.Rows.Count);
-            Globals.TsLabel_StatusMsg.Visible = true;
+            Globals.TsLabel_MainMsg.Text = string.Format("Rocksmith Songs Count: {0}", Globals.SongCollection.Count);
+            Globals.TsLabel_MainMsg.Visible = true;
         }
 
         private void DgvDlcSongsAppearance()
@@ -675,8 +675,7 @@ namespace CustomsForgeManager.UControls
 
         private void btnRunRSWithSetlist_Click(object sender, EventArgs e)
         {
-            // TODO: confirm this method works correctly and only then enable button
-
+            // TODO: confirm this method works correctly and then enable button
             // String.Empty may be more transportable across platforms
             string rs2014Pack = String.Empty;
             string rs1MainPack = String.Empty;
@@ -852,19 +851,14 @@ namespace CustomsForgeManager.UControls
         {
             // wait for DataBinding and DataGridView Paint to complete before  
             // changing color (cell formating) on initial loading
-
             if (!bindingCompleted)
-            {
-                Debug.WriteLine("DataBinding Complete ... ");
-                bindingCompleted = true;
-            }
+                bindingCompleted = true;            
         }
 
         private void dgvDlcSongs_Paint(object sender, PaintEventArgs e)
         {
             // wait for DataBinding and DataGridView Paint to complete before  
             // changing cell color (formating) on initial loading
-
             if (bindingCompleted && !dgvPainted)
             {
                 bindingCompleted = false;

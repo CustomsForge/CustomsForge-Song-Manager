@@ -3,6 +3,8 @@ CFM Release Notes
 1.0.0.8
 -Improved auto rescan technology
 -Added conditional check to validate 'dlc' folder songs.
+-Made toolstrip label messages consistent
+-Added generic starting directory path to UC Utilities backup profiles feature
 
 1.0.0.7
 -Fixed Renamer template file path

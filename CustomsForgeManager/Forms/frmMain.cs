@@ -118,13 +118,13 @@ namespace CustomsForgeManager.Forms
         private void tcMain_SelectedIndexChanged(object sender, EventArgs e)
         {
             // Docking.Fill causes screen flicker so only use if needed
-            // loads tab control item as needed
+            // reset toolstrip labels
             Globals.ResetToolStripGlobals();
+
             // get first four charters from tab control text
             switch (tcMain.SelectedTab.Text.Substring(0, 4).ToUpper())
             {
                 // passing variables(objects) by value to UControl
-                // user control data gets renewed each time the tab is opened
                 case "SONG":
                     LoadSongManager();
                     Globals.SongManager.UpdateToolStrip();
@@ -232,8 +232,5 @@ namespace CustomsForgeManager.Forms
             set { tsStatusMsg = value; }
         }
 
-
-
     }
-
 }

@@ -70,8 +70,11 @@ namespace CustomsForgeManager.UControls
                 PopulateDuplicates();
             }
 
-            Globals.TsLabel_StatusMsg.Text = String.Format("Duplicates Count: {0}", dgvDups.Rows.Count);
-            Globals.TsLabel_StatusMsg.Visible = true;
+            Globals.TsLabel_MainMsg.Text = string.Format("Rocksmith Songs Count: {0}", Globals.SongCollection.Count);
+            Globals.TsLabel_MainMsg.Visible = true;
+            Globals.TsLabel_DisabledCounter.Alignment = ToolStripItemAlignment.Right;
+            Globals.TsLabel_DisabledCounter.Text = String.Format("Duplicates Count: {0}", dgvDups.Rows.Count);
+            Globals.TsLabel_DisabledCounter.Visible = true;
         }
 
         private void DgvDupsAppearance() // overrides Duplicates.Desinger.cs
