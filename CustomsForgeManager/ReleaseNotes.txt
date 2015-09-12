@@ -1,5 +1,10 @@
 CFM Release Notes
 
+1.0.0.9
+-Fixed right click to access DLC Location in SongManager
+-Added error checking to Renamer for empty/null data 
+-Removed extra underscores in Renamer
+
 1.0.0.8
 -Improved auto rescan technology
 -Added conditional check to validate 'dlc' folder songs.

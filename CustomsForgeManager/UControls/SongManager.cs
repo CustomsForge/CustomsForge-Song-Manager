@@ -995,7 +995,7 @@ namespace CustomsForgeManager.UControls
 
         private void cmsOpenDLCLocation_Click(object sender, EventArgs e)
         {
-            var path = dgvSongs.SelectedRows[0].Cells["Path"].Value.ToString();
+            var path = dgvSongs.SelectedRows[0].Cells["colPath"].Value.ToString();
             var directory = new FileInfo(path);
             if (directory.DirectoryName != null)
                 Process.Start("explorer.exe", string.Format("/select,\"{0}\"", directory.FullName));
@@ -1392,5 +1392,6 @@ namespace CustomsForgeManager.UControls
             else
                 dgvSongs.DataSource = new BindingSource().DataSource = smSongCollection;
         }
+
     }
 }

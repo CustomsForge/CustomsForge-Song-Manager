@@ -61,10 +61,16 @@ namespace CustomsForgeManager.UControls
                 template.Add("artist", data.Artist);
                 template.Add("title", data.Song);
                 template.Add("album", data.Album);
-                template.Add("version", data.Version);
-                template.Add("author", data.Author);
                 template.Add("filename", data.FileName);
-                template.Add("year", data.SongYear);
+
+                if (!String.IsNullOrEmpty(data.Author))
+                    template.Add("author", data.Author);
+
+                if (!String.IsNullOrEmpty(data.Version) && !data.Version.ToLower().Contains("n/a"))
+                    template.Add("version", data.Version);
+
+                if (!String.IsNullOrEmpty(data.SongYear))
+                    template.Add("year", data.SongYear);
 
                 if ("Yes".Equals(data.DD))
                     template.Add("dd", "_dd");
@@ -74,8 +80,9 @@ namespace CustomsForgeManager.UControls
                 // take into account setlist directories when renaming
                 var oldFilePath = data.Path;
                 var newFileName = String.Format("{0}_p.psarc", template.Render());
-                // check new file name for invalid characters
+                // check new file name for invalid characters and issues
                 newFileName = String.Join("", newFileName.Split(Path.GetInvalidFileNameChars()));
+                newFileName = newFileName.Replace("__", "_");
 
                 if (chkRemoveSpaces.Checked)
                     newFileName = newFileName.Replace(" ", "");
@@ -123,14 +130,14 @@ namespace CustomsForgeManager.UControls
         private void BackgroundRenamer()
         {
             ToggleUIControls();
-            
+
             // run new worker
             using (Worker worker = new Worker())
             {
                 worker.BackgroundScan(this);
                 while (Globals.WorkerFinished == Globals.Tristate.False)
                     Application.DoEvents();
-             }
+            }
 
             ToggleUIControls();
         }
