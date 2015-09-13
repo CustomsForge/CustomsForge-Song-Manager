@@ -151,9 +151,15 @@ namespace CustomsForgeManager.UControls
             if (Globals.RescanSongManager)
             {
                 Globals.RescanSongManager = false;
+                Globals.ReloadRenamer = true;
                 Globals.ReloadSetlistManager = true;
                 Globals.ReloadDuplicates = true;
                 Rescan();
+            }
+
+            if (Globals.ReloadSongManager)
+            {
+                Globals.ReloadSongManager = false;
                 LoadSongCollectionFromFile();
             }
 
@@ -436,7 +442,7 @@ namespace CustomsForgeManager.UControls
             // run new worker
             using (Worker worker = new Worker())
             {
-                worker.BackgroundScan(this, bWorker);
+                worker.BackgroundScan(dgvSongs, bWorker);
                 while (Globals.WorkerFinished == Globals.Tristate.False)
                 {
                     Application.DoEvents();
@@ -448,6 +454,9 @@ namespace CustomsForgeManager.UControls
                     //    colPath = x.Path
                     //}).ToList();
                 }
+
+                // updates display after rescan
+                // dgvSongs.DataSource = worker.bwSongCollection;
             }
 
             ToggleUIControls();
@@ -459,6 +468,14 @@ namespace CustomsForgeManager.UControls
             smFileCollection = Globals.FileCollection;
             sortedSongCollection = smSongCollection.ToList();
             SaveSongCollectionToFile();
+            Globals.RescanSetlistManager = false;
+            Globals.RescanDuplicates = false;
+            Globals.RescanSongManager = false;
+            Globals.RescanRenamer = false;
+            Globals.ReloadSongManager = false;
+            Globals.ReloadDuplicates = true;
+            Globals.ReloadRenamer = true;
+            Globals.ReloadSetlistManager = true;
         }
 
         private void SearchDLC(string criteria)

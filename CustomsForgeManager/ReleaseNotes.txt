@@ -1,5 +1,10 @@
 CFM Release Notes
 
+1.0.1.1
+-Fixed double rescan bug in SongManager
+-Fixed some rescanning and parsing issues caused by UC Settings
+-Tweaked Background Worker cross threading issues
+
 1.0.1.0
 -Fixed right click to delete DLC song in SongManager (dgvSongs were not updating correctly)
 -Added 'tuning' to Renamer template options

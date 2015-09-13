@@ -30,7 +30,7 @@ namespace CustomsForgeManager.UControls
         private const string MESSAGE_CAPTION = "Setlist Manager";
         private bool bindingCompleted = false;
         private bool dgvPainted = false;
-        private string dlcDir = Path.Combine(Globals.MySettings.RSInstalledDir, "dlc");
+        private string dlcDir;
         private BindingList<SongData> dlcSongCollection = new BindingList<SongData>();
         private List<SongData> dlcSongs = new List<SongData>();
         private List<SongData> dlcSongsSearch = new List<SongData>();
@@ -55,10 +55,20 @@ namespace CustomsForgeManager.UControls
                 return;
             }
 
-            LoadDlcSongs();
-            LoadSetLists();
-            LoadSetlistSongs();
-            LoadSongPacks();
+            dlcDir = Path.Combine(Globals.MySettings.RSInstalledDir, "dlc");
+            dgvDlcSongs.Rows.Clear();
+            dgvSetlistSongs.Rows.Clear();
+            dgvSetlists.Rows.Clear();
+            dgvSongPacks.Rows.Clear();
+
+            if (LoadDlcSongs())
+            {
+                LoadSetLists();
+                LoadSetlistSongs();
+                LoadSongPacks();
+            }
+
+            Globals.ReloadSetlistManager = false;
         }
 
         public void UpdateToolStrip()
@@ -135,12 +145,12 @@ namespace CustomsForgeManager.UControls
             {
                 var dlcSongPath = row.Cells["colPath"].Value.ToString();
                 // check if song has already been added to a setlist
-                if (!string.Equals(dlcDir, Path.GetDirectoryName(dlcSongPath), StringComparison.InvariantCultureIgnoreCase))
+                if (dlcDir.ToLower() != Path.GetDirectoryName(dlcSongPath).ToLower())
                     row.DefaultCellStyle.BackColor = color;
             }
         }
 
-        private void LoadDlcSongs()
+        private bool LoadDlcSongs()
         {
             bindingCompleted = false;
             dgvPainted = false;
@@ -152,7 +162,7 @@ namespace CustomsForgeManager.UControls
                 MessageBox.Show("Can not include RS1 compatiblity files as individual" + Environment.NewLine +
                                 "songs in a setlist.  Please return to SongManager and  " + Environment.NewLine +
                                 "rescan before returning to Setlist Manager. ", MESSAGE_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Hand);
-                return;
+                return false;
             }
 
             // CDLC song collection is loaded in Globals.SongCollection
@@ -163,8 +173,11 @@ namespace CustomsForgeManager.UControls
             if (dups.Any())
             {
                 // recommend that duplicates be removed before using SetlistManager
-                MessageBox.Show(@"Found duplicates in the song collection." + Environment.NewLine + @"Please use the 'Duplicates' menu tab to" + Environment.NewLine + @"remove them before working in SetlistManager.  ", MESSAGE_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Hand);
-                return;
+                MessageBox.Show("Found duplicates in the song collection." + Environment.NewLine +
+                                "Please use the 'Duplicates' menu tab to" + Environment.NewLine +
+                                "remove them before working in SetlistManager.  ", MESSAGE_CAPTION,
+                                MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                return false;
             }
 
             var dlcSorted = dlcSongCollection.GroupBy(x => new { x.Artist, x.Song, x.Album, }).SelectMany(group => group).ToList();
@@ -176,6 +189,7 @@ namespace CustomsForgeManager.UControls
             BindingSource bs = new BindingSource { DataSource = dlcSongs };
             dgvDlcSongs.DataSource = bs;
             DgvDlcSongsAppearance();
+            return true;
         }
 
         private void LoadSetLists()
@@ -293,6 +307,15 @@ namespace CustomsForgeManager.UControls
                 return;
 
             PopulateSetlistManager();
+            Globals.ReloadSetlistManager = false;
+            Globals.RescanDuplicates = false;
+            Globals.RescanSongManager = false;
+            Globals.RescanRenamer = false;
+            Globals.ReloadSetlistManager = false;
+            Globals.ReloadDuplicates = true;
+            Globals.ReloadRenamer = true;
+            Globals.ReloadSongManager = true;
+
         }
 
         private void btnAddDlcSong_Click(object sender, EventArgs e)
@@ -852,7 +875,7 @@ namespace CustomsForgeManager.UControls
             // wait for DataBinding and DataGridView Paint to complete before  
             // changing color (cell formating) on initial loading
             if (!bindingCompleted)
-                bindingCompleted = true;            
+                bindingCompleted = true;
         }
 
         private void dgvDlcSongs_Paint(object sender, PaintEventArgs e)

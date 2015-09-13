@@ -30,7 +30,7 @@ namespace CustomsForgeManager.UControls
             Globals.Log("Populating Duplicates GUI ...");
             dgvDups.Visible = false;
 
-            if (Globals.RescanDuplicates || Globals.WorkerFinished == Globals.Tristate.Cancelled)
+            if (Globals.WorkerFinished == Globals.Tristate.Cancelled)
             {
                 MessageBox.Show("Duplicates need to be rescanned!", Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -54,6 +54,7 @@ namespace CustomsForgeManager.UControls
             dgvDups.DefaultCellStyle.SelectionBackColor = Color.Gold; // dgvSongs.DefaultCellStyle.BackColor;
             dgvDups.DefaultCellStyle.SelectionForeColor = dgvDups.DefaultCellStyle.ForeColor;
             dgvDups.ClearSelection();
+            Globals.ReloadDuplicates = false;
         }
 
         public void UpdateToolStrip()
@@ -150,6 +151,14 @@ namespace CustomsForgeManager.UControls
                 return;
 
             PopulateDuplicates();
+            Globals.RescanSetlistManager = false;
+            Globals.RescanDuplicates = false;
+            Globals.RescanSongManager = false;
+            Globals.RescanRenamer = false;
+            Globals.ReloadDuplicates = false;
+            Globals.ReloadSongManager = true;
+            Globals.ReloadRenamer = true;
+            Globals.ReloadSetlistManager = true;
         }
 
         private void ShowSongInfo()

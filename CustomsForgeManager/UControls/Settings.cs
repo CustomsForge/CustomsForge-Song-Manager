@@ -225,9 +225,12 @@ namespace CustomsForgeManager.UControls
                 return;
             }
 
-            // some UC tabpages that need to be rescanned
+            // rescan on tabpage change
             Globals.RescanSongManager = true;
             Globals.RescanDuplicates = true;
+            Globals.RescanSetlistManager = true;
+            Globals.RescanRenamer = true;
+
             // update RSInstalledDir after above error check passes
             Globals.MySettings.RSInstalledDir = cueRsDir.Text;
         }

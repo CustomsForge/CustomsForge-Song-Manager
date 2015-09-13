@@ -32,16 +32,18 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
             Globals.TsLabel_Cancel.Enabled = true;
             Globals.TsLabel_MainMsg.Visible = true;
             Globals.WorkerFinished = Globals.Tristate.False;
+
             if (backgroundWorker == null)
                 bWorker = new AbortableBackgroundWorker();
             else
                 bWorker = backgroundWorker;
-            bWorker.SetDefaults();
-            if (workOrder.Name == "SongManager" || workOrder.Name == "Duplicates" || workOrder.Name == "SetlistManager")
-                bWorker.DoWork += WorkerParseSongs;
 
-            else if (workOrder.Name == "Renamer")
+            bWorker.SetDefaults();
+
+            if (workOrder.Name == "Renamer")
                 bWorker.DoWork += WorkerRenameSongs;
+            else 
+                bWorker.DoWork += WorkerParseSongs;
 
             bWorker.RunWorkerCompleted += WorkerComplete;
             // don't run bWorker more than once
@@ -106,9 +108,10 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
             bwFileCollection.Clear();
             Extensions.InvokeIfRequired(workOrder, delegate
               {
-                 // bwSongCollection.Clear();
+                  // bwSongCollection.Clear();
                   bwSongCollection = new BindingList<SongData>();
               });
+
             List<string> fileList = Extensions.FilesList(Path.Combine(Globals.MySettings.RSInstalledDir, "dlc"), Globals.MySettings.IncludeRS1DLCs);
 
             // "Raw" is good descriptor :)
@@ -163,30 +166,26 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                                 songData.Version = fileNameVersion;
                         }
 
-                        if (!songData.FileName.Contains(Constants.RS1COMP))
+                        if (!songData.FileName.ToLower().Contains(Constants.RS1COMP))
                             Extensions.InvokeIfRequired(workOrder, delegate
-                            {
-                                bwSongCollection.Add(songData);
-                            });
+                                {
+                                    bwSongCollection.Add(songData);
+                                });
 
-                        if (songData.FileName.ToLower( ).Contains(Constants.RS1COMP) && Globals.MySettings.IncludeRS1DLCs)
+                        if (songData.FileName.ToLower().Contains(Constants.RS1COMP) && Globals.MySettings.IncludeRS1DLCs)
                             Extensions.InvokeIfRequired(workOrder, delegate
-                            {
-                                bwSongCollection.Add(songData);
-                            });
+                               {
+                                   bwSongCollection.Add(songData);
+                               });
                     }
                 }
             }
             catch (Exception ex)
             {
                 if (ex.Message.StartsWith("Error reading JObject"))
-                {
                     Globals.Log("<ERROR>: " + file + ":" + "DLC is corrupt!");
-                }
                 else
-                {
                     Globals.Log("<ERROR>: " + file + ":" + ex.Message);
-                }
             }
         }
 
