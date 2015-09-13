@@ -3,9 +3,10 @@
         { "Key": "artist", "Description": "Song Artist/Band Name" },
         { "Key": "title", "Description": "Song Title" },
 		{ "Key": "album", "Description": "Album Title" },
+		{ "Key": "tuning", "Description": "Song Tuning" },
+        { "Key": "dd", "Description": "Dynamic Difficulty" },
 		{ "Key": "year", "Description": "Album Year" },
         { "Key": "version", "Description": "Version (of the song)" },
-        { "Key": "dd", "Description": "Dynamic Difficulty" },
         { "Key": "author", "Description": "CDLC Author" },
 	    { "Key": "filename", "Description": "Original Filename" }
     ]

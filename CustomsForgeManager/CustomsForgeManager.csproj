@@ -291,7 +291,6 @@
       <DependentUpon>Utilities.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="CustomsForgeManager_TemporaryKey.pfx" />
-    <None Include="Properties\DataSources\CustomsForgeManager.Forms.frmMain.datasource" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\renamer_properties.json" />

@@ -149,17 +149,18 @@
             // slashLabel
             // 
             this.slashLabel.AutoSize = true;
-            this.slashLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.slashLabel.Location = new System.Drawing.Point(106, 9);
+            this.slashLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.slashLabel.Location = new System.Drawing.Point(110, 10);
             this.slashLabel.Name = "slashLabel";
-            this.slashLabel.Size = new System.Drawing.Size(37, 20);
+            this.slashLabel.Size = new System.Drawing.Size(39, 16);
             this.slashLabel.TabIndex = 14;
-            this.slashLabel.Text = "dlc/";
+            this.slashLabel.Text = "dlc\\\\";
+            this.slashLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // renameTemplateLabel
             // 
             this.renameTemplateLabel.AutoSize = true;
-            this.renameTemplateLabel.Location = new System.Drawing.Point(3, 11);
+            this.renameTemplateLabel.Location = new System.Drawing.Point(3, 12);
             this.renameTemplateLabel.Name = "renameTemplateLabel";
             this.renameTemplateLabel.Size = new System.Drawing.Size(105, 13);
             this.renameTemplateLabel.TabIndex = 13;
@@ -167,7 +168,7 @@
             // 
             // txtRenameTemplate
             // 
-            this.txtRenameTemplate.Location = new System.Drawing.Point(149, 11);
+            this.txtRenameTemplate.Location = new System.Drawing.Point(149, 8);
             this.txtRenameTemplate.Name = "txtRenameTemplate";
             this.txtRenameTemplate.Size = new System.Drawing.Size(379, 20);
             this.txtRenameTemplate.TabIndex = 12;
@@ -177,7 +178,7 @@
             // 
             this.btnRenameAll.Image = global::CustomsForgeManager.Properties.Resources.rename;
             this.btnRenameAll.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnRenameAll.Location = new System.Drawing.Point(534, 7);
+            this.btnRenameAll.Location = new System.Drawing.Point(534, 4);
             this.btnRenameAll.Name = "btnRenameAll";
             this.btnRenameAll.Size = new System.Drawing.Size(90, 26);
             this.btnRenameAll.TabIndex = 11;
@@ -193,7 +194,7 @@
             // chkRenameOnlySelected
             // 
             this.chkRenameOnlySelected.AutoSize = true;
-            this.chkRenameOnlySelected.Location = new System.Drawing.Point(658, 12);
+            this.chkRenameOnlySelected.Location = new System.Drawing.Point(658, 9);
             this.chkRenameOnlySelected.Name = "chkRenameOnlySelected";
             this.chkRenameOnlySelected.Size = new System.Drawing.Size(303, 17);
             this.chkRenameOnlySelected.TabIndex = 16;
@@ -204,7 +205,7 @@
             // 
             this.lbl2.AutoSize = true;
             this.lbl2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl2.Location = new System.Drawing.Point(630, 11);
+            this.lbl2.Location = new System.Drawing.Point(630, 8);
             this.lbl2.Name = "lbl2";
             this.lbl2.Size = new System.Drawing.Size(22, 16);
             this.lbl2.TabIndex = 17;

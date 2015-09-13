@@ -1,5 +1,6 @@
 ﻿
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Antlr4.StringTemplate;
 using CustomsForgeManager.CustomsForgeManagerLib;
@@ -62,40 +63,63 @@ namespace CustomsForgeManager.UControls
                 template.Add("title", data.Song);
                 template.Add("album", data.Album);
                 template.Add("filename", data.FileName);
-
-                if (!String.IsNullOrEmpty(data.Author))
-                    template.Add("author", data.Author);
-
-                if (!String.IsNullOrEmpty(data.Version) && !data.Version.ToLower().Contains("n/a"))
-                    template.Add("version", data.Version);
-
-                if (!String.IsNullOrEmpty(data.SongYear))
-                    template.Add("year", data.SongYear);
+                template.Add("tuning", data.Tuning);
 
                 if ("Yes".Equals(data.DD))
                     template.Add("dd", "_dd");
                 else
                     template.Add("dd", "");
 
-                // take into account setlist directories when renaming
+                if (!String.IsNullOrEmpty(data.SongYear))
+                    template.Add("year", data.SongYear);
+
+                if (!String.IsNullOrEmpty(data.Version) && !data.Version.ToLower().Contains("n/a"))
+                    template.Add("version", data.Version);
+
+                if (!String.IsNullOrEmpty(data.Author))
+                    template.Add("author", data.Author);
+
+                // CAREFUL - lots to go wrong in this simple method :(
+                // there could be setlist directories or user added directory(s)
+                // beethoven_p.psarc is a good song to use for testing
                 var oldFilePath = data.Path;
-                var newFileName = String.Format("{0}_p.psarc", template.Render());
-                // check new file name for invalid characters and issues
+                var newFileName = template.Render();
+                var newFilePath = Path.Combine(Globals.MySettings.RSInstalledDir, "dlc");
+
+                // renamed files could be enabled or disabled
+                if (Path.GetFileName(oldFilePath).ToLower().Contains("disabled"))
+                    newFileName = String.Format("{0}_p.disabled.psarc", newFileName);
+                else
+                    newFileName = String.Format("{0}_p.psarc", newFileName);
+
+                // strip any user added a directory(s) from file name and add to file path
+                var dirSeperator = new string[] { "\\" };
+                var parts = newFileName.Split(dirSeperator, StringSplitOptions.None);
+                if (parts.Any())
+                {
+                    for (int i = 0; i < parts.Count() - 1; i++)
+                        newFilePath = Path.Combine(newFilePath, parts[i]);
+
+                    newFileName = parts[parts.Count() - 1];
+                }
+
+                // generated file name and/or file path could be invalid
+                newFilePath = String.Join("", newFilePath.Split(Path.GetInvalidPathChars()));
                 newFileName = String.Join("", newFileName.Split(Path.GetInvalidFileNameChars()));
                 newFileName = newFileName.Replace("__", "_");
 
                 if (chkRemoveSpaces.Checked)
                     newFileName = newFileName.Replace(" ", "");
 
-                var newFilePath = Path.Combine(Path.GetDirectoryName(oldFilePath), newFileName);
+                if (!Directory.Exists(newFilePath))
+                    Directory.CreateDirectory(newFilePath);
 
                 try
                 {
-                    FileInfo newFileInfo = new FileInfo(newFilePath);
-                    Directory.CreateDirectory(newFileInfo.Directory.FullName);
+                    newFilePath = Path.Combine(newFilePath, newFileName);
+                    File.Move(oldFilePath, newFilePath);
                     Globals.Log("Renaming From: " + oldFilePath);
                     Globals.Log("To: " + newFilePath);
-                    File.Move(oldFilePath, newFilePath);
 
                     if (chkDeleteEmptyDir.Checked)
                         new DirectoryInfo(Path.Combine(Globals.MySettings.RSInstalledDir, "dlc")).DeleteEmptyDirs();

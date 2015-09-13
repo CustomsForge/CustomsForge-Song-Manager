@@ -1,9 +1,16 @@
 CFM Release Notes
 
+1.0.1.0
+-Fixed right click to delete DLC song in SongManager (dgvSongs were not updating correctly)
+-Added 'tuning' to Renamer template options
+-Maintain correct enable/disable condition when renaming songs
+-Fixed renamer file name and file path issues
+-Renamer can also be used to create setlists by adding new setlist directories
+
 1.0.0.9
 -Fixed right click to access DLC Location in SongManager
 -Added error checking to Renamer for empty/null data 
--Removed extra underscores in Renamer
+-Removed extra underscores added by Renamer
 
 1.0.0.8
 -Improved auto rescan technology
