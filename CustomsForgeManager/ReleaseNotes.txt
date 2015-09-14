@@ -1,4 +1,8 @@
 CFM Release Notes
+1.0.1.4
+-More work on Date format culture variants
+-Fixed SongManager sort on colToolkitVersion
+-Show in SetlistManager toolstrip the number of songs used in setlists
 
 1.0.1.3
 -Allow CFM to be moved to the back (not always topmost)

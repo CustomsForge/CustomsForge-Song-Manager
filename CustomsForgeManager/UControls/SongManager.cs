@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -1175,12 +1176,15 @@ namespace CustomsForgeManager.UControls
                         break;
 
                     case "colUpdated":
-                        if (sortDescending)
-                            bs.DataSource = songsToShow.OrderByDescending(song => DateTime.Parse(song.Updated));
-                        else
-                            bs.DataSource = songsToShow.OrderBy(song => DateTime.Parse(song.Updated));
+                        var culture = CultureInfo.CurrentCulture;
+                        Debug.WriteLine("Current Culture: " + culture);
 
-                        // this does not work, probably should be "M/d/yyyy hh:mm" or some such thing
+                        if (sortDescending)
+                            bs.DataSource = songsToShow.OrderByDescending(song => DateTime.Parse(song.Updated, CultureInfo.InvariantCulture));
+                        else
+                            bs.DataSource = songsToShow.OrderBy(song => DateTime.Parse(song.Updated, CultureInfo.InvariantCulture));
+
+                        // not working
                         //if (sortDescending)
                         //    bs.DataSource = songsToShow.OrderByDescending(song => DateTime.ParseExact(song.Updated, "M-d-y H:m", System.Globalization.CultureInfo.InvariantCulture));
                         //else
@@ -1223,7 +1227,7 @@ namespace CustomsForgeManager.UControls
                             bs.DataSource = songsToShow.OrderBy(song => song.Version);
                         break;
 
-                    case "colToolkitVer":
+                    case "colToolkitVersion":
                         if (sortDescending)
                             bs.DataSource = songsToShow.OrderByDescending(song => song.ToolkitVer);
                         else
@@ -1267,9 +1271,9 @@ namespace CustomsForgeManager.UControls
 
                     case "colIgnitionUpdated":
                         if (sortDescending)
-                            bs.DataSource = songsToShow.OrderByDescending(song => DateTime.Parse(song.IgnitionUpdated));
+                            bs.DataSource = songsToShow.OrderByDescending(song => DateTime.Parse(song.IgnitionUpdated, CultureInfo.InvariantCulture));
                         else
-                            bs.DataSource = songsToShow.OrderBy(song => DateTime.Parse(song.IgnitionUpdated));
+                            bs.DataSource = songsToShow.OrderBy(song => DateTime.Parse(song.IgnitionUpdated, CultureInfo.InvariantCulture));
                         break;
 
                     case "colIgnitionAuthor":
@@ -1282,7 +1286,7 @@ namespace CustomsForgeManager.UControls
             }
             catch (Exception)
             {
-                Globals.Log("Error: Sorting failed. Can not sort on an empty column.");
+                Globals.Log("Error: Sorting failed.");
             }
 
             scrollHorizontalOffset = dgvSongs.HorizontalScrollingOffset;

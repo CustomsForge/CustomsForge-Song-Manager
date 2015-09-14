@@ -36,6 +36,7 @@ namespace CustomsForgeManager.UControls
         private List<SongData> dlcSongsSearch = new List<SongData>();
         private string rs1CompDiscPath;
         private string rs1CompDlcPath;
+        private int songsInSetlists;
 
         public SetlistManager()
         {
@@ -87,6 +88,9 @@ namespace CustomsForgeManager.UControls
 
             Globals.TsLabel_MainMsg.Text = string.Format("Rocksmith Songs Count: {0}", Globals.SongCollection.Count);
             Globals.TsLabel_MainMsg.Visible = true;
+            Globals.TsLabel_DisabledCounter.Alignment = ToolStripItemAlignment.Right;
+            Globals.TsLabel_DisabledCounter.Text = String.Format("Songs Used In Setlists Count: {0}", "0");
+            Globals.TsLabel_DisabledCounter.Visible = true;
         }
 
         private void DgvDlcSongsAppearance()
@@ -141,13 +145,19 @@ namespace CustomsForgeManager.UControls
 
         private void HighlightUsedSongs(Color color)
         {
+            songsInSetlists = 0;
             foreach (DataGridViewRow row in dgvDlcSongs.Rows)
             {
                 var dlcSongPath = row.Cells["colPath"].Value.ToString();
                 // check if song has already been added to a setlist
                 if (dlcDir.ToLower() != Path.GetDirectoryName(dlcSongPath).ToLower())
+                {
                     row.DefaultCellStyle.BackColor = color;
+                    songsInSetlists++;
+                }
             }
+
+            Globals.TsLabel_DisabledCounter.Text = String.Format("Songs Used In Setlists Count: {0}", songsInSetlists);
         }
 
         private bool LoadDlcSongs()
@@ -371,8 +381,11 @@ namespace CustomsForgeManager.UControls
                         row.Cells["colEnabled"].Value = curSetlist.Contains("disabled") ? "No" : "Yes";
                         row.Cells["colPath"].Value = setlistSongPath;
                         row.Cells["colSelect"].Value = false;
-                        row.DefaultCellStyle.BackColor = Color.Red;
+                        row.DefaultCellStyle.BackColor = Color.Yellow;
 
+                        // update songsInSetlist count
+                        songsInSetlists++;
+                        Globals.TsLabel_DisabledCounter.Text = String.Format("Songs Used In Setlists Count: {0}", songsInSetlists);
                     }
                     catch (IOException ex)
                     {
@@ -466,7 +479,7 @@ namespace CustomsForgeManager.UControls
                 {
                     var originalPath = row.Cells["colSetlistSongsPath"].Value.ToString();
                     var originalFile = row.Cells["colSetlistSongsFileName"].Value.ToString();
-                    
+
                     try
                     {
                         if (row.Cells["colSetlistSongsEnabled"].Value.ToString() == "Yes")
@@ -543,7 +556,7 @@ namespace CustomsForgeManager.UControls
                 {
                     var originalPath = row.Cells["colSongPackPath"].Value.ToString();
                     var originalFile = row.Cells["colSongPackFileName"].Value.ToString();
-                    
+
                     try
                     {
                         if (row.Cells["colSongPackEnabled"].Value.ToString() == "Yes")
@@ -897,6 +910,8 @@ namespace CustomsForgeManager.UControls
                 bindingCompleted = false;
                 dgvPainted = true;
                 HighlightUsedSongs(Color.Yellow);
+
+
             }
         }
 
