@@ -429,21 +429,24 @@ namespace CustomsForgeManager.UControls
                 if (Convert.ToBoolean(row.Cells["colSelect"].Value))
                 {
                     var originalPath = row.Cells["colPath"].Value.ToString();
+                    var originalFile = row.Cells["colFileName"].Value.ToString();
 
                     try
                     {
                         if (row.Cells["colEnabled"].Value.ToString() == "Yes")
                         {
-                            var disabledDLCPath = originalPath.Replace("_p.psarc", "_p.disabled.psarc");
-                            File.Move(originalPath, disabledDLCPath);
-                            row.Cells["colPath"].Value = disabledDLCPath;
+                            var disabledPath = originalPath.Replace("_p.psarc", "_p.disabled.psarc");
+                            File.Move(originalPath, disabledPath);
+                            row.Cells["colPath"].Value = disabledPath;
+                            row.Cells["colFileName"].Value = originalFile.Replace("_p.psarc", "_p.disabled.psarc");
                             row.Cells["colEnabled"].Value = "No";
                         }
                         else
                         {
-                            var enabledDLCPath = originalPath.Replace("_p.disabled.psarc", "_p.psarc");
-                            File.Move(originalPath, enabledDLCPath);
-                            row.Cells["colPath"].Value = enabledDLCPath;
+                            var enabledPath = originalPath.Replace("_p.disabled.psarc", "_p.psarc");
+                            File.Move(originalPath, enabledPath);
+                            row.Cells["colPath"].Value = enabledPath;
+                            row.Cells["colFileName"].Value = originalFile.Replace("_p.disabled.psarc", "_p.psarc");
                             row.Cells["colEnabled"].Value = "Yes";
                         }
                     }
@@ -461,27 +464,31 @@ namespace CustomsForgeManager.UControls
             {
                 if (Convert.ToBoolean(row.Cells["colSetlistSongsSelect"].Value))
                 {
-                    var setlistSongPath = row.Cells["colSetlistSongsPath"].Value.ToString();
+                    var originalPath = row.Cells["colSetlistSongsPath"].Value.ToString();
+                    var originalFile = row.Cells["colSetlistSongsFileName"].Value.ToString();
+                    
                     try
                     {
                         if (row.Cells["colSetlistSongsEnabled"].Value.ToString() == "Yes")
                         {
-                            var disabledSetlistSongsPath = setlistSongPath.Replace(".psarc", ".disabled.psarc");
-                            File.Move(setlistSongPath, disabledSetlistSongsPath);
-                            row.Cells["colSetlistSongsPath"].Value = disabledSetlistSongsPath;
+                            var disabledPath = originalPath.Replace("_p.psarc", "_p.disabled.psarc");
+                            File.Move(originalPath, disabledPath);
+                            row.Cells["colSetlistSongsPath"].Value = disabledPath;
+                            row.Cells["colSetlistSongsFileName"].Value = originalFile.Replace("_p.psarc", "_p.disabled.psarc");
                             row.Cells["colSetlistSongsEnabled"].Value = "No";
                         }
                         else
                         {
-                            var enabledSetlistSongsPath = setlistSongPath.Replace(".disabled.psarc", ".psarc");
-                            File.Move(setlistSongPath, enabledSetlistSongsPath);
-                            row.Cells["colSetlistSongsPath"].Value = enabledSetlistSongsPath;
+                            var enabledPath = originalPath.Replace("_p.disabled.psarc", "_p.psarc");
+                            File.Move(originalPath, enabledPath);
+                            row.Cells["colSetlistSongsPath"].Value = enabledPath;
+                            row.Cells["colSetlistSongsFileName"].Value = originalFile.Replace("_p.disabled.psarc", "_p.psarc");
                             row.Cells["colSetlistSongsEnabled"].Value = "Yes";
                         }
                     }
                     catch (IOException ex)
                     {
-                        MessageBox.Show(@"Unable to enable/disable setlist song: " + Path.GetFileName(setlistSongPath) + Environment.NewLine + "Error: " + ex.Message, MESSAGE_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show(@"Unable to enable/disable setlist song: " + Path.GetFileName(originalPath) + Environment.NewLine + "Error: " + ex.Message, MESSAGE_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
@@ -534,28 +541,31 @@ namespace CustomsForgeManager.UControls
             {
                 if (Convert.ToBoolean(row.Cells["colSongPackSelect"].Value))
                 {
-                    var songPackPath = row.Cells["colSongPackPath"].Value.ToString();
+                    var originalPath = row.Cells["colSongPackPath"].Value.ToString();
+                    var originalFile = row.Cells["colSongPackFileName"].Value.ToString();
+                    
                     try
                     {
                         if (row.Cells["colSongPackEnabled"].Value.ToString() == "Yes")
                         {
-                            var disabledSongPackPath = songPackPath.Replace(".psarc", ".disabled.psarc");
-                            File.Move(songPackPath, disabledSongPackPath);
-                            row.Cells["colSongPackPath"].Value = disabledSongPackPath;
+                            var disabledPath = originalPath.Replace("_p.psarc", "_p.disabled.psarc");
+                            File.Move(originalPath, disabledPath);
+                            row.Cells["colSongPackPath"].Value = disabledPath;
+                            row.Cells["colSongPackFileName"].Value = originalFile.Replace("_p.psarc", "_p.disabled.psarc");
                             row.Cells["colSongPackEnabled"].Value = "No";
                         }
                         else
                         {
-                            var enabledSongPackPath = songPackPath.Replace(".disabled.psarc", ".psarc");
-                            File.Move(songPackPath, enabledSongPackPath);
-                            row.Cells["colSongPackPath"].Value = enabledSongPackPath;
+                            var enabledPath = originalPath.Replace("_p.disabled.psarc", "_p.psarc");
+                            File.Move(originalPath, enabledPath);
+                            row.Cells["colSongPackPath"].Value = enabledPath;
+                            row.Cells["colSongPackFileName"].Value = originalFile.Replace("_p.disabled.psarc", "_p.psarc");
                             row.Cells["colSongPackEnabled"].Value = "Yes";
                         }
                     }
                     catch (IOException ex)
                     {
-                        MessageBox.Show(@"Unable to enable/disable Song Pack: " + Path.GetFileName(songPackPath) + Environment.NewLine + "Error: " + ex.Message, MESSAGE_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Error);
-
+                        MessageBox.Show(@"Unable to enable/disable Song Pack: " + Path.GetFileName(originalPath) + Environment.NewLine + "Error: " + ex.Message, MESSAGE_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }

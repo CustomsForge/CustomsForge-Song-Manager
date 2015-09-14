@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 using CustomsForgeManager.CustomsForgeManagerLib;
 using CustomsForgeManager.CustomsForgeManagerLib.CustomControls;
@@ -787,41 +788,51 @@ namespace CustomsForgeManager.UControls
 
             foreach (DataGridViewRow row in dgvSongs.Rows)
             {
-                var cell = (DataGridViewCheckBoxCell)row.Cells["colSelect"];
+                if (row.Cells["colSelect"].Value == null)
+                    row.Cells["colSelect"].Value = false;
 
-                if (cell.Value == null)
-                    cell.Value = false;
-
-                if (Convert.ToBoolean(cell.Value))
+                if (Convert.ToBoolean(row.Cells["colSelect"].Value))
                 {
                     var originalPath = row.Cells["colPath"].Value.ToString();
+                    var originalFile = row.Cells["colFileName"].Value.ToString();
+
                     if (!originalPath.ToLower().Contains(String.Format("{0}{1}", Constants.RS1COMP, "disc")))
                     {
-                        // confirmed CDLC is disabled in game when using this file naming method
-                        if (row.Cells["colEnabled"].Value.ToString() == "Yes")
+                        try
                         {
-                            var disabledDLCPath = originalPath.Replace("_p.psarc", "_p.disabled.psarc");
-                            File.Move(originalPath, disabledDLCPath);
-                            row.Cells["colPath"].Value = disabledDLCPath;
-                            row.Cells["colEnabled"].Value = "No";
-                            updateSongCollection = true;
+                            if (row.Cells["colEnabled"].Value.ToString() == "Yes")
+                            {
+                                var disabledPath = originalPath.Replace("_p.psarc", "_p.disabled.psarc");
+                                File.Move(originalPath, disabledPath);
+                                row.Cells["colPath"].Value = disabledPath;
+                                row.Cells["colFileName"].Value = originalFile.Replace("_p.psarc", "_p.disabled.psarc");
+                                row.Cells["colEnabled"].Value = "No";
+                                updateSongCollection = true;
+                            }
+                            else
+                            {
+                                var enabledPath = originalPath.Replace("_p.disabled.psarc", "_p.psarc");
+                                File.Move(originalPath, enabledPath);
+                                row.Cells["colPath"].Value = enabledPath;
+                                row.Cells["colFileName"].Value = originalFile.Replace("_p.disabled.psarc", "_p.psarc");
+                                row.Cells["colEnabled"].Value = "Yes";
+                                updateSongCollection = true;
+                            }
                         }
-                        else
+                        catch (IOException ex)
                         {
-                            var enabledDLCPath = originalPath.Replace("_p.disabled.psarc", "_p.psarc");
-                            File.Move(originalPath, enabledDLCPath);
-                            row.Cells["colPath"].Value = enabledDLCPath;
-                            row.Cells["colEnabled"].Value = "Yes";
-                            updateSongCollection = true;
+                            MessageBox.Show(@"Unable to enable/disable song: " + Path.GetFileName(originalPath) + @" in 'dlc' folder." + Environment.NewLine + "Error: " + ex.Message);
                         }
 
-                        cell.Value = "false";
+                        row.Cells["colSelect"].Value = false;
                         numberOfDisabledDLC = smSongCollection.Where(song => song.Enabled == "No").ToList().Count();
                         var tsldcMsg = String.Format("Outdated: {0} | Disabled DLC: {1}", numberOfDLCPendingUpdate, numberOfDisabledDLC);
                         Extensions.InvokeIfRequired(this, delegate { Globals.TsLabel_DisabledCounter.Text = tsldcMsg; });
                     }
                     else
-                        Globals.Log("This is a Rocksmith 1 song. It can't be disabled at this moment. (You just can disable all of them!)");
+                        Globals.Log("This is a Rocksmith 1 Compatiblity Song." + Environment .NewLine+
+                                    "RS1 Compatiblity Songs can not be disabled individually." + Environment .NewLine +
+                                    "Use SetlistManager to disable all RS1 Compatiblity Songs.");
                 }
             }
 
@@ -831,6 +842,8 @@ namespace CustomsForgeManager.UControls
                 Globals.RescanSongManager = true;
                 Globals.RescanDuplicates = true;
             }
+
+            dgvSongs.Refresh();
         }
 
         private void btnExportSongList_Click(object sender, EventArgs e)
@@ -1068,6 +1081,7 @@ namespace CustomsForgeManager.UControls
                 if (e.RowIndex != -1)
                     if (grid.Columns[e.ColumnIndex].Name == "colSelect")
                     {
+                        Thread.Sleep(150); // debounce multiple left clicks
                         // beyound current scope of CFM
                         if (grid.Rows[e.RowIndex].Cells["colSelect"].Value.ToString().Contains(Constants.RS1COMP))
                             Globals.Log("Can not 'Select' individual RS1 Compatiblity DLC");
@@ -1075,6 +1089,8 @@ namespace CustomsForgeManager.UControls
                         {
                             if (grid.Rows[e.RowIndex].Cells["colSelect"].Value == null)
                                 grid.Rows[e.RowIndex].Cells["colSelect"].Value = false;
+
+                            Thread.Sleep(150); // debounce multiple left clicks
 
                             if (Convert.ToBoolean(grid.Rows[e.RowIndex].Cells["colSelect"].Value))
                                 grid.Rows[e.RowIndex].Cells["colSelect"].Value = false;

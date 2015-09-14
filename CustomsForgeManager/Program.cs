@@ -52,7 +52,7 @@ namespace CustomsForgeManager
             }
         }
 
-        private static bool FirstRun()
+       public static bool FirstRun()
         {
             if (Path.GetDirectoryName(Application.ExecutablePath) == null)
                 throw new Exception("Can not find application directory.");

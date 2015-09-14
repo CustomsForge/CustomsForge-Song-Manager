@@ -38,14 +38,14 @@
             this.rtbNotes.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rtbNotes.Location = new System.Drawing.Point(0, 0);
             this.rtbNotes.Name = "rtbNotes";
-            this.rtbNotes.Size = new System.Drawing.Size(621, 450);
+            this.rtbNotes.Size = new System.Drawing.Size(557, 455);
             this.rtbNotes.TabIndex = 1;
             this.rtbNotes.Text = "This is a Rich Textbox Note Viewer";
             // 
             // frmNoteViewer
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(621, 450);
+            this.ClientSize = new System.Drawing.Size(557, 455);
             this.Controls.Add(this.rtbNotes);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmNoteViewer";
@@ -58,7 +58,8 @@
 
         #endregion
 
-        private System.Windows.Forms.RichTextBox rtbNotes;
+        public System.Windows.Forms.RichTextBox rtbNotes;
+
 
     }
 }

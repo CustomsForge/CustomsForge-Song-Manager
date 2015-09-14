@@ -2,6 +2,7 @@
 using System.Deployment.Application;
 using System.Drawing;
 using System.IO;
+using System.Threading;
 using System.Windows.Forms;
 using System.Reflection;
 using CustomsForgeManager.CustomsForgeManagerLib.Objects;
@@ -63,6 +64,24 @@ namespace CustomsForgeManager.Forms
             Globals.Log(String.Format("CFSongManager Version: {0}", Constants.CustomVersion()));
             Globals.Log(GetRSTKLibVersion());
 
+            // eye candy while songs get parsed for first time
+            var noteViewer = new frmNoteViewer();
+            if (Program.FirstRun())
+            {
+                noteViewer.rtbNotes.Clear();
+                noteViewer.rtbNotes.SelectionAlignment = HorizontalAlignment.Center;
+                noteViewer.rtbNotes.Font = new Font("Arial", 14, FontStyle.Bold);
+                noteViewer.rtbNotes.AppendText(Environment.NewLine + Environment.NewLine + Environment.NewLine);
+                noteViewer.rtbNotes.AppendText("Starting up CFM for the first time.");
+                noteViewer.rtbNotes.AppendText(Environment.NewLine + Environment.NewLine);
+                noteViewer.rtbNotes.AppendText("Please be patient while your songs are being parsed.");
+                noteViewer.rtbNotes.AppendText(Environment.NewLine + Environment.NewLine + Environment.NewLine);
+                noteViewer.rtbNotes.SelectionBackColor = Color.Lime;
+                noteViewer.rtbNotes.SelectedText = "Get Ready . . . Get Set . . .";
+                noteViewer.rtbNotes.AppendText(Environment.NewLine + Environment.NewLine);
+                noteViewer.Show();
+            }
+
             // load settings
             Globals.Settings.LoadSettingsFromFile();
 
@@ -73,6 +92,13 @@ namespace CustomsForgeManager.Forms
 
             // load Song Manager Tab
             LoadSongManager();
+
+            noteViewer.rtbNotes.SelectionBackColor = Color.Lime;
+            noteViewer.rtbNotes.SelectedText = "Go!";
+            noteViewer.rtbNotes.Refresh();
+            Thread.Sleep(800);
+            noteViewer.Close();
+            noteViewer.Dispose();
         }
 
         private frmMain()

@@ -1,5 +1,10 @@
 CFM Release Notes
 
+1.0.1.2
+-Added some eye candy for first run while parsing songs
+-Updated 'File Name' column in all tables with current enable/disable information
+-Debounce fast clicking the 'Select' checkbox in SongManager
+
 1.0.1.1
 -Fixed double rescan bug in SongManager
 -Fixed some rescanning and parsing issues caused by UC Settings
