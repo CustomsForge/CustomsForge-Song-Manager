@@ -314,6 +314,7 @@ namespace CustomsForgeManager.Forms
             // 
             // frmMain
             // 
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.ClientSize = new System.Drawing.Size(1011, 659);
             this.Controls.Add(this.scMain);
             this.Controls.Add(this.statusStripMain);
@@ -322,7 +323,6 @@ namespace CustomsForgeManager.Forms
             this.Name = "frmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "CustomsForge Song Manager";
-            this.TopMost = true;
             this.gbLog.ResumeLayout(false);
             this.gbLog.PerformLayout();
             this.statusStripMain.ResumeLayout(false);

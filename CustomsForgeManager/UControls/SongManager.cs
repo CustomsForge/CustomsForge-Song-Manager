@@ -109,7 +109,7 @@ namespace CustomsForgeManager.UControls
                     else
                         rs1CompSongs = 193 - 52;
 
-                if (dgvSongs.RowCount != (Globals.MySettings.IncludeRS1DLCs ? dlcFiles.Length + rs1CompSongs - rs1CompFiles.Count() : dlcFiles.Length - rs1CompFiles.Count()))
+                if (smFileCollection.Count != (Globals.MySettings.IncludeRS1DLCs ? dlcFiles.Length + rs1CompSongs - rs1CompFiles.Count() : dlcFiles.Length - rs1CompFiles.Count()))
                     Rescan();
             }
         }

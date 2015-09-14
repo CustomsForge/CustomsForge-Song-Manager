@@ -83,7 +83,7 @@ namespace CustomsForgeManager.UControls
             Globals.MySettings.RSInstalledDir = GetInstallDirFromRegistry();
             Globals.MySettings.RescanOnStartup = false;
             Globals.MySettings.IncludeRS1DLCs = false;  // changed to false (fewer issues)
-            Globals.MySettings.EnabledLogBaloon = true;
+            Globals.MySettings.EnabledLogBaloon = true; 
             cueRsDir.Text = Globals.MySettings.RSInstalledDir;
             chkRescanOnStartup.Checked = Globals.MySettings.RescanOnStartup;
             chkIncludeRS1DLC.Checked = Globals.MySettings.IncludeRS1DLCs;

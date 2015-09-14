@@ -28,12 +28,15 @@ namespace CustomsForgeManager.Forms
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);
 
             this.FormClosed += frmMain_FormClosed; // moved here for better access
-            // this.FormClosed += delegate { notifyIcon_Main = null; }; // gets rid of notifyer icon on closing
+            this.FormClosed += delegate { notifyIcon_Main = null; }; // gets rid of notifyer icon on closing
             this.Text = String.Format("{0} (v{1})", Constants.ApplicationName, Constants.CustomVersion());
+            // bring CFM to the front on startup
+            this.WindowState = FormWindowState.Minimized;
+            this.Show();
+            this.WindowState = FormWindowState.Normal;
 
             if (Constants.DebugMode)
             {
-                this.TopMost = false;
                 tsLabel_ShowHideLog.Text = "Hide Log ";
                 scMain.Panel2Collapsed = false;
             }
@@ -64,24 +67,6 @@ namespace CustomsForgeManager.Forms
             Globals.Log(String.Format("CFSongManager Version: {0}", Constants.CustomVersion()));
             Globals.Log(GetRSTKLibVersion());
 
-            // eye candy while songs get parsed for first time
-            var noteViewer = new frmNoteViewer();
-            if (Program.FirstRun())
-            {
-                noteViewer.rtbNotes.Clear();
-                noteViewer.rtbNotes.SelectionAlignment = HorizontalAlignment.Center;
-                noteViewer.rtbNotes.Font = new Font("Arial", 14, FontStyle.Bold);
-                noteViewer.rtbNotes.AppendText(Environment.NewLine + Environment.NewLine + Environment.NewLine);
-                noteViewer.rtbNotes.AppendText("Starting up CFM for the first time.");
-                noteViewer.rtbNotes.AppendText(Environment.NewLine + Environment.NewLine);
-                noteViewer.rtbNotes.AppendText("Please be patient while your songs are being parsed.");
-                noteViewer.rtbNotes.AppendText(Environment.NewLine + Environment.NewLine + Environment.NewLine);
-                noteViewer.rtbNotes.SelectionBackColor = Color.Lime;
-                noteViewer.rtbNotes.SelectedText = "Get Ready . . . Get Set . . .";
-                noteViewer.rtbNotes.AppendText(Environment.NewLine + Environment.NewLine);
-                noteViewer.Show();
-            }
-
             // load settings
             Globals.Settings.LoadSettingsFromFile();
 
@@ -92,13 +77,6 @@ namespace CustomsForgeManager.Forms
 
             // load Song Manager Tab
             LoadSongManager();
-
-            noteViewer.rtbNotes.SelectionBackColor = Color.Lime;
-            noteViewer.rtbNotes.SelectedText = "Go!";
-            noteViewer.rtbNotes.Refresh();
-            Thread.Sleep(800);
-            noteViewer.Close();
-            noteViewer.Dispose();
         }
 
         private frmMain()
