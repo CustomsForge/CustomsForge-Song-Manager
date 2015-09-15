@@ -36,6 +36,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         public string Path { get; set; }
         public string ToolkitVer { get; set; }
         public SongDataStatus Status { get; set; }
+        public string ArtistSongAlbum { get; set; }
 
         public string Arrangements
         {

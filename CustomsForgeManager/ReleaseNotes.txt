@@ -1,4 +1,8 @@
 CFM Release Notes
+
+1.0.1.5
+-Switched from LINQ method to traditional code to find duplicate songs
+
 1.0.1.4
 -More work on Date format culture variants
 -Fixed SongManager sort on colToolkitVersion

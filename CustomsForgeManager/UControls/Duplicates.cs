@@ -36,8 +36,13 @@ namespace CustomsForgeManager.UControls
                 return;
             }
 
+            // populate ArtistSongAlbum for finding duplicates
+            foreach (var songData in Globals.SongCollection)
+                songData.ArtistSongAlbum = String.Format("{0}{1}{2}", songData.Artist, songData.Song, songData.Album);
+
             dupSongCollection = Globals.SongCollection;
-            var dups = dupSongCollection.GroupBy(x => new { x.Song, x.Album, x.Artist }).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
+            // var dups = dupSongCollection.GroupBy(x => new { x.Song, x.Album, x.Artist }).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
+            var dups = dupSongCollection.GroupBy(x => new { x.ArtistSongAlbum }).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
             dups.RemoveAll(x => x.FileName.Contains(Constants.RS1COMP));
             duplicates.Clear();
             duplicates.AddRange(dups);
