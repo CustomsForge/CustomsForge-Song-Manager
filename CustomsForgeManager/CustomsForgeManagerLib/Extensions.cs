@@ -43,6 +43,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
 
         public static string TuningToName(this string tuningStrings)
         {
+            // TODO: speed hack keep root (tunings.xml) in memory instead of loading each time
             var root = XElement.Load("tunings.xml");
             var tuningName = root.Elements("Tuning").Where(tuning => tuning.Attribute("Strings").Value == tuningStrings).Select(tuning => tuning.Attribute("Name")).ToList();
             return tuningName.Count == 0 ? "Other" : tuningName[0].Value;
@@ -50,7 +51,8 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
 
         public static string DifficultyToDD(this string maxDifficulty)
         {
-            return maxDifficulty == "0" ? "No" : "Yes";
+            // return maxDifficulty == "0" ? "No" : "Yes";
+            return maxDifficulty; // user suggestion
         }
 
         public static void SetDefaults(this AbortableBackgroundWorker bWorker)
@@ -227,12 +229,12 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
         {
             if (string.IsNullOrEmpty(path))
                 throw new Exception("<ERROR>: No path provided for file scanning");
-            
+
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
             var files = Directory.EnumerateFiles(path, "*_p.psarc", SearchOption.AllDirectories).ToList();
             files.AddRange(Directory.EnumerateFiles(path, "*_p.disabled.psarc", SearchOption.AllDirectories).ToList());
-            
+
             if (!includeRS1Pack)
             {
                 files = files.Where(file => !file.Contains(Constants.RS1COMP)).ToList();

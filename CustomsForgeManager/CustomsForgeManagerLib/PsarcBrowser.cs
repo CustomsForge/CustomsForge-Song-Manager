@@ -1,4 +1,5 @@
-﻿using CustomsForgeManager.CustomsForgeManagerLib.Objects;
+﻿using System.Diagnostics;
+using CustomsForgeManager.CustomsForgeManagerLib.Objects;
 using Newtonsoft.Json.Linq;
 using RocksmithToolkitLib.DLCPackage;
 using RocksmithToolkitLib.Extensions;
@@ -16,8 +17,8 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
     {
         private string FilePath;
         private PSARC archive;
- 
-       // Loads song archive file to memory.
+
+        // Loads song archive file to memory.
         public PsarcBrowser(string fileName)
         {
             FilePath = fileName;
@@ -26,7 +27,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
             archive.Read(stream, true);
         }
 
-         public IEnumerable<SongData> GetSongs()
+        public IEnumerable<SongData> GetSongs()
         {
             string author = String.Empty;
             string version = String.Empty;
@@ -47,7 +48,10 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                 }
             }
 
+            // TODO: recover tuning for each arrangement
+            // assumption is that each song contains showlights
             var singleSongCount = archive.TOC.Where(x => x.Name.Contains("showlights.xml") && x.Name.Contains("arr"));
+
             foreach (var singleSong in singleSongCount)
             {
 
@@ -60,6 +64,9 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                 ).OrderBy(x => x.Name);
 
                 var currentSong = new SongData { Author = author, Version = version, ToolkitVer = tkversion, Path = FilePath };
+
+                // TODO: speed hack ... some of this only needs to be done one time
+                // looping through song multiple times gathering each arrangment
                 foreach (var entry in infoFiles)
                 {
                     archive.InflateEntry(entry);
@@ -72,13 +79,16 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
 
                         var o = JObject.Parse(reader.ReadToEnd());
                         var attributes = o["Entries"].First.Last["Attributes"];
-
+                        // these don't changes so skip after first
                         currentSong.Song = attributes["SongName"].ToString();
                         currentSong.Artist = attributes["ArtistName"].ToString();
                         currentSong.Album = attributes["AlbumName"].ToString();
                         currentSong.SongYear = attributes["SongYear"].ToString();
                         currentSong.Updated = attributes["LastConversionDateTime"].ToString();
+                        // these change
+                        //  TODO: treat DD like arrangement
                         currentSong.DD = attributes["MaxPhraseDifficulty"].ToString().DifficultyToDD();
+                        // TODO: optimize use of TuningToName
                         currentSong.Tuning =
                             Regex.Replace(attributes["Tuning"].ToString(), @"""(?:\\.|[^""\r\n\\])*""", "")
                                 .Replace(@"\s+", "")
@@ -88,12 +98,18 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                                 .Replace(": ", "")
                                 .Replace(Environment.NewLine, string.Empty)
                                 .Replace(" ", String.Empty).TuningToName();
-                      
+
                         // TODO: fix Vocals parsing and display
+                        // TODO: treat tuning like arrangements
+                        // TODO: treat DD like arrangments
                         currentSong.AddArrangement(new SongDataArrangement
                         {
                             Name = attributes["ArrangementName"].ToString()
                         });
+
+                        // populate ArtistSongAlbum for finding duplicates
+                        currentSong.ArtistTitleAlbum = String.Format("{0};{1};{2}",
+                            currentSong.Artist, currentSong.Song, currentSong.Album);
                     }
                     songsFromPsarcFileList.Add(currentSong);
                 }

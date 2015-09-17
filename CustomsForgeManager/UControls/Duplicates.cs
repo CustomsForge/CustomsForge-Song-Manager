@@ -36,13 +36,10 @@ namespace CustomsForgeManager.UControls
                 return;
             }
 
-            // populate ArtistSongAlbum for finding duplicates
-            foreach (var songData in Globals.SongCollection)
-                songData.ArtistSongAlbum = String.Format("{0}{1}{2}", songData.Artist, songData.Song, songData.Album);
-
             dupSongCollection = Globals.SongCollection;
-            // var dups = dupSongCollection.GroupBy(x => new { x.Song, x.Album, x.Artist }).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
-            var dups = dupSongCollection.GroupBy(x => new { x.ArtistSongAlbum }).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
+            // var dups = dupSongCollection.GroupBy(x => new { x.Artist, x.Song, x.Album }).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
+            // TODO: use traditional code dup finder if this does not work on i7's            // always visible and first
+            var dups = dupSongCollection.GroupBy(x => new { ArtistSongAlbum = x.ArtistTitleAlbum }).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
             dups.RemoveAll(x => x.FileName.Contains(Constants.RS1COMP));
             duplicates.Clear();
             duplicates.AddRange(dups);

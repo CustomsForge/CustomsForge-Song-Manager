@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using CustomsForgeManager.CustomsForgeManagerLib.CustomControls;
 using CustomsForgeManager.CustomsForgeManagerLib.Objects;
+using CustomsForgeManager.Forms;
 using CustomsForgeManager.UControls;
 
 //
@@ -42,7 +43,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
 
             if (workOrder.Name == "Renamer")
                 bWorker.DoWork += WorkerRenameSongs;
-            else 
+            else
                 bWorker.DoWork += WorkerParseSongs;
 
             bWorker.RunWorkerCompleted += WorkerComplete;
@@ -55,10 +56,14 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
         {
             if (Globals.TsProgressBar_Main != null && value <= 100)
             {
+                // TODO: solve the periodic cross threading issue with TsProgressBar on initial startups
+                // toolstrip progress bar known issue, this is a temporary workaround
+                Control.CheckForIllegalCrossThreadCalls = false;
                 Extensions.InvokeIfRequired(workOrder, delegate
                     {
                         Globals.TsProgressBar_Main.Value = value;
                     });
+                Control.CheckForIllegalCrossThreadCalls = true;
 
                 if (workOrder.Name != "Renamer")
                     Globals.TsLabel_MainMsg.Text = String.Format("Rocksmith Songs Count: {0}", bwSongCollection.Count);

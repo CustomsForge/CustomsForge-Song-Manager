@@ -1,7 +1,11 @@
 CFM Release Notes
 
 1.0.1.5
--Switched from LINQ method to traditional code to find duplicate songs
+-Switched method to find duplicate songs (old method may not work on some i7 cpu)
+-Added maximum value to Dynamic Difficulty
+-Shortened column header Dynamic Difficulty to DD for better appearance
+-Added temporary crossthreading workaround for toolstrip progress bar
+-Added Dotfuscator to Release PostBuild Events (dotfuscatorCLI.exe is required)
 
 1.0.1.4
 -More work on Date format culture variants

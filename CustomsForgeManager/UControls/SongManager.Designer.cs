@@ -96,6 +96,7 @@ namespace CustomsForgeManager.UControls
             this.colPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colFileName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colToolkitVersion = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colArtistTitleAlbum = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panelSearch.SuspendLayout();
             this.gb_Main_Search.SuspendLayout();
             this.panelSongListButtons.SuspendLayout();
@@ -371,7 +372,7 @@ namespace CustomsForgeManager.UControls
             this.cmsDeleteSong,
             this.cmsBackupDLC});
             this.cmsSongManager.Name = "contextMenuStrip_MainManager";
-            this.cmsSongManager.Size = new System.Drawing.Size(177, 202);
+            this.cmsSongManager.Size = new System.Drawing.Size(177, 180);
             // 
             // cmsShowDLCInfo
             // 
@@ -536,7 +537,8 @@ namespace CustomsForgeManager.UControls
             this.colAuthor,
             this.colPath,
             this.colFileName,
-            this.colToolkitVersion});
+            this.colToolkitVersion,
+            this.colArtistTitleAlbum});
             this.dgvSongs.Location = new System.Drawing.Point(6, 19);
             this.dgvSongs.Name = "dgvSongs";
             this.dgvSongs.RowHeadersVisible = false;
@@ -614,7 +616,7 @@ namespace CustomsForgeManager.UControls
             this.colEnabled.HeaderText = "Enabled";
             this.colEnabled.Name = "colEnabled";
             this.colEnabled.ReadOnly = true;
-            this.colEnabled.Width = 50;
+            this.colEnabled.Width = 47;
             // 
             // colSongArtist
             // 
@@ -651,7 +653,7 @@ namespace CustomsForgeManager.UControls
             // colDD
             // 
             this.colDD.DataPropertyName = "DD";
-            this.colDD.HeaderText = "Dynamic Difficulty";
+            this.colDD.HeaderText = "DD";
             this.colDD.Name = "colDD";
             this.colDD.ReadOnly = true;
             this.colDD.Width = 50;
@@ -770,6 +772,14 @@ namespace CustomsForgeManager.UControls
             this.colToolkitVersion.ReadOnly = true;
             this.colToolkitVersion.Width = 50;
             // 
+            // colArtistTitleAlbum
+            // 
+            this.colArtistTitleAlbum.DataPropertyName = "ArtistTitleAlbum";
+            this.colArtistTitleAlbum.HeaderText = "ArtistTitleAlbum";
+            this.colArtistTitleAlbum.Name = "colArtistTitleAlbum";
+            this.colArtistTitleAlbum.ReadOnly = true;
+            this.colArtistTitleAlbum.Visible = false;
+            // 
             // SongManager
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -854,6 +864,7 @@ namespace CustomsForgeManager.UControls
         private System.Windows.Forms.DataGridViewTextBoxColumn colPath;
         private System.Windows.Forms.DataGridViewTextBoxColumn colFileName;
         private System.Windows.Forms.DataGridViewTextBoxColumn colToolkitVersion;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colArtistTitleAlbum;
 
     }
 }

@@ -2,10 +2,14 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 
 namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
 {
     #region SongDataStatus
+    // unexpected results when used with Dotfuscator because enums are renamed
+    // [Obfuscation(Feature = "default", Exclude = false, StripAfterObfuscation = false)]
+    [Obfuscation(Exclude = true, ApplyToMembers = true, StripAfterObfuscation = true, Feature = "renaming")]
     public enum SongDataStatus : byte
     {
         None = 0,
@@ -35,8 +39,8 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         public string Author { get; set; }
         public string Path { get; set; }
         public string ToolkitVer { get; set; }
-        public SongDataStatus Status { get; set; }
-        public string ArtistSongAlbum { get; set; }
+        public SongDataStatus Status { get; set; } 
+        public string ArtistTitleAlbum { get; set; }
 
         public string Arrangements
         {
@@ -72,7 +76,6 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
     public class SongDataArrangement
     {
         public string Name { get; set; }
-
     }
 
     // TODO: impliment INotifyPropertyChanged 

@@ -314,15 +314,9 @@ namespace CustomsForgeManager.UControls
             foreach (DataGridViewColumn col in dgvSongs.Columns)
                 col.ReadOnly = true;
 
-            // always visible and first
-            dgvSongs.Columns["colSelect"].ReadOnly = false; // overridden by EditProgrammatically
-            dgvSongs.Columns["colSelect"].Visible = true;
-            dgvSongs.Columns["colSelect"].Width = 43;
-            dgvSongs.Columns["colSelect"].DisplayIndex = 0;
-            dgvSongs.Columns["colEnabled"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dgvSongs.Visible = true; // needs to come now so settings apply correctly
 
-            dgvSongs.Visible = true;
-            // see SongManager.Designer for custom appearance settings
+             // see SongManager.Designer for custom appearance settings
             dgvSongs.AllowUserToAddRows = false; // removes empty row at bottom
             dgvSongs.AllowUserToDeleteRows = false;
             dgvSongs.AllowUserToOrderColumns = true;
@@ -346,10 +340,21 @@ namespace CustomsForgeManager.UControls
             // dgvSongs.ReadOnly = true;
             dgvSongs.RowHeadersVisible = false; // remove row arrow
             dgvSongs.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+
+            // always visible and first
+            dgvSongs.Columns["colSelect"].ReadOnly = false; // fyi, is overridden by EditProgrammatically
+            dgvSongs.Columns["colSelect"].Visible = true;
+            dgvSongs.Columns["colSelect"].Width = 43;
+            dgvSongs.Columns["colSelect"].DisplayIndex = 0;
+            dgvSongs.Columns["colEnabled"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dgvSongs.Columns["colEnabled"].Width = 47;
+
+            dgvSongs.Refresh();
         }
 
         private void DisableEnabled()
         {
+            // TODO: impliment this if RS1 Compatiblity Songs are included by default
             foreach (DataGridViewRow row in dgvSongs.Rows)
             {
                 if (row.Cells["colPath"].Value.ToString().ToLower().Contains(Constants.RS1COMP))
