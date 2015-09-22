@@ -145,6 +145,7 @@
     <Compile Include="CustomsForgeManagerLib\CustomControls\CueTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="CustomsForgeManagerLib\SortableBinding.cs" />
     <Compile Include="CustomsForgeManagerLib\CustomControls\RADataGridView.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -317,28 +318,7 @@
     <None Include="Resources\cfsm.png" />
     <None Include="Resources\cfsm_48x48.ico" />
   </ItemGroup>
-  <ItemGroup>
-    <PublishFile Include="ReleaseNotes.txt">
-      <Visible>False</Visible>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <FileType>File</FileType>
-    </PublishFile>
-    <PublishFile Include="tunings.xml">
-      <Visible>False</Visible>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <FileType>File</FileType>
-    </PublishFile>
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="ReleaseNotes.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -373,7 +353,7 @@
     <None Include="Resources\dardev.jpeg" />
     <None Include="Resources\Lovroman.jpeg" />
     <None Include="Resources\Unleashed2k.jpeg" />
-    <Content Include="Resources\StartRs.jpg" />
+    <None Include="Resources\StartRs.jpg" />
     <Content Include="tunings.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

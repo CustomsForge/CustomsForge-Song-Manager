@@ -26,6 +26,7 @@ namespace CustomsForgeManager.UControls
         private AbortableBackgroundWorker bWorker;
         private bool bindingCompleted = false;
         private Stopwatch counterStopwatch = new Stopwatch();
+        private bool debounced = false;
         private bool dgvPainted = false;
         private int numberOfDLCPendingUpdate = 0;
         private int numberOfDisabledDLC = 0;
@@ -87,31 +88,14 @@ namespace CustomsForgeManager.UControls
             }
             catch (Exception e)
             {
+                // failsafe ... delete CFM folder and start over
                 Globals.Log("Error: " + e.Message);
-            }
-        }
+                Globals.Log("Deleted CFM folder from My Documents ...");
 
-        private void SmartRescan()
-        {
-            // smart rescan technology
-            if (!Globals.MySettings.RescanOnStartup)
-            {
-                var rs1CompFiles = Directory.EnumerateFiles(Path.Combine(Globals.MySettings.RSInstalledDir, "dlc"), Constants.RS1COMP + "*", SearchOption.AllDirectories).ToArray();
-                var dlcFiles = Directory.EnumerateFiles(Path.Combine(Globals.MySettings.RSInstalledDir, "dlc"), "*.psarc", SearchOption.AllDirectories).ToArray();
-                int rs1CompSongs;
+                if (Directory.Exists(Constants.WorkDirectory))
+                    Directory.Delete(Constants.WorkDirectory, true);
 
-                if (rs1CompFiles.Count() == 2)
-                    rs1CompSongs = 193;
-                else if (!rs1CompFiles.Any())
-                    rs1CompSongs = 0;
-                else // there is only one RS1 Compatibility file
-                    if (rs1CompFiles[0].ToLower().Contains("disc"))
-                        rs1CompSongs = 52;
-                    else
-                        rs1CompSongs = 193 - 52;
-
-                if (smFileCollection.Count != (Globals.MySettings.IncludeRS1DLCs ? dlcFiles.Length + rs1CompSongs - rs1CompFiles.Count() : dlcFiles.Length - rs1CompFiles.Count()))
-                    Rescan();
+                Environment.Exit(0);
             }
         }
 
@@ -316,7 +300,7 @@ namespace CustomsForgeManager.UControls
 
             dgvSongs.Visible = true; // needs to come now so settings apply correctly
 
-             // see SongManager.Designer for custom appearance settings
+            // see SongManager.Designer for custom appearance settings
             dgvSongs.AllowUserToAddRows = false; // removes empty row at bottom
             dgvSongs.AllowUserToDeleteRows = false;
             dgvSongs.AllowUserToOrderColumns = true;
@@ -330,14 +314,13 @@ namespace CustomsForgeManager.UControls
             dgvSongs.DefaultCellStyle.SelectionBackColor = Color.Gold; // dgvSongs.DefaultCellStyle.BackColor; // or removes selection highlight
             dgvSongs.DefaultCellStyle.SelectionForeColor = dgvSongs.DefaultCellStyle.ForeColor;
             // this overrides any user ability to make changes 
-            dgvSongs.EditMode = DataGridViewEditMode.EditProgrammatically;
-            // dgvSongs.EditMode = DataGridViewEditMode.EditOnEnter;
+            // dgvSongs.EditMode = DataGridViewEditMode.EditProgrammatically;
+            dgvSongs.EditMode = DataGridViewEditMode.EditOnEnter;
             dgvSongs.EnableHeadersVisualStyles = true;
             dgvSongs.Font = new Font("Arial", 8);
             dgvSongs.GridColor = SystemColors.ActiveCaption;
             dgvSongs.MultiSelect = false;
             dgvSongs.Name = "dgvSongs";
-            // dgvSongs.ReadOnly = true;
             dgvSongs.RowHeadersVisible = false; // remove row arrow
             dgvSongs.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 
@@ -514,10 +497,34 @@ namespace CustomsForgeManager.UControls
                 MessageBox.Show("Please select (highlight) the song that  " + Environment.NewLine + "you would like information about.", Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
+        private void SmartRescan()
+        {
+            // smart rescan technology
+            if (!Globals.MySettings.RescanOnStartup)
+            {
+                var rs1CompFiles = Directory.EnumerateFiles(Path.Combine(Globals.MySettings.RSInstalledDir, "dlc"), Constants.RS1COMP + "*", SearchOption.AllDirectories).ToArray();
+                var dlcFiles = Directory.EnumerateFiles(Path.Combine(Globals.MySettings.RSInstalledDir, "dlc"), "*.psarc", SearchOption.AllDirectories).ToArray();
+                int rs1CompSongs;
+
+                if (rs1CompFiles.Count() == 2)
+                    rs1CompSongs = 193;
+                else if (!rs1CompFiles.Any())
+                    rs1CompSongs = 0;
+                else // there is only one RS1 Compatibility file
+                    if (rs1CompFiles[0].ToLower().Contains("disc"))
+                        rs1CompSongs = 52;
+                    else
+                        rs1CompSongs = 193 - 52;
+
+                if (smFileCollection.Count != (Globals.MySettings.IncludeRS1DLCs ? dlcFiles.Length + rs1CompSongs - rs1CompFiles.Count() : dlcFiles.Length - rs1CompFiles.Count()))
+                    Rescan();
+            }
+        }
+
         private void SongListToBBCode()
         {
             var sbTXT = new StringBuilder();
-            sbTXT.AppendLine("Song - Artist, Album, Updated, Tuning, DD, Arangements, Author");
+            sbTXT.AppendLine("Artist, Song, Album, Year, Tuning, DD, Arangements, Author");
             sbTXT.AppendLine("[LIST=1]");
 
             var checkedRows = dgvSongs.Rows.Cast<DataGridViewRow>().Where(r => r.Cells["colSelect"].Value != null).Where(r => Convert.ToBoolean(r.Cells["colSelect"].Value)).ToList();
@@ -526,17 +533,17 @@ namespace CustomsForgeManager.UControls
             {
                 foreach (var song in smSongCollection)
                     if (song.Author == null)
-                        sbTXT.AppendLine("[*]" + song.Song + " - " + song.Artist + ", " + song.Album + ", " + song.Updated + ", " + song.Tuning + ", " + song.DD.DifficultyToDD() + ", " + song.Arrangements + "[/*]");
+                        sbTXT.AppendLine("[*]" + song.Artist + ", " + song.Song + ", " + song.Album + ", " + song.SongYear + ", " + song.Tuning + ", " + song.DD + ", " + song.Arrangements + "[/*]");
                     else
-                        sbTXT.AppendLine("[*]" + song.Song + " - " + song.Artist + ", " + song.Album + ", " + song.Updated + ", " + song.Tuning + ", " + song.DD.DifficultyToDD() + ", " + song.Arrangements + ", " + song.Author + "[/*]");
+                        sbTXT.AppendLine("[*]" + song.Artist + ", " + song.Song + ", " + song.Album + ", " + song.SongYear + ", " + song.Tuning + ", " + song.DD + ", " + song.Arrangements + ", " + song.Author + "[/*]");
             }
             else
             {
                 foreach (var row in checkedRows)
                     if (row.Cells["Author"].Value == null)
-                        sbTXT.AppendLine("[*]" + row.Cells["Song"].Value + " - " + row.Cells["Artist"].Value + ", " + row.Cells["Album"].Value + ", " + row.Cells["Updated"].Value + ", " + row.Cells["Tuning"].Value + ", " + row.Cells["DD"].Value == "0" ? "No" : "Yes" + ", " + row.Cells["Arrangements"].Value + "[/*]");
+                        sbTXT.AppendLine("[*]" + row.Cells["colSongArtist"].Value + " - " + row.Cells["colSongTitle"].Value + ", " + row.Cells["colSongAlbum"].Value + ", " + row.Cells["colSongYear"].Value + ", " + row.Cells["colSongTuning"].Value + ", " + row.Cells["colDD"].Value + ", " + row.Cells["colArrangements"].Value + "[/*]");
                     else
-                        sbTXT.AppendLine("[*]" + row.Cells["Song"].Value + " - " + row.Cells["Artist"].Value + ", " + row.Cells["Album"].Value + ", " + row.Cells["Updated"].Value + ", " + row.Cells["Tuning"].Value + ", " + row.Cells["DD"].Value + ", " + row.Cells["Arrangements"].Value + ", " + row.Cells["Author"].Value);
+                        sbTXT.AppendLine("[*]" + row.Cells["colSongArtist"].Value + " - " + row.Cells["colSongTitle"].Value + ", " + row.Cells["colSongAlbum"].Value + ", " + row.Cells["colSongYear"].Value + ", " + row.Cells["colSongTuning"].Value + ", " + row.Cells["colDD"].Value + ", " + row.Cells["colArrangements"].Value + ", " + row.Cells["colAuthor"].Value);
             }
 
             sbTXT.AppendLine("[/LIST]");
@@ -550,7 +557,7 @@ namespace CustomsForgeManager.UControls
         private void SongListToCSV()
         {
             var sbCSV = new StringBuilder();
-            string path = Constants.WorkDirectory + @"\SongListCSV.csv";
+            string path = Path.Combine(Constants.WorkDirectory, "SongListCSV.csv");
             var checkedRows = dgvSongs.Rows.Cast<DataGridViewRow>().Where(r => r.Cells["colSelect"].Value != null).Where(r => Convert.ToBoolean(r.Cells["colSelect"].Value)).ToList();
 
             sfdSongListToCSV.Filter = "csv files(*.csv)|*.csv|All files (*.*)|*.*";
@@ -559,29 +566,30 @@ namespace CustomsForgeManager.UControls
             if (sfdSongListToCSV.ShowDialog() == DialogResult.OK)
                 path = sfdSongListToCSV.FileName;
 
-            sbCSV.AppendLine(@"sep=;");
-            sbCSV.AppendLine("Artist;Song;Album;Year;Tuning;Arrangements");
+            string csvSep = ";";
+            sbCSV.AppendLine(String.Format(@"sep={0}", csvSep)); // used by Excel to recognize seperator if Encoding.Unicode is used
+            sbCSV.AppendLine(String.Format("{1}{0}{2}{0}{3}{0}{4}{0}{5}{0}{6}{0}{7}{0}{8}", csvSep, "Artist", "Song", "Album", "Year", "Tuning", "DD", "Arrangements", "Author"));
 
             if (checkedRows.Count == 0)
             {
                 foreach (var song in smSongCollection)
                     if (song.Author == null)
-                        sbCSV.AppendLine(song.Song + ";" + song.Artist + ";" + song.Album + ";" + song.Updated + ";" + song.Tuning + ";" + song.DD.DifficultyToDD() + ";" + song.Arrangements);
+                        sbCSV.AppendLine(song.Song + csvSep + song.Artist + csvSep + song.Album + csvSep + song.SongYear + csvSep + song.Tuning + csvSep + song.DD + csvSep + song.Arrangements);
                     else
-                        sbCSV.AppendLine(song.Song + ";" + song.Artist + ";" + song.Album + ";" + song.Updated + ";" + song.Tuning + ";" + song.DD.DifficultyToDD() + ";" + song.Arrangements + ";" + song.Author);
+                        sbCSV.AppendLine(song.Song + csvSep + song.Artist + csvSep + song.Album + csvSep + song.SongYear + csvSep + song.Tuning + csvSep + song.DD + csvSep + song.Arrangements + csvSep + song.Author);
             }
             else
             {
                 foreach (var row in checkedRows)
-                    if (row.Cells["Author"].Value == null)
-                        sbCSV.AppendLine(row.Cells["Song"].Value + ";" + row.Cells["Artist"].Value + ";" + row.Cells["Album"].Value + ";" + row.Cells["Updated"].Value + ";" + row.Cells["Tuning"].Value + ";" + row.Cells["DD"].Value == "0" ? "No" : "Yes" + ";" + row.Cells["Arrangements"].Value);
+                    if (row.Cells["colAuthor"].Value == null)
+                        sbCSV.AppendLine(row.Cells["colSongTitle"].Value + csvSep + row.Cells["colSongArtist"].Value + csvSep + row.Cells["colSongAlbum"].Value + csvSep + row.Cells["colSongYear"].Value + csvSep + row.Cells["colSongTuning"].Value + csvSep + row.Cells["colDD"].Value + csvSep + row.Cells["colArrangements"].Value);
                     else
-                        sbCSV.AppendLine(row.Cells["Song"].Value + ";" + row.Cells["Artist"].Value + ";" + row.Cells["Album"].Value + ";" + row.Cells["Updated"].Value + ";" + row.Cells["Tuning"].Value + ";" + row.Cells["DD"].Value + ";" + row.Cells["Arrangements"].Value + ";" + row.Cells["Author"].Value);
+                        sbCSV.AppendLine(row.Cells["colSongTitle"].Value + csvSep + row.Cells["colSongArtist"].Value + csvSep + row.Cells["colSongAlbum"].Value + csvSep + row.Cells["colSongYear"].Value + csvSep + row.Cells["colSongTuning"].Value + csvSep + row.Cells["colDD"].Value + csvSep + row.Cells["colArrangements"].Value + csvSep + row.Cells["colAuthor"].Value);
             }
 
             try
             {
-                using (StreamWriter file = new StreamWriter(path, false, Encoding.UTF8))
+                using (StreamWriter file = new StreamWriter(path, false, Encoding.Unicode)) // Excel does not recognize UTF8
                     file.Write(sbCSV.ToString());
 
                 Globals.Log("Song list saved to:" + path);
@@ -598,7 +606,7 @@ namespace CustomsForgeManager.UControls
             var sbTXT = new StringBuilder();
             sbTXT.AppendLine("<table>");
             sbTXT.AppendLine("<tr>");
-            sbTXT.AppendLine("<th>Song</th><th>Artist</th><th>Album</th><th>Updated</th><th>Tuning</th><th>DD</th><th>Arangements</th><th>Author</th>");
+            sbTXT.AppendLine("<th>Artist</th><th>Song</th><th>Album</th><th>Year</th><th>Tuning</th><th>DD</th><th>Arangements</th><th>Author</th>");
             sbTXT.AppendLine("</tr>");
 
             if (checkedRows.Count == 0)
@@ -607,9 +615,9 @@ namespace CustomsForgeManager.UControls
                 {
                     sbTXT.AppendLine("<tr>");
                     if (song.Author == null)
-                        sbTXT.AppendLine("<td>" + song.Song + "</td><td>" + song.Artist + "</td><td>" + song.Album + "</td><td>" + song.Updated + "</td><td>" + song.Tuning + "</td><td>" + song.DD.DifficultyToDD() + "</td><td>" + song.Arrangements + "</td>");
+                        sbTXT.AppendLine("<td>" + song.Artist + "</td><td>" + song.Song + "</td><td>" + song.Album + "</td><td>" + song.SongYear + "</td><td>" + song.Tuning + "</td><td>" + song.DD + "</td><td>" + song.Arrangements + "</td>");
                     else
-                        sbTXT.AppendLine("<td>" + song.Song + "</td><td>" + song.Artist + "</td><td>" + song.Album + "</td><td>" + song.Updated + "</td><td>" + song.Tuning + "</td><td>" + song.DD.DifficultyToDD() + "</td><td>" + song.Arrangements + "</td><td>" + song.Author + "</td>");
+                        sbTXT.AppendLine("<td>" + song.Artist + "</td><td>" + song.Song + "</td><td>" + song.Album + "</td><td>" + song.SongYear + "</td><td>" + song.Tuning + "</td><td>" + song.DD + "</td><td>" + song.Arrangements + "</td><td>" + song.Author + "</td>");
 
                     sbTXT.AppendLine("</tr>");
                 }
@@ -620,9 +628,9 @@ namespace CustomsForgeManager.UControls
                 {
                     sbTXT.AppendLine("<tr>");
                     if (row.Cells["Author"].Value == null)
-                        sbTXT.AppendLine("<td>" + row.Cells["Song"].Value + "</td><td>" + row.Cells["Artist"].Value + "</td><td>" + row.Cells["Album"].Value + "</td><td>" + row.Cells["Updated"].Value + "</td><td>" + row.Cells["Tuning"].Value + "</td><td>" + (row.Cells["DD"].Value == "0" ? "No" : "Yes") + "</td><td>" + row.Cells["Arrangements"].Value + "</td>");
+                        sbTXT.AppendLine("<td>" + row.Cells["colSongTitle"].Value + "</td><td>" + row.Cells["colSongArtist"].Value + "</td><td>" + row.Cells["colSongAlbum"].Value + "</td><td>" + row.Cells["colSongYear"].Value + "</td><td>" + row.Cells["colSongTuning"].Value + "</td><td>" + row.Cells["DD"].Value + "</td><td>" + row.Cells["colArrangements"].Value + "</td>");
                     else
-                        sbTXT.AppendLine("<td>" + row.Cells["Song"].Value + "</td><td>" + row.Cells["Artist"].Value + "</td><td>" + row.Cells["Album"].Value + "</td><td>" + row.Cells["Updated"].Value + "</td><td>" + row.Cells["Tuning"].Value + "</td><td>" + (row.Cells["DD"].Value == "0" ? "No" : "Yes") + "</td><td>" + row.Cells["Arrangements"].Value + "</td><td>" + row.Cells["Author"].Value + "</td>");
+                        sbTXT.AppendLine("<td>" + row.Cells["colSongTitle"].Value + "</td><td>" + row.Cells["colSongArtist"].Value + "</td><td>" + row.Cells["colSongAlbum"].Value + "</td><td>" + row.Cells["colSongYear"].Value + "</td><td>" + row.Cells["colSongTuning"].Value + "</td><td>" + row.Cells["DD"].Value + "</td><td>" + row.Cells["colArrangements"].Value + "</td><td>" + row.Cells["colAuthor"].Value + "</td>");
 
                     sbTXT.AppendLine("</tr>");
                 }
@@ -790,19 +798,14 @@ namespace CustomsForgeManager.UControls
 
         private void btnDisableEnableSongs_Click(object sender, EventArgs e)
         {
-            bool updateSongCollection = false;
-
             foreach (DataGridViewRow row in dgvSongs.Rows)
             {
-                if (row.Cells["colSelect"].Value == null)
-                    row.Cells["colSelect"].Value = false;
-
                 if (Convert.ToBoolean(row.Cells["colSelect"].Value))
                 {
                     var originalPath = row.Cells["colPath"].Value.ToString();
                     var originalFile = row.Cells["colFileName"].Value.ToString();
 
-                    if (!originalPath.ToLower().Contains(String.Format("{0}{1}", Constants.RS1COMP, "disc")))
+                    if (!originalPath.ToLower().Contains(Constants.RS1COMP))
                     {
                         try
                         {
@@ -813,7 +816,6 @@ namespace CustomsForgeManager.UControls
                                 row.Cells["colPath"].Value = disabledPath;
                                 row.Cells["colFileName"].Value = originalFile.Replace("_p.psarc", "_p.disabled.psarc");
                                 row.Cells["colEnabled"].Value = "No";
-                                updateSongCollection = true;
                             }
                             else
                             {
@@ -822,7 +824,6 @@ namespace CustomsForgeManager.UControls
                                 row.Cells["colPath"].Value = enabledPath;
                                 row.Cells["colFileName"].Value = originalFile.Replace("_p.disabled.psarc", "_p.psarc");
                                 row.Cells["colEnabled"].Value = "Yes";
-                                updateSongCollection = true;
                             }
                         }
                         catch (IOException ex)
@@ -836,17 +837,10 @@ namespace CustomsForgeManager.UControls
                         Extensions.InvokeIfRequired(this, delegate { Globals.TsLabel_DisabledCounter.Text = tsldcMsg; });
                     }
                     else
-                        Globals.Log("This is a Rocksmith 1 Compatiblity Song." + Environment .NewLine+
-                                    "RS1 Compatiblity Songs can not be disabled individually." + Environment .NewLine +
+                        Globals.Log("This is a Rocksmith 1 Compatiblity Song." + Environment.NewLine +
+                                    "RS1 Compatiblity Songs can not be disabled individually." + Environment.NewLine +
                                     "Use SetlistManager to disable all RS1 Compatiblity Songs.");
                 }
-            }
-
-            if (updateSongCollection)
-            {
-                SaveSongCollectionToFile();
-                Globals.RescanSongManager = true;
-                Globals.RescanDuplicates = true;
             }
 
             dgvSongs.Refresh();
@@ -854,6 +848,7 @@ namespace CustomsForgeManager.UControls
 
         private void btnExportSongList_Click(object sender, EventArgs e)
         {
+            // TODO: make these smart export functions so that only user selected columns and data are exported
             if (radioBtn_ExportToBBCode.Checked)
                 SongListToBBCode();
             else if (radioBtn_ExportToHTML.Checked)
@@ -1068,8 +1063,24 @@ namespace CustomsForgeManager.UControls
 
         private void dgvSongs_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
-            // has precedent over a ColumnHeader_MouseClick
+            // Globals.Log("Pressed Unreliable MouseDown.");
+            Thread.Sleep(50); // debounce multiple clicks
+            debounced = true;
+        }
+
+        private void dgvSongs_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            // has precedent over a ColumnHeader_MouseClick 
+            // MouseUp detection seems more reliable than MouseDown
+            if (!debounced) return;
+
             var grid = (DataGridView)sender;
+
+            // for debugging
+            //var erow = e.RowIndex;
+            //var ecol = grid.Columns[e.ColumnIndex].Name;
+            //Globals.Log("erow = " + erow + "  ecol = " + ecol);
+
             if (e.Button == MouseButtons.Right)
                 if (e.RowIndex != -1)
                 {
@@ -1087,26 +1098,21 @@ namespace CustomsForgeManager.UControls
                 if (e.RowIndex != -1)
                     if (grid.Columns[e.ColumnIndex].Name == "colSelect")
                     {
-                        Thread.Sleep(150); // debounce multiple left clicks
                         // beyound current scope of CFM
-                        if (grid.Rows[e.RowIndex].Cells["colSelect"].Value.ToString().Contains(Constants.RS1COMP))
+                        if (grid.Rows[e.RowIndex].Cells["colSelect"].Value.ToString().ToLower().Contains(Constants.RS1COMP))
                             Globals.Log("Can not 'Select' individual RS1 Compatiblity DLC");
-                        else
-                        {
-                            if (grid.Rows[e.RowIndex].Cells["colSelect"].Value == null)
-                                grid.Rows[e.RowIndex].Cells["colSelect"].Value = false;
-
-                            Thread.Sleep(150); // debounce multiple left clicks
-
-                            if (Convert.ToBoolean(grid.Rows[e.RowIndex].Cells["colSelect"].Value))
-                                grid.Rows[e.RowIndex].Cells["colSelect"].Value = false;
-                            else
-                                grid.Rows[e.RowIndex].Cells["colSelect"].Value = true;
-
-                            // as long as the data is bound this should be OK to do
-                            smSongCollection[e.RowIndex].Selected = (bool)grid.Rows[e.RowIndex].Cells["colSelect"].Value;
-                        }
+                        //else
+                        //{
+                        //    if (Convert.ToBoolean(grid.Rows[e.RowIndex].Cells["colSelect"].Value))
+                        //        grid.Rows[e.RowIndex].Cells["colSelect"].Value = false;
+                        //    else
+                        //        grid.Rows[e.RowIndex].Cells["colSelect"].Value = true;
+                        //}
                     }
+
+            Thread.Sleep(50); // debounce multiple clicks
+            debounced = false;
+            dgvSongs.Refresh();
         }
 
         private void dgvSongs_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
@@ -1126,7 +1132,7 @@ namespace CustomsForgeManager.UControls
 
             int scrollHorizontalOffset = 0;
             int scrollVerticalOffset = 0;
-            BindingSource bs = new BindingSource { DataSource = smSongCollection };
+            BindingSource bs = new BindingSource { DataSource = dgvSongs };
             var songsToShow = sortedSongCollection;
 
             Dictionary<SongData, Color> currentRows = new Dictionary<SongData, Color>();
@@ -1149,7 +1155,10 @@ namespace CustomsForgeManager.UControls
                 switch (sortColumnName)
                 {
                     case "colSelect":
-                        bs.DataSource = songsToShow.ToList();
+                        if (sortDescending)
+                            bs.DataSource = songsToShow.OrderByDescending(song => song.Selected);
+                        else
+                            bs.DataSource = songsToShow.OrderBy(song => song.Selected);
                         break;
 
                     case "colEnabled":
@@ -1181,20 +1190,10 @@ namespace CustomsForgeManager.UControls
                         break;
 
                     case "colUpdated":
-                        var culture = CultureInfo.CurrentCulture;
-                        Debug.WriteLine("Current Culture: " + culture);
-
                         if (sortDescending)
-                            bs.DataSource = songsToShow.OrderByDescending(song => DateTime.Parse(song.Updated, CultureInfo.InvariantCulture));
+                            bs.DataSource = songsToShow.OrderByDescending(song => Convert.ToDateTime(song.Updated));
                         else
-                            bs.DataSource = songsToShow.OrderBy(song => DateTime.Parse(song.Updated, CultureInfo.InvariantCulture));
-
-                        // not working
-                        //if (sortDescending)
-                        //    bs.DataSource = songsToShow.OrderByDescending(song => DateTime.ParseExact(song.Updated, "M-d-y H:m", System.Globalization.CultureInfo.InvariantCulture));
-                        //else
-                        //    bs.DataSource = songsToShow.OrderBy(song => DateTime.ParseExact(song.Updated, "M-d-y H:m", System.Globalization.CultureInfo.InvariantCulture));
-
+                            bs.DataSource = songsToShow.OrderBy(song => Convert.ToDateTime(song.Updated));
                         break;
 
                     case "colSongTuning":
@@ -1206,9 +1205,9 @@ namespace CustomsForgeManager.UControls
 
                     case "colDD":
                         if (sortDescending)
-                            bs.DataSource = songsToShow.OrderByDescending(song => song.DD);
+                            bs.DataSource = songsToShow.OrderByDescending(song => Convert.ToInt32(song.DD));
                         else
-                            bs.DataSource = songsToShow.OrderBy(song => song.DD);
+                            bs.DataSource = songsToShow.OrderBy(song => Convert.ToInt32(song.DD));
                         break;
 
                     case "colArrangements":
@@ -1276,9 +1275,9 @@ namespace CustomsForgeManager.UControls
 
                     case "colIgnitionUpdated":
                         if (sortDescending)
-                            bs.DataSource = songsToShow.OrderByDescending(song => DateTime.Parse(song.IgnitionUpdated, CultureInfo.InvariantCulture));
+                            bs.DataSource = songsToShow.OrderByDescending(song => Convert.ToDateTime(song.IgnitionUpdated));
                         else
-                            bs.DataSource = songsToShow.OrderBy(song => DateTime.Parse(song.IgnitionUpdated, CultureInfo.InvariantCulture));
+                            bs.DataSource = songsToShow.OrderBy(song => Convert.ToDateTime(song.IgnitionUpdated));
                         break;
 
                     case "colIgnitionAuthor":

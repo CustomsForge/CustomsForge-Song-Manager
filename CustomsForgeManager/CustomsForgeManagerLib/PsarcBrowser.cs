@@ -87,7 +87,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                         currentSong.Updated = attributes["LastConversionDateTime"].ToString();
                         // these change
                         //  TODO: treat DD like arrangement
-                        currentSong.DD = attributes["MaxPhraseDifficulty"].ToString().DifficultyToDD();
+                        currentSong.DD = attributes["MaxPhraseDifficulty"].ToString(); // .DifficultyToDD();
                         // TODO: optimize use of TuningToName
                         currentSong.Tuning =
                             Regex.Replace(attributes["Tuning"].ToString(), @"""(?:\\.|[^""\r\n\\])*""", "")
@@ -107,7 +107,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                             Name = attributes["ArrangementName"].ToString()
                         });
 
-                        // populate ArtistSongAlbum for finding duplicates
+                        // populate ArtistSongAlbum used for finding duplicates
                         currentSong.ArtistTitleAlbum = String.Format("{0};{1};{2}",
                             currentSong.Artist, currentSong.Song, currentSong.Album);
                     }

@@ -193,7 +193,7 @@ namespace CustomsForgeManager.UControls
             this.dgvDups.Size = new System.Drawing.Size(970, 394);
             this.dgvDups.TabIndex = 15;
             this.dgvDups.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvDups_CellDoubleClick);
-            this.dgvDups.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvDups_CellMouseDown);
+            this.dgvDups.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvDups_CellMouseUp);
             this.dgvDups.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvDups_KeyDown);
             // 
             // colSelect

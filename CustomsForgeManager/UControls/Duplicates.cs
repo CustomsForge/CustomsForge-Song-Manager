@@ -38,7 +38,7 @@ namespace CustomsForgeManager.UControls
 
             dupSongCollection = Globals.SongCollection;
             // var dups = dupSongCollection.GroupBy(x => new { x.Artist, x.Song, x.Album }).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
-            // TODO: use traditional code dup finder if this does not work on i7's            // always visible and first
+            // TODO: use traditional code dup finder if this does not work on i7's 
             var dups = dupSongCollection.GroupBy(x => new { ArtistSongAlbum = x.ArtistTitleAlbum }).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
             dups.RemoveAll(x => x.FileName.Contains(Constants.RS1COMP));
             duplicates.Clear();
@@ -325,9 +325,10 @@ namespace CustomsForgeManager.UControls
                 ShowSongInfo();
         }
 
-        private void dgvDups_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        private void dgvDups_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
             // has precedent over a ColumnHeader_MouseClick
+            // MouseUp detection is more reliable than MouseDown
             var rowIndex = e.RowIndex;
 
             if (e.Button == MouseButtons.Right)

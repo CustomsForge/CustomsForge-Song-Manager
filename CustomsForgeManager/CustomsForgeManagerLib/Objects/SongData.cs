@@ -6,8 +6,7 @@ using System.Reflection;
 
 namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
 {
-    #region SongDataStatus
-    // unexpected results when used with Dotfuscator because enums are renamed
+     // unexpected results when used with Dotfuscator because enums are renamed
     // [Obfuscation(Feature = "default", Exclude = false, StripAfterObfuscation = false)]
     [Obfuscation(Exclude = true, ApplyToMembers = true, StripAfterObfuscation = true, Feature = "renaming")]
     public enum SongDataStatus : byte
@@ -17,7 +16,6 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         OutDated = 2,
         NotFound = 3
     }
-    #endregion
 
     [Serializable]
     public class SongData

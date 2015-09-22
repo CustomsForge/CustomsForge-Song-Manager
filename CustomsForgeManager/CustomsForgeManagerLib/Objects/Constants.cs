@@ -17,7 +17,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         public const string RS1COMP = "rs1compatibility";
 
         public static string ApplicationName { get { return "CustomsForge Song Manager"; } }
-        public static string ApplicationVersion { get { return Assembly.GetExecutingAssembly().GetName().Version.ToString( ); } }
+        public static string ApplicationVersion { get { return Assembly.GetExecutingAssembly().GetName().Version.ToString(); } }
         public static string WorkDirectory { get { return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "CFM"); } }
         public static string LogFilePath { get { return Path.Combine(WorkDirectory, "debug.log"); } }
         public static string SettingsPath { get { return Path.Combine(WorkDirectory, "settings.xml"); } }
@@ -62,10 +62,6 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
                                  Assembly.GetExecutingAssembly().GetName().Version.Revision);
         }
 
-        public static string DefaultSystemDateFormat
-        {
-            get { return CultureInfo.CurrentUICulture.DateTimeFormat.ShortDatePattern; }
-        }
-
+      
     }
 }

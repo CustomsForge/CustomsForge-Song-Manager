@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -56,14 +57,11 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
         {
             if (Globals.TsProgressBar_Main != null && value <= 100)
             {
-                // TODO: solve the periodic cross threading issue with TsProgressBar on initial startups
-                // toolstrip progress bar known issue, this is a temporary workaround
-                Control.CheckForIllegalCrossThreadCalls = false;
-                Extensions.InvokeIfRequired(workOrder, delegate
+                // perma fix for periodic cross threading issue with TsProgressBar on initial startups
+                Extensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate
                     {
                         Globals.TsProgressBar_Main.Value = value;
                     });
-                Control.CheckForIllegalCrossThreadCalls = true;
 
                 if (workOrder.Name != "Renamer")
                     Globals.TsLabel_MainMsg.Text = String.Format("Rocksmith Songs Count: {0}", bwSongCollection.Count);
@@ -159,11 +157,18 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                     foreach (var songData in songInfo.Distinct())
                     {
                         songData.Enabled = enabled;
-
+                        
+                        // **************
+                        // CAUTION - ANY DateTime CHANGES MUST BE TESTED WITH MULTIPLE CULTURE VARIANTS
+                        // convert date string to usable DateTime format
                         DateTime updateDateTime = new DateTime();
                         if (DateTime.TryParse(songData.Updated, out updateDateTime))
-                            songData.Updated = updateDateTime.ToString(Constants.DefaultSystemDateFormat);
+                            songData.Updated = updateDateTime.ToString(CultureInfo.GetCultureInfo("en-US").DateTimeFormat);
 
+                        // prevent mixed culture variants appearing in same table
+                        songData.Updated = DateTime.Parse(songData.Updated, CultureInfo.GetCultureInfo("en-US")).ToString();
+                        // **************
+                       
                         if (songData.Version == "N/A")
                         {
                             var fileNameVersion = songData.GetVersionFromFileName();

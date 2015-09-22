@@ -1,12 +1,12 @@
 ﻿using System.Diagnostics;
 using System.Reflection;
+using System.Threading;
 using System.Windows.Forms;
 using CustomsForgeManager.CustomsForgeManagerLib;
 using CustomsForgeManager.CustomsForgeManagerLib.Objects;
 using System.IO;
 using System.Linq;
 using CustomsForgeManager.CustomsForgeManagerLib.CustomControls;
-using System.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -19,8 +19,7 @@ using CustomsForgeManager.Forms;
 // only one copy of a song may exist and it can be enabled or disabled
 // a song can only be loaded into the game one time because if
 // multiple versions of the same song are loaded it will hang the game
-// so when a song is added to any setlist it removed from dgvSetlistsSongs
-// and added to the cooresponding dgvDlcSongs
+// when a song is added to any setlist it is highlighted in dgvDlcSongs
 // cache.psarc may not be renamed
 
 namespace CustomsForgeManager.UControls
@@ -31,8 +30,7 @@ namespace CustomsForgeManager.UControls
         private bool bindingCompleted = false;
         private bool dgvPainted = false;
         private string dlcDir;
-        private BindingList<SongData> dlcSongCollection = new BindingList<SongData>();
-        private List<SongData> dlcSongs = new List<SongData>();
+        private SortableBindingList<SongData> dlcSongs;
         private List<SongData> dlcSongsSearch = new List<SongData>();
         private string rs1CompDiscPath;
         private string rs1CompDlcPath;
@@ -48,7 +46,6 @@ namespace CustomsForgeManager.UControls
         {
             Globals.Log("Populating SetlistManager GUI ...");
 
-            // do error check here and it does not need to be done again
             // theoretically this error condition should never exist
             if (String.IsNullOrEmpty(Globals.MySettings.RSInstalledDir) || !Directory.Exists(Globals.MySettings.RSInstalledDir))
             {
@@ -57,19 +54,28 @@ namespace CustomsForgeManager.UControls
             }
 
             dlcDir = Path.Combine(Globals.MySettings.RSInstalledDir, "dlc");
-            dgvDlcSongs.Rows.Clear();
-            dgvSetlistSongs.Rows.Clear();
-            dgvSetlists.Rows.Clear();
-            dgvSongPacks.Rows.Clear();
 
             if (LoadDlcSongs())
             {
-                LoadSetLists();
-                LoadSetlistSongs();
+                LoadSetLists(); // this also triggers LoadSetlistSongs
+                // LoadSetlistSongs(); // so don't do it twice
                 LoadSongPacks();
+
+                // set custom selection (highlighting) color
+                dgvDlcSongs.DefaultCellStyle.SelectionBackColor = Color.Gold;
+                dgvDlcSongs.DefaultCellStyle.SelectionForeColor = dgvDlcSongs.DefaultCellStyle.ForeColor;
+                dgvSetlistSongs.DefaultCellStyle.SelectionBackColor = Color.Gold;
+                dgvSetlistSongs.DefaultCellStyle.SelectionForeColor = dgvSetlistSongs.DefaultCellStyle.ForeColor;
+                dgvSetlists.DefaultCellStyle.SelectionBackColor = Color.Gold;
+                dgvSetlists.DefaultCellStyle.SelectionForeColor = dgvSetlists.DefaultCellStyle.ForeColor;
+                dgvSongPacks.DefaultCellStyle.SelectionBackColor = Color.Gold;
+                dgvSongPacks.DefaultCellStyle.SelectionForeColor = dgvSongPacks.DefaultCellStyle.ForeColor;
             }
 
             Globals.ReloadSetlistManager = false;
+            Globals.RescanSongManager = true;
+            Globals.RescanDuplicates = true;
+            Globals.RescanSetlistManager = true;
         }
 
         public void UpdateToolStrip()
@@ -95,32 +101,7 @@ namespace CustomsForgeManager.UControls
 
         private void DgvDlcSongsAppearance()
         {
-            // overrides SetlistManager.Desinger.cs, easier to change setting here than in IDE
-            foreach (DataGridViewColumn col in dgvDlcSongs.Columns)
-            {
-                col.ReadOnly = true;
-                col.Visible = false;
-            }
-
-            // always visible and first
-            dgvDlcSongs.Columns["colSelect"].ReadOnly = false;
-            dgvDlcSongs.Columns["colSelect"].Visible = true;
-            dgvDlcSongs.Columns["colSelect"].Width = 43;
-            dgvDlcSongs.Columns["colSelect"].DisplayIndex = 0;
-            dgvDlcSongs.Columns["colEnabled"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dgvDlcSongs.Columns["colEnabled"].Visible = true;
-            dgvDlcSongs.Columns["colEnabled"].Width = 50;
-            dgvDlcSongs.Columns["colSongArtist"].Visible = true;
-            dgvDlcSongs.Columns["colSongArtist"].Width = 100;
-            dgvDlcSongs.Columns["colSongTitle"].Visible = true;
-            dgvDlcSongs.Columns["colSongTitle"].Width = 100;
-            dgvDlcSongs.Columns["colSongAlbum"].Visible = true;
-            dgvDlcSongs.Columns["colSongAlbum"].Width = 100;
-            dgvDlcSongs.Columns["colSongTuning"].Visible = true;
-            dgvDlcSongs.Columns["colSongTuning"].Width = 70;
-            dgvDlcSongs.Columns["colPath"].Visible = true;
-            dgvDlcSongs.Columns["colPath"].Width = 350;
-
+            // easier to keep track of appearance setting here
             dgvDlcSongs.Visible = true; // must come first for setting to apply correctly
             dgvDlcSongs.AllowUserToAddRows = false; // removes empty row at bottom
             dgvDlcSongs.AllowUserToDeleteRows = false;
@@ -139,7 +120,6 @@ namespace CustomsForgeManager.UControls
             dgvDlcSongs.Name = "dgvDlcSongs";
             dgvDlcSongs.RowHeadersVisible = false; // remove row arrow
             dgvDlcSongs.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-
             dgvDlcSongs.ClearSelection();
         }
 
@@ -175,11 +155,9 @@ namespace CustomsForgeManager.UControls
                 return false;
             }
 
-            // CDLC song collection is loaded in Globals.SongCollection
-            dlcSongCollection = Globals.SongCollection;
 
             // check for duplicates
-            var dups = dlcSongCollection.GroupBy(x => new { x.Song, x.Album, x.Artist }).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
+            var dups = Globals.SongCollection.GroupBy(x => new { ArtistSongAlbum = x.ArtistTitleAlbum }).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
             if (dups.Any())
             {
                 // recommend that duplicates be removed before using SetlistManager
@@ -190,15 +168,12 @@ namespace CustomsForgeManager.UControls
                 return false;
             }
 
-            var dlcSorted = dlcSongCollection.GroupBy(x => new { x.Artist, x.Song, x.Album, }).SelectMany(group => group).ToList();
-            dlcSongs.Clear();
-            dlcSongs.AddRange(dlcSorted);
-
             // binding source creates issues will cell formating
             // wait for binding and paint to complete before changing color
-            BindingSource bs = new BindingSource { DataSource = dlcSongs };
-            dgvDlcSongs.DataSource = bs;
+            dlcSongs = new SortableBindingList<SongData>(Globals.SongCollection);
+            dgvDlcSongs.DataSource = dlcSongs;
             DgvDlcSongsAppearance();
+
             return true;
         }
 
@@ -221,49 +196,42 @@ namespace CustomsForgeManager.UControls
                 else
                     dgvSetlists.Rows.Add(false, "Yes", Path.GetFileName(setlistDir));
             }
+
+            if (dgvSetlists.Rows.Count > 0)
+                dgvSetlists.Rows[0].Selected = true;
         }
 
         private void LoadSetlistSongs(string search = "")
         {
-            // TODO: revise to get setlist songs info from local dlcSongCollection
-
-            dgvSetlistSongs.Rows.Clear();
-
-            if (dgvSetlists.Rows.Count == 0)
-                return;
-
-            // this loads songs into dgvSetlistSongs frow all selected dgvSetlists ... wow, cool
-            foreach (DataGridViewRow row in dgvSetlists.SelectedRows)
+            if (dgvSetlists.Rows.Count == 0 || dgvSetlists.SelectedRows.Count.Equals(0))
             {
-                string setlistPath = Path.Combine(dlcDir, row.Cells["colSetlistName"].Value.ToString());
-
-                if (Directory.Exists(setlistPath))
-                {
-                    // TODO: Globals.SongCollection may be different than dgvDlcSongs by now need to check this
-                    var matchingSongs = Globals.SongCollection.Where(sng => (sng.Artist.ToLower().Contains(search) || sng.Album.ToLower().Contains(search) || sng.Song.ToLower().Contains(search) || sng.Path.ToLower().Contains(search)) && sng.Path.Contains(setlistPath)).ToList();
-                    foreach (SongData song in matchingSongs)
-                        dgvSetlistSongs.Rows.Add(false, song.Enabled, song.Artist, song.Song, song.Album, song.Tuning, song.Path);
-                }
+                // preserve custom column headers and clear the table
+                dgvSetlistSongs.AutoGenerateColumns = false;
+                dgvSetlistSongs.DataSource = null;
+                return;
             }
 
-            // alternate method
-            // populate dgvDlcSongs with songs from first SetList 
-            //if (setlistDirs.Any())
-            //{
-            //    var setlistDirFiles = Directory.EnumerateFiles(setlistDirs[0], "*.psarc", SearchOption.AllDirectories).ToArray();
+            string curSetlist = dgvSetlists.Rows[dgvSetlists.SelectedRows[0].Index].Cells["colSetlistName"].Value.ToString();
+            if (String.IsNullOrEmpty(curSetlist))
+                return;
 
-            //    foreach (string dlcFilePath in setlistDirFiles)
-            //    {
-            //        // TODO: using LINQ here could be a bottle neck ... bench mark this
-            //        // this is not going to be accurate if there are multiple files with same name
-            //        var song = Globals.SongCollection.FirstOrDefault(sng => sng.Path == dlcFilePath);
-            //        if (song != null)
-            //            dgvSetlistSongs.Rows.Add(false, song.Enabled, song.Artist, song.Song, song.Album, song.Tuning, song.Path);
-            //    }
+            string setlistPath = Path.Combine(dlcDir, curSetlist);
 
-            //    dgvSetlists.Rows[0].Selected = true;
-            //}
+            if (Directory.Exists(setlistPath))
+            {
+                // CAREFUL - brain damage area ahead
+                // the use of LINQ Select defeats the SortableBindingList feature and locks data                
+                var setlistSongs = dlcSongs.Where(sng => (sng.ArtistTitleAlbum.ToLower().Contains(search) || sng.Tuning.ToLower().Contains(search) || sng.Path.ToLower().Contains(search)) && sng.Path.Contains(setlistPath)).ToList();
+                // .Select(x => new { x.Selected, x.Enabled, x.Artist, x.Song, x.Album, x.Tuning, x.Path }).ToList();
 
+                dgvSetlistSongs.DataSource = new SortableBindingList<SongData>(setlistSongs);
+            }
+
+            // belt and suspenders refresh
+            dgvDlcSongs.ClearSelection();
+            dgvSetlistSongs.ClearSelection();
+            dgvDlcSongs.Refresh();
+            dgvSetlistSongs.Refresh();
         }
 
         private void LoadSongPacks()
@@ -276,24 +244,15 @@ namespace CustomsForgeManager.UControls
             if (rs1CompDiscFiles.Any())
             {
                 rs1CompDiscPath = rs1CompDiscFiles.First(x => x.ToLower().Contains("rs1compatibilitydisc"));
-                var rs1CompDiscName = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(rs1CompDiscPath));
-                dgvSongPacks.Rows.Add(false, rs1CompDiscPath.Contains("disabled") ? "No" : "Yes", rs1CompDiscName, rs1CompDiscPath);
+                dgvSongPacks.Rows.Add(false, rs1CompDiscPath.Contains("disabled") ? "No" : "Yes", rs1CompDiscPath);
             }
 
             string[] rs1CompDlcFiles = Directory.GetFiles(dlcDir, "rs1compatibilitydlc*.psarc");
             if (rs1CompDlcFiles.Any())
             {
                 rs1CompDlcPath = rs1CompDlcFiles.First(x => x.ToLower().Contains("rs1compatibilitydlc"));
-                var rs1CompDlcName = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(rs1CompDlcPath));
-                dgvSongPacks.Rows.Add(false, rs1CompDlcPath.Contains("disabled") ? "No" : "Yes", rs1CompDlcName, rs1CompDlcPath);
+                dgvSongPacks.Rows.Add(false, rs1CompDlcPath.Contains("disabled") ? "No" : "Yes", rs1CompDlcPath);
             }
-        }
-
-        private void RemoveHighlightUsedSongs()
-        {
-            BindingSource bs = new BindingSource { DataSource = dlcSongs };
-            dgvDlcSongs.DataSource = bs;
-            DgvDlcSongsAppearance();
         }
 
         private void Rescan()
@@ -334,9 +293,10 @@ namespace CustomsForgeManager.UControls
             if (dgvSetlists.Rows.Count == 0)
                 return;
 
-            // determine currently selected setlist name
+            // determine currently selected setlist name, make sure it is checked
             string curSetlist = dgvSetlists.Rows[dgvSetlists.SelectedRows[0].Index].Cells["colSetlistName"].Value.ToString();
-            if (String.IsNullOrEmpty(curSetlist))
+            bool curSetlistChecked = Convert.ToBoolean(dgvSetlists.Rows[dgvSetlists.SelectedRows[0].Index].Cells["colSetlistSelect"].Value);
+            if (String.IsNullOrEmpty(curSetlist) || !curSetlistChecked)
                 return;
 
             for (int ndx = dgvDlcSongs.Rows.Count - 1; ndx >= 0; ndx--)
@@ -369,13 +329,6 @@ namespace CustomsForgeManager.UControls
                     {
                         // move song to setlist folder
                         File.Move(dlcSongPath, setlistSongPath);
-                        // if the move bombs then what follows is not done
-                        dgvSetlistSongs.Rows.Add(false, "NA", row.Cells["colSongArtist"].Value, row.Cells["colSongTitle"].Value, row.Cells["colSongAlbum"].Value, row.Cells["colSongTuning"].Value, setlistSongPath);
-                        int lastRowNdx = dgvSetlistSongs.Rows.Count - 1;
-                        if (curSetlist.Contains("disabled"))
-                            dgvSetlistSongs.Rows[lastRowNdx].Cells["colSetlistSongsEnabled"].Value = "No";
-                        else
-                            dgvSetlistSongs.Rows[lastRowNdx].Cells["colSetlistSongsEnabled"].Value = "Yes";
 
                         // update dgvDlcSongs
                         row.Cells["colEnabled"].Value = curSetlist.Contains("disabled") ? "No" : "Yes";
@@ -394,8 +347,8 @@ namespace CustomsForgeManager.UControls
                 }
             }
 
-            dgvDlcSongs.ClearSelection();
-            dgvSetlistSongs.ClearSelection();
+            // update dgvSetlistSongs
+            LoadSetlistSongs();
 
             // force a rescan for data safety on next entry
             Globals.RescanSongManager = true;
@@ -469,6 +422,9 @@ namespace CustomsForgeManager.UControls
                     }
                 }
             }
+
+            // update setlist
+            LoadSetlistSongs();
         }
 
         private void btnEnDiSetlistSong_Click(object sender, EventArgs e)
@@ -478,7 +434,6 @@ namespace CustomsForgeManager.UControls
                 if (Convert.ToBoolean(row.Cells["colSetlistSongsSelect"].Value))
                 {
                     var originalPath = row.Cells["colSetlistSongsPath"].Value.ToString();
-                    var originalFile = row.Cells["colSetlistSongsFileName"].Value.ToString();
 
                     try
                     {
@@ -487,7 +442,6 @@ namespace CustomsForgeManager.UControls
                             var disabledPath = originalPath.Replace("_p.psarc", "_p.disabled.psarc");
                             File.Move(originalPath, disabledPath);
                             row.Cells["colSetlistSongsPath"].Value = disabledPath;
-                            row.Cells["colSetlistSongsFileName"].Value = originalFile.Replace("_p.psarc", "_p.disabled.psarc");
                             row.Cells["colSetlistSongsEnabled"].Value = "No";
                         }
                         else
@@ -495,7 +449,6 @@ namespace CustomsForgeManager.UControls
                             var enabledPath = originalPath.Replace("_p.disabled.psarc", "_p.psarc");
                             File.Move(originalPath, enabledPath);
                             row.Cells["colSetlistSongsPath"].Value = enabledPath;
-                            row.Cells["colSetlistSongsFileName"].Value = originalFile.Replace("_p.disabled.psarc", "_p.psarc");
                             row.Cells["colSetlistSongsEnabled"].Value = "Yes";
                         }
                     }
@@ -505,6 +458,11 @@ namespace CustomsForgeManager.UControls
                     }
                 }
             }
+
+            dgvDlcSongs.ClearSelection();
+            dgvSetlistSongs.ClearSelection();
+            dgvDlcSongs.Refresh();
+            dgvSetlistSongs.Refresh();
         }
 
         private void btnEnDiSetlist_Click(object sender, EventArgs e)
@@ -555,7 +513,6 @@ namespace CustomsForgeManager.UControls
                 if (Convert.ToBoolean(row.Cells["colSongPackSelect"].Value))
                 {
                     var originalPath = row.Cells["colSongPackPath"].Value.ToString();
-                    var originalFile = row.Cells["colSongPackFileName"].Value.ToString();
 
                     try
                     {
@@ -564,7 +521,6 @@ namespace CustomsForgeManager.UControls
                             var disabledPath = originalPath.Replace("_p.psarc", "_p.disabled.psarc");
                             File.Move(originalPath, disabledPath);
                             row.Cells["colSongPackPath"].Value = disabledPath;
-                            row.Cells["colSongPackFileName"].Value = originalFile.Replace("_p.psarc", "_p.disabled.psarc");
                             row.Cells["colSongPackEnabled"].Value = "No";
                         }
                         else
@@ -572,7 +528,6 @@ namespace CustomsForgeManager.UControls
                             var enabledPath = originalPath.Replace("_p.disabled.psarc", "_p.psarc");
                             File.Move(originalPath, enabledPath);
                             row.Cells["colSongPackPath"].Value = enabledPath;
-                            row.Cells["colSongPackFileName"].Value = originalFile.Replace("_p.disabled.psarc", "_p.psarc");
                             row.Cells["colSongPackEnabled"].Value = "Yes";
                         }
                     }
@@ -589,7 +544,6 @@ namespace CustomsForgeManager.UControls
             bool safe2Delete = false;
 
             // remove rows from datagridview going backward to avoid index issues
-            // no need to go Casting unless we are fishing
             for (int ndx = dgvSetlistSongs.Rows.Count - 1; ndx >= 0; ndx--)
             {
                 DataGridViewRow row = dgvSetlistSongs.Rows[ndx];
@@ -618,8 +572,6 @@ namespace CustomsForgeManager.UControls
                         {
                             // be really sure you want to do this
                             File.Delete(setlistSongPath);
-                            // update dgvDlcSongs
-                            dgvDlcSongs.Rows.RemoveAt(dlcNdx);
                         }
                         catch (IOException ex)
                         {
@@ -640,13 +592,12 @@ namespace CustomsForgeManager.UControls
                         {
                             MessageBox.Show(@"Unable to move song from setlist:" + Environment.NewLine + Path.GetDirectoryName(setlistSongPath) + Environment.NewLine + @"Error: " + ex.Message, MESSAGE_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
-
-                    dgvSetlistSongs.Rows.Remove(row);
                 }
             }
 
             RemoveHighlightUsedSongs();
-            HighlightUsedSongs(Color.SkyBlue); // for testing will be yellow for production
+            HighlightUsedSongs(Color.Yellow);
+            LoadSetlistSongs();
         }
 
         private void btnRemoveSetlist_Click(object sender, System.EventArgs e)
@@ -677,12 +628,12 @@ namespace CustomsForgeManager.UControls
 
                     foreach (var setlistSongPath in setlistSongsPath)
                     {
-                        // move setlist song back to dlc folder
+                        var dlcNdx = dgvDlcSongs.Rows.Cast<DataGridViewRow>().Where(r => r.Cells["colPath"].Value.ToString() == setlistSongPath).Select(r => r.Index).First();
                         var dlcSongPath = Path.Combine(dlcDir, Path.GetFileName(setlistSongPath));
                         try
                         {
+                            // move setlist song back to dlc folder
                             File.Move(setlistSongPath, dlcSongPath);
-                            var dlcNdx = dgvDlcSongs.Rows.Cast<DataGridViewRow>().Where(r => r.Cells["colPath"].Value.ToString() == setlistSongPath).Select(r => r.Index).First();
 
                             // update dgvDlcSongs
                             if (chkDeleteSetlistOrSetlistSongs.Checked)
@@ -716,7 +667,9 @@ namespace CustomsForgeManager.UControls
             }
 
             RemoveHighlightUsedSongs();
-            HighlightUsedSongs(Color.Magenta); // for testing will be yellow for production
+            HighlightUsedSongs(Color.Yellow);
+            // happens automatically on dlcSetlist change
+            // LoadSetlistSongs();
         }
 
         private void btnRunRSWithSetlist_Click(object sender, EventArgs e)
@@ -857,10 +810,6 @@ namespace CustomsForgeManager.UControls
                 btnRemoveSetlist.BackColor = SystemColors.Control;
                 btnRemoveSetlistSong.BackColor = SystemColors.Control;
             }
-
-            Globals.RescanSongManager = true;
-            Globals.RescanDuplicates = true;
-            Globals.RescanSetlistManager = true;
         }
 
         private void chkEnableDelete_CheckedChanged(object sender, EventArgs e)
@@ -882,7 +831,7 @@ namespace CustomsForgeManager.UControls
                 return;
 
             string search = cueDlcSongsSearch.Text.ToLower();
-            var matchingSongs = Globals.SongCollection.Where(sng => sng.Artist.ToLower().Contains(search) || sng.Song.ToLower().Contains(search) || sng.Tuning.ToLower().Contains(search) && Path.GetFileName(Path.GetDirectoryName(sng.Path)) == "dlc");
+            var matchingSongs = dlcSongs.Where(sng => sng.ArtistTitleAlbum.ToLower().Contains(search) || sng.Tuning.ToLower().Contains(search) && Path.GetFileName(Path.GetDirectoryName(sng.Path)) == "dlc");
             dgvDlcSongs.Rows.Clear();
             dlcSongsSearch.Clear();
             dlcSongsSearch.AddRange(matchingSongs);
@@ -925,7 +874,7 @@ namespace CustomsForgeManager.UControls
 
         private void lnkClearSearch_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            PopulateSetlistManager();
+            LoadDlcSongs();
             HighlightUsedSongs(Color.Yellow);
             cueDlcSongsSearch.Text = String.Empty;
             cueDlcSongsSearch.Cue = "Search";
@@ -947,6 +896,75 @@ namespace CustomsForgeManager.UControls
                 }
             }
         }
+
+        private void dgvDlcSongs_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            RemoveHighlightUsedSongs();
+            HighlightUsedSongs(Color.Yellow);
+        }
+
+        private void RemoveHighlightUsedSongs()
+        {
+            foreach (DataGridViewRow row in dgvDlcSongs.Rows)
+                row.DefaultCellStyle.BackColor = Color.Empty;
+
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dgvDlcSongs.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+
+            dgvDlcSongs.Refresh();
+        }
+
+        private void dgvSetlistSongs_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            var grid = (DataGridView)sender;
+
+            // for debugging
+            //var erow = e.RowIndex;
+            //var ecol = grid.Columns[e.ColumnIndex].Name;
+            //Globals.Log("erow = " + erow + "  ecol = " + ecol);
+
+            // programmatic left clicking on colSelect
+            if (e.Button == MouseButtons.Left)
+                if (e.RowIndex != -1)
+                    if (grid.Columns[e.ColumnIndex].Name == "colSetlistSongsSelect")
+                    {
+                        if (Convert.ToBoolean(grid.Rows[e.RowIndex].Cells["colSetlistSongsSelect"].Value))
+                            grid.Rows[e.RowIndex].Cells["colSetlistSongsSelect"].Value = false;
+                        else
+                            grid.Rows[e.RowIndex].Cells["colSetlistSongsSelect"].Value = true;
+                    }
+
+            Thread.Sleep(50); // debounce multiple clicks
+            dgvSetlistSongs.Refresh();
+            dgvDlcSongs.Refresh();
+        }
+
+        private void dgvDlcSongs_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            var grid = (DataGridView)sender;
+
+            // for debugging
+            //var erow = e.RowIndex;
+            //var ecol = grid.Columns[e.ColumnIndex].Name;
+            //Globals.Log("erow = " + erow + "  ecol = " + ecol);
+
+            // programmatic left clicking on colSelect
+            if (e.Button == MouseButtons.Left)
+                if (e.RowIndex != -1)
+                    if (grid.Columns[e.ColumnIndex].Name == "colSelect")
+                    {
+                        if (Convert.ToBoolean(grid.Rows[e.RowIndex].Cells["colSelect"].Value))
+                            grid.Rows[e.RowIndex].Cells["colSelect"].Value = false;
+                        else
+                            grid.Rows[e.RowIndex].Cells["colSelect"].Value = true;
+                    }
+
+            Thread.Sleep(50); // debounce multiple clicks
+            dgvSetlistSongs.Refresh();
+            dgvDlcSongs.Refresh();
+        }
+
     }
 }
 

@@ -51,8 +51,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
 
         public static string DifficultyToDD(this string maxDifficulty)
         {
-            // return maxDifficulty == "0" ? "No" : "Yes";
-            return maxDifficulty; // user suggestion
+            return maxDifficulty == "0" ? "No" : "Yes";
         }
 
         public static void SetDefaults(this AbortableBackgroundWorker bWorker)
