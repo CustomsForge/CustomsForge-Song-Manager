@@ -109,7 +109,7 @@ namespace CustomsForgeManager.UControls
             {
                 var settings = new RADataGridViewSettings();
                 var columns = Globals.DgvSongs.Columns;
-                if (columns.Count > 1) //HACK:dirt
+                if (columns.Count > 1) 
                 {
                     for (int i = 0; i < columns.Count; i++)
                     {

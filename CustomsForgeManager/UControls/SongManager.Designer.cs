@@ -81,21 +81,21 @@ namespace CustomsForgeManager.UControls
             this.colSongArtist = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colSongTitle = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colSongAlbum = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSongYear = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colArrangements = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colSongTuning = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colDD = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSongYear = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colUpdated = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colIgnitionID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colIgnitionUpdated = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colIgnitionAuthor = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colIgnitionVersion = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colVersion = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colArrangements = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colAuthor = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colFileName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colAuthor = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colUpdated = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colVersion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colToolkitVersion = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colIgnitionID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colIgnitionUpdated = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colIgnitionVersion = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colIgnitionAuthor = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colArtistTitleAlbum = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panelSearch.SuspendLayout();
             this.gb_Main_Search.SuspendLayout();
@@ -498,21 +498,21 @@ namespace CustomsForgeManager.UControls
             this.colSongArtist,
             this.colSongTitle,
             this.colSongAlbum,
+            this.colSongYear,
+            this.colArrangements,
             this.colSongTuning,
             this.colDD,
-            this.colSongYear,
-            this.colUpdated,
-            this.colIgnitionID,
-            this.colIgnitionUpdated,
-            this.colIgnitionAuthor,
-            this.colIgnitionVersion,
-            this.colVersion,
-            this.colStatus,
-            this.colArrangements,
-            this.colAuthor,
             this.colPath,
             this.colFileName,
+            this.colStatus,
+            this.colAuthor,
+            this.colUpdated,
+            this.colVersion,
             this.colToolkitVersion,
+            this.colIgnitionID,
+            this.colIgnitionUpdated,
+            this.colIgnitionVersion,
+            this.colIgnitionAuthor,
             this.colArtistTitleAlbum});
             this.dgvSongs.Location = new System.Drawing.Point(6, 19);
             this.dgvSongs.Name = "dgvSongs";
@@ -642,6 +642,22 @@ namespace CustomsForgeManager.UControls
             this.colSongAlbum.ReadOnly = true;
             this.colSongAlbum.Width = 50;
             // 
+            // colSongYear
+            // 
+            this.colSongYear.DataPropertyName = "SongYear";
+            this.colSongYear.HeaderText = "Year";
+            this.colSongYear.Name = "colSongYear";
+            this.colSongYear.ReadOnly = true;
+            this.colSongYear.Width = 50;
+            // 
+            // colArrangements
+            // 
+            this.colArrangements.DataPropertyName = "Arrangements";
+            this.colArrangements.HeaderText = "Arrangements";
+            this.colArrangements.Name = "colArrangements";
+            this.colArrangements.ReadOnly = true;
+            this.colArrangements.Width = 50;
+            // 
             // colSongTuning
             // 
             this.colSongTuning.DataPropertyName = "Tuning";
@@ -658,13 +674,40 @@ namespace CustomsForgeManager.UControls
             this.colDD.ReadOnly = true;
             this.colDD.Width = 50;
             // 
-            // colSongYear
+            // colPath
             // 
-            this.colSongYear.DataPropertyName = "SongYear";
-            this.colSongYear.HeaderText = "Year";
-            this.colSongYear.Name = "colSongYear";
-            this.colSongYear.ReadOnly = true;
-            this.colSongYear.Width = 50;
+            this.colPath.DataPropertyName = "Path";
+            this.colPath.HeaderText = "Path";
+            this.colPath.Name = "colPath";
+            this.colPath.ReadOnly = true;
+            this.colPath.Width = 50;
+            // 
+            // colFileName
+            // 
+            this.colFileName.DataPropertyName = "FileName";
+            this.colFileName.HeaderText = "File Name";
+            this.colFileName.Name = "colFileName";
+            this.colFileName.ReadOnly = true;
+            this.colFileName.Visible = false;
+            this.colFileName.Width = 50;
+            // 
+            // colStatus
+            // 
+            this.colStatus.DataPropertyName = "Status";
+            this.colStatus.HeaderText = "Status";
+            this.colStatus.Name = "colStatus";
+            this.colStatus.ReadOnly = true;
+            this.colStatus.Visible = false;
+            this.colStatus.Width = 50;
+            // 
+            // colAuthor
+            // 
+            this.colAuthor.DataPropertyName = "Author";
+            this.colAuthor.HeaderText = "Author";
+            this.colAuthor.Name = "colAuthor";
+            this.colAuthor.ReadOnly = true;
+            this.colAuthor.Visible = false;
+            this.colAuthor.Width = 50;
             // 
             // colUpdated
             // 
@@ -674,7 +717,26 @@ namespace CustomsForgeManager.UControls
             this.colUpdated.HeaderText = "Updated";
             this.colUpdated.Name = "colUpdated";
             this.colUpdated.ReadOnly = true;
+            this.colUpdated.Visible = false;
             this.colUpdated.Width = 50;
+            // 
+            // colVersion
+            // 
+            this.colVersion.DataPropertyName = "Version";
+            this.colVersion.HeaderText = "Version";
+            this.colVersion.Name = "colVersion";
+            this.colVersion.ReadOnly = true;
+            this.colVersion.Visible = false;
+            this.colVersion.Width = 50;
+            // 
+            // colToolkitVersion
+            // 
+            this.colToolkitVersion.DataPropertyName = "ToolkitVer";
+            this.colToolkitVersion.HeaderText = "Toolkit Version";
+            this.colToolkitVersion.Name = "colToolkitVersion";
+            this.colToolkitVersion.ReadOnly = true;
+            this.colToolkitVersion.Visible = false;
+            this.colToolkitVersion.Width = 50;
             // 
             // colIgnitionID
             // 
@@ -696,15 +758,6 @@ namespace CustomsForgeManager.UControls
             this.colIgnitionUpdated.Visible = false;
             this.colIgnitionUpdated.Width = 50;
             // 
-            // colIgnitionAuthor
-            // 
-            this.colIgnitionAuthor.DataPropertyName = "IgnitionAuthor";
-            this.colIgnitionAuthor.HeaderText = "Ignition Author";
-            this.colIgnitionAuthor.Name = "colIgnitionAuthor";
-            this.colIgnitionAuthor.ReadOnly = true;
-            this.colIgnitionAuthor.Visible = false;
-            this.colIgnitionAuthor.Width = 50;
-            // 
             // colIgnitionVersion
             // 
             this.colIgnitionVersion.DataPropertyName = "IgnitionVersion";
@@ -714,61 +767,14 @@ namespace CustomsForgeManager.UControls
             this.colIgnitionVersion.Visible = false;
             this.colIgnitionVersion.Width = 50;
             // 
-            // colVersion
+            // colIgnitionAuthor
             // 
-            this.colVersion.DataPropertyName = "Version";
-            this.colVersion.HeaderText = "Version";
-            this.colVersion.Name = "colVersion";
-            this.colVersion.ReadOnly = true;
-            this.colVersion.Width = 50;
-            // 
-            // colStatus
-            // 
-            this.colStatus.DataPropertyName = "Status";
-            this.colStatus.HeaderText = "Status";
-            this.colStatus.Name = "colStatus";
-            this.colStatus.ReadOnly = true;
-            this.colStatus.Width = 50;
-            // 
-            // colArrangements
-            // 
-            this.colArrangements.DataPropertyName = "Arrangements";
-            this.colArrangements.HeaderText = "Arrangements";
-            this.colArrangements.Name = "colArrangements";
-            this.colArrangements.ReadOnly = true;
-            this.colArrangements.Width = 50;
-            // 
-            // colAuthor
-            // 
-            this.colAuthor.DataPropertyName = "Author";
-            this.colAuthor.HeaderText = "Author";
-            this.colAuthor.Name = "colAuthor";
-            this.colAuthor.ReadOnly = true;
-            this.colAuthor.Width = 50;
-            // 
-            // colPath
-            // 
-            this.colPath.DataPropertyName = "Path";
-            this.colPath.HeaderText = "Path";
-            this.colPath.Name = "colPath";
-            this.colPath.ReadOnly = true;
-            this.colPath.Width = 50;
-            // 
-            // colFileName
-            // 
-            this.colFileName.DataPropertyName = "FileName";
-            this.colFileName.HeaderText = "File Name";
-            this.colFileName.Name = "colFileName";
-            this.colFileName.ReadOnly = true;
-            this.colFileName.Width = 50;
-            // 
-            // colToolkitVersion
-            // 
-            this.colToolkitVersion.DataPropertyName = "ToolkitVer";
-            this.colToolkitVersion.HeaderText = "Toolkit Version";
-            this.colToolkitVersion.Name = "colToolkitVersion";
-            this.colToolkitVersion.ReadOnly = true;
-            this.colToolkitVersion.Width = 50;
+            this.colIgnitionAuthor.DataPropertyName = "IgnitionAuthor";
+            this.colIgnitionAuthor.HeaderText = "Ignition Author";
+            this.colIgnitionAuthor.Name = "colIgnitionAuthor";
+            this.colIgnitionAuthor.ReadOnly = true;
+            this.colIgnitionAuthor.Visible = false;
+            this.colIgnitionAuthor.Width = 50;
             // 
             // colArtistTitleAlbum
             // 
@@ -847,21 +853,21 @@ namespace CustomsForgeManager.UControls
         private System.Windows.Forms.DataGridViewTextBoxColumn colSongArtist;
         private System.Windows.Forms.DataGridViewTextBoxColumn colSongTitle;
         private System.Windows.Forms.DataGridViewTextBoxColumn colSongAlbum;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colSongYear;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colArrangements;
         private System.Windows.Forms.DataGridViewTextBoxColumn colSongTuning;
         private System.Windows.Forms.DataGridViewTextBoxColumn colDD;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colSongYear;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colUpdated;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colIgnitionID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colIgnitionUpdated;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colIgnitionAuthor;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colIgnitionVersion;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colVersion;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colStatus;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colArrangements;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colAuthor;
         private System.Windows.Forms.DataGridViewTextBoxColumn colPath;
         private System.Windows.Forms.DataGridViewTextBoxColumn colFileName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colStatus;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colAuthor;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colUpdated;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colVersion;
         private System.Windows.Forms.DataGridViewTextBoxColumn colToolkitVersion;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colIgnitionID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colIgnitionUpdated;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colIgnitionVersion;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colIgnitionAuthor;
         private System.Windows.Forms.DataGridViewTextBoxColumn colArtistTitleAlbum;
 
     }

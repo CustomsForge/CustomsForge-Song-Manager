@@ -17,6 +17,8 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         NotFound = 3
     }
 
+    // CAREFUL ... may override display index
+    // the order of the class variables effects the order of the dgv and settings list
     [Serializable]
     public class SongData
     {
@@ -25,21 +27,8 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         public string Artist { get; set; }
         public string Song { get; set; }
         public string Album { get; set; }
-        public string Tuning { get; set; }
-        public string DD { get; set; }
         public string SongYear { get; set; }
-        public string Updated { get; set; }
-        public string IgnitionID { get; set; }
-        public string IgnitionUpdated { get; set; }
-        public string IgnitionAuthor { get; set; }
-        public string IgnitionVersion { get; set; }
-        public string Version { get; set; }
-        public string Author { get; set; }
-        public string Path { get; set; }
-        public string ToolkitVer { get; set; }
-        public SongDataStatus Status { get; set; } 
-        public string ArtistTitleAlbum { get; set; }
-
+ 
         public string Arrangements
         {
             get { return _arrangements != null ? String.Join(",", _arrangements.Select(x => x.Name).ToArray()) : String.Empty; }
@@ -47,13 +36,28 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
             // TODO: convert XmlArrangementsHelper to LINQ
             // set {AddArrangement(value.Split(',').Select((x) => new SongDataArrangement {Name = x});]
         }
-
+ 
+        public string Tuning { get; set; }
+        public string DD { get; set; }
+        public string Path { get; set; }
+  
         public string FileName
         {
             get { return (new FileInfo(Path).Name); }
             set { } // required for XML file usage
         }
-
+ 
+        public string Author { get; set; }
+        public string Updated { get; set; }
+        public string Version { get; set; }
+        public string ToolkitVer { get; set; }
+        public SongDataStatus Status { get; set; }
+        public string IgnitionID { get; set; }
+        public string IgnitionAuthor { get; set; }
+        public string IgnitionVersion { get; set; }
+        public string IgnitionUpdated { get; set; }
+        public string ArtistTitleAlbum { get; set; } 
+ 
         private List<SongDataArrangement> _arrangements;
         public void AddArrangement(SongDataArrangement arrangement)
         {

@@ -20,5 +20,16 @@ namespace CustomsForgeManager.Forms
             rtbNotes.Select(0, 0);
         }
 
+        private void btnCopyToClipboard_Click(object sender, EventArgs e)
+        {
+            Clipboard.Clear();
+
+            if (rtbNotes.SelectionLength > 0)
+                Clipboard.SetText(rtbNotes.SelectedText, TextDataFormat.Text);
+            else
+                Clipboard.SetText(rtbNotes.Text, TextDataFormat.Text);
+        }
+
+
     }
 }

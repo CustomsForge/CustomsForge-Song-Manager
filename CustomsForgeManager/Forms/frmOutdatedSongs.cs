@@ -7,6 +7,8 @@ using CustomsForgeManager.CustomsForgeManagerLib.Objects;
 
 namespace CustomsForgeManager.Forms
 {
+    // TODO: use reusable NoteViewer and depricate this code
+    
     public partial class frmOutdatedSongs : Form
     {
         private Dictionary<string, SongData> outdatedSongList = new Dictionary<string, SongData>(); 

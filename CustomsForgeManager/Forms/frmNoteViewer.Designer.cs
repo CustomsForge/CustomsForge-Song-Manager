@@ -30,22 +30,37 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmNoteViewer));
             this.rtbNotes = new System.Windows.Forms.RichTextBox();
+            this.btnCopyToClipboard = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // rtbNotes
             // 
-            this.rtbNotes.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rtbNotes.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.rtbNotes.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rtbNotes.Location = new System.Drawing.Point(0, 0);
             this.rtbNotes.Name = "rtbNotes";
-            this.rtbNotes.Size = new System.Drawing.Size(557, 455);
+            this.rtbNotes.Size = new System.Drawing.Size(557, 394);
             this.rtbNotes.TabIndex = 1;
-            this.rtbNotes.Text = "This is a Rich Textbox Note Viewer";
+            this.rtbNotes.Text = "This is a generic Rich Textbox Note Viewer";
+            // 
+            // btnCopyToClipboard
+            // 
+            this.btnCopyToClipboard.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.btnCopyToClipboard.Location = new System.Drawing.Point(221, 411);
+            this.btnCopyToClipboard.Name = "btnCopyToClipboard";
+            this.btnCopyToClipboard.Size = new System.Drawing.Size(115, 23);
+            this.btnCopyToClipboard.TabIndex = 2;
+            this.btnCopyToClipboard.Text = "Copy to Clipboard";
+            this.btnCopyToClipboard.UseVisualStyleBackColor = true;
+            this.btnCopyToClipboard.Click += new System.EventHandler(this.btnCopyToClipboard_Click);
             // 
             // frmNoteViewer
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(557, 455);
+            this.ClientSize = new System.Drawing.Size(557, 449);
+            this.Controls.Add(this.btnCopyToClipboard);
             this.Controls.Add(this.rtbNotes);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmNoteViewer";
@@ -59,6 +74,7 @@
         #endregion
 
         public System.Windows.Forms.RichTextBox rtbNotes;
+        private System.Windows.Forms.Button btnCopyToClipboard;
 
 
     }

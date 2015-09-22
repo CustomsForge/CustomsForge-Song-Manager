@@ -831,7 +831,7 @@ namespace CustomsForgeManager.UControls
                 return;
 
             string search = cueDlcSongsSearch.Text.ToLower();
-            var matchingSongs = dlcSongs.Where(sng => sng.ArtistTitleAlbum.ToLower().Contains(search) || sng.Tuning.ToLower().Contains(search) && Path.GetFileName(Path.GetDirectoryName(sng.Path)) == "dlc");
+            var matchingSongs = Globals.SongCollection.Where(sng => sng.ArtistTitleAlbum.ToLower().Contains(search) || sng.Tuning.ToLower().Contains(search) && Path.GetFileName(Path.GetDirectoryName(sng.Path)) == "dlc");
             dgvDlcSongs.Rows.Clear();
             dlcSongsSearch.Clear();
             dlcSongsSearch.AddRange(matchingSongs);
@@ -887,11 +887,12 @@ namespace CustomsForgeManager.UControls
             using (Stream stream = assembly.GetManifestResourceStream("CustomsForgeManager.Resources.SetlistHelp.txt"))
             using (StreamReader reader = new StreamReader(stream))
             {
-                string songManagerHelp = reader.ReadToEnd();
+                string setlistManagerHelp = reader.ReadToEnd();
 
                 using (var noteViewer = new frmNoteViewer())
                 {
-                    noteViewer.PopulateText(songManagerHelp);
+                    noteViewer.Text = String.Format("{0} . . . {1}", noteViewer.Text, "SetlistManager Help");
+                    noteViewer.PopulateText(setlistManagerHelp);
                     noteViewer.ShowDialog();
                 }
             }

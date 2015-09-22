@@ -1,5 +1,12 @@
 CFM Release Notes
 
+1.0.1.7
+-Made CSV Export default to the CFM folder in My Documents
+-Fixed HTML and BBCode export of selected songs
+-Implimented reusable code (NoteViewer) for Exports, Help and About
+-Fixed SetlistManager Search, again
+-Made Post Build Event generic
+
 1.0.1.6
 -Permanent fix for toolstrip progress bar cross threading issues on initial startup
 -Add fail safe on startup to ensure CFM folder is deleted if something goes wrong

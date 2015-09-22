@@ -88,6 +88,7 @@ namespace CustomsForgeManager.UControls
             // ensures proper disposal of objects and variables
             using (var noteViewer = new frmNoteViewer())
             {
+                noteViewer.Text = String.Format("{0} . . . {1}", noteViewer.Text, "About");
                 noteViewer.PopulateText(File.ReadAllText("ReleaseNotes.txt"));
                 noteViewer.ShowDialog();
             }

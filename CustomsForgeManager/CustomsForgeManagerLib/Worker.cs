@@ -193,9 +193,9 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
             catch (Exception ex)
             {
                 if (ex.Message.StartsWith("Error reading JObject"))
-                    Globals.Log("<ERROR>: " + file + ":" + "DLC is corrupt!");
+                    Globals.Log("<ERROR>: " + file + "  :  " + "CDLC is corrupt!");
                 else
-                    Globals.Log("<ERROR>: " + file + ":" + ex.Message);
+                    Globals.Log("<ERROR>: " + file + "  :  " + ex.Message);
             }
         }
 

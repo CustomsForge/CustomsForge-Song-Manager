@@ -540,7 +540,7 @@ namespace CustomsForgeManager.UControls
             else
             {
                 foreach (var row in checkedRows)
-                    if (row.Cells["Author"].Value == null)
+                    if (row.Cells["colAuthor"].Value == null)
                         sbTXT.AppendLine("[*]" + row.Cells["colSongArtist"].Value + " - " + row.Cells["colSongTitle"].Value + ", " + row.Cells["colSongAlbum"].Value + ", " + row.Cells["colSongYear"].Value + ", " + row.Cells["colSongTuning"].Value + ", " + row.Cells["colDD"].Value + ", " + row.Cells["colArrangements"].Value + "[/*]");
                     else
                         sbTXT.AppendLine("[*]" + row.Cells["colSongArtist"].Value + " - " + row.Cells["colSongTitle"].Value + ", " + row.Cells["colSongAlbum"].Value + ", " + row.Cells["colSongYear"].Value + ", " + row.Cells["colSongTuning"].Value + ", " + row.Cells["colDD"].Value + ", " + row.Cells["colArrangements"].Value + ", " + row.Cells["colAuthor"].Value);
@@ -548,10 +548,12 @@ namespace CustomsForgeManager.UControls
 
             sbTXT.AppendLine("[/LIST]");
 
-            frmSongListExport FormSongListExport = new frmSongListExport();
-            FormSongListExport.SongList = sbTXT.ToString();
-            FormSongListExport.Text = "Song list to BBCode";
-            FormSongListExport.Show();
+            using (var noteViewer = new frmNoteViewer())
+            {
+                noteViewer.Text = String.Format("{0} . . . {1}", noteViewer.Text, "Song list to BBCode");
+                noteViewer.PopulateText(sbTXT.ToString());
+                noteViewer.ShowDialog();
+            }
         }
 
         private void SongListToCSV()
@@ -561,7 +563,7 @@ namespace CustomsForgeManager.UControls
             var checkedRows = dgvSongs.Rows.Cast<DataGridViewRow>().Where(r => r.Cells["colSelect"].Value != null).Where(r => Convert.ToBoolean(r.Cells["colSelect"].Value)).ToList();
 
             sfdSongListToCSV.Filter = "csv files(*.csv)|*.csv|All files (*.*)|*.*";
-            sfdSongListToCSV.FileName = "SongListCSV";
+            sfdSongListToCSV.FileName = Path.Combine(Constants .WorkDirectory, "SongListCSV");
 
             if (sfdSongListToCSV.ShowDialog() == DialogResult.OK)
                 path = sfdSongListToCSV.FileName;
@@ -600,6 +602,11 @@ namespace CustomsForgeManager.UControls
             }
         }
 
+        private void SongListToJsonOrXml()
+        {
+            // TODO:
+        }
+
         private void SongListToHTML()
         {
             var checkedRows = dgvSongs.Rows.Cast<DataGridViewRow>().Where(r => r.Cells["colSelect"].Value != null).Where(r => Convert.ToBoolean(r.Cells["colSelect"].Value)).ToList();
@@ -627,10 +634,10 @@ namespace CustomsForgeManager.UControls
                 foreach (var row in checkedRows)
                 {
                     sbTXT.AppendLine("<tr>");
-                    if (row.Cells["Author"].Value == null)
-                        sbTXT.AppendLine("<td>" + row.Cells["colSongTitle"].Value + "</td><td>" + row.Cells["colSongArtist"].Value + "</td><td>" + row.Cells["colSongAlbum"].Value + "</td><td>" + row.Cells["colSongYear"].Value + "</td><td>" + row.Cells["colSongTuning"].Value + "</td><td>" + row.Cells["DD"].Value + "</td><td>" + row.Cells["colArrangements"].Value + "</td>");
+                    if (row.Cells["colAuthor"].Value == null)
+                        sbTXT.AppendLine("<td>" + row.Cells["colSongTitle"].Value + "</td><td>" + row.Cells["colSongArtist"].Value + "</td><td>" + row.Cells["colSongAlbum"].Value + "</td><td>" + row.Cells["colSongYear"].Value + "</td><td>" + row.Cells["colSongTuning"].Value + "</td><td>" + row.Cells["colDD"].Value + "</td><td>" + row.Cells["colArrangements"].Value + "</td>");
                     else
-                        sbTXT.AppendLine("<td>" + row.Cells["colSongTitle"].Value + "</td><td>" + row.Cells["colSongArtist"].Value + "</td><td>" + row.Cells["colSongAlbum"].Value + "</td><td>" + row.Cells["colSongYear"].Value + "</td><td>" + row.Cells["colSongTuning"].Value + "</td><td>" + row.Cells["DD"].Value + "</td><td>" + row.Cells["colArrangements"].Value + "</td><td>" + row.Cells["colAuthor"].Value + "</td>");
+                        sbTXT.AppendLine("<td>" + row.Cells["colSongTitle"].Value + "</td><td>" + row.Cells["colSongArtist"].Value + "</td><td>" + row.Cells["colSongAlbum"].Value + "</td><td>" + row.Cells["colSongYear"].Value + "</td><td>" + row.Cells["colSongTuning"].Value + "</td><td>" + row.Cells["colDD"].Value + "</td><td>" + row.Cells["colArrangements"].Value + "</td><td>" + row.Cells["colAuthor"].Value + "</td>");
 
                     sbTXT.AppendLine("</tr>");
                 }
@@ -638,10 +645,12 @@ namespace CustomsForgeManager.UControls
 
             sbTXT.AppendLine("</table>");
 
-            frmSongListExport FormSongListExport = new frmSongListExport();
-            FormSongListExport.SongList = sbTXT.ToString();
-            FormSongListExport.Text = "Song list to HTML";
-            FormSongListExport.Show();
+            using (var noteViewer = new frmNoteViewer())
+            {
+                noteViewer.Text = String.Format("{0} . . . {1}", noteViewer.Text, "Song list to HTML");
+                noteViewer.PopulateText(sbTXT.ToString());
+                noteViewer.ShowDialog();
+            }
         }
 
         private void ToggleUIControls()
