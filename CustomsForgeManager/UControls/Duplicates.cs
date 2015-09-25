@@ -40,7 +40,7 @@ namespace CustomsForgeManager.UControls
             // var dups = dupSongCollection.GroupBy(x => new { x.Artist, x.Song, x.Album }).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
             // TODO: use traditional code dup finder if this does not work on i7's 
             var dups = dupSongCollection.GroupBy(x => new { ArtistSongAlbum = x.ArtistTitleAlbum }).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
-            dups.RemoveAll(x => x.FileName.Contains(Constants.RS1COMP));
+            dups.RemoveAll(x => x.FileName.ToLower().Contains(Constants.RS1COMP));
             duplicates.Clear();
             duplicates.AddRange(dups);
             Globals.DupeCollection = duplicates;
@@ -204,10 +204,10 @@ namespace CustomsForgeManager.UControls
                 if (MessageBox.Show("Do you really want to delete the selected duplicate CDLC?  " + Environment.NewLine + "Warning:  This can not be undone!", Constants.ApplicationName, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.No)
                     return;
 
-            string duplicatesDir = Path.Combine(Globals.MySettings.RSInstalledDir, "duplicates");
+            string dupDir = Path.Combine(Globals.MySettings.RSInstalledDir, "cdlc_duplicates");
 
-            if (!Directory.Exists(duplicatesDir))
-                Directory.CreateDirectory(duplicatesDir);
+            if (!Directory.Exists(dupDir))
+                Directory.CreateDirectory(dupDir);
 
             for (int i = 0; i < dgvDups.Rows.Count; i++)
             {
@@ -223,9 +223,11 @@ namespace CustomsForgeManager.UControls
                             if (buttonName.Text.ToLower().Contains("move"))
                             {
                                 var filePath = duplicates[i].Path;
-                                var dupFileName = String.Format("{0}{1}", Path.GetFileName(filePath), ".dup");
-                                var dupFilePath = Path.Combine(duplicatesDir, dupFileName);
+                                var dupFileName = String.Format("{0}{1}", Path.GetFileName(filePath), ".duplicate");
+                                var dupFilePath = Path.Combine(dupDir, dupFileName);
                                 File.Move(duplicates[i].Path, dupFilePath);
+                                Globals.Log("Duplicate File: " + dupFileName);
+                                Globals.Log("Moved To: " + dupDir);
                             }
                             else
                                 File.Delete(duplicates[i].Path);
@@ -250,9 +252,11 @@ namespace CustomsForgeManager.UControls
                 dgvDups.Rows.Clear();
 
             UpdateToolStrip();
+            // rescan on tabpage change
             Globals.RescanSongManager = true;
             Globals.RescanDuplicates = true;
             Globals.RescanSetlistManager = true;
+            Globals.RescanRenamer = true;
         }
 
 
@@ -307,9 +311,11 @@ namespace CustomsForgeManager.UControls
             if (updateSongCollection)
             {
                 UpdateToolStrip();
+                // rescan on tabpage change
                 Globals.RescanSongManager = true;
-                Globals.RescanSetlistManager = true;
                 Globals.RescanDuplicates = true;
+                Globals.RescanSetlistManager = true;
+                Globals.RescanRenamer = true;
             }
         }
 

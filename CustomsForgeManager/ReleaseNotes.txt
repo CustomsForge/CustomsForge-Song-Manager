@@ -1,5 +1,12 @@
 CFM Release Notes
 
+1.0.1.8
+-Fixed SetlistManager double parsing on initial load
+-Permit SetlistManager to load disabled duplicates (w/ user warning)
+-Corrupt CDLC are automatically moved to RS Install Directory, folder cdlc_quarantined
+-Moved duplicates are stored in RS Install Directory, folder cdlc_duplicates
+-Fixed Setlist enable/disable to upadate all songs in setlist
+
 1.0.1.7
 -Made CSV Export default to the CFM folder in My Documents
 -Fixed HTML and BBCode export of selected songs

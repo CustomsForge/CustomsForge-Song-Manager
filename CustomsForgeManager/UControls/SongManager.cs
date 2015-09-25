@@ -58,8 +58,12 @@ namespace CustomsForgeManager.UControls
 
             // load songs into memory
             if (!File.Exists(songsInfoPath) || !File.Exists(songFilesPath))
+            {
                 Rescan();
-
+                Globals.ReloadDuplicates = false;
+                Globals.ReloadRenamer = false;
+                Globals.ReloadSetlistManager = false;
+            }
             try
             {
                 using (var fsSongCollection = new FileStream(songsInfoPath, FileMode.Open, FileAccess.Read, FileShare.Read))
@@ -306,7 +310,7 @@ namespace CustomsForgeManager.UControls
             dgvSongs.AllowUserToOrderColumns = true;
             dgvSongs.AllowUserToResizeColumns = true;
             dgvSongs.AllowUserToResizeRows = false;
-            dgvSongs.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.ColumnHeader);
+            dgvSongs.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCells);
             dgvSongs.BackgroundColor = SystemColors.AppWorkspace;
             dgvSongs.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dgvSongs.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -563,7 +567,7 @@ namespace CustomsForgeManager.UControls
             var checkedRows = dgvSongs.Rows.Cast<DataGridViewRow>().Where(r => r.Cells["colSelect"].Value != null).Where(r => Convert.ToBoolean(r.Cells["colSelect"].Value)).ToList();
 
             sfdSongListToCSV.Filter = "csv files(*.csv)|*.csv|All files (*.*)|*.*";
-            sfdSongListToCSV.FileName = Path.Combine(Constants .WorkDirectory, "SongListCSV");
+            sfdSongListToCSV.FileName = Path.Combine(Constants.WorkDirectory, "SongListCSV");
 
             if (sfdSongListToCSV.ShowDialog() == DialogResult.OK)
                 path = sfdSongListToCSV.FileName;
@@ -800,9 +804,11 @@ namespace CustomsForgeManager.UControls
                 }
             }
 
+            // rescan on tabpage change
             Globals.RescanSongManager = true;
-            Globals.RescanSetlistManager = true;
             Globals.RescanDuplicates = true;
+            Globals.RescanSetlistManager = true;
+            Globals.RescanRenamer = true;
         }
 
         private void btnDisableEnableSongs_Click(object sender, EventArgs e)
@@ -840,7 +846,7 @@ namespace CustomsForgeManager.UControls
                             MessageBox.Show(@"Unable to enable/disable song: " + Path.GetFileName(originalPath) + @" in 'dlc' folder." + Environment.NewLine + "Error: " + ex.Message);
                         }
 
-                        row.Cells["colSelect"].Value = false;
+                        // row.Cells["colSelect"].Value = false;
                         numberOfDisabledDLC = smSongCollection.Where(song => song.Enabled == "No").ToList().Count();
                         var tsldcMsg = String.Format("Outdated: {0} | Disabled DLC: {1}", numberOfDLCPendingUpdate, numberOfDisabledDLC);
                         Extensions.InvokeIfRequired(this, delegate { Globals.TsLabel_DisabledCounter.Text = tsldcMsg; });
@@ -853,6 +859,12 @@ namespace CustomsForgeManager.UControls
             }
 
             dgvSongs.Refresh();
+
+            // rescan on tabpage change
+            Globals.RescanSongManager = true;
+            Globals.RescanDuplicates = true;
+            Globals.RescanSetlistManager = true;
+            Globals.RescanRenamer = true;
         }
 
         private void btnExportSongList_Click(object sender, EventArgs e)
@@ -1132,12 +1144,18 @@ namespace CustomsForgeManager.UControls
             if (dgvSongs.DataSource == null)
                 return;
 
-            // Ctrl Key w/ left mouse click turn off column visiblity
+            // Ctrl Key w/ left mouse click to quickly turn off column visiblity
             if (ModifierKeys == Keys.Control)
             {
                 dgvSongs.Columns[e.ColumnIndex].Visible = false;
                 return;
             }
+
+            var columnName = dgvSongs.Columns[e.ColumnIndex].Name;
+
+            if (columnName.Contains("colBass") || columnName.Contains("colLead") ||
+                columnName.Contains("colRhythm") || columnName.Contains("colVocals"))
+                return;
 
             int scrollHorizontalOffset = 0;
             int scrollVerticalOffset = 0;
@@ -1151,7 +1169,6 @@ namespace CustomsForgeManager.UControls
                     currentRows.Add((SongData)row.DataBoundItem, row.DefaultCellStyle.BackColor);
 
             // track sorted column and direction
-            var columnName = dgvSongs.Columns[e.ColumnIndex].Name;
             if (columnName != sortColumnName)
                 sortDescending = false;
             else

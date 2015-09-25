@@ -146,18 +146,18 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
             counterStopwatch.Stop();
         }
 
-        private void ParsePSARC(string enabled, string file)
+        private void ParsePSARC(string enabled, string filePath)
         {
             try
             {
-                using (var browser = new PsarcBrowser(file))
+                using (var browser = new PsarcBrowser(filePath))
                 {
                     var songInfo = browser.GetSongs();
 
                     foreach (var songData in songInfo.Distinct())
                     {
                         songData.Enabled = enabled;
-                        
+
                         // **************
                         // CAUTION - ANY DateTime CHANGES MUST BE TESTED WITH MULTIPLE CULTURE VARIANTS
                         // convert date string to usable DateTime format
@@ -168,7 +168,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                         // prevent mixed culture variants appearing in same table
                         songData.Updated = DateTime.Parse(songData.Updated, CultureInfo.GetCultureInfo("en-US")).ToString();
                         // **************
-                       
+
                         if (songData.Version == "N/A")
                         {
                             var fileNameVersion = songData.GetVersionFromFileName();
@@ -192,10 +192,22 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
             }
             catch (Exception ex)
             {
+                // move to Quarantine folder
+                var corDir = Path.Combine(Globals.MySettings.RSInstalledDir, "cdlc_quarantined");
+                var corFileName = String.Format("{0}{1}", Path.GetFileName(filePath), ".corrupt");
+                var corFilePath = Path.Combine(corDir, corFileName);
+
                 if (ex.Message.StartsWith("Error reading JObject"))
-                    Globals.Log("<ERROR>: " + file + "  :  " + "CDLC is corrupt!");
+                    Globals.Log("<ERROR>: " + filePath + "  -  " + "CDLC is corrupt!");
                 else
-                    Globals.Log("<ERROR>: " + file + "  :  " + ex.Message);
+                    Globals.Log("<ERROR>: " + filePath + "  -  " + ex.Message);
+
+                Globals.Log("File has been moved to: " + corDir);
+                
+                if (!Directory.Exists(corDir))
+                    Directory.CreateDirectory(corDir);
+                
+                File.Move(filePath, corFilePath);
             }
         }
 
