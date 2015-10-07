@@ -974,17 +974,15 @@ namespace CustomsForgeManager.UControls
             //var ecol = grid.Columns[e.ColumnIndex].Name;
             //Globals.Log("erow = " + erow + "  ecol = " + ecol);
 
+            // removed for testing works better without this
             // programmatic left clicking on colSelect (toggling)
             //if (e.Button == MouseButtons.Left)
             //    if (e.RowIndex != -1)
-            //        if (dgvSongs.Columns[e.ColumnIndex].Name == "colSelect")
-            //            if (Convert.ToBoolean(dgvSongs.Rows[e.RowIndex].Cells["colSelect"].Value))
-            //                dgvSongs.Rows[e.RowIndex].Cells["colSelect"].Value = false;
-            //            else
-            //                dgvSongs.Rows[e.RowIndex].Cells["colSelect"].Value = true;
+            //        if (grid.Columns[e.ColumnIndex].Name == "colSelect")
+            //            grid.Rows[e.RowIndex].Cells["colSelect"].Value = !Convert.ToBoolean(grid.Rows[e.RowIndex].Cells["colSelect"].Value);
 
             Thread.Sleep(50); // debounce multiple clicks
-            //dgvSetlistSongs.Refresh();
+            dgvSetlistSongs.Refresh();
             dgvSongs.Refresh();
         }
 

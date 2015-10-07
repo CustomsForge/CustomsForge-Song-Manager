@@ -115,18 +115,18 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
 
                             gotSongInfo = true;
                         }
-  
-                         arrangmentsFromPsarc.Add(new Arrangement
-                        {
-                            SongKey = attributes["SongKey"].ToString(),
-                            PersistentID = attributes["PersistentID"].ToString(),
-                            Name = attributes["ArrangementName"].ToString(),
-                            Tuning = Extensions.TuningToName(attributes["Tuning"].ToString()),
-                            DMax = attributes["MaxPhraseDifficulty"].ToString(),
-                            ToneBase = attributes["Tone_Base"].ToString()
-                        });
 
-                     }
+                        arrangmentsFromPsarc.Add(new Arrangement
+                       {
+                           SongKey = attributes["SongKey"].ToString(),
+                           PersistentID = attributes["PersistentID"].ToString(),
+                           Name = attributes["ArrangementName"].ToString(),
+                           Tuning = Extensions.TuningToName(attributes["Tuning"].ToString()),
+                           DMax = attributes["MaxPhraseDifficulty"].ToString(),
+                           ToneBase = attributes["Tone_Base"].ToString()
+                       });
+
+                    }
                 }
 
                 currentSong.Arrangements2D = arrangmentsFromPsarc;
@@ -134,7 +134,8 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
             }
 
             sw.Stop();
-            Globals.Log(Path.GetFileName(FilePath) + " parsing took: " + sw.ElapsedMilliseconds + " (msec)");
+            if (Constants.DebugMode)
+                Globals.Log(Path.GetFileName(FilePath) + " parsing took: " + sw.ElapsedMilliseconds + " (msec)");
 
             return songsFromPsarc;
         }

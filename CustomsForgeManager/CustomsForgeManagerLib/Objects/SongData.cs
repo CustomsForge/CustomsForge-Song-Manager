@@ -4,17 +4,12 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Xml.Serialization;
-using CustomsForgeManager.CustomsForgeManagerLib.CustomControls;
 using DataGridViewTools;
-using Newtonsoft.Json;
-using RocksmithToolkitLib.DLCPackage.Manifest2014.Tone;
 
-// DO NOT USE CLEANUP CODE SORTING
 
 namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
 {
-    // unexpected results when used with Dotfuscator because enums are renamed
-    // [Obfuscation(Feature = "default", Exclude = false, StripAfterObfuscation = false)]
+    // required because Dotfuscator renames enums if Exclude is not present
     [Obfuscation(Exclude = true, ApplyToMembers = true, StripAfterObfuscation = true, Feature = "renaming")]
     public enum SongDataStatus : byte
     {
@@ -24,8 +19,6 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
         NotFound = 3
     }
 
-    // CAREFUL ... 
-    // the order of the class variables effects the order of the datagridview displays
     // only essential data needs to be saved to the XML songinfo file
     [Serializable]
     public class SongData
@@ -49,8 +42,8 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
         public string SongLength { get; set; } // single (seconds)
         public string SongAverageTempo { get; set; } // single
         public string SongVolume { get; set; } // float
-        public string AppID { get; set; }
 
+        // used by detail table
         [XmlArray("Arrangments")] // provides proper xml serialization
         [XmlArrayItem("Arrangement")] // provides proper xml serialization
         public FilteredBindingList<Arrangement> Arrangements2D { get; set; }
@@ -68,6 +61,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
         public string LastConversionDateTime { get; set; }
         public string Version { get; set; }
         public string ToolkitVer { get; set; }
+        public string AppID { get; set; }
         public SongDataStatus Status { get; set; }
         public string IgnitionID { get; set; }
         public string IgnitionAuthor { get; set; }
@@ -104,7 +98,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
 
 
 
-    // details
+    // detail table data
     [XmlRoot("Arrangment")] // provides proper xml serialization
     public class Arrangement
     {

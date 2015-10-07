@@ -84,7 +84,7 @@ namespace DataGridViewTools
                 this.FilteringEnabled = filterCell.FilteringEnabled;
                 this.AutomaticSortingEnabled = filterCell.AutomaticSortingEnabled;
                 this.DropDownListBoxMaxLines = filterCell.DropDownListBoxMaxLines;
-                this.currentDropDownButtonPaddingOffset = 
+                this.currentDropDownButtonPaddingOffset =
                     filterCell.currentDropDownButtonPaddingOffset;
             }
         }
@@ -124,9 +124,9 @@ namespace DataGridViewTools
             if (OwningColumn != null)
             {
                 if (OwningColumn is DataGridViewImageColumn ||
-                (OwningColumn is DataGridViewButtonColumn && 
+                (OwningColumn is DataGridViewButtonColumn &&
                 ((DataGridViewButtonColumn)OwningColumn).UseColumnTextForButtonValue) ||
-                (OwningColumn is DataGridViewLinkColumn && 
+                (OwningColumn is DataGridViewLinkColumn &&
                 ((DataGridViewLinkColumn)OwningColumn).UseColumnTextForLinkValue))
                 {
                     AutomaticSortingEnabled = false;
@@ -351,27 +351,36 @@ namespace DataGridViewTools
         /// <param name="advancedBorderStyle">A DataGridViewAdvancedBorderStyle that contains border styles for the cell that is being painted.</param>
         /// <param name="paintParts">A bitwise combination of the DataGridViewPaintParts values that specifies which parts of the cell need to be painted.</param>
         protected override void Paint(
-            Graphics graphics, Rectangle clipBounds, Rectangle cellBounds, 
-            int rowIndex, DataGridViewElementStates cellState, 
-            object value, object formattedValue, string errorText, 
-            DataGridViewCellStyle cellStyle, 
-            DataGridViewAdvancedBorderStyle advancedBorderStyle, 
+            Graphics graphics, Rectangle clipBounds, Rectangle cellBounds,
+            int rowIndex, DataGridViewElementStates cellState,
+            object value, object formattedValue, string errorText,
+            DataGridViewCellStyle cellStyle,
+            DataGridViewAdvancedBorderStyle advancedBorderStyle,
             DataGridViewPaintParts paintParts)
         {
+            // Cozy Mod - change header text style Bold/Italic to call attention to filtered columns
+            if (this.currentColumnFilter != "")
+            {
+                DataGridViewCellStyle style = new DataGridViewCellStyle();
+                // style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                style.Font = new Font(this.DataGridView.Font.Name, this.DataGridView.Font.Size, FontStyle.Bold | FontStyle.Italic);
+                cellStyle = style;
+            }
+
             // Use the base method to paint the default appearance. 
-            base.Paint(graphics, clipBounds, cellBounds, rowIndex, 
-                cellState, value, formattedValue, 
+            base.Paint(graphics, clipBounds, cellBounds, rowIndex,
+                cellState, value, formattedValue,
                 errorText, cellStyle, advancedBorderStyle, paintParts);
 
             // Continue only if filtering is enabled and ContentBackground is 
             // part of the paint request. 
-            if (!FilteringEnabled || 
+            if (!FilteringEnabled ||
                 (paintParts & DataGridViewPaintParts.ContentBackground) == 0)
             {
                 return;
             }
 
-            // Retrieve the current button bounds. 
+            // Retrieve the current button bounds.
             Rectangle buttonBounds = DropDownButtonBounds;
 
             // Continue only if the buttonBounds is big enough to draw.
@@ -380,8 +389,10 @@ namespace DataGridViewTools
             // Paint the button manually or using visual styles if visual styles 
             // are enabled, using the correct state depending on whether the 
             // filter list is showing and whether there is a filter in effect 
-            // for the current column. 
-            if (Application.RenderWithVisualStyles)
+            // for the current column.
+
+            // Cozy mod - use custom combobox buttons 
+            if (false) // (Application.RenderWithVisualStyles)
             {
                 ComboBoxState state = ComboBoxState.Normal;
 
@@ -393,8 +404,8 @@ namespace DataGridViewTools
                 {
                     state = ComboBoxState.Hot;
                 }
-                ComboBoxRenderer.DrawDropDownButton(
-                    graphics, buttonBounds, state);
+
+                ComboBoxRenderer.DrawDropDownButton(graphics, buttonBounds, state);
             }
             else
             {
@@ -407,53 +418,65 @@ namespace DataGridViewTools
                     state = PushButtonState.Pressed;
                     pressedOffset = 1;
                 }
-                ButtonRenderer.DrawButton(graphics, buttonBounds, state);
+
+                // ButtonRenderer.DrawButton(graphics, buttonBounds, state);
 
                 // If there is a filter in effect for the column, paint the 
                 // down arrow as an unfilled triangle. If there is no filter 
                 // in effect, paint the down arrow as a filled triangle.
+                // Cozy Mod
+                var visTweak = 1;
                 if (filtered)
                 {
-                    graphics.DrawPolygon(SystemPens.ControlText, new Point[] {
-                        new Point(
-                            buttonBounds.Width / 2 + 
-                                buttonBounds.Left - 1 + pressedOffset, 
-                            buttonBounds.Height * 3 / 4 + 
-                                buttonBounds.Top - 1 + pressedOffset),
+                    // Cozy Mod - Change button to Filter Icon and put polygon on top for effect
+                     var img = new Bitmap(Properties.Resources.FilterX, 13, 13);
+                    graphics.DrawImage(img, buttonBounds.Left - 1 + pressedOffset, buttonBounds.Top - 1 + pressedOffset);
+
+                    graphics.DrawPolygon(SystemPens.ControlText, new Point[] 
+                    {
+                         new Point(
+                             buttonBounds.Width / 2 + 
+                             buttonBounds.Left - 1 + pressedOffset, 
+                             buttonBounds.Height * 3 / 4 + 
+                             buttonBounds.Top - 5 + pressedOffset + visTweak),
                         new Point(
                             buttonBounds.Width / 4 + 
-                                buttonBounds.Left + pressedOffset,
+                            buttonBounds.Left + pressedOffset - visTweak,
                             buttonBounds.Height / 2 + 
-                                buttonBounds.Top - 1 + pressedOffset),
+                            buttonBounds.Top - 5 + pressedOffset),
                         new Point(
                             buttonBounds.Width * 3 / 4 + 
-                                buttonBounds.Left - 1 + pressedOffset,
+                            buttonBounds.Left - 1 + pressedOffset + visTweak,
                             buttonBounds.Height / 2 + 
-                                buttonBounds.Top - 1 + pressedOffset)
+                            buttonBounds.Top - 5 + pressedOffset)
                     });
                 }
                 else
                 {
-                    graphics.FillPolygon(SystemBrushes.ControlText, new Point[] {
+                    // Cozy Mod - Change button to Filter Icon and put polygon on top
+                    var img = new Bitmap(Properties.Resources.FilterY, 13, 13);
+                    graphics.DrawImage(img, buttonBounds.Left - 1 + pressedOffset, buttonBounds.Top - 1 + pressedOffset);
+
+                    graphics.FillPolygon(SystemBrushes.ControlText, new Point[] 
+                    {
                         new Point(
-                            buttonBounds.Width / 2 + 
-                                buttonBounds.Left - 1 + pressedOffset, 
-                            buttonBounds.Height * 3 / 4 + 
-                                buttonBounds.Top - 1 + pressedOffset),
+                             buttonBounds.Width / 2 + 
+                             buttonBounds.Left - 1 + pressedOffset, 
+                             buttonBounds.Height * 3 / 4 + 
+                             buttonBounds.Top - 5 + pressedOffset + visTweak),
                         new Point(
                             buttonBounds.Width / 4 + 
-                                buttonBounds.Left + pressedOffset,
+                            buttonBounds.Left + pressedOffset - visTweak,
                             buttonBounds.Height / 2 + 
-                                buttonBounds.Top - 1 + pressedOffset),
+                            buttonBounds.Top - 5 + pressedOffset),
                         new Point(
                             buttonBounds.Width * 3 / 4 + 
-                                buttonBounds.Left - 1 + pressedOffset,
+                            buttonBounds.Left - 1 + pressedOffset + visTweak,
                             buttonBounds.Height / 2 + 
-                                buttonBounds.Top - 1 + pressedOffset)
+                            buttonBounds.Top - 5 + pressedOffset)
                     });
                 }
             }
-
         }
 
         /// <summary>
@@ -526,7 +549,7 @@ namespace DataGridViewTools
                 ShowDropDownList();
             }
             else if (AutomaticSortingEnabled &&
-                this.DataGridView.SelectionMode != 
+                this.DataGridView.SelectionMode !=
                 DataGridViewSelectionMode.ColumnHeaderSelect)
             {
                 SortByColumn();
@@ -553,7 +576,7 @@ namespace DataGridViewTools
 
             // Determine the sort direction and sort by the owning column. 
             ListSortDirection direction = ListSortDirection.Ascending;
-            if (this.DataGridView.SortedColumn == OwningColumn && 
+            if (this.DataGridView.SortedColumn == OwningColumn &&
                 this.DataGridView.SortOrder == SortOrder.Ascending)
             {
                 direction = ListSortDirection.Descending;
@@ -604,7 +627,7 @@ namespace DataGridViewTools
             dropDownListBox.Visible = true;
             dropDownListBoxShowing = true;
 
-            Debug.Assert(dropDownListBox.Parent == null, 
+            Debug.Assert(dropDownListBox.Parent == null,
                 "ShowDropDownListBox has been called multiple times before HideDropDownListBox");
 
             // Add dropDownListBox to the DataGridView. 
@@ -612,7 +635,7 @@ namespace DataGridViewTools
 
             // Set the input focus to dropDownListBox. 
             dropDownListBox.Focus();
-         
+
             // Invalidate the cell so that the drop-down button will repaint
             // in the pressed state. 
             this.DataGridView.InvalidateCell(this);
@@ -667,7 +690,7 @@ namespace DataGridViewTools
                     //dropDownListBoxHeight += (Int32)stringSizeF.Height;
                     // Cozy Mod increase size of drop down
                     dropDownListBoxHeight += (Int32)stringSizeF.Height + 4;
-                   //currentWidth = (Int32)stringSizeF.Width;
+                    //currentWidth = (Int32)stringSizeF.Width;
                     // Cozy Mod increase size of drop down
                     currentWidth = (Int32)stringSizeF.Width + 4;
 
@@ -699,7 +722,7 @@ namespace DataGridViewTools
             // RightToLeft property value into consideration. 
             if (this.DataGridView.RightToLeft == RightToLeft.No)
             {
-                dropDownListBoxLeft = DropDownButtonBounds.Right - 
+                dropDownListBoxLeft = DropDownButtonBounds.Right -
                     dropDownListBoxWidth + 1;
             }
             else
@@ -711,7 +734,7 @@ namespace DataGridViewTools
             // width of the DataGridView control. 
             Int32 clientLeft = 1;
             Int32 clientRight = this.DataGridView.ClientRectangle.Right;
-            if (this.DataGridView.DisplayedRowCount(false) < 
+            if (this.DataGridView.DisplayedRowCount(false) <
                 this.DataGridView.RowCount)
             {
                 if (this.DataGridView.RightToLeft == RightToLeft.Yes)
@@ -730,7 +753,7 @@ namespace DataGridViewTools
             {
                 dropDownListBoxLeft = clientLeft;
             }
-            Int32 dropDownListBoxRight = 
+            Int32 dropDownListBoxRight =
                 dropDownListBoxLeft + dropDownListBoxWidth + 1;
             if (dropDownListBoxRight > clientRight)
             {
@@ -788,7 +811,7 @@ namespace DataGridViewTools
                 if (listMaxHeight < dataGridViewMaxHeight)
                 {
                     return listMaxHeight;
-                 }
+                }
                 else
                 {
                     return dataGridViewMaxHeight;
@@ -1005,7 +1028,7 @@ namespace DataGridViewTools
                 // will match the display format used for the column's cells. 
                 String formattedValue = null;
                 DataGridViewCellStyle style = OwningColumn.InheritedStyle;
-                formattedValue = (String)GetFormattedValue(value, -1, ref style, 
+                formattedValue = (String)GetFormattedValue(value, -1, ref style,
                     null, null, DataGridViewDataErrorContexts.Formatting);
 
                 if (String.IsNullOrEmpty(formattedValue))
@@ -1103,7 +1126,7 @@ namespace DataGridViewTools
             selectedFilterValue = dropDownListBox.SelectedItem.ToString();
 
             // Cast the data source to an IBindingListView.
-            IBindingListView data = 
+            IBindingListView data =
                 this.DataGridView.DataSource as IBindingListView;
 
             Debug.Assert(data != null && data.SupportsFiltering,
@@ -1124,7 +1147,7 @@ namespace DataGridViewTools
 
             // Store the column name in a form acceptable to the Filter property, 
             // using a backslash to escape any closing square brackets. 
-            String columnProperty = 
+            String columnProperty =
                 OwningColumn.DataPropertyName.Replace("]", @"\]");
 
             // Determine the column filter string based on the user selection.
@@ -1147,7 +1170,7 @@ namespace DataGridViewTools
                     newColumnFilter = String.Format("[{0}]='{1}'",
                         columnProperty,
                         ((String)filters[selectedFilterValue])
-                        .Replace("'", "''"));  
+                        .Replace("'", "''"));
                     break;
             }
 
@@ -1199,8 +1222,8 @@ namespace DataGridViewTools
 
             // Confirm that the data source is a BindingSource that 
             // supports filtering.
-            if (data == null || 
-                data.DataSource == null || 
+            if (data == null ||
+                data.DataSource == null ||
                 !data.SupportsFiltering)
             {
                 throw new ArgumentException("The DataSource property of the " +
@@ -1243,8 +1266,8 @@ namespace DataGridViewTools
             // Return String.Empty if there is no appropriate data source or
             // there is no filter in effect. 
             if (String.IsNullOrEmpty(data.Filter) ||
-                data == null || 
-                data.DataSource == null || 
+                data == null ||
+                data.DataSource == null ||
                 !data.SupportsFiltering)
             {
                 return String.Empty;
@@ -1262,7 +1285,7 @@ namespace DataGridViewTools
             data.Filter = oldFilter;
             data.RaiseListChangedEvents = true;
 
-            Debug.Assert(currentRowCount <= unfilteredRowCount, 
+            Debug.Assert(currentRowCount <= unfilteredRowCount,
                 "current count is greater than unfiltered count");
 
             // Return String.Empty if the filtered and unfiltered counts
@@ -1271,7 +1294,7 @@ namespace DataGridViewTools
             {
                 return String.Empty;
             }
-            return String.Format("{0} of {1} records found", 
+            return String.Format("{0} of {1} records found",
                 currentRowCount, unfilteredRowCount);
         }
 
@@ -1326,7 +1349,7 @@ namespace DataGridViewTools
         {
             // Retrieve the cell display rectangle, which is used to 
             // set the position of the drop-down button. 
-            Rectangle cellBounds = 
+            Rectangle cellBounds =
                 this.DataGridView.GetCellDisplayRectangle(
                 this.ColumnIndex, -1, false);
 
@@ -1345,7 +1368,7 @@ namespace DataGridViewTools
             Boolean visualStylesEnabled =
                 Application.RenderWithVisualStyles &&
                 this.DataGridView.EnableHeadersVisualStyles;
-            if (visualStylesEnabled) 
+            if (visualStylesEnabled)
             {
                 borderAndPaddingHeight += 3;
             }
@@ -1385,7 +1408,7 @@ namespace DataGridViewTools
 
             // Set the dropDownButtonBoundsValue value using the calculated 
             // values, and adjust the cell padding accordingly.  
-            dropDownButtonBoundsValue = new Rectangle(left, top, 
+            dropDownButtonBoundsValue = new Rectangle(left, top,
                 buttonEdgeLength, buttonEdgeLength);
             AdjustPadding(buttonEdgeLength + leftOffset);
         }
@@ -1398,7 +1421,7 @@ namespace DataGridViewTools
         {
             // Determine the difference between the new and current 
             // padding adjustment.
-            Int32 widthChange = newDropDownButtonPaddingOffset - 
+            Int32 widthChange = newDropDownButtonPaddingOffset -
                 currentDropDownButtonPaddingOffset;
 
             // If the padding needs to change, store the new value and 
@@ -1407,9 +1430,9 @@ namespace DataGridViewTools
             {
                 // Store the offset for the drop-down button separately from 
                 // the padding in case the client needs additional padding.
-                currentDropDownButtonPaddingOffset = 
+                currentDropDownButtonPaddingOffset =
                     newDropDownButtonPaddingOffset;
-                
+
                 // Create a new Padding using the adjustment amount, then add it
                 // to the cell's existing Style.Padding property value. 
                 Padding dropDownPadding = new Padding(0, 0, widthChange, 0);
@@ -1438,8 +1461,8 @@ namespace DataGridViewTools
         [DefaultValue(true)]
         public Boolean FilteringEnabled
         {
-            get 
-            { 
+            get
+            {
                 // Return filteringEnabledValue if (there is no DataGridView
                 // or if (its DataSource property has not been set. 
                 if (this.DataGridView == null ||
@@ -1454,7 +1477,7 @@ namespace DataGridViewTools
                 Debug.Assert(data != null);
                 return filteringEnabledValue && data.SupportsFiltering;
             }
-            set 
+            set
             {
                 // If filtering is disabled, remove the padding adjustment
                 // and invalidate the button bounds. 
@@ -1463,8 +1486,8 @@ namespace DataGridViewTools
                     AdjustPadding(0);
                     InvalidateDropDownButtonBounds();
                 }
-                
-                filteringEnabledValue = value; 
+
+                filteringEnabledValue = value;
             }
         }
 
@@ -1479,12 +1502,12 @@ namespace DataGridViewTools
         [DefaultValue(true)]
         public Boolean AutomaticSortingEnabled
         {
-            get 
-            { 
-                return automaticSortingEnabledValue; 
+            get
+            {
+                return automaticSortingEnabledValue;
             }
-            set 
-            { 
+            set
+            {
                 automaticSortingEnabledValue = value;
                 if (OwningColumn != null)
                 {
@@ -1503,7 +1526,7 @@ namespace DataGridViewTools
         /// <summary>
         /// The maximum number of lines in the drop-down list. 
         /// </summary>
-        private Int32 dropDownListBoxMaxLinesValue = 20; 
+        private Int32 dropDownListBoxMaxLinesValue = 20;
 
         /// <summary>
         /// Gets or sets the maximum number of lines to display in the drop-down filter list. 

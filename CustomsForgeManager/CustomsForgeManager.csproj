@@ -82,6 +82,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\libs\Antlr4.StringTemplate.dll</HintPath>
     </Reference>
+    <Reference Include="DLogNet, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\libs\DLogNet.dll</HintPath>
+    </Reference>
     <Reference Include="Ionic.Zip">
       <HintPath>..\libs\Ionic.Zip.dll</HintPath>
     </Reference>
@@ -292,7 +296,6 @@
     <Content Include="ReleaseNotes.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="Resources\filter.png" />
     <None Include="Resources\minus.png" />
     <None Include="Resources\plus.png" />
     <None Include="RocksmithToolkitLib.TuningDefinition.xml">
@@ -331,13 +334,13 @@
     <None Include="Resources\StartRs.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ClickOnceUninstaller\ClickOnceUninstaller.csproj">
+      <Project>{25E15C6A-AEAE-4958-80EA-44062DF402E7}</Project>
+      <Name>ClickOnceUninstaller</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DataGridViewTools\DataGridViewTools.csproj">
       <Project>{5A4B4B14-D3B5-4D54-80EC-0877C1E6E73A}</Project>
       <Name>DataGridViewTools</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DLogNet\DLogNet.csproj">
-      <Project>{04B8EBDC-6226-456E-8BD4-AEF7BAF682AA}</Project>
-      <Name>DLogNet</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
@@ -354,6 +357,8 @@ copy /y "$(TargetDir)*.xml" "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)\*
 copy /y "$(TargetDir)*.dll" "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)\*.dll"
 copy /y "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)\$(TargetFileName)" "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)\CFM_$(ConfigurationName).exe" 
 del /q "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)\$(TargetFileName)"
+ 
+
 
 )</PostBuildEvent>
   </PropertyGroup>

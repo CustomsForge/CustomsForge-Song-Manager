@@ -130,13 +130,6 @@ namespace CustomsForgeManager.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap filter {
-            get {
-                object obj = ResourceManager.GetObject("filter", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
         internal static System.Drawing.Bitmap folder_open {
             get {
                 object obj = ResourceManager.GetObject("folder_open", resourceCulture);

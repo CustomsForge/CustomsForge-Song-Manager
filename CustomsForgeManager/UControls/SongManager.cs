@@ -843,7 +843,7 @@ namespace CustomsForgeManager.UControls
             }
 
             // rescan on tabpage change
-           // Globals.RescanSongManager = true;
+            // Globals.RescanSongManager = true;
             Globals.RescanDuplicates = true;
             Globals.RescanSetlistManager = true;
             Globals.RescanRenamer = true;
@@ -1145,7 +1145,6 @@ namespace CustomsForgeManager.UControls
                     {
                         var rowHeight = dgvSongsMaster.Rows[e.RowIndex].Height + 0; // height tweak
                         var colWidth = dgvSongsMaster.Columns[e.ColumnIndex].Width - 16; // width tweak
-                        var colHeaderHeight = dgvSongsMaster.Columns[e.ColumnIndex].HeaderCell.Size.Height + 2; // height tweak
                         dgvSongsMaster.Rows[e.RowIndex].Cells["colShowDetail"].Tag = "TRUE";
                         dgvSongsMaster.Rows[e.RowIndex].Cells["colShowDetail"].Value = new Bitmap(Properties.Resources.minus);
                         Rectangle dgvRectangle = dgvSongsMaster.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true);
@@ -1158,9 +1157,10 @@ namespace CustomsForgeManager.UControls
                         dgvSongsDetail.Columns["colDetailKey"].Width = dgvSongsMaster.Columns["colKey"].Width;
 
                         // calculate the height and width of dgvSongsDetail
-                        dgvSongsDetail.Height = dgvSongsDetail.Rows.Cast<DataGridViewRow>().Sum(row => row.Height) + colHeaderHeight;
+                        var colHeaderHeight = dgvSongsDetail.Columns[e.ColumnIndex].HeaderCell.Size.Height;
+                        dgvSongsDetail.Height = dgvSongsDetail.Rows.Cast<DataGridViewRow>().Sum(row => row.Height) + colHeaderHeight - 1;
                         dgvSongsDetail.Width = dgvSongsDetail.Columns.Cast<DataGridViewColumn>().Sum(col => col.Width) + colWidth;
-                        if (dgvSongsDetail.Rows.Count == 1) // tweak for single row
+                        if (dgvSongsDetail.Rows.Count == 1) // extra tweak for single row
                             dgvSongsDetail.Height = dgvSongsDetail.Height + 4;
 
                         dgvSongsDetail.Visible = true;
@@ -1182,19 +1182,9 @@ namespace CustomsForgeManager.UControls
                 ShowSongInfo();
         }
 
-        private void dgvSongsMaster_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            // Globals.Log("Pressed Unreliable MouseDown.");
-            Thread.Sleep(50); // debounce multiple clicks
-            debounced = true;
-        }
-
         private void dgvSongsMaster_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
             // has precedent over a ColumnHeader_MouseClick 
-            // MouseUp detection seems more reliable than MouseDown
-            if (!debounced) return;
-
             var grid = (DataGridView)sender;
 
             // for debugging
@@ -1222,6 +1212,7 @@ namespace CustomsForgeManager.UControls
                         // beyound current scope of CFM
                         if (grid.Rows[e.RowIndex].Cells["colSelect"].Value.ToString().ToLower().Contains(Constants.RS1COMP))
                             Globals.Log("Can not 'Select' individual RS1 Compatiblity DLC");
+                        // removed for testing works better without this
                         //else
                         //{
                         //    if (Convert.ToBoolean(grid.Rows[e.RowIndex].Cells["colSelect"].Value))
@@ -1232,7 +1223,6 @@ namespace CustomsForgeManager.UControls
                     }
 
             Thread.Sleep(50); // debounce multiple clicks
-            debounced = false;
             dgvSongsMaster.Refresh();
         }
 
@@ -1285,7 +1275,7 @@ namespace CustomsForgeManager.UControls
                     // ensures BLRV columns are recolored correctly
                     dgvPainted = false;
                 }
-             }
+            }
         }
 
         private void dgvSongsMaster_KeyDown(object sender, KeyEventArgs e)

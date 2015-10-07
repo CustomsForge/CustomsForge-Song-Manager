@@ -68,14 +68,15 @@ packages/
 *.testsettings 
 
 #others
-*.jmconfig
 *.bat
 BinForRelease/
 libs/DLogNet/
 libs/AntlrCs/
-AntlrCs/
-Copy of CustomsForgeManager/
+libs/DataGridViewTools/
+DataGridViewTools/
+ClickOnceUninstaller/
 Copy*/
+Copy*.txt
 CustomsForgeManager.sln
 
-Copy*.txt
+

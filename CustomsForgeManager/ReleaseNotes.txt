@@ -1,5 +1,10 @@
 CFM Release Notes
 
+1.0.2.0
+-Added ClickOnceUninstaller.exe to help cleanup old CFM installs
+-Added custom column filter graphics to draw attention to filtered columns
+-Only show parsing times log while in debug mode for Developer use
+
 1.0.1.9
 -Updated SetlistManager Help file
 -Removing a setlist also removes/resets the setlist songs
