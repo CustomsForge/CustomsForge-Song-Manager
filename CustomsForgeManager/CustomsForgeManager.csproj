@@ -38,26 +38,6 @@
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>x86</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
   <PropertyGroup>
     <ManifestCertificateThumbprint>C7D0B2EF4EF79665955CD6C533F88AB9C6850443</ManifestCertificateThumbprint>
   </PropertyGroup>
@@ -102,10 +82,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\libs\Antlr4.StringTemplate.dll</HintPath>
     </Reference>
-    <Reference Include="DLogNet, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\libs\DLogNet.dll</HintPath>
-    </Reference>
     <Reference Include="Ionic.Zip">
       <HintPath>..\libs\Ionic.Zip.dll</HintPath>
     </Reference>
@@ -145,7 +121,9 @@
     <Compile Include="CustomsForgeManagerLib\CustomControls\CueTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="CustomsForgeManagerLib\SortableBinding.cs" />
+    <Compile Include="CustomsForgeManagerLib\PsarcBrowser.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="CustomsForgeManagerLib\CustomControls\RADataGridView.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -182,7 +160,6 @@
     <Compile Include="CustomsForgeManagerLib\Objects\Constants.cs" />
     <Compile Include="CustomsForgeManagerLib\Extensions.cs" />
     <Compile Include="CustomsForgeManagerLib\Objects\AppSettings.cs" />
-    <Compile Include="CustomsForgeManagerLib\PsarcBrowser.cs" />
     <Compile Include="CustomsForgeManagerLib\Objects\SongData.cs" />
     <Compile Include="UControls\Duplicates.cs">
       <SubType>UserControl</SubType>
@@ -266,6 +243,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UControls\SetlistManager.resx">
       <DependentUpon>SetlistManager.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UControls\Settings.resx">
       <DependentUpon>Settings.cs</DependentUpon>
@@ -278,6 +256,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UControls\SongManager.resx">
       <DependentUpon>SongManager.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UControls\Utilities.resx">
       <DependentUpon>Utilities.cs</DependentUpon>
@@ -310,21 +289,15 @@
     <None Include="Resources\cfsm_48x48.ico" />
   </ItemGroup>
   <ItemGroup>
-    <PublishFile Include="tunings.xml">
-      <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
-      <FileType>File</FileType>
-    </PublishFile>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="ReleaseNotes.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\filter.png" />
+    <None Include="Resources\minus.png" />
+    <None Include="Resources\plus.png" />
+    <None Include="RocksmithToolkitLib.TuningDefinition.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\eof-bg.jpg" />
     <None Include="Resources\Rocksmith_2014_Background_Guitar.jpg" />
     <None Include="Resources\instructionLabel.txt" />
@@ -356,15 +329,33 @@
     <None Include="Resources\Lovroman.jpeg" />
     <None Include="Resources\Unleashed2k.jpeg" />
     <None Include="Resources\StartRs.jpg" />
-    <Content Include="tunings.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\DataGridViewTools\DataGridViewTools.csproj">
+      <Project>{5A4B4B14-D3B5-4D54-80EC-0877C1E6E73A}</Project>
+      <Name>DataGridViewTools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DLogNet\DLogNet.csproj">
+      <Project>{04B8EBDC-6226-456E-8BD4-AEF7BAF682AA}</Project>
+      <Name>DLogNet</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>if $(ConfigurationName) == Release (
+
+RD /s /q "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)
+CD $(DevEnvDir)
+
+"..\..\PreEmptive Solutions\Dotfuscator Community Edition\dotfuscatorCLI.exe" /in:"$(TargetPath)" /out:"$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)"
+
+copy /y "$(TargetDir)*.txt" "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)\*.txt"
+copy /y "$(TargetDir)*.xml" "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)\*.xml"
+copy /y "$(TargetDir)*.dll" "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)\*.dll"
+copy /y "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)\$(TargetFileName)" "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)\CFM_$(ConfigurationName).exe" 
+del /q "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)\$(TargetFileName)"
+
+)</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

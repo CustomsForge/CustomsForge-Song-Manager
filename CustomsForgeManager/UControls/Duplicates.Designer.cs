@@ -46,9 +46,9 @@ namespace CustomsForgeManager.UControls
             this.dgvDups = new CustomsForgeManager.CustomsForgeManagerLib.CustomControls.RADataGridView();
             this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.colEnabled = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSongArtist = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSongTitle = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSongAlbum = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colArtist = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.colTitle = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.colAlbum = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colUpdated = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cmsDuplicate.SuspendLayout();
@@ -180,9 +180,9 @@ namespace CustomsForgeManager.UControls
             this.dgvDups.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colSelect,
             this.colEnabled,
-            this.colSongArtist,
-            this.colSongTitle,
-            this.colSongAlbum,
+            this.colArtist,
+            this.colTitle,
+            this.colAlbum,
             this.colUpdated,
             this.colPath});
             this.dgvDups.ContextMenuStrip = this.cmsDuplicate;
@@ -194,6 +194,7 @@ namespace CustomsForgeManager.UControls
             this.dgvDups.TabIndex = 15;
             this.dgvDups.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvDups_CellDoubleClick);
             this.dgvDups.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvDups_CellMouseUp);
+            this.dgvDups.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgvDups_DataBindingComplete);
             this.dgvDups.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvDups_KeyDown);
             // 
             // colSelect
@@ -216,33 +217,36 @@ namespace CustomsForgeManager.UControls
             this.colEnabled.ReadOnly = true;
             this.colEnabled.Width = 50;
             // 
-            // colSongArtist
+            // colArtist
             // 
-            this.colSongArtist.DataPropertyName = "Artist";
-            this.colSongArtist.HeaderText = "Artist";
-            this.colSongArtist.Name = "colSongArtist";
-            this.colSongArtist.ReadOnly = true;
-            this.colSongArtist.Width = 50;
+            this.colArtist.DataPropertyName = "Artist";
+            this.colArtist.HeaderText = "Artist";
+            this.colArtist.Name = "colArtist";
+            this.colArtist.ReadOnly = true;
+            this.colArtist.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colArtist.Width = 50;
             // 
-            // colSongTitle
+            // colTitle
             // 
-            this.colSongTitle.DataPropertyName = "Song";
-            this.colSongTitle.HeaderText = "Song Title";
-            this.colSongTitle.Name = "colSongTitle";
-            this.colSongTitle.ReadOnly = true;
-            this.colSongTitle.Width = 50;
+            this.colTitle.DataPropertyName = "Title";
+            this.colTitle.HeaderText = "Song Title";
+            this.colTitle.Name = "colTitle";
+            this.colTitle.ReadOnly = true;
+            this.colTitle.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colTitle.Width = 50;
             // 
-            // colSongAlbum
+            // colAlbum
             // 
-            this.colSongAlbum.DataPropertyName = "Album";
-            this.colSongAlbum.HeaderText = "Album";
-            this.colSongAlbum.Name = "colSongAlbum";
-            this.colSongAlbum.ReadOnly = true;
-            this.colSongAlbum.Width = 50;
+            this.colAlbum.DataPropertyName = "Album";
+            this.colAlbum.HeaderText = "Album";
+            this.colAlbum.Name = "colAlbum";
+            this.colAlbum.ReadOnly = true;
+            this.colAlbum.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colAlbum.Width = 50;
             // 
             // colUpdated
             // 
-            this.colUpdated.DataPropertyName = "Updated";
+            this.colUpdated.DataPropertyName = "LastConversionDateTime";
             this.colUpdated.HeaderText = "Updated";
             this.colUpdated.Name = "colUpdated";
             this.colUpdated.ReadOnly = true;
@@ -286,9 +290,9 @@ namespace CustomsForgeManager.UControls
         private GroupBox gbResults;
         private DataGridViewCheckBoxColumn colSelect;
         private DataGridViewTextBoxColumn colEnabled;
-        private DataGridViewTextBoxColumn colSongArtist;
-        private DataGridViewTextBoxColumn colSongTitle;
-        private DataGridViewTextBoxColumn colSongAlbum;
+        private DataGridViewTools.DataGridViewAutoFilterTextBoxColumn colArtist;
+        private DataGridViewTools.DataGridViewAutoFilterTextBoxColumn colTitle;
+        private DataGridViewTools.DataGridViewAutoFilterTextBoxColumn colAlbum;
         private DataGridViewTextBoxColumn colUpdated;
         private DataGridViewTextBoxColumn colPath;
     }

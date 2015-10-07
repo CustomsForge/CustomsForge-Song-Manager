@@ -73,6 +73,7 @@ packages/
 BinForRelease/
 libs/DLogNet/
 libs/AntlrCs/
+AntlrCs/
 Copy of CustomsForgeManager/
 Copy*/
 CustomsForgeManager.sln

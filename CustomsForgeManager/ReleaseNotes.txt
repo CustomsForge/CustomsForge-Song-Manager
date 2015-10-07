@@ -1,5 +1,15 @@
 CFM Release Notes
 
+1.0.1.9
+-Updated SetlistManager Help file
+-Removing a setlist also removes/resets the setlist songs
+-Made DD visible in SetlistManager so that it can be used for making setlists
+-Fixed DD bug in Renamer
+-Use RocksmithToolkitLib.TuningDefinition.xml
+-Implimented fully sortable and filterable datatables with excel like column sorting/filters
+-Implimented Master/Detail tables for SongManager information to show complete arrangment, tuning and DD info
+-Adjusting code to add future CFM song editor freature
+
 1.0.1.8
 -Fixed SetlistManager double parsing on initial load
 -Permit SetlistManager to load disabled duplicates (w/ user warning)

@@ -28,7 +28,19 @@ namespace CustomsForgeManager.Forms
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);
 
             this.FormClosed += frmMain_FormClosed; // moved here for better access
-            this.FormClosed += delegate { notifyIcon_Main = null; }; // gets rid of notifyer icon on closing
+            // gets rid of notifyer icon on closing
+            this.FormClosed += delegate 
+            {
+                notifyIcon_Main.Visible = false;
+                notifyIcon_Main.Dispose();
+                notifyIcon_Main = null;
+            }; 
+            //notifyIcon_Main.BalloonTipClosed += (sender, e) =>
+            //    {
+            //        var thisIcon = (NotifyIcon)sender;
+            //        thisIcon.Visible = false;
+            //        thisIcon.Dispose();
+            //    };
             this.Text = String.Format("{0} (v{1})", Constants.ApplicationName, Constants.CustomVersion());
             // bring CFM to the front on startup
             this.WindowState = FormWindowState.Minimized;
@@ -115,6 +127,8 @@ namespace CustomsForgeManager.Forms
             Globals.SongManager.SaveSongCollectionToFile();
             // get rid of leftover notifications
             Globals.MyLog.RemoveTargetNotifyIcon(Globals.Notifier);
+            notifyIcon_Main.Visible = false;
+            notifyIcon_Main.Dispose();
             notifyIcon_Main.Icon = null;
             Dispose();
         }

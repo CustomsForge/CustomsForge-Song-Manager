@@ -83,7 +83,7 @@ namespace CustomsForgeManager.UControls
             Globals.MySettings.RSInstalledDir = GetInstallDirFromRegistry();
             Globals.MySettings.RescanOnStartup = false;
             Globals.MySettings.IncludeRS1DLCs = false;  // changed to false (fewer issues)
-            Globals.MySettings.EnabledLogBaloon = true; 
+            Globals.MySettings.EnabledLogBaloon = true;
             cueRsDir.Text = Globals.MySettings.RSInstalledDir;
             chkRescanOnStartup.Checked = Globals.MySettings.RescanOnStartup;
             chkIncludeRS1DLC.Checked = Globals.MySettings.IncludeRS1DLCs;
@@ -109,7 +109,7 @@ namespace CustomsForgeManager.UControls
             {
                 var settings = new RADataGridViewSettings();
                 var columns = Globals.DgvSongs.Columns;
-                if (columns.Count > 1) 
+                if (columns.Count > 1)
                 {
                     for (int i = 0; i < columns.Count; i++)
                     {
@@ -255,8 +255,6 @@ namespace CustomsForgeManager.UControls
             }
         }
 
-        #region Class Methods
-
         private static string GetInstallDirFromRegistry()
         {
             const string rsX64Path = @"HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Ubisoft\Rocksmith2014";
@@ -288,6 +286,5 @@ namespace CustomsForgeManager.UControls
             return String.Empty;
         }
 
-        #endregion
     }
 }

@@ -60,13 +60,13 @@ namespace CustomsForgeManager.UControls
 
                 Template template = new Template(txtRenameTemplate.Text);
                 template.Add("artist", data.Artist);
-                template.Add("title", data.Song);
+                template.Add("title", data.Title);
                 template.Add("album", data.Album);
                 template.Add("filename", data.FileName);
-                template.Add("tuning", data.Tuning);
+                template.Add("tuning", data.Tuning.Split(new[] { ", " }, StringSplitOptions.None).FirstOrDefault());
 
-                if ("Yes".Equals(data.DD))
-                    template.Add("dd", "_dd");
+                if (Convert.ToInt32(data.DD.Split(new[] { ", " }, StringSplitOptions.None).FirstOrDefault()) > 0)
+                    template.Add("dd", "_DD");
                 else
                     template.Add("dd", "");
 
@@ -76,8 +76,8 @@ namespace CustomsForgeManager.UControls
                 if (!String.IsNullOrEmpty(data.Version) && !data.Version.ToLower().Contains("n/a"))
                     template.Add("version", data.Version);
 
-                if (!String.IsNullOrEmpty(data.Author))
-                    template.Add("author", data.Author);
+                if (!String.IsNullOrEmpty(data.Charter))
+                    template.Add("author", data.Charter);
 
                 // CAREFUL - lots to go wrong in this simple method :(
                 // there could be setlist directories or user added directory(s)
@@ -195,7 +195,7 @@ namespace CustomsForgeManager.UControls
             }
 
             // check for duplicates
-            var dups = renSongCollection.GroupBy(x => new { x.Song, x.Album, x.Artist }).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
+            var dups = renSongCollection.GroupBy(x => new { Song = x.Title, x.Album, x.Artist }).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
             if (dups.Any())
             {
                 MessageBox.Show("Use the Duplicates tabmenu to delete/move" + Environment.NewLine + "duplicates before attempting to use Renamer.  ", Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);

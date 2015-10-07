@@ -3,10 +3,17 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Xml.Serialization;
+using CustomsForgeManager.CustomsForgeManagerLib.CustomControls;
+using DataGridViewTools;
+using Newtonsoft.Json;
+using RocksmithToolkitLib.DLCPackage.Manifest2014.Tone;
 
-namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
+// DO NOT USE CLEANUP CODE SORTING
+
+namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
 {
-     // unexpected results when used with Dotfuscator because enums are renamed
+    // unexpected results when used with Dotfuscator because enums are renamed
     // [Obfuscation(Feature = "default", Exclude = false, StripAfterObfuscation = false)]
     [Obfuscation(Exclude = true, ApplyToMembers = true, StripAfterObfuscation = true, Feature = "renaming")]
     public enum SongDataStatus : byte
@@ -17,38 +24,48 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         NotFound = 3
     }
 
-    // CAREFUL ... may override display index
-    // the order of the class variables effects the order of the dgv and settings list
+    // CAREFUL ... 
+    // the order of the class variables effects the order of the datagridview displays
+    // only essential data needs to be saved to the XML songinfo file
     [Serializable]
     public class SongData
     {
+        public string SongKey { get; set; }
+
+        [XmlIgnore]
         public bool Selected { get; set; }
-        public string Enabled { get; set; }
+
+        [XmlIgnore]
+        public string Enabled
+        {
+            get { return (new FileInfo(Path).Name).ToLower().Contains("disabled") ? "No" : "Yes"; }
+            // set { } // required for XML file usage
+        }
+
         public string Artist { get; set; }
-        public string Song { get; set; }
+        public string Title { get; set; }
         public string Album { get; set; }
         public string SongYear { get; set; }
- 
-        public string Arrangements
-        {
-            get { return _arrangements != null ? String.Join(",", _arrangements.Select(x => x.Name).ToArray()) : String.Empty; }
-            set { XmlArrangementsHelper(value); } // required for XML file usage 
-            // TODO: convert XmlArrangementsHelper to LINQ
-            // set {AddArrangement(value.Split(',').Select((x) => new SongDataArrangement {Name = x});]
-        }
- 
-        public string Tuning { get; set; }
-        public string DD { get; set; }
+        public string SongLength { get; set; } // single (seconds)
+        public string SongAverageTempo { get; set; } // single
+        public string SongVolume { get; set; } // float
+        public string AppID { get; set; }
+
+        [XmlArray("Arrangments")] // provides proper xml serialization
+        [XmlArrayItem("Arrangement")] // provides proper xml serialization
+        public FilteredBindingList<Arrangement> Arrangements2D { get; set; }
+
         public string Path { get; set; }
-  
+
+        [XmlIgnore]
         public string FileName
         {
             get { return (new FileInfo(Path).Name); }
-            set { } // required for XML file usage
+            // set { } // required for XML file usage
         }
- 
-        public string Author { get; set; }
-        public string Updated { get; set; }
+
+        public string Charter { get; set; }
+        public string LastConversionDateTime { get; set; }
         public string Version { get; set; }
         public string ToolkitVer { get; set; }
         public SongDataStatus Status { get; set; }
@@ -56,52 +73,47 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         public string IgnitionAuthor { get; set; }
         public string IgnitionVersion { get; set; }
         public string IgnitionUpdated { get; set; }
-        public string ArtistTitleAlbum { get; set; } 
- 
-        private List<SongDataArrangement> _arrangements;
-        public void AddArrangement(SongDataArrangement arrangement)
+
+        [XmlIgnore]
+        public string ArtistTitleAlbum
         {
-            if (_arrangements == null)
-                _arrangements = new List<SongDataArrangement>();
-            _arrangements.Add(arrangement);
+            get { return String.Format("{0};{1};{2}", Artist, Title, Album); }
+            // set { } // required for XML file usage
         }
 
-        private void XmlArrangementsHelper(string xmlArrangements)
+        [XmlIgnore]  // preserves old 1D display method
+        public string Arrangements
         {
-            var arrangements = xmlArrangements.Split(',');
-            foreach (var arrangment in arrangements)
-                AddArrangement(new SongDataArrangement { Name = arrangment });
+            get { return String.Join(", ", Arrangements2D.Select(o => o.Name)); }
+        }
+
+        [XmlIgnore]  // preserves old 1D display method
+        public string Tuning
+        {
+            get { return Arrangements2D.Select(o => o.Tuning).FirstOrDefault(); }
+            // get { return String.Join(", ", Arrangements2D.Select(o => o.Tuning)); }
+        }
+
+        [XmlIgnore]  // preserves old 1D display method
+        public string DD
+        {
+            get { return Arrangements2D.Max(o => o.DMax); }
+            //get { return String.Join(", ", Arrangements2D.Select(o => o.DMax)); }
         }
     }
 
-    [Serializable]
-    public class SongDataArrangement
+
+
+    // details
+    [XmlRoot("Arrangment")] // provides proper xml serialization
+    public class Arrangement
     {
+        public string SongKey { get; set; }
+        public string PersistentID { get; set; }
         public string Name { get; set; }
+        public string Tuning { get; set; }
+        public string DMax { get; set; }
+        public string ToneBase { get; set; }
     }
 
-    // TODO: impliment INotifyPropertyChanged 
-    /*    public class SongData : INotifyPropertyChanged
-    impliment INotifyProperyChanged for BindingList
-     * {
-        public event PropertyChangedEventHandler PropertyChanged;
-        private string _artist;
-
-        private void NotifyPropertyChanged(string name)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs( name));
-        }
-
-        public string Artist
-        {
-            get { return _artist; }
-            set
-            {
-                _artist = value;
-                this.NotifyPropertyChanged("Artist");
-            }
-        }
-  
-     */
 }

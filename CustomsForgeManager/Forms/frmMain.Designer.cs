@@ -120,7 +120,7 @@ namespace CustomsForgeManager.Forms
             this.tsLabel_ShowHideLog.AutoSize = false;
             this.tsLabel_ShowHideLog.Font = new System.Drawing.Font("Trebuchet MS", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tsLabel_ShowHideLog.IsLink = true;
-            this.tsLabel_ShowHideLog.LinkColor = System.Drawing.Color.Black;
+            this.tsLabel_ShowHideLog.LinkColor = System.Drawing.SystemColors.ActiveCaption;
             this.tsLabel_ShowHideLog.Name = "tsLabel_ShowHideLog";
             this.tsLabel_ShowHideLog.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
             this.tsLabel_ShowHideLog.Size = new System.Drawing.Size(68, 18);
@@ -137,7 +137,7 @@ namespace CustomsForgeManager.Forms
             // 
             this.tsLabel_ClearLog.Font = new System.Drawing.Font("Trebuchet MS", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tsLabel_ClearLog.IsLink = true;
-            this.tsLabel_ClearLog.LinkColor = System.Drawing.Color.Black;
+            this.tsLabel_ClearLog.LinkColor = System.Drawing.SystemColors.ActiveCaption;
             this.tsLabel_ClearLog.Name = "tsLabel_ClearLog";
             this.tsLabel_ClearLog.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
             this.tsLabel_ClearLog.Size = new System.Drawing.Size(64, 18);
@@ -167,7 +167,7 @@ namespace CustomsForgeManager.Forms
             // 
             this.tsLabel_Cancel.Font = new System.Drawing.Font("Trebuchet MS", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tsLabel_Cancel.IsLink = true;
-            this.tsLabel_Cancel.LinkColor = System.Drawing.Color.Black;
+            this.tsLabel_Cancel.LinkColor = System.Drawing.SystemColors.ActiveCaption;
             this.tsLabel_Cancel.Name = "tsLabel_Cancel";
             this.tsLabel_Cancel.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
             this.tsLabel_Cancel.Size = new System.Drawing.Size(53, 18);

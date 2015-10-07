@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows.Forms;
 using System.Xml.Linq;
@@ -9,6 +12,9 @@ using System.Xml.Serialization;
 using System.Net;
 using CustomsForgeManager.CustomsForgeManagerLib.CustomControls;
 using CustomsForgeManager.CustomsForgeManagerLib.Objects;
+using Newtonsoft.Json.Linq;
+using RocksmithToolkitLib;
+using RocksmithToolkitLib.Xml;
 
 namespace CustomsForgeManager.CustomsForgeManagerLib
 {
@@ -41,12 +47,24 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
             return x;
         }
 
-        public static string TuningToName(this string tuningStrings)
+        public static string TuningToName(string tolkenTuning, GameVersion gameVersion = GameVersion.RS2014)
         {
-            // TODO: speed hack keep root (tunings.xml) in memory instead of loading each time
-            var root = XElement.Load("tunings.xml");
-            var tuningName = root.Elements("Tuning").Where(tuning => tuning.Attribute("Strings").Value == tuningStrings).Select(tuning => tuning.Attribute("Name")).ToList();
-            return tuningName.Count == 0 ? "Other" : tuningName[0].Value;
+            // var tuningDefinitions = TuningDefinitionRepository.LoadTuningDefinitions(gameVersion);
+            var jObj = JObject.Parse(tolkenTuning);
+            TuningStrings songTuning = jObj.ToObject<TuningStrings>();
+
+            foreach (var tuning in Globals.TuningXml)
+                if (tuning.Tuning.String0 == songTuning.String5 &&
+                    tuning.Tuning.String1 == songTuning.String5 &&
+                    tuning.Tuning.String2 == songTuning.String5 &&
+                    tuning.Tuning.String3 == songTuning.String5 &&
+                    tuning.Tuning.String4 == songTuning.String5 &&
+                    tuning.Tuning.String5 == songTuning.String5)
+                {
+                    return tuning.UIName;
+                }
+
+            return "Other";
         }
 
         public static string DifficultyToDD(this string maxDifficulty)
@@ -240,6 +258,34 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
             }
             return files;
         }
+
+        // Convert List to Data Table
+        public static DataTable ConvertList<T>(IEnumerable<T> objectList)
+        {
+            Type type = typeof(T);
+            var typeproperties = type.GetProperties();
+
+            DataTable list2DataTable = new DataTable();
+            foreach (PropertyInfo propInfo in typeproperties)
+            {
+                list2DataTable.Columns.Add(new DataColumn(propInfo.Name, propInfo.PropertyType));
+            }
+
+            foreach (T listItem in objectList)
+            {
+                object[] values = new object[typeproperties.Length];
+                for (int i = 0; i < typeproperties.Length; i++)
+                {
+                    values[i] = typeproperties[i].GetValue(listItem, null);
+                }
+
+                list2DataTable.Rows.Add(values);
+            }
+
+            return list2DataTable;
+        }
+
+
 
     }
 }

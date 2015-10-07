@@ -5,12 +5,12 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using CustomsForgeManager.CustomsForgeManagerLib.CustomControls;
 using CustomsForgeManager.CustomsForgeManagerLib.Objects;
-using CustomsForgeManager.Forms;
-using CustomsForgeManager.UControls;
+using DataGridViewTools;
+using RocksmithToolkitLib;
+
 
 //
 // Reusable background worker class for parsing songs
@@ -138,16 +138,17 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
 
                 WorkerProgress(songCounter++ * 100 / fileList.Count);
 
-                var enabled = file.Contains(".disabled.") ? "No" : "Yes";
-                ParsePSARC(enabled, file);
+                ParsePSARC(file);
                 bwFileCollection.Add(file);
             }
 
             counterStopwatch.Stop();
         }
 
-        private void ParsePSARC(string enabled, string filePath)
+        private void ParsePSARC(string filePath)
         {
+            // 2x speed hack ... preload the TuningDefinition
+            Globals.TuningXml = TuningDefinitionRepository.LoadTuningDefinitions(GameVersion.RS2014);
             try
             {
                 using (var browser = new PsarcBrowser(filePath))
@@ -156,17 +157,15 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
 
                     foreach (var songData in songInfo.Distinct())
                     {
-                        songData.Enabled = enabled;
-
                         // **************
                         // CAUTION - ANY DateTime CHANGES MUST BE TESTED WITH MULTIPLE CULTURE VARIANTS
                         // convert date string to usable DateTime format
                         DateTime updateDateTime = new DateTime();
-                        if (DateTime.TryParse(songData.Updated, out updateDateTime))
-                            songData.Updated = updateDateTime.ToString(CultureInfo.GetCultureInfo("en-US").DateTimeFormat);
+                        if (DateTime.TryParse(songData.LastConversionDateTime, out updateDateTime))
+                            songData.LastConversionDateTime = updateDateTime.ToString(CultureInfo.GetCultureInfo("en-US").DateTimeFormat);
 
                         // prevent mixed culture variants appearing in same table
-                        songData.Updated = DateTime.Parse(songData.Updated, CultureInfo.GetCultureInfo("en-US")).ToString();
+                        songData.LastConversionDateTime = DateTime.Parse(songData.LastConversionDateTime, CultureInfo.GetCultureInfo("en-US")).ToString();
                         // **************
 
                         if (songData.Version == "N/A")
@@ -203,12 +202,18 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                     Globals.Log("<ERROR>: " + filePath + "  -  " + ex.Message);
 
                 Globals.Log("File has been moved to: " + corDir);
-                
+
                 if (!Directory.Exists(corDir))
                     Directory.CreateDirectory(corDir);
-                
+
+                //if (!File.Exists(corFilePath))
+                //    File.Delete(corFilePath);
+
                 File.Move(filePath, corFilePath);
             }
+
+            // free up memory
+            Globals.TuningXml.Clear();
         }
 
         public void Dispose() { }

@@ -1,8 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
+using CustomsForgeManager.CustomsForgeManagerLib.CustomControls;
 using CustomsForgeManager.UControls;
 using DLogNet;
+using DataGridViewTools;
+using RocksmithToolkitLib;
+
 
 namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
 {
@@ -19,7 +23,6 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         private static About _about;
         private static List<string> _fileCollection;
         private static DataGridView _dgvSongs;
-        private static List<SongData> _dupeCollection;
         private static Duplicates _duplicates;
         private static Dictionary<string, SongData> _outdatedSongList;
         private static Renamer _renamer;
@@ -27,7 +30,6 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         private static Settings _settings;
         private static BindingList<SongData> _songCollection;
         private static SongManager _songManager;
-        private static List<SongData> _sortedSongCollection;
         private static Utilities _utilities;
 
         public static About About
@@ -48,18 +50,13 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
             set { _dgvSongs = value; }
         }
 
-        public static List<SongData> DupeCollection
-        {
-            get { return _dupeCollection ?? (_dupeCollection = new List<SongData>()); }
-            set { _dupeCollection = value; }
-        }
-
         public static Duplicates Duplicates
         {
             get { return _duplicates ?? (_duplicates = new Duplicates()); }
             set { _duplicates = value; }
         }
 
+        public static List<TuningDefinition> TuningXml { get; set; }
         public static DLogger MyLog { get; set; }
         public static AppSettings MySettings { get; set; }
         public static NotifyIcon Notifier { get; set; }
@@ -115,18 +112,12 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
             set { _songManager = value; }
         }
 
-        public static List<SongData> SortedSongCollection
-        {
-            get { return _sortedSongCollection ?? (_sortedSongCollection = new List<SongData>()); }
-            set { _sortedSongCollection = value; }
-        }
-
         public static ToolStripStatusLabel TsLabel_Cancel { get; set; }
         public static ToolStripStatusLabel TsLabel_DisabledCounter { get; set; }
         public static ToolStripStatusLabel TsLabel_MainMsg { get; set; }
         public static ToolStripStatusLabel TsLabel_StatusMsg { get; set; }
         public static ToolStripProgressBar TsProgressBar_Main { get; set; }
-        
+
         public static Utilities Utilities
         {
             get { return _utilities ?? (_utilities = new Utilities()); }
@@ -134,8 +125,6 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         }
 
         public static Tristate WorkerFinished { get; set; } // True = 0, False = 1, Cancelled = 2
-
-        #region Class Methods
 
         public static void Log(string message)
         {
@@ -152,6 +141,5 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
             TsLabel_DisabledCounter.Visible = false;
         }
 
-        #endregion
     }
 }

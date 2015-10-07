@@ -1,7 +1,11 @@
 ﻿using System.Diagnostics;
+using CustomsForgeManager.CustomsForgeManagerLib.CustomControls;
 using CustomsForgeManager.CustomsForgeManagerLib.Objects;
+using DataGridViewTools;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RocksmithToolkitLib.DLCPackage;
+using RocksmithToolkitLib.DLCPackage.Manifest2014.Tone;
 using RocksmithToolkitLib.Extensions;
 using RocksmithToolkitLib.PSARC;
 using System;
@@ -9,7 +13,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
+using Arrangement = CustomsForgeManager.CustomsForgeManagerLib.Objects.Arrangement;
 
 namespace CustomsForgeManager.CustomsForgeManagerLib
 {
@@ -29,29 +33,37 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
 
         public IEnumerable<SongData> GetSongs()
         {
+            var sw = new Stopwatch();
+            sw.Restart();
+
             string author = String.Empty;
             string version = String.Empty;
             string tkversion = String.Empty;
-            var songsFromPsarcFileList = new List<SongData>();
+            string appId = String.Empty;
+            var songsFromPsarc = new List<SongData>();
+            var arrangmentsFromPsarc = new FilteredBindingList<Arrangement>();
 
-            var toolkitVersionFiles = archive.TOC.Where(x => (x.Name.Equals("toolkit.version")));
-            foreach (var toolkitVersionFile in toolkitVersionFiles)
+
+            var toolkitVersionFile = archive.TOC.FirstOrDefault(x => (x.Name.Equals("toolkit.version")));
+            if (toolkitVersionFile != null)
             {
-                if (toolkitVersionFile.Name.Equals("toolkit.version"))
-                {
-                    //if (toolkitVersionFile.Compressed)// it's planned
-                    archive.InflateEntry(toolkitVersionFile);
-                    ToolkitInfo tkInfo = GeneralExtensions.GetToolkitInfo(new StreamReader(toolkitVersionFile.Data));
-                    author = tkInfo.PackageAuthor ?? "N/A";
-                    version = tkInfo.PackageVersion ?? "N/A";
-                    tkversion = tkInfo.ToolkitVersion ?? "N/A";
-                }
+                archive.InflateEntry(toolkitVersionFile);
+                ToolkitInfo tkInfo = GeneralExtensions.GetToolkitInfo(new StreamReader(toolkitVersionFile.Data));
+                author = tkInfo.PackageAuthor ?? "N/A";
+                version = tkInfo.PackageVersion ?? "N/A";
+                tkversion = tkInfo.ToolkitVersion ?? "N/A";
             }
 
-            // TODO: recover tuning for each arrangement
-            // assumption is that each song contains showlights
-            var singleSongCount = archive.TOC.Where(x => x.Name.Contains("showlights.xml") && x.Name.Contains("arr"));
+            var appIdFile = archive.TOC.FirstOrDefault(x => (x.Name.Equals("appid.appid")));
+            if (appIdFile != null)
+            {
+                archive.InflateEntry(appIdFile);
+                using (var reader = new StreamReader(appIdFile.Data))
+                    appId = reader.ReadLine();
+            }
 
+            // is assumption that each song contains showlights??
+            var singleSongCount = archive.TOC.Where(x => x.Name.Contains("showlights.xml") && x.Name.Contains("arr"));
             foreach (var singleSong in singleSongCount)
             {
 
@@ -63,9 +75,11 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                     && x.Name.Contains(strippedName)
                 ).OrderBy(x => x.Name);
 
-                var currentSong = new SongData { Author = author, Version = version, ToolkitVer = tkversion, Path = FilePath };
+                var currentSong = new SongData { Charter = author, Version = version, ToolkitVer = tkversion, AppID = appId, Path = FilePath };
 
-                // TODO: speed hack ... some of this only needs to be done one time
+                // TODO: speed hack ... some song info only needed one time
+                bool gotSongInfo = false;
+
                 // looping through song multiple times gathering each arrangment
                 foreach (var entry in infoFiles)
                 {
@@ -77,47 +91,53 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                         entry.Data.Position = 0;
                         ms.Position = 0;
 
+                        // generic json object parsing
                         var o = JObject.Parse(reader.ReadToEnd());
                         var attributes = o["Entries"].First.Last["Attributes"];
-                        // these don't changes so skip after first
-                        currentSong.Song = attributes["SongName"].ToString();
-                        currentSong.Artist = attributes["ArtistName"].ToString();
-                        currentSong.Album = attributes["AlbumName"].ToString();
-                        currentSong.SongYear = attributes["SongYear"].ToString();
-                        currentSong.Updated = attributes["LastConversionDateTime"].ToString();
-                        // these change
-                        //  TODO: treat DD like arrangement
-                        currentSong.DD = attributes["MaxPhraseDifficulty"].ToString(); // .DifficultyToDD();
-                        // TODO: optimize use of TuningToName
-                        currentSong.Tuning =
-                            Regex.Replace(attributes["Tuning"].ToString(), @"""(?:\\.|[^""\r\n\\])*""", "")
-                                .Replace(@"\s+", "")
-                                .Replace("{", "")
-                                .Replace("}", "")
-                                .Replace(",", "")
-                                .Replace(": ", "")
-                                .Replace(Environment.NewLine, string.Empty)
-                                .Replace(" ", String.Empty).TuningToName();
+                        var tones = attributes.SelectToken("Tones");
 
-                        // TODO: fix Vocals parsing and display
-                        // TODO: treat tuning like arrangements
-                        // TODO: treat DD like arrangments
-                        currentSong.AddArrangement(new SongDataArrangement
+                        //Globals.Log("JSON Attributes " + attributes);
+                        // mini speed hack - these don't change so skip after first pass
+                        if (!gotSongInfo)
                         {
-                            Name = attributes["ArrangementName"].ToString()
+                            currentSong.SongKey = attributes["SongKey"].ToString();
+                            currentSong.Title = attributes["SongName"].ToString();
+                            currentSong.Artist = attributes["ArtistName"].ToString();
+                            currentSong.Album = attributes["AlbumName"].ToString();
+                            currentSong.LastConversionDateTime = attributes["LastConversionDateTime"].ToString();
+                            currentSong.SongYear = attributes["SongYear"].ToString();
+                            currentSong.SongLength = attributes["SongLength"].ToString();
+                            currentSong.SongAverageTempo = attributes["SongAverageTempo"].ToString();
+
+                            // some CDLC may not have SongVolume
+                            if (attributes["SongVolume"] != null)
+                                currentSong.SongVolume = attributes["SongVolume"].ToString();
+
+                            gotSongInfo = true;
+                        }
+  
+                         arrangmentsFromPsarc.Add(new Arrangement
+                        {
+                            SongKey = attributes["SongKey"].ToString(),
+                            PersistentID = attributes["PersistentID"].ToString(),
+                            Name = attributes["ArrangementName"].ToString(),
+                            Tuning = Extensions.TuningToName(attributes["Tuning"].ToString()),
+                            DMax = attributes["MaxPhraseDifficulty"].ToString(),
+                            ToneBase = attributes["Tone_Base"].ToString()
                         });
 
-                        // populate ArtistSongAlbum used for finding duplicates
-                        currentSong.ArtistTitleAlbum = String.Format("{0};{1};{2}",
-                            currentSong.Artist, currentSong.Song, currentSong.Album);
-                    }
-                    songsFromPsarcFileList.Add(currentSong);
+                     }
                 }
+
+                currentSong.Arrangements2D = arrangmentsFromPsarc;
+                songsFromPsarc.Add(currentSong);
             }
 
-            return songsFromPsarcFileList;
-        }
+            sw.Stop();
+            Globals.Log(Path.GetFileName(FilePath) + " parsing took: " + sw.ElapsedMilliseconds + " (msec)");
 
+            return songsFromPsarc;
+        }
 
 
         public void Dispose()
