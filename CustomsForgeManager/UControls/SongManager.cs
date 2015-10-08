@@ -95,7 +95,13 @@ namespace CustomsForgeManager.UControls
                 Globals.Log("Deleted CFM folder from My Documents ...");
 
                 if (Directory.Exists(Constants.WorkDirectory))
-                    Directory.Delete(Constants.WorkDirectory, true);
+                    if (Directory.Exists(Constants.WorkDirectory))
+                    {
+                        File.Delete(Constants.LogFilePath);
+                        File.Delete(Constants.SettingsPath);
+                        File.Delete(Constants.SongFilesPath);
+                        File.Delete(Constants.SongsInfoPath);
+                    } 
 
                 Environment.Exit(0);
             }
@@ -435,7 +441,13 @@ namespace CustomsForgeManager.UControls
             if (!dlcFiles.Any())
             {
                 if (Directory.Exists(Constants.WorkDirectory))
-                    Directory.Delete(Constants.WorkDirectory, true);
+                    if (Directory.Exists(Constants.WorkDirectory))
+                    {
+                        File.Delete(Constants.LogFilePath);
+                        File.Delete(Constants.SettingsPath);
+                        File.Delete(Constants.SongFilesPath);
+                        File.Delete(Constants.SongsInfoPath);
+                    } 
 
                 var msgText = "Houston ... we have a problem!" + Environment.NewLine +
                     "There are no Rocksmith 2014 songs in:" + Environment.NewLine +
@@ -449,7 +461,7 @@ namespace CustomsForgeManager.UControls
             }
 
             ToggleUIControls();
-
+ 
             // run new worker
             using (Worker worker = new Worker())
             {

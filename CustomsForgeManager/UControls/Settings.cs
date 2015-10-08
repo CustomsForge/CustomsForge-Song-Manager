@@ -41,6 +41,7 @@ namespace CustomsForgeManager.UControls
 
                 cueRsDir.Text = Globals.MySettings.RSInstalledDir;
                 chkRescanOnStartup.Checked = Globals.MySettings.RescanOnStartup;
+                chkRescanNewSongs.Checked = Globals.MySettings.RescanNewSongs;
                 chkIncludeRS1DLC.Checked = Globals.MySettings.IncludeRS1DLCs;
                 chkEnableLogBallon.Checked = Globals.MySettings.EnabledLogBaloon;
 
@@ -69,6 +70,7 @@ namespace CustomsForgeManager.UControls
             // initialize variables
             cueRsDir.Text = Globals.MySettings.RSInstalledDir;
             chkRescanOnStartup.Checked = Globals.MySettings.RescanOnStartup;
+            chkRescanNewSongs.Checked = Globals.MySettings.RescanNewSongs;
             chkIncludeRS1DLC.Checked = Globals.MySettings.IncludeRS1DLCs;
             chkEnableLogBallon.Checked = Globals.MySettings.EnabledLogBaloon;
         }
@@ -82,10 +84,17 @@ namespace CustomsForgeManager.UControls
             Globals.MySettings.LogFilePath = Constants.LogFilePath;
             Globals.MySettings.RSInstalledDir = GetInstallDirFromRegistry();
             Globals.MySettings.RescanOnStartup = false;
+            Globals.MySettings.RescanNewSongs = false;
             Globals.MySettings.IncludeRS1DLCs = false;  // changed to false (fewer issues)
-            Globals.MySettings.EnabledLogBaloon = true;
+
+            if (Constants.DebugMode)
+                Globals.MySettings.EnabledLogBaloon = true;
+            else
+                Globals.MySettings.EnabledLogBaloon = false; // fewer notfication issues
+
             cueRsDir.Text = Globals.MySettings.RSInstalledDir;
             chkRescanOnStartup.Checked = Globals.MySettings.RescanOnStartup;
+            chkRescanNewSongs.Checked = Globals.MySettings.RescanNewSongs;
             chkIncludeRS1DLC.Checked = Globals.MySettings.IncludeRS1DLCs;
             chkEnableLogBallon.Checked = Globals.MySettings.EnabledLogBaloon;
 
@@ -101,6 +110,7 @@ namespace CustomsForgeManager.UControls
             {
                 Globals.MySettings.RSInstalledDir = cueRsDir.Text;
                 Globals.MySettings.RescanOnStartup = chkRescanOnStartup.Checked;
+                Globals.MySettings.RescanNewSongs = chkRescanNewSongs.Checked;
                 Globals.MySettings.IncludeRS1DLCs = chkIncludeRS1DLC.Checked;
                 Globals.MySettings.EnabledLogBaloon = chkEnableLogBallon.Checked;
             }
@@ -285,6 +295,7 @@ namespace CustomsForgeManager.UControls
 
             return String.Empty;
         }
+
 
     }
 }

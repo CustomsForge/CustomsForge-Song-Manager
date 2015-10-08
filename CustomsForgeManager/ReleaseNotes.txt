@@ -1,5 +1,10 @@
 CFM Release Notes
 
+1.0.2.1
+-Only delete those application files from CFM necessary for a clean startup
+-CFM folder is now stationary and may be used to store any users created folders and files
+-Added checkbox to Settings "Rescan Only New Songs (Faster Loading)"
+
 1.0.2.0
 -Added ClickOnceUninstaller.exe to help cleanup old CFM installs
 -Added custom column filter graphics to draw attention to filtered columns

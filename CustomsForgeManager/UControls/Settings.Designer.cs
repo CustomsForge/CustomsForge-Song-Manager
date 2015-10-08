@@ -33,7 +33,6 @@ namespace CustomsForgeManager.UControls
         private void InitializeComponent()
         {
             this.tlpSettings_Wrapper = new System.Windows.Forms.TableLayoutPanel();
-            this.chkRescanOnStartup = new System.Windows.Forms.CheckBox();
             this.chkIncludeRS1DLC = new System.Windows.Forms.CheckBox();
             this.panel5 = new System.Windows.Forms.Panel();
             this.lnkSelectAll = new System.Windows.Forms.LinkLabel();
@@ -43,11 +42,13 @@ namespace CustomsForgeManager.UControls
             this.colSettingsColumnName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colSettingsColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colSettingsWidth = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.chkEnableLogBallon = new System.Windows.Forms.CheckBox();
             this.cueRsDir = new CustomsForgeManager.CustomsForgeManagerLib.CustomControls.CueTextBox();
+            this.lblSettingsRSDir = new System.Windows.Forms.Label();
             this.btnSettingsLoad = new System.Windows.Forms.Button();
             this.btnSettingsSave = new System.Windows.Forms.Button();
-            this.lblSettingsRSDir = new System.Windows.Forms.Label();
+            this.chkEnableLogBallon = new System.Windows.Forms.CheckBox();
+            this.chkRescanNewSongs = new System.Windows.Forms.CheckBox();
+            this.chkRescanOnStartup = new System.Windows.Forms.CheckBox();
             this.tlpSettings_Wrapper.SuspendLayout();
             this.panel5.SuspendLayout();
             this.SuspendLayout();
@@ -55,48 +56,34 @@ namespace CustomsForgeManager.UControls
             // tlpSettings_Wrapper
             // 
             this.tlpSettings_Wrapper.ColumnCount = 3;
-            this.tlpSettings_Wrapper.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 17.87879F));
-            this.tlpSettings_Wrapper.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 22.0202F));
-            this.tlpSettings_Wrapper.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60F));
-            this.tlpSettings_Wrapper.Controls.Add(this.chkRescanOnStartup, 0, 3);
+            this.tlpSettings_Wrapper.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 21.88513F));
+            this.tlpSettings_Wrapper.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 17.94813F));
+            this.tlpSettings_Wrapper.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60.16674F));
             this.tlpSettings_Wrapper.Controls.Add(this.chkIncludeRS1DLC, 0, 2);
             this.tlpSettings_Wrapper.Controls.Add(this.panel5, 2, 1);
-            this.tlpSettings_Wrapper.Controls.Add(this.chkEnableLogBallon, 0, 4);
             this.tlpSettings_Wrapper.Controls.Add(this.cueRsDir, 2, 0);
-            this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsLoad, 0, 6);
-            this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsSave, 1, 6);
             this.tlpSettings_Wrapper.Controls.Add(this.lblSettingsRSDir, 0, 0);
+            this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsLoad, 0, 7);
+            this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsSave, 1, 7);
+            this.tlpSettings_Wrapper.Controls.Add(this.chkEnableLogBallon, 0, 5);
+            this.tlpSettings_Wrapper.Controls.Add(this.chkRescanNewSongs, 0, 4);
+            this.tlpSettings_Wrapper.Controls.Add(this.chkRescanOnStartup, 0, 3);
             this.tlpSettings_Wrapper.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpSettings_Wrapper.Location = new System.Drawing.Point(0, 0);
             this.tlpSettings_Wrapper.Name = "tlpSettings_Wrapper";
-            this.tlpSettings_Wrapper.RowCount = 7;
+            this.tlpSettings_Wrapper.RowCount = 10;
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
-            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 289F));
+            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
+            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
+            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 256F));
+            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 17F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 8F));
-            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tlpSettings_Wrapper.Size = new System.Drawing.Size(866, 490);
             this.tlpSettings_Wrapper.TabIndex = 1;
-            // 
-            // chkRescanOnStartup
-            // 
-            this.chkRescanOnStartup.AutoSize = true;
-            this.chkRescanOnStartup.Checked = true;
-            this.chkRescanOnStartup.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.tlpSettings_Wrapper.SetColumnSpan(this.chkRescanOnStartup, 2);
-            this.chkRescanOnStartup.Dock = System.Windows.Forms.DockStyle.Left;
-            this.chkRescanOnStartup.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkRescanOnStartup.Location = new System.Drawing.Point(3, 84);
-            this.chkRescanOnStartup.Name = "chkRescanOnStartup";
-            this.chkRescanOnStartup.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
-            this.chkRescanOnStartup.Size = new System.Drawing.Size(138, 26);
-            this.chkRescanOnStartup.TabIndex = 3;
-            this.chkRescanOnStartup.Text = "Rescan On Startup";
-            this.chkRescanOnStartup.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.chkRescanOnStartup.UseVisualStyleBackColor = true;
             // 
             // chkIncludeRS1DLC
             // 
@@ -104,12 +91,11 @@ namespace CustomsForgeManager.UControls
             this.chkIncludeRS1DLC.Checked = true;
             this.chkIncludeRS1DLC.CheckState = System.Windows.Forms.CheckState.Checked;
             this.tlpSettings_Wrapper.SetColumnSpan(this.chkIncludeRS1DLC, 2);
-            this.chkIncludeRS1DLC.Dock = System.Windows.Forms.DockStyle.Left;
             this.chkIncludeRS1DLC.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chkIncludeRS1DLC.Location = new System.Drawing.Point(3, 52);
             this.chkIncludeRS1DLC.Name = "chkIncludeRS1DLC";
             this.chkIncludeRS1DLC.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
-            this.chkIncludeRS1DLC.Size = new System.Drawing.Size(205, 26);
+            this.chkIncludeRS1DLC.Size = new System.Drawing.Size(205, 19);
             this.chkIncludeRS1DLC.TabIndex = 3;
             this.chkIncludeRS1DLC.Text = "Include RS1 Compatibility Pack";
             this.chkIncludeRS1DLC.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -123,8 +109,8 @@ namespace CustomsForgeManager.UControls
             this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel5.Location = new System.Drawing.Point(347, 28);
             this.panel5.Name = "panel5";
-            this.tlpSettings_Wrapper.SetRowSpan(this.panel5, 6);
-            this.panel5.Size = new System.Drawing.Size(516, 459);
+            this.tlpSettings_Wrapper.SetRowSpan(this.panel5, 8);
+            this.panel5.Size = new System.Drawing.Size(516, 451);
             this.panel5.TabIndex = 4;
             // 
             // lnkSelectAll
@@ -167,7 +153,7 @@ namespace CustomsForgeManager.UControls
             this.listDisabledColumns.Location = new System.Drawing.Point(0, 24);
             this.listDisabledColumns.MultiSelect = false;
             this.listDisabledColumns.Name = "listDisabledColumns";
-            this.listDisabledColumns.Size = new System.Drawing.Size(513, 432);
+            this.listDisabledColumns.Size = new System.Drawing.Size(513, 472);
             this.listDisabledColumns.TabIndex = 5;
             this.listDisabledColumns.UseCompatibleStateImageBehavior = false;
             this.listDisabledColumns.View = System.Windows.Forms.View.Details;
@@ -193,24 +179,6 @@ namespace CustomsForgeManager.UControls
             this.colSettingsWidth.Text = "Column Width";
             this.colSettingsWidth.Width = 150;
             // 
-            // chkEnableLogBallon
-            // 
-            this.chkEnableLogBallon.AutoSize = true;
-            this.chkEnableLogBallon.Checked = true;
-            this.chkEnableLogBallon.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.tlpSettings_Wrapper.SetColumnSpan(this.chkEnableLogBallon, 2);
-            this.chkEnableLogBallon.Dock = System.Windows.Forms.DockStyle.Left;
-            this.chkEnableLogBallon.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkEnableLogBallon.Location = new System.Drawing.Point(3, 116);
-            this.chkEnableLogBallon.Name = "chkEnableLogBallon";
-            this.chkEnableLogBallon.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
-            this.chkEnableLogBallon.Size = new System.Drawing.Size(143, 26);
-            this.chkEnableLogBallon.TabIndex = 5;
-            this.chkEnableLogBallon.Text = "Enable Log Baloon ";
-            this.chkEnableLogBallon.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.chkEnableLogBallon.UseVisualStyleBackColor = true;
-            this.chkEnableLogBallon.CheckedChanged += new System.EventHandler(this.chkEnableLogBaloon_CheckedChanged);
-            // 
             // cueRsDir
             // 
             this.cueRsDir.Cue = "Click here and specify Rocksmith installation directory";
@@ -223,35 +191,6 @@ namespace CustomsForgeManager.UControls
             this.cueRsDir.Size = new System.Drawing.Size(516, 19);
             this.cueRsDir.TabIndex = 8;
             this.cueRsDir.MouseClick += new System.Windows.Forms.MouseEventHandler(this.cueRsDir_MouseClick);
-            // 
-            // btnSettingsLoad
-            // 
-            this.btnSettingsLoad.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.btnSettingsLoad.Image = global::CustomsForgeManager.Properties.Resources.load;
-            this.btnSettingsLoad.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSettingsLoad.Location = new System.Drawing.Point(26, 441);
-            this.btnSettingsLoad.Name = "btnSettingsLoad";
-            this.btnSettingsLoad.Size = new System.Drawing.Size(102, 46);
-            this.btnSettingsLoad.TabIndex = 0;
-            this.btnSettingsLoad.Text = "Load Settings";
-            this.btnSettingsLoad.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnSettingsLoad.UseVisualStyleBackColor = true;
-            this.btnSettingsLoad.Click += new System.EventHandler(this.btnSettingsLoad_Click);
-            // 
-            // btnSettingsSave
-            // 
-            this.btnSettingsSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnSettingsSave.BackColor = System.Drawing.SystemColors.Control;
-            this.btnSettingsSave.Image = global::CustomsForgeManager.Properties.Resources.save;
-            this.btnSettingsSave.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSettingsSave.Location = new System.Drawing.Point(157, 441);
-            this.btnSettingsSave.Name = "btnSettingsSave";
-            this.btnSettingsSave.Size = new System.Drawing.Size(103, 46);
-            this.btnSettingsSave.TabIndex = 0;
-            this.btnSettingsSave.Text = "Save Settings";
-            this.btnSettingsSave.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnSettingsSave.UseVisualStyleBackColor = true;
-            this.btnSettingsSave.Click += new System.EventHandler(this.btnSettingsSave_Click);
             // 
             // lblSettingsRSDir
             // 
@@ -267,6 +206,84 @@ namespace CustomsForgeManager.UControls
             this.lblSettingsRSDir.TabIndex = 7;
             this.lblSettingsRSDir.Text = "Rocksmith Installation Directory:";
             this.lblSettingsRSDir.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // btnSettingsLoad
+            // 
+            this.btnSettingsLoad.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.btnSettingsLoad.Image = global::CustomsForgeManager.Properties.Resources.load;
+            this.btnSettingsLoad.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnSettingsLoad.Location = new System.Drawing.Point(43, 428);
+            this.btnSettingsLoad.Name = "btnSettingsLoad";
+            this.btnSettingsLoad.Size = new System.Drawing.Size(102, 34);
+            this.btnSettingsLoad.TabIndex = 0;
+            this.btnSettingsLoad.Text = "Load Settings";
+            this.btnSettingsLoad.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnSettingsLoad.UseVisualStyleBackColor = true;
+            this.btnSettingsLoad.Click += new System.EventHandler(this.btnSettingsLoad_Click);
+            // 
+            // btnSettingsSave
+            // 
+            this.btnSettingsSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnSettingsSave.BackColor = System.Drawing.SystemColors.Control;
+            this.btnSettingsSave.Image = global::CustomsForgeManager.Properties.Resources.save;
+            this.btnSettingsSave.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnSettingsSave.Location = new System.Drawing.Point(192, 428);
+            this.btnSettingsSave.Name = "btnSettingsSave";
+            this.btnSettingsSave.Size = new System.Drawing.Size(103, 34);
+            this.btnSettingsSave.TabIndex = 0;
+            this.btnSettingsSave.Text = "Save Settings";
+            this.btnSettingsSave.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnSettingsSave.UseVisualStyleBackColor = true;
+            this.btnSettingsSave.Click += new System.EventHandler(this.btnSettingsSave_Click);
+            // 
+            // chkEnableLogBallon
+            // 
+            this.chkEnableLogBallon.AutoSize = true;
+            this.chkEnableLogBallon.Checked = true;
+            this.chkEnableLogBallon.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.tlpSettings_Wrapper.SetColumnSpan(this.chkEnableLogBallon, 2);
+            this.chkEnableLogBallon.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkEnableLogBallon.Location = new System.Drawing.Point(3, 148);
+            this.chkEnableLogBallon.Name = "chkEnableLogBallon";
+            this.chkEnableLogBallon.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
+            this.chkEnableLogBallon.Size = new System.Drawing.Size(143, 19);
+            this.chkEnableLogBallon.TabIndex = 5;
+            this.chkEnableLogBallon.Text = "Enable Log Baloon ";
+            this.chkEnableLogBallon.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.chkEnableLogBallon.UseVisualStyleBackColor = true;
+            this.chkEnableLogBallon.CheckedChanged += new System.EventHandler(this.chkEnableLogBaloon_CheckedChanged);
+            // 
+            // chkRescanNewSongs
+            // 
+            this.chkRescanNewSongs.AutoSize = true;
+            this.chkRescanNewSongs.Checked = true;
+            this.chkRescanNewSongs.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.tlpSettings_Wrapper.SetColumnSpan(this.chkRescanNewSongs, 2);
+            this.chkRescanNewSongs.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkRescanNewSongs.Location = new System.Drawing.Point(3, 116);
+            this.chkRescanNewSongs.Name = "chkRescanNewSongs";
+            this.chkRescanNewSongs.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
+            this.chkRescanNewSongs.Size = new System.Drawing.Size(263, 19);
+            this.chkRescanNewSongs.TabIndex = 9;
+            this.chkRescanNewSongs.Text = "Rescan Only New Songs (Faster Loading)";
+            this.chkRescanNewSongs.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.chkRescanNewSongs.UseVisualStyleBackColor = true;
+            // 
+            // chkRescanOnStartup
+            // 
+            this.chkRescanOnStartup.AutoSize = true;
+            this.chkRescanOnStartup.Checked = true;
+            this.chkRescanOnStartup.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.tlpSettings_Wrapper.SetColumnSpan(this.chkRescanOnStartup, 2);
+            this.chkRescanOnStartup.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkRescanOnStartup.Location = new System.Drawing.Point(3, 84);
+            this.chkRescanOnStartup.Name = "chkRescanOnStartup";
+            this.chkRescanOnStartup.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
+            this.chkRescanOnStartup.Size = new System.Drawing.Size(138, 19);
+            this.chkRescanOnStartup.TabIndex = 3;
+            this.chkRescanOnStartup.Text = "Rescan On Startup";
+            this.chkRescanOnStartup.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.chkRescanOnStartup.UseVisualStyleBackColor = true;
             // 
             // Settings
             // 
@@ -296,8 +313,9 @@ namespace CustomsForgeManager.UControls
         private Button btnSettingsSave;
         private Label lblSettingsRSDir;
         private CheckBox chkRescanOnStartup;
-        private CheckBox chkEnableLogBallon;
         private CueTextBox cueRsDir;
         public CheckBox chkIncludeRS1DLC;
+        private CheckBox chkEnableLogBallon;
+        private CheckBox chkRescanNewSongs;
     }
 }

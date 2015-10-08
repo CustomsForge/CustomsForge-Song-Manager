@@ -108,14 +108,26 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
 
         private void WorkerParseSongs(object sender, DoWorkEventArgs e)
         {
-            bwFileCollection.Clear();
-            Extensions.InvokeIfRequired(workOrder, delegate
-              {
-                  // bwSongCollection.Clear();
-                  bwSongCollection = new BindingList<SongData>();
-              });
-
             List<string> fileList = Extensions.FilesList(Path.Combine(Globals.MySettings.RSInstalledDir, "dlc"), Globals.MySettings.IncludeRS1DLCs);
+
+            // rescan only newly added songs
+            if (Globals.MySettings.RescanNewSongs)
+            {
+                Globals.Log("Parsing only new songs ...");
+                bwFileCollection = Globals.FileCollection;
+                bwSongCollection = Globals.SongCollection;
+                fileList = fileList.Except(bwFileCollection).ToList();
+             }
+            else // do complete rescan
+            {
+                Globals.Log("Parsing all songs ...");
+                bwFileCollection.Clear();
+                Extensions.InvokeIfRequired(workOrder, delegate
+                    {
+                        // bwSongCollection.Clear();
+                        bwSongCollection = new BindingList<SongData>();
+                    });
+            }
 
             // "Raw" is good descriptor :)
             Globals.Log(String.Format("Raw songs count: {0}", fileList.Count));
@@ -123,7 +135,6 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
             if (fileList.Count == 0)
                 return;
 
-            Globals.Log("Parsing songs ...");
             counterStopwatch.Restart();
             int songCounter = 0;
 

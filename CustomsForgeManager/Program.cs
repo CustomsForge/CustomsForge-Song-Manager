@@ -25,7 +25,12 @@ namespace CustomsForgeManager
             if (FirstRun() && !Constants.DebugMode)
             {
                 if (Directory.Exists(Constants.WorkDirectory))
-                    Directory.Delete(Constants.WorkDirectory, true);
+                {
+                    File.Delete(Constants.LogFilePath);
+                    File.Delete(Constants.SettingsPath);
+                    File.Delete(Constants.SongFilesPath);
+                    File.Delete(Constants.SongsInfoPath);
+                } 
 
                 using (TextWriter tw = new StreamWriter(Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "ReleaseNotes.txt"), true))
                 {

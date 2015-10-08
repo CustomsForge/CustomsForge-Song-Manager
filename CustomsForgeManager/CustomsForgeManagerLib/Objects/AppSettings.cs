@@ -9,10 +9,12 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         public string LogFilePath { get; set; }
         public string RSInstalledDir { get; set; }
         public bool RescanOnStartup { get; set; }
+        public bool RescanNewSongs { get; set; }
         public bool IncludeRS1DLCs { get; set; }
         public bool EnableLogBaloon { get; set; }
         public bool CheckForUpdateOnScan { get; set; }
         public RADataGridViewSettings ManagerGridSettings { get; set; }
+        // TODO: need to impliment saving/loading this
         public string RenameTemplate { get; set; }
     }
 
@@ -43,12 +45,6 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
 
         private SettingsData _settingsData;
 
-        //Dictionary<string, List<ColumnOrderItem>> columnOrder = new Dictionary<string, List<ColumnOrderItem>>();
-        //public Dictionary<string, List<ColumnOrderItem>> ColumnOrder
-        //{
-        //    get { return columnOrder as Dictionary<string, List<ColumnOrderItem>>; }
-        //    set { columnOrder = value; }
-        //}
         public RADataGridViewSettings ManagerGridSettings
         {
             get
@@ -91,8 +87,19 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
             set
             {
                 if (_settingsData == null)
-                    _settingsData = new SettingsData(){RescanOnStartup = true};
+                    _settingsData = new SettingsData() { RescanOnStartup = true };
                 _settingsData.RescanOnStartup = value;
+            }
+        }
+
+        public bool RescanNewSongs
+        {
+            get { return _settingsData.RescanNewSongs; }
+            set
+            {
+                if (_settingsData == null)
+                    _settingsData = new SettingsData() { RescanNewSongs = true };
+                _settingsData.RescanNewSongs = value;
             }
         }
 
@@ -102,7 +109,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
             set
             {
                 if (_settingsData == null)
-                    _settingsData = new SettingsData(){IncludeRS1DLCs = true};
+                    _settingsData = new SettingsData() { IncludeRS1DLCs = true };
                 _settingsData.IncludeRS1DLCs = value;
             }
         }
@@ -113,7 +120,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
             set
             {
                 if (_settingsData == null)
-                    _settingsData = new SettingsData(){EnableLogBaloon = true};
+                    _settingsData = new SettingsData() { EnableLogBaloon = true };
                 _settingsData.EnableLogBaloon = value;
             }
         }
@@ -124,8 +131,19 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
             set
             {
                 if (_settingsData == null)
-                    _settingsData = new SettingsData(){CheckForUpdateOnScan = false};
+                    _settingsData = new SettingsData() { CheckForUpdateOnScan = false };
                 _settingsData.CheckForUpdateOnScan = value;
+            }
+        }
+
+        public string RenameTemplate
+        {
+            get { return _settingsData.RenameTemplate; }
+            set
+            {
+                if (_settingsData == null)
+                    _settingsData = new SettingsData();
+                _settingsData.RenameTemplate = value;
             }
         }
 
