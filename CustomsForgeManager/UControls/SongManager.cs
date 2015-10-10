@@ -13,6 +13,7 @@ using CustomsForgeManager.CustomsForgeManagerLib;
 using CustomsForgeManager.CustomsForgeManagerLib.CustomControls;
 using CustomsForgeManager.CustomsForgeManagerLib.Objects;
 using CustomsForgeManager.Forms;
+using CustomsForgeManager.SongEditor;
 using DataGridViewTools;
 using Newtonsoft.Json;
 using Extensions = CustomsForgeManager.CustomsForgeManagerLib.Extensions;
@@ -26,7 +27,6 @@ namespace CustomsForgeManager.UControls
         private AbortableBackgroundWorker bWorker;
         private bool bindingCompleted = false;
         private Stopwatch counterStopwatch = new Stopwatch();
-        private bool debounced = false;
         private bool dgvPainted = false;
         private List<string> masterFileCollection = new List<string>();
         private BindingList<SongData> masterSongCollection = new BindingList<SongData>();
@@ -101,7 +101,7 @@ namespace CustomsForgeManager.UControls
                         File.Delete(Constants.SettingsPath);
                         File.Delete(Constants.SongFilesPath);
                         File.Delete(Constants.SongsInfoPath);
-                    } 
+                    }
 
                 Environment.Exit(0);
             }
@@ -447,7 +447,7 @@ namespace CustomsForgeManager.UControls
                         File.Delete(Constants.SettingsPath);
                         File.Delete(Constants.SongFilesPath);
                         File.Delete(Constants.SongsInfoPath);
-                    } 
+                    }
 
                 var msgText = "Houston ... we have a problem!" + Environment.NewLine +
                     "There are no Rocksmith 2014 songs in:" + Environment.NewLine +
@@ -461,7 +461,7 @@ namespace CustomsForgeManager.UControls
             }
 
             ToggleUIControls();
- 
+
             // run new worker
             using (Worker worker = new Worker())
             {
@@ -1079,9 +1079,15 @@ namespace CustomsForgeManager.UControls
             }
         }
 
-        private void cmsEditDLC_Click(object sender, EventArgs e)
+        private void cmsEditSong_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("NEW Feature - Comming Soon!");
+            var filePath = dgvSongsMaster.SelectedRows[0].Cells["colPath"].Value.ToString();
+
+            using (var songEditor = new frmSongEditor(filePath))
+            {
+                songEditor.Text = String.Format("{0}{1}", "Song Editor ... Loaded: ", Path.GetFileName(filePath));
+                songEditor.ShowDialog();
+            }
         }
 
         private void cmsGetCharterName_Click(object sender, EventArgs e)

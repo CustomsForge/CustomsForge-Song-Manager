@@ -1,5 +1,9 @@
 CFM Release Notes
 
+1.0.2.2
+-Initial commit of built in Song Editor feature (right click on song in SongManager and select Edit Song Information)
+-Feature is not ready for release only for developer review
+
 1.0.2.1
 -Only delete those application files from CFM necessary for a clean startup
 -CFM folder is now stationary and may be used to store any users created folders and files

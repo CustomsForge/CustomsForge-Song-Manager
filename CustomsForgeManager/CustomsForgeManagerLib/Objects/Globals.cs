@@ -31,7 +31,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         private static BindingList<SongData> _songCollection;
         private static SongManager _songManager;
         private static Utilities _utilities;
-
+ 
         public static About About
         {
             get { return _about ?? (_about = new About()); }

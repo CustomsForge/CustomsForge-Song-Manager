@@ -419,6 +419,7 @@ namespace DataGridViewTools
                     pressedOffset = 1;
                 }
 
+                // XP combobox button style
                 // ButtonRenderer.DrawButton(graphics, buttonBounds, state);
 
                 // If there is a filter in effect for the column, paint the 
@@ -426,56 +427,41 @@ namespace DataGridViewTools
                 // in effect, paint the down arrow as a filled triangle.
                 // Cozy Mod
                 var visTweak = 1;
+                var triangle = new Point[] {
+                    new Point(
+                        buttonBounds.Width / 2 + 
+                        buttonBounds.Left - 1 + pressedOffset, 
+                        buttonBounds.Height * 3 / 4 + 
+                        buttonBounds.Top - 5 + pressedOffset + visTweak),
+                    new Point(
+                        buttonBounds.Width / 4 + 
+                        buttonBounds.Left + pressedOffset - visTweak,
+                        buttonBounds.Height / 2 + 
+                        buttonBounds.Top - 5 + pressedOffset),
+                    new Point(
+                        buttonBounds.Width * 3 / 4 + 
+                        buttonBounds.Left - 1 + pressedOffset + visTweak,
+                        buttonBounds.Height / 2 + 
+                        buttonBounds.Top - 5 + pressedOffset)
+                    };
+
+                // Cozy Mod - Change button to Filter Icon and put polygon on top for effect
+                Bitmap img;
+                SolidBrush br;
                 if (filtered)
                 {
-                    // Cozy Mod - Change button to Filter Icon and put polygon on top for effect
-                     var img = new Bitmap(Properties.Resources.FilterX, 13, 13);
-                    graphics.DrawImage(img, buttonBounds.Left - 1 + pressedOffset, buttonBounds.Top - 1 + pressedOffset);
-
-                    graphics.DrawPolygon(SystemPens.ControlText, new Point[] 
-                    {
-                         new Point(
-                             buttonBounds.Width / 2 + 
-                             buttonBounds.Left - 1 + pressedOffset, 
-                             buttonBounds.Height * 3 / 4 + 
-                             buttonBounds.Top - 5 + pressedOffset + visTweak),
-                        new Point(
-                            buttonBounds.Width / 4 + 
-                            buttonBounds.Left + pressedOffset - visTweak,
-                            buttonBounds.Height / 2 + 
-                            buttonBounds.Top - 5 + pressedOffset),
-                        new Point(
-                            buttonBounds.Width * 3 / 4 + 
-                            buttonBounds.Left - 1 + pressedOffset + visTweak,
-                            buttonBounds.Height / 2 + 
-                            buttonBounds.Top - 5 + pressedOffset)
-                    });
+                    img = new Bitmap(Properties.Resources.FilterX, 13, 13);
+                    br = new SolidBrush(Color.Black);
                 }
                 else
                 {
-                    // Cozy Mod - Change button to Filter Icon and put polygon on top
-                    var img = new Bitmap(Properties.Resources.FilterY, 13, 13);
-                    graphics.DrawImage(img, buttonBounds.Left - 1 + pressedOffset, buttonBounds.Top - 1 + pressedOffset);
-
-                    graphics.FillPolygon(SystemBrushes.ControlText, new Point[] 
-                    {
-                        new Point(
-                             buttonBounds.Width / 2 + 
-                             buttonBounds.Left - 1 + pressedOffset, 
-                             buttonBounds.Height * 3 / 4 + 
-                             buttonBounds.Top - 5 + pressedOffset + visTweak),
-                        new Point(
-                            buttonBounds.Width / 4 + 
-                            buttonBounds.Left + pressedOffset - visTweak,
-                            buttonBounds.Height / 2 + 
-                            buttonBounds.Top - 5 + pressedOffset),
-                        new Point(
-                            buttonBounds.Width * 3 / 4 + 
-                            buttonBounds.Left - 1 + pressedOffset + visTweak,
-                            buttonBounds.Height / 2 + 
-                            buttonBounds.Top - 5 + pressedOffset)
-                    });
+                    img = new Bitmap(Properties.Resources.FilterY, 13, 13);
+                    br = new SolidBrush(Color.Yellow);
                 }
+
+                graphics.DrawImage(img, buttonBounds.Left - 1 + pressedOffset, buttonBounds.Top - 1 + pressedOffset);
+                graphics.DrawPolygon(SystemPens.ControlText, triangle);
+                graphics.FillPolygon(br, triangle);
             }
         }
 

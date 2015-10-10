@@ -47,10 +47,9 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
             return x;
         }
 
-        public static string TuningToName(string tolkenTuning, GameVersion gameVersion = GameVersion.RS2014)
+        public static string TuningToName(string tolkenTuning)
         {
-            // var tuningDefinitions = TuningDefinitionRepository.LoadTuningDefinitions(gameVersion);
-            var jObj = JObject.Parse(tolkenTuning);
+             var jObj = JObject.Parse(tolkenTuning);
             TuningStrings songTuning = jObj.ToObject<TuningStrings>();
 
             foreach (var tuning in Globals.TuningXml)

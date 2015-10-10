@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.IO;
 using System.Reflection;
+using System.Windows.Forms;
 
 namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
 {
@@ -23,7 +24,10 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         public static string SettingsPath { get { return Path.Combine(WorkDirectory, "settings.xml"); } }
         public static string SongsInfoPath { get { return Path.Combine(WorkDirectory, "songsinfo.xml"); } }
         public static string SongFilesPath { get { return Path.Combine(WorkDirectory, "songfiles.xml"); } }
-
+        public static string ApplicationDirectory{get { return Path.GetDirectoryName(Application.ExecutablePath); }}
+        public static string AppIdFilePath { get { return Path.Combine(ApplicationDirectory, "RocksmithToolkitLib.SongAppId.xml"); } }
+        public static string TuningDefFilePath { get { return Path.Combine(ApplicationDirectory, "RocksmithToolkitLib.TuningDefinition.xml"); } }
+            
         public static string DefaultInfoURL
         {
             get
