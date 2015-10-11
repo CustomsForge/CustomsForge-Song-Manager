@@ -114,10 +114,11 @@ namespace CustomsForgeManager.UControls
             // Hide main dgvSongsMaster until load completes
             dgvSongsMaster.Visible = false;
 
+            LoadSongCollectionFromFile();
+
             if (Globals.MySettings.RescanOnStartup)
                 Rescan();
 
-            LoadSongCollectionFromFile();
         }
 
         public void SaveSongCollectionToFile()

@@ -94,6 +94,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
             get { return Arrangements2D.Max(o => o.DMax); }
             //get { return String.Join(", ", Arrangements2D.Select(o => o.DMax)); }
         }
+
     }
 
 
@@ -108,6 +109,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
         public string Tuning { get; set; }
         public string DMax { get; set; }
         public string ToneBase { get; set; }
+        public int SectionCount { get; set; }
     }
 
 }

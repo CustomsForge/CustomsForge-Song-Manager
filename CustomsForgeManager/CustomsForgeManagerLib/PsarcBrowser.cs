@@ -123,7 +123,8 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                            Name = attributes["ArrangementName"].ToString(),
                            Tuning = Extensions.TuningToName(attributes["Tuning"].ToString()),
                            DMax = attributes["MaxPhraseDifficulty"].ToString(),
-                           ToneBase = attributes["Tone_Base"].ToString()
+                           ToneBase = attributes["Tone_Base"].ToString(),
+                           SectionCount = attributes["Sections"].ToArray().Count()
                        });
 
                     }

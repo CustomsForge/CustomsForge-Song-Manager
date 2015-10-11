@@ -9,6 +9,12 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
     public class PsarcPackage : IDisposable
     {
         private string packageDir;
+        private bool FDeleteOnDispose;
+
+        public PsarcPackage(bool DeleteOnClose = false)
+        {
+            FDeleteOnDispose = DeleteOnClose;
+        }
  
         public DLCPackageData ReadPackage(string inputPath)
         {
@@ -28,12 +34,14 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
 
         public void WritePackage(string outputPath, DLCPackageData packageData)
         {
-            DLCPackageCreator.Generate(outputPath, packageData, new Platform(GamePlatform.Pc, GameVersion.RS2014));
+            DLCPackageCreator.Generate(outputPath, packageData, new Platform(GamePlatform.Pc,
+                GameVersion.RS2014));
         }
 
         public void Dispose()
         {
-            // DirectoryExtension.SafeDelete(packageDir);            
+            if (FDeleteOnDispose)
+                DirectoryExtension.SafeDelete(packageDir);            
         }
     }
 }

@@ -123,12 +123,13 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
             get { return _utilities ?? (_utilities = new Utilities()); }
             set { _utilities = value; }
         }
-
+        
         public static Tristate WorkerFinished { get; set; } // True = 0, False = 1, Cancelled = 2
 
         public static void Log(string message)
         {
-            MyLog.Write(message);
+            if (MySettings.LogMessages)
+                MyLog.Write(message);
         }
 
         public static void ResetToolStripGlobals()

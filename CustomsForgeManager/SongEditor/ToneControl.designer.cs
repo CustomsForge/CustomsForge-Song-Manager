@@ -1,6 +1,4 @@
-﻿using CustomsForgeManager.CustomsForgeManagerLib.CustomControls;
-
-namespace CustomsForgeManager.SongEditor
+﻿namespace CustomsForgeManager.SongEditor
 {
     partial class ToneControl
     {
@@ -67,7 +65,7 @@ namespace CustomsForgeManager.SongEditor
             this.gbToneInformation = new System.Windows.Forms.GroupBox();
             this.descriptorLabel = new System.Windows.Forms.Label();
             this.descriptorCombo = new System.Windows.Forms.ComboBox();
-            this.toneNameBox = new RocksmithToolkitGUI.CueTextBox();
+            this.toneNameBox = new System.Windows.Forms.TextBox();
             this.volumeBox = new NumericUpDownFixed();
             this.gbAmpCab.SuspendLayout();
             this.gbLoopPedalAndRacks.SuspendLayout();
@@ -470,15 +468,13 @@ namespace CustomsForgeManager.SongEditor
             // 
             // toneNameBox
             // 
-            this.toneNameBox.Cue = "Tone Name";
+            //this.toneNameBox.Cue = "Tone Name";
             this.toneNameBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.toneNameBox.ForeColor = System.Drawing.Color.Gray;
             this.toneNameBox.Location = new System.Drawing.Point(6, 18);
             this.toneNameBox.Name = "toneNameBox";
             this.toneNameBox.Size = new System.Drawing.Size(143, 20);
             this.toneNameBox.TabIndex = 0;
-            this.toneNameBox.Leave += new System.EventHandler(this.toneNameBox_Leave);
-            this.toneNameBox.MouseEnter += new System.EventHandler(this.toneNameBox_MouseEnter);
             // 
             // volumeBox
             // 
@@ -551,7 +547,7 @@ namespace CustomsForgeManager.SongEditor
         private System.Windows.Forms.Button ampKnobButton;
         private System.Windows.Forms.ComboBox cabinetBox;
         private System.Windows.Forms.Button cabinetKnobButton;
-        private CueTextBox toneNameBox;
+        private System.Windows.Forms.TextBox toneNameBox;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private NumericUpDownFixed volumeBox;

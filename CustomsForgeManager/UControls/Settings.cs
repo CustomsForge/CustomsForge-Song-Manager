@@ -62,8 +62,7 @@ namespace CustomsForgeManager.UControls
             listDisabledColumns.Items.Clear();
             foreach (DataGridViewColumn col in Globals.DgvSongs.Columns)
             {
-                ListViewItem newItem = new ListViewItem(new[] { String.Empty, col.Name, col.HeaderText, col.Width.ToString() });
-                newItem.Checked = col.Visible;
+                ListViewItem newItem = new ListViewItem(new[] { String.Empty, col.Name, col.HeaderText, col.Width.ToString() }) { Checked = col.Visible };
                 listDisabledColumns.Items.Add(newItem);
             }
 
@@ -164,8 +163,8 @@ namespace CustomsForgeManager.UControls
 
                 if (!Directory.Exists(Path.Combine(cueRsDir.Text, "dlc")))
                 {
-                    MessageBox.Show("Please select a directory that  " + Environment.NewLine +
-                                    "contains a 'dlc' subdirectory.", Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(string.Format("Please select a directory that  {0}contains a 'dlc' subdirectory.",
+                        Environment.NewLine), Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     ValidateRsDir();
                 }
 
@@ -223,6 +222,7 @@ namespace CustomsForgeManager.UControls
             using (var fbd = new FolderBrowserDialog())
             {
                 fbd.Description = "Select the RS2014 installation directory";
+                fbd.SelectedPath = GetInstallDirFromRegistry();
 
                 if (fbd.ShowDialog() != DialogResult.OK) return;
                 cueRsDir.Text = fbd.SelectedPath;
@@ -230,8 +230,8 @@ namespace CustomsForgeManager.UControls
 
             if (!Directory.Exists(Path.Combine(cueRsDir.Text, "dlc")))
             {
-                MessageBox.Show("Please select a directory that  " + Environment.NewLine +
-                                "contains a 'dlc' subdirectory.", Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(string.Format("Please select a directory that  {0}contains a 'dlc' subdirectory.", Environment.NewLine),
+                    Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -265,8 +265,23 @@ namespace CustomsForgeManager.UControls
             }
         }
 
+        private static string GetStringValueFromRegistry(string keyName, string valueName)
+        {
+            try
+            {
+                return (string)Registry.GetValue(keyName, valueName, "");
+            }
+            catch (Exception)
+            {
+                return string.Empty;
+            }
+        }
+
         private static string GetInstallDirFromRegistry()
         {
+            const string installValueName = "InstallLocation";
+            const string steamPath = @"HKEY_CURRENT_USER\SOFTWARE\Valve\Steam";
+
             const string rsX64Path = @"HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Ubisoft\Rocksmith2014";
             const string rsX64Steam = @"HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\Steam App 221680";
 
@@ -274,24 +289,31 @@ namespace CustomsForgeManager.UControls
             const string rsX86Path = @"HKEY_LOCAL_MACHINE\SOFTWARE\Ubisoft\Rocksmith2014";
             const string rsX86Steam = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Steam App 221680";
 
-            try
-            {
-                if (!String.IsNullOrEmpty(Registry.GetValue(rsX64Path, "installdir", null).ToString()))
-                    return Registry.GetValue(rsX64Path, "installdir", null).ToString();
-                if (!String.IsNullOrEmpty(Registry.GetValue(rsX64Steam, "InstallLocation", null).ToString()))
-                    return Registry.GetValue(rsX64Steam, "InstallLocation", null).ToString();
+            string result = GetStringValueFromRegistry(steamPath, "SteamPath");
+            if (!String.IsNullOrEmpty(result))
+                return Path.Combine(result.Replace('/', '\\'), "SteamApps\\common\\Rocksmith2014");
 
-                // TODO: confirm the following is correct for x86 machines
-                if (!String.IsNullOrEmpty(Registry.GetValue(rsX86Path, "InstallLocation", null).ToString()))
-                    return Registry.GetValue(rsX86Path, "installdir", null).ToString();
-                if (!String.IsNullOrEmpty(Registry.GetValue(rsX86Steam, "InstallLocation", null).ToString()))
-                    return Registry.GetValue(rsX86Steam, "InstallLocation", null).ToString();
-            }
-            catch (NullReferenceException)
-            {
-                // needed for WinXP SP3 which throws NullReferenceException when registry not found
-                Globals.Log("RS2014 Installation Directory not found in Registry");
-            }
+            result = GetStringValueFromRegistry(rsX64Path, "installdir");
+            if (!String.IsNullOrEmpty(result))
+                return result;
+
+
+            result = GetStringValueFromRegistry(rsX64Steam, installValueName);
+            if (!String.IsNullOrEmpty(result))
+                return result;
+
+
+            result = GetStringValueFromRegistry(rsX86Path, installValueName);
+            if (!String.IsNullOrEmpty(result))
+                return result;
+
+
+            result = GetStringValueFromRegistry(rsX86Steam, installValueName);
+            if (!String.IsNullOrEmpty(result))
+                return result;
+
+            Globals.Log("RS2014 Installation Directory not found in Registry");
+
 
             return String.Empty;
         }

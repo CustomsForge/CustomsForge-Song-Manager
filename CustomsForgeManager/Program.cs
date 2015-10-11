@@ -52,7 +52,7 @@ namespace CustomsForgeManager
             }
             catch (Exception ex)
             {
-                Globals.Log(String.Format("{0} {1}", "Exception:", ex.Message));
+                Globals.MyLog.Write(String.Format("{0} {1}", "Exception:", ex.Message));
                 Process.Start(Globals.MySettings.LogFilePath);
             }
         }

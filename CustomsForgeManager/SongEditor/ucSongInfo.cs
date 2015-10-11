@@ -3,21 +3,17 @@ using System.Linq;
 using System.Windows.Forms;
 using CustomsForgeManager.CustomsForgeManagerLib.Objects;
 using RocksmithToolkitLib;
-using RocksmithToolkitLib.DLCPackage;
 
 namespace CustomsForgeManager.SongEditor
 {
-    public partial class ucSongInfo : UserControl
+    public partial class ucSongInfo : DLCPackageEditorControlBase
     {
-        public string FilePath;
-        public DLCPackageData SongData; 
-
         public ucSongInfo()
         {
-            InitializeComponent();         
+            InitializeComponent();
         }
- 
-        public void InitSongInfo()
+
+        public override void DoInit()
         {
             // this will throw exception if SongFilePath not found
             var song = Globals.SongCollection.First(x => x.Path == FilePath);
@@ -37,7 +33,49 @@ namespace CustomsForgeManager.SongEditor
             txtCharter.Text = song.Charter; // not editable
 
             PopulateAppIdCombo(SongData.AppId, GameVersion.RS2014);
- 
+
+        }
+
+        public override bool Dirty
+        {
+            get
+            {
+                return base.Dirty ||
+                    SongData.Name != txtKey.Text ||
+                    SongData.SongInfo.Artist != txtArtist.Text ||
+                    SongData.SongInfo.ArtistSort != txtArtistSort.Text ||
+                    SongData.SongInfo.SongDisplayName != txtTitle.Text ||
+                    SongData.SongInfo.SongDisplayNameSort != txtTitleSort.Text ||
+                    SongData.SongInfo.Album != txtAlbum.Text ||
+                    SongData.AppId != txtAppId.Text ||
+                    SongData.PackageVersion != txtVersion.Text ||
+                    SongData.SongInfo.SongYear != Convert.ToInt32(txtYear.Text) ||
+                    SongData.SongInfo.AverageTempo != Convert.ToInt32(txtAvgTempo.Text) ||
+                    SongData.Volume != Convert.ToSingle(cmbSongVolume.Value) ||
+                    SongData.PreviewVolume != Convert.ToSingle(cmbPreviewVolume.Value);
+            }
+            set
+            {
+                base.Dirty = value;
+            }
+        }
+
+        //TODO: validate editors
+        public override void Save()
+        {
+            SongData.Name = txtKey.Text;
+            SongData.SongInfo.Artist = txtArtist.Text;
+            SongData.SongInfo.ArtistSort = txtArtistSort.Text;
+            SongData.SongInfo.SongDisplayName = txtTitle.Text;
+            SongData.SongInfo.SongDisplayNameSort = txtTitleSort.Text;
+            SongData.SongInfo.Album = txtAlbum.Text;
+            SongData.AppId = txtAppId.Text;
+            SongData.PackageVersion = txtVersion.Text;
+            SongData.SongInfo.SongYear = Convert.ToInt32(txtYear.Text);
+            SongData.SongInfo.AverageTempo = Convert.ToInt32(txtAvgTempo.Text);
+            SongData.Volume = Convert.ToSingle(cmbSongVolume.Value);
+            SongData.PreviewVolume = Convert.ToSingle(cmbPreviewVolume.Value);
+            base.Save();
         }
 
         private void PopulateAppIdCombo(string appId, GameVersion gameVersion)

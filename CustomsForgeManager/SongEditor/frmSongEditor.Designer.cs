@@ -162,8 +162,10 @@
             this.Controls.Add(this.statusStripMain);
             this.Controls.Add(this.tcMain);
             this.Name = "frmSongEditor";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "frmSongEditor";
             this.TopMost = true;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmSongEditor_FormClosing);
             this.statusStripMain.ResumeLayout(false);
             this.statusStripMain.PerformLayout();
             this.tcMain.ResumeLayout(false);
