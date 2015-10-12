@@ -42,13 +42,13 @@ namespace CustomsForgeManager.UControls
             this.colSettingsColumnName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colSettingsColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colSettingsWidth = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.cueRsDir = new CustomsForgeManager.CustomsForgeManagerLib.CustomControls.CueTextBox();
             this.lblSettingsRSDir = new System.Windows.Forms.Label();
             this.btnSettingsLoad = new System.Windows.Forms.Button();
             this.btnSettingsSave = new System.Windows.Forms.Button();
             this.chkEnableLogBallon = new System.Windows.Forms.CheckBox();
             this.chkRescanNewSongs = new System.Windows.Forms.CheckBox();
             this.chkRescanOnStartup = new System.Windows.Forms.CheckBox();
+            this.cueRsDir = new CustomsForgeManager.CustomsForgeManagerLib.CustomControls.CueTextBox();
             this.tlpSettings_Wrapper.SuspendLayout();
             this.panel5.SuspendLayout();
             this.SuspendLayout();
@@ -126,8 +126,8 @@ namespace CustomsForgeManager.UControls
             // 
             // lblDisabledColumns
             // 
-            this.lblDisabledColumns.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblDisabledColumns.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lblDisabledColumns.AutoSize = true;
             this.lblDisabledColumns.Location = new System.Drawing.Point(234, 5);
             this.lblDisabledColumns.Name = "lblDisabledColumns";
@@ -138,8 +138,8 @@ namespace CustomsForgeManager.UControls
             // 
             // listDisabledColumns
             // 
-            this.listDisabledColumns.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.listDisabledColumns.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.listDisabledColumns.BackColor = System.Drawing.SystemColors.InactiveBorder;
             this.listDisabledColumns.CheckBoxes = true;
             this.listDisabledColumns.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
@@ -178,19 +178,6 @@ namespace CustomsForgeManager.UControls
             // 
             this.colSettingsWidth.Text = "Column Width";
             this.colSettingsWidth.Width = 150;
-            // 
-            // cueRsDir
-            // 
-            this.cueRsDir.Cue = "Click here and specify Rocksmith installation directory";
-            this.cueRsDir.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.cueRsDir.ForeColor = System.Drawing.Color.Gray;
-            this.cueRsDir.Location = new System.Drawing.Point(347, 3);
-            this.cueRsDir.Multiline = true;
-            this.cueRsDir.Name = "cueRsDir";
-            this.cueRsDir.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.cueRsDir.Size = new System.Drawing.Size(516, 19);
-            this.cueRsDir.TabIndex = 8;
-            this.cueRsDir.MouseClick += new System.Windows.Forms.MouseEventHandler(this.cueRsDir_MouseClick);
             // 
             // lblSettingsRSDir
             // 
@@ -284,6 +271,19 @@ namespace CustomsForgeManager.UControls
             this.chkRescanOnStartup.Text = "Rescan On Startup";
             this.chkRescanOnStartup.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.chkRescanOnStartup.UseVisualStyleBackColor = true;
+            // 
+            // cueRsDir
+            // 
+            this.cueRsDir.Cue = "Click here and specify Rocksmith installation directory";
+            this.cueRsDir.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.cueRsDir.ForeColor = System.Drawing.Color.Gray;
+            this.cueRsDir.Location = new System.Drawing.Point(347, 3);
+            this.cueRsDir.Multiline = true;
+            this.cueRsDir.Name = "cueRsDir";
+            this.cueRsDir.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.cueRsDir.Size = new System.Drawing.Size(516, 19);
+            this.cueRsDir.TabIndex = 8;
+            this.cueRsDir.MouseClick += new System.Windows.Forms.MouseEventHandler(this.cueRsDir_MouseClick);
             // 
             // Settings
             // 

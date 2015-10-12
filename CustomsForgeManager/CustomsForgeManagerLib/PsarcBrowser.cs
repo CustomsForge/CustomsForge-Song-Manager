@@ -1,4 +1,6 @@
-﻿using System.Diagnostics;
+﻿#define DEBUG_LOG_PARSING
+
+using System.Diagnostics;
 using CustomsForgeManager.CustomsForgeManagerLib.CustomControls;
 using CustomsForgeManager.CustomsForgeManagerLib.Objects;
 using DataGridViewTools;
@@ -75,7 +77,8 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                     && x.Name.Contains(strippedName)
                 ).OrderBy(x => x.Name);
 
-                var currentSong = new SongData { Charter = author, Version = version, ToolkitVer = tkversion, AppID = appId, Path = FilePath };
+                var fInfo = new FileInfo(FilePath);
+                var currentSong = new SongData { Charter = author, Version = version, ToolkitVer = tkversion, AppID = appId, Path = FilePath, FileDate = fInfo.LastWriteTimeUtc, FileSize = (int)fInfo.Length };
 
                 // TODO: speed hack ... some song info only needed one time
                 bool gotSongInfo = false;
@@ -94,7 +97,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                         // generic json object parsing
                         var o = JObject.Parse(reader.ReadToEnd());
                         var attributes = o["Entries"].First.Last["Attributes"];
-                        var tones = attributes.SelectToken("Tones");
+                       // var tones = attributes.SelectToken("Tones");
 
                         //Globals.Log("JSON Attributes " + attributes);
                         // mini speed hack - these don't change so skip after first pass

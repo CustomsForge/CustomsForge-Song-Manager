@@ -44,9 +44,7 @@ namespace CustomsForgeManager.Forms
             this.Text = String.Format("{0} (v{1})", Constants.ApplicationName, Constants.CustomVersion());
             // bring CFM to the front on startup
             this.WindowState = FormWindowState.Minimized;
-            this.Show();
-            this.WindowState = FormWindowState.Normal;
-
+          
             if (Constants.DebugMode)
             {
                 tsLabel_ShowHideLog.Text = "Hide Log ";
@@ -81,6 +79,10 @@ namespace CustomsForgeManager.Forms
 
             // load settings
             Globals.Settings.LoadSettingsFromFile();
+
+            this.Show();
+            this.WindowState = Globals.MySettings.FullScreen ? FormWindowState.Maximized : FormWindowState.Normal;
+
 
             if (Globals.MySettings.EnabledLogBaloon)
                 Globals.MyLog.AddTargetNotifyIcon(Globals.Notifier);
@@ -121,6 +123,7 @@ namespace CustomsForgeManager.Forms
                 Globals.Log("<ERROR>: Save on close failed ...");
                 return;
             }
+            Globals.MySettings.FullScreen = WindowState == FormWindowState.Maximized;
 
             Globals.SongManager.LeaveSongManager();
             Globals.Settings.SaveSettingsToFile();
@@ -170,12 +173,12 @@ namespace CustomsForgeManager.Forms
                     Globals.SetlistManager.Location = UCLocation;
                     Globals.SetlistManager.Size = UCSize;
                     break;
-                case "UTIL":
-                    this.tpUtilities.Controls.Clear();
-                    this.tpUtilities.Controls.Add(Globals.Utilities);
-                    Globals.Utilities.Location = UCLocation;
-                    Globals.Utilities.Size = UCSize;
-                    break;
+                //case "UTIL":
+                //    this.tpUtilities.Controls.Clear();
+                //    this.tpUtilities.Controls.Add(Globals.Utilities);
+                //    Globals.Utilities.Location = UCLocation;
+                //    Globals.Utilities.Size = UCSize;
+                //    break;
                 case "SETT":
                     // using LeaveSongManager instead of EH SongMangager_Leave
                     Globals.SongManager.LeaveSongManager();
@@ -248,6 +251,27 @@ namespace CustomsForgeManager.Forms
         {
             get { return tsStatusMsg; }
             set { tsStatusMsg = value; }
+        }
+
+
+        private void tsBtnLaunchRS_Click(object sender, EventArgs e)
+        {
+            CustomsForgeManagerLib.Extensions.LaunchRocksmith2014();
+        }
+
+        private void tsBtnBackup_Click(object sender, EventArgs e)
+        {
+            CustomsForgeManagerLib.Extensions.BackupRocksmithProfile();
+        }
+
+        private void tsBtnUpload_Click(object sender, EventArgs e)
+        {
+            CustomsForgeManagerLib.Extensions.UploadToCustomsForge();
+        }
+
+        private void tsBtnRequest_Click(object sender, EventArgs e)
+        {
+            CustomsForgeManagerLib.Extensions.RequestSongOnCustomsForge();
         }
 
     }

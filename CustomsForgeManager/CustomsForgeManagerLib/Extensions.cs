@@ -15,6 +15,8 @@ using CustomsForgeManager.CustomsForgeManagerLib.Objects;
 using Newtonsoft.Json.Linq;
 using RocksmithToolkitLib;
 using RocksmithToolkitLib.Xml;
+using System.Diagnostics;
+using Microsoft.Win32;
 
 namespace CustomsForgeManager.CustomsForgeManagerLib
 {
@@ -284,7 +286,161 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
             return list2DataTable;
         }
 
+        public static void LaunchRocksmith2014()
+        {
+            var rocksmithProcess = Process.GetProcessesByName("Rocksmith2014.exe");
+            if (rocksmithProcess.Length > 0)
+                MessageBox.Show("Rocksmith is already running!");
+            else
+                Process.Start("steam://rungameid/221680");
+        }
 
+        private static string GetStringValueFromRegistry(string keyName, string valueName)
+        {
+            try
+            {
+                return (string)Registry.GetValue(keyName, valueName, "");
+            }
+            catch (Exception)
+            {
+                return string.Empty;
+            }
+        }
+
+        public static string GetSteamDirectory()
+        {
+            const string installValueName = "InstallLocation";
+            const string steamRegPath = @"HKEY_CURRENT_USER\SOFTWARE\Valve\Steam";
+
+            const string rsX64Path = @"HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Ubisoft\Rocksmith2014";
+            const string rsX64Steam = @"HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\Steam App 221680";
+
+            // TODO: confirm the following constants for x86 machines
+            const string rsX86Path = @"HKEY_LOCAL_MACHINE\SOFTWARE\Ubisoft\Rocksmith2014";
+            const string rsX86Steam = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Steam App 221680";
+
+            string result = GetStringValueFromRegistry(steamRegPath, "SteamPath");
+            if (!String.IsNullOrEmpty(result))
+                return Path.Combine(result.Replace('/', '\\'), "SteamApps\\common\\Rocksmith2014");
+
+            result = GetStringValueFromRegistry(rsX64Path, "installdir");
+            if (!String.IsNullOrEmpty(result))
+                return result;
+
+
+            result = GetStringValueFromRegistry(rsX64Steam, installValueName);
+            if (!String.IsNullOrEmpty(result))
+                return result;
+
+
+            result = GetStringValueFromRegistry(rsX86Path, installValueName);
+            if (!String.IsNullOrEmpty(result))
+                return result;
+
+
+            result = GetStringValueFromRegistry(rsX86Steam, installValueName);
+            if (!String.IsNullOrEmpty(result))
+                return result;
+
+            Globals.Log("RS2014 Installation Directory not found in Registry");
+
+
+            return String.Empty;
+        }
+
+
+        public static void BackupRocksmithProfile()
+        {
+            // TODO: confirm this works
+            try
+            {
+                string timestamp = string.Format("{0}-{1}-{2}.{3}-{4}-{5}", DateTime.Now.Day, DateTime.Now.Month, DateTime.Now.Year, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
+                string backupPath = string.Format("{0}\\profile.backup.{1}.zip", Constants.WorkDirectory, timestamp);
+                string userProfilePath = String.Empty;
+                string steamProfileDir = String.Empty;
+
+                string rsX64Path = @"HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Valve\Steam";
+                // TODO: confirm the following constant for x86 machines
+                string rsX86Path = @"HKEY_LOCAL_MACHINE\SOFTWARE\Valve\Steam";
+
+                // for WinXP SP3 x86 compatiblity
+                try
+                {
+                    if (!String.IsNullOrEmpty(Registry.GetValue(rsX64Path, "userdata", null).ToString()))
+                        steamProfileDir = Registry.GetValue(rsX64Path, "userdata", null).ToString();
+                    // TODO: confirm the following is correct for x86 machines
+                    if (!String.IsNullOrEmpty(Registry.GetValue(rsX86Path, "UserData", null).ToString()))
+                        steamProfileDir = Registry.GetValue(rsX86Path, "UserData", null).ToString();
+                }
+                catch (NullReferenceException)
+                {
+                    // needed for WinXP SP3 which throws NullReferenceException when registry not found
+                    Globals.Log("RS2014 User Profile Directory not found in Registry");
+                    Globals.Log("You will need to manually locate the directory");
+                }
+
+                if (String.IsNullOrEmpty(steamProfileDir))
+                    using (var fbd = new FolderBrowserDialog())
+                    {
+                        var srcDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), @"Steam\userdata\YOUR_USER_ID\221680\remote");
+                        fbd.SelectedPath = srcDir;
+                        fbd.Description = "Select Rocksmith 2014 user profile directory location";
+
+                        if (fbd.ShowDialog() != DialogResult.OK) return;
+                        steamProfileDir = fbd.SelectedPath;
+                    }
+
+                var subdirs = new DirectoryInfo(steamProfileDir).GetDirectories("*", SearchOption.AllDirectories).ToArray();
+
+                if (!subdirs.Any())
+                {
+                    List<string> files = new List<string>();
+                    string[] filePatterns = new string[] { "*_prfldb", "localprofiles.json", "crd" };
+
+                    foreach (var pattern in filePatterns)
+                    {
+                        var partial = Directory.GetFiles(steamProfileDir, pattern, SearchOption.AllDirectories);
+                        files.AddRange(partial);
+                    }
+
+                    if (files.Count > 1)
+                        userProfilePath = steamProfileDir;
+                }
+                else
+                    foreach (DirectoryInfo info in subdirs)
+                        if (info.FullName.Contains(@"221680\remote"))
+                        {
+                            userProfilePath = info.FullName;
+                            break;
+                        }
+
+                if (Directory.Exists(userProfilePath))
+                {
+                    string[] filenames = Directory.GetFiles(userProfilePath, "*", SearchOption.AllDirectories);
+                    DotNetZip.ZipFiles(filenames, backupPath);
+
+                    Globals.Log("Created user profile backup:");
+                    Globals.Log(backupPath);
+                }
+                else
+                    Globals.Log("Rocksmith 2014 user profile not found!");
+            }
+            catch (Exception ex)
+            {
+                Globals.Log("<Error>:" + ex.Message);
+            }
+        }
+
+
+        public static void UploadToCustomsForge()
+        {
+            Process.Start("http://ignition.customsforge.com/creators/submit");
+        }
+
+        public static void RequestSongOnCustomsForge()
+        {
+            Process.Start("http://requests.customsforge.com/");
+        }
 
     }
 }

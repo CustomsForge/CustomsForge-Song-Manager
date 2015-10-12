@@ -13,6 +13,8 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
             get { return columnOrder as List<ColumnOrderItem>; }
             set { columnOrder = value; }
         }
+
+
     }
 
     [Serializable]
@@ -35,8 +37,9 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         bool FIncludeRS1DLCs;
         bool FEnabledLogBaloon;
         bool FCheckForUpdateOnScan;
-        bool FLogMessages;
         string FRenameTemplate;
+        bool FFullScreen;
+
 
         public string LogFilePath { get { return FLogFilePath; } set { SetPropertyField("LogFilePath", ref FLogFilePath, value); } }
         public string RSInstalledDir { get { return FRSInstalledDir; } set { SetPropertyField("RSInstalledDir", ref FRSInstalledDir, value); } }
@@ -45,18 +48,18 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         public bool IncludeRS1DLCs { get { return FIncludeRS1DLCs; } set { SetPropertyField("IncludeRS1DLCs", ref FIncludeRS1DLCs, value); } }
         public bool EnabledLogBaloon { get { return FEnabledLogBaloon; } set { SetPropertyField("EnabledLogBaloon", ref FEnabledLogBaloon, value); } }
         public bool CheckForUpdateOnScan { get { return FCheckForUpdateOnScan; } set { SetPropertyField("CheckForUpdateOnScan", ref FCheckForUpdateOnScan, value); } }
-        public bool LogMessages { get { return FLogMessages; } set { SetPropertyField("LogMessages", ref FLogMessages, value); } }
         public RADataGridViewSettings ManagerGridSettings { get; set; }
         // TODO: need to impliment saving/loading this
-        public string RenameTemplate { get { return FRenameTemplate; } set { SetPropertyField("RenameTemplate", ref FRenameTemplate, value); } }     
-        
+        public string RenameTemplate { get { return FRenameTemplate; } set { SetPropertyField("RenameTemplate", ref FRenameTemplate, value); } }
+
+        public bool FullScreen { get { return FFullScreen; } set { SetPropertyField("FullScreen", ref FFullScreen, value); } }
+      
         /// <summary>
         /// Initialise settings with default values
         /// </summary>
         public AppSettings()
         {
           LogFilePath = Constants.LogFilePath;
-          FLogMessages = true;
         }
     }
 }

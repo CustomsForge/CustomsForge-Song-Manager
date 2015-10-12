@@ -1,5 +1,22 @@
 CFM Release Notes
 
+1.0.2.4
+Added ToolStripContainer to frmMain with a 'utilities' menustrip and removed the utilities tab.
+Moved utility methods to CustomsForgeManagerLib.Extensions
+Removed "LogMessages" from settings.
+Added "FullScreen" setting.
+Created an assemebly "CustomForgeManagerTools" that uses DevIL image library (had to create a new assembly to use unsafe code), in the future this assembly will also contain some audio tools(bass library).
+ucAlbumArt loads the album artwork(currently can not edit)
+
+1.0.2.3
+Song Editor is now working in the tests that I've done.
+Added a base class for all song editor controls to descend from.
+Updated ucSongInfo and ucTones controls. Both are working.
+Merged the AppSettings and SettingsData in to one class and inherited
+AppSettings to a new class "NotifyPropChangedBase"
+Added a SectionCount in the SongData.Arrangement class and added it to the DetailsGrid in the SongManager control.
+Added a "LogMessages" property to AppSettings, disabling speeds up song parsing significantly.
+
 1.0.2.2
 -Initial commit of built in Song Editor feature (right click on song in SongManager and select Edit Song Information)
 -Feature is not ready for release only for developer review

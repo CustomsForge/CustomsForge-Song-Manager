@@ -34,18 +34,20 @@
             // 
             // picAlbumArt
             // 
-            this.picAlbumArt.Location = new System.Drawing.Point(67, 46);
+            this.picAlbumArt.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.picAlbumArt.Location = new System.Drawing.Point(0, 0);
             this.picAlbumArt.Name = "picAlbumArt";
-            this.picAlbumArt.Size = new System.Drawing.Size(294, 251);
+            this.picAlbumArt.Size = new System.Drawing.Size(507, 411);
+            this.picAlbumArt.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.picAlbumArt.TabIndex = 0;
             this.picAlbumArt.TabStop = false;
             // 
-            // AlbumArt
+            // ucAlbumArt
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.picAlbumArt);
-            this.Name = "AlbumArt";
+            this.Name = "ucAlbumArt";
             this.Size = new System.Drawing.Size(507, 411);
             ((System.ComponentModel.ISupportInitialize)(this.picAlbumArt)).EndInit();
             this.ResumeLayout(false);

@@ -161,7 +161,11 @@
             this.ClientSize = new System.Drawing.Size(673, 482);
             this.Controls.Add(this.statusStripMain);
             this.Controls.Add(this.tcMain);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "frmSongEditor";
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "frmSongEditor";
             this.TopMost = true;

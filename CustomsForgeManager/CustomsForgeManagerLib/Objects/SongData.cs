@@ -42,6 +42,8 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
         public string SongLength { get; set; } // single (seconds)
         public string SongAverageTempo { get; set; } // single
         public string SongVolume { get; set; } // float
+        public DateTime FileDate { get; set; }
+        public int FileSize { get; set; }
 
         // used by detail table
         [XmlArray("Arrangments")] // provides proper xml serialization
@@ -95,6 +97,11 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
             //get { return String.Join(", ", Arrangements2D.Select(o => o.DMax)); }
         }
 
+        [XmlIgnore]  // preserves old 1D display method
+        public string Sections
+        {
+            get { return Arrangements2D.Max(o => o.SectionCount).ToString(); }
+        }
     }
 
 

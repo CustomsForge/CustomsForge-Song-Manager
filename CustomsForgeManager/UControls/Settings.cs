@@ -265,57 +265,9 @@ namespace CustomsForgeManager.UControls
             }
         }
 
-        private static string GetStringValueFromRegistry(string keyName, string valueName)
-        {
-            try
-            {
-                return (string)Registry.GetValue(keyName, valueName, "");
-            }
-            catch (Exception)
-            {
-                return string.Empty;
-            }
-        }
-
         private static string GetInstallDirFromRegistry()
-        {
-            const string installValueName = "InstallLocation";
-            const string steamPath = @"HKEY_CURRENT_USER\SOFTWARE\Valve\Steam";
-
-            const string rsX64Path = @"HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Ubisoft\Rocksmith2014";
-            const string rsX64Steam = @"HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\Steam App 221680";
-
-            // TODO: confirm the following constants for x86 machines
-            const string rsX86Path = @"HKEY_LOCAL_MACHINE\SOFTWARE\Ubisoft\Rocksmith2014";
-            const string rsX86Steam = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Steam App 221680";
-
-            string result = GetStringValueFromRegistry(steamPath, "SteamPath");
-            if (!String.IsNullOrEmpty(result))
-                return Path.Combine(result.Replace('/', '\\'), "SteamApps\\common\\Rocksmith2014");
-
-            result = GetStringValueFromRegistry(rsX64Path, "installdir");
-            if (!String.IsNullOrEmpty(result))
-                return result;
-
-
-            result = GetStringValueFromRegistry(rsX64Steam, installValueName);
-            if (!String.IsNullOrEmpty(result))
-                return result;
-
-
-            result = GetStringValueFromRegistry(rsX86Path, installValueName);
-            if (!String.IsNullOrEmpty(result))
-                return result;
-
-
-            result = GetStringValueFromRegistry(rsX86Steam, installValueName);
-            if (!String.IsNullOrEmpty(result))
-                return result;
-
-            Globals.Log("RS2014 Installation Directory not found in Registry");
-
-
-            return String.Empty;
+        {            
+            return Extensions.GetSteamDirectory();
         }
 
 

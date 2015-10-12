@@ -128,8 +128,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
 
         public static void Log(string message)
         {
-            if (MySettings.LogMessages)
-                MyLog.Write(message);
+             MyLog.Write(message);
         }
 
         public static void ResetToolStripGlobals()

@@ -129,21 +129,29 @@ namespace CustomsForgeManager.SongEditor
 
         private T LoadEditorControl<T>(TabPage page) where T : DLCPackageEditorControlBase
         {
-            var type = typeof(T);
-            var cc = type.GetConstructor(new Type[]{ });
-            if (cc != null)
+            Cursor = Cursors.WaitCursor;
+            try
             {
-                T obj = (T)cc.Invoke(new object[] { });
-                page.Controls.Clear();
-                page.Controls.Add(obj);
-                obj.Dock = DockStyle.Fill;
-                obj.FilePath = filePath;
-                obj.SongData = info;
-                obj.DoInit();
-                FEditorControls.Add(obj);
-                return obj;
+                var type = typeof(T);
+                var cc = type.GetConstructor(new Type[] { });
+                if (cc != null)
+                {
+                    T obj = (T)cc.Invoke(new object[] { });
+                    page.Controls.Clear();
+                    page.Controls.Add(obj);
+                    obj.Dock = DockStyle.Fill;
+                    obj.FilePath = filePath;
+                    obj.SongData = info;
+                    obj.DoInit();
+                    FEditorControls.Add(obj);
+                    return obj;
+                }
+                return null;
             }
-            return null;
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
         }
 
 
@@ -164,6 +172,12 @@ namespace CustomsForgeManager.SongEditor
                 LoadEditorControl<ucTones>(this.tpTones);
         }
 
+        private void LoadAlbumArt()
+        {
+            if (GetEditorControl<ucAlbumArt>() == null)
+                LoadEditorControl<ucAlbumArt>(this.tpAlbumArt);
+        }
+
         private void tcMain_SelectedIndexChanged(object sender, EventArgs e)
         {
             // Docking.Fill causes screen flicker so only use if needed
@@ -179,6 +193,9 @@ namespace CustomsForgeManager.SongEditor
                     break;
                 case "TONE":
                     LoadTones();
+                    break;
+                case "ALBU":
+                    LoadAlbumArt();
                     break;
             }
      

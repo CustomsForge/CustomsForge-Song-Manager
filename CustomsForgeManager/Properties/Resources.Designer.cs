@@ -341,21 +341,21 @@ namespace CustomsForgeManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The song data has changed.{0} Are you sure that you want to close before saving?.
+        /// </summary>
+        internal static string SongDataModifiedConfirmation {
+            get {
+                return ResourceManager.GetString("SongDataModifiedConfirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap StartRs {
             get {
                 object obj = ResourceManager.GetObject("StartRs", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The song data has changed.{0} Are you sure that you want to close before saving?.
-        /// </summary>
-        internal static string SongDataModifiedConfirmation {
-            get {
-                return ResourceManager.GetString("SongDataModifiedConfirmation", resourceCulture);
             }
         }
         
@@ -375,6 +375,16 @@ namespace CustomsForgeManager.Properties {
         internal static System.Drawing.Bitmap update {
             get {
                 object obj = ResourceManager.GetObject("update", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap upload {
+            get {
+                object obj = ResourceManager.GetObject("upload", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
