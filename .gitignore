@@ -70,13 +70,8 @@ packages/
 #others
 *.bat
 BinForRelease/
-libs/DLogNet/
-libs/AntlrCs/
-libs/DataGridViewTools/
-DataGridViewTools/
-ClickOnceUninstaller/
 Copy*/
-Copy*.txt
+Copy*.*
 
 
 
