@@ -5,7 +5,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomsForgeManager", "Cust
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CFMImageTools", "CustomForgeManagerTools\CFMImageTools\CFMImageTools.csproj", "{E6565985-C477-46F4-8A42-08E04CD40B65}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CFMAudioTools", "CustomForgeManagerTools\CFMAudioTools\CFMAudioTools\CFMAudioTools.csproj", "{6D8C3FE6-5855-4B6C-BD2B-51954342DBEE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CFMAudioTools", "CustomForgeManagerTools\CFMAudioTools\CFMAudioTools.csproj", "{6D8C3FE6-5855-4B6C-BD2B-51954342DBEE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RocksmithToolkitLib", "CustomForgeManagerTools\RocksmithToolkitLib\RocksmithToolkitLib.csproj", "{2231C13A-14F6-478A-96D7-D1D3E1094CD6}"
 EndProject

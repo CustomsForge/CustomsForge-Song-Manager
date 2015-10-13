@@ -79,14 +79,16 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                     && x.Name.EndsWith(".json")
                     && x.Name.Contains(strippedName)
                 ).OrderBy(x => x.Name); // bass, lead, rhythm
-
+                var fInfo = new FileInfo(FilePath);
                 var currentSong = new SongData
                     {
                         Charter = author,
                         Version = version,
                         ToolkitVer = tkversion,
                         AppID = appId,
-                        Path = FilePath
+                        Path = FilePath,
+						FileDate = fInfo.LastWriteTimeUtc, 
+						FileSize = (int)fInfo.Length
                     };
 
                 // TODO: speed hack ... some song info only needed one time

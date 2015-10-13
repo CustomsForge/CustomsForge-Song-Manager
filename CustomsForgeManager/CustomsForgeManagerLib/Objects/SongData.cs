@@ -98,9 +98,9 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
         }
 
         [XmlIgnore]  // preserves old 1D display method
-        public string Sections
+        public Int32 Sections
         {
-            get { return Arrangements2D.Max(o => o.SectionCount).ToString(); }
+            get { return Arrangements2D.Max(o => o.SectionCount); }
         }
     }
 
@@ -114,9 +114,9 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
         public string PersistentID { get; set; }
         public string Name { get; set; }
         public string Tuning { get; set; }
-         public Int32 DMax { get; set; }
+        public Int32 DMax { get; set; }
         public string ToneBase { get; set; }
-        public int SectionCount { get; set; }
+        public Int32 SectionCount { get; set; }
     }
 
 }

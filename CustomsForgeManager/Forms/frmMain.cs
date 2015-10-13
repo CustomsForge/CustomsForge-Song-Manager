@@ -213,6 +213,11 @@ namespace CustomsForgeManager.Forms
 
         private void tsLabelShowHideLog_Click(object sender, EventArgs e)
         {
+            ShowHideLog();
+        }
+
+        private void ShowHideLog()
+        {
             scMain.Panel2Collapsed = !scMain.Panel2Collapsed;
             tsLabel_ShowHideLog.Text = scMain.Panel2Collapsed ? "Show Log" : "Hide Log ";
         }
@@ -272,6 +277,21 @@ namespace CustomsForgeManager.Forms
         private void tsBtnRequest_Click(object sender, EventArgs e)
         {
             CustomsForgeManagerLib.Extensions.RequestSongOnCustomsForge();
+        }
+
+        private void frmMain_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.F3:
+                    ShowHideLog();
+                    e.Handled = true;
+                    break;
+                case Keys.F12:
+                    toolStripContainer1.TopToolStripPanelVisible = !toolStripContainer1.TopToolStripPanelVisible;
+                    e.Handled = true;
+                    break;
+            }
         }
 
     }

@@ -57,6 +57,14 @@ namespace RocksmithToolkitLib.Ogg
 
         public static void Revorb(string file, string outputFileName, string appPath, WwiseVersion wwiseVersion)
         {
+#if CFM_AUDIO_TOOLS
+            using (var readStream = File.OpenRead(file))
+            using (var outStream = File.Create(outputFileName))
+            {
+                CFMAudioTools.WwiseToOgg ww2Ogg = new CFMAudioTools.WwiseToOgg(readStream,outStream);
+                ww2Ogg.ConvertToOgg();
+            }
+#else
             string ww2oggPath = Path.Combine(appPath, "ww2ogg.exe");
             string revorbPath = Path.Combine(appPath, "revorb.exe");
             string codebooksPath = Path.Combine(appPath, "packed_codebooks.bin"); // Default
@@ -123,6 +131,7 @@ namespace RocksmithToolkitLib.Ogg
 
                 throw new Exception("revorb process error." + Environment.NewLine + revorbResult);
             }
+#endif
         }
 
         #region RS2014

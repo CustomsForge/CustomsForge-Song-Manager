@@ -36,7 +36,7 @@ namespace CustomsForgeManager
                 {
                     tw.Write("notfirstrun"); // IMPORTANT no CRLF added to end
                     tw.WriteLine(Environment.NewLine + Environment.NewLine + "notfirstrun");  // causes CRLF to be added
-                    tw.Close();
+                   // tw.Close(); Close not needed when using the "using" statement
                 }
             }
 

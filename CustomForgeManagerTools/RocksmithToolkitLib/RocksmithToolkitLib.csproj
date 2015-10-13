@@ -19,7 +19,7 @@
     <WarningLevel>4</WarningLevel>
     <Optimize>false</Optimize>
     <DebugType>full</DebugType>
-    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;CFM_AUDIO_TOOLS</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <PlatformTarget>x86</PlatformTarget>
@@ -27,6 +27,7 @@
     <WarningLevel>4</WarningLevel>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
+    <DefineConstants>CFM_AUDIO_TOOLS</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ICSharpCode.SharpZipLib">
@@ -39,6 +40,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\libs\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="RocksmithToTabLib">
+      <HintPath>..\..\libs\RocksmithToTabLib.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -49,9 +53,6 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="RocksmithToTabLib">
-      <HintPath>..\..\libs\RocksmithToTabLib.dll</HintPath>
-    </Reference>
     <Reference Include="X360">
       <HintPath>..\..\libs\X360.dll</HintPath>
     </Reference>
@@ -241,7 +242,12 @@
     <None Include="Resources\XBox360_DLC_image.png" />
     <None Include="Resources\XBox360_KV.bin" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup Condition="$(DefineConstants.Contains('CFM_AUDIO_TOOLS'))">
+    <ProjectReference Include="..\CFMAudioTools\CFMAudioTools.csproj">
+      <Project>{6d8c3fe6-5855-4b6c-bd2b-51954342dbee}</Project>
+      <Name>CFMAudioTools</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

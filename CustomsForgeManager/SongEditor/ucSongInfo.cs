@@ -32,33 +32,27 @@ namespace CustomsForgeManager.SongEditor
             cmbPreviewVolume.Value = Convert.ToDecimal(SongData.PreviewVolume);
             txtCharter.Text = song.Charter; // not editable
 
+            txtKey.TextChanged += TextValueChanged;
+            txtArtist.TextChanged += TextValueChanged;
+            txtArtistSort.TextChanged += TextValueChanged;
+            txtTitle.TextChanged += TextValueChanged;
+            txtTitleSort.TextChanged += TextValueChanged;
+            txtAlbum.TextChanged += TextValueChanged;
+            txtAppId.TextChanged += TextValueChanged;
+            txtVersion.TextChanged += TextValueChanged;
+            txtYear.TextChanged += TextValueChanged;
+            txtAvgTempo.TextChanged += TextValueChanged;
+            cmbSongVolume.TextChanged += TextValueChanged;
+            cmbPreviewVolume.TextChanged += TextValueChanged;
+            //set up events
             PopulateAppIdCombo(SongData.AppId, GameVersion.RS2014);
-
         }
 
-        public override bool Dirty
+        void TextValueChanged(object sender, EventArgs e)
         {
-            get
-            {
-                return base.Dirty ||
-                    SongData.Name != txtKey.Text ||
-                    SongData.SongInfo.Artist != txtArtist.Text ||
-                    SongData.SongInfo.ArtistSort != txtArtistSort.Text ||
-                    SongData.SongInfo.SongDisplayName != txtTitle.Text ||
-                    SongData.SongInfo.SongDisplayNameSort != txtTitleSort.Text ||
-                    SongData.SongInfo.Album != txtAlbum.Text ||
-                    SongData.AppId != txtAppId.Text ||
-                    SongData.PackageVersion != txtVersion.Text ||
-                    SongData.SongInfo.SongYear != Convert.ToInt32(txtYear.Text) ||
-                    SongData.SongInfo.AverageTempo != Convert.ToInt32(txtAvgTempo.Text) ||
-                    SongData.Volume != Convert.ToSingle(cmbSongVolume.Value) ||
-                    SongData.PreviewVolume != Convert.ToSingle(cmbPreviewVolume.Value);
-            }
-            set
-            {
-                base.Dirty = value;
-            }
+            this.Dirty = true;
         }
+
 
         //TODO: validate editors
         public override void Save()

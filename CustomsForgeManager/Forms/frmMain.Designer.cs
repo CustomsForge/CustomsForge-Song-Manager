@@ -443,6 +443,7 @@ namespace CustomsForgeManager.Forms
             this.Name = "frmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "CustomsForge Song Manager";
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmMain_KeyDown);
             this.gbLog.ResumeLayout(false);
             this.gbLog.PerformLayout();
             this.contextMenuStrip_Tray.ResumeLayout(false);
