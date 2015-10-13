@@ -5,11 +5,9 @@ using CustomsForgeManager.CustomsForgeManagerLib.Objects;
 using RocksmithToolkitLib.DLCPackage;
 using System.Collections.Generic;
 using System.Linq;
-using RocksmithToolkitLib.DLCPackage.Manifest2014;
-using System.IO;
 
 namespace CustomsForgeManager.SongEditor
-{
+{   
     public partial class frmSongEditor : Form
     {
         private DLCPackageData info;
@@ -29,8 +27,6 @@ namespace CustomsForgeManager.SongEditor
             Cursor.Current = Cursors.WaitCursor;
             using (var psarc = new PsarcPackage())
                 info = psarc.ReadPackage(songPath);
-            
-            info.Showlights = true;
 
             Cursor.Current = Cursors.Default;
             filePath = songPath;
@@ -48,19 +44,6 @@ namespace CustomsForgeManager.SongEditor
             }
         }
 
-        List<Tuple<Attributes2014, string>> GetAttributeFiles()
-        {
-            var files = Directory.GetFiles(System.IO.Path.GetDirectoryName(info.AlbumArtPath), "*.json");
-            var result = new List<Tuple<Attributes2014, string>>();
-            foreach (var file in files)
-            {
-                Attributes2014 attributes = Manifest2014<Attributes2014>.LoadFromFile(file).Entries.ToArray<KeyValuePair<string, Dictionary<string, Attributes2014>>>()[0].Value.ToArray<KeyValuePair<string, Attributes2014>>()[0].Value;
-                if (attributes.Tones != null && attributes.Tones.Count > 0)
-                    result.Add(new Tuple<Attributes2014, string>(attributes, file));
-            }
-            return result;
-        }
-
 
         private void Save(string outputPath)
         {
@@ -70,32 +53,7 @@ namespace CustomsForgeManager.SongEditor
             Cursor.Current = Cursors.WaitCursor;
             try
             {
-
-                var attrEditors = FEditorControls.Where(x => x is IAttributesEditor && x.Dirty).Select(x => x as IAttributesEditor).ToList();
-                if (attrEditors.Count() > 0)
-                {
-                    var jsonSettings = new Newtonsoft.Json.JsonSerializerSettings()
-                    {
-                        NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore,
-                        Formatting = Newtonsoft.Json.Formatting.Indented
-                    };
-
-                    var al = GetAttributeFiles();
-                    foreach (var item in al)
-                    {
-                        var attr = item.Item1;
-                        attrEditors.ForEach(ae => ae.EditSongAttributes(attr));
-
-                        Manifest2014<Attributes2014> p = new Manifest2014<Attributes2014>();
-                        var dic = new Dictionary<string, Attributes2014>();
-                        dic.Add("Attributes", attr);
-                        p.Entries.Add(attr.PersistentID.ToUpper(), dic);
-                        var data = Newtonsoft.Json.JsonConvert.SerializeObject(p, jsonSettings);
-                        File.WriteAllText(item.Item2, data);
-                    }
-                }
-
-                FEditorControls.ForEach(ec => ec.Save());
+                FEditorControls.ForEach(ec => { if (ec.Dirty) ec.Save(); });
 
                 using (var psarc = new PsarcPackage(true))
                     psarc.WritePackage(outputPath, info);
@@ -104,7 +62,7 @@ namespace CustomsForgeManager.SongEditor
             {
                 Cursor.Current = Cursors.Default;
             }
-           
+
         }
 
         private void tslSave_Click(object sender, EventArgs e)
@@ -123,7 +81,7 @@ namespace CustomsForgeManager.SongEditor
         }
 
         private void tslExit_Click(object sender, EventArgs e)
-        {          
+        {
             this.Close();
         }
 
@@ -132,18 +90,28 @@ namespace CustomsForgeManager.SongEditor
             Cursor = Cursors.WaitCursor;
             try
             {
+                T obj = null;
                 var type = typeof(T);
-                var cc = type.GetConstructor(new Type[] { });
+                var cc = type.GetConstructor(new Type[] { typeof(frmSongEditor) });
                 if (cc != null)
+                    obj = (T)cc.Invoke(new object[] { this });
+                else
                 {
-                    T obj = (T)cc.Invoke(new object[] { });
+                    cc = type.GetConstructor(new Type[] { });
+                    if (cc != null)
+                        obj = (T)cc.Invoke(new object[] { });
+                }
+
+                if (obj != null)
+                {
                     page.Controls.Clear();
                     page.Controls.Add(obj);
+                    page.Tag = obj;
                     obj.Dock = DockStyle.Fill;
                     obj.FilePath = filePath;
                     obj.SongData = info;
-                    obj.DoInit();
                     FEditorControls.Add(obj);
+                    obj.DoInit();
                     return obj;
                 }
                 return null;
@@ -178,6 +146,12 @@ namespace CustomsForgeManager.SongEditor
                 LoadEditorControl<ucAlbumArt>(this.tpAlbumArt);
         }
 
+        private void LoadArrangements()
+        {
+            if (GetEditorControl<ucArrangments>() == null)
+                LoadEditorControl<ucArrangments>(this.tpArrangements);
+        }
+
         private void tcMain_SelectedIndexChanged(object sender, EventArgs e)
         {
             // Docking.Fill causes screen flicker so only use if needed
@@ -187,7 +161,7 @@ namespace CustomsForgeManager.SongEditor
             // get first four charters from tab control text
             switch (tcMain.SelectedTab.Text.Substring(0, 4).ToUpper())
             {
-                    // passing variables(objects) by value to UControl
+                // passing variables(objects) by value to UControl
                 case "SONG":
                     LoadSongInfo();
                     break;
@@ -197,10 +171,12 @@ namespace CustomsForgeManager.SongEditor
                 case "ALBU":
                     LoadAlbumArt();
                     break;
-            }
-     
+                case "ARRA":
+                    LoadArrangements();
+                    break;
 
-         }
+            }
+        }
 
         private void frmSongEditor_FormClosing(object sender, FormClosingEventArgs e)
         {

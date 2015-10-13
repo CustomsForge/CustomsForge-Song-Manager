@@ -82,10 +82,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\libs\Antlr4.StringTemplate.dll</HintPath>
     </Reference>
-    <Reference Include="DLogNet, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\libs\DLogNet.dll</HintPath>
-    </Reference>
     <Reference Include="Ionic.Zip">
       <HintPath>..\libs\Ionic.Zip.dll</HintPath>
     </Reference>
@@ -132,6 +128,7 @@
     <Compile Include="CustomsForgeManagerLib\CustomControls\CueTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="CustomsForgeManagerLib\Objects\NotifyPropChangedBase.cs" />
     <Compile Include="CustomsForgeManagerLib\PsarcBrowser.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -163,6 +160,21 @@
     </Compile>
     <Compile Include="SongEditor\DLCPackageCreator.designer.cs">
       <DependentUpon>DLCPackageCreator.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SongEditor\DLCPackageEditorControlBase.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SongEditor\ToneControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SongEditor\ToneControl.designer.cs">
+      <DependentUpon>ToneControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SongEditor\ToneControlDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SongEditor\ToneControlDialog.Designer.cs">
+      <DependentUpon>ToneControlDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="SongEditor\ToneKnobForm.cs">
       <SubType>Form</SubType>
@@ -278,6 +290,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SongEditor\DLCPackageCreator.resx">
       <DependentUpon>DLCPackageCreator.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SongEditor\ToneControl.resx">
+      <DependentUpon>ToneControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SongEditor\ToneControlDialog.resx">
+      <DependentUpon>ToneControlDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SongEditor\ToneKnobForm.resx">
       <DependentUpon>ToneKnobForm.cs</DependentUpon>
@@ -399,35 +417,23 @@
     <None Include="Resources\StartRs.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ClickOnceUninstaller\ClickOnceUninstaller.csproj">
-      <Project>{25E15C6A-AEAE-4958-80EA-44062DF402E7}</Project>
-      <Name>ClickOnceUninstaller</Name>
+    <ProjectReference Include="..\CustomForgeManagerTools\CFMImageTools\CFMImageTools.csproj">
+      <Project>{e6565985-c477-46f4-8a42-08e04cd40b65}</Project>
+      <Name>CFMImageTools</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DataGridViewTools\DataGridViewTools.csproj">
-      <Project>{5A4B4B14-D3B5-4D54-80EC-0877C1E6E73A}</Project>
+    <ProjectReference Include="..\CustomForgeManagerTools\DataGridViewTools\DataGridViewTools.csproj">
+      <Project>{5a4b4b14-d3b5-4d54-80ec-0877c1e6e73a}</Project>
       <Name>DataGridViewTools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CustomForgeManagerTools\DLogNet\DLogNet.csproj">
+      <Project>{04b8ebdc-6226-456e-8bd4-aef7baf682aa}</Project>
+      <Name>DLogNet</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy /S /Y "$(SolutionDir)ThirdParty"
-
-if $(ConfigurationName) == Release (
-
-RD /s /q "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)
-CD $(DevEnvDir)
-
-"..\..\PreEmptive Solutions\Dotfuscator Community Edition\dotfuscatorCLI.exe" /in:"$(TargetPath)" /out:"$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)"
-
-copy /y "$(TargetDir)*.txt" "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)\*.txt"
-copy /y "$(TargetDir)*.xml" "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)\*.xml"
-copy /y "$(TargetDir)*.dll" "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)\*.dll"
-copy /y "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)\$(TargetFileName)" "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)\CFM_$(ConfigurationName).exe" 
-del /q "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)\$(TargetFileName)"
- 
-
-
-)</PostBuildEvent>
+</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

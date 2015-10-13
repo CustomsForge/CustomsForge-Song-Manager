@@ -7,10 +7,10 @@ using System.Windows.Forms;
 
 namespace CustomsForgeManager.SongEditor
 {
-    public interface IAttributesEditor
-    {
-        void EditSongAttributes(RocksmithToolkitLib.DLCPackage.Manifest2014.Attributes2014 attr);
-    }
+    //public interface IAttributesEditor
+    //{
+    //    void EditSongAttributes(RocksmithToolkitLib.DLCPackage.Manifest2014.Attributes2014 attr);
+    //}
 
     public class DLCPackageEditorControlBase : UserControl
     {
@@ -35,7 +35,6 @@ namespace CustomsForgeManager.SongEditor
                 return string.Empty;
             }
         }
-
 
         public string TempEOFPath
         {

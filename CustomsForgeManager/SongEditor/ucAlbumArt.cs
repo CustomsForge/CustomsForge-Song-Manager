@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
 using System.Linq;
-using System.Text;
-using System.Windows.Forms;
 using CustomsForgeManagerTools;
 
 namespace CustomsForgeManager.SongEditor
@@ -31,19 +27,11 @@ namespace CustomsForgeManager.SongEditor
                 string artFile = Directory.GetFiles(TempToolkitPath, "*_256.dds").FirstOrDefault();
                 if (!string.IsNullOrEmpty(artFile))
                 {
-                    using(var FS = File.OpenRead(artFile))
-                    using (var MS = new MemoryStream())
-                    {
-                        if (DevILLite.ConvertImageType(FS, DevILLite.ImageType.Bmp, MS))
-                        {
-                            MS.Position = 0;
-                            var image = Image.FromStream(MS);
-                            picAlbumArt.Image = image;
-                        }
-                    }
+                    byte[] data = File.ReadAllBytes(artFile);
+                    DDSImage dds = new DDSImage(data);
+                    if (dds.images.Length > 0)
+                        picAlbumArt.Image = dds.images[0];
                 }
-
-
             }
         }
     }

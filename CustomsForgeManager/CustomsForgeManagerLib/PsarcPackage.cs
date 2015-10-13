@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using RocksmithToolkitLib;
 using RocksmithToolkitLib.DLCPackage;
 using RocksmithToolkitLib.Extensions;
@@ -28,6 +29,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
             DLCPackageData info = null;
             var packagePlatform = inputPath.GetPlatform();
             info = DLCPackageData.LoadFromFolder(packageDir, packagePlatform, packagePlatform);
+            info.Showlights = Directory.EnumerateFiles(packageDir, "*_showlights.xml", SearchOption.AllDirectories).Any();
 
             return info;
         }

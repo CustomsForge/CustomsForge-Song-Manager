@@ -17,6 +17,7 @@ using RocksmithToolkitLib;
 using RocksmithToolkitLib.Xml;
 using System.Diagnostics;
 using Microsoft.Win32;
+using System.Runtime.Serialization;
 
 namespace CustomsForgeManager.CustomsForgeManagerLib
 {
@@ -441,6 +442,32 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
         {
             Process.Start("http://requests.customsforge.com/");
         }
+
+
+        public static string XmlSerialize(this object obj)
+        {
+            MemoryStream memoryStream = new MemoryStream();
+            using (StreamReader reader = new StreamReader(memoryStream))
+            {
+                DataContractSerializer serializer = new DataContractSerializer(obj.GetType());
+                serializer.WriteObject(memoryStream, obj);
+                memoryStream.Position = 0;
+                return reader.ReadToEnd();
+            }
+        }
+
+        public static object XmlDeserialize(string xml, Type toType)
+        {
+            using (Stream stream = new MemoryStream())
+            {
+                byte[] data = System.Text.Encoding.UTF8.GetBytes(xml);
+                stream.Write(data, 0, data.Length);
+                stream.Position = 0;
+                DataContractSerializer deserializer = new DataContractSerializer(toType);
+                return deserializer.ReadObject(stream);
+            }
+        }
+
 
     }
 }

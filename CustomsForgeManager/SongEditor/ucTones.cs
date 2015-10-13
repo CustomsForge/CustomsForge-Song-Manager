@@ -1,14 +1,15 @@
 ﻿using System.Windows.Forms;
 using RocksmithToolkitLib.DLCPackage.Manifest2014.Tone;
 using System.Collections.Generic;
-using RocksmithToolkitLib.DLCPackage.Manifest2014;
 using System.Linq;
 using System;
+using CustomsForgeManager.CustomsForgeManagerLib;
 
 namespace CustomsForgeManager.SongEditor
 {
-    public partial class ucTones : DLCPackageEditorControlBase, IAttributesEditor
+    public partial class ucTones : DLCPackageEditorControlBase//, IAttributesEditor
     {
+        public List<Tone2014> NewTonesRS2014 = new List<Tone2014>();
 
         public ucTones()
         {
@@ -16,27 +17,24 @@ namespace CustomsForgeManager.SongEditor
             raDataGridView1.AutoGenerateColumns = false;
         }
 
+        
         public override void DoInit()
         {
             if (SongData == null)
                 return;
-            raDataGridView1.DataSource = SongData.TonesRS2014;
+            SongData.TonesRS2014.ForEach(t => NewTonesRS2014.Add((Tone2014)Extensions.XmlDeserialize(t.XmlSerialize(), typeof(Tone2014))));
+            raDataGridView1.DataSource = NewTonesRS2014;
         }
 
-
-        public void EditSongAttributes(Attributes2014 attr)
+        public override void Save()
         {
             if (!Dirty)
                 return;
-            foreach (var t in SongData.TonesRS2014)
-            {
-                if (attr.Tones.Any(tt => tt.Key == t.Key))
-                {
-                    attr.Tones.RemoveAll(atone => atone.Key == t.Key);
-                    attr.Tones.Add(t);
-                }
-            }
+            SongData.TonesRS2014.Clear();
+            SongData.TonesRS2014.AddRange(NewTonesRS2014);
+            base.Save();
         }
+
 
         private bool EditTone(Tone2014 tone)
         {

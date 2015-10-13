@@ -87,7 +87,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                 foreach (var entry in infoFiles)
                 {
                     archive.InflateEntry(entry);
-                    using (var ms = new MemoryStream())
+                    var ms = new MemoryStream();
                     using (var reader = new StreamReader(ms, new UTF8Encoding(), false, 65536))//4Kb is default alloc sise for windows.. 64Kb is default PSARC alloc
                     {
                         entry.Data.CopyTo(ms);

@@ -54,8 +54,9 @@ namespace CustomsForgeManager.UControls
 
         private void lnkHelp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
+            //TODO: this crashes the program (SngMgrHelp.txt is not in the Resources directory)
             Assembly assembly = Assembly.GetExecutingAssembly();
-            using (Stream stream = assembly.GetManifestResourceStream("CustomsForgeManager.Resources.SngMgrHelp.txt"))
+            Stream stream = assembly.GetManifestResourceStream("CustomsForgeManager.Resources.SngMgrHelp.txt");
             using (StreamReader reader = new StreamReader(stream))
             {
                 MessageBox.Show(reader.ReadToEnd(), "Help");

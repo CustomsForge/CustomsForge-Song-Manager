@@ -1043,7 +1043,7 @@ namespace CustomsForgeManager.UControls
         {
             // ensures proper disposal of objects and variables
             Assembly assembly = Assembly.GetExecutingAssembly();
-            using (Stream stream = assembly.GetManifestResourceStream("CustomsForgeManager.Resources.SetlistHelp.txt"))
+            Stream stream = assembly.GetManifestResourceStream("CustomsForgeManager.Resources.SetlistHelp.txt");
             using (StreamReader reader = new StreamReader(stream))
             {
                 string setlistManagerHelp = reader.ReadToEnd();

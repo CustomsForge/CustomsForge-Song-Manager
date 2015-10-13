@@ -3,9 +3,7 @@ using System.Linq;
 using System.Windows.Forms;
 using RocksmithToolkitLib;
 using RocksmithToolkitLib.DLCPackage.Manifest2014.Tone;
-using RocksmithToolkitLib.Extensions;
 using RocksmithToolkitLib.ToolkitTone;
-using RocksmithToolkitLib.DLCPackage.Manifest.Tone;
 
 namespace CustomsForgeManager.SongEditor
 {
@@ -218,8 +216,7 @@ namespace CustomsForgeManager.SongEditor
                     {
                         var pedalSetting = pedal.MakePedalSetting(GameVersion.RS2014);
                         tone.GearList[pedalSlot] = pedalSetting;
-                        knobSelectButton.Enabled = ((Pedal2014)pedalSetting).KnobValues.Any();
-                      
+                        knobSelectButton.Enabled = ((Pedal2014)pedalSetting).KnobValues.Any();                      
                     }
                     else
                     {
@@ -228,10 +225,6 @@ namespace CustomsForgeManager.SongEditor
                 }
             };
         }
-
-
-      
-
     }
 }
 
