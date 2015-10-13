@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows.Forms;
 using CustomsForgeManager.CustomsForgeManagerLib;
 using CustomsForgeManager.CustomsForgeManagerLib.Objects;
@@ -7,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace CustomsForgeManager.SongEditor
-{   
+{
     public partial class frmSongEditor : Form
     {
         private DLCPackageData info;
@@ -21,27 +22,22 @@ namespace CustomsForgeManager.SongEditor
             if (String.IsNullOrEmpty(songPath))
                 return;
 
-            InitializeComponent();
-
-            // start marquee Pbar on frmMain 
             Cursor.Current = Cursors.WaitCursor;
-            using (var psarc = new PsarcPackage())
-                info = psarc.ReadPackage(songPath);
-
-            Cursor.Current = Cursors.Default;
+            Globals.TsProgressBar_Main.Value = 10;
+            InitializeComponent();
+            Globals.TsProgressBar_Main.Value = 20;
+            var psarc = new PsarcPackage();
+            info = psarc.ReadPackage(songPath);
             filePath = songPath;
-
-            // stop marquee Pbar on frmMain
-
+            Globals.TsProgressBar_Main.Value = 60;
             LoadSongInfo();
+            Globals.TsProgressBar_Main.Value = 100;
+            Cursor.Current = Cursors.Default;
         }
 
         private bool Dirty
         {
-            get
-            {
-                return FEditorControls.Where(x => x.Dirty).Count() > 0;
-            }
+            get { return FEditorControls.Where(x => x.Dirty).Count() > 0; }
         }
 
 
@@ -51,16 +47,23 @@ namespace CustomsForgeManager.SongEditor
                 return;
 
             Cursor.Current = Cursors.WaitCursor;
+            tsProgressBar.Value = 30;
+
             try
             {
                 FEditorControls.ForEach(ec => { if (ec.Dirty) ec.Save(); });
+
+                // required but may not have been included in SongInfo
+                //info.Showlights = true;
 
                 using (var psarc = new PsarcPackage(true))
                     psarc.WritePackage(outputPath, info);
             }
             finally
             {
+                tsProgressBar.Value = 100;
                 Cursor.Current = Cursors.Default;
+                Globals.RescanSongManager = true;
             }
 
         }
@@ -182,10 +185,23 @@ namespace CustomsForgeManager.SongEditor
         {
             if (Dirty)
             {
-                if (MessageBox.Show(String.Format(Properties.Resources.SongDataModifiedConfirmation,
-                    Environment.NewLine), "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.No)
+                if (MessageBox.Show(String.Format(Properties.Resources.SongDataModifiedConfirmation, Environment.NewLine), "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.No)
                     e.Cancel = true;
             }
         }
     }
+
+
+    public class NumericUpDownFixed : NumericUpDown
+    {
+        protected override void OnValidating(CancelEventArgs e)
+        {
+            // Prevent bug where typing a value bypasses min/max validation
+            var fixValidation = Value;
+            base.OnValidating(e);
+        }
+    }
+
+
 }
+

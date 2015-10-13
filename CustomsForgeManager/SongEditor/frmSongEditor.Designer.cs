@@ -38,6 +38,7 @@
             this.tpTones = new System.Windows.Forms.TabPage();
             this.tpVersionInfo = new System.Windows.Forms.TabPage();
             this.tpAlbumArt = new System.Windows.Forms.TabPage();
+            this.tsProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.statusStripMain.SuspendLayout();
             this.tcMain.SuspendLayout();
             this.SuspendLayout();
@@ -47,6 +48,7 @@
             this.statusStripMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tslSave,
             this.tslSaveAs,
+            this.tsProgressBar,
             this.tslExit});
             this.statusStripMain.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
             this.statusStripMain.Location = new System.Drawing.Point(0, 459);
@@ -154,6 +156,11 @@
             this.tpAlbumArt.Text = "Album Art";
             this.tpAlbumArt.UseVisualStyleBackColor = true;
             // 
+            // tsProgressBar
+            // 
+            this.tsProgressBar.Name = "tsProgressBar";
+            this.tsProgressBar.Size = new System.Drawing.Size(200, 17);
+            // 
             // frmSongEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -190,6 +197,7 @@
         public System.Windows.Forms.ToolStripStatusLabel tslSave;
         public System.Windows.Forms.ToolStripStatusLabel tslSaveAs;
         public System.Windows.Forms.ToolStripStatusLabel tslExit;
+        private System.Windows.Forms.ToolStripProgressBar tsProgressBar;
 
     }
 }

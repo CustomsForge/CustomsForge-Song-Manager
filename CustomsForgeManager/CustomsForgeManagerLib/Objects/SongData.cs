@@ -38,10 +38,10 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
         public string Artist { get; set; }
         public string Title { get; set; }
         public string Album { get; set; }
-        public string SongYear { get; set; }
-        public string SongLength { get; set; } // single (seconds)
-        public string SongAverageTempo { get; set; } // single
-        public string SongVolume { get; set; } // float
+        public Int32 SongYear { get; set; }
+        public Single SongLength { get; set; }
+        public Single SongAverageTempo { get; set; }
+        public float SongVolume { get; set; }
         public DateTime FileDate { get; set; }
         public int FileSize { get; set; }
 
@@ -60,7 +60,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
         }
 
         public string Charter { get; set; }
-        public string LastConversionDateTime { get; set; }
+        public DateTime LastConversionDateTime { get; set; }
         public string Version { get; set; }
         public string ToolkitVer { get; set; }
         public string AppID { get; set; }
@@ -90,10 +90,10 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
             // get { return String.Join(", ", Arrangements2D.Select(o => o.Tuning)); }
         }
 
-        [XmlIgnore]  // preserves old 1D display method
-        public string DD
+      [XmlIgnore]  // preserves old 1D display method show DMax
+        public Int32 DD
         {
-            get { return Arrangements2D.Max(o => o.DMax); }
+            get { return Convert.ToInt32(Arrangements2D.Max(o => o.DMax)); }
             //get { return String.Join(", ", Arrangements2D.Select(o => o.DMax)); }
         }
 
@@ -114,7 +114,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
         public string PersistentID { get; set; }
         public string Name { get; set; }
         public string Tuning { get; set; }
-        public string DMax { get; set; }
+         public Int32 DMax { get; set; }
         public string ToneBase { get; set; }
         public int SectionCount { get; set; }
     }

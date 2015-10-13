@@ -20,10 +20,10 @@ namespace CustomsForgeManager.Forms
             lbl_PanelSongTitle.Text = song.Title;
             lbl_PanelSongAlbum.Text = song.Album;
             lbl_PanelSongArtist.Text = song.Artist;
-            lbl_PanelSongYear.Text = song.SongYear;
+            lbl_PanelSongYear.Text = song.SongYear.ToString();
             lbl_PanelSongTuning.Text = song.Tuning;
             lbl_PanelSongArrangements.Text = song.Arrangements;
-            lbl_PanelSongDD.Text = song.DD;
+            lbl_PanelSongDD.Text = song.DD.ToString();
             lbl_PanelSongAuthor.Text = song.Charter;
             lbl_PanelSongPath.Text = song.Path;
 

@@ -117,7 +117,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                 bwFileCollection = Globals.FileCollection;
                 bwSongCollection = Globals.SongCollection;
                 fileList = fileList.Except(bwFileCollection).ToList();
-             }
+            }
             else // do complete rescan
             {
                 Globals.Log("Parsing all songs ...");
@@ -168,17 +168,6 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
 
                     foreach (var songData in songInfo.Distinct())
                     {
-                        // **************
-                        // CAUTION - ANY DateTime CHANGES MUST BE TESTED WITH MULTIPLE CULTURE VARIANTS
-                        // convert date string to usable DateTime format
-                        DateTime updateDateTime = new DateTime();
-                        if (DateTime.TryParse(songData.LastConversionDateTime, out updateDateTime))
-                            songData.LastConversionDateTime = updateDateTime.ToString(CultureInfo.GetCultureInfo("en-US").DateTimeFormat);
-
-                        // prevent mixed culture variants appearing in same table
-                        songData.LastConversionDateTime = DateTime.Parse(songData.LastConversionDateTime, CultureInfo.GetCultureInfo("en-US")).ToString();
-                        // **************
-
                         if (songData.Version == "N/A")
                         {
                             var fileNameVersion = songData.GetVersionFromFileName();

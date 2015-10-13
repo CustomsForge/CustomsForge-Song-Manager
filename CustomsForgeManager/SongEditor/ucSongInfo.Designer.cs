@@ -54,9 +54,10 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             this.cmbPreviewVolume = new CustomsForgeManager.SongEditor.NumericUpDownFixed();
             this.cmbSongVolume = new CustomsForgeManager.SongEditor.NumericUpDownFixed();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
             this.gbSongInfo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cmbPreviewVolume)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmbSongVolume)).BeginInit();
@@ -64,6 +65,7 @@
             // 
             // gbSongInfo
             // 
+            this.gbSongInfo.Controls.Add(this.label15);
             this.gbSongInfo.Controls.Add(this.label14);
             this.gbSongInfo.Controls.Add(this.txtCharter);
             this.gbSongInfo.Controls.Add(this.txtKey);
@@ -93,7 +95,7 @@
             this.gbSongInfo.Controls.Add(this.cmbSongVolume);
             this.gbSongInfo.Controls.Add(this.label3);
             this.gbSongInfo.ForeColor = System.Drawing.SystemColors.ActiveCaption;
-            this.gbSongInfo.Location = new System.Drawing.Point(3, 3);
+            this.gbSongInfo.Location = new System.Drawing.Point(13, 17);
             this.gbSongInfo.Name = "gbSongInfo";
             this.gbSongInfo.Padding = new System.Windows.Forms.Padding(0);
             this.gbSongInfo.Size = new System.Drawing.Size(498, 306);
@@ -104,19 +106,18 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.ForeColor = System.Drawing.SystemColors.ActiveCaption;
-            this.label14.Location = new System.Drawing.Point(37, 261);
+            this.label14.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.label14.Location = new System.Drawing.Point(37, 276);
             this.label14.Margin = new System.Windows.Forms.Padding(3);
             this.label14.Name = "label14";
-            this.label14.Padding = new System.Windows.Forms.Padding(3);
-            this.label14.Size = new System.Drawing.Size(50, 19);
+            this.label14.Size = new System.Drawing.Size(44, 13);
             this.label14.TabIndex = 100;
             this.label14.Text = "Charter:";
             this.label14.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // txtCharter
             // 
-            this.txtCharter.Location = new System.Drawing.Point(91, 261);
+            this.txtCharter.Location = new System.Drawing.Point(91, 273);
             this.txtCharter.Name = "txtCharter";
             this.txtCharter.ReadOnly = true;
             this.txtCharter.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -134,12 +135,11 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.ForeColor = System.Drawing.SystemColors.ActiveCaption;
-            this.label12.Location = new System.Drawing.Point(13, 159);
+            this.label12.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.label12.Location = new System.Drawing.Point(13, 163);
             this.label12.Margin = new System.Windows.Forms.Padding(3);
             this.label12.Name = "label12";
-            this.label12.Padding = new System.Windows.Forms.Padding(3);
-            this.label12.Size = new System.Drawing.Size(74, 19);
+            this.label12.Size = new System.Drawing.Size(68, 13);
             this.label12.TabIndex = 97;
             this.label12.Text = "Avg. Tempo:";
             this.label12.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -155,12 +155,11 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.ForeColor = System.Drawing.SystemColors.ActiveCaption;
-            this.label11.Location = new System.Drawing.Point(49, 133);
+            this.label11.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.label11.Location = new System.Drawing.Point(49, 141);
             this.label11.Margin = new System.Windows.Forms.Padding(3);
             this.label11.Name = "label11";
-            this.label11.Padding = new System.Windows.Forms.Padding(3);
-            this.label11.Size = new System.Drawing.Size(38, 19);
+            this.label11.Size = new System.Drawing.Size(32, 13);
             this.label11.TabIndex = 95;
             this.label11.Text = "Year:";
             this.label11.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -176,12 +175,11 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.ForeColor = System.Drawing.SystemColors.ActiveCaption;
-            this.label13.Location = new System.Drawing.Point(36, 209);
+            this.label13.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.label13.Location = new System.Drawing.Point(36, 213);
             this.label13.Margin = new System.Windows.Forms.Padding(3);
             this.label13.Name = "label13";
-            this.label13.Padding = new System.Windows.Forms.Padding(3);
-            this.label13.Size = new System.Drawing.Size(51, 19);
+            this.label13.Size = new System.Drawing.Size(45, 13);
             this.label13.TabIndex = 93;
             this.label13.Text = "Version:";
             this.label13.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -205,12 +203,11 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.ForeColor = System.Drawing.SystemColors.ActiveCaption;
-            this.label10.Location = new System.Drawing.Point(22, 30);
+            this.label10.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.label10.Location = new System.Drawing.Point(22, 33);
             this.label10.Margin = new System.Windows.Forms.Padding(3);
             this.label10.Name = "label10";
-            this.label10.Padding = new System.Windows.Forms.Padding(3);
-            this.label10.Size = new System.Drawing.Size(65, 19);
+            this.label10.Size = new System.Drawing.Size(59, 13);
             this.label10.TabIndex = 85;
             this.label10.Text = "Key Name:";
             this.label10.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -227,10 +224,9 @@
             // 
             this.label1.AutoSize = true;
             this.label1.ForeColor = System.Drawing.SystemColors.ActiveCaption;
-            this.label1.Location = new System.Drawing.Point(289, 27);
+            this.label1.Location = new System.Drawing.Point(292, 33);
             this.label1.Name = "label1";
-            this.label1.Padding = new System.Windows.Forms.Padding(3);
-            this.label1.Size = new System.Drawing.Size(156, 19);
+            this.label1.Size = new System.Drawing.Size(150, 13);
             this.label1.TabIndex = 83;
             this.label1.Text = "In-Game Setlist Sortable Fields";
             // 
@@ -261,12 +257,11 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.ForeColor = System.Drawing.SystemColors.ActiveCaption;
-            this.label2.Location = new System.Drawing.Point(38, 235);
+            this.label2.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.label2.Location = new System.Drawing.Point(38, 239);
             this.label2.Margin = new System.Windows.Forms.Padding(3);
             this.label2.Name = "label2";
-            this.label2.Padding = new System.Windows.Forms.Padding(3);
-            this.label2.Size = new System.Drawing.Size(49, 19);
+            this.label2.Size = new System.Drawing.Size(43, 13);
             this.label2.TabIndex = 80;
             this.label2.Text = "App ID:";
             this.label2.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -282,12 +277,11 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.ForeColor = System.Drawing.SystemColors.ActiveCaption;
-            this.label7.Location = new System.Drawing.Point(23, 81);
+            this.label7.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.label7.Location = new System.Drawing.Point(23, 85);
             this.label7.Margin = new System.Windows.Forms.Padding(3);
             this.label7.Name = "label7";
-            this.label7.Padding = new System.Windows.Forms.Padding(3);
-            this.label7.Size = new System.Drawing.Size(64, 19);
+            this.label7.Size = new System.Drawing.Size(58, 13);
             this.label7.TabIndex = 78;
             this.label7.Text = "Song Title:";
             this.label7.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -303,12 +297,11 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.ForeColor = System.Drawing.SystemColors.ActiveCaption;
-            this.label8.Location = new System.Drawing.Point(42, 107);
+            this.label8.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.label8.Location = new System.Drawing.Point(42, 111);
             this.label8.Margin = new System.Windows.Forms.Padding(3);
             this.label8.Name = "label8";
-            this.label8.Padding = new System.Windows.Forms.Padding(3);
-            this.label8.Size = new System.Drawing.Size(45, 19);
+            this.label8.Size = new System.Drawing.Size(39, 13);
             this.label8.TabIndex = 76;
             this.label8.Text = "Album:";
             this.label8.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -324,12 +317,11 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.ForeColor = System.Drawing.SystemColors.ActiveCaption;
-            this.label9.Location = new System.Drawing.Point(48, 55);
+            this.label9.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.label9.Location = new System.Drawing.Point(48, 59);
             this.label9.Margin = new System.Windows.Forms.Padding(3);
             this.label9.Name = "label9";
-            this.label9.Padding = new System.Windows.Forms.Padding(3);
-            this.label9.Size = new System.Drawing.Size(39, 19);
+            this.label9.Size = new System.Drawing.Size(33, 13);
             this.label9.TabIndex = 74;
             this.label9.Text = "Artist:";
             this.label9.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -337,11 +329,10 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.ForeColor = System.Drawing.SystemColors.ActiveCaption;
-            this.label6.Location = new System.Drawing.Point(182, 185);
+            this.label6.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.label6.Location = new System.Drawing.Point(203, 189);
             this.label6.Name = "label6";
-            this.label6.Padding = new System.Windows.Forms.Padding(3);
-            this.label6.Size = new System.Drawing.Size(92, 19);
+            this.label6.Size = new System.Drawing.Size(86, 13);
             this.label6.TabIndex = 66;
             this.label6.Text = "Preview Volume:";
             this.label6.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -349,12 +340,11 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.ForeColor = System.Drawing.SystemColors.ActiveCaption;
-            this.label5.Location = new System.Drawing.Point(8, 185);
+            this.label5.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.label5.Location = new System.Drawing.Point(8, 189);
             this.label5.Margin = new System.Windows.Forms.Padding(3);
             this.label5.Name = "label5";
-            this.label5.Padding = new System.Windows.Forms.Padding(3);
-            this.label5.Size = new System.Drawing.Size(79, 19);
+            this.label5.Size = new System.Drawing.Size(73, 13);
             this.label5.TabIndex = 36;
             this.label5.Text = "Song Volume:";
             this.label5.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -362,24 +352,12 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label4.Location = new System.Drawing.Point(340, 185);
+            this.label4.ForeColor = System.Drawing.SystemColors.ActiveCaption;
+            this.label4.Location = new System.Drawing.Point(361, 189);
             this.label4.Name = "label4";
-            this.label4.Padding = new System.Windows.Forms.Padding(3);
-            this.label4.Size = new System.Drawing.Size(26, 19);
+            this.label4.Size = new System.Drawing.Size(20, 13);
             this.label4.TabIndex = 65;
             this.label4.Text = "dB";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label3.Location = new System.Drawing.Point(154, 185);
-            this.label3.Name = "label3";
-            this.label3.Padding = new System.Windows.Forms.Padding(3);
-            this.label3.Size = new System.Drawing.Size(26, 19);
-            this.label3.TabIndex = 63;
-            this.label3.Text = "dB";
             // 
             // cmbPreviewVolume
             // 
@@ -390,7 +368,7 @@
             0,
             0,
             65536});
-            this.cmbPreviewVolume.Location = new System.Drawing.Point(277, 184);
+            this.cmbPreviewVolume.Location = new System.Drawing.Point(295, 185);
             this.cmbPreviewVolume.Maximum = new decimal(new int[] {
             0,
             0,
@@ -404,6 +382,7 @@
             this.cmbPreviewVolume.Name = "cmbPreviewVolume";
             this.cmbPreviewVolume.Size = new System.Drawing.Size(60, 20);
             this.cmbPreviewVolume.TabIndex = 15;
+            this.cmbPreviewVolume.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.cmbPreviewVolume.Value = new decimal(new int[] {
             7,
             0,
@@ -419,7 +398,7 @@
             0,
             0,
             65536});
-            this.cmbSongVolume.Location = new System.Drawing.Point(91, 184);
+            this.cmbSongVolume.Location = new System.Drawing.Point(91, 185);
             this.cmbSongVolume.Maximum = new decimal(new int[] {
             0,
             0,
@@ -433,18 +412,39 @@
             this.cmbSongVolume.Name = "cmbSongVolume";
             this.cmbSongVolume.Size = new System.Drawing.Size(60, 20);
             this.cmbSongVolume.TabIndex = 14;
+            this.cmbSongVolume.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.cmbSongVolume.Value = new decimal(new int[] {
             7,
             0,
             0,
             -2147483648});
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.ForeColor = System.Drawing.SystemColors.ActiveCaption;
+            this.label3.Location = new System.Drawing.Point(157, 189);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(20, 13);
+            this.label3.TabIndex = 63;
+            this.label3.Text = "dB";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.ForeColor = System.Drawing.SystemColors.ActiveCaption;
+            this.label15.Location = new System.Drawing.Point(281, 276);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(74, 13);
+            this.label15.TabIndex = 102;
+            this.label15.Text = "(Non Editable)";
+            // 
             // ucSongInfo
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.gbSongInfo);
             this.Name = "ucSongInfo";
-            this.Size = new System.Drawing.Size(523, 326);
+            this.Size = new System.Drawing.Size(528, 337);
             this.gbSongInfo.ResumeLayout(false);
             this.gbSongInfo.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cmbPreviewVolume)).EndInit();
@@ -484,5 +484,6 @@
         private System.Windows.Forms.TextBox txtKey;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.TextBox txtCharter;
+        private System.Windows.Forms.Label label15;
     }
 }

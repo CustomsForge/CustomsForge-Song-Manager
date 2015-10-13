@@ -55,14 +55,4 @@ namespace CustomsForgeManager.SongEditor
             Close();
         }
     }
-
-    public class NumericUpDownFixed : NumericUpDown
-    {
-        protected override void OnValidating(CancelEventArgs e)
-        {
-            // Prevent bug where typing a value bypasses min/max validation
-            var fixValidation = Value;
-            base.OnValidating(e);
-        }
-    }
 }

@@ -82,8 +82,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\libs\Antlr4.StringTemplate.dll</HintPath>
     </Reference>
-    <Reference Include="Ionic.Zip">
-      <HintPath>..\libs\Ionic.Zip.dll</HintPath>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\libs\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="MiscUtil">
@@ -155,12 +155,6 @@
     <Compile Include="Forms\frmMain.Designer.cs">
       <DependentUpon>frmMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="SongEditor\DLCPackageCreator.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="SongEditor\DLCPackageCreator.designer.cs">
-      <DependentUpon>DLCPackageCreator.cs</DependentUpon>
-    </Compile>
     <Compile Include="SongEditor\DLCPackageEditorControlBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -173,7 +167,7 @@
     <Compile Include="SongEditor\ToneControlDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SongEditor\ToneControlDialog.Designer.cs">
+    <Compile Include="SongEditor\ToneControlDialog.designer.cs">
       <DependentUpon>ToneControlDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="SongEditor\ToneKnobForm.cs">
@@ -208,7 +202,6 @@
     </Compile>
     <Compile Include="CustomsForgeManagerLib\Objects\Globals.cs" />
     <Compile Include="CustomsForgeManagerLib\Ignition.cs" />
-    <Compile Include="CustomsForgeManagerLib\DotNetZip.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CustomsForgeManagerLib\Objects\Constants.cs" />
@@ -287,9 +280,6 @@
     <EmbeddedResource Include="Forms\frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SongEditor\DLCPackageCreator.resx">
-      <DependentUpon>DLCPackageCreator.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SongEditor\ToneControl.resx">
       <DependentUpon>ToneControl.cs</DependentUpon>
@@ -420,6 +410,10 @@
     <ProjectReference Include="..\CustomForgeManagerTools\CFMImageTools\CFMImageTools.csproj">
       <Project>{e6565985-c477-46f4-8a42-08e04cd40b65}</Project>
       <Name>CFMImageTools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CustomForgeManagerTools\ClickOnceUninstaller\ClickOnceUninstaller.csproj">
+      <Project>{25E15C6A-AEAE-4958-80EA-44062DF402E7}</Project>
+      <Name>ClickOnceUninstaller</Name>
     </ProjectReference>
     <ProjectReference Include="..\CustomForgeManagerTools\DataGridViewTools\DataGridViewTools.csproj">
       <Project>{5a4b4b14-d3b5-4d54-80ec-0877c1e6e73a}</Project>

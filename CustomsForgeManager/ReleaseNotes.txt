@@ -1,3 +1,14 @@
+CFM Release Notes
+
+1.0.2.5
+-Changed profile backup to use ICSharpCode.SharpZipLib to be consistent with toolkit
+-Fixed Export for selected songs
+-Changed some SongData variable types for better table sorting
+-Fixed PsarcBrowser, not all songs have showlights.xml
+-Add progress bar to SongEditor
+-Fixed SongInfo AutoScale issues
+
+
 1.0.2.4
 -Added ToolStripContainer to frmMain with a 'utilities' menustrip and removed the utilities tab.
 -Moved utility methods to CustomsForgeManagerLib.Extensions

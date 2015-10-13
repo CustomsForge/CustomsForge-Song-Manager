@@ -31,7 +31,7 @@ namespace CustomsForgeManager.UControls
             try
             {
                 Assembly assembly = Assembly.GetExecutingAssembly();
-                Stream stream = assembly.GetManifestResourceStream("CustomsForgeManager.Resources.renamer_properties.json");
+                using (Stream stream = assembly.GetManifestResourceStream("CustomsForgeManager.Resources.renamer_properties.json"))
                 using (StreamReader reader = new StreamReader(stream))
                 {
                     string json = reader.ReadToEnd();
@@ -65,12 +65,13 @@ namespace CustomsForgeManager.UControls
                 template.Add("filename", data.FileName);
                 template.Add("tuning", data.Tuning.Split(new[] { ", " }, StringSplitOptions.None).FirstOrDefault());
 
-                if (Convert.ToInt32(data.DD.Split(new[] { ", " }, StringSplitOptions.None).FirstOrDefault()) > 0)
+                //if (Convert.ToInt32(data.DD.Split(new[] { ", " }, StringSplitOptions.None).FirstOrDefault()) > 0)
+                if (data.DD > 0) 
                     template.Add("dd", "_DD");
                 else
                     template.Add("dd", "");
 
-                if (!String.IsNullOrEmpty(data.SongYear))
+                if (!String.IsNullOrEmpty(data.SongYear.ToString()))
                     template.Add("year", data.SongYear);
 
                 if (!String.IsNullOrEmpty(data.Version) && !data.Version.ToLower().Contains("n/a"))

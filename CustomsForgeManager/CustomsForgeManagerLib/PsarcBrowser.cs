@@ -64,21 +64,30 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                     appId = reader.ReadLine();
             }
 
-            // is assumption that each song contains showlights??
-            var singleSongCount = archive.TOC.Where(x => x.Name.Contains("showlights.xml") && x.Name.Contains("arr"));
+          // it is incorrect to assume that each song contains showlights
+            // var singleSongCount = archive.TOC.Where(x => x.Name.Contains("showlights.xml") && x.Name.Contains("arr"));
+            // use gamexblock which every song must contain
+            var singleSongCount = archive.TOC.Where(x => x.Name.Contains(".xblock") && x.Name.Contains("nsongs"));
             foreach (var singleSong in singleSongCount)
             {
+                string strippedName = singleSong.Name.Replace(".xblock", "").Replace("gamexblocks/nsongs/", "");
+                //string strippedName = singleSong.Name.Replace("_showlights.xml", "").Replace("songs/arr/", "");
 
-                string strippedName = singleSong.Name.Replace("_showlights.xml", "").Replace("songs/arr/", "");
                 var infoFiles = archive.TOC.Where(x =>
                     x.Name.StartsWith("manifests/songs")
                     && !x.Name.Contains("vocals")
                     && x.Name.EndsWith(".json")
                     && x.Name.Contains(strippedName)
-                ).OrderBy(x => x.Name);
+                ).OrderBy(x => x.Name); // bass, lead, rhythm
 
-                var fInfo = new FileInfo(FilePath);
-                var currentSong = new SongData { Charter = author, Version = version, ToolkitVer = tkversion, AppID = appId, Path = FilePath, FileDate = fInfo.LastWriteTimeUtc, FileSize = (int)fInfo.Length };
+                var currentSong = new SongData
+                    {
+                        Charter = author,
+                        Version = version,
+                        ToolkitVer = tkversion,
+                        AppID = appId,
+                        Path = FilePath
+                    };
 
                 // TODO: speed hack ... some song info only needed one time
                 bool gotSongInfo = false;
@@ -107,14 +116,14 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                             currentSong.Title = attributes["SongName"].ToString();
                             currentSong.Artist = attributes["ArtistName"].ToString();
                             currentSong.Album = attributes["AlbumName"].ToString();
-                            currentSong.LastConversionDateTime = attributes["LastConversionDateTime"].ToString();
-                            currentSong.SongYear = attributes["SongYear"].ToString();
-                            currentSong.SongLength = attributes["SongLength"].ToString();
-                            currentSong.SongAverageTempo = attributes["SongAverageTempo"].ToString();
+                            currentSong.LastConversionDateTime = Convert.ToDateTime(attributes["LastConversionDateTime"]);
+                            currentSong.SongYear = Convert.ToInt32(attributes["SongYear"]);
+                            currentSong.SongLength = Convert.ToSingle(attributes["SongLength"]);
+                            currentSong.SongAverageTempo = Convert.ToSingle(attributes["SongAverageTempo"]);
 
                             // some CDLC may not have SongVolume
                             if (attributes["SongVolume"] != null)
-                                currentSong.SongVolume = attributes["SongVolume"].ToString();
+                                currentSong.SongVolume = Convert.ToSingle(attributes["SongVolume"]);
 
                             gotSongInfo = true;
                         }
@@ -125,8 +134,8 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                            PersistentID = attributes["PersistentID"].ToString(),
                            Name = attributes["ArrangementName"].ToString(),
                            Tuning = Extensions.TuningToName(attributes["Tuning"].ToString()),
-                           DMax = attributes["MaxPhraseDifficulty"].ToString(),
-                           ToneBase = attributes["Tone_Base"].ToString(),
+                            DMax = Convert.ToInt32(attributes["MaxPhraseDifficulty"]),
+                          ToneBase = attributes["Tone_Base"].ToString(),
                            SectionCount = attributes["Sections"].ToArray().Count()
                        });
 

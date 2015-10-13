@@ -12,6 +12,7 @@ using System.Xml.Serialization;
 using System.Net;
 using CustomsForgeManager.CustomsForgeManagerLib.CustomControls;
 using CustomsForgeManager.CustomsForgeManagerLib.Objects;
+using ICSharpCode.SharpZipLib.Zip;
 using Newtonsoft.Json.Linq;
 using RocksmithToolkitLib;
 using RocksmithToolkitLib.Xml;
@@ -417,8 +418,9 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
 
                 if (Directory.Exists(userProfilePath))
                 {
-                    string[] filenames = Directory.GetFiles(userProfilePath, "*", SearchOption.AllDirectories);
-                    DotNetZip.ZipFiles(filenames, backupPath);
+                    // zip using ICSharpCode.SharpZipLib.dll (consistent w/ toolkit dependency)
+                    FastZip fz = new FastZip();
+                    fz.CreateZip(backupPath, userProfilePath, true, "");
 
                     Globals.Log("Created user profile backup:");
                     Globals.Log(backupPath);

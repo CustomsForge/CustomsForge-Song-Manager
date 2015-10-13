@@ -114,11 +114,10 @@ namespace CustomsForgeManager.UControls
             // Hide main dgvSongsMaster until load completes
             dgvSongsMaster.Visible = false;
 
-            LoadSongCollectionFromFile();
-
             if (Globals.MySettings.RescanOnStartup)
                 Rescan();
 
+            LoadSongCollectionFromFile();
         }
 
         public void SaveSongCollectionToFile()
@@ -524,7 +523,7 @@ namespace CustomsForgeManager.UControls
                 x.Charter.ToLower().Contains(criteria.ToLower()) ||
                 (x.IgnitionAuthor != null && x.IgnitionAuthor.ToLower().Contains(criteria.ToLower()) ||
                 (x.IgnitionID != null && x.IgnitionID.ToLower().Contains(criteria.ToLower())) ||
-                x.SongYear.Contains(criteria) ||
+                x.SongYear.ToString().Contains(criteria) ||
                 x.Path.ToLower().Contains(criteria.ToLower()))).ToList();
 
             LoadFilteredBindingList(results);
@@ -596,9 +595,9 @@ namespace CustomsForgeManager.UControls
             {
                 foreach (var row in checkedRows)
                     if (row.Cells["colCharter"].Value == null)
-                        sbTXT.AppendLine("[*]" + row.Cells["colArtist"].Value + " - " + row.Cells["colTitle"].Value + ", " + row.Cells["colAlbum"].Value + ", " + row.Cells["colSongYear"].Value + ", " + row.Cells["colSongTuning"].Value + ", " + row.Cells["colDD"].Value + ", " + row.Cells["colArrangements"].Value + "[/*]");
+                        sbTXT.AppendLine("[*]" + row.Cells["colArtist"].Value + " - " + row.Cells["colTitle"].Value + ", " + row.Cells["colAlbum"].Value + ", " + row.Cells["colSongYear"].Value + ", " + row.Cells["colTuning"].Value + ", " + row.Cells["colDD"].Value + ", " + row.Cells["colArrangements"].Value + "[/*]");
                     else
-                        sbTXT.AppendLine("[*]" + row.Cells["colArtist"].Value + " - " + row.Cells["colTitle"].Value + ", " + row.Cells["colAlbum"].Value + ", " + row.Cells["colSongYear"].Value + ", " + row.Cells["colSongTuning"].Value + ", " + row.Cells["colDD"].Value + ", " + row.Cells["colArrangements"].Value + ", " + row.Cells["colCharter"].Value);
+                        sbTXT.AppendLine("[*]" + row.Cells["colArtist"].Value + " - " + row.Cells["colTitle"].Value + ", " + row.Cells["colAlbum"].Value + ", " + row.Cells["colSongYear"].Value + ", " + row.Cells["colTuning"].Value + ", " + row.Cells["colDD"].Value + ", " + row.Cells["colArrangements"].Value + ", " + row.Cells["colCharter"].Value);
             }
 
             sbTXT.AppendLine("[/LIST]");
@@ -639,9 +638,9 @@ namespace CustomsForgeManager.UControls
             {
                 foreach (var row in checkedRows)
                     if (row.Cells["colCharter"].Value == null)
-                        sbCSV.AppendLine(row.Cells["colTitle"].Value + csvSep + row.Cells["colArtist"].Value + csvSep + row.Cells["colAlbum"].Value + csvSep + row.Cells["colSongYear"].Value + csvSep + row.Cells["colSongTuning"].Value + csvSep + row.Cells["colDD"].Value + csvSep + row.Cells["colArrangements"].Value);
+                        sbCSV.AppendLine(row.Cells["colTitle"].Value + csvSep + row.Cells["colArtist"].Value + csvSep + row.Cells["colAlbum"].Value + csvSep + row.Cells["colSongYear"].Value + csvSep + row.Cells["colTuning"].Value + csvSep + row.Cells["colDD"].Value + csvSep + row.Cells["colArrangements"].Value);
                     else
-                        sbCSV.AppendLine(row.Cells["colTitle"].Value + csvSep + row.Cells["colArtist"].Value + csvSep + row.Cells["colAlbum"].Value + csvSep + row.Cells["colSongYear"].Value + csvSep + row.Cells["colSongTuning"].Value + csvSep + row.Cells["colDD"].Value + csvSep + row.Cells["colArrangements"].Value + csvSep + row.Cells["colCharter"].Value);
+                        sbCSV.AppendLine(row.Cells["colTitle"].Value + csvSep + row.Cells["colArtist"].Value + csvSep + row.Cells["colAlbum"].Value + csvSep + row.Cells["colSongYear"].Value + csvSep + row.Cells["colTuning"].Value + csvSep + row.Cells["colDD"].Value + csvSep + row.Cells["colArrangements"].Value + csvSep + row.Cells["colCharter"].Value);
             }
 
             try
@@ -685,9 +684,9 @@ namespace CustomsForgeManager.UControls
                 {
                     sbTXT.AppendLine("<tr>");
                     if (row.Cells["colCharter"].Value == null)
-                        sbTXT.AppendLine("<td>" + row.Cells["colTitle"].Value + "</td><td>" + row.Cells["colArtist"].Value + "</td><td>" + row.Cells["colAlbum"].Value + "</td><td>" + row.Cells["colSongYear"].Value + "</td><td>" + row.Cells["colSongTuning"].Value + "</td><td>" + row.Cells["colDD"].Value + "</td><td>" + row.Cells["colArrangements"].Value + "</td>");
+                        sbTXT.AppendLine("<td>" + row.Cells["colTitle"].Value + "</td><td>" + row.Cells["colArtist"].Value + "</td><td>" + row.Cells["colAlbum"].Value + "</td><td>" + row.Cells["colSongYear"].Value + "</td><td>" + row.Cells["colTuning"].Value + "</td><td>" + row.Cells["colDD"].Value + "</td><td>" + row.Cells["colArrangements"].Value + "</td>");
                     else
-                        sbTXT.AppendLine("<td>" + row.Cells["colTitle"].Value + "</td><td>" + row.Cells["colArtist"].Value + "</td><td>" + row.Cells["colAlbum"].Value + "</td><td>" + row.Cells["colSongYear"].Value + "</td><td>" + row.Cells["colSongTuning"].Value + "</td><td>" + row.Cells["colDD"].Value + "</td><td>" + row.Cells["colArrangements"].Value + "</td><td>" + row.Cells["colCharter"].Value + "</td>");
+                        sbTXT.AppendLine("<td>" + row.Cells["colTitle"].Value + "</td><td>" + row.Cells["colArtist"].Value + "</td><td>" + row.Cells["colAlbum"].Value + "</td><td>" + row.Cells["colSongYear"].Value + "</td><td>" + row.Cells["colTuning"].Value + "</td><td>" + row.Cells["colDD"].Value + "</td><td>" + row.Cells["colArrangements"].Value + "</td><td>" + row.Cells["colCharter"].Value + "</td>");
 
                     sbTXT.AppendLine("</tr>");
                 }
@@ -1081,7 +1080,7 @@ namespace CustomsForgeManager.UControls
         }
 
         private void cmsEditSong_Click(object sender, EventArgs e)
-        {
+        { 
             var filePath = dgvSongsMaster.SelectedRows[0].Cells["colPath"].Value.ToString();
 
             using (var songEditor = new frmSongEditor(filePath))
@@ -1089,6 +1088,9 @@ namespace CustomsForgeManager.UControls
                 songEditor.Text = String.Format("{0}{1}", "Song Editor ... Loaded: ", Path.GetFileName(filePath));
                 songEditor.ShowDialog();
             }
+            
+            if (Globals.RescanSongManager)
+                UpdateToolStrip();
         }
 
         private void cmsGetCharterName_Click(object sender, EventArgs e)
