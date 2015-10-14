@@ -27,7 +27,8 @@ namespace CustomsForgeManager.Forms
             lbl_PanelSongAuthor.Text = song.Charter;
             lbl_PanelSongPath.Text = song.Path;
 
-           // FillGridWithArrangements(String.Join(",", song.Arrangements));
+            // TODO: reimpliment
+            // FillGridWithArrangements(String.Join(",", song.Arrangements));
 
         }
 

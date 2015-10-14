@@ -38,10 +38,10 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
             var sw = new Stopwatch();
             sw.Restart();
 
-            string author = String.Empty;
-            string version = String.Empty;
-            string tkversion = String.Empty;
-            string appId = String.Empty;
+            var author = String.Empty;
+            var version = String.Empty;
+            var tkversion = String.Empty;
+            var appId = String.Empty;
             var songsFromPsarc = new List<SongData>();
             var arrangmentsFromPsarc = new FilteredBindingList<Arrangement>();
 
@@ -64,41 +64,47 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                     appId = reader.ReadLine();
             }
 
-          // it is incorrect to assume that each song contains showlights
+            bool vocals = archive.TOC.Any(x => (x.Name.Contains("_vocals.sng")));
+
+            // speed hack - this only needs to be done one time
+            var fInfo = new FileInfo(FilePath);
+            var currentSong = new SongData
+            {
+                Charter = author,
+                Version = version,
+                ToolkitVer = tkversion,
+                AppID = appId,
+                Path = FilePath,
+                FileDate = fInfo.LastWriteTimeUtc,
+                FileSize = (int)fInfo.Length,
+            };
+
+            // it is incorrect to assume that each song contains showlights
             // var singleSongCount = archive.TOC.Where(x => x.Name.Contains("showlights.xml") && x.Name.Contains("arr"));
             // use gamexblock which every song must contain
             var singleSongCount = archive.TOC.Where(x => x.Name.Contains(".xblock") && x.Name.Contains("nsongs"));
+            // this foreach loop addresses song packs otherwise it is only done one time
             foreach (var singleSong in singleSongCount)
             {
                 string strippedName = singleSong.Name.Replace(".xblock", "").Replace("gamexblocks/nsongs/", "");
                 //string strippedName = singleSong.Name.Replace("_showlights.xml", "").Replace("songs/arr/", "");
 
+                // get vocal arrangment info too
                 var infoFiles = archive.TOC.Where(x =>
-                    x.Name.StartsWith("manifests/songs")
-                    && !x.Name.Contains("vocals")
+                     x.Name.StartsWith("manifests/songs")
+                         // && !x.Name.Contains("vocals") // commented out to gather vocals info
                     && x.Name.EndsWith(".json")
                     && x.Name.Contains(strippedName)
-                ).OrderBy(x => x.Name); // bass, lead, rhythm
-                var fInfo = new FileInfo(FilePath);
-                var currentSong = new SongData
-                    {
-                        Charter = author,
-                        Version = version,
-                        ToolkitVer = tkversion,
-                        AppID = appId,
-                        Path = FilePath,
-						FileDate = fInfo.LastWriteTimeUtc, 
-						FileSize = (int)fInfo.Length
-                    };
+                ).OrderBy(x => x.Name); // bass, lead, rhythm, vocal
 
-                // TODO: speed hack ... some song info only needed one time
+                // speed hack ... some song info only needed one time
                 bool gotSongInfo = false;
 
                 // looping through song multiple times gathering each arrangment
                 foreach (var entry in infoFiles)
                 {
                     archive.InflateEntry(entry);
-                    var ms = new MemoryStream();
+                    var ms = new MemoryStream();  // ?? Why remove disposal ??
                     using (var reader = new StreamReader(ms, new UTF8Encoding(), false, 65536))//4Kb is default alloc sise for windows.. 64Kb is default PSARC alloc
                     {
                         entry.Data.CopyTo(ms);
@@ -108,9 +114,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                         // generic json object parsing
                         var o = JObject.Parse(reader.ReadToEnd());
                         var attributes = o["Entries"].First.Last["Attributes"];
-                       // var tones = attributes.SelectToken("Tones");
 
-                        //Globals.Log("JSON Attributes " + attributes);
                         // mini speed hack - these don't change so skip after first pass
                         if (!gotSongInfo)
                         {
@@ -123,24 +127,33 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                             currentSong.SongLength = Convert.ToSingle(attributes["SongLength"]);
                             currentSong.SongAverageTempo = Convert.ToSingle(attributes["SongAverageTempo"]);
 
-                            // some CDLC may not have SongVolume
+                            // some CDLC may not have SongVolume info
                             if (attributes["SongVolume"] != null)
                                 currentSong.SongVolume = Convert.ToSingle(attributes["SongVolume"]);
 
                             gotSongInfo = true;
                         }
 
-                        arrangmentsFromPsarc.Add(new Arrangement
-                       {
-                           SongKey = attributes["SongKey"].ToString(),
-                           PersistentID = attributes["PersistentID"].ToString(),
-                           Name = attributes["ArrangementName"].ToString(),
-                           Tuning = Extensions.TuningToName(attributes["Tuning"].ToString()),
-                            DMax = Convert.ToInt32(attributes["MaxPhraseDifficulty"]),
-                          ToneBase = attributes["Tone_Base"].ToString(),
-                           SectionCount = attributes["Sections"].ToArray().Count()
-                       });
+                        var arrName = attributes["ArrangementName"].ToString();
 
+                        if (arrName.ToLower().Contains("vocal"))
+                            arrangmentsFromPsarc.Add(new Arrangement
+                            {
+                                SongKey = attributes["DLCKey"].ToString(),
+                                PersistentID = attributes["PersistentID"].ToString(),
+                                Name = attributes["ArrangementName"].ToString(),
+                             });
+                        else
+                            arrangmentsFromPsarc.Add(new Arrangement
+                           {
+                               SongKey = attributes["DLCKey"].ToString(),
+                               PersistentID = attributes["PersistentID"].ToString(),
+                               Name = arrName,
+                               Tuning = Extensions.TuningToName(attributes["Tuning"].ToString()),
+                               DMax = Convert.ToInt32(attributes["MaxPhraseDifficulty"].ToString()),
+                               ToneBase = attributes["Tone_Base"].ToString(),
+                               SectionCount = attributes["Sections"].ToArray().Count()
+                           });
                     }
                 }
 
