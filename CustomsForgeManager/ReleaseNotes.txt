@@ -1,10 +1,16 @@
 CFM Release Notes
+
+1.0.2.7
+-Removed class library projects references that are not in active development (left in CustomForgeManagerTools folder for future reference) and replaced with bin dll library references from lib folder
+-Fixed showlights generation in SongEditor
+-Fixed recolor BLRV after filtering set to all
+-Reset application PostBuild events (confirmed Release build output is protected)
+
 1.0.2.6
 -Fixed the directory structure for the CFMAudioTools
 -Added a reference to CFMAudioTools to RocksmithToolkitLib. The Revorb function in RocksmithToolkitLib.Ogg.OggFile no longer needs the external apps “ww2ogg.exe” and “revorb.exe”, nor does it need the codebook files. The codebook files are stored in the CFMAudioTools.Resources. The assemebly will use the new features when compiled with the "CFM_AUDIO_TOOL" conditional statement.
 -Added hotkeys to hide/show the top toolbar and the log. F3: Show/Hide log, F12: Show/hide toolbar.
 -ucSongInfo now uses events to determine if it has been modified. 
-
 
 1.0.2.5
 -Changed profile backup to use ICSharpCode.SharpZipLib to be consistent with toolkit
@@ -13,7 +19,6 @@ CFM Release Notes
 -Fixed PsarcBrowser, not all songs have showlights.xml
 -Add progress bar to SongEditor
 -Fixed SongInfo AutoScale issues
-
 
 1.0.2.4
 -Added ToolStripContainer to frmMain with a 'utilities' menustrip and removed the utilities tab.

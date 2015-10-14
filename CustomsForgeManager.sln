@@ -7,10 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CFMImageTools", "CustomForg
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CFMAudioTools", "CustomForgeManagerTools\CFMAudioTools\CFMAudioTools.csproj", "{6D8C3FE6-5855-4B6C-BD2B-51954342DBEE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RocksmithToolkitLib", "CustomForgeManagerTools\RocksmithToolkitLib\RocksmithToolkitLib.csproj", "{2231C13A-14F6-478A-96D7-D1D3E1094CD6}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DLogNet", "CustomForgeManagerTools\DLogNet\DLogNet.csproj", "{04B8EBDC-6226-456E-8BD4-AEF7BAF682AA}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataGridViewTools", "CustomForgeManagerTools\DataGridViewTools\DataGridViewTools.csproj", "{5A4B4B14-D3B5-4D54-80EC-0877C1E6E73A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClickOnceUninstaller", "CustomForgeManagerTools\ClickOnceUninstaller\ClickOnceUninstaller.csproj", "{25E15C6A-AEAE-4958-80EA-44062DF402E7}"
@@ -55,26 +51,6 @@ Global
 		{6D8C3FE6-5855-4B6C-BD2B-51954342DBEE}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{6D8C3FE6-5855-4B6C-BD2B-51954342DBEE}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{6D8C3FE6-5855-4B6C-BD2B-51954342DBEE}.Release|x86.ActiveCfg = Release|Any CPU
-		{2231C13A-14F6-478A-96D7-D1D3E1094CD6}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{2231C13A-14F6-478A-96D7-D1D3E1094CD6}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{2231C13A-14F6-478A-96D7-D1D3E1094CD6}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{2231C13A-14F6-478A-96D7-D1D3E1094CD6}.Debug|x86.ActiveCfg = Debug|x86
-		{2231C13A-14F6-478A-96D7-D1D3E1094CD6}.Debug|x86.Build.0 = Debug|x86
-		{2231C13A-14F6-478A-96D7-D1D3E1094CD6}.Release|Any CPU.ActiveCfg = Release|x86
-		{2231C13A-14F6-478A-96D7-D1D3E1094CD6}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{2231C13A-14F6-478A-96D7-D1D3E1094CD6}.Release|Mixed Platforms.Build.0 = Release|x86
-		{2231C13A-14F6-478A-96D7-D1D3E1094CD6}.Release|x86.ActiveCfg = Release|x86
-		{2231C13A-14F6-478A-96D7-D1D3E1094CD6}.Release|x86.Build.0 = Release|x86
-		{04B8EBDC-6226-456E-8BD4-AEF7BAF682AA}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{04B8EBDC-6226-456E-8BD4-AEF7BAF682AA}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{04B8EBDC-6226-456E-8BD4-AEF7BAF682AA}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{04B8EBDC-6226-456E-8BD4-AEF7BAF682AA}.Debug|x86.ActiveCfg = Debug|x86
-		{04B8EBDC-6226-456E-8BD4-AEF7BAF682AA}.Debug|x86.Build.0 = Debug|x86
-		{04B8EBDC-6226-456E-8BD4-AEF7BAF682AA}.Release|Any CPU.ActiveCfg = Release|x86
-		{04B8EBDC-6226-456E-8BD4-AEF7BAF682AA}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{04B8EBDC-6226-456E-8BD4-AEF7BAF682AA}.Release|Mixed Platforms.Build.0 = Release|x86
-		{04B8EBDC-6226-456E-8BD4-AEF7BAF682AA}.Release|x86.ActiveCfg = Release|x86
-		{04B8EBDC-6226-456E-8BD4-AEF7BAF682AA}.Release|x86.Build.0 = Release|x86
 		{5A4B4B14-D3B5-4D54-80EC-0877C1E6E73A}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{5A4B4B14-D3B5-4D54-80EC-0877C1E6E73A}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
 		{5A4B4B14-D3B5-4D54-80EC-0877C1E6E73A}.Debug|Mixed Platforms.Build.0 = Debug|x86

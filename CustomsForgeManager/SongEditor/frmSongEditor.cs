@@ -16,7 +16,6 @@ namespace CustomsForgeManager.SongEditor
 
         private List<DLCPackageEditorControlBase> FEditorControls = new List<DLCPackageEditorControlBase>();
 
-        // TODO: consider revamp frmMain code to be like this
         public frmSongEditor(string songPath)
         {
             if (String.IsNullOrEmpty(songPath))
@@ -43,8 +42,9 @@ namespace CustomsForgeManager.SongEditor
 
         private void Save(string outputPath)
         {
-            if (!Dirty)
-                return;
+            // commented out becuase may want to save same song with different file name
+            //if (!Dirty)
+            //    return;
 
             Cursor.Current = Cursors.WaitCursor;
             tsProgressBar.Value = 30;
@@ -52,9 +52,6 @@ namespace CustomsForgeManager.SongEditor
             try
             {
                 FEditorControls.ForEach(ec => { if (ec.Dirty) ec.Save(); });
-
-                // required but may not have been included in SongInfo
-                //info.Showlights = true;
 
                 using (var psarc = new PsarcPackage(true))
                     psarc.WritePackage(outputPath, info);

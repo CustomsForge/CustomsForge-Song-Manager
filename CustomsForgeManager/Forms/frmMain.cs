@@ -266,7 +266,9 @@ namespace CustomsForgeManager.Forms
 
         private void tsBtnBackup_Click(object sender, EventArgs e)
         {
+            Globals.TsProgressBar_Main.Value = 50;
             CustomsForgeManagerLib.Extensions.BackupRocksmithProfile();
+            Globals.TsProgressBar_Main.Value = 100;
         }
 
         private void tsBtnUpload_Click(object sender, EventArgs e)

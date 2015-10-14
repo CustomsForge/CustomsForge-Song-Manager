@@ -16,12 +16,12 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
         {
             FDeleteOnDispose = DeleteOnClose;
         }
- 
+
         public DLCPackageData ReadPackage(string inputPath)
         {
             // UNPACK
             packageDir = Packer.Unpack(inputPath, Path.GetTempPath(), true, true, false);
-           
+
             // REORGANIZE
             packageDir = DLCPackageData.DoLikeProject(packageDir);
 
@@ -29,7 +29,11 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
             DLCPackageData info = null;
             var packagePlatform = inputPath.GetPlatform();
             info = DLCPackageData.LoadFromFolder(packageDir, packagePlatform, packagePlatform);
-            info.Showlights = Directory.EnumerateFiles(packageDir, "*_showlights.xml", SearchOption.AllDirectories).Any();
+            var foundShowlights = Directory.EnumerateFiles(packageDir, "*_showlights.xml", SearchOption.AllDirectories).Any();
+
+            // toolkit generates showlights if none was found
+            if (!foundShowlights)
+                info.Showlights = true;
 
             return info;
         }
@@ -43,7 +47,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
         public void Dispose()
         {
             if (FDeleteOnDispose)
-                DirectoryExtension.SafeDelete(packageDir);            
+                DirectoryExtension.SafeDelete(packageDir);
         }
     }
 }

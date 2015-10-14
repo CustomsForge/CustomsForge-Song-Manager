@@ -1080,7 +1080,7 @@ namespace CustomsForgeManager.UControls
         }
 
         private void cmsEditSong_Click(object sender, EventArgs e)
-        { 
+        {
             var filePath = dgvSongsMaster.SelectedRows[0].Cells["colPath"].Value.ToString();
 
             using (var songEditor = new frmSongEditor(filePath))
@@ -1088,7 +1088,7 @@ namespace CustomsForgeManager.UControls
                 songEditor.Text = String.Format("{0}{1}", "Song Editor ... Loaded: ", Path.GetFileName(filePath));
                 songEditor.ShowDialog();
             }
-            
+
             if (Globals.RescanSongManager)
                 UpdateToolStrip();
         }
@@ -1296,6 +1296,8 @@ namespace CustomsForgeManager.UControls
                     // ensures BLRV columns are recolored correctly
                     dgvPainted = false;
                 }
+                if (String.IsNullOrEmpty(filterStatus) && dgvPainted)
+                    RemoveFilter();
             }
         }
 
