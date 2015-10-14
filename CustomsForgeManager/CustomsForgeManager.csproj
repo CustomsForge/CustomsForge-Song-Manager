@@ -413,7 +413,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CustomForgeManagerTools\CFMImageTools\CFMImageTools.csproj">
-      <Project>{e6565985-c477-46f4-8a42-08e04cd40b65}</Project>
+      <Project>{E6565985-C477-46F4-8A42-08E04CD40B65}</Project>
       <Name>CFMImageTools</Name>
     </ProjectReference>
     <ProjectReference Include="..\CustomForgeManagerTools\ClickOnceUninstaller\ClickOnceUninstaller.csproj">

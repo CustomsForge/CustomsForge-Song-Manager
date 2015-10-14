@@ -1,5 +1,8 @@
 CFM Release Notes
 
+1.0.2.9
+-Changed the reference to CFMImageTools to point to the project class library and not the bin dll while the class library is in development to eliminate possible commit conflicts occuring with CFMImageTools.dll
+
 1.0.2.8
 -Hotfix for commit conflicts 
 
