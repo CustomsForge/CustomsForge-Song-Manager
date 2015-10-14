@@ -1,5 +1,8 @@
 CFM Release Notes
 
+1.0.2.8
+-Hotfix for commit conflicts 
+
 1.0.2.7
 -Removed class library projects references that are not in active development (left in CustomForgeManagerTools folder for future reference) and replaced with bin dll library references from lib folder
 -Fixed showlights generation in SongEditor

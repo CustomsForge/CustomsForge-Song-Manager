@@ -98,6 +98,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\libs\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="RocksmithToolkitLib">
+      <HintPath>..\libs\RocksmithToolkitLib.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -424,10 +427,6 @@
     <ProjectReference Include="..\CustomForgeManagerTools\DLogNet\DLogNet.csproj">
       <Project>{04b8ebdc-6226-456e-8bd4-aef7baf682aa}</Project>
       <Name>DLogNet</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CustomForgeManagerTools\RocksmithToolkitLib\RocksmithToolkitLib.csproj">
-      <Project>{2231c13a-14f6-478a-96d7-d1d3e1094cd6}</Project>
-      <Name>RocksmithToolkitLib</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
