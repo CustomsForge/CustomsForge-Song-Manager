@@ -1,13 +1,9 @@
-﻿#define DEBUG_LOG_PARSING
-
+﻿
 using System.Diagnostics;
-using CustomsForgeManager.CustomsForgeManagerLib.CustomControls;
 using CustomsForgeManager.CustomsForgeManagerLib.Objects;
 using DataGridViewTools;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RocksmithToolkitLib.DLCPackage;
-using RocksmithToolkitLib.DLCPackage.Manifest2014.Tone;
 using RocksmithToolkitLib.Extensions;
 using RocksmithToolkitLib.PSARC;
 using System;
@@ -38,13 +34,12 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
             var sw = new Stopwatch();
             sw.Restart();
 
+            var songsFromPsarc = new List<SongData>();
+            var fInfo = new FileInfo(FilePath);
             var author = String.Empty;
             var version = String.Empty;
             var tkversion = String.Empty;
             var appId = String.Empty;
-            var songsFromPsarc = new List<SongData>();
-            var arrangmentsFromPsarc = new FilteredBindingList<Arrangement>();
-
 
             var toolkitVersionFile = archive.TOC.FirstOrDefault(x => (x.Name.Equals("toolkit.version")));
             if (toolkitVersionFile != null)
@@ -64,47 +59,38 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                     appId = reader.ReadLine();
             }
 
-            bool vocals = archive.TOC.Any(x => (x.Name.Contains("_vocals.sng")));
-
-            // speed hack - this only needs to be done one time
-            var fInfo = new FileInfo(FilePath);
-            var currentSong = new SongData
-            {
-                Charter = author,
-                Version = version,
-                ToolkitVer = tkversion,
-                AppID = appId,
-                Path = FilePath,
-                FileDate = fInfo.LastWriteTimeUtc,
-                FileSize = (int)fInfo.Length,
-            };
-
-            // it is incorrect to assume that each song contains showlights
-            // var singleSongCount = archive.TOC.Where(x => x.Name.Contains("showlights.xml") && x.Name.Contains("arr"));
-            // use gamexblock which every song must contain
+            // every song contains gamesxblock but may not contain showlights.xml
             var singleSongCount = archive.TOC.Where(x => x.Name.Contains(".xblock") && x.Name.Contains("nsongs"));
             // this foreach loop addresses song packs otherwise it is only done one time
             foreach (var singleSong in singleSongCount)
             {
-                string strippedName = singleSong.Name.Replace(".xblock", "").Replace("gamexblocks/nsongs/", "");
-                //string strippedName = singleSong.Name.Replace("_showlights.xml", "").Replace("songs/arr/", "");
+                var currentSong = new SongData
+                {
+                    Charter = author,
+                    Version = version,
+                    ToolkitVer = tkversion,
+                    AppID = appId,
+                    Path = FilePath,
+                    FileDate = fInfo.LastWriteTimeUtc,
+                    FileSize = (int)fInfo.Length,
+                };
 
-                // get vocal arrangment info too
+                var strippedName = singleSong.Name.Replace(".xblock", "").Replace("gamexblocks/nsongs/", "");
                 var infoFiles = archive.TOC.Where(x =>
-                     x.Name.StartsWith("manifests/songs")
-                         // && !x.Name.Contains("vocals") // commented out to gather vocals info
+                    x.Name.StartsWith("manifests/songs")
                     && x.Name.EndsWith(".json")
                     && x.Name.Contains(strippedName)
-                ).OrderBy(x => x.Name); // bass, lead, rhythm, vocal
+                    ).OrderBy(x => x.Name); // bass, lead, rhythm, vocal
 
                 // speed hack ... some song info only needed one time
                 bool gotSongInfo = false;
+                var arrangmentsFromPsarc = new FilteredBindingList<Arrangement>();
 
-                // looping through song multiple times gathering each arrangment
+                // looping through song multiple times gathering each arrangement
                 foreach (var entry in infoFiles)
                 {
                     archive.InflateEntry(entry);
-                    var ms = new MemoryStream();  // ?? Why remove disposal ??
+                    var ms = new MemoryStream();
                     using (var reader = new StreamReader(ms, new UTF8Encoding(), false, 65536))//4Kb is default alloc sise for windows.. 64Kb is default PSARC alloc
                     {
                         entry.Data.CopyTo(ms);
@@ -136,13 +122,14 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
 
                         var arrName = attributes["ArrangementName"].ToString();
 
+                        // get vocal arrangment info
                         if (arrName.ToLower().Contains("vocal"))
                             arrangmentsFromPsarc.Add(new Arrangement
                             {
                                 SongKey = attributes["DLCKey"].ToString(),
                                 PersistentID = attributes["PersistentID"].ToString(),
-                                Name = attributes["ArrangementName"].ToString(),
-                             });
+                                Name = arrName
+                            });
                         else
                             arrangmentsFromPsarc.Add(new Arrangement
                            {

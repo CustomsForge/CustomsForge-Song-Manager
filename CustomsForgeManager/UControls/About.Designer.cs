@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(About));
             this.tlpAbout = new System.Windows.Forms.TableLayoutPanel();
+            this.picCF = new System.Windows.Forms.PictureBox();
             this.gbInfo = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.lnkReleaseNotes = new System.Windows.Forms.LinkLabel();
@@ -37,6 +38,8 @@
             this.lnkHelp = new System.Windows.Forms.LinkLabel();
             this.gbCFLinks = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel_CFQuicklinks = new System.Windows.Forms.TableLayoutPanel();
+            this.btnRSTKSite = new System.Windows.Forms.Button();
+            this.btnEOFSite = new System.Windows.Forms.Button();
             this.lnkHomePage = new System.Windows.Forms.LinkLabel();
             this.lnkIgnition = new System.Windows.Forms.LinkLabel();
             this.lnkRequests = new System.Windows.Forms.LinkLabel();
@@ -44,9 +47,6 @@
             this.lnkVideos = new System.Windows.Forms.LinkLabel();
             this.lnkFAQ = new System.Windows.Forms.LinkLabel();
             this.gbCredits = new System.Windows.Forms.GroupBox();
-            this.picCF = new System.Windows.Forms.PictureBox();
-            this.btnRSTKSite = new System.Windows.Forms.Button();
-            this.btnEOFSite = new System.Windows.Forms.Button();
             this.tableLayoutPanel_Credits = new System.Windows.Forms.TableLayoutPanel();
             this.lnkOthers = new System.Windows.Forms.LinkLabel();
             this.link_Credits = new System.Windows.Forms.LinkLabel();
@@ -62,12 +62,12 @@
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.lnkCozy1Profile = new System.Windows.Forms.LinkLabel();
             this.tlpAbout.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picCF)).BeginInit();
             this.gbInfo.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.gbCFLinks.SuspendLayout();
             this.tableLayoutPanel_CFQuicklinks.SuspendLayout();
             this.gbCredits.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picCF)).BeginInit();
             this.tableLayoutPanel_Credits.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -88,6 +88,17 @@
             this.tlpAbout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tlpAbout.Size = new System.Drawing.Size(990, 490);
             this.tlpAbout.TabIndex = 0;
+            // 
+            // picCF
+            // 
+            this.picCF.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.picCF.Image = global::CustomsForgeManager.Properties.Resources.logo_black;
+            this.picCF.Location = new System.Drawing.Point(121, 89);
+            this.picCF.Name = "picCF";
+            this.picCF.Size = new System.Drawing.Size(252, 56);
+            this.picCF.TabIndex = 3;
+            this.picCF.TabStop = false;
+            this.picCF.Click += new System.EventHandler(this.picCF_Click);
             // 
             // gbInfo
             // 
@@ -164,7 +175,7 @@
             this.lnkHelp.Size = new System.Drawing.Size(456, 61);
             this.lnkHelp.TabIndex = 9;
             this.lnkHelp.TabStop = true;
-            this.lnkHelp.Text = "Song Manager Help";
+            this.lnkHelp.Text = "General Help";
             this.lnkHelp.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lnkHelp.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkHelp_LinkClicked);
             // 
@@ -205,6 +216,32 @@
             this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5F));
             this.tableLayoutPanel_CFQuicklinks.Size = new System.Drawing.Size(468, 203);
             this.tableLayoutPanel_CFQuicklinks.TabIndex = 4;
+            // 
+            // btnRSTKSite
+            // 
+            this.btnRSTKSite.Image = ((System.Drawing.Image)(resources.GetObject("btnRSTKSite.Image")));
+            this.btnRSTKSite.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnRSTKSite.Location = new System.Drawing.Point(338, 13);
+            this.btnRSTKSite.Name = "btnRSTKSite";
+            this.btnRSTKSite.Size = new System.Drawing.Size(127, 22);
+            this.btnRSTKSite.TabIndex = 17;
+            this.btnRSTKSite.Text = "Rocksmith Toolkit";
+            this.btnRSTKSite.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnRSTKSite.UseVisualStyleBackColor = true;
+            this.btnRSTKSite.Click += new System.EventHandler(this.btnRSTKSite_Click);
+            // 
+            // btnEOFSite
+            // 
+            this.btnEOFSite.Image = ((System.Drawing.Image)(resources.GetObject("btnEOFSite.Image")));
+            this.btnEOFSite.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnEOFSite.Location = new System.Drawing.Point(338, 43);
+            this.btnEOFSite.Name = "btnEOFSite";
+            this.btnEOFSite.Size = new System.Drawing.Size(127, 22);
+            this.btnEOFSite.TabIndex = 16;
+            this.btnEOFSite.Text = "Editor on Fire";
+            this.btnEOFSite.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnEOFSite.UseVisualStyleBackColor = true;
+            this.btnEOFSite.Click += new System.EventHandler(this.btnEOFSite_Click);
             // 
             // lnkHomePage
             // 
@@ -305,43 +342,6 @@
             this.gbCredits.TabIndex = 6;
             this.gbCredits.TabStop = false;
             this.gbCredits.Text = "Credits";
-            // 
-            // picCF
-            // 
-            this.picCF.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.picCF.Image = global::CustomsForgeManager.Properties.Resources.logo_black;
-            this.picCF.Location = new System.Drawing.Point(121, 89);
-            this.picCF.Name = "picCF";
-            this.picCF.Size = new System.Drawing.Size(252, 56);
-            this.picCF.TabIndex = 3;
-            this.picCF.TabStop = false;
-            this.picCF.Click += new System.EventHandler(this.picCF_Click);
-            // 
-            // btnRSTKSite
-            // 
-            this.btnRSTKSite.Image = ((System.Drawing.Image)(resources.GetObject("btnRSTKSite.Image")));
-            this.btnRSTKSite.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnRSTKSite.Location = new System.Drawing.Point(338, 13);
-            this.btnRSTKSite.Name = "btnRSTKSite";
-            this.btnRSTKSite.Size = new System.Drawing.Size(127, 22);
-            this.btnRSTKSite.TabIndex = 17;
-            this.btnRSTKSite.Text = "Rocksmith Toolkit";
-            this.btnRSTKSite.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnRSTKSite.UseVisualStyleBackColor = true;
-            this.btnRSTKSite.Click += new System.EventHandler(this.btnRSTKSite_Click);
-            // 
-            // btnEOFSite
-            // 
-            this.btnEOFSite.Image = ((System.Drawing.Image)(resources.GetObject("btnEOFSite.Image")));
-            this.btnEOFSite.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnEOFSite.Location = new System.Drawing.Point(338, 43);
-            this.btnEOFSite.Name = "btnEOFSite";
-            this.btnEOFSite.Size = new System.Drawing.Size(127, 22);
-            this.btnEOFSite.TabIndex = 16;
-            this.btnEOFSite.Text = "Editor on Fire";
-            this.btnEOFSite.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnEOFSite.UseVisualStyleBackColor = true;
-            this.btnEOFSite.Click += new System.EventHandler(this.btnEOFSite_Click);
             // 
             // tableLayoutPanel_Credits
             // 
@@ -622,6 +622,7 @@
             this.Name = "About";
             this.Size = new System.Drawing.Size(990, 490);
             this.tlpAbout.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.picCF)).EndInit();
             this.gbInfo.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
@@ -629,7 +630,6 @@
             this.tableLayoutPanel_CFQuicklinks.ResumeLayout(false);
             this.tableLayoutPanel_CFQuicklinks.PerformLayout();
             this.gbCredits.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.picCF)).EndInit();
             this.tableLayoutPanel_Credits.ResumeLayout(false);
             this.tableLayoutPanel_Credits.PerformLayout();
             this.ResumeLayout(false);

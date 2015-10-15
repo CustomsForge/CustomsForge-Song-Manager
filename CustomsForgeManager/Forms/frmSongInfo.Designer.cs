@@ -48,12 +48,12 @@
             this.lbl_PanelSongArrangements = new System.Windows.Forms.Label();
             this.lbl_PanelSongAuthor = new System.Windows.Forms.Label();
             this.dgv_Arrangements = new System.Windows.Forms.DataGridView();
-            this.colLead = new System.Windows.Forms.DataGridViewImageColumn();
-            this.colRhythm = new System.Windows.Forms.DataGridViewImageColumn();
-            this.colBass = new System.Windows.Forms.DataGridViewImageColumn();
-            this.colVocals = new System.Windows.Forms.DataGridViewImageColumn();
             this.lbl_PanelSongPathLbl = new System.Windows.Forms.Label();
             this.lbl_PanelSongPath = new System.Windows.Forms.Label();
+            this.colBass = new System.Windows.Forms.DataGridViewImageColumn();
+            this.colLead = new System.Windows.Forms.DataGridViewImageColumn();
+            this.colRhythm = new System.Windows.Forms.DataGridViewImageColumn();
+            this.colVocals = new System.Windows.Forms.DataGridViewImageColumn();
             this.gb_MainSongInfoPanel.SuspendLayout();
             this.tlp_MainSongInfoWrapper.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Arrangements)).BeginInit();
@@ -299,9 +299,9 @@
             this.dgv_Arrangements.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_Arrangements.ColumnHeadersVisible = false;
             this.dgv_Arrangements.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colBass,
             this.colLead,
             this.colRhythm,
-            this.colBass,
             this.colVocals});
             this.dgv_Arrangements.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dgv_Arrangements.Enabled = false;
@@ -316,44 +316,8 @@
             this.dgv_Arrangements.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.dgv_Arrangements.ShowCellErrors = false;
             this.dgv_Arrangements.ShowEditingIcon = false;
-            this.dgv_Arrangements.Size = new System.Drawing.Size(80, 24);
+            this.dgv_Arrangements.Size = new System.Drawing.Size(203, 24);
             this.dgv_Arrangements.TabIndex = 3;
-            // 
-            // colLead
-            // 
-            this.colLead.HeaderText = "Lead";
-            this.colLead.Image = global::CustomsForgeManager.Properties.Resources.Letter_L;
-            this.colLead.MinimumWidth = 20;
-            this.colLead.Name = "colLead";
-            this.colLead.ReadOnly = true;
-            this.colLead.Width = 20;
-            // 
-            // colRhythm
-            // 
-            this.colRhythm.HeaderText = "Rhythm";
-            this.colRhythm.Image = global::CustomsForgeManager.Properties.Resources.Letter_R;
-            this.colRhythm.MinimumWidth = 20;
-            this.colRhythm.Name = "colRhythm";
-            this.colRhythm.ReadOnly = true;
-            this.colRhythm.Width = 20;
-            // 
-            // colBass
-            // 
-            this.colBass.HeaderText = "Bass";
-            this.colBass.Image = global::CustomsForgeManager.Properties.Resources.Letter_B;
-            this.colBass.MinimumWidth = 20;
-            this.colBass.Name = "colBass";
-            this.colBass.ReadOnly = true;
-            this.colBass.Width = 20;
-            // 
-            // colVocals
-            // 
-            this.colVocals.HeaderText = "Vocals";
-            this.colVocals.Image = global::CustomsForgeManager.Properties.Resources.Letter_V;
-            this.colVocals.MinimumWidth = 20;
-            this.colVocals.Name = "colVocals";
-            this.colVocals.ReadOnly = true;
-            this.colVocals.Width = 20;
             // 
             // lbl_PanelSongPathLbl
             // 
@@ -375,6 +339,42 @@
             this.lbl_PanelSongPath.TabIndex = 5;
             this.lbl_PanelSongPath.Text = "Path";
             this.lbl_PanelSongPath.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // colBass
+            // 
+            this.colBass.HeaderText = "Bass";
+            this.colBass.Image = global::CustomsForgeManager.Properties.Resources.Letter_B;
+            this.colBass.MinimumWidth = 20;
+            this.colBass.Name = "colBass";
+            this.colBass.ReadOnly = true;
+            this.colBass.Width = 20;
+            // 
+            // colLead
+            // 
+            this.colLead.HeaderText = "Lead";
+            this.colLead.Image = global::CustomsForgeManager.Properties.Resources.Letter_L;
+            this.colLead.MinimumWidth = 20;
+            this.colLead.Name = "colLead";
+            this.colLead.ReadOnly = true;
+            this.colLead.Width = 20;
+            // 
+            // colRhythm
+            // 
+            this.colRhythm.HeaderText = "Rhythm";
+            this.colRhythm.Image = global::CustomsForgeManager.Properties.Resources.Letter_R;
+            this.colRhythm.MinimumWidth = 20;
+            this.colRhythm.Name = "colRhythm";
+            this.colRhythm.ReadOnly = true;
+            this.colRhythm.Width = 20;
+            // 
+            // colVocals
+            // 
+            this.colVocals.HeaderText = "Vocals";
+            this.colVocals.Image = global::CustomsForgeManager.Properties.Resources.Letter_V;
+            this.colVocals.MinimumWidth = 20;
+            this.colVocals.Name = "colVocals";
+            this.colVocals.ReadOnly = true;
+            this.colVocals.Width = 20;
             // 
             // frmSongInfo
             // 
@@ -417,11 +417,11 @@
         private System.Windows.Forms.Label lbl_PanelSongArrangements;
         private System.Windows.Forms.Label lbl_PanelSongAuthor;
         private System.Windows.Forms.DataGridView dgv_Arrangements;
-        private System.Windows.Forms.DataGridViewImageColumn colLead;
-        private System.Windows.Forms.DataGridViewImageColumn colRhythm;
-        private System.Windows.Forms.DataGridViewImageColumn colBass;
-        private System.Windows.Forms.DataGridViewImageColumn colVocals;
         private System.Windows.Forms.Label lbl_PanelSongPathLbl;
         private System.Windows.Forms.Label lbl_PanelSongPath;
+        private System.Windows.Forms.DataGridViewImageColumn colBass;
+        private System.Windows.Forms.DataGridViewImageColumn colLead;
+        private System.Windows.Forms.DataGridViewImageColumn colRhythm;
+        private System.Windows.Forms.DataGridViewImageColumn colVocals;
     }
 }

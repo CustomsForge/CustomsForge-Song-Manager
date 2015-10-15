@@ -52,9 +52,11 @@ namespace CustomsForgeManager.Forms
             this.tpAbout = new System.Windows.Forms.TabPage();
             this.toolStripUtilities = new System.Windows.Forms.ToolStrip();
             this.tsBtnLaunchRS = new System.Windows.Forms.ToolStripButton();
-            this.tsBtnBackup = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsBtnBackup = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.tsBtnUpload = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.tsBtnRequest = new System.Windows.Forms.ToolStripButton();
             this.BottomToolStripPanel = new System.Windows.Forms.ToolStripPanel();
             this.statusStripMain = new System.Windows.Forms.StatusStrip();
@@ -69,8 +71,8 @@ namespace CustomsForgeManager.Forms
             this.RightToolStripPanel = new System.Windows.Forms.ToolStripPanel();
             this.LeftToolStripPanel = new System.Windows.Forms.ToolStripPanel();
             this.ContentPanel = new System.Windows.Forms.ToolStripContentPanel();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsBtnHelp = new System.Windows.Forms.ToolStripButton();
             this.gbLog.SuspendLayout();
             this.contextMenuStrip_Tray.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.scMain)).BeginInit();
@@ -265,10 +267,12 @@ namespace CustomsForgeManager.Forms
             this.toolStripSeparator2,
             this.tsBtnUpload,
             this.toolStripSeparator3,
-            this.tsBtnRequest});
+            this.tsBtnRequest,
+            this.toolStripSeparator4,
+            this.tsBtnHelp});
             this.toolStripUtilities.Location = new System.Drawing.Point(3, 0);
             this.toolStripUtilities.Name = "toolStripUtilities";
-            this.toolStripUtilities.Size = new System.Drawing.Size(347, 25);
+            this.toolStripUtilities.Size = new System.Drawing.Size(416, 25);
             this.toolStripUtilities.TabIndex = 0;
             // 
             // tsBtnLaunchRS
@@ -280,6 +284,11 @@ namespace CustomsForgeManager.Forms
             this.tsBtnLaunchRS.Text = "Launch Rocksmith";
             this.tsBtnLaunchRS.Click += new System.EventHandler(this.tsBtnLaunchRS_Click);
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
             // tsBtnBackup
             // 
             this.tsBtnBackup.Image = global::CustomsForgeManager.Properties.Resources.backup;
@@ -289,10 +298,10 @@ namespace CustomsForgeManager.Forms
             this.tsBtnBackup.Text = "Backup Profile";
             this.tsBtnBackup.Click += new System.EventHandler(this.tsBtnBackup_Click);
             // 
-            // toolStripSeparator1
+            // toolStripSeparator2
             // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
             // 
             // tsBtnUpload
             // 
@@ -303,6 +312,11 @@ namespace CustomsForgeManager.Forms
             this.tsBtnUpload.Text = "Upload";
             this.tsBtnUpload.ToolTipText = "Upload CDLC to CustomsForge";
             this.tsBtnUpload.Click += new System.EventHandler(this.tsBtnUpload_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
             // 
             // tsBtnRequest
             // 
@@ -436,15 +450,20 @@ namespace CustomsForgeManager.Forms
             // 
             this.ContentPanel.Size = new System.Drawing.Size(150, 150);
             // 
-            // toolStripSeparator2
+            // toolStripSeparator4
             // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
             // 
-            // toolStripSeparator3
+            // tsBtnHelp
             // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+            this.tsBtnHelp.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tsBtnHelp.Image = ((System.Drawing.Image)(resources.GetObject("tsBtnHelp.Image")));
+            this.tsBtnHelp.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsBtnHelp.Name = "tsBtnHelp";
+            this.tsBtnHelp.Size = new System.Drawing.Size(32, 22);
+            this.tsBtnHelp.Text = "Help";
+            this.tsBtnHelp.Click += new System.EventHandler(this.tsBtnHelp_Click);
             // 
             // frmMain
             // 
@@ -519,5 +538,7 @@ namespace CustomsForgeManager.Forms
         private ToolStripButton tsBtnRequest;
         private ToolStripSeparator toolStripSeparator2;
         private ToolStripSeparator toolStripSeparator3;
+        private ToolStripSeparator toolStripSeparator4;
+        private ToolStripButton tsBtnHelp;
     }
 }

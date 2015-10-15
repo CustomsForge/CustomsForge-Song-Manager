@@ -100,15 +100,15 @@ namespace CustomsForgeManager.UControls
             this.label4 = new System.Windows.Forms.Label();
             this.btnEnDiSongPack = new System.Windows.Forms.Button();
             this.dgvSongPacks = new CustomsForgeManager.CustomsForgeManagerLib.CustomControls.RADataGridView();
+            this.colSongPackSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.colSongPackEnabled = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSongPackPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.gbSearch = new System.Windows.Forms.GroupBox();
             this.lnkClearSearch = new System.Windows.Forms.LinkLabel();
             this.label1 = new System.Windows.Forms.Label();
             this.btnRunRSWithSetlist = new System.Windows.Forms.Button();
             this.cueSearch = new CustomsForgeManager.CustomsForgeManagerLib.CustomControls.CueTextBox();
-            this.lnkOpenSngMgrHelp = new System.Windows.Forms.LinkLabel();
-            this.colSongPackSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.colSongPackEnabled = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSongPackPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.lnkSetlistMgrHelp = new System.Windows.Forms.LinkLabel();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.gbSetlistSongs.SuspendLayout();
@@ -819,13 +819,47 @@ namespace CustomsForgeManager.UControls
             this.dgvSongPacks.Size = new System.Drawing.Size(241, 141);
             this.dgvSongPacks.TabIndex = 34;
             // 
+            // colSongPackSelect
+            // 
+            this.colSongPackSelect.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.colSongPackSelect.DataPropertyName = "Select";
+            this.colSongPackSelect.FalseValue = "false";
+            this.colSongPackSelect.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.colSongPackSelect.HeaderText = "Select";
+            this.colSongPackSelect.IndeterminateValue = "false";
+            this.colSongPackSelect.Name = "colSongPackSelect";
+            this.colSongPackSelect.TrueValue = "true";
+            this.colSongPackSelect.Width = 43;
+            // 
+            // colSongPackEnabled
+            // 
+            this.colSongPackEnabled.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.colSongPackEnabled.DataPropertyName = "Enabled";
+            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.colSongPackEnabled.DefaultCellStyle = dataGridViewCellStyle12;
+            this.colSongPackEnabled.HeaderText = "Enabled";
+            this.colSongPackEnabled.Name = "colSongPackEnabled";
+            this.colSongPackEnabled.ReadOnly = true;
+            this.colSongPackEnabled.Width = 50;
+            // 
+            // colSongPackPath
+            // 
+            this.colSongPackPath.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.colSongPackPath.DataPropertyName = "Path";
+            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.colSongPackPath.DefaultCellStyle = dataGridViewCellStyle13;
+            this.colSongPackPath.HeaderText = "Path";
+            this.colSongPackPath.Name = "colSongPackPath";
+            this.colSongPackPath.ReadOnly = true;
+            this.colSongPackPath.Width = 300;
+            // 
             // gbSearch
             // 
             this.gbSearch.Controls.Add(this.lnkClearSearch);
             this.gbSearch.Controls.Add(this.label1);
             this.gbSearch.Controls.Add(this.btnRunRSWithSetlist);
             this.gbSearch.Controls.Add(this.cueSearch);
-            this.gbSearch.Controls.Add(this.lnkOpenSngMgrHelp);
+            this.gbSearch.Controls.Add(this.lnkSetlistMgrHelp);
             this.gbSearch.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gbSearch.Location = new System.Drawing.Point(569, 3);
             this.gbSearch.Name = "gbSearch";
@@ -879,53 +913,19 @@ namespace CustomsForgeManager.UControls
             this.cueSearch.TabIndex = 44;
             this.cueSearch.TextChanged += new System.EventHandler(this.cueSearch_TextChanged);
             // 
-            // lnkOpenSngMgrHelp
+            // lnkSetlistMgrHelp
             // 
-            this.lnkOpenSngMgrHelp.AutoSize = true;
-            this.lnkOpenSngMgrHelp.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lnkOpenSngMgrHelp.ForeColor = System.Drawing.Color.Black;
-            this.lnkOpenSngMgrHelp.LinkColor = System.Drawing.SystemColors.ActiveCaption;
-            this.lnkOpenSngMgrHelp.Location = new System.Drawing.Point(42, 98);
-            this.lnkOpenSngMgrHelp.Name = "lnkOpenSngMgrHelp";
-            this.lnkOpenSngMgrHelp.Size = new System.Drawing.Size(70, 16);
-            this.lnkOpenSngMgrHelp.TabIndex = 45;
-            this.lnkOpenSngMgrHelp.TabStop = true;
-            this.lnkOpenSngMgrHelp.Text = "Open help";
-            this.lnkOpenSngMgrHelp.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkOpenSngMgrHelp_LinkClicked);
-            // 
-            // colSongPackSelect
-            // 
-            this.colSongPackSelect.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.colSongPackSelect.DataPropertyName = "Select";
-            this.colSongPackSelect.FalseValue = "false";
-            this.colSongPackSelect.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.colSongPackSelect.HeaderText = "Select";
-            this.colSongPackSelect.IndeterminateValue = "false";
-            this.colSongPackSelect.Name = "colSongPackSelect";
-            this.colSongPackSelect.TrueValue = "true";
-            this.colSongPackSelect.Width = 43;
-            // 
-            // colSongPackEnabled
-            // 
-            this.colSongPackEnabled.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.colSongPackEnabled.DataPropertyName = "Enabled";
-            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.colSongPackEnabled.DefaultCellStyle = dataGridViewCellStyle12;
-            this.colSongPackEnabled.HeaderText = "Enabled";
-            this.colSongPackEnabled.Name = "colSongPackEnabled";
-            this.colSongPackEnabled.ReadOnly = true;
-            this.colSongPackEnabled.Width = 50;
-            // 
-            // colSongPackPath
-            // 
-            this.colSongPackPath.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.colSongPackPath.DataPropertyName = "Path";
-            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.colSongPackPath.DefaultCellStyle = dataGridViewCellStyle13;
-            this.colSongPackPath.HeaderText = "Path";
-            this.colSongPackPath.Name = "colSongPackPath";
-            this.colSongPackPath.ReadOnly = true;
-            this.colSongPackPath.Width = 300;
+            this.lnkSetlistMgrHelp.AutoSize = true;
+            this.lnkSetlistMgrHelp.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lnkSetlistMgrHelp.ForeColor = System.Drawing.Color.Black;
+            this.lnkSetlistMgrHelp.LinkColor = System.Drawing.SystemColors.ActiveCaption;
+            this.lnkSetlistMgrHelp.Location = new System.Drawing.Point(12, 97);
+            this.lnkSetlistMgrHelp.Name = "lnkSetlistMgrHelp";
+            this.lnkSetlistMgrHelp.Size = new System.Drawing.Size(133, 16);
+            this.lnkSetlistMgrHelp.TabIndex = 45;
+            this.lnkSetlistMgrHelp.TabStop = true;
+            this.lnkSetlistMgrHelp.Text = "Setlist Manager Help";
+            this.lnkSetlistMgrHelp.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkSetlistMgrHelp_LinkClicked);
             // 
             // SetlistManager
             // 
@@ -997,7 +997,7 @@ namespace CustomsForgeManager.UControls
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnRunRSWithSetlist;
         private CustomsForgeManagerLib.CustomControls.CueTextBox cueSearch;
-        private System.Windows.Forms.LinkLabel lnkOpenSngMgrHelp;
+        private System.Windows.Forms.LinkLabel lnkSetlistMgrHelp;
         private System.Windows.Forms.LinkLabel lnkClearSearch;
         private DataGridViewCheckBoxColumn colSetlistSongsSelect;
         private DataGridViewTextBoxColumn colSetlistSongsEnabled;

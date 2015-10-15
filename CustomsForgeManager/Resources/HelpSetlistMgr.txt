@@ -1,3 +1,6 @@
+Setlist Manager Help
+--------------------
+
 Setlist Manager Safety Rules
 ----------------------------
 - only one copy of a song may exist and it can be enabled or disabled

@@ -344,13 +344,15 @@ namespace CustomsForgeManager.UControls
             dgvSongsMaster.Columns["colSelect"].Visible = true;
             dgvSongsMaster.Columns["colSelect"].Width = 43;
             dgvSongsMaster.Columns["colEnabled"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dgvSongsMaster.Columns["colEnabled"].Width = 47;
+            dgvSongsMaster.Columns["colEnabled"].Width = 54;
             // prevents double line headers on filtered columns
             dgvSongsMaster.Columns["colKey"].Width = 95;
             dgvSongsMaster.Columns["colKey"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dgvSongsMaster.Columns["colAppID"].Width = 80;
             dgvSongsMaster.Columns["colAppID"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
 
+            // preserve location of dropdown filter icon in column header
+            dgvSongsMaster.ColumnHeadersDefaultCellStyle.WrapMode = DataGridViewTriState.False;
             dgvSongsMaster.Refresh();
         }
 
@@ -1286,24 +1288,38 @@ namespace CustomsForgeManager.UControls
 
             if (!bindingCompleted)
             {
-                Debug.WriteLine("DataBinding Complete ... ");
+                Globals.Log("DataBinding Complete ... ");
                 bindingCompleted = true;
-
-                var filterStatus = DataGridViewAutoFilterColumnHeaderCell.GetFilterStatus(dgvSongsMaster);
-                if (!String.IsNullOrEmpty(filterStatus) && dgvPainted)
-                {
-                    Globals.TsLabel_StatusMsg.Visible = true;
-                    Globals.TsLabel_DisabledCounter.Text = filterStatus;
-                    // ensures BLRV columns are recolored correctly
-                    dgvPainted = false;
-                }
-                if (String.IsNullOrEmpty(filterStatus) && dgvPainted)
-                    RemoveFilter();
             }
+
+            var filterStatus = DataGridViewAutoFilterColumnHeaderCell.GetFilterStatus(dgvSongsMaster);
+            // filter applied
+            if (!String.IsNullOrEmpty(filterStatus) && dgvPainted)
+            {
+                Globals.TsLabel_StatusMsg.Visible = true;
+                Globals.TsLabel_DisabledCounter.Text = filterStatus;
+            }
+
+            // filter removed
+            if (String.IsNullOrEmpty(filterStatus) && dgvPainted && this.dgvSongsMaster.CurrentCell != null)
+                RemoveFilter();
         }
 
         private void dgvSongsMaster_KeyDown(object sender, KeyEventArgs e)
         {
+            if (e.Alt && (e.KeyCode == Keys.Down || e.KeyCode == Keys.Up))
+            {
+                DataGridViewAutoFilterColumnHeaderCell filterCell =
+                    this.dgvSongsMaster.CurrentCell.OwningColumn.HeaderCell as
+                    DataGridViewAutoFilterColumnHeaderCell;
+
+                if (filterCell != null)
+                {
+                    filterCell.ShowDropDownList();
+                    e.Handled = true;
+                }
+            }
+
             // space bar used to select a song (w/ checkbox "Select")
             if (e.KeyCode == Keys.Space)
             {
@@ -1326,8 +1342,8 @@ namespace CustomsForgeManager.UControls
                             else
                                 row.Cells["colSelect"].Value = true;
 
-                            // as long as the data is bound this should be OK to do
-                            masterSongCollection[i].Selected = (bool)row.Cells["colSelect"].Value;
+                            // this throws an error because data is already bound ... so commented out
+                            // masterSongCollection[i].Selected = (bool)row.Cells["colSelect"].Value;
                         }
                     }
                 }
@@ -1356,9 +1372,8 @@ namespace CustomsForgeManager.UControls
 
             if (bindingCompleted && !dgvPainted)
             {
-                bindingCompleted = false;
                 dgvPainted = true;
-                Debug.WriteLine("dgvSongsMaster Painted ... ");
+                Globals.Log("dgvSongsMaster Painted ... ");
                 ArrangementColumnsColors();
             }
         }

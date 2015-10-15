@@ -1,5 +1,12 @@
 CFM Release Notes
 
+1.0.3.1
+-Fix frmSongInfo BLRV display
+-Optimized PsarcBrowser to accommodate songpacks
+-Added a toolstrip Help button to frmMain along with general Song Manager help text
+-Fix some SongManager HotKey issues caused by new filter and sort features
+-Cleaned up some cell formatting (coloring) issues caused by new filter and sort features
+
 1.0.3.0
 -Added arrangement information for Vocals to SongManager (user requested)
 -Added arrangements (BLRV) to search field criteria in SongManager (user requested)
@@ -263,6 +270,7 @@ CFM Release Notes
 -Edited UC SetlistManager GUI layout to prevent screen clipping
 -Removed this.AutoScaleMode = AutoScaleMode.Font has issues on WinXP SP3
 -Reactivated user profile backup to zip archive
+-Added SongManager help to About tabmenu including a HotKey summary
 
 0.1.2.8
 -Added Utilities user control and features

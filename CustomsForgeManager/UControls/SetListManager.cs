@@ -1003,20 +1003,22 @@ namespace CustomsForgeManager.UControls
 
             // wait for DataBinding and DataGridView Paint to complete before  
             // changing color (cell formating) on initial loading
+            var filterStatus = DataGridViewAutoFilterColumnHeaderCell.GetFilterStatus(dgvSongs);
             if (!bindingCompleted)
             {
-                Debug.WriteLine("DataBinding Complete ... ");
+                Globals.Log("DataBinding Complete ... ");
                 bindingCompleted = true;
-
-                var filterStatus = DataGridViewAutoFilterColumnHeaderCell.GetFilterStatus(dgvSongs);
+                // filter applied
                 if (!String.IsNullOrEmpty(filterStatus))
                 {
                     Globals.TsLabel_StatusMsg.Visible = true;
                     Globals.TsLabel_DisabledCounter.Text = filterStatus;
-                    // ensures rows are recolored correctly
-                    dgvPainted = false;
                 }
-            }
+             }
+  
+            // filter removed 
+            if (String.IsNullOrEmpty(filterStatus) && dgvPainted && this.dgvSongs.CurrentCell != null)
+                RemoveFilter();
         }
 
         private void dgvSongs_Paint(object sender, PaintEventArgs e)
@@ -1025,9 +1027,8 @@ namespace CustomsForgeManager.UControls
             // changing cell color (formating) on initial loading
             if (bindingCompleted && !dgvPainted)
             {
-                bindingCompleted = false;
                 dgvPainted = true;
-                Debug.WriteLine("dgvSongs Painted ... ");
+                Globals.Log("dgvSongs Painted ... ");
                 HighlightUsedSongs(Color.Yellow);
             }
         }
@@ -1039,19 +1040,18 @@ namespace CustomsForgeManager.UControls
             RemoveFilter();
         }
 
-        private void lnkOpenSngMgrHelp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void lnkSetlistMgrHelp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            // ensures proper disposal of objects and variables
             Assembly assembly = Assembly.GetExecutingAssembly();
-            Stream stream = assembly.GetManifestResourceStream("CustomsForgeManager.Resources.SetlistHelp.txt");
+            Stream stream = assembly.GetManifestResourceStream("CustomsForgeManager.Resources.HelpSetlistMgr.txt");
             using (StreamReader reader = new StreamReader(stream))
             {
-                string setlistManagerHelp = reader.ReadToEnd();
+                var helpSetlistManager = reader.ReadToEnd();
 
                 using (var noteViewer = new frmNoteViewer())
                 {
-                    noteViewer.Text = String.Format("{0} . . . {1}", noteViewer.Text, "SetlistManager Help");
-                    noteViewer.PopulateText(setlistManagerHelp);
+                    noteViewer.Text = String.Format("{0} . . . {1}", noteViewer.Text, "Setlist Manager Help");
+                    noteViewer.PopulateText(helpSetlistManager);
                     noteViewer.ShowDialog();
                 }
             }

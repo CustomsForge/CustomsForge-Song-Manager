@@ -87,6 +87,12 @@ namespace CustomsForgeManager.UControls
             this.dataGridViewImageColumn2 = new System.Windows.Forms.DataGridViewImageColumn();
             this.dataGridViewImageColumn3 = new System.Windows.Forms.DataGridViewImageColumn();
             this.dataGridViewImageColumn4 = new System.Windows.Forms.DataGridViewImageColumn();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colShowDetail = new System.Windows.Forms.DataGridViewImageColumn();
             this.colKey = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
@@ -275,7 +281,7 @@ namespace CustomsForgeManager.UControls
             this.btnBackupSelectedDLCs.Name = "btnBackupSelectedDLCs";
             this.btnBackupSelectedDLCs.Size = new System.Drawing.Size(114, 29);
             this.btnBackupSelectedDLCs.TabIndex = 19;
-            this.btnBackupSelectedDLCs.Text = "Backup selected";
+            this.btnBackupSelectedDLCs.Text = "Backup Selected";
             this.btnBackupSelectedDLCs.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnBackupSelectedDLCs.UseVisualStyleBackColor = true;
             this.btnBackupSelectedDLCs.Click += new System.EventHandler(this.btnBackupSelectedDLCs_Click);
@@ -349,7 +355,7 @@ namespace CustomsForgeManager.UControls
             this.btnDisableEnableSongs.Name = "btnDisableEnableSongs";
             this.btnDisableEnableSongs.Size = new System.Drawing.Size(149, 29);
             this.btnDisableEnableSongs.TabIndex = 14;
-            this.btnDisableEnableSongs.Text = "Enable/Disable selected";
+            this.btnDisableEnableSongs.Text = "Enable/Disable Selected";
             this.btnDisableEnableSongs.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnDisableEnableSongs.UseVisualStyleBackColor = true;
             this.btnDisableEnableSongs.Click += new System.EventHandler(this.btnDisableEnableSongs_Click);
@@ -699,6 +705,50 @@ namespace CustomsForgeManager.UControls
             this.dataGridViewImageColumn4.Visible = false;
             this.dataGridViewImageColumn4.Width = 21;
             // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.DataPropertyName = "SongKey";
+            this.dataGridViewTextBoxColumn1.HeaderText = "Song Key";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            this.dataGridViewTextBoxColumn2.DataPropertyName = "PersistentID";
+            this.dataGridViewTextBoxColumn2.HeaderText = "Persistent ID";
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            this.dataGridViewTextBoxColumn2.ReadOnly = true;
+            this.dataGridViewTextBoxColumn2.Width = 250;
+            // 
+            // dataGridViewTextBoxColumn3
+            // 
+            this.dataGridViewTextBoxColumn3.DataPropertyName = "Name";
+            this.dataGridViewTextBoxColumn3.HeaderText = "Arrangement";
+            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            this.dataGridViewTextBoxColumn3.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn4
+            // 
+            this.dataGridViewTextBoxColumn4.DataPropertyName = "Tuning";
+            this.dataGridViewTextBoxColumn4.HeaderText = "Tuning";
+            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
+            this.dataGridViewTextBoxColumn4.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn5
+            // 
+            this.dataGridViewTextBoxColumn5.DataPropertyName = "DMax";
+            this.dataGridViewTextBoxColumn5.HeaderText = "DMax";
+            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
+            this.dataGridViewTextBoxColumn5.ReadOnly = true;
+            this.dataGridViewTextBoxColumn5.Width = 48;
+            // 
+            // dataGridViewTextBoxColumn6
+            // 
+            this.dataGridViewTextBoxColumn6.DataPropertyName = "ToneBase";
+            this.dataGridViewTextBoxColumn6.HeaderText = "Tone Base";
+            this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
+            this.dataGridViewTextBoxColumn6.ReadOnly = true;
+            // 
             // colShowDetail
             // 
             this.colShowDetail.DataPropertyName = "ShowDetail";
@@ -715,11 +765,10 @@ namespace CustomsForgeManager.UControls
             this.colKey.Name = "colKey";
             this.colKey.ReadOnly = true;
             this.colKey.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colKey.Width = 50;
+            this.colKey.Width = 95;
             // 
             // colSelect
             // 
-            // this.colSelect.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.colSelect.DataPropertyName = "Selected";
             this.colSelect.FalseValue = "false";
             this.colSelect.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
@@ -728,7 +777,7 @@ namespace CustomsForgeManager.UControls
             this.colSelect.Name = "colSelect";
             this.colSelect.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.colSelect.TrueValue = "true";
-            this.colSelect.Width = 62;
+            this.colSelect.Width = 43;
             // 
             // colBass
             // 
@@ -739,6 +788,7 @@ namespace CustomsForgeManager.UControls
             this.colBass.Name = "colBass";
             this.colBass.ReadOnly = true;
             this.colBass.ToolTipText = "Bass";
+            this.colBass.Visible = false;
             this.colBass.Width = 21;
             // 
             // colLead
@@ -750,6 +800,7 @@ namespace CustomsForgeManager.UControls
             this.colLead.Name = "colLead";
             this.colLead.ReadOnly = true;
             this.colLead.ToolTipText = "Lead";
+            this.colLead.Visible = false;
             this.colLead.Width = 21;
             // 
             // colRhythm
@@ -761,6 +812,7 @@ namespace CustomsForgeManager.UControls
             this.colRhythm.Name = "colRhythm";
             this.colRhythm.ReadOnly = true;
             this.colRhythm.ToolTipText = "Rhythm";
+            this.colRhythm.Visible = false;
             this.colRhythm.Width = 21;
             // 
             // colVocals
@@ -781,7 +833,7 @@ namespace CustomsForgeManager.UControls
             this.colEnabled.HeaderText = "Enabled";
             this.colEnabled.Name = "colEnabled";
             this.colEnabled.ReadOnly = true;
-            this.colEnabled.Width = 47;
+            this.colEnabled.Width = 54;
             // 
             // colArtist
             // 
@@ -876,7 +928,7 @@ namespace CustomsForgeManager.UControls
             this.colAppID.Name = "colAppID";
             this.colAppID.ReadOnly = true;
             this.colAppID.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colAppID.Width = 50;
+            this.colAppID.Width = 80;
             // 
             // colPath
             // 
@@ -1060,6 +1112,12 @@ namespace CustomsForgeManager.UControls
         private System.Windows.Forms.DataGridViewTextBoxColumn colDetailTuning;
         private System.Windows.Forms.DataGridViewTextBoxColumn colDetailDMax;
         private System.Windows.Forms.DataGridViewTextBoxColumn colToneBase;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
         private System.Windows.Forms.DataGridViewImageColumn colShowDetail;
         private DataGridViewTools.DataGridViewAutoFilterTextBoxColumn colKey;
         private System.Windows.Forms.DataGridViewCheckBoxColumn colSelect;

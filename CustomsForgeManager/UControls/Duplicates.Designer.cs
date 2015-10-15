@@ -195,6 +195,7 @@ namespace CustomsForgeManager.UControls
             this.dgvDups.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvDups_CellDoubleClick);
             this.dgvDups.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvDups_CellMouseUp);
             this.dgvDups.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgvDups_DataBindingComplete);
+            this.dgvDups.Paint += new System.Windows.Forms.PaintEventHandler(this.dgvDups_Paint);
             this.dgvDups.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvDups_KeyDown);
             // 
             // colSelect

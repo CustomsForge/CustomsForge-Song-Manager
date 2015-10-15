@@ -15,9 +15,9 @@ namespace CustomsForgeManager.UControls
 {
     public partial class Duplicates : UserControl
     {
-        private BindingList<SongData> dupSongCollection = new BindingList<SongData>();
         private List<SongData> duplicates = new List<SongData>();
         private bool bindingCompleted = false;
+        private bool dgvPainted = false;
 
         public Duplicates()
         {
@@ -38,15 +38,10 @@ namespace CustomsForgeManager.UControls
                 return;
             }
 
-            dupSongCollection = Globals.SongCollection;
-            // var dups = dupSongCollection.GroupBy(x => new { x.Artist, x.Song, x.Album }).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
-            // TODO: use traditional code dup finder if this does not work on i7's 
-            var dups = dupSongCollection.GroupBy(x => x.ArtistTitleAlbum).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
-            dups.RemoveAll(x => x.FileName.ToLower().Contains(Constants.RS1COMP));
             duplicates.Clear();
-            duplicates.AddRange(dups);
-
-            LoadFilteredBindingList(dups);
+            duplicates = Globals.SongCollection.GroupBy(x => x.ArtistTitleAlbum).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
+            duplicates.RemoveAll(x => x.FileName.ToLower().Contains(Constants.RS1COMP));
+            LoadFilteredBindingList(duplicates);
             DgvDupsAppearance();
 
             // set custom selection (highlighting) color
@@ -177,7 +172,7 @@ namespace CustomsForgeManager.UControls
                 var album = selectedRow.Cells["colAlbum"].Value.ToString();
                 var path = selectedRow.Cells["colPath"].Value.ToString();
 
-                var song = dupSongCollection.FirstOrDefault(x => x.Title == title && x.Album == album && x.Artist == artist && x.Path == path);
+                var song = duplicates.FirstOrDefault(x => x.Title == title && x.Album == album && x.Artist == artist && x.Path == path);
                 if (song != null)
                 {
                     frmSongInfo infoWindow = new frmSongInfo(song);
@@ -235,7 +230,7 @@ namespace CustomsForgeManager.UControls
                             }
                             else
                                 File.Delete(duplicates[i].Path);
-                        }
+                       }
                     }
                     catch (IndexOutOfRangeException ex)
                     {
@@ -256,7 +251,7 @@ namespace CustomsForgeManager.UControls
                 dgvDups.Rows.Clear();
 
             UpdateToolStrip();
-            // rescan on tabpage change
+            // rescan on tabpage change to remove from Globals.SongCollection
             Globals.RescanSongManager = true;
             Globals.RescanDuplicates = true;
             Globals.RescanSetlistManager = true;
@@ -369,14 +364,19 @@ namespace CustomsForgeManager.UControls
             {
                 Debug.WriteLine("DataBinding Complete ... ");
                 bindingCompleted = true;
-
-                var filterStatus = DataGridViewAutoFilterColumnHeaderCell.GetFilterStatus(dgvDups);
-                if (!String.IsNullOrEmpty(filterStatus))
-                {
-                    Globals.TsLabel_StatusMsg.Visible = true;
-                    Globals.TsLabel_DisabledCounter.Text = filterStatus;
-                }
             }
+
+            var filterStatus = DataGridViewAutoFilterColumnHeaderCell.GetFilterStatus(dgvDups);
+            // filter applied
+            if (!String.IsNullOrEmpty(filterStatus) && dgvPainted)
+            {
+                Globals.TsLabel_StatusMsg.Visible = true;
+                Globals.TsLabel_DisabledCounter.Text = filterStatus;
+            }
+
+            // filter removed
+            if (String.IsNullOrEmpty(filterStatus) && dgvPainted && this.dgvDups.CurrentCell != null)
+                RemoveFilter();
         }
 
         private void dgvDups_KeyDown(object sender, KeyEventArgs e)
@@ -412,7 +412,7 @@ namespace CustomsForgeManager.UControls
         private void RemoveFilter()
         {
             DataGridViewAutoFilterTextBoxColumn.RemoveFilter(dgvDups);
-            LoadFilteredBindingList(dupSongCollection);
+            LoadFilteredBindingList(duplicates);
 
             // reset alternating row color
             foreach (DataGridViewRow row in dgvDups.Rows)
@@ -428,11 +428,23 @@ namespace CustomsForgeManager.UControls
         private void LoadFilteredBindingList(dynamic list)
         {
             bindingCompleted = false;
+            dgvPainted = false;
             // sortable binding list with drop down filtering
             dgvDups.AutoGenerateColumns = false;
             FilteredBindingList<SongData> fbl = new FilteredBindingList<SongData>(list);
             BindingSource bs = new BindingSource { DataSource = fbl };
             dgvDups.DataSource = bs;
+        }
+
+        private void dgvDups_Paint(object sender, PaintEventArgs e)
+        {
+            if (bindingCompleted && !dgvPainted)
+            {
+                dgvPainted = true;
+                Globals.Log("dgvDups Painted ... ");
+                // it is safe to do cell formatting (coloring)
+                // here
+            }
         }
 
 

@@ -296,5 +296,23 @@ namespace CustomsForgeManager.Forms
             }
         }
 
+        private void tsBtnHelp_Click(object sender, EventArgs e)
+        {
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            Stream stream = assembly.GetManifestResourceStream("CustomsForgeManager.Resources.HelpSongMgr.txt");
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                var helpSongManager = reader.ReadToEnd();
+
+                using (var noteViewer = new frmNoteViewer())
+                {
+                    noteViewer.Text = String.Format("{0} . . . {1}", noteViewer.Text, "Song Manager Help");
+                    noteViewer.PopulateText(helpSongManager);
+                    noteViewer.ShowDialog();
+                }
+            }
+
+        }
+
     }
 }

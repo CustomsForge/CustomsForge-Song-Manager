@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
 {
-
     [Serializable]
     public class RADataGridViewSettings
     {
@@ -13,8 +12,6 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
             get { return columnOrder as List<ColumnOrderItem>; }
             set { columnOrder = value; }
         }
-
-
     }
 
     [Serializable]
@@ -28,7 +25,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
     }
 
     [Serializable]
-    public class AppSettings  : NotifyPropChangedBase
+    public class AppSettings : NotifyPropChangedBase
     {
         string FLogFilePath;
         string FRSInstalledDir;
@@ -53,13 +50,13 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         public string RenameTemplate { get { return FRenameTemplate; } set { SetPropertyField("RenameTemplate", ref FRenameTemplate, value); } }
 
         public bool FullScreen { get { return FFullScreen; } set { SetPropertyField("FullScreen", ref FFullScreen, value); } }
-      
+
         /// <summary>
         /// Initialise settings with default values
         /// </summary>
         public AppSettings()
         {
-          LogFilePath = Constants.LogFilePath;
+            LogFilePath = Constants.LogFilePath;
         }
     }
 }
