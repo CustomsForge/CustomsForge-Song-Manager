@@ -1,5 +1,8 @@
 CFM Release Notes
 
+1.0.3.2
+-Added generic benchmarking method to Extensions
+
 1.0.3.1
 -Fix frmSongInfo BLRV display
 -Optimized PsarcBrowser to accommodate songpacks

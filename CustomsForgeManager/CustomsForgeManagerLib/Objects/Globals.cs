@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.Reflection;
 using System.Windows.Forms;
 using CustomsForgeManager.CustomsForgeManagerLib.CustomControls;
 using CustomsForgeManager.UControls;
@@ -12,6 +13,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
 {
     static class Globals
     {
+        [Obfuscation(Exclude = true, ApplyToMembers = true, StripAfterObfuscation = true, Feature = "renaming")]
         internal enum Tristate : byte
         {
             False = 0,
@@ -31,7 +33,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         private static BindingList<SongData> _songCollection;
         private static SongManager _songManager;
         private static Utilities _utilities;
- 
+
         public static About About
         {
             get { return _about ?? (_about = new About()); }
@@ -123,12 +125,12 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
             get { return _utilities ?? (_utilities = new Utilities()); }
             set { _utilities = value; }
         }
-        
+
         public static Tristate WorkerFinished { get; set; } // True = 0, False = 1, Cancelled = 2
 
         public static void Log(string message)
         {
-             MyLog.Write(message);
+            MyLog.Write(message);
         }
 
         public static void ResetToolStripGlobals()

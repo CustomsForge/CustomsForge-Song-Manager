@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Deployment.Application;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Threading;
@@ -29,12 +30,12 @@ namespace CustomsForgeManager.Forms
 
             this.FormClosed += frmMain_FormClosed; // moved here for better access
             // gets rid of notifyer icon on closing
-            this.FormClosed += delegate 
+            this.FormClosed += delegate
             {
                 notifyIcon_Main.Visible = false;
                 notifyIcon_Main.Dispose();
                 notifyIcon_Main = null;
-            }; 
+            };
             //notifyIcon_Main.BalloonTipClosed += (sender, e) =>
             //    {
             //        var thisIcon = (NotifyIcon)sender;
@@ -44,7 +45,7 @@ namespace CustomsForgeManager.Forms
             this.Text = String.Format("{0} (v{1})", Constants.ApplicationName, Constants.CustomVersion());
             // bring CFM to the front on startup
             this.WindowState = FormWindowState.Minimized;
-          
+
             if (Constants.DebugMode)
             {
                 tsLabel_ShowHideLog.Text = "Hide Log ";
@@ -91,6 +92,7 @@ namespace CustomsForgeManager.Forms
 
             // load Song Manager Tab
             LoadSongManager();
+            //CustomsForgeManagerLib.Extensions.Benchmark(LoadSongManager, 1);
         }
 
         private frmMain()

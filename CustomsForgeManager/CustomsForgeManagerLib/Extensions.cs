@@ -53,7 +53,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
 
         public static string TuningToName(string tolkenTuning)
         {
-             var jObj = JObject.Parse(tolkenTuning);
+            var jObj = JObject.Parse(tolkenTuning);
             TuningStrings songTuning = jObj.ToObject<TuningStrings>();
 
             foreach (var tuning in Globals.TuningXml)
@@ -470,6 +470,21 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
             }
         }
 
+        public static void Benchmark(Action act, int iterations)
+        {
+            // usage example: CustomsForgeManagerLib.Extensions.Benchmark(LoadSongManager, 1);
+
+            GC.Collect();
+            act.Invoke(); // run once outside loop to avoid initialization costs
+            var sw = Stopwatch.StartNew();
+
+            for (int i = 0; i < iterations; i++)
+                act.Invoke();
+
+            sw.Stop();
+            if (Constants.DebugMode)
+                Globals.Log(act.Method.Name + " took: " + sw.ElapsedMilliseconds + " (msec)");
+        }
 
     }
 }
