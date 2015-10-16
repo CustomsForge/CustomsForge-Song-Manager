@@ -470,6 +470,12 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
             }
         }
 
+        public static T XmlClone<T>(this T obj)
+        {
+            return (T)XmlDeserialize(obj.XmlSerialize(), typeof(T));
+        }
+
+
         public static void Benchmark(Action act, int iterations)
         {
             // usage example: CustomsForgeManagerLib.Extensions.Benchmark(LoadSongManager, 1);

@@ -61,6 +61,8 @@
             this.link_Credits_Description = new System.Windows.Forms.LinkLabel();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.lnkCozy1Profile = new System.Windows.Forms.LinkLabel();
+            this.link_Developer3 = new System.Windows.Forms.LinkLabel();
+            this.lnkDreddFoxxProfile = new System.Windows.Forms.LinkLabel();
             this.tlpAbout.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picCF)).BeginInit();
             this.gbInfo.SuspendLayout();
@@ -131,9 +133,9 @@
             // 
             // lnkReleaseNotes
             // 
-            this.lnkReleaseNotes.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.lnkReleaseNotes.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lnkReleaseNotes.Font = new System.Drawing.Font("Trebuchet MS", 12F);
             this.lnkReleaseNotes.LinkColor = System.Drawing.SystemColors.ActiveCaption;
             this.lnkReleaseNotes.Location = new System.Drawing.Point(3, 122);
@@ -147,9 +149,9 @@
             // 
             // lnkForum
             // 
-            this.lnkForum.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.lnkForum.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lnkForum.AutoSize = true;
             this.lnkForum.Font = new System.Drawing.Font("Trebuchet MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lnkForum.LinkColor = System.Drawing.SystemColors.ActiveCaption;
@@ -164,9 +166,9 @@
             // 
             // lnkHelp
             // 
-            this.lnkHelp.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.lnkHelp.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lnkHelp.AutoSize = true;
             this.lnkHelp.Font = new System.Drawing.Font("Trebuchet MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lnkHelp.LinkColor = System.Drawing.SystemColors.ActiveCaption;
@@ -352,7 +354,7 @@
             this.tableLayoutPanel_Credits.ColumnCount = 2;
             this.tableLayoutPanel_Credits.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel_Credits.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel_Credits.Controls.Add(this.lnkOthers, 0, 6);
+            this.tableLayoutPanel_Credits.Controls.Add(this.lnkOthers, 0, 7);
             this.tableLayoutPanel_Credits.Controls.Add(this.link_Credits, 0, 0);
             this.tableLayoutPanel_Credits.Controls.Add(this.link_CFOwner, 0, 1);
             this.tableLayoutPanel_Credits.Controls.Add(this.link_LeadDeveloper, 0, 2);
@@ -365,11 +367,16 @@
             this.tableLayoutPanel_Credits.Controls.Add(this.link_Credits_Description, 1, 0);
             this.tableLayoutPanel_Credits.Controls.Add(this.linkLabel1, 0, 4);
             this.tableLayoutPanel_Credits.Controls.Add(this.lnkCozy1Profile, 1, 4);
+
+            this.tableLayoutPanel_Credits.Controls.Add(this.link_Developer3, 0, 6);
+            this.tableLayoutPanel_Credits.Controls.Add(this.lnkDreddFoxxProfile, 1,6);
+            //
             this.tableLayoutPanel_Credits.ForeColor = System.Drawing.SystemColors.ActiveBorder;
             this.tableLayoutPanel_Credits.Location = new System.Drawing.Point(6, 16);
             this.tableLayoutPanel_Credits.Name = "tableLayoutPanel_Credits";
-            this.tableLayoutPanel_Credits.RowCount = 7;
+            this.tableLayoutPanel_Credits.RowCount = 8;
             this.tableLayoutPanel_Credits.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this.tableLayoutPanel_Credits.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel_Credits.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel_Credits.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel_Credits.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
@@ -386,7 +393,7 @@
             this.lnkOthers.BackColor = System.Drawing.Color.Transparent;
             this.lnkOthers.Font = new System.Drawing.Font("Trebuchet MS", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lnkOthers.LinkColor = System.Drawing.Color.HotPink;
-            this.lnkOthers.Location = new System.Drawing.Point(15, 152);
+            this.lnkOthers.Location = new System.Drawing.Point(15, 162);
             this.lnkOthers.Name = "lnkOthers";
             this.lnkOthers.Size = new System.Drawing.Size(202, 30);
             this.lnkOthers.TabIndex = 2;
@@ -614,6 +621,45 @@
             this.lnkCozy1Profile.Text = "cozy1";
             this.lnkCozy1Profile.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lnkCozy1Profile.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkCozy1Profile_LinkClicked);
+
+            // 
+            // link_Developer3
+            // 
+            this.link_Developer3.ActiveLinkColor = System.Drawing.Color.Black;
+            this.link_Developer3.BackColor = System.Drawing.Color.Transparent;
+            this.link_Developer3.DisabledLinkColor = System.Drawing.Color.Black;
+            this.link_Developer3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.link_Developer3.Enabled = false;
+            this.link_Developer3.Font = new System.Drawing.Font("Trebuchet MS", 10F);
+            this.link_Developer3.ForeColor = System.Drawing.Color.Black;
+            this.link_Developer3.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
+            this.link_Developer3.LinkColor = System.Drawing.Color.LightGray;
+            this.link_Developer3.Location = new System.Drawing.Point(3, 95);
+            this.link_Developer3.Name = "linkLabel1";
+            this.link_Developer3.Size = new System.Drawing.Size(226, 20);
+            this.link_Developer3.TabIndex = 0;
+            this.link_Developer3.TabStop = true;
+            this.link_Developer3.Text = "Developer:";
+            this.link_Developer3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.link_Developer3.VisitedLinkColor = System.Drawing.Color.Black;
+
+            //
+            // 
+            // lnkDreddFoxxProfile
+            // 
+            this.lnkDreddFoxxProfile.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.lnkDreddFoxxProfile.AutoSize = true;
+            this.lnkDreddFoxxProfile.BackColor = System.Drawing.Color.Transparent;
+            this.lnkDreddFoxxProfile.LinkColor = System.Drawing.SystemColors.Info;
+            this.lnkDreddFoxxProfile.Location = new System.Drawing.Point(265, 98);
+            this.lnkDreddFoxxProfile.Name = "lnkDreddFoxxProfile";
+            this.lnkDreddFoxxProfile.Size = new System.Drawing.Size(35, 13);
+            this.lnkDreddFoxxProfile.TabIndex = 1;
+            this.lnkDreddFoxxProfile.TabStop = true;
+            this.lnkDreddFoxxProfile.Text = "DreddFoxx";
+            this.lnkDreddFoxxProfile.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lnkDreddFoxxProfile.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkDreddFoxxProfile_LinkClicked);
+            //
             // 
             // About
             // 
@@ -635,7 +681,6 @@
             this.ResumeLayout(false);
 
         }
-
         #endregion
 
         private System.Windows.Forms.TableLayoutPanel tlpAbout;
@@ -649,6 +694,7 @@
         private System.Windows.Forms.LinkLabel link_LeadDeveloper;
         private System.Windows.Forms.LinkLabel link_Developer1;
         private System.Windows.Forms.LinkLabel link_Developer2;
+        private System.Windows.Forms.LinkLabel link_Developer3;
         private System.Windows.Forms.LinkLabel lnkUnleashedProfile;
         private System.Windows.Forms.LinkLabel lnkDarjuszProfile;
         private System.Windows.Forms.LinkLabel lnkLovromanProfile;
@@ -670,5 +716,6 @@
         private System.Windows.Forms.LinkLabel lnkForum;
         private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.LinkLabel lnkCozy1Profile;
+        private System.Windows.Forms.LinkLabel lnkDreddFoxxProfile;
     }
 }

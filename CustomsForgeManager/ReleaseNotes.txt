@@ -1,4 +1,12 @@
 CFM Release Notes
+
+1.0.3.4
+-Fixed sorting problems in the grid (DataGridViewTools : FilteredBindingList)
+-Added arrangements editor to the song editor.
+-removed the NumericUpDownFixed control (it did nothing)
+-Added myself(DreddFoxx) to the about box :)
+
+
 1.0.3.3 (merged from NewSongParser branch)
 -Recoded the song scanning engine. Scanning engine now uses filedate/filesize to determine if the song has been modified and will only scan new and modified song, will also remove deleted songs from the datasource.
 -Removed the "ScanNewSongs" in settings and "SongFilesPath" from constants, they are no longer needed.

@@ -66,7 +66,7 @@
             this.descriptorLabel = new System.Windows.Forms.Label();
             this.descriptorCombo = new System.Windows.Forms.ComboBox();
             this.toneNameBox = new System.Windows.Forms.TextBox();
-            this.volumeBox = new NumericUpDownFixed();
+            this.volumeBox = new System.Windows.Forms.NumericUpDown();
             this.gbAmpCab.SuspendLayout();
             this.gbLoopPedalAndRacks.SuspendLayout();
             this.gbPrePedal.SuspendLayout();
@@ -550,7 +550,7 @@
         private System.Windows.Forms.TextBox toneNameBox;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
-        private NumericUpDownFixed volumeBox;
+        private System.Windows.Forms.NumericUpDown volumeBox;
         private System.Windows.Forms.ComboBox loopPedalRack4Box;
         private System.Windows.Forms.Button loopPedalRack4KnobButton;
         private System.Windows.Forms.ComboBox postPedal4Box;

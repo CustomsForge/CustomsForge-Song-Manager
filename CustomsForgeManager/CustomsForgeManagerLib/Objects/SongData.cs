@@ -92,7 +92,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
             // get { return String.Join(", ", Arrangements2D.Select(o => o.Tuning)); }
         }
 
-      [XmlIgnore]  // preserves old 1D display method show DMax
+        [XmlIgnore]  // preserves old 1D display method show DMax
         public Int32 DD
         {
             get { return Convert.ToInt32(Arrangements2D.Max(o => o.DMax)); }

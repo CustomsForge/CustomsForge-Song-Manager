@@ -42,7 +42,8 @@ namespace CustomsForgeManager.SongEditor
 
         private void Save(string outputPath)
         {
-            // commented out becuase may want to save same song with different file name
+            // commented out becuase may want to save same song with different file name.
+            //good catch cozy.
             //if (!Dirty)
             //    return;
 
@@ -123,9 +124,9 @@ namespace CustomsForgeManager.SongEditor
         }
 
 
-        private T GetEditorControl<T>() where T : DLCPackageEditorControlBase
+        public T GetEditorControl<T>() where T : DLCPackageEditorControlBase
         {
-            return (T)FEditorControls.Where(x => x.GetType() == typeof(T)).FirstOrDefault();
+            return (T)FEditorControls.FirstOrDefault(x => x.GetType() == typeof(T));
         }
 
         private void LoadSongInfo()
@@ -189,15 +190,7 @@ namespace CustomsForgeManager.SongEditor
     }
 
 
-    public class NumericUpDownFixed : NumericUpDown
-    {
-        protected override void OnValidating(CancelEventArgs e)
-        {
-            // Prevent bug where typing a value bypasses min/max validation
-            var fixValidation = Value;
-            base.OnValidating(e);
-        }
-    }
+  
 
 
 }

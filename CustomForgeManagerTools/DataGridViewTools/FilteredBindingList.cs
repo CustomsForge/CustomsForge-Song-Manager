@@ -66,25 +66,10 @@ namespace DataGridViewTools
             return -1;
         }
 
-        public int Find(string property, object key)
-        {
-            // Check the properties for a property with the specified name.
-            PropertyDescriptorCollection properties =
-                TypeDescriptor.GetProperties(typeof(T));
-            PropertyDescriptor prop = properties.Find(property, true);
-
-            // If there is not a match, return -1 otherwise pass search to
-            // FindCore method.
-            if (prop == null)
-                return -1;
-            else
-                return FindCore(prop, key);
-        }
-
         #endregion Searching
 
         #region Sorting
-        ArrayList sortedList;
+     //   ArrayList sortedList;
         FilteredBindingList<T> unsortedItems;
         bool isSortedValue;
         ListSortDirection sortDirectionValue;
@@ -129,7 +114,7 @@ namespace DataGridViewTools
             ListSortDirection direction)
         {
 
-            sortedList = new ArrayList();
+            var sortedList = new List<T>();
 
             // Check to see if the property type we are sorting by implements
             // the IComparable interface.
@@ -149,11 +134,16 @@ namespace DataGridViewTools
                     foreach (Object item in this.Items)
                     {
                         unsortedItems.Add((T)item);
-                        sortedList.Add(prop.GetValue(item));
+                        sortedList.Add((T)item);
                     }
                 }
                 // Call Sort on the ArrayList.
-                sortedList.Sort();
+                sortedList.Sort((x1,x2) => 
+                {
+                    var c1 = (prop.GetValue(x1) as IComparable);
+                    var c2 = (prop.GetValue(x2) as IComparable);
+                    return c1.CompareTo(c2);
+                });
                 T temp;
 
                 // Check the sort direction and then copy the sorted items
@@ -163,7 +153,8 @@ namespace DataGridViewTools
 
                 for (int i = 0; i < this.Count; i++)
                 {
-                    int position = Find(prop.Name, sortedList[i]);
+                    //int position = Find(prop.Name, sortedList[i]);
+                    var position = IndexOf(sortedList[i]);
                     if (position != i && position > 0)
                     {
                         temp = this[i];

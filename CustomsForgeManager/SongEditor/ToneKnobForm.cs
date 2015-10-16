@@ -37,7 +37,7 @@ namespace CustomsForgeManager.SongEditor
                 }
                 label.Anchor = AnchorStyles.Left;
 
-                var numericControl = new NumericUpDownFixed();
+                var numericControl = new System.Windows.Forms.NumericUpDown();
                 tableLayoutPanel.Controls.Add(numericControl, 1, i);
                 numericControl.DecimalPlaces = 2;
                 numericControl.Minimum = (decimal)knob.MinValue;

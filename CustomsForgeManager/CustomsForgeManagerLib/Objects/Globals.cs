@@ -162,7 +162,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         public static void DebugLog(string message)
         {
             if (Constants.DebugMode)
-                MyLog.Write(message);
+                Log(message);
         }
 
         public static void ResetToolStripGlobals()

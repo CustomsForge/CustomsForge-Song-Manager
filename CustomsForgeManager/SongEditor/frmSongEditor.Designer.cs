@@ -31,14 +31,13 @@
             this.statusStripMain = new System.Windows.Forms.StatusStrip();
             this.tslSave = new System.Windows.Forms.ToolStripStatusLabel();
             this.tslSaveAs = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tsProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.tslExit = new System.Windows.Forms.ToolStripStatusLabel();
             this.tcMain = new System.Windows.Forms.TabControl();
             this.tpSongInfo = new System.Windows.Forms.TabPage();
             this.tpArrangements = new System.Windows.Forms.TabPage();
             this.tpTones = new System.Windows.Forms.TabPage();
-            this.tpVersionInfo = new System.Windows.Forms.TabPage();
             this.tpAlbumArt = new System.Windows.Forms.TabPage();
-            this.tsProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.statusStripMain.SuspendLayout();
             this.tcMain.SuspendLayout();
             this.SuspendLayout();
@@ -82,6 +81,11 @@
             this.tslSaveAs.Text = "Save As";
             this.tslSaveAs.Click += new System.EventHandler(this.tslSaveAs_Click);
             // 
+            // tsProgressBar
+            // 
+            this.tsProgressBar.Name = "tsProgressBar";
+            this.tsProgressBar.Size = new System.Drawing.Size(200, 17);
+            // 
             // tslExit
             // 
             this.tslExit.AutoSize = false;
@@ -99,7 +103,6 @@
             this.tcMain.Controls.Add(this.tpSongInfo);
             this.tcMain.Controls.Add(this.tpArrangements);
             this.tcMain.Controls.Add(this.tpTones);
-            this.tcMain.Controls.Add(this.tpVersionInfo);
             this.tcMain.Controls.Add(this.tpAlbumArt);
             this.tcMain.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tcMain.Location = new System.Drawing.Point(8, 12);
@@ -138,15 +141,6 @@
             this.tpTones.Text = "Tones";
             this.tpTones.UseVisualStyleBackColor = true;
             // 
-            // tpVersionInfo
-            // 
-            this.tpVersionInfo.Location = new System.Drawing.Point(4, 25);
-            this.tpVersionInfo.Name = "tpVersionInfo";
-            this.tpVersionInfo.Size = new System.Drawing.Size(645, 402);
-            this.tpVersionInfo.TabIndex = 7;
-            this.tpVersionInfo.Text = "Version Info";
-            this.tpVersionInfo.UseVisualStyleBackColor = true;
-            // 
             // tpAlbumArt
             // 
             this.tpAlbumArt.Location = new System.Drawing.Point(4, 25);
@@ -155,11 +149,6 @@
             this.tpAlbumArt.TabIndex = 5;
             this.tpAlbumArt.Text = "Album Art";
             this.tpAlbumArt.UseVisualStyleBackColor = true;
-            // 
-            // tsProgressBar
-            // 
-            this.tsProgressBar.Name = "tsProgressBar";
-            this.tsProgressBar.Size = new System.Drawing.Size(200, 17);
             // 
             // frmSongEditor
             // 
@@ -192,7 +181,6 @@
         private System.Windows.Forms.TabPage tpTones;
         private System.Windows.Forms.TabPage tpArrangements;
         private System.Windows.Forms.TabPage tpSongInfo;
-        private System.Windows.Forms.TabPage tpVersionInfo;
         private System.Windows.Forms.TabPage tpAlbumArt;
         public System.Windows.Forms.ToolStripStatusLabel tslSave;
         public System.Windows.Forms.ToolStripStatusLabel tslSaveAs;

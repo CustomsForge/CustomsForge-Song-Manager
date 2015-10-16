@@ -9,6 +9,8 @@ namespace CustomsForgeManager.SongEditor
 {
     public partial class ucTones : DLCPackageEditorControlBase//, IAttributesEditor
     {
+        //TODO: allow users to create new tones.
+
         public List<Tone2014> NewTonesRS2014 = new List<Tone2014>();
 
         public ucTones()
@@ -17,12 +19,11 @@ namespace CustomsForgeManager.SongEditor
             raDataGridView1.AutoGenerateColumns = false;
         }
 
-        
         public override void DoInit()
         {
             if (SongData == null)
                 return;
-            SongData.TonesRS2014.ForEach(t => NewTonesRS2014.Add((Tone2014)Extensions.XmlDeserialize(t.XmlSerialize(), typeof(Tone2014))));
+            SongData.TonesRS2014.ForEach(t => NewTonesRS2014.Add(t.XmlClone()));
             raDataGridView1.DataSource = NewTonesRS2014;
         }
 
@@ -34,7 +35,6 @@ namespace CustomsForgeManager.SongEditor
             SongData.TonesRS2014.AddRange(NewTonesRS2014);
             base.Save();
         }
-
 
         private bool EditTone(Tone2014 tone)
         {

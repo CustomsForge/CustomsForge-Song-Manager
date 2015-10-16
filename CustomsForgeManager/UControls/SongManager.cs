@@ -49,7 +49,6 @@ namespace CustomsForgeManager.UControls
         public void LoadSongCollectionFromFile()
         {
             masterSongCollection.Clear();
-            //     masterFileCollection.Clear();
             var songsInfoPath = Constants.SongsInfoPath;
 
             // load songs into memory
@@ -74,7 +73,7 @@ namespace CustomsForgeManager.UControls
                 Globals.SongCollection = masterSongCollection;
                 Globals.Log("Loaded song collection file ...");
                 PopulateDataGridView();
-                SmartRescan();
+                Rescan();
             }
             catch (Exception e)
             {
@@ -394,9 +393,12 @@ namespace CustomsForgeManager.UControls
             RADataGridViewSettings gridSettings = Globals.MySettings.ManagerGridSettings;
             foreach (ColumnOrderItem columnOrderItem in gridSettings.ColumnOrder)
             {
-                ToolStripMenuItem columnsMenuItem = new ToolStripMenuItem(dgvSongsMaster.Columns[columnOrderItem.ColumnIndex].Name, null, ColumnMenuItemClick);
-                columnsMenuItem.Checked = dgvSongsMaster.Columns[columnOrderItem.ColumnIndex].Visible;
-                columnsMenuItem.Tag = dgvSongsMaster.Columns[columnOrderItem.ColumnIndex].Name;
+                ToolStripMenuItem columnsMenuItem = new ToolStripMenuItem(
+                        dgvSongsMaster.Columns[columnOrderItem.ColumnIndex].Name, null, ColumnMenuItemClick)
+                        {
+                            Checked = dgvSongsMaster.Columns[columnOrderItem.ColumnIndex].Visible,
+                            Tag = dgvSongsMaster.Columns[columnOrderItem.ColumnIndex].Name
+                        };
                 contextMenuStrip.Items.Add(columnsMenuItem);
             }
         }
@@ -429,8 +431,8 @@ namespace CustomsForgeManager.UControls
                         File.Delete(Constants.SongsInfoPath);
                     }
 
-                var msgText = 
-                    string.Format("Houston ... we have a problem!{0}There are no Rocksmith 2014 songs in:"+
+                var msgText =
+                    string.Format("Houston ... we have a problem!{0}There are no Rocksmith 2014 songs in:" +
                     "{0}{1}{0}{0}Please select a valid Rocksmith 2014{0}installation directory when you restart CFM.  ",
                     Environment.NewLine, Path.Combine(Globals.MySettings.RSInstalledDir, "dlc"));
                 MessageBox.Show(msgText, Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Stop);
@@ -440,7 +442,6 @@ namespace CustomsForgeManager.UControls
             }
 
             ToggleUIControls();
-
             // run new worker
             using (Worker worker = new Worker())
             {
@@ -530,29 +531,29 @@ namespace CustomsForgeManager.UControls
                 MessageBox.Show(string.Format("Please select (highlight) the song that  {0}you would like information about.", Environment.NewLine), Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        private void SmartRescan()
-        {
-            // smart rescan technology
-            if (!Globals.MySettings.RescanOnStartup)
-            {
-                var rs1CompFiles = Directory.EnumerateFiles(Path.Combine(Globals.MySettings.RSInstalledDir, "dlc"), Constants.RS1COMP + "*", SearchOption.AllDirectories).ToArray();
-                var dlcFiles = Directory.EnumerateFiles(Path.Combine(Globals.MySettings.RSInstalledDir, "dlc"), "*.psarc", SearchOption.AllDirectories).ToArray();
-                int rs1CompSongs;
+        //private void SmartRescan()
+        //{
+        //    // smart rescan technology
+        //    if (!Globals.MySettings.RescanOnStartup)
+        //    {
+        //        var rs1CompFiles = Directory.EnumerateFiles(Path.Combine(Globals.MySettings.RSInstalledDir, "dlc"), Constants.RS1COMP + "*", SearchOption.AllDirectories).ToArray();
+        //        var dlcFiles = Directory.EnumerateFiles(Path.Combine(Globals.MySettings.RSInstalledDir, "dlc"), "*.psarc", SearchOption.AllDirectories).ToArray();
+        //        int rs1CompSongs;
 
-                if (rs1CompFiles.Count() == 2)
-                    rs1CompSongs = 193;
-                else if (!rs1CompFiles.Any())
-                    rs1CompSongs = 0;
-                else // there is only one RS1 Compatibility file
-                    if (rs1CompFiles[0].ToLower().Contains("disc"))
-                        rs1CompSongs = 52;
-                    else
-                        rs1CompSongs = 193 - 52;
+        //        if (rs1CompFiles.Count() == 2)
+        //            rs1CompSongs = 193;
+        //        else if (!rs1CompFiles.Any())
+        //            rs1CompSongs = 0;
+        //        else // there is only one RS1 Compatibility file
+        //            if (rs1CompFiles[0].ToLower().Contains("disc"))
+        //                rs1CompSongs = 52;
+        //            else
+        //                rs1CompSongs = 193 - 52;
 
-                // if (masterFileCollection.Count != (Globals.MySettings.IncludeRS1DLCs ? dlcFiles.Length + rs1CompSongs - rs1CompFiles.Count() : dlcFiles.Length - rs1CompFiles.Count()))
-                Rescan();
-            }
-        }
+        //        // if (masterFileCollection.Count != (Globals.MySettings.IncludeRS1DLCs ? dlcFiles.Length + rs1CompSongs - rs1CompFiles.Count() : dlcFiles.Length - rs1CompFiles.Count()))
+        //        Rescan();
+        //    }
+        //}
 
         private void SongListToBBCode()
         {
@@ -809,7 +810,7 @@ namespace CustomsForgeManager.UControls
                     if (chkEnableDelete.Checked && !safe2Delete)
                     {
                         // DANGER ZONE
-                        if (MessageBox.Show(string.Format("You are about to permanently delete all 'Selected' songs(s). "+
+                        if (MessageBox.Show(string.Format("You are about to permanently delete all 'Selected' songs(s). " +
                             " {0}{0}Are you sure you want to permanently delete the(se) songs(s)", Environment.NewLine), Constants.ApplicationName + " ... Warning ... Warning",
                                             MessageBoxButtons.YesNo) == DialogResult.No)
                             return;
@@ -882,8 +883,8 @@ namespace CustomsForgeManager.UControls
                     }
                     else
                         Globals.Log(
-                            string.Format("This is a Rocksmith 1 Compatiblity Song."+
-                            "{0}RS1 Compatiblity Songs can not be disabled individually."+
+                            string.Format("This is a Rocksmith 1 Compatiblity Song." +
+                            "{0}RS1 Compatiblity Songs can not be disabled individually." +
                             "{0}Use SetlistManager to disable all RS1 Compatiblity Songs.", Environment.NewLine));
                 }
             }
@@ -912,6 +913,7 @@ namespace CustomsForgeManager.UControls
 
         private void btnRescan_Click(object sender, EventArgs e)
         {
+
             bindingCompleted = false;
             dgvPainted = false;
             Rescan();

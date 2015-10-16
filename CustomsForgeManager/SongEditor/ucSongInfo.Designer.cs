@@ -54,8 +54,8 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.cmbPreviewVolume = new CustomsForgeManager.SongEditor.NumericUpDownFixed();
-            this.cmbSongVolume = new CustomsForgeManager.SongEditor.NumericUpDownFixed();
+            this.cmbPreviewVolume = new System.Windows.Forms.NumericUpDown();
+            this.cmbSongVolume = new System.Windows.Forms.NumericUpDown();
             this.label3 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.gbSongInfo.SuspendLayout();
@@ -459,8 +459,8 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
-        private NumericUpDownFixed cmbPreviewVolume;
-        private NumericUpDownFixed cmbSongVolume;
+        private System.Windows.Forms.NumericUpDown cmbPreviewVolume;
+        private System.Windows.Forms.NumericUpDown cmbSongVolume;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.TextBox txtYear;

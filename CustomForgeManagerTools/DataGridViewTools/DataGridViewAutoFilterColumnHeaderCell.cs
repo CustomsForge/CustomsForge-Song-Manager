@@ -59,7 +59,7 @@ namespace DataGridViewTools
         /// specified DataGridViewColumnHeaderCell.
         /// </summary>
         /// <param name="oldHeaderCell">The DataGridViewColumnHeaderCell to copy property values from.</param>
-        public DataGridViewAutoFilterColumnHeaderCell(DataGridViewColumnHeaderCell oldHeaderCell)
+        public DataGridViewAutoFilterColumnHeaderCell(DataGridViewColumnHeaderCell oldHeaderCell):this()
         {
             this.ContextMenuStrip = oldHeaderCell.ContextMenuStrip;
             this.ErrorText = oldHeaderCell.ErrorText;
@@ -95,6 +95,10 @@ namespace DataGridViewTools
         /// </summary>
         public DataGridViewAutoFilterColumnHeaderCell()
         {
+            filteredImg = new Bitmap(Properties.Resources.FilterX, 13, 13); ;
+            normalImg = new Bitmap(Properties.Resources.FilterY, 13, 13); ;
+            filteredBrush = new SolidBrush(Color.Black);
+            normalBrush = new SolidBrush(Color.Yellow);
         }
 
         /// <summary>
@@ -446,22 +450,49 @@ namespace DataGridViewTools
                     };
 
                 // Cozy Mod - Change button to Filter Icon and put polygon on top for effect
-                Bitmap img;
-                SolidBrush br;
-                if (filtered)
-                {
-                    img = new Bitmap(Properties.Resources.FilterX, 13, 13);
-                    br = new SolidBrush(Color.Black);
-                }
-                else
-                {
-                    img = new Bitmap(Properties.Resources.FilterY, 13, 13);
-                    br = new SolidBrush(Color.Yellow);
-                }
-
+                Bitmap img = filtered ? filteredImg : normalImg;
+                SolidBrush br = filtered ? filteredBrush : normalBrush;
                 graphics.DrawImage(img, buttonBounds.Left - 1 + pressedOffset, buttonBounds.Top - 1 + pressedOffset);
                 graphics.DrawPolygon(SystemPens.ControlText, triangle);
                 graphics.FillPolygon(br, triangle);
+
+            }
+        }
+
+        Bitmap filteredImg;
+        Bitmap normalImg;
+        SolidBrush filteredBrush;
+        SolidBrush normalBrush;
+
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+            if (disposing)
+            {
+                if (filteredImg != null)
+                {
+                    filteredImg.Dispose();
+                    filteredImg = null;
+                }
+
+                if (normalImg != null)
+                {
+                    normalImg.Dispose();
+                    normalImg = null;
+                }
+
+                if (filteredBrush != null)
+                {
+                    filteredBrush.Dispose();
+                    filteredBrush = null;
+                }
+
+                if (normalBrush != null)
+                {
+                    normalBrush.Dispose();
+                    normalBrush = null;
+                }
+
             }
         }
 

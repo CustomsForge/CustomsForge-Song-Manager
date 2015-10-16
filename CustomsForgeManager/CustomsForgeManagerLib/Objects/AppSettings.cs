@@ -30,13 +30,11 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         string FLogFilePath;
         string FRSInstalledDir;
         bool FRescanOnStartup;
-        bool FRescanNewSongs;
         bool FIncludeRS1DLCs;
         bool FEnabledLogBaloon;
         bool FCheckForUpdateOnScan;
         string FRenameTemplate;
         bool FFullScreen;
-
 
         public string LogFilePath { get { return FLogFilePath; } set { SetPropertyField("LogFilePath", ref FLogFilePath, value); } }
         public string RSInstalledDir { get { return FRSInstalledDir; } set { SetPropertyField("RSInstalledDir", ref FRSInstalledDir, value); } }
@@ -47,7 +45,6 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         public RADataGridViewSettings ManagerGridSettings { get; set; }
         // TODO: need to impliment saving/loading this
         public string RenameTemplate { get { return FRenameTemplate; } set { SetPropertyField("RenameTemplate", ref FRenameTemplate, value); } }
-
         public bool FullScreen { get { return FFullScreen; } set { SetPropertyField("FullScreen", ref FFullScreen, value); } }
 
         /// <summary>

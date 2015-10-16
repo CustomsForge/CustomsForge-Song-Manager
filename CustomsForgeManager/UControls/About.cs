@@ -130,5 +130,10 @@ namespace CustomsForgeManager.UControls
         {
             Process.Start("http://customsforge.com/user/4293-cozy1/");
         }
+
+        private void lnkDreddFoxxProfile_LinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("http://customsforge.com/user/40453-dreddfoxx/");
+        }
     }
 }
