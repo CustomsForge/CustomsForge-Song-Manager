@@ -21,8 +21,8 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
     {
         private AbortableBackgroundWorker bWorker;
         private Stopwatch counterStopwatch = new Stopwatch();
-        private List<string> bwFileCollection = new List<string>();
-        public BindingList<SongData> bwSongCollection = new BindingList<SongData>();
+     //   private List<string> bwFileCollection = new List<string>();
+        public List<SongData> bwSongCollection = new List<SongData>();
         private Control workOrder;
 
         public void BackgroundScan(object sender, AbortableBackgroundWorker backgroundWorker = null)
@@ -91,11 +91,10 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                 else if (workOrder.Name == "Renamer")
                     Globals.Log(String.Format("Finished renaming ... took {0}", counterStopwatch.Elapsed));
 
-                Globals.SongCollection = bwSongCollection;
-                Globals.FileCollection = bwFileCollection;
+                Globals.SongCollection = new BindingList<SongData>(bwSongCollection);                 
                 Globals.WorkerFinished = Globals.Tristate.True;
             }
-
+            Globals.IsScanning = false;
         }
 
         private void WorkerRenameSongs(object sender, DoWorkEventArgs e)
@@ -108,28 +107,13 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
 
         private void WorkerParseSongs(object sender, DoWorkEventArgs e)
         {
-            List<string> fileList = Extensions.FilesList(Path.Combine(Globals.MySettings.RSInstalledDir, "dlc"), Globals.MySettings.IncludeRS1DLCs);
+            Globals.IsScanning = true;
+            List<string> fileList = Extensions.FilesList(Path.Combine(Globals.MySettings.RSInstalledDir, "dlc"),
+                Globals.MySettings.IncludeRS1DLCs);
 
-            // rescan only newly added songs
-            if (Globals.MySettings.RescanNewSongs)
-            {
-                Globals.Log("Parsing only new songs ...");
-                bwFileCollection = Globals.FileCollection;
-                bwSongCollection = Globals.SongCollection;
-                fileList = fileList.Except(bwFileCollection).ToList();
-            }
-            else // do complete rescan
-            {
-                Globals.Log("Parsing all songs ...");
-                bwFileCollection.Clear();
-                Extensions.InvokeIfRequired(workOrder, delegate
-                    {
-                        // bwSongCollection.Clear();
-                        bwSongCollection = new BindingList<SongData>();
-                    });
-            }
+            bwSongCollection = Globals.SongCollection.ToList();
 
-            // "Raw" is good descriptor :)
+            //// "Raw" is good descriptor :)
             Globals.Log(String.Format("Raw songs count: {0}", fileList.Count));
 
             if (fileList.Count == 0)
@@ -137,7 +121,16 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
 
             counterStopwatch.Restart();
             int songCounter = 0;
+            Globals.Log("Removing deleted songs");
 
+
+            int oldCount = bwSongCollection.Count();
+            bwSongCollection.RemoveAll(sd => !File.Exists(sd.Path));
+            int removed = bwSongCollection.Count() - oldCount;
+            if (removed > 0)
+                Globals.Log(String.Format("Remove {0} songs.", removed));
+
+            Globals.DebugLog("Parsing files");
             foreach (string file in fileList)
             {
                 if (bWorker.CancellationPending || Globals.TsLabel_Cancel.Text == "Cancelling")
@@ -148,10 +141,19 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                 }
 
                 WorkerProgress(songCounter++ * 100 / fileList.Count);
+                bool canScan = true;
+                var sInfo = bwSongCollection.FirstOrDefault(s => s.Path.Equals(file, StringComparison.OrdinalIgnoreCase));
+                if (sInfo != null)
+                {
+                    var fInfo = new FileInfo(file);
+                    if ((int)fInfo.Length == sInfo.FileSize && fInfo.LastWriteTimeUtc == sInfo.FileDate)
+                        canScan = false;
+                }
 
-                ParsePSARC(file);
-                bwFileCollection.Add(file);
+                if (canScan)
+                    ParsePSARC(file);
             }
+            Globals.DebugLog("Parsing done.");
 
             counterStopwatch.Stop();
         }

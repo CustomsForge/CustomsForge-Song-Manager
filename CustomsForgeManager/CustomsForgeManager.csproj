@@ -134,6 +134,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="CustomsForgeManagerLib\Objects\NotifyPropChangedBase.cs" />
+    <Compile Include="CustomsForgeManagerLib\Objects\SongCollectionException.cs" />
     <Compile Include="CustomsForgeManagerLib\PsarcBrowser.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -437,8 +438,8 @@
 
 if $(ConfigurationName) == Release (
 
-RD /s /q "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)
-CD $(DevEnvDir)
+RD /s /q "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)"
+CD "$(DevEnvDir)"
 
 "..\..\PreEmptive Solutions\Dotfuscator Community Edition\dotfuscatorCLI.exe" /in:"$(TargetPath)" /out:"$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)"
 

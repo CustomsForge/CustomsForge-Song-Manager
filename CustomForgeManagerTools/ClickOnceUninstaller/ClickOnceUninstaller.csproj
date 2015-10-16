@@ -159,8 +159,8 @@
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName) == Release (
 
-RD /s /q "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)
-CD $(DevEnvDir)
+RD /s /q "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)"
+CD "$(DevEnvDir)"
 
 "..\..\PreEmptive Solutions\Dotfuscator Community Edition\dotfuscatorCLI.exe" /in:"$(TargetPath)" /out:"$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)"
 copy /y "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)\$(TargetFileName)" "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)\CFM_$(ConfigurationName).exe" 

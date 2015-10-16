@@ -63,6 +63,13 @@ namespace CustomsForgeManager.Forms
             Globals.ResetToolStripGlobals();
             Globals.MyLog.AddTargetTextBox(tbLog);
 
+            Globals.OnScanEvent += (s, e) =>
+            {
+                tcMain.InvokeIfRequired(a =>
+                    { tcMain.Enabled = !e.IsScanning; }
+                );
+            };
+
             // create application directory structure if it does not exist
             if (!Directory.Exists(Constants.WorkDirectory))
             {

@@ -28,7 +28,6 @@ namespace CustomsForgeManager.UControls
         private bool bindingCompleted = false;
         private Stopwatch counterStopwatch = new Stopwatch();
         private bool dgvPainted = false;
-        private List<string> masterFileCollection = new List<string>();
         private BindingList<SongData> masterSongCollection = new BindingList<SongData>();
         private int numberOfDLCPendingUpdate = 0;
         private int numberOfDisabledDLC = 0;
@@ -50,12 +49,11 @@ namespace CustomsForgeManager.UControls
         public void LoadSongCollectionFromFile()
         {
             masterSongCollection.Clear();
-            masterFileCollection.Clear();
+            //     masterFileCollection.Clear();
             var songsInfoPath = Constants.SongsInfoPath;
-            var songFilesPath = Constants.SongFilesPath;
 
             // load songs into memory
-            if (!File.Exists(songsInfoPath) || !File.Exists(songFilesPath))
+            if (!File.Exists(songsInfoPath))
             {
                 Rescan();
                 Globals.ReloadDuplicates = false;
@@ -70,19 +68,9 @@ namespace CustomsForgeManager.UControls
                     fsSongCollection.Flush(); // seems redundant?
                 }
 
-                using (var fsFileCollection = new FileStream(songFilesPath, FileMode.Open, FileAccess.Read, FileShare.Read))
-                {
-                    masterFileCollection = fsFileCollection.DeserializeXml(new List<string>());
-                    fsFileCollection.Flush(); // seems redundant?
-                }
-
-                if (masterFileCollection == null || masterFileCollection.Count == 0)
-                    throw new Exception();
-
                 if (masterSongCollection == null || masterSongCollection.Count == 0)
-                    throw new Exception();
+                    throw new SongCollectionException(masterSongCollection == null ? "Master Collection = null" : "Master Collection.Count = 0");
 
-                Globals.FileCollection = masterFileCollection;
                 Globals.SongCollection = masterSongCollection;
                 Globals.Log("Loaded song collection file ...");
                 PopulateDataGridView();
@@ -91,18 +79,21 @@ namespace CustomsForgeManager.UControls
             catch (Exception e)
             {
                 // failsafe ... delete CFM folder and start over
+                string err = e.Message;
+                if (e.InnerException != null)
+                    err += ", Inner: " + e.InnerException.Message;
+
                 Globals.Log("Error: " + e.Message);
                 Globals.Log("Deleted CFM folder from My Documents ...");
 
                 if (Directory.Exists(Constants.WorkDirectory))
                     if (Directory.Exists(Constants.WorkDirectory))
                     {
-                        File.Delete(Constants.LogFilePath);
+                        //  File.Delete(Constants.LogFilePath);
                         File.Delete(Constants.SettingsPath);
-                        File.Delete(Constants.SongFilesPath);
                         File.Delete(Constants.SongsInfoPath);
                     }
-
+                MessageBox.Show(string.Format("{0}{1}{1}The program will now shut down.", err, Environment.NewLine), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Environment.Exit(0);
             }
         }
@@ -123,18 +114,11 @@ namespace CustomsForgeManager.UControls
         public void SaveSongCollectionToFile()
         {
             var songsInfoPath = Constants.SongsInfoPath;
-            var songFilesPath = Constants.SongFilesPath;
 
             using (var fsSc = new FileStream(songsInfoPath, FileMode.Create, FileAccess.Write, FileShare.Write))
             {
                 masterSongCollection.SerializeXml(fsSc);
                 fsSc.Flush();
-            }
-
-            using (var fsFc = new FileStream(songFilesPath, FileMode.Create, FileAccess.Write, FileShare.Write))
-            {
-                masterFileCollection.SerializeXml(fsFc);
-                fsFc.Flush();
             }
 
             Globals.Log("Saved song collection file ...");
@@ -177,12 +161,9 @@ namespace CustomsForgeManager.UControls
         private void ArrangementColumnsColors()
         {
             // Color.Green does not show on Dev's desktop over a dgvSongsMaster blue background
-            DataGridViewCellStyle style1 = new DataGridViewCellStyle();
-            style1.BackColor = Color.Lime;
-            DataGridViewCellStyle style2 = new DataGridViewCellStyle();
-            style2.BackColor = Color.Lime;
-            DataGridViewCellStyle style3 = new DataGridViewCellStyle();
-            style3.BackColor = Color.Red;
+            DataGridViewCellStyle style1 = new DataGridViewCellStyle() { BackColor = Color.Lime };
+            DataGridViewCellStyle style2 = new DataGridViewCellStyle() { BackColor = Color.Lime };
+            DataGridViewCellStyle style3 = new DataGridViewCellStyle() { BackColor = Color.Red };
 
             foreach (DataGridViewRow row in dgvSongsMaster.Rows)
             {
@@ -256,7 +237,7 @@ namespace CustomsForgeManager.UControls
 
                     using (WebClient client = new WebClient())
                     {
-                        string myParametersTemplate = "filters[artist]={artist}&filters[album]={album}&filters[title]={title}&per_page=1";
+                        const string myParametersTemplate = "filters[artist]={artist}&filters[album]={album}&filters[title]={title}&per_page=1";
                         string myParameters = myParametersTemplate.Replace("{artist}", currentSong.Artist).Replace("{album}", currentSong.Album).Replace("{title}", currentSong.Title);
 
                         string clientURL = string.Concat(url, "?", myParameters);
@@ -351,8 +332,6 @@ namespace CustomsForgeManager.UControls
             dgvSongsMaster.Columns["colAppID"].Width = 80;
             dgvSongsMaster.Columns["colAppID"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
 
-            // preserve location of dropdown filter icon in column header
-            dgvSongsMaster.ColumnHeadersDefaultCellStyle.WrapMode = DataGridViewTriState.False;
             dgvSongsMaster.Refresh();
         }
 
@@ -447,15 +426,13 @@ namespace CustomsForgeManager.UControls
                     {
                         File.Delete(Constants.LogFilePath);
                         File.Delete(Constants.SettingsPath);
-                        File.Delete(Constants.SongFilesPath);
                         File.Delete(Constants.SongsInfoPath);
                     }
 
-                var msgText = "Houston ... we have a problem!" + Environment.NewLine +
-                    "There are no Rocksmith 2014 songs in:" + Environment.NewLine +
-                    Path.Combine(Globals.MySettings.RSInstalledDir, "dlc") + Environment.NewLine + Environment.NewLine +
-                    "Please select a valid Rocksmith 2014" + Environment.NewLine +
-                    "installation directory when you restart CFM.  ";
+                var msgText = 
+                    string.Format("Houston ... we have a problem!{0}There are no Rocksmith 2014 songs in:"+
+                    "{0}{1}{0}{0}Please select a valid Rocksmith 2014{0}installation directory when you restart CFM.  ",
+                    Environment.NewLine, Path.Combine(Globals.MySettings.RSInstalledDir, "dlc"));
                 MessageBox.Show(msgText, Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Stop);
 
                 // prevents write log attempt
@@ -490,7 +467,6 @@ namespace CustomsForgeManager.UControls
                 return;
 
             masterSongCollection = Globals.SongCollection;
-            masterFileCollection = Globals.FileCollection;
             SaveSongCollectionToFile();
 
             LoadFilteredBindingList(masterSongCollection);
@@ -551,7 +527,7 @@ namespace CustomsForgeManager.UControls
                 }
             }
             else
-                MessageBox.Show("Please select (highlight) the song that  " + Environment.NewLine + "you would like information about.", Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(string.Format("Please select (highlight) the song that  {0}you would like information about.", Environment.NewLine), Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void SmartRescan()
@@ -573,8 +549,8 @@ namespace CustomsForgeManager.UControls
                     else
                         rs1CompSongs = 193 - 52;
 
-                if (masterFileCollection.Count != (Globals.MySettings.IncludeRS1DLCs ? dlcFiles.Length + rs1CompSongs - rs1CompFiles.Count() : dlcFiles.Length - rs1CompFiles.Count()))
-                    Rescan();
+                // if (masterFileCollection.Count != (Globals.MySettings.IncludeRS1DLCs ? dlcFiles.Length + rs1CompSongs - rs1CompFiles.Count() : dlcFiles.Length - rs1CompFiles.Count()))
+                Rescan();
             }
         }
 
@@ -590,17 +566,17 @@ namespace CustomsForgeManager.UControls
             {
                 foreach (var song in masterSongCollection)
                     if (song.Charter == null)
-                        sbTXT.AppendLine("[*]" + song.Artist + ", " + song.Title + ", " + song.Album + ", " + song.SongYear + ", " + song.Tuning + ", " + song.DD + ", " + song.Arrangements + "[/*]");
+                        sbTXT.AppendLine(string.Format("[*]{0}, {1}, {2}, {3}, {4}, {5}, {6}[/*]", song.Artist, song.Title, song.Album, song.SongYear, song.Tuning, song.DD, song.Arrangements));
                     else
-                        sbTXT.AppendLine("[*]" + song.Artist + ", " + song.Title + ", " + song.Album + ", " + song.SongYear + ", " + song.Tuning + ", " + song.DD + ", " + song.Arrangements + ", " + song.Charter + "[/*]");
+                        sbTXT.AppendLine(string.Format("[*]{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}[/*]", song.Artist, song.Title, song.Album, song.SongYear, song.Tuning, song.DD, song.Arrangements, song.Charter));
             }
             else
             {
                 foreach (var row in checkedRows)
                     if (row.Cells["colCharter"].Value == null)
-                        sbTXT.AppendLine("[*]" + row.Cells["colArtist"].Value + " - " + row.Cells["colTitle"].Value + ", " + row.Cells["colAlbum"].Value + ", " + row.Cells["colSongYear"].Value + ", " + row.Cells["colTuning"].Value + ", " + row.Cells["colDD"].Value + ", " + row.Cells["colArrangements"].Value + "[/*]");
+                        sbTXT.AppendLine(string.Format("[*]{0} - {1}, {2}, {3}, {4}, {5}, {6}[/*]", row.Cells["colArtist"].Value, row.Cells["colTitle"].Value, row.Cells["colAlbum"].Value, row.Cells["colSongYear"].Value, row.Cells["colTuning"].Value, row.Cells["colDD"].Value, row.Cells["colArrangements"].Value));
                     else
-                        sbTXT.AppendLine("[*]" + row.Cells["colArtist"].Value + " - " + row.Cells["colTitle"].Value + ", " + row.Cells["colAlbum"].Value + ", " + row.Cells["colSongYear"].Value + ", " + row.Cells["colTuning"].Value + ", " + row.Cells["colDD"].Value + ", " + row.Cells["colArrangements"].Value + ", " + row.Cells["colCharter"].Value);
+                        sbTXT.AppendLine(string.Format("[*]{0} - {1}, {2}, {3}, {4}, {5}, {6}, {7}", row.Cells["colArtist"].Value, row.Cells["colTitle"].Value, row.Cells["colAlbum"].Value, row.Cells["colSongYear"].Value, row.Cells["colTuning"].Value, row.Cells["colDD"].Value, row.Cells["colArrangements"].Value, row.Cells["colCharter"].Value));
             }
 
             sbTXT.AppendLine("[/LIST]");
@@ -625,7 +601,7 @@ namespace CustomsForgeManager.UControls
             if (sfdSongListToCSV.ShowDialog() == DialogResult.OK)
                 path = sfdSongListToCSV.FileName;
 
-            string csvSep = ";";
+            const string csvSep = ";";
             sbCSV.AppendLine(String.Format(@"sep={0}", csvSep)); // used by Excel to recognize seperator if Encoding.Unicode is used
             sbCSV.AppendLine(String.Format("{1}{0}{2}{0}{3}{0}{4}{0}{5}{0}{6}{0}{7}{0}{8}", csvSep, "Artist", "Song", "Album", "Year", "Tuning", "DD", "Arrangements", "Author"));
 
@@ -674,9 +650,9 @@ namespace CustomsForgeManager.UControls
                 {
                     sbTXT.AppendLine("<tr>");
                     if (song.Charter == null)
-                        sbTXT.AppendLine("<td>" + song.Artist + "</td><td>" + song.Title + "</td><td>" + song.Album + "</td><td>" + song.SongYear + "</td><td>" + song.Tuning + "</td><td>" + song.DD + "</td><td>" + song.Arrangements + "</td>");
+                        sbTXT.AppendLine(string.Format("<td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td><td>{6}</td>", song.Artist, song.Title, song.Album, song.SongYear, song.Tuning, song.DD, song.Arrangements));
                     else
-                        sbTXT.AppendLine("<td>" + song.Artist + "</td><td>" + song.Title + "</td><td>" + song.Album + "</td><td>" + song.SongYear + "</td><td>" + song.Tuning + "</td><td>" + song.DD + "</td><td>" + song.Arrangements + "</td><td>" + song.Charter + "</td>");
+                        sbTXT.AppendLine(string.Format("<td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td><td>{6}</td><td>{7}</td>", song.Artist, song.Title, song.Album, song.SongYear, song.Tuning, song.DD, song.Arrangements, song.Charter));
 
                     sbTXT.AppendLine("</tr>");
                 }
@@ -687,9 +663,9 @@ namespace CustomsForgeManager.UControls
                 {
                     sbTXT.AppendLine("<tr>");
                     if (row.Cells["colCharter"].Value == null)
-                        sbTXT.AppendLine("<td>" + row.Cells["colTitle"].Value + "</td><td>" + row.Cells["colArtist"].Value + "</td><td>" + row.Cells["colAlbum"].Value + "</td><td>" + row.Cells["colSongYear"].Value + "</td><td>" + row.Cells["colTuning"].Value + "</td><td>" + row.Cells["colDD"].Value + "</td><td>" + row.Cells["colArrangements"].Value + "</td>");
+                        sbTXT.AppendLine(string.Format("<td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td><td>{6}</td>", row.Cells["colTitle"].Value, row.Cells["colArtist"].Value, row.Cells["colAlbum"].Value, row.Cells["colSongYear"].Value, row.Cells["colTuning"].Value, row.Cells["colDD"].Value, row.Cells["colArrangements"].Value));
                     else
-                        sbTXT.AppendLine("<td>" + row.Cells["colTitle"].Value + "</td><td>" + row.Cells["colArtist"].Value + "</td><td>" + row.Cells["colAlbum"].Value + "</td><td>" + row.Cells["colSongYear"].Value + "</td><td>" + row.Cells["colTuning"].Value + "</td><td>" + row.Cells["colDD"].Value + "</td><td>" + row.Cells["colArrangements"].Value + "</td><td>" + row.Cells["colCharter"].Value + "</td>");
+                        sbTXT.AppendLine(string.Format("<td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td><td>{6}</td><td>{7}</td>", row.Cells["colTitle"].Value, row.Cells["colArtist"].Value, row.Cells["colAlbum"].Value, row.Cells["colSongYear"].Value, row.Cells["colTuning"].Value, row.Cells["colDD"].Value, row.Cells["colArrangements"].Value, row.Cells["colCharter"].Value));
 
                     sbTXT.AppendLine("</tr>");
                 }
@@ -739,7 +715,7 @@ namespace CustomsForgeManager.UControls
             }
             catch (Exception)
             {
-                MessageBox.Show("Please connect to the internet  " + Environment.NewLine + "to use this feature.", Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(string.Format("Please connect to the internet  {0}to use this feature.", Environment.NewLine), Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 Globals.Log("Need to be connected to the internet to use this feature");
             }
@@ -833,8 +809,8 @@ namespace CustomsForgeManager.UControls
                     if (chkEnableDelete.Checked && !safe2Delete)
                     {
                         // DANGER ZONE
-                        if (MessageBox.Show("You are about to permanently delete all 'Selected' songs(s).  " + Environment.NewLine + Environment.NewLine +
-                                            "Are you sure you want to permanently delete the(se) songs(s)", Constants.ApplicationName + " ... Warning ... Warning",
+                        if (MessageBox.Show(string.Format("You are about to permanently delete all 'Selected' songs(s). "+
+                            " {0}{0}Are you sure you want to permanently delete the(se) songs(s)", Environment.NewLine), Constants.ApplicationName + " ... Warning ... Warning",
                                             MessageBoxButtons.YesNo) == DialogResult.No)
                             return;
 
@@ -851,7 +827,7 @@ namespace CustomsForgeManager.UControls
                         }
                         catch (IOException ex)
                         {
-                            MessageBox.Show("Unable to delete song :" + songPath + Environment.NewLine + "Error: " + ex.Message, Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show(string.Format("Unable to delete song :{0}{1}Error: {2}", songPath, Environment.NewLine, ex.Message), Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
                 }
@@ -896,7 +872,7 @@ namespace CustomsForgeManager.UControls
                         }
                         catch (IOException ex)
                         {
-                            MessageBox.Show(@"Unable to enable/disable song: " + Path.GetFileName(originalPath) + @" in 'dlc' folder." + Environment.NewLine + "Error: " + ex.Message);
+                            MessageBox.Show(string.Format(@"Unable to enable/disable song: {0} in 'dlc' folder.{1}Error: {2}", Path.GetFileName(originalPath), Environment.NewLine, ex.Message));
                         }
 
                         // row.Cells["colSelect"].Value = false;
@@ -905,9 +881,10 @@ namespace CustomsForgeManager.UControls
                         Extensions.InvokeIfRequired(this, delegate { Globals.TsLabel_DisabledCounter.Text = tsldcMsg; });
                     }
                     else
-                        Globals.Log("This is a Rocksmith 1 Compatiblity Song." + Environment.NewLine +
-                                    "RS1 Compatiblity Songs can not be disabled individually." + Environment.NewLine +
-                                    "Use SetlistManager to disable all RS1 Compatiblity Songs.");
+                        Globals.Log(
+                            string.Format("This is a Rocksmith 1 Compatiblity Song."+
+                            "{0}RS1 Compatiblity Songs can not be disabled individually."+
+                            "{0}Use SetlistManager to disable all RS1 Compatiblity Songs.", Environment.NewLine));
                 }
             }
 
@@ -930,7 +907,7 @@ namespace CustomsForgeManager.UControls
             else if (radioBtn_ExportToCSV.Checked)
                 SongListToCSV();
             else
-                MessageBox.Show("Export format not selected" + Environment.NewLine + "Please select export format!", Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(string.Format("Export format not selected{0}Please select export format!", Environment.NewLine), Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void btnRescan_Click(object sender, EventArgs e)
@@ -1042,7 +1019,7 @@ namespace CustomsForgeManager.UControls
             }
             catch (IOException ex)
             {
-                MessageBox.Show("Please select (highlight) the song  " + Environment.NewLine + "that you would like to backup.", Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(string.Format("Please select (highlight) the song  {0}that you would like to backup.", Environment.NewLine), Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 Globals.Log("<ERROR>: " + ex.Message);
             }
@@ -1070,7 +1047,7 @@ namespace CustomsForgeManager.UControls
 
             try
             {
-                if (MessageBox.Show("Do you really want to remove this CDLC?  " + Environment.NewLine + "Warning:  This cannot be undone!", Constants.ApplicationName, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
+                if (MessageBox.Show(string.Format("Do you really want to remove this CDLC?  {0}Warning:  This cannot be undone!", Environment.NewLine), Constants.ApplicationName, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
                 {
                     File.Delete(masterSongCollection[dgvSongsMaster.SelectedRows[0].Index].Path);
                     masterSongCollection.RemoveAt(dgvSongsMaster.SelectedRows[0].Index);
@@ -1127,7 +1104,7 @@ namespace CustomsForgeManager.UControls
                     if (song.IgnitionID == null || song.IgnitionID == "No Results")
                         Globals.Log("<ERROR>: Song doesn't exist in Ignition anymore.");
                     else
-                        Process.Start(Constants.DefaultDetailsURL + "/" + song.IgnitionID);
+                        Process.Start(string.Format("{0}/{1}", Constants.DefaultDetailsURL, song.IgnitionID));
                 }
             }
         }

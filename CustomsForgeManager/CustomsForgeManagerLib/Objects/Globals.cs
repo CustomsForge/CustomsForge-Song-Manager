@@ -7,10 +7,25 @@ using CustomsForgeManager.UControls;
 using DLogNet;
 using DataGridViewTools;
 using RocksmithToolkitLib;
+using System;
 
 
 namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
 {
+    public class ScannerEventHandler : EventArgs
+    {
+        public ScannerEventHandler(bool isScaning)
+        {
+            IsScanning = isScaning;
+        }
+
+        public bool IsScanning
+        {
+            get;
+            private set;
+        }
+    }
+
     static class Globals
     {
         [Obfuscation(Exclude = true, ApplyToMembers = true, StripAfterObfuscation = true, Feature = "renaming")]
@@ -23,7 +38,6 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
 
         // application data variables
         private static About _about;
-        private static List<string> _fileCollection;
         private static DataGridView _dgvSongs;
         private static Duplicates _duplicates;
         private static Dictionary<string, SongData> _outdatedSongList;
@@ -34,17 +48,29 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         private static SongManager _songManager;
         private static Utilities _utilities;
 
+        public static event EventHandler<ScannerEventHandler> OnScanEvent;
+
+        private static bool FIsScanning;
+        public static bool IsScanning
+        {
+            get { return FIsScanning; }
+            set
+            {
+                if (FIsScanning != value)
+                {
+                    FIsScanning = value;
+                    if (OnScanEvent != null)
+                        OnScanEvent(null, new ScannerEventHandler(FIsScanning));
+                }
+            }
+        }
+ 
         public static About About
         {
             get { return _about ?? (_about = new About()); }
             set { _about = value; }
         }
 
-        public static List<string> FileCollection
-        {
-            get { return _fileCollection ?? (_fileCollection = new List<string>()); }
-            set { _fileCollection = value; }
-        }
 
         public static DataGridView DgvSongs
         {
@@ -130,7 +156,13 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
 
         public static void Log(string message)
         {
-            MyLog.Write(message);
+             MyLog.Write(message);
+        }
+
+        public static void DebugLog(string message)
+        {
+            if (Constants.DebugMode)
+                MyLog.Write(message);
         }
 
         public static void ResetToolStripGlobals()

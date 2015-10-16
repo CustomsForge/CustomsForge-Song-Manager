@@ -41,7 +41,6 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         public string LogFilePath { get { return FLogFilePath; } set { SetPropertyField("LogFilePath", ref FLogFilePath, value); } }
         public string RSInstalledDir { get { return FRSInstalledDir; } set { SetPropertyField("RSInstalledDir", ref FRSInstalledDir, value); } }
         public bool RescanOnStartup { get { return FRescanOnStartup; } set { SetPropertyField("RescanOnStartup", ref FRescanOnStartup, value); } }
-        public bool RescanNewSongs { get { return FRescanNewSongs; } set { SetPropertyField("RescanNewSongs", ref FRescanNewSongs, value); } }
         public bool IncludeRS1DLCs { get { return FIncludeRS1DLCs; } set { SetPropertyField("IncludeRS1DLCs", ref FIncludeRS1DLCs, value); } }
         public bool EnabledLogBaloon { get { return FEnabledLogBaloon; } set { SetPropertyField("EnabledLogBaloon", ref FEnabledLogBaloon, value); } }
         public bool CheckForUpdateOnScan { get { return FCheckForUpdateOnScan; } set { SetPropertyField("CheckForUpdateOnScan", ref FCheckForUpdateOnScan, value); } }
