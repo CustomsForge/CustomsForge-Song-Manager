@@ -483,6 +483,26 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
         }
 
 
+        public static void ExtractEmbeddedResource(string outputDir, string resourceLocation, string[] files)
+        {
+            string resourcePath = "";
+            foreach (string file in files)
+            {
+                resourcePath = Path.Combine(outputDir, file);
+                if (!File.Exists(resourcePath))
+                {
+                    Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceLocation + @"." + file);                  
+                    using (FileStream fileStream = new FileStream(resourcePath, FileMode.Create))
+                        for (int i = 0; i < stream.Length; i++)
+                            fileStream.WriteByte((byte)stream.ReadByte());                   
+                }
+            }
+        }
+
+        public static bool IsDirectoryEmpty(string path)
+        {
+            return !Directory.EnumerateFileSystemEntries(path).Any();
+        }
         
 
 

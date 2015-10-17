@@ -182,12 +182,15 @@ namespace CustomsForgeManager.Forms
                     Globals.SetlistManager.Location = UCLocation;
                     Globals.SetlistManager.Size = UCSize;
                     break;
-                //case "UTIL":
-                //    this.tpUtilities.Controls.Clear();
-                //    this.tpUtilities.Controls.Add(Globals.Utilities);
-                //    Globals.Utilities.Location = UCLocation;
-                //    Globals.Utilities.Size = UCSize;
-                //    break;
+                case "TAGG":
+                    this.tpTagger.Controls.Clear();
+                    this.tpTagger.Controls.Add(Globals.Tagger);
+                    Globals.Tagger.Dock = DockStyle.Fill;
+                    Globals.Tagger.PopulateTagger();
+                    Globals.Tagger.UpdateToolStrip();
+                    Globals.Tagger.Location = UCLocation;
+                    Globals.Tagger.Size = UCSize;
+                    break;
                 case "SETT":
                     // using LeaveSongManager instead of EH SongMangager_Leave
                     Globals.SongManager.LeaveSongManager();

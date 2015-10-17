@@ -73,6 +73,8 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
         public string IgnitionVersion { get; set; }
         public string IgnitionUpdated { get; set; }
 
+        public bool Tagged { get; set; }
+
         [XmlIgnore]
         public string ArtistTitleAlbum
         {

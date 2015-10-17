@@ -1,0 +1,4 @@
+Top Yellow - lead, bottom - bonus Lead
+Top Red  - Rhythm, bottom - bonus Rhythm
+Top Blue - Bass,bottom - bonus Bass
+Big White outline arrow with black back - vocal

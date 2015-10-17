@@ -27,6 +27,10 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         public static string AppIdFilePath { get { return Path.Combine(ApplicationDirectory, "RocksmithToolkitLib.SongAppId.xml"); } }
         public static string TuningDefFilePath { get { return Path.Combine(ApplicationDirectory, "RocksmithToolkitLib.TuningDefinition.xml"); } }
 
+        public static string TaggerWorkingFolder { get { return Path.Combine(WorkDirectory, "Tagger"); } }
+        public static string TaggerTemplatesFolder { get { return Path.Combine(TaggerWorkingFolder, "templates"); } }
+        public static string TaggerExtractedFolder { get { return Path.Combine(TaggerWorkingFolder, "extracted"); } }
+        public static string TaggerPreviewsFolder { get { return Path.Combine(TaggerWorkingFolder, "previews"); } }
         #region URL constants
         public const string CustomsForgeURL= "http://customsforge.com/";
         public const string CustomsForgeUserURL_Format = CustomsForgeURL + "user/{0}/";
