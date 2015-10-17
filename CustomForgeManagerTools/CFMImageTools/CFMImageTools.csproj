@@ -51,6 +51,7 @@
     <Compile Include="DDSImage.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ImageExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -15,10 +15,12 @@ using System.Drawing.Imaging;
 using CustomsForgeManager.CustomsForgeManagerLib;
 using RocksmithToolkitLib.DLCPackage;
 using RocksmithToolkitLib.Extensions;
+using System.Windows.Forms.Design;
+using RocksmithToolkitLib.PSARC;
 
 namespace CustomsForgeManager.UControls
 {
-    public partial class Tagger : UserControl
+    public partial class Tagger : UserControl, INotifyTabChanged
     {
         Stopwatch stopWatch = new Stopwatch();
         private string[] defaultFiles = { "info.txt", "Background.png", "Bass Bonus.png", "Bass.png", "Custom.png", "Lead Bonus.png", "Lead.png", "Rhythm Bonus.png", "Rhythm.png", "Vocal.png" };
@@ -66,11 +68,23 @@ namespace CustomsForgeManager.UControls
         bool DD = false;
         bool allSelected = false;
         bool songTagged = false;
+        bool deleteExtractedWhenDone = false;
+        bool addTagsToFilename = false;
         bool overwriteTags = false;
+
+
+        private ToolStrip ThisToolstrip;
+        private ToolStripComboBox themeCombo;
 
         public Tagger()
         {
             InitializeComponent();
+            themeCombo = new ToolStripComboBox("themeCombo")
+            {
+                ToolTipText = "Tag packs",
+                DropDownStyle = ComboBoxStyle.DropDownList
+            };
+            themeCombo.SelectedIndexChanged += comboTagPacks_SelectedIndexChanged;
         }
 
         public void PopulateTagger()
@@ -81,7 +95,7 @@ namespace CustomsForgeManager.UControls
                 CreateDefaultFolders();
 
             LoadThemes();
-            comboTagPacks.SelectedIndex = 0;
+            themeCombo.SelectedIndex = 0;
         }
 
         public void UpdateToolStrip()
@@ -90,9 +104,11 @@ namespace CustomsForgeManager.UControls
 
         private void LoadThemes()
         {
-            foreach (string tagPreview in Directory.EnumerateFiles(Constants.TaggerTemplatesFolder, "*.png").Where(file => file.ToLower().Contains("prev")))
+            foreach (string tagPreview in
+                Directory.EnumerateFiles(Constants.TaggerTemplatesFolder, "*.png").Where(
+                file => file.ToLower().Contains("prev")))
             {
-                comboTagPacks.Items.Add(Path.GetFileName(tagPreview).Replace(@"tags\", "").Replace("prev.png", ""));
+                themeCombo.Items.Add(Path.GetFileName(tagPreview).Replace(@"Tagger\", "").Replace("prev.png", ""));
             }
         }
 
@@ -104,30 +120,8 @@ namespace CustomsForgeManager.UControls
                 return false;
         }
 
-        //Credits to Mark from StackOverflow
-        public static Bitmap ResizeImage(Image image, int width, int height)
-        {
-            var destRect = new Rectangle(0, 0, width, height);
-            var destImage = new Bitmap(width, height);
 
-            destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
 
-            using (var graphics = Graphics.FromImage(destImage))
-            {
-                graphics.CompositingMode = CompositingMode.SourceCopy;
-                graphics.CompositingQuality = CompositingQuality.HighQuality;
-                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                graphics.SmoothingMode = SmoothingMode.HighQuality;
-                graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
-
-                using (var wrapMode = new ImageAttributes())
-                {
-                    wrapMode.SetWrapMode(WrapMode.TileFlipXY);
-                    graphics.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
-                }
-            }
-            return destImage;
-        }
 
         private void CreateDefaultFolders()
         {
@@ -177,10 +171,9 @@ namespace CustomsForgeManager.UControls
                 rhythmBonusLayer = new Bitmap(Path.Combine(tagsFolderFullPath, "Rhythm Bonus.png"));
                 bassBonusLayer = new Bitmap(Path.Combine(tagsFolderFullPath, "Bass Bonus.png"));
 
-                overwriteTags = checkOverwriteTagsOnTaggedSongs.Checked;
                 songCount = Globals.SongCollection.Where(song => !song.Tagged).Count();
 
-                lblStatus.Text = "Tagged: 0/" + songCount;
+                gbTags.Text = "Tagged: 0/" + songCount;
 
                 // if (Globals.SongCollection.Where(song => song.Tagged).Count() == Globals.SongCollection.Count() && !overwriteTags) //Check if all songs have been tagged before
                 if (0 == 0) // just a place holder for the if check above
@@ -216,8 +209,8 @@ namespace CustomsForgeManager.UControls
                                         albumArtDDS = new DDSImage(File.ReadAllBytes(albumBigArtPath));
                                         bigAlbumArt = albumArtDDS.images[0];
 
-                                        midAlbumArt = ResizeImage(bigAlbumArt, 128, 128); //Make a copy of the biggest album art .dds (other two might already have tags on them) 
-                                        smallAlbumArt = ResizeImage(bigAlbumArt, 64, 64);
+                                        midAlbumArt = bigAlbumArt.ResizeImage(128, 128); //Make a copy of the biggest album art .dds (other two might already have tags on them) 
+                                        smallAlbumArt = bigAlbumArt.ResizeImage(64, 64);
 
                                         midAlbumArt.Save("albumMidArt.png", ImageFormat.Png);
                                         File.Copy("albumMidArt.png", cleanPreviewPath, true);
@@ -342,7 +335,7 @@ namespace CustomsForgeManager.UControls
                                             File.Delete(song.Path);
 
                                         //Add file name tags if user wants to add tags to the file name, too
-                                        if (checkAddTagsToFileName.Checked)
+                                        if (addTagsToFilename)
                                             songPath = song.Path.Replace("_p.", pathExtension + "_p.");
                                         else
                                             songPath = song.Path;
@@ -353,7 +346,7 @@ namespace CustomsForgeManager.UControls
                                         Packer.Pack(songExtractedPath, songPath);
 
                                         //Delete extracted folders if needed
-                                        if (checkDeleteExtractedWhenDone.Checked)
+                                        if (deleteExtractedWhenDone)
                                             Directory.Delete(songExtractedPath, true);
 
                                         var songVar = Globals.SongCollection.FirstOrDefault(sng => sng.Path == songPath);
@@ -361,7 +354,7 @@ namespace CustomsForgeManager.UControls
                                         songVar.Tagged = true;
 
                                         counter++;
-                                        lblStatus.Text = "Tagged: " + counter + "/" + songCount;
+                                        gbTags.Text = "Tagged: " + counter + "/" + songCount;
                                     }
                                     else
                                     {
@@ -381,14 +374,7 @@ namespace CustomsForgeManager.UControls
             }
             catch (ArgumentException)
             {
-                MessageBox.Show("Make sure that you have all required files in the CFM\tags folder: \n" +
-                                "-tags/" + tagsFolder + "/Background.png \n" +
-                                "-tags/" + tagsFolder + "/Lead.png \n" +
-                                "-tags/" + tagsFolder + "/Lead Bonus.png \n" +
-                                "-tags/" + tagsFolder + "/Rhythm.png \n" +
-                                "-tags/" + tagsFolder + "/Rhythm Bonus.png \n" +
-                                "-tags/" + tagsFolder + "/Custom.png \n" +
-                                "-tags/" + tagsFolder + "/Vocal.png");
+                ShowTaggerError();
             }
             catch (IOException ex)
             {
@@ -398,15 +384,16 @@ namespace CustomsForgeManager.UControls
 
         private void comboTagPacks_SelectedIndexChanged(object sender, EventArgs e)
         {
-            string packName = comboTagPacks.SelectedItem.ToString();
-            string packFolder = Path.Combine("tags", packName);
-            string preview = Path.Combine("tags", packName + "prev_tagged.png");
-            string info = Path.Combine("tags", packName, "info.txt");
+            string packName = themeCombo.SelectedItem.ToString();
+            string packFolder = Path.Combine(Constants.TaggerTemplatesFolder, packName);
+            string preview = Path.Combine(Constants.TaggerTemplatesFolder, packName + "prev.png");
+            string info = Path.Combine(Constants.TaggerTemplatesFolder, packName, "info.txt");
 
             if (Directory.Exists(packFolder))
             {
-                tagsFolder = packFolder.Replace(@"tags\", "");
-                tagsFolderFullPath = Path.Combine(Constants.TaggerTemplatesFolder, tagsFolder);
+                //tagsFolder = packFolder.Replace(@"tags\", "");
+                tagsFolderFullPath = packFolder;
+                //Path.Combine(Constants.TaggerTemplatesFolder, tagsFolder);
 
                 if (File.Exists(preview))
                 {
@@ -425,7 +412,7 @@ namespace CustomsForgeManager.UControls
             try
             {
                 songCount = Globals.SongCollection.Where(song => song.Tagged).Count();
-                lblStatus.Text = "Tags removed on: 0/" + songCount;
+                gbTags.Text = "Tags removed on: 0/" + songCount;
 
                 if (songCount > 0)
                 {
@@ -459,8 +446,8 @@ namespace CustomsForgeManager.UControls
                                         albumArtDDS = new DDSImage(File.ReadAllBytes(albumBigArtPath));
                                         bigAlbumArt = albumArtDDS.images[0];
 
-                                        midAlbumArt = ResizeImage(bigAlbumArt, 128, 128);
-                                        smallAlbumArt = ResizeImage(bigAlbumArt, 64, 64);
+                                        midAlbumArt = bigAlbumArt.ResizeImage(128, 128);
+                                        smallAlbumArt = bigAlbumArt.ResizeImage(64, 64);
 
                                         //Delete existing album art
                                         if (File.Exists(albumMidArtPath))
@@ -521,10 +508,10 @@ namespace CustomsForgeManager.UControls
                                         songVar.Path = songPath;
 
                                         counter += 1;
-                                        lblStatus.Text = "Tags removed on: " + counter + "/" + songCount;
+                                        gbTags.Text = "Tags removed on: " + counter + "/" + songCount;
 
                                         //Delete extracted folders if needed
-                                        if (checkDeleteExtractedWhenDone.Checked)
+                                        if (deleteExtractedWhenDone)
                                             Directory.Delete(songExtractedPath, true);
                                     }
                                     else
@@ -540,14 +527,7 @@ namespace CustomsForgeManager.UControls
             }
             catch (ArgumentException)
             {
-                MessageBox.Show("Make sure that you have all required files in the CFM\tags folder: \n" +
-                                "-tags/" + tagsFolder + "/Background.png \n" +
-                                "-tags/" + tagsFolder + "/Lead.png \n" +
-                                "-tags/" + tagsFolder + "/Lead Bonus.png \n" +
-                                "-tags/" + tagsFolder + "/Rhythm.png \n" +
-                                "-tags/" + tagsFolder + "/Rhythm Bonus.png \n" +
-                                "-tags/" + tagsFolder + "/Custom.png \n" +
-                                "-tags/" + tagsFolder + "/Vocal.png");
+                ShowTaggerError();
             }
             catch (IOException ex)
             {
@@ -555,7 +535,20 @@ namespace CustomsForgeManager.UControls
             }
         }
 
-        private void btnPreviewSelected_Click(object sender, EventArgs e) //TODO: figure out if we can use this one
+        private void ShowTaggerError()
+        {
+            MessageBox.Show(string.Format("Make sure that you have all required files in the CFM\tags folder: \n" +
+                "-Tagger/{0}/Background.png \n" +
+                "-Tagger/{0}/Lead.png \n" +
+                "-Tagger/{0}/Lead Bonus.png \n" +
+                "-Tagger/{0}/Rhythm.png \n" +
+                "-Tagger/{0}/Rhythm Bonus.png \n" +
+                "-Tagger/{0}/Custom.png \n" +
+                "-Tagger/{0}/Vocal.png", tagsFolder));
+
+        }
+
+        private void btnPreviewSelected_Click(object sender, EventArgs e)
         {
             try
             {
@@ -569,86 +562,273 @@ namespace CustomsForgeManager.UControls
                 rhythmBonusLayer = new Bitmap(Path.Combine(Constants.TaggerTemplatesFolder, tagsFolder, "Rhythm Bonus.png"));
                 bassBonusLayer = new Bitmap(Path.Combine(Constants.TaggerTemplatesFolder, tagsFolder, "Bass Bonus.png"));
 
-                string songPath = "";
-
-                songExtractedPath = Path.Combine(Constants.TaggerExtractedFolder, Path.GetFileName(songPath.Replace(".psarc", "_Pc")));
-                manifestsFolderPath = Path.Combine(songExtractedPath, "manifests");
-                albumArtFolderPath = Path.Combine(songExtractedPath, "gfxassets", "album_art");
-                toolkitVersionFilePath = Path.Combine(songExtractedPath, "toolkit.version");
-
-                Packer.Unpack(songPath, Constants.TaggerExtractedFolder);
-
-                if (File.Exists(toolkitVersionFilePath))
+                var data = Globals.SongManager.GetFirstSelected();
+                if (data == null)
                 {
-                    albumBigArtPath = Directory.EnumerateFiles(albumArtFolderPath, "*256.dds").ToList()[0];
-
-                    albumArtDDS = new DDSImage(File.ReadAllBytes(albumBigArtPath));
-                    midAlbumArt = ResizeImage(albumArtDDS.images[0], 128, 128);
-
-                    lead = false;
-                    rhythm = false;
-                    bass = false;
-                    vocals = false;
-                    bonusLead = false;
-                    bonusRhythm = false;
-                    bonusBass = false;
-
-                    var arrangements = Directory.EnumerateFiles(manifestsFolderPath, "*.json", SearchOption.AllDirectories);
-
-                    foreach (string arrangement in arrangements)
-                    {
-                        if (arrangement.Contains("lead") && !arrangement.Contains("lead2"))
-                            lead = true;
-                        if (arrangement.Contains("lead2"))
-                            bonusLead = true;
-                        if (arrangement.Contains("rhythm") && !arrangement.Contains("rhythm2"))
-                            rhythm = true;
-                        if (arrangement.Contains("rhythm2"))
-                            bonusRhythm = true;
-                        if (arrangement.Contains("bass") && !arrangement.Contains("bass2"))
-                            bass = true;
-                        if (arrangement.Contains("bass2"))
-                            bonusBass = true;
-                        if (arrangement.Contains("vocals"))
-                            vocals = true;
-                    }
-
-                    using (Graphics gra = Graphics.FromImage(midAlbumArt))
-                    {
-                        gra.DrawImage(backgroundLayer, 0, 0.5f);
-                        if (vocals)
-                            gra.DrawImage(vocalLayer, 0, 0.5f);
-                        if (bass)
-                            gra.DrawImage(bassLayer, 0, 0.5f);
-                        if (bonusBass)
-                            gra.DrawImage(bassBonusLayer, 0, 0.5f);
-                        if (rhythm)
-                            gra.DrawImage(rhythmLayer, 0, 0.5f);
-                        if (bonusRhythm)
-                            gra.DrawImage(rhythmBonusLayer, 0, 0.5f);
-                        if (lead)
-                            gra.DrawImage(leadLayer, 0, 0.5f);
-                        if (bonusLead)
-                            gra.DrawImage(leadBonusLayer, 0, 0.5f);
-                        gra.DrawImage(customTagLayer, 0, 0.5f);
-                    }
-
-                    pictureBoxPreview.Image = midAlbumArt;
-                    //Clear dirs
-                    Directory.Delete(songExtractedPath, true);
+                    MessageBox.Show("No songs selected in Song Manager.");
+                    return;
                 }
+
+                string songPath = data.Path;
+                using (PSARC archive = new PSARC())
+                {
+                    using (var fs = File.OpenRead(songPath))
+                        archive.Read(fs);
+
+                    var imgEntry = archive.TOC.FirstOrDefault(entry => entry.Name.EndsWith("256.dds"));
+
+                    if (imgEntry != null)
+                    {
+                        //    albumBigArtPath = Directory.EnumerateFiles(albumArtFolderPath, "*256.dds").ToList()[0];
+                        imgEntry.Data.Position = 0;
+
+                        albumArtDDS = new DDSImage(imgEntry.Data);
+                        midAlbumArt = albumArtDDS.images[0].ResizeImage(128, 128);
+
+                        lead = false;
+                        rhythm = false;
+                        bass = false;
+                        vocals = false;
+                        bonusLead = false;
+                        bonusRhythm = false;
+                        bonusBass = false;
+
+                        var arrangements = archive.TOC.Where(entry => entry.Name.ToLower().EndsWith(".json")).Select(entry => entry.Name);
+
+                        foreach (string arrangement in arrangements)
+                        {
+                            if (arrangement.Contains("lead") && !arrangement.Contains("lead2"))
+                                lead = true;
+                            if (arrangement.Contains("lead2"))
+                                bonusLead = true;
+                            if (arrangement.Contains("rhythm") && !arrangement.Contains("rhythm2"))
+                                rhythm = true;
+                            if (arrangement.Contains("rhythm2"))
+                                bonusRhythm = true;
+                            if (arrangement.Contains("bass") && !arrangement.Contains("bass2"))
+                                bass = true;
+                            if (arrangement.Contains("bass2"))
+                                bonusBass = true;
+                            if (arrangement.Contains("vocals"))
+                                vocals = true;
+                        }
+
+                        using (Graphics gra = Graphics.FromImage(midAlbumArt))
+                        {
+                            gra.DrawImage(backgroundLayer, 0, 0.5f);
+                            if (vocals)
+                                gra.DrawImage(vocalLayer, 0, 0.5f);
+                            if (bass)
+                                gra.DrawImage(bassLayer, 0, 0.5f);
+                            if (bonusBass)
+                                gra.DrawImage(bassBonusLayer, 0, 0.5f);
+                            if (rhythm)
+                                gra.DrawImage(rhythmLayer, 0, 0.5f);
+                            if (bonusRhythm)
+                                gra.DrawImage(rhythmBonusLayer, 0, 0.5f);
+                            if (lead)
+                                gra.DrawImage(leadLayer, 0, 0.5f);
+                            if (bonusLead)
+                                gra.DrawImage(leadBonusLayer, 0, 0.5f);
+                            gra.DrawImage(customTagLayer, 0, 0.5f);
+                        }
+                        pictureBoxPreview.Image = midAlbumArt;
+                    }
+                }
+
             }
             catch (ArgumentException)
             {
-                MessageBox.Show("Make sure that you have all required files in the app folder: \n" +
-                                "-tags/" + tagsFolder + "/Background.png \n" +
-                                "-tags/" + tagsFolder + "/Lead.png \n" +
-                                "-tags/" + tagsFolder + "/Lead Bonus.png \n" +
-                                "-tags/" + tagsFolder + "/Rhythm.png \n" +
-                                "-tags/" + tagsFolder + "/Rhythm Bonus.png \n" +
-                                "-tags/" + tagsFolder + "/Custom.png \n" +
-                                "-tags/" + tagsFolder + "/Vocal.png");
+                ShowTaggerError();
             }
+        }
+
+
+        public void TabEnter()
+        {
+            CustomsForgeManager.Forms.frmMain f = Globals.MainForm;
+            if (f != null)
+            {
+                f.tstripContainer.TopToolStripPanel.Visible = true;
+                if (ThisToolstrip == null)
+                {
+                    List<ToolStripItem> items = new List<ToolStripItem>();
+
+                    items.Add(themeCombo);
+
+                    items.Add(new ToolStripSeparator());
+
+                    ToolStripButton btn = new ToolStripButton("TagCDLC");
+                    btn.Click += btnTagDLCs_Click;
+                    items.Add(btn);
+
+                    btn = new ToolStripButton("Remove tags");
+                    btn.Click += btnRemoveTags_Click;
+                    items.Add(btn);
+
+                    //TODO:save preview button
+
+
+                    btn = new ToolStripButton("Preview") { ToolTipText = "Preview selected song in Song Manager;" };
+                    btn.Click += btnPreviewSelected_Click;
+                    items.Add(btn);
+
+                    items.Add(new ToolStripSeparator());
+
+                    ToolStripCheckBox cb = new ToolStripCheckBox() { Text = "Delete extracted folders when done." };
+                    cb.CheckedChanged += (s, e) =>
+                    {
+                        deleteExtractedWhenDone = ((ToolStripCheckBox)s).Checked;
+                    };
+                    items.Add(cb);
+
+                    cb = new ToolStripCheckBox() { Text = "Add tags to file name." };
+                    cb.CheckedChanged += (s, e) =>
+                    {
+                        addTagsToFilename = ((ToolStripCheckBox)s).Checked;
+                    };
+                    items.Add(cb);
+
+                    cb = new ToolStripCheckBox() { Text = "Overwrite tags on tagged songs." };
+                    cb.CheckedChanged += (s, e) =>
+                    {
+                        overwriteTags = ((ToolStripCheckBox)s).Checked;
+                    };
+                    items.Add(cb);
+
+
+                    ThisToolstrip = new ToolStrip(items.ToArray());
+
+                }
+
+                f.tstripContainer.TopToolStripPanel.Join(ThisToolstrip, 1);
+            }
+            //show menu
+            //throw new NotImplementedException();
+        }
+
+
+        public void TabLeave()
+        {
+            //hide the menu strip
+            if (ThisToolstrip != null)
+            {
+                CustomsForgeManager.Forms.frmMain f = Globals.MainForm;
+                if (f != null)
+                {
+                    f.tstripContainer.TopToolStripPanel.Controls.Remove(ThisToolstrip);
+                }
+            }
+        }
+    }
+
+    [ToolStripItemDesignerAvailability(ToolStripItemDesignerAvailability.ToolStrip)]
+    public partial class ToolStripCheckBox
+        : ToolStripControlHost
+    {
+        public CheckBox CheckBoxControl
+        {
+            get
+            {
+                return Control as CheckBox;
+            }
+        }
+
+        /// <summary>
+        /// Is check box ticked
+        /// </summary>
+        [Category("Appearance")]
+        public bool Checked
+        {
+            get
+            {
+                return CheckBoxControl.Checked;
+            }
+            set
+            {
+                CheckBoxControl.Checked = value;
+            }
+        }
+
+        /// <summary>
+        /// Checked state
+        /// </summary>
+        [Category("Appearance")]
+        public CheckState CheckState
+        {
+            get
+            {
+                return CheckBoxControl.CheckState;
+            }
+            set
+            {
+                CheckBoxControl.CheckState = value;
+            }
+        }
+
+        /// <summary>
+        /// Label text
+        /// </summary>
+        [Category("Appearance")]
+        public override string Text
+        {
+            get
+            {
+                return CheckBoxControl.Text;
+            }
+            set
+            {
+                CheckBoxControl.Text = value;
+            }
+        }
+
+        /// <summary>
+        /// Occurs when check property is changed
+        /// </summary>
+        [Category("Misc")]
+        public event EventHandler CheckedChanged;
+
+        /// <summary>
+        /// Occurs when check state of the control changes
+        /// </summary>
+        [Category("Misc")]
+        public event EventHandler CheckStateChanged;
+
+        public ToolStripCheckBox()
+            : base(new CheckBox())
+        {
+            CheckBoxControl.MouseHover += new EventHandler(chk_MouseHover);
+        }
+
+        void chk_MouseHover(object sender, EventArgs e)
+        {
+            this.OnMouseHover(e);
+        }
+
+        protected override void OnSubscribeControlEvents(Control c)
+        {
+            base.OnSubscribeControlEvents(c);
+            ((CheckBox)c).CheckedChanged += ToolStripCheckBox_CheckedChanged;
+            ((CheckBox)c).CheckStateChanged += ToolStripCheckBox_CheckStateChanged;
+        }
+
+        protected override void OnUnsubscribeControlEvents(Control c)
+        {
+            base.OnUnsubscribeControlEvents(c);
+            ((CheckBox)c).CheckedChanged -= ToolStripCheckBox_CheckedChanged;
+            ((CheckBox)c).CheckStateChanged -= ToolStripCheckBox_CheckStateChanged;
+        }
+
+        void ToolStripCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (CheckedChanged != null)
+                CheckedChanged(this, e);
+        }
+
+        void ToolStripCheckBox_CheckStateChanged(object sender, EventArgs e)
+        {
+            if (CheckStateChanged != null)
+                CheckStateChanged(this, e);
         }
     }
 }

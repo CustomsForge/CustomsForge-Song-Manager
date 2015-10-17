@@ -29,19 +29,14 @@ namespace CustomsForgeManager.Forms
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);
 
             this.FormClosed += frmMain_FormClosed; // moved here for better access
-            // gets rid of notifyer icon on closing
+            // gets rid of notifier icon on closing
             this.FormClosed += delegate
             {
                 notifyIcon_Main.Visible = false;
                 notifyIcon_Main.Dispose();
                 notifyIcon_Main = null;
             };
-            //notifyIcon_Main.BalloonTipClosed += (sender, e) =>
-            //    {
-            //        var thisIcon = (NotifyIcon)sender;
-            //        thisIcon.Visible = false;
-            //        thisIcon.Dispose();
-            //    };
+
             this.Text = String.Format("{0} (v{1})", Constants.ApplicationName, Constants.CustomVersion());
             // bring CFM to the front on startup
             this.WindowState = FormWindowState.Minimized;
@@ -145,11 +140,18 @@ namespace CustomsForgeManager.Forms
             Dispose();
         }
 
+        public Control currentControl = null;
+
         private void tcMain_SelectedIndexChanged(object sender, EventArgs e)
         {
             // Docking.Fill causes screen flicker so only use if needed
             // reset toolstrip labels
             Globals.ResetToolStripGlobals();
+
+            if (currentControl != null)
+                if (currentControl is CustomsForgeManagerLib.INotifyTabChanged)
+                    (currentControl as CustomsForgeManagerLib.INotifyTabChanged).TabLeave();
+
 
             // get first four charters from tab control text
             switch (tcMain.SelectedTab.Text.Substring(0, 4).ToUpper())
@@ -158,6 +160,7 @@ namespace CustomsForgeManager.Forms
                 case "SONG":
                     LoadSongManager();
                     Globals.SongManager.UpdateToolStrip();
+                    currentControl = Globals.SongManager;
                     break;
                 case "DUPL":
                     this.tpDuplicates.Controls.Clear();
@@ -166,6 +169,7 @@ namespace CustomsForgeManager.Forms
                     Globals.Duplicates.UpdateToolStrip();
                     Globals.Duplicates.Location = UCLocation;
                     Globals.Duplicates.Size = UCSize;
+                    currentControl = Globals.Duplicates;
                     break;
                 case "RENA":
                     this.tpRenamer.Controls.Clear();
@@ -173,6 +177,7 @@ namespace CustomsForgeManager.Forms
                     Globals.Renamer.UpdateToolStrip();
                     Globals.Renamer.Location = UCLocation;
                     Globals.Renamer.Size = UCSize;
+                    currentControl = Globals.Renamer;
                     break;
                 case "SETL":
                     this.tpSetlistManager.Controls.Clear();
@@ -181,6 +186,7 @@ namespace CustomsForgeManager.Forms
                     Globals.SetlistManager.UpdateToolStrip();
                     Globals.SetlistManager.Location = UCLocation;
                     Globals.SetlistManager.Size = UCSize;
+                    currentControl = Globals.SetlistManager;
                     break;
                 case "TAGG":
                     this.tpTagger.Controls.Clear();
@@ -190,6 +196,7 @@ namespace CustomsForgeManager.Forms
                     Globals.Tagger.UpdateToolStrip();
                     Globals.Tagger.Location = UCLocation;
                     Globals.Tagger.Size = UCSize;
+                    currentControl = Globals.Tagger;
                     break;
                 case "SETT":
                     // using LeaveSongManager instead of EH SongMangager_Leave
@@ -198,22 +205,28 @@ namespace CustomsForgeManager.Forms
                     this.tpSettings.Controls.Add(Globals.Settings);
                     Globals.Settings.Dock = DockStyle.Fill;
                     // TODO: auto detect column width and visibility changes and use conditional check    
-                    // done everytime in case user changes column width or visiblity
+                    // done everytime in case user changes column width or visibility
                     Globals.Settings.PopulateSettings();
                     Globals.Settings.Location = UCLocation;
                     Globals.Settings.Size = UCSize;
+                    currentControl = Globals.Settings;
                     break;
                 case "ABOU":
                     this.tpAbout.Controls.Add(Globals.About);
                     Globals.About.Location = UCLocation;
                     Globals.About.Size = UCSize;
+                    currentControl = Globals.About;
                     break;
             }
+
+            if (currentControl != null)
+                if (currentControl is CustomsForgeManagerLib.INotifyTabChanged)
+                    (currentControl as CustomsForgeManagerLib.INotifyTabChanged).TabEnter();
         }
 
         private void tsLabelCancel_Click(object sender, EventArgs e)
         {
-            Globals.TsLabel_Cancel.Text = tsLabel_Cancel.Text == "Cancel" ? "Cancelling" : "Cancel";
+            Globals.TsLabel_Cancel.Text = tsLabel_Cancel.Text == "Cancel" ? "Canceling" : "Cancel";
             tsLabel_Cancel.Enabled = false;
         }
 
@@ -302,7 +315,7 @@ namespace CustomsForgeManager.Forms
                     e.Handled = true;
                     break;
                 case Keys.F12:
-                    toolStripContainer1.TopToolStripPanelVisible = !toolStripContainer1.TopToolStripPanelVisible;
+                    tstripContainer.TopToolStripPanelVisible = !tstripContainer.TopToolStripPanelVisible;
                     e.Handled = true;
                     break;
             }

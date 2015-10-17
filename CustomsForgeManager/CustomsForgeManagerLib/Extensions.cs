@@ -277,9 +277,35 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
             return (T)XmlDeserialize(xml, typeof(T));
         }
 
+
+        private static string XmlSerializeForClone(object obj)
+        {
+            MemoryStream memoryStream = new MemoryStream();
+            using (StreamReader reader = new StreamReader(memoryStream))
+            {
+                DataContractSerializer serializer = new DataContractSerializer(obj.GetType());
+                serializer.WriteObject(memoryStream, obj);
+                memoryStream.Position = 0;
+                return reader.ReadToEnd();
+            }
+        }
+
+        private static object XmlDeserializeForClone(string xml, Type toType)
+        {
+            using (Stream stream = new MemoryStream())
+            {
+                byte[] data = System.Text.Encoding.UTF8.GetBytes(xml);
+                stream.Write(data, 0, data.Length);
+                stream.Position = 0;
+                DataContractSerializer deserializer = new DataContractSerializer(toType);
+                return deserializer.ReadObject(stream);
+            }
+        }
+
+
         public static T XmlClone<T>(this T obj)
         {
-            return (T)XmlDeserialize(obj.XmlSerialize(), typeof(T));
+            return (T)XmlDeserializeForClone(XmlSerializeForClone(obj), typeof(T));
         }
 
         public static List<string> FilesList(string path, bool includeRS1Pack = false)

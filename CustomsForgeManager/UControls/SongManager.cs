@@ -532,13 +532,8 @@ namespace CustomsForgeManager.UControls
         {
             if (dgvSongsMaster.SelectedRows.Count > 0)
             {
-                var selectedRow = dgvSongsMaster.SelectedRows[0];
-                var title = selectedRow.Cells["colTitle"].Value.ToString();
-                var artist = selectedRow.Cells["colArtist"].Value.ToString();
-                var album = selectedRow.Cells["colAlbum"].Value.ToString();
-                var path = selectedRow.Cells["colPath"].Value.ToString();
 
-                var song = masterSongCollection.FirstOrDefault(x => x.Title == title && x.Album == album && x.Artist == artist && x.Path == path);
+                var song = GetFirstSelected();
                 if (song != null)
                 {
                     frmSongInfo infoWindow = new frmSongInfo(song);
@@ -549,29 +544,22 @@ namespace CustomsForgeManager.UControls
                 MessageBox.Show(string.Format("Please select (highlight) the song that  {0}you would like information about.", Environment.NewLine), Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        //private void SmartRescan()
-        //{
-        //    // smart rescan technology
-        //    if (!Globals.MySettings.RescanOnStartup)
-        //    {
-        //        var rs1CompFiles = Directory.EnumerateFiles(Path.Combine(Globals.MySettings.RSInstalledDir, "dlc"), Constants.RS1COMP + "*", SearchOption.AllDirectories).ToArray();
-        //        var dlcFiles = Directory.EnumerateFiles(Path.Combine(Globals.MySettings.RSInstalledDir, "dlc"), "*.psarc", SearchOption.AllDirectories).ToArray();
-        //        int rs1CompSongs;
+        public SongData GetFirstSelected()
+        {
+            if (dgvSongsMaster.SelectedRows.Count > 0)
+            {
+                var selectedRow = dgvSongsMaster.SelectedRows[0];
+                var title = selectedRow.Cells["colTitle"].Value.ToString();
+                var artist = selectedRow.Cells["colArtist"].Value.ToString();
+                var album = selectedRow.Cells["colAlbum"].Value.ToString();
+                var path = selectedRow.Cells["colPath"].Value.ToString();
 
-        //        if (rs1CompFiles.Count() == 2)
-        //            rs1CompSongs = 193;
-        //        else if (!rs1CompFiles.Any())
-        //            rs1CompSongs = 0;
-        //        else // there is only one RS1 Compatibility file
-        //            if (rs1CompFiles[0].ToLower().Contains("disc"))
-        //                rs1CompSongs = 52;
-        //            else
-        //                rs1CompSongs = 193 - 52;
+                return masterSongCollection.FirstOrDefault(x => x.Title == title && x.Album == album && x.Artist == artist && x.Path == path);
 
-        //        // if (masterFileCollection.Count != (Globals.MySettings.IncludeRS1DLCs ? dlcFiles.Length + rs1CompSongs - rs1CompFiles.Count() : dlcFiles.Length - rs1CompFiles.Count()))
-        //        Rescan();
-        //    }
-        //}
+            }
+            return null;
+
+        }
 
         private void SongListToBBCode()
         {

@@ -42,12 +42,13 @@ namespace CustomsForgeManager.Forms
             this.contextMenuStrip_Tray = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scMain = new System.Windows.Forms.SplitContainer();
-            this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
+            this.tstripContainer = new System.Windows.Forms.ToolStripContainer();
             this.tcMain = new System.Windows.Forms.TabControl();
             this.tpSongManager = new System.Windows.Forms.TabPage();
             this.tpDuplicates = new System.Windows.Forms.TabPage();
             this.tpRenamer = new System.Windows.Forms.TabPage();
             this.tpSetlistManager = new System.Windows.Forms.TabPage();
+            this.tpTagger = new System.Windows.Forms.TabPage();
             this.tpSettings = new System.Windows.Forms.TabPage();
             this.tpAbout = new System.Windows.Forms.TabPage();
             this.toolStripUtilities = new System.Windows.Forms.ToolStrip();
@@ -73,16 +74,15 @@ namespace CustomsForgeManager.Forms
             this.RightToolStripPanel = new System.Windows.Forms.ToolStripPanel();
             this.LeftToolStripPanel = new System.Windows.Forms.ToolStripPanel();
             this.ContentPanel = new System.Windows.Forms.ToolStripContentPanel();
-            this.tpTagger = new System.Windows.Forms.TabPage();
             this.gbLog.SuspendLayout();
             this.contextMenuStrip_Tray.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.scMain)).BeginInit();
             this.scMain.Panel1.SuspendLayout();
             this.scMain.Panel2.SuspendLayout();
             this.scMain.SuspendLayout();
-            this.toolStripContainer1.ContentPanel.SuspendLayout();
-            this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
-            this.toolStripContainer1.SuspendLayout();
+            this.tstripContainer.ContentPanel.SuspendLayout();
+            this.tstripContainer.TopToolStripPanel.SuspendLayout();
+            this.tstripContainer.SuspendLayout();
             this.tcMain.SuspendLayout();
             this.toolStripUtilities.SuspendLayout();
             this.statusStripMain.SuspendLayout();
@@ -153,7 +153,7 @@ namespace CustomsForgeManager.Forms
             // 
             // scMain.Panel1
             // 
-            this.scMain.Panel1.Controls.Add(this.toolStripContainer1);
+            this.scMain.Panel1.Controls.Add(this.tstripContainer);
             // 
             // scMain.Panel2
             // 
@@ -163,26 +163,26 @@ namespace CustomsForgeManager.Forms
             this.scMain.SplitterDistance = 526;
             this.scMain.TabIndex = 2;
             // 
-            // toolStripContainer1
+            // tstripContainer
             // 
-            this.toolStripContainer1.BottomToolStripPanelVisible = false;
+            this.tstripContainer.BottomToolStripPanelVisible = false;
             // 
-            // toolStripContainer1.ContentPanel
+            // tstripContainer.ContentPanel
             // 
-            this.toolStripContainer1.ContentPanel.Controls.Add(this.tcMain);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1011, 611);
-            this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.toolStripContainer1.LeftToolStripPanelVisible = false;
-            this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
-            this.toolStripContainer1.Name = "toolStripContainer1";
-            this.toolStripContainer1.RightToolStripPanelVisible = false;
-            this.toolStripContainer1.Size = new System.Drawing.Size(1011, 636);
-            this.toolStripContainer1.TabIndex = 3;
-            this.toolStripContainer1.Text = "toolStripContainer1";
+            this.tstripContainer.ContentPanel.Controls.Add(this.tcMain);
+            this.tstripContainer.ContentPanel.Size = new System.Drawing.Size(1011, 611);
+            this.tstripContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tstripContainer.LeftToolStripPanelVisible = false;
+            this.tstripContainer.Location = new System.Drawing.Point(0, 0);
+            this.tstripContainer.Name = "tstripContainer";
+            this.tstripContainer.RightToolStripPanelVisible = false;
+            this.tstripContainer.Size = new System.Drawing.Size(1011, 636);
+            this.tstripContainer.TabIndex = 3;
+            this.tstripContainer.Text = "toolStripContainer1";
             // 
-            // toolStripContainer1.TopToolStripPanel
+            // tstripContainer.TopToolStripPanel
             // 
-            this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStripUtilities);
+            this.tstripContainer.TopToolStripPanel.Controls.Add(this.toolStripUtilities);
             // 
             // tcMain
             // 
@@ -239,6 +239,16 @@ namespace CustomsForgeManager.Forms
             this.tpSetlistManager.TabIndex = 7;
             this.tpSetlistManager.Text = "Setlist Manger";
             this.tpSetlistManager.UseVisualStyleBackColor = true;
+            // 
+            // tpTagger
+            // 
+            this.tpTagger.Location = new System.Drawing.Point(4, 25);
+            this.tpTagger.Name = "tpTagger";
+            this.tpTagger.Padding = new System.Windows.Forms.Padding(3);
+            this.tpTagger.Size = new System.Drawing.Size(1003, 582);
+            this.tpTagger.TabIndex = 9;
+            this.tpTagger.Text = "Tagger";
+            this.tpTagger.UseVisualStyleBackColor = true;
             // 
             // tpSettings
             // 
@@ -467,16 +477,6 @@ namespace CustomsForgeManager.Forms
             // 
             this.ContentPanel.Size = new System.Drawing.Size(150, 150);
             // 
-            // tpTagger
-            // 
-            this.tpTagger.Location = new System.Drawing.Point(4, 25);
-            this.tpTagger.Name = "tpTagger";
-            this.tpTagger.Padding = new System.Windows.Forms.Padding(3);
-            this.tpTagger.Size = new System.Drawing.Size(1003, 582);
-            this.tpTagger.TabIndex = 9;
-            this.tpTagger.Text = "Tagger";
-            this.tpTagger.UseVisualStyleBackColor = true;
-            // 
             // frmMain
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -496,11 +496,11 @@ namespace CustomsForgeManager.Forms
             this.scMain.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.scMain)).EndInit();
             this.scMain.ResumeLayout(false);
-            this.toolStripContainer1.ContentPanel.ResumeLayout(false);
-            this.toolStripContainer1.TopToolStripPanel.ResumeLayout(false);
-            this.toolStripContainer1.TopToolStripPanel.PerformLayout();
-            this.toolStripContainer1.ResumeLayout(false);
-            this.toolStripContainer1.PerformLayout();
+            this.tstripContainer.ContentPanel.ResumeLayout(false);
+            this.tstripContainer.TopToolStripPanel.ResumeLayout(false);
+            this.tstripContainer.TopToolStripPanel.PerformLayout();
+            this.tstripContainer.ResumeLayout(false);
+            this.tstripContainer.PerformLayout();
             this.tcMain.ResumeLayout(false);
             this.toolStripUtilities.ResumeLayout(false);
             this.toolStripUtilities.PerformLayout();
@@ -521,7 +521,6 @@ namespace CustomsForgeManager.Forms
         private ToolStripMenuItem closeToolStripMenuItem;
         private SplitContainer scMain;
         public TextBox tbLog;
-        private ToolStripContainer toolStripContainer1;
         private ToolStripPanel BottomToolStripPanel;
         private StatusStrip statusStripMain;
         public ToolStripStatusLabel tsLabel_ShowHideLog;
@@ -553,5 +552,6 @@ namespace CustomsForgeManager.Forms
         private ToolStripSeparator toolStripSeparator4;
         private ToolStripButton tsBtnHelp;
         private TabPage tpTagger;
+        public ToolStripContainer tstripContainer;
     }
 }

@@ -36,54 +36,69 @@ namespace CustomsForgeManagerTools
 
         public Bitmap[] images;
 
+
+
         public DDSImage(byte[] rawdata)
         {
-            using (MemoryStream ms = new MemoryStream(rawdata))
+           LoadStream(new MemoryStream(rawdata),false);         
+        }
+
+        public DDSImage(Stream AStream)
+        {
+           LoadStream(AStream,true);
+        }
+
+        private void LoadStream(Stream astream,bool createCopy)
+        {
+            Stream ms = astream;
+            if (createCopy)
             {
-                using (BinaryReader r = new BinaryReader(ms))
+                ms = new MemoryStream();
+                astream.CopyTo(ms);
+                ms.Position = 0;
+            }
+
+            using (BinaryReader r = new BinaryReader(ms))
+            {
+                dwMagic = r.ReadInt32();
+                if (dwMagic != 0x20534444)
                 {
-                    dwMagic = r.ReadInt32();
-                    if (dwMagic != 0x20534444)
+                    throw new Exception("This is not a DDS!");
+                }
+
+                Read_DDS_HEADER(header, r);
+
+                if (((header.ddspf.dwFlags & DDPF_FOURCC) != 0) && (header.ddspf.dwFourCC == FOURCC_DX10 /*DX10*/))
+                {
+                    throw new Exception("DX10 not supported yet!");
+                }
+
+                int mipMapCount = 1;
+                if ((header.dwFlags & DDSD_MIPMAPCOUNT) != 0)
+                    mipMapCount = header.dwMipMapCount;
+                images = new Bitmap[mipMapCount];
+
+                bdata = r.ReadBytes(header.dwPitchOrLinearSize);
+
+
+                for (int i = 0; i < mipMapCount; ++i)
+                {
+                    int w = header.dwWidth / (2 * i + 1);
+                    int h = header.dwHeight / (2 * i + 1);
+
+                    if ((header.ddspf.dwFlags & DDPF_RGB) != 0)
                     {
-                        throw new Exception("This is not a DDS!");
+                        images[i] = readLinearImage(bdata, w, h);
                     }
-
-                    Read_DDS_HEADER(header, r);
-
-                    if (((header.ddspf.dwFlags & DDPF_FOURCC) != 0) && (header.ddspf.dwFourCC == FOURCC_DX10 /*DX10*/))
+                    else if ((header.ddspf.dwFlags & DDPF_FOURCC) != 0)
                     {
-                        throw new Exception("DX10 not supported yet!");
-                    }
-
-                    int mipMapCount = 1;
-                    if ((header.dwFlags & DDSD_MIPMAPCOUNT) != 0)
-                        mipMapCount = header.dwMipMapCount;
-                    images = new Bitmap[mipMapCount];
-
-                    bdata = r.ReadBytes(header.dwPitchOrLinearSize);
-
-
-                    for (int i = 0; i < mipMapCount; ++i)
-                    {
-                        int w = header.dwWidth / (2 * i + 1);
-                        int h = header.dwHeight / (2 * i + 1);
-
-                        if ((header.ddspf.dwFlags & DDPF_RGB) != 0)
-                        {
-                            images[i] = readLinearImage(bdata, w, h);
-                        }
-                        else if ((header.ddspf.dwFlags & DDPF_FOURCC) != 0)
-                        {
-                            images[i] = readBlockImage(bdata, w, h);
-                        }
-
+                        images[i] = readBlockImage(bdata, w, h);
                     }
 
                 }
+
             }
         }
-
-
 
         private Bitmap readBlockImage(byte[] data, int w, int h)
         {

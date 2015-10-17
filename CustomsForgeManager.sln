@@ -1,6 +1,8 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.40629.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomsForgeManager", "CustomsForgeManager\CustomsForgeManager.csproj", "{25E15C6A-AEAE-4958-80EA-44062DF402F7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CFMImageTools", "CustomForgeManagerTools\CFMImageTools\CFMImageTools.csproj", "{E6565985-C477-46F4-8A42-08E04CD40B65}"
@@ -36,6 +38,7 @@ Global
 		{E6565985-C477-46F4-8A42-08E04CD40B65}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
 		{E6565985-C477-46F4-8A42-08E04CD40B65}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
 		{E6565985-C477-46F4-8A42-08E04CD40B65}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E6565985-C477-46F4-8A42-08E04CD40B65}.Debug|x86.Build.0 = Debug|Any CPU
 		{E6565985-C477-46F4-8A42-08E04CD40B65}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E6565985-C477-46F4-8A42-08E04CD40B65}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E6565985-C477-46F4-8A42-08E04CD40B65}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU

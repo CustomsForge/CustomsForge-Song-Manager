@@ -161,6 +161,11 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
             set { _utilities = value; }
         }
 
+        public static CustomsForgeManager.Forms.frmMain MainForm
+        {
+            get { return (CustomsForgeManager.Forms.frmMain)Application.OpenForms["frmMain"]; }
+        }
+
         public static Tristate WorkerFinished { get; set; } // True = 0, False = 1, Cancelled = 2
 
         public static void Log(string message)

@@ -136,6 +136,7 @@
     <Compile Include="CustomsForgeManagerLib\CustomControls\DataGridEditors\ComboBoxEditingControl.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="CustomsForgeManagerLib\Interfaces.cs" />
     <Compile Include="CustomsForgeManagerLib\Objects\NotifyPropChangedBase.cs" />
     <Compile Include="CustomsForgeManagerLib\Objects\SongCollectionException.cs" />
     <Compile Include="CustomsForgeManagerLib\PsarcBrowser.cs">
@@ -391,62 +392,82 @@
     <Content Include="ReleaseNotes.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\tags\frackDefaultprev.png" />
-    <Content Include="Resources\tags\frackDefault\Background.png" />
-    <Content Include="Resources\tags\frackDefault\Bass Bonus.png" />
-    <Content Include="Resources\tags\frackDefault\Bass.png" />
-    <Content Include="Resources\tags\frackDefault\Custom.png" />
-    <Content Include="Resources\tags\frackDefault\info.txt" />
-    <Content Include="Resources\tags\frackDefault\Lead Bonus.png" />
-    <Content Include="Resources\tags\frackDefault\Lead.png" />
-    <Content Include="Resources\tags\frackDefault\Rhythm Bonus.png" />
-    <Content Include="Resources\tags\frackDefault\Rhythm.png" />
-    <Content Include="Resources\tags\frackDefault\Vocal.png" />
-    <Content Include="Resources\tags\motive1prev.png" />
-    <Content Include="Resources\tags\motive1\Background.png" />
-    <Content Include="Resources\tags\motive1\Bass Bonus.png" />
-    <Content Include="Resources\tags\motive1\Bass.png" />
-    <Content Include="Resources\tags\motive1\Custom.png" />
-    <Content Include="Resources\tags\motive1\info.txt" />
-    <Content Include="Resources\tags\motive1\Lead Bonus.png" />
-    <Content Include="Resources\tags\motive1\Lead.png" />
-    <Content Include="Resources\tags\motive1\Motive.png" />
-    <Content Include="Resources\tags\motive1\Rhythm Bonus.png" />
-    <Content Include="Resources\tags\motive1\Rhythm.png" />
-    <Content Include="Resources\tags\motive1\Vocal.png" />
-    <Content Include="Resources\tags\motive_bl_prev.png" />
-    <Content Include="Resources\tags\motive_bl_\Background.png" />
-    <Content Include="Resources\tags\motive_bl_\Bass Bonus.png" />
-    <Content Include="Resources\tags\motive_bl_\Bass.png" />
-    <Content Include="Resources\tags\motive_bl_\Custom.png" />
-    <Content Include="Resources\tags\motive_bl_\info.txt" />
-    <Content Include="Resources\tags\motive_bl_\Lead Bonus.png" />
-    <Content Include="Resources\tags\motive_bl_\Lead.png" />
-    <Content Include="Resources\tags\motive_bl_\Rhythm Bonus.png" />
-    <Content Include="Resources\tags\motive_bl_\Rhythm.png" />
-    <Content Include="Resources\tags\motive_bl_\Vocal.png" />
-    <Content Include="Resources\tags\motive_nv_prev.png" />
-    <Content Include="Resources\tags\motive_nv_\Background.png" />
-    <Content Include="Resources\tags\motive_nv_\Bass Bonus.png" />
-    <Content Include="Resources\tags\motive_nv_\Bass.png" />
-    <Content Include="Resources\tags\motive_nv_\Custom.png" />
-    <Content Include="Resources\tags\motive_nv_\info.txt" />
-    <Content Include="Resources\tags\motive_nv_\Lead Bonus.png" />
-    <Content Include="Resources\tags\motive_nv_\Lead.png" />
-    <Content Include="Resources\tags\motive_nv_\Rhythm Bonus.png" />
-    <Content Include="Resources\tags\motive_nv_\Rhythm.png" />
-    <Content Include="Resources\tags\motive_nv_\Vocal.png" />
-    <Content Include="Resources\tags\motive_ws_prev.png" />
-    <Content Include="Resources\tags\motive_ws_\Background.png" />
-    <Content Include="Resources\tags\motive_ws_\Bass Bonus.png" />
-    <Content Include="Resources\tags\motive_ws_\Bass.png" />
-    <Content Include="Resources\tags\motive_ws_\Custom.png" />
-    <Content Include="Resources\tags\motive_ws_\info.txt" />
-    <Content Include="Resources\tags\motive_ws_\Lead Bonus.png" />
-    <Content Include="Resources\tags\motive_ws_\Lead.png" />
-    <Content Include="Resources\tags\motive_ws_\Rhythm Bonus.png" />
-    <Content Include="Resources\tags\motive_ws_\Rhythm.png" />
-    <Content Include="Resources\tags\motive_ws_\Vocal.png" />
+    <EmbeddedResource Include="Resources\tags\frackDefaultprev.png" />
+    <EmbeddedResource Include="Resources\tags\frackDefault\Background.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\tags\frackDefault\Bass Bonus.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\tags\frackDefault\Bass.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\tags\frackDefault\Custom.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\tags\frackDefault\info.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\tags\frackDefault\Lead Bonus.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\tags\frackDefault\Lead.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\tags\frackDefault\Rhythm Bonus.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\tags\frackDefault\Rhythm.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\tags\frackDefault\Vocal.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\tags\motive1prev.png" />
+    <EmbeddedResource Include="Resources\tags\motive1\Background.png" />
+    <EmbeddedResource Include="Resources\tags\motive1\Bass Bonus.png" />
+    <EmbeddedResource Include="Resources\tags\motive1\Bass.png" />
+    <EmbeddedResource Include="Resources\tags\motive1\Custom.png" />
+    <EmbeddedResource Include="Resources\tags\motive1\info.txt" />
+    <EmbeddedResource Include="Resources\tags\motive1\Lead Bonus.png" />
+    <EmbeddedResource Include="Resources\tags\motive1\Lead.png" />
+    <EmbeddedResource Include="Resources\tags\motive1\Motive.png" />
+    <EmbeddedResource Include="Resources\tags\motive1\Rhythm Bonus.png" />
+    <EmbeddedResource Include="Resources\tags\motive1\Rhythm.png" />
+    <EmbeddedResource Include="Resources\tags\motive1\Vocal.png" />
+    <EmbeddedResource Include="Resources\tags\motive_bl_prev.png" />
+    <EmbeddedResource Include="Resources\tags\motive_bl_\Background.png" />
+    <EmbeddedResource Include="Resources\tags\motive_bl_\Bass Bonus.png" />
+    <EmbeddedResource Include="Resources\tags\motive_bl_\Bass.png" />
+    <EmbeddedResource Include="Resources\tags\motive_bl_\Custom.png" />
+    <EmbeddedResource Include="Resources\tags\motive_bl_\info.txt" />
+    <EmbeddedResource Include="Resources\tags\motive_bl_\Lead Bonus.png" />
+    <EmbeddedResource Include="Resources\tags\motive_bl_\Lead.png" />
+    <EmbeddedResource Include="Resources\tags\motive_bl_\Rhythm Bonus.png" />
+    <EmbeddedResource Include="Resources\tags\motive_bl_\Rhythm.png" />
+    <EmbeddedResource Include="Resources\tags\motive_bl_\Vocal.png" />
+    <EmbeddedResource Include="Resources\tags\motive_nv_prev.png" />
+    <EmbeddedResource Include="Resources\tags\motive_nv_\Background.png" />
+    <EmbeddedResource Include="Resources\tags\motive_nv_\Bass Bonus.png" />
+    <EmbeddedResource Include="Resources\tags\motive_nv_\Bass.png" />
+    <EmbeddedResource Include="Resources\tags\motive_nv_\Custom.png" />
+    <EmbeddedResource Include="Resources\tags\motive_nv_\info.txt" />
+    <EmbeddedResource Include="Resources\tags\motive_nv_\Lead Bonus.png" />
+    <EmbeddedResource Include="Resources\tags\motive_nv_\Lead.png" />
+    <EmbeddedResource Include="Resources\tags\motive_nv_\Rhythm Bonus.png" />
+    <EmbeddedResource Include="Resources\tags\motive_nv_\Rhythm.png" />
+    <EmbeddedResource Include="Resources\tags\motive_nv_\Vocal.png" />
+    <EmbeddedResource Include="Resources\tags\motive_ws_prev.png" />
+    <EmbeddedResource Include="Resources\tags\motive_ws_\Background.png" />
+    <EmbeddedResource Include="Resources\tags\motive_ws_\Bass Bonus.png" />
+    <EmbeddedResource Include="Resources\tags\motive_ws_\Bass.png" />
+    <EmbeddedResource Include="Resources\tags\motive_ws_\Custom.png" />
+    <EmbeddedResource Include="Resources\tags\motive_ws_\info.txt" />
+    <EmbeddedResource Include="Resources\tags\motive_ws_\Lead Bonus.png" />
+    <EmbeddedResource Include="Resources\tags\motive_ws_\Lead.png" />
+    <EmbeddedResource Include="Resources\tags\motive_ws_\Rhythm Bonus.png" />
+    <EmbeddedResource Include="Resources\tags\motive_ws_\Rhythm.png" />
+    <EmbeddedResource Include="Resources\tags\motive_ws_\Vocal.png" />
     <None Include="Resources\DreddFoxx.png" />
     <EmbeddedResource Include="Resources\HelpGeneral.txt" />
     <EmbeddedResource Include="Resources\HelpSongMgr.txt" />
