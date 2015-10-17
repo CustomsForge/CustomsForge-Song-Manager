@@ -5,6 +5,7 @@ using System.Text;
 using System.Runtime.Serialization;
 namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
 {
+    [Serializable]
     public class SongCollectionException : Exception
     {
         public SongCollectionException()

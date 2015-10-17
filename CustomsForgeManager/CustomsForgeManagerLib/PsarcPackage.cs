@@ -44,10 +44,17 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                 GameVersion.RS2014));
         }
 
+        protected virtual void Dispose(Boolean disposing)
+        {
+            if (disposing)
+                if (FDeleteOnDispose)
+                    DirectoryExtension.SafeDelete(packageDir);
+        }
+
         public void Dispose()
         {
-            if (FDeleteOnDispose)
-                DirectoryExtension.SafeDelete(packageDir);
+            Dispose(true);
+            GC.SuppressFinalize(this); 
         }
     }
 }

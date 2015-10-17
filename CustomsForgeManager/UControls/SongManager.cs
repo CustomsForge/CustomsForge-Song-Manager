@@ -16,6 +16,7 @@ using CustomsForgeManager.Forms;
 using CustomsForgeManager.SongEditor;
 using DataGridViewTools;
 using Newtonsoft.Json;
+using System.Xml;
 using Extensions = CustomsForgeManager.CustomsForgeManagerLib.Extensions;
 
 
@@ -31,6 +32,8 @@ namespace CustomsForgeManager.UControls
         private BindingList<SongData> masterSongCollection = new BindingList<SongData>();
         private int numberOfDLCPendingUpdate = 0;
         private int numberOfDisabledDLC = 0;
+
+        const string SongDataListCurrentVersion = "1";
 
         public SongManager()
         {
@@ -52,28 +55,44 @@ namespace CustomsForgeManager.UControls
             var songsInfoPath = Constants.SongsInfoPath;
 
             // load songs into memory
-            if (!File.Exists(songsInfoPath))
-            {
-                Rescan();
-                Globals.ReloadDuplicates = false;
-                Globals.ReloadRenamer = false;
-                Globals.ReloadSetlistManager = false;
-            }
             try
             {
-                using (var fsSongCollection = new FileStream(songsInfoPath, FileMode.Open, FileAccess.Read, FileShare.Read))
+                bool correctVersion = File.Exists(songsInfoPath);
+                XmlDocument dom = new XmlDocument();
+                if (correctVersion)
                 {
-                    masterSongCollection = fsSongCollection.DeserializeXml(new BindingList<SongData>());
-                    fsSongCollection.Flush(); // seems redundant?
+                    dom.Load(songsInfoPath);
+
+                    var listNode = dom["ArrayOfSongData"];
+                    if (listNode != null)
+                    {
+                        var versionNode = listNode["SongDataList"];
+                        if (versionNode != null)
+                        {
+                            if (versionNode.HasAttribute("version"))
+                               correctVersion = (versionNode.GetAttribute("version") == SongDataListCurrentVersion);                            
+                            listNode.RemoveChild(versionNode);
+                        }
+                    }
+                    if (correctVersion)
+                        masterSongCollection = Extensions.XmlDeserialize<BindingList<SongData>>(listNode.OuterXml); //fsSongCollection.DeserializeXml(new BindingList<SongData>());
+                }
+
+                if (!correctVersion)
+                {
+                    Rescan();
+                    Globals.ReloadDuplicates = false;
+                    Globals.ReloadRenamer = false;
+                    Globals.ReloadSetlistManager = false;
                 }
 
                 if (masterSongCollection == null || masterSongCollection.Count == 0)
                     throw new SongCollectionException(masterSongCollection == null ? "Master Collection = null" : "Master Collection.Count = 0");
 
+
                 Globals.SongCollection = masterSongCollection;
                 Globals.Log("Loaded song collection file ...");
                 PopulateDataGridView();
-                Rescan();
             }
             catch (Exception e)
             {
@@ -88,7 +107,6 @@ namespace CustomsForgeManager.UControls
                 if (Directory.Exists(Constants.WorkDirectory))
                     if (Directory.Exists(Constants.WorkDirectory))
                     {
-                        //  File.Delete(Constants.LogFilePath);
                         File.Delete(Constants.SettingsPath);
                         File.Delete(Constants.SongsInfoPath);
                     }
@@ -112,13 +130,19 @@ namespace CustomsForgeManager.UControls
 
         public void SaveSongCollectionToFile()
         {
-            var songsInfoPath = Constants.SongsInfoPath;
+            //save with some version info
+            var dom = masterSongCollection.XmlSerializeToDom();
+            XmlElement versionNode = dom.CreateElement("SongDataList");
+            versionNode.SetAttribute("version", SongDataListCurrentVersion);
+            dom.DocumentElement.AppendChild(versionNode);
+            dom.Save(Constants.SongsInfoPath);
 
-            using (var fsSc = new FileStream(songsInfoPath, FileMode.Create, FileAccess.Write, FileShare.Write))
-            {
-                masterSongCollection.SerializeXml(fsSc);
-                fsSc.Flush();
-            }
+            //var songsInfoPath = Constants.SongsInfoPath;
+            //using (var fsSc = new FileStream(songsInfoPath, FileMode.Create, FileAccess.Write, FileShare.Write))
+            //{
+            //    masterSongCollection.SerializeXml(fsSc);
+            //    fsSc.Flush();
+            //}
 
             Globals.Log("Saved song collection file ...");
         }

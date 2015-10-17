@@ -15,7 +15,7 @@ using Arrangement = CustomsForgeManager.CustomsForgeManagerLib.Objects.Arrangeme
 
 namespace CustomsForgeManager.CustomsForgeManagerLib
 {
-    public class PsarcBrowser : IDisposable
+    public sealed class PsarcBrowser : IDisposable
     {
         private string FilePath;
         private PSARC archive;

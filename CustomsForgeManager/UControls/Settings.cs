@@ -5,8 +5,6 @@ using System.Linq;
 using System.Windows.Forms;
 using CustomsForgeManager.CustomsForgeManagerLib;
 using CustomsForgeManager.CustomsForgeManagerLib.Objects;
-using CustomsForgeManager.Forms;
-using Microsoft.Win32;
 
 namespace CustomsForgeManager.UControls
 {
@@ -34,7 +32,7 @@ namespace CustomsForgeManager.UControls
             {
                 using (FileStream fs = new FileStream(settingsPath, FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
-                    Globals.MySettings = fs.DeserializeXml(new AppSettings());
+                    Globals.MySettings = fs.DeserializeXml<AppSettings>();
                     Globals.Log("Loaded settings file ...");
                     fs.Flush();
                 }

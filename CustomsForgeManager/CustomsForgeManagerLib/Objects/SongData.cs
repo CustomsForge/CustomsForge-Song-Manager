@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Xml.Serialization;
 using DataGridViewTools;
+using System.ComponentModel;
 
 
 namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass

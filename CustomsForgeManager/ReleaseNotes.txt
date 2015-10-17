@@ -1,4 +1,8 @@
 CFM Release Notes
+1.0.3.5
+-Added songlist version info to songsinfo.xml
+-removed the Only Scan New Songs check box in settings
+
 
 1.0.3.4
 -Fixed sorting problems in the grid (DataGridViewTools : FilteredBindingList)

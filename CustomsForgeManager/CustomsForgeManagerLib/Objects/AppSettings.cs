@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
 
 namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
 {
@@ -27,16 +29,14 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
     [Serializable]
     public class AppSettings : NotifyPropChangedBase
     {
-        string FLogFilePath;
         string FRSInstalledDir;
         bool FRescanOnStartup;
         bool FIncludeRS1DLCs;
         bool FEnabledLogBaloon;
         bool FCheckForUpdateOnScan;
-        string FRenameTemplate;
         bool FFullScreen;
 
-        public string LogFilePath { get { return FLogFilePath; } set { SetPropertyField("LogFilePath", ref FLogFilePath, value); } }
+        public string LogFilePath { get ; set;}
         public string RSInstalledDir { get { return FRSInstalledDir; } set { SetPropertyField("RSInstalledDir", ref FRSInstalledDir, value); } }
         public bool RescanOnStartup { get { return FRescanOnStartup; } set { SetPropertyField("RescanOnStartup", ref FRescanOnStartup, value); } }
         public bool IncludeRS1DLCs { get { return FIncludeRS1DLCs; } set { SetPropertyField("IncludeRS1DLCs", ref FIncludeRS1DLCs, value); } }
@@ -44,15 +44,15 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         public bool CheckForUpdateOnScan { get { return FCheckForUpdateOnScan; } set { SetPropertyField("CheckForUpdateOnScan", ref FCheckForUpdateOnScan, value); } }
         public RADataGridViewSettings ManagerGridSettings { get; set; }
         // TODO: need to impliment saving/loading this
-        public string RenameTemplate { get { return FRenameTemplate; } set { SetPropertyField("RenameTemplate", ref FRenameTemplate, value); } }
+        public string RenameTemplate { get; set; }
         public bool FullScreen { get { return FFullScreen; } set { SetPropertyField("FullScreen", ref FFullScreen, value); } }
-
-        /// <summary>
         /// Initialise settings with default values
         /// </summary>
         public AppSettings()
         {
             LogFilePath = Constants.LogFilePath;
         }
+
+
     }
 }

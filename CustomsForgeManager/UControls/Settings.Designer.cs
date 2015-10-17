@@ -42,13 +42,12 @@ namespace CustomsForgeManager.UControls
             this.colSettingsColumnName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colSettingsColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colSettingsWidth = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.cueRsDir = new CustomsForgeManager.CustomsForgeManagerLib.CustomControls.CueTextBox();
             this.lblSettingsRSDir = new System.Windows.Forms.Label();
             this.btnSettingsLoad = new System.Windows.Forms.Button();
             this.btnSettingsSave = new System.Windows.Forms.Button();
             this.chkEnableLogBallon = new System.Windows.Forms.CheckBox();
-            this.chkRescanNewSongs = new System.Windows.Forms.CheckBox();
             this.chkRescanOnStartup = new System.Windows.Forms.CheckBox();
-            this.cueRsDir = new CustomsForgeManager.CustomsForgeManagerLib.CustomControls.CueTextBox();
             this.tlpSettings_Wrapper.SuspendLayout();
             this.panel5.SuspendLayout();
             this.SuspendLayout();
@@ -65,9 +64,8 @@ namespace CustomsForgeManager.UControls
             this.tlpSettings_Wrapper.Controls.Add(this.lblSettingsRSDir, 0, 0);
             this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsLoad, 0, 7);
             this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsSave, 1, 7);
-            this.tlpSettings_Wrapper.Controls.Add(this.chkEnableLogBallon, 0, 5);
-            this.tlpSettings_Wrapper.Controls.Add(this.chkRescanNewSongs, 0, 4);
             this.tlpSettings_Wrapper.Controls.Add(this.chkRescanOnStartup, 0, 3);
+            this.tlpSettings_Wrapper.Controls.Add(this.chkEnableLogBallon, 0, 4);
             this.tlpSettings_Wrapper.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpSettings_Wrapper.Location = new System.Drawing.Point(0, 0);
             this.tlpSettings_Wrapper.Name = "tlpSettings_Wrapper";
@@ -179,6 +177,19 @@ namespace CustomsForgeManager.UControls
             this.colSettingsWidth.Text = "Column Width";
             this.colSettingsWidth.Width = 150;
             // 
+            // cueRsDir
+            // 
+            this.cueRsDir.Cue = "Click here and specify Rocksmith installation directory";
+            this.cueRsDir.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.cueRsDir.ForeColor = System.Drawing.Color.Gray;
+            this.cueRsDir.Location = new System.Drawing.Point(347, 3);
+            this.cueRsDir.Multiline = true;
+            this.cueRsDir.Name = "cueRsDir";
+            this.cueRsDir.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.cueRsDir.Size = new System.Drawing.Size(516, 19);
+            this.cueRsDir.TabIndex = 8;
+            this.cueRsDir.MouseClick += new System.Windows.Forms.MouseEventHandler(this.cueRsDir_MouseClick);
+            // 
             // lblSettingsRSDir
             // 
             this.lblSettingsRSDir.Anchor = System.Windows.Forms.AnchorStyles.Right;
@@ -230,7 +241,7 @@ namespace CustomsForgeManager.UControls
             this.chkEnableLogBallon.CheckState = System.Windows.Forms.CheckState.Checked;
             this.tlpSettings_Wrapper.SetColumnSpan(this.chkEnableLogBallon, 2);
             this.chkEnableLogBallon.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkEnableLogBallon.Location = new System.Drawing.Point(3, 148);
+            this.chkEnableLogBallon.Location = new System.Drawing.Point(3, 116);
             this.chkEnableLogBallon.Name = "chkEnableLogBallon";
             this.chkEnableLogBallon.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
             this.chkEnableLogBallon.Size = new System.Drawing.Size(143, 19);
@@ -239,22 +250,6 @@ namespace CustomsForgeManager.UControls
             this.chkEnableLogBallon.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.chkEnableLogBallon.UseVisualStyleBackColor = true;
             this.chkEnableLogBallon.CheckedChanged += new System.EventHandler(this.chkEnableLogBaloon_CheckedChanged);
-            // 
-            // chkRescanNewSongs
-            // 
-            this.chkRescanNewSongs.AutoSize = true;
-            this.chkRescanNewSongs.Checked = true;
-            this.chkRescanNewSongs.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.tlpSettings_Wrapper.SetColumnSpan(this.chkRescanNewSongs, 2);
-            this.chkRescanNewSongs.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkRescanNewSongs.Location = new System.Drawing.Point(3, 116);
-            this.chkRescanNewSongs.Name = "chkRescanNewSongs";
-            this.chkRescanNewSongs.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
-            this.chkRescanNewSongs.Size = new System.Drawing.Size(263, 19);
-            this.chkRescanNewSongs.TabIndex = 9;
-            this.chkRescanNewSongs.Text = "Rescan Only New Songs (Faster Loading)";
-            this.chkRescanNewSongs.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.chkRescanNewSongs.UseVisualStyleBackColor = true;
             // 
             // chkRescanOnStartup
             // 
@@ -271,19 +266,6 @@ namespace CustomsForgeManager.UControls
             this.chkRescanOnStartup.Text = "Rescan On Startup";
             this.chkRescanOnStartup.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.chkRescanOnStartup.UseVisualStyleBackColor = true;
-            // 
-            // cueRsDir
-            // 
-            this.cueRsDir.Cue = "Click here and specify Rocksmith installation directory";
-            this.cueRsDir.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.cueRsDir.ForeColor = System.Drawing.Color.Gray;
-            this.cueRsDir.Location = new System.Drawing.Point(347, 3);
-            this.cueRsDir.Multiline = true;
-            this.cueRsDir.Name = "cueRsDir";
-            this.cueRsDir.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.cueRsDir.Size = new System.Drawing.Size(516, 19);
-            this.cueRsDir.TabIndex = 8;
-            this.cueRsDir.MouseClick += new System.Windows.Forms.MouseEventHandler(this.cueRsDir_MouseClick);
             // 
             // Settings
             // 
@@ -316,6 +298,5 @@ namespace CustomsForgeManager.UControls
         private CueTextBox cueRsDir;
         public CheckBox chkIncludeRS1DLC;
         private CheckBox chkEnableLogBallon;
-        private CheckBox chkRescanNewSongs;
     }
 }
