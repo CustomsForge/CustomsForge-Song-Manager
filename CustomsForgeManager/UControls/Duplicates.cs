@@ -34,7 +34,7 @@ namespace CustomsForgeManager.UControls
 
             if (Globals.WorkerFinished == Globals.Tristate.Cancelled)
             {
-                MessageBox.Show("Duplicates need to be rescanned!", Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(CustomsForgeManager.Properties.Resources.DuplicatesNeedToBeRescanned, Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -65,15 +65,15 @@ namespace CustomsForgeManager.UControls
                 PopulateDuplicates();
             }
 
-            Globals.TsLabel_MainMsg.Text = string.Format("Rocksmith Songs Count: {0}", Globals.SongCollection.Count);
+            Globals.TsLabel_MainMsg.Text = string.Format(CustomsForgeManager.Properties.Resources.RocksmithSongsCountFormat, Globals.SongCollection.Count);
             Globals.TsLabel_MainMsg.Visible = true;
             Globals.TsLabel_DisabledCounter.Alignment = ToolStripItemAlignment.Right;
-            Globals.TsLabel_DisabledCounter.Text = String.Format("Duplicates Count: {0}", dgvDups.Rows.Count);
+            Globals.TsLabel_DisabledCounter.Text = String.Format(CustomsForgeManager.Properties.Resources.DuplicatesCountFormat, dgvDups.Rows.Count);
             Globals.TsLabel_DisabledCounter.Visible = true;
 
             Globals.TsLabel_StatusMsg.Visible = false;
             Globals.TsLabel_StatusMsg.Alignment = ToolStripItemAlignment.Right;
-            Globals.TsLabel_StatusMsg.Text = "Show &All";
+            Globals.TsLabel_StatusMsg.Text = CustomsForgeManager.Properties.Resources.ShowAll;
             Globals.TsLabel_StatusMsg.IsLink = true;
             Globals.TsLabel_StatusMsg.LinkBehavior = LinkBehavior.HoverUnderline;
             Globals.TsLabel_StatusMsg.Click += lnkShowAll_Click;
@@ -136,7 +136,7 @@ namespace CustomsForgeManager.UControls
             // this should never happen
             if (String.IsNullOrEmpty(Globals.MySettings.RSInstalledDir))
             {
-                MessageBox.Show("Error: Rocksmith 2014 installation directory setting is null or empty.", Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(CustomsForgeManager.Properties.Resources.ErrorRocksmith2014InstallationDirectorySet, Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -180,7 +180,8 @@ namespace CustomsForgeManager.UControls
                 }
             }
             else
-                MessageBox.Show("Please select (highlight) the song that  " + Environment.NewLine + "you would like information about.", Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(CustomsForgeManager.Properties.Resources.PleaseSelectHighlightTheSongThatNYouWould,
+                    Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void DeleteMoveSelected(object sender, System.EventArgs e)
@@ -191,8 +192,7 @@ namespace CustomsForgeManager.UControls
             var count = dgvDups.Rows.Cast<DataGridViewRow>().Count(row => Convert.ToBoolean(row.Cells["colSelect"].Value));
             if (count == 0)
             {
-                MessageBox.Show("Please select the checkbox next to songs  " + Environment.NewLine +
-                                "that you would like to delete or move.", Constants.ApplicationName,
+                MessageBox.Show(Properties.Resources.PleaseSelectTheCheckboxNextToSongsNthatYou, Constants.ApplicationName,
                                 MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
@@ -200,7 +200,8 @@ namespace CustomsForgeManager.UControls
             var buttonName = (Button)sender;
 
             if (buttonName.Text.ToLower().Contains("delete"))
-                if (MessageBox.Show("Do you really want to delete the selected duplicate CDLC?  " + Environment.NewLine + "Warning:  This can not be undone!", Constants.ApplicationName, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.No)
+                if (MessageBox.Show(
+                    Properties.Resources.DeleteTheSelectedDuplicates, Constants.ApplicationName, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.No)
                     return;
 
             string dupDir = Path.Combine(Globals.MySettings.RSInstalledDir, "cdlc_duplicates");
@@ -225,8 +226,8 @@ namespace CustomsForgeManager.UControls
                                 var dupFileName = String.Format("{0}{1}", Path.GetFileName(filePath), ".duplicate");
                                 var dupFilePath = Path.Combine(dupDir, dupFileName);
                                 File.Move(duplicates[i].Path, dupFilePath);
-                                Globals.Log("Duplicate File: " + dupFileName);
-                                Globals.Log("Moved To: " + dupDir);
+                                Globals.Log(CustomsForgeManager.Properties.Resources.DuplicateFile + dupFileName);
+                                Globals.Log(CustomsForgeManager.Properties.Resources.MovedTo + dupDir);
                             }
                             else
                                 File.Delete(duplicates[i].Path);
@@ -268,7 +269,7 @@ namespace CustomsForgeManager.UControls
                 foreach (DataGridViewRow row in dgvDups.Rows)
                 {
                     var cell = (DataGridViewCheckBoxCell)row.Cells["colSelect"];
-
+                    
                     if (cell.Value == null)
                         cell.Value = false;
 
@@ -277,13 +278,14 @@ namespace CustomsForgeManager.UControls
                         var originalPath = row.Cells["colPath"].Value.ToString();
                         if (!originalPath.ToLower().Contains(String.Format("{0}{1}", Constants.RS1COMP, "disc")))
                         {
+                            var colEnabled = row.Cells["colEnabled"];
                             // confirmed CDLC is disabled in game when using this file naming method
-                            if (row.Cells["colEnabled"].Value.ToString() == "Yes")
+                            if (colEnabled.Value.ToString() == "Yes")
                             {
                                 var disabledDLCPath = originalPath.Replace("_p.psarc", "_p.disabled.psarc");
                                 File.Move(originalPath, disabledDLCPath);
                                 row.Cells["colPath"].Value = disabledDLCPath;
-                                row.Cells["colEnabled"].Value = "No";
+                                colEnabled.Value = "No";
                                 updateSongCollection = true;
                             }
                             else
@@ -291,14 +293,14 @@ namespace CustomsForgeManager.UControls
                                 var enabledDLCPath = originalPath.Replace("_p.disabled.psarc", "_p.psarc");
                                 File.Move(originalPath, enabledDLCPath);
                                 row.Cells["colPath"].Value = enabledDLCPath;
-                                row.Cells["colEnabled"].Value = "Yes";
+                                colEnabled.Value = "Yes";
                                 updateSongCollection = true;
                             }
 
                             cell.Value = "false";
                         }
                         else
-                            Globals.Log("This is a Rocksmith 1 song. It can't be disabled at this moment. (You just can disable all of them!)");
+                            Globals.Log(CustomsForgeManager.Properties.Resources.ThisIsARocksmith1SongItCanTBeDisabled);
                     }
                 }
             }
@@ -418,8 +420,10 @@ namespace CustomsForgeManager.UControls
             foreach (DataGridViewRow row in dgvDups.Rows)
                 row.DefaultCellStyle.BackColor = Color.Empty;
 
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            dataGridViewCellStyle1.BackColor = Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle()
+            { 
+                BackColor = Color.FromArgb(224, 224, 224) 
+            };
             dgvDups.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
 
             UpdateToolStrip();
@@ -441,7 +445,7 @@ namespace CustomsForgeManager.UControls
             if (bindingCompleted && !dgvPainted)
             {
                 dgvPainted = true;
-                Globals.Log("dgvDups Painted ... ");
+                Globals.DebugLog("dgvDups Painted ... ");
                 // it is safe to do cell formatting (coloring)
                 // here
             }

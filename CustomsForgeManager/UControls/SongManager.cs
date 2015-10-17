@@ -78,19 +78,17 @@ namespace CustomsForgeManager.UControls
                         masterSongCollection = Extensions.XmlDeserialize<BindingList<SongData>>(listNode.OuterXml); //fsSongCollection.DeserializeXml(new BindingList<SongData>());
                 }
 
-                if (!correctVersion)
-                {
-                    Rescan();
-                    Globals.ReloadDuplicates = false;
-                    Globals.ReloadRenamer = false;
-                    Globals.ReloadSetlistManager = false;
-                }
+                Globals.SongCollection = masterSongCollection;
 
+               
+                Rescan();
+                Globals.ReloadDuplicates = false;
+                Globals.ReloadRenamer = false;
+                Globals.ReloadSetlistManager = false;
+              
                 if (masterSongCollection == null || masterSongCollection.Count == 0)
                     throw new SongCollectionException(masterSongCollection == null ? "Master Collection = null" : "Master Collection.Count = 0");
 
-
-                Globals.SongCollection = masterSongCollection;
                 Globals.Log("Loaded song collection file ...");
                 PopulateDataGridView();
             }
@@ -118,13 +116,9 @@ namespace CustomsForgeManager.UControls
         public void PopulateSongManager()
         {
             Globals.Log("Populating SongManager GUI ...");
-
             // Hide main dgvSongsMaster until load completes
             dgvSongsMaster.Visible = false;
-
-            if (Globals.MySettings.RescanOnStartup)
-                Rescan();
-
+            //Load Song Collection from file must be called before
             LoadSongCollectionFromFile();
         }
 

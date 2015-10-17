@@ -382,6 +382,7 @@
     <Content Include="ReleaseNotes.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\DreddFoxx.png" />
     <EmbeddedResource Include="Resources\HelpGeneral.txt" />
     <EmbeddedResource Include="Resources\HelpSongMgr.txt" />
     <None Include="Resources\minus.png" />

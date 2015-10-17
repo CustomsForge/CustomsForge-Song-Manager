@@ -17,7 +17,7 @@ using RocksmithToolkitLib;
 //
 namespace CustomsForgeManager.CustomsForgeManagerLib
 {
-    class Worker : IDisposable
+    sealed class Worker : IDisposable
     {
         private AbortableBackgroundWorker bWorker;
         private Stopwatch counterStopwatch = new Stopwatch();
@@ -72,13 +72,13 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
         {
             Extensions.InvokeIfRequired(workOrder, delegate { Globals.TsLabel_Cancel.Visible = false; });
 
-            if (e.Cancelled || Globals.TsLabel_Cancel.Text == "Cancelling")
+            if (e.Cancelled || Globals.TsLabel_Cancel.Text == "Canceling")
             {
                 // bWorker.Abort(); // don't use abort
                 bWorker.Dispose();
                 bWorker = null;
-                Globals.Log("User cancelled process ...");
-                Globals.TsLabel_MainMsg.Text = "User Cancelled";
+                Globals.Log("User canceled process ...");
+                Globals.TsLabel_MainMsg.Text = "User Canceled";
                 Globals.WorkerFinished = Globals.Tristate.Cancelled;
             }
             else
@@ -121,19 +121,16 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
 
             counterStopwatch.Restart();
             int songCounter = 0;
-            Globals.Log("Removing deleted songs");
-
-
             int oldCount = bwSongCollection.Count();
             bwSongCollection.RemoveAll(sd => !File.Exists(sd.Path));
             int removed = bwSongCollection.Count() - oldCount;
             if (removed > 0)
-                Globals.Log(String.Format("Remove {0} songs.", removed));
+                Globals.Log(String.Format("Removed {0} obsolete songs.", removed));
 
             Globals.DebugLog("Parsing files");
             foreach (string file in fileList)
             {
-                if (bWorker.CancellationPending || Globals.TsLabel_Cancel.Text == "Cancelling")
+                if (bWorker.CancellationPending || Globals.TsLabel_Cancel.Text == "Canceling")
                 {
                     bWorker.CancelAsync();
                     e.Cancel = true;
@@ -199,9 +196,9 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                 var corFilePath = Path.Combine(corDir, corFileName);
 
                 if (ex.Message.StartsWith("Error reading JObject"))
-                    Globals.Log("<ERROR>: " + filePath + "  -  " + "CDLC is corrupt!");
+                    Globals.Log(string.Format("<ERROR>: {0}  -  CDLC is corrupt!", filePath));
                 else
-                    Globals.Log("<ERROR>: " + filePath + "  -  " + ex.Message);
+                    Globals.Log(string.Format("<ERROR>: {0}  -  {1}", filePath, ex.Message));
 
                 Globals.Log("File has been moved to: " + corDir);
 
@@ -218,7 +215,11 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
             Globals.TuningXml.Clear();
         }
 
-        public void Dispose() { }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "bWorker")]
+        public void Dispose() 
+        { 
+            
+        }
 
         // Invoke Template if needed
         // Extensions.InvokeIfRequired(workOrder, delegate

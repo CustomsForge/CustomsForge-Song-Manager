@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Windows.Forms;
 using CustomsForgeManager.CustomsForgeManagerLib.Objects;
 using CustomsForgeManager.Forms;
+using System.Drawing;
 
 namespace CustomsForgeManager.UControls
 {
@@ -23,7 +24,7 @@ namespace CustomsForgeManager.UControls
 
         private void btnEOFSite_Click(object sender, EventArgs e)
         {
-            Process.Start("http://ignition.customsforge.com/eof");
+            Process.Start(Constants.EOFURL);
         }
 
         private void btnRSTKSite_Click(object sender, EventArgs e)
@@ -31,25 +32,21 @@ namespace CustomsForgeManager.UControls
             Process.Start("http://www.rscustom.net/");
         }
 
-        private void lnkDarjuszProfile_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            Process.Start("http://customsforge.com/user/5299-darjusz/");
-        }
 
         private void lnkDonations_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start("http://customsforge.com/donate/");
-            Process.Start("http://goo.gl/jREeJF");
+            Process.Start(Constants.CustomsForgeURL + "donate/");
+            Process.Start(Constants.CustomsForgeDonateURL);
         }
 
         private void lnkFAQ_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start("http://customsforge.com/faq/");
+            Process.Start(Constants.CustomsForgeURL + "faq/");
         }
 
         private void lnkForum_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start("http://customsforge.com/forum/81-customsforge-song-manager/");
+            Process.Start(Constants.CustomsForgeURL + "/forum/81-customsforge-song-manager/");
         }
 
         private void lnkHelp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -71,23 +68,19 @@ namespace CustomsForgeManager.UControls
 
         private void lnkHomePage_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start("http://customsforge.com/");
+            Process.Start(Constants.CustomsForgeURL);
         }
 
         private void lnkIgnition_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start("http://ignition.customsforge.com/");
+            Process.Start(Constants.IgnitionURL);
         }
 
-        private void lnkLovromanProfile_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            Process.Start("http://customsforge.com/user/43194-lovroman/");
-        }
 
         private void lnkOthers_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             // TODO: complete this
-            Process.Start("http://customsforge.com/user/345-forgeon/");
+            Process.Start(String.Format(Constants.CustomsForgeUserURL_Format, "345-forgeon"));
         }
 
         private void lnkReleaseNotes_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -103,37 +96,77 @@ namespace CustomsForgeManager.UControls
 
         private void lnkRequests_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start("http://requests.customsforge.com/?b");
+            Process.Start(Constants.RequestURL + "/?b");
         }
 
-        private void lnkUnleashedProfile_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            Process.Start("http://customsforge.com/user/1-unleashed2k/");
-        }
 
         private void lnkVideos_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start("http://customsforge.com/videos/");
+            Process.Start(Constants.CustomsForgeURL + "videos/");
         }
 
-        private void lnkZerkzProfile_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            Process.Start("http://customsforge.com/user/20759-zerkz/");
-        }
 
         private void picCF_Click(object sender, EventArgs e)
         {
             Process.Start("http://search.customsforge.com/");
         }
 
-        private void lnkCozy1Profile_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+    }
+
+
+    public sealed class ProfileLinkLabel : LinkLabel
+    {
+        Bitmap img;
+        Boolean? hasImage;
+        public string URL { get; set; }
+        public string ResourceImg { get; set; }
+
+        public About GetAboutOwner()
         {
-            Process.Start("http://customsforge.com/user/4293-cozy1/");
+            var parent = Parent;
+            while (parent != null)
+            {
+                if (parent is About)
+                    return (About)parent;
+                parent = parent.Parent;
+            }
+            return null;
         }
 
-        private void lnkDreddFoxxProfile_LinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e)
+        protected override void OnLinkClicked(LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start("http://customsforge.com/user/40453-dreddfoxx/");
+            if (!String.IsNullOrEmpty(URL))
+                Process.Start(String.Format(Constants.CustomsForgeUserURL_Format, URL));
+        }
+
+        protected override void OnMouseEnter(EventArgs e)
+        {
+            if (GetAboutOwner() == null)
+                return;
+
+            if (img == null && !hasImage.HasValue)
+            {
+                img = (Bitmap)Properties.Resources.ResourceManager.GetObject(String.IsNullOrEmpty(ResourceImg) ? 
+                    Text : ResourceImg);
+                hasImage = img != null;
+            }
+            if (hasImage.Value)
+            {
+                var pbProfile = GetAboutOwner().pbProfile;
+                pbProfile.Image = img;
+                var p = new Point(Left + Width + 10, Top + 20);
+                pbProfile.Location = p;
+                pbProfile.Visible = true;
+                pbProfile.BringToFront();
+            }
+        }
+
+        protected override void OnMouseLeave(EventArgs e)
+        {
+            if (GetAboutOwner() == null)
+                return;
+            GetAboutOwner().pbProfile.Visible = false;
         }
     }
+
 }

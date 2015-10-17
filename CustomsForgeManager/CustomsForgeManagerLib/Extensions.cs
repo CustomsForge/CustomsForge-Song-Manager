@@ -285,7 +285,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
         public static List<string> FilesList(string path, bool includeRS1Pack = false)
         {
             if (string.IsNullOrEmpty(path))
-                throw new Exception("<ERROR>: No path provided for file scanning");
+                throw new Exception(CustomsForgeManager.Properties.Resources.ERRORNoPathProvidedForFileScanning);
 
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
@@ -329,7 +329,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
         {
             var rocksmithProcess = Process.GetProcessesByName("Rocksmith2014.exe");
             if (rocksmithProcess.Length > 0)
-                MessageBox.Show("Rocksmith is already running!");
+                MessageBox.Show(CustomsForgeManager.Properties.Resources.RocksmithIsAlreadyRunning);
             else
                 Process.Start("steam://rungameid/221680");
         }
@@ -381,7 +381,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
             if (!String.IsNullOrEmpty(result))
                 return result;
 
-            Globals.Log("RS2014 Installation Directory not found in Registry");
+            Globals.Log(CustomsForgeManager.Properties.Resources.RS2014InstallationDirectoryNotFoundInRegis);
 
 
             return String.Empty;
@@ -459,11 +459,11 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                     FastZip fz = new FastZip();
                     fz.CreateZip(backupPath, userProfilePath, true, "");
 
-                    Globals.Log("Created user profile backup:");
+                    Globals.Log(CustomsForgeManager.Properties.Resources.CreatedUserProfileBackup);
                     Globals.Log(backupPath);
                 }
                 else
-                    Globals.Log("Rocksmith 2014 user profile not found!");
+                    Globals.Log(CustomsForgeManager.Properties.Resources.Rocksmith2014UserProfileNotFound);
             }
             catch (Exception ex)
             {
@@ -474,12 +474,12 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
 
         public static void UploadToCustomsForge()
         {
-            Process.Start("http://ignition.customsforge.com/creators/submit");
+            Process.Start(Constants.IgnitionURL + "/creators/submit");
         }
 
         public static void RequestSongOnCustomsForge()
         {
-            Process.Start("http://requests.customsforge.com/");
+            Process.Start(Constants.RequestURL);
         }
 
 

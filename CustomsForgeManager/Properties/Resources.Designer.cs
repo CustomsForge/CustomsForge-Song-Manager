@@ -61,12 +61,32 @@ namespace CustomsForgeManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to A setlist named &apos;{0}&apos; already exists!.
+        /// </summary>
+        internal static string ASetlistNamedX0AlreadyExists {
+            get {
+                return ResourceManager.GetString("ASetlistNamedX0AlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap backup {
             get {
                 object obj = ResourceManager.GetObject("backup", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Can not include RS1 compatibility files as individual 
+        /// songs in a setlist.  Please return to SongManager and 
+        ///rescan before returning to Setlist Manager. .
+        /// </summary>
+        internal static string CanNotIncludeRS1CompatibilityFiles {
+            get {
+                return ResourceManager.GetString("CanNotIncludeRS1CompatibilityFiles", resourceCulture);
             }
         }
         
@@ -111,6 +131,15 @@ namespace CustomsForgeManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Created user profile backup:.
+        /// </summary>
+        internal static string CreatedUserProfileBackup {
+            get {
+                return ResourceManager.GetString("CreatedUserProfileBackup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap dardev {
@@ -131,6 +160,16 @@ namespace CustomsForgeManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Do you really want to delete the selected duplicate CDLC?
+        ///Warning:  This can not be undone!.
+        /// </summary>
+        internal static string DeleteTheSelectedDuplicates {
+            get {
+                return ResourceManager.GetString("DeleteTheSelectedDuplicates", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap disable {
@@ -141,12 +180,78 @@ namespace CustomsForgeManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &apos;Disabled&apos; is a Reserved Word ...
+        ///Setlist names may not contain
+        ///any form of the word &apos;disabled&apos;.
+        /// </summary>
+        internal static string DisabledIsAReservedWord {
+            get {
+                return ResourceManager.GetString("DisabledIsAReservedWord", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap DreddFoxx {
+            get {
+                object obj = ResourceManager.GetObject("DreddFoxx", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Duplicate File: .
+        /// </summary>
+        internal static string DuplicateFile {
+            get {
+                return ResourceManager.GetString("DuplicateFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Duplicates Count: {0}.
+        /// </summary>
+        internal static string DuplicatesCountFormat {
+            get {
+                return ResourceManager.GetString("DuplicatesCountFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Duplicates need to be rescanned!.
+        /// </summary>
+        internal static string DuplicatesNeedToBeRescanned {
+            get {
+                return ResourceManager.GetString("DuplicatesNeedToBeRescanned", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap edit {
             get {
                 object obj = ResourceManager.GetObject("edit", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;ERROR&gt;: No path provided for file scanning.
+        /// </summary>
+        internal static string ERRORNoPathProvidedForFileScanning {
+            get {
+                return ResourceManager.GetString("ERRORNoPathProvidedForFileScanning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error: Rocksmith 2014 installation directory setting is null or empty..
+        /// </summary>
+        internal static string ErrorRocksmith2014InstallationDirectorySet {
+            get {
+                return ResourceManager.GetString("ErrorRocksmith2014InstallationDirectorySet", resourceCulture);
             }
         }
         
@@ -281,6 +386,44 @@ namespace CustomsForgeManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Moved To: .
+        /// </summary>
+        internal static string MovedTo {
+            get {
+                return ResourceManager.GetString("MovedTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter setlist name.
+        /// </summary>
+        internal static string PleaseEnterSetlistName {
+            get {
+                return ResourceManager.GetString("PleaseEnterSetlistName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please select (highlight) the song that 
+        /// you would like information about..
+        /// </summary>
+        internal static string PleaseSelectHighlightTheSongThatNYouWould {
+            get {
+                return ResourceManager.GetString("PleaseSelectHighlightTheSongThatNYouWould", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please select the checkbox next to songs 
+        ///that you would like to delete or move..
+        /// </summary>
+        internal static string PleaseSelectTheCheckboxNextToSongsNthatYou {
+            get {
+                return ResourceManager.GetString("PleaseSelectTheCheckboxNextToSongsNthatYou", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap plus {
@@ -331,6 +474,42 @@ namespace CustomsForgeManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Rocksmith 2014 user profile not found!.
+        /// </summary>
+        internal static string Rocksmith2014UserProfileNotFound {
+            get {
+                return ResourceManager.GetString("Rocksmith2014UserProfileNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rocksmith is already running!.
+        /// </summary>
+        internal static string RocksmithIsAlreadyRunning {
+            get {
+                return ResourceManager.GetString("RocksmithIsAlreadyRunning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rocksmith Songs Count: {0}.
+        /// </summary>
+        internal static string RocksmithSongsCountFormat {
+            get {
+                return ResourceManager.GetString("RocksmithSongsCountFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RS2014 Installation Directory not found in Registry.
+        /// </summary>
+        internal static string RS2014InstallationDirectoryNotFoundInRegis {
+            get {
+                return ResourceManager.GetString("RS2014InstallationDirectoryNotFoundInRegis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap save {
@@ -341,11 +520,30 @@ namespace CustomsForgeManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The song data has changed.{0} Are you sure that you want to close before saving?.
+        ///   Looks up a localized string similar to Show &amp;All.
+        /// </summary>
+        internal static string ShowAll {
+            get {
+                return ResourceManager.GetString("ShowAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The song data has changed.
+        ///Are you sure that you want to close before saving?.
         /// </summary>
         internal static string SongDataModifiedConfirmation {
             get {
                 return ResourceManager.GetString("SongDataModifiedConfirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Songs Used In Setlists Count: {0}.
+        /// </summary>
+        internal static string SongsUsedInSetlistsCountFormat {
+            get {
+                return ResourceManager.GetString("SongsUsedInSetlistsCountFormat", resourceCulture);
             }
         }
         
@@ -356,6 +554,34 @@ namespace CustomsForgeManager.Properties {
             get {
                 object obj = ResourceManager.GetObject("StartRs", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This is a Rocksmith 1 song. It can&apos;t be disabled at this moment. (You just can disable all of them!).
+        /// </summary>
+        internal static string ThisIsARocksmith1SongItCanTBeDisabled {
+            get {
+                return ResourceManager.GetString("ThisIsARocksmith1SongItCanTBeDisabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This song is included in a setlist.
+        ///Please use Setlist Songs to enable/disable setlist songs..
+        /// </summary>
+        internal static string ThisSongIsIncludedInASetlist {
+            get {
+                return ResourceManager.GetString("ThisSongIsIncludedInASetlist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to create a new setlist: \nError: .
+        /// </summary>
+        internal static string UnableToCreateANewSetlistError {
+            get {
+                return ResourceManager.GetString("UnableToCreateANewSetlistError", resourceCulture);
             }
         }
         
@@ -386,6 +612,15 @@ namespace CustomsForgeManager.Properties {
             get {
                 object obj = ResourceManager.GetObject("upload", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Warning ... Prevented game hanging{0}{0}Song file: {1}{0}Has already been added to setlest: {2}  {0}First remove the song from the setlist and try again..
+        /// </summary>
+        internal static string WarningPreventedGameHangingFormat {
+            get {
+                return ResourceManager.GetString("WarningPreventedGameHangingFormat", resourceCulture);
             }
         }
     }

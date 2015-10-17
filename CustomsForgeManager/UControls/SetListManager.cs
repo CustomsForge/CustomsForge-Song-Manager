@@ -93,7 +93,7 @@ namespace CustomsForgeManager.UControls
                 PopulateSetlistManager();
             }
 
-            Globals.TsLabel_MainMsg.Text = string.Format("Rocksmith Songs Count: {0}", songCollection.Count);
+            Globals.TsLabel_MainMsg.Text = string.Format(Properties.Resources.RocksmithSongsCountFormat, songCollection.Count);
             Globals.TsLabel_MainMsg.Visible = true;
             Globals.TsLabel_DisabledCounter.Alignment = ToolStripItemAlignment.Right;
             Globals.TsLabel_DisabledCounter.Text = String.Format("Songs Used In Setlists Count: {0}", "0");
@@ -101,7 +101,7 @@ namespace CustomsForgeManager.UControls
 
             Globals.TsLabel_StatusMsg.Visible = false;
             Globals.TsLabel_StatusMsg.Alignment = ToolStripItemAlignment.Right;
-            Globals.TsLabel_StatusMsg.Text = "Show &All";
+            Globals.TsLabel_StatusMsg.Text = Properties.Resources.ShowAll;
             Globals.TsLabel_StatusMsg.IsLink = true;
             Globals.TsLabel_StatusMsg.LinkBehavior = LinkBehavior.HoverUnderline;
             Globals.TsLabel_StatusMsg.Click += lnkShowAll_Click;
@@ -254,10 +254,8 @@ namespace CustomsForgeManager.UControls
             if (Globals.MySettings.IncludeRS1DLCs)
             {
                 Globals.Settings.chkIncludeRS1DLC.Checked = false;
-                // ask user to rescan song collection to remove all RS1 Compatiblity songs
-                MessageBox.Show("Can not include RS1 compatiblity files as individual" + Environment.NewLine +
-                                "songs in a setlist.  Please return to SongManager and  " + Environment.NewLine +
-                                "rescan before returning to Setlist Manager. ", MESSAGE_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                // ask user to rescan song collection to remove all RS1 Compatibility songs
+                MessageBox.Show(Properties.Resources.CanNotIncludeRS1CompatibilityFiles, MESSAGE_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Hand);
                 return false;
             }
 
@@ -308,8 +306,10 @@ namespace CustomsForgeManager.UControls
             foreach (DataGridViewRow row in dgvSongs.Rows)
                 row.DefaultCellStyle.BackColor = Color.Empty;
 
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            dataGridViewCellStyle1.BackColor = Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle() 
+            {
+                BackColor = Color.FromArgb(224, 224, 224) 
+            };
             dgvSongs.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
 
             dgvSongs.Refresh();
@@ -320,7 +320,7 @@ namespace CustomsForgeManager.UControls
             // this should never happen
             if (String.IsNullOrEmpty(Globals.MySettings.RSInstalledDir))
             {
-                MessageBox.Show("Error: Rocksmith 2014 installation directory setting is null or empty.", Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(Properties.Resources.ErrorRocksmith2014InstallationDirectorySet, Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -378,10 +378,11 @@ namespace CustomsForgeManager.UControls
                     // check if song has already been added to a setlist
                     if (!string.Equals(dlcDir, Path.GetDirectoryName(dlcSongPath), StringComparison.InvariantCultureIgnoreCase))
                     {
-                        MessageBox.Show(@"Warning ... Prevented game hanging" + Environment.NewLine + Environment.NewLine +
-                                        @"Song file: " + Path.GetFileName(dlcSongPath) + Environment.NewLine +
-                                        @"Has already been added to setlest: " + Path.GetDirectoryName(dlcSongPath) + @"  " + Environment.NewLine +
-                                        @"First remove the song from the setlist and try again.", MESSAGE_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show(string.Format(
+                            Properties.Resources.WarningPreventedGameHangingFormat, 
+                            Environment.NewLine, Path.GetFileName(dlcSongPath), 
+                            Path.GetDirectoryName(dlcSongPath)), MESSAGE_CAPTION, 
+                            MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         continue;
                     }
 
@@ -398,7 +399,7 @@ namespace CustomsForgeManager.UControls
 
                         // update songsInSetlist count
                         songsInSetlists++;
-                        Globals.TsLabel_DisabledCounter.Text = String.Format("Songs Used In Setlists Count: {0}", songsInSetlists);
+                        Globals.TsLabel_DisabledCounter.Text = String.Format(Properties.Resources.SongsUsedInSetlistsCountFormat, songsInSetlists);
                     }
                     catch (IOException ex)
                     {
@@ -418,15 +419,13 @@ namespace CustomsForgeManager.UControls
 
         private void btnCreateSetlist_Click(object sender, System.EventArgs e)
         {
-            string setlistName = Microsoft.VisualBasic.Interaction.InputBox("Please enter setlist name", "Setlist name");
+            string setlistName = Microsoft.VisualBasic.Interaction.InputBox(Properties.Resources.PleaseEnterSetlistName, "Setlist name");
             if (String.IsNullOrEmpty(setlistName))
                 return;
 
             if (setlistName.ToLower().Contains("disabled"))
             {
-                MessageBox.Show(@"'Disabled' is a Reserved Word ..." + Environment.NewLine +
-                    @"Setlist names may not contain" + Environment.NewLine +
-                    @"any form of the word 'disabled'", MESSAGE_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                MessageBox.Show(Properties.Resources.DisabledIsAReservedWord, MESSAGE_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Hand);
                 return;
             }
 
@@ -440,11 +439,11 @@ namespace CustomsForgeManager.UControls
                         dgvSetlists.Rows.Add(false, "Yes", setlistName); // interesting feature ;)
                 }
                 else
-                    MessageBox.Show(@"A setlist named '" + setlistName + @"' already exists!", MESSAGE_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                    MessageBox.Show(string.Format(Properties.Resources.ASetlistNamedX0AlreadyExists, setlistName), MESSAGE_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Hand);
             }
             catch (IOException ex)
             {
-                MessageBox.Show(@"Unable to create a new setlist: " + setlistName + Environment.NewLine + @"Error: " + ex.Message, MESSAGE_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(Properties.Resources.UnableToCreateANewSetlistError + ex.Message, MESSAGE_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -484,8 +483,7 @@ namespace CustomsForgeManager.UControls
                         }
                     }
                     else
-                        MessageBox.Show("This song is included in a setlist." + Environment.NewLine +
-                                        "Please use Setlist Songs to enable/disable setlist songs.  ");
+                        MessageBox.Show(Properties.Resources.ThisSongIsIncludedInASetlist);
 
                 }
             }

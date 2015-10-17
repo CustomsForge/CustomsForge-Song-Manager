@@ -1,4 +1,13 @@
 CFM Release Notes
+1.0.3.6
+-Removed the Scan on Startup option, changed how the scanning logic works on startup
+-Added vertical scrollbox to duplicates
+-fixed a bug in Duplicates when Enabling/Disabling
+-Added an image to show a teams profile picture when hovering over a link in the about box. And added a new ProfileLinkLabel class.
+-changed some of the static getter properties in Constants to real constants
+-added some URL constants
+-started to move strings into resources.resx for localization.
+
 1.0.3.5
 -Added songlist version info to songsinfo.xml
 -removed the Only Scan New Songs check box in settings

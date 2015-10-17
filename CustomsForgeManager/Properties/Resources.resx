@@ -212,10 +212,118 @@
     <value>..\Resources\plus.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="SongDataModifiedConfirmation" xml:space="preserve">
-    <value>The song data has changed.{0} Are you sure that you want to close before saving?</value>
+    <value>The song data has changed.
+Are you sure that you want to close before saving?</value>
     <comment>SongDataModifiedConfirmation description</comment>
   </data>
   <data name="upload" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\upload.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DreddFoxx" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DreddFoxx.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ThisIsARocksmith1SongItCanTBeDisabled" xml:space="preserve">
+    <value>This is a Rocksmith 1 song. It can't be disabled at this moment. (You just can disable all of them!)</value>
+    <comment>ThisIsARocksmith1SongItCanTBeDisabled description</comment>
+  </data>
+  <data name="DeleteTheSelectedDuplicates" xml:space="preserve">
+    <value>Do you really want to delete the selected duplicate CDLC?
+Warning:  This can not be undone!</value>
+    <comment>Do you really want to delete the selected duplicate CDLC?</comment>
+  </data>
+  <data name="PleaseSelectTheCheckboxNextToSongsNthatYou" xml:space="preserve">
+    <value>Please select the checkbox next to songs 
+that you would like to delete or move.</value>
+    <comment>PleaseSelectTheCheckboxNextToSongsNthatYou description</comment>
+  </data>
+  <data name="PleaseSelectHighlightTheSongThatNYouWould" xml:space="preserve">
+    <value>Please select (highlight) the song that 
+ you would like information about.</value>
+    <comment>PleaseSelectHighlightTheSongThatNYouWould description</comment>
+  </data>
+  <data name="ErrorRocksmith2014InstallationDirectorySet" xml:space="preserve">
+    <value>Error: Rocksmith 2014 installation directory setting is null or empty.</value>
+    <comment>ErrorRocksmith2014InstallationDirectorySet description</comment>
+  </data>
+  <data name="DuplicatesNeedToBeRescanned" xml:space="preserve">
+    <value>Duplicates need to be rescanned!</value>
+    <comment>DuplicatesNeedToBeRescanned description</comment>
+  </data>
+  <data name="RocksmithSongsCountFormat" xml:space="preserve">
+    <value>Rocksmith Songs Count: {0}</value>
+    <comment>RocksmithSongsCountFormat description</comment>
+  </data>
+  <data name="DuplicatesCountFormat" xml:space="preserve">
+    <value>Duplicates Count: {0}</value>
+    <comment>DuplicatesCountFormat description</comment>
+  </data>
+  <data name="ShowAll" xml:space="preserve">
+    <value>Show &amp;All</value>
+    <comment>ShowAll description</comment>
+  </data>
+  <data name="DuplicateFile" xml:space="preserve">
+    <value>Duplicate File: </value>
+    <comment>DuplicateFile description</comment>
+  </data>
+  <data name="MovedTo" xml:space="preserve">
+    <value>Moved To: </value>
+    <comment>MovedTo description</comment>
+  </data>
+  <data name="ERRORNoPathProvidedForFileScanning" xml:space="preserve">
+    <value>&lt;ERROR&gt;: No path provided for file scanning</value>
+    <comment>ERRORNoPathProvidedForFileScanning description</comment>
+  </data>
+  <data name="RocksmithIsAlreadyRunning" xml:space="preserve">
+    <value>Rocksmith is already running!</value>
+    <comment>RocksmithIsAlreadyRunning description</comment>
+  </data>
+  <data name="Rocksmith2014UserProfileNotFound" xml:space="preserve">
+    <value>Rocksmith 2014 user profile not found!</value>
+    <comment>Rocksmith2014UserProfileNotFound description</comment>
+  </data>
+  <data name="CreatedUserProfileBackup" xml:space="preserve">
+    <value>Created user profile backup:</value>
+    <comment>CreatedUserProfileBackup description</comment>
+  </data>
+  <data name="RS2014InstallationDirectoryNotFoundInRegis" xml:space="preserve">
+    <value>RS2014 Installation Directory not found in Registry</value>
+    <comment>RS2014InstallationDirectoryNotFoundInRegis description</comment>
+  </data>
+  <data name="CanNotIncludeRS1CompatibilityFiles" xml:space="preserve">
+    <value>Can not include RS1 compatibility files as individual 
+ songs in a setlist.  Please return to SongManager and 
+rescan before returning to Setlist Manager. </value>
+    <comment>CanNotIncludeRS1CompatibilityFiles description</comment>
+  </data>
+  <data name="WarningPreventedGameHangingFormat" xml:space="preserve">
+    <value>Warning ... Prevented game hanging{0}{0}Song file: {1}{0}Has already been added to setlest: {2}  {0}First remove the song from the setlist and try again.</value>
+    <comment>WarningPreventedGameHangingFormat description</comment>
+  </data>
+  <data name="SongsUsedInSetlistsCountFormat" xml:space="preserve">
+    <value>Songs Used In Setlists Count: {0}</value>
+    <comment>SongsUsedInSetlistsCountFormat description</comment>
+  </data>
+  <data name="ThisSongIsIncludedInASetlist" xml:space="preserve">
+    <value>This song is included in a setlist.
+Please use Setlist Songs to enable/disable setlist songs.</value>
+    <comment>ThisSongIsIncludedInASetlist description</comment>
+  </data>
+  <data name="UnableToCreateANewSetlistError" xml:space="preserve">
+    <value>Unable to create a new setlist: \nError: </value>
+    <comment>UnableToCreateANewSetlistError description</comment>
+  </data>
+  <data name="ASetlistNamedX0AlreadyExists" xml:space="preserve">
+    <value>A setlist named '{0}' already exists!</value>
+    <comment>ASetlistNamedX0AlreadyExists description</comment>
+  </data>
+  <data name="PleaseEnterSetlistName" xml:space="preserve">
+    <value>Please enter setlist name</value>
+    <comment>PleaseEnterSetlistName description</comment>
+  </data>
+  <data name="DisabledIsAReservedWord" xml:space="preserve">
+    <value>'Disabled' is a Reserved Word ...
+Setlist names may not contain
+any form of the word 'disabled'</value>
+    <comment>DisabledIsAReservedWord description</comment>
   </data>
 </root>

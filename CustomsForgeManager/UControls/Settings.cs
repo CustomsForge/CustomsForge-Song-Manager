@@ -38,7 +38,6 @@ namespace CustomsForgeManager.UControls
                 }
 
                 cueRsDir.Text = Globals.MySettings.RSInstalledDir;
-                chkRescanOnStartup.Checked = Globals.MySettings.RescanOnStartup;
                 chkIncludeRS1DLC.Checked = Globals.MySettings.IncludeRS1DLCs;
                 chkEnableLogBallon.Checked = Globals.MySettings.EnabledLogBaloon;
 
@@ -65,7 +64,6 @@ namespace CustomsForgeManager.UControls
 
             // initialize variables
             cueRsDir.Text = Globals.MySettings.RSInstalledDir;
-            chkRescanOnStartup.Checked = Globals.MySettings.RescanOnStartup;
             chkIncludeRS1DLC.Checked = Globals.MySettings.IncludeRS1DLCs;
             chkEnableLogBallon.Checked = Globals.MySettings.EnabledLogBaloon;
         }
@@ -78,7 +76,6 @@ namespace CustomsForgeManager.UControls
 
             Globals.MySettings.LogFilePath = Constants.LogFilePath;
             Globals.MySettings.RSInstalledDir = GetInstallDirFromRegistry();
-            Globals.MySettings.RescanOnStartup = false;
             Globals.MySettings.IncludeRS1DLCs = false;  // changed to false (fewer issues)
 
             //Baloons are really annoying on win10
@@ -88,7 +85,6 @@ namespace CustomsForgeManager.UControls
             Globals.MySettings.EnabledLogBaloon = false; // fewer notfication issues
 
             cueRsDir.Text = Globals.MySettings.RSInstalledDir;
-            chkRescanOnStartup.Checked = Globals.MySettings.RescanOnStartup;
             chkIncludeRS1DLC.Checked = Globals.MySettings.IncludeRS1DLCs;
             chkEnableLogBallon.Checked = Globals.MySettings.EnabledLogBaloon;
 
@@ -103,7 +99,6 @@ namespace CustomsForgeManager.UControls
             if (includeUcSettings)
             {
                 Globals.MySettings.RSInstalledDir = cueRsDir.Text;
-                Globals.MySettings.RescanOnStartup = chkRescanOnStartup.Checked;
                 Globals.MySettings.IncludeRS1DLCs = chkIncludeRS1DLC.Checked;
                 Globals.MySettings.EnabledLogBaloon = chkEnableLogBallon.Checked;
             }

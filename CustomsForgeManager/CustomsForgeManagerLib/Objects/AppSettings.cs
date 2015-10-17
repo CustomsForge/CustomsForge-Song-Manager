@@ -38,7 +38,6 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
 
         public string LogFilePath { get ; set;}
         public string RSInstalledDir { get { return FRSInstalledDir; } set { SetPropertyField("RSInstalledDir", ref FRSInstalledDir, value); } }
-        public bool RescanOnStartup { get { return FRescanOnStartup; } set { SetPropertyField("RescanOnStartup", ref FRescanOnStartup, value); } }
         public bool IncludeRS1DLCs { get { return FIncludeRS1DLCs; } set { SetPropertyField("IncludeRS1DLCs", ref FIncludeRS1DLCs, value); } }
         public bool EnabledLogBaloon { get { return FEnabledLogBaloon; } set { SetPropertyField("EnabledLogBaloon", ref FEnabledLogBaloon, value); } }
         public bool CheckForUpdateOnScan { get { return FCheckForUpdateOnScan; } set { SetPropertyField("CheckForUpdateOnScan", ref FCheckForUpdateOnScan, value); } }

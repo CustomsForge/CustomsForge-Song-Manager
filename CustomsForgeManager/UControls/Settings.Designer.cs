@@ -47,7 +47,6 @@ namespace CustomsForgeManager.UControls
             this.btnSettingsLoad = new System.Windows.Forms.Button();
             this.btnSettingsSave = new System.Windows.Forms.Button();
             this.chkEnableLogBallon = new System.Windows.Forms.CheckBox();
-            this.chkRescanOnStartup = new System.Windows.Forms.CheckBox();
             this.tlpSettings_Wrapper.SuspendLayout();
             this.panel5.SuspendLayout();
             this.SuspendLayout();
@@ -64,8 +63,7 @@ namespace CustomsForgeManager.UControls
             this.tlpSettings_Wrapper.Controls.Add(this.lblSettingsRSDir, 0, 0);
             this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsLoad, 0, 7);
             this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsSave, 1, 7);
-            this.tlpSettings_Wrapper.Controls.Add(this.chkRescanOnStartup, 0, 3);
-            this.tlpSettings_Wrapper.Controls.Add(this.chkEnableLogBallon, 0, 4);
+            this.tlpSettings_Wrapper.Controls.Add(this.chkEnableLogBallon, 0, 3);
             this.tlpSettings_Wrapper.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpSettings_Wrapper.Location = new System.Drawing.Point(0, 0);
             this.tlpSettings_Wrapper.Name = "tlpSettings_Wrapper";
@@ -241,7 +239,7 @@ namespace CustomsForgeManager.UControls
             this.chkEnableLogBallon.CheckState = System.Windows.Forms.CheckState.Checked;
             this.tlpSettings_Wrapper.SetColumnSpan(this.chkEnableLogBallon, 2);
             this.chkEnableLogBallon.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkEnableLogBallon.Location = new System.Drawing.Point(3, 116);
+            this.chkEnableLogBallon.Location = new System.Drawing.Point(3, 84);
             this.chkEnableLogBallon.Name = "chkEnableLogBallon";
             this.chkEnableLogBallon.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
             this.chkEnableLogBallon.Size = new System.Drawing.Size(143, 19);
@@ -250,22 +248,6 @@ namespace CustomsForgeManager.UControls
             this.chkEnableLogBallon.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.chkEnableLogBallon.UseVisualStyleBackColor = true;
             this.chkEnableLogBallon.CheckedChanged += new System.EventHandler(this.chkEnableLogBaloon_CheckedChanged);
-            // 
-            // chkRescanOnStartup
-            // 
-            this.chkRescanOnStartup.AutoSize = true;
-            this.chkRescanOnStartup.Checked = true;
-            this.chkRescanOnStartup.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.tlpSettings_Wrapper.SetColumnSpan(this.chkRescanOnStartup, 2);
-            this.chkRescanOnStartup.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkRescanOnStartup.Location = new System.Drawing.Point(3, 84);
-            this.chkRescanOnStartup.Name = "chkRescanOnStartup";
-            this.chkRescanOnStartup.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
-            this.chkRescanOnStartup.Size = new System.Drawing.Size(138, 19);
-            this.chkRescanOnStartup.TabIndex = 3;
-            this.chkRescanOnStartup.Text = "Rescan On Startup";
-            this.chkRescanOnStartup.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.chkRescanOnStartup.UseVisualStyleBackColor = true;
             // 
             // Settings
             // 
@@ -294,7 +276,6 @@ namespace CustomsForgeManager.UControls
         private ColumnHeader colSettingsWidth;
         private Button btnSettingsSave;
         private Label lblSettingsRSDir;
-        private CheckBox chkRescanOnStartup;
         private CueTextBox cueRsDir;
         public CheckBox chkIncludeRS1DLC;
         private CheckBox chkEnableLogBallon;

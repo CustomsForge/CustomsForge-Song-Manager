@@ -63,23 +63,23 @@ namespace CustomsForgeManager.UControls
             this.cmsDuplicate.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.exploreToolStripMenuItem});
             this.cmsDuplicate.Name = "cmsDuplicate";
-            this.cmsDuplicate.Size = new System.Drawing.Size(153, 48);
+            this.cmsDuplicate.Size = new System.Drawing.Size(113, 26);
             // 
             // exploreToolStripMenuItem
             // 
             this.exploreToolStripMenuItem.Name = "exploreToolStripMenuItem";
-            this.exploreToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exploreToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
             this.exploreToolStripMenuItem.Text = "Explore";
             this.exploreToolStripMenuItem.Click += new System.EventHandler(this.exploreToolStripMenuItem_Click);
             // 
             // gbActions
             // 
-            this.gbActions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbActions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.gbActions.Controls.Add(this.panelActions);
-            this.gbActions.Location = new System.Drawing.Point(5, 422);
+            this.gbActions.Location = new System.Drawing.Point(5, 457);
             this.gbActions.Name = "gbActions";
-            this.gbActions.Size = new System.Drawing.Size(982, 60);
+            this.gbActions.Size = new System.Drawing.Size(864, 60);
             this.gbActions.TabIndex = 14;
             this.gbActions.TabStop = false;
             this.gbActions.Text = "Actions:";
@@ -151,13 +151,13 @@ namespace CustomsForgeManager.UControls
             // 
             // gbResults
             // 
-            this.gbResults.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbResults.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.gbResults.Controls.Add(this.dgvDups);
             this.gbResults.Location = new System.Drawing.Point(4, 3);
             this.gbResults.Name = "gbResults";
-            this.gbResults.Size = new System.Drawing.Size(982, 419);
+            this.gbResults.Size = new System.Drawing.Size(864, 454);
             this.gbResults.TabIndex = 16;
             this.gbResults.TabStop = false;
             this.gbResults.Text = "Results Grid:";
@@ -166,9 +166,9 @@ namespace CustomsForgeManager.UControls
             // 
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.dgvDups.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.dgvDups.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgvDups.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -189,8 +189,7 @@ namespace CustomsForgeManager.UControls
             this.dgvDups.Location = new System.Drawing.Point(6, 19);
             this.dgvDups.Name = "dgvDups";
             this.dgvDups.RowHeadersVisible = false;
-            this.dgvDups.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
-            this.dgvDups.Size = new System.Drawing.Size(970, 394);
+            this.dgvDups.Size = new System.Drawing.Size(852, 429);
             this.dgvDups.TabIndex = 15;
             this.dgvDups.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvDups_CellDoubleClick);
             this.dgvDups.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvDups_CellMouseUp);
@@ -267,7 +266,7 @@ namespace CustomsForgeManager.UControls
             this.Controls.Add(this.gbResults);
             this.Controls.Add(this.gbActions);
             this.Name = "Duplicates";
-            this.Size = new System.Drawing.Size(990, 490);
+            this.Size = new System.Drawing.Size(872, 525);
             this.cmsDuplicate.ResumeLayout(false);
             this.gbActions.ResumeLayout(false);
             this.panelActions.ResumeLayout(false);
