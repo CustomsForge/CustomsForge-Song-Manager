@@ -51,17 +51,27 @@ namespace CustomsForgeManager.SongEditor
                 switch (a.ArrangementType)
                 {
                     case RocksmithToolkitLib.Sng.ArrangementType.Guitar:
-                        r.DefaultCellStyle.BackColor = Color.FromArgb(0x66, 0x66, 0xFF);
+                        r.DefaultCellStyle.BackColor = Color.DeepSkyBlue;
+                        // black on blue is not readable on devs CRT monitor   
+                        // r.DefaultCellStyle.BackColor = Color.FromArgb(0x66, 0x66, 0xFF);
                         break;
                     case RocksmithToolkitLib.Sng.ArrangementType.Bass:
-                        r.DefaultCellStyle.BackColor = Color.FromArgb(0x33, 0xCC, 0x33);
+                        r.DefaultCellStyle.BackColor = Color.Lime;
+                        // not readable on devs CRT monitor   
+                        // r.DefaultCellStyle.BackColor = Color.FromArgb(0x33, 0xCC, 0x33);
                         break;
                     case RocksmithToolkitLib.Sng.ArrangementType.Vocal:
                         r.ReadOnly = true;
-                        r.DefaultCellStyle.BackColor = Color.FromArgb(0xFF, 0xCC, 0x00);
+                        r.DefaultCellStyle.BackColor = Color.Yellow;
+                        // differentable from custom seletion color
+                        //r.DefaultCellStyle.BackColor = Color.FromArgb(0xFF, 0xCC, 0x00);
                         break;
                 }
             }
+            // use standard custom selection (highlighting) color
+            gridArrangements.DefaultCellStyle.SelectionBackColor = Color.Gold; // dgvSongs.DefaultCellStyle.BackColor;
+            gridArrangements.DefaultCellStyle.SelectionForeColor = gridArrangements.DefaultCellStyle.ForeColor;
+            gridArrangements.ClearSelection();
         }
 
         public override void Save()
@@ -130,7 +140,7 @@ namespace CustomsForgeManager.SongEditor
             ctl.SelectedValueChanged += ctl_SelectedValueChanged;
 
         }
-    
+
 
         void ctl_SelectedValueChanged(object sender, EventArgs e)
         {
@@ -149,22 +159,22 @@ namespace CustomsForgeManager.SongEditor
                 this.DataGridView.EndEdit();
             }
 
-           // TEnum  x;
-           // if (Enum.TryParse<T>(s, out x))
-           // {
+            // TEnum  x;
+            // if (Enum.TryParse<T>(s, out x))
+            // {
 
 
 
-          //  }
+            //  }
 
-            
+
             //if (NewTone != null && this.Value != NewTone)
             //{
             //    if (NewTone.Name == "[NONE]")
             //        this.DataGridView.CurrentCell.Value = null;
             //    else
             //        this.DataGridView.CurrentCell.Value = NewTone;
-           
+
             //}
         }
 

@@ -213,7 +213,7 @@
   </data>
   <data name="SongDataModifiedConfirmation" xml:space="preserve">
     <value>The song data has changed.
-Are you sure that you want to close before saving?</value>
+Do you want to close without saving?</value>
     <comment>SongDataModifiedConfirmation description</comment>
   </data>
   <data name="upload" type="System.Resources.ResXFileRef, System.Windows.Forms">

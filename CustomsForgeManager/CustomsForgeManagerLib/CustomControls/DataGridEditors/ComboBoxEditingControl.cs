@@ -1,118 +1,159 @@
+//------------------------------------------------------------------------------ 
+// <copyright file="DataGridViewComboBoxEditingControl.cs" company="Microsoft">
+//     Copyright (c) Microsoft Corporation.  All rights reserved.
+// </copyright>
+//----------------------------------------------------------------------------- 
+
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Drawing;
+using System.Globalization;
 using System.Windows.Forms;
 
 namespace CustomsForgeManager.CustomsForgeManagerLib.CustomControls.DataGridEditors
 {
-    class ComboBoxEditingControl : ComboBox, IDataGridViewEditingControl
+    public class ComboBoxEditingControl : ComboBox, IDataGridViewEditingControl
     {
-
-        DataGridView dataGridView;
-        private bool valueChanged = false;
-        int rowIndex;
+        private DataGridView dataGridView;
+        private bool valueChanged;
+        private int rowIndex;
 
         public ComboBoxEditingControl()
             : base()
         {
-
-            DropDownStyle = ComboBoxStyle.DropDownList;
-            FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.SelectedValueChanged += (s, e) =>
-            {
-                valueChanged = true;
-            };
+            this.TabStop = false;
         }
 
-        public void ApplyCellStyleToEditingControl(DataGridViewCellStyle dataGridViewCellStyle)
+        // IDataGridViewEditingControl interface implementation 
+        public virtual DataGridView EditingControlDataGridView
+        {
+            get
+            {
+                return this.dataGridView;
+            }
+            set
+            {
+                this.dataGridView = value;
+            }
+        }
+
+        public virtual object EditingControlFormattedValue
+        {
+            get
+            {
+                return GetEditingControlFormattedValue(DataGridViewDataErrorContexts.Formatting);
+            }
+            set
+            {
+                string valueStr = value as string;
+                if (valueStr != null)
+                {
+                    this.Text = valueStr;
+                    if (String.Compare(valueStr, this.Text, true, CultureInfo.CurrentCulture) != 0)
+                    {
+                        this.SelectedIndex = -1;
+                    }
+                }
+            }
+        }
+
+        public virtual int EditingControlRowIndex
+        {
+            get
+            {
+                return this.rowIndex;
+            }
+            set
+            {
+                this.rowIndex = value;
+            }
+        }
+
+        public virtual bool EditingControlValueChanged
+        {
+            get
+            {
+                return this.valueChanged;
+            }
+            set
+            {
+                this.valueChanged = value;
+            }
+        }
+
+        public virtual Cursor EditingPanelCursor
+        {
+            get
+            {
+                return Cursors.Default;
+            }
+        }
+
+        public virtual bool RepositionEditingControlOnValueChange
+        {
+            get
+            {
+                return false;
+            }
+        }
+
+        public virtual void ApplyCellStyleToEditingControl(DataGridViewCellStyle dataGridViewCellStyle)
         {
             this.Font = dataGridViewCellStyle.Font;
+            if (dataGridViewCellStyle.BackColor.A < 255)
+            {
+                // Our ComboBox does not support transparent back colors 
+                Color opaqueBackColor = Color.FromArgb(255, dataGridViewCellStyle.BackColor);
+                this.BackColor = opaqueBackColor;
+                this.dataGridView.EditingPanel.BackColor = opaqueBackColor;
+            }
+            else
+            {
+                this.BackColor = dataGridViewCellStyle.BackColor;
+            }
             this.ForeColor = dataGridViewCellStyle.ForeColor;
-            this.BackColor = dataGridViewCellStyle.BackColor;
         }
 
-        public DataGridView EditingControlDataGridView
+        public virtual bool EditingControlWantsInputKey(Keys keyData, bool dataGridViewWantsInputKey)
         {
-            get
+            if ((keyData & Keys.KeyCode) == Keys.Down ||
+                (keyData & Keys.KeyCode) == Keys.Up ||
+                (this.DroppedDown && ((keyData & Keys.KeyCode) == Keys.Escape) || (keyData & Keys.KeyCode) == Keys.Enter))
             {
-                return dataGridView;
+                return true;
             }
-            set
-            {
-                dataGridView = value;
-            }
+            return !dataGridViewWantsInputKey;
         }
 
-        public object EditingControlFormattedValue
+        public virtual object GetEditingControlFormattedValue(DataGridViewDataErrorContexts context)
         {
-            get
-            {
-                return this.SelectedValue;
-            }
-            set
-            {
-                this.SelectedValue = value;
-            }
+            return this.Text;
         }
 
-        public int EditingControlRowIndex
+        public virtual void PrepareEditingControlForEdit(bool selectAll)
         {
-            get
+            if (selectAll)
             {
-                return rowIndex;
-            }
-            set
-            {
-                rowIndex = value;
+                SelectAll();
             }
         }
 
-        public bool EditingControlValueChanged
+        private void NotifyDataGridViewOfValueChange()
         {
-            get
-            {
-                return valueChanged;
-            }
-            set
-            {
-                valueChanged = value;
-            }
+            this.valueChanged = true;
+            this.dataGridView.NotifyCurrentCellDirty(true);
         }
 
-        public bool EditingControlWantsInputKey(Keys keyData, bool dataGridViewWantsInputKey)
+        protected override void OnSelectedIndexChanged(EventArgs e)
         {
-            switch (keyData & Keys.KeyCode)
+            base.OnSelectedIndexChanged(e);
+            if (this.SelectedIndex != -1)
             {
-                case Keys.Up:
-                case Keys.Down:
-                case Keys.Home:
-                case Keys.End:
-                case Keys.PageDown:
-                case Keys.PageUp:
-                    return true;
-                default:
-                    return !dataGridViewWantsInputKey;
+                NotifyDataGridViewOfValueChange();
             }
         }
 
-        public Cursor EditingPanelCursor
-        {
-            get { return base.Cursor; }
-        }
 
-        public object GetEditingControlFormattedValue(DataGridViewDataErrorContexts context)
-        {
-            return EditingControlFormattedValue;
-        }
-
-        public void PrepareEditingControlForEdit(bool selectAll)
-        {
-            //
-        }
-
-        public bool RepositionEditingControlOnValueChange
-        {
-            get { return false; }
-        }
     }
 }
+
+

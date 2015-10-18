@@ -1,4 +1,9 @@
 CFM Release Notes
+
+1.0.4.0
+-Replaced ComboBoxEditingControl.cs code, works with ucArrangements and ucTones
+-Change some grid colors in SongEditor to show better on CRT displays.
+
 1.0.3.6
 -Removed the Scan on Startup option, changed how the scanning logic works on startup
 -Added vertical scrollbox to duplicates

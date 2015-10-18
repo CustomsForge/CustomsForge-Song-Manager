@@ -537,15 +537,14 @@ namespace CustomsForgeManager.UControls
                 x.Path.ToLower().Contains(criteria.ToLower()))).ToList();
 
             LoadFilteredBindingList(results);
-            //  Extensions.InvokeIfRequired(dgvSongsMaster, delegate { dgvSongsMaster.DataSource = results; });
         }
 
         private void ShowSongInfo()
         {
             if (dgvSongsMaster.SelectedRows.Count > 0)
             {
-
                 var song = GetFirstSelected();
+
                 if (song != null)
                 {
                     frmSongInfo infoWindow = new frmSongInfo(song);
@@ -561,12 +560,11 @@ namespace CustomsForgeManager.UControls
             if (dgvSongsMaster.SelectedRows.Count > 0)
             {
                 var selectedRow = dgvSongsMaster.SelectedRows[0];
-                var titleArtistAlbum = selectedRow.Cells["colArtistTitleAlbum"].Value.ToString();
+                var artistTitleAlbum = selectedRow.Cells["colArtistTitleAlbum"].Value.ToString();
                 var path = selectedRow.Cells["colPath"].Value.ToString();
-                return masterSongCollection.FirstOrDefault(x => x.ArtistTitleAlbum == titleArtistAlbum && x.Path == path);
+                return masterSongCollection.FirstOrDefault(x => x.ArtistTitleAlbum == artistTitleAlbum && x.Path == path);
             }
             return null;
-
         }
 
         public List<SongData> GetSelectedSongs()
@@ -576,20 +574,15 @@ namespace CustomsForgeManager.UControls
             {
                 if (Convert.ToBoolean(row.Cells["colSelect"].Value))
                 {
-                      var song = masterSongCollection.FirstOrDefault(x =>
-                      x.ArtistTitleAlbum == row.Cells["colArtistTitleAlbum"].Value.ToString() &&
-                      x.Path == row.Cells["colPath"].Value.ToString());
-                        if (song != null)
-                        {
-                            SelectedSongs.Add(song);
-                        }
+                    var song = masterSongCollection.FirstOrDefault(x =>
+                    x.ArtistTitleAlbum == row.Cells["colArtistTitleAlbum"].Value.ToString() &&
+                    x.Path == row.Cells["colPath"].Value.ToString());
+                    if (song != null)
+                    {
+                        SelectedSongs.Add(song);
+                    }
                 }
             }
-
-            
-            return SelectedSongs;
-        }
-
         private void SongListToBBCode()
         {
             var sbTXT = new StringBuilder();
@@ -1280,12 +1273,6 @@ namespace CustomsForgeManager.UControls
                 dgvSongsMaster.Columns[e.ColumnIndex].Visible = false;
                 return;
             }
-
-            var columnName = dgvSongsMaster.Columns[e.ColumnIndex].Name;
-
-            //if (columnName.Contains("colBass") || columnName.Contains("colLead") ||
-            //    columnName.Contains("colRhythm") || columnName.Contains("colVocals"))
-            //    return;
 
             ArrangementColumnsColors();
         }
