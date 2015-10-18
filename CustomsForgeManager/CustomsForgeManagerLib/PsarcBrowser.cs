@@ -41,6 +41,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
             var tkversion = String.Empty;
             var appId = String.Empty;
 
+            bool tagged = false;
             var toolkitVersionFile = archive.TOC.FirstOrDefault(x => (x.Name.Equals("toolkit.version")));
             if (toolkitVersionFile != null)
             {
@@ -49,7 +50,11 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                 author = tkInfo.PackageAuthor ?? "N/A";
                 version = tkInfo.PackageVersion ?? "N/A";
                 tkversion = tkInfo.ToolkitVersion ?? "N/A";
+                tagged = new StreamReader(toolkitVersionFile.Data).ReadToEnd().Contains("Tagged: true") ? true : false;
             }
+
+            if (!tagged)
+                tagged = archive.TOC.Any(x => (x.Name.Equals("taggerOriginal.dds")));
 
             var appIdFile = archive.TOC.FirstOrDefault(x => (x.Name.Equals("appid.appid")));
             if (appIdFile != null)
@@ -73,6 +78,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                     Path = FilePath,
                     FileDate = fInfo.LastWriteTimeUtc,
                     FileSize = (int)fInfo.Length,
+                    Tagged = tagged
                 };
 
                 var strippedName = singleSong.Name.Replace(".xblock", "").Replace("gamexblocks/nsongs/", "");

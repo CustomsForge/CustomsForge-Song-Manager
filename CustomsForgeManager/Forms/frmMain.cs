@@ -28,6 +28,8 @@ namespace CustomsForgeManager.Forms
             InitializeComponent();
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);
 
+
+
             this.FormClosed += frmMain_FormClosed; // moved here for better access
             // gets rid of notifier icon on closing
             this.FormClosed += delegate
@@ -188,6 +190,7 @@ namespace CustomsForgeManager.Forms
                     Globals.SetlistManager.Size = UCSize;
                     currentControl = Globals.SetlistManager;
                     break;
+#if TAGGER
                 case "TAGG":
                     this.tpTagger.Controls.Clear();
                     this.tpTagger.Controls.Add(Globals.Tagger);
@@ -198,6 +201,7 @@ namespace CustomsForgeManager.Forms
                     Globals.Tagger.Size = UCSize;
                     currentControl = Globals.Tagger;
                     break;
+#endif
                 case "SETT":
                     // using LeaveSongManager instead of EH SongMangager_Leave
                     Globals.SongManager.LeaveSongManager();
@@ -310,6 +314,10 @@ namespace CustomsForgeManager.Forms
         {
             switch (e.KeyCode)
             {
+                case Keys.F1:
+                    ShowHelp();
+                    e.Handled = true;
+                    break;
                 case Keys.F3:
                     ShowHideLog();
                     e.Handled = true;
@@ -321,7 +329,7 @@ namespace CustomsForgeManager.Forms
             }
         }
 
-        private void tsBtnHelp_Click(object sender, EventArgs e)
+        private void ShowHelp()
         {
             Assembly assembly = Assembly.GetExecutingAssembly();
             Stream stream = assembly.GetManifestResourceStream("CustomsForgeManager.Resources.HelpSongMgr.txt");
@@ -336,7 +344,11 @@ namespace CustomsForgeManager.Forms
                     noteViewer.ShowDialog();
                 }
             }
+        }
 
+        private void tsBtnHelp_Click(object sender, EventArgs e)
+        {
+            ShowHelp();
         }
 
     }

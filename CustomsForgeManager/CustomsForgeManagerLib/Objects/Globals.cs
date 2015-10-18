@@ -47,8 +47,9 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         private static BindingList<SongData> _songCollection;
         private static SongManager _songManager;
         private static Utilities _utilities;
+#if TAGGER
  		private static Tagger _tagger;
-		
+#endif		
         public static event EventHandler<ScannerEventHandler> OnScanEvent;
 
         private static bool FIsScanning;
@@ -101,13 +102,13 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
             get { return _renamer ?? (_renamer = new Renamer()); }
             set { _renamer = value; }
         }
-
+#if TAGGER
         public static Tagger Tagger
         {
             get { return _tagger ?? (_tagger = new Tagger()); }
             set { _tagger = value; }
         }
-
+#endif
         public static bool RescanAbout { get; set; }
         public static bool RescanDuplicates { get; set; }
         public static bool RescanRenamer { get; set; }

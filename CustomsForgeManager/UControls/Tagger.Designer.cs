@@ -1,5 +1,6 @@
 ﻿namespace CustomsForgeManager.UControls
 {
+#if TAGGER
     partial class Tagger
     {
         /// <summary> 
@@ -106,4 +107,5 @@
 
 
     }
+#endif
 }

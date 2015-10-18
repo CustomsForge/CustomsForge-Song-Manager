@@ -61,6 +61,7 @@ namespace CustomsForgeManager.UControls
                 XmlDocument dom = new XmlDocument();
                 if (correctVersion)
                 {
+                    correctVersion = false;
                     dom.Load(songsInfoPath);
 
                     var listNode = dom["ArrayOfSongData"];
@@ -70,7 +71,7 @@ namespace CustomsForgeManager.UControls
                         if (versionNode != null)
                         {
                             if (versionNode.HasAttribute("version"))
-                               correctVersion = (versionNode.GetAttribute("version") == SongDataListCurrentVersion);                            
+                                correctVersion = (versionNode.GetAttribute("version") == SongDataListCurrentVersion);
                             listNode.RemoveChild(versionNode);
                         }
                     }
@@ -80,12 +81,12 @@ namespace CustomsForgeManager.UControls
 
                 Globals.SongCollection = masterSongCollection;
 
-               
+
                 Rescan();
                 Globals.ReloadDuplicates = false;
                 Globals.ReloadRenamer = false;
                 Globals.ReloadSetlistManager = false;
-              
+
                 if (masterSongCollection == null || masterSongCollection.Count == 0)
                     throw new SongCollectionException(masterSongCollection == null ? "Master Collection = null" : "Master Collection.Count = 0");
 
@@ -116,6 +117,24 @@ namespace CustomsForgeManager.UControls
         public void PopulateSongManager()
         {
             Globals.Log("Populating SongManager GUI ...");
+#if TAGGER
+            tsTager.DropDownItems.Clear();
+            foreach (string tagPreview in Directory.EnumerateFiles(Constants.TaggerTemplatesFolder, "*.png").Where(file => file.ToLower().Contains("prev")))
+            {
+                var tsi = tsTager.DropDownItems.Add(Path.GetFileName(tagPreview).Replace(@"Tagger\", "").Replace("prev.png", ""));
+                tsi.Click += (s, e) =>
+                {
+                    List<SongData> SelectedSongs = GetSelectedSongs();
+                    if (SelectedSongs.Count() == 0)
+                    {
+                        MessageBox.Show("No songs selected.");
+                        return;
+                    }
+
+                    Globals.Tagger.TagSongs(SelectedSongs.ToArray(), ((ToolStripItem)s).Text);
+                };
+            }
+#endif
             // Hide main dgvSongsMaster until load completes
             dgvSongsMaster.Visible = false;
             //Load Song Collection from file must be called before
@@ -128,16 +147,9 @@ namespace CustomsForgeManager.UControls
             var dom = masterSongCollection.XmlSerializeToDom();
             XmlElement versionNode = dom.CreateElement("SongDataList");
             versionNode.SetAttribute("version", SongDataListCurrentVersion);
+            versionNode.SetAttribute("AppVersion", Constants.CustomVersion());
             dom.DocumentElement.AppendChild(versionNode);
             dom.Save(Constants.SongsInfoPath);
-
-            //var songsInfoPath = Constants.SongsInfoPath;
-            //using (var fsSc = new FileStream(songsInfoPath, FileMode.Create, FileAccess.Write, FileShare.Write))
-            //{
-            //    masterSongCollection.SerializeXml(fsSc);
-            //    fsSc.Flush();
-            //}
-
             Globals.Log("Saved song collection file ...");
         }
 
@@ -549,16 +561,33 @@ namespace CustomsForgeManager.UControls
             if (dgvSongsMaster.SelectedRows.Count > 0)
             {
                 var selectedRow = dgvSongsMaster.SelectedRows[0];
-                var title = selectedRow.Cells["colTitle"].Value.ToString();
-                var artist = selectedRow.Cells["colArtist"].Value.ToString();
-                var album = selectedRow.Cells["colAlbum"].Value.ToString();
+                var titleArtistAlbum = selectedRow.Cells["colArtistTitleAlbum"].Value.ToString();
                 var path = selectedRow.Cells["colPath"].Value.ToString();
-
-                return masterSongCollection.FirstOrDefault(x => x.Title == title && x.Album == album && x.Artist == artist && x.Path == path);
-
+                return masterSongCollection.FirstOrDefault(x => x.ArtistTitleAlbum == titleArtistAlbum && x.Path == path);
             }
             return null;
 
+        }
+
+        public List<SongData> GetSelectedSongs()
+        {
+            List<SongData> SelectedSongs = new List<SongData>();
+            foreach (DataGridViewRow row in dgvSongsMaster.Rows)
+            {
+                if (Convert.ToBoolean(row.Cells["colSelect"].Value))
+                {
+                      var song = masterSongCollection.FirstOrDefault(x =>
+                      x.ArtistTitleAlbum == row.Cells["colArtistTitleAlbum"].Value.ToString() &&
+                      x.Path == row.Cells["colPath"].Value.ToString());
+                        if (song != null)
+                        {
+                            SelectedSongs.Add(song);
+                        }
+                }
+            }
+
+            
+            return SelectedSongs;
         }
 
         private void SongListToBBCode()
@@ -1396,6 +1425,7 @@ namespace CustomsForgeManager.UControls
 
             UpdateToolStrip();
         }
+
 
 
     }
