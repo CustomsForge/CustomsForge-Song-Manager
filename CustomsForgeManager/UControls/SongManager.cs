@@ -575,14 +575,16 @@ namespace CustomsForgeManager.UControls
                 if (Convert.ToBoolean(row.Cells["colSelect"].Value))
                 {
                     var song = masterSongCollection.FirstOrDefault(x =>
-                    x.ArtistTitleAlbum == row.Cells["colArtistTitleAlbum"].Value.ToString() &&
-                    x.Path == row.Cells["colPath"].Value.ToString());
+                        x.ArtistTitleAlbum == row.Cells["colArtistTitleAlbum"].Value.ToString() &&
+                        x.Path == row.Cells["colPath"].Value.ToString());
+
                     if (song != null)
-                    {
                         SelectedSongs.Add(song);
-                    }
                 }
             }
+            return SelectedSongs;
+        }
+
         private void SongListToBBCode()
         {
             var sbTXT = new StringBuilder();
