@@ -56,7 +56,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <RunCodeAnalysis>true</RunCodeAnalysis>
@@ -165,6 +165,12 @@
     <Compile Include="Forms\frmMain.Designer.cs">
       <DependentUpon>frmMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="SongEditor\frmArrangement.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SongEditor\frmArrangement.designer.cs">
+      <DependentUpon>frmArrangement.cs</DependentUpon>
+    </Compile>
     <Compile Include="SongEditor\DLCPackageEditorControlBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -174,17 +180,23 @@
     <Compile Include="SongEditor\ToneControl.designer.cs">
       <DependentUpon>ToneControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="SongEditor\ToneControlDialog.cs">
+    <Compile Include="SongEditor\frmTone.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SongEditor\ToneControlDialog.designer.cs">
-      <DependentUpon>ToneControlDialog.cs</DependentUpon>
+    <Compile Include="SongEditor\frmTone.designer.cs">
+      <DependentUpon>frmTone.cs</DependentUpon>
     </Compile>
-    <Compile Include="SongEditor\ToneKnobForm.cs">
+    <Compile Include="SongEditor\frmToneKnob.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SongEditor\ToneKnobForm.designer.cs">
-      <DependentUpon>ToneKnobForm.cs</DependentUpon>
+    <Compile Include="SongEditor\frmToneKnob.designer.cs">
+      <DependentUpon>frmToneKnob.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SongEditor\frmTuning.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SongEditor\frmTuning.designer.cs">
+      <DependentUpon>frmTuning.cs</DependentUpon>
     </Compile>
     <Compile Include="SongEditor\ucAlbumArt.cs">
       <SubType>UserControl</SubType>
@@ -192,11 +204,11 @@
     <Compile Include="SongEditor\ucAlbumArt.Designer.cs">
       <DependentUpon>ucAlbumArt.cs</DependentUpon>
     </Compile>
-    <Compile Include="SongEditor\ucArrangments.cs">
+    <Compile Include="SongEditor\ucArrangements.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="SongEditor\ucArrangments.Designer.cs">
-      <DependentUpon>ucArrangments.cs</DependentUpon>
+    <Compile Include="SongEditor\ucArrangements.Designer.cs">
+      <DependentUpon>ucArrangements.cs</DependentUpon>
     </Compile>
     <Compile Include="SongEditor\frmSongEditor.cs">
       <SubType>Form</SubType>
@@ -272,9 +284,7 @@
     <Compile Include="UControls\SongManager.Designer.cs">
       <DependentUpon>SongManager.cs</DependentUpon>
     </Compile>
-    <Compile Include="UControls\Tagger.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="UControls\Tagger.cs" />
     <Compile Include="UControls\Tagger.Designer.cs">
       <DependentUpon>Tagger.cs</DependentUpon>
     </Compile>
@@ -298,14 +308,20 @@
       <DependentUpon>frmMain.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="SongEditor\frmArrangement.resx">
+      <DependentUpon>frmArrangement.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SongEditor\ToneControl.resx">
       <DependentUpon>ToneControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SongEditor\ToneControlDialog.resx">
-      <DependentUpon>ToneControlDialog.cs</DependentUpon>
+    <EmbeddedResource Include="SongEditor\frmTone.resx">
+      <DependentUpon>frmTone.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SongEditor\ToneKnobForm.resx">
-      <DependentUpon>ToneKnobForm.cs</DependentUpon>
+    <EmbeddedResource Include="SongEditor\frmToneKnob.resx">
+      <DependentUpon>frmToneKnob.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SongEditor\frmTuning.resx">
+      <DependentUpon>frmTuning.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SongEditor\ucAlbumArt.resx">
       <DependentUpon>ucAlbumArt.cs</DependentUpon>
@@ -326,6 +342,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="SongEditor\ucArrangements.resx">
+      <DependentUpon>ucArrangements.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SongEditor\ucSongInfo.resx">
       <DependentUpon>ucSongInfo.cs</DependentUpon>
     </EmbeddedResource>

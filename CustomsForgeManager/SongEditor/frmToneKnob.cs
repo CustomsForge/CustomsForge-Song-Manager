@@ -8,11 +8,11 @@ using System.Text.RegularExpressions;
 
 namespace CustomsForgeManager.SongEditor
 {
-    public partial class ToneKnobForm : Form
+    public partial class frmToneKnob : Form
     {
         Regex nameParser = new Regex(@"\$\[\d+\] (.+)");
 
-        public ToneKnobForm()
+        public frmToneKnob()
         {
             InitializeComponent();
         }

@@ -1,6 +1,6 @@
 ﻿namespace CustomsForgeManager.SongEditor
 {
-    partial class ToneKnobForm
+    partial class frmToneKnob
     {
         /// <summary>
         /// Required designer variable.

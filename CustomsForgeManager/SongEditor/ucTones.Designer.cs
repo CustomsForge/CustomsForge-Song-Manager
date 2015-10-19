@@ -28,30 +28,29 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.raDataGridView1 = new CustomsForgeManager.CustomsForgeManagerLib.CustomControls.RADataGridView();
+            this.dgvTones = new CustomsForgeManager.CustomsForgeManagerLib.CustomControls.RADataGridView();
             this.colName = new System.Windows.Forms.DataGridViewLinkColumn();
             this.colVolume = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            ((System.ComponentModel.ISupportInitialize)(this.raDataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvTones)).BeginInit();
             this.SuspendLayout();
             // 
-            // raDataGridView1
+            // dgvTones
             // 
-            this.raDataGridView1.AllowUserToAddRows = false;
-            this.raDataGridView1.AllowUserToDeleteRows = false;
-            this.raDataGridView1.AllowUserToResizeRows = false;
-            this.raDataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.raDataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dgvTones.AllowUserToAddRows = false;
+            this.dgvTones.AllowUserToDeleteRows = false;
+            this.dgvTones.AllowUserToResizeRows = false;
+            this.dgvTones.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvTones.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colName,
             this.colVolume});
-            this.raDataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.raDataGridView1.Location = new System.Drawing.Point(0, 0);
-            this.raDataGridView1.MultiSelect = false;
-            this.raDataGridView1.Name = "raDataGridView1";
-            this.raDataGridView1.Size = new System.Drawing.Size(450, 349);
-            this.raDataGridView1.TabIndex = 0;
-            this.raDataGridView1.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.raDataGridView1_CellBeginEdit);
-            this.raDataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.raDataGridView1_CellContentClick);
-            this.raDataGridView1.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.raDataGridView1_CellEndEdit);
+            this.dgvTones.Location = new System.Drawing.Point(0, 0);
+            this.dgvTones.MultiSelect = false;
+            this.dgvTones.Name = "dgvTones";
+            this.dgvTones.Size = new System.Drawing.Size(450, 349);
+            this.dgvTones.TabIndex = 0;
+            this.dgvTones.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.raDataGridView1_CellBeginEdit);
+            this.dgvTones.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.raDataGridView1_CellContentClick);
+            this.dgvTones.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.raDataGridView1_CellEndEdit);
             // 
             // colName
             // 
@@ -71,17 +70,17 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.raDataGridView1);
+            this.Controls.Add(this.dgvTones);
             this.Name = "ucTones";
-            this.Size = new System.Drawing.Size(450, 349);
-            ((System.ComponentModel.ISupportInitialize)(this.raDataGridView1)).EndInit();
+            this.Size = new System.Drawing.Size(494, 349);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvTones)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private CustomsForgeManagerLib.CustomControls.RADataGridView raDataGridView1;
+        private CustomsForgeManagerLib.CustomControls.RADataGridView dgvTones;
         private System.Windows.Forms.DataGridViewLinkColumn colName;
         private System.Windows.Forms.DataGridViewTextBoxColumn colVolume;
     }

@@ -42,7 +42,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
         public Int32 SongYear { get; set; }
         public Single SongLength { get; set; }
         public Single SongAverageTempo { get; set; }
-        public float SongVolume { get; set; }
+        public Single SongVolume { get; set; }
 
         // this info can be gathered after parsing and does not need to be stored in xml       
         public DateTime FileDate { get; set; }

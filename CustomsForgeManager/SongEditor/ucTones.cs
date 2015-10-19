@@ -17,7 +17,7 @@ namespace CustomsForgeManager.SongEditor
         public ucTones()
         {
             InitializeComponent();
-            raDataGridView1.AutoGenerateColumns = false;
+            dgvTones.AutoGenerateColumns = false;
         }
 
         public override void DoInit()
@@ -25,13 +25,13 @@ namespace CustomsForgeManager.SongEditor
             if (SongData == null)
                 return;
             SongData.TonesRS2014.ForEach(t => NewTonesRS2014.Add(t.XmlClone()));
-            raDataGridView1.DataSource = NewTonesRS2014;
+            dgvTones.DataSource = NewTonesRS2014;
 
             // black on blue is not readable on devs CRT monitor   
             // use standard custom selection (highlighting) color
-            raDataGridView1.DefaultCellStyle.SelectionBackColor = Color.Gold; // dgvSongs.DefaultCellStyle.BackColor;
-            raDataGridView1.DefaultCellStyle.SelectionForeColor = raDataGridView1.DefaultCellStyle.ForeColor;
-            raDataGridView1.ClearSelection();
+            dgvTones.DefaultCellStyle.SelectionBackColor = Color.Gold; // dgvSongs.DefaultCellStyle.BackColor;
+            dgvTones.DefaultCellStyle.SelectionForeColor = dgvTones.DefaultCellStyle.ForeColor;
+            dgvTones.ClearSelection();
 
         }
 
@@ -46,7 +46,7 @@ namespace CustomsForgeManager.SongEditor
 
         private bool EditTone(Tone2014 tone)
         {
-            ToneControlDialog f = new ToneControlDialog()
+            frmTone f = new frmTone()
             {
                 Tone = tone,
                 StartPosition = FormStartPosition.CenterParent
@@ -56,18 +56,18 @@ namespace CustomsForgeManager.SongEditor
 
         private void raDataGridView1_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
-            if (e.ColumnIndex == this.raDataGridView1.Columns["colName"].Index)
+            if (e.ColumnIndex == this.dgvTones.Columns["colName"].Index)
                 e.Cancel = true;
         }
 
         private void raDataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex == this.raDataGridView1.Columns["colName"].Index)
+            if (e.ColumnIndex == this.dgvTones.Columns["colName"].Index)
             {
-                var tone = (Tone2014)raDataGridView1.Rows[e.RowIndex].DataBoundItem;
+                var tone = (Tone2014)dgvTones.Rows[e.RowIndex].DataBoundItem;
                 if (EditTone(tone))
                 {
-                    this.raDataGridView1.Refresh();
+                    this.dgvTones.Refresh();
                     this.Dirty = true;
                 }
             }
@@ -75,7 +75,7 @@ namespace CustomsForgeManager.SongEditor
 
         private void raDataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex != this.raDataGridView1.Columns["colName"].Index)
+            if (e.ColumnIndex != this.dgvTones.Columns["colName"].Index)
                 this.Dirty = true;
         }
 

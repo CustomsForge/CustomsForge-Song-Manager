@@ -182,7 +182,7 @@ namespace CustomsForgeManager.SongEditor
             knobSelectButton.Click += (sender, e) =>
             {
                 dynamic pedal = tone.GearList[pedalSlot];
-                using (var form = new ToneKnobForm())
+                using (var form = new frmToneKnob())
                 {
                     form.Init(pedal, pedals.Single(p => p.Key == pedal.PedalKey).Knobs);
                     form.ShowDialog(this.ParentForm);

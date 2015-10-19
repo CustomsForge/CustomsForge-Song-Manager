@@ -1,5 +1,8 @@
 CFM Release Notes
 
+1.0.4.1
+-Updated SongEditor Arrangements tabmenu to use toolkit like Arrangement Editor
+
 1.0.4.0
 -Replaced ComboBoxEditingControl.cs code, works with ucArrangements and ucTones
 -Change some grid colors in SongEditor to show better on CRT displays.

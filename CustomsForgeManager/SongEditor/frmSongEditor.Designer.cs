@@ -164,7 +164,6 @@
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "frmSongEditor";
-            this.TopMost = true;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmSongEditor_FormClosing);
             this.statusStripMain.ResumeLayout(false);
             this.statusStripMain.PerformLayout();

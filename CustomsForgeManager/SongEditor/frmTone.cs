@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace CustomsForgeManager.SongEditor
 {
-    public partial class ToneControlDialog : Form
+    public partial class frmTone : Form
     {
-        public ToneControlDialog()
+        public frmTone()
         {
             InitializeComponent();
             toneControl1.Init();

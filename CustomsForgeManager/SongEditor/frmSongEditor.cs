@@ -149,8 +149,8 @@ namespace CustomsForgeManager.SongEditor
 
         private void LoadArrangements()
         {
-            if (GetEditorControl<ucArrangments>() == null)
-                LoadEditorControl<ucArrangments>(this.tpArrangements);
+            if (GetEditorControl<ucArrangements>() == null)
+                LoadEditorControl<ucArrangements>(this.tpArrangements);
         }
 
         private void tcMain_SelectedIndexChanged(object sender, EventArgs e)
