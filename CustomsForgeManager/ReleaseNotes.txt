@@ -1,5 +1,8 @@
 CFM Release Notes
 
+1.0.4.5
+-Switched CFMAudioTools and CFMImageTools to x86 Platform for consistency and backward compatiblity
+
 1.0.4.4
 -Add ThirdParty apps to the project so that Publish works properly
 -Reduced size of songinfo.xml by eliminating redundant storage of DLCKey
