@@ -214,9 +214,6 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
                     albumBigArtEntry.Data.Dispose();
                     albumBigArtEntry.Data = largeDDS;
 
-  
-                    // //If we add only "Tagged" without "true",
-                    ////GetToolkitInfo might think that this is actually toolkit version -> it would probably cause problems
                     if (isTagged)
                     {
                         if (orgDss != null)
