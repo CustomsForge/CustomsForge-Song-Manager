@@ -49,13 +49,13 @@ namespace CustomsForgeManager.UControls
             Globals.Log("Populating SetlistManager GUI ...");
 
             // theoretically this error condition should never exist
-            if (String.IsNullOrEmpty(Globals.MySettings.RSInstalledDir) || !Directory.Exists(Globals.MySettings.RSInstalledDir))
+            if (String.IsNullOrEmpty(AppSettings.Instance.RSInstalledDir) || !Directory.Exists(AppSettings.Instance.RSInstalledDir))
             {
                 MessageBox.Show(@"Please fix the Rocksmith installation directory!  " + Environment.NewLine + @"This can be changed in the 'Settings' menu tab.", MESSAGE_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 return;
             }
 
-            dlcDir = Path.Combine(Globals.MySettings.RSInstalledDir, "dlc");
+            dlcDir = Path.Combine(AppSettings.Instance.RSInstalledDir, "dlc");
 
             if (LoadSongs())
             {
@@ -251,7 +251,7 @@ namespace CustomsForgeManager.UControls
             bindingCompleted = false;
             dgvPainted = false;
 
-            if (Globals.MySettings.IncludeRS1DLCs)
+            if (AppSettings.Instance.IncludeRS1DLCs)
             {
                 Globals.Settings.chkIncludeRS1DLC.Checked = false;
                 // ask user to rescan song collection to remove all RS1 Compatibility songs
@@ -318,7 +318,7 @@ namespace CustomsForgeManager.UControls
         private void Rescan()
         {
             // this should never happen
-            if (String.IsNullOrEmpty(Globals.MySettings.RSInstalledDir))
+            if (String.IsNullOrEmpty(AppSettings.Instance.RSInstalledDir))
             {
                 MessageBox.Show(Properties.Resources.ErrorRocksmith2014InstallationDirectorySet, Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -456,7 +456,7 @@ namespace CustomsForgeManager.UControls
                     var originalPath = row.Cells["colPath"].Value.ToString();
                     var originalFile = row.Cells["colFileName"].Value.ToString();
 
-                    if (Path.GetDirectoryName(originalPath) == Path.Combine(Globals.MySettings.RSInstalledDir, "dlc"))
+                    if (Path.GetDirectoryName(originalPath) == Path.Combine(AppSettings.Instance.RSInstalledDir, "dlc"))
                     {
                         try
                         {
@@ -805,13 +805,13 @@ namespace CustomsForgeManager.UControls
                 if (rs2014Pack != "Use actual (rootdir) pack")
                 {
                     foreach (string rs2014File in rs2014Files)
-                        if (Path.GetDirectoryName(rs2014File) != Path.Combine(Globals.MySettings.RSInstalledDir, rs2014Pack))
+                        if (Path.GetDirectoryName(rs2014File) != Path.Combine(AppSettings.Instance.RSInstalledDir, rs2014Pack))
                             File.Move(rs2014File, rs2014File + ".disabled");
 
                     if (File.Exists(Path.Combine(dlcDir, rs2014Pack.Replace("dlc", ""), "cache.psarc")))
-                        File.Copy(Path.Combine(dlcDir, rs2014Pack.Replace("dlc", ""), "cache.psarc"), Path.Combine(Globals.MySettings.RSInstalledDir, "cache.psarc"), true);
+                        File.Copy(Path.Combine(dlcDir, rs2014Pack.Replace("dlc", ""), "cache.psarc"), Path.Combine(AppSettings.Instance.RSInstalledDir, "cache.psarc"), true);
                     else if (File.Exists(Path.Combine(dlcDir, rs2014Pack.Replace("dlc", ""), "cache.psarc.disabled")))
-                        File.Copy(Path.Combine(dlcDir, rs2014Pack.Replace("dlc", ""), "cache.psarc.disabled"), Path.Combine(Globals.MySettings.RSInstalledDir, "cache.psarc"), true);
+                        File.Copy(Path.Combine(dlcDir, rs2014Pack.Replace("dlc", ""), "cache.psarc.disabled"), Path.Combine(AppSettings.Instance.RSInstalledDir, "cache.psarc"), true);
                 }
             }
 

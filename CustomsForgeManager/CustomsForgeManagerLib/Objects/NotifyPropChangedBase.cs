@@ -56,11 +56,8 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         {
             if (!EqualityComparer<T>.Default.Equals(field, newValue))
             {
-                if (!EqualityComparer<T>.Default.Equals(field, newValue))
-                {
                     field = newValue;
                     DoPropChange(propertyName);
-                }
             }
         }
         public event PropertyChangedEventHandler PropertyChanged;

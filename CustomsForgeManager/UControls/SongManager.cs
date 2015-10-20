@@ -33,7 +33,7 @@ namespace CustomsForgeManager.UControls
         private int numberOfDLCPendingUpdate = 0;
         private int numberOfDisabledDLC = 0;
 
-        const string SongDataListCurrentVersion = "1";
+
 
         public SongManager()
         {
@@ -41,6 +41,11 @@ namespace CustomsForgeManager.UControls
             dgvSongsDetail.Visible = false;
             Leave += SongManager_Leave;
             PopulateSongManager();
+#if TAGGER
+            tsTager.Visible = true;
+#else
+            tsTager.Visible = false;
+#endif
         }
 
         public void LeaveSongManager()
@@ -51,9 +56,8 @@ namespace CustomsForgeManager.UControls
 
         public void LoadSongCollectionFromFile()
         {
-            var songsInfoPath = Constants.SongsInfoPath;
             masterSongCollection.Clear();
-            Globals.SongCollection.Clear();
+            var songsInfoPath = Constants.SongsInfoPath;
 
             // load songs into memory
             try
@@ -72,7 +76,7 @@ namespace CustomsForgeManager.UControls
                         if (versionNode != null)
                         {
                             if (versionNode.HasAttribute("version"))
-                                correctVersion = (versionNode.GetAttribute("version") == SongDataListCurrentVersion);
+                                correctVersion = (versionNode.GetAttribute("version") == SongData.SongDataListCurrentVersion);
                             listNode.RemoveChild(versionNode);
                         }
                     }
@@ -148,7 +152,7 @@ namespace CustomsForgeManager.UControls
             //save with some version info
             var dom = masterSongCollection.XmlSerializeToDom();
             XmlElement versionNode = dom.CreateElement("SongDataList");
-            versionNode.SetAttribute("version", SongDataListCurrentVersion);
+            versionNode.SetAttribute("version", SongData.SongDataListCurrentVersion);
             versionNode.SetAttribute("AppVersion", Constants.CustomVersion());
             dom.DocumentElement.AppendChild(versionNode);
             dom.Save(Constants.SongsInfoPath);
@@ -307,7 +311,7 @@ namespace CustomsForgeManager.UControls
                     if (dataGridViewColumn != null)
                     {
                         var columnIndex = dataGridViewColumn.Index;
-                        var columnSetting = Globals.MySettings.ManagerGridSettings.ColumnOrder.SingleOrDefault(x => x.ColumnIndex == columnIndex);
+                        var columnSetting = AppSettings.Instance.ManagerGridSettings.ColumnOrder.SingleOrDefault(x => x.ColumnIndex == columnIndex);
                         if (columnSetting != null)
                         {
                             columnSetting.Visible = !columnSetting.Visible;
@@ -400,8 +404,8 @@ namespace CustomsForgeManager.UControls
             DgvSongsAppearance();
 
             // reload column order, width, visibility
-            if (Globals.MySettings.ManagerGridSettings != null)
-                dgvSongsMaster.ReLoadColumnOrder(Globals.MySettings.ManagerGridSettings.ColumnOrder);
+            if (AppSettings.Instance.ManagerGridSettings != null)
+                dgvSongsMaster.ReLoadColumnOrder(AppSettings.Instance.ManagerGridSettings.ColumnOrder);
 
             // start fresh ... clear Selected in dgvSongsMaster and object SongData
             for (int i = 0; i < dgvSongsMaster.Rows.Count; i++)
@@ -418,11 +422,11 @@ namespace CustomsForgeManager.UControls
             Globals.DgvSongs = dgvSongsMaster;
             Globals.Settings.SaveSettingsToFile();
 
-            if (Globals.MySettings == null || Globals.MySettings.ManagerGridSettings == null)
+            if (AppSettings.Instance.ManagerGridSettings == null)
                 return;
 
             contextMenuStrip.Items.Clear();
-            RADataGridViewSettings gridSettings = Globals.MySettings.ManagerGridSettings;
+            RADataGridViewSettings gridSettings = AppSettings.Instance.ManagerGridSettings;
             foreach (ColumnOrderItem columnOrderItem in gridSettings.ColumnOrder)
             {
                 ToolStripMenuItem columnsMenuItem = new ToolStripMenuItem(
@@ -437,12 +441,14 @@ namespace CustomsForgeManager.UControls
 
         private void Rescan()
         {
+
+            dgvSongsMaster.DataSource = null;
             // save settings (column widths) in case user has modified
             Globals.Settings.SaveSettingsToFile();
             ResetDetail();
 
             // this should never happen
-            if (String.IsNullOrEmpty(Globals.MySettings.RSInstalledDir))
+            if (String.IsNullOrEmpty(AppSettings.Instance.RSInstalledDir))
             {
                 MessageBox.Show("Error: Rocksmith 2014 installation directory setting is null or empty.", Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -450,7 +456,7 @@ namespace CustomsForgeManager.UControls
 
             // this is done here in case user decided to manually delete all songs
             // the default initial load condition does not include RS1 Compatiblity files
-            var dlcFiles = Directory.EnumerateFiles(Path.Combine(Globals.MySettings.RSInstalledDir, "dlc"), "*.psarc", SearchOption.AllDirectories)
+            var dlcFiles = Directory.EnumerateFiles(Path.Combine(AppSettings.Instance.RSInstalledDir, "dlc"), "*.psarc", SearchOption.AllDirectories)
                 .Where(fi => !fi.ToLower().Contains(Constants.RS1COMP)).ToArray();
 
             if (!dlcFiles.Any())
@@ -458,7 +464,7 @@ namespace CustomsForgeManager.UControls
                 var msgText =
                    string.Format("Houston ... we have a problem!{0}There are no Rocksmith 2014 songs in:" +
                    "{0}{1}{0}{0}Please select a valid Rocksmith 2014{0}installation directory when you restart CFM.  ",
-                   Environment.NewLine, Path.Combine(Globals.MySettings.RSInstalledDir, "dlc"));
+                   Environment.NewLine, Path.Combine(AppSettings.Instance.RSInstalledDir, "dlc"));
                 MessageBox.Show(msgText, Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Stop);
 
                 if (Directory.Exists(Constants.WorkDirectory))
@@ -761,7 +767,7 @@ namespace CustomsForgeManager.UControls
 
         private void btnBackupSelectedDLCs_Click(object sender, EventArgs e)
         {
-            string backupDir = Path.Combine(Globals.MySettings.RSInstalledDir, "backups");
+            string backupDir = Path.Combine(AppSettings.Instance.RSInstalledDir, "backups");
             string fileName = String.Empty;
             string filePath = String.Empty;
 
@@ -1032,7 +1038,7 @@ namespace CustomsForgeManager.UControls
 
         private void cmsBackupDLC_Click(object sender, EventArgs e)
         {
-            string backupPath = Path.Combine(Globals.MySettings.RSInstalledDir, "backup");
+            string backupPath = Path.Combine(AppSettings.Instance.RSInstalledDir, "backup");
 
             try
             {

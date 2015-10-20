@@ -88,7 +88,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
 
         public static List<TuningDefinition> TuningXml { get; set; }
         public static DLogger MyLog { get; set; }
-        public static AppSettings MySettings { get; set; }
+       // public static AppSettings MySettings { get; set; }
         public static NotifyIcon Notifier { get; set; }
 
         public static Dictionary<string, SongData> OutdatedSongList

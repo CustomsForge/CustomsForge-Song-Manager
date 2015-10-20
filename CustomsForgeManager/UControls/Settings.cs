@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows.Forms;
 using CustomsForgeManager.CustomsForgeManagerLib;
 using CustomsForgeManager.CustomsForgeManagerLib.Objects;
+using System.ComponentModel;
 
 namespace CustomsForgeManager.UControls
 {
@@ -14,6 +15,7 @@ namespace CustomsForgeManager.UControls
         {
             InitializeComponent();
             Leave += Settings_Leave;
+            AppSettings.Instance.PropertyChanged += SettingsPropChanged;
         }
 
         public void LoadSettingsFromFile()
@@ -30,16 +32,12 @@ namespace CustomsForgeManager.UControls
 
             try
             {
-                using (FileStream fs = new FileStream(settingsPath, FileMode.Open, FileAccess.Read, FileShare.Read))
-                {
-                    Globals.MySettings = fs.DeserializeXml<AppSettings>();
-                    Globals.Log("Loaded settings file ...");
-                    fs.Flush();
-                }
 
-                cueRsDir.Text = Globals.MySettings.RSInstalledDir;
-                chkIncludeRS1DLC.Checked = Globals.MySettings.IncludeRS1DLCs;
-                chkEnableLogBallon.Checked = Globals.MySettings.EnabledLogBaloon;
+                AppSettings.Instance.LoadFromFile(settingsPath);
+
+                cueRsDir.Text = AppSettings.Instance.RSInstalledDir;
+                chkIncludeRS1DLC.Checked = AppSettings.Instance.IncludeRS1DLCs;
+                chkEnableLogBallon.Checked = AppSettings.Instance.EnabledLogBaloon;
 
                 ValidateRsDir();
             }
@@ -47,6 +45,23 @@ namespace CustomsForgeManager.UControls
             {
                 Globals.MyLog.Write(String.Format("<Error>: {0}", ex.Message));
             }
+        }
+
+        void SettingsPropChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case "RSInstalledDir":
+                    cueRsDir.Text = AppSettings.Instance.RSInstalledDir;
+                    break;
+                case "IncludeRS1DLCs":
+                    chkIncludeRS1DLC.Checked = AppSettings.Instance.IncludeRS1DLCs;
+                    break;
+                case "EnabledLogBaloon":
+                    chkEnableLogBallon.Checked = AppSettings.Instance.EnabledLogBaloon;
+                    break;
+            }
+
         }
 
         public void PopulateSettings()
@@ -62,45 +77,40 @@ namespace CustomsForgeManager.UControls
                 listDisabledColumns.Items.Add(newItem);
             }
 
-            // initialize variables
-            cueRsDir.Text = Globals.MySettings.RSInstalledDir;
-            chkIncludeRS1DLC.Checked = Globals.MySettings.IncludeRS1DLCs;
-            chkEnableLogBallon.Checked = Globals.MySettings.EnabledLogBaloon;
         }
 
         public void ResetSettings()
         {
             // initialize object if null
-            if (Globals.MySettings == null)
-                Globals.MySettings = new AppSettings();
+            //if (Globals.MySettings == null)
+            //    Globals.MySettings = new AppSettings();
 
-            Globals.MySettings.LogFilePath = Constants.LogFilePath;
-            Globals.MySettings.RSInstalledDir = GetInstallDirFromRegistry();
-            Globals.MySettings.IncludeRS1DLCs = false;  // changed to false (fewer issues)
+            //Globals.MySettings.LogFilePath = Constants.LogFilePath;
+            //Globals.MySettings.RSInstalledDir = GetInstallDirFromRegistry();
+            //Globals.MySettings.IncludeRS1DLCs = false;  // changed to false (fewer issues)
 
-            //Baloons are really annoying on win10
-            //if (Constants.DebugMode)
-            //    Globals.MySettings.EnabledLogBaloon = true;
-            //else
-            Globals.MySettings.EnabledLogBaloon = false; // fewer notfication issues
+            ////Baloons are really annoying on win10
+            ////if (Constants.DebugMode)
+            ////    Globals.MySettings.EnabledLogBaloon = true;
+            ////else
+            //Globals.MySettings.EnabledLogBaloon = false; // fewer notfication issues
+            //Globals.MySettings.ShowLogWindow = Constants.DebugMode;
 
-            cueRsDir.Text = Globals.MySettings.RSInstalledDir;
-            chkIncludeRS1DLC.Checked = Globals.MySettings.IncludeRS1DLCs;
-            chkEnableLogBallon.Checked = Globals.MySettings.EnabledLogBaloon;
 
+            //cueRsDir.Text = Globals.MySettings.RSInstalledDir;
+            //chkIncludeRS1DLC.Checked = Globals.MySettings.IncludeRS1DLCs;
+            //chkEnableLogBallon.Checked = Globals.MySettings.EnabledLogBaloon;
+            AppSettings.Instance.Reset();
             Globals.MyLog.Write("Reset settings to defaults ...");
         }
 
         public void SaveSettingsToFile(bool includeUcSettings = true)
         {
-            if (Globals.MySettings == null)
-                ResetSettings();
-
             if (includeUcSettings)
             {
-                Globals.MySettings.RSInstalledDir = cueRsDir.Text;
-                Globals.MySettings.IncludeRS1DLCs = chkIncludeRS1DLC.Checked;
-                Globals.MySettings.EnabledLogBaloon = chkEnableLogBallon.Checked;
+                AppSettings.Instance.RSInstalledDir = cueRsDir.Text;
+                AppSettings.Instance.IncludeRS1DLCs = chkIncludeRS1DLC.Checked;
+                AppSettings.Instance.EnabledLogBaloon = chkEnableLogBallon.Checked;
             }
 
             if (Globals.DgvSongs != null)
@@ -113,7 +123,7 @@ namespace CustomsForgeManager.UControls
                     {
                         settings.ColumnOrder.Add(new ColumnOrderItem { ColumnIndex = i, DisplayIndex = columns[i].DisplayIndex, Visible = columns[i].Visible, Width = columns[i].Width, ColumnName = columns[i].Name });
                     }
-                    Globals.MySettings.ManagerGridSettings = settings;
+                    AppSettings.Instance.ManagerGridSettings = settings;
                 }
             }
 
@@ -122,9 +132,8 @@ namespace CustomsForgeManager.UControls
             {
                 using (var fs = new FileStream(settingsPath, FileMode.Create, FileAccess.Write, FileShare.Write))
                 {
-                    Globals.MySettings.SerializeXml(fs);
+                    AppSettings.Instance.SerializeXml(fs);
                     Globals.Log("Saved settings file ...");
-                    fs.Flush();
                 }
             }
             catch (Exception ex)
@@ -136,7 +145,7 @@ namespace CustomsForgeManager.UControls
         private void ValidateRsDir()
         {
             // validate Rocksmith installation directory
-            var rsDir = Globals.MySettings.RSInstalledDir;
+            var rsDir = AppSettings.Instance.RSInstalledDir;
             if (String.IsNullOrEmpty(rsDir) || !Directory.Exists(rsDir)) // || rsDir.Text.Contains("Click here"))
             {
                 Globals.Log("Select your Rocksmith installation directory ...");
@@ -156,28 +165,7 @@ namespace CustomsForgeManager.UControls
                         Environment.NewLine), Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     ValidateRsDir();
                 }
-
-                // this is done in UC SongManager for better protection
-                // the default initial load condition does not include RS1 Compatiblity files
-                //var dlcFiles = Directory.EnumerateFiles(Path.Combine(Globals.MySettings.RSInstalledDir, "dlc"), "*.psarc", SearchOption.AllDirectories)
-                //    .Where(fi => !fi.ToLower().Contains(Constants.RS1COMP)).ToArray();
-
-                //if (!dlcFiles.Any())
-                //{
-                //    var msgText = "Houston ... we have a problem!" + Environment.NewLine +
-                //                  "There are no Rocksmith 2014 songs in:" + Environment.NewLine +
-                //                  Path.Combine(cueRsDir.Text, "dlc") + Environment.NewLine + Environment.NewLine +
-                //                  "Please select a Rocksmith 2014" + Environment.NewLine +
-                //                  "installation directory that has some songs.";
-                //    MessageBox.Show(msgText, Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Stop);
-
-                //    //// prevents write log attempt
-                //    //Environment.Exit(0);
-
-                //    ValidateRsDir();
-                //}
-
-                Globals.MySettings.RSInstalledDir = cueRsDir.Text;
+                AppSettings.Instance.RSInstalledDir = cueRsDir.Text;
             }
         }
 
@@ -231,7 +219,7 @@ namespace CustomsForgeManager.UControls
             Globals.RescanRenamer = true;
 
             // update RSInstalledDir after above error check passes
-            Globals.MySettings.RSInstalledDir = cueRsDir.Text;
+            AppSettings.Instance.RSInstalledDir = cueRsDir.Text;
         }
 
         private void listDisabledColumns_ItemChecked(object sender, ItemCheckedEventArgs e)

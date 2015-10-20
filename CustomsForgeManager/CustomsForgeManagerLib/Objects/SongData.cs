@@ -24,6 +24,9 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
     [Serializable]
     public class SongData
     {
+        //version 2 : SongKey changed to DLCKey.
+        public const string SongDataListCurrentVersion = "2";
+
         public string DLCKey { get; set; }
 
         [XmlIgnore]

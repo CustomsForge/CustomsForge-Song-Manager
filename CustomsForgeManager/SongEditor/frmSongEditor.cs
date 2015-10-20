@@ -34,7 +34,7 @@ namespace CustomsForgeManager.SongEditor
             var psarc = new PsarcPackage();
             packageData = psarc.ReadPackage(songPath);
             filePath = songPath;
-            Globals.TsProgressBar_Main.Value = 60;
+            Globals.TsProgressBar_Main.Value = 80;
             LoadSongInfo();
             Globals.TsProgressBar_Main.Value = 100;
             Cursor.Current = Cursors.Default;
@@ -48,10 +48,6 @@ namespace CustomsForgeManager.SongEditor
 
         private void Save(string outputPath)
         {
-            // save same song with different file name
-            //if (!Dirty)
-            //    return;
-
             Cursor.Current = Cursors.WaitCursor;
             tsProgressBar.Value = 30;
 
@@ -170,7 +166,10 @@ namespace CustomsForgeManager.SongEditor
         private void LoadSongInfo()
         {
             if (GetEditorControl<ucSongInfo>() == null)
-                LoadEditorControl<ucSongInfo>(this.tpSongInfo);
+            {
+                LoadEditorControl<ucSongInfo>(this.tpSongInfo).Dock = DockStyle.None;
+                tpSongInfo_Resize(tpSongInfo, EventArgs.Empty);
+            }
         }
 
         private void LoadTones()
@@ -307,6 +306,26 @@ namespace CustomsForgeManager.SongEditor
                 if (ReferenceEquals(obj, null))
                     return 0;
                 return obj.Code.GetHashCode() | obj.Time.GetHashCode();
+            }
+        }
+
+
+        private void tpSongInfo_Resize(object sender, EventArgs e)
+        {
+            var uSongInfo = GetEditorControl<ucSongInfo>();
+            if (uSongInfo != null)
+            {
+                var p = new System.Drawing.Point() {
+                    X = (tpSongInfo.Width - uSongInfo.Width) / 2,
+                    Y = 3 /* (tpSongInfo.Height - uSongInfo.Height) / 2;*/
+                };
+
+                if (p.X < 3)
+                    p.X = 3;
+
+                //if (p.Y < 3)
+                //    p.Y = 3;
+                uSongInfo.Location = p;
             }
         }
 

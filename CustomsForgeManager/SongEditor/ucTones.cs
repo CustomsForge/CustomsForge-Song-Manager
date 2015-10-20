@@ -18,6 +18,7 @@ namespace CustomsForgeManager.SongEditor
         {
             InitializeComponent();
             dgvTones.AutoGenerateColumns = false;
+            this.BackColor = dgvTones.BackgroundColor;
         }
 
         public override void DoInit()

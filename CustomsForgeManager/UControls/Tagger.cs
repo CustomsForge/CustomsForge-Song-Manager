@@ -10,11 +10,7 @@ using System.Diagnostics;
 using CustomsForgeManagerTools;
 using CustomsForgeManager.CustomsForgeManagerLib.Objects;
 using System.IO;
-using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
 using CustomsForgeManager.CustomsForgeManagerLib;
-using RocksmithToolkitLib.DLCPackage;
-using RocksmithToolkitLib.Extensions;
 using System.Windows.Forms.Design;
 using RocksmithToolkitLib.PSARC;
 
@@ -87,9 +83,6 @@ namespace CustomsForgeManager.UControls
             else
                 return false;
         }
-
-
-
 
         private void CreateDefaultFolders()
         {
@@ -434,10 +427,10 @@ namespace CustomsForgeManager.UControls
 
         private void comboTagPacks_SelectedIndexChanged(object sender, EventArgs e)
         {
-            string packName = themeCombo.SelectedItem.ToString();
-            string packFolder = Path.Combine(Constants.TaggerTemplatesFolder, packName);
-            string preview = Path.Combine(Constants.TaggerTemplatesFolder, packName + "prev.png");
-            string info = Path.Combine(Constants.TaggerTemplatesFolder, packName, "info.txt");
+            tagsFolder = themeCombo.SelectedItem.ToString();
+            string packFolder = Path.Combine(Constants.TaggerTemplatesFolder, tagsFolder);
+            string preview = Path.Combine(Constants.TaggerTemplatesFolder, tagsFolder + "prev.png");
+            string info = Path.Combine(Constants.TaggerTemplatesFolder, tagsFolder, "info.txt");
 
             if (Directory.Exists(packFolder))
             {
@@ -706,7 +699,7 @@ namespace CustomsForgeManager.UControls
 
                 }
 
-                f.tstripContainer.TopToolStripPanel.Join(ThisToolstrip, 1);
+                f.tstripContainer.TopToolStripPanel.Join(ThisToolstrip, 0);
             }
         }
 

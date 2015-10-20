@@ -23,7 +23,7 @@ namespace CustomsForgeManager.Forms
         private static ToolStripProgressBar tsProgressBar;
         private static ToolStripLabel tsStatusMsg;
 
-        public frmMain(DLogger myLog, AppSettings mySettings)
+        public frmMain(DLogger myLog)
         {
             InitializeComponent();
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);
@@ -43,14 +43,8 @@ namespace CustomsForgeManager.Forms
             // bring CFM to the front on startup
             this.WindowState = FormWindowState.Minimized;
 
-            if (Constants.DebugMode)
-            {
-                tsLabel_ShowHideLog.Text = "Hide Log ";
-                scMain.Panel2Collapsed = false;
-            }
-
+          
             Globals.MyLog = myLog;
-            Globals.MySettings = mySettings;
             Globals.Notifier = this.notifyIcon_Main;
             Globals.TsProgressBar_Main = this.tsProgressBar_Main;
             Globals.TsLabel_MainMsg = this.tsLabel_MainMsg;
@@ -63,7 +57,9 @@ namespace CustomsForgeManager.Forms
             Globals.OnScanEvent += (s, e) =>
             {
                 tcMain.InvokeIfRequired(a =>
-                    { tcMain.Enabled = !e.IsScanning; }
+                    {
+                        tcMain.Enabled = !e.IsScanning;
+                    }
                 );
             };
 
@@ -85,11 +81,26 @@ namespace CustomsForgeManager.Forms
             // load settings
             Globals.Settings.LoadSettingsFromFile();
 
+            if (AppSettings.Instance.ShowLogWindow)
+            {
+                tsLabel_ShowHideLog.Text = "Hide Log ";
+                scMain.Panel2Collapsed = false;
+            }
+
+            AppSettings.Instance.PropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName == "ShowLogWindow")
+                {
+                    scMain.Panel2Collapsed = !AppSettings.Instance.ShowLogWindow;
+                    tsLabel_ShowHideLog.Text = scMain.Panel2Collapsed ? "Show Log" : "Hide Log ";
+                }
+            };
+
             this.Show();
-            this.WindowState = Globals.MySettings.FullScreen ? FormWindowState.Maximized : FormWindowState.Normal;
+            this.WindowState = AppSettings.Instance.FullScreen ? FormWindowState.Maximized : FormWindowState.Normal;
 
 
-            if (Globals.MySettings.EnabledLogBaloon)
+            if (AppSettings.Instance.EnabledLogBaloon)
                 Globals.MyLog.AddTargetNotifyIcon(Globals.Notifier);
             else
                 Globals.MyLog.RemoveTargetNotifyIcon(Globals.Notifier);
@@ -113,11 +124,14 @@ namespace CustomsForgeManager.Forms
 
         private void LoadSongManager()
         {
-            this.tpSongManager.Controls.Clear();
-            this.tpSongManager.Controls.Add(Globals.SongManager);
-            Globals.SongManager.Dock = DockStyle.Fill;
-            Globals.SongManager.Location = UCLocation;
-            Globals.SongManager.Size = UCSize;
+            if (!tpSongManager.Controls.Contains(Globals.SongManager))
+            {
+                this.tpSongManager.Controls.Clear();
+                this.tpSongManager.Controls.Add(Globals.SongManager);
+                Globals.SongManager.Dock = DockStyle.Fill;
+                Globals.SongManager.Location = UCLocation;
+                Globals.SongManager.Size = UCSize;
+            }
         }
 
         private void frmMain_FormClosed(object sender, FormClosedEventArgs e)
@@ -129,7 +143,7 @@ namespace CustomsForgeManager.Forms
                 Globals.Log("<ERROR>: Save on close failed ...");
                 return;
             }
-            Globals.MySettings.FullScreen = WindowState == FormWindowState.Maximized;
+            AppSettings.Instance.FullScreen = WindowState == FormWindowState.Maximized;
 
             Globals.SongManager.LeaveSongManager();
             Globals.Settings.SaveSettingsToFile();
@@ -247,8 +261,7 @@ namespace CustomsForgeManager.Forms
 
         private void ShowHideLog()
         {
-            scMain.Panel2Collapsed = !scMain.Panel2Collapsed;
-            tsLabel_ShowHideLog.Text = scMain.Panel2Collapsed ? "Show Log" : "Hide Log ";
+            AppSettings.Instance.ShowLogWindow = !AppSettings.Instance.ShowLogWindow;
         }
 
         public static NotifyIcon Notifier

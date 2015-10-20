@@ -85,7 +85,7 @@ namespace CustomsForgeManager.UControls
                 // beethoven_p.psarc is a good song to use for testing
                 var oldFilePath = data.Path;
                 var newFileName = template.Render();
-                var newFilePath = Path.Combine(Globals.MySettings.RSInstalledDir, "dlc");
+                var newFilePath = Path.Combine(AppSettings.Instance.RSInstalledDir, "dlc");
 
                 // renamed files could be enabled or disabled
                 if (Path.GetFileName(oldFilePath).ToLower().Contains("disabled"))
@@ -123,12 +123,12 @@ namespace CustomsForgeManager.UControls
                     Globals.Log("To: " + newFilePath);
 
                     if (chkDeleteEmptyDir.Checked)
-                        new DirectoryInfo(Path.Combine(Globals.MySettings.RSInstalledDir, "dlc")).DeleteEmptyDirs();
+                        new DirectoryInfo(Path.Combine(AppSettings.Instance.RSInstalledDir, "dlc")).DeleteEmptyDirs();
                 }
                 catch (Exception e)
                 {
                     if (e.Message.ToLower().Contains("cannot create a file"))
-                        Globals.Log("Use Duplicates to delete/move '" + Path.GetFileName(newFilePath) + "' before using Renamer.");
+                        Globals.Log(string.Format("Use Duplicates to delete/move '{0}' before using Renamer.", Path.GetFileName(newFilePath)));
 
                     Globals.Log("Error: " + e.Message);
                 }
@@ -138,8 +138,8 @@ namespace CustomsForgeManager.UControls
         public void UpdateToolStrip()
         {
             if (Globals.RescanSongManager || Globals.WorkerFinished == Globals.Tristate.Cancelled)
-            {
-                MessageBox.Show("Songs need to be rescanned with  " + Environment.NewLine + "Song Manager before renaming!", Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            {                
+                MessageBox.Show(string.Format("Songs need to be rescanned with  {0}Song Manager before renaming!", Environment.NewLine), Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 

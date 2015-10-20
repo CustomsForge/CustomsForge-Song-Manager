@@ -1,5 +1,15 @@
 CFM Release Notes
 
+1.0.4.3
+-Fixed a gridview bug in SongManager, also added an eventhandler to log errors on a gridview data error.
+-Fixed bug in DDSImage when a DDS image doesn't have a dwPitchOrLinearSize value.
+-Changed AppSettings to a singleton, and removed it from globals. Use AppSettings.Instance instead of Globals.MySettings.
+-Added ShowLogWindow to AppSettings
+-Changed "SongDataListCurrentVersion" to "2" because of change of "SongKey" to "DLCKey"
+-Added ScrollSpeed and TuningPitch columns to ucArrangements
+-Image extention (image).ToDDS uses nvdxt.exe until the DDS writer is ready
+-added RocksmithToolkitLib to solution (for debugging)
+
 1.0.4.2
 -Updates to SongEditor Arrangements Editor
 -Add required details to SongEditor to produce valid CDLC

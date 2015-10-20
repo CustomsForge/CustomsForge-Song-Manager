@@ -7,25 +7,25 @@ namespace CustomsForgeManagerTools
 {
     public class DDSImage
     {
-        private const int DDPF_ALPHAPIXELS = 0x00000001;
-        private const int DDPF_ALPHA = 0x00000002;
-        private const int DDPF_FOURCC = 0x00000004;
-        private const int DDPF_RGB = 0x00000040;
-        private const int DDPF_YUV = 0x00000200;
-        private const int DDPF_LUMINANCE = 0x00020000;
-        private const int DDSD_MIPMAPCOUNT = 0x00020000;
-        private const int FOURCC_DXT1 = 0x31545844;
-        private const int FOURCC_DX10 = 0x30315844;
-        private const int FOURCC_DXT5 = 0x35545844;
+        public const int DDPF_ALPHAPIXELS = 0x00000001;
+        public const int DDPF_ALPHA = 0x00000002;
+        public const int DDPF_FOURCC = 0x00000004;
+        public const int DDPF_RGB = 0x00000040;
+        public const int DDPF_YUV = 0x00000200;
+        public const int DDPF_LUMINANCE = 0x00020000;
+        public const int DDSD_MIPMAPCOUNT = 0x00020000;
+        public const int FOURCC_DXT1 = 0x31545844;
+        public const int FOURCC_DX10 = 0x30315844;
+        public const int FOURCC_DXT5 = 0x35545844;
 
-        private const int DDSD_CAPS = 0x00000001;
-        private const int DDSD_HEIGHT = 0x00000002;
-        private const int DDSD_WIDTH = 0x00000004;
-        private const int DDSD_PITCH = 0x00000008;
-        private const int DDSD_PIXELFORMAT = 0x00001000;
+        public const int DDSD_CAPS = 0x00000001;
+        public const int DDSD_HEIGHT = 0x00000002;
+        public const int DDSD_WIDTH = 0x00000004;
+        public const int DDSD_PITCH = 0x00000008;
+        public const int DDSD_PIXELFORMAT = 0x00001000;
 
-        private const int DDSD_LINEARSIZE = 0x00080000;
-        private const int DDSD_DEPTH = 0x00800000;
+        public const int DDSD_LINEARSIZE = 0x00080000;
+        public const int DDSD_DEPTH = 0x00800000;
 
 
         public int dwMagic;
@@ -77,6 +77,10 @@ namespace CustomsForgeManagerTools
                 if ((header.dwFlags & DDSD_MIPMAPCOUNT) != 0)
                     mipMapCount = header.dwMipMapCount;
                 images = new Bitmap[mipMapCount];
+
+                if (header.dwPitchOrLinearSize == 0)
+                    header.dwPitchOrLinearSize = (int)(ms.Length - ms.Position);
+
 
                 bdata = r.ReadBytes(header.dwPitchOrLinearSize);
 
@@ -395,15 +399,8 @@ namespace CustomsForgeManagerTools
 
     class DDS_HEADER
     {
-        public int dwSize;
+        public int dwSize = 124;
         public int dwFlags;
-        /*	DDPF_ALPHAPIXELS   0x00000001 
-            DDPF_ALPHA   0x00000002 
-            DDPF_FOURCC   0x00000004 
-            DDPF_RGB   0x00000040 
-            DDPF_YUV   0x00000200 
-            DDPF_LUMINANCE   0x00020000 
-         */
         public int dwHeight;
         public int dwWidth;
         public int dwPitchOrLinearSize;
@@ -416,6 +413,30 @@ namespace CustomsForgeManagerTools
         public int dwCaps3;
         public int dwCaps4;
         public int dwReserved2;
+
+        public void write(BinaryWriter w, bool includeMagic)
+        {
+            if (includeMagic)
+                w.Write((int)0x20534444);
+            w.Write((int)dwSize);
+            w.Write((int)dwFlags);
+            w.Write((int)dwHeight);
+            w.Write((int)dwWidth);
+            w.Write((int)dwPitchOrLinearSize);
+            w.Write((int)dwDepth);
+            w.Write((int)dwMipMapCount);
+            for (int i = 0; i < 11; ++i)
+                w.Write((int)dwReserved1[i]);
+            ddspf.write(w);
+
+
+            w.Write((int)dwCaps);
+            w.Write((int)dwCaps2);
+            w.Write((int)dwCaps3);
+            w.Write((int)dwCaps4);
+            w.Write((int)dwReserved2);
+
+        }
     }
 
     class DDS_HEADER_DXT10
@@ -429,7 +450,7 @@ namespace CustomsForgeManagerTools
 
     class DDS_PIXELFORMAT
     {
-        public int dwSize;
+        public int dwSize = 32;
         public int dwFlags;
         public int dwFourCC;
         public int dwRGBBitCount;
@@ -437,6 +458,19 @@ namespace CustomsForgeManagerTools
         public int dwGBitMask;
         public int dwBBitMask;
         public int dwABitMask;
+
+        public void write(BinaryWriter w)
+        {
+            w.Write((int)dwSize);
+            w.Write((int)dwFlags);
+            w.Write((int)dwFourCC);
+            w.Write((int)dwRGBBitCount);//4
+            w.Write((int)dwRBitMask);//8
+            w.Write((int)dwGBitMask);//12
+            w.Write((int)dwBBitMask);//16
+            w.Write((int)dwABitMask);//20
+
+        }
     }
 
     enum DXGI_FORMAT : uint

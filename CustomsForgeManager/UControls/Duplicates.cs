@@ -134,7 +134,7 @@ namespace CustomsForgeManager.UControls
             Globals.Settings.SaveSettingsToFile();
 
             // this should never happen
-            if (String.IsNullOrEmpty(Globals.MySettings.RSInstalledDir))
+            if (String.IsNullOrEmpty(AppSettings.Instance.RSInstalledDir))
             {
                 MessageBox.Show(CustomsForgeManager.Properties.Resources.ErrorRocksmith2014InstallationDirectorySet, Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -204,7 +204,7 @@ namespace CustomsForgeManager.UControls
                     Properties.Resources.DeleteTheSelectedDuplicates, Constants.ApplicationName, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.No)
                     return;
 
-            string dupDir = Path.Combine(Globals.MySettings.RSInstalledDir, "cdlc_duplicates");
+            string dupDir = Path.Combine(AppSettings.Instance.RSInstalledDir, "cdlc_duplicates");
 
             if (!Directory.Exists(dupDir))
                 Directory.CreateDirectory(dupDir);

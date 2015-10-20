@@ -52,7 +52,7 @@
             this.statusStripMain.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
             this.statusStripMain.Location = new System.Drawing.Point(0, 459);
             this.statusStripMain.Name = "statusStripMain";
-            this.statusStripMain.Size = new System.Drawing.Size(673, 23);
+            this.statusStripMain.Size = new System.Drawing.Size(745, 23);
             this.statusStripMain.SizingGrip = false;
             this.statusStripMain.TabIndex = 4;
             this.statusStripMain.Text = "statusStrip1";
@@ -100,6 +100,9 @@
             // 
             // tcMain
             // 
+            this.tcMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tcMain.Controls.Add(this.tpSongInfo);
             this.tcMain.Controls.Add(this.tpArrangements);
             this.tcMain.Controls.Add(this.tpTones);
@@ -108,7 +111,7 @@
             this.tcMain.Location = new System.Drawing.Point(8, 12);
             this.tcMain.Name = "tcMain";
             this.tcMain.SelectedIndex = 0;
-            this.tcMain.Size = new System.Drawing.Size(653, 431);
+            this.tcMain.Size = new System.Drawing.Size(725, 431);
             this.tcMain.TabIndex = 5;
             this.tcMain.SelectedIndexChanged += new System.EventHandler(this.tcMain_SelectedIndexChanged);
             // 
@@ -117,10 +120,11 @@
             this.tpSongInfo.Location = new System.Drawing.Point(4, 25);
             this.tpSongInfo.Name = "tpSongInfo";
             this.tpSongInfo.Padding = new System.Windows.Forms.Padding(3);
-            this.tpSongInfo.Size = new System.Drawing.Size(645, 402);
+            this.tpSongInfo.Size = new System.Drawing.Size(717, 402);
             this.tpSongInfo.TabIndex = 6;
             this.tpSongInfo.Text = "Song Info";
             this.tpSongInfo.UseVisualStyleBackColor = true;
+            this.tpSongInfo.Resize += new System.EventHandler(this.tpSongInfo_Resize);
             // 
             // tpArrangements
             // 
@@ -154,10 +158,9 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(673, 482);
+            this.ClientSize = new System.Drawing.Size(745, 482);
             this.Controls.Add(this.statusStripMain);
             this.Controls.Add(this.tcMain);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmSongEditor";

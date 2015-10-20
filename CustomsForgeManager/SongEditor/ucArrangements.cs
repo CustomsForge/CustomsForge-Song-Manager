@@ -16,6 +16,7 @@ namespace CustomsForgeManager.SongEditor
         {
             InitializeComponent();
             dgvArrangements.AutoGenerateColumns = false;
+            BackColor = dgvArrangements.BackgroundColor;
         }
 
         public override void DoInit()
@@ -51,11 +52,7 @@ namespace CustomsForgeManager.SongEditor
             {
                 form.EditMode = true;
                 form.StartPosition = FormStartPosition.CenterParent;
-
-                if (DialogResult.OK != form.ShowDialog())
-                    return false;
-
-                return true;
+                return form.ShowDialog() == DialogResult.OK;
             }
         }
 

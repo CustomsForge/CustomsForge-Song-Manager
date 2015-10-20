@@ -108,8 +108,8 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
         private void WorkerParseSongs(object sender, DoWorkEventArgs e)
         {
             Globals.IsScanning = true;
-            List<string> fileList = Extensions.FilesList(Path.Combine(Globals.MySettings.RSInstalledDir, "dlc"),
-                Globals.MySettings.IncludeRS1DLCs);
+            List<string> fileList = Extensions.FilesList(Path.Combine(AppSettings.Instance.RSInstalledDir, "dlc"),
+                AppSettings.Instance.IncludeRS1DLCs);
 
             bwSongCollection = Globals.SongCollection.ToList();
 
@@ -180,7 +180,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                                     bwSongCollection.Add(songData);
                                 });
 
-                        if (songData.FileName.ToLower().Contains(Constants.RS1COMP) && Globals.MySettings.IncludeRS1DLCs)
+                        if (songData.FileName.ToLower().Contains(Constants.RS1COMP) && AppSettings.Instance.IncludeRS1DLCs)
                             Extensions.InvokeIfRequired(workOrder, delegate
                                {
                                    bwSongCollection.Add(songData);
@@ -191,7 +191,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
             catch (Exception ex)
             {
                 // move to Quarantine folder
-                var corDir = Path.Combine(Globals.MySettings.RSInstalledDir, "cdlc_quarantined");
+                var corDir = Path.Combine(AppSettings.Instance.RSInstalledDir, "cdlc_quarantined");
                 var corFileName = String.Format("{0}{1}", Path.GetFileName(filePath), ".corrupt");
                 var corFilePath = Path.Combine(corDir, corFileName);
 

@@ -30,13 +30,13 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
     public class AppSettings : NotifyPropChangedBase
     {
         string FRSInstalledDir;
-        bool FRescanOnStartup;
         bool FIncludeRS1DLCs;
         bool FEnabledLogBaloon;
         bool FCheckForUpdateOnScan;
         bool FFullScreen;
+        bool FShowLogwindow;
 
-        public string LogFilePath { get ; set;}
+        public string LogFilePath { get; set; }
         public string RSInstalledDir { get { return FRSInstalledDir; } set { SetPropertyField("RSInstalledDir", ref FRSInstalledDir, value); } }
         public bool IncludeRS1DLCs { get { return FIncludeRS1DLCs; } set { SetPropertyField("IncludeRS1DLCs", ref FIncludeRS1DLCs, value); } }
         public bool EnabledLogBaloon { get { return FEnabledLogBaloon; } set { SetPropertyField("EnabledLogBaloon", ref FEnabledLogBaloon, value); } }
@@ -45,9 +45,56 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         // TODO: need to impliment saving/loading this
         public string RenameTemplate { get; set; }
         public bool FullScreen { get { return FFullScreen; } set { SetPropertyField("FullScreen", ref FFullScreen, value); } }
+        public bool ShowLogWindow { get { return FShowLogwindow; } set { SetPropertyField("ShowLogWindow", ref FShowLogwindow, value); } }
+
+        //property template
+        //public type PropName { get { return propName; } set { SetPropertyField("PropName", ref propName, value); } }
+
+        private static AppSettings instance;
+
+        public static AppSettings Instance
+        {
+            get
+            {
+                if (instance == null)
+                    instance = new AppSettings();
+                return instance;
+            }
+        }
+
+        public void LoadFromFile(string Filename)
+        {
+            using (var fs = File.OpenRead(Filename))
+                LoadFromStream(fs);
+        }
+
+        public void LoadFromStream(Stream stream)
+        {
+            var x = stream.DeserializeXml<AppSettings>();
+            var props = GetType().GetProperties(
+                System.Reflection.BindingFlags.Public |  System.Reflection.BindingFlags.Instance);
+
+            var emptyObjParams = new object[] { };
+
+            foreach (var p in props)
+                if (p.CanRead && p.CanWrite)
+                    p.SetValue(this, p.GetValue(x, emptyObjParams), emptyObjParams);
+
+            Globals.Log("Loaded settings file ...");
+        }
+
+        public void Reset()
+        {
+            Instance.LogFilePath = Constants.LogFilePath;
+            Instance.RSInstalledDir = Extensions.GetSteamDirectory();
+            Instance.IncludeRS1DLCs = false;  // changed to false (fewer issues)
+            Instance.EnabledLogBaloon = false; // fewer notfication issues
+            Instance.ShowLogWindow = Constants.DebugMode;
+        }
+
         /// Initialise settings with default values
         /// </summary>
-        public AppSettings()
+        private AppSettings()
         {
             LogFilePath = Constants.LogFilePath;
         }

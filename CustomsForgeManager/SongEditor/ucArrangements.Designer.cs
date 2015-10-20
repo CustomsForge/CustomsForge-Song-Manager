@@ -32,7 +32,9 @@
             this.colName = new System.Windows.Forms.DataGridViewLinkColumn();
             this.colArrangementType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colRouteMask = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colScrollSpeed = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colTuning = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colTuningPitch = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colToneBase = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvArrangements)).BeginInit();
             this.SuspendLayout();
@@ -48,11 +50,14 @@
             this.colName,
             this.colArrangementType,
             this.colRouteMask,
+            this.colScrollSpeed,
             this.colTuning,
+            this.colTuningPitch,
             this.colToneBase});
+            this.dgvArrangements.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvArrangements.Location = new System.Drawing.Point(0, 0);
             this.dgvArrangements.Name = "dgvArrangements";
-            this.dgvArrangements.Size = new System.Drawing.Size(600, 366);
+            this.dgvArrangements.Size = new System.Drawing.Size(810, 409);
             this.dgvArrangements.TabIndex = 0;
             this.dgvArrangements.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dgvArrangements_CellBeginEdit);
             this.dgvArrangements.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvArrangements_CellContentClick);
@@ -74,25 +79,41 @@
             this.colArrangementType.Name = "colArrangementType";
             this.colArrangementType.ReadOnly = true;
             this.colArrangementType.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colArrangementType.Width = 120;
             // 
             // colRouteMask
             // 
             this.colRouteMask.DataPropertyName = "RouteMask";
             this.colRouteMask.HeaderText = "Route Mask";
             this.colRouteMask.Name = "colRouteMask";
+            this.colRouteMask.ReadOnly = true;
             this.colRouteMask.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // colScrollSpeed
+            // 
+            this.colScrollSpeed.DataPropertyName = "ScrollSpeed";
+            this.colScrollSpeed.HeaderText = "Scroll Speed";
+            this.colScrollSpeed.Name = "colScrollSpeed";
             // 
             // colTuning
             // 
             this.colTuning.DataPropertyName = "Tuning";
             this.colTuning.HeaderText = "Tuning";
             this.colTuning.Name = "colTuning";
+            this.colTuning.ReadOnly = true;
+            // 
+            // colTuningPitch
+            // 
+            this.colTuningPitch.DataPropertyName = "TuningPitch";
+            this.colTuningPitch.HeaderText = "Tuning Pitch";
+            this.colTuningPitch.Name = "colTuningPitch";
             // 
             // colToneBase
             // 
             this.colToneBase.DataPropertyName = "ToneBase";
             this.colToneBase.HeaderText = "Tone Base";
             this.colToneBase.Name = "colToneBase";
+            this.colToneBase.ReadOnly = true;
             this.colToneBase.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             // 
             // ucArrangements
@@ -101,7 +122,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.dgvArrangements);
             this.Name = "ucArrangements";
-            this.Size = new System.Drawing.Size(704, 366);
+            this.Size = new System.Drawing.Size(810, 409);
             ((System.ComponentModel.ISupportInitialize)(this.dgvArrangements)).EndInit();
             this.ResumeLayout(false);
 
@@ -113,7 +134,9 @@
         private System.Windows.Forms.DataGridViewLinkColumn colName;
         private System.Windows.Forms.DataGridViewTextBoxColumn colArrangementType;
         private System.Windows.Forms.DataGridViewTextBoxColumn colRouteMask;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colScrollSpeed;
         private System.Windows.Forms.DataGridViewTextBoxColumn colTuning;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colTuningPitch;
         private System.Windows.Forms.DataGridViewTextBoxColumn colToneBase;
     }
 }

@@ -39,6 +39,8 @@
             this.dgvTones.AllowUserToAddRows = false;
             this.dgvTones.AllowUserToDeleteRows = false;
             this.dgvTones.AllowUserToResizeRows = false;
+            this.dgvTones.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.dgvTones.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvTones.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colName,
