@@ -51,8 +51,9 @@ namespace CustomsForgeManager.UControls
 
         public void LoadSongCollectionFromFile()
         {
-            masterSongCollection.Clear();
             var songsInfoPath = Constants.SongsInfoPath;
+            masterSongCollection.Clear();
+            Globals.SongCollection.Clear();
 
             // load songs into memory
             try
@@ -75,12 +76,13 @@ namespace CustomsForgeManager.UControls
                             listNode.RemoveChild(versionNode);
                         }
                     }
+
                     if (correctVersion)
-                        masterSongCollection = Extensions.XmlDeserialize<BindingList<SongData>>(listNode.OuterXml); //fsSongCollection.DeserializeXml(new BindingList<SongData>());
+                    {
+                        masterSongCollection = Extensions.XmlDeserialize<BindingList<SongData>>(listNode.OuterXml);
+                        Globals.SongCollection = masterSongCollection;
+                    }
                 }
-
-                Globals.SongCollection = masterSongCollection;
-
 
                 Rescan();
                 Globals.ReloadDuplicates = false;
@@ -453,21 +455,20 @@ namespace CustomsForgeManager.UControls
 
             if (!dlcFiles.Any())
             {
-                if (Directory.Exists(Constants.WorkDirectory))
-                    if (Directory.Exists(Constants.WorkDirectory))
-                    {
-                        File.Delete(Constants.LogFilePath);
-                        File.Delete(Constants.SettingsPath);
-                        File.Delete(Constants.SongsInfoPath);
-                    }
-
                 var msgText =
-                    string.Format("Houston ... we have a problem!{0}There are no Rocksmith 2014 songs in:" +
-                    "{0}{1}{0}{0}Please select a valid Rocksmith 2014{0}installation directory when you restart CFM.  ",
-                    Environment.NewLine, Path.Combine(Globals.MySettings.RSInstalledDir, "dlc"));
+                   string.Format("Houston ... we have a problem!{0}There are no Rocksmith 2014 songs in:" +
+                   "{0}{1}{0}{0}Please select a valid Rocksmith 2014{0}installation directory when you restart CFM.  ",
+                   Environment.NewLine, Path.Combine(Globals.MySettings.RSInstalledDir, "dlc"));
                 MessageBox.Show(msgText, Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Stop);
 
-                // prevents write log attempt
+                if (Directory.Exists(Constants.WorkDirectory))
+                {
+                    File.Delete(Constants.LogFilePath);
+                    File.Delete(Constants.SettingsPath);
+                    File.Delete(Constants.SongsInfoPath);
+                }
+
+                // prevents write log attempt and shutsdown app
                 Environment.Exit(0);
             }
 
@@ -1171,7 +1172,7 @@ namespace CustomsForgeManager.UControls
 
                 if (String.IsNullOrEmpty(dgvSongsMaster.Rows[e.RowIndex].Cells["colShowDetail"].Tag as String))
                 {
-                    var songDetails = masterSongCollection.Where(master => (master.SongKey == songKey)).ToList();
+                    var songDetails = masterSongCollection.Where(master => (master.DLCKey == songKey)).ToList();
                     if (!songDetails.Any())
                         MessageBox.Show("No Song Details Found");
                     else

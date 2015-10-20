@@ -24,7 +24,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
     [Serializable]
     public class SongData
     {
-        public string SongKey { get; set; }
+        public string DLCKey { get; set; }
 
         [XmlIgnore]
         public bool Selected { get; set; }
@@ -43,8 +43,6 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
         public Single SongLength { get; set; }
         public Single SongAverageTempo { get; set; }
         public Single SongVolume { get; set; }
-
-        // this info can be gathered after parsing and does not need to be stored in xml       
         public DateTime FileDate { get; set; }
         public int FileSize { get; set; }
 
@@ -115,7 +113,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
     [XmlRoot("Arrangment")] // provides proper xml serialization
     public class Arrangement
     {
-        public string SongKey { get; set; }
+        public string DLCKey { get; set; }
         public string PersistentID { get; set; }
         public string Name { get; set; }
         public string Tuning { get; set; }

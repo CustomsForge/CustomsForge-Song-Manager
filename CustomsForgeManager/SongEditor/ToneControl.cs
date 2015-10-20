@@ -7,6 +7,8 @@ using RocksmithToolkitLib.ToolkitTone;
 
 namespace CustomsForgeManager.SongEditor
 {
+    // this code taken from toolkit
+
     public partial class ToneControl : UserControl
     {
         private bool _refreshingCombos = false;
@@ -27,7 +29,7 @@ namespace CustomsForgeManager.SongEditor
         }
 
         private const string RackSlot = "Rack";
-       
+
 
         public ToneControl()
         {
@@ -37,7 +39,7 @@ namespace CustomsForgeManager.SongEditor
 
         public void Init()
         {
-             toneNameBox.ReadOnly = true;
+            toneNameBox.ReadOnly = true;
             InitializeToneInformation();
             InitializeComboBoxes();
 
@@ -149,7 +151,7 @@ namespace CustomsForgeManager.SongEditor
                 .OrderBy(p => p.DisplayName)
                 .ToArray();
             var prePedals = allPedals
-                .Where(p => p.TypeEnum == PedalType.Pedal )
+                .Where(p => p.TypeEnum == PedalType.Pedal)
                 .OrderBy(p => p.DisplayName)
                 .ToArray();
             var postPedals = allPedals
@@ -216,7 +218,7 @@ namespace CustomsForgeManager.SongEditor
                     {
                         var pedalSetting = pedal.MakePedalSetting(GameVersion.RS2014);
                         tone.GearList[pedalSlot] = pedalSetting;
-                        knobSelectButton.Enabled = ((Pedal2014)pedalSetting).KnobValues.Any();                      
+                        knobSelectButton.Enabled = ((Pedal2014)pedalSetting).KnobValues.Any();
                     }
                     else
                     {

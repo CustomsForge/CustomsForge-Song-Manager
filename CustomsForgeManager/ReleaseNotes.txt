@@ -1,5 +1,10 @@
 CFM Release Notes
 
+1.0.4.2
+-Updates to SongEditor Arrangements Editor
+-Add required details to SongEditor to produce valid CDLC
+-Fixed bugs in LoadSongCollectionFromFile method
+
 1.0.4.1
 -Updated SongEditor Arrangements tabmenu to use toolkit like Arrangement Editor
 

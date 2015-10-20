@@ -110,9 +110,9 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                         // mini speed hack - these don't change so skip after first pass
                         if (!gotSongInfo)
                         {
-                            currentSong.SongKey = attributes["SongKey"].ToString();
-                            currentSong.Title = attributes["SongName"].ToString();
+                            currentSong.DLCKey = attributes["SongKey"].ToString();
                             currentSong.Artist = attributes["ArtistName"].ToString();
+                            currentSong.Title = attributes["SongName"].ToString();
                             currentSong.Album = attributes["AlbumName"].ToString();
                             currentSong.LastConversionDateTime = Convert.ToDateTime(attributes["LastConversionDateTime"]);
                             currentSong.SongYear = Convert.ToInt32(attributes["SongYear"]);
@@ -132,14 +132,14 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                         if (arrName.ToLower().Contains("vocal"))
                             arrangmentsFromPsarc.Add(new Arrangement
                             {
-                                SongKey = attributes["DLCKey"].ToString(),
+                                DLCKey = attributes["SongKey"].ToString(),
                                 PersistentID = attributes["PersistentID"].ToString(),
                                 Name = arrName
                             });
                         else
                             arrangmentsFromPsarc.Add(new Arrangement
                            {
-                               SongKey = attributes["DLCKey"].ToString(),
+                               DLCKey = attributes["SongKey"].ToString(),
                                PersistentID = attributes["PersistentID"].ToString(),
                                Name = arrName,
                                Tuning = Extensions.TuningToName(attributes["Tuning"].ToString()),

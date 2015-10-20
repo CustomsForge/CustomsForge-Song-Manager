@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
-using RocksmithToolkitLib;
 using RocksmithToolkitLib.DLCPackage;
-using RocksmithToolkitLib.DLCPackage.Manifest2014.Tone;
-using CustomsForgeManager.CustomsForgeManagerLib.CustomControls.DataGridEditors;
 using CustomsForgeManager.CustomsForgeManagerLib;
 
 namespace CustomsForgeManager.SongEditor
@@ -52,7 +47,7 @@ namespace CustomsForgeManager.SongEditor
             if (arrangement == null)
                 return false;
 
-            using (var form = new frmArrangement(arrangement, this, GameVersion.RS2014) { Text = "Edit Arrangement" })
+            using (var form = new frmArrangement(arrangement, this) { Text = "Edit Arrangement" })
             {
                 form.EditMode = true;
                 form.StartPosition = FormStartPosition.CenterParent;

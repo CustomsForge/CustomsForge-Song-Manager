@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
 using System.IO;
@@ -10,20 +9,18 @@ using RocksmithToolkitLib.DLCPackage.Manifest2014.Tone;
 using RocksmithToolkitLib.Sng;
 using RocksmithToolkitLib.Extensions;
 using RocksmithToolkitLib;
-using RocksmithToolkitLib.Song2014ToTab;
 using RocksmithToolkitLib.Xml;
-using RocksmithToolkitLib.DLCPackage.Manifest.Tone;
+
 
 namespace CustomsForgeManager.SongEditor
 {
-    //TODO: Cleanup method and remove RS2012 references
+    // this code taken from toolkit
 
     public partial class frmArrangement : Form
     {
         private Arrangement _arrangement;
         private ucArrangements parentControl = null;
         private Song2014 xmlSong = null;
-        private GameVersion currentGameVersion;
         public bool EditMode = false;
         private bool bassFix = false;
 
@@ -99,23 +96,20 @@ namespace CustomsForgeManager.SongEditor
             }
         }
 
-        public frmArrangement(ucArrangements control, GameVersion gameVersion)
-            : this(new Arrangement
-            {
-                SongFile = new SongFile { File = "" },
-                SongXml = new SongXML { File = "" },
-                ArrangementType = ArrangementType.Guitar
-            }, control, gameVersion)
+        public frmArrangement(ucArrangements control) : this(new Arrangement
+                {
+                    SongFile = new SongFile { File = "" },
+                    SongXml = new SongXML { File = "" },
+                    ArrangementType = ArrangementType.Guitar
+                }, control)
         {
             Console.WriteLine("Debug");
         }
 
-        public frmArrangement(Arrangement arrangement, ucArrangements control, GameVersion gameVersion)
+        public frmArrangement(Arrangement arrangement, ucArrangements control)
         {
             InitializeComponent();
-            currentGameVersion = gameVersion == GameVersion.RS2012 ? GameVersion.RS2012 : GameVersion.RS2014;
-
-            FillTuningCombo(arrangement.ArrangementType, currentGameVersion);
+            FillTuningCombo(arrangement.ArrangementType);
 
             foreach (var val in Enum.GetValues(typeof(ArrangementType)))
                 arrangementTypeCombo.Items.Add(val);
@@ -159,7 +153,7 @@ namespace CustomsForgeManager.SongEditor
                 // Arrangement Information
                 arrangementNameCombo.Enabled = selectedType != ArrangementType.Bass;
                 tuningComboBox.Enabled = (selectedType != ArrangementType.Vocal && selectedType != ArrangementType.ShowLight);
-                gbTuningPitch.Enabled = (selectedType != ArrangementType.Vocal && selectedType != ArrangementType.ShowLight) && currentGameVersion != GameVersion.RS2012;
+                gbTuningPitch.Enabled = (selectedType != ArrangementType.Vocal && selectedType != ArrangementType.ShowLight);
                 gbScrollSpeed.Enabled = (selectedType != ArrangementType.Vocal && selectedType != ArrangementType.ShowLight);
                 Picked.Enabled = selectedType == ArrangementType.Bass;
                 BonusCheckBox.Enabled = gbTuningPitch.Enabled;
@@ -183,7 +177,7 @@ namespace CustomsForgeManager.SongEditor
 
                 // Update tuningComboBox
                 if ((selectedType != ArrangementType.Vocal && selectedType != ArrangementType.ShowLight))
-                    FillTuningCombo(selectedType, currentGameVersion);
+                    FillTuningCombo(selectedType);
 
             };
 
@@ -213,7 +207,7 @@ namespace CustomsForgeManager.SongEditor
 
         private void UpdateRouteMaskPath(ArrangementType arrangementType, ArrangementName arrangementName)
         {
-            gbGameplayPath.Enabled = (arrangementType != ArrangementType.Vocal && arrangementType != ArrangementType.ShowLight) && currentGameVersion != GameVersion.RS2012;
+            gbGameplayPath.Enabled = (arrangementType != ArrangementType.Vocal && arrangementType != ArrangementType.ShowLight);
 
             //Enabling
             routeMaskLeadRadio.Enabled = arrangementType == ArrangementType.Guitar && (arrangementName == ArrangementName.Combo || arrangementName == ArrangementName.Lead);
@@ -226,19 +220,13 @@ namespace CustomsForgeManager.SongEditor
             routeMaskBassRadio.Checked = arrangementType == ArrangementType.Bass;
         }
 
-        private void FillTuningCombo(ArrangementType arrangementType, GameVersion gameVersion)
+        private void FillTuningCombo(ArrangementType arrangementType)
         {
             tuningComboBox.Items.Clear();
-            var tuningDefinitions = TuningDefinitionRepository.LoadTuningDefinitions(gameVersion);
-            // LINQ method produces unexpected results on subsequent calls
-            // foreach (var tuning in TuningDefinitionRepository.Instance().Select(gameVersion))
+            var tuningDefinitions = TuningDefinitionRepository.LoadTuningDefinitions(GameVersion.RS2014);
             foreach (var tuning in tuningDefinitions)
             {
-                // need to populate for Vocals too even though not used
-                //if (arrangementType != ArrangementType.Bass)
                 tuningComboBox.Items.Add(tuning);
-                //if (arrangementType == ArrangementType.Bass)
-                // tuningComboBox.Items.Add(TuningDefinition.Convert2Bass(tuning));
             }
 
             tuningComboBox.SelectedIndex = 0;
@@ -285,11 +273,7 @@ namespace CustomsForgeManager.SongEditor
                 }
             }
 
-            // TODO: figure out logic behind unexpected LINQ behaviors
-            // tuningComboBox list is being updated with custom tuning info
-            // so refilling the combobox is required to produce the expected results
-            // for now using old fashioned non-LINQ method
-            FillTuningCombo(selectedType, currentGameVersion);
+            FillTuningCombo(selectedType);
 
             int foundTuning = -1;
             tuningComboBox.SelectedIndex = -1;
@@ -430,19 +414,12 @@ namespace CustomsForgeManager.SongEditor
         private void SequencialToneComboEnabling()
         {
             //TODO: handle not one-by-one enabilng disabling tone slots and use data from enabled one, confused about this one.
-            if (currentGameVersion != GameVersion.RS2012)
-            {
-                toneBCombo.Enabled = !String.IsNullOrEmpty((string)toneACombo.SelectedItem) && toneACombo.SelectedIndex > 0;
-                toneCCombo.Enabled = !String.IsNullOrEmpty((string)toneBCombo.SelectedItem) && toneBCombo.SelectedIndex > 0;
-                toneDCombo.Enabled = !String.IsNullOrEmpty((string)toneCCombo.SelectedItem) && toneCCombo.SelectedIndex > 0;
-            }
-            else
-            {
-                toneACombo.Enabled = toneBCombo.Enabled = toneCCombo.Enabled = toneDCombo.Enabled = false;
-            }
+            toneBCombo.Enabled = !String.IsNullOrEmpty((string)toneACombo.SelectedItem) && toneACombo.SelectedIndex > 0;
+            toneCCombo.Enabled = !String.IsNullOrEmpty((string)toneBCombo.SelectedItem) && toneBCombo.SelectedIndex > 0;
+            toneDCombo.Enabled = !String.IsNullOrEmpty((string)toneCCombo.SelectedItem) && toneCCombo.SelectedIndex > 0;
         }
 
-        private bool isAlreadyAdded(string xmlPath)
+        private bool IsAlreadyAdded(string xmlPath)
         {
             var pcArrangements = parentControl.SongData.Arrangements;
 
@@ -480,7 +457,7 @@ namespace CustomsForgeManager.SongEditor
 
         public bool LoadXmlArrangement(string xmlFilePath)
         {
-            if (isAlreadyAdded(xmlFilePath))
+            if (IsAlreadyAdded(xmlFilePath))
             {
                 MessageBox.Show(@"XML Arrangement: " + Path.GetFileName(xmlFilePath) + "   " + Environment.NewLine +
                     @"has already been added.  Please choose a new file. ",
@@ -527,173 +504,132 @@ namespace CustomsForgeManager.SongEditor
                 }
                 else
                 {
-                    var version = GameVersion.None;
                     //Detect arrangement GameVersion
-                    if (xmlSong != null && xmlSong.Version != null)
+                    if (!String.IsNullOrEmpty(xmlSong.Version))
                     {
-                        var verAttrib = Convert.ToInt32(xmlSong.Version);
-                        if (verAttrib <= 6) version = GameVersion.RS2012;
-                        else if (verAttrib >= 7) version = GameVersion.RS2014;
-                    }
-                    else if (currentGameVersion == GameVersion.RS2012)
-                    {
-                        // add missing XML elements
-                        xmlSong.Version = "4";
-                        xmlSong.Tuning = new TuningStrings { String0 = 0, String1 = 0, String2 = 0, String3 = 0, String4 = 0, String5 = 0 };
-                        xmlSong.ArrangementProperties = new SongArrangementProperties2014 { StandardTuning = 1 };
-                        version = GameVersion.RS2012;
-                    }
-                    else if (currentGameVersion == GameVersion.None)
-                    {
-                        using (var obj = new Rs1Converter())
+                        if (xmlSong.Version != "7")
                         {
-                            xmlSong = null;
-                            xmlSong = obj.SongToSong2014(Song.LoadFromFile(XmlFilePath.Text));
+                            MessageBox.Show("Unable to edit song version: " + xmlSong.Version, CustomsForgeManagerLib.Objects.Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return false;
                         }
-                        currentGameVersion = GameVersion.RS2014;
                     }
                     else
-                        MessageBox.Show("Your version of EOF may be out of date, please update.", CustomsForgeManagerLib.Objects.Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-                    // TODO: fix error checking logic for new types of conversion
-                    if (currentGameVersion != version && version != GameVersion.None)
                     {
-                        Debug.WriteLine(String.Format("Please choose valid Rocksmith {0} arrangement file!", currentGameVersion));
-                        //XmlFilePath.Text = "";
-                        //return;
-                    }
-
-                    // SONG AND ARRANGEMENT INFO / ROUTE MASK
-                    BonusCheckBox.Checked = Equals(xmlSong.ArrangementProperties.BonusArr, 1);
-                    MetronomeCb.Checked = Equals(xmlSong.ArrangementProperties.Metronome, 2);
-                    if (!EditMode)
-                    {
-                        string arr = xmlSong.Arrangement.ToLowerInvariant();
-                        if (arr.Contains("guitar") || arr.Contains("lead") || arr.Contains("rhythm") || arr.Contains("combo"))
-                        {
-                            arrangementTypeCombo.SelectedItem = ArrangementType.Guitar;
-
-                            if (arr.Contains("combo"))
-                            {
-                                arrangementNameCombo.SelectedItem = ArrangementName.Combo;
-                                if (currentGameVersion != GameVersion.RS2012) RouteMask = RouteMask.Lead;
-                            }
-                            else if (arr.Contains("guitar_22") || arr.Contains("lead") || Equals(xmlSong.ArrangementProperties.PathLead, 1))
-                            {
-                                arrangementNameCombo.SelectedItem = ArrangementName.Lead;
-                                if (currentGameVersion != GameVersion.RS2012) RouteMask = RouteMask.Lead;
-                            }
-                            else if (arr.Contains("guitar") || arr.Contains("rhythm") || Equals(xmlSong.ArrangementProperties.PathRhythm, 1))
-                            {
-                                arrangementNameCombo.SelectedItem = ArrangementName.Rhythm;
-                                if (currentGameVersion != GameVersion.RS2012) RouteMask = RouteMask.Rhythm;
-                            }
-
-                        }
-                        else if (arr.Contains("bass"))
-                        {
-                            arrangementTypeCombo.SelectedItem = ArrangementType.Bass;
-
-                            //SetTuningCombo(xmlSong.Tuning, true);
-                            Picked.Checked = Equals(xmlSong.ArrangementProperties.BassPick, 1);
-                            if (currentGameVersion != GameVersion.RS2012)
-                            {
-                                RouteMask = RouteMask.Bass;
-                                //Low tuning fix for bass, If lowstring is B and bass fix not applied
-                                if (xmlSong.Tuning.String0 < -4 && this.frequencyTB.Text == "440")
-                                    bassFix |= MessageBox.Show("Your tuning is too low, would you like to apply \"Low Tuning Fix?\"\n" + "Note, that this won't work if you re-save arangement in EOF.\n", "Low Tuning Fix Required!", MessageBoxButtons.YesNo) == DialogResult.Yes;
-                            }
-                        }
-                    }
-
-                    if (currentGameVersion != GameVersion.RS2012)
-                    {
-                        //Tones setup
-                        Arrangement.ToneBase = xmlSong.ToneBase;
-                        Arrangement.ToneA = xmlSong.ToneA;
-                        Arrangement.ToneB = xmlSong.ToneB;
-                        Arrangement.ToneC = xmlSong.ToneC;
-                        Arrangement.ToneD = xmlSong.ToneD;
-                        Arrangement.ToneMultiplayer = null;
-
-                        SetupTones(Arrangement);
-
-                        //Apply bass Fix, refactor me. 
-                        if (bassFix)
-                        {
-                            bassFix = false;
-                            Arrangement.SongXml.File = XmlFilePath.Text;
-                            ApplyBassFix(Arrangement);
-                        }
-                    }
-
-                    // Setup tuning
-                    var selectedType = new ArrangementType();
-                    if (xmlSong.Arrangement.ToLower() == "bass")
-                        selectedType = ArrangementType.Bass;
-                    else
-                        selectedType = ArrangementType.Guitar;
-
-                    FillTuningCombo(selectedType, currentGameVersion);
-
-                    // find tuning in tuningComboBox list and make selection
-                    int foundTuning = -1;
-                    for (int tcbIndex = 0; tcbIndex < tuningComboBox.Items.Count; tcbIndex++)
-                    {
-                        tuningComboBox.SelectedIndex = tcbIndex;
-                        TuningDefinition tuning = (TuningDefinition)tuningComboBox.Items[tcbIndex];
-                        if (tuning.Tuning == xmlSong.Tuning)
-                        {
-                            foundTuning = tcbIndex;
-                            break;
-                        }
-                    }
-
-                    if (foundTuning == -1 && selectedType != ArrangementType.Bass)
-                        ShowTuningForm(selectedType, new TuningDefinition { Tuning = xmlSong.Tuning, Custom = true, GameVersion = currentGameVersion });
-                    else
-                    {
-                        if (selectedType == ArrangementType.Bass)
-                        {
-                            MessageBox.Show(@"Remember to set the correct tuning using Edit for" + Environment.NewLine +
-                                @"Bass Arrangement: " + Path.GetFileName(xmlFilePath),
-                               CustomsForgeManagerLib.Objects.Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-                            tuningComboBox.SelectedIndex = 0;
-                        }
-                        else
-                            tuningComboBox.SelectedIndex = foundTuning;
-                    }
-
-                    tuningComboBox.Refresh();
-
-                    Arrangement.Tuning = tuningComboBox.SelectedItem.ToString();
-                    Arrangement.TuningStrings = xmlSong.Tuning;
-                    Arrangement.CapoFret = xmlSong.Capo;
-                    frequencyTB.Text = Arrangement.TuningPitch.ToString();
-                    UpdateCentOffset();
-
-                    // save converted RS1 to RS2014 Song2014 XML
-                    if (version == GameVersion.None)
-                    {
-                        var srcDir = Path.GetDirectoryName(XmlFilePath.Text);
-                        var srcName = Path.GetFileNameWithoutExtension(XmlFilePath.Text);
-                        var backupSrcPath = String.Format("{0}_{1}.xml", Path.Combine(srcDir, srcName), "RS1");
-
-                        // backup original RS1 file
-                        File.Copy(XmlFilePath.Text, backupSrcPath);
-
-                        // write converted RS1 file
-                        using (FileStream stream = new FileStream(XmlFilePath.Text, FileMode.Create))
-                            xmlSong.Serialize(stream, true);
+                        MessageBox.Show("Unable to read song version.", CustomsForgeManagerLib.Objects.Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return false;
                     }
                 }
+
+                // SONG AND ARRANGEMENT INFO / ROUTE MASK
+                BonusCheckBox.Checked = Equals(xmlSong.ArrangementProperties.BonusArr, 1);
+                MetronomeCb.Checked = Equals(xmlSong.ArrangementProperties.Metronome, 2);
+                if (!EditMode)
+                {
+                    string arr = xmlSong.Arrangement.ToLowerInvariant();
+                    if (arr.Contains("guitar") || arr.Contains("lead") || arr.Contains("rhythm") || arr.Contains("combo"))
+                    {
+                        arrangementTypeCombo.SelectedItem = ArrangementType.Guitar;
+
+                        if (arr.Contains("combo"))
+                        {
+                            arrangementNameCombo.SelectedItem = ArrangementName.Combo;
+                            RouteMask = RouteMask.Lead;
+                        }
+                        else if (arr.Contains("guitar_22") || arr.Contains("lead") || Equals(xmlSong.ArrangementProperties.PathLead, 1))
+                        {
+                            arrangementNameCombo.SelectedItem = ArrangementName.Lead;
+                            RouteMask = RouteMask.Lead;
+                        }
+                        else if (arr.Contains("guitar") || arr.Contains("rhythm") || Equals(xmlSong.ArrangementProperties.PathRhythm, 1))
+                        {
+                            arrangementNameCombo.SelectedItem = ArrangementName.Rhythm;
+                            RouteMask = RouteMask.Rhythm;
+                        }
+
+                    }
+                    else if (arr.Contains("bass"))
+                    {
+                        arrangementTypeCombo.SelectedItem = ArrangementType.Bass;
+
+                        //SetTuningCombo(xmlSong.Tuning, true);
+                        Picked.Checked = Equals(xmlSong.ArrangementProperties.BassPick, 1);
+                        RouteMask = RouteMask.Bass;
+                        //Low tuning fix for bass, If lowstring is B and bass fix not applied
+                        if (xmlSong.Tuning.String0 < -4 && this.frequencyTB.Text == "440")
+                            bassFix |= MessageBox.Show("Your tuning is too low, would you like to apply \"Low Tuning Fix?\"\n" + "Note, that this won't work if you re-save arangement in EOF.\n", "Low Tuning Fix Required!", MessageBoxButtons.YesNo) == DialogResult.Yes;
+
+                    }
+                }
+
+                //Tones setup
+                Arrangement.ToneBase = xmlSong.ToneBase;
+                Arrangement.ToneA = xmlSong.ToneA;
+                Arrangement.ToneB = xmlSong.ToneB;
+                Arrangement.ToneC = xmlSong.ToneC;
+                Arrangement.ToneD = xmlSong.ToneD;
+                Arrangement.ToneMultiplayer = null;
+
+                SetupTones(Arrangement);
+
+                //Apply bass Fix, refactor me. 
+                if (bassFix)
+                {
+                    bassFix = false;
+                    Arrangement.SongXml.File = XmlFilePath.Text;
+                    ApplyBassFix(Arrangement);
+                }
+
+                // Setup tuning
+                var selectedType = new ArrangementType();
+                if (xmlSong.Arrangement.ToLower() == "bass")
+                    selectedType = ArrangementType.Bass;
+                else
+                    selectedType = ArrangementType.Guitar;
+
+                FillTuningCombo(selectedType);
+
+                // find tuning in tuningComboBox list and make selection
+                int foundTuning = -1;
+                for (int tcbIndex = 0; tcbIndex < tuningComboBox.Items.Count; tcbIndex++)
+                {
+                    tuningComboBox.SelectedIndex = tcbIndex;
+                    TuningDefinition tuning = (TuningDefinition)tuningComboBox.Items[tcbIndex];
+                    if (tuning.Tuning == xmlSong.Tuning)
+                    {
+                        foundTuning = tcbIndex;
+                        break;
+                    }
+                }
+
+                if (foundTuning == -1 && selectedType != ArrangementType.Bass)
+                    ShowTuningForm(selectedType, new TuningDefinition { Tuning = xmlSong.Tuning, Custom = true, GameVersion = GameVersion.RS2014 });
+                else
+                {
+                    if (selectedType == ArrangementType.Bass)
+                    {
+                        MessageBox.Show(@"Remember to set the correct tuning using Edit for" + Environment.NewLine +
+                            @"Bass Arrangement: " + Path.GetFileName(xmlFilePath),
+                           CustomsForgeManagerLib.Objects.Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                        tuningComboBox.SelectedIndex = 0;
+                    }
+                    else
+                        tuningComboBox.SelectedIndex = foundTuning;
+                }
+
+                tuningComboBox.Refresh();
+
+                Arrangement.Tuning = tuningComboBox.SelectedItem.ToString();
+                Arrangement.TuningStrings = xmlSong.Tuning;
+                Arrangement.CapoFret = xmlSong.Capo;
+                frequencyTB.Text = Arrangement.TuningPitch.ToString();
+                UpdateCentOffset();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(@"Unable to get information from XML arrangement:  " + Environment.NewLine +
                     Path.GetFileName(xmlFilePath) + Environment.NewLine +
-                    @"It may not be a valide arrangment or " + Environment.NewLine +
+                    @"It may not be a valid arrangment or " + Environment.NewLine +
                     @"your version of the EOF may be out of date." + Environment.NewLine +
                     ex.Message, CustomsForgeManagerLib.Objects.Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
@@ -712,15 +648,12 @@ namespace CustomsForgeManager.SongEditor
                     return;
                 }
 
-            if (currentGameVersion != GameVersion.RS2012)
+            if (!routeMaskLeadRadio.Checked && !routeMaskRhythmRadio.Checked && !routeMaskBassRadio.Checked && (ArrangementType)arrangementTypeCombo.SelectedItem != ArrangementType.Vocal && (ArrangementType)arrangementTypeCombo.SelectedItem != ArrangementType.ShowLight)
             {
-                if (!routeMaskLeadRadio.Checked && !routeMaskRhythmRadio.Checked && !routeMaskBassRadio.Checked && (ArrangementType)arrangementTypeCombo.SelectedItem != ArrangementType.Vocal && (ArrangementType)arrangementTypeCombo.SelectedItem != ArrangementType.ShowLight)
+                if (MessageBox.Show("You did not select a Gameplay Path for this arrangement.", CustomsForgeManagerLib.Objects.Constants.ApplicationName, MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == System.Windows.Forms.DialogResult.Cancel)
                 {
-                    if (MessageBox.Show("You did not select a Gameplay Path for this arrangement.", CustomsForgeManagerLib.Objects.Constants.ApplicationName, MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == System.Windows.Forms.DialogResult.Cancel)
-                    {
-                        gbGameplayPath.Focus();
-                        return;
-                    }
+                    gbGameplayPath.Focus();
+                    return;
                 }
             }
 
@@ -846,9 +779,12 @@ namespace CustomsForgeManager.SongEditor
         }
 
         private void vocalEdit_Click(object sender, EventArgs e)
-        {//TODO: wrong behaviour with this warning message
-            //if (!String.IsNullOrEmpty(parentControl.LyricArtPath) && String.IsNullOrEmpty(Arrangement.FontSng))
-            //    MessageBox.Show("FYI, there is alredy defined one custom font.\r\n",CustomsForgeManagerLib.Objects.Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        {
+            MessageBox.Show("Editing lyrics (vocals) is not currently supported.\r\n", CustomsForgeManagerLib.Objects.Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            //TODO: wrong behaviour with this warning message
+            //if (!String.IsNullOrEmpty(parentControl.SongData.LyricArtPath) && String.IsNullOrEmpty(Arrangement.FontSng))
+            //    MessageBox.Show("FYI, there is alredy defined one custom font.\r\n", CustomsForgeManagerLib.Objects.Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
             //using (var form = new VocalsForm(Arrangement.FontSng, parentControl.LyricArtPath, Arrangement.CustomFont))
             //{
@@ -864,6 +800,8 @@ namespace CustomsForgeManager.SongEditor
 
         private void showlightEdit_Click(object sender, EventArgs e)
         {
+            MessageBox.Show("Editing showlights is not currently supported.\r\n", CustomsForgeManagerLib.Objects.Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+
             //using (var form = new ShowLightsForm(Arrangement.SongFile.File))
             //{
             //    if (DialogResult.OK != form.ShowDialog())
@@ -954,10 +892,7 @@ namespace CustomsForgeManager.SongEditor
         {
             var name = GetUniqueToneName(toneName);
 
-            if (currentGameVersion != GameVersion.RS2012)
-                return new Tone2014() { Name = name, Key = name };
-            else
-                return new Tone() { Name = name, Key = name };
+            return new Tone2014() { Name = name, Key = name };
         }
 
         private string GetUniqueToneName(string toneName)
@@ -969,21 +904,11 @@ namespace CustomsForgeManager.SongEditor
 
             do
             {
-                switch (currentGameVersion)
-                {
-                    case GameVersion.RS2012:
-                        isUnique = pcTones.OfType<Tone>().All(n => n.Name != uniqueName);
-                        break;
-                    case GameVersion.None:
-                    case GameVersion.RS2014:
-                        isUnique = pcTones.OfType<Tone2014>().All(n => n.Name != uniqueName);
-                        break;
-                }
+                isUnique = pcTones.OfType<Tone2014>().All(n => n.Name != uniqueName);
 
                 if (!isUnique)
-                {
                     uniqueName = toneName + (++ind);
-                }
+
             } while (!isUnique);
 
             return uniqueName;

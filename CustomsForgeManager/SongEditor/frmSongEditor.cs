@@ -1,17 +1,23 @@
 ﻿using System;
 using System.ComponentModel;
+using System.IO;
 using System.Windows.Forms;
 using CustomsForgeManager.CustomsForgeManagerLib;
 using CustomsForgeManager.CustomsForgeManagerLib.Objects;
+using RocksmithToolkitLib;
 using RocksmithToolkitLib.DLCPackage;
 using System.Collections.Generic;
 using System.Linq;
+using RocksmithToolkitLib.Extensions;
+using RocksmithToolkitLib.Sng;
+using RocksmithToolkitLib.Xml;
+using Arrangement = RocksmithToolkitLib.DLCPackage.Arrangement;
 
 namespace CustomsForgeManager.SongEditor
 {
     public partial class frmSongEditor : Form
     {
-        private DLCPackageData info;
+        private DLCPackageData packageData;
         private string filePath;
 
         private List<DLCPackageEditorControlBase> FEditorControls = new List<DLCPackageEditorControlBase>();
@@ -26,7 +32,7 @@ namespace CustomsForgeManager.SongEditor
             InitializeComponent();
             Globals.TsProgressBar_Main.Value = 20;
             var psarc = new PsarcPackage();
-            info = psarc.ReadPackage(songPath);
+            packageData = psarc.ReadPackage(songPath);
             filePath = songPath;
             Globals.TsProgressBar_Main.Value = 60;
             LoadSongInfo();
@@ -42,8 +48,7 @@ namespace CustomsForgeManager.SongEditor
 
         private void Save(string outputPath)
         {
-            // commented out becuase may want to save same song with different file name.
-            //good catch cozy.
+            // save same song with different file name
             //if (!Dirty)
             //    return;
 
@@ -54,8 +59,39 @@ namespace CustomsForgeManager.SongEditor
             {
                 FEditorControls.ForEach(ec => { if (ec.Dirty) ec.Save(); });
 
+                //Generate metronome arrangemnts here
+                var mArr = new List<Arrangement>();
+                foreach (var arr in packageData.Arrangements)
+                    if (arr.Metronome == Metronome.Generate)
+                        mArr.Add(GenMetronomeArr(arr));
+
+                packageData.Arrangements.AddRange(mArr);
+                packageData.Showlights = true;
+
+                var msg = "The song information has been changed." + Environment.NewLine +
+                          "Do you want to update the 'Persistent ID'?" + Environment.NewLine +
+                          "Answering 'Yes' will reduce the risk of CDLC" + Environment.NewLine +
+                          "in game hanging and song stats will be reset.  ";
+                bool updateArrangmentID = MessageBox.Show(msg, "Song Editor ...",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes;
+
+                // Update Xml arrangements song info
+                foreach (var arr in packageData.Arrangements)
+                {
+                    // preserve existing xml comments
+                    if (arr.ArrangementType == ArrangementType.Guitar || arr.ArrangementType == ArrangementType.Bass)
+                        arr.XmlComments = Song2014.ReadXmlComments(arr.SongXml.File);
+
+                    UpdateXml(arr, packageData, updateArrangmentID);
+
+                    if (arr.ArrangementType == ArrangementType.Guitar || arr.ArrangementType == ArrangementType.Bass)
+                        Song2014.WriteXmlComments(arr.SongXml.File, arr.XmlComments, true, String.Format("CFM v{0}", Constants.CustomVersion()));
+                }
+
+                tsProgressBar.Value = 60;
+
                 using (var psarc = new PsarcPackage(true))
-                    psarc.WritePackage(outputPath, info);
+                    psarc.WritePackage(outputPath, packageData);
             }
             finally
             {
@@ -73,11 +109,13 @@ namespace CustomsForgeManager.SongEditor
 
         private void tslSaveAs_Click(object sender, EventArgs e)
         {
-            using (var sd = new SaveFileDialog())
+            using (var sfd = new SaveFileDialog())
             {
-                sd.InitialDirectory = System.IO.Path.GetDirectoryName(filePath);
-                if (sd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                    Save(sd.FileName);
+                sfd.FileName = GeneralExtensions.GetShortName("{0}_{1}_v{2}", packageData.SongInfo.ArtistSort, packageData.SongInfo.SongDisplayNameSort, packageData.PackageVersion.Replace(".", "_"), false);
+                sfd.InitialDirectory = Path.GetDirectoryName(filePath);
+
+                if (sfd.ShowDialog() == DialogResult.OK)
+                    Save(sfd.FileName);
             }
         }
 
@@ -110,7 +148,7 @@ namespace CustomsForgeManager.SongEditor
                     page.Tag = obj;
                     obj.Dock = DockStyle.Fill;
                     obj.FilePath = filePath;
-                    obj.SongData = info;
+                    obj.SongData = packageData;
                     FEditorControls.Add(obj);
                     obj.DoInit();
                     return obj;
@@ -187,11 +225,91 @@ namespace CustomsForgeManager.SongEditor
                     e.Cancel = true;
             }
         }
+
+        public void UpdateXml(Arrangement arr, DLCPackageData info, bool updateArrangementID = false)
+        {
+            // Updates the xml with user modified DLCPackageData info
+            // generate new Arrangment IDs
+            if (updateArrangementID)
+            {
+                arr.Id = IdGenerator.Guid();
+                arr.MasterId = RandomGenerator.NextInt();
+            }
+
+            if (arr.ArrangementType == ArrangementType.Vocal)
+                return;
+            if (arr.ArrangementType == ArrangementType.ShowLight)
+                return;
+
+            var songXml = Song2014.LoadFromFile(arr.SongXml.File);
+            arr.CleanCache();
+            songXml.AlbumName = info.SongInfo.Album;
+            songXml.AlbumYear = info.SongInfo.SongYear.ToString();
+            songXml.ArtistName = info.SongInfo.Artist;
+            songXml.ArtistNameSort = info.SongInfo.ArtistSort;
+            songXml.AverageTempo = info.SongInfo.AverageTempo;
+            songXml.Title = info.SongInfo.SongDisplayName;
+            songXml.Tuning = arr.TuningStrings;
+            if (!String.IsNullOrEmpty(arr.ToneBase)) songXml.ToneBase = arr.ToneBase;
+            if (!String.IsNullOrEmpty(arr.ToneA)) songXml.ToneA = arr.ToneA;
+            if (!String.IsNullOrEmpty(arr.ToneB)) songXml.ToneB = arr.ToneB;
+            if (!String.IsNullOrEmpty(arr.ToneC)) songXml.ToneC = arr.ToneC;
+            if (!String.IsNullOrEmpty(arr.ToneD)) songXml.ToneD = arr.ToneD;
+
+            using (var stream = File.Open(arr.SongXml.File, FileMode.Create))
+                songXml.Serialize(stream);
+        }
+
+        public Arrangement GenMetronomeArr(Arrangement arr)
+        {
+            var mArr = GeneralExtensions.Copy<Arrangement>(arr);
+            var songXml = Song2014.LoadFromFile(mArr.SongXml.File);
+            var newXml = Path.GetTempFileName();
+            mArr.SongXml = new RocksmithToolkitLib.DLCPackage.AggregateGraph.SongXML { File = newXml };
+            mArr.SongFile = new RocksmithToolkitLib.DLCPackage.AggregateGraph.SongFile { File = "" };
+            mArr.CleanCache();
+            mArr.BonusArr = true;
+            mArr.Id = IdGenerator.Guid();
+            mArr.MasterId = RandomGenerator.NextInt();
+            mArr.Metronome = Metronome.Itself;
+            songXml.ArrangementProperties.Metronome = (int)Metronome.Itself;
+
+            var ebeats = songXml.Ebeats;
+            var songEvents = new RocksmithToolkitLib.Xml.SongEvent[ebeats.Length];
+            for (var i = 0; i < ebeats.Length; i++)
+            {
+                songEvents[i] = new RocksmithToolkitLib.Xml.SongEvent
+                {
+                    Code = ebeats[i].Measure == -1 ? "B1" : "B0",
+                    Time = ebeats[i].Time
+                };
+            }
+            songXml.Events = songXml.Events.Union(songEvents, new EqSEvent()).OrderBy(x => x.Time).ToArray();
+            using (var stream = File.OpenWrite(mArr.SongXml.File))
+            {
+                songXml.Serialize(stream);
+            }
+            return mArr;
+        }
+
+        private class EqSEvent : IEqualityComparer<RocksmithToolkitLib.Xml.SongEvent>
+        {
+            public bool Equals(RocksmithToolkitLib.Xml.SongEvent x, RocksmithToolkitLib.Xml.SongEvent y)
+            {
+                if (x == null)
+                    return y == null;
+
+                return x.Code == y.Code && x.Time.Equals(y.Time);
+            }
+
+            public int GetHashCode(RocksmithToolkitLib.Xml.SongEvent obj)
+            {
+                if (ReferenceEquals(obj, null))
+                    return 0;
+                return obj.Code.GetHashCode() | obj.Time.GetHashCode();
+            }
+        }
+
     }
-
-
-  
-
-
 }
 
