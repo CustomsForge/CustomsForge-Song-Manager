@@ -25,7 +25,8 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
     public class SongData
     {
         //version 2 : SongKey changed to DLCKey.
-        public const string SongDataListCurrentVersion = "2";
+        //version 3 : removed DLCKey from arrangement
+        public const string SongDataListCurrentVersion = "3";
 
         public string DLCKey { get; set; }
 
@@ -116,6 +117,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
     [XmlRoot("Arrangment")] // provides proper xml serialization
     public class Arrangement
     {
+        [XmlIgnore]
         public string DLCKey { get; set; }
         public string PersistentID { get; set; }
         public string Name { get; set; }

@@ -242,12 +242,6 @@
     <None Include="Resources\XBox360_DLC_image.png" />
     <None Include="Resources\XBox360_KV.bin" />
   </ItemGroup>
-  <ItemGroup Condition="$(DefineConstants.Contains('CFM_AUDIO_TOOLS'))">
-    <ProjectReference Include="..\CFMAudioTools\CFMAudioTools.csproj">
-      <Project>{6d8c3fe6-5855-4b6c-bd2b-51954342dbee}</Project>
-      <Name>CFMAudioTools</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

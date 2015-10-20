@@ -12,7 +12,7 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <IsWebBootstrapper>true</IsWebBootstrapper>
-    <PublishUrl>ftp://198.58.96.81/app/</PublishUrl>
+    <PublishUrl>ftp://198.58.96.81/</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Web</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
@@ -22,7 +22,7 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>false</MapFileExtensions>
-    <InstallUrl>http://app.customsforge.com/</InstallUrl>
+    <InstallUrl>http://beta.customsforge.com/</InstallUrl>
     <SupportUrl>http://customsforge.com/</SupportUrl>
     <ErrorReportUrl>http://customsforge.com/</ErrorReportUrl>
     <ProductName>CustomsForge Manager</ProductName>
@@ -56,7 +56,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;TAGGER</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <RunCodeAnalysis>true</RunCodeAnalysis>
@@ -139,6 +139,7 @@
     <Compile Include="CustomsForgeManagerLib\Interfaces.cs" />
     <Compile Include="CustomsForgeManagerLib\Objects\NotifyPropChangedBase.cs" />
     <Compile Include="CustomsForgeManagerLib\Objects\SongCollectionException.cs" />
+    <Compile Include="CustomsForgeManagerLib\Objects\SongTagger.cs" />
     <Compile Include="CustomsForgeManagerLib\PsarcBrowser.cs">
       <SubType>Code</SubType>
     </Compile>

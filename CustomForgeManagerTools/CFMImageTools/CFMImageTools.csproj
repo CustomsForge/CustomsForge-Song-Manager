@@ -7,8 +7,8 @@
     <ProjectGuid>{E6565985-C477-46F4-8A42-08E04CD40B65}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CustomsForgeManagerTools</RootNamespace>
-    <AssemblyName>CustomsForgeManagerTools</AssemblyName>
+    <RootNamespace>CFMImageTools</RootNamespace>
+    <AssemblyName>CFMImageTools</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />

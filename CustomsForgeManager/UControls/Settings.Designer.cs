@@ -84,8 +84,6 @@ namespace CustomsForgeManager.UControls
             // chkIncludeRS1DLC
             // 
             this.chkIncludeRS1DLC.AutoSize = true;
-            this.chkIncludeRS1DLC.Checked = true;
-            this.chkIncludeRS1DLC.CheckState = System.Windows.Forms.CheckState.Checked;
             this.tlpSettings_Wrapper.SetColumnSpan(this.chkIncludeRS1DLC, 2);
             this.chkIncludeRS1DLC.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chkIncludeRS1DLC.Location = new System.Drawing.Point(3, 52);
@@ -235,8 +233,6 @@ namespace CustomsForgeManager.UControls
             // chkEnableLogBallon
             // 
             this.chkEnableLogBallon.AutoSize = true;
-            this.chkEnableLogBallon.Checked = true;
-            this.chkEnableLogBallon.CheckState = System.Windows.Forms.CheckState.Checked;
             this.tlpSettings_Wrapper.SetColumnSpan(this.chkEnableLogBallon, 2);
             this.chkEnableLogBallon.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chkEnableLogBallon.Location = new System.Drawing.Point(3, 84);

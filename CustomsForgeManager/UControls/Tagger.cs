@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Diagnostics;
-using CustomsForgeManagerTools;
+using CFMImageTools;
 using CustomsForgeManager.CustomsForgeManagerLib.Objects;
 using System.IO;
 using CustomsForgeManager.CustomsForgeManagerLib;
@@ -16,10 +16,10 @@ using RocksmithToolkitLib.PSARC;
 
 namespace CustomsForgeManager.UControls
 {
-    #if TAGGER
-    public partial class Tagger : UserControl, INotifyTabChanged
-    {
 
+    public partial class Tagger : UserControl
+    {
+    #if TAGGER
         Stopwatch stopWatch = new Stopwatch();
         private string[] defaultFiles = { "info.txt", "Background.png", "Bass Bonus.png", "Bass.png", "Custom.png", "Lead Bonus.png", "Lead.png", "Rhythm Bonus.png", "Rhythm.png", "Vocal.png" };
         private string[] defaultTagFolders = { "frackDefault", "motive_bl_", "motive_nv_", "motive_ws_", "motive1" };
@@ -136,8 +136,6 @@ namespace CustomsForgeManager.UControls
                     var midDDS = newImg.ToDDS(128, 128);
                     var smallDDS = newImg.ToDDS(64, 64);
 
-
-
                     if (largeDDS == null || midDDS == null || smallDDS == null )
                         throw new Exception("unable to convert image steams.");
 
@@ -202,7 +200,6 @@ namespace CustomsForgeManager.UControls
                 {
                     pathExtension = "_";
 
-
                     string songPath = song.Path;
                     using (PSARC archive = new PSARC())
                     {
@@ -233,45 +230,47 @@ namespace CustomsForgeManager.UControls
                             bool bonusRhythm = false;
                             bool bonusBass = false;
                             bool DD = false;
-
-                            string[] arrangements = song.Arrangements.Split(',');
-
-                            foreach (string arrangement in arrangements.Cast<string>().Select(arr => arr.ToLower()).ToList())
+                            if (addTagsToFilename)
                             {
-                                if (arrangement.Contains("lead") && !arrangement.Contains("lead2"))
+                                string[] arrangements = song.Arrangements.Split(',');
+
+                                foreach (string arrangement in arrangements.Cast<string>().Select(arr => arr.ToLower()).ToList())
                                 {
-                                    lead = true;
-                                    pathExtension += "L";
-                                }
-                                if (arrangement.Contains("lead2"))
-                                {
-                                    bonusLead = true;
-                                    pathExtension += "l";
-                                }
-                                if (arrangement.Contains("rhythm") && !arrangement.Contains("rhythm2"))
-                                {
-                                    rhythm = true;
-                                    pathExtension += "R";
-                                }
-                                if (arrangement.Contains("rhythm2"))
-                                {
-                                    bonusRhythm = true;
-                                    pathExtension = "r";
-                                }
-                                if (arrangement.Contains("bass") && !arrangement.Contains("bass2"))
-                                {
-                                    bass = true;
-                                    pathExtension += "B";
-                                }
-                                if (arrangement.Contains("bass2"))
-                                {
-                                    bonusBass = true;
-                                    pathExtension += "b";
-                                }
-                                if (arrangement.Contains("vocals"))
-                                {
-                                    vocals = true;
-                                    pathExtension += "V";
+                                    if (arrangement.Contains("lead") && !arrangement.Contains("lead2"))
+                                    {
+                                        lead = true;
+                                        pathExtension += "L";
+                                    }
+                                    if (arrangement.Contains("lead2"))
+                                    {
+                                        bonusLead = true;
+                                        pathExtension += "l";
+                                    }
+                                    if (arrangement.Contains("rhythm") && !arrangement.Contains("rhythm2"))
+                                    {
+                                        rhythm = true;
+                                        pathExtension += "R";
+                                    }
+                                    if (arrangement.Contains("rhythm2"))
+                                    {
+                                        bonusRhythm = true;
+                                        pathExtension = "r";
+                                    }
+                                    if (arrangement.Contains("bass") && !arrangement.Contains("bass2"))
+                                    {
+                                        bass = true;
+                                        pathExtension += "B";
+                                    }
+                                    if (arrangement.Contains("bass2"))
+                                    {
+                                        bonusBass = true;
+                                        pathExtension += "b";
+                                    }
+                                    if (arrangement.Contains("vocals"))
+                                    {
+                                        vocals = true;
+                                        pathExtension += "V";
+                                    }
                                 }
                             }
 
@@ -801,8 +800,7 @@ namespace CustomsForgeManager.UControls
 
 
     [ToolStripItemDesignerAvailability(ToolStripItemDesignerAvailability.ToolStrip)]
-    public partial class ToolStripCheckBox
-        : ToolStripControlHost
+    public partial class ToolStripCheckBox : ToolStripControlHost
     {
         public CheckBox CheckBoxControl
         {
@@ -908,6 +906,6 @@ namespace CustomsForgeManager.UControls
             if (CheckStateChanged != null)
                 CheckStateChanged(this, e);
         }
-    }
 #endif
+    }
 }

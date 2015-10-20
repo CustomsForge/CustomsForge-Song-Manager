@@ -10,7 +10,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace CustomsForgeManagerTools
+namespace CFMImageTools
 {
     public static class ImageExtensions
     {
@@ -53,26 +53,33 @@ namespace CustomsForgeManagerTools
         public static Stream ToDDS(this Bitmap image)
         {
 #if externalapp
-            var sourcePath = "";
-            var destinationPath = "";
-            var xSize = image.Width;
-            var ySize = image.Height;
-            var cmdArgs = String.Format(" -file \"{0}\" -prescale {2} {3} -quality_highest -max -dxt5 -nomipmap "+
-            "-alpha -overwrite -output \"{1}\"", sourcePath, destinationPath, xSize, ySize);
 
             var rootPath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+            var ExeName = Path.Combine(rootPath, "nvdxt.exe");
+            if (!File.Exists(ExeName))
+                throw new FileNotFoundException("nvdxt.exe not found");
+
+
+            var sourcePath = Path.GetTempFileName();
+            var destinationPath = Path.GetTempFileName();
+            image.Save(sourcePath, ImageFormat.Png);
+
+            var xSize = image.Width;
+            var ySize = image.Height;
+            var cmdArgs = String.Format(" -file \"{0}\" -prescale {2} {3} -quality_highest -max -dxt5 -nomipmap " +
+            "-alpha -overwrite -output \"{1}\"", sourcePath, destinationPath, xSize, ySize);
+
             ProcessStartInfo startInfo = new ProcessStartInfo()
             {
-                FileName = Path.Combine(rootPath, "nvdxt.exe"),
+                FileName = ExeName,
                 WorkingDirectory = rootPath,
                 CreateNoWindow = true,
                 UseShellExecute = false,
                 Arguments = cmdArgs
             };
-            Process process = new Process() {StartInfo = startInfo };
+            Process process = new Process() { StartInfo = startInfo };
             process.Start();
             process.WaitForExit();
-
             File.Delete(sourcePath);
             if (File.Exists(destinationPath))
             {
@@ -124,12 +131,6 @@ namespace CustomsForgeManagerTools
             public const int MAX_INT = 2147483647; // max value for an int 32
             public const int MIN_INT = -2147483647 - 1; // min value for an int 32
         }
-
-
-
-
-
-
 
 
         unsafe static void EmitByte(byte b, ref byte* outData)
@@ -323,20 +324,20 @@ namespace CustomsForgeManagerTools
                 {
                     colorBlock[cbPos + i] = inPtr[i];//b
                     colorBlock[cbPos + i + 1] = inPtr[i + 1];//g
-                    colorBlock[cbPos + i + 2] = inPtr[i+2 ];//r
+                    colorBlock[cbPos + i + 2] = inPtr[i + 2];//r
                     colorBlock[cbPos + i + 3] = inPtr[i + 3];//a
                 }
-                inPtr += width *4;
+                inPtr += width * 4;
             }
-           
-        /*  for ( int j = 0; j < 4; j++ ) {
-                memcpy( &colorBlock[j*4*4], inPtr, 4*4 );
-                inPtr += width * 4;    
-            }
-            */    
+
+            /*  for ( int j = 0; j < 4; j++ ) {
+                    memcpy( &colorBlock[j*4*4], inPtr, 4*4 );
+                    inPtr += width * 4;    
+                }
+                */
         }
         //574
-        #if ddslogger
+#if ddslogger
         static DDSLogger logger = new DDSLogger("out\\DDSWriter.txt");
 #endif
         unsafe static void CompressImageDXT1x(BitmapData bmpData, byte* outBuf, ref int outputBytes)
@@ -351,8 +352,8 @@ namespace CustomsForgeManagerTools
             byte* maxColor = (byte*)_maxColor.ToPointer();
             byte* minColor = (byte*)_minColor.ToPointer();
 
-        
-            for (int j = 0; j < bmpData.Height; j += 4 )
+
+            for (int j = 0; j < bmpData.Height; j += 4)
             {
                 for (int i = 0; i < bmpData.Width; i += 4)
                 {
@@ -389,21 +390,6 @@ namespace CustomsForgeManagerTools
             return ((color[2] >> 3) << 11) |
                    ((color[1] >> 2) << 5) |
                    (color[0] >> 3);
-
-
-            /*            
-            ushort maxColor = (ushort)(blockStorage[0] | blockStorage[1] << 8);
-
-            int temp = (maxColor >> 11) * 255 + 16;
-            byte r0 = (byte)((temp / 32 + temp) / 32);
-             * 
-            temp = ((maxColor & 0x07E0) >> 5) * 255 + 32;
-            byte g0 = (byte)((temp / 64 + temp) / 64);
-             * 
-            temp = (maxColor & 0x001F) * 255 + 16;
-            byte b0 = (byte)((temp / 32 + temp) / 32);
-             * 
-             */
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("CodeRush", "Complex member")]
@@ -412,18 +398,18 @@ namespace CustomsForgeManagerTools
             ushort[,] colors = new ushort[4, 4];
             int result = 0;
 
-            colors[0,0] = (ushort)((maxColor[0] & DefineConstants.C565_5_MASK) | (maxColor[0] >> 5));
-            colors[0,1] = (ushort)((maxColor[1] & DefineConstants.C565_6_MASK) | (maxColor[1] >> 6));
-            colors[0,2] = (ushort)((maxColor[2] & DefineConstants.C565_5_MASK) | (maxColor[2] >> 5));
-            colors[1,0] = (ushort)((minColor[0] & DefineConstants.C565_5_MASK) | (minColor[0] >> 5));
-            colors[1,1] = (ushort)((minColor[1] & DefineConstants.C565_6_MASK) | (minColor[1] >> 6));
-            colors[1,2] = (ushort)((minColor[2] & DefineConstants.C565_5_MASK) | (minColor[2] >> 5));
-            colors[2,0] = (ushort)((2 * colors[0,0] + 1 * colors[1,0]) / 3);
-            colors[2,1] = (ushort)((2 * colors[0,1] + 1 * colors[1,1]) / 3);
-            colors[2,2] = (ushort)((2 * colors[0,2] + 1 * colors[1,2]) / 3);
-            colors[3,0] = (ushort)((1 * colors[0,0] + 2 * colors[1,0]) / 3);
-            colors[3,1] = (ushort)((1 * colors[0,1] + 2 * colors[1,1]) / 3);
-            colors[3,2] = (ushort)((1 * colors[0,2] + 2 * colors[1,2]) / 3);
+            colors[0, 0] = (ushort)((maxColor[0] & DefineConstants.C565_5_MASK) | (maxColor[0] >> 5));
+            colors[0, 1] = (ushort)((maxColor[1] & DefineConstants.C565_6_MASK) | (maxColor[1] >> 6));
+            colors[0, 2] = (ushort)((maxColor[2] & DefineConstants.C565_5_MASK) | (maxColor[2] >> 5));
+            colors[1, 0] = (ushort)((minColor[0] & DefineConstants.C565_5_MASK) | (minColor[0] >> 5));
+            colors[1, 1] = (ushort)((minColor[1] & DefineConstants.C565_6_MASK) | (minColor[1] >> 6));
+            colors[1, 2] = (ushort)((minColor[2] & DefineConstants.C565_5_MASK) | (minColor[2] >> 5));
+            colors[2, 0] = (ushort)((2 * colors[0, 0] + 1 * colors[1, 0]) / 3);
+            colors[2, 1] = (ushort)((2 * colors[0, 1] + 1 * colors[1, 1]) / 3);
+            colors[2, 2] = (ushort)((2 * colors[0, 2] + 1 * colors[1, 2]) / 3);
+            colors[3, 0] = (ushort)((1 * colors[0, 0] + 2 * colors[1, 0]) / 3);
+            colors[3, 1] = (ushort)((1 * colors[0, 1] + 2 * colors[1, 1]) / 3);
+            colors[3, 2] = (ushort)((1 * colors[0, 2] + 2 * colors[1, 2]) / 3);
 
             for (int i = 15; i >= 0; i--)
             {

@@ -47,10 +47,12 @@ namespace CustomsForgeManager.SongEditor
         {
             if (arrangement == null)
                 return false;
+            //if ((arrangement.ArrangementType == RocksmithToolkitLib.Sng.ArrangementType.ShowLight || arrangement.ArrangementType == RocksmithToolkitLib.Sng.ArrangementType.Vocal))
+            //  return false;
 
             using (var form = new frmArrangement(arrangement, this) { Text = "Edit Arrangement" })
             {
-                form.EditMode = true;
+                form.EditMode = !(arrangement.ArrangementType == RocksmithToolkitLib.Sng.ArrangementType.ShowLight || arrangement.ArrangementType == RocksmithToolkitLib.Sng.ArrangementType.Vocal);
                 form.StartPosition = FormStartPosition.CenterParent;
                 return form.ShowDialog() == DialogResult.OK;
             }
@@ -59,6 +61,12 @@ namespace CustomsForgeManager.SongEditor
         private void dgvArrangements_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
             if (e.ColumnIndex == this.dgvArrangements.Columns["colName"].Index)
+            {
+                e.Cancel = true;
+                return;
+            }
+            var arrangement = (Arrangement)dgvArrangements.Rows[e.RowIndex].DataBoundItem;
+            if (arrangement != null && (arrangement.ArrangementType == RocksmithToolkitLib.Sng.ArrangementType.ShowLight || arrangement.ArrangementType == RocksmithToolkitLib.Sng.ArrangementType.Vocal))
                 e.Cancel = true;
         }
 
