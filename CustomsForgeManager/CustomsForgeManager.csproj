@@ -12,7 +12,7 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <IsWebBootstrapper>true</IsWebBootstrapper>
-    <PublishUrl>ftp://198.58.96.81/</PublishUrl>
+    <PublishUrl>ftp://198.58.96.81/app/</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Web</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
@@ -22,7 +22,7 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>false</MapFileExtensions>
-    <InstallUrl>http://beta.customsforge.com/</InstallUrl>
+    <InstallUrl>http://app.customsforge.com/</InstallUrl>
     <SupportUrl>http://customsforge.com/</SupportUrl>
     <ErrorReportUrl>http://customsforge.com/</ErrorReportUrl>
     <ProductName>CustomsForge Manager</ProductName>
@@ -387,6 +387,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\renamer_properties.json" />
+    <Content Include="packed_codebooks.bin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="packed_codebooks_aoTuV_603.bin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Resources\logo_black.png" />
   </ItemGroup>
   <ItemGroup>
@@ -413,6 +419,21 @@
   <ItemGroup>
     <Content Include="ReleaseNotes.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="revorb.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="RocksmithToolkitLib.Config.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="RocksmithToolkitLib.SongAppId.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="RocksmithToolkitLib.TuningDefinition.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ww2ogg.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <EmbeddedResource Include="Resources\tags\frackDefaultprev.png" />
     <EmbeddedResource Include="Resources\tags\frackDefault\Background.png">
@@ -528,6 +549,10 @@
     <None Include="Resources\StartRs.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CustomForgeManagerTools\CFMAudioTools\CFMAudioTools.csproj">
+      <Project>{6D8C3FE6-5855-4B6C-BD2B-51954342DBEE}</Project>
+      <Name>CFMAudioTools</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CustomForgeManagerTools\CFMImageTools\CFMImageTools.csproj">
       <Project>{E6565985-C477-46F4-8A42-08E04CD40B65}</Project>
       <Name>CFMImageTools</Name>
@@ -547,9 +572,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy /S /Y "$(SolutionDir)ThirdParty"
-
-if $(ConfigurationName) == Release (
+    <PostBuildEvent>if $(ConfigurationName) == Release (
 
 RD /s /q "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)"
 CD "$(DevEnvDir)"

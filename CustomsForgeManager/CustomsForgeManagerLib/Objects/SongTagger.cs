@@ -238,7 +238,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
                     using (var FS = File.Create(songPath))
                         archive.Write(FS, true);
                     song.Path = songPath;
-                    song.Tagged = isTagged;
+                   // song.Tagged = isTagged;
                 }
               
             }

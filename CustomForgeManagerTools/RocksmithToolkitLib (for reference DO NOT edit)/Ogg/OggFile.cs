@@ -4,8 +4,9 @@ using System.IO;
 using System.Windows.Forms;
 using MiscUtil.Conversion;
 using MiscUtil.IO;
-using System.Diagnostics;
 using RocksmithToolkitLib.Extensions;
+
+
 
 namespace RocksmithToolkitLib.Ogg
 {
@@ -61,6 +62,7 @@ namespace RocksmithToolkitLib.Ogg
             using (var readStream = File.OpenRead(file))
             using (var outStream = File.Create(outputFileName))
             {
+        
                 CFMAudioTools.WwiseToOgg ww2Ogg = new CFMAudioTools.WwiseToOgg(readStream,outStream);
                 ww2Ogg.ConvertToOgg();
             }

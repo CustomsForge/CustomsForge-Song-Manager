@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using CFMAudioTools.Ogg;
+using MiscUtil.Conversion;
+using MiscUtil.IO;
 
 namespace CFMAudioTools
 {
-    using CFMAudioTools.Ogg;
-    using MiscUtil.Conversion;
-    using MiscUtil.IO;
     public class WwiseToOgg
     {
         protected string FCodebooksName = "packed_codebooks_aoTuV_603";

@@ -82,18 +82,15 @@ namespace CustomsForgeManager.UControls
                     }
 
                     if (correctVersion)
-                    {
                         masterSongCollection = Extensions.XmlDeserialize<BindingList<SongData>>(listNode.OuterXml);
-                        masterSongCollection.ToList().ForEach(
-                            a =>
-                            {
-                                a.Arrangements2D.ToList().ForEach(arr => arr.DLCKey = a.DLCKey);
-                            });
-                        Globals.SongCollection = masterSongCollection;
-                    }
                 }
 
                 Rescan();
+                // pop Arrangment DLCKey info
+                masterSongCollection.ToList().ForEach(
+                    a =>{a.Arrangements2D.ToList().ForEach(arr => arr.DLCKey = a.DLCKey);});
+                
+                Globals.SongCollection = masterSongCollection;
                 Globals.ReloadDuplicates = false;
                 Globals.ReloadRenamer = false;
                 Globals.ReloadSetlistManager = false;

@@ -132,15 +132,12 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                         if (arrName.ToLower().Contains("vocal"))
                             arrangmentsFromPsarc.Add(new Arrangement
                             {
-                                DLCKey = currentSong.DLCKey,
-                               // DLCKey = attributes["SongKey"].ToString(),
                                 PersistentID = attributes["PersistentID"].ToString(),
                                 Name = arrName
                             });
                         else
                             arrangmentsFromPsarc.Add(new Arrangement
                            {
-                               DLCKey = currentSong.DLCKey, //attributes["SongKey"].ToString(),
                                PersistentID = attributes["PersistentID"].ToString(),
                                Name = arrName,
                                Tuning = Extensions.TuningToName(attributes["Tuning"].ToString()),

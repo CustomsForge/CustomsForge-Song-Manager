@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Deployment.Application;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Threading;
 using System.Windows.Forms;
 using System.Reflection;
 using CustomsForgeManager.CustomsForgeManagerLib.Objects;
@@ -22,14 +20,13 @@ namespace CustomsForgeManager.Forms
         private static ToolStripLabel tsMainMsg;
         private static ToolStripProgressBar tsProgressBar;
         private static ToolStripLabel tsStatusMsg;
+        public Control currentControl = null;
 
         public frmMain(DLogger myLog)
         {
             InitializeComponent();
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);
-
-
-
+            this.FormClosing += frmMain_FormClosing;
             this.FormClosed += frmMain_FormClosed; // moved here for better access
             // gets rid of notifier icon on closing
             this.FormClosed += delegate
@@ -43,7 +40,7 @@ namespace CustomsForgeManager.Forms
             // bring CFM to the front on startup
             this.WindowState = FormWindowState.Minimized;
 
-          
+
             Globals.MyLog = myLog;
             Globals.Notifier = this.notifyIcon_Main;
             Globals.TsProgressBar_Main = this.tsProgressBar_Main;
@@ -134,20 +131,32 @@ namespace CustomsForgeManager.Forms
             }
         }
 
+        private void ShowHelp()
+        {
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            Stream stream = assembly.GetManifestResourceStream("CustomsForgeManager.Resources.HelpSongMgr.txt");
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                var helpSongManager = reader.ReadToEnd();
+
+                using (var noteViewer = new frmNoteViewer())
+                {
+                    noteViewer.Text = String.Format("{0} . . . {1}", noteViewer.Text, "Song Manager Help");
+                    noteViewer.PopulateText(helpSongManager);
+                    noteViewer.ShowDialog();
+                }
+            }
+        }
+
+        private void ShowHideLog()
+        {
+            AppSettings.Instance.ShowLogWindow = !AppSettings.Instance.ShowLogWindow;
+        }
+
         private void frmMain_FormClosed(object sender, FormClosedEventArgs e)
         {
-            Globals.Log("Application is Closing");
-
-            if (Globals.Settings == null || Globals.SongManager == null)
-            {
-                Globals.Log("<ERROR>: Save on close failed ...");
-                return;
-            }
             AppSettings.Instance.FullScreen = WindowState == FormWindowState.Maximized;
 
-            Globals.SongManager.LeaveSongManager();
-            Globals.Settings.SaveSettingsToFile();
-            Globals.SongManager.SaveSongCollectionToFile();
             // get rid of leftover notifications
             Globals.MyLog.RemoveTargetNotifyIcon(Globals.Notifier);
             notifyIcon_Main.Visible = false;
@@ -156,7 +165,39 @@ namespace CustomsForgeManager.Forms
             Dispose();
         }
 
-        public Control currentControl = null;
+        private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Globals.Log("Application is Closing");
+
+            if (Globals.Settings == null || Globals.SongManager == null)
+            {
+                Globals.Log("<ERROR>: Save on close failed ...");
+                return;
+            }
+
+            Globals.SongManager.LeaveSongManager();
+            Globals.Settings.SaveSettingsToFile();
+            Globals.SongManager.SaveSongCollectionToFile();
+        }
+
+        private void frmMain_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.F1:
+                    ShowHelp();
+                    e.Handled = true;
+                    break;
+                case Keys.F3:
+                    ShowHideLog();
+                    e.Handled = true;
+                    break;
+                case Keys.F12:
+                    tstripContainer.TopToolStripPanelVisible = !tstripContainer.TopToolStripPanelVisible;
+                    e.Handled = true;
+                    break;
+            }
+        }
 
         private void tcMain_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -242,6 +283,33 @@ namespace CustomsForgeManager.Forms
                     (currentControl as CustomsForgeManagerLib.INotifyTabChanged).TabEnter();
         }
 
+        private void tsBtnBackup_Click(object sender, EventArgs e)
+        {
+            Globals.TsProgressBar_Main.Value = 50;
+            CustomsForgeManagerLib.Extensions.BackupRocksmithProfile();
+            Globals.TsProgressBar_Main.Value = 100;
+        }
+
+        private void tsBtnHelp_Click(object sender, EventArgs e)
+        {
+            ShowHelp();
+        }
+
+        private void tsBtnLaunchRS_Click(object sender, EventArgs e)
+        {
+            CustomsForgeManagerLib.Extensions.LaunchRocksmith2014();
+        }
+
+        private void tsBtnRequest_Click(object sender, EventArgs e)
+        {
+            CustomsForgeManagerLib.Extensions.RequestSongOnCustomsForge();
+        }
+
+        private void tsBtnUpload_Click(object sender, EventArgs e)
+        {
+            CustomsForgeManagerLib.Extensions.UploadToCustomsForge();
+        }
+
         private void tsLabelCancel_Click(object sender, EventArgs e)
         {
             Globals.TsLabel_Cancel.Text = tsLabel_Cancel.Text == "Cancel" ? "Canceling" : "Cancel";
@@ -257,11 +325,6 @@ namespace CustomsForgeManager.Forms
         private void tsLabelShowHideLog_Click(object sender, EventArgs e)
         {
             ShowHideLog();
-        }
-
-        private void ShowHideLog()
-        {
-            AppSettings.Instance.ShowLogWindow = !AppSettings.Instance.ShowLogWindow;
         }
 
         public static NotifyIcon Notifier
@@ -299,70 +362,5 @@ namespace CustomsForgeManager.Forms
             get { return tsStatusMsg; }
             set { tsStatusMsg = value; }
         }
-
-
-        private void tsBtnLaunchRS_Click(object sender, EventArgs e)
-        {
-            CustomsForgeManagerLib.Extensions.LaunchRocksmith2014();
-        }
-
-        private void tsBtnBackup_Click(object sender, EventArgs e)
-        {
-            Globals.TsProgressBar_Main.Value = 50;
-            CustomsForgeManagerLib.Extensions.BackupRocksmithProfile();
-            Globals.TsProgressBar_Main.Value = 100;
-        }
-
-        private void tsBtnUpload_Click(object sender, EventArgs e)
-        {
-            CustomsForgeManagerLib.Extensions.UploadToCustomsForge();
-        }
-
-        private void tsBtnRequest_Click(object sender, EventArgs e)
-        {
-            CustomsForgeManagerLib.Extensions.RequestSongOnCustomsForge();
-        }
-
-        private void frmMain_KeyDown(object sender, KeyEventArgs e)
-        {
-            switch (e.KeyCode)
-            {
-                case Keys.F1:
-                    ShowHelp();
-                    e.Handled = true;
-                    break;
-                case Keys.F3:
-                    ShowHideLog();
-                    e.Handled = true;
-                    break;
-                case Keys.F12:
-                    tstripContainer.TopToolStripPanelVisible = !tstripContainer.TopToolStripPanelVisible;
-                    e.Handled = true;
-                    break;
-            }
-        }
-
-        private void ShowHelp()
-        {
-            Assembly assembly = Assembly.GetExecutingAssembly();
-            Stream stream = assembly.GetManifestResourceStream("CustomsForgeManager.Resources.HelpSongMgr.txt");
-            using (StreamReader reader = new StreamReader(stream))
-            {
-                var helpSongManager = reader.ReadToEnd();
-
-                using (var noteViewer = new frmNoteViewer())
-                {
-                    noteViewer.Text = String.Format("{0} . . . {1}", noteViewer.Text, "Song Manager Help");
-                    noteViewer.PopulateText(helpSongManager);
-                    noteViewer.ShowDialog();
-                }
-            }
-        }
-
-        private void tsBtnHelp_Click(object sender, EventArgs e)
-        {
-            ShowHelp();
-        }
-
     }
 }

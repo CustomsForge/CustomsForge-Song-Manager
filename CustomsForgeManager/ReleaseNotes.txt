@@ -1,5 +1,12 @@
 CFM Release Notes
 
+1.0.4.4
+-Add ThirdParty apps to the project so that Publish works properly
+-Reduced size of songinfo.xml by eliminating redundant storage of DLCKey
+-Commented out Line 241 from SongTagger
+-Removed RocksmithToolkitLib project files
+-Put back CFMAudioTools for Release build
+
 1.0.4.3
 -Fixed a gridview bug in SongManager, also added an eventhandler to log errors on a gridview data error.
 -Fixed bug in DDSImage when a DDS image doesn't have a dwPitchOrLinearSize value.
