@@ -85,7 +85,6 @@ namespace CustomsForgeManager.UControls
                         masterSongCollection = Extensions.XmlDeserialize<BindingList<SongData>>(listNode.OuterXml);
                 }
 
-                Rescan();
                 // pop Arrangment DLCKey info
                 masterSongCollection.ToList().ForEach(
                     a =>{a.Arrangements2D.ToList().ForEach(arr => arr.DLCKey = a.DLCKey);});
@@ -94,6 +93,9 @@ namespace CustomsForgeManager.UControls
                 Globals.ReloadDuplicates = false;
                 Globals.ReloadRenamer = false;
                 Globals.ReloadSetlistManager = false;
+
+                //rescan should be called AFTER setting Globals.SongCollection
+                Rescan();
 
                 if (masterSongCollection == null || masterSongCollection.Count == 0)
                     throw new SongCollectionException(masterSongCollection == null ? "Master Collection = null" : "Master Collection.Count = 0");

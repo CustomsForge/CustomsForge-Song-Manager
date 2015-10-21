@@ -29,12 +29,11 @@ namespace CustomsForgeManager
                     File.Delete(Constants.SettingsPath);
                     File.Delete(Constants.SongsInfoPath);
                 }
-                using (TextWriter tw = new StreamWriter(Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "ReleaseNotes.txt"), true))
+
+                using (var tw = File.CreateText(Path.Combine(Constants.WorkDirectory, string.Format("firstrun.dat"))))
                 {
-                    tw.Write("notfirstrun"); // IMPORTANT no CRLF added to end
-                    tw.WriteLine(string.Format("{0}{0}notfirstrun", Environment.NewLine));  // causes CRLF to be added
-                    // tw.Close(); Close not needed when using the "using" statement
-                }
+                    tw.Write(Constants.ApplicationVersion);
+                }                
             }
             RunApp();
         }
@@ -72,13 +71,26 @@ namespace CustomsForgeManager
 
         public static bool FirstRun()
         {
-            if (Path.GetDirectoryName(Application.ExecutablePath) == null)
-                throw new Exception("Can not find application directory.");
+            var txtFile = Path.Combine(Constants.WorkDirectory, string.Format("firstrun.dat"));
+            if (!File.Exists(txtFile))
+               return true;
 
-            if (!File.ReadAllText(Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "ReleaseNotes.txt")).Contains("notfirstrun"))
+            if (!File.ReadAllText(txtFile).Contains(Constants.ApplicationVersion))
                 return true;
-
             return false;
+
+            /* using (var tw = File.CreateText(Path.Combine(Constants.WorkDirectory, string.Format("firstrun.txt"))))
+                {
+                    tw.Write(Constants.ApplicationVersion);
+                }    */
+
+            //if (Path.GetDirectoryName(Application.ExecutablePath) == null)
+            //    throw new Exception("Can not find application directory.");
+
+            //if (!File.ReadAllText(Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "ReleaseNotes.txt")).Contains("notfirstrun"))
+            //    return true;
+
+            //return false;
         }
 
     }
