@@ -31,8 +31,8 @@
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>index.html</WebPage>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>6</ApplicationRevision>
-    <ApplicationVersion>1.0.4.6</ApplicationVersion>
+    <ApplicationRevision>7</ApplicationRevision>
+    <ApplicationVersion>1.0.4.7</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -75,6 +75,17 @@
   </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Dotfuscator|x86'">
+    <OutputPath>bin\Dotfuscator\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\libs\Antlr3.Runtime.dll</HintPath>
@@ -593,7 +604,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>if $(ConfigurationName) == Release (
+    <PostBuildEvent>if $(ConfigurationName) == Dotfuscator (
 
 RD /s /q "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)
 CD $(DevEnvDir)
@@ -609,6 +620,7 @@ del /q "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)\$(TargetFileName)"
 del /q "$(TargetDir)$(TargetFileName)"
 copy /y "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)\CFM_$(ConfigurationName).exe" "$(TargetDir)$(TargetFileName)"
 
+RD /s /q "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)
 )</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

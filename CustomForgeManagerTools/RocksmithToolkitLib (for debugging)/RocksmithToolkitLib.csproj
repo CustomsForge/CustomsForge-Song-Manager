@@ -29,6 +29,15 @@
     <DebugType>pdbonly</DebugType>
     <DefineConstants>CFM_AUDIO_TOOLS</DefineConstants>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Dotfuscator|x86'">
+    <OutputPath>bin\x86\Dotfuscator\</OutputPath>
+    <DefineConstants>CFM_AUDIO_TOOLS</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="ICSharpCode.SharpZipLib">
       <HintPath>..\..\libs\ICSharpCode.SharpZipLib.dll</HintPath>

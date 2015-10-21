@@ -69,7 +69,7 @@ namespace DataGridViewTools
         #endregion Searching
 
         #region Sorting
-     //   ArrayList sortedList;
+        //   ArrayList sortedList;
         FilteredBindingList<T> unsortedItems;
         bool isSortedValue;
         ListSortDirection sortDirectionValue;
@@ -137,13 +137,23 @@ namespace DataGridViewTools
                         sortedList.Add((T)item);
                     }
                 }
+
+                // TODO: fix periodic bug here for now use exception handler
                 // Call Sort on the ArrayList.
-                sortedList.Sort((x1,x2) => 
+                try
                 {
-                    var c1 = (prop.GetValue(x1) as IComparable);
-                    var c2 = (prop.GetValue(x2) as IComparable);
-                    return c1.CompareTo(c2);
-                });
+                    sortedList.Sort((x1, x2) =>
+                    {
+                        var c1 = (prop.GetValue(x1) as IComparable);
+                        var c2 = (prop.GetValue(x2) as IComparable);
+                        return c1.CompareTo(c2);
+                    });
+                 }
+                catch (Exception)
+                {                   
+                    // probably empty/null item so can not compare (skip it)
+                }
+
                 T temp;
 
                 // Check the sort direction and then copy the sorted items

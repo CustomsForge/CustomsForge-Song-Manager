@@ -1,5 +1,10 @@
 CFM Release Notes
 
+1.0.4.8
+-Fixed SongManager detail table crash
+-Add new build to Solution Configurations for developer investigation
+-Added exception handler for sorting bug in FilteredBindingList when data is null/empty it can not be compared
+
 1.0.4.7
 -Fixed lib referneces so that they are not removed by Clean Solution and added RocksmithToTabLib.dll to lib folder
 
