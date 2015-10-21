@@ -62,8 +62,7 @@ namespace RocksmithToolkitLib.Ogg
 #if CFM_AUDIO_TOOLS
             using (var readStream = File.OpenRead(file))
             using (var outStream = File.Create(outputFileName))
-            {
-        
+            {        
                 CFMAudioTools.WwiseToOgg ww2Ogg = new CFMAudioTools.WwiseToOgg(readStream,outStream);
                 ww2Ogg.ConvertToOgg();
             }

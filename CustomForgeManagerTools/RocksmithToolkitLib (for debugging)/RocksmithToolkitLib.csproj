@@ -27,16 +27,20 @@
     <WarningLevel>4</WarningLevel>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
+    <DefineConstants>CFM_AUDIO_TOOLS</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>..\lib\ZLib\ICSharpCode.SharpZipLib.dll</HintPath>
+      <HintPath>..\..\libs\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="MiscUtil">
-      <HintPath>..\lib\MiscUtil\MiscUtil.dll</HintPath>
+      <HintPath>..\..\libs\MiscUtil.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
-      <HintPath>..\lib\Newtonsoft.Json\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\libs\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="RocksmithToTabLib">
+      <HintPath>..\..\libs\RocksmithToTabLib.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -48,14 +52,11 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="RocksmithToTabLib">
-      <HintPath>..\lib\RocksmithToTabLib\RocksmithToTabLib.dll</HintPath>
-    </Reference>
     <Reference Include="X360">
-      <HintPath>..\lib\X360\X360.dll</HintPath>
+      <HintPath>..\..\libs\X360.dll</HintPath>
     </Reference>
     <Reference Include="zlib.net">
-      <HintPath>..\lib\ZLib\zlib.net.dll</HintPath>
+      <HintPath>..\..\libs\zlib.net.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

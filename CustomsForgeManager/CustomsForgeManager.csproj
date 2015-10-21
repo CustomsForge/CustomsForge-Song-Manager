@@ -12,7 +12,7 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <IsWebBootstrapper>true</IsWebBootstrapper>
-    <PublishUrl>ftp://198.58.96.81/app/</PublishUrl>
+    <PublishUrl>ftp://198.58.96.81/</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Web</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
@@ -97,9 +97,6 @@
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\libs\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="RocksmithToTabLib">
-      <HintPath>..\CustomForgeManagerTools\RocksmithToolkitLib (for Josh's Audio Experiment)\bin\Release\RocksmithToTabLib.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -596,8 +593,23 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>if $(ConfigurationName) == Release (
+
+RD /s /q "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)
+CD $(DevEnvDir)
+
+"..\..\PreEmptive Solutions\Dotfuscator Community Edition\dotfuscatorCLI.exe" /in:"$(TargetPath)" /out:"$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)"
+
+copy /y "$(TargetDir)*.txt" "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)\*.txt"
+copy /y "$(TargetDir)*.xml" "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)\*.xml"
+copy /y "$(TargetDir)*.dll" "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)\*.dll"
+copy /y "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)\$(TargetFileName)" "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)\CFM_$(ConfigurationName).exe" 
+del /q "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)\$(TargetFileName)"
+
+del /q "$(TargetDir)$(TargetFileName)"
+copy /y "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)\CFM_$(ConfigurationName).exe" "$(TargetDir)$(TargetFileName)"
+
+)</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
