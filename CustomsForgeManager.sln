@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClickOnceUninstaller", "Cus
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CFMAudioTools", "CustomForgeManagerTools\CFMAudioTools\CFMAudioTools.csproj", "{6D8C3FE6-5855-4B6C-BD2B-51954342DBEE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RocksmithToolkitLib", "CustomForgeManagerTools\RocksmithToolkitLib (for debugging)\RocksmithToolkitLib.csproj", "{2231C13A-14F6-478A-96D7-D1D3E1094CD6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -72,6 +74,16 @@ Global
 		{6D8C3FE6-5855-4B6C-BD2B-51954342DBEE}.Release|Mixed Platforms.Build.0 = Release|x86
 		{6D8C3FE6-5855-4B6C-BD2B-51954342DBEE}.Release|x86.ActiveCfg = Release|x86
 		{6D8C3FE6-5855-4B6C-BD2B-51954342DBEE}.Release|x86.Build.0 = Release|x86
+		{2231C13A-14F6-478A-96D7-D1D3E1094CD6}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{2231C13A-14F6-478A-96D7-D1D3E1094CD6}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{2231C13A-14F6-478A-96D7-D1D3E1094CD6}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{2231C13A-14F6-478A-96D7-D1D3E1094CD6}.Debug|x86.ActiveCfg = Debug|x86
+		{2231C13A-14F6-478A-96D7-D1D3E1094CD6}.Debug|x86.Build.0 = Debug|x86
+		{2231C13A-14F6-478A-96D7-D1D3E1094CD6}.Release|Any CPU.ActiveCfg = Release|x86
+		{2231C13A-14F6-478A-96D7-D1D3E1094CD6}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{2231C13A-14F6-478A-96D7-D1D3E1094CD6}.Release|Mixed Platforms.Build.0 = Release|x86
+		{2231C13A-14F6-478A-96D7-D1D3E1094CD6}.Release|x86.ActiveCfg = Release|x86
+		{2231C13A-14F6-478A-96D7-D1D3E1094CD6}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

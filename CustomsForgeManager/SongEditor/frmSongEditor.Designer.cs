@@ -100,9 +100,9 @@
             // 
             // tcMain
             // 
-            this.tcMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tcMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.tcMain.Controls.Add(this.tpSongInfo);
             this.tcMain.Controls.Add(this.tpArrangements);
             this.tcMain.Controls.Add(this.tpTones);
@@ -130,7 +130,7 @@
             // 
             this.tpArrangements.Location = new System.Drawing.Point(4, 25);
             this.tpArrangements.Name = "tpArrangements";
-            this.tpArrangements.Size = new System.Drawing.Size(645, 402);
+            this.tpArrangements.Size = new System.Drawing.Size(717, 402);
             this.tpArrangements.TabIndex = 4;
             this.tpArrangements.Text = "Arrangements";
             this.tpArrangements.UseVisualStyleBackColor = true;
@@ -140,7 +140,7 @@
             this.tpTones.Location = new System.Drawing.Point(4, 25);
             this.tpTones.Name = "tpTones";
             this.tpTones.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
-            this.tpTones.Size = new System.Drawing.Size(645, 402);
+            this.tpTones.Size = new System.Drawing.Size(717, 402);
             this.tpTones.TabIndex = 0;
             this.tpTones.Text = "Tones";
             this.tpTones.UseVisualStyleBackColor = true;
@@ -149,15 +149,14 @@
             // 
             this.tpAlbumArt.Location = new System.Drawing.Point(4, 25);
             this.tpAlbumArt.Name = "tpAlbumArt";
-            this.tpAlbumArt.Size = new System.Drawing.Size(645, 402);
+            this.tpAlbumArt.Size = new System.Drawing.Size(717, 402);
             this.tpAlbumArt.TabIndex = 5;
             this.tpAlbumArt.Text = "Album Art";
             this.tpAlbumArt.UseVisualStyleBackColor = true;
             // 
             // frmSongEditor
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(745, 482);
             this.Controls.Add(this.statusStripMain);
             this.Controls.Add(this.tcMain);

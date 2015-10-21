@@ -1,5 +1,11 @@
 CFM Release Notes
 
+1.0.4.6
+-Added RocksmithToolkitLib project back to solution so devs could resolve Audio dependencies
+-Removed ThirdParty Audio tools exe and bin files.
+-Set frmSongEditor AutoScale to None to improve forms layout and visibilty
+-Changed all ucSongInfo controls Anchor to top, left for consistent layout
+
 1.0.4.5
 -Switched CFMAudioTools and CFMImageTools to x86 Platform for consistency and backward compatiblity
 

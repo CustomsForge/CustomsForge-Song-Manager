@@ -19,7 +19,7 @@
     <WarningLevel>4</WarningLevel>
     <Optimize>false</Optimize>
     <DebugType>full</DebugType>
-    <DefineConstants>TRACE;DEBUG;CFM_AUDIO_TOOLS</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS, CFM_AUDIO_TOOLS</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <PlatformTarget>x86</PlatformTarget>
@@ -27,21 +27,16 @@
     <WarningLevel>4</WarningLevel>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
-    <DefineConstants>CFM_AUDIO_TOOLS</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>..\..\libs\ICSharpCode.SharpZipLib.dll</HintPath>
+      <HintPath>..\lib\ZLib\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="MiscUtil">
-      <HintPath>..\..\libs\MiscUtil.dll</HintPath>
+      <HintPath>..\lib\MiscUtil\MiscUtil.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\libs\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="RocksmithToTabLib">
-      <HintPath>..\..\libs\RocksmithToTabLib.dll</HintPath>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\lib\Newtonsoft.Json\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -53,11 +48,14 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="RocksmithToTabLib">
+      <HintPath>..\lib\RocksmithToTabLib\RocksmithToTabLib.dll</HintPath>
+    </Reference>
     <Reference Include="X360">
-      <HintPath>..\..\libs\X360.dll</HintPath>
+      <HintPath>..\lib\X360\X360.dll</HintPath>
     </Reference>
     <Reference Include="zlib.net">
-      <HintPath>..\..\libs\zlib.net.dll</HintPath>
+      <HintPath>..\lib\ZLib\zlib.net.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -241,6 +239,12 @@
     <None Include="Resources\rsenumerable_song.flat" />
     <None Include="Resources\XBox360_DLC_image.png" />
     <None Include="Resources\XBox360_KV.bin" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CFMAudioTools\CFMAudioTools.csproj">
+      <Project>{6D8C3FE6-5855-4B6C-BD2B-51954342DBEE}</Project>
+      <Name>CFMAudioTools</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
