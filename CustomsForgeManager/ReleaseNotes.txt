@@ -1,5 +1,8 @@
 CFM Release Notes
 
+1.0.4.9
+-Quickfix to some SongManager grid issues
+
 1.0.4.8
 -Fixed SongManager detail table crash
 -Add new build to Solution Configurations for developer investigation

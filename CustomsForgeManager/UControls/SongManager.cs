@@ -1202,10 +1202,10 @@ namespace CustomsForgeManager.UControls
 
                         // calculate the height and width of dgvSongsDetail
                         var colHeaderHeight = dgvSongsDetail.Columns[e.ColumnIndex].HeaderCell.Size.Height;
-                        dgvSongsDetail.Height = dgvSongsDetail.Rows.Cast<DataGridViewRow>().Sum(row => row.Height) + colHeaderHeight - 1;
+                        dgvSongsDetail.Height = dgvSongsDetail.Rows.Cast<DataGridViewRow>().Sum(row => row.Height) + colHeaderHeight - 3;
                         dgvSongsDetail.Width = dgvSongsDetail.Columns.Cast<DataGridViewColumn>().Sum(col => col.Width) + colWidth;
                         if (dgvSongsDetail.Rows.Count == 1) // extra tweak for single row
-                            dgvSongsDetail.Height = dgvSongsDetail.Height + 4;
+                            dgvSongsDetail.Height = dgvSongsDetail.Height + 5;
 
                         dgvSongsDetail.Visible = true;
                     }
