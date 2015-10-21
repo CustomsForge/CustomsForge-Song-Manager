@@ -12,7 +12,7 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <IsWebBootstrapper>true</IsWebBootstrapper>
-    <PublishUrl>ftp://198.58.96.81/</PublishUrl>
+    <PublishUrl>ftp://198.58.96.81/app/</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Web</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
@@ -31,8 +31,8 @@
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>index.html</WebPage>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>8</ApplicationRevision>
-    <ApplicationVersion>1.0.4.8</ApplicationVersion>
+    <ApplicationRevision>9</ApplicationRevision>
+    <ApplicationVersion>1.0.4.9</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -604,24 +604,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>if $(ConfigurationName) == Dotfuscator (
-
-RD /s /q "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)
-CD $(DevEnvDir)
-
-"..\..\PreEmptive Solutions\Dotfuscator Community Edition\dotfuscatorCLI.exe" /in:"$(TargetPath)" /out:"$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)"
-
-copy /y "$(TargetDir)*.txt" "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)\*.txt"
-copy /y "$(TargetDir)*.xml" "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)\*.xml"
-copy /y "$(TargetDir)*.dll" "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)\*.dll"
-copy /y "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)\$(TargetFileName)" "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)\CFM_$(ConfigurationName).exe" 
-del /q "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)\$(TargetFileName)"
-
-del /q "$(TargetDir)$(TargetFileName)"
-copy /y "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)\CFM_$(ConfigurationName).exe" "$(TargetDir)$(TargetFileName)"
-
-RD /s /q "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)
-)</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
