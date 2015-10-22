@@ -1,5 +1,9 @@
 CFM Release Notes
 
+1.0.5.0
+-Added better exception handler for sorting bug in FilteredBindingList
+-Updated Solution Configuration for Developers
+
 1.0.4.9
 -Quickfix to some SongManager grid issues
 

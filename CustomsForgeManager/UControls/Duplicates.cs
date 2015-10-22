@@ -39,6 +39,7 @@ namespace CustomsForgeManager.UControls
             }
 
             duplicates.Clear();
+            // TODO: add check for duplicate Persistent IDs maybe as seperate selection button
             duplicates = Globals.SongCollection.GroupBy(x => x.ArtistTitleAlbum).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
             duplicates.RemoveAll(x => x.FileName.ToLower().Contains(Constants.RS1COMP));
             LoadFilteredBindingList(duplicates);

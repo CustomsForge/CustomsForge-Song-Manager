@@ -138,7 +138,6 @@ namespace DataGridViewTools
                     }
                 }
 
-                // TODO: fix periodic bug here for now use exception handler
                 // Call Sort on the ArrayList.
                 try
                 {
@@ -146,11 +145,13 @@ namespace DataGridViewTools
                     {
                         var c1 = (prop.GetValue(x1) as IComparable);
                         var c2 = (prop.GetValue(x2) as IComparable);
+                        if (c1 == null || c2 == null)
+                            return -1;
                         return c1.CompareTo(c2);
                     });
-                 }
+                }
                 catch (Exception)
-                {                   
+                {
                     // probably empty/null item so can not compare (skip it)
                 }
 
