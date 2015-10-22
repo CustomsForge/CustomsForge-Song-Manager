@@ -10,6 +10,8 @@ using System.Windows.Forms;
 
 namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
 {
+
+   
     public class SongTagger
     {
         private string[] defaultFiles = { 
@@ -28,9 +30,13 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         {
             ThemeName = defaultTagFolders[0];
             Themes = new List<string>();
+            Populate();
         }
 
-        public void Populate()
+        public event EventHandler<TaggerProgress> OnProgress;
+
+
+        private void Populate()
         {
             if (!Directory.Exists(Constants.TaggerTemplatesFolder) || Extensions.IsDirectoryEmpty(Constants.TaggerTemplatesFolder))
                 CreateDefaultFolders();
@@ -72,13 +78,30 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
 
         public string ThemeName { get; set; }
 
+        public Image GetThemePreview(string themeName)
+        {
+            string preview = Path.Combine(Constants.TaggerTemplatesFolder, themeName, "prev.png");
+            if (File.Exists(preview))
+                return Bitmap.FromFile(preview);
+            return null;
+        }
+
+        public string GetThemeText(string themeName)
+        {
+            string info = Path.Combine(Constants.TaggerTemplatesFolder, themeName, "info.txt");
+            if (File.Exists(info))
+                return File.ReadAllText(info);
+            return string.Empty;
+
+        }
+
         public Image Preview(SongData sd)
         {
             if (ThemeName == String.Empty)
                 ThemeName = defaultTagFolders[0];
             try
             {
-                using (var images = new BitmapHolder(Path.Combine(Constants.TaggerTemplatesFolder, ThemeName)))
+                using (var images = new BitmapHolder(tagsFolderFullPath))
                 {
                     string songPath = sd.Path;
                     using (PSARC archive = new PSARC())
@@ -92,7 +115,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
                         {
                             imgEntry.Data.Position = 0;
                             var albumArtDDS = new DDSImage(imgEntry.Data);
-                            var midAlbumArt = albumArtDDS.images[0].ResizeImage(128, 128);
+                            var AlbumArt = albumArtDDS.images[0];
 
                             bool lead = false;
                             bool rhythm = false;
@@ -107,19 +130,23 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
 
                             foreach (string arrangement in arrangements)
                             {
-                                lead = (arrangement.Contains("lead") && !arrangement.Contains("lead2"));
-                                
-                                bonusLead = (arrangement.Contains("lead2"));
-
-                                rhythm = (arrangement.Contains("rhythm") && !arrangement.Contains("rhythm2"));
-
-                                bonusRhythm = (arrangement.Contains("rhythm2"));
-                                bass = (arrangement.Contains("bass") && !arrangement.Contains("bass2"));
-                                bonusBass = (arrangement.Contains("bass2"));
-                                vocals = (arrangement.Contains("vocals"));
+                                if (arrangement.Contains("lead") && !arrangement.Contains("lead2"))
+                                    lead = true;
+                                if (arrangement.Contains("lead2"))
+                                    bonusLead = true;
+                                if (arrangement.Contains("rhythm") && !arrangement.Contains("rhythm2"))
+                                    rhythm = true;
+                                if (arrangement.Contains("rhythm2"))
+                                    bonusRhythm = true;
+                                if (arrangement.Contains("bass") && !arrangement.Contains("bass2"))
+                                    bass = true;
+                                if (arrangement.Contains("bass2"))
+                                    bonusBass = true;
+                                if (arrangement.Contains("vocals"))
+                                    vocals = true;
                             }
-
-                            using (Graphics gra = Graphics.FromImage(midAlbumArt))
+                            var fvalue = 0.5f;
+                            using (Graphics gra = Graphics.FromImage(AlbumArt))
                             {
                                 gra.DrawImage(images.backgroundLayer, 0, 0.5f);
                                 if (vocals)
@@ -138,7 +165,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
                                     gra.DrawImage(images.leadBonusLayer, 0, 0.5f);
                                 gra.DrawImage(images.customTagLayer, 0, 0.5f);
                             }
-                            return midAlbumArt;
+                            return AlbumArt;
 
                         }
                     }
@@ -164,90 +191,268 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
                 "-Tagger/{0}/Vocal.png", ThemeName));
         }
 
+        private string tagsFolderFullPath
+        {
+            get { return Path.Combine(Constants.TaggerTemplatesFolder, ThemeName); }
+        }
 
-        private void TagSong(SongData song)
+        private void TagSong(SongData song, BitmapHolder images)
         {
             if (ThemeName == String.Empty)
                 ThemeName = defaultTagFolders[0];
+            if (!Directory.Exists(Constants.TaggerTemplatesFolder) || !Directory.Exists(tagsFolderFullPath))
+                CreateDefaultFolders();
 
+            //   songTagged = songTagged || File.GetCreationTime(song.Path) == new DateTime(1990, 1, 1) ? true : false;
+
+            if (File.Exists(song.Path)) //Just to be sure :)
+            {
+              //  if (!song.Tagged)
+                {
+                    string songPath = song.Path;
+                    using (PSARC archive = new PSARC())
+                    {
+                        using (var fs = File.OpenRead(songPath))
+                            archive.Read(fs);
+
+
+                        var taggerOriginal = archive.TOC.FirstOrDefault(entry => entry.Name == "tagger.org");
+                        if (taggerOriginal != null)
+                        {
+                            song.Tagged = true;
+                            return;
+                        }
+                        Globals.Log("Tagging song: " + song.Title);
+
+                        var toolKitEntry = archive.TOC.FirstOrDefault(entry => entry.Name == "toolkit.version");
+
+                        if (toolKitEntry != null) //Very unlikely to happen since we don't parse official DLCs, but for safety
+                        {
+                            var albumSmallArtEntry = archive.TOC.FirstOrDefault(entry => entry.Name.EndsWith("64.dds")); //Get album art paths
+                            var albumMidArtEntry = archive.TOC.FirstOrDefault(entry => entry.Name.EndsWith("128.dds"));
+                            var albumBigArtEntry = archive.TOC.FirstOrDefault(entry => entry.Name.EndsWith("256.dds"));
+                            albumBigArtEntry.Data.Position = 0;
+
+
+                            //var albumArtDDS = new DDSImage(albumBigArtEntry.Data);
+                            var bigAlbumArt = ImageExtensions.DDStoBitmap(albumBigArtEntry.Data);// albumArtDDS.images[0];
+                            var orginalArtStream = new MemoryStream();
+                            albumBigArtEntry.Data.Position = 0;
+                            albumBigArtEntry.Data.CopyTo(orginalArtStream);
+                            orginalArtStream.Position = 0;
+
+                            //Check which arrangements it contains
+                            bool lead = false;
+                            bool rhythm = false;
+                            bool bass = false;
+                            bool vocals = false;
+                            bool bonusLead = false;
+                            bool bonusRhythm = false;
+                            bool bonusBass = false;
+
+                            var arrangements = archive.TOC.Where(entry => entry.Name.ToLower().EndsWith(".json")).Select(entry => entry.Name);
+
+                            foreach (string arrangement in arrangements)
+                            {
+                                if (arrangement.Contains("lead") && !arrangement.Contains("lead2"))
+                                    lead = true;
+                                if (arrangement.Contains("lead2"))
+                                    bonusLead = true;
+                                if (arrangement.Contains("rhythm") && !arrangement.Contains("rhythm2"))
+                                    rhythm = true;
+                                if (arrangement.Contains("rhythm2"))
+                                    bonusRhythm = true;
+                                if (arrangement.Contains("bass") && !arrangement.Contains("bass2"))
+                                    bass = true;
+                                if (arrangement.Contains("bass2"))
+                                    bonusBass = true;
+                                if (arrangement.Contains("vocals"))
+                                    vocals = true;
+                            }
+
+                            //Add layers to big album art
+                            using (Graphics gra = Graphics.FromImage(bigAlbumArt))
+                            {
+                                gra.DrawImage(images.backgroundLayer, 0, 0.5f);
+                                if (vocals)
+                                    gra.DrawImage(images.vocalLayer, 0, 0.5f);
+                                if (bass)
+                                    gra.DrawImage(images.bassLayer, 0, 0.5f);
+                                if (bonusBass)
+                                    gra.DrawImage(images.bassBonusLayer, 0, 0.5f);
+                                if (rhythm)
+                                    gra.DrawImage(images.rhythmLayer, 0, 0.5f);
+                                if (bonusRhythm)
+                                    gra.DrawImage(images.rhythmBonusLayer, 0, 0.5f);
+                                if (lead)
+                                    gra.DrawImage(images.leadLayer, 0, 0.5f);
+                                if (bonusLead)
+                                    gra.DrawImage(images.leadBonusLayer, 0, 0.5f);
+                                gra.DrawImage(images.customTagLayer, 0, 0.5f);
+                            }
+
+                            var largeDDS = bigAlbumArt.ToDDS();
+                            var midDDS = bigAlbumArt.ToDDS(128, 128);
+                            var smallDDS = bigAlbumArt.ToDDS(64, 64);
+
+                            if (largeDDS == null || midDDS == null || smallDDS == null)
+                                throw new Exception("unable to convert image steams.");
+
+                            albumSmallArtEntry.Data.Dispose();
+                            smallDDS.Position = 0;
+                            albumSmallArtEntry.Data = smallDDS;
+
+                            albumMidArtEntry.Data.Dispose();
+                            midDDS.Position = 0;
+                            albumMidArtEntry.Data = midDDS;
+
+                            albumBigArtEntry.Data.Dispose();
+                            largeDDS.Position = 0;
+                            albumBigArtEntry.Data = largeDDS;
+                            archive.TOC.Insert(0, new Entry() { Name = "NamesBlock.bin" });
+
+                            archive.AddEntry("tagger.org", orginalArtStream);
+                            songPath = song.Path;
+
+                            using (var FS = File.Create(songPath))
+                                archive.Write(FS, true);
+                            song.Path = songPath;
+
+                            song.FileDate = File.GetLastWriteTimeUtc(song.Path);
+
+                            song.Tagged = true;
+
+                            //  counter++;
+                            //    gbTags.Text = string.Format("Tagged: {0}/{1}", counter, songCount);
+                        }
+                    }
+                }
+            }
         }
 
-
-        private void ReplaceImages(SongData song, Bitmap newImg, bool isTagged)
+        public void TagSong(SongData song)
         {
-            string songPath = song.Path;
-            using (PSARC archive = new PSARC())
+            using (var images = new BitmapHolder(tagsFolderFullPath))
+                TagSong(song, images);
+        }
+
+        public void UntagSong(SongData song)
+        {
+            if (File.Exists(song.Path)) //Just to be sure :)
             {
-                using (var fs = File.OpenRead(songPath))
-                    archive.Read(fs);
-                var toolKitEntry = archive.TOC.FirstOrDefault(entry => entry.Name == "toolkit.version");
-                var orgDss = archive.TOC.FirstOrDefault(entry => entry.Name == "original_dss");
-
-                if (toolKitEntry != null) //Very unlikely to happen since we don't parse official DLCs, but for safety
+              //  if (song.Tagged)
                 {
-                    var albumSmallArtEntry = archive.TOC.FirstOrDefault(entry => entry.Name.EndsWith("64.dds")); //Get album art paths
-                    var albumMidArtEntry = archive.TOC.FirstOrDefault(entry => entry.Name.EndsWith("128.dds"));
-                    var albumBigArtEntry = archive.TOC.FirstOrDefault(entry => entry.Name.EndsWith("256.dds"));
-                    albumBigArtEntry.Data.Position = 0;
-
-
-                    var largeDDS = newImg.ToDDS(256, 256);
-                    var midDDS = newImg.ToDDS(128, 128);
-                    var smallDDS = newImg.ToDDS(64, 64);
-
-                    if (largeDDS == null || midDDS == null || smallDDS == null)
-                        throw new Exception("unable to convert image steams.");
-                    MemoryStream largeImg = null;
-                    if (isTagged)
+                    using (PSARC archive = new PSARC())
                     {
-                        albumBigArtEntry.Data.Position = 0;
-                        largeImg = new MemoryStream();
-                        albumBigArtEntry.Data.CopyTo(largeImg);
-                    }
+                        using (var fs = File.OpenRead(song.Path))
+                            archive.Read(fs);
+                        Globals.Log("Untagging song: " + song.Title);
 
-                    albumSmallArtEntry.Data.Dispose();
-                    albumSmallArtEntry.Data = smallDDS;
-
-                    albumMidArtEntry.Data.Dispose();
-                    albumMidArtEntry.Data = midDDS;
-
-                    albumBigArtEntry.Data.Dispose();
-                    albumBigArtEntry.Data = largeDDS;
-
-                    if (isTagged)
-                    {
-                        if (orgDss != null)
-                            archive.TOC.Remove(orgDss);
-                    }
-                    else
-                    {
-                        if (orgDss == null)
+                        var toolKitEntry = archive.TOC.FirstOrDefault(entry => entry.Name == "toolkit.version");
+                        var taggerOriginal = archive.TOC.FirstOrDefault(entry => entry.Name == "tagger.org");
+                        if (toolKitEntry != null && taggerOriginal != null)
                         {
-                            orgDss = new Entry() { Name = "original_dss", Data = largeImg };
-                            archive.AddEntry(orgDss);
+                            DDSImage orgDDS = new DDSImage(taggerOriginal.Data);
+                            var bigAlbumArt = orgDDS.images[0];
+
+                            var albumSmallArtEntry = archive.TOC.FirstOrDefault(entry => entry.Name.EndsWith("64.dds")); //Get album art paths
+                            var albumMidArtEntry = archive.TOC.FirstOrDefault(entry => entry.Name.EndsWith("128.dds"));
+                            var albumBigArtEntry = archive.TOC.FirstOrDefault(entry => entry.Name.EndsWith("256.dds"));
+
+                            albumBigArtEntry.Data.Dispose();
+                            albumBigArtEntry.Data = bigAlbumArt.ToDDS(256, 256);
+                            albumMidArtEntry.Data.Dispose();
+                            albumMidArtEntry.Data = bigAlbumArt.ToDDS(128, 128);
+                            albumSmallArtEntry.Data.Dispose();
+                            albumSmallArtEntry.Data = bigAlbumArt.ToDDS(64, 64);
+
+                            archive.TOC.Insert(0, new Entry() { Name = "NamesBlock.bin" });
+                            archive.TOC.Remove(taggerOriginal);
+                            using (var FS = File.Create(song.Path))
+                                archive.Write(FS, true);
+                            song.FileDate = File.GetLastWriteTimeUtc(song.Path);
                         }
-                        else
-                        {
-                            orgDss.Data.Dispose();
-                            orgDss.Data = largeImg;
-                        }
+
+                        song.Tagged = false;
                     }
-
-                    songPath = song.Path;
-
-                    using (var FS = File.Create(songPath))
-                        archive.Write(FS, true);
-                    song.Path = songPath;
-                   // song.Tagged = isTagged;
                 }
-              
+            }
+        }
+
+        public void TagSongs(SongData[] songs)
+        {
+            if (songs == null || songs.Length == 0)
+                return;
+
+            TaggerProgress tp = new TaggerProgress(0, songs.Length);
+            using (var images = new BitmapHolder(tagsFolderFullPath))
+                for (int i = 0; i < songs.Length; i++)
+                {
+                    if (OnProgress != null)
+                    {
+                        tp.SetPos(i);
+                        tp.CurrentSong = songs[i];
+                        OnProgress(this, tp);
+                    }
+                    TagSong(songs[i], images);
+                }
+            if (OnProgress != null)
+            {
+                tp.SetPos(songs.Length);
+                OnProgress(this, tp);
+            }
+        }
+
+        public void UntagSongs(SongData[] songs)
+        {
+            if (songs == null || songs.Length == 0)
+                return;
+
+            TaggerProgress tp = new TaggerProgress(0, songs.Length);
+            for (int i = 0; i < songs.Length; i++)
+            {
+                if (OnProgress != null)
+                {
+                    tp.SetPos(i);
+                    tp.CurrentSong = songs[i];
+                    OnProgress(this, tp);
+                }
+                UntagSong(songs[i]);
+            }
+            if (OnProgress != null)
+            {
+                tp.SetPos(songs.Length);
+                OnProgress(this, tp);
             }
 
         }
 
-
     }
 
+    public class TaggerProgress : EventArgs
+    {
+        private int curr;
+        private int max;
+
+        public TaggerProgress(int Current, int Max)
+        {
+            max = Max;
+            SetCurMax(Current, Max);
+        }
+
+        public SongData CurrentSong { get; set; }
+        public int Progress { get; private set; }
+
+        public void SetCurMax(int Current, int Max)
+        {
+            this.Progress = (Current / Max) * 100;
+        }
+
+        public void SetPos(int Current)
+        {
+            SetCurMax(Current, max);
+        }
+    }
 
     sealed class BitmapHolder : IDisposable
     {

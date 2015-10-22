@@ -467,7 +467,7 @@ namespace CustomsForgeManager.UControls
             // 
             this.tsTager.Name = "tsTager";
             this.tsTager.Size = new System.Drawing.Size(189, 22);
-            this.tsTager.Text = "Tagger";
+            this.tsTager.Text = "Tagger Preview";
             this.tsTager.Visible = false;
             // 
             // lnkLblSelectAll

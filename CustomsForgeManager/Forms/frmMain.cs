@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using System.Reflection;
 using CustomsForgeManager.CustomsForgeManagerLib.Objects;
 using DLogNet;
+using System.Linq;
 
 
 namespace CustomsForgeManager.Forms
@@ -101,6 +102,14 @@ namespace CustomsForgeManager.Forms
                 Globals.MyLog.AddTargetNotifyIcon(Globals.Notifier);
             else
                 Globals.MyLog.RemoveTargetNotifyIcon(Globals.Notifier);
+
+            tscbTaggerThemes.Items.AddRange(Globals.Tagger.Themes.ToArray());
+            tscbTaggerThemes.SelectedIndex = 0;
+            tscbTaggerThemes.SelectedIndexChanged += (s, e) =>
+            {
+                if (tscbTaggerThemes.SelectedItem != null)
+                    Globals.Tagger.ThemeName = tscbTaggerThemes.SelectedItem.ToString();
+            };
 
             // load Song Manager Tab
             LoadSongManager();
@@ -361,6 +370,48 @@ namespace CustomsForgeManager.Forms
         {
             get { return tsStatusMsg; }
             set { tsStatusMsg = value; }
+        }
+
+        private void TaggerProgress(object sender, TaggerProgress e)
+        {
+            tsProgressBar_Main.Value = e.Progress;
+            Application.DoEvents();
+        }
+
+        private void tsButtonTagSelected_Click(object sender, EventArgs e)
+        {
+            var selection = Globals.SongManager.GetSelectedSongs();//.Where(sd => sd.Tagged == false);
+
+            if (selection.Count > 0)
+            {
+                Globals.Tagger.OnProgress += TaggerProgress;
+                try
+                {
+                    Globals.Tagger.TagSongs(selection.ToArray());
+                }
+                finally
+                {
+                    Globals.Tagger.OnProgress -= TaggerProgress;
+                }
+            }
+        }
+
+        private void tsButtonUntagSelection_Click(object sender, EventArgs e)
+        {
+            var selection = Globals.SongManager.GetSelectedSongs();//.Where(sd => sd.Tagged);
+
+            if (selection.Count > 0)
+            {
+                Globals.Tagger.OnProgress += TaggerProgress;
+                try
+                {
+                    Globals.Tagger.UntagSongs(selection.ToArray());
+                }
+                finally
+                {
+                    Globals.Tagger.OnProgress -= TaggerProgress;
+                }
+            }
         }
     }
 }

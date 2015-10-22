@@ -428,6 +428,9 @@
     <None Include="Resources\cfsm_48x48.ico" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="DF_DDSImage.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="ReleaseNotes.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

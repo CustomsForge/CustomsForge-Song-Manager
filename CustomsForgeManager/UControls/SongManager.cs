@@ -41,11 +41,7 @@ namespace CustomsForgeManager.UControls
             dgvSongsDetail.Visible = false;
             Leave += SongManager_Leave;
             PopulateSongManager();
-#if TAGGER
             tsTager.Visible = true;
-#else
-            tsTager.Visible = false;
-#endif
         }
 
         public void LeaveSongManager()
@@ -127,24 +123,31 @@ namespace CustomsForgeManager.UControls
         public void PopulateSongManager()
         {
             Globals.Log("Populating SongManager GUI ...");
-#if TAGGER
             tsTager.DropDownItems.Clear();
-            foreach (string tagPreview in Directory.EnumerateFiles(Constants.TaggerTemplatesFolder, "*.png").Where(file => file.ToLower().Contains("prev")))
+            var ts = Globals.Tagger.Themes;
+            foreach (string theme in ts)
             {
-                var tsi = tsTager.DropDownItems.Add(Path.GetFileName(tagPreview).Replace(@"Tagger\", "").Replace("prev.png", ""));
+                var tsi = tsTager.DropDownItems.Add(theme);
                 tsi.Click += (s, e) =>
                 {
-                    List<SongData> SelectedSongs = GetSelectedSongs();
-                    if (SelectedSongs.Count() == 0)
+                    var d = GetFirstSelected();
+                    if (d != null)
                     {
-                        MessageBox.Show("No songs selected.");
-                        return;
+                        string oldtheme = Globals.Tagger.ThemeName;
+                        Globals.Tagger.ThemeName = ((ToolStripItem)s).Text;
+                        var img = Globals.Tagger.Preview(d);
+                        Globals.Tagger.ThemeName = oldtheme;
+                        if (img != null)
+                        {
+                            Form f = new Form() { StartPosition = FormStartPosition.CenterScreen, Width = img.Width + 10, Height = img.Height + 10 };
+                            PictureBox imgCtrl = new PictureBox() { Image = img, Dock = DockStyle.Fill };
+                            f.Controls.Add(imgCtrl);
+                            f.ShowDialog();
+                        }
                     }
-
-                    Globals.Tagger.TagSongs(SelectedSongs.ToArray(), ((ToolStripItem)s).Text);
                 };
             }
-#endif
+
             // Hide main dgvSongsMaster until load completes
             dgvSongsMaster.Visible = false;
             //Load Song Collection from file must be called before
