@@ -467,7 +467,7 @@ namespace CustomsForgeManager.UControls
             // 
             this.tsTager.Name = "tsTager";
             this.tsTager.Size = new System.Drawing.Size(189, 22);
-            this.tsTager.Text = "Tagger Preview";
+            this.tsTager.Text = "Tagger";
             this.tsTager.Visible = false;
             // 
             // lnkLblSelectAll
@@ -503,8 +503,10 @@ namespace CustomsForgeManager.UControls
             // 
             this.dgvSongsDetail.AllowUserToAddRows = false;
             this.dgvSongsDetail.AllowUserToDeleteRows = false;
+            this.dgvSongsDetail.AllowUserToResizeColumns = false;
             this.dgvSongsDetail.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells;
             this.dgvSongsDetail.BackgroundColor = System.Drawing.SystemColors.InactiveCaptionText;
+            this.dgvSongsDetail.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -513,6 +515,7 @@ namespace CustomsForgeManager.UControls
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dgvSongsDetail.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.dgvSongsDetail.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvSongsDetail.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colDetailKey,
             this.colPersistentID,
@@ -523,7 +526,7 @@ namespace CustomsForgeManager.UControls
             this.colToneBase});
             this.dgvSongsDetail.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.dgvSongsDetail.GridColor = System.Drawing.SystemColors.InfoText;
-            this.dgvSongsDetail.Location = new System.Drawing.Point(23, 66);
+            this.dgvSongsDetail.Location = new System.Drawing.Point(29, 65);
             this.dgvSongsDetail.Name = "dgvSongsDetail";
             this.dgvSongsDetail.ReadOnly = true;
             this.dgvSongsDetail.RowHeadersVisible = false;
@@ -550,6 +553,7 @@ namespace CustomsForgeManager.UControls
             this.colPersistentID.HeaderText = "Persistent ID";
             this.colPersistentID.Name = "colPersistentID";
             this.colPersistentID.ReadOnly = true;
+            this.colPersistentID.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.colPersistentID.Width = 250;
             // 
             // colDetailArrangement
@@ -572,6 +576,7 @@ namespace CustomsForgeManager.UControls
             this.colSections.HeaderText = "Sections";
             this.colSections.Name = "colSections";
             this.colSections.ReadOnly = true;
+            this.colSections.Width = 55;
             // 
             // colDetailDMax
             // 
@@ -579,7 +584,7 @@ namespace CustomsForgeManager.UControls
             this.colDetailDMax.HeaderText = "DMax";
             this.colDetailDMax.Name = "colDetailDMax";
             this.colDetailDMax.ReadOnly = true;
-            this.colDetailDMax.Width = 48;
+            this.colDetailDMax.Width = 55;
             // 
             // colToneBase
             // 
@@ -587,6 +592,7 @@ namespace CustomsForgeManager.UControls
             this.colToneBase.HeaderText = "Tone Base";
             this.colToneBase.Name = "colToneBase";
             this.colToneBase.ReadOnly = true;
+            this.colToneBase.Width = 150;
             // 
             // cmsSongManagerColumns
             // 
@@ -1134,6 +1140,7 @@ namespace CustomsForgeManager.UControls
         private System.Windows.Forms.Button btnDeleteSongs;
         private System.Windows.Forms.CheckBox chkEnableDelete;
         private System.Windows.Forms.ToolTip toolTip;
+        // private RADataGridView dgvSongsDetail;
         private System.Windows.Forms.DataGridView dgvSongsDetail;
         private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn1;
         private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn2;

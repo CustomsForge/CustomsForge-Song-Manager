@@ -41,7 +41,11 @@ namespace CustomsForgeManager.UControls
             dgvSongsDetail.Visible = false;
             Leave += SongManager_Leave;
             PopulateSongManager();
+#if TAGGER
             tsTager.Visible = true;
+#else
+            tsTager.Visible = false;
+#endif
         }
 
         public void LeaveSongManager()
@@ -83,8 +87,8 @@ namespace CustomsForgeManager.UControls
 
                 // pop Arrangment DLCKey info
                 masterSongCollection.ToList().ForEach(
-                    a =>{a.Arrangements2D.ToList().ForEach(arr => arr.DLCKey = a.DLCKey);});
-                
+                    a => { a.Arrangements2D.ToList().ForEach(arr => arr.DLCKey = a.DLCKey); });
+
                 Globals.SongCollection = masterSongCollection;
                 Globals.ReloadDuplicates = false;
                 Globals.ReloadRenamer = false;
@@ -123,31 +127,24 @@ namespace CustomsForgeManager.UControls
         public void PopulateSongManager()
         {
             Globals.Log("Populating SongManager GUI ...");
+#if TAGGER
             tsTager.DropDownItems.Clear();
-            var ts = Globals.Tagger.Themes;
-            foreach (string theme in ts)
+            foreach (string tagPreview in Directory.EnumerateFiles(Constants.TaggerTemplatesFolder, "*.png").Where(file => file.ToLower().Contains("prev")))
             {
-                var tsi = tsTager.DropDownItems.Add(theme);
+                var tsi = tsTager.DropDownItems.Add(Path.GetFileName(tagPreview).Replace(@"Tagger\", "").Replace("prev.png", ""));
                 tsi.Click += (s, e) =>
                 {
-                    var d = GetFirstSelected();
-                    if (d != null)
+                    List<SongData> SelectedSongs = GetSelectedSongs();
+                    if (SelectedSongs.Count() == 0)
                     {
-                        string oldtheme = Globals.Tagger.ThemeName;
-                        Globals.Tagger.ThemeName = ((ToolStripItem)s).Text;
-                        var img = Globals.Tagger.Preview(d);
-                        Globals.Tagger.ThemeName = oldtheme;
-                        if (img != null)
-                        {
-                            Form f = new Form() { StartPosition = FormStartPosition.CenterScreen, Width = img.Width + 10, Height = img.Height + 10 };
-                            PictureBox imgCtrl = new PictureBox() { Image = img, Dock = DockStyle.Fill };
-                            f.Controls.Add(imgCtrl);
-                            f.ShowDialog();
-                        }
+                        MessageBox.Show("No songs selected.");
+                        return;
                     }
+
+                    Globals.Tagger.TagSongs(SelectedSongs.ToArray(), ((ToolStripItem)s).Text);
                 };
             }
-
+#endif
             // Hide main dgvSongsMaster until load completes
             dgvSongsMaster.Visible = false;
             //Load Song Collection from file must be called before
@@ -1190,27 +1187,31 @@ namespace CustomsForgeManager.UControls
                         MessageBox.Show("No Song Details Found");
                     else
                     {
+                        // apply min formatting
+                        dgvSongsMaster.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                        dgvSongsDetail.AllowUserToResizeColumns = false;
+
                         var rowHeight = dgvSongsMaster.Rows[e.RowIndex].Height + 0; // height tweak
                         var colWidth = dgvSongsMaster.Columns[e.ColumnIndex].Width - 16; // width tweak
                         dgvSongsMaster.Rows[e.RowIndex].Cells["colShowDetail"].Tag = "TRUE";
                         dgvSongsMaster.Rows[e.RowIndex].Cells["colShowDetail"].Value = new Bitmap(Properties.Resources.minus);
                         Rectangle dgvRectangle = dgvSongsMaster.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true);
                         dgvSongsDetail.Location = new Point(dgvRectangle.Right + colWidth, dgvRectangle.Bottom + rowHeight - 2);
+
+                        // CRITICAL CODE AREA - CAREFUL - No Filtering
                         dgvSongsDetail.AutoGenerateColumns = false;
-                        dgvSongsMaster.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                        // CRITICAL CODE AREA - CAREFUL
-                        dgvSongsDetail.DataSource = new FilteredBindingList<SongData>(songDetails);
+                        dgvSongsDetail.DataSource = songDetails;
                         dgvSongsDetail.DataMember = "Arrangements2D";
-                        dgvSongsDetail.Columns["colDetailKey"].Width = dgvSongsMaster.Columns["colKey"].Width;
 
                         // calculate the height and width of dgvSongsDetail
+                        dgvSongsDetail.Columns["colDetailKey"].Width = dgvSongsMaster.Columns["colKey"].Width;
                         var colHeaderHeight = dgvSongsDetail.Columns[e.ColumnIndex].HeaderCell.Size.Height;
                         dgvSongsDetail.Height = dgvSongsDetail.Rows.Cast<DataGridViewRow>().Sum(row => row.Height) + colHeaderHeight - 3;
                         dgvSongsDetail.Width = dgvSongsDetail.Columns.Cast<DataGridViewColumn>().Sum(col => col.Width) + colWidth;
                         if (dgvSongsDetail.Rows.Count == 1) // extra tweak for single row
                             dgvSongsDetail.Height = dgvSongsDetail.Height + 5;
 
-                        dgvSongsDetail.Visible = true;
+                         dgvSongsDetail.Visible = true;
                     }
                 }
                 else
@@ -1305,7 +1306,7 @@ namespace CustomsForgeManager.UControls
 
             if (!bindingCompleted)
             {
-                Globals.Log("DataBinding Complete ... ");
+                // Globals.Log("DataBinding Complete ... ");
                 bindingCompleted = true;
             }
 
@@ -1390,7 +1391,7 @@ namespace CustomsForgeManager.UControls
             if (bindingCompleted && !dgvPainted)
             {
                 dgvPainted = true;
-                Globals.Log("dgvSongsMaster Painted ... ");
+                // Globals.Log("dgvSongsMaster Painted ... ");
                 ArrangementColumnsColors();
             }
         }
@@ -1428,7 +1429,6 @@ namespace CustomsForgeManager.UControls
 
             UpdateToolStrip();
         }
-
 
 
     }
