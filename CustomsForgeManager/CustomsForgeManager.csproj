@@ -86,7 +86,7 @@
     <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ConfuserEx Release|x86'">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ConfuserExRelease|x86' ">
     <OutputPath>bin\x86\ConfuserEx Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <Optimize>true</Optimize>
@@ -613,7 +613,11 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>if $(ConfigurationName) == Dotfuscator (
+    <PostBuildEvent>if $(ConfigurationName) == ConfuserExRelease (
+"$(SolutionDir)ThirdParty\ConfuserEx_bin\Confuser.CLI.exe" "$(SolutionDir)ThirdParty\ConfuserExGeneric.crproj"
+)
+
+if $(ConfigurationName) == Dotfuscator (
 
 RD /s /q "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)"
 MKDIR "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)"

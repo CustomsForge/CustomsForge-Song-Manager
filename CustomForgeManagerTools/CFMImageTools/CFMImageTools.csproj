@@ -30,7 +30,7 @@
     <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
     <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ConfuserEx Release|x86'">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ConfuserExRelease|x86' ">
     <OutputPath>bin\x86\ConfuserEx Release\</OutputPath>
     <DefineConstants>TRACE;WINDOWS</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>

@@ -29,7 +29,7 @@
     <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
     <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ConfuserEx Release|x86'">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ConfuserExRelease|x86' ">
     <OutputPath>bin\x86\ConfuserEx Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <Optimize>true</Optimize>
