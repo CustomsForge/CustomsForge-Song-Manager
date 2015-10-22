@@ -86,6 +86,15 @@
     <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ConfuserEx Release|x86'">
+    <OutputPath>bin\x86\ConfuserEx Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\libs\Antlr3.Runtime.dll</HintPath>
@@ -604,8 +613,24 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>if $(ConfigurationName) == Dotfuscator (
+
+RD /s /q "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)"
+MKDIR "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)"
+
+"$(SolutionDir)ThirdParty\Dotfuscator\dotfuscatorCLI.exe" /in:"$(TargetPath)" /out:"$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)"
+
+copy /y "$(TargetDir)*.txt" "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)\*.txt"
+copy /y "$(TargetDir)*.xml" "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)\*.xml"
+copy /y "$(TargetDir)*.dll" "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)\*.dll"
+copy /y "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)\$(TargetFileName)" "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)\CFM_$(ConfigurationName).exe" 
+del /q "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)\$(TargetFileName)"
+
+del /q "$(TargetDir)$(TargetFileName)"
+copy /y "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)\CFM_$(ConfigurationName).exe" "$(TargetDir)$(TargetFileName)"
+
+RD /s /q "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)"
+)</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
