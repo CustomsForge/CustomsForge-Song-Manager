@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace ClickOnceUninstaller
+namespace Wunder.ClickOnceUninstaller
 {
     public class RemoveStartMenuEntry : IUninstallStep
     {

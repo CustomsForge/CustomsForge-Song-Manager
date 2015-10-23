@@ -1,5 +1,4 @@
 using System;
-
 namespace CFMAudioTools.Vorbis 
 {
 	public class DspState

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ClickOnceUninstaller
+namespace Wunder.ClickOnceUninstaller
 {
     public interface IUninstallStep : IDisposable
     {

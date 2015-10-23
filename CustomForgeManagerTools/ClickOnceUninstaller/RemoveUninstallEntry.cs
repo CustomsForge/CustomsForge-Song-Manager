@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.Win32;
 
-namespace ClickOnceUninstaller
+namespace Wunder.ClickOnceUninstaller
 {
     public class RemoveUninstallEntry : IUninstallStep
     {

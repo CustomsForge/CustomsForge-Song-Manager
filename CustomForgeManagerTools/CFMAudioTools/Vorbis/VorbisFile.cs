@@ -2,7 +2,7 @@
 
 using System;
 using System.IO;
-using CFMAudioTools.Ogg;
+
 
 namespace CFMAudioTools.Vorbis 
 {
@@ -35,15 +35,15 @@ namespace CFMAudioTools.Vorbis
 		long offset;
 		long end;
   
-		SyncState oy=new SyncState();
+		CFMAudioTools.Ogg.SyncState oy=new CFMAudioTools.Ogg.SyncState();
 
 		int links;
 		long[] offsets;
 		long[] dataoffsets;
 		int[] serialnos;
 		long[] pcmlengths;
-		Info[] vi;
-		Comment[] vc;
+		CFMAudioTools.Vorbis.Info[] vi;
+		CFMAudioTools.Vorbis.Comment[] vc;
 
 		// Decoding working state local storage
 		long pcm_offset;
@@ -54,18 +54,18 @@ namespace CFMAudioTools.Vorbis
 		float bittrack;
 		float samptrack;
 
-		StreamState os;
-		DspState vd;
-		Block vb;
+		CFMAudioTools.Ogg.StreamState os;
+		CFMAudioTools.Vorbis.DspState vd;
+		CFMAudioTools.Vorbis.Block vb;
 
 
 		private VorbisFile()
 		{
-			os=new StreamState(); // take physical pages, weld into a logical
+			os=new CFMAudioTools.Ogg.StreamState(); // take physical pages, weld into a logical
 			// stream of packets
-			vd=new DspState(); // central working state for 
+			vd=new CFMAudioTools.Vorbis.DspState(); // central working state for 
 			// the packet->PCM decoder
-			vb=new Block(vd);     // local working space for packet->PCM decode
+			vb=new CFMAudioTools.Vorbis.Block(vd);     // local working space for packet->PCM decode
 		}
 
 		public VorbisFile(String file) : this()
@@ -75,12 +75,12 @@ namespace CFMAudioTools.Vorbis
 			try{ inst=new FileStream(file, FileMode.Open, FileAccess.Read);}
 			catch(Exception e)
 			{
-				throw new csorbisException("VorbisFile: "+e.Message);
+				throw new CFMAudioTools.Vorbis.csorbisException("VorbisFile: "+e.Message);
 			}
 			int ret=open(inst, null, 0);
 			if(ret==-1)
 			{
-				throw new csorbisException("VorbisFile: open return -1");
+				throw new CFMAudioTools.Vorbis.csorbisException("VorbisFile: open return -1");
 			}
 		}
 
@@ -128,7 +128,7 @@ namespace CFMAudioTools.Vorbis
 			oy.reset();
 		}
 
-		private int get_next_page(Page page, long boundary)
+		private int get_next_page(CFMAudioTools.Ogg.Page page, long boundary)
 		{
 			if(boundary>0) boundary+=offset;
 			while(true)
@@ -157,7 +157,7 @@ namespace CFMAudioTools.Vorbis
 			}
 		}
 
-		private int get_prev_page(Page page)
+		private int get_prev_page(CFMAudioTools.Ogg.Page page)
 		{
 			long begin=offset; //!!!
 			int ret;
@@ -191,7 +191,7 @@ namespace CFMAudioTools.Vorbis
 		{
 			long endsearched=end;
 			long next=end;
-			Page page=new Page();
+			CFMAudioTools.Ogg.Page page=new CFMAudioTools.Ogg.Page();
 			int ret;
 
 			while(searched<endsearched)
@@ -240,11 +240,11 @@ namespace CFMAudioTools.Vorbis
 
 		// uses the local ogg_stream storage in vf; this is important for
 		// non-streaming input sources
-		int fetch_headers(Info vi, Comment vc, int[] serialno, Page og_ptr)
+		int fetch_headers(CFMAudioTools.Vorbis.Info vi, CFMAudioTools.Vorbis.Comment vc, int[] serialno, CFMAudioTools.Ogg.Page og_ptr)
 		{
 			//System.err.println("fetch_headers");
-			Page og=new Page();
-			Packet op=new Packet();
+			CFMAudioTools.Ogg.Page og=new CFMAudioTools.Ogg.Page();
+			CFMAudioTools.Ogg.Packet op=new CFMAudioTools.Ogg.Packet();
 			int ret;
 
 			if(og_ptr==null)
@@ -311,13 +311,13 @@ namespace CFMAudioTools.Vorbis
 		// vorbis_info structs and PCM positions.  Only called by the seekable
 		// initialization (local stream storage is hacked slightly; pay
 		// attention to how that's done)
-		void prefetch_all_headers(Info first_i,Comment first_c, int dataoffset)
+		void prefetch_all_headers(CFMAudioTools.Vorbis.Info first_i,CFMAudioTools.Vorbis.Comment first_c, int dataoffset)
 		{
-			Page og=new Page();
+			CFMAudioTools.Ogg.Page og=new CFMAudioTools.Ogg.Page();
 			int ret;
   
-			vi=new Info[links];
-			vc=new Comment[links];
+			vi=new CFMAudioTools.Vorbis.Info[links];
+			vc=new CFMAudioTools.Vorbis.Comment[links];
 			dataoffsets=new long[links];
 			pcmlengths=new long[links];
 			serialnos=new int[links];
@@ -393,13 +393,13 @@ namespace CFMAudioTools.Vorbis
 
 		int open_seekable()
 		{
-			Info initial_i=new Info();
-			Comment initial_c=new Comment();
+			CFMAudioTools.Vorbis.Info initial_i=new CFMAudioTools.Vorbis.Info();
+			CFMAudioTools.Vorbis.Comment initial_c=new CFMAudioTools.Vorbis.Comment();
 			int serialno;
 			long end;
 			int ret;
 			int dataoffset;
-			Page og=new Page();
+			CFMAudioTools.Ogg.Page og=new CFMAudioTools.Ogg.Page();
 			// is this even vorbis...?
 			int[] foo=new int[1];
 			ret=fetch_headers(initial_i, initial_c, foo, null);
@@ -446,8 +446,8 @@ namespace CFMAudioTools.Vorbis
 			//System.err.println("open_nonseekable");
 			// we cannot seek. Set up a 'single' (current) logical bitstream entry
 			links=1;
-			vi=new Info[links]; vi[0]=new Info(); // ??
-			vc=new Comment[links]; vc[0]=new Comment(); // ?? bug?
+			vi=new CFMAudioTools.Vorbis.Info[links]; vi[0]=new CFMAudioTools.Vorbis.Info(); // ??
+			vc=new CFMAudioTools.Vorbis.Comment[links]; vc[0]=new CFMAudioTools.Vorbis.Comment(); // ?? bug?
 
 			// Try to fetch the headers, maintaining all the storage
 			int[]foo=new int[1];
@@ -480,7 +480,7 @@ namespace CFMAudioTools.Vorbis
 
 		int process_packet(int readp)
 		{
-			Page og=new Page();
+			CFMAudioTools.Ogg.Page og=new CFMAudioTools.Ogg.Page();
 
 			// handle one packet.  Try to fetch it from current stream state
 			// extract packets from page
@@ -490,7 +490,7 @@ namespace CFMAudioTools.Vorbis
 				// neither is a page
 				if(decode_ready)
 				{
-					Packet op=new Packet();
+					CFMAudioTools.Ogg.Packet op=new CFMAudioTools.Ogg.Packet();
 					int result=os.packetout(op);
 					long granulepos;
 					// if(result==-1)return(-1); // hole in the data. For now, swallow
@@ -1007,7 +1007,7 @@ namespace CFMAudioTools.Vorbis
 			long begin=offsets[link];
 			int best=(int)begin;
 
-			Page og=new Page();
+			CFMAudioTools.Ogg.Page og=new CFMAudioTools.Ogg.Page();
 			while(begin<end)
 			{
 				long bisect;
@@ -1180,7 +1180,7 @@ namespace CFMAudioTools.Vorbis
 		// current bitstream.  NULL in the case that the machine is not
 		// initialized
 
-		public Info getInfo(int link)
+		public CFMAudioTools.Vorbis.Info getInfo(int link)
 		{
 			if(skable)
 			{
@@ -1220,7 +1220,7 @@ namespace CFMAudioTools.Vorbis
 			}
 		}
 
-		public Comment getComment(int link)
+		public CFMAudioTools.Vorbis.Comment getComment(int link)
 		{
 			if(skable)
 			{
@@ -1414,7 +1414,7 @@ namespace CFMAudioTools.Vorbis
 			return -1;
 		}
 
-		public Info[] getInfo(){return vi;}
-		public Comment[] getComment(){return vc;}
+		public CFMAudioTools.Vorbis.Info[] getInfo(){return vi;}
+		public CFMAudioTools.Vorbis.Comment[] getComment(){return vc;}
 	}
 }

@@ -1,6 +1,6 @@
 using System;
 using System.Text;
-using CFMAudioTools.Ogg;
+
 
 namespace CFMAudioTools.Vorbis 
 {
@@ -131,7 +131,7 @@ namespace CFMAudioTools.Vorbis
 			return -1;
 		}
 
-		internal int unpack(csBuffer opb)
+		internal int unpack(CFMAudioTools.Ogg.csBuffer opb)
 		{
 			int vendorlen=opb.read(32);
 			if(vendorlen<0)
@@ -174,7 +174,7 @@ namespace CFMAudioTools.Vorbis
 			return(0);
 		}
 
-		int pack(csBuffer opb)
+		int pack(CFMAudioTools.Ogg.csBuffer opb)
 		{
 			const String temp = "Xiphophorus libVorbis I 20000508";
 
@@ -212,9 +212,9 @@ namespace CFMAudioTools.Vorbis
 			return(0);
 		}
 
-		public int header_out(Packet op)
+		public int header_out(CFMAudioTools.Ogg.Packet op)
 		{
-			csBuffer opb=new csBuffer();
+			CFMAudioTools.Ogg.csBuffer opb=new CFMAudioTools.Ogg.csBuffer();
 			opb.writeinit();
 
 			if(pack(opb)!=0) return OV_EIMPL;

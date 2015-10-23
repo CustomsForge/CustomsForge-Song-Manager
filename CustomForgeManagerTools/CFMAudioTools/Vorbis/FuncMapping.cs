@@ -1,5 +1,5 @@
 using System;
-using CFMAudioTools.Ogg;
+
 
 namespace CFMAudioTools.Vorbis 
 {
@@ -7,8 +7,8 @@ namespace CFMAudioTools.Vorbis
 	{
 		public static FuncMapping[] mapping_P={new Mapping0()};
 
-        public abstract void pack(Info info, Object imap, csBuffer buffer);
-        public abstract Object unpack(Info info, csBuffer buffer);
+        public abstract void pack(Info info, Object imap, CFMAudioTools.Ogg.csBuffer buffer);
+        public abstract Object unpack(Info info, CFMAudioTools.Ogg.csBuffer buffer);
         public abstract Object look(DspState vd, InfoMode vm, Object m);
 		public abstract void free_info(Object imap);
 		public abstract void free_look(Object imap);

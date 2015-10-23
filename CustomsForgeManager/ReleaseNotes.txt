@@ -1,9 +1,5 @@
 CFM Release Notes
 
-1.0.5.5
--Cleaned up class project libraries and reset to VS2010 compatiblity
--Added safety stop if detail table is opened before painting is complete
-
 1.0.5.4
 -Made PostBuild nomanclature consistent across Solution Configurations
 -Changed PB script to clean up remaining build remnants  

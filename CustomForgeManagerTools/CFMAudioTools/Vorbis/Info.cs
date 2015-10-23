@@ -1,6 +1,6 @@
 using System;
 using System.Text;
-using CFMAudioTools.Ogg;
+
 
 namespace CFMAudioTools.Vorbis
 {
@@ -139,7 +139,7 @@ namespace CFMAudioTools.Vorbis
         }
 
         // Header packing/unpacking
-        int unpack_info(csBuffer opb)
+        int unpack_info(CFMAudioTools.Ogg.csBuffer opb)
         {
             version = opb.read(32);
             if (version != 0) return (-1);
@@ -172,7 +172,7 @@ namespace CFMAudioTools.Vorbis
 
         // all of the real encoding details are here.  The modes, books,
         // everything
-        int unpack_books(csBuffer opb)
+        int unpack_books(CFMAudioTools.Ogg.csBuffer opb)
         {
 
             //d* codebooks
@@ -329,9 +329,9 @@ namespace CFMAudioTools.Vorbis
         // with bitstream comments and a third packet that holds the
         // codebook.
 
-        public int synthesis_headerin(Comment vc, Packet op)
+        public int synthesis_headerin(Comment vc, CFMAudioTools.Ogg.Packet op)
         {
-            csBuffer opb = new csBuffer();
+            CFMAudioTools.Ogg.csBuffer opb = new CFMAudioTools.Ogg.csBuffer();
 
             if (op != null)
             {
@@ -389,7 +389,7 @@ namespace CFMAudioTools.Vorbis
         }
 
         // pack side
-        int pack_info(csBuffer opb)
+        int pack_info(CFMAudioTools.Ogg.csBuffer opb)
         {
             Encoding AE = Encoding.UTF8;
             byte[] _vorbis_byt = AE.GetBytes(_vorbis);
@@ -413,7 +413,7 @@ namespace CFMAudioTools.Vorbis
             return (0);
         }
 
-        int pack_books(csBuffer opb)
+        int pack_books(CFMAudioTools.Ogg.csBuffer opb)
         {
             Encoding AE = Encoding.UTF8;
             byte[] _vorbis_byt = AE.GetBytes(_vorbis);
@@ -494,10 +494,10 @@ namespace CFMAudioTools.Vorbis
         //  }
 
         //  private csBuffer opb_blocksize=new csBuffer();
-        public int blocksize(Packet op)
+        public int blocksize(CFMAudioTools.Ogg.Packet op)
         {
             //codec_setup_info     *ci=vi->codec_setup;
-            csBuffer opb = new csBuffer();
+            CFMAudioTools.Ogg.csBuffer opb = new CFMAudioTools.Ogg.csBuffer();
             //    synchronized(opb_blocksize){
             int mode;
 

@@ -345,7 +345,7 @@ namespace CFMAudioTools
 
             if (_header_triad_present)
                 throw new WwiseToOggException("currently can not convert an file with a triad present.");
-                //  generate_ogg_header_with_triad(os);
+            //  generate_ogg_header_with_triad(os);
             else
                 generate_ogg_header(os, mode_blockflag);
 
@@ -1690,258 +1690,258 @@ namespace CFMAudioTools
         }
     }
 
-//internal class ogStream3 : ogStream
-//{
+    //internal class ogStream3 : ogStream
+    //{
 
-//    public ogStream3(Stream astream)
-//        : base(astream)
-//    {
+    //    public ogStream3(Stream astream)
+    //        : base(astream)
+    //    {
 
-//    }
+    //    }
 
-//    public override byte[] getBytes()
-//    {
-//        flush_page();
-//        byte[] result = new byte[instream.Length];
+    //    public override byte[] getBytes()
+    //    {
+    //        flush_page();
+    //        byte[] result = new byte[instream.Length];
 
-//        instream.Position = 0;
-//        instream.Read(result, 0, result.Length);
-//        return result;
-//    }
+    //        instream.Position = 0;
+    //        instream.Read(result, 0, result.Length);
+    //        return result;
+    //    }
 
-//    protected override void flush_bits()
-//    {
-//        base.flush_bits();
-//    }
+    //    protected override void flush_bits()
+    //    {
+    //        base.flush_bits();
+    //    }
 
-//    //public override void flush_page(bool next_continued = false, bool last = false)
-//    //{
+    //    //public override void flush_page(bool next_continued = false, bool last = false)
+    //    //{
  
-//    //    flush_bits();
-//    //    int count = payload_bytes;
-//    //    for (int i = 0; i < count; i++)
-//    //    {
-//    //        instream.WriteByte(page_buffer[i]);
-//    //    }
-//    //    payload_bytes = 0;
-//    //}
-//}
+    //    //    flush_bits();
+    //    //    int count = payload_bytes;
+    //    //    for (int i = 0; i < count; i++)
+    //    //    {
+    //    //        instream.WriteByte(page_buffer[i]);
+    //    //    }
+    //    //    payload_bytes = 0;
+    //    //}
+    //}
 
-//internal class WwiseToVorbis : WwiseToOgg
-//{
-//    public WwiseToVorbis(Stream inStream, Stream outStream)
-//        : base(inStream, outStream)
-//    {
+    //internal class WwiseToVorbis : WwiseToOgg
+    //{
+    //    public WwiseToVorbis(Stream inStream, Stream outStream)
+    //        : base(inStream, outStream)
+    //    {
 
-//    }
+    //    }
 
-//    StreamState os;
-//    DspState vd;
-//    Block vb;
-//    public override bool ConvertToOgg(bool full_setup = false, bool _revorb = true)
-//    {
-//        os = new StreamState();
-//        Info vi = new Info();
-//        vi.init();
-//        vi.rate = Convert.ToInt32(_sample_rate);
-//        vi.channels = this._channels;
-//        vd = new DspState();
-//        vb = new Block(vd);
-
-
-//        return false;
-//    }
-
-//}
+    //    StreamState os;
+    //    DspState vd;
+    //    Block vb;
+    //    public override bool ConvertToOgg(bool full_setup = false, bool _revorb = true)
+    //    {
+    //        os = new StreamState();
+    //        Info vi = new Info();
+    //        vi.init();
+    //        vi.rate = Convert.ToInt32(_sample_rate);
+    //        vi.channels = this._channels;
+    //        vd = new DspState();
+    //        vb = new Block(vd);
 
 
-//internal class ogStream2 : ogStream
-//{
-//    public ogStream2(Stream astream)
-//        : base(astream)
-//    {
+    //        return false;
+    //    }
 
-//    }
+    //}
 
 
+    //internal class ogStream2 : ogStream
+    //{
+    //    public ogStream2(Stream astream)
+    //        : base(astream)
+    //    {
 
-//    public override void flush_page(bool next_continued = false, bool last = false)
-//    {
-//        if (payload_bytes != segment_size * max_segments)
-//        {
-//            flush_bits();
-//        }
-//        if (payload_bytes != 0)
-//        {
-//            byte[] packetbytes = new byte[payload_bytes];
-//            for (int i = 0; i < payload_bytes; i++)
-//            {
-//                packetbytes[i] = page_buffer[header_bytes + max_segments + i];
-//            }
+    //    }
 
 
 
-//            Ogg.Packet p = new Ogg.Packet();
-//            p.bytes = payload_bytes;
-//            p.packet = 0;
-//            p.packet_base = packetbytes;
-//            p.b_o_s = first ? 1 : 0;
-//            p.e_o_s = last ? 1 : 0;
-//            p.packetno = seqno;
-
-//            SyncState si = new SyncState();
-//            si.init();
-//            // StreamState stream_in = new StreamState();
-//            StreamState os = new StreamState();
-//            os.init(666);
-//            Info vi = new Info();
-//            vi.init();
-
-//            Page page = new Page();
-
-
-//            if (os.packetin(p) == 0)
-//            {
-//                while (os.flush(page) != 0)
-//                {
-//                    var size = instream.Length;
-//                    instream.Write(page.header_base, page.header, page.header_len);
-//                    instream.Write(page.body_base, page.body, page.body_len);
-
-//                    if (instream.Length != size + page.header_len + page.body_len)
-//                    {
-//                        //  fprintf(stderr,"Cannot write headers to output.\n");
-
-//                        os.clear();
-//                        throw new WwiseToOggException("os flush");
-//                    }
-//                    Console.WriteLine(String.Format("head : {0}, body : {1}.", page.header_len, page.body_len));
-//                    //total += page.header_len + page.body_len;
-//                }
-
-//            }
-
-
-//            // var x = si.buffer(count);
-//            // Array.Copy(page_buffer, si.data, count);
-//            // si.wrote(count);
-
-//            // Page page = new Page();
-//            // if (si.pageout(page) != 1)
-//            // {
-//            //     throw new WwiseToOggException("error page out");
-//            // }
-
-
-//            // os.pagein(page);
-
-//            // while (os.flush(page) != 0)
-//            // {
-//            //     var size = instream.Length;
-//            //     instream.Write(page.header_base, page.header, page.header_len);
-//            //     instream.Write(page.body_base, page.body, page.body_len);
-
-//            //     if (instream.Length != size + page.header_len + page.body_len)
-//            //     {
-//            //         //  fprintf(stderr,"Cannot write headers to output.\n");
-
-//            //         os.clear();
-//            //         throw new WwiseToOggException("os flush");
-//            //     }
-//            //     Console.WriteLine(String.Format("head : {0}, body : {1}.", page.header_len, page.body_len));
-//            //     //total += page.header_len + page.body_len;
-//            // }
-
-
-//            //int segments = ((payload_bytes + segment_size) / segment_size);  // intentionally round up
-//            //if (segments == max_segments + 1) segments = max_segments; // at max eschews the final 0
-//            ////ASegments = 0;
-//            //// move payload back
-//            //for (int i = 0; i < payload_bytes; i++)
-//            //{
-//            //    page_buffer[header_bytes + segments + i] =
-//            //        page_buffer[header_bytes + max_segments + i];
-//            //}
-
-//            //page_buffer[0] = Convert.ToByte('O');
-//            //page_buffer[1] = Convert.ToByte('g');
-//            //page_buffer[2] = Convert.ToByte('g');
-//            //page_buffer[3] = Convert.ToByte('S');
-//            //page_buffer[4] = 0; // stream_structure_version
-//            //page_buffer[5] = Convert.ToByte((continued ? 1 : 0) | (first ? 2 : 0) | (last ? 4 : 0));
-//            //page_buffer.write_64_le(6, granule);
-//            //page_buffer.write_32(14, 666);       // stream serial number
-//            //page_buffer.write_32(18, seqno);   // page sequence number
-//            //page_buffer.write_32(22, 0);       // checksum (0 for now)
-//            //page_buffer[26] = Convert.ToByte(segments);             // segment count
-//            //var bytes_left = payload_bytes;
-
-
-//            //int vals = 0;
-//            //byte[] lacing_vals = new byte[segments];
-//            //for (int i = 0; i < segments; i++)
-//            //{
-//            //    if (bytes_left >= segment_size)
-//            //    {
-//            //        bytes_left -= segment_size;
-//            //        lacing_vals[i] = segment_size;
-//            //    }
-//            //    else
-//            //    {
-//            //        lacing_vals[i] = Convert.ToByte(bytes_left);
-//            //    }
-//            //}
-
-
-//            //if (first)//b_o_s
-//            //{
-
-//            //} else
-//            //{
+    //    public override void flush_page(bool next_continued = false, bool last = false)
+    //    {
+    //        if (payload_bytes != segment_size * max_segments)
+    //        {
+    //            flush_bits();
+    //        }
+    //        if (payload_bytes != 0)
+    //        {
+    //            byte[] packetbytes = new byte[payload_bytes];
+    //            for (int i = 0; i < payload_bytes; i++)
+    //            {
+    //                packetbytes[i] = page_buffer[header_bytes + max_segments + i];
+    //            }
 
 
 
+    //            Ogg.Packet p = new Ogg.Packet();
+    //            p.bytes = payload_bytes;
+    //            p.packet = 0;
+    //            p.packet_base = packetbytes;
+    //            p.b_o_s = first ? 1 : 0;
+    //            p.e_o_s = last ? 1 : 0;
+    //            p.packetno = seqno;
 
-//            //}
+    //            SyncState si = new SyncState();
+    //            si.init();
+    //            // StreamState stream_in = new StreamState();
+    //            StreamState os = new StreamState();
+    //            os.init(666);
+    //            Info vi = new Info();
+    //            vi.init();
 
-
-//            //// lacing values
-//            //for (int i = 0; i < segments; i++)
-//            //{
-//            //    if (bytes_left >= segment_size)
-//            //    {
-//            //        bytes_left -= segment_size;
-//            //        page_buffer[27 + i] = segment_size;
-//            //    }
-//            //    else
-//            //    {
-//            //        page_buffer[27 + i] = Convert.ToByte(bytes_left);
-//            //    }
-//            //}
-
-//            //int count = header_bytes + segments + payload_bytes;
-
-//            //var checksum = CRC32.checksum(page_buffer, count);
-
-//            //MyBitWriter.write_32(page_buffer, 22, checksum);
+    //            Page page = new Page();
 
 
+    //            if (os.packetin(p) == 0)
+    //            {
+    //                while (os.flush(page) != 0)
+    //                {
+    //                    var size = instream.Length;
+    //                    instream.Write(page.header_base, page.header, page.header_len);
+    //                    instream.Write(page.body_base, page.body, page.body_len);
 
-//            //for (int i = 0; i < header_bytes + segments + payload_bytes; i++)
-//            //{
-//            //    instream.WriteByte(page_buffer[i]);
-//            //}
-//            seqno++;
-//            first = false;
-//            continued = next_continued;
-//            payload_bytes = 0;
-//        }
-//    }
+    //                    if (instream.Length != size + page.header_len + page.body_len)
+    //                    {
+    //                        //  fprintf(stderr,"Cannot write headers to output.\n");
 
-//}
+    //                        os.clear();
+    //                        throw new WwiseToOggException("os flush");
+    //                    }
+    //                    Console.WriteLine(String.Format("head : {0}, body : {1}.", page.header_len, page.body_len));
+    //                    //total += page.header_len + page.body_len;
+    //                }
+
+    //            }
 
 
-/* Modern 6 byte header */
+    //            // var x = si.buffer(count);
+    //            // Array.Copy(page_buffer, si.data, count);
+    //            // si.wrote(count);
+
+    //            // Page page = new Page();
+    //            // if (si.pageout(page) != 1)
+    //            // {
+    //            //     throw new WwiseToOggException("error page out");
+    //            // }
+
+
+    //            // os.pagein(page);
+
+    //            // while (os.flush(page) != 0)
+    //            // {
+    //            //     var size = instream.Length;
+    //            //     instream.Write(page.header_base, page.header, page.header_len);
+    //            //     instream.Write(page.body_base, page.body, page.body_len);
+
+    //            //     if (instream.Length != size + page.header_len + page.body_len)
+    //            //     {
+    //            //         //  fprintf(stderr,"Cannot write headers to output.\n");
+
+    //            //         os.clear();
+    //            //         throw new WwiseToOggException("os flush");
+    //            //     }
+    //            //     Console.WriteLine(String.Format("head : {0}, body : {1}.", page.header_len, page.body_len));
+    //            //     //total += page.header_len + page.body_len;
+    //            // }
+
+
+    //            //int segments = ((payload_bytes + segment_size) / segment_size);  // intentionally round up
+    //            //if (segments == max_segments + 1) segments = max_segments; // at max eschews the final 0
+    //            ////ASegments = 0;
+    //            //// move payload back
+    //            //for (int i = 0; i < payload_bytes; i++)
+    //            //{
+    //            //    page_buffer[header_bytes + segments + i] =
+    //            //        page_buffer[header_bytes + max_segments + i];
+    //            //}
+
+    //            //page_buffer[0] = Convert.ToByte('O');
+    //            //page_buffer[1] = Convert.ToByte('g');
+    //            //page_buffer[2] = Convert.ToByte('g');
+    //            //page_buffer[3] = Convert.ToByte('S');
+    //            //page_buffer[4] = 0; // stream_structure_version
+    //            //page_buffer[5] = Convert.ToByte((continued ? 1 : 0) | (first ? 2 : 0) | (last ? 4 : 0));
+    //            //page_buffer.write_64_le(6, granule);
+    //            //page_buffer.write_32(14, 666);       // stream serial number
+    //            //page_buffer.write_32(18, seqno);   // page sequence number
+    //            //page_buffer.write_32(22, 0);       // checksum (0 for now)
+    //            //page_buffer[26] = Convert.ToByte(segments);             // segment count
+    //            //var bytes_left = payload_bytes;
+
+
+    //            //int vals = 0;
+    //            //byte[] lacing_vals = new byte[segments];
+    //            //for (int i = 0; i < segments; i++)
+    //            //{
+    //            //    if (bytes_left >= segment_size)
+    //            //    {
+    //            //        bytes_left -= segment_size;
+    //            //        lacing_vals[i] = segment_size;
+    //            //    }
+    //            //    else
+    //            //    {
+    //            //        lacing_vals[i] = Convert.ToByte(bytes_left);
+    //            //    }
+    //            //}
+
+
+    //            //if (first)//b_o_s
+    //            //{
+
+    //            //} else
+    //            //{
+
+
+
+
+    //            //}
+
+
+    //            //// lacing values
+    //            //for (int i = 0; i < segments; i++)
+    //            //{
+    //            //    if (bytes_left >= segment_size)
+    //            //    {
+    //            //        bytes_left -= segment_size;
+    //            //        page_buffer[27 + i] = segment_size;
+    //            //    }
+    //            //    else
+    //            //    {
+    //            //        page_buffer[27 + i] = Convert.ToByte(bytes_left);
+    //            //    }
+    //            //}
+
+    //            //int count = header_bytes + segments + payload_bytes;
+
+    //            //var checksum = CRC32.checksum(page_buffer, count);
+
+    //            //MyBitWriter.write_32(page_buffer, 22, checksum);
+
+
+
+    //            //for (int i = 0; i < header_bytes + segments + payload_bytes; i++)
+    //            //{
+    //            //    instream.WriteByte(page_buffer[i]);
+    //            //}
+    //            seqno++;
+    //            first = false;
+    //            continued = next_continued;
+    //            payload_bytes = 0;
+    //        }
+    //    }
+
+    //}
+
+
+    /* Modern 6 byte header */
     internal class Packet6
     {
         Int32 _offset;
@@ -1993,7 +1993,7 @@ namespace CFMAudioTools
     }
 
 
-/* Old 8 byte header */
+    /* Old 8 byte header */
     internal class Packet8
     {
         Int32 _offset;
@@ -2178,1203 +2178,1203 @@ namespace CFMAudioTools
     }
 
 
-//internal static class cBuffHelper
-//{
-//    public static void Write(this csBuffer buff, Bit_uint b)
-//    {
-//        b.Write(buff);
-//    }
-
-//    public static void Write(this csBuffer buff, Vorbis_packet_header v)
-//    {
-//        Write(buff, new Bit_uint(8, v.ilength));
-//        for (int i = 0; i < 6; i++)
-//            Write(buff, new Bit_uint(8, Convert.ToUInt32(v.vorbis_str[i])));
-
-//    }
-
-//    /*  public void write(Vorbis_packet_header v)
-//    {
-//        write(new Bit_uint(8, v.ilength));
-//        for (int i = 0; i < 6; i++)
-//            write(new Bit_uint(8, Convert.ToUInt32(v.vorbis_str[i])));
-//    }*/
-
-//    //Vorbis_packet_header
-//}
-
-//internal class WwiseToOgg3 : WwiseToOgg
-//{
-//    private static string _vorbis = "vorbis";
-//    public WwiseToOgg3(Stream inStream, Stream outStream)
-//        : base(inStream, outStream)
-//    {
-
-//    }
-
-//    public bool genSetup(csBuffer os)
-//    {
-//        os.Write(new Vorbis_packet_header(5));
-//        //  vhead.LeftShift(os);
-
-//        Packet6 setup_packet = new Packet6(FInStream, _data_offset + _setup_packet_offset, _little_endian, _no_granule);
-
-//        FInStream.Seek(setup_packet.Offset, SeekOrigin.Begin);
-
-//        if (setup_packet.granule != 0)
-//            throw new WwiseToOggException("setup packet granule != 0");
-
-//        bitStream ss = new bitStream(FInStream);
-//        Bit_uint codebook_count_less1 = ss.Read(8);
-
-//        UInt32 codebook_count = codebook_count_less1 + 1;
-//        os.Write(codebook_count_less1);
-
-//        if (_inline_codebooks)
-//        {
-//            codebook_library cbl = new codebook_library();
-
-//            for (int i = 0; i < codebook_count; i++)
-//            {
-//                if (_full_setup)
-//                {
-//                    // cbl.copy(ss, os);
-//                }
-//                else
-//                {
-//                    cbl.rebuild(ss, 0, os);
-//                }
-//            }
-//        }
-//        else
-//        {
-//            byte[] data = null; //AudioTools.Properties.Resources.packed_codebooks_aoTuV_603;
-//            //byte[] data = AudioTools.Properties.Resources.packed_codebooks;
-
-
-//            if (String.IsNullOrEmpty(FCodebooksName))
-//                FCodebooksName = "packed_codebooks_aoTuV_603";
-
-//            if (File.Exists(FCodebooksName))
-//            {
-//                using (FileStream fcn = File.OpenRead(FCodebooksName))
-//                {
-//                    data = new byte[fcn.Length];
-//                    fcn.Read(data, 0, data.Length);
-//                }
-
-//            }
-//            else
-//            {
-//                data = (byte[])AudioTools.Properties.Resources.ResourceManager.GetObject(FCodebooksName);
-//            }
-//            if (data == null)
-//                data = AudioTools.Properties.Resources.packed_codebooks_aoTuV_603;
-
-
-
-//            using (MemoryStream ms = new MemoryStream(data))
-//            {
-//                ms.Position = 0;
-//                codebook_library cbl = new codebook_library(ms);
-//                ms.Position = 0;
-//                for (int i = 0; i < codebook_count; i++)
-//                {
-//                    Bit_uint codebook_id = new Bit_uint(10);
-//                    ss.Read(codebook_id);
-
-//                    try
-//                    {
-//                        cbl.rebuild(Convert.ToInt32(codebook_id), os);
-//                    }
-//                    catch (codebook_library.Invalid_id E)
-//                    {
-
-//                        if (codebook_id == 0x342)
-//                        {
-//                            var codebook_identifier = ss.Read(14);
-
-//                            //         B         C         V
-//                            //    4    2    4    3    5    6
-//                            // 0100 0010 0100 0011 0101 0110
-//                            //           \_____|_ _|_______/
-//                            //                   X
-//                            //         01 0101 10 01 0000
-//                            if (codebook_identifier == 0x1590)
-//                            {
-//                                // starts with BCV, probably --full-setup
-//                                throw new WwiseToOggException(
-//                                    "invalid codebook id 0x342, try --full-setup");
-//                            }
-//                        }
-
-//                        // just an invalid codebook
-//                        throw E;
-
-
-//                    }
-//                }
-//            }
-//        }
-
-//        Bit_uint time_count_less1 = new Bit_uint(6);
-//        os.Write(time_count_less1);
-//        Bit_uint dummy_time_value = new Bit_uint(16);
-//        os.Write(dummy_time_value);
-
-//        if (_full_setup)
-//        {
-
-//            while (ss.get_total_bits_read() < setup_packet.size * 8u)
-//            {
-//                os.Write(ss.Read(1));
-//            }
-//        }
-//        else    // _full_setup
-//        {
-//            //alot of fucking code...
-//            // Always floor type 1
-
-
-//            var floor_count_less1 = ss.Read(6);
-//            uint floor_count = floor_count_less1 + 1;
-//            os.Write(floor_count_less1);
-
-//            // rebuild floors
-//            for (int i = 0; i < floor_count; i++)
-//            {
-//                os.Write(new Bit_uint(16, 1));
-//                var floor1_part = ss.Read(5);
-//                os.Write(floor1_part);
-
-//                uint[] floor1_partition_class_list = new uint[floor1_part];
-//                uint minclass = 0;
-//                for (int j = 0; j < floor1_part; j++)
-//                {
-//                    var floor1_partition_class = ss.Read(4);
-//                    os.Write(floor1_partition_class);
-
-//                    floor1_partition_class_list[j] = floor1_partition_class;
-
-//                    if (floor1_partition_class > minclass)
-//                        minclass = floor1_partition_class;
-//                }
-
-//                uint[] floor1_class_dimensions_list = new uint[minclass + 1];
-
-//                for (int j = 0; j <= minclass; j++)
-//                {
-//                    var class_dimensions_less1 = ss.Read(3);
-//                    os.Write(class_dimensions_less1);
-
-//                    floor1_class_dimensions_list[j] = class_dimensions_less1 + 1;
-
-//                    var class_subclasses = ss.Read(2);
-//                    os.Write(class_subclasses);
-
-//                    if (class_subclasses != 0)
-//                    {
-//                        var masterbook = ss.Read(8);
-//                        os.Write(masterbook);
-
-//                        if (masterbook >= codebook_count)
-//                            throw new WwiseToOggException("invalid floor1 masterbook");
-//                    }
-
-//                    for (int k = 0; k < (1U << class_subclasses.totalI); k++)
-//                    {
-//                        var subclass_book_plus1 = ss.Read(8);
-//                        os.Write(subclass_book_plus1);
-
-//                        int subclass_book = Convert.ToInt32(subclass_book_plus1) - 1;
-//                        if (subclass_book >= 0 && Convert.ToUInt32(subclass_book) >= codebook_count)
-//                            throw new WwiseToOggException("invalid floor1 subclass book");
-//                    }
-//                }
-//                os.Write(ss.Read(2));//floor1_multiplier_less1
-//                var rangebits = ss.Read(4);
-//                os.Write(rangebits);
-//                uint rb = rangebits;
-
-//                for (int j = 0; j < floor1_part; j++)
-//                {
-//                    var current_class_number = floor1_partition_class_list[j];
-//                    for (int k = 0; k < floor1_class_dimensions_list[current_class_number]; k++)
-//                    {
-//                        os.Write(ss.Read(rb));
-//                    }
-//                }
-//            }
-//            var residue_count_less1 = ss.Read(6);
-//            var residue_count = residue_count_less1 + 1;
-//            os.Write(residue_count_less1);
-
-//            for (int i = 0; i < residue_count; i++)
-//            {
-//                var residue_type = ss.Read(2);
-//                os.Write(new Bit_uint(16, residue_type));
-//                if (residue_type > 2)
-//                    throw new WwiseToOggException("invalid residue type");
-
-//                var residue_begin = ss.Read(24);
-//                var residue_end = ss.Read(24);
-//                var residue_partition_size_less1 = ss.Read(24);
-//                var residue_classifications_less1 = ss.Read(6);
-//                var residue_classbook = ss.Read(8);
-
-//                uint residue_classifications = residue_classifications_less1 + 1;
-
-//                os.Write(residue_begin);
-//                os.Write(residue_end);
-//                os.Write(residue_partition_size_less1);
-//                os.Write(residue_classifications_less1);
-//                os.Write(residue_classbook);
-//                if (residue_classbook >= codebook_count) throw new WwiseToOggException("invalid residue classbook");
-
-//                uint[] residue_cascade = new uint[residue_classifications];
-
-//                for (int j = 0; j < residue_classifications; j++)
-//                {
-//                    var high_bits = new Bit_uint(5);
-//                    var low_bits = ss.Read(3);
-//                    os.Write(low_bits);
-
-//                    var bitflag = ss.Read(1);
-//                    os.Write(bitflag);
-//                    if (bitflag != 0)
-//                    {
-//                        ss.Read(high_bits);
-//                        os.Write(high_bits);
-//                    }
-
-//                    residue_cascade[j] = high_bits * 8 + low_bits;
-//                }
-
-//                for (int j = 0; j < residue_classifications; j++)
-//                {
-//                    for (int k = 0; k < 8; k++)
-//                    {
-//                        if ((Convert.ToInt32(residue_cascade[j]) & (1 << k)) != 0)
-//                        {
-//                            var residue_book = ss.Read(8);
-//                            os.Write(residue_book);
-
-//                            if (residue_book >= codebook_count) throw new WwiseToOggException("invalid residue book");
-//                        }
-//                    }
-//                }
-//            }
-
-
-//            // mapping count
-//            var mapping_count_less1 = ss.Read(6);
-//            uint mapping_count = mapping_count_less1 + 1;
-//            os.Write(mapping_count_less1);
-
-//            for (int i = 0; i < mapping_count; i++)
-//            {
-//                // always mapping type 0, the only one
-//                //var mapping_type = new Bit_uint(16);
-
-//                os.Write(new Bit_uint(16));//mapping_type);
-
-//                var submaps_flag = ss.Read(1);
-//                os.Write(submaps_flag);
-
-//                uint submaps = 1;
-//                if (submaps_flag != 0)
-//                {
-//                    var submaps_less1 = ss.Read(4);
-//                    submaps = submaps_less1 + 1;
-//                    os.Write(submaps_less1);
-//                }
-
-//                var square_polar_flag = ss.Read(1);
-//                os.Write(square_polar_flag);
-
-//                if (square_polar_flag != 0)
-//                {
-//                    var coupling_steps_less1 = ss.Read(8);
-//                    uint coupling_steps = coupling_steps_less1 + 1;
-//                    os.Write(coupling_steps_less1);
-
-//                    for (int j = 0; j < coupling_steps; j++)
-//                    {
-//                        var magnitude = ss.Read(Convert.ToUInt32(_channels - 1));
-//                        var angle = ss.Read(Convert.ToUInt32(_channels - 1));
-//                        os.Write(magnitude);
-//                        os.Write(angle);
-
-//                        if (angle == magnitude || magnitude >= _channels || angle >= _channels) throw new WwiseToOggException("invalid coupling");
-//                    }
-//                }
-
-//                // a rare reserved field not removed by Ak!
-//                var mapping_reserved = ss.Read(2);
-//                os.Write(mapping_reserved);
-//                if (0 != mapping_reserved) throw new WwiseToOggException("mapping reserved field nonzero");
-
-//                if (submaps > 1)
-//                {
-//                    for (int j = 0; j < _channels; j++)
-//                    {
-//                        var mapping_mux = ss.Read(4);
-//                        os.Write(mapping_mux);
-
-//                        if (mapping_mux >= submaps) throw new WwiseToOggException("mapping_mux >= submaps");
-//                    }
-//                }
-
-//                for (int j = 0; j < submaps; j++)
-//                {
-//                    // Another! Unused time domain transform configuration placeholder!
-//                    var time_config = ss.Read(8);
-//                    os.Write(time_config);
-
-//                    var floor_number = ss.Read(8);
-//                    os.Write(floor_number);
-//                    if (floor_number >= floor_count) throw new WwiseToOggException("invalid floor mapping");
-
-//                    var residue_number = ss.Read(8);
-//                    os.Write(residue_number);
-//                    if (residue_number >= residue_count) throw new WwiseToOggException("invalid residue mapping");
-//                }
-//            }
-
-
-
-//            // mode count
-//            var mode_count_less1 = ss.Read(6);
-//            uint mode_count = mode_count_less1 + 1;
-//            os.Write(mode_count_less1);
-//            //     mode_blockflag.Clear();
-//            //mode_blockflag = new bool[mode_count];
-//            mode_bits = (mode_count - 1);
-
-//            //cout << mode_count << " modes" << endl;
-
-//            for (int i = 0; i < mode_count; i++)
-//            {
-//                var block_flag = ss.Read(1);
-//                os.Write(block_flag);
-
-//                // mode_blockflag.Add(block_flag != 0);
-
-//                // only 0 valid for windowtype and transformtype
-//                var windowtype = new Bit_uint(16);
-//                var transformtype = new Bit_uint(16);
-
-//                os.Write(windowtype);
-//                os.Write(transformtype);
-
-//                var mapping = ss.Read(8);
-//                os.Write(mapping);
-//                if (mapping >= mapping_count) throw new WwiseToOggException("invalid mode mapping");
-//            }
-//            os.Write(new Bit_uint(1, 1));//framing
-//            // Bit_uint<1> framing(1);
-//            //  os << framing;
-
-//        }
-//        // os.flush_page();
-//        if ((ss.get_total_bits_read() + 7) / 8 != setup_packet.size) throw new WwiseToOggException("didn't read exactly setup packet");
-
-//        if (setup_packet.NextOffset != _data_offset + _first_audio_packet_offset) throw new WwiseToOggException("first audio packet doesn't follow setup packet");
-
-//        return true;
-//    }
-
-//    public void CreateHeaders()
-//    {
-//        csBuffer buff = new csBuffer();
-//        buff.writeinit();
-//        Encoding AE = Encoding.UTF8;
-//        byte[] _vorbis_byt = AE.GetBytes(_vorbis);
-
-//        //// preamble
-//        buff.write(0x01, 8);
-//        buff.write(_vorbis_byt);
-
-//        //// basic information about the stream
-//        buff.write(0x00, 32);
-//        buff.write(_channels, 8);
-//        buff.write(Convert.ToInt32(_sample_rate), 32);
-
-//        buff.write(0, 32);
-//        buff.write(Convert.ToInt32(_avg_bytes_per_second * 8), 32);
-//        buff.write(0, 32);
-//        buff.write(_blocksize_0_pow, 4);
-//        buff.write(_blocksize_1_pow, 4);
-//        buff.write(1, 1);
-
-
-
-//        Packet packetX = new Packet()
-//        {
-//            packet_base = buff.buf(),
-//            packet = 0,
-//            bytes = buff.bytes(),
-//            b_o_s = 1,
-//            e_o_s = 0,
-//            packetno = 0
-//        };
-//        StreamState os = new StreamState();
-
-//        if (os.packetin(packetX) == 0)
-//        {
-//            Page page = new Page();
-//            while (os.flush(page) != 0)
-//            {
-//                var size = FOutStream.Length;
-//                FOutStream.Write(page.header_base, page.header, page.header_len);
-//                FOutStream.Write(page.body_base, page.body, page.body_len);
-
-//                if (FOutStream.Length != size + page.header_len + page.body_len)
-//                {
-//                    os.clear();
-//                    throw new WwiseToOggException("os flush");
-//                }
-//                Console.WriteLine(String.Format("head : {0}, body : {1}.", page.header_len, page.body_len));
-//            }
-//        }
-
-//        buff.writeclear();
-//        buff.writeinit();
-
-
-//        buff.write(0x03, 8);
-//        buff.write(_vorbis_byt);
-
-//        // const string vendor = "converted from Audiokinetic Wwise by df_oggconvert v1.0 ";
-//        const string vendor = "converted from Wwise by dfaudiolib v0.8";
-//        Bit_uint vendorsize = new Bit_uint(32, Convert.ToUInt32(vendor.Length));
-//        vendorsize.Write(buff);
-
-//        for (int i = 0; i < vendorsize; i++)
-//        {
-//            byte b = Convert.ToByte(vendor[i]);
-//            new Bit_uint(8, Convert.ToUInt32(b)).Write(buff);
-//        }
-
-//        if (_loop_count == 0)
-//        {
-//            new Bit_uint(32, 0).Write(buff);
-//        }
-//        else
-//        {
-//            Bit_uint user_comment_count = new Bit_uint(32, 2);
-//            user_comment_count.Write(buff);
-
-//            string loop_start_str = "LoopStart=" + _loop_start;
-//            string loop_end_str = "LoopEnd=" + _loop_end;
-
-//            Bit_uint loop_start_comment_length = new Bit_uint(32, loop_start_str.Length);
-//            loop_start_comment_length.Write(buff);
-
-//            for (int i = 0; i < loop_start_comment_length; i++)
-//            {
-//                byte b = Convert.ToByte(loop_start_str[i]);
-//                Bit_uint c = new Bit_uint(8, Convert.ToUInt32(b));
-//                c.Write(buff);
-//            }
-
-//            Bit_uint loop_end_comment_length = new Bit_uint(32, loop_end_str.Length);
-//            loop_end_comment_length.Write(buff);
-
-//            for (int i = 0; i < loop_end_comment_length; i++)
-//            {
-//                byte b = Convert.ToByte(loop_end_str[i]);
-//                Bit_uint c = new Bit_uint(8, Convert.ToUInt32(b));
-//                c.Write(buff);
-//            }
-//        }
-
-//        Bit_uint framing = new Bit_uint(1, 1);
-//        framing.Write(buff);
-
-//        genSetup(buff);
-
-//        packetX = new Packet()
-//        {
-//            packet_base = buff.buf(),
-//            packet = 0,
-//            bytes = buff.bytes(),
-//            b_o_s = 0,
-//            e_o_s = 0,
-//            packetno = 0
-//        };
-
-//        if (os.packetin(packetX) == 0)
-//        {
-//            Page page = new Page();
-//            while (os.flush(page) != 0)
-//            {
-//                var size = FOutStream.Length;
-//                FOutStream.Write(page.header_base, page.header, page.header_len);
-//                FOutStream.Write(page.body_base, page.body, page.body_len);
-
-//                if (FOutStream.Length != size + page.header_len + page.body_len)
-//                {
-//                    os.clear();
-//                    throw new WwiseToOggException("os flush");
-//                }
-//                Console.WriteLine(String.Format("head : {0}, body : {1}.", page.header_len, page.body_len));
-//            }
-//        }
-
-//        //buff.write(ilog2(blocksizes[0]), 4);
-//        //buff.write(ilog2(blocksizes[1]), 4);
-//        //buff.write(1, 1);
-
-//    }
-
-//    public override bool ConvertToOgg(bool full_setup = false, bool _revorb = true)
-//    {
-//        CreateHeaders();
-//        FOutStream.Position = 0;
-//        FOutStream.CopyTo(FRealOutStream);
-
-//        return false;
-//    }
-
-//}
-//internal class WwiseToOgg2 : WwiseToOgg
-//{
-//    const int serial = 666;
-
-//    public WwiseToOgg2(Stream inStream, Stream outStream)
-//        : base(inStream, outStream)
-//    {
-
-//    }
-
-//    private bool writevorbheader(int size, StreamWriter sw)
-//    {
-//        sw.Write(size);
-//        byte[] b = Encoding.ASCII.GetBytes("vorbis");
-//        sw.Write(b);
-//        return true;
-//    }
-
-//    private byte[] createVorbBody(int size, byte[] xdata,int length = 0)
-//    {
-//        if (length == 0)
-//            length = xdata.Length;
-
-//        byte[] b = Encoding.ASCII.GetBytes("vorbis");
-//        byte[] result = new byte[b.Length + 4 + length];
-//        byte[] asize = BitConverter.GetBytes(size);
-//        Array.Copy(asize, result, 4);
-//        Array.Copy(b, 0, result, 4, b.Length);
-//        Array.Copy(xdata, 0, result, 4 + b.Length, length);
-//        return result;
-//    }
-
-//    public override bool ConvertToOgg(bool full_setup = false, bool _revorb = true)
-//    {
-//        SyncState sync_in = new SyncState();
-//        sync_in.init();
-//        StreamState stream_in = new StreamState();
-//        StreamState stream_out = new StreamState();
-//        bool g_failed = true;
-//        Info vi = new Info();
-//        vi.init();
-
-//        Packet packet = new Packet();
-//        Page page = new Page();
-
-//        if (create_headers(sync_in, stream_in, stream_out, vi))
-//        {
-
-//        }
-//        FOutStream.Position = 0;
-//        FOutStream.CopyTo(FRealOutStream);
-
-//        return !g_failed;// base.ConvertToOgg(full_setup, _revorb);
-//    }
-
-//    private bool create_headers(SyncState si, StreamState iss, StreamState os, Info vi)
-//    {
-//        //StreamState ss = new StreamState();
-//        //ss.init(serial);
-
-//        csBuffer opb = new csBuffer();
-//        Encoding AE = Encoding.UTF8;
-//        byte[] _vorbis_byt = AE.GetBytes("vorbis");
-//        opb.writeinit();
-//        // preamble
-//        opb.write(0x01, 8);
-//        opb.write(_vorbis_byt);
-
-//        // basic information about the stream
-//        opb.write(0x00, 32);
-//        opb.write(_channels, 8);
-//        opb.write(Convert.ToInt32(_sample_rate), 32);
-
-//        opb.write(0, 32);
-//        opb.write(Convert.ToInt32(_avg_bytes_per_second * 8), 32);
-//        opb.write(0, 32);
-
-//        opb.write(_blocksize_0_pow, 4);
-//        opb.write(_blocksize_1_pow, 4);
-//        opb.write(1, 1);
-
-
-
-//        Packet packetX = new Packet();
-//        packetX.packet_base = opb.buf();
-//        packetX.packet = 0;
-//        packetX.bytes = opb.bytes();
-//        packetX.b_o_s = 1;
-//        packetX.e_o_s = 0;
-//        packetX.packetno = 0;
-
-//        if (os.packetin(packetX) == 0)
-//        {
-//            Page page = new Page();
-//            while (os.flush(page) != 0)
-//            {
-//                var size = FOutStream.Length;
-//                FOutStream.Write(page.header_base, page.header, page.header_len);
-//                FOutStream.Write(page.body_base, page.body, page.body_len);
-
-//                if (FOutStream.Length != size + page.header_len + page.body_len)
-//                {
-//                    os.clear();
-//                    throw new WwiseToOggException("os flush");
-//                }
-//                Console.WriteLine(String.Format("head : {0}, body : {1}.", page.header_len, page.body_len));
-//            }
-//        }
-
-//        csBuffer osb = new csBuffer();
-//        osb.writeinit();
-//        osb.Write(new Vorbis_packet_header(3));
-
-//        // const string vendor = "converted from Audiokinetic Wwise by df_oggconvert v1.0 ";
-//        const string vendor = "converted from Wwise by dfaudiolib v0.8";
-//        Bit_uint vendorsize = new Bit_uint(32, Convert.ToUInt32(vendor.Length));
-//        osb.Write(vendorsize);
-
-//        for (int i = 0; i < vendorsize; i++)
-//            osb.Write(new Bit_uint(8, Convert.ToUInt32(Convert.ToByte(vendor[i]))));
-
-//        if (_loop_count == 0)
-//            osb.Write(new Bit_uint(32, 0));
-//        else
-//        {
-//            osb.Write(new Bit_uint(32, 2));//user_comment_count
-
-//            string loop_start_str = "LoopStart=" + _loop_start;
-//            string loop_end_str = "LoopEnd=" + _loop_end;
-
-//            Bit_uint loop_start_comment_length = new Bit_uint(32, loop_start_str.Length);
-//            osb.Write(loop_start_comment_length);
-
-//            for (int i = 0; i < loop_start_comment_length; i++)
-//                osb.Write(new Bit_uint(8, Convert.ToUInt32(Convert.ToByte(loop_start_str[i]))));
-
-//            Bit_uint loop_end_comment_length = new Bit_uint(32, loop_end_str.Length);
-//            osb.Write(loop_end_comment_length);
-
-//            for (int i = 0; i < loop_end_comment_length; i++)
-//            {
-//                osb.Write(new Bit_uint(8, Convert.ToUInt32(Convert.ToByte(loop_end_str[i]))));
-//            }
-//        }
-//        osb.Write(new Bit_uint(1, 1));//framing
-
-
-//        //os.FLUSH_BITS();
-//        Packet p = new Packet() { packet_base = osb.buf(), bytes = osb.bytes(), b_o_s = 0, e_o_s = 0 };
-
-//        Comment vc = new Comment();
-//        vc.init();
-
-//        vi.rate = Convert.ToInt32(_sample_rate);
-//        vi.channels = Convert.ToInt32(_channels);
-//       // vc.add("converted from Wwise by dfaudiolib v0.8");
-
-//        if (vi.synthesis_headerin(vc, p) < 0)
-//        {
-//            return false;
-//        }
-
-//        os.packetin(p);
-//        int packnum = 1;
-//        Packet6 setup_packet = new Packet6(FInStream, _data_offset + _setup_packet_offset, _little_endian, _no_granule);
-
-//        FInStream.Seek(setup_packet.Offset, SeekOrigin.Begin);
-//        osb.writeclear();
-//        osb.writeinit();
-
-
-//        if (setup_packet.granule != 0)
-//            throw new WwiseToOggException("setup packet granule != 0");
-//        //  MemoryStream ms = new MemoryStream();
-//        //  using (StreamWriter sw = new StreamWriter(ms))
-//        {
-//            bitStream ss1 = new bitStream(FInStream);
-//            Bit_uint codebook_count_less1 = ss1.Read(8);
-//            UInt32 codebook_count = codebook_count_less1 + 1;
-//            osb.writeUInt(codebook_count);
-//           // FOutStream.Write(BitConverter.GetBytes(codebook_count), 0, 4);
-//            //sw.Write(codebook_count);
-//            if (_inline_codebooks)
-//            {
-//                //fuck shit...
-//            }
-//            else
-//            {
-//                byte[] data = null; //AudioTools.Properties.Resources.packed_codebooks_aoTuV_603;
-//                //byte[] data = AudioTools.Properties.Resources.packed_codebooks;
-
-
-//                if (String.IsNullOrEmpty(FCodebooksName))
-//                    FCodebooksName = "packed_codebooks_aoTuV_603";
-
-//                if (File.Exists(FCodebooksName))
-//                {
-//                    using (FileStream fcn = File.OpenRead(FCodebooksName))
-//                    {
-//                        data = new byte[fcn.Length];
-//                        fcn.Read(data, 0, data.Length);
-//                    }
-
-//                }
-//                else
-//                {
-//                    data = (byte[])AudioTools.Properties.Resources.ResourceManager.GetObject(FCodebooksName);
-//                }
-//                if (data == null)
-//                    data = AudioTools.Properties.Resources.packed_codebooks_aoTuV_603;
-
-//                using (MemoryStream ms2 = new MemoryStream(data))
-//                {
-//                    ms2.Position = 0;
-//                    codebook_library cbl = new codebook_library(ms2);
-//                    // ms.Position = 0;
-//                 //   MemoryStream ms3 = new MemoryStream();
-//                 //   ogStream os1 = new ogStream3(ms3);
-//                    for (int i = 0; i < codebook_count; i++)
-//                    {
-//                        Bit_uint codebook_id = new Bit_uint(10);
-//                        ss1.Read(codebook_id);
-
-//                        try
-//                        {
-//                            cbl.rebuild(Convert.ToInt32(codebook_id), osb);
-//                        }
-//                        catch (codebook_library.Invalid_id E)
-//                        {
-
-//                            if (codebook_id == 0x342)
-//                            {
-//                                var codebook_identifier = ss1.Read(14);
-
-//                                //         B         C         V
-//                                //    4    2    4    3    5    6
-//                                // 0100 0010 0100 0011 0101 0110
-//                                //           \_____|_ _|_______/
-//                                //                   X
-//                                //         01 0101 10 01 0000
-//                                if (codebook_identifier == 0x1590)
-//                                {
-//                                    // starts with BCV, probably --full-setup
-//                                    throw new WwiseToOggException(
-//                                        "invalid codebook id 0x342, try --full-setup");
-//                                }
-//                            }
-
-//                            // just an invalid codebook
-//                            throw E;
-//                        }
-//                    }
-
-//                    //  var xbytes = os1.getBytes();
-
-//                   // os1.flush_page();
+    //internal static class cBuffHelper
+    //{
+    //    public static void Write(this csBuffer buff, Bit_uint b)
+    //    {
+    //        b.Write(buff);
+    //    }
+
+    //    public static void Write(this csBuffer buff, Vorbis_packet_header v)
+    //    {
+    //        Write(buff, new Bit_uint(8, v.ilength));
+    //        for (int i = 0; i < 6; i++)
+    //            Write(buff, new Bit_uint(8, Convert.ToUInt32(v.vorbis_str[i])));
+
+    //    }
+
+    //    /*  public void write(Vorbis_packet_header v)
+    //    {
+    //        write(new Bit_uint(8, v.ilength));
+    //        for (int i = 0; i < 6; i++)
+    //            write(new Bit_uint(8, Convert.ToUInt32(v.vorbis_str[i])));
+    //    }*/
+
+    //    //Vorbis_packet_header
+    //}
+
+    //internal class WwiseToOgg3 : WwiseToOgg
+    //{
+    //    private static string _vorbis = "vorbis";
+    //    public WwiseToOgg3(Stream inStream, Stream outStream)
+    //        : base(inStream, outStream)
+    //    {
+
+    //    }
+
+    //    public bool genSetup(csBuffer os)
+    //    {
+    //        os.Write(new Vorbis_packet_header(5));
+    //        //  vhead.LeftShift(os);
+
+    //        Packet6 setup_packet = new Packet6(FInStream, _data_offset + _setup_packet_offset, _little_endian, _no_granule);
+
+    //        FInStream.Seek(setup_packet.Offset, SeekOrigin.Begin);
+
+    //        if (setup_packet.granule != 0)
+    //            throw new WwiseToOggException("setup packet granule != 0");
+
+    //        bitStream ss = new bitStream(FInStream);
+    //        Bit_uint codebook_count_less1 = ss.Read(8);
+
+    //        UInt32 codebook_count = codebook_count_less1 + 1;
+    //        os.Write(codebook_count_less1);
+
+    //        if (_inline_codebooks)
+    //        {
+    //            codebook_library cbl = new codebook_library();
+
+    //            for (int i = 0; i < codebook_count; i++)
+    //            {
+    //                if (_full_setup)
+    //                {
+    //                    // cbl.copy(ss, os);
+    //                }
+    //                else
+    //                {
+    //                    cbl.rebuild(ss, 0, os);
+    //                }
+    //            }
+    //        }
+    //        else
+    //        {
+    //            byte[] data = null; //AudioTools.Properties.Resources.packed_codebooks_aoTuV_603;
+    //            //byte[] data = AudioTools.Properties.Resources.packed_codebooks;
+
+
+    //            if (String.IsNullOrEmpty(FCodebooksName))
+    //                FCodebooksName = "packed_codebooks_aoTuV_603";
+
+    //            if (File.Exists(FCodebooksName))
+    //            {
+    //                using (FileStream fcn = File.OpenRead(FCodebooksName))
+    //                {
+    //                    data = new byte[fcn.Length];
+    //                    fcn.Read(data, 0, data.Length);
+    //                }
+
+    //            }
+    //            else
+    //            {
+    //                data = (byte[])AudioTools.Properties.Resources.ResourceManager.GetObject(FCodebooksName);
+    //            }
+    //            if (data == null)
+    //                data = AudioTools.Properties.Resources.packed_codebooks_aoTuV_603;
+
+
+
+    //            using (MemoryStream ms = new MemoryStream(data))
+    //            {
+    //                ms.Position = 0;
+    //                codebook_library cbl = new codebook_library(ms);
+    //                ms.Position = 0;
+    //                for (int i = 0; i < codebook_count; i++)
+    //                {
+    //                    Bit_uint codebook_id = new Bit_uint(10);
+    //                    ss.Read(codebook_id);
+
+    //                    try
+    //                    {
+    //                        cbl.rebuild(Convert.ToInt32(codebook_id), os);
+    //                    }
+    //                    catch (codebook_library.Invalid_id E)
+    //                    {
+
+    //                        if (codebook_id == 0x342)
+    //                        {
+    //                            var codebook_identifier = ss.Read(14);
+
+    //                            //         B         C         V
+    //                            //    4    2    4    3    5    6
+    //                            // 0100 0010 0100 0011 0101 0110
+    //                            //           \_____|_ _|_______/
+    //                            //                   X
+    //                            //         01 0101 10 01 0000
+    //                            if (codebook_identifier == 0x1590)
+    //                            {
+    //                                // starts with BCV, probably --full-setup
+    //                                throw new WwiseToOggException(
+    //                                    "invalid codebook id 0x342, try --full-setup");
+    //                            }
+    //                        }
+
+    //                        // just an invalid codebook
+    //                        throw E;
+
+
+    //                    }
+    //                }
+    //            }
+    //        }
+
+    //        Bit_uint time_count_less1 = new Bit_uint(6);
+    //        os.Write(time_count_less1);
+    //        Bit_uint dummy_time_value = new Bit_uint(16);
+    //        os.Write(dummy_time_value);
+
+    //        if (_full_setup)
+    //        {
+
+    //            while (ss.get_total_bits_read() < setup_packet.size * 8u)
+    //            {
+    //                os.Write(ss.Read(1));
+    //            }
+    //        }
+    //        else    // _full_setup
+    //        {
+    //            //alot of fucking code...
+    //            // Always floor type 1
+
+
+    //            var floor_count_less1 = ss.Read(6);
+    //            uint floor_count = floor_count_less1 + 1;
+    //            os.Write(floor_count_less1);
+
+    //            // rebuild floors
+    //            for (int i = 0; i < floor_count; i++)
+    //            {
+    //                os.Write(new Bit_uint(16, 1));
+    //                var floor1_part = ss.Read(5);
+    //                os.Write(floor1_part);
+
+    //                uint[] floor1_partition_class_list = new uint[floor1_part];
+    //                uint minclass = 0;
+    //                for (int j = 0; j < floor1_part; j++)
+    //                {
+    //                    var floor1_partition_class = ss.Read(4);
+    //                    os.Write(floor1_partition_class);
+
+    //                    floor1_partition_class_list[j] = floor1_partition_class;
+
+    //                    if (floor1_partition_class > minclass)
+    //                        minclass = floor1_partition_class;
+    //                }
+
+    //                uint[] floor1_class_dimensions_list = new uint[minclass + 1];
+
+    //                for (int j = 0; j <= minclass; j++)
+    //                {
+    //                    var class_dimensions_less1 = ss.Read(3);
+    //                    os.Write(class_dimensions_less1);
+
+    //                    floor1_class_dimensions_list[j] = class_dimensions_less1 + 1;
+
+    //                    var class_subclasses = ss.Read(2);
+    //                    os.Write(class_subclasses);
+
+    //                    if (class_subclasses != 0)
+    //                    {
+    //                        var masterbook = ss.Read(8);
+    //                        os.Write(masterbook);
+
+    //                        if (masterbook >= codebook_count)
+    //                            throw new WwiseToOggException("invalid floor1 masterbook");
+    //                    }
+
+    //                    for (int k = 0; k < (1U << class_subclasses.totalI); k++)
+    //                    {
+    //                        var subclass_book_plus1 = ss.Read(8);
+    //                        os.Write(subclass_book_plus1);
+
+    //                        int subclass_book = Convert.ToInt32(subclass_book_plus1) - 1;
+    //                        if (subclass_book >= 0 && Convert.ToUInt32(subclass_book) >= codebook_count)
+    //                            throw new WwiseToOggException("invalid floor1 subclass book");
+    //                    }
+    //                }
+    //                os.Write(ss.Read(2));//floor1_multiplier_less1
+    //                var rangebits = ss.Read(4);
+    //                os.Write(rangebits);
+    //                uint rb = rangebits;
+
+    //                for (int j = 0; j < floor1_part; j++)
+    //                {
+    //                    var current_class_number = floor1_partition_class_list[j];
+    //                    for (int k = 0; k < floor1_class_dimensions_list[current_class_number]; k++)
+    //                    {
+    //                        os.Write(ss.Read(rb));
+    //                    }
+    //                }
+    //            }
+    //            var residue_count_less1 = ss.Read(6);
+    //            var residue_count = residue_count_less1 + 1;
+    //            os.Write(residue_count_less1);
+
+    //            for (int i = 0; i < residue_count; i++)
+    //            {
+    //                var residue_type = ss.Read(2);
+    //                os.Write(new Bit_uint(16, residue_type));
+    //                if (residue_type > 2)
+    //                    throw new WwiseToOggException("invalid residue type");
+
+    //                var residue_begin = ss.Read(24);
+    //                var residue_end = ss.Read(24);
+    //                var residue_partition_size_less1 = ss.Read(24);
+    //                var residue_classifications_less1 = ss.Read(6);
+    //                var residue_classbook = ss.Read(8);
+
+    //                uint residue_classifications = residue_classifications_less1 + 1;
+
+    //                os.Write(residue_begin);
+    //                os.Write(residue_end);
+    //                os.Write(residue_partition_size_less1);
+    //                os.Write(residue_classifications_less1);
+    //                os.Write(residue_classbook);
+    //                if (residue_classbook >= codebook_count) throw new WwiseToOggException("invalid residue classbook");
+
+    //                uint[] residue_cascade = new uint[residue_classifications];
+
+    //                for (int j = 0; j < residue_classifications; j++)
+    //                {
+    //                    var high_bits = new Bit_uint(5);
+    //                    var low_bits = ss.Read(3);
+    //                    os.Write(low_bits);
+
+    //                    var bitflag = ss.Read(1);
+    //                    os.Write(bitflag);
+    //                    if (bitflag != 0)
+    //                    {
+    //                        ss.Read(high_bits);
+    //                        os.Write(high_bits);
+    //                    }
+
+    //                    residue_cascade[j] = high_bits * 8 + low_bits;
+    //                }
+
+    //                for (int j = 0; j < residue_classifications; j++)
+    //                {
+    //                    for (int k = 0; k < 8; k++)
+    //                    {
+    //                        if ((Convert.ToInt32(residue_cascade[j]) & (1 << k)) != 0)
+    //                        {
+    //                            var residue_book = ss.Read(8);
+    //                            os.Write(residue_book);
+
+    //                            if (residue_book >= codebook_count) throw new WwiseToOggException("invalid residue book");
+    //                        }
+    //                    }
+    //                }
+    //            }
+
+
+    //            // mapping count
+    //            var mapping_count_less1 = ss.Read(6);
+    //            uint mapping_count = mapping_count_less1 + 1;
+    //            os.Write(mapping_count_less1);
+
+    //            for (int i = 0; i < mapping_count; i++)
+    //            {
+    //                // always mapping type 0, the only one
+    //                //var mapping_type = new Bit_uint(16);
+
+    //                os.Write(new Bit_uint(16));//mapping_type);
+
+    //                var submaps_flag = ss.Read(1);
+    //                os.Write(submaps_flag);
+
+    //                uint submaps = 1;
+    //                if (submaps_flag != 0)
+    //                {
+    //                    var submaps_less1 = ss.Read(4);
+    //                    submaps = submaps_less1 + 1;
+    //                    os.Write(submaps_less1);
+    //                }
+
+    //                var square_polar_flag = ss.Read(1);
+    //                os.Write(square_polar_flag);
+
+    //                if (square_polar_flag != 0)
+    //                {
+    //                    var coupling_steps_less1 = ss.Read(8);
+    //                    uint coupling_steps = coupling_steps_less1 + 1;
+    //                    os.Write(coupling_steps_less1);
+
+    //                    for (int j = 0; j < coupling_steps; j++)
+    //                    {
+    //                        var magnitude = ss.Read(Convert.ToUInt32(_channels - 1));
+    //                        var angle = ss.Read(Convert.ToUInt32(_channels - 1));
+    //                        os.Write(magnitude);
+    //                        os.Write(angle);
+
+    //                        if (angle == magnitude || magnitude >= _channels || angle >= _channels) throw new WwiseToOggException("invalid coupling");
+    //                    }
+    //                }
+
+    //                // a rare reserved field not removed by Ak!
+    //                var mapping_reserved = ss.Read(2);
+    //                os.Write(mapping_reserved);
+    //                if (0 != mapping_reserved) throw new WwiseToOggException("mapping reserved field nonzero");
+
+    //                if (submaps > 1)
+    //                {
+    //                    for (int j = 0; j < _channels; j++)
+    //                    {
+    //                        var mapping_mux = ss.Read(4);
+    //                        os.Write(mapping_mux);
+
+    //                        if (mapping_mux >= submaps) throw new WwiseToOggException("mapping_mux >= submaps");
+    //                    }
+    //                }
+
+    //                for (int j = 0; j < submaps; j++)
+    //                {
+    //                    // Another! Unused time domain transform configuration placeholder!
+    //                    var time_config = ss.Read(8);
+    //                    os.Write(time_config);
+
+    //                    var floor_number = ss.Read(8);
+    //                    os.Write(floor_number);
+    //                    if (floor_number >= floor_count) throw new WwiseToOggException("invalid floor mapping");
+
+    //                    var residue_number = ss.Read(8);
+    //                    os.Write(residue_number);
+    //                    if (residue_number >= residue_count) throw new WwiseToOggException("invalid residue mapping");
+    //                }
+    //            }
+
+
+
+    //            // mode count
+    //            var mode_count_less1 = ss.Read(6);
+    //            uint mode_count = mode_count_less1 + 1;
+    //            os.Write(mode_count_less1);
+    //            //     mode_blockflag.Clear();
+    //            //mode_blockflag = new bool[mode_count];
+    //            mode_bits = (mode_count - 1);
+
+    //            //cout << mode_count << " modes" << endl;
+
+    //            for (int i = 0; i < mode_count; i++)
+    //            {
+    //                var block_flag = ss.Read(1);
+    //                os.Write(block_flag);
+
+    //                // mode_blockflag.Add(block_flag != 0);
+
+    //                // only 0 valid for windowtype and transformtype
+    //                var windowtype = new Bit_uint(16);
+    //                var transformtype = new Bit_uint(16);
+
+    //                os.Write(windowtype);
+    //                os.Write(transformtype);
+
+    //                var mapping = ss.Read(8);
+    //                os.Write(mapping);
+    //                if (mapping >= mapping_count) throw new WwiseToOggException("invalid mode mapping");
+    //            }
+    //            os.Write(new Bit_uint(1, 1));//framing
+    //            // Bit_uint<1> framing(1);
+    //            //  os << framing;
+
+    //        }
+    //        // os.flush_page();
+    //        if ((ss.get_total_bits_read() + 7) / 8 != setup_packet.size) throw new WwiseToOggException("didn't read exactly setup packet");
+
+    //        if (setup_packet.NextOffset != _data_offset + _first_audio_packet_offset) throw new WwiseToOggException("first audio packet doesn't follow setup packet");
+
+    //        return true;
+    //    }
+
+    //    public void CreateHeaders()
+    //    {
+    //        csBuffer buff = new csBuffer();
+    //        buff.writeinit();
+    //        Encoding AE = Encoding.UTF8;
+    //        byte[] _vorbis_byt = AE.GetBytes(_vorbis);
+
+    //        //// preamble
+    //        buff.write(0x01, 8);
+    //        buff.write(_vorbis_byt);
+
+    //        //// basic information about the stream
+    //        buff.write(0x00, 32);
+    //        buff.write(_channels, 8);
+    //        buff.write(Convert.ToInt32(_sample_rate), 32);
+
+    //        buff.write(0, 32);
+    //        buff.write(Convert.ToInt32(_avg_bytes_per_second * 8), 32);
+    //        buff.write(0, 32);
+    //        buff.write(_blocksize_0_pow, 4);
+    //        buff.write(_blocksize_1_pow, 4);
+    //        buff.write(1, 1);
+
+
+
+    //        Packet packetX = new Packet()
+    //        {
+    //            packet_base = buff.buf(),
+    //            packet = 0,
+    //            bytes = buff.bytes(),
+    //            b_o_s = 1,
+    //            e_o_s = 0,
+    //            packetno = 0
+    //        };
+    //        StreamState os = new StreamState();
+
+    //        if (os.packetin(packetX) == 0)
+    //        {
+    //            Page page = new Page();
+    //            while (os.flush(page) != 0)
+    //            {
+    //                var size = FOutStream.Length;
+    //                FOutStream.Write(page.header_base, page.header, page.header_len);
+    //                FOutStream.Write(page.body_base, page.body, page.body_len);
+
+    //                if (FOutStream.Length != size + page.header_len + page.body_len)
+    //                {
+    //                    os.clear();
+    //                    throw new WwiseToOggException("os flush");
+    //                }
+    //                Console.WriteLine(String.Format("head : {0}, body : {1}.", page.header_len, page.body_len));
+    //            }
+    //        }
+
+    //        buff.writeclear();
+    //        buff.writeinit();
+
+
+    //        buff.write(0x03, 8);
+    //        buff.write(_vorbis_byt);
+
+    //        // const string vendor = "converted from Audiokinetic Wwise by df_oggconvert v1.0 ";
+    //        const string vendor = "converted from Wwise by dfaudiolib v0.8";
+    //        Bit_uint vendorsize = new Bit_uint(32, Convert.ToUInt32(vendor.Length));
+    //        vendorsize.Write(buff);
+
+    //        for (int i = 0; i < vendorsize; i++)
+    //        {
+    //            byte b = Convert.ToByte(vendor[i]);
+    //            new Bit_uint(8, Convert.ToUInt32(b)).Write(buff);
+    //        }
+
+    //        if (_loop_count == 0)
+    //        {
+    //            new Bit_uint(32, 0).Write(buff);
+    //        }
+    //        else
+    //        {
+    //            Bit_uint user_comment_count = new Bit_uint(32, 2);
+    //            user_comment_count.Write(buff);
+
+    //            string loop_start_str = "LoopStart=" + _loop_start;
+    //            string loop_end_str = "LoopEnd=" + _loop_end;
+
+    //            Bit_uint loop_start_comment_length = new Bit_uint(32, loop_start_str.Length);
+    //            loop_start_comment_length.Write(buff);
+
+    //            for (int i = 0; i < loop_start_comment_length; i++)
+    //            {
+    //                byte b = Convert.ToByte(loop_start_str[i]);
+    //                Bit_uint c = new Bit_uint(8, Convert.ToUInt32(b));
+    //                c.Write(buff);
+    //            }
+
+    //            Bit_uint loop_end_comment_length = new Bit_uint(32, loop_end_str.Length);
+    //            loop_end_comment_length.Write(buff);
+
+    //            for (int i = 0; i < loop_end_comment_length; i++)
+    //            {
+    //                byte b = Convert.ToByte(loop_end_str[i]);
+    //                Bit_uint c = new Bit_uint(8, Convert.ToUInt32(b));
+    //                c.Write(buff);
+    //            }
+    //        }
+
+    //        Bit_uint framing = new Bit_uint(1, 1);
+    //        framing.Write(buff);
+
+    //        genSetup(buff);
+
+    //        packetX = new Packet()
+    //        {
+    //            packet_base = buff.buf(),
+    //            packet = 0,
+    //            bytes = buff.bytes(),
+    //            b_o_s = 0,
+    //            e_o_s = 0,
+    //            packetno = 0
+    //        };
+
+    //        if (os.packetin(packetX) == 0)
+    //        {
+    //            Page page = new Page();
+    //            while (os.flush(page) != 0)
+    //            {
+    //                var size = FOutStream.Length;
+    //                FOutStream.Write(page.header_base, page.header, page.header_len);
+    //                FOutStream.Write(page.body_base, page.body, page.body_len);
+
+    //                if (FOutStream.Length != size + page.header_len + page.body_len)
+    //                {
+    //                    os.clear();
+    //                    throw new WwiseToOggException("os flush");
+    //                }
+    //                Console.WriteLine(String.Format("head : {0}, body : {1}.", page.header_len, page.body_len));
+    //            }
+    //        }
+
+    //        //buff.write(ilog2(blocksizes[0]), 4);
+    //        //buff.write(ilog2(blocksizes[1]), 4);
+    //        //buff.write(1, 1);
+
+    //    }
+
+    //    public override bool ConvertToOgg(bool full_setup = false, bool _revorb = true)
+    //    {
+    //        CreateHeaders();
+    //        FOutStream.Position = 0;
+    //        FOutStream.CopyTo(FRealOutStream);
+
+    //        return false;
+    //    }
+
+    //}
+    //internal class WwiseToOgg2 : WwiseToOgg
+    //{
+    //    const int serial = 666;
+
+    //    public WwiseToOgg2(Stream inStream, Stream outStream)
+    //        : base(inStream, outStream)
+    //    {
+
+    //    }
+
+    //    private bool writevorbheader(int size, StreamWriter sw)
+    //    {
+    //        sw.Write(size);
+    //        byte[] b = Encoding.ASCII.GetBytes("vorbis");
+    //        sw.Write(b);
+    //        return true;
+    //    }
+
+    //    private byte[] createVorbBody(int size, byte[] xdata,int length = 0)
+    //    {
+    //        if (length == 0)
+    //            length = xdata.Length;
+
+    //        byte[] b = Encoding.ASCII.GetBytes("vorbis");
+    //        byte[] result = new byte[b.Length + 4 + length];
+    //        byte[] asize = BitConverter.GetBytes(size);
+    //        Array.Copy(asize, result, 4);
+    //        Array.Copy(b, 0, result, 4, b.Length);
+    //        Array.Copy(xdata, 0, result, 4 + b.Length, length);
+    //        return result;
+    //    }
+
+    //    public override bool ConvertToOgg(bool full_setup = false, bool _revorb = true)
+    //    {
+    //        SyncState sync_in = new SyncState();
+    //        sync_in.init();
+    //        StreamState stream_in = new StreamState();
+    //        StreamState stream_out = new StreamState();
+    //        bool g_failed = true;
+    //        Info vi = new Info();
+    //        vi.init();
+
+    //        Packet packet = new Packet();
+    //        Page page = new Page();
+
+    //        if (create_headers(sync_in, stream_in, stream_out, vi))
+    //        {
+
+    //        }
+    //        FOutStream.Position = 0;
+    //        FOutStream.CopyTo(FRealOutStream);
+
+    //        return !g_failed;// base.ConvertToOgg(full_setup, _revorb);
+    //    }
+
+    //    private bool create_headers(SyncState si, StreamState iss, StreamState os, Info vi)
+    //    {
+    //        //StreamState ss = new StreamState();
+    //        //ss.init(serial);
+
+    //        csBuffer opb = new csBuffer();
+    //        Encoding AE = Encoding.UTF8;
+    //        byte[] _vorbis_byt = AE.GetBytes("vorbis");
+    //        opb.writeinit();
+    //        // preamble
+    //        opb.write(0x01, 8);
+    //        opb.write(_vorbis_byt);
+
+    //        // basic information about the stream
+    //        opb.write(0x00, 32);
+    //        opb.write(_channels, 8);
+    //        opb.write(Convert.ToInt32(_sample_rate), 32);
+
+    //        opb.write(0, 32);
+    //        opb.write(Convert.ToInt32(_avg_bytes_per_second * 8), 32);
+    //        opb.write(0, 32);
+
+    //        opb.write(_blocksize_0_pow, 4);
+    //        opb.write(_blocksize_1_pow, 4);
+    //        opb.write(1, 1);
+
+
+
+    //        Packet packetX = new Packet();
+    //        packetX.packet_base = opb.buf();
+    //        packetX.packet = 0;
+    //        packetX.bytes = opb.bytes();
+    //        packetX.b_o_s = 1;
+    //        packetX.e_o_s = 0;
+    //        packetX.packetno = 0;
+
+    //        if (os.packetin(packetX) == 0)
+    //        {
+    //            Page page = new Page();
+    //            while (os.flush(page) != 0)
+    //            {
+    //                var size = FOutStream.Length;
+    //                FOutStream.Write(page.header_base, page.header, page.header_len);
+    //                FOutStream.Write(page.body_base, page.body, page.body_len);
+
+    //                if (FOutStream.Length != size + page.header_len + page.body_len)
+    //                {
+    //                    os.clear();
+    //                    throw new WwiseToOggException("os flush");
+    //                }
+    //                Console.WriteLine(String.Format("head : {0}, body : {1}.", page.header_len, page.body_len));
+    //            }
+    //        }
+
+    //        csBuffer osb = new csBuffer();
+    //        osb.writeinit();
+    //        osb.Write(new Vorbis_packet_header(3));
+
+    //        // const string vendor = "converted from Audiokinetic Wwise by df_oggconvert v1.0 ";
+    //        const string vendor = "converted from Wwise by dfaudiolib v0.8";
+    //        Bit_uint vendorsize = new Bit_uint(32, Convert.ToUInt32(vendor.Length));
+    //        osb.Write(vendorsize);
+
+    //        for (int i = 0; i < vendorsize; i++)
+    //            osb.Write(new Bit_uint(8, Convert.ToUInt32(Convert.ToByte(vendor[i]))));
+
+    //        if (_loop_count == 0)
+    //            osb.Write(new Bit_uint(32, 0));
+    //        else
+    //        {
+    //            osb.Write(new Bit_uint(32, 2));//user_comment_count
+
+    //            string loop_start_str = "LoopStart=" + _loop_start;
+    //            string loop_end_str = "LoopEnd=" + _loop_end;
+
+    //            Bit_uint loop_start_comment_length = new Bit_uint(32, loop_start_str.Length);
+    //            osb.Write(loop_start_comment_length);
+
+    //            for (int i = 0; i < loop_start_comment_length; i++)
+    //                osb.Write(new Bit_uint(8, Convert.ToUInt32(Convert.ToByte(loop_start_str[i]))));
+
+    //            Bit_uint loop_end_comment_length = new Bit_uint(32, loop_end_str.Length);
+    //            osb.Write(loop_end_comment_length);
+
+    //            for (int i = 0; i < loop_end_comment_length; i++)
+    //            {
+    //                osb.Write(new Bit_uint(8, Convert.ToUInt32(Convert.ToByte(loop_end_str[i]))));
+    //            }
+    //        }
+    //        osb.Write(new Bit_uint(1, 1));//framing
+
+
+    //        //os.FLUSH_BITS();
+    //        Packet p = new Packet() { packet_base = osb.buf(), bytes = osb.bytes(), b_o_s = 0, e_o_s = 0 };
+
+    //        Comment vc = new Comment();
+    //        vc.init();
+
+    //        vi.rate = Convert.ToInt32(_sample_rate);
+    //        vi.channels = Convert.ToInt32(_channels);
+    //       // vc.add("converted from Wwise by dfaudiolib v0.8");
+
+    //        if (vi.synthesis_headerin(vc, p) < 0)
+    //        {
+    //            return false;
+    //        }
+
+    //        os.packetin(p);
+    //        int packnum = 1;
+    //        Packet6 setup_packet = new Packet6(FInStream, _data_offset + _setup_packet_offset, _little_endian, _no_granule);
+
+    //        FInStream.Seek(setup_packet.Offset, SeekOrigin.Begin);
+    //        osb.writeclear();
+    //        osb.writeinit();
+
+
+    //        if (setup_packet.granule != 0)
+    //            throw new WwiseToOggException("setup packet granule != 0");
+    //        //  MemoryStream ms = new MemoryStream();
+    //        //  using (StreamWriter sw = new StreamWriter(ms))
+    //        {
+    //            bitStream ss1 = new bitStream(FInStream);
+    //            Bit_uint codebook_count_less1 = ss1.Read(8);
+    //            UInt32 codebook_count = codebook_count_less1 + 1;
+    //            osb.writeUInt(codebook_count);
+    //           // FOutStream.Write(BitConverter.GetBytes(codebook_count), 0, 4);
+    //            //sw.Write(codebook_count);
+    //            if (_inline_codebooks)
+    //            {
+    //                //fuck shit...
+    //            }
+    //            else
+    //            {
+    //                byte[] data = null; //AudioTools.Properties.Resources.packed_codebooks_aoTuV_603;
+    //                //byte[] data = AudioTools.Properties.Resources.packed_codebooks;
+
+
+    //                if (String.IsNullOrEmpty(FCodebooksName))
+    //                    FCodebooksName = "packed_codebooks_aoTuV_603";
+
+    //                if (File.Exists(FCodebooksName))
+    //                {
+    //                    using (FileStream fcn = File.OpenRead(FCodebooksName))
+    //                    {
+    //                        data = new byte[fcn.Length];
+    //                        fcn.Read(data, 0, data.Length);
+    //                    }
+
+    //                }
+    //                else
+    //                {
+    //                    data = (byte[])AudioTools.Properties.Resources.ResourceManager.GetObject(FCodebooksName);
+    //                }
+    //                if (data == null)
+    //                    data = AudioTools.Properties.Resources.packed_codebooks_aoTuV_603;
+
+    //                using (MemoryStream ms2 = new MemoryStream(data))
+    //                {
+    //                    ms2.Position = 0;
+    //                    codebook_library cbl = new codebook_library(ms2);
+    //                    // ms.Position = 0;
+    //                 //   MemoryStream ms3 = new MemoryStream();
+    //                 //   ogStream os1 = new ogStream3(ms3);
+    //                    for (int i = 0; i < codebook_count; i++)
+    //                    {
+    //                        Bit_uint codebook_id = new Bit_uint(10);
+    //                        ss1.Read(codebook_id);
+
+    //                        try
+    //                        {
+    //                            cbl.rebuild(Convert.ToInt32(codebook_id), osb);
+    //                        }
+    //                        catch (codebook_library.Invalid_id E)
+    //                        {
+
+    //                            if (codebook_id == 0x342)
+    //                            {
+    //                                var codebook_identifier = ss1.Read(14);
+
+    //                                //         B         C         V
+    //                                //    4    2    4    3    5    6
+    //                                // 0100 0010 0100 0011 0101 0110
+    //                                //           \_____|_ _|_______/
+    //                                //                   X
+    //                                //         01 0101 10 01 0000
+    //                                if (codebook_identifier == 0x1590)
+    //                                {
+    //                                    // starts with BCV, probably --full-setup
+    //                                    throw new WwiseToOggException(
+    //                                        "invalid codebook id 0x342, try --full-setup");
+    //                                }
+    //                            }
+
+    //                            // just an invalid codebook
+    //                            throw E;
+    //                        }
+    //                    }
+
+    //                    //  var xbytes = os1.getBytes();
+
+    //                   // os1.flush_page();
 
 
                         
 
-//                    packetX = new Packet();
-//                    packetX.packet_base = osb.buf();
-//                    packetX.packet = 0;
-//                    packetX.bytes = osb.bytes();
-//                    packetX.b_o_s = 0;
-//                    packetX.e_o_s = 0;
-//                    packetX.packetno = packnum++;
-//                    os.packetin(packetX);
-//                }
-//            }
-//            osb.writeclear();
-//            osb.writeinit();
-
-//           // using (MemoryStream ms3 = new MemoryStream())
-//            {
-//               // ogStream3 os3 = new ogStream3(ms3);
-
-//                Bit_uint time_count_less1 = new Bit_uint(6);
-//                osb.Write(time_count_less1);
-//                Bit_uint dummy_time_value = new Bit_uint(16);
-//                osb.Write(dummy_time_value);
-
-//                if (_full_setup)
-//                {
-
-//                    while (ss1.get_total_bits_read() < setup_packet.size * 8u)
-//                    {
-//                        osb.Write(ss1.Read(1));
-//                    }
-//                }
-//                else    // _full_setup
-//                {
-//                    //alot of fucking code...
-//                    // Always floor type 1
-
-
-//                    var floor_count_less1 = ss1.Read(6);
-//                    uint floor_count = floor_count_less1 + 1;
-//                    osb.Write(floor_count_less1);
-
-//                    // rebuild floors
-//                    for (int i = 0; i < floor_count; i++)
-//                    {
-//                        osb.Write(new Bit_uint(16, 1));
-//                        var floor1_part = ss1.Read(5);
-//                        osb.Write(floor1_part);
-
-//                        uint[] floor1_partition_class_list = new uint[floor1_part];
-//                        uint minclass = 0;
-//                        for (int j = 0; j < floor1_part; j++)
-//                        {
-//                            var floor1_partition_class = ss1.Read(4);
-//                            osb.Write(floor1_partition_class);
-
-//                            floor1_partition_class_list[j] = floor1_partition_class;
-
-//                            if (floor1_partition_class > minclass)
-//                                minclass = floor1_partition_class;
-//                        }
-
-//                        uint[] floor1_class_dimensions_list = new uint[minclass + 1];
-
-//                        for (int j = 0; j <= minclass; j++)
-//                        {
-//                            var class_dimensions_less1 = ss1.Read(3);
-//                            osb.Write(class_dimensions_less1);
-
-//                            floor1_class_dimensions_list[j] = class_dimensions_less1 + 1;
-
-//                            var class_subclasses = ss1.Read(2);
-//                            osb.Write(class_subclasses);
-
-//                            if (class_subclasses != 0)
-//                            {
-//                                var masterbook = ss1.Read(8);
-//                                osb.Write(masterbook);
-
-//                                if (masterbook >= codebook_count)
-//                                    throw new WwiseToOggException("invalid floor1 masterbook");
-//                            }
-
-//                            for (int k = 0; k < (1U << class_subclasses.totalI); k++)
-//                            {
-//                                var subclass_book_plus1 = ss1.Read(8);
-//                                osb.Write(subclass_book_plus1);
-
-//                                int subclass_book = Convert.ToInt32(subclass_book_plus1) - 1;
-//                                if (subclass_book >= 0 && Convert.ToUInt32(subclass_book) >= codebook_count)
-//                                    throw new WwiseToOggException("invalid floor1 subclass book");
-//                            }
-//                        }
-//                        osb.Write(ss1.Read(2));//floor1_multiplier_less1
-//                        var rangebits = ss1.Read(4);
-//                        osb.Write(rangebits);
-//                        uint rb = rangebits;
-
-//                        for (int j = 0; j < floor1_part; j++)
-//                        {
-//                            var current_class_number = floor1_partition_class_list[j];
-//                            for (int k = 0; k < floor1_class_dimensions_list[current_class_number]; k++)
-//                            {
-//                                osb.Write(ss1.Read(rb));
-//                            }
-//                        }
-//                    }
-//                    var residue_count_less1 = ss1.Read(6);
-//                    var residue_count = residue_count_less1 + 1;
-//                    osb.Write(residue_count_less1);
-
-//                    for (int i = 0; i < residue_count; i++)
-//                    {
-//                        var residue_type = ss1.Read(2);
-//                        osb.Write(new Bit_uint(16, residue_type));
-//                        if (residue_type > 2)
-//                            throw new WwiseToOggException("invalid residue type");
-
-//                        var residue_begin = ss1.Read(24);
-//                        var residue_end = ss1.Read(24);
-//                        var residue_partition_size_less1 = ss1.Read(24);
-//                        var residue_classifications_less1 = ss1.Read(6);
-//                        var residue_classbook = ss1.Read(8);
-
-//                        uint residue_classifications = residue_classifications_less1 + 1;
-
-//                        osb.Write(residue_begin);
-//                        osb.Write(residue_end);
-//                        osb.Write(residue_partition_size_less1);
-//                        osb.Write(residue_classifications_less1);
-//                        osb.Write(residue_classbook);
-//                        if (residue_classbook >= codebook_count) throw new WwiseToOggException("invalid residue classbook");
-
-//                        uint[] residue_cascade = new uint[residue_classifications];
-
-//                        for (int j = 0; j < residue_classifications; j++)
-//                        {
-//                            var high_bits = new Bit_uint(5);
-//                            var low_bits = ss1.Read(3);
-//                            osb.Write(low_bits);
-
-//                            var bitflag = ss1.Read(1);
-//                            osb.Write(bitflag);
-//                            if (bitflag != 0)
-//                            {
-//                                ss1.Read(high_bits);
-//                                osb.Write(high_bits);
-//                            }
-
-//                            residue_cascade[j] = high_bits * 8 + low_bits;
-//                        }
-
-//                        for (int j = 0; j < residue_classifications; j++)
-//                        {
-//                            for (int k = 0; k < 8; k++)
-//                            {
-//                                if ((Convert.ToInt32(residue_cascade[j]) & (1 << k)) != 0)
-//                                {
-//                                    var residue_book = ss1.Read(8);
-//                                    osb.Write(residue_book);
-
-//                                    if (residue_book >= codebook_count) throw new WwiseToOggException("invalid residue book");
-//                                }
-//                            }
-//                        }
-//                    }
-
-
-//                    // mapping count
-//                    var mapping_count_less1 = ss1.Read(6);
-//                    uint mapping_count = mapping_count_less1 + 1;
-//                    osb.Write(mapping_count_less1);
-
-//                    for (int i = 0; i < mapping_count; i++)
-//                    {
-//                        // always mapping type 0, the only one
-//                        //var mapping_type = new Bit_uint(16);
-
-//                        osb.Write(new Bit_uint(16));//mapping_type);
-
-//                        var submaps_flag = ss1.Read(1);
-//                        osb.Write(submaps_flag);
-
-//                        uint submaps = 1;
-//                        if (submaps_flag != 0)
-//                        {
-//                            var submaps_less1 = ss1.Read(4);
-//                            submaps = submaps_less1 + 1;
-//                            osb.Write(submaps_less1);
-//                        }
-
-//                        var square_polar_flag = ss1.Read(1);
-//                        osb.Write(square_polar_flag);
-
-//                        if (square_polar_flag != 0)
-//                        {
-//                            var coupling_steps_less1 = ss1.Read(8);
-//                            uint coupling_steps = coupling_steps_less1 + 1;
-//                            osb.Write(coupling_steps_less1);
-
-//                            for (int j = 0; j < coupling_steps; j++)
-//                            {
-//                                var magnitude = ss1.Read(Convert.ToUInt32(_channels - 1));
-//                                var angle = ss1.Read(Convert.ToUInt32(_channels - 1));
-//                                osb.Write(magnitude);
-//                                osb.Write(angle);
-
-//                                if (angle == magnitude || magnitude >= _channels || angle >= _channels) throw new WwiseToOggException("invalid coupling");
-//                            }
-//                        }
-
-//                        // a rare reserved field not removed by Ak!
-//                        var mapping_reserved = ss1.Read(2);
-//                        osb.Write(mapping_reserved);
-//                        if (0 != mapping_reserved) throw new WwiseToOggException("mapping reserved field nonzero");
-
-//                        if (submaps > 1)
-//                        {
-//                            for (int j = 0; j < _channels; j++)
-//                            {
-//                                var mapping_mux = ss1.Read(4);
-//                                osb.Write(mapping_mux);
-
-//                                if (mapping_mux >= submaps) throw new WwiseToOggException("mapping_mux >= submaps");
-//                            }
-//                        }
-
-//                        for (int j = 0; j < submaps; j++)
-//                        {
-//                            // Another! Unused time domain transform configuration placeholder!
-//                            var time_config = ss1.Read(8);
-//                            osb.Write(time_config);
-
-//                            var floor_number = ss1.Read(8);
-//                            osb.Write(floor_number);
-//                            if (floor_number >= floor_count) throw new WwiseToOggException("invalid floor mapping");
-
-//                            var residue_number = ss1.Read(8);
-//                            osb.Write(residue_number);
-//                            if (residue_number >= residue_count) throw new WwiseToOggException("invalid residue mapping");
-//                        }
-//                    }
-
-
-
-//                    // mode count
-//                    var mode_count_less1 = ss1.Read(6);
-//                    uint mode_count = mode_count_less1 + 1;
-//                    osb.Write(mode_count_less1);
-//                    //mode_blockflag.Clear();
-//                    //mode_blockflag = new bool[mode_count];
-//                    mode_bits = (mode_count - 1);
-
-//                    //cout << mode_count << " modes" << endl;
-
-//                    for (int i = 0; i < mode_count; i++)
-//                    {
-//                        var block_flag = ss1.Read(1);
-//                        osb.Write(block_flag);
-
-//                        //mode_blockflag.Add(block_flag != 0);
-
-//                        // only 0 valid for windowtype and transformtype
-//                        var windowtype = new Bit_uint(16);
-//                        var transformtype = new Bit_uint(16);
-
-//                        osb.Write(windowtype);
-//                        osb.Write(transformtype);
-
-//                        var mapping = ss1.Read(8);
-//                        osb.Write(mapping);
-//                        if (mapping >= mapping_count) throw new WwiseToOggException("invalid mode mapping");
-//                    }
-//                    osb.Write(new Bit_uint(1, 1));//framing
-//                    // Bit_uint<1> framing(1);
-//                    //  os << framing;
-
-//                }
-//                //os3.flush_page();
-
-//                //ms3.Position = 0;
-//                //byte[] msbytes = new byte[ms3.Length];
-//                //ms3.Read(msbytes, 0, msbytes.Length);
-
-//                packetX = new Packet();
-//                packetX.packet_base = osb.buf();
-//                packetX.packet = 0;
-//                packetX.bytes = osb.bytes();
-//                packetX.b_o_s = 0;
-//                packetX.e_o_s = 0;
-//                packetX.packetno = packnum++;
-//                os.packetin(packetX);
-//            }
-
-//        }
-//        //os.packetin(packet);
-
-//        //ss.packetin(packetX);
-
-
-
-//        //var x = si.buffer(31);
-//        //ms.Write(si.data, x, (int)ms.Length);
-//        //si.wrote((int)ms.Length);
-//        //sw.Dispose();
-
-
-//        //Page page = new Page();
-//        //if (si.pageout(page) != 1)
-//        //{
-//        //    return false;
-//        //}
-
-//        //iss.init(page.serialno);
-//        //os.init(page.serialno);
-
-
-
-//        //if (iss.pagein(page) < 0)
-//        //{
-//        //    iss.clear();
-//        //    os.clear();
-//        //    return false;
-//        //}
-
-//        //Packet packet = new Packet();
-//        //if (iss.packetout(packet) != 1)
-//        //{
-//        //    iss.clear();
-//        //    os.clear();
-//        //    return false;
-//        //}
-
-//        //Comment vc = new Comment();
-//        //vc.init();
-//        //vc.add("converted from Wwise by dfaudiolib v0.8");
-
-//        //if (vi.synthesis_headerin(vc, packet) < 0)
-//        //{
-//        //    return false;
-//        //}
-//        //os.packetin(packet);
-
-//        {
-//            vc.clear();
-//            int total = 0;
-//            Page page = new Page();
-//            while (os.flush(page) != 0)
-//            {
-//                var size = FOutStream.Length;
-//                FOutStream.Write(page.header_base, page.header, page.header_len);
-//                FOutStream.Write(page.body_base, page.body, page.body_len);
-
-//                if (FOutStream.Length != size + page.header_len + page.body_len)
-//                {
-//                    //  fprintf(stderr,"Cannot write headers to output.\n");
-//                    iss.clear();
-//                    os.clear();
-//                    return false;
-//                }
-//                Console.WriteLine(String.Format("head : {0}, body : {1}.", page.header_len, page.body_len));
-//                total += page.header_len + page.body_len;
-//            }
-//            Console.WriteLine("total : " + total);
-//        }
-//        //var x = si.buffer(4096);
-//        //si.wrote(4096);
-
-//        //os.pagein(p);
-
-//        //iss.pagein(p);
-
-
-//        return false;
-//    }
+    //                    packetX = new Packet();
+    //                    packetX.packet_base = osb.buf();
+    //                    packetX.packet = 0;
+    //                    packetX.bytes = osb.bytes();
+    //                    packetX.b_o_s = 0;
+    //                    packetX.e_o_s = 0;
+    //                    packetX.packetno = packnum++;
+    //                    os.packetin(packetX);
+    //                }
+    //            }
+    //            osb.writeclear();
+    //            osb.writeinit();
+
+    //           // using (MemoryStream ms3 = new MemoryStream())
+    //            {
+    //               // ogStream3 os3 = new ogStream3(ms3);
+
+    //                Bit_uint time_count_less1 = new Bit_uint(6);
+    //                osb.Write(time_count_less1);
+    //                Bit_uint dummy_time_value = new Bit_uint(16);
+    //                osb.Write(dummy_time_value);
+
+    //                if (_full_setup)
+    //                {
+
+    //                    while (ss1.get_total_bits_read() < setup_packet.size * 8u)
+    //                    {
+    //                        osb.Write(ss1.Read(1));
+    //                    }
+    //                }
+    //                else    // _full_setup
+    //                {
+    //                    //alot of fucking code...
+    //                    // Always floor type 1
+
+
+    //                    var floor_count_less1 = ss1.Read(6);
+    //                    uint floor_count = floor_count_less1 + 1;
+    //                    osb.Write(floor_count_less1);
+
+    //                    // rebuild floors
+    //                    for (int i = 0; i < floor_count; i++)
+    //                    {
+    //                        osb.Write(new Bit_uint(16, 1));
+    //                        var floor1_part = ss1.Read(5);
+    //                        osb.Write(floor1_part);
+
+    //                        uint[] floor1_partition_class_list = new uint[floor1_part];
+    //                        uint minclass = 0;
+    //                        for (int j = 0; j < floor1_part; j++)
+    //                        {
+    //                            var floor1_partition_class = ss1.Read(4);
+    //                            osb.Write(floor1_partition_class);
+
+    //                            floor1_partition_class_list[j] = floor1_partition_class;
+
+    //                            if (floor1_partition_class > minclass)
+    //                                minclass = floor1_partition_class;
+    //                        }
+
+    //                        uint[] floor1_class_dimensions_list = new uint[minclass + 1];
+
+    //                        for (int j = 0; j <= minclass; j++)
+    //                        {
+    //                            var class_dimensions_less1 = ss1.Read(3);
+    //                            osb.Write(class_dimensions_less1);
+
+    //                            floor1_class_dimensions_list[j] = class_dimensions_less1 + 1;
+
+    //                            var class_subclasses = ss1.Read(2);
+    //                            osb.Write(class_subclasses);
+
+    //                            if (class_subclasses != 0)
+    //                            {
+    //                                var masterbook = ss1.Read(8);
+    //                                osb.Write(masterbook);
+
+    //                                if (masterbook >= codebook_count)
+    //                                    throw new WwiseToOggException("invalid floor1 masterbook");
+    //                            }
+
+    //                            for (int k = 0; k < (1U << class_subclasses.totalI); k++)
+    //                            {
+    //                                var subclass_book_plus1 = ss1.Read(8);
+    //                                osb.Write(subclass_book_plus1);
+
+    //                                int subclass_book = Convert.ToInt32(subclass_book_plus1) - 1;
+    //                                if (subclass_book >= 0 && Convert.ToUInt32(subclass_book) >= codebook_count)
+    //                                    throw new WwiseToOggException("invalid floor1 subclass book");
+    //                            }
+    //                        }
+    //                        osb.Write(ss1.Read(2));//floor1_multiplier_less1
+    //                        var rangebits = ss1.Read(4);
+    //                        osb.Write(rangebits);
+    //                        uint rb = rangebits;
+
+    //                        for (int j = 0; j < floor1_part; j++)
+    //                        {
+    //                            var current_class_number = floor1_partition_class_list[j];
+    //                            for (int k = 0; k < floor1_class_dimensions_list[current_class_number]; k++)
+    //                            {
+    //                                osb.Write(ss1.Read(rb));
+    //                            }
+    //                        }
+    //                    }
+    //                    var residue_count_less1 = ss1.Read(6);
+    //                    var residue_count = residue_count_less1 + 1;
+    //                    osb.Write(residue_count_less1);
+
+    //                    for (int i = 0; i < residue_count; i++)
+    //                    {
+    //                        var residue_type = ss1.Read(2);
+    //                        osb.Write(new Bit_uint(16, residue_type));
+    //                        if (residue_type > 2)
+    //                            throw new WwiseToOggException("invalid residue type");
+
+    //                        var residue_begin = ss1.Read(24);
+    //                        var residue_end = ss1.Read(24);
+    //                        var residue_partition_size_less1 = ss1.Read(24);
+    //                        var residue_classifications_less1 = ss1.Read(6);
+    //                        var residue_classbook = ss1.Read(8);
+
+    //                        uint residue_classifications = residue_classifications_less1 + 1;
+
+    //                        osb.Write(residue_begin);
+    //                        osb.Write(residue_end);
+    //                        osb.Write(residue_partition_size_less1);
+    //                        osb.Write(residue_classifications_less1);
+    //                        osb.Write(residue_classbook);
+    //                        if (residue_classbook >= codebook_count) throw new WwiseToOggException("invalid residue classbook");
+
+    //                        uint[] residue_cascade = new uint[residue_classifications];
+
+    //                        for (int j = 0; j < residue_classifications; j++)
+    //                        {
+    //                            var high_bits = new Bit_uint(5);
+    //                            var low_bits = ss1.Read(3);
+    //                            osb.Write(low_bits);
+
+    //                            var bitflag = ss1.Read(1);
+    //                            osb.Write(bitflag);
+    //                            if (bitflag != 0)
+    //                            {
+    //                                ss1.Read(high_bits);
+    //                                osb.Write(high_bits);
+    //                            }
+
+    //                            residue_cascade[j] = high_bits * 8 + low_bits;
+    //                        }
+
+    //                        for (int j = 0; j < residue_classifications; j++)
+    //                        {
+    //                            for (int k = 0; k < 8; k++)
+    //                            {
+    //                                if ((Convert.ToInt32(residue_cascade[j]) & (1 << k)) != 0)
+    //                                {
+    //                                    var residue_book = ss1.Read(8);
+    //                                    osb.Write(residue_book);
+
+    //                                    if (residue_book >= codebook_count) throw new WwiseToOggException("invalid residue book");
+    //                                }
+    //                            }
+    //                        }
+    //                    }
+
+
+    //                    // mapping count
+    //                    var mapping_count_less1 = ss1.Read(6);
+    //                    uint mapping_count = mapping_count_less1 + 1;
+    //                    osb.Write(mapping_count_less1);
+
+    //                    for (int i = 0; i < mapping_count; i++)
+    //                    {
+    //                        // always mapping type 0, the only one
+    //                        //var mapping_type = new Bit_uint(16);
+
+    //                        osb.Write(new Bit_uint(16));//mapping_type);
+
+    //                        var submaps_flag = ss1.Read(1);
+    //                        osb.Write(submaps_flag);
+
+    //                        uint submaps = 1;
+    //                        if (submaps_flag != 0)
+    //                        {
+    //                            var submaps_less1 = ss1.Read(4);
+    //                            submaps = submaps_less1 + 1;
+    //                            osb.Write(submaps_less1);
+    //                        }
+
+    //                        var square_polar_flag = ss1.Read(1);
+    //                        osb.Write(square_polar_flag);
+
+    //                        if (square_polar_flag != 0)
+    //                        {
+    //                            var coupling_steps_less1 = ss1.Read(8);
+    //                            uint coupling_steps = coupling_steps_less1 + 1;
+    //                            osb.Write(coupling_steps_less1);
+
+    //                            for (int j = 0; j < coupling_steps; j++)
+    //                            {
+    //                                var magnitude = ss1.Read(Convert.ToUInt32(_channels - 1));
+    //                                var angle = ss1.Read(Convert.ToUInt32(_channels - 1));
+    //                                osb.Write(magnitude);
+    //                                osb.Write(angle);
+
+    //                                if (angle == magnitude || magnitude >= _channels || angle >= _channels) throw new WwiseToOggException("invalid coupling");
+    //                            }
+    //                        }
+
+    //                        // a rare reserved field not removed by Ak!
+    //                        var mapping_reserved = ss1.Read(2);
+    //                        osb.Write(mapping_reserved);
+    //                        if (0 != mapping_reserved) throw new WwiseToOggException("mapping reserved field nonzero");
+
+    //                        if (submaps > 1)
+    //                        {
+    //                            for (int j = 0; j < _channels; j++)
+    //                            {
+    //                                var mapping_mux = ss1.Read(4);
+    //                                osb.Write(mapping_mux);
+
+    //                                if (mapping_mux >= submaps) throw new WwiseToOggException("mapping_mux >= submaps");
+    //                            }
+    //                        }
+
+    //                        for (int j = 0; j < submaps; j++)
+    //                        {
+    //                            // Another! Unused time domain transform configuration placeholder!
+    //                            var time_config = ss1.Read(8);
+    //                            osb.Write(time_config);
+
+    //                            var floor_number = ss1.Read(8);
+    //                            osb.Write(floor_number);
+    //                            if (floor_number >= floor_count) throw new WwiseToOggException("invalid floor mapping");
+
+    //                            var residue_number = ss1.Read(8);
+    //                            osb.Write(residue_number);
+    //                            if (residue_number >= residue_count) throw new WwiseToOggException("invalid residue mapping");
+    //                        }
+    //                    }
+
+
+
+    //                    // mode count
+    //                    var mode_count_less1 = ss1.Read(6);
+    //                    uint mode_count = mode_count_less1 + 1;
+    //                    osb.Write(mode_count_less1);
+    //                    //mode_blockflag.Clear();
+    //                    //mode_blockflag = new bool[mode_count];
+    //                    mode_bits = (mode_count - 1);
+
+    //                    //cout << mode_count << " modes" << endl;
+
+    //                    for (int i = 0; i < mode_count; i++)
+    //                    {
+    //                        var block_flag = ss1.Read(1);
+    //                        osb.Write(block_flag);
+
+    //                        //mode_blockflag.Add(block_flag != 0);
+
+    //                        // only 0 valid for windowtype and transformtype
+    //                        var windowtype = new Bit_uint(16);
+    //                        var transformtype = new Bit_uint(16);
+
+    //                        osb.Write(windowtype);
+    //                        osb.Write(transformtype);
+
+    //                        var mapping = ss1.Read(8);
+    //                        osb.Write(mapping);
+    //                        if (mapping >= mapping_count) throw new WwiseToOggException("invalid mode mapping");
+    //                    }
+    //                    osb.Write(new Bit_uint(1, 1));//framing
+    //                    // Bit_uint<1> framing(1);
+    //                    //  os << framing;
+
+    //                }
+    //                //os3.flush_page();
+
+    //                //ms3.Position = 0;
+    //                //byte[] msbytes = new byte[ms3.Length];
+    //                //ms3.Read(msbytes, 0, msbytes.Length);
+
+    //                packetX = new Packet();
+    //                packetX.packet_base = osb.buf();
+    //                packetX.packet = 0;
+    //                packetX.bytes = osb.bytes();
+    //                packetX.b_o_s = 0;
+    //                packetX.e_o_s = 0;
+    //                packetX.packetno = packnum++;
+    //                os.packetin(packetX);
+    //            }
+
+    //        }
+    //        //os.packetin(packet);
+
+    //        //ss.packetin(packetX);
+
+
+
+    //        //var x = si.buffer(31);
+    //        //ms.Write(si.data, x, (int)ms.Length);
+    //        //si.wrote((int)ms.Length);
+    //        //sw.Dispose();
+
+
+    //        //Page page = new Page();
+    //        //if (si.pageout(page) != 1)
+    //        //{
+    //        //    return false;
+    //        //}
+
+    //        //iss.init(page.serialno);
+    //        //os.init(page.serialno);
+
+
+
+    //        //if (iss.pagein(page) < 0)
+    //        //{
+    //        //    iss.clear();
+    //        //    os.clear();
+    //        //    return false;
+    //        //}
+
+    //        //Packet packet = new Packet();
+    //        //if (iss.packetout(packet) != 1)
+    //        //{
+    //        //    iss.clear();
+    //        //    os.clear();
+    //        //    return false;
+    //        //}
+
+    //        //Comment vc = new Comment();
+    //        //vc.init();
+    //        //vc.add("converted from Wwise by dfaudiolib v0.8");
+
+    //        //if (vi.synthesis_headerin(vc, packet) < 0)
+    //        //{
+    //        //    return false;
+    //        //}
+    //        //os.packetin(packet);
+
+    //        {
+    //            vc.clear();
+    //            int total = 0;
+    //            Page page = new Page();
+    //            while (os.flush(page) != 0)
+    //            {
+    //                var size = FOutStream.Length;
+    //                FOutStream.Write(page.header_base, page.header, page.header_len);
+    //                FOutStream.Write(page.body_base, page.body, page.body_len);
+
+    //                if (FOutStream.Length != size + page.header_len + page.body_len)
+    //                {
+    //                    //  fprintf(stderr,"Cannot write headers to output.\n");
+    //                    iss.clear();
+    //                    os.clear();
+    //                    return false;
+    //                }
+    //                Console.WriteLine(String.Format("head : {0}, body : {1}.", page.header_len, page.body_len));
+    //                total += page.header_len + page.body_len;
+    //            }
+    //            Console.WriteLine("total : " + total);
+    //        }
+    //        //var x = si.buffer(4096);
+    //        //si.wrote(4096);
+
+    //        //os.pagein(p);
+
+    //        //iss.pagein(p);
+
+
+    //        return false;
+    //    }
 
 
         
-//}
+    //}
 
     internal static class MyBitWriter
     {
@@ -3561,6 +3561,11 @@ namespace CFMAudioTools
         }
     }
 
+
+}
+
+
+
 //        public class oggPage
 //        {
 
@@ -3742,4 +3747,3 @@ namespace CFMAudioTools
 
 
 //        }
-}

@@ -1,5 +1,6 @@
+
 using System;
-using CFMAudioTools.Ogg;
+
 
 namespace CFMAudioTools.Vorbis 
 {
@@ -7,8 +8,8 @@ namespace CFMAudioTools.Vorbis
 	{
 		public static FuncTime[] time_P={new Time0()};
 
-		public abstract void pack(Object i, csBuffer opb);
-        public abstract Object unpack(Info vi, csBuffer opb);
+		public abstract void pack(Object i, CFMAudioTools.Ogg.csBuffer opb);
+        public abstract Object unpack(Info vi, CFMAudioTools.Ogg.csBuffer opb);
         public abstract Object look(DspState vd, InfoMode vm, Object i);
 		public abstract void free_info(Object i);
 		public abstract void free_look(Object i);

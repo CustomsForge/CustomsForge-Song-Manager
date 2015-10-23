@@ -1169,9 +1169,6 @@ namespace CustomsForgeManager.UControls
 
         private void dgvSongsMaster_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (!dgvPainted)
-                return;
-
             // get detail from master
             if (e.ColumnIndex == dgvSongsMaster.Columns["colShowDetail"].Index && e.RowIndex >= 0)
             {
@@ -1214,7 +1211,7 @@ namespace CustomsForgeManager.UControls
                         if (dgvSongsDetail.Rows.Count == 1) // extra tweak for single row
                             dgvSongsDetail.Height = dgvSongsDetail.Height + 5;
 
-                        dgvSongsDetail.Visible = true;
+                         dgvSongsDetail.Visible = true;
                     }
                 }
                 else

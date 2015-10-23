@@ -1,7 +1,7 @@
-﻿using System;
-using System.IO;
-using CFMAudioTools.Ogg;
+﻿using CFMAudioTools.Ogg;
 using CFMAudioTools.Vorbis;
+using System;
+using System.IO;
 
 namespace CFMAudioTools
 {
@@ -236,7 +236,7 @@ namespace CFMAudioTools
             }
 
             vc.clear();
-            //  int total = 0;
+          //  int total = 0;
             while (os.flush(page) != 0)
             {
                 var size = FOutStream.Length;
@@ -250,11 +250,13 @@ namespace CFMAudioTools
                     os.clear();
                     return false;
                 }
-                //    Console.WriteLine(String.Format("head : {0}, body : {1}.", page.header_len, page.body_len));
-                //    total += page.header_len + page.body_len;
+            //    Console.WriteLine(String.Format("head : {0}, body : {1}.", page.header_len, page.body_len));
+            //    total += page.header_len + page.body_len;
             }
             //Console.WriteLine("total : " + total);
             return true;
         }
     }
+
+
 }

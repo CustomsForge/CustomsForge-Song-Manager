@@ -1,12 +1,12 @@
 using System;
-using CFMAudioTools.Ogg;
+
 
 namespace CFMAudioTools.Vorbis 
 {
 	class Time0 : FuncTime
 	{
-		override public void pack(Object i, csBuffer opb){}
-        override public Object unpack(Info vi, csBuffer opb) { return ""; }
+		override public void pack(Object i, CFMAudioTools.Ogg.csBuffer opb){}
+        override public Object unpack(Info vi, CFMAudioTools.Ogg.csBuffer opb) { return ""; }
         override public Object look(DspState vd, InfoMode mi, Object i) { return ""; }
 		override public void free_info(Object i){}
 		override public void free_look(Object i){}
