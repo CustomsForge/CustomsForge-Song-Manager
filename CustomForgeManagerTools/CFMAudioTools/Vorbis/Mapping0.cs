@@ -23,7 +23,7 @@
  */
 
 using System;
-
+using CFMAudioTools.Ogg;
 
 namespace CFMAudioTools.Vorbis 
 {
@@ -75,7 +75,7 @@ namespace CFMAudioTools.Vorbis
             return (looks);
         }
 
-        override public void pack(Info vi, Object imap, CFMAudioTools.Ogg.csBuffer opb)
+        override public void pack(Info vi, Object imap, csBuffer opb)
         {
             InfoMapping0 info = (InfoMapping0)imap;
 
@@ -127,7 +127,7 @@ namespace CFMAudioTools.Vorbis
             }
         }
 
-        override public Object unpack(Info vi, CFMAudioTools.Ogg.csBuffer opb)
+        override public Object unpack(Info vi, csBuffer opb)
         {
             // also responsible for range checking
             InfoMapping0 info = new InfoMapping0();

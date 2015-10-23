@@ -3,7 +3,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Win32;
 
-namespace Wunder.ClickOnceUninstaller
+namespace ClickOnceUninstaller
 {
     public class ClickOnceRegistry
     {

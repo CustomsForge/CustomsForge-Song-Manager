@@ -29,31 +29,6 @@
     <DebugType>pdbonly</DebugType>
     <DefineConstants>CFM_AUDIO_TOOLS</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Dotfuscator|x86'">
-    <OutputPath>bin\x86\Dotfuscator\</OutputPath>
-    <DefineConstants>CFM_AUDIO_TOOLS</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
-    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ConfuserExRelease|x86' ">
-    <OutputPath>bin\x86\ConfuserEx Release\</OutputPath>
-    <DefineConstants>CFM_AUDIO_TOOLS</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'InnoInstaller|x86'">
-    <OutputPath>bin\x86\InnoInstaller\</OutputPath>
-    <DefineConstants>CFM_AUDIO_TOOLS</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="ICSharpCode.SharpZipLib">
       <HintPath>..\..\libs\ICSharpCode.SharpZipLib.dll</HintPath>
@@ -268,7 +243,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CFMAudioTools\CFMAudioTools.csproj">
-      <Project>{6D8C3FE6-5855-4B6C-BD2B-51954342DBEE}</Project>
+      <Project>{58F16778-20B6-4E32-999A-D718BF9C0AAF}</Project>
       <Name>CFMAudioTools</Name>
     </ProjectReference>
   </ItemGroup>

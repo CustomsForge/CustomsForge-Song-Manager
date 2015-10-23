@@ -127,6 +127,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\libs\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="RocksmithToTabLib">
+      <HintPath>..\libs\RocksmithToTabLib.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -567,11 +570,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CustomForgeManagerTools\CFMAudioTools\CFMAudioTools.csproj">
-      <Project>{6D8C3FE6-5855-4B6C-BD2B-51954342DBEE}</Project>
+      <Project>{58F16778-20B6-4E32-999A-D718BF9C0AAF}</Project>
       <Name>CFMAudioTools</Name>
     </ProjectReference>
     <ProjectReference Include="..\CustomForgeManagerTools\CFMImageTools\CFMImageTools.csproj">
-      <Project>{E6565985-C477-46F4-8A42-08E04CD40B65}</Project>
+      <Project>{35631CAA-102F-43B2-80E9-98FF201A4BED}</Project>
       <Name>CFMImageTools</Name>
     </ProjectReference>
     <ProjectReference Include="..\CustomForgeManagerTools\ClickOnceUninstaller\ClickOnceUninstaller.csproj">
@@ -579,7 +582,7 @@
       <Name>ClickOnceUninstaller</Name>
     </ProjectReference>
     <ProjectReference Include="..\CustomForgeManagerTools\DataGridViewTools\DataGridViewTools.csproj">
-      <Project>{5a4b4b14-d3b5-4d54-80ec-0877c1e6e73a}</Project>
+      <Project>{A6A896F6-F666-4583-8D80-7EE74C4399B4}</Project>
       <Name>DataGridViewTools</Name>
     </ProjectReference>
     <ProjectReference Include="..\CustomForgeManagerTools\DLogNet\DLogNet.csproj">
@@ -633,8 +636,8 @@ del /q "$(TargetDir)*.pdb"
 
 )
 
-
 if $(ConfigurationName) == InnoInstaller (
+
 CD "$(SolutionDir)ThirdParty\ConfuserEx_bin\"
 "Confuser.CLI.exe" "..\ConfuserExForInno.crproj"
 CD "$(SolutionDir)ThirdParty\Inno\"

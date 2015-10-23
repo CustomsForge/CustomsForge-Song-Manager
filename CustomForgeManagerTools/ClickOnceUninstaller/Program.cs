@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.IO;
 using Microsoft.Win32;
 
-namespace Wunder.ClickOnceUninstaller
+namespace ClickOnceUninstaller
 {
     class Program
     {
         static void Main(string[] args)
         {
+            // comment out to turn off CLI auto run
+            args = new[] { "CustomsForge Manager" };
+
             Console.WindowWidth = 85;
             Console.BackgroundColor = ConsoleColor.Black;
             Console.ForegroundColor = ConsoleColor.Green;
@@ -93,7 +96,8 @@ namespace Wunder.ClickOnceUninstaller
 
             Console.WriteLine();
             Console.WriteLine("Press any key to continue ...");
-            Console.ReadLine();
+            // commented out for unattended auto run
+            // Console.ReadLine();
         }
 
     }
