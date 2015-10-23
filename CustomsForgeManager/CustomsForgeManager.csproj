@@ -96,7 +96,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'InnoInstaller|x86'">
-    <OutputPath>bin\x86\InnoInstaller\</OutputPath>
+    <OutputPath>bin\InnoInstaller\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -626,22 +626,17 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName) == ConfuserExRelease (
-
 CD "$(SolutionDir)ThirdParty\ConfuserEx_bin\"
 "Confuser.CLI.exe" "..\ConfuserExGeneric.crproj"
-
-
 )
-
 
 if $(ConfigurationName) == InnoInstaller (
 
 CD "$(SolutionDir)ThirdParty\ConfuserEx_bin\"
-"Confuser.CLI.exe" "..\ConfuserExGeneric.crproj"
+"Confuser.CLI.exe" "..\ConfuserExForInno.crproj"
 CD "$(SolutionDir)ThirdParty\Inno\"
 "ISCC.exe" "..\CFSMInstaller.iss"
 )
-
 
 if $(ConfigurationName) == Dotfuscator (
 
