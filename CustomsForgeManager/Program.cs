@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using CustomsForgeManager.CustomsForgeManagerLib.Objects;
 using CustomsForgeManager.Forms;
 using DLogNet;
+using System.Threading;
 
 namespace CustomsForgeManager
 {
@@ -17,26 +18,38 @@ namespace CustomsForgeManager
         private static void Main()
         {
             // prevent multiple occurrence of this application from running
-            if (!Constants.DebugMode)
-                if (Process.GetProcessesByName(Process.GetCurrentProcess().ProcessName).Length > 1)
-                    return;
-
-            if (!Constants.DebugMode && FirstRun())
+            //using a global mutex for the installer
+            using (Mutex mutex = new Mutex(false, @"Global\CUSTOMSFORGESONGMANAGER"))
             {
-                if (Directory.Exists(Constants.WorkDirectory))
-                {
-                    File.Delete(Constants.LogFilePath);
-                    File.Delete(Constants.SettingsPath);
-                    File.Delete(Constants.SongsInfoPath);
+                if (!mutex.WaitOne(0, false))
+                {          
+                    //todo: Focus on the window
+                    return;
                 }
 
-                using (var tw = File.CreateText(Path.Combine(Constants.WorkDirectory, string.Format("firstrun.dat"))))
+                if (!Directory.Exists(Constants.WorkDirectory))
+                    Directory.CreateDirectory(Constants.WorkDirectory);
+
+
+                if (!Constants.DebugMode && FirstRun())
                 {
-                    tw.Write(Constants.ApplicationVersion);
-                }                
+                    if (Directory.Exists(Constants.WorkDirectory))
+                    {
+                        File.Delete(Constants.LogFilePath);
+                        File.Delete(Constants.SettingsPath);
+                        File.Delete(Constants.SongsInfoPath);
+                    }
+
+                    using (var tw = File.CreateText(Path.Combine(Constants.WorkDirectory, string.Format("firstrun.dat"))))
+                    {
+                        tw.Write(Constants.ApplicationVersion);
+                    }
+                }
+                RunApp();
             }
-            RunApp();
         }
+
+
 
         private static void RunApp()
         {
@@ -71,9 +84,12 @@ namespace CustomsForgeManager
 
         public static bool FirstRun()
         {
+
+
+
             var txtFile = Path.Combine(Constants.WorkDirectory, string.Format("firstrun.dat"));
             if (!File.Exists(txtFile))
-               return true;
+                return true;
 
             if (!File.ReadAllText(txtFile).Contains(Constants.ApplicationVersion))
                 return true;

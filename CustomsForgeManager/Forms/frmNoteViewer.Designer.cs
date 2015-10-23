@@ -35,9 +35,9 @@
             // 
             // rtbNotes
             // 
-            this.rtbNotes.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.rtbNotes.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.rtbNotes.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rtbNotes.Location = new System.Drawing.Point(0, 0);
             this.rtbNotes.Name = "rtbNotes";
@@ -74,7 +74,7 @@
         #endregion
 
         public System.Windows.Forms.RichTextBox rtbNotes;
-        private System.Windows.Forms.Button btnCopyToClipboard;
+        public System.Windows.Forms.Button btnCopyToClipboard;
 
 
     }

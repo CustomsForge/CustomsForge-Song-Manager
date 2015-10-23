@@ -60,6 +60,10 @@ namespace CustomsForgeManager.Forms
             this.tsBtnRequest = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.tsBtnHelp = new System.Windows.Forms.ToolStripButton();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.tscbTaggerThemes = new System.Windows.Forms.ToolStripComboBox();
+            this.tsButtonTagSelected = new System.Windows.Forms.ToolStripButton();
+            this.tsButtonUntagSelection = new System.Windows.Forms.ToolStripButton();
             this.BottomToolStripPanel = new System.Windows.Forms.ToolStripPanel();
             this.statusStripMain = new System.Windows.Forms.StatusStrip();
             this.tsLabel_ShowHideLog = new System.Windows.Forms.ToolStripStatusLabel();
@@ -73,10 +77,6 @@ namespace CustomsForgeManager.Forms
             this.RightToolStripPanel = new System.Windows.Forms.ToolStripPanel();
             this.LeftToolStripPanel = new System.Windows.Forms.ToolStripPanel();
             this.ContentPanel = new System.Windows.Forms.ToolStripContentPanel();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.tscbTaggerThemes = new System.Windows.Forms.ToolStripComboBox();
-            this.tsButtonTagSelected = new System.Windows.Forms.ToolStripButton();
-            this.tsButtonUntagSelection = new System.Windows.Forms.ToolStripButton();
             this.gbLog.SuspendLayout();
             this.contextMenuStrip_Tray.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.scMain)).BeginInit();
@@ -88,8 +88,8 @@ namespace CustomsForgeManager.Forms
             this.tstripContainer.SuspendLayout();
             this.tcMain.SuspendLayout();
             this.toolStripUtilities.SuspendLayout();
-            this.statusStripMain.SuspendLayout();
             this.toolStrip1.SuspendLayout();
+            this.statusStripMain.SuspendLayout();
             this.SuspendLayout();
             // 
             // gbLog
@@ -174,7 +174,7 @@ namespace CustomsForgeManager.Forms
             // tstripContainer.ContentPanel
             // 
             this.tstripContainer.ContentPanel.Controls.Add(this.tcMain);
-            this.tstripContainer.ContentPanel.Size = new System.Drawing.Size(1011, 611);
+            this.tstripContainer.ContentPanel.Size = new System.Drawing.Size(1011, 586);
             this.tstripContainer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tstripContainer.LeftToolStripPanelVisible = false;
             this.tstripContainer.Location = new System.Drawing.Point(0, 0);
@@ -202,7 +202,7 @@ namespace CustomsForgeManager.Forms
             this.tcMain.Location = new System.Drawing.Point(0, 0);
             this.tcMain.Name = "tcMain";
             this.tcMain.SelectedIndex = 0;
-            this.tcMain.Size = new System.Drawing.Size(1011, 611);
+            this.tcMain.Size = new System.Drawing.Size(1011, 586);
             this.tcMain.TabIndex = 2;
             this.tcMain.SelectedIndexChanged += new System.EventHandler(this.tcMain_SelectedIndexChanged);
             // 
@@ -211,7 +211,7 @@ namespace CustomsForgeManager.Forms
             this.tpSongManager.Location = new System.Drawing.Point(4, 25);
             this.tpSongManager.Name = "tpSongManager";
             this.tpSongManager.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
-            this.tpSongManager.Size = new System.Drawing.Size(1003, 582);
+            this.tpSongManager.Size = new System.Drawing.Size(1003, 557);
             this.tpSongManager.TabIndex = 0;
             this.tpSongManager.Text = "Song Manager";
             this.tpSongManager.UseVisualStyleBackColor = true;
@@ -276,7 +276,7 @@ namespace CustomsForgeManager.Forms
             this.tsBtnRequest,
             this.toolStripSeparator4,
             this.tsBtnHelp});
-            this.toolStripUtilities.Location = new System.Drawing.Point(3, 0);
+            this.toolStripUtilities.Location = new System.Drawing.Point(3, 25);
             this.toolStripUtilities.Name = "toolStripUtilities";
             this.toolStripUtilities.Size = new System.Drawing.Size(418, 25);
             this.toolStripUtilities.TabIndex = 0;
@@ -349,6 +349,42 @@ namespace CustomsForgeManager.Forms
             this.tsBtnHelp.Size = new System.Drawing.Size(36, 22);
             this.tsBtnHelp.Text = "Help";
             this.tsBtnHelp.Click += new System.EventHandler(this.tsBtnHelp_Click);
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tscbTaggerThemes,
+            this.tsButtonTagSelected,
+            this.tsButtonUntagSelection});
+            this.toolStrip1.Location = new System.Drawing.Point(3, 0);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(302, 25);
+            this.toolStrip1.TabIndex = 1;
+            // 
+            // tscbTaggerThemes
+            // 
+            this.tscbTaggerThemes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.tscbTaggerThemes.Name = "tscbTaggerThemes";
+            this.tscbTaggerThemes.Size = new System.Drawing.Size(121, 25);
+            // 
+            // tsButtonTagSelected
+            // 
+            this.tsButtonTagSelected.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tsButtonTagSelected.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsButtonTagSelected.Name = "tsButtonTagSelected";
+            this.tsButtonTagSelected.Size = new System.Drawing.Size(77, 22);
+            this.tsButtonTagSelected.Text = "Tag Selected";
+            this.tsButtonTagSelected.Click += new System.EventHandler(this.tsButtonTagSelected_Click);
+            // 
+            // tsButtonUntagSelection
+            // 
+            this.tsButtonUntagSelection.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tsButtonUntagSelection.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsButtonUntagSelection.Name = "tsButtonUntagSelection";
+            this.tsButtonUntagSelection.Size = new System.Drawing.Size(90, 22);
+            this.tsButtonUntagSelection.Text = "Untag Selected";
+            this.tsButtonUntagSelection.Click += new System.EventHandler(this.tsButtonUntagSelection_Click);
             // 
             // BottomToolStripPanel
             // 
@@ -471,44 +507,6 @@ namespace CustomsForgeManager.Forms
             // 
             this.ContentPanel.Size = new System.Drawing.Size(150, 150);
             // 
-            // toolStrip1
-            // 
-            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tscbTaggerThemes,
-            this.tsButtonTagSelected,
-            this.tsButtonUntagSelection});
-            this.toolStrip1.Location = new System.Drawing.Point(424, 0);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(333, 25);
-            this.toolStrip1.TabIndex = 1;
-            // 
-            // tscbTaggerThemes
-            // 
-            this.tscbTaggerThemes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.tscbTaggerThemes.Name = "tscbTaggerThemes";
-            this.tscbTaggerThemes.Size = new System.Drawing.Size(121, 25);
-            // 
-            // tsButtonTagSelected
-            // 
-            this.tsButtonTagSelected.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.tsButtonTagSelected.Image = ((System.Drawing.Image)(resources.GetObject("tsButtonTagSelected.Image")));
-            this.tsButtonTagSelected.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsButtonTagSelected.Name = "tsButtonTagSelected";
-            this.tsButtonTagSelected.Size = new System.Drawing.Size(77, 22);
-            this.tsButtonTagSelected.Text = "Tag Selected";
-            this.tsButtonTagSelected.Click += new System.EventHandler(this.tsButtonTagSelected_Click);
-            // 
-            // tsButtonUntagSelection
-            // 
-            this.tsButtonUntagSelection.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.tsButtonUntagSelection.Image = ((System.Drawing.Image)(resources.GetObject("tsButtonUntagSelection.Image")));
-            this.tsButtonUntagSelection.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsButtonUntagSelection.Name = "tsButtonUntagSelection";
-            this.tsButtonUntagSelection.Size = new System.Drawing.Size(90, 22);
-            this.tsButtonUntagSelection.Text = "Untag Selected";
-            this.tsButtonUntagSelection.Click += new System.EventHandler(this.tsButtonUntagSelection_Click);
-            // 
             // frmMain
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -521,6 +519,7 @@ namespace CustomsForgeManager.Forms
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "CustomsForge Song Manager";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmMain_FormClosing);
+            this.Load += new System.EventHandler(this.frmMain_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmMain_KeyDown);
             this.gbLog.ResumeLayout(false);
             this.gbLog.PerformLayout();
@@ -537,10 +536,10 @@ namespace CustomsForgeManager.Forms
             this.tcMain.ResumeLayout(false);
             this.toolStripUtilities.ResumeLayout(false);
             this.toolStripUtilities.PerformLayout();
-            this.statusStripMain.ResumeLayout(false);
-            this.statusStripMain.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            this.statusStripMain.ResumeLayout(false);
+            this.statusStripMain.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 

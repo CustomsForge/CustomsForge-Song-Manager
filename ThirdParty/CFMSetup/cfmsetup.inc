@@ -5,7 +5,7 @@
 #define InstallerName "CFSMSetup";
 
 #define DFSERVER
-#define DOUPDATE
+//#define DOUPDATE
 
 #ifdef DFServer
 #define BaseUpdateURL "http://dfcrs.com/CFSM"

@@ -113,6 +113,10 @@ namespace CustomsForgeManager.Forms
 
             // load Song Manager Tab
             LoadSongManager();
+
+           
+
+
             //CustomsForgeManagerLib.Extensions.Benchmark(LoadSongManager, 1);
         }
 
@@ -412,6 +416,32 @@ namespace CustomsForgeManager.Forms
                     Globals.Tagger.OnProgress -= TaggerProgress;
                 }
             }
+        }
+
+        private void frmMain_Load(object sender, EventArgs e)
+        {
+#if AUTOUPDATE
+            Autoupdater.OnInfoRecieved += (S, E) =>
+            {
+                if (Autoupdater.NeedsUpdate())
+                {
+                    using (frmNoteViewer f = new frmNoteViewer())
+                    {
+                        f.btnCopyToClipboard.Text = "Update";
+                        f.btnCopyToClipboard.Click += (sen, evt) =>
+                            {
+                                //todo:run setup file
+
+
+                            };
+
+                        f.PopulateText(Autoupdater.ReleaseNotes);
+                        f.Text = String.Format("New version detected {0}", Autoupdater.LatestVersion.ToString());
+                        f.ShowDialog();
+                    }
+                }
+            };
+#endif
         }
     }
 }

@@ -45,14 +45,11 @@ Source: "{#buildpath}zlib.net.dll"; DestDir: "{app}"; Flags: ignoreversion
 
 [Tasks]
 Name: desktopicon; Description: {cm:CreateDesktopIcon}; GroupDescription: {cm:AdditionalIcons}; Flags: checkedonce
-Name: quicklaunchicon; Description: {cm:CreateQuickLaunchIcon}; GroupDescription: {cm:AdditionalIcons}; Flags: unchecked
 
 [Icons]
-Name: "{group}\{#ApplicationName}"; Filename: "{app}\{#buildpath}CustomsForgeSongManager.exe"; WorkingDir: "{app}";
-Name: {group}\{cm:UninstallProgram,{#ApplicationName}}; Filename: {uninstallexe}
-Name: {commondesktop}\{#ApplicationName}; Filename: {app}\{#ApplicationName}; Tasks: desktopicon
-Name: {userappdata}\Microsoft\Internet Explorer\Quick Launch\{#ApplicationName}; Filename: {app}\{#ApplicationName}; Tasks: quicklaunchicon
-
+Name: "{group}\{#ApplicationName}"; Filename: "{app}\CustomsForgeSongManager.exe"; WorkingDir: "{app}"; IconFilename: "{app}\{#buildpath}CustomsForgeSongManager.exe"
+Name: "{group}\{cm:UninstallProgram, Uninstall {#ApplicationName}}"; Filename: "{uninstallexe}"
+Name: "{commondesktop}\{#ApplicationName}"; Filename: "{app}\CustomsForgeSongManager.exe"; Tasks: desktopicon
 
 [Code]   
 function GetNumber(var temp: String): Integer;
@@ -198,6 +195,14 @@ function NextButtonClick(CurPageID: Integer): Boolean;
 var  
   ResultCode: Integer;
 begin
+  if CheckForMutexes('Global\CUSTOMSFORGESONGMANAGER') then
+  begin
+       ShowMessage('CustomsForge Song Manager is running.'+#13#10+'it will need to be closed before installation continues');
+       result := false;
+       exit;
+  end;
+
+
    if not hasUpgrade then
    begin
       result := true;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Win32;
 
-namespace Wunder.ClickOnceUninstaller
+namespace ClickOnceUninstaller
 {
     public class RemoveRegistryKeys : IUninstallStep
     {

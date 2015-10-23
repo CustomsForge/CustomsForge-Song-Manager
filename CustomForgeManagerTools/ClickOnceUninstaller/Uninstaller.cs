@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Wunder.ClickOnceUninstaller
+namespace ClickOnceUninstaller
 {
     public class Uninstaller
     {
