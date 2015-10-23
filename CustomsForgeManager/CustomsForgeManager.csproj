@@ -75,8 +75,8 @@
   </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Dotfuscator|x86'">
-    <OutputPath>bin\Dotfuscator\</OutputPath>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DotfuscatorRelease|x86'">
+    <OutputPath>bin\DotfuscatorRelease\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -87,7 +87,7 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ConfuserExRelease|x86' ">
-    <OutputPath>bin\ConfuserEx Release\</OutputPath>
+    <OutputPath>bin\ConfuserExRelease\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -626,35 +626,30 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName) == ConfuserExRelease (
+
 CD "$(SolutionDir)ThirdParty\ConfuserEx_bin\"
 "Confuser.CLI.exe" "..\ConfuserExGeneric.crproj"
+del /q "$(TargetDir)*.pdb"
+
 )
+
 
 if $(ConfigurationName) == InnoInstaller (
 CD "$(SolutionDir)ThirdParty\ConfuserEx_bin\"
 "Confuser.CLI.exe" "..\ConfuserExForInno.crproj"
 CD "$(SolutionDir)ThirdParty\Inno\"
-"ISCC.exe" "..\CFMSetup\CFSMInstaller.iss"
+"ISCC.exe" "..\CFSMInstaller.iss"
+
 )
 
-if $(ConfigurationName) == Dotfuscator (
 
-RD /s /q "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)"
-MKDIR "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)"
+if $(ConfigurationName) == DotfuscatorRelease (
 
-"$(SolutionDir)ThirdParty\Dotfuscator\dotfuscatorCLI.exe" /in:"$(TargetPath)" /out:"$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)"
-
-copy /y "$(TargetDir)*.txt" "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)\*.txt"
-copy /y "$(TargetDir)*.xml" "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)\*.xml"
-copy /y "$(TargetDir)*.dll" "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)\*.dll"
-copy /y "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)\$(TargetFileName)" "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)\CFM_$(ConfigurationName).exe" 
-del /q "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)\$(TargetFileName)"
-
-del /q "$(TargetDir)$(TargetFileName)"
-copy /y "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)\CFM_$(ConfigurationName).exe" "$(TargetDir)$(TargetFileName)"
-
-RD /s /q "$(ProjectDir)bin\Dotfuscated_$(ConfigurationName)"
+"$(SolutionDir)ThirdParty\Dotfuscator\dotfuscatorCLI.exe" /in:"$(TargetPath)" /out:"$(ProjectDir)bin\Temp_$(ConfigurationName)"
+copy /y "$(ProjectDir)bin\Temp_$(ConfigurationName)\$(TargetFileName)" "$(TargetDir)$(TargetFileName)"
+RD /s /q "$(ProjectDir)bin\Temp_$(ConfigurationName)"
 RD /s /q "$(ProjectDir)bin\$(ConfigurationName)\Dotfuscated"
+del /q "$(TargetDir)*.pdb"
 
 )</PostBuildEvent>
   </PropertyGroup>

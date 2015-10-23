@@ -1,9 +1,13 @@
 CFM Release Notes
 
+1.0.5.4
+-Made PostBuild nomanclature consistent across Solution Configurations
+-Changed PB script to clean up remaining build remnants  
+
 1.0.5.3
 -Fixed sort glyph visiblity in dgvSongDetails (no need for FilteredBindingList)
 -Fixed boarder/padding in dgvSongDetails
--Set all configurations to x86 for consistency (this allows greates cross platform support)
+-Set all configurations to x86 for consistency (this allows greater cross platform support)
 
 1.0.5.0
 -Added better exception handler for sorting bug in FilteredBindingList

@@ -2,14 +2,8 @@
  <rule pattern="true" preset="normal">
    <protection id="rename" action="remove" />
  </rule>
- <module path="bin\ConfuserEx Release\CFMAudioTools.dll" />
- <module path="bin\ConfuserEx Release\CFMImageTools.dll" />
- <module path="bin\ConfuserEx Release\ClickOnceUninstaller.exe" />
- <module path="bin\ConfuserEx Release\CustomsForgeSongManager.exe" />
- <module path="bin\ConfuserEx Release\DataGridViewAutoFilter.dll" />
- <module path="bin\ConfuserEx Release\DLogNet.dll" />
- <module path="bin\ConfuserEx Release\ICSharpCode.SharpZipLib.dll" />
- <module path="bin\ConfuserEx Release\RocksmithToolkitLib.dll" />
- <module path="bin\ConfuserEx Release\RocksmithToTabLib.dll" />
- <module path="bin\ConfuserEx Release\X360.dll" />
-</project>
+ <module path="bin\ConfuserExRelease\CFMAudioTools.dll" />
+ <module path="bin\ConfuserExRelease\CFMImageTools.dll" />
+ <module path="bin\ConfuserExRelease\ClickOnceUninstaller.exe" />
+ <module path="bin\ConfuserExRelease\CustomsForgeSongManager.exe" />
+ </project>

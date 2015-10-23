@@ -505,7 +505,7 @@ namespace CustomsForgeManager.UControls
             this.dgvSongsDetail.AllowUserToDeleteRows = false;
             this.dgvSongsDetail.AllowUserToResizeColumns = false;
             this.dgvSongsDetail.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells;
-            this.dgvSongsDetail.BackgroundColor = System.Drawing.SystemColors.InactiveCaptionText;
+            this.dgvSongsDetail.BackgroundColor = System.Drawing.Color.AliceBlue;
             this.dgvSongsDetail.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
@@ -530,9 +530,9 @@ namespace CustomsForgeManager.UControls
             this.dgvSongsDetail.Name = "dgvSongsDetail";
             this.dgvSongsDetail.ReadOnly = true;
             this.dgvSongsDetail.RowHeadersVisible = false;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.InactiveCaptionText;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.AliceBlue;
             this.dgvSongsDetail.RowsDefaultCellStyle = dataGridViewCellStyle2;
-            this.dgvSongsDetail.RowTemplate.DefaultCellStyle.BackColor = System.Drawing.SystemColors.InactiveCaptionText;
+            this.dgvSongsDetail.RowTemplate.DefaultCellStyle.BackColor = System.Drawing.Color.AliceBlue;
             this.dgvSongsDetail.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.SystemColors.ControlText;
             this.dgvSongsDetail.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             this.dgvSongsDetail.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.SystemColors.HighlightText;

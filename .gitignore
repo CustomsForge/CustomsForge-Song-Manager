@@ -75,5 +75,5 @@ Copy*.*
 
 
 
-ThirdParty/Dotfuscator/
-/ThirdParty/Output/setup.exe
+ThirdParty/Dotfuscator/*
+ThirdParty/Output/setup.exe
