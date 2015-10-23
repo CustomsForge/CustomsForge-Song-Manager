@@ -4,6 +4,5 @@
  </rule>
  <module path="bin\ConfuserExRelease\CFMAudioTools.dll" />
  <module path="bin\ConfuserExRelease\CFMImageTools.dll" />
- <module path="bin\ConfuserExRelease\ClickOnceUninstaller.exe" />
  <module path="bin\ConfuserExRelease\CustomsForgeSongManager.exe" />
  </project>

@@ -638,7 +638,7 @@ if $(ConfigurationName) == InnoInstaller (
 CD "$(SolutionDir)ThirdParty\ConfuserEx_bin\"
 "Confuser.CLI.exe" "..\ConfuserExForInno.crproj"
 CD "$(SolutionDir)ThirdParty\Inno\"
-"ISCC.exe" "..\CFSMInstaller.iss"
+"ISCC.exe" "..\CFMSetup\CFSMInstaller.iss"
 
 )
 
