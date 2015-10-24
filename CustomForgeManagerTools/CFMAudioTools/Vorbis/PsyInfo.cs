@@ -1,6 +1,4 @@
-using System;
-
-namespace CFMAudioTools.Vorbis 
+namespace Vorbis 
 {
 	// psychoacoustic setup
 	class PsyInfo

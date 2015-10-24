@@ -34,19 +34,19 @@
     <PlatformTarget>x86</PlatformTarget>
     <OutputPath>bin\Release\</OutputPath>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Dotfuscator|x86'">
-    <OutputPath>bin\x86\Dotfuscator\</OutputPath>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DotfuscatorRelease|x86'">
+    <OutputPath>bin\DotfuscatorRelease\</OutputPath>
     <PlatformTarget>x86</PlatformTarget>
     <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
     <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ConfuserExRelease|x86' ">
-    <OutputPath>bin\x86\ConfuserEx Release\</OutputPath>
+    <OutputPath>bin\ConfuserExRelease\</OutputPath>
     <PlatformTarget>x86</PlatformTarget>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'InnoInstaller|x86'">
-    <OutputPath>bin\x86\InnoInstaller\</OutputPath>
+    <OutputPath>bin\InnoInstaller\</OutputPath>
     <PlatformTarget>x86</PlatformTarget>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>

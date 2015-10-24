@@ -1,5 +1,4 @@
-﻿using CFMImageTools;
-using RocksmithToolkitLib.PSARC;
+﻿using RocksmithToolkitLib.PSARC;
 using System;
 using System.Collections.Generic;
 using System.Drawing;

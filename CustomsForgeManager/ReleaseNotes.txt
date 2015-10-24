@@ -1,11 +1,17 @@
 CFM Release Notes
 
+1.0.5.6
+-Refactored class project libraries
+-Applied consistent nomenclature to class project library csproj files
+-Confirmed each Configuration Build functions and tested each build app
+-Set each class project library to x86 for consistency (this allows greater cross platform support)
+
 1.0.5.4
--Made PostBuild nomanclature consistent across Solution Configurations
+-Made PostBuild nomenclature consistent across Solution Configurations
 -Changed PB script to clean up remaining build remnants  
 
 1.0.5.3
--Fixed sort glyph visiblity in dgvSongDetails (no need for FilteredBindingList)
+-Fixed sort glyph visibility in dgvSongDetails (no need for FilteredBindingList)
 -Fixed boarder/padding in dgvSongDetails
 -Set all configurations to x86 for consistency (this allows greater cross platform support)
 

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Drawing;
 using System.Linq;
-using CFMImageTools;
 
 namespace CustomsForgeManager.SongEditor
 {

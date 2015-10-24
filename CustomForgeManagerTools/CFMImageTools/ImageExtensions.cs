@@ -10,97 +10,91 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 
-
-namespace CFMImageTools
+public static class ImageExtensions
 {
-    public static class ImageExtensions
+    //Credits to Mark from StackOverflow
+    public static Bitmap ResizeImage(this Image image, int width, int height)
     {
-        //Credits to Mark from StackOverflow
-        public static Bitmap ResizeImage(this Image image, int width, int height)
+        var destRect = new Rectangle(0, 0, width, height);
+        var destImage = new Bitmap(width, height);
+
+        destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
+
+        using (var graphics = Graphics.FromImage(destImage))
         {
-            var destRect = new Rectangle(0, 0, width, height);
-            var destImage = new Bitmap(width, height);
+            graphics.CompositingMode = CompositingMode.SourceCopy;
+            graphics.CompositingQuality = CompositingQuality.HighQuality;
+            graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+            graphics.SmoothingMode = SmoothingMode.HighQuality;
+            graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
 
-            destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
-
-            using (var graphics = Graphics.FromImage(destImage))
+            using (var wrapMode = new ImageAttributes())
             {
-                graphics.CompositingMode = CompositingMode.SourceCopy;
-                graphics.CompositingQuality = CompositingQuality.HighQuality;
-                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                graphics.SmoothingMode = SmoothingMode.HighQuality;
-                graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
-
-                using (var wrapMode = new ImageAttributes())
-                {
-                    wrapMode.SetWrapMode(WrapMode.TileFlipXY);
-                    graphics.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
-                }
-            }
-            return destImage;
-        }
-
-        public static Bitmap DDStoBitmap(Stream ddsStream)
-        {
-            using (MemoryStream ms = new MemoryStream())
-            {
-                var dds = new DDSImage(ddsStream);
-                if (dds.images.Count() > 0)
-                    return dds.images[0];
-                return null;
+                wrapMode.SetWrapMode(WrapMode.TileFlipXY);
+                graphics.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
             }
         }
-
-        [DllImport("DF_DDSImage.dll", CallingConvention = CallingConvention.StdCall)]
-        private static extern int ConvertToDDS(IntPtr source, out IntPtr dest, int Size);
-        [DllImport("DF_DDSImage.dll", CallingConvention = CallingConvention.StdCall)]
-        private static extern void FreeDDS(IntPtr source);
-
-        public static Stream ToDDS(this Image image)
-        {    
-            using (MemoryStream source = new MemoryStream())
-            {
-                image.Save(source, ImageFormat.Png);
-                var bytes = source.ToArray();
-
-                IntPtr unmanagedPointer = Marshal.AllocHGlobal(bytes.Length);
-                try
-                {
-                    Marshal.Copy(bytes, 0, unmanagedPointer, bytes.Length);
-                    var dest = IntPtr.Zero;
-                    var result = ConvertToDDS(unmanagedPointer, out dest, bytes.Length);
-                    if (result > 0)
-                    {
-                        byte[] arr = new byte[result];
-                        Marshal.Copy(dest, arr, 0, result);
-                        FreeDDS(dest);
-                        return new MemoryStream(arr);
-                    }
-                }
-                finally
-                {
-                    Marshal.FreeHGlobal(unmanagedPointer);
-                }
-            }
-            return null;           
-        }
-
-        public static Stream ToDDS(this Image image, int width, int height)
-        {
-            bool freeImage = false;
-            if (image.Width != width || image.Height != height)
-            {
-                image = image.ResizeImage(width, height);
-                freeImage = true;
-            }
-            var x = ToDDS(image);
-            if (freeImage)
-                image.Dispose();
-            return x;
-        }
-
-
+        return destImage;
     }
 
-  
+    public static Bitmap DDStoBitmap(Stream ddsStream)
+    {
+        using (MemoryStream ms = new MemoryStream())
+        {
+            var dds = new DDSImage(ddsStream);
+            if (dds.images.Count() > 0)
+                return dds.images[0];
+            return null;
+        }
+    }
+
+    [DllImport("DF_DDSImage.dll", CallingConvention = CallingConvention.StdCall)]
+    private static extern int ConvertToDDS(IntPtr source, out IntPtr dest, int Size);
+    [DllImport("DF_DDSImage.dll", CallingConvention = CallingConvention.StdCall)]
+    private static extern void FreeDDS(IntPtr source);
+
+    public static Stream ToDDS(this Image image)
+    {    
+        using (MemoryStream source = new MemoryStream())
+        {
+            image.Save(source, ImageFormat.Png);
+            var bytes = source.ToArray();
+
+            IntPtr unmanagedPointer = Marshal.AllocHGlobal(bytes.Length);
+            try
+            {
+                Marshal.Copy(bytes, 0, unmanagedPointer, bytes.Length);
+                var dest = IntPtr.Zero;
+                var result = ConvertToDDS(unmanagedPointer, out dest, bytes.Length);
+                if (result > 0)
+                {
+                    byte[] arr = new byte[result];
+                    Marshal.Copy(dest, arr, 0, result);
+                    FreeDDS(dest);
+                    return new MemoryStream(arr);
+                }
+            }
+            finally
+            {
+                Marshal.FreeHGlobal(unmanagedPointer);
+            }
+        }
+        return null;           
+    }
+
+    public static Stream ToDDS(this Image image, int width, int height)
+    {
+        bool freeImage = false;
+        if (image.Width != width || image.Height != height)
+        {
+            image = image.ResizeImage(width, height);
+            freeImage = true;
+        }
+        var x = ToDDS(image);
+        if (freeImage)
+            image.Dispose();
+        return x;
+    }
+
+
 }

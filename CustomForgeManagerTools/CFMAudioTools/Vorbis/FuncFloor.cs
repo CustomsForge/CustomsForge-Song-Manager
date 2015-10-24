@@ -1,15 +1,15 @@
 
 using System;
+using Ogg;
 
-
-namespace CFMAudioTools.Vorbis 
+namespace Vorbis 
 {
 	abstract class FuncFloor
 	{
 		public static FuncFloor[] floor_P={new Floor0(),new Floor1()};
 
-		public abstract void pack(Object i, CFMAudioTools.Ogg.csBuffer opb);
-        public abstract Object unpack(Info vi, CFMAudioTools.Ogg.csBuffer opb);
+		public abstract void pack(Object i, csBuffer opb);
+        public abstract Object unpack(Info vi, csBuffer opb);
         public abstract Object look(DspState vd, InfoMode mi, Object i);
 		public abstract void free_info(Object i);
 		public abstract void free_look(Object i);

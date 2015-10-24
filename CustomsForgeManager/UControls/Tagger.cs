@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Diagnostics;
-using CFMImageTools;
 using CustomsForgeManager.CustomsForgeManagerLib.Objects;
 using System.IO;
 using CustomsForgeManager.CustomsForgeManagerLib;

@@ -1,6 +1,6 @@
 using System;
 
-namespace CFMAudioTools.Vorbis 
+namespace Vorbis 
 {
 	public class csorbisException : Exception 
 	{

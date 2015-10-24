@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace CFMAudioTools.Ogg
+namespace Ogg
 {
     public class csBuffer
     {

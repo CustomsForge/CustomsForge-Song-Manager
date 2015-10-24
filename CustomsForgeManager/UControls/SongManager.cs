@@ -1169,10 +1169,18 @@ namespace CustomsForgeManager.UControls
 
         private void dgvSongsMaster_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
+            // make sure grid has been painted before proceeding
+            if (!dgvPainted)
+                return;
+
             // get detail from master
             if (e.ColumnIndex == dgvSongsMaster.Columns["colShowDetail"].Index && e.RowIndex >= 0)
             {
+                if (dgvSongsMaster.Rows[e.RowIndex].Cells["colKey"].Value == null)
+                    return;
+
                 var songKey = dgvSongsMaster.Rows[e.RowIndex].Cells["colKey"].Value.ToString();
+
                 if (String.IsNullOrEmpty(songKey))
                     return;
 
@@ -1211,7 +1219,8 @@ namespace CustomsForgeManager.UControls
                         if (dgvSongsDetail.Rows.Count == 1) // extra tweak for single row
                             dgvSongsDetail.Height = dgvSongsDetail.Height + 5;
 
-                         dgvSongsDetail.Visible = true;
+                        dgvSongsDetail.Invalidate();
+                        dgvSongsDetail.Visible = true;
                     }
                 }
                 else
