@@ -1,4 +1,8 @@
 CFM Release Notes
+
+1.0.5.8
+-Add duplicate Persistent ID finder to the the Duplicates tabcontrol
+
 1.0.5.7
 - worker : Added Globals.CancelBackgroundScan to avoid problems when closing the application during scanning.
 - Autoupdate : Added code to run the setup program when new version is detected.
@@ -9,7 +13,7 @@ CFM Release Notes
 1.0.5.6
 -Refactored class project libraries
 -Applied consistent nomenclature to class project library csproj files
--Confirmed each Configuration Build functions and tested each build app
+-Confirmed each Configuration Build functions and tested each build app bin
 -Set each class project library to x86 for consistency (this allows greater cross platform support)
 
 1.0.5.4

@@ -344,6 +344,8 @@ namespace CustomsForgeManager.UControls
             dgvSongsMaster.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCells);
             dgvSongsMaster.BackgroundColor = SystemColors.AppWorkspace;
             dgvSongsMaster.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            // required when using FilteredBindingList
+            dgvSongsMaster.ColumnHeadersDefaultCellStyle.WrapMode = DataGridViewTriState.False;
             dgvSongsMaster.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             // set custom selection (highlighting) color
             dgvSongsMaster.DefaultCellStyle.SelectionBackColor = Color.Gold; // dgvSongsMaster.DefaultCellStyle.BackColor; // or removes selection highlight
@@ -362,7 +364,7 @@ namespace CustomsForgeManager.UControls
             // always visible on restart in case user changed
             dgvSongsMaster.Columns["colSelect"].ReadOnly = false; // is overridden by EditProgrammatically
             dgvSongsMaster.Columns["colSelect"].Visible = true;
-            dgvSongsMaster.Columns["colSelect"].Width = 43;
+            dgvSongsMaster.Columns["colSelect"].Width = 50;
             dgvSongsMaster.Columns["colEnabled"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dgvSongsMaster.Columns["colEnabled"].Width = 54;
             // prevents double line headers on filtered columns
@@ -1197,7 +1199,7 @@ namespace CustomsForgeManager.UControls
                     {
                         // apply min formatting
                         dgvSongsMaster.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                        dgvSongsDetail.AllowUserToResizeColumns = false;
+                        dgvSongsDetail.ColumnHeadersDefaultCellStyle.WrapMode = DataGridViewTriState.False;
 
                         var rowHeight = dgvSongsMaster.Rows[e.RowIndex].Height + 0; // height tweak
                         var colWidth = dgvSongsMaster.Columns[e.ColumnIndex].Width - 16; // width tweak

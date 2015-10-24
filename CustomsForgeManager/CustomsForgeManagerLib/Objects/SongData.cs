@@ -37,7 +37,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
         public string Enabled
         {
             get { return (new FileInfo(Path).Name).ToLower().Contains("disabled") ? "No" : "Yes"; }
-            // set { } // required for XML file usage
+            set { } // required for XML file usage
         }
 
         public string Artist { get; set; }
@@ -108,6 +108,12 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
         {
             get { return Arrangements2D.Max(o => o.SectionCount); }
         }
+
+        // duplicate PID finder
+        [XmlIgnore]
+        public string PID { get; set; }
+        [XmlIgnore]
+        public string ArrangementPID { get; set; }
     }
 
 
@@ -115,7 +121,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
     // detail table data
     [XmlRoot("Arrangment")] // provides proper xml serialization
     public class Arrangement
-    {        
+    {
         public Arrangement() { }
         public Arrangement(string dlcKey)
         {
@@ -124,8 +130,9 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
 
         [XmlIgnore]
         public string DLCKey { get; set; }
+
         public string PersistentID { get; set; }
-        public string Name { get; set; }
+        public string Name { get; set; } // arrangement name
         public string Tuning { get; set; }
         public Int32 DMax { get; set; }
         public string ToneBase { get; set; }
