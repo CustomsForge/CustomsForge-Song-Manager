@@ -116,6 +116,11 @@ namespace CustomsForgeManager.UControls
 
         }
 
+        private void link_Credits_Description_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+
+        }
+
     }
 
 

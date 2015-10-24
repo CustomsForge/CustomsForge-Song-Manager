@@ -580,12 +580,13 @@
             this.link_Credits_Description.Location = new System.Drawing.Point(235, 6);
             this.link_Credits_Description.Margin = new System.Windows.Forms.Padding(3);
             this.link_Credits_Description.Name = "link_Credits_Description";
-            this.link_Credits_Description.Size = new System.Drawing.Size(115, 22);
+            this.link_Credits_Description.Size = new System.Drawing.Size(96, 22);
             this.link_Credits_Description.TabIndex = 0;
             this.link_Credits_Description.TabStop = true;
-            this.link_Credits_Description.Text = "Maintained By:";
+            this.link_Credits_Description.Text = "Developers:";
             this.link_Credits_Description.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.link_Credits_Description.VisitedLinkColor = System.Drawing.Color.Black;
+            this.link_Credits_Description.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.link_Credits_Description_LinkClicked);
             // 
             // linkLabel1
             // 
