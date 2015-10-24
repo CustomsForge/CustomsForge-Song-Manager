@@ -444,6 +444,7 @@
     <Content Include="ReleaseNotes.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\creditsbackground.png" />
     <Content Include="RocksmithToolkitLib.Config.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
