@@ -111,6 +111,11 @@ namespace CustomsForgeManager.UControls
             Process.Start("http://search.customsforge.com/");
         }
 
+        private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+
+        }
+
     }
 
 
