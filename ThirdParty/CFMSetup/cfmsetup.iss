@@ -2,10 +2,11 @@
 #define AppVersion GetFileVersion(buildpath + "CustomsForgeSongManager.exe")
 #define AppURL "http://customsforge.com/"
 #define ApplicationName "CustomsForge Manager"
-#define InstallerName "CFSMSetup";
+#define InstallerName "CFSMSetup";   
+#define AppExeName "CustomsForgeSongManager.exe"
 
 #define DFSERVER
-//#define DOUPDATE
+#define DOUPDATE
 
 #ifdef DFServer
 #define BaseUpdateURL "http://dfcrs.com/CFSM"

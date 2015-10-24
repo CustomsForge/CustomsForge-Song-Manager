@@ -1,4 +1,4 @@
-#include "cfmsetup.inc"  
+#include "cfmsetup.iss"  
 #include "ISPPBuiltins.iss"
 #include "idp.iss"   
 
@@ -21,11 +21,11 @@ VersionInfoVersion={#AppVersion}
 AppCopyright=CustomsForge.com
 SetupIconFile= "..\..\CustomsForgeManager\Resources\cfsm_48x48.ico"
 
-[Files]
+[Files]          
+Source: "{#buildpath}{#AppExeName}"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#buildpath}CFMAudioTools.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#buildpath}CFMImageTools.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#buildpath}ClickOnceUninstaller.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#buildpath}CustomsForgeSongManager.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#buildpath}ClickOnceUninstaller.exe"; DestDir: "{tmp}"; Flags: dontcopy;
 Source: "{#buildpath}DataGridViewAutoFilter.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#buildpath}DLogNet.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#buildpath}ICSharpCode.SharpZipLib.dll"; DestDir: "{app}"; Flags: ignoreversion
@@ -42,16 +42,33 @@ Source: "{#buildpath}RocksmithToolkitLib.Config.xml"; DestDir: "{app}"; Flags: i
 Source: "{#buildpath}RocksmithToolkitLib.SongAppId.xml"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#buildpath}RocksmithToolkitLib.TuningDefinition.xml"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#buildpath}zlib.net.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{srcexe}"; DestDir: "{app}";DestName: "{#InstallerName}.exe"; Flags: ignoreversion external
 
 [Tasks]
 Name: desktopicon; Description: {cm:CreateDesktopIcon}; GroupDescription: {cm:AdditionalIcons}; Flags: checkedonce
+;todo: quick launch win 7 and up
+Name: quicklaunchicon; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked; OnlyBelowVersion: 0,6.1
 
 [Icons]
-Name: "{group}\{#ApplicationName}"; Filename: "{app}\CustomsForgeSongManager.exe"; WorkingDir: "{app}"; IconFilename: "{app}\{#buildpath}CustomsForgeSongManager.exe"
-Name: "{group}\{cm:UninstallProgram, Uninstall {#ApplicationName}}"; Filename: "{uninstallexe}"
-Name: "{commondesktop}\{#ApplicationName}"; Filename: "{app}\CustomsForgeSongManager.exe"; Tasks: desktopicon
+Name: "{group}\{#ApplicationName}"; Filename: "{app}\{#AppExeName}"; WorkingDir: "{app}"; IconFilename: "{app}\{#AppExeName}";
+Name: "{group}\{cm:UninstallProgram,{#ApplicationName}}"; Filename: "{uninstallexe}"
+Name: "{commondesktop}\{#ApplicationName}"; Filename: "{app}\{#AppExeName}"; WorkingDir: "{app}"; IconFilename: "{app}\{#AppExeName}"; Tasks: desktopicon
+Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\{#ApplicationName}"; Filename: "{app}\{#AppExeName}"; Tasks: quicklaunchicon
 
-[Code]   
+[Code]
+const
+  WM_COMMAND = $0111;
+  CN_BASE = $BC00;
+  CN_COMMAND = CN_BASE + WM_COMMAND;
+
+
+var runningWebUpdate: boolean;
+var hasUpgrade : boolean;
+var tmpUpdateLocation : string;
+var UninstallPage: TWizardPage;
+var doneUninstall : boolean;
+
+
 function GetNumber(var temp: String): Integer;
 var
   part: String;
@@ -118,15 +135,60 @@ begin
    MsgBox(s, mbInformation, MB_OK);
 end;
 
-const
-  WM_COMMAND = $0111;
-  CN_BASE = $BC00;
-  CN_COMMAND = CN_BASE + WM_COMMAND;
+function OldVersionInstalled:Boolean;
+begin
+   result := RegKeyExists(HKEY_CURRENT_USER, 'Software\Microsoft\Windows\CurrentVersion\Uninstall\73e8aceb7ff35be2');
+end;
 
 
-var runningWebUpdate: boolean;
-var hasUpgrade : boolean;
-var tmpUpdateLocation : string;
+function UninstallNextButtonClick(Page: TWizardPage): Boolean; 
+var
+ ResultCode : integer;
+ fn : string;
+begin
+  if OldVersionInstalled and not doneUninstall then
+  begin
+    ExtractTemporaryFiles('{tmp}\ClickOnceUninstaller.exe');
+    fn := ExpandConstant('{tmp}\ClickOnceUninstaller.exe');
+    if FileExists(fn) then
+    begin
+      Exec(fn, '', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
+      DeleteFile(fn);
+    end;
+  end;
+  doneUninstall := true;
+  Result := true;
+end;
+
+function UninstallShouldSkipPage(Page: TWizardPage): Boolean;
+begin
+  result := (not OldVersionInstalled) or (doneUninstall);
+end;
+
+procedure CreateUninstallPage;
+begin
+  doneUninstall := false;
+  UninstallPage := CreateCustomPage(wpWelcome, 'Removing old version of ' + ExpandConstant('{#ApplicationName}'),
+  'Uninstalling ' + ExpandConstant('{#ApplicationName}'));
+
+    with TNewStaticText.Create(UninstallPage) do
+    begin
+        Parent := UninstallPage.Surface;
+        Caption := 'Click the next button to uninstall the old version.';
+        Left := ScaleX(0);
+        Top := ScaleY(10);
+        Width := ScaleX(400);
+        Height := ScaleY(14);
+        AutoSize := False;
+    end;
+
+
+  with UninstallPage do
+  begin
+      OnShouldSkipPage    := @UninstallShouldSkipPage;
+      OnNextButtonClick   := @UninstallNextButtonClick;
+  end;
+end;
 
 procedure InitializeWizard();
 var
@@ -134,7 +196,18 @@ var
  sl:TStringlist;
  updateUrl:string;
  urlLabel : TNewStaticText; 
-begin
+ DownloadStep : integer;
+begin                
+  currentVersion := ExpandConstant('{#AppVersion}');
+
+  WizardForm.Caption := WizardForm.Caption + ' V'+ currentVersion; 
+
+  DownloadStep := wpWelcome;
+  CreateUninstallPage();
+  if OldVersionInstalled then
+    DownloadStep := UninstallPage.Id;
+
+
   hasUpgrade := false;
   runningWebUpdate := pos('-webupdate',GetCmdTail) > 0;
   tmpUpdateLocation := '';
@@ -163,19 +236,18 @@ begin
        if sl.count > 0 then
        begin    
         newVersion := sl[0];
-        if sl.Count > 1 then
+       (* if sl.Count > 1 then
             updateUrl := sl[1]
-        else
-            updateUrl := ExpandConstant('{#LatestVersionDowload}');
+        else *)
+        updateUrl := ExpandConstant('{#LatestVersionDowload}');
       
-        currentVersion := ExpandConstant('{#AppVersion}');
         hasUpgrade := CompareVersion(currentVersion, newVersion) < 0;
         if hasUpgrade then
         begin
             tmpUpdateLocation := ExpandConstant('{tmp}\cfm_'+newVersion+'_setup.exe');
-            WizardForm.Caption := WizardForm.Caption + ' '+ '(V'+newVersion+' available.)';
+            WizardForm.Caption := WizardForm.Caption + ' - '+ '(V'+newVersion+' available.)';
             idpAddFile(updateUrl, tmpUpdateLocation);
-            idpDownloadAfter(wpWelcome);
+            idpDownloadAfter(DownloadStep);
         end
       end;
       sl.Free;
@@ -197,34 +269,34 @@ var
 begin
   if CheckForMutexes('Global\CUSTOMSFORGESONGMANAGER') then
   begin
-       ShowMessage('CustomsForge Song Manager is running.'+#13#10+'it will need to be closed before installation continues');
-       result := false;
-       exit;
+    ShowMessage('CustomsForge Song Manager is running.'+#13#10+'it will need to be closed before installation continues');
+    result := false;
+    exit;
   end;
-
-
-   if not hasUpgrade then
-   begin
+  if not hasUpgrade then
+  begin
+    result := true;
+    exit;
+  end else
+  begin
+    case curpageID of
+    1 :
+    begin   
       result := true;
-      exit;
-   end else
-   begin
-     if (curpageID = 1) then
-        result := true 
-      else
-         //done downloading the update, run the new installer with -webupdate paramerter
-        if (curpageID = 100) then
-        begin
-           WizardForm.Visible := false;
-           //run the new setup
-           if Exec(tmpUpdateLocation, '-webupdate', '', SW_SHOW, ewWaitUntilTerminated, ResultCode) then
-           begin
-              ExitProcess(0);
-           end else
-           begin
-               WizardForm.Visible := true;
-               result := true;
-           end;
-        end;
     end;
+    IDPForm.Page.Id:
+      begin
+        WizardForm.Visible := false;
+        //run the new setup
+        if Exec(tmpUpdateLocation, '-webupdate', '', SW_SHOW, ewWaitUntilTerminated, ResultCode) then
+        begin
+          ExitProcess(0);
+        end else
+        begin
+          WizardForm.Visible := true;
+          result := true;
+        end;
+      end;
+    end;
+  end;
 end;

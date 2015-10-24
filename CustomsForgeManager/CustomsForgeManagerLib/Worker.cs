@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using CustomsForgeManager.CustomsForgeManagerLib.CustomControls;
 using CustomsForgeManager.CustomsForgeManagerLib.Objects;
-using DataGridViewTools;
 using RocksmithToolkitLib;
 
 
@@ -72,7 +70,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
         {
             Extensions.InvokeIfRequired(workOrder, delegate { Globals.TsLabel_Cancel.Visible = false; });
 
-            if (e.Cancelled || Globals.TsLabel_Cancel.Text == "Canceling")
+            if (e.Cancelled || Globals.TsLabel_Cancel.Text == "Canceling" || Globals.CancelBackgroundScan)
             {
                 // bWorker.Abort(); // don't use abort
                 bWorker.Dispose();
@@ -130,7 +128,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
             Globals.DebugLog("Parsing files");
             foreach (string file in fileList)
             {
-                if (bWorker.CancellationPending || Globals.TsLabel_Cancel.Text == "Canceling")
+                if (bWorker.CancellationPending || Globals.TsLabel_Cancel.Text == "Canceling" || Globals.CancelBackgroundScan)
                 {
                     bWorker.CancelAsync();
                     e.Cancel = true;

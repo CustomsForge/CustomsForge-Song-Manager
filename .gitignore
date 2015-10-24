@@ -75,5 +75,5 @@ Copy*.*
 
 
 ThirdParty/Dotfuscator/*
-ThirdParty/CFMSetup/Output/setup.exe
+ThirdParty/CFMSetup/Output/*
 

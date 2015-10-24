@@ -20,6 +20,11 @@ namespace CustomsForgeManager.Forms
             rtbNotes.Select(0, 0);
         }
 
+        public void RemoveButtonHandler()
+        {
+            btnCopyToClipboard.Click -= btnCopyToClipboard_Click;
+        }
+
         private void btnCopyToClipboard_Click(object sender, EventArgs e)
         {
             Clipboard.Clear();

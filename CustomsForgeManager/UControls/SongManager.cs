@@ -51,7 +51,7 @@ namespace CustomsForgeManager.UControls
         public void LeaveSongManager()
         {
             Globals.Log("Leaving SongManager GUI ...");
-            Globals.DgvSongs = dgvSongsMaster;
+            Globals.DgvSongs = dgvSongsMaster;            
         }
 
         public void LoadSongCollectionFromFile()

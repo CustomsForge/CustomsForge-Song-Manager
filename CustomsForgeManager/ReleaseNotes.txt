@@ -1,4 +1,10 @@
 CFM Release Notes
+1.0.5.7
+- worker : Added Globals.CancelBackgroundScan to avoid problems when closing the application during scanning.
+- Autoupdate : Added code to run the setup program when new version is detected.
+- Tagger : Added #ifdef to hide the tagger toolbar when TAGGER is not defined
+- Inno : Added code to run ClickOnceUninstaller
+- Inno : Fixed some other problems, add features. Besides the CFSM Server, I think that it's done.
 
 1.0.5.6
 -Refactored class project libraries

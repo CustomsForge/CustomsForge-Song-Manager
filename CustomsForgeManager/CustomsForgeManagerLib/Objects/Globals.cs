@@ -149,6 +149,8 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
             set { _songManager = value; }
         }
 
+        public static bool CancelBackgroundScan { get; set; }
+
         public static ToolStripStatusLabel TsLabel_Cancel { get; set; }
         public static ToolStripStatusLabel TsLabel_DisabledCounter { get; set; }
         public static ToolStripStatusLabel TsLabel_MainMsg { get; set; }
@@ -165,6 +167,9 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         {
             get { return (CustomsForgeManager.Forms.frmMain)Application.OpenForms["frmMain"]; }
         }
+
+
+
 
         public static Tristate WorkerFinished { get; set; } // True = 0, False = 1, Cancelled = 2
 

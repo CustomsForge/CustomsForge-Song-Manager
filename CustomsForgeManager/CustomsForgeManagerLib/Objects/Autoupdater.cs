@@ -11,8 +11,11 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
     #if AUTOUPDATE
     public class Autoupdater
     {
+        //TODO: Don't use dreddfoxx's server.
         const string UpdateURL = "http://dfcrs.com/CFSM";
-        const string VersionURL = UpdateURL + "/vinfo.txt";//"/VersionInfo.txt";
+
+
+        const string VersionURL = UpdateURL + "/VersionInfo.txt";
         const string SetupURL = UpdateURL + "/CFSMSetup.exe";
         private static bool hasServerInfo = false;
         public static string ReleaseNotes { get; private set; }

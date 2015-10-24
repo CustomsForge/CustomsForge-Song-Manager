@@ -103,6 +103,9 @@ namespace CustomsForgeManager.Forms
             else
                 Globals.MyLog.RemoveTargetNotifyIcon(Globals.Notifier);
 
+#if !TAGGER
+            toolstripTagger.Visible = false;
+#else
             tscbTaggerThemes.Items.AddRange(Globals.Tagger.Themes.ToArray());
             tscbTaggerThemes.SelectedIndex = 0;
             tscbTaggerThemes.SelectedIndexChanged += (s, e) =>
@@ -110,12 +113,11 @@ namespace CustomsForgeManager.Forms
                 if (tscbTaggerThemes.SelectedItem != null)
                     Globals.Tagger.ThemeName = tscbTaggerThemes.SelectedItem.ToString();
             };
+#endif
+
 
             // load Song Manager Tab
             LoadSongManager();
-
-           
-
 
             //CustomsForgeManagerLib.Extensions.Benchmark(LoadSongManager, 1);
         }
@@ -181,6 +183,7 @@ namespace CustomsForgeManager.Forms
         private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
             Globals.Log("Application is Closing");
+            Globals.CancelBackgroundScan = true;
 
             if (Globals.Settings == null || Globals.SongManager == null)
             {
@@ -428,13 +431,23 @@ namespace CustomsForgeManager.Forms
                     using (frmNoteViewer f = new frmNoteViewer())
                     {
                         f.btnCopyToClipboard.Text = "Update";
-                        f.btnCopyToClipboard.Click += (sen, evt) =>
-                            {
-                                //todo:run setup file
 
-
-                            };
-
+                        if (!Constants.DebugMode)
+                        {
+                            f.RemoveButtonHandler();
+                            f.btnCopyToClipboard.Click += (sen, evt) =>
+                                {
+                                    //run setup file, since updating is done in the installer just use the installer to handle updates
+                                    //the install will force the user to close the program before installing.
+                                    if (File.Exists("CFSMSetup.exe"))
+                                    {
+                                        System.Diagnostics.Process.Start("CFSMSetup.exe", "-appupdate");
+                                    }
+                                    else
+                                        MessageBox.Show("CFSMSetup not found, please download the program again.");
+                                    f.Close();
+                                };
+                        }
                         f.PopulateText(Autoupdater.ReleaseNotes);
                         f.Text = String.Format("New version detected {0}", Autoupdater.LatestVersion.ToString());
                         f.ShowDialog();

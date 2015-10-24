@@ -115,7 +115,13 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
     // detail table data
     [XmlRoot("Arrangment")] // provides proper xml serialization
     public class Arrangement
-    {
+    {        
+        public Arrangement() { }
+        public Arrangement(string dlcKey)
+        {
+            this.DLCKey = dlcKey;
+        }
+
         [XmlIgnore]
         public string DLCKey { get; set; }
         public string PersistentID { get; set; }
