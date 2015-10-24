@@ -635,23 +635,12 @@ del /q "$(TargetDir)*.pdb"
 
 )
 
-
 if $(ConfigurationName) == InnoInstaller (
+
 CD "$(SolutionDir)ThirdParty\ConfuserEx_bin\"
 "Confuser.CLI.exe" "..\ConfuserExForInno.crproj"
 CD "$(SolutionDir)ThirdParty\Inno\"
 "ISCC.exe" "..\CFMSetup\CFSMInstaller.iss"
-
-)
-
-
-if $(ConfigurationName) == DotfuscatorRelease (
-
-"$(SolutionDir)ThirdParty\Dotfuscator\dotfuscatorCLI.exe" /in:"$(TargetPath)" /out:"$(ProjectDir)bin\Temp_$(ConfigurationName)"
-copy /y "$(ProjectDir)bin\Temp_$(ConfigurationName)\$(TargetFileName)" "$(TargetDir)$(TargetFileName)"
-RD /s /q "$(ProjectDir)bin\Temp_$(ConfigurationName)"
-RD /s /q "$(ProjectDir)bin\$(ConfigurationName)\Dotfuscated"
-del /q "$(TargetDir)*.pdb"
 
 )</PostBuildEvent>
   </PropertyGroup>

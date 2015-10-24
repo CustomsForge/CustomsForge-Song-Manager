@@ -10,8 +10,6 @@ using System.ComponentModel;
 
 namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
 {
-    // required because Dotfuscator renames enums if Exclude is not present
-    [Obfuscation(Exclude = true, ApplyToMembers = true, StripAfterObfuscation = true, Feature = "renaming")]
     public enum SongDataStatus : byte
     {
         None = 0,

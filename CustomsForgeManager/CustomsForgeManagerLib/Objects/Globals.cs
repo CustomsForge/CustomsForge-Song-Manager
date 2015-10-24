@@ -28,7 +28,6 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
 
     static class Globals
     {
-        [Obfuscation(Exclude = true, ApplyToMembers = true, StripAfterObfuscation = true, Feature = "renaming")]
         internal enum Tristate : byte
         {
             False = 0,
