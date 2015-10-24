@@ -370,7 +370,6 @@ namespace CustomsForgeManager.Forms
             this.tsButtonTagSelected.Name = "tsButtonTagSelected";
             this.tsButtonTagSelected.Size = new System.Drawing.Size(77, 22);
             this.tsButtonTagSelected.Text = "Tag Selected";
-            this.tsButtonTagSelected.Click += new System.EventHandler(this.tsButtonTagSelected_Click);
             // 
             // tsButtonUntagSelection
             // 
@@ -379,7 +378,6 @@ namespace CustomsForgeManager.Forms
             this.tsButtonUntagSelection.Name = "tsButtonUntagSelection";
             this.tsButtonUntagSelection.Size = new System.Drawing.Size(90, 22);
             this.tsButtonUntagSelection.Text = "Untag Selected";
-            this.tsButtonUntagSelection.Click += new System.EventHandler(this.tsButtonUntagSelection_Click);
             // 
             // BottomToolStripPanel
             // 

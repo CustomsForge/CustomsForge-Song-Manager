@@ -109,6 +109,10 @@ namespace CustomsForgeManager.Forms
 #if !TAGGER
             toolstripTagger.Visible = false;
 #else
+            
+            tsButtonTagSelected.Click += new System.EventHandler(this.tsButtonTagSelected_Click);
+            tsButtonUntagSelection.Click += new System.EventHandler(this.tsButtonUntagSelection_Click);
+
             tscbTaggerThemes.Items.AddRange(Globals.Tagger.Themes.ToArray());
             tscbTaggerThemes.SelectedIndex = 0;
             tscbTaggerThemes.SelectedIndexChanged += (s, e) =>
@@ -369,7 +373,7 @@ namespace CustomsForgeManager.Forms
             get { return tsStatusMsg; }
             set { tsStatusMsg = value; }
         }
-
+#if TAGGER
         private void TaggerProgress(object sender, TaggerProgress e)
         {
             tsProgressBar_Main.Value = e.Progress;
@@ -411,7 +415,7 @@ namespace CustomsForgeManager.Forms
                 }
             }
         }
-
+#endif
         private void frmMain_Load(object sender, EventArgs e)
         {
 #if AUTOUPDATE
