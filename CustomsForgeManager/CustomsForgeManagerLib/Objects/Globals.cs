@@ -101,13 +101,13 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
             get { return _renamer ?? (_renamer = new Renamer()); }
             set { _renamer = value; }
         }
-
+#if TAGGER
         public static SongTagger Tagger
         {
             get { return _tagger ?? (_tagger = new SongTagger()); }
             set { _tagger = value; }
         }
-
+#endif
         public static bool RescanAbout { get; set; }
         public static bool RescanDuplicates { get; set; }
         public static bool RescanRenamer { get; set; }

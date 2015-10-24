@@ -140,8 +140,8 @@ namespace CustomsForgeManager.UControls
                         MessageBox.Show("No songs selected.");
                         return;
                     }
-
-                    Globals.Tagger.TagSongs(SelectedSongs.ToArray(), ((ToolStripItem)s).Text);
+                    Globals.Tagger.ThemeName =  ((ToolStripItem)s).Text;
+                    Globals.Tagger.TagSongs(SelectedSongs.ToArray());
                 };
             }
 #endif
