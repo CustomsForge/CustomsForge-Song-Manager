@@ -32,6 +32,11 @@ namespace CustomsForgeManager.UControls
             Process.Start("http://www.rscustom.net/");
         }
 
+        private void btnCFSMSite_Click(object sender, EventArgs e)
+        {
+            Process.Start("http://cfmanager.com");
+        }
+
 
         private void lnkDonations_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {

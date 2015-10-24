@@ -38,17 +38,20 @@
             this.lnkHelp = new System.Windows.Forms.LinkLabel();
             this.gbCFLinks = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel_CFQuicklinks = new System.Windows.Forms.TableLayoutPanel();
-            this.btnRSTKSite = new System.Windows.Forms.Button();
-            this.btnEOFSite = new System.Windows.Forms.Button();
             this.lnkHomePage = new System.Windows.Forms.LinkLabel();
             this.lnkIgnition = new System.Windows.Forms.LinkLabel();
             this.lnkRequests = new System.Windows.Forms.LinkLabel();
             this.lnkDonations = new System.Windows.Forms.LinkLabel();
             this.lnkVideos = new System.Windows.Forms.LinkLabel();
             this.lnkFAQ = new System.Windows.Forms.LinkLabel();
+            this.btnCFSMSite = new System.Windows.Forms.Button();
+            this.btnEOFSite = new System.Windows.Forms.Button();
+            this.btnRSTKSite = new System.Windows.Forms.Button();
             this.gbCredits = new System.Windows.Forms.GroupBox();
             this.pbProfile = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanel_Credits = new System.Windows.Forms.TableLayoutPanel();
+            this.linkLabel3 = new System.Windows.Forms.LinkLabel();
+            this.linkLabel2 = new System.Windows.Forms.LinkLabel();
             this.link_Credits = new System.Windows.Forms.LinkLabel();
             this.link_CFOwner = new System.Windows.Forms.LinkLabel();
             this.link_LeadDeveloper = new System.Windows.Forms.LinkLabel();
@@ -56,15 +59,13 @@
             this.link_Developer2 = new System.Windows.Forms.LinkLabel();
             this.lnkUnleashedProfile = new CustomsForgeManager.UControls.ProfileLinkLabel();
             this.lnkDarjuszProfile = new CustomsForgeManager.UControls.ProfileLinkLabel();
-            this.lnkLovromanProfile = new CustomsForgeManager.UControls.ProfileLinkLabel();
             this.lnkZerkzProfile = new CustomsForgeManager.UControls.ProfileLinkLabel();
             this.link_Credits_Description = new System.Windows.Forms.LinkLabel();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
-            this.lnkCozy1Profile = new CustomsForgeManager.UControls.ProfileLinkLabel();
             this.link_Developer3 = new System.Windows.Forms.LinkLabel();
+            this.lnkCozy1Profile = new CustomsForgeManager.UControls.ProfileLinkLabel();
+            this.lnkLovromanProfile = new CustomsForgeManager.UControls.ProfileLinkLabel();
             this.lnkDreddFoxxProfile = new CustomsForgeManager.UControls.ProfileLinkLabel();
-            this.linkLabel2 = new System.Windows.Forms.LinkLabel();
-            this.linkLabel3 = new System.Windows.Forms.LinkLabel();
             this.tlpAbout.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picCF)).BeginInit();
             this.gbInfo.SuspendLayout();
@@ -199,14 +200,15 @@
             this.tableLayoutPanel_CFQuicklinks.ColumnCount = 2;
             this.tableLayoutPanel_CFQuicklinks.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel_CFQuicklinks.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 133F));
-            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.btnRSTKSite, 1, 1);
-            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.btnEOFSite, 1, 2);
             this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.lnkHomePage, 0, 1);
             this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.lnkIgnition, 0, 2);
             this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.lnkRequests, 0, 3);
             this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.lnkDonations, 0, 4);
             this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.lnkVideos, 0, 5);
             this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.lnkFAQ, 0, 6);
+            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.btnCFSMSite, 1, 1);
+            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.btnEOFSite, 1, 3);
+            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.btnRSTKSite, 1, 2);
             this.tableLayoutPanel_CFQuicklinks.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel_CFQuicklinks.Location = new System.Drawing.Point(3, 16);
             this.tableLayoutPanel_CFQuicklinks.Name = "tableLayoutPanel_CFQuicklinks";
@@ -221,32 +223,6 @@
             this.tableLayoutPanel_CFQuicklinks.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5F));
             this.tableLayoutPanel_CFQuicklinks.Size = new System.Drawing.Size(468, 203);
             this.tableLayoutPanel_CFQuicklinks.TabIndex = 4;
-            // 
-            // btnRSTKSite
-            // 
-            this.btnRSTKSite.Image = ((System.Drawing.Image)(resources.GetObject("btnRSTKSite.Image")));
-            this.btnRSTKSite.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnRSTKSite.Location = new System.Drawing.Point(338, 13);
-            this.btnRSTKSite.Name = "btnRSTKSite";
-            this.btnRSTKSite.Size = new System.Drawing.Size(127, 22);
-            this.btnRSTKSite.TabIndex = 17;
-            this.btnRSTKSite.Text = "Rocksmith Toolkit";
-            this.btnRSTKSite.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnRSTKSite.UseVisualStyleBackColor = true;
-            this.btnRSTKSite.Click += new System.EventHandler(this.btnRSTKSite_Click);
-            // 
-            // btnEOFSite
-            // 
-            this.btnEOFSite.Image = ((System.Drawing.Image)(resources.GetObject("btnEOFSite.Image")));
-            this.btnEOFSite.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnEOFSite.Location = new System.Drawing.Point(338, 43);
-            this.btnEOFSite.Name = "btnEOFSite";
-            this.btnEOFSite.Size = new System.Drawing.Size(127, 22);
-            this.btnEOFSite.TabIndex = 16;
-            this.btnEOFSite.Text = "Editor on Fire";
-            this.btnEOFSite.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnEOFSite.UseVisualStyleBackColor = true;
-            this.btnEOFSite.Click += new System.EventHandler(this.btnEOFSite_Click);
             // 
             // lnkHomePage
             // 
@@ -338,6 +314,44 @@
             this.lnkFAQ.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lnkFAQ.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkFAQ_LinkClicked);
             // 
+            // btnCFSMSite
+            // 
+            this.btnCFSMSite.Image = ((System.Drawing.Image)(resources.GetObject("btnCFSMSite.Image")));
+            this.btnCFSMSite.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnCFSMSite.Location = new System.Drawing.Point(338, 13);
+            this.btnCFSMSite.Name = "btnCFSMSite";
+            this.btnCFSMSite.Size = new System.Drawing.Size(127, 22);
+            this.btnCFSMSite.TabIndex = 18;
+            this.btnCFSMSite.Text = "CFManager.com";
+            this.btnCFSMSite.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnCFSMSite.UseVisualStyleBackColor = true;
+            // 
+            // btnEOFSite
+            // 
+            this.btnEOFSite.Image = ((System.Drawing.Image)(resources.GetObject("btnEOFSite.Image")));
+            this.btnEOFSite.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnEOFSite.Location = new System.Drawing.Point(338, 73);
+            this.btnEOFSite.Name = "btnEOFSite";
+            this.btnEOFSite.Size = new System.Drawing.Size(127, 22);
+            this.btnEOFSite.TabIndex = 16;
+            this.btnEOFSite.Text = "Editor on Fire";
+            this.btnEOFSite.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnEOFSite.UseVisualStyleBackColor = true;
+            this.btnEOFSite.Click += new System.EventHandler(this.btnEOFSite_Click);
+            // 
+            // btnRSTKSite
+            // 
+            this.btnRSTKSite.Image = ((System.Drawing.Image)(resources.GetObject("btnRSTKSite.Image")));
+            this.btnRSTKSite.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnRSTKSite.Location = new System.Drawing.Point(338, 43);
+            this.btnRSTKSite.Name = "btnRSTKSite";
+            this.btnRSTKSite.Size = new System.Drawing.Size(127, 22);
+            this.btnRSTKSite.TabIndex = 17;
+            this.btnRSTKSite.Text = "Rocksmith Toolkit";
+            this.btnRSTKSite.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnRSTKSite.UseVisualStyleBackColor = true;
+            this.btnRSTKSite.Click += new System.EventHandler(this.btnCFSMSite_Click);
+            // 
             // gbCredits
             // 
             this.gbCredits.Controls.Add(this.pbProfile);
@@ -383,6 +397,7 @@
             this.tableLayoutPanel_Credits.Controls.Add(this.lnkCozy1Profile, 1, 3);
             this.tableLayoutPanel_Credits.Controls.Add(this.lnkLovromanProfile, 1, 6);
             this.tableLayoutPanel_Credits.Controls.Add(this.lnkDreddFoxxProfile, 1, 4);
+            this.tableLayoutPanel_Credits.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tableLayoutPanel_Credits.ForeColor = System.Drawing.SystemColors.ActiveBorder;
             this.tableLayoutPanel_Credits.Location = new System.Drawing.Point(6, 16);
             this.tableLayoutPanel_Credits.Name = "tableLayoutPanel_Credits";
@@ -398,6 +413,47 @@
             this.tableLayoutPanel_Credits.Size = new System.Drawing.Size(465, 200);
             this.tableLayoutPanel_Credits.TabIndex = 3;
             // 
+            // linkLabel3
+            // 
+            this.linkLabel3.ActiveLinkColor = System.Drawing.Color.Black;
+            this.linkLabel3.BackColor = System.Drawing.Color.Transparent;
+            this.linkLabel3.DisabledLinkColor = System.Drawing.Color.Black;
+            this.linkLabel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.linkLabel3.Enabled = false;
+            this.linkLabel3.Font = new System.Drawing.Font("Trebuchet MS", 10F);
+            this.linkLabel3.ForeColor = System.Drawing.Color.Black;
+            this.linkLabel3.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
+            this.linkLabel3.LinkColor = System.Drawing.Color.LightGray;
+            this.linkLabel3.Location = new System.Drawing.Point(3, 155);
+            this.linkLabel3.Name = "linkLabel3";
+            this.linkLabel3.Size = new System.Drawing.Size(226, 45);
+            this.linkLabel3.TabIndex = 3;
+            this.linkLabel3.TabStop = true;
+            this.linkLabel3.Text = "Special Thanks:";
+            this.linkLabel3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.linkLabel3.VisitedLinkColor = System.Drawing.Color.Black;
+            // 
+            // linkLabel2
+            // 
+            this.linkLabel2.ActiveLinkColor = System.Drawing.Color.Black;
+            this.linkLabel2.BackColor = System.Drawing.Color.Transparent;
+            this.linkLabel2.DisabledLinkColor = System.Drawing.Color.Black;
+            this.linkLabel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.linkLabel2.Enabled = false;
+            this.linkLabel2.Font = new System.Drawing.Font("Trebuchet MS", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.linkLabel2.ForeColor = System.Drawing.Color.Black;
+            this.linkLabel2.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
+            this.linkLabel2.LinkColor = System.Drawing.Color.LightGray;
+            this.linkLabel2.Location = new System.Drawing.Point(235, 155);
+            this.linkLabel2.Name = "linkLabel2";
+            this.linkLabel2.Size = new System.Drawing.Size(227, 45);
+            this.linkLabel2.TabIndex = 2;
+            this.linkLabel2.TabStop = true;
+            this.linkLabel2.Text = "ForgeOn, rummhamm87, CustomsForge Staff and our Beta Testers";
+            this.linkLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.linkLabel2.VisitedLinkColor = System.Drawing.Color.Black;
+            this.linkLabel2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel2_LinkClicked);
+            // 
             // link_Credits
             // 
             this.link_Credits.ActiveLinkColor = System.Drawing.Color.Black;
@@ -406,7 +462,7 @@
             this.link_Credits.DisabledLinkColor = System.Drawing.Color.Black;
             this.link_Credits.Dock = System.Windows.Forms.DockStyle.Fill;
             this.link_Credits.Enabled = false;
-            this.link_Credits.Font = new System.Drawing.Font("Trebuchet MS", 10F);
+            this.link_Credits.Font = new System.Drawing.Font("Trebuchet MS", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.link_Credits.ForeColor = System.Drawing.Color.Black;
             this.link_Credits.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
             this.link_Credits.LinkColor = System.Drawing.Color.LightGray;
@@ -506,10 +562,10 @@
             this.lnkUnleashedProfile.AutoSize = true;
             this.lnkUnleashedProfile.BackColor = System.Drawing.Color.Transparent;
             this.lnkUnleashedProfile.LinkColor = System.Drawing.Color.Red;
-            this.lnkUnleashedProfile.Location = new System.Drawing.Point(235, 38);
+            this.lnkUnleashedProfile.Location = new System.Drawing.Point(235, 37);
             this.lnkUnleashedProfile.Name = "lnkUnleashedProfile";
             this.lnkUnleashedProfile.ResourceImg = "";
-            this.lnkUnleashedProfile.Size = new System.Drawing.Size(70, 13);
+            this.lnkUnleashedProfile.Size = new System.Drawing.Size(70, 16);
             this.lnkUnleashedProfile.TabIndex = 1;
             this.lnkUnleashedProfile.TabStop = true;
             this.lnkUnleashedProfile.Text = "Unleashed2k";
@@ -534,32 +590,16 @@
             this.lnkDarjuszProfile.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lnkDarjuszProfile.URL = "5299-darjusz";
             // 
-            // lnkLovromanProfile
-            // 
-            this.lnkLovromanProfile.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.lnkLovromanProfile.AutoSize = true;
-            this.lnkLovromanProfile.BackColor = System.Drawing.Color.Transparent;
-            this.lnkLovromanProfile.LinkColor = System.Drawing.Color.Red;
-            this.lnkLovromanProfile.Location = new System.Drawing.Point(235, 138);
-            this.lnkLovromanProfile.Name = "lnkLovromanProfile";
-            this.lnkLovromanProfile.ResourceImg = null;
-            this.lnkLovromanProfile.Size = new System.Drawing.Size(54, 13);
-            this.lnkLovromanProfile.TabIndex = 1;
-            this.lnkLovromanProfile.TabStop = true;
-            this.lnkLovromanProfile.Text = "Lovroman";
-            this.lnkLovromanProfile.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lnkLovromanProfile.URL = "43194-lovroman";
-            // 
             // lnkZerkzProfile
             // 
             this.lnkZerkzProfile.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.lnkZerkzProfile.AutoSize = true;
             this.lnkZerkzProfile.BackColor = System.Drawing.Color.Transparent;
             this.lnkZerkzProfile.LinkColor = System.Drawing.Color.Red;
-            this.lnkZerkzProfile.Location = new System.Drawing.Point(235, 118);
+            this.lnkZerkzProfile.Location = new System.Drawing.Point(235, 117);
             this.lnkZerkzProfile.Name = "lnkZerkzProfile";
             this.lnkZerkzProfile.ResourceImg = null;
-            this.lnkZerkzProfile.Size = new System.Drawing.Size(34, 13);
+            this.lnkZerkzProfile.Size = new System.Drawing.Size(37, 16);
             this.lnkZerkzProfile.TabIndex = 1;
             this.lnkZerkzProfile.TabStop = true;
             this.lnkZerkzProfile.Text = "Zerkz";
@@ -573,14 +613,14 @@
             this.link_Credits_Description.AutoSize = true;
             this.link_Credits_Description.BackColor = System.Drawing.Color.Transparent;
             this.link_Credits_Description.DisabledLinkColor = System.Drawing.Color.Black;
-            this.link_Credits_Description.Font = new System.Drawing.Font("Trebuchet MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.link_Credits_Description.Font = new System.Drawing.Font("Trebuchet MS", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.link_Credits_Description.ForeColor = System.Drawing.Color.Black;
             this.link_Credits_Description.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
             this.link_Credits_Description.LinkColor = System.Drawing.Color.White;
             this.link_Credits_Description.Location = new System.Drawing.Point(235, 6);
             this.link_Credits_Description.Margin = new System.Windows.Forms.Padding(3);
             this.link_Credits_Description.Name = "link_Credits_Description";
-            this.link_Credits_Description.Size = new System.Drawing.Size(96, 22);
+            this.link_Credits_Description.Size = new System.Drawing.Size(98, 22);
             this.link_Credits_Description.TabIndex = 0;
             this.link_Credits_Description.TabStop = true;
             this.link_Credits_Description.Text = "Developers:";
@@ -608,22 +648,6 @@
             this.linkLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.linkLabel1.VisitedLinkColor = System.Drawing.Color.Black;
             // 
-            // lnkCozy1Profile
-            // 
-            this.lnkCozy1Profile.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.lnkCozy1Profile.AutoSize = true;
-            this.lnkCozy1Profile.BackColor = System.Drawing.Color.Transparent;
-            this.lnkCozy1Profile.LinkColor = System.Drawing.Color.Red;
-            this.lnkCozy1Profile.Location = new System.Drawing.Point(235, 78);
-            this.lnkCozy1Profile.Name = "lnkCozy1Profile";
-            this.lnkCozy1Profile.ResourceImg = null;
-            this.lnkCozy1Profile.Size = new System.Drawing.Size(35, 13);
-            this.lnkCozy1Profile.TabIndex = 1;
-            this.lnkCozy1Profile.TabStop = true;
-            this.lnkCozy1Profile.Text = "cozy1";
-            this.lnkCozy1Profile.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lnkCozy1Profile.URL = "4293-cozy1";
-            // 
             // link_Developer3
             // 
             this.link_Developer3.ActiveLinkColor = System.Drawing.Color.Black;
@@ -644,62 +668,53 @@
             this.link_Developer3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.link_Developer3.VisitedLinkColor = System.Drawing.Color.Black;
             // 
+            // lnkCozy1Profile
+            // 
+            this.lnkCozy1Profile.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.lnkCozy1Profile.AutoSize = true;
+            this.lnkCozy1Profile.BackColor = System.Drawing.Color.Transparent;
+            this.lnkCozy1Profile.LinkColor = System.Drawing.Color.Red;
+            this.lnkCozy1Profile.Location = new System.Drawing.Point(235, 77);
+            this.lnkCozy1Profile.Name = "lnkCozy1Profile";
+            this.lnkCozy1Profile.ResourceImg = null;
+            this.lnkCozy1Profile.Size = new System.Drawing.Size(38, 16);
+            this.lnkCozy1Profile.TabIndex = 1;
+            this.lnkCozy1Profile.TabStop = true;
+            this.lnkCozy1Profile.Text = "cozy1";
+            this.lnkCozy1Profile.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lnkCozy1Profile.URL = "4293-cozy1";
+            // 
+            // lnkLovromanProfile
+            // 
+            this.lnkLovromanProfile.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.lnkLovromanProfile.AutoSize = true;
+            this.lnkLovromanProfile.BackColor = System.Drawing.Color.Transparent;
+            this.lnkLovromanProfile.LinkColor = System.Drawing.Color.Red;
+            this.lnkLovromanProfile.Location = new System.Drawing.Point(235, 137);
+            this.lnkLovromanProfile.Name = "lnkLovromanProfile";
+            this.lnkLovromanProfile.ResourceImg = null;
+            this.lnkLovromanProfile.Size = new System.Drawing.Size(57, 16);
+            this.lnkLovromanProfile.TabIndex = 1;
+            this.lnkLovromanProfile.TabStop = true;
+            this.lnkLovromanProfile.Text = "Lovroman";
+            this.lnkLovromanProfile.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lnkLovromanProfile.URL = "43194-lovroman";
+            // 
             // lnkDreddFoxxProfile
             // 
             this.lnkDreddFoxxProfile.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.lnkDreddFoxxProfile.AutoSize = true;
             this.lnkDreddFoxxProfile.BackColor = System.Drawing.Color.Transparent;
             this.lnkDreddFoxxProfile.LinkColor = System.Drawing.Color.Red;
-            this.lnkDreddFoxxProfile.Location = new System.Drawing.Point(235, 98);
+            this.lnkDreddFoxxProfile.Location = new System.Drawing.Point(235, 97);
             this.lnkDreddFoxxProfile.Name = "lnkDreddFoxxProfile";
             this.lnkDreddFoxxProfile.ResourceImg = null;
-            this.lnkDreddFoxxProfile.Size = new System.Drawing.Size(58, 13);
+            this.lnkDreddFoxxProfile.Size = new System.Drawing.Size(62, 16);
             this.lnkDreddFoxxProfile.TabIndex = 1;
             this.lnkDreddFoxxProfile.TabStop = true;
             this.lnkDreddFoxxProfile.Text = "DreddFoxx";
             this.lnkDreddFoxxProfile.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lnkDreddFoxxProfile.URL = "40453-dreddfoxx";
-            // 
-            // linkLabel2
-            // 
-            this.linkLabel2.ActiveLinkColor = System.Drawing.Color.Black;
-            this.linkLabel2.BackColor = System.Drawing.Color.Transparent;
-            this.linkLabel2.DisabledLinkColor = System.Drawing.Color.Black;
-            this.linkLabel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.linkLabel2.Enabled = false;
-            this.linkLabel2.Font = new System.Drawing.Font("Trebuchet MS", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.linkLabel2.ForeColor = System.Drawing.Color.Black;
-            this.linkLabel2.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
-            this.linkLabel2.LinkColor = System.Drawing.Color.LightGray;
-            this.linkLabel2.Location = new System.Drawing.Point(235, 155);
-            this.linkLabel2.Name = "linkLabel2";
-            this.linkLabel2.Size = new System.Drawing.Size(227, 45);
-            this.linkLabel2.TabIndex = 2;
-            this.linkLabel2.TabStop = true;
-            this.linkLabel2.Text = "ForgeOn, rummhamm87, CustomsForge Staff and our Beta Testers";
-            this.linkLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.linkLabel2.VisitedLinkColor = System.Drawing.Color.Black;
-            this.linkLabel2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel2_LinkClicked);
-            // 
-            // linkLabel3
-            // 
-            this.linkLabel3.ActiveLinkColor = System.Drawing.Color.Black;
-            this.linkLabel3.BackColor = System.Drawing.Color.Transparent;
-            this.linkLabel3.DisabledLinkColor = System.Drawing.Color.Black;
-            this.linkLabel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.linkLabel3.Enabled = false;
-            this.linkLabel3.Font = new System.Drawing.Font("Trebuchet MS", 10F);
-            this.linkLabel3.ForeColor = System.Drawing.Color.Black;
-            this.linkLabel3.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
-            this.linkLabel3.LinkColor = System.Drawing.Color.LightGray;
-            this.linkLabel3.Location = new System.Drawing.Point(3, 155);
-            this.linkLabel3.Name = "linkLabel3";
-            this.linkLabel3.Size = new System.Drawing.Size(226, 45);
-            this.linkLabel3.TabIndex = 3;
-            this.linkLabel3.TabStop = true;
-            this.linkLabel3.Text = "Special Thanks:";
-            this.linkLabel3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.linkLabel3.VisitedLinkColor = System.Drawing.Color.Black;
             // 
             // About
             // 
@@ -760,5 +775,6 @@
         public System.Windows.Forms.PictureBox pbProfile;
         private System.Windows.Forms.LinkLabel linkLabel2;
         private System.Windows.Forms.LinkLabel linkLabel3;
+        private System.Windows.Forms.Button btnCFSMSite;
     }
 }
