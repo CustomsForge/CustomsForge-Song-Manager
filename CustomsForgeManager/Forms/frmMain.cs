@@ -23,9 +23,12 @@ namespace CustomsForgeManager.Forms
         private static ToolStripLabel tsStatusMsg;
         public Control currentControl = null;
 
+
         public frmMain(DLogger myLog)
         {
             InitializeComponent();
+
+
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);
             this.FormClosing += frmMain_FormClosing;
             this.FormClosed += frmMain_FormClosed; // moved here for better access
@@ -261,18 +264,6 @@ namespace CustomsForgeManager.Forms
                     Globals.SetlistManager.Size = UCSize;
                     currentControl = Globals.SetlistManager;
                     break;
-#if TAGGER
-                case "TAGG":
-                    this.tpTagger.Controls.Clear();
-                    this.tpTagger.Controls.Add(Globals.Tagger);
-                    Globals.Tagger.Dock = DockStyle.Fill;
-                    Globals.Tagger.PopulateTagger();
-                    Globals.Tagger.UpdateToolStrip();
-                    Globals.Tagger.Location = UCLocation;
-                    Globals.Tagger.Size = UCSize;
-                    currentControl = Globals.Tagger;
-                    break;
-#endif
                 case "SETT":
                     // using LeaveSongManager instead of EH SongMangager_Leave
                     Globals.SongManager.LeaveSongManager();
