@@ -113,7 +113,7 @@ namespace CustomsForgeManager.UControls
 
         private void picCF_Click(object sender, EventArgs e)
         {
-            Process.Start("http://search.customsforge.com/");
+            Process.Start("http://ignition.customsforge.com/");
         }
 
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -122,6 +122,11 @@ namespace CustomsForgeManager.UControls
         }
 
         private void link_Credits_Description_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+
+        }
+
+        private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
 
         }

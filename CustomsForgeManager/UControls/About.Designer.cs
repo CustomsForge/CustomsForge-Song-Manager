@@ -41,7 +41,6 @@
             this.lnkHomePage = new System.Windows.Forms.LinkLabel();
             this.lnkIgnition = new System.Windows.Forms.LinkLabel();
             this.lnkRequests = new System.Windows.Forms.LinkLabel();
-            this.lnkDonations = new System.Windows.Forms.LinkLabel();
             this.lnkVideos = new System.Windows.Forms.LinkLabel();
             this.lnkFAQ = new System.Windows.Forms.LinkLabel();
             this.btnCFSMSite = new System.Windows.Forms.Button();
@@ -66,6 +65,8 @@
             this.lnkCozy1Profile = new CustomsForgeManager.UControls.ProfileLinkLabel();
             this.lnkLovromanProfile = new CustomsForgeManager.UControls.ProfileLinkLabel();
             this.lnkDreddFoxxProfile = new CustomsForgeManager.UControls.ProfileLinkLabel();
+            this.lnkDonations = new System.Windows.Forms.LinkLabel();
+            this.linkLabel4 = new System.Windows.Forms.LinkLabel();
             this.tlpAbout.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picCF)).BeginInit();
             this.gbInfo.SuspendLayout();
@@ -82,6 +83,7 @@
             this.tlpAbout.ColumnCount = 2;
             this.tlpAbout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tlpAbout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlpAbout.Controls.Add(this.linkLabel4, 0, 2);
             this.tlpAbout.Controls.Add(this.picCF, 0, 0);
             this.tlpAbout.Controls.Add(this.gbInfo, 1, 0);
             this.tlpAbout.Controls.Add(this.gbCFLinks, 1, 1);
@@ -268,21 +270,6 @@
             this.lnkRequests.Text = "Requests";
             this.lnkRequests.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lnkRequests.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkRequests_LinkClicked);
-            // 
-            // lnkDonations
-            // 
-            this.lnkDonations.AutoSize = true;
-            this.lnkDonations.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lnkDonations.Font = new System.Drawing.Font("Trebuchet MS", 12F);
-            this.lnkDonations.LinkColor = System.Drawing.Color.Black;
-            this.lnkDonations.Location = new System.Drawing.Point(3, 100);
-            this.lnkDonations.Name = "lnkDonations";
-            this.lnkDonations.Size = new System.Drawing.Size(329, 30);
-            this.lnkDonations.TabIndex = 13;
-            this.lnkDonations.TabStop = true;
-            this.lnkDonations.Text = "Donations";
-            this.lnkDonations.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lnkDonations.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkDonations_LinkClicked);
             // 
             // lnkVideos
             // 
@@ -716,6 +703,41 @@
             this.lnkDreddFoxxProfile.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lnkDreddFoxxProfile.URL = "40453-dreddfoxx";
             // 
+            // lnkDonations
+            // 
+            this.lnkDonations.AutoSize = true;
+            this.lnkDonations.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lnkDonations.Font = new System.Drawing.Font("Trebuchet MS", 12F);
+            this.lnkDonations.LinkColor = System.Drawing.Color.Black;
+            this.lnkDonations.Location = new System.Drawing.Point(3, 100);
+            this.lnkDonations.Name = "lnkDonations";
+            this.lnkDonations.Size = new System.Drawing.Size(329, 30);
+            this.lnkDonations.TabIndex = 13;
+            this.lnkDonations.TabStop = true;
+            this.lnkDonations.Text = "Support CustomsForge";
+            this.lnkDonations.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lnkDonations.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkDonations_LinkClicked);
+            // 
+            // linkLabel4
+            // 
+            this.linkLabel4.ActiveLinkColor = System.Drawing.Color.Black;
+            this.linkLabel4.BackColor = System.Drawing.Color.Transparent;
+            this.linkLabel4.DisabledLinkColor = System.Drawing.Color.Black;
+            this.linkLabel4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.linkLabel4.Enabled = false;
+            this.linkLabel4.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.linkLabel4.ForeColor = System.Drawing.Color.Black;
+            this.linkLabel4.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
+            this.linkLabel4.LinkColor = System.Drawing.Color.Black;
+            this.linkLabel4.Location = new System.Drawing.Point(3, 470);
+            this.linkLabel4.Name = "linkLabel4";
+            this.linkLabel4.Size = new System.Drawing.Size(489, 20);
+            this.linkLabel4.TabIndex = 10;
+            this.linkLabel4.TabStop = true;
+            this.linkLabel4.Text = "Copyright 2015 - CustomsForge Song Manager";
+            this.linkLabel4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.linkLabel4.VisitedLinkColor = System.Drawing.Color.Black;
+            // 
             // About
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -762,7 +784,6 @@
         private System.Windows.Forms.LinkLabel lnkHomePage;
         private System.Windows.Forms.LinkLabel lnkIgnition;
         private System.Windows.Forms.LinkLabel lnkRequests;
-        private System.Windows.Forms.LinkLabel lnkDonations;
         private System.Windows.Forms.LinkLabel lnkVideos;
         private System.Windows.Forms.LinkLabel lnkFAQ;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
@@ -776,5 +797,7 @@
         private System.Windows.Forms.LinkLabel linkLabel2;
         private System.Windows.Forms.LinkLabel linkLabel3;
         private System.Windows.Forms.Button btnCFSMSite;
+        private System.Windows.Forms.LinkLabel lnkDonations;
+        private System.Windows.Forms.LinkLabel linkLabel4;
     }
 }
