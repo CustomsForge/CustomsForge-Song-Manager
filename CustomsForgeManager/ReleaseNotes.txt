@@ -1,5 +1,14 @@
 CFM Release Notes
 
+1.0.6.1
+-Added ArrangementInitials to SongData for the renamer
+-Added arrangements to renamer_properties.json
+-User rename template saves and loads with settings
+-Rename template preview
+-Renamer inserts template at the textbox position and deletes selected text
+-Program will activate and restore the the main window of the another instance when another instance is running
+-Converted some more strings to resource strings
+
 1.0.6.0
 -Changed the Exporter to only write visible cells
 -Exporter can export from any control that contains a grid by using the IDataGridViewHolder Interface

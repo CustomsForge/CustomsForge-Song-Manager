@@ -8,6 +8,7 @@
 		{ "Key": "year", "Description": "Album Year" },
         { "Key": "version", "Description": "Version (of the song)" },
         { "Key": "author", "Description": "CDLC Author" },
-	    { "Key": "filename", "Description": "Original Filename" }
+        { "Key": "filename", "Description": "Original Filename" },        
+        { "Key": "arrangements", "Description": "Song Arrangements" }
     ]
 }

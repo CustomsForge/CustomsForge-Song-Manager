@@ -6,6 +6,7 @@ using CustomsForgeManager.CustomsForgeManagerLib.Objects;
 using CustomsForgeManager.Forms;
 using DLogNet;
 using System.Threading;
+using System.Linq;
 
 namespace CustomsForgeManager
 {
@@ -22,8 +23,18 @@ namespace CustomsForgeManager
             using (Mutex mutex = new Mutex(false, @"Global\CUSTOMSFORGESONGMANAGER"))
             {
                 if (!mutex.WaitOne(0, false))
-                {          
-                    //todo: Focus on the window
+                {                    
+                    Process proc = Process.GetProcesses().Where(
+                        p => Path.GetFileName(p.ProcessName) == 
+                            Path.GetFileName(Path.GetFileNameWithoutExtension(Application.ExecutablePath))).FirstOrDefault();
+
+                    if (proc != null)
+                    {
+                        //restore the window if minimized
+                        ShowWindow(proc.MainWindowHandle, 9);
+                        //bring it to the front
+                        SetForegroundWindow(proc.MainWindowHandle);
+                    }
                     return;
                 }
 
@@ -50,6 +61,11 @@ namespace CustomsForgeManager
         }
 
 
+        [System.Runtime.InteropServices.DllImport("USER32.DLL")]
+        public static extern bool SetForegroundWindow(IntPtr hWnd);
+
+        [System.Runtime.InteropServices.DllImport("USER32.DLL")]
+        static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
 
         private static void RunApp()
         {

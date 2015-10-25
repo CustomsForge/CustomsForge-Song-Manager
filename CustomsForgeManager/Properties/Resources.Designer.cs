@@ -248,6 +248,15 @@ namespace CustomsForgeManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ERROR.
+        /// </summary>
+        internal static string ERROR {
+            get {
+                return ResourceManager.GetString("ERROR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;ERROR&gt;: No path provided for file scanning.
         /// </summary>
         internal static string ERRORNoPathProvidedForFileScanning {
@@ -405,11 +414,29 @@ namespace CustomsForgeManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No songs found for rename preview..
+        /// </summary>
+        internal static string NoSongsFoundForRenamePreview {
+            get {
+                return ResourceManager.GetString("NoSongsFoundForRenamePreview", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please enter setlist name.
         /// </summary>
         internal static string PleaseEnterSetlistName {
             get {
                 return ResourceManager.GetString("PleaseEnterSetlistName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please scan in at least one song..
+        /// </summary>
+        internal static string PleaseScanInAtLeastOneSong {
+            get {
+                return ResourceManager.GetString("PleaseScanInAtLeastOneSong", resourceCulture);
             }
         }
         
@@ -460,6 +487,51 @@ namespace CustomsForgeManager.Properties {
             get {
                 object obj = ResourceManager.GetObject("renamer_properties", resourceCulture);
                 return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Renaming From: {0}.
+        /// </summary>
+        internal static string Renamer_RenamingFrom {
+            get {
+                return ResourceManager.GetString("Renamer_RenamingFrom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Songs need to be rescanned with  {0}Song Manager before renaming!.
+        /// </summary>
+        internal static string Renamer_SongsNeedToBeRescanned {
+            get {
+                return ResourceManager.GetString("Renamer_SongsNeedToBeRescanned", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use Duplicates to delete/move &apos;{0}&apos; before using Renamer..
+        /// </summary>
+        internal static string Renamer_UseDuplicatesToDeleteMove {
+            get {
+                return ResourceManager.GetString("Renamer_UseDuplicatesToDeleteMove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Renamer preview : {0}.
+        /// </summary>
+        internal static string RenamerPreviewX0 {
+            get {
+                return ResourceManager.GetString("RenamerPreviewX0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rename Template requires &lt;title&gt; to prevent overwriting songs..
+        /// </summary>
+        internal static string RenameTemplateRequiresTitleToPrevent {
+            get {
+                return ResourceManager.GetString("RenameTemplateRequiresTitleToPrevent", resourceCulture);
             }
         }
         
@@ -530,6 +602,15 @@ namespace CustomsForgeManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Selected Songs in SongManager Count: {0}.
+        /// </summary>
+        internal static string SelectedSongsInSongManagerCountX0 {
+            get {
+                return ResourceManager.GetString("SelectedSongsInSongManagerCountX0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Show &amp;All.
         /// </summary>
         internal static string ShowAll {
@@ -545,6 +626,15 @@ namespace CustomsForgeManager.Properties {
         internal static string SongDataModifiedConfirmation {
             get {
                 return ResourceManager.GetString("SongDataModifiedConfirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Songs need to be rescanned with  {0}Song Manager before renaming!.
+        /// </summary>
+        internal static string SongsNeedToBeRescannedWithX0SongManagerBef {
+            get {
+                return ResourceManager.GetString("SongsNeedToBeRescannedWithX0SongManagerBef", resourceCulture);
             }
         }
         
@@ -622,6 +712,15 @@ namespace CustomsForgeManager.Properties {
             get {
                 object obj = ResourceManager.GetObject("upload", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use the Duplicates tabmenu to delete/move{0}duplicates before attempting to use Renamer..
+        /// </summary>
+        internal static string UseTheDuplicatesTabmenuToDeleteMoveX0Dupli {
+            get {
+                return ResourceManager.GetString("UseTheDuplicatesTabmenuToDeleteMoveX0Dupli", resourceCulture);
             }
         }
         

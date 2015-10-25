@@ -48,6 +48,8 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         private static Utilities _utilities;
  		private static SongTagger _tagger;
 
+        public static Random random = new Random();
+
         public static event EventHandler<ScannerEventHandler> OnScanEvent;
 
         private static bool FIsScanning;

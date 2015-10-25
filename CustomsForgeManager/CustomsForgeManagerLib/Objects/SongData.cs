@@ -61,6 +61,33 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
             get { return (new FileInfo(Path).Name); }
             // set { } // required for XML file usage
         }
+        [XmlIgnore]
+        public string ArrangementInitials
+        {
+            get
+            {
+                string result = string.Empty;
+                foreach (string arrangement in Arrangements2D.Select(x => x.Name.ToLower()).ToArray())
+                {
+                    if (arrangement.Contains("lead") && !arrangement.Contains("lead2"))
+                        result += "L";
+                    if (arrangement.Contains("lead2"))
+                        result += "l";
+                    if (arrangement.Contains("rhythm") && !arrangement.Contains("rhythm2"))
+                        result += "R";
+                    if (arrangement.Contains("rhythm2"))
+                        result = "r";
+                    if (arrangement.Contains("bass") && !arrangement.Contains("bass2"))
+                        result += "B";
+                    if (arrangement.Contains("bass2"))
+                        result += "b";
+                    if (arrangement.Contains("vocals"))
+                        result += "V";
+                }
+                return result;
+            }
+        }
+
 
         public string Charter { get; set; }
         public DateTime LastConversionDateTime { get; set; }

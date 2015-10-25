@@ -576,10 +576,6 @@
       <Project>{E6565985-C477-46F4-8A42-08E04CD40B65}</Project>
       <Name>CFMImageTools</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CustomForgeManagerTools\ClickOnceUninstaller\ClickOnceUninstaller.csproj">
-      <Project>{25E15C6A-AEAE-4958-80EA-44062DF402E7}</Project>
-      <Name>ClickOnceUninstaller</Name>
-    </ProjectReference>
     <ProjectReference Include="..\CustomForgeManagerTools\DataGridViewTools\DataGridViewTools.csproj">
       <Project>{5a4b4b14-d3b5-4d54-80ec-0877c1e6e73a}</Project>
       <Name>DataGridViewTools</Name>

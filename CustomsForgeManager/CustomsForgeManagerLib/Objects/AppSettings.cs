@@ -36,6 +36,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         bool FFullScreen;
         bool FShowLogwindow;
         string FCreator;
+        string FRenameTemplate;
 
         public string LogFilePath { get; set; }
         public string RSInstalledDir { get { return FRSInstalledDir; } set { SetPropertyField("RSInstalledDir", ref FRSInstalledDir, value); } }
@@ -44,7 +45,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         public bool CheckForUpdateOnScan { get { return FCheckForUpdateOnScan; } set { SetPropertyField("CheckForUpdateOnScan", ref FCheckForUpdateOnScan, value); } }
         public RADataGridViewSettings ManagerGridSettings { get; set; }
         // TODO: need to impliment saving/loading this
-        public string RenameTemplate { get; set; }
+        public string RenameTemplate { get { return FRenameTemplate; } set { SetPropertyField("RenameTemplate", ref FRenameTemplate, value); } }
         public bool FullScreen { get { return FFullScreen; } set { SetPropertyField("FullScreen", ref FFullScreen, value); } }
         public bool ShowLogWindow { get { return FShowLogwindow; } set { SetPropertyField("ShowLogWindow", ref FShowLogwindow, value); } }
 

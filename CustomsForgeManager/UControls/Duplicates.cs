@@ -543,15 +543,22 @@ namespace CustomsForgeManager.UControls
 
         private void dgvDups_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            var x = (SongData)dgvDups.Rows[e.RowIndex].DataBoundItem;
-            if (x != null)
+            try
             {
-                if (dupPIDS.Contains(x))
+                var x = (SongData)dgvDups.Rows[e.RowIndex].DataBoundItem;
+                if (x != null)
                 {
-                    e.CellStyle.BackColor = ErrorStyle.BackColor;
-                    e.CellStyle.ForeColor = ErrorStyle.ForeColor;
-                    e.CellStyle.Font = ErrorStyle.Font;
+                    if (dupPIDS.Contains(x))
+                    {
+                        e.CellStyle.BackColor = ErrorStyle.BackColor;
+                        e.CellStyle.ForeColor = ErrorStyle.ForeColor;
+                        e.CellStyle.Font = ErrorStyle.Font;
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                 Globals.DebugLog(String.Format("{0}", ex.Message));
             }
         }
 

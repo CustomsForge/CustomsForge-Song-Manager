@@ -329,4 +329,48 @@ any form of the word 'disabled'</value>
   <data name="creditsbackground" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\creditsbackground.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Renamer_SongsNeedToBeRescanned" xml:space="preserve">
+    <value>Songs need to be rescanned with  {0}Song Manager before renaming!</value>
+    <comment>Renamer_SongsNeedToBeRescanned description</comment>
+  </data>
+  <data name="Renamer_RenamingFrom" xml:space="preserve">
+    <value>Renaming From: {0}</value>
+    <comment>Renamer_RenamingFrom description</comment>
+  </data>
+  <data name="Renamer_UseDuplicatesToDeleteMove" xml:space="preserve">
+    <value>Use Duplicates to delete/move '{0}' before using Renamer.</value>
+    <comment>Renamer_UseDuplicatesToDeleteMove description</comment>
+  </data>
+  <data name="SelectedSongsInSongManagerCountX0" xml:space="preserve">
+    <value>Selected Songs in SongManager Count: {0}</value>
+    <comment>SelectedSongsInSongManagerCountX0 description</comment>
+  </data>
+  <data name="RenameTemplateRequiresTitleToPrevent" xml:space="preserve">
+    <value>Rename Template requires &lt;title&gt; to prevent overwriting songs.</value>
+    <comment>RenameTemplateRequiresTitleToPrevent description</comment>
+  </data>
+  <data name="PleaseScanInAtLeastOneSong" xml:space="preserve">
+    <value>Please scan in at least one song.</value>
+    <comment>PleaseScanInAtLeastOneSong description</comment>
+  </data>
+  <data name="SongsNeedToBeRescannedWithX0SongManagerBef" xml:space="preserve">
+    <value>Songs need to be rescanned with  {0}Song Manager before renaming!</value>
+    <comment>SongsNeedToBeRescannedWithX0SongManagerBef description</comment>
+  </data>
+  <data name="UseTheDuplicatesTabmenuToDeleteMoveX0Dupli" xml:space="preserve">
+    <value>Use the Duplicates tabmenu to delete/move{0}duplicates before attempting to use Renamer.</value>
+    <comment>UseTheDuplicatesTabmenuToDeleteMoveX0Dupli description</comment>
+  </data>
+  <data name="ERROR" xml:space="preserve">
+    <value>ERROR</value>
+    <comment>ERROR</comment>
+  </data>
+  <data name="NoSongsFoundForRenamePreview" xml:space="preserve">
+    <value>No songs found for rename preview.</value>
+    <comment>NoSongsFoundForRenamePreview description</comment>
+  </data>
+  <data name="RenamerPreviewX0" xml:space="preserve">
+    <value>Renamer preview : {0}</value>
+    <comment>RenamerPreviewX0 description</comment>
+  </data>
 </root>

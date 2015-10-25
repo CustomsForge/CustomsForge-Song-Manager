@@ -46,6 +46,7 @@
             this.btnClearTemplate = new System.Windows.Forms.Button();
             this.chkTheMover = new System.Windows.Forms.CheckBox();
             this.chkRemoveSpaces = new System.Windows.Forms.CheckBox();
+            this.btnPreview = new System.Windows.Forms.Button();
             this.propertiesGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRenamer)).BeginInit();
             this.howToGroupBox.SuspendLayout();
@@ -54,9 +55,9 @@
             // 
             // propertiesGroupBox
             // 
-            this.propertiesGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.propertiesGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.propertiesGroupBox.BackColor = System.Drawing.Color.Transparent;
             this.propertiesGroupBox.Controls.Add(this.dgvRenamer);
             this.propertiesGroupBox.Location = new System.Drawing.Point(431, 62);
@@ -89,9 +90,9 @@
             // 
             // howToGroupBox
             // 
-            this.howToGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.howToGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.howToGroupBox.BackColor = System.Drawing.Color.Transparent;
             this.howToGroupBox.Controls.Add(this.lblHeader);
             this.howToGroupBox.Controls.Add(this.lblInstructions);
@@ -105,8 +106,8 @@
             // 
             // lblHeader
             // 
-            this.lblHeader.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblHeader.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lblHeader.AutoSize = true;
             this.lblHeader.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblHeader.Location = new System.Drawing.Point(10, 26);
@@ -114,12 +115,12 @@
             this.lblHeader.Size = new System.Drawing.Size(346, 48);
             this.lblHeader.TabIndex = 2;
             this.lblHeader.Text = "Type the property Key surrounded by \'<\' and \'>\'.  \r\nor simply double click on any" +
-                " Key to the right to\r\nselect and build a custom renaming template.\r\n";
+    " Key to the right to\r\nselect and build a custom renaming template.\r\n";
             // 
             // lblInstructions
             // 
-            this.lblInstructions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblInstructions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lblInstructions.AutoSize = true;
             this.lblInstructions.Location = new System.Drawing.Point(10, 96);
             this.lblInstructions.Name = "lblInstructions";
@@ -139,7 +140,7 @@
             // chkDeleteEmptyDir
             // 
             this.chkDeleteEmptyDir.AutoSize = true;
-            this.chkDeleteEmptyDir.Location = new System.Drawing.Point(393, 39);
+            this.chkDeleteEmptyDir.Location = new System.Drawing.Point(415, 37);
             this.chkDeleteEmptyDir.Name = "chkDeleteEmptyDir";
             this.chkDeleteEmptyDir.Size = new System.Drawing.Size(209, 17);
             this.chkDeleteEmptyDir.TabIndex = 15;
@@ -173,6 +174,7 @@
             this.txtRenameTemplate.Size = new System.Drawing.Size(379, 20);
             this.txtRenameTemplate.TabIndex = 12;
             this.txtRenameTemplate.Text = "<title>_<artist>";
+            this.txtRenameTemplate.TextChanged += new System.EventHandler(this.txtRenameTemplate_TextChanged);
             // 
             // btnRenameAll
             // 
@@ -225,7 +227,7 @@
             // chkTheMover
             // 
             this.chkTheMover.AutoSize = true;
-            this.chkTheMover.Location = new System.Drawing.Point(658, 39);
+            this.chkTheMover.Location = new System.Drawing.Point(658, 37);
             this.chkTheMover.Name = "chkTheMover";
             this.chkTheMover.Size = new System.Drawing.Size(241, 17);
             this.chkTheMover.TabIndex = 19;
@@ -235,16 +237,28 @@
             // chkRemoveSpaces
             // 
             this.chkRemoveSpaces.AutoSize = true;
-            this.chkRemoveSpaces.Location = new System.Drawing.Point(149, 39);
+            this.chkRemoveSpaces.Location = new System.Drawing.Point(212, 37);
             this.chkRemoveSpaces.Name = "chkRemoveSpaces";
             this.chkRemoveSpaces.Size = new System.Drawing.Size(183, 17);
             this.chkRemoveSpaces.TabIndex = 20;
             this.chkRemoveSpaces.Text = "Remove spaces from new names\r\n";
             this.chkRemoveSpaces.UseVisualStyleBackColor = true;
             // 
+            // btnPreview
+            // 
+            this.btnPreview.AutoSize = true;
+            this.btnPreview.Location = new System.Drawing.Point(113, 33);
+            this.btnPreview.Name = "btnPreview";
+            this.btnPreview.Size = new System.Drawing.Size(75, 23);
+            this.btnPreview.TabIndex = 23;
+            this.btnPreview.Text = "Preview";
+            this.btnPreview.UseVisualStyleBackColor = true;
+            this.btnPreview.Click += new System.EventHandler(this.btnPreview_Click);
+            // 
             // Renamer
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.Controls.Add(this.btnPreview);
             this.Controls.Add(this.chkRemoveSpaces);
             this.Controls.Add(this.chkTheMover);
             this.Controls.Add(this.btnClearTemplate);
@@ -289,5 +303,6 @@
         private System.Windows.Forms.Button btnClearTemplate;
         private System.Windows.Forms.CheckBox chkTheMover;
         private System.Windows.Forms.CheckBox chkRemoveSpaces;
+        private System.Windows.Forms.Button btnPreview;
     }
 }
