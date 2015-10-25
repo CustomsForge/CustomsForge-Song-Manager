@@ -9,7 +9,19 @@ namespace CustomsForgeManager.UControls
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-     
+
+        /// <summary> 
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
 
         #region Component Designer generated code
 
@@ -216,9 +228,10 @@ namespace CustomsForgeManager.UControls
             this.dgvDups.Size = new System.Drawing.Size(852, 429);
             this.dgvDups.TabIndex = 15;
             this.dgvDups.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvDups_CellDoubleClick);
+            this.dgvDups.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvDups_CellFormatting);
             this.dgvDups.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvDups_CellMouseUp);
-            this.dgvDups.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dgvDups_CellPainting);
             this.dgvDups.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgvDups_DataBindingComplete);
+            this.dgvDups.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dgvDups_DataError);
             this.dgvDups.Paint += new System.Windows.Forms.PaintEventHandler(this.dgvDups_Paint);
             this.dgvDups.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvDups_KeyDown);
             // 

@@ -21,35 +21,23 @@ namespace CustomsForgeManager.UControls
         private List<SongData> dupPIDS = new List<SongData>();
         private Color ErrorStyleBackColor = Color.Red;
         private Color ErrorStyleForeColor = Color.White;
-        private Font ErrorStyleFont;
+       // private Font ErrorStyleFont;
+        private DataGridViewCellStyle ErrorStyle;
 
         public Duplicates()
         {
             InitializeComponent();
-            ErrorStyleFont = new Font(dgvDups.Font, FontStyle.Italic);
+            ErrorStyle = new DataGridViewCellStyle()
+            {
+                Font = new Font("Arial", 8, FontStyle.Italic),
+                ForeColor = ErrorStyleForeColor, BackColor = ErrorStyleBackColor
+            };
             txtNoDuplicates.Visible = false;
             btnMove.Click += DeleteMoveSelected;
             btnDeleteSong.Click += DeleteMoveSelected;
             PopulateDuplicates();
         }
 
-        /// <summary> 
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-                if (ErrorStyleFont != null)
-                {
-                    ErrorStyleFont.Dispose();
-                    ErrorStyleFont = null;
-                }
-            }
-            base.Dispose(disposing);
-        }
 
         public void PopulateDuplicates(bool findDupPIDs = false)
         {
@@ -125,6 +113,8 @@ namespace CustomsForgeManager.UControls
             dgvDups.DefaultCellStyle.SelectionBackColor = Color.Gold; // dgvSongs.DefaultCellStyle.BackColor;
             dgvDups.DefaultCellStyle.SelectionForeColor = dgvDups.DefaultCellStyle.ForeColor;
             dgvDups.ClearSelection();
+
+
             Globals.ReloadDuplicates = false;
         }
 
@@ -209,6 +199,7 @@ namespace CustomsForgeManager.UControls
             //dgvDups.Columns["colUpdated"].Width = 100;
             //dgvDups.Columns["colPath"].Visible = true;
             //dgvDups.Columns["colPath"].Width = 305;
+
             dgvDups.Refresh();
         }
 
@@ -237,6 +228,7 @@ namespace CustomsForgeManager.UControls
                     BackColor = Color.FromArgb(224, 224, 224)
                 };
             dgvDups.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+
 
             UpdateToolStrip();
         }
@@ -543,27 +535,30 @@ namespace CustomsForgeManager.UControls
             RemoveFilter();
         }
 
-        private void dgvDups_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
-        {
-            if (!dgvPainted)
-                return;
 
-            e.Handled = false;
+        public DataGridView GetGrid()
+        {
+            return dgvDups;
+        }
+
+        private void dgvDups_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
             var x = (SongData)dgvDups.Rows[e.RowIndex].DataBoundItem;
             if (x != null)
             {
                 if (dupPIDS.Contains(x))
                 {
-                    e.CellStyle.BackColor = ErrorStyleBackColor;
-                    e.CellStyle.ForeColor = ErrorStyleForeColor;
-                    e.CellStyle.Font = ErrorStyleFont;
+                    e.CellStyle.BackColor = ErrorStyle.BackColor;
+                    e.CellStyle.ForeColor = ErrorStyle.ForeColor;
+                    e.CellStyle.Font = ErrorStyle.Font;
                 }
             }
         }
 
-        public DataGridView GetGrid()
+        private void dgvDups_DataError(object sender, DataGridViewDataErrorEventArgs e)
         {
-            return dgvDups;
+            Globals.DebugLog(String.Format("{0}, row:{1},col:{2}", e.Exception.Message,e.RowIndex,e.ColumnIndex));
+            e.Cancel = true;
         }
     }
 }
