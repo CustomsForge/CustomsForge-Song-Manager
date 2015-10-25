@@ -44,6 +44,7 @@ namespace CustomsForgeManager.UControls
             this.btnEnableDisable = new System.Windows.Forms.Button();
             this.btnRescan = new System.Windows.Forms.Button();
             this.gbResults = new System.Windows.Forms.GroupBox();
+            this.txtNoDuplicates = new System.Windows.Forms.TextBox();
             this.dgvDups = new CustomsForgeManager.CustomsForgeManagerLib.CustomControls.RADataGridView();
             this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.colEnabled = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -54,7 +55,6 @@ namespace CustomsForgeManager.UControls
             this.colAlbum = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colUpdated = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.txtNoDuplicates = new System.Windows.Forms.TextBox();
             this.cmsDuplicate.SuspendLayout();
             this.gbActions.SuspendLayout();
             this.panelActions.SuspendLayout();
@@ -67,19 +67,19 @@ namespace CustomsForgeManager.UControls
             this.cmsDuplicate.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.exploreToolStripMenuItem});
             this.cmsDuplicate.Name = "cmsDuplicate";
-            this.cmsDuplicate.Size = new System.Drawing.Size(122, 26);
+            this.cmsDuplicate.Size = new System.Drawing.Size(113, 26);
             // 
             // exploreToolStripMenuItem
             // 
             this.exploreToolStripMenuItem.Name = "exploreToolStripMenuItem";
-            this.exploreToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
+            this.exploreToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
             this.exploreToolStripMenuItem.Text = "Explore";
             this.exploreToolStripMenuItem.Click += new System.EventHandler(this.exploreToolStripMenuItem_Click);
             // 
             // gbActions
             // 
-            this.gbActions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbActions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.gbActions.Controls.Add(this.panelActions);
             this.gbActions.Location = new System.Drawing.Point(5, 457);
             this.gbActions.Name = "gbActions";
@@ -172,9 +172,9 @@ namespace CustomsForgeManager.UControls
             // 
             // gbResults
             // 
-            this.gbResults.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbResults.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.gbResults.Controls.Add(this.txtNoDuplicates);
             this.gbResults.Controls.Add(this.dgvDups);
             this.gbResults.Location = new System.Drawing.Point(4, 3);
@@ -184,13 +184,24 @@ namespace CustomsForgeManager.UControls
             this.gbResults.TabStop = false;
             this.gbResults.Text = "Results Grid:";
             // 
+            // txtNoDuplicates
+            // 
+            this.txtNoDuplicates.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtNoDuplicates.Location = new System.Drawing.Point(279, 157);
+            this.txtNoDuplicates.Multiline = true;
+            this.txtNoDuplicates.Name = "txtNoDuplicates";
+            this.txtNoDuplicates.Size = new System.Drawing.Size(307, 104);
+            this.txtNoDuplicates.TabIndex = 16;
+            this.txtNoDuplicates.Text = "\r\nGood News ...\r\nNo Duplicates Found";
+            this.txtNoDuplicates.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // dgvDups
             // 
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.dgvDups.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.dgvDups.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgvDups.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -217,6 +228,7 @@ namespace CustomsForgeManager.UControls
             this.dgvDups.TabIndex = 15;
             this.dgvDups.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvDups_CellDoubleClick);
             this.dgvDups.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvDups_CellMouseUp);
+            this.dgvDups.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dgvDups_CellPainting);
             this.dgvDups.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgvDups_DataBindingComplete);
             this.dgvDups.Paint += new System.Windows.Forms.PaintEventHandler(this.dgvDups_Paint);
             this.dgvDups.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvDups_KeyDown);
@@ -299,17 +311,6 @@ namespace CustomsForgeManager.UControls
             this.colPath.Name = "colPath";
             this.colPath.ReadOnly = true;
             this.colPath.Width = 54;
-            // 
-            // txtNoDuplicates
-            // 
-            this.txtNoDuplicates.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtNoDuplicates.Location = new System.Drawing.Point(279, 157);
-            this.txtNoDuplicates.Multiline = true;
-            this.txtNoDuplicates.Name = "txtNoDuplicates";
-            this.txtNoDuplicates.Size = new System.Drawing.Size(307, 104);
-            this.txtNoDuplicates.TabIndex = 16;
-            this.txtNoDuplicates.Text = "\r\nGood News ...\r\nNo Duplicates Found";
-            this.txtNoDuplicates.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // Duplicates
             // 
