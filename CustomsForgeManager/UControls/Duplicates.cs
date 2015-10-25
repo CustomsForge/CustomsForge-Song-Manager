@@ -18,10 +18,15 @@ namespace CustomsForgeManager.UControls
         private bool bindingCompleted = false;
         private bool dgvPainted = false;
         private List<SongData> duplicates = new List<SongData>();
+        private List<SongData> dupPIDS = new List<SongData>();
+        private Color ErrorStyleBackColor = Color.Red;
+        private Color ErrorStyleForeColor = Color.White;
+        private Font ErrorStyleFont;
 
         public Duplicates()
         {
             InitializeComponent();
+            ErrorStyleFont = new Font(dgvDups.Font, FontStyle.Italic);
             txtNoDuplicates.Visible = false;
             btnMove.Click += DeleteMoveSelected;
             btnDeleteSong.Click += DeleteMoveSelected;
@@ -74,6 +79,27 @@ namespace CustomsForgeManager.UControls
             }
 
             duplicates.RemoveAll(x => x.FileName.ToLower().Contains(Constants.RS1COMP));
+
+            //probably a better way to do this.
+            dupPIDS.Clear();
+            if (!findDupPIDs)
+            {
+                var dl = (from z in duplicates
+                          from x in z.Arrangements2D
+                          select x).GroupBy(x => x.PersistentID).Where(x => x.Count() > 1).ToList();
+
+                dl.ForEach(d =>
+                {
+                    d.Where(sd => sd.Parent != null).ToList().ForEach
+                        (x =>
+                            {
+                                if (!dupPIDS.Contains(x.Parent))
+                                    dupPIDS.Add(x.Parent);
+                            });
+                });
+
+            }
+
             LoadFilteredBindingList(duplicates);
             DgvDupsAppearance();
 
@@ -165,7 +191,6 @@ namespace CustomsForgeManager.UControls
             //dgvDups.Columns["colUpdated"].Width = 100;
             //dgvDups.Columns["colPath"].Visible = true;
             //dgvDups.Columns["colPath"].Width = 305;
-
             dgvDups.Refresh();
         }
 
@@ -498,6 +523,24 @@ namespace CustomsForgeManager.UControls
         private void lnkShowAll_Click(object sender, EventArgs e)
         {
             RemoveFilter();
+        }
+
+        private void dgvDups_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            if (!dgvPainted)
+                return;
+
+            e.Handled = false;
+            var x = (SongData)dgvDups.Rows[e.RowIndex].DataBoundItem;
+            if (x != null)
+            {
+                if (dupPIDS.Contains(x))
+                {
+                    e.CellStyle.BackColor = ErrorStyleBackColor;
+                    e.CellStyle.ForeColor = ErrorStyleForeColor;
+                    e.CellStyle.Font = ErrorStyleFont;
+                }
+            }
         }
     }
 }

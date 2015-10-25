@@ -86,8 +86,7 @@ namespace CustomsForgeManager.UControls
                 }
 
                 // pop Arrangment DLCKey info
-                masterSongCollection.ToList().ForEach(
-                    a => { a.Arrangements2D.ToList().ForEach(arr => arr.DLCKey = a.DLCKey); });
+                masterSongCollection.ToList().ForEach(a => {  a.Arrangements2D.ToList().ForEach( arr => arr.Parent = a );   });
 
                 Globals.SongCollection = masterSongCollection;
                 Globals.ReloadDuplicates = false;

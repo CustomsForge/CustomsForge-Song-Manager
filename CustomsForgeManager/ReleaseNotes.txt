@@ -1,4 +1,7 @@
 CFM Release Notes
+1.0.5.9
+- A duplicate with duplicate PIDs is rendered in a different color when not in findDupPIDs mode.
+- Added parent property to Arrangement class in SongData.cs
 
 1.0.5.8
 -Add duplicate Persistent ID finder to the the Duplicates tabcontrol

@@ -121,13 +121,26 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
     public class Arrangement
     {
         public Arrangement() { }
-        public Arrangement(string dlcKey)
+
+
+        public Arrangement(SongData Parent)
         {
-            this.DLCKey = dlcKey;
+            this.Parent = Parent;
         }
 
         [XmlIgnore]
-        public string DLCKey { get; set; }
+        public string DLCKey
+        {
+            get
+            {
+                if (Parent != null)
+                    return Parent.DLCKey;
+                return string.Empty;
+            }
+        }
+
+        [XmlIgnore]
+        public SongData Parent { get; set; }
 
         public string PersistentID { get; set; }
         public string Name { get; set; } // arrangement name
