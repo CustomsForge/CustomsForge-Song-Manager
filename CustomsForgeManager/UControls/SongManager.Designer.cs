@@ -51,11 +51,6 @@ namespace CustomsForgeManager.UControls
             this.btnDeleteSongs = new System.Windows.Forms.Button();
             this.chkEnableDelete = new System.Windows.Forms.CheckBox();
             this.btnBackupSelectedDLCs = new System.Windows.Forms.Button();
-            this.radioBtn_ExportToHTML = new System.Windows.Forms.RadioButton();
-            this.radioBtn_ExportToCSV = new System.Windows.Forms.RadioButton();
-            this.btnExportSongList = new System.Windows.Forms.Button();
-            this.lbl_ExportTo = new System.Windows.Forms.Label();
-            this.radioBtn_ExportToBBCode = new System.Windows.Forms.RadioButton();
             this.btnDisableEnableSongs = new System.Windows.Forms.Button();
             this.btnRescan = new System.Windows.Forms.Button();
             this.gb_Main_Actions = new System.Windows.Forms.GroupBox();
@@ -94,6 +89,7 @@ namespace CustomsForgeManager.UControls
             this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cbMyCDLC = new System.Windows.Forms.CheckBox();
             this.cueSearch = new CustomsForgeManager.CustomsForgeManagerLib.CustomControls.CueTextBox();
             this.dgvSongsMaster = new CustomsForgeManager.CustomsForgeManagerLib.CustomControls.RADataGridView();
             this.colShowDetail = new System.Windows.Forms.DataGridViewImageColumn();
@@ -139,9 +135,9 @@ namespace CustomsForgeManager.UControls
             // 
             // panelSearch
             // 
-            this.panelSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panelSearch.Controls.Add(this.btnCheckAllForUpdates);
             this.panelSearch.Controls.Add(this.chkTheMover);
             this.panelSearch.Controls.Add(this.lnkClearSearch);
@@ -195,9 +191,9 @@ namespace CustomsForgeManager.UControls
             // 
             // lbl_Search
             // 
-            this.lbl_Search.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbl_Search.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lbl_Search.AutoSize = true;
             this.lbl_Search.Location = new System.Drawing.Point(3, 9);
             this.lbl_Search.Name = "lbl_Search";
@@ -206,8 +202,8 @@ namespace CustomsForgeManager.UControls
             // 
             // gb_Main_Search
             // 
-            this.gb_Main_Search.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.gb_Main_Search.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.gb_Main_Search.Controls.Add(this.panelSearch);
             this.gb_Main_Search.Location = new System.Drawing.Point(3, 3);
             this.gb_Main_Search.Name = "gb_Main_Search";
@@ -219,14 +215,10 @@ namespace CustomsForgeManager.UControls
             // panelSongListButtons
             // 
             this.panelSongListButtons.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.panelSongListButtons.Controls.Add(this.cbMyCDLC);
             this.panelSongListButtons.Controls.Add(this.btnDeleteSongs);
             this.panelSongListButtons.Controls.Add(this.chkEnableDelete);
             this.panelSongListButtons.Controls.Add(this.btnBackupSelectedDLCs);
-            this.panelSongListButtons.Controls.Add(this.radioBtn_ExportToHTML);
-            this.panelSongListButtons.Controls.Add(this.radioBtn_ExportToCSV);
-            this.panelSongListButtons.Controls.Add(this.btnExportSongList);
-            this.panelSongListButtons.Controls.Add(this.lbl_ExportTo);
-            this.panelSongListButtons.Controls.Add(this.radioBtn_ExportToBBCode);
             this.panelSongListButtons.Controls.Add(this.btnDisableEnableSongs);
             this.panelSongListButtons.Controls.Add(this.btnRescan);
             this.panelSongListButtons.Location = new System.Drawing.Point(6, 13);
@@ -277,66 +269,6 @@ namespace CustomsForgeManager.UControls
             this.btnBackupSelectedDLCs.UseVisualStyleBackColor = true;
             this.btnBackupSelectedDLCs.Click += new System.EventHandler(this.btnBackupSelectedDLCs_Click);
             // 
-            // radioBtn_ExportToHTML
-            // 
-            this.radioBtn_ExportToHTML.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.radioBtn_ExportToHTML.AutoSize = true;
-            this.radioBtn_ExportToHTML.Location = new System.Drawing.Point(781, 12);
-            this.radioBtn_ExportToHTML.Name = "radioBtn_ExportToHTML";
-            this.radioBtn_ExportToHTML.Size = new System.Drawing.Size(55, 17);
-            this.radioBtn_ExportToHTML.TabIndex = 18;
-            this.radioBtn_ExportToHTML.TabStop = true;
-            this.radioBtn_ExportToHTML.Text = "HTML";
-            this.radioBtn_ExportToHTML.UseVisualStyleBackColor = true;
-            // 
-            // radioBtn_ExportToCSV
-            // 
-            this.radioBtn_ExportToCSV.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.radioBtn_ExportToCSV.AutoSize = true;
-            this.radioBtn_ExportToCSV.Location = new System.Drawing.Point(843, 12);
-            this.radioBtn_ExportToCSV.Name = "radioBtn_ExportToCSV";
-            this.radioBtn_ExportToCSV.Size = new System.Drawing.Size(46, 17);
-            this.radioBtn_ExportToCSV.TabIndex = 17;
-            this.radioBtn_ExportToCSV.TabStop = true;
-            this.radioBtn_ExportToCSV.Text = "CSV";
-            this.radioBtn_ExportToCSV.UseVisualStyleBackColor = true;
-            // 
-            // btnExportSongList
-            // 
-            this.btnExportSongList.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.btnExportSongList.Image = global::CustomsForgeManager.Properties.Resources.export;
-            this.btnExportSongList.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnExportSongList.Location = new System.Drawing.Point(895, 6);
-            this.btnExportSongList.Name = "btnExportSongList";
-            this.btnExportSongList.Size = new System.Drawing.Size(68, 29);
-            this.btnExportSongList.TabIndex = 12;
-            this.btnExportSongList.Text = "Export";
-            this.btnExportSongList.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnExportSongList.UseVisualStyleBackColor = true;
-            this.btnExportSongList.Click += new System.EventHandler(this.btnExportSongList_Click);
-            // 
-            // lbl_ExportTo
-            // 
-            this.lbl_ExportTo.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.lbl_ExportTo.AutoSize = true;
-            this.lbl_ExportTo.Location = new System.Drawing.Point(643, 14);
-            this.lbl_ExportTo.Name = "lbl_ExportTo";
-            this.lbl_ExportTo.Size = new System.Drawing.Size(52, 13);
-            this.lbl_ExportTo.TabIndex = 16;
-            this.lbl_ExportTo.Text = "Export to:";
-            // 
-            // radioBtn_ExportToBBCode
-            // 
-            this.radioBtn_ExportToBBCode.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.radioBtn_ExportToBBCode.AutoSize = true;
-            this.radioBtn_ExportToBBCode.Location = new System.Drawing.Point(710, 12);
-            this.radioBtn_ExportToBBCode.Name = "radioBtn_ExportToBBCode";
-            this.radioBtn_ExportToBBCode.Size = new System.Drawing.Size(64, 17);
-            this.radioBtn_ExportToBBCode.TabIndex = 15;
-            this.radioBtn_ExportToBBCode.TabStop = true;
-            this.radioBtn_ExportToBBCode.Text = "BBCode";
-            this.radioBtn_ExportToBBCode.UseVisualStyleBackColor = true;
-            // 
             // btnDisableEnableSongs
             // 
             this.btnDisableEnableSongs.Anchor = System.Windows.Forms.AnchorStyles.Left;
@@ -367,8 +299,8 @@ namespace CustomsForgeManager.UControls
             // 
             // gb_Main_Actions
             // 
-            this.gb_Main_Actions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.gb_Main_Actions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.gb_Main_Actions.Controls.Add(this.panelSongListButtons);
             this.gb_Main_Actions.Location = new System.Drawing.Point(3, 427);
             this.gb_Main_Actions.Name = "gb_Main_Actions";
@@ -385,7 +317,7 @@ namespace CustomsForgeManager.UControls
             // cmsGetCharterName
             // 
             this.cmsGetCharterName.Name = "cmsGetCharterName";
-            this.cmsGetCharterName.Size = new System.Drawing.Size(189, 22);
+            this.cmsGetCharterName.Size = new System.Drawing.Size(190, 22);
             this.cmsGetCharterName.Text = "Get Charter\'s Name";
             this.cmsGetCharterName.Visible = false;
             this.cmsGetCharterName.Click += new System.EventHandler(this.cmsGetCharterName_Click);
@@ -403,13 +335,13 @@ namespace CustomsForgeManager.UControls
             this.cmsBackupSong,
             this.tsTager});
             this.cmsSongManager.Name = "contextMenuStrip_MainManager";
-            this.cmsSongManager.Size = new System.Drawing.Size(190, 202);
+            this.cmsSongManager.Size = new System.Drawing.Size(191, 202);
             // 
             // cmsShowSongInfo
             // 
             this.cmsShowSongInfo.Image = global::CustomsForgeManager.Properties.Resources.info;
             this.cmsShowSongInfo.Name = "cmsShowSongInfo";
-            this.cmsShowSongInfo.Size = new System.Drawing.Size(189, 22);
+            this.cmsShowSongInfo.Size = new System.Drawing.Size(190, 22);
             this.cmsShowSongInfo.Text = "Show Song Info";
             this.cmsShowSongInfo.Click += new System.EventHandler(this.cmsShowDLCInfo_Click);
             // 
@@ -417,7 +349,7 @@ namespace CustomsForgeManager.UControls
             // 
             this.cmsOpenSongPage.Image = global::CustomsForgeManager.Properties.Resources.internet;
             this.cmsOpenSongPage.Name = "cmsOpenSongPage";
-            this.cmsOpenSongPage.Size = new System.Drawing.Size(189, 22);
+            this.cmsOpenSongPage.Size = new System.Drawing.Size(190, 22);
             this.cmsOpenSongPage.Text = "Open Song Page";
             this.cmsOpenSongPage.Visible = false;
             this.cmsOpenSongPage.Click += new System.EventHandler(this.cmsOpenDLCPage_Click);
@@ -426,7 +358,7 @@ namespace CustomsForgeManager.UControls
             // 
             this.cmsCheckForUpdate.Image = global::CustomsForgeManager.Properties.Resources.update;
             this.cmsCheckForUpdate.Name = "cmsCheckForUpdate";
-            this.cmsCheckForUpdate.Size = new System.Drawing.Size(189, 22);
+            this.cmsCheckForUpdate.Size = new System.Drawing.Size(190, 22);
             this.cmsCheckForUpdate.Text = "Check for Update";
             this.cmsCheckForUpdate.Visible = false;
             this.cmsCheckForUpdate.Click += new System.EventHandler(this.cmsCheckForUpdate_Click);
@@ -435,7 +367,7 @@ namespace CustomsForgeManager.UControls
             // 
             this.cmsOpenSongLocation.Image = global::CustomsForgeManager.Properties.Resources.folder_open;
             this.cmsOpenSongLocation.Name = "cmsOpenSongLocation";
-            this.cmsOpenSongLocation.Size = new System.Drawing.Size(189, 22);
+            this.cmsOpenSongLocation.Size = new System.Drawing.Size(190, 22);
             this.cmsOpenSongLocation.Text = "Open Song Location";
             this.cmsOpenSongLocation.Click += new System.EventHandler(this.cmsOpenDLCLocation_Click);
             // 
@@ -443,7 +375,7 @@ namespace CustomsForgeManager.UControls
             // 
             this.cmsEditSong.Image = global::CustomsForgeManager.Properties.Resources.edit;
             this.cmsEditSong.Name = "cmsEditSong";
-            this.cmsEditSong.Size = new System.Drawing.Size(189, 22);
+            this.cmsEditSong.Size = new System.Drawing.Size(190, 22);
             this.cmsEditSong.Text = "Edit Song Information";
             this.cmsEditSong.Click += new System.EventHandler(this.cmsEditSong_Click);
             // 
@@ -451,7 +383,7 @@ namespace CustomsForgeManager.UControls
             // 
             this.cmsDeleteSong.Image = global::CustomsForgeManager.Properties.Resources.delete;
             this.cmsDeleteSong.Name = "cmsDeleteSong";
-            this.cmsDeleteSong.Size = new System.Drawing.Size(189, 22);
+            this.cmsDeleteSong.Size = new System.Drawing.Size(190, 22);
             this.cmsDeleteSong.Text = "Delete Song";
             this.cmsDeleteSong.Click += new System.EventHandler(this.cmsDeleteSong_Click);
             // 
@@ -459,14 +391,14 @@ namespace CustomsForgeManager.UControls
             // 
             this.cmsBackupSong.Image = global::CustomsForgeManager.Properties.Resources.backup;
             this.cmsBackupSong.Name = "cmsBackupSong";
-            this.cmsBackupSong.Size = new System.Drawing.Size(189, 22);
+            this.cmsBackupSong.Size = new System.Drawing.Size(190, 22);
             this.cmsBackupSong.Text = "Backup Song";
             this.cmsBackupSong.Click += new System.EventHandler(this.cmsBackupDLC_Click);
             // 
             // tsTager
             // 
             this.tsTager.Name = "tsTager";
-            this.tsTager.Size = new System.Drawing.Size(189, 22);
+            this.tsTager.Size = new System.Drawing.Size(190, 22);
             this.tsTager.Text = "Tagger";
             this.tsTager.Visible = false;
             // 
@@ -486,9 +418,9 @@ namespace CustomsForgeManager.UControls
             // 
             // gb_Main_Grid
             // 
-            this.gb_Main_Grid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.gb_Main_Grid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.gb_Main_Grid.Controls.Add(this.dgvSongsDetail);
             this.gb_Main_Grid.Controls.Add(this.lnkLblSelectAll);
             this.gb_Main_Grid.Controls.Add(this.dgvSongsMaster);
@@ -599,7 +531,7 @@ namespace CustomsForgeManager.UControls
             this.cmsSongManagerColumns.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.testToolStripMenuItem});
             this.cmsSongManagerColumns.Name = "cmsSongManagerColumns";
-            this.cmsSongManagerColumns.Size = new System.Drawing.Size(107, 26);
+            this.cmsSongManagerColumns.Size = new System.Drawing.Size(96, 26);
             // 
             // testToolStripMenuItem
             // 
@@ -608,7 +540,7 @@ namespace CustomsForgeManager.UControls
             this.testToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.testToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.testToolStripMenuItem.Name = "testToolStripMenuItem";
-            this.testToolStripMenuItem.Size = new System.Drawing.Size(106, 22);
+            this.testToolStripMenuItem.Size = new System.Drawing.Size(95, 22);
             this.testToolStripMenuItem.Text = "Test";
             // 
             // toolTip
@@ -716,6 +648,17 @@ namespace CustomsForgeManager.UControls
             this.dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
             this.dataGridViewTextBoxColumn7.ReadOnly = true;
             // 
+            // cbMyCDLC
+            // 
+            this.cbMyCDLC.AutoSize = true;
+            this.cbMyCDLC.Location = new System.Drawing.Point(838, 12);
+            this.cbMyCDLC.Name = "cbMyCDLC";
+            this.cbMyCDLC.Size = new System.Drawing.Size(125, 17);
+            this.cbMyCDLC.TabIndex = 23;
+            this.cbMyCDLC.Text = "Show MY CDLC only";
+            this.cbMyCDLC.UseVisualStyleBackColor = true;
+            this.cbMyCDLC.CheckedChanged += new System.EventHandler(this.cbMyCDLC_CheckedChanged);
+            // 
             // cueSearch
             // 
             this.cueSearch.Anchor = System.Windows.Forms.AnchorStyles.Left;
@@ -732,9 +675,9 @@ namespace CustomsForgeManager.UControls
             // 
             dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.dgvSongsMaster.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
-            this.dgvSongsMaster.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgvSongsMaster.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1112,11 +1055,6 @@ namespace CustomsForgeManager.UControls
         private System.Windows.Forms.GroupBox gb_Main_Search;
         private System.Windows.Forms.Panel panelSongListButtons;
         private System.Windows.Forms.Button btnBackupSelectedDLCs;
-        private System.Windows.Forms.RadioButton radioBtn_ExportToHTML;
-        private System.Windows.Forms.RadioButton radioBtn_ExportToCSV;
-        private System.Windows.Forms.Button btnExportSongList;
-        private System.Windows.Forms.Label lbl_ExportTo;
-        private System.Windows.Forms.RadioButton radioBtn_ExportToBBCode;
         private System.Windows.Forms.Button btnDisableEnableSongs;
         private System.Windows.Forms.Button btnCheckAllForUpdates;
         private System.Windows.Forms.Button btnRescan;
@@ -1191,6 +1129,7 @@ namespace CustomsForgeManager.UControls
         private System.Windows.Forms.DataGridViewTextBoxColumn colSections;
         private System.Windows.Forms.DataGridViewTextBoxColumn colDetailDMax;
         private System.Windows.Forms.DataGridViewTextBoxColumn colToneBase;
+        private System.Windows.Forms.CheckBox cbMyCDLC;
 
     }
 }

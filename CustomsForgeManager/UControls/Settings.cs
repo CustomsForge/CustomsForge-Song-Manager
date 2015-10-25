@@ -38,6 +38,7 @@ namespace CustomsForgeManager.UControls
                 cueRsDir.Text = AppSettings.Instance.RSInstalledDir;
                 chkIncludeRS1DLC.Checked = AppSettings.Instance.IncludeRS1DLCs;
                 chkEnableLogBallon.Checked = AppSettings.Instance.EnabledLogBaloon;
+                tbCreator.Text = AppSettings.Instance.CreatorName;
 
                 ValidateRsDir();
             }
@@ -60,6 +61,9 @@ namespace CustomsForgeManager.UControls
                 case "EnabledLogBaloon":
                     chkEnableLogBallon.Checked = AppSettings.Instance.EnabledLogBaloon;
                     break;
+                case "CreatorName":
+                    tbCreator.Text = AppSettings.Instance.CreatorName;
+                    break;
             }
 
         }
@@ -81,39 +85,12 @@ namespace CustomsForgeManager.UControls
 
         public void ResetSettings()
         {
-            // initialize object if null
-            //if (Globals.MySettings == null)
-            //    Globals.MySettings = new AppSettings();
-
-            //Globals.MySettings.LogFilePath = Constants.LogFilePath;
-            //Globals.MySettings.RSInstalledDir = GetInstallDirFromRegistry();
-            //Globals.MySettings.IncludeRS1DLCs = false;  // changed to false (fewer issues)
-
-            ////Baloons are really annoying on win10
-            ////if (Constants.DebugMode)
-            ////    Globals.MySettings.EnabledLogBaloon = true;
-            ////else
-            //Globals.MySettings.EnabledLogBaloon = false; // fewer notfication issues
-            //Globals.MySettings.ShowLogWindow = Constants.DebugMode;
-
-
-            //cueRsDir.Text = Globals.MySettings.RSInstalledDir;
-            //chkIncludeRS1DLC.Checked = Globals.MySettings.IncludeRS1DLCs;
-            //chkEnableLogBallon.Checked = Globals.MySettings.EnabledLogBaloon;
             AppSettings.Instance.Reset();
             Globals.MyLog.Write("Reset settings to defaults ...");
         }
 
         public void SaveSettingsToFile()
         {
-            //this is done by the SettingsPropChanged event handler
-            //if (includeUcSettings)
-            //{
-            //    AppSettings.Instance.RSInstalledDir = cueRsDir.Text;
-            //    AppSettings.Instance.IncludeRS1DLCs = chkIncludeRS1DLC.Checked;
-            //    AppSettings.Instance.EnabledLogBaloon = chkEnableLogBallon.Checked;
-            //}
-
             if (Globals.DgvSongs != null)
             {
                 var settings = new RADataGridViewSettings();
@@ -246,6 +223,11 @@ namespace CustomsForgeManager.UControls
         private static string GetInstallDirFromRegistry()
         {            
             return Extensions.GetSteamDirectory();
+        }
+
+        private void tbCreator_TextChanged(object sender, EventArgs e)
+        {
+           AppSettings.Instance.CreatorName = tbCreator.Text;
         }
 
 

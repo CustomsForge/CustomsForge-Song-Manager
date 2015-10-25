@@ -10,4 +10,9 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
         void TabEnter();
         void TabLeave();
     }
+
+    public interface IDataGridViewHolder
+    {
+        System.Windows.Forms.DataGridView GetGrid();
+    }
 }

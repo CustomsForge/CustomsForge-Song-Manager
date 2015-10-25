@@ -47,6 +47,7 @@ namespace CustomsForgeManager.UControls
             this.btnSettingsLoad = new System.Windows.Forms.Button();
             this.btnSettingsSave = new System.Windows.Forms.Button();
             this.chkEnableLogBallon = new System.Windows.Forms.CheckBox();
+            this.tbCreator = new CustomsForgeManager.CustomsForgeManagerLib.CustomControls.CueTextBox();
             this.tlpSettings_Wrapper.SuspendLayout();
             this.panel5.SuspendLayout();
             this.SuspendLayout();
@@ -61,16 +62,16 @@ namespace CustomsForgeManager.UControls
             this.tlpSettings_Wrapper.Controls.Add(this.panel5, 2, 1);
             this.tlpSettings_Wrapper.Controls.Add(this.cueRsDir, 2, 0);
             this.tlpSettings_Wrapper.Controls.Add(this.lblSettingsRSDir, 0, 0);
-            this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsLoad, 0, 7);
-            this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsSave, 1, 7);
+            this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsLoad, 0, 6);
+            this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsSave, 1, 6);
             this.tlpSettings_Wrapper.Controls.Add(this.chkEnableLogBallon, 0, 3);
+            this.tlpSettings_Wrapper.Controls.Add(this.tbCreator, 0, 4);
             this.tlpSettings_Wrapper.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpSettings_Wrapper.Location = new System.Drawing.Point(0, 0);
             this.tlpSettings_Wrapper.Name = "tlpSettings_Wrapper";
-            this.tlpSettings_Wrapper.RowCount = 10;
+            this.tlpSettings_Wrapper.RowCount = 9;
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
-            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
@@ -78,6 +79,7 @@ namespace CustomsForgeManager.UControls
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 256F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 17F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 8F));
+            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tlpSettings_Wrapper.Size = new System.Drawing.Size(866, 490);
             this.tlpSettings_Wrapper.TabIndex = 1;
             // 
@@ -103,8 +105,8 @@ namespace CustomsForgeManager.UControls
             this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel5.Location = new System.Drawing.Point(347, 28);
             this.panel5.Name = "panel5";
-            this.tlpSettings_Wrapper.SetRowSpan(this.panel5, 8);
-            this.panel5.Size = new System.Drawing.Size(516, 451);
+            this.tlpSettings_Wrapper.SetRowSpan(this.panel5, 7);
+            this.panel5.Size = new System.Drawing.Size(516, 419);
             this.panel5.TabIndex = 4;
             // 
             // lnkSelectAll
@@ -147,7 +149,7 @@ namespace CustomsForgeManager.UControls
             this.listDisabledColumns.Location = new System.Drawing.Point(0, 24);
             this.listDisabledColumns.MultiSelect = false;
             this.listDisabledColumns.Name = "listDisabledColumns";
-            this.listDisabledColumns.Size = new System.Drawing.Size(513, 472);
+            this.listDisabledColumns.Size = new System.Drawing.Size(513, 440);
             this.listDisabledColumns.TabIndex = 5;
             this.listDisabledColumns.UseCompatibleStateImageBehavior = false;
             this.listDisabledColumns.View = System.Windows.Forms.View.Details;
@@ -206,7 +208,7 @@ namespace CustomsForgeManager.UControls
             this.btnSettingsLoad.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnSettingsLoad.Image = global::CustomsForgeManager.Properties.Resources.load;
             this.btnSettingsLoad.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSettingsLoad.Location = new System.Drawing.Point(43, 428);
+            this.btnSettingsLoad.Location = new System.Drawing.Point(43, 396);
             this.btnSettingsLoad.Name = "btnSettingsLoad";
             this.btnSettingsLoad.Size = new System.Drawing.Size(102, 34);
             this.btnSettingsLoad.TabIndex = 0;
@@ -221,7 +223,7 @@ namespace CustomsForgeManager.UControls
             this.btnSettingsSave.BackColor = System.Drawing.SystemColors.Control;
             this.btnSettingsSave.Image = global::CustomsForgeManager.Properties.Resources.save;
             this.btnSettingsSave.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSettingsSave.Location = new System.Drawing.Point(192, 428);
+            this.btnSettingsSave.Location = new System.Drawing.Point(192, 396);
             this.btnSettingsSave.Name = "btnSettingsSave";
             this.btnSettingsSave.Size = new System.Drawing.Size(103, 34);
             this.btnSettingsSave.TabIndex = 0;
@@ -244,6 +246,18 @@ namespace CustomsForgeManager.UControls
             this.chkEnableLogBallon.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.chkEnableLogBallon.UseVisualStyleBackColor = true;
             this.chkEnableLogBallon.CheckedChanged += new System.EventHandler(this.chkEnableLogBaloon_CheckedChanged);
+            // 
+            // tbCreator
+            // 
+            this.tlpSettings_Wrapper.SetColumnSpan(this.tbCreator, 2);
+            this.tbCreator.Cue = "Your CDLC Creator Name";
+            this.tbCreator.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.tbCreator.ForeColor = System.Drawing.Color.Gray;
+            this.tbCreator.Location = new System.Drawing.Point(3, 116);
+            this.tbCreator.Name = "tbCreator";
+            this.tbCreator.Size = new System.Drawing.Size(338, 20);
+            this.tbCreator.TabIndex = 9;
+            this.tbCreator.TextChanged += new System.EventHandler(this.tbCreator_TextChanged);
             // 
             // Settings
             // 
@@ -275,5 +289,6 @@ namespace CustomsForgeManager.UControls
         private CueTextBox cueRsDir;
         public CheckBox chkIncludeRS1DLC;
         private CheckBox chkEnableLogBallon;
+        private CueTextBox tbCreator;
     }
 }

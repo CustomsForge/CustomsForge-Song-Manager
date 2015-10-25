@@ -35,6 +35,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         bool FCheckForUpdateOnScan;
         bool FFullScreen;
         bool FShowLogwindow;
+        string FCreator;
 
         public string LogFilePath { get; set; }
         public string RSInstalledDir { get { return FRSInstalledDir; } set { SetPropertyField("RSInstalledDir", ref FRSInstalledDir, value); } }
@@ -46,6 +47,8 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         public string RenameTemplate { get; set; }
         public bool FullScreen { get { return FFullScreen; } set { SetPropertyField("FullScreen", ref FFullScreen, value); } }
         public bool ShowLogWindow { get { return FShowLogwindow; } set { SetPropertyField("ShowLogWindow", ref FShowLogwindow, value); } }
+
+        public string CreatorName { get { return FCreator; } set { SetPropertyField("CreatorName", ref FCreator, value); } }
 
         //property template
         //public type PropName { get { return propName; } set { SetPropertyField("PropName", ref propName, value); } }

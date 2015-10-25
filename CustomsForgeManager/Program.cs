@@ -84,9 +84,6 @@ namespace CustomsForgeManager
 
         public static bool FirstRun()
         {
-
-
-
             var txtFile = Path.Combine(Constants.WorkDirectory, string.Format("firstrun.dat"));
             if (!File.Exists(txtFile))
                 return true;
@@ -94,19 +91,6 @@ namespace CustomsForgeManager
             if (!File.ReadAllText(txtFile).Contains(Constants.ApplicationVersion))
                 return true;
             return false;
-
-            /* using (var tw = File.CreateText(Path.Combine(Constants.WorkDirectory, string.Format("firstrun.txt"))))
-                {
-                    tw.Write(Constants.ApplicationVersion);
-                }    */
-
-            //if (Path.GetDirectoryName(Application.ExecutablePath) == null)
-            //    throw new Exception("Can not find application directory.");
-
-            //if (!File.ReadAllText(Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "ReleaseNotes.txt")).Contains("notfirstrun"))
-            //    return true;
-
-            //return false;
         }
 
     }

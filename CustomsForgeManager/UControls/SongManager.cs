@@ -22,7 +22,7 @@ using Extensions = CustomsForgeManager.CustomsForgeManagerLib.Extensions;
 
 namespace CustomsForgeManager.UControls
 {
-    public partial class SongManager : UserControl
+    public partial class SongManager : UserControl, IDataGridViewHolder
     {
         private bool allSelected = false;
         private AbortableBackgroundWorker bWorker;
@@ -597,137 +597,8 @@ namespace CustomsForgeManager.UControls
             return SelectedSongs;
         }
 
-        private void SongListToBBCode()
-        {
-            var sbTXT = new StringBuilder();
-            sbTXT.AppendLine("Artist, Song, Album, Year, Tuning, DD, Arangements, Charter");
-            sbTXT.AppendLine("[LIST=1]");
+   
 
-            var checkedRows = dgvSongsMaster.Rows.Cast<DataGridViewRow>().Where(r => r.Cells["colSelect"].Value != null).Where(r => Convert.ToBoolean(r.Cells["colSelect"].Value)).ToList();
-
-            if (checkedRows.Count == 0)
-            {
-                foreach (var song in masterSongCollection)
-                    if (song.Charter == null)
-                        sbTXT.AppendLine(string.Format("[*]{0}, {1}, {2}, {3}, {4}, {5}, {6}[/*]", song.Artist, song.Title, song.Album, song.SongYear, song.Tuning, song.DD, song.Arrangements));
-                    else
-                        sbTXT.AppendLine(string.Format("[*]{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}[/*]", song.Artist, song.Title, song.Album, song.SongYear, song.Tuning, song.DD, song.Arrangements, song.Charter));
-            }
-            else
-            {
-                foreach (var row in checkedRows)
-                    if (row.Cells["colCharter"].Value == null)
-                        sbTXT.AppendLine(string.Format("[*]{0} - {1}, {2}, {3}, {4}, {5}, {6}[/*]", row.Cells["colArtist"].Value, row.Cells["colTitle"].Value, row.Cells["colAlbum"].Value, row.Cells["colSongYear"].Value, row.Cells["colTuning"].Value, row.Cells["colDD"].Value, row.Cells["colArrangements"].Value));
-                    else
-                        sbTXT.AppendLine(string.Format("[*]{0} - {1}, {2}, {3}, {4}, {5}, {6}, {7}", row.Cells["colArtist"].Value, row.Cells["colTitle"].Value, row.Cells["colAlbum"].Value, row.Cells["colSongYear"].Value, row.Cells["colTuning"].Value, row.Cells["colDD"].Value, row.Cells["colArrangements"].Value, row.Cells["colCharter"].Value));
-            }
-
-            sbTXT.AppendLine("[/LIST]");
-
-            using (var noteViewer = new frmNoteViewer())
-            {
-                noteViewer.Text = String.Format("{0} . . . {1}", noteViewer.Text, "Song list to BBCode");
-                noteViewer.PopulateText(sbTXT.ToString());
-                noteViewer.ShowDialog();
-            }
-        }
-
-        private void SongListToCSV()
-        {
-            var sbCSV = new StringBuilder();
-            string path = Path.Combine(Constants.WorkDirectory, "SongListCSV.csv");
-            var checkedRows = dgvSongsMaster.Rows.Cast<DataGridViewRow>().Where(r => r.Cells["colSelect"].Value != null).Where(r => Convert.ToBoolean(r.Cells["colSelect"].Value)).ToList();
-
-            sfdSongListToCSV.Filter = "csv files(*.csv)|*.csv|All files (*.*)|*.*";
-            sfdSongListToCSV.FileName = Path.Combine(Constants.WorkDirectory, "SongListCSV");
-
-            if (sfdSongListToCSV.ShowDialog() == DialogResult.OK)
-                path = sfdSongListToCSV.FileName;
-
-            const string csvSep = ";";
-            sbCSV.AppendLine(String.Format(@"sep={0}", csvSep)); // used by Excel to recognize seperator if Encoding.Unicode is used
-            sbCSV.AppendLine(String.Format("{1}{0}{2}{0}{3}{0}{4}{0}{5}{0}{6}{0}{7}{0}{8}", csvSep, "Artist", "Song", "Album", "Year", "Tuning", "DD", "Arrangements", "Author"));
-
-            if (checkedRows.Count == 0)
-            {
-                foreach (var song in masterSongCollection)
-                    if (song.Charter == null)
-                        sbCSV.AppendLine(song.Title + csvSep + song.Artist + csvSep + song.Album + csvSep + song.SongYear + csvSep + song.Tuning + csvSep + song.DD + csvSep + song.Arrangements);
-                    else
-                        sbCSV.AppendLine(song.Title + csvSep + song.Artist + csvSep + song.Album + csvSep + song.SongYear + csvSep + song.Tuning + csvSep + song.DD + csvSep + song.Arrangements + csvSep + song.Charter);
-            }
-            else
-            {
-                foreach (var row in checkedRows)
-                    if (row.Cells["colCharter"].Value == null)
-                        sbCSV.AppendLine(row.Cells["colTitle"].Value + csvSep + row.Cells["colArtist"].Value + csvSep + row.Cells["colAlbum"].Value + csvSep + row.Cells["colSongYear"].Value + csvSep + row.Cells["colTuning"].Value + csvSep + row.Cells["colDD"].Value + csvSep + row.Cells["colArrangements"].Value);
-                    else
-                        sbCSV.AppendLine(row.Cells["colTitle"].Value + csvSep + row.Cells["colArtist"].Value + csvSep + row.Cells["colAlbum"].Value + csvSep + row.Cells["colSongYear"].Value + csvSep + row.Cells["colTuning"].Value + csvSep + row.Cells["colDD"].Value + csvSep + row.Cells["colArrangements"].Value + csvSep + row.Cells["colCharter"].Value);
-            }
-
-            try
-            {
-                using (StreamWriter file = new StreamWriter(path, false, Encoding.Unicode)) // Excel does not recognize UTF8
-                    file.Write(sbCSV.ToString());
-
-                Globals.Log("Song list saved to:" + path);
-            }
-            catch (IOException ex)
-            {
-                Globals.Log("<Error>:" + ex.Message);
-            }
-        }
-
-        private void SongListToHTML()
-        {
-            var checkedRows = dgvSongsMaster.Rows.Cast<DataGridViewRow>().Where(r => r.Cells["colSelect"].Value != null).Where(r => Convert.ToBoolean(r.Cells["colSelect"].Value)).ToList();
-            var sbTXT = new StringBuilder();
-            sbTXT.AppendLine("<table>");
-            sbTXT.AppendLine("<tr>");
-            sbTXT.AppendLine("<th>Artist</th><th>Song</th><th>Album</th><th>Year</th><th>Tuning</th><th>DD</th><th>Arangements</th><th>Author</th>");
-            sbTXT.AppendLine("</tr>");
-
-            if (checkedRows.Count == 0)
-            {
-                foreach (var song in masterSongCollection)
-                {
-                    sbTXT.AppendLine("<tr>");
-                    if (song.Charter == null)
-                        sbTXT.AppendLine(string.Format("<td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td><td>{6}</td>", song.Artist, song.Title, song.Album, song.SongYear, song.Tuning, song.DD, song.Arrangements));
-                    else
-                        sbTXT.AppendLine(string.Format("<td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td><td>{6}</td><td>{7}</td>", song.Artist, song.Title, song.Album, song.SongYear, song.Tuning, song.DD, song.Arrangements, song.Charter));
-
-                    sbTXT.AppendLine("</tr>");
-                }
-            }
-            else
-            {
-                foreach (var row in checkedRows)
-                {
-                    sbTXT.AppendLine("<tr>");
-                    if (row.Cells["colCharter"].Value == null)
-                        sbTXT.AppendLine(string.Format("<td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td><td>{6}</td>", row.Cells["colTitle"].Value, row.Cells["colArtist"].Value, row.Cells["colAlbum"].Value, row.Cells["colSongYear"].Value, row.Cells["colTuning"].Value, row.Cells["colDD"].Value, row.Cells["colArrangements"].Value));
-                    else
-                        sbTXT.AppendLine(string.Format("<td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td><td>{6}</td><td>{7}</td>", row.Cells["colTitle"].Value, row.Cells["colArtist"].Value, row.Cells["colAlbum"].Value, row.Cells["colSongYear"].Value, row.Cells["colTuning"].Value, row.Cells["colDD"].Value, row.Cells["colArrangements"].Value, row.Cells["colCharter"].Value));
-
-                    sbTXT.AppendLine("</tr>");
-                }
-            }
-
-            sbTXT.AppendLine("</table>");
-
-            using (var noteViewer = new frmNoteViewer())
-            {
-                noteViewer.Text = String.Format("{0} . . . {1}", noteViewer.Text, "Song list to HTML");
-                noteViewer.PopulateText(sbTXT.ToString());
-                noteViewer.ShowDialog();
-            }
-        }
-
-        private void SongListToJsonOrXml()
-        {
-            // TODO:
-        }
 
         private void ToggleUIControls()
         {
@@ -735,15 +606,10 @@ namespace CustomsForgeManager.UControls
             Extensions.InvokeIfRequired(btnCheckAllForUpdates, delegate { btnCheckAllForUpdates.Enabled = !btnCheckAllForUpdates.Enabled; });
             Extensions.InvokeIfRequired(cueSearch, delegate { cueSearch.Enabled = !cueSearch.Enabled; });
             Extensions.InvokeIfRequired(btnDisableEnableSongs, delegate { btnDisableEnableSongs.Enabled = !btnDisableEnableSongs.Enabled; });
-            Extensions.InvokeIfRequired(btnExportSongList, delegate { btnExportSongList.Enabled = !btnExportSongList.Enabled; });
             Extensions.InvokeIfRequired(btnBackupSelectedDLCs, delegate { btnBackupSelectedDLCs.Enabled = !btnBackupSelectedDLCs.Enabled; });
-            Extensions.InvokeIfRequired(radioBtn_ExportToBBCode, delegate { radioBtn_ExportToBBCode.Enabled = !radioBtn_ExportToBBCode.Enabled; });
-            Extensions.InvokeIfRequired(radioBtn_ExportToCSV, delegate { radioBtn_ExportToCSV.Enabled = !radioBtn_ExportToCSV.Enabled; });
-            Extensions.InvokeIfRequired(radioBtn_ExportToHTML, delegate { radioBtn_ExportToHTML.Enabled = !radioBtn_ExportToHTML.Enabled; });
             Extensions.InvokeIfRequired(lnkLblSelectAll, delegate { lnkLblSelectAll.Enabled = !lnkLblSelectAll.Enabled; });
             Extensions.InvokeIfRequired(lnkClearSearch, delegate { lnkClearSearch.Enabled = !lnkClearSearch.Enabled; });
-            Extensions.InvokeIfRequired(lbl_ExportTo, delegate { lbl_ExportTo.Enabled = !lbl_ExportTo.Enabled; });
-        }
+                 }
 
         private void UpdateCharter(DataGridViewRow selectedRow)
         {
@@ -940,22 +806,9 @@ namespace CustomsForgeManager.UControls
             Globals.RescanRenamer = true;
         }
 
-        private void btnExportSongList_Click(object sender, EventArgs e)
-        {
-            // TODO: make these smart export functions so that only user selected columns and data are exported
-            if (radioBtn_ExportToBBCode.Checked)
-                SongListToBBCode();
-            else if (radioBtn_ExportToHTML.Checked)
-                SongListToHTML();
-            else if (radioBtn_ExportToCSV.Checked)
-                SongListToCSV();
-            else
-                MessageBox.Show(string.Format("Export format not selected{0}Please select export format!", Environment.NewLine), Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
 
         private void btnRescan_Click(object sender, EventArgs e)
         {
-
             bindingCompleted = false;
             dgvPainted = false;
             Rescan();
@@ -1433,13 +1286,41 @@ namespace CustomsForgeManager.UControls
             foreach (DataGridViewRow row in dgvSongsMaster.Rows)
                 row.DefaultCellStyle.BackColor = Color.Empty;
 
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            dataGridViewCellStyle1.BackColor = Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle() 
+            { 
+                BackColor = Color.FromArgb(224, 224, 224) 
+            };
             dgvSongsMaster.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
 
             UpdateToolStrip();
         }
 
 
+
+        public DataGridView GetGrid()
+        {
+            return dgvSongsMaster;
+        }
+
+        private void cbMyCDLC_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!String.IsNullOrEmpty(AppSettings.Instance.CreatorName))
+            {
+
+                if (cbMyCDLC.Checked)
+                {
+                    var results = masterSongCollection.Where(x => !String.IsNullOrEmpty(x.Charter) && 
+                        x.Charter.Equals(AppSettings.Instance.CreatorName)).ToList();
+                 
+
+                    LoadFilteredBindingList(results);
+                    //    //dgvSongsMaster.DataSource.
+
+
+                }
+                else
+                    PopulateDataGridView();
+            }
+        }
     }
 }

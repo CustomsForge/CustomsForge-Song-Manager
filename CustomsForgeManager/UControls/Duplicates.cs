@@ -13,7 +13,7 @@ using DataGridViewTools;
 
 namespace CustomsForgeManager.UControls
 {
-    public partial class Duplicates : UserControl
+    public partial class Duplicates : UserControl, IDataGridViewHolder
     {
         private bool bindingCompleted = false;
         private bool dgvPainted = false;
@@ -31,6 +31,24 @@ namespace CustomsForgeManager.UControls
             btnMove.Click += DeleteMoveSelected;
             btnDeleteSong.Click += DeleteMoveSelected;
             PopulateDuplicates();
+        }
+
+        /// <summary> 
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+                if (ErrorStyleFont != null)
+                {
+                    ErrorStyleFont.Dispose();
+                    ErrorStyleFont = null;
+                }
+            }
+            base.Dispose(disposing);
         }
 
         public void PopulateDuplicates(bool findDupPIDs = false)
@@ -541,6 +559,11 @@ namespace CustomsForgeManager.UControls
                     e.CellStyle.Font = ErrorStyleFont;
                 }
             }
+        }
+
+        public DataGridView GetGrid()
+        {
+            return dgvDups;
         }
     }
 }

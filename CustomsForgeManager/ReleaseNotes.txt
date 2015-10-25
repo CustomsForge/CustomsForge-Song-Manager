@@ -1,4 +1,12 @@
 CFM Release Notes
+
+1.0.6.0
+-Changed the Exporter to only write visible cells
+-Exporter can export from any control that contains a grid by using the IDataGridViewHolder Interface
+-Moved Exporter functions to frmMain
+-Added a CDLC Creator property to settings
+-Added a filter to only display the users own cdlc.
+
 1.0.5.9
 - A duplicate with duplicate PIDs is rendered in a different color when not in findDupPIDs mode.
 - Added parent property to Arrangement class in SongData.cs

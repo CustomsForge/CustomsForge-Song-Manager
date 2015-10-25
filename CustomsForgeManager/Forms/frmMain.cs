@@ -5,8 +5,11 @@ using System.IO;
 using System.Windows.Forms;
 using System.Reflection;
 using CustomsForgeManager.CustomsForgeManagerLib.Objects;
-using DLogNet;
+//using DLogNet;
 using System.Linq;
+using System.Text;
+using CustomsForgeManager.CustomsForgeManagerLib;
+using System.Collections.Generic;
 
 
 namespace CustomsForgeManager.Forms
@@ -24,7 +27,7 @@ namespace CustomsForgeManager.Forms
         public Control currentControl = null;
 
 
-        public frmMain(DLogger myLog)
+        public frmMain(DLogNet.DLogger myLog)
         {
             InitializeComponent();
 
@@ -109,9 +112,9 @@ namespace CustomsForgeManager.Forms
 #if !TAGGER
             toolstripTagger.Visible = false;
 #else
-            
-            tsButtonTagSelected.Click += new System.EventHandler(this.tsButtonTagSelected_Click);
-            tsButtonUntagSelection.Click += new System.EventHandler(this.tsButtonUntagSelection_Click);
+
+            tsButtonTagSelected.Click += tsButtonTagSelected_Click;
+            tsButtonUntagSelection.Click += tsButtonUntagSelection_Click;
 
             tscbTaggerThemes.Items.AddRange(Globals.Tagger.Themes.ToArray());
             tscbTaggerThemes.SelectedIndex = 0;
@@ -151,6 +154,7 @@ namespace CustomsForgeManager.Forms
                 Globals.SongManager.Location = UCLocation;
                 Globals.SongManager.Size = UCSize;
             }
+            currentControl = Globals.SongManager;
         }
 
         private void ShowHelp()
@@ -229,8 +233,8 @@ namespace CustomsForgeManager.Forms
             Globals.ResetToolStripGlobals();
 
             if (currentControl != null)
-                if (currentControl is CustomsForgeManagerLib.INotifyTabChanged)
-                    (currentControl as CustomsForgeManagerLib.INotifyTabChanged).TabLeave();
+                if (currentControl is INotifyTabChanged)
+                    (currentControl as INotifyTabChanged).TabLeave();
 
 
             // get first four charters from tab control text
@@ -290,14 +294,14 @@ namespace CustomsForgeManager.Forms
             }
 
             if (currentControl != null)
-                if (currentControl is CustomsForgeManagerLib.INotifyTabChanged)
-                    (currentControl as CustomsForgeManagerLib.INotifyTabChanged).TabEnter();
+                if (currentControl is INotifyTabChanged)
+                    (currentControl as INotifyTabChanged).TabEnter();
         }
 
         private void tsBtnBackup_Click(object sender, EventArgs e)
         {
             Globals.TsProgressBar_Main.Value = 50;
-            CustomsForgeManagerLib.Extensions.BackupRocksmithProfile();
+            Extensions.BackupRocksmithProfile();
             Globals.TsProgressBar_Main.Value = 100;
         }
 
@@ -308,17 +312,17 @@ namespace CustomsForgeManager.Forms
 
         private void tsBtnLaunchRS_Click(object sender, EventArgs e)
         {
-            CustomsForgeManagerLib.Extensions.LaunchRocksmith2014();
+            Extensions.LaunchRocksmith2014();
         }
 
         private void tsBtnRequest_Click(object sender, EventArgs e)
         {
-            CustomsForgeManagerLib.Extensions.RequestSongOnCustomsForge();
+            Extensions.RequestSongOnCustomsForge();
         }
 
         private void tsBtnUpload_Click(object sender, EventArgs e)
         {
-            CustomsForgeManagerLib.Extensions.UploadToCustomsForge();
+            Extensions.UploadToCustomsForge();
         }
 
         private void tsLabelCancel_Click(object sender, EventArgs e)
@@ -451,5 +455,219 @@ namespace CustomsForgeManager.Forms
             };
 #endif
         }
+
+        private delegate void DoSomethingWithGridSelectionAction(
+            DataGridView dg,
+            IEnumerable<DataGridViewRow> selected,
+            DataGridViewColumn colSel,
+            List<int> IgnoreColums);
+
+        private void DoSomethingWithGrid(DoSomethingWithGridSelectionAction action)
+        {
+            if (action != null && currentControl != null && currentControl is IDataGridViewHolder)
+            {
+                var dataGrid = (currentControl as IDataGridViewHolder).GetGrid();
+                if (dataGrid != null)
+                {
+                    var selected = dataGrid.Rows.Cast<DataGridViewRow>();
+                    DataGridViewColumn colSel = null;
+                    int colSelIdx = -1;
+                    if (dataGrid.Columns.Contains("colSelect"))
+                    {
+                        colSel = dataGrid.Columns["colSelect"];
+                        colSelIdx = colSel.Index;
+                        var xselected = selected.Where(r => r.Cells["colSelect"].Value != null).Where(r => Convert.ToBoolean(r.Cells["colSelect"].Value)).ToList();
+                        if (xselected.Count > 0)
+                            selected = xselected;
+                    }
+
+                    List<int> ignoreColumns = new List<int>();
+                    if (colSel != null)
+                        ignoreColumns.Add(colSel.Index);
+
+                    foreach (var c in dataGrid.Columns.Cast<DataGridViewColumn>())
+                    {
+                        if (c is DataGridViewImageColumn || !c.Visible)
+                        {
+                            ignoreColumns.Add(c.Index);
+                            continue;
+                        }
+                    }
+
+
+                    action(dataGrid, selected, colSel, ignoreColumns);
+                }
+            }
+        }
+
+
+        public void SongListToBBCode()
+        {
+            DoSomethingWithGrid((dataGrid, selection, colSel, ignoreColumns) =>
+            {
+                
+
+                var sbTXT = new StringBuilder();
+                string columns = "";
+                foreach (var c in dataGrid.Columns.Cast<DataGridViewColumn>())
+                {
+                    if (!ignoreColumns.Contains(c.Index))
+                        columns += c.HeaderText + ", ";
+                }
+
+                sbTXT.AppendLine(columns.Trim(new char[] { ',', ' ' }));
+                sbTXT.AppendLine(String.Format("[LIST={0}]", selection.Count()));
+
+                foreach (var row in selection)
+                {
+                    string s = "[*]";
+                    foreach (var col in row.Cells.Cast<DataGridViewCell>().Where(c => !ignoreColumns.Contains(c.ColumnIndex)))
+                    {
+                        s += col.Value == null ? " , " : col.Value + ", ";
+                    }
+                    sbTXT.AppendLine(s.Trim(new char[] { ',', ' ' }) + "[/*]");
+                }
+                sbTXT.AppendLine("[/LIST]");
+
+
+                using (var noteViewer = new frmNoteViewer())
+                {
+                    noteViewer.Text = String.Format("{0} . . . {1}", noteViewer.Text, "Song list to BBCode");
+
+                    noteViewer.PopulateText(sbTXT.ToString(), false);
+                    noteViewer.ShowDialog();
+                }
+            });
+        }
+
+
+        public void SongListToCSV()
+        {
+             var path = Path.Combine(Constants.WorkDirectory, "SongListCSV.csv");
+             using (var sfdSongListToCSV = new SaveFileDialog() { 
+                Filter = "csv files(*.csv)|*.csv|All files (*.*)|*.*",
+                FileName = path
+            })
+
+            if (sfdSongListToCSV.ShowDialog() == DialogResult.OK)
+            {
+                path = sfdSongListToCSV.FileName;
+
+                DoSomethingWithGrid((dataGrid, selection, colSel, ignoreColumns) =>
+                {
+                    var sbCSV = new StringBuilder();
+                    
+
+                    const char csvSep = ';';
+                    sbCSV.AppendLine(String.Format(@"sep={0}", csvSep)); // used by Excel to recognize seperator if Encoding.Unicode is used
+                    string columns = "";
+                    foreach (var c in dataGrid.Columns.Cast<DataGridViewColumn>())
+                    {
+                        if (!ignoreColumns.Contains(c.Index))
+                            columns += c.HeaderText + csvSep;
+                    }
+
+                    sbCSV.AppendLine(columns.Trim(new char[] { csvSep, ' ' }));
+
+                    foreach (var row in selection)
+                    {
+                        string s = "[*]";
+                        foreach (var col in row.Cells.Cast<DataGridViewCell>().Where(c => !ignoreColumns.Contains(c.ColumnIndex)))
+                        {
+                            s += col.Value == null ? csvSep.ToString() : col.Value.ToString() + csvSep;
+                        }
+                        sbCSV.AppendLine(s.Trim(new char[] { ',', ' ' }));
+                    }
+
+                    //using (var noteViewer = new frmNoteViewer())
+                    //{
+                    //    noteViewer.Text = String.Format("{0} . . . {1}", noteViewer.Text, "Song list to CSV");
+
+                    //    noteViewer.PopulateText(sbCSV.ToString(), false);
+                    //    noteViewer.ShowDialog();
+                    //}
+
+                    try
+                    {
+                        using (StreamWriter file = new StreamWriter(path, false, Encoding.Unicode)) // Excel does not recognize UTF8
+                            file.Write(sbCSV.ToString());
+
+                        Globals.Log("Song list saved to:" + path);
+                    }
+                    catch (IOException ex)
+                    {
+                        Globals.Log("<Error>:" + ex.Message);
+                    }
+
+
+                });
+            }
+        }
+
+
+        public void SongListToHTML()
+        {
+
+            DoSomethingWithGrid((dataGrid, selection, colSel, ignoreColumns) =>
+            {
+                var sbTXT = new StringBuilder();
+                sbTXT.AppendLine("<table>");
+                sbTXT.AppendLine("<tr>");
+                var columns = String.Empty;
+                foreach (var c in dataGrid.Columns.Cast<DataGridViewColumn>())
+                {
+                    if (!ignoreColumns.Contains(c.Index))
+                        columns += String.Format("<th>{0}</th>",c.HeaderText);
+                }
+
+                sbTXT.AppendLine(columns.Trim());
+                sbTXT.AppendLine("</tr>");
+
+                foreach (var row in selection)
+                {
+                    sbTXT.AppendLine("<tr>");
+                    string s = string.Empty;
+                    foreach (var col in row.Cells.Cast<DataGridViewCell>().Where(c => !ignoreColumns.Contains(c.ColumnIndex)))
+                    {
+                        s +=  String.Format("<th>{0}</th>",col.Value == null ? "" : col.Value);
+                    }
+                    sbTXT.AppendLine(s.Trim());
+                    sbTXT.AppendLine("</tr>");
+                }
+
+
+                using (var noteViewer = new frmNoteViewer())
+                {
+                    noteViewer.Text = String.Format("{0} . . . {1}", noteViewer.Text, "Song list to HTML");
+
+                    noteViewer.PopulateText(sbTXT.ToString(), false);
+                    noteViewer.ShowDialog();
+                }
+            });
+
+           
+        }
+
+        private void SongListToJsonOrXml()
+        {
+            // TODO:
+        }
+
+        private void bBCodeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SongListToBBCode();
+        }
+
+        private void cSVToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SongListToCSV();
+        }
+
+        private void hTMLToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SongListToHTML();
+        }
+
+
     }
 }
