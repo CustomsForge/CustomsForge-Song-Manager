@@ -427,7 +427,7 @@
             this.linkLabel2.DisabledLinkColor = System.Drawing.Color.Black;
             this.linkLabel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.linkLabel2.Enabled = false;
-            this.linkLabel2.Font = new System.Drawing.Font("Trebuchet MS", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.linkLabel2.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.linkLabel2.ForeColor = System.Drawing.Color.Black;
             this.linkLabel2.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
             this.linkLabel2.LinkColor = System.Drawing.Color.LightGray;
@@ -436,7 +436,7 @@
             this.linkLabel2.Size = new System.Drawing.Size(227, 45);
             this.linkLabel2.TabIndex = 2;
             this.linkLabel2.TabStop = true;
-            this.linkLabel2.Text = "ForgeOn, rummhamm87, CustomsForge Staff and our Beta Testers";
+            this.linkLabel2.Text = "         ForgeOn, rummhamm87             CustomsForge Staff and Beta Testers";
             this.linkLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.linkLabel2.VisitedLinkColor = System.Drawing.Color.Black;
             this.linkLabel2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel2_LinkClicked);
