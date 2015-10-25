@@ -81,3 +81,4 @@ ThirdParty/CFMSetup/Output/*
 /ThirdParty/CFMPostBuilder.pdb
 ThirdParty/CFMPostBuilder.vshost.exe.manifest
 ThirdParty/CFMPostBuilder.exe.config
+CleanupBeforeGitPullRequest.bat
