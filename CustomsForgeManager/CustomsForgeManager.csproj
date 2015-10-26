@@ -445,6 +445,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="Resources\creditsbackground.png" />
+    <None Include="Resources\EOF20.ico" />
+    <None Include="Resources\15.png" />
+    <None Include="Resources\RocksmithToolkitGUI_32512.png" />
     <Content Include="RocksmithToolkitLib.Config.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

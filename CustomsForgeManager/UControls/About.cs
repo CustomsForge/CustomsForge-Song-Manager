@@ -37,6 +37,11 @@ namespace CustomsForgeManager.UControls
             Process.Start("http://cfmanager.com");
         }
 
+        private void btnCFSMSupport_Click(object sender, EventArgs e)
+        {
+            Process.Start("http://customsforge.com/forum/81-customsforge-song-manager/");
+        }
+
 
         private void lnkDonations_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {

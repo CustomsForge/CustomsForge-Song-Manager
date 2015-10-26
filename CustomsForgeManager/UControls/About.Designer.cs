@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(About));
             this.tlpAbout = new System.Windows.Forms.TableLayoutPanel();
+            this.linkLabel4 = new System.Windows.Forms.LinkLabel();
             this.picCF = new System.Windows.Forms.PictureBox();
             this.gbInfo = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
@@ -41,11 +41,13 @@
             this.lnkHomePage = new System.Windows.Forms.LinkLabel();
             this.lnkIgnition = new System.Windows.Forms.LinkLabel();
             this.lnkRequests = new System.Windows.Forms.LinkLabel();
+            this.lnkDonations = new System.Windows.Forms.LinkLabel();
             this.lnkVideos = new System.Windows.Forms.LinkLabel();
             this.lnkFAQ = new System.Windows.Forms.LinkLabel();
             this.btnCFSMSite = new System.Windows.Forms.Button();
             this.btnEOFSite = new System.Windows.Forms.Button();
             this.btnRSTKSite = new System.Windows.Forms.Button();
+            this.btnCFSMSupport = new System.Windows.Forms.Button();
             this.gbCredits = new System.Windows.Forms.GroupBox();
             this.pbProfile = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanel_Credits = new System.Windows.Forms.TableLayoutPanel();
@@ -65,8 +67,6 @@
             this.lnkCozy1Profile = new CustomsForgeManager.UControls.ProfileLinkLabel();
             this.lnkLovromanProfile = new CustomsForgeManager.UControls.ProfileLinkLabel();
             this.lnkDreddFoxxProfile = new CustomsForgeManager.UControls.ProfileLinkLabel();
-            this.lnkDonations = new System.Windows.Forms.LinkLabel();
-            this.linkLabel4 = new System.Windows.Forms.LinkLabel();
             this.tlpAbout.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picCF)).BeginInit();
             this.gbInfo.SuspendLayout();
@@ -96,6 +96,26 @@
             this.tlpAbout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tlpAbout.Size = new System.Drawing.Size(990, 490);
             this.tlpAbout.TabIndex = 0;
+            // 
+            // linkLabel4
+            // 
+            this.linkLabel4.ActiveLinkColor = System.Drawing.Color.Black;
+            this.linkLabel4.BackColor = System.Drawing.Color.Transparent;
+            this.linkLabel4.DisabledLinkColor = System.Drawing.Color.Black;
+            this.linkLabel4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.linkLabel4.Enabled = false;
+            this.linkLabel4.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.linkLabel4.ForeColor = System.Drawing.Color.Black;
+            this.linkLabel4.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
+            this.linkLabel4.LinkColor = System.Drawing.Color.Black;
+            this.linkLabel4.Location = new System.Drawing.Point(3, 470);
+            this.linkLabel4.Name = "linkLabel4";
+            this.linkLabel4.Size = new System.Drawing.Size(489, 20);
+            this.linkLabel4.TabIndex = 10;
+            this.linkLabel4.TabStop = true;
+            this.linkLabel4.Text = "Copyright 2015 - CustomsForge Song Manager";
+            this.linkLabel4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.linkLabel4.VisitedLinkColor = System.Drawing.Color.Black;
             // 
             // picCF
             // 
@@ -211,6 +231,7 @@
             this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.btnCFSMSite, 1, 1);
             this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.btnEOFSite, 1, 3);
             this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.btnRSTKSite, 1, 2);
+            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.btnCFSMSupport, 1, 4);
             this.tableLayoutPanel_CFQuicklinks.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel_CFQuicklinks.Location = new System.Drawing.Point(3, 16);
             this.tableLayoutPanel_CFQuicklinks.Name = "tableLayoutPanel_CFQuicklinks";
@@ -271,6 +292,21 @@
             this.lnkRequests.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lnkRequests.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkRequests_LinkClicked);
             // 
+            // lnkDonations
+            // 
+            this.lnkDonations.AutoSize = true;
+            this.lnkDonations.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lnkDonations.Font = new System.Drawing.Font("Trebuchet MS", 12F);
+            this.lnkDonations.LinkColor = System.Drawing.Color.Black;
+            this.lnkDonations.Location = new System.Drawing.Point(3, 100);
+            this.lnkDonations.Name = "lnkDonations";
+            this.lnkDonations.Size = new System.Drawing.Size(329, 30);
+            this.lnkDonations.TabIndex = 13;
+            this.lnkDonations.TabStop = true;
+            this.lnkDonations.Text = "Support CustomsForge";
+            this.lnkDonations.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lnkDonations.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkDonations_LinkClicked);
+            // 
             // lnkVideos
             // 
             this.lnkVideos.AutoSize = true;
@@ -303,7 +339,7 @@
             // 
             // btnCFSMSite
             // 
-            this.btnCFSMSite.Image = ((System.Drawing.Image)(resources.GetObject("btnCFSMSite.Image")));
+            this.btnCFSMSite.Image = global::CustomsForgeManager.Properties.Resources._15;
             this.btnCFSMSite.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnCFSMSite.Location = new System.Drawing.Point(338, 13);
             this.btnCFSMSite.Name = "btnCFSMSite";
@@ -315,7 +351,7 @@
             // 
             // btnEOFSite
             // 
-            this.btnEOFSite.Image = ((System.Drawing.Image)(resources.GetObject("btnEOFSite.Image")));
+            this.btnEOFSite.Image = global::CustomsForgeManager.Properties.Resources.EOF20;
             this.btnEOFSite.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnEOFSite.Location = new System.Drawing.Point(338, 73);
             this.btnEOFSite.Name = "btnEOFSite";
@@ -328,7 +364,7 @@
             // 
             // btnRSTKSite
             // 
-            this.btnRSTKSite.Image = ((System.Drawing.Image)(resources.GetObject("btnRSTKSite.Image")));
+            this.btnRSTKSite.Image = global::CustomsForgeManager.Properties.Resources.RocksmithToolkitGUI_32512;
             this.btnRSTKSite.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnRSTKSite.Location = new System.Drawing.Point(338, 43);
             this.btnRSTKSite.Name = "btnRSTKSite";
@@ -338,6 +374,19 @@
             this.btnRSTKSite.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnRSTKSite.UseVisualStyleBackColor = true;
             this.btnRSTKSite.Click += new System.EventHandler(this.btnCFSMSite_Click);
+            // 
+            // btnCFSMSupport
+            // 
+            this.btnCFSMSupport.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCFSMSupport.Image = global::CustomsForgeManager.Properties.Resources.internet;
+            this.btnCFSMSupport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnCFSMSupport.Location = new System.Drawing.Point(338, 103);
+            this.btnCFSMSupport.Name = "btnCFSMSupport";
+            this.btnCFSMSupport.Size = new System.Drawing.Size(127, 22);
+            this.btnCFSMSupport.TabIndex = 19;
+            this.btnCFSMSupport.Text = "Official CFSM Support";
+            this.btnCFSMSupport.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.btnCFSMSupport.UseVisualStyleBackColor = true;
             // 
             // gbCredits
             // 
@@ -703,41 +752,6 @@
             this.lnkDreddFoxxProfile.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lnkDreddFoxxProfile.URL = "40453-dreddfoxx";
             // 
-            // lnkDonations
-            // 
-            this.lnkDonations.AutoSize = true;
-            this.lnkDonations.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lnkDonations.Font = new System.Drawing.Font("Trebuchet MS", 12F);
-            this.lnkDonations.LinkColor = System.Drawing.Color.Black;
-            this.lnkDonations.Location = new System.Drawing.Point(3, 100);
-            this.lnkDonations.Name = "lnkDonations";
-            this.lnkDonations.Size = new System.Drawing.Size(329, 30);
-            this.lnkDonations.TabIndex = 13;
-            this.lnkDonations.TabStop = true;
-            this.lnkDonations.Text = "Support CustomsForge";
-            this.lnkDonations.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lnkDonations.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkDonations_LinkClicked);
-            // 
-            // linkLabel4
-            // 
-            this.linkLabel4.ActiveLinkColor = System.Drawing.Color.Black;
-            this.linkLabel4.BackColor = System.Drawing.Color.Transparent;
-            this.linkLabel4.DisabledLinkColor = System.Drawing.Color.Black;
-            this.linkLabel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.linkLabel4.Enabled = false;
-            this.linkLabel4.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.linkLabel4.ForeColor = System.Drawing.Color.Black;
-            this.linkLabel4.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
-            this.linkLabel4.LinkColor = System.Drawing.Color.Black;
-            this.linkLabel4.Location = new System.Drawing.Point(3, 470);
-            this.linkLabel4.Name = "linkLabel4";
-            this.linkLabel4.Size = new System.Drawing.Size(489, 20);
-            this.linkLabel4.TabIndex = 10;
-            this.linkLabel4.TabStop = true;
-            this.linkLabel4.Text = "Copyright 2015 - CustomsForge Song Manager";
-            this.linkLabel4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.linkLabel4.VisitedLinkColor = System.Drawing.Color.Black;
-            // 
             // About
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -799,5 +813,6 @@
         private System.Windows.Forms.Button btnCFSMSite;
         private System.Windows.Forms.LinkLabel lnkDonations;
         private System.Windows.Forms.LinkLabel linkLabel4;
+        private System.Windows.Forms.Button btnCFSMSupport;
     }
 }
