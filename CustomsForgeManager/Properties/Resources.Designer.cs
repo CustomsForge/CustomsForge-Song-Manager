@@ -71,6 +71,16 @@ namespace CustomsForgeManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _151 {
+            get {
+                object obj = ResourceManager.GetObject("151", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to A setlist named &apos;{0}&apos; already exists!.
         /// </summary>
         internal static string ASetlistNamedX0AlreadyExists {
@@ -273,6 +283,16 @@ namespace CustomsForgeManager.Properties {
         internal static System.Drawing.Bitmap EOF20 {
             get {
                 object obj = ResourceManager.GetObject("EOF20", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap EOF201 {
+            get {
+                object obj = ResourceManager.GetObject("EOF201", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -339,7 +339,7 @@
             // 
             // btnCFSMSite
             // 
-            this.btnCFSMSite.Image = global::CustomsForgeManager.Properties.Resources._15;
+            this.btnCFSMSite.Image = global::CustomsForgeManager.Properties.Resources._151;
             this.btnCFSMSite.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnCFSMSite.Location = new System.Drawing.Point(338, 13);
             this.btnCFSMSite.Name = "btnCFSMSite";
@@ -351,7 +351,7 @@
             // 
             // btnEOFSite
             // 
-            this.btnEOFSite.Image = global::CustomsForgeManager.Properties.Resources.EOF20;
+            this.btnEOFSite.Image = global::CustomsForgeManager.Properties.Resources.EOF201;
             this.btnEOFSite.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnEOFSite.Location = new System.Drawing.Point(338, 73);
             this.btnEOFSite.Name = "btnEOFSite";

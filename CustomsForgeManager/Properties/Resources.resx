@@ -151,6 +151,11 @@
     <value>Unable to create a new setlist: \nError: </value>
     <comment>UnableToCreateANewSetlistError description</comment>
   </data>
+  <data name="SongDataModifiedConfirmation" xml:space="preserve">
+    <value>The song data has changed.
+Do you want to close without saving?</value>
+    <comment>SongDataModifiedConfirmation description</comment>
+  </data>
   <data name="clear" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\clear.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -166,6 +171,9 @@
     <value>Please scan in at least one song.</value>
     <comment>PleaseScanInAtLeastOneSong description</comment>
   </data>
+  <data name="151" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\151.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="DisabledIsAReservedWord" xml:space="preserve">
     <value>'Disabled' is a Reserved Word ...
 Setlist names may not contain
@@ -176,10 +184,9 @@ any form of the word 'disabled'</value>
     <value>Rocksmith 2014 user profile not found!</value>
     <comment>Rocksmith2014UserProfileNotFound description</comment>
   </data>
-  <data name="SongDataModifiedConfirmation" xml:space="preserve">
-    <value>The song data has changed.
-Do you want to close without saving?</value>
-    <comment>SongDataModifiedConfirmation description</comment>
+  <data name="UserCanceledProcess" xml:space="preserve">
+    <value>User canceled process ...</value>
+    <comment>UserCanceledProcess description</comment>
   </data>
   <data name="DuplicatesNeedToBeRescanned" xml:space="preserve">
     <value>Duplicates need to be rescanned!</value>
@@ -346,10 +353,6 @@ Warning:  This can not be undone!</value>
   <data name="Rocksmith_2014_Background_Guitar" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Rocksmith_2014_Background_Guitar.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="UserCanceledProcess" xml:space="preserve">
-    <value>User canceled process ...</value>
-    <comment>UserCanceledProcess description</comment>
-  </data>
   <data name="launch" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\launch.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -391,6 +394,9 @@ rescan before returning to Setlist Manager. </value>
   <data name="export" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\export.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="creditsbg" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\creditsbg.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="renamer_properties" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Renamer_Properties.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -398,7 +404,7 @@ rescan before returning to Setlist Manager. </value>
     <value>A setlist named '{0}' already exists!</value>
     <comment>ASetlistNamedX0AlreadyExists description</comment>
   </data>
-  <data name="creditsbg" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\creditsbg.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="EOF201" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EOF20.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
