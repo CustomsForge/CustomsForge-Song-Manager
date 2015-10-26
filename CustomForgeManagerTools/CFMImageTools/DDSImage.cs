@@ -4,7 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 
-public class DDSImage
+public sealed class DDSImage : IDisposable
 {
     public const int DDPF_ALPHAPIXELS = 0x00000001;
     public const int DDPF_ALPHA = 0x00000002;
@@ -393,6 +393,21 @@ public class DDSImage
         p.dwGBitMask = r.ReadInt32();
         p.dwBBitMask = r.ReadInt32();
         p.dwABitMask = r.ReadInt32();
+    }
+
+    public void Dispose()
+    {
+        if (images.Length > 0)
+        {
+            for (int i = 0; i < images.Length; i++)
+            {
+                if (images[i] != null)
+                {
+                    images[i].Dispose();
+                    images[i] = null;
+                }
+            }
+        }
     }
 }
 

@@ -231,6 +231,15 @@ namespace CustomsForgeManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Do you really want to remove this CDLC?  {0}Warning:  This cannot be undone!.
+        /// </summary>
+        internal static string DoYouReallyWantToRemoveThisCDLCX0Warning {
+            get {
+                return ResourceManager.GetString("DoYouReallyWantToRemoveThisCDLCX0Warning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap DreddFoxx {

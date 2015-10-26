@@ -64,12 +64,15 @@ namespace CustomsForgeManager.SongEditor
                 packageData.Arrangements.AddRange(mArr);
                 packageData.Showlights = true;
 
+
+
                 var msg = "The song information has been changed." + Environment.NewLine +
                           "Do you want to update the 'Persistent ID'?" + Environment.NewLine +
                           "Answering 'Yes' will reduce the risk of CDLC" + Environment.NewLine +
                           "in game hanging and song stats will be reset.  ";
-                bool updateArrangmentID = MessageBox.Show(msg, "Song Editor ...",
-                    MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes;
+                //only ask if it's a new filename.
+                bool updateArrangmentID = (outputPath != filePath) ? MessageBox.Show(msg, "Song Editor ...",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes : false;
 
                 // Update Xml arrangements song info
                 foreach (var arr in packageData.Arrangements)
@@ -88,6 +91,26 @@ namespace CustomsForgeManager.SongEditor
 
                 using (var psarc = new PsarcPackage(true))
                     psarc.WritePackage(outputPath, packageData);
+
+
+                //unfortunately needed a hack for replacing images
+                var x = FEditorControls.Where(e => e.NeedsAfterSave());
+                if (x.Count() > 0)
+                {
+                    tsProgressBar.Value = 80;
+                    var p = new RocksmithToolkitLib.PSARC.PSARC();
+                    using (var fs = File.OpenRead(outputPath))
+                        p.Read(fs);
+                    bool needsSave = false;
+                    foreach (var ec in x)
+                    {
+                        if (ec.AfterSave(p))
+                            needsSave = true;
+                    }
+                    if (needsSave)
+                        using (var fs = File.Create(outputPath))
+                            p.Write(fs,true);
+                }
             }
             finally
             {
@@ -130,12 +153,12 @@ namespace CustomsForgeManager.SongEditor
                 var cc = type.GetConstructor(new Type[] { typeof(frmSongEditor) });
                 if (cc != null)
                     obj = (T)cc.Invoke(new object[] { this });
-                else
-                {
-                    cc = type.GetConstructor(new Type[] { });
-                    if (cc != null)
-                        obj = (T)cc.Invoke(new object[] { });
-                }
+                    else
+                    {
+                        cc = type.GetConstructor(new Type[] { });
+                        if (cc != null)
+                            obj = (T)cc.Invoke(new object[] { });
+                    }
 
                 if (obj != null)
                 {
@@ -228,7 +251,7 @@ namespace CustomsForgeManager.SongEditor
         public void UpdateXml(Arrangement arr, DLCPackageData info, bool updateArrangementID = false)
         {
             // Updates the xml with user modified DLCPackageData info
-            // generate new Arrangment IDs
+            // generate new Arrangement IDs
             if (updateArrangementID)
             {
                 arr.Id = IdGenerator.Guid();
@@ -315,7 +338,8 @@ namespace CustomsForgeManager.SongEditor
             var uSongInfo = GetEditorControl<ucSongInfo>();
             if (uSongInfo != null)
             {
-                var p = new System.Drawing.Point() {
+                var p = new System.Drawing.Point()
+                {
                     X = (tpSongInfo.Width - uSongInfo.Width) / 2,
                     Y = 3 /* (tpSongInfo.Height - uSongInfo.Height) / 2;*/
                 };

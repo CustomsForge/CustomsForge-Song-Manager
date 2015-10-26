@@ -75,8 +75,8 @@ namespace CustomsForgeManager.Forms
             }
 
             // get server version of application
-            if (ApplicationDeployment.IsNetworkDeployed)
-                Globals.Log(String.Format("Application loaded, using version: {0}", ApplicationDeployment.CurrentDeployment.CurrentVersion));
+            //if (ApplicationDeployment.IsNetworkDeployed)
+           // Globals.Log(String.Format("Application loaded, using version: {0}", ApplicationDeployment.CurrentDeployment.CurrentVersion));
 
             // initialize all global variables
             Globals.Log(String.Format("CFSongManager Version: {0}", Constants.CustomVersion()));
@@ -112,10 +112,8 @@ namespace CustomsForgeManager.Forms
 #if !TAGGER
             toolstripTagger.Visible = false;
 #else
-
             tsButtonTagSelected.Click += tsButtonTagSelected_Click;
             tsButtonUntagSelection.Click += tsButtonUntagSelection_Click;
-
             tscbTaggerThemes.Items.AddRange(Globals.Tagger.Themes.ToArray());
             tscbTaggerThemes.SelectedIndex = 0;
             tscbTaggerThemes.SelectedIndexChanged += (s, e) =>
@@ -611,6 +609,7 @@ namespace CustomsForgeManager.Forms
             DoSomethingWithGrid((dataGrid, selection, colSel, ignoreColumns) =>
             {
                 var sbTXT = new StringBuilder();
+                sbTXT.AppendLine("<html><body>");
                 sbTXT.AppendLine("<table>");
                 sbTXT.AppendLine("<tr>");
                 var columns = String.Empty;
@@ -634,13 +633,13 @@ namespace CustomsForgeManager.Forms
                     sbTXT.AppendLine(s.Trim());
                     sbTXT.AppendLine("</tr>");
                 }
+                sbTXT.AppendLine("</body></html>");
 
 
-                using (var noteViewer = new frmNoteViewer())
+                using (var noteViewer = new frmHtmlViewer())
                 {
                     noteViewer.Text = String.Format("{0} . . . {1}", noteViewer.Text, "Song list to HTML");
-
-                    noteViewer.PopulateText(sbTXT.ToString(), false);
+                    noteViewer.PopulateHtml(sbTXT.ToString());
                     noteViewer.ShowDialog();
                 }
             });

@@ -389,7 +389,7 @@ namespace CustomsForgeManager.UControls
             return masterSongCollection.Distinct().FirstOrDefault(x => x.Title == dataGridViewRow.Cells["Song"].Value.ToString() && x.Artist == dataGridViewRow.Cells["Artist"].Value.ToString() && x.Album == dataGridViewRow.Cells["Album"].Value.ToString() && x.Path == dataGridViewRow.Cells["Path"].Value.ToString());
         }
 
-        private void LoadFilteredBindingList(dynamic list)
+        private void LoadFilteredBindingList(IList<SongData> list)
         {
             bindingCompleted = false;
             dgvPainted = false;
@@ -472,8 +472,6 @@ namespace CustomsForgeManager.UControls
 
                 if (Directory.Exists(Constants.WorkDirectory))
                 {
-                    File.Delete(Constants.LogFilePath);
-                    File.Delete(Constants.SettingsPath);
                     File.Delete(Constants.SongsInfoPath);
                 }
 
@@ -934,7 +932,7 @@ namespace CustomsForgeManager.UControls
 
             try
             {
-                if (MessageBox.Show(string.Format("Do you really want to remove this CDLC?  {0}Warning:  This cannot be undone!", Environment.NewLine), Constants.ApplicationName, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
+                if (MessageBox.Show(string.Format(Properties.Resources.DoYouReallyWantToRemoveThisCDLCX0Warning, Environment.NewLine), Constants.ApplicationName, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
                 {
                     File.Delete(masterSongCollection[dgvSongsMaster.SelectedRows[0].Index].Path);
                     masterSongCollection.RemoveAt(dgvSongsMaster.SelectedRows[0].Index);
@@ -1296,17 +1294,10 @@ namespace CustomsForgeManager.UControls
         {
             if (!String.IsNullOrEmpty(AppSettings.Instance.CreatorName))
             {
-
                 if (cbMyCDLC.Checked)
                 {
-                    var results = masterSongCollection.Where(x => !String.IsNullOrEmpty(x.Charter) && 
-                        x.Charter.Equals(AppSettings.Instance.CreatorName)).ToList();
-                 
-
+                    var results = masterSongCollection.Where(x => x.IsMine).ToList();
                     LoadFilteredBindingList(results);
-                    //    //dgvSongsMaster.DataSource.
-
-
                 }
                 else
                     PopulateDataGridView();

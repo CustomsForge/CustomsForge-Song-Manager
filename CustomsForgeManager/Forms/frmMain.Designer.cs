@@ -183,7 +183,7 @@ namespace CustomsForgeManager.Forms
             // tstripContainer.ContentPanel
             // 
             this.tstripContainer.ContentPanel.Controls.Add(this.tcMain);
-            this.tstripContainer.ContentPanel.Size = new System.Drawing.Size(1011, 586);
+            this.tstripContainer.ContentPanel.Size = new System.Drawing.Size(1011, 611);
             this.tstripContainer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tstripContainer.LeftToolStripPanelVisible = false;
             this.tstripContainer.Location = new System.Drawing.Point(0, 0);
@@ -210,7 +210,7 @@ namespace CustomsForgeManager.Forms
             this.tcMain.Location = new System.Drawing.Point(0, 0);
             this.tcMain.Name = "tcMain";
             this.tcMain.SelectedIndex = 0;
-            this.tcMain.Size = new System.Drawing.Size(1011, 586);
+            this.tcMain.Size = new System.Drawing.Size(1011, 611);
             this.tcMain.TabIndex = 2;
             this.tcMain.SelectedIndexChanged += new System.EventHandler(this.tcMain_SelectedIndexChanged);
             // 
@@ -219,7 +219,7 @@ namespace CustomsForgeManager.Forms
             this.tpSongManager.Location = new System.Drawing.Point(4, 25);
             this.tpSongManager.Name = "tpSongManager";
             this.tpSongManager.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
-            this.tpSongManager.Size = new System.Drawing.Size(1003, 557);
+            this.tpSongManager.Size = new System.Drawing.Size(1003, 582);
             this.tpSongManager.TabIndex = 0;
             this.tpSongManager.Text = "Song Manager";
             this.tpSongManager.UseVisualStyleBackColor = true;
@@ -284,7 +284,7 @@ namespace CustomsForgeManager.Forms
             this.tsBtnRequest,
             this.toolStripSeparator4,
             this.tsBtnHelp});
-            this.toolStripUtilities.Location = new System.Drawing.Point(3, 25);
+            this.toolStripUtilities.Location = new System.Drawing.Point(3, 0);
             this.toolStripUtilities.Name = "toolStripUtilities";
             this.toolStripUtilities.Size = new System.Drawing.Size(481, 25);
             this.toolStripUtilities.TabIndex = 0;
@@ -294,7 +294,7 @@ namespace CustomsForgeManager.Forms
             this.tsBtnLaunchRS.Image = global::CustomsForgeManager.Properties.Resources.launch;
             this.tsBtnLaunchRS.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsBtnLaunchRS.Name = "tsBtnLaunchRS";
-            this.tsBtnLaunchRS.Size = new System.Drawing.Size(112, 22);
+            this.tsBtnLaunchRS.Size = new System.Drawing.Size(125, 22);
             this.tsBtnLaunchRS.Text = "Launch Rocksmith";
             this.tsBtnLaunchRS.Click += new System.EventHandler(this.tsBtnLaunchRS_Click);
             // 
@@ -308,7 +308,7 @@ namespace CustomsForgeManager.Forms
             this.tsBtnBackup.Image = global::CustomsForgeManager.Properties.Resources.backup;
             this.tsBtnBackup.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsBtnBackup.Name = "tsBtnBackup";
-            this.tsBtnBackup.Size = new System.Drawing.Size(94, 22);
+            this.tsBtnBackup.Size = new System.Drawing.Size(103, 22);
             this.tsBtnBackup.Text = "Backup Profile";
             this.tsBtnBackup.Click += new System.EventHandler(this.tsBtnBackup_Click);
             // 
@@ -322,7 +322,7 @@ namespace CustomsForgeManager.Forms
             this.tsBtnUpload.Image = global::CustomsForgeManager.Properties.Resources.upload;
             this.tsBtnUpload.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsBtnUpload.Name = "tsBtnUpload";
-            this.tsBtnUpload.Size = new System.Drawing.Size(60, 22);
+            this.tsBtnUpload.Size = new System.Drawing.Size(65, 22);
             this.tsBtnUpload.Text = "Upload";
             this.tsBtnUpload.ToolTipText = "Upload CDLC to CustomsForge";
             this.tsBtnUpload.Click += new System.EventHandler(this.tsBtnUpload_Click);
@@ -333,7 +333,7 @@ namespace CustomsForgeManager.Forms
             this.tsBtnRequest.Image = ((System.Drawing.Image)(resources.GetObject("tsBtnRequest.Image")));
             this.tsBtnRequest.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsBtnRequest.Name = "tsBtnRequest";
-            this.tsBtnRequest.Size = new System.Drawing.Size(51, 22);
+            this.tsBtnRequest.Size = new System.Drawing.Size(53, 22);
             this.tsBtnRequest.Text = "Request";
             this.tsBtnRequest.ToolTipText = "Request a song on CustomsForge";
             this.tsBtnRequest.Click += new System.EventHandler(this.tsBtnRequest_Click);
@@ -349,7 +349,7 @@ namespace CustomsForgeManager.Forms
             this.tsBtnHelp.Image = ((System.Drawing.Image)(resources.GetObject("tsBtnHelp.Image")));
             this.tsBtnHelp.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsBtnHelp.Name = "tsBtnHelp";
-            this.tsBtnHelp.Size = new System.Drawing.Size(32, 22);
+            this.tsBtnHelp.Size = new System.Drawing.Size(36, 22);
             this.tsBtnHelp.Text = "Help";
             this.tsBtnHelp.Click += new System.EventHandler(this.tsBtnHelp_Click);
             // 
@@ -396,7 +396,7 @@ namespace CustomsForgeManager.Forms
             this.tsButtonUntagSelection});
             this.toolstripTagger.Location = new System.Drawing.Point(4, 0);
             this.toolstripTagger.Name = "toolstripTagger";
-            this.toolstripTagger.Size = new System.Drawing.Size(329, 25);
+            this.toolstripTagger.Size = new System.Drawing.Size(308, 25);
             this.toolstripTagger.TabIndex = 1;
             // 
             // tscbTaggerThemes
@@ -415,7 +415,7 @@ namespace CustomsForgeManager.Forms
             this.tsButtonTagSelected.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.tsButtonTagSelected.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsButtonTagSelected.Name = "tsButtonTagSelected";
-            this.tsButtonTagSelected.Size = new System.Drawing.Size(73, 22);
+            this.tsButtonTagSelected.Size = new System.Drawing.Size(77, 22);
             this.tsButtonTagSelected.Text = "Tag Selected";
             // 
             // tsButtonUntagSelection
@@ -423,7 +423,7 @@ namespace CustomsForgeManager.Forms
             this.tsButtonUntagSelection.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.tsButtonUntagSelection.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsButtonUntagSelection.Name = "tsButtonUntagSelection";
-            this.tsButtonUntagSelection.Size = new System.Drawing.Size(84, 22);
+            this.tsButtonUntagSelection.Size = new System.Drawing.Size(90, 22);
             this.tsButtonUntagSelection.Text = "Untag Selected";
             // 
             // BottomToolStripPanel

@@ -1,6 +1,6 @@
-#include "cfmsetup.iss"  
+#include "cfmsetup.iss"
 #include "ISPPBuiltins.iss"
-#include "idp.iss"   
+#include "idp.iss"
 
 [Setup]
 AppName={#ApplicationName}
@@ -19,41 +19,41 @@ WizardSmallImageFile=cfmWizardSmall.bmp
 OutputBaseFilename={#InstallerName}
 VersionInfoVersion={#AppVersion}
 AppCopyright=CustomsForge.com
-SetupIconFile= "..\..\CustomsForgeManager\Resources\cfsm_48x48.ico"
+SetupIconFile=..\..\CustomsForgeManager\Resources\cfsm_48x48.ico
 
-[Files]          
-Source: "{#buildpath}{#AppExeName}"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#buildpath}CFMAudioTools.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#buildpath}CFMImageTools.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#buildpath}ClickOnceUninstaller.exe"; DestDir: "{tmp}"; Flags: dontcopy;
-Source: "{#buildpath}DataGridViewAutoFilter.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#buildpath}DLogNet.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#buildpath}ICSharpCode.SharpZipLib.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#buildpath}RocksmithToolkitLib.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#buildpath}RocksmithToTabLib.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#buildpath}X360.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#buildpath}Antlr3.Runtime.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#buildpath}Antlr4.StringTemplate.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#buildpath}DF_DDSImage.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#buildpath}MiscUtil.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#buildpath}Newtonsoft.Json.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#buildpath}ReleaseNotes.txt"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#buildpath}RocksmithToolkitLib.Config.xml"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#buildpath}RocksmithToolkitLib.SongAppId.xml"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#buildpath}RocksmithToolkitLib.TuningDefinition.xml"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#buildpath}zlib.net.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{srcexe}"; DestDir: "{app}";DestName: "{#InstallerName}.exe"; Flags: ignoreversion external
+[Files]
+Source: {#buildpath}{#AppExeName}; DestDir: {app}; Flags: ignoreversion
+Source: {#buildpath}CFMAudioTools.dll; DestDir: {app}; Flags: ignoreversion
+Source: {#buildpath}CFMImageTools.dll; DestDir: {app}; Flags: ignoreversion
+Source: ClickOnceUninstaller.exe; DestDir: {tmp}; Flags: dontcopy
+Source: {#buildpath}DataGridViewAutoFilter.dll; DestDir: {app}; Flags: ignoreversion
+Source: {#buildpath}DLogNet.dll; DestDir: {app}; Flags: ignoreversion
+Source: {#buildpath}ICSharpCode.SharpZipLib.dll; DestDir: {app}; Flags: ignoreversion
+Source: {#buildpath}RocksmithToolkitLib.dll; DestDir: {app}; Flags: ignoreversion
+Source: {#buildpath}RocksmithToTabLib.dll; DestDir: {app}; Flags: ignoreversion
+Source: {#buildpath}X360.dll; DestDir: {app}; Flags: ignoreversion
+Source: {#buildpath}Antlr3.Runtime.dll; DestDir: {app}; Flags: ignoreversion
+Source: {#buildpath}Antlr4.StringTemplate.dll; DestDir: {app}; Flags: ignoreversion
+Source: {#buildpath}DF_DDSImage.dll; DestDir: {app}; Flags: ignoreversion
+Source: {#buildpath}MiscUtil.dll; DestDir: {app}; Flags: ignoreversion
+Source: {#buildpath}Newtonsoft.Json.dll; DestDir: {app}; Flags: ignoreversion
+Source: {#buildpath}ReleaseNotes.txt; DestDir: {app}; Flags: ignoreversion
+Source: {#buildpath}RocksmithToolkitLib.Config.xml; DestDir: {app}; Flags: ignoreversion
+Source: {#buildpath}RocksmithToolkitLib.SongAppId.xml; DestDir: {app}; Flags: ignoreversion
+Source: {#buildpath}RocksmithToolkitLib.TuningDefinition.xml; DestDir: {app}; Flags: ignoreversion
+Source: {#buildpath}zlib.net.dll; DestDir: {app}; Flags: ignoreversion
+Source: {srcexe}; DestDir: {app}; DestName: {#InstallerName}.exe; Flags: ignoreversion external
 
 [Tasks]
 Name: desktopicon; Description: {cm:CreateDesktopIcon}; GroupDescription: {cm:AdditionalIcons}; Flags: checkedonce
 ;todo: quick launch win 7 and up
-Name: quicklaunchicon; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked; OnlyBelowVersion: 0,6.1
+Name: quicklaunchicon; Description: {cm:CreateQuickLaunchIcon}; GroupDescription: {cm:AdditionalIcons}; Flags: unchecked; OnlyBelowVersion: 0,6.1
 
 [Icons]
-Name: "{group}\{#ApplicationName}"; Filename: "{app}\{#AppExeName}"; WorkingDir: "{app}"; IconFilename: "{app}\{#AppExeName}";
-Name: "{group}\{cm:UninstallProgram,{#ApplicationName}}"; Filename: "{uninstallexe}"
-Name: "{commondesktop}\{#ApplicationName}"; Filename: "{app}\{#AppExeName}"; WorkingDir: "{app}"; IconFilename: "{app}\{#AppExeName}"; Tasks: desktopicon
-Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\{#ApplicationName}"; Filename: "{app}\{#AppExeName}"; Tasks: quicklaunchicon
+Name: {group}\{#ApplicationName}; Filename: {app}\{#AppExeName}; WorkingDir: {app}; IconFilename: {app}\{#AppExeName}
+Name: {group}\{cm:UninstallProgram,{#ApplicationName}}; Filename: {uninstallexe}
+Name: {commondesktop}\{#ApplicationName}; Filename: {app}\{#AppExeName}; WorkingDir: {app}; IconFilename: {app}\{#AppExeName}; Tasks: desktopicon
+Name: {userappdata}\Microsoft\Internet Explorer\Quick Launch\{#ApplicationName}; Filename: {app}\{#AppExeName}; Tasks: quicklaunchicon
 
 [Code]
 const
@@ -92,7 +92,7 @@ begin
     Result := StrToInt(part);
   end;
 end;
- 
+
 function CompareInner(var temp1, temp2: String): Integer;
 var
   num1, num2: Integer;
@@ -106,13 +106,13 @@ begin
   end;
   if (num1 > num2) then
     Result := 1
-  else 
+  else
   if (num1 < num2) then
     Result := -1
   else
     Result := CompareInner(temp1, temp2);
 end;
- 
+
 function CompareVersion(str1, str2: String): Integer;
 var
   temp1, temp2: String;
@@ -141,7 +141,7 @@ begin
 end;
 
 
-function UninstallNextButtonClick(Page: TWizardPage): Boolean; 
+function UninstallNextButtonClick(Page: TWizardPage): Boolean;
 var
  ResultCode : integer;
  fn : string;
@@ -195,12 +195,12 @@ var
  currentVersion,newVersion,updateLoc : string;
  sl:TStringlist;
  updateUrl:string;
- urlLabel : TNewStaticText; 
+ urlLabel : TNewStaticText;
  DownloadStep : integer;
-begin                
+begin
   currentVersion := ExpandConstant('{#AppVersion}');
 
-  WizardForm.Caption := WizardForm.Caption + ' V'+ currentVersion; 
+  WizardForm.Caption := WizardForm.Caption + ' V'+ currentVersion;
 
   DownloadStep := wpWelcome;
   CreateUninstallPage();
@@ -225,7 +225,7 @@ begin
   end;
 #IFDEF DOUPDATE
  //don't check for updates when -webupdate is located in the command line params.
-  if not runningWebUpdate then   
+  if not runningWebUpdate then
   begin
     updateLoc :=  ExpandConstant('{tmp}\update.txt');
     //check for an update
@@ -234,13 +234,13 @@ begin
        sl := TStringlist.Create;
        sl.LoadFromFile(updateLoc);
        if sl.count > 0 then
-       begin    
+       begin
         newVersion := sl[0];
        (* if sl.Count > 1 then
             updateUrl := sl[1]
         else *)
         updateUrl := ExpandConstant('{#LatestVersionDowload}');
-      
+
         hasUpgrade := CompareVersion(currentVersion, newVersion) < 0;
         if hasUpgrade then
         begin
@@ -264,7 +264,7 @@ procedure ExitProcess(exitCode:integer);
   external 'ExitProcess@kernel32.dll stdcall';
 
 function NextButtonClick(CurPageID: Integer): Boolean;
-var  
+var
   ResultCode: Integer;
 begin
   if CheckForMutexes('Global\CUSTOMSFORGESONGMANAGER') then
@@ -281,7 +281,7 @@ begin
   begin
     case curpageID of
     1 :
-    begin   
+    begin
       result := true;
     end;
     IDPForm.Page.Id:

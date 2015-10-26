@@ -24,6 +24,10 @@ namespace CustomsForgeManager.SongEditor
 
         public virtual bool Dirty { get; set; }
         public virtual void Save() { Dirty = false; }
+
+        public virtual bool AfterSave(RocksmithToolkitLib.PSARC.PSARC packagePath) { Dirty = false; return false; }
+        public virtual bool NeedsAfterSave() { return false; }
+
         public virtual void DoInit() { }
 
         public string TempToolkitPath
@@ -31,7 +35,11 @@ namespace CustomsForgeManager.SongEditor
             get
             {
                 if (SongData != null)
+                {
+                    if (String.IsNullOrEmpty(SongData.AlbumArtPath))
+                        return System.IO.Path.GetDirectoryName(SongData.OggPath);
                     return System.IO.Path.GetDirectoryName(SongData.AlbumArtPath);
+                }
                 return string.Empty;
             }
         }

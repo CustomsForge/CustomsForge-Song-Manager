@@ -38,6 +38,20 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
             set { } // required for XML file usage
         }
 
+        [XmlIgnore]
+        public bool IsMine
+        {
+            get
+            {
+                if (!String.IsNullOrEmpty(AppSettings.Instance.CreatorName) && !String.IsNullOrEmpty(Charter))
+                {
+                    string[] creatorNames = AppSettings.Instance.CreatorName.ToLower().Split(new char[] {';',','});
+                    return creatorNames.Any(z => z == Charter.ToLower());
+                }
+                return false;
+            }
+        }
+
         public string Artist { get; set; }
         public string Title { get; set; }
         public string Album { get; set; }

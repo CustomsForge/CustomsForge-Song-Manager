@@ -1,5 +1,15 @@
 CFM Release Notes
 
+1.0.6.4
+-Added non-persisted IsMine property in SongData class
+-Changed LoadFilterBindingList parameter from dynamic to IList<SongData> in SongManager
+-SongEditor : Album art can be changed, had to write a small hack in order to implement
+-Added html viewer(currently implemented in export to html). Uses HTML-Renderer (https://github.com/ArthurHub/HTML-Renderer) which is cross platform native c# without external dependencies. Some other uses would be a internal help viewer.
+-ImageTools : Gave DDSImage an IDisposable interface
+-ImageTools : Added Bitmap.ScaleImage() and Stream.ToDDS() extentions.
+-SongEditor : Only ask to "update the 'Persistent ID'" when saving as a new file.
+
+
 1.0.6.3
 -Fixed bug deleting multiple duplicates at one time
 -Fixed Duplicates table update after move/delete
