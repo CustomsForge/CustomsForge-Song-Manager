@@ -21,7 +21,7 @@ namespace CustomsForgeManager.UControls
         private List<SongData> dupPIDS = new List<SongData>();
         private Color ErrorStyleBackColor = Color.Red;
         private Color ErrorStyleForeColor = Color.White;
-       // private Font ErrorStyleFont;
+        // private Font ErrorStyleFont;
         private DataGridViewCellStyle ErrorStyle;
 
         public Duplicates()
@@ -30,7 +30,8 @@ namespace CustomsForgeManager.UControls
             ErrorStyle = new DataGridViewCellStyle()
             {
                 Font = new Font("Arial", 8, FontStyle.Italic),
-                ForeColor = ErrorStyleForeColor, BackColor = ErrorStyleBackColor
+                ForeColor = ErrorStyleForeColor,
+                BackColor = ErrorStyleBackColor
             };
             txtNoDuplicates.Visible = false;
             btnMove.Click += DeleteMoveSelected;
@@ -103,7 +104,6 @@ namespace CustomsForgeManager.UControls
                                     dupPIDS.Add(x.Parent);
                             });
                 });
-
             }
 
             LoadFilteredBindingList(duplicates);
@@ -172,7 +172,7 @@ namespace CustomsForgeManager.UControls
             dgvDups.DefaultCellStyle.SelectionBackColor = Color.Gold; // dgvDups.DefaultCellStyle.BackColor; // or removes selection highlight
             dgvDups.DefaultCellStyle.SelectionForeColor = dgvDups.DefaultCellStyle.ForeColor;
             // this overrides any user ability to make changes 
-            // dgvDups.EditMode = DataGridViewEditMode.EditProgrammatically;
+            //dgvDups.EditMode = DataGridViewEditMode.EditProgrammatically;
             dgvDups.EditMode = DataGridViewEditMode.EditOnEnter;
             dgvDups.EnableHeadersVisualStyles = true;
             dgvDups.Font = new Font("Arial", 8);
@@ -294,19 +294,17 @@ namespace CustomsForgeManager.UControls
             if (dgvDups.Rows.Count == 0)
                 return;
 
-            var count = dgvDups.Rows.Cast<DataGridViewRow>().Count(row => Convert.ToBoolean(row.Cells["colSelect"].Value));
-            if (count == 0)
+            var selectedCount = dgvDups.Rows.Cast<DataGridViewRow>().Count(row => Convert.ToBoolean(row.Cells["colSelect"].Value));
+            if (selectedCount == 0)
             {
-                MessageBox.Show(Properties.Resources.PleaseSelectTheCheckboxNextToSongsNthatYou, Constants.ApplicationName,
-                                MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(Properties.Resources.PleaseSelectTheCheckboxNextToSongsNthatYou, Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
 
             var buttonName = (Button)sender;
 
             if (buttonName.Text.ToLower().Contains("delete"))
-                if (MessageBox.Show(
-                    Properties.Resources.DeleteTheSelectedDuplicates, Constants.ApplicationName, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.No)
+                if (MessageBox.Show(Properties.Resources.DeleteTheSelectedDuplicates, Constants.ApplicationName, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.No)
                     return;
 
             string dupDir = Path.Combine(AppSettings.Instance.RSInstalledDir, "cdlc_duplicates");
@@ -314,49 +312,35 @@ namespace CustomsForgeManager.UControls
             if (!Directory.Exists(dupDir))
                 Directory.CreateDirectory(dupDir);
 
-            for (int i = 0; i < dgvDups.Rows.Count; i++)
+            for (int ndx = dgvDups.Rows.Count - 1; ndx >= 0; ndx--)
             {
-                if (dgvDups.Rows[i].Cells["colSelect"].Value == null)
-                    dgvDups.Rows[i].Cells["colSelect"].Value = false;
+                DataGridViewRow row = dgvDups.Rows[ndx];
 
-                if (Convert.ToBoolean(dgvDups.Rows[i].Cells["colSelect"].Value))
+                if (Convert.ToBoolean(row.Cells["colSelect"].Value))
                 {
-                    try
+                    // check if user manually (re)moved the song and has not rescanned 
+                    if (File.Exists(duplicates[ndx].Path))
                     {
-                        if (File.Exists(duplicates[i].Path))//In case that the user manually (re)moved the song & hasn't rescanned since he did that 
+                        if (buttonName.Text.ToLower().Contains("move"))
                         {
-                            if (buttonName.Text.ToLower().Contains("move"))
-                            {
-                                var filePath = duplicates[i].Path;
-                                var dupFileName = String.Format("{0}{1}", Path.GetFileName(filePath), ".duplicate");
-                                var dupFilePath = Path.Combine(dupDir, dupFileName);
-                                File.Move(duplicates[i].Path, dupFilePath);
-                                Globals.Log(CustomsForgeManager.Properties.Resources.DuplicateFile + dupFileName);
-                                Globals.Log(CustomsForgeManager.Properties.Resources.MovedTo + dupDir);
-                            }
-                            else
-                                File.Delete(duplicates[i].Path);
+                            var filePath = duplicates[ndx].Path;
+                            var dupFileName = String.Format("{0}{1}", Path.GetFileName(filePath), ".duplicate");
+                            var dupFilePath = Path.Combine(dupDir, dupFileName);
+                            File.Move(duplicates[ndx].Path, dupFilePath);
+                            Globals.Log(CustomsForgeManager.Properties.Resources.DuplicateFile + dupFileName);
+                            Globals.Log(CustomsForgeManager.Properties.Resources.MovedTo + dupDir);
                         }
+                        else
+                            File.Delete(duplicates[ndx].Path);
                     }
-                    catch (IndexOutOfRangeException ex)
-                    {
-                        Globals.Log(ex.Message);
-                    }
+
+                    dgvDups.Rows.Remove(row);
                 }
             }
-
-            // safely remove rows now that file(s) are deleted/moved 
-            for (int ndx = 0; ndx < dgvDups.Rows.Count; ++ndx)
-                if (Convert.ToBoolean(dgvDups.Rows[ndx].Cells["colSelect"].Value))
-                {
-                    dgvDups.Rows.RemoveAt(ndx);
-                    ndx--;
-                }
 
             if (dgvDups.Rows.Count == 1)
                 dgvDups.Rows.Clear();
 
-            // Rescan();
             UpdateToolStrip();
             // rescan on tabpage change to remove from Globals.SongCollection
             Globals.RescanSongManager = true;
@@ -558,14 +542,16 @@ namespace CustomsForgeManager.UControls
             }
             catch (Exception ex)
             {
-                 Globals.DebugLog(String.Format("{0}", ex.Message));
+                Globals.DebugLog(String.Format("{0}", ex.Message));
             }
         }
 
         private void dgvDups_DataError(object sender, DataGridViewDataErrorEventArgs e)
         {
-            Globals.DebugLog(String.Format("{0}, row:{1},col:{2}", e.Exception.Message,e.RowIndex,e.ColumnIndex));
+            Globals.DebugLog(String.Format("{0}, row:{1},col:{2}", e.Exception.Message, e.RowIndex, e.ColumnIndex));
             e.Cancel = true;
         }
+ 
+
     }
 }

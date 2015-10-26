@@ -1,5 +1,11 @@
 CFM Release Notes
 
+1.0.6.3
+-Fixed bug deleting multiple duplicates at one time
+-Fixed Duplicates table update after move/delete
+-Added convert csproj to VS2010 feature in CFMPostBuilder app and cleaned up ThirdParty folder
+-Added Tagger column to SongManager and fixed Settings display running off screen
+
 1.0.6.2
 -Started work on a CrossPlatform class
 -Move Gridsettings to a separate file

@@ -92,7 +92,7 @@ namespace CustomsForgeManager.SongEditor
                 var songAppId = SongAppIdRepository.Instance().Select(appId, gameVersion);
                 cmbAppId.SelectedItem = songAppId; // triggers SelectedIndexChanged
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 var msg = "Please select a new AppId from available selection." + Environment.NewLine + "Can not find: " + appId;
                 MessageBox.Show(msg, Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Error);

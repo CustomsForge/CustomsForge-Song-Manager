@@ -40,6 +40,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
             var version = String.Empty;
             var tkversion = String.Empty;
             var appId = String.Empty;
+
             var tagged = archive.TOC.Any(entry => entry.Name == "tagger.org");
 
             var toolkitVersionFile = archive.TOC.FirstOrDefault(x => (x.Name.Equals("toolkit.version")));

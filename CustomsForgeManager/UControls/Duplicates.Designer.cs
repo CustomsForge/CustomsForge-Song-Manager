@@ -68,19 +68,19 @@ namespace CustomsForgeManager.UControls
             this.cmsDuplicate.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.exploreToolStripMenuItem});
             this.cmsDuplicate.Name = "cmsDuplicate";
-            this.cmsDuplicate.Size = new System.Drawing.Size(113, 26);
+            this.cmsDuplicate.Size = new System.Drawing.Size(122, 26);
             // 
             // exploreToolStripMenuItem
             // 
             this.exploreToolStripMenuItem.Name = "exploreToolStripMenuItem";
-            this.exploreToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.exploreToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
             this.exploreToolStripMenuItem.Text = "Explore";
             this.exploreToolStripMenuItem.Click += new System.EventHandler(this.exploreToolStripMenuItem_Click);
             // 
             // gbActions
             // 
-            this.gbActions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbActions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.gbActions.Controls.Add(this.panelActions);
             this.gbActions.Location = new System.Drawing.Point(5, 457);
             this.gbActions.Name = "gbActions";
@@ -173,9 +173,9 @@ namespace CustomsForgeManager.UControls
             // 
             // gbResults
             // 
-            this.gbResults.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbResults.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.gbResults.Controls.Add(this.txtNoDuplicates);
             this.gbResults.Controls.Add(this.dgvDups);
             this.gbResults.Location = new System.Drawing.Point(4, 3);
@@ -200,9 +200,9 @@ namespace CustomsForgeManager.UControls
             // 
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.dgvDups.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.dgvDups.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgvDups.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -237,7 +237,7 @@ namespace CustomsForgeManager.UControls
             // 
             // colSelect
             // 
-            this.colSelect.DataPropertyName = "Select";
+            this.colSelect.DataPropertyName = "Selected";
             this.colSelect.FalseValue = "false";
             this.colSelect.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.colSelect.HeaderText = "Select";
@@ -344,6 +344,8 @@ namespace CustomsForgeManager.UControls
         private ToolStripMenuItem exploreToolStripMenuItem;
         private CustomsForgeManagerLib.CustomControls.RADataGridView dgvDups;
         private GroupBox gbResults;
+        private LinkLabel lnkPersistentId;
+        private TextBox txtNoDuplicates;
         private DataGridViewCheckBoxColumn colSelect;
         private DataGridViewTextBoxColumn colEnabled;
         private DataGridViewTools.DataGridViewAutoFilterTextBoxColumn colPID;
@@ -353,7 +355,5 @@ namespace CustomsForgeManager.UControls
         private DataGridViewTools.DataGridViewAutoFilterTextBoxColumn colAlbum;
         private DataGridViewTextBoxColumn colUpdated;
         private DataGridViewTextBoxColumn colPath;
-        private LinkLabel lnkPersistentId;
-        private TextBox txtNoDuplicates;
     }
 }

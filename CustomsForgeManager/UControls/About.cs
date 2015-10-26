@@ -173,6 +173,7 @@ namespace CustomsForgeManager.UControls
             {
                 img = (Bitmap)Properties.Resources.ResourceManager.GetObject(String.IsNullOrEmpty(ResourceImg) ? 
                     Text : ResourceImg);
+       
                 hasImage = img != null;
             }
             if (hasImage.Value)

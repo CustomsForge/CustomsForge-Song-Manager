@@ -92,8 +92,9 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
+                //
             }
         }
     }

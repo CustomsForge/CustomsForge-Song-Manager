@@ -30,13 +30,31 @@ namespace CFMPostBuilder
             stream.CopyTo(requestStream);
             requestStream.Close();
             FtpWebResponse response = (FtpWebResponse)request.GetResponse();
-            Console.WriteLine("Upload File {0}, status {1}", Filename , response.StatusDescription);
+            Console.WriteLine("Upload File {0}, status {1}", Filename, response.StatusDescription);
             response.Close();
         }
 
 
         static void Main(string[] args)
         {
+            Console.WindowWidth = 85;
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.ForegroundColor = ConsoleColor.Green;
+
+            // dumby CLI data for test
+            // args = new[] { "CONVERT" };
+
+            if (args.Length != 1 || string.IsNullOrEmpty(args[0]))
+            {
+                Console.WriteLine("Invalid command line input");
+                Console.WriteLine("");
+                Console.WriteLine("Usage: CFMPostBuilder.exe UPLOAD");
+                Console.WriteLine("       CFMPostBuilder.exe CONVERT");
+
+                Console.ReadLine();
+                return;
+            }
+
             switch (args[0])
             {
                 case "UPLOAD":
@@ -80,16 +98,20 @@ namespace CFMPostBuilder
 
 
 
-                case "ConvertToVS2010":
-                    var path = @"..\";
+                case "CONVERT":
+                    var path = @".\"; // CAREFUL - ONLY GO UP ONE DIRECTORY
                     if (args.Count() > 1)
                         path = args[1];
 
-                    var sol = Directory.GetFiles(path, "*.sln", SearchOption.TopDirectoryOnly);// SearchOption.AllDirectories);
-                    foreach (string s in sol)
+                    var convertedCount = 0;
+                    var fileCount = 0;
+                    var slnFiles = Directory.EnumerateFiles(path, "*.sln", SearchOption.AllDirectories).ToList();
+                    fileCount = slnFiles.Count;
+
+                    foreach (string slnFile in slnFiles)
                     {
-                        Console.WriteLine(s);
-                        var lines = File.ReadAllLines(s).ToList();
+                        Console.WriteLine(slnFile);
+                        var lines = File.ReadAllLines(slnFile).ToList();
                         if (lines.Count() > 0)
                         {
                             var z = lines.Where(str => str.Contains("Format Version 12.00")).FirstOrDefault();
@@ -102,17 +124,47 @@ namespace CFMPostBuilder
                                     lines[idx + 1] = "# Visual Studio 2010";
                                     lines.RemoveAll(m => m.StartsWith("VisualStudioVersion"));
                                     lines.RemoveAll(m => m.StartsWith("MinimumVisualStudioVersion"));
-                                    File.WriteAllLines(s, lines.ToArray());
-                                    Console.WriteLine("converted :" + Path.GetFileName(s));
+                                    File.WriteAllLines(slnFile, lines.ToArray());
+                                    Console.WriteLine("Converted :" + Path.GetFileName(slnFile));
+                                    convertedCount++;
                                 }
                             }
                         }
                     }
-                    Console.WriteLine("done converting");
+
+                    var csprojFiles = Directory.EnumerateFiles(path, "*.csproj", SearchOption.AllDirectories).ToList();
+                    fileCount = fileCount + csprojFiles.Count;
+
+                    foreach (string csprojFile in csprojFiles)
+                    {
+                        Console.WriteLine(csprojFile);
+                        var lines = File.ReadAllLines(csprojFile).ToList();
+                        if (lines.Count() > 0)
+                        {
+                            var z = lines.Where(str => str.Contains("Project ToolsVersion=\"12.0\"")).FirstOrDefault();
+                            if (!string.IsNullOrEmpty(z))
+                            {
+                                var idx = lines.IndexOf(z);
+                                if (idx > -1)
+                                {
+                                    lines[idx] = "<Project DefaultTargets=\"Build\" xmlns=\"http://schemas.microsoft.com/developer/msbuild/2003\" ToolsVersion=\"4.0\">";
+                                    lines.RemoveAll(m => m.StartsWith("<Import Project=\"$(MSBuildExtensionsPath)"));
+                                    File.WriteAllLines(csprojFile, lines.ToArray());
+                                    Console.WriteLine("Converted :" + Path.GetFileName(csprojFile));
+                                    convertedCount++;
+                                }
+                            }
+                        }
+                    }
+
+                    Console.WriteLine("");
+                    Console.WriteLine("Converted: " + convertedCount + " of " + fileCount + " files.");
+                    Console.WriteLine("Done converting");
                     break;
             }
-            Console.ReadLine();
 
+            Console.WriteLine("Press any key to continue");
+            Console.ReadLine();
         }
 
 
