@@ -2,12 +2,24 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Xml.Serialization;
 
 namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
 {
     [Serializable]
     public class RADataGridViewSettings
     {
+        public const string gridViewSettingsVersion = "1.0";
+        [XmlIgnore]
+        public string LoadedVersion {get; private set;}
+
+        [XmlAttribute]
+        public string GridViewSettingsVersion
+        {
+            get { return gridViewSettingsVersion; }
+            set { this.LoadedVersion = value; }
+        }
+
         List<ColumnOrderItem> columnOrder = new List<ColumnOrderItem>();
         public List<ColumnOrderItem> ColumnOrder
         {
@@ -43,6 +55,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         public bool IncludeRS1DLCs { get { return FIncludeRS1DLCs; } set { SetPropertyField("IncludeRS1DLCs", ref FIncludeRS1DLCs, value); } }
         public bool EnabledLogBaloon { get { return FEnabledLogBaloon; } set { SetPropertyField("EnabledLogBaloon", ref FEnabledLogBaloon, value); } }
         public bool CheckForUpdateOnScan { get { return FCheckForUpdateOnScan; } set { SetPropertyField("CheckForUpdateOnScan", ref FCheckForUpdateOnScan, value); } }
+        [System.Xml.Serialization.XmlIgnore]
         public RADataGridViewSettings ManagerGridSettings { get; set; }
         // TODO: need to impliment saving/loading this
         public string RenameTemplate { get { return FRenameTemplate; } set { SetPropertyField("RenameTemplate", ref FRenameTemplate, value); } }
@@ -66,24 +79,33 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
             }
         }
 
-        public void LoadFromFile(string Filename)
+        public void LoadFromFile(string Filename, string GridSettingsFilename)
         {
-            using (var fs = File.OpenRead(Filename))
-                LoadFromStream(fs);
+            if (File.Exists(Filename))
+                using (var fs = File.OpenRead(Filename))
+                    LoadFromStream(fs);
+            if (!String.IsNullOrEmpty(GridSettingsFilename) && File.Exists(GridSettingsFilename))
+            {
+                using (var fs = File.OpenRead(GridSettingsFilename))
+                    ManagerGridSettings = fs.DeserializeXml<RADataGridViewSettings>();
+            }
         }
 
         public void LoadFromStream(Stream stream)
         {
             var x = stream.DeserializeXml<AppSettings>();
             var props = GetType().GetProperties(
-                System.Reflection.BindingFlags.Public |  System.Reflection.BindingFlags.Instance);
+                System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
 
             var emptyObjParams = new object[] { };
 
             foreach (var p in props)
                 if (p.CanRead && p.CanWrite)
-                    p.SetValue(this, p.GetValue(x, emptyObjParams), emptyObjParams);
-
+                {
+                    var ignore = p.GetCustomAttributes(typeof(System.Xml.Serialization.XmlIgnoreAttribute), true).Length > 0;
+                    if (!ignore)
+                        p.SetValue(this, p.GetValue(x, emptyObjParams), emptyObjParams);
+                }
             Globals.Log("Loaded settings file ...");
         }
 
@@ -94,6 +116,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
             Instance.IncludeRS1DLCs = false;  // changed to false (fewer issues)
             Instance.EnabledLogBaloon = false; // fewer notfication issues
             Instance.ShowLogWindow = Constants.DebugMode;
+            Instance.ManagerGridSettings = new RADataGridViewSettings();
         }
 
         /// Initialise settings with default values

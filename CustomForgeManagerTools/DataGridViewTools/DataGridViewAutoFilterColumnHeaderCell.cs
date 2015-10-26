@@ -567,7 +567,7 @@ namespace DataGridViewTools
             }
             else if (AutomaticSortingEnabled &&
                 this.DataGridView.SelectionMode !=
-                DataGridViewSelectionMode.ColumnHeaderSelect)
+                DataGridViewSelectionMode.ColumnHeaderSelect && e.Button == MouseButtons.Left)
             {
                 SortByColumn();
             }

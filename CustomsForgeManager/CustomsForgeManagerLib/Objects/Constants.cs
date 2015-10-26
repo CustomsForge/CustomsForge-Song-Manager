@@ -22,6 +22,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         public static string WorkDirectory { get { return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "CFM"); } }
         public static string LogFilePath { get { return Path.Combine(WorkDirectory, "debug.log"); } }
         public static string SettingsPath { get { return Path.Combine(WorkDirectory, "settings.xml"); } }
+        public static string GridSettingsPath { get { return Path.Combine(WorkDirectory, "gridSettings.xml"); } }
         public static string SongsInfoPath { get { return Path.Combine(WorkDirectory, "songsinfo.xml"); } }
         public static string ApplicationDirectory { get { return Path.GetDirectoryName(Application.ExecutablePath); } }
         public static string AppIdFilePath { get { return Path.Combine(ApplicationDirectory, "RocksmithToolkitLib.SongAppId.xml"); } }

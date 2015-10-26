@@ -5,8 +5,14 @@ using System.Windows.Forms;
 using CustomsForgeManager.CustomsForgeManagerLib.Objects;
 using CustomsForgeManager.Forms;
 using DLogNet;
-using System.Threading;
 using System.Linq;
+using CustomsForgeManager.CustomsForgeManagerLib;
+#if WINDOWS
+using Mutex = System.Threading.Mutex;
+#else
+using Mutex = CustomsForgeManager.CustomsForgeManagerLib.Mutex;
+#endif
+
 
 namespace CustomsForgeManager
 {
@@ -24,16 +30,13 @@ namespace CustomsForgeManager
             {
                 if (!mutex.WaitOne(0, false))
                 {                    
-                    Process proc = Process.GetProcesses().Where(
-                        p => Path.GetFileName(p.ProcessName) == 
-                            Path.GetFileName(Path.GetFileNameWithoutExtension(Application.ExecutablePath))).FirstOrDefault();
-
-                    if (proc != null)
+                    var pHandle = CrossPlatform.GetHandleFromProcessName(Application.ExecutablePath);
+                    if (pHandle != IntPtr.Zero)
                     {
                         //restore the window if minimized
-                        ShowWindow(proc.MainWindowHandle, 9);
+                        CrossPlatform.ShowWindow(pHandle, 9);
                         //bring it to the front
-                        SetForegroundWindow(proc.MainWindowHandle);
+                        CrossPlatform.SetForegroundWindow(pHandle);
                     }
                     return;
                 }
@@ -42,30 +45,13 @@ namespace CustomsForgeManager
                     Directory.CreateDirectory(Constants.WorkDirectory);
 
 
-                if (!Constants.DebugMode && FirstRun())
-                {
-                    if (Directory.Exists(Constants.WorkDirectory))
-                    {
-                        File.Delete(Constants.LogFilePath);
-                        File.Delete(Constants.SettingsPath);
-                        File.Delete(Constants.SongsInfoPath);
-                    }
+                if (RemoveGridSettings())
+                    File.Delete(Constants.GridSettingsPath);
 
-                    using (var tw = File.CreateText(Path.Combine(Constants.WorkDirectory, string.Format("firstrun.dat"))))
-                    {
-                        tw.Write(Constants.ApplicationVersion);
-                    }
-                }
                 RunApp();
             }
         }
 
-
-        [System.Runtime.InteropServices.DllImport("USER32.DLL")]
-        public static extern bool SetForegroundWindow(IntPtr hWnd);
-
-        [System.Runtime.InteropServices.DllImport("USER32.DLL")]
-        static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
 
         private static void RunApp()
         {
@@ -98,16 +84,27 @@ namespace CustomsForgeManager
             }
         }
 
-        public static bool FirstRun()
+        public static bool RemoveGridSettings()
         {
-            var txtFile = Path.Combine(Constants.WorkDirectory, string.Format("firstrun.dat"));
-            if (!File.Exists(txtFile))
-                return true;
-
-            if (!File.ReadAllText(txtFile).Contains(Constants.ApplicationVersion))
-                return true;
+            if (!File.Exists(Constants.GridSettingsPath))
+                return false;
+            using (var fs = File.OpenRead(Constants.GridSettingsPath))
+            {
+                try
+                {
+                    var gs = fs.DeserializeXml<RADataGridViewSettings>();
+                    if (gs.LoadedVersion == null)
+                        return true;
+                    if (gs.LoadedVersion != RADataGridViewSettings.gridViewSettingsVersion)
+                        return true;
+                }
+                catch (Exception)
+                {
+                    return true;
+                }
+            }
             return false;
         }
-
+        
     }
 }

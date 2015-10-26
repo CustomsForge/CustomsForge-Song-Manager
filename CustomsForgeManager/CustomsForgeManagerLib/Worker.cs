@@ -75,8 +75,8 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                 // bWorker.Abort(); // don't use abort
                 bWorker.Dispose();
                 bWorker = null;
-                Globals.Log("User canceled process ...");
-                Globals.TsLabel_MainMsg.Text = "User Canceled";
+                Globals.Log(CustomsForgeManager.Properties.Resources.UserCanceledProcess);
+                Globals.TsLabel_MainMsg.Text = CustomsForgeManager.Properties.Resources.UserCanceled;
                 Globals.WorkerFinished = Globals.Tristate.Cancelled;
             }
             else
@@ -112,7 +112,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
             bwSongCollection = Globals.SongCollection.ToList();
 
             //// "Raw" is good descriptor :)
-            Globals.Log(String.Format("Raw songs count: {0}", fileList.Count));
+            Globals.Log(String.Format(CustomsForgeManager.Properties.Resources.RawSongsCountX0, fileList.Count));
 
             if (fileList.Count == 0)
                 return;
@@ -121,9 +121,21 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
             int songCounter = 0;
             int oldCount = bwSongCollection.Count();
             bwSongCollection.RemoveAll(sd => !File.Exists(sd.Path));
+
             int removed = bwSongCollection.Count() - oldCount;
             if (removed > 0)
-                Globals.Log(String.Format("Removed {0} obsolete songs.", removed));
+                Globals.Log(String.Format(CustomsForgeManager.Properties.Resources.RemovedX0ObsoleteSongs, removed));
+
+
+            var dupPaths = bwSongCollection.GroupBy(x => x.Path).Where(group => group.Count() > 1);
+            if (dupPaths.Count() > 0)
+            {
+                foreach (var x in dupPaths)
+                {
+                    var toDelete = x.Where(z => z != x.First());
+                    bwSongCollection.RemoveAll(sd => toDelete.Contains(sd));
+                }
+            }
 
             Globals.DebugLog("Parsing files");
             foreach (string file in fileList)
@@ -143,6 +155,8 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                     var fInfo = new FileInfo(file);
                     if ((int)fInfo.Length == sInfo.FileSize && fInfo.LastWriteTimeUtc == sInfo.FileDate)
                         canScan = false;
+                    else
+                        bwSongCollection.Remove(sInfo);
                 }
 
                 if (canScan)

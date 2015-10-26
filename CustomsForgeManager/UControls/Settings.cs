@@ -33,7 +33,7 @@ namespace CustomsForgeManager.UControls
             try
             {
 
-                AppSettings.Instance.LoadFromFile(settingsPath);
+                AppSettings.Instance.LoadFromFile(settingsPath, Constants.GridSettingsPath);
 
                 cueRsDir.Text = AppSettings.Instance.RSInstalledDir;
                 chkIncludeRS1DLC.Checked = AppSettings.Instance.IncludeRS1DLCs;
@@ -105,14 +105,19 @@ namespace CustomsForgeManager.UControls
                 }
             }
 
-            var settingsPath = Constants.SettingsPath;
             try
             {
-                using (var fs = new FileStream(settingsPath, FileMode.Create, FileAccess.Write, FileShare.Write))
+                using (var fs = new FileStream(Constants.SettingsPath, FileMode.Create, FileAccess.Write, FileShare.Write))
                 {
                     AppSettings.Instance.SerializeXml(fs);
                     Globals.Log("Saved settings file ...");
                 }
+                using (var fs = new FileStream(Constants.GridSettingsPath, FileMode.Create, FileAccess.Write, FileShare.Write))
+                {
+                    AppSettings.Instance.ManagerGridSettings.SerializeXml(fs);
+                    Globals.Log("Saved grid settings file ...");
+                }
+
             }
             catch (Exception ex)
             {

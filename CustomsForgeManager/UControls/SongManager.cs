@@ -6,7 +6,6 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using CustomsForgeManager.CustomsForgeManagerLib;
@@ -444,9 +443,8 @@ namespace CustomsForgeManager.UControls
             }
         }
 
-        private void Rescan()
+        private void Rescan(bool fullRescan = false)
         {
-
             dgvSongsMaster.DataSource = null;
             // save settings (column widths) in case user has modified
             Globals.Settings.SaveSettingsToFile();
@@ -482,6 +480,8 @@ namespace CustomsForgeManager.UControls
                 // prevents write log attempt and shutsdown app
                 Environment.Exit(0);
             }
+            if (fullRescan)
+                Globals.SongCollection.Clear();
 
             ToggleUIControls();
             // run new worker
@@ -491,17 +491,7 @@ namespace CustomsForgeManager.UControls
                 while (Globals.WorkerFinished == Globals.Tristate.False)
                 {
                     Application.DoEvents();
-                    // updates display while working
-                    // dgvSongsMaster.DataSource = worker.bwSongCollection;
-                    //dgvSongsMaster.DataSource = worker.bwSongCollection.Select(x => new
-                    //{
-                    //    colEnabled = x.Enabled,
-                    //    colPath = x.Path
-                    //}).ToList();
                 }
-
-                // updates display after rescan
-                // dgvSongsMaster.DataSource = worker.bwSongCollection;
             }
 
             ToggleUIControls();
@@ -811,7 +801,7 @@ namespace CustomsForgeManager.UControls
         {
             bindingCompleted = false;
             dgvPainted = false;
-            Rescan();
+            Rescan(Control.ModifierKeys == Keys.Control);
             ArrangementColumnsColors();
             UpdateToolStrip();
             Globals.RescanDuplicates = true;

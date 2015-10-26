@@ -1,5 +1,13 @@
 CFM Release Notes
 
+1.0.6.2
+-Started work on a CrossPlatform class
+-Move Gridsettings to a separate file
+-Fixed bug in Worker
+-GridView : Columns are only sorted when using the left mouse button
+-Added WINDOWS DefineConstants to the project
+-Added full rescan when user holds down the control key when clicking the rescan button
+
 1.0.6.1
 -Added ArrangementInitials to SongData for the renamer
 -Added arrangements to renamer_properties.json
