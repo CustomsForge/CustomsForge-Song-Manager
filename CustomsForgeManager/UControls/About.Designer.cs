@@ -412,7 +412,7 @@
             // 
             this.tableLayoutPanel_Credits.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.tableLayoutPanel_Credits.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.tableLayoutPanel_Credits.BackgroundImage = global::CustomsForgeManager.Properties.Resources.creditsbackground;
+            this.tableLayoutPanel_Credits.BackgroundImage = global::CustomsForgeManager.Properties.Resources.creditsbg;
             this.tableLayoutPanel_Credits.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.tableLayoutPanel_Credits.ColumnCount = 2;
             this.tableLayoutPanel_Credits.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
