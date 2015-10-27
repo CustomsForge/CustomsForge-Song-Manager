@@ -1,5 +1,11 @@
 CFM Release Notes
 
+1.0.6.7
+-Added low bass fix to song editor
+-embedded the css in to the html export preview
+-Converted a few jpeg images to png
+-Changed all "CFM" refferences to "CFSM" (including the WorkDirectory)
+
 1.0.6.6
 -Changed how arrangement grid column colors are populated -On Grid CellFormatting event.
 -Added a css style (that resembles the ignition theme) for exporting to html.

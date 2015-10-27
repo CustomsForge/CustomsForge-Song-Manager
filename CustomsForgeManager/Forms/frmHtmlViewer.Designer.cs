@@ -103,7 +103,7 @@
             this.Name = "frmHtmlViewer";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "CFM HTML Viewer";
+            this.Text = "CFSM HTML Viewer";
             this.pnlHtmlOwner.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);

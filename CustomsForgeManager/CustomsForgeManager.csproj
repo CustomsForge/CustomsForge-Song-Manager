@@ -459,6 +459,9 @@
     <None Include="Resources\15.png" />
     <None Include="Resources\RocksmithToolkitGUI_32512.png" />
     <EmbeddedResource Include="Resources\htmExport.css" />
+    <Content Include="Resources\151.png" />
+    <Content Include="Resources\dardev.png" />
+    <Content Include="Resources\Unleashed2k.png" />
     <Content Include="RocksmithToolkitLib.Config.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -576,9 +579,7 @@
     <None Include="Resources\folder_open.png" />
     <None Include="Resources\edit.png" />
     <None Include="Resources\cozy1.png" />
-    <None Include="Resources\dardev.jpeg" />
     <None Include="Resources\Lovroman.jpeg" />
-    <None Include="Resources\Unleashed2k.jpeg" />
     <None Include="Resources\StartRs.jpg" />
   </ItemGroup>
   <ItemGroup>

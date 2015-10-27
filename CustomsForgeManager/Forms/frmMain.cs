@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Deployment.Application;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using System.Reflection;
 using CustomsForgeManager.CustomsForgeManagerLib.Objects;
-//using DLogNet;
 using System.Linq;
 using System.Text;
 using CustomsForgeManager.CustomsForgeManagerLib;
@@ -608,15 +606,18 @@ namespace CustomsForgeManager.Forms
 
         public void SongListToHTML()
         {
-
             DoSomethingWithGrid((dataGrid, selection, colSel, ignoreColumns) =>
             {
                 //in the future maybe add some javascript to sort the html table by column
                 var sbTXT = new StringBuilder();
                 sbTXT.AppendLine("<html><head>");
-                sbTXT.AppendLine("<title>CFM Songs</title>");
-                //TODO: make a stylesheet to look like ignition
-                sbTXT.AppendLine("<link rel='stylesheet' type='text/css' href='htmExport.css'>");
+
+                sbTXT.AppendLine("<title>CFSM Songs</title>");
+                //add the style directly to so it can be saved correctly without external css.
+                sbTXT.AppendLine("<style>");
+                sbTXT.AppendLine(Properties.Resources.htmExport);
+                sbTXT.AppendLine("</style>");
+               // sbTXT.AppendLine("<link rel='stylesheet' type='text/css' href='htmExport.css'>");
                 sbTXT.AppendLine("</head><body>");
 
                 sbTXT.AppendLine("<table id='CFMGrid'>");

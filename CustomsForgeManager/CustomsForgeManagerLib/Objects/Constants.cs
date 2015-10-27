@@ -19,7 +19,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
 
         public const string ApplicationName = "CustomsForge Song Manager";
         public static string ApplicationVersion { get { return Assembly.GetExecutingAssembly().GetName().Version.ToString(); } }
-        public static string WorkDirectory { get { return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "CFM"); } }
+        public static string WorkDirectory { get { return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "CFSM"); } }
         public static string LogFilePath { get { return Path.Combine(WorkDirectory, "debug.log"); } }
         public static string SettingsPath { get { return Path.Combine(WorkDirectory, "settings.xml"); } }
         public static string GridSettingsPath { get { return Path.Combine(WorkDirectory, "gridSettings.xml"); } }

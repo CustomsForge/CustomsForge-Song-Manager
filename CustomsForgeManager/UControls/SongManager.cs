@@ -109,7 +109,7 @@ namespace CustomsForgeManager.UControls
                     err += ", Inner: " + e.InnerException.Message;
 
                 Globals.Log("Error: " + e.Message);
-                Globals.Log("Deleted CFM folder from My Documents ...");
+                Globals.Log("Deleted CFSM folder from My Documents ...");
 
                 if (Directory.Exists(Constants.WorkDirectory))
                     if (Directory.Exists(Constants.WorkDirectory))
@@ -450,7 +450,7 @@ namespace CustomsForgeManager.UControls
             {
                 var msgText =
                    string.Format("Houston ... we have a problem!{0}There are no Rocksmith 2014 songs in:" +
-                   "{0}{1}{0}{0}Please select a valid Rocksmith 2014{0}installation directory when you restart CFM.  ",
+                   "{0}{1}{0}{0}Please select a valid Rocksmith 2014{0}installation directory when you restart CFSM.  ",
                    Environment.NewLine, Path.Combine(AppSettings.Instance.RSInstalledDir, "dlc"));
                 MessageBox.Show(msgText, Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Stop);
 

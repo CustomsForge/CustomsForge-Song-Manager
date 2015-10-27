@@ -85,7 +85,7 @@ namespace CustomsForgeManager.SongEditor
                     UpdateXml(arr, packageData, updateArrangmentID);
 
                     if (arr.ArrangementType == ArrangementType.Guitar || arr.ArrangementType == ArrangementType.Bass)
-                        Song2014.WriteXmlComments(arr.SongXml.File, arr.XmlComments, true, String.Format("CFM v{0}", Constants.CustomVersion()));
+                        Song2014.WriteXmlComments(arr.SongXml.File, arr.XmlComments, true, String.Format("CFSM v{0}", Constants.CustomVersion()));
                 }
 
                 tsProgressBar.Value = 60;
@@ -249,6 +249,37 @@ namespace CustomsForgeManager.SongEditor
             }
         }
 
+        public void ApplyBassFix(Arrangement arr, Song2014 songXml)
+        {
+            if (arr.TuningPitch.Equals(220.0))
+                 return;
+
+
+            arr.TuningPitch = 220.0;
+            songXml.CentOffset = "-1200.0";
+            // Octave up for each string
+            Int16[] strings = arr.TuningStrings.ToArray();
+            for (int s = 0; s < strings.Length; s++)
+            {
+                if (strings[s] != 0)
+                    strings[s] += 12;
+            }
+            //Detect tuning
+            var tuning = TuningDefinitionRepository.Instance().SelectAny(new TuningStrings(strings), GameVersion.RS2014);
+            if (tuning == null)
+            {
+                tuning = new TuningDefinition();
+                tuning.Tuning = new TuningStrings(strings);
+                tuning.UIName = tuning.Name = tuning.NameFromStrings(tuning.Tuning, false);
+                tuning.Custom = true;
+                tuning.GameVersion = GameVersion.RS2014;
+                TuningDefinitionRepository.Instance().Add(tuning, true);
+            }
+            arr.TuningStrings = tuning.Tuning;
+            arr.Tuning = tuning.Name;
+            songXml.Tuning = tuning.Tuning;
+        }
+
         public void UpdateXml(Arrangement arr, DLCPackageData info, bool updateArrangementID = false)
         {
             // Updates the xml with user modified DLCPackageData info
@@ -278,6 +309,10 @@ namespace CustomsForgeManager.SongEditor
             if (!String.IsNullOrEmpty(arr.ToneB)) songXml.ToneB = arr.ToneB;
             if (!String.IsNullOrEmpty(arr.ToneC)) songXml.ToneC = arr.ToneC;
             if (!String.IsNullOrEmpty(arr.ToneD)) songXml.ToneD = arr.ToneD;
+
+         
+            if (GetEditorControl<ucSongInfo>().ApplyBassFix() &&  arr.ArrangementType == ArrangementType.Bass)
+                ApplyBassFix(arr, songXml);
 
             using (var stream = File.Open(arr.SongXml.File, FileMode.Create))
                 songXml.Serialize(stream);

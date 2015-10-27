@@ -18,6 +18,8 @@ namespace CustomsForgeManager.SongEditor
             // this will throw exception if SongFilePath not found
             var song = Globals.SongCollection.First(x => x.Path == FilePath);
 
+            cbLowBass.Visible = song.ArrangementInitials.Contains('B');
+
             txtKey.Text = SongData.Name;
             txtArtist.Text = SongData.SongInfo.Artist;
             txtArtistSort.Text = SongData.SongInfo.ArtistSort;
@@ -44,6 +46,8 @@ namespace CustomsForgeManager.SongEditor
             txtAvgTempo.TextChanged += TextValueChanged;
             cmbSongVolume.TextChanged += TextValueChanged;
             cmbPreviewVolume.TextChanged += TextValueChanged;
+
+            cbLowBass.CheckedChanged += TextValueChanged;
             //set up events
             PopulateAppIdCombo(SongData.AppId, GameVersion.RS2014);
         }
@@ -51,6 +55,11 @@ namespace CustomsForgeManager.SongEditor
         void TextValueChanged(object sender, EventArgs e)
         {
             this.Dirty = true;
+        }
+
+        public bool ApplyBassFix()
+        {
+            return cbLowBass.Checked;
         }
 
 
