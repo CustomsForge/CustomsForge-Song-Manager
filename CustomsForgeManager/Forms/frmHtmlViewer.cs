@@ -1,27 +1,22 @@
-﻿using System;
+﻿using CustomsForgeManager.CustomsForgeManagerLib.CustomControls;
+using CustomsForgeManager.CustomsForgeManagerLib.Objects;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using TheArtOfDev.HtmlRenderer.Core.Entities;
 using TheArtOfDev.HtmlRenderer.WinForms;
 
 namespace CustomsForgeManager.Forms
 {
     public partial class frmHtmlViewer : Form
     {
-        private HtmlPanel htmlPanel;
         public frmHtmlViewer()
         {
             InitializeComponent();
-            htmlPanel = new HtmlPanel() { 
-                Dock = DockStyle.Fill,
-                BaseStylesheet = null, 
-                Name = "htmlPanel", 
-                Text = null, 
-                UseSystemCursors = true 
-            };
-            pnlHtmlOwner.Controls.Add(htmlPanel);
         }
+
 
         public void PopulateHtml(string notes2View)
         {

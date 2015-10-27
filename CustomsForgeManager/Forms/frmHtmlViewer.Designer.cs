@@ -29,19 +29,36 @@
         private void InitializeComponent()
         {
             this.pnlHtmlOwner = new System.Windows.Forms.Panel();
+            this.htmlPanel = new CustomsForgeManager.CustomsForgeManagerLib.CustomControls.CFMHtmlPanel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
+            this.pnlHtmlOwner.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlHtmlOwner
             // 
+            this.pnlHtmlOwner.Controls.Add(this.htmlPanel);
             this.pnlHtmlOwner.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlHtmlOwner.Location = new System.Drawing.Point(0, 0);
             this.pnlHtmlOwner.Name = "pnlHtmlOwner";
             this.pnlHtmlOwner.Size = new System.Drawing.Size(784, 515);
             this.pnlHtmlOwner.TabIndex = 0;
+            // 
+            // htmlPanel
+            // 
+            this.htmlPanel.AutoScroll = true;
+            this.htmlPanel.AutoScrollMinSize = new System.Drawing.Size(784, 20);
+            this.htmlPanel.BackColor = System.Drawing.SystemColors.Window;
+            this.htmlPanel.BaseStylesheet = null;
+            this.htmlPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.htmlPanel.Location = new System.Drawing.Point(0, 0);
+            this.htmlPanel.Name = "htmlPanel";
+            this.htmlPanel.Size = new System.Drawing.Size(784, 515);
+            this.htmlPanel.TabIndex = 0;
+            this.htmlPanel.Text = "cfmHtmlPanel1";
+            this.htmlPanel.UseSystemCursors = true;
             // 
             // panel2
             // 
@@ -87,6 +104,7 @@
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "CFM HTML Viewer";
+            this.pnlHtmlOwner.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -98,5 +116,6 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button1;
+        private CustomsForgeManagerLib.CustomControls.CFMHtmlPanel htmlPanel;
     }
 }

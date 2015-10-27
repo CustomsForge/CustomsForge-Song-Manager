@@ -354,6 +354,32 @@ namespace CustomsForgeManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to body
+        ///{
+        ///}
+        /// table, tr, th 
+        /// {
+        ///    border-style: solid;
+        ///    border-style: outset;
+        /// }
+        ///td, th 
+        ///{ 
+        ///    border-style: inset;
+        ///
+        ///}
+        ///.caption 
+        ///{ 
+        ///    font-weight: bold; 
+        ///
+        ///}.
+        /// </summary>
+        internal static string htmExport {
+            get {
+                return ResourceManager.GetString("htmExport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap info {

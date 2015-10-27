@@ -157,6 +157,9 @@
     <Compile Include="CustomsForgeManagerLib\CustomControls\AbortableBackgroundWorker.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="CustomsForgeManagerLib\CustomControls\CFMHtmlPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="CustomsForgeManagerLib\CustomControls\ComboBoxPopup.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -455,6 +458,7 @@
     <None Include="Resources\EOF20.ico" />
     <None Include="Resources\15.png" />
     <None Include="Resources\RocksmithToolkitGUI_32512.png" />
+    <EmbeddedResource Include="Resources\htmExport.css" />
     <Content Include="RocksmithToolkitLib.Config.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

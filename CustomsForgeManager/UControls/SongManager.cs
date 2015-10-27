@@ -215,43 +215,7 @@ namespace CustomsForgeManager.UControls
             Globals.TsLabel_StatusMsg.Click += lnkShowAll_Click;
         }
 
-        private void ArrangementColumnsColors()
-        {
-            // Color.Green does not show on Dev's desktop over a dgvSongsMaster blue background
-            DataGridViewCellStyle style1 = new DataGridViewCellStyle() { BackColor = Color.Lime };
-            DataGridViewCellStyle style2 = new DataGridViewCellStyle() { BackColor = Color.Lime };
-            DataGridViewCellStyle style3 = new DataGridViewCellStyle() { BackColor = Color.Red };
-
-            foreach (DataGridViewRow row in dgvSongsMaster.Rows)
-            {
-                (row.Cells["colBass"]).Style = style3;
-                (row.Cells["colLead"]).Style = style3;
-                (row.Cells["colRhythm"]).Style = style3;
-                (row.Cells["colVocals"]).Style = style3;
-
-                if (row.Cells["colArrangements"].Value == null)
-                    continue;
-
-                // combo's are combinations of lead and rhythm
-                if (row.Cells["colArrangements"].Value.ToString().ToUpper().Contains("COMBO"))
-                {
-                    (row.Cells["colLead"]).Style = style2;
-                    (row.Cells["colRhythm"]).Style = style2;
-                }
-
-                if (row.Cells["colArrangements"].Value.ToString().ToUpper().Contains("VOCAL"))
-                    (row.Cells["colVocals"]).Style = style1;
-
-                if (row.Cells["colArrangements"].Value.ToString().ToUpper().Contains("BASS"))
-                    (row.Cells["colBass"]).Style = style1;
-
-                if (row.Cells["colArrangements"].Value.ToString().ToUpper().Contains("LEAD"))
-                    (row.Cells["colLead"]).Style = style1;
-
-                if (row.Cells["colArrangements"].Value.ToString().ToUpper().Contains("RHYTHM"))
-                    (row.Cells["colRhythm"]).Style = style1;
-            }
-        }
+     
 
         private void CheckForUpdatesEvent(object o, DoWorkEventArgs args)
         {
@@ -820,7 +784,6 @@ namespace CustomsForgeManager.UControls
             bindingCompleted = false;
             dgvPainted = false;
             Rescan(Control.ModifierKeys == Keys.Control);
-            ArrangementColumnsColors();
             UpdateToolStrip();
             Globals.RescanDuplicates = true;
             Globals.RescanSetlistManager = true;
@@ -1162,7 +1125,6 @@ namespace CustomsForgeManager.UControls
                 return;
             }
 
-            ArrangementColumnsColors();
         }
 
         private void dgvSongsMaster_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
@@ -1263,7 +1225,6 @@ namespace CustomsForgeManager.UControls
             {
                 dgvPainted = true;
                 // Globals.Log("dgvSongsMaster Painted ... ");
-                ArrangementColumnsColors();
             }
         }
 
@@ -1322,6 +1283,57 @@ namespace CustomsForgeManager.UControls
                 else
                     PopulateDataGridView();
             }
+        }
+
+        private void dgvSongsMaster_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+
+            if (dgvSongsMaster.Rows[e.RowIndex].Cells["colArrangements"].Value == null)
+                return;
+
+            if (e.ColumnIndex == dgvSongsMaster.Columns["colBass"].Index)
+            {
+                e.CellStyle.BackColor = Color.Red;
+                if (dgvSongsMaster.Rows[e.RowIndex].Cells["colArrangements"].Value.ToString().ToUpper().Contains("BASS"))
+                {
+                    e.CellStyle.BackColor = Color.Lime;
+                }
+            } else
+                if (e.ColumnIndex == dgvSongsMaster.Columns["colLead"].Index)
+                {
+                    e.CellStyle.BackColor = Color.Red;
+                    if (dgvSongsMaster.Rows[e.RowIndex].Cells["colArrangements"].Value.ToString().ToUpper().Contains("LEAD"))
+                    {
+                        e.CellStyle.BackColor = Color.Lime;
+                    }
+                    if (dgvSongsMaster.Rows[e.RowIndex].Cells["colArrangements"].Value.ToString().ToUpper().Contains("COMBO"))
+                    {
+                        e.CellStyle.BackColor = Color.Lime;
+                    }
+                }
+                else
+                    if (e.ColumnIndex == dgvSongsMaster.Columns["colRhythm"].Index)
+                    {
+                        e.CellStyle.BackColor = Color.Red;
+                        if (dgvSongsMaster.Rows[e.RowIndex].Cells["colArrangements"].Value.ToString().ToUpper().Contains("RHYTHM"))
+                        {
+                            e.CellStyle.BackColor = Color.Lime;
+                        }
+                        if (dgvSongsMaster.Rows[e.RowIndex].Cells["colArrangements"].Value.ToString().ToUpper().Contains("COMBO"))
+                        {
+                            e.CellStyle.BackColor = Color.Lime;
+                        }
+                    }
+                    else
+                        if (e.ColumnIndex == dgvSongsMaster.Columns["colVocals"].Index)
+                        {
+                            e.CellStyle.BackColor = Color.Red;
+                            if (dgvSongsMaster.Rows[e.RowIndex].Cells["colArrangements"].Value.ToString().ToUpper().Contains("VOCAL"))
+                            {
+                                e.CellStyle.BackColor = Color.Lime;
+                            }
+                        }
+       
         }
     }
 }

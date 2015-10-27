@@ -411,4 +411,7 @@ rescan before returning to Setlist Manager. </value>
     <value>Do you really want to remove this CDLC?  {0}Warning:  This cannot be undone!</value>
     <comment>DoYouReallyWantToRemoveThisCDLCX0Warning description</comment>
   </data>
+  <data name="htmExport" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\htmexport.css;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
 </root>

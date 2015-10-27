@@ -611,52 +611,43 @@ namespace CustomsForgeManager.Forms
 
             DoSomethingWithGrid((dataGrid, selection, colSel, ignoreColumns) =>
             {
+                //in the future maybe add some javascript to sort the html table by column
                 var sbTXT = new StringBuilder();
                 sbTXT.AppendLine("<html><head>");
                 sbTXT.AppendLine("<title>CFM Songs</title>");
-                sbTXT.AppendLine("<style type=\"text/css\">");
-                sbTXT.AppendLine(" table, tr, th {");
-                sbTXT.AppendLine("border-style: solid;");
-                sbTXT.AppendLine("border-style: outset;}");
-                sbTXT.AppendLine("td, th { border-style: inset; }");
-                sbTXT.AppendLine(".caption { font-weight: bold; }");
-                sbTXT.AppendLine("</style>");
+                //TODO: make a stylesheet to look like ignition
+                sbTXT.AppendLine("<link rel='stylesheet' type='text/css' href='htmExport.css'>");
                 sbTXT.AppendLine("</head><body>");
 
-
-
-
-
-                sbTXT.AppendLine("<table>");
+                sbTXT.AppendLine("<table id='CFMGrid'>");
                 sbTXT.AppendLine("<tr>");
                 var columns = String.Empty;
                 foreach (var c in dataGrid.Columns.Cast<DataGridViewColumn>())
                 {
                     if (!ignoreColumns.Contains(c.Index))
-                        columns += String.Format("<th>{0}</th>",c.HeaderText);
+                        columns += ((char)9) + String.Format("<th>{0}</th>{1}",c.HeaderText,Environment.NewLine);
                 }
-
                 sbTXT.AppendLine(columns.Trim());
                 sbTXT.AppendLine("</tr>");
-
+                bool altOn = false;
                 foreach (var row in selection)
                 {
-                    sbTXT.AppendLine("<tr>");
+                    sbTXT.AppendLine("<tr" + (altOn ? " class='alt'>" : ">"));
                     string s = string.Empty;
                     foreach (var col in row.Cells.Cast<DataGridViewCell>().Where(c => !ignoreColumns.Contains(c.ColumnIndex)))
                     {
-                        s +=  String.Format("<th>{0}</th>",col.Value == null ? "" : col.Value);
+                        s +=  String.Format("<td>{0}</td>",col.Value == null ? "" : col.Value);
                     }
                     sbTXT.AppendLine(s.Trim());
                     sbTXT.AppendLine("</tr>");
+                    altOn = !altOn;
                 }
-
-
-                using (var noteViewer = new frmNoteViewer())
+                sbTXT.AppendLine("</table>");
+                sbTXT.AppendLine("</body></html>");
+                using (var noteViewer = new frmHtmlViewer())
                 {
                     noteViewer.Text = String.Format("{0} . . . {1}", noteViewer.Text, "Song list to HTML");
-
-                    noteViewer.PopulateText(sbTXT.ToString(), false);
+                    noteViewer.PopulateHtml(sbTXT.ToString());
                     noteViewer.ShowDialog();
                 }
             });
