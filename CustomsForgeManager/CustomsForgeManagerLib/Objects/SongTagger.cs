@@ -144,7 +144,6 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
                                 if (arrangement.Contains("vocals"))
                                     vocals = true;
                             }
-                            var fvalue = 0.5f;
                             using (Graphics gra = Graphics.FromImage(AlbumArt))
                             {
                                 gra.DrawImage(images.backgroundLayer, 0, 0.5f);
@@ -430,7 +429,6 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
 
     public class TaggerProgress : EventArgs
     {
-        private int curr;
         private int max;
 
         public TaggerProgress(int Current, int Max)

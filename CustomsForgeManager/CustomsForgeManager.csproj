@@ -325,12 +325,6 @@
     <Compile Include="UControls\SongManager.Designer.cs">
       <DependentUpon>SongManager.cs</DependentUpon>
     </Compile>
-    <Compile Include="UControls\Tagger.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UControls\Tagger.Designer.cs">
-      <DependentUpon>Tagger.cs</DependentUpon>
-    </Compile>
     <Compile Include="UControls\Utilities.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -419,9 +413,6 @@
     <EmbeddedResource Include="UControls\SongManager.resx">
       <DependentUpon>SongManager.cs</DependentUpon>
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UControls\Tagger.resx">
-      <DependentUpon>Tagger.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UControls\Utilities.resx">
       <DependentUpon>Utilities.cs</DependentUpon>

@@ -219,6 +219,7 @@ namespace CustomsForgeManager.Forms
                     break;
                 case Keys.F12:
                     tstripContainer.TopToolStripPanelVisible = !tstripContainer.TopToolStripPanelVisible;
+                    tstripContainer.BottomToolStripPanelVisible = tstripContainer.TopToolStripPanelVisible;
                     e.Handled = true;
                     break;
             }
@@ -609,7 +610,21 @@ namespace CustomsForgeManager.Forms
             DoSomethingWithGrid((dataGrid, selection, colSel, ignoreColumns) =>
             {
                 var sbTXT = new StringBuilder();
-                sbTXT.AppendLine("<html><body>");
+                sbTXT.AppendLine("<html><head>");
+                sbTXT.AppendLine("<title>CFM Songs</title>");
+                sbTXT.AppendLine("<style type=\"text/css\">");
+                sbTXT.AppendLine(" table, tr, th {");
+                sbTXT.AppendLine("border-style: solid;");
+                sbTXT.AppendLine("border-style: outset;}");
+                sbTXT.AppendLine("td, th { border-style: inset; }");
+                sbTXT.AppendLine(".caption { font-weight: bold; }");
+                sbTXT.AppendLine("</style>");
+                sbTXT.AppendLine("</head><body>");
+
+
+
+
+
                 sbTXT.AppendLine("<table>");
                 sbTXT.AppendLine("<tr>");
                 var columns = String.Empty;

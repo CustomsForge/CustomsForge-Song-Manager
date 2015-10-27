@@ -132,14 +132,34 @@ namespace CustomsForgeManager.UControls
                 var tsi = tsTager.DropDownItems.Add(Path.GetFileName(tagPreview).Replace(@"Tagger\", "").Replace("prev.png", ""));
                 tsi.Click += (s, e) =>
                 {
-                    List<SongData> SelectedSongs = GetSelectedSongs();
-                    if (SelectedSongs.Count() == 0)
+                    var sel = GetFirstSelected();
+                    if (sel != null)
                     {
-                        MessageBox.Show("No songs selected.");
-                        return;
+                        var old = Globals.Tagger.ThemeName;
+                        Globals.Tagger.ThemeName = ((ToolStripItem)s).Text;
+                        var img = Globals.Tagger.Preview(sel);
+                        if (img != null)
+                        {
+                            using (Form f = new Form())
+                            {
+                                f.StartPosition = FormStartPosition.CenterParent;
+                                f.ShowIcon = false;
+                                f.MaximizeBox = false;
+                                f.MinimizeBox = false;
+                                f.AutoSize = true;
+                                PictureBox pb = new PictureBox() 
+                                {
+                                    SizeMode = PictureBoxSizeMode.CenterImage, 
+                                    Dock = DockStyle.Fill,
+                                    Image = img
+                                };
+                                f.Controls.Add(pb);
+                                f.ShowDialog(this.FindForm());
+                            }
+                        }
+                        Globals.Tagger.ThemeName = old;
                     }
-                    Globals.Tagger.ThemeName =  ((ToolStripItem)s).Text;
-                    Globals.Tagger.TagSongs(SelectedSongs.ToArray());
+                    //Globals.Tagger.Preview();
                 };
             }
 #endif

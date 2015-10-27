@@ -82,7 +82,6 @@
             this.ClientSize = new System.Drawing.Size(784, 561);
             this.Controls.Add(this.pnlHtmlOwner);
             this.Controls.Add(this.panel2);
-            this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmHtmlViewer";
             this.ShowInTaskbar = false;
