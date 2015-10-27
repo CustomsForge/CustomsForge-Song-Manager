@@ -74,7 +74,7 @@ namespace CustomsForgeManager.Forms
 
             // get server version of application
             //if (ApplicationDeployment.IsNetworkDeployed)
-           // Globals.Log(String.Format("Application loaded, using version: {0}", ApplicationDeployment.CurrentDeployment.CurrentVersion));
+            // Globals.Log(String.Format("Application loaded, using version: {0}", ApplicationDeployment.CurrentDeployment.CurrentVersion));
 
             // initialize all global variables
             Globals.Log(String.Format("CFSongManager Version: {0}", Constants.CustomVersion()));
@@ -385,6 +385,7 @@ namespace CustomsForgeManager.Forms
 
         private void tsButtonTagSelected_Click(object sender, EventArgs e)
         {
+            // uncommented code so this would work 
             var selection = Globals.SongManager.GetSelectedSongs();//.Where(sd => sd.Tagged == false);
 
             if (selection.Count > 0)
@@ -397,6 +398,9 @@ namespace CustomsForgeManager.Forms
                 finally
                 {
                     Globals.Tagger.OnProgress -= TaggerProgress;
+                    // force dgvSongsMaster data to refresh after Tagging
+                    Globals.SongManager.GetGrid().Invalidate();
+                    Globals.SongManager.GetGrid().Refresh();
                 }
             }
         }
@@ -415,6 +419,9 @@ namespace CustomsForgeManager.Forms
                 finally
                 {
                     Globals.Tagger.OnProgress -= TaggerProgress;
+                    // force dgvSongsMaster data to refresh after Untagging
+                    Globals.SongManager.GetGrid().Invalidate();
+                    Globals.SongManager.GetGrid().Refresh();
                 }
             }
         }
@@ -504,7 +511,7 @@ namespace CustomsForgeManager.Forms
         {
             DoSomethingWithGrid((dataGrid, selection, colSel, ignoreColumns) =>
             {
-                
+
 
                 var sbTXT = new StringBuilder();
                 string columns = "";
@@ -542,65 +549,66 @@ namespace CustomsForgeManager.Forms
 
         public void SongListToCSV()
         {
-             var path = Path.Combine(Constants.WorkDirectory, "SongListCSV.csv");
-             using (var sfdSongListToCSV = new SaveFileDialog() { 
+            var path = Path.Combine(Constants.WorkDirectory, "SongListCSV.csv");
+            using (var sfdSongListToCSV = new SaveFileDialog()
+            {
                 Filter = "csv files(*.csv)|*.csv|All files (*.*)|*.*",
                 FileName = path
             })
 
-            if (sfdSongListToCSV.ShowDialog() == DialogResult.OK)
-            {
-                path = sfdSongListToCSV.FileName;
-
-                DoSomethingWithGrid((dataGrid, selection, colSel, ignoreColumns) =>
+                if (sfdSongListToCSV.ShowDialog() == DialogResult.OK)
                 {
-                    var sbCSV = new StringBuilder();
-                    
+                    path = sfdSongListToCSV.FileName;
 
-                    const char csvSep = ';';
-                    sbCSV.AppendLine(String.Format(@"sep={0}", csvSep)); // used by Excel to recognize seperator if Encoding.Unicode is used
-                    string columns = "";
-                    foreach (var c in dataGrid.Columns.Cast<DataGridViewColumn>())
+                    DoSomethingWithGrid((dataGrid, selection, colSel, ignoreColumns) =>
                     {
-                        if (!ignoreColumns.Contains(c.Index))
-                            columns += c.HeaderText + csvSep;
-                    }
+                        var sbCSV = new StringBuilder();
 
-                    sbCSV.AppendLine(columns.Trim(new char[] { csvSep, ' ' }));
 
-                    foreach (var row in selection)
-                    {
-                        string s = "[*]";
-                        foreach (var col in row.Cells.Cast<DataGridViewCell>().Where(c => !ignoreColumns.Contains(c.ColumnIndex)))
+                        const char csvSep = ';';
+                        sbCSV.AppendLine(String.Format(@"sep={0}", csvSep)); // used by Excel to recognize seperator if Encoding.Unicode is used
+                        string columns = "";
+                        foreach (var c in dataGrid.Columns.Cast<DataGridViewColumn>())
                         {
-                            s += col.Value == null ? csvSep.ToString() : col.Value.ToString() + csvSep;
+                            if (!ignoreColumns.Contains(c.Index))
+                                columns += c.HeaderText + csvSep;
                         }
-                        sbCSV.AppendLine(s.Trim(new char[] { ',', ' ' }));
-                    }
 
-                    //using (var noteViewer = new frmNoteViewer())
-                    //{
-                    //    noteViewer.Text = String.Format("{0} . . . {1}", noteViewer.Text, "Song list to CSV");
+                        sbCSV.AppendLine(columns.Trim(new char[] { csvSep, ' ' }));
 
-                    //    noteViewer.PopulateText(sbCSV.ToString(), false);
-                    //    noteViewer.ShowDialog();
-                    //}
+                        foreach (var row in selection)
+                        {
+                            string s = "[*]";
+                            foreach (var col in row.Cells.Cast<DataGridViewCell>().Where(c => !ignoreColumns.Contains(c.ColumnIndex)))
+                            {
+                                s += col.Value == null ? csvSep.ToString() : col.Value.ToString() + csvSep;
+                            }
+                            sbCSV.AppendLine(s.Trim(new char[] { ',', ' ' }));
+                        }
 
-                    try
-                    {
-                        using (StreamWriter file = new StreamWriter(path, false, Encoding.Unicode)) // Excel does not recognize UTF8
-                            file.Write(sbCSV.ToString());
+                        //using (var noteViewer = new frmNoteViewer())
+                        //{
+                        //    noteViewer.Text = String.Format("{0} . . . {1}", noteViewer.Text, "Song list to CSV");
 
-                        Globals.Log("Song list saved to:" + path);
-                    }
-                    catch (IOException ex)
-                    {
-                        Globals.Log("<Error>:" + ex.Message);
-                    }
+                        //    noteViewer.PopulateText(sbCSV.ToString(), false);
+                        //    noteViewer.ShowDialog();
+                        //}
+
+                        try
+                        {
+                            using (StreamWriter file = new StreamWriter(path, false, Encoding.Unicode)) // Excel does not recognize UTF8
+                                file.Write(sbCSV.ToString());
+
+                            Globals.Log("Song list saved to:" + path);
+                        }
+                        catch (IOException ex)
+                        {
+                            Globals.Log("<Error>:" + ex.Message);
+                        }
 
 
-                });
-            }
+                    });
+                }
         }
 
 
@@ -617,7 +625,7 @@ namespace CustomsForgeManager.Forms
                 sbTXT.AppendLine("<style>");
                 sbTXT.AppendLine(Properties.Resources.htmExport);
                 sbTXT.AppendLine("</style>");
-               // sbTXT.AppendLine("<link rel='stylesheet' type='text/css' href='htmExport.css'>");
+                // sbTXT.AppendLine("<link rel='stylesheet' type='text/css' href='htmExport.css'>");
                 sbTXT.AppendLine("</head><body>");
 
                 sbTXT.AppendLine("<table id='CFMGrid'>");
@@ -626,7 +634,7 @@ namespace CustomsForgeManager.Forms
                 foreach (var c in dataGrid.Columns.Cast<DataGridViewColumn>())
                 {
                     if (!ignoreColumns.Contains(c.Index))
-                        columns += ((char)9) + String.Format("<th>{0}</th>{1}",c.HeaderText,Environment.NewLine);
+                        columns += ((char)9) + String.Format("<th>{0}</th>{1}", c.HeaderText, Environment.NewLine);
                 }
                 sbTXT.AppendLine(columns.Trim());
                 sbTXT.AppendLine("</tr>");
@@ -637,7 +645,7 @@ namespace CustomsForgeManager.Forms
                     string s = string.Empty;
                     foreach (var col in row.Cells.Cast<DataGridViewCell>().Where(c => !ignoreColumns.Contains(c.ColumnIndex)))
                     {
-                        s +=  String.Format("<td>{0}</td>",col.Value == null ? "" : col.Value);
+                        s += String.Format("<td>{0}</td>", col.Value == null ? "" : col.Value);
                     }
                     sbTXT.AppendLine(s.Trim());
                     sbTXT.AppendLine("</tr>");
@@ -653,7 +661,7 @@ namespace CustomsForgeManager.Forms
                 }
             });
 
-           
+
         }
 
         private void SongListToJsonOrXml()
@@ -676,7 +684,7 @@ namespace CustomsForgeManager.Forms
             SongListToHTML();
         }
 
- 
+
 
     }
 }

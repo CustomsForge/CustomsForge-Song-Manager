@@ -554,8 +554,13 @@ namespace CustomsForgeManager.UControls
         public List<SongData> GetSelectedSongs()
         {
             List<SongData> SelectedSongs = new List<SongData>();
+
+            // the checkbox value change was not being detected here so (known VS issue)
+            // uncommented code from dgvSongsMaster_CellMouseUp to make it detectable
             foreach (DataGridViewRow row in dgvSongsMaster.Rows)
             {
+                var stop = Convert.ToBoolean(row.Cells["colSelect"].Value);
+
                 if (Convert.ToBoolean(row.Cells["colSelect"].Value))
                 {
                     var song = masterSongCollection.FirstOrDefault(x =>
@@ -1094,14 +1099,14 @@ namespace CustomsForgeManager.UControls
                         // beyound current scope of CFM
                         if (grid.Rows[e.RowIndex].Cells["colSelect"].Value.ToString().ToLower().Contains(Constants.RS1COMP))
                             Globals.Log("Can not 'Select' individual RS1 Compatiblity DLC");
-                        // removed for testing works better without this
-                        //else
-                        //{
-                        //    if (Convert.ToBoolean(grid.Rows[e.RowIndex].Cells["colSelect"].Value))
-                        //        grid.Rows[e.RowIndex].Cells["colSelect"].Value = false;
-                        //    else
-                        //        grid.Rows[e.RowIndex].Cells["colSelect"].Value = true;
-                        //}
+
+                        else // required to force selected row change
+                        {
+                            if (Convert.ToBoolean(grid.Rows[e.RowIndex].Cells["colSelect"].Value))
+                                grid.Rows[e.RowIndex].Cells["colSelect"].Value = false;
+                            else
+                                grid.Rows[e.RowIndex].Cells["colSelect"].Value = true;
+                        }
                     }
 
             Thread.Sleep(50); // debounce multiple clicks
@@ -1192,9 +1197,6 @@ namespace CustomsForgeManager.UControls
                                 row.Cells["colSelect"].Value = false;
                             else
                                 row.Cells["colSelect"].Value = true;
-
-                            // this throws an error because data is already bound ... so commented out
-                            // masterSongCollection[i].Selected = (bool)row.Cells["colSelect"].Value;
                         }
                     }
                 }

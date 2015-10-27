@@ -1,5 +1,11 @@
 CFM Release Notes
 
+1.0.6.8
+-Fixed Tagger to allow for retagging songs directly without need to untag first.
+-Fixed SongManager Selected checkbox to work with Tagger.
+-Fixed colTagger display update.
+-Added additional Tagger feedback to Log messages.
+
 1.0.6.7
 -Added low bass fix to song editor
 -embedded the css in to the html export preview
