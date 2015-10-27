@@ -205,13 +205,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
 
             if (File.Exists(song.Path)) //Just to be sure :)
             {
-                if (song.Tagged)
-                {
-                    UntagSong(song);
-                    Globals.Log("Retagging song: " + song.Title);
-                }
-                else
-                    Globals.Log("Tagging song: " + song.Title);
+               
 
                 string songPath = song.Path;
                 using (PSARC archive = new PSARC())
@@ -219,6 +213,13 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
                     using (var fs = File.OpenRead(songPath))
                         archive.Read(fs);
 
+                    if (song.Tagged)
+                    {
+                        UntagSong(song, archive);
+                        Globals.Log("Retagging song: " + song.Title);
+                    }
+                    else
+                        Globals.Log("Tagging song: " + song.Title);
 
                     var taggerOriginal = archive.TOC.FirstOrDefault(entry => entry.Name == "tagger.org");
                     if (taggerOriginal != null)
@@ -344,6 +345,47 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
                 TagSong(song, images);
         }
 
+        public void UntagSong(SongData song,PSARC archive)
+        {
+            if (File.Exists(song.Path)) //Just to be sure :)
+            {
+                if (song.Tagged)
+                    Globals.Log("Untagging song: " + song.Title);
+                else
+                    return;
+
+                var toolKitEntry = archive.TOC.FirstOrDefault(entry => entry.Name == "toolkit.version");
+                var taggerOriginal = archive.TOC.FirstOrDefault(entry => entry.Name == "tagger.org");
+                if (toolKitEntry != null && taggerOriginal != null)
+                {
+                    DDSImage orgDDS = new DDSImage(taggerOriginal.Data);
+                    var bigAlbumArt = orgDDS.images[0];
+
+                    var albumSmallArtEntry = archive.TOC.FirstOrDefault(entry => entry.Name.EndsWith("64.dds")); //Get album art paths
+                    var albumMidArtEntry = archive.TOC.FirstOrDefault(entry => entry.Name.EndsWith("128.dds"));
+                    var albumBigArtEntry = archive.TOC.FirstOrDefault(entry => entry.Name.EndsWith("256.dds"));
+
+                    albumBigArtEntry.Data.Dispose();
+                    albumBigArtEntry.Data = bigAlbumArt.ToDDS(256, 256);
+                    albumMidArtEntry.Data.Dispose();
+                    albumMidArtEntry.Data = bigAlbumArt.ToDDS(128, 128);
+                    albumSmallArtEntry.Data.Dispose();
+                    albumSmallArtEntry.Data = bigAlbumArt.ToDDS(64, 64);
+
+                    archive.TOC.Insert(0, new Entry() { Name = "NamesBlock.bin" });
+                    archive.TOC.Remove(taggerOriginal);
+                    using (var FS = File.Create(song.Path))
+                        archive.Write(FS, true);
+                    song.FileDate = File.GetLastWriteTimeUtc(song.Path);
+                }
+
+                song.Tagged = false;
+
+                Globals.Log("Finished untagging song ...");
+            }
+        }
+
+
         public void UntagSong(SongData song)
         {
             if (File.Exists(song.Path)) //Just to be sure :)
@@ -357,36 +399,9 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
                 {
                     using (var fs = File.OpenRead(song.Path))
                         archive.Read(fs);
-
-                    var toolKitEntry = archive.TOC.FirstOrDefault(entry => entry.Name == "toolkit.version");
-                    var taggerOriginal = archive.TOC.FirstOrDefault(entry => entry.Name == "tagger.org");
-                    if (toolKitEntry != null && taggerOriginal != null)
-                    {
-                        DDSImage orgDDS = new DDSImage(taggerOriginal.Data);
-                        var bigAlbumArt = orgDDS.images[0];
-
-                        var albumSmallArtEntry = archive.TOC.FirstOrDefault(entry => entry.Name.EndsWith("64.dds")); //Get album art paths
-                        var albumMidArtEntry = archive.TOC.FirstOrDefault(entry => entry.Name.EndsWith("128.dds"));
-                        var albumBigArtEntry = archive.TOC.FirstOrDefault(entry => entry.Name.EndsWith("256.dds"));
-
-                        albumBigArtEntry.Data.Dispose();
-                        albumBigArtEntry.Data = bigAlbumArt.ToDDS(256, 256);
-                        albumMidArtEntry.Data.Dispose();
-                        albumMidArtEntry.Data = bigAlbumArt.ToDDS(128, 128);
-                        albumSmallArtEntry.Data.Dispose();
-                        albumSmallArtEntry.Data = bigAlbumArt.ToDDS(64, 64);
-
-                        archive.TOC.Insert(0, new Entry() { Name = "NamesBlock.bin" });
-                        archive.TOC.Remove(taggerOriginal);
-                        using (var FS = File.Create(song.Path))
-                            archive.Write(FS, true);
-                        song.FileDate = File.GetLastWriteTimeUtc(song.Path);
-                    }
-
-                    song.Tagged = false;
+                    UntagSong(song, archive);
+                    
                 }
-
-                Globals.Log("Finished untagging song ...");
             }
         }
 

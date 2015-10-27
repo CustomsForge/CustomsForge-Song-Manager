@@ -37,11 +37,6 @@ namespace CustomsForgeManager.UControls
             Process.Start("http://cfmanager.com");
         }
 
-        private void btnCFSMSupport_Click(object sender, EventArgs e)
-        {
-            Process.Start("http://customsforge.com/forum/81-customsforge-song-manager/");
-        }
-
 
         private void lnkDonations_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
@@ -87,11 +82,6 @@ namespace CustomsForgeManager.UControls
         }
 
 
-        private void lnkOthers_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            // TODO: complete this
-            Process.Start(String.Format(Constants.CustomsForgeUserURL_Format, "345-forgeon"));
-        }
 
         private void lnkReleaseNotes_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
@@ -118,22 +108,12 @@ namespace CustomsForgeManager.UControls
 
         private void picCF_Click(object sender, EventArgs e)
         {
-            Process.Start("http://ignition.customsforge.com/");
+            Process.Start(Constants.IgnitionURL);
         }
 
-        private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void btnCFSMSupport_Click(object sender, EventArgs e)
         {
-
-        }
-
-        private void link_Credits_Description_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-
-        }
-
-        private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-
+            Process.Start(Constants.CustomsForgeURL + "/forum/81-customsforge-song-manager/");
         }
 
     }

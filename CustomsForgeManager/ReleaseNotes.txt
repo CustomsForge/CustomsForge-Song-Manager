@@ -1,5 +1,11 @@
 CFM Release Notes
 
+1.0.6.9
+-fixed a bug when saving images in CDLC
+-changed lovroman's icon
+-optimized Tagger rescan.
+-fixed a couple of links in the about box
+
 1.0.6.8
 -Fixed Tagger to allow for retagging songs directly without need to untag first.
 -Fixed SongManager Selected checkbox to work with Tagger.

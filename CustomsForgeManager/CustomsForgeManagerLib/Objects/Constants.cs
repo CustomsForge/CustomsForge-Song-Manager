@@ -41,11 +41,12 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         public const string RequestURL = "http://requests.customsforge.com/";
         public const string DefaultInfoURL =
 #if (DEBUG)
- @"http://ignition.dev.customsforge.com/api/search";
+                 @"http://ignition.dev.customsforge.com/api/search";
 #else
                  @"http://ignition.dev.customsforge.com/api/search";
 #endif
-        //return @"http://ignition.customsforge.com/api/search";
+
+
         public const string DefaultAuthURL = "http://ignition.dev.customsforge.com/api/auth";
         public const string DefaultDetailsURL = "http://ignition.dev.customsforge.com/api/details";
         public const string DefaultCFSongUrl = CustomsForgeURL + "page/customsforge_rs_2014_cdlc.html/_/pc-enabled-rs-2014-cdlc/";

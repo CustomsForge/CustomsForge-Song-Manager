@@ -348,6 +348,7 @@
             this.btnCFSMSite.Text = "CFManager.com";
             this.btnCFSMSite.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnCFSMSite.UseVisualStyleBackColor = true;
+            this.btnCFSMSite.Click += new System.EventHandler(this.btnCFSMSite_Click);
             // 
             // btnEOFSite
             // 
@@ -373,7 +374,7 @@
             this.btnRSTKSite.Text = "Rocksmith Toolkit";
             this.btnRSTKSite.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnRSTKSite.UseVisualStyleBackColor = true;
-            this.btnRSTKSite.Click += new System.EventHandler(this.btnCFSMSite_Click);
+            this.btnRSTKSite.Click += new System.EventHandler(this.btnRSTKSite_Click);
             // 
             // btnCFSMSupport
             // 
@@ -387,6 +388,7 @@
             this.btnCFSMSupport.Text = "Official CFSM Support";
             this.btnCFSMSupport.TextAlign = System.Drawing.ContentAlignment.TopRight;
             this.btnCFSMSupport.UseVisualStyleBackColor = true;
+            this.btnCFSMSupport.Click += new System.EventHandler(this.btnCFSMSupport_Click);
             // 
             // gbCredits
             // 
@@ -677,7 +679,6 @@
             this.link_Credits_Description.Text = "Developers:";
             this.link_Credits_Description.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.link_Credits_Description.VisitedLinkColor = System.Drawing.Color.Black;
-            this.link_Credits_Description.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.link_Credits_Description_LinkClicked);
             // 
             // linkLabel1
             // 
@@ -729,7 +730,7 @@
             this.lnkDreddFoxxProfile.Location = new System.Drawing.Point(235, 77);
             this.lnkDreddFoxxProfile.Name = "lnkDreddFoxxProfile";
             this.lnkDreddFoxxProfile.ResourceImg = null;
-            this.lnkDreddFoxxProfile.Size = new System.Drawing.Size(68, 16);
+            this.lnkDreddFoxxProfile.Size = new System.Drawing.Size(67, 16);
             this.lnkDreddFoxxProfile.TabIndex = 1;
             this.lnkDreddFoxxProfile.TabStop = true;
             this.lnkDreddFoxxProfile.Text = "DreddFoxx";
@@ -756,7 +757,6 @@
     "ters";
             this.linkLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.linkLabel2.VisitedLinkColor = System.Drawing.Color.Black;
-            this.linkLabel2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel2_LinkClicked);
             // 
             // About
             // 

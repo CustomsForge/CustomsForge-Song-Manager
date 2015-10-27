@@ -109,8 +109,11 @@ namespace CustomsForgeManager.SongEditor
                             needsSave = true;
                     }
                     if (needsSave)
+                    {
+                        p.TOC.Insert(0, new RocksmithToolkitLib.PSARC.Entry() { Name = "NamesBlock.bin" });
                         using (var fs = File.Create(outputPath))
                             p.Write(fs, true);
+                    }
                 }
             }
             finally

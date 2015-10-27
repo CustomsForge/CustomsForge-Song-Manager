@@ -1,12 +1,8 @@
-﻿using CustomsForgeManager.CustomsForgeManagerLib.CustomControls;
-using CustomsForgeManager.CustomsForgeManagerLib.Objects;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using TheArtOfDev.HtmlRenderer.Core.Entities;
-using TheArtOfDev.HtmlRenderer.WinForms;
 
 namespace CustomsForgeManager.Forms
 {
