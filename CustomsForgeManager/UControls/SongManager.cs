@@ -50,7 +50,7 @@ namespace CustomsForgeManager.UControls
         public void LeaveSongManager()
         {
             Globals.Log("Leaving SongManager GUI ...");
-            Globals.DgvSongs = dgvSongsMaster;            
+            Globals.DgvSongs = dgvSongsMaster;
         }
 
         public void LoadSongCollectionFromFile()
@@ -85,7 +85,7 @@ namespace CustomsForgeManager.UControls
                 }
 
                 // pop Arrangment DLCKey info
-                masterSongCollection.ToList().ForEach(a => {  a.Arrangements2D.ToList().ForEach( arr => arr.Parent = a );   });
+                masterSongCollection.ToList().ForEach(a => { a.Arrangements2D.ToList().ForEach(arr => arr.Parent = a); });
 
                 Globals.SongCollection = masterSongCollection;
                 Globals.ReloadDuplicates = false;
@@ -147,9 +147,9 @@ namespace CustomsForgeManager.UControls
                                 f.MaximizeBox = false;
                                 f.MinimizeBox = false;
                                 f.AutoSize = true;
-                                PictureBox pb = new PictureBox() 
+                                PictureBox pb = new PictureBox()
                                 {
-                                    SizeMode = PictureBoxSizeMode.CenterImage, 
+                                    SizeMode = PictureBoxSizeMode.CenterImage,
                                     Dock = DockStyle.Fill,
                                     Image = img
                                 };
@@ -215,7 +215,7 @@ namespace CustomsForgeManager.UControls
             Globals.TsLabel_StatusMsg.Click += lnkShowAll_Click;
         }
 
-     
+
 
         private void CheckForUpdatesEvent(object o, DoWorkEventArgs args)
         {
@@ -574,7 +574,7 @@ namespace CustomsForgeManager.UControls
             return SelectedSongs;
         }
 
-   
+
 
 
         private void ToggleUIControls()
@@ -586,7 +586,7 @@ namespace CustomsForgeManager.UControls
             Extensions.InvokeIfRequired(btnBackupSelectedDLCs, delegate { btnBackupSelectedDLCs.Enabled = !btnBackupSelectedDLCs.Enabled; });
             Extensions.InvokeIfRequired(lnkLblSelectAll, delegate { lnkLblSelectAll.Enabled = !lnkLblSelectAll.Enabled; });
             Extensions.InvokeIfRequired(lnkClearSearch, delegate { lnkClearSearch.Enabled = !lnkClearSearch.Enabled; });
-                 }
+        }
 
         private void UpdateCharter(DataGridViewRow selectedRow)
         {
@@ -1257,17 +1257,16 @@ namespace CustomsForgeManager.UControls
             foreach (DataGridViewRow row in dgvSongsMaster.Rows)
                 row.DefaultCellStyle.BackColor = Color.Empty;
 
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle() 
-            { 
-                BackColor = Color.FromArgb(224, 224, 224) 
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle()
+            {
+                BackColor = Color.FromArgb(224, 224, 224)
             };
             dgvSongsMaster.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
 
             UpdateToolStrip();
         }
 
-
-
+        //IDataGridViewHolder Interface
         public DataGridView GetGrid()
         {
             return dgvSongsMaster;
@@ -1278,10 +1277,7 @@ namespace CustomsForgeManager.UControls
             if (!String.IsNullOrEmpty(AppSettings.Instance.CreatorName))
             {
                 if (cbMyCDLC.Checked)
-                {
-                    var results = masterSongCollection.Where(x => x.IsMine).ToList();
-                    LoadFilteredBindingList(results);
-                }
+                    LoadFilteredBindingList(masterSongCollection.Where(x => x.IsMine).ToList());
                 else
                     PopulateDataGridView();
             }
@@ -1289,53 +1285,39 @@ namespace CustomsForgeManager.UControls
 
         private void dgvSongsMaster_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-
-            if (dgvSongsMaster.Rows[e.RowIndex].Cells["colArrangements"].Value == null)
-                return;
-
-            if (e.ColumnIndex == dgvSongsMaster.Columns["colBass"].Index)
+            if (e.ColumnIndex == colBass.Index ||
+                e.ColumnIndex == colVocals.Index ||
+                e.ColumnIndex == colLead.Index ||
+                e.ColumnIndex == colRhythm.Index)
             {
-                e.CellStyle.BackColor = Color.Red;
-                if (dgvSongsMaster.Rows[e.RowIndex].Cells["colArrangements"].Value.ToString().ToUpper().Contains("BASS"))
+                var x = (SongData)dgvSongsMaster.Rows[e.RowIndex].DataBoundItem;
+                if (x != null)
                 {
-                    e.CellStyle.BackColor = Color.Lime;
-                }
-            } else
-                if (e.ColumnIndex == dgvSongsMaster.Columns["colLead"].Index)
-                {
-                    e.CellStyle.BackColor = Color.Red;
-                    if (dgvSongsMaster.Rows[e.RowIndex].Cells["colArrangements"].Value.ToString().ToUpper().Contains("LEAD"))
-                    {
-                        e.CellStyle.BackColor = Color.Lime;
-                    }
-                    if (dgvSongsMaster.Rows[e.RowIndex].Cells["colArrangements"].Value.ToString().ToUpper().Contains("COMBO"))
-                    {
-                        e.CellStyle.BackColor = Color.Lime;
-                    }
-                }
-                else
-                    if (e.ColumnIndex == dgvSongsMaster.Columns["colRhythm"].Index)
-                    {
-                        e.CellStyle.BackColor = Color.Red;
-                        if (dgvSongsMaster.Rows[e.RowIndex].Cells["colArrangements"].Value.ToString().ToUpper().Contains("RHYTHM"))
-                        {
-                            e.CellStyle.BackColor = Color.Lime;
-                        }
-                        if (dgvSongsMaster.Rows[e.RowIndex].Cells["colArrangements"].Value.ToString().ToUpper().Contains("COMBO"))
-                        {
-                            e.CellStyle.BackColor = Color.Lime;
-                        }
-                    }
+                    string arrInit = x.Arrangements.ToUpper();
+
+                    if (e.ColumnIndex == colBass.Index)
+                        e.CellStyle.BackColor = arrInit.Contains("BASS") ? Color.Lime : Color.Red;
                     else
-                        if (e.ColumnIndex == dgvSongsMaster.Columns["colVocals"].Index)
-                        {
-                            e.CellStyle.BackColor = Color.Red;
-                            if (dgvSongsMaster.Rows[e.RowIndex].Cells["colArrangements"].Value.ToString().ToUpper().Contains("VOCAL"))
+                        if (e.ColumnIndex == colVocals.Index)
+                            e.CellStyle.BackColor = arrInit.Contains("VOCAL") ? Color.Lime : Color.Red;
+                        else
+                            if (e.ColumnIndex == colLead.Index)
                             {
-                                e.CellStyle.BackColor = Color.Lime;
+                                if (arrInit.Contains("COMBO"))
+                                    e.CellStyle.BackColor = arrInit.Contains("COMBO") ? Color.Lime : Color.Red;
+                                else
+                                    e.CellStyle.BackColor = arrInit.Contains("LEAD") ? Color.Lime : Color.Red;
                             }
-                        }
-       
+                            else
+                                if (e.ColumnIndex == colRhythm.Index)
+                                {
+                                    if (arrInit.Contains("COMBO"))
+                                        e.CellStyle.BackColor = arrInit.Contains("COMBO") ? Color.Lime : Color.Red;
+                                    else
+                                        e.CellStyle.BackColor = arrInit.Contains("RHYTHM") ? Color.Lime : Color.Red;
+                                }
+                }
+            }
         }
     }
 }

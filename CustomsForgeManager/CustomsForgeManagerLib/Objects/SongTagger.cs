@@ -372,11 +372,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
                     albumSmallArtEntry.Data.Dispose();
                     albumSmallArtEntry.Data = bigAlbumArt.ToDDS(64, 64);
 
-                    archive.TOC.Insert(0, new Entry() { Name = "NamesBlock.bin" });
                     archive.TOC.Remove(taggerOriginal);
-                    using (var FS = File.Create(song.Path))
-                        archive.Write(FS, true);
-                    song.FileDate = File.GetLastWriteTimeUtc(song.Path);
                 }
 
                 song.Tagged = false;
@@ -400,7 +396,10 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
                     using (var fs = File.OpenRead(song.Path))
                         archive.Read(fs);
                     UntagSong(song, archive);
-                    
+                    archive.TOC.Insert(0, new Entry() { Name = "NamesBlock.bin" });
+                    using (var FS = File.Create(song.Path))
+                        archive.Write(FS, true);
+                    song.FileDate = File.GetLastWriteTimeUtc(song.Path);
                 }
             }
         }
