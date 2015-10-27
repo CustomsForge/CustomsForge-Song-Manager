@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dgvTones = new CustomsForgeManager.CustomsForgeManagerLib.CustomControls.RADataGridView();
             this.colName = new System.Windows.Forms.DataGridViewLinkColumn();
             this.colVolume = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -39,16 +40,25 @@
             this.dgvTones.AllowUserToAddRows = false;
             this.dgvTones.AllowUserToDeleteRows = false;
             this.dgvTones.AllowUserToResizeRows = false;
-            this.dgvTones.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+            this.dgvTones.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvTones.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvTones.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvTones.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colName,
             this.colVolume});
+            this.dgvTones.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvTones.Location = new System.Drawing.Point(0, 0);
             this.dgvTones.MultiSelect = false;
             this.dgvTones.Name = "dgvTones";
-            this.dgvTones.Size = new System.Drawing.Size(450, 349);
+            this.dgvTones.RowHeadersVisible = false;
+            this.dgvTones.Size = new System.Drawing.Size(430, 294);
             this.dgvTones.TabIndex = 0;
             this.dgvTones.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.raDataGridView1_CellBeginEdit);
             this.dgvTones.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.raDataGridView1_CellContentClick);
@@ -74,7 +84,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.dgvTones);
             this.Name = "ucTones";
-            this.Size = new System.Drawing.Size(494, 349);
+            this.Size = new System.Drawing.Size(430, 294);
             ((System.ComponentModel.ISupportInitialize)(this.dgvTones)).EndInit();
             this.ResumeLayout(false);
 

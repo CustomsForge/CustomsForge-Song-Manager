@@ -95,10 +95,10 @@
             this.gbSongInfo.Controls.Add(this.cmbSongVolume);
             this.gbSongInfo.Controls.Add(this.label3);
             this.gbSongInfo.ForeColor = System.Drawing.SystemColors.ActiveCaption;
-            this.gbSongInfo.Location = new System.Drawing.Point(13, 17);
+            this.gbSongInfo.Location = new System.Drawing.Point(0, 0);
             this.gbSongInfo.Name = "gbSongInfo";
             this.gbSongInfo.Padding = new System.Windows.Forms.Padding(0);
-            this.gbSongInfo.Size = new System.Drawing.Size(498, 306);
+            this.gbSongInfo.Size = new System.Drawing.Size(515, 321);
             this.gbSongInfo.TabIndex = 82;
             this.gbSongInfo.TabStop = false;
             this.gbSongInfo.Text = "Song Information";
@@ -107,7 +107,7 @@
             // 
             this.label15.AutoSize = true;
             this.label15.ForeColor = System.Drawing.SystemColors.ActiveCaption;
-            this.label15.Location = new System.Drawing.Point(281, 276);
+            this.label15.Location = new System.Drawing.Point(292, 279);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(74, 13);
             this.label15.TabIndex = 102;
@@ -117,7 +117,7 @@
             // 
             this.label14.AutoSize = true;
             this.label14.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label14.Location = new System.Drawing.Point(32, 276);
+            this.label14.Location = new System.Drawing.Point(43, 279);
             this.label14.Margin = new System.Windows.Forms.Padding(3);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(44, 13);
@@ -127,7 +127,7 @@
             // 
             // txtCharter
             // 
-            this.txtCharter.Location = new System.Drawing.Point(91, 273);
+            this.txtCharter.Location = new System.Drawing.Point(102, 276);
             this.txtCharter.Name = "txtCharter";
             this.txtCharter.ReadOnly = true;
             this.txtCharter.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -136,7 +136,7 @@
             // 
             // txtKey
             // 
-            this.txtKey.Location = new System.Drawing.Point(91, 30);
+            this.txtKey.Location = new System.Drawing.Point(102, 33);
             this.txtKey.Name = "txtKey";
             this.txtKey.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtKey.Size = new System.Drawing.Size(106, 20);
@@ -146,7 +146,7 @@
             // 
             this.label12.AutoSize = true;
             this.label12.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label12.Location = new System.Drawing.Point(8, 163);
+            this.label12.Location = new System.Drawing.Point(19, 166);
             this.label12.Margin = new System.Windows.Forms.Padding(3);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(68, 13);
@@ -156,7 +156,7 @@
             // 
             // txtYear
             // 
-            this.txtYear.Location = new System.Drawing.Point(91, 134);
+            this.txtYear.Location = new System.Drawing.Point(102, 137);
             this.txtYear.Name = "txtYear";
             this.txtYear.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtYear.Size = new System.Drawing.Size(86, 20);
@@ -166,7 +166,7 @@
             // 
             this.label11.AutoSize = true;
             this.label11.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label11.Location = new System.Drawing.Point(44, 141);
+            this.label11.Location = new System.Drawing.Point(55, 144);
             this.label11.Margin = new System.Windows.Forms.Padding(3);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(32, 13);
@@ -176,7 +176,7 @@
             // 
             // txtAvgTempo
             // 
-            this.txtAvgTempo.Location = new System.Drawing.Point(91, 160);
+            this.txtAvgTempo.Location = new System.Drawing.Point(102, 163);
             this.txtAvgTempo.Name = "txtAvgTempo";
             this.txtAvgTempo.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtAvgTempo.Size = new System.Drawing.Size(86, 20);
@@ -186,7 +186,7 @@
             // 
             this.label13.AutoSize = true;
             this.label13.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label13.Location = new System.Drawing.Point(31, 213);
+            this.label13.Location = new System.Drawing.Point(42, 216);
             this.label13.Margin = new System.Windows.Forms.Padding(3);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(45, 13);
@@ -196,7 +196,7 @@
             // 
             // txtVersion
             // 
-            this.txtVersion.Location = new System.Drawing.Point(91, 210);
+            this.txtVersion.Location = new System.Drawing.Point(102, 213);
             this.txtVersion.Name = "txtVersion";
             this.txtVersion.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtVersion.Size = new System.Drawing.Size(86, 20);
@@ -204,7 +204,7 @@
             // 
             // txtTitleSort
             // 
-            this.txtTitleSort.Location = new System.Drawing.Point(295, 81);
+            this.txtTitleSort.Location = new System.Drawing.Point(306, 84);
             this.txtTitleSort.Name = "txtTitleSort";
             this.txtTitleSort.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtTitleSort.Size = new System.Drawing.Size(183, 20);
@@ -214,7 +214,7 @@
             // 
             this.label10.AutoSize = true;
             this.label10.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label10.Location = new System.Drawing.Point(24, 33);
+            this.label10.Location = new System.Drawing.Point(35, 36);
             this.label10.Margin = new System.Windows.Forms.Padding(3);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(52, 13);
@@ -224,7 +224,7 @@
             // 
             // txtArtistSort
             // 
-            this.txtArtistSort.Location = new System.Drawing.Point(295, 55);
+            this.txtArtistSort.Location = new System.Drawing.Point(306, 58);
             this.txtArtistSort.Name = "txtArtistSort";
             this.txtArtistSort.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtArtistSort.Size = new System.Drawing.Size(183, 20);
@@ -234,7 +234,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.ForeColor = System.Drawing.SystemColors.ActiveCaption;
-            this.label1.Location = new System.Drawing.Point(292, 33);
+            this.label1.Location = new System.Drawing.Point(303, 36);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(150, 13);
             this.label1.TabIndex = 83;
@@ -243,7 +243,7 @@
             // txtAppId
             // 
             this.txtAppId.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.txtAppId.Location = new System.Drawing.Point(417, 236);
+            this.txtAppId.Location = new System.Drawing.Point(428, 239);
             this.txtAppId.Name = "txtAppId";
             this.txtAppId.ReadOnly = true;
             this.txtAppId.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -256,7 +256,7 @@
             // 
             this.cmbAppId.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbAppId.FormattingEnabled = true;
-            this.cmbAppId.Location = new System.Drawing.Point(91, 235);
+            this.cmbAppId.Location = new System.Drawing.Point(102, 238);
             this.cmbAppId.Margin = new System.Windows.Forms.Padding(2);
             this.cmbAppId.Name = "cmbAppId";
             this.cmbAppId.Size = new System.Drawing.Size(310, 21);
@@ -267,7 +267,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label2.Location = new System.Drawing.Point(33, 239);
+            this.label2.Location = new System.Drawing.Point(44, 242);
             this.label2.Margin = new System.Windows.Forms.Padding(3);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(43, 13);
@@ -277,7 +277,7 @@
             // 
             // txtTitle
             // 
-            this.txtTitle.Location = new System.Drawing.Point(91, 82);
+            this.txtTitle.Location = new System.Drawing.Point(102, 85);
             this.txtTitle.Name = "txtTitle";
             this.txtTitle.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtTitle.Size = new System.Drawing.Size(183, 20);
@@ -287,7 +287,7 @@
             // 
             this.label7.AutoSize = true;
             this.label7.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label7.Location = new System.Drawing.Point(18, 85);
+            this.label7.Location = new System.Drawing.Point(29, 88);
             this.label7.Margin = new System.Windows.Forms.Padding(3);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(58, 13);
@@ -297,7 +297,7 @@
             // 
             // txtArtist
             // 
-            this.txtArtist.Location = new System.Drawing.Point(91, 56);
+            this.txtArtist.Location = new System.Drawing.Point(102, 59);
             this.txtArtist.Name = "txtArtist";
             this.txtArtist.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtArtist.Size = new System.Drawing.Size(183, 20);
@@ -307,7 +307,7 @@
             // 
             this.label8.AutoSize = true;
             this.label8.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label8.Location = new System.Drawing.Point(37, 111);
+            this.label8.Location = new System.Drawing.Point(48, 114);
             this.label8.Margin = new System.Windows.Forms.Padding(3);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(39, 13);
@@ -317,7 +317,7 @@
             // 
             // txtAlbum
             // 
-            this.txtAlbum.Location = new System.Drawing.Point(91, 108);
+            this.txtAlbum.Location = new System.Drawing.Point(102, 111);
             this.txtAlbum.Name = "txtAlbum";
             this.txtAlbum.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtAlbum.Size = new System.Drawing.Size(183, 20);
@@ -327,7 +327,7 @@
             // 
             this.label9.AutoSize = true;
             this.label9.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label9.Location = new System.Drawing.Point(43, 59);
+            this.label9.Location = new System.Drawing.Point(54, 62);
             this.label9.Margin = new System.Windows.Forms.Padding(3);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(33, 13);
@@ -339,7 +339,7 @@
             // 
             this.label6.AutoSize = true;
             this.label6.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label6.Location = new System.Drawing.Point(203, 189);
+            this.label6.Location = new System.Drawing.Point(214, 192);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(86, 13);
             this.label6.TabIndex = 66;
@@ -350,7 +350,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label5.Location = new System.Drawing.Point(3, 189);
+            this.label5.Location = new System.Drawing.Point(14, 192);
             this.label5.Margin = new System.Windows.Forms.Padding(3);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(73, 13);
@@ -362,7 +362,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.ForeColor = System.Drawing.SystemColors.ActiveCaption;
-            this.label4.Location = new System.Drawing.Point(361, 189);
+            this.label4.Location = new System.Drawing.Point(372, 192);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(20, 13);
             this.label4.TabIndex = 65;
@@ -377,7 +377,7 @@
             0,
             0,
             65536});
-            this.cmbPreviewVolume.Location = new System.Drawing.Point(295, 185);
+            this.cmbPreviewVolume.Location = new System.Drawing.Point(306, 188);
             this.cmbPreviewVolume.Maximum = new decimal(new int[] {
             0,
             0,
@@ -407,7 +407,7 @@
             0,
             0,
             65536});
-            this.cmbSongVolume.Location = new System.Drawing.Point(91, 185);
+            this.cmbSongVolume.Location = new System.Drawing.Point(102, 188);
             this.cmbSongVolume.Maximum = new decimal(new int[] {
             0,
             0,
@@ -432,7 +432,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.ForeColor = System.Drawing.SystemColors.ActiveCaption;
-            this.label3.Location = new System.Drawing.Point(157, 189);
+            this.label3.Location = new System.Drawing.Point(168, 192);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(20, 13);
             this.label3.TabIndex = 63;
@@ -443,7 +443,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.gbSongInfo);
             this.Name = "ucSongInfo";
-            this.Size = new System.Drawing.Size(528, 337);
+            this.Size = new System.Drawing.Size(515, 321);
             this.gbSongInfo.ResumeLayout(false);
             this.gbSongInfo.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cmbPreviewVolume)).EndInit();

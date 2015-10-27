@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dgvArrangements = new CustomsForgeManager.CustomsForgeManagerLib.CustomControls.RADataGridView();
             this.colName = new System.Windows.Forms.DataGridViewLinkColumn();
             this.colArrangementType = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -45,6 +46,15 @@
             this.dgvArrangements.AllowUserToDeleteRows = false;
             this.dgvArrangements.AllowUserToOrderColumns = true;
             this.dgvArrangements.AllowUserToResizeRows = false;
+            this.dgvArrangements.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvArrangements.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvArrangements.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvArrangements.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colName,
@@ -57,7 +67,8 @@
             this.dgvArrangements.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvArrangements.Location = new System.Drawing.Point(0, 0);
             this.dgvArrangements.Name = "dgvArrangements";
-            this.dgvArrangements.Size = new System.Drawing.Size(810, 409);
+            this.dgvArrangements.RowHeadersVisible = false;
+            this.dgvArrangements.Size = new System.Drawing.Size(736, 354);
             this.dgvArrangements.TabIndex = 0;
             this.dgvArrangements.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dgvArrangements_CellBeginEdit);
             this.dgvArrangements.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvArrangements_CellContentClick);
@@ -94,6 +105,7 @@
             this.colScrollSpeed.DataPropertyName = "ScrollSpeed";
             this.colScrollSpeed.HeaderText = "Scroll Speed";
             this.colScrollSpeed.Name = "colScrollSpeed";
+            this.colScrollSpeed.Width = 90;
             // 
             // colTuning
             // 
@@ -118,11 +130,10 @@
             // 
             // ucArrangements
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.dgvArrangements);
             this.Name = "ucArrangements";
-            this.Size = new System.Drawing.Size(810, 409);
+            this.Size = new System.Drawing.Size(736, 354);
             ((System.ComponentModel.ISupportInitialize)(this.dgvArrangements)).EndInit();
             this.ResumeLayout(false);
 

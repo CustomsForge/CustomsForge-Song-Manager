@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using CustomsForgeManager.CustomsForgeManagerLib;
@@ -109,7 +110,7 @@ namespace CustomsForgeManager.SongEditor
                     }
                     if (needsSave)
                         using (var fs = File.Create(outputPath))
-                            p.Write(fs,true);
+                            p.Write(fs, true);
                 }
             }
             finally
@@ -153,12 +154,12 @@ namespace CustomsForgeManager.SongEditor
                 var cc = type.GetConstructor(new Type[] { typeof(frmSongEditor) });
                 if (cc != null)
                     obj = (T)cc.Invoke(new object[] { this });
-                    else
-                    {
-                        cc = type.GetConstructor(new Type[] { });
-                        if (cc != null)
-                            obj = (T)cc.Invoke(new object[] { });
-                    }
+                else
+                {
+                    cc = type.GetConstructor(new Type[] { });
+                    if (cc != null)
+                        obj = (T)cc.Invoke(new object[] { });
+                }
 
                 if (obj != null)
                 {

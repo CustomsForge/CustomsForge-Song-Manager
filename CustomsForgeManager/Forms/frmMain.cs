@@ -112,8 +112,10 @@ namespace CustomsForgeManager.Forms
 #if !TAGGER
             toolstripTagger.Visible = false;
 #else
+            toolstripTagger.Visible = true;
             tsButtonTagSelected.Click += tsButtonTagSelected_Click;
             tsButtonUntagSelection.Click += tsButtonUntagSelection_Click;
+
             tscbTaggerThemes.Items.AddRange(Globals.Tagger.Themes.ToArray());
             tscbTaggerThemes.SelectedIndex = 0;
             tscbTaggerThemes.SelectedIndexChanged += (s, e) =>
@@ -648,13 +650,13 @@ namespace CustomsForgeManager.Forms
                     sbTXT.AppendLine(s.Trim());
                     sbTXT.AppendLine("</tr>");
                 }
-                sbTXT.AppendLine("</body></html>");
 
 
-                using (var noteViewer = new frmHtmlViewer())
+                using (var noteViewer = new frmNoteViewer())
                 {
                     noteViewer.Text = String.Format("{0} . . . {1}", noteViewer.Text, "Song list to HTML");
-                    noteViewer.PopulateHtml(sbTXT.ToString());
+
+                    noteViewer.PopulateText(sbTXT.ToString(), false);
                     noteViewer.ShowDialog();
                 }
             });
@@ -682,6 +684,7 @@ namespace CustomsForgeManager.Forms
             SongListToHTML();
         }
 
+ 
 
     }
 }
