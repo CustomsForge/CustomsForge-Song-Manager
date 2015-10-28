@@ -1,0 +1,8 @@
+<project outputDir="..\CustomsForgeManager" baseDir="..\CustomsForgeManager" xmlns="http://confuser.codeplex.com">
+ <rule pattern="true" preset="normal">
+   <protection id="rename" action="remove" />
+ </rule>
+ <module path="bin\ConfuserExRelease\CFMAudioTools.dll" />
+ <module path="bin\ConfuserExRelease\CFMImageTools.dll" />
+ <module path="bin\ConfuserExRelease\CustomsForgeSongManager.exe" />
+ </project>

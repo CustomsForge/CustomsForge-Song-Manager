@@ -17,23 +17,25 @@ namespace CustomsForgeManager.Forms
 
         private void frmSongInfo_Load(object sender, EventArgs e)
         {
-            lbl_PanelSongTitle.Text = song.Song;
+            lbl_PanelSongTitle.Text = song.Title;
             lbl_PanelSongAlbum.Text = song.Album;
             lbl_PanelSongArtist.Text = song.Artist;
-            lbl_PanelSongYear.Text = song.SongYear;
+            lbl_PanelSongYear.Text = song.SongYear.ToString();
             lbl_PanelSongTuning.Text = song.Tuning;
             lbl_PanelSongArrangements.Text = song.Arrangements;
-            lbl_PanelSongDD.Text = song.DD == "0" ? "No" : "Yes";
-            lbl_PanelSongAuthor.Text = song.Author;
+            lbl_PanelSongDD.Text = song.DD.ToString();
+            lbl_PanelSongAuthor.Text = song.Charter;
             lbl_PanelSongPath.Text = song.Path;
 
+            // TODO: reimpliment
             FillGridWithArrangements(song.Arrangements);
 
         }
 
         private void FillGridWithArrangements(string arrangements)
         {
-            string[] splits = arrangements.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+
+            string[] splits = arrangements.Split(new string[] { ", " }, StringSplitOptions.RemoveEmptyEntries);
 
             foreach (DataGridViewColumn column in dgv_Arrangements.Columns)
             {
@@ -61,7 +63,7 @@ namespace CustomsForgeManager.Forms
                 }
             }
 
-            dgv_Arrangements.Rows.Add(new[] { Properties.Resources.Letter_L, Properties.Resources.Letter_R, Properties.Resources.Letter_B, Properties.Resources.Letter_V });
+            dgv_Arrangements.Rows.Add(new[] { Properties.Resources.Letter_B, Properties.Resources.Letter_L, Properties.Resources.Letter_R, Properties.Resources.Letter_V });
             dgv_Arrangements.ClearSelection();
         }
 

@@ -5,8 +5,7 @@ using System.Linq;
 using System.Windows.Forms;
 using CustomsForgeManager.CustomsForgeManagerLib;
 using CustomsForgeManager.CustomsForgeManagerLib.Objects;
-using CustomsForgeManager.Forms;
-using Microsoft.Win32;
+using System.ComponentModel;
 
 namespace CustomsForgeManager.UControls
 {
@@ -16,6 +15,7 @@ namespace CustomsForgeManager.UControls
         {
             InitializeComponent();
             Leave += Settings_Leave;
+            AppSettings.Instance.PropertyChanged += SettingsPropChanged;
         }
 
         public void LoadSettingsFromFile()
@@ -32,17 +32,13 @@ namespace CustomsForgeManager.UControls
 
             try
             {
-                using (FileStream fs = new FileStream(settingsPath, FileMode.Open, FileAccess.Read, FileShare.Read))
-                {
-                    Globals.MySettings = fs.DeserializeXml(new AppSettings());
-                    Globals.Log("Loaded settings file ...");
-                    fs.Flush();
-                }
 
-                cueRsDir.Text = Globals.MySettings.RSInstalledDir;
-                chkRescanOnStartup.Checked = Globals.MySettings.RescanOnStartup;
-                chkIncludeRS1DLC.Checked = Globals.MySettings.IncludeRS1DLCs;
-                chkEnableLogBallon.Checked = Globals.MySettings.EnabledLogBaloon;
+                AppSettings.Instance.LoadFromFile(settingsPath, Constants.GridSettingsPath);
+
+                cueRsDir.Text = AppSettings.Instance.RSInstalledDir;
+                chkIncludeRS1DLC.Checked = AppSettings.Instance.IncludeRS1DLCs;
+                chkEnableLogBallon.Checked = AppSettings.Instance.EnabledLogBaloon;
+                tbCreator.Text = AppSettings.Instance.CreatorName;
 
                 ValidateRsDir();
             }
@@ -50,6 +46,26 @@ namespace CustomsForgeManager.UControls
             {
                 Globals.MyLog.Write(String.Format("<Error>: {0}", ex.Message));
             }
+        }
+
+        void SettingsPropChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case "RSInstalledDir":
+                    cueRsDir.Text = AppSettings.Instance.RSInstalledDir;
+                    break;
+                case "IncludeRS1DLCs":
+                    chkIncludeRS1DLC.Checked = AppSettings.Instance.IncludeRS1DLCs;
+                    break;
+                case "EnabledLogBaloon":
+                    chkEnableLogBallon.Checked = AppSettings.Instance.EnabledLogBaloon;
+                    break;
+                case "CreatorName":
+                    tbCreator.Text = AppSettings.Instance.CreatorName;
+                    break;
+            }
+
         }
 
         public void PopulateSettings()
@@ -61,70 +77,47 @@ namespace CustomsForgeManager.UControls
             listDisabledColumns.Items.Clear();
             foreach (DataGridViewColumn col in Globals.DgvSongs.Columns)
             {
-                ListViewItem newItem = new ListViewItem(new[] { String.Empty, col.Name, col.HeaderText, col.Width.ToString() });
-                newItem.Checked = col.Visible;
+                ListViewItem newItem = new ListViewItem(new[] { String.Empty, col.Name, col.HeaderText, col.Width.ToString() }) { Checked = col.Visible };
                 listDisabledColumns.Items.Add(newItem);
             }
 
-            // initialize variables
-            cueRsDir.Text = Globals.MySettings.RSInstalledDir;
-            chkRescanOnStartup.Checked = Globals.MySettings.RescanOnStartup;
-            chkIncludeRS1DLC.Checked = Globals.MySettings.IncludeRS1DLCs;
-            chkEnableLogBallon.Checked = Globals.MySettings.EnabledLogBaloon;
         }
 
         public void ResetSettings()
         {
-            // initialize object if null
-            if (Globals.MySettings == null)
-                Globals.MySettings = new AppSettings();
-
-            Globals.MySettings.LogFilePath = Constants.LogFilePath;
-            Globals.MySettings.RSInstalledDir = GetInstallDirFromRegistry();
-            Globals.MySettings.RescanOnStartup = false;
-            Globals.MySettings.IncludeRS1DLCs = false;  // changed to false (fewer issues)
-            Globals.MySettings.EnabledLogBaloon = true;
-            cueRsDir.Text = Globals.MySettings.RSInstalledDir;
-            chkRescanOnStartup.Checked = Globals.MySettings.RescanOnStartup;
-            chkIncludeRS1DLC.Checked = Globals.MySettings.IncludeRS1DLCs;
-            chkEnableLogBallon.Checked = Globals.MySettings.EnabledLogBaloon;
-
+            AppSettings.Instance.Reset();
             Globals.MyLog.Write("Reset settings to defaults ...");
         }
 
         public void SaveSettingsToFile()
         {
-            if (Globals.MySettings == null)
-                ResetSettings();
-
-            Globals.MySettings.RSInstalledDir = cueRsDir.Text;
-            Globals.MySettings.RescanOnStartup = chkRescanOnStartup.Checked;
-            Globals.MySettings.IncludeRS1DLCs = chkIncludeRS1DLC.Checked;
-            Globals.MySettings.EnabledLogBaloon = chkEnableLogBallon.Checked;
-
             if (Globals.DgvSongs != null)
             {
                 var settings = new RADataGridViewSettings();
                 var columns = Globals.DgvSongs.Columns;
-                if (columns.Count > 1) //HACK:dirt
+                if (columns.Count > 1)
                 {
                     for (int i = 0; i < columns.Count; i++)
                     {
                         settings.ColumnOrder.Add(new ColumnOrderItem { ColumnIndex = i, DisplayIndex = columns[i].DisplayIndex, Visible = columns[i].Visible, Width = columns[i].Width, ColumnName = columns[i].Name });
                     }
-                    Globals.MySettings.ManagerGridSettings = settings;
+                    AppSettings.Instance.ManagerGridSettings = settings;
                 }
             }
 
-            var settingsPath = Constants.SettingsPath;
             try
             {
-                using (var fs = new FileStream(settingsPath, FileMode.Create, FileAccess.Write, FileShare.Write))
+                using (var fs = new FileStream(Constants.SettingsPath, FileMode.Create, FileAccess.Write, FileShare.Write))
                 {
-                    Globals.MySettings.SerializeXml(fs);
+                    AppSettings.Instance.SerializeXml(fs);
                     Globals.Log("Saved settings file ...");
-                    fs.Flush();
                 }
+                using (var fs = new FileStream(Constants.GridSettingsPath, FileMode.Create, FileAccess.Write, FileShare.Write))
+                {
+                    AppSettings.Instance.ManagerGridSettings.SerializeXml(fs);
+                    Globals.Log("Saved grid settings file ...");
+                }
+
             }
             catch (Exception ex)
             {
@@ -135,7 +128,7 @@ namespace CustomsForgeManager.UControls
         private void ValidateRsDir()
         {
             // validate Rocksmith installation directory
-            var rsDir = Globals.MySettings.RSInstalledDir;
+            var rsDir = AppSettings.Instance.RSInstalledDir;
             if (String.IsNullOrEmpty(rsDir) || !Directory.Exists(rsDir)) // || rsDir.Text.Contains("Click here"))
             {
                 Globals.Log("Select your Rocksmith installation directory ...");
@@ -151,12 +144,11 @@ namespace CustomsForgeManager.UControls
 
                 if (!Directory.Exists(Path.Combine(cueRsDir.Text, "dlc")))
                 {
-                    MessageBox.Show("Please select a directory that  " + Environment.NewLine +
-                                    "contains a 'dlc' subdirectory.", Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(string.Format("Please select a directory that  {0}contains a 'dlc' subdirectory.",
+                        Environment.NewLine), Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     ValidateRsDir();
                 }
-
-                Globals.MySettings.RSInstalledDir = cueRsDir.Text;
+                AppSettings.Instance.RSInstalledDir = cueRsDir.Text;
             }
         }
 
@@ -190,6 +182,7 @@ namespace CustomsForgeManager.UControls
             using (var fbd = new FolderBrowserDialog())
             {
                 fbd.Description = "Select the RS2014 installation directory";
+                fbd.SelectedPath = GetInstallDirFromRegistry();
 
                 if (fbd.ShowDialog() != DialogResult.OK) return;
                 cueRsDir.Text = fbd.SelectedPath;
@@ -197,16 +190,19 @@ namespace CustomsForgeManager.UControls
 
             if (!Directory.Exists(Path.Combine(cueRsDir.Text, "dlc")))
             {
-                MessageBox.Show("Please select a directory that  " + Environment.NewLine +
-                                "contains a 'dlc' subdirectory.", Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(string.Format("Please select a directory that  {0}contains a 'dlc' subdirectory.", Environment.NewLine),
+                    Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // some UC tabpages that need to be rescanned
+            // rescan on tabpage change
             Globals.RescanSongManager = true;
             Globals.RescanDuplicates = true;
+            Globals.RescanSetlistManager = true;
+            Globals.RescanRenamer = true;
+
             // update RSInstalledDir after above error check passes
-            Globals.MySettings.RSInstalledDir = cueRsDir.Text;
+            AppSettings.Instance.RSInstalledDir = cueRsDir.Text;
         }
 
         private void listDisabledColumns_ItemChecked(object sender, ItemCheckedEventArgs e)
@@ -229,39 +225,16 @@ namespace CustomsForgeManager.UControls
             }
         }
 
-        #region Class Methods
-
         private static string GetInstallDirFromRegistry()
-        {
-            const string rsX64Path = @"HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Ubisoft\Rocksmith2014";
-            const string rsX64Steam = @"HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\Steam App 221680";
-
-            // TODO: confirm the following constants for x86 machines
-            const string rsX86Path = @"HKEY_LOCAL_MACHINE\SOFTWARE\Ubisoft\Rocksmith2014";
-            const string rsX86Steam = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Steam App 221680";
-
-            try
-            {
-                if (!String.IsNullOrEmpty(Registry.GetValue(rsX64Path, "installdir", null).ToString()))
-                    return Registry.GetValue(rsX64Path, "installdir", null).ToString();
-                if (!String.IsNullOrEmpty(Registry.GetValue(rsX64Steam, "InstallLocation", null).ToString()))
-                    return Registry.GetValue(rsX64Steam, "InstallLocation", null).ToString();
-
-                // TODO: confirm the following is correct for x86 machines
-                if (!String.IsNullOrEmpty(Registry.GetValue(rsX86Path, "InstallLocation", null).ToString()))
-                    return Registry.GetValue(rsX86Path, "installdir", null).ToString();
-                if (!String.IsNullOrEmpty(Registry.GetValue(rsX86Steam, "InstallLocation", null).ToString()))
-                    return Registry.GetValue(rsX86Steam, "InstallLocation", null).ToString();
-            }
-            catch (NullReferenceException)
-            {
-                // needed for WinXP SP3 which throws NullReferenceException when registry not found
-                Globals.Log("RS2014 Installation Directory not found in Registry");
-            }
-
-            return String.Empty;
+        {            
+            return Extensions.GetSteamDirectory();
         }
 
-        #endregion
+        private void tbCreator_TextChanged(object sender, EventArgs e)
+        {
+           AppSettings.Instance.CreatorName = tbCreator.Text;
+        }
+
+
     }
 }

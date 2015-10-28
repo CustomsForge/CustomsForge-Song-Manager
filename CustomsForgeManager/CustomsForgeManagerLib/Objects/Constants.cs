@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.IO;
 using System.Reflection;
+using System.Windows.Forms;
 
 namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
 {
@@ -16,45 +17,45 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
 
         public const string RS1COMP = "rs1compatibility";
 
-        public static string ApplicationName { get { return "CustomsForge Song Manager"; } }
-        public static string ApplicationVersion { get { return Assembly.GetExecutingAssembly().GetName().Version.ToString( ); } }
-        public static string WorkDirectory { get { return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "CFM"); } }
+        public const string ApplicationName = "CustomsForge Song Manager";
+        public static string ApplicationVersion { get { return Assembly.GetExecutingAssembly().GetName().Version.ToString(); } }
+        public static string WorkDirectory { get { return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "CFSM"); } }
         public static string LogFilePath { get { return Path.Combine(WorkDirectory, "debug.log"); } }
         public static string SettingsPath { get { return Path.Combine(WorkDirectory, "settings.xml"); } }
+        public static string GridSettingsPath { get { return Path.Combine(WorkDirectory, "gridSettings.xml"); } }
         public static string SongsInfoPath { get { return Path.Combine(WorkDirectory, "songsinfo.xml"); } }
-        public static string SongFilesPath { get { return Path.Combine(WorkDirectory, "songfiles.xml"); } }
+        public static string ApplicationDirectory { get { return Path.GetDirectoryName(Application.ExecutablePath); } }
+        public static string AppIdFilePath { get { return Path.Combine(ApplicationDirectory, "RocksmithToolkitLib.SongAppId.xml"); } }
+        public static string TuningDefFilePath { get { return Path.Combine(ApplicationDirectory, "RocksmithToolkitLib.TuningDefinition.xml"); } }
 
-        public static string DefaultInfoURL
-        {
-            get
-            {
+        public static string TaggerWorkingFolder { get { return Path.Combine(WorkDirectory, "Tagger"); } }
+        public static string TaggerTemplatesFolder { get { return Path.Combine(TaggerWorkingFolder, "templates"); } }
+        public static string TaggerExtractedFolder { get { return Path.Combine(TaggerWorkingFolder, "extracted"); } }
+        public static string TaggerPreviewsFolder { get { return Path.Combine(TaggerWorkingFolder, "previews"); } }
+        #region URL constants
+        public const string CustomsForgeURL = "http://customsforge.com/";
+        public const string CustomsForgeUserURL_Format = CustomsForgeURL + "user/{0}/";
+        public const string CustomsForgeDonateURL = "http://goo.gl/jREeJF";
+        public const string IgnitionURL = "http://ignition.customsforge.com/";
+        public const string EOFURL = IgnitionURL + "/eof";
+        public const string RequestURL = "http://requests.customsforge.com/";
+        public const string DefaultInfoURL =
 #if (DEBUG)
-                return @"http://ignition.dev.customsforge.com/api/search";
+                 @"http://ignition.dev.customsforge.com/api/search";
 #else
-                return @"http://ignition.dev.customsforge.com/api/search";
+                 @"http://ignition.dev.customsforge.com/api/search";
 #endif
-                //return @"http://ignition.customsforge.com/api/search";
-            }
-        }
 
-        public static string DefaultAuthURL
-        {
-            get { return @"http://ignition.dev.customsforge.com/api/auth"; }
-        }
 
-        public static string DefaultDetailsURL
-        {
-            get { return @"http://ignition.dev.customsforge.com/api/details"; }
-        }
+        public const string DefaultAuthURL = "http://ignition.dev.customsforge.com/api/auth";
+        public const string DefaultDetailsURL = "http://ignition.dev.customsforge.com/api/details";
+        public const string DefaultCFSongUrl = CustomsForgeURL + "page/customsforge_rs_2014_cdlc.html/_/pc-enabled-rs-2014-cdlc/";
 
-        public static string DefaultCFSongUrl
-        {
-            get { return @"http://customsforge.com/page/customsforge_rs_2014_cdlc.html/_/pc-enabled-rs-2014-cdlc/"; }
-        }
 
+        #endregion
         public static string CustomVersion()
         {
-            // this can be customized easily wheres ApplicationVersion can not
+            // this can be customized
             return String.Format("{0}.{1}.{2}.{3}",
                                  Assembly.GetExecutingAssembly().GetName().Version.Major,
                                  Assembly.GetExecutingAssembly().GetName().Version.Minor,
@@ -62,10 +63,6 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
                                  Assembly.GetExecutingAssembly().GetName().Version.Revision);
         }
 
-        public static string DefaultSystemDateFormat
-        {
-            get { return CultureInfo.CurrentUICulture.DateTimeFormat.ShortDatePattern; }
-        }
 
     }
 }

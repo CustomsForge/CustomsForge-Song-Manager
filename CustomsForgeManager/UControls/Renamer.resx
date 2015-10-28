@@ -121,7 +121,7 @@
     <value>Example - Using "Space Time" by Gojira.
 
 &lt;title&gt;_&lt;artist&gt; = "dlc/Space Time_Gojira.psarc"
-\\&lt;artist&gt;\\&lt;title&gt;_&lt;artist&gt; = "dlc/Gojira/Space Time_Gojira.psarc"
+&lt;artist&gt;\\&lt;title&gt;_&lt;artist&gt; = "dlc/Gojira/Space Time_Gojira.psarc"
 
 You can add directories as seen above, using "\\".
 

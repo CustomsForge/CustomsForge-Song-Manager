@@ -68,12 +68,17 @@ packages/
 *.testsettings 
 
 #others
-*.jmconfig
-*.bat
 BinForRelease/
-libs/DLogNet/
-libs/AntlrCs/
-Copy of CustomsForgeManager/
 Copy*/
-CustomsForgeManager.sln
+Copy*.*
 
+
+ThirdParty/Dotfuscator/*
+ThirdParty/CFMSetup/Output/*
+
+/ThirdParty/CFMPostBuilder.vshost.exe
+/ThirdParty/CFMPostBuilder.vshost.exe.config
+/ThirdParty/CFMPostBuilder.pdb
+ThirdParty/CFMPostBuilder.vshost.exe.manifest
+ThirdParty/CFMPostBuilder.exe.config
+CleanupBeforeGitPullRequest.bat

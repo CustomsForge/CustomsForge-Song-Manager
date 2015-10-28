@@ -1,24 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
+using System.Xml.Serialization;
 
 namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
 {
     [Serializable]
-    public class SettingsData
-    {
-        public string LogFilePath { get; set; }
-        public string RSInstalledDir { get; set; }
-        public bool RescanOnStartup { get; set; }
-        public bool IncludeRS1DLCs { get; set; }
-        public bool EnableLogBaloon { get; set; }
-        public bool CheckForUpdateOnScan { get; set; }
-        public RADataGridViewSettings ManagerGridSettings { get; set; }
-        public string RenameTemplate { get; set; }
-    }
-
-    [Serializable]
     public class RADataGridViewSettings
     {
+        public const string gridViewSettingsVersion = "1.0";
+        [XmlIgnore]
+        public string LoadedVersion {get; private set;}
+
+        [XmlAttribute]
+        public string GridViewSettingsVersion
+        {
+            get { return gridViewSettingsVersion; }
+            set { this.LoadedVersion = value; }
+        }
+
         List<ColumnOrderItem> columnOrder = new List<ColumnOrderItem>();
         public List<ColumnOrderItem> ColumnOrder
         {
@@ -38,104 +39,93 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
     }
 
     [Serializable]
-    public class AppSettings
+    public class AppSettings : NotifyPropChangedBase
     {
+        string FRSInstalledDir;
+        bool FIncludeRS1DLCs;
+        bool FEnabledLogBaloon;
+        bool FCheckForUpdateOnScan;
+        bool FFullScreen;
+        bool FShowLogwindow;
+        string FCreator;
+        string FRenameTemplate;
 
-        private SettingsData _settingsData;
+        public string LogFilePath { get; set; }
+        public string RSInstalledDir { get { return FRSInstalledDir; } set { SetPropertyField("RSInstalledDir", ref FRSInstalledDir, value); } }
+        public bool IncludeRS1DLCs { get { return FIncludeRS1DLCs; } set { SetPropertyField("IncludeRS1DLCs", ref FIncludeRS1DLCs, value); } }
+        public bool EnabledLogBaloon { get { return FEnabledLogBaloon; } set { SetPropertyField("EnabledLogBaloon", ref FEnabledLogBaloon, value); } }
+        public bool CheckForUpdateOnScan { get { return FCheckForUpdateOnScan; } set { SetPropertyField("CheckForUpdateOnScan", ref FCheckForUpdateOnScan, value); } }
+        [System.Xml.Serialization.XmlIgnore]
+        public RADataGridViewSettings ManagerGridSettings { get; set; }
+        // TODO: need to impliment saving/loading this
+        public string RenameTemplate { get { return FRenameTemplate; } set { SetPropertyField("RenameTemplate", ref FRenameTemplate, value); } }
+        public bool FullScreen { get { return FFullScreen; } set { SetPropertyField("FullScreen", ref FFullScreen, value); } }
+        public bool ShowLogWindow { get { return FShowLogwindow; } set { SetPropertyField("ShowLogWindow", ref FShowLogwindow, value); } }
 
-        //Dictionary<string, List<ColumnOrderItem>> columnOrder = new Dictionary<string, List<ColumnOrderItem>>();
-        //public Dictionary<string, List<ColumnOrderItem>> ColumnOrder
-        //{
-        //    get { return columnOrder as Dictionary<string, List<ColumnOrderItem>>; }
-        //    set { columnOrder = value; }
-        //}
-        public RADataGridViewSettings ManagerGridSettings
+        public string CreatorName { get { return FCreator; } set { SetPropertyField("CreatorName", ref FCreator, value); } }
+
+        //property template
+        //public type PropName { get { return propName; } set { SetPropertyField("PropName", ref propName, value); } }
+
+        private static AppSettings instance;
+
+        public static AppSettings Instance
         {
             get
             {
-                return _settingsData.ManagerGridSettings;
-            }
-            set
-            {
-                if (_settingsData == null)
-                    _settingsData = new SettingsData();
-                _settingsData.ManagerGridSettings = value;
+                if (instance == null)
+                    instance = new AppSettings();
+                return instance;
             }
         }
 
-        public string LogFilePath
+        public void LoadFromFile(string Filename, string GridSettingsFilename)
         {
-            get { return _settingsData.LogFilePath; }
-            set
+            if (File.Exists(Filename))
+                using (var fs = File.OpenRead(Filename))
+                    LoadFromStream(fs);
+            if (!String.IsNullOrEmpty(GridSettingsFilename) && File.Exists(GridSettingsFilename))
             {
-                if (_settingsData == null)
-                    _settingsData = new SettingsData();
-                _settingsData.LogFilePath = value;
+                using (var fs = File.OpenRead(GridSettingsFilename))
+                    ManagerGridSettings = fs.DeserializeXml<RADataGridViewSettings>();
             }
         }
 
-        public string RSInstalledDir
+        public void LoadFromStream(Stream stream)
         {
-            get { return _settingsData.RSInstalledDir; }
-            set
-            {
-                if (_settingsData == null)
-                    _settingsData = new SettingsData();
-                _settingsData.RSInstalledDir = value;
-            }
+            var x = stream.DeserializeXml<AppSettings>();
+            var props = GetType().GetProperties(
+                System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+
+            var emptyObjParams = new object[] { };
+
+            foreach (var p in props)
+                if (p.CanRead && p.CanWrite)
+                {
+                    var ignore = p.GetCustomAttributes(typeof(System.Xml.Serialization.XmlIgnoreAttribute), true).Length > 0;
+                    if (!ignore)
+                        p.SetValue(this, p.GetValue(x, emptyObjParams), emptyObjParams);
+                }
+            Globals.Log("Loaded settings file ...");
         }
 
-        public bool RescanOnStartup
+        public void Reset()
         {
-            get { return _settingsData.RescanOnStartup; }
-            set
-            {
-                if (_settingsData == null)
-                    _settingsData = new SettingsData(){RescanOnStartup = true};
-                _settingsData.RescanOnStartup = value;
-            }
+            Instance.LogFilePath = Constants.LogFilePath;
+            Instance.RSInstalledDir = Extensions.GetSteamDirectory();
+            Instance.IncludeRS1DLCs = false;  // changed to false (fewer issues)
+            Instance.EnabledLogBaloon = false; // fewer notfication issues
+            Instance.ShowLogWindow = Constants.DebugMode;
+            Instance.ManagerGridSettings = new RADataGridViewSettings();
         }
 
-        public bool IncludeRS1DLCs
-        {
-            get { return _settingsData.IncludeRS1DLCs; }
-            set
-            {
-                if (_settingsData == null)
-                    _settingsData = new SettingsData(){IncludeRS1DLCs = true};
-                _settingsData.IncludeRS1DLCs = value;
-            }
-        }
-
-        public bool EnabledLogBaloon
-        {
-            get { return _settingsData.EnableLogBaloon; }
-            set
-            {
-                if (_settingsData == null)
-                    _settingsData = new SettingsData(){EnableLogBaloon = true};
-                _settingsData.EnableLogBaloon = value;
-            }
-        }
-
-        public bool CheckForUpdateOnScan
-        {
-            get { return _settingsData.CheckForUpdateOnScan; }
-            set
-            {
-                if (_settingsData == null)
-                    _settingsData = new SettingsData(){CheckForUpdateOnScan = false};
-                _settingsData.CheckForUpdateOnScan = value;
-            }
-        }
-
-        /// <summary>
         /// Initialise settings with default values
         /// </summary>
-        public AppSettings()
+        private AppSettings()
         {
-            _settingsData = new SettingsData();
-            _settingsData.LogFilePath = Constants.LogFilePath;
+            LogFilePath = Constants.LogFilePath;
         }
+
+
     }
 }

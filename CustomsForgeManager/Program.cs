@@ -2,10 +2,17 @@
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
-using CustomsForgeManager.CustomsForgeManagerLib;
 using CustomsForgeManager.CustomsForgeManagerLib.Objects;
 using CustomsForgeManager.Forms;
 using DLogNet;
+using System.Linq;
+using CustomsForgeManager.CustomsForgeManagerLib;
+#if WINDOWS
+using Mutex = System.Threading.Mutex;
+#else
+using Mutex = CustomsForgeManager.CustomsForgeManagerLib.Mutex;
+#endif
+
 
 namespace CustomsForgeManager
 {
@@ -18,50 +25,86 @@ namespace CustomsForgeManager
         private static void Main()
         {
             // prevent multiple occurrence of this application from running
-            if (!Constants.DebugMode)
-                if (Process.GetProcessesByName(Process.GetCurrentProcess().ProcessName).Length > 1)
-                    return;
-
-            if (FirstRun() && !Constants.DebugMode)
+            //using a global mutex for the installer
+            using (Mutex mutex = new Mutex(false, @"Global\CUSTOMSFORGESONGMANAGER"))
             {
-                if (Directory.Exists(Constants.WorkDirectory))
-                    Directory.Delete(Constants.WorkDirectory, true);
-
-                using (TextWriter tw = new StreamWriter(Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "ReleaseNotes.txt"), true))
-                {
-                    tw.Write("notfirstrun"); // IMPORTANT no CRLF added to end
-                    tw.WriteLine(Environment.NewLine + Environment.NewLine + "notfirstrun");  // causes CRLF to be added
-                    tw.Close();
+                if (!mutex.WaitOne(0, false))
+                {                    
+                    var pHandle = CrossPlatform.GetHandleFromProcessName(Application.ExecutablePath);
+                    if (pHandle != IntPtr.Zero)
+                    {
+                        //restore the window if minimized
+                        CrossPlatform.ShowWindow(pHandle, 9);
+                        //bring it to the front
+                        CrossPlatform.SetForegroundWindow(pHandle);
+                    }
+                    return;
                 }
+
+                if (!Directory.Exists(Constants.WorkDirectory))
+                    Directory.CreateDirectory(Constants.WorkDirectory);
+
+
+                if (RemoveGridSettings())
+                    File.Delete(Constants.GridSettingsPath);
+
+                RunApp();
             }
+        }
 
+
+        private static void RunApp()
+        {
             DLogger myLog = new DLogger();
-            AppSettings mySettings = new AppSettings();
-            myLog.AddTargetFile(mySettings.LogFilePath);
+            myLog.AddTargetFile(AppSettings.Instance.LogFilePath);
 
-            try
+            if (Constants.DebugMode)// have VS handle the exception
             {
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
-                Application.Run(new frmMain(myLog, mySettings));
+                Application.Run(new frmMain(myLog));
             }
-            catch (Exception ex)
+            else
             {
-                Globals.Log(String.Format("{0} {1}", "Exception:", ex.Message));
-                Process.Start(Globals.MySettings.LogFilePath);
+                try
+                {
+                    Application.EnableVisualStyles();
+                    Application.SetCompatibleTextRenderingDefault(false);
+                    Application.Run(new frmMain(myLog));
+                }
+                catch (Exception ex)
+                {
+                    //a more detailed exception message
+                    var exMessage = String.Format("Exception({0}): {1}", ex.GetType().Name, ex.Message);
+                    if (ex.InnerException != null)
+                        exMessage += String.Format(", InnerException({0}): {1}", ex.InnerException.GetType().Name, ex.InnerException.Message);
+                    Globals.MyLog.Write(exMessage);
+                    Process.Start(AppSettings.Instance.LogFilePath);
+                }
             }
         }
 
-        private static bool FirstRun()
+        public static bool RemoveGridSettings()
         {
-            if (Path.GetDirectoryName(Application.ExecutablePath) == null)
-                throw new Exception("Can not find application directory.");
-
-            if (!File.ReadAllText(Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "ReleaseNotes.txt")).Contains("notfirstrun"))
-                return true;
-
+            if (!File.Exists(Constants.GridSettingsPath))
+                return false;
+            using (var fs = File.OpenRead(Constants.GridSettingsPath))
+            {
+                try
+                {
+                    var gs = fs.DeserializeXml<RADataGridViewSettings>();
+                    if (gs.LoadedVersion == null)
+                        return true;
+                    if (gs.LoadedVersion != RADataGridViewSettings.gridViewSettingsVersion)
+                        return true;
+                }
+                catch (Exception)
+                {
+                    return true;
+                }
+            }
             return false;
         }
-
+        
     }
 }

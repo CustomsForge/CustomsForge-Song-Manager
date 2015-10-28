@@ -1,0 +1,26 @@
+CFM General Help
+-----------------
+
+Application Purpose
+-------------------
+TODO
+
+Tabmenu Features
+----------------
+
+Song Manager
+Duplicates
+Renamer
+Setlist Manager
+Settings
+About
+
+
+Disclamers
+----------
+TODO
+
+
+
+
+
