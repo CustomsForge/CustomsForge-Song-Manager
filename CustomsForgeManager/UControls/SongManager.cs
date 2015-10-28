@@ -23,7 +23,7 @@ namespace CustomsForgeManager.UControls
 {
     public partial class SongManager : UserControl, IDataGridViewHolder
     {
-        private bool allSelected = false;
+        private bool allSelected = true;
         private AbortableBackgroundWorker bWorker;
         private bool bindingCompleted = false;
         private Stopwatch counterStopwatch = new Stopwatch();
@@ -373,9 +373,16 @@ namespace CustomsForgeManager.UControls
             }
         }
 
+        public SongData GetSongByRow(int RowIndex)
+        {
+            if (RowIndex == -1)
+                return null;
+            return (SongData)dgvSongsMaster.Rows[RowIndex].DataBoundItem;
+        }
+
         private SongData GetSongByRow(DataGridViewRow dataGridViewRow)
         {
-            return masterSongCollection.Distinct().FirstOrDefault(x => x.Title == dataGridViewRow.Cells["Song"].Value.ToString() && x.Artist == dataGridViewRow.Cells["Artist"].Value.ToString() && x.Album == dataGridViewRow.Cells["Album"].Value.ToString() && x.Path == dataGridViewRow.Cells["Path"].Value.ToString());
+            return (SongData)dataGridViewRow.DataBoundItem;
         }
 
         private void LoadFilteredBindingList(IList<SongData> list)
@@ -533,7 +540,6 @@ namespace CustomsForgeManager.UControls
             if (dgvSongsMaster.SelectedRows.Count > 0)
             {
                 var song = GetFirstSelected();
-
                 if (song != null)
                 {
                     frmSongInfo infoWindow = new frmSongInfo(song);
@@ -547,14 +553,11 @@ namespace CustomsForgeManager.UControls
         public SongData GetFirstSelected()
         {
             if (dgvSongsMaster.SelectedRows.Count > 0)
-            {
-                var selectedRow = dgvSongsMaster.SelectedRows[0];
-                var artistTitleAlbum = selectedRow.Cells["colArtistTitleAlbum"].Value.ToString();
-                var path = selectedRow.Cells["colPath"].Value.ToString();
-                return masterSongCollection.FirstOrDefault(x => x.ArtistTitleAlbum == artistTitleAlbum && x.Path == path);
-            }
+                return GetSongByRow(dgvSongsMaster.SelectedRows[0]);
             return null;
         }
+
+
 
         public List<SongData> GetSelectedSongs()
         {
@@ -564,17 +567,9 @@ namespace CustomsForgeManager.UControls
             // uncommented code from dgvSongsMaster_CellMouseUp to make it detectable
             foreach (DataGridViewRow row in dgvSongsMaster.Rows)
             {
-                var stop = Convert.ToBoolean(row.Cells["colSelect"].Value);
-
-                if (Convert.ToBoolean(row.Cells["colSelect"].Value))
-                {
-                    var song = masterSongCollection.FirstOrDefault(x =>
-                        x.ArtistTitleAlbum == row.Cells["colArtistTitleAlbum"].Value.ToString() &&
-                        x.Path == row.Cells["colPath"].Value.ToString());
-
-                    if (song != null)
-                        SelectedSongs.Add(song);
-                }
+                var sd = GetSongByRow(row);
+                if (sd != null &&  sd.Selected)
+                    SelectedSongs.Add(sd);
             }
             return SelectedSongs;
         }
@@ -1107,7 +1102,10 @@ namespace CustomsForgeManager.UControls
 
                         else // required to force selected row change
                         {
-                            dgvSongsMaster.EndEdit();
+                            TemporaryDisableDatabindEvent(() =>
+                               {
+                                   dgvSongsMaster.EndEdit();
+                               });
                         }
                     }
 
@@ -1209,13 +1207,13 @@ namespace CustomsForgeManager.UControls
         {
             if (e.Modifiers == Keys.Control && e.KeyCode == Keys.A)
             {
-                foreach (DataGridViewRow row in dgvSongsMaster.Rows)
+                TemporaryDisableDatabindEvent(() =>
                 {
-                    if (allSelected)
-                        row.Cells["colSelect"].Value = false;
-                    else
-                        row.Cells["colSelect"].Value = true;
-                }
+                    for (int i = 0; i < dgvSongsMaster.Rows.Count; i++)
+                    {
+                        GetSongByRow(i).Selected = allSelected;
+                    }
+                });
                 allSelected = !allSelected;
             }
         }
@@ -1238,10 +1236,24 @@ namespace CustomsForgeManager.UControls
             RemoveFilter();
         }
 
+        private void TemporaryDisableDatabindEvent(Action action)
+        {
+            dgvSongsMaster.DataBindingComplete -= dgvSongsMaster_DataBindingComplete;
+            action();
+            dgvSongsMaster.DataBindingComplete += dgvSongsMaster_DataBindingComplete;
+        }
+
         private void lnkLblSelectAll_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            foreach (DataGridViewRow row in dgvSongsMaster.Rows)
-                row.Cells["colSelect"].Value = !allSelected;
+            TemporaryDisableDatabindEvent(() =>
+            {
+                for (int i = 0; i < dgvSongsMaster.Rows.Count; i++)
+                {
+                    GetSongByRow(i).Selected = allSelected;
+                }
+            });
+            allSelected = !allSelected;
+            
         }
 
         private void lnkShowAll_Click(object sender, EventArgs e)
@@ -1261,7 +1273,7 @@ namespace CustomsForgeManager.UControls
 
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle()
             {
-                BackColor = Color.FromArgb(224, 224, 224)
+                BackColor = Color.DarkGray
             };
             dgvSongsMaster.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
 

@@ -1,4 +1,6 @@
 CFM Release Notes
+1.0.7.3
+-Fixed selection bug in songmanager
 
 1.0.7.2
 -Changed SongData to inherit NotifyPropChangedBase
