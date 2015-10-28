@@ -205,8 +205,6 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
 
             if (File.Exists(song.Path)) //Just to be sure :)
             {
-               
-
                 string songPath = song.Path;
                 using (PSARC archive = new PSARC())
                 {
@@ -241,7 +239,6 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
                     var albumMidArtEntry = archive.TOC.FirstOrDefault(entry => entry.Name.EndsWith("128.dds"));
                     var albumBigArtEntry = archive.TOC.FirstOrDefault(entry => entry.Name.EndsWith("256.dds"));
                     albumBigArtEntry.Data.Position = 0;
-
 
                     //var albumArtDDS = new DDSImage(albumBigArtEntry.Data);
                     var bigAlbumArt = ImageExtensions.DDStoBitmap(albumBigArtEntry.Data); // albumArtDDS.images[0];
@@ -318,8 +315,8 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
                     albumBigArtEntry.Data.Dispose();
                     largeDDS.Position = 0;
                     albumBigArtEntry.Data = largeDDS;
-                    archive.TOC.Insert(0, new Entry() { Name = "NamesBlock.bin" });
 
+                    archive.TOC.Insert(0, new Entry() { Name = "NamesBlock.bin" });
                     archive.AddEntry("tagger.org", orginalArtStream);
                     songPath = song.Path;
 
@@ -345,14 +342,12 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
                 TagSong(song, images);
         }
 
-        public void UntagSong(SongData song,PSARC archive)
+        public void UntagSong(SongData song, PSARC archive)
         {
             if (File.Exists(song.Path)) //Just to be sure :)
             {
                 if (song.Tagged)
                     Globals.Log("Untagging song: " + song.Title);
-                else
-                    return;
 
                 var toolKitEntry = archive.TOC.FirstOrDefault(entry => entry.Name == "toolkit.version");
                 var taggerOriginal = archive.TOC.FirstOrDefault(entry => entry.Name == "tagger.org");
@@ -376,7 +371,6 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
                 }
 
                 song.Tagged = false;
-
                 Globals.Log("Finished untagging song ...");
             }
         }
@@ -384,21 +378,22 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
 
         public void UntagSong(SongData song)
         {
+            if (!song.Tagged)
+                return;
+
             if (File.Exists(song.Path)) //Just to be sure :)
             {
-                if (song.Tagged)
-                    Globals.Log("Untagging song: " + song.Title);
-                else
-                    return;
-
                 using (PSARC archive = new PSARC())
                 {
                     using (var fs = File.OpenRead(song.Path))
                         archive.Read(fs);
+
                     UntagSong(song, archive);
                     archive.TOC.Insert(0, new Entry() { Name = "NamesBlock.bin" });
+
                     using (var FS = File.Create(song.Path))
                         archive.Write(FS, true);
+
                     song.FileDate = File.GetLastWriteTimeUtc(song.Path);
                 }
             }

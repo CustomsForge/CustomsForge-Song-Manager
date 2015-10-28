@@ -202,7 +202,9 @@ namespace CFMPostBuilder
                                     lines.RemoveAll(m => m.StartsWith("VisualStudioVersion"));
                                     lines.RemoveAll(m => m.StartsWith("MinimumVisualStudioVersion"));
                                     File.WriteAllLines(slnFile, lines.ToArray());
+                                    Console.ForegroundColor = ConsoleColor.Red;
                                     Console.WriteLine("Converted :" + Path.GetFileName(slnFile));
+                                    Console.ForegroundColor = ConsoleColor.Green;
                                     convertedCount++;
                                 }
                             }
@@ -227,7 +229,9 @@ namespace CFMPostBuilder
                                     lines[idx] = "<Project DefaultTargets=\"Build\" xmlns=\"http://schemas.microsoft.com/developer/msbuild/2003\" ToolsVersion=\"4.0\">";
                                     lines.RemoveAll(m => m.StartsWith("<Import Project=\"$(MSBuildExtensionsPath)"));
                                     File.WriteAllLines(csprojFile, lines.ToArray());
+                                    Console.ForegroundColor = ConsoleColor.Red;
                                     Console.WriteLine("Converted :" + Path.GetFileName(csprojFile));
+                                    Console.ForegroundColor = ConsoleColor.Green;
                                     convertedCount++;
                                 }
                             }
@@ -237,6 +241,7 @@ namespace CFMPostBuilder
                     Console.WriteLine("");
                     Console.WriteLine("Converted: " + convertedCount + " of " + fileCount + " files.");
                     Console.WriteLine("Done converting");
+                    Console.WriteLine("");
                     Console.WriteLine("Press any key to continue");
                     Console.ReadLine();
                     break;

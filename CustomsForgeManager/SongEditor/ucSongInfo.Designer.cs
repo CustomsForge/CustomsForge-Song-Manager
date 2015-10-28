@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.gbSongInfo = new System.Windows.Forms.GroupBox();
+            this.cbLowBass = new System.Windows.Forms.CheckBox();
             this.label15 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.txtCharter = new System.Windows.Forms.TextBox();
@@ -58,7 +59,6 @@
             this.cmbPreviewVolume = new System.Windows.Forms.NumericUpDown();
             this.cmbSongVolume = new System.Windows.Forms.NumericUpDown();
             this.label3 = new System.Windows.Forms.Label();
-            this.cbLowBass = new System.Windows.Forms.CheckBox();
             this.gbSongInfo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cmbPreviewVolume)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmbSongVolume)).BeginInit();
@@ -97,13 +97,23 @@
             this.gbSongInfo.Controls.Add(this.cmbSongVolume);
             this.gbSongInfo.Controls.Add(this.label3);
             this.gbSongInfo.ForeColor = System.Drawing.SystemColors.ActiveCaption;
-            this.gbSongInfo.Location = new System.Drawing.Point(0, 0);
+            this.gbSongInfo.Location = new System.Drawing.Point(17, 16);
             this.gbSongInfo.Name = "gbSongInfo";
             this.gbSongInfo.Padding = new System.Windows.Forms.Padding(0);
             this.gbSongInfo.Size = new System.Drawing.Size(515, 348);
             this.gbSongInfo.TabIndex = 82;
             this.gbSongInfo.TabStop = false;
             this.gbSongInfo.Text = "Song Information";
+            // 
+            // cbLowBass
+            // 
+            this.cbLowBass.AutoSize = true;
+            this.cbLowBass.Location = new System.Drawing.Point(102, 312);
+            this.cbLowBass.Name = "cbLowBass";
+            this.cbLowBass.Size = new System.Drawing.Size(124, 17);
+            this.cbLowBass.TabIndex = 103;
+            this.cbLowBass.Text = "Fix Low Bass Tuning";
+            this.cbLowBass.UseVisualStyleBackColor = true;
             // 
             // label15
             // 
@@ -440,22 +450,12 @@
             this.label3.TabIndex = 63;
             this.label3.Text = "dB";
             // 
-            // cbLowBass
-            // 
-            this.cbLowBass.AutoSize = true;
-            this.cbLowBass.Location = new System.Drawing.Point(102, 312);
-            this.cbLowBass.Name = "cbLowBass";
-            this.cbLowBass.Size = new System.Drawing.Size(124, 17);
-            this.cbLowBass.TabIndex = 103;
-            this.cbLowBass.Text = "Fix Low Bass Tuning";
-            this.cbLowBass.UseVisualStyleBackColor = true;
-            // 
             // ucSongInfo
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.gbSongInfo);
             this.Name = "ucSongInfo";
-            this.Size = new System.Drawing.Size(515, 351);
+            this.Size = new System.Drawing.Size(550, 385);
             this.gbSongInfo.ResumeLayout(false);
             this.gbSongInfo.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cmbPreviewVolume)).EndInit();

@@ -1111,6 +1111,8 @@ namespace CustomsForgeManager.UControls
                                 grid.Rows[e.RowIndex].Cells["colSelect"].Value = false;
                             else
                                 grid.Rows[e.RowIndex].Cells["colSelect"].Value = true;
+
+                            grid.Rows[e.RowIndex].Selected = true;
                         }
                     }
 
@@ -1288,7 +1290,7 @@ namespace CustomsForgeManager.UControls
             }
         }
 
-       private void dgvSongsMaster_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        private void dgvSongsMaster_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             if (e.ColumnIndex == colBass.Index ||
                 e.ColumnIndex == colVocals.Index ||

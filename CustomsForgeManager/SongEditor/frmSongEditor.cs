@@ -28,6 +28,7 @@ namespace CustomsForgeManager.SongEditor
             if (String.IsNullOrEmpty(songPath))
                 return;
 
+            Globals.Log("Loading song information from: " + Path.GetFileName(songPath));
             Cursor.Current = Cursors.WaitCursor;
             Globals.TsProgressBar_Main.Value = 10;
             InitializeComponent();
@@ -39,6 +40,8 @@ namespace CustomsForgeManager.SongEditor
             LoadSongInfo();
             Globals.TsProgressBar_Main.Value = 100;
             Cursor.Current = Cursors.Default;
+            Globals.Log("Song information loaded ... ");
+
         }
 
         private bool Dirty
@@ -49,6 +52,7 @@ namespace CustomsForgeManager.SongEditor
 
         private void Save(string outputPath)
         {
+            Globals.Log("Saving song information for: " + Path.GetFileName(outputPath));
             Cursor.Current = Cursors.WaitCursor;
             tsProgressBar.Value = 30;
 
@@ -120,6 +124,7 @@ namespace CustomsForgeManager.SongEditor
             {
                 tsProgressBar.Value = 100;
                 Cursor.Current = Cursors.Default;
+                Globals.Log("Song information saved ... ");
                 Globals.RescanSongManager = true;
             }
 
