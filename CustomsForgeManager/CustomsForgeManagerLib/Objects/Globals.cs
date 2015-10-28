@@ -157,6 +157,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         public static ToolStripStatusLabel TsLabel_MainMsg { get; set; }
         public static ToolStripStatusLabel TsLabel_StatusMsg { get; set; }
         public static ToolStripProgressBar TsProgressBar_Main { get; set; }
+        public static ToolStripComboBox TsComboBox_TaggerThemes { get; set; }
 
         public static Utilities Utilities
         {

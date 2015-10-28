@@ -33,6 +33,7 @@ namespace CustomsForgeManager.UControls
                 ForeColor = ErrorStyleForeColor,
                 BackColor = ErrorStyleBackColor
             };
+
             txtNoDuplicates.Visible = false;
             btnMove.Click += DeleteMoveSelected;
             btnDeleteSong.Click += DeleteMoveSelected;
@@ -132,7 +133,16 @@ namespace CustomsForgeManager.UControls
                 PopulateDuplicates();
             }
 
-            txtNoDuplicates.Visible = dgvDups.Rows.Count == 0;
+            if (dgvDups.Rows.Count == 0)
+            {
+                dgvDups.ColumnHeadersVisible = false;
+                txtNoDuplicates.Visible = true;
+            }
+            else
+            {
+                dgvDups.ColumnHeadersVisible = true;
+                txtNoDuplicates.Visible = false;
+            }
 
             Globals.TsLabel_MainMsg.Text = string.Format(CustomsForgeManager.Properties.Resources.RocksmithSongsCountFormat, Globals.SongCollection.Count);
             Globals.TsLabel_MainMsg.Visible = true;
@@ -551,7 +561,7 @@ namespace CustomsForgeManager.UControls
             Globals.DebugLog(String.Format("{0}, row:{1},col:{2}", e.Exception.Message, e.RowIndex, e.ColumnIndex));
             e.Cancel = true;
         }
- 
+
 
     }
 }

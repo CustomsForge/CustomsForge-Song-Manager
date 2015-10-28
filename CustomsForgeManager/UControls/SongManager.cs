@@ -41,9 +41,9 @@ namespace CustomsForgeManager.UControls
             Leave += SongManager_Leave;
             PopulateSongManager();
 #if TAGGER
-            tsTager.Visible = true;
+            cmsTaggerPreview.Visible = true;
 #else
-            tsTager.Visible = false;
+            cmsTagerPreview.Visible = false;
 #endif
         }
 
@@ -126,10 +126,11 @@ namespace CustomsForgeManager.UControls
         {
             Globals.Log("Populating SongManager GUI ...");
 #if TAGGER
-            tsTager.DropDownItems.Clear();
+            // TODO: for maintainablity consider moving this custom EH to a conventional cmsTaggerPrevew_Click event handler
+            cmsTaggerPreview.DropDownItems.Clear();
             foreach (string tagPreview in Directory.EnumerateFiles(Constants.TaggerTemplatesFolder, "*.png").Where(file => file.ToLower().Contains("prev")))
             {
-                var tsi = tsTager.DropDownItems.Add(Path.GetFileName(tagPreview).Replace(@"Tagger\", "").Replace("prev.png", ""));
+                var tsi = cmsTaggerPreview.DropDownItems.Add(Path.GetFileName(tagPreview).Replace(@"Tagger\", "").Replace("prev.png", ""));
                 tsi.Click += (s, e) =>
                 {
                     var sel = GetFirstSelected();
@@ -137,11 +138,15 @@ namespace CustomsForgeManager.UControls
                     {
                         var old = Globals.Tagger.ThemeName;
                         Globals.Tagger.ThemeName = ((ToolStripItem)s).Text;
+                        // update tscbTaggerThemes combo based on ((ToolStripItem)s).Text selection                        
+                        Globals.TsComboBox_TaggerThemes.SelectedItem = ((ToolStripItem)s).Text;
+
                         var img = Globals.Tagger.Preview(sel);
                         if (img != null)
                         {
                             using (Form f = new Form())
                             {
+                                f.Text = "Tagger Preview of " + ((ToolStripItem)s).Text;
                                 f.StartPosition = FormStartPosition.CenterParent;
                                 f.ShowIcon = false;
                                 f.MaximizeBox = false;
@@ -1283,7 +1288,7 @@ namespace CustomsForgeManager.UControls
             }
         }
 
-        private void dgvSongsMaster_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+       private void dgvSongsMaster_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             if (e.ColumnIndex == colBass.Index ||
                 e.ColumnIndex == colVocals.Index ||

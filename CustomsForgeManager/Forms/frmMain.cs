@@ -16,19 +16,33 @@ namespace CustomsForgeManager.Forms
     {
         private static Point UCLocation = new Point(5, 10);
         private static Size UCSize = new Size(990, 490);
+        /* This code does not seem to be used, removal is pending
         private static NotifyIcon notifier;
         private static ToolStripLabel tsCancel;
         private static ToolStripLabel tsDisabledCounter;
         private static ToolStripLabel tsMainMsg;
         private static ToolStripProgressBar tsProgressBar;
         private static ToolStripLabel tsStatusMsg;
+        private static ToolStripComboBox tsTaggerThemes ;
+        */
+
         public Control currentControl = null;
 
 
         public frmMain(DLogNet.DLogger myLog)
         {
             InitializeComponent();
-
+            // prevent toolstrip from growing/changing at runtime
+            // toolstrip may appear changed in design mode (this is a known VS bug)
+            TopToolStripPanel.MaximumSize = new Size(0, 28); // force height and makes tsLable_Tagger positioning work
+            //tsUtilities.LayoutStyle = ToolStripLayoutStyle.Flow; // no grips
+            //tsTagger.LayoutStyle = ToolStripLayoutStyle.Flow; // no grips
+            tsUtilities.AutoSize = false; // a key to preventing movement
+            tsTagger.AutoSize = false; // a key to preventing movement
+            tsUtilities.Location = new Point(0, 0); // force location
+            tsTagger.Location = new Point(tsUtilities.Width + 10, 0); // force location
+            //tsUtilities.CanOverflow = false;
+            //tsTagger.CanOverflow = false;
 
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);
             this.FormClosing += frmMain_FormClosing;
@@ -61,6 +75,7 @@ namespace CustomsForgeManager.Forms
             Globals.TsLabel_StatusMsg = this.tsLabel_StatusMsg;
             Globals.TsLabel_DisabledCounter = this.tsLabel_DisabledCounter;
             Globals.TsLabel_Cancel = this.tsLabel_Cancel;
+            Globals.TsComboBox_TaggerThemes = this.tscbTaggerThemes;
             Globals.ResetToolStripGlobals();
             Globals.MyLog.AddTargetTextBox(tbLog);
 
@@ -118,12 +133,13 @@ namespace CustomsForgeManager.Forms
 #if !TAGGER
             toolstripTagger.Visible = false;
 #else
-            toolstripTagger.Visible = true;
+            tsTagger.Visible = true;
             tsButtonTagSelected.Click += tsButtonTagSelected_Click;
             tsButtonUntagSelection.Click += tsButtonUntagSelection_Click;
 
             tscbTaggerThemes.Items.AddRange(Globals.Tagger.Themes.ToArray());
             tscbTaggerThemes.SelectedIndex = 0;
+            // tscbTaggerThemes.SelectedItem = Globals.Tagger.ThemeName;
             tscbTaggerThemes.SelectedIndexChanged += (s, e) =>
             {
                 if (tscbTaggerThemes.SelectedItem != null)
@@ -349,41 +365,51 @@ namespace CustomsForgeManager.Forms
             ShowHideLog();
         }
 
-        public static NotifyIcon Notifier
-        {
-            get { return notifier; }
-            set { notifier = value; }
-        }
+        /* This code does not seem to be used, removal is pending
+                public static NotifyIcon Notifier
+                {
+                    get { return notifier; }
+                    set { notifier = value; }
+                }
 
-        public static ToolStripLabel TsCancel
-        {
-            get { return tsCancel; }
-            set { tsCancel = value; }
-        }
+                public static ToolStripLabel TsCancel
+                {
+                    get { return tsCancel; }
+                    set { tsCancel = value; }
+                }
 
-        public static ToolStripLabel TsDisabledCounter
-        {
-            get { return tsDisabledCounter; }
-            set { tsDisabledCounter = value; }
-        }
+                public static ToolStripLabel TsDisabledCounter
+                {
+                    get { return tsDisabledCounter; }
+                    set { tsDisabledCounter = value; }
+                }
 
-        public static ToolStripLabel TsMainMsg
-        {
-            get { return tsMainMsg; }
-            set { tsMainMsg = value; }
-        }
+                public static ToolStripLabel TsMainMsg
+                {
+                    get { return tsMainMsg; }
+                    set { tsMainMsg = value; }
+                }
 
-        public static ToolStripProgressBar TsProgressBar
-        {
-            get { return tsProgressBar; }
-            set { tsProgressBar = value; }
-        }
+                public static ToolStripProgressBar TsProgressBar
+                {
+                    get { return tsProgressBar; }
+                    set { tsProgressBar = value; }
+                }
 
-        public static ToolStripLabel TsStatusMsg
-        {
-            get { return tsStatusMsg; }
-            set { tsStatusMsg = value; }
-        }
+                public static ToolStripLabel TsStatusMsg
+                {
+                    get { return tsStatusMsg; }
+                    set { tsStatusMsg = value; }
+                }
+
+                public static ToolStripComboBox TsTaggerThemes
+                {
+                    get { return tsTaggerThemes; }
+                    set { tsTaggerThemes = value; }
+                }
+  
+                */
+
 #if TAGGER
         private void TaggerProgress(object sender, TaggerProgress e)
         {
