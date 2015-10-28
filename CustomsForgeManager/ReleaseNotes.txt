@@ -1,5 +1,8 @@
 CFM Release Notes
 
+1.0.7.1
+-Added a ClickOnceUpgrade form for user to upgrade to the latest version with the new installer.
+
 1.0.7.0
 -Added new VS configurations (PublishBeta, PublishRelease)
 -Added the new server info to the program and installer

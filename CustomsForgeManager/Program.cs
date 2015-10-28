@@ -55,31 +55,44 @@ namespace CustomsForgeManager
 
         private static void RunApp()
         {
-            DLogger myLog = new DLogger();
-            myLog.AddTargetFile(AppSettings.Instance.LogFilePath);
-
-            if (Constants.DebugMode)// have VS handle the exception
+#if RELEASE
+            if (System.Deployment.Application.ApplicationDeployment.IsNetworkDeployed)
             {
+
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
-                Application.Run(new frmMain(myLog));
+                Application.Run(new ClickOnceUpgrade());
             }
             else
+#endif
             {
-                try
+
+                DLogger myLog = new DLogger();
+                myLog.AddTargetFile(AppSettings.Instance.LogFilePath);
+
+                if (Constants.DebugMode)// have VS handle the exception
                 {
                     Application.EnableVisualStyles();
                     Application.SetCompatibleTextRenderingDefault(false);
                     Application.Run(new frmMain(myLog));
                 }
-                catch (Exception ex)
+                else
                 {
-                    //a more detailed exception message
-                    var exMessage = String.Format("Exception({0}): {1}", ex.GetType().Name, ex.Message);
-                    if (ex.InnerException != null)
-                        exMessage += String.Format(", InnerException({0}): {1}", ex.InnerException.GetType().Name, ex.InnerException.Message);
-                    Globals.MyLog.Write(exMessage);
-                    Process.Start(AppSettings.Instance.LogFilePath);
+                    try
+                    {
+                        Application.EnableVisualStyles();
+                        Application.SetCompatibleTextRenderingDefault(false);
+                        Application.Run(new frmMain(myLog));
+                    }
+                    catch (Exception ex)
+                    {
+                        //a more detailed exception message
+                        var exMessage = String.Format("Exception({0}): {1}", ex.GetType().Name, ex.Message);
+                        if (ex.InnerException != null)
+                            exMessage += String.Format(", InnerException({0}): {1}", ex.InnerException.GetType().Name, ex.InnerException.Message);
+                        Globals.MyLog.Write(exMessage);
+                        Process.Start(AppSettings.Instance.LogFilePath);
+                    }
                 }
             }
         }
