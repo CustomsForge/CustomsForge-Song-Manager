@@ -1,6 +1,8 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.40629.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomsForgeManager", "CustomsForgeManager\CustomsForgeManager.csproj", "{25E15C6A-AEAE-4958-80EA-44062DF402F7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CFMImageTools", "CustomForgeManagerTools\CFMImageTools\CFMImageTools.csproj", "{E6565985-C477-46F4-8A42-08E04CD40B65}"
@@ -18,6 +20,8 @@ Global
 		ConfuserExRelease|x86 = ConfuserExRelease|x86
 		Debug|x86 = Debug|x86
 		InnoInstaller|x86 = InnoInstaller|x86
+		PublishBeta|x86 = PublishBeta|x86
+		PublishRelease|x86 = PublishRelease|x86
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
@@ -27,14 +31,22 @@ Global
 		{25E15C6A-AEAE-4958-80EA-44062DF402F7}.Debug|x86.Build.0 = Debug|x86
 		{25E15C6A-AEAE-4958-80EA-44062DF402F7}.InnoInstaller|x86.ActiveCfg = InnoInstaller|x86
 		{25E15C6A-AEAE-4958-80EA-44062DF402F7}.InnoInstaller|x86.Build.0 = InnoInstaller|x86
+		{25E15C6A-AEAE-4958-80EA-44062DF402F7}.PublishBeta|x86.ActiveCfg = PublishBeta|x86
+		{25E15C6A-AEAE-4958-80EA-44062DF402F7}.PublishBeta|x86.Build.0 = PublishBeta|x86
+		{25E15C6A-AEAE-4958-80EA-44062DF402F7}.PublishRelease|x86.ActiveCfg = PublishRelease|x86
+		{25E15C6A-AEAE-4958-80EA-44062DF402F7}.PublishRelease|x86.Build.0 = PublishRelease|x86
 		{25E15C6A-AEAE-4958-80EA-44062DF402F7}.Release|x86.ActiveCfg = Release|x86
 		{25E15C6A-AEAE-4958-80EA-44062DF402F7}.Release|x86.Build.0 = Release|x86
-		{E6565985-C477-46F4-8A42-08E04CD40B65}.ConfuserExRelease|x86.ActiveCfg = ConfuserExRelease|x86
-		{E6565985-C477-46F4-8A42-08E04CD40B65}.ConfuserExRelease|x86.Build.0 = ConfuserExRelease|x86
+		{E6565985-C477-46F4-8A42-08E04CD40B65}.ConfuserExRelease|x86.ActiveCfg = Release|x86
+		{E6565985-C477-46F4-8A42-08E04CD40B65}.ConfuserExRelease|x86.Build.0 = Release|x86
 		{E6565985-C477-46F4-8A42-08E04CD40B65}.Debug|x86.ActiveCfg = Debug|x86
 		{E6565985-C477-46F4-8A42-08E04CD40B65}.Debug|x86.Build.0 = Debug|x86
 		{E6565985-C477-46F4-8A42-08E04CD40B65}.InnoInstaller|x86.ActiveCfg = InnoInstaller|x86
 		{E6565985-C477-46F4-8A42-08E04CD40B65}.InnoInstaller|x86.Build.0 = InnoInstaller|x86
+		{E6565985-C477-46F4-8A42-08E04CD40B65}.PublishBeta|x86.ActiveCfg = PublishBeta|x86
+		{E6565985-C477-46F4-8A42-08E04CD40B65}.PublishBeta|x86.Build.0 = PublishBeta|x86
+		{E6565985-C477-46F4-8A42-08E04CD40B65}.PublishRelease|x86.ActiveCfg = PublishRelease|x86
+		{E6565985-C477-46F4-8A42-08E04CD40B65}.PublishRelease|x86.Build.0 = PublishRelease|x86
 		{E6565985-C477-46F4-8A42-08E04CD40B65}.Release|x86.ActiveCfg = Release|x86
 		{E6565985-C477-46F4-8A42-08E04CD40B65}.Release|x86.Build.0 = Release|x86
 		{5A4B4B14-D3B5-4D54-80EC-0877C1E6E73A}.ConfuserExRelease|x86.ActiveCfg = ConfuserExRelease|x86
@@ -43,6 +55,10 @@ Global
 		{5A4B4B14-D3B5-4D54-80EC-0877C1E6E73A}.Debug|x86.Build.0 = Debug|x86
 		{5A4B4B14-D3B5-4D54-80EC-0877C1E6E73A}.InnoInstaller|x86.ActiveCfg = InnoInstaller|x86
 		{5A4B4B14-D3B5-4D54-80EC-0877C1E6E73A}.InnoInstaller|x86.Build.0 = InnoInstaller|x86
+		{5A4B4B14-D3B5-4D54-80EC-0877C1E6E73A}.PublishBeta|x86.ActiveCfg = PublishBeta|x86
+		{5A4B4B14-D3B5-4D54-80EC-0877C1E6E73A}.PublishBeta|x86.Build.0 = PublishBeta|x86
+		{5A4B4B14-D3B5-4D54-80EC-0877C1E6E73A}.PublishRelease|x86.ActiveCfg = PublishRelease|x86
+		{5A4B4B14-D3B5-4D54-80EC-0877C1E6E73A}.PublishRelease|x86.Build.0 = PublishRelease|x86
 		{5A4B4B14-D3B5-4D54-80EC-0877C1E6E73A}.Release|x86.ActiveCfg = Release|x86
 		{5A4B4B14-D3B5-4D54-80EC-0877C1E6E73A}.Release|x86.Build.0 = Release|x86
 		{25E15C6A-AEAE-4958-80EA-44062DF402E7}.ConfuserExRelease|x86.ActiveCfg = ConfuserExRelease|x86
@@ -51,6 +67,8 @@ Global
 		{25E15C6A-AEAE-4958-80EA-44062DF402E7}.Debug|x86.Build.0 = Debug|x86
 		{25E15C6A-AEAE-4958-80EA-44062DF402E7}.InnoInstaller|x86.ActiveCfg = InnoInstaller|x86
 		{25E15C6A-AEAE-4958-80EA-44062DF402E7}.InnoInstaller|x86.Build.0 = InnoInstaller|x86
+		{25E15C6A-AEAE-4958-80EA-44062DF402E7}.PublishBeta|x86.ActiveCfg = Release|x86
+		{25E15C6A-AEAE-4958-80EA-44062DF402E7}.PublishRelease|x86.ActiveCfg = Release|x86
 		{25E15C6A-AEAE-4958-80EA-44062DF402E7}.Release|x86.ActiveCfg = Release|x86
 		{25E15C6A-AEAE-4958-80EA-44062DF402E7}.Release|x86.Build.0 = Release|x86
 		{6D8C3FE6-5855-4B6C-BD2B-51954342DBEE}.ConfuserExRelease|x86.ActiveCfg = ConfuserExRelease|x86
@@ -59,6 +77,10 @@ Global
 		{6D8C3FE6-5855-4B6C-BD2B-51954342DBEE}.Debug|x86.Build.0 = Debug|x86
 		{6D8C3FE6-5855-4B6C-BD2B-51954342DBEE}.InnoInstaller|x86.ActiveCfg = InnoInstaller|x86
 		{6D8C3FE6-5855-4B6C-BD2B-51954342DBEE}.InnoInstaller|x86.Build.0 = InnoInstaller|x86
+		{6D8C3FE6-5855-4B6C-BD2B-51954342DBEE}.PublishBeta|x86.ActiveCfg = PublishBeta|x86
+		{6D8C3FE6-5855-4B6C-BD2B-51954342DBEE}.PublishBeta|x86.Build.0 = PublishBeta|x86
+		{6D8C3FE6-5855-4B6C-BD2B-51954342DBEE}.PublishRelease|x86.ActiveCfg = PublishRelease|x86
+		{6D8C3FE6-5855-4B6C-BD2B-51954342DBEE}.PublishRelease|x86.Build.0 = PublishRelease|x86
 		{6D8C3FE6-5855-4B6C-BD2B-51954342DBEE}.Release|x86.ActiveCfg = Release|x86
 		{6D8C3FE6-5855-4B6C-BD2B-51954342DBEE}.Release|x86.Build.0 = Release|x86
 		{2231C13A-14F6-478A-96D7-D1D3E1094CD6}.ConfuserExRelease|x86.ActiveCfg = ConfuserExRelease|x86
@@ -67,6 +89,10 @@ Global
 		{2231C13A-14F6-478A-96D7-D1D3E1094CD6}.Debug|x86.Build.0 = Debug|x86
 		{2231C13A-14F6-478A-96D7-D1D3E1094CD6}.InnoInstaller|x86.ActiveCfg = InnoInstaller|x86
 		{2231C13A-14F6-478A-96D7-D1D3E1094CD6}.InnoInstaller|x86.Build.0 = InnoInstaller|x86
+		{2231C13A-14F6-478A-96D7-D1D3E1094CD6}.PublishBeta|x86.ActiveCfg = PublishBeta|x86
+		{2231C13A-14F6-478A-96D7-D1D3E1094CD6}.PublishBeta|x86.Build.0 = PublishBeta|x86
+		{2231C13A-14F6-478A-96D7-D1D3E1094CD6}.PublishRelease|x86.ActiveCfg = PublishRelease|x86
+		{2231C13A-14F6-478A-96D7-D1D3E1094CD6}.PublishRelease|x86.Build.0 = PublishRelease|x86
 		{2231C13A-14F6-478A-96D7-D1D3E1094CD6}.Release|x86.ActiveCfg = Release|x86
 		{2231C13A-14F6-478A-96D7-D1D3E1094CD6}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection

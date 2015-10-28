@@ -40,8 +40,16 @@ namespace CustomsForgeManager.Forms
                 notifyIcon_Main.Dispose();
                 notifyIcon_Main = null;
             };
-
-            this.Text = String.Format("{0} (v{1})", Constants.ApplicationName, Constants.CustomVersion());
+#if BETA
+#if DEBUG
+            var stringVersion = String.Format("{0} (v{1} - DEBUG)", Constants.ApplicationName, Constants.CustomVersion());            
+#else
+            var stringVersion = String.Format("{0} (v{1} - BETA VERSION)", Constants.ApplicationName, Constants.CustomVersion());            
+#endif
+#else
+            var stringVersion = String.Format("{0} (v{1})", Constants.ApplicationName, Constants.CustomVersion());
+#endif
+            this.Text = stringVersion;
             // bring CFM to the front on startup
             this.WindowState = FormWindowState.Minimized;
 
@@ -77,7 +85,7 @@ namespace CustomsForgeManager.Forms
             // Globals.Log(String.Format("Application loaded, using version: {0}", ApplicationDeployment.CurrentDeployment.CurrentVersion));
 
             // initialize all global variables
-            Globals.Log(String.Format("CFSongManager Version: {0}", Constants.CustomVersion()));
+            Globals.Log(stringVersion);
             Globals.Log(GetRSTKLibVersion());
 
             // load settings

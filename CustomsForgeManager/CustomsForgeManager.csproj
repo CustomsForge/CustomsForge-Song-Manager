@@ -56,7 +56,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS;AUTOUPDATE;TAGGER;WINDOWS</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS;CODE_ANALYSIS;AUTOUPDATE;TAGGER;WINDOWS;BETA</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <RunCodeAnalysis>true</RunCodeAnalysis>
@@ -75,17 +75,6 @@
   </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DotfuscatorRelease|x86'">
-    <OutputPath>bin\DotfuscatorRelease\</OutputPath>
-    <DefineConstants>TRACE;WINDOWS</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
-    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
-    <DebugSymbols>true</DebugSymbols>
-  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ConfuserExRelease|x86' ">
     <OutputPath>bin\ConfuserExRelease\</OutputPath>
     <DefineConstants>TRACE;WINDOWS</DefineConstants>
@@ -97,7 +86,25 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'InnoInstaller|x86'">
     <OutputPath>bin\InnoInstaller\</OutputPath>
-    <DefineConstants>TRACE;WINDOWS</DefineConstants>
+    <DefineConstants>TRACE;WINDOWS;AUTOUPDATE;TAGGER</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'PublishBeta|x86'">
+    <OutputPath>bin\InnoInstaller\</OutputPath>
+    <DefineConstants>TRACE;WINDOWS;AUTOUPDATE;BETA;TAGGER</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'PublishRelease|x86'">
+    <OutputPath>bin\InnoInstaller\</OutputPath>
+    <DefineConstants>TRACE;WINDOWS;AUTOUPDATE;TAGGER</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>
@@ -639,22 +646,41 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName) == ConfuserExRelease (
-
 CD "$(SolutionDir)ThirdParty\ConfuserEx_bin\"
 "Confuser.CLI.exe" "..\ConfuserExGeneric.crproj"
 del /q "$(TargetDir)*.pdb"
-
 )
 
 if $(ConfigurationName) == InnoInstaller (
-
 CD "$(SolutionDir)ThirdParty\ConfuserEx_bin\"
 "Confuser.CLI.exe" "..\ConfuserExForInno.crproj"
 CD "$(SolutionDir)ThirdParty\Inno\"
 "ISCC.exe" "..\CFMSetup\CFSMInstaller.iss"
 del /q "$(TargetDir)*.pdb"
+)
 
+if $(ConfigurationName) == PublishBeta (
+CD "$(SolutionDir)ThirdParty\ConfuserEx_bin\"
+"Confuser.CLI.exe" "..\ConfuserExForInno.crproj"
+CD "$(SolutionDir)ThirdParty\"
+"CFMPostBuilder.exe" "SETINSTALLERTYPE" "BETA"
+CD "$(SolutionDir)ThirdParty\Inno\"
+"ISCC.exe" "..\CFMSetup\CFSMInstaller.iss"
+del /q "$(TargetDir)*.pdb"
+CD "$(SolutionDir)ThirdParty\"
+"CFMPostBuilder.exe" "UPLOAD" "198.58.96.81/beta/" "appdev" "kvPSF7HL"
+)
 
+if $(ConfigurationName) == PublishRelease (
+CD "$(SolutionDir)ThirdParty\ConfuserEx_bin\"
+"Confuser.CLI.exe" "..\ConfuserExForInno.crproj"
+CD "$(SolutionDir)ThirdParty\"
+"CFMPostBuilder.exe" "SETINSTALLERTYPE" "RELEASE"
+CD "$(SolutionDir)ThirdParty\Inno\"
+"ISCC.exe" "..\CFMSetup\CFSMInstaller.iss"
+del /q "$(TargetDir)*.pdb"
+CD "$(SolutionDir)ThirdParty\"
+"CFMPostBuilder.exe" "CREATEVERSIONINFO"
 )</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

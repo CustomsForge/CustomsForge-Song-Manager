@@ -1,4 +1,4 @@
-#include "cfmsetup.iss"
+#include "cfsmInclude.iss"
 #include "ISPPBuiltins.iss"
 #include "idp.iss"
 
@@ -194,6 +194,7 @@ procedure InitializeWizard();
 var
  currentVersion,newVersion,updateLoc : string;
  sl:TStringlist;
+ i:integer;
  updateUrl:string;
  urlLabel : TNewStaticText;
  DownloadStep : integer;
@@ -235,10 +236,14 @@ begin
        sl.LoadFromFile(updateLoc);
        if sl.count > 0 then
        begin
-        newVersion := sl[0];
-       (* if sl.Count > 1 then
-            updateUrl := sl[1]
-        else *)
+        for i := 0 to sl.count -1 do
+        begin
+           if sl[i] <> '' then
+           begin
+              newVersion := sl[i];
+              break;
+           end;
+        end;
         updateUrl := ExpandConstant('{#LatestVersionDowload}');
 
         hasUpgrade := CompareVersion(currentVersion, newVersion) < 0;
@@ -269,7 +274,7 @@ var
 begin
   if CheckForMutexes('Global\CUSTOMSFORGESONGMANAGER') then
   begin
-    ShowMessage('CustomsForge Song Manager is running.'+#13#10+'it will need to be closed before installation continues');
+    ShowMessage('CustomsForge Song Manager is running.'+#13#10+'it will need to be closed before installation continues.');
     result := false;
     exit;
   end;
@@ -288,7 +293,7 @@ begin
       begin
         WizardForm.Visible := false;
         //run the new setup
-        if Exec(tmpUpdateLocation, '-webupdate', '', SW_SHOW, ewWaitUntilTerminated, ResultCode) then
+        if Exec(tmpUpdateLocation, '-webupdate', '', SW_SHOW, ewNoWait, ResultCode) then
         begin
           ExitProcess(0);
         end else

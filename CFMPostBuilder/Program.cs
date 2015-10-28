@@ -21,7 +21,6 @@ namespace CFMPostBuilder
             Console.WriteLine("Uploading " + Filename);
             FtpWebRequest request = (FtpWebRequest)WebRequest.Create(ftpURL + Filename);
             request.Method = WebRequestMethods.Ftp.UploadFile;
-            request.UseBinary = true;
             request.UsePassive = true;
             request.KeepAlive = true;
             request.Credentials = new NetworkCredential(ftpUsername, ftpPass);
@@ -30,34 +29,70 @@ namespace CFMPostBuilder
             stream.CopyTo(requestStream);
             requestStream.Close();
             FtpWebResponse response = (FtpWebResponse)request.GetResponse();
-            Console.WriteLine("Upload File {0}, status {1}", Filename, response.StatusDescription);
+            Console.WriteLine("Upload File {0}, status {1}, size {2}", Filename, response.StatusDescription, stream.Length);
             response.Close();
         }
 
 
         static void Main(string[] args)
         {
-            Console.WindowWidth = 85;
-            Console.BackgroundColor = ConsoleColor.Black;
-            Console.ForegroundColor = ConsoleColor.Green;
 
             // dumby CLI data for test
             // args = new[] { "CONVERT" };
 
-            if (args.Length != 1 || string.IsNullOrEmpty(args[0]))
+            if (args.Length < 1 || string.IsNullOrEmpty(args[0]))
             {
                 Console.WriteLine("Invalid command line input");
                 Console.WriteLine("");
-                Console.WriteLine("Usage: CFMPostBuilder.exe UPLOAD");
+                Console.WriteLine("Usage: CFMPostBuilder.exe UPLOAD 'FTP ADDRESS' 'USERNAME' 'PASSWORD' ");
                 Console.WriteLine("       CFMPostBuilder.exe CONVERT");
-
                 Console.ReadLine();
+                Environment.Exit(-10);
                 return;
             }
-
-            switch (args[0])
+            Console.WriteLine(args[0]);
+            switch (args[0].ToUpper())
             {
-                case "UPLOAD":
+                case "SETINSTALLERTYPE":
+                    {
+                        if (args.Length < 2 || string.IsNullOrEmpty(args[0]))
+                        {
+                            Console.WriteLine("Invalid command line input");
+                            Console.WriteLine("");
+                            Console.WriteLine("SETINSTALLERTYPE needs a second paramerter.");
+                            Console.WriteLine("Usage: CFMPostBuilder.exe SETINSTALLERTYPE 'BETA' ");
+                            Environment.Exit(-10);
+                        }
+
+                        try
+                        {
+                            Directory.SetCurrentDirectory("CFMSetup\\");
+                            if (File.Exists("isbeta.iss"))
+                            {
+                                Console.WriteLine("iss installer version file found. deleting...");
+                                File.Delete("isbeta.iss");
+
+                            }
+                            if (File.Exists("Output\\CFSMSetup.exe"))
+                            {
+                                File.Delete("Output\\CFSMSetup.exe");
+                                Console.WriteLine("Old setup deleted");
+                            }
+                            bool isBeta = args[1].ToUpper() == "BETA";
+
+
+                            File.WriteAllText("isbeta.iss", isBeta ? "#define BETA" : "#define RELEASE");
+                            Console.WriteLine("Installer type set to: " + (isBeta ? "BETA" : "RELEASE"));
+
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                            Environment.Exit(-1);
+                        }
+                        break;
+                    }
+                case "CREATEVERSIONINFO":
                     {
                         const string rnotes = @"..\CustomsForgeManager\ReleaseNotes.txt";
                         if (!File.Exists(rnotes))
@@ -66,12 +101,48 @@ namespace CFMPostBuilder
                             Environment.Exit(-5);
                         }
 
+                        const string SetupFile = @"CFMSetup\Output\CFSMSetup.exe";
+                        if (!File.Exists(SetupFile))
+                        {
+                            Console.WriteLine("installer not found");
+                            Environment.Exit(-5);
+                        }
+
+                        FileVersionInfo vi = FileVersionInfo.GetVersionInfo(SetupFile);
+                        String txt = vi.ProductVersion.Trim() + Environment.NewLine;
+                        txt += File.ReadAllText(rnotes);
+                        File.WriteAllText("CFMSetup\\Output\\VersionInfo.txt", txt);
+                        break;
+                    }
+
+                case "UPLOAD":
+                    {
+                        if (args.Length < 4 || string.IsNullOrEmpty(args[0]))
+                        {
+                            Console.WriteLine("Invalid command line input");
+                            Console.WriteLine("");
+                            Console.WriteLine("UPLOAD requires an ftp address,username and password.");
+                            Console.WriteLine("Usage: CFMPostBuilder.exe UPLOAD 'FTP ADDRESS' 'USERNAME' 'PASSWORD' ");
+                            Environment.Exit(-10);
+                        }
+
+                        const string rnotes = @"..\CustomsForgeManager\ReleaseNotes.txt";
+                        if (!File.Exists(rnotes))
+                        {
+                            Console.WriteLine("ReleaseNotes not found");
+                            Environment.Exit(-5);
+                        }
+
                         if (args.Count() > 1)
-                            ftpURL = args[1];
+                            ftpURL = "ftp://"+args[1];
                         if (args.Count() > 2)
                             ftpUsername = args[2];
                         if (args.Count() > 3)
                             ftpPass = args[3];
+
+                        Console.WriteLine("URL:" + ftpURL);
+                        Console.WriteLine("USER:" + ftpUsername);
+                        Console.WriteLine("PASS:" +ftpPass);
 
                         const string SetupFile = @"CFMSetup\Output\CFSMSetup.exe";
                         FileVersionInfo vi = FileVersionInfo.GetVersionInfo(SetupFile);
@@ -84,21 +155,27 @@ namespace CFMPostBuilder
 
 
                         Console.WriteLine(File.Exists(rnotes));
-                        String txt = vi.ProductVersion.Trim() + '\n';
+                        String txt = vi.ProductVersion.Trim() + Environment.NewLine;
                         txt += File.ReadAllText(rnotes);
 
                         MemoryStream ms = new MemoryStream();
                         using (var sw = new StreamWriter(ms))
                         {
                             sw.Write(txt);
-                            UploadStream(ms, "UpdateInfo.txt");
+                            sw.Flush();
+                            ms.Position = 0;
+                            UploadStream(ms, "VersionInfo.txt");
                         }
+                        Console.WriteLine("Uploaded all files.");
                     }
                     break;
 
-
-
                 case "CONVERT":
+                    
+                    Console.WindowWidth = 85;
+                    Console.BackgroundColor = ConsoleColor.Black;
+                    Console.ForegroundColor = ConsoleColor.Green;
+
                     var path = @".\"; // CAREFUL - ONLY GO UP ONE DIRECTORY
                     if (args.Count() > 1)
                         path = args[1];
@@ -160,11 +237,11 @@ namespace CFMPostBuilder
                     Console.WriteLine("");
                     Console.WriteLine("Converted: " + convertedCount + " of " + fileCount + " files.");
                     Console.WriteLine("Done converting");
+                    Console.WriteLine("Press any key to continue");
+                    Console.ReadLine();
                     break;
             }
 
-            Console.WriteLine("Press any key to continue");
-            Console.ReadLine();
         }
 
 
