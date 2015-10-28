@@ -20,7 +20,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
 
     // only essential data needs to be saved to the XML songinfo file
     [Serializable]
-    public class SongData
+    public class SongData : NotifyPropChangedBase
     {
         //version 2 : SongKey changed to DLCKey.
         //version 3 : removed DLCKey from arrangement
@@ -28,8 +28,12 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
 
         public string DLCKey { get; set; }
 
+        private bool FSelected;
         [XmlIgnore]
-        public bool Selected { get; set; }
+        public bool Selected {
+            get { return FSelected; }
+            set { SetPropertyField("Selected", ref FSelected, value); }
+        }
 
         [XmlIgnore]
         public string Enabled

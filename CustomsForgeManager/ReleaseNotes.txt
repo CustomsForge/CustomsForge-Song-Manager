@@ -1,5 +1,9 @@
 CFM Release Notes
 
+1.0.7.2
+-Changed SongData to inherit NotifyPropChangedBase
+-Fixed bug in Duplicates  when clicking a checkbox, the grid would scroll and select the top record.
+
 1.0.7.1
 -Added a ClickOnceUpgrade form for user to upgrade to the latest version with the new installer.
 

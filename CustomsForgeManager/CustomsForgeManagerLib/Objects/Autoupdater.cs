@@ -88,8 +88,6 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
                         {
                             ReleaseNotes = String.Join("\n", l.ToArray());
                         }
-
-
                         GotVersionInfo();
                     }
                 }

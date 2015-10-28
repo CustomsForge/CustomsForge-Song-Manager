@@ -33,10 +33,10 @@ namespace CustomsForgeManager.UControls
                 ForeColor = ErrorStyleForeColor,
                 BackColor = ErrorStyleBackColor
             };
-
             txtNoDuplicates.Visible = false;
             btnMove.Click += DeleteMoveSelected;
             btnDeleteSong.Click += DeleteMoveSelected;
+
             PopulateDuplicates();
         }
 
@@ -48,15 +48,16 @@ namespace CustomsForgeManager.UControls
 
             if (Globals.WorkerFinished == Globals.Tristate.Cancelled)
             {
-                MessageBox.Show(CustomsForgeManager.Properties.Resources.DuplicatesNeedToBeRescanned, Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(CustomsForgeManager.Properties.Resources.DuplicatesNeedToBeRescanned,
+                    Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             duplicates.Clear();
             if (findDupPIDs)
             {
-                dgvDups.Columns["colPID"].Visible = true;
-                dgvDups.Columns["colArrangementPID"].Visible = true;
+                colPID.Visible = true;
+                colArrangementPID.Visible = true;
                 var pidList = new List<SongData>();
 
                 // assuming every song has at least one arrangement
@@ -81,8 +82,8 @@ namespace CustomsForgeManager.UControls
             }
             else
             {
-                dgvDups.Columns["colPID"].Visible = false;
-                dgvDups.Columns["colArrangementPID"].Visible = false;
+                colPID.Visible = false;
+                colArrangementPID.Visible = false;
                 duplicates = Globals.SongCollection.GroupBy(x => x.ArtistTitleAlbum).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
             }
 
@@ -194,11 +195,11 @@ namespace CustomsForgeManager.UControls
 
             // always visible and first
             // always visible on restart in case user changed
-            dgvDups.Columns["colSelect"].ReadOnly = false; // is overridden by EditProgrammatically
-            dgvDups.Columns["colSelect"].Visible = true;
-            dgvDups.Columns["colSelect"].Width = 50;
-            dgvDups.Columns["colEnabled"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dgvDups.Columns["colEnabled"].Width = 54;
+            colSelect.ReadOnly = false; // is overridden by EditProgrammatically
+            colSelect.Visible = true;
+            colSelect.Width = 50;
+            colEnabled.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            colEnabled.Width = 54;
             //dgvDups.Columns["colArtist"].Visible = true;
             //dgvDups.Columns["colArtist"].Width = 140;
             //dgvDups.Columns["colTitle"].Visible = true;
@@ -213,7 +214,7 @@ namespace CustomsForgeManager.UControls
             dgvDups.Refresh();
         }
 
-        private void LoadFilteredBindingList(dynamic list)
+        private void LoadFilteredBindingList(IList<SongData> list)
         {
             bindingCompleted = false;
             dgvPainted = false;
@@ -235,7 +236,7 @@ namespace CustomsForgeManager.UControls
 
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle()
                 {
-                    BackColor = Color.FromArgb(224, 224, 224)
+                    BackColor = Color.DarkGray
                 };
             dgvDups.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
 
@@ -281,13 +282,16 @@ namespace CustomsForgeManager.UControls
         {
             if (dgvDups.SelectedRows.Count > 0)
             {
-                var selectedRow = dgvDups.SelectedRows[0];
-                var title = selectedRow.Cells["colTitle"].Value.ToString();
-                var artist = selectedRow.Cells["colArtist"].Value.ToString();
-                var album = selectedRow.Cells["colAlbum"].Value.ToString();
-                var path = selectedRow.Cells["colPath"].Value.ToString();
 
-                var song = duplicates.FirstOrDefault(x => x.Title == title && x.Album == album && x.Artist == artist && x.Path == path);
+                //var selectedRow = dgvDups.SelectedRows[0];
+                //var title = selectedRow.Cells["colTitle"].Value.ToString();
+                //var artist = selectedRow.Cells["colArtist"].Value.ToString();
+                //var album = selectedRow.Cells["colAlbum"].Value.ToString();
+                //var path = selectedRow.Cells["colPath"].Value.ToString();
+
+                //var song = duplicates.FirstOrDefault(x => x.Title == title && x.Album == album && x.Artist == artist && x.Path == path);
+
+                SongData song = (SongData)dgvDups.SelectedRows[0].DataBoundItem;
                 if (song != null)
                 {
                     frmSongInfo infoWindow = new frmSongInfo(song);
@@ -378,14 +382,15 @@ namespace CustomsForgeManager.UControls
                         var originalPath = row.Cells["colPath"].Value.ToString();
                         if (!originalPath.ToLower().Contains(String.Format("{0}{1}", Constants.RS1COMP, "disc")))
                         {
-                            var colEnabled = row.Cells["colEnabled"];
+                           
+                            var ColEnabled = row.Cells["colEnabled"];
                             // confirmed CDLC is disabled in game when using this file naming method
-                            if (colEnabled.Value.ToString() == "Yes")
+                            if (ColEnabled.Value.ToString() == "Yes")
                             {
                                 var disabledDLCPath = originalPath.Replace("_p.psarc", "_p.disabled.psarc");
                                 File.Move(originalPath, disabledDLCPath);
                                 row.Cells["colPath"].Value = disabledDLCPath;
-                                colEnabled.Value = "No";
+                                ColEnabled.Value = "No";
                                 updateSongCollection = true;
                             }
                             else
@@ -393,7 +398,7 @@ namespace CustomsForgeManager.UControls
                                 var enabledDLCPath = originalPath.Replace("_p.disabled.psarc", "_p.psarc");
                                 File.Move(originalPath, enabledDLCPath);
                                 row.Cells["colPath"].Value = enabledDLCPath;
-                                colEnabled.Value = "Yes";
+                                ColEnabled.Value = "Yes";
                                 updateSongCollection = true;
                             }
 
@@ -428,15 +433,24 @@ namespace CustomsForgeManager.UControls
         private void dgvDups_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             // triggered by any key
-            if (e.RowIndex != -1)
+            if (e.RowIndex != -1 && e.RowIndex != colSelect.Index)
                 ShowSongInfo();
         }
+
 
         private void dgvDups_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
             // has precedent over a ColumnHeader_MouseClick
             // MouseUp detection is more reliable than MouseDown
+
             var rowIndex = e.RowIndex;
+
+            if (e.ColumnIndex == colSelect.Index && rowIndex != -1)
+            {
+                this.dgvDups.DataBindingComplete -= dgvDups_DataBindingComplete;
+                dgvDups.EndEdit();
+                this.dgvDups.DataBindingComplete += dgvDups_DataBindingComplete;
+            } else
 
             if (e.Button == MouseButtons.Right)
             {
@@ -519,7 +533,7 @@ namespace CustomsForgeManager.UControls
 
         private void lnkPersistentId_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            PopulateDuplicates(!dgvDups.Columns["colPID"].Visible);
+            PopulateDuplicates(!colPID.Visible);
 
             UpdateToolStrip();
         }
@@ -561,7 +575,6 @@ namespace CustomsForgeManager.UControls
             Globals.DebugLog(String.Format("{0}, row:{1},col:{2}", e.Exception.Message, e.RowIndex, e.ColumnIndex));
             e.Cancel = true;
         }
-
 
     }
 }

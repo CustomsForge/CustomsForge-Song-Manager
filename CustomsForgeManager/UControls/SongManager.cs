@@ -1099,7 +1099,7 @@ namespace CustomsForgeManager.UControls
             // programmatic left clicking on colSelect
             if (e.Button == MouseButtons.Left)
                 if (e.RowIndex != -1)
-                    if (grid.Columns[e.ColumnIndex].Name == "colSelect")
+                    if (e.ColumnIndex == colSelect.Index)
                     {
                         // beyound current scope of CFM
                         if (grid.Rows[e.RowIndex].Cells["colSelect"].Value.ToString().ToLower().Contains(Constants.RS1COMP))
@@ -1107,12 +1107,7 @@ namespace CustomsForgeManager.UControls
 
                         else // required to force selected row change
                         {
-                            if (Convert.ToBoolean(grid.Rows[e.RowIndex].Cells["colSelect"].Value))
-                                grid.Rows[e.RowIndex].Cells["colSelect"].Value = false;
-                            else
-                                grid.Rows[e.RowIndex].Cells["colSelect"].Value = true;
-
-                            grid.Rows[e.RowIndex].Selected = true;
+                            dgvSongsMaster.EndEdit();
                         }
                     }
 
