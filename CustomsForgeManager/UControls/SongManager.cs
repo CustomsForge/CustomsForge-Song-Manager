@@ -36,7 +36,7 @@ namespace CustomsForgeManager.UControls
 
         public SongManager()
         {
-            InitializeComponent();
+            InitializeComponent();       
             dgvSongsDetail.Visible = false;
             Leave += SongManager_Leave;
             PopulateSongManager();

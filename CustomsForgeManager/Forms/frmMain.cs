@@ -32,6 +32,7 @@ namespace CustomsForgeManager.Forms
         public frmMain(DLogNet.DLogger myLog)
         {
             InitializeComponent();
+
             // prevent toolstrip from growing/changing at runtime
             // toolstrip may appear changed in design mode (this is a known VS bug)
             TopToolStripPanel.MaximumSize = new Size(0, 28); // force height and makes tsLable_Tagger positioning work
@@ -49,14 +50,14 @@ namespace CustomsForgeManager.Forms
             this.FormClosed += frmMain_FormClosed; // moved here for better access
             // gets rid of notifier icon on closing
             this.FormClosed += delegate
-            {
-                notifyIcon_Main.Visible = false;
-                notifyIcon_Main.Dispose();
-                notifyIcon_Main = null;
-            };
+                {
+                    notifyIcon_Main.Visible = false;
+                    notifyIcon_Main.Dispose();
+                    notifyIcon_Main = null;
+                };
 #if BETA
 #if DEBUG
-            var stringVersion = String.Format("{0} (v{1} - DEBUG)", Constants.ApplicationName, Constants.CustomVersion());            
+            var stringVersion = String.Format("{0} (v{1} - DEBUG)", Constants.ApplicationName, Constants.CustomVersion());
 #else
             var stringVersion = String.Format("{0} (v{1} - BETA VERSION)", Constants.ApplicationName, Constants.CustomVersion());            
 #endif
@@ -80,13 +81,10 @@ namespace CustomsForgeManager.Forms
             Globals.MyLog.AddTargetTextBox(tbLog);
 
             Globals.OnScanEvent += (s, e) =>
-            {
-                tcMain.InvokeIfRequired(a =>
-                    {
-                        tcMain.Enabled = !e.IsScanning;
-                    }
-                );
-            };
+                {
+                    tcMain.InvokeIfRequired(a =>
+                        { tcMain.Enabled = !e.IsScanning; });
+                };
 
             // create application directory structure if it does not exist
             if (!Directory.Exists(Constants.WorkDirectory))
@@ -105,6 +103,7 @@ namespace CustomsForgeManager.Forms
 
             // load settings
             Globals.Settings.LoadSettingsFromFile();
+            CheckScreenResolution();
 
             if (AppSettings.Instance.ShowLogWindow)
             {
@@ -113,13 +112,13 @@ namespace CustomsForgeManager.Forms
             }
 
             AppSettings.Instance.PropertyChanged += (s, e) =>
-            {
-                if (e.PropertyName == "ShowLogWindow")
                 {
-                    scMain.Panel2Collapsed = !AppSettings.Instance.ShowLogWindow;
-                    tsLabel_ShowHideLog.Text = scMain.Panel2Collapsed ? "Show Log" : "Hide Log ";
-                }
-            };
+                    if (e.PropertyName == "ShowLogWindow")
+                    {
+                        scMain.Panel2Collapsed = !AppSettings.Instance.ShowLogWindow;
+                        tsLabel_ShowHideLog.Text = scMain.Panel2Collapsed ? "Show Log" : "Hide Log ";
+                    }
+                };
 
             this.Show();
             this.WindowState = AppSettings.Instance.FullScreen ? FormWindowState.Maximized : FormWindowState.Normal;
@@ -141,10 +140,10 @@ namespace CustomsForgeManager.Forms
             tscbTaggerThemes.SelectedIndex = 0;
             // tscbTaggerThemes.SelectedItem = Globals.Tagger.ThemeName;
             tscbTaggerThemes.SelectedIndexChanged += (s, e) =>
-            {
-                if (tscbTaggerThemes.SelectedItem != null)
-                    Globals.Tagger.ThemeName = tscbTaggerThemes.SelectedItem.ToString();
-            };
+                {
+                    if (tscbTaggerThemes.SelectedItem != null)
+                        Globals.Tagger.ThemeName = tscbTaggerThemes.SelectedItem.ToString();
+                };
 #endif
 
 
@@ -420,7 +419,7 @@ namespace CustomsForgeManager.Forms
         private void tsButtonTagSelected_Click(object sender, EventArgs e)
         {
             // uncommented code so this would work 
-            var selection = Globals.SongManager.GetSelectedSongs();//.Where(sd => sd.Tagged == false);
+            var selection = Globals.SongManager.GetSelectedSongs(); //.Where(sd => sd.Tagged == false);
 
             if (selection.Count > 0)
             {
@@ -441,7 +440,7 @@ namespace CustomsForgeManager.Forms
 
         private void tsButtonUntagSelection_Click(object sender, EventArgs e)
         {
-            var selection = Globals.SongManager.GetSelectedSongs();//.Where(sd => sd.Tagged);
+            var selection = Globals.SongManager.GetSelectedSongs(); //.Where(sd => sd.Tagged);
 
             if (selection.Count > 0)
             {
@@ -460,47 +459,44 @@ namespace CustomsForgeManager.Forms
             }
         }
 #endif
+
         private void frmMain_Load(object sender, EventArgs e)
         {
 #if AUTOUPDATE
             Autoupdater.OnInfoRecieved += (S, E) =>
-            {
-                if (Autoupdater.NeedsUpdate())
                 {
-                    using (frmNoteViewer f = new frmNoteViewer())
+                    if (Autoupdater.NeedsUpdate())
                     {
-                        f.btnCopyToClipboard.Text = "Update";
-
-                        if (!Constants.DebugMode)
+                        using (frmNoteViewer f = new frmNoteViewer())
                         {
-                            f.RemoveButtonHandler();
-                            f.btnCopyToClipboard.Click += (sen, evt) =>
-                                {
-                                    //run setup file, since updating is done in the installer just use the installer to handle updates
-                                    //the install will force the user to close the program before installing.
-                                    if (File.Exists("CFSMSetup.exe"))
+                            f.btnCopyToClipboard.Text = "Update";
+
+                            if (!Constants.DebugMode)
+                            {
+                                f.RemoveButtonHandler();
+                                f.btnCopyToClipboard.Click += (sen, evt) =>
                                     {
-                                        System.Diagnostics.Process.Start("CFSMSetup.exe", "-appupdate");
-                                    }
-                                    else
-                                        MessageBox.Show("CFSMSetup not found, please download the program again.");
-                                    f.Close();
-                                };
+                                        //run setup file, since updating is done in the installer just use the installer to handle updates
+                                        //the install will force the user to close the program before installing.
+                                        if (File.Exists("CFSMSetup.exe"))
+                                        {
+                                            System.Diagnostics.Process.Start("CFSMSetup.exe", "-appupdate");
+                                        }
+                                        else
+                                            MessageBox.Show("CFSMSetup not found, please download the program again.");
+                                        f.Close();
+                                    };
+                            }
+                            f.PopulateText(Autoupdater.ReleaseNotes);
+                            f.Text = String.Format("New version detected {0}", Autoupdater.LatestVersion.ToString());
+                            f.ShowDialog();
                         }
-                        f.PopulateText(Autoupdater.ReleaseNotes);
-                        f.Text = String.Format("New version detected {0}", Autoupdater.LatestVersion.ToString());
-                        f.ShowDialog();
                     }
-                }
-            };
+                };
 #endif
         }
 
-        private delegate void DoSomethingWithGridSelectionAction(
-            DataGridView dg,
-            IEnumerable<DataGridViewRow> selected,
-            DataGridViewColumn colSel,
-            List<int> IgnoreColums);
+        private delegate void DoSomethingWithGridSelectionAction(DataGridView dg, IEnumerable<DataGridViewRow> selected, DataGridViewColumn colSel, List<int> IgnoreColums);
 
         private void DoSomethingWithGrid(DoSomethingWithGridSelectionAction action)
         {
@@ -544,104 +540,100 @@ namespace CustomsForgeManager.Forms
         public void SongListToBBCode()
         {
             DoSomethingWithGrid((dataGrid, selection, colSel, ignoreColumns) =>
-            {
-
-
-                var sbTXT = new StringBuilder();
-                string columns = "";
-                foreach (var c in dataGrid.Columns.Cast<DataGridViewColumn>())
                 {
-                    if (!ignoreColumns.Contains(c.Index))
-                        columns += c.HeaderText + ", ";
-                }
 
-                sbTXT.AppendLine(columns.Trim(new char[] { ',', ' ' }));
-                sbTXT.AppendLine(String.Format("[LIST={0}]", selection.Count()));
 
-                foreach (var row in selection)
-                {
-                    string s = "[*]";
-                    foreach (var col in row.Cells.Cast<DataGridViewCell>().Where(c => !ignoreColumns.Contains(c.ColumnIndex)))
+                    var sbTXT = new StringBuilder();
+                    string columns = "";
+                    foreach (var c in dataGrid.Columns.Cast<DataGridViewColumn>())
                     {
-                        s += col.Value == null ? " , " : col.Value + ", ";
+                        if (!ignoreColumns.Contains(c.Index))
+                            columns += c.HeaderText + ", ";
                     }
-                    sbTXT.AppendLine(s.Trim(new char[] { ',', ' ' }) + "[/*]");
-                }
-                sbTXT.AppendLine("[/LIST]");
+
+                    sbTXT.AppendLine(columns.Trim(new char[] { ',', ' ' }));
+                    sbTXT.AppendLine(String.Format("[LIST={0}]", selection.Count()));
+
+                    foreach (var row in selection)
+                    {
+                        string s = "[*]";
+                        foreach (var col in row.Cells.Cast<DataGridViewCell>().Where(c => !ignoreColumns.Contains(c.ColumnIndex)))
+                        {
+                            s += col.Value == null ? " , " : col.Value + ", ";
+                        }
+                        sbTXT.AppendLine(s.Trim(new char[] { ',', ' ' }) + "[/*]");
+                    }
+                    sbTXT.AppendLine("[/LIST]");
 
 
-                using (var noteViewer = new frmNoteViewer())
-                {
-                    noteViewer.Text = String.Format("{0} . . . {1}", noteViewer.Text, "Song list to BBCode");
+                    using (var noteViewer = new frmNoteViewer())
+                    {
+                        noteViewer.Text = String.Format("{0} . . . {1}", noteViewer.Text, "Song list to BBCode");
 
-                    noteViewer.PopulateText(sbTXT.ToString(), false);
-                    noteViewer.ShowDialog();
-                }
-            });
+                        noteViewer.PopulateText(sbTXT.ToString(), false);
+                        noteViewer.ShowDialog();
+                    }
+                });
         }
 
 
         public void SongListToCSV()
         {
             var path = Path.Combine(Constants.WorkDirectory, "SongListCSV.csv");
-            using (var sfdSongListToCSV = new SaveFileDialog()
-            {
-                Filter = "csv files(*.csv)|*.csv|All files (*.*)|*.*",
-                FileName = path
-            })
+            using (var sfdSongListToCSV = new SaveFileDialog() { Filter = "csv files(*.csv)|*.csv|All files (*.*)|*.*", FileName = path })
 
                 if (sfdSongListToCSV.ShowDialog() == DialogResult.OK)
                 {
                     path = sfdSongListToCSV.FileName;
 
                     DoSomethingWithGrid((dataGrid, selection, colSel, ignoreColumns) =>
-                    {
-                        var sbCSV = new StringBuilder();
-
-
-                        const char csvSep = ';';
-                        sbCSV.AppendLine(String.Format(@"sep={0}", csvSep)); // used by Excel to recognize seperator if Encoding.Unicode is used
-                        string columns = "";
-                        foreach (var c in dataGrid.Columns.Cast<DataGridViewColumn>())
                         {
-                            if (!ignoreColumns.Contains(c.Index))
-                                columns += c.HeaderText + csvSep;
-                        }
+                            var sbCSV = new StringBuilder();
 
-                        sbCSV.AppendLine(columns.Trim(new char[] { csvSep, ' ' }));
 
-                        foreach (var row in selection)
-                        {
-                            string s = "[*]";
-                            foreach (var col in row.Cells.Cast<DataGridViewCell>().Where(c => !ignoreColumns.Contains(c.ColumnIndex)))
+                            const char csvSep = ';';
+                            sbCSV.AppendLine(String.Format(@"sep={0}", csvSep)); // used by Excel to recognize seperator if Encoding.Unicode is used
+                            string columns = "";
+                            foreach (var c in dataGrid.Columns.Cast<DataGridViewColumn>())
                             {
-                                s += col.Value == null ? csvSep.ToString() : col.Value.ToString() + csvSep;
+                                if (!ignoreColumns.Contains(c.Index))
+                                    columns += c.HeaderText + csvSep;
                             }
-                            sbCSV.AppendLine(s.Trim(new char[] { ',', ' ' }));
-                        }
 
-                        //using (var noteViewer = new frmNoteViewer())
-                        //{
-                        //    noteViewer.Text = String.Format("{0} . . . {1}", noteViewer.Text, "Song list to CSV");
+                            sbCSV.AppendLine(columns.Trim(new char[] { csvSep, ' ' }));
 
-                        //    noteViewer.PopulateText(sbCSV.ToString(), false);
-                        //    noteViewer.ShowDialog();
-                        //}
+                            foreach (var row in selection)
+                            {
+                                string s = "[*]";
+                                foreach (var col in row.Cells.Cast<DataGridViewCell>().Where(c => !ignoreColumns.Contains(c.ColumnIndex)))
+                                {
+                                    s += col.Value == null ? csvSep.ToString() : col.Value.ToString() + csvSep;
+                                }
+                                sbCSV.AppendLine(s.Trim(new char[] { ',', ' ' }));
+                            }
 
-                        try
-                        {
-                            using (StreamWriter file = new StreamWriter(path, false, Encoding.Unicode)) // Excel does not recognize UTF8
-                                file.Write(sbCSV.ToString());
+                            //using (var noteViewer = new frmNoteViewer())
+                            //{
+                            //    noteViewer.Text = String.Format("{0} . . . {1}", noteViewer.Text, "Song list to CSV");
 
-                            Globals.Log("Song list saved to:" + path);
-                        }
-                        catch (IOException ex)
-                        {
-                            Globals.Log("<Error>:" + ex.Message);
-                        }
+                            //    noteViewer.PopulateText(sbCSV.ToString(), false);
+                            //    noteViewer.ShowDialog();
+                            //}
+
+                            try
+                            {
+                                using (StreamWriter file = new StreamWriter(path, false, Encoding.Unicode)) // Excel does not recognize UTF8
+                                    file.Write(sbCSV.ToString());
+
+                                Globals.Log("Song list saved to:" + path);
+                            }
+                            catch (IOException ex)
+                            {
+                                Globals.Log("<Error>:" + ex.Message);
+                            }
 
 
-                    });
+                        });
                 }
         }
 
@@ -649,51 +641,51 @@ namespace CustomsForgeManager.Forms
         public void SongListToHTML()
         {
             DoSomethingWithGrid((dataGrid, selection, colSel, ignoreColumns) =>
-            {
-                //in the future maybe add some javascript to sort the html table by column
-                var sbTXT = new StringBuilder();
-                sbTXT.AppendLine("<html><head>");
-
-                sbTXT.AppendLine("<title>CFSM Songs</title>");
-                //add the style directly to so it can be saved correctly without external css.
-                sbTXT.AppendLine("<style>");
-                sbTXT.AppendLine(Properties.Resources.htmExport);
-                sbTXT.AppendLine("</style>");
-                // sbTXT.AppendLine("<link rel='stylesheet' type='text/css' href='htmExport.css'>");
-                sbTXT.AppendLine("</head><body>");
-
-                sbTXT.AppendLine("<table id='CFMGrid'>");
-                sbTXT.AppendLine("<tr>");
-                var columns = String.Empty;
-                foreach (var c in dataGrid.Columns.Cast<DataGridViewColumn>())
                 {
-                    if (!ignoreColumns.Contains(c.Index))
-                        columns += ((char)9) + String.Format("<th>{0}</th>{1}", c.HeaderText, Environment.NewLine);
-                }
-                sbTXT.AppendLine(columns.Trim());
-                sbTXT.AppendLine("</tr>");
-                bool altOn = false;
-                foreach (var row in selection)
-                {
-                    sbTXT.AppendLine("<tr" + (altOn ? " class='alt'>" : ">"));
-                    string s = string.Empty;
-                    foreach (var col in row.Cells.Cast<DataGridViewCell>().Where(c => !ignoreColumns.Contains(c.ColumnIndex)))
+                    //in the future maybe add some javascript to sort the html table by column
+                    var sbTXT = new StringBuilder();
+                    sbTXT.AppendLine("<html><head>");
+
+                    sbTXT.AppendLine("<title>CFSM Songs</title>");
+                    //add the style directly to so it can be saved correctly without external css.
+                    sbTXT.AppendLine("<style>");
+                    sbTXT.AppendLine(Properties.Resources.htmExport);
+                    sbTXT.AppendLine("</style>");
+                    // sbTXT.AppendLine("<link rel='stylesheet' type='text/css' href='htmExport.css'>");
+                    sbTXT.AppendLine("</head><body>");
+
+                    sbTXT.AppendLine("<table id='CFMGrid'>");
+                    sbTXT.AppendLine("<tr>");
+                    var columns = String.Empty;
+                    foreach (var c in dataGrid.Columns.Cast<DataGridViewColumn>())
                     {
-                        s += String.Format("<td>{0}</td>", col.Value == null ? "" : col.Value);
+                        if (!ignoreColumns.Contains(c.Index))
+                            columns += ((char)9) + String.Format("<th>{0}</th>{1}", c.HeaderText, Environment.NewLine);
                     }
-                    sbTXT.AppendLine(s.Trim());
+                    sbTXT.AppendLine(columns.Trim());
                     sbTXT.AppendLine("</tr>");
-                    altOn = !altOn;
-                }
-                sbTXT.AppendLine("</table>");
-                sbTXT.AppendLine("</body></html>");
-                using (var noteViewer = new frmHtmlViewer())
-                {
-                    noteViewer.Text = String.Format("{0} . . . {1}", noteViewer.Text, "Song list to HTML");
-                    noteViewer.PopulateHtml(sbTXT.ToString());
-                    noteViewer.ShowDialog();
-                }
-            });
+                    bool altOn = false;
+                    foreach (var row in selection)
+                    {
+                        sbTXT.AppendLine("<tr" + (altOn ? " class='alt'>" : ">"));
+                        string s = string.Empty;
+                        foreach (var col in row.Cells.Cast<DataGridViewCell>().Where(c => !ignoreColumns.Contains(c.ColumnIndex)))
+                        {
+                            s += String.Format("<td>{0}</td>", col.Value == null ? "" : col.Value);
+                        }
+                        sbTXT.AppendLine(s.Trim());
+                        sbTXT.AppendLine("</tr>");
+                        altOn = !altOn;
+                    }
+                    sbTXT.AppendLine("</table>");
+                    sbTXT.AppendLine("</body></html>");
+                    using (var noteViewer = new frmHtmlViewer())
+                    {
+                        noteViewer.Text = String.Format("{0} . . . {1}", noteViewer.Text, "Song list to HTML");
+                        noteViewer.PopulateHtml(sbTXT.ToString());
+                        noteViewer.ShowDialog();
+                    }
+                });
 
 
         }
@@ -718,7 +710,24 @@ namespace CustomsForgeManager.Forms
             SongListToHTML();
         }
 
+        private void CheckScreenResolution()
+        {
+            // advise users of prefered app screen resolution on First Run, it is understood that
+            // long term it is better not to have a prefered app resolution but for now this may be it 
+            if (String.IsNullOrEmpty(AppSettings.Instance.FirstRun))
+            {
+                var screenHeight = Screen.PrimaryScreen.Bounds.Height;
+                var screenWidth = Screen.PrimaryScreen.Bounds.Width;
+                if (screenWidth != 1024 || screenHeight != 768)
+                {
+                    var msg = String.Format("Current screen resolution is: {0}x{1}", screenWidth, screenHeight) + Environment.NewLine;
+                    msg += "CFSM is bested viewed in 1024 x 768 resolution";
+                    MessageBox.Show(msg, "Application Info ...", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
 
+                AppSettings.Instance.FirstRun = "false";
+            }
+        }
 
     }
 }

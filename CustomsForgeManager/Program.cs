@@ -25,7 +25,7 @@ namespace CustomsForgeManager
         private static void Main()
         {
             // prevent multiple occurrence of this application from running
-            //using a global mutex for the installer
+            // using a global mutex for the installer
             using (Mutex mutex = new Mutex(false, @"Global\CUSTOMSFORGESONGMANAGER"))
             {
                 if (!mutex.WaitOne(0, false))

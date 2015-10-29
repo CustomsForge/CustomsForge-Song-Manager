@@ -144,7 +144,7 @@ namespace CustomsForgeManager.UControls
 
                 if (!Directory.Exists(Path.Combine(cueRsDir.Text, "dlc")))
                 {
-                    MessageBox.Show(string.Format("Please select a directory that  {0}contains a 'dlc' subdirectory.",
+                    MessageBox.Show(new Form { TopMost = true }, String.Format("Please select a directory that  {0}contains a 'dlc' subdirectory.",
                         Environment.NewLine), Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     ValidateRsDir();
                 }

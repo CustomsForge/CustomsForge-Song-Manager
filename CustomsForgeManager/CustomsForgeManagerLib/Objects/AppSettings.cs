@@ -11,7 +11,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
     {
         public const string gridViewSettingsVersion = "1.0";
         [XmlIgnore]
-        public string LoadedVersion {get; private set;}
+        public string LoadedVersion { get; private set; }
 
         [XmlAttribute]
         public string GridViewSettingsVersion
@@ -50,6 +50,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         string FCreator;
         string FRenameTemplate;
 
+        public string FirstRun { get; set; }
         public string LogFilePath { get; set; }
         public string RSInstalledDir { get { return FRSInstalledDir; } set { SetPropertyField("RSInstalledDir", ref FRSInstalledDir, value); } }
         public bool IncludeRS1DLCs { get { return FIncludeRS1DLCs; } set { SetPropertyField("IncludeRS1DLCs", ref FIncludeRS1DLCs, value); } }
@@ -84,6 +85,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
             if (File.Exists(Filename))
                 using (var fs = File.OpenRead(Filename))
                     LoadFromStream(fs);
+
             if (!String.IsNullOrEmpty(GridSettingsFilename) && File.Exists(GridSettingsFilename))
             {
                 using (var fs = File.OpenRead(GridSettingsFilename))
