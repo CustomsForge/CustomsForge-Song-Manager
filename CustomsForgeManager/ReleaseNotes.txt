@@ -1,5 +1,8 @@
 CFM Release Notes
 
+1.0.7.5
+-Implemented audio player engine (using the bass library).
+
 1.0.7.4
 -Main form size and position is restored on startup
 -SortColumn and SortDirection is restored on startup

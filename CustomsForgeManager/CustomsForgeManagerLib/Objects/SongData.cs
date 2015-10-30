@@ -56,6 +56,8 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
             }
         }
 
+        public string AudioCache { get; set; }
+
         public string Artist { get; set; }
         public string Title { get; set; }
         public string Album { get; set; }

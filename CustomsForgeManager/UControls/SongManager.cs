@@ -36,7 +36,7 @@ namespace CustomsForgeManager.UControls
 
         public SongManager()
         {
-            InitializeComponent();       
+            InitializeComponent();
             dgvSongsDetail.Visible = false;
             Leave += SongManager_Leave;
             PopulateSongManager();
@@ -168,7 +168,7 @@ namespace CustomsForgeManager.UControls
                 };
             }
 #endif
-         
+
             // Hide main dgvSongsMaster until load completes
             dgvSongsMaster.Visible = false;
             //Load Song Collection from file must be called before
@@ -580,7 +580,7 @@ namespace CustomsForgeManager.UControls
             foreach (DataGridViewRow row in dgvSongsMaster.Rows)
             {
                 var sd = GetSongByRow(row);
-                if (sd != null &&  sd.Selected)
+                if (sd != null && sd.Selected)
                     SelectedSongs.Add(sd);
             }
             return SelectedSongs;
@@ -1265,7 +1265,7 @@ namespace CustomsForgeManager.UControls
                 }
             });
             allSelected = !allSelected;
-            
+
         }
 
         private void lnkShowAll_Click(object sender, EventArgs e)
@@ -1352,6 +1352,67 @@ namespace CustomsForgeManager.UControls
             {
                 AppSettings.Instance.SortColumn = dgvSongsMaster.SortedColumn.DataPropertyName;
                 AppSettings.Instance.SortAscending = dgvSongsMaster.SortOrder == SortOrder.Ascending ? true : false;
+            }
+        }
+
+
+        public void PlaySelectedSong()
+        {
+            var sng = GetFirstSelected();
+            if (sng != null)
+            {
+                if (String.IsNullOrEmpty(sng.AudioCache))
+                {
+                    sng.AudioCache = string.Format("{0}_{1}", 
+                        Guid.NewGuid().ToString().Replace("-", ""), sng.FileSize);
+                }
+
+                var Dir = Path.Combine(Constants.WorkDirectory, "AudioCache");
+                if (!Directory.Exists(Dir))
+                    Directory.CreateDirectory(Dir);
+
+                var fullname = Path.Combine(Dir, sng.AudioCache + ".ogg");
+
+                if (File.Exists(fullname))
+                {
+                    bool canDelete = false;
+                    //check if it needs to be updated using song filesize,
+                    if (!sng.AudioCache.Contains("_"))
+                        canDelete = true;
+                    else
+                    {
+                        var ss = sng.AudioCache.Split('_');
+                        if (ss[1] != sng.FileSize.ToString())
+                            canDelete = true;
+                    }
+                    if (canDelete)
+                        File.Delete(fullname);
+                }
+
+
+                if (!File.Exists(fullname))
+                {
+                    //extract the audio...
+                    if (!PsarcBrowser.ExtractAudio(sng.Path, fullname, ""))
+                    {
+                        Globals.Log("Could not extract the audio.");
+                        sng.AudioCache = "";
+                        return;
+                    }
+                }
+                if (!File.Exists(fullname))
+                {
+                    sng.AudioCache = "";
+                    return;
+                }
+
+                if (Globals.AudioEngine.OpenAudioFile(fullname))
+                {
+                    Globals.AudioEngine.Play();
+                }
+
+
+
             }
         }
     }

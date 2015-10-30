@@ -81,6 +81,36 @@ namespace CustomsForgeManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ap_pause {
+            get {
+                object obj = ResourceManager.GetObject("ap_pause", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ap_play {
+            get {
+                object obj = ResourceManager.GetObject("ap_play", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ap_stop {
+            get {
+                object obj = ResourceManager.GetObject("ap_stop", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to A setlist named &apos;{0}&apos; already exists!.
         /// </summary>
         internal static string ASetlistNamedX0AlreadyExists {
@@ -378,7 +408,7 @@ namespace CustomsForgeManager.Properties {
         /// }
         ///
         ///#CFMGrid tr.alt td {
-        ///    background-colo [rest of string was truncated]&quot;;.
+        ///    backgrou [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string htmExport {
             get {

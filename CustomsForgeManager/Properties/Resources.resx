@@ -418,4 +418,13 @@ rescan before returning to Setlist Manager. </value>
     <value>Unable to move song:{0}, to setlist: {1}{2}Error: {3}</value>
     <comment>UnableToMoveSongX0ToSetlistX1X2ErrorX3 description</comment>
   </data>
+  <data name="ap_pause" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\media_pause.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ap_play" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\media_play_green.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ap_stop" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\media_stop_red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

@@ -66,6 +66,12 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
                 }
             }
         }
+
+        public static CFMAudioTools.AudioEngine AudioEngine
+        {
+            get { return CFMAudioTools.AudioEngine.GetDefaultEngine(); }
+        }
+ 
  
         public static About About
         {

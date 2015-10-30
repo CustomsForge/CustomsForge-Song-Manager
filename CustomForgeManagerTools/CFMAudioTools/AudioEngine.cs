@@ -28,9 +28,21 @@ namespace CFMAudioTools
 
         public abstract void Play();
         public abstract void Stop();
+        public abstract void Pause();
         public abstract double GetSongLength();
         public abstract double GetSongPos();
         public abstract void Seek(double position);
+
+        public abstract bool IsPlaying();
+        public abstract bool IsPaused();
+        public abstract bool IsLoaded();
+        public int GetSongCompletedPercentage()
+        {
+            if (!IsPlaying())
+                return 0;
+
+            return Convert.ToInt32((GetSongPos() / GetSongLength()) * 100);
+        }
 
     }
 
@@ -64,6 +76,41 @@ namespace CFMAudioTools
                     return ms.ToArray();
                 }
         }
+
+        public override bool IsPlaying()
+        {
+            if (!bassinit || FHandle == 0)
+                return false;
+            return Bass.BASS_ChannelIsActive(FHandle) == BASSActive.BASS_ACTIVE_PLAYING;
+        }
+
+        public override bool IsLoaded()
+        {
+            if (!bassinit || FHandle == 0)
+                return false;
+            return true;
+        }
+
+        public override bool IsPaused()
+        {
+            if (!bassinit || FHandle == 0)
+                return false;
+            return Bass.BASS_ChannelIsActive(FHandle) == BASSActive.BASS_ACTIVE_PAUSED;
+
+        }
+
+        public override void Pause()
+        {
+            if (IsLoaded())
+            {
+                if (IsPlaying())
+                    Bass.BASS_ChannelPause(FHandle);
+                else
+                    Bass.BASS_ChannelPlay(FHandle,false);
+
+            }
+        }
+
 
         public override bool OpenAudioFile(string Filename)
         {
@@ -142,6 +189,7 @@ namespace CFMAudioTools
             Bass.BASS_ChannelStop(FHandle);
         }
 
+       
         public override double GetSongLength()
         {
             if (!checkInit())
@@ -155,6 +203,8 @@ namespace CFMAudioTools
                 return 0;
             return Bass.BASS_ChannelBytes2Seconds(FHandle, Bass.BASS_ChannelGetPosition(FHandle));
         }
+
+
 
         public override void Seek(double seconds)
         {

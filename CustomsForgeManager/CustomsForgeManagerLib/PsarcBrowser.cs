@@ -12,6 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Arrangement = CustomsForgeManager.CustomsForgeManagerLib.Objects.Arrangement;
+using CFMAudioTools;
 
 namespace CustomsForgeManager.CustomsForgeManagerLib
 {
@@ -27,6 +28,60 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
             archive = new PSARC();
             var stream = File.OpenRead(FilePath);
             archive.Read(stream, true);
+        }
+
+        public static bool ExtractAudio(string archiveName, string audioName, string previewName)
+        {
+            bool result = false;
+            if (string.IsNullOrEmpty(audioName))
+                return false;
+
+            var archive = new PSARC();
+            using (var stream = File.OpenRead(archiveName))
+            {
+                archive.Read(stream, true);
+                var wems = archive.TOC.Where(entry => entry.Name.StartsWith("audio/windows") &&
+                    entry.Name.EndsWith(".wem")).ToList();
+
+
+
+                if (wems.Count > 1)
+                {
+                    wems.Sort((e1, e2) =>
+                    {
+                        if (e1.Length < e2.Length)
+                            return 1;
+                        if (e1.Length > e2.Length)
+                            return -1;
+                        return 0;
+                    });
+                }
+                if (wems.Count > 0)
+                {
+                    var top = wems[0];
+                    archive.InflateEntry(top);
+                    top.Data.Position = 0;
+                    using (var FS = File.Create(audioName))
+                    {
+                        WwiseToOgg w2o = new WwiseToOgg(top.Data, FS);
+                        result = w2o.ConvertToOgg();
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(previewName) && result && wems.Count > 0)
+                {
+                    var bottom = wems.Last();
+                    archive.InflateEntry(bottom);
+                    bottom.Data.Position = 0;
+                    using (var FS = File.Create(previewName))
+                    {
+
+                        WwiseToOgg w2o = new WwiseToOgg(bottom.Data, FS);
+                        result = w2o.ConvertToOgg();
+                    }
+                }
+            }
+            return result;
         }
 
         public IEnumerable<SongData> GetSongs()
