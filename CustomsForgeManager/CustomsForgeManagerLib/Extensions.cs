@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows.Forms;
+using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using System.Net;
@@ -233,10 +234,22 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
             }
         }
 
+        public static void SaveToFile<T>(string filePath, T obj)
+        {
+            using (var fs = new FileStream(filePath, FileMode.Create, FileAccess.ReadWrite))
+                obj.SerializeXml(fs);
+        }
+
         public static void SerializeXml<T>(this T obj, Stream stream)
         {
             XmlSerializer serializer = new XmlSerializer(typeof(T));
             serializer.Serialize(stream, obj);
+        }
+
+        public static T LoadFromFile<T>(string filePath)
+        {
+            using (var fs = File.OpenRead(filePath))
+                return fs.DeserializeXml<T>();
         }
 
         public static T DeserializeXml<T>(this Stream stream)
@@ -517,10 +530,10 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                 resourcePath = Path.Combine(outputDir, file);
                 if (!File.Exists(resourcePath))
                 {
-                    Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceLocation + @"." + file);                  
+                    Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceLocation + @"." + file);
                     using (FileStream fileStream = new FileStream(resourcePath, FileMode.Create))
                         for (int i = 0; i < stream.Length; i++)
-                            fileStream.WriteByte((byte)stream.ReadByte());                   
+                            fileStream.WriteByte((byte)stream.ReadByte());
                 }
             }
         }
@@ -529,7 +542,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
         {
             return !Directory.EnumerateFileSystemEntries(path).Any();
         }
-        
+
 
 
         public static void Benchmark(Action act, int iterations)

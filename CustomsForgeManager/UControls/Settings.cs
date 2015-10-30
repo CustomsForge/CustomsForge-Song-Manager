@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using CustomsForgeManager.CustomsForgeManagerLib;
 using CustomsForgeManager.CustomsForgeManagerLib.Objects;
 using System.ComponentModel;
+using CustomsForgeManager.Forms;
 
 namespace CustomsForgeManager.UControls
 {
@@ -16,6 +17,10 @@ namespace CustomsForgeManager.UControls
             InitializeComponent();
             Leave += Settings_Leave;
             AppSettings.Instance.PropertyChanged += SettingsPropChanged;
+
+#if !CUSTOMUI
+            btnCustomize.Visible = false;
+#endif
         }
 
         public void LoadSettingsFromFile()
@@ -117,7 +122,6 @@ namespace CustomsForgeManager.UControls
                     AppSettings.Instance.ManagerGridSettings.SerializeXml(fs);
                     Globals.Log("Saved grid settings file ...");
                 }
-
             }
             catch (Exception ex)
             {
@@ -148,6 +152,7 @@ namespace CustomsForgeManager.UControls
                         Environment.NewLine), Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     ValidateRsDir();
                 }
+
                 AppSettings.Instance.RSInstalledDir = cueRsDir.Text;
             }
         }
@@ -226,13 +231,27 @@ namespace CustomsForgeManager.UControls
         }
 
         private static string GetInstallDirFromRegistry()
-        {            
+        {
             return Extensions.GetSteamDirectory();
         }
 
         private void tbCreator_TextChanged(object sender, EventArgs e)
         {
-           AppSettings.Instance.CreatorName = tbCreator.Text;
+            AppSettings.Instance.CreatorName = tbCreator.Text;
+        }
+
+        private void btnCustomize_Click(object sender, EventArgs e)
+        {
+            // in development
+            using (var form = new frmAppSettings())
+            {
+                if (DialogResult.OK != form.ShowDialog())
+                {
+                    // user cancelled
+                    return;
+                }
+                // do something with results
+            }
         }
 
 

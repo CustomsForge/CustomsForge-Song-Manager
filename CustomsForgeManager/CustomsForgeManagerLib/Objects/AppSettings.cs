@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Xml.Serialization;
+using DataGridViewTools;
 
 namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
 {
@@ -62,9 +63,8 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         public bool IncludeRS1DLCs { get { return FIncludeRS1DLCs; } set { SetPropertyField("IncludeRS1DLCs", ref FIncludeRS1DLCs, value); } }
         public bool EnabledLogBaloon { get { return FEnabledLogBaloon; } set { SetPropertyField("EnabledLogBaloon", ref FEnabledLogBaloon, value); } }
         public bool CheckForUpdateOnScan { get { return FCheckForUpdateOnScan; } set { SetPropertyField("CheckForUpdateOnScan", ref FCheckForUpdateOnScan, value); } }
-        [System.Xml.Serialization.XmlIgnore]
+        [XmlIgnore]
         public RADataGridViewSettings ManagerGridSettings { get; set; }
-        // TODO: need to impliment saving/loading this
         public string RenameTemplate { get { return FRenameTemplate; } set { SetPropertyField("RenameTemplate", ref FRenameTemplate, value); } }
         public bool FullScreen { get { return FFullScreen; } set { SetPropertyField("FullScreen", ref FFullScreen, value); } }
         public bool ShowLogWindow { get { return FShowLogwindow; } set { SetPropertyField("ShowLogWindow", ref FShowLogwindow, value); } }
@@ -75,6 +75,10 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         public int WindowLeft { get { return FWindowLeft; } set { SetPropertyField("WindowLeft", ref FWindowLeft, value); } }
         public string SortColumn { get { return FSortColumn; } set { SetPropertyField("SortColumn", ref FSortColumn, value); } }
         public bool SortAscending { get { return FSortAscending; } set { SetPropertyField("SortAscending", ref FSortAscending, value); } }
+
+        [XmlArray("CustomSettings")] // provides proper xml serialization
+        [XmlArrayItem("CustomSetting")] // provides proper xml serialization
+        public List<CustomSetting> CustomSettings { get; set; }
 
         //property template
         //public type PropName { get { return propName; } set { SetPropertyField("PropName", ref propName, value); } }
@@ -91,15 +95,15 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
             }
         }
 
-        public void LoadFromFile(string Filename, string GridSettingsFilename)
+        public void LoadFromFile(string settingsPath, string gridSettingsPath)
         {
-            if (File.Exists(Filename))
-                using (var fs = File.OpenRead(Filename))
+            if (!String.IsNullOrEmpty(settingsPath) && File.Exists(settingsPath))
+                using (var fs = File.OpenRead(settingsPath))
                     LoadFromStream(fs);
 
-            if (!String.IsNullOrEmpty(GridSettingsFilename) && File.Exists(GridSettingsFilename))
+            if (!String.IsNullOrEmpty(gridSettingsPath) && File.Exists(gridSettingsPath))
             {
-                using (var fs = File.OpenRead(GridSettingsFilename))
+                using (var fs = File.OpenRead(gridSettingsPath))
                     ManagerGridSettings = fs.DeserializeXml<RADataGridViewSettings>();
             }
         }
@@ -134,11 +138,18 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
 
         /// Initialise settings with default values
         /// </summary>
-        private AppSettings()
+        internal AppSettings()
         {
             LogFilePath = Constants.LogFilePath;
         }
 
+        [XmlRoot("CustomSetting")]
+        public class CustomSetting
+        {
+            public string ControlName { get; set; }
+            public string ControlKey { get; set; }
+            public string ControlValue { get; set; }
+        }
 
     }
 }
