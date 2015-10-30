@@ -48,7 +48,6 @@ namespace CustomsForgeManager.UControls
             this.btnSettingsSave = new System.Windows.Forms.Button();
             this.chkEnableLogBallon = new System.Windows.Forms.CheckBox();
             this.tbCreator = new CustomsForgeManager.CustomsForgeManagerLib.CustomControls.CueTextBox();
-            this.btnCustomize = new System.Windows.Forms.Button();
             this.tlpSettings_Wrapper.SuspendLayout();
             this.panel5.SuspendLayout();
             this.SuspendLayout();
@@ -67,7 +66,6 @@ namespace CustomsForgeManager.UControls
             this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsSave, 1, 7);
             this.tlpSettings_Wrapper.Controls.Add(this.chkEnableLogBallon, 0, 3);
             this.tlpSettings_Wrapper.Controls.Add(this.tbCreator, 0, 4);
-            this.tlpSettings_Wrapper.Controls.Add(this.btnCustomize, 0, 6);
             this.tlpSettings_Wrapper.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpSettings_Wrapper.Location = new System.Drawing.Point(0, 0);
             this.tlpSettings_Wrapper.Name = "tlpSettings_Wrapper";
@@ -261,20 +259,6 @@ namespace CustomsForgeManager.UControls
             this.tbCreator.TabIndex = 9;
             this.tbCreator.TextChanged += new System.EventHandler(this.tbCreator_TextChanged);
             // 
-            // btnCustomize
-            // 
-            this.btnCustomize.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.btnCustomize.Image = global::CustomsForgeManager.Properties.Resources._151;
-            this.btnCustomize.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnCustomize.Location = new System.Drawing.Point(36, 340);
-            this.btnCustomize.Name = "btnCustomize";
-            this.btnCustomize.Size = new System.Drawing.Size(117, 34);
-            this.btnCustomize.TabIndex = 10;
-            this.btnCustomize.Text = "Customize Display";
-            this.btnCustomize.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnCustomize.UseVisualStyleBackColor = true;
-            this.btnCustomize.Click += new System.EventHandler(this.btnCustomize_Click);
-            // 
             // Settings
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -307,6 +291,5 @@ namespace CustomsForgeManager.UControls
         public CheckBox chkIncludeRS1DLC;
         private CheckBox chkEnableLogBallon;
         private CueTextBox tbCreator;
-        private Button btnCustomize;
     }
 }
