@@ -144,7 +144,8 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                 {
                     bWorker.CancelAsync();
                     e.Cancel = true;
-                    break;
+                    Globals.DebugLog("Parsing canceled.");
+                    return;
                 }
 
                 WorkerProgress(songCounter++ * 100 / fileList.Count);
@@ -161,6 +162,36 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
 
                 if (canScan)
                     ParsePSARC(file);
+            }
+
+            if (!String.IsNullOrEmpty(AppSettings.Instance.SortColumn))
+            {
+                var prop = typeof(SongData).GetProperty(AppSettings.Instance.SortColumn);
+                if (prop != null)
+                {
+                    Type interfaceType = prop.PropertyType.GetInterface("IComparable");
+                    if (interfaceType != null)
+                    {
+                        try
+                        {
+                            bwSongCollection.Sort((x1, x2) =>
+                                         {
+                                             var c1 = (prop.GetValue(x1, new object[] { }) as IComparable);
+                                             var c2 = (prop.GetValue(x2, new object[] { }) as IComparable);
+                                             if (c1 == null || c2 == null)
+                                                 return -1;
+
+                                             if (AppSettings.Instance.SortAscending)
+                                                 return c1.CompareTo(c2);
+                                             else
+                                                 return c2.CompareTo(c1);
+                                         });
+                        }
+                        catch (Exception)
+                        {
+                        }
+                    }
+                }
             }
             Globals.DebugLog("Parsing done.");
 

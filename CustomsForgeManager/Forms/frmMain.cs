@@ -12,7 +12,7 @@ using System.Collections.Generic;
 
 namespace CustomsForgeManager.Forms
 {
-    public partial class frmMain : Form
+    public partial class frmMain : Form, IMainForm
     {
         private static Point UCLocation = new Point(5, 10);
         private static Size UCSize = new Size(990, 490);
@@ -46,7 +46,10 @@ namespace CustomsForgeManager.Forms
             //tsTagger.CanOverflow = false;
 
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);
-            this.FormClosing += frmMain_FormClosing;
+            
+            //FormClosing is already declared in the designer, therefore it's being called twice...
+            //this.FormClosing += frmMain_FormClosing;
+
             this.FormClosed += frmMain_FormClosed; // moved here for better access
             // gets rid of notifier icon on closing
             this.FormClosed += delegate
@@ -92,10 +95,6 @@ namespace CustomsForgeManager.Forms
                 Directory.CreateDirectory(Constants.WorkDirectory);
                 Globals.Log(String.Format("Created working directory: {0}", Constants.WorkDirectory));
             }
-
-            // get server version of application
-            //if (ApplicationDeployment.IsNetworkDeployed)
-            // Globals.Log(String.Format("Application loaded, using version: {0}", ApplicationDeployment.CurrentDeployment.CurrentVersion));
 
             // initialize all global variables
             Globals.Log(stringVersion);
@@ -202,8 +201,6 @@ namespace CustomsForgeManager.Forms
 
         private void frmMain_FormClosed(object sender, FormClosedEventArgs e)
         {
-            AppSettings.Instance.FullScreen = WindowState == FormWindowState.Maximized;
-
             // get rid of leftover notifications
             Globals.MyLog.RemoveTargetNotifyIcon(Globals.Notifier);
             notifyIcon_Main.Visible = false;
@@ -214,6 +211,12 @@ namespace CustomsForgeManager.Forms
 
         private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
+            AppSettings.Instance.FullScreen = WindowState == FormWindowState.Maximized;
+            AppSettings.Instance.WindowWidth = this.Width;
+            AppSettings.Instance.WindowHeight = this.Height;
+            AppSettings.Instance.WindowTop = this.Location.Y;
+            AppSettings.Instance.WindowLeft = this.Location.X;
+
             Globals.Log("Application is Closing");
             Globals.CancelBackgroundScan = true;
 
@@ -308,7 +311,8 @@ namespace CustomsForgeManager.Forms
                     currentControl = Globals.Settings;
                     break;
                 case "ABOU":
-                    this.tpAbout.Controls.Add(Globals.About);
+                    if (!tpAbout.Controls.Contains(tpAbout))
+                        tpAbout.Controls.Add(Globals.About);
                     Globals.About.Location = UCLocation;
                     Globals.About.Size = UCSize;
                     currentControl = Globals.About;
@@ -708,6 +712,30 @@ namespace CustomsForgeManager.Forms
         private void hTMLToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SongListToHTML();
+        }
+
+
+        private void frmMain_Shown(object sender, EventArgs e)
+        {
+            if (!AppSettings.Instance.FullScreen)
+            {
+                int width = this.Width;
+                int height = this.Height;
+                int top = this.Location.Y;
+                int left = this.Location.X;
+
+                if (AppSettings.Instance.WindowWidth > 0)
+                    width = AppSettings.Instance.WindowWidth;
+                if (AppSettings.Instance.WindowHeight > 0)
+                    height = AppSettings.Instance.WindowHeight;
+                if (AppSettings.Instance.WindowTop > 0)
+                    top = AppSettings.Instance.WindowTop;
+                if (AppSettings.Instance.WindowLeft > 0)
+                    left = AppSettings.Instance.WindowLeft;
+
+                this.SetBoundsCore(left, top, width, height, BoundsSpecified.All);
+
+            }
         }
 
         private void CheckScreenResolution()

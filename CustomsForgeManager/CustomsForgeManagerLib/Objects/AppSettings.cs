@@ -46,9 +46,15 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         bool FEnabledLogBaloon;
         bool FCheckForUpdateOnScan;
         bool FFullScreen;
+        int FWindowWidth;
+        int FWindowHeight;
+        int FWindowTop;
+        int FWindowLeft;
         bool FShowLogwindow;
         string FCreator;
         string FRenameTemplate;
+        string FSortColumn;
+        bool FSortAscending;
 
         public string FirstRun { get; set; }
         public string LogFilePath { get; set; }
@@ -62,8 +68,13 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         public string RenameTemplate { get { return FRenameTemplate; } set { SetPropertyField("RenameTemplate", ref FRenameTemplate, value); } }
         public bool FullScreen { get { return FFullScreen; } set { SetPropertyField("FullScreen", ref FFullScreen, value); } }
         public bool ShowLogWindow { get { return FShowLogwindow; } set { SetPropertyField("ShowLogWindow", ref FShowLogwindow, value); } }
-
         public string CreatorName { get { return FCreator; } set { SetPropertyField("CreatorName", ref FCreator, value); } }
+        public int WindowWidth { get { return FWindowWidth; } set { SetPropertyField("WindowWidth", ref FWindowWidth, value); } }
+        public int WindowHeight { get { return FWindowHeight; } set { SetPropertyField("WindowHeight", ref FWindowHeight, value); } }
+        public int WindowTop { get { return FWindowTop; } set { SetPropertyField("WindowTop", ref FWindowTop, value); } }
+        public int WindowLeft { get { return FWindowLeft; } set { SetPropertyField("WindowLeft", ref FWindowLeft, value); } }
+        public string SortColumn { get { return FSortColumn; } set { SetPropertyField("SortColumn", ref FSortColumn, value); } }
+        public bool SortAscending { get { return FSortAscending; } set { SetPropertyField("SortAscending", ref FSortAscending, value); } }
 
         //property template
         //public type PropName { get { return propName; } set { SetPropertyField("PropName", ref propName, value); } }
@@ -104,7 +115,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
             foreach (var p in props)
                 if (p.CanRead && p.CanWrite)
                 {
-                    var ignore = p.GetCustomAttributes(typeof(System.Xml.Serialization.XmlIgnoreAttribute), true).Length > 0;
+                    var ignore = p.GetCustomAttributes(typeof(XmlIgnoreAttribute), true).Length > 0;
                     if (!ignore)
                         p.SetValue(this, p.GetValue(x, emptyObjParams), emptyObjParams);
                 }

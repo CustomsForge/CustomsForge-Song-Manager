@@ -168,10 +168,20 @@ namespace CustomsForgeManager.UControls
                 };
             }
 #endif
+         
             // Hide main dgvSongsMaster until load completes
             dgvSongsMaster.Visible = false;
             //Load Song Collection from file must be called before
             LoadSongCollectionFromFile();
+
+            //Worker actually does the sorting after parsing, this is just to tell the grid that it is sorted.
+            if (!String.IsNullOrEmpty(AppSettings.Instance.SortColumn))
+            {
+                var colX = dgvSongsMaster.Columns.Cast<DataGridViewColumn>().Where(
+                  col => col.DataPropertyName == AppSettings.Instance.SortColumn).FirstOrDefault();
+                if (colX != null)
+                    dgvSongsMaster.Sort(colX, AppSettings.Instance.SortAscending ? ListSortDirection.Ascending : ListSortDirection.Descending);
+            }
         }
 
         public void SaveSongCollectionToFile()
@@ -429,8 +439,10 @@ namespace CustomsForgeManager.UControls
             RADataGridViewSettings gridSettings = AppSettings.Instance.ManagerGridSettings;
             foreach (ColumnOrderItem columnOrderItem in gridSettings.ColumnOrder)
             {
-                ToolStripMenuItem columnsMenuItem = new ToolStripMenuItem(
-                        dgvSongsMaster.Columns[columnOrderItem.ColumnIndex].Name, null, ColumnMenuItemClick)
+                var cn = dgvSongsMaster.Columns[columnOrderItem.ColumnIndex].Name;
+                if (cn.ToLower().StartsWith("col"))
+                    cn = cn.Remove(0, 3);
+                ToolStripMenuItem columnsMenuItem = new ToolStripMenuItem(cn, null, ColumnMenuItemClick)
                         {
                             Checked = dgvSongsMaster.Columns[columnOrderItem.ColumnIndex].Visible,
                             Tag = dgvSongsMaster.Columns[columnOrderItem.ColumnIndex].Name
@@ -1004,7 +1016,7 @@ namespace CustomsForgeManager.UControls
                 return;
 
             // get detail from master
-            if (e.ColumnIndex == dgvSongsMaster.Columns["colShowDetail"].Index && e.RowIndex >= 0)
+            if (e.ColumnIndex == colShowDetail.Index && e.RowIndex >= 0)
             {
                 if (dgvSongsMaster.Rows[e.RowIndex].Cells["colKey"].Value == null)
                     return;
@@ -1331,6 +1343,15 @@ namespace CustomsForgeManager.UControls
                                         e.CellStyle.BackColor = arrInit.Contains("RHYTHM") ? Color.Lime : Color.Red;
                                 }
                 }
+            }
+        }
+
+        private void dgvSongsMaster_Sorted(object sender, EventArgs e)
+        {
+            if (dgvSongsMaster.SortedColumn != null)
+            {
+                AppSettings.Instance.SortColumn = dgvSongsMaster.SortedColumn.DataPropertyName;
+                AppSettings.Instance.SortAscending = dgvSongsMaster.SortOrder == SortOrder.Ascending ? true : false;
             }
         }
     }

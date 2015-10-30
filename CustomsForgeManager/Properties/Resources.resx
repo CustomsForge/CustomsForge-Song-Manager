@@ -414,4 +414,8 @@ rescan before returning to Setlist Manager. </value>
   <data name="Lovroman" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\lovroman.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="UnableToMoveSongX0ToSetlistX1X2ErrorX3" xml:space="preserve">
+    <value>Unable to move song:{0}, to setlist: {1}{2}Error: {3}</value>
+    <comment>UnableToMoveSongX0ToSetlistX1X2ErrorX3 description</comment>
+  </data>
 </root>

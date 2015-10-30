@@ -3,21 +3,21 @@
     width: 100%;
     border-collapse: collapse;
     color: #FFFFFF;
+    text-align: center;
 }
 
 #CFMGrid td{
     font-size: 1em;
     padding: 3px 7px 2px 7px;
-    background-color:#22313F;
+    background-color:#283e4d;
 }
 
 #CFMGrid th {
-   font-size: 1.1em;
-    text-align: left;
+    font-size: 1.2em;
     padding-top: 5px;
     padding-bottom: 4px;
     color: #ffffff;
-    background-color: #1F2D3A;
+    background-color: #1F2D3A;    
     border-bottom: 1px solid rgb(30, 139, 195);
  }
 

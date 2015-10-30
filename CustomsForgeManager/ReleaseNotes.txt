@@ -1,4 +1,13 @@
 CFM Release Notes
+
+1.0.7.4
+-Main form size and position is restored on startup
+-SortColumn and SortDirection is restored on startup
+-Worker sorts the collection after loading
+-fixed bug where frmMain.FormClosing was being called twice
+-removed "col" prefix from the cmsSongManagerColumns MenuStrup
+-Changed "Tagged" column to filter
+
 1.0.7.3
 -Fixed selection bug in songmanager
 

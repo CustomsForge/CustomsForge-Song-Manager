@@ -109,22 +109,14 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
             set { _tagger = value; }
         }
 #endif
-        public static bool RescanAbout { get; set; }
         public static bool RescanDuplicates { get; set; }
         public static bool RescanRenamer { get; set; }
         public static bool RescanSetlistManager { get; set; }
-        public static bool RescanSettings { get; set; }
         public static bool RescanSongManager { get; set; }
-        public static bool RescanUtilities { get; set; }
-        public static bool RescanTagger { get; set; }
-        public static bool ReloadAbout { get; set; }
         public static bool ReloadDuplicates { get; set; }
         public static bool ReloadRenamer { get; set; }
         public static bool ReloadSetlistManager { get; set; }
-        public static bool ReloadSettings { get; set; }
         public static bool ReloadSongManager { get; set; }
-        public static bool ReloadUtilities { get; set; }
-        public static bool ReloadTagger { get; set; }
 
         public static SetlistManager SetlistManager
         {
@@ -159,11 +151,6 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         public static ToolStripProgressBar TsProgressBar_Main { get; set; }
         public static ToolStripComboBox TsComboBox_TaggerThemes { get; set; }
 
-        public static Utilities Utilities
-        {
-            get { return _utilities ?? (_utilities = new Utilities()); }
-            set { _utilities = value; }
-        }
 
         public static CustomsForgeManager.Forms.frmMain MainForm
         {

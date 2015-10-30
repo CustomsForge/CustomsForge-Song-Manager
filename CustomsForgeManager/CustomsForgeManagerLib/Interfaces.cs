@@ -15,4 +15,11 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
     {
         System.Windows.Forms.DataGridView GetGrid();
     }
+
+    public interface IMainForm
+    {
+        
+
+
+    }
 }
