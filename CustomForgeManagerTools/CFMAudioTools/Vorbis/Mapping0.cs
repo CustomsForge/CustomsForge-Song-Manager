@@ -23,9 +23,9 @@
  */
 
 using System;
-using Ogg;
 
-namespace Vorbis 
+
+namespace CFMAudioTools.Vorbis 
 {
 	class Mapping0 : FuncMapping
 	{
@@ -75,7 +75,7 @@ namespace Vorbis
             return (looks);
         }
 
-        override public void pack(Info vi, Object imap, csBuffer opb)
+        override public void pack(Info vi, Object imap, CFMAudioTools.Ogg.csBuffer opb)
         {
             InfoMapping0 info = (InfoMapping0)imap;
 
@@ -127,7 +127,7 @@ namespace Vorbis
             }
         }
 
-        override public Object unpack(Info vi, csBuffer opb)
+        override public Object unpack(Info vi, CFMAudioTools.Ogg.csBuffer opb)
         {
             // also responsible for range checking
             InfoMapping0 info = new InfoMapping0();

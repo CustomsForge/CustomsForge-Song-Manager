@@ -1,12 +1,12 @@
 using System;
 using System.Runtime.CompilerServices;
-using Ogg;
 
-namespace Vorbis 
+
+namespace CFMAudioTools.Vorbis 
 {
 	class Residue0 : FuncResidue
 	{
-		override public void pack(Object vr, csBuffer opb)
+		override public void pack(Object vr, CFMAudioTools.Ogg.csBuffer opb)
 		{
 			InfoResidue0 info=(InfoResidue0)vr;
 			int acc=0;
@@ -42,7 +42,7 @@ namespace Vorbis
 			}
 		}
 
-        override public Object unpack(Info vi, csBuffer opb)
+        override public Object unpack(Info vi, CFMAudioTools.Ogg.csBuffer opb)
         {
             int acc = 0;
             InfoResidue0 info = new InfoResidue0() { begin = opb.read(24), end = opb.read(24), grouping = opb.read(24) + 1, partitions = opb.read(6) + 1, groupbook = opb.read(8) };

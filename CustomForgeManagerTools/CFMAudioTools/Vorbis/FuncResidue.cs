@@ -1,7 +1,7 @@
 using System;
-using Ogg;
 
-namespace Vorbis 
+
+namespace CFMAudioTools.Vorbis 
 {
 	abstract class FuncResidue
 	{
@@ -9,8 +9,8 @@ namespace Vorbis
 												  new Residue1(),
 												  new Residue2()};
 
-		public abstract void pack(Object vr, csBuffer opb);
-        public abstract Object unpack(Info vi, csBuffer opb);
+		public abstract void pack(Object vr, CFMAudioTools.Ogg.csBuffer opb);
+        public abstract Object unpack(Info vi, CFMAudioTools.Ogg.csBuffer opb);
         public abstract Object look(DspState vd, InfoMode vm, Object vr);
 		public abstract void free_info(Object i);
 		public abstract void free_look(Object i);

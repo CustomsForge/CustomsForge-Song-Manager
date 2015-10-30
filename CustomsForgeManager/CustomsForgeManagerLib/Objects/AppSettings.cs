@@ -57,23 +57,40 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         string FSortColumn;
         bool FSortAscending;
 
+        [Browsable(false)]
         public string FirstRun { get; set; }
+        [Browsable(false)]
         public string LogFilePath { get; set; }
         public string RSInstalledDir { get { return FRSInstalledDir; } set { SetPropertyField("RSInstalledDir", ref FRSInstalledDir, value); } }
-        public bool IncludeRS1DLCs { get { return FIncludeRS1DLCs; } set { SetPropertyField("IncludeRS1DLCs", ref FIncludeRS1DLCs, value); } }
+        public bool IncludeRS1DLCs { get { return FIncludeRS1DLCs; } set { SetPropertyField("IncludeRS1DLCs", ref FIncludeRS1DLCs, value); } }        
         public bool EnabledLogBaloon { get { return FEnabledLogBaloon; } set { SetPropertyField("EnabledLogBaloon", ref FEnabledLogBaloon, value); } }
         public bool CheckForUpdateOnScan { get { return FCheckForUpdateOnScan; } set { SetPropertyField("CheckForUpdateOnScan", ref FCheckForUpdateOnScan, value); } }
-        [XmlIgnore]
+        [XmlIgnore, Browsable(false)]
         public RADataGridViewSettings ManagerGridSettings { get; set; }
+        [Browsable(false)]
         public string RenameTemplate { get { return FRenameTemplate; } set { SetPropertyField("RenameTemplate", ref FRenameTemplate, value); } }
+
+        [Browsable(false)]
         public bool FullScreen { get { return FFullScreen; } set { SetPropertyField("FullScreen", ref FFullScreen, value); } }
         public bool ShowLogWindow { get { return FShowLogwindow; } set { SetPropertyField("ShowLogWindow", ref FShowLogwindow, value); } }
         public string CreatorName { get { return FCreator; } set { SetPropertyField("CreatorName", ref FCreator, value); } }
+
+        [Browsable(false)]
         public int WindowWidth { get { return FWindowWidth; } set { SetPropertyField("WindowWidth", ref FWindowWidth, value); } }
+
+        [Browsable(false)]
         public int WindowHeight { get { return FWindowHeight; } set { SetPropertyField("WindowHeight", ref FWindowHeight, value); } }
+
+        [Browsable(false)]
         public int WindowTop { get { return FWindowTop; } set { SetPropertyField("WindowTop", ref FWindowTop, value); } }
+
+        [Browsable(false)]
         public int WindowLeft { get { return FWindowLeft; } set { SetPropertyField("WindowLeft", ref FWindowLeft, value); } }
+
+        [Browsable(false)]
         public string SortColumn { get { return FSortColumn; } set { SetPropertyField("SortColumn", ref FSortColumn, value); } }
+
+        [Browsable(false)]
         public bool SortAscending { get { return FSortAscending; } set { SetPropertyField("SortAscending", ref FSortAscending, value); } }
 
         [XmlArray("CustomSettings")] // provides proper xml serialization
@@ -152,4 +169,9 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         }
 
     }
+
+
+
+
+
 }

@@ -1,6 +1,7 @@
+using System;
 using System.Runtime.InteropServices;
 
-namespace Vorbis 
+namespace CFMAudioTools.Vorbis 
 {
 	/*
 	  function: LSP (also called LSF) conversion routines

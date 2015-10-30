@@ -53,20 +53,20 @@
             this.tableLayoutPanel_Credits = new System.Windows.Forms.TableLayoutPanel();
             this.lnkCozy1Profile = new CustomsForgeManager.UControls.ProfileLinkLabel();
             this.lnkZerkzProfile = new CustomsForgeManager.UControls.ProfileLinkLabel();
-            this.linkLabel3 = new System.Windows.Forms.LinkLabel();
+            this.linkLabel3 = new LinkLabelStatic();
             this.lnkLovromanProfile = new CustomsForgeManager.UControls.ProfileLinkLabel();
-            this.link_Credits = new System.Windows.Forms.LinkLabel();
-            this.link_CFOwner = new System.Windows.Forms.LinkLabel();
-            this.link_LeadDeveloper = new System.Windows.Forms.LinkLabel();
-            this.link_Developer1 = new System.Windows.Forms.LinkLabel();
-            this.link_Developer2 = new System.Windows.Forms.LinkLabel();
+            this.link_Credits = new LinkLabelStatic();
+            this.link_CFOwner = new LinkLabelStatic();
+            this.link_LeadDeveloper = new LinkLabelStatic();
+            this.link_Developer1 = new LinkLabelStatic();
+            this.link_Developer2 = new LinkLabelStatic();
             this.lnkUnleashedProfile = new CustomsForgeManager.UControls.ProfileLinkLabel();
             this.lnkDarjuszProfile = new CustomsForgeManager.UControls.ProfileLinkLabel();
-            this.link_Credits_Description = new System.Windows.Forms.LinkLabel();
-            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
-            this.link_Developer3 = new System.Windows.Forms.LinkLabel();
+            this.link_Credits_Description = new LinkLabelStatic();
+            this.linkLabel1 = new LinkLabelStatic();
+            this.link_Developer3 = new LinkLabelStatic();
             this.lnkDreddFoxxProfile = new CustomsForgeManager.UControls.ProfileLinkLabel();
-            this.linkLabel2 = new System.Windows.Forms.LinkLabel();
+            this.linkLabel2 = new LinkLabelStatic();
             this.tlpAbout.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picCF)).BeginInit();
             this.gbInfo.SuspendLayout();
@@ -492,9 +492,8 @@
             this.linkLabel3.BackColor = System.Drawing.Color.Transparent;
             this.linkLabel3.DisabledLinkColor = System.Drawing.Color.Black;
             this.linkLabel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.linkLabel3.Enabled = false;
             this.linkLabel3.Font = new System.Drawing.Font("Trebuchet MS", 10F);
-            this.linkLabel3.ForeColor = System.Drawing.Color.Black;
+            this.linkLabel3.ForeColor = System.Drawing.Color.White;
             this.linkLabel3.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
             this.linkLabel3.LinkColor = System.Drawing.SystemColors.ControlLightLight;
             this.linkLabel3.Location = new System.Drawing.Point(3, 155);
@@ -530,9 +529,8 @@
             this.link_Credits.BackColor = System.Drawing.Color.Transparent;
             this.link_Credits.DisabledLinkColor = System.Drawing.Color.Black;
             this.link_Credits.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.link_Credits.Enabled = false;
             this.link_Credits.Font = new System.Drawing.Font("Trebuchet MS", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.link_Credits.ForeColor = System.Drawing.Color.Black;
+            this.link_Credits.ForeColor = System.Drawing.Color.White;
             this.link_Credits.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
             this.link_Credits.LinkColor = System.Drawing.SystemColors.ControlLightLight;
             this.link_Credits.Location = new System.Drawing.Point(3, 3);
@@ -551,9 +549,8 @@
             this.link_CFOwner.BackColor = System.Drawing.Color.Transparent;
             this.link_CFOwner.DisabledLinkColor = System.Drawing.Color.Black;
             this.link_CFOwner.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.link_CFOwner.Enabled = false;
             this.link_CFOwner.Font = new System.Drawing.Font("Trebuchet MS", 10F);
-            this.link_CFOwner.ForeColor = System.Drawing.Color.Black;
+            this.link_CFOwner.ForeColor = System.Drawing.Color.White;
             this.link_CFOwner.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
             this.link_CFOwner.LinkColor = System.Drawing.SystemColors.ControlLightLight;
             this.link_CFOwner.Location = new System.Drawing.Point(3, 35);
@@ -571,9 +568,8 @@
             this.link_LeadDeveloper.BackColor = System.Drawing.Color.Transparent;
             this.link_LeadDeveloper.DisabledLinkColor = System.Drawing.Color.Black;
             this.link_LeadDeveloper.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.link_LeadDeveloper.Enabled = false;
             this.link_LeadDeveloper.Font = new System.Drawing.Font("Trebuchet MS", 10F);
-            this.link_LeadDeveloper.ForeColor = System.Drawing.Color.Black;
+            this.link_LeadDeveloper.ForeColor = System.Drawing.Color.White;
             this.link_LeadDeveloper.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
             this.link_LeadDeveloper.LinkColor = System.Drawing.SystemColors.ControlLightLight;
             this.link_LeadDeveloper.Location = new System.Drawing.Point(3, 55);
@@ -591,9 +587,8 @@
             this.link_Developer1.BackColor = System.Drawing.Color.Transparent;
             this.link_Developer1.DisabledLinkColor = System.Drawing.Color.Black;
             this.link_Developer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.link_Developer1.Enabled = false;
             this.link_Developer1.Font = new System.Drawing.Font("Trebuchet MS", 10F);
-            this.link_Developer1.ForeColor = System.Drawing.Color.Black;
+            this.link_Developer1.ForeColor = System.Drawing.Color.White;
             this.link_Developer1.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
             this.link_Developer1.LinkColor = System.Drawing.SystemColors.ControlLightLight;
             this.link_Developer1.Location = new System.Drawing.Point(3, 75);
@@ -610,9 +605,8 @@
             this.link_Developer2.ActiveLinkColor = System.Drawing.Color.Black;
             this.link_Developer2.BackColor = System.Drawing.Color.Transparent;
             this.link_Developer2.DisabledLinkColor = System.Drawing.Color.Black;
-            this.link_Developer2.Enabled = false;
             this.link_Developer2.Font = new System.Drawing.Font("Trebuchet MS", 10F);
-            this.link_Developer2.ForeColor = System.Drawing.Color.Black;
+            this.link_Developer2.ForeColor = System.Drawing.Color.White;
             this.link_Developer2.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
             this.link_Developer2.LinkColor = System.Drawing.SystemColors.ControlLightLight;
             this.link_Developer2.Location = new System.Drawing.Point(3, 115);
@@ -667,7 +661,7 @@
             this.link_Credits_Description.BackColor = System.Drawing.Color.Transparent;
             this.link_Credits_Description.DisabledLinkColor = System.Drawing.Color.Black;
             this.link_Credits_Description.Font = new System.Drawing.Font("Trebuchet MS", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.link_Credits_Description.ForeColor = System.Drawing.Color.Black;
+            this.link_Credits_Description.ForeColor = System.Drawing.Color.White;
             this.link_Credits_Description.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
             this.link_Credits_Description.LinkColor = System.Drawing.Color.White;
             this.link_Credits_Description.Location = new System.Drawing.Point(235, 6);
@@ -686,9 +680,8 @@
             this.linkLabel1.BackColor = System.Drawing.Color.Transparent;
             this.linkLabel1.DisabledLinkColor = System.Drawing.Color.Black;
             this.linkLabel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.linkLabel1.Enabled = false;
             this.linkLabel1.Font = new System.Drawing.Font("Trebuchet MS", 10F);
-            this.linkLabel1.ForeColor = System.Drawing.Color.Black;
+            this.linkLabel1.ForeColor = System.Drawing.Color.White;
             this.linkLabel1.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
             this.linkLabel1.LinkColor = System.Drawing.SystemColors.ControlLightLight;
             this.linkLabel1.Location = new System.Drawing.Point(3, 95);
@@ -706,9 +699,8 @@
             this.link_Developer3.BackColor = System.Drawing.Color.Transparent;
             this.link_Developer3.DisabledLinkColor = System.Drawing.Color.Black;
             this.link_Developer3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.link_Developer3.Enabled = false;
             this.link_Developer3.Font = new System.Drawing.Font("Trebuchet MS", 10F);
-            this.link_Developer3.ForeColor = System.Drawing.Color.Black;
+            this.link_Developer3.ForeColor = System.Drawing.Color.White;
             this.link_Developer3.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
             this.link_Developer3.LinkColor = System.Drawing.SystemColors.ControlLightLight;
             this.link_Developer3.Location = new System.Drawing.Point(3, 135);
@@ -743,9 +735,8 @@
             this.linkLabel2.BackColor = System.Drawing.Color.Transparent;
             this.linkLabel2.DisabledLinkColor = System.Drawing.Color.Black;
             this.linkLabel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.linkLabel2.Enabled = false;
             this.linkLabel2.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.linkLabel2.ForeColor = System.Drawing.Color.Black;
+            this.linkLabel2.ForeColor = System.Drawing.Color.White;
             this.linkLabel2.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
             this.linkLabel2.LinkColor = System.Drawing.SystemColors.ControlLightLight;
             this.linkLabel2.Location = new System.Drawing.Point(235, 155);
@@ -756,6 +747,7 @@
             this.linkLabel2.Text = "         ForgeOn, rummhamm87, ZagatoZee           CustomsForge Staff and Beta Tes" +
     "ters";
             this.linkLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.linkLabel2.UseCompatibleTextRendering = true;
             this.linkLabel2.VisitedLinkColor = System.Drawing.Color.Black;
             // 
             // About
@@ -785,12 +777,12 @@
         private System.Windows.Forms.PictureBox picCF;
         private System.Windows.Forms.GroupBox gbCredits;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel_Credits;
-        private System.Windows.Forms.LinkLabel link_Credits;
-        private System.Windows.Forms.LinkLabel link_CFOwner;
-        private System.Windows.Forms.LinkLabel link_LeadDeveloper;
-        private System.Windows.Forms.LinkLabel link_Developer1;
-        private System.Windows.Forms.LinkLabel link_Developer2;
-        private System.Windows.Forms.LinkLabel link_Developer3;
+        private LinkLabelStatic link_Credits;
+        private LinkLabelStatic link_CFOwner;
+        private LinkLabelStatic link_LeadDeveloper;
+        private LinkLabelStatic link_Developer1;
+        private LinkLabelStatic link_Developer2;
+        private LinkLabelStatic link_Developer3;
         private ProfileLinkLabel lnkUnleashedProfile;
         private ProfileLinkLabel lnkDarjuszProfile;
         private System.Windows.Forms.GroupBox gbInfo;
@@ -807,7 +799,7 @@
         private System.Windows.Forms.LinkLabel lnkReleaseNotes;
         private System.Windows.Forms.LinkLabel lnkHelp;
         private System.Windows.Forms.LinkLabel lnkForum;
-        private System.Windows.Forms.LinkLabel linkLabel1;
+        private LinkLabelStatic linkLabel1;
         private ProfileLinkLabel lnkDreddFoxxProfile;
         public System.Windows.Forms.PictureBox pbProfile;
         private System.Windows.Forms.Button btnCFSMSite;
@@ -816,9 +808,9 @@
         private System.Windows.Forms.Button btnCFSMSupport;
         private ProfileLinkLabel lnkLovromanProfile;
         private ProfileLinkLabel lnkZerkzProfile;
-        private System.Windows.Forms.LinkLabel link_Credits_Description;
+        private LinkLabelStatic link_Credits_Description;
         private ProfileLinkLabel lnkCozy1Profile;
-        private System.Windows.Forms.LinkLabel linkLabel3;
-        private System.Windows.Forms.LinkLabel linkLabel2;
+        private LinkLabelStatic linkLabel3;
+        private LinkLabelStatic linkLabel2;
     }
 }

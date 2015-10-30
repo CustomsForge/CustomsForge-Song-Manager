@@ -243,15 +243,15 @@ namespace CustomsForgeManager.UControls
         private void btnCustomize_Click(object sender, EventArgs e)
         {
             // in development
-            using (var form = new frmAppSettings())
-            {
-                if (DialogResult.OK != form.ShowDialog())
-                {
-                    // user cancelled
-                    return;
-                }
-                // do something with results
-            }
+            //using (var form = new frmAppSettings())
+            //{
+            //    if (DialogResult.OK != form.ShowDialog())
+            //    {
+            //        // user cancelled
+            //        return;
+            //    }
+            //    // do something with results
+            //}
         }
 
 

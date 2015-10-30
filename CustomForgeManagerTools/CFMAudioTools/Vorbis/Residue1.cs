@@ -1,6 +1,7 @@
 using System;
 
-namespace Vorbis 
+
+namespace CFMAudioTools.Vorbis 
 {
 	class Residue1 : Residue0
 	{

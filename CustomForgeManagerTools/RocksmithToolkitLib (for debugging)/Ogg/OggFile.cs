@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using MiscUtil.Conversion;
 using MiscUtil.IO;
 using RocksmithToolkitLib.Extensions;
+using CFMAudioTools;
 
 
 

@@ -1,12 +1,12 @@
-using Ogg;
+using System;
 
-namespace Vorbis 
+namespace CFMAudioTools.Vorbis 
 {
 	public class Block
 	{
 		///necessary stream state for linking to the framing abstraction
 		internal float[][] pcm=new float[0][]; // this is a pointer into local storage
-		internal csBuffer opb=new csBuffer();
+		internal CFMAudioTools.Ogg.csBuffer opb=new CFMAudioTools.Ogg.csBuffer();
   
 		internal int lW;
 		internal int W;
@@ -53,7 +53,7 @@ namespace Vorbis
 			return(0);
 		}
 
-        public int synthesis(Packet op)
+        public int synthesis(CFMAudioTools.Ogg.Packet op)
         {
             Info vi = vd.vi;
             opb.readinit(op.packet_base, op.packet, op.bytes);

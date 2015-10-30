@@ -1,12 +1,12 @@
 using System;
-using Ogg;
 
-namespace Vorbis 
+
+namespace CFMAudioTools.Vorbis 
 {
 	class Floor0 : FuncFloor
 	{
 
-        override public void pack(Object i, csBuffer opb)
+        override public void pack(Object i, CFMAudioTools.Ogg.csBuffer opb)
         {
             InfoFloor0 info = (InfoFloor0)i;
             opb.write(info.order, 8);
@@ -19,7 +19,7 @@ namespace Vorbis
                 opb.write(info.books[j], 8);
         }
 
-        override public Object unpack(Info vi, csBuffer opb)
+        override public Object unpack(Info vi, CFMAudioTools.Ogg.csBuffer opb)
         {
             InfoFloor0 info = new InfoFloor0() { order = opb.read(8), rate = opb.read(16), barkmap = opb.read(16), ampbits = opb.read(6), ampdB = opb.read(8), numbooks = opb.read(4) + 1 };
 

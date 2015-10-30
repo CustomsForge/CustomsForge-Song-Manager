@@ -16,18 +16,7 @@ namespace CustomsForgeManager.Forms
     {
         private static Point UCLocation = new Point(5, 10);
         private static Size UCSize = new Size(990, 490);
-        /* This code does not seem to be used, removal is pending
-        private static NotifyIcon notifier;
-        private static ToolStripLabel tsCancel;
-        private static ToolStripLabel tsDisabledCounter;
-        private static ToolStripLabel tsMainMsg;
-        private static ToolStripProgressBar tsProgressBar;
-        private static ToolStripLabel tsStatusMsg;
-        private static ToolStripComboBox tsTaggerThemes ;
-        */
-
-        public Control currentControl = null;
-
+        private Control currentControl = null;
 
         public frmMain(DLogNet.DLogger myLog)
         {
@@ -37,14 +26,12 @@ namespace CustomsForgeManager.Forms
             // prevent toolstrip from growing/changing at runtime
             // toolstrip may appear changed in design mode (this is a known VS bug)
             TopToolStripPanel.MaximumSize = new Size(0, 28); // force height and makes tsLable_Tagger positioning work
-            //tsUtilities.LayoutStyle = ToolStripLayoutStyle.Flow; // no grips
-            //tsTagger.LayoutStyle = ToolStripLayoutStyle.Flow; // no grips
             tsUtilities.AutoSize = false; // a key to preventing movement
             tsTagger.AutoSize = false; // a key to preventing movement
             tsUtilities.Location = new Point(0, 0); // force location
             tsTagger.Location = new Point(tsUtilities.Width + 10, 0); // force location
-            //tsUtilities.CanOverflow = false;
-            //tsTagger.CanOverflow = false;
+
+   
 
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);
             
@@ -137,7 +124,9 @@ namespace CustomsForgeManager.Forms
 
             tscbTaggerThemes.Items.AddRange(Globals.Tagger.Themes.ToArray());
             tscbTaggerThemes.SelectedIndex = 0;
-            // tscbTaggerThemes.SelectedItem = Globals.Tagger.ThemeName;
+
+            if (!String.IsNullOrEmpty(Globals.Tagger.ThemeName))
+               tscbTaggerThemes.SelectedItem = Globals.Tagger.ThemeName;
             tscbTaggerThemes.SelectedIndexChanged += (s, e) =>
                 {
                     if (tscbTaggerThemes.SelectedItem != null)

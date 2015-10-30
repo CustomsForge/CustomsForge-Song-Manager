@@ -198,12 +198,6 @@
     <Compile Include="Forms\ClickOnceUpgrade.Designer.cs">
       <DependentUpon>ClickOnceUpgrade.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmAppSettings.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\frmAppSettings.Designer.cs">
-      <DependentUpon>frmAppSettings.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\frmHtmlViewer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -359,9 +353,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ClickOnceUpgrade.resx">
       <DependentUpon>ClickOnceUpgrade.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmAppSettings.resx">
-      <DependentUpon>frmAppSettings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmHtmlViewer.resx">
       <DependentUpon>frmHtmlViewer.cs</DependentUpon>

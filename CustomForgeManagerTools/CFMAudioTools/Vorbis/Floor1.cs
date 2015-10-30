@@ -1,14 +1,14 @@
 using System;
-using Ogg;
 
-namespace Vorbis 
+
+namespace CFMAudioTools.Vorbis 
 {
 	class Floor1 : FuncFloor
 	{
 		//static int floor1_rangedb=140;
 		static int VIF_POSIT=63;
 
-        override public void pack(Object i, csBuffer opb)
+        override public void pack(Object i, CFMAudioTools.Ogg.csBuffer opb)
         {
             InfoFloor1 info = (InfoFloor1)i;
 
@@ -56,7 +56,7 @@ namespace Vorbis
             }
         }
 
-        override public Object unpack(Info vi, csBuffer opb)
+        override public Object unpack(Info vi, CFMAudioTools.Ogg.csBuffer opb)
         {
             int count = 0, maxclass = -1, rangebits;
             InfoFloor1 info = new InfoFloor1();

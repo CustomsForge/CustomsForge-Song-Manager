@@ -22,9 +22,11 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
+
 using System;
 
-namespace Vorbis 
+
+namespace CFMAudioTools.Vorbis 
 {
 	class Residue2 : Residue0
 	{

@@ -1,4 +1,9 @@
-﻿namespace Ogg
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace CFMAudioTools.Ogg
 {
     public class Packet
     {

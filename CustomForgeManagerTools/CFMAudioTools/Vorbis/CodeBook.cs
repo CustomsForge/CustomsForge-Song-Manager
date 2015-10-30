@@ -1,7 +1,8 @@
+using System;
 using System.Runtime.CompilerServices;
-using Ogg;
 
-namespace Vorbis 
+
+namespace CFMAudioTools.Vorbis 
 {
 	class CodeBook
 	{
@@ -14,7 +15,7 @@ namespace Vorbis
 		internal DecodeAux decode_tree;
 
 		// returns the number of bits
-		internal int encode(int a, csBuffer b)
+		internal int encode(int a, CFMAudioTools.Ogg.csBuffer b)
 		{
 			b.write(codelist[a], c.lengthlist[a]);
 			return(c.lengthlist[a]);
@@ -46,7 +47,7 @@ namespace Vorbis
 		}
 
 		// returns the number of bits and *modifies a* to the quantization value
-		internal int encodev(int best, float[] a, csBuffer b)
+		internal int encodev(int best, float[] a, CFMAudioTools.Ogg.csBuffer b)
 		{
 			for(int k=0;k<dim;k++)
 			{
@@ -57,7 +58,7 @@ namespace Vorbis
 
 		// res0 (multistage, interleave, lattice)
 		// returns the number of bits and *modifies a* to the remainder value
-		internal int encodevs(float[] a, csBuffer b, int step,int addmul)
+		internal int encodevs(float[] a, CFMAudioTools.Ogg.csBuffer b, int step,int addmul)
 		{
 			int best=besterror(a,step,addmul);
 			return(encode(best,b));
@@ -66,7 +67,7 @@ namespace Vorbis
 		internal int[] t=new int[15];  // decodevs_add is synchronized for re-using t.
 	
 		[MethodImpl(MethodImplOptions.Synchronized)]
-		internal int decodevs_add(float[]a, int offset, csBuffer b, int n)
+		internal int decodevs_add(float[]a, int offset, CFMAudioTools.Ogg.csBuffer b, int n)
 		{
 			int step=n/dim;
 			int entry;
@@ -94,7 +95,7 @@ namespace Vorbis
 			return(0);
 		}
 
-		internal int decodev_add(float[]a, int offset, csBuffer b,int n)
+		internal int decodev_add(float[]a, int offset, CFMAudioTools.Ogg.csBuffer b,int n)
 		{
 			int i,j,k,entry;
 			int t;
@@ -129,7 +130,7 @@ namespace Vorbis
 			return(0);
 		}
 
-		internal int decodev_set(float[] a,int offset, csBuffer b, int n)
+		internal int decodev_set(float[] a,int offset, CFMAudioTools.Ogg.csBuffer b, int n)
 		{
 			int i,j,entry;
 			int t;
@@ -147,7 +148,7 @@ namespace Vorbis
 			return(0);
 		}
 
-		internal int decodevv_add(float[][] a, int offset,int ch, csBuffer b,int n)
+		internal int decodevv_add(float[][] a, int offset,int ch, CFMAudioTools.Ogg.csBuffer b,int n)
 		{
 			int i,j,entry;
 			int chptr=0;
@@ -189,7 +190,7 @@ namespace Vorbis
 		// stage==2 -> multiplicitive
 
 		// returns the entry number or -1 on eof
-        internal int decode(csBuffer b)
+        internal int decode(CFMAudioTools.Ogg.csBuffer b)
         {
             int ptr = 0;
             DecodeAux t = decode_tree;
@@ -225,7 +226,7 @@ namespace Vorbis
         }
 
 		// returns the entry number or -1 on eof
-		internal int decodevs(float[] a, int index, csBuffer b, int step,int addmul)
+		internal int decodevs(float[] a, int index, CFMAudioTools.Ogg.csBuffer b, int step,int addmul)
 		{
 			int entry=decode(b);
 			if(entry==-1)return(-1);

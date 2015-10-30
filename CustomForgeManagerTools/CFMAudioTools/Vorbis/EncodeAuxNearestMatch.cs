@@ -1,4 +1,6 @@
-namespace Vorbis 
+using System;
+
+namespace CFMAudioTools.Vorbis 
 {
 
 	class EncodeAuxNearestMatch

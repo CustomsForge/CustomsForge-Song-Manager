@@ -1,7 +1,7 @@
 using System;
-using Ogg;
 
-namespace Vorbis 
+
+namespace CFMAudioTools.Vorbis 
 {
 	class StaticCodeBook
 	{
@@ -52,7 +52,7 @@ namespace Vorbis
         //    this.nearest_tree = (EncodeAuxThreshMatch)nearest_tree;
 		}
 
-		internal int pack(csBuffer opb)
+		internal int pack(CFMAudioTools.Ogg.csBuffer opb)
 		{
 			int i;
 			bool ordered=false;
@@ -190,7 +190,7 @@ namespace Vorbis
 
 		// unpacks a codebook from the packet buffer into the codebook struct,
 		// readies the codebook auxiliary structures for decode
-		internal int unpack(csBuffer opb)
+		internal int unpack(CFMAudioTools.Ogg.csBuffer opb)
 		{
 			int i;
 			//memset(s,0,sizeof(static_codebook));

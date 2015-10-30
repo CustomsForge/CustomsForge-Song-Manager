@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Ogg
+namespace CFMAudioTools.Ogg
 {
     public class SyncState
     {

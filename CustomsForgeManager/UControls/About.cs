@@ -81,8 +81,6 @@ namespace CustomsForgeManager.UControls
             Process.Start(Constants.IgnitionURL);
         }
 
-
-
         private void lnkReleaseNotes_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             // ensures proper disposal of objects and variables
@@ -114,6 +112,28 @@ namespace CustomsForgeManager.UControls
         private void btnCFSMSupport_Click(object sender, EventArgs e)
         {
             Process.Start(Constants.CustomsForgeURL + "/forum/81-customsforge-song-manager/");
+        }
+
+    }
+
+    public sealed class LinkLabelStatic : LinkLabel
+    {
+
+        protected override void OnMouseDown(MouseEventArgs e)
+        {
+            //do nothing...
+        }
+
+        protected override void WndProc(ref Message msg)
+        {
+            if (msg.Msg == 0x20)
+            {
+                // don't change the cursor
+            }
+            else
+            {
+                base.WndProc(ref msg);
+            }
         }
 
     }
