@@ -41,7 +41,6 @@ namespace CustomsForgeManager.UControls
         private void lnkDonations_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Process.Start(Constants.CustomsForgeURL + "donate/");
-            Process.Start(Constants.CustomsForgeDonateURL);
         }
 
         private void lnkFAQ_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
