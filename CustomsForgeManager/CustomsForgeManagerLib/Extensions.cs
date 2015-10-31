@@ -561,5 +561,26 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                 Globals.Log(act.Method.Name + " took: " + sw.ElapsedMilliseconds + " (msec)");
         }
 
+        public static IEnumerable<Type> GetLoadableTypes(this Assembly assembly)
+        {
+            if (assembly == null) 
+                throw new ArgumentNullException("assembly");
+            try
+            {
+                return assembly.GetTypes();
+            }
+            catch (ReflectionTypeLoadException e)
+            {
+                return e.Types.Where(t => t != null);
+            }
+        }
+
+        public static IEnumerable<Type> GetTypesAssignableFrom(this Assembly asm, Type AType)
+        {
+            return GetLoadableTypes(asm).Where(AType.IsAssignableFrom).ToList();
+        }
+
+
+
     }
 }

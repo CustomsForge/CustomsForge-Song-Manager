@@ -13,7 +13,7 @@ using CFMAudioTools;
 
 namespace CustomsForgeManager.Forms
 {
-    public partial class frmMain : Form, IMainForm
+    public partial class frmMain : Form, IMainForm, IThemeListener
     {
         private static Point UCLocation = new Point(5, 10);
         private static Size UCSize = new Size(990, 490);
@@ -31,8 +31,7 @@ namespace CustomsForgeManager.Forms
             tsTagger.AutoSize = false; // a key to preventing movement
             tsUtilities.Location = new Point(0, 0); // force location
             tsTagger.Location = new Point(tsUtilities.Width + 10, 0); // force location
-
-   
+            
 
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);
             
@@ -71,6 +70,7 @@ namespace CustomsForgeManager.Forms
             Globals.TsComboBox_TaggerThemes = this.tscbTaggerThemes;
             Globals.ResetToolStripGlobals();
             Globals.MyLog.AddTargetTextBox(tbLog);
+        //    Globals.CFMTheme.AddListener(this);
 
             Globals.OnScanEvent += (s, e) =>
                 {
@@ -746,5 +746,10 @@ namespace CustomsForgeManager.Forms
             }
         }
 
+
+        public void ApplyTheme(Theme sender)
+        {
+            //var gs = sender.SpecificThemeSetting<DataGridThemeSetting>();
+        }
     }
 }

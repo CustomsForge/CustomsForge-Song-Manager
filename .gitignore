@@ -83,3 +83,4 @@ ThirdParty/CFMPostBuilder.vshost.exe.manifest
 ThirdParty/CFMPostBuilder.exe.config
 CleanupBeforeGitPullRequest.bat
 /ThirdParty/CFMSetup/Output/UpdateInfo.txt
+ThirdParty/CFMSetup/ClickOnceUninstaller.exe.CodeAnalysisLog.xml
