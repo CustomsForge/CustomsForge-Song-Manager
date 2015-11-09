@@ -27,6 +27,9 @@ namespace CustomsForgeManager.UControls
         public Duplicates()
         {
             InitializeComponent();
+            Globals.TsLabel_StatusMsg.Click += lnkShowAll_Click;
+            btnMove.Click += DeleteMoveSelected;
+            btnDeleteSong.Click += DeleteMoveSelected;
             ErrorStyle = new DataGridViewCellStyle()
             {
                 Font = new Font("Arial", 8, FontStyle.Italic),
@@ -34,9 +37,6 @@ namespace CustomsForgeManager.UControls
                 BackColor = ErrorStyleBackColor
             };
             txtNoDuplicates.Visible = false;
-            btnMove.Click += DeleteMoveSelected;
-            btnDeleteSong.Click += DeleteMoveSelected;
-
             PopulateDuplicates();
         }
 
@@ -150,13 +150,7 @@ namespace CustomsForgeManager.UControls
             Globals.TsLabel_DisabledCounter.Alignment = ToolStripItemAlignment.Right;
             Globals.TsLabel_DisabledCounter.Text = String.Format(CustomsForgeManager.Properties.Resources.DuplicatesCountFormat, dgvDups.Rows.Count);
             Globals.TsLabel_DisabledCounter.Visible = true;
-
             Globals.TsLabel_StatusMsg.Visible = false;
-            Globals.TsLabel_StatusMsg.Alignment = ToolStripItemAlignment.Right;
-            Globals.TsLabel_StatusMsg.Text = CustomsForgeManager.Properties.Resources.ShowAll;
-            Globals.TsLabel_StatusMsg.IsLink = true;
-            Globals.TsLabel_StatusMsg.LinkBehavior = LinkBehavior.HoverUnderline;
-            Globals.TsLabel_StatusMsg.Click += lnkShowAll_Click;
         }
 
         private void DgvDupsAppearance() // overrides Duplicates.Desinger.cs
@@ -168,6 +162,7 @@ namespace CustomsForgeManager.UControls
             dgvDups.Visible = true; // needs to come now so settings apply correctly
 
             // see SongManager.Designer for custom appearance settings
+            dgvDups.AlternatingRowsDefaultCellStyle = new DataGridViewCellStyle() { BackColor = Color.LightSteelBlue };
             dgvDups.AllowUserToAddRows = false; // removes empty row at bottom
             dgvDups.AllowUserToDeleteRows = false;
             dgvDups.AllowUserToOrderColumns = true;
@@ -234,13 +229,7 @@ namespace CustomsForgeManager.UControls
             foreach (DataGridViewRow row in dgvDups.Rows)
                 row.DefaultCellStyle.BackColor = Color.Empty;
 
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle()
-                {
-                    BackColor = Color.DarkGray
-                };
-            dgvDups.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-
-
+            dgvDups.AlternatingRowsDefaultCellStyle = new DataGridViewCellStyle() { BackColor = Color.LightSteelBlue };
             UpdateToolStrip();
         }
 
@@ -382,7 +371,7 @@ namespace CustomsForgeManager.UControls
                         var originalPath = row.Cells["colPath"].Value.ToString();
                         if (!originalPath.ToLower().Contains(String.Format("{0}{1}", Constants.RS1COMP, "disc")))
                         {
-                           
+
                             var ColEnabled = row.Cells["colEnabled"];
                             // confirmed CDLC is disabled in game when using this file naming method
                             if (ColEnabled.Value.ToString() == "Yes")
@@ -444,29 +433,30 @@ namespace CustomsForgeManager.UControls
             // MouseUp detection is more reliable than MouseDown
 
             var rowIndex = e.RowIndex;
-
+ 
             if (e.ColumnIndex == colSelect.Index && rowIndex != -1)
             {
                 this.dgvDups.DataBindingComplete -= dgvDups_DataBindingComplete;
                 dgvDups.EndEdit();
                 this.dgvDups.DataBindingComplete += dgvDups_DataBindingComplete;
-            } else
-
-            if (e.Button == MouseButtons.Right)
-            {
-                // fancy way to decide when context menu pops up
-                dgvDups.ContextMenuStrip.Opening += (s, i) =>
-                    {
-                        if (rowIndex != -1)
-                        {
-                            dgvDups.Rows[rowIndex].Selected = true;
-                            i.Cancel = false; // resets e.RowIndex
-                            cmsDuplicate.Show(Cursor.Position);
-                        }
-                        else
-                            i.Cancel = true;
-                    };
             }
+            else
+
+                if (e.Button == MouseButtons.Right)
+                {
+                    // fancy way to decide when context menu pops up
+                    dgvDups.ContextMenuStrip.Opening += (s, i) =>
+                        {
+                            if (rowIndex != -1)
+                            {
+                                dgvDups.Rows[rowIndex].Selected = true;
+                                i.Cancel = false; // resets e.RowIndex
+                                cmsDuplicate.Show(Cursor.Position);
+                            }
+                            else
+                                i.Cancel = true;
+                        };
+                }
         }
 
         private void dgvDups_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
@@ -486,8 +476,14 @@ namespace CustomsForgeManager.UControls
             // filter applied
             if (!String.IsNullOrEmpty(filterStatus) && dgvPainted)
             {
+                Globals.TsLabel_StatusMsg.Alignment = ToolStripItemAlignment.Right;
+                Globals.TsLabel_StatusMsg.Text = "Show &All";
+                Globals.TsLabel_StatusMsg.IsLink = true;
+                Globals.TsLabel_StatusMsg.LinkBehavior = LinkBehavior.HoverUnderline;
                 Globals.TsLabel_StatusMsg.Visible = true;
+                Globals.TsLabel_DisabledCounter.Alignment = ToolStripItemAlignment.Right;
                 Globals.TsLabel_DisabledCounter.Text = filterStatus;
+                Globals.TsLabel_DisabledCounter.Visible = true;
             }
 
             // filter removed
@@ -551,6 +547,8 @@ namespace CustomsForgeManager.UControls
 
         private void dgvDups_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
+            if (e.RowIndex == -1) return;
+
             try
             {
                 var x = (SongData)dgvDups.Rows[e.RowIndex].DataBoundItem;

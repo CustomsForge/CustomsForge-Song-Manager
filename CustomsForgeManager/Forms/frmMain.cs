@@ -22,7 +22,6 @@ namespace CustomsForgeManager.Forms
         public frmMain(DLogNet.DLogger myLog)
         {
             InitializeComponent();
-            CheckScreenResolution();
 
             // prevent toolstrip from growing/changing at runtime
             // toolstrip may appear changed in design mode (this is a known VS bug)
@@ -134,7 +133,6 @@ namespace CustomsForgeManager.Forms
                         Globals.Tagger.ThemeName = tscbTaggerThemes.SelectedItem.ToString();
                 };
 #endif
-
 
             // load Song Manager Tab
             LoadSongManager();
@@ -691,39 +689,6 @@ namespace CustomsForgeManager.Forms
             }
         }
 
-        private void CheckScreenResolution()
-        {
-            // for testing ... well that didn't go well :)
-            // 1920 x 1080 30% of steam users
-
-            // advise users of prefered app screen resolution on First Run, it is understood that
-            // long term it is better not to have a prefered app resolution but for now this may be it 
-            AppSettings appSettings = AppSettings.Instance;
-            if (File.Exists(Constants.SettingsPath))
-                appSettings = Extensions.LoadFromFile<AppSettings>(Constants.SettingsPath);
-
-            if (String.IsNullOrEmpty(appSettings.FirstRun))
-            {
-                //var screenHeight = Screen.PrimaryScreen.Bounds.Height;
-                //var screenWidth = Screen.PrimaryScreen.Bounds.Width;
-
-                //if (screenWidth != 1024 || screenHeight != 768)
-                //{
-                //    var msg = String.Format("Current screen resolution is: {0}x{1}", screenWidth, screenHeight) + Environment.NewLine;
-                //    msg += "Try running CFSM in 1024 x 768 resolution" + Environment.NewLine ;
-                //    msg += "if the GUI display looks out of whack.";
-                //    MessageBox.Show(msg, "Application Info ...", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                //}
-
-                appSettings.FirstRun = "false";
-                // saving is done elsewhere so not needed here
-                // Extensions.SaveToFile(Constants.SettingsPath, appSettings);
-                // or this way
-                // var dom = appSettings.XmlSerializeToDom();
-                // dom.Save(Constants.SettingsPath);
-            }
-        }
-
         private void tsbPlay_Click(object sender, EventArgs e)
         {
             if (Globals.AudioEngine.IsPaused() || Globals.AudioEngine.IsPlaying())
@@ -732,7 +697,6 @@ namespace CustomsForgeManager.Forms
                 Globals.SongManager.PlaySelectedSong();
             timerAudioProgress.Enabled = (Globals.AudioEngine.IsPlaying());
         }
-
 
         private void timerAudioProgress_Tick(object sender, EventArgs e)
         {
@@ -753,6 +717,7 @@ namespace CustomsForgeManager.Forms
                 Globals.AudioEngine.Seek(pos * Globals.AudioEngine.GetSongLength());
             }
         }
+
 
 
         public void ApplyTheme(Theme sender)

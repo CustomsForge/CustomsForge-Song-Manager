@@ -59,7 +59,8 @@ namespace DataGridViewTools
         /// specified DataGridViewColumnHeaderCell.
         /// </summary>
         /// <param name="oldHeaderCell">The DataGridViewColumnHeaderCell to copy property values from.</param>
-        public DataGridViewAutoFilterColumnHeaderCell(DataGridViewColumnHeaderCell oldHeaderCell):this()
+        public DataGridViewAutoFilterColumnHeaderCell(DataGridViewColumnHeaderCell oldHeaderCell)
+            : this()
         {
             this.ContextMenuStrip = oldHeaderCell.ContextMenuStrip;
             this.ErrorText = oldHeaderCell.ErrorText;
@@ -1076,8 +1077,8 @@ namespace DataGridViewTools
             filters.Insert(0, "(All)", null);
             if (containsBlanks && containsNonBlanks)
             {
-                filters.Add("(Blanks)", null);
-                filters.Add("(NonBlanks)", null);
+                filters.Add("(Empty)", null);
+                filters.Add("(Not Empty)", null);
             }
         }
 
@@ -1164,21 +1165,20 @@ namespace DataGridViewTools
 
             // Store the column name in a form acceptable to the Filter property, 
             // using a backslash to escape any closing square brackets. 
-            String columnProperty =
-                OwningColumn.DataPropertyName.Replace("]", @"\]");
+            String columnProperty = OwningColumn.DataPropertyName.Replace("]", @"\]");
 
             // Determine the column filter string based on the user selection.
-            // For (Blanks) and (NonBlanks), the filter string determines whether
+            // For (Empty) and (Not Empty), the filter string determines whether
             // the column value is null or an empty string. Otherwise, the filter
             // string determines whether the column value is the selected value. 
             switch (selectedFilterValue)
             {
-                case "(Blanks)":
+                case "(Empty)":
                     newColumnFilter = String.Format(
-                        "LEN(ISNULL(CONVERT([{0}],'System.String'),''))=0",
-                        columnProperty);
+                        "LEN(ISNULL(CONVERT([{0}],'System.String'),''))=",
+                         columnProperty);
                     break;
-                case "(NonBlanks)":
+                case "(Not Empty)":
                     newColumnFilter = String.Format(
                         "LEN(ISNULL(CONVERT([{0}],'System.String'),''))>0",
                         columnProperty);

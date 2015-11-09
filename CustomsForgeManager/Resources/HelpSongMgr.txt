@@ -5,16 +5,18 @@ Hot Keys
 --------
 F3 - show/hide application event "Log" information
 F12 - show/hide toolstrip utilities menu bar
-Ctrl+LeftMouseButton - on column header to turn off column visibility
+Ctrl+LeftMouse Click - on column header to turn off column visibility
 Ctrl+A - select/deselect all songs
 Spacebar - select/deselect a song
-LeftMouseButton - on column header to sort the column ascending or descending
-RightMouseButton - anywhere on a song to show context menu options
+LeftMouse Click - on column header to sort the column ascending or descending
+RightMouse Click - on header to show context menu options
+ - Show/Hide specific columns
+RightMouse Click - on a song to show context menu options
  - Show Song Information
  - Edit Song Information
  - Delete Song
  - Backup Song
- DoubleClick - anywhere on a song to show Song Information
+DoubleClick - anywhere on a song to show Song Information
 
 
 General Usage
@@ -45,6 +47,13 @@ Search
 Clear Search
 - hopefully obvious, clears the search and shows all songs
 
+Filtering
+- if a column has a yellow funnel symbol click on it to filter the data
+- multiple filters can be added by selecting multiple columns with filters
+
+Show All 
+- (only displayed in lower right corner when Filtering is applied)
+- removes all filtering and returns data to original display
 
 
 

@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using CustomsForgeManager.CustomsForgeManagerLib;
 using CustomsForgeManager.CustomsForgeManagerLib.Objects;
 using System.ComponentModel;
+using CustomsForgeManager.Forms;
 
 namespace CustomsForgeManager.UControls
 {
@@ -14,6 +17,10 @@ namespace CustomsForgeManager.UControls
             InitializeComponent();
             Leave += Settings_Leave;
             AppSettings.Instance.PropertyChanged += SettingsPropChanged;
+
+#if !CUSTOMUI
+            btnCustomize.Visible = false;
+#endif
         }
 
         public void LoadSettingsFromFile()
@@ -30,6 +37,7 @@ namespace CustomsForgeManager.UControls
 
             try
             {
+
                 AppSettings.Instance.LoadFromFile(settingsPath, Constants.GridSettingsPath);
 
                 cueRsDir.Text = AppSettings.Instance.RSInstalledDir;
@@ -62,6 +70,7 @@ namespace CustomsForgeManager.UControls
                     tbCreator.Text = AppSettings.Instance.CreatorName;
                     break;
             }
+
         }
 
         public void PopulateSettings()
@@ -76,6 +85,7 @@ namespace CustomsForgeManager.UControls
                 ListViewItem newItem = new ListViewItem(new[] { String.Empty, col.Name, col.HeaderText, col.Width.ToString() }) { Checked = col.Visible };
                 listDisabledColumns.Items.Add(newItem);
             }
+
         }
 
         public void ResetSettings()
@@ -228,7 +238,7 @@ namespace CustomsForgeManager.UControls
         private void tbCreator_TextChanged(object sender, EventArgs e)
         {
             AppSettings.Instance.CreatorName = tbCreator.Text;
-        }
+        } 
 
 
     }
