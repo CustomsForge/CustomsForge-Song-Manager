@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Reflection;
@@ -16,7 +17,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
 #endif
 
         public const string RS1COMP = "rs1compatibility";
-
+ 
         public const string ApplicationName = "CustomsForge Song Manager";
         public static string ApplicationVersion { get { return Assembly.GetExecutingAssembly().GetName().Version.ToString(); } }
         public static string WorkDirectory { get { return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "CFSM"); } }

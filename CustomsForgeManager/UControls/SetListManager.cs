@@ -111,6 +111,7 @@ namespace CustomsForgeManager.UControls
         {
             // easier to keep track of appearance setting here
             dgvSongs.Visible = true; // must come first for setting to apply correctly
+            dgvSongs.AlternatingRowsDefaultCellStyle = new DataGridViewCellStyle() { BackColor = Color.LightSteelBlue };
             dgvSongs.AllowUserToAddRows = false; // removes empty row at bottom
             dgvSongs.AllowUserToDeleteRows = false;
             dgvSongs.AllowUserToOrderColumns = true;
@@ -306,12 +307,7 @@ namespace CustomsForgeManager.UControls
             foreach (DataGridViewRow row in dgvSongs.Rows)
                 row.DefaultCellStyle.BackColor = Color.Empty;
 
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle() 
-            {
-                BackColor = Color.FromArgb(224, 224, 224) 
-            };
-            dgvSongs.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-
+            dgvSongs.AlternatingRowsDefaultCellStyle = new DataGridViewCellStyle() { BackColor = Color.LightSteelBlue };
             dgvSongs.Refresh();
         }
 
@@ -379,9 +375,9 @@ namespace CustomsForgeManager.UControls
                     if (!string.Equals(dlcDir, Path.GetDirectoryName(dlcSongPath), StringComparison.InvariantCultureIgnoreCase))
                     {
                         MessageBox.Show(string.Format(
-                            Properties.Resources.WarningPreventedGameHangingFormat, 
-                            Environment.NewLine, Path.GetFileName(dlcSongPath), 
-                            Path.GetDirectoryName(dlcSongPath)), MESSAGE_CAPTION, 
+                            Properties.Resources.WarningPreventedGameHangingFormat,
+                            Environment.NewLine, Path.GetFileName(dlcSongPath),
+                            Path.GetDirectoryName(dlcSongPath)), MESSAGE_CAPTION,
                             MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         continue;
                     }
@@ -403,7 +399,7 @@ namespace CustomsForgeManager.UControls
                     }
                     catch (IOException ex)
                     {
-                        MessageBox.Show(string.Format(CustomsForgeManager.Properties.Resources.UnableToMoveSongX0ToSetlistX1X2ErrorX3, 
+                        MessageBox.Show(string.Format(CustomsForgeManager.Properties.Resources.UnableToMoveSongX0ToSetlistX1X2ErrorX3,
                             Path.GetFileName(dlcSongPath), curSetlistName, Environment.NewLine, ex.Message), MESSAGE_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
@@ -1013,8 +1009,8 @@ namespace CustomsForgeManager.UControls
                     Globals.TsLabel_StatusMsg.Visible = true;
                     Globals.TsLabel_DisabledCounter.Text = filterStatus;
                 }
-             }
-  
+            }
+
             // filter removed 
             if (String.IsNullOrEmpty(filterStatus) && dgvPainted && this.dgvSongs.CurrentCell != null)
                 RemoveFilter();

@@ -23,6 +23,8 @@ namespace CustomsForgeManager.SongEditor
 
         private List<DLCPackageEditorControlBase> FEditorControls = new List<DLCPackageEditorControlBase>();
 
+        public frmSongEditor() { }
+
         public frmSongEditor(string songPath)
         {
             if (String.IsNullOrEmpty(songPath))
@@ -260,7 +262,7 @@ namespace CustomsForgeManager.SongEditor
         public void ApplyBassFix(Arrangement arr, Song2014 songXml)
         {
             if (arr.TuningPitch.Equals(220.0))
-                 return;
+                return;
 
 
             arr.TuningPitch = 220.0;
@@ -318,8 +320,8 @@ namespace CustomsForgeManager.SongEditor
             if (!String.IsNullOrEmpty(arr.ToneC)) songXml.ToneC = arr.ToneC;
             if (!String.IsNullOrEmpty(arr.ToneD)) songXml.ToneD = arr.ToneD;
 
-         
-            if (GetEditorControl<ucSongInfo>().ApplyBassFix() &&  arr.ArrangementType == ArrangementType.Bass)
+
+            if (GetEditorControl<ucSongInfo>().ApplyBassFix() && arr.ArrangementType == ArrangementType.Bass)
                 ApplyBassFix(arr, songXml);
 
             using (var stream = File.Open(arr.SongXml.File, FileMode.Create))

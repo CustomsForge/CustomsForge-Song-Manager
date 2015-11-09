@@ -281,11 +281,11 @@ namespace DataGridViewTools
 
                 // If the value is not null or empty, but doesn't
                 // match expected format, throw an exception.
-                if (!string.IsNullOrEmpty(value) &&
-                    !Regex.IsMatch(value,
-                    BuildRegExForFilterFormat(), RegexOptions.Singleline))
-                    throw new ArgumentException("Filter is not in " +
-                          "the format: propName[<>=]'value'.");
+                if (!string.IsNullOrEmpty(value))
+                    if (!value.Contains("LEN(ISNULL(CONVERT("))
+                        if (!Regex.IsMatch(value,
+                                BuildRegExForFilterFormat(), RegexOptions.Singleline))
+                            throw new ArgumentException("Filter is not in the format: propName[<>=]'value'.");
 
                 //Turn off list-changed events.
                 RaiseListChangedEvents = false;
@@ -434,9 +434,14 @@ namespace DataGridViewTools
             string[] filterStringParts =
                 filterPart.Split(new char[] { (char)filterInfo.OperatorValue });
 
-            filterInfo.PropName =
-                filterStringParts[0].Replace("[", "").
-                Replace("]", "").Replace(" AND ", "").Trim();
+            // fix for Empty and Not Empty
+            // LEN(ISNULL(CONVERT([ToolkitVer],'System.String'),'')) 
+
+            filterInfo.PropName = filterStringParts[0].Replace("[", "")
+                .Replace("]", "").Replace(" AND ", "")
+                .Replace("LEN(ISNULL(CONVERT(", "")
+                .Replace(",'System.String'),''))", "")
+                .Trim();
 
             // Get the property descriptor for the filter property name.
             PropertyDescriptor filterPropDesc =

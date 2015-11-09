@@ -333,6 +333,7 @@ namespace CustomsForgeManager.UControls
             dgvSongsMaster.Visible = true; // needs to come now so settings apply correctly
 
             // see SongManager.Designer for custom appearance settings
+            dgvSongsMaster.AlternatingRowsDefaultCellStyle = new DataGridViewCellStyle() { BackColor = Color.LightSteelBlue };
             dgvSongsMaster.AllowUserToAddRows = false; // removes empty row at bottom
             dgvSongsMaster.AllowUserToDeleteRows = false;
             dgvSongsMaster.AllowUserToOrderColumns = true;
@@ -1283,12 +1284,7 @@ namespace CustomsForgeManager.UControls
             foreach (DataGridViewRow row in dgvSongsMaster.Rows)
                 row.DefaultCellStyle.BackColor = Color.Empty;
 
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle()
-            {
-                BackColor = Color.DarkGray
-            };
-            dgvSongsMaster.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-
+            dgvSongsMaster.AlternatingRowsDefaultCellStyle = new DataGridViewCellStyle() { BackColor = Color.LightSteelBlue };
             UpdateToolStrip();
         }
 
@@ -1363,7 +1359,7 @@ namespace CustomsForgeManager.UControls
             {
                 if (String.IsNullOrEmpty(sng.AudioCache))
                 {
-                    sng.AudioCache = string.Format("{0}_{1}", 
+                    sng.AudioCache = string.Format("{0}_{1}",
                         Guid.NewGuid().ToString().Replace("-", ""), sng.FileSize);
                 }
 

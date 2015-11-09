@@ -62,9 +62,14 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         [Browsable(false)]
         public string LogFilePath { get; set; }
         public string RSInstalledDir { get { return FRSInstalledDir; } set { SetPropertyField("RSInstalledDir", ref FRSInstalledDir, value); } }
-        public bool IncludeRS1DLCs { get { return FIncludeRS1DLCs; } set { SetPropertyField("IncludeRS1DLCs", ref FIncludeRS1DLCs, value); } }        
+        public bool IncludeRS1DLCs { get { return FIncludeRS1DLCs; } set { SetPropertyField("IncludeRS1DLCs", ref FIncludeRS1DLCs, value); } }
         public bool EnabledLogBaloon { get { return FEnabledLogBaloon; } set { SetPropertyField("EnabledLogBaloon", ref FEnabledLogBaloon, value); } }
         public bool CheckForUpdateOnScan { get { return FCheckForUpdateOnScan; } set { SetPropertyField("CheckForUpdateOnScan", ref FCheckForUpdateOnScan, value); } }
+
+        //[XmlArray("UISettings")] // provides proper xml serialization
+        //[XmlArrayItem("UISetting")] // provides proper xml serialization
+        //public List<UISetting> UISettings { get; set; }
+
         [XmlIgnore, Browsable(false)]
         public RADataGridViewSettings ManagerGridSettings { get; set; }
         [Browsable(false)]
@@ -93,9 +98,6 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         [Browsable(false)]
         public bool SortAscending { get { return FSortAscending; } set { SetPropertyField("SortAscending", ref FSortAscending, value); } }
 
-        [XmlArray("CustomSettings")] // provides proper xml serialization
-        [XmlArrayItem("CustomSetting")] // provides proper xml serialization
-        public List<CustomSetting> CustomSettings { get; set; }
 
         //property template
         //public type PropName { get { return propName; } set { SetPropertyField("PropName", ref propName, value); } }
@@ -160,18 +162,8 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
             LogFilePath = Constants.LogFilePath;
         }
 
-        [XmlRoot("CustomSetting")]
-        public class CustomSetting
-        {
-            public string ControlName { get; set; }
-            public string ControlKey { get; set; }
-            public string ControlValue { get; set; }
-        }
+
 
     }
-
-
-
-
 
 }

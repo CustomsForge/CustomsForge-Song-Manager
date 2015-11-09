@@ -168,6 +168,7 @@ namespace CustomsForgeManager.UControls
             dgvDups.Visible = true; // needs to come now so settings apply correctly
 
             // see SongManager.Designer for custom appearance settings
+            dgvDups.AlternatingRowsDefaultCellStyle = new DataGridViewCellStyle() { BackColor = Color.LightSteelBlue };
             dgvDups.AllowUserToAddRows = false; // removes empty row at bottom
             dgvDups.AllowUserToDeleteRows = false;
             dgvDups.AllowUserToOrderColumns = true;
@@ -234,13 +235,7 @@ namespace CustomsForgeManager.UControls
             foreach (DataGridViewRow row in dgvDups.Rows)
                 row.DefaultCellStyle.BackColor = Color.Empty;
 
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle()
-                {
-                    BackColor = Color.DarkGray
-                };
-            dgvDups.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-
-
+            dgvDups.AlternatingRowsDefaultCellStyle = new DataGridViewCellStyle() { BackColor = Color.LightSteelBlue };
             UpdateToolStrip();
         }
 
@@ -382,7 +377,7 @@ namespace CustomsForgeManager.UControls
                         var originalPath = row.Cells["colPath"].Value.ToString();
                         if (!originalPath.ToLower().Contains(String.Format("{0}{1}", Constants.RS1COMP, "disc")))
                         {
-                           
+
                             var ColEnabled = row.Cells["colEnabled"];
                             // confirmed CDLC is disabled in game when using this file naming method
                             if (ColEnabled.Value.ToString() == "Yes")
@@ -450,23 +445,24 @@ namespace CustomsForgeManager.UControls
                 this.dgvDups.DataBindingComplete -= dgvDups_DataBindingComplete;
                 dgvDups.EndEdit();
                 this.dgvDups.DataBindingComplete += dgvDups_DataBindingComplete;
-            } else
-
-            if (e.Button == MouseButtons.Right)
-            {
-                // fancy way to decide when context menu pops up
-                dgvDups.ContextMenuStrip.Opening += (s, i) =>
-                    {
-                        if (rowIndex != -1)
-                        {
-                            dgvDups.Rows[rowIndex].Selected = true;
-                            i.Cancel = false; // resets e.RowIndex
-                            cmsDuplicate.Show(Cursor.Position);
-                        }
-                        else
-                            i.Cancel = true;
-                    };
             }
+            else
+
+                if (e.Button == MouseButtons.Right)
+                {
+                    // fancy way to decide when context menu pops up
+                    dgvDups.ContextMenuStrip.Opening += (s, i) =>
+                        {
+                            if (rowIndex != -1)
+                            {
+                                dgvDups.Rows[rowIndex].Selected = true;
+                                i.Cancel = false; // resets e.RowIndex
+                                cmsDuplicate.Show(Cursor.Position);
+                            }
+                            else
+                                i.Cancel = true;
+                        };
+                }
         }
 
         private void dgvDups_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
