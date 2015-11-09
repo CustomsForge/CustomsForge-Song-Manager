@@ -422,7 +422,7 @@ namespace CustomsForgeManager.UControls
                     if (File.Exists(Constants.RS1DLCPath.Replace("_p.", "_p.disabled.")))
                         File.Delete(Constants.RS1DLCPath.Replace("_p.", "_p.disabled."));
 
-                    File.Copy(Constants.RS1DLCPath, Constants.RS1DLCBackupPath, true);
+                    File.Copy(Constants.RS1DLCBackupPath, Constants.RS1DLCPath, true);
 
                     //if (dgvOfficialSongs.Rows.Cast<DataGridViewRow>().Where(row => row.Cells["colOfficialSongPack"].Value.ToString().Contains("dlc")).ToList().Count == 0)
                     //    dgvOfficialSongs.Rows.Add(false, "Yes", "rs1compatibilitydlc_p.psarc");
@@ -542,7 +542,7 @@ namespace CustomsForgeManager.UControls
                         foreach (string newPath in Directory.GetFiles(Constants.ExtractedRSPackPath, "*.*", SearchOption.AllDirectories))
                             File.Copy(newPath, newPath.Replace(Constants.ExtractedRSPackPath, "cache-disabled_Pc"), true);
 
-                        if (Run7Zip("u", Constants.Cache7zPath, Constants.RSSongsFilePath, "") != "")
+                        if (Run7Zip("u", Constants.Cache7zDisabledPath, Constants.RSSongsFilePath, "") != "")
                         {
                             if (Directory.Exists("cache-disabled_Pc"))
                             {
@@ -610,7 +610,7 @@ namespace CustomsForgeManager.UControls
 
                     SerializeSongFile(Constants.RSSongsFilePath, TempSongCollection, DisabledTempSongCollection, typeof(RSVocalsData));
 
-                    if (Run7Zip("u", Constants.Cache7zPath, Constants.RSSongsFilePath, "") != "")
+                    if (Run7Zip("u", Constants.Cache7zDisabledPath, Constants.RSSongsFilePath, "") != "")
                     {
                         if (Directory.Exists("cache_Pc"))
                         {

@@ -49,6 +49,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
 
         public static string ManifestsFolderPath { get { return Path.Combine("manifests", "songs"); } }
         public static string Cache7zPath { get { return Path.Combine(ExtractedRSPackPath, "cache7.7z"); } }
+        public static string Cache7zDisabledPath { get { return Path.Combine(ExtractedRSPackPath.Replace("_Pc", "-disabled_Pc"), "cache7.7z"); } }
         public static string RSSongsFilePath { get { return Path.Combine("manifests", "songs", "songs.hsan"); } }
         public static string RS1SongsFilePath { get { return Path.Combine(ExtractedRSPackPath, "songs_rs1disc.hsan"); } }
         public static string RS1DLCSongsFilePath { get { return Path.Combine(ExtractedRSPackPath, "songs_rs1dlc.hsan"); } }
