@@ -15,7 +15,7 @@ namespace CustomsForgeManager.Forms
     public partial class ClickOnceUpgrade : Form
     {
 #if RELEASE
-        const string UpdateURL = "http://appdev.cfmanager.com/release";
+        const string UpdateURL = "http://app.customsforge.com/release";
 #else
         const string UpdateURL = "http://appdev.cfmanager.com/beta";
 #endif

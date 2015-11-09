@@ -1,5 +1,8 @@
 CFM Release Notes
 
+1.0.7.6
+Merged the audioplayer and tagger menustrip together.
+
 1.0.7.5
 -Implemented audio player engine (using the bass library).
 

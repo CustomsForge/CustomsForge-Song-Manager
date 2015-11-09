@@ -45,8 +45,9 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         private static Settings _settings;
         private static BindingList<SongData> _songCollection;
         private static SongManager _songManager;
-        private static Utilities _utilities;
+        private static Theme _theme;
  		private static SongTagger _tagger;
+
 
         public static Random random = new Random();
 
@@ -71,6 +72,8 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         {
             get { return CFMAudioTools.AudioEngine.GetDefaultEngine(); }
         }
+
+        public static Theme CFMTheme { get { return _theme ?? (_theme = new Theme()); ; } set { _theme = value; } }
  
  
         public static About About

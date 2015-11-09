@@ -36,7 +36,6 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         #region URL constants
         public const string CustomsForgeURL = "http://customsforge.com/";
         public const string CustomsForgeUserURL_Format = CustomsForgeURL + "user/{0}/";
-        public const string CustomsForgeDonateURL = "http://goo.gl/jREeJF";
         public const string IgnitionURL = "http://ignition.customsforge.com/";
         public const string EOFURL = IgnitionURL + "/eof";
         public const string RequestURL = "http://requests.customsforge.com/";

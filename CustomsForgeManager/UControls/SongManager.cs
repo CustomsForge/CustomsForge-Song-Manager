@@ -1385,7 +1385,6 @@ namespace CustomsForgeManager.UControls
                         File.Delete(fullname);
                 }
 
-
                 if (!File.Exists(fullname))
                 {
                     //extract the audio...
@@ -1406,9 +1405,6 @@ namespace CustomsForgeManager.UControls
                 {
                     Globals.AudioEngine.Play();
                 }
-
-
-
             }
         }
     }
