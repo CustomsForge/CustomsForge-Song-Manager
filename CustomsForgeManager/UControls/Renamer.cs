@@ -141,9 +141,10 @@ namespace CustomsForgeManager.UControls
             {
                 var oldFilePath = data.Path;
                 var newFilePath = GetNewSongName(data);
+                var newFileDirectory = Path.GetDirectoryName(newFilePath);
 
-                if (!Directory.Exists(newFilePath))
-                    Directory.CreateDirectory(newFilePath);
+                if (!Directory.Exists(newFileDirectory))
+                    Directory.CreateDirectory(newFileDirectory);
                 try
                 {
                     File.Move(oldFilePath, newFilePath);

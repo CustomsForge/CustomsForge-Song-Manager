@@ -182,6 +182,8 @@
     <Compile Include="CustomsForgeManagerLib\Interfaces.cs" />
     <Compile Include="CustomsForgeManagerLib\Objects\Autoupdater.cs" />
     <Compile Include="CustomsForgeManagerLib\Objects\NotifyPropChangedBase.cs" />
+    <Compile Include="CustomsForgeManagerLib\Objects\RSCustomDictionaries.cs" />
+    <Compile Include="CustomsForgeManagerLib\Objects\RSModels.cs" />
     <Compile Include="CustomsForgeManagerLib\Objects\SongCollectionException.cs" />
     <Compile Include="CustomsForgeManagerLib\Objects\SongTagger.cs" />
     <Compile Include="CustomsForgeManagerLib\PsarcBrowser.cs">
@@ -299,6 +301,12 @@
     </Compile>
     <Compile Include="SongEditor\ucTones.Designer.cs">
       <DependentUpon>ucTones.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UControls\CachePsarcEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UControls\CachePsarcEditor.Designer.cs">
+      <DependentUpon>CachePsarcEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="UControls\Duplicates.cs">
       <SubType>UserControl</SubType>
@@ -466,9 +474,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="bass.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="DF_DDSImage.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="ReleaseNotes.txt">

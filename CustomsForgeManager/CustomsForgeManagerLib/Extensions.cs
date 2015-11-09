@@ -70,6 +70,18 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
 
             return "Other";
         }
+        public static string TuningStringToName(string strings)
+        {
+            foreach (var tuning in Globals.TuningXml)
+            {
+                if ((string)("" + (tuning.Tuning.String0) + (tuning.Tuning.String1) + (tuning.Tuning.String2) + (tuning.Tuning.String3) + (tuning.Tuning.String4) + (tuning.Tuning.String5)) == strings)
+                {
+                    return tuning.UIName;
+                }
+            }
+
+            return "Other";
+        }
 
         public static string DifficultyToDD(this string maxDifficulty)
         {
@@ -563,7 +575,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
 
         public static IEnumerable<Type> GetLoadableTypes(this Assembly assembly)
         {
-            if (assembly == null) 
+            if (assembly == null)
                 throw new ArgumentNullException("assembly");
             try
             {

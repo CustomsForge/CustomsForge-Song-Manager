@@ -32,6 +32,26 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         public static string TaggerTemplatesFolder { get { return Path.Combine(TaggerWorkingFolder, "templates"); } }
         public static string TaggerExtractedFolder { get { return Path.Combine(TaggerWorkingFolder, "extracted"); } }
         public static string TaggerPreviewsFolder { get { return Path.Combine(TaggerWorkingFolder, "previews"); } }
+
+        public static string CachePsarcPath { get { return Path.Combine(AppSettings.Instance.RSInstalledDir, "cache.psarc"); } }
+        public static string RS1PackPath { get { return Path.Combine(AppSettings.Instance.RSInstalledDir, "dlc", "rs1compatibilitydisc_p.psarc"); } }
+        public static string RS1DLCPath { get { return Path.Combine(AppSettings.Instance.RSInstalledDir, "dlc", "rs1compatibilitydlc_p.psarc"); } }
+        public static string CachePsarcBackupPath { get { return Path.Combine(AppSettings.Instance.RSInstalledDir, "backup", "cache.psarc.backup"); } }
+        public static string RS1PackBackupPath { get { return Path.Combine(AppSettings.Instance.RSInstalledDir, "dlc", "rs1compatibilitydisc_p.psarc.backup"); } }
+        public static string RS1DLCBackupPath { get { return Path.Combine(AppSettings.Instance.RSInstalledDir, "dlc", "rs1compatibilitydlc_p.psarc.backup"); } }
+        public static string BackupFolderPath { get { return Path.Combine(AppSettings.Instance.RSInstalledDir, "backup"); } }
+
+        public static string CFEWorkingFolder { get { return Path.Combine(WorkDirectory, "CachePsarcEditor"); } }
+        public static string ExtractedRSPackPath { get { return Path.Combine(CFEWorkingFolder, "cache_Pc"); } }
+        public static string ExtractedRS1PackPath { get { return Path.Combine(CFEWorkingFolder, "rs1compatibilitydisc_p_Pc", "manifests", "songs_rs1disc"); } }
+        public static string ExtractedRS1DLCPackPath { get { return Path.Combine(CFEWorkingFolder, "rs1compatibilitydlc_p_Pc", "manifests", "songs_rs1dlc"); } }
+
+        public static string ManifestsFolderPath { get { return Path.Combine("manifests", "songs"); } }
+        public static string Cache7zPath { get { return Path.Combine(ExtractedRSPackPath, "cache7.7z"); } }
+        public static string RSSongsFilePath { get { return Path.Combine("manifests", "songs", "songs.hsan"); } }
+        public static string RS1SongsFilePath { get { return Path.Combine(ExtractedRSPackPath, "songs_rs1disc.hsan"); } }
+        public static string RS1DLCSongsFilePath { get { return Path.Combine(ExtractedRSPackPath, "songs_rs1dlc.hsan"); } }
+
         #region URL constants
         public const string CustomsForgeURL = "http://customsforge.com/";
         public const string CustomsForgeUserURL_Format = CustomsForgeURL + "user/{0}/";
