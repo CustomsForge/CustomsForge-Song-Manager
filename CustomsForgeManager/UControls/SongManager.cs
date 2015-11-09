@@ -37,8 +37,9 @@ namespace CustomsForgeManager.UControls
         public SongManager()
         {
             InitializeComponent();
-            dgvSongsDetail.Visible = false;
+            Globals.TsLabel_StatusMsg.Click += lnkShowAll_Click;
             Leave += SongManager_Leave;
+            dgvSongsDetail.Visible = false;
             PopulateSongManager();
 #if TAGGER
             cmsTaggerPreview.Visible = true;
@@ -221,16 +222,8 @@ namespace CustomsForgeManager.UControls
             Globals.TsLabel_DisabledCounter.Alignment = ToolStripItemAlignment.Right;
             Globals.TsLabel_DisabledCounter.Text = tsldcMsg;
             Globals.TsLabel_DisabledCounter.Visible = true;
-
             Globals.TsLabel_StatusMsg.Visible = false;
-            Globals.TsLabel_StatusMsg.Alignment = ToolStripItemAlignment.Right;
-            Globals.TsLabel_StatusMsg.Text = "Show &All";
-            Globals.TsLabel_StatusMsg.IsLink = true;
-            Globals.TsLabel_StatusMsg.LinkBehavior = LinkBehavior.HoverUnderline;
-            Globals.TsLabel_StatusMsg.Click += lnkShowAll_Click;
         }
-
-
 
         private void CheckForUpdatesEvent(object o, DoWorkEventArgs args)
         {
@@ -1038,9 +1031,12 @@ namespace CustomsForgeManager.UControls
                         MessageBox.Show("No Song Details Found");
                     else
                     {
-                        // apply min formatting
+                        // apply some formatting
                         dgvSongsMaster.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
                         dgvSongsDetail.ColumnHeadersDefaultCellStyle.WrapMode = DataGridViewTriState.False;
+                        dgvSongsDetail.Columns["colDetailPID"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                        dgvSongsDetail.Columns["colDetailSections"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                        dgvSongsDetail.Columns["colDetailDMax"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
                         var rowHeight = dgvSongsMaster.Rows[e.RowIndex].Height + 0; // height tweak
                         var colWidth = dgvSongsMaster.Columns[e.ColumnIndex].Width - 16; // width tweak
@@ -1165,8 +1161,14 @@ namespace CustomsForgeManager.UControls
             // filter applied
             if (!String.IsNullOrEmpty(filterStatus) && dgvPainted)
             {
+                Globals.TsLabel_StatusMsg.Alignment = ToolStripItemAlignment.Right;
+                Globals.TsLabel_StatusMsg.Text = "Show &All";
+                Globals.TsLabel_StatusMsg.IsLink = true;
+                Globals.TsLabel_StatusMsg.LinkBehavior = LinkBehavior.HoverUnderline;
                 Globals.TsLabel_StatusMsg.Visible = true;
+                Globals.TsLabel_DisabledCounter.Alignment = ToolStripItemAlignment.Right;
                 Globals.TsLabel_DisabledCounter.Text = filterStatus;
+                Globals.TsLabel_DisabledCounter.Visible = true;
             }
 
             // filter removed

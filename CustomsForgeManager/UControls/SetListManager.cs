@@ -41,6 +41,7 @@ namespace CustomsForgeManager.UControls
         public SetlistManager()
         {
             InitializeComponent();
+            Globals.TsLabel_StatusMsg.Click += lnkShowAll_Click;
             PopulateSetlistManager();
         }
 
@@ -98,13 +99,7 @@ namespace CustomsForgeManager.UControls
             Globals.TsLabel_DisabledCounter.Alignment = ToolStripItemAlignment.Right;
             Globals.TsLabel_DisabledCounter.Text = String.Format("Songs Used In Setlists Count: {0}", "0");
             Globals.TsLabel_DisabledCounter.Visible = true;
-
             Globals.TsLabel_StatusMsg.Visible = false;
-            Globals.TsLabel_StatusMsg.Alignment = ToolStripItemAlignment.Right;
-            Globals.TsLabel_StatusMsg.Text = Properties.Resources.ShowAll;
-            Globals.TsLabel_StatusMsg.IsLink = true;
-            Globals.TsLabel_StatusMsg.LinkBehavior = LinkBehavior.HoverUnderline;
-            Globals.TsLabel_StatusMsg.Click += lnkShowAll_Click;
         }
 
         private void DgvSongsAppearance()
@@ -1006,8 +1001,14 @@ namespace CustomsForgeManager.UControls
                 // filter applied
                 if (!String.IsNullOrEmpty(filterStatus))
                 {
+                    Globals.TsLabel_StatusMsg.Alignment = ToolStripItemAlignment.Right;
+                    Globals.TsLabel_StatusMsg.Text = "Show &All";
+                    Globals.TsLabel_StatusMsg.IsLink = true;
+                    Globals.TsLabel_StatusMsg.LinkBehavior = LinkBehavior.HoverUnderline;
                     Globals.TsLabel_StatusMsg.Visible = true;
+                    Globals.TsLabel_DisabledCounter.Alignment = ToolStripItemAlignment.Right;
                     Globals.TsLabel_DisabledCounter.Text = filterStatus;
+                    Globals.TsLabel_DisabledCounter.Visible = true;
                 }
             }
 

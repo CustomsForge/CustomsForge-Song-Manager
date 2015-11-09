@@ -27,6 +27,9 @@ namespace CustomsForgeManager.UControls
         public Duplicates()
         {
             InitializeComponent();
+            Globals.TsLabel_StatusMsg.Click += lnkShowAll_Click;
+            btnMove.Click += DeleteMoveSelected;
+            btnDeleteSong.Click += DeleteMoveSelected;
             ErrorStyle = new DataGridViewCellStyle()
             {
                 Font = new Font("Arial", 8, FontStyle.Italic),
@@ -34,9 +37,6 @@ namespace CustomsForgeManager.UControls
                 BackColor = ErrorStyleBackColor
             };
             txtNoDuplicates.Visible = false;
-            btnMove.Click += DeleteMoveSelected;
-            btnDeleteSong.Click += DeleteMoveSelected;
-
             PopulateDuplicates();
         }
 
@@ -150,13 +150,7 @@ namespace CustomsForgeManager.UControls
             Globals.TsLabel_DisabledCounter.Alignment = ToolStripItemAlignment.Right;
             Globals.TsLabel_DisabledCounter.Text = String.Format(CustomsForgeManager.Properties.Resources.DuplicatesCountFormat, dgvDups.Rows.Count);
             Globals.TsLabel_DisabledCounter.Visible = true;
-
             Globals.TsLabel_StatusMsg.Visible = false;
-            Globals.TsLabel_StatusMsg.Alignment = ToolStripItemAlignment.Right;
-            Globals.TsLabel_StatusMsg.Text = CustomsForgeManager.Properties.Resources.ShowAll;
-            Globals.TsLabel_StatusMsg.IsLink = true;
-            Globals.TsLabel_StatusMsg.LinkBehavior = LinkBehavior.HoverUnderline;
-            Globals.TsLabel_StatusMsg.Click += lnkShowAll_Click;
         }
 
         private void DgvDupsAppearance() // overrides Duplicates.Desinger.cs
@@ -439,7 +433,7 @@ namespace CustomsForgeManager.UControls
             // MouseUp detection is more reliable than MouseDown
 
             var rowIndex = e.RowIndex;
-
+ 
             if (e.ColumnIndex == colSelect.Index && rowIndex != -1)
             {
                 this.dgvDups.DataBindingComplete -= dgvDups_DataBindingComplete;
@@ -482,8 +476,14 @@ namespace CustomsForgeManager.UControls
             // filter applied
             if (!String.IsNullOrEmpty(filterStatus) && dgvPainted)
             {
+                Globals.TsLabel_StatusMsg.Alignment = ToolStripItemAlignment.Right;
+                Globals.TsLabel_StatusMsg.Text = "Show &All";
+                Globals.TsLabel_StatusMsg.IsLink = true;
+                Globals.TsLabel_StatusMsg.LinkBehavior = LinkBehavior.HoverUnderline;
                 Globals.TsLabel_StatusMsg.Visible = true;
+                Globals.TsLabel_DisabledCounter.Alignment = ToolStripItemAlignment.Right;
                 Globals.TsLabel_DisabledCounter.Text = filterStatus;
+                Globals.TsLabel_DisabledCounter.Visible = true;
             }
 
             // filter removed
@@ -547,6 +547,8 @@ namespace CustomsForgeManager.UControls
 
         private void dgvDups_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
+            if (e.RowIndex == -1) return;
+
             try
             {
                 var x = (SongData)dgvDups.Rows[e.RowIndex].DataBoundItem;
