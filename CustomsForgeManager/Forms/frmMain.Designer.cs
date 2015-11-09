@@ -50,16 +50,6 @@ namespace CustomsForgeManager.Forms
             this.tpSetlistManager = new System.Windows.Forms.TabPage();
             this.tpSettings = new System.Windows.Forms.TabPage();
             this.tpAbout = new System.Windows.Forms.TabPage();
-            this.tsTagger = new System.Windows.Forms.ToolStrip();
-            this.tsLabel_Tagger = new System.Windows.Forms.ToolStripLabel();
-            this.tscbTaggerThemes = new System.Windows.Forms.ToolStripComboBox();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.tsButtonTagSelected = new System.Windows.Forms.ToolStripButton();
-            this.tsButtonUntagSelection = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
-            this.tsbPlay = new System.Windows.Forms.ToolStripButton();
-            this.tsbStop = new System.Windows.Forms.ToolStripButton();
-            this.tspbAudioPosition = new System.Windows.Forms.ToolStripProgressBar();
             this.tsUtilities = new System.Windows.Forms.ToolStrip();
             this.tsBtnLaunchRS = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -74,6 +64,16 @@ namespace CustomsForgeManager.Forms
             this.tsBtnRequest = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.tsBtnHelp = new System.Windows.Forms.ToolStripButton();
+            this.tsTagger = new System.Windows.Forms.ToolStrip();
+            this.tsLabel_Tagger = new System.Windows.Forms.ToolStripLabel();
+            this.tscbTaggerThemes = new System.Windows.Forms.ToolStripComboBox();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsButtonTagSelected = new System.Windows.Forms.ToolStripButton();
+            this.tsButtonUntagSelection = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsbPlay = new System.Windows.Forms.ToolStripButton();
+            this.tsbStop = new System.Windows.Forms.ToolStripButton();
+            this.tspbAudioPosition = new System.Windows.Forms.ToolStripProgressBar();
             this.BottomToolStripPanel = new System.Windows.Forms.ToolStripPanel();
             this.statusStripMain = new System.Windows.Forms.StatusStrip();
             this.tsLabel_ShowHideLog = new System.Windows.Forms.ToolStripStatusLabel();
@@ -88,6 +88,7 @@ namespace CustomsForgeManager.Forms
             this.LeftToolStripPanel = new System.Windows.Forms.ToolStripPanel();
             this.ContentPanel = new System.Windows.Forms.ToolStripContentPanel();
             this.timerAudioProgress = new System.Windows.Forms.Timer(this.components);
+            this.tpCachePsarcEditor = new System.Windows.Forms.TabPage();
             this.gbLog.SuspendLayout();
             this.contextMenuStrip_Tray.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.scMain)).BeginInit();
@@ -98,8 +99,8 @@ namespace CustomsForgeManager.Forms
             this.tstripContainer.TopToolStripPanel.SuspendLayout();
             this.tstripContainer.SuspendLayout();
             this.tcMain.SuspendLayout();
-            this.tsTagger.SuspendLayout();
             this.tsUtilities.SuspendLayout();
+            this.tsTagger.SuspendLayout();
             this.statusStripMain.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -184,7 +185,7 @@ namespace CustomsForgeManager.Forms
             // tstripContainer.ContentPanel
             // 
             this.tstripContainer.ContentPanel.Controls.Add(this.tcMain);
-            this.tstripContainer.ContentPanel.Size = new System.Drawing.Size(1011, 610);
+            this.tstripContainer.ContentPanel.Size = new System.Drawing.Size(1011, 608);
             this.tstripContainer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tstripContainer.LeftToolStripPanelVisible = false;
             this.tstripContainer.Location = new System.Drawing.Point(0, 0);
@@ -206,6 +207,7 @@ namespace CustomsForgeManager.Forms
             this.tcMain.Controls.Add(this.tpDuplicates);
             this.tcMain.Controls.Add(this.tpRenamer);
             this.tcMain.Controls.Add(this.tpSetlistManager);
+            this.tcMain.Controls.Add(this.tpCachePsarcEditor);
             this.tcMain.Controls.Add(this.tpSettings);
             this.tcMain.Controls.Add(this.tpAbout);
             this.tcMain.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -213,7 +215,7 @@ namespace CustomsForgeManager.Forms
             this.tcMain.Location = new System.Drawing.Point(0, 0);
             this.tcMain.Name = "tcMain";
             this.tcMain.SelectedIndex = 0;
-            this.tcMain.Size = new System.Drawing.Size(1011, 610);
+            this.tcMain.Size = new System.Drawing.Size(1011, 608);
             this.tcMain.TabIndex = 2;
             this.tcMain.SelectedIndexChanged += new System.EventHandler(this.tcMain_SelectedIndexChanged);
             // 
@@ -221,7 +223,7 @@ namespace CustomsForgeManager.Forms
             // 
             this.tpSongManager.Location = new System.Drawing.Point(4, 25);
             this.tpSongManager.Name = "tpSongManager";
-            this.tpSongManager.Size = new System.Drawing.Size(1003, 581);
+            this.tpSongManager.Size = new System.Drawing.Size(1003, 579);
             this.tpSongManager.TabIndex = 0;
             this.tpSongManager.Text = "Song Manager";
             this.tpSongManager.UseVisualStyleBackColor = true;
@@ -230,7 +232,7 @@ namespace CustomsForgeManager.Forms
             // 
             this.tpDuplicates.Location = new System.Drawing.Point(4, 25);
             this.tpDuplicates.Name = "tpDuplicates";
-            this.tpDuplicates.Size = new System.Drawing.Size(1003, 581);
+            this.tpDuplicates.Size = new System.Drawing.Size(1003, 579);
             this.tpDuplicates.TabIndex = 4;
             this.tpDuplicates.Text = "Duplicates";
             this.tpDuplicates.UseVisualStyleBackColor = true;
@@ -240,7 +242,7 @@ namespace CustomsForgeManager.Forms
             this.tpRenamer.Location = new System.Drawing.Point(4, 25);
             this.tpRenamer.Name = "tpRenamer";
             this.tpRenamer.Padding = new System.Windows.Forms.Padding(3);
-            this.tpRenamer.Size = new System.Drawing.Size(1003, 581);
+            this.tpRenamer.Size = new System.Drawing.Size(1003, 579);
             this.tpRenamer.TabIndex = 6;
             this.tpRenamer.Text = "Renamer";
             this.tpRenamer.UseVisualStyleBackColor = true;
@@ -249,7 +251,7 @@ namespace CustomsForgeManager.Forms
             // 
             this.tpSetlistManager.Location = new System.Drawing.Point(4, 25);
             this.tpSetlistManager.Name = "tpSetlistManager";
-            this.tpSetlistManager.Size = new System.Drawing.Size(1003, 581);
+            this.tpSetlistManager.Size = new System.Drawing.Size(1003, 579);
             this.tpSetlistManager.TabIndex = 7;
             this.tpSetlistManager.Text = "Setlist Manger";
             this.tpSetlistManager.UseVisualStyleBackColor = true;
@@ -259,7 +261,7 @@ namespace CustomsForgeManager.Forms
             this.tpSettings.Location = new System.Drawing.Point(4, 25);
             this.tpSettings.Name = "tpSettings";
             this.tpSettings.Padding = new System.Windows.Forms.Padding(3);
-            this.tpSettings.Size = new System.Drawing.Size(1003, 581);
+            this.tpSettings.Size = new System.Drawing.Size(1003, 579);
             this.tpSettings.TabIndex = 1;
             this.tpSettings.Text = "Settings";
             this.tpSettings.UseVisualStyleBackColor = true;
@@ -268,104 +270,10 @@ namespace CustomsForgeManager.Forms
             // 
             this.tpAbout.Location = new System.Drawing.Point(4, 25);
             this.tpAbout.Name = "tpAbout";
-            this.tpAbout.Size = new System.Drawing.Size(1003, 581);
+            this.tpAbout.Size = new System.Drawing.Size(1003, 579);
             this.tpAbout.TabIndex = 8;
             this.tpAbout.Text = "About";
             this.tpAbout.UseVisualStyleBackColor = true;
-            // 
-            // tsTagger
-            // 
-            this.tsTagger.Dock = System.Windows.Forms.DockStyle.None;
-            this.tsTagger.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsLabel_Tagger,
-            this.tscbTaggerThemes,
-            this.toolStripSeparator3,
-            this.tsButtonTagSelected,
-            this.tsButtonUntagSelection,
-            this.toolStripSeparator5,
-            this.tsbPlay,
-            this.tsbStop,
-            this.tspbAudioPosition});
-            this.tsTagger.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
-            this.tsTagger.Location = new System.Drawing.Point(481, 0);
-            this.tsTagger.Name = "tsTagger";
-            this.tsTagger.Padding = new System.Windows.Forms.Padding(0);
-            this.tsTagger.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.tsTagger.Size = new System.Drawing.Size(486, 26);
-            this.tsTagger.TabIndex = 1;
-            // 
-            // tsLabel_Tagger
-            // 
-            this.tsLabel_Tagger.Name = "tsLabel_Tagger";
-            this.tsLabel_Tagger.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
-            this.tsLabel_Tagger.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.tsLabel_Tagger.Size = new System.Drawing.Size(64, 23);
-            this.tsLabel_Tagger.Text = "Template:";
-            this.tsLabel_Tagger.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // tscbTaggerThemes
-            // 
-            this.tscbTaggerThemes.AutoSize = false;
-            this.tscbTaggerThemes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.tscbTaggerThemes.DropDownWidth = 95;
-            this.tscbTaggerThemes.Margin = new System.Windows.Forms.Padding(0, 1, 0, 2);
-            this.tscbTaggerThemes.Name = "tscbTaggerThemes";
-            this.tscbTaggerThemes.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
-            this.tscbTaggerThemes.Size = new System.Drawing.Size(84, 23);
-            // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 26);
-            // 
-            // tsButtonTagSelected
-            // 
-            this.tsButtonTagSelected.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.tsButtonTagSelected.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsButtonTagSelected.Name = "tsButtonTagSelected";
-            this.tsButtonTagSelected.Size = new System.Drawing.Size(77, 23);
-            this.tsButtonTagSelected.Text = "Tag Selected";
-            // 
-            // tsButtonUntagSelection
-            // 
-            this.tsButtonUntagSelection.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.tsButtonUntagSelection.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsButtonUntagSelection.Name = "tsButtonUntagSelection";
-            this.tsButtonUntagSelection.Size = new System.Drawing.Size(90, 23);
-            this.tsButtonUntagSelection.Text = "Untag Selected";
-            // 
-            // toolStripSeparator5
-            // 
-            this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 26);
-            // 
-            // tsbPlay
-            // 
-            this.tsbPlay.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsbPlay.Image = global::CustomsForgeManager.Properties.Resources.ap_play;
-            this.tsbPlay.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsbPlay.Name = "tsbPlay";
-            this.tsbPlay.Size = new System.Drawing.Size(23, 23);
-            this.tsbPlay.Text = "Play";
-            this.tsbPlay.ToolTipText = "Play/Pause";
-            this.tsbPlay.Click += new System.EventHandler(this.tsbPlay_Click);
-            // 
-            // tsbStop
-            // 
-            this.tsbStop.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsbStop.Image = global::CustomsForgeManager.Properties.Resources.ap_stop;
-            this.tsbStop.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsbStop.Name = "tsbStop";
-            this.tsbStop.Size = new System.Drawing.Size(23, 23);
-            this.tsbStop.Text = "Stop";
-            this.tsbStop.Click += new System.EventHandler(this.tsbStop_Click);
-            // 
-            // tspbAudioPosition
-            // 
-            this.tspbAudioPosition.Name = "tspbAudioPosition";
-            this.tspbAudioPosition.Size = new System.Drawing.Size(100, 23);
-            this.tspbAudioPosition.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
-            this.tspbAudioPosition.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tspbAudioPosition_MouseDown);
             // 
             // tsUtilities
             // 
@@ -488,6 +396,100 @@ namespace CustomsForgeManager.Forms
             this.tsBtnHelp.Size = new System.Drawing.Size(23, 22);
             this.tsBtnHelp.Text = "Help";
             this.tsBtnHelp.Click += new System.EventHandler(this.tsBtnHelp_Click);
+            // 
+            // tsTagger
+            // 
+            this.tsTagger.Dock = System.Windows.Forms.DockStyle.None;
+            this.tsTagger.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsLabel_Tagger,
+            this.tscbTaggerThemes,
+            this.toolStripSeparator3,
+            this.tsButtonTagSelected,
+            this.tsButtonUntagSelection,
+            this.toolStripSeparator5,
+            this.tsbPlay,
+            this.tsbStop,
+            this.tspbAudioPosition});
+            this.tsTagger.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
+            this.tsTagger.Location = new System.Drawing.Point(481, 0);
+            this.tsTagger.Name = "tsTagger";
+            this.tsTagger.Padding = new System.Windows.Forms.Padding(0);
+            this.tsTagger.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.tsTagger.Size = new System.Drawing.Size(472, 26);
+            this.tsTagger.TabIndex = 1;
+            // 
+            // tsLabel_Tagger
+            // 
+            this.tsLabel_Tagger.Name = "tsLabel_Tagger";
+            this.tsLabel_Tagger.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
+            this.tsLabel_Tagger.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.tsLabel_Tagger.Size = new System.Drawing.Size(65, 23);
+            this.tsLabel_Tagger.Text = "Template:";
+            this.tsLabel_Tagger.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // tscbTaggerThemes
+            // 
+            this.tscbTaggerThemes.AutoSize = false;
+            this.tscbTaggerThemes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.tscbTaggerThemes.DropDownWidth = 95;
+            this.tscbTaggerThemes.Margin = new System.Windows.Forms.Padding(0, 1, 0, 2);
+            this.tscbTaggerThemes.Name = "tscbTaggerThemes";
+            this.tscbTaggerThemes.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
+            this.tscbTaggerThemes.Size = new System.Drawing.Size(68, 23);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 26);
+            // 
+            // tsButtonTagSelected
+            // 
+            this.tsButtonTagSelected.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tsButtonTagSelected.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsButtonTagSelected.Name = "tsButtonTagSelected";
+            this.tsButtonTagSelected.Size = new System.Drawing.Size(78, 23);
+            this.tsButtonTagSelected.Text = "Tag Selected";
+            // 
+            // tsButtonUntagSelection
+            // 
+            this.tsButtonUntagSelection.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tsButtonUntagSelection.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsButtonUntagSelection.Name = "tsButtonUntagSelection";
+            this.tsButtonUntagSelection.Size = new System.Drawing.Size(90, 23);
+            this.tsButtonUntagSelection.Text = "Untag Selected";
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 26);
+            // 
+            // tsbPlay
+            // 
+            this.tsbPlay.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbPlay.Image = global::CustomsForgeManager.Properties.Resources.ap_play;
+            this.tsbPlay.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbPlay.Name = "tsbPlay";
+            this.tsbPlay.Size = new System.Drawing.Size(23, 23);
+            this.tsbPlay.Text = "Play";
+            this.tsbPlay.ToolTipText = "Play/Pause";
+            this.tsbPlay.Click += new System.EventHandler(this.tsbPlay_Click);
+            // 
+            // tsbStop
+            // 
+            this.tsbStop.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbStop.Image = global::CustomsForgeManager.Properties.Resources.ap_stop;
+            this.tsbStop.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbStop.Name = "tsbStop";
+            this.tsbStop.Size = new System.Drawing.Size(23, 23);
+            this.tsbStop.Text = "Stop";
+            this.tsbStop.Click += new System.EventHandler(this.tsbStop_Click);
+            // 
+            // tspbAudioPosition
+            // 
+            this.tspbAudioPosition.Name = "tspbAudioPosition";
+            this.tspbAudioPosition.Size = new System.Drawing.Size(100, 23);
+            this.tspbAudioPosition.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.tspbAudioPosition.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tspbAudioPosition_MouseDown);
             // 
             // BottomToolStripPanel
             // 
@@ -615,6 +617,15 @@ namespace CustomsForgeManager.Forms
             // 
             this.timerAudioProgress.Tick += new System.EventHandler(this.timerAudioProgress_Tick);
             // 
+            // tpCachePsarcEditor
+            // 
+            this.tpCachePsarcEditor.Location = new System.Drawing.Point(4, 25);
+            this.tpCachePsarcEditor.Name = "tpCachePsarcEditor";
+            this.tpCachePsarcEditor.Size = new System.Drawing.Size(1003, 579);
+            this.tpCachePsarcEditor.TabIndex = 0;
+            this.tpCachePsarcEditor.Text = "Cache Psarc Editor";
+            this.tpCachePsarcEditor.UseVisualStyleBackColor = true;
+            // 
             // frmMain
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -643,10 +654,10 @@ namespace CustomsForgeManager.Forms
             this.tstripContainer.ResumeLayout(false);
             this.tstripContainer.PerformLayout();
             this.tcMain.ResumeLayout(false);
-            this.tsTagger.ResumeLayout(false);
-            this.tsTagger.PerformLayout();
             this.tsUtilities.ResumeLayout(false);
             this.tsUtilities.PerformLayout();
+            this.tsTagger.ResumeLayout(false);
+            this.tsTagger.PerformLayout();
             this.statusStripMain.ResumeLayout(false);
             this.statusStripMain.PerformLayout();
             this.ResumeLayout(false);
@@ -710,5 +721,6 @@ namespace CustomsForgeManager.Forms
         private ToolStripButton tsbStop;
         private Timer timerAudioProgress;
         private ToolStripProgressBar tspbAudioPosition;
+        private TabPage tpCachePsarcEditor;
     }
 }

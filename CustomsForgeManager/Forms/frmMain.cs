@@ -31,10 +31,10 @@ namespace CustomsForgeManager.Forms
             tsTagger.AutoSize = false; // a key to preventing movement
             tsUtilities.Location = new Point(0, 0); // force location
             tsTagger.Location = new Point(tsUtilities.Width + 10, 0); // force location
-            
+
 
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);
-            
+
             //FormClosing is already declared in the designer, therefore it's being called twice...
             //this.FormClosing += frmMain_FormClosing;
 
@@ -70,7 +70,7 @@ namespace CustomsForgeManager.Forms
             Globals.TsComboBox_TaggerThemes = this.tscbTaggerThemes;
             Globals.ResetToolStripGlobals();
             Globals.MyLog.AddTargetTextBox(tbLog);
-        //    Globals.CFMTheme.AddListener(this);
+            //    Globals.CFMTheme.AddListener(this);
 
             Globals.OnScanEvent += (s, e) =>
                 {
@@ -127,7 +127,7 @@ namespace CustomsForgeManager.Forms
             tscbTaggerThemes.SelectedIndex = 0;
 
             if (!String.IsNullOrEmpty(Globals.Tagger.ThemeName))
-               tscbTaggerThemes.SelectedItem = Globals.Tagger.ThemeName;
+                tscbTaggerThemes.SelectedItem = Globals.Tagger.ThemeName;
             tscbTaggerThemes.SelectedIndexChanged += (s, e) =>
                 {
                     if (tscbTaggerThemes.SelectedItem != null)
@@ -287,6 +287,14 @@ namespace CustomsForgeManager.Forms
                     Globals.SetlistManager.Size = UCSize;
                     currentControl = Globals.SetlistManager;
                     break;
+                case "CACH":
+                    this.tpCachePsarcEditor.Controls.Clear();
+                    this.tpCachePsarcEditor.Controls.Add(Globals.CachePsarcEditor);
+                    Globals.CachePsarcEditor.Dock = DockStyle.Fill;
+                    Globals.CachePsarcEditor.Location = UCLocation;
+                    Globals.CachePsarcEditor.Size = UCSize;
+                    currentControl = Globals.CachePsarcEditor;
+                    break;
                 case "SETT":
                     // using LeaveSongManager instead of EH SongMangager_Leave
                     Globals.SongManager.LeaveSongManager();
@@ -356,7 +364,7 @@ namespace CustomsForgeManager.Forms
         private void tsLabelShowHideLog_Click(object sender, EventArgs e)
         {
             ShowHideLog();
-        }     
+        }
 
 #if TAGGER
         private void TaggerProgress(object sender, TaggerProgress e)

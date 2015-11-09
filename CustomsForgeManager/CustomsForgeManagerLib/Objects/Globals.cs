@@ -42,11 +42,12 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         private static Dictionary<string, SongData> _outdatedSongList;
         private static Renamer _renamer;
         private static SetlistManager _SetlistManager;
+        private static CachePsarcEditor _cachePsarcEditor;
         private static Settings _settings;
         private static BindingList<SongData> _songCollection;
         private static SongManager _songManager;
         private static Theme _theme;
- 		private static SongTagger _tagger;
+        private static SongTagger _tagger;
 
 
         public static Random random = new Random();
@@ -74,8 +75,8 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         }
 
         public static Theme CFMTheme { get { return _theme ?? (_theme = new Theme()); ; } set { _theme = value; } }
- 
- 
+
+
         public static About About
         {
             get { return _about ?? (_about = new About()); }
@@ -97,7 +98,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
 
         public static List<TuningDefinition> TuningXml { get; set; }
         public static DLogger MyLog { get; set; }
-       // public static AppSettings MySettings { get; set; }
+        // public static AppSettings MySettings { get; set; }
         public static NotifyIcon Notifier { get; set; }
 
         public static Dictionary<string, SongData> OutdatedSongList
@@ -118,6 +119,12 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
             set { _tagger = value; }
         }
 #endif
+        public static CachePsarcEditor CachePsarcEditor
+        {
+            get { return _cachePsarcEditor ?? (_cachePsarcEditor = new CachePsarcEditor()); }
+            set { _cachePsarcEditor = value; }
+        }
+
         public static bool RescanDuplicates { get; set; }
         public static bool RescanRenamer { get; set; }
         public static bool RescanSetlistManager { get; set; }
@@ -173,7 +180,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
 
         public static void Log(string message)
         {
-             MyLog.Write(message);
+            MyLog.Write(message);
         }
 
         public static void DebugLog(string message)
