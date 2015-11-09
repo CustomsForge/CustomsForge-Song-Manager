@@ -97,7 +97,7 @@ namespace CustomsForgeManager.UControls
             Globals.TsLabel_MainMsg.Text = string.Format(Properties.Resources.RocksmithSongsCountFormat, songCollection.Count);
             Globals.TsLabel_MainMsg.Visible = true;
             Globals.TsLabel_DisabledCounter.Alignment = ToolStripItemAlignment.Right;
-            Globals.TsLabel_DisabledCounter.Text = String.Format("Songs Used In Setlists Count: {0}", "0");
+            Globals.TsLabel_DisabledCounter.Text = String.Format(Properties.Resources.SongsUsedInSetlistsCountX0, "0");
             Globals.TsLabel_DisabledCounter.Visible = true;
             Globals.TsLabel_StatusMsg.Visible = false;
         }
@@ -142,7 +142,7 @@ namespace CustomsForgeManager.UControls
             }
 
             if (String.IsNullOrEmpty(DataGridViewAutoFilterColumnHeaderCell.GetFilterStatus(dgvSongs)))
-                Globals.TsLabel_DisabledCounter.Text = String.Format("Songs Used In Setlists Count: {0}", songsInSetlists);
+                Globals.TsLabel_DisabledCounter.Text = String.Format(Properties.Resources.SongsUsedInSetlistsCountX0, songsInSetlists);
         }
 
         private void LoadFilteredBindingList(dynamic list)

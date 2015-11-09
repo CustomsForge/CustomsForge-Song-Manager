@@ -68,6 +68,14 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
         public DateTime FileDate { get; set; }
         public int FileSize { get; set; }
 
+        public void UpdateFileInfo()
+        {
+            var fi = new FileInfo(Path);
+            FileDate = fi.LastWriteTimeUtc;
+            FileSize = (int)fi.Length;
+        }
+
+
         // used by detail table
         [XmlArray("Arrangments")] // provides proper xml serialization
         [XmlArrayItem("Arrangement")] // provides proper xml serialization
@@ -103,6 +111,8 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
                         result += "b";
                     if (arrangement.Contains("vocals"))
                         result += "V";
+                    if (arrangement.Contains("combo"))
+                        result += "C";
                 }
                 return result;
             }

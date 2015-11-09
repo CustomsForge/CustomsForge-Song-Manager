@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace CFMPostBuilder
 {
@@ -144,29 +145,35 @@ namespace CFMPostBuilder
                         Console.WriteLine("USER:" + ftpUsername);
                         Console.WriteLine("PASS:" +ftpPass);
 
-                        const string SetupFile = @"CFMSetup\Output\CFSMSetup.exe";
-                        FileVersionInfo vi = FileVersionInfo.GetVersionInfo(SetupFile);
-
-
-                        using (var fs = File.OpenRead(SetupFile))
+                        if (MessageBox.Show("Upload the files?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.OK)
                         {
-                            UploadStream(fs, "CFSMSetup.exe");
+                            const string SetupFile = @"CFMSetup\Output\CFSMSetup.exe";
+                            FileVersionInfo vi = FileVersionInfo.GetVersionInfo(SetupFile);
+
+
+                            using (var fs = File.OpenRead(SetupFile))
+                            {
+                                UploadStream(fs, "CFSMSetup.exe");
+                            }
+
+
+                            Console.WriteLine(File.Exists(rnotes));
+                            String txt = vi.ProductVersion.Trim() + Environment.NewLine;
+                            txt += File.ReadAllText(rnotes);
+
+                            MemoryStream ms = new MemoryStream();
+                            using (var sw = new StreamWriter(ms))
+                            {
+                                sw.Write(txt);
+                                sw.Flush();
+                                ms.Position = 0;
+                                UploadStream(ms, "VersionInfo.txt");
+                            }
+                            Console.WriteLine("Uploaded all files.");
                         }
+                        else
+                            Console.WriteLine("Upload Canceled.");
 
-
-                        Console.WriteLine(File.Exists(rnotes));
-                        String txt = vi.ProductVersion.Trim() + Environment.NewLine;
-                        txt += File.ReadAllText(rnotes);
-
-                        MemoryStream ms = new MemoryStream();
-                        using (var sw = new StreamWriter(ms))
-                        {
-                            sw.Write(txt);
-                            sw.Flush();
-                            ms.Position = 0;
-                            UploadStream(ms, "VersionInfo.txt");
-                        }
-                        Console.WriteLine("Uploaded all files.");
                     }
                     break;
 

@@ -22,9 +22,10 @@ namespace CustomsForgeManager.UControls
 {
     public partial class CachePsarcEditor : UserControl
     {
+        #region Private fields
         private bool allSelected, isModifiying = false;
         private int fullSongCount;
-        private string pZipPath = "7za.exe";
+        private const string pZipPath = "7za.exe";
         private ProcessStartInfo pZip = new ProcessStartInfo();
         private Process x;
 
@@ -48,13 +49,15 @@ namespace CustomsForgeManager.UControls
         RSDataJsonDictionary<RSSongData> CacheSongCollection = new RSDataJsonDictionary<RSSongData>();
 
         RSDataJsonDictionary<RSSongData> DisabledTempSongCollection = new RSDataJsonDictionary<RSSongData>();
-        RSDataJsonDictionary<RSSongData> TempSongCollection = new RSDataJsonDictionary<RSSongData>();
+        RSDataJsonDictionary<RSSongData> TempSongCollection = new RSDataJsonDictionary<RSSongData>(); 
+        #endregion
 
         public CachePsarcEditor()
         {
             InitializeComponent();
             PopulateCachePsarcEditor();
         }
+       
         #region Load Songs
         public void PopulateCachePsarcEditor()
         {

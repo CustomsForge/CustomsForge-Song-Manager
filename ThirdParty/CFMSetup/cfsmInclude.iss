@@ -1,6 +1,3 @@
-;the isbeta.iss tells the compiler to compile it in beta or release mode
-#include "isbeta.iss"
-
 #define buildpath SourcePath +"..\..\CustomsForgeManager\bin\InnoInstaller\"
 #define AppVersion GetFileVersion(buildpath + "CustomsForgeSongManager.exe")
 #define AppURL "http://customsforge.com/"

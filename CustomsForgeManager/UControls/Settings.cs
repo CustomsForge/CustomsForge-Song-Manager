@@ -19,7 +19,7 @@ namespace CustomsForgeManager.UControls
             AppSettings.Instance.PropertyChanged += SettingsPropChanged;
 
 #if !CUSTOMUI
-            btnCustomize.Visible = false;
+     //       btnCustomize.Visible = false;
 #endif
         }
 

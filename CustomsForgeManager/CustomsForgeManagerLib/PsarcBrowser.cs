@@ -20,14 +20,15 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
     {
         private string FilePath;
         private PSARC archive;
+        private Stream FStream;
 
         // Loads song archive file to memory.
         public PsarcBrowser(string fileName)
         {
             FilePath = fileName;
             archive = new PSARC();
-            var stream = File.OpenRead(FilePath);
-            archive.Read(stream, true);
+            FStream = File.OpenRead(FilePath);
+            archive.Read(FStream, true);
         }
 
         public static bool ExtractAudio(string archiveName, string audioName, string previewName)
@@ -214,7 +215,18 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
 
         public void Dispose()
         {
-            archive.Dispose();
+            if (FStream != null)
+            {
+                FStream.Dispose();
+                FStream = null;
+            }
+            if (archive != null)
+            {                
+                archive.Dispose();
+                archive = null;
+            }
+
+
             GC.SuppressFinalize(this);
         }
 

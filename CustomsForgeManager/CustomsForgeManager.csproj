@@ -473,6 +473,9 @@
     <None Include="Resources\cfsm_48x48.ico" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="7za.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="bass.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -494,6 +497,8 @@
     <None Include="Resources\media_play_green.png" />
     <None Include="Resources\media_stop_red.png" />
     <None Include="Resources\Help.png" />
+    <None Include="Resources\Open.png" />
+    <None Include="Resources\SelectRow.png" />
     <Content Include="Resources\Unleashed2k.png" />
     <Content Include="RocksmithToolkitLib.Config.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -639,32 +644,32 @@
   <ItemGroup>
     <PublishFile Include="RocksmithToolkitLib.Config.xml">
       <Visible>False</Visible>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="RocksmithToolkitLib.SongAppId.xml">
       <Visible>False</Visible>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="RocksmithToolkitLib.TuningDefinition.xml">
       <Visible>False</Visible>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
   </ItemGroup>
@@ -680,17 +685,15 @@ if $(ConfigurationName) == InnoInstaller (
 CD "$(SolutionDir)ThirdParty\ConfuserEx_bin\"
 "Confuser.CLI.exe" "..\ConfuserExForInno.crproj"
 CD "$(SolutionDir)ThirdParty\Inno\"
-"ISCC.exe" "..\CFMSetup\CFSMInstaller.iss"
+"ISCC.exe" /DBETA "..\CFMSetup\CFSMInstaller.iss"
 del /q "$(TargetDir)*.pdb"
 )
 
 if $(ConfigurationName) == PublishBeta (
 CD "$(SolutionDir)ThirdParty\ConfuserEx_bin\"
 "Confuser.CLI.exe" "..\ConfuserExForInno.crproj"
-CD "$(SolutionDir)ThirdParty\"
-"CFMPostBuilder.exe" "SETINSTALLERTYPE" "BETA"
 CD "$(SolutionDir)ThirdParty\Inno\"
-"ISCC.exe" "..\CFMSetup\CFSMInstaller.iss"
+"ISCC.exe" /DBETA "..\CFMSetup\CFSMInstaller.iss"
 del /q "$(TargetDir)*.pdb"
 CD "$(SolutionDir)ThirdParty\"
 "CFMPostBuilder.exe" "UPLOAD" "198.58.96.81/beta/" "appdev" "kvPSF7HL"
@@ -699,8 +702,6 @@ CD "$(SolutionDir)ThirdParty\"
 if $(ConfigurationName) == PublishRelease (
 CD "$(SolutionDir)ThirdParty\ConfuserEx_bin\"
 "Confuser.CLI.exe" "..\ConfuserExForInno.crproj"
-CD "$(SolutionDir)ThirdParty\"
-"CFMPostBuilder.exe" "SETINSTALLERTYPE" "RELEASE"
 CD "$(SolutionDir)ThirdParty\Inno\"
 "ISCC.exe" "..\CFMSetup\CFSMInstaller.iss"
 del /q "$(TargetDir)*.pdb"

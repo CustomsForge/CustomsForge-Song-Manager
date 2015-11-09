@@ -34,26 +34,23 @@ namespace CustomsForgeManager.Forms
 
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);
 
-            //FormClosing is already declared in the designer, therefore it's being called twice...
-            //this.FormClosing += frmMain_FormClosing;
-
-            this.FormClosed += frmMain_FormClosed; // moved here for better access
             // gets rid of notifier icon on closing
             this.FormClosed += delegate
                 {
+                    Globals.MyLog.RemoveTargetNotifyIcon(Globals.Notifier);
                     notifyIcon_Main.Visible = false;
                     notifyIcon_Main.Dispose();
-                    notifyIcon_Main = null;
+                    notifyIcon_Main.Icon = null;
+                    Dispose();
                 };
+            var strFormatVersion = "{0} (v{1})";
 #if BETA
+            strFormatVersion = "{0} (v{1} - BETA VERSION)";
+#endif
 #if DEBUG
-            var stringVersion = String.Format("{0} (v{1} - DEBUG)", Constants.ApplicationName, Constants.CustomVersion());
-#else
-            var stringVersion = String.Format("{0} (v{1} - BETA VERSION)", Constants.ApplicationName, Constants.CustomVersion());            
+            strFormatVersion = "{0} (v{1} - DEBUG)";
 #endif
-#else
-            var stringVersion = String.Format("{0} (v{1})", Constants.ApplicationName, Constants.CustomVersion());
-#endif
+            var stringVersion = String.Format(strFormatVersion, Constants.ApplicationName, Constants.CustomVersion());
             this.Text = stringVersion;
             // bring CFM to the front on startup
             this.WindowState = FormWindowState.Minimized;
@@ -93,7 +90,7 @@ namespace CustomsForgeManager.Forms
 
             if (AppSettings.Instance.ShowLogWindow)
             {
-                tsLabel_ShowHideLog.Text = "Hide Log ";
+                tsLabel_ShowHideLog.Text = CustomsForgeManager.Properties.Resources.HideLog;
                 scMain.Panel2Collapsed = false;
             }
 
@@ -102,7 +99,8 @@ namespace CustomsForgeManager.Forms
                     if (e.PropertyName == "ShowLogWindow")
                     {
                         scMain.Panel2Collapsed = !AppSettings.Instance.ShowLogWindow;
-                        tsLabel_ShowHideLog.Text = scMain.Panel2Collapsed ? "Show Log" : "Hide Log ";
+                        tsLabel_ShowHideLog.Text = scMain.Panel2Collapsed ?
+                            Properties.Resources.ShowLog : Properties.Resources.HideLog;
                     }
                 };
 
@@ -147,9 +145,8 @@ namespace CustomsForgeManager.Forms
 
         private string GetRSTKLibVersion()
         {
-            Assembly assembly = Assembly.LoadFrom("RocksmithToolkitLib.dll");
-            Version ver = assembly.GetName().Version;
-            return String.Format("RocksmithToolkitLib Version: {0}", ver);
+            return String.Format("RocksmithToolkitLib Version: {0}",
+                Assembly.LoadFrom("RocksmithToolkitLib.dll").GetName().Version);
         }
 
         private void LoadSongManager()
@@ -723,6 +720,11 @@ namespace CustomsForgeManager.Forms
         public void ApplyTheme(Theme sender)
         {
             //var gs = sender.SpecificThemeSetting<DataGridThemeSetting>();
+        }
+
+        public Control GetControl()
+        {
+            return this;
         }
     }
 }

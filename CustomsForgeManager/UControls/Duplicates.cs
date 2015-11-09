@@ -436,10 +436,16 @@ namespace CustomsForgeManager.UControls
  
             if (e.ColumnIndex == colSelect.Index && rowIndex != -1)
             {
-                this.dgvDups.DataBindingComplete -= dgvDups_DataBindingComplete;
-                dgvDups.EndEdit();
-                this.dgvDups.DataBindingComplete += dgvDups_DataBindingComplete;
-            }
+                dgvDups.DataBindingComplete -= dgvDups_DataBindingComplete;
+                try
+                {
+                    dgvDups.EndEdit();
+                }
+                finally
+                {
+                    dgvDups.DataBindingComplete += dgvDups_DataBindingComplete;
+                }
+            } 
             else
 
                 if (e.Button == MouseButtons.Right)

@@ -29,6 +29,7 @@ namespace CustomsForgeManager.SongEditor
         {
             if (String.IsNullOrEmpty(songPath))
                 return;
+            this.Icon = Properties.Resources.cfsm_48x48;
 
             Globals.Log("Loading song information from: " + Path.GetFileName(songPath));
             Cursor.Current = Cursors.WaitCursor;

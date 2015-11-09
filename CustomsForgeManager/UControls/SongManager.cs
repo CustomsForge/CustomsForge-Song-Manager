@@ -701,8 +701,9 @@ namespace CustomsForgeManager.UControls
                     if (chkEnableDelete.Checked && !safe2Delete)
                     {
                         // DANGER ZONE
-                        if (MessageBox.Show(string.Format("You are about to permanently delete all 'Selected' songs(s). " +
-                            " {0}{0}Are you sure you want to permanently delete the(se) songs(s)", Environment.NewLine), Constants.ApplicationName + " ... Warning ... Warning",
+                        if (MessageBox.Show(string.Format(
+                            Properties.Resources.YouAreAboutToPermanentlyDeleteAllSelectedS, 
+                            Environment.NewLine), Constants.ApplicationName + " ... Warning ... Warning",
                                             MessageBoxButtons.YesNo) == DialogResult.No)
                             return;
 
@@ -719,7 +720,7 @@ namespace CustomsForgeManager.UControls
                         }
                         catch (IOException ex)
                         {
-                            MessageBox.Show(string.Format("Unable to delete song :{0}{1}Error: {2}", songPath, Environment.NewLine, ex.Message), Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show(string.Format(Properties.Resources.UnableToDeleteSongX0X1ErrorX2, songPath, Environment.NewLine, ex.Message), Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
                 }
@@ -764,7 +765,8 @@ namespace CustomsForgeManager.UControls
                         }
                         catch (IOException ex)
                         {
-                            MessageBox.Show(string.Format(@"Unable to enable/disable song: {0} in 'dlc' folder.{1}Error: {2}", Path.GetFileName(originalPath), Environment.NewLine, ex.Message));
+                            MessageBox.Show(string.Format(Properties.Resources.UnableToEnableDisableSongX0InDlcFolderX1Er,
+                                Path.GetFileName(originalPath), Environment.NewLine, ex.Message));
                         }
 
                         // row.Cells["colSelect"].Value = false;
@@ -774,9 +776,7 @@ namespace CustomsForgeManager.UControls
                     }
                     else
                         Globals.Log(
-                            string.Format("This is a Rocksmith 1 Compatiblity Song." +
-                            "{0}RS1 Compatiblity Songs can not be disabled individually." +
-                            "{0}Use SetlistManager to disable all RS1 Compatiblity Songs.", Environment.NewLine));
+                            string.Format(Properties.Resources.ThisIsARocksmith1CompatiblitySongX0RS1Comp, Environment.NewLine));
                 }
             }
 
@@ -898,7 +898,7 @@ namespace CustomsForgeManager.UControls
             }
             catch (IOException ex)
             {
-                MessageBox.Show(string.Format("Please select (highlight) the song  {0}that you would like to backup.", Environment.NewLine), Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(string.Format(Properties.Resources.PleaseSelectHighlightTheSongX0ThatYouWould, Environment.NewLine), Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 Globals.Log("<ERROR>: " + ex.Message);
             }
@@ -944,7 +944,8 @@ namespace CustomsForgeManager.UControls
 
             using (var songEditor = new frmSongEditor(filePath))
             {
-                songEditor.Text = String.Format("{0}{1}", "Song Editor ... Loaded: ", Path.GetFileName(filePath));
+                songEditor.Text = String.Format("{0}{1}", Properties.Resources.SongEditorLoaded,
+                    Path.GetFileName(filePath));
                 songEditor.ShowDialog();
             }
 
@@ -1107,7 +1108,7 @@ namespace CustomsForgeManager.UControls
                     {
                         // beyound current scope of CFM
                         if (grid.Rows[e.RowIndex].Cells["colSelect"].Value.ToString().ToLower().Contains(Constants.RS1COMP))
-                            Globals.Log("Can not 'Select' individual RS1 Compatiblity DLC");
+                            Globals.Log(Properties.Resources.CanNotSelectIndividualRS1CompatiblityDLC);
 
                         else // required to force selected row change
                         {
@@ -1202,7 +1203,7 @@ namespace CustomsForgeManager.UControls
                     {
                         // beyound current scope of CFM
                         if (row.Cells["colSelect"].Value.ToString().Contains(Constants.RS1COMP))
-                            Globals.Log("Can not 'Select' individual RS1 Compatiblity DLC");
+                            Globals.Log(Properties.Resources.CanNotSelectIndividualRS1CompatiblityDLC);
                         else
                         {
                             if (row.Cells["colSelect"].Value == null)
@@ -1254,8 +1255,14 @@ namespace CustomsForgeManager.UControls
         private void TemporaryDisableDatabindEvent(Action action)
         {
             dgvSongsMaster.DataBindingComplete -= dgvSongsMaster_DataBindingComplete;
-            action();
-            dgvSongsMaster.DataBindingComplete += dgvSongsMaster_DataBindingComplete;
+            try
+            {
+                action();
+            }
+            finally
+            {
+                dgvSongsMaster.DataBindingComplete += dgvSongsMaster_DataBindingComplete;
+            }
         }
 
         private void lnkLblSelectAll_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -1290,11 +1297,12 @@ namespace CustomsForgeManager.UControls
             UpdateToolStrip();
         }
 
-        //IDataGridViewHolder Interface
+        #region IDataGridViewHolder
         public DataGridView GetGrid()
         {
             return dgvSongsMaster;
-        }
+        }        
+        #endregion
 
         private void cbMyCDLC_CheckedChanged(object sender, EventArgs e)
         {

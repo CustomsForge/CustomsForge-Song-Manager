@@ -81,6 +81,15 @@ namespace CustomsForgeManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to About.
+        /// </summary>
+        internal static string About {
+            get {
+                return ResourceManager.GetString("About", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap ap_pause {
@@ -111,6 +120,51 @@ namespace CustomsForgeManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to AppID.
+        /// </summary>
+        internal static string AppID {
+            get {
+                return ResourceManager.GetString("AppID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to AppID is required..
+        /// </summary>
+        internal static string AppIDIsRequired {
+            get {
+                return ResourceManager.GetString("AppIDIsRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to AppID needs to be 6 characters..
+        /// </summary>
+        internal static string AppIDNeedsToBe6Characters {
+            get {
+                return ResourceManager.GetString("AppIDNeedsToBe6Characters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to AppID needs to be an integer value..
+        /// </summary>
+        internal static string AppIDNeedsToBeAnIntegerValue {
+            get {
+                return ResourceManager.GetString("AppIDNeedsToBeAnIntegerValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Apply.
+        /// </summary>
+        internal static string Apply {
+            get {
+                return ResourceManager.GetString("Apply", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to A setlist named &apos;{0}&apos; already exists!.
         /// </summary>
         internal static string ASetlistNamedX0AlreadyExists {
@@ -130,6 +184,15 @@ namespace CustomsForgeManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        internal static string Cancel {
+            get {
+                return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Can not include RS1 compatibility files as individual 
         /// songs in a setlist.  Please return to SongManager and 
         ///rescan before returning to Setlist Manager. .
@@ -137,6 +200,15 @@ namespace CustomsForgeManager.Properties {
         internal static string CanNotIncludeRS1CompatibilityFiles {
             get {
                 return ResourceManager.GetString("CanNotIncludeRS1CompatibilityFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Can not &apos;Select&apos; individual RS1 Compatiblity DLC.
+        /// </summary>
+        internal static string CanNotSelectIndividualRS1CompatiblityDLC {
+            get {
+                return ResourceManager.GetString("CanNotSelectIndividualRS1CompatiblityDLC", resourceCulture);
             }
         }
         
@@ -167,6 +239,15 @@ namespace CustomsForgeManager.Properties {
             get {
                 object obj = ResourceManager.GetObject("close", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not extract the audio..
+        /// </summary>
+        internal static string CouldNotExtractTheAudio {
+            get {
+                return ResourceManager.GetString("CouldNotExtractTheAudio", resourceCulture);
             }
         }
         
@@ -210,6 +291,17 @@ namespace CustomsForgeManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to CustomsForge Song Manager needs to be updated. 
+        ///Click the update button to continue.
+        ///.
+        /// </summary>
+        internal static string CustomsForgeSongManagerNeedsToBeUpdatedRNC {
+            get {
+                return ResourceManager.GetString("CustomsForgeSongManagerNeedsToBeUpdatedRNC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap dardev {
@@ -226,6 +318,15 @@ namespace CustomsForgeManager.Properties {
             get {
                 object obj = ResourceManager.GetObject("delete", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete empty directories after renaming.
+        /// </summary>
+        internal static string DeleteEmptyDirectoriesAfterRenaming {
+            get {
+                return ResourceManager.GetString("DeleteEmptyDirectoriesAfterRenaming", resourceCulture);
             }
         }
         
@@ -285,6 +386,15 @@ namespace CustomsForgeManager.Properties {
         internal static string DuplicateFile {
             get {
                 return ResourceManager.GetString("DuplicateFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Duplicates.
+        /// </summary>
+        internal static string Duplicates {
+            get {
+                return ResourceManager.GetString("Duplicates", resourceCulture);
             }
         }
         
@@ -390,6 +500,24 @@ namespace CustomsForgeManager.Properties {
             get {
                 object obj = ResourceManager.GetObject("Help", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hide Log .
+        /// </summary>
+        internal static string HideLog {
+            get {
+                return ResourceManager.GetString("HideLog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to How To Use:.
+        /// </summary>
+        internal static string HowToUse {
+            get {
+                return ResourceManager.GetString("HowToUse", resourceCulture);
             }
         }
         
@@ -555,6 +683,16 @@ namespace CustomsForgeManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Open {
+            get {
+                object obj = ResourceManager.GetObject("Open", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please enter setlist name.
         /// </summary>
         internal static string PleaseEnterSetlistName {
@@ -579,6 +717,15 @@ namespace CustomsForgeManager.Properties {
         internal static string PleaseSelectHighlightTheSongThatNYouWould {
             get {
                 return ResourceManager.GetString("PleaseSelectHighlightTheSongThatNYouWould", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please select (highlight) the song  {0}that you would like to backup..
+        /// </summary>
+        internal static string PleaseSelectHighlightTheSongX0ThatYouWould {
+            get {
+                return ResourceManager.GetString("PleaseSelectHighlightTheSongX0ThatYouWould", resourceCulture);
             }
         }
         
@@ -621,12 +768,49 @@ namespace CustomsForgeManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Remove spaces from new names
+        ///.
+        /// </summary>
+        internal static string RemoveSpacesFromNewNamesRN {
+            get {
+                return ResourceManager.GetString("RemoveSpacesFromNewNamesRN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap rename {
             get {
                 object obj = ResourceManager.GetObject("rename", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rename All.
+        /// </summary>
+        internal static string RenameAll {
+            get {
+                return ResourceManager.GetString("RenameAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rename only the songs that are selected in Song Manager.
+        /// </summary>
+        internal static string RenameOnlyTheSongsThatAreSelectedInSongMan {
+            get {
+                return ResourceManager.GetString("RenameOnlyTheSongsThatAreSelectedInSongMan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Renamer.
+        /// </summary>
+        internal static string Renamer {
+            get {
+                return ResourceManager.GetString("Renamer", resourceCulture);
             }
         }
         
@@ -771,11 +955,48 @@ namespace CustomsForgeManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SelectRow {
+            get {
+                object obj = ResourceManager.GetObject("SelectRow", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Setlist Manager.
+        /// </summary>
+        internal static string SetlistManager {
+            get {
+                return ResourceManager.GetString("SetlistManager", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
+        internal static string Settings {
+            get {
+                return ResourceManager.GetString("Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Show &amp;All.
         /// </summary>
         internal static string ShowAll {
             get {
                 return ResourceManager.GetString("ShowAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show Log.
+        /// </summary>
+        internal static string ShowLog {
+            get {
+                return ResourceManager.GetString("ShowLog", resourceCulture);
             }
         }
         
@@ -786,6 +1007,24 @@ namespace CustomsForgeManager.Properties {
         internal static string SongDataModifiedConfirmation {
             get {
                 return ResourceManager.GetString("SongDataModifiedConfirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Song Editor ... Loaded: .
+        /// </summary>
+        internal static string SongEditorLoaded {
+            get {
+                return ResourceManager.GetString("SongEditorLoaded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Song Manager.
+        /// </summary>
+        internal static string SongManager {
+            get {
+                return ResourceManager.GetString("SongManager", resourceCulture);
             }
         }
         
@@ -808,12 +1047,40 @@ namespace CustomsForgeManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Songs Used In Setlists Count: {0}.
+        /// </summary>
+        internal static string SongsUsedInSetlistsCountX0 {
+            get {
+                return ResourceManager.GetString("SongsUsedInSetlistsCountX0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap StartRs {
             get {
                 object obj = ResourceManager.GetObject("StartRs", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to \&apos;The\&apos; Mover e.g., The Beatles -&gt; Beatles, The
+        ///.
+        /// </summary>
+        internal static string TheMoverEGTheBeatlesBeatlesTheRN {
+            get {
+                return ResourceManager.GetString("TheMoverEGTheBeatlesBeatlesTheRN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This is a Rocksmith 1 Compatiblity Song.{0}RS1 Compatiblity Songs can not be disabled individually.{0}Use SetlistManager to disable all RS1 Compatiblity Songs..
+        /// </summary>
+        internal static string ThisIsARocksmith1CompatiblitySongX0RS1Comp {
+            get {
+                return ResourceManager.GetString("ThisIsARocksmith1CompatiblitySongX0RS1Comp", resourceCulture);
             }
         }
         
@@ -837,11 +1104,50 @@ namespace CustomsForgeManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Type the property Key surrounded by \&apos;&lt;\&apos; and \&apos;&gt;\&apos;.  
+        ///or simply double click on any Key to the right to
+        ///select and build a custom renaming template.
+        ///.
+        /// </summary>
+        internal static string TypeThePropertyKeySurroundedByAndRNorSimpl {
+            get {
+                return ResourceManager.GetString("TypeThePropertyKeySurroundedByAndRNorSimpl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to convert {0}x{1} image..
+        /// </summary>
+        internal static string UnableToConvertX0XX1Image {
+            get {
+                return ResourceManager.GetString("UnableToConvertX0XX1Image", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to create a new setlist: \nError: .
         /// </summary>
         internal static string UnableToCreateANewSetlistError {
             get {
                 return ResourceManager.GetString("UnableToCreateANewSetlistError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to delete song :{0}{1}Error: {2}.
+        /// </summary>
+        internal static string UnableToDeleteSongX0X1ErrorX2 {
+            get {
+                return ResourceManager.GetString("UnableToDeleteSongX0X1ErrorX2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to enable/disable song: {0} in &apos;dlc&apos; folder.{1}Error: {2}.
+        /// </summary>
+        internal static string UnableToEnableDisableSongX0InDlcFolderX1Er {
+            get {
+                return ResourceManager.GetString("UnableToEnableDisableSongX0InDlcFolderX1Er", resourceCulture);
             }
         }
         
@@ -912,11 +1218,29 @@ namespace CustomsForgeManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Usuable Properties.
+        /// </summary>
+        internal static string UsuableProperties {
+            get {
+                return ResourceManager.GetString("UsuableProperties", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Warning ... Prevented game hanging{0}{0}Song file: {1}{0}Has already been added to setlest: {2}  {0}First remove the song from the setlist and try again..
         /// </summary>
         internal static string WarningPreventedGameHangingFormat {
             get {
                 return ResourceManager.GetString("WarningPreventedGameHangingFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You are about to permanently delete all &apos;Selected&apos; songs(s).{0}{0}Are you sure you want to permanently delete the(se) songs(s).
+        /// </summary>
+        internal static string YouAreAboutToPermanentlyDeleteAllSelectedS {
+            get {
+                return ResourceManager.GetString("YouAreAboutToPermanentlyDeleteAllSelectedS", resourceCulture);
             }
         }
     }

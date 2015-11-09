@@ -37,6 +37,7 @@ Source: {#buildpath}Antlr3.Runtime.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}Antlr4.StringTemplate.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}DF_DDSImage.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}MiscUtil.dll; DestDir: {app}; Flags: ignoreversion
+Source: {#buildpath}7za.exe; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}Newtonsoft.Json.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}ReleaseNotes.txt; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}RocksmithToolkitLib.Config.xml; DestDir: {app}; Flags: ignoreversion
