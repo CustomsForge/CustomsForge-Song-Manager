@@ -4,5 +4,7 @@
  </rule>
  <module path="bin\ConfuserExRelease\CFMAudioTools.dll" />
  <module path="bin\ConfuserExRelease\CFMImageTools.dll" />
+ <module path="bin\ConfuserExRelease\CFSM.Utils.dll" />
+ <module path="bin\ConfuserExRelease\DF.WinForms.ThemeLib.dll" />
  <module path="bin\ConfuserExRelease\CustomsForgeSongManager.exe" />
  </project>

@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<CFSMTaggerTheme xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <DD pos="2,25">
+    <Drawing size="-1,-1">
+      <Instructions>
+		<Draw xsi:type="rect" color="Green" color2="Lime" gradientMode="Vertical" rect="1,1,17,17" type="fill" />
+		<Draw xsi:type="rect" color="Blue" rect="0,0,18,18" type="outline" pensize="2" />
+		<Draw xsi:type="text" color="Blue" rect="0,4" fontsize="7" bold="true">
+			<Text>DD</Text>
+		</Draw>
+
+      </Instructions>
+    </Drawing>
+  </DD>
+  <NDD pos="2,25">
+    <Drawing size="-1,-1">
+      <Instructions>
+		<Draw xsi:type="rect" color="Red" rect="0,0,21,18" type="fill" />
+		<Draw xsi:type="rect" color="Blue" rect="0,0,21,18" type="outline" pensize="2" />
+		<Draw xsi:type="text" color="Blue" rect="0,4" fontsize="6" bold="true">
+			<Text>NDD</Text>
+		</Draw>		
+      </Instructions>
+    </Drawing>
+  </NDD>
+</CFSMTaggerTheme>

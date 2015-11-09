@@ -4,5 +4,7 @@
  </rule>
  <module path="bin\InnoInstaller\CFMAudioTools.dll" />
  <module path="bin\InnoInstaller\CFMImageTools.dll" />
+ <module path="bin\InnoInstaller\CFSM.Utils.dll" />
+ <module path="bin\InnoInstaller\DF.WinForms.ThemeLib.dll" />
  <module path="bin\InnoInstaller\CustomsForgeSongManager.exe" />
 </project>

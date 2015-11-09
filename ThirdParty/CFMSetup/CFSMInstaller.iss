@@ -25,6 +25,8 @@ SetupIconFile=..\..\CustomsForgeManager\Resources\cfsm_48x48.ico
 Source: {#buildpath}{#AppExeName}; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}CFMAudioTools.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}CFMImageTools.dll; DestDir: {app}; Flags: ignoreversion
+Source: {#buildpath}DF.WinForms.ThemeLib.dll; DestDir: {app}; Flags: ignoreversion
+Source: {#buildpath}CFSM.Utils.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}bass.dll; DestDir: {app}; Flags: ignoreversion
 Source: ClickOnceUninstaller.exe; DestDir: {tmp}; Flags: dontcopy
 Source: {#buildpath}DataGridViewAutoFilter.dll; DestDir: {app}; Flags: ignoreversion

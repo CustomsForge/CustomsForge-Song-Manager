@@ -1,11 +1,15 @@
-﻿using RocksmithToolkitLib.PSARC;
+﻿using CFSM.Utils.PSARC;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
+using CFSM.Utils;
+using System.Xml.Serialization;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
+using PSARC = CFSM.Utils.PSARC.PSARC;
 
 namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
 {
@@ -13,22 +17,39 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
 
     public class SongTagger
     {
-        private string[] defaultFiles = { 
-                                            "info.txt", "Background.png", "Bass Bonus.png", 
-                                            "Bass.png", "Custom.png", "Lead Bonus.png", "Lead.png", 
-                                            "Rhythm Bonus.png", "Rhythm.png", "Vocal.png" 
-                                        };
+
+        public static void CFSM_INIT()
+        {
+            Globals.Tagger = new SongTagger();
+        }
+
         private string[] defaultTagFolders = { 
                                                  "frackDefault", "motive_bl_", "motive_nv_", "motive_ws_",
                                                  "motive1" 
                                              };
 
         public List<String> Themes { get; private set; }
+        List<XmlThemeStorage> XmlThemes { get; set; }
+
+
+        class XmlThemeStorage
+        {
+            public XmlThemeStorage(string name, string folder)
+            {
+                this.Name = name;
+                this.Folder = folder;
+            }
+
+
+            public string Name;
+            public string Folder;
+        }
 
         public SongTagger()
         {
             ThemeName = defaultTagFolders[0];
             Themes = new List<string>();
+            XmlThemes = new List<XmlThemeStorage>();
             Populate();
         }
 
@@ -37,13 +58,29 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
 
         private void Populate()
         {
-            if (!Directory.Exists(Constants.TaggerTemplatesFolder) || Extensions.IsDirectoryEmpty(Constants.TaggerTemplatesFolder))
+            if (!Directory.Exists(Constants.TaggerTemplatesFolder) ||
+                UtilExtensions.IsDirectoryEmpty(Constants.TaggerTemplatesFolder) ||
+                !File.Exists(Path.Combine(Constants.TaggerTemplatesFolder, "Default.tagtheme")))
                 CreateDefaultFolders();
+
+            if (!File.Exists(Path.Combine(Constants.TaggerTemplatesFolder, "User.Default.tagtheme")))
+            {
+                File.Copy(Path.Combine(Constants.TaggerTemplatesFolder, "Default.tagtheme"),
+                    Path.Combine(Constants.TaggerTemplatesFolder, "User.Default.tagtheme"));
+            }
+
             Themes.Clear();
             foreach (string tagPreview in
               Directory.EnumerateFiles(Constants.TaggerTemplatesFolder, "*.png").Where(
               file => file.ToLower().Contains("prev")))
                 Themes.Add(Path.GetFileName(tagPreview).Replace(@"Tagger\", "").Replace("prev.png", ""));
+
+            foreach (string tagPreview in
+              Directory.EnumerateFiles(Constants.TaggerTemplatesFolder, "*.tagtheme", SearchOption.AllDirectories).
+              Where(file => !file.ToLower().Contains("default") && !file.ToLower().Contains("example")))
+                XmlThemes.Add(new XmlThemeStorage(Path.GetFileNameWithoutExtension(tagPreview), Path.GetDirectoryName(tagPreview)));
+
+            Themes.AddRange(XmlThemes.Select(f => f.Name));
 
         }
 
@@ -52,27 +89,21 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
             if (!Directory.Exists(Constants.TaggerWorkingFolder))
                 Directory.CreateDirectory(Constants.TaggerWorkingFolder);
 
-            if (!Directory.Exists(Constants.TaggerExtractedFolder))
-                Directory.CreateDirectory(Constants.TaggerExtractedFolder);
+            Extensions.ExtractEmbeddedResources(Constants.TaggerTemplatesFolder, "CustomsForgeManager.Resources.tags");
 
-            if (!Directory.Exists(Constants.TaggerTemplatesFolder))
-                Directory.CreateDirectory(Constants.TaggerTemplatesFolder);
+            //foreach (string resourceDir in defaultTagFolders)
+            //{
+            //    string folderPath = Path.Combine(Constants.TaggerTemplatesFolder, resourceDir);
 
-            if (!Directory.Exists(Constants.TaggerPreviewsFolder))
-                Directory.CreateDirectory(Constants.TaggerPreviewsFolder);
+            //    if (!Directory.Exists(folderPath))
+            //        Directory.CreateDirectory(folderPath);
 
-            foreach (string resourceDir in defaultTagFolders)
-            {
-                string folderPath = Path.Combine(Constants.TaggerTemplatesFolder, resourceDir);
+            //    UtilExtensions.ExtractEmbeddedResource(folderPath, "CustomsForgeManager.Resources.tags." + resourceDir, defaultFiles);
+            //}
 
-                if (!Directory.Exists(folderPath))
-                    Directory.CreateDirectory(folderPath);
-
-                Extensions.ExtractEmbeddedResource(folderPath, "CustomsForgeManager.Resources.tags." + resourceDir, defaultFiles);
-            }
-
-            foreach (string previewFile in defaultTagFolders)
-                Extensions.ExtractEmbeddedResource(Constants.TaggerTemplatesFolder, "CustomsForgeManager.Resources.tags", new string[] { previewFile + "prev.png" });
+            //foreach (string previewFile in defaultTagFolders)
+            //    UtilExtensions.ExtractEmbeddedResource(Constants.TaggerTemplatesFolder,
+            //        "CustomsForgeManager.Resources.tags", new string[] { previewFile + "prev.png" });
         }
 
         public string ThemeName { get; set; }
@@ -94,24 +125,38 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
 
         }
 
-        public Image Preview(SongData sd)
+        public Image Preview(SongData sd, string themeName = "")
         {
-            if (ThemeName == String.Empty)
-                ThemeName = defaultTagFolders[0];
+            if (String.IsNullOrEmpty(themeName))
+            {
+                if (ThemeName == String.Empty)
+                    ThemeName = defaultTagFolders[0];
+                themeName = ThemeName;
+            }
+
+            string aPath = Path.Combine(Constants.TaggerTemplatesFolder, themeName);
+
+            var xTheme = XmlThemes.Find(x => x.Name == themeName);
+            if (xTheme != null)
+            {
+                aPath = xTheme.Folder;
+            }
             try
             {
-                using (var images = new BitmapHolder(tagsFolderFullPath))
+                using (var images = new BitmapHolder(aPath))
                 {
                     string songPath = sd.Path;
-                    using (PSARC archive = new PSARC())
+                    using (PSARC archive = new PSARC(true))
+                    using (var fs = File.OpenRead(songPath))
                     {
-                        using (var fs = File.OpenRead(songPath))
-                            archive.Read(fs);
+
+                        archive.Read(fs, true);
 
                         var imgEntry = archive.TOC.FirstOrDefault(entry => entry.Name.EndsWith("256.dds"));
 
                         if (imgEntry != null)
                         {
+                            archive.InflateEntry(imgEntry);
                             imgEntry.Data.Position = 0;
                             var albumArtDDS = new DDSImage(imgEntry.Data);
                             var AlbumArt = albumArtDDS.images[0];
@@ -123,7 +168,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
                             bool bonusLead = false;
                             bool bonusRhythm = false;
                             bool bonusBass = false;
-                            //bool DD = false;
+                            bool DD = sd.DD > 0;
 
                             var arrangements = archive.TOC.Where(entry => entry.Name.ToLower().EndsWith(".json")).Select(entry => entry.Name);
 
@@ -144,25 +189,79 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
                                 if (arrangement.Contains("vocals"))
                                     vocals = true;
                             }
-                            using (Graphics gra = Graphics.FromImage(AlbumArt))
+
+                            SongTaggerTheme tt = null;
+
+                            if (xTheme != null)
                             {
-                                gra.DrawImage(images.backgroundLayer, 0, 0.5f);
-                                if (vocals)
-                                    gra.DrawImage(images.vocalLayer, 0, 0.5f);
-                                if (bass)
-                                    gra.DrawImage(images.bassLayer, 0, 0.5f);
-                                if (bonusBass)
-                                    gra.DrawImage(images.bassBonusLayer, 0, 0.5f);
-                                if (rhythm)
-                                    gra.DrawImage(images.rhythmLayer, 0, 0.5f);
-                                if (bonusRhythm)
-                                    gra.DrawImage(images.rhythmBonusLayer, 0, 0.5f);
-                                if (lead)
-                                    gra.DrawImage(images.leadLayer, 0, 0.5f);
-                                if (bonusLead)
-                                    gra.DrawImage(images.leadBonusLayer, 0, 0.5f);
-                                gra.DrawImage(images.customTagLayer, 0, 0.5f);
+                                using (FileStream fs1 = File.OpenRead(Path.Combine(xTheme.Folder,
+                                    xTheme.Name + ".tagtheme")))
+                                    tt = SongTaggerTheme.Create(fs1);
                             }
+                            else
+                                if (File.Exists(Path.Combine(tagsFolderFullPath, "Default.tagtheme")))
+                                {
+                                    using (FileStream fs1 = File.OpenRead(Path.Combine(tagsFolderFullPath, "Default.tagtheme")))
+                                        tt = SongTaggerTheme.Create(fs1);
+                                }
+                                else
+                                    if (File.Exists(Path.Combine(Constants.TaggerTemplatesFolder, "User.Default.tagtheme")))
+                                    {
+                                        using (FileStream fs1 = File.OpenRead(Path.Combine(Constants.TaggerTemplatesFolder, "User.Default.tagtheme")))
+                                            tt = SongTaggerTheme.Create(fs1);
+                                    }
+                                    else
+                                        //User.Default.tagtheme
+                                        if (File.Exists(Path.Combine(Constants.TaggerTemplatesFolder, "Default.tagtheme")))
+                                        {
+                                            using (FileStream fs1 = File.OpenRead(Path.Combine(Constants.TaggerTemplatesFolder, "Default.tagtheme")))
+                                                tt = SongTaggerTheme.Create(fs1);
+                                        }
+                            if (tt != null)
+                                tt.Data = sd;
+                            UtilExtensions.TempChangeDirectory(aPath, () =>
+                            {
+                                using (Graphics gra = Graphics.FromImage(AlbumArt))
+                                {
+                                    if (images.backgroundLayer != null)
+                                        gra.DrawImage(images.backgroundLayer, 0, 0.5f);
+                                    if (vocals && images.vocalLayer != null)
+                                        gra.DrawImage(images.vocalLayer, 0, 0.5f);
+                                    if (bass && images.bassLayer != null)
+                                        gra.DrawImage(images.bassLayer, 0, 0.5f);
+                                    if (bonusBass && images.bassBonusLayer != null)
+                                        gra.DrawImage(images.bassBonusLayer, 0, 0.5f);
+                                    if (rhythm && images.rhythmLayer != null)
+                                        gra.DrawImage(images.rhythmLayer, 0, 0.5f);
+                                    if (bonusRhythm && images.rhythmBonusLayer != null)
+                                        gra.DrawImage(images.rhythmBonusLayer, 0, 0.5f);
+                                    if (lead && images.leadLayer != null)
+                                        gra.DrawImage(images.leadLayer, 0, 0.5f);
+                                    if (bonusLead && images.leadBonusLayer != null)
+                                        gra.DrawImage(images.leadBonusLayer, 0, 0.5f);
+
+                                    if (tt != null)
+                                    {
+                                        if (DD)
+                                            tt.DD.Draw(gra, AlbumArt);
+                                        else
+                                            tt.NDD.Draw(gra, AlbumArt);
+
+                                        tt.Custom.Draw(gra, AlbumArt);
+                                    }
+                                    else
+                                    {
+                                        if (DD && images.DDLayer != null)
+                                            gra.DrawImage(images.DDLayer,
+                                                new Rectangle(0, 25, 13, 13),
+                                                new Rectangle(0, 0, images.DDLayer.Width, images.DDLayer.Height),
+                                                 GraphicsUnit.Pixel);
+                                    }
+
+                                    if (images.customTagLayer != null)
+                                        gra.DrawImage(images.customTagLayer, 0, 0.5f);
+                                }
+                            });
                             return AlbumArt;
 
                         }
@@ -191,7 +290,13 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
 
         private string tagsFolderFullPath
         {
-            get { return Path.Combine(Constants.TaggerTemplatesFolder, ThemeName); }
+            get
+            {
+                var xTheme = XmlThemes.Find(x => x.Name == ThemeName);
+                if (xTheme != null)
+                    return xTheme.Folder;
+                return Path.Combine(Constants.TaggerTemplatesFolder, ThemeName);
+            }
         }
 
         private void TagSong(SongData song, BitmapHolder images)
@@ -200,6 +305,8 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
                 ThemeName = defaultTagFolders[0];
             if (!Directory.Exists(Constants.TaggerTemplatesFolder) || !Directory.Exists(tagsFolderFullPath))
                 CreateDefaultFolders();
+            var xTheme = XmlThemes.Find(x => x.Name == ThemeName);
+
 
             //   songTagged = songTagged || File.GetCreationTime(song.Path) == new DateTime(1990, 1, 1) ? true : false;
 
@@ -255,6 +362,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
                     bool bonusLead = false;
                     bool bonusRhythm = false;
                     bool bonusBass = false;
+                    bool DD = song.DD > 0 && images.DDLayer != null;
 
                     var arrangements = archive.TOC.Where(entry => entry.Name.ToLower().EndsWith(".json")).Select(entry => entry.Name);
 
@@ -277,25 +385,77 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
                     }
 
                     //Add layers to big album art
-                    using (Graphics gra = Graphics.FromImage(bigAlbumArt))
+                    SongTaggerTheme tt = null;
+                    var ttpath = tagsFolderFullPath;
+                    if (xTheme != null)
                     {
-                        gra.DrawImage(images.backgroundLayer, 0, 0.5f);
-                        if (vocals)
-                            gra.DrawImage(images.vocalLayer, 0, 0.5f);
-                        if (bass)
-                            gra.DrawImage(images.bassLayer, 0, 0.5f);
-                        if (bonusBass)
-                            gra.DrawImage(images.bassBonusLayer, 0, 0.5f);
-                        if (rhythm)
-                            gra.DrawImage(images.rhythmLayer, 0, 0.5f);
-                        if (bonusRhythm)
-                            gra.DrawImage(images.rhythmBonusLayer, 0, 0.5f);
-                        if (lead)
-                            gra.DrawImage(images.leadLayer, 0, 0.5f);
-                        if (bonusLead)
-                            gra.DrawImage(images.leadBonusLayer, 0, 0.5f);
-                        gra.DrawImage(images.customTagLayer, 0, 0.5f);
+                        using (FileStream fs1 = File.OpenRead(Path.Combine(xTheme.Folder,
+                            xTheme.Name + ".tagtheme")))
+                            tt = SongTaggerTheme.Create(fs1);
                     }
+                    else
+                        if (File.Exists(Path.Combine(tagsFolderFullPath, "Default.tagtheme")))
+                        {
+                            using (FileStream fs1 = File.OpenRead(Path.Combine(tagsFolderFullPath, "Default.tagtheme")))
+                                tt = SongTaggerTheme.Create(fs1);
+                        }
+                        else
+                            if (File.Exists(Path.Combine(Constants.TaggerTemplatesFolder, "User.Default.tagtheme")))
+                            {
+                                using (FileStream fs1 = File.OpenRead(Path.Combine(Constants.TaggerTemplatesFolder, "User.Default.tagtheme")))
+                                    tt = SongTaggerTheme.Create(fs1);
+                            }
+                            else
+                                if (File.Exists(Path.Combine(Constants.TaggerTemplatesFolder, "Default.tagtheme")))
+                                {
+                                    using (FileStream fs1 = File.OpenRead(Path.Combine(Constants.TaggerTemplatesFolder, "Default.tagtheme")))
+                                        tt = SongTaggerTheme.Create(fs1);
+                                }
+                    if (tt != null)
+                        tt.Data = song;
+                    UtilExtensions.TempChangeDirectory(ttpath, () =>
+                    {
+                        using (Graphics gra = Graphics.FromImage(bigAlbumArt))
+                        {
+                            if (images.backgroundLayer != null)
+                                gra.DrawImage(images.backgroundLayer, 0, 0.5f);
+                            if (vocals && images.vocalLayer != null)
+                                gra.DrawImage(images.vocalLayer, 0, 0.5f);
+                            if (bass && images.bassLayer != null)
+                                gra.DrawImage(images.bassLayer, 0, 0.5f);
+                            if (bonusBass && images.bassBonusLayer != null)
+                                gra.DrawImage(images.bassBonusLayer, 0, 0.5f);
+                            if (rhythm && images.rhythmLayer != null)
+                                gra.DrawImage(images.rhythmLayer, 0, 0.5f);
+                            if (bonusRhythm && images.rhythmBonusLayer != null)
+                                gra.DrawImage(images.rhythmBonusLayer, 0, 0.5f);
+                            if (lead && images.leadLayer != null)
+                                gra.DrawImage(images.leadLayer, 0, 0.5f);
+                            if (bonusLead && images.leadBonusLayer != null)
+                                gra.DrawImage(images.leadBonusLayer, 0, 0.5f);
+
+                            if (tt != null)
+                            {
+                                if (DD)
+                                    tt.DD.Draw(gra, bigAlbumArt);
+                                else
+                                    tt.NDD.Draw(gra, bigAlbumArt);
+
+                                tt.Custom.Draw(gra, bigAlbumArt);
+                            }
+                            else
+                            {
+                                if (DD && images.DDLayer != null)
+                                    gra.DrawImage(images.DDLayer,
+                                        new Rectangle(0, 25, 13, 13),
+                                        new Rectangle(0, 0, images.DDLayer.Width, images.DDLayer.Height),
+                                         GraphicsUnit.Pixel);
+                            }
+
+                            if (images.customTagLayer != null)
+                                gra.DrawImage(images.customTagLayer, 0, 0.5f);
+                        }
+                    });
 
                     var largeDDS = bigAlbumArt.ToDDS();
                     var midDDS = bigAlbumArt.ToDDS(128, 128);
@@ -316,7 +476,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
                     largeDDS.Position = 0;
                     albumBigArtEntry.Data = largeDDS;
 
-                    archive.TOC.Insert(0, new Entry() { Name = "NamesBlock.bin" });
+                    //     archive.TOC.Insert(0, new Entry() { Name = "NamesBlock.bin" });
                     archive.AddEntry("tagger.org", orginalArtStream);
                     songPath = song.Path;
 
@@ -389,7 +549,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
                         archive.Read(fs);
 
                     UntagSong(song, archive);
-                    archive.TOC.Insert(0, new Entry() { Name = "NamesBlock.bin" });
+                    //   archive.TOC.Insert(0, new Entry() { Name = "NamesBlock.bin" });
 
                     using (var FS = File.Create(song.Path))
                         archive.Write(FS, true);
@@ -450,6 +610,846 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
 
     }
 
+
+
+    static class TagThemeRegistar
+    {
+        public static Type[] DrawTypes;
+
+        public static void CFSM_INIT()
+        {
+            var xtypes = UtilExtensions.GetLoadableTypes().Where(
+                type =>
+                {
+                    return type.IsSubclassOf(typeof(DrawInstruction)) && !type.IsAbstract;
+                }
+                );
+            DrawTypes = xtypes.ToArray();
+        }
+
+    }
+
+    #region Tagger Theme File
+
+    [Serializable, XmlRoot("CFSMTaggerTheme")]
+    public class SongTaggerTheme
+    {
+        private SongData FSongData;
+        List<TaggerDrawer> Drawers;
+
+        public TaggerDrawer DD { get; set; }
+        public TaggerDrawer NDD { get; set; }
+        public TaggerDrawer Custom { get; set; }
+        [XmlAttribute]
+        public string Name { get; set; }
+
+        public SongTaggerTheme()
+        {
+            DD = new TaggerDrawer();
+            NDD = new TaggerDrawer();
+            Custom = new TaggerDrawer();
+            CreateDrawerArray();
+            Name = "Default";
+        }
+
+        private void CreateDrawerArray()
+        {
+            Drawers = new List<TaggerDrawer> { DD, NDD, Custom };
+        }
+
+        public static SongTaggerTheme Create(Stream AStream)
+        {
+            var result = AStream.DeserializeXml<SongTaggerTheme>(TagThemeRegistar.DrawTypes);
+            result.Loaded();
+            return result;
+        }
+
+        [XmlIgnore]
+        public SongData Data
+        {
+            get { return FSongData; }
+            set
+            {
+                FSongData = value;
+                Drawers.ForEach(d => d.Data = Data);
+            }
+        }
+
+        public void Loaded()
+        {
+            CreateDrawerArray();
+            Drawers.ForEach(d => d.Loaded());
+        }
+
+    }
+
+    public class SerializableObj
+    {
+        public Rectangle GetRect(string value)
+        {
+            var x = value.Split(',');
+            int left = 0, top = 0, w = 0, h = 0;
+            if (x.Count() > 0)
+                left = Convert.ToInt32(x[0]);
+            if (x.Count() > 1)
+                top = Convert.ToInt32(x[1]);
+            if (x.Count() > 2)
+                w = Convert.ToInt32(x[2]);
+            if (x.Count() > 3)
+                h = Convert.ToInt32(x[3]);
+            return new Rectangle(left, top, w, h);
+        }
+
+        public string GetRectString(Rectangle value)
+        {
+            return String.Format("{0},{1},{2},{3}", value.X, value.Y, value.Width, value.Height);
+        }
+
+        public Point GetPoint(string value)
+        {
+            var x = value.Split(',');
+            return new Point(Convert.ToInt32(x[0]), Convert.ToInt32(x[1]));
+        }
+
+        public string GetPointString(Point value)
+        {
+            return String.Format("{0},{1}", value.X, value.Y);
+        }
+
+    }
+
+    interface IDrawInstructionsHolder
+    {
+        DrawInstructions GetDrawing();
+    }
+
+    [Serializable, XmlRoot("XmlDrawer")]
+    public class TaggerDrawer : SerializableObj, IDrawInstructionsHolder
+    {
+        public static TaggerDrawer Create(Stream AStream)
+        {
+            var result = AStream.DeserializeXml<TaggerDrawer>(TagThemeRegistar.DrawTypes);
+            result.Loaded();
+            return result;
+        }
+
+        [XmlAttribute("pos")]
+        public string pos
+        {
+            get
+            {
+                return GetPointString(Position);
+            }
+            set
+            {
+                if (!String.IsNullOrEmpty(value))
+                    Position = GetPoint(value);
+            }
+        }
+
+        private SongData FSongData;
+        [XmlIgnore]
+        public SongData Data
+        {
+            get { return FSongData; }
+            set
+            {
+                FSongData = value;
+                Drawing.Instructions.ForEach(di => di.Data = value);
+            }
+        }
+
+        [XmlIgnore]
+        public Point Position;
+        public DrawInstructions Drawing = new DrawInstructions();
+
+
+
+        public void Draw(Graphics g, Bitmap b)
+        {
+            if (Drawing.Instructions.Count > 0)
+            {
+                g.TranslateTransform(Position.X, Position.Y);
+
+                Drawing.Draw(g, b);
+
+                g.ResetTransform();
+            }
+        }
+
+        public void Loaded()
+        {
+            Drawing.Parent = this;
+        }
+
+        public DrawInstructions GetDrawing()
+        {
+            return Drawing;
+        }
+    }
+
+    [Serializable]
+    public class DrawInstructions : SerializableObj
+    {
+
+        public DrawInstructions()
+        {
+            Size = new Point(-1, -1);
+        }
+
+        TaggerDrawer FParent;
+        [XmlIgnore]
+        public TaggerDrawer Parent
+        {
+            get { return FParent; }
+            set
+            {
+                FParent = value;
+                Instructions.ForEach(i => i.Instructions = this);
+            }
+        }
+
+        [XmlAttribute]
+        public string size
+        {
+            get
+            {
+                return GetPointString(Size);
+            }
+            set
+            {
+                if (!String.IsNullOrEmpty(value))
+                    Size = GetPoint(value);
+            }
+        }
+
+        [XmlIgnore]
+        public Point Size { get; set; }
+
+        [XmlArray("Instructions")]
+        [XmlArrayItem("Draw")]
+        public List<DrawInstruction> Instructions = new List<DrawInstruction>();
+
+        public virtual void Draw(Graphics g, Bitmap b)
+        {
+            if (Size.X > -1 && Size.Y > -1)
+                g.SetClip(new Rectangle(0, 0, Size.X, Size.Y));
+            Instructions.ForEach(d => { if (d.CanDraw()) { d.BeforeDraw(g, b); d.Draw(g, b); d.AfterDraw(g, b); } });
+            if (Size.X > -1 && Size.Y > -1)
+                g.ResetClip();
+        }
+
+
+
+    }
+
+    public enum GradientMode
+    {
+        Horizontal,
+        Vertical,
+        ForwardDiagonal,
+        BackwardDiagonal,
+        None
+    }
+
+
+
+    [Serializable]
+    public abstract class DrawInstruction : SerializableObj
+    {
+
+        public DrawInstruction()
+        {
+            Color = Color.Black;
+            Color2 = Color.Black;
+            GradientMode = GradientMode.None;
+            Condition = "";
+        }
+
+        [XmlIgnore]
+        public DrawInstructions Instructions { get; set; }
+
+
+        #region Xml Friendly Props
+        [XmlAttribute("color")]
+        public string color
+        {
+            get { return ColorTranslator.ToHtml(Color); }
+            set { Color = ColorTranslator.FromHtml(value); }
+        }
+
+        [XmlAttribute("color2")]
+        public string color2
+        {
+            get { return ColorTranslator.ToHtml(Color2); }
+            set { Color2 = ColorTranslator.FromHtml(value); }
+        }
+
+        [XmlAttribute("rect")]
+        public string rect
+        {
+            get
+            {
+                return GetRectString(Rect);
+            }
+            set
+            {
+                if (!String.IsNullOrEmpty(value))
+                    Rect = GetRect(value);
+            }
+        }
+        #endregion
+
+        [XmlIgnore]
+        public Color Color { get; set; }
+        [XmlIgnore]
+        public Color Color2 { get; set; }
+        [XmlIgnore]
+        public Rectangle Rect { get; set; }
+        public string Condition { get; set; }
+
+
+        [XmlAttribute("gradientMode")]
+        public GradientMode GradientMode { get; set; }
+        public virtual void Draw(Graphics g, Bitmap b) { }
+        public virtual void BeforeDraw(Graphics g, Bitmap b) { }
+        public virtual void AfterDraw(Graphics g, Bitmap b) { }
+
+        public Brush GetBrush()
+        {
+            return GetBrush(Rect);
+        }
+
+        public virtual bool CanDraw()
+        {
+            if (String.IsNullOrEmpty(Condition))
+                return true;
+
+            var e = new NCalc.Expression(Condition.Trim());
+            try
+            {
+                Dictionary<string, object> template = GetTemplateDict();
+                foreach (var x in template)
+                    e.Parameters.Add(x.Key, x.Value);
+                e.Parameters["dd"] = Data.DD > 0;
+                e.Parameters.Add("Data", Data);
+                return Convert.ToBoolean(e.Evaluate());
+            }
+            catch (Exception)
+            {
+                return true;
+            }
+        }
+
+        public Brush GetBrush(Rectangle r)
+        {
+            Brush b = null;
+            if (Color != Color2 && GradientMode != GradientMode.None)
+                b = new LinearGradientBrush(r, Color, Color2, (LinearGradientMode)(int)GradientMode);
+            else
+                b = new SolidBrush(Color);
+            return b;
+        }
+
+        [XmlIgnore]
+        public SongData Data { get; set; }
+
+        Dictionary<string, object> GetTemplateDict()
+        {
+            Dictionary<string, object> template = new Dictionary<string, object>();
+            template.Add("artist", Data.Artist);
+            template.Add("title", Data.Title);
+            template.Add("album", Data.Album);
+            template.Add("filename", Data.FileName);
+            template.Add("date", Data.LastConversionDateTime.ToShortDateString());
+            template.Add("tuning", Data.Tuning.Split(new[] { ", " }, StringSplitOptions.None).FirstOrDefault());
+            template.Add("tempo", Data.SongAverageTempo);
+            template.Add("appid", Data.AppID);
+            var ts = TimeSpan.FromSeconds(Data.SongLength);
+            template.Add("length", string.Format("{0}:{1}", ts.Minutes, ts.Seconds));
+            if (Data.DD > 0)
+                template.Add("dd", "DD");
+            else
+                template.Add("dd", "NDD");
+
+            template.Add("year", Data.SongYear);
+            template.Add("version", String.IsNullOrEmpty(Data.Version) ? "N/A" : Data.Version);
+            template.Add("author", String.IsNullOrEmpty(Data.Charter) ? "Unknown" : Data.Charter);
+            String arrInit = Data.ArrangementInitials;
+            template.Add("arrangements", String.IsNullOrEmpty(arrInit) ? "" : arrInit);
+            template.Add("\\n", Environment.NewLine);
+            template.Add("\\t", (char)9);
+            return template;
+        }
+
+
+        public string GetTemplateText(string format)
+        {
+            if (Data != null)
+            {
+                Dictionary<string, object> template = GetTemplateDict();
+
+                string s = format;
+                foreach (var x in template)
+                    s = s.Replace(String.Format("[{0}]", x.Key), x.Value.ToString());
+
+                return s;
+            }
+            return format;
+        }
+
+    }
+
+
+    #region Shapes
+    public enum DrawShapeType
+    {
+        fill, outline
+    }
+
+    public abstract class DrawShape : DrawInstruction
+    {
+        public DrawShape()
+        {
+            PenSize = 1.0f;
+        }
+
+        [XmlAttribute("type")]
+        public DrawShapeType DrawType;
+        [XmlAttribute("pensize")]
+        public float PenSize;
+
+        public Pen GetPen()
+        {
+            return new Pen(GetBrush(), PenSize);
+        }
+
+    }
+
+
+    [XmlType("rect")]
+    public class DrawRectangle : DrawShape
+    {
+        public override void Draw(Graphics g, Bitmap bmp)
+        {
+            if (DrawType == DrawShapeType.fill)
+                using (var b = GetBrush())
+                    g.FillRectangle(b, Rect);
+            else
+                g.DrawRectangle(GetPen(), Rect);
+        }
+    }
+
+
+    [XmlType("img")]
+    public class DrawImage : DrawInstruction
+    {
+        private Rectangle SourceRect;
+        public DrawImage()
+        {
+            opacity = 1.0f;
+            SourceRect = new Rectangle(0, 0, 0, 0);
+        }
+
+        [XmlAttribute("src")]
+        public string file { get; set; }
+
+        [XmlAttribute]
+        public float opacity { get; set; }
+
+        [XmlAttribute("srcrect")]
+        public string srcrect
+        {
+            get
+            {
+                return GetRectString(SourceRect);
+            }
+            set
+            {
+                if (!String.IsNullOrEmpty(value))
+                    SourceRect = GetRect(value);
+            }
+        }
+
+        public override void Draw(Graphics g, Bitmap bmp)
+        {
+            if (File.Exists(file))
+            {
+                var img = Image.FromFile(file);
+                if (img != null)
+                {
+                    //create image attributes  
+                    ImageAttributes attributes = new ImageAttributes();
+
+                    //set the color(opacity) of the image  
+                    attributes.SetColorMatrix(new ColorMatrix() { Matrix33 = opacity },
+                        ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
+
+                    RectangleF rf = new RectangleF(SourceRect.X, SourceRect.Left, SourceRect.Width == 0 ? img.Width : SourceRect.Width,
+                        SourceRect.Height == 0 ? img.Height : SourceRect.Height);
+                    g.DrawImage(img, Rect, rf.X, rf.Y, rf.Width, rf.Height, GraphicsUnit.Pixel, attributes);
+                }
+            }
+        }
+    }
+
+    [XmlType("ellipse")]
+    public class DrawEllipse : DrawShape
+    {
+        public override void Draw(Graphics g, Bitmap bmp)
+        {
+            if (DrawType == DrawShapeType.fill)
+                using (var b = GetBrush())
+                    g.FillEllipse(b, Rect);
+            else
+                g.DrawEllipse(GetPen(), Rect);
+        }
+    }
+
+    [XmlType("pie")]
+    public class DrawPie : DrawShape
+    {
+        [XmlAttribute]
+        public float startAngle { get; set; }
+        [XmlAttribute]
+        public float sweepAngle { get; set; }
+
+        public override void Draw(Graphics g, Bitmap bmp)
+        {
+            if (DrawType == DrawShapeType.fill)
+                using (var b = GetBrush())
+                    g.FillPie(b, Rect, startAngle, sweepAngle);
+            else
+                g.DrawPie(GetPen(), Rect, startAngle, sweepAngle);
+        }
+    }
+
+
+    [XmlType("line")]
+    public class DrawLine : DrawShape
+    {
+        [XmlAttribute]
+        public float x1 { get; set; }
+        [XmlAttribute]
+        public float x2 { get; set; }
+        [XmlAttribute]
+        public float y1 { get; set; }
+        [XmlAttribute]
+        public float y2 { get; set; }
+
+        public override void Draw(Graphics g, Bitmap bmp)
+        {
+            g.DrawLine(GetPen(), x1, y1, x2, y2);
+        }
+    }
+
+
+
+    #endregion
+
+    #region Text
+    [XmlType("text")]
+    public class DrawText : DrawInstruction
+    {
+        public DrawText()
+        {
+            FontName = "Arial";
+            FontSize = 9;
+            alignment = StringAlignment.Center;
+            bold = false;
+            italic = false;
+            underline = false;
+            strikeout = false;
+        }
+
+        public string Text { get; set; }
+        [XmlAttribute("fontname")]
+        public string FontName { get; set; }
+        [XmlAttribute("fontsize")]
+        public int FontSize { get; set; }
+        [XmlAttribute]
+        public StringAlignment alignment;
+        [XmlAttribute]
+        public bool bold;
+        [XmlAttribute]
+        public bool italic;
+        [XmlAttribute]
+        public bool underline;
+        [XmlAttribute]
+        public bool strikeout;
+
+        [XmlIgnore]
+        public FontStyle FontStyle
+        {
+            get
+            {
+                FontStyle fs = FontStyle.Regular;
+                if (bold)
+                    fs = fs | FontStyle.Bold;
+                if (italic)
+                    fs = fs | FontStyle.Italic;
+                if (underline)
+                    fs = fs | FontStyle.Underline;
+                if (strikeout)
+                    fs = fs | FontStyle.Strikeout;
+
+                return fs;
+            }
+        }
+
+        public override void Draw(Graphics g, Bitmap bmp)
+        {
+            if (!String.IsNullOrEmpty(Text))
+            {
+                Font F = new Font(FontName, FontSize, FontStyle);
+                using (var b = GetBrush())
+                {
+                    string atext = GetTemplateText(Text);
+                    if (Rect.Width > 0 || Rect.Height > 0)
+                    {
+
+                        var z = g.MeasureString(atext, F);
+                        PointF f = new Point(Rect.X, Rect.Y);
+                        switch (alignment)
+                        {
+                            case StringAlignment.Near:
+                                break;
+                            case StringAlignment.Center:
+                                f = new PointF(Rect.X + ((Rect.Width - z.Width) / 2), Rect.Y);
+                                break;
+                            case StringAlignment.Far:
+                                f = new PointF(Rect.Width - z.Width, Rect.Y);
+                                break;
+                        }
+                        g.DrawString(atext, F, b, f);
+                    }
+                    else
+                        g.DrawString(atext, F, b, new PointF(Rect.X, Rect.Y));
+                }
+            }
+            //   throw new NotImplementedException();
+        }
+    }
+
+    [XmlType("formattext")]
+    public class FormatText : DrawInstruction
+    {
+        public FormatText()
+        {
+            FontName = "Arial";
+            FontSize = 0;
+            alignment = StringAlignment.Center;
+            bold = false;
+            italic = false;
+            underline = false;
+            strikeout = false;
+            LineColor = Color.Black;
+            LineSize = 1.0f;
+        }
+
+        [XmlAttribute("lineColor")]
+        public string linecolor
+        {
+            get { return ColorTranslator.ToHtml(LineColor); }
+            set { LineColor = ColorTranslator.FromHtml(value); }
+        }
+
+        [XmlIgnore]
+        public Color LineColor { get; set; }
+
+        [XmlAttribute("lineSize")]
+        public float LineSize { get; set; }
+
+        public string Text { get; set; }
+        [XmlAttribute("fontname")]
+        public string FontName { get; set; }
+        [XmlAttribute("fontsize")]
+        public int FontSize { get; set; }
+        [XmlAttribute]
+        public StringAlignment alignment;
+        [XmlAttribute]
+        public bool bold;
+        [XmlAttribute]
+        public bool italic;
+        [XmlAttribute]
+        public bool underline;
+        [XmlAttribute]
+        public bool strikeout;
+
+        [XmlIgnore]
+        public FontStyle FontStyle
+        {
+            get
+            {
+                FontStyle fs = FontStyle.Regular;
+                if (bold)
+                    fs = fs | FontStyle.Bold;
+                if (italic)
+                    fs = fs | FontStyle.Italic;
+                if (underline)
+                    fs = fs | FontStyle.Underline;
+                if (strikeout)
+                    fs = fs | FontStyle.Strikeout;
+
+                return fs;
+            }
+        }
+
+        public override void Draw(Graphics g, Bitmap bmp)
+        {
+            if (!String.IsNullOrEmpty(Text))
+            {
+
+                var XRect = new Rectangle(Rect.X, Rect.Y, Math.Max(Rect.Width, bmp.Width), Rect.Height);
+
+                string atext = GetTemplateText(Text);
+                int[] sizes = new int[] { 100, 90, 80, 75, 70, 65, 60, 55, 50, 45, 42, 40, 38, 36,
+                    34, 32, 30, 28, 26, 24, 22, 20, 16, 12, 8, 4 };
+                SizeF crSize = new SizeF();
+                Font crFont = null;
+                int fs = FontSize;
+                if (fs <= 0)
+                {
+                    for (int i = 0; i < sizes.Length; i++)
+                    {
+                        crFont = new Font(FontName, sizes[i], FontStyle);
+                        crSize = g.MeasureString(atext, crFont, Math.Max(Rect.Width, bmp.Width), new StringFormat()
+                        {
+                            Alignment = alignment
+                        });
+                        if ((ushort)crSize.Width < ((ushort)bmp.Width))
+                            break;
+                    }
+                }
+                else
+                {
+                    crFont = new Font(FontName, fs, FontStyle);
+                    crSize = g.MeasureString(atext, crFont, Math.Max(Rect.Width, bmp.Width), new StringFormat()
+                    {
+                        Alignment = alignment
+                    });
+
+                }
+                if (XRect.Width > 0)
+                {
+                    //Rect.Height = Math.Max
+                    var arect = new Rectangle(XRect.X, XRect.Y, XRect.Width,
+                        Math.Max(Rect.Height, (int)crSize.Height));
+                    using (GraphicsPath gp = new GraphicsPath())
+                    using (Pen outline = new Pen(LineColor, LineSize)
+                    {
+                        LineJoin = LineJoin.Round
+                    })
+                    using (StringFormat sf = new StringFormat() { Alignment = StringAlignment.Center })
+                    using (var foreBrush = GetBrush(arect))
+                    {
+                        gp.AddString(atext, crFont.FontFamily, (int)crFont.Style,
+                            crFont.Size + 6, arect, sf);
+
+                        g.SmoothingMode = SmoothingMode.HighQuality;
+                        g.DrawPath(outline, gp);
+                        g.FillPath(foreBrush, gp);
+                    }
+                }
+            }
+        }
+    }
+
+    #endregion
+
+
+    public abstract class DrawInstParent : DrawInstruction, IDrawInstructionsHolder
+    {
+        public DrawInstructions Drawing = new DrawInstructions();
+
+        public DrawInstructions GetDrawing()
+        {
+            return Drawing;
+        }
+    }
+
+
+    [XmlType("if")]
+    public class DrawIF : DrawInstParent { }
+
+    #region Transform
+    public abstract class DrawTransform : DrawInstParent
+    {
+
+        GraphicsState ss;
+        public override void Draw(Graphics g, Bitmap b)
+        {
+            base.Draw(g, b);
+            Drawing.Draw(g, b);
+        }
+
+        public override void BeforeDraw(Graphics g, Bitmap b)
+        {
+            base.BeforeDraw(g, b);
+            ss = g.Save();
+        }
+
+        public override void AfterDraw(Graphics g, Bitmap b)
+        {
+            g.Restore(ss);
+            ss = null;
+            base.AfterDraw(g, b);
+        }
+    }
+
+    [XmlType("translate")]
+    public class TranslateTransform : DrawTransform
+    {
+        [XmlAttribute]
+        public float x { get; set; }
+        [XmlAttribute]
+        public float y { get; set; }
+
+        public override void BeforeDraw(Graphics g, Bitmap b)
+        {
+            base.BeforeDraw(g, b);
+            g.TranslateTransform(x, y);
+        }
+    }
+
+    [XmlType("scale")]
+    public class ScaleTransform : DrawTransform
+    {
+        [XmlAttribute("scaleX")]
+        public float ScaleX { get; set; }
+        [XmlAttribute("scaleY")]
+        public float ScaleY { get; set; }
+
+        public override void BeforeDraw(Graphics g, Bitmap b)
+        {
+            base.BeforeDraw(g, b);
+            g.ScaleTransform(ScaleX, ScaleY);
+        }
+
+    }
+
+
+    [XmlType("rotate")]
+    public class RotateTransform : DrawTransform
+    {
+        [XmlAttribute("angle")]
+        public float angle { get; set; }
+
+        public override void BeforeDraw(Graphics g, Bitmap b)
+        {
+            base.BeforeDraw(g, b);
+            g.RotateTransform(angle);
+        }
+
+    }
+
+
+    #endregion
+
+
+    #endregion
+
+
     public class TaggerProgress : EventArgs
     {
         private int max;
@@ -485,18 +1485,81 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         public Bitmap leadBonusLayer { get; private set; }
         public Bitmap rhythmBonusLayer { get; private set; }
         public Bitmap bassBonusLayer { get; private set; }
+        public Bitmap DDLayer { get; private set; }
 
         public BitmapHolder(string tagsFolderFullPath)
         {
-            backgroundLayer = new Bitmap(Path.Combine(tagsFolderFullPath, "Background.png"));
-            customTagLayer = new Bitmap(Path.Combine(tagsFolderFullPath, "Custom.png"));
-            vocalLayer = new Bitmap(Path.Combine(tagsFolderFullPath, "Vocal.png"));
-            leadLayer = new Bitmap(Path.Combine(tagsFolderFullPath, "Lead.png"));
-            rhythmLayer = new Bitmap(Path.Combine(tagsFolderFullPath, "Rhythm.png"));
-            bassLayer = new Bitmap(Path.Combine(tagsFolderFullPath, "Bass.png"));
-            leadBonusLayer = new Bitmap(Path.Combine(tagsFolderFullPath, "Lead Bonus.png"));
-            rhythmBonusLayer = new Bitmap(Path.Combine(tagsFolderFullPath, "Rhythm Bonus.png"));
-            bassBonusLayer = new Bitmap(Path.Combine(tagsFolderFullPath, "Bass Bonus.png"));
+            var p = Path.Combine(tagsFolderFullPath, "DD.png");
+            if (!File.Exists(p))
+                p = Path.Combine(Constants.TaggerTemplatesFolder, "DD.png");
+
+            if (File.Exists(p))
+                DDLayer = new Bitmap(p);
+            else
+                DDLayer = null;
+
+            p = Path.Combine(tagsFolderFullPath, "Background.png");
+            if (File.Exists(p))
+                backgroundLayer = new Bitmap(p);
+            else
+                backgroundLayer = null;
+
+
+            p = Path.Combine(tagsFolderFullPath, "Custom.png");
+            if (File.Exists(p))
+                customTagLayer = new Bitmap(p);
+            else
+                customTagLayer = null;
+
+
+            p = Path.Combine(tagsFolderFullPath, "Vocal.png");
+            if (File.Exists(p))
+                vocalLayer = new Bitmap(p);
+            else
+                vocalLayer = null;
+
+
+            p = Path.Combine(tagsFolderFullPath, "Lead.png");
+            if (File.Exists(p))
+                leadLayer = new Bitmap(p);
+            else
+                leadLayer = null;
+
+
+            p = Path.Combine(tagsFolderFullPath, "Rhythm.png");
+            if (File.Exists(p))
+                rhythmLayer = new Bitmap(p);
+            else
+                rhythmLayer = null;
+
+
+            p = Path.Combine(tagsFolderFullPath, "Bass.png");
+            if (File.Exists(p))
+                bassLayer = new Bitmap(p);
+            else
+                bassLayer = null;
+
+
+            p = Path.Combine(tagsFolderFullPath, "Lead Bonus.png");
+            if (File.Exists(p))
+                leadBonusLayer = new Bitmap(p);
+            else
+                leadBonusLayer = null;
+
+
+            p = Path.Combine(tagsFolderFullPath, "Rhythm Bonus.png");
+            if (File.Exists(p))
+                rhythmBonusLayer = new Bitmap(p);
+            else
+                rhythmBonusLayer = null;
+
+
+            p = Path.Combine(tagsFolderFullPath, "Bass Bonus.png");
+            if (File.Exists(p))
+                bassBonusLayer = new Bitmap(p);
+            else
+                bassBonusLayer = null;
+
         }
 
         private void ClearImages()
@@ -546,6 +1609,13 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
                 bassBonusLayer.Dispose();
                 bassBonusLayer = null;
             }
+            if (DDLayer != null)
+            {
+                DDLayer.Dispose();
+                DDLayer = null;
+            }
+
+
         }
 
         public void Dispose()

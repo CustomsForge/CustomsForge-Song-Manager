@@ -1,5 +1,12 @@
 CFM Release Notes
 
+1.1.1.0
+-fixed bug in renamer (http://customsforge.com/topic/24182-renamer-dont-rename/?p=185449)
+-New tagger XML file format, old themes will still work
+-Created CFSM.Utils and DF.Winforms.ThemeLib assembly
+-Created own implementation of PSARC in CFSM.Utils
+-Added a UnitTest project
+
 1.1.0.1
 -Merged DataGridViewTools filtering fixes
 -Fixed bug in filtering Show All links

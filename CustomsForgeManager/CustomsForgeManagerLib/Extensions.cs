@@ -523,6 +523,42 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
         }
 
 
+        public static void ExtractEmbeddedResources(string outputDir, string resourceLocation,bool Overwrite = true)
+        {
+            string resourcePath = "";
+
+            var f = Assembly.GetExecutingAssembly().GetManifestResourceNames().Where(s => 
+              s.ToLower().StartsWith(resourceLocation.ToLower()));
+
+            foreach (var file in f)
+            {
+                string xFile = file;
+
+                xFile = file.Replace(resourceLocation+".", "");
+
+                var parts = xFile.Split('.').ToList();
+                string fn = string.Format("{0}.{1}", parts[parts.Count - 2], parts[parts.Count - 1]);
+                parts.RemoveRange(parts.Count - 2, 2);
+                string xpath = "";
+                foreach (var x in parts)
+                    xpath += x + '\\';
+
+                resourcePath = Path.Combine(outputDir, xpath, fn);
+
+                if (!Overwrite && File.Exists(resourcePath))
+                    continue;
+
+                var path = Path.GetDirectoryName(resourcePath);
+                if (!Directory.Exists(path))
+                    Directory.CreateDirectory(path);
+
+
+                Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(file);
+                using (FileStream fileStream = new FileStream(resourcePath, FileMode.Create))
+                    stream.CopyTo(fileStream);
+            }
+
+        }
         public static void UploadToCustomsForge()
         {
             Process.Start(Constants.IgnitionURL + "/creators/submit");

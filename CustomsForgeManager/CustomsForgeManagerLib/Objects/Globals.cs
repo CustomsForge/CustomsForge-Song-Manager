@@ -8,6 +8,7 @@ using DLogNet;
 using DataGridViewTools;
 using RocksmithToolkitLib;
 using System;
+using DF.WinForms.ThemeLib;
 
 
 namespace CustomsForgeManager.CustomsForgeManagerLib.Objects

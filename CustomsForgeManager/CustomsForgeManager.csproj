@@ -193,7 +193,6 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="CustomsForgeManagerLib\PsarcPackage.cs" />
-    <Compile Include="CustomsForgeManagerLib\Theme.cs" />
     <Compile Include="CustomsForgeManagerLib\Worker.cs" />
     <Compile Include="Forms\ClickOnceUpgrade.cs">
       <SubType>Form</SubType>
@@ -602,6 +601,8 @@
     <None Include="Resources\rescan.png" />
     <None Include="Resources\rescan1.png" />
     <None Include="Resources\clear.png" />
+    <EmbeddedResource Include="Resources\tags\Default.tagtheme" />
+    <EmbeddedResource Include="Resources\tags\example1.tagtheme" />
     <None Include="Resources\update.png" />
     <None Include="Resources\backup.png" />
     <None Include="Resources\disable.png" />
@@ -628,9 +629,17 @@
       <Project>{E6565985-C477-46F4-8A42-08E04CD40B65}</Project>
       <Name>CFMImageTools</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CustomForgeManagerTools\CFSM.Utils\CFSM.Utils.csproj">
+      <Project>{0b5754df-5812-4e92-9275-3e5d9180b172}</Project>
+      <Name>CFSM.Utils</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CustomForgeManagerTools\DataGridViewTools\DataGridViewTools.csproj">
       <Project>{5a4b4b14-d3b5-4d54-80ec-0877c1e6e73a}</Project>
       <Name>DataGridViewTools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CustomForgeManagerTools\DF.WinForms.ThemeLib\DF.WinForms.ThemeLib.csproj">
+      <Project>{e3a2283b-a2b8-46e5-af49-df6cd156eb0d}</Project>
+      <Name>DF.WinForms.ThemeLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\CustomForgeManagerTools\DLogNet\DLogNet.csproj">
       <Project>{04b8ebdc-6226-456e-8bd4-aef7baf682aa}</Project>

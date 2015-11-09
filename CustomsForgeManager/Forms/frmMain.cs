@@ -8,12 +8,13 @@ using System.Linq;
 using System.Text;
 using CustomsForgeManager.CustomsForgeManagerLib;
 using System.Collections.Generic;
-using CFMAudioTools;
+using CFSM.Utils;
+using DF.WinForms.ThemeLib;
 
 
 namespace CustomsForgeManager.Forms
 {
-    public partial class frmMain : Form, IMainForm, IThemeListener
+    public partial class frmMain : Form, IMainForm//,ThemedForm
     {
         private static Point UCLocation = new Point(5, 10);
         private static Size UCSize = new Size(990, 490);
@@ -22,6 +23,8 @@ namespace CustomsForgeManager.Forms
         public frmMain(DLogNet.DLogger myLog)
         {
             InitializeComponent();
+            //this will initialize classes that need to be initalize right away.
+            UtilExtensions.InitializeClasses(new string[] { "UTILS_INIT", "CFSM_INIT" }, new Type[] { }, new object[] { });
 
             // prevent toolstrip from growing/changing at runtime
             // toolstrip may appear changed in design mode (this is a known VS bug)
