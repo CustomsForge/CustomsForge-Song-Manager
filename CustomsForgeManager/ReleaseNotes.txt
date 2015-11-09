@@ -6,6 +6,7 @@ CFM Release Notes
 -Created CFSM.Utils and DF.Winforms.ThemeLib assembly
 -Created own implementation of PSARC in CFSM.Utils
 -Added a UnitTest project
+-Added CachePsarcEditor
 
 1.1.0.1
 -Merged DataGridViewTools filtering fixes
