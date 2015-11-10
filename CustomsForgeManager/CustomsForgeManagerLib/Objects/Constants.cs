@@ -21,6 +21,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         public const string ApplicationName = "CustomsForge Song Manager";
         public static string ApplicationVersion { get { return Assembly.GetExecutingAssembly().GetName().Version.ToString(); } }
         public static string WorkDirectory { get { return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "CFSM"); } }
+        public static string ThemeDirectory { get { return Path.Combine(WorkDirectory, "Themes"); } }
         public static string LogFilePath { get { return Path.Combine(WorkDirectory, "debug.log"); } }
         public static string SettingsPath { get { return Path.Combine(WorkDirectory, "settings.xml"); } }
         public static string GridSettingsPath { get { return Path.Combine(WorkDirectory, "gridSettings.xml"); } }
@@ -35,9 +36,32 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         public static string TaggerPreviewsFolder { get { return Path.Combine(TaggerWorkingFolder, "previews"); } }
 
         public static string CachePsarcPath { get { return Path.Combine(AppSettings.Instance.RSInstalledDir, "cache.psarc"); } }
-        public static string RS1PackPath { get { return Path.Combine(AppSettings.Instance.RSInstalledDir, "dlc", "rs1compatibilitydisc_p.psarc"); } }
-        public static string RS1DLCPath { get { return Path.Combine(AppSettings.Instance.RSInstalledDir, "dlc", "rs1compatibilitydlc_p.psarc"); } }
+        public static string RS1PackPath
+        {
+            get
+            {
+                var SearchPath = Path.Combine(AppSettings.Instance.RSInstalledDir, "dlc");
+                var files = Directory.GetFiles(SearchPath, "rs1compatibilitydisc_p.psarc", SearchOption.AllDirectories);
+                if (files.Length > 0)
+                    return files[0];
+                return Path.Combine(SearchPath, "rs1compatibilitydisc_p.psarc");
+            }
+        }
+        public static string RS1DLCPath
+        {
+            get
+            {
+                var SearchPath = Path.Combine(AppSettings.Instance.RSInstalledDir, "dlc");
+                var files = Directory.GetFiles(SearchPath, "rs1compatibilitydlc_p.psarc", SearchOption.AllDirectories);
+                if (files.Length > 0)
+                    return files[0];
+                return Path.Combine(SearchPath, "rs1compatibilitydlc_p.psarc");
+            }
+        }
         public static string CachePsarcBackupPath { get { return Path.Combine(AppSettings.Instance.RSInstalledDir, "backup", "cache.psarc.backup"); } }
+
+        //TODO: it's probably a better idea to make the backups in the work directory, incase the program doesn't have 
+        //write access to the steam directory (default steam directory is {PF}\Stream)
         public static string RS1PackBackupPath { get { return Path.Combine(AppSettings.Instance.RSInstalledDir, "dlc", "rs1compatibilitydisc_p.psarc.backup"); } }
         public static string RS1DLCBackupPath { get { return Path.Combine(AppSettings.Instance.RSInstalledDir, "dlc", "rs1compatibilitydlc_p.psarc.backup"); } }
         public static string BackupFolderPath { get { return Path.Combine(AppSettings.Instance.RSInstalledDir, "backup"); } }

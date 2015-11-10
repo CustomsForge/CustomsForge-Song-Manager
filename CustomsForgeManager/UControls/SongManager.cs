@@ -17,11 +17,12 @@ using DataGridViewTools;
 using Newtonsoft.Json;
 using System.Xml;
 using Extensions = CustomsForgeManager.CustomsForgeManagerLib.Extensions;
+using CFSM.Utils;
 
 
 namespace CustomsForgeManager.UControls
 {
-    public partial class SongManager : UserControl, IDataGridViewHolder
+    public partial class SongManager : UserControl, IDataGridViewHolder, INotifyTabChanged
     {
         private bool allSelected = true;
         private AbortableBackgroundWorker bWorker;
@@ -38,14 +39,9 @@ namespace CustomsForgeManager.UControls
         {
             InitializeComponent();
             Globals.TsLabel_StatusMsg.Click += lnkShowAll_Click;
-            Leave += SongManager_Leave;
             dgvSongsDetail.Visible = false;
-            PopulateSongManager();
-#if TAGGER
+            PopulateSongManager();            
             cmsTaggerPreview.Visible = true;
-#else
-            cmsTagerPreview.Visible = false;
-#endif
         }
 
         public void LeaveSongManager()
@@ -82,7 +78,7 @@ namespace CustomsForgeManager.UControls
                     }
 
                     if (correctVersion)
-                        masterSongCollection = Extensions.XmlDeserialize<BindingList<SongData>>(listNode.OuterXml);
+                        masterSongCollection = UtilExtensions.XmlDeserialize<BindingList<SongData>>(listNode.OuterXml);
                 }
 
                 // pop Arrangment DLCKey info
@@ -123,31 +119,24 @@ namespace CustomsForgeManager.UControls
             }
         }
 
-        public void PopulateSongManager()
+        private void PopulateTagger()
         {
-            Globals.Log("Populating SongManager GUI ...");
-#if TAGGER
-            // TODO: for maintainablity consider moving this custom EH to a conventional cmsTaggerPrevew_Click event handler
             cmsTaggerPreview.DropDownItems.Clear();
-            foreach (string tagPreview in Directory.EnumerateFiles(Constants.TaggerTemplatesFolder, "*.png").Where(file => file.ToLower().Contains("prev")))
+            foreach (string tagPreview in Globals.Tagger.Themes)
             {
-                var tsi = cmsTaggerPreview.DropDownItems.Add(Path.GetFileName(tagPreview).Replace(@"Tagger\", "").Replace("prev.png", ""));
+                var tsi = cmsTaggerPreview.DropDownItems.Add(tagPreview);
                 tsi.Click += (s, e) =>
                 {
                     var sel = GetFirstSelected();
                     if (sel != null)
                     {
-                        var old = Globals.Tagger.ThemeName;
-                        Globals.Tagger.ThemeName = ((ToolStripItem)s).Text;
-                        // update tscbTaggerThemes combo based on ((ToolStripItem)s).Text selection                        
-                        Globals.TsComboBox_TaggerThemes.SelectedItem = ((ToolStripItem)s).Text;
-
-                        var img = Globals.Tagger.Preview(sel);
+                        string ATheme = ((ToolStripItem)s).Text;
+                        var img = Globals.Tagger.Preview(sel, ATheme);
                         if (img != null)
                         {
                             using (Form f = new Form())
                             {
-                                f.Text = "Tagger Preview of " + ((ToolStripItem)s).Text;
+                                f.Text = "Tagger Preview of " + ATheme;
                                 f.StartPosition = FormStartPosition.CenterParent;
                                 f.ShowIcon = false;
                                 f.MaximizeBox = false;
@@ -163,12 +152,15 @@ namespace CustomsForgeManager.UControls
                                 f.ShowDialog(this.FindForm());
                             }
                         }
-                        Globals.Tagger.ThemeName = old;
                     }
-                    //Globals.Tagger.Preview();
                 };
             }
-#endif
+        }
+
+        public void PopulateSongManager()
+        {
+            Globals.Log("Populating SongManager GUI ...");
+            PopulateTagger();
 
             // Hide main dgvSongsMaster until load completes
             dgvSongsMaster.Visible = false;
@@ -483,7 +475,7 @@ namespace CustomsForgeManager.UControls
             if (fullRescan)
                 Globals.SongCollection.Clear();
 
-            ToggleUIControls();
+            ToggleUIControls(false);
             // run new worker
             using (Worker worker = new Worker())
             {
@@ -494,7 +486,7 @@ namespace CustomsForgeManager.UControls
                 }
             }
 
-            ToggleUIControls();
+            ToggleUIControls(true);
 
             if (Globals.WorkerFinished == Globals.Tristate.Cancelled)
                 return;
@@ -580,18 +572,15 @@ namespace CustomsForgeManager.UControls
             return SelectedSongs;
         }
 
-
-
-
-        private void ToggleUIControls()
+        private void ToggleUIControls(bool enable)
         {
-            Extensions.InvokeIfRequired(btnRescan, delegate { btnRescan.Enabled = !btnRescan.Enabled; });
-            Extensions.InvokeIfRequired(btnCheckAllForUpdates, delegate { btnCheckAllForUpdates.Enabled = !btnCheckAllForUpdates.Enabled; });
-            Extensions.InvokeIfRequired(cueSearch, delegate { cueSearch.Enabled = !cueSearch.Enabled; });
-            Extensions.InvokeIfRequired(btnDisableEnableSongs, delegate { btnDisableEnableSongs.Enabled = !btnDisableEnableSongs.Enabled; });
-            Extensions.InvokeIfRequired(btnBackupSelectedDLCs, delegate { btnBackupSelectedDLCs.Enabled = !btnBackupSelectedDLCs.Enabled; });
-            Extensions.InvokeIfRequired(lnkLblSelectAll, delegate { lnkLblSelectAll.Enabled = !lnkLblSelectAll.Enabled; });
-            Extensions.InvokeIfRequired(lnkClearSearch, delegate { lnkClearSearch.Enabled = !lnkClearSearch.Enabled; });
+            Extensions.InvokeIfRequired(btnRescan, delegate { btnRescan.Enabled = enable; });
+            Extensions.InvokeIfRequired(btnCheckAllForUpdates, delegate { btnCheckAllForUpdates.Enabled = enable; });
+            Extensions.InvokeIfRequired(cueSearch, delegate { cueSearch.Enabled = enable; });
+            Extensions.InvokeIfRequired(btnDisableEnableSongs, delegate { btnDisableEnableSongs.Enabled = enable; });
+            Extensions.InvokeIfRequired(cmsSelection, delegate { cmsSelection.Enabled = enable; });
+            Extensions.InvokeIfRequired(lnkLblSelectAll, delegate { lnkLblSelectAll.Enabled = enable; });
+            Extensions.InvokeIfRequired(lnkClearSearch, delegate { lnkClearSearch.Enabled = enable; });
         }
 
         private void UpdateCharter(DataGridViewRow selectedRow)
@@ -611,12 +600,6 @@ namespace CustomsForgeManager.UControls
 
                 Globals.Log("Need to be connected to the internet to use this feature");
             }
-        }
-
-        private void SongManager_Leave(object sender, EventArgs e)
-        {
-            // TODO: this EH does not get fired after initial load and leave
-            // TODO: why???
         }
 
         private void btnBackupSelectedDLCs_Click(object sender, EventArgs e)
@@ -733,6 +716,88 @@ namespace CustomsForgeManager.UControls
             Globals.RescanRenamer = true;
         }
 
+        private void PrepareDropdown()
+        {
+            tagToolStripMenuItem.DropDownItems.Clear();
+
+            SongData sdata = null;
+            var sngs = GetSelectedSongs().Where(sd => !sd.Tagged).ToArray(); // 
+            if (sngs.Length == 0)
+                sngs = Globals.SongCollection.Where(sd => !sd.Tagged).ToArray();
+            if (sngs.Length > 0)
+                sdata = sngs[Globals.random.Next(sngs.Length - 1)];
+            foreach (var x in Globals.Tagger.Themes)
+            {
+                ToolStripMenuItem mi = new ToolStripMenuItem(x);
+                mi.Click += (s, ev) =>
+                {
+                    var selection = GetSelectedSongs(); //.Where(sd => sd.Tagged == false);
+                    if (selection.Count > 0)
+                    {
+                        Globals.Tagger.ThemeName = ((ToolStripMenuItem)s).Text;
+                        Globals.Tagger.OnProgress += TaggerProgress;
+                        try
+                        {
+                            Globals.Tagger.TagSongs(selection.ToArray());
+                        }
+                        finally
+                        {
+                            Globals.Tagger.OnProgress -= TaggerProgress;
+                            // force dgvSongsMaster data to refresh after Tagging
+                            GetGrid().Invalidate();
+                            GetGrid().Refresh();
+                        }
+                    }
+                };
+
+                if (sdata != null)
+                {
+                    var img = Globals.Tagger.Preview(sdata,x).ResizeImage(100,100);
+                    PictureBox pb = new PictureBox() { Image = img, Width = img.Width, Height = img.Height,Tag = x,
+                                                       SizeMode = PictureBoxSizeMode.CenterImage,
+                                                       Dock = DockStyle.Fill
+                    };
+
+                    ToolStripControlHost mi2 = new ToolStripControlHost(pb) {  Height = pb.Height, Tag = x };
+                    pb.Click += (s, ev) =>
+                    {
+                        var selection = GetSelectedSongs(); 
+                        if (selection.Count > 0)
+                        {
+                            Globals.Tagger.ThemeName = ((PictureBox)s).Tag.ToString();
+                            Globals.Tagger.OnProgress += TaggerProgress;
+                            try
+                            {
+                                Globals.Tagger.TagSongs(selection.ToArray());
+                            }
+                            finally
+                            {
+                                Globals.Tagger.OnProgress -= TaggerProgress;
+                                // force dgvSongsMaster data to refresh after Tagging
+                                GetGrid().Invalidate();
+                                GetGrid().Refresh();
+                            }
+                        }
+
+                    };
+                    mi.DropDownItems.Add(mi2);
+                }
+                // ToolStripItem
+                tagToolStripMenuItem.DropDownItems.Add(mi);
+            }
+        }
+
+        public void btnSelectionClick(object sender,EventArgs e)
+        {
+            if (tagToolStripMenuItem.DropDownItems.Count == 0)
+            {
+                Cursor = Cursors.WaitCursor;
+                PrepareDropdown();
+                Cursor = Cursors.Default;
+            }
+            cmsSelection.Show(btnDisableEnableSongs, 0, btnDisableEnableSongs.Height + 2);
+        }
+
         private void btnDisableEnableSongs_Click(object sender, EventArgs e)
         {
             foreach (DataGridViewRow row in dgvSongsMaster.Rows)
@@ -788,7 +853,6 @@ namespace CustomsForgeManager.UControls
             Globals.RescanSetlistManager = true;
             Globals.RescanRenamer = true;
         }
-
 
         private void btnRescan_Click(object sender, EventArgs e)
         {
@@ -1400,7 +1464,7 @@ namespace CustomsForgeManager.UControls
                     //extract the audio...
                     if (!PsarcBrowser.ExtractAudio(sng.Path, fullname, ""))
                     {
-                        Globals.Log("Could not extract the audio.");
+                        Globals.Log(Properties.Resources.CouldNotExtractTheAudio);
                         sng.AudioCache = "";
                         return;
                     }
@@ -1417,5 +1481,54 @@ namespace CustomsForgeManager.UControls
                 }
             }
         }
+
+        private void TaggerProgress(object sender, TaggerProgress e)
+        {
+            Globals.TsProgressBar_Main.Value = e.Progress;
+            Application.DoEvents();
+        }
+
+        private void unTagToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var selection = Globals.SongManager.GetSelectedSongs(); //.Where(sd => sd.Tagged);
+
+            if (selection.Count > 0)
+            {
+                Globals.Tagger.OnProgress += TaggerProgress;
+                try
+                {
+                    Globals.Tagger.UntagSongs(selection.ToArray());
+                }
+                finally
+                {
+                    Globals.Tagger.OnProgress -= TaggerProgress;
+                    // force dgvSongsMaster data to refresh after Untagging
+                    GetGrid().Invalidate();
+                    GetGrid().Refresh();
+                }
+            }
+        }
+
+        private void changePropertiesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+          var selection = Globals.SongManager.GetSelectedSongs(); //.Where(sd => sd.Tagged);
+
+            if (selection.Count > 0)
+            {
+                frmSongBatchEdit.BatchEdit(selection.ToArray());
+            }
+        }
+
+        public void TabEnter()
+        {
+            Globals.Log("SongManager GUI Activated...");
+          //  PopulateSongManager();
+        }
+
+        public void TabLeave()
+        {
+            LeaveSongManager();
+        }
+
     }
 }

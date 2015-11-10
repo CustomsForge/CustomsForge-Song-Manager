@@ -6,7 +6,7 @@ using CustomsForgeManager.CustomsForgeManagerLib.Objects;
 using CustomsForgeManager.Forms;
 using DLogNet;
 using System.Linq;
-using CustomsForgeManager.CustomsForgeManagerLib;
+using CFSM.Utils;
 #if WINDOWS
 using Mutex = System.Threading.Mutex;
 #else

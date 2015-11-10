@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Xml.Serialization;
 using DataGridViewTools;
+using CFSM.Utils;
 
 namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
 {
@@ -80,6 +81,8 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         public bool ShowLogWindow { get { return FShowLogwindow; } set { SetPropertyField("ShowLogWindow", ref FShowLogwindow, value); } }
         public string CreatorName { get { return FCreator; } set { SetPropertyField("CreatorName", ref FCreator, value); } }
 
+        public string ThemeName { get { return FThemeName; } set { SetPropertyField("ThemeName", ref FThemeName, value); } }
+
         [Browsable(false)]
         public int WindowWidth { get { return FWindowWidth; } set { SetPropertyField("WindowWidth", ref FWindowWidth, value); } }
 
@@ -98,11 +101,15 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         [Browsable(false)]
         public bool SortAscending { get { return FSortAscending; } set { SetPropertyField("SortAscending", ref FSortAscending, value); } }
 
+        [XmlArray("CustomSettings")] // provides proper xml serialization
+        [XmlArrayItem("CustomSetting")] // provides proper xml serialization
+        public List<CustomSetting> CustomSettings { get; set; }
 
         //property template
         //public type PropName { get { return propName; } set { SetPropertyField("PropName", ref propName, value); } }
 
         private static AppSettings instance;
+        private string FThemeName;
 
         public static AppSettings Instance
         {
@@ -162,8 +169,18 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
             LogFilePath = Constants.LogFilePath;
         }
 
-
+        [XmlRoot("CustomSetting")]
+        public class CustomSetting
+        {
+            public string ControlName { get; set; }
+            public string ControlKey { get; set; }
+            public string ControlValue { get; set; }
+        }
 
     }
+
+
+
+
 
 }

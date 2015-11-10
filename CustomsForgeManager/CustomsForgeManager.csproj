@@ -160,7 +160,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CustomsForgeManagerLib\CrossPlatform.cs" />
     <Compile Include="CustomsForgeManagerLib\CustomControls\AbortableBackgroundWorker.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -181,7 +180,6 @@
     </Compile>
     <Compile Include="CustomsForgeManagerLib\Interfaces.cs" />
     <Compile Include="CustomsForgeManagerLib\Objects\Autoupdater.cs" />
-    <Compile Include="CustomsForgeManagerLib\Objects\NotifyPropChangedBase.cs" />
     <Compile Include="CustomsForgeManagerLib\Objects\RSCustomDictionaries.cs" />
     <Compile Include="CustomsForgeManagerLib\Objects\RSModels.cs" />
     <Compile Include="CustomsForgeManagerLib\Objects\SongCollectionException.cs" />
@@ -193,6 +191,14 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="CustomsForgeManagerLib\PsarcPackage.cs" />
+    <Compile Include="CustomsForgeManagerLib\UITheme\CFSMTheme.cs" />
+    <Compile Include="CustomsForgeManagerLib\UITheme\CFSMThemeSettings.cs" />
+    <Compile Include="CustomsForgeManagerLib\UITheme\ThemePreview.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomsForgeManagerLib\UITheme\ThemePreview.Designer.cs">
+      <DependentUpon>ThemePreview.cs</DependentUpon>
+    </Compile>
     <Compile Include="CustomsForgeManagerLib\Worker.cs" />
     <Compile Include="Forms\ClickOnceUpgrade.cs">
       <SubType>Form</SubType>
@@ -223,6 +229,18 @@
     </Compile>
     <Compile Include="Forms\frmMain.Designer.cs">
       <DependentUpon>frmMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmSongBatchEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmSongBatchEdit.Designer.cs">
+      <DependentUpon>frmSongBatchEdit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ThemeDesigner.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ThemeDesigner.Designer.cs">
+      <DependentUpon>ThemeDesigner.cs</DependentUpon>
     </Compile>
     <Compile Include="SongEditor\frmArrangement.cs">
       <SubType>Form</SubType>
@@ -358,6 +376,15 @@
     <EmbeddedResource Include="CustomsForgeManagerLib\CustomControls\ComboBoxPopup.resx">
       <DependentUpon>ComboBoxPopup.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomsForgeManagerLib\UITheme\ThemePreview.resx">
+      <DependentUpon>ThemePreview.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmSongBatchEdit.resx">
+      <DependentUpon>frmSongBatchEdit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ThemeDesigner.resx">
+      <DependentUpon>ThemeDesigner.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ClickOnceUpgrade.resx">
       <DependentUpon>ClickOnceUpgrade.cs</DependentUpon>

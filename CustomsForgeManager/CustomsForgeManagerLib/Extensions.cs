@@ -1,25 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows.Forms;
-using System.Xml;
-using System.Xml.Linq;
-using System.Xml.Serialization;
 using System.Net;
 using CustomsForgeManager.CustomsForgeManagerLib.CustomControls;
 using CustomsForgeManager.CustomsForgeManagerLib.Objects;
 using ICSharpCode.SharpZipLib.Zip;
 using Newtonsoft.Json.Linq;
-using RocksmithToolkitLib;
 using RocksmithToolkitLib.Xml;
 using System.Diagnostics;
 using Microsoft.Win32;
-using System.Runtime.Serialization;
 
 namespace CustomsForgeManager.CustomsForgeManagerLib
 {
@@ -35,8 +29,10 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
 
         public static void SerializeBin(this object obj, FileStream Stream)
         {
-            BinaryFormatter bin = new BinaryFormatter();
-            bin.FilterLevel = System.Runtime.Serialization.Formatters.TypeFilterLevel.Low;
+            BinaryFormatter bin = new BinaryFormatter() 
+            { 
+                FilterLevel = System.Runtime.Serialization.Formatters.TypeFilterLevel.Low 
+            };
             bin.Serialize(Stream, obj);
         }
 
@@ -45,8 +41,10 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
             object x = null;
             if (Stream.Length > 0)
             {
-                BinaryFormatter bin = new BinaryFormatter();
-                bin.FilterLevel = System.Runtime.Serialization.Formatters.TypeFilterLevel.Low;
+                BinaryFormatter bin = new BinaryFormatter()
+                {
+                    FilterLevel = System.Runtime.Serialization.Formatters.TypeFilterLevel.Low
+                };
                 x = bin.Deserialize(Stream);
             }
             return x;
@@ -229,109 +227,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                 return String.Empty;
         }
 
-        public static void DeleteEmptyDirs(this DirectoryInfo dir)
-        {
-            foreach (DirectoryInfo d in dir.GetDirectories())
-                d.DeleteEmptyDirs();
-
-            try
-            {
-                dir.Delete();
-            }
-            catch (IOException)
-            {
-            }
-            catch (UnauthorizedAccessException)
-            {
-            }
-        }
-
-        public static void SaveToFile<T>(string filePath, T obj)
-        {
-            using (var fs = new FileStream(filePath, FileMode.Create, FileAccess.ReadWrite))
-                obj.SerializeXml(fs);
-        }
-
-        public static void SerializeXml<T>(this T obj, Stream stream)
-        {
-            XmlSerializer serializer = new XmlSerializer(typeof(T));
-            serializer.Serialize(stream, obj);
-        }
-
-        public static T LoadFromFile<T>(string filePath)
-        {
-            using (var fs = File.OpenRead(filePath))
-                return fs.DeserializeXml<T>();
-        }
-
-        public static T DeserializeXml<T>(this Stream stream)
-        {
-            XmlSerializer serializer = new XmlSerializer(typeof(T));
-            return (T)serializer.Deserialize(stream);
-        }
-
-        public static string XmlSerialize(this object obj)
-        {
-            MemoryStream memoryStream = new MemoryStream();
-            XmlSerializer serializer = new XmlSerializer(obj.GetType());
-            serializer.Serialize(memoryStream, obj);
-            memoryStream.Position = 0;
-            using (StreamReader reader = new StreamReader(memoryStream))
-                return reader.ReadToEnd();
-        }
-
-        public static System.Xml.XmlDocument XmlSerializeToDom(this object obj)
-        {
-            var result = new System.Xml.XmlDocument();
-            result.LoadXml(XmlSerialize(obj));
-            return result;
-        }
-
-        public static object XmlDeserialize(string xml, Type toType)
-        {
-            using (Stream stream = new MemoryStream())
-            {
-                XmlSerializer serializer = new XmlSerializer(toType);
-                using (TextReader tr = new StringReader(xml))
-                    return serializer.Deserialize(tr);
-            }
-        }
-
-        public static T XmlDeserialize<T>(string xml)
-        {
-            return (T)XmlDeserialize(xml, typeof(T));
-        }
-
-
-        private static string XmlSerializeForClone(object obj)
-        {
-            MemoryStream memoryStream = new MemoryStream();
-            using (StreamReader reader = new StreamReader(memoryStream))
-            {
-                DataContractSerializer serializer = new DataContractSerializer(obj.GetType());
-                serializer.WriteObject(memoryStream, obj);
-                memoryStream.Position = 0;
-                return reader.ReadToEnd();
-            }
-        }
-
-        private static object XmlDeserializeForClone(string xml, Type toType)
-        {
-            using (Stream stream = new MemoryStream())
-            {
-                byte[] data = System.Text.Encoding.UTF8.GetBytes(xml);
-                stream.Write(data, 0, data.Length);
-                stream.Position = 0;
-                DataContractSerializer deserializer = new DataContractSerializer(toType);
-                return deserializer.ReadObject(stream);
-            }
-        }
-
-
-        public static T XmlClone<T>(this T obj)
-        {
-            return (T)XmlDeserializeForClone(XmlSerializeForClone(obj), typeof(T));
-        }
+       
 
         public static List<string> FilesList(string path, bool includeRS1Pack = false)
         {
@@ -523,6 +419,25 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
         }
 
 
+        #region Resources
+        public static void ExtractEmbeddedResource(string outputDir, string resourceLocation, string[] files)
+        {
+            string resourcePath = "";
+            foreach (string file in files)
+            {
+                resourcePath = Path.Combine(outputDir, file);
+                //always replace with the newest resources
+                // if (!File.Exists(resourcePath))
+                {
+                    Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(
+                        string.Format("{0}.{1}", resourceLocation, file));
+                    using (FileStream fileStream = new FileStream(resourcePath, FileMode.Create))
+                        stream.CopyTo(fileStream);
+                    //for (int i = 0; i < stream.Length; i++)
+                    //    fileStream.WriteByte((byte)stream.ReadByte());
+                }
+            }
+        }
         public static void ExtractEmbeddedResources(string outputDir, string resourceLocation,bool Overwrite = true)
         {
             string resourcePath = "";
@@ -559,6 +474,10 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
             }
 
         }
+
+
+        #endregion
+
         public static void UploadToCustomsForge()
         {
             Process.Start(Constants.IgnitionURL + "/creators/submit");
@@ -568,30 +487,6 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
         {
             Process.Start(Constants.RequestURL);
         }
-
-
-        public static void ExtractEmbeddedResource(string outputDir, string resourceLocation, string[] files)
-        {
-            string resourcePath = "";
-            foreach (string file in files)
-            {
-                resourcePath = Path.Combine(outputDir, file);
-                if (!File.Exists(resourcePath))
-                {
-                    Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceLocation + @"." + file);
-                    using (FileStream fileStream = new FileStream(resourcePath, FileMode.Create))
-                        for (int i = 0; i < stream.Length; i++)
-                            fileStream.WriteByte((byte)stream.ReadByte());
-                }
-            }
-        }
-
-        public static bool IsDirectoryEmpty(string path)
-        {
-            return !Directory.EnumerateFileSystemEntries(path).Any();
-        }
-
-
 
         public static void Benchmark(Action act, int iterations)
         {
@@ -609,24 +504,8 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                 Globals.Log(act.Method.Name + " took: " + sw.ElapsedMilliseconds + " (msec)");
         }
 
-        public static IEnumerable<Type> GetLoadableTypes(this Assembly assembly)
-        {
-            if (assembly == null)
-                throw new ArgumentNullException("assembly");
-            try
-            {
-                return assembly.GetTypes();
-            }
-            catch (ReflectionTypeLoadException e)
-            {
-                return e.Types.Where(t => t != null);
-            }
-        }
 
-        public static IEnumerable<Type> GetTypesAssignableFrom(this Assembly asm, Type AType)
-        {
-            return GetLoadableTypes(asm).Where(AType.IsAssignableFrom).ToList();
-        }
+     
 
 
 

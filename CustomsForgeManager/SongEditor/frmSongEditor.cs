@@ -106,7 +106,7 @@ namespace CustomsForgeManager.SongEditor
                 if (x.Count() > 0)
                 {
                     tsProgressBar.Value = 80;
-                    var p = new RocksmithToolkitLib.PSARC.PSARC();
+                    var p = new CFSM.Utils.PSARC.PSARC();
                     using (var fs = File.OpenRead(outputPath))
                         p.Read(fs);
                     bool needsSave = false;
@@ -117,7 +117,6 @@ namespace CustomsForgeManager.SongEditor
                     }
                     if (needsSave)
                     {
-                        p.TOC.Insert(0, new RocksmithToolkitLib.PSARC.Entry() { Name = "NamesBlock.bin" });
                         using (var fs = File.Create(outputPath))
                             p.Write(fs, true);
                     }

@@ -4,7 +4,7 @@ using RocksmithToolkitLib.DLCPackage.Manifest2014.Tone;
 using System.Collections.Generic;
 using System.Linq;
 using System;
-using CustomsForgeManager.CustomsForgeManagerLib;
+using CFSM.Utils;
 
 namespace CustomsForgeManager.SongEditor
 {
@@ -65,8 +65,7 @@ namespace CustomsForgeManager.SongEditor
         {
             if (e.ColumnIndex == this.dgvTones.Columns["colName"].Index)
             {
-                var tone = (Tone2014)dgvTones.Rows[e.RowIndex].DataBoundItem;
-                if (EditTone(tone))
+                if (EditTone((Tone2014)dgvTones.Rows[e.RowIndex].DataBoundItem))
                 {
                     this.dgvTones.Refresh();
                     this.Dirty = true;

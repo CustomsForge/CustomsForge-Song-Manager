@@ -6,7 +6,7 @@ using System.Windows.Forms;
 using CustomsForgeManager.CustomsForgeManagerLib;
 using CustomsForgeManager.CustomsForgeManagerLib.Objects;
 using System.ComponentModel;
-using CustomsForgeManager.Forms;
+using CFSM.Utils;
 
 namespace CustomsForgeManager.UControls
 {
@@ -17,10 +17,6 @@ namespace CustomsForgeManager.UControls
             InitializeComponent();
             Leave += Settings_Leave;
             AppSettings.Instance.PropertyChanged += SettingsPropChanged;
-
-#if !CUSTOMUI
-     //       btnCustomize.Visible = false;
-#endif
         }
 
         public void LoadSettingsFromFile()

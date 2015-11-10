@@ -9,7 +9,6 @@ using System.Text;
 using CustomsForgeManager.CustomsForgeManagerLib;
 using System.Collections.Generic;
 using CFSM.Utils;
-using DF.WinForms.ThemeLib;
 
 
 namespace CustomsForgeManager.Forms
@@ -23,7 +22,7 @@ namespace CustomsForgeManager.Forms
         public frmMain(DLogNet.DLogger myLog)
         {
             InitializeComponent();
-            //this will initialize classes that need to be initalize right away.
+            //this will initialize classes that need to be initialized right away.
             UtilExtensions.InitializeClasses(new string[] { "UTILS_INIT", "CFSM_INIT" }, new Type[] { }, new object[] { });
 
             // prevent toolstrip from growing/changing at runtime
@@ -66,7 +65,6 @@ namespace CustomsForgeManager.Forms
             Globals.TsLabel_StatusMsg = this.tsLabel_StatusMsg;
             Globals.TsLabel_DisabledCounter = this.tsLabel_DisabledCounter;
             Globals.TsLabel_Cancel = this.tsLabel_Cancel;
-            Globals.TsComboBox_TaggerThemes = this.tscbTaggerThemes;
             Globals.ResetToolStripGlobals();
             Globals.MyLog.AddTargetTextBox(tbLog);
             //    Globals.CFMTheme.AddListener(this);
@@ -116,25 +114,7 @@ namespace CustomsForgeManager.Forms
             else
                 Globals.MyLog.RemoveTargetNotifyIcon(Globals.Notifier);
 
-#if !TAGGER
-            toolstripTagger.Visible = false;
-#else
             tsTagger.Visible = true;
-            tsButtonTagSelected.Click += tsButtonTagSelected_Click;
-            tsButtonUntagSelection.Click += tsButtonUntagSelection_Click;
-
-            tscbTaggerThemes.Items.AddRange(Globals.Tagger.Themes.ToArray());
-            tscbTaggerThemes.SelectedIndex = 0;
-
-            if (!String.IsNullOrEmpty(Globals.Tagger.ThemeName))
-                tscbTaggerThemes.SelectedItem = Globals.Tagger.ThemeName;
-            tscbTaggerThemes.SelectedIndexChanged += (s, e) =>
-                {
-                    if (tscbTaggerThemes.SelectedItem != null)
-                        Globals.Tagger.ThemeName = tscbTaggerThemes.SelectedItem.ToString();
-                };
-#endif
-
             // load Song Manager Tab
             LoadSongManager();
 
@@ -187,15 +167,6 @@ namespace CustomsForgeManager.Forms
             AppSettings.Instance.ShowLogWindow = !AppSettings.Instance.ShowLogWindow;
         }
 
-        private void frmMain_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            // get rid of leftover notifications
-            Globals.MyLog.RemoveTargetNotifyIcon(Globals.Notifier);
-            notifyIcon_Main.Visible = false;
-            notifyIcon_Main.Dispose();
-            notifyIcon_Main.Icon = null;
-            Dispose();
-        }
 
         private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -234,6 +205,11 @@ namespace CustomsForgeManager.Forms
                 case Keys.F12:
                     tstripContainer.TopToolStripPanelVisible = !tstripContainer.TopToolStripPanelVisible;
                     tstripContainer.BottomToolStripPanelVisible = tstripContainer.TopToolStripPanelVisible;
+                    e.Handled = true;
+                    break;
+                case Keys.F9:
+                    using (ThemeDesigner ts = new ThemeDesigner())
+                        ts.ShowDialog();
                     e.Handled = true;
                     break;
             }
@@ -364,56 +340,6 @@ namespace CustomsForgeManager.Forms
             ShowHideLog();
         }
 
-#if TAGGER
-        private void TaggerProgress(object sender, TaggerProgress e)
-        {
-            tsProgressBar_Main.Value = e.Progress;
-            Application.DoEvents();
-        }
-
-        private void tsButtonTagSelected_Click(object sender, EventArgs e)
-        {
-            // uncommented code so this would work 
-            var selection = Globals.SongManager.GetSelectedSongs(); //.Where(sd => sd.Tagged == false);
-
-            if (selection.Count > 0)
-            {
-                Globals.Tagger.OnProgress += TaggerProgress;
-                try
-                {
-                    Globals.Tagger.TagSongs(selection.ToArray());
-                }
-                finally
-                {
-                    Globals.Tagger.OnProgress -= TaggerProgress;
-                    // force dgvSongsMaster data to refresh after Tagging
-                    Globals.SongManager.GetGrid().Invalidate();
-                    Globals.SongManager.GetGrid().Refresh();
-                }
-            }
-        }
-
-        private void tsButtonUntagSelection_Click(object sender, EventArgs e)
-        {
-            var selection = Globals.SongManager.GetSelectedSongs(); //.Where(sd => sd.Tagged);
-
-            if (selection.Count > 0)
-            {
-                Globals.Tagger.OnProgress += TaggerProgress;
-                try
-                {
-                    Globals.Tagger.UntagSongs(selection.ToArray());
-                }
-                finally
-                {
-                    Globals.Tagger.OnProgress -= TaggerProgress;
-                    // force dgvSongsMaster data to refresh after Untagging
-                    Globals.SongManager.GetGrid().Invalidate();
-                    Globals.SongManager.GetGrid().Refresh();
-                }
-            }
-        }
-#endif
 
         private void frmMain_Load(object sender, EventArgs e)
         {
@@ -718,12 +644,6 @@ namespace CustomsForgeManager.Forms
             }
         }
 
-
-
-        public void ApplyTheme(Theme sender)
-        {
-            //var gs = sender.SpecificThemeSetting<DataGridThemeSetting>();
-        }
 
         public Control GetControl()
         {

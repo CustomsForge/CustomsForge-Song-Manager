@@ -3,11 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using CustomsForgeManager.CustomsForgeManagerLib.Objects;
+using DF.WinForms.ThemeLib;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using DataGridViewTools;
+using CustomsForgeManager.CustomsForgeManagerLib.UITheme;
 
 namespace CustomsForgeManager.CustomsForgeManagerLib.CustomControls
 {
-    class RADataGridView : DataGridView
+    class RADataGridView : DataGridView, IThemeListener, IGridViewFilterStyle
     {
+        Theme theme;
+        Image FFilteredImg;
+        Image FNormalImg;
+
+        public RADataGridView()
+        {
+            FFilteredImg = DataGridViewAutoFilterColumnHeaderCell.GetFilterResource(true);
+            FNormalImg = DataGridViewAutoFilterColumnHeaderCell.GetFilterResource(false);
+        }
+
         public void ReLoadColumnOrder(List<ColumnOrderItem> ColumnOrderCollection)
         {
             if (ColumnOrderCollection != null)
@@ -36,6 +51,45 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.CustomControls
             }
         }
 
+        public void ApplyTheme(Theme sender)
+        {
+            theme = sender;
+            this.SetTheme(sender);
+            ThemeColumnSettings cs = sender.GetThemeSetting<ThemeColumnSettings>();
+            if (cs != null)
+            {
+                FFilteredImg = cs.FilterOn.Image ?? FFilteredImg;
+                FNormalImg = cs.FilterOff.Image ?? FNormalImg;
+            }
+        }
+
+
+        protected override void OnCellPainting(DataGridViewCellPaintingEventArgs e)
+        {
+            if (e.RowIndex == -1 && theme != null && Columns[e.ColumnIndex].Visible)
+            {
+                GridViewThemeSetting gvs = theme.GetThemeSetting<GridViewThemeSetting>();
+                if (gvs != null)
+                {
+                    e.Graphics.FillRectangle(new LinearGradientBrush(e.CellBounds,gvs.ColumnHeaderBackColor,
+                        gvs.ColumnHeaderBackColor2,LinearGradientMode.Vertical), e.CellBounds);
+                    e.Graphics.DrawRectangle(new Pen(theme.BorderColor), e.CellBounds);
+                    e.PaintContent(e.ClipBounds);
+                    e.Handled = true;
+                }
+            } 
+            base.OnCellPainting(e);
+        }
+
+        public Image filteredImg
+        {
+            get { return FFilteredImg; }
+        }
+
+        public Image normalImg
+        {
+            get { return FNormalImg; }
+        }
 
     }
 }

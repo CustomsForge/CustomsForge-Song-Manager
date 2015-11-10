@@ -8,7 +8,7 @@ using DLogNet;
 using DataGridViewTools;
 using RocksmithToolkitLib;
 using System;
-using DF.WinForms.ThemeLib;
+using CustomsForgeManager.CustomsForgeManagerLib.UITheme;
 
 
 namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
@@ -47,8 +47,8 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         private static Settings _settings;
         private static BindingList<SongData> _songCollection;
         private static SongManager _songManager;
-        private static Theme _theme;
-        private static SongTagger _tagger;
+        private static DF.WinForms.ThemeLib.Theme _theme;
+ 		private static SongTagger _tagger;
 
 
         public static Random random = new Random();
@@ -75,9 +75,9 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
             get { return CFMAudioTools.AudioEngine.GetDefaultEngine(); }
         }
 
-        public static Theme CFMTheme { get { return _theme ?? (_theme = new Theme()); ; } set { _theme = value; } }
-
-
+        public static DF.WinForms.ThemeLib.Theme CFMTheme { get { return _theme ?? (_theme = new CFSMTheme()); ; } set { _theme = value; } }
+ 
+ 
         public static About About
         {
             get { return _about ?? (_about = new About()); }
@@ -166,7 +166,6 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         public static ToolStripStatusLabel TsLabel_MainMsg { get; set; }
         public static ToolStripStatusLabel TsLabel_StatusMsg { get; set; }
         public static ToolStripProgressBar TsProgressBar_Main { get; set; }
-        public static ToolStripComboBox TsComboBox_TaggerThemes { get; set; }
 
 
         public static CustomsForgeManager.Forms.frmMain MainForm
@@ -174,7 +173,10 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
             get { return (CustomsForgeManager.Forms.frmMain)Application.OpenForms["frmMain"]; }
         }
 
-
+        public static IMainForm iMainForm
+        {
+            get { return (IMainForm)Application.OpenForms["frmMain"]; }
+        }
 
 
         public static Tristate WorkerFinished { get; set; } // True = 0, False = 1, Cancelled = 2

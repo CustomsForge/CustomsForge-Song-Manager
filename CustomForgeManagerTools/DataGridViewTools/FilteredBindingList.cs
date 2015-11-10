@@ -26,8 +26,7 @@ namespace DataGridViewTools
         public FilteredBindingList(IList<T> list)
             : base(list)
         {
-            foreach (var item in list)
-                originalListValue.Add(item);
+            originalListValue.AddRange(list);
         }
 
         private List<T> originalListValue = new List<T>();
@@ -360,10 +359,7 @@ namespace DataGridViewTools
             // is applied don't allow items to be added to the list.
             if (e.ListChangedType == ListChangedType.Reset)
             {
-                if (Filter == null || Filter == "")
-                    AllowNew = true;
-                else
-                    AllowNew = false;
+                    AllowNew = String.IsNullOrEmpty(Filter);
             }
             // Add the new item to the original list.
             if (e.ListChangedType == ListChangedType.ItemAdded)
@@ -387,7 +383,6 @@ namespace DataGridViewTools
 
         internal void ApplyFilter(SingleFilterInfo filterParts)
         {
-            List<T> results;
 
             // Check to see if the property type we are filtering by implements
             // the IComparable interface.
@@ -399,7 +394,7 @@ namespace DataGridViewTools
                 throw new InvalidOperationException("Filtered property" +
                 " must implement IComparable.");
 
-            results = new List<T>();
+         	List<T> results = new List<T>();
 
             // Check each value and add to the results list.
             foreach (T item in this)

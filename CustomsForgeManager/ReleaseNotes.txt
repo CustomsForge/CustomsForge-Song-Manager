@@ -1,5 +1,13 @@
 CFM Release Notes
 
+1.1.1.1
+-Added Theme designer and preview
+-Using new PSARC implementation where needed
+-Removed tagger from main form and added to songmanager
+-Consolidated selection buttons into one button with a dropdown in songmanager
+-Add mass editor to edit multiple songs at once, currently only AppID is implemented
+-Fixed extraction error in CachePsarcEditor.UnpackSongCache
+
 1.1.1.0
 -fixed bug in renamer (http://customsforge.com/topic/24182-renamer-dont-rename/?p=185449)
 -New tagger XML file format, old themes will still work

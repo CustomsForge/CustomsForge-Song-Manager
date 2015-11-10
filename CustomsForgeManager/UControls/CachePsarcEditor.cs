@@ -16,7 +16,7 @@ using System.Reflection;
 using System.Diagnostics;
 using RocksmithToolkitLib.Xml;
 using RocksmithToolkitLib;
-using RocksmithToolkitLib.PSARC;
+using CFSM.Utils.PSARC;
 
 namespace CustomsForgeManager.UControls
 {
@@ -82,7 +82,7 @@ namespace CustomsForgeManager.UControls
 
         private void ExtractArchiveFiles(string path, string name, string outPath)
         {
-            using (PSARC p = new PSARC())
+            using (PSARC p = new PSARC(true))
             using (var FS = File.OpenRead(path))
             {
                 p.Read(FS, true);
@@ -106,10 +106,10 @@ namespace CustomsForgeManager.UControls
                 {
                     Packer.Unpack(Constants.CachePsarcPath, Constants.CFEWorkingFolder);
                     if (File.Exists(Constants.RS1PackPath))
-                        ExtractArchiveFiles(Constants.RS1PackPath, "songs_rs1disc.hsan", Constants.RS1SongsFilePath);
+                        ExtractArchiveFiles(Constants.RS1PackPath, "songs_rs1disc.hsan", Constants.ExtractedRSPackPath);
 
                     if (File.Exists(Constants.RS1DLCPath))
-                        ExtractArchiveFiles(Constants.RS1DLCPath, "songs_rs1dlc.hsan", Constants.RS1DLCSongsFilePath);
+                        ExtractArchiveFiles(Constants.RS1DLCPath, "songs_rs1dlc.hsan", Constants.ExtractedRSPackPath);
 
                     return true;
                 }

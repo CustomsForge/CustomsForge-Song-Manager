@@ -21,11 +21,26 @@ using System.Reflection;
 
 namespace DataGridViewTools
 {
+    public interface IGridViewFilterStyle
+    {
+        Image filteredImg { get; }
+        Image normalImg { get; }
+    }
     /// <summary>
     /// Provides a drop-down filter list in a DataGridViewColumnHeaderCell.
     /// </summary>
     public class DataGridViewAutoFilterColumnHeaderCell : DataGridViewColumnHeaderCell
     {
+        #region Static Fields
+        static Bitmap filteredImgS = new Bitmap(Properties.Resources.FilterX, 13, 13);
+        static Bitmap normalImgS = new Bitmap(Properties.Resources.FilterY, 13, 13);
+        #endregion
+
+        #region Private Fields
+        Image filteredImg = filteredImgS;
+        Image normalImg = normalImgS;
+        #endregion
+
         /// <summary>
         /// The ListBox used for all drop-down lists. 
         /// </summary>
@@ -96,10 +111,14 @@ namespace DataGridViewTools
         /// </summary>
         public DataGridViewAutoFilterColumnHeaderCell()
         {
-            filteredImg = new Bitmap(Properties.Resources.FilterX, 13, 13); ;
-            normalImg = new Bitmap(Properties.Resources.FilterY, 13, 13); ;
-            filteredBrush = new SolidBrush(Color.Black);
-            normalBrush = new SolidBrush(Color.Yellow);
+         
+        }
+
+        public static Bitmap GetFilterResource(bool filterOn)
+        {
+            return filterOn ? 
+                new Bitmap(Properties.Resources.FilterX, 13, 13) : 
+                new Bitmap(Properties.Resources.FilterY, 13, 13);
         }
 
         /// <summary>
@@ -122,6 +141,15 @@ namespace DataGridViewTools
             if (this.DataGridView == null)
             {
                 return;
+            }
+
+            if (this.DataGridView is IGridViewFilterStyle)
+            {
+                var igv = (this.DataGridView as IGridViewFilterStyle);
+                if (igv.normalImg != null)
+                    normalImg = igv.normalImg;
+                if (igv.filteredImg != null)
+                    filteredImg = igv.filteredImg;
             }
 
             // Disable sorting and filtering for columns that can't make
@@ -397,30 +425,30 @@ namespace DataGridViewTools
             // for the current column.
 
             // Cozy mod - use custom combobox buttons 
-            if (false) // (Application.RenderWithVisualStyles)
-            {
-                ComboBoxState state = ComboBoxState.Normal;
+            //if (false) // (Application.RenderWithVisualStyles)
+            //{
+            //    ComboBoxState state = ComboBoxState.Normal;
 
-                if (dropDownListBoxShowing)
-                {
-                    state = ComboBoxState.Pressed;
-                }
-                else if (filtered)
-                {
-                    state = ComboBoxState.Hot;
-                }
+            //    if (dropDownListBoxShowing)
+            //    {
+            //        state = ComboBoxState.Pressed;
+            //    }
+            //    else if (filtered)
+            //    {
+            //        state = ComboBoxState.Hot;
+            //    }
 
-                ComboBoxRenderer.DrawDropDownButton(graphics, buttonBounds, state);
-            }
-            else
+            //    ComboBoxRenderer.DrawDropDownButton(graphics, buttonBounds, state);
+            //}
+            //else
             {
                 // Determine the pressed state in order to paint the button 
                 // correctly and to offset the down arrow. 
                 Int32 pressedOffset = 0;
-                PushButtonState state = PushButtonState.Normal;
+              //  PushButtonState state = PushButtonState.Normal;
                 if (dropDownListBoxShowing)
                 {
-                    state = PushButtonState.Pressed;
+               //     state = PushButtonState.Pressed;
                     pressedOffset = 1;
                 }
 
@@ -431,70 +459,39 @@ namespace DataGridViewTools
                 // down arrow as an unfilled triangle. If there is no filter 
                 // in effect, paint the down arrow as a filled triangle.
                 // Cozy Mod
-                var visTweak = 1;
-                var triangle = new Point[] {
-                    new Point(
-                        buttonBounds.Width / 2 + 
-                        buttonBounds.Left - 1 + pressedOffset, 
-                        buttonBounds.Height * 3 / 4 + 
-                        buttonBounds.Top - 5 + pressedOffset + visTweak),
-                    new Point(
-                        buttonBounds.Width / 4 + 
-                        buttonBounds.Left + pressedOffset - visTweak,
-                        buttonBounds.Height / 2 + 
-                        buttonBounds.Top - 5 + pressedOffset),
-                    new Point(
-                        buttonBounds.Width * 3 / 4 + 
-                        buttonBounds.Left - 1 + pressedOffset + visTweak,
-                        buttonBounds.Height / 2 + 
-                        buttonBounds.Top - 5 + pressedOffset)
-                    };
+                //var visTweak = 1;
+                //var triangle = new Point[] {
+                //    new Point(
+                //        buttonBounds.Width / 2 + 
+                //        buttonBounds.Left - 1 + pressedOffset, 
+                //        buttonBounds.Height * 3 / 4 + 
+                //        buttonBounds.Top - 5 + pressedOffset + visTweak),
+                //    new Point(
+                //        buttonBounds.Width / 4 + 
+                //        buttonBounds.Left + pressedOffset - visTweak,
+                //        buttonBounds.Height / 2 + 
+                //        buttonBounds.Top - 5 + pressedOffset),
+                //    new Point(
+                //        buttonBounds.Width * 3 / 4 + 
+                //        buttonBounds.Left - 1 + pressedOffset + visTweak,
+                //        buttonBounds.Height / 2 + 
+                //        buttonBounds.Top - 5 + pressedOffset)
+                //    };
 
                 // Cozy Mod - Change button to Filter Icon and put polygon on top for effect
-                Bitmap img = filtered ? filteredImg : normalImg;
-                SolidBrush br = filtered ? filteredBrush : normalBrush;
-                graphics.DrawImage(img, buttonBounds.Left - 1 + pressedOffset, buttonBounds.Top - 1 + pressedOffset);
-                graphics.DrawPolygon(SystemPens.ControlText, triangle);
-                graphics.FillPolygon(br, triangle);
+                graphics.DrawImage(filtered ? filteredImg : normalImg, buttonBounds.Left - 1 + pressedOffset, buttonBounds.Top - 1 + pressedOffset);
+                //graphics.DrawPolygon(filtered ? new Pen(normalBrush) : new Pen(filteredBrush), triangle);
+                //graphics.FillPolygon(filtered ? filteredBrush : normalBrush, triangle);
 
             }
         }
 
-        Bitmap filteredImg;
-        Bitmap normalImg;
-        SolidBrush filteredBrush;
-        SolidBrush normalBrush;
+
+
 
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);
-            if (disposing)
-            {
-                if (filteredImg != null)
-                {
-                    filteredImg.Dispose();
-                    filteredImg = null;
-                }
-
-                if (normalImg != null)
-                {
-                    normalImg.Dispose();
-                    normalImg = null;
-                }
-
-                if (filteredBrush != null)
-                {
-                    filteredBrush.Dispose();
-                    filteredBrush = null;
-                }
-
-                if (normalBrush != null)
-                {
-                    normalBrush.Dispose();
-                    normalBrush = null;
-                }
-
-            }
         }
 
         /// <summary>

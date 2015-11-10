@@ -5,12 +5,12 @@ using DataGridViewTools;
 using Newtonsoft.Json.Linq;
 using RocksmithToolkitLib.DLCPackage;
 using RocksmithToolkitLib.Extensions;
-using RocksmithToolkitLib.PSARC;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using CFSM.Utils.PSARC;
 using Arrangement = CustomsForgeManager.CustomsForgeManagerLib.Objects.Arrangement;
 using CFMAudioTools;
 
@@ -37,14 +37,12 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
             if (string.IsNullOrEmpty(audioName))
                 return false;
 
-            var archive = new PSARC();
+            using (var archive = new PSARC(true))
             using (var stream = File.OpenRead(archiveName))
             {
                 archive.Read(stream, true);
                 var wems = archive.TOC.Where(entry => entry.Name.StartsWith("audio/windows") &&
                     entry.Name.EndsWith(".wem")).ToList();
-
-
 
                 if (wems.Count > 1)
                 {
