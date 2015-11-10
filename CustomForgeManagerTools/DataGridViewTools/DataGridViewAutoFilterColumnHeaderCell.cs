@@ -26,6 +26,12 @@ namespace DataGridViewTools
         Image filteredImg { get; }
         Image normalImg { get; }
     }
+
+    public interface IGridViewCustomFilter
+    {
+        string GetCustomFilter(string ColumnName);
+        bool CanFilter(string ColumnName);
+    }
     /// <summary>
     /// Provides a drop-down filter list in a DataGridViewColumnHeaderCell.
     /// </summary>
@@ -120,6 +126,7 @@ namespace DataGridViewTools
                 new Bitmap(Properties.Resources.FilterX, 13, 13) : 
                 new Bitmap(Properties.Resources.FilterY, 13, 13);
         }
+
 
         /// <summary>
         /// Creates an exact copy of this cell.
@@ -1068,15 +1075,24 @@ namespace DataGridViewTools
             if (oldFilter != null) data.Filter = oldFilter;
             data.RaiseListChangedEvents = true;
 
+
+
+            if (containsBlanks && containsNonBlanks)
+            {
+                filters.Insert(0,"(Not Empty)", null);
+                filters.Insert(0,"(Empty)", null);
+            }
             // Add special filter options to the filters dictionary
             // along with null values, since unformatted representations
             // are not needed. 
             filters.Insert(0, "(All)", null);
-            if (containsBlanks && containsNonBlanks)
+
+            if (DataGridView is IGridViewCustomFilter && 
+                (DataGridView as IGridViewCustomFilter).CanFilter(this.OwningColumn.DataPropertyName))
             {
-                filters.Add("(Empty)", null);
-                filters.Add("(Not Empty)", null);
+                filters.Insert(0, "(Custom)", null);
             }
+
         }
 
         /// <summary>
@@ -1180,6 +1196,17 @@ namespace DataGridViewTools
                         "LEN(ISNULL(CONVERT([{0}],'System.String'),''))>0",
                         columnProperty);
                     break;
+
+                case "(Custom)":
+                    if (DataGridView is IGridViewCustomFilter && (DataGridView as IGridViewCustomFilter).CanFilter(columnProperty))
+                    {
+                        var s = (DataGridView as IGridViewCustomFilter).GetCustomFilter(columnProperty);
+                        if (!String.IsNullOrEmpty(s))
+                            newColumnFilter = s;
+                    }
+                    if (string.IsNullOrEmpty(newColumnFilter))
+                        return;
+                    break;
                 default:
                     newColumnFilter = String.Format("[{0}]='{1}'",
                         columnProperty,
@@ -1188,13 +1215,15 @@ namespace DataGridViewTools
                     break;
             }
 
+           
+
             // Determine the new filter string by removing the previous column 
             // filter string from the BindingSource.Filter value, then appending 
             // the new column filter string, using " AND " as appropriate. 
             String newFilter = FilterWithoutCurrentColumn(data.Filter);
             if (String.IsNullOrEmpty(newFilter))
             {
-                newFilter += newColumnFilter;
+                newFilter = newColumnFilter;
             }
             else
             {

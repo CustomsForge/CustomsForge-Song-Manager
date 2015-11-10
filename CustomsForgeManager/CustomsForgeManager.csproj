@@ -206,6 +206,12 @@
     <Compile Include="Forms\ClickOnceUpgrade.Designer.cs">
       <DependentUpon>ClickOnceUpgrade.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\frmCustomFilter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmCustomFilter.Designer.cs">
+      <DependentUpon>frmCustomFilter.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\frmHtmlViewer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -367,18 +373,15 @@
     <Compile Include="UControls\SongManager.Designer.cs">
       <DependentUpon>SongManager.cs</DependentUpon>
     </Compile>
-    <Compile Include="UControls\Utilities.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UControls\Utilities.Designer.cs">
-      <DependentUpon>Utilities.cs</DependentUpon>
-    </Compile>
     <EmbeddedResource Include="CustomsForgeManagerLib\CustomControls\ComboBoxPopup.resx">
       <DependentUpon>ComboBoxPopup.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="CustomsForgeManagerLib\UITheme\ThemePreview.resx">
       <DependentUpon>ThemePreview.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmCustomFilter.resx">
+      <DependentUpon>frmCustomFilter.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmSongBatchEdit.resx">
       <DependentUpon>frmSongBatchEdit.cs</DependentUpon>
@@ -468,9 +471,6 @@
       <DependentUpon>SongManager.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="UControls\Utilities.resx">
-      <DependentUpon>Utilities.cs</DependentUpon>
-    </EmbeddedResource>
     <None Include="CustomsForgeManager_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
@@ -525,6 +525,17 @@
     <None Include="Resources\Help.png" />
     <None Include="Resources\Open.png" />
     <None Include="Resources\SelectRow.png" />
+    <EmbeddedResource Include="Resources\tags\zagatozeeddtextprev.png" />
+    <EmbeddedResource Include="Resources\tags\zagatozeeddtext\Background.png" />
+    <EmbeddedResource Include="Resources\tags\zagatozeeddtext\Bass Bonus.png" />
+    <EmbeddedResource Include="Resources\tags\zagatozeeddtext\Bass.png" />
+    <EmbeddedResource Include="Resources\tags\zagatozeeddtext\Custom.png" />
+    <EmbeddedResource Include="Resources\tags\zagatozeeddtext\DD.png" />
+    <EmbeddedResource Include="Resources\tags\zagatozeeddtext\info.txt" />
+    <EmbeddedResource Include="Resources\tags\zagatozeeddtext\Lead Bonus.png" />
+    <EmbeddedResource Include="Resources\tags\zagatozeeddtext\Lead.png" />
+    <EmbeddedResource Include="Resources\tags\zagatozeeddtext\Rhythm Bonus.png" />
+    <EmbeddedResource Include="Resources\tags\zagatozeeddtext\Rhythm.png" />
     <Content Include="Resources\Unleashed2k.png" />
     <Content Include="RocksmithToolkitLib.Config.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -630,6 +641,7 @@
     <None Include="Resources\clear.png" />
     <EmbeddedResource Include="Resources\tags\Default.tagtheme" />
     <EmbeddedResource Include="Resources\tags\example1.tagtheme" />
+    <EmbeddedResource Include="Resources\tags\zagatozeeddtext\Default.tagtheme" />
     <None Include="Resources\update.png" />
     <None Include="Resources\backup.png" />
     <None Include="Resources\disable.png" />

@@ -1,5 +1,10 @@
 CFM Release Notes
 
+1.1.1.2
+-Fixed bug in custom tag themes.
+-included zagatozee's custom tag theme
+-started working on gridview custom filter.
+
 1.1.1.1
 -Added Theme designer and preview
 -Using new PSARC implementation where needed

@@ -74,6 +74,15 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
             FileSize = (int)fi.Length;
         }
 
+        public void Delete()
+        {
+            if (!String.IsNullOrEmpty(AudioCache) && File.Exists(AudioCache))
+                File.Delete(AudioCache);
+            AudioCache = "";
+            if (File.Exists(Path))
+                File.Delete(Path);
+        }
+
 
         // used by detail table
         [XmlArray("Arrangments")] // provides proper xml serialization

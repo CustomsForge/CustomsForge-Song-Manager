@@ -199,9 +199,9 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
                                     tt = SongTaggerTheme.Create(fs1);
                             }
                             else
-                                if (File.Exists(Path.Combine(tagsFolderFullPath, "Default.tagtheme")))
+                                if (File.Exists(Path.Combine(aPath, "Default.tagtheme")))
                                 {
-                                    using (FileStream fs1 = File.OpenRead(Path.Combine(tagsFolderFullPath, "Default.tagtheme")))
+                                    using (FileStream fs1 = File.OpenRead(Path.Combine(aPath, "Default.tagtheme")))
                                         tt = SongTaggerTheme.Create(fs1);
                                 }
                                 else
@@ -240,6 +240,11 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
                                     if (bonusLead && images.leadBonusLayer != null)
                                         gra.DrawImage(images.leadBonusLayer, 0, 0.5f);
 
+                                    if (images.customTagLayer != null)
+                                        gra.DrawImage(images.customTagLayer, 0, 0.5f);
+                                    if (DD && images.DDLayer != null)
+                                        gra.DrawImage(images.DDLayer, 0, 0.5f);
+
                                     if (tt != null)
                                     {
                                         if (DD)
@@ -248,18 +253,11 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
                                             tt.NDD.Draw(gra, AlbumArt);
 
                                         tt.Custom.Draw(gra, AlbumArt);
-                                    }
-                                    else
-                                    {
-                                        if (DD && images.DDLayer != null)
-                                            gra.DrawImage(images.DDLayer,
-                                                new Rectangle(0, 25, 13, 13),
-                                                new Rectangle(0, 0, images.DDLayer.Width, images.DDLayer.Height),
-                                                 GraphicsUnit.Pixel);
-                                    }
 
-                                    if (images.customTagLayer != null)
-                                        gra.DrawImage(images.customTagLayer, 0, 0.5f);
+                                   
+                                    }
+                                 
+
                                 }
                             });
                             return AlbumArt;
@@ -433,27 +431,20 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
                                 gra.DrawImage(images.leadLayer, 0, 0.5f);
                             if (bonusLead && images.leadBonusLayer != null)
                                 gra.DrawImage(images.leadBonusLayer, 0, 0.5f);
-
+                            if (images.customTagLayer != null)
+                                gra.DrawImage(images.customTagLayer, 0, 0.5f);
+                            if (DD && images.DDLayer != null)
+                                gra.DrawImage(images.DDLayer, 0, 0.5f);
                             if (tt != null)
                             {
                                 if (DD)
                                     tt.DD.Draw(gra, bigAlbumArt);
                                 else
                                     tt.NDD.Draw(gra, bigAlbumArt);
-
                                 tt.Custom.Draw(gra, bigAlbumArt);
                             }
-                            else
-                            {
-                                if (DD && images.DDLayer != null)
-                                    gra.DrawImage(images.DDLayer,
-                                        new Rectangle(0, 25, 13, 13),
-                                        new Rectangle(0, 0, images.DDLayer.Width, images.DDLayer.Height),
-                                         GraphicsUnit.Pixel);
-                            }
+                          
 
-                            if (images.customTagLayer != null)
-                                gra.DrawImage(images.customTagLayer, 0, 0.5f);
                         }
                     });
 
@@ -1078,16 +1069,29 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
                 var img = Image.FromFile(file);
                 if (img != null)
                 {
-                    //create image attributes  
-                    ImageAttributes attributes = new ImageAttributes();
+                    //if (opacity == 1.0)
+                    //{
+                    //    g.DrawImage(img, Rect);
+                    //}
+                    //else
+                    {
+                        //create image attributes  
+                        ImageAttributes attributes = new ImageAttributes();
 
-                    //set the color(opacity) of the image  
-                    attributes.SetColorMatrix(new ColorMatrix() { Matrix33 = opacity },
-                        ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
+                        //set the color(opacity) of the image  
+                        attributes.SetColorMatrix(new ColorMatrix() { Matrix33 = opacity },
+                            ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
 
-                    RectangleF rf = new RectangleF(SourceRect.X, SourceRect.Left, SourceRect.Width == 0 ? img.Width : SourceRect.Width,
-                        SourceRect.Height == 0 ? img.Height : SourceRect.Height);
-                    g.DrawImage(img, Rect, rf.X, rf.Y, rf.Width, rf.Height, GraphicsUnit.Pixel, attributes);
+                        RectangleF rf = new RectangleF(SourceRect.X, SourceRect.Left, SourceRect.Width == 0 ? img.Width : SourceRect.Width,
+                            SourceRect.Height == 0 ? img.Height : SourceRect.Height);
+                        var src = Rect;
+                        if (src.Width == 0 || src.Height == 0)
+                        {
+                            src = new Rectangle(src.X, src.Y, img.Width, img.Height);
+                        }
+
+                        g.DrawImage(img, src, rf.X, rf.Y, rf.Width, rf.Height, GraphicsUnit.Pixel, attributes);
+                    }
                 }
             }
         }

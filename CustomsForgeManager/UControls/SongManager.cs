@@ -24,6 +24,7 @@ namespace CustomsForgeManager.UControls
 {
     public partial class SongManager : UserControl, IDataGridViewHolder, INotifyTabChanged
     {
+        #region private fields
         private bool allSelected = true;
         private AbortableBackgroundWorker bWorker;
         private bool bindingCompleted = false;
@@ -32,8 +33,11 @@ namespace CustomsForgeManager.UControls
         private BindingList<SongData> masterSongCollection = new BindingList<SongData>();
         private int numberOfDLCPendingUpdate = 0;
         private int numberOfDisabledDLC = 0;
-
-
+        Color _Enabled = Color.Lime;
+        Color _Disabled = Color.Red;
+        Bitmap PlusBitmap = new Bitmap(Properties.Resources.plus);
+        Bitmap MinusBitmap = new Bitmap(Properties.Resources.minus);
+        #endregion
 
         public SongManager()
         {
@@ -54,7 +58,6 @@ namespace CustomsForgeManager.UControls
         {
             masterSongCollection.Clear();
             var songsInfoPath = Constants.SongsInfoPath;
-
             // load songs into memory
             try
             {
@@ -512,7 +515,7 @@ namespace CustomsForgeManager.UControls
             for (int ndx = dgvSongsMaster.Rows.Count - 1; ndx >= 0; ndx--)
                 if (!String.IsNullOrEmpty(dgvSongsMaster.Rows[ndx].Cells["colShowDetail"].Tag as String))
                 {
-                    dgvSongsMaster.Rows[ndx].Cells["colShowDetail"].Value = new Bitmap(Properties.Resources.plus);
+                    dgvSongsMaster.Rows[ndx].Cells["colShowDetail"].Value = PlusBitmap;
                     dgvSongsMaster.Rows[ndx].Cells["colShowDetail"].Tag = null;
                     dgvSongsDetail.Visible = false;
                     break;
@@ -675,10 +678,12 @@ namespace CustomsForgeManager.UControls
             for (int ndx = dgvSongsMaster.Rows.Count - 1; ndx >= 0; ndx--)
             {
                 DataGridViewRow row = dgvSongsMaster.Rows[ndx];
+                var SD = GetSongByRow(row);
+
 
                 if (Convert.ToBoolean(row.Cells["colSelect"].Value))
                 {
-                    string songPath = row.Cells["colPath"].Value.ToString();
+                    string songPath = SD.Path;
 
                     // redundant for file safety
                     if (chkEnableDelete.Checked && !safe2Delete)
@@ -698,7 +703,7 @@ namespace CustomsForgeManager.UControls
                     {
                         try
                         {
-                            File.Delete(songPath);
+                            SD.Delete();
                             dgvSongsMaster.Rows.Remove(row);
                         }
                         catch (IOException ex)
@@ -958,7 +963,7 @@ namespace CustomsForgeManager.UControls
                 File.Copy(filePath, Path.Combine(backupPath, fileName));
 
                 Globals.Log("Backup: " + fileName);
-                Globals.Log("Sucessfully saved to: " + Path.Combine(backupPath, fileName));
+                Globals.Log("Successfully saved to: " + Path.Combine(backupPath, fileName));
             }
             catch (IOException ex)
             {
@@ -982,17 +987,20 @@ namespace CustomsForgeManager.UControls
         {
             if (dgvSongsMaster.SelectedRows[0].Cells["colPath"].Value.ToString().ToLower().Contains(Constants.RS1COMP))
             {
-                Globals.Log("Can not delete individual RS1 Compatiblity DLC");
+                Globals.Log("Can not delete individual RS1 Compatibility DLC");
                 Globals.Log("Go to Setting tab and uncheck 'Include RS1 Compatibility Pack'");
-                Globals.Log("Then click 'Rescan' to remove all RS1 Compatiblity DLCs");
+                Globals.Log("Then click 'Rescan' to remove all RS1 Compatibility DLCs");
                 return;
             }
 
             try
             {
-                if (MessageBox.Show(string.Format(Properties.Resources.DoYouReallyWantToRemoveThisCDLCX0Warning, Environment.NewLine), Constants.ApplicationName, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
+                if (MessageBox.Show(string.Format(Properties.Resources.DoYouReallyWantToRemoveThisCDLCX0Warning, 
+                    Environment.NewLine), Constants.ApplicationName, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
                 {
-                    File.Delete(masterSongCollection[dgvSongsMaster.SelectedRows[0].Index].Path);
+                    SongData sd = GetSongByRow(dgvSongsMaster.SelectedRows[0]);
+                    sd.Delete();
+                  //  File.Delete(masterSongCollection[dgvSongsMaster.SelectedRows[0].Index].Path);
                     masterSongCollection.RemoveAt(dgvSongsMaster.SelectedRows[0].Index);
                 }
             }
@@ -1106,7 +1114,7 @@ namespace CustomsForgeManager.UControls
                         var rowHeight = dgvSongsMaster.Rows[e.RowIndex].Height + 0; // height tweak
                         var colWidth = dgvSongsMaster.Columns[e.ColumnIndex].Width - 16; // width tweak
                         dgvSongsMaster.Rows[e.RowIndex].Cells["colShowDetail"].Tag = "TRUE";
-                        dgvSongsMaster.Rows[e.RowIndex].Cells["colShowDetail"].Value = new Bitmap(Properties.Resources.minus);
+                        dgvSongsMaster.Rows[e.RowIndex].Cells["colShowDetail"].Value = MinusBitmap;
                         Rectangle dgvRectangle = dgvSongsMaster.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true);
                         dgvSongsDetail.Location = new Point(dgvRectangle.Right + colWidth, dgvRectangle.Bottom + rowHeight - 2);
 
@@ -1129,7 +1137,7 @@ namespace CustomsForgeManager.UControls
                 }
                 else
                 {
-                    dgvSongsMaster.Rows[e.RowIndex].Cells["colShowDetail"].Value = new Bitmap(Properties.Resources.plus);
+                    dgvSongsMaster.Rows[e.RowIndex].Cells["colShowDetail"].Value = PlusBitmap;
                     dgvSongsMaster.Rows[e.RowIndex].Cells["colShowDetail"].Tag = null;
                     dgvSongsDetail.Visible = false;
                 }
@@ -1392,25 +1400,25 @@ namespace CustomsForgeManager.UControls
                     string arrInit = x.Arrangements.ToUpper();
 
                     if (e.ColumnIndex == colBass.Index)
-                        e.CellStyle.BackColor = arrInit.Contains("BASS") ? Color.Lime : Color.Red;
+                        e.CellStyle.BackColor = arrInit.Contains("BASS") ? _Enabled : _Disabled;
                     else
                         if (e.ColumnIndex == colVocals.Index)
-                            e.CellStyle.BackColor = arrInit.Contains("VOCAL") ? Color.Lime : Color.Red;
+                            e.CellStyle.BackColor = arrInit.Contains("VOCAL") ? _Enabled : _Disabled;
                         else
                             if (e.ColumnIndex == colLead.Index)
                             {
                                 if (arrInit.Contains("COMBO"))
-                                    e.CellStyle.BackColor = arrInit.Contains("COMBO") ? Color.Lime : Color.Red;
+                                    e.CellStyle.BackColor = arrInit.Contains("COMBO") ? _Enabled : _Disabled;
                                 else
-                                    e.CellStyle.BackColor = arrInit.Contains("LEAD") ? Color.Lime : Color.Red;
+                                    e.CellStyle.BackColor = arrInit.Contains("LEAD") ? _Enabled : _Disabled;
                             }
                             else
                                 if (e.ColumnIndex == colRhythm.Index)
                                 {
                                     if (arrInit.Contains("COMBO"))
-                                        e.CellStyle.BackColor = arrInit.Contains("COMBO") ? Color.Lime : Color.Red;
+                                        e.CellStyle.BackColor = arrInit.Contains("COMBO") ? _Enabled : _Disabled;
                                     else
-                                        e.CellStyle.BackColor = arrInit.Contains("RHYTHM") ? Color.Lime : Color.Red;
+                                        e.CellStyle.BackColor = arrInit.Contains("RHYTHM") ? _Enabled : _Disabled;
                                 }
                 }
             }
@@ -1478,7 +1486,10 @@ namespace CustomsForgeManager.UControls
                 if (Globals.AudioEngine.OpenAudioFile(fullname))
                 {
                     Globals.AudioEngine.Play();
+                    Globals.Log(String.Format("Playing {0} by {1}. ({2})",sng.Title,sng.Artist,Path.GetFileName(sng.Path)));
                 }
+                else
+                    Globals.Log("Unable to open audio file.");
             }
         }
 

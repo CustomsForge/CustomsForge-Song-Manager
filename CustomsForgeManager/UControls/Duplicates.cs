@@ -433,7 +433,7 @@ namespace CustomsForgeManager.UControls
             // MouseUp detection is more reliable than MouseDown
 
             var rowIndex = e.RowIndex;
- 
+
             if (e.ColumnIndex == colSelect.Index && rowIndex != -1)
             {
                 dgvDups.DataBindingComplete -= dgvDups_DataBindingComplete;
@@ -445,7 +445,7 @@ namespace CustomsForgeManager.UControls
                 {
                     dgvDups.DataBindingComplete += dgvDups_DataBindingComplete;
                 }
-            } 
+            }
             else
 
                 if (e.Button == MouseButtons.Right)
@@ -578,6 +578,23 @@ namespace CustomsForgeManager.UControls
         {
             Globals.DebugLog(String.Format("{0}, row:{1},col:{2}", e.Exception.Message, e.RowIndex, e.ColumnIndex));
             e.Cancel = true;
+        }
+
+
+        private void Duplicates_Resize(object sender, EventArgs e)
+        {
+            var p = new Point()
+            {
+                X = (Width - txtNoDuplicates.Width) / 2,
+                Y = (Height - txtNoDuplicates.Height) / 2
+            };
+
+            if (p.X < 3)
+                p.X = 3;
+
+            if (p.Y < 3)
+                p.Y = 3;
+            txtNoDuplicates.Location = p;
         }
 
     }

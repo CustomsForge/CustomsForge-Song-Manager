@@ -321,6 +321,7 @@ namespace CustomsForgeManager.UControls
             this.Controls.Add(this.gbActions);
             this.Name = "Duplicates";
             this.Size = new System.Drawing.Size(872, 525);
+            this.Resize += new System.EventHandler(this.Duplicates_Resize);
             this.cmsDuplicate.ResumeLayout(false);
             this.gbActions.ResumeLayout(false);
             this.panelActions.ResumeLayout(false);

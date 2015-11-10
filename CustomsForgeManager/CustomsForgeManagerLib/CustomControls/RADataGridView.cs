@@ -11,7 +11,7 @@ using CustomsForgeManager.CustomsForgeManagerLib.UITheme;
 
 namespace CustomsForgeManager.CustomsForgeManagerLib.CustomControls
 {
-    class RADataGridView : DataGridView, IThemeListener, IGridViewFilterStyle
+    class RADataGridView : DataGridView, IThemeListener, IGridViewFilterStyle, IGridViewCustomFilter
     {
         Theme theme;
         Image FFilteredImg;
@@ -91,5 +91,36 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.CustomControls
             get { return FNormalImg; }
         }
 
+
+        public string GetCustomFilter(string ColumnName)
+        {
+            return string.Empty;
+        }
+
+
+        public bool CanFilter(string ColumnName)
+        {
+            return false;
+
+
+            var p = typeof(SongData).GetProperty(ColumnName);
+            if (p != null)
+            {
+                if (p.PropertyType == typeof(string))
+                    return true;
+            }
+
+            //var x = Columns[ColumnName];
+            //if (x != null)
+            //{
+            // //   x.DataPropertyName
+            //    DataSource
+
+
+            //}
+
+
+            return false;
+        }
     }
 }
