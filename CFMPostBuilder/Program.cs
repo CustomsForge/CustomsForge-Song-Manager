@@ -145,7 +145,8 @@ namespace CFMPostBuilder
                         Console.WriteLine("USER:" + ftpUsername);
                         Console.WriteLine("PASS:" +ftpPass);
 
-                        if (MessageBox.Show("Upload the files?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.OK)
+                        if (MessageBox.Show("Upload the files?", "Question", MessageBoxButtons.YesNo,
+                            MessageBoxIcon.Question) == DialogResult.Yes)
                         {
                             const string SetupFile = @"CFMSetup\Output\CFSMSetup.exe";
                             FileVersionInfo vi = FileVersionInfo.GetVersionInfo(SetupFile);
