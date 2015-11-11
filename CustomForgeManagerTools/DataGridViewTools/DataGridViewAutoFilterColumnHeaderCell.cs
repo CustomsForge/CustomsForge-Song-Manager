@@ -1308,8 +1308,9 @@ namespace DataGridViewTools
 
             // Return String.Empty if there is no appropriate data source or
             // there is no filter in effect. 
-            if (String.IsNullOrEmpty(data.Filter) ||
-                data == null ||
+            if (data == null || 
+                String.IsNullOrEmpty(data.Filter) ||
+                
                 data.DataSource == null ||
                 !data.SupportsFiltering)
             {
@@ -1318,16 +1319,20 @@ namespace DataGridViewTools
 
             // Retrieve the filtered row count. 
             Int32 currentRowCount = data.Count;
-
-            // Retrieve the unfiltered row count by 
-            // temporarily unfiltering the data.
-            data.RaiseListChangedEvents = false;
-            String oldFilter = data.Filter;
-            data.Filter = null;
-            Int32 unfilteredRowCount = data.Count;
-            data.Filter = oldFilter;
-            data.RaiseListChangedEvents = true;
-
+            Int32 unfilteredRowCount = 0;
+            if (data.DataSource != null && data.DataSource is IFilteredBindingList)
+                unfilteredRowCount = (data.DataSource as IFilteredBindingList).GetOriginalList().Count;
+            else
+            {
+                // Retrieve the unfiltered row count by 
+                // temporarily unfiltering the data.
+                data.RaiseListChangedEvents = false;
+                String oldFilter = data.Filter;
+                data.Filter = null;
+                unfilteredRowCount = data.Count;
+                data.Filter = oldFilter;
+                data.RaiseListChangedEvents = true;
+            }
             Debug.Assert(currentRowCount <= unfilteredRowCount,
                 "current count is greater than unfiltered count");
 

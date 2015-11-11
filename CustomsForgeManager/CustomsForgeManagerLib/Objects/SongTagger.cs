@@ -157,6 +157,13 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
                         if (imgEntry != null)
                         {
                             archive.InflateEntry(imgEntry);
+                            if (imgEntry.Data == null)
+                            {
+                                Globals.Log("Error inflating image entry.");
+                                return null;
+                            }
+
+
                             imgEntry.Data.Position = 0;
                             var albumArtDDS = new DDSImage(imgEntry.Data);
                             var AlbumArt = albumArtDDS.images[0];
@@ -188,6 +195,11 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
                                     bonusBass = true;
                                 if (arrangement.Contains("vocals"))
                                     vocals = true;
+                                if (arrangement.Contains("combo"))
+                                {
+                                    lead = true;
+                                    rhythm = true;
+                                }
                             }
 
                             SongTaggerTheme tt = null;
@@ -253,11 +265,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
                                             tt.NDD.Draw(gra, AlbumArt);
 
                                         tt.Custom.Draw(gra, AlbumArt);
-
-                                   
-                                    }
-                                 
-
+                                    }                               
                                 }
                             });
                             return AlbumArt;
@@ -380,6 +388,11 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
                             bonusBass = true;
                         if (arrangement.Contains("vocals"))
                             vocals = true;
+                        if (arrangement.Contains("combo"))
+                        {
+                            lead = true;
+                            rhythm = true;
+                        }
                     }
 
                     //Add layers to big album art

@@ -2,6 +2,8 @@
 using System.Drawing;
 using System.Windows.Forms;
 using CustomsForgeManager.CustomsForgeManagerLib.Objects;
+using System.IO;
+using CFSM.Utils;
 
 namespace CustomsForgeManager.Forms
 {
@@ -29,6 +31,20 @@ namespace CustomsForgeManager.Forms
 
             // TODO: reimpliment
             FillGridWithArrangements(song.Arrangements);
+
+            //
+            if (File.Exists(song.Path))
+                using (var fs = File.OpenRead(song.Path))
+                {
+                    var s = fs.ExtractPSARCData(entry => entry.Name.Contains("128.dds"));
+                    if (s != null)
+                    {
+                        var b = ImageExtensions.DDStoBitmap(s);
+                        if (b != null)
+                            pbArtwork.Image = b;
+                        s.Close();
+                    }
+                }
 
         }
 

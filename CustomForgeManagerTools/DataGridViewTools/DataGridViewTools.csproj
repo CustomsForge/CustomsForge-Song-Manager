@@ -29,11 +29,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <PlatformTarget>x86</PlatformTarget>
     <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <PlatformTarget>x86</PlatformTarget>
     <OutputPath>bin\Release\</OutputPath>
-  </PropertyGroup> 
+  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ConfuserExRelease|x86' ">
     <OutputPath>bin\ConfuserExRelease\</OutputPath>
     <PlatformTarget>x86</PlatformTarget>
@@ -86,6 +87,10 @@
     <ProjectReference Include="..\CFMImageTools\CFMImageTools.csproj">
       <Project>{e6565985-c477-46f4-8a42-08e04cd40b65}</Project>
       <Name>CFMImageTools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CFSM.Utils\CFSM.Utils.csproj">
+      <Project>{0b5754df-5812-4e92-9275-3e5d9180b172}</Project>
+      <Name>CFSM.Utils</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

@@ -335,6 +335,8 @@ namespace CFSM.Utils
                 {
                     MemoryStream ms = new MemoryStream();
                     p.InflateEntry(de);
+                    if (de.Data == null)
+                        return null;
                     de.Data.Position = 0;
                     de.Data.CopyTo(ms);
                     ms.Position = 0;

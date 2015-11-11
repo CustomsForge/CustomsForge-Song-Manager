@@ -54,9 +54,11 @@
             this.colVocals = new System.Windows.Forms.DataGridViewImageColumn();
             this.lbl_PanelSongPathLbl = new System.Windows.Forms.Label();
             this.lbl_PanelSongPath = new System.Windows.Forms.Label();
+            this.pbArtwork = new System.Windows.Forms.PictureBox();
             this.gb_MainSongInfoPanel.SuspendLayout();
             this.tlp_MainSongInfoWrapper.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Arrangements)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbArtwork)).BeginInit();
             this.SuspendLayout();
             // 
             // gb_MainSongInfoPanel
@@ -66,7 +68,7 @@
             this.gb_MainSongInfoPanel.Font = new System.Drawing.Font("Trebuchet MS", 8.25F);
             this.gb_MainSongInfoPanel.Location = new System.Drawing.Point(0, 0);
             this.gb_MainSongInfoPanel.Name = "gb_MainSongInfoPanel";
-            this.gb_MainSongInfoPanel.Size = new System.Drawing.Size(316, 309);
+            this.gb_MainSongInfoPanel.Size = new System.Drawing.Size(316, 436);
             this.gb_MainSongInfoPanel.TabIndex = 4;
             this.gb_MainSongInfoPanel.TabStop = false;
             this.gb_MainSongInfoPanel.Text = "Song Info Panel";
@@ -96,6 +98,7 @@
             this.tlp_MainSongInfoWrapper.Controls.Add(this.dgv_Arrangements, 1, 8);
             this.tlp_MainSongInfoWrapper.Controls.Add(this.lbl_PanelSongPathLbl, 0, 10);
             this.tlp_MainSongInfoWrapper.Controls.Add(this.lbl_PanelSongPath, 1, 10);
+            this.tlp_MainSongInfoWrapper.Controls.Add(this.pbArtwork, 0, 11);
             this.tlp_MainSongInfoWrapper.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlp_MainSongInfoWrapper.Location = new System.Drawing.Point(3, 16);
             this.tlp_MainSongInfoWrapper.Name = "tlp_MainSongInfoWrapper";
@@ -112,7 +115,8 @@
             this.tlp_MainSongInfoWrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tlp_MainSongInfoWrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             this.tlp_MainSongInfoWrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_MainSongInfoWrapper.Size = new System.Drawing.Size(310, 290);
+            this.tlp_MainSongInfoWrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tlp_MainSongInfoWrapper.Size = new System.Drawing.Size(310, 417);
             this.tlp_MainSongInfoWrapper.TabIndex = 0;
             // 
             // lbl_PanelSongTitleLbl
@@ -152,9 +156,9 @@
             // 
             this.lbl_PanelSongYearLbl.AutoSize = true;
             this.lbl_PanelSongYearLbl.Dock = System.Windows.Forms.DockStyle.Right;
-            this.lbl_PanelSongYearLbl.Location = new System.Drawing.Point(69, 75);
+            this.lbl_PanelSongYearLbl.Location = new System.Drawing.Point(70, 75);
             this.lbl_PanelSongYearLbl.Name = "lbl_PanelSongYearLbl";
-            this.lbl_PanelSongYearLbl.Size = new System.Drawing.Size(36, 20);
+            this.lbl_PanelSongYearLbl.Size = new System.Drawing.Size(35, 20);
             this.lbl_PanelSongYearLbl.TabIndex = 1;
             this.lbl_PanelSongYearLbl.Text = "Year:";
             this.lbl_PanelSongYearLbl.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -163,9 +167,9 @@
             // 
             this.lbl_PanelSongTuningLbl.AutoSize = true;
             this.lbl_PanelSongTuningLbl.Dock = System.Windows.Forms.DockStyle.Right;
-            this.lbl_PanelSongTuningLbl.Location = new System.Drawing.Point(60, 97);
+            this.lbl_PanelSongTuningLbl.Location = new System.Drawing.Point(61, 97);
             this.lbl_PanelSongTuningLbl.Name = "lbl_PanelSongTuningLbl";
-            this.lbl_PanelSongTuningLbl.Size = new System.Drawing.Size(45, 20);
+            this.lbl_PanelSongTuningLbl.Size = new System.Drawing.Size(44, 20);
             this.lbl_PanelSongTuningLbl.TabIndex = 1;
             this.lbl_PanelSongTuningLbl.Text = "Tuning:";
             this.lbl_PanelSongTuningLbl.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -289,8 +293,8 @@
             this.dgv_Arrangements.AllowUserToDeleteRows = false;
             this.dgv_Arrangements.AllowUserToResizeColumns = false;
             this.dgv_Arrangements.AllowUserToResizeRows = false;
-            this.dgv_Arrangements.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.dgv_Arrangements.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.dgv_Arrangements.BackgroundColor = System.Drawing.SystemColors.Control;
             this.dgv_Arrangements.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgv_Arrangements.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
@@ -371,16 +375,27 @@
             this.lbl_PanelSongPath.AutoSize = true;
             this.lbl_PanelSongPath.Location = new System.Drawing.Point(113, 217);
             this.lbl_PanelSongPath.Name = "lbl_PanelSongPath";
-            this.lbl_PanelSongPath.Size = new System.Drawing.Size(31, 16);
+            this.lbl_PanelSongPath.Size = new System.Drawing.Size(30, 16);
             this.lbl_PanelSongPath.TabIndex = 5;
             this.lbl_PanelSongPath.Text = "Path";
             this.lbl_PanelSongPath.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // pbArtwork
+            // 
+            this.tlp_MainSongInfoWrapper.SetColumnSpan(this.pbArtwork, 2);
+            this.pbArtwork.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pbArtwork.Location = new System.Drawing.Point(5, 282);
+            this.pbArtwork.Name = "pbArtwork";
+            this.pbArtwork.Size = new System.Drawing.Size(300, 130);
+            this.pbArtwork.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pbArtwork.TabIndex = 6;
+            this.pbArtwork.TabStop = false;
             // 
             // frmSongInfo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(316, 309);
+            this.ClientSize = new System.Drawing.Size(316, 436);
             this.Controls.Add(this.gb_MainSongInfoPanel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -392,6 +407,7 @@
             this.tlp_MainSongInfoWrapper.ResumeLayout(false);
             this.tlp_MainSongInfoWrapper.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Arrangements)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbArtwork)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -423,5 +439,6 @@
         private System.Windows.Forms.DataGridViewImageColumn colLead;
         private System.Windows.Forms.DataGridViewImageColumn colRhythm;
         private System.Windows.Forms.DataGridViewImageColumn colVocals;
+        private System.Windows.Forms.PictureBox pbArtwork;
     }
 }

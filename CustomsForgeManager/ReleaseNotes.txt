@@ -1,5 +1,14 @@
 CFM Release Notes
 
+1.1.1.3
+-Fixed bug in tagger where the program didn't recognize the combo arrangement
+-Removed dependency of nvdxt.exe from RocksmithToolKitLib and appened a [CFSM] suffix to the ToolkitVersion commit.
+-Fixed bug in SongEditor when replacing a corrupt or non-existing CDLC image
+-Added artwork to song info form
+-More work done to custom filter, it's working with one custom filter, but not multiple(only enabled in debug build)
+-optimized DataGridViewTools.GetFilterStatus
+
+
 1.1.1.2
 -Fixed bug in custom tag themes.
 -included zagatozee's custom tag theme

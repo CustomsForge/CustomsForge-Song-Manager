@@ -30,14 +30,12 @@
         {
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.cbExpression1 = new System.Windows.Forms.ComboBox();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.cbExpression2 = new System.Windows.Forms.ComboBox();
+            this.radioButton2 = new System.Windows.Forms.RadioButton();
+            this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.cbExpression1 = new System.Windows.Forms.ComboBox();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.cueTextBox1 = new CustomsForgeManager.CustomsForgeManagerLib.CustomControls.CueTextBox();
-            this.cueTextBox2 = new CustomsForgeManager.CustomsForgeManagerLib.CustomControls.CueTextBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -52,8 +50,6 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.cueTextBox2);
-            this.groupBox1.Controls.Add(this.cueTextBox1);
             this.groupBox1.Controls.Add(this.cbExpression2);
             this.groupBox1.Controls.Add(this.radioButton2);
             this.groupBox1.Controls.Add(this.radioButton1);
@@ -65,13 +61,25 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "groupBox1";
             // 
-            // cbExpression1
+            // cbExpression2
             // 
-            this.cbExpression1.FormattingEnabled = true;
-            this.cbExpression1.Location = new System.Drawing.Point(18, 28);
-            this.cbExpression1.Name = "cbExpression1";
-            this.cbExpression1.Size = new System.Drawing.Size(149, 21);
-            this.cbExpression1.TabIndex = 0;
+            this.cbExpression2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbExpression2.FormattingEnabled = true;
+            this.cbExpression2.Location = new System.Drawing.Point(18, 79);
+            this.cbExpression2.Name = "cbExpression2";
+            this.cbExpression2.Size = new System.Drawing.Size(149, 21);
+            this.cbExpression2.TabIndex = 3;
+            this.cbExpression2.SelectedIndexChanged += new System.EventHandler(this.cbExpression2_SelectedIndexChanged);
+            // 
+            // radioButton2
+            // 
+            this.radioButton2.AutoSize = true;
+            this.radioButton2.Location = new System.Drawing.Point(68, 55);
+            this.radioButton2.Name = "radioButton2";
+            this.radioButton2.Size = new System.Drawing.Size(36, 17);
+            this.radioButton2.TabIndex = 2;
+            this.radioButton2.Text = "Or";
+            this.radioButton2.UseVisualStyleBackColor = true;
             // 
             // radioButton1
             // 
@@ -85,26 +93,19 @@
             this.radioButton1.Text = "And";
             this.radioButton1.UseVisualStyleBackColor = true;
             // 
-            // radioButton2
+            // cbExpression1
             // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(68, 55);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(36, 17);
-            this.radioButton2.TabIndex = 2;
-            this.radioButton2.Text = "Or";
-            this.radioButton2.UseVisualStyleBackColor = true;
-            // 
-            // cbExpression2
-            // 
-            this.cbExpression2.FormattingEnabled = true;
-            this.cbExpression2.Location = new System.Drawing.Point(18, 78);
-            this.cbExpression2.Name = "cbExpression2";
-            this.cbExpression2.Size = new System.Drawing.Size(149, 21);
-            this.cbExpression2.TabIndex = 3;
+            this.cbExpression1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbExpression1.FormattingEnabled = true;
+            this.cbExpression1.Location = new System.Drawing.Point(18, 29);
+            this.cbExpression1.Name = "cbExpression1";
+            this.cbExpression1.Size = new System.Drawing.Size(149, 21);
+            this.cbExpression1.TabIndex = 0;
+            this.cbExpression1.SelectedIndexChanged += new System.EventHandler(this.cbExpression1_SelectedIndexChanged);
             // 
             // button1
             // 
+            this.button1.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.button1.Location = new System.Drawing.Point(224, 166);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
@@ -114,32 +115,13 @@
             // 
             // button2
             // 
+            this.button2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.button2.Location = new System.Drawing.Point(312, 166);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 3;
             this.button2.Text = "Cancel";
             this.button2.UseVisualStyleBackColor = true;
-            // 
-            // cueTextBox1
-            // 
-            this.cueTextBox1.Cue = "(Enter a value)";
-            this.cueTextBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.cueTextBox1.ForeColor = System.Drawing.Color.Gray;
-            this.cueTextBox1.Location = new System.Drawing.Point(198, 28);
-            this.cueTextBox1.Name = "cueTextBox1";
-            this.cueTextBox1.Size = new System.Drawing.Size(157, 20);
-            this.cueTextBox1.TabIndex = 4;
-            // 
-            // cueTextBox2
-            // 
-            this.cueTextBox2.Cue = "(Enter a value)";
-            this.cueTextBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.cueTextBox2.ForeColor = System.Drawing.Color.Gray;
-            this.cueTextBox2.Location = new System.Drawing.Point(198, 78);
-            this.cueTextBox2.Name = "cueTextBox2";
-            this.cueTextBox2.Size = new System.Drawing.Size(157, 20);
-            this.cueTextBox2.TabIndex = 5;
             // 
             // frmCustomFilter
             // 
@@ -150,7 +132,11 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "frmCustomFilter";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = " Custom Filter";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -163,8 +149,6 @@
 
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.GroupBox groupBox1;
-        private CustomsForgeManagerLib.CustomControls.CueTextBox cueTextBox2;
-        private CustomsForgeManagerLib.CustomControls.CueTextBox cueTextBox1;
         private System.Windows.Forms.ComboBox cbExpression2;
         private System.Windows.Forms.RadioButton radioButton2;
         private System.Windows.Forms.RadioButton radioButton1;

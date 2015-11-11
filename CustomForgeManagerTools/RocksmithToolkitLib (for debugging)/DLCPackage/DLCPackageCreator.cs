@@ -1,4 +1,6 @@
-﻿using System;
+﻿#define CFSM
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -988,6 +990,24 @@ namespace RocksmithToolkitLib.DLCPackage
 
         public static void ToDDS(List<DDSConvertedFile> filesToConvert, DLCPackageType dlcType = DLCPackageType.Song)
         {
+#if CFSM
+            foreach (var item in filesToConvert)
+            {
+                using (FileStream fs = File.OpenRead(item.sourceFile))
+                using (FileStream dfs = File.Create(item.destinationFile))
+                using (var b = ImageExtensions.DDStoBitmap(fs))
+                {
+                    b.ResizeImage(item.sizeX, item.sizeY);
+                    var output = ImageExtensions.ToDDS(b);
+                    if (output != null)
+                    {
+                        output.CopyTo(dfs);
+                        output.Dispose();
+                    }
+                }
+            }
+#else
+
             string args = null;
             switch (dlcType)
             {
@@ -1004,6 +1024,7 @@ namespace RocksmithToolkitLib.DLCPackage
             //TODO: there is an option to use NVTT lib: supports Win, Mac, Linux
             foreach (var item in filesToConvert)
                 GeneralExtensions.RunExternalExecutable("nvdxt.exe", true, true, true, String.Format(args, item.sourceFile, item.destinationFile, item.sizeX, item.sizeY));
+#endif      
         }
 
         private static void GenerateToolkitVersion(Stream output, string version = null)

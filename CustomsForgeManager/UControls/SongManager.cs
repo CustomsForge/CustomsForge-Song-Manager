@@ -155,6 +155,8 @@ namespace CustomsForgeManager.UControls
                                 f.ShowDialog(this.FindForm());
                             }
                         }
+                        else
+                            Globals.Log(String.Format("ERROR: Unable to preview {0}.",sel.Title));
                     }
                 };
             }
@@ -182,14 +184,19 @@ namespace CustomsForgeManager.UControls
 
         public void SaveSongCollectionToFile()
         {
-            //save with some version info
-            var dom = masterSongCollection.XmlSerializeToDom();
-            XmlElement versionNode = dom.CreateElement("SongDataList");
-            versionNode.SetAttribute("version", SongData.SongDataListCurrentVersion);
-            versionNode.SetAttribute("AppVersion", Constants.CustomVersion());
-            dom.DocumentElement.AppendChild(versionNode);
-            dom.Save(Constants.SongsInfoPath);
-            Globals.Log("Saved song collection file ...");
+            var filterStatus = DataGridViewAutoFilterColumnHeaderCell.GetFilterStatus(dgvSongsMaster);
+            //only save when not filtered
+            if (String.IsNullOrEmpty(filterStatus))
+            {
+                //save with some version info
+                var dom = masterSongCollection.XmlSerializeToDom();
+                XmlElement versionNode = dom.CreateElement("SongDataList");
+                versionNode.SetAttribute("version", SongData.SongDataListCurrentVersion);
+                versionNode.SetAttribute("AppVersion", Constants.CustomVersion());
+                dom.DocumentElement.AppendChild(versionNode);
+                dom.Save(Constants.SongsInfoPath);
+                Globals.Log("Saved song collection file ...");
+            }
         }
 
         public void UpdateToolStrip()
@@ -306,8 +313,14 @@ namespace CustomsForgeManager.UControls
                             columnSetting.Visible = !columnSetting.Visible;
                             dgvSongsMaster.Columns[columnIndex].Visible = columnSetting.Visible;
                             currentContextMenuItem.Checked = columnSetting.Visible;
+                         //   dgvSongsMaster.Invalidate();
                         }
                     }
+
+                    //foreach (var item in dgvSongsMaster.Columns.Cast<DataGridViewColumn>())
+                    //    if (item.Visible)
+                    //        dgvSongsMaster.InvalidateCell(item.HeaderCell);
+
                 }
             }
         }
@@ -725,12 +738,12 @@ namespace CustomsForgeManager.UControls
         {
             tagToolStripMenuItem.DropDownItems.Clear();
 
-            SongData sdata = null;
-            var sngs = GetSelectedSongs().Where(sd => !sd.Tagged).ToArray(); // 
-            if (sngs.Length == 0)
-                sngs = Globals.SongCollection.Where(sd => !sd.Tagged).ToArray();
-            if (sngs.Length > 0)
-                sdata = sngs[Globals.random.Next(sngs.Length - 1)];
+            //SongData sdata = null;
+            //var sngs = GetSelectedSongs().Where(sd => !sd.Tagged).ToArray(); // 
+            //if (sngs.Length == 0)
+            //    sngs = Globals.SongCollection.Where(sd => !sd.Tagged).ToArray();
+            //if (sngs.Length > 0)
+            //    sdata = sngs[Globals.random.Next(sngs.Length - 1)];
             foreach (var x in Globals.Tagger.Themes)
             {
                 ToolStripMenuItem mi = new ToolStripMenuItem(x);
@@ -755,38 +768,38 @@ namespace CustomsForgeManager.UControls
                     }
                 };
 
-                if (sdata != null)
-                {
-                    var img = Globals.Tagger.Preview(sdata,x).ResizeImage(100,100);
-                    PictureBox pb = new PictureBox() { Image = img, Width = img.Width, Height = img.Height,Tag = x,
-                                                       SizeMode = PictureBoxSizeMode.CenterImage,
-                                                       Dock = DockStyle.Fill
-                    };
+                //if (sdata != null)
+                //{
+                //    var img = Globals.Tagger.Preview(sdata,x).ResizeImage(100,100);
+                //    PictureBox pb = new PictureBox() { Image = img, Width = img.Width, Height = img.Height,Tag = x,
+                //                                       SizeMode = PictureBoxSizeMode.CenterImage,
+                //                                       Dock = DockStyle.Fill
+                //    };
 
-                    ToolStripControlHost mi2 = new ToolStripControlHost(pb) {  Height = pb.Height, Tag = x };
-                    pb.Click += (s, ev) =>
-                    {
-                        var selection = GetSelectedSongs(); 
-                        if (selection.Count > 0)
-                        {
-                            Globals.Tagger.ThemeName = ((PictureBox)s).Tag.ToString();
-                            Globals.Tagger.OnProgress += TaggerProgress;
-                            try
-                            {
-                                Globals.Tagger.TagSongs(selection.ToArray());
-                            }
-                            finally
-                            {
-                                Globals.Tagger.OnProgress -= TaggerProgress;
-                                // force dgvSongsMaster data to refresh after Tagging
-                                GetGrid().Invalidate();
-                                GetGrid().Refresh();
-                            }
-                        }
+                //    ToolStripControlHost mi2 = new ToolStripControlHost(pb) {  Height = pb.Height, Tag = x };
+                //    pb.Click += (s, ev) =>
+                //    {
+                //        var selection = GetSelectedSongs(); 
+                //        if (selection.Count > 0)
+                //        {
+                //            Globals.Tagger.ThemeName = ((PictureBox)s).Tag.ToString();
+                //            Globals.Tagger.OnProgress += TaggerProgress;
+                //            try
+                //            {
+                //                Globals.Tagger.TagSongs(selection.ToArray());
+                //            }
+                //            finally
+                //            {
+                //                Globals.Tagger.OnProgress -= TaggerProgress;
+                //                // force dgvSongsMaster data to refresh after Tagging
+                //                GetGrid().Invalidate();
+                //                GetGrid().Refresh();
+                //            }
+                //        }
 
-                    };
-                    mi.DropDownItems.Add(mi2);
-                }
+                //    };
+                //    mi.DropDownItems.Add(mi2);
+                //}
                 // ToolStripItem
                 tagToolStripMenuItem.DropDownItems.Add(mi);
             }
@@ -1083,7 +1096,7 @@ namespace CustomsForgeManager.UControls
                 return;
 
             // get detail from master
-            if (e.ColumnIndex == colShowDetail.Index && e.RowIndex >= 0)
+            if (e.RowIndex >= 0 && e.ColumnIndex == colShowDetail.Index)
             {
                 if (dgvSongsMaster.Rows[e.RowIndex].Cells["colKey"].Value == null)
                     return;
@@ -1214,13 +1227,17 @@ namespace CustomsForgeManager.UControls
 
         }
 
+        //TODO: need to find a better way to do this. DataBindingComplete get's called ALOT!!!!
         private void dgvSongsMaster_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
+            if (e.ListChangedType != ListChangedType.Reset)
+                return;
+
             // workaround to catch DataBindingComplete called by other UC's
+            //why would another UC call this event??? it's not assigned to any other UC events.
             var grid = (DataGridView)sender;
             if (grid.Name != "dgvSongsMaster")
                 return;
-
             // need to wait for DataBinding and DataGridView Paint to complete before  
             // changing BLRV column color (cell formating) on initial loading
 

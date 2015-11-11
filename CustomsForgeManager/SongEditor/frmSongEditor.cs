@@ -105,6 +105,9 @@ namespace CustomsForgeManager.SongEditor
                 var x = FEditorControls.Where(e => e.NeedsAfterSave());
                 if (x.Count() > 0)
                 {
+                    if (!outputPath.ToLower().EndsWith("_p.psarc"))
+                        outputPath += "_p.psarc";
+
                     tsProgressBar.Value = 80;
                     var p = new CFSM.Utils.PSARC.PSARC();
                     using (var fs = File.OpenRead(outputPath))

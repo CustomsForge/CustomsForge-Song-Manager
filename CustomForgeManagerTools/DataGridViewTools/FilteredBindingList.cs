@@ -14,11 +14,19 @@ using System.ComponentModel;
 using System.Text.RegularExpressions;
 using System.Reflection;
 using System.Collections;
+using System.Diagnostics;
 
 namespace DataGridViewTools
 {
+
+
+    public interface IFilteredBindingList
+    {
+        IList GetOriginalList();
+    }
+
     // aka FilteredBindingList but better
-    public class FilteredBindingList<T> : BindingList<T>, IBindingListView
+    public class FilteredBindingList<T> : BindingList<T>, IBindingListView, IFilteredBindingList
     {
         public FilteredBindingList() { }
 
@@ -35,6 +43,12 @@ namespace DataGridViewTools
             get
             { return originalListValue; }
         }
+
+        public IList GetOriginalList()
+        {
+            return originalListValue;
+        }
+
         #region Searching
 
         protected override bool SupportsSearchingCore
@@ -268,6 +282,9 @@ namespace DataGridViewTools
 
         private string filterValue = null;
 
+
+       
+
         public string Filter
         {
             get
@@ -280,7 +297,7 @@ namespace DataGridViewTools
 
                 // If the value is not null or empty, but doesn't
                 // match expected format, throw an exception.
-                if (!string.IsNullOrEmpty(value))
+                if (!string.IsNullOrEmpty(value) && !value.StartsWith("Expression:"))
                     if (!value.Contains("LEN(ISNULL(CONVERT("))
                         if (!Regex.IsMatch(value,
                                 BuildRegExForFilterFormat(), RegexOptions.Singleline))
@@ -294,25 +311,33 @@ namespace DataGridViewTools
                     ResetList();
                 else
                 {
-                    int count = 0;
-                    string[] matches = value.Split(new string[] { " AND " },
-                        StringSplitOptions.RemoveEmptyEntries);
-
-                    while (count < matches.Length)
+                    if (value.StartsWith("Expression:"))
                     {
-                        string filterPart = matches[count].ToString();
+                        ApplyFilter(value.Remove(0, 11));
+                    }
+                    else
+                    {
+                        int count = 0;
+                        string[] matches = value.Split(new string[] { " AND " },
+                            StringSplitOptions.RemoveEmptyEntries);
 
-                        // Check to see if the filter was set previously.
-                        // Also, check if current filter is a subset of 
-                        // the previous filter.
-                        if (!String.IsNullOrEmpty(filterValue)
-                                && !value.Contains(filterValue))
-                            ResetList();
+                        while (count < matches.Length)
+                        {
+                            string filterPart = matches[count].ToString();
 
-                        // Parse and apply the filter.
-                        SingleFilterInfo filterInfo = ParseFilter(filterPart);
-                        ApplyFilter(filterInfo);
-                        count++;
+                            // Check to see if the filter was set previously.
+                            // Also, check if current filter is a subset of 
+                            // the previous filter.
+                            if (!String.IsNullOrEmpty(filterValue)
+                                    && !value.Contains(filterValue))
+                                ResetList();
+
+
+                            // Parse and apply the filter.
+                            SingleFilterInfo filterInfo = ParseFilter(filterPart);
+                            ApplyFilter(filterInfo);
+                            count++;
+                        }
                     }
                 }
                 // Set the filter value and turn on list changed events.
@@ -380,6 +405,52 @@ namespace DataGridViewTools
             base.OnListChanged(e);
         }
 
+        private IEnumerable<string> GetSubStrings(string input, string start, string end)
+            {
+                Regex r = new Regex(string.Format("{0}(.*?){1}", Regex.Escape(start), Regex.Escape(end)));
+                MatchCollection matches = r.Matches(input);
+                foreach (Match match in matches)
+                yield return match.Groups[1].Value;
+            }
+
+        int acount = 0;
+
+        internal void ApplyFilter(string filterParts)
+        {
+            Debug.WriteLine("Apply Filter " + acount);
+            acount++;
+           // Stopwatch sw = new Stopwatch();
+         //   sw.Start();
+            List<T> results = new List<T>();
+            foreach (T item in this)
+            {
+                try
+                {
+                    var e = new NCalc.Expression(filterParts.Trim());
+                    foreach (var s in GetSubStrings(filterParts, "[", "]"))
+                    {
+                        if (!e.Parameters.ContainsKey(s))
+                        {
+                            var p = typeof(T).GetProperty(s);
+                            if (p != null)
+                                e.Parameters.Add(p.Name, p.GetValue(item, new object[] { }));
+                        }
+                    }
+                    if (Convert.ToBoolean(e.Evaluate()))
+                        results.Add(item);
+                }
+                catch (Exception)
+                {
+                    continue;
+                }
+            }
+            this.ClearItems();
+            foreach (T itemFound in results)
+                this.Add(itemFound);
+        //    sw.Stop();
+          //  Debug.WriteLine("ApplyFilter : " + sw.Elapsed.Milliseconds);            
+        }
+
 
         internal void ApplyFilter(SingleFilterInfo filterParts)
         {
@@ -424,6 +495,7 @@ namespace DataGridViewTools
         internal SingleFilterInfo ParseFilter(string filterPart)
         {
             SingleFilterInfo filterInfo = new SingleFilterInfo();
+
             filterInfo.OperatorValue = DetermineFilterOperator(filterPart);
 
             string[] filterStringParts =

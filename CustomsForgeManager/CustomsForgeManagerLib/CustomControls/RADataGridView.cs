@@ -94,32 +94,26 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.CustomControls
 
         public string GetCustomFilter(string ColumnName)
         {
+            string s = "";
+            if (CustomsForgeManager.Forms.frmCustomFilter.EditCustomFilter(ref s,
+                typeof(SongData).GetProperty(ColumnName)))
+                return "Expression:" + s;
             return string.Empty;
         }
 
-
         public bool CanFilter(string ColumnName)
         {
+#if !DEBUG
             return false;
-
-
+#endif
             var p = typeof(SongData).GetProperty(ColumnName);
             if (p != null)
             {
-                if (p.PropertyType == typeof(string))
+                if (p.PropertyType == typeof(string) || p.PropertyType == typeof(int) ||
+                    p.PropertyType == typeof(double) ||
+                    p.PropertyType == typeof(float))
                     return true;
             }
-
-            //var x = Columns[ColumnName];
-            //if (x != null)
-            //{
-            // //   x.DataPropertyName
-            //    DataSource
-
-
-            //}
-
-
             return false;
         }
     }

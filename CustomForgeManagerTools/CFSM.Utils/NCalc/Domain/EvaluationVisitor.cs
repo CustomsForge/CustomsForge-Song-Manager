@@ -594,6 +594,97 @@ namespace NCalc.Domain
 
                 #endregion
 
+
+                //new functions DreddFoxx
+                #region String Functions
+              
+                #region ToLower
+                case "tolower":
+                    {
+                        CheckCase("ToLower", function.Identifier.Name);
+
+                        if (function.Expressions.Length == 0)
+                            throw new ArgumentException("ToLower() takes 1 argument");
+                        Result = Convert.ToString(Evaluate(function.Expressions[0])).ToLower();
+                        break;
+                    }
+                #endregion
+
+                #region CompareString
+                case "comparestring":
+                    {
+                        CheckCase("CompareString", function.Identifier.Name);
+
+                        if (function.Expressions.Length < 2)
+                            throw new ArgumentException("CompareString() takes 2 arguments");
+                        Result =
+                            Convert.ToString(Evaluate(function.Expressions[0])).Equals(Convert.ToString(Evaluate(function.Expressions[1])), StringComparison.OrdinalIgnoreCase);
+                        break;
+                    } 
+                #endregion
+
+                #region StartsWith
+                case "startswith":
+                    {
+                        CheckCase("StartsWith", function.Identifier.Name);
+
+                        if (function.Expressions.Length < 2)
+                            throw new ArgumentException("StartsWith() takes 2 arguments");
+                        Result =
+                            Convert.ToString(Evaluate(function.Expressions[0])).StartsWith(
+                            Convert.ToString(Evaluate(function.Expressions[1])),
+                            StringComparison.OrdinalIgnoreCase);
+                        break;
+
+                    } 
+                #endregion
+
+                #region EndsWith
+                case "endswith":
+                    {
+                        CheckCase("EndsWith", function.Identifier.Name);
+
+                        if (function.Expressions.Length < 2)
+                            throw new ArgumentException("EndsWith() takes 2 arguments");
+                        Result =
+                            Convert.ToString(Evaluate(function.Expressions[0])).EndsWith(
+                            Convert.ToString(Evaluate(function.Expressions[1])),
+                            StringComparison.OrdinalIgnoreCase);
+                        break;
+                    } 
+                #endregion
+
+                #region Contains
+                case "contains":
+                    {
+                        CheckCase("Contains", function.Identifier.Name);
+
+                        if (function.Expressions.Length < 2)
+                            throw new ArgumentException("Contains() takes 2 arguments");
+                        Result =
+                            Convert.ToString(Evaluate(function.Expressions[0])).ToLower().Contains(
+                            Convert.ToString(Evaluate(function.Expressions[1])).ToLower());
+                        break;
+
+                    } 
+                #endregion
+
+                #region Trim
+                case "trim":
+                    {
+                        CheckCase("Trim", function.Identifier.Name);
+
+                        if (function.Expressions.Length < 1)
+                            throw new ArgumentException("Contains() takes 1 arguments");
+                        Result = Convert.ToString(Evaluate(function.Expressions[0])).Trim();
+                        break;
+                    } 
+                #endregion
+
+               
+                
+                #endregion
+
                 default:
                     throw new ArgumentException("Function not found", 
                         function.Identifier.Name);
