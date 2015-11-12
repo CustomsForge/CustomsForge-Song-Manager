@@ -17,13 +17,24 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
         NotFound = 3
     }
 
+    public enum SongTaggerStatus : byte
+    {
+        [XmlEnum("0")]
+        False = 0,
+        [XmlEnum("1")]
+        True = 1,
+        [XmlEnum("2")]
+        ODLC = 2
+    }
+
     // only essential data needs to be saved to the XML songinfo file
     [Serializable]
     public class SongData : NotifyPropChangedBase
     {
         //version 2 : SongKey changed to DLCKey.
         //version 3 : removed DLCKey from arrangement
-        public const string SongDataListCurrentVersion = "3";
+        //version 4: changed tagged to SongTaggerStatus
+        public const string SongDataListCurrentVersion = "4";
 
         public string DLCKey { get; set; }
 
@@ -56,7 +67,6 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
         }
 
         public string AudioCache { get; set; }
-
         public string Artist { get; set; }
         public string Title { get; set; }
         public string Album { get; set; }
@@ -137,7 +147,8 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
         public string IgnitionAuthor { get; set; }
         public string IgnitionVersion { get; set; }
         public string IgnitionUpdated { get; set; }
-        public bool Tagged { get; set; }
+
+        public SongTaggerStatus Tagged { get; set; }
 
         [XmlIgnore]
         public string ArtistTitleAlbum

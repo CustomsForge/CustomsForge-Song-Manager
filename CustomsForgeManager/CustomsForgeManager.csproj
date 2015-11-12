@@ -178,6 +178,7 @@
     <Compile Include="CustomsForgeManagerLib\CustomControls\DataGridEditors\ComboBoxEditingControl.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="CustomsForgeManagerLib\CustomControls\DataGridEditors\DataGridViewCheckBoxHeaderCell.cs" />
     <Compile Include="CustomsForgeManagerLib\Interfaces.cs" />
     <Compile Include="CustomsForgeManagerLib\Objects\Autoupdater.cs" />
     <Compile Include="CustomsForgeManagerLib\Objects\RSCustomDictionaries.cs" />

@@ -18,6 +18,7 @@ using Newtonsoft.Json;
 using System.Xml;
 using Extensions = CustomsForgeManager.CustomsForgeManagerLib.Extensions;
 using CFSM.Utils;
+using CustomsForgeManager.CustomsForgeManagerLib.CustomControls.DataGridEditors;
 
 
 namespace CustomsForgeManager.UControls
@@ -46,6 +47,20 @@ namespace CustomsForgeManager.UControls
             dgvSongsDetail.Visible = false;
             PopulateSongManager();            
             cmsTaggerPreview.Visible = true;
+            //DataGridViewCheckBoxHeaderCell cbHeader = new DataGridViewCheckBoxHeaderCell();
+            //colSelect.HeaderCell = cbHeader;
+            //colSelect.HeaderText = String.Empty;
+            //colSelect.SortMode = DataGridViewColumnSortMode.NotSortable;
+            //colSelect.HeaderCell.ToolTipText = String.Empty;
+            //cbHeader.OnCheckBoxClicked += (Checked) =>
+            //{
+            //    TemporaryDisableDatabindEvent(() =>
+            //    {
+            //        for (int i = 0; i < dgvSongsMaster.Rows.Count; i++)
+            //            GetSongByRow(i).Selected = Checked;
+            //    });
+            //    allSelected = Checked;
+            //};
         }
 
         public void LeaveSongManager()
@@ -82,6 +97,8 @@ namespace CustomsForgeManager.UControls
 
                     if (correctVersion)
                         masterSongCollection = UtilExtensions.XmlDeserialize<BindingList<SongData>>(listNode.OuterXml);
+                    else
+                        Globals.Log("New song collection version found, rescanning songs.");
                 }
 
                 // pop Arrangment DLCKey info

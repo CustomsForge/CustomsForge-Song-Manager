@@ -128,9 +128,15 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                     AppID = appId,
                     Path = FilePath,
                     FileDate = fInfo.LastWriteTimeUtc,
-                    FileSize = (int)fInfo.Length,
-                    Tagged = tagged
+                    FileSize = (int)fInfo.Length
+                    
                 };
+
+                if (toolkitVersionFile == null)
+                    currentSong.Tagged = SongTaggerStatus.ODLC;
+                else
+                    currentSong.Tagged = tagged ? SongTaggerStatus.True : SongTaggerStatus.False;
+
 
                 var strippedName = singleSong.Name.Replace(".xblock", "").Replace("gamexblocks/nsongs/", "");
                 var infoFiles = archive.TOC.Where(x =>

@@ -162,112 +162,12 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
                                 Globals.Log("Error inflating image entry.");
                                 return null;
                             }
-
-
                             imgEntry.Data.Position = 0;
                             var albumArtDDS = new DDSImage(imgEntry.Data);
                             var AlbumArt = albumArtDDS.images[0];
 
-                            bool lead = false;
-                            bool rhythm = false;
-                            bool bass = false;
-                            bool vocals = false;
-                            bool bonusLead = false;
-                            bool bonusRhythm = false;
-                            bool bonusBass = false;
-                            bool DD = sd.DD > 0;
+                            TagDrawImage(sd, images, xTheme, archive, AlbumArt, aPath);
 
-                            var arrangements = archive.TOC.Where(entry => entry.Name.ToLower().EndsWith(".json")).Select(entry => entry.Name);
-
-                            foreach (string arrangement in arrangements)
-                            {
-                                if (arrangement.Contains("lead") && !arrangement.Contains("lead2"))
-                                    lead = true;
-                                if (arrangement.Contains("lead2"))
-                                    bonusLead = true;
-                                if (arrangement.Contains("rhythm") && !arrangement.Contains("rhythm2"))
-                                    rhythm = true;
-                                if (arrangement.Contains("rhythm2"))
-                                    bonusRhythm = true;
-                                if (arrangement.Contains("bass") && !arrangement.Contains("bass2"))
-                                    bass = true;
-                                if (arrangement.Contains("bass2"))
-                                    bonusBass = true;
-                                if (arrangement.Contains("vocals"))
-                                    vocals = true;
-                                if (arrangement.Contains("combo"))
-                                {
-                                    lead = true;
-                                    rhythm = true;
-                                }
-                            }
-
-                            SongTaggerTheme tt = null;
-
-                            if (xTheme != null)
-                            {
-                                using (FileStream fs1 = File.OpenRead(Path.Combine(xTheme.Folder,
-                                    xTheme.Name + ".tagtheme")))
-                                    tt = SongTaggerTheme.Create(fs1);
-                            }
-                            else
-                                if (File.Exists(Path.Combine(aPath, "Default.tagtheme")))
-                                {
-                                    using (FileStream fs1 = File.OpenRead(Path.Combine(aPath, "Default.tagtheme")))
-                                        tt = SongTaggerTheme.Create(fs1);
-                                }
-                                else
-                                    if (File.Exists(Path.Combine(Constants.TaggerTemplatesFolder, "User.Default.tagtheme")))
-                                    {
-                                        using (FileStream fs1 = File.OpenRead(Path.Combine(Constants.TaggerTemplatesFolder, "User.Default.tagtheme")))
-                                            tt = SongTaggerTheme.Create(fs1);
-                                    }
-                                    else
-                                        //User.Default.tagtheme
-                                        if (File.Exists(Path.Combine(Constants.TaggerTemplatesFolder, "Default.tagtheme")))
-                                        {
-                                            using (FileStream fs1 = File.OpenRead(Path.Combine(Constants.TaggerTemplatesFolder, "Default.tagtheme")))
-                                                tt = SongTaggerTheme.Create(fs1);
-                                        }
-                            if (tt != null)
-                                tt.Data = sd;
-                            UtilExtensions.TempChangeDirectory(aPath, () =>
-                            {
-                                using (Graphics gra = Graphics.FromImage(AlbumArt))
-                                {
-                                    if (images.backgroundLayer != null)
-                                        gra.DrawImage(images.backgroundLayer, 0, 0.5f);
-                                    if (vocals && images.vocalLayer != null)
-                                        gra.DrawImage(images.vocalLayer, 0, 0.5f);
-                                    if (bass && images.bassLayer != null)
-                                        gra.DrawImage(images.bassLayer, 0, 0.5f);
-                                    if (bonusBass && images.bassBonusLayer != null)
-                                        gra.DrawImage(images.bassBonusLayer, 0, 0.5f);
-                                    if (rhythm && images.rhythmLayer != null)
-                                        gra.DrawImage(images.rhythmLayer, 0, 0.5f);
-                                    if (bonusRhythm && images.rhythmBonusLayer != null)
-                                        gra.DrawImage(images.rhythmBonusLayer, 0, 0.5f);
-                                    if (lead && images.leadLayer != null)
-                                        gra.DrawImage(images.leadLayer, 0, 0.5f);
-                                    if (bonusLead && images.leadBonusLayer != null)
-                                        gra.DrawImage(images.leadBonusLayer, 0, 0.5f);
-
-                                    if (images.customTagLayer != null)
-                                        gra.DrawImage(images.customTagLayer, 0, 0.5f);
-                                    if (DD && images.DDLayer != null)
-                                        gra.DrawImage(images.DDLayer, 0, 0.5f);
-
-                                    if (tt != null)
-                                    {
-                                        if (DD)
-                                            tt.DD.Draw(gra, AlbumArt);
-                                        else
-                                            tt.NDD.Draw(gra, AlbumArt);
-
-                                        tt.Custom.Draw(gra, AlbumArt);
-                                    }                               
-                                }
-                            });
                             return AlbumArt;
 
                         }
@@ -285,13 +185,13 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         private void ShowTaggerError()
         {
             MessageBox.Show(string.Format("Make sure that you have all required files in the CFM\tags folder: \n" +
-                "-Tagger/{0}/Background.png \n" +
-                "-Tagger/{0}/Lead.png \n" +
-                "-Tagger/{0}/Lead Bonus.png \n" +
-                "-Tagger/{0}/Rhythm.png \n" +
-                "-Tagger/{0}/Rhythm Bonus.png \n" +
-                "-Tagger/{0}/Custom.png \n" +
-                "-Tagger/{0}/Vocal.png", ThemeName));
+                "-Tagger/templates/{0}/Background.png \n" +
+                "-Tagger/templates/{0}/Lead.png \n" +
+                "-Tagger/templates/{0}/Lead Bonus.png \n" +
+                "-Tagger/templates/{0}/Rhythm.png \n" +
+                "-Tagger/templates/{0}/Rhythm Bonus.png \n" +
+                "-Tagger/templates/{0}/Custom.png \n" +
+                "-Tagger/templates/{0}/Vocal.png", ThemeName));
         }
 
         private string tagsFolderFullPath
@@ -305,8 +205,123 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
             }
         }
 
+        private void TagDrawImage(SongData song, BitmapHolder images, XmlThemeStorage xTheme,
+            PSARC archive, Bitmap bigAlbumArt, String FolderFullPath)
+        {
+            bool lead = false;
+            bool rhythm = false;
+            bool bass = false;
+            bool vocals = false;
+            bool bonusLead = false;
+            bool bonusRhythm = false;
+            bool bonusBass = false;
+            bool DD = song.DD > 0;
+
+            var arrangements = archive.TOC.Where(entry => entry.Name.ToLower().EndsWith(".json")).Select(entry => entry.Name);
+
+            foreach (string arrangement in arrangements)
+            {
+                if (arrangement.Contains("lead") && !arrangement.Contains("lead2"))
+                    lead = true;
+                if (arrangement.Contains("lead2"))
+                    bonusLead = true;
+                if (arrangement.Contains("rhythm") && !arrangement.Contains("rhythm2"))
+                    rhythm = true;
+                if (arrangement.Contains("rhythm2"))
+                    bonusRhythm = true;
+                if (arrangement.Contains("bass") && !arrangement.Contains("bass2"))
+                    bass = true;
+                if (arrangement.Contains("bass2"))
+                    bonusBass = true;
+                if (arrangement.Contains("vocals"))
+                    vocals = true;
+                if (arrangement.Contains("combo"))
+                {
+                    lead = true;
+                    rhythm = true;
+                }
+            }
+
+            SongTaggerTheme tt = null;
+            var ttpath = tagsFolderFullPath;
+            if (xTheme != null)
+            {
+                using (FileStream fs1 = File.OpenRead(Path.Combine(xTheme.Folder,
+                    xTheme.Name + ".tagtheme")))
+                    tt = SongTaggerTheme.Create(fs1);
+            }
+            else
+                if (File.Exists(Path.Combine(FolderFullPath, "Default.tagtheme")))
+                {
+                    using (FileStream fs1 = File.OpenRead(Path.Combine(FolderFullPath, "Default.tagtheme")))
+                        tt = SongTaggerTheme.Create(fs1);
+                }
+                else
+                    if (File.Exists(Path.Combine(Constants.TaggerTemplatesFolder, "User.Default.tagtheme")))
+                    {
+                        using (FileStream fs1 = File.OpenRead(Path.Combine(Constants.TaggerTemplatesFolder, "User.Default.tagtheme")))
+                            tt = SongTaggerTheme.Create(fs1);
+                    }
+                    else
+                        if (File.Exists(Path.Combine(Constants.TaggerTemplatesFolder, "Default.tagtheme")))
+                        {
+                            using (FileStream fs1 = File.OpenRead(Path.Combine(Constants.TaggerTemplatesFolder, "Default.tagtheme")))
+                                tt = SongTaggerTheme.Create(fs1);
+                        }
+            if (tt != null)
+                tt.Data = song;
+            UtilExtensions.TempChangeDirectory(ttpath, () =>
+            {
+                //Add layers to big album art
+                using (Graphics gra = Graphics.FromImage(bigAlbumArt))
+                {
+                    if (images.backgroundLayer != null)
+                        gra.DrawImage(images.backgroundLayer, 0, 0.5f);
+                    if (vocals && images.vocalLayer != null)
+                        gra.DrawImage(images.vocalLayer, 0, 0.5f);
+                    if (bass && images.bassLayer != null)
+                        gra.DrawImage(images.bassLayer, 0, 0.5f);
+                    if (bonusBass && images.bassBonusLayer != null)
+                        gra.DrawImage(images.bassBonusLayer, 0, 0.5f);
+                    if (rhythm && images.rhythmLayer != null)
+                        gra.DrawImage(images.rhythmLayer, 0, 0.5f);
+                    if (bonusRhythm && images.rhythmBonusLayer != null)
+                        gra.DrawImage(images.rhythmBonusLayer, 0, 0.5f);
+                    if (lead && images.leadLayer != null)
+                        gra.DrawImage(images.leadLayer, 0, 0.5f);
+                    if (bonusLead && images.leadBonusLayer != null)
+                        gra.DrawImage(images.leadBonusLayer, 0, 0.5f);
+                    if (images.customTagLayer != null)
+                        gra.DrawImage(images.customTagLayer, 0, 0.5f);
+                    if (DD && images.DDLayer != null)
+                        gra.DrawImage(images.DDLayer, 0, 0.5f);
+                    //Apply the xml theme
+                    if (tt != null)
+                    {
+                        if (DD)
+                            tt.DD.Draw(gra, bigAlbumArt);
+                        else
+                            tt.NDD.Draw(gra, bigAlbumArt);
+                        tt.Custom.Draw(gra, bigAlbumArt);
+                    }
+                }
+            });
+        }
+
+        private bool AllowEditingOfODLC
+        {
+            get
+            {
+                return false;
+            }
+        }
+
         private void TagSong(SongData song, BitmapHolder images)
         {
+            if (song.Tagged == SongTaggerStatus.ODLC)
+                return;
+
+
             if (ThemeName == String.Empty)
                 ThemeName = defaultTagFolders[0];
             if (!Directory.Exists(Constants.TaggerTemplatesFolder) || !Directory.Exists(tagsFolderFullPath))
@@ -324,7 +339,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
                     using (var fs = File.OpenRead(songPath))
                         archive.Read(fs);
 
-                    if (song.Tagged)
+                    if (song.Tagged == SongTaggerStatus.True)
                     {
                         UntagSong(song, archive);
                         Globals.Log("Retagging song: " + song.Title);
@@ -335,16 +350,17 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
                     var taggerOriginal = archive.TOC.FirstOrDefault(entry => entry.Name == "tagger.org");
                     if (taggerOriginal != null)
                     {
-                        song.Tagged = true;
+                        song.Tagged = SongTaggerStatus.True;
                         return;
                     }
 
                     var toolKitEntry = archive.TOC.FirstOrDefault(entry => entry.Name == "toolkit.version");
 
                     // CFSM does not tag Official DLC songs
-                    if (toolKitEntry == null)
+                    if (!AllowEditingOfODLC && toolKitEntry == null)
                     {
                         Globals.Log("CFSM can not be used to tag Official DLC songs.");
+                        song.Tagged = SongTaggerStatus.ODLC;
                         return;
                     }
 
@@ -361,105 +377,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
                     orginalArtStream.Position = 0;
 
                     //Check which arrangements it contains
-                    bool lead = false;
-                    bool rhythm = false;
-                    bool bass = false;
-                    bool vocals = false;
-                    bool bonusLead = false;
-                    bool bonusRhythm = false;
-                    bool bonusBass = false;
-                    bool DD = song.DD > 0 && images.DDLayer != null;
-
-                    var arrangements = archive.TOC.Where(entry => entry.Name.ToLower().EndsWith(".json")).Select(entry => entry.Name);
-
-                    foreach (string arrangement in arrangements)
-                    {
-                        if (arrangement.Contains("lead") && !arrangement.Contains("lead2"))
-                            lead = true;
-                        if (arrangement.Contains("lead2"))
-                            bonusLead = true;
-                        if (arrangement.Contains("rhythm") && !arrangement.Contains("rhythm2"))
-                            rhythm = true;
-                        if (arrangement.Contains("rhythm2"))
-                            bonusRhythm = true;
-                        if (arrangement.Contains("bass") && !arrangement.Contains("bass2"))
-                            bass = true;
-                        if (arrangement.Contains("bass2"))
-                            bonusBass = true;
-                        if (arrangement.Contains("vocals"))
-                            vocals = true;
-                        if (arrangement.Contains("combo"))
-                        {
-                            lead = true;
-                            rhythm = true;
-                        }
-                    }
-
-                    //Add layers to big album art
-                    SongTaggerTheme tt = null;
-                    var ttpath = tagsFolderFullPath;
-                    if (xTheme != null)
-                    {
-                        using (FileStream fs1 = File.OpenRead(Path.Combine(xTheme.Folder,
-                            xTheme.Name + ".tagtheme")))
-                            tt = SongTaggerTheme.Create(fs1);
-                    }
-                    else
-                        if (File.Exists(Path.Combine(tagsFolderFullPath, "Default.tagtheme")))
-                        {
-                            using (FileStream fs1 = File.OpenRead(Path.Combine(tagsFolderFullPath, "Default.tagtheme")))
-                                tt = SongTaggerTheme.Create(fs1);
-                        }
-                        else
-                            if (File.Exists(Path.Combine(Constants.TaggerTemplatesFolder, "User.Default.tagtheme")))
-                            {
-                                using (FileStream fs1 = File.OpenRead(Path.Combine(Constants.TaggerTemplatesFolder, "User.Default.tagtheme")))
-                                    tt = SongTaggerTheme.Create(fs1);
-                            }
-                            else
-                                if (File.Exists(Path.Combine(Constants.TaggerTemplatesFolder, "Default.tagtheme")))
-                                {
-                                    using (FileStream fs1 = File.OpenRead(Path.Combine(Constants.TaggerTemplatesFolder, "Default.tagtheme")))
-                                        tt = SongTaggerTheme.Create(fs1);
-                                }
-                    if (tt != null)
-                        tt.Data = song;
-                    UtilExtensions.TempChangeDirectory(ttpath, () =>
-                    {
-                        using (Graphics gra = Graphics.FromImage(bigAlbumArt))
-                        {
-                            if (images.backgroundLayer != null)
-                                gra.DrawImage(images.backgroundLayer, 0, 0.5f);
-                            if (vocals && images.vocalLayer != null)
-                                gra.DrawImage(images.vocalLayer, 0, 0.5f);
-                            if (bass && images.bassLayer != null)
-                                gra.DrawImage(images.bassLayer, 0, 0.5f);
-                            if (bonusBass && images.bassBonusLayer != null)
-                                gra.DrawImage(images.bassBonusLayer, 0, 0.5f);
-                            if (rhythm && images.rhythmLayer != null)
-                                gra.DrawImage(images.rhythmLayer, 0, 0.5f);
-                            if (bonusRhythm && images.rhythmBonusLayer != null)
-                                gra.DrawImage(images.rhythmBonusLayer, 0, 0.5f);
-                            if (lead && images.leadLayer != null)
-                                gra.DrawImage(images.leadLayer, 0, 0.5f);
-                            if (bonusLead && images.leadBonusLayer != null)
-                                gra.DrawImage(images.leadBonusLayer, 0, 0.5f);
-                            if (images.customTagLayer != null)
-                                gra.DrawImage(images.customTagLayer, 0, 0.5f);
-                            if (DD && images.DDLayer != null)
-                                gra.DrawImage(images.DDLayer, 0, 0.5f);
-                            if (tt != null)
-                            {
-                                if (DD)
-                                    tt.DD.Draw(gra, bigAlbumArt);
-                                else
-                                    tt.NDD.Draw(gra, bigAlbumArt);
-                                tt.Custom.Draw(gra, bigAlbumArt);
-                            }
-                          
-
-                        }
-                    });
+                    TagDrawImage(song, images, xTheme, archive, bigAlbumArt, tagsFolderFullPath);
 
                     var largeDDS = bigAlbumArt.ToDDS();
                     var midDDS = bigAlbumArt.ToDDS(128, 128);
@@ -490,7 +408,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
 
                     song.FileDate = File.GetLastWriteTimeUtc(song.Path);
 
-                    song.Tagged = true;
+                    song.Tagged = SongTaggerStatus.True;
 
                     //  counter++;
                     //    gbTags.Text = string.Format("Tagged: {0}/{1}", counter, songCount);                            
@@ -510,7 +428,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         {
             if (File.Exists(song.Path)) //Just to be sure :)
             {
-                if (song.Tagged)
+                if (song.Tagged == SongTaggerStatus.True)
                     Globals.Log("Untagging song: " + song.Title);
 
                 var toolKitEntry = archive.TOC.FirstOrDefault(entry => entry.Name == "toolkit.version");
@@ -534,7 +452,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
                     archive.TOC.Remove(taggerOriginal);
                 }
 
-                song.Tagged = false;
+                song.Tagged = SongTaggerStatus.False;
                 Globals.Log("Finished untagging song ...");
             }
         }
@@ -542,7 +460,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
 
         public void UntagSong(SongData song)
         {
-            if (!song.Tagged)
+            if (song.Tagged == SongTaggerStatus.False || song.Tagged == SongTaggerStatus.ODLC)
                 return;
 
             if (File.Exists(song.Path)) //Just to be sure :)

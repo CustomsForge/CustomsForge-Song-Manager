@@ -27,8 +27,9 @@ namespace CustomsForgeManager.Forms
                     { 
                        new NoExpression("",""),
                        new Expression("Contains","Contains"), 
-                       new Expression("StartsWith","StartsWith"), 
-                       new Expression("EndsWith","EndsWith")
+                       new Expression("Starts With","StartsWith"), 
+                       new Expression("Ends With","EndsWith"),
+                       new Expression("Is Like","Like")
                     };
         }
 
@@ -37,7 +38,7 @@ namespace CustomsForgeManager.Forms
             return new Expression[] 
                     { 
                         new NoExpression("",""),
-                        new BetweenExpression("Between", ""), 
+                        new BetweenExpression(), 
                         new OperatorExpression("Less Than", "<"), 
                         new OperatorExpression("Greater Than", ">"),
                         new OperatorExpression("Less Than or Equal", "<="), 
@@ -48,42 +49,33 @@ namespace CustomsForgeManager.Forms
 
         protected void SetUp()
         {
-            if (propInfo.PropertyType == typeof(string))
-            {
-                cbExpression1.DataSource = CreateStringExpressions();
-                cbExpression2.DataSource = CreateStringExpressions();
-            }
-            else
-                if (propInfo.PropertyType == typeof(int) || 
-                    propInfo.PropertyType == typeof(double) || 
-                    propInfo.PropertyType == typeof(float))
-                {
-                    cbExpression1.DataSource = CreateNumberExpressions();
-                    cbExpression2.DataSource = CreateNumberExpressions();
-                }
+            AddExpressionControl();
         }
 
         protected string Compile()
         {
             string result = "";
-            if (cbExpression1.SelectedItem != null && cbExpression1.SelectedIndex != 0)
-            {
-                Expression x = (Expression)cbExpression1.SelectedItem;
-                if (x != null)
-                    result = x.Compile(propInfo.Name);
-            }
-            if (cbExpression2.SelectedItem != null && cbExpression2.SelectedIndex != 0)
-            {
-                Expression x = (Expression)cbExpression2.SelectedItem;
-                if (x != null)
-                {
-                    if (String.IsNullOrEmpty(result))
-                        result = x.Compile(propInfo.Name);
-                    else
-                        result += (radioButton1.Checked ? " && " : " || ") + x.Compile(propInfo.Name);
 
+            for (int i = 0; i < tblExpressions.Controls.Count; i++)
+            {
+                if (tblExpressions.Controls[i] is ExpressionGroupControl)
+                {
+                    ExpressionGroupControl egc = (ExpressionGroupControl)tblExpressions.Controls[i];
+                    if (egc.cbExpression.SelectedItem != null && egc.cbExpression.SelectedIndex != 0)
+                    {
+                        Expression x = (Expression)egc.cbExpression.SelectedItem;
+                        if (x != null)
+                        {
+                            if (String.IsNullOrEmpty(result))
+                                result = x.Compile(propInfo.Name) + (egc.IsAnd ? " && " : " || ");
+                            else
+                                result += x.Compile(propInfo.Name) + (egc.IsAnd ? " && " : " || ");
+                        }
+                    }
                 }
             }
+            //trim the last and/or characters
+            result = result.Remove(result.Length - 4);
             return result;
         }
 
@@ -91,7 +83,7 @@ namespace CustomsForgeManager.Forms
         {
             if (prop == null)
                 return false;
-            
+
             using (frmCustomFilter f = new frmCustomFilter())
             {
                 f.groupBox1.Text = prop.Name;
@@ -105,56 +97,141 @@ namespace CustomsForgeManager.Forms
             }
             return false;
         }
-        Control oldEdit1;
-        Control oldEdit2;
 
-        private void cbExpression1_SelectedIndexChanged(object sender, EventArgs e)
+        public void AddExpressionControl()
         {
-            if (cbExpression1.SelectedItem != null)
-            {
-                if (oldEdit1 != null)
-                {
-                    groupBox1.Controls.Remove(oldEdit1);
-                }
-                Expression x = (Expression)cbExpression1.SelectedItem;
-                if (x != null)
-                {
-                    var c = x.GetEditor();
-                    if (c != null)
-                    {
-                        groupBox1.Controls.Add(c);
-                        c.Location = new Point(198, 28);
-                        c.Size = new Size(157, 20);
-                        oldEdit1 = c;
-                    }
-                }
-            }
+
+            var ec = new ExpressionGroupControl() { Dock = DockStyle.Fill };
+            if (propInfo.PropertyType == typeof(string))
+                ec.cbExpression.DataSource = CreateStringExpressions();
+            else
+                if (propInfo.PropertyType == typeof(int) ||
+                 propInfo.PropertyType == typeof(double) ||
+                 propInfo.PropertyType == typeof(float))
+                    ec.cbExpression.DataSource = CreateNumberExpressions();
+
+            tblExpressions.Controls.Add(ec, 0, tblExpressions.RowCount - 1);
+            tblExpressions.RowCount += 1;
         }
 
-        private void cbExpression2_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (cbExpression2.SelectedItem != null)
-            {
-                if (oldEdit2 != null)
-                {
-                    groupBox1.Controls.Remove(oldEdit2);
-                }
 
-                Expression x = (Expression)cbExpression2.SelectedItem;
-                if (x != null)
-                {
-                    var c = x.GetEditor();
-                    if (c != null)
-                    {
-                        groupBox1.Controls.Add(c);
-                        c.Location = new Point(198, 78);
-                        c.Size = new Size(157, 20);
-                        oldEdit2 = c;
-                    }
-                }
-            }
+        private void button3_Click(object sender, EventArgs e)
+        {
+            AddExpressionControl();
         }
+
     }
+
+
+
+    public class ExpressionGroupControl : UserControl
+    {
+
+        private RadioButton radioButton1;
+        private RadioButton radioButton2;
+        public ComboBox cbExpression;
+        private IContainer components = null;
+        public ExpressionGroupControl()
+        {
+            InitializeComponent();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        private void InitializeComponent()
+        {
+            cbExpression = new System.Windows.Forms.ComboBox();
+            radioButton1 = new System.Windows.Forms.RadioButton();
+            radioButton2 = new System.Windows.Forms.RadioButton();
+            SuspendLayout();
+            // 
+            // cbExpression
+            // 
+            cbExpression.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            cbExpression.FormattingEnabled = true;
+            cbExpression.Location = new System.Drawing.Point(3, 3);
+            cbExpression.Name = "cbExpression";
+            cbExpression.Size = new System.Drawing.Size(176, 21);
+            cbExpression.TabIndex = 0;
+            cbExpression.SelectedIndexChanged += cbExpression_SelectedIndexChanged;
+            // 
+            // radioButton1
+            // 
+            radioButton1.AutoSize = true;
+            radioButton1.Checked = true;
+            radioButton1.Location = new System.Drawing.Point(3, 31);
+            radioButton1.Name = "radioButton1";
+            radioButton1.Size = new System.Drawing.Size(44, 17);
+            radioButton1.TabIndex = 1;
+            radioButton1.TabStop = true;
+            radioButton1.Text = "And";
+            radioButton1.UseVisualStyleBackColor = true;
+            // 
+            // radioButton2
+            // 
+            radioButton2.AutoSize = true;
+            radioButton2.Location = new System.Drawing.Point(53, 31);
+            radioButton2.Name = "radioButton2";
+            radioButton2.Size = new System.Drawing.Size(36, 17);
+            radioButton2.TabIndex = 2;
+            radioButton2.Text = "Or";
+            radioButton2.UseVisualStyleBackColor = true;
+            // 
+            // ExpressionGroupControl
+            // 
+            AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            Controls.Add(this.radioButton2);
+            Controls.Add(this.radioButton1);
+            Controls.Add(this.cbExpression);
+            Size = new System.Drawing.Size(368, 55);
+            ResumeLayout(false);
+            PerformLayout();
+
+        }
+
+        public bool IsAnd
+        {
+            get
+            {
+                return radioButton1.Checked;
+            }
+        }
+
+        Control oldEdit;
+
+        private void cbExpression_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbExpression.SelectedItem != null)
+            {
+                if (oldEdit != null)
+                {
+                    Controls.Remove(oldEdit);
+                }
+                Expression x = (Expression)cbExpression.SelectedItem;
+                if (x != null)
+                {
+                    var c = x.GetEditor();
+                    if (c != null)
+                    {
+                        Controls.Add(c);
+                        c.Location = new Point(198, 3);
+                        c.Size = new Size(157, 20);
+                        oldEdit = c;
+                    }
+                }
+            }
+        }
+
+    }
+    
 
     public class Expression
     {
@@ -171,6 +248,11 @@ namespace CustomsForgeManager.Forms
             if (FEditor == null)
                 FEditor = CreateEditor();
             return FEditor;
+        }
+
+        public virtual Control[] GetEditorControls()
+        {
+            return new Control[] { GetEditor() };
         }
 
         public virtual string Compile(string propName)
@@ -230,8 +312,8 @@ namespace CustomsForgeManager.Forms
 
     public class BetweenExpression : Expression
     {
-        public BetweenExpression(string name, string value)
-            : base("Between", value)
+        public BetweenExpression()
+            : base("Between", "")
         {
 
         }

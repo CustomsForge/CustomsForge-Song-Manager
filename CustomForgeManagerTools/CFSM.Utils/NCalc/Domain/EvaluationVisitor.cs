@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace NCalc.Domain
 {
@@ -34,7 +35,7 @@ namespace NCalc.Domain
 
         private static Type[] CommonTypes = new[] { typeof(Int64), typeof(Double), typeof(Boolean), typeof(String), typeof(Decimal) };
 
-    /// <summary>
+        /// <summary>
         /// Gets the the most precise type.
         /// </summary>
         /// <param name="a">Type a.</param>
@@ -240,15 +241,15 @@ namespace NCalc.Domain
             // Don't call parameters right now, instead let the function do it as needed.
             // Some parameters shouldn't be called, for instance, in a if(), the "not" value might be a division by zero
             // Evaluating every value could produce unexpected behaviour
-            for (int i = 0; i < function.Expressions.Length; i++ )
+            for (int i = 0; i < function.Expressions.Length; i++)
             {
-                args.Parameters[i] =  new Expression(function.Expressions[i], _options);
+                args.Parameters[i] = new Expression(function.Expressions[i], _options);
                 args.Parameters[i].EvaluateFunction += EvaluateFunction;
                 args.Parameters[i].EvaluateParameter += EvaluateParameter;
 
                 // Assign the parameters of the Expression to the arguments so that custom Functions and Parameters can use them
                 args.Parameters[i].Parameters = Parameters;
-            }            
+            }
 
             // Calls external implementation
             OnEvaluateFunction(IgnoreCase ? function.Identifier.Name.ToLower() : function.Identifier.Name, args);
@@ -518,7 +519,7 @@ namespace NCalc.Domain
                     break;
 
                 #endregion
-                
+
                 #region Max
                 case "max":
 
@@ -597,7 +598,7 @@ namespace NCalc.Domain
 
                 //new functions DreddFoxx
                 #region String Functions
-              
+
                 #region ToLower
                 case "tolower":
                     {
@@ -620,7 +621,7 @@ namespace NCalc.Domain
                         Result =
                             Convert.ToString(Evaluate(function.Expressions[0])).Equals(Convert.ToString(Evaluate(function.Expressions[1])), StringComparison.OrdinalIgnoreCase);
                         break;
-                    } 
+                    }
                 #endregion
 
                 #region StartsWith
@@ -636,7 +637,7 @@ namespace NCalc.Domain
                             StringComparison.OrdinalIgnoreCase);
                         break;
 
-                    } 
+                    }
                 #endregion
 
                 #region EndsWith
@@ -651,7 +652,7 @@ namespace NCalc.Domain
                             Convert.ToString(Evaluate(function.Expressions[1])),
                             StringComparison.OrdinalIgnoreCase);
                         break;
-                    } 
+                    }
                 #endregion
 
                 #region Contains
@@ -666,7 +667,7 @@ namespace NCalc.Domain
                             Convert.ToString(Evaluate(function.Expressions[1])).ToLower());
                         break;
 
-                    } 
+                    }
                 #endregion
 
                 #region Trim
@@ -678,18 +679,41 @@ namespace NCalc.Domain
                             throw new ArgumentException("Contains() takes 1 arguments");
                         Result = Convert.ToString(Evaluate(function.Expressions[0])).Trim();
                         break;
-                    } 
+                    }
                 #endregion
 
-               
-                
+                case "like":
+                    {
+                        CheckCase("Like", function.Identifier.Name);
+
+                        if (function.Expressions.Length < 2)
+                            throw new ArgumentException("Like() takes at least 2 argument");
+                        var search = Convert.ToString(Evaluate(function.Expressions[0]));
+                        var replace = Convert.ToString(Evaluate(function.Expressions[1]));
+
+
+
+                        replace = replace.Replace(".", @"\.").Replace("?", ".").Replace("*", ".*?").
+                            Replace(@"\", @"\\").Replace(" ", @"\s") + @"\z";
+
+                       // return new Regex(replace, caseSensitive ? RegexOptions.None : RegexOptions.IgnoreCase).IsMatch(search);
+                        Result = new Regex(replace, RegexOptions.IgnoreCase).IsMatch(search);
+                        break;
+
+                    }
+
+                //Like
+
+
                 #endregion
 
                 default:
-                    throw new ArgumentException("Function not found", 
+                    throw new ArgumentException("Function not found",
                         function.Identifier.Name);
             }
         }
+
+
 
         private void CheckCase(string function, string called)
         {
@@ -767,4 +791,5 @@ namespace NCalc.Domain
         public Dictionary<string, object> Parameters { get; set; }
 
     }
+
 }

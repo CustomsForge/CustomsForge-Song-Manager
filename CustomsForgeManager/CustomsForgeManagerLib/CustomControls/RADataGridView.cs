@@ -103,9 +103,6 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.CustomControls
 
         public bool CanFilter(string ColumnName)
         {
-#if !DEBUG
-            return false;
-#endif
             var p = typeof(SongData).GetProperty(ColumnName);
             if (p != null)
             {
@@ -113,6 +110,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.CustomControls
                     p.PropertyType == typeof(double) ||
                     p.PropertyType == typeof(float))
                     return true;
+                //todo: Enums
             }
             return false;
         }

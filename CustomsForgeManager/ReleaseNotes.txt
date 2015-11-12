@@ -1,5 +1,10 @@
 CFM Release Notes
 
+1.1.1.4
+-Changed SongData "Tagged" property to SongTaggerStatus[True,False,ODLC].
+-More work to custom filters, and added to beta
+-DD/NDD fix when tagging songs
+
 1.1.1.3
 -Fixed bug in tagger where the program didn't recognize the combo arrangement
 -Removed dependency of nvdxt.exe from RocksmithToolKitLib and appened a [CFSM] suffix to the ToolkitVersion commit.
