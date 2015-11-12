@@ -311,33 +311,30 @@ namespace DataGridViewTools
                     ResetList();
                 else
                 {
-                    if (value.StartsWith("Expression:"))
-                    {
-                        ApplyFilter(value.Remove(0, 11));
-                    }
-                    else
-                    {
-                        int count = 0;
-                        string[] matches = value.Split(new string[] { " AND " },
-                            StringSplitOptions.RemoveEmptyEntries);
+                    int count = 0;
+                    string[] matches = value.Split(new string[] { " AND " },
+                        StringSplitOptions.RemoveEmptyEntries);
 
-                        while (count < matches.Length)
+                    while (count < matches.Length)
+                    {
+                        string filterPart = matches[count];
+
+                        // Check to see if the filter was set previously.
+                        // Also, check if current filter is a subset of 
+                        // the previous filter.
+                        if (!String.IsNullOrEmpty(filterValue)
+                                && !value.Contains(filterValue))
+                            ResetList();
+                        else
                         {
-                            string filterPart = matches[count].ToString();
-
-                            // Check to see if the filter was set previously.
-                            // Also, check if current filter is a subset of 
-                            // the previous filter.
-                            if (!String.IsNullOrEmpty(filterValue)
-                                    && !value.Contains(filterValue))
-                                ResetList();
-
-
                             // Parse and apply the filter.
-                            SingleFilterInfo filterInfo = ParseFilter(filterPart);
-                            ApplyFilter(filterInfo);
-                            count++;
+                            if (filterPart.StartsWith("Expression:"))
+                                ApplyFilter(filterPart.Remove(0, 11));
+                            else
+                                ApplyFilter(ParseFilter(filterPart));
                         }
+                        count++;
+
                     }
                 }
                 // Set the filter value and turn on list changed events.
@@ -406,21 +403,15 @@ namespace DataGridViewTools
         }
 
         private IEnumerable<string> GetSubStrings(string input, string start, string end)
-            {
-                Regex r = new Regex(string.Format("{0}(.*?){1}", Regex.Escape(start), Regex.Escape(end)));
-                MatchCollection matches = r.Matches(input);
-                foreach (Match match in matches)
-                yield return match.Groups[1].Value;
-            }
-
-        int acount = 0;
+        {
+            Regex r = new Regex(string.Format("{0}(.*?){1}", Regex.Escape(start), Regex.Escape(end)));
+            MatchCollection matches = r.Matches(input);
+            foreach (Match match in matches)
+            yield return match.Groups[1].Value;
+        }
 
         internal void ApplyFilter(string filterParts)
         {
-            Debug.WriteLine("Apply Filter " + acount);
-            acount++;
-           // Stopwatch sw = new Stopwatch();
-         //   sw.Start();
             List<T> results = new List<T>();
             foreach (T item in this)
             {
@@ -439,16 +430,14 @@ namespace DataGridViewTools
                     if (Convert.ToBoolean(e.Evaluate()))
                         results.Add(item);
                 }
-                catch (Exception)
+                catch
                 {
                     continue;
                 }
             }
             this.ClearItems();
             foreach (T itemFound in results)
-                this.Add(itemFound);
-        //    sw.Stop();
-          //  Debug.WriteLine("ApplyFilter : " + sw.Elapsed.Milliseconds);            
+                this.Add(itemFound);       
         }
 
 

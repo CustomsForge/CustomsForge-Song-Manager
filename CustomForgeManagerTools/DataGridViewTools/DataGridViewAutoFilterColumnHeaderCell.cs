@@ -1198,7 +1198,8 @@ namespace DataGridViewTools
                     break;
 
                 case "(Custom)":
-                    if (DataGridView is IGridViewCustomFilter && (DataGridView as IGridViewCustomFilter).CanFilter(columnProperty))
+                    if (DataGridView is IGridViewCustomFilter && 
+                        (DataGridView as IGridViewCustomFilter).CanFilter(columnProperty))
                     {
                         var s = (DataGridView as IGridViewCustomFilter).GetCustomFilter(columnProperty);
                         if (!String.IsNullOrEmpty(s))
