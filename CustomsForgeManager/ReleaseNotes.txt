@@ -1,5 +1,16 @@
 CFM Release Notes
 
+1.1.1.5
+-Added "Not" to custom filter
+-Added OfficialDLC property(Non-Persisted) to song data
+-Official DLC painted with a different font(bold) in song manager
+-Disabled menu items "Song Editor","Delete","Tagger Preview" for Offical DLC in song manager
+-Charter name = "Ubisoft" for official dlc
+-Added MultiSelection [Control and Shift keys] in song manager
+-New unit test function to test the new string functions in NCalc
+-Started documentation for tagger
+
+
 1.1.1.4
 -Changed SongData "Tagged" property to SongTaggerStatus[True,False,ODLC].
 -More work to custom filters, and added to beta

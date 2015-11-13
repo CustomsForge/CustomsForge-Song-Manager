@@ -630,6 +630,73 @@ namespace CFSMTests
 
             Assert.AreEqual(false, e.Evaluate());
         }
+
+        [TestMethod]
+        public void TestNewStringFunctions()
+        {
+            Assert.AreEqual("lower", new Expression("ToLower('LOWER')").Evaluate());
+
+            var e = new Expression("CompareString([a],[b])");
+            e.Parameters["a"] = "Lower";
+            e.Parameters["b"] = "LOWER";
+            Assert.AreEqual(true, e.Evaluate());
+
+            e = new Expression("StartsWith([a],[b])");
+            e.Parameters["a"] = "LOWER";
+            e.Parameters["b"] = "Low";
+            Assert.AreEqual(true, e.Evaluate());
+            e.Parameters["a"] = "LOWER";
+            e.Parameters["b"] = "hig";
+            Assert.AreEqual(false, e.Evaluate());
+
+            e = new Expression("EndsWith([a],[b])");
+            e.Parameters["a"] = "LOWER";
+            e.Parameters["b"] = "er";
+            Assert.AreEqual(true, e.Evaluate());
+            e.Parameters["a"] = "LOWER";
+            e.Parameters["b"] = "ing";
+            Assert.AreEqual(false, e.Evaluate());
+
+            e = new Expression("Contains([a],[b])");
+            e.Parameters["a"] = "LOWER";
+            e.Parameters["b"] = "we";
+            Assert.AreEqual(true, e.Evaluate());
+
+
+            e = new Expression("Like([a],[b])");
+            e.Parameters["a"] = "LOWER";
+            e.Parameters["b"] = "LO*";
+            Assert.AreEqual(true, e.Evaluate());
+
+            e.Parameters["a"] = "LOWER";
+            e.Parameters["b"] = "*WE*";
+            Assert.AreEqual(true, e.Evaluate());
+
+            e.Parameters["a"] = "LOWER";
+            e.Parameters["b"] = "WE";
+            Assert.AreEqual(false, e.Evaluate());
+
+            e.Parameters["a"] = "LOWER";
+            e.Parameters["b"] = "L*R";
+            Assert.AreEqual(true, e.Evaluate());
+
+            e.Parameters["a"] = "LOWER";
+            e.Parameters["b"] = "L???R";
+            Assert.AreEqual(true, e.Evaluate());
+
+            e.Parameters["a"] = "LOWER";
+            e.Parameters["b"] = "L?Z?R";
+            Assert.AreEqual(false, e.Evaluate());
+
+
+            e = new Expression("!Like([a],[b])");
+            e.Parameters["a"] = "LOWER";
+            e.Parameters["b"] = "LO*";
+            Assert.AreEqual(false, e.Evaluate());
+
+        }
+
+
     }
 #endif
     #endregion

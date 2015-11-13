@@ -85,8 +85,13 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
 
         public IEnumerable<SongData> GetSongs()
         {
-            var sw = new Stopwatch();
-            sw.Restart();
+            Stopwatch sw = null;
+            //no point of creating when not in debug mode.
+            if (Constants.DebugMode)
+            {
+                sw = new Stopwatch();
+                sw.Restart();
+            }
 
             var songsFromPsarc = new List<SongData>();
             var fInfo = new FileInfo(FilePath);
@@ -133,7 +138,11 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                 };
 
                 if (toolkitVersionFile == null)
+                {
                     currentSong.Tagged = SongTaggerStatus.ODLC;
+                    if (String.IsNullOrEmpty(author))
+                        currentSong.Charter = "Ubisoft";
+                }
                 else
                     currentSong.Tagged = tagged ? SongTaggerStatus.True : SongTaggerStatus.False;
 
@@ -193,6 +202,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                                 Name = arrName
                             });
                         else
+                        {
                             arrangmentsFromPsarc.Add(new Arrangement(currentSong)
                            {
                                PersistentID = attributes["PersistentID"].ToString(),
@@ -202,6 +212,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                                ToneBase = attributes["Tone_Base"].ToString(),
                                SectionCount = attributes["Sections"].ToArray().Count()
                            });
+                        }
                     }
                 }
 
@@ -209,10 +220,11 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                 songsFromPsarc.Add(currentSong);
             }
 
-            sw.Stop();
             if (Constants.DebugMode)
+            {
+                sw.Stop();
                 Globals.Log(string.Format("{0} parsing took: {1} (msec)", Path.GetFileName(FilePath), sw.ElapsedMilliseconds));
-
+            }
             return songsFromPsarc;
         }
 

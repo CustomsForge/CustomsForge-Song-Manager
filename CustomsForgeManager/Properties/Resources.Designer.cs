@@ -427,6 +427,15 @@ namespace CustomsForgeManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to (Enter Value).
+        /// </summary>
+        internal static string EnterValue {
+            get {
+                return ResourceManager.GetString("EnterValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap EOF20 {
@@ -480,6 +489,96 @@ namespace CustomsForgeManager.Properties {
             get {
                 object obj = ResourceManager.GetObject("export", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Between.
+        /// </summary>
+        internal static string Expression_Between {
+            get {
+                return ResourceManager.GetString("Expression_Between", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Contains.
+        /// </summary>
+        internal static string Expression_Contains {
+            get {
+                return ResourceManager.GetString("Expression_Contains", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ends With.
+        /// </summary>
+        internal static string Expression_EndsWith {
+            get {
+                return ResourceManager.GetString("Expression_EndsWith", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Equals.
+        /// </summary>
+        internal static string Expression_Equals {
+            get {
+                return ResourceManager.GetString("Expression_Equals", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Greater Than.
+        /// </summary>
+        internal static string Expression_GreaterThan {
+            get {
+                return ResourceManager.GetString("Expression_GreaterThan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Greater Than or Equal.
+        /// </summary>
+        internal static string Expression_GreaterThanOrEqual {
+            get {
+                return ResourceManager.GetString("Expression_GreaterThanOrEqual", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Is Like.
+        /// </summary>
+        internal static string Expression_IsLike {
+            get {
+                return ResourceManager.GetString("Expression_IsLike", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Less Than.
+        /// </summary>
+        internal static string Expression_LessThan {
+            get {
+                return ResourceManager.GetString("Expression_LessThan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Less Than or Equal.
+        /// </summary>
+        internal static string Expression_LessThanOrEqual {
+            get {
+                return ResourceManager.GetString("Expression_LessThanOrEqual", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Starts With.
+        /// </summary>
+        internal static string Expression_StartsWith {
+            get {
+                return ResourceManager.GetString("Expression_StartsWith", resourceCulture);
             }
         }
         

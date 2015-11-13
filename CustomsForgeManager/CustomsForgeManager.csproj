@@ -537,6 +537,7 @@
     <EmbeddedResource Include="Resources\tags\zagatozeeddtext\Lead.png" />
     <EmbeddedResource Include="Resources\tags\zagatozeeddtext\Rhythm Bonus.png" />
     <EmbeddedResource Include="Resources\tags\zagatozeeddtext\Rhythm.png" />
+    <Content Include="Resources\TaggerHelp.html" />
     <Content Include="Resources\Unleashed2k.png" />
     <Content Include="RocksmithToolkitLib.Config.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

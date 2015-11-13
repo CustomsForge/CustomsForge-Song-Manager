@@ -136,6 +136,14 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
             }
         }
 
+        [XmlIgnore]
+        public bool OfficialDLC
+        {
+            get
+            {
+                return this.Tagged == SongTaggerStatus.ODLC;
+            }
+        }
 
         public string Charter { get; set; }
         public DateTime LastConversionDateTime { get; set; }
@@ -217,7 +225,6 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
 
         [XmlIgnore]
         public SongData Parent { get; set; }
-
         public string PersistentID { get; set; }
         public string Name { get; set; } // arrangement name
         public string Tuning { get; set; }

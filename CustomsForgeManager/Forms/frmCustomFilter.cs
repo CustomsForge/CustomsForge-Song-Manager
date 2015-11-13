@@ -2,11 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Windows.Forms;
 
 namespace CustomsForgeManager.Forms
@@ -26,10 +24,10 @@ namespace CustomsForgeManager.Forms
             return new Expression[] 
                     { 
                        new NoExpression("",""),
-                       new Expression("Contains","Contains"), 
-                       new Expression("Starts With","StartsWith"), 
-                       new Expression("Ends With","EndsWith"),
-                       new Expression("Is Like","Like")
+                       new Expression(Properties.Resources.Expression_Contains, "Contains"), 
+                       new Expression(Properties.Resources.Expression_StartsWith,"StartsWith"), 
+                       new Expression(Properties.Resources.Expression_EndsWith,"EndsWith"),
+                       new Expression(Properties.Resources.Expression_IsLike, "Like")
                     };
         }
 
@@ -39,11 +37,11 @@ namespace CustomsForgeManager.Forms
                     { 
                         new NoExpression("",""),
                         new BetweenExpression(), 
-                        new OperatorExpression("Less Than", "<"), 
-                        new OperatorExpression("Greater Than", ">"),
-                        new OperatorExpression("Less Than or Equal", "<="), 
-                        new OperatorExpression("Greater Than or Equal", ">="),
-                        new OperatorExpression("Equals", "=")
+                        new OperatorExpression(Properties.Resources.Expression_LessThan, "<"), 
+                        new OperatorExpression(Properties.Resources.Expression_GreaterThan, ">"),
+                        new OperatorExpression(Properties.Resources.Expression_LessThanOrEqual, "<="), 
+                        new OperatorExpression(Properties.Resources.Expression_GreaterThanOrEqual, ">="),
+                        new OperatorExpression(Properties.Resources.Expression_Equals, "=")
                     };
         }
 
@@ -67,9 +65,9 @@ namespace CustomsForgeManager.Forms
                         if (x != null)
                         {
                             if (String.IsNullOrEmpty(result))
-                                result = x.Compile(propInfo.Name) + (egc.IsAnd ? " && " : " || ");
+                                result = (egc.cbNot.Checked ? "!" :"" ) + x.Compile(propInfo.Name) + (egc.IsAnd ? " && " : " || ");
                             else
-                                result += x.Compile(propInfo.Name) + (egc.IsAnd ? " && " : " || ");
+                                result += (egc.cbNot.Checked ? "!" : "") + x.Compile(propInfo.Name) + (egc.IsAnd ? " && " : " || ");
                         }
                     }
                 }
@@ -123,13 +121,13 @@ namespace CustomsForgeManager.Forms
     }
 
 
-
     public class ExpressionGroupControl : UserControl
     {
 
         private RadioButton radioButton1;
         private RadioButton radioButton2;
         public ComboBox cbExpression;
+        public CheckBox cbNot;
         private IContainer components = null;
         public ExpressionGroupControl()
         {
@@ -147,16 +145,17 @@ namespace CustomsForgeManager.Forms
 
         private void InitializeComponent()
         {
-            cbExpression = new System.Windows.Forms.ComboBox();
-            radioButton1 = new System.Windows.Forms.RadioButton();
-            radioButton2 = new System.Windows.Forms.RadioButton();
+            cbExpression = new ComboBox();
+            radioButton1 = new RadioButton();
+            radioButton2 = new RadioButton();
+            cbNot = new CheckBox();
             SuspendLayout();
             // 
             // cbExpression
             // 
             cbExpression.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             cbExpression.FormattingEnabled = true;
-            cbExpression.Location = new System.Drawing.Point(3, 3);
+            cbExpression.Location = new System.Drawing.Point(3, 20);
             cbExpression.Name = "cbExpression";
             cbExpression.Size = new System.Drawing.Size(176, 21);
             cbExpression.TabIndex = 0;
@@ -166,7 +165,7 @@ namespace CustomsForgeManager.Forms
             // 
             radioButton1.AutoSize = true;
             radioButton1.Checked = true;
-            radioButton1.Location = new System.Drawing.Point(3, 31);
+            radioButton1.Location = new System.Drawing.Point(3, 48);
             radioButton1.Name = "radioButton1";
             radioButton1.Size = new System.Drawing.Size(44, 17);
             radioButton1.TabIndex = 1;
@@ -177,21 +176,35 @@ namespace CustomsForgeManager.Forms
             // radioButton2
             // 
             radioButton2.AutoSize = true;
-            radioButton2.Location = new System.Drawing.Point(53, 31);
+            radioButton2.Location = new System.Drawing.Point(53, 48);
             radioButton2.Name = "radioButton2";
             radioButton2.Size = new System.Drawing.Size(36, 17);
             radioButton2.TabIndex = 2;
             radioButton2.Text = "Or";
             radioButton2.UseVisualStyleBackColor = true;
+
+            // 
+            // cbNot
+            // 
+            cbNot.AutoSize = true;
+            cbNot.Location = new System.Drawing.Point(3, 3);
+            cbNot.Name = "cbNot";
+            cbNot.Size = new System.Drawing.Size(36, 17);
+            cbNot.TabIndex = 2;
+            cbNot.Text = "Does Not";
+            cbNot.UseVisualStyleBackColor = true;
+
+
             // 
             // ExpressionGroupControl
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             Controls.Add(this.radioButton2);
+            Controls.Add(this.cbNot);
             Controls.Add(this.radioButton1);
             Controls.Add(this.cbExpression);
-            Size = new System.Drawing.Size(368, 55);
+            Size = new System.Drawing.Size(368, 72);
             ResumeLayout(false);
             PerformLayout();
 
@@ -222,7 +235,7 @@ namespace CustomsForgeManager.Forms
                     if (c != null)
                     {
                         Controls.Add(c);
-                        c.Location = new Point(198, 3);
+                        c.Location = new Point(198, 20);
                         c.Size = new Size(157, 20);
                         oldEdit = c;
                     }
@@ -262,7 +275,7 @@ namespace CustomsForgeManager.Forms
 
         protected virtual Control CreateEditor()
         {
-            return new CueTextBox { Cue = "Enter a value" };
+            return new CueTextBox { Cue = Properties.Resources.EnterValue };
         }
 
 
@@ -312,11 +325,7 @@ namespace CustomsForgeManager.Forms
 
     public class BetweenExpression : Expression
     {
-        public BetweenExpression()
-            : base("Between", "")
-        {
-
-        }
+        public BetweenExpression() : base(Properties.Resources.Expression_Between, "") { }
 
         private CueTextBox Value1;
         private CueTextBox Value2;
@@ -324,8 +333,8 @@ namespace CustomsForgeManager.Forms
         protected override Control CreateEditor()
         {
             var panel1 = new Panel() { Size = new Size(157, 21) };
-            Value1 = new CueTextBox() { Cue = "(Enter Value)", Location = new Point(0, 0), Size = new Size(71, 20) };
-            Value2 = new CueTextBox() { Cue = "(Enter Value)", Location = new Point(86, 0), Size = new Size(71, 20) };
+            Value1 = new CueTextBox() { Cue = Properties.Resources.EnterValue, Location = new Point(0, 0), Size = new Size(71, 20) };
+            Value2 = new CueTextBox() { Cue = Properties.Resources.EnterValue, Location = new Point(86, 0), Size = new Size(71, 20) };
             panel1.Controls.Add(Value1);
             panel1.Controls.Add(Value2);
             return panel1;

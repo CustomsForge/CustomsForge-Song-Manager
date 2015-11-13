@@ -575,4 +575,48 @@ Click the update button to continue.
     <value>About</value>
     <comment>About description</comment>
   </data>
+  <data name="Expression_Contains" xml:space="preserve">
+    <value>Contains</value>
+    <comment>Expression_Contains description</comment>
+  </data>
+  <data name="Expression_StartsWith" xml:space="preserve">
+    <value>Starts With</value>
+    <comment>Expression_StartsWith description</comment>
+  </data>
+  <data name="Expression_EndsWith" xml:space="preserve">
+    <value>Ends With</value>
+    <comment>Expression_EndsWith description</comment>
+  </data>
+  <data name="Expression_IsLike" xml:space="preserve">
+    <value>Is Like</value>
+    <comment>Expression_IsLike description</comment>
+  </data>
+  <data name="Expression_LessThan" xml:space="preserve">
+    <value>Less Than</value>
+    <comment>Expression_LessThan description</comment>
+  </data>
+  <data name="Expression_GreaterThan" xml:space="preserve">
+    <value>Greater Than</value>
+    <comment>Expression_GreaterThan description</comment>
+  </data>
+  <data name="Expression_LessThanOrEqual" xml:space="preserve">
+    <value>Less Than or Equal</value>
+    <comment>Expression_LessThanOrEqual description</comment>
+  </data>
+  <data name="Expression_GreaterThanOrEqual" xml:space="preserve">
+    <value>Greater Than or Equal</value>
+    <comment>Expression_GreaterThanOrEqual description</comment>
+  </data>
+  <data name="Expression_Equals" xml:space="preserve">
+    <value>Equals</value>
+    <comment>Expression_Equals description</comment>
+  </data>
+  <data name="Expression_Between" xml:space="preserve">
+    <value>Between</value>
+    <comment>Expression_Between description</comment>
+  </data>
+  <data name="EnterValue" xml:space="preserve">
+    <value>(Enter Value)</value>
+    <comment>EnterValue description</comment>
+  </data>
 </root>
