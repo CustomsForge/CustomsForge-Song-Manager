@@ -95,6 +95,7 @@ namespace CustomsForgeManager.UControls
             this.chkIncludeRS1DLC.Text = "Include RS1 Compatibility Pack";
             this.chkIncludeRS1DLC.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.chkIncludeRS1DLC.UseVisualStyleBackColor = true;
+            this.chkIncludeRS1DLC.CheckedChanged += new System.EventHandler(this.chkIncludeRS1DLC_CheckedChanged);
             // 
             // panel5
             // 
@@ -121,8 +122,8 @@ namespace CustomsForgeManager.UControls
             // 
             // lblDisabledColumns
             // 
-            this.lblDisabledColumns.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblDisabledColumns.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lblDisabledColumns.AutoSize = true;
             this.lblDisabledColumns.Location = new System.Drawing.Point(234, 5);
             this.lblDisabledColumns.Name = "lblDisabledColumns";
@@ -133,8 +134,8 @@ namespace CustomsForgeManager.UControls
             // 
             // listDisabledColumns
             // 
-            this.listDisabledColumns.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.listDisabledColumns.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.listDisabledColumns.BackColor = System.Drawing.SystemColors.InactiveBorder;
             this.listDisabledColumns.CheckBoxes = true;
             this.listDisabledColumns.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {

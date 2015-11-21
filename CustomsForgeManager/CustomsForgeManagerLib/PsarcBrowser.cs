@@ -146,13 +146,14 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                 else
                     currentSong.Tagged = tagged ? SongTaggerStatus.True : SongTaggerStatus.False;
 
-
                 var strippedName = singleSong.Name.Replace(".xblock", "").Replace("gamexblocks/nsongs/", "");
+                if (strippedName.Contains("_fcp_dlc"))
+                    strippedName = strippedName.Replace("_fcp_dlc", "");
+
                 var infoFiles = archive.TOC.Where(x =>
                     x.Name.StartsWith("manifests/songs")
-                    && x.Name.EndsWith(".json")
-                    && x.Name.Contains(strippedName)
-                    ).OrderBy(x => x.Name); // bass, lead, rhythm, vocal
+                    && x.Name.EndsWith(".json") &&
+                     x.Name.Contains(strippedName)).OrderBy(x => x.Name); 
 
                 // speed hack ... some song info only needed one time
                 bool gotSongInfo = false;

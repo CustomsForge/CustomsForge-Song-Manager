@@ -1,5 +1,13 @@
 CFM Release Notes
 
+1.1.1.6
+-Fixed "Include RS1 Compatibility Pack" setting
+-Fixed bug in worker when scanning "rs1compatibilitydlc_p.psarc"
+-Fixed bug in renamer when [Artist,Title,Author, or Album] has a backslash
+-Added "Dynamic Difficulty Level" to renamer
+-Added IsRsCompPack property(Non-Persisted) to song data
+
+
 1.1.1.5
 -Added "Not" to custom filter
 -Added OfficialDLC property(Non-Persisted) to song data

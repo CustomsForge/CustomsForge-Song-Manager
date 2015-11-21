@@ -112,17 +112,16 @@
             this.lblHeader.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblHeader.Location = new System.Drawing.Point(10, 26);
             this.lblHeader.Name = "lblHeader";
-            this.lblHeader.Size = new System.Drawing.Size(346, 48);
+            this.lblHeader.Size = new System.Drawing.Size(346, 112);
             this.lblHeader.TabIndex = 2;
-            this.lblHeader.Text = "Type the property Key surrounded by \'<\' and \'>\'.  \r\nor simply double click on any" +
-    " Key to the right to\r\nselect and build a custom renaming template.\r\n";
+            this.lblHeader.Text = resources.GetString("lblHeader.Text");
             // 
             // lblInstructions
             // 
             this.lblInstructions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblInstructions.AutoSize = true;
-            this.lblInstructions.Location = new System.Drawing.Point(10, 96);
+            this.lblInstructions.Location = new System.Drawing.Point(10, 147);
             this.lblInstructions.Name = "lblInstructions";
             this.lblInstructions.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.lblInstructions.Size = new System.Drawing.Size(335, 221);

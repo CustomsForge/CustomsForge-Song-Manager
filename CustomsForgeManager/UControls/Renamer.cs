@@ -55,7 +55,7 @@ namespace CustomsForgeManager.UControls
             List<SongData> List = renSongCollection.Count > 0 ? renSongCollection : Globals.SongCollection.ToList();
             if (List.Count == 0)
                 Globals.Log(Properties.Resources.NoSongsFoundForRenamePreview);
-            int x = Globals.random.Next(List.Count() -1);
+            int x = Globals.random.Next(List.Count() - 1);
             sd = List[x];
             if (sd != null)
                 Globals.Log(string.Format(Properties.Resources.RenamerPreviewX0, GetNewSongName(sd)));
@@ -75,30 +75,20 @@ namespace CustomsForgeManager.UControls
                     data.Artist = String.Format("{0}, The", data.Artist.Substring(4, data.Artist.Length - 4)).Trim();
 
             Template template = new Template(txtRenameTemplate.Text);
-            template.Add("artist", data.Artist);
-            template.Add("title", data.Title);
-            template.Add("album", data.Album);
+            template.Add("artist", data.Artist.Replace('\\', '_'));
+            template.Add("title", data.Title.Replace('\\', '_'));
+            template.Add("album", data.Album.Replace('\\', '_'));
             template.Add("filename", data.FileName);
             template.Add("tuning", data.Tuning.Split(new[] { ", " }, StringSplitOptions.None).FirstOrDefault());
-
-            //if (Convert.ToInt32(data.DD.Split(new[] { ", " }, StringSplitOptions.None).FirstOrDefault()) > 0)
-            if (data.DD > 0)
-                template.Add("dd", "_DD");
-            else
-                template.Add("dd", "");
-
-            if (!String.IsNullOrEmpty(data.SongYear.ToString()))
-                template.Add("year", data.SongYear);
-
-            if (!String.IsNullOrEmpty(data.Version) && !data.Version.ToLower().Contains("n/a"))
-                template.Add("version", data.Version);
-
-            if (!String.IsNullOrEmpty(data.Charter))
-                template.Add("author", data.Charter);
-
-            String arrInit = data.ArrangementInitials;
-            if (!String.IsNullOrEmpty(arrInit))
-                template.Add("arrangements", arrInit);
+            template.Add("dd", data.DD > 0 ? "_DD" : "");
+            template.Add("ddlvl", data.DD);
+            template.Add("year", data.SongYear);
+            template.Add("version", data.Version == null ? "" : data.Version);
+            template.Add("author",
+                String.IsNullOrEmpty(data.Charter) ?
+                "Unknown" :
+                data.Charter.Replace('\\', '_'));
+           template.Add("arrangements", data.ArrangementInitials);
 
 
             // CAREFUL - lots to go wrong in this simple method :(
@@ -106,6 +96,7 @@ namespace CustomsForgeManager.UControls
             // beethoven_p.psarc is a good song to use for testing
             var oldFilePath = data.Path;
             var newFileName = template.Render();
+
             var newFilePath = Path.Combine(AppSettings.Instance.RSInstalledDir, "dlc");
 
             // renamed files could be enabled or disabled
@@ -113,6 +104,10 @@ namespace CustomsForgeManager.UControls
                 newFileName = String.Format("{0}_p.disabled.psarc", newFileName);
             else
                 newFileName = String.Format("{0}_p.psarc", newFileName);
+
+
+
+
 
             // strip any user added a directory(s) from file name and add to file path
             var dirSeperator = new string[] { "\\" };
@@ -170,7 +165,7 @@ namespace CustomsForgeManager.UControls
         public void UpdateToolStrip()
         {
             if (Globals.RescanSongManager || Globals.WorkerFinished == Globals.Tristate.Cancelled)
-            {                
+            {
                 MessageBox.Show(string.Format(Properties.Resources.Renamer_SongsNeedToBeRescanned, Environment.NewLine), Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
@@ -195,6 +190,13 @@ namespace CustomsForgeManager.UControls
                 while (Globals.WorkerFinished == Globals.Tristate.False)
                     Application.DoEvents();
             }
+            using (Worker worker = new Worker())
+            {
+                worker.BackgroundScan(Globals.SongManager);
+                while (Globals.WorkerFinished == Globals.Tristate.False)
+                    Application.DoEvents();
+            }
+
 
             ToggleUIControls();
         }
@@ -245,28 +247,30 @@ namespace CustomsForgeManager.UControls
 
         private void btnRenameAll_Click(object sender, System.EventArgs e)
         {
+            if (MessageBox.Show("Rename all files?", "Comfirmation", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                renSongCollection = new List<SongData>(Globals.SongCollection);
+                // do not rename RS1 compatiblity files
+                renSongCollection.RemoveAll(x => x.FileName.Contains(Constants.RS1COMP));
 
-            renSongCollection = new List<SongData>(Globals.SongCollection);
-            // do not rename RS1 compatiblity files
-            renSongCollection.RemoveAll(x => x.FileName.Contains(Constants.RS1COMP));
+                // do not rename any disabled songs
+                renSongCollection.RemoveAll(x => x.Enabled.Contains("No"));
 
-            // do not rename any disabled songs
-            renSongCollection.RemoveAll(x => x.Enabled.Contains("No"));
+                // rename only user selected songs
+                if (chkRenameOnlySelected.Checked)
+                    renSongCollection.RemoveAll(x => x.Selected == false);
 
-            // rename only user selected songs
-            if (chkRenameOnlySelected.Checked)
-                renSongCollection.RemoveAll(x => x.Selected == false);
+                if (!ValidateInput())
+                    return;
 
-            if (!ValidateInput())
-                return;
-
-            // TODO: why use a background worker here?
-            BackgroundRenamer();
-            // could just do this instead
-            // RenameSongs();
-            Globals.RescanSongManager = true;
-            Globals.RescanDuplicates = true;
-            Globals.RescanSetlistManager = true;
+                // TODO: why use a background worker here?
+                BackgroundRenamer();
+                // could just do this instead
+                // RenameSongs();
+                Globals.RescanSongManager = false;
+                Globals.RescanDuplicates = false;
+                Globals.RescanSetlistManager = false;
+            }
         }
 
         private void dgvRenamerProperties_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -292,7 +296,8 @@ namespace CustomsForgeManager.UControls
                 //        txtRenameTemplate.Text = String.Format("{0}_<{1}>", txtRenameTemplate.Text, grid.Rows[e.RowIndex].Cells["Key"].Value);
 
             }
-            }
+
+        }
 
         private void txtRenameTemplate_TextChanged(object sender, EventArgs e)
         {

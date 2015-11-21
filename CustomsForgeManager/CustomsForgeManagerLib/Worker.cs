@@ -19,7 +19,6 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
     {
         private AbortableBackgroundWorker bWorker;
         private Stopwatch counterStopwatch = new Stopwatch();
-     //   private List<string> bwFileCollection = new List<string>();
         public List<SongData> bwSongCollection = new List<SongData>();
         private Control workOrder;
 
@@ -88,8 +87,8 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
 
                 else if (workOrder.Name == "Renamer")
                     Globals.Log(String.Format("Finished renaming ... took {0}", counterStopwatch.Elapsed));
-
-                Globals.SongCollection = new BindingList<SongData>(bwSongCollection);                 
+          
+                Globals.SongCollection = new BindingList<SongData>(bwSongCollection); 
                 Globals.WorkerFinished = Globals.Tristate.True;
             }
             Globals.IsScanning = false;
@@ -234,24 +233,26 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
             catch (Exception ex)
             {
                 // move to Quarantine folder
-                var corDir = Path.Combine(AppSettings.Instance.RSInstalledDir, "cdlc_quarantined");
-                var corFileName = String.Format("{0}{1}", Path.GetFileName(filePath), ".corrupt");
-                var corFilePath = Path.Combine(corDir, corFileName);
-
                 if (ex.Message.StartsWith("Error reading JObject"))
                     Globals.Log(string.Format("<ERROR>: {0}  -  CDLC is corrupt!", filePath));
                 else
                     Globals.Log(string.Format("<ERROR>: {0}  -  {1}", filePath, ex.Message));
 
-                Globals.Log("File has been moved to: " + corDir);
+                if (AppSettings.Instance.MoveToQuarantine)
+                {
+                    var corDir = Path.Combine(AppSettings.Instance.RSInstalledDir, "cdlc_quarantined");
+                    var corFileName = String.Format("{0}{1}", Path.GetFileName(filePath), ".corrupt");
+                    var corFilePath = Path.Combine(corDir, corFileName);
+                    Globals.Log("File has been moved to: " + corDir);
 
-                if (!Directory.Exists(corDir))
-                    Directory.CreateDirectory(corDir);
+                    if (!Directory.Exists(corDir))
+                        Directory.CreateDirectory(corDir);
 
-                //if (!File.Exists(corFilePath))
-                //    File.Delete(corFilePath);
+                    //if (!File.Exists(corFilePath))
+                    //    File.Delete(corFilePath);
 
-                File.Move(filePath, corFilePath);
+                    File.Move(filePath, corFilePath);
+                }
             }
 
             // free up memory

@@ -55,7 +55,7 @@ namespace CustomsForgeManager
 
         private static void RunApp()
         {
-#if RELEASE
+#if WEBDEPLOY_RELEASE
             if (System.Deployment.Application.ApplicationDeployment.IsNetworkDeployed)
             {
 

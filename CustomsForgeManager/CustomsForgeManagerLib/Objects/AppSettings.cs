@@ -105,6 +105,8 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         [XmlArrayItem("CustomSetting")] // provides proper xml serialization
         public List<CustomSetting> CustomSettings { get; set; }
 
+        public bool MoveToQuarantine { get; set; }
+
         //property template
         //public type PropName { get { return propName; } set { SetPropertyField("PropName", ref propName, value); } }
 
@@ -154,6 +156,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
 
         public void Reset()
         {
+            Instance.MoveToQuarantine = false;
             Instance.LogFilePath = Constants.LogFilePath;
             Instance.RSInstalledDir = Extensions.GetSteamDirectory();
             Instance.IncludeRS1DLCs = false;  // changed to false (fewer issues)

@@ -117,6 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="lblHeader.Text" xml:space="preserve">
+    <value>Type the property Key surrounded by '&lt;' and '&gt;'.  
+or simply double click on any Key to the right to
+select and build a custom renaming template.
+
+To preview open the log [F3] and click the 
+"Preview" button.
+
+</value>
+  </data>
   <data name="lblInstructions.Text" xml:space="preserve">
     <value>Example - Using "Space Time" by Gojira.
 

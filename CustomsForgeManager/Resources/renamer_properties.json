@@ -4,11 +4,12 @@
         { "Key": "title", "Description": "Song Title" },
 		{ "Key": "album", "Description": "Album Title" },
 		{ "Key": "tuning", "Description": "Song Tuning" },
-        { "Key": "dd", "Description": "Dynamic Difficulty" },
+        { "Key": "dd", "Description": "Has Dynamic Difficulty" },
 		{ "Key": "year", "Description": "Album Year" },
         { "Key": "version", "Description": "Version (of the song)" },
         { "Key": "author", "Description": "CDLC Author" },
         { "Key": "filename", "Description": "Original Filename" },        
-        { "Key": "arrangements", "Description": "Song Arrangements" }
+        { "Key": "arrangements", "Description": "Song Arrangements" },
+        { "Key": "ddlvl", "Description": "Dynamic Difficulty Level" }
     ]
 }

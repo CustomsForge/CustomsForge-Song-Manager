@@ -246,6 +246,7 @@ namespace CustomsForgeManager.UControls
             Globals.TsLabel_StatusMsg.Visible = false;
         }
 
+        #region Ignition
         private void CheckForUpdatesEvent(object o, DoWorkEventArgs args)
         {
             // part of ContextMenuStrip action
@@ -315,6 +316,77 @@ namespace CustomsForgeManager.UControls
             }
         }
 
+        private void UpdateCharter(DataGridViewRow selectedRow)
+        {
+            try
+            {
+                var currentSong = GetSongByRow(selectedRow);
+                if (currentSong != null)
+                {
+                    currentSong.IgnitionAuthor = Ignition.GetDLCInfoFromURL(currentSong.GetInfoURL(), "name");
+                    selectedRow.Cells["IgnitionAuthor"].Value = currentSong.IgnitionAuthor;
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show(string.Format("Please connect to the internet  {0}to use this feature.", Environment.NewLine), Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                Globals.Log("Need to be connected to the internet to use this feature");
+            }
+        }
+
+        private void checkAllForUpdates(object sender, DoWorkEventArgs e)
+        {
+            if (Globals.TsLabel_Cancel.Visible)
+            {
+                if (bWorker.IsBusy)
+                {
+                    bWorker.CancelAsync();
+                    bWorker.Abort();
+                }
+
+                Extensions.InvokeIfRequired(this, delegate { Globals.TsLabel_Cancel.Visible = false; });
+            }
+
+            //Thread.Sleep(3000);
+            counterStopwatch.Restart();
+            Extensions.InvokeIfRequired(btnCheckAllForUpdates, delegate { btnCheckAllForUpdates.Enabled = false; });
+
+            Extensions.InvokeIfRequired(dgvSongsMaster, delegate
+            {
+                if (!bWorker.CancellationPending)
+                {
+                    foreach (DataGridViewRow row in dgvSongsMaster.Rows)
+                    {
+                        //string songname = row.Cells[3].Value.ToString();
+                        if (!bWorker.CancellationPending)
+                        {
+                            DataGridViewRow currentRow = (DataGridViewRow)row;
+                            if (!currentRow.Cells["FileName"].Value.ToString().Contains("rs1comp"))
+                                CheckRowForUpdate(currentRow);
+                        }
+                        else
+                            bWorker.Abort();
+                    }
+                }
+                SaveSongCollectionToFile();
+            });
+
+            counterStopwatch.Stop();
+        }
+
+        private void cmsCheckForUpdate_Click(object sender, EventArgs e)
+        {
+            //bWorker = new AbortableBackgroundWorker();
+            //bWorker.SetDefaults();
+            //bWorker.DoWork += CheckForUpdatesEvent;
+            //// don't run bWorker more than once
+            //if (!bWorker.IsBusy)
+            //    bWorker.RunWorkerAsync();
+        }
+
+        #endregion
+       
         private void ColumnMenuItemClick(object sender, EventArgs eventArgs)
         {
             ToolStripMenuItem currentContextMenuItem = sender as ToolStripMenuItem;
@@ -442,8 +514,11 @@ namespace CustomsForgeManager.UControls
             for (int i = 0; i < dgvSongsMaster.Rows.Count; i++)
             {
                 DataGridViewRow row = dgvSongsMaster.Rows[i];
+                var sng = GetSongByRow(row);
+
                 row.Cells["colSelect"].Value = false;
-                masterSongCollection[i].Selected = false;
+                row.Cells["colSelect"].ReadOnly = sng.OfficialDLC;
+                sng.Selected = false;
             }
         }
 
@@ -590,8 +665,6 @@ namespace CustomsForgeManager.UControls
             return null;
         }
 
-
-
         public List<SongData> GetSelectedSongs()
         {
             List<SongData> SelectedSongs = new List<SongData>();
@@ -616,25 +689,6 @@ namespace CustomsForgeManager.UControls
             Extensions.InvokeIfRequired(cmsSelection, delegate { cmsSelection.Enabled = enable; });
             Extensions.InvokeIfRequired(lnkLblSelectAll, delegate { lnkLblSelectAll.Enabled = enable; });
             Extensions.InvokeIfRequired(lnkClearSearch, delegate { lnkClearSearch.Enabled = enable; });
-        }
-
-        private void UpdateCharter(DataGridViewRow selectedRow)
-        {
-            try
-            {
-                var currentSong = GetSongByRow(selectedRow);
-                if (currentSong != null)
-                {
-                    currentSong.IgnitionAuthor = Ignition.GetDLCInfoFromURL(currentSong.GetInfoURL(), "name");
-                    selectedRow.Cells["IgnitionAuthor"].Value = currentSong.IgnitionAuthor;
-                }
-            }
-            catch (Exception)
-            {
-                MessageBox.Show(string.Format("Please connect to the internet  {0}to use this feature.", Environment.NewLine), Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                Globals.Log("Need to be connected to the internet to use this feature");
-            }
         }
 
         private void btnBackupSelectedDLCs_Click(object sender, EventArgs e)
@@ -902,46 +956,7 @@ namespace CustomsForgeManager.UControls
             Globals.RescanRenamer = true;
         }
 
-        private void checkAllForUpdates(object sender, DoWorkEventArgs e)
-        {
-            if (Globals.TsLabel_Cancel.Visible)
-            {
-                if (bWorker.IsBusy)
-                {
-                    bWorker.CancelAsync();
-                    bWorker.Abort();
-                }
-
-                Extensions.InvokeIfRequired(this, delegate { Globals.TsLabel_Cancel.Visible = false; });
-            }
-
-            //Thread.Sleep(3000);
-            counterStopwatch.Restart();
-            Extensions.InvokeIfRequired(btnCheckAllForUpdates, delegate { btnCheckAllForUpdates.Enabled = false; });
-
-            Extensions.InvokeIfRequired(dgvSongsMaster, delegate
-                {
-                    if (!bWorker.CancellationPending)
-                    {
-                        foreach (DataGridViewRow row in dgvSongsMaster.Rows)
-                        {
-                            //string songname = row.Cells[3].Value.ToString();
-                            if (!bWorker.CancellationPending)
-                            {
-                                DataGridViewRow currentRow = (DataGridViewRow)row;
-                                if (!currentRow.Cells["FileName"].Value.ToString().Contains("rs1comp"))
-                                    CheckRowForUpdate(currentRow);
-                            }
-                            else
-                                bWorker.Abort();
-                        }
-                    }
-                    SaveSongCollectionToFile();
-                });
-
-            counterStopwatch.Stop();
-        }
-
+  
         private void chkEnableDelete_CheckedChanged(object sender, EventArgs e)
         {
             btnDeleteSongs.Enabled = chkEnableDelete.Checked;
@@ -979,6 +994,11 @@ namespace CustomsForgeManager.UControls
 
         private void cmsBackupDLC_Click(object sender, EventArgs e)
         {
+            if (dgvSongsMaster.SelectedRows.Count == 0)
+            {
+                Globals.Log("Backup: Nothing Selected.");
+                return;
+            }
             string backupPath = Path.Combine(AppSettings.Instance.RSInstalledDir, "backup");
 
             try
@@ -1005,15 +1025,7 @@ namespace CustomsForgeManager.UControls
             }
         }
 
-        private void cmsCheckForUpdate_Click(object sender, EventArgs e)
-        {
-            //bWorker = new AbortableBackgroundWorker();
-            //bWorker.SetDefaults();
-            //bWorker.DoWork += CheckForUpdatesEvent;
-            //// don't run bWorker more than once
-            //if (!bWorker.IsBusy)
-            //    bWorker.RunWorkerAsync();
-        }
+     
 
         private void cmsDeleteSong_Click(object sender, EventArgs e)
         {
@@ -1243,7 +1255,6 @@ namespace CustomsForgeManager.UControls
             // Ctrl Key w/ left mouse click to quickly turn off column visiblity
             if (ModifierKeys == Keys.Control)
             {
-
                 dgvSongsMaster.Columns[e.ColumnIndex].Visible = false;
                 return;
             }
@@ -1308,22 +1319,15 @@ namespace CustomsForgeManager.UControls
             {
                 for (int i = 0; i < dgvSongsMaster.Rows.Count; i++)
                 {
-                    DataGridViewRow row = dgvSongsMaster.Rows[i];
-
-                    if (row.Selected)
+                    if (dgvSongsMaster.Rows[i].Selected)
                     {
+                        var sng = GetSongByRow(i);
                         // beyound current scope of CFM
-                        if (row.Cells["colSelect"].Value.ToString().Contains(Constants.RS1COMP))
+                        if (sng.IsRsCompPack)
                             Globals.Log(Properties.Resources.CanNotSelectIndividualRS1CompatiblityDLC);
                         else
                         {
-                            if (row.Cells["colSelect"].Value == null)
-                                row.Cells["colSelect"].Value = false;
-
-                            if (Convert.ToBoolean(row.Cells["colSelect"].Value))
-                                row.Cells["colSelect"].Value = false;
-                            else
-                                row.Cells["colSelect"].Value = true;
+                            sng.Selected = !sng.Selected;
                         }
                     }
                 }
@@ -1386,7 +1390,6 @@ namespace CustomsForgeManager.UControls
                 }
             });
             allSelected = !allSelected;
-
         }
 
         private void lnkShowAll_Click(object sender, EventArgs e)
@@ -1612,7 +1615,7 @@ namespace CustomsForgeManager.UControls
                             {
                                 var tmp = start;
                                 start = end;
-                                end = start;
+                                end = tmp;
                             }
                             TemporaryDisableDatabindEvent(() =>
                             {

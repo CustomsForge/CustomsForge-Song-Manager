@@ -234,6 +234,11 @@ namespace CustomsForgeManager.UControls
         private void tbCreator_TextChanged(object sender, EventArgs e)
         {
             AppSettings.Instance.CreatorName = tbCreator.Text;
+        }
+
+        private void chkIncludeRS1DLC_CheckedChanged(object sender, EventArgs e)
+        {
+            AppSettings.Instance.IncludeRS1DLCs = chkIncludeRS1DLC.Checked;
         } 
 
 

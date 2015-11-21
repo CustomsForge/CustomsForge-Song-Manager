@@ -39,10 +39,26 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
         public string DLCKey { get; set; }
 
         private bool FSelected;
+        private string FCharter;
+
         [XmlIgnore]
-        public bool Selected {
-            get { return FSelected; }
-            set { SetPropertyField("Selected", ref FSelected, value); }
+        public bool Selected
+        {
+            get
+            {
+                return OfficialDLC ? false : FSelected;
+            }
+            set
+            {
+                if (!OfficialDLC)
+                    SetPropertyField("Selected", ref FSelected, value);
+            }
+        }
+
+        [XmlIgnore]
+        public bool IsRsCompPack
+        {
+            get { return !String.IsNullOrEmpty(Path) && Path.Contains(Constants.RS1COMP); }
         }
 
         [XmlIgnore]
@@ -59,7 +75,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
             {
                 if (!String.IsNullOrEmpty(AppSettings.Instance.CreatorName) && !String.IsNullOrEmpty(Charter))
                 {
-                    string[] creatorNames = AppSettings.Instance.CreatorName.ToLower().Split(new char[] {';',','});
+                    string[] creatorNames = AppSettings.Instance.CreatorName.ToLower().Split(new char[] { ';', ',' });
                     return creatorNames.Any(z => z == Charter.ToLower());
                 }
                 return false;
@@ -145,7 +161,21 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
             }
         }
 
-        public string Charter { get; set; }
+        public string Charter
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(FCharter))
+                {
+                    FCharter = "N/A";
+                    if (OfficialDLC)
+                        FCharter = "Ubisoft";
+                }
+                return FCharter;
+            }
+            set { SetPropertyField("Charter", ref FCharter, value); }
+        }
+
         public DateTime LastConversionDateTime { get; set; }
         public string Version { get; set; }
         public string ToolkitVer { get; set; }
