@@ -155,7 +155,8 @@ namespace CustomsForgeManager.UControls
 
         private void Settings_Leave(object sender, EventArgs e)
         {
-            ValidateRsDir();
+            if (String.IsNullOrEmpty(AppSettings.Instance.RSInstalledDir))
+                ValidateRsDir();
             SaveSettingsToFile();
         }
 
@@ -201,6 +202,7 @@ namespace CustomsForgeManager.UControls
             Globals.RescanDuplicates = true;
             Globals.RescanSetlistManager = true;
             Globals.RescanRenamer = true;
+            Globals.ReloadCachePsarcEditor = true;
 
             // update RSInstalledDir after above error check passes
             AppSettings.Instance.RSInstalledDir = cueRsDir.Text;
@@ -239,7 +241,7 @@ namespace CustomsForgeManager.UControls
         private void chkIncludeRS1DLC_CheckedChanged(object sender, EventArgs e)
         {
             AppSettings.Instance.IncludeRS1DLCs = chkIncludeRS1DLC.Checked;
-        } 
+        }
 
 
     }

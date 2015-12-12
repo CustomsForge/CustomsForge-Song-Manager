@@ -9,11 +9,11 @@ using System.Windows.Forms;
 using System.Net;
 using CustomsForgeManager.CustomsForgeManagerLib.CustomControls;
 using CustomsForgeManager.CustomsForgeManagerLib.Objects;
-using ICSharpCode.SharpZipLib.Zip;
 using Newtonsoft.Json.Linq;
 using RocksmithToolkitLib.Xml;
 using System.Diagnostics;
 using Microsoft.Win32;
+using SevenZip;
 
 namespace CustomsForgeManager.CustomsForgeManagerLib
 {
@@ -29,9 +29,9 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
 
         public static void SerializeBin(this object obj, FileStream Stream)
         {
-            BinaryFormatter bin = new BinaryFormatter() 
-            { 
-                FilterLevel = System.Runtime.Serialization.Formatters.TypeFilterLevel.Low 
+            BinaryFormatter bin = new BinaryFormatter()
+            {
+                FilterLevel = System.Runtime.Serialization.Formatters.TypeFilterLevel.Low
             };
             bin.Serialize(Stream, obj);
         }
@@ -227,7 +227,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                 return String.Empty;
         }
 
-       
+
 
         public static List<string> FilesList(string path, bool includeRS1Pack = false)
         {
@@ -402,10 +402,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
 
                 if (Directory.Exists(userProfilePath))
                 {
-                    // zip using ICSharpCode.SharpZipLib.dll (consistent w/ toolkit dependency)
-                    FastZip fz = new FastZip();
-                    fz.CreateZip(backupPath, userProfilePath, true, "");
-
+                    ZipUtilities.ZipDirectory(userProfilePath, backupPath, OutArchiveFormat.Zip);
                     Globals.Log(CustomsForgeManager.Properties.Resources.CreatedUserProfileBackup);
                     Globals.Log(backupPath);
                 }
@@ -438,18 +435,19 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                 }
             }
         }
-        public static void ExtractEmbeddedResources(string outputDir, string resourceLocation,bool Overwrite = true)
+
+        public static void ExtractEmbeddedResources(string outputDir, string resourceLocation, bool Overwrite = true)
         {
             string resourcePath = "";
 
-            var f = Assembly.GetExecutingAssembly().GetManifestResourceNames().Where(s => 
+            var f = Assembly.GetExecutingAssembly().GetManifestResourceNames().Where(s =>
               s.ToLower().StartsWith(resourceLocation.ToLower()));
 
             foreach (var file in f)
             {
                 string xFile = file;
 
-                xFile = file.Replace(resourceLocation+".", "");
+                xFile = file.Replace(resourceLocation + ".", "");
 
                 var parts = xFile.Split('.').ToList();
                 string fn = string.Format("{0}.{1}", parts[parts.Count - 2], parts[parts.Count - 1]);
@@ -505,7 +503,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
         }
 
 
-     
+
 
 
 

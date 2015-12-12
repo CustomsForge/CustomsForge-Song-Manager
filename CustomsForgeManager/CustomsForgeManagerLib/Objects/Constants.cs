@@ -17,7 +17,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
 #endif
 
         public const string RS1COMP = "rs1compatibility";
- 
+
         public const string ApplicationName = "CustomsForge Song Manager";
         public static string ApplicationVersion { get { return Assembly.GetExecutingAssembly().GetName().Version.ToString(); } }
         public static string WorkDirectory { get { return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "CFSM"); } }
@@ -29,6 +29,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         public static string ApplicationDirectory { get { return Path.GetDirectoryName(Application.ExecutablePath); } }
         public static string AppIdFilePath { get { return Path.Combine(ApplicationDirectory, "RocksmithToolkitLib.SongAppId.xml"); } }
         public static string TuningDefFilePath { get { return Path.Combine(ApplicationDirectory, "RocksmithToolkitLib.TuningDefinition.xml"); } }
+        public static string AudioCacheDirectory { get { return Path.Combine(WorkDirectory, "AudioCache"); } }
 
         public static string TaggerWorkingFolder { get { return Path.Combine(WorkDirectory, "Tagger"); } }
         public static string TaggerTemplatesFolder { get { return Path.Combine(TaggerWorkingFolder, "templates"); } }
@@ -36,47 +37,49 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         public static string TaggerPreviewsFolder { get { return Path.Combine(TaggerWorkingFolder, "previews"); } }
 
         public static string CachePsarcPath { get { return Path.Combine(AppSettings.Instance.RSInstalledDir, "cache.psarc"); } }
-        public static string RS1PackPath
+
+        public static string Rs1DiscPsarcPath
         {
             get
             {
                 var SearchPath = Path.Combine(AppSettings.Instance.RSInstalledDir, "dlc");
+                // TODO: determine if GetFiles is case sensitive
                 var files = Directory.GetFiles(SearchPath, "rs1compatibilitydisc_p.psarc", SearchOption.AllDirectories);
                 if (files.Length > 0)
                     return files[0];
                 return Path.Combine(SearchPath, "rs1compatibilitydisc_p.psarc");
             }
         }
-        public static string RS1DLCPath
+
+        public static string Rs1DlcPsarcPath
         {
             get
             {
                 var SearchPath = Path.Combine(AppSettings.Instance.RSInstalledDir, "dlc");
+                // TODO: determine if GetFiles is case sensitive
                 var files = Directory.GetFiles(SearchPath, "rs1compatibilitydlc_p.psarc", SearchOption.AllDirectories);
                 if (files.Length > 0)
                     return files[0];
                 return Path.Combine(SearchPath, "rs1compatibilitydlc_p.psarc");
             }
         }
-        public static string CachePsarcBackupPath { get { return Path.Combine(AppSettings.Instance.RSInstalledDir, "backup", "cache.psarc.backup"); } }
 
-        //TODO: it's probably a better idea to make the backups in the work directory, incase the program doesn't have 
-        //write access to the steam directory (default steam directory is {PF}\Stream)
-        public static string RS1PackBackupPath { get { return Path.Combine(AppSettings.Instance.RSInstalledDir, "dlc", "rs1compatibilitydisc_p.psarc.backup"); } }
-        public static string RS1DLCBackupPath { get { return Path.Combine(AppSettings.Instance.RSInstalledDir, "dlc", "rs1compatibilitydlc_p.psarc.backup"); } }
-        public static string BackupFolderPath { get { return Path.Combine(AppSettings.Instance.RSInstalledDir, "backup"); } }
+        // write access to the Steam RSInstallDir is provided by the code 
+        public static string Rs2BackupDirectory { get { return Path.Combine(AppSettings.Instance.RSInstalledDir, "backup"); } }
+        public static string Rs1DiscPsarcBackupPath { get { return Path.Combine(Rs2BackupDirectory, "rs1compatibilitydisc_p.psarc.org"); } }
+        public static string Rs1DlcPsarcBackupPath { get { return Path.Combine(Rs2BackupDirectory, "rs1compatibilitydlc_p.psarc.org"); } }
+        public static string CachePsarcBackupPath { get { return Path.Combine(Rs2BackupDirectory, "cache.psarc.org"); } }
 
-        public static string CFEWorkingFolder { get { return Path.Combine(WorkDirectory, "CachePsarcEditor"); } }
-        public static string ExtractedRSPackPath { get { return Path.Combine(CFEWorkingFolder, "cache_Pc"); } }
-        public static string ExtractedRS1PackPath { get { return Path.Combine(CFEWorkingFolder, "rs1compatibilitydisc_p_Pc", "manifests", "songs_rs1disc"); } }
-        public static string ExtractedRS1DLCPackPath { get { return Path.Combine(CFEWorkingFolder, "rs1compatibilitydlc_p_Pc", "manifests", "songs_rs1dlc"); } }
+        public static string CpeWorkDirectory { get { return Path.Combine(WorkDirectory, "CachePsarcEditor"); } }
+        public static string ExtractedSongsHsanPath { get { return Path.Combine(CpeWorkDirectory, "songs.hsan"); } }
+        public static string ExtractedRs1DiscHsanPath { get { return Path.Combine(CpeWorkDirectory, "songs_rs1disc.hsan"); } }
+        public static string ExtractedRs1DlcHsanPath { get { return Path.Combine(CpeWorkDirectory, "songs_rs1dlc.hsan"); } }
 
-        public static string ManifestsFolderPath { get { return Path.Combine("manifests", "songs"); } }
-        public static string Cache7zPath { get { return Path.Combine(ExtractedRSPackPath, "cache7.7z"); } }
-        public static string Cache7zDisabledPath { get { return Path.Combine(ExtractedRSPackPath.Replace("_Pc", "-disabled_Pc"), "cache7.7z"); } }
-        public static string RSSongsFilePath { get { return Path.Combine("manifests", "songs", "songs.hsan"); } }
-        public static string RS1SongsFilePath { get { return Path.Combine(ExtractedRSPackPath, "songs_rs1disc.hsan"); } }
-        public static string RS1DLCSongsFilePath { get { return Path.Combine(ExtractedRSPackPath, "songs_rs1dlc.hsan"); } }
+        public static string Cache7zPath { get { return Path.Combine(CpeWorkDirectory, "cache_Pc", "cache7.7z"); } }
+        public static string CachePcPath { get { return Path.Combine(CpeWorkDirectory, "cache_Pc"); } }
+        public static string SongsHsanInternalPath { get { return Path.Combine("manifests", "songs", "songs.hsan"); } }
+        public static string SongsRs1DiscInternalPath { get { return Path.Combine("rs1compatibilitydisc_p_Pc", "manifests", "songs_rs1disc", "rs1compatibilitydisc_p.psarc"); } }
+        public static string SongsRs1DlcInternalPath { get { return Path.Combine("rs1compatibilitydlc_p_Pc", "manifests", "songs_rs1dlc", "rs1compatibilitydlc_p.psarc"); } }
 
         #region URL constants
         public const string CustomsForgeURL = "http://customsforge.com/";
@@ -86,7 +89,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         public const string RequestURL = "http://requests.customsforge.com/";
         public const string DefaultInfoURL =
 #if (DEBUG)
-                 @"http://ignition.dev.customsforge.com/api/search";
+ @"http://ignition.dev.customsforge.com/api/search";
 #else
                  @"http://ignition.dev.customsforge.com/api/search";
 #endif

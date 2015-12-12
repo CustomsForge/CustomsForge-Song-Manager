@@ -37,6 +37,8 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
             if (string.IsNullOrEmpty(audioName))
                 return false;
 
+            Globals.Log("Extracting Audio ... Please wait ...");
+
             using (var archive = new PSARC(true))
             using (var stream = File.OpenRead(archiveName))
             {

@@ -122,7 +122,7 @@ namespace CustomsForgeManager.UControls
             }
             catch (Exception e)
             {
-                // failsafe ... delete CFM folder and start over
+                // failsafe ... delete CFM folder files and start over
                 string err = e.Message;
                 if (e.InnerException != null)
                     err += ", Inner: " + e.InnerException.Message;
@@ -130,13 +130,18 @@ namespace CustomsForgeManager.UControls
                 Globals.Log("Error: " + e.Message);
                 Globals.Log("Deleted CFSM folder from My Documents ...");
 
+                // TODO: is there reason to check for existence of directory twice?
                 if (Directory.Exists(Constants.WorkDirectory))
                     if (Directory.Exists(Constants.WorkDirectory))
                     {
                         File.Delete(Constants.SettingsPath);
                         File.Delete(Constants.SongsInfoPath);
+
+                        if (Directory.Exists(Constants.AudioCacheDirectory))
+                            Directory.Delete(Constants.AudioCacheDirectory);                    
                     }
-                MessageBox.Show(string.Format("{0}{1}{1}The program will now shut down.", err, Environment.NewLine), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                
+                MessageBox.Show(string.Format("{0}{1}{1}The program will now shut down.", err, Environment.NewLine), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);                
                 Environment.Exit(0);
             }
         }
@@ -226,7 +231,7 @@ namespace CustomsForgeManager.UControls
                 Globals.ReloadRenamer = true;
                 Globals.ReloadSetlistManager = true;
                 Globals.ReloadDuplicates = true;
-                Rescan();
+                Rescan(true); // must ensure full rescan
             }
 
             if (Globals.ReloadSongManager)
@@ -386,7 +391,7 @@ namespace CustomsForgeManager.UControls
         }
 
         #endregion
-       
+
         private void ColumnMenuItemClick(object sender, EventArgs eventArgs)
         {
             ToolStripMenuItem currentContextMenuItem = sender as ToolStripMenuItem;
@@ -577,6 +582,8 @@ namespace CustomsForgeManager.UControls
                 if (Directory.Exists(Constants.WorkDirectory))
                 {
                     File.Delete(Constants.SongsInfoPath);
+                    if (Directory.Exists(Constants.AudioCacheDirectory))
+                        Directory.Delete(Constants.AudioCacheDirectory);
                 }
 
                 // prevents write log attempt and shutsdown app
@@ -764,12 +771,12 @@ namespace CustomsForgeManager.UControls
             for (int ndx = dgvSongsMaster.Rows.Count - 1; ndx >= 0; ndx--)
             {
                 DataGridViewRow row = dgvSongsMaster.Rows[ndx];
-                var SD = GetSongByRow(row);
+                var sd = GetSongByRow(row);
 
 
                 if (Convert.ToBoolean(row.Cells["colSelect"].Value))
                 {
-                    string songPath = SD.Path;
+                    string songPath = sd.Path;
 
                     // redundant for file safety
                     if (chkEnableDelete.Checked && !safe2Delete)
@@ -789,7 +796,7 @@ namespace CustomsForgeManager.UControls
                     {
                         try
                         {
-                            SD.Delete();
+                            sd.Delete();
                             dgvSongsMaster.Rows.Remove(row);
                         }
                         catch (IOException ex)
@@ -956,7 +963,7 @@ namespace CustomsForgeManager.UControls
             Globals.RescanRenamer = true;
         }
 
-  
+
         private void chkEnableDelete_CheckedChanged(object sender, EventArgs e)
         {
             btnDeleteSongs.Enabled = chkEnableDelete.Checked;
@@ -1025,7 +1032,7 @@ namespace CustomsForgeManager.UControls
             }
         }
 
-     
+
 
         private void cmsDeleteSong_Click(object sender, EventArgs e)
         {
@@ -1186,7 +1193,7 @@ namespace CustomsForgeManager.UControls
                     dgvSongsDetail.Visible = false;
                 }
             }
-            
+
         }
 
         private void dgvSongsMaster_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -1494,11 +1501,14 @@ namespace CustomsForgeManager.UControls
                         Guid.NewGuid().ToString().Replace("-", ""), sng.FileSize);
                 }
 
-                var Dir = Path.Combine(Constants.WorkDirectory, "AudioCache");
-                if (!Directory.Exists(Dir))
-                    Directory.CreateDirectory(Dir);
 
-                var fullname = Path.Combine(Dir, sng.AudioCache + ".ogg");
+                // TODO: monitor AudioCache folder size
+                // may need to call SongData.Delete more often
+                var audioCacheDir = Constants.AudioCacheDirectory;
+                if (!Directory.Exists(audioCacheDir))
+                    Directory.CreateDirectory(audioCacheDir);
+
+                var fullname = Path.Combine(audioCacheDir, sng.AudioCache + ".ogg");
 
                 if (File.Exists(fullname))
                 {

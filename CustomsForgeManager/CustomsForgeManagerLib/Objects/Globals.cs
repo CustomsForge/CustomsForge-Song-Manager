@@ -134,6 +134,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         public static bool ReloadRenamer { get; set; }
         public static bool ReloadSetlistManager { get; set; }
         public static bool ReloadSongManager { get; set; }
+        public static bool ReloadCachePsarcEditor { get; set; }
 
         public static SetlistManager SetlistManager
         {

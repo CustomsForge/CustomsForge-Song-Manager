@@ -44,6 +44,17 @@ namespace CFMAudioTools
             return Convert.ToInt32((GetSongPos() / GetSongLength()) * 100);
         }
 
+        public string GetSongPosition()
+        {
+            if (!IsPlaying())
+                return "00:00";
+
+            var seconds = Convert.ToInt32(GetSongPos()) % 60;
+            var minutes = Convert.ToInt32(GetSongPos()) / 60;
+            return String.Format("{0:00}:{1:00}", minutes, seconds);
+        }
+
+
     }
 
     internal class BassEngine : AudioEngine
@@ -51,10 +62,13 @@ namespace CFMAudioTools
         int FHandle = 0;
         static bool bassinit = false;
         IntPtr SongBytes = IntPtr.Zero;
+        // may not make a significantly noticeable difference,
+        // RS2014 user 48kHz DVD quality playback vs 44.1 kHz (44100) CD quality playback
+        private static int sampleRate = 48000;
 
         static BassEngine()
         {
-            if (!Bass.BASS_Init(-1, 44100, BASSInit.BASS_DEVICE_DEFAULT, IntPtr.Zero))
+            if (!Bass.BASS_Init(-1, sampleRate, BASSInit.BASS_DEVICE_DEFAULT, IntPtr.Zero))
             {
                 Trace.WriteLine("Unable to initilize bass library.");
                 bassinit = false;
@@ -106,7 +120,7 @@ namespace CFMAudioTools
                 if (IsPlaying())
                     Bass.BASS_ChannelPause(FHandle);
                 else
-                    Bass.BASS_ChannelPlay(FHandle,false);
+                    Bass.BASS_ChannelPlay(FHandle, false);
 
             }
         }
@@ -189,7 +203,7 @@ namespace CFMAudioTools
             Bass.BASS_ChannelStop(FHandle);
         }
 
-       
+
         public override double GetSongLength()
         {
             if (!checkInit())

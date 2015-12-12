@@ -619,4 +619,7 @@ Click the update button to continue.
     <value>(Enter Value)</value>
     <comment>EnterValue description</comment>
   </data>
+  <data name="sltsv1_aggregategraph" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\sltsv1_aggregategraph.nt;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

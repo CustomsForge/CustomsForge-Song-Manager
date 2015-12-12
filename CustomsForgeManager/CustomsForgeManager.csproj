@@ -140,6 +140,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\libs\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="SevenZipSharp">
+      <HintPath>..\libs\SevenZipSharp.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -201,6 +204,7 @@
       <DependentUpon>ThemePreview.cs</DependentUpon>
     </Compile>
     <Compile Include="CustomsForgeManagerLib\Worker.cs" />
+    <Compile Include="CustomsForgeManagerLib\ZipUtilities.cs" />
     <Compile Include="Forms\ClickOnceUpgrade.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -449,6 +453,9 @@
     <EmbeddedResource Include="SongEditor\ucTones.resx">
       <DependentUpon>ucTones.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UControls\CachePsarcEditor.resx">
+      <DependentUpon>CachePsarcEditor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UControls\Duplicates.resx">
       <DependentUpon>Duplicates.cs</DependentUpon>
     </EmbeddedResource>
@@ -500,7 +507,7 @@
     <None Include="Resources\cfsm_48x48.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="7za.exe">
+    <Content Include="7za.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="bass.dll">
@@ -644,6 +651,7 @@
     <EmbeddedResource Include="Resources\tags\Default.tagtheme" />
     <EmbeddedResource Include="Resources\tags\example1.tagtheme" />
     <EmbeddedResource Include="Resources\tags\zagatozeeddtext\Default.tagtheme" />
+    <EmbeddedResource Include="Resources\sltsv1_aggregategraph.nt" />
     <None Include="Resources\update.png" />
     <None Include="Resources\backup.png" />
     <None Include="Resources\disable.png" />

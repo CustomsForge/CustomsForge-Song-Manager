@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 public abstract class RSDataAbstract
 {
+    public string SongSource { get; set; }
     public string AlbumArt { get; set; }
     public string ArrangementName { get; set; }
     public bool DLC { get; set; }
@@ -42,39 +43,39 @@ public abstract class RSDataAbstractBase : RSDataAbstract
 }
 
 
-class RS1DLCData : RSDataAbstractBase
+class RS1DlcData : RSDataAbstractBase
 {
-    public dynamic DLCRS1Key { get; set; }
+    public dynamic DLCKey { get; set; }  // setter not used?
 }
 
-class RS1SongData : RSDataAbstractBase
+class RS1DiscData : RSDataAbstractBase
 {
-    public string DLCKey { get; set; }
+    public string DLCKey { get; set; } // setter not used?
 }
 
-class RSSongData : RSDataAbstractBase
+class RS2SongsData : RSDataAbstractBase
 {
 
 }
 
 
-class RSVocalsData : RSDataAbstract
+class RS2VocalsData : RSDataAbstract
 {
-    public string PersistentID { get; set; }
+    public new string PersistentID { get; set; }  // added 'new'
     public string SKU { get; set; }
     public bool Shipping { get; set; }
 }
 
-class RS1VocalsData : RSVocalsData
+class RS1DiscVocalsData : RS2VocalsData
 {
     public string DLCKey { get; set; }
 }
 
-class RS1DLCVocalsData : RS1VocalsData
+class RS1DLCVocalsData : RS1DiscVocalsData
 {
-    public dynamic DLCRS1Key { get; set; }
+    public new dynamic DLCKey { get; set; } // added 'new'
 }
-class RSLessonSongData : RSSongData
+class RSLessonSongData : RS2SongsData
 {
     public override string SongKey
     {
@@ -91,7 +92,7 @@ class RSLessonSongData : RSSongData
     public string LessonKey { get; set; }
 }
 
-class RSUbisoftLessonSongData : RSSongData
+class RSUbisoftLessonSongData : RS2SongsData
 {
     public override string SongKey
     {

@@ -17,6 +17,8 @@ RightMouse Click - on a song to show context menu options
  - Delete Song
  - Backup Song
 DoubleClick - anywhere on a song to show Song Information
+Ctrl+Rescan button to force complete rescan of songs
+Click anywhere on the Audio Playback Progress Bar to start song at that position
 
 
 General Usage

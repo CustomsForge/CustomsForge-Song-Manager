@@ -3,6 +3,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using System.Reflection;
+using System.Windows.Forms.Design;
 using CustomsForgeManager.CustomsForgeManagerLib.Objects;
 using System.Linq;
 using System.Text;
@@ -29,9 +30,9 @@ namespace CustomsForgeManager.Forms
             // toolstrip may appear changed in design mode (this is a known VS bug)
             TopToolStripPanel.MaximumSize = new Size(0, 28); // force height and makes tsLable_Tagger positioning work
             tsUtilities.AutoSize = false; // a key to preventing movement
-            tsTagger.AutoSize = false; // a key to preventing movement
+            tsAudioPlayer.AutoSize = false; // a key to preventing movement
             tsUtilities.Location = new Point(0, 0); // force location
-            tsTagger.Location = new Point(tsUtilities.Width + 10, 0); // force location
+            tsAudioPlayer.Location = new Point(tsUtilities.Width + 10, 0); // force location
 
 
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);
@@ -114,7 +115,7 @@ namespace CustomsForgeManager.Forms
             else
                 Globals.MyLog.RemoveTargetNotifyIcon(Globals.Notifier);
 
-            tsTagger.Visible = true;
+            tsAudioPlayer.Visible = true;
             // load Song Manager Tab
             LoadSongManager();
 
@@ -265,6 +266,7 @@ namespace CustomsForgeManager.Forms
                     this.tpCachePsarcEditor.Controls.Clear();
                     this.tpCachePsarcEditor.Controls.Add(Globals.CachePsarcEditor);
                     Globals.CachePsarcEditor.Dock = DockStyle.Fill;
+                    Globals.CachePsarcEditor.UpdateToolStrip();
                     Globals.CachePsarcEditor.Location = UCLocation;
                     Globals.CachePsarcEditor.Size = UCSize;
                     currentControl = Globals.CachePsarcEditor;
@@ -618,27 +620,51 @@ namespace CustomsForgeManager.Forms
         private void tsbPlay_Click(object sender, EventArgs e)
         {
             if (Globals.AudioEngine.IsPaused() || Globals.AudioEngine.IsPlaying())
+            {
+                if (Globals.AudioEngine.IsPlaying())
+                    Globals.Log("Playback Paused ...");
+                else
+                    Globals.Log("Playback Unpaused ...");
+
                 Globals.AudioEngine.Pause();
+            }
             else
+            {
+                Globals.Log("Playback Started ...");
                 Globals.SongManager.PlaySelectedSong();
+            }
+
             timerAudioProgress.Enabled = (Globals.AudioEngine.IsPlaying());
         }
 
         private void timerAudioProgress_Tick(object sender, EventArgs e)
         {
+            tslblTimer.Text = Globals.AudioEngine.GetSongPosition();
             tspbAudioPosition.Value = Globals.AudioEngine.GetSongCompletedPercentage();
+            tsAudioPlayer.Refresh();
         }
 
         private void tsbStop_Click(object sender, EventArgs e)
         {
+            tslblTimer.Text = "00:00";
+            tspbAudioPosition.Value = 0;
+            Globals.Log("Playback Stopped ...");
             Globals.AudioEngine.Stop();
             timerAudioProgress.Enabled = (Globals.AudioEngine.IsPlaying());
         }
 
         private void tspbAudioPosition_MouseDown(object sender, MouseEventArgs e)
         {
+
+            if (!Globals.AudioEngine.IsPlaying())
+            {
+                Globals.SongManager.PlaySelectedSong();
+                timerAudioProgress.Enabled = (Globals.AudioEngine.IsPlaying());
+            }
+
             if (Globals.AudioEngine.IsLoaded())
             {
+                Globals.Log("Playback Seeking ...");
                 var pos = (float)e.Location.X / (float)tspbAudioPosition.Width;
                 Globals.AudioEngine.Seek(pos * Globals.AudioEngine.GetSongLength());
             }

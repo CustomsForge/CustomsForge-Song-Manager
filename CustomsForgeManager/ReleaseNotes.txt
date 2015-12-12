@@ -1,12 +1,20 @@
 CFM Release Notes
 
+1.1.1.7
+-Added song time display to Audio Playback ToolStrip (APTS) and cleaned up appearance
+-Added tooltips to APTS progressbar and Rescan button to alert users of alternate functions
+-Fixed bug ... if RS Installation Directory is changed then full rescan is required
+-Added check to CashePsarcEditor for cache.psarc file to prevent potential ToolkitLib exceptions 
+-Converted all usage of 7za.exe to local native library (SevenZipSharp.dll) for cross platform support
+-Converted profile backup utility from ICSharpCode.SharpZipLib.dll to SevenZipSharp.dll
+-Debugged and restuctured CachePsarcEditor (cache.psarc portion is working but modded cache.psarc is missing data)
+
 1.1.1.6
 -Fixed "Include RS1 Compatibility Pack" setting
 -Fixed bug in worker when scanning "rs1compatibilitydlc_p.psarc"
 -Fixed bug in renamer when [Artist,Title,Author, or Album] has a backslash
 -Added "Dynamic Difficulty Level" to renamer
 -Added IsRsCompPack property(Non-Persisted) to song data
-
 
 1.1.1.5
 -Added "Not" to custom filter
