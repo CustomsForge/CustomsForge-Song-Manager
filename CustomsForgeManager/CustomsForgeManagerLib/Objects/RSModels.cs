@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 public abstract class RSDataAbstract
 {
-    public string SongSource { get; set; }
+  //  public string SongSource { get; set; }
     public string AlbumArt { get; set; }
     public string ArrangementName { get; set; }
     public bool DLC { get; set; }

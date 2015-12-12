@@ -660,6 +660,10 @@ namespace CustomsForgeManager.UControls
                             rsv.SongNameSort = sngVal.SongNameSort;
                             rsv.SongYear = sngVal.SongYear;
                             rsv.Tuning = sngVal.Tuning;
+
+                            var currSng = new Dictionary<string, dynamic>();
+                            currSng.Add("Attributes", rsv);
+                            tempDicArray[i].Add(song, currSng);
                         }
                         else
                         {
