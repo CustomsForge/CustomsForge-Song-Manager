@@ -1,5 +1,9 @@
 CFM Release Notes
 
+hotfix
+-Minor duplicate Persistent ID color tweakage.
+-CachePsarcEditor is working for cache.psarc portion.
+
 1.1.1.7
 -Added song time display to Audio Playback ToolStrip (APTS) and cleaned up appearance
 -Added tooltips to APTS progressbar and Rescan button to alert users of alternate functions

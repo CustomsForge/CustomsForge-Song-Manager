@@ -45,21 +45,6 @@ namespace CustomsForgeManager.UControls
             InitializeCachePsarcEditor();
         }
 
-        public void UpdateToolStrip()
-        {
-            if (Globals.ReloadCachePsarcEditor)
-                InitializeCachePsarcEditor();
-            else
-            {
-                Globals.TsLabel_MainMsg.Text = string.Format("Song Count: {0}", dgvSongs.Rows.Count);
-                Globals.TsLabel_MainMsg.Visible = true;
-                var tsldcMsg = String.Format("Disabled DLC: {0}", DisabledSongColorizerCounter());
-                Globals.TsLabel_DisabledCounter.Alignment = ToolStripItemAlignment.Right;
-                Globals.TsLabel_DisabledCounter.Text = tsldcMsg;
-                Globals.TsLabel_DisabledCounter.Visible = true;
-            }
-        }
-
         private void AddSongsToNestedDictionary(dynamic songsToBeAddedCollection, dynamic songCollection, dynamic fullSongCollection, bool enabled, bool RS2014 = false)
         {
             foreach (dynamic song in songsToBeAddedCollection)
@@ -143,7 +128,7 @@ namespace CustomsForgeManager.UControls
             Rs1DlcDisabledEntireCollection.Clear();
             Rs1DlcDisabledSongCollection.Clear();
             Rs1DlcEntireCollection.Clear();
-            Rs1DlcSongCollection.Clear();      
+            Rs1DlcSongCollection.Clear();
         }
 
         private bool ConditionalBackup(string sourcePath, string backupPath, bool forceBackup = false, bool writeProtect = true)
@@ -314,7 +299,7 @@ namespace CustomsForgeManager.UControls
         private void CachePsarcEditor_Leave(object sender, EventArgs e)
         {
             if (chkDeleteWorkDir.Checked)
-                if(Directory .Exists(Constants.CpeWorkDirectory))
+                if (Directory.Exists(Constants.CpeWorkDirectory))
                     ZipUtilities.DeleteDirectory(Constants.CpeWorkDirectory);
         }
 
@@ -478,12 +463,12 @@ namespace CustomsForgeManager.UControls
                     Extensions.ExtractEmbeddedResource(Constants.CachePcPath, "CustomsForgeManager.Resources", new string[] { "sltsv1_aggregategraph.nt" });
 
                 ZipUtilities.InjectFile(
-                    Constants.ExtractedSongsHsanPath, 
+                    Constants.ExtractedSongsHsanPath,
                     Constants.Cache7zPath,
-                    Constants.SongsHsanInternalPath, 
-                    OutArchiveFormat.SevenZip, 
+                    Constants.SongsHsanInternalPath,
+                    OutArchiveFormat.SevenZip,
                     CompressionMode.Append);
-              
+
                 Packer.Pack(Constants.CachePcPath, Constants.CachePsarcPath);
 
                 Globals.Log("cache.psarc repackaged with your song selections ... SUCESSFUL");
@@ -558,7 +543,7 @@ namespace CustomsForgeManager.UControls
 
                 Globals.TsProgressBar_Main.Value = 100;
                 Globals.Log("Restored to original condition ... SUCESSFUL");
-             }
+            }
             catch (IOException ex)
             {
                 MessageBox.Show("Unable to restore backup! Error:\n\n" + ex.Message.ToString(), "Error");
@@ -942,6 +927,20 @@ namespace CustomsForgeManager.UControls
             Globals.Log("GUI Refreshed ...");
         }
 
-   
+        public void UpdateToolStrip()
+        {
+            if (Globals.ReloadCachePsarcEditor)
+                InitializeCachePsarcEditor();
+            else
+            {
+                Globals.TsLabel_MainMsg.Text = string.Format("Song Count: {0}", dgvSongs.Rows.Count);
+                Globals.TsLabel_MainMsg.Visible = true;
+                var tsldcMsg = String.Format("Disabled DLC: {0}", DisabledSongColorizerCounter());
+                Globals.TsLabel_DisabledCounter.Alignment = ToolStripItemAlignment.Right;
+                Globals.TsLabel_DisabledCounter.Text = tsldcMsg;
+                Globals.TsLabel_DisabledCounter.Visible = true;
+            }
+        }
+
     }
 }

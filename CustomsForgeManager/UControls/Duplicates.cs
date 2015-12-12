@@ -19,7 +19,7 @@ namespace CustomsForgeManager.UControls
         private bool dgvPainted = false;
         private List<SongData> duplicates = new List<SongData>();
         private List<SongData> dupPIDS = new List<SongData>();
-        private Color ErrorStyleBackColor = Color.Red;
+        private Color ErrorStyleBackColor = Color.DarkGray;
         private Color ErrorStyleForeColor = Color.White;
         // private Font ErrorStyleFont;
         private DataGridViewCellStyle ErrorStyle;
