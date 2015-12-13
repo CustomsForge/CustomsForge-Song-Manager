@@ -74,10 +74,11 @@ class RS1DiscVocalsData : RS2VocalsData
     public string DLCKey { get; set; }
 }
 
-class RS1DLCVocalsData : RS1DiscVocalsData
+class RS1DLCVocalsData : RS2VocalsData
 {
     public new dynamic DLCKey { get; set; } // added 'new'
 }
+
 class RSLessonSongData : RS2SongsData
 {
     public override string SongKey

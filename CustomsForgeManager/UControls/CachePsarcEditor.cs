@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO.Pipes;
 using System.Linq;
 using System.Windows.Forms;
 using CustomsForgeManager.CustomsForgeManagerLib;
@@ -12,6 +13,7 @@ using Newtonsoft.Json;
 using System.Reflection;
 using RocksmithToolkitLib;
 using CFSM.Utils.PSARC;
+using RocksmithToolkitLib.Extensions;
 using SevenZip;
 using Extensions = CustomsForgeManager.CustomsForgeManagerLib.Extensions;
 
@@ -38,6 +40,7 @@ namespace CustomsForgeManager.UControls
         private RSDataJsonDictionary<RS1DlcData> Rs1DlcDisabledSongCollection = new RSDataJsonDictionary<RS1DlcData>();
         private RSDataJsonDictionary<RS1DlcData> Rs1DlcEntireCollection = new RSDataJsonDictionary<RS1DlcData>();
         private RSDataJsonDictionary<RS1DlcData> Rs1DlcSongCollection = new RSDataJsonDictionary<RS1DlcData>();
+ 
         private bool allSelected = false;
 
         public CachePsarcEditor()
@@ -228,29 +231,6 @@ namespace CustomsForgeManager.UControls
             }
         }
 
-
-        // sheer evil genuis code :) ... very nice
-        // TODO: evil genious .. plz help code InjectArchiveFiles method
-        private void ExtractArchiveFiles(string path, string name, string outPath)
-        {
-            using (PSARC p = new PSARC(true))
-            using (var FS = File.OpenRead(path))
-            {
-                p.Read(FS, true);
-                var e = p.TOC.Where(entry => entry.Name.Contains(name)).FirstOrDefault();
-                if (e != null)
-                {
-                    if (!Directory.Exists(outPath))
-                        Directory.CreateDirectory(outPath);
-                    p.InflateEntry(e, Path.Combine(outPath, name));
-                }
-                else
-                    Globals.Log("Error: psarc entry not found.");
-            }
-        }
-
-        // evil genuis copy cat code :) ...
-
         private bool ExtractSongsHsan()
         {
             if (File.Exists(Constants.ExtractedSongsHsanPath))
@@ -296,32 +276,6 @@ namespace CustomsForgeManager.UControls
             PopulateCachePsarcEditor();
         }
 
-        private void CachePsarcEditor_Leave(object sender, EventArgs e)
-        {
-            if (chkDeleteWorkDir.Checked)
-                if (Directory.Exists(Constants.CpeWorkDirectory))
-                    ZipUtilities.DeleteDirectory(Constants.CpeWorkDirectory);
-        }
-
-        // TODO: evil genious help ... with InjectArchiveFiles method
-        private void InjectArchiveFiles(string path, string name, string outPath)
-        {
-            using (PSARC p = new PSARC(true))
-            using (var FS = File.OpenRead(path))
-            {
-                p.Read(FS, true);
-                var e = p.TOC.Where(entry => entry.Name.Contains(name)).FirstOrDefault();
-                if (e != null)
-                {
-                    // here's where we need to inject our modded file
-                    //  p.InflateEntry(e, Path.Combine(outPath, name));
-                    //  psarc.Write(psarcStream, false);
-                }
-                else
-                    Globals.Log("Error: psarc entry not found.");
-            }
-        }
-
         private void PopulateCachePsarcEditor()
         {
             Globals.Log("Populating Cache.psarc Editor GUI ...");
@@ -348,7 +302,6 @@ namespace CustomsForgeManager.UControls
                         Globals.Log("PopulateSongLists ... FAILED");
                 else
                     Globals.Log("SmartSongLoader ... FAILED");
-
             }
             else
             {
@@ -460,14 +413,9 @@ namespace CustomsForgeManager.UControls
                     throw new IOException();
 
                 if (!File.Exists(Path.Combine(Constants.CachePcPath, "sltsv1_aggregategraph.nt")))
-                    Extensions.ExtractEmbeddedResource(Constants.CachePcPath, "CustomsForgeManager.Resources", new string[] { "sltsv1_aggregategraph.nt" });
+                    Extensions.ExtractEmbeddedResource(Constants.CachePcPath, "CustomsForgeManager.Resources", new string[] {"sltsv1_aggregategraph.nt"});
 
-                ZipUtilities.InjectFile(
-                    Constants.ExtractedSongsHsanPath,
-                    Constants.Cache7zPath,
-                    Constants.SongsHsanInternalPath,
-                    OutArchiveFormat.SevenZip,
-                    CompressionMode.Append);
+                ZipUtilities.InjectFile(Constants.ExtractedSongsHsanPath, Constants.Cache7zPath, Constants.SongsHsanInternalPath, OutArchiveFormat.SevenZip, CompressionMode.Append);
 
                 Packer.Pack(Constants.CachePcPath, Constants.CachePsarcPath);
 
@@ -478,20 +426,6 @@ namespace CustomsForgeManager.UControls
                 MessageBox.Show("Unable to repack cache.psarc" + Environment.NewLine + "Error: " + ex.Message.ToString());
             }
 
-            return true;
-        }
-
-        private bool RepackRs1DiscPsarc()
-        {
-            //InjectArchiveFile();
-            //Packer.Pack(Constants.Cache7zPath, Constants.Rs1DiscPsarcPath);
-            return true;
-        }
-
-        private bool RepackRs1DlcPsarc()
-        {
-            //InjectArchiveFile();
-            //Packer.Pack(Constants.Cache7zPath, Constants.Rs1DlcPsarcPath);
             return true;
         }
 
@@ -561,18 +495,14 @@ namespace CustomsForgeManager.UControls
 
         private void SerializeSongFile<T>(string songHsanPath, RSDataJsonDictionary<T> fullSongCollection, RSDataJsonDictionary<T> fullDisabledSongCollection, Type vdType) where T : RSDataAbstractBase
         {
-            // TODO: LOVRO ... this is not producing hasn files that are equivalent to the original, much smaller in size
-            // problem may be issue with class object conversions (no album artwork in game)
-            // help plz
-            //
             var tempFullSongCollection = new Dictionary<string, Dictionary<string, dynamic>>();
             var tempFullDisabledSongCollection = new Dictionary<string, Dictionary<string, dynamic>>();
 
-            var DataConstructor = vdType.GetConstructor(new Type[] { });
+            var DataConstructor = vdType.GetConstructor(new Type[] {});
 
-            RSDataJsonDictionary<T>[] dicArray = new RSDataJsonDictionary<T>[] { fullSongCollection, fullDisabledSongCollection };
+            RSDataJsonDictionary<T>[] dicArray = new RSDataJsonDictionary<T>[] {fullSongCollection, fullDisabledSongCollection};
 
-            Dictionary<string, Dictionary<string, dynamic>>[] tempDicArray = new Dictionary<string, Dictionary<string, dynamic>>[] { tempFullSongCollection, tempFullDisabledSongCollection };
+            Dictionary<string, Dictionary<string, dynamic>>[] tempDicArray = new Dictionary<string, Dictionary<string, dynamic>>[] {tempFullSongCollection, tempFullDisabledSongCollection};
 
             for (int i = 0; i < dicArray.Length; i++)
             {
@@ -584,7 +514,7 @@ namespace CustomsForgeManager.UControls
 
                         if (sngVal.ArrangementName == "Vocals")
                         {
-                            var rsv = (RS2VocalsData)DataConstructor.Invoke(new object[] { });
+                            var rsv = (RS2VocalsData) DataConstructor.Invoke(new object[] {});
                             rsv.AlbumArt = sngVal.AlbumArt;
                             rsv.ArrangementName = "Vocals";
                             rsv.DLC = sngVal.DLC;
@@ -595,10 +525,13 @@ namespace CustomsForgeManager.UControls
                             rsv.SKU = sngVal.SKU;
                             rsv.Shipping = sngVal.Shipping;
                             rsv.SongKey = sngVal.SongKey;
+
                             if (rsv is RS1DiscVocalsData)
-                                ((RS1DiscVocalsData)rsv).DLCKey = (sngVal as RS1DiscData).DLCKey;
+                                ((RS1DiscVocalsData) rsv).DLCKey = (sngVal as RS1DiscData).DLCKey;
+
                             if (rsv is RS1DLCVocalsData)
-                                ((RS1DLCVocalsData)rsv).DLCKey = (sngVal as RS1DlcData).DLCKey;
+                                ((RS1DLCVocalsData) rsv).DLCKey = (sngVal as RS1DlcData).DLCKey;
+
                             var currSng = new Dictionary<string, dynamic>();
                             currSng.Add("Attributes", rsv);
                             tempDicArray[i].Add(song, currSng);
@@ -660,16 +593,12 @@ namespace CustomsForgeManager.UControls
                 }
             }
 
+            //  manifests/songs_rs1dlc/songs_rs1dlc.hsan
             using (StreamWriter file = new StreamWriter(songHsanPath))
             {
-                dynamic songJson = new
-                    {
-                        Entries = tempFullSongCollection,
-                        DisabledSongs = tempFullDisabledSongCollection,
-                        InsertRoot = "Static.Songs.Headers"
-                    };
+                dynamic songJson = new {Entries = tempFullSongCollection, DisabledSongs = tempFullDisabledSongCollection, InsertRoot = "Static.Songs.Headers"};
 
-                JToken serializedJson = JsonConvert.SerializeObject(songJson, Formatting.Indented, new JsonSerializerSettings { });
+                JToken serializedJson = JsonConvert.SerializeObject(songJson, Formatting.Indented, new JsonSerializerSettings {});
                 file.Write(serializedJson.ToString());
             }
         }
@@ -679,8 +608,7 @@ namespace CustomsForgeManager.UControls
             Globals.Log("Loading songs ... ");
             ClearCollections();
             // SAFETY FIRST - make sure a backup of the original cache.psarc exists
-            if (!File.Exists(Path.Combine(Constants.Rs2BackupDirectory, Path.ChangeExtension(Path.GetFileName(Constants.CachePsarcPath), ".psarc.org"))) ||
-                !File.Exists(Constants.ExtractedSongsHsanPath))
+            if (!File.Exists(Path.Combine(Constants.Rs2BackupDirectory, Path.ChangeExtension(Path.GetFileName(Constants.CachePsarcPath), ".psarc.org"))) || !File.Exists(Constants.ExtractedSongsHsanPath))
             {
                 if (!UnpackPsarcFiles())
                     return false;
@@ -719,14 +647,14 @@ namespace CustomsForgeManager.UControls
 
                 if (File.Exists(Constants.Rs1DiscPsarcPath))
                 {
-                    ExtractArchiveFiles(Constants.Rs1DiscPsarcPath, "songs_rs1disc.hsan", Constants.CpeWorkDirectory);
+                    ToolkitPrivateTools.ExtractArchiveFile(Constants.Rs1DiscPsarcPath, Constants.SongsRs1DiscInternalPath, Constants.CpeWorkDirectory);
                     ConditionalBackup(Constants.Rs1DiscPsarcPath, Path.Combine(Constants.Rs2BackupDirectory, Path.ChangeExtension(Path.GetFileName(Constants.Rs1DiscPsarcPath), ".psarc.org")));
                     ConditionalBackup(Constants.ExtractedRs1DiscHsanPath, Path.Combine(Constants.Rs2BackupDirectory, Path.ChangeExtension(Path.GetFileName(Constants.ExtractedRs1DiscHsanPath), ".hsan.org")));
                 }
 
                 if (File.Exists(Constants.Rs1DlcPsarcPath))
                 {
-                    ExtractArchiveFiles(Constants.Rs1DlcPsarcPath, "songs_rs1dlc.hsan", Constants.CpeWorkDirectory);
+                    ToolkitPrivateTools.ExtractArchiveFile(Constants.Rs1DlcPsarcPath, Constants.SongsRs1DlcInternalPath, Constants.CpeWorkDirectory);
                     ConditionalBackup(Constants.Rs1DlcPsarcPath, Path.Combine(Constants.Rs2BackupDirectory, Path.ChangeExtension(Path.GetFileName(Constants.Rs1DlcPsarcPath), ".psarc.org")));
                     ConditionalBackup(Constants.ExtractedRs1DlcHsanPath, Path.Combine(Constants.Rs2BackupDirectory, Path.ChangeExtension(Path.GetFileName(Constants.ExtractedRs1DlcHsanPath), ".hsan.org")));
                 }
@@ -740,11 +668,18 @@ namespace CustomsForgeManager.UControls
             }
         }
 
+        private void CachePsarcEditor_Leave(object sender, EventArgs e)
+        {
+            if (chkDeleteWorkDir.Checked)
+                if (Directory.Exists(Constants.CpeWorkDirectory))
+                    ZipUtilities.DeleteDirectory(Constants.CpeWorkDirectory);
+        }
+
         private void btnDisableSongs_Click(object sender, EventArgs e)
         {
             foreach (DataGridViewRow row in dgvSongs.Rows)
             {
-                DataGridViewCheckBoxCell chk = (DataGridViewCheckBoxCell)row.Cells["colSelect"];
+                DataGridViewCheckBoxCell chk = (DataGridViewCheckBoxCell) row.Cells["colSelect"];
                 if (chk.Value.ToString().ToLower() == "true" || row.Selected)
                 {
                     string rowSongKey = row.Cells["colSongKey"].Value.ToString();
@@ -782,7 +717,7 @@ namespace CustomsForgeManager.UControls
         {
             foreach (DataGridViewRow row in dgvSongs.Rows)
             {
-                DataGridViewCheckBoxCell chk = (DataGridViewCheckBoxCell)row.Cells["colSelect"];
+                DataGridViewCheckBoxCell chk = (DataGridViewCheckBoxCell) row.Cells["colSelect"];
                 if (chk.Value.ToString().ToLower() == "true" || row.Selected)
                 {
                     string rowSongKey = row.Cells["colSongKey"].Value.ToString();
@@ -825,6 +760,7 @@ namespace CustomsForgeManager.UControls
         private void btnSaveSongs_Click(object sender, EventArgs e)
         {
             Globals.Log("Saving " + cmbGameChoice.Text + " songs ...");
+            Globals.TsProgressBar_Main.Value = 0;
             Cursor = Cursors.WaitCursor;
             switch (cmbGameChoice.SelectedIndex)
             {
@@ -834,14 +770,10 @@ namespace CustomsForgeManager.UControls
                 case 1: // cache.psarc
                     if (File.Exists(Constants.ExtractedSongsHsanPath))
                         File.Delete(Constants.ExtractedSongsHsanPath);
-                    // for debugging
-                    var stop1 = CacheSongCollection;
-                    var stop2 = CacheEntireCollection;
-                    var stop3 = CacheDisabledSongCollection;
-                    var stop4 = CacheDisabledEntireCollection;
-                    var stop5 = "";
 
-                    SerializeSongFile(Constants.ExtractedSongsHsanPath, CacheEntireCollection, CacheDisabledEntireCollection, typeof(RS2VocalsData));
+                    Globals.TsProgressBar_Main.Value = 30;
+                    SerializeSongFile(Constants.ExtractedSongsHsanPath, CacheEntireCollection, CacheDisabledEntireCollection, typeof (RS2VocalsData));
+                    Globals.TsProgressBar_Main.Value = 70;
                     RepackCachePsarc();
                     break;
                 case 2: // rs1compatibilitydisc_p.psarc
@@ -850,8 +782,12 @@ namespace CustomsForgeManager.UControls
                         if (File.Exists(Constants.ExtractedRs1DiscHsanPath))
                             File.Delete(Constants.ExtractedRs1DiscHsanPath);
 
-                        SerializeSongFile(Constants.ExtractedRs1DiscHsanPath, Rs1DiscEntireCollection, Rs1DiscDisabledEntireCollection, typeof(RS1DiscVocalsData));
-                        RepackRs1DiscPsarc();
+                        Globals.TsProgressBar_Main.Value = 25;
+                        SerializeSongFile(Constants.ExtractedRs1DiscHsanPath, Rs1DiscEntireCollection, Rs1DiscDisabledEntireCollection, typeof (RS1DiscVocalsData));
+                        Globals.TsProgressBar_Main.Value = 50;
+                        ToolkitPrivateTools.InjectArchiveEntry(Constants.Rs1DiscPsarcPath, Constants.SongsRs1DiscInternalPath, Constants.ExtractedRs1DiscHsanPath);
+                        Globals.TsProgressBar_Main.Value = 75;
+                        ToolkitPrivateTools.InjectArchiveEntry(Constants.Rs1DiscPsarcPath, "toolkit.version");
                     }
                     break;
                 case 3: // rs1compatibilitydlc_p.psarc
@@ -860,14 +796,20 @@ namespace CustomsForgeManager.UControls
                         if (File.Exists(Constants.ExtractedRs1DlcHsanPath))
                             File.Delete(Constants.ExtractedRs1DlcHsanPath);
 
-                        SerializeSongFile(Constants.SongsRs1DlcInternalPath, Rs1DlcEntireCollection, Rs1DlcDisabledEntireCollection, typeof(RS1DLCVocalsData));
-                        RepackRs1DlcPsarc();
+                        Globals.TsProgressBar_Main.Value = 25;
+                        SerializeSongFile(Constants.ExtractedRs1DlcHsanPath, Rs1DlcEntireCollection, Rs1DlcDisabledEntireCollection, typeof (RS1DLCVocalsData));
+                        Globals.TsProgressBar_Main.Value = 50;
+                        ToolkitPrivateTools.InjectArchiveEntry(Constants.Rs1DlcPsarcPath, Constants.SongsRs1DlcInternalPath, Constants.ExtractedRs1DlcHsanPath);
+                        Globals.TsProgressBar_Main.Value = 75;
+                        ToolkitPrivateTools.InjectArchiveEntry(Constants.Rs1DlcPsarcPath, "toolkit.version");
                     }
                     break;
                 default:
                     throw new Exception("ComboGameChoice Failure");
             }
 
+            Globals.TsProgressBar_Main.Value = 100;
+            Globals.Log("Saving " + cmbGameChoice.Text + " songs ... SUCESSFUL");
             Cursor = Cursors.Default;
         }
 
@@ -875,7 +817,7 @@ namespace CustomsForgeManager.UControls
         {
             foreach (DataGridViewRow row in dgvSongs.Rows)
             {
-                DataGridViewCheckBoxCell chk = (DataGridViewCheckBoxCell)row.Cells["colSelect"];
+                DataGridViewCheckBoxCell chk = (DataGridViewCheckBoxCell) row.Cells["colSelect"];
                 chk.Value = !allSelected;
             }
             allSelected = !allSelected;
@@ -941,6 +883,5 @@ namespace CustomsForgeManager.UControls
                 Globals.TsLabel_DisabledCounter.Visible = true;
             }
         }
-
     }
 }

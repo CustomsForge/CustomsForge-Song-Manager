@@ -77,9 +77,11 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
 
         public static string Cache7zPath { get { return Path.Combine(CpeWorkDirectory, "cache_Pc", "cache7.7z"); } }
         public static string CachePcPath { get { return Path.Combine(CpeWorkDirectory, "cache_Pc"); } }
+        // cache7.7z internal paths uses back slashes (normal path mode)
         public static string SongsHsanInternalPath { get { return Path.Combine("manifests", "songs", "songs.hsan"); } }
-        public static string SongsRs1DiscInternalPath { get { return Path.Combine("rs1compatibilitydisc_p_Pc", "manifests", "songs_rs1disc", "rs1compatibilitydisc_p.psarc"); } }
-        public static string SongsRs1DlcInternalPath { get { return Path.Combine("rs1compatibilitydlc_p_Pc", "manifests", "songs_rs1dlc", "rs1compatibilitydlc_p.psarc"); } }
+        // this is not a mistake archive internal paths use forward slashes (internal path mode)
+        public static string SongsRs1DiscInternalPath { get { return @"manifests/songs_rs1disc/songs_rs1disc.hsan"; } }
+        public static string SongsRs1DlcInternalPath { get { return @"manifests/songs_rs1dlc/songs_rs1dlc.hsan"; } }
 
         #region URL constants
         public const string CustomsForgeURL = "http://customsforge.com/";

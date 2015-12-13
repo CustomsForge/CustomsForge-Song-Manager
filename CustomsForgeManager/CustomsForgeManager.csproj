@@ -196,6 +196,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="CustomsForgeManagerLib\PsarcPackage.cs" />
+    <Compile Include="CustomsForgeManagerLib\ToolkitPrivateTools.cs" />
     <Compile Include="CustomsForgeManagerLib\UITheme\CFSMTheme.cs" />
     <Compile Include="CustomsForgeManagerLib\UITheme\CFSMThemeSettings.cs" />
     <Compile Include="CustomsForgeManagerLib\UITheme\ThemePreview.cs">

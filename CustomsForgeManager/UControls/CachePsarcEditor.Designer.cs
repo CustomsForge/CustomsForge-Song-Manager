@@ -38,8 +38,15 @@
             this.cmbGameChoice = new System.Windows.Forms.ComboBox();
             this.lblSongsFrom = new System.Windows.Forms.Label();
             this.dgvSongs = new System.Windows.Forms.DataGridView();
+            this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.colEnabled = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSong = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colArtist = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colAlbum = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colTuning = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSongKey = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSongSource = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.lblTesting = new System.Windows.Forms.Label();
             this.lnkRefreshAll = new System.Windows.Forms.LinkLabel();
             this.lnkClearSearch = new System.Windows.Forms.LinkLabel();
             this.btnSaveSongs = new System.Windows.Forms.Button();
@@ -53,14 +60,6 @@
             this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.colEnabled = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSong = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colArtist = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colAlbum = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colTuning = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSongKey = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSongSource = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tlpCachePsarcEditor.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSongs)).BeginInit();
@@ -190,9 +189,63 @@
             this.dgvSongs.TabIndex = 4;
             this.dgvSongs.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongs_CellMouseUp);
             // 
+            // colSelect
+            // 
+            this.colSelect.HeaderText = "Select";
+            this.colSelect.Name = "colSelect";
+            this.colSelect.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colSelect.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.colSelect.Width = 43;
+            // 
+            // colEnabled
+            // 
+            this.colEnabled.HeaderText = "Enabled";
+            this.colEnabled.Name = "colEnabled";
+            this.colEnabled.ReadOnly = true;
+            this.colEnabled.Width = 53;
+            // 
+            // colSong
+            // 
+            this.colSong.HeaderText = "Song";
+            this.colSong.Name = "colSong";
+            this.colSong.ReadOnly = true;
+            this.colSong.Width = 150;
+            // 
+            // colArtist
+            // 
+            this.colArtist.HeaderText = "Artist";
+            this.colArtist.Name = "colArtist";
+            this.colArtist.ReadOnly = true;
+            this.colArtist.Width = 150;
+            // 
+            // colAlbum
+            // 
+            this.colAlbum.HeaderText = "Album";
+            this.colAlbum.Name = "colAlbum";
+            this.colAlbum.ReadOnly = true;
+            this.colAlbum.Width = 150;
+            // 
+            // colTuning
+            // 
+            this.colTuning.HeaderText = "Tuning";
+            this.colTuning.Name = "colTuning";
+            this.colTuning.ReadOnly = true;
+            this.colTuning.Width = 150;
+            // 
+            // colSongKey
+            // 
+            this.colSongKey.HeaderText = "Song Key";
+            this.colSongKey.Name = "colSongKey";
+            this.colSongKey.ReadOnly = true;
+            this.colSongKey.Width = 150;
+            // 
+            // colSongSource
+            // 
+            this.colSongSource.HeaderText = "Song Source";
+            this.colSongSource.Name = "colSongSource";
+            // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.lblTesting);
             this.panel1.Controls.Add(this.lnkRefreshAll);
             this.panel1.Controls.Add(this.lnkClearSearch);
             this.panel1.Controls.Add(this.tbSearch);
@@ -206,18 +259,6 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(486, 94);
             this.panel1.TabIndex = 5;
-            // 
-            // lblTesting
-            // 
-            this.lblTesting.AutoSize = true;
-            this.lblTesting.BackColor = System.Drawing.Color.Transparent;
-            this.lblTesting.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTesting.Location = new System.Drawing.Point(117, 3);
-            this.lblTesting.Name = "lblTesting";
-            this.lblTesting.Size = new System.Drawing.Size(227, 39);
-            this.lblTesting.TabIndex = 19;
-            this.lblTesting.Text = "FOR BETA TESTING ONLY\r\n\r\nCURRENTLY CAUSING GAME HANGS";
-            this.lblTesting.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lnkRefreshAll
             // 
@@ -335,61 +376,6 @@
             this.dataGridViewTextBoxColumn7.HeaderText = "Song Source";
             this.dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
             // 
-            // colSelect
-            // 
-            this.colSelect.HeaderText = "Select";
-            this.colSelect.Name = "colSelect";
-            this.colSelect.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colSelect.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.colSelect.Width = 43;
-            // 
-            // colEnabled
-            // 
-            this.colEnabled.HeaderText = "Enabled";
-            this.colEnabled.Name = "colEnabled";
-            this.colEnabled.ReadOnly = true;
-            this.colEnabled.Width = 53;
-            // 
-            // colSong
-            // 
-            this.colSong.HeaderText = "Song";
-            this.colSong.Name = "colSong";
-            this.colSong.ReadOnly = true;
-            this.colSong.Width = 150;
-            // 
-            // colArtist
-            // 
-            this.colArtist.HeaderText = "Artist";
-            this.colArtist.Name = "colArtist";
-            this.colArtist.ReadOnly = true;
-            this.colArtist.Width = 150;
-            // 
-            // colAlbum
-            // 
-            this.colAlbum.HeaderText = "Album";
-            this.colAlbum.Name = "colAlbum";
-            this.colAlbum.ReadOnly = true;
-            this.colAlbum.Width = 150;
-            // 
-            // colTuning
-            // 
-            this.colTuning.HeaderText = "Tuning";
-            this.colTuning.Name = "colTuning";
-            this.colTuning.ReadOnly = true;
-            this.colTuning.Width = 150;
-            // 
-            // colSongKey
-            // 
-            this.colSongKey.HeaderText = "Song Key";
-            this.colSongKey.Name = "colSongKey";
-            this.colSongKey.ReadOnly = true;
-            this.colSongKey.Width = 150;
-            // 
-            // colSongSource
-            // 
-            this.colSongSource.HeaderText = "Song Source";
-            this.colSongSource.Name = "colSongSource";
-            // 
             // CachePsarcEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -441,6 +427,5 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colSongKey;
         private System.Windows.Forms.DataGridViewTextBoxColumn colSongSource;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
-        private System.Windows.Forms.Label lblTesting;
     }
 }

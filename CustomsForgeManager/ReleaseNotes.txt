@@ -1,8 +1,9 @@
 CFM Release Notes
 
-hotfix
--Minor duplicate Persistent ID color tweakage.
--CachePsarcEditor is working for cache.psarc portion.
+1.1.1.8
+-CachePsarcEditor is debugged and working - ready for beta testing.
+-Added generic and reusable archive entry extractor, injector, and remover methods.
+-Added toolstrip progress bar action and addition log file entries for CachePsarcEditor
 
 1.1.1.7
 -Added song time display to Audio Playback ToolStrip (APTS) and cleaned up appearance
