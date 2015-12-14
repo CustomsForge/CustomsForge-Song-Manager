@@ -337,7 +337,6 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
 
         public static void BackupRocksmithProfile()
         {
-            // TODO: confirm this works
             try
             {
                 string timestamp = string.Format("{0}-{1}-{2}.{3}-{4}-{5}", DateTime.Now.Day, DateTime.Now.Month, DateTime.Now.Year, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
@@ -501,10 +500,6 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
             if (Constants.DebugMode)
                 Globals.Log(act.Method.Name + " took: " + sw.ElapsedMilliseconds + " (msec)");
         }
-
-
-
-
 
 
     }

@@ -39,6 +39,7 @@ namespace CustomsForgeManager.UControls
                 cueRsDir.Text = AppSettings.Instance.RSInstalledDir;
                 chkIncludeRS1DLC.Checked = AppSettings.Instance.IncludeRS1DLCs;
                 chkEnableLogBallon.Checked = AppSettings.Instance.EnabledLogBaloon;
+                chkCleanOnClosing.Checked = AppSettings.Instance.CleanOnClosing;
                 tbCreator.Text = AppSettings.Instance.CreatorName;
 
                 ValidateRsDir();
@@ -61,6 +62,9 @@ namespace CustomsForgeManager.UControls
                     break;
                 case "EnabledLogBaloon":
                     chkEnableLogBallon.Checked = AppSettings.Instance.EnabledLogBaloon;
+                    break;
+                case "CleanOnClosing":
+                    chkCleanOnClosing.Checked = AppSettings.Instance.CleanOnClosing;
                     break;
                 case "CreatorName":
                     tbCreator.Text = AppSettings.Instance.CreatorName;
@@ -241,6 +245,11 @@ namespace CustomsForgeManager.UControls
         private void chkIncludeRS1DLC_CheckedChanged(object sender, EventArgs e)
         {
             AppSettings.Instance.IncludeRS1DLCs = chkIncludeRS1DLC.Checked;
+        }
+
+        private void chkCleanOnClosing_CheckedChanged(object sender, EventArgs e)
+        {
+            AppSettings.Instance.CleanOnClosing = chkCleanOnClosing.Checked;     
         }
 
 

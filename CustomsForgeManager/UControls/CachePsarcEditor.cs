@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
-using System.IO.Pipes;
 using System.Linq;
 using System.Windows.Forms;
 using CustomsForgeManager.CustomsForgeManagerLib;
@@ -12,8 +12,6 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Reflection;
 using RocksmithToolkitLib;
-using CFSM.Utils.PSARC;
-using RocksmithToolkitLib.Extensions;
 using SevenZip;
 using Extensions = CustomsForgeManager.CustomsForgeManagerLib.Extensions;
 
@@ -21,15 +19,13 @@ namespace CustomsForgeManager.UControls
 {
     public partial class CachePsarcEditor : UserControl
     {
+        // TODO: Impliment Safe Threading for long duration processes
+        // HINT: search for occurences of 'this.Enabled = false;'
+
         private RSDataJsonDictionary<RS2SongsData> CacheDisabledEntireCollection = new RSDataJsonDictionary<RS2SongsData>();
         private RSDataJsonDictionary<RS2SongsData> CacheDisabledSongCollection = new RSDataJsonDictionary<RS2SongsData>();
         private RSDataJsonDictionary<RS2SongsData> CacheEntireCollection = new RSDataJsonDictionary<RS2SongsData>();
         private RSDataJsonDictionary<RS2SongsData> CacheSongCollection = new RSDataJsonDictionary<RS2SongsData>();
-
-        private RSDataJsonDictionary<RS2SongsData> CombinedDisabledEntireCollection = new RSDataJsonDictionary<RS2SongsData>();
-        private RSDataJsonDictionary<RS2SongsData> CombinedDisabledSongCollection = new RSDataJsonDictionary<RS2SongsData>();
-        private RSDataJsonDictionary<RS2SongsData> CombinedEntireCollection = new RSDataJsonDictionary<RS2SongsData>();
-        private RSDataJsonDictionary<RS2SongsData> CombinedSongCollection = new RSDataJsonDictionary<RS2SongsData>();
 
         private RSDataJsonDictionary<RS1DiscData> Rs1DiscDisabledEntireCollection = new RSDataJsonDictionary<RS1DiscData>();
         private RSDataJsonDictionary<RS1DiscData> Rs1DiscDisabledSongCollection = new RSDataJsonDictionary<RS1DiscData>();
@@ -40,7 +36,7 @@ namespace CustomsForgeManager.UControls
         private RSDataJsonDictionary<RS1DlcData> Rs1DlcDisabledSongCollection = new RSDataJsonDictionary<RS1DlcData>();
         private RSDataJsonDictionary<RS1DlcData> Rs1DlcEntireCollection = new RSDataJsonDictionary<RS1DlcData>();
         private RSDataJsonDictionary<RS1DlcData> Rs1DlcSongCollection = new RSDataJsonDictionary<RS1DlcData>();
- 
+
         private bool allSelected = false;
 
         public CachePsarcEditor()
@@ -72,21 +68,21 @@ namespace CustomsForgeManager.UControls
             }
         }
 
-        private void AddToDGV(dynamic songCollection, bool enabled = true)
+        private void AddToDGV(dynamic songCollection, bool enabled = true, string songSource = null)
         {
             foreach (dynamic song in songCollection)
             {
                 foreach (dynamic songAttributes in song.Value)
                 {
                     dynamic songData = songAttributes.Value;
-                    CacheSongData sngData = AttributesToSongData(songData, enabled);
+                    CacheSongData sngData = AttributesToSongData(songData, enabled, songSource);
 
-                    dgvSongs.Rows.Add(false, sngData.Enabled, sngData.Title, sngData.Artist, sngData.Album, sngData.Tuning, sngData.SongKey);
+                    dgvSongs.Rows.Add(false, sngData.Enabled, sngData.Title, sngData.Artist, sngData.Album, sngData.Tuning, sngData.SongKey, sngData.SongSource);
                 }
             }
         }
 
-        private CacheSongData AttributesToSongData(dynamic songAttributes, bool enabled = true)
+        private CacheSongData AttributesToSongData(dynamic songAttributes, bool enabled = true, string songSource = null)
         {
             CacheSongData song = new CacheSongData();
             string tuning = "";
@@ -96,6 +92,8 @@ namespace CustomsForgeManager.UControls
             song.Album = songAttributes.AlbumName;
             song.SongKey = songAttributes.SongKey;
             song.Enabled = enabled ? "Yes" : "No";
+            song.SongSource = songSource;
+
             if (songAttributes.ArrangementName != "Vocals")
             {
                 foreach (KeyValuePair<string, int> stringTuning in songAttributes.Tuning)
@@ -117,11 +115,6 @@ namespace CustomsForgeManager.UControls
             CacheDisabledSongCollection.Clear();
             CacheEntireCollection.Clear();
             CacheSongCollection.Clear();
-
-            CombinedDisabledEntireCollection.Clear();
-            CombinedDisabledSongCollection.Clear();
-            CombinedEntireCollection.Clear();
-            CombinedSongCollection.Clear();
 
             Rs1DiscDisabledEntireCollection.Clear();
             Rs1DiscDisabledSongCollection.Clear();
@@ -207,7 +200,7 @@ namespace CustomsForgeManager.UControls
                     disabledCount++;
                 }
                 else
-                    row.DefaultCellStyle.BackColor = Color.White;
+                    row.DefaultCellStyle.BackColor = Color.Empty; // Color.White;
             }
 
             return disabledCount;
@@ -257,7 +250,7 @@ namespace CustomsForgeManager.UControls
                 {
                     if (songAttributes.Value.ArtistName != null)
                     {
-                        if (songAttributes.Value.SongName.ToLower().Contains(tbSearch.Text.ToLower()) || songAttributes.Value.AlbumName.ToLower().Contains(tbSearch.Text.ToLower()) || songAttributes.Value.ArtistName.ToLower().Contains(tbSearch.Text.ToLower()) || songAttributes.Value.Tuning.ToString().TuningToName().ToLower().Contains(tbSearch.Text.ToLower()) || songAttributes.Value.SongKey.ToLower().Contains(tbSearch.Text.ToLower()))
+                        if (songAttributes.Value.SongName.ToLower().Contains(cueSearch.Text.ToLower()) || songAttributes.Value.AlbumName.ToLower().Contains(cueSearch.Text.ToLower()) || songAttributes.Value.ArtistName.ToLower().Contains(cueSearch.Text.ToLower()) || songAttributes.Value.Tuning.ToString().TuningToName().ToLower().Contains(cueSearch.Text.ToLower()) || songAttributes.Value.SongKey.ToLower().Contains(cueSearch.Text.ToLower()))
                             matchingSongs.Add(songAttributes.Value);
                     }
                 }
@@ -266,14 +259,70 @@ namespace CustomsForgeManager.UControls
             return matchingSongs;
         }
 
+        private void InitGenericDgvLook(DataGridView dgvLook)
+        {
+            // TODO: convert this to a generic method that can be applied to any datagridview
+            // set all columns to read only except colSelect
+            foreach (DataGridViewColumn col in dgvSongs.Columns)
+                col.ReadOnly = true;
+
+            dgvLook.Visible = true; // needs to come now so settings apply correctly
+            dgvLook.AlternatingRowsDefaultCellStyle = new DataGridViewCellStyle() { BackColor = Color.LightSteelBlue };
+            dgvLook.AllowUserToAddRows = false; // removes empty row at bottom
+            dgvLook.AllowUserToDeleteRows = false;
+            dgvLook.AllowUserToOrderColumns = true;
+            dgvLook.AllowUserToResizeColumns = true;
+            dgvLook.AllowUserToResizeRows = false;
+            dgvLook.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCells);
+            dgvLook.BackgroundColor = SystemColors.AppWorkspace;
+            dgvLook.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            // required when using FilteredBindingList
+            dgvLook.ColumnHeadersDefaultCellStyle.WrapMode = DataGridViewTriState.False;
+            dgvLook.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            // set custom selection (highlighting) color
+            dgvLook.DefaultCellStyle.SelectionBackColor = Color.Gold; // dgvLook.DefaultCellStyle.BackColor; // or removes selection highlight
+            dgvLook.DefaultCellStyle.SelectionForeColor = dgvLook.DefaultCellStyle.ForeColor;
+            // this overrides any user ability to make changes 
+            // dgvLook.EditMode = DataGridViewEditMode.EditProgrammatically;
+            dgvLook.EditMode = DataGridViewEditMode.EditOnEnter;
+            dgvLook.EnableHeadersVisualStyles = true;
+            dgvLook.Font = new Font("Arial", 8);
+            dgvLook.GridColor = SystemColors.ActiveCaption;
+            dgvLook.MultiSelect = false;
+            // dgvLook.Name = "dgvLook";
+            dgvLook.RowHeadersVisible = false; // remove row arrow
+            dgvLook.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+
+            dgvLook.Columns["colSelect"].ReadOnly = false; // careful is overridden by EditProgrammatically
+            dgvLook.Columns["colSelect"].Width = 54;
+            dgvLook.Columns["colEnabled"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dgvLook.Columns["colEnabled"].Width = 54;
+
+            foreach (DataGridViewColumn col in dgvLook.Columns)
+                col.SortMode = DataGridViewColumnSortMode.Automatic;
+
+            dgvLook.Invalidate();
+        }
+
         private void InitializeCachePsarcEditor()
         {
             // provides for complete fresh reload of tabpage
             InitializeComponent();
-            Leave += CachePsarcEditor_Leave;
             this.Enabled = true;
             Globals.ReloadCachePsarcEditor = false;
+            InitializeSongPacksCombo();
+            InitGenericDgvLook(dgvSongs);
             PopulateCachePsarcEditor();
+        }
+
+        private void InitializeSongPacksCombo()
+        {
+            cmbSongPacks.Items.Clear();
+            cmbSongPacks.Items.Add("Rocksmith Main Tracks");
+            cmbSongPacks.Items.Add("RS1 Compatibility Disc");
+            cmbSongPacks.Items.Add("RS1 Compatibility DLC");
+            // add new song packs here
+            cmbSongPacks.SelectedIndex = 0;
         }
 
         private void PopulateCachePsarcEditor()
@@ -284,7 +333,6 @@ namespace CustomsForgeManager.UControls
             PropertyInfo pi = dgvType.GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic);
             pi.SetValue(dgvSongs, true, null);
 
-            cmbGameChoice.SelectedIndex = 1;
             Globals.TuningXml = TuningDefinitionRepository.LoadTuningDefinitions(GameVersion.RS2014);
 
             var rsDir = AppSettings.Instance.RSInstalledDir;
@@ -315,27 +363,28 @@ namespace CustomsForgeManager.UControls
         {
             dgvSongs.Rows.Clear();
 
-            switch (cmbGameChoice.SelectedIndex)
+            switch (cmbSongPacks.SelectedIndex)
             {
-                case 0: // All
-                    // AddToDGV(CombinedDisabledSongCollection, false);
-                    // AddToDGV(CombinedSongCollection, true);
+                case 0: // cache.psarc
+                    AddToDGV(CacheDisabledSongCollection, false, "cache.psarc");
+                    AddToDGV(CacheSongCollection, true, "cache.psarc");
                     break;
-                case 1: // cache.psarc
-                    AddToDGV(CacheDisabledSongCollection, false);
-                    AddToDGV(CacheSongCollection, true);
+                case 1: // rs1compatibilitydisc_p.psarc
+                    AddToDGV(Rs1DiscDisabledSongCollection, false, "rs1compatibilitydisc_p.psarc");
+                    AddToDGV(Rs1DiscSongCollection, true, "rs1compatibilitydisc_p.psarc");
                     break;
-                case 2: // rs1compatibilitydisc_p.psarc
-                    AddToDGV(Rs1DiscDisabledSongCollection, false);
-                    AddToDGV(Rs1DiscSongCollection, true);
-                    break;
-                case 3: // rs1compatibilitydlc_p.psarc
-                    AddToDGV(Rs1DlcDisabledSongCollection, false);
-                    AddToDGV(Rs1DlcSongCollection, true);
+                case 2: // rs1compatibilitydlc_p.psarc
+                    AddToDGV(Rs1DlcDisabledSongCollection, false, "rs1compatibilitydlc_p.psarc");
+                    AddToDGV(Rs1DlcSongCollection, true, "rs1compatibilitydlc_p.psarc");
                     break;
                 default:
-                    throw new Exception("ComboGameChoice Failure");
+                    throw new Exception("Song Packs Combobox Failure");
             }
+
+            // forces sort glyph to show up on startup with enabled 'No' at top
+            dgvSongs.Columns["colEnabled"].HeaderCell.SortGlyphDirection = SortOrder.Ascending;
+            // override generic generic ColumnsMode
+            dgvSongs.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
             UpdateToolStrip();
         }
@@ -380,9 +429,6 @@ namespace CustomsForgeManager.UControls
             if (File.Exists(Constants.ExtractedRs1DlcHsanPath))
                 PopulateSongList(Constants.ExtractedRs1DlcHsanPath, Rs1DlcSongCollection, ref Rs1DlcEntireCollection, Rs1DlcDisabledSongCollection, ref Rs1DlcDisabledEntireCollection);
 
-            // TODO: combine all song lists
-            // CombinedSongCollection = CacheSongCollection.Union(Rs1DiscSongCollection).Union(Rs1DlcSongCollection).ToDictionary();
-
             var songCount = CacheSongCollection.Count + Rs1DiscSongCollection.Count + Rs1DlcSongCollection.Count;
 
             if (songCount == 0)
@@ -391,18 +437,41 @@ namespace CustomsForgeManager.UControls
             return true;
         }
 
-        private void RefreshDGVAfterSearching(dynamic songCollection, dynamic disabledSongCollection)
+        private void RefreshDGVAfterSearching(dynamic songCollection, dynamic disabledSongCollection, string songSource)
         {
-            var filteredSongCollection = GetMatchingSongs(disabledSongCollection, tbSearch.Text);
+            var filteredSongCollection = GetMatchingSongs(disabledSongCollection, cueSearch.Text);
             dgvSongs.Rows.Clear();
 
             foreach (var song in filteredSongCollection)
-                dgvSongs.Rows.Add(false, "No", song.SongName, song.ArtistName, song.AlbumName, CustomsForgeManagerLib.Extensions.TuningStringToName(TuningJsonToStrings(song.Tuning)), song.SongKey);
+                dgvSongs.Rows.Add(false, "No", song.SongName, song.ArtistName, song.AlbumName, CustomsForgeManagerLib.Extensions.TuningStringToName(TuningJsonToStrings(song.Tuning)), song.SongKey, songSource);
 
-            filteredSongCollection = GetMatchingSongs(songCollection, tbSearch.Text);
+            filteredSongCollection = GetMatchingSongs(songCollection, cueSearch.Text);
 
             foreach (var song in filteredSongCollection)
-                dgvSongs.Rows.Add(false, "Yes", song.SongName, song.ArtistName, song.AlbumName, CustomsForgeManagerLib.Extensions.TuningStringToName(TuningJsonToStrings(song.Tuning)), song.SongKey);
+                dgvSongs.Rows.Add(false, "Yes", song.SongName, song.ArtistName, song.AlbumName, CustomsForgeManagerLib.Extensions.TuningStringToName(TuningJsonToStrings(song.Tuning)), song.SongKey, songSource);
+        }
+
+        private void RefreshDgvSongs()
+        {
+            allSelected = false;
+            cueSearch.Text = "";
+
+            switch (cmbSongPacks.SelectedIndex)
+            {
+                case 0: // cache.psarc
+                    RefreshDGVAfterSearching(CacheSongCollection, CacheDisabledSongCollection, "cache.psarc");
+                    break;
+                case 1: // rs1compatibilitydisc_p.psarc
+                    RefreshDGVAfterSearching(Rs1DiscSongCollection, Rs1DiscDisabledSongCollection, "rs1compatibilitydisc_p.psarc");
+                    break;
+                case 2: // rs1compatibilitydlc_p.psarc
+                    RefreshDGVAfterSearching(Rs1DlcSongCollection, Rs1DlcDisabledSongCollection, "rs1compatibilitydlc_p.psarc");
+                    break;
+                default:
+                    throw new Exception("Song Packs Combobox Failure");
+            }
+
+            UpdateToolStrip();
         }
 
         private bool RepackCachePsarc()
@@ -413,7 +482,7 @@ namespace CustomsForgeManager.UControls
                     throw new IOException();
 
                 if (!File.Exists(Path.Combine(Constants.CachePcPath, "sltsv1_aggregategraph.nt")))
-                    Extensions.ExtractEmbeddedResource(Constants.CachePcPath, "CustomsForgeManager.Resources", new string[] {"sltsv1_aggregategraph.nt"});
+                    Extensions.ExtractEmbeddedResource(Constants.CachePcPath, "CustomsForgeManager.Resources", new string[] { "sltsv1_aggregategraph.nt" });
 
                 ZipUtilities.InjectFile(Constants.ExtractedSongsHsanPath, Constants.Cache7zPath, Constants.SongsHsanInternalPath, OutArchiveFormat.SevenZip, CompressionMode.Append);
 
@@ -498,11 +567,11 @@ namespace CustomsForgeManager.UControls
             var tempFullSongCollection = new Dictionary<string, Dictionary<string, dynamic>>();
             var tempFullDisabledSongCollection = new Dictionary<string, Dictionary<string, dynamic>>();
 
-            var DataConstructor = vdType.GetConstructor(new Type[] {});
+            var DataConstructor = vdType.GetConstructor(new Type[] { });
 
-            RSDataJsonDictionary<T>[] dicArray = new RSDataJsonDictionary<T>[] {fullSongCollection, fullDisabledSongCollection};
+            RSDataJsonDictionary<T>[] dicArray = new RSDataJsonDictionary<T>[] { fullSongCollection, fullDisabledSongCollection };
 
-            Dictionary<string, Dictionary<string, dynamic>>[] tempDicArray = new Dictionary<string, Dictionary<string, dynamic>>[] {tempFullSongCollection, tempFullDisabledSongCollection};
+            Dictionary<string, Dictionary<string, dynamic>>[] tempDicArray = new Dictionary<string, Dictionary<string, dynamic>>[] { tempFullSongCollection, tempFullDisabledSongCollection };
 
             for (int i = 0; i < dicArray.Length; i++)
             {
@@ -514,7 +583,7 @@ namespace CustomsForgeManager.UControls
 
                         if (sngVal.ArrangementName == "Vocals")
                         {
-                            var rsv = (RS2VocalsData) DataConstructor.Invoke(new object[] {});
+                            var rsv = (RS2VocalsData)DataConstructor.Invoke(new object[] { });
                             rsv.AlbumArt = sngVal.AlbumArt;
                             rsv.ArrangementName = "Vocals";
                             rsv.DLC = sngVal.DLC;
@@ -527,10 +596,10 @@ namespace CustomsForgeManager.UControls
                             rsv.SongKey = sngVal.SongKey;
 
                             if (rsv is RS1DiscVocalsData)
-                                ((RS1DiscVocalsData) rsv).DLCKey = (sngVal as RS1DiscData).DLCKey;
+                                ((RS1DiscVocalsData)rsv).DLCKey = (sngVal as RS1DiscData).DLCKey;
 
                             if (rsv is RS1DLCVocalsData)
-                                ((RS1DLCVocalsData) rsv).DLCKey = (sngVal as RS1DlcData).DLCKey;
+                                ((RS1DLCVocalsData)rsv).DLCKey = (sngVal as RS1DlcData).DLCKey;
 
                             var currSng = new Dictionary<string, dynamic>();
                             currSng.Add("Attributes", rsv);
@@ -593,12 +662,11 @@ namespace CustomsForgeManager.UControls
                 }
             }
 
-            //  manifests/songs_rs1dlc/songs_rs1dlc.hsan
             using (StreamWriter file = new StreamWriter(songHsanPath))
             {
-                dynamic songJson = new {Entries = tempFullSongCollection, DisabledSongs = tempFullDisabledSongCollection, InsertRoot = "Static.Songs.Headers"};
+                dynamic songJson = new { Entries = tempFullSongCollection, DisabledSongs = tempFullDisabledSongCollection, InsertRoot = "Static.Songs.Headers" };
 
-                JToken serializedJson = JsonConvert.SerializeObject(songJson, Formatting.Indented, new JsonSerializerSettings {});
+                JToken serializedJson = JsonConvert.SerializeObject(songJson, Formatting.Indented, new JsonSerializerSettings { });
                 file.Write(serializedJson.ToString());
             }
         }
@@ -640,6 +708,7 @@ namespace CustomsForgeManager.UControls
                     return false;
                 }
 
+                this.Enabled = false;
                 Packer.Unpack(Constants.CachePsarcPath, Constants.CpeWorkDirectory);
                 ExtractSongsHsan();
                 ConditionalBackup(Constants.CachePsarcPath, Path.Combine(Constants.Rs2BackupDirectory, Path.ChangeExtension(Path.GetFileName(Constants.CachePsarcPath), ".psarc.org")));
@@ -666,40 +735,34 @@ namespace CustomsForgeManager.UControls
                 MessageBox.Show("One or more required files is missing, please install the application!", "Required files missing!", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 return false;
             }
-        }
-
-        private void CachePsarcEditor_Leave(object sender, EventArgs e)
-        {
-            if (chkDeleteWorkDir.Checked)
-                if (Directory.Exists(Constants.CpeWorkDirectory))
-                    ZipUtilities.DeleteDirectory(Constants.CpeWorkDirectory);
+            finally
+            {
+                this.Enabled = true;
+            }
         }
 
         private void btnDisableSongs_Click(object sender, EventArgs e)
         {
             foreach (DataGridViewRow row in dgvSongs.Rows)
             {
-                DataGridViewCheckBoxCell chk = (DataGridViewCheckBoxCell) row.Cells["colSelect"];
+                DataGridViewCheckBoxCell chk = (DataGridViewCheckBoxCell)row.Cells["colSelect"];
                 if (chk.Value.ToString().ToLower() == "true" || row.Selected)
                 {
                     string rowSongKey = row.Cells["colSongKey"].Value.ToString();
 
-                    switch (cmbGameChoice.SelectedIndex)
+                    switch (cmbSongPacks.SelectedIndex)
                     {
-                        case 0: // All
-                            //DisableSong(CombinedSongCollection, CombinedEntireCollection, CombinedDisabledSongCollection, CombinedDisabledEntireCollection, rowSongKey);
-                            break;
-                        case 1: // cache.psarc
+                        case 0: // cache.psarc
                             DisableSong(CacheSongCollection, CacheEntireCollection, CacheDisabledSongCollection, CacheDisabledEntireCollection, rowSongKey);
                             break;
-                        case 2: // rs1compatibilitydisc_p.psarc
+                        case 1: // rs1compatibilitydisc_p.psarc
                             DisableSong(Rs1DiscSongCollection, Rs1DiscEntireCollection, Rs1DiscDisabledSongCollection, Rs1DiscDisabledEntireCollection, rowSongKey);
                             break;
-                        case 3: // rs1compatibilitydlc_p.psarc
+                        case 2: // rs1compatibilitydlc_p.psarc
                             DisableSong(Rs1DlcSongCollection, Rs1DlcEntireCollection, Rs1DlcDisabledSongCollection, Rs1DlcDisabledEntireCollection, rowSongKey);
                             break;
                         default:
-                            throw new Exception("ComboGameChoice Failure");
+                            throw new Exception("Song Packs Combobox Failure");
                     }
 
                     if (row.Index != -1)
@@ -717,33 +780,30 @@ namespace CustomsForgeManager.UControls
         {
             foreach (DataGridViewRow row in dgvSongs.Rows)
             {
-                DataGridViewCheckBoxCell chk = (DataGridViewCheckBoxCell) row.Cells["colSelect"];
+                DataGridViewCheckBoxCell chk = (DataGridViewCheckBoxCell)row.Cells["colSelect"];
                 if (chk.Value.ToString().ToLower() == "true" || row.Selected)
                 {
                     string rowSongKey = row.Cells["colSongKey"].Value.ToString();
 
-                    switch (cmbGameChoice.SelectedIndex)
+                    switch (cmbSongPacks.SelectedIndex)
                     {
-                        case 0: // All
-                            //EnableSong(CombinedSongCollection, CacheEntireCollection, CombinedDisabledSongCollection, CacheDisabledEntireCollection, rowSongKey);
-                            break;
-                        case 1: // cache.psarc
+                        case 0: // cache.psarc
                             EnableSong(CacheSongCollection, CacheEntireCollection, CacheDisabledSongCollection, CacheDisabledEntireCollection, rowSongKey);
                             break;
-                        case 2: // rs1compatibilitydisc_p.psarc
+                        case 1: // rs1compatibilitydisc_p.psarc
                             EnableSong(Rs1DiscSongCollection, Rs1DiscEntireCollection, Rs1DiscDisabledSongCollection, Rs1DiscDisabledEntireCollection, rowSongKey);
                             break;
-                        case 3: // rs1compatibilitydlc_p.psarc
+                        case 2: // rs1compatibilitydlc_p.psarc
                             EnableSong(Rs1DlcSongCollection, Rs1DlcEntireCollection, Rs1DlcDisabledSongCollection, Rs1DlcDisabledEntireCollection, rowSongKey);
                             break;
                         default:
-                            throw new Exception("ComboGameChoice Failure");
+                            throw new Exception("Song Packs Combobox Failure");
                     }
 
                     if (row.Index != -1)
                     {
                         row.Cells["colEnabled"].Value = "Yes";
-                        row.DefaultCellStyle.BackColor = Color.White;
+                        row.DefaultCellStyle.BackColor = Color.Empty; // Color.White;
                         row.Cells["colSelect"].Value = false;
                         row.Selected = false;
                     }
@@ -753,51 +813,52 @@ namespace CustomsForgeManager.UControls
 
         private void btnRestoreBackup_Click(object sender, EventArgs e)
         {
+            this.Enabled = false;
             RestoreOriginalSongBackups();
             PopulateCachePsarcEditor();
+            this.Enabled = true;
         }
 
         private void btnSaveSongs_Click(object sender, EventArgs e)
         {
-            Globals.Log("Saving " + cmbGameChoice.Text + " songs ...");
+            Globals.Log("Saving " + cmbSongPacks.Text + " songs ...");
             Globals.TsProgressBar_Main.Value = 0;
             Cursor = Cursors.WaitCursor;
-            switch (cmbGameChoice.SelectedIndex)
+            this.Enabled = false;
+
+            switch (cmbSongPacks.SelectedIndex)
             {
-                case 0: // All
-                    // TODO: impliment foreach
-                    break;
-                case 1: // cache.psarc
+                case 0: // cache.psarc
                     if (File.Exists(Constants.ExtractedSongsHsanPath))
                         File.Delete(Constants.ExtractedSongsHsanPath);
 
                     Globals.TsProgressBar_Main.Value = 30;
-                    SerializeSongFile(Constants.ExtractedSongsHsanPath, CacheEntireCollection, CacheDisabledEntireCollection, typeof (RS2VocalsData));
+                    SerializeSongFile(Constants.ExtractedSongsHsanPath, CacheEntireCollection, CacheDisabledEntireCollection, typeof(RS2VocalsData));
                     Globals.TsProgressBar_Main.Value = 70;
                     RepackCachePsarc();
                     break;
-                case 2: // rs1compatibilitydisc_p.psarc
+                case 1: // rs1compatibilitydisc_p.psarc
                     if (File.Exists(Constants.Rs1DiscPsarcPath))
                     {
                         if (File.Exists(Constants.ExtractedRs1DiscHsanPath))
                             File.Delete(Constants.ExtractedRs1DiscHsanPath);
 
                         Globals.TsProgressBar_Main.Value = 25;
-                        SerializeSongFile(Constants.ExtractedRs1DiscHsanPath, Rs1DiscEntireCollection, Rs1DiscDisabledEntireCollection, typeof (RS1DiscVocalsData));
+                        SerializeSongFile(Constants.ExtractedRs1DiscHsanPath, Rs1DiscEntireCollection, Rs1DiscDisabledEntireCollection, typeof(RS1DiscVocalsData));
                         Globals.TsProgressBar_Main.Value = 50;
                         ToolkitPrivateTools.InjectArchiveEntry(Constants.Rs1DiscPsarcPath, Constants.SongsRs1DiscInternalPath, Constants.ExtractedRs1DiscHsanPath);
                         Globals.TsProgressBar_Main.Value = 75;
                         ToolkitPrivateTools.InjectArchiveEntry(Constants.Rs1DiscPsarcPath, "toolkit.version");
                     }
                     break;
-                case 3: // rs1compatibilitydlc_p.psarc
+                case 2: // rs1compatibilitydlc_p.psarc
                     if (File.Exists(Constants.Rs1DlcPsarcPath))
                     {
                         if (File.Exists(Constants.ExtractedRs1DlcHsanPath))
                             File.Delete(Constants.ExtractedRs1DlcHsanPath);
 
                         Globals.TsProgressBar_Main.Value = 25;
-                        SerializeSongFile(Constants.ExtractedRs1DlcHsanPath, Rs1DlcEntireCollection, Rs1DlcDisabledEntireCollection, typeof (RS1DLCVocalsData));
+                        SerializeSongFile(Constants.ExtractedRs1DlcHsanPath, Rs1DlcEntireCollection, Rs1DlcDisabledEntireCollection, typeof(RS1DLCVocalsData));
                         Globals.TsProgressBar_Main.Value = 50;
                         ToolkitPrivateTools.InjectArchiveEntry(Constants.Rs1DlcPsarcPath, Constants.SongsRs1DlcInternalPath, Constants.ExtractedRs1DlcHsanPath);
                         Globals.TsProgressBar_Main.Value = 75;
@@ -805,11 +866,12 @@ namespace CustomsForgeManager.UControls
                     }
                     break;
                 default:
-                    throw new Exception("ComboGameChoice Failure");
+                    throw new Exception("Song Packs Combobox Failure");
             }
 
             Globals.TsProgressBar_Main.Value = 100;
-            Globals.Log("Saving " + cmbGameChoice.Text + " songs ... SUCESSFUL");
+            Globals.Log("Saving " + cmbSongPacks.Text + " songs ... SUCESSFUL");
+            this.Enabled = true;
             Cursor = Cursors.Default;
         }
 
@@ -817,50 +879,35 @@ namespace CustomsForgeManager.UControls
         {
             foreach (DataGridViewRow row in dgvSongs.Rows)
             {
-                DataGridViewCheckBoxCell chk = (DataGridViewCheckBoxCell) row.Cells["colSelect"];
+                DataGridViewCheckBoxCell chk = (DataGridViewCheckBoxCell)row.Cells["colSelect"];
                 chk.Value = !allSelected;
             }
             allSelected = !allSelected;
         }
 
-        private void cmbGameChoice_SelectedIndexChanged(object sender, EventArgs e)
+        private void cmbSongPacks_SelectedIndexChanged(object sender, EventArgs e)
         {
-            allSelected = false;
-            tbSearch.Text = "";
+            RefreshDgvSongs();
+        }
 
-            switch (cmbGameChoice.SelectedIndex)
-            {
-                case 0: // All
-                    // TODO: Impliment
-                    RefreshDGVAfterSearching(CombinedSongCollection, CombinedDisabledSongCollection);
-                    break;
-                case 1: // cache.psarc
-                    RefreshDGVAfterSearching(CacheSongCollection, CacheDisabledSongCollection);
-                    break;
-                case 2: // rs1compatibilitydisc_p.psarc
-                    RefreshDGVAfterSearching(Rs1DiscSongCollection, Rs1DiscDisabledSongCollection);
-                    break;
-                case 3: // rs1compatibilitydlc_p.psarc
-                    RefreshDGVAfterSearching(Rs1DlcSongCollection, Rs1DlcDisabledSongCollection);
-                    break;
-                default:
-                    throw new Exception("ComboGameChoice Failure");
-            }
-
-            UpdateToolStrip();
+        private void cueSearch_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (cueSearch.Text.Length > 0) // && e.KeyCode == Keys.Enter)
+                Debug.WriteLine("Search");
+            else
+                RefreshDgvSongs();
         }
 
         private void dgvSongs_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (e.ColumnIndex == colSelect.Index)
-            {
                 dgvSongs.EndEdit();
-            }
         }
 
         private void lnkClearSearch_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            tbSearch.Text = "";
+            cueSearch.Text = "";
+            RefreshDgvSongs();
         }
 
         private void lnkRefreshAll_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -883,5 +930,6 @@ namespace CustomsForgeManager.UControls
                 Globals.TsLabel_DisabledCounter.Visible = true;
             }
         }
+
     }
 }

@@ -1,11 +1,10 @@
 ﻿
 using System.Collections.Generic;
+using CustomsForgeManager.CustomsForgeManagerLib.Objects;
 using Newtonsoft.Json;
 
 public abstract class RSDataAbstract
 {
-    [JsonIgnore]
-    public string SongSource { get; set; }
     public string AlbumArt { get; set; }
     public string ArrangementName { get; set; }
     public bool DLC { get; set; }
@@ -17,6 +16,9 @@ public abstract class RSDataAbstract
 }
 public abstract class RSDataAbstractBase : RSDataAbstract
 {
+    [JsonIgnore]
+    public string SongSource { get; set; }
+
     public string AlbumName { get; set; }
     public string AlbumNameSort { get; set; }
     public string ArtistName { get; set; }
@@ -54,12 +56,10 @@ class RS1DlcData : RSDataAbstractBase
 class RS1DiscData : RSDataAbstractBase
 {
     public string DLCKey { get; set; } // setter not used?
-}
-
-class RS2SongsData : RSDataAbstractBase
-{
 
 }
+
+class RS2SongsData : RSDataAbstractBase { }
 
 
 class RS2VocalsData : RSDataAbstract
@@ -122,4 +122,6 @@ class CacheSongData
     public string Tuning { get; set; }
     public string SongKey { get; set; }
     public string Enabled { get; set; }
+    public string SongSource { get; set; }
+
 }

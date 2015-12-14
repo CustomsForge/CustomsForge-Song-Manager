@@ -186,6 +186,15 @@ namespace CustomsForgeManager.Forms
                 return;
             }
 
+            if (AppSettings.Instance.CleanOnClosing)
+            {
+                if (Directory.Exists(Constants.CpeWorkDirectory))
+                    ZipUtilities.DeleteDirectory(Constants.CpeWorkDirectory);
+
+                if (Directory.Exists(Constants.AudioCacheDirectory))
+                    ZipUtilities.DeleteDirectory(Constants.AudioCacheDirectory);
+            }
+
             Globals.SongManager.LeaveSongManager();
             Globals.Settings.SaveSettingsToFile();
             Globals.SongManager.SaveSongCollectionToFile();

@@ -46,6 +46,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         string FRSInstalledDir;
         bool FIncludeRS1DLCs;
         bool FEnabledLogBaloon;
+        bool FCleanOnClosing;
         bool FCheckForUpdateOnScan;
         bool FFullScreen;
         int FWindowWidth;
@@ -59,12 +60,11 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         bool FSortAscending;
 
         [Browsable(false)]
-        public string FirstRun { get; set; }
-        [Browsable(false)]
         public string LogFilePath { get; set; }
         public string RSInstalledDir { get { return FRSInstalledDir; } set { SetPropertyField("RSInstalledDir", ref FRSInstalledDir, value); } }
         public bool IncludeRS1DLCs { get { return FIncludeRS1DLCs; } set { SetPropertyField("IncludeRS1DLCs", ref FIncludeRS1DLCs, value); } }
         public bool EnabledLogBaloon { get { return FEnabledLogBaloon; } set { SetPropertyField("EnabledLogBaloon", ref FEnabledLogBaloon, value); } }
+        public bool CleanOnClosing { get { return FCleanOnClosing; } set { SetPropertyField("CleanOnClosing", ref FCleanOnClosing, value); } }
         public bool CheckForUpdateOnScan { get { return FCheckForUpdateOnScan; } set { SetPropertyField("CheckForUpdateOnScan", ref FCheckForUpdateOnScan, value); } }
 
         //[XmlArray("UISettings")] // provides proper xml serialization
@@ -161,6 +161,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
             Instance.RSInstalledDir = Extensions.GetSteamDirectory();
             Instance.IncludeRS1DLCs = false;  // changed to false (fewer issues)
             Instance.EnabledLogBaloon = false; // fewer notfication issues
+            Instance.CleanOnClosing = false;
             Instance.ShowLogWindow = Constants.DebugMode;
             Instance.ManagerGridSettings = new RADataGridViewSettings();
         }

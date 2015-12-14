@@ -1,5 +1,12 @@
 CFM Release Notes
 
+1.1.1.9
+-Added checkbox option to Settings tab to cleanup all temporary directories to save disk space
+-Made CachePsarcEditor combobox generic so additional song packs may be added in future
+-Added user protection from 'self' to CachePsarcEditor
+-Added column Song Source to CachePsarcEditor to clarify source of data
+-Applied standardize appearance settings to CachePsarcEditor datagridview
+
 1.1.1.8
 -CachePsarcEditor is debugged and working - ready for beta testing.
 -Added generic and reusable archive entry extractor, injector, and remover methods.

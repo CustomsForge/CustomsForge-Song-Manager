@@ -32,6 +32,7 @@ namespace CustomsForgeManager.UControls
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.tlpSettings_Wrapper = new System.Windows.Forms.TableLayoutPanel();
             this.chkIncludeRS1DLC = new System.Windows.Forms.CheckBox();
             this.panel5 = new System.Windows.Forms.Panel();
@@ -48,6 +49,8 @@ namespace CustomsForgeManager.UControls
             this.btnSettingsSave = new System.Windows.Forms.Button();
             this.chkEnableLogBallon = new System.Windows.Forms.CheckBox();
             this.tbCreator = new CustomsForgeManager.CustomsForgeManagerLib.CustomControls.CueTextBox();
+            this.chkCleanOnClosing = new System.Windows.Forms.CheckBox();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.tlpSettings_Wrapper.SuspendLayout();
             this.panel5.SuspendLayout();
             this.SuspendLayout();
@@ -65,7 +68,8 @@ namespace CustomsForgeManager.UControls
             this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsLoad, 0, 7);
             this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsSave, 1, 7);
             this.tlpSettings_Wrapper.Controls.Add(this.chkEnableLogBallon, 0, 3);
-            this.tlpSettings_Wrapper.Controls.Add(this.tbCreator, 0, 4);
+            this.tlpSettings_Wrapper.Controls.Add(this.tbCreator, 0, 5);
+            this.tlpSettings_Wrapper.Controls.Add(this.chkCleanOnClosing, 0, 4);
             this.tlpSettings_Wrapper.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpSettings_Wrapper.Location = new System.Drawing.Point(0, 0);
             this.tlpSettings_Wrapper.Name = "tlpSettings_Wrapper";
@@ -122,8 +126,8 @@ namespace CustomsForgeManager.UControls
             // 
             // lblDisabledColumns
             // 
-            this.lblDisabledColumns.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblDisabledColumns.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.lblDisabledColumns.AutoSize = true;
             this.lblDisabledColumns.Location = new System.Drawing.Point(234, 5);
             this.lblDisabledColumns.Name = "lblDisabledColumns";
@@ -134,8 +138,8 @@ namespace CustomsForgeManager.UControls
             // 
             // listDisabledColumns
             // 
-            this.listDisabledColumns.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+            this.listDisabledColumns.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)));
             this.listDisabledColumns.BackColor = System.Drawing.SystemColors.InactiveBorder;
             this.listDisabledColumns.CheckBoxes = true;
             this.listDisabledColumns.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
@@ -253,12 +257,36 @@ namespace CustomsForgeManager.UControls
             this.tbCreator.Cue = "Your CDLC Charter Name";
             this.tbCreator.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.tbCreator.ForeColor = System.Drawing.Color.Gray;
-            this.tbCreator.Location = new System.Drawing.Point(12, 116);
+            this.tbCreator.Location = new System.Drawing.Point(12, 148);
             this.tbCreator.Margin = new System.Windows.Forms.Padding(12, 3, 3, 3);
             this.tbCreator.Name = "tbCreator";
             this.tbCreator.Size = new System.Drawing.Size(321, 20);
             this.tbCreator.TabIndex = 9;
             this.tbCreator.TextChanged += new System.EventHandler(this.tbCreator_TextChanged);
+            // 
+            // chkCleanOnClosing
+            // 
+            this.chkCleanOnClosing.AutoSize = true;
+            this.tlpSettings_Wrapper.SetColumnSpan(this.chkCleanOnClosing, 2);
+            this.chkCleanOnClosing.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkCleanOnClosing.Location = new System.Drawing.Point(3, 116);
+            this.chkCleanOnClosing.Name = "chkCleanOnClosing";
+            this.chkCleanOnClosing.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
+            this.chkCleanOnClosing.Size = new System.Drawing.Size(287, 19);
+            this.chkCleanOnClosing.TabIndex = 10;
+            this.chkCleanOnClosing.Text = "Remove temporary work directories on closing";
+            this.chkCleanOnClosing.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.toolTip.SetToolTip(this.chkCleanOnClosing, "Frees up HDD space but may be slower loading");
+            this.chkCleanOnClosing.UseVisualStyleBackColor = true;
+            this.chkCleanOnClosing.CheckedChanged += new System.EventHandler(this.chkCleanOnClosing_CheckedChanged);
+            // 
+            // toolTip
+            // 
+            this.toolTip.AutomaticDelay = 200;
+            this.toolTip.AutoPopDelay = 12000;
+            this.toolTip.InitialDelay = 200;
+            this.toolTip.IsBalloon = true;
+            this.toolTip.ReshowDelay = 100;
             // 
             // Settings
             // 
@@ -292,5 +320,7 @@ namespace CustomsForgeManager.UControls
         public CheckBox chkIncludeRS1DLC;
         private CheckBox chkEnableLogBallon;
         private CueTextBox tbCreator;
+        private CheckBox chkCleanOnClosing;
+        private ToolTip toolTip;
     }
 }
