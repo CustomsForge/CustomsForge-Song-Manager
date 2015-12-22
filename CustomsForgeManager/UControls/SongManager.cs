@@ -1272,7 +1272,6 @@ namespace CustomsForgeManager.UControls
                 if (song.OfficialDLC)
                     e.CellStyle.Font = OfficialDLCFont;
 
-
                 if (e.ColumnIndex == colBass.Index || e.ColumnIndex == colVocals.Index || e.ColumnIndex == colLead.Index || e.ColumnIndex == colRhythm.Index)
                 {
                     string arrInit = song.Arrangements.ToUpper();

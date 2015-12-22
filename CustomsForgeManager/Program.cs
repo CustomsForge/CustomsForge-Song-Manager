@@ -24,6 +24,9 @@ namespace CustomsForgeManager
         [STAThread]
         private static void Main()
         {
+            // must come first if it is used
+            Application.SetCompatibleTextRenderingDefault(false);
+
             // prevent multiple occurrence of this application from running
             // using a global mutex for the installer
             using (Mutex mutex = new Mutex(false, @"Global\CUSTOMSFORGESONGMANAGER"))
@@ -60,12 +63,12 @@ namespace CustomsForgeManager
             if (System.Deployment.Application.ApplicationDeployment.IsNetworkDeployed)
             {
                 Application.EnableVisualStyles();
-                Application.SetCompatibleTextRenderingDefault(false);
+               // Application.SetCompatibleTextRenderingDefault(false);
                 Application.Run(new ClickOnceUpgrade());
             }
             else
 #endif
-            { 
+            {
                 DLogger myLog = new DLogger();
                 myLog.AddTargetFile(AppSettings.Instance.LogFilePath);
 
@@ -81,7 +84,7 @@ namespace CustomsForgeManager
                     try
                     {
                         Application.EnableVisualStyles();
-                        Application.SetCompatibleTextRenderingDefault(false);
+                        // Application.SetCompatibleTextRenderingDefault(false);
                         Application.Run(new frmMain(myLog));
                     }
                     catch (Exception ex)
