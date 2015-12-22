@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -19,22 +20,24 @@ namespace CustomsForgeManager.UControls
             AppSettings.Instance.PropertyChanged += SettingsPropChanged;
         }
 
-        public void LoadSettingsFromFile()
+        public void LoadSettingsFromFile(DataGridView dgvCurrent = null)
         {
             var settingsPath = Constants.SettingsPath;
+            if (dgvCurrent != null)
+                Debug.WriteLine("Load DataGridView Settings: " + dgvCurrent.Name);
 
             // initial application startup or detect bad settings file
             if (!File.Exists(settingsPath))
             {
                 ResetSettings();
                 ValidateRsDir();
-                SaveSettingsToFile();
+                if (dgvCurrent != null)
+                    SaveSettingsToFile(dgvCurrent);
             }
 
             try
             {
-
-                AppSettings.Instance.LoadFromFile(settingsPath, Constants.GridSettingsPath);
+                AppSettings.Instance.LoadFromFile(settingsPath, Globals.DgvCurrent);
 
                 cueRsDir.Text = AppSettings.Instance.RSInstalledDir;
                 chkIncludeRS1DLC.Checked = AppSettings.Instance.IncludeRS1DLCs;
@@ -73,19 +76,27 @@ namespace CustomsForgeManager.UControls
 
         }
 
-        public void PopulateSettings()
+        public void PopulateSettings(DataGridView dgvCurrent)
         {
             // done everytime loaded in case there are any changes to SongManager
-            Globals.Log("Populating Settings GUI ...");
+            Globals.Log("Populating Settings GUI for " + dgvCurrent.Name + " ...");
+            Globals.DgvCurrent = dgvCurrent;
+
+            // this is weak method and could fail at some point but it works for now
+            var parentName = dgvCurrent.Name;
+            if (!String.IsNullOrEmpty(dgvCurrent.Parent.Parent.Name))
+                parentName = dgvCurrent.Parent.Parent.Name;
+
+            // show which DataGridView is loaded
+            lblDgvColumns.Text = String.Format("Settings for {0} from file: {1}", parentName , Path.GetFileName(Constants.GridSettingsPath));
 
             // initialize column list
-            listDisabledColumns.Items.Clear();
-            foreach (DataGridViewColumn col in Globals.DgvSongs.Columns)
+            lstDgvColumns.Items.Clear();
+            foreach (DataGridViewColumn col in Globals.DgvCurrent.Columns)
             {
                 ListViewItem newItem = new ListViewItem(new[] { String.Empty, col.Name, col.HeaderText, col.Width.ToString() }) { Checked = col.Visible };
-                listDisabledColumns.Items.Add(newItem);
+                lstDgvColumns.Items.Add(newItem);
             }
-
         }
 
         public void ResetSettings()
@@ -94,20 +105,18 @@ namespace CustomsForgeManager.UControls
             Globals.MyLog.Write("Reset settings to defaults ...");
         }
 
-        public void SaveSettingsToFile()
+        public void SaveSettingsToFile(DataGridView dgvCurrent)
         {
-            if (Globals.DgvSongs != null)
+            Globals.DgvCurrent = dgvCurrent;
+            Debug.WriteLine("Save DataGridView Settings: " + dgvCurrent.Name);
+            var settings = new RADataGridViewSettings();
+            var columns = dgvCurrent.Columns;
+            if (columns.Count > 1)
             {
-                var settings = new RADataGridViewSettings();
-                var columns = Globals.DgvSongs.Columns;
-                if (columns.Count > 1)
-                {
-                    for (int i = 0; i < columns.Count; i++)
-                    {
-                        settings.ColumnOrder.Add(new ColumnOrderItem { ColumnIndex = i, DisplayIndex = columns[i].DisplayIndex, Visible = columns[i].Visible, Width = columns[i].Width, ColumnName = columns[i].Name });
-                    }
-                    AppSettings.Instance.ManagerGridSettings = settings;
-                }
+                for (int i = 0; i < columns.Count; i++)
+                    settings.ColumnOrder.Add(new ColumnOrderItem { ColumnIndex = i, DisplayIndex = columns[i].DisplayIndex, Visible = columns[i].Visible, Width = columns[i].Width, ColumnName = columns[i].Name });
+
+                AppSettings.Instance.ManagerGridSettings = settings;
             }
 
             try
@@ -117,6 +126,7 @@ namespace CustomsForgeManager.UControls
                     AppSettings.Instance.SerializeXml(fs);
                     Globals.Log("Saved settings file ...");
                 }
+
                 using (var fs = new FileStream(Constants.GridSettingsPath, FileMode.Create, FileAccess.Write, FileShare.Write))
                 {
                     AppSettings.Instance.ManagerGridSettings.SerializeXml(fs);
@@ -161,7 +171,8 @@ namespace CustomsForgeManager.UControls
         {
             if (String.IsNullOrEmpty(AppSettings.Instance.RSInstalledDir))
                 ValidateRsDir();
-            SaveSettingsToFile();
+
+            SaveSettingsToFile(Globals.DgvCurrent);
         }
 
         private void btnSettingsLoad_Click(object sender, EventArgs e)
@@ -172,7 +183,7 @@ namespace CustomsForgeManager.UControls
         private void btnSettingsSave_Click(object sender, EventArgs e)
         {
             ValidateRsDir();
-            SaveSettingsToFile();
+            SaveSettingsToFile(Globals.DgvCurrent);
         }
 
         private void chkEnableLogBaloon_CheckedChanged(object sender, EventArgs e)
@@ -214,7 +225,7 @@ namespace CustomsForgeManager.UControls
 
         private void listDisabledColumns_ItemChecked(object sender, ItemCheckedEventArgs e)
         {
-            DataGridViewColumn column = Globals.DgvSongs.Columns[e.Item.SubItems[1].Text];
+            DataGridViewColumn column = Globals.DgvCurrent.Columns[e.Item.SubItems[1].Text];
             if (column != null)
             {
                 column.Visible = e.Item.Checked;
@@ -224,11 +235,11 @@ namespace CustomsForgeManager.UControls
 
         private void lnkSelectAll_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            bool deselect = listDisabledColumns.Items[1].Checked;
+            bool deselect = lstDgvColumns.Items[1].Checked;
 
-            for (int i = 1; i < listDisabledColumns.Items.Count; i++)
+            for (int i = 1; i < lstDgvColumns.Items.Count; i++)
             {
-                listDisabledColumns.Items[i].Checked = !deselect;
+                lstDgvColumns.Items[i].Checked = !deselect;
             }
         }
 
@@ -249,7 +260,7 @@ namespace CustomsForgeManager.UControls
 
         private void chkCleanOnClosing_CheckedChanged(object sender, EventArgs e)
         {
-            AppSettings.Instance.CleanOnClosing = chkCleanOnClosing.Checked;     
+            AppSettings.Instance.CleanOnClosing = chkCleanOnClosing.Checked;
         }
 
 

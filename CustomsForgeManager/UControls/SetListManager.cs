@@ -11,6 +11,7 @@ using CustomsForgeManager.CustomsForgeManagerLib.CustomControls;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using CustomsForgeManager.CustomsForgeManagerLib.UITheme;
 using CustomsForgeManager.Forms;
 using DataGridViewTools;
 
@@ -26,7 +27,7 @@ using DataGridViewTools;
 
 namespace CustomsForgeManager.UControls
 {
-    public partial class SetlistManager : UserControl
+    public partial class SetlistManager : UserControl, IDataGridViewHolder, INotifyTabChanged
     {
         private const string MESSAGE_CAPTION = "Setlist Manager";
         private bool bindingCompleted = false;
@@ -64,8 +65,8 @@ namespace CustomsForgeManager.UControls
                 LoadSongPacks();
 
                 // set custom selection (highlighting) color
-                dgvSongs.DefaultCellStyle.SelectionBackColor = Color.Gold;
-                dgvSongs.DefaultCellStyle.SelectionForeColor = dgvSongs.DefaultCellStyle.ForeColor;
+                dgvSetlistMaster.DefaultCellStyle.SelectionBackColor = Color.Gold;
+                dgvSetlistMaster.DefaultCellStyle.SelectionForeColor = dgvSetlistMaster.DefaultCellStyle.ForeColor;
                 dgvSetlistSongs.DefaultCellStyle.SelectionBackColor = Color.Gold;
                 dgvSetlistSongs.DefaultCellStyle.SelectionForeColor = dgvSetlistSongs.DefaultCellStyle.ForeColor;
                 dgvSetlists.DefaultCellStyle.SelectionBackColor = Color.Gold;
@@ -101,36 +102,11 @@ namespace CustomsForgeManager.UControls
             Globals.TsLabel_DisabledCounter.Visible = true;
             Globals.TsLabel_StatusMsg.Visible = false;
         }
-
-        private void DgvSongsAppearance()
-        {
-            // easier to keep track of appearance setting here
-            dgvSongs.Visible = true; // must come first for setting to apply correctly
-            dgvSongs.AlternatingRowsDefaultCellStyle = new DataGridViewCellStyle() { BackColor = Color.LightSteelBlue };
-            dgvSongs.AllowUserToAddRows = false; // removes empty row at bottom
-            dgvSongs.AllowUserToDeleteRows = false;
-            dgvSongs.AllowUserToOrderColumns = true;
-            dgvSongs.AllowUserToResizeColumns = true;
-            dgvSongs.AllowUserToResizeRows = true;
-            // dgvSongs.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.ColumnHeader);
-            dgvSongs.BackgroundColor = SystemColors.AppWorkspace;
-            dgvSongs.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dgvSongs.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvSongs.EditMode = DataGridViewEditMode.EditOnEnter;
-            dgvSongs.EnableHeadersVisualStyles = true;
-            dgvSongs.Font = new Font("Arial", 8);
-            dgvSongs.GridColor = SystemColors.ActiveCaption;
-            dgvSongs.MultiSelect = false;
-            dgvSongs.Name = "dgvSongs";
-            dgvSongs.RowHeadersVisible = false; // remove row arrow
-            dgvSongs.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvSongs.ClearSelection();
-        }
-
+     
         private void HighlightUsedSongs(Color color)
         {
             songsInSetlists = 0;
-            foreach (DataGridViewRow row in dgvSongs.Rows)
+            foreach (DataGridViewRow row in dgvSetlistMaster.Rows)
             {
                 var dlcSongPath = row.Cells["colPath"].Value.ToString();
                 // check if song has already been added to a setlist
@@ -141,7 +117,7 @@ namespace CustomsForgeManager.UControls
                 }
             }
 
-            if (String.IsNullOrEmpty(DataGridViewAutoFilterColumnHeaderCell.GetFilterStatus(dgvSongs)))
+            if (String.IsNullOrEmpty(DataGridViewAutoFilterColumnHeaderCell.GetFilterStatus(dgvSetlistMaster)))
                 Globals.TsLabel_DisabledCounter.Text = String.Format(Properties.Resources.SongsUsedInSetlistsCountX0, songsInSetlists);
         }
 
@@ -150,10 +126,10 @@ namespace CustomsForgeManager.UControls
             bindingCompleted = false;
             dgvPainted = false;
             // sortable binding list with drop down filtering
-            dgvSongs.AutoGenerateColumns = false;
+            dgvSetlistMaster.AutoGenerateColumns = false;
             FilteredBindingList<SongData> fbl = new FilteredBindingList<SongData>(list);
             BindingSource bs = new BindingSource { DataSource = fbl };
-            dgvSongs.DataSource = bs;
+            dgvSetlistMaster.DataSource = bs;
         }
 
         private void LoadSetLists()
@@ -213,9 +189,9 @@ namespace CustomsForgeManager.UControls
             }
 
             // belt and suspenders refresh
-            dgvSongs.ClearSelection();
+            dgvSetlistMaster.ClearSelection();
             dgvSetlistSongs.ClearSelection();
-            dgvSongs.Refresh();
+            dgvSetlistMaster.Refresh();
             dgvSetlistSongs.Refresh();
         }
 
@@ -285,25 +261,25 @@ namespace CustomsForgeManager.UControls
             // binding source creates issues will cell formating
             // wait for binding and paint to complete before changing color
             LoadFilteredBindingList(songCollection);
-            DgvSongsAppearance();
+            CFSMTheme.InitializeDgvAppearance(dgvSetlistMaster);
 
             return true;
         }
 
         private void RemoveFilter()
         {
-            DataGridViewAutoFilterTextBoxColumn.RemoveFilter(dgvSongs);
+            DataGridViewAutoFilterTextBoxColumn.RemoveFilter(dgvSetlistMaster);
             LoadSongs();
             // UpdateToolStrip();
         }
 
         private void RemoveHighlightUsedSongs()
         {
-            foreach (DataGridViewRow row in dgvSongs.Rows)
+            foreach (DataGridViewRow row in dgvSetlistMaster.Rows)
                 row.DefaultCellStyle.BackColor = Color.Empty;
 
-            dgvSongs.AlternatingRowsDefaultCellStyle = new DataGridViewCellStyle() { BackColor = Color.LightSteelBlue };
-            dgvSongs.Refresh();
+            dgvSetlistMaster.AlternatingRowsDefaultCellStyle = new DataGridViewCellStyle() { BackColor = Color.LightSteelBlue };
+            dgvSetlistMaster.Refresh();
         }
 
         private void Rescan()
@@ -350,9 +326,9 @@ namespace CustomsForgeManager.UControls
             if (String.IsNullOrEmpty(curSetlistName) || !curSetlistChecked)
                 return;
 
-            for (int ndx = dgvSongs.Rows.Count - 1; ndx >= 0; ndx--)
+            for (int ndx = dgvSetlistMaster.Rows.Count - 1; ndx >= 0; ndx--)
             {
-                DataGridViewRow row = dgvSongs.Rows[ndx];
+                DataGridViewRow row = dgvSetlistMaster.Rows[ndx];
 
                 if (Convert.ToBoolean(row.Cells["colSelect"].Value))
                 {
@@ -441,7 +417,7 @@ namespace CustomsForgeManager.UControls
 
         private void btnEnDiDlcSongs_Click(object sender, EventArgs e)
         {
-            foreach (DataGridViewRow row in dgvSongs.Rows)
+            foreach (DataGridViewRow row in dgvSetlistMaster.Rows)
             {
                 if (Convert.ToBoolean(row.Cells["colSelect"].Value))
                 {
@@ -520,9 +496,9 @@ namespace CustomsForgeManager.UControls
                 }
             }
 
-            dgvSongs.ClearSelection();
+            dgvSetlistMaster.ClearSelection();
             dgvSetlistSongs.ClearSelection();
-            dgvSongs.Refresh();
+            dgvSetlistMaster.Refresh();
             dgvSetlistSongs.Refresh();
         }
 
@@ -591,7 +567,7 @@ namespace CustomsForgeManager.UControls
                 }
             }
 
-            dgvSongs.Refresh();
+            dgvSetlistMaster.Refresh();
             dgvSetlistSongs.Refresh();
         }
 
@@ -652,7 +628,7 @@ namespace CustomsForgeManager.UControls
                         safe2Delete = true;
                     }
 
-                    var dlcNdx = dgvSongs.Rows.Cast<DataGridViewRow>()
+                    var dlcNdx = dgvSetlistMaster.Rows.Cast<DataGridViewRow>()
                         .Where(r => r.Cells["colPath"].Value.ToString() == setlistSongPath)
                         .Select(r => r.Index).First();  // this will throw exception if not found
 
@@ -673,9 +649,9 @@ namespace CustomsForgeManager.UControls
                             var dlcSongPath = Path.Combine(dlcDir, Path.GetFileName(setlistSongPath));
                             File.Move(setlistSongPath, dlcSongPath);
                             // update dgvSongs
-                            dgvSongs.Rows[dlcNdx].Cells["colPath"].Value = dlcSongPath;
-                            dgvSongs.Rows[dlcNdx].Cells["colEnabled"].Value = dlcSongPath.Contains("disabled") ? "No" : "Yes";
-                            dgvSongs.Rows[dlcNdx].Cells["colSelect"].Value = false;
+                            dgvSetlistMaster.Rows[dlcNdx].Cells["colPath"].Value = dlcSongPath;
+                            dgvSetlistMaster.Rows[dlcNdx].Cells["colEnabled"].Value = dlcSongPath.Contains("disabled") ? "No" : "Yes";
+                            dgvSetlistMaster.Rows[dlcNdx].Cells["colSelect"].Value = false;
                         }
                         catch (IOException ex)
                         {
@@ -720,21 +696,21 @@ namespace CustomsForgeManager.UControls
             foreach (var setlistSongPath in setlistSongsPath)
             {
                 // searching for song that contains the current setlist path
-                var dlcNdx = dgvSongs.Rows.Cast<DataGridViewRow>().Where(r => r.Cells["colPath"].Value.ToString() == setlistSongPath).Select(r => r.Index).First();
+                var dlcNdx = dgvSetlistMaster.Rows.Cast<DataGridViewRow>().Where(r => r.Cells["colPath"].Value.ToString() == setlistSongPath).Select(r => r.Index).First();
                 var dlcSongPath = Path.Combine(dlcDir, Path.GetFileName(setlistSongPath));
 
                 try
                 {
                     // update dgvSongs
                     if (chkDeleteSetlistOrSetlistSongs.Checked)
-                        dgvSongs.Rows.RemoveAt(dlcNdx);
+                        dgvSetlistMaster.Rows.RemoveAt(dlcNdx);
                     else
                     {
                         // move setlist song back to dlc folder
                         File.Move(setlistSongPath, dlcSongPath);
-                        dgvSongs.Rows[dlcNdx].Cells["colPath"].Value = dlcSongPath;
-                        dgvSongs.Rows[dlcNdx].Cells["colEnabled"].Value = dlcSongPath.Contains("disabled") ? "No" : "Yes";
-                        dgvSongs.Rows[dlcNdx].Cells["colSelect"].Value = false;
+                        dgvSetlistMaster.Rows[dlcNdx].Cells["colPath"].Value = dlcSongPath;
+                        dgvSetlistMaster.Rows[dlcNdx].Cells["colEnabled"].Value = dlcSongPath.Contains("disabled") ? "No" : "Yes";
+                        dgvSetlistMaster.Rows[dlcNdx].Cells["colSelect"].Value = false;
                     }
                 }
                 catch (IOException ex)
@@ -863,7 +839,7 @@ namespace CustomsForgeManager.UControls
 
         private void btnToggleDlcSongs_Click(object sender, EventArgs e)
         {
-            foreach (DataGridViewRow row in dgvSongs.Rows)
+            foreach (DataGridViewRow row in dgvSetlistMaster.Rows)
                 row.Cells["colSelect"].Value = !Convert.ToBoolean(row.Cells["colSelect"].Value);
         }
 
@@ -909,7 +885,7 @@ namespace CustomsForgeManager.UControls
             var matchingSongs = songCollection.Where(sng => sng.ArtistTitleAlbum.ToLower().Contains(search)
                 || sng.Tuning.ToLower().Contains(search)
                 && Path.GetFileName(Path.GetDirectoryName(sng.Path)) == "dlc");
-            dgvSongs.Rows.Clear();
+            dgvSetlistMaster.Rows.Clear();
             songSearch.Clear();
             songSearch.AddRange(matchingSongs);
 
@@ -929,7 +905,7 @@ namespace CustomsForgeManager.UControls
 
             Thread.Sleep(50); // debounce multiple clicks
             dgvSetlistSongs.Refresh();
-            dgvSongs.Refresh();
+            dgvSetlistMaster.Refresh();
         }
 
         private void dgvSetlists_SelectionChanged(object sender, EventArgs e)
@@ -975,7 +951,7 @@ namespace CustomsForgeManager.UControls
 
             Thread.Sleep(50); // debounce multiple clicks
             dgvSetlistSongs.Refresh();
-            dgvSongs.Refresh();
+            dgvSetlistMaster.Refresh();
         }
 
         private void dgvSongs_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
@@ -993,7 +969,7 @@ namespace CustomsForgeManager.UControls
 
             // wait for DataBinding and DataGridView Paint to complete before  
             // changing color (cell formating) on initial loading
-            var filterStatus = DataGridViewAutoFilterColumnHeaderCell.GetFilterStatus(dgvSongs);
+            var filterStatus = DataGridViewAutoFilterColumnHeaderCell.GetFilterStatus(dgvSetlistMaster);
             if (!bindingCompleted)
             {
                 Globals.Log("DataBinding Complete ... ");
@@ -1013,7 +989,7 @@ namespace CustomsForgeManager.UControls
             }
 
             // filter removed 
-            if (String.IsNullOrEmpty(filterStatus) && dgvPainted && this.dgvSongs.CurrentCell != null)
+            if (String.IsNullOrEmpty(filterStatus) && dgvPainted && this.dgvSetlistMaster.CurrentCell != null)
                 RemoveFilter();
         }
 
@@ -1056,6 +1032,28 @@ namespace CustomsForgeManager.UControls
         private void lnkShowAll_Click(object sender, EventArgs e)
         {
             RemoveFilter();
+        }
+
+        public DataGridView GetGrid()
+        {
+            return dgvSetlistMaster;
+        }
+
+        public void TabEnter()
+        {
+            Globals.Log("Setlist Manager GUI Activated...");
+         }
+
+        public void TabLeave()
+        {
+            LeaveSetlistManager();
+        }
+
+        public void LeaveSetlistManager()
+        {
+            Globals.Log("Leaving Setlist Manager GUI ...");
+            Globals.DgvCurrent = dgvSetlistMaster;
+            Globals.Settings.SaveSettingsToFile(dgvSetlistMaster);    
         }
     }
 }

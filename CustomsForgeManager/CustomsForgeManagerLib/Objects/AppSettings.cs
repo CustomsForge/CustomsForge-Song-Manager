@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Windows.Forms;
 using System.Xml.Serialization;
 using DataGridViewTools;
 using CFSM.Utils;
@@ -123,16 +124,21 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
             }
         }
 
-        public void LoadFromFile(string settingsPath, string gridSettingsPath)
+        public void LoadFromFile(string settingsPath, DataGridView dgvCurrent)
         {
             if (!String.IsNullOrEmpty(settingsPath) && File.Exists(settingsPath))
                 using (var fs = File.OpenRead(settingsPath))
                     LoadFromStream(fs);
 
-            if (!String.IsNullOrEmpty(gridSettingsPath) && File.Exists(gridSettingsPath))
+            if (dgvCurrent != null)
             {
-                using (var fs = File.OpenRead(gridSettingsPath))
-                    ManagerGridSettings = fs.DeserializeXml<RADataGridViewSettings>();
+                Globals.DgvCurrent = dgvCurrent;
+
+                if (File.Exists(Constants.GridSettingsPath))
+                {
+                    using (var fs = File.OpenRead(Constants.GridSettingsPath))
+                        ManagerGridSettings = fs.DeserializeXml<RADataGridViewSettings>();
+                }
             }
         }
 

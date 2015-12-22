@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 
-namespace CustomsForgeManager.CustomsForgeManagerLib.CustomControls.DataGridEditors
+namespace CustomsForgeManager.CustomsForgeManagerLib.DataGridTools
 {
     public class DataGridViewCheckBoxHeaderCell: DataGridViewColumnHeaderCell
     {

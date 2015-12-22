@@ -1,4 +1,6 @@
-﻿namespace CustomsForgeManager.SongEditor
+﻿using CustomsForgeManager.CustomsForgeManagerLib.DataGridTools;
+
+namespace CustomsForgeManager.SongEditor
 {
     partial class ucArrangements
     {
@@ -29,7 +31,7 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.dgvArrangements = new CustomsForgeManager.CustomsForgeManagerLib.CustomControls.RADataGridView();
+            this.dgvArrangements = new RADataGridView();
             this.colName = new System.Windows.Forms.DataGridViewLinkColumn();
             this.colArrangementType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colRouteMask = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -141,7 +143,7 @@
 
         #endregion
 
-        private CustomsForgeManagerLib.CustomControls.RADataGridView dgvArrangements;
+        private RADataGridView dgvArrangements;
         private System.Windows.Forms.DataGridViewLinkColumn colName;
         private System.Windows.Forms.DataGridViewTextBoxColumn colArrangementType;
         private System.Windows.Forms.DataGridViewTextBoxColumn colRouteMask;

@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using System.Net;
 using CustomsForgeManager.CustomsForgeManagerLib.CustomControls;
 using CustomsForgeManager.CustomsForgeManagerLib.Objects;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RocksmithToolkitLib.Xml;
 using System.Diagnostics;

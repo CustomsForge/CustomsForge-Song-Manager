@@ -1,4 +1,6 @@
-﻿namespace CustomsForgeManager.SongEditor
+﻿using CustomsForgeManager.CustomsForgeManagerLib.DataGridTools;
+
+namespace CustomsForgeManager.SongEditor
 {
     partial class ucTones
     {
@@ -29,7 +31,7 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.dgvTones = new CustomsForgeManager.CustomsForgeManagerLib.CustomControls.RADataGridView();
+            this.dgvTones = new RADataGridView();
             this.colName = new System.Windows.Forms.DataGridViewLinkColumn();
             this.colVolume = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTones)).BeginInit();
@@ -92,7 +94,7 @@
 
         #endregion
 
-        private CustomsForgeManagerLib.CustomControls.RADataGridView dgvTones;
+        private RADataGridView dgvTones;
         private System.Windows.Forms.DataGridViewLinkColumn colName;
         private System.Windows.Forms.DataGridViewTextBoxColumn colVolume;
     }

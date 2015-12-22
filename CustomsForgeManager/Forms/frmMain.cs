@@ -46,6 +46,7 @@ namespace CustomsForgeManager.Forms
                     notifyIcon_Main.Icon = null;
                     Dispose();
                 };
+
             var strFormatVersion = "{0} (v{1})";
 #if BETA
             strFormatVersion = "{0} (v{1} - BETA VERSION)";
@@ -195,8 +196,10 @@ namespace CustomsForgeManager.Forms
                     ZipUtilities.DeleteDirectory(Constants.AudioCacheDirectory);
             }
 
-            Globals.SongManager.LeaveSongManager();
-            Globals.Settings.SaveSettingsToFile();
+            if (Globals.DgvCurrent.Name != "dgvSongsMaster")
+                Globals.SongManager.LeaveSongManager();
+
+            Globals.Settings.SaveSettingsToFile(Globals.DgvCurrent);
             Globals.SongManager.SaveSongCollectionToFile();
         }
 
@@ -282,13 +285,12 @@ namespace CustomsForgeManager.Forms
                     break;
                 case "SETT":
                     // using LeaveSongManager instead of EH SongMangager_Leave
-                    Globals.SongManager.LeaveSongManager();
                     this.tpSettings.Controls.Clear();
                     this.tpSettings.Controls.Add(Globals.Settings);
                     Globals.Settings.Dock = DockStyle.Fill;
                     // TODO: auto detect column width and visibility changes and use conditional check    
                     // done everytime in case user changes column width or visibility
-                    Globals.Settings.PopulateSettings();
+                    Globals.Settings.PopulateSettings(Globals.DgvCurrent);
                     Globals.Settings.Location = UCLocation;
                     Globals.Settings.Size = UCSize;
                     currentControl = Globals.Settings;

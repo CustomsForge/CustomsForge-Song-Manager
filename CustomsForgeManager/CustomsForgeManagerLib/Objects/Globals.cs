@@ -38,7 +38,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
 
         // application data variables
         private static About _about;
-        private static DataGridView _dgvSongs;
+        private static DataGridView _dgvCurrent;
         private static Duplicates _duplicates;
         private static Dictionary<string, SongData> _outdatedSongList;
         private static Renamer _renamer;
@@ -84,11 +84,10 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
             set { _about = value; }
         }
 
-
-        public static DataGridView DgvSongs
+        public static DataGridView DgvCurrent
         {
-            get { return _dgvSongs ?? (_dgvSongs = new DataGridView()); }
-            set { _dgvSongs = value; }
+            get { return _dgvCurrent ?? (_dgvCurrent = new DataGridView()); }
+            set { _dgvCurrent = value; }
         }
 
         public static Duplicates Duplicates

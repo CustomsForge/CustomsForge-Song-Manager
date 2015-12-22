@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
 using CustomsForgeManager.CustomsForgeManagerLib.Objects;
@@ -9,7 +10,7 @@ using System.Drawing.Drawing2D;
 using DataGridViewTools;
 using CustomsForgeManager.CustomsForgeManagerLib.UITheme;
 
-namespace CustomsForgeManager.CustomsForgeManagerLib.CustomControls
+namespace CustomsForgeManager.CustomsForgeManagerLib.DataGridTools
 {
     class RADataGridView : DataGridView, IThemeListener, IGridViewFilterStyle, IGridViewCustomFilter
     {
@@ -25,29 +26,33 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.CustomControls
 
         public void ReLoadColumnOrder(List<ColumnOrderItem> ColumnOrderCollection)
         {
-            if (ColumnOrderCollection != null)
+            if (ColumnOrderCollection != null && ColumnOrderCollection.Count != 0 && Columns.Count > 1)
             {
-                if (Columns.Count > 1)
-                {
-                    var sorted = ColumnOrderCollection.OrderBy(i => i.DisplayIndex);
+                DataGridViewColumnCollection orgDgvColumns = Columns;
+                var sorted = ColumnOrderCollection.OrderBy(i => i.DisplayIndex);
 
-                    if (sorted.Count() != Columns.Count)
-                        return;
-
+                // smooth column swapping operation when equal
+                if (sorted.Count() == Columns.Count)
                     foreach (var item in sorted)
                     {
-                        if (item != null)
-                        {
-                            this.InvokeIfRequired(delegate
+                        if (item == null)
+                            continue;
+
+                        this.InvokeIfRequired(delegate
                             {
                                 Columns[item.ColumnIndex].Name = item.ColumnName;
                                 Columns[item.ColumnIndex].DisplayIndex = item.DisplayIndex;
                                 Columns[item.ColumnIndex].Visible = item.Visible;
                                 Columns[item.ColumnIndex].Width = item.Width;
                             });
-                        }
                     }
-                }
+
+                //if (orgDgvColumns.Contains(item.ColumnName))
+                //    orgDgvColumns.Remove(item.ColumnName);
+
+                    //if (orgDgvColumns.Count > 0)
+                    //    foreach (DataGridViewColumn customColumn in orgDgvColumns)
+                    //        Columns.Add(customColumn);
             }
         }
 
@@ -71,13 +76,13 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.CustomControls
                 GridViewThemeSetting gvs = theme.GetThemeSetting<GridViewThemeSetting>();
                 if (gvs != null)
                 {
-                    e.Graphics.FillRectangle(new LinearGradientBrush(e.CellBounds,gvs.ColumnHeaderBackColor,
-                        gvs.ColumnHeaderBackColor2,LinearGradientMode.Vertical), e.CellBounds);
+                    e.Graphics.FillRectangle(new LinearGradientBrush(e.CellBounds, gvs.ColumnHeaderBackColor,
+                        gvs.ColumnHeaderBackColor2, LinearGradientMode.Vertical), e.CellBounds);
                     e.Graphics.DrawRectangle(new Pen(theme.BorderColor), e.CellBounds);
                     e.PaintContent(e.ClipBounds);
                     e.Handled = true;
                 }
-            } 
+            }
             base.OnCellPainting(e);
         }
 

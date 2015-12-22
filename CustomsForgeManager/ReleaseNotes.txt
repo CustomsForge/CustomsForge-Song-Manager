@@ -1,5 +1,15 @@
 CFM Release Notes
 
+1.1.2.0
+-Added subfolders to Duplicates search
+-Made Duplicates table columns consistent with SongManager table
+-Fixed Duplicates PID duplicate finder
+-Created standard datagridview appearance theme to provide more uniform appearance to CFSM
+-Fixed ReLoadColumnOrder so that it works even with not perfectly matched datagridviews columns
+-Added Gnomes killer to delete CFSM directories that still may be open or not empty
+-Made Settings GUI generic so that it can be used for all UserControls to save DataGridView settings
+-Applied IDataGridViewHolder, INotifyTabChanged consistently across UserControls that need it
+
 1.1.1.9
 -Added checkbox option to Settings tab to cleanup all temporary directories to save disk space
 -Made CachePsarcEditor combobox generic so additional song packs may be added in future
@@ -494,7 +504,7 @@ CFM Release Notes
 -Made Duplicates dgvDups naming consistent with SongMangager dgvSongs naming
 -Fixed BLVR background coloring including on initial startup
 -Fixed SongManager rescan after deleting duplicates
--Fixed column name "Status" that is shown in Settings listDisabledColumns ListView
+-Fixed column name "Status" that is shown in Settings lstDgvColumns ListView
 -Added additional error checking to Rocksmith Installation Directory selection.
  
 0.1.4.1
@@ -624,9 +634,9 @@ CFM Release Notes
 -Retarget application build for x86 for DLL functionality on all machine types
 -Cleaned up string concatenations for cross platform compatibility
 -Added prompt on initial application startup so that user specifies the Rocksmith installation directory if application does not find it in the Registry.
--Changed GUI color contrast of dgvSongs, listDupeSongs and listDisabledColumns for better user visual experience
+-Changed GUI color contrast of dgvSongs, listDupeSongs and lstDgvColumns for better user visual experience
 -Allow users to resize dgvSongs columns and save to settings file
--Added column to show Column Width changes in listDisabledColumns
+-Added column to show Column Width changes in lstDgvColumns
 -Fixed reload saved settings and configurations issues on x86 machines
 -Added humanly readable XML serialization and deserialization for debugging settings files
 -Fixed object not set to an instance of an object errors

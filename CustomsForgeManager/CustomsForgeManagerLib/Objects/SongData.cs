@@ -37,8 +37,11 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
         public const string SongDataListCurrentVersion = "4";
 
         public string DLCKey { get; set; }
+       
+        // need this to be available for reloading
+        [XmlIgnore]
+        public bool FSelected { get; set; }
 
-        private bool FSelected;
         private string FCharter;
 
         [XmlIgnore]
@@ -51,7 +54,9 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
             set
             {
                 if (!OfficialDLC)
-                    SetPropertyField("Selected", ref FSelected, value);
+                    FSelected = value; // SetPropertyField("Selected", ref FSelected, value);              
+                else
+                    FSelected = false;
             }
         }
 
@@ -199,6 +204,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
         public string Arrangements
         {
             get { return String.Join(", ", Arrangements2D.Select(o => o.Name)); }
+            set { }
         }
 
         [XmlIgnore]  // preserves old 1D display method
@@ -225,7 +231,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
         [XmlIgnore]
         public string PID { get; set; }
         [XmlIgnore]
-        public string ArrangementPID { get; set; }
+        public string PIDArrangement { get; set; }
     }
 
 

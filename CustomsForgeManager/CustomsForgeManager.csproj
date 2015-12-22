@@ -179,22 +179,26 @@
     <Compile Include="CustomsForgeManagerLib\CustomControls\CueTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="CustomsForgeManagerLib\CustomControls\DataGridEditors\ComboBoxEditingControl.cs">
+    <Compile Include="CustomsForgeManagerLib\DataGridTools\ComboBoxEditingControl.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="CustomsForgeManagerLib\CustomControls\DataGridEditors\DataGridViewCheckBoxHeaderCell.cs" />
+    <Compile Include="CustomsForgeManagerLib\DataGridTools\DataGridViewCheckBoxHeaderCell.cs" />
+    <Compile Include="CustomsForgeManagerLib\DataGridTools\RADataGridView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CustomsForgeManagerLib\Extensions.cs" />
+    <Compile Include="CustomsForgeManagerLib\Ignition.cs" />
     <Compile Include="CustomsForgeManagerLib\Interfaces.cs" />
+    <Compile Include="CustomsForgeManagerLib\Objects\AppSettings.cs" />
     <Compile Include="CustomsForgeManagerLib\Objects\Autoupdater.cs" />
+    <Compile Include="CustomsForgeManagerLib\Objects\Constants.cs" />
+    <Compile Include="CustomsForgeManagerLib\Objects\Globals.cs" />
     <Compile Include="CustomsForgeManagerLib\Objects\RSCustomDictionaries.cs" />
     <Compile Include="CustomsForgeManagerLib\Objects\RSModels.cs" />
     <Compile Include="CustomsForgeManagerLib\Objects\SongCollectionException.cs" />
+    <Compile Include="CustomsForgeManagerLib\Objects\SongData.cs" />
     <Compile Include="CustomsForgeManagerLib\Objects\SongTagger.cs" />
-    <Compile Include="CustomsForgeManagerLib\PsarcBrowser.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="CustomsForgeManagerLib\CustomControls\RADataGridView.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="CustomsForgeManagerLib\PsarcBrowser.cs" />
     <Compile Include="CustomsForgeManagerLib\PsarcPackage.cs" />
     <Compile Include="CustomsForgeManagerLib\ToolkitPrivateTools.cs" />
     <Compile Include="CustomsForgeManagerLib\UITheme\CFSMTheme.cs" />
@@ -312,14 +316,8 @@
     <Compile Include="Forms\frmSongInfo.Designer.cs">
       <DependentUpon>frmSongInfo.cs</DependentUpon>
     </Compile>
-    <Compile Include="CustomsForgeManagerLib\Objects\Globals.cs" />
-    <Compile Include="CustomsForgeManagerLib\Ignition.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="CustomsForgeManagerLib\Objects\Constants.cs" />
-    <Compile Include="CustomsForgeManagerLib\Extensions.cs" />
-    <Compile Include="CustomsForgeManagerLib\Objects\AppSettings.cs" />
-    <Compile Include="CustomsForgeManagerLib\Objects\SongData.cs" />
     <Compile Include="SongEditor\ucSongInfo.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -382,7 +380,6 @@
     </Compile>
     <EmbeddedResource Include="CustomsForgeManagerLib\CustomControls\ComboBoxPopup.resx">
       <DependentUpon>ComboBoxPopup.cs</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="CustomsForgeManagerLib\UITheme\ThemePreview.resx">
       <DependentUpon>ThemePreview.cs</DependentUpon>

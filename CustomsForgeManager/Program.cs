@@ -29,7 +29,7 @@ namespace CustomsForgeManager
             using (Mutex mutex = new Mutex(false, @"Global\CUSTOMSFORGESONGMANAGER"))
             {
                 if (!mutex.WaitOne(0, false))
-                {                    
+                {
                     var pHandle = CrossPlatform.GetHandleFromProcessName(Application.ExecutablePath);
                     if (pHandle != IntPtr.Zero)
                     {
@@ -55,25 +55,25 @@ namespace CustomsForgeManager
 
         private static void RunApp()
         {
+            // TODO: RunApp() seems very redundant ... please comment/explain code
 #if WEBDEPLOY_RELEASE
             if (System.Deployment.Application.ApplicationDeployment.IsNetworkDeployed)
             {
-
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                 Application.Run(new ClickOnceUpgrade());
             }
             else
 #endif
-            {
-
+            { 
                 DLogger myLog = new DLogger();
                 myLog.AddTargetFile(AppSettings.Instance.LogFilePath);
 
                 if (Constants.DebugMode)// have VS handle the exception
                 {
                     Application.EnableVisualStyles();
-                    Application.SetCompatibleTextRenderingDefault(false);
+                    // this is throwing an error so commented out and moved
+                    //  Application.SetCompatibleTextRenderingDefault(false);
                     Application.Run(new frmMain(myLog));
                 }
                 else
@@ -101,6 +101,10 @@ namespace CustomsForgeManager
         {
             if (!File.Exists(Constants.GridSettingsPath))
                 return false;
+
+            if (String.IsNullOrEmpty(Globals.DgvCurrent.Name))
+                return false;
+
             using (var fs = File.OpenRead(Constants.GridSettingsPath))
             {
                 try
@@ -118,6 +122,6 @@ namespace CustomsForgeManager
             }
             return false;
         }
-        
+
     }
 }

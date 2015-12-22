@@ -1,4 +1,6 @@
-﻿namespace CustomsForgeManager.CustomsForgeManagerLib.UITheme
+﻿using CustomsForgeManager.CustomsForgeManagerLib.DataGridTools;
+
+namespace CustomsForgeManager.CustomsForgeManagerLib.UITheme
 {
     partial class ThemePreview
     {
@@ -65,7 +67,7 @@
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.tsBtnHelp = new System.Windows.Forms.ToolStripButton();
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
-            this.dgvSongsMaster = new CustomsForgeManager.CustomsForgeManagerLib.CustomControls.RADataGridView();
+            this.dgvSongsMaster = new RADataGridView();
             this.colShowDetail = new System.Windows.Forms.DataGridViewImageColumn();
             this.colKey = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
@@ -794,7 +796,7 @@
 
         private System.Windows.Forms.GroupBox gb_Main_Grid;
         private System.Windows.Forms.LinkLabel lnkLblSelectAll;
-        private CustomControls.RADataGridView dgvSongsMaster;
+        private RADataGridView dgvSongsMaster;
         private DF.WinForms.ThemeLib.ThemedTabControl themedTabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
