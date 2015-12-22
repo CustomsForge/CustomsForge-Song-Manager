@@ -253,7 +253,7 @@ namespace CustomsForgeManager.UControls
                 {
                     if (songAttributes.Value.ArtistName != null)
                     {
-                        if (songAttributes.Value.SongName.ToLower().Contains(cueSearch.Text.ToLower()) || songAttributes.Value.AlbumName.ToLower().Contains(cueSearch.Text.ToLower()) || songAttributes.Value.ArtistName.ToLower().Contains(cueSearch.Text.ToLower()) || songAttributes.Value.Tuning.ToString().TuningToName().ToLower().Contains(cueSearch.Text.ToLower()) || songAttributes.Value.SongKey.ToLower().Contains(cueSearch.Text.ToLower()))
+                        if (songAttributes.Value.SongName.ToLower().Contains(matchingValue) || songAttributes.Value.AlbumName.ToLower().Contains(matchingValue) || songAttributes.Value.ArtistName.ToLower().Contains(matchingValue) || Extensions.TuningStringToName(TuningJsonToStrings(songAttributes.Value.Tuning)).ToLower().Contains(matchingValue) || songAttributes.Value.SongKey.ToLower().Contains(matchingValue))
                             matchingSongs.Add(songAttributes.Value);
                     }
                 }
@@ -285,7 +285,7 @@ namespace CustomsForgeManager.UControls
 
         private void PopulateCachePsarcEditor()
         {
-            Globals.Log("Populating Cache.psarc Editor GUI ...");  
+            Globals.Log("Populating Cache.psarc Editor GUI ...");
             Globals.TuningXml = TuningDefinitionRepository.LoadTuningDefinitions(GameVersion.RS2014);
             var rsDir = AppSettings.Instance.RSInstalledDir;
 
@@ -918,7 +918,27 @@ namespace CustomsForgeManager.UControls
         {
             Globals.Log("Leaving CachePsarcEditor GUI ...");
             Globals.DgvCurrent = dgvCacheEditor;
-            Globals.Settings.SaveSettingsToFile(dgvCacheEditor);    
+            Globals.Settings.SaveSettingsToFile(dgvCacheEditor);
         }
- }
+
+        private void cueSearch_TextChanged(object sender, EventArgs e)
+        {
+            allSelected = false;
+
+            switch (cmbSongPacks.SelectedIndex)
+            {
+                case 0: // cache.psarc
+                    RefreshDGVAfterSearching(CacheSongCollection, CacheDisabledSongCollection, "cache.psarc");
+                    break;
+                case 1: // rs1compatibilitydisc_p.psarc
+                    RefreshDGVAfterSearching(Rs1DiscSongCollection, Rs1DiscDisabledSongCollection, "rs1compatibilitydisc_p.psarc");
+                    break;
+                case 2: // rs1compatibilitydlc_p.psarc
+                    RefreshDGVAfterSearching(Rs1DlcSongCollection, Rs1DlcDisabledSongCollection, "rs1compatibilitydlc_p.psarc");
+                    break;
+                default:
+                    throw new Exception("Song Packs Combobox Failure");
+            }
+        }
+    }
 }

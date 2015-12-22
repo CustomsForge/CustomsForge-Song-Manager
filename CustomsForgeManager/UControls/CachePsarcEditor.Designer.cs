@@ -45,7 +45,6 @@
             this.colSongKey = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colSongSource = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
             this.lnkClearSearch = new System.Windows.Forms.LinkLabel();
             this.cueSearch = new CustomsForgeManager.CustomsForgeManagerLib.CustomControls.CueTextBox();
             this.btnSaveSongs = new System.Windows.Forms.Button();
@@ -67,8 +66,8 @@
             // 
             // btnSelectAllNone
             // 
-            this.btnSelectAllNone.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSelectAllNone.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSelectAllNone.AutoSize = true;
             this.btnSelectAllNone.Location = new System.Drawing.Point(22, 42);
             this.btnSelectAllNone.Name = "btnSelectAllNone";
@@ -228,7 +227,6 @@
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.lnkClearSearch);
             this.panel1.Controls.Add(this.cueSearch);
             this.panel1.Controls.Add(this.btnSaveSongs);
@@ -240,15 +238,6 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(489, 71);
             this.panel1.TabIndex = 5;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(232, 19);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(107, 13);
-            this.label1.TabIndex = 18;
-            this.label1.Text = "TODO: FIX SEARCH";
             // 
             // lnkClearSearch
             // 
@@ -274,12 +263,13 @@
             this.cueSearch.Name = "cueSearch";
             this.cueSearch.Size = new System.Drawing.Size(366, 20);
             this.cueSearch.TabIndex = 16;
+            this.cueSearch.TextChanged += new System.EventHandler(this.cueSearch_TextChanged);
             this.cueSearch.KeyUp += new System.Windows.Forms.KeyEventHandler(this.cueSearch_KeyUp);
             // 
             // btnSaveSongs
             // 
-            this.btnSaveSongs.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSaveSongs.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSaveSongs.AutoSize = true;
             this.btnSaveSongs.Location = new System.Drawing.Point(270, 42);
             this.btnSaveSongs.Name = "btnSaveSongs";
@@ -291,8 +281,8 @@
             // 
             // btnDisableSongs
             // 
-            this.btnDisableSongs.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnDisableSongs.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.btnDisableSongs.AutoSize = true;
             this.btnDisableSongs.Location = new System.Drawing.Point(196, 42);
             this.btnDisableSongs.Name = "btnDisableSongs";
@@ -304,8 +294,8 @@
             // 
             // btnEnableSongs
             // 
-            this.btnEnableSongs.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnEnableSongs.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.btnEnableSongs.AutoSize = true;
             this.btnEnableSongs.Location = new System.Drawing.Point(122, 42);
             this.btnEnableSongs.Name = "btnEnableSongs";
@@ -420,6 +410,5 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colSongSource;
         private System.Windows.Forms.LinkLabel lnkClearSearch;
         private CustomsForgeManagerLib.CustomControls.CueTextBox cueSearch;
-        private System.Windows.Forms.Label label1;
     }
 }
