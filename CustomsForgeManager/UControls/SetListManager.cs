@@ -102,7 +102,7 @@ namespace CustomsForgeManager.UControls
             Globals.TsLabel_DisabledCounter.Visible = true;
             Globals.TsLabel_StatusMsg.Visible = false;
         }
-     
+
         private void HighlightUsedSongs(Color color)
         {
             songsInSetlists = 0;
@@ -1042,7 +1042,7 @@ namespace CustomsForgeManager.UControls
         public void TabEnter()
         {
             Globals.Log("Setlist Manager GUI Activated...");
-         }
+        }
 
         public void TabLeave()
         {
@@ -1053,7 +1053,7 @@ namespace CustomsForgeManager.UControls
         {
             Globals.Log("Leaving Setlist Manager GUI ...");
             Globals.DgvCurrent = dgvSetlistMaster;
-            Globals.Settings.SaveSettingsToFile(dgvSetlistMaster);    
+            Globals.Settings.SaveSettingsToFile(dgvSetlistMaster);
         }
     }
 }

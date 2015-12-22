@@ -276,6 +276,7 @@ namespace CustomsForgeManager.UControls
                 Globals.ReloadSetlistManager = true;
                 Globals.ReloadDuplicates = true;
                 Rescan(true); // must ensure full rescan
+                LoadSongCollectionFromFile();
             }
 
             if (Globals.ReloadSongManager)

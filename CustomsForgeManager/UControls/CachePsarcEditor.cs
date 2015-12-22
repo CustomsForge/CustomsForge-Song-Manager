@@ -334,13 +334,19 @@ namespace CustomsForgeManager.UControls
                     throw new Exception("Song Packs Combobox Failure");
             }
 
+            CFSMTheme.InitializeDgvAppearance(dgvCacheEditor);
+
+            if (AppSettings.Instance.ManagerGridSettings != null)
+                dgvCacheEditor.ReLoadColumnOrder(AppSettings.Instance.ManagerGridSettings.ColumnOrder);
+
             foreach (DataGridViewColumn col in dgvCacheEditor.Columns)
                 col.SortMode = DataGridViewColumnSortMode.Automatic;
 
             // forces sort glyph to show up on startup with enabled 'No' at top
-            dgvCacheEditor.Columns["colEnabled"].HeaderCell.SortGlyphDirection = SortOrder.Ascending;
+            // dgvCacheEditor.Columns["colEnabled"].HeaderCell.SortGlyphDirection = SortOrder.Ascending;
+
             // override generic generic ColumnsMode
-            dgvCacheEditor.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            // dgvCacheEditor.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
             UpdateToolStrip();
         }
@@ -884,20 +890,6 @@ namespace CustomsForgeManager.UControls
                 Globals.TsLabel_DisabledCounter.Visible = true;
             }
         }
-
-        //private void SearchEditor(string criteria)
-        //{
-        //    var results = masterSongCollection.Where(x => x.ArtistTitleAlbum.ToLower().Contains(criteria.ToLower()) ||
-        //        x.Tuning.ToLower().Contains(criteria.ToLower()) ||
-        //        x.Arrangements.ToLower().Contains(criteria.ToLower()) ||
-        //        x.Charter.ToLower().Contains(criteria.ToLower()) ||
-        //        (x.IgnitionAuthor != null && x.IgnitionAuthor.ToLower().Contains(criteria.ToLower()) ||
-        //        (x.IgnitionID != null && x.IgnitionID.ToLower().Contains(criteria.ToLower())) ||
-        //        x.SongYear.ToString().Contains(criteria) ||
-        //        x.Path.ToLower().Contains(criteria.ToLower()))).ToList();
-
-        //    LoadFilteredBindingList(results);
-        //}
 
         public DataGridView GetGrid()
         {

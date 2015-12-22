@@ -1,4 +1,6 @@
-﻿namespace CustomsForgeManager.UControls
+﻿using CustomsForgeManager.CustomsForgeManagerLib.DataGridTools;
+
+namespace CustomsForgeManager.UControls
 {
     partial class CachePsarcEditor
     {
@@ -35,15 +37,7 @@
             this.btnRestoreBackup = new System.Windows.Forms.Button();
             this.cmbSongPacks = new System.Windows.Forms.ComboBox();
             this.lblSongPack = new System.Windows.Forms.Label();
-            this.dgvCacheEditor = new System.Windows.Forms.DataGridView();
-            this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.colEnabled = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colArtist = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSong = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colAlbum = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colTuning = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSongKey = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSongSource = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgvCacheEditor = new RADataGridView();
             this.panel1 = new System.Windows.Forms.Panel();
             this.lnkClearSearch = new System.Windows.Forms.LinkLabel();
             this.cueSearch = new CustomsForgeManager.CustomsForgeManagerLib.CustomControls.CueTextBox();
@@ -58,6 +52,14 @@
             this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.colEnabled = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colArtist = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSong = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colAlbum = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colTuning = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSongKey = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSongSource = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tlpCachePsarcEditor.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCacheEditor)).BeginInit();
@@ -66,8 +68,8 @@
             // 
             // btnSelectAllNone
             // 
-            this.btnSelectAllNone.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSelectAllNone.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSelectAllNone.AutoSize = true;
             this.btnSelectAllNone.Location = new System.Drawing.Point(22, 42);
             this.btnSelectAllNone.Name = "btnSelectAllNone";
@@ -156,7 +158,6 @@
             // 
             this.dgvCacheEditor.AllowUserToAddRows = false;
             this.dgvCacheEditor.AllowUserToDeleteRows = false;
-            this.dgvCacheEditor.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvCacheEditor.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvCacheEditor.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colSelect,
@@ -176,54 +177,6 @@
             this.dgvCacheEditor.Size = new System.Drawing.Size(984, 314);
             this.dgvCacheEditor.TabIndex = 4;
             this.dgvCacheEditor.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongs_CellMouseUp);
-            // 
-            // colSelect
-            // 
-            this.colSelect.HeaderText = "Select";
-            this.colSelect.Name = "colSelect";
-            this.colSelect.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colSelect.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            // 
-            // colEnabled
-            // 
-            this.colEnabled.HeaderText = "Enabled";
-            this.colEnabled.Name = "colEnabled";
-            this.colEnabled.ReadOnly = true;
-            // 
-            // colArtist
-            // 
-            this.colArtist.HeaderText = "Artist";
-            this.colArtist.Name = "colArtist";
-            this.colArtist.ReadOnly = true;
-            // 
-            // colSong
-            // 
-            this.colSong.HeaderText = "Song";
-            this.colSong.Name = "colSong";
-            this.colSong.ReadOnly = true;
-            // 
-            // colAlbum
-            // 
-            this.colAlbum.HeaderText = "Album";
-            this.colAlbum.Name = "colAlbum";
-            this.colAlbum.ReadOnly = true;
-            // 
-            // colTuning
-            // 
-            this.colTuning.HeaderText = "Tuning";
-            this.colTuning.Name = "colTuning";
-            this.colTuning.ReadOnly = true;
-            // 
-            // colSongKey
-            // 
-            this.colSongKey.HeaderText = "Song Key";
-            this.colSongKey.Name = "colSongKey";
-            this.colSongKey.ReadOnly = true;
-            // 
-            // colSongSource
-            // 
-            this.colSongSource.HeaderText = "Song Source";
-            this.colSongSource.Name = "colSongSource";
             // 
             // panel1
             // 
@@ -268,8 +221,8 @@
             // 
             // btnSaveSongs
             // 
-            this.btnSaveSongs.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSaveSongs.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSaveSongs.AutoSize = true;
             this.btnSaveSongs.Location = new System.Drawing.Point(270, 42);
             this.btnSaveSongs.Name = "btnSaveSongs";
@@ -281,8 +234,8 @@
             // 
             // btnDisableSongs
             // 
-            this.btnDisableSongs.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnDisableSongs.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.btnDisableSongs.AutoSize = true;
             this.btnDisableSongs.Location = new System.Drawing.Point(196, 42);
             this.btnDisableSongs.Name = "btnDisableSongs";
@@ -294,8 +247,8 @@
             // 
             // btnEnableSongs
             // 
-            this.btnEnableSongs.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnEnableSongs.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.btnEnableSongs.AutoSize = true;
             this.btnEnableSongs.Location = new System.Drawing.Point(122, 42);
             this.btnEnableSongs.Name = "btnEnableSongs";
@@ -361,6 +314,62 @@
             this.dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
             this.dataGridViewTextBoxColumn7.Width = 94;
             // 
+            // colSelect
+            // 
+            this.colSelect.HeaderText = "Select";
+            this.colSelect.Name = "colSelect";
+            this.colSelect.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colSelect.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.colSelect.Width = 52;
+            // 
+            // colEnabled
+            // 
+            this.colEnabled.HeaderText = "Enabled";
+            this.colEnabled.Name = "colEnabled";
+            this.colEnabled.ReadOnly = true;
+            this.colEnabled.Width = 72;
+            // 
+            // colArtist
+            // 
+            this.colArtist.HeaderText = "Artist";
+            this.colArtist.Name = "colArtist";
+            this.colArtist.ReadOnly = true;
+            this.colArtist.Width = 150;
+            // 
+            // colSong
+            // 
+            this.colSong.HeaderText = "Song";
+            this.colSong.Name = "colSong";
+            this.colSong.ReadOnly = true;
+            this.colSong.Width = 150;
+            // 
+            // colAlbum
+            // 
+            this.colAlbum.HeaderText = "Album";
+            this.colAlbum.Name = "colAlbum";
+            this.colAlbum.ReadOnly = true;
+            this.colAlbum.Width = 150;
+            // 
+            // colTuning
+            // 
+            this.colTuning.HeaderText = "Tuning";
+            this.colTuning.Name = "colTuning";
+            this.colTuning.ReadOnly = true;
+            this.colTuning.Width = 120;
+            // 
+            // colSongKey
+            // 
+            this.colSongKey.HeaderText = "Song Key";
+            this.colSongKey.Name = "colSongKey";
+            this.colSongKey.ReadOnly = true;
+            this.colSongKey.Width = 120;
+            // 
+            // colSongSource
+            // 
+            this.colSongSource.HeaderText = "Song Source";
+            this.colSongSource.Name = "colSongSource";
+            this.colSongSource.Width = 120;
+            // 
             // CachePsarcEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -387,7 +396,7 @@
         private System.Windows.Forms.Button btnSaveSongs;
         private System.Windows.Forms.Button btnEnableSongs;
         private System.Windows.Forms.Button btnDisableSongs;
-        private System.Windows.Forms.DataGridView dgvCacheEditor;
+        private RADataGridView dgvCacheEditor;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label lblSongPack;
         private System.Windows.Forms.ComboBox cmbSongPacks;
@@ -400,6 +409,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
+        private System.Windows.Forms.LinkLabel lnkClearSearch;
+        private CustomsForgeManagerLib.CustomControls.CueTextBox cueSearch;
         private System.Windows.Forms.DataGridViewCheckBoxColumn colSelect;
         private System.Windows.Forms.DataGridViewTextBoxColumn colEnabled;
         private System.Windows.Forms.DataGridViewTextBoxColumn colArtist;
@@ -408,7 +419,5 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colTuning;
         private System.Windows.Forms.DataGridViewTextBoxColumn colSongKey;
         private System.Windows.Forms.DataGridViewTextBoxColumn colSongSource;
-        private System.Windows.Forms.LinkLabel lnkClearSearch;
-        private CustomsForgeManagerLib.CustomControls.CueTextBox cueSearch;
     }
 }

@@ -51,7 +51,7 @@ namespace CustomsForgeManager.UControls
             this.btnRescan = new System.Windows.Forms.Button();
             this.gbResults = new System.Windows.Forms.GroupBox();
             this.txtNoDuplicates = new System.Windows.Forms.TextBox();
-            this.dgvDups = new CustomsForgeManager.CustomsForgeManagerLib.DataGridTools.RADataGridView();
+            this.dgvDuplicates = new CustomsForgeManager.CustomsForgeManagerLib.DataGridTools.RADataGridView();
             this.colPID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colPIDArrangement = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colKey = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
@@ -81,7 +81,7 @@ namespace CustomsForgeManager.UControls
             this.gbActions.SuspendLayout();
             this.panelActions.SuspendLayout();
             this.gbResults.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvDups)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvDuplicates)).BeginInit();
             this.SuspendLayout();
             // 
             // cmsDuplicate
@@ -198,7 +198,7 @@ namespace CustomsForgeManager.UControls
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.gbResults.Controls.Add(this.txtNoDuplicates);
-            this.gbResults.Controls.Add(this.dgvDups);
+            this.gbResults.Controls.Add(this.dgvDuplicates);
             this.gbResults.Location = new System.Drawing.Point(4, 3);
             this.gbResults.Name = "gbResults";
             this.gbResults.Size = new System.Drawing.Size(864, 454);
@@ -217,11 +217,11 @@ namespace CustomsForgeManager.UControls
             this.txtNoDuplicates.Text = "\r\nGood News ...\r\nNo Duplicates Found";
             this.txtNoDuplicates.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // dgvDups
+            // dgvDuplicates
             // 
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.dgvDups.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.dgvDups.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.dgvDuplicates.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            this.dgvDuplicates.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
@@ -231,8 +231,8 @@ namespace CustomsForgeManager.UControls
             dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvDups.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
-            this.dgvDups.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dgvDuplicates.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            this.dgvDuplicates.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colPID,
             this.colPIDArrangement,
             this.colKey,
@@ -258,18 +258,18 @@ namespace CustomsForgeManager.UControls
             this.colIgnitionVersion,
             this.colIgnitionAuthor,
             this.colArtistTitleAlbum});
-            this.dgvDups.Location = new System.Drawing.Point(6, 19);
-            this.dgvDups.Name = "dgvDups";
-            this.dgvDups.RowHeadersVisible = false;
-            this.dgvDups.Size = new System.Drawing.Size(852, 429);
-            this.dgvDups.TabIndex = 17;
-            this.dgvDups.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvDups_CellDoubleClick);
-            this.dgvDups.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvDups_CellFormatting);
-            this.dgvDups.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvDups_CellMouseUp);
-            this.dgvDups.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgvDups_DataBindingComplete);
-            this.dgvDups.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dgvDups_DataError);
-            this.dgvDups.Paint += new System.Windows.Forms.PaintEventHandler(this.dgvDups_Paint);
-            this.dgvDups.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvDups_KeyDown);
+            this.dgvDuplicates.Location = new System.Drawing.Point(6, 19);
+            this.dgvDuplicates.Name = "dgvDuplicates";
+            this.dgvDuplicates.RowHeadersVisible = false;
+            this.dgvDuplicates.Size = new System.Drawing.Size(852, 429);
+            this.dgvDuplicates.TabIndex = 17;
+            this.dgvDuplicates.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvDups_CellDoubleClick);
+            this.dgvDuplicates.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvDups_CellFormatting);
+            this.dgvDuplicates.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvDups_CellMouseUp);
+            this.dgvDuplicates.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgvDups_DataBindingComplete);
+            this.dgvDuplicates.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dgvDups_DataError);
+            this.dgvDuplicates.Paint += new System.Windows.Forms.PaintEventHandler(this.dgvDups_Paint);
+            this.dgvDuplicates.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvDups_KeyDown);
             // 
             // colPID
             // 
@@ -519,7 +519,7 @@ namespace CustomsForgeManager.UControls
             this.panelActions.PerformLayout();
             this.gbResults.ResumeLayout(false);
             this.gbResults.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvDups)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvDuplicates)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -537,7 +537,7 @@ namespace CustomsForgeManager.UControls
         private GroupBox gbResults;
         private LinkLabel lnkPersistentId;
         private TextBox txtNoDuplicates;
-        private RADataGridView dgvDups;
+        private RADataGridView dgvDuplicates;
         private DataGridViewTextBoxColumn colPID;
         private DataGridViewTextBoxColumn colPIDArrangement;
         private DataGridViewTools.DataGridViewAutoFilterTextBoxColumn colKey;
