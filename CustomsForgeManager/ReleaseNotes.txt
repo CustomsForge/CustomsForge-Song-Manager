@@ -1,5 +1,10 @@
 CFM Release Notes
 
+1.1.2.1
+-For better compatibility, changed all project solution platforms to x86 CPU
+-Add backup and restore features to user profile options
+-Added feature to auto save the profile directory path to cfsm.Settings.xml
+
 1.1.2.0
 -Added subfolders to Duplicates search
 -Made Duplicates table columns consistent with SongManager table
@@ -12,15 +17,15 @@ CFM Release Notes
 
 1.1.1.9
 -Added checkbox option to Settings tab to cleanup all temporary directories to save disk space
--Made CachePsarcEditor combobox generic so additional song packs may be added in future
--Added user protection from 'self' to CachePsarcEditor
--Added column Song Source to CachePsarcEditor to clarify source of data
--Applied standardize appearance settings to CachePsarcEditor datagridview
+-Made SongPacks combobox generic so additional song packs may be added in future
+-Added user protection from 'self' to SongPacks
+-Added column Song Source to SongPacks to clarify source of data
+-Applied standardize appearance settings to SongPacks datagridview
 
 1.1.1.8
--CachePsarcEditor is debugged and working - ready for beta testing.
+-SongPacks is debugged and working - ready for beta testing.
 -Added generic and reusable archive entry extractor, injector, and remover methods.
--Added toolstrip progress bar action and addition log file entries for CachePsarcEditor
+-Added toolstrip progress bar action and addition log file entries for SongPacks
 
 1.1.1.7
 -Added song time display to Audio Playback ToolStrip (APTS) and cleaned up appearance
@@ -29,7 +34,7 @@ CFM Release Notes
 -Added check to CashePsarcEditor for cache.psarc file to prevent potential ToolkitLib exceptions 
 -Converted all usage of 7za.exe to local native library (SevenZipSharp.dll) for cross platform support
 -Converted profile backup utility from ICSharpCode.SharpZipLib.dll to SevenZipSharp.dll
--Debugged and restuctured CachePsarcEditor (cache.psarc portion is working but modded cache.psarc is missing data)
+-Debugged and restuctured SongPacks (cache.psarc portion is working but modded cache.psarc is missing data)
 
 1.1.1.6
 -Fixed "Include RS1 Compatibility Pack" setting
@@ -74,7 +79,7 @@ CFM Release Notes
 -Removed tagger from main form and added to songmanager
 -Consolidated selection buttons into one button with a dropdown in songmanager
 -Add mass editor to edit multiple songs at once, currently only AppID is implemented
--Fixed extraction error in CachePsarcEditor.UnpackSongCache
+-Fixed extraction error in SongPacks.UnpackSongCache
 
 1.1.1.0
 -fixed bug in renamer (http://customsforge.com/topic/24182-renamer-dont-rename/?p=185449)
@@ -82,7 +87,7 @@ CFM Release Notes
 -Created CFSM.Utils and DF.Winforms.ThemeLib assembly
 -Created own implementation of PSARC in CFSM.Utils
 -Added a UnitTest project
--Added CachePsarcEditor
+-Added SongPacks
 
 1.1.0.1
 -Merged DataGridViewTools filtering fixes

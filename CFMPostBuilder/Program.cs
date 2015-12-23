@@ -171,6 +171,7 @@ namespace CFMPostBuilder
                                 UploadStream(ms, "VersionInfo.txt");
                             }
                             Console.WriteLine("Uploaded all files.");
+                            MessageBox.Show("Uploading files seemed sucessful", "Uploading Finished ...", MessageBoxButtons.OK);
                         }
                         else
                             Console.WriteLine("Upload Canceled.");

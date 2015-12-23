@@ -2,7 +2,7 @@
 
 namespace CustomsForgeManager.UControls
 {
-    partial class CachePsarcEditor
+    partial class SongPacks
     {
         /// <summary> 
         /// Required designer variable.
@@ -31,13 +31,21 @@ namespace CustomsForgeManager.UControls
         private void InitializeComponent()
         {
             this.btnSelectAllNone = new System.Windows.Forms.Button();
-            this.tlpCachePsarcEditor = new System.Windows.Forms.TableLayoutPanel();
+            this.tlpSongPacks = new System.Windows.Forms.TableLayoutPanel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.lnkRefreshAll = new System.Windows.Forms.LinkLabel();
             this.btnRestoreBackup = new System.Windows.Forms.Button();
             this.cmbSongPacks = new System.Windows.Forms.ComboBox();
             this.lblSongPack = new System.Windows.Forms.Label();
-            this.dgvCacheEditor = new RADataGridView();
+            this.dgvSongPacks = new CustomsForgeManager.CustomsForgeManagerLib.DataGridTools.RADataGridView();
+            this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.colEnabled = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colArtist = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSong = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colAlbum = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colTuning = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSongKey = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSongSource = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1 = new System.Windows.Forms.Panel();
             this.lnkClearSearch = new System.Windows.Forms.LinkLabel();
             this.cueSearch = new CustomsForgeManager.CustomsForgeManagerLib.CustomControls.CueTextBox();
@@ -52,17 +60,9 @@ namespace CustomsForgeManager.UControls
             this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.colEnabled = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colArtist = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSong = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colAlbum = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colTuning = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSongKey = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSongSource = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tlpCachePsarcEditor.SuspendLayout();
+            this.tlpSongPacks.SuspendLayout();
             this.panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvCacheEditor)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSongPacks)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -79,23 +79,23 @@ namespace CustomsForgeManager.UControls
             this.btnSelectAllNone.UseVisualStyleBackColor = true;
             this.btnSelectAllNone.Click += new System.EventHandler(this.btnSelectAllNone_Click);
             // 
-            // tlpCachePsarcEditor
+            // tlpSongPacks
             // 
-            this.tlpCachePsarcEditor.ColumnCount = 2;
-            this.tlpCachePsarcEditor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlpCachePsarcEditor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlpCachePsarcEditor.Controls.Add(this.panel2, 1, 0);
-            this.tlpCachePsarcEditor.Controls.Add(this.dgvCacheEditor, 0, 1);
-            this.tlpCachePsarcEditor.Controls.Add(this.panel1, 0, 0);
-            this.tlpCachePsarcEditor.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlpCachePsarcEditor.Location = new System.Drawing.Point(0, 0);
-            this.tlpCachePsarcEditor.Name = "tlpCachePsarcEditor";
-            this.tlpCachePsarcEditor.RowCount = 3;
-            this.tlpCachePsarcEditor.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 77F));
-            this.tlpCachePsarcEditor.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpCachePsarcEditor.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 6F));
-            this.tlpCachePsarcEditor.Size = new System.Drawing.Size(990, 403);
-            this.tlpCachePsarcEditor.TabIndex = 14;
+            this.tlpSongPacks.ColumnCount = 2;
+            this.tlpSongPacks.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlpSongPacks.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlpSongPacks.Controls.Add(this.panel2, 1, 0);
+            this.tlpSongPacks.Controls.Add(this.dgvSongPacks, 0, 1);
+            this.tlpSongPacks.Controls.Add(this.panel1, 0, 0);
+            this.tlpSongPacks.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlpSongPacks.Location = new System.Drawing.Point(0, 0);
+            this.tlpSongPacks.Name = "tlpSongPacks";
+            this.tlpSongPacks.RowCount = 3;
+            this.tlpSongPacks.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 77F));
+            this.tlpSongPacks.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpSongPacks.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 6F));
+            this.tlpSongPacks.Size = new System.Drawing.Size(990, 403);
+            this.tlpSongPacks.TabIndex = 14;
             // 
             // panel2
             // 
@@ -154,12 +154,12 @@ namespace CustomsForgeManager.UControls
             this.lblSongPack.TabIndex = 16;
             this.lblSongPack.Text = "Song Packs:";
             // 
-            // dgvCacheEditor
+            // dgvSongPacks
             // 
-            this.dgvCacheEditor.AllowUserToAddRows = false;
-            this.dgvCacheEditor.AllowUserToDeleteRows = false;
-            this.dgvCacheEditor.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvCacheEditor.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dgvSongPacks.AllowUserToAddRows = false;
+            this.dgvSongPacks.AllowUserToDeleteRows = false;
+            this.dgvSongPacks.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvSongPacks.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colSelect,
             this.colEnabled,
             this.colArtist,
@@ -168,15 +168,71 @@ namespace CustomsForgeManager.UControls
             this.colTuning,
             this.colSongKey,
             this.colSongSource});
-            this.tlpCachePsarcEditor.SetColumnSpan(this.dgvCacheEditor, 2);
-            this.dgvCacheEditor.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvCacheEditor.Location = new System.Drawing.Point(3, 80);
-            this.dgvCacheEditor.Name = "dgvCacheEditor";
-            this.dgvCacheEditor.RowHeadersVisible = false;
-            this.dgvCacheEditor.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvCacheEditor.Size = new System.Drawing.Size(984, 314);
-            this.dgvCacheEditor.TabIndex = 4;
-            this.dgvCacheEditor.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongs_CellMouseUp);
+            this.tlpSongPacks.SetColumnSpan(this.dgvSongPacks, 2);
+            this.dgvSongPacks.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvSongPacks.Location = new System.Drawing.Point(3, 80);
+            this.dgvSongPacks.Name = "dgvSongPacks";
+            this.dgvSongPacks.RowHeadersVisible = false;
+            this.dgvSongPacks.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvSongPacks.Size = new System.Drawing.Size(984, 314);
+            this.dgvSongPacks.TabIndex = 4;
+            this.dgvSongPacks.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongs_CellMouseUp);
+            // 
+            // colSelect
+            // 
+            this.colSelect.HeaderText = "Select";
+            this.colSelect.Name = "colSelect";
+            this.colSelect.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colSelect.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.colSelect.Width = 52;
+            // 
+            // colEnabled
+            // 
+            this.colEnabled.HeaderText = "Enabled";
+            this.colEnabled.Name = "colEnabled";
+            this.colEnabled.ReadOnly = true;
+            this.colEnabled.Width = 72;
+            // 
+            // colArtist
+            // 
+            this.colArtist.HeaderText = "Artist";
+            this.colArtist.Name = "colArtist";
+            this.colArtist.ReadOnly = true;
+            this.colArtist.Width = 150;
+            // 
+            // colSong
+            // 
+            this.colSong.HeaderText = "Song";
+            this.colSong.Name = "colSong";
+            this.colSong.ReadOnly = true;
+            this.colSong.Width = 150;
+            // 
+            // colAlbum
+            // 
+            this.colAlbum.HeaderText = "Album";
+            this.colAlbum.Name = "colAlbum";
+            this.colAlbum.ReadOnly = true;
+            this.colAlbum.Width = 150;
+            // 
+            // colTuning
+            // 
+            this.colTuning.HeaderText = "Tuning";
+            this.colTuning.Name = "colTuning";
+            this.colTuning.ReadOnly = true;
+            this.colTuning.Width = 120;
+            // 
+            // colSongKey
+            // 
+            this.colSongKey.HeaderText = "Song Key";
+            this.colSongKey.Name = "colSongKey";
+            this.colSongKey.ReadOnly = true;
+            this.colSongKey.Width = 120;
+            // 
+            // colSongSource
+            // 
+            this.colSongSource.HeaderText = "Song Source";
+            this.colSongSource.Name = "colSongSource";
+            this.colSongSource.Width = 120;
             // 
             // panel1
             // 
@@ -314,73 +370,17 @@ namespace CustomsForgeManager.UControls
             this.dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
             this.dataGridViewTextBoxColumn7.Width = 94;
             // 
-            // colSelect
-            // 
-            this.colSelect.HeaderText = "Select";
-            this.colSelect.Name = "colSelect";
-            this.colSelect.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colSelect.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.colSelect.Width = 52;
-            // 
-            // colEnabled
-            // 
-            this.colEnabled.HeaderText = "Enabled";
-            this.colEnabled.Name = "colEnabled";
-            this.colEnabled.ReadOnly = true;
-            this.colEnabled.Width = 72;
-            // 
-            // colArtist
-            // 
-            this.colArtist.HeaderText = "Artist";
-            this.colArtist.Name = "colArtist";
-            this.colArtist.ReadOnly = true;
-            this.colArtist.Width = 150;
-            // 
-            // colSong
-            // 
-            this.colSong.HeaderText = "Song";
-            this.colSong.Name = "colSong";
-            this.colSong.ReadOnly = true;
-            this.colSong.Width = 150;
-            // 
-            // colAlbum
-            // 
-            this.colAlbum.HeaderText = "Album";
-            this.colAlbum.Name = "colAlbum";
-            this.colAlbum.ReadOnly = true;
-            this.colAlbum.Width = 150;
-            // 
-            // colTuning
-            // 
-            this.colTuning.HeaderText = "Tuning";
-            this.colTuning.Name = "colTuning";
-            this.colTuning.ReadOnly = true;
-            this.colTuning.Width = 120;
-            // 
-            // colSongKey
-            // 
-            this.colSongKey.HeaderText = "Song Key";
-            this.colSongKey.Name = "colSongKey";
-            this.colSongKey.ReadOnly = true;
-            this.colSongKey.Width = 120;
-            // 
-            // colSongSource
-            // 
-            this.colSongSource.HeaderText = "Song Source";
-            this.colSongSource.Name = "colSongSource";
-            this.colSongSource.Width = 120;
-            // 
-            // CachePsarcEditor
+            // SongPacks
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.tlpCachePsarcEditor);
-            this.Name = "CachePsarcEditor";
+            this.Controls.Add(this.tlpSongPacks);
+            this.Name = "SongPacks";
             this.Size = new System.Drawing.Size(990, 403);
-            this.tlpCachePsarcEditor.ResumeLayout(false);
+            this.tlpSongPacks.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvCacheEditor)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSongPacks)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.ResumeLayout(false);
@@ -390,13 +390,13 @@ namespace CustomsForgeManager.UControls
         #endregion
 
         private System.Windows.Forms.Button btnSelectAllNone;
-        private System.Windows.Forms.TableLayoutPanel tlpCachePsarcEditor;
+        private System.Windows.Forms.TableLayoutPanel tlpSongPacks;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button btnRestoreBackup;
         private System.Windows.Forms.Button btnSaveSongs;
         private System.Windows.Forms.Button btnEnableSongs;
         private System.Windows.Forms.Button btnDisableSongs;
-        private RADataGridView dgvCacheEditor;
+        private RADataGridView dgvSongPacks;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label lblSongPack;
         private System.Windows.Forms.ComboBox cmbSongPacks;

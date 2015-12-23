@@ -217,7 +217,7 @@ namespace CustomsForgeManager.UControls
             Globals.RescanDuplicates = true;
             Globals.RescanSetlistManager = true;
             Globals.RescanRenamer = true;
-            Globals.ReloadCachePsarcEditor = true;
+            Globals.ReloadSongPacks = true;
 
             // update RSInstalledDir after above error check passes
             AppSettings.Instance.RSInstalledDir = cueRsDir.Text;

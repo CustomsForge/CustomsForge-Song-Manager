@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Threading;
 using CustomsForgeManager.CustomsForgeManagerLib.Objects;
 using SevenZip;
@@ -91,7 +93,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
         {
             SetupZlib();
 
-            // -- CRITICAL CODE HERE -- 
+            // -- SUPER CRITICAL CODE HERE -- 
             try
             {
                 if (String.IsNullOrEmpty(internalArchivePath))
@@ -137,19 +139,22 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
         }
 
         /// <summary>
-        /// Extracts data from a .zip archive.
+        /// Extracts all data from a .zip archive to an output directory path.
         /// </summary>
-        /// <param name="targetDir">The directory to put the extracted data in.</param>
-        /// <param name="zipFile">The file (archive) to extract data from.</param>
-        public static bool UnzipFile(string targetDir, string zipFile)
+        /// <param name="zipArchivePath">The file (archive) to extract data from.</param>
+        /// <param name="outputDirPath">The directory to put the extracted data into.</param>
+        public static bool UnzipDir(string zipArchivePath, string outputDirPath)
         {
             SetupZlib();
 
+            zipArchivePath = Path.GetFullPath(zipArchivePath);
+            outputDirPath = Path.GetFullPath(outputDirPath);
+
             try
             {
-                using (SevenZipExtractor extractor = new SevenZipExtractor(zipFile))
+                using (SevenZipExtractor extractor = new SevenZipExtractor(zipArchivePath))
                 {
-                    extractor.ExtractArchive(targetDir);
+                    extractor.ExtractArchive(outputDirPath);
                 }
             }
             catch
@@ -189,6 +194,30 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
         }
 
         /// <summary>
+        /// Extracts file names from a .zip archive.
+        /// </summary>
+        /// <param name="zipArchivePath">The zip archive to extract file names from.</param>
+        public static List<string> ExtractFileNames(string zipArchivePath)
+        {
+            List<string> fileNames = new List<string>();
+            SetupZlib();
+
+            try
+            {
+                using (SevenZipExtractor extractor = new SevenZipExtractor(zipArchivePath))
+                {
+                    fileNames = extractor.ArchiveFileNames.ToList();
+                }
+            }
+            catch
+            {
+                return fileNames;
+            }
+
+            return fileNames;
+        }
+
+        /// <summary>
         /// Setups the zlib library; gets the proper 32 or 64 bit library as a stream from a resource, and loads it.
         /// </summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Zlib", Justification = "Zlib is a spelled correctly")]
@@ -206,36 +235,36 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                     return;
                 }
 
-                //Stream stream = null;
-                //Assembly asm = Assembly.GetExecutingAssembly();
-                //string libraryPath = string.Empty;
+                //    Stream stream = null;
+                //    Assembly asm = Assembly.GetExecutingAssembly();
+                //    string libraryPath = string.Empty;
 
-                //if (IntPtr.Size == 8)
-                //{
-                //    libraryPath = Path.Combine(Path.GetDirectoryName(Assembly.GetAssembly(typeof(SevenZipExtractor)).Location), @"7z64.dll");
-                //    stream = asm.GetManifestResourceStream("libs.7z64.dll");
-                //}
-                //else
-                //{
-                //    libraryPath = Path.Combine(Path.GetDirectoryName(Assembly.GetAssembly(typeof(SevenZipExtractor)).Location), @"7z86.dll");
-                //    stream = asm.GetManifestResourceStream("libs.7z86.dll");
-                //}
+                //    if (IntPtr.Size == 8)
+                //    {
+                //        libraryPath = Path.Combine(Path.GetDirectoryName(Assembly.GetAssembly(typeof(SevenZipExtractor)).Location), @"7z64.dll");
+                //        stream = asm.GetManifestResourceStream("libs.7z64.dll");
+                //    }
+                //    else
+                //    {
+                //        libraryPath = Path.Combine(Path.GetDirectoryName(Assembly.GetAssembly(typeof(SevenZipExtractor)).Location), @"7z86.dll");
+                //        stream = asm.GetManifestResourceStream("libs.7z86.dll");
+                //    }
 
-                //if (!File.Exists(libraryPath))
-                //{
-                //    byte[] myAssembly = new byte[stream.Length];
-                //    stream.Read(myAssembly, 0, (int)stream.Length);
-                //    File.WriteAllBytes(libraryPath, myAssembly);
-                //    stream.Close();
-                //}
-
-                const string libraryPath = "7za.dll"; // "7z86.dll"; // "7z64.dll";
-
-                SevenZipCompressor.SetLibraryPath(libraryPath);
-                SevenZipExtractor.SetLibraryPath(libraryPath);
-
-                zlibInitalized = true;
+                //    if (!File.Exists(libraryPath))
+                //    {
+                //        byte[] myAssembly = new byte[stream.Length];
+                //        stream.Read(myAssembly, 0, (int)stream.Length);
+                //        File.WriteAllBytes(libraryPath, myAssembly);
+                //        stream.Close();
             }
+
+            // "7z86.dll"; // "7z64.dll";
+            var libraryPath = Path.Combine(Constants.ApplicationDirectory, "7za.dll");
+
+            SevenZipBase.SetLibraryPath(libraryPath);
+            SevenZipBase.SetLibraryPath(libraryPath);
+
+            zlibInitalized = true;
         }
 
         /// <summary>

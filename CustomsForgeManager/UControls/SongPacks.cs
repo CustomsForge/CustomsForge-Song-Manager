@@ -18,7 +18,7 @@ using Extensions = CustomsForgeManager.CustomsForgeManagerLib.Extensions;
 
 namespace CustomsForgeManager.UControls
 {
-    public partial class CachePsarcEditor : UserControl, IDataGridViewHolder, INotifyTabChanged
+    public partial class SongPacks : UserControl, IDataGridViewHolder, INotifyTabChanged
     {
         // TODO: Impliment Safe Threading for long duration processes
         // HINT: search for occurences of 'this.Enabled = false;'
@@ -40,9 +40,9 @@ namespace CustomsForgeManager.UControls
 
         private bool allSelected = false;
 
-        public CachePsarcEditor()
+        public SongPacks()
         {
-            InitializeCachePsarcEditor();
+            InitializeSongPacks();
         }
 
         // ... filtering
@@ -80,7 +80,7 @@ namespace CustomsForgeManager.UControls
                     dynamic songData = songAttributes.Value;
                     CacheSongData sngData = AttributesToSongData(songData, enabled, songSource);
 
-                    dgvCacheEditor.Rows.Add(false, sngData.Enabled, sngData.Title, sngData.Artist, sngData.Album, sngData.Tuning, sngData.SongKey, sngData.SongSource);
+                    dgvSongPacks.Rows.Add(false, sngData.Enabled, sngData.Title, sngData.Artist, sngData.Album, sngData.Tuning, sngData.SongKey, sngData.SongSource);
                 }
             }
         }
@@ -195,7 +195,7 @@ namespace CustomsForgeManager.UControls
         {
             int disabledCount = 0;
 
-            foreach (DataGridViewRow row in dgvCacheEditor.Rows)
+            foreach (DataGridViewRow row in dgvSongPacks.Rows)
             {
                 if (row.Cells["colEnabled"].Value.ToString() == "No")
                 {
@@ -262,15 +262,15 @@ namespace CustomsForgeManager.UControls
             return matchingSongs;
         }
 
-        private void InitializeCachePsarcEditor()
+        private void InitializeSongPacks()
         {
             // provides for complete fresh reload of tabpage
             InitializeComponent();
             this.Enabled = true;
-            Globals.ReloadCachePsarcEditor = false;
+            Globals.ReloadSongPacks = false;
             InitializeSongPacksCombo();
-            CFSMTheme.InitializeDgvAppearance(dgvCacheEditor);
-            PopulateCachePsarcEditor();
+            CFSMTheme.InitializeDgvAppearance(dgvSongPacks);
+            PopulateSongPacks();
         }
 
         private void InitializeSongPacksCombo()
@@ -283,7 +283,7 @@ namespace CustomsForgeManager.UControls
             cmbSongPacks.SelectedIndex = 0;
         }
 
-        private void PopulateCachePsarcEditor()
+        private void PopulateSongPacks()
         {
             Globals.Log("Populating Cache.psarc Editor GUI ...");
             Globals.TuningXml = TuningDefinitionRepository.LoadTuningDefinitions(GameVersion.RS2014);
@@ -305,16 +305,16 @@ namespace CustomsForgeManager.UControls
             }
             else
             {
-                Globals.ReloadCachePsarcEditor = true;
-                Globals.Log("Method PopulateCachePsarcEditor ... FAILED");
+                Globals.ReloadSongPacks = true;
+                Globals.Log("Method PopulateSongPacks ... FAILED");
                 Globals.Log("Could not find Rocksmith Installation Directory");
             }
         }
 
         private void PopulateDataGridView()
         {
-            CFSMTheme.DoubleBuffered(dgvCacheEditor);
-            dgvCacheEditor.Rows.Clear();
+            CFSMTheme.DoubleBuffered(dgvSongPacks);
+            dgvSongPacks.Rows.Clear();
 
             switch (cmbSongPacks.SelectedIndex)
             {
@@ -334,12 +334,12 @@ namespace CustomsForgeManager.UControls
                     throw new Exception("Song Packs Combobox Failure");
             }
 
-            CFSMTheme.InitializeDgvAppearance(dgvCacheEditor);
+            CFSMTheme.InitializeDgvAppearance(dgvSongPacks);
 
             if (AppSettings.Instance.ManagerGridSettings != null)
-                dgvCacheEditor.ReLoadColumnOrder(AppSettings.Instance.ManagerGridSettings.ColumnOrder);
+                dgvSongPacks.ReLoadColumnOrder(AppSettings.Instance.ManagerGridSettings.ColumnOrder);
 
-            foreach (DataGridViewColumn col in dgvCacheEditor.Columns)
+            foreach (DataGridViewColumn col in dgvSongPacks.Columns)
                 col.SortMode = DataGridViewColumnSortMode.Automatic;
 
             // forces sort glyph to show up on startup with enabled 'No' at top
@@ -400,15 +400,15 @@ namespace CustomsForgeManager.UControls
         private void RefreshDGVAfterSearching(dynamic songCollection, dynamic disabledSongCollection, string songSource)
         {
             var filteredSongCollection = GetMatchingSongs(disabledSongCollection, cueSearch.Text);
-            dgvCacheEditor.Rows.Clear();
+            dgvSongPacks.Rows.Clear();
 
             foreach (var song in filteredSongCollection)
-                dgvCacheEditor.Rows.Add(false, "No", song.SongName, song.ArtistName, song.AlbumName, CustomsForgeManagerLib.Extensions.TuningStringToName(TuningJsonToStrings(song.Tuning)), song.SongKey, songSource);
+                dgvSongPacks.Rows.Add(false, "No", song.SongName, song.ArtistName, song.AlbumName, CustomsForgeManagerLib.Extensions.TuningStringToName(TuningJsonToStrings(song.Tuning)), song.SongKey, songSource);
 
             filteredSongCollection = GetMatchingSongs(songCollection, cueSearch.Text);
 
             foreach (var song in filteredSongCollection)
-                dgvCacheEditor.Rows.Add(false, "Yes", song.SongName, song.ArtistName, song.AlbumName, CustomsForgeManagerLib.Extensions.TuningStringToName(TuningJsonToStrings(song.Tuning)), song.SongKey, songSource);
+                dgvSongPacks.Rows.Add(false, "Yes", song.SongName, song.ArtistName, song.AlbumName, CustomsForgeManagerLib.Extensions.TuningStringToName(TuningJsonToStrings(song.Tuning)), song.SongKey, songSource);
         }
 
         private void RefreshDgvSongs()
@@ -703,7 +703,7 @@ namespace CustomsForgeManager.UControls
 
         private void btnDisableSongs_Click(object sender, EventArgs e)
         {
-            foreach (DataGridViewRow row in dgvCacheEditor.Rows)
+            foreach (DataGridViewRow row in dgvSongPacks.Rows)
             {
                 DataGridViewCheckBoxCell chk = (DataGridViewCheckBoxCell)row.Cells["colSelect"];
                 if (chk.Value.ToString().ToLower() == "true" || row.Selected)
@@ -738,7 +738,7 @@ namespace CustomsForgeManager.UControls
 
         private void btnEnableSongs_Click(object sender, EventArgs e)
         {
-            foreach (DataGridViewRow row in dgvCacheEditor.Rows)
+            foreach (DataGridViewRow row in dgvSongPacks.Rows)
             {
                 DataGridViewCheckBoxCell chk = (DataGridViewCheckBoxCell)row.Cells["colSelect"];
                 if (chk.Value.ToString().ToLower() == "true" || row.Selected)
@@ -775,7 +775,7 @@ namespace CustomsForgeManager.UControls
         {
             this.Enabled = false;
             RestoreOriginalSongBackups();
-            PopulateCachePsarcEditor();
+            PopulateSongPacks();
             this.Enabled = true;
         }
 
@@ -837,7 +837,7 @@ namespace CustomsForgeManager.UControls
 
         private void btnSelectAllNone_Click(object sender, EventArgs e)
         {
-            foreach (DataGridViewRow row in dgvCacheEditor.Rows)
+            foreach (DataGridViewRow row in dgvSongPacks.Rows)
             {
                 DataGridViewCheckBoxCell chk = (DataGridViewCheckBoxCell)row.Cells["colSelect"];
                 chk.Value = !allSelected;
@@ -861,7 +861,7 @@ namespace CustomsForgeManager.UControls
         private void dgvSongs_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (e.ColumnIndex == colSelect.Index)
-                dgvCacheEditor.EndEdit();
+                dgvSongPacks.EndEdit();
         }
 
         private void lnkClearSearch_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -878,11 +878,11 @@ namespace CustomsForgeManager.UControls
 
         public void UpdateToolStrip()
         {
-            if (Globals.ReloadCachePsarcEditor)
-                InitializeCachePsarcEditor();
+            if (Globals.ReloadSongPacks)
+                InitializeSongPacks();
             else
             {
-                Globals.TsLabel_MainMsg.Text = string.Format("Song Count: {0}", dgvCacheEditor.Rows.Count);
+                Globals.TsLabel_MainMsg.Text = string.Format("Song Count: {0}", dgvSongPacks.Rows.Count);
                 Globals.TsLabel_MainMsg.Visible = true;
                 var tsldcMsg = String.Format("Disabled DLC: {0}", DisabledSongColorizerCounter());
                 Globals.TsLabel_DisabledCounter.Alignment = ToolStripItemAlignment.Right;
@@ -893,24 +893,24 @@ namespace CustomsForgeManager.UControls
 
         public DataGridView GetGrid()
         {
-            return dgvCacheEditor;
+            return dgvSongPacks;
         }
 
         public void TabEnter()
         {
-            Globals.Log("CachePsarcEditor GUI Activated...");
+            Globals.Log("SongPacks GUI Activated...");
         }
 
         public void TabLeave()
         {
-            LeaveCachePsarcEditor();
+            LeaveSongPacks();
         }
 
-        public void LeaveCachePsarcEditor()
+        public void LeaveSongPacks()
         {
-            Globals.Log("Leaving CachePsarcEditor GUI ...");
-            Globals.DgvCurrent = dgvCacheEditor;
-            Globals.Settings.SaveSettingsToFile(dgvCacheEditor);
+            Globals.Log("Leaving SongPacks GUI ...");
+            Globals.DgvCurrent = dgvSongPacks;
+            Globals.Settings.SaveSettingsToFile(dgvSongPacks);
         }
 
         private void cueSearch_TextChanged(object sender, EventArgs e)

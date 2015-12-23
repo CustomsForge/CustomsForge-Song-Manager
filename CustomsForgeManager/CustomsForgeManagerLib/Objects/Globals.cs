@@ -42,8 +42,8 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         private static Duplicates _duplicates;
         private static Dictionary<string, SongData> _outdatedSongList;
         private static Renamer _renamer;
-        private static SetlistManager _SetlistManager;
-        private static CachePsarcEditor _cachePsarcEditor;
+        private static SetlistManager _setlistManager;
+        private static SongPacks _songPacks;
         private static Settings _settings;
         private static BindingList<SongData> _songCollection;
         private static SongManager _songManager;
@@ -119,10 +119,10 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
             set { _tagger = value; }
         }
 #endif
-        public static CachePsarcEditor CachePsarcEditor
+        public static SongPacks SongPacks
         {
-            get { return _cachePsarcEditor ?? (_cachePsarcEditor = new CachePsarcEditor()); }
-            set { _cachePsarcEditor = value; }
+            get { return _songPacks ?? (_songPacks = new SongPacks()); }
+            set { _songPacks = value; }
         }
 
         public static bool RescanDuplicates { get; set; }
@@ -133,12 +133,12 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         public static bool ReloadRenamer { get; set; }
         public static bool ReloadSetlistManager { get; set; }
         public static bool ReloadSongManager { get; set; }
-        public static bool ReloadCachePsarcEditor { get; set; }
+        public static bool ReloadSongPacks { get; set; }
 
         public static SetlistManager SetlistManager
         {
-            get { return _SetlistManager ?? (_SetlistManager = new SetlistManager()); }
-            set { _SetlistManager = value; }
+            get { return _setlistManager ?? (_setlistManager = new SetlistManager()); }
+            set { _setlistManager = value; }
         }
 
         public static Settings Settings

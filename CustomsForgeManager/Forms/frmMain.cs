@@ -230,25 +230,22 @@ namespace CustomsForgeManager.Forms
 
         private void tcMain_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // Docking.Fill causes screen flicker so only use if needed
-            // reset toolstrip labels
+            // reset toolstrip globals
             Globals.ResetToolStripGlobals();
 
             if (currentControl != null)
                 if (currentControl is INotifyTabChanged)
                     (currentControl as INotifyTabChanged).TabLeave();
 
-
-            // get first four charters from tab control text
-            switch (tcMain.SelectedTab.Text.Substring(0, 4).ToUpper())
+            switch (tcMain.SelectedTab.Text)
             {
                 // passing variables(objects) by value to UControl
-                case "SONG":
+                case "Song Manager":
                     LoadSongManager();
                     Globals.SongManager.UpdateToolStrip();
                     currentControl = Globals.SongManager;
                     break;
-                case "DUPL":
+                case "Duplicates":
                     this.tpDuplicates.Controls.Clear();
                     this.tpDuplicates.Controls.Add(Globals.Duplicates);
                     Globals.Duplicates.Dock = DockStyle.Fill;
@@ -257,7 +254,7 @@ namespace CustomsForgeManager.Forms
                     Globals.Duplicates.Size = UCSize;
                     currentControl = Globals.Duplicates;
                     break;
-                case "RENA":
+                case "Renamer":
                     this.tpRenamer.Controls.Clear();
                     this.tpRenamer.Controls.Add(Globals.Renamer);
                     Globals.Renamer.UpdateToolStrip();
@@ -265,7 +262,7 @@ namespace CustomsForgeManager.Forms
                     Globals.Renamer.Size = UCSize;
                     currentControl = Globals.Renamer;
                     break;
-                case "SETL":
+                case "Setlist Manager":
                     this.tpSetlistManager.Controls.Clear();
                     this.tpSetlistManager.Controls.Add(Globals.SetlistManager);
                     Globals.SetlistManager.Dock = DockStyle.Fill;
@@ -274,28 +271,25 @@ namespace CustomsForgeManager.Forms
                     Globals.SetlistManager.Size = UCSize;
                     currentControl = Globals.SetlistManager;
                     break;
-                case "CACH":
-                    this.tpCachePsarcEditor.Controls.Clear();
-                    this.tpCachePsarcEditor.Controls.Add(Globals.CachePsarcEditor);
-                    Globals.CachePsarcEditor.Dock = DockStyle.Fill;
-                    Globals.CachePsarcEditor.UpdateToolStrip();
-                    Globals.CachePsarcEditor.Location = UCLocation;
-                    Globals.CachePsarcEditor.Size = UCSize;
-                    currentControl = Globals.CachePsarcEditor;
+                case "Song Packs":
+                    this.tpSongPacks.Controls.Clear();
+                    this.tpSongPacks.Controls.Add(Globals.SongPacks);
+                    Globals.SongPacks.Dock = DockStyle.Fill;
+                    Globals.SongPacks.UpdateToolStrip();
+                    Globals.SongPacks.Location = UCLocation;
+                    Globals.SongPacks.Size = UCSize;
+                    currentControl = Globals.SongPacks;
                     break;
-                case "SETT":
-                    // using LeaveSongManager instead of EH SongMangager_Leave
+                case "Settings":
                     this.tpSettings.Controls.Clear();
                     this.tpSettings.Controls.Add(Globals.Settings);
                     Globals.Settings.Dock = DockStyle.Fill;
-                    // TODO: auto detect column width and visibility changes and use conditional check    
-                    // done everytime in case user changes column width or visibility
                     Globals.Settings.PopulateSettings(Globals.DgvCurrent);
                     Globals.Settings.Location = UCLocation;
                     Globals.Settings.Size = UCSize;
                     currentControl = Globals.Settings;
                     break;
-                case "ABOU":
+                case "About":
                     if (!tpAbout.Controls.Contains(tpAbout))
                         tpAbout.Controls.Add(Globals.About);
                     Globals.About.Location = UCLocation;

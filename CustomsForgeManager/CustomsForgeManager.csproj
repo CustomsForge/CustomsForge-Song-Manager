@@ -167,6 +167,12 @@
     <Compile Include="CustomsForgeManagerLib\CustomControls\AbortableBackgroundWorker.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="CustomsForgeManagerLib\CustomControls\BetterDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomsForgeManagerLib\CustomControls\BetterDialog.designer.cs">
+      <DependentUpon>BetterDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="CustomsForgeManagerLib\CustomControls\CFMHtmlPanel.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -330,11 +336,11 @@
     <Compile Include="SongEditor\ucTones.Designer.cs">
       <DependentUpon>ucTones.cs</DependentUpon>
     </Compile>
-    <Compile Include="UControls\CachePsarcEditor.cs">
+    <Compile Include="UControls\SongPacks.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UControls\CachePsarcEditor.Designer.cs">
-      <DependentUpon>CachePsarcEditor.cs</DependentUpon>
+    <Compile Include="UControls\SongPacks.Designer.cs">
+      <DependentUpon>SongPacks.cs</DependentUpon>
     </Compile>
     <Compile Include="UControls\Duplicates.cs">
       <SubType>UserControl</SubType>
@@ -378,6 +384,9 @@
     <Compile Include="UControls\SongManager.Designer.cs">
       <DependentUpon>SongManager.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="CustomsForgeManagerLib\CustomControls\BetterDialog.resx">
+      <DependentUpon>BetterDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CustomsForgeManagerLib\CustomControls\ComboBoxPopup.resx">
       <DependentUpon>ComboBoxPopup.cs</DependentUpon>
     </EmbeddedResource>
@@ -452,8 +461,8 @@
     <EmbeddedResource Include="SongEditor\ucTones.resx">
       <DependentUpon>ucTones.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UControls\CachePsarcEditor.resx">
-      <DependentUpon>CachePsarcEditor.cs</DependentUpon>
+    <EmbeddedResource Include="UControls\SongPacks.resx">
+      <DependentUpon>SongPacks.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UControls\Duplicates.resx">
       <DependentUpon>Duplicates.cs</DependentUpon>
@@ -506,10 +515,10 @@
     <None Include="Resources\cfsm_48x48.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="7za.dll">
+    <Content Include="bass.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="bass.dll">
+    <Content Include="7za.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="DF_DDSImage.dll">

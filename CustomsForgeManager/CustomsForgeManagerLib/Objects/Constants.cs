@@ -70,7 +70,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         public static string Rs1DlcPsarcBackupPath { get { return Path.Combine(Rs2BackupDirectory, "rs1compatibilitydlc_p.psarc.org"); } }
         public static string CachePsarcBackupPath { get { return Path.Combine(Rs2BackupDirectory, "cache.psarc.org"); } }
 
-        public static string CpeWorkDirectory { get { return Path.Combine(WorkDirectory, "CachePsarcEditor"); } }
+        public static string CpeWorkDirectory { get { return Path.Combine(WorkDirectory, "SongPacks"); } }
         public static string ExtractedSongsHsanPath { get { return Path.Combine(CpeWorkDirectory, "songs.hsan"); } }
         public static string ExtractedRs1DiscHsanPath { get { return Path.Combine(CpeWorkDirectory, "songs_rs1disc.hsan"); } }
         public static string ExtractedRs1DlcHsanPath { get { return Path.Combine(CpeWorkDirectory, "songs_rs1dlc.hsan"); } }

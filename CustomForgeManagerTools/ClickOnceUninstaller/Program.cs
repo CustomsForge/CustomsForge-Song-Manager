@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Windows.Forms;
 using Microsoft.Win32;
 
 namespace ClickOnceUninstaller
@@ -96,8 +97,10 @@ namespace ClickOnceUninstaller
 
             Console.WriteLine();
             Console.WriteLine("Press any key to continue ...");
-            // commented out for unattended auto run
-            // Console.ReadLine();
+            // commented out for unattended auto run    
+            //Console.ReadLine();
+            MessageBox.Show("CFSM Uninstaller Finished ...", "Clean Uninstall ...", MessageBoxButtons.OK);
+
         }
 
     }

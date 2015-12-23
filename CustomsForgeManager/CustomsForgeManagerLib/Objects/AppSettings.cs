@@ -45,6 +45,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
     public class AppSettings : NotifyPropChangedBase
     {
         string FRSInstalledDir;
+        string FRSProfileDir;
         bool FIncludeRS1DLCs;
         bool FEnabledLogBaloon;
         bool FCleanOnClosing;
@@ -63,6 +64,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         [Browsable(false)]
         public string LogFilePath { get; set; }
         public string RSInstalledDir { get { return FRSInstalledDir; } set { SetPropertyField("RSInstalledDir", ref FRSInstalledDir, value); } }
+        public string RSProfileDir { get { return FRSProfileDir; } set { SetPropertyField("RSProfileDir", ref FRSProfileDir, value); } }
         public bool IncludeRS1DLCs { get { return FIncludeRS1DLCs; } set { SetPropertyField("IncludeRS1DLCs", ref FIncludeRS1DLCs, value); } }
         public bool EnabledLogBaloon { get { return FEnabledLogBaloon; } set { SetPropertyField("EnabledLogBaloon", ref FEnabledLogBaloon, value); } }
         public bool CleanOnClosing { get { return FCleanOnClosing; } set { SetPropertyField("CleanOnClosing", ref FCleanOnClosing, value); } }
@@ -165,6 +167,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
             Instance.MoveToQuarantine = false;
             Instance.LogFilePath = Constants.LogFilePath;
             Instance.RSInstalledDir = Extensions.GetSteamDirectory();
+            Instance.RSInstalledDir = String.Empty; 
             Instance.IncludeRS1DLCs = false;  // changed to false (fewer issues)
             Instance.EnabledLogBaloon = false; // fewer notfication issues
             Instance.CleanOnClosing = false;
