@@ -1,5 +1,8 @@
 CFM Release Notes
 
+1.1.2.2
+-Fixed bug with loading users SongManager grid settings on startup
+
 1.1.2.1
 -For better compatibility, changed all project solution platforms to x86 CPU
 -Add backup and restore features to user profile options

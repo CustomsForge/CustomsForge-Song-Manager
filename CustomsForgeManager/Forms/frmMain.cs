@@ -89,7 +89,7 @@ namespace CustomsForgeManager.Forms
             Globals.Log(GetRSTKLibVersion());
 
             // load settings
-            Globals.Settings.LoadSettingsFromFile();
+            Globals.Settings.LoadSettingsFromFile(Globals.DgvCurrent);
 
             if (AppSettings.Instance.ShowLogWindow)
             {

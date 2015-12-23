@@ -134,8 +134,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
 
             if (dgvCurrent != null)
             {
-                Globals.DgvCurrent = dgvCurrent;
-
+                var stophere = Globals.DgvCurrent.Name;
                 if (File.Exists(Constants.GridSettingsPath))
                 {
                     using (var fs = File.OpenRead(Constants.GridSettingsPath))

@@ -20,11 +20,14 @@ namespace CustomsForgeManager.UControls
             AppSettings.Instance.PropertyChanged += SettingsPropChanged;
         }
 
-        public void LoadSettingsFromFile(DataGridView dgvCurrent = null)
+        public void LoadSettingsFromFile(DataGridView dgvCurrent)
         {
             var settingsPath = Constants.SettingsPath;
-            if (dgvCurrent != null)
+            if (!String.IsNullOrEmpty(dgvCurrent.Name))
+            {
                 Debug.WriteLine("Load DataGridView Settings: " + dgvCurrent.Name);
+                Globals.DgvCurrent = dgvCurrent;
+            }
 
             // initial application startup or detect bad settings file
             if (!File.Exists(settingsPath))
@@ -88,7 +91,7 @@ namespace CustomsForgeManager.UControls
                 parentName = dgvCurrent.Parent.Parent.Name;
 
             // show which DataGridView is loaded
-            lblDgvColumns.Text = String.Format("Settings for {0} from file: {1}", parentName , Path.GetFileName(Constants.GridSettingsPath));
+            lblDgvColumns.Text = String.Format("Settings for {0} from file: {1}", parentName, Path.GetFileName(Constants.GridSettingsPath));
 
             // initialize column list
             lstDgvColumns.Items.Clear();
@@ -177,7 +180,7 @@ namespace CustomsForgeManager.UControls
 
         private void btnSettingsLoad_Click(object sender, EventArgs e)
         {
-            LoadSettingsFromFile();
+            LoadSettingsFromFile(Globals.DgvCurrent);
         }
 
         private void btnSettingsSave_Click(object sender, EventArgs e)

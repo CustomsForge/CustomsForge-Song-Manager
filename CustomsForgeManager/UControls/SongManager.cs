@@ -65,7 +65,7 @@ namespace CustomsForgeManager.UControls
             //};
         }
 
-        public SongData GetFirstSelected()
+public SongData GetFirstSelected()
         {
             if (dgvSongsMaster.SelectedRows.Count > 0)
                 return GetSongByRow(dgvSongsMaster.SelectedRows[0]);
@@ -233,6 +233,8 @@ namespace CustomsForgeManager.UControls
         public void PopulateSongManager()
         {
             Globals.Log("Populating SongManager GUI ...");
+            Globals.Settings.LoadSettingsFromFile(dgvSongsMaster);
+
             PopulateTagger();
 
             // Hide main dgvSongsMaster until load completes
