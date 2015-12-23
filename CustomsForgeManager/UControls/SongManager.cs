@@ -32,7 +32,7 @@ namespace CustomsForgeManager.UControls
         private Bitmap PlusBitmap = new Bitmap(Properties.Resources.plus);
         private Color _Disabled = Color.Red;
         private Color _Enabled = Color.Lime;
-        private bool allSelected = true;
+        private bool allSelected = false;
         private AbortableBackgroundWorker bWorker;
         private bool bindingCompleted = false;
         private Stopwatch counterStopwatch = new Stopwatch();
@@ -65,7 +65,7 @@ namespace CustomsForgeManager.UControls
             //};
         }
 
-public SongData GetFirstSelected()
+        public SongData GetFirstSelected()
         {
             if (dgvSongsMaster.SelectedRows.Count > 0)
                 return GetSongByRow(dgvSongsMaster.SelectedRows[0]);
@@ -1524,11 +1524,10 @@ public SongData GetFirstSelected()
         {
             TemporaryDisableDatabindEvent(() =>
             {
-                for (int i = 0; i < dgvSongsMaster.Rows.Count; i++)
-                {
-                    GetSongByRow(i).Selected = allSelected;
-                }
+                foreach (DataGridViewRow row in dgvSongsMaster.Rows)
+                    row.Cells["colSelect"].Value = !allSelected;
             });
+
             allSelected = !allSelected;
         }
 
@@ -1541,11 +1540,8 @@ public SongData GetFirstSelected()
         {
             TemporaryDisableDatabindEvent(() =>
                 {
-                    for (int i = 0; i < dgvSongsMaster.Rows.Count; i++)
-                    {
-                        GetSongByRow(i).Selected = !GetSongByRow(i).Selected;
-                    }
-
+                    foreach (DataGridViewRow row in dgvSongsMaster.Rows)
+                        row.Cells["colSelect"].Value = !Convert.ToBoolean(row.Cells["colSelect"].Value);
                 });
         }
 

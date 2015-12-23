@@ -52,6 +52,7 @@ namespace CustomsForgeManager.UControls
             this.gbResults = new System.Windows.Forms.GroupBox();
             this.txtNoDuplicates = new System.Windows.Forms.TextBox();
             this.dgvDuplicates = new CustomsForgeManager.CustomsForgeManagerLib.DataGridTools.RADataGridView();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.colPID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colPIDArrangement = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colKey = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
@@ -61,7 +62,6 @@ namespace CustomsForgeManager.UControls
             this.colTitle = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colAlbum = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colSongYear = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
-            this.colArrangements = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colSongLength = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colAvgTempo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colAppID = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
@@ -135,6 +135,8 @@ namespace CustomsForgeManager.UControls
             this.lnkPersistentId.TabIndex = 18;
             this.lnkPersistentId.TabStop = true;
             this.lnkPersistentId.Text = "Select SongInfo/PersistentID";
+            this.toolTip.SetToolTip(this.lnkPersistentId, "Show the bad boy CDLC that are reusing Persistent IDs\r\nThese causing game hangs a" +
+                    "nd need to be deleted.");
             this.lnkPersistentId.VisitedLinkColor = System.Drawing.SystemColors.ActiveCaption;
             this.lnkPersistentId.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkPersistentId_LinkClicked);
             // 
@@ -242,7 +244,6 @@ namespace CustomsForgeManager.UControls
             this.colTitle,
             this.colAlbum,
             this.colSongYear,
-            this.colArrangements,
             this.colSongLength,
             this.colAvgTempo,
             this.colAppID,
@@ -270,6 +271,14 @@ namespace CustomsForgeManager.UControls
             this.dgvDuplicates.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dgvDups_DataError);
             this.dgvDuplicates.Paint += new System.Windows.Forms.PaintEventHandler(this.dgvDups_Paint);
             this.dgvDuplicates.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvDups_KeyDown);
+            // 
+            // toolTip
+            // 
+            this.toolTip.AutomaticDelay = 200;
+            this.toolTip.AutoPopDelay = 12000;
+            this.toolTip.InitialDelay = 200;
+            this.toolTip.IsBalloon = true;
+            this.toolTip.ReshowDelay = 100;
             // 
             // colPID
             // 
@@ -349,16 +358,6 @@ namespace CustomsForgeManager.UControls
             this.colSongYear.ReadOnly = true;
             this.colSongYear.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.colSongYear.Width = 50;
-            // 
-            // colArrangements
-            // 
-            this.colArrangements.DataPropertyName = "Arrangements";
-            this.colArrangements.HeaderText = "Arrangements";
-            this.colArrangements.Name = "colArrangements";
-            this.colArrangements.ReadOnly = true;
-            this.colArrangements.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colArrangements.Visible = false;
-            this.colArrangements.Width = 50;
             // 
             // colSongLength
             // 
@@ -538,6 +537,7 @@ namespace CustomsForgeManager.UControls
         private LinkLabel lnkPersistentId;
         private TextBox txtNoDuplicates;
         private RADataGridView dgvDuplicates;
+        private ToolTip toolTip;
         private DataGridViewTextBoxColumn colPID;
         private DataGridViewTextBoxColumn colPIDArrangement;
         private DataGridViewTools.DataGridViewAutoFilterTextBoxColumn colKey;
@@ -547,7 +547,6 @@ namespace CustomsForgeManager.UControls
         private DataGridViewTools.DataGridViewAutoFilterTextBoxColumn colTitle;
         private DataGridViewTools.DataGridViewAutoFilterTextBoxColumn colAlbum;
         private DataGridViewTools.DataGridViewAutoFilterTextBoxColumn colSongYear;
-        private DataGridViewTools.DataGridViewAutoFilterTextBoxColumn colArrangements;
         private DataGridViewTextBoxColumn colSongLength;
         private DataGridViewTextBoxColumn colAvgTempo;
         private DataGridViewTools.DataGridViewAutoFilterTextBoxColumn colAppID;

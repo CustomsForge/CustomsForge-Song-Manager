@@ -37,6 +37,11 @@ namespace CustomsForgeManager.UControls
             this.btnRestoreBackup = new System.Windows.Forms.Button();
             this.cmbSongPacks = new System.Windows.Forms.ComboBox();
             this.lblSongPack = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.lnkClearSearch = new System.Windows.Forms.LinkLabel();
+            this.btnSaveSongs = new System.Windows.Forms.Button();
+            this.btnDisableSongs = new System.Windows.Forms.Button();
+            this.btnEnableSongs = new System.Windows.Forms.Button();
             this.dgvSongPacks = new CustomsForgeManager.CustomsForgeManagerLib.DataGridTools.RADataGridView();
             this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.colEnabled = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -46,12 +51,7 @@ namespace CustomsForgeManager.UControls
             this.colTuning = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colSongKey = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colSongSource = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.lnkClearSearch = new System.Windows.Forms.LinkLabel();
             this.cueSearch = new CustomsForgeManager.CustomsForgeManagerLib.CustomControls.CueTextBox();
-            this.btnSaveSongs = new System.Windows.Forms.Button();
-            this.btnDisableSongs = new System.Windows.Forms.Button();
-            this.btnEnableSongs = new System.Windows.Forms.Button();
             this.dataGridViewCheckBoxColumn1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -62,15 +62,13 @@ namespace CustomsForgeManager.UControls
             this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tlpSongPacks.SuspendLayout();
             this.panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvSongPacks)).BeginInit();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSongPacks)).BeginInit();
             this.SuspendLayout();
             // 
             // btnSelectAllNone
             // 
-            this.btnSelectAllNone.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSelectAllNone.AutoSize = true;
+            this.btnSelectAllNone.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnSelectAllNone.Location = new System.Drawing.Point(22, 42);
             this.btnSelectAllNone.Name = "btnSelectAllNone";
             this.btnSelectAllNone.Size = new System.Drawing.Size(95, 23);
@@ -154,6 +152,67 @@ namespace CustomsForgeManager.UControls
             this.lblSongPack.TabIndex = 16;
             this.lblSongPack.Text = "Song Packs:";
             // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.lnkClearSearch);
+            this.panel1.Controls.Add(this.cueSearch);
+            this.panel1.Controls.Add(this.btnSaveSongs);
+            this.panel1.Controls.Add(this.btnDisableSongs);
+            this.panel1.Controls.Add(this.btnEnableSongs);
+            this.panel1.Controls.Add(this.btnSelectAllNone);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(3, 3);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(489, 71);
+            this.panel1.TabIndex = 5;
+            // 
+            // lnkClearSearch
+            // 
+            this.lnkClearSearch.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.lnkClearSearch.AutoSize = true;
+            this.lnkClearSearch.ForeColor = System.Drawing.Color.DimGray;
+            this.lnkClearSearch.LinkColor = System.Drawing.SystemColors.ActiveCaption;
+            this.lnkClearSearch.Location = new System.Drawing.Point(403, 19);
+            this.lnkClearSearch.Name = "lnkClearSearch";
+            this.lnkClearSearch.Size = new System.Drawing.Size(68, 13);
+            this.lnkClearSearch.TabIndex = 17;
+            this.lnkClearSearch.TabStop = true;
+            this.lnkClearSearch.Text = "Clear Search";
+            this.lnkClearSearch.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkClearSearch_LinkClicked);
+            // 
+            // btnSaveSongs
+            // 
+            this.btnSaveSongs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnSaveSongs.Location = new System.Drawing.Point(318, 42);
+            this.btnSaveSongs.Name = "btnSaveSongs";
+            this.btnSaveSongs.Size = new System.Drawing.Size(69, 23);
+            this.btnSaveSongs.TabIndex = 15;
+            this.btnSaveSongs.Text = "Save";
+            this.btnSaveSongs.UseVisualStyleBackColor = true;
+            this.btnSaveSongs.Click += new System.EventHandler(this.btnSaveSongs_Click);
+            // 
+            // btnDisableSongs
+            // 
+            this.btnDisableSongs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnDisableSongs.Location = new System.Drawing.Point(228, 42);
+            this.btnDisableSongs.Name = "btnDisableSongs";
+            this.btnDisableSongs.Size = new System.Drawing.Size(69, 23);
+            this.btnDisableSongs.TabIndex = 13;
+            this.btnDisableSongs.Text = "Disable";
+            this.btnDisableSongs.UseVisualStyleBackColor = true;
+            this.btnDisableSongs.Click += new System.EventHandler(this.btnDisableSongs_Click);
+            // 
+            // btnEnableSongs
+            // 
+            this.btnEnableSongs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnEnableSongs.Location = new System.Drawing.Point(138, 42);
+            this.btnEnableSongs.Name = "btnEnableSongs";
+            this.btnEnableSongs.Size = new System.Drawing.Size(69, 23);
+            this.btnEnableSongs.TabIndex = 14;
+            this.btnEnableSongs.Text = "Enable";
+            this.btnEnableSongs.UseVisualStyleBackColor = true;
+            this.btnEnableSongs.Click += new System.EventHandler(this.btnEnableSongs_Click);
+            // 
             // dgvSongPacks
             // 
             this.dgvSongPacks.AllowUserToAddRows = false;
@@ -234,34 +293,6 @@ namespace CustomsForgeManager.UControls
             this.colSongSource.Name = "colSongSource";
             this.colSongSource.Width = 120;
             // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.lnkClearSearch);
-            this.panel1.Controls.Add(this.cueSearch);
-            this.panel1.Controls.Add(this.btnSaveSongs);
-            this.panel1.Controls.Add(this.btnDisableSongs);
-            this.panel1.Controls.Add(this.btnEnableSongs);
-            this.panel1.Controls.Add(this.btnSelectAllNone);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(3, 3);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(489, 71);
-            this.panel1.TabIndex = 5;
-            // 
-            // lnkClearSearch
-            // 
-            this.lnkClearSearch.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.lnkClearSearch.AutoSize = true;
-            this.lnkClearSearch.ForeColor = System.Drawing.Color.DimGray;
-            this.lnkClearSearch.LinkColor = System.Drawing.SystemColors.ActiveCaption;
-            this.lnkClearSearch.Location = new System.Drawing.Point(403, 19);
-            this.lnkClearSearch.Name = "lnkClearSearch";
-            this.lnkClearSearch.Size = new System.Drawing.Size(68, 13);
-            this.lnkClearSearch.TabIndex = 17;
-            this.lnkClearSearch.TabStop = true;
-            this.lnkClearSearch.Text = "Clear Search";
-            this.lnkClearSearch.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkClearSearch_LinkClicked);
-            // 
             // cueSearch
             // 
             this.cueSearch.Anchor = System.Windows.Forms.AnchorStyles.Left;
@@ -274,45 +305,6 @@ namespace CustomsForgeManager.UControls
             this.cueSearch.TabIndex = 16;
             this.cueSearch.TextChanged += new System.EventHandler(this.cueSearch_TextChanged);
             this.cueSearch.KeyUp += new System.Windows.Forms.KeyEventHandler(this.cueSearch_KeyUp);
-            // 
-            // btnSaveSongs
-            // 
-            this.btnSaveSongs.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSaveSongs.AutoSize = true;
-            this.btnSaveSongs.Location = new System.Drawing.Point(270, 42);
-            this.btnSaveSongs.Name = "btnSaveSongs";
-            this.btnSaveSongs.Size = new System.Drawing.Size(69, 23);
-            this.btnSaveSongs.TabIndex = 15;
-            this.btnSaveSongs.Text = "Save";
-            this.btnSaveSongs.UseVisualStyleBackColor = true;
-            this.btnSaveSongs.Click += new System.EventHandler(this.btnSaveSongs_Click);
-            // 
-            // btnDisableSongs
-            // 
-            this.btnDisableSongs.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnDisableSongs.AutoSize = true;
-            this.btnDisableSongs.Location = new System.Drawing.Point(196, 42);
-            this.btnDisableSongs.Name = "btnDisableSongs";
-            this.btnDisableSongs.Size = new System.Drawing.Size(69, 23);
-            this.btnDisableSongs.TabIndex = 13;
-            this.btnDisableSongs.Text = "Disable";
-            this.btnDisableSongs.UseVisualStyleBackColor = true;
-            this.btnDisableSongs.Click += new System.EventHandler(this.btnDisableSongs_Click);
-            // 
-            // btnEnableSongs
-            // 
-            this.btnEnableSongs.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnEnableSongs.AutoSize = true;
-            this.btnEnableSongs.Location = new System.Drawing.Point(122, 42);
-            this.btnEnableSongs.Name = "btnEnableSongs";
-            this.btnEnableSongs.Size = new System.Drawing.Size(69, 23);
-            this.btnEnableSongs.TabIndex = 14;
-            this.btnEnableSongs.Text = "Enable";
-            this.btnEnableSongs.UseVisualStyleBackColor = true;
-            this.btnEnableSongs.Click += new System.EventHandler(this.btnEnableSongs_Click);
             // 
             // dataGridViewCheckBoxColumn1
             // 
@@ -380,9 +372,9 @@ namespace CustomsForgeManager.UControls
             this.tlpSongPacks.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvSongPacks)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSongPacks)).EndInit();
             this.ResumeLayout(false);
 
         }

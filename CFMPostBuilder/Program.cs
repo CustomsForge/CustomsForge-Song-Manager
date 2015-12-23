@@ -135,7 +135,7 @@ namespace CFMPostBuilder
                         }
 
                         if (args.Count() > 1)
-                            ftpURL = "ftp://"+args[1];
+                            ftpURL = "ftp://" + args[1];
                         if (args.Count() > 2)
                             ftpUsername = args[2];
                         if (args.Count() > 3)
@@ -143,7 +143,7 @@ namespace CFMPostBuilder
 
                         Console.WriteLine("URL:" + ftpURL);
                         Console.WriteLine("USER:" + ftpUsername);
-                        Console.WriteLine("PASS:" +ftpPass);
+                        Console.WriteLine("PASS:" + ftpPass);
 
                         if (MessageBox.Show("Upload the files?", "Question", MessageBoxButtons.YesNo,
                             MessageBoxIcon.Question) == DialogResult.Yes)
@@ -176,11 +176,14 @@ namespace CFMPostBuilder
                         else
                             Console.WriteLine("Upload Canceled.");
 
+                        Console.WriteLine("");
+                        Console.WriteLine("Press any key to continue");
+                        Console.ReadLine();
                     }
                     break;
 
                 case "CONVERT":
-                    
+
                     Console.WindowWidth = 85;
                     Console.BackgroundColor = ConsoleColor.Black;
                     Console.ForegroundColor = ConsoleColor.Green;

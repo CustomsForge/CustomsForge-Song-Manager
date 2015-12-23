@@ -24,7 +24,6 @@ namespace CustomsForgeManager.UControls
         private Color ErrorStyleForeColor = Color.White;
         // private Font ErrorStyleFont;
         private DataGridViewCellStyle ErrorStyle;
-        private bool arrangementsVisible = false;
 
         public Duplicates()
         {
@@ -46,6 +45,7 @@ namespace CustomsForgeManager.UControls
   
         public void PopulateDuplicates(bool findDupPIDs = false)
         {
+            // NOTE: do not add SongData.Arrangments to the datagridview
             Globals.Log("Populating Duplicates GUI ...");
             dgvDuplicates.Visible = false;
 
@@ -105,17 +105,11 @@ namespace CustomsForgeManager.UControls
 
                 colPID.Visible = true;
                 colPIDArrangement.Visible = true;
-                colArrangements.Visible = false;
-            }
+             }
             else
             {
                 colPID.Visible = false;
                 colPIDArrangement.Visible = false;
-
-                if (colArrangements.Visible)
-                    arrangementsVisible = true;
-
-                colArrangements.Visible = arrangementsVisible;
 
                 duplicates = Globals.SongCollection.GroupBy(x => x.ArtistTitleAlbum).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
             }

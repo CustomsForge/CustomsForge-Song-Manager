@@ -1,5 +1,9 @@
 CFM Release Notes
 
+1.1.2.3
+-Fixed link Select All/None action in SongManager
+-Fixed link Toggle Selection in SongManager (action is a bit a brain bender but correct)
+
 1.1.2.2
 -Fixed bug with loading users SongManager grid settings on startup
 
@@ -69,7 +73,6 @@ CFM Release Notes
 -Added artwork to song info form
 -More work done to custom filter, it's working with one custom filter, but not multiple(only enabled in debug build)
 -optimized DataGridViewTools.GetFilterStatus
-
 
 1.1.1.2
 -Fixed bug in custom tag themes.
