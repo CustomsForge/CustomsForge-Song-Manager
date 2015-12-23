@@ -284,6 +284,7 @@ namespace CustomsForgeManager.UControls
             if (Globals.ReloadSongManager)
             {
                 Globals.ReloadSongManager = false;
+                Rescan(); // just quick check for changed files
                 LoadSongCollectionFromFile();
             }
 

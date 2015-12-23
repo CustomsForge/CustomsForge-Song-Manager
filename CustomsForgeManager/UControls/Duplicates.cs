@@ -42,7 +42,7 @@ namespace CustomsForgeManager.UControls
             txtNoDuplicates.Visible = false;
             PopulateDuplicates();
         }
-  
+
         public void PopulateDuplicates(bool findDupPIDs = false)
         {
             // NOTE: do not add SongData.Arrangments to the datagridview
@@ -105,7 +105,7 @@ namespace CustomsForgeManager.UControls
 
                 colPID.Visible = true;
                 colPIDArrangement.Visible = true;
-             }
+            }
             else
             {
                 colPID.Visible = false;
@@ -208,11 +208,7 @@ namespace CustomsForgeManager.UControls
                 return;
 
             PopulateDuplicates();
-            Globals.RescanSetlistManager = false;
-            Globals.RescanDuplicates = false;
-            Globals.RescanSongManager = false;
-            Globals.RescanRenamer = false;
-            Globals.ReloadDuplicates = false;
+            Globals.ReloadDuplicates = true;
             Globals.ReloadSongManager = true;
             Globals.ReloadRenamer = true;
             Globals.ReloadSetlistManager = true;

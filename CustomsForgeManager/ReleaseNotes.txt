@@ -1,5 +1,8 @@
 CFM Release Notes
 
+1.1.2.4
+-Fixed crash when tabbing back to SongManager after a rescan on Duplicates
+
 1.1.2.3
 -Fixed link Select All/None action in SongManager
 -Fixed link Toggle Selection in SongManager (action is a bit a brain bender but correct)
