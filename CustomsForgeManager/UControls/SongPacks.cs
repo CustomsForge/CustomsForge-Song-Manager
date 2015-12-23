@@ -80,7 +80,7 @@ namespace CustomsForgeManager.UControls
                     dynamic songData = songAttributes.Value;
                     CacheSongData sngData = AttributesToSongData(songData, enabled, songSource);
 
-                    dgvSongPacks.Rows.Add(false, sngData.Enabled, sngData.Title, sngData.Artist, sngData.Album, sngData.Tuning, sngData.SongKey, sngData.SongSource);
+                    dgvSongPacks.Rows.Add(false, sngData.Enabled, sngData.Artist, sngData.Title, sngData.Album, sngData.Tuning, sngData.SongKey, sngData.SongSource);
                 }
             }
         }
@@ -403,12 +403,12 @@ namespace CustomsForgeManager.UControls
             dgvSongPacks.Rows.Clear();
 
             foreach (var song in filteredSongCollection)
-                dgvSongPacks.Rows.Add(false, "No", song.SongName, song.ArtistName, song.AlbumName, CustomsForgeManagerLib.Extensions.TuningStringToName(TuningJsonToStrings(song.Tuning)), song.SongKey, songSource);
+                dgvSongPacks.Rows.Add(false, "No", song.ArtistName, song.SongName, song.AlbumName, CustomsForgeManagerLib.Extensions.TuningStringToName(TuningJsonToStrings(song.Tuning)), song.SongKey, songSource);
 
             filteredSongCollection = GetMatchingSongs(songCollection, cueSearch.Text);
 
             foreach (var song in filteredSongCollection)
-                dgvSongPacks.Rows.Add(false, "Yes", song.SongName, song.ArtistName, song.AlbumName, CustomsForgeManagerLib.Extensions.TuningStringToName(TuningJsonToStrings(song.Tuning)), song.SongKey, songSource);
+                dgvSongPacks.Rows.Add(false, "Yes", song.ArtistName, song.SongName, song.AlbumName, CustomsForgeManagerLib.Extensions.TuningStringToName(TuningJsonToStrings(song.Tuning)), song.SongKey, songSource);
         }
 
         private void RefreshDgvSongs()
