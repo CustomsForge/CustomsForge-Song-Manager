@@ -1,5 +1,12 @@
 CFM Release Notes
 
+1.1.2.5
+-Removed handles from toolstrips to prevent dragging issues
+-Made audio toolstrip Visible when SongManager tab is active
+-Moved all *.GridSettings.xml files to DgvSettings folder
+-Fixed Renamer Docking and added user warning message
+-Created 'Launch Rocksmith' exception handler in case Steam version of Rocksmith is not found
+
 1.1.2.4
 -Fixed crash when tabbing back to SongManager after a rescan on Duplicates
 
@@ -596,13 +603,11 @@ CFM Release Notes
 -Restored SongManager column header sorting
 -Restored key sequence (Ctrl+Left Mouse Button) on column header to turn off column visibility (goto Settings tab to restore visiblity)
 
-
 0.1.2.5
 -User Controls (tabs) Song Manager, Settings and About are all working 
 -VS IDE is much more responsive and loads 2X faster (guestimated)
 -Resolved BLRV background color issue
 -Notifier, Logging, Sorting and other features working again
-
 
 0.1.2.4
 -Code separation into User Controls (rough first attempt)
@@ -612,7 +617,7 @@ CFM Release Notes
 
 
 0.1.2.3
-
+-skipped version
 
 0.1.2.2
 -Restructured ShowHideArrangementColumns method and how it is called (part of LRBV fix)
@@ -627,7 +632,6 @@ CFM Release Notes
 -Changed to PopulateSettingsTab (formerly PopulateSettings) to update with current settings
 -Added key sequence (Ctrl + clicking Left Mouse Button) on column header to turn off column visibility (go to Settings tab to restore visiblity)
 
-
 0.1.2.1
 -Fixed dgvSongs display issues on application startups (changing formats) 
 -Fixed Duplicates(n) tabcontrol display issue
@@ -639,7 +643,6 @@ CFM Release Notes
 -Added protected override to avoiding abrupt bwWorker disposal
 -Cleaned up processing order of background work
 -Added application version number to frmMain title to help developers ... help users
-
 
 0.1.2.0 VS2010, .NET 4.0 compatibility release
 -Added support for WinXp SP3 OS
@@ -657,7 +660,6 @@ CFM Release Notes
 -Restructured code efficiency to reduce data being loaded into non viewable tab controls
 -Added additional error checking and log output
 -Fixed issues with rescan and save settings
-
 
 0.1.1.66
 -Modified Credits

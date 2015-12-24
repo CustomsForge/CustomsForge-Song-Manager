@@ -283,6 +283,7 @@ namespace CustomsForgeManager.Forms
             // tsUtilities
             // 
             this.tsUtilities.Dock = System.Windows.Forms.DockStyle.None;
+            this.tsUtilities.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.tsUtilities.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsBtnLaunchRS,
             this.toolStripSeparator1,
@@ -298,7 +299,7 @@ namespace CustomsForgeManager.Forms
             this.tsUtilities.Location = new System.Drawing.Point(3, 0);
             this.tsUtilities.Name = "tsUtilities";
             this.tsUtilities.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.tsUtilities.Size = new System.Drawing.Size(437, 25);
+            this.tsUtilities.Size = new System.Drawing.Size(428, 25);
             this.tsUtilities.TabIndex = 0;
             // 
             // tsBtnLaunchRS
@@ -406,18 +407,19 @@ namespace CustomsForgeManager.Forms
             // tsAudioPlayer
             // 
             this.tsAudioPlayer.Dock = System.Windows.Forms.DockStyle.None;
+            this.tsAudioPlayer.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.tsAudioPlayer.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsbPlay,
             this.tsbStop,
             this.tspbAudioPosition,
             this.tslblTimer});
             this.tsAudioPlayer.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
-            this.tsAudioPlayer.Location = new System.Drawing.Point(474, 0);
+            this.tsAudioPlayer.Location = new System.Drawing.Point(465, 0);
             this.tsAudioPlayer.Name = "tsAudioPlayer";
             this.tsAudioPlayer.Padding = new System.Windows.Forms.Padding(0);
             this.tsAudioPlayer.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
             this.tsAudioPlayer.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.tsAudioPlayer.Size = new System.Drawing.Size(202, 25);
+            this.tsAudioPlayer.Size = new System.Drawing.Size(193, 25);
             this.tsAudioPlayer.TabIndex = 1;
             // 
             // tsbPlay

@@ -43,14 +43,14 @@ namespace CustomsForgeManager.UControls
             this.colSettingsColumnName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colSettingsColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colSettingsWidth = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.cueRsDir = new CustomsForgeManager.CustomsForgeManagerLib.CustomControls.CueTextBox();
             this.lblSettingsRSDir = new System.Windows.Forms.Label();
             this.btnSettingsLoad = new System.Windows.Forms.Button();
             this.btnSettingsSave = new System.Windows.Forms.Button();
             this.chkEnableLogBallon = new System.Windows.Forms.CheckBox();
+            this.tbCreator = new CustomsForgeManager.CustomsForgeManagerLib.CustomControls.CueTextBox();
             this.chkCleanOnClosing = new System.Windows.Forms.CheckBox();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.cueRsDir = new CustomsForgeManager.CustomsForgeManagerLib.CustomControls.CueTextBox();
-            this.tbCreator = new CustomsForgeManager.CustomsForgeManagerLib.CustomControls.CueTextBox();
             this.tlpSettings_Wrapper.SuspendLayout();
             this.panel5.SuspendLayout();
             this.SuspendLayout();
@@ -180,6 +180,19 @@ namespace CustomsForgeManager.UControls
             this.colSettingsWidth.Text = "Column Width";
             this.colSettingsWidth.Width = 150;
             // 
+            // cueRsDir
+            // 
+            this.cueRsDir.Cue = "Click here and specify Rocksmith installation directory";
+            this.cueRsDir.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.cueRsDir.ForeColor = System.Drawing.Color.Gray;
+            this.cueRsDir.Location = new System.Drawing.Point(347, 3);
+            this.cueRsDir.Multiline = true;
+            this.cueRsDir.Name = "cueRsDir";
+            this.cueRsDir.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.cueRsDir.Size = new System.Drawing.Size(515, 19);
+            this.cueRsDir.TabIndex = 8;
+            this.cueRsDir.MouseClick += new System.Windows.Forms.MouseEventHandler(this.cueRsDir_MouseClick);
+            // 
             // lblSettingsRSDir
             // 
             this.lblSettingsRSDir.Anchor = System.Windows.Forms.AnchorStyles.Right;
@@ -200,9 +213,10 @@ namespace CustomsForgeManager.UControls
             this.btnSettingsLoad.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnSettingsLoad.Image = global::CustomsForgeManager.Properties.Resources.load;
             this.btnSettingsLoad.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSettingsLoad.Location = new System.Drawing.Point(43, 436);
+            this.btnSettingsLoad.Location = new System.Drawing.Point(41, 441);
             this.btnSettingsLoad.Name = "btnSettingsLoad";
-            this.btnSettingsLoad.Size = new System.Drawing.Size(102, 34);
+            this.btnSettingsLoad.Padding = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.btnSettingsLoad.Size = new System.Drawing.Size(107, 29);
             this.btnSettingsLoad.TabIndex = 0;
             this.btnSettingsLoad.Text = "Load Settings";
             this.btnSettingsLoad.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -215,9 +229,10 @@ namespace CustomsForgeManager.UControls
             this.btnSettingsSave.BackColor = System.Drawing.SystemColors.Control;
             this.btnSettingsSave.Image = global::CustomsForgeManager.Properties.Resources.save;
             this.btnSettingsSave.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSettingsSave.Location = new System.Drawing.Point(192, 436);
+            this.btnSettingsSave.Location = new System.Drawing.Point(192, 441);
             this.btnSettingsSave.Name = "btnSettingsSave";
-            this.btnSettingsSave.Size = new System.Drawing.Size(103, 34);
+            this.btnSettingsSave.Padding = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.btnSettingsSave.Size = new System.Drawing.Size(108, 29);
             this.btnSettingsSave.TabIndex = 0;
             this.btnSettingsSave.Text = "Save Settings";
             this.btnSettingsSave.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -238,6 +253,19 @@ namespace CustomsForgeManager.UControls
             this.chkEnableLogBallon.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.chkEnableLogBallon.UseVisualStyleBackColor = true;
             this.chkEnableLogBallon.CheckedChanged += new System.EventHandler(this.chkEnableLogBaloon_CheckedChanged);
+            // 
+            // tbCreator
+            // 
+            this.tlpSettings_Wrapper.SetColumnSpan(this.tbCreator, 2);
+            this.tbCreator.Cue = "Your CDLC Charter Name";
+            this.tbCreator.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.tbCreator.ForeColor = System.Drawing.Color.Gray;
+            this.tbCreator.Location = new System.Drawing.Point(12, 148);
+            this.tbCreator.Margin = new System.Windows.Forms.Padding(12, 3, 3, 3);
+            this.tbCreator.Name = "tbCreator";
+            this.tbCreator.Size = new System.Drawing.Size(321, 20);
+            this.tbCreator.TabIndex = 9;
+            this.tbCreator.TextChanged += new System.EventHandler(this.tbCreator_TextChanged);
             // 
             // chkCleanOnClosing
             // 
@@ -262,32 +290,6 @@ namespace CustomsForgeManager.UControls
             this.toolTip.InitialDelay = 200;
             this.toolTip.IsBalloon = true;
             this.toolTip.ReshowDelay = 100;
-            // 
-            // cueRsDir
-            // 
-            this.cueRsDir.Cue = "Click here and specify Rocksmith installation directory";
-            this.cueRsDir.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.cueRsDir.ForeColor = System.Drawing.Color.Gray;
-            this.cueRsDir.Location = new System.Drawing.Point(347, 3);
-            this.cueRsDir.Multiline = true;
-            this.cueRsDir.Name = "cueRsDir";
-            this.cueRsDir.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.cueRsDir.Size = new System.Drawing.Size(515, 19);
-            this.cueRsDir.TabIndex = 8;
-            this.cueRsDir.MouseClick += new System.Windows.Forms.MouseEventHandler(this.cueRsDir_MouseClick);
-            // 
-            // tbCreator
-            // 
-            this.tlpSettings_Wrapper.SetColumnSpan(this.tbCreator, 2);
-            this.tbCreator.Cue = "Your CDLC Charter Name";
-            this.tbCreator.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.tbCreator.ForeColor = System.Drawing.Color.Gray;
-            this.tbCreator.Location = new System.Drawing.Point(12, 148);
-            this.tbCreator.Margin = new System.Windows.Forms.Padding(12, 3, 3, 3);
-            this.tbCreator.Name = "tbCreator";
-            this.tbCreator.Size = new System.Drawing.Size(321, 20);
-            this.tbCreator.TabIndex = 9;
-            this.tbCreator.TextChanged += new System.EventHandler(this.tbCreator_TextChanged);
             // 
             // Settings
             // 

@@ -32,8 +32,7 @@ namespace CustomsForgeManager.Forms
             tsUtilities.AutoSize = false; // a key to preventing movement
             tsAudioPlayer.AutoSize = false; // a key to preventing movement
             tsUtilities.Location = new Point(0, 0); // force location
-            tsAudioPlayer.Location = new Point(tsUtilities.Width + 10, 0); // force location
-
+            tsAudioPlayer.Location = new Point(tsUtilities.Width + 20, 0); // force location
 
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);
 
@@ -233,6 +232,16 @@ namespace CustomsForgeManager.Forms
             // reset toolstrip globals
             Globals.ResetToolStripGlobals();
 
+            // quick fix ... visible on when Song Manager is active
+            // avoids playback issues when other tabs are active 
+            if (tcMain.SelectedIndex != 0)
+            {
+                Globals.AudioEngine.Stop();
+                tsAudioPlayer.Visible = false;
+            }
+            else
+                tsAudioPlayer.Visible = true;
+
             if (currentControl != null)
                 if (currentControl is INotifyTabChanged)
                     (currentControl as INotifyTabChanged).TabLeave();
@@ -257,6 +266,7 @@ namespace CustomsForgeManager.Forms
                 case "Renamer":
                     this.tpRenamer.Controls.Clear();
                     this.tpRenamer.Controls.Add(Globals.Renamer);
+                    Globals.Renamer.Dock = DockStyle.Fill;
                     Globals.Renamer.UpdateToolStrip();
                     Globals.Renamer.Location = UCLocation;
                     Globals.Renamer.Size = UCSize;

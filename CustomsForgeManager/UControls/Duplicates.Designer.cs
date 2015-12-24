@@ -52,7 +52,6 @@ namespace CustomsForgeManager.UControls
             this.gbResults = new System.Windows.Forms.GroupBox();
             this.txtNoDuplicates = new System.Windows.Forms.TextBox();
             this.dgvDuplicates = new CustomsForgeManager.CustomsForgeManagerLib.DataGridTools.RADataGridView();
-            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.colPID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colPIDArrangement = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colKey = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
@@ -77,6 +76,7 @@ namespace CustomsForgeManager.UControls
             this.colIgnitionVersion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colIgnitionAuthor = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colArtistTitleAlbum = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.cmsDuplicate.SuspendLayout();
             this.gbActions.SuspendLayout();
             this.panelActions.SuspendLayout();
@@ -145,8 +145,9 @@ namespace CustomsForgeManager.UControls
             this.btnMove.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnMove.Image = global::CustomsForgeManager.Properties.Resources.export;
             this.btnMove.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnMove.Location = new System.Drawing.Point(416, 6);
+            this.btnMove.Location = new System.Drawing.Point(414, 6);
             this.btnMove.Name = "btnMove";
+            this.btnMove.Padding = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.btnMove.Size = new System.Drawing.Size(112, 27);
             this.btnMove.TabIndex = 15;
             this.btnMove.Text = "Move Selected";
@@ -158,9 +159,10 @@ namespace CustomsForgeManager.UControls
             this.btnDeleteSong.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnDeleteSong.Image = global::CustomsForgeManager.Properties.Resources.delete;
             this.btnDeleteSong.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnDeleteSong.Location = new System.Drawing.Point(280, 6);
+            this.btnDeleteSong.Location = new System.Drawing.Point(278, 6);
             this.btnDeleteSong.Name = "btnDeleteSong";
-            this.btnDeleteSong.Size = new System.Drawing.Size(112, 27);
+            this.btnDeleteSong.Padding = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.btnDeleteSong.Size = new System.Drawing.Size(117, 27);
             this.btnDeleteSong.TabIndex = 11;
             this.btnDeleteSong.Text = "Delete Selected";
             this.btnDeleteSong.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -171,9 +173,10 @@ namespace CustomsForgeManager.UControls
             this.btnEnableDisable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnEnableDisable.Image = global::CustomsForgeManager.Properties.Resources.disable;
             this.btnEnableDisable.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnEnableDisable.Location = new System.Drawing.Point(106, 5);
+            this.btnEnableDisable.Location = new System.Drawing.Point(105, 5);
             this.btnEnableDisable.Name = "btnEnableDisable";
-            this.btnEnableDisable.Size = new System.Drawing.Size(150, 29);
+            this.btnEnableDisable.Padding = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.btnEnableDisable.Size = new System.Drawing.Size(154, 29);
             this.btnEnableDisable.TabIndex = 14;
             this.btnEnableDisable.Text = "Enable/Disable Selected";
             this.btnEnableDisable.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -187,7 +190,8 @@ namespace CustomsForgeManager.UControls
             this.btnRescan.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnRescan.Location = new System.Drawing.Point(8, 5);
             this.btnRescan.Name = "btnRescan";
-            this.btnRescan.Size = new System.Drawing.Size(75, 29);
+            this.btnRescan.Padding = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.btnRescan.Size = new System.Drawing.Size(78, 29);
             this.btnRescan.TabIndex = 4;
             this.btnRescan.Text = "Rescan";
             this.btnRescan.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -271,14 +275,6 @@ namespace CustomsForgeManager.UControls
             this.dgvDuplicates.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dgvDups_DataError);
             this.dgvDuplicates.Paint += new System.Windows.Forms.PaintEventHandler(this.dgvDups_Paint);
             this.dgvDuplicates.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvDups_KeyDown);
-            // 
-            // toolTip
-            // 
-            this.toolTip.AutomaticDelay = 200;
-            this.toolTip.AutoPopDelay = 12000;
-            this.toolTip.InitialDelay = 200;
-            this.toolTip.IsBalloon = true;
-            this.toolTip.ReshowDelay = 100;
             // 
             // colPID
             // 
@@ -503,6 +499,14 @@ namespace CustomsForgeManager.UControls
             this.colArtistTitleAlbum.Name = "colArtistTitleAlbum";
             this.colArtistTitleAlbum.ReadOnly = true;
             this.colArtistTitleAlbum.Visible = false;
+            // 
+            // toolTip
+            // 
+            this.toolTip.AutomaticDelay = 200;
+            this.toolTip.AutoPopDelay = 12000;
+            this.toolTip.InitialDelay = 200;
+            this.toolTip.IsBalloon = true;
+            this.toolTip.ReshowDelay = 100;
             // 
             // Duplicates
             // 

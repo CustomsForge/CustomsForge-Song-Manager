@@ -1,4 +1,5 @@
-﻿using CFSM.Utils.PSARC;
+﻿using System.Runtime.Serialization.Formatters.Binary;
+using CFSM.Utils.PSARC;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -159,7 +160,6 @@ namespace CFSM.Utils
             }
         }
 
-
         #endregion
   
         #region Serialization
@@ -259,7 +259,29 @@ namespace CFSM.Utils
             return (T)XmlDeserializeForClone(XmlSerializeForClone(obj), typeof(T));
         }
 
-        
+        public static void SerializeBin(this object obj, FileStream Stream)
+        {
+            BinaryFormatter bin = new BinaryFormatter()
+            {
+                FilterLevel = System.Runtime.Serialization.Formatters.TypeFilterLevel.Low
+            };
+            bin.Serialize(Stream, obj);
+        }
+
+        public static object DeserializeBin(this FileStream Stream)
+        {
+            object x = null;
+            if (Stream.Length > 0)
+            {
+                BinaryFormatter bin = new BinaryFormatter()
+                {
+                    FilterLevel = System.Runtime.Serialization.Formatters.TypeFilterLevel.Low
+                };
+                x = bin.Deserialize(Stream);
+            }
+            return x;
+        }
+
         #endregion
 
        

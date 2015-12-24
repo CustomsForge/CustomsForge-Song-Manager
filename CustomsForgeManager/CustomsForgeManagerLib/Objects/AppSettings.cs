@@ -134,7 +134,6 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
 
             if (dgvCurrent != null)
             {
-                var stophere = Globals.DgvCurrent.Name;
                 if (File.Exists(Constants.GridSettingsPath))
                 {
                     using (var fs = File.OpenRead(Constants.GridSettingsPath))
@@ -166,7 +165,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
             Instance.MoveToQuarantine = false;
             Instance.LogFilePath = Constants.LogFilePath;
             Instance.RSInstalledDir = Extensions.GetSteamDirectory();
-            Instance.RSInstalledDir = String.Empty; 
+            Instance.RSProfileDir = String.Empty; 
             Instance.IncludeRS1DLCs = false;  // changed to false (fewer issues)
             Instance.EnabledLogBaloon = false; // fewer notfication issues
             Instance.CleanOnClosing = false;

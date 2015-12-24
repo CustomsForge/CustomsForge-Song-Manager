@@ -1,5 +1,6 @@
 ﻿
 using System.Diagnostics;
+using System.Windows.Forms;
 using CustomsForgeManager.CustomsForgeManagerLib.Objects;
 using DataGridViewTools;
 using Newtonsoft.Json.Linq;
@@ -38,6 +39,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                 return false;
 
             Globals.Log("Extracting Audio ... Please wait ...");
+            // TODO: maintain app responsiveness during audio extraction
 
             using (var archive = new PSARC(true))
             using (var stream = File.OpenRead(archiveName))
@@ -57,6 +59,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                         return 0;
                     });
                 }
+
                 if (wems.Count > 0)
                 {
                     var top = wems[0];
@@ -76,7 +79,6 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                     bottom.Data.Position = 0;
                     using (var FS = File.Create(previewName))
                     {
-
                         WwiseToOgg w2o = new WwiseToOgg(bottom.Data, FS);
                         result = w2o.ConvertToOgg();
                     }

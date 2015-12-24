@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
+using CustomsForgeManager.CustomsForgeManagerLib;
 using CustomsForgeManager.CustomsForgeManagerLib.Objects;
 using CustomsForgeManager.Forms;
 using DLogNet;
@@ -49,7 +50,7 @@ namespace CustomsForgeManager
 
 
                 if (RemoveGridSettings())
-                    File.Delete(Constants.GridSettingsPath);
+                    ZipUtilities.DeleteDirectory(Constants.GridSettingsDirectory);
 
                 RunApp();
             }
@@ -58,7 +59,7 @@ namespace CustomsForgeManager
 
         private static void RunApp()
         {
-            // TODO: RunApp() seems very redundant ... please comment/explain code
+            // TODO: RunApp() seems very redundant ... please comment code
 #if WEBDEPLOY_RELEASE
             if (System.Deployment.Application.ApplicationDeployment.IsNetworkDeployed)
             {

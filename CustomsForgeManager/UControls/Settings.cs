@@ -23,19 +23,21 @@ namespace CustomsForgeManager.UControls
         public void LoadSettingsFromFile(DataGridView dgvCurrent)
         {
             var settingsPath = Constants.SettingsPath;
-            if (!String.IsNullOrEmpty(dgvCurrent.Name))
-            {
-                Debug.WriteLine("Load DataGridView Settings: " + dgvCurrent.Name);
-                Globals.DgvCurrent = dgvCurrent;
-            }
 
-            // initial application startup or detect bad settings file
+            // initialize application startup 
             if (!File.Exists(settingsPath))
             {
                 ResetSettings();
                 ValidateRsDir();
-                if (dgvCurrent != null)
-                    SaveSettingsToFile(dgvCurrent);
+                SaveSettingsToFile(dgvCurrent);
+                return;
+            }
+
+
+            if (!String.IsNullOrEmpty(dgvCurrent.Name))
+            {
+                Debug.WriteLine("Load DataGridView Settings: " + dgvCurrent.Name);
+                Globals.DgvCurrent = dgvCurrent;
             }
 
             try
@@ -129,6 +131,12 @@ namespace CustomsForgeManager.UControls
                     AppSettings.Instance.SerializeXml(fs);
                     Globals.Log("Saved settings file ...");
                 }
+
+                if (String.IsNullOrEmpty(dgvCurrent.Name))
+                    return;
+
+                if (!Directory.Exists(Constants.GridSettingsDirectory))
+                    Directory.CreateDirectory(Constants.GridSettingsDirectory);
 
                 using (var fs = new FileStream(Constants.GridSettingsPath, FileMode.Create, FileAccess.Write, FileShare.Write))
                 {

@@ -53,8 +53,6 @@ namespace CFMAudioTools
             var minutes = Convert.ToInt32(GetSongPos()) / 60;
             return String.Format("{0:00}:{1:00}", minutes, seconds);
         }
-
-
     }
 
     internal class BassEngine : AudioEngine
@@ -62,9 +60,9 @@ namespace CFMAudioTools
         int FHandle = 0;
         static bool bassinit = false;
         IntPtr SongBytes = IntPtr.Zero;
-        // may not make a significantly noticeable difference,
         // RS2014 user 48kHz DVD quality playback vs 44.1 kHz (44100) CD quality playback
-        private static int sampleRate = 48000;
+        // tried 48000 here and it sounds bad in long songs
+        private static int sampleRate = 44100;
 
         static BassEngine()
         {

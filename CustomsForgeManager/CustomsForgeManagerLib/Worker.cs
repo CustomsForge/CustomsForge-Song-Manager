@@ -136,14 +136,14 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                 }
             }
 
-            Globals.DebugLog("Parsing files");
+            Globals.DebugLog("Parsing files ...");
             foreach (string file in fileList)
             {
                 if (bWorker.CancellationPending || Globals.TsLabel_Cancel.Text == "Canceling" || Globals.CancelBackgroundScan)
                 {
                     bWorker.CancelAsync();
                     e.Cancel = true;
-                    Globals.DebugLog("Parsing canceled.");
+                    Globals.DebugLog("Parsing canceled ...");
                     return;
                 }
 
@@ -192,7 +192,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                     }
                 }
             }
-            Globals.DebugLog("Parsing done.");
+            Globals.DebugLog("Parsing done ...");
 
             counterStopwatch.Stop();
         }

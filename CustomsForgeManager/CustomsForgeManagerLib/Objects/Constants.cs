@@ -25,7 +25,8 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         public static string LogFilePath { get { return Path.Combine(WorkDirectory, "debug.log"); } }
         public static string SettingsPath { get { return Path.Combine(WorkDirectory, "cfsm.Settings.xml"); } }
         public static string SongsInfoPath { get { return Path.Combine(WorkDirectory, "songs.Info.xml"); } }
-        public static string GridSettingsPath { get { return Path.Combine(WorkDirectory, String.Format("{0}{1}", Globals.DgvCurrent.Name, ".GridSettings.xml")); } }
+        public static string GridSettingsDirectory { get { return Path.Combine(WorkDirectory, "DgvSettings"); } }
+        public static string GridSettingsPath { get { return Path.Combine(GridSettingsDirectory, String.Format("{0}{1}", Globals.DgvCurrent.Name, ".xml")); } }
         public static string ApplicationDirectory { get { return Path.GetDirectoryName(Application.ExecutablePath); } }
         public static string AppIdFilePath { get { return Path.Combine(ApplicationDirectory, "RocksmithToolkitLib.SongAppId.xml"); } }
         public static string TuningDefFilePath { get { return Path.Combine(ApplicationDirectory, "RocksmithToolkitLib.TuningDefinition.xml"); } }

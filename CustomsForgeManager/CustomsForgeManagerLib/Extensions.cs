@@ -29,28 +29,6 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                 action(c);
         }
 
-        public static void SerializeBin(this object obj, FileStream Stream)
-        {
-            BinaryFormatter bin = new BinaryFormatter()
-            {
-                FilterLevel = System.Runtime.Serialization.Formatters.TypeFilterLevel.Low
-            };
-            bin.Serialize(Stream, obj);
-        }
-
-        public static object DeserializeBin(this FileStream Stream)
-        {
-            object x = null;
-            if (Stream.Length > 0)
-            {
-                BinaryFormatter bin = new BinaryFormatter()
-                {
-                    FilterLevel = System.Runtime.Serialization.Formatters.TypeFilterLevel.Low
-                };
-                x = bin.Deserialize(Stream);
-            }
-            return x;
-        }
 
         public static string TuningToName(string tolkenTuning)
         {
@@ -229,8 +207,6 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                 return String.Empty;
         }
 
-
-
         public static List<string> FilesList(string path, bool includeRS1Pack = false)
         {
             if (string.IsNullOrEmpty(path))
@@ -280,7 +256,14 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
             if (rocksmithProcess.Length > 0)
                 MessageBox.Show(CustomsForgeManager.Properties.Resources.RocksmithIsAlreadyRunning);
             else
-                Process.Start("steam://rungameid/221680");
+                try
+                {
+                    Process.Start("steam://rungameid/221680");
+                }
+                catch (Exception)
+                {
+                    Globals.Log("Can not find Steam version of Rocksmith 2014");
+                }
         }
 
         private static string GetStringValueFromRegistry(string keyName, string valueName)
@@ -373,7 +356,8 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                 if (String.IsNullOrEmpty(steamProfileDir))
                     steamProfileDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), @"Steam\userdata\YOUR_USER_ID\221680\remote");
 
-                if (DialogResult.Yes == BetterDialog.ShowDialog("Do you want to backup or restore a Rocksmith 2014 user profile?", "Backup/Restore", null, "Backup", "Restore", Bitmap.FromHicon(SystemIcons.Question.Handle), "Pick One", 150, 150))
+                if (DialogResult.Yes == BetterDialog.ShowDialog(
+                    "Backup or restore a Rocksmith 2014 user profile?", "User Profile Backup/Restore", null, "Backup", "Restore", Bitmap.FromHicon(SystemIcons.Question.Handle), "Pick One", 150, 150))
                 {
                     using (var fbd = new FolderBrowserDialog())
                     {
