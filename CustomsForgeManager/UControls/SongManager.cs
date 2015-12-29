@@ -44,7 +44,7 @@ namespace CustomsForgeManager.UControls
         public SongManager()
         {
             InitializeComponent();
-            OfficialDLCFont = new Font("Arial", 8, FontStyle.Bold);
+            OfficialDLCFont = new Font("Arial", 8, FontStyle.Bold | FontStyle.Italic);
             Globals.TsLabel_StatusMsg.Click += lnkShowAll_Click;
             dgvSongsDetail.Visible = false;
             PopulateSongManager();
@@ -97,7 +97,6 @@ namespace CustomsForgeManager.UControls
         public void LeaveSongManager()
         {
             Globals.Log("Leaving SongManager GUI ...");
-            Globals.DgvCurrent = dgvSongsMaster;
             Globals.Settings.SaveSettingsToFile(dgvSongsMaster);
         }
 
@@ -659,9 +658,10 @@ namespace CustomsForgeManager.UControls
             Globals.RescanSongManager = false;
             Globals.RescanRenamer = false;
             Globals.ReloadSongManager = false;
-            Globals.ReloadDuplicates = true;
-            Globals.ReloadRenamer = true;
-            Globals.ReloadSetlistManager = true;
+            // may cause unnecessary double loading
+            //Globals.ReloadDuplicates = true;
+            //Globals.ReloadRenamer = true;
+            //Globals.ReloadSetlistManager = true;
         }
 
         private void ResetDetail()
@@ -679,14 +679,15 @@ namespace CustomsForgeManager.UControls
 
         private void SearchCDLC(string criteria)
         {
-            var results = masterSongCollection.Where(x => x.ArtistTitleAlbum.ToLower().Contains(criteria.ToLower()) ||
-                x.Tuning.ToLower().Contains(criteria.ToLower()) ||
-                x.Arrangements.ToLower().Contains(criteria.ToLower()) ||
-                x.Charter.ToLower().Contains(criteria.ToLower()) ||
-                (x.IgnitionAuthor != null && x.IgnitionAuthor.ToLower().Contains(criteria.ToLower()) ||
-                (x.IgnitionID != null && x.IgnitionID.ToLower().Contains(criteria.ToLower())) ||
+            var lowerCriteria = criteria.ToLower();
+            var results = masterSongCollection.Where(x => x.ArtistTitleAlbum.ToLower().Contains(lowerCriteria) ||
+                x.Tuning.ToLower().Contains(lowerCriteria) ||
+                x.Arrangements.ToLower().Contains(lowerCriteria) ||
+                x.Charter.ToLower().Contains(lowerCriteria) ||
+                (x.IgnitionAuthor != null && x.IgnitionAuthor.ToLower().Contains(lowerCriteria) ||
+                (x.IgnitionID != null && x.IgnitionID.ToLower().Contains(lowerCriteria)) ||
                 x.SongYear.ToString().Contains(criteria) ||
-                x.Path.ToLower().Contains(criteria.ToLower()))).ToList();
+                x.Path.ToLower().Contains(lowerCriteria))).ToList();
 
             LoadFilteredBindingList(results);
         }
@@ -1274,9 +1275,18 @@ namespace CustomsForgeManager.UControls
             if (song != null)
             {
                 if (song.OfficialDLC)
+                {
                     e.CellStyle.Font = OfficialDLCFont;
+                    // prevent checking (selecting) ODCL all together ... evil genious code
+                    DataGridViewCell cell = dgvSongsMaster.Rows[e.RowIndex].Cells["colSelect"];
+                    DataGridViewCheckBoxCell chkCell = cell as DataGridViewCheckBoxCell;
+                    chkCell.Value = false;
+                    chkCell.FlatStyle = FlatStyle.Flat;
+                    chkCell.Style.ForeColor = Color.DarkGray;
+                    cell.ReadOnly = true;
+                }
 
-                if (e.ColumnIndex == colBass.Index || e.ColumnIndex == colVocals.Index || e.ColumnIndex == colLead.Index || e.ColumnIndex == colRhythm.Index)
+            if (e.ColumnIndex == colBass.Index || e.ColumnIndex == colVocals.Index || e.ColumnIndex == colLead.Index || e.ColumnIndex == colRhythm.Index)
                 {
                     string arrInit = song.Arrangements.ToUpper();
 
@@ -1368,6 +1378,12 @@ namespace CustomsForgeManager.UControls
                     cmsSongManagerColumns.Show(Cursor.Position);
                 }
 
+            //SongData song = dgvSongsMaster.Rows[e.RowIndex].DataBoundItem as SongData;
+            //// prevent selection of ODCL
+            //if (song != null)
+            //    if (song.OfficialDLC)
+            //        (grid.Rows[e.RowIndex].Cells["colSelect"] as DataGridViewCheckBoxCell).Value = false;
+
             // programmatic left clicking on colSelect
             if (e.Button == MouseButtons.Left && e.RowIndex != -1 && e.ColumnIndex == colSelect.Index)
             {
@@ -1377,9 +1393,9 @@ namespace CustomsForgeManager.UControls
                 else // required to force selected row change
                 {
                     TemporaryDisableDatabindEvent(() =>
-                        {
-                            dgvSongsMaster.EndEdit();
-                        });
+                    {
+                        dgvSongsMaster.EndEdit();
+                    });
                 }
             }
 
@@ -1575,6 +1591,8 @@ namespace CustomsForgeManager.UControls
         public void TabEnter()
         {
             Globals.Log("SongManager GUI Activated...");
+            Globals.DgvCurrent = dgvSongsMaster;
+
             // fixed bug ... index 0 has no value is thrown when flipping between tabs and back
             // is caused by method TabEnter() with call to PopulateSongManager();
 
@@ -1583,6 +1601,9 @@ namespace CustomsForgeManager.UControls
         public void TabLeave()
         {
             LeaveSongManager();
+            Globals.Settings.SaveSettingsToFile(dgvSongsMaster);
+
         }
+
     }
 }

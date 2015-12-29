@@ -650,10 +650,10 @@ namespace CustomsForgeManager.UControls
             this.dgvSetlistMaster.RowHeadersVisible = false;
             this.dgvSetlistMaster.Size = new System.Drawing.Size(552, 212);
             this.dgvSetlistMaster.TabIndex = 32;
-            this.dgvSetlistMaster.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongs_CellMouseUp);
-            this.dgvSetlistMaster.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongs_ColumnHeaderMouseClick);
-            this.dgvSetlistMaster.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgvSongs_DataBindingComplete);
-            this.dgvSetlistMaster.Paint += new System.Windows.Forms.PaintEventHandler(this.dgvSongs_Paint);
+            this.dgvSetlistMaster.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSetlistMaster_CellMouseUp);
+            this.dgvSetlistMaster.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSetlistMaster_ColumnHeaderMouseClick);
+            this.dgvSetlistMaster.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgvSetlistMaster_DataBindingComplete);
+            this.dgvSetlistMaster.Paint += new System.Windows.Forms.PaintEventHandler(this.dgvSetlistMaster_Paint);
             // 
             // colSelect
             // 
@@ -912,7 +912,7 @@ namespace CustomsForgeManager.UControls
             this.cueSearch.Name = "cueSearch";
             this.cueSearch.Size = new System.Drawing.Size(144, 20);
             this.cueSearch.TabIndex = 44;
-            this.cueSearch.TextChanged += new System.EventHandler(this.cueSearch_TextChanged);
+            this.cueSearch.KeyUp += new System.Windows.Forms.KeyEventHandler(this.cueSearch_KeyUp);
             // 
             // lnkSetlistMgrHelp
             // 

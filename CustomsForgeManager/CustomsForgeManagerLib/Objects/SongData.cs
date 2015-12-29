@@ -37,7 +37,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
         public const string SongDataListCurrentVersion = "4";
 
         public string DLCKey { get; set; }
-       
+
         // need this to be available for reloading
         [XmlIgnore]
         public bool FSelected { get; set; }
@@ -49,11 +49,15 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
         {
             get
             {
+                // allow duplicate ODLC to be deleted/moved
+                if (Globals.DgvCurrent.Name == "dgvDuplicates")
+                    return FSelected;
+
                 return OfficialDLC ? false : FSelected;
             }
             set
             {
-                if (!OfficialDLC)
+                if (!OfficialDLC || Globals.DgvCurrent.Name == "dgvDuplicates")
                     FSelected = value; // SetPropertyField("Selected", ref FSelected, value);              
                 else
                     FSelected = false;

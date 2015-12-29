@@ -195,9 +195,6 @@ namespace CustomsForgeManager.Forms
                     ZipUtilities.DeleteDirectory(Constants.AudioCacheDirectory);
             }
 
-            if (Globals.DgvCurrent.Name != "dgvSongsMaster")
-                Globals.SongManager.LeaveSongManager();
-
             Globals.Settings.SaveSettingsToFile(Globals.DgvCurrent);
             Globals.SongManager.SaveSongCollectionToFile();
         }

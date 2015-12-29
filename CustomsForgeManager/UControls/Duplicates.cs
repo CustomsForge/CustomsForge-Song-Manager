@@ -274,7 +274,7 @@ namespace CustomsForgeManager.UControls
                         if (buttonName.Text.ToLower().Contains("move"))
                         {
                             var filePath = duplicates[ndx].Path;
-                            var dupFileName = String.Format("{0}{1}", Path.GetFileName(filePath), ".duplicate");
+                            var dupFileName = String.Format("{0}{1}", Path.GetFileName(filePath), ".dup");
                             var dupFilePath = Path.Combine(dupDir, dupFileName);
                             File.Move(duplicates[ndx].Path, dupFilePath);
                             Globals.Log(CustomsForgeManager.Properties.Resources.DuplicateFile + dupFileName);
@@ -369,7 +369,7 @@ namespace CustomsForgeManager.UControls
         private void dgvDups_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             // triggered by any key
-            if (e.RowIndex != -1 && e.RowIndex != colSelect.Index)
+            if (e.RowIndex != -1  && e.RowIndex != colSelect.Index)
                 ShowSongInfo();
         }
 
@@ -547,6 +547,7 @@ namespace CustomsForgeManager.UControls
         public void TabEnter()
         {
             Globals.Log("Duplicate GUI Activated...");
+            Globals.DgvCurrent = dgvDuplicates;
         }
 
         public void TabLeave()
@@ -556,11 +557,11 @@ namespace CustomsForgeManager.UControls
 
         public void LeaveDuplicates()
         {
-            Globals.Log("Leaving Duplicates GUI ...");
-            Globals.DgvCurrent = dgvDuplicates;
+            Globals.Log("Leaving Duplicates GUI ...");            
             Globals.Settings.SaveSettingsToFile(dgvDuplicates);
 
         }
 
+ 
     }
 }

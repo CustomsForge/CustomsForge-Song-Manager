@@ -33,7 +33,6 @@ namespace CustomsForgeManager.UControls
                 return;
             }
 
-
             if (!String.IsNullOrEmpty(dgvCurrent.Name))
             {
                 Debug.WriteLine("Load DataGridView Settings: " + dgvCurrent.Name);
@@ -223,7 +222,8 @@ namespace CustomsForgeManager.UControls
                 return;
             }
 
-            // rescan on tabpage change
+            // rescan on tabpage change ... safest but may be better way
+            // possibly never overwrite masterSongControl with Duplicates
             Globals.RescanSongManager = true;
             Globals.RescanDuplicates = true;
             Globals.RescanSetlistManager = true;

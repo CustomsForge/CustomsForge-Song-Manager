@@ -1,5 +1,10 @@
 CFM Release Notes
 
+1.1.2.6
+-Fixed SetlistManager search feature
+-Fixed Duplicates deletion/moving (ODLC may be deleted/moved only in Duplicates)
+-Prevent ODCL in SongManager from being selected/edited all together
+
 1.1.2.5
 -Removed handles from toolstrips to prevent dragging issues
 -Made audio toolstrip Visible when SongManager tab is active

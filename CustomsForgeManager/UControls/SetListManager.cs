@@ -59,21 +59,21 @@ namespace CustomsForgeManager.UControls
 
             dlcDir = Path.Combine(AppSettings.Instance.RSInstalledDir, "dlc");
 
-            if (LoadSongs())
-            {
-                LoadSetLists(); // this generates a selection change
-                LoadSongPacks();
+            if (!LoadSetlistMaster())
+                return;
 
-                // set custom selection (highlighting) color
-                dgvSetlistMaster.DefaultCellStyle.SelectionBackColor = Color.Gold;
-                dgvSetlistMaster.DefaultCellStyle.SelectionForeColor = dgvSetlistMaster.DefaultCellStyle.ForeColor;
-                dgvSetlistSongs.DefaultCellStyle.SelectionBackColor = Color.Gold;
-                dgvSetlistSongs.DefaultCellStyle.SelectionForeColor = dgvSetlistSongs.DefaultCellStyle.ForeColor;
-                dgvSetlists.DefaultCellStyle.SelectionBackColor = Color.Gold;
-                dgvSetlists.DefaultCellStyle.SelectionForeColor = dgvSetlists.DefaultCellStyle.ForeColor;
-                dgvSongPacks.DefaultCellStyle.SelectionBackColor = Color.Gold;
-                dgvSongPacks.DefaultCellStyle.SelectionForeColor = dgvSongPacks.DefaultCellStyle.ForeColor;
-            }
+            LoadSetLists(); // this generates a selection change
+            LoadSongPacks();
+
+            // set custom selection (highlighting) color
+            dgvSetlistMaster.DefaultCellStyle.SelectionBackColor = Color.Gold;
+            dgvSetlistMaster.DefaultCellStyle.SelectionForeColor = dgvSetlistMaster.DefaultCellStyle.ForeColor;
+            dgvSetlistSongs.DefaultCellStyle.SelectionBackColor = Color.Gold;
+            dgvSetlistSongs.DefaultCellStyle.SelectionForeColor = dgvSetlistSongs.DefaultCellStyle.ForeColor;
+            dgvSetlists.DefaultCellStyle.SelectionBackColor = Color.Gold;
+            dgvSetlists.DefaultCellStyle.SelectionForeColor = dgvSetlists.DefaultCellStyle.ForeColor;
+            dgvSongPacks.DefaultCellStyle.SelectionBackColor = Color.Gold;
+            dgvSongPacks.DefaultCellStyle.SelectionForeColor = dgvSongPacks.DefaultCellStyle.ForeColor;
 
             // directory/file manipulation requires forced rescan
             Globals.RescanSongManager = true;
@@ -218,7 +218,7 @@ namespace CustomsForgeManager.UControls
             dgvSongPacks.Columns["colSongPackPath"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
         }
 
-        private bool LoadSongs()
+        private bool LoadSetlistMaster()
         {
             bindingCompleted = false;
             dgvPainted = false;
@@ -231,11 +231,8 @@ namespace CustomsForgeManager.UControls
                 return false;
             }
 
-            // local smSongCollection is loaded with Globals SongCollection
-            songCollection = Globals.SongCollection;
-
             // check for duplicates
-            var dups = songCollection.GroupBy(x => new { ArtistSongAlbum = x.ArtistTitleAlbum }).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
+            var dups = Globals.SongCollection.GroupBy(x => new { ArtistSongAlbum = x.ArtistTitleAlbum }).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
             // this was a requested feature but it comes with a WARNING ...
             // if user enables a duplicate in SetlistManager it will likely crash the game
             dups.RemoveAll(x => x.FileName.ToLower().Contains("disabled"));
@@ -258,8 +255,8 @@ namespace CustomsForgeManager.UControls
                                 MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
 
-            // binding source creates issues will cell formating
-            // wait for binding and paint to complete before changing color
+            // local songCollection is loaded with Globals SongCollection
+            songCollection = Globals.SongCollection;
             LoadFilteredBindingList(songCollection);
             CFSMTheme.InitializeDgvAppearance(dgvSetlistMaster);
 
@@ -269,7 +266,7 @@ namespace CustomsForgeManager.UControls
         private void RemoveFilter()
         {
             DataGridViewAutoFilterTextBoxColumn.RemoveFilter(dgvSetlistMaster);
-            LoadSongs();
+            // LoadSongs();
             // UpdateToolStrip();
         }
 
@@ -876,23 +873,6 @@ namespace CustomsForgeManager.UControls
             }
         }
 
-        private void cueSearch_TextChanged(object sender, EventArgs e)
-        {
-            if (String.IsNullOrEmpty(cueSearch.Text))
-                return;
-
-            string search = cueSearch.Text.ToLower();
-            var matchingSongs = songCollection.Where(sng => sng.ArtistTitleAlbum.ToLower().Contains(search)
-                || sng.Tuning.ToLower().Contains(search)
-                && Path.GetFileName(Path.GetDirectoryName(sng.Path)) == "dlc");
-            dgvSetlistMaster.Rows.Clear();
-            songSearch.Clear();
-            songSearch.AddRange(matchingSongs);
-
-            LoadFilteredBindingList(matchingSongs);
-            LoadSetlistSongs(cueSearch.Text.ToLower());
-        }
-
         private void dgvSetlistSongs_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
             var grid = (DataGridView)sender;
@@ -930,7 +910,7 @@ namespace CustomsForgeManager.UControls
 
         }
 
-        private void dgvSongs_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
+        private void dgvSetlistMaster_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
             bindingCompleted = false;
             dgvPainted = false;
@@ -954,13 +934,13 @@ namespace CustomsForgeManager.UControls
             dgvSetlistMaster.Refresh();
         }
 
-        private void dgvSongs_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        private void dgvSetlistMaster_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             RemoveHighlightUsedSongs();
             HighlightUsedSongs(Color.Yellow);
         }
 
-        private void dgvSongs_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        private void dgvSetlistMaster_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
             // workaround to catch DataBindingComplete called by other UC's
             var grid = (DataGridView)sender;
@@ -993,7 +973,7 @@ namespace CustomsForgeManager.UControls
                 RemoveFilter();
         }
 
-        private void dgvSongs_Paint(object sender, PaintEventArgs e)
+        private void dgvSetlistMaster_Paint(object sender, PaintEventArgs e)
         {
             // wait for DataBinding and DataGridView Paint to complete before  
             // changing cell color (formating) on initial loading
@@ -1042,6 +1022,7 @@ namespace CustomsForgeManager.UControls
         public void TabEnter()
         {
             Globals.Log("Setlist Manager GUI Activated...");
+            Globals.DgvCurrent = dgvSetlistMaster;
         }
 
         public void TabLeave()
@@ -1052,9 +1033,30 @@ namespace CustomsForgeManager.UControls
         public void LeaveSetlistManager()
         {
             Globals.Log("Leaving Setlist Manager GUI ...");
-            Globals.DgvCurrent = dgvSetlistMaster;
             Globals.Settings.SaveSettingsToFile(dgvSetlistMaster);
         }
+
+        private void cueSearch_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (cueSearch.Text.Length > 0) // && e.KeyCode == Keys.Enter)
+                SearchCDLC(cueSearch.Text);
+            else
+                LoadFilteredBindingList(songCollection);
+        }
+
+        private void SearchCDLC(string criteria)
+        {
+            var lowerCriteria = criteria.ToLower();
+            var results = songCollection.Where(x => x.ArtistTitleAlbum.ToLower().Contains(lowerCriteria) ||
+                x.Tuning.ToLower().Contains(lowerCriteria) &&
+                Path.GetFileName(Path.GetDirectoryName(x.Path)) == "dlc").ToList();
+
+            LoadFilteredBindingList(results);
+            songSearch.Clear();
+            songSearch.AddRange(results);
+            LoadSetlistSongs(lowerCriteria);
+        }
+
     }
 }
 
