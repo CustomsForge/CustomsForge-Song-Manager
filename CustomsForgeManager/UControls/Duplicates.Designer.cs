@@ -268,13 +268,13 @@ namespace CustomsForgeManager.UControls
             this.dgvDuplicates.RowHeadersVisible = false;
             this.dgvDuplicates.Size = new System.Drawing.Size(852, 429);
             this.dgvDuplicates.TabIndex = 17;
-            this.dgvDuplicates.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvDups_CellDoubleClick);
+            this.dgvDuplicates.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvDuplicates_CellDoubleClick);
             this.dgvDuplicates.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvDups_CellFormatting);
-            this.dgvDuplicates.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvDups_CellMouseUp);
-            this.dgvDuplicates.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgvDups_DataBindingComplete);
+            this.dgvDuplicates.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvDuplicates_CellMouseUp);
+            this.dgvDuplicates.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgvDuplicates_DataBindingComplete);
             this.dgvDuplicates.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dgvDups_DataError);
-            this.dgvDuplicates.Paint += new System.Windows.Forms.PaintEventHandler(this.dgvDups_Paint);
-            this.dgvDuplicates.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvDups_KeyDown);
+            this.dgvDuplicates.Paint += new System.Windows.Forms.PaintEventHandler(this.dgvDuplicates_Paint);
+            this.dgvDuplicates.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvDuplicates_KeyDown);
             // 
             // colPID
             // 

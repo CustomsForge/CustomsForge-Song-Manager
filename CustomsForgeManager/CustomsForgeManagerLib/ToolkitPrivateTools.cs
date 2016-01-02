@@ -9,7 +9,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
 {
     public static class ToolkitPrivateTools
     {
-        public static void GenerateToolkitVersion(Stream output, string version = null)
+        public static void GenerateToolkitVersion(Stream output, string packageVersion = null)
         {
             var author = ConfigRepository.Instance()["general_defaultauthor"];
 
@@ -17,8 +17,8 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
             writer.WriteLine(String.Format("Toolkit version: {0}", ToolkitVersion.version));
             if (!String.IsNullOrEmpty(author))
                 writer.WriteLine(String.Format("Package Author: {0}", author));
-            if (!String.IsNullOrEmpty(version))
-                writer.Write(String.Format("Package Version: {0}", version));
+            if (!String.IsNullOrEmpty(packageVersion))
+                writer.Write(String.Format("Package Version: {0}", packageVersion));
 
             writer.Flush();
             output.Seek(0, SeekOrigin.Begin);
@@ -123,7 +123,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
             return false;
         }
 
-        public static bool ExtractArchiveFile(string psarcPath, string entryNamePath, string outputDir)
+        public static string ExtractArchiveFile(string psarcPath, string entryNamePath, string outputDir)
         {
             using (PSARC archive = new PSARC(true))
             using (var psarcStream = File.OpenRead(psarcPath))
@@ -135,13 +135,14 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                     if (!Directory.Exists(outputDir))
                         Directory.CreateDirectory(outputDir);
 
-                    archive.InflateEntry(tocEntry, Path.Combine(outputDir, Path.GetFileName(Path.GetFullPath(entryNamePath))));
+                    archive.InflateEntry(tocEntry, Path.Combine(outputDir, Path.GetFileName(tocEntry.ToString())));
+                
+                    return tocEntry.ToString();
                 }
-                else
-                    return false;
-            }
 
-            return true;
+                return "";
+            }
         }
+
     }
 }

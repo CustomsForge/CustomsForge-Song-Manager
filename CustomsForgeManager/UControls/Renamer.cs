@@ -105,10 +105,6 @@ namespace CustomsForgeManager.UControls
             else
                 newFileName = String.Format("{0}_p.psarc", newFileName);
 
-
-
-
-
             // strip any user added a directory(s) from file name and add to file path
             var dirSeperator = new string[] { "\\" };
             var parts = newFileName.Split(dirSeperator, StringSplitOptions.None);
@@ -130,7 +126,6 @@ namespace CustomsForgeManager.UControls
 
             return Path.Combine(newFilePath, newFileName);
         }
-
 
         public void RenameSongs()
         {

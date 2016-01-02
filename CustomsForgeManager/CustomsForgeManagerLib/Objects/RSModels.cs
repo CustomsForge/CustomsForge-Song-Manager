@@ -114,15 +114,16 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         public string EtudeKey { get; set; }
     }
 
-    class CacheSongData
+    class SongPackData
     {
-        public string Title { get; set; }
+        public bool Selected { get; set; }
+        public string Enabled { get; set; }
         public string Artist { get; set; }
+        public string Title { get; set; }
         public string Album { get; set; }
         public string Tuning { get; set; }
+        public int SongYear { get; set; }
+        public string SongLength { get; set; }
         public string SongKey { get; set; }
-        public string Enabled { get; set; }
-        public string SongSource { get; set; }
-
     }
 }

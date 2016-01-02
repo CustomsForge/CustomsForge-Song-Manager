@@ -707,6 +707,7 @@ namespace CustomsForgeManager.UControls
                 MessageBox.Show(string.Format("Please select (highlight) the song that  {0}you would like information about.", Environment.NewLine), Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
+        // TODO: document/comment ... when is this needed
         private void TemporaryDisableDatabindEvent(Action action)
         {
             dgvSongsMaster.DataBindingComplete -= dgvSongsMaster_DataBindingComplete;
@@ -1595,7 +1596,6 @@ namespace CustomsForgeManager.UControls
 
             // fixed bug ... index 0 has no value is thrown when flipping between tabs and back
             // is caused by method TabEnter() with call to PopulateSongManager();
-
         }
 
         public void TabLeave()

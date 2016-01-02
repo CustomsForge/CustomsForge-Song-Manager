@@ -248,7 +248,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                     if (!Directory.Exists(corDir))
                         Directory.CreateDirectory(corDir);
 
-                    //if (!File.Exists(corFilePath))
+                    //if (File.Exists(corFilePath))
                     //    File.Delete(corFilePath);
 
                     File.Move(filePath, corFilePath);

@@ -47,6 +47,7 @@ namespace CustomsForgeManager.UControls
         {
             // NOTE: do not add SongData.Arrangments to the datagridview
             Globals.Log("Populating Duplicates GUI ...");
+            Globals.Settings.LoadSettingsFromFile(dgvDuplicates);
             dgvDuplicates.Visible = false;
 
             if (Globals.WorkerFinished == Globals.Tristate.Cancelled)
@@ -143,12 +144,12 @@ namespace CustomsForgeManager.UControls
 
             if (dgvDuplicates.Rows.Count == 0)
             {
-                //  dgvDups.ColumnHeadersVisible = false;
+                //  dgvDuplicates.ColumnHeadersVisible = false;
                 txtNoDuplicates.Visible = true;
             }
             else
             {
-                // dgvDups.ColumnHeadersVisible = true;
+                // dgvDuplicates.ColumnHeadersVisible = true;
                 txtNoDuplicates.Visible = false;
             }
 
@@ -219,7 +220,7 @@ namespace CustomsForgeManager.UControls
             if (dgvDuplicates.SelectedRows.Count > 0)
             {
 
-                //var selectedRow = dgvDups.SelectedRows[0];
+                //var selectedRow = dgvDuplicates.SelectedRows[0];
                 //var title = selectedRow.Cells["colTitle"].Value.ToString();
                 //var artist = selectedRow.Cells["colArtist"].Value.ToString();
                 //var album = selectedRow.Cells["colAlbum"].Value.ToString();
@@ -276,6 +277,10 @@ namespace CustomsForgeManager.UControls
                             var filePath = duplicates[ndx].Path;
                             var dupFileName = String.Format("{0}{1}", Path.GetFileName(filePath), ".dup");
                             var dupFilePath = Path.Combine(dupDir, dupFileName);
+
+                            if (File.Exists(dupFilePath))
+                                File.Delete(dupFilePath);
+
                             File.Move(duplicates[ndx].Path, dupFilePath);
                             Globals.Log(CustomsForgeManager.Properties.Resources.DuplicateFile + dupFileName);
                             Globals.Log(CustomsForgeManager.Properties.Resources.MovedTo + dupDir);
@@ -366,15 +371,15 @@ namespace CustomsForgeManager.UControls
             Rescan();
         }
 
-        private void dgvDups_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        private void dgvDuplicates_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             // triggered by any key
-            if (e.RowIndex != -1  && e.RowIndex != colSelect.Index)
+            if (e.RowIndex != -1 && e.RowIndex != colSelect.Index)
                 ShowSongInfo();
         }
 
 
-        private void dgvDups_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
+        private void dgvDuplicates_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
             // has precedent over a ColumnHeader_MouseClick
             // MouseUp detection is more reliable than MouseDown
@@ -383,14 +388,14 @@ namespace CustomsForgeManager.UControls
 
             if (e.ColumnIndex == colSelect.Index && rowIndex != -1)
             {
-                dgvDuplicates.DataBindingComplete -= dgvDups_DataBindingComplete;
+                dgvDuplicates.DataBindingComplete -= dgvDuplicates_DataBindingComplete;
                 try
                 {
                     dgvDuplicates.EndEdit();
                 }
                 finally
                 {
-                    dgvDuplicates.DataBindingComplete += dgvDups_DataBindingComplete;
+                    dgvDuplicates.DataBindingComplete += dgvDuplicates_DataBindingComplete;
                 }
             }
             else
@@ -412,11 +417,11 @@ namespace CustomsForgeManager.UControls
                 }
         }
 
-        private void dgvDups_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        private void dgvDuplicates_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
             // workaround to catch DataBindingComplete called by other UC's
             var grid = (DataGridView)sender;
-            if (grid.Name != "dgvDups")
+            if (grid.Name != "dgvDuplicates")
                 return;
 
             if (!bindingCompleted)
@@ -444,7 +449,7 @@ namespace CustomsForgeManager.UControls
                 RemoveFilter();
         }
 
-        private void dgvDups_KeyDown(object sender, KeyEventArgs e)
+        private void dgvDuplicates_KeyDown(object sender, KeyEventArgs e)
         {
             // space bar used to select a song (w/ checkbox "Select")
             if (e.KeyCode == Keys.Space)
@@ -461,12 +466,12 @@ namespace CustomsForgeManager.UControls
                     }
         }
 
-        private void dgvDups_Paint(object sender, PaintEventArgs e)
+        private void dgvDuplicates_Paint(object sender, PaintEventArgs e)
         {
             if (bindingCompleted && !dgvPainted)
             {
                 dgvPainted = true;
-                Globals.DebugLog("dgvDups Painted ... ");
+                // Globals.DebugLog("dgvDuplicates Painted ... ");
                 // it is safe to do cell formatting (coloring)
                 // here
             }
@@ -557,11 +562,11 @@ namespace CustomsForgeManager.UControls
 
         public void LeaveDuplicates()
         {
-            Globals.Log("Leaving Duplicates GUI ...");            
+            Globals.Log("Leaving Duplicates GUI ...");
             Globals.Settings.SaveSettingsToFile(dgvDuplicates);
 
         }
 
- 
+
     }
 }

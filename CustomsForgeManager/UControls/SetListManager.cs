@@ -49,6 +49,7 @@ namespace CustomsForgeManager.UControls
         public void PopulateSetlistManager()
         {
             Globals.Log("Populating SetlistManager GUI ...");
+            Globals.Settings.LoadSettingsFromFile(dgvSetlistMaster);
 
             // theoretically this error condition should never exist
             if (String.IsNullOrEmpty(AppSettings.Instance.RSInstalledDir) || !Directory.Exists(AppSettings.Instance.RSInstalledDir))
@@ -980,7 +981,7 @@ namespace CustomsForgeManager.UControls
             if (bindingCompleted && !dgvPainted)
             {
                 dgvPainted = true;
-                Globals.Log("dgvSongs Painted ... ");
+                // Globals.Log("dgvSongs Painted ... ");
                 HighlightUsedSongs(Color.Yellow);
             }
         }
