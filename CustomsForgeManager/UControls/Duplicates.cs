@@ -219,7 +219,6 @@ namespace CustomsForgeManager.UControls
         {
             if (dgvDuplicates.SelectedRows.Count > 0)
             {
-
                 //var selectedRow = dgvDuplicates.SelectedRows[0];
                 //var title = selectedRow.Cells["colTitle"].Value.ToString();
                 //var artist = selectedRow.Cells["colArtist"].Value.ToString();

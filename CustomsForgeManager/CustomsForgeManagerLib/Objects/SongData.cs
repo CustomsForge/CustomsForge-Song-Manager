@@ -49,15 +49,15 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
         {
             get
             {
-                // allow duplicate ODLC to be deleted/moved
-                if (Globals.DgvCurrent.Name == "dgvDuplicates")
-                    return FSelected;
-
+                // allow non dgvMasterSongs ODLC to be deleted/moved/selected
+                if (Globals.DgvCurrent.Name == "dgvMasterSongs")
                 return OfficialDLC ? false : FSelected;
+
+                return FSelected;
             }
             set
             {
-                if (!OfficialDLC || Globals.DgvCurrent.Name == "dgvDuplicates")
+                if (!OfficialDLC || Globals.DgvCurrent.Name != "dgvMasterSongs")
                     FSelected = value; // SetPropertyField("Selected", ref FSelected, value);              
                 else
                     FSelected = false;
