@@ -9,14 +9,15 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
 {
     public static class ToolkitPrivateTools
     {
-        public static void GenerateToolkitVersion(Stream output, string packageVersion = null)
+        public static void GenerateToolkitVersion(Stream output, string packageAuthor = null, string packageVersion = null)
         {
-            var author = ConfigRepository.Instance()["general_defaultauthor"];
+            if (String.IsNullOrEmpty(packageAuthor))
+                packageAuthor = ConfigRepository.Instance()["general_defaultauthor"];
 
             var writer = new StreamWriter(output);
             writer.WriteLine(String.Format("Toolkit version: {0}", ToolkitVersion.version));
-            if (!String.IsNullOrEmpty(author))
-                writer.WriteLine(String.Format("Package Author: {0}", author));
+            if (!String.IsNullOrEmpty(packageAuthor))
+                writer.WriteLine(String.Format("Package Author: {0}", packageAuthor));
             if (!String.IsNullOrEmpty(packageVersion))
                 writer.Write(String.Format("Package Version: {0}", packageVersion));
 
@@ -59,63 +60,62 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
             }
         }
 
-        public static bool InjectArchiveEntry(string psarcPath, string entryNamePath = null, string sourcePath = null)
+        public static bool InjectArchiveEntry(string psarcPath, string entryName, string sourcePath, bool updateToolkitVersion = true)
         {
             if (!File.Exists(psarcPath))
                 return false;
 
+            int injectionCount = 2;
+            if (!updateToolkitVersion)
+                injectionCount = 1;
+
             using (PSARC archive = new PSARC(true))
             using (var psarcStream = File.OpenRead(psarcPath))
-            using (var entryStream = new MemoryStream())
             {
-                switch (entryNamePath)
+                try
                 {
-                    case "APP_ID":
-                        GenerateAppId(entryStream, null, new Platform(GamePlatform.Pc, GameVersion.RS2014));
-                        break;
-                    case "toolkit.version":
-                        string version = String.Format("CFSM v{0}", Constants.ApplicationVersion);
+                    archive.Read(psarcStream);
+                    psarcStream.Dispose();
 
-                        if (!String.IsNullOrEmpty(sourcePath))
-                            version = File.ReadAllText(sourcePath);
+                    for (int i = 0; i < injectionCount; i++)
+                    {
+                        var entryStream = new MemoryStream();
 
-                        GenerateToolkitVersion(entryStream, version);
-                        break;
-                    default:
-                        if (String.IsNullOrEmpty(sourcePath))
-                            return false;
+                        switch (i)
+                        {
+                            case 0:
+                                using (var sourceStream = File.OpenRead(sourcePath))
+                                    sourceStream.CopyTo(entryStream);
+                                break;
+                            case 1:
+                                var version = String.Format("CFSM v{0}", Constants.ApplicationVersion);
+                                GenerateToolkitVersion(entryStream, AppSettings.Instance.CreatorName, version);
+                                entryName = "toolkit.version";
+                                break;
+                        }
 
-                        using (var sourceStream = File.OpenRead(sourcePath))
-                            sourceStream.CopyTo(entryStream);
-                        break;
+                        entryStream.Position = 0;
+                        Entry tocEntry = archive.TOC.FirstOrDefault(x => x.Name == entryName);
+
+                        if (tocEntry != null)
+                        {
+                            tocEntry.Data.Dispose();
+                            tocEntry.Data = null;
+                            tocEntry.Data = entryStream;
+                        }
+                        else
+                        {
+                            archive.AddEntry(entryName, entryStream);
+
+                            // evil genius ... ;) => forces archive update
+                            archive.TOC.Insert(0, new Entry() { Name = "NamesBlock.bin" });
+                        }
+                    }
                 }
-
-                if (String.IsNullOrEmpty(entryNamePath))
-                    entryNamePath = Path.GetFileName(sourcePath);
-
-                entryStream.Position = 0;
-                archive.Read(psarcStream);
-                psarcStream.Dispose();
-
-                Entry tocEntry = archive.TOC.FirstOrDefault(x => x.Name == entryNamePath);
-
-                var stophere = tocEntry;
-
-                if (tocEntry != null)
+                catch
                 {
-                    tocEntry.Data.Dispose();
-                    tocEntry.Data = null;
-                    tocEntry.Data = entryStream;
+                    return false;
                 }
-                else
-                {
-                    archive.AddEntry(entryNamePath, entryStream);
-
-                    // evil genius ... ;) => forces archive update
-                    archive.TOC.Insert(0, new Entry() { Name = "NamesBlock.bin" });
-                }
-
-                // File.Delete(psarcPath);
 
                 using (var fs = File.Create(psarcPath))
                     archive.Write(fs, true);
@@ -147,6 +147,71 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                 return "";
             }
         }
+
+        //public static bool InjectArchiveEntry(string psarcPath, string entryNamePath = null, string sourcePath = null)
+        //{
+        //    if (!File.Exists(psarcPath))
+        //        return false;
+
+        //    using (PSARC archive = new PSARC(true))
+        //    using (var psarcStream = File.OpenRead(psarcPath))
+        //    using (var entryStream = new MemoryStream())
+        //    {
+        //        switch (entryNamePath)
+        //        {
+        //            case "APP_ID":
+        //                GenerateAppId(entryStream, null, new Platform(GamePlatform.Pc, GameVersion.RS2014));
+        //                break;
+        //            case "toolkit.version":
+        //                string version = String.Format("CFSM v{0}", Constants.ApplicationVersion);
+
+        //                if (!String.IsNullOrEmpty(sourcePath))
+        //                    version = File.ReadAllText(sourcePath);
+
+        //                GenerateToolkitVersion(entryStream, version);
+        //                break;
+        //            default:
+        //                if (String.IsNullOrEmpty(sourcePath))
+        //                    return false;
+
+        //                using (var sourceStream = File.OpenRead(sourcePath))
+        //                    sourceStream.CopyTo(entryStream);
+        //                break;
+        //        }
+
+        //        if (String.IsNullOrEmpty(entryNamePath))
+        //            entryNamePath = Path.GetFileName(sourcePath);
+
+        //        entryStream.Position = 0;
+        //        archive.Read(psarcStream);
+        //        psarcStream.Dispose();
+
+        //        Entry tocEntry = archive.TOC.FirstOrDefault(x => x.Name == entryNamePath);
+
+        //        var stophere = tocEntry;
+
+        //        if (tocEntry != null)
+        //        {
+        //            tocEntry.Data.Dispose();
+        //            tocEntry.Data = null;
+        //            tocEntry.Data = entryStream;
+        //        }
+        //        else
+        //        {
+        //            archive.AddEntry(entryNamePath, entryStream);
+
+        //            // evil genius ... ;) => forces archive update
+        //            archive.TOC.Insert(0, new Entry() { Name = "NamesBlock.bin" });
+        //        }
+
+        //        // File.Delete(psarcPath);
+
+        //        using (var fs = File.Create(psarcPath))
+        //            archive.Write(fs, true);
+
+        //        return true;
+        //    }
+        //}
 
     }
 }

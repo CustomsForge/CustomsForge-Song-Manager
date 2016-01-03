@@ -482,10 +482,8 @@ namespace CustomsForgeManager.UControls
                     Extensions.ExtractEmbeddedResource(Constants.CachePcPath, "CustomsForgeManager.Resources", new string[] { "sltsv1_aggregategraph.nt" });
 
                 ZipUtilities.InjectFile(Constants.ExtractedSongsHsanPath, Constants.Cache7zPath, Constants.SongsHsanInternalPath, OutArchiveFormat.SevenZip, CompressionMode.Append);
-
                 Packer.Pack(Constants.CachePcPath, Constants.CachePsarcPath);
-
-                Globals.Log("cache.psarc repackaged with your song selections ... SUCESSFUL");
+                Globals.Log("cache.psarc repackaged with your song selections ...");
             }
             catch (IOException ex)
             {
@@ -858,7 +856,7 @@ namespace CustomsForgeManager.UControls
 
                     Globals.TsProgressBar_Main.Value = 30;
                     SerializeSongFile(Constants.ExtractedSongsHsanPath, CacheEntireCollection, CacheDisabledEntireCollection, typeof(RS2VocalsData));
-                    Globals.TsProgressBar_Main.Value = 70;
+                    Globals.TsProgressBar_Main.Value = 60;
                     RepackCachePsarc();
                     break;
                 case 1: // rs1compatibilitydisc_p.psarc
@@ -867,12 +865,10 @@ namespace CustomsForgeManager.UControls
                         if (File.Exists(Constants.ExtractedRs1DiscHsanPath))
                             File.Delete(Constants.ExtractedRs1DiscHsanPath);
 
-                        Globals.TsProgressBar_Main.Value = 25;
+                        Globals.TsProgressBar_Main.Value = 30;
                         SerializeSongFile(Constants.ExtractedRs1DiscHsanPath, Rs1DiscEntireCollection, Rs1DiscDisabledEntireCollection, typeof(RS1DiscVocalsData));
-                        Globals.TsProgressBar_Main.Value = 50;
+                        Globals.TsProgressBar_Main.Value = 60;
                         ToolkitPrivateTools.InjectArchiveEntry(Constants.Rs1DiscPsarcPath, Constants.SongsRs1DiscInternalPath, Constants.ExtractedRs1DiscHsanPath);
-                        Globals.TsProgressBar_Main.Value = 75;
-                        ToolkitPrivateTools.InjectArchiveEntry(Constants.Rs1DiscPsarcPath, "toolkit.version");
                     }
                     break;
                 case 2: // rs1compatibilitydlc_p.psarc
@@ -881,12 +877,10 @@ namespace CustomsForgeManager.UControls
                         if (File.Exists(Constants.ExtractedRs1DlcHsanPath))
                             File.Delete(Constants.ExtractedRs1DlcHsanPath);
 
-                        Globals.TsProgressBar_Main.Value = 25;
+                        Globals.TsProgressBar_Main.Value = 30;
                         SerializeSongFile(Constants.ExtractedRs1DlcHsanPath, Rs1DlcEntireCollection, Rs1DlcDisabledEntireCollection, typeof(RS1DLCVocalsData));
-                        Globals.TsProgressBar_Main.Value = 50;
+                        Globals.TsProgressBar_Main.Value = 60;
                         ToolkitPrivateTools.InjectArchiveEntry(Constants.Rs1DlcPsarcPath, Constants.SongsRs1DlcInternalPath, Constants.ExtractedRs1DlcHsanPath);
-                        Globals.TsProgressBar_Main.Value = 75;
-                        ToolkitPrivateTools.InjectArchiveEntry(Constants.Rs1DlcPsarcPath, "toolkit.version");
                     }
                     break;
                 case 3: // custom song pack
@@ -895,12 +889,10 @@ namespace CustomsForgeManager.UControls
                         if (File.Exists(extractedCustomHsanPath))
                             File.Delete(extractedCustomHsanPath);
 
-                        Globals.TsProgressBar_Main.Value = 25;
+                        Globals.TsProgressBar_Main.Value = 30;
                         SerializeSongFile(extractedCustomHsanPath, CustomEntireCollection, CustomDisabledEntireCollection, typeof(RS1DiscVocalsData));
-                        Globals.TsProgressBar_Main.Value = 50;
+                        Globals.TsProgressBar_Main.Value = 60;
                         ToolkitPrivateTools.InjectArchiveEntry(customPackPsarcPath, customInternalHsanPath, extractedCustomHsanPath);
-                        Globals.TsProgressBar_Main.Value = 75;
-                        ToolkitPrivateTools.InjectArchiveEntry(customPackPsarcPath, "toolkit.version");
                     }
                     break;
                 default:
@@ -908,7 +900,7 @@ namespace CustomsForgeManager.UControls
             }
 
             Globals.TsProgressBar_Main.Value = 100;
-            Globals.Log("Saving " + cmbSongPacks.Text + " ... SUCESSFUL");
+            Globals.Log("SUCESSFUL ...");
             this.Enabled = true;
             Cursor = Cursors.Default;
         }

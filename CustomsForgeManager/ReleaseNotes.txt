@@ -1,5 +1,9 @@
 CFM Release Notes
 
+1.1.2.8
+-2X speed boost for Song Pack repackaging
+-Added author/charter name to repackaged Song Packs
+
 1.1.2.7
 -Add ability to edit Custom Song Packs produced by RSToolkit
 -Eliminated Song Pack methods datagridview column dependencies
