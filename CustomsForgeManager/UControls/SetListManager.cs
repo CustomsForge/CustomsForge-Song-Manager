@@ -420,7 +420,7 @@ namespace CustomsForgeManager.UControls
                 if (Convert.ToBoolean(row.Cells["colSelect"].Value))
                 {
                     var originalPath = row.Cells["colPath"].Value.ToString();
-                    var originalFile = row.Cells["colFileName"].Value.ToString();
+                    // var originalFile = row.Cells["colFileName"].Value.ToString();
 
                     if (Path.GetDirectoryName(originalPath) == Path.Combine(AppSettings.Instance.RSInstalledDir, "dlc"))
                     {
@@ -431,7 +431,7 @@ namespace CustomsForgeManager.UControls
                                 var disabledPath = originalPath.Replace("_p.psarc", "_p.disabled.psarc");
                                 File.Move(originalPath, disabledPath);
                                 row.Cells["colPath"].Value = disabledPath;
-                                row.Cells["colFileName"].Value = originalFile.Replace("_p.psarc", "_p.disabled.psarc");
+                                // row.Cells["colFileName"].Value = originalFile.Replace("_p.psarc", "_p.disabled.psarc");
                                 row.Cells["colEnabled"].Value = "No";
                             }
                             else
@@ -439,7 +439,7 @@ namespace CustomsForgeManager.UControls
                                 var enabledPath = originalPath.Replace("_p.disabled.psarc", "_p.psarc");
                                 File.Move(originalPath, enabledPath);
                                 row.Cells["colPath"].Value = enabledPath;
-                                row.Cells["colFileName"].Value = originalFile.Replace("_p.disabled.psarc", "_p.psarc");
+                                // row.Cells["colFileName"].Value = originalFile.Replace("_p.disabled.psarc", "_p.psarc");
                                 row.Cells["colEnabled"].Value = "Yes";
                             }
                         }

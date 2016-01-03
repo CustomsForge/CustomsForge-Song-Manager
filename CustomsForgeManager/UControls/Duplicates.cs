@@ -495,7 +495,6 @@ namespace CustomsForgeManager.UControls
             RemoveFilter();
         }
 
-
         private void dgvDups_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             if (e.RowIndex == -1) return;

@@ -7,9 +7,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("ClickOnceUninstaller")]
 [assembly: AssemblyDescription("Programmatically uninstall ClickOnce deployed apps")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("6 Wunderkinder GmbH")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("ClickOnceUninstaller")]
-[assembly: AssemblyCopyright("Copyright © 6 Wunderkinder GmbH 2013")]
+[assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -31,5 +31,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.1")]
-[assembly: AssemblyFileVersion("1.0.0.1")]
+[assembly: AssemblyVersion("1.0.0.2")]
+[assembly: AssemblyFileVersion("1.0.0.2")]

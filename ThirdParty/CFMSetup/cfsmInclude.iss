@@ -6,11 +6,11 @@
 #define DOUPDATE
 
 #ifdef BETA
-#define ApplicationName "CustomsForge Manager Beta"
+#define ApplicationName "CustomsForge Song Manager Beta"
 #define BaseUpdateURL "http://appdev.cfmanager.com/beta"
 #define InstallerName "CFSMSetup";
 #else
-#define ApplicationName "CustomsForge Manager"
+#define ApplicationName "CustomsForge Song Manager"
 #define BaseUpdateURL "http://appdev.cfmanager.com/release"
 #define InstallerName "CFSMSetup";
 #endif
