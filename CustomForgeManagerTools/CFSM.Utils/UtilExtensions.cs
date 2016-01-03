@@ -340,6 +340,7 @@ namespace CFSM.Utils
                 }
                 else
                     p.InflateEntry(de);
+
                 de.Data = newData;
                 return true;
             }
@@ -377,6 +378,7 @@ namespace CFSM.Utils
              {
                  if (de.Data == null)
                      p.InflateEntry(de);
+
                  return de.Data;
              }
              return null;
