@@ -61,7 +61,12 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                     });
 
                 if (workOrder.Name != "Renamer")
-                    Globals.TsLabel_MainMsg.Text = String.Format("Rocksmith Songs Count: {0}", bwSongCollection.Count);
+                {
+                    Extensions.InvokeIfRequired(Globals.TsLabel_MainMsg.GetCurrentParent(), delegate
+                    {
+                        Globals.TsLabel_MainMsg.Text = String.Format("Rocksmith Songs Count: {0}", bwSongCollection.Count);
+                    });
+                }
             }
         }
 
@@ -87,8 +92,8 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
 
                 else if (workOrder.Name == "Renamer")
                     Globals.Log(String.Format("Finished renaming ... took {0}", counterStopwatch.Elapsed));
-          
-                Globals.SongCollection = new BindingList<SongData>(bwSongCollection); 
+
+                Globals.SongCollection = new BindingList<SongData>(bwSongCollection);
                 Globals.WorkerFinished = Globals.Tristate.True;
             }
             Globals.IsScanning = false;
@@ -260,9 +265,9 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "bWorker")]
-        public void Dispose() 
-        { 
-            
+        public void Dispose()
+        {
+
         }
 
         // Invoke Template if needed

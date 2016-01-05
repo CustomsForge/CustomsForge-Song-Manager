@@ -68,10 +68,9 @@ namespace CustomsForgeManager.UControls
                 {
                     foreach (var arrangement in song.Arrangements2D)
                     {
-                        // shallow/deep copy methods will not work here because of Arrangements2D
+                        // shallow/deep copy methods will not work here SongData object is convuluded
                         var pidSongData = new SongData();
 
-                        // must have setters to be assignable
                         pidSongData.PID = arrangement.PersistentID;
                         pidSongData.PIDArrangement = arrangement.Name;
                         pidSongData.DLCKey = song.DLCKey;
