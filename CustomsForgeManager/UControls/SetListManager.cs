@@ -16,14 +16,6 @@ using CustomsForgeManager.Forms;
 using DataGridViewTools;
 using Newtonsoft.Json;
 
-// optimized for simple directory/file I/O operations
-// no fancy psarc upacking and repacking is done here :^(
-//
-// Setlist Manager Safety Rules:
-// only one copy of a song may exist and it can be enabled or disabled
-// a song can only be loaded into the game one time because if
-// multiple versions of the same song are loaded it will hang the game
-// when a song is added to any setlist it is highlighted in dgvSongs
 // cache.psarc may not be renamed
 
 namespace CustomsForgeManager.UControls
@@ -234,7 +226,7 @@ namespace CustomsForgeManager.UControls
                 return false;
             }
 
-            // commented out for testing ... do duplicates cause game hangs?
+            // commented out for testing ... do duplicates really cause game hangs?
             // check for duplicates
             //var dups = Globals.SongCollection.GroupBy(x => new { ArtistSongAlbum = x.ArtistTitleAlbum }).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
             //// this was a requested feature but it comes with a WARNING ...
@@ -333,9 +325,6 @@ namespace CustomsForgeManager.UControls
 
                 if (Convert.ToBoolean(row.Cells["colSelect"].Value))
                 {
-                    // testing duplicates theory ... 
-                    SongData song = row.DataBoundItem as SongData;
-
                     string dlcSongPath = row.Cells["colPath"].Value.ToString();
                     // double GetFileNameWithoutExtenstion is required to complete remove double extension
                     var dlcSongName = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(dlcSongPath));
@@ -358,28 +347,18 @@ namespace CustomsForgeManager.UControls
 
                     try
                     {
-                        // commented out for testing duplicates theory
-                        // move song to setlist folder
-                        // File.Move(dlcSongPath, setlistSongPath);
                         // update dgvSongs
                         //row.Cells["colEnabled"].Value = curSetlistName.Contains("disabled") ? "No" : "Yes";
                         //row.Cells["colPath"].Value = setlistSongPath;
                         row.Cells["colSelect"].Value = false;
                         row.DefaultCellStyle.BackColor = Color.Yellow;
 
-                        // testing duplicates theory ... adding Copy 
-                        File.Copy(dlcSongPath, setlistSongPath);
+                        SongData oldSong = row.DataBoundItem as SongData;
 
-                        var oldSong = (SongData)dgvSetlistMaster.Rows[ndx].DataBoundItem;
-                        SongData newSong = new SongData();
-                        //newSong.Path = setlistSongPath;
-
-                        if (newSong != null)
+                        if (oldSong != null)
                         {
-                            // TODO: fix
-                            // stuck here because of binding or possibly NotifyPropChange issue
-                            // adding copy works but when path is changed both parent and copy update resulting in duplicate copies
-                            
+                            SongData newSong = new SongData();
+
                             var propInfo = oldSong.GetType().GetProperties();
                             foreach (var item in propInfo)
                             {
@@ -391,7 +370,9 @@ namespace CustomsForgeManager.UControls
 
                             newSong.Path = setlistSongPath;
 
-                            Globals.Log(newSong.Path + " " + oldSong.Path);
+                            File.Copy(dlcSongPath, setlistSongPath);
+                            Globals.Log("Copied: " + oldSong.Path);
+                            Globals.Log("To: " + newSong.Path);
                             songCollection.Add(newSong);
                         }
 
@@ -401,13 +382,11 @@ namespace CustomsForgeManager.UControls
                     }
                     catch (IOException ex)
                     {
-                        MessageBox.Show(@"Unable to move/copy song:" + Path.GetFileName(dlcSongPath) + @", to setlist: " + curSetlistName + Environment.NewLine + @"Error: " + ex.Message, MESSAGE_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show(@"Unable to copy song:" + Path.GetFileName(dlcSongPath) + @", to setlist: " + curSetlistName + Environment.NewLine + @"Error: " + ex.Message, MESSAGE_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
 
-            // testing duplicates theory reloading songCollection with new song copies
-            //songCollection = Globals.SongCollection;
             LoadFilteredBindingList(songCollection);
             // update dgvSetlistSongs
             LoadSetlistSongs();
@@ -455,7 +434,6 @@ namespace CustomsForgeManager.UControls
                 if (Convert.ToBoolean(row.Cells["colSelect"].Value))
                 {
                     var originalPath = row.Cells["colPath"].Value.ToString();
-                    // var originalFile = row.Cells["colFileName"].Value.ToString();
 
                     if (Path.GetDirectoryName(originalPath) == Path.Combine(AppSettings.Instance.RSInstalledDir, "dlc"))
                     {
@@ -466,7 +444,6 @@ namespace CustomsForgeManager.UControls
                                 var disabledPath = originalPath.Replace("_p.psarc", "_p.disabled.psarc");
                                 File.Move(originalPath, disabledPath);
                                 row.Cells["colPath"].Value = disabledPath;
-                                // row.Cells["colFileName"].Value = originalFile.Replace("_p.psarc", "_p.disabled.psarc");
                                 row.Cells["colEnabled"].Value = "No";
                             }
                             else
@@ -474,7 +451,6 @@ namespace CustomsForgeManager.UControls
                                 var enabledPath = originalPath.Replace("_p.disabled.psarc", "_p.psarc");
                                 File.Move(originalPath, enabledPath);
                                 row.Cells["colPath"].Value = enabledPath;
-                                // row.Cells["colFileName"].Value = originalFile.Replace("_p.disabled.psarc", "_p.psarc");
                                 row.Cells["colEnabled"].Value = "Yes";
                             }
                         }
@@ -638,7 +614,6 @@ namespace CustomsForgeManager.UControls
             }
         }
 
-        // this modified method is working for duplicates theory testing
         private void btnRemoveSetlistSong_Click(object sender, EventArgs e)
         {
             bool safe2Delete = false;
@@ -681,20 +656,19 @@ namespace CustomsForgeManager.UControls
                         try
                         {
 
-                            // commented out for testing duplicate theory and changed to Delete
                             dgvSetlistMaster.Rows.RemoveAt(dlcNdx);
                             File.Delete(setlistSongPath);
-                            // move song back to dlc folder
+                            // alt: move song back to dlc folder
                             //var dlcSongPath = Path.Combine(dlcDir, Path.GetFileName(setlistSongPath));
                             //File.Move(setlistSongPath, dlcSongPath);
-                            //// update dgvSongs
+                            // update dgvSetlistMaster
                             //dgvSetlistMaster.Rows[dlcNdx].Cells["colPath"].Value = dlcSongPath;
                             //dgvSetlistMaster.Rows[dlcNdx].Cells["colEnabled"].Value = dlcSongPath.Contains("disabled") ? "No" : "Yes";
                             //dgvSetlistMaster.Rows[dlcNdx].Cells["colSelect"].Value = false;
                         }
                         catch (IOException ex)
                         {
-                            MessageBox.Show(@"Unable to move song from setlist:" + Environment.NewLine + Path.GetDirectoryName(setlistSongPath) + Environment.NewLine + @"Error: " + ex.Message, MESSAGE_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show(@"Unable to remove song from setlist:" + Environment.NewLine + Path.GetDirectoryName(setlistSongPath) + Environment.NewLine + @"Error: " + ex.Message, MESSAGE_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                 }
             }
@@ -745,23 +719,23 @@ namespace CustomsForgeManager.UControls
                         dgvSetlistMaster.Rows.RemoveAt(dlcNdx);
                     else
                     {
-                        // commented out for testing duplicates theory and changed to Delete
-                        // move setlist song back to dlc folder
-                        // File.Move(setlistSongPath, dlcSongPath);
                         File.Delete(setlistSongPath);
-                        dgvSetlistMaster.Rows[dlcNdx].Cells["colPath"].Value = dlcSongPath;
-                        dgvSetlistMaster.Rows[dlcNdx].Cells["colEnabled"].Value = dlcSongPath.Contains("disabled") ? "No" : "Yes";
-                        dgvSetlistMaster.Rows[dlcNdx].Cells["colSelect"].Value = false;
+                        dgvSetlistMaster.Rows.RemoveAt(dlcNdx);
+                        // alt: move setlist song back to dlc folder
+                        // File.Move(setlistSongPath, dlcSongPath);
+                        //dgvSetlistMaster.Rows[dlcNdx].Cells["colPath"].Value = dlcSongPath;
+                        //dgvSetlistMaster.Rows[dlcNdx].Cells["colEnabled"].Value = dlcSongPath.Contains("disabled") ? "No" : "Yes";
+                        //dgvSetlistMaster.Rows[dlcNdx].Cells["colSelect"].Value = false;
                     }
                 }
                 catch (IOException ex)
                 {
-                    MessageBox.Show(@"Unable to move all songs from setlist:" + Environment.NewLine + Path.GetDirectoryName(setlistPath) + Environment.NewLine + "Error: " + ex.Message);
+                    MessageBox.Show(@"Unable to remove all songs from setlist:" + Environment.NewLine + Path.GetDirectoryName(setlistPath) + Environment.NewLine + "Error: " + ex.Message);
                     safeDelete = false;
                 }
             }
 
-            // after all files have been moved then delete the directory
+            // after all files have been removed then delete the directory
             if (safeDelete)
                 try
                 {

@@ -1,5 +1,8 @@
 CFM Release Notes
 
+1.1.3.0
+-Recoded SetlistManager to allow duplicate songs and multiple copies of CDLC in different Setlists
+
 1.1.2.9
 -Fixed SongData variable Selected so that ODLC may be selected in all tables except dgvSongsMaster
 
