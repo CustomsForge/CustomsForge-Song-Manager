@@ -369,13 +369,30 @@ namespace CustomsForgeManager.UControls
 
                         // testing duplicates theory ... adding Copy 
                         File.Copy(dlcSongPath, setlistSongPath);
-                        if (song != null)
+
+                        var oldSong = (SongData)dgvSetlistMaster.Rows[ndx].DataBoundItem;
+                        SongData newSong = new SongData();
+                        //newSong.Path = setlistSongPath;
+
+                        if (newSong != null)
                         {
                             // TODO: fix
                             // stuck here because of binding or possibly NotifyPropChange issue
                             // adding copy works but when path is changed both parent and copy update resulting in duplicate copies
-                            song.Path = setlistSongPath;
-                            songCollection.Add(song);
+                            
+                            var propInfo = oldSong.GetType().GetProperties();
+                            foreach (var item in propInfo)
+                            {
+                                if (item.CanWrite)
+                                {
+                                    newSong.GetType().GetProperty(item.Name).SetValue(newSong, item.GetValue(oldSong, null), null);
+                                }
+                            }
+
+                            newSong.Path = setlistSongPath;
+
+                            Globals.Log(newSong.Path + " " + oldSong.Path);
+                            songCollection.Add(newSong);
                         }
 
                         // update songsInSetlist count
