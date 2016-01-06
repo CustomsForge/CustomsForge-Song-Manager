@@ -255,7 +255,7 @@ namespace CustomsForgeManager.UControls
             songCollection = Globals.SongCollection;
             LoadFilteredBindingList(songCollection);
             CFSMTheme.InitializeDgvAppearance(dgvSetlistMaster);
-
+ 
             return true;
         }
 
@@ -300,7 +300,7 @@ namespace CustomsForgeManager.UControls
             Globals.RescanDuplicates = false;
             Globals.RescanSongManager = false;
             Globals.RescanRenamer = false;
-            Globals.ReloadSetlistManager = false;
+            Globals.ReloadSetlistManager = true;
             Globals.ReloadDuplicates = true;
             Globals.ReloadRenamer = true;
             Globals.ReloadSongManager = true;
@@ -390,6 +390,7 @@ namespace CustomsForgeManager.UControls
             LoadFilteredBindingList(songCollection);
             // update dgvSetlistSongs
             LoadSetlistSongs();
+            HighlightUsedSongs(Color.Yellow);
 
             // force a rescan for data safety on next entry
             Globals.RescanSongManager = true;
@@ -962,7 +963,7 @@ namespace CustomsForgeManager.UControls
         {
             // workaround to catch DataBindingComplete called by other UC's
             var grid = (DataGridView)sender;
-            if (grid.Name != "dgvSongs")
+            if (grid.Name != "dgvSetlistMaster")
                 return;
 
             // wait for DataBinding and DataGridView Paint to complete before  
