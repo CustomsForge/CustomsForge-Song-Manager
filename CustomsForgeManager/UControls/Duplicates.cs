@@ -47,6 +47,7 @@ namespace CustomsForgeManager.UControls
         {
             // NOTE: do not add SongData.Arrangments to the datagridview
             Globals.Log("Populating Duplicates GUI ...");
+            CFSMTheme.DoubleBuffered(dgvDuplicates);
             Globals.Settings.LoadSettingsFromFile(dgvDuplicates);
             dgvDuplicates.Visible = false;
 

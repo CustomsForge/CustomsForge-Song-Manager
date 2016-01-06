@@ -345,6 +345,7 @@ namespace CustomsForgeManager.UControls
 
         private void PopulateDataGridView()
         {
+            Globals.Log("Populating Song Packs GUI ...");
             CFSMTheme.DoubleBuffered(dgvSongPacks);
             RefreshDgvSongs();
             CFSMTheme.InitializeDgvAppearance(dgvSongPacks);

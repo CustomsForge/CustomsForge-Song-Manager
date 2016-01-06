@@ -42,6 +42,7 @@ namespace CustomsForgeManager.UControls
         public void PopulateSetlistManager()
         {
             Globals.Log("Populating SetlistManager GUI ...");
+            CFSMTheme.DoubleBuffered(dgvSetlistMaster);
             Globals.Settings.LoadSettingsFromFile(dgvSetlistMaster);
 
             // theoretically this error condition should never exist
@@ -262,8 +263,14 @@ namespace CustomsForgeManager.UControls
         private void RemoveFilter()
         {
             DataGridViewAutoFilterTextBoxColumn.RemoveFilter(dgvSetlistMaster);
-            // LoadSongs();
-            // UpdateToolStrip();
+            LoadFilteredBindingList(songCollection);
+
+            // reset alternating row color
+            foreach (DataGridViewRow row in dgvSetlistMaster.Rows)
+                row.DefaultCellStyle.BackColor = Color.Empty;
+
+            dgvSetlistMaster.AlternatingRowsDefaultCellStyle = new DataGridViewCellStyle() { BackColor = Color.LightSteelBlue };
+            UpdateToolStrip();
         }
 
         private void RemoveHighlightUsedSongs()
@@ -1075,6 +1082,21 @@ namespace CustomsForgeManager.UControls
             songSearch.AddRange(results);
             LoadSetlistSongs(lowerCriteria);
         }
+
+        private void chkSubFolders_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!chkSubFolders.Checked)
+            {
+                var results = songCollection
+                    .Where(x => Path.GetFileName(Path.GetDirectoryName(x.Path)) == "dlc")
+                    .ToList();
+
+                LoadFilteredBindingList(results);
+            }
+            else
+                RemoveFilter();
+        }
+
 
 
 

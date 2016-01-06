@@ -105,6 +105,7 @@ namespace CustomsForgeManager.UControls
             this.colSongPackEnabled = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colSongPackPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.gbSearch = new System.Windows.Forms.GroupBox();
+            this.chkSubFolders = new System.Windows.Forms.CheckBox();
             this.lnkClearSearch = new System.Windows.Forms.LinkLabel();
             this.label1 = new System.Windows.Forms.Label();
             this.btnRunRSWithSetlist = new System.Windows.Forms.Button();
@@ -856,6 +857,7 @@ namespace CustomsForgeManager.UControls
             // 
             // gbSearch
             // 
+            this.gbSearch.Controls.Add(this.chkSubFolders);
             this.gbSearch.Controls.Add(this.lnkClearSearch);
             this.gbSearch.Controls.Add(this.label1);
             this.gbSearch.Controls.Add(this.btnRunRSWithSetlist);
@@ -867,6 +869,20 @@ namespace CustomsForgeManager.UControls
             this.gbSearch.Size = new System.Drawing.Size(157, 254);
             this.gbSearch.TabIndex = 7;
             this.gbSearch.TabStop = false;
+            // 
+            // chkSubFolders
+            // 
+            this.chkSubFolders.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.chkSubFolders.AutoSize = true;
+            this.chkSubFolders.Checked = true;
+            this.chkSubFolders.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkSubFolders.Location = new System.Drawing.Point(18, 231);
+            this.chkSubFolders.Name = "chkSubFolders";
+            this.chkSubFolders.Size = new System.Drawing.Size(117, 17);
+            this.chkSubFolders.TabIndex = 49;
+            this.chkSubFolders.Text = "Show Setlist Songs";
+            this.chkSubFolders.UseVisualStyleBackColor = true;
+            this.chkSubFolders.CheckedChanged += new System.EventHandler(this.chkSubFolders_CheckedChanged);
             // 
             // lnkClearSearch
             // 
@@ -884,7 +900,7 @@ namespace CustomsForgeManager.UControls
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(22, 212);
+            this.label1.Location = new System.Drawing.Point(22, 176);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(107, 13);
             this.label1.TabIndex = 47;
@@ -896,7 +912,7 @@ namespace CustomsForgeManager.UControls
             this.btnRunRSWithSetlist.Enabled = false;
             this.btnRunRSWithSetlist.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRunRSWithSetlist.Image = global::CustomsForgeManager.Properties.Resources.StartRs;
-            this.btnRunRSWithSetlist.Location = new System.Drawing.Point(28, 162);
+            this.btnRunRSWithSetlist.Location = new System.Drawing.Point(28, 126);
             this.btnRunRSWithSetlist.Name = "btnRunRSWithSetlist";
             this.btnRunRSWithSetlist.Size = new System.Drawing.Size(94, 44);
             this.btnRunRSWithSetlist.TabIndex = 46;
@@ -920,7 +936,7 @@ namespace CustomsForgeManager.UControls
             this.lnkSetlistMgrHelp.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lnkSetlistMgrHelp.ForeColor = System.Drawing.Color.Black;
             this.lnkSetlistMgrHelp.LinkColor = System.Drawing.SystemColors.ActiveCaption;
-            this.lnkSetlistMgrHelp.Location = new System.Drawing.Point(12, 97);
+            this.lnkSetlistMgrHelp.Location = new System.Drawing.Point(12, 85);
             this.lnkSetlistMgrHelp.Name = "lnkSetlistMgrHelp";
             this.lnkSetlistMgrHelp.Size = new System.Drawing.Size(133, 16);
             this.lnkSetlistMgrHelp.TabIndex = 45;
@@ -1023,6 +1039,7 @@ namespace CustomsForgeManager.UControls
         private DataGridViewCheckBoxColumn colSongPackSelect;
         private DataGridViewTextBoxColumn colSongPackEnabled;
         private DataGridViewTextBoxColumn colSongPackPath;
+        private CheckBox chkSubFolders;
 
 
 
