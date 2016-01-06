@@ -44,6 +44,7 @@ namespace CustomsForgeManager.UControls
             this.exploreToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gbActions = new System.Windows.Forms.GroupBox();
             this.panelActions = new System.Windows.Forms.Panel();
+            this.chkSubFolders = new System.Windows.Forms.CheckBox();
             this.lnkPersistentId = new System.Windows.Forms.LinkLabel();
             this.btnMove = new System.Windows.Forms.Button();
             this.btnDeleteSong = new System.Windows.Forms.Button();
@@ -112,6 +113,7 @@ namespace CustomsForgeManager.UControls
             // 
             // panelActions
             // 
+            this.panelActions.Controls.Add(this.chkSubFolders);
             this.panelActions.Controls.Add(this.lnkPersistentId);
             this.panelActions.Controls.Add(this.btnMove);
             this.panelActions.Controls.Add(this.btnDeleteSong);
@@ -123,13 +125,27 @@ namespace CustomsForgeManager.UControls
             this.panelActions.Size = new System.Drawing.Size(858, 41);
             this.panelActions.TabIndex = 3;
             // 
+            // chkSubFolders
+            // 
+            this.chkSubFolders.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkSubFolders.AutoSize = true;
+            this.chkSubFolders.Checked = true;
+            this.chkSubFolders.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkSubFolders.Location = new System.Drawing.Point(523, 13);
+            this.chkSubFolders.Name = "chkSubFolders";
+            this.chkSubFolders.Size = new System.Drawing.Size(152, 17);
+            this.chkSubFolders.TabIndex = 25;
+            this.chkSubFolders.Text = "Include Subfolders/Setlists";
+            this.chkSubFolders.UseVisualStyleBackColor = true;
+            this.chkSubFolders.MouseUp += new System.Windows.Forms.MouseEventHandler(this.chkSubFolders_MouseUp);
+            // 
             // lnkPersistentId
             // 
             this.lnkPersistentId.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.lnkPersistentId.AutoSize = true;
             this.lnkPersistentId.ForeColor = System.Drawing.Color.Black;
             this.lnkPersistentId.LinkColor = System.Drawing.SystemColors.ActiveCaption;
-            this.lnkPersistentId.Location = new System.Drawing.Point(698, 13);
+            this.lnkPersistentId.Location = new System.Drawing.Point(698, 14);
             this.lnkPersistentId.Name = "lnkPersistentId";
             this.lnkPersistentId.Size = new System.Drawing.Size(145, 13);
             this.lnkPersistentId.TabIndex = 18;
@@ -145,7 +161,7 @@ namespace CustomsForgeManager.UControls
             this.btnMove.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnMove.Image = global::CustomsForgeManager.Properties.Resources.export;
             this.btnMove.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnMove.Location = new System.Drawing.Point(414, 6);
+            this.btnMove.Location = new System.Drawing.Point(396, 7);
             this.btnMove.Name = "btnMove";
             this.btnMove.Padding = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.btnMove.Size = new System.Drawing.Size(112, 27);
@@ -159,7 +175,7 @@ namespace CustomsForgeManager.UControls
             this.btnDeleteSong.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnDeleteSong.Image = global::CustomsForgeManager.Properties.Resources.delete;
             this.btnDeleteSong.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnDeleteSong.Location = new System.Drawing.Point(278, 6);
+            this.btnDeleteSong.Location = new System.Drawing.Point(266, 7);
             this.btnDeleteSong.Name = "btnDeleteSong";
             this.btnDeleteSong.Padding = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.btnDeleteSong.Size = new System.Drawing.Size(117, 27);
@@ -173,7 +189,7 @@ namespace CustomsForgeManager.UControls
             this.btnEnableDisable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnEnableDisable.Image = global::CustomsForgeManager.Properties.Resources.disable;
             this.btnEnableDisable.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnEnableDisable.Location = new System.Drawing.Point(105, 5);
+            this.btnEnableDisable.Location = new System.Drawing.Point(99, 6);
             this.btnEnableDisable.Name = "btnEnableDisable";
             this.btnEnableDisable.Padding = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.btnEnableDisable.Size = new System.Drawing.Size(154, 29);
@@ -188,7 +204,7 @@ namespace CustomsForgeManager.UControls
             this.btnRescan.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnRescan.Image = ((System.Drawing.Image)(resources.GetObject("btnRescan.Image")));
             this.btnRescan.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnRescan.Location = new System.Drawing.Point(8, 5);
+            this.btnRescan.Location = new System.Drawing.Point(8, 6);
             this.btnRescan.Name = "btnRescan";
             this.btnRescan.Padding = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.btnRescan.Size = new System.Drawing.Size(78, 29);
@@ -566,5 +582,6 @@ namespace CustomsForgeManager.UControls
         private DataGridViewTextBoxColumn colIgnitionVersion;
         private DataGridViewTextBoxColumn colIgnitionAuthor;
         private DataGridViewTextBoxColumn colArtistTitleAlbum;
+        private CheckBox chkSubFolders;
     }
 }

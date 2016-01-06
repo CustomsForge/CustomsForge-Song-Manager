@@ -49,6 +49,7 @@ namespace CustomsForgeManager.UControls
             Globals.Log("Populating Duplicates GUI ...");
             CFSMTheme.DoubleBuffered(dgvDuplicates);
             Globals.Settings.LoadSettingsFromFile(dgvDuplicates);
+            chkSubFolders.Checked = true;
             dgvDuplicates.Visible = false;
 
             if (Globals.WorkerFinished == Globals.Tristate.Cancelled)
@@ -553,6 +554,20 @@ namespace CustomsForgeManager.UControls
             Globals.Log("Leaving Duplicates GUI ...");
             Globals.Settings.SaveSettingsToFile(dgvDuplicates);
 
+        }
+
+        private void chkSubFolders_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (!chkSubFolders.Checked)
+            {
+                var results = duplicates
+                    .Where(x => Path.GetFileName(Path.GetDirectoryName(x.Path)) == "dlc")
+                    .ToList();
+
+                LoadFilteredBindingList(results);
+            }
+            else
+                LoadFilteredBindingList(duplicates);
         }
 
 

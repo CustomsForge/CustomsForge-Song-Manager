@@ -876,11 +876,11 @@ namespace CustomsForgeManager.UControls
             this.chkSubFolders.AutoSize = true;
             this.chkSubFolders.Checked = true;
             this.chkSubFolders.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkSubFolders.Location = new System.Drawing.Point(18, 231);
+            this.chkSubFolders.Location = new System.Drawing.Point(15, 232);
             this.chkSubFolders.Name = "chkSubFolders";
-            this.chkSubFolders.Size = new System.Drawing.Size(117, 17);
+            this.chkSubFolders.Size = new System.Drawing.Size(131, 17);
             this.chkSubFolders.TabIndex = 49;
-            this.chkSubFolders.Text = "Show Setlist Songs";
+            this.chkSubFolders.Text = "Highlight Setlist Songs";
             this.chkSubFolders.UseVisualStyleBackColor = true;
             this.chkSubFolders.MouseUp += new System.Windows.Forms.MouseEventHandler(this.chkSubFolders_MouseUp);
             // 
