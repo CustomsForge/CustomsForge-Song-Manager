@@ -69,35 +69,21 @@ namespace CustomsForgeManager.UControls
                 {
                     foreach (var arrangement in song.Arrangements2D)
                     {
-                        // shallow/deep copy methods will not work here SongData object is convuluded
-                        var pidSongData = new SongData();
+                        // cleaned up code using Lovro's reflection concept ;)
+                        SongData pidSong = new SongData();
+                        var propInfo = song.GetType().GetProperties();
 
-                        pidSongData.PID = arrangement.PersistentID;
-                        pidSongData.PIDArrangement = arrangement.Name;
-                        pidSongData.DLCKey = song.DLCKey;
-                        pidSongData.Selected = song.Selected;
-                        pidSongData.Enabled = song.Enabled;
-                        pidSongData.Artist = song.Artist;
-                        pidSongData.Title = song.Title;
-                        pidSongData.Album = song.Album;
-                        pidSongData.SongYear = song.SongYear;
-                        pidSongData.Arrangements = song.Arrangements;
-                        pidSongData.SongLength = song.SongLength;
-                        pidSongData.SongAverageTempo = song.SongAverageTempo;
-                        pidSongData.AppID = song.AppID;
-                        pidSongData.Path = song.Path;
-                        pidSongData.Status = song.Status;
-                        pidSongData.Charter = song.Charter;
-                        pidSongData.LastConversionDateTime = song.LastConversionDateTime;
-                        pidSongData.Version = song.Version;
-                        pidSongData.ToolkitVer = song.ToolkitVer;
-                        pidSongData.Tagged = song.Tagged;
-                        pidSongData.IgnitionID = song.IgnitionID;
-                        pidSongData.IgnitionUpdated = song.IgnitionUpdated;
-                        pidSongData.IgnitionVersion = song.IgnitionVersion;
-                        pidSongData.IgnitionAuthor = song.IgnitionAuthor;
+                        foreach (var item in propInfo)
+                        {
+                            if (item.CanWrite)
+                            {
+                                pidSong.GetType().GetProperty(item.Name).SetValue(pidSong, item.GetValue(song, null), null);
+                            }
+                        }
 
-                        pidList.Add(pidSongData);
+                        pidSong.PID = arrangement.PersistentID;
+                        pidSong.PIDArrangement = arrangement.Name;
+                        pidList.Add(pidSong);
                     }
                 }
 
@@ -121,9 +107,13 @@ namespace CustomsForgeManager.UControls
             LoadFilteredBindingList(duplicates);
             CFSMTheme.InitializeDgvAppearance(dgvDuplicates);
             // reload column order, width, visibility
-            if (!colPID.Visible)
+            if (!findDupPIDs)
                 if (AppSettings.Instance.ManagerGridSettings != null)
+                {
                     dgvDuplicates.ReLoadColumnOrder(AppSettings.Instance.ManagerGridSettings.ColumnOrder);
+                    colPID.Visible = false;
+                    colPIDArrangement.Visible = false;
+                }
 
             Globals.ReloadDuplicates = false;
         }

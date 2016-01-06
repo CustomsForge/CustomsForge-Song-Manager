@@ -585,7 +585,15 @@ namespace CustomsForgeManager.UControls
         {
             DataGridViewAutoFilterTextBoxColumn.RemoveFilter(dgvSongsMaster);
             ResetDetail();
-            LoadFilteredBindingList(masterSongCollection);
+
+            if (!chkSubFolders.Checked)
+            {
+                var results = masterSongCollection
+                    .Where(x => Path.GetFileName(Path.GetDirectoryName(x.Path)) == "dlc").ToList();
+                LoadFilteredBindingList(results);
+            }
+            else
+                LoadFilteredBindingList(masterSongCollection);
 
             // reset alternating row color
             foreach (DataGridViewRow row in dgvSongsMaster.Rows)
@@ -1605,11 +1613,12 @@ namespace CustomsForgeManager.UControls
         {
             LeaveSongManager();
             Globals.Settings.SaveSettingsToFile(dgvSongsMaster);
-
         }
 
         private void chkSubFolders_CheckedChanged(object sender, EventArgs e)
         {
+            cueSearch.Text = String.Empty;
+
             if (!chkSubFolders.Checked)
             {
                 var results = masterSongCollection

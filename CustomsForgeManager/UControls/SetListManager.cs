@@ -152,6 +152,52 @@ namespace CustomsForgeManager.UControls
             }
         }
 
+        private bool LoadSetlistMaster()
+        {
+            bindingCompleted = false;
+            dgvPainted = false;
+
+            if (AppSettings.Instance.IncludeRS1DLCs)
+            {
+                Globals.Settings.chkIncludeRS1DLC.Checked = false;
+                // ask user to rescan song collection to remove all RS1 Compatibility songs
+                MessageBox.Show(Properties.Resources.CanNotIncludeRS1CompatibilityFiles, MESSAGE_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                return false;
+            }
+
+            // commented out for testing ... do duplicates really cause game hangs?
+            // check for duplicates
+            //var dups = Globals.SongCollection.GroupBy(x => new { ArtistSongAlbum = x.ArtistTitleAlbum }).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
+            //// this was a requested feature but it comes with a WARNING ...
+            //// if user enables a duplicate in SetlistManager it will likely crash the game
+            //dups.RemoveAll(x => x.FileName.ToLower().Contains("disabled"));
+            //var dupsEnabled = dups.GroupBy(x => new { ArtistSongAlbum = x.ArtistTitleAlbum }).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
+            //if (dupsEnabled.Any())
+            //{
+            //    // recommend that duplicates be removed before using SetlistManager
+            //    MessageBox.Show("Found duplicates in the song collection." + Environment.NewLine +
+            //                    "Please use the 'Duplicates' menu tab to remove" + Environment.NewLine +
+            //                    "or disable songs before working in SetlistManager.  ", MESSAGE_CAPTION,
+            //                    MessageBoxButtons.OK, MessageBoxIcon.Hand);
+            //    return false;
+            //}
+
+            //if (dups.Count - dupsEnabled.Count > 0)
+            //{
+            //    MessageBox.Show("Found disabled duplicates in the song collection.  " + Environment.NewLine + Environment.NewLine +
+            //                    "Warning:  The game will freeze if multiple" + Environment.NewLine +
+            //                    "duplicates are enabled in SetlistManager.  ", MESSAGE_CAPTION,
+            //                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //}
+
+            // local songCollection is loaded with Globals SongCollection
+            songCollection = Globals.SongCollection;
+            LoadFilteredBindingList(songCollection);
+            CFSMTheme.InitializeDgvAppearance(dgvSetlistMaster);
+ 
+            return true;
+        }
+
         private void LoadSetlistSongs(string search = "")
         {
             if (dgvSetlists.Rows.Count == 0 || dgvSetlists.SelectedRows.Count.Equals(0))
@@ -214,52 +260,6 @@ namespace CustomsForgeManager.UControls
             dgvSongPacks.Columns["colSongPackPath"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
         }
 
-        private bool LoadSetlistMaster()
-        {
-            bindingCompleted = false;
-            dgvPainted = false;
-
-            if (AppSettings.Instance.IncludeRS1DLCs)
-            {
-                Globals.Settings.chkIncludeRS1DLC.Checked = false;
-                // ask user to rescan song collection to remove all RS1 Compatibility songs
-                MessageBox.Show(Properties.Resources.CanNotIncludeRS1CompatibilityFiles, MESSAGE_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Hand);
-                return false;
-            }
-
-            // commented out for testing ... do duplicates really cause game hangs?
-            // check for duplicates
-            //var dups = Globals.SongCollection.GroupBy(x => new { ArtistSongAlbum = x.ArtistTitleAlbum }).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
-            //// this was a requested feature but it comes with a WARNING ...
-            //// if user enables a duplicate in SetlistManager it will likely crash the game
-            //dups.RemoveAll(x => x.FileName.ToLower().Contains("disabled"));
-            //var dupsEnabled = dups.GroupBy(x => new { ArtistSongAlbum = x.ArtistTitleAlbum }).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
-            //if (dupsEnabled.Any())
-            //{
-            //    // recommend that duplicates be removed before using SetlistManager
-            //    MessageBox.Show("Found duplicates in the song collection." + Environment.NewLine +
-            //                    "Please use the 'Duplicates' menu tab to remove" + Environment.NewLine +
-            //                    "or disable songs before working in SetlistManager.  ", MESSAGE_CAPTION,
-            //                    MessageBoxButtons.OK, MessageBoxIcon.Hand);
-            //    return false;
-            //}
-
-            //if (dups.Count - dupsEnabled.Count > 0)
-            //{
-            //    MessageBox.Show("Found disabled duplicates in the song collection.  " + Environment.NewLine + Environment.NewLine +
-            //                    "Warning:  The game will freeze if multiple" + Environment.NewLine +
-            //                    "duplicates are enabled in SetlistManager.  ", MESSAGE_CAPTION,
-            //                    MessageBoxButtons.OK, MessageBoxIcon.Information);
-            //}
-
-            // local songCollection is loaded with Globals SongCollection
-            songCollection = Globals.SongCollection;
-            LoadFilteredBindingList(songCollection);
-            CFSMTheme.InitializeDgvAppearance(dgvSetlistMaster);
- 
-            return true;
-        }
-
         private void RemoveFilter()
         {
             DataGridViewAutoFilterTextBoxColumn.RemoveFilter(dgvSetlistMaster);
@@ -313,6 +313,18 @@ namespace CustomsForgeManager.UControls
             Globals.ReloadSongManager = true;
         }
 
+        private void SearchCDLC(string criteria)
+        {
+            var lowerCriteria = criteria.ToLower();
+            var results = songCollection.Where(x => x.ArtistTitleAlbum.ToLower().Contains(lowerCriteria) ||
+                                                    x.Tuning.ToLower().Contains(lowerCriteria) &&
+                                                    Path.GetFileName(Path.GetDirectoryName(x.Path)) == "dlc").ToList();
+
+            LoadFilteredBindingList(results);
+            songSearch.Clear();
+            songSearch.AddRange(results);
+            LoadSetlistSongs(lowerCriteria);
+        }
 
         private void btnAddDlcSong_Click(object sender, EventArgs e)
         {
@@ -365,8 +377,8 @@ namespace CustomsForgeManager.UControls
                         if (oldSong != null)
                         {
                             SongData newSong = new SongData();
-
                             var propInfo = oldSong.GetType().GetProperties();
+                            
                             foreach (var item in propInfo)
                             {
                                 if (item.CanWrite)
@@ -376,7 +388,6 @@ namespace CustomsForgeManager.UControls
                             }
 
                             newSong.Path = setlistSongPath;
-
                             File.Copy(dlcSongPath, setlistSongPath);
                             Globals.Log("Copied: " + oldSong.Path);
                             Globals.Log("To: " + newSong.Path);
@@ -899,41 +910,26 @@ namespace CustomsForgeManager.UControls
             }
         }
 
-        private void dgvSetlistSongs_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
+        private void chkSubFolders_CheckedChanged(object sender, EventArgs e)
         {
-            var grid = (DataGridView)sender;
+            if (!chkSubFolders.Checked)
+            {
+                var results = songCollection
+                    .Where(x => Path.GetFileName(Path.GetDirectoryName(x.Path)) == "dlc")
+                    .ToList();
 
-            // programmatic left clicking on colSelect
-            if (e.Button == MouseButtons.Left)
-                if (e.RowIndex != -1)
-                    if (grid.Columns[e.ColumnIndex].Name == "colSetlistSongsSelect")
-                        grid.Rows[e.RowIndex].Cells["colSetlistSongsSelect"].Value = !Convert.ToBoolean(grid.Rows[e.RowIndex].Cells["colSetlistSongsSelect"].Value);
-
-            Thread.Sleep(50); // debounce multiple clicks
-            dgvSetlistSongs.Refresh();
-            dgvSetlistMaster.Refresh();
+                LoadFilteredBindingList(results);
+            }
+            else
+                RemoveFilter();
         }
 
-        private void dgvSetlists_SelectionChanged(object sender, EventArgs e)
+        private void cueSearch_KeyUp(object sender, KeyEventArgs e)
         {
-            // required to catch otherwise error causing conditions
-            if (dgvSetlists.Rows.Count == 0 || dgvSetlists.SelectedRows.Count.Equals(0))
-                return;
-
-            // ensures only one setlist is selected (checked) at a time
-            foreach (DataGridViewRow row in dgvSetlists.Rows)
-                row.Cells["colSetlistSelect"].Value = false;
-
-            dgvSetlists.Rows[dgvSetlists.SelectedRows[0].Index].Cells["colSetlistSelect"].Value = true;
-
-            if (!Convert.ToBoolean(dgvSetlists.Rows[dgvSetlists.SelectedRows[0].Index].Cells["colSetlistSelect"].Value))
-                return;
-
-            if (!String.IsNullOrEmpty(cueSearch.Text))
-                LoadSetlistSongs(cueSearch.Text);
+            if (cueSearch.Text.Length > 0) // && e.KeyCode == Keys.Enter)
+                SearchCDLC(cueSearch.Text);
             else
-                LoadSetlistSongs();
-
+                LoadFilteredBindingList(songCollection);
         }
 
         private void dgvSetlistMaster_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
@@ -1011,6 +1007,43 @@ namespace CustomsForgeManager.UControls
             }
         }
 
+        private void dgvSetlistSongs_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            var grid = (DataGridView)sender;
+
+            // programmatic left clicking on colSelect
+            if (e.Button == MouseButtons.Left)
+                if (e.RowIndex != -1)
+                    if (grid.Columns[e.ColumnIndex].Name == "colSetlistSongsSelect")
+                        grid.Rows[e.RowIndex].Cells["colSetlistSongsSelect"].Value = !Convert.ToBoolean(grid.Rows[e.RowIndex].Cells["colSetlistSongsSelect"].Value);
+
+            Thread.Sleep(50); // debounce multiple clicks
+            dgvSetlistSongs.Refresh();
+            dgvSetlistMaster.Refresh();
+        }
+
+        private void dgvSetlists_SelectionChanged(object sender, EventArgs e)
+        {
+            // required to catch otherwise error causing conditions
+            if (dgvSetlists.Rows.Count == 0 || dgvSetlists.SelectedRows.Count.Equals(0))
+                return;
+
+            // ensures only one setlist is selected (checked) at a time
+            foreach (DataGridViewRow row in dgvSetlists.Rows)
+                row.Cells["colSetlistSelect"].Value = false;
+
+            dgvSetlists.Rows[dgvSetlists.SelectedRows[0].Index].Cells["colSetlistSelect"].Value = true;
+
+            if (!Convert.ToBoolean(dgvSetlists.Rows[dgvSetlists.SelectedRows[0].Index].Cells["colSetlistSelect"].Value))
+                return;
+
+            if (!String.IsNullOrEmpty(cueSearch.Text))
+                LoadSetlistSongs(cueSearch.Text);
+            else
+                LoadSetlistSongs();
+
+        }
+
         private void lnkClearSearch_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             cueSearch.Text = String.Empty;
@@ -1061,44 +1094,6 @@ namespace CustomsForgeManager.UControls
             Globals.Log("Leaving Setlist Manager GUI ...");
             Globals.Settings.SaveSettingsToFile(dgvSetlistMaster);
         }
-
-        private void cueSearch_KeyUp(object sender, KeyEventArgs e)
-        {
-            if (cueSearch.Text.Length > 0) // && e.KeyCode == Keys.Enter)
-                SearchCDLC(cueSearch.Text);
-            else
-                LoadFilteredBindingList(songCollection);
-        }
-
-        private void SearchCDLC(string criteria)
-        {
-            var lowerCriteria = criteria.ToLower();
-            var results = songCollection.Where(x => x.ArtistTitleAlbum.ToLower().Contains(lowerCriteria) ||
-                x.Tuning.ToLower().Contains(lowerCriteria) &&
-                Path.GetFileName(Path.GetDirectoryName(x.Path)) == "dlc").ToList();
-
-            LoadFilteredBindingList(results);
-            songSearch.Clear();
-            songSearch.AddRange(results);
-            LoadSetlistSongs(lowerCriteria);
-        }
-
-        private void chkSubFolders_CheckedChanged(object sender, EventArgs e)
-        {
-            if (!chkSubFolders.Checked)
-            {
-                var results = songCollection
-                    .Where(x => Path.GetFileName(Path.GetDirectoryName(x.Path)) == "dlc")
-                    .ToList();
-
-                LoadFilteredBindingList(results);
-            }
-            else
-                RemoveFilter();
-        }
-
-
-
 
     }
 }
