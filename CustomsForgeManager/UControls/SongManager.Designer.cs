@@ -170,7 +170,7 @@ namespace CustomsForgeManager.UControls
             this.chkSubFolders.TabIndex = 24;
             this.chkSubFolders.Text = "Show Subfolders/Setlists";
             this.chkSubFolders.UseVisualStyleBackColor = true;
-            this.chkSubFolders.CheckedChanged += new System.EventHandler(this.chkSubFolders_CheckedChanged);
+            this.chkSubFolders.MouseUp += new System.Windows.Forms.MouseEventHandler(this.chkSubFolders_MouseUp);
             // 
             // btnCheckAllForUpdates
             // 

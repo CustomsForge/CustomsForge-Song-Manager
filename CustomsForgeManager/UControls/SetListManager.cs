@@ -44,6 +44,7 @@ namespace CustomsForgeManager.UControls
             Globals.Log("Populating SetlistManager GUI ...");
             CFSMTheme.DoubleBuffered(dgvSetlistMaster);
             Globals.Settings.LoadSettingsFromFile(dgvSetlistMaster);
+            chkSubFolders.Checked = true;
 
             // theoretically this error condition should never exist
             if (String.IsNullOrEmpty(AppSettings.Instance.RSInstalledDir) || !Directory.Exists(AppSettings.Instance.RSInstalledDir))
@@ -71,9 +72,9 @@ namespace CustomsForgeManager.UControls
             dgvSongPacks.DefaultCellStyle.SelectionForeColor = dgvSongPacks.DefaultCellStyle.ForeColor;
 
             // directory/file manipulation requires forced rescan
-            Globals.RescanSongManager = true;
-            Globals.RescanDuplicates = true;
-            Globals.RescanRenamer = true;
+            //Globals.RescanSongManager = true;
+            //Globals.RescanDuplicates = true;
+            //Globals.RescanRenamer = true;
         }
 
         public void UpdateToolStrip()
@@ -194,7 +195,7 @@ namespace CustomsForgeManager.UControls
             songCollection = Globals.SongCollection;
             LoadFilteredBindingList(songCollection);
             CFSMTheme.InitializeDgvAppearance(dgvSetlistMaster);
- 
+
             return true;
         }
 
@@ -378,7 +379,7 @@ namespace CustomsForgeManager.UControls
                         {
                             SongData newSong = new SongData();
                             var propInfo = oldSong.GetType().GetProperties();
-                            
+
                             foreach (var item in propInfo)
                             {
                                 if (item.CanWrite)
@@ -728,7 +729,7 @@ namespace CustomsForgeManager.UControls
             foreach (var setlistSongPath in setlistSongsPath)
             {
                 // searching for song that contains the current setlist path
-                var dlcNdx = dgvSetlistMaster.Rows.Cast<DataGridViewRow>().Where(r => r.Cells["colPath"].Value.ToString() == setlistSongPath).Select(r => r.Index).First();
+                var dlcNdx = dgvSetlistMaster.Rows.Cast<DataGridViewRow>().Where(r => r.Cells["colPath"].Value.ToString() == setlistSongPath).Select(r => r.Index).FirstOrDefault();
                 var dlcSongPath = Path.Combine(dlcDir, Path.GetFileName(setlistSongPath));
 
                 try
@@ -910,7 +911,7 @@ namespace CustomsForgeManager.UControls
             }
         }
 
-        private void chkSubFolders_CheckedChanged(object sender, EventArgs e)
+        private void chkSubFolders_MouseUp(object sender, MouseEventArgs e)
         {
             if (!chkSubFolders.Checked)
             {
@@ -974,7 +975,7 @@ namespace CustomsForgeManager.UControls
             var filterStatus = DataGridViewAutoFilterColumnHeaderCell.GetFilterStatus(dgvSetlistMaster);
             if (!bindingCompleted)
             {
-                Globals.Log("DataBinding Complete ... ");
+               // Globals.Log("DataBinding Complete ... ");
                 bindingCompleted = true;
                 // filter applied
                 if (!String.IsNullOrEmpty(filterStatus))
@@ -1094,6 +1095,8 @@ namespace CustomsForgeManager.UControls
             Globals.Log("Leaving Setlist Manager GUI ...");
             Globals.Settings.SaveSettingsToFile(dgvSetlistMaster);
         }
+
+
 
     }
 }

@@ -20,9 +20,7 @@ using System.Xml;
 using Extensions = CustomsForgeManager.CustomsForgeManagerLib.Extensions;
 using CFSM.Utils;
 
-// TODO: move Tagger to seperate UserControl
-// 1500+ lines of code in one place ... overloads the IDE and hurts my brain
-// 
+
 namespace CustomsForgeManager.UControls
 {
     public partial class SongManager : UserControl, IDataGridViewHolder, INotifyTabChanged
@@ -63,111 +61,6 @@ namespace CustomsForgeManager.UControls
             //    });
             //    allSelected = Checked;
             //};
-        }
-
-        public SongData GetFirstSelected()
-        {
-            if (dgvSongsMaster.SelectedRows.Count > 0)
-                return GetSongByRow(dgvSongsMaster.SelectedRows[0]);
-            return null;
-        }
-
-        public List<SongData> GetSelectedSongs()
-        {
-            List<SongData> SelectedSongs = new List<SongData>();
-
-            // the checkbox value change was not being detected here so (known VS issue)
-            // uncommented code from dgvSongsMaster_CellMouseUp to make it detectable
-            foreach (DataGridViewRow row in dgvSongsMaster.Rows)
-            {
-                var sd = GetSongByRow(row);
-                if (sd != null && sd.Selected)
-                    SelectedSongs.Add(sd);
-            }
-            return SelectedSongs;
-        }
-
-        public SongData GetSongByRow(int RowIndex)
-        {
-            if (RowIndex == -1)
-                return null;
-            return (SongData)dgvSongsMaster.Rows[RowIndex].DataBoundItem;
-        }
-
-        public void LeaveSongManager()
-        {
-            Globals.Log("Leaving SongManager GUI ...");
-            Globals.Settings.SaveSettingsToFile(dgvSongsMaster);
-        }
-
-        public void LoadSongCollectionFromFile()
-        {
-            masterSongCollection.Clear();
-            var songsInfoPath = Constants.SongsInfoPath;
-            // load songs into memory
-            try
-            {
-                bool correctVersion = File.Exists(songsInfoPath);
-                XmlDocument dom = new XmlDocument();
-                if (correctVersion)
-                {
-                    correctVersion = false;
-                    dom.Load(songsInfoPath);
-
-                    var listNode = dom["ArrayOfSongData"];
-                    if (listNode != null)
-                    {
-                        var versionNode = listNode["SongDataList"];
-                        if (versionNode != null)
-                        {
-                            if (versionNode.HasAttribute("version"))
-                                correctVersion = (versionNode.GetAttribute("version") == SongData.SongDataListCurrentVersion);
-                            listNode.RemoveChild(versionNode);
-                        }
-                    }
-
-                    if (correctVersion)
-                        masterSongCollection = UtilExtensions.XmlDeserialize<BindingList<SongData>>(listNode.OuterXml);
-                    else
-                        Globals.Log("New song collection version found, rescanning songs.");
-                }
-
-                // pop Arrangment DLCKey info
-                masterSongCollection.ToList().ForEach(a => { a.Arrangements2D.ToList().ForEach(arr => arr.Parent = a); });
-
-                Globals.SongCollection = masterSongCollection;
-                //  Globals.ReloadDuplicates = false;
-                //  Globals.ReloadRenamer = false;
-                //  Globals.ReloadSetlistManager = false;
-
-                //rescan should be called AFTER setting Globals.SongCollection
-                Rescan();
-
-                if (masterSongCollection == null || masterSongCollection.Count == 0)
-                    throw new SongCollectionException(masterSongCollection == null ? "Master Collection = null" : "Master Collection.Count = 0");
-
-                Globals.Log("Loaded song collection file ...");
-                PopulateDataGridView();
-            }
-            catch (Exception e)
-            {
-                // failsafe ... delete CFM folder files and start over
-                string err = e.Message;
-                if (e.InnerException != null)
-                    err += ", Inner: " + e.InnerException.Message;
-
-                Globals.Log("Error: " + e.Message);
-                // log needs to written before it is deleted ... Bazinga
-                Globals.Log("Deleted CFSM folder and subfolders from My Documents ...");
-
-                if (Directory.Exists(Constants.WorkDirectory))
-                    ZipUtilities.DeleteDirectory(Constants.WorkDirectory);
-
-                MessageBox.Show(string.Format("{0}{1}{1}The program will now shut down.", err, Environment.NewLine), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Environment.Exit(0);
-            }
-
-            var stophere = masterSongCollection;
         }
 
         public void PlaySelectedSong()
@@ -407,9 +300,44 @@ namespace CustomsForgeManager.UControls
             }
         }
 
+        private SongData GetFirstSelected()
+        {
+            if (dgvSongsMaster.SelectedRows.Count > 0)
+                return GetSongByRow(dgvSongsMaster.SelectedRows[0]);
+            return null;
+        }
+
+        private List<SongData> GetSelectedSongs()
+        {
+            List<SongData> SelectedSongs = new List<SongData>();
+
+            // the checkbox value change was not being detected here so (known VS issue)
+            // uncommented code from dgvSongsMaster_CellMouseUp to make it detectable
+            foreach (DataGridViewRow row in dgvSongsMaster.Rows)
+            {
+                var sd = GetSongByRow(row);
+                if (sd != null && sd.Selected)
+                    SelectedSongs.Add(sd);
+            }
+            return SelectedSongs;
+        }
+
+        private SongData GetSongByRow(int RowIndex)
+        {
+            if (RowIndex == -1)
+                return null;
+            return (SongData)dgvSongsMaster.Rows[RowIndex].DataBoundItem;
+        }
+
         private SongData GetSongByRow(DataGridViewRow dataGridViewRow)
         {
             return dataGridViewRow.DataBoundItem as SongData;
+        }
+
+        private void LeaveSongManager()
+        {
+            Globals.Log("Leaving SongManager GUI ...");
+            Globals.Settings.SaveSettingsToFile(dgvSongsMaster);
         }
 
         private void LoadFilteredBindingList(dynamic list)
@@ -421,6 +349,77 @@ namespace CustomsForgeManager.UControls
             FilteredBindingList<SongData> fbl = new FilteredBindingList<SongData>(list);
             BindingSource bs = new BindingSource { DataSource = fbl };
             dgvSongsMaster.DataSource = bs;
+        }
+
+        private void LoadSongCollectionFromFile()
+        {
+            chkSubFolders.Checked = true;
+            masterSongCollection.Clear();
+            var songsInfoPath = Constants.SongsInfoPath;
+            // load songs into memory
+            try
+            {
+                bool correctVersion = File.Exists(songsInfoPath);
+                XmlDocument dom = new XmlDocument();
+                if (correctVersion)
+                {
+                    correctVersion = false;
+                    dom.Load(songsInfoPath);
+
+                    var listNode = dom["ArrayOfSongData"];
+                    if (listNode != null)
+                    {
+                        var versionNode = listNode["SongDataList"];
+                        if (versionNode != null)
+                        {
+                            if (versionNode.HasAttribute("version"))
+                                correctVersion = (versionNode.GetAttribute("version") == SongData.SongDataListCurrentVersion);
+                            listNode.RemoveChild(versionNode);
+                        }
+                    }
+
+                    if (correctVersion)
+                        masterSongCollection = UtilExtensions.XmlDeserialize<BindingList<SongData>>(listNode.OuterXml);
+                    else
+                        Globals.Log("New song collection version found, rescanning songs.");
+                }
+
+                // pop Arrangment DLCKey info
+                masterSongCollection.ToList().ForEach(a => { a.Arrangements2D.ToList().ForEach(arr => arr.Parent = a); });
+
+                Globals.SongCollection = masterSongCollection;
+                //  Globals.ReloadDuplicates = false;
+                //  Globals.ReloadRenamer = false;
+                //  Globals.ReloadSetlistManager = false;
+
+                //rescan should be called AFTER setting Globals.SongCollection
+                Rescan();
+
+                if (masterSongCollection == null || masterSongCollection.Count == 0)
+                    throw new SongCollectionException(masterSongCollection == null ? "Master Collection = null" : "Master Collection.Count = 0");
+
+                Globals.Log("Loaded song collection file ...");
+                PopulateDataGridView();
+            }
+            catch (Exception e)
+            {
+                // failsafe ... delete CFM folder files and start over
+                string err = e.Message;
+                if (e.InnerException != null)
+                    err += ", Inner: " + e.InnerException.Message;
+
+                Globals.Log("Error: " + e.Message);
+                // log needs to written before it is deleted ... Bazinga
+                Globals.Log("Deleted CFSM folder and subfolders from My Documents ...");
+
+                if (Directory.Exists(Constants.WorkDirectory))
+                    ZipUtilities.DeleteDirectory(Constants.WorkDirectory);
+
+                MessageBox.Show(string.Format("{0}{1}{1}The program will now shut down.", err, Environment.NewLine), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Environment.Exit(0);
+            }
+
+            var stophere = masterSongCollection;
         }
 
         private void PopulateDataGridView() // binding data to grid
@@ -1035,6 +1034,22 @@ namespace CustomsForgeManager.UControls
 
         }
 
+        private void chkSubFolders_MouseUp(object sender, MouseEventArgs e)
+        {
+            cueSearch.Text = String.Empty;
+
+            if (!chkSubFolders.Checked)
+            {
+                var results = masterSongCollection
+                    .Where(x => Path.GetFileName(Path.GetDirectoryName(x.Path)) == "dlc")
+                    .ToList();
+
+                LoadFilteredBindingList(results);
+            }
+            else
+                RemoveFilter();
+        }
+
         private void chkTheMover_CheckedChanged(object sender, EventArgs e)
         {
             if (dgvSongsMaster.DataSource == null)
@@ -1614,22 +1629,5 @@ namespace CustomsForgeManager.UControls
             LeaveSongManager();
             Globals.Settings.SaveSettingsToFile(dgvSongsMaster);
         }
-
-        private void chkSubFolders_CheckedChanged(object sender, EventArgs e)
-        {
-            cueSearch.Text = String.Empty;
-
-            if (!chkSubFolders.Checked)
-            {
-                var results = masterSongCollection
-                    .Where(x => Path.GetFileName(Path.GetDirectoryName(x.Path)) == "dlc")
-                    .ToList();
-
-                LoadFilteredBindingList(results);
-            }
-            else
-                RemoveFilter();
-        }
-
     }
 }

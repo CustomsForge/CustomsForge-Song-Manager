@@ -882,7 +882,7 @@ namespace CustomsForgeManager.UControls
             this.chkSubFolders.TabIndex = 49;
             this.chkSubFolders.Text = "Show Setlist Songs";
             this.chkSubFolders.UseVisualStyleBackColor = true;
-            this.chkSubFolders.CheckedChanged += new System.EventHandler(this.chkSubFolders_CheckedChanged);
+            this.chkSubFolders.MouseUp += new System.Windows.Forms.MouseEventHandler(this.chkSubFolders_MouseUp);
             // 
             // lnkClearSearch
             // 
