@@ -689,6 +689,9 @@ namespace CustomsForgeManager.UControls
                 x.SongYear.ToString().Contains(criteria) ||
                 x.Path.ToLower().Contains(lowerCriteria))).ToList();
 
+            if (!chkSubFolders.Checked)
+                results = results.Where(x => Path.GetFileName(Path.GetDirectoryName(x.Path)) == "dlc").ToList();
+
             LoadFilteredBindingList(results);
         }
 
@@ -1287,7 +1290,7 @@ namespace CustomsForgeManager.UControls
                     cell.ReadOnly = true;
                 }
 
-            if (e.ColumnIndex == colBass.Index || e.ColumnIndex == colVocals.Index || e.ColumnIndex == colLead.Index || e.ColumnIndex == colRhythm.Index)
+                if (e.ColumnIndex == colBass.Index || e.ColumnIndex == colVocals.Index || e.ColumnIndex == colLead.Index || e.ColumnIndex == colRhythm.Index)
                 {
                     string arrInit = song.Arrangements.ToUpper();
 
@@ -1603,6 +1606,20 @@ namespace CustomsForgeManager.UControls
             LeaveSongManager();
             Globals.Settings.SaveSettingsToFile(dgvSongsMaster);
 
+        }
+
+        private void chkSubFolders_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!chkSubFolders.Checked)
+            {
+                var results = masterSongCollection
+                    .Where(x => Path.GetFileName(Path.GetDirectoryName(x.Path)) == "dlc")
+                    .ToList();
+
+                LoadFilteredBindingList(results);
+            }
+            else
+                RemoveFilter();
         }
 
     }
