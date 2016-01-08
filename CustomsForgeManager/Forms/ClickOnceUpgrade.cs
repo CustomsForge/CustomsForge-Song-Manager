@@ -15,16 +15,16 @@ namespace CustomsForgeManager.Forms
     public partial class ClickOnceUpgrade : Form
     {
 #if RELEASE
-        const string UpdateURL = "http://app.customsforge.com/release";
-#else
-        const string UpdateURL = "http://appdev.cfmanager.com/beta";
-#endif
+
+        const string UpdateURL = "http://appdev.cfmanager.com/release";
         const string SetupURL = UpdateURL + "/CFSMSetup.exe";
 
         public ClickOnceUpgrade()
         {
             InitializeComponent();
+            this.button1.Click += new System.EventHandler(this.button1_Click);
         }
+        
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -44,5 +44,13 @@ namespace CustomsForgeManager.Forms
 
             Environment.Exit(0);
         }
+
+       
+#else
+        public ClickOnceUpgrade()
+        {
+            InitializeComponent();
+        }
+#endif
     }
 }

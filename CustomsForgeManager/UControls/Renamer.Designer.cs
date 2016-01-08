@@ -47,6 +47,7 @@
             this.chkTheMover = new System.Windows.Forms.CheckBox();
             this.chkRemoveSpaces = new System.Windows.Forms.CheckBox();
             this.btnPreview = new System.Windows.Forms.Button();
+            this.lblWarning = new System.Windows.Forms.Label();
             this.propertiesGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRenamer)).BeginInit();
             this.howToGroupBox.SuspendLayout();
@@ -55,10 +56,11 @@
             // 
             // propertiesGroupBox
             // 
-            this.propertiesGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.propertiesGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.propertiesGroupBox.BackColor = System.Drawing.Color.Transparent;
+            this.propertiesGroupBox.Controls.Add(this.lblWarning);
             this.propertiesGroupBox.Controls.Add(this.dgvRenamer);
             this.propertiesGroupBox.Location = new System.Drawing.Point(431, 62);
             this.propertiesGroupBox.Name = "propertiesGroupBox";
@@ -90,9 +92,9 @@
             // 
             // howToGroupBox
             // 
-            this.howToGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.howToGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.howToGroupBox.BackColor = System.Drawing.Color.Transparent;
             this.howToGroupBox.Controls.Add(this.lblHeader);
             this.howToGroupBox.Controls.Add(this.lblInstructions);
@@ -106,26 +108,25 @@
             // 
             // lblHeader
             // 
-            this.lblHeader.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblHeader.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.lblHeader.AutoSize = true;
             this.lblHeader.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblHeader.Location = new System.Drawing.Point(10, 26);
             this.lblHeader.Name = "lblHeader";
-            this.lblHeader.Size = new System.Drawing.Size(346, 48);
+            this.lblHeader.Size = new System.Drawing.Size(346, 112);
             this.lblHeader.TabIndex = 2;
-            this.lblHeader.Text = "Type the property Key surrounded by \'<\' and \'>\'.  \r\nor simply double click on any" +
-    " Key to the right to\r\nselect and build a custom renaming template.\r\n";
+            this.lblHeader.Text = resources.GetString("lblHeader.Text");
             // 
             // lblInstructions
             // 
-            this.lblInstructions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblInstructions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.lblInstructions.AutoSize = true;
-            this.lblInstructions.Location = new System.Drawing.Point(10, 96);
+            this.lblInstructions.Location = new System.Drawing.Point(10, 147);
             this.lblInstructions.Name = "lblInstructions";
             this.lblInstructions.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.lblInstructions.Size = new System.Drawing.Size(335, 221);
+            this.lblInstructions.Size = new System.Drawing.Size(335, 169);
             this.lblInstructions.TabIndex = 1;
             this.lblInstructions.Text = resources.GetString("lblInstructions.Text");
             // 
@@ -255,6 +256,23 @@
             this.btnPreview.UseVisualStyleBackColor = true;
             this.btnPreview.Click += new System.EventHandler(this.btnPreview_Click);
             // 
+            // lblWarning
+            // 
+            this.lblWarning.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.lblWarning.AutoSize = true;
+            this.lblWarning.BackColor = System.Drawing.Color.Transparent;
+            this.lblWarning.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblWarning.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblWarning.ForeColor = System.Drawing.Color.Red;
+            this.lblWarning.Location = new System.Drawing.Point(135, 308);
+            this.lblWarning.Name = "lblWarning";
+            this.lblWarning.Padding = new System.Windows.Forms.Padding(10);
+            this.lblWarning.Size = new System.Drawing.Size(297, 97);
+            this.lblWarning.TabIndex = 4;
+            this.lblWarning.Text = "WARNING ... CFSM can ruin your \r\nCDLC collection if not used properly.\r\n\r\nPlease " +
+                "make a back up of your CDLC until\r\nyou get the hang of how Renamer works.";
+            this.lblWarning.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // Renamer
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -274,6 +292,7 @@
             this.Name = "Renamer";
             this.Size = new System.Drawing.Size(990, 490);
             this.propertiesGroupBox.ResumeLayout(false);
+            this.propertiesGroupBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRenamer)).EndInit();
             this.howToGroupBox.ResumeLayout(false);
             this.howToGroupBox.PerformLayout();
@@ -304,5 +323,6 @@
         private System.Windows.Forms.CheckBox chkTheMover;
         private System.Windows.Forms.CheckBox chkRemoveSpaces;
         private System.Windows.Forms.Button btnPreview;
+        private System.Windows.Forms.Label lblWarning;
     }
 }

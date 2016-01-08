@@ -5,8 +5,8 @@ using System.Drawing;
 using System.Linq;
 using CustomsForgeManager.CustomsForgeManagerLib.Objects;
 using System.Windows.Forms;
-using RocksmithToolkitLib.DLCPackage;
-using RocksmithToolkitLib.PSARC;
+using CFSM.Utils.PSARC;
+
 
 namespace CustomsForgeManager.SongEditor
 {

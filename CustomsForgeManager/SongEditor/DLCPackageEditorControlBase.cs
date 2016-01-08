@@ -25,7 +25,7 @@ namespace CustomsForgeManager.SongEditor
         public virtual bool Dirty { get; set; }
         public virtual void Save() { Dirty = false; }
 
-        public virtual bool AfterSave(RocksmithToolkitLib.PSARC.PSARC packagePath) { Dirty = false; return false; }
+        public virtual bool AfterSave(CFSM.Utils.PSARC.PSARC packagePath) { Dirty = false; return false; }
         public virtual bool NeedsAfterSave() { return false; }
 
         public virtual void DoInit() { }

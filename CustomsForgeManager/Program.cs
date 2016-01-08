@@ -2,11 +2,12 @@
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
+using CustomsForgeManager.CustomsForgeManagerLib;
 using CustomsForgeManager.CustomsForgeManagerLib.Objects;
 using CustomsForgeManager.Forms;
 using DLogNet;
 using System.Linq;
-using CustomsForgeManager.CustomsForgeManagerLib;
+using CFSM.Utils;
 #if WINDOWS
 using Mutex = System.Threading.Mutex;
 #else
@@ -24,12 +25,15 @@ namespace CustomsForgeManager
         [STAThread]
         private static void Main()
         {
+            // must come first if it is used
+            Application.SetCompatibleTextRenderingDefault(false);
+
             // prevent multiple occurrence of this application from running
             // using a global mutex for the installer
             using (Mutex mutex = new Mutex(false, @"Global\CUSTOMSFORGESONGMANAGER"))
             {
                 if (!mutex.WaitOne(0, false))
-                {                    
+                {
                     var pHandle = CrossPlatform.GetHandleFromProcessName(Application.ExecutablePath);
                     if (pHandle != IntPtr.Zero)
                     {
@@ -46,7 +50,7 @@ namespace CustomsForgeManager
 
 
                 if (RemoveGridSettings())
-                    File.Delete(Constants.GridSettingsPath);
+                    ZipUtilities.DeleteDirectory(Constants.GridSettingsDirectory);
 
                 RunApp();
             }
@@ -55,25 +59,25 @@ namespace CustomsForgeManager
 
         private static void RunApp()
         {
-#if RELEASE
+            // TODO: RunApp() seems very redundant ... please comment code
+#if WEBDEPLOY_RELEASE
             if (System.Deployment.Application.ApplicationDeployment.IsNetworkDeployed)
             {
-
                 Application.EnableVisualStyles();
-                Application.SetCompatibleTextRenderingDefault(false);
+               // Application.SetCompatibleTextRenderingDefault(false);
                 Application.Run(new ClickOnceUpgrade());
             }
             else
 #endif
             {
-
                 DLogger myLog = new DLogger();
                 myLog.AddTargetFile(AppSettings.Instance.LogFilePath);
 
                 if (Constants.DebugMode)// have VS handle the exception
                 {
                     Application.EnableVisualStyles();
-                    Application.SetCompatibleTextRenderingDefault(false);
+                    // this is throwing an error so commented out and moved
+                    //  Application.SetCompatibleTextRenderingDefault(false);
                     Application.Run(new frmMain(myLog));
                 }
                 else
@@ -81,7 +85,7 @@ namespace CustomsForgeManager
                     try
                     {
                         Application.EnableVisualStyles();
-                        Application.SetCompatibleTextRenderingDefault(false);
+                        // Application.SetCompatibleTextRenderingDefault(false);
                         Application.Run(new frmMain(myLog));
                     }
                     catch (Exception ex)
@@ -101,6 +105,10 @@ namespace CustomsForgeManager
         {
             if (!File.Exists(Constants.GridSettingsPath))
                 return false;
+
+            if (String.IsNullOrEmpty(Globals.DgvCurrent.Name))
+                return false;
+
             using (var fs = File.OpenRead(Constants.GridSettingsPath))
             {
                 try
@@ -118,6 +126,6 @@ namespace CustomsForgeManager
             }
             return false;
         }
-        
+
     }
 }

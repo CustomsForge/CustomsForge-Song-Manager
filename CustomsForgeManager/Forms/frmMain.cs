@@ -3,17 +3,18 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using System.Reflection;
+using System.Windows.Forms.Design;
 using CustomsForgeManager.CustomsForgeManagerLib.Objects;
 using System.Linq;
 using System.Text;
 using CustomsForgeManager.CustomsForgeManagerLib;
 using System.Collections.Generic;
-using CFMAudioTools;
+using CFSM.Utils;
 
 
 namespace CustomsForgeManager.Forms
 {
-    public partial class frmMain : Form, IMainForm, IThemeListener
+    public partial class frmMain : Form, IMainForm//,ThemedForm
     {
         private static Point UCLocation = new Point(5, 10);
         private static Size UCSize = new Size(990, 490);
@@ -22,39 +23,37 @@ namespace CustomsForgeManager.Forms
         public frmMain(DLogNet.DLogger myLog)
         {
             InitializeComponent();
-            CheckScreenResolution();
+            //this will initialize classes that need to be initialized right away.
+            UtilExtensions.InitializeClasses(new string[] { "UTILS_INIT", "CFSM_INIT" }, new Type[] { }, new object[] { });
 
             // prevent toolstrip from growing/changing at runtime
             // toolstrip may appear changed in design mode (this is a known VS bug)
             TopToolStripPanel.MaximumSize = new Size(0, 28); // force height and makes tsLable_Tagger positioning work
             tsUtilities.AutoSize = false; // a key to preventing movement
-            tsTagger.AutoSize = false; // a key to preventing movement
+            tsAudioPlayer.AutoSize = false; // a key to preventing movement
             tsUtilities.Location = new Point(0, 0); // force location
-            tsTagger.Location = new Point(tsUtilities.Width + 10, 0); // force location
-            
+            tsAudioPlayer.Location = new Point(tsUtilities.Width + 20, 0); // force location
 
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);
-            
-            //FormClosing is already declared in the designer, therefore it's being called twice...
-            //this.FormClosing += frmMain_FormClosing;
 
-            this.FormClosed += frmMain_FormClosed; // moved here for better access
             // gets rid of notifier icon on closing
             this.FormClosed += delegate
                 {
+                    Globals.MyLog.RemoveTargetNotifyIcon(Globals.Notifier);
                     notifyIcon_Main.Visible = false;
                     notifyIcon_Main.Dispose();
-                    notifyIcon_Main = null;
+                    notifyIcon_Main.Icon = null;
+                    Dispose();
                 };
+
+            var strFormatVersion = "{0} (v{1})";
 #if BETA
+            strFormatVersion = "{0} (v{1} - BETA VERSION)";
+#endif
 #if DEBUG
-            var stringVersion = String.Format("{0} (v{1} - DEBUG)", Constants.ApplicationName, Constants.CustomVersion());
-#else
-            var stringVersion = String.Format("{0} (v{1} - BETA VERSION)", Constants.ApplicationName, Constants.CustomVersion());            
+            strFormatVersion = "{0} (v{1} - DEBUG)";
 #endif
-#else
-            var stringVersion = String.Format("{0} (v{1})", Constants.ApplicationName, Constants.CustomVersion());
-#endif
+            var stringVersion = String.Format(strFormatVersion, Constants.ApplicationName, Constants.CustomVersion());
             this.Text = stringVersion;
             // bring CFM to the front on startup
             this.WindowState = FormWindowState.Minimized;
@@ -67,10 +66,9 @@ namespace CustomsForgeManager.Forms
             Globals.TsLabel_StatusMsg = this.tsLabel_StatusMsg;
             Globals.TsLabel_DisabledCounter = this.tsLabel_DisabledCounter;
             Globals.TsLabel_Cancel = this.tsLabel_Cancel;
-            Globals.TsComboBox_TaggerThemes = this.tscbTaggerThemes;
             Globals.ResetToolStripGlobals();
             Globals.MyLog.AddTargetTextBox(tbLog);
-        //    Globals.CFMTheme.AddListener(this);
+            //    Globals.CFMTheme.AddListener(this);
 
             Globals.OnScanEvent += (s, e) =>
                 {
@@ -90,11 +88,11 @@ namespace CustomsForgeManager.Forms
             Globals.Log(GetRSTKLibVersion());
 
             // load settings
-            Globals.Settings.LoadSettingsFromFile();
+            Globals.Settings.LoadSettingsFromFile(Globals.DgvCurrent);
 
             if (AppSettings.Instance.ShowLogWindow)
             {
-                tsLabel_ShowHideLog.Text = "Hide Log ";
+                tsLabel_ShowHideLog.Text = CustomsForgeManager.Properties.Resources.HideLog;
                 scMain.Panel2Collapsed = false;
             }
 
@@ -103,7 +101,8 @@ namespace CustomsForgeManager.Forms
                     if (e.PropertyName == "ShowLogWindow")
                     {
                         scMain.Panel2Collapsed = !AppSettings.Instance.ShowLogWindow;
-                        tsLabel_ShowHideLog.Text = scMain.Panel2Collapsed ? "Show Log" : "Hide Log ";
+                        tsLabel_ShowHideLog.Text = scMain.Panel2Collapsed ?
+                            Properties.Resources.ShowLog : Properties.Resources.HideLog;
                     }
                 };
 
@@ -116,26 +115,7 @@ namespace CustomsForgeManager.Forms
             else
                 Globals.MyLog.RemoveTargetNotifyIcon(Globals.Notifier);
 
-#if !TAGGER
-            toolstripTagger.Visible = false;
-#else
-            tsTagger.Visible = true;
-            tsButtonTagSelected.Click += tsButtonTagSelected_Click;
-            tsButtonUntagSelection.Click += tsButtonUntagSelection_Click;
-
-            tscbTaggerThemes.Items.AddRange(Globals.Tagger.Themes.ToArray());
-            tscbTaggerThemes.SelectedIndex = 0;
-
-            if (!String.IsNullOrEmpty(Globals.Tagger.ThemeName))
-               tscbTaggerThemes.SelectedItem = Globals.Tagger.ThemeName;
-            tscbTaggerThemes.SelectedIndexChanged += (s, e) =>
-                {
-                    if (tscbTaggerThemes.SelectedItem != null)
-                        Globals.Tagger.ThemeName = tscbTaggerThemes.SelectedItem.ToString();
-                };
-#endif
-
-
+            tsAudioPlayer.Visible = true;
             // load Song Manager Tab
             LoadSongManager();
 
@@ -149,9 +129,8 @@ namespace CustomsForgeManager.Forms
 
         private string GetRSTKLibVersion()
         {
-            Assembly assembly = Assembly.LoadFrom("RocksmithToolkitLib.dll");
-            Version ver = assembly.GetName().Version;
-            return String.Format("RocksmithToolkitLib Version: {0}", ver);
+            return String.Format("RocksmithToolkitLib Version: {0}",
+                Assembly.LoadFrom("RocksmithToolkitLib.dll").GetName().Version);
         }
 
         private void LoadSongManager()
@@ -189,15 +168,6 @@ namespace CustomsForgeManager.Forms
             AppSettings.Instance.ShowLogWindow = !AppSettings.Instance.ShowLogWindow;
         }
 
-        private void frmMain_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            // get rid of leftover notifications
-            Globals.MyLog.RemoveTargetNotifyIcon(Globals.Notifier);
-            notifyIcon_Main.Visible = false;
-            notifyIcon_Main.Dispose();
-            notifyIcon_Main.Icon = null;
-            Dispose();
-        }
 
         private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -216,8 +186,16 @@ namespace CustomsForgeManager.Forms
                 return;
             }
 
-            Globals.SongManager.LeaveSongManager();
-            Globals.Settings.SaveSettingsToFile();
+            if (AppSettings.Instance.CleanOnClosing)
+            {
+                if (Directory.Exists(Constants.CpeWorkDirectory))
+                    ZipUtilities.DeleteDirectory(Constants.CpeWorkDirectory);
+
+                if (Directory.Exists(Constants.AudioCacheDirectory))
+                    ZipUtilities.DeleteDirectory(Constants.AudioCacheDirectory);
+            }
+
+            Globals.Settings.SaveSettingsToFile(Globals.DgvCurrent);
             Globals.SongManager.SaveSongCollectionToFile();
         }
 
@@ -238,30 +216,42 @@ namespace CustomsForgeManager.Forms
                     tstripContainer.BottomToolStripPanelVisible = tstripContainer.TopToolStripPanelVisible;
                     e.Handled = true;
                     break;
+                case Keys.F9:
+                    using (ThemeDesigner ts = new ThemeDesigner())
+                        ts.ShowDialog();
+                    e.Handled = true;
+                    break;
             }
         }
 
         private void tcMain_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // Docking.Fill causes screen flicker so only use if needed
-            // reset toolstrip labels
+            // reset toolstrip globals
             Globals.ResetToolStripGlobals();
+
+            // quick fix ... visible on when Song Manager is active
+            // avoids playback issues when other tabs are active 
+            if (tcMain.SelectedIndex != 0)
+            {
+                Globals.AudioEngine.Stop();
+                tsAudioPlayer.Visible = false;
+            }
+            else
+                tsAudioPlayer.Visible = true;
 
             if (currentControl != null)
                 if (currentControl is INotifyTabChanged)
                     (currentControl as INotifyTabChanged).TabLeave();
 
-
-            // get first four charters from tab control text
-            switch (tcMain.SelectedTab.Text.Substring(0, 4).ToUpper())
+            switch (tcMain.SelectedTab.Text)
             {
                 // passing variables(objects) by value to UControl
-                case "SONG":
+                case "Song Manager":
                     LoadSongManager();
                     Globals.SongManager.UpdateToolStrip();
                     currentControl = Globals.SongManager;
                     break;
-                case "DUPL":
+                case "Duplicates":
                     this.tpDuplicates.Controls.Clear();
                     this.tpDuplicates.Controls.Add(Globals.Duplicates);
                     Globals.Duplicates.Dock = DockStyle.Fill;
@@ -270,15 +260,16 @@ namespace CustomsForgeManager.Forms
                     Globals.Duplicates.Size = UCSize;
                     currentControl = Globals.Duplicates;
                     break;
-                case "RENA":
+                case "Renamer":
                     this.tpRenamer.Controls.Clear();
                     this.tpRenamer.Controls.Add(Globals.Renamer);
+                    Globals.Renamer.Dock = DockStyle.Fill;
                     Globals.Renamer.UpdateToolStrip();
                     Globals.Renamer.Location = UCLocation;
                     Globals.Renamer.Size = UCSize;
                     currentControl = Globals.Renamer;
                     break;
-                case "SETL":
+                case "Setlist Manager":
                     this.tpSetlistManager.Controls.Clear();
                     this.tpSetlistManager.Controls.Add(Globals.SetlistManager);
                     Globals.SetlistManager.Dock = DockStyle.Fill;
@@ -287,20 +278,25 @@ namespace CustomsForgeManager.Forms
                     Globals.SetlistManager.Size = UCSize;
                     currentControl = Globals.SetlistManager;
                     break;
-                case "SETT":
-                    // using LeaveSongManager instead of EH SongMangager_Leave
-                    Globals.SongManager.LeaveSongManager();
+                case "Song Packs":
+                    this.tpSongPacks.Controls.Clear();
+                    this.tpSongPacks.Controls.Add(Globals.SongPacks);
+                    Globals.SongPacks.Dock = DockStyle.Fill;
+                    Globals.SongPacks.UpdateToolStrip();
+                    Globals.SongPacks.Location = UCLocation;
+                    Globals.SongPacks.Size = UCSize;
+                    currentControl = Globals.SongPacks;
+                    break;
+                case "Settings":
                     this.tpSettings.Controls.Clear();
                     this.tpSettings.Controls.Add(Globals.Settings);
                     Globals.Settings.Dock = DockStyle.Fill;
-                    // TODO: auto detect column width and visibility changes and use conditional check    
-                    // done everytime in case user changes column width or visibility
-                    Globals.Settings.PopulateSettings();
+                    Globals.Settings.PopulateSettings(Globals.DgvCurrent);
                     Globals.Settings.Location = UCLocation;
                     Globals.Settings.Size = UCSize;
                     currentControl = Globals.Settings;
                     break;
-                case "ABOU":
+                case "About":
                     if (!tpAbout.Controls.Contains(tpAbout))
                         tpAbout.Controls.Add(Globals.About);
                     Globals.About.Location = UCLocation;
@@ -356,58 +352,8 @@ namespace CustomsForgeManager.Forms
         private void tsLabelShowHideLog_Click(object sender, EventArgs e)
         {
             ShowHideLog();
-        }     
-
-#if TAGGER
-        private void TaggerProgress(object sender, TaggerProgress e)
-        {
-            tsProgressBar_Main.Value = e.Progress;
-            Application.DoEvents();
         }
 
-        private void tsButtonTagSelected_Click(object sender, EventArgs e)
-        {
-            // uncommented code so this would work 
-            var selection = Globals.SongManager.GetSelectedSongs(); //.Where(sd => sd.Tagged == false);
-
-            if (selection.Count > 0)
-            {
-                Globals.Tagger.OnProgress += TaggerProgress;
-                try
-                {
-                    Globals.Tagger.TagSongs(selection.ToArray());
-                }
-                finally
-                {
-                    Globals.Tagger.OnProgress -= TaggerProgress;
-                    // force dgvSongsMaster data to refresh after Tagging
-                    Globals.SongManager.GetGrid().Invalidate();
-                    Globals.SongManager.GetGrid().Refresh();
-                }
-            }
-        }
-
-        private void tsButtonUntagSelection_Click(object sender, EventArgs e)
-        {
-            var selection = Globals.SongManager.GetSelectedSongs(); //.Where(sd => sd.Tagged);
-
-            if (selection.Count > 0)
-            {
-                Globals.Tagger.OnProgress += TaggerProgress;
-                try
-                {
-                    Globals.Tagger.UntagSongs(selection.ToArray());
-                }
-                finally
-                {
-                    Globals.Tagger.OnProgress -= TaggerProgress;
-                    // force dgvSongsMaster data to refresh after Untagging
-                    Globals.SongManager.GetGrid().Invalidate();
-                    Globals.SongManager.GetGrid().Refresh();
-                }
-            }
-        }
-#endif
 
         private void frmMain_Load(object sender, EventArgs e)
         {
@@ -683,73 +629,63 @@ namespace CustomsForgeManager.Forms
             }
         }
 
-        private void CheckScreenResolution()
-        {
-            // for testing ... well that didn't go well :)
-            // 1920 x 1080 30% of steam users
-
-            // advise users of prefered app screen resolution on First Run, it is understood that
-            // long term it is better not to have a prefered app resolution but for now this may be it 
-            AppSettings appSettings = AppSettings.Instance;
-            if (File.Exists(Constants.SettingsPath))
-                appSettings = Extensions.LoadFromFile<AppSettings>(Constants.SettingsPath);
-
-            if (String.IsNullOrEmpty(appSettings.FirstRun))
-            {
-                //var screenHeight = Screen.PrimaryScreen.Bounds.Height;
-                //var screenWidth = Screen.PrimaryScreen.Bounds.Width;
-
-                //if (screenWidth != 1024 || screenHeight != 768)
-                //{
-                //    var msg = String.Format("Current screen resolution is: {0}x{1}", screenWidth, screenHeight) + Environment.NewLine;
-                //    msg += "Try running CFSM in 1024 x 768 resolution" + Environment.NewLine ;
-                //    msg += "if the GUI display looks out of whack.";
-                //    MessageBox.Show(msg, "Application Info ...", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                //}
-
-                appSettings.FirstRun = "false";
-                // saving is done elsewhere so not needed here
-                // Extensions.SaveToFile(Constants.SettingsPath, appSettings);
-                // or this way
-                // var dom = appSettings.XmlSerializeToDom();
-                // dom.Save(Constants.SettingsPath);
-            }
-        }
-
         private void tsbPlay_Click(object sender, EventArgs e)
         {
             if (Globals.AudioEngine.IsPaused() || Globals.AudioEngine.IsPlaying())
+            {
+                if (Globals.AudioEngine.IsPlaying())
+                    Globals.Log("Playback Paused ...");
+                else
+                    Globals.Log("Playback Unpaused ...");
+
                 Globals.AudioEngine.Pause();
+            }
             else
+            {
+                Globals.Log("Playback Started ...");
                 Globals.SongManager.PlaySelectedSong();
+            }
+
             timerAudioProgress.Enabled = (Globals.AudioEngine.IsPlaying());
         }
 
-
         private void timerAudioProgress_Tick(object sender, EventArgs e)
         {
+            tslblTimer.Text = Globals.AudioEngine.GetSongPosition();
             tspbAudioPosition.Value = Globals.AudioEngine.GetSongCompletedPercentage();
+            tsAudioPlayer.Refresh();
         }
 
         private void tsbStop_Click(object sender, EventArgs e)
         {
+            tslblTimer.Text = "00:00";
+            tspbAudioPosition.Value = 0;
+            Globals.Log("Playback Stopped ...");
             Globals.AudioEngine.Stop();
             timerAudioProgress.Enabled = (Globals.AudioEngine.IsPlaying());
         }
 
         private void tspbAudioPosition_MouseDown(object sender, MouseEventArgs e)
         {
+
+            if (!Globals.AudioEngine.IsPlaying())
+            {
+                Globals.SongManager.PlaySelectedSong();
+                timerAudioProgress.Enabled = (Globals.AudioEngine.IsPlaying());
+            }
+
             if (Globals.AudioEngine.IsLoaded())
             {
+                Globals.Log("Playback Seeking ...");
                 var pos = (float)e.Location.X / (float)tspbAudioPosition.Width;
                 Globals.AudioEngine.Seek(pos * Globals.AudioEngine.GetSongLength());
             }
         }
 
 
-        public void ApplyTheme(Theme sender)
+        public Control GetControl()
         {
-            //var gs = sender.SpecificThemeSetting<DataGridThemeSetting>();
+            return this;
         }
     }
 }

@@ -1,0 +1,5 @@
+Orange - Lead + white stripe = bonus Lead
+Green  - Rhythm + white stripe = bonus Rhythm
+Blue - Bass + white stripe = bonus Bass
+C = indicates custom
++DD/white band around tag = Dynamic Difficulty

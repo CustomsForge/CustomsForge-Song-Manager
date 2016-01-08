@@ -8,6 +8,7 @@ using DLogNet;
 using DataGridViewTools;
 using RocksmithToolkitLib;
 using System;
+using CustomsForgeManager.CustomsForgeManagerLib.UITheme;
 
 
 namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
@@ -37,15 +38,16 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
 
         // application data variables
         private static About _about;
-        private static DataGridView _dgvSongs;
+        private static DataGridView _dgvCurrent;
         private static Duplicates _duplicates;
         private static Dictionary<string, SongData> _outdatedSongList;
         private static Renamer _renamer;
-        private static SetlistManager _SetlistManager;
+        private static SetlistManager _setlistManager;
+        private static SongPacks _songPacks;
         private static Settings _settings;
         private static BindingList<SongData> _songCollection;
         private static SongManager _songManager;
-        private static Theme _theme;
+        private static DF.WinForms.ThemeLib.Theme _theme;
  		private static SongTagger _tagger;
 
 
@@ -73,7 +75,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
             get { return CFMAudioTools.AudioEngine.GetDefaultEngine(); }
         }
 
-        public static Theme CFMTheme { get { return _theme ?? (_theme = new Theme()); ; } set { _theme = value; } }
+        public static DF.WinForms.ThemeLib.Theme CFMTheme { get { return _theme ?? (_theme = new CFSMTheme()); ; } set { _theme = value; } }
  
  
         public static About About
@@ -82,11 +84,10 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
             set { _about = value; }
         }
 
-
-        public static DataGridView DgvSongs
+        public static DataGridView DgvCurrent
         {
-            get { return _dgvSongs ?? (_dgvSongs = new DataGridView()); }
-            set { _dgvSongs = value; }
+            get { return _dgvCurrent ?? (_dgvCurrent = new DataGridView()); }
+            set { _dgvCurrent = value; }
         }
 
         public static Duplicates Duplicates
@@ -97,7 +98,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
 
         public static List<TuningDefinition> TuningXml { get; set; }
         public static DLogger MyLog { get; set; }
-       // public static AppSettings MySettings { get; set; }
+        // public static AppSettings MySettings { get; set; }
         public static NotifyIcon Notifier { get; set; }
 
         public static Dictionary<string, SongData> OutdatedSongList
@@ -118,6 +119,12 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
             set { _tagger = value; }
         }
 #endif
+        public static SongPacks SongPacks
+        {
+            get { return _songPacks ?? (_songPacks = new SongPacks()); }
+            set { _songPacks = value; }
+        }
+
         public static bool RescanDuplicates { get; set; }
         public static bool RescanRenamer { get; set; }
         public static bool RescanSetlistManager { get; set; }
@@ -126,11 +133,12 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         public static bool ReloadRenamer { get; set; }
         public static bool ReloadSetlistManager { get; set; }
         public static bool ReloadSongManager { get; set; }
+        public static bool ReloadSongPacks { get; set; }
 
         public static SetlistManager SetlistManager
         {
-            get { return _SetlistManager ?? (_SetlistManager = new SetlistManager()); }
-            set { _SetlistManager = value; }
+            get { return _setlistManager ?? (_setlistManager = new SetlistManager()); }
+            set { _setlistManager = value; }
         }
 
         public static Settings Settings
@@ -158,7 +166,6 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
         public static ToolStripStatusLabel TsLabel_MainMsg { get; set; }
         public static ToolStripStatusLabel TsLabel_StatusMsg { get; set; }
         public static ToolStripProgressBar TsProgressBar_Main { get; set; }
-        public static ToolStripComboBox TsComboBox_TaggerThemes { get; set; }
 
 
         public static CustomsForgeManager.Forms.frmMain MainForm
@@ -166,14 +173,17 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
             get { return (CustomsForgeManager.Forms.frmMain)Application.OpenForms["frmMain"]; }
         }
 
-
+        public static IMainForm iMainForm
+        {
+            get { return (IMainForm)Application.OpenForms["frmMain"]; }
+        }
 
 
         public static Tristate WorkerFinished { get; set; } // True = 0, False = 1, Cancelled = 2
 
         public static void Log(string message)
         {
-             MyLog.Write(message);
+            MyLog.Write(message);
         }
 
         public static void DebugLog(string message)

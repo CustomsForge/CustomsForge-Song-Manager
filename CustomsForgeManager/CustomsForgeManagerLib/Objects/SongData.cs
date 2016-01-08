@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Xml.Serialization;
 using DataGridViewTools;
-using System.ComponentModel;
+using CFSM.Utils;
 
 
 namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
@@ -18,21 +17,57 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
         NotFound = 3
     }
 
+    public enum SongTaggerStatus : byte
+    {
+        [XmlEnum("0")]
+        False = 0,
+        [XmlEnum("1")]
+        True = 1,
+        [XmlEnum("2")]
+        ODLC = 2
+    }
+
     // only essential data needs to be saved to the XML songinfo file
     [Serializable]
     public class SongData : NotifyPropChangedBase
     {
         //version 2 : SongKey changed to DLCKey.
         //version 3 : removed DLCKey from arrangement
-        public const string SongDataListCurrentVersion = "3";
+        //version 4: changed tagged to SongTaggerStatus
+        public const string SongDataListCurrentVersion = "4";
 
         public string DLCKey { get; set; }
 
-        private bool FSelected;
+        // need this to be available for reloading
         [XmlIgnore]
-        public bool Selected {
-            get { return FSelected; }
-            set { SetPropertyField("Selected", ref FSelected, value); }
+        public bool FSelected { get; set; }
+
+        private string FCharter;
+
+        [XmlIgnore]
+        public bool Selected
+        {
+            get
+            {
+                // allow non dgvMasterSongs ODLC to be deleted/moved/selected
+                if (Globals.DgvCurrent.Name == "dgvMasterSongs")
+                return OfficialDLC ? false : FSelected;
+
+                return FSelected;
+            }
+            set
+            {
+                if (!OfficialDLC || Globals.DgvCurrent.Name != "dgvMasterSongs")
+                    FSelected = value; // SetPropertyField("Selected", ref FSelected, value);              
+                else
+                    FSelected = false;
+            }
+        }
+
+        [XmlIgnore]
+        public bool IsRsCompPack
+        {
+            get { return !String.IsNullOrEmpty(Path) && Path.Contains(Constants.RS1COMP); }
         }
 
         [XmlIgnore]
@@ -49,7 +84,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
             {
                 if (!String.IsNullOrEmpty(AppSettings.Instance.CreatorName) && !String.IsNullOrEmpty(Charter))
                 {
-                    string[] creatorNames = AppSettings.Instance.CreatorName.ToLower().Split(new char[] {';',','});
+                    string[] creatorNames = AppSettings.Instance.CreatorName.ToLower().Split(new char[] { ';', ',' });
                     return creatorNames.Any(z => z == Charter.ToLower());
                 }
                 return false;
@@ -57,7 +92,6 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
         }
 
         public string AudioCache { get; set; }
-
         public string Artist { get; set; }
         public string Title { get; set; }
         public string Album { get; set; }
@@ -67,6 +101,23 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
         public Single SongVolume { get; set; }
         public DateTime FileDate { get; set; }
         public int FileSize { get; set; }
+
+        public void UpdateFileInfo()
+        {
+            var fi = new FileInfo(Path);
+            FileDate = fi.LastWriteTimeUtc;
+            FileSize = (int)fi.Length;
+        }
+
+        public void Delete()
+        {
+            if (!String.IsNullOrEmpty(AudioCache) && File.Exists(AudioCache))
+                File.Delete(AudioCache);
+            AudioCache = "";
+            if (File.Exists(Path))
+                File.Delete(Path);
+        }
+
 
         // used by detail table
         [XmlArray("Arrangments")] // provides proper xml serialization
@@ -103,13 +154,37 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
                         result += "b";
                     if (arrangement.Contains("vocals"))
                         result += "V";
+                    if (arrangement.Contains("combo"))
+                        result += "C";
                 }
                 return result;
             }
         }
 
+        [XmlIgnore]
+        public bool OfficialDLC
+        {
+            get
+            {
+                return this.Tagged == SongTaggerStatus.ODLC;
+            }
+        }
 
-        public string Charter { get; set; }
+        public string Charter
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(FCharter))
+                {
+                    FCharter = "N/A";
+                    if (OfficialDLC)
+                        FCharter = "Ubisoft";
+                }
+                return FCharter;
+            }
+            set { SetPropertyField("Charter", ref FCharter, value); }
+        }
+
         public DateTime LastConversionDateTime { get; set; }
         public string Version { get; set; }
         public string ToolkitVer { get; set; }
@@ -119,7 +194,8 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
         public string IgnitionAuthor { get; set; }
         public string IgnitionVersion { get; set; }
         public string IgnitionUpdated { get; set; }
-        public bool Tagged { get; set; }
+
+        public SongTaggerStatus Tagged { get; set; }
 
         [XmlIgnore]
         public string ArtistTitleAlbum
@@ -132,6 +208,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
         public string Arrangements
         {
             get { return String.Join(", ", Arrangements2D.Select(o => o.Name)); }
+            set { }
         }
 
         [XmlIgnore]  // preserves old 1D display method
@@ -158,7 +235,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
         [XmlIgnore]
         public string PID { get; set; }
         [XmlIgnore]
-        public string ArrangementPID { get; set; }
+        public string PIDArrangement { get; set; }
     }
 
 
@@ -188,7 +265,6 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
 
         [XmlIgnore]
         public SongData Parent { get; set; }
-
         public string PersistentID { get; set; }
         public string Name { get; set; } // arrangement name
         public string Tuning { get; set; }

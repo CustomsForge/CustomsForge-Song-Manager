@@ -14,11 +14,19 @@ using System.ComponentModel;
 using System.Text.RegularExpressions;
 using System.Reflection;
 using System.Collections;
+using System.Diagnostics;
 
 namespace DataGridViewTools
 {
+
+
+    public interface IFilteredBindingList
+    {
+        IList GetOriginalList();
+    }
+
     // aka FilteredBindingList but better
-    public class FilteredBindingList<T> : BindingList<T>, IBindingListView
+    public class FilteredBindingList<T> : BindingList<T>, IBindingListView, IFilteredBindingList
     {
         public FilteredBindingList() { }
 
@@ -26,8 +34,7 @@ namespace DataGridViewTools
         public FilteredBindingList(IList<T> list)
             : base(list)
         {
-            foreach (var item in list)
-                originalListValue.Add(item);
+            originalListValue.AddRange(list);
         }
 
         private List<T> originalListValue = new List<T>();
@@ -36,6 +43,12 @@ namespace DataGridViewTools
             get
             { return originalListValue; }
         }
+
+        public IList GetOriginalList()
+        {
+            return originalListValue;
+        }
+
         #region Searching
 
         protected override bool SupportsSearchingCore
@@ -269,6 +282,9 @@ namespace DataGridViewTools
 
         private string filterValue = null;
 
+
+       
+
         public string Filter
         {
             get
@@ -281,11 +297,11 @@ namespace DataGridViewTools
 
                 // If the value is not null or empty, but doesn't
                 // match expected format, throw an exception.
-                if (!string.IsNullOrEmpty(value) &&
-                    !Regex.IsMatch(value,
-                    BuildRegExForFilterFormat(), RegexOptions.Singleline))
-                    throw new ArgumentException("Filter is not in " +
-                          "the format: propName[<>=]'value'.");
+                if (!string.IsNullOrEmpty(value) && !value.StartsWith("Expression:"))
+                    if (!value.Contains("LEN(ISNULL(CONVERT("))
+                        if (!Regex.IsMatch(value,
+                                BuildRegExForFilterFormat(), RegexOptions.Singleline))
+                            throw new ArgumentException("Filter is not in the format: propName[<>=]'value'.");
 
                 //Turn off list-changed events.
                 RaiseListChangedEvents = false;
@@ -301,7 +317,7 @@ namespace DataGridViewTools
 
                     while (count < matches.Length)
                     {
-                        string filterPart = matches[count].ToString();
+                        string filterPart = matches[count];
 
                         // Check to see if the filter was set previously.
                         // Also, check if current filter is a subset of 
@@ -309,11 +325,16 @@ namespace DataGridViewTools
                         if (!String.IsNullOrEmpty(filterValue)
                                 && !value.Contains(filterValue))
                             ResetList();
-
-                        // Parse and apply the filter.
-                        SingleFilterInfo filterInfo = ParseFilter(filterPart);
-                        ApplyFilter(filterInfo);
+                        else
+                        {
+                            // Parse and apply the filter.
+                            if (filterPart.StartsWith("Expression:"))
+                                ApplyFilter(filterPart.Remove(0, 11));
+                            else
+                                ApplyFilter(ParseFilter(filterPart));
+                        }
                         count++;
+
                     }
                 }
                 // Set the filter value and turn on list changed events.
@@ -360,10 +381,7 @@ namespace DataGridViewTools
             // is applied don't allow items to be added to the list.
             if (e.ListChangedType == ListChangedType.Reset)
             {
-                if (Filter == null || Filter == "")
-                    AllowNew = true;
-                else
-                    AllowNew = false;
+                    AllowNew = String.IsNullOrEmpty(Filter);
             }
             // Add the new item to the original list.
             if (e.ListChangedType == ListChangedType.ItemAdded)
@@ -384,10 +402,47 @@ namespace DataGridViewTools
             base.OnListChanged(e);
         }
 
+        private IEnumerable<string> GetSubStrings(string input, string start, string end)
+        {
+            Regex r = new Regex(string.Format("{0}(.*?){1}", Regex.Escape(start), Regex.Escape(end)));
+            MatchCollection matches = r.Matches(input);
+            foreach (Match match in matches)
+            yield return match.Groups[1].Value;
+        }
+
+        internal void ApplyFilter(string filterParts)
+        {
+            List<T> results = new List<T>();
+            foreach (T item in this)
+            {
+                try
+                {
+                    var e = new NCalc.Expression(filterParts.Trim());
+                    foreach (var s in GetSubStrings(filterParts, "[", "]"))
+                    {
+                        if (!e.Parameters.ContainsKey(s))
+                        {
+                            var p = typeof(T).GetProperty(s);
+                            if (p != null)
+                                e.Parameters.Add(p.Name, p.GetValue(item, new object[] { }));
+                        }
+                    }
+                    if (Convert.ToBoolean(e.Evaluate()))
+                        results.Add(item);
+                }
+                catch
+                {
+                    continue;
+                }
+            }
+            this.ClearItems();
+            foreach (T itemFound in results)
+                this.Add(itemFound);       
+        }
+
 
         internal void ApplyFilter(SingleFilterInfo filterParts)
         {
-            List<T> results;
 
             // Check to see if the property type we are filtering by implements
             // the IComparable interface.
@@ -399,7 +454,7 @@ namespace DataGridViewTools
                 throw new InvalidOperationException("Filtered property" +
                 " must implement IComparable.");
 
-            results = new List<T>();
+         	List<T> results = new List<T>();
 
             // Check each value and add to the results list.
             foreach (T item in this)
@@ -429,14 +484,20 @@ namespace DataGridViewTools
         internal SingleFilterInfo ParseFilter(string filterPart)
         {
             SingleFilterInfo filterInfo = new SingleFilterInfo();
+
             filterInfo.OperatorValue = DetermineFilterOperator(filterPart);
 
             string[] filterStringParts =
                 filterPart.Split(new char[] { (char)filterInfo.OperatorValue });
 
-            filterInfo.PropName =
-                filterStringParts[0].Replace("[", "").
-                Replace("]", "").Replace(" AND ", "").Trim();
+            // fix for Empty and Not Empty
+            // LEN(ISNULL(CONVERT([ToolkitVer],'System.String'),'')) 
+
+            filterInfo.PropName = filterStringParts[0].Replace("[", "")
+                .Replace("]", "").Replace(" AND ", "")
+                .Replace("LEN(ISNULL(CONVERT(", "")
+                .Replace(",'System.String'),''))", "")
+                .Trim();
 
             // Get the property descriptor for the filter property name.
             PropertyDescriptor filterPropDesc =

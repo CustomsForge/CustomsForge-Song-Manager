@@ -4,7 +4,7 @@ namespace RocksmithToolkitLib
 {
     public static class ToolkitVersion
     {
-        public static string commit = "c0d65deb";
+        public static string commit = "c0d65deb[CFSM]";
         public static string version
         {
             get

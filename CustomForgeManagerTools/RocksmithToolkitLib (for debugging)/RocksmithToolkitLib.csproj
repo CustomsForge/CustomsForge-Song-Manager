@@ -287,6 +287,10 @@
       <Project>{6D8C3FE6-5855-4B6C-BD2B-51954342DBEE}</Project>
       <Name>CFMAudioTools</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CFMImageTools\CFMImageTools.csproj">
+      <Project>{e6565985-c477-46f4-8a42-08e04cd40b65}</Project>
+      <Name>CFMImageTools</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

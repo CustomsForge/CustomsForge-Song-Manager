@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style type="text/css">
+        .Element {
+            color: #0066FF;
+        }
+        .AttName {
+            color: #FF0000;
+        }
+        
+        .auto-style1 {
+            color: #00CC00;
+        }
+        
+    </style>
+</head>
+<body>
+
+    <h1>
+        Tagging Songs</h1>
+    <p>
+        Tagging songs allows you to add custom image layers to a CDLC albums artwork. This will only work for CDLC and not official DLC. Tagging requires a &quot;Tagging Theme&quot;, which can be created a couple of different ways. The first (Folder Theme) way is to create some png images and put them in a folder, all images need a specific name and it needs a preview png in the root folder. Both theme types have to be placed in &quot;<em>Documents\CFSM\Tagger\templates</em>&quot;</p>
+    <h3>
+        Folder Themes:</h3>
+    <ul>
+        <li><span class="auto-style1">%THEMENAME%</span><strong>prev</strong>.png (goes in the root folder)</li>
+        <li><span class="auto-style1">%THEMENAME%</span>\<strong>Background.png</strong></li>
+        <li><span class="auto-style1">%THEMENAME%</span>\<strong>Bass.png</strong></li>
+        <li><span class="auto-style1">%THEMENAME%</span>\<strong>Custom.png</strong></li>
+        <li><span class="auto-style1">%THEMENAME%</span>\<strong>Lead.png</strong></li>
+        <li><span class="auto-style1">%THEMENAME%</span>\<strong>Lead Bonus.png</strong></li>
+        <li><span class="auto-style1">%THEMENAME%</span>\<strong>Rhythm.png</strong></li>
+        <li><span class="auto-style1">%THEMENAME%</span>\<strong>Rhythm Bonus.png</strong></li>
+        <li><span class="auto-style1">%THEMENAME%</span>\<strong>Vocal.png</strong></li>
+        <li><span class="auto-style1">%THEMENAME%</span>\<strong>DD.png</strong></li>
+        <li><span class="auto-style1">%THEMENAME%</span>\<strong>info.txt</strong></li>
+    </ul>
+    <p>
+        &nbsp;</p>
+    <h3>
+        Tagger Theme XML file format:</h3>
+    <p>
+        This is an xml document that provides drawing instructions. The root name of the xml is &quot;CFSMTaggerTheme&quot;. 
+        Child elements are <strong>DD</strong>, <strong>NDD</strong>, and <strong>Custom</strong>. 
+        The <strong>DD</strong> element only draws when dynamic difficulty is detected, as <strong>NDD</strong> 
+        draws when there is no dynamic difficulty. The <strong>Custom</strong> element is always told to draw, but you can 
+        add your own conditions to control when and what to draw.</p>
+    <p>
+        Each of these children have only one attribute, &quot;<strong><span class="AttName">pos</span></strong>&quot;. 
+        This is an x,y value that tells where to start the drawing (in pixels). 
+        The image that is drawing on is always the largest CDLC artwork dimensions (256x256). 
+        The next element will be &quot;<strong><span class="Element">Drawing</span></strong>&quot; this too only has one element : 
+        &quot;<strong><span class="AttName">size</span></strong>&quot;. The &quot;size&quot; element tells the program to clip the drawing at that size.
+        Here&#39;s a example of what has been covered.</p>
+    <address>
+        &lt;<span class="Element">CFSMTaggerTheme</span> <span class="AttName">xmlns:xsi=</span>&quot;http://www.w3.org/2001/XMLSchema-instance&quot;<span class="AttName"> xmlns:xsd=</span>&quot;http://www.w3.org/2001/XMLSchema&quot;&gt;</address>
+    <address style="margin-left: 40px">
+        &lt;<span class="Element">DD</span>  <span class="AttName">pos=</span>&quot;2,25&quot;&gt;</address>
+    <address style="margin-left: 80px">
+        &lt;<span class="Element">Drawing</span>  <span class="AttName">size</span>=&quot;-1,-1&quot;/&gt;</address>
+    <address style="margin-left: 40px">
+        &lt;<span class="Element">/DD</span>&gt;</address>
+    <address >
+        &lt;<span class="Element">/CFSMTaggerTheme</span>&gt;</address>
+    <p>
+        &nbsp;</p>
+    <p>
+        &nbsp;</p>
+    <p>
+        &nbsp;</p>
+    <h3>
+        Combining The Two:</h3>
+    <p>
+        &nbsp;</p>
+
+</body>
+</html>

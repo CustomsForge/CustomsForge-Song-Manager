@@ -117,24 +117,30 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="lblHeader.Text" xml:space="preserve">
+    <value>Type the property Key surrounded by '&lt;' and '&gt;'.  
+or simply double click on any Key to the right to
+select and build a custom renaming template.
+
+To preview open the log [F3] and click the 
+"Preview" button.
+
+</value>
+  </data>
   <data name="lblInstructions.Text" xml:space="preserve">
     <value>Example - Using "Space Time" by Gojira.
 
 &lt;title&gt;_&lt;artist&gt; = "dlc/Space Time_Gojira.psarc"
 &lt;artist&gt;\\&lt;title&gt;_&lt;artist&gt; = "dlc/Gojira/Space Time_Gojira.psarc"
 
-You can add directories as seen above, using "\\".
+You can add/create directories as seen above, using "\\".
 
 The "dd" property generates "_dd" if the song has Dynamic Difficulty.
 It generates nothing if the song does not.
 
-Ex. &lt;title&gt;_&lt;dd&gt; and Dynamic Difficulty exists:
+Ex. &lt;title&gt;_&lt;dd&gt; and Dynamic Difficulty exists:  Space Time_dd.psarc
 
-Space Time_dd.psarc
-
-If Dynamic Difficulty does not exist:
-
-Space Time.psarc</value>
+If Dynamic Difficulty does not exist:  Space Time.psarc</value>
   </data>
   <metadata name="renamerPropertyDataSet.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>117, 5</value>

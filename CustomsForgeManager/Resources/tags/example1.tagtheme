@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<!--
+	Root
+		<DD> (Draws when dynamic difficulty is avaliable)
+		<NDD> (Draws when dynamic difficulty is avaliable)
+		<Custom> (Always draw)
+		[Attributes]
+			pos = A point in the bitmap where to start drawing 
+			
+			<Drawing> (Start the drawing)
+				[Attributes]
+					size = Clip the drawing with the specified point (-1,-1) for no clip
+					
+					<Instructions>
+						<Draw>
+							[xsi:type] (rect,img,ellipse,pie,line,text,formattext,if,scale,rotate,translate)
+									
+-->
+
+<CFSMTaggerTheme xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <DD pos="2,25">
+    <Drawing size="-1,-1">
+      <Instructions>
+		<!-- 
+			type img attributes:
+			src = filename
+			rect = position on the imagedata
+			srcrect = the rectangle of the src to draw, blank if you want to draw the whole imagedata
+			opacity = src opacity.			
+      note: this example will not display anything unless you put a "DD.png" image in the folder.
+		-->
+		<Draw xsi:type="img" rect="10,40,16,16" opacity="0.75" src="DD.png"/>
+      </Instructions>
+    </Drawing>
+  </DD>
+  <NDD pos="2,25">
+    <Drawing size="-1,-1">
+      <Instructions>
+		    <Draw xsi:type="img" rect="10,40,16,16" opacity="0.75" src="NDD.png"/>	
+      </Instructions>
+    </Drawing>
+  </NDD>
+  <Custom pos="0,180">
+    <Drawing size="-1,-1">
+      <Instructions>
+		<Draw xsi:type="formattext" color="#70FF0000" color2="#7000FF00"  gradientMode="Vertical" rect="0,0,256" 
+		underline="true" fontsize="15">
+			<!-- Dredd Foxx(me) always puts his own watermark on his customs, so don't add a new watemark -->
+			<Condition>
+				[author] != 'Dredd Foxx'
+			</Condition>
+			<Text>Created By: [author][\n]V[version][\n][date]</Text>
+		</Draw>
+      </Instructions>	
+    </Drawing>
+  </Custom>
+</CFSMTaggerTheme>

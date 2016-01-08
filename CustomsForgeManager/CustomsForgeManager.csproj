@@ -56,7 +56,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS;AUTOUPDATE;TAGGER;WINDOWS;BETA</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS;AUTOUPDATE;TAGGER;WINDOWS;BETA;CUSTOMUI</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <RunCodeAnalysis>true</RunCodeAnalysis>
@@ -140,10 +140,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\libs\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="SevenZipSharp">
+      <HintPath>..\libs\SevenZipSharp.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -160,9 +164,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CustomsForgeManagerLib\CrossPlatform.cs" />
     <Compile Include="CustomsForgeManagerLib\CustomControls\AbortableBackgroundWorker.cs">
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CustomsForgeManagerLib\CustomControls\BetterDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomsForgeManagerLib\CustomControls\BetterDialog.designer.cs">
+      <DependentUpon>BetterDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="CustomsForgeManagerLib\CustomControls\CFMHtmlPanel.cs">
       <SubType>Component</SubType>
@@ -176,23 +185,34 @@
     <Compile Include="CustomsForgeManagerLib\CustomControls\CueTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="CustomsForgeManagerLib\CustomControls\DataGridEditors\ComboBoxEditingControl.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="CustomsForgeManagerLib\Interfaces.cs" />
-    <Compile Include="CustomsForgeManagerLib\Objects\Autoupdater.cs" />
-    <Compile Include="CustomsForgeManagerLib\Objects\NotifyPropChangedBase.cs" />
-    <Compile Include="CustomsForgeManagerLib\Objects\SongCollectionException.cs" />
-    <Compile Include="CustomsForgeManagerLib\Objects\SongTagger.cs" />
-    <Compile Include="CustomsForgeManagerLib\PsarcBrowser.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="CustomsForgeManagerLib\CustomControls\RADataGridView.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="CustomsForgeManagerLib\Extensions.cs" />
+    <Compile Include="CustomsForgeManagerLib\Ignition.cs" />
+    <Compile Include="CustomsForgeManagerLib\Interfaces.cs" />
+    <Compile Include="CustomsForgeManagerLib\Objects\AppSettings.cs" />
+    <Compile Include="CustomsForgeManagerLib\Objects\Autoupdater.cs" />
+    <Compile Include="CustomsForgeManagerLib\Objects\Constants.cs" />
+    <Compile Include="CustomsForgeManagerLib\Objects\Globals.cs" />
+    <Compile Include="CustomsForgeManagerLib\Objects\RSCustomDictionaries.cs" />
+    <Compile Include="CustomsForgeManagerLib\Objects\RSModels.cs" />
+    <Compile Include="CustomsForgeManagerLib\Objects\SongCollectionException.cs" />
+    <Compile Include="CustomsForgeManagerLib\Objects\SongData.cs" />
+    <Compile Include="CustomsForgeManagerLib\Objects\SongTagger.cs" />
+    <Compile Include="CustomsForgeManagerLib\PsarcBrowser.cs" />
     <Compile Include="CustomsForgeManagerLib\PsarcPackage.cs" />
-    <Compile Include="CustomsForgeManagerLib\Theme.cs" />
+    <Compile Include="CustomsForgeManagerLib\ToolkitPrivateTools.cs" />
+    <Compile Include="CustomsForgeManagerLib\UITheme\CFSMTheme.cs" />
+    <Compile Include="CustomsForgeManagerLib\UITheme\CFSMThemeSettings.cs" />
+    <Compile Include="CustomsForgeManagerLib\UITheme\ThemePreview.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomsForgeManagerLib\UITheme\ThemePreview.Designer.cs">
+      <DependentUpon>ThemePreview.cs</DependentUpon>
+    </Compile>
     <Compile Include="CustomsForgeManagerLib\Worker.cs" />
+    <Compile Include="CustomsForgeManagerLib\ZipUtilities.cs" />
     <Compile Include="Forms\ClickOnceUpgrade.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -222,6 +242,18 @@
     </Compile>
     <Compile Include="Forms\frmMain.Designer.cs">
       <DependentUpon>frmMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmSongBatchEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmSongBatchEdit.Designer.cs">
+      <DependentUpon>frmSongBatchEdit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ThemeDesigner.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ThemeDesigner.Designer.cs">
+      <DependentUpon>ThemeDesigner.cs</DependentUpon>
     </Compile>
     <Compile Include="SongEditor\frmArrangement.cs">
       <SubType>Form</SubType>
@@ -280,14 +312,8 @@
     <Compile Include="Forms\frmSongInfo.Designer.cs">
       <DependentUpon>frmSongInfo.cs</DependentUpon>
     </Compile>
-    <Compile Include="CustomsForgeManagerLib\Objects\Globals.cs" />
-    <Compile Include="CustomsForgeManagerLib\Ignition.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="CustomsForgeManagerLib\Objects\Constants.cs" />
-    <Compile Include="CustomsForgeManagerLib\Extensions.cs" />
-    <Compile Include="CustomsForgeManagerLib\Objects\AppSettings.cs" />
-    <Compile Include="CustomsForgeManagerLib\Objects\SongData.cs" />
     <Compile Include="SongEditor\ucSongInfo.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -299,6 +325,12 @@
     </Compile>
     <Compile Include="SongEditor\ucTones.Designer.cs">
       <DependentUpon>ucTones.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UControls\SongPacks.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UControls\SongPacks.Designer.cs">
+      <DependentUpon>SongPacks.cs</DependentUpon>
     </Compile>
     <Compile Include="UControls\Duplicates.cs">
       <SubType>UserControl</SubType>
@@ -342,15 +374,21 @@
     <Compile Include="UControls\SongManager.Designer.cs">
       <DependentUpon>SongManager.cs</DependentUpon>
     </Compile>
-    <Compile Include="UControls\Utilities.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UControls\Utilities.Designer.cs">
-      <DependentUpon>Utilities.cs</DependentUpon>
-    </Compile>
+    <EmbeddedResource Include="CustomsForgeManagerLib\CustomControls\BetterDialog.resx">
+      <DependentUpon>BetterDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CustomsForgeManagerLib\CustomControls\ComboBoxPopup.resx">
       <DependentUpon>ComboBoxPopup.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomsForgeManagerLib\UITheme\ThemePreview.resx">
+      <DependentUpon>ThemePreview.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmSongBatchEdit.resx">
+      <DependentUpon>frmSongBatchEdit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ThemeDesigner.resx">
+      <DependentUpon>ThemeDesigner.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ClickOnceUpgrade.resx">
       <DependentUpon>ClickOnceUpgrade.cs</DependentUpon>
@@ -411,6 +449,9 @@
     <EmbeddedResource Include="SongEditor\ucTones.resx">
       <DependentUpon>ucTones.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UControls\SongPacks.resx">
+      <DependentUpon>SongPacks.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UControls\Duplicates.resx">
       <DependentUpon>Duplicates.cs</DependentUpon>
     </EmbeddedResource>
@@ -433,9 +474,6 @@
     <EmbeddedResource Include="UControls\SongManager.resx">
       <DependentUpon>SongManager.cs</DependentUpon>
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UControls\Utilities.resx">
-      <DependentUpon>Utilities.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="CustomsForgeManager_TemporaryKey.pfx" />
   </ItemGroup>
@@ -468,6 +506,9 @@
     <Content Include="bass.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="7za.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="DF_DDSImage.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -486,6 +527,20 @@
     <None Include="Resources\media_play_green.png" />
     <None Include="Resources\media_stop_red.png" />
     <None Include="Resources\Help.png" />
+    <None Include="Resources\Open.png" />
+    <None Include="Resources\SelectRow.png" />
+    <EmbeddedResource Include="Resources\tags\zagatozeeddtextprev.png" />
+    <EmbeddedResource Include="Resources\tags\zagatozeeddtext\Background.png" />
+    <EmbeddedResource Include="Resources\tags\zagatozeeddtext\Bass Bonus.png" />
+    <EmbeddedResource Include="Resources\tags\zagatozeeddtext\Bass.png" />
+    <EmbeddedResource Include="Resources\tags\zagatozeeddtext\Custom.png" />
+    <EmbeddedResource Include="Resources\tags\zagatozeeddtext\DD.png" />
+    <EmbeddedResource Include="Resources\tags\zagatozeeddtext\info.txt" />
+    <EmbeddedResource Include="Resources\tags\zagatozeeddtext\Lead Bonus.png" />
+    <EmbeddedResource Include="Resources\tags\zagatozeeddtext\Lead.png" />
+    <EmbeddedResource Include="Resources\tags\zagatozeeddtext\Rhythm Bonus.png" />
+    <EmbeddedResource Include="Resources\tags\zagatozeeddtext\Rhythm.png" />
+    <Content Include="Resources\TaggerHelp.html" />
     <Content Include="Resources\Unleashed2k.png" />
     <Content Include="RocksmithToolkitLib.Config.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -589,6 +644,10 @@
     <None Include="Resources\rescan.png" />
     <None Include="Resources\rescan1.png" />
     <None Include="Resources\clear.png" />
+    <EmbeddedResource Include="Resources\tags\Default.tagtheme" />
+    <EmbeddedResource Include="Resources\tags\example1.tagtheme" />
+    <EmbeddedResource Include="Resources\tags\zagatozeeddtext\Default.tagtheme" />
+    <EmbeddedResource Include="Resources\sltsv1_aggregategraph.nt" />
     <None Include="Resources\update.png" />
     <None Include="Resources\backup.png" />
     <None Include="Resources\disable.png" />
@@ -615,9 +674,17 @@
       <Project>{E6565985-C477-46F4-8A42-08E04CD40B65}</Project>
       <Name>CFMImageTools</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CustomForgeManagerTools\CFSM.Utils\CFSM.Utils.csproj">
+      <Project>{0b5754df-5812-4e92-9275-3e5d9180b172}</Project>
+      <Name>CFSM.Utils</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CustomForgeManagerTools\DataGridViewTools\DataGridViewTools.csproj">
       <Project>{5a4b4b14-d3b5-4d54-80ec-0877c1e6e73a}</Project>
       <Name>DataGridViewTools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CustomForgeManagerTools\DF.WinForms.ThemeLib\DF.WinForms.ThemeLib.csproj">
+      <Project>{e3a2283b-a2b8-46e5-af49-df6cd156eb0d}</Project>
+      <Name>DF.WinForms.ThemeLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\CustomForgeManagerTools\DLogNet\DLogNet.csproj">
       <Project>{04b8ebdc-6226-456e-8bd4-aef7baf682aa}</Project>
@@ -672,17 +739,15 @@ if $(ConfigurationName) == InnoInstaller (
 CD "$(SolutionDir)ThirdParty\ConfuserEx_bin\"
 "Confuser.CLI.exe" "..\ConfuserExForInno.crproj"
 CD "$(SolutionDir)ThirdParty\Inno\"
-"ISCC.exe" "..\CFMSetup\CFSMInstaller.iss"
+"ISCC.exe" /DBETA "..\CFMSetup\CFSMInstaller.iss"
 del /q "$(TargetDir)*.pdb"
 )
 
 if $(ConfigurationName) == PublishBeta (
 CD "$(SolutionDir)ThirdParty\ConfuserEx_bin\"
 "Confuser.CLI.exe" "..\ConfuserExForInno.crproj"
-CD "$(SolutionDir)ThirdParty\"
-"CFMPostBuilder.exe" "SETINSTALLERTYPE" "BETA"
 CD "$(SolutionDir)ThirdParty\Inno\"
-"ISCC.exe" "..\CFMSetup\CFSMInstaller.iss"
+"ISCC.exe" /DBETA "..\CFMSetup\CFSMInstaller.iss"
 del /q "$(TargetDir)*.pdb"
 CD "$(SolutionDir)ThirdParty\"
 "CFMPostBuilder.exe" "UPLOAD" "198.58.96.81/beta/" "appdev" "kvPSF7HL"
@@ -691,8 +756,6 @@ CD "$(SolutionDir)ThirdParty\"
 if $(ConfigurationName) == PublishRelease (
 CD "$(SolutionDir)ThirdParty\ConfuserEx_bin\"
 "Confuser.CLI.exe" "..\ConfuserExForInno.crproj"
-CD "$(SolutionDir)ThirdParty\"
-"CFMPostBuilder.exe" "SETINSTALLERTYPE" "RELEASE"
 CD "$(SolutionDir)ThirdParty\Inno\"
 "ISCC.exe" "..\CFMSetup\CFSMInstaller.iss"
 del /q "$(TargetDir)*.pdb"

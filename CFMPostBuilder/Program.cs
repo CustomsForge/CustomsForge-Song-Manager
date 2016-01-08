@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace CFMPostBuilder
 {
@@ -134,7 +135,7 @@ namespace CFMPostBuilder
                         }
 
                         if (args.Count() > 1)
-                            ftpURL = "ftp://"+args[1];
+                            ftpURL = "ftp://" + args[1];
                         if (args.Count() > 2)
                             ftpUsername = args[2];
                         if (args.Count() > 3)
@@ -142,36 +143,47 @@ namespace CFMPostBuilder
 
                         Console.WriteLine("URL:" + ftpURL);
                         Console.WriteLine("USER:" + ftpUsername);
-                        Console.WriteLine("PASS:" +ftpPass);
+                        Console.WriteLine("PASS:" + ftpPass);
 
-                        const string SetupFile = @"CFMSetup\Output\CFSMSetup.exe";
-                        FileVersionInfo vi = FileVersionInfo.GetVersionInfo(SetupFile);
-
-
-                        using (var fs = File.OpenRead(SetupFile))
+                        if (MessageBox.Show("Upload the files?", "Question", MessageBoxButtons.YesNo,
+                            MessageBoxIcon.Question) == DialogResult.Yes)
                         {
-                            UploadStream(fs, "CFSMSetup.exe");
+                            const string SetupFile = @"CFMSetup\Output\CFSMSetup.exe";
+                            FileVersionInfo vi = FileVersionInfo.GetVersionInfo(SetupFile);
+
+
+                            using (var fs = File.OpenRead(SetupFile))
+                            {
+                                UploadStream(fs, "CFSMSetup.exe");
+                            }
+
+
+                            Console.WriteLine(File.Exists(rnotes));
+                            String txt = vi.ProductVersion.Trim() + Environment.NewLine;
+                            txt += File.ReadAllText(rnotes);
+
+                            MemoryStream ms = new MemoryStream();
+                            using (var sw = new StreamWriter(ms))
+                            {
+                                sw.Write(txt);
+                                sw.Flush();
+                                ms.Position = 0;
+                                UploadStream(ms, "VersionInfo.txt");
+                            }
+                            Console.WriteLine("Uploaded all files.");
+                            MessageBox.Show("Uploading files seemed sucessful", "Uploading Finished ...", MessageBoxButtons.OK);
                         }
+                        else
+                            Console.WriteLine("Upload Canceled.");
 
-
-                        Console.WriteLine(File.Exists(rnotes));
-                        String txt = vi.ProductVersion.Trim() + Environment.NewLine;
-                        txt += File.ReadAllText(rnotes);
-
-                        MemoryStream ms = new MemoryStream();
-                        using (var sw = new StreamWriter(ms))
-                        {
-                            sw.Write(txt);
-                            sw.Flush();
-                            ms.Position = 0;
-                            UploadStream(ms, "VersionInfo.txt");
-                        }
-                        Console.WriteLine("Uploaded all files.");
+                        Console.WriteLine("");
+                        Console.WriteLine("Press any key to continue");
+                        Console.ReadLine();
                     }
                     break;
 
                 case "CONVERT":
-                    
+
                     Console.WindowWidth = 85;
                     Console.BackgroundColor = ConsoleColor.Black;
                     Console.ForegroundColor = ConsoleColor.Green;

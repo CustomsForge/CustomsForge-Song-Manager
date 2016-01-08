@@ -25,6 +25,8 @@ SetupIconFile=..\..\CustomsForgeManager\Resources\cfsm_48x48.ico
 Source: {#buildpath}{#AppExeName}; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}CFMAudioTools.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}CFMImageTools.dll; DestDir: {app}; Flags: ignoreversion
+Source: {#buildpath}DF.WinForms.ThemeLib.dll; DestDir: {app}; Flags: ignoreversion
+Source: {#buildpath}CFSM.Utils.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}bass.dll; DestDir: {app}; Flags: ignoreversion
 Source: ClickOnceUninstaller.exe; DestDir: {tmp}; Flags: dontcopy
 Source: {#buildpath}DataGridViewAutoFilter.dll; DestDir: {app}; Flags: ignoreversion
@@ -37,6 +39,8 @@ Source: {#buildpath}Antlr3.Runtime.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}Antlr4.StringTemplate.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}DF_DDSImage.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}MiscUtil.dll; DestDir: {app}; Flags: ignoreversion
+Source: {#buildpath}7za.dll; DestDir: {app}; Flags: ignoreversion
+Source: {#buildpath}SevenZipSharp.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}Newtonsoft.Json.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}ReleaseNotes.txt; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}RocksmithToolkitLib.Config.xml; DestDir: {app}; Flags: ignoreversion

@@ -23,10 +23,13 @@ namespace CustomsForgeManager.SongEditor
 
         private List<DLCPackageEditorControlBase> FEditorControls = new List<DLCPackageEditorControlBase>();
 
+        public frmSongEditor() { }
+
         public frmSongEditor(string songPath)
         {
             if (String.IsNullOrEmpty(songPath))
                 return;
+            this.Icon = Properties.Resources.cfsm_48x48;
 
             Globals.Log("Loading song information from: " + Path.GetFileName(songPath));
             Cursor.Current = Cursors.WaitCursor;
@@ -102,8 +105,11 @@ namespace CustomsForgeManager.SongEditor
                 var x = FEditorControls.Where(e => e.NeedsAfterSave());
                 if (x.Count() > 0)
                 {
+                    if (!outputPath.ToLower().EndsWith("_p.psarc"))
+                        outputPath += "_p.psarc";
+
                     tsProgressBar.Value = 80;
-                    var p = new RocksmithToolkitLib.PSARC.PSARC();
+                    var p = new CFSM.Utils.PSARC.PSARC();
                     using (var fs = File.OpenRead(outputPath))
                         p.Read(fs);
                     bool needsSave = false;
@@ -114,7 +120,6 @@ namespace CustomsForgeManager.SongEditor
                     }
                     if (needsSave)
                     {
-                        p.TOC.Insert(0, new RocksmithToolkitLib.PSARC.Entry() { Name = "NamesBlock.bin" });
                         using (var fs = File.Create(outputPath))
                             p.Write(fs, true);
                     }
@@ -260,7 +265,7 @@ namespace CustomsForgeManager.SongEditor
         public void ApplyBassFix(Arrangement arr, Song2014 songXml)
         {
             if (arr.TuningPitch.Equals(220.0))
-                 return;
+                return;
 
 
             arr.TuningPitch = 220.0;
@@ -318,8 +323,8 @@ namespace CustomsForgeManager.SongEditor
             if (!String.IsNullOrEmpty(arr.ToneC)) songXml.ToneC = arr.ToneC;
             if (!String.IsNullOrEmpty(arr.ToneD)) songXml.ToneD = arr.ToneD;
 
-         
-            if (GetEditorControl<ucSongInfo>().ApplyBassFix() &&  arr.ArrangementType == ArrangementType.Bass)
+
+            if (GetEditorControl<ucSongInfo>().ApplyBassFix() && arr.ArrangementType == ArrangementType.Bass)
                 ApplyBassFix(arr, songXml);
 
             using (var stream = File.Open(arr.SongXml.File, FileMode.Create))

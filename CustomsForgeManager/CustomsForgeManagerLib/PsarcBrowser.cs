@@ -1,16 +1,17 @@
 ﻿
 using System.Diagnostics;
+using System.Windows.Forms;
 using CustomsForgeManager.CustomsForgeManagerLib.Objects;
 using DataGridViewTools;
 using Newtonsoft.Json.Linq;
 using RocksmithToolkitLib.DLCPackage;
 using RocksmithToolkitLib.Extensions;
-using RocksmithToolkitLib.PSARC;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using CFSM.Utils.PSARC;
 using Arrangement = CustomsForgeManager.CustomsForgeManagerLib.Objects.Arrangement;
 using CFMAudioTools;
 
@@ -20,14 +21,15 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
     {
         private string FilePath;
         private PSARC archive;
+        private Stream FStream;
 
         // Loads song archive file to memory.
         public PsarcBrowser(string fileName)
         {
             FilePath = fileName;
             archive = new PSARC();
-            var stream = File.OpenRead(FilePath);
-            archive.Read(stream, true);
+            FStream = File.OpenRead(FilePath);
+            archive.Read(FStream, true);
         }
 
         public static bool ExtractAudio(string archiveName, string audioName, string previewName)
@@ -36,14 +38,15 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
             if (string.IsNullOrEmpty(audioName))
                 return false;
 
-            var archive = new PSARC();
+            Globals.Log("Extracting Audio ... Please wait ...");
+            // TODO: maintain app responsiveness during audio extraction
+
+            using (var archive = new PSARC(true))
             using (var stream = File.OpenRead(archiveName))
             {
                 archive.Read(stream, true);
                 var wems = archive.TOC.Where(entry => entry.Name.StartsWith("audio/windows") &&
                     entry.Name.EndsWith(".wem")).ToList();
-
-
 
                 if (wems.Count > 1)
                 {
@@ -56,6 +59,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                         return 0;
                     });
                 }
+
                 if (wems.Count > 0)
                 {
                     var top = wems[0];
@@ -75,7 +79,6 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                     bottom.Data.Position = 0;
                     using (var FS = File.Create(previewName))
                     {
-
                         WwiseToOgg w2o = new WwiseToOgg(bottom.Data, FS);
                         result = w2o.ConvertToOgg();
                     }
@@ -86,8 +89,13 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
 
         public IEnumerable<SongData> GetSongs()
         {
-            var sw = new Stopwatch();
-            sw.Restart();
+            Stopwatch sw = null;
+            //no point of creating when not in debug mode.
+            if (Constants.DebugMode)
+            {
+                sw = new Stopwatch();
+                sw.Restart();
+            }
 
             var songsFromPsarc = new List<SongData>();
             var fInfo = new FileInfo(FilePath);
@@ -129,16 +137,27 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                     AppID = appId,
                     Path = FilePath,
                     FileDate = fInfo.LastWriteTimeUtc,
-                    FileSize = (int)fInfo.Length,
-                    Tagged = tagged
+                    FileSize = (int)fInfo.Length
+                    
                 };
 
+                if (toolkitVersionFile == null)
+                {
+                    currentSong.Tagged = SongTaggerStatus.ODLC;
+                    if (String.IsNullOrEmpty(author))
+                        currentSong.Charter = "Ubisoft";
+                }
+                else
+                    currentSong.Tagged = tagged ? SongTaggerStatus.True : SongTaggerStatus.False;
+
                 var strippedName = singleSong.Name.Replace(".xblock", "").Replace("gamexblocks/nsongs/", "");
+                if (strippedName.Contains("_fcp_dlc"))
+                    strippedName = strippedName.Replace("_fcp_dlc", "");
+
                 var infoFiles = archive.TOC.Where(x =>
                     x.Name.StartsWith("manifests/songs")
-                    && x.Name.EndsWith(".json")
-                    && x.Name.Contains(strippedName)
-                    ).OrderBy(x => x.Name); // bass, lead, rhythm, vocal
+                    && x.Name.EndsWith(".json") &&
+                     x.Name.Contains(strippedName)).OrderBy(x => x.Name); 
 
                 // speed hack ... some song info only needed one time
                 bool gotSongInfo = false;
@@ -188,6 +207,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                                 Name = arrName
                             });
                         else
+                        {
                             arrangmentsFromPsarc.Add(new Arrangement(currentSong)
                            {
                                PersistentID = attributes["PersistentID"].ToString(),
@@ -197,6 +217,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                                ToneBase = attributes["Tone_Base"].ToString(),
                                SectionCount = attributes["Sections"].ToArray().Count()
                            });
+                        }
                     }
                 }
 
@@ -204,17 +225,29 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                 songsFromPsarc.Add(currentSong);
             }
 
-            sw.Stop();
             if (Constants.DebugMode)
+            {
+                sw.Stop();
                 Globals.Log(string.Format("{0} parsing took: {1} (msec)", Path.GetFileName(FilePath), sw.ElapsedMilliseconds));
-
+            }
             return songsFromPsarc;
         }
 
 
         public void Dispose()
         {
-            archive.Dispose();
+            if (FStream != null)
+            {
+                FStream.Dispose();
+                FStream = null;
+            }
+            if (archive != null)
+            {                
+                archive.Dispose();
+                archive = null;
+            }
+
+
             GC.SuppressFinalize(this);
         }
 

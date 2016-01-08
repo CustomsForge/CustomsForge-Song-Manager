@@ -19,7 +19,6 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
     {
         private AbortableBackgroundWorker bWorker;
         private Stopwatch counterStopwatch = new Stopwatch();
-     //   private List<string> bwFileCollection = new List<string>();
         public List<SongData> bwSongCollection = new List<SongData>();
         private Control workOrder;
 
@@ -62,7 +61,12 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                     });
 
                 if (workOrder.Name != "Renamer")
-                    Globals.TsLabel_MainMsg.Text = String.Format("Rocksmith Songs Count: {0}", bwSongCollection.Count);
+                {
+                    Extensions.InvokeIfRequired(Globals.TsLabel_MainMsg.GetCurrentParent(), delegate
+                    {
+                        Globals.TsLabel_MainMsg.Text = String.Format("Rocksmith Songs Count: {0}", bwSongCollection.Count);
+                    });
+                }
             }
         }
 
@@ -89,7 +93,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                 else if (workOrder.Name == "Renamer")
                     Globals.Log(String.Format("Finished renaming ... took {0}", counterStopwatch.Elapsed));
 
-                Globals.SongCollection = new BindingList<SongData>(bwSongCollection);                 
+                Globals.SongCollection = new BindingList<SongData>(bwSongCollection);
                 Globals.WorkerFinished = Globals.Tristate.True;
             }
             Globals.IsScanning = false;
@@ -137,14 +141,14 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                 }
             }
 
-            Globals.DebugLog("Parsing files");
+            Globals.DebugLog("Parsing files ...");
             foreach (string file in fileList)
             {
                 if (bWorker.CancellationPending || Globals.TsLabel_Cancel.Text == "Canceling" || Globals.CancelBackgroundScan)
                 {
                     bWorker.CancelAsync();
                     e.Cancel = true;
-                    Globals.DebugLog("Parsing canceled.");
+                    Globals.DebugLog("Parsing canceled ...");
                     return;
                 }
 
@@ -193,7 +197,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                     }
                 }
             }
-            Globals.DebugLog("Parsing done.");
+            Globals.DebugLog("Parsing done ...");
 
             counterStopwatch.Stop();
         }
@@ -234,24 +238,26 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
             catch (Exception ex)
             {
                 // move to Quarantine folder
-                var corDir = Path.Combine(AppSettings.Instance.RSInstalledDir, "cdlc_quarantined");
-                var corFileName = String.Format("{0}{1}", Path.GetFileName(filePath), ".corrupt");
-                var corFilePath = Path.Combine(corDir, corFileName);
-
                 if (ex.Message.StartsWith("Error reading JObject"))
                     Globals.Log(string.Format("<ERROR>: {0}  -  CDLC is corrupt!", filePath));
                 else
                     Globals.Log(string.Format("<ERROR>: {0}  -  {1}", filePath, ex.Message));
 
-                Globals.Log("File has been moved to: " + corDir);
+                if (AppSettings.Instance.MoveToQuarantine)
+                {
+                    var corDir = Path.Combine(AppSettings.Instance.RSInstalledDir, "cdlc_quarantined");
+                    var corFileName = String.Format("{0}{1}", Path.GetFileName(filePath), ".corrupt");
+                    var corFilePath = Path.Combine(corDir, corFileName);
+                    Globals.Log("File has been moved to: " + corDir);
 
-                if (!Directory.Exists(corDir))
-                    Directory.CreateDirectory(corDir);
+                    if (!Directory.Exists(corDir))
+                        Directory.CreateDirectory(corDir);
 
-                //if (!File.Exists(corFilePath))
-                //    File.Delete(corFilePath);
+                    //if (File.Exists(corFilePath))
+                    //    File.Delete(corFilePath);
 
-                File.Move(filePath, corFilePath);
+                    File.Move(filePath, corFilePath);
+                }
             }
 
             // free up memory
@@ -259,9 +265,9 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "bWorker")]
-        public void Dispose() 
-        { 
-            
+        public void Dispose()
+        {
+
         }
 
         // Invoke Template if needed

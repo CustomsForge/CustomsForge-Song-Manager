@@ -21,11 +21,32 @@ using System.Reflection;
 
 namespace DataGridViewTools
 {
+    public interface IGridViewFilterStyle
+    {
+        Image filteredImg { get; }
+        Image normalImg { get; }
+    }
+
+    public interface IGridViewCustomFilter
+    {
+        string GetCustomFilter(string ColumnName);
+        bool CanFilter(string ColumnName);
+    }
     /// <summary>
     /// Provides a drop-down filter list in a DataGridViewColumnHeaderCell.
     /// </summary>
     public class DataGridViewAutoFilterColumnHeaderCell : DataGridViewColumnHeaderCell
     {
+        #region Static Fields
+        static Bitmap filteredImgS = new Bitmap(Properties.Resources.FilterX, 13, 13);
+        static Bitmap nonFilteredImgS = new Bitmap(Properties.Resources.FilterY, 13, 13);
+        #endregion
+
+        #region Private Fields
+        Image filteredImg = filteredImgS;
+        Image normalImg = nonFilteredImgS;
+        #endregion
+
         /// <summary>
         /// The ListBox used for all drop-down lists. 
         /// </summary>
@@ -59,7 +80,8 @@ namespace DataGridViewTools
         /// specified DataGridViewColumnHeaderCell.
         /// </summary>
         /// <param name="oldHeaderCell">The DataGridViewColumnHeaderCell to copy property values from.</param>
-        public DataGridViewAutoFilterColumnHeaderCell(DataGridViewColumnHeaderCell oldHeaderCell):this()
+        public DataGridViewAutoFilterColumnHeaderCell(DataGridViewColumnHeaderCell oldHeaderCell)
+            : this()
         {
             this.ContextMenuStrip = oldHeaderCell.ContextMenuStrip;
             this.ErrorText = oldHeaderCell.ErrorText;
@@ -95,11 +117,16 @@ namespace DataGridViewTools
         /// </summary>
         public DataGridViewAutoFilterColumnHeaderCell()
         {
-            filteredImg = new Bitmap(Properties.Resources.FilterX, 13, 13); ;
-            normalImg = new Bitmap(Properties.Resources.FilterY, 13, 13); ;
-            filteredBrush = new SolidBrush(Color.Black);
-            normalBrush = new SolidBrush(Color.Yellow);
+         
         }
+
+        public static Bitmap GetFilterResource(bool filterOn)
+        {
+            return filterOn ? 
+                new Bitmap(Properties.Resources.FilterX, 13, 13) : 
+                new Bitmap(Properties.Resources.FilterY, 13, 13);
+        }
+
 
         /// <summary>
         /// Creates an exact copy of this cell.
@@ -121,6 +148,15 @@ namespace DataGridViewTools
             if (this.DataGridView == null)
             {
                 return;
+            }
+
+            if (this.DataGridView is IGridViewFilterStyle)
+            {
+                var igv = (this.DataGridView as IGridViewFilterStyle);
+                if (igv.normalImg != null)
+                    normalImg = igv.normalImg;
+                if (igv.filteredImg != null)
+                    filteredImg = igv.filteredImg;
             }
 
             // Disable sorting and filtering for columns that can't make
@@ -396,30 +432,30 @@ namespace DataGridViewTools
             // for the current column.
 
             // Cozy mod - use custom combobox buttons 
-            if (false) // (Application.RenderWithVisualStyles)
-            {
-                ComboBoxState state = ComboBoxState.Normal;
+            //if (false) // (Application.RenderWithVisualStyles)
+            //{
+            //    ComboBoxState state = ComboBoxState.Normal;
 
-                if (dropDownListBoxShowing)
-                {
-                    state = ComboBoxState.Pressed;
-                }
-                else if (filtered)
-                {
-                    state = ComboBoxState.Hot;
-                }
+            //    if (dropDownListBoxShowing)
+            //    {
+            //        state = ComboBoxState.Pressed;
+            //    }
+            //    else if (filtered)
+            //    {
+            //        state = ComboBoxState.Hot;
+            //    }
 
-                ComboBoxRenderer.DrawDropDownButton(graphics, buttonBounds, state);
-            }
-            else
+            //    ComboBoxRenderer.DrawDropDownButton(graphics, buttonBounds, state);
+            //}
+            //else
             {
                 // Determine the pressed state in order to paint the button 
                 // correctly and to offset the down arrow. 
                 Int32 pressedOffset = 0;
-                PushButtonState state = PushButtonState.Normal;
+              //  PushButtonState state = PushButtonState.Normal;
                 if (dropDownListBoxShowing)
                 {
-                    state = PushButtonState.Pressed;
+               //     state = PushButtonState.Pressed;
                     pressedOffset = 1;
                 }
 
@@ -430,70 +466,39 @@ namespace DataGridViewTools
                 // down arrow as an unfilled triangle. If there is no filter 
                 // in effect, paint the down arrow as a filled triangle.
                 // Cozy Mod
-                var visTweak = 1;
-                var triangle = new Point[] {
-                    new Point(
-                        buttonBounds.Width / 2 + 
-                        buttonBounds.Left - 1 + pressedOffset, 
-                        buttonBounds.Height * 3 / 4 + 
-                        buttonBounds.Top - 5 + pressedOffset + visTweak),
-                    new Point(
-                        buttonBounds.Width / 4 + 
-                        buttonBounds.Left + pressedOffset - visTweak,
-                        buttonBounds.Height / 2 + 
-                        buttonBounds.Top - 5 + pressedOffset),
-                    new Point(
-                        buttonBounds.Width * 3 / 4 + 
-                        buttonBounds.Left - 1 + pressedOffset + visTweak,
-                        buttonBounds.Height / 2 + 
-                        buttonBounds.Top - 5 + pressedOffset)
-                    };
+                //var visTweak = 1;
+                //var triangle = new Point[] {
+                //    new Point(
+                //        buttonBounds.Width / 2 + 
+                //        buttonBounds.Left - 1 + pressedOffset, 
+                //        buttonBounds.Height * 3 / 4 + 
+                //        buttonBounds.Top - 5 + pressedOffset + visTweak),
+                //    new Point(
+                //        buttonBounds.Width / 4 + 
+                //        buttonBounds.Left + pressedOffset - visTweak,
+                //        buttonBounds.Height / 2 + 
+                //        buttonBounds.Top - 5 + pressedOffset),
+                //    new Point(
+                //        buttonBounds.Width * 3 / 4 + 
+                //        buttonBounds.Left - 1 + pressedOffset + visTweak,
+                //        buttonBounds.Height / 2 + 
+                //        buttonBounds.Top - 5 + pressedOffset)
+                //    };
 
                 // Cozy Mod - Change button to Filter Icon and put polygon on top for effect
-                Bitmap img = filtered ? filteredImg : normalImg;
-                SolidBrush br = filtered ? filteredBrush : normalBrush;
-                graphics.DrawImage(img, buttonBounds.Left - 1 + pressedOffset, buttonBounds.Top - 1 + pressedOffset);
-                graphics.DrawPolygon(SystemPens.ControlText, triangle);
-                graphics.FillPolygon(br, triangle);
+                graphics.DrawImage(filtered ? filteredImg : normalImg, buttonBounds.Left - 1 + pressedOffset, buttonBounds.Top - 1 + pressedOffset);
+                //graphics.DrawPolygon(filtered ? new Pen(normalBrush) : new Pen(filteredBrush), triangle);
+                //graphics.FillPolygon(filtered ? filteredBrush : normalBrush, triangle);
 
             }
         }
 
-        Bitmap filteredImg;
-        Bitmap normalImg;
-        SolidBrush filteredBrush;
-        SolidBrush normalBrush;
+
+
 
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);
-            if (disposing)
-            {
-                if (filteredImg != null)
-                {
-                    filteredImg.Dispose();
-                    filteredImg = null;
-                }
-
-                if (normalImg != null)
-                {
-                    normalImg.Dispose();
-                    normalImg = null;
-                }
-
-                if (filteredBrush != null)
-                {
-                    filteredBrush.Dispose();
-                    filteredBrush = null;
-                }
-
-                if (normalBrush != null)
-                {
-                    normalBrush.Dispose();
-                    normalBrush = null;
-                }
-
-            }
         }
 
         /// <summary>
@@ -1070,15 +1075,24 @@ namespace DataGridViewTools
             if (oldFilter != null) data.Filter = oldFilter;
             data.RaiseListChangedEvents = true;
 
+
+
+            if (containsBlanks && containsNonBlanks)
+            {
+                filters.Insert(0,"(Not Empty)", null);
+                filters.Insert(0,"(Empty)", null);
+            }
             // Add special filter options to the filters dictionary
             // along with null values, since unformatted representations
             // are not needed. 
             filters.Insert(0, "(All)", null);
-            if (containsBlanks && containsNonBlanks)
+
+            if (DataGridView is IGridViewCustomFilter && 
+                (DataGridView as IGridViewCustomFilter).CanFilter(this.OwningColumn.DataPropertyName))
             {
-                filters.Add("(Blanks)", null);
-                filters.Add("(NonBlanks)", null);
+                filters.Insert(0, "(Custom)", null);
             }
+
         }
 
         /// <summary>
@@ -1164,24 +1178,35 @@ namespace DataGridViewTools
 
             // Store the column name in a form acceptable to the Filter property, 
             // using a backslash to escape any closing square brackets. 
-            String columnProperty =
-                OwningColumn.DataPropertyName.Replace("]", @"\]");
+            String columnProperty = OwningColumn.DataPropertyName.Replace("]", @"\]");
 
             // Determine the column filter string based on the user selection.
-            // For (Blanks) and (NonBlanks), the filter string determines whether
+            // For (Empty) and (Not Empty), the filter string determines whether
             // the column value is null or an empty string. Otherwise, the filter
             // string determines whether the column value is the selected value. 
             switch (selectedFilterValue)
             {
-                case "(Blanks)":
+                case "(Empty)":
                     newColumnFilter = String.Format(
-                        "LEN(ISNULL(CONVERT([{0}],'System.String'),''))=0",
-                        columnProperty);
+                        "LEN(ISNULL(CONVERT([{0}],'System.String'),''))=",
+                         columnProperty);
                     break;
-                case "(NonBlanks)":
+                case "(Not Empty)":
                     newColumnFilter = String.Format(
                         "LEN(ISNULL(CONVERT([{0}],'System.String'),''))>0",
                         columnProperty);
+                    break;
+
+                case "(Custom)":
+                    if (DataGridView is IGridViewCustomFilter && 
+                        (DataGridView as IGridViewCustomFilter).CanFilter(columnProperty))
+                    {
+                        var s = (DataGridView as IGridViewCustomFilter).GetCustomFilter(columnProperty);
+                        if (!String.IsNullOrEmpty(s))
+                            newColumnFilter = s;
+                    }
+                    if (string.IsNullOrEmpty(newColumnFilter))
+                        return;
                     break;
                 default:
                     newColumnFilter = String.Format("[{0}]='{1}'",
@@ -1191,13 +1216,15 @@ namespace DataGridViewTools
                     break;
             }
 
+           
+
             // Determine the new filter string by removing the previous column 
             // filter string from the BindingSource.Filter value, then appending 
             // the new column filter string, using " AND " as appropriate. 
             String newFilter = FilterWithoutCurrentColumn(data.Filter);
             if (String.IsNullOrEmpty(newFilter))
             {
-                newFilter += newColumnFilter;
+                newFilter = newColumnFilter;
             }
             else
             {
@@ -1282,8 +1309,9 @@ namespace DataGridViewTools
 
             // Return String.Empty if there is no appropriate data source or
             // there is no filter in effect. 
-            if (String.IsNullOrEmpty(data.Filter) ||
-                data == null ||
+            if (data == null || 
+                String.IsNullOrEmpty(data.Filter) ||
+                
                 data.DataSource == null ||
                 !data.SupportsFiltering)
             {
@@ -1292,16 +1320,20 @@ namespace DataGridViewTools
 
             // Retrieve the filtered row count. 
             Int32 currentRowCount = data.Count;
-
-            // Retrieve the unfiltered row count by 
-            // temporarily unfiltering the data.
-            data.RaiseListChangedEvents = false;
-            String oldFilter = data.Filter;
-            data.Filter = null;
-            Int32 unfilteredRowCount = data.Count;
-            data.Filter = oldFilter;
-            data.RaiseListChangedEvents = true;
-
+            Int32 unfilteredRowCount = 0;
+            if (data.DataSource != null && data.DataSource is IFilteredBindingList)
+                unfilteredRowCount = (data.DataSource as IFilteredBindingList).GetOriginalList().Count;
+            else
+            {
+                // Retrieve the unfiltered row count by 
+                // temporarily unfiltering the data.
+                data.RaiseListChangedEvents = false;
+                String oldFilter = data.Filter;
+                data.Filter = null;
+                unfilteredRowCount = data.Count;
+                data.Filter = oldFilter;
+                data.RaiseListChangedEvents = true;
+            }
             Debug.Assert(currentRowCount <= unfilteredRowCount,
                 "current count is greater than unfiltered count");
 

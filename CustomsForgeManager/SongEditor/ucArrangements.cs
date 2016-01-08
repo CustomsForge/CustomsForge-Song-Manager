@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 using RocksmithToolkitLib.DLCPackage;
-using CustomsForgeManager.CustomsForgeManagerLib;
+using CFSM.Utils;
 
 namespace CustomsForgeManager.SongEditor
 {
