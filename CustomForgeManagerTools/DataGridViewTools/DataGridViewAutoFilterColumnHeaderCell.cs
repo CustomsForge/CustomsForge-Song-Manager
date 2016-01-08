@@ -39,12 +39,12 @@ namespace DataGridViewTools
     {
         #region Static Fields
         static Bitmap filteredImgS = new Bitmap(Properties.Resources.FilterX, 13, 13);
-        static Bitmap normalImgS = new Bitmap(Properties.Resources.FilterY, 13, 13);
+        static Bitmap nonFilteredImgS = new Bitmap(Properties.Resources.FilterY, 13, 13);
         #endregion
 
         #region Private Fields
         Image filteredImg = filteredImgS;
-        Image normalImg = normalImgS;
+        Image normalImg = nonFilteredImgS;
         #endregion
 
         /// <summary>

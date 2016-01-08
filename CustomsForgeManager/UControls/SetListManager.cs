@@ -72,9 +72,10 @@ namespace CustomsForgeManager.UControls
             dgvSongPacks.DefaultCellStyle.SelectionForeColor = dgvSongPacks.DefaultCellStyle.ForeColor;
 
             // directory/file manipulation requires forced rescan
-            //Globals.RescanSongManager = true;
-            //Globals.RescanDuplicates = true;
-            //Globals.RescanRenamer = true;
+            // TODO: check if user made any actual changes
+            Globals.RescanSongManager = true;
+            Globals.RescanDuplicates = true;
+            Globals.RescanRenamer = true;
         }
 
         public void UpdateToolStrip()
@@ -675,7 +676,6 @@ namespace CustomsForgeManager.UControls
                     else
                         try
                         {
-
                             dgvSetlistMaster.Rows.RemoveAt(dlcNdx);
                             File.Delete(setlistSongPath);
                             // alt: move song back to dlc folder
@@ -975,7 +975,7 @@ namespace CustomsForgeManager.UControls
             var filterStatus = DataGridViewAutoFilterColumnHeaderCell.GetFilterStatus(dgvSetlistMaster);
             if (!bindingCompleted)
             {
-               // Globals.Log("DataBinding Complete ... ");
+                // Globals.Log("DataBinding Complete ... ");
                 bindingCompleted = true;
                 // filter applied
                 if (!String.IsNullOrEmpty(filterStatus))

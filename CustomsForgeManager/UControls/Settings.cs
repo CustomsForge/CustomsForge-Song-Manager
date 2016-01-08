@@ -86,13 +86,11 @@ namespace CustomsForgeManager.UControls
             Globals.Log("Populating Settings GUI for " + dgvCurrent.Name + " ...");
             Globals.DgvCurrent = dgvCurrent;
 
-            // this is weak method and could fail at some point but it works for now
-            var parentName = dgvCurrent.Name;
-            if (!String.IsNullOrEmpty(dgvCurrent.Parent.Parent.Name))
-                parentName = dgvCurrent.Parent.Parent.Name;
+            // each DGV contains a tag which holds a friendly name, aka current TabPage.Text
+            var dgvTag = dgvCurrent.Tag.ToString();
 
             // show which DataGridView is loaded
-            lblDgvColumns.Text = String.Format("Settings for {0} from file: {1}", parentName, Path.GetFileName(Constants.GridSettingsPath));
+            lblDgvColumns.Text = String.Format("Settings for {0} from file: {1}", dgvTag, Path.GetFileName(Constants.GridSettingsPath));
 
             // initialize column list
             lstDgvColumns.Items.Clear();

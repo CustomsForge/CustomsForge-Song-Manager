@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using CustomsForgeManager.CustomsForgeManagerLib.Objects;
@@ -10,7 +8,9 @@ using System.Drawing.Drawing2D;
 using DataGridViewTools;
 using CustomsForgeManager.CustomsForgeManagerLib.UITheme;
 
-namespace CustomsForgeManager.CustomsForgeManagerLib.DataGridTools
+// TODO: see if this could be moved to project DataGridViewTools and as generic control
+
+namespace CustomsForgeManager.CustomsForgeManagerLib.CustomControls
 {
     class RADataGridView : DataGridView, IThemeListener, IGridViewFilterStyle, IGridViewCustomFilter
     {
@@ -100,7 +100,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.DataGridTools
         public string GetCustomFilter(string ColumnName)
         {
             string s = "";
-            if (CustomsForgeManager.Forms.frmCustomFilter.EditCustomFilter(ref s,
+            if (frmCustomFilter.EditCustomFilter(ref s,
                 typeof(SongData).GetProperty(ColumnName)))
                 return "Expression:" + s;
             return string.Empty;

@@ -1,6 +1,5 @@
 ﻿using System.Drawing;
 using CustomsForgeManager.CustomsForgeManagerLib.CustomControls;
-using CustomsForgeManager.CustomsForgeManagerLib.DataGridTools;
 
 namespace CustomsForgeManager.UControls
 {
@@ -95,7 +94,7 @@ namespace CustomsForgeManager.UControls
             this.colDetailSections = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colDetailDMax = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colDetailToneBase = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgvSongsMaster = new CustomsForgeManager.CustomsForgeManagerLib.DataGridTools.RADataGridView();
+            this.dgvSongsMaster = new RADataGridView();
             this.colShowDetail = new System.Windows.Forms.DataGridViewImageColumn();
             this.colKey = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
@@ -166,9 +165,9 @@ namespace CustomsForgeManager.UControls
             this.chkSubFolders.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkSubFolders.Location = new System.Drawing.Point(522, 8);
             this.chkSubFolders.Name = "chkSubFolders";
-            this.chkSubFolders.Size = new System.Drawing.Size(152, 17);
+            this.chkSubFolders.Size = new System.Drawing.Size(125, 17);
             this.chkSubFolders.TabIndex = 24;
-            this.chkSubFolders.Text = "Include Subfolders/Setlists";
+            this.chkSubFolders.Text = "Include Setlist Songs";
             this.chkSubFolders.UseVisualStyleBackColor = true;
             this.chkSubFolders.MouseUp += new System.Windows.Forms.MouseEventHandler(this.chkSubFolders_MouseUp);
             // 
@@ -214,7 +213,7 @@ namespace CustomsForgeManager.UControls
             // 
             // chkTheMover
             // 
-            this.chkTheMover.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkTheMover.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.chkTheMover.AutoSize = true;
             this.chkTheMover.Location = new System.Drawing.Point(478, 13);
             this.chkTheMover.Name = "chkTheMover";
@@ -252,7 +251,7 @@ namespace CustomsForgeManager.UControls
             // 
             // cbMyCDLC
             // 
-            this.cbMyCDLC.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.cbMyCDLC.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cbMyCDLC.AutoSize = true;
             this.cbMyCDLC.Location = new System.Drawing.Point(744, 13);
             this.cbMyCDLC.Name = "cbMyCDLC";
@@ -264,7 +263,7 @@ namespace CustomsForgeManager.UControls
             // 
             // btnDeleteSongs
             // 
-            this.btnDeleteSongs.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.btnDeleteSongs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnDeleteSongs.Enabled = false;
             this.btnDeleteSongs.Image = ((System.Drawing.Image)(resources.GetObject("btnDeleteSongs.Image")));
             this.btnDeleteSongs.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -281,7 +280,7 @@ namespace CustomsForgeManager.UControls
             // 
             // chkEnableDelete
             // 
-            this.chkEnableDelete.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.chkEnableDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkEnableDelete.AutoSize = true;
             this.chkEnableDelete.Location = new System.Drawing.Point(360, 13);
             this.chkEnableDelete.Name = "chkEnableDelete";
@@ -294,7 +293,7 @@ namespace CustomsForgeManager.UControls
             // 
             // btnDisableEnableSongs
             // 
-            this.btnDisableEnableSongs.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.btnDisableEnableSongs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnDisableEnableSongs.Image = global::CustomsForgeManager.Properties.Resources.SelectRow;
             this.btnDisableEnableSongs.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnDisableEnableSongs.Location = new System.Drawing.Point(95, 6);
@@ -310,7 +309,7 @@ namespace CustomsForgeManager.UControls
             // 
             // btnRescan
             // 
-            this.btnRescan.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.btnRescan.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnRescan.Image = ((System.Drawing.Image)(resources.GetObject("btnRescan.Image")));
             this.btnRescan.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnRescan.Location = new System.Drawing.Point(4, 6);
@@ -764,6 +763,7 @@ namespace CustomsForgeManager.UControls
             this.dgvSongsMaster.RowHeadersVisible = false;
             this.dgvSongsMaster.Size = new System.Drawing.Size(879, 308);
             this.dgvSongsMaster.TabIndex = 1;
+            this.dgvSongsMaster.Tag = "Song Manager";
             this.dgvSongsMaster.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSongsMaster_CellContentClick);
             this.dgvSongsMaster.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSongsMaster_CellDoubleClick);
             this.dgvSongsMaster.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvSongsMaster_CellFormatting);

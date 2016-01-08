@@ -1,4 +1,9 @@
 CFM Release Notes
+
+1.1.3.3
+-Moved DatagridviewTools from CustomsForgeManagerLib to project DataGridViewTools as generic reusable methods
+-Code cleanup and refactoring 
+
 1.1.3.2
 -Applied relection method to Duplicates PID checker
 -Fixed colPID and colPIDArrangments bug in Duplicates

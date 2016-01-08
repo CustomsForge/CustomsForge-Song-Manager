@@ -185,11 +185,7 @@
     <Compile Include="CustomsForgeManagerLib\CustomControls\CueTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="CustomsForgeManagerLib\DataGridTools\ComboBoxEditingControl.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="CustomsForgeManagerLib\DataGridTools\DataGridViewCheckBoxHeaderCell.cs" />
-    <Compile Include="CustomsForgeManagerLib\DataGridTools\RADataGridView.cs">
+    <Compile Include="CustomsForgeManagerLib\CustomControls\RADataGridView.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="CustomsForgeManagerLib\Extensions.cs" />
@@ -222,12 +218,6 @@
     </Compile>
     <Compile Include="Forms\ClickOnceUpgrade.Designer.cs">
       <DependentUpon>ClickOnceUpgrade.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\frmCustomFilter.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\frmCustomFilter.Designer.cs">
-      <DependentUpon>frmCustomFilter.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmHtmlViewer.cs">
       <SubType>Form</SubType>
@@ -393,9 +383,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CustomsForgeManagerLib\UITheme\ThemePreview.resx">
       <DependentUpon>ThemePreview.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmCustomFilter.resx">
-      <DependentUpon>frmCustomFilter.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmSongBatchEdit.resx">
       <DependentUpon>frmSongBatchEdit.cs</DependentUpon>

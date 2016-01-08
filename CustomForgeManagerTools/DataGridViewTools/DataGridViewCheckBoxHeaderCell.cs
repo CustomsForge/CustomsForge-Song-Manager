@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 
-namespace CustomsForgeManager.CustomsForgeManagerLib.DataGridTools
+namespace DataGridViewTools
 {
     public class DataGridViewCheckBoxHeaderCell: DataGridViewColumnHeaderCell
     {

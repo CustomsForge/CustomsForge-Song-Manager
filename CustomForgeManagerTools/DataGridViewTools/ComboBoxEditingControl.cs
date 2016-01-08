@@ -9,7 +9,7 @@ using System.Drawing;
 using System.Globalization;
 using System.Windows.Forms;
 
-namespace CustomsForgeManager.CustomsForgeManagerLib.DataGridTools
+namespace DataGridViewTools
 {
     public class ComboBoxEditingControl : ComboBox, IDataGridViewEditingControl
     {

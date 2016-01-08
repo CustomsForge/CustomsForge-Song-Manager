@@ -1061,7 +1061,7 @@ namespace CustomsForgeManager.UControls
             {
                 Globals.TsLabel_MainMsg.Text = string.Format("Song Count: {0}", dgvSongPacks.Rows.Count);
                 Globals.TsLabel_MainMsg.Visible = true;
-                var tsldcMsg = String.Format("Disabled DLC: {0}", DisabledSongColorizerCounter());
+                var tsldcMsg = String.Format("Disabled CDLC: {0}", DisabledSongColorizerCounter());
                 Globals.TsLabel_DisabledCounter.Alignment = ToolStripItemAlignment.Right;
                 Globals.TsLabel_DisabledCounter.Text = tsldcMsg;
                 Globals.TsLabel_DisabledCounter.Visible = true;

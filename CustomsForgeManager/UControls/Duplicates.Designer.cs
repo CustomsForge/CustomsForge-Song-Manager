@@ -1,5 +1,5 @@
 ﻿using System.Windows.Forms;
-using CustomsForgeManager.CustomsForgeManagerLib.DataGridTools;
+using CustomsForgeManager.CustomsForgeManagerLib.CustomControls;
 
 namespace CustomsForgeManager.UControls
 {
@@ -52,7 +52,7 @@ namespace CustomsForgeManager.UControls
             this.btnRescan = new System.Windows.Forms.Button();
             this.gbResults = new System.Windows.Forms.GroupBox();
             this.txtNoDuplicates = new System.Windows.Forms.TextBox();
-            this.dgvDuplicates = new CustomsForgeManager.CustomsForgeManagerLib.DataGridTools.RADataGridView();
+            this.dgvDuplicates = new RADataGridView();
             this.colPID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colPIDArrangement = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colKey = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
@@ -127,15 +127,15 @@ namespace CustomsForgeManager.UControls
             // 
             // chkSubFolders
             // 
-            this.chkSubFolders.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkSubFolders.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.chkSubFolders.AutoSize = true;
             this.chkSubFolders.Checked = true;
             this.chkSubFolders.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkSubFolders.Location = new System.Drawing.Point(523, 13);
             this.chkSubFolders.Name = "chkSubFolders";
-            this.chkSubFolders.Size = new System.Drawing.Size(152, 17);
+            this.chkSubFolders.Size = new System.Drawing.Size(125, 17);
             this.chkSubFolders.TabIndex = 25;
-            this.chkSubFolders.Text = "Include Subfolders/Setlists";
+            this.chkSubFolders.Text = "Include Setlist Songs";
             this.chkSubFolders.UseVisualStyleBackColor = true;
             this.chkSubFolders.MouseUp += new System.Windows.Forms.MouseEventHandler(this.chkSubFolders_MouseUp);
             // 
@@ -284,6 +284,7 @@ namespace CustomsForgeManager.UControls
             this.dgvDuplicates.RowHeadersVisible = false;
             this.dgvDuplicates.Size = new System.Drawing.Size(852, 429);
             this.dgvDuplicates.TabIndex = 17;
+            this.dgvDuplicates.Tag = "Duplicates";
             this.dgvDuplicates.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvDuplicates_CellDoubleClick);
             this.dgvDuplicates.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvDups_CellFormatting);
             this.dgvDuplicates.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvDuplicates_CellMouseUp);

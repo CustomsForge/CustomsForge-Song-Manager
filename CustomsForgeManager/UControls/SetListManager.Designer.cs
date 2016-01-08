@@ -1,5 +1,5 @@
 ﻿using System.Windows.Forms;
-using CustomsForgeManager.CustomsForgeManagerLib.DataGridTools;
+using CustomsForgeManager.CustomsForgeManagerLib.CustomControls;
 
 namespace CustomsForgeManager.UControls
 {
@@ -47,7 +47,7 @@ namespace CustomsForgeManager.UControls
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.gbSetlistSongs = new System.Windows.Forms.GroupBox();
-            this.dgvSetlistSongs = new CustomsForgeManager.CustomsForgeManagerLib.DataGridTools.RADataGridView();
+            this.dgvSetlistSongs = new CustomsForgeManager.CustomsForgeManagerLib.CustomControls.RADataGridView();
             this.colSetlistSongsSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.colSetlistSongsEnabled = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colSetlistSongsSongArtist = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -59,7 +59,7 @@ namespace CustomsForgeManager.UControls
             this.colSetlistSongsPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colSetlistSongsArtistTitleAlbum = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.gbSetlist = new System.Windows.Forms.GroupBox();
-            this.dgvSetlists = new CustomsForgeManager.CustomsForgeManagerLib.DataGridTools.RADataGridView();
+            this.dgvSetlists = new CustomsForgeManager.CustomsForgeManagerLib.CustomControls.RADataGridView();
             this.colSetlistSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.colSetlistEnabled = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colSetlistName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -85,7 +85,7 @@ namespace CustomsForgeManager.UControls
             this.label8 = new System.Windows.Forms.Label();
             this.btnEnDiDlcSongs = new System.Windows.Forms.Button();
             this.btnAddDlcSongs = new System.Windows.Forms.Button();
-            this.dgvSetlistMaster = new CustomsForgeManager.CustomsForgeManagerLib.DataGridTools.RADataGridView();
+            this.dgvSetlistMaster = new CustomsForgeManager.CustomsForgeManagerLib.CustomControls.RADataGridView();
             this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.colEnabled = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colArtist = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
@@ -100,7 +100,7 @@ namespace CustomsForgeManager.UControls
             this.chkEnableDelete = new System.Windows.Forms.CheckBox();
             this.label4 = new System.Windows.Forms.Label();
             this.btnEnDiSongPack = new System.Windows.Forms.Button();
-            this.dgvSongPacks = new CustomsForgeManager.CustomsForgeManagerLib.DataGridTools.RADataGridView();
+            this.dgvSongPacks = new CustomsForgeManager.CustomsForgeManagerLib.CustomControls.RADataGridView();
             this.colSongPackSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.colSongPackEnabled = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colSongPackPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -651,6 +651,7 @@ namespace CustomsForgeManager.UControls
             this.dgvSetlistMaster.RowHeadersVisible = false;
             this.dgvSetlistMaster.Size = new System.Drawing.Size(552, 212);
             this.dgvSetlistMaster.TabIndex = 32;
+            this.dgvSetlistMaster.Tag = "Setlist Manager";
             this.dgvSetlistMaster.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSetlistMaster_CellMouseUp);
             this.dgvSetlistMaster.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSetlistMaster_ColumnHeaderMouseClick);
             this.dgvSetlistMaster.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgvSetlistMaster_DataBindingComplete);
@@ -878,9 +879,9 @@ namespace CustomsForgeManager.UControls
             this.chkSubFolders.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkSubFolders.Location = new System.Drawing.Point(15, 232);
             this.chkSubFolders.Name = "chkSubFolders";
-            this.chkSubFolders.Size = new System.Drawing.Size(131, 17);
+            this.chkSubFolders.Size = new System.Drawing.Size(125, 17);
             this.chkSubFolders.TabIndex = 49;
-            this.chkSubFolders.Text = "Highlight Setlist Songs";
+            this.chkSubFolders.Text = "Include Setlist Songs";
             this.chkSubFolders.UseVisualStyleBackColor = true;
             this.chkSubFolders.MouseUp += new System.Windows.Forms.MouseEventHandler(this.chkSubFolders_MouseUp);
             // 

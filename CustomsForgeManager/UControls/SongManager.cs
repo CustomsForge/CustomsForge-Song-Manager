@@ -184,7 +184,7 @@ namespace CustomsForgeManager.UControls
             Globals.TsLabel_MainMsg.Visible = true;
             numberOfDisabledDLC = masterSongCollection.Where(song => song.Enabled == "No").ToList().Count();
             numberOfDLCPendingUpdate = 0;
-            var tsldcMsg = String.Format("Outdated: {0} | Disabled DLC: {1}", numberOfDLCPendingUpdate, numberOfDisabledDLC);
+            var tsldcMsg = String.Format("Outdated: {0} | Disabled CDLC: {1}", numberOfDLCPendingUpdate, numberOfDisabledDLC);
             Globals.TsLabel_DisabledCounter.Alignment = ToolStripItemAlignment.Right;
             Globals.TsLabel_DisabledCounter.Text = tsldcMsg;
             Globals.TsLabel_DisabledCounter.Visible = true;
@@ -932,7 +932,7 @@ namespace CustomsForgeManager.UControls
 
                         // row.Cells["colSelect"].Value = false;
                         numberOfDisabledDLC = masterSongCollection.Where(song => song.Enabled == "No").ToList().Count();
-                        var tsldcMsg = String.Format("Outdated: {0} | Disabled DLC: {1}", numberOfDLCPendingUpdate, numberOfDisabledDLC);
+                        var tsldcMsg = String.Format("Outdated: {0} | Disabled CDLC: {1}", numberOfDLCPendingUpdate, numberOfDisabledDLC);
                         Extensions.InvokeIfRequired(this, delegate { Globals.TsLabel_DisabledCounter.Text = tsldcMsg; });
                     }
                     else
@@ -1262,10 +1262,11 @@ namespace CustomsForgeManager.UControls
                         var colHeaderHeight = dgvSongsDetail.Columns[e.ColumnIndex].HeaderCell.Size.Height;
                         dgvSongsDetail.Height = dgvSongsDetail.Rows.Cast<DataGridViewRow>().Sum(row => row.Height) + colHeaderHeight - 3;
                         dgvSongsDetail.Width = dgvSongsDetail.Columns.Cast<DataGridViewColumn>().Sum(col => col.Width) + colWidth;
-                        if (dgvSongsDetail.Rows.Count == 1) // extra tweak for single row
-                            dgvSongsDetail.Height = dgvSongsDetail.Height + 5;
+                        if (dgvSongsDetail.Rows.Count < 3) // need extra tweak 
+                            dgvSongsDetail.Height = dgvSongsDetail.Height + 4;
 
-                        dgvSongsDetail.Invalidate();
+                        dgvSongsDetail.Refresh();
+                        //dgvSongsDetail.Invalidate();
                         dgvSongsDetail.Visible = true;
                     }
                 }

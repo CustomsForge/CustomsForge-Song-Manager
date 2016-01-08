@@ -1,4 +1,4 @@
-﻿namespace CustomsForgeManager.Forms
+﻿namespace DataGridViewTools
 {
     partial class frmCustomFilter
     {
@@ -64,11 +64,11 @@
             this.tblExpressions.ColumnCount = 1;
             this.tblExpressions.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tblExpressions.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tblExpressions.Location = new System.Drawing.Point(3, 19);
+            this.tblExpressions.Location = new System.Drawing.Point(16, 19);
             this.tblExpressions.Name = "tblExpressions";
             this.tblExpressions.RowCount = 1;
             this.tblExpressions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tblExpressions.Size = new System.Drawing.Size(372, 115);
+            this.tblExpressions.Size = new System.Drawing.Size(249, 101);
             this.tblExpressions.TabIndex = 5;
             // 
             // button1

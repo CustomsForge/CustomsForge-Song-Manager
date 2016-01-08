@@ -1,5 +1,4 @@
-﻿using CustomsForgeManager.CustomsForgeManagerLib.CustomControls;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -7,7 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 
-namespace CustomsForgeManager.Forms
+namespace DataGridViewTools
 {
     public partial class frmCustomFilter : Form
     {
@@ -65,7 +64,7 @@ namespace CustomsForgeManager.Forms
                         if (x != null)
                         {
                             if (String.IsNullOrEmpty(result))
-                                result = (egc.cbNot.Checked ? "!" :"" ) + x.Compile(propInfo.Name) + (egc.IsAnd ? " && " : " || ");
+                                result = (egc.cbNot.Checked ? "!" : "") + x.Compile(propInfo.Name) + (egc.IsAnd ? " && " : " || ");
                             else
                                 result += (egc.cbNot.Checked ? "!" : "") + x.Compile(propInfo.Name) + (egc.IsAnd ? " && " : " || ");
                         }
@@ -110,7 +109,7 @@ namespace CustomsForgeManager.Forms
 
             tblExpressions.Controls.Add(ec, 0, tblExpressions.RowCount - 1);
             tblExpressions.RowCount += 1;
-        }
+         }
 
 
         private void button3_Click(object sender, EventArgs e)
@@ -244,7 +243,7 @@ namespace CustomsForgeManager.Forms
         }
 
     }
-    
+
 
     public class Expression
     {
