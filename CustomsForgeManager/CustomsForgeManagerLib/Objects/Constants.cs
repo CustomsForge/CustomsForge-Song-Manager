@@ -11,14 +11,18 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects
     {
 
 #if (DEBUG)
-        public static bool DebugMode { get { return true; } }
+        public static bool DebugMode
+        {
+            get { return true; }
+        }
 #else
         public static bool DebugMode { get { return false; } }
 #endif
 
-        public const string RS1COMP = "rs1compatibility";
-
-        public const string ApplicationName = "CustomsForge Song Manager";
+        public static readonly string RS1COMP = "rs1compatibility";
+        public static readonly string SONGPACK = "songpack";
+        public static readonly string ApplicationName = "CustomsForge Song Manager";
+        public static Font OfficialDLCFont { get { return new Font("Arial", 8, FontStyle.Bold | FontStyle.Italic); } }
         public static string ApplicationVersion { get { return Assembly.GetExecutingAssembly().GetName().Version.ToString(); } }
         public static string WorkDirectory { get { return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "CFSM"); } }
         public static string ThemeDirectory { get { return Path.Combine(WorkDirectory, "Themes"); } }

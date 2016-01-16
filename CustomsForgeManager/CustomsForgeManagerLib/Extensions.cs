@@ -36,11 +36,11 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
             TuningStrings songTuning = jObj.ToObject<TuningStrings>();
 
             foreach (var tuning in Globals.TuningXml)
-                if (tuning.Tuning.String0 == songTuning.String5 &&
-                    tuning.Tuning.String1 == songTuning.String5 &&
-                    tuning.Tuning.String2 == songTuning.String5 &&
-                    tuning.Tuning.String3 == songTuning.String5 &&
-                    tuning.Tuning.String4 == songTuning.String5 &&
+                if (tuning.Tuning.String0 == songTuning.String0 &&
+                    tuning.Tuning.String1 == songTuning.String1 &&
+                    tuning.Tuning.String2 == songTuning.String2 &&
+                    tuning.Tuning.String3 == songTuning.String3 &&
+                    tuning.Tuning.String4 == songTuning.String4 &&
                     tuning.Tuning.String5 == songTuning.String5)
                 {
                     return tuning.UIName;
@@ -219,7 +219,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
 
             if (!includeRS1Pack)
             {
-                files = files.Where(file => !file.Contains(Constants.RS1COMP)).ToList();
+                files = files.Where(file => !file.Contains(Constants.RS1COMP) && !file.Contains(Constants.SONGPACK)).ToList();
             }
             return files;
         }
@@ -527,20 +527,38 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
             Process.Start(Constants.RequestURL);
         }
 
-        public static void Benchmark(Action act, int iterations)
+        public static void BenchmarkAction(Action action, int iterations)
         {
             // usage example: CustomsForgeManagerLib.Extensions.Benchmark(LoadSongManager, 1);
 
             GC.Collect();
-            act.Invoke(); // run once outside loop to avoid initialization costs
+            action.Invoke(); // run once outside loop to avoid initialization costs
             var sw = Stopwatch.StartNew();
 
             for (int i = 0; i < iterations; i++)
-                act.Invoke();
+                action.Invoke();
 
             sw.Stop();
             if (Constants.DebugMode)
-                Globals.Log(act.Method.Name + " took: " + sw.ElapsedMilliseconds + " (msec)");
+                Globals.Log(action.Method.Name + " took: " + sw.ElapsedMilliseconds + " (msec)");
+        }
+
+        // TODO: develop generic benchmarking for extension methods
+        public static void BenchmarkExtension(MethodInfo method, int iterations)
+        {
+            // usage example: var song = Extensions.BenchmarkAction(DgvExtensions.GetObjectFromFirstSelectedRow<SongData>(dgvCurrent), 1);
+
+            GC.Collect();
+
+            method.Invoke(null, new object[]{}); // run once outside loop to avoid initialization costs
+            var sw = Stopwatch.StartNew();
+
+            for (int i = 0; i < iterations; i++)
+                method.Invoke(null, new object[] { });
+
+            sw.Stop();
+            if (Constants.DebugMode)
+                Globals.Log(method.Name + " took: " + sw.ElapsedMilliseconds + " (msec)");
         }
 
 

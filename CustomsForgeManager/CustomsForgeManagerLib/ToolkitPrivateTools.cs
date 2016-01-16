@@ -1,9 +1,12 @@
 ﻿using System;
 using System.IO;
+using System.IO.Pipes;
 using System.Linq;
 using CFSM.Utils.PSARC;
 using CustomsForgeManager.CustomsForgeManagerLib.Objects;
 using RocksmithToolkitLib;
+using RocksmithToolkitLib.DLCPackage;
+using RocksmithToolkitLib.Extensions;
 
 namespace CustomsForgeManager.CustomsForgeManagerLib
 {
@@ -134,6 +137,7 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
             {
                 archive.Read(psarcStream, true);
                 var tocEntry = archive.TOC.Where(entry => entry.Name.Contains(entryNamePath)).FirstOrDefault();
+                
                 if (tocEntry != null)
                 {
                     if (!Directory.Exists(outputDir))
@@ -146,6 +150,27 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
 
                 return "";
             }
+        }
+
+        public static Stream ExtractArchiveFile(string psarcPath, string entryNamePath)
+        {
+            if (!File.Exists(psarcPath))
+                return null;
+
+            using (PSARC archive = new PSARC(true))
+            using (var psarcStream = File.OpenRead(psarcPath))
+            {
+                archive.Read(psarcStream, true);
+                var tocEntry = archive.TOC.FirstOrDefault(x => (x.Name.Equals(entryNamePath)));
+
+                if (tocEntry != null)
+                {
+                    archive.InflateEntry(tocEntry);
+                    return tocEntry.Data;
+                }
+            }
+
+            return null;           
         }
 
         //public static bool InjectArchiveEntry(string psarcPath, string entryNamePath = null, string sourcePath = null)

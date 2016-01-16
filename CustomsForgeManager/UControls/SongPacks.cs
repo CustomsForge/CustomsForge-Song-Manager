@@ -14,6 +14,7 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Reflection;
 using RocksmithToolkitLib;
+using RocksmithToolkitLib.Extensions;
 using SevenZip;
 using Extensions = CustomsForgeManager.CustomsForgeManagerLib.Extensions;
 
@@ -281,10 +282,10 @@ namespace CustomsForgeManager.UControls
         private void InitializeSongPacksCombo()
         {
             cmbSongPacks.Items.Clear();
-            cmbSongPacks.Items.Add("Rocksmith Main Tracks");
+            cmbSongPacks.Items.Add("Rocksmith 2014 Tracks");
             cmbSongPacks.Items.Add("RS1 Compatibility Disc");
             cmbSongPacks.Items.Add("RS1 Compatibility DLC");
-            cmbSongPacks.Items.Add("Custom Song Pack");
+            cmbSongPacks.Items.Add("Load Custom Song Pack");
 
             cmbSongPacks.SelectedIndex = 0; // gens call to EH cmbSongPacks.Index_Changed
         }
@@ -293,16 +294,35 @@ namespace CustomsForgeManager.UControls
         {
             using (var ofd = new OpenFileDialog())
             {
-                ofd.Filter = "All Files (*.psarc)|*.psarc";
+                ofd.Filter = "Song Pack Files (*.psarc)|*.psarc";
+                ofd.Title = "Select a Custom Song Pack File";
+                ofd.CheckPathExists = true;
+                ofd.Multiselect = false;
 
                 if (ofd.ShowDialog() != DialogResult.OK)
                     return;
 
                 customPackPsarcPath = ofd.FileName;
+                txtFileName.Text = Path.GetFileName(customPackPsarcPath);
             }
 
-            // song packs should only have one hsan file
-            txtFileName.Text = Path.GetFileName(customPackPsarcPath);
+            // song pack validation
+            var version = String.Empty;
+            var tkVersionData = ToolkitPrivateTools.ExtractArchiveFile(customPackPsarcPath, "toolkit.version");
+            if (tkVersionData != null)
+            {
+                ToolkitInfo tkInfo = GeneralExtensions.GetToolkitInfo(new StreamReader(tkVersionData));
+                version = tkInfo.PackageVersion ?? "N/A";
+            }
+
+            if (!version.Contains("SongPack"))
+            {
+                MessageBox.Show(txtFileName.Text + " is not a Custom Song Pack", "Select a Song Pack File",
+                    MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                LoadCustomSongPack();
+            }
+
+            // song pack produced by toolkit only has one hsan file
             customInternalHsanPath = ToolkitPrivateTools.ExtractArchiveFile(customPackPsarcPath, "hsan", Constants.CpeWorkDirectory);
             var extractedCustomHsanFile = Path.GetFileName(customInternalHsanPath);
             extractedCustomHsanPath = Path.Combine(Constants.CpeWorkDirectory, extractedCustomHsanFile);

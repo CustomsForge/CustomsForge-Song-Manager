@@ -49,7 +49,6 @@ namespace CustomsForgeManager.UControls
             Globals.Log("Populating Duplicates GUI ...");
             CFSMTheme.DoubleBuffered(dgvDuplicates);
             Globals.Settings.LoadSettingsFromFile(dgvDuplicates);
-            chkSubFolders.Checked = true;
             dgvDuplicates.Visible = false;
 
             if (Globals.WorkerFinished == Globals.Tristate.Cancelled)
@@ -88,7 +87,19 @@ namespace CustomsForgeManager.UControls
                     }
                 }
 
-                duplicates = pidList.GroupBy(x => x.PID).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
+                if (chkSubFolders.Checked)
+                    duplicates = pidList
+                        .GroupBy(x => x.PID)
+                        .Where(group => group.Count() > 1)
+                        .SelectMany(group => group).ToList();
+
+                else
+                    duplicates = pidList
+                        .Where(x => Path.GetFileName(Path.GetDirectoryName(x.Path)) == "dlc")
+                        .GroupBy(x => x.PID)
+                        .Where(group => group.Count() > 1)
+                        .SelectMany(group => group).ToList();
+
                 distinctPIDS = duplicates.Select(x => x.PID).Distinct().ToList();
 
                 colPID.Visible = true;
@@ -99,7 +110,17 @@ namespace CustomsForgeManager.UControls
                 colPID.Visible = false;
                 colPIDArrangement.Visible = false;
 
-                duplicates = Globals.SongCollection.GroupBy(x => x.ArtistTitleAlbum).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
+                if (chkSubFolders.Checked)
+                    duplicates = Globals.SongCollection
+                        .GroupBy(x => x.ArtistTitleAlbum)
+                        .Where(group => group.Count() > 1)
+                        .SelectMany(group => group).ToList();
+                else
+                    duplicates = Globals.SongCollection
+                        .Where(x => Path.GetFileName(Path.GetDirectoryName(x.Path)) == "dlc")
+                        .GroupBy(x => x.ArtistTitleAlbum)
+                        .Where(group => group.Count() > 1)
+                        .SelectMany(group => group).ToList();
             }
 
             duplicates.RemoveAll(x => x.FileName.ToLower().Contains(Constants.RS1COMP));
@@ -248,7 +269,7 @@ namespace CustomsForgeManager.UControls
                 if (MessageBox.Show(Properties.Resources.DeleteTheSelectedDuplicates, Constants.ApplicationName, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.No)
                     return;
 
-            string dupDir = Path.Combine(AppSettings.Instance.RSInstalledDir, "cdlc_duplicates");
+            string dupDir = Path.Combine(AppSettings.Instance.RSInstalledDir, "duplicates");
 
             if (!Directory.Exists(dupDir))
                 Directory.CreateDirectory(dupDir);
@@ -558,17 +579,12 @@ namespace CustomsForgeManager.UControls
 
         private void chkSubFolders_MouseUp(object sender, MouseEventArgs e)
         {
-            if (!chkSubFolders.Checked)
-            {
-                var results = duplicates
-                    .Where(x => Path.GetFileName(Path.GetDirectoryName(x.Path)) == "dlc")
-                    .ToList();
-
-                LoadFilteredBindingList(results);
-            }
+            if (dgvDuplicates.Columns["colPID"].Visible)
+                PopulateDuplicates(true);
             else
-                LoadFilteredBindingList(duplicates);
+                PopulateDuplicates();
         }
+
 
 
     }

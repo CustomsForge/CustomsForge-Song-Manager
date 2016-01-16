@@ -52,9 +52,9 @@ namespace CustomsForgeManager.UControls
             this.btnRescan = new System.Windows.Forms.Button();
             this.gbResults = new System.Windows.Forms.GroupBox();
             this.txtNoDuplicates = new System.Windows.Forms.TextBox();
-            this.dgvDuplicates = new RADataGridView();
-            this.colPID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colPIDArrangement = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgvDuplicates = new CustomsForgeManager.CustomsForgeManagerLib.CustomControls.RADataGridView();
+            this.colPID = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.colPIDArrangement = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colKey = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.colEnabled = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
@@ -298,12 +298,14 @@ namespace CustomsForgeManager.UControls
             this.colPID.DataPropertyName = "PID";
             this.colPID.HeaderText = "Persistent ID";
             this.colPID.Name = "colPID";
+            this.colPID.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             // 
             // colPIDArrangement
             // 
             this.colPIDArrangement.DataPropertyName = "PIDArrangement";
             this.colPIDArrangement.HeaderText = "Arrangement";
             this.colPIDArrangement.Name = "colPIDArrangement";
+            this.colPIDArrangement.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             // 
             // colKey
             // 
@@ -559,8 +561,9 @@ namespace CustomsForgeManager.UControls
         private TextBox txtNoDuplicates;
         private RADataGridView dgvDuplicates;
         private ToolTip toolTip;
-        private DataGridViewTextBoxColumn colPID;
-        private DataGridViewTextBoxColumn colPIDArrangement;
+        private CheckBox chkSubFolders;
+        private DataGridViewTools.DataGridViewAutoFilterTextBoxColumn colPID;
+        private DataGridViewTools.DataGridViewAutoFilterTextBoxColumn colPIDArrangement;
         private DataGridViewTools.DataGridViewAutoFilterTextBoxColumn colKey;
         private DataGridViewCheckBoxColumn colSelect;
         private DataGridViewTools.DataGridViewAutoFilterTextBoxColumn colEnabled;
@@ -583,6 +586,5 @@ namespace CustomsForgeManager.UControls
         private DataGridViewTextBoxColumn colIgnitionVersion;
         private DataGridViewTextBoxColumn colIgnitionAuthor;
         private DataGridViewTextBoxColumn colArtistTitleAlbum;
-        private CheckBox chkSubFolders;
     }
 }

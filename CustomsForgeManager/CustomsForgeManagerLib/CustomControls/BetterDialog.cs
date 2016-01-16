@@ -19,8 +19,7 @@ using System.Windows.Forms;
 namespace CustomsForgeManager.CustomsForgeManagerLib.CustomControls
 {
     /// <summary>
-    /// Custom Dialog Box to replace standard Message Box with positioning
-    /// TODO: add custom button text
+    /// Customizable Dialog Box to replace standard Message Box with positioning and custom buttons
     /// </summary>
     public partial class BetterDialog : Form
     {

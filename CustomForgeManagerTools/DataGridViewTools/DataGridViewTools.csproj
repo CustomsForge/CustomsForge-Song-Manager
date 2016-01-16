@@ -72,6 +72,7 @@
     <Compile Include="DataGridViewAutoFilterColumnHeaderCell.cs" />
     <Compile Include="DataGridViewAutoFilterTextBoxColumn.cs" />
     <Compile Include="DataGridViewCheckBoxHeaderCell.cs" />
+    <Compile Include="DgvExtensions.cs" />
     <Compile Include="FilteredBindingList.cs" />
     <Compile Include="frmCustomFilter.cs">
       <SubType>Form</SubType>

@@ -521,6 +521,7 @@
     <None Include="Resources\RocksmithToolkitGUI_32512.png" />
     <EmbeddedResource Include="Resources\htmExport.css" />
     <Content Include="Resources\151.png" />
+    <None Include="Resources\copy.png" />
     <Content Include="Resources\dardev.png" />
     <None Include="Resources\Lovroman.png" />
     <None Include="Resources\media_pause.png" />
@@ -540,6 +541,9 @@
     <EmbeddedResource Include="Resources\tags\zagatozeeddtext\Lead.png" />
     <EmbeddedResource Include="Resources\tags\zagatozeeddtext\Rhythm Bonus.png" />
     <EmbeddedResource Include="Resources\tags\zagatozeeddtext\Rhythm.png" />
+    <None Include="Resources\enabledisable.png" />
+    <None Include="Resources\refresh.png" />
+    <None Include="Resources\onoff.png" />
     <Content Include="Resources\TaggerHelp.html" />
     <Content Include="Resources\Unleashed2k.png" />
     <Content Include="RocksmithToolkitLib.Config.xml">

@@ -126,7 +126,7 @@ namespace CustomsForgeManager.UControls
                 using (var fs = new FileStream(Constants.SettingsPath, FileMode.Create, FileAccess.Write, FileShare.Write))
                 {
                     AppSettings.Instance.SerializeXml(fs);
-                    Globals.Log("Saved settings file ...");
+                    Globals.Log("Saved cfsm.Settings.xml file ...");
                 }
 
                 if (String.IsNullOrEmpty(dgvCurrent.Name))
@@ -138,7 +138,7 @@ namespace CustomsForgeManager.UControls
                 using (var fs = new FileStream(Constants.GridSettingsPath, FileMode.Create, FileAccess.Write, FileShare.Write))
                 {
                     AppSettings.Instance.ManagerGridSettings.SerializeXml(fs);
-                    Globals.Log("Saved grid settings file ...");
+                    Globals.Log("Saved " + Path.GetFileName(Constants.GridSettingsPath) + " file ...");
                 }
             }
             catch (Exception ex)

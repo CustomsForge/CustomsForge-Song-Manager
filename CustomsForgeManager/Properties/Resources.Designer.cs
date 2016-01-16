@@ -215,6 +215,13 @@ namespace CustomsForgeManager.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap copy {
+            get {
+                object obj = ResourceManager.GetObject("copy", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to Could not extract the audio..
         /// </summary>
@@ -371,6 +378,13 @@ namespace CustomsForgeManager.Properties {
         internal static System.Drawing.Bitmap edit {
             get {
                 object obj = ResourceManager.GetObject("edit", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap enabledisable {
+            get {
+                object obj = ResourceManager.GetObject("enabledisable", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -592,6 +606,13 @@ namespace CustomsForgeManager.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap onoff {
+            get {
+                object obj = ResourceManager.GetObject("onoff", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap Open {
             get {
                 object obj = ResourceManager.GetObject("Open", resourceCulture);
@@ -659,6 +680,13 @@ namespace CustomsForgeManager.Properties {
         internal static string RawSongsCountX0 {
             get {
                 return ResourceManager.GetString("RawSongsCountX0", resourceCulture);
+            }
+        }
+        
+        internal static System.Drawing.Bitmap refresh {
+            get {
+                object obj = ResourceManager.GetObject("refresh", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
