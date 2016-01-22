@@ -33,8 +33,9 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
     {
         //version 2 : SongKey changed to DLCKey.
         //version 3 : removed DLCKey from arrangement
-        //version 4: changed tagged to SongTaggerStatus
-        public const string SongDataListCurrentVersion = "4";
+        //version 4 : changed tagged to SongTaggerStatus
+        //version 5 : added ArtistSort TitleSort and AlbumSort variables
+        public const string SongDataListCurrentVersion = "5";
 
         public string DLCKey { get; set; }
 
@@ -93,8 +94,11 @@ namespace CustomsForgeManager.CustomsForgeManagerLib.Objects // .DataClass
 
         public string AudioCache { get; set; }
         public string Artist { get; set; }
+        public string ArtistSort { get; set; }
         public string Title { get; set; }
+        public string TitleSort { get; set; }
         public string Album { get; set; }
+        public string AlbumSort { get; set; }
         public Int32 SongYear { get; set; }
         public Single SongLength { get; set; }
         public Single SongAverageTempo { get; set; }

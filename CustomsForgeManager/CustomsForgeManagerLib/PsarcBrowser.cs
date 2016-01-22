@@ -179,12 +179,16 @@ namespace CustomsForgeManager.CustomsForgeManagerLib
                         var attributes = o["Entries"].First.Last["Attributes"];
 
                         // mini speed hack - these don't change so skip after first pass
+
                         if (!gotSongInfo)
                         {
                             currentSong.DLCKey = attributes["SongKey"].ToString();
                             currentSong.Artist = attributes["ArtistName"].ToString();
+                            currentSong.ArtistSort = attributes["ArtistNameSort"].ToString();
                             currentSong.Title = attributes["SongName"].ToString();
+                            currentSong.TitleSort = attributes["SongNameSort"].ToString();
                             currentSong.Album = attributes["AlbumName"].ToString();
+                            currentSong.AlbumSort = attributes["AlbumNameSort"].ToString();
                             currentSong.LastConversionDateTime = Convert.ToDateTime(attributes["LastConversionDateTime"]);
                             currentSong.SongYear = Convert.ToInt32(attributes["SongYear"]);
                             currentSong.SongLength = Convert.ToSingle(attributes["SongLength"]);

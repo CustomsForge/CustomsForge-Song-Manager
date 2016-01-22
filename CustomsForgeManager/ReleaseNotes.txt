@@ -1,5 +1,11 @@
 CFM Release Notes
 
+1.1.3.4
+-Added validation checks to Song Editor feature
+-Fixed Song Editor textbox tabbing order
+-Added Album Sort variable field to Song Editor
+-Added Artist Sort, Title Sort and Album Sort columns to Song Manager (display songs as they will appear in the game)
+
 1.1.3.3
 -Moved DatagridviewTools from CustomsForgeManagerLib to project DataGridViewTools as generic reusable methods
 -Code cleanup and refactoring 

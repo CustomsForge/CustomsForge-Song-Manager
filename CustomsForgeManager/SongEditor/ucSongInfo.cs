@@ -1,8 +1,11 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using CustomsForgeManager.CustomsForgeManagerLib.Objects;
 using RocksmithToolkitLib;
+using RocksmithToolkitLib.Extensions;
 
 namespace CustomsForgeManager.SongEditor
 {
@@ -26,6 +29,7 @@ namespace CustomsForgeManager.SongEditor
             txtTitle.Text = SongData.SongInfo.SongDisplayName;
             txtTitleSort.Text = SongData.SongInfo.SongDisplayNameSort;
             txtAlbum.Text = SongData.SongInfo.Album;
+            txtAlbumSort.Text = SongData.SongInfo.AlbumSort;
             txtAppId.Text = SongData.AppId;
             txtVersion.Text = SongData.PackageVersion;
             txtYear.Text = SongData.SongInfo.SongYear.ToString();
@@ -34,25 +38,81 @@ namespace CustomsForgeManager.SongEditor
             cmbPreviewVolume.Value = Convert.ToDecimal(SongData.PreviewVolume);
             txtCharter.Text = song.Charter; // not editable
 
-            txtKey.TextChanged += TextValueChanged;
-            txtArtist.TextChanged += TextValueChanged;
-            txtArtistSort.TextChanged += TextValueChanged;
-            txtTitle.TextChanged += TextValueChanged;
-            txtTitleSort.TextChanged += TextValueChanged;
-            txtAlbum.TextChanged += TextValueChanged;
-            txtAppId.TextChanged += TextValueChanged;
-            txtVersion.TextChanged += TextValueChanged;
-            txtYear.TextChanged += TextValueChanged;
-            txtAvgTempo.TextChanged += TextValueChanged;
-            cmbSongVolume.TextChanged += TextValueChanged;
-            cmbPreviewVolume.TextChanged += TextValueChanged;
+            txtKey.Validating += ValidateKey;
+            txtArtist.Validating += ValidateName;
+            txtArtistSort.Validating += ValidateSort;
+            txtTitle.Validating += ValidateName;
+            txtTitleSort.Validating += ValidateSort;
+            txtAlbum.Validating += ValidateName;
+            txtAlbumSort.Validating += ValidateSort;
+            txtAppId.Validating += ValidateVersion;
+            txtVersion.Validating += ValidateVersion;
+            txtYear.Validating += ValidateVersion;
+            txtAvgTempo.Validating += ValidateTempo;
+            cmbSongVolume.Validating += ValidateText;
+            cmbPreviewVolume.Validating += ValidateText;
 
-            cbLowBass.CheckedChanged += TextValueChanged;
+            cbLowBass.Validating += ValidateText;
             //set up events
             PopulateAppIdCombo(SongData.AppId, GameVersion.RS2014);
         }
 
-        void TextValueChanged(object sender, EventArgs e)
+        private void ValidateKey(object sender, CancelEventArgs e)
+        {
+            var tb = sender as TextBox;
+            if (tb != null)
+            {
+                tb.Text = tb.Text.Trim().GetValidSongName(txtTitle.Text);
+                this.Dirty = true;
+            }
+        }
+
+        private void ValidateTempo(object sender, CancelEventArgs e)
+        {
+            var tb = sender as TextBox;
+            if (tb != null)
+            {
+                float tempo = 0;
+                float.TryParse(tb.Text.Trim(), out tempo);
+                tb.Text = Math.Round(tempo).ToString();
+                this.Dirty = true;
+            }
+        }
+
+        private void ValidateSort(object sender, CancelEventArgs e)
+        {
+            var tb = sender as TextBox;
+            if (tb != null)
+            {
+                tb.Text = tb.Text.Trim().GetValidSortName();
+                this.Dirty = true;
+            }
+        }
+
+        private void ValidateName(object sender, CancelEventArgs e)
+        {
+            var tb = sender as TextBox;
+            if (tb != null)
+            {
+                tb.Text = tb.Text.Trim().GetValidName(true);
+                this.Dirty = true;
+
+                if (tb.Name == "txtTitle")
+                    txtKey.Text = String.Format("{0} {1}", txtArtist.Text.Acronym(), txtTitle.Text.GetValidSortName());
+            }
+        }
+
+        private void ValidateVersion(object sender, CancelEventArgs e)
+        {
+            var tb = sender as TextBox;
+            if (tb != null)
+            {
+                tb.Text = tb.Text.Trim().GetValidVersion();
+                this.Dirty = true;
+            }
+        }
+
+        void ValidateText(object sender, CancelEventArgs e)
         {
             this.Dirty = true;
         }
@@ -66,12 +126,14 @@ namespace CustomsForgeManager.SongEditor
         //TODO: validate editors
         public override void Save()
         {
+            txtKey.Focus();
             SongData.Name = txtKey.Text;
             SongData.SongInfo.Artist = txtArtist.Text;
             SongData.SongInfo.ArtistSort = txtArtistSort.Text;
             SongData.SongInfo.SongDisplayName = txtTitle.Text;
             SongData.SongInfo.SongDisplayNameSort = txtTitleSort.Text;
             SongData.SongInfo.Album = txtAlbum.Text;
+            SongData.SongInfo.AlbumSort = txtAlbumSort.Text;
             SongData.AppId = txtAppId.Text;
             SongData.PackageVersion = txtVersion.Text;
             SongData.SongInfo.SongYear = Convert.ToInt32(txtYear.Text);

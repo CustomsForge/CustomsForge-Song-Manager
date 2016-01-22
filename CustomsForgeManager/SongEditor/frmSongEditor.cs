@@ -313,7 +313,7 @@ namespace CustomsForgeManager.SongEditor
             songXml.AlbumName = info.SongInfo.Album;
             songXml.AlbumYear = info.SongInfo.SongYear.ToString();
             songXml.ArtistName = info.SongInfo.Artist;
-            songXml.ArtistNameSort = info.SongInfo.ArtistSort;
+            songXml.ArtistNameSort = info.SongInfo.ArtistSort;            
             songXml.AverageTempo = info.SongInfo.AverageTempo;
             songXml.Title = info.SongInfo.SongDisplayName;
             songXml.Tuning = arr.TuningStrings;

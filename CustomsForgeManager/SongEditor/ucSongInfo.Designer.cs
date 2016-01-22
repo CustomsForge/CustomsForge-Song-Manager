@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.gbSongInfo = new System.Windows.Forms.GroupBox();
+            this.label16 = new System.Windows.Forms.Label();
             this.cbLowBass = new System.Windows.Forms.CheckBox();
             this.label15 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
@@ -59,6 +60,7 @@
             this.cmbPreviewVolume = new System.Windows.Forms.NumericUpDown();
             this.cmbSongVolume = new System.Windows.Forms.NumericUpDown();
             this.label3 = new System.Windows.Forms.Label();
+            this.txtAlbumSort = new System.Windows.Forms.TextBox();
             this.gbSongInfo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cmbPreviewVolume)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmbSongVolume)).BeginInit();
@@ -66,6 +68,8 @@
             // 
             // gbSongInfo
             // 
+            this.gbSongInfo.Controls.Add(this.txtAlbumSort);
+            this.gbSongInfo.Controls.Add(this.label16);
             this.gbSongInfo.Controls.Add(this.cbLowBass);
             this.gbSongInfo.Controls.Add(this.label15);
             this.gbSongInfo.Controls.Add(this.label14);
@@ -101,18 +105,28 @@
             this.gbSongInfo.Name = "gbSongInfo";
             this.gbSongInfo.Padding = new System.Windows.Forms.Padding(0);
             this.gbSongInfo.Size = new System.Drawing.Size(515, 348);
-            this.gbSongInfo.TabIndex = 82;
+            this.gbSongInfo.TabIndex = 0;
             this.gbSongInfo.TabStop = false;
             this.gbSongInfo.Text = "Song Information";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.ForeColor = System.Drawing.SystemColors.ActiveCaption;
+            this.label16.Location = new System.Drawing.Point(380, 220);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(109, 13);
+            this.label16.TabIndex = 83;
+            this.label16.Text = "(Enter Custom AppID)";
             // 
             // cbLowBass
             // 
             this.cbLowBass.AutoSize = true;
             this.cbLowBass.Location = new System.Drawing.Point(102, 312);
             this.cbLowBass.Name = "cbLowBass";
-            this.cbLowBass.Size = new System.Drawing.Size(124, 17);
-            this.cbLowBass.TabIndex = 103;
-            this.cbLowBass.Text = "Fix Low Bass Tuning";
+            this.cbLowBass.Size = new System.Drawing.Size(405, 17);
+            this.cbLowBass.TabIndex = 14;
+            this.cbLowBass.Text = "Fix Low Bass Tuning (Recommend using Rockmith Toolkit to fix low bass tuning)";
             this.cbLowBass.UseVisualStyleBackColor = true;
             // 
             // label15
@@ -122,7 +136,7 @@
             this.label15.Location = new System.Drawing.Point(292, 279);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(74, 13);
-            this.label15.TabIndex = 102;
+            this.label15.TabIndex = 5;
             this.label15.Text = "(Non Editable)";
             // 
             // label14
@@ -133,7 +147,7 @@
             this.label14.Margin = new System.Windows.Forms.Padding(3);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(44, 13);
-            this.label14.TabIndex = 100;
+            this.label14.TabIndex = 28;
             this.label14.Text = "Charter:";
             this.label14.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
@@ -144,7 +158,7 @@
             this.txtCharter.ReadOnly = true;
             this.txtCharter.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtCharter.Size = new System.Drawing.Size(183, 20);
-            this.txtCharter.TabIndex = 101;
+            this.txtCharter.TabIndex = 13;
             // 
             // txtKey
             // 
@@ -152,7 +166,7 @@
             this.txtKey.Name = "txtKey";
             this.txtKey.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtKey.Size = new System.Drawing.Size(106, 20);
-            this.txtKey.TabIndex = 99;
+            this.txtKey.TabIndex = 0;
             // 
             // label12
             // 
@@ -162,7 +176,7 @@
             this.label12.Margin = new System.Windows.Forms.Padding(3);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(68, 13);
-            this.label12.TabIndex = 97;
+            this.label12.TabIndex = 24;
             this.label12.Text = "Avg. Tempo:";
             this.label12.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
@@ -172,7 +186,7 @@
             this.txtYear.Name = "txtYear";
             this.txtYear.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtYear.Size = new System.Drawing.Size(86, 20);
-            this.txtYear.TabIndex = 96;
+            this.txtYear.TabIndex = 6;
             // 
             // label11
             // 
@@ -182,7 +196,7 @@
             this.label11.Margin = new System.Windows.Forms.Padding(3);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(32, 13);
-            this.label11.TabIndex = 95;
+            this.label11.TabIndex = 23;
             this.label11.Text = "Year:";
             this.label11.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
@@ -192,7 +206,7 @@
             this.txtAvgTempo.Name = "txtAvgTempo";
             this.txtAvgTempo.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtAvgTempo.Size = new System.Drawing.Size(86, 20);
-            this.txtAvgTempo.TabIndex = 98;
+            this.txtAvgTempo.TabIndex = 7;
             // 
             // label13
             // 
@@ -202,7 +216,7 @@
             this.label13.Margin = new System.Windows.Forms.Padding(3);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(45, 13);
-            this.label13.TabIndex = 93;
+            this.label13.TabIndex = 26;
             this.label13.Text = "Version:";
             this.label13.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
@@ -212,15 +226,15 @@
             this.txtVersion.Name = "txtVersion";
             this.txtVersion.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtVersion.Size = new System.Drawing.Size(86, 20);
-            this.txtVersion.TabIndex = 94;
+            this.txtVersion.TabIndex = 10;
             // 
             // txtTitleSort
             // 
-            this.txtTitleSort.Location = new System.Drawing.Point(306, 84);
+            this.txtTitleSort.Location = new System.Drawing.Point(306, 85);
             this.txtTitleSort.Name = "txtTitleSort";
             this.txtTitleSort.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtTitleSort.Size = new System.Drawing.Size(183, 20);
-            this.txtTitleSort.TabIndex = 87;
+            this.txtTitleSort.TabIndex = 4;
             // 
             // label10
             // 
@@ -230,17 +244,17 @@
             this.label10.Margin = new System.Windows.Forms.Padding(3);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(52, 13);
-            this.label10.TabIndex = 85;
+            this.label10.TabIndex = 28;
             this.label10.Text = "DLC Key:";
             this.label10.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // txtArtistSort
             // 
-            this.txtArtistSort.Location = new System.Drawing.Point(306, 58);
+            this.txtArtistSort.Location = new System.Drawing.Point(306, 59);
             this.txtArtistSort.Name = "txtArtistSort";
             this.txtArtistSort.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtArtistSort.Size = new System.Drawing.Size(183, 20);
-            this.txtArtistSort.TabIndex = 84;
+            this.txtArtistSort.TabIndex = 2;
             // 
             // label1
             // 
@@ -249,7 +263,7 @@
             this.label1.Location = new System.Drawing.Point(303, 36);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(150, 13);
-            this.label1.TabIndex = 83;
+            this.label1.TabIndex = 29;
             this.label1.Text = "In-Game Setlist Sortable Fields";
             // 
             // txtAppId
@@ -257,10 +271,9 @@
             this.txtAppId.ForeColor = System.Drawing.SystemColors.GrayText;
             this.txtAppId.Location = new System.Drawing.Point(428, 239);
             this.txtAppId.Name = "txtAppId";
-            this.txtAppId.ReadOnly = true;
             this.txtAppId.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtAppId.Size = new System.Drawing.Size(61, 20);
-            this.txtAppId.TabIndex = 82;
+            this.txtAppId.TabIndex = 12;
             this.txtAppId.Text = "AppID";
             this.txtAppId.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -272,7 +285,7 @@
             this.cmbAppId.Margin = new System.Windows.Forms.Padding(2);
             this.cmbAppId.Name = "cmbAppId";
             this.cmbAppId.Size = new System.Drawing.Size(310, 21);
-            this.cmbAppId.TabIndex = 81;
+            this.cmbAppId.TabIndex = 11;
             this.cmbAppId.SelectedIndexChanged += new System.EventHandler(this.cmbAppId_SelectedIndexChanged);
             // 
             // label2
@@ -283,7 +296,7 @@
             this.label2.Margin = new System.Windows.Forms.Padding(3);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(43, 13);
-            this.label2.TabIndex = 80;
+            this.label2.TabIndex = 27;
             this.label2.Text = "App ID:";
             this.label2.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
@@ -293,7 +306,7 @@
             this.txtTitle.Name = "txtTitle";
             this.txtTitle.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtTitle.Size = new System.Drawing.Size(183, 20);
-            this.txtTitle.TabIndex = 79;
+            this.txtTitle.TabIndex = 3;
             // 
             // label7
             // 
@@ -303,7 +316,7 @@
             this.label7.Margin = new System.Windows.Forms.Padding(3);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(58, 13);
-            this.label7.TabIndex = 78;
+            this.label7.TabIndex = 21;
             this.label7.Text = "Song Title:";
             this.label7.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
@@ -313,7 +326,7 @@
             this.txtArtist.Name = "txtArtist";
             this.txtArtist.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtArtist.Size = new System.Drawing.Size(183, 20);
-            this.txtArtist.TabIndex = 75;
+            this.txtArtist.TabIndex = 1;
             // 
             // label8
             // 
@@ -323,7 +336,7 @@
             this.label8.Margin = new System.Windows.Forms.Padding(3);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(39, 13);
-            this.label8.TabIndex = 76;
+            this.label8.TabIndex = 22;
             this.label8.Text = "Album:";
             this.label8.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
@@ -333,7 +346,7 @@
             this.txtAlbum.Name = "txtAlbum";
             this.txtAlbum.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtAlbum.Size = new System.Drawing.Size(183, 20);
-            this.txtAlbum.TabIndex = 77;
+            this.txtAlbum.TabIndex = 5;
             // 
             // label9
             // 
@@ -343,7 +356,7 @@
             this.label9.Margin = new System.Windows.Forms.Padding(3);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(33, 13);
-            this.label9.TabIndex = 74;
+            this.label9.TabIndex = 29;
             this.label9.Text = "Artist:";
             this.label9.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
@@ -354,7 +367,7 @@
             this.label6.Location = new System.Drawing.Point(214, 192);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(86, 13);
-            this.label6.TabIndex = 66;
+            this.label6.TabIndex = 23;
             this.label6.Text = "Preview Volume:";
             this.label6.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
@@ -366,7 +379,7 @@
             this.label5.Margin = new System.Windows.Forms.Padding(3);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(73, 13);
-            this.label5.TabIndex = 36;
+            this.label5.TabIndex = 25;
             this.label5.Text = "Song Volume:";
             this.label5.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
@@ -377,7 +390,7 @@
             this.label4.Location = new System.Drawing.Point(372, 192);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(20, 13);
-            this.label4.TabIndex = 65;
+            this.label4.TabIndex = 3;
             this.label4.Text = "dB";
             // 
             // cmbPreviewVolume
@@ -402,7 +415,7 @@
             -2147483648});
             this.cmbPreviewVolume.Name = "cmbPreviewVolume";
             this.cmbPreviewVolume.Size = new System.Drawing.Size(60, 20);
-            this.cmbPreviewVolume.TabIndex = 15;
+            this.cmbPreviewVolume.TabIndex = 9;
             this.cmbPreviewVolume.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.cmbPreviewVolume.Value = new decimal(new int[] {
             7,
@@ -432,7 +445,7 @@
             -2147483648});
             this.cmbSongVolume.Name = "cmbSongVolume";
             this.cmbSongVolume.Size = new System.Drawing.Size(60, 20);
-            this.cmbSongVolume.TabIndex = 14;
+            this.cmbSongVolume.TabIndex = 8;
             this.cmbSongVolume.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.cmbSongVolume.Value = new decimal(new int[] {
             7,
@@ -449,6 +462,14 @@
             this.label3.Size = new System.Drawing.Size(20, 13);
             this.label3.TabIndex = 63;
             this.label3.Text = "dB";
+            // 
+            // txtAlbumSort
+            // 
+            this.txtAlbumSort.Location = new System.Drawing.Point(306, 111);
+            this.txtAlbumSort.Name = "txtAlbumSort";
+            this.txtAlbumSort.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtAlbumSort.Size = new System.Drawing.Size(183, 20);
+            this.txtAlbumSort.TabIndex = 84;
             // 
             // ucSongInfo
             // 
@@ -497,5 +518,7 @@
         private System.Windows.Forms.TextBox txtCharter;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.CheckBox cbLowBass;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.TextBox txtAlbumSort;
     }
 }
