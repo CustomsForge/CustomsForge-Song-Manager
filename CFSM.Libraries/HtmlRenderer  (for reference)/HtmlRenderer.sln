@@ -1,0 +1,21 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HtmlRenderer.WinForms", "HtmlRenderer.WinForms\HtmlRenderer.WinForms.csproj", "{1B058920-24B4-4140-8AE7-C8C6C38CA52D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HtmlRenderer", "HtmlRenderer\HtmlRenderer.csproj", "{FE611685-391F-4E3E-B27E-D3150E51E49B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1B058920-24B4-4140-8AE7-C8C6C38CA52D}.Debug|x86.ActiveCfg = Debug|x86
+		{1B058920-24B4-4140-8AE7-C8C6C38CA52D}.Release|x86.ActiveCfg = Release|x86
+		{FE611685-391F-4E3E-B27E-D3150E51E49B}.Debug|x86.ActiveCfg = Debug|x86
+		{FE611685-391F-4E3E-B27E-D3150E51E49B}.Release|x86.ActiveCfg = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

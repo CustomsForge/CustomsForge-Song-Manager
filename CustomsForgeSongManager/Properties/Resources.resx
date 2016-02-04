@@ -1,0 +1,597 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="SongsNeedToBeRescannedWithX0SongManagerBef" xml:space="preserve">
+    <value>Songs need to be rescanned with  {0}Song Manager before renaming!</value>
+    <comment>SongsNeedToBeRescannedWithX0SongManagerBef description</comment>
+  </data>
+  <data name="ERROR" xml:space="preserve">
+    <value>ERROR</value>
+    <comment>ERROR</comment>
+  </data>
+  <data name="ERRORNoPathProvidedForFileScanning" xml:space="preserve">
+    <value>&lt;ERROR&gt;: No path provided for file scanning</value>
+    <comment>ERRORNoPathProvidedForFileScanning description</comment>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="delete" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\delete.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MovedTo" xml:space="preserve">
+    <value>Moved To: </value>
+    <comment>MovedTo description</comment>
+  </data>
+  <data name="Unleashed2k" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\unleashed2k.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="save" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\save.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="plus" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\plus.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="UnableToCreateANewSetlistError" xml:space="preserve">
+    <value>Unable to create a new setlist: \nError: </value>
+    <comment>UnableToCreateANewSetlistError description</comment>
+  </data>
+  <data name="SongDataModifiedConfirmation" xml:space="preserve">
+    <value>The song data has changed.
+Do you want to close without saving?</value>
+    <comment>SongDataModifiedConfirmation description</comment>
+  </data>
+  <data name="upload" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\upload.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PleaseSelectHighlightTheSongThatNYouWould" xml:space="preserve">
+    <value>Please select (highlight) the song that 
+ you would like information about.</value>
+    <comment>PleaseSelectHighlightTheSongThatNYouWould description</comment>
+  </data>
+  <data name="ap_pause" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\media_pause.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PleaseScanInAtLeastOneSong" xml:space="preserve">
+    <value>Please scan in at least one song.</value>
+    <comment>PleaseScanInAtLeastOneSong description</comment>
+  </data>
+  <data name="CanNotIncludeRS1CompatibilityFiles" xml:space="preserve">
+    <value>Can not include RS1 compatibility files as individual 
+ songs in a setlist.  Please return to SongManager and 
+rescan before returning to Setlist Manager. </value>
+    <comment>CanNotIncludeRS1CompatibilityFiles description</comment>
+  </data>
+  <data name="DisabledIsAReservedWord" xml:space="preserve">
+    <value>'Disabled' is a Reserved Word ...
+Setlist names may not contain
+any form of the word 'disabled'</value>
+    <comment>DisabledIsAReservedWord description</comment>
+  </data>
+  <data name="UserCanceledProcess" xml:space="preserve">
+    <value>User canceled process ...</value>
+    <comment>UserCanceledProcess description</comment>
+  </data>
+  <data name="_151" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\151.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DuplicatesNeedToBeRescanned" xml:space="preserve">
+    <value>Duplicates need to be rescanned!</value>
+    <comment>DuplicatesNeedToBeRescanned description</comment>
+  </data>
+  <data name="cozy1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\cozy1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ap_stop" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\media_stop_red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="NoSongsFoundForRenamePreview" xml:space="preserve">
+    <value>No songs found for rename preview.</value>
+    <comment>NoSongsFoundForRenamePreview description</comment>
+  </data>
+  <data name="RawSongsCountX0" xml:space="preserve">
+    <value>Raw songs count: {0}</value>
+    <comment>RawSongsCountX0 description</comment>
+  </data>
+  <data name="RocksmithSongsCountFormat" xml:space="preserve">
+    <value>Rocksmith Song Count: {0}</value>
+    <comment>RocksmithSongsCountFormat description</comment>
+  </data>
+  <data name="UseTheDuplicatesTabmenuToDeleteMoveX0Dupli" xml:space="preserve">
+    <value>Use the Duplicates tabmenu to delete/move{0}duplicates before attempting to use Renamer.</value>
+    <comment>UseTheDuplicatesTabmenuToDeleteMoveX0Dupli description</comment>
+  </data>
+  <data name="rescan" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\rescan1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PleaseSelectTheCheckboxNextToSongsNthatYou" xml:space="preserve">
+    <value>Please select the checkbox next to songs 
+that you would like to delete or move.</value>
+    <comment>PleaseSelectTheCheckboxNextToSongsNthatYou description</comment>
+  </data>
+  <data name="Rocksmith_2014_Background_Guitar" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Rocksmith_2014_Background_Guitar.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Renamer_UseDuplicatesToDeleteMove" xml:space="preserve">
+    <value>Use Duplicates to delete/move '{0}' before using Renamer.</value>
+    <comment>Renamer_UseDuplicatesToDeleteMove description</comment>
+  </data>
+  <data name="DoYouReallyWantToRemoveThisCDLCX0Warning" xml:space="preserve">
+    <value>Do you really want to remove this CDLC?  {0}Warning:  This cannot be undone!</value>
+    <comment>DoYouReallyWantToRemoveThisCDLCX0Warning description</comment>
+  </data>
+  <data name="folder_open" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\folder_open.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="RS2014InstallationDirectoryNotFoundInRegis" xml:space="preserve">
+    <value>RS2014 Installation Directory not found in Registry</value>
+    <comment>RS2014InstallationDirectoryNotFoundInRegis description</comment>
+  </data>
+  <data name="SongsUsedInSetlistsCountFormat" xml:space="preserve">
+    <value>Songs Used In Setlists Count: {0}</value>
+    <comment>SongsUsedInSetlistsCountFormat description</comment>
+  </data>
+  <data name="DuplicateFile" xml:space="preserve">
+    <value>Duplicate File: </value>
+    <comment>DuplicateFile description</comment>
+  </data>
+  <data name="close" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\close.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ThisSongIsIncludedInASetlist" xml:space="preserve">
+    <value>This song is included in a setlist.
+Please use Setlist Songs to enable/disable setlist songs.</value>
+    <comment>ThisSongIsIncludedInASetlist description</comment>
+  </data>
+  <data name="Renamer_RenamingFrom" xml:space="preserve">
+    <value>Renaming From: {0}</value>
+    <comment>Renamer_RenamingFrom description</comment>
+  </data>
+  <data name="backup" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\backup.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Letter_V" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Letter V black_small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="info" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\info.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="StartRs" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\StartRs.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="UserCanceled" xml:space="preserve">
+    <value>User Canceled</value>
+    <comment>UserCanceled description</comment>
+  </data>
+  <data name="EOF20" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EOF20.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Letter_L" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Letter L black_small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Help" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Help.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Letter_R" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Letter R black_small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DreddFoxx" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DreddFoxx.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="load" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\load.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="RemovedX0ObsoleteSongs" xml:space="preserve">
+    <value>Removed {0} obsolete songs.</value>
+    <comment>RemovedX0ObsoleteSongs description</comment>
+  </data>
+  <data name="ShowAll" xml:space="preserve">
+    <value>Show &amp;All</value>
+    <comment>ShowAll description</comment>
+  </data>
+  <data name="DuplicatesCountFormat" xml:space="preserve">
+    <value>Duplicates Count: {0}</value>
+    <comment>DuplicatesCountFormat description</comment>
+  </data>
+  <data name="RenamerPreviewX0" xml:space="preserve">
+    <value>Renamer preview : {0}</value>
+    <comment>RenamerPreviewX0 description</comment>
+  </data>
+  <data name="minus" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\minus.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="internet" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\internet.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Open" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Open.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SelectedSongsInSongManagerCountX0" xml:space="preserve">
+    <value>Selected Songs in SongManager Count: {0}</value>
+    <comment>SelectedSongsInSongManagerCountX0 description</comment>
+  </data>
+  <data name="EOF201" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EOF20.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="rename" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\rename.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="UnableToMoveSongX0ToSetlistX1X2ErrorX3" xml:space="preserve">
+    <value>Unable to move song:{0}, to setlist: {1}{2}Error: {3}</value>
+    <comment>UnableToMoveSongX0ToSetlistX1X2ErrorX3 description</comment>
+  </data>
+  <data name="WarningPreventedGameHangingFormat" xml:space="preserve">
+    <value>Warning ... Prevented game hanging{0}{0}Song file: {1}{0}Has already been added to setlest: {2}  {0}First remove the song from the setlist and try again.</value>
+    <comment>WarningPreventedGameHangingFormat description</comment>
+  </data>
+  <data name="PleaseEnterSetlistName" xml:space="preserve">
+    <value>Please enter setlist name</value>
+    <comment>PleaseEnterSetlistName description</comment>
+  </data>
+  <data name="clear" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\clear.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="dardev" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\dardev.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="RenameTemplateRequiresTitleToPrevent" xml:space="preserve">
+    <value>Rename Template requires &lt;title&gt; to prevent overwriting songs.</value>
+    <comment>RenameTemplateRequiresTitleToPrevent description</comment>
+  </data>
+  <data name="logo_black" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\logo_black.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DeleteTheSelectedDuplicates" xml:space="preserve">
+    <value>Do you really want to delete the selected duplicate CDLC?
+Warning:  This can not be undone!</value>
+    <comment>Do you really want to delete the selected duplicate CDLC?</comment>
+  </data>
+  <data name="update" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\update.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ap_play" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\media_play_green.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="launch" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\launch.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="htmExport" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\htmexport.css;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="disable" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\disable.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Renamer_SongsNeedToBeRescanned" xml:space="preserve">
+    <value>Songs need to be rescanned with  {0}Song Manager before renaming!</value>
+    <comment>Renamer_SongsNeedToBeRescanned description</comment>
+  </data>
+  <data name="RocksmithToolkitGUI_32512" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\RocksmithToolkitGUI_32512.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="creditsbackground" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\creditsbackground.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Lovroman" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\lovroman.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Letter_B" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Letter B black_small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CreatedUserProfileBackup" xml:space="preserve">
+    <value>Created user profile backup:</value>
+    <comment>CreatedUserProfileBackup description</comment>
+  </data>
+  <data name="ThisIsARocksmith1SongItCanTBeDisabled" xml:space="preserve">
+    <value>This is a Rocksmith 1 song. It can't be disabled at this moment. (You just can disable all of them!)</value>
+    <comment>ThisIsARocksmith1SongItCanTBeDisabled description</comment>
+  </data>
+  <data name="RocksmithIsAlreadyRunning" xml:space="preserve">
+    <value>Rocksmith is already running!</value>
+    <comment>RocksmithIsAlreadyRunning description</comment>
+  </data>
+  <data name="Rocksmith2014UserProfileNotFound" xml:space="preserve">
+    <value>Rocksmith 2014 user profile not found!</value>
+    <comment>Rocksmith2014UserProfileNotFound description</comment>
+  </data>
+  <data name="cfsm_48x48" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\cfsm_48x48.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="edit" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\edit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_15" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\15.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ErrorRocksmith2014InstallationDirectorySet" xml:space="preserve">
+    <value>Error: Rocksmith 2014 installation directory setting is null or empty.</value>
+    <comment>ErrorRocksmith2014InstallationDirectorySet description</comment>
+  </data>
+  <data name="export" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\export.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="creditsbg" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\creditsbg.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="renamer_properties" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Renamer_Properties.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ASetlistNamedX0AlreadyExists" xml:space="preserve">
+    <value>A setlist named '{0}' already exists!</value>
+    <comment>ASetlistNamedX0AlreadyExists description</comment>
+  </data>
+  <data name="SelectRow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SelectRow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="YouAreAboutToPermanentlyDeleteAllSelectedS" xml:space="preserve">
+    <value>You are about to permanently delete all selected songs.{0}{0}Are you sure you want to permanently delete the songs</value>
+    <comment>YouAreAboutToPermanentlyDeleteAllSelectedS description</comment>
+  </data>
+  <data name="UnableToDeleteSongX0X1ErrorX2" xml:space="preserve">
+    <value>Unable to delete song :{0}{1}Error: {2}</value>
+    <comment>UnableToDeleteSongX0X1ErrorX2 description</comment>
+  </data>
+  <data name="UnableToEnableDisableSongX0InDlcFolderX1Er" xml:space="preserve">
+    <value>Unable to enable/disable song: {0} in 'dlc' folder.{1}Error: {2}</value>
+    <comment>UnableToEnableDisableSongX0InDlcFolderX1Er description</comment>
+  </data>
+  <data name="ThisIsARocksmith1CompatiblitySongX0RS1Comp" xml:space="preserve">
+    <value>This is a Rocksmith 1 Compatiblity Song.{0}RS1 Compatiblity Songs can not be disabled individually.{0}Use SetlistManager to disable all RS1 Compatiblity Songs.</value>
+    <comment>ThisIsARocksmith1CompatiblitySongX0RS1Comp description</comment>
+  </data>
+  <data name="PleaseSelectHighlightTheSongX0ThatYouWould" xml:space="preserve">
+    <value>Please select (highlight) the song  {0}that you would like to backup.</value>
+    <comment>PleaseSelectHighlightTheSongX0ThatYouWould description</comment>
+  </data>
+  <data name="SongEditorLoaded" xml:space="preserve">
+    <value>Song Editor ... Loaded: </value>
+    <comment>SongEditorLoaded description</comment>
+  </data>
+  <data name="CanNotSelectIndividualRS1CompatiblityDLC" xml:space="preserve">
+    <value>Can not 'Select' individual RS1 Compatiblity DLC</value>
+    <comment>CanNotSelectIndividualRS1CompatiblityDLC description</comment>
+  </data>
+  <data name="CouldNotExtractTheAudio" xml:space="preserve">
+    <value>Could not extract the audio.</value>
+    <comment>CouldNotExtractTheAudio description</comment>
+  </data>
+  <data name="SongsUsedInSetlistsCountX0" xml:space="preserve">
+    <value>Songs Used In Setlists Count: {0}</value>
+    <comment>SongsUsedInSetlistsCountX0 description</comment>
+  </data>
+  <data name="UsuableProperties" xml:space="preserve">
+    <value>Usuable Properties</value>
+    <comment>UsuableProperties description</comment>
+  </data>
+  <data name="HowToUse" xml:space="preserve">
+    <value>How To Use:</value>
+    <comment>HowToUse description</comment>
+  </data>
+  <data name="TypeThePropertyKeySurroundedByAndRNorSimpl" xml:space="preserve">
+    <value>Type the property Key surrounded by \'&lt;\' and \'&gt;\'.  
+or simply double click on any Key to the right to
+select and build a custom renaming template.
+</value>
+    <comment>TypeThePropertyKeySurroundedByAndRNorSimpl description</comment>
+  </data>
+  <data name="DeleteEmptyDirectoriesAfterRenaming" xml:space="preserve">
+    <value>Delete empty directories after renaming</value>
+    <comment>DeleteEmptyDirectoriesAfterRenaming description</comment>
+  </data>
+  <data name="RenameAll" xml:space="preserve">
+    <value>Rename All</value>
+    <comment>RenameAll description</comment>
+  </data>
+  <data name="RenameOnlyTheSongsThatAreSelectedInSongMan" xml:space="preserve">
+    <value>Rename only the songs that are selected in Song Manager</value>
+    <comment>RenameOnlyTheSongsThatAreSelectedInSongMan description</comment>
+  </data>
+  <data name="TheMoverEGTheBeatlesBeatlesTheRN" xml:space="preserve">
+    <value>\'The\' Mover e.g., The Beatles -&gt; Beatles, The
+</value>
+    <comment>TheMoverEGTheBeatlesBeatlesTheRN description</comment>
+  </data>
+  <data name="RemoveSpacesFromNewNamesRN" xml:space="preserve">
+    <value>Remove spaces from new names
+</value>
+    <comment>RemoveSpacesFromNewNamesRN description</comment>
+  </data>
+  <data name="HideLog" xml:space="preserve">
+    <value>Hide Log </value>
+    <comment>HideLog description</comment>
+  </data>
+  <data name="ShowLog" xml:space="preserve">
+    <value>Show Log</value>
+    <comment>ShowLog description</comment>
+  </data>
+  <data name="UnableToConvertX0XX1Image" xml:space="preserve">
+    <value>Unable to convert {0}x{1} image.</value>
+    <comment>UnableToConvertX0XX1Image description</comment>
+  </data>
+  <data name="AppIDIsRequired" xml:space="preserve">
+    <value>AppID is required.</value>
+    <comment>AppIDIsRequired description</comment>
+  </data>
+  <data name="AppIDNeedsToBe6Characters" xml:space="preserve">
+    <value>AppID needs to be 6 characters.</value>
+    <comment>AppIDNeedsToBe6Characters description</comment>
+  </data>
+  <data name="AppIDNeedsToBeAnIntegerValue" xml:space="preserve">
+    <value>AppID needs to be an integer value.</value>
+    <comment>AppIDNeedsToBeAnIntegerValue description</comment>
+  </data>
+  <data name="AppID" xml:space="preserve">
+    <value>AppID</value>
+    <comment>AppID description</comment>
+  </data>
+  <data name="Apply" xml:space="preserve">
+    <value>Apply</value>
+    <comment>Apply description</comment>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+    <comment>Cancel description</comment>
+  </data>
+  <data name="CustomsForgeSongManagerNeedsToBeUpdatedRNC" xml:space="preserve">
+    <value>CustomsForge Song Manager needs to be updated. 
+Click the update button to continue.
+</value>
+    <comment>CustomsForgeSongManagerNeedsToBeUpdatedRNC description</comment>
+  </data>
+  <data name="SongManager" xml:space="preserve">
+    <value>Song Manager</value>
+    <comment>SongManager description</comment>
+  </data>
+  <data name="Duplicates" xml:space="preserve">
+    <value>Duplicates</value>
+    <comment>Duplicates description</comment>
+  </data>
+  <data name="Renamer" xml:space="preserve">
+    <value>Renamer</value>
+    <comment>Renamer description</comment>
+  </data>
+  <data name="SetlistManager" xml:space="preserve">
+    <value>Setlist Manager</value>
+    <comment>SetlistManager description</comment>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Settings</value>
+    <comment>Settings description</comment>
+  </data>
+  <data name="About" xml:space="preserve">
+    <value>About</value>
+    <comment>About description</comment>
+  </data>
+  <data name="EnterValue" xml:space="preserve">
+    <value>(Enter Value)</value>
+    <comment>EnterValue description</comment>
+  </data>
+  <data name="sltsv1_aggregategraph" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\sltsv1_aggregategraph.nt;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="copy" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\copy.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="enabledisable" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\enabledisable.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="onoff" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\onoff.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="refresh" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\refresh.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+</root>
