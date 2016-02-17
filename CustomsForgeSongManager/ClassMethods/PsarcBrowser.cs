@@ -15,14 +15,14 @@ using Arrangement = CustomsForgeSongManager.DataObjects.Arrangement;
 
 namespace CustomsForgeSongManager.ClassMethods
 {
-    public sealed class LocalPsarc : IDisposable
+    public sealed class PsarcBrowser : IDisposable
     {
         private string _filePath;
         private PSARC _archive;
         private Stream _fileStream;
 
         // Loads song archive file to memory.
-        public LocalPsarc(string fileName)
+        public PsarcBrowser(string fileName)
         {
             _filePath = fileName;
             _archive = new PSARC();

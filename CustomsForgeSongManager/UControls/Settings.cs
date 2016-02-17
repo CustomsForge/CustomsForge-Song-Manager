@@ -94,7 +94,7 @@ namespace CustomsForgeSongManager.UControls
             lstDgvColumns.Items.Clear();
             foreach (DataGridViewColumn col in Globals.DgvCurrent.Columns)
             {
-                ListViewItem newItem = new ListViewItem(new[] {String.Empty, col.Name, col.HeaderText, col.Width.ToString()}) {Checked = col.Visible};
+                ListViewItem newItem = new ListViewItem(new[] { String.Empty, col.Name, col.HeaderText, col.Width.ToString() }) { Checked = col.Visible };
                 lstDgvColumns.Items.Add(newItem);
             }
         }
@@ -109,15 +109,6 @@ namespace CustomsForgeSongManager.UControls
         {
             Globals.DgvCurrent = dgvCurrent;
             Debug.WriteLine("Save DataGridView Settings: " + dgvCurrent.Name);
-            var settings = new RADataGridViewSettings();
-            var columns = dgvCurrent.Columns;
-            if (columns.Count > 1)
-            {
-                for (int i = 0; i < columns.Count; i++)
-                    settings.ColumnOrder.Add(new ColumnOrderItem {ColumnIndex = i, DisplayIndex = columns[i].DisplayIndex, Visible = columns[i].Visible, Width = columns[i].Width, ColumnName = columns[i].Name});
-
-                AppSettings.Instance.ManagerGridSettings = settings;
-            }
 
             try
             {
@@ -133,11 +124,8 @@ namespace CustomsForgeSongManager.UControls
                 if (!Directory.Exists(Constants.GridSettingsDirectory))
                     Directory.CreateDirectory(Constants.GridSettingsDirectory);
 
-                using (var fs = new FileStream(Constants.GridSettingsPath, FileMode.Create, FileAccess.Write, FileShare.Write))
-                {
-                    AppSettings.Instance.ManagerGridSettings.SerializeXml(fs);
-                    Globals.Log("Saved " + Path.GetFileName(Constants.GridSettingsPath) + " file ...");
-                }
+                SerialExtensions.SaveToFile(Constants.GridSettingsPath, RAExtensions.SaveColumnOrder(dgvCurrent));
+                Globals.Log("Saved " + Path.GetFileName(Constants.GridSettingsPath) + " file ...");
             }
             catch (Exception ex)
             {
@@ -164,7 +152,7 @@ namespace CustomsForgeSongManager.UControls
 
                 if (!Directory.Exists(Path.Combine(cueRsDir.Text, "dlc")))
                 {
-                    MessageBox.Show(new Form {TopMost = true}, String.Format("Please select a directory that  {0}contains a 'dlc' subdirectory.", Environment.NewLine), Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(new Form { TopMost = true }, String.Format("Please select a directory that  {0}contains a 'dlc' subdirectory.", Environment.NewLine), Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     ValidateRsDir();
                 }
 
@@ -267,5 +255,6 @@ namespace CustomsForgeSongManager.UControls
         {
             AppSettings.Instance.CleanOnClosing = chkCleanOnClosing.Checked;
         }
+
     }
 }

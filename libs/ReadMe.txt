@@ -1,5 +1,10 @@
+The project PostBuild script in Debug mode will automatically
+update the project dll libraries if needed from the libs folder 
+or to manually updated just use the UpdateProjectLibs.bat to 
+copy these files to where they are needed.
+
 These three xml files must be present in the application folder.
-Otherwise CFM (RocksmithToolkitLib.dll) will throw a not initialized error.
+Otherwise CFSM (RocksmithToolkitLib.dll) will throw a not initialized error.
 
 RocksmithToolkitLib.Config.xml
 RocksmithToolkitLib.SongAppId.xml

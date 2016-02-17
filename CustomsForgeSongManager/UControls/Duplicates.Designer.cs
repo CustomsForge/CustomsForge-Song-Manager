@@ -211,8 +211,11 @@ namespace CustomsForgeSongManager.UControls
             this.btnRescan.TabIndex = 4;
             this.btnRescan.Text = "Rescan";
             this.btnRescan.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.toolTip.SetToolTip(this.btnRescan, "Rescan songs for duplcates, plus\r\nCtrl-D to show disabled duplicates\r\nCtrl-E to s" +
+                    "how enabled duplicates");
             this.btnRescan.UseVisualStyleBackColor = true;
             this.btnRescan.Click += new System.EventHandler(this.btnRescan_Click);
+            this.btnRescan.KeyDown += new System.Windows.Forms.KeyEventHandler(this.btnRescan_KeyDown);
             // 
             // gbResults
             // 

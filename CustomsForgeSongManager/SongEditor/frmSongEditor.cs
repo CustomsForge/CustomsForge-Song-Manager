@@ -134,7 +134,7 @@ namespace CustomsForgeSongManager.SongEditor
         {
             using (var sfd = new SaveFileDialog())
             {
-                sfd.FileName = GeneralExtensions.GetShortName("{0}_{1}_v{2}", packageData.SongInfo.ArtistSort, packageData.SongInfo.SongTitleSort, packageData.PackageVersion.Replace(".", "_"), false);
+                sfd.FileName = GeneralExtensions.GetShortName("{0}_{1}_v{2}", packageData.SongInfo.ArtistSort, packageData.SongInfo.SongDisplayNameSort, packageData.PackageVersion.Replace(".", "_"), false);
                 sfd.InitialDirectory = Path.GetDirectoryName(filePath);
 
                 if (sfd.ShowDialog() == DialogResult.OK)
@@ -272,7 +272,7 @@ namespace CustomsForgeSongManager.SongEditor
             songXml.ArtistName = info.SongInfo.Artist;
             songXml.ArtistNameSort = info.SongInfo.ArtistSort;
             songXml.AverageTempo = info.SongInfo.AverageTempo;
-            songXml.Title = info.SongInfo.SongTitle;
+            songXml.Title = info.SongInfo.SongDisplayName;
             songXml.Tuning = arr.TuningStrings;
             if (!String.IsNullOrEmpty(arr.ToneBase)) songXml.ToneBase = arr.ToneBase;
             if (!String.IsNullOrEmpty(arr.ToneA)) songXml.ToneA = arr.ToneA;

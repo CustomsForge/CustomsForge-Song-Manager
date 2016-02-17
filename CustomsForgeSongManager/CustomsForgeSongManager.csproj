@@ -241,7 +241,7 @@
     </Compile>
     <Compile Include="DataObjects\Globals.cs" />
     <Compile Include="ClassMethods\Ignition.cs" />
-    <Compile Include="ClassMethods\LocalPsarc.cs" />
+    <Compile Include="ClassMethods\PsarcBrowser.cs" />
     <Compile Include="SongEditor\DLCPackageEditorControlBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -548,6 +548,7 @@
     <None Include="Resources\enabledisable.png" />
     <None Include="Resources\refresh.png" />
     <None Include="Resources\onoff.png" />
+    <None Include="Resources\SelectCol.png" />
     <Content Include="Resources\TaggerHelp.html" />
     <Content Include="Resources\Unleashed2k.png" />
     <Content Include="RocksmithToolkitLib.Config.xml">
@@ -676,32 +677,32 @@
   <ItemGroup>
     <PublishFile Include="RocksmithToolkitLib.Config.xml">
       <Visible>False</Visible>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="RocksmithToolkitLib.SongAppId.xml">
       <Visible>False</Visible>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="RocksmithToolkitLib.TuningDefinition.xml">
       <Visible>False</Visible>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
   </ItemGroup>
@@ -767,6 +768,16 @@ del /q "$(TargetDir)*.pdb"
 CD "$(SolutionDir)ThirdParty\"
 "CFSMPostBuilder.exe" "CREATEVERSIONINFO"
 )</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>if $(ConfigurationName) == Debug (
+XCOPY /Y/D "$(SolutionDir)libs\RocksmithToolkitLib.Config.xml" "$(ProjectDir)RocksmithToolkitLib.Config.xml" 
+XCOPY /Y/D "$(SolutionDir)libs\RocksmithToolkitlib.SongAppId.xml" "$(ProjectDir)RocksmithToolkitlib.SongAppId.xml" 
+XCOPY /Y/D "$(SolutionDir)libs\RocksmithToolkitlib.TuningDefinition.xml" "$(ProjectDir)RocksmithToolkitlib.TuningDefinition.xml" 
+XCOPY /Y/D "$(SolutionDir)libs\7za.dll" "$(ProjectDir)7za.dll" 
+XCOPY /Y/E/D "$(SolutionDir)libs\DF_DDSImage.dll" "$(ProjectDir)DF_DDSImage.dll" 
+XCOPY /Y/E/D "$(SolutionDir)libs\bass.dll" "$(ProjectDir)bass.dll" 
+)</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

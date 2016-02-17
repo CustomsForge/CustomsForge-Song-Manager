@@ -80,9 +80,9 @@ namespace CustomsForgeSongManager.SongEditor
         private bool ReplaceImages(CFSM.RSTKLib.PSARC.PSARC p)
         {
             var x = "gfxassets/album_art/album_{0}_{1}.dds";
-            var large = string.Format(x, this.SongData.DLCKey.ToLower(), 256);
-            var mid = string.Format(x, this.SongData.DLCKey.ToLower(), 128);
-            var small = string.Format(x, this.SongData.DLCKey.ToLower(), 64);
+            var large = string.Format(x, this.SongData.Name.ToLower(), 256);
+            var mid = string.Format(x, this.SongData.Name.ToLower(), 128);
+            var small = string.Format(x, this.SongData.Name.ToLower(), 64);
 
             if (!ReplaceImagesExtracted(p, large, 256, 256))
                 return false;

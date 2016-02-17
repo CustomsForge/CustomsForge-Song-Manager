@@ -42,10 +42,7 @@ namespace CustomsForgeSongManager.DataObjects
         public string RSProfileDir
         {
             get { return _rsProfileDir; }
-            set
-            {
-                SetPropertyField("RSProfileDir", ref _rsProfileDir, value);
-            }
+            set { SetPropertyField("RSProfileDir", ref _rsProfileDir, value); }
         }
 
         public bool IncludeRS1DLCs
@@ -75,9 +72,6 @@ namespace CustomsForgeSongManager.DataObjects
         //[XmlArray("UISettings")] // provides proper xml serialization
         //[XmlArrayItem("UISetting")] // provides proper xml serialization
         //public List<UISetting> UISettings { get; set; }
-
-        [XmlIgnore, Browsable(false)]
-        public RADataGridViewSettings ManagerGridSettings { get; set; }
 
         [Browsable(false)]
         public string RenameTemplate
@@ -155,7 +149,7 @@ namespace CustomsForgeSongManager.DataObjects
 
         [XmlArray("CustomSettings")] // provides proper xml serialization
         [XmlArrayItem("CustomSetting")] // provides proper xml serialization
-            public List<CustomSetting> CustomSettings { get; set; }
+        public List<CustomSetting> CustomSettings { get; set; }
 
         public bool MoveToQuarantine { get; set; }
 
@@ -182,13 +176,8 @@ namespace CustomsForgeSongManager.DataObjects
                     LoadFromStream(fs);
 
             if (dgvCurrent != null)
-            {
                 if (File.Exists(Constants.GridSettingsPath))
-                {
-                    using (var fs = File.OpenRead(Constants.GridSettingsPath))
-                        ManagerGridSettings = fs.DeserializeXml<RADataGridViewSettings>();
-                }
-            }
+                    RAExtensions.ManagerGridSettings = SerialExtensions.LoadFromFile<RADataGridViewSettings>(Constants.GridSettingsPath);
         }
 
         public void LoadFromStream(Stream stream)
@@ -196,12 +185,12 @@ namespace CustomsForgeSongManager.DataObjects
             var x = stream.DeserializeXml<AppSettings>();
             var props = GetType().GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
 
-            var emptyObjParams = new object[] {};
+            var emptyObjParams = new object[] { };
 
             foreach (var p in props)
                 if (p.CanRead && p.CanWrite)
                 {
-                    var ignore = p.GetCustomAttributes(typeof (XmlIgnoreAttribute), true).Length > 0;
+                    var ignore = p.GetCustomAttributes(typeof(XmlIgnoreAttribute), true).Length > 0;
                     if (!ignore)
                         p.SetValue(this, p.GetValue(x, emptyObjParams), emptyObjParams);
                 }
@@ -218,7 +207,7 @@ namespace CustomsForgeSongManager.DataObjects
             Instance.EnabledLogBaloon = false; // fewer notfication issues
             Instance.CleanOnClosing = false;
             Instance.ShowLogWindow = Constants.DebugMode;
-            Instance.ManagerGridSettings = new RADataGridViewSettings();
+            RAExtensions.ManagerGridSettings = new RADataGridViewSettings();
         }
 
         /// Initialise settings with default values

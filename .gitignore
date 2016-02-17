@@ -68,7 +68,7 @@ packages/
 *.testsettings 
 
 #others
-BinForRelease/
+BinForRelease*/
 Copy*/
 Copy*.*
 

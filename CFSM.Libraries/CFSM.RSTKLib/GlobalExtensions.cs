@@ -16,6 +16,11 @@ namespace CFSM.RSTKLib
             set { _libMsg = value; }
         }
 
+        internal static void Log(string message)
+        {
+            LibMsg = message;
+        }
+
         public static void Dispose()
         {
             HideProgress();

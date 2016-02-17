@@ -696,14 +696,14 @@ namespace CustomsForgeSongManager.SongEditor
             {
                 var pcSongInfo = parentControl.SongData.SongInfo;
 
-                if (String.IsNullOrEmpty(pcSongInfo.SongTitle)) pcSongInfo.SongTitle = xmlSong.Title ?? String.Empty;
-                if (String.IsNullOrEmpty(pcSongInfo.SongTitleSort)) pcSongInfo.SongTitleSort = xmlSong.SongNameSort.GetValidSortName() ?? pcSongInfo.SongTitle.GetValidSortName();
+                if (String.IsNullOrEmpty(pcSongInfo.SongDisplayName)) pcSongInfo.SongDisplayName = xmlSong.Title ?? String.Empty;
+                if (String.IsNullOrEmpty(pcSongInfo.SongDisplayNameSort)) pcSongInfo.SongDisplayNameSort = xmlSong.SongNameSort.GetValidSortName() ?? pcSongInfo.SongDisplayName.GetValidSortName();
                 if (pcSongInfo.AverageTempo == 0) pcSongInfo.AverageTempo = (Int32)xmlSong.AverageTempo;
                 if (String.IsNullOrEmpty(pcSongInfo.Artist)) pcSongInfo.Artist = xmlSong.ArtistName ?? String.Empty;
                 if (String.IsNullOrEmpty(pcSongInfo.ArtistSort)) pcSongInfo.ArtistSort = xmlSong.ArtistNameSort.GetValidSortName() ?? pcSongInfo.Artist.GetValidSortName();
                 if (String.IsNullOrEmpty(pcSongInfo.Album)) pcSongInfo.Album = xmlSong.AlbumName ?? String.Empty;
                 if (pcSongInfo.SongYear == 0) pcSongInfo.SongYear = Convert.ToInt32(xmlSong.AlbumYear);
-                if (String.IsNullOrEmpty(parentControl.SongData.DLCKey)) parentControl.SongData.DLCKey = String.Format("{0}{1}", pcSongInfo.Artist.Acronym(), pcSongInfo.SongTitle).GetValidDlcKey(pcSongInfo.SongTitle);
+                if (String.IsNullOrEmpty(parentControl.SongData.Name)) parentControl.SongData.Name = String.Format("{0}{1}", pcSongInfo.Artist.Acronym(), pcSongInfo.SongDisplayName).GetValidDlcKey(pcSongInfo.SongDisplayName);
 
                 if (String.IsNullOrEmpty(pcSongInfo.AlbumSort))
                 {

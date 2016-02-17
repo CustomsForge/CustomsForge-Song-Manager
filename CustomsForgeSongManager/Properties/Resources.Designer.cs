@@ -858,6 +858,13 @@ namespace CustomsForgeSongManager.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap SelectCol {
+            get {
+                object obj = ResourceManager.GetObject("SelectCol", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to Selected Songs in SongManager Count: {0}.
         /// </summary>

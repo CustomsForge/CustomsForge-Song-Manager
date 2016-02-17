@@ -22,11 +22,11 @@ namespace CustomsForgeSongManager.SongEditor
 
             cbLowBass.Visible = song.ArrangementInitials.Contains('B');
 
-            txtKey.Text = SongData.DLCKey;
+            txtKey.Text = SongData.Name;
             txtArtist.Text = SongData.SongInfo.Artist;
             txtArtistSort.Text = SongData.SongInfo.ArtistSort;
-            txtTitle.Text = SongData.SongInfo.SongTitle;
-            txtTitleSort.Text = SongData.SongInfo.SongTitleSort;
+            txtTitle.Text = SongData.SongInfo.SongDisplayName;
+            txtTitleSort.Text = SongData.SongInfo.SongDisplayNameSort;
             txtAlbum.Text = SongData.SongInfo.Album;
             txtAlbumSort.Text = SongData.SongInfo.AlbumSort;
             txtAppId.Text = SongData.AppId;
@@ -124,11 +124,11 @@ namespace CustomsForgeSongManager.SongEditor
         public override void Save()
         {
             txtKey.Focus();
-            SongData.DLCKey = txtKey.Text;
+            SongData.Name = txtKey.Text;
             SongData.SongInfo.Artist = txtArtist.Text;
             SongData.SongInfo.ArtistSort = txtArtistSort.Text;
-            SongData.SongInfo.SongTitle = txtTitle.Text;
-            SongData.SongInfo.SongTitleSort = txtTitleSort.Text;
+            SongData.SongInfo.SongDisplayName = txtTitle.Text;
+            SongData.SongInfo.SongDisplayNameSort = txtTitleSort.Text;
             SongData.SongInfo.Album = txtAlbum.Text;
             SongData.SongInfo.AlbumSort = txtAlbumSort.Text;
             SongData.AppId = txtAppId.Text;

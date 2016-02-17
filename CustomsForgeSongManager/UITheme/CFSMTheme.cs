@@ -49,6 +49,11 @@ namespace CustomsForgeSongManager.UITheme
             dgvTheme.ScrollBars = ScrollBars.Both;
             dgvTheme.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 
+            // must come before AutoResizeColumns
+            dgvTheme.Visible = true;
+            dgvTheme.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCells);
+
+            // must come after AutoResizeColumns
             // always visible on restart in case user changed
             if (dgvTheme.Columns["colSelect"] != null)
             {
@@ -76,9 +81,6 @@ namespace CustomsForgeSongManager.UITheme
                 dgvTheme.Columns["colAppID"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
             }
 
-            // must come before AutoResizeColumns
-            dgvTheme.Visible = true;
-            dgvTheme.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCells);
             dgvTheme.Refresh();
             // dgvTheme.ClearSelection(); // removes selection highlighting
         }

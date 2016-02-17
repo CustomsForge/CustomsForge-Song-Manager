@@ -203,7 +203,7 @@ namespace CustomsForgeSongManager.ClassMethods
             Globals.TuningXml = TuningDefinitionRepository.LoadTuningDefinitions(GameVersion.RS2014);
             try
             {
-                using (var browser = new LocalPsarc(filePath))
+                using (var browser = new PsarcBrowser(filePath))
                 {
                     var songInfo = browser.GetSongData();
 

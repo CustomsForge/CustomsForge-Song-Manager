@@ -87,7 +87,7 @@ namespace CustomsForgeSongManager.UControls
             this.label9 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.btnEnDiDlcSongs = new System.Windows.Forms.Button();
-            this.btnAddDlcSongs = new System.Windows.Forms.Button();
+            this.btnAddSongs = new System.Windows.Forms.Button();
             this.dgvSetlistMaster = new DataGridViewTools.RADataGridView();
             this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.colEnabled = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -123,6 +123,7 @@ namespace CustomsForgeSongManager.UControls
             this.cmsDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.cmsEnableDisable = new System.Windows.Forms.ToolStripMenuItem();
             this.cmsToggle = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmsSelectAllNone = new System.Windows.Forms.ToolStripMenuItem();
             this.cmsShow = new System.Windows.Forms.ToolStripMenuItem();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.tableLayoutPanel1.SuspendLayout();
@@ -565,7 +566,7 @@ namespace CustomsForgeSongManager.UControls
             this.gbSongs.Controls.Add(this.label9);
             this.gbSongs.Controls.Add(this.label8);
             this.gbSongs.Controls.Add(this.btnEnDiDlcSongs);
-            this.gbSongs.Controls.Add(this.btnAddDlcSongs);
+            this.gbSongs.Controls.Add(this.btnAddSongs);
             this.gbSongs.Controls.Add(this.dgvSetlistMaster);
             this.gbSongs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gbSongs.Location = new System.Drawing.Point(1, 1);
@@ -628,16 +629,16 @@ namespace CustomsForgeSongManager.UControls
             this.btnEnDiDlcSongs.UseVisualStyleBackColor = true;
             this.btnEnDiDlcSongs.Click += new System.EventHandler(this.btnEnDiSetlistMaster_Click);
             // 
-            // btnAddDlcSongs
+            // btnAddSongs
             // 
-            this.btnAddDlcSongs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnAddDlcSongs.Location = new System.Drawing.Point(9, 230);
-            this.btnAddDlcSongs.Name = "btnAddDlcSongs";
-            this.btnAddDlcSongs.Size = new System.Drawing.Size(22, 22);
-            this.btnAddDlcSongs.TabIndex = 33;
-            this.btnAddDlcSongs.Text = "A";
-            this.btnAddDlcSongs.UseVisualStyleBackColor = true;
-            this.btnAddDlcSongs.Click += new System.EventHandler(this.btnAddDlcSong_Click);
+            this.btnAddSongs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnAddSongs.Location = new System.Drawing.Point(9, 230);
+            this.btnAddSongs.Name = "btnAddSongs";
+            this.btnAddSongs.Size = new System.Drawing.Size(22, 22);
+            this.btnAddSongs.TabIndex = 33;
+            this.btnAddSongs.Text = "A";
+            this.btnAddSongs.UseVisualStyleBackColor = true;
+            this.btnAddSongs.Click += new System.EventHandler(this.btnAddSongs_Click);
             // 
             // dgvSetlistMaster
             // 
@@ -1021,15 +1022,16 @@ namespace CustomsForgeSongManager.UControls
             this.cmsDelete,
             this.cmsEnableDisable,
             this.cmsToggle,
+            this.cmsSelectAllNone,
             this.cmsShow});
             this.cmsSetlistManager.Name = "contextMenuStrip_MainManager";
-            this.cmsSetlistManager.Size = new System.Drawing.Size(156, 158);
+            this.cmsSetlistManager.Size = new System.Drawing.Size(158, 180);
             // 
             // cmsCopy
             // 
             this.cmsCopy.Image = global::CustomsForgeSongManager.Properties.Resources.copy;
             this.cmsCopy.Name = "cmsCopy";
-            this.cmsCopy.Size = new System.Drawing.Size(155, 22);
+            this.cmsCopy.Size = new System.Drawing.Size(157, 22);
             this.cmsCopy.Text = "Copy";
             this.cmsCopy.Click += new System.EventHandler(this.cmsCopy_Click);
             // 
@@ -1037,7 +1039,7 @@ namespace CustomsForgeSongManager.UControls
             // 
             this.cmsMove.Image = global::CustomsForgeSongManager.Properties.Resources.export;
             this.cmsMove.Name = "cmsMove";
-            this.cmsMove.Size = new System.Drawing.Size(155, 22);
+            this.cmsMove.Size = new System.Drawing.Size(157, 22);
             this.cmsMove.Text = "Move";
             this.cmsMove.Click += new System.EventHandler(this.cmsMove_Click);
             // 
@@ -1045,7 +1047,7 @@ namespace CustomsForgeSongManager.UControls
             // 
             this.cmsDelete.Image = global::CustomsForgeSongManager.Properties.Resources.delete;
             this.cmsDelete.Name = "cmsDelete";
-            this.cmsDelete.Size = new System.Drawing.Size(155, 22);
+            this.cmsDelete.Size = new System.Drawing.Size(157, 22);
             this.cmsDelete.Text = "Delete";
             this.cmsDelete.Click += new System.EventHandler(this.cmsDelete_Click);
             // 
@@ -1053,7 +1055,7 @@ namespace CustomsForgeSongManager.UControls
             // 
             this.cmsEnableDisable.Image = global::CustomsForgeSongManager.Properties.Resources.enabledisable;
             this.cmsEnableDisable.Name = "cmsEnableDisable";
-            this.cmsEnableDisable.Size = new System.Drawing.Size(155, 22);
+            this.cmsEnableDisable.Size = new System.Drawing.Size(157, 22);
             this.cmsEnableDisable.Text = "Enable/Disable";
             this.cmsEnableDisable.Click += new System.EventHandler(this.cmsEnableDisable_Click);
             // 
@@ -1061,15 +1063,23 @@ namespace CustomsForgeSongManager.UControls
             // 
             this.cmsToggle.Image = global::CustomsForgeSongManager.Properties.Resources.onoff;
             this.cmsToggle.Name = "cmsToggle";
-            this.cmsToggle.Size = new System.Drawing.Size(155, 22);
+            this.cmsToggle.Size = new System.Drawing.Size(157, 22);
             this.cmsToggle.Text = "Toggle";
             this.cmsToggle.Click += new System.EventHandler(this.cmsToggle_Click);
+            // 
+            // cmsSelectAllNone
+            // 
+            this.cmsSelectAllNone.Image = global::CustomsForgeSongManager.Properties.Resources.SelectCol;
+            this.cmsSelectAllNone.Name = "cmsSelectAllNone";
+            this.cmsSelectAllNone.Size = new System.Drawing.Size(157, 22);
+            this.cmsSelectAllNone.Text = "Select All/None";
+            this.cmsSelectAllNone.Click += new System.EventHandler(this.cmsSelectAllNone_Click);
             // 
             // cmsShow
             // 
             this.cmsShow.Image = global::CustomsForgeSongManager.Properties.Resources.Open;
             this.cmsShow.Name = "cmsShow";
-            this.cmsShow.Size = new System.Drawing.Size(155, 22);
+            this.cmsShow.Size = new System.Drawing.Size(157, 22);
             this.cmsShow.Text = "Show";
             this.cmsShow.Click += new System.EventHandler(this.cmsShow_Click);
             // 
@@ -1144,7 +1154,7 @@ namespace CustomsForgeSongManager.UControls
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Button btnEnDiDlcSongs;
-        private System.Windows.Forms.Button btnAddDlcSongs;
+        private System.Windows.Forms.Button btnAddSongs;
         private RADataGridView dgvSetlistMaster;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnRunRSWithSetlist;
@@ -1189,6 +1199,7 @@ namespace CustomsForgeSongManager.UControls
         private DataGridViewCheckBoxColumn colSongPackSelect;
         private DataGridViewTextBoxColumn colSongPackEnabled;
         private DataGridViewTextBoxColumn colSongPackPath;
+        private ToolStripMenuItem cmsSelectAllNone;
 
 
 

@@ -93,7 +93,7 @@ namespace CustomsForgeSongManager.UControls
                 if (!File.Exists(fullname))
                 {
                     //extract the audio...
-                    if (!LocalPsarc.ExtractAudio(sng.Path, fullname, ""))
+                    if (!PsarcBrowser.ExtractAudio(sng.Path, fullname, ""))
                     {
                         Globals.Log(Properties.Resources.CouldNotExtractTheAudio);
                         sng.AudioCache = String.Empty;
@@ -266,7 +266,7 @@ namespace CustomsForgeSongManager.UControls
                     if (dataGridViewColumn != null)
                     {
                         var columnIndex = dataGridViewColumn.Index;
-                        var columnSetting = AppSettings.Instance.ManagerGridSettings.ColumnOrder.SingleOrDefault(x => x.ColumnIndex == columnIndex);
+                        var columnSetting = RAExtensions.ManagerGridSettings.ColumnOrder.SingleOrDefault(x => x.ColumnIndex == columnIndex);
                         if (columnSetting != null)
                         {
                             columnSetting.Visible = !columnSetting.Visible;
@@ -291,12 +291,6 @@ namespace CustomsForgeSongManager.UControls
                 if (row.Cells["colPath"].Value.ToString().ToLower().Contains(Constants.RS1COMP))
                     row.Cells["colEnabled"].Value = false;
             }
-        }
-
-        private void LeaveSongManager()
-        {
-            Globals.Log("Leaving SongManager GUI ...");
-            Globals.Settings.SaveSettingsToFile(dgvSongsMaster);
         }
 
         private void LoadFilteredBindingList(dynamic list)
@@ -351,8 +345,9 @@ namespace CustomsForgeSongManager.UControls
 
                 if (!correctVersion || !File.Exists(songsInfoPath))
                     Rescan(true); // full scan
+                else
+                    Globals.Log("Loaded saved song collection file ...");
 
-                Globals.Log("Loaded song collection file ...");
                 PopulateDataGridView();
             }
             catch (Exception e)
@@ -383,8 +378,8 @@ namespace CustomsForgeSongManager.UControls
             LoadFilteredBindingList(masterSongCollection);
             CFSMTheme.InitializeDgvAppearance(dgvSongsMaster);
             // reload column order, width, visibility
-            if (AppSettings.Instance.ManagerGridSettings != null)
-                dgvSongsMaster.ReLoadColumnOrder(AppSettings.Instance.ManagerGridSettings.ColumnOrder);
+            if (RAExtensions.ManagerGridSettings != null)
+                dgvSongsMaster.ReLoadColumnOrder(RAExtensions.ManagerGridSettings.ColumnOrder);
 
             // lock OfficialDLC from being selected
             foreach (DataGridViewRow row in dgvSongsMaster.Rows)
@@ -401,13 +396,17 @@ namespace CustomsForgeSongManager.UControls
 
         private void PopulateMenuWithColumnHeaders(ContextMenuStrip contextMenuStrip)
         {
-            if (AppSettings.Instance.ManagerGridSettings == null)
+
+            if (RAExtensions.ManagerGridSettings == null)
+            {
                 if (Globals.DgvCurrent == null)
                     Globals.DgvCurrent = dgvSongsMaster;
 
-            Globals.Settings.SaveSettingsToFile(dgvSongsMaster);
+                Globals.Settings.SaveSettingsToFile(dgvSongsMaster);
+            }
+
             contextMenuStrip.Items.Clear();
-            RADataGridViewSettings gridSettings = AppSettings.Instance.ManagerGridSettings;
+            var gridSettings = RAExtensions.ManagerGridSettings;
 
             foreach (ColumnOrderItem columnOrderItem in gridSettings.ColumnOrder)
             {
@@ -580,6 +579,9 @@ namespace CustomsForgeSongManager.UControls
             if (fullRescan)
                 Globals.SongCollection.Clear();
 
+            var sw = new Stopwatch();
+            sw.Restart();
+
             ToggleUIControls(false);
             // run new worker
             using (Worker worker = new Worker())
@@ -599,10 +601,12 @@ namespace CustomsForgeSongManager.UControls
 
             // background worker populated the Globals.SongCollection
             masterSongCollection = Globals.SongCollection;
-            // populates Arrangment DLCKey info
-            masterSongCollection.ToList().ForEach(a => { a.Arrangements2D.ToList().ForEach(arr => arr.Parent = a); });
+            // -- CRITCAL -- this populates Arrangment DLCKey info in Arrangements2D
+            masterSongCollection.ToList().ForEach(a => a.Arrangements2D.ToList().ForEach(arr => arr.Parent = a));
 
-            Globals.Log("Loaded song collection file ...");
+            sw.Stop();
+            Globals.Log(String.Format("Parsing archives from {0} took: {1} (msec)", Path.Combine(AppSettings.Instance.RSInstalledDir, "dlc"), sw.ElapsedMilliseconds));
+            Globals.Log("Loaded fresh song collection file ...");
             Globals.RescanSetlistManager = false;
             Globals.RescanDuplicates = false;
             Globals.RescanSongManager = false;
@@ -1536,7 +1540,7 @@ namespace CustomsForgeSongManager.UControls
 
         public void TabEnter()
         {
-            Globals.Log("SongManager GUI Activated...");
+            Globals.Log("SongManager GUI TabEnter ...");
             Globals.DgvCurrent = dgvSongsMaster;
 
             // fixed bug ... index 0 has no value is thrown when flipping between tabs and back
@@ -1545,7 +1549,7 @@ namespace CustomsForgeSongManager.UControls
 
         public void TabLeave()
         {
-            LeaveSongManager();
+            Globals.Log("SongManager GUI TabLeave ...");
             Globals.Settings.SaveSettingsToFile(dgvSongsMaster);
         }
     }

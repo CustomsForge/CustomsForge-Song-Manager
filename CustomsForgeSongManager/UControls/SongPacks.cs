@@ -371,8 +371,8 @@ namespace CustomsForgeSongManager.UControls
             RefreshDgvSongs();
             CFSMTheme.InitializeDgvAppearance(dgvSongPacks);
 
-            if (AppSettings.Instance.ManagerGridSettings != null)
-                dgvSongPacks.ReLoadColumnOrder(AppSettings.Instance.ManagerGridSettings.ColumnOrder);
+            if (RAExtensions.ManagerGridSettings != null)
+                dgvSongPacks.ReLoadColumnOrder(RAExtensions.ManagerGridSettings.ColumnOrder);
         }
 
         // ... deserialize filePath

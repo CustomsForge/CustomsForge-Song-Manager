@@ -6,12 +6,12 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 
-[assembly: AssemblyTitle("CustomsForge Song Manager")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("DataGridViewTools")]
+[assembly: AssemblyDescription("CFSM Customized Version")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("CustomsForge.com")]
-[assembly: AssemblyProduct("CustomsForge Song Manager")]
-[assembly: AssemblyCopyright("Copyright © CustomsForge Song Manager 2015")]
+[assembly: AssemblyCompany("MS")]
+[assembly: AssemblyProduct("DataGridViewTools")]
+[assembly: AssemblyCopyright("Copyright © MS 2006")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -23,7 +23,7 @@ using System.Runtime.InteropServices;
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 
-[assembly: Guid("b808a597-94a9-4314-bb16-64c99c528cf7")]
+[assembly: Guid("a84e8e1a-e851-448c-9564-320a6ab2f0bc")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -32,9 +32,8 @@ using System.Runtime.InteropServices;
 //      Build Number
 //      Revision
 //
-// You can specify all the values or you can default the Build and Revision Numbers 
+// You can specify all the values or you can default the Revision and Build Numbers 
 // by using the '*' as shown below:
-// [assembly: AssemblyVersion("1.0.*")]
 
-[assembly: AssemblyVersion("1.2.0.1")]
-[assembly: AssemblyFileVersion("1.2.0.1")]
+[assembly: AssemblyVersion("1.0.0.1")]
+[assembly: AssemblyFileVersion("1.0.0.1")]

@@ -1,5 +1,12 @@
 CFSM Release Notes
 
+1.2.0.1
+-Updated RocksmithToolkitLib.dll and other project source libraries
+-Fixed AutoResizeColumns bug
+-Moved RADataGridViewSettings ManagerGridSettings to DataGridViewTools library
+-Fixed datagridview refresh for Duplicates Enabled/Disabled 
+-Added show enabled or disable Duplicates (Rescan button plus Ctrl-E or Ctrl-D)
+
 1.2.0.0
 -Complete reorganization and unification of refactored code
 -Cleaned up Song Pack logic

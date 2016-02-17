@@ -66,9 +66,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ReadMe.txt" />
-    <Content Include="RocksmithToolkitLib.Config.xml" />
-    <Content Include="RocksmithToolkitLib.SongAppId.xml" />
-    <Content Include="RocksmithToolkitLib.TuningDefinition.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
