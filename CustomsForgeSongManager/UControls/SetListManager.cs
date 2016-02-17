@@ -28,6 +28,8 @@ namespace CustomsForgeSongManager.UControls
 
         #endregion
 
+        private bool allSelected = false;
+
         private bool bindingCompleted = false;
         private Color cdlcColor = Color.Cyan;
         private string cdlcDir;
@@ -40,7 +42,6 @@ namespace CustomsForgeSongManager.UControls
         private Color setlistColor = Color.Yellow;
         private BindingList<SongData> songCollection = new BindingList<SongData>();
         private List<SongData> songSearch = new List<SongData>();
-        private bool allSelected = false;
 
         public SetlistManager()
         {
@@ -49,18 +50,12 @@ namespace CustomsForgeSongManager.UControls
             PopulateSetlistManager();
         }
 
-        public void LeaveSetlistManager()
-        {
-            Globals.Log("Leaving Setlist Manager GUI ...");
-            Globals.Settings.SaveSettingsToFile(dgvSetlistMaster);
-        }
-
         public void PopulateSetlistManager()
         {
             Globals.Log("Populating SetlistManager GUI ...");
             DgvExtensions.DoubleBuffered(dgvSetlistMaster);
             Globals.Settings.LoadSettingsFromFile(dgvSetlistMaster);
-            chkSubFolders.Checked = true;
+            chkShowSetlistSongs.Checked = AppSettings.Instance.ShowSetlistSongs;
 
             // theoretically this error condition should never exist
             if (String.IsNullOrEmpty(AppSettings.Instance.RSInstalledDir) || !Directory.Exists(AppSettings.Instance.RSInstalledDir))
@@ -309,8 +304,8 @@ namespace CustomsForgeSongManager.UControls
             dgvPainted = false;
             // sortable binding list with drop down filtering
             dgvSetlistMaster.AutoGenerateColumns = false;
-            FilteredBindingList<SongData> fbl = new FilteredBindingList<SongData>(list);
-            BindingSource bs = new BindingSource { DataSource = fbl };
+            var fbl = new FilteredBindingList<SongData>(list);
+            var bs = new BindingSource { DataSource = fbl };
             dgvSetlistMaster.DataSource = bs;
         }
 
@@ -922,9 +917,14 @@ namespace CustomsForgeSongManager.UControls
             ToggleSongs(dgvSetlistSongs);
         }
 
-        private void chkSubFolders_MouseUp(object sender, MouseEventArgs e)
+        private void chkShowSetlistSongs_CheckedChanged(object sender, EventArgs e)
         {
-            if (!chkSubFolders.Checked)
+            AppSettings.Instance.ShowSetlistSongs = chkShowSetlistSongs.Checked;
+        }
+
+        private void chkShowSetlistSongs_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (!chkShowSetlistSongs.Checked)
             {
                 var results = songCollection.Where(x => Path.GetFileName(Path.GetDirectoryName(x.Path)) == "dlc").ToList();
 
@@ -932,23 +932,6 @@ namespace CustomsForgeSongManager.UControls
             }
             else
                 RemoveFilter();
-        }
-
-        private void cmsSelectAllNone_Click(object sender, EventArgs e)
-        {
-            var tsmi = sender as ToolStripMenuItem; // Select All/None
-            if (tsmi != null && tsmi.Owner.Tag != null)
-            {
-                var dgvCurrent = tsmi.Owner.Tag as DataGridView;
-                foreach (DataGridViewRow row in dgvCurrent.Rows)
-                {
-                    DataGridViewCheckBoxCell chk = (DataGridViewCheckBoxCell)row.Cells["colSelect"];
-                    chk.Value = !allSelected;
-                }
-
-                allSelected = !allSelected;
-                dgvCurrent.Refresh();
-            }
         }
 
         private void cmsCopy_Click(object sender, EventArgs e)
@@ -985,6 +968,23 @@ namespace CustomsForgeSongManager.UControls
             var tsmi = sender as ToolStripMenuItem; // Move
             if (tsmi != null && tsmi.Owner.Tag != null)
                 FileOperations("Move", tsmi.Owner.Tag as DataGridView);
+        }
+
+        private void cmsSelectAllNone_Click(object sender, EventArgs e)
+        {
+            var tsmi = sender as ToolStripMenuItem; // Select All/None
+            if (tsmi != null && tsmi.Owner.Tag != null)
+            {
+                var dgvCurrent = tsmi.Owner.Tag as DataGridView;
+                foreach (DataGridViewRow row in dgvCurrent.Rows)
+                {
+                    DataGridViewCheckBoxCell chk = (DataGridViewCheckBoxCell)row.Cells["colSelect"];
+                    chk.Value = !allSelected;
+                }
+
+                allSelected = !allSelected;
+                dgvCurrent.Refresh();
+            }
         }
 
         private void cmsShow_Click(object sender, EventArgs e)
@@ -1324,7 +1324,8 @@ namespace CustomsForgeSongManager.UControls
 
         public void TabLeave()
         {
-            LeaveSetlistManager();
+            Globals.Log("Leaving Setlist Manager GUI ...");
+            Globals.Settings.SaveSettingsToFile(dgvSetlistMaster);
         }
     }
 }

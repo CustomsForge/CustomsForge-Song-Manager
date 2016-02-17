@@ -33,19 +33,19 @@ namespace CustomsForgeSongManager.UControls
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle27 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle28 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle29 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle30 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle31 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle32 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle33 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle34 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle35 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle36 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle37 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle38 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle39 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.gbSetlistSongs = new System.Windows.Forms.GroupBox();
@@ -90,7 +90,7 @@ namespace CustomsForgeSongManager.UControls
             this.btnAddSongs = new System.Windows.Forms.Button();
             this.dgvSetlistMaster = new DataGridViewTools.RADataGridView();
             this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.colEnabled = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colEnabled = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colArtist = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colTitle = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colAlbum = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
@@ -111,7 +111,7 @@ namespace CustomsForgeSongManager.UControls
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnMove = new System.Windows.Forms.Button();
             this.btnCopy = new System.Windows.Forms.Button();
-            this.chkSubFolders = new System.Windows.Forms.CheckBox();
+            this.chkShowSetlistSongs = new System.Windows.Forms.CheckBox();
             this.lnkClearSearch = new System.Windows.Forms.LinkLabel();
             this.label1 = new System.Windows.Forms.Label();
             this.btnRunRSWithSetlist = new System.Windows.Forms.Button();
@@ -193,17 +193,17 @@ namespace CustomsForgeSongManager.UControls
             // 
             this.dgvSetlistSongs.AllowUserToAddRows = false;
             this.dgvSetlistSongs.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.dgvSetlistSongs.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle27.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.dgvSetlistSongs.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle27;
             this.dgvSetlistSongs.BackgroundColor = System.Drawing.SystemColors.InactiveBorder;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvSetlistSongs.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle28.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle28.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle28.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle28.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle28.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle28.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle28.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvSetlistSongs.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle28;
             this.dgvSetlistSongs.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colSetlistSongsSelect,
             this.colSetlistSongsEnabled,
@@ -243,8 +243,8 @@ namespace CustomsForgeSongManager.UControls
             // colSetlistSongsEnabled
             // 
             this.colSetlistSongsEnabled.DataPropertyName = "Enabled";
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.colSetlistSongsEnabled.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle29.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.colSetlistSongsEnabled.DefaultCellStyle = dataGridViewCellStyle29;
             this.colSetlistSongsEnabled.HeaderText = "Enabled";
             this.colSetlistSongsEnabled.Name = "colSetlistSongsEnabled";
             this.colSetlistSongsEnabled.ReadOnly = true;
@@ -326,17 +326,17 @@ namespace CustomsForgeSongManager.UControls
             // 
             this.dgvSetlists.AllowUserToAddRows = false;
             this.dgvSetlists.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.dgvSetlists.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle30.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.dgvSetlists.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle30;
             this.dgvSetlists.BackgroundColor = System.Drawing.SystemColors.InactiveBorder;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvSetlists.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle31.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle31.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle31.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle31.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle31.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle31.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle31.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvSetlists.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle31;
             this.dgvSetlists.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colSetlistSelect,
             this.colSetlistEnabled,
@@ -367,8 +367,8 @@ namespace CustomsForgeSongManager.UControls
             // 
             this.colSetlistEnabled.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.colSetlistEnabled.DataPropertyName = "Enabled";
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.colSetlistEnabled.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle32.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.colSetlistEnabled.DefaultCellStyle = dataGridViewCellStyle32;
             this.colSetlistEnabled.HeaderText = "Enabled";
             this.colSetlistEnabled.Name = "colSetlistEnabled";
             this.colSetlistEnabled.ReadOnly = true;
@@ -645,19 +645,19 @@ namespace CustomsForgeSongManager.UControls
             this.dgvSetlistMaster.AllowUserToAddRows = false;
             this.dgvSetlistMaster.AllowUserToDeleteRows = false;
             this.dgvSetlistMaster.AllowUserToResizeRows = false;
-            dataGridViewCellStyle7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.dgvSetlistMaster.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle33.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.dgvSetlistMaster.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle33;
             this.dgvSetlistMaster.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvSetlistMaster.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle34.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle34.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle34.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle34.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle34.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle34.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle34.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvSetlistMaster.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle34;
             this.dgvSetlistMaster.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colSelect,
             this.colEnabled,
@@ -700,11 +700,12 @@ namespace CustomsForgeSongManager.UControls
             // colEnabled
             // 
             this.colEnabled.DataPropertyName = "Enabled";
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.colEnabled.DefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle35.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.colEnabled.DefaultCellStyle = dataGridViewCellStyle35;
             this.colEnabled.HeaderText = "Enabled";
             this.colEnabled.Name = "colEnabled";
             this.colEnabled.ReadOnly = true;
+            this.colEnabled.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.colEnabled.Width = 50;
             // 
             // colArtist
@@ -824,20 +825,20 @@ namespace CustomsForgeSongManager.UControls
             // 
             this.dgvSongPacks.AllowUserToAddRows = false;
             this.dgvSongPacks.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle10.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.dgvSongPacks.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle36.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.dgvSongPacks.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle36;
             this.dgvSongPacks.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvSongPacks.BackgroundColor = System.Drawing.SystemColors.InactiveBorder;
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle11.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvSongPacks.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle37.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle37.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle37.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle37.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle37.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle37.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle37.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvSongPacks.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle37;
             this.dgvSongPacks.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colSongPackSelect,
             this.colSongPackEnabled,
@@ -868,8 +869,8 @@ namespace CustomsForgeSongManager.UControls
             // 
             this.colSongPackEnabled.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.colSongPackEnabled.DataPropertyName = "Enabled";
-            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.colSongPackEnabled.DefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle38.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.colSongPackEnabled.DefaultCellStyle = dataGridViewCellStyle38;
             this.colSongPackEnabled.HeaderText = "Enabled";
             this.colSongPackEnabled.Name = "colSongPackEnabled";
             this.colSongPackEnabled.ReadOnly = true;
@@ -879,8 +880,8 @@ namespace CustomsForgeSongManager.UControls
             // 
             this.colSongPackPath.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.colSongPackPath.DataPropertyName = "Path";
-            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.colSongPackPath.DefaultCellStyle = dataGridViewCellStyle13;
+            dataGridViewCellStyle39.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.colSongPackPath.DefaultCellStyle = dataGridViewCellStyle39;
             this.colSongPackPath.HeaderText = "Path";
             this.colSongPackPath.Name = "colSongPackPath";
             this.colSongPackPath.ReadOnly = true;
@@ -891,7 +892,7 @@ namespace CustomsForgeSongManager.UControls
             this.gbSearch.Controls.Add(this.btnDelete);
             this.gbSearch.Controls.Add(this.btnMove);
             this.gbSearch.Controls.Add(this.btnCopy);
-            this.gbSearch.Controls.Add(this.chkSubFolders);
+            this.gbSearch.Controls.Add(this.chkShowSetlistSongs);
             this.gbSearch.Controls.Add(this.lnkClearSearch);
             this.gbSearch.Controls.Add(this.label1);
             this.gbSearch.Controls.Add(this.btnRunRSWithSetlist);
@@ -940,19 +941,20 @@ namespace CustomsForgeSongManager.UControls
             this.btnCopy.Visible = false;
             this.btnCopy.Click += new System.EventHandler(this.btnCopy_Click);
             // 
-            // chkSubFolders
+            // chkShowSetlistSongs
             // 
-            this.chkSubFolders.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.chkSubFolders.AutoSize = true;
-            this.chkSubFolders.Checked = true;
-            this.chkSubFolders.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkSubFolders.Location = new System.Drawing.Point(22, 231);
-            this.chkSubFolders.Name = "chkSubFolders";
-            this.chkSubFolders.Size = new System.Drawing.Size(117, 17);
-            this.chkSubFolders.TabIndex = 49;
-            this.chkSubFolders.Text = "Show Setlist Songs";
-            this.chkSubFolders.UseVisualStyleBackColor = true;
-            this.chkSubFolders.MouseUp += new System.Windows.Forms.MouseEventHandler(this.chkSubFolders_MouseUp);
+            this.chkShowSetlistSongs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.chkShowSetlistSongs.AutoSize = true;
+            this.chkShowSetlistSongs.Checked = true;
+            this.chkShowSetlistSongs.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkShowSetlistSongs.Location = new System.Drawing.Point(22, 231);
+            this.chkShowSetlistSongs.Name = "chkShowSetlistSongs";
+            this.chkShowSetlistSongs.Size = new System.Drawing.Size(117, 17);
+            this.chkShowSetlistSongs.TabIndex = 49;
+            this.chkShowSetlistSongs.Text = "Show Setlist Songs";
+            this.chkShowSetlistSongs.UseVisualStyleBackColor = true;
+            this.chkShowSetlistSongs.CheckedChanged += new System.EventHandler(this.chkShowSetlistSongs_CheckedChanged);
+            this.chkShowSetlistSongs.MouseUp += new System.Windows.Forms.MouseEventHandler(this.chkShowSetlistSongs_MouseUp);
             // 
             // lnkClearSearch
             // 
@@ -970,7 +972,7 @@ namespace CustomsForgeSongManager.UControls
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(26, 192);
+            this.label1.Location = new System.Drawing.Point(26, 175);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(107, 13);
             this.label1.TabIndex = 47;
@@ -982,7 +984,7 @@ namespace CustomsForgeSongManager.UControls
             this.btnRunRSWithSetlist.Enabled = false;
             this.btnRunRSWithSetlist.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRunRSWithSetlist.Image = global::CustomsForgeSongManager.Properties.Resources.StartRs;
-            this.btnRunRSWithSetlist.Location = new System.Drawing.Point(32, 142);
+            this.btnRunRSWithSetlist.Location = new System.Drawing.Point(32, 125);
             this.btnRunRSWithSetlist.Name = "btnRunRSWithSetlist";
             this.btnRunRSWithSetlist.Size = new System.Drawing.Size(94, 44);
             this.btnRunRSWithSetlist.TabIndex = 46;
@@ -1006,7 +1008,7 @@ namespace CustomsForgeSongManager.UControls
             this.lnkSetlistMgrHelp.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lnkSetlistMgrHelp.ForeColor = System.Drawing.Color.Black;
             this.lnkSetlistMgrHelp.LinkColor = System.Drawing.SystemColors.ActiveCaption;
-            this.lnkSetlistMgrHelp.Location = new System.Drawing.Point(12, 107);
+            this.lnkSetlistMgrHelp.Location = new System.Drawing.Point(12, 90);
             this.lnkSetlistMgrHelp.Name = "lnkSetlistMgrHelp";
             this.lnkSetlistMgrHelp.Size = new System.Drawing.Size(133, 16);
             this.lnkSetlistMgrHelp.TabIndex = 45;
@@ -1025,7 +1027,7 @@ namespace CustomsForgeSongManager.UControls
             this.cmsSelectAllNone,
             this.cmsShow});
             this.cmsSetlistManager.Name = "contextMenuStrip_MainManager";
-            this.cmsSetlistManager.Size = new System.Drawing.Size(158, 180);
+            this.cmsSetlistManager.Size = new System.Drawing.Size(158, 158);
             // 
             // cmsCopy
             // 
@@ -1171,17 +1173,7 @@ namespace CustomsForgeSongManager.UControls
         private DataGridViewTextBoxColumn colSetlistSongsDD;
         private DataGridViewTextBoxColumn colSetlistSongsPath;
         private DataGridViewTextBoxColumn colSetlistSongsArtistTitleAlbum;
-        private DataGridViewCheckBoxColumn colSelect;
-        private DataGridViewTextBoxColumn colEnabled;
-        private DataGridViewTools.DataGridViewAutoFilterTextBoxColumn colArtist;
-        private DataGridViewTools.DataGridViewAutoFilterTextBoxColumn colTitle;
-        private DataGridViewTools.DataGridViewAutoFilterTextBoxColumn colAlbum;
-        private DataGridViewTools.DataGridViewAutoFilterTextBoxColumn colArrangements;
-        private DataGridViewTools.DataGridViewAutoFilterTextBoxColumn colSongTuning;
-        private DataGridViewTools.DataGridViewAutoFilterTextBoxColumn colDD;
-        private DataGridViewTextBoxColumn colPath;
-        private DataGridViewTextBoxColumn colArtistTitleAlbum;
-        private CheckBox chkSubFolders;
+        private CheckBox chkShowSetlistSongs;
         private ContextMenuStrip cmsSetlistManager;
         private ToolStripMenuItem cmsDelete;
         private ToolStripMenuItem cmsCopy;
@@ -1200,6 +1192,16 @@ namespace CustomsForgeSongManager.UControls
         private DataGridViewTextBoxColumn colSongPackEnabled;
         private DataGridViewTextBoxColumn colSongPackPath;
         private ToolStripMenuItem cmsSelectAllNone;
+        private DataGridViewCheckBoxColumn colSelect;
+        private DataGridViewAutoFilterTextBoxColumn colEnabled;
+        private DataGridViewAutoFilterTextBoxColumn colArtist;
+        private DataGridViewAutoFilterTextBoxColumn colTitle;
+        private DataGridViewAutoFilterTextBoxColumn colAlbum;
+        private DataGridViewAutoFilterTextBoxColumn colArrangements;
+        private DataGridViewAutoFilterTextBoxColumn colSongTuning;
+        private DataGridViewAutoFilterTextBoxColumn colDD;
+        private DataGridViewTextBoxColumn colPath;
+        private DataGridViewTextBoxColumn colArtistTitleAlbum;
 
 
 

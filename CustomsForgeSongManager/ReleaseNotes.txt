@@ -6,6 +6,7 @@ CFSM Release Notes
 -Moved RADataGridViewSettings ManagerGridSettings to DataGridViewTools library
 -Fixed datagridview refresh for Duplicates Enabled/Disabled 
 -Added show enabled or disable Duplicates (Rescan button plus Ctrl-E or Ctrl-D)
+-Added 'ShowSetlistSongs' to application save settings
 
 1.2.0.0
 -Complete reorganization and unification of refactored code

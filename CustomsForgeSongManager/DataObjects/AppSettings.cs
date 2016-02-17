@@ -29,6 +29,7 @@ namespace CustomsForgeSongManager.DataObjects
         private string _renameTemplate;
         private string _sortColumn;
         private bool _sortAscending;
+        private bool _showSetlistSongs;
 
         [Browsable(false)]
         public string LogFilePath { get; set; }
@@ -145,6 +146,12 @@ namespace CustomsForgeSongManager.DataObjects
         {
             get { return _sortAscending; }
             set { SetPropertyField("SortAscending", ref _sortAscending, value); }
+        }
+
+        public bool ShowSetlistSongs
+        {
+            get { return _showSetlistSongs; }
+            set { SetPropertyField("ShowSetlistSongs", ref _showSetlistSongs, value); }
         }
 
         [XmlArray("CustomSettings")] // provides proper xml serialization
