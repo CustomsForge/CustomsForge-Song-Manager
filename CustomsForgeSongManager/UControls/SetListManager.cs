@@ -1064,7 +1064,12 @@ namespace CustomsForgeSongManager.UControls
             dgvPainted = false;
 
             var grid = (DataGridView)sender;
-            if (grid.Rows.Count == 0 || e.RowIndex == -1)
+
+            // Win10 right click issue on header ... so must check seperate and first
+            if (e.RowIndex == -1)
+                return;
+
+            if (grid.Rows.Count == 0)
                 return;
 
             // for debugging
@@ -1168,7 +1173,11 @@ namespace CustomsForgeSongManager.UControls
         private void dgvSetlistSongs_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
             var grid = (DataGridView)sender;
-            if (grid.Rows.Count == 0 || e.RowIndex == -1)
+            // Win10 right click issue on header ... so must check seperate and first
+            if (e.RowIndex == -1)
+                return;
+
+            if (grid.Rows.Count == 0)
                 return;
 
             if (e.Button == MouseButtons.Right)
