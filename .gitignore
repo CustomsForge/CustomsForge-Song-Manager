@@ -68,19 +68,16 @@ packages/
 *.testsettings 
 
 #others
+CleanupBeforeGitPullRequest.bat
 BinForRelease*/
 Copy*/
-Copy*.*
-
 
 ThirdParty/Dotfuscator/*
-ThirdParty/CFMSetup/Output/*
-
-/ThirdParty/CFMPostBuilder.vshost.exe
-/ThirdParty/CFMPostBuilder.vshost.exe.config
-/ThirdParty/CFMPostBuilder.pdb
-ThirdParty/CFMPostBuilder.vshost.exe.manifest
-ThirdParty/CFMPostBuilder.exe.config
-CleanupBeforeGitPullRequest.bat
-/ThirdParty/CFMSetup/Output/UpdateInfo.txt
-ThirdParty/CFMSetup/ClickOnceUninstaller.exe.CodeAnalysisLog.xml
+ThirdParty/CFSM.Setup/Output/*
+ThirdParty/CFSMPostBuilder.vshost.exe
+ThirdParty/CFSMPostBuilder.vshost.exe.config
+ThirdParty/CFSMPostBuilder.pdb
+ThirdParty/CFSMPostBuilder.vshost.exe.manifest
+ThirdParty/CFSMPostBuilder.exe.config
+ThirdParty/CFSM.Setup/Output/UpdateInfo.txt
+ThirdParty/CFSM.Setup/ClickOnceUninstaller.exe.CodeAnalysisLog.xml
