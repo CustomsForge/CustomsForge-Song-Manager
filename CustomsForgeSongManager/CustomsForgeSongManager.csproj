@@ -746,7 +746,8 @@ CD "$(SolutionDir)ThirdParty\ConfuserEx_bin\"
 CD "$(SolutionDir)ThirdParty\Inno\"
 "ISCC.exe" /DBETA "..\CFSM.Setup\CFSMInstaller.iss"
 del /q "$(TargetDir)*.pdb"
-copy /y "$(SolutionDir)CustomsForgeSongManager\ReleaseNotes.txt" "$(SolutionDir)ThirdParty\CFSM.Setup\Output\VersionInfo.txt"
+CD "$(SolutionDir)ThirdParty\"
+"CFSMPostBuilder.exe" "CREATEVERSIONINFO"
 )
 
 if $(ConfigurationName) == PublishBeta (

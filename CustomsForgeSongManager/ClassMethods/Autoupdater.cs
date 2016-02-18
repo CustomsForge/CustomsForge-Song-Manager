@@ -2,11 +2,12 @@
 using System.Linq;
 using System.Net;
 using System.IO;
+using System.Threading;
 using CustomsForgeSongManager.DataObjects;
 
 namespace CustomsForgeSongManager.ClassMethods
 {
-//#if AUTOUPDATE
+    //#if AUTOUPDATE
     public class Autoupdater
     {
 #if RELEASE
@@ -21,6 +22,7 @@ namespace CustomsForgeSongManager.ClassMethods
         public static string ReleaseNotes { get; private set; }
         private static Version FLatestVersion;
         private static DateTime FLastChecked = default(DateTime);
+        private static int attemptCount = 0;
 
         static Autoupdater()
         {
@@ -47,15 +49,80 @@ namespace CustomsForgeSongManager.ClassMethods
 
         public static bool NeedsUpdate()
         {
+            if (LatestVersion > new Version(Constants.CustomVersion()))
+                Globals.Log("CFSM needs updating ...");
+
             return LatestVersion > new Version(Constants.CustomVersion());
         }
 
+        // stackoverflow 14192993
         private static void DownloadCurrent()
         {
-            HttpWebRequest webRequest = (HttpWebRequest) WebRequest.Create(VersionURL);
+            HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(VersionURL);
             webRequest.Method = "GET";
-            webRequest.Timeout = 3000;
-            webRequest.BeginGetResponse(new AsyncCallback(GetVersionInfo), webRequest);
+            webRequest.Timeout = 5000;
+            webRequest.KeepAlive = true;
+            try
+            {
+                // this will throw and error if there is no internet connection
+                var webResponse = (HttpWebResponse)webRequest.GetResponse();
+                if (webResponse.StatusCode == HttpStatusCode.OK)
+                    webRequest.BeginGetResponse(new AsyncCallback(GetVersionInfo), webRequest);
+                else
+                {
+                    // try to connect a bunch of times
+                    if (attemptCount < 15)
+                    {
+                        attemptCount++;
+                        Thread.Sleep(500);
+                        DownloadCurrent();
+                    }
+                    else
+                        Globals.Log("Unable to check for CFSM updates, server not responding ...");
+                }
+            }
+            catch
+            {
+                // try a couple of times
+                if (attemptCount < 4)
+                {
+                    attemptCount++;
+                    Thread.Sleep(500);
+                    DownloadCurrent();
+                }
+                else
+                    Globals.Log("Unable to check for CFSM updates, no internet connection detected ...");
+            }
+        }
+
+        private static void GetVersionInfo(IAsyncResult asyncResult)
+        {
+            HttpWebRequest webRequest = (HttpWebRequest)asyncResult.AsyncState;
+            try
+            {
+                using (var webResponse = (HttpWebResponse)webRequest.EndGetResponse(asyncResult))
+                using (var streamReader = new StreamReader(webResponse.GetResponseStream()))
+                {
+                    var s = streamReader.ReadToEnd();
+                    if (!string.IsNullOrEmpty(s))
+                    {
+                        var lines = s.Split('\n');
+                        FLatestVersion = new Version(lines[0]);
+                        var l = lines.ToList();
+                        l.RemoveAt(0);
+                        if (l.Count > 0)
+                        {
+                            ReleaseNotes = String.Join("\n", l.ToArray());
+                        }
+                        GotVersionInfo();
+                        Globals.Log("Auto update feature made a good connection with the server ...");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Globals.Log("ERROR: Auto update failed " + ex.Message);
+            }
         }
 
         private static void GotVersionInfo()
@@ -65,36 +132,7 @@ namespace CustomsForgeSongManager.ClassMethods
             if (OnInfoRecieved != null)
                 OnInfoRecieved(null, EventArgs.Empty);
         }
-
-        private static void GetVersionInfo(IAsyncResult asyncResult)
-        {
-            HttpWebRequest webRequest = (HttpWebRequest) asyncResult.AsyncState;
-            try
-            {
-                using (HttpWebResponse webResponse = (HttpWebResponse) webRequest.EndGetResponse(asyncResult))
-                {
-                    StreamReader streamReader = new StreamReader(webResponse.GetResponseStream());
-                    string s = streamReader.ReadToEnd();
-                    if (!string.IsNullOrEmpty(s))
-                    {
-                        string[] lines = s.Split('\n');
-                        FLatestVersion = new Version(lines[0]);
-                        var l = lines.ToList();
-                        l.RemoveAt(0);
-                        if (l.Count > 0)
-                        {
-                            ReleaseNotes = String.Join("\n", l.ToArray());
-                        }
-                        GotVersionInfo();
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                //
-            }
-        }
     }
 
-//#endif
+    //#endif
 }

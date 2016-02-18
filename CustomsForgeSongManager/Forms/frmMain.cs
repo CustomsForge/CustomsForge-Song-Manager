@@ -23,7 +23,7 @@ namespace CustomsForgeSongManager.Forms
         {
             InitializeComponent();
             //this will initialize classes that need to be initialized right away.
-            TypeExtensions.InitializeClasses(new string[] {"UTILS_INIT", "CFSM_INIT"}, new Type[] {}, new object[] {});
+            TypeExtensions.InitializeClasses(new string[] { "UTILS_INIT", "CFSM_INIT" }, new Type[] { }, new object[] { });
 
             // prevent toolstrip from growing/changing at runtime
             // toolstrip may appear changed in design mode (this is a known VS bug)
@@ -235,7 +235,7 @@ namespace CustomsForgeSongManager.Forms
 
             switch (tcMain.SelectedTab.Text)
             {
-                    // passing variables(objects) by value to UControl
+                // passing variables(objects) by value to UControl
                 case "Song Manager":
                     LoadSongManager();
                     Globals.SongManager.UpdateToolStrip();
@@ -347,36 +347,36 @@ namespace CustomsForgeSongManager.Forms
         private void frmMain_Load(object sender, EventArgs e)
         {
 #if AUTOUPDATE
-            Autoupdater.OnInfoRecieved += (S, E) =>
+            //Autoupdater.OnInfoRecieved += (S, E) =>
+            //    {
+            if (Autoupdater.NeedsUpdate())
+            {
+                using (frmNoteViewer f = new frmNoteViewer())
                 {
-                    if (Autoupdater.NeedsUpdate())
-                    {
-                        using (frmNoteViewer f = new frmNoteViewer())
-                        {
-                            f.btnCopyToClipboard.Text = "Update";
+                    f.btnCopyToClipboard.Text = "Update";
 
-                            if (!Constants.DebugMode)
+                    if (!Constants.DebugMode)
+                    {
+                        f.RemoveButtonHandler();
+                        f.btnCopyToClipboard.Click += (sen, evt) =>
                             {
-                                f.RemoveButtonHandler();
-                                f.btnCopyToClipboard.Click += (sen, evt) =>
-                                    {
-                                        //run setup file, since updating is done in the installer just use the installer to handle updates
-                                        //the install will force the user to close the program before installing.
-                                        if (File.Exists("CFSMSetup.exe"))
-                                        {
-                                            System.Diagnostics.Process.Start("CFSMSetup.exe", "-appupdate");
-                                        }
-                                        else
-                                            MessageBox.Show("CFSMSetup not found, please download the program again.");
-                                        f.Close();
-                                    };
-                            }
-                            f.PopulateText(Autoupdater.ReleaseNotes);
-                            f.Text = String.Format("New version detected {0}", Autoupdater.LatestVersion.ToString());
-                            f.ShowDialog();
-                        }
+                                //run setup file, since updating is done in the installer just use the installer to handle updates
+                                //the install will force the user to close the program before installing.
+                                if (File.Exists("CFSMSetup.exe"))
+                                {
+                                    System.Diagnostics.Process.Start("CFSMSetup.exe", "-appupdate");
+                                }
+                                else
+                                    MessageBox.Show("CFSMSetup not found, please download the program again.");
+                                f.Close();
+                            };
                     }
-                };
+                    f.PopulateText(Autoupdater.ReleaseNotes);
+                    f.Text = String.Format("New version detected {0}", Autoupdater.LatestVersion.ToString());
+                    f.ShowDialog();
+                }
+            }
+            //};
 #endif
         }
 
@@ -431,7 +431,7 @@ namespace CustomsForgeSongManager.Forms
                             columns += c.HeaderText + ", ";
                     }
 
-                    sbTXT.AppendLine(columns.Trim(new char[] {',', ' '}));
+                    sbTXT.AppendLine(columns.Trim(new char[] { ',', ' ' }));
                     sbTXT.AppendLine(String.Format("[LIST={0}]", selection.Count()));
 
                     foreach (var row in selection)
@@ -441,7 +441,7 @@ namespace CustomsForgeSongManager.Forms
                         {
                             s += col.Value == null ? " , " : col.Value + ", ";
                         }
-                        sbTXT.AppendLine(s.Trim(new char[] {',', ' '}) + "[/*]");
+                        sbTXT.AppendLine(s.Trim(new char[] { ',', ' ' }) + "[/*]");
                     }
                     sbTXT.AppendLine("[/LIST]");
 
@@ -458,7 +458,7 @@ namespace CustomsForgeSongManager.Forms
         public void SongListToCSV()
         {
             var path = Path.Combine(Constants.WorkDirectory, "SongListCSV.csv");
-            using (var sfdSongListToCSV = new SaveFileDialog() {Filter = "csv files(*.csv)|*.csv|All files (*.*)|*.*", FileName = path})
+            using (var sfdSongListToCSV = new SaveFileDialog() { Filter = "csv files(*.csv)|*.csv|All files (*.*)|*.*", FileName = path })
 
                 if (sfdSongListToCSV.ShowDialog() == DialogResult.OK)
                 {
@@ -477,7 +477,7 @@ namespace CustomsForgeSongManager.Forms
                                     columns += c.HeaderText + csvSep;
                             }
 
-                            sbCSV.AppendLine(columns.Trim(new char[] {csvSep, ' '}));
+                            sbCSV.AppendLine(columns.Trim(new char[] { csvSep, ' ' }));
 
                             foreach (var row in selection)
                             {
@@ -486,7 +486,7 @@ namespace CustomsForgeSongManager.Forms
                                 {
                                     s += col.Value == null ? csvSep.ToString() : col.Value.ToString() + csvSep;
                                 }
-                                sbCSV.AppendLine(s.Trim(new char[] {',', ' '}));
+                                sbCSV.AppendLine(s.Trim(new char[] { ',', ' ' }));
                             }
 
                             //using (var noteViewer = new frmNoteViewer())
@@ -534,7 +534,7 @@ namespace CustomsForgeSongManager.Forms
                     foreach (var c in dataGrid.Columns.Cast<DataGridViewColumn>())
                     {
                         if (!ignoreColumns.Contains(c.Index))
-                            columns += ((char) 9) + String.Format("<th>{0}</th>{1}", c.HeaderText, Environment.NewLine);
+                            columns += ((char)9) + String.Format("<th>{0}</th>{1}", c.HeaderText, Environment.NewLine);
                     }
                     sbTXT.AppendLine(columns.Trim());
                     sbTXT.AppendLine("</tr>");
@@ -651,8 +651,8 @@ namespace CustomsForgeSongManager.Forms
             if (Globals.AudioEngine.IsLoaded())
             {
                 Globals.Log("Playback Seeking ...");
-                var pos = (float) e.Location.X/(float) tspbAudioPosition.Width;
-                Globals.AudioEngine.Seek(pos*Globals.AudioEngine.GetSongLength());
+                var pos = (float)e.Location.X / (float)tspbAudioPosition.Width;
+                Globals.AudioEngine.Seek(pos * Globals.AudioEngine.GetSongLength());
             }
         }
 

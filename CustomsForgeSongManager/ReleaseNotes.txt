@@ -1,5 +1,9 @@
 CFSM Release Notes
 
+1.2.0.2 
+-Updated CFSMPostBuilder project
+-Updated CFSM Auto Updater and added logger feedback
+
 1.2.0.1
 -Updated RocksmithToolkitLib.dll and other project source libraries
 -Fixed AutoResizeColumns bug
@@ -411,7 +415,7 @@ CFSM Release Notes
 
 1.0.2.6
 -Fixed the directory structure for the CFMAudioTools
--Added a reference to CFMAudioTools to RocksmithToolkitLib. The Revorb function in RocksmithToolkitLib.Ogg.OggFile no longer needs the external apps “ww2ogg.exe” and “revorb.exe”, nor does it need the codebook files. The codebook files are stored in the CFMAudioTools.Resources. The assemebly will use the new features when compiled with the "CFM_AUDIO_TOOL" conditional statement.
+-Added a reference to CFMAudioTools to RocksmithToolkitLib. The Revorb function in RocksmithToolkitLib.Ogg.OggFile no longer needs the external apps ï¿½ww2ogg.exeï¿½ and ï¿½revorb.exeï¿½, nor does it need the codebook files. The codebook files are stored in the CFMAudioTools.Resources. The assemebly will use the new features when compiled with the "CFM_AUDIO_TOOL" conditional statement.
 -Added hotkeys to hide/show the top toolbar and the log. F3: Show/Hide log, F12: Show/hide toolbar.
 -ucSongInfo now uses events to determine if it has been modified. 
 

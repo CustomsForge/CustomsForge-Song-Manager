@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -39,7 +40,9 @@ namespace CFMPostBuilder
         {
 
             // dumby CLI data for test
-            // args = new[] { "CONVERT" };
+#if DEBUG
+            args = new[] { "CREATEVERSIONINFO" }; // , "CONVERT" };
+#endif
 
             if (args.Length < 1 || string.IsNullOrEmpty(args[0]))
             {
@@ -52,6 +55,19 @@ namespace CFMPostBuilder
                 return;
             }
             Console.WriteLine(args[0]);
+
+            // common variables are here
+            const string relNotesFile = "ReleaseNotes.txt";
+            const string verInfoFile = "VersionInfo.txt";
+
+            var appExe = Assembly.GetExecutingAssembly().Location;
+            var appPath = Path.GetDirectoryName(appExe);
+            var parentPath = Path.GetDirectoryName(appPath);
+            var relNotesPath = Path.Combine(parentPath, "CustomsForgeSongManager", relNotesFile);
+            var verInfoPath = Path.Combine(appPath, "CFSM.Setup", "Output", verInfoFile);
+            var setupFilePath = Path.Combine(appPath, "CFSM.Setup", "Output", "CFSMSetup.exe");
+
+
             switch (args[0].ToUpper())
             {
                 case "SETINSTALLERTYPE":
@@ -61,22 +77,22 @@ namespace CFMPostBuilder
                             Console.WriteLine("Invalid command line input");
                             Console.WriteLine("");
                             Console.WriteLine("SETINSTALLERTYPE needs a second paramerter.");
-                            Console.WriteLine("Usage: CFMPostBuilder.exe SETINSTALLERTYPE 'BETA' ");
+                            Console.WriteLine("Usage: CFSMPostBuilder.exe SETINSTALLERTYPE 'BETA' ");
                             Environment.Exit(-10);
                         }
 
                         try
                         {
-                            Directory.SetCurrentDirectory("CFMSetup\\");
+                            Directory.SetCurrentDirectory(Path.Combine(appPath, "CFSM.Setup"));
                             if (File.Exists("isbeta.iss"))
                             {
                                 Console.WriteLine("iss installer version file found. deleting...");
                                 File.Delete("isbeta.iss");
 
                             }
-                            if (File.Exists("Output\\CFSMSetup.exe"))
+                            if (File.Exists(setupFilePath))
                             {
-                                File.Delete("Output\\CFSMSetup.exe");
+                                File.Delete(setupFilePath);
                                 Console.WriteLine("Old setup deleted");
                             }
                             bool isBeta = args[1].ToUpper() == "BETA";
@@ -91,28 +107,42 @@ namespace CFMPostBuilder
                             Console.WriteLine(ex.Message);
                             Environment.Exit(-1);
                         }
+
+                        Console.WriteLine("SETINSTALLERTYPE was sucessful");
+                        Console.WriteLine("");
+                        Console.WriteLine("Press any key to continue");
+                        Console.ReadLine();
                         break;
                     }
                 case "CREATEVERSIONINFO":
                     {
-                        const string rnotes = @"..\CustomsForgeManager\ReleaseNotes.txt";
-                        if (!File.Exists(rnotes))
+                        if (!File.Exists(relNotesPath))
                         {
                             Console.WriteLine("ReleaseNotes not found");
                             Environment.Exit(-5);
                         }
 
-                        const string SetupFile = @"CFMSetup\Output\CFSMSetup.exe";
-                        if (!File.Exists(SetupFile))
+                        if (!File.Exists(setupFilePath))
                         {
-                            Console.WriteLine("installer not found");
+                            Console.WriteLine("Setup.exe installer not found");
                             Environment.Exit(-5);
                         }
 
-                        FileVersionInfo vi = FileVersionInfo.GetVersionInfo(SetupFile);
-                        String txt = vi.ProductVersion.Trim() + Environment.NewLine;
-                        txt += File.ReadAllText(rnotes);
-                        File.WriteAllText("CFMSetup\\Output\\VersionInfo.txt", txt);
+                        var vi = FileVersionInfo.GetVersionInfo(setupFilePath);
+                        var txt = vi.ProductVersion.Trim();
+
+                        Console.WriteLine("Current Application Version: " + txt);
+
+                        // commented out ... old version info may be confusing updater
+                        //if (File.Exists(verInfoPath))
+                        //    txt += Environment.NewLine + File.ReadAllText(verInfoPath);
+
+                        File.WriteAllText(verInfoPath, txt);
+
+                        Console.WriteLine("CREATEVERSIONINFO was sucessful");
+                        Console.WriteLine("");
+                        Console.WriteLine("Press any key to continue");
+                        Console.ReadLine();
                         break;
                     }
 
@@ -127,8 +157,7 @@ namespace CFMPostBuilder
                             Environment.Exit(-10);
                         }
 
-                        const string rnotes = @"..\CustomsForgeManager\ReleaseNotes.txt";
-                        if (!File.Exists(rnotes))
+                        if (!File.Exists(relNotesPath))
                         {
                             Console.WriteLine("ReleaseNotes not found");
                             Environment.Exit(-5);
@@ -148,19 +177,18 @@ namespace CFMPostBuilder
                         if (MessageBox.Show("Upload the files?", "Question", MessageBoxButtons.YesNo,
                             MessageBoxIcon.Question) == DialogResult.Yes)
                         {
-                            const string SetupFile = @"CFMSetup\Output\CFSMSetup.exe";
-                            FileVersionInfo vi = FileVersionInfo.GetVersionInfo(SetupFile);
+                            FileVersionInfo vi = FileVersionInfo.GetVersionInfo(setupFilePath);
 
 
-                            using (var fs = File.OpenRead(SetupFile))
+                            using (var fs = File.OpenRead(setupFilePath))
                             {
                                 UploadStream(fs, "CFSMSetup.exe");
                             }
 
 
-                            Console.WriteLine(File.Exists(rnotes));
+                            Console.WriteLine(File.Exists(relNotesFile));
                             String txt = vi.ProductVersion.Trim() + Environment.NewLine;
-                            txt += File.ReadAllText(rnotes);
+                            txt += File.ReadAllText(relNotesFile);
 
                             MemoryStream ms = new MemoryStream();
                             using (var sw = new StreamWriter(ms))
