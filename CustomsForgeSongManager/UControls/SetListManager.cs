@@ -1114,7 +1114,8 @@ namespace CustomsForgeSongManager.UControls
 
         private void dgvSetlistMaster_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            dgvSetlistMaster.Invalidate();
+            // this may be causing crash in Win10 so commented out
+            // dgvSetlistMaster.Invalidate();
         }
 
         private void dgvSetlistMaster_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
@@ -1336,5 +1337,7 @@ namespace CustomsForgeSongManager.UControls
             Globals.Log("Leaving Setlist Manager GUI ...");
             Globals.Settings.SaveSettingsToFile(dgvSetlistMaster);
         }
+
+ 
     }
 }
