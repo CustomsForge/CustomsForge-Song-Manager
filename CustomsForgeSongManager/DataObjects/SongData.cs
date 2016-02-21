@@ -127,7 +127,8 @@ namespace CustomsForgeSongManager.DataObjects
         [XmlIgnore]
         public string FileName
         {
-            get { return (new FileInfo(Path).Name); }
+            get { return (System.IO.Path.Combine(System.IO.Path.GetFileName(System.IO.Path.GetDirectoryName(Path)), System.IO.Path.GetFileName(Path))); }
+            // get { return (new FileInfo(Path).Name); }
             // set { } // required for XML file usage
         }
 

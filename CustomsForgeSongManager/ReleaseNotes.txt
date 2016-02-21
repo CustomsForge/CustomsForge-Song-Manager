@@ -1,4 +1,8 @@
-CFSM Release Notes
+﻿CFSM Release Notes
+
+1.2.0.3
+-Added File Name column to Setlist Manager
+-Added Move to Setlist button to Setlist Manager
 
 1.2.0.2 
 -Updated CFSMPostBuilder project

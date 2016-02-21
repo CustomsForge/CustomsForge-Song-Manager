@@ -403,8 +403,8 @@ namespace CustomsForgeSongManager.UControls
             {
                 // var setlistSongs = Directory.EnumerateFiles(setlistPath, "*.psarc", SearchOption.AllDirectories).ToList();
 
-                // CAREFUL - brain damage area
-                // the use of LINQ 'Select' defeats the FilteredBindingList feature and locks data                
+                    // CAREFUL - brain damage area
+                    // the use of LINQ 'Select' defeats the FilteredBindingList feature and locks data                
                 var setlistSongs = songCollection.Where(sng => (sng.ArtistTitleAlbum.ToLower().Contains(search) || sng.Tuning.ToLower().Contains(search) || sng.Path.ToLower().Contains(search)) && Path.GetDirectoryName(sng.Path) == setlistPath).ToList();
 
                 // the use of .Select breaks binding
@@ -533,6 +533,10 @@ namespace CustomsForgeSongManager.UControls
         private void btnAddSongs_Click(object sender, EventArgs e)
         {
             FileOperations("Copy", dgvSetlistMaster);
+        }
+        private void btnMoveSongs_Click(object sender, EventArgs e)
+        {
+            FileOperations("Move", dgvSetlistMaster);
         }
 
         private void btnCombineSetlists_Click(object sender, EventArgs e)
@@ -1337,7 +1341,5 @@ namespace CustomsForgeSongManager.UControls
             Globals.Log("Leaving Setlist Manager GUI ...");
             Globals.Settings.SaveSettingsToFile(dgvSetlistMaster);
         }
-
- 
     }
 }
