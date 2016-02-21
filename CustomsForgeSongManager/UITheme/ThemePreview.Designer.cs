@@ -87,7 +87,7 @@ namespace CustomsForgeSongManager.UITheme
             this.colSongLength = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colAvgTempo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colAppID = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
-            this.colPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colFilePath = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colFileName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colCharter = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -451,7 +451,7 @@ namespace CustomsForgeSongManager.UITheme
             this.colSongLength,
             this.colAvgTempo,
             this.colAppID,
-            this.colPath,
+            this.colFilePath,
             this.colFileName,
             this.colStatus,
             this.colCharter,
@@ -649,13 +649,13 @@ namespace CustomsForgeSongManager.UITheme
             this.colAppID.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.colAppID.Width = 80;
             // 
-            // colPath
+            // colFilePath
             // 
-            this.colPath.DataPropertyName = "Path";
-            this.colPath.HeaderText = "Path";
-            this.colPath.Name = "colPath";
-            this.colPath.ReadOnly = true;
-            this.colPath.Width = 50;
+            this.colFilePath.DataPropertyName = "FilePath";
+            this.colFilePath.HeaderText = "File Path";
+            this.colFilePath.Name = "colFilePath";
+            this.colFilePath.ReadOnly = true;
+            this.colFilePath.Width = 50;
             // 
             // colFileName
             // 
@@ -819,7 +819,7 @@ namespace CustomsForgeSongManager.UITheme
         private System.Windows.Forms.DataGridViewTextBoxColumn colSongLength;
         private System.Windows.Forms.DataGridViewTextBoxColumn colAvgTempo;
         private DataGridViewTools.DataGridViewAutoFilterTextBoxColumn colAppID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colPath;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colFilePath;
         private System.Windows.Forms.DataGridViewTextBoxColumn colFileName;
         private System.Windows.Forms.DataGridViewTextBoxColumn colStatus;
         private System.Windows.Forms.DataGridViewTextBoxColumn colCharter;

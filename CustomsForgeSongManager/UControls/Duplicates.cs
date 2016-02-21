@@ -87,7 +87,7 @@ namespace CustomsForgeSongManager.UControls
                     duplicates = pidList.GroupBy(x => x.PID).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
 
                 else
-                    duplicates = pidList.Where(x => Path.GetFileName(Path.GetDirectoryName(x.Path)) == "dlc").GroupBy(x => x.PID).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
+                    duplicates = pidList.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").GroupBy(x => x.PID).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
 
                 distinctPIDS = duplicates.Select(x => x.PID).Distinct().ToList();
 
@@ -102,14 +102,14 @@ namespace CustomsForgeSongManager.UControls
                 if (chkSubFolders.Checked)
                     duplicates = Globals.SongCollection.GroupBy(x => x.ArtistTitleAlbum).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
                 else
-                    duplicates = Globals.SongCollection.Where(x => Path.GetFileName(Path.GetDirectoryName(x.Path)) == "dlc").GroupBy(x => x.ArtistTitleAlbum).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
+                    duplicates = Globals.SongCollection.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").GroupBy(x => x.ArtistTitleAlbum).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
 
                 if (keyEnabled)
                 {
                     if (chkSubFolders.Checked)
-                        duplicates = Globals.SongCollection.Where(x => !Path.GetFileName(x.Path).Contains("disabled")).GroupBy(x => x.ArtistTitleAlbum).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
+                        duplicates = Globals.SongCollection.Where(x => !Path.GetFileName(x.FilePath).Contains("disabled")).GroupBy(x => x.ArtistTitleAlbum).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
                     else
-                        duplicates = Globals.SongCollection.Where(x => Path.GetFileName(Path.GetDirectoryName(x.Path)) == "dlc" && !Path.GetFileName(x.Path).Contains("disabled")).GroupBy(x => x.ArtistTitleAlbum).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
+                        duplicates = Globals.SongCollection.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc" && !Path.GetFileName(x.FilePath).Contains("disabled")).GroupBy(x => x.ArtistTitleAlbum).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
 
                     Globals.Log("Showing duplicate enabled songs ...");
                 }
@@ -117,9 +117,9 @@ namespace CustomsForgeSongManager.UControls
                 if (keyDisabled)
                 {
                     if (chkSubFolders.Checked)
-                        duplicates = Globals.SongCollection.Where(x => Path.GetFileName(x.Path).Contains("disabled")).GroupBy(x => x.ArtistTitleAlbum).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
+                        duplicates = Globals.SongCollection.Where(x => Path.GetFileName(x.FilePath).Contains("disabled")).GroupBy(x => x.ArtistTitleAlbum).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
                     else
-                        duplicates = Globals.SongCollection.Where(x => Path.GetFileName(Path.GetDirectoryName(x.Path)) == "dlc" && Path.GetFileName(x.Path).Contains("disabled")).GroupBy(x => x.ArtistTitleAlbum).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
+                        duplicates = Globals.SongCollection.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc" && Path.GetFileName(x.FilePath).Contains("disabled")).GroupBy(x => x.ArtistTitleAlbum).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
 
                     Globals.Log("Showing duplicate disabled songs ...");
                 }
@@ -241,7 +241,7 @@ namespace CustomsForgeSongManager.UControls
                 //var title = selectedRow.Cells["colTitle"].Value.ToString();
                 //var artist = selectedRow.Cells["colArtist"].Value.ToString();
                 //var album = selectedRow.Cells["colAlbum"].Value.ToString();
-                //var path = selectedRow.Cells["colPath"].Value.ToString();
+                //var path = selectedRow.Cells["colFilePath"].Value.ToString();
 
                 //var song = duplicates.FirstOrDefault(x => x.Title == title && x.Album == album && x.Artist == artist && x.Path == path);
 
@@ -286,23 +286,23 @@ namespace CustomsForgeSongManager.UControls
                 if (Convert.ToBoolean(row.Cells["colSelect"].Value))
                 {
                     // check if user manually (re)moved the song and has not rescanned 
-                    if (File.Exists(duplicates[ndx].Path))
+                    if (File.Exists(duplicates[ndx].FilePath))
                     {
                         if (buttonName.Text.ToLower().Contains("move"))
                         {
-                            var filePath = duplicates[ndx].Path;
+                            var filePath = duplicates[ndx].FilePath;
                             var dupFileName = String.Format("{0}{1}", Path.GetFileName(filePath), ".dup");
                             var dupFilePath = Path.Combine(dupDir, dupFileName);
 
                             if (File.Exists(dupFilePath))
                                 File.Delete(dupFilePath);
 
-                            File.Move(duplicates[ndx].Path, dupFilePath);
+                            File.Move(duplicates[ndx].FilePath, dupFilePath);
                             Globals.Log(Properties.Resources.DuplicateFile + dupFileName);
                             Globals.Log(Properties.Resources.MovedTo + dupDir);
                         }
                         else
-                            File.Delete(duplicates[ndx].Path);
+                            File.Delete(duplicates[ndx].FilePath);
                     }
 
                     dgvDuplicates.Rows.Remove(row);
@@ -347,7 +347,7 @@ namespace CustomsForgeSongManager.UControls
 
                     if (Convert.ToBoolean(cell.Value))
                     {
-                        var originalPath = row.Cells["colPath"].Value.ToString();
+                        var originalPath = row.Cells["colFilePath"].Value.ToString();
                         if (!originalPath.ToLower().Contains(String.Format("{0}{1}", Constants.RS1COMP, "disc")))
                         {
                             var ColEnabled = row.Cells["colEnabled"];
@@ -356,14 +356,14 @@ namespace CustomsForgeSongManager.UControls
                             {
                                 var disabledDLCPath = originalPath.Replace("_p.psarc", "_p.disabled.psarc");
                                 File.Move(originalPath, disabledDLCPath);
-                                row.Cells["colPath"].Value = disabledDLCPath;
+                                row.Cells["colFilePath"].Value = disabledDLCPath;
                                 ColEnabled.Value = "No";
                             }
                             else
                             {
                                 var enabledDLCPath = originalPath.Replace("_p.disabled.psarc", "_p.psarc");
                                 File.Move(originalPath, enabledDLCPath);
-                                row.Cells["colPath"].Value = enabledDLCPath;
+                                row.Cells["colFilePath"].Value = enabledDLCPath;
                                 ColEnabled.Value = "Yes";
                             }
 
@@ -555,7 +555,7 @@ namespace CustomsForgeSongManager.UControls
 
         private void exploreToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var filePath = duplicates[dgvDuplicates.SelectedRows[0].Index].Path;
+            var filePath = duplicates[dgvDuplicates.SelectedRows[0].Index].FilePath;
 
             if (File.Exists(filePath))
                 Process.Start("explorer.exe", string.Format("/select,\"{0}\"", filePath));

@@ -97,7 +97,7 @@ namespace CustomsForgeSongManager.UControls
             this.colSongLength = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colAvgTempo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colAppID = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
-            this.colPath = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.colFilePath = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colFileName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colStatus = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colCharter = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
@@ -620,7 +620,7 @@ namespace CustomsForgeSongManager.UControls
             this.colSongLength,
             this.colAvgTempo,
             this.colAppID,
-            this.colPath,
+            this.colFilePath,
             this.colFileName,
             this.colStatus,
             this.colCharter,
@@ -833,14 +833,14 @@ namespace CustomsForgeSongManager.UControls
             this.colAppID.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.colAppID.Width = 80;
             // 
-            // colPath
+            // colFilePath
             // 
-            this.colPath.DataPropertyName = "Path";
-            this.colPath.HeaderText = "Path";
-            this.colPath.Name = "colPath";
-            this.colPath.ReadOnly = true;
-            this.colPath.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colPath.Width = 150;
+            this.colFilePath.DataPropertyName = "FilePath";
+            this.colFilePath.HeaderText = "File Path";
+            this.colFilePath.Name = "colFilePath";
+            this.colFilePath.ReadOnly = true;
+            this.colFilePath.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colFilePath.Width = 150;
             // 
             // colFileName
             // 
@@ -1252,7 +1252,7 @@ namespace CustomsForgeSongManager.UControls
         private System.Windows.Forms.DataGridViewTextBoxColumn colSongLength;
         private System.Windows.Forms.DataGridViewTextBoxColumn colAvgTempo;
         private DataGridViewTools.DataGridViewAutoFilterTextBoxColumn colAppID;
-        private DataGridViewTools.DataGridViewAutoFilterTextBoxColumn colPath;
+        private DataGridViewTools.DataGridViewAutoFilterTextBoxColumn colFilePath;
         private System.Windows.Forms.DataGridViewTextBoxColumn colFileName;
         private DataGridViewTools.DataGridViewAutoFilterTextBoxColumn colStatus;
         private DataGridViewTools.DataGridViewAutoFilterTextBoxColumn colCharter;

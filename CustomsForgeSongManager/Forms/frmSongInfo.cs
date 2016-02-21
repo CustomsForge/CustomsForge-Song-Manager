@@ -28,14 +28,14 @@ namespace CustomsForgeSongManager.Forms
             lbl_PanelSongArrangements.Text = song.Arrangements;
             lbl_PanelSongDD.Text = song.DD.ToString();
             lbl_PanelSongAuthor.Text = song.CharterName;
-            lbl_PanelSongPath.Text = song.Path;
+            lbl_PanelSongPath.Text = song.FilePath;
 
             // TODO: reimpliment
             FillGridWithArrangements(song.Arrangements);
 
             //
-            if (File.Exists(song.Path))
-                using (var fs = File.OpenRead(song.Path))
+            if (File.Exists(song.FilePath))
+                using (var fs = File.OpenRead(song.FilePath))
                 {
                     var s = fs.ExtractPSARCData(entry => entry.Name.Contains("128.dds"));
                     if (s != null)

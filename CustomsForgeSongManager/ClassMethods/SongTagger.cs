@@ -131,7 +131,7 @@ namespace CustomsForgeSongManager.ClassMethods
             {
                 using (var images = new BitmapHolder(aPath))
                 {
-                    string songPath = sd.Path;
+                    string songPath = sd.FilePath;
                     using (CFSM.RSTKLib.PSARC.PSARC archive = new CFSM.RSTKLib.PSARC.PSARC(true))
                     using (var fs = File.OpenRead(songPath))
                     {
@@ -298,9 +298,9 @@ namespace CustomsForgeSongManager.ClassMethods
 
             //   songTagged = songTagged || File.GetCreationTime(song.Path) == new DateTime(1990, 1, 1) ? true : false;
 
-            if (File.Exists(song.Path)) //Just to be sure :)
+            if (File.Exists(song.FilePath)) //Just to be sure :)
             {
-                string songPath = song.Path;
+                string songPath = song.FilePath;
                 using (CFSM.RSTKLib.PSARC.PSARC archive = new CFSM.RSTKLib.PSARC.PSARC())
                 {
                     using (var fs = File.OpenRead(songPath))
@@ -367,13 +367,13 @@ namespace CustomsForgeSongManager.ClassMethods
 
                     //     archive.TOC.Insert(0, new Entry() { Name = "NamesBlock.bin" });
                     archive.AddEntry("tagger.org", orginalArtStream);
-                    songPath = song.Path;
+                    songPath = song.FilePath;
 
                     using (var FS = File.Create(songPath))
                         archive.Write(FS, true);
-                    song.Path = songPath;
+                    song.FilePath = songPath;
 
-                    song.FileDate = File.GetLastWriteTimeUtc(song.Path);
+                    song.FileDate = File.GetLastWriteTimeUtc(song.FilePath);
 
                     song.Tagged = SongTaggerStatus.True;
 
@@ -393,7 +393,7 @@ namespace CustomsForgeSongManager.ClassMethods
 
         public void UntagSong(SongData song, CFSM.RSTKLib.PSARC.PSARC archive)
         {
-            if (File.Exists(song.Path)) //Just to be sure :)
+            if (File.Exists(song.FilePath)) //Just to be sure :)
             {
                 if (song.Tagged == SongTaggerStatus.True)
                     Globals.Log("Untagging song: " + song.Title);
@@ -429,20 +429,20 @@ namespace CustomsForgeSongManager.ClassMethods
             if (song.Tagged == SongTaggerStatus.False || song.Tagged == SongTaggerStatus.ODLC)
                 return;
 
-            if (File.Exists(song.Path)) //Just to be sure :)
+            if (File.Exists(song.FilePath)) //Just to be sure :)
             {
                 using (CFSM.RSTKLib.PSARC.PSARC archive = new CFSM.RSTKLib.PSARC.PSARC())
                 {
-                    using (var fs = File.OpenRead(song.Path))
+                    using (var fs = File.OpenRead(song.FilePath))
                         archive.Read(fs);
 
                     UntagSong(song, archive);
                     //   archive.TOC.Insert(0, new Entry() { Name = "NamesBlock.bin" });
 
-                    using (var FS = File.Create(song.Path))
+                    using (var FS = File.Create(song.FilePath))
                         archive.Write(FS, true);
 
-                    song.FileDate = File.GetLastWriteTimeUtc(song.Path);
+                    song.FileDate = File.GetLastWriteTimeUtc(song.FilePath);
                 }
             }
         }

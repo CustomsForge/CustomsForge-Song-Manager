@@ -87,7 +87,7 @@ namespace CustomsForgeSongManager.UControls
             // CAREFUL - lots to go wrong in this simple method :(
             // there could be setlist directories or user added directory(s)
             // beethoven_p.psarc is a good song to use for testing
-            var oldFilePath = data.Path;
+            var oldFilePath = data.FilePath;
             var newFileName = template.Render();
 
             var newFilePath = Path.Combine(AppSettings.Instance.RSInstalledDir, "dlc");
@@ -124,7 +124,7 @@ namespace CustomsForgeSongManager.UControls
         {
             foreach (SongData data in renSongCollection)
             {
-                var oldFilePath = data.Path;
+                var oldFilePath = data.FilePath;
                 var newFilePath = GetNewSongName(data);
                 var newFileDirectory = Path.GetDirectoryName(newFilePath);
 
@@ -135,7 +135,7 @@ namespace CustomsForgeSongManager.UControls
                     File.Move(oldFilePath, newFilePath);
                     Globals.Log(string.Format(Properties.Resources.Renamer_RenamingFrom, oldFilePath));
                     Globals.Log("To: " + newFilePath);
-                    data.Path = newFilePath;
+                    data.FilePath = newFilePath;
                     if (chkDeleteEmptyDir.Checked)
                         new DirectoryInfo(Path.Combine(AppSettings.Instance.RSInstalledDir, "dlc")).DeleteEmptyDirs();
                 }

@@ -120,13 +120,13 @@ namespace CustomsForgeSongManager.ClassMethods
             counterStopwatch.Restart();
             int songCounter = 0;
             int oldCount = bwSongCollection.Count();
-            bwSongCollection.RemoveAll(sd => !File.Exists(sd.Path));
+            bwSongCollection.RemoveAll(sd => !File.Exists(sd.FilePath));
 
             int removed = bwSongCollection.Count() - oldCount;
             if (removed > 0)
                 Globals.Log(String.Format(Resources.RemovedX0ObsoleteSongs, removed));
 
-            var dupPaths = bwSongCollection.GroupBy(x => x.Path).Where(group => group.Count() > 1);
+            var dupPaths = bwSongCollection.GroupBy(x => x.FilePath).Where(group => group.Count() > 1);
             if (dupPaths.Count() > 0)
             {
                 foreach (var x in dupPaths)
@@ -149,7 +149,7 @@ namespace CustomsForgeSongManager.ClassMethods
 
                 WorkerProgress(songCounter++*100/fileList.Count);
                 bool canScan = true;
-                var sInfo = bwSongCollection.FirstOrDefault(s => s.Path.Equals(file, StringComparison.OrdinalIgnoreCase));
+                var sInfo = bwSongCollection.FirstOrDefault(s => s.FilePath.Equals(file, StringComparison.OrdinalIgnoreCase));
                 if (sInfo != null)
                 {
                     var fInfo = new FileInfo(file);
@@ -278,7 +278,7 @@ namespace CustomsForgeSongManager.ClassMethods
 
             if (!includeRS1Pack)
             {
-                files = files.Where(file => !file.Contains(Constants.RS1COMP) && !file.Contains(Constants.SONGPACK)).ToList();
+                files = files.Where(file => !file.Contains(Constants.RS1COMP) && !file.ToLower().Contains(Constants.SONGPACK) && !file.ToLower().Contains(Constants.ABVSONGPACK)).ToList();
             }
             return files;
         }

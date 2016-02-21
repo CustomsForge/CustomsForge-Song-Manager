@@ -1,5 +1,8 @@
 ﻿CFSM Release Notes
 
+1.2.0.4
+-Added new filter to prevent Song Packs inclusion in Song Manager GUI
+
 1.2.0.3
 -Added File Name column to Setlist Manager
 -Added Move to Setlist button to Setlist Manager

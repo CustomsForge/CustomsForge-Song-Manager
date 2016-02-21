@@ -65,7 +65,7 @@ namespace CustomsForgeSongManager.UControls
             this.colSongLength = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colAvgTempo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colAppID = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
-            this.colPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colFilePath = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colStatus = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colCharter = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colUpdated = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -270,7 +270,7 @@ namespace CustomsForgeSongManager.UControls
             this.colSongLength,
             this.colAvgTempo,
             this.colAppID,
-            this.colPath,
+            this.colFilePath,
             this.colStatus,
             this.colCharter,
             this.colUpdated,
@@ -409,13 +409,13 @@ namespace CustomsForgeSongManager.UControls
             this.colAppID.Visible = false;
             this.colAppID.Width = 80;
             // 
-            // colPath
+            // colFilePath
             // 
-            this.colPath.DataPropertyName = "Path";
-            this.colPath.HeaderText = "Path";
-            this.colPath.Name = "colPath";
-            this.colPath.ReadOnly = true;
-            this.colPath.Width = 50;
+            this.colFilePath.DataPropertyName = "FilePath";
+            this.colFilePath.HeaderText = "File Path";
+            this.colFilePath.Name = "colFilePath";
+            this.colFilePath.ReadOnly = true;
+            this.colFilePath.Width = 50;
             // 
             // colStatus
             // 
@@ -577,7 +577,7 @@ namespace CustomsForgeSongManager.UControls
         private DataGridViewTextBoxColumn colSongLength;
         private DataGridViewTextBoxColumn colAvgTempo;
         private DataGridViewTools.DataGridViewAutoFilterTextBoxColumn colAppID;
-        private DataGridViewTextBoxColumn colPath;
+        private DataGridViewTextBoxColumn colFilePath;
         private DataGridViewTools.DataGridViewAutoFilterTextBoxColumn colStatus;
         private DataGridViewTools.DataGridViewAutoFilterTextBoxColumn colCharter;
         private DataGridViewTextBoxColumn colUpdated;

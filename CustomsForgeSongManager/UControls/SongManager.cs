@@ -93,7 +93,7 @@ namespace CustomsForgeSongManager.UControls
                 if (!File.Exists(fullname))
                 {
                     //extract the audio...
-                    if (!PsarcBrowser.ExtractAudio(sng.Path, fullname, ""))
+                    if (!PsarcBrowser.ExtractAudio(sng.FilePath, fullname, ""))
                     {
                         Globals.Log(Properties.Resources.CouldNotExtractTheAudio);
                         sng.AudioCache = String.Empty;
@@ -109,7 +109,7 @@ namespace CustomsForgeSongManager.UControls
                 if (Globals.AudioEngine.OpenAudioFile(fullname))
                 {
                     Globals.AudioEngine.Play();
-                    Globals.Log(String.Format("Playing {0} by {1}. ({2})", sng.Title, sng.Artist, Path.GetFileName(sng.Path)));
+                    Globals.Log(String.Format("Playing {0} by {1} ... ({2})", sng.Title, sng.Artist, Path.GetFileName(sng.FilePath)));
                 }
                 else
                     Globals.Log("Unable to open audio file.");
@@ -288,7 +288,7 @@ namespace CustomsForgeSongManager.UControls
             // TODO: impliment this if RS1 Compatiblity Songs are included by default
             foreach (DataGridViewRow row in dgvSongsMaster.Rows)
             {
-                if (row.Cells["colPath"].Value.ToString().ToLower().Contains(Constants.RS1COMP))
+                if (row.Cells["colFilePath"].Value.ToString().ToLower().Contains(Constants.RS1COMP))
                     row.Cells["colEnabled"].Value = false;
             }
         }
@@ -531,7 +531,7 @@ namespace CustomsForgeSongManager.UControls
 
             if (!chkSubFolders.Checked)
             {
-                var results = masterSongCollection.Where(x => Path.GetFileName(Path.GetDirectoryName(x.Path)) == "dlc").ToList();
+                var results = masterSongCollection.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList();
                 LoadFilteredBindingList(results);
             }
             else
@@ -559,7 +559,7 @@ namespace CustomsForgeSongManager.UControls
 
             // this is done here in case user decided to manually delete all songs
             // the default initial load condition does not include RS1 Compatiblity or SongPack files
-            var dlcFiles = Directory.EnumerateFiles(Path.Combine(AppSettings.Instance.RSInstalledDir, "dlc"), "*.psarc", SearchOption.AllDirectories).Where(fi => !fi.ToLower().Contains(Constants.RS1COMP) && !fi.ToLower().Contains(Constants.SONGPACK)).ToArray();
+            var dlcFiles = Directory.EnumerateFiles(Path.Combine(AppSettings.Instance.RSInstalledDir, "dlc"), "*.psarc", SearchOption.AllDirectories).Where(fi => !fi.ToLower().Contains(Constants.RS1COMP) && !fi.ToLower().Contains(Constants.SONGPACK) && !fi.ToLower().Contains(Constants.ABVSONGPACK)).ToArray();
             if (!dlcFiles.Any())
             {
                 var msgText = string.Format("Houston ... we have a problem!{0}There are no Rocksmith 2014 songs in:" + "{0}{1}{0}{0}Please select a valid Rocksmith 2014{0}installation directory when you restart CFSM.  ", Environment.NewLine, Path.Combine(AppSettings.Instance.RSInstalledDir, "dlc"));
@@ -632,10 +632,10 @@ namespace CustomsForgeSongManager.UControls
         private void SearchCDLC(string criteria)
         {
             var lowerCriteria = criteria.ToLower();
-            var results = masterSongCollection.Where(x => x.ArtistTitleAlbum.ToLower().Contains(lowerCriteria) || x.Tuning.ToLower().Contains(lowerCriteria) || x.Arrangements.ToLower().Contains(lowerCriteria) || x.CharterName.ToLower().Contains(lowerCriteria) || (x.IgnitionAuthor != null && x.IgnitionAuthor.ToLower().Contains(lowerCriteria) || (x.IgnitionID != null && x.IgnitionID.ToLower().Contains(lowerCriteria)) || x.SongYear.ToString().Contains(criteria) || x.Path.ToLower().Contains(lowerCriteria))).ToList();
+            var results = masterSongCollection.Where(x => x.ArtistTitleAlbum.ToLower().Contains(lowerCriteria) || x.Tuning.ToLower().Contains(lowerCriteria) || x.Arrangements.ToLower().Contains(lowerCriteria) || x.CharterName.ToLower().Contains(lowerCriteria) || (x.IgnitionAuthor != null && x.IgnitionAuthor.ToLower().Contains(lowerCriteria) || (x.IgnitionID != null && x.IgnitionID.ToLower().Contains(lowerCriteria)) || x.SongYear.ToString().Contains(criteria) || x.FilePath.ToLower().Contains(lowerCriteria))).ToList();
 
             if (!chkSubFolders.Checked)
-                results = results.Where(x => Path.GetFileName(Path.GetDirectoryName(x.Path)) == "dlc").ToList();
+                results = results.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList();
 
             LoadFilteredBindingList(results);
         }
@@ -793,7 +793,7 @@ namespace CustomsForgeSongManager.UControls
 
                 if (Convert.ToBoolean(row.Cells["colSelect"].Value))
                 {
-                    string songPath = sd.Path;
+                    string songPath = sd.FilePath;
 
                     // redundant for file safety
                     if (chkEnableDelete.Checked && !safe2Delete)
@@ -834,7 +834,7 @@ namespace CustomsForgeSongManager.UControls
             {
                 if (Convert.ToBoolean(row.Cells["colSelect"].Value))
                 {
-                    var originalPath = row.Cells["colPath"].Value.ToString();
+                    var originalPath = row.Cells["colFilePath"].Value.ToString();
                     var originalFile = row.Cells["colFileName"].Value.ToString();
 
                     if (!originalPath.ToLower().Contains(Constants.RS1COMP))
@@ -845,7 +845,7 @@ namespace CustomsForgeSongManager.UControls
                             {
                                 var disabledPath = originalPath.Replace("_p.psarc", "_p.disabled.psarc");
                                 File.Move(originalPath, disabledPath);
-                                row.Cells["colPath"].Value = disabledPath;
+                                row.Cells["colFilePath"].Value = disabledPath;
                                 row.Cells["colFileName"].Value = originalFile.Replace("_p.psarc", "_p.disabled.psarc");
                                 row.Cells["colEnabled"].Value = "No";
                             }
@@ -853,7 +853,7 @@ namespace CustomsForgeSongManager.UControls
                             {
                                 var enabledPath = originalPath.Replace("_p.disabled.psarc", "_p.psarc");
                                 File.Move(originalPath, enabledPath);
-                                row.Cells["colPath"].Value = enabledPath;
+                                row.Cells["colFilePath"].Value = enabledPath;
                                 row.Cells["colFileName"].Value = originalFile.Replace("_p.disabled.psarc", "_p.psarc");
                                 row.Cells["colEnabled"].Value = "Yes";
                             }
@@ -971,7 +971,7 @@ namespace CustomsForgeSongManager.UControls
 
             if (!chkSubFolders.Checked)
             {
-                var results = masterSongCollection.Where(x => Path.GetFileName(Path.GetDirectoryName(x.Path)) == "dlc").ToList();
+                var results = masterSongCollection.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList();
 
                 LoadFilteredBindingList(results);
             }
@@ -1017,7 +1017,7 @@ namespace CustomsForgeSongManager.UControls
                 if (!Directory.Exists(backupPath))
                     Directory.CreateDirectory(backupPath);
 
-                var filePath = masterSongCollection[dgvSongsMaster.SelectedRows[0].Index].Path;
+                var filePath = masterSongCollection[dgvSongsMaster.SelectedRows[0].Index].FilePath;
                 var fileName = Path.GetFileName(filePath);
 
                 if (File.Exists(Path.Combine(backupPath, fileName)))
@@ -1048,7 +1048,7 @@ namespace CustomsForgeSongManager.UControls
 
         private void cmsDeleteSong_Click(object sender, EventArgs e)
         {
-            if (dgvSongsMaster.SelectedRows[0].Cells["colPath"].Value.ToString().ToLower().Contains(Constants.RS1COMP))
+            if (dgvSongsMaster.SelectedRows[0].Cells["colFilePath"].Value.ToString().ToLower().Contains(Constants.RS1COMP))
             {
                 Globals.Log("Can not delete individual RS1 Compatibility DLC");
                 Globals.Log("Go to Setting tab and uncheck 'Include RS1 Compatibility Pack'");
@@ -1076,7 +1076,7 @@ namespace CustomsForgeSongManager.UControls
 
         private void cmsEditSong_Click(object sender, EventArgs e)
         {
-            var filePath = dgvSongsMaster.SelectedRows[0].Cells["colPath"].Value.ToString();
+            var filePath = dgvSongsMaster.SelectedRows[0].Cells["colFilePath"].Value.ToString();
 
             using (var songEditor = new frmSongEditor(filePath))
             {
@@ -1100,7 +1100,7 @@ namespace CustomsForgeSongManager.UControls
 
         private void cmsOpenDLCLocation_Click(object sender, EventArgs e)
         {
-            var path = dgvSongsMaster.SelectedRows[0].Cells["colPath"].Value.ToString();
+            var path = dgvSongsMaster.SelectedRows[0].Cells["colFilePath"].Value.ToString();
             var directory = new FileInfo(path);
             if (directory.DirectoryName != null)
                 Process.Start("explorer.exe", string.Format("/select,\"{0}\"", directory.FullName));

@@ -29,7 +29,6 @@ namespace CustomsForgeSongManager.UControls
         #endregion
 
         private bool allSelected = false;
-
         private bool bindingCompleted = false;
         private Color cdlcColor = Color.Cyan;
         private string cdlcDir;
@@ -234,7 +233,7 @@ namespace CustomsForgeSongManager.UControls
 
             foreach (var song in songsList)
             {
-                var srcPath = song.Path;
+                var srcPath = song.FilePath;
                 var srcDir = Path.GetDirectoryName(srcPath);
                 var srcFileName = Path.GetFileName(srcPath);
                 var srcFnEnabled = srcFileName.Replace("_p.disabled.psarc", "_p.psarc");
@@ -265,13 +264,13 @@ namespace CustomsForgeSongManager.UControls
                             if (item.CanWrite)
                                 newSong.GetType().GetProperty(item.Name).SetValue(newSong, item.GetValue(song, null), null);
 
-                        newSong.Path = destPath;
+                        newSong.FilePath = destPath;
                         songCollection.Add(newSong);
 
                         if (!isSrcDisabled && mode == "copy")
                         {
-                            song.Path = Path.Combine(dlcDir, srcFnDisabled);
-                            File.Copy(srcPath, song.Path);
+                            song.FilePath = Path.Combine(dlcDir, srcFnDisabled);
+                            File.Copy(srcPath, song.FilePath);
                             File.Delete(srcPath);
                         }
                     }
@@ -285,7 +284,7 @@ namespace CustomsForgeSongManager.UControls
                     foreach (DataGridViewRow row in dgvSetlistMaster.Rows)
                     {
                         var sdRow = DgvExtensions.GetObjectFromRow<SongData>(dgvSetlistMaster, row.Index);
-                        if (sdRow.Path == srcPath)
+                        if (sdRow.FilePath == srcPath)
                             dgvSetlistMaster.Rows.RemoveAt(row.Index);
                     }
                 }
@@ -405,7 +404,7 @@ namespace CustomsForgeSongManager.UControls
 
                     // CAREFUL - brain damage area
                     // the use of LINQ 'Select' defeats the FilteredBindingList feature and locks data                
-                var setlistSongs = songCollection.Where(sng => (sng.ArtistTitleAlbum.ToLower().Contains(search) || sng.Tuning.ToLower().Contains(search) || sng.Path.ToLower().Contains(search)) && Path.GetDirectoryName(sng.Path) == setlistPath).ToList();
+                var setlistSongs = songCollection.Where(sng => (sng.ArtistTitleAlbum.ToLower().Contains(search) || sng.Tuning.ToLower().Contains(search) || sng.FilePath.ToLower().Contains(search)) && Path.GetDirectoryName(sng.FilePath) == setlistPath).ToList();
 
                 // the use of .Select breaks binding
                 // .Select(x => new { x.Selected, x.Enabled, x.Artist, x.Song, x.Album, x.Tuning, x.Path }).ToList();
@@ -511,7 +510,7 @@ namespace CustomsForgeSongManager.UControls
         private void SearchCDLC(string criteria)
         {
             var lowerCriteria = criteria.ToLower();
-            var results = songCollection.Where(x => x.ArtistTitleAlbum.ToLower().Contains(lowerCriteria) || x.Tuning.ToLower().Contains(lowerCriteria) && Path.GetFileName(Path.GetDirectoryName(x.Path)) == "dlc").ToList();
+            var results = songCollection.Where(x => x.ArtistTitleAlbum.ToLower().Contains(lowerCriteria) || x.Tuning.ToLower().Contains(lowerCriteria) && Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList();
 
             LoadFilteredBindingList(results);
             songSearch.Clear();
@@ -530,10 +529,11 @@ namespace CustomsForgeSongManager.UControls
             }
         }
 
-        private void btnAddSongs_Click(object sender, EventArgs e)
+        private void btnCopySongs_Click(object sender, EventArgs e)
         {
             FileOperations("Copy", dgvSetlistMaster);
         }
+
         private void btnMoveSongs_Click(object sender, EventArgs e)
         {
             FileOperations("Move", dgvSetlistMaster);
@@ -562,7 +562,7 @@ namespace CustomsForgeSongManager.UControls
                 foreach (var songPath in Directory.GetFiles(setlistPath, "*.psarc"))
                 {
                     var newSongPath = Path.Combine(combinedSetlistDir, Path.GetFileName(songPath).Replace(".disabled", ""));
-                    DataGridViewRow masterRow = dgvSetlistMaster.Rows.Cast<DataGridViewRow>().Where(r => r.Cells["colPath"].Value.ToString() == songPath).First();
+                    DataGridViewRow masterRow = dgvSetlistMaster.Rows.Cast<DataGridViewRow>().Where(r => r.Cells["colFilePath"].Value.ToString() == songPath).First();
                     SongData oldSong = DgvExtensions.GetObjectFromRow<SongData>(masterRow);
 
                     if (oldSong != null)
@@ -578,14 +578,14 @@ namespace CustomsForgeSongManager.UControls
                             }
                         }
 
-                        newSong.Path = newSongPath;
+                        newSong.FilePath = newSongPath;
 
                         if (File.Exists(newSongPath))
                             File.Delete(newSongPath);
 
                         File.Copy(songPath, newSongPath);
-                        Globals.Log("Copied: " + oldSong.Path);
-                        Globals.Log("To: " + newSong.Path);
+                        Globals.Log("Copied: " + oldSong.FilePath);
+                        Globals.Log("To: " + newSong.FilePath);
                         songCollection.Add(newSong);
                     }
                 }
@@ -723,7 +723,7 @@ namespace CustomsForgeSongManager.UControls
                     }
 
                     // this will throw exception if not found
-                    var dlcNdx = dgvSetlistMaster.Rows.Cast<DataGridViewRow>().Where(r => r.Cells["colPath"].Value.ToString() == setlistSongPath).Select(r => r.Index).First();
+                    var dlcNdx = dgvSetlistMaster.Rows.Cast<DataGridViewRow>().Where(r => r.Cells["colFilePath"].Value.ToString() == setlistSongPath).Select(r => r.Index).First();
 
                     try
                     {
@@ -776,7 +776,7 @@ namespace CustomsForgeSongManager.UControls
                 {
 
                     // searching for song that contains the current setlist path
-                    var dlcNdx = dgvSetlistMaster.Rows.Cast<DataGridViewRow>().Where(r => r.Cells["colPath"].Value.ToString() == setlistSongPath).Select(r => r.Index).FirstOrDefault();
+                    var dlcNdx = dgvSetlistMaster.Rows.Cast<DataGridViewRow>().Where(r => r.Cells["colFilePath"].Value.ToString() == setlistSongPath).Select(r => r.Index).FirstOrDefault();
 
                     try
                     {
@@ -930,7 +930,7 @@ namespace CustomsForgeSongManager.UControls
         {
             if (!chkShowSetlistSongs.Checked)
             {
-                var results = songCollection.Where(x => Path.GetFileName(Path.GetDirectoryName(x.Path)) == "dlc").ToList();
+                var results = songCollection.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList();
 
                 LoadFilteredBindingList(results);
             }
@@ -1051,9 +1051,9 @@ namespace CustomsForgeSongManager.UControls
                 }
 
                 // colorize the enabled and path columns depending on cdlc location
-                if (e.ColumnIndex == colEnabled.Index || e.ColumnIndex == colPath.Index)
+                if (e.ColumnIndex == colEnabled.Index || e.ColumnIndex == colFilePath.Index)
                 {
-                    var songPath = Path.GetDirectoryName(song.Path).ToLower();
+                    var songPath = Path.GetDirectoryName(song.FilePath).ToLower();
                     if (songPath == cdlcDir)
                         e.CellStyle.BackColor = cdlcColor;
                     else if (songPath != dlcDir.ToLower())
@@ -1068,11 +1068,9 @@ namespace CustomsForgeSongManager.UControls
             dgvPainted = false;
 
             var grid = (DataGridView)sender;
-
-            // Win10 right click issue on header ... so must check seperate and first
+            // work around for Win10 right click header hang ... check seperate and first
             if (e.RowIndex == -1)
                 return;
-
             if (grid.Rows.Count == 0)
                 return;
 
@@ -1118,7 +1116,7 @@ namespace CustomsForgeSongManager.UControls
 
         private void dgvSetlistMaster_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            // this may be causing crash in Win10 so commented out
+            // left click header may be causing crash in Win10 so commented out
             // dgvSetlistMaster.Invalidate();
         }
 
@@ -1178,7 +1176,7 @@ namespace CustomsForgeSongManager.UControls
         private void dgvSetlistSongs_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
             var grid = (DataGridView)sender;
-            // Win10 right click issue on header ... so must check seperate and first
+            // work around for Win10 right click header hang ... check seperate and first
             if (e.RowIndex == -1)
                 return;
 
@@ -1230,7 +1228,10 @@ namespace CustomsForgeSongManager.UControls
         private void dgvSetlists_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
             var grid = (DataGridView)sender;
-            if (grid.Rows.Count == 0 || e.RowIndex == -1)
+            // work around for Win10 right click header hang ... check seperate and first
+            if (e.RowIndex == -1)
+                return;
+            if (grid.Rows.Count == 0)
                 return;
 
             // programmatic left clicking row to check/uncheck 'Select'
@@ -1274,7 +1275,10 @@ namespace CustomsForgeSongManager.UControls
         private void dgvSongPacks_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
             var grid = (DataGridView)sender;
-            if (grid.Rows.Count == 0 || e.RowIndex == -1)
+            // work around for Win10 right click header hang ... check seperate and first
+            if (e.RowIndex == -1)
+                return;
+            if (grid.Rows.Count == 0)
                 return;
 
             // programmatic left clicking row to check/uncheck 'Select'

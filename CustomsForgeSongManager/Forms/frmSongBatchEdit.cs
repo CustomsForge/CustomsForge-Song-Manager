@@ -44,12 +44,12 @@ namespace CustomsForgeSongManager.Forms
                 NoCloseStream dataStream = null;
                 using (CFSM.RSTKLib.PSARC.PSARC p = new CFSM.RSTKLib.PSARC.PSARC(true))
                 {
-                    using (var FS = File.OpenRead(song.Path))
+                    using (var FS = File.OpenRead(song.FilePath))
                         p.Read(FS);
 
                     dataStream = p.ReplaceData(x => x.Name.Equals("appid.appid"), newID);
 
-                    using (var FS = File.Create(song.Path))
+                    using (var FS = File.Create(song.FilePath))
                         p.Write(FS, true);
                 }
                 if (dataStream != null)

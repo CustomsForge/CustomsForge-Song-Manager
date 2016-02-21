@@ -5,7 +5,7 @@ using System.Xml.Serialization;
 using CFSM.GenTools;
 using DataGridViewTools;
 
-namespace CustomsForgeSongManager.DataObjects 
+namespace CustomsForgeSongManager.DataObjects
 {
     public enum SongDataStatus : byte
     {
@@ -34,7 +34,9 @@ namespace CustomsForgeSongManager.DataObjects
         //version 3 : removed DLCKey from arrangement
         //version 4 : changed tagged to SongTaggerStatus
         //version 5 : added ArtistSort TitleSort and AlbumSort variables
-        public const string SongDataListCurrentVersion = "5";
+        //version 6 : changed Path to FilePath to avoid conflict with reserved name System.IO.Path
+ 
+        public const string SongDataListCurrentVersion = "6";
 
         public string DLCKey { get; set; }
 
@@ -63,13 +65,13 @@ namespace CustomsForgeSongManager.DataObjects
         [XmlIgnore]
         public bool IsRsCompPack
         {
-            get { return !String.IsNullOrEmpty(Path) && Path.Contains(Constants .RS1COMP ); }
+            get { return !String.IsNullOrEmpty(FilePath) && FilePath.Contains(Constants.RS1COMP); }
         }
 
         [XmlIgnore]
         public string Enabled
         {
-            get { return (new FileInfo(Path).Name).ToLower().Contains("disabled") ? "No" : "Yes"; }
+            get { return (new FileInfo(FilePath).Name).ToLower().Contains("disabled") ? "No" : "Yes"; }
             set { } // required for XML file usage
         }
 
@@ -103,7 +105,7 @@ namespace CustomsForgeSongManager.DataObjects
 
         public void UpdateFileInfo()
         {
-            var fi = new FileInfo(Path);
+            var fi = new FileInfo(FilePath);
             FileDate = fi.LastWriteTimeUtc;
             FileSize = (int)fi.Length;
         }
@@ -113,8 +115,8 @@ namespace CustomsForgeSongManager.DataObjects
             if (!String.IsNullOrEmpty(AudioCache) && File.Exists(AudioCache))
                 File.Delete(AudioCache);
             AudioCache = String.Empty;
-            if (File.Exists(Path))
-                File.Delete(Path);
+            if (File.Exists(FilePath))
+                File.Delete(FilePath);
         }
 
         // used by detail table
@@ -122,13 +124,12 @@ namespace CustomsForgeSongManager.DataObjects
         [XmlArrayItem("Arrangement")] // provides proper xml serialization
         public FilteredBindingList<Arrangement> Arrangements2D { get; set; }
 
-        public string Path { get; set; }
+        public string FilePath { get; set; }
 
         [XmlIgnore]
         public string FileName
         {
-            get { return (System.IO.Path.Combine(System.IO.Path.GetFileName(System.IO.Path.GetDirectoryName(Path)), System.IO.Path.GetFileName(Path))); }
-            // get { return (new FileInfo(Path).Name); }
+            get { return (Path.Combine(Path.GetFileName(Path.GetDirectoryName(FilePath)), Path.GetFileName(FilePath))); }
             // set { } // required for XML file usage
         }
 
@@ -182,7 +183,7 @@ namespace CustomsForgeSongManager.DataObjects
             }
             set
             {
-                SetPropertyField("Charter", ref _charterName, value);                
+                SetPropertyField("Charter", ref _charterName, value);
             }
         }
 
