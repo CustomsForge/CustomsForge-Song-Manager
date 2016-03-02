@@ -1,5 +1,9 @@
 ﻿CFSM Release Notes
 
+1.2.0.5
+-Retain Song Manager column order and sizing after Rescan
+-Fixed Song Manager DataPropertyName for column Charter
+
 1.2.0.4
 -Added new filter to prevent Song Packs inclusion in Song Manager GUI
 

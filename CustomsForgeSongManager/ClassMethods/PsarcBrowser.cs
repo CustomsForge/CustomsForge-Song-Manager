@@ -29,7 +29,7 @@ namespace CustomsForgeSongManager.ClassMethods
             _fileStream = File.OpenRead(_filePath);
             _archive.Read(_fileStream, true);
         }
- 
+
         public IEnumerable<SongData> GetSongData()
         {
             Stopwatch sw = null;
@@ -68,7 +68,16 @@ namespace CustomsForgeSongManager.ClassMethods
             // this foreach loop addresses song packs otherwise it is only done one time
             foreach (var singleSong in singleSongCount)
             {
-                var currentSong = new SongData {CharterName = author, Version = version, ToolkitVer = tkversion, AppID = appId, FilePath = _filePath, FileDate = fInfo.LastWriteTimeUtc, FileSize = (int) fInfo.Length};
+                var currentSong = new SongData
+                {
+                    CharterName = author,
+                    Version = version,
+                    ToolkitVer = tkversion,
+                    AppID = appId,
+                    FilePath = _filePath,
+                    FileDate = fInfo.LastWriteTimeUtc,
+                    FileSize = (int)fInfo.Length
+                };
 
                 if (toolkitVersionFile == null)
                 {
@@ -133,18 +142,18 @@ namespace CustomsForgeSongManager.ClassMethods
                         if (arrName.ToLower().Contains("vocal"))
                             arrangmentsFromPsarc.Add(new Arrangement(currentSong)
                                 {
-                                    PersistentID = attributes["PersistentID"].ToString(), 
+                                    PersistentID = attributes["PersistentID"].ToString(),
                                     Name = arrName
                                 });
                         else
                         {
                             arrangmentsFromPsarc.Add(new Arrangement(currentSong)
                                 {
-                                    PersistentID = attributes["PersistentID"].ToString(), 
-                                    Name = arrName, 
-                                    Tuning = PsarcExtensions.TuningToName(attributes["Tuning"].ToString(), Globals.TuningXml), 
-                                    DMax = Convert.ToInt32(attributes["MaxPhraseDifficulty"].ToString()), 
-                                    ToneBase = attributes["Tone_Base"].ToString(), 
+                                    PersistentID = attributes["PersistentID"].ToString(),
+                                    Name = arrName,
+                                    Tuning = PsarcExtensions.TuningToName(attributes["Tuning"].ToString(), Globals.TuningXml),
+                                    DMax = Convert.ToInt32(attributes["MaxPhraseDifficulty"].ToString()),
+                                    ToneBase = attributes["Tone_Base"].ToString(),
                                     SectionCount = attributes["Sections"].ToArray().Count()
                                 });
                         }
@@ -232,4 +241,4 @@ namespace CustomsForgeSongManager.ClassMethods
         }
 
     }
- }
+}

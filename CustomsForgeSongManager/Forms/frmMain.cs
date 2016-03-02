@@ -54,7 +54,7 @@ namespace CustomsForgeSongManager.Forms
 #endif
             var stringVersion = String.Format(strFormatVersion, Constants.ApplicationName, Constants.CustomVersion());
             this.Text = stringVersion;
-            // bring CFM to the front on startup
+            // bring CFSM to the front on startup
             this.WindowState = FormWindowState.Minimized;
 
             Globals.MyLog = myLog;

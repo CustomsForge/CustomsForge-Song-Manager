@@ -119,7 +119,7 @@ namespace CustomsForgeSongManager.UControls
         public void PopulateSongManager()
         {
             Globals.Log("Populating SongManager GUI ...");
-            Globals.Settings.LoadSettingsFromFile(dgvSongsMaster);
+           // Globals.Settings.LoadSettingsFromFile(dgvSongsMaster);
 
             PopulateTagger();
 
@@ -378,6 +378,7 @@ namespace CustomsForgeSongManager.UControls
             LoadFilteredBindingList(masterSongCollection);
             CFSMTheme.InitializeDgvAppearance(dgvSongsMaster);
             // reload column order, width, visibility
+            Globals.Settings.LoadSettingsFromFile(dgvSongsMaster);
             if (RAExtensions.ManagerGridSettings != null)
                 dgvSongsMaster.ReLoadColumnOrder(RAExtensions.ManagerGridSettings.ColumnOrder);
 
@@ -576,13 +577,15 @@ namespace CustomsForgeSongManager.UControls
                 Environment.Exit(0);
             }
 
+            ToggleUIControls(false);
+            Globals.Settings.SaveSettingsToFile(dgvSongsMaster);
+
             if (fullRescan)
                 Globals.SongCollection.Clear();
 
             var sw = new Stopwatch();
             sw.Restart();
 
-            ToggleUIControls(false);
             // run new worker
             using (Worker worker = new Worker())
             {

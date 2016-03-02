@@ -274,7 +274,7 @@ namespace CustomsForgeSongManager.UControls
                 if (MessageBox.Show(Properties.Resources.DeleteTheSelectedDuplicates, Constants.ApplicationName, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.No)
                     return;
 
-            string dupDir = Path.Combine(AppSettings.Instance.RSInstalledDir, "duplicates");
+            var dupDir = Path.Combine(AppSettings.Instance.RSInstalledDir, "duplicates");
 
             if (!Directory.Exists(dupDir))
                 Directory.CreateDirectory(dupDir);
