@@ -46,7 +46,7 @@ namespace CustomsForgeSongManager.UControls
                 chkIncludeRS1DLC.Checked = AppSettings.Instance.IncludeRS1DLCs;
                 chkEnableLogBallon.Checked = AppSettings.Instance.EnabledLogBaloon;
                 chkCleanOnClosing.Checked = AppSettings.Instance.CleanOnClosing;
-                tbCreator.Text = AppSettings.Instance.CharterName;
+                txtCharterName.Text = AppSettings.Instance.CharterName;
 
                 ValidateRsDir();
             }
@@ -73,7 +73,7 @@ namespace CustomsForgeSongManager.UControls
                     chkCleanOnClosing.Checked = AppSettings.Instance.CleanOnClosing;
                     break;
                 case "CreatorName":
-                    tbCreator.Text = AppSettings.Instance.CharterName;
+                    txtCharterName.Text = AppSettings.Instance.CharterName;
                     break;
             }
         }
@@ -243,7 +243,7 @@ namespace CustomsForgeSongManager.UControls
 
         private void tbCreator_TextChanged(object sender, EventArgs e)
         {
-            AppSettings.Instance.CharterName = tbCreator.Text;
+            AppSettings.Instance.CharterName = txtCharterName.Text;
         }
 
         private void chkIncludeRS1DLC_CheckedChanged(object sender, EventArgs e)

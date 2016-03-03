@@ -75,20 +75,6 @@ namespace CustomsForgeSongManager.DataObjects
             set { } // required for XML file usage
         }
 
-        [XmlIgnore]
-        public bool IsMine
-        {
-            get
-            {
-                if (!String.IsNullOrEmpty(CharterName) && !String.IsNullOrEmpty(CharterName))
-                {
-                    string[] creatorNames = CharterName.ToLower().Split(new char[] { ';', ',' });
-                    return creatorNames.Any(z => z == CharterName.ToLower());
-                }
-                return false;
-            }
-        }
-
         public string AudioCache { get; set; }
         public string Artist { get; set; }
         public string ArtistSort { get; set; }

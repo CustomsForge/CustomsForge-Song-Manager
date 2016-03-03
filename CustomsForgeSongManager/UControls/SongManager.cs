@@ -119,7 +119,7 @@ namespace CustomsForgeSongManager.UControls
         public void PopulateSongManager()
         {
             Globals.Log("Populating SongManager GUI ...");
-           // Globals.Settings.LoadSettingsFromFile(dgvSongsMaster);
+            // Globals.Settings.LoadSettingsFromFile(dgvSongsMaster);
 
             PopulateTagger();
 
@@ -527,9 +527,11 @@ namespace CustomsForgeSongManager.UControls
 
         private void RemoveFilter()
         {
+            Globals.Settings.SaveSettingsToFile(dgvSongsMaster);
+            chkMyCDLC.Checked = false;
             DataGridViewAutoFilterTextBoxColumn.RemoveFilter(dgvSongsMaster);
             ResetDetail();
-
+         
             if (!chkSubFolders.Checked)
             {
                 var results = masterSongCollection.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList();
@@ -897,14 +899,21 @@ namespace CustomsForgeSongManager.UControls
             Globals.ReloadRenamer = true;
         }
 
-        private void cbMyCDLC_CheckedChanged(object sender, EventArgs e)
+        private void chkMyCDLC_CheckedChanged(object sender, EventArgs e)
         {
-            if (!String.IsNullOrEmpty(AppSettings.Instance.CharterName))
+            var charterName = AppSettings.Instance.CharterName;
+            
+            if (!String.IsNullOrEmpty(charterName))
             {
-                if (cbMyCDLC.Checked)
-                    LoadFilteredBindingList(masterSongCollection.Where(x => x.IsMine).ToList());
+                if (chkMyCDLC.Checked)
+                    LoadFilteredBindingList(masterSongCollection.Where(x => x.CharterName == charterName).ToList());
                 else
                     PopulateDataGridView();
+            }
+            else
+            {
+                Globals.Log("To use this feature, go to 'Settings' menu and enter a charter name ...");
+                chkMyCDLC.Checked = false;
             }
         }
 
@@ -1408,6 +1417,7 @@ namespace CustomsForgeSongManager.UControls
                 Globals.TsLabel_DisabledCounter.Alignment = ToolStripItemAlignment.Right;
                 Globals.TsLabel_DisabledCounter.Text = filterStatus;
                 Globals.TsLabel_DisabledCounter.Visible = true;
+                chkMyCDLC.Checked = false;
             }
 
             // filter removed

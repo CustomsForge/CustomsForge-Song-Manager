@@ -1,5 +1,9 @@
 ﻿CFSM Release Notes
 
+1.2.0.6
+-Fixed checkbox to show 'My CDLC Only' in SongManager
+-Fixed SaveSettings happens before removing Filter in SongManager
+
 1.2.0.5
 -Retain Song Manager column order and sizing after Rescan
 -Fixed Song Manager DataPropertyName for column Charter

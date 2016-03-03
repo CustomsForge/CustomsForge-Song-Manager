@@ -49,7 +49,7 @@ namespace CustomsForgeSongManager.UControls
             this.btnSettingsLoad = new System.Windows.Forms.Button();
             this.btnSettingsSave = new System.Windows.Forms.Button();
             this.chkEnableLogBallon = new System.Windows.Forms.CheckBox();
-            this.tbCreator = new CustomsForgeSongManager.CustomControls.CueTextBox();
+            this.txtCharterName = new CustomsForgeSongManager.CustomControls.CueTextBox();
             this.chkCleanOnClosing = new System.Windows.Forms.CheckBox();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.tlpSettings_Wrapper.SuspendLayout();
@@ -69,7 +69,7 @@ namespace CustomsForgeSongManager.UControls
             this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsLoad, 0, 8);
             this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsSave, 1, 8);
             this.tlpSettings_Wrapper.Controls.Add(this.chkEnableLogBallon, 0, 3);
-            this.tlpSettings_Wrapper.Controls.Add(this.tbCreator, 0, 5);
+            this.tlpSettings_Wrapper.Controls.Add(this.txtCharterName, 0, 5);
             this.tlpSettings_Wrapper.Controls.Add(this.chkCleanOnClosing, 0, 4);
             this.tlpSettings_Wrapper.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpSettings_Wrapper.Location = new System.Drawing.Point(0, 0);
@@ -258,19 +258,21 @@ namespace CustomsForgeSongManager.UControls
             this.chkEnableLogBallon.UseVisualStyleBackColor = true;
             this.chkEnableLogBallon.CheckedChanged += new System.EventHandler(this.chkEnableLogBaloon_CheckedChanged);
             // 
-            // tbCreator
+            // txtCharterName
             // 
-            this.tbCreator.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.tlpSettings_Wrapper.SetColumnSpan(this.tbCreator, 2);
-            this.tbCreator.Cue = "Enter your CDLC Charter Name here";
-            this.tbCreator.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.tbCreator.ForeColor = System.Drawing.Color.Gray;
-            this.tbCreator.Location = new System.Drawing.Point(12, 151);
-            this.tbCreator.Margin = new System.Windows.Forms.Padding(12, 3, 3, 3);
-            this.tbCreator.Name = "tbCreator";
-            this.tbCreator.Size = new System.Drawing.Size(268, 20);
-            this.tbCreator.TabIndex = 9;
-            this.tbCreator.TextChanged += new System.EventHandler(this.tbCreator_TextChanged);
+            this.txtCharterName.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.tlpSettings_Wrapper.SetColumnSpan(this.txtCharterName, 2);
+            this.txtCharterName.Cue = "Enter CDLC Charter Name";
+            this.txtCharterName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.txtCharterName.ForeColor = System.Drawing.Color.Gray;
+            this.txtCharterName.Location = new System.Drawing.Point(12, 151);
+            this.txtCharterName.Margin = new System.Windows.Forms.Padding(12, 3, 3, 3);
+            this.txtCharterName.Name = "txtCharterName";
+            this.txtCharterName.Size = new System.Drawing.Size(179, 20);
+            this.txtCharterName.TabIndex = 9;
+            this.toolTip.SetToolTip(this.txtCharterName, "Enter your charter name or the name\r\nof any charter you would like to show \r\nquic" +
+                    "kly when checkbox \'My CDLC Only\' \r\nis checked in Song Manager.\r\n");
+            this.txtCharterName.TextChanged += new System.EventHandler(this.tbCreator_TextChanged);
             // 
             // chkCleanOnClosing
             // 
@@ -328,7 +330,7 @@ namespace CustomsForgeSongManager.UControls
         private CueTextBox cueRsDir;
         public CheckBox chkIncludeRS1DLC;
         private CheckBox chkEnableLogBallon;
-        private CueTextBox tbCreator;
+        private CueTextBox txtCharterName;
         private CheckBox chkCleanOnClosing;
         private ToolTip toolTip;
     }
