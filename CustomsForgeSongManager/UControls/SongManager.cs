@@ -1239,6 +1239,8 @@ namespace CustomsForgeSongManager.UControls
                 return;
             if (dgvSongsMaster.Rows[e.RowIndex].IsNewRow) // || !dgvSongsMaster.IsCurrentRowDirty)
                 return;
+            if (dgvSongsMaster.Rows.Count < 1) // needed in case filter was set that returns no items
+                return;
 
             SongData song = dgvSongsMaster.Rows[e.RowIndex].DataBoundItem as SongData;
 
@@ -1388,14 +1390,14 @@ namespace CustomsForgeSongManager.UControls
 
         private void dgvSongsMaster_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
-            if (e.ListChangedType != ListChangedType.Reset)
-                return;
-
-            // workaround to catch DataBindingComplete called by other UC's
-            //why would another UC call this event??? it's not assigned to any other UC events.
+            // HACK: catch DataBindingComplete called by other UC's
             var grid = (DataGridView)sender;
             if (grid.Name != "dgvSongsMaster")
                 return;
+            
+            if (e.ListChangedType != ListChangedType.Reset)
+                return;
+
             // need to wait for DataBinding and DataGridView Paint to complete before  
             // changing BLRV column color (cell formating) on initial loading
 

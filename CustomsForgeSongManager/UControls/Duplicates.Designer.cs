@@ -53,6 +53,7 @@ namespace CustomsForgeSongManager.UControls
             this.gbResults = new System.Windows.Forms.GroupBox();
             this.txtNoDuplicates = new System.Windows.Forms.TextBox();
             this.dgvDuplicates = new DataGridViewTools.RADataGridView();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.colPID = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colPIDArrangement = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colKey = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
@@ -65,7 +66,8 @@ namespace CustomsForgeSongManager.UControls
             this.colSongLength = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colAvgTempo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colAppID = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
-            this.colFilePath = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colFileName = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.colFilePath = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colStatus = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colCharter = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colUpdated = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -77,7 +79,6 @@ namespace CustomsForgeSongManager.UControls
             this.colIgnitionVersion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colIgnitionAuthor = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colArtistTitleAlbum = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.cmsDuplicate.SuspendLayout();
             this.gbActions.SuspendLayout();
             this.panelActions.SuspendLayout();
@@ -270,6 +271,7 @@ namespace CustomsForgeSongManager.UControls
             this.colSongLength,
             this.colAvgTempo,
             this.colAppID,
+            this.colFileName,
             this.colFilePath,
             this.colStatus,
             this.colCharter,
@@ -295,6 +297,14 @@ namespace CustomsForgeSongManager.UControls
             this.dgvDuplicates.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dgvDups_DataError);
             this.dgvDuplicates.Paint += new System.Windows.Forms.PaintEventHandler(this.dgvDuplicates_Paint);
             this.dgvDuplicates.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvDuplicates_KeyDown);
+            // 
+            // toolTip
+            // 
+            this.toolTip.AutomaticDelay = 200;
+            this.toolTip.AutoPopDelay = 12000;
+            this.toolTip.InitialDelay = 200;
+            this.toolTip.IsBalloon = true;
+            this.toolTip.ReshowDelay = 100;
             // 
             // colPID
             // 
@@ -409,12 +419,19 @@ namespace CustomsForgeSongManager.UControls
             this.colAppID.Visible = false;
             this.colAppID.Width = 80;
             // 
+            // colFileName
+            // 
+            this.colFileName.DataPropertyName = "FileName";
+            this.colFileName.HeaderText = "File Name";
+            this.colFileName.Name = "colFileName";
+            // 
             // colFilePath
             // 
             this.colFilePath.DataPropertyName = "FilePath";
             this.colFilePath.HeaderText = "File Path";
             this.colFilePath.Name = "colFilePath";
             this.colFilePath.ReadOnly = true;
+            this.colFilePath.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.colFilePath.Width = 50;
             // 
             // colStatus
@@ -522,14 +539,6 @@ namespace CustomsForgeSongManager.UControls
             this.colArtistTitleAlbum.ReadOnly = true;
             this.colArtistTitleAlbum.Visible = false;
             // 
-            // toolTip
-            // 
-            this.toolTip.AutomaticDelay = 200;
-            this.toolTip.AutoPopDelay = 12000;
-            this.toolTip.InitialDelay = 200;
-            this.toolTip.IsBalloon = true;
-            this.toolTip.ReshowDelay = 100;
-            // 
             // Duplicates
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -565,25 +574,26 @@ namespace CustomsForgeSongManager.UControls
         private RADataGridView dgvDuplicates;
         private ToolTip toolTip;
         private CheckBox chkSubFolders;
-        private DataGridViewTools.DataGridViewAutoFilterTextBoxColumn colPID;
-        private DataGridViewTools.DataGridViewAutoFilterTextBoxColumn colPIDArrangement;
-        private DataGridViewTools.DataGridViewAutoFilterTextBoxColumn colKey;
+        private DataGridViewAutoFilterTextBoxColumn colPID;
+        private DataGridViewAutoFilterTextBoxColumn colPIDArrangement;
+        private DataGridViewAutoFilterTextBoxColumn colKey;
         private DataGridViewCheckBoxColumn colSelect;
-        private DataGridViewTools.DataGridViewAutoFilterTextBoxColumn colEnabled;
-        private DataGridViewTools.DataGridViewAutoFilterTextBoxColumn colArtist;
-        private DataGridViewTools.DataGridViewAutoFilterTextBoxColumn colTitle;
-        private DataGridViewTools.DataGridViewAutoFilterTextBoxColumn colAlbum;
-        private DataGridViewTools.DataGridViewAutoFilterTextBoxColumn colSongYear;
+        private DataGridViewAutoFilterTextBoxColumn colEnabled;
+        private DataGridViewAutoFilterTextBoxColumn colArtist;
+        private DataGridViewAutoFilterTextBoxColumn colTitle;
+        private DataGridViewAutoFilterTextBoxColumn colAlbum;
+        private DataGridViewAutoFilterTextBoxColumn colSongYear;
         private DataGridViewTextBoxColumn colSongLength;
         private DataGridViewTextBoxColumn colAvgTempo;
-        private DataGridViewTools.DataGridViewAutoFilterTextBoxColumn colAppID;
-        private DataGridViewTextBoxColumn colFilePath;
-        private DataGridViewTools.DataGridViewAutoFilterTextBoxColumn colStatus;
-        private DataGridViewTools.DataGridViewAutoFilterTextBoxColumn colCharter;
+        private DataGridViewAutoFilterTextBoxColumn colAppID;
+        private DataGridViewAutoFilterTextBoxColumn colFileName;
+        private DataGridViewAutoFilterTextBoxColumn colFilePath;
+        private DataGridViewAutoFilterTextBoxColumn colStatus;
+        private DataGridViewAutoFilterTextBoxColumn colCharter;
         private DataGridViewTextBoxColumn colUpdated;
         private DataGridViewTextBoxColumn colVersion;
-        private DataGridViewTools.DataGridViewAutoFilterTextBoxColumn colToolkitVersion;
-        private DataGridViewTools.DataGridViewAutoFilterTextBoxColumn colTagged;
+        private DataGridViewAutoFilterTextBoxColumn colToolkitVersion;
+        private DataGridViewAutoFilterTextBoxColumn colTagged;
         private DataGridViewTextBoxColumn colIgnitionID;
         private DataGridViewTextBoxColumn colIgnitionUpdated;
         private DataGridViewTextBoxColumn colIgnitionVersion;

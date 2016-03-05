@@ -466,7 +466,7 @@ namespace CustomsForgeSongManager.UControls
 
         private void dgvDuplicates_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
-            // workaround to catch DataBindingComplete called by other UC's
+            // HACK: catch DataBindingComplete called by other UC's
             var grid = (DataGridView)sender;
             if (grid.Name != "dgvDuplicates")
                 return;
@@ -526,7 +526,15 @@ namespace CustomsForgeSongManager.UControls
 
         private void dgvDups_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            if (e.RowIndex == -1) return;
+            // speed hacks ...
+            if (e.RowIndex == -1)
+                return;
+            if (dgvDuplicates.Columns[e.ColumnIndex] is DataGridViewCheckBoxColumn)
+                return;
+            if (dgvDuplicates.Rows[e.RowIndex].IsNewRow) // || !dgvDuplicates.IsCurrentRowDirty)
+                return;
+            if (dgvDuplicates.Rows.Count < 1) // needed in case filter was set that returns no items
+                return;
 
             try
             {

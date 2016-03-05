@@ -1,8 +1,12 @@
 ﻿CFSM Release Notes
 
+1.2.0.8
+-Fixed a bug with filtering and the use of multiselect
+-Added filtering to columns where it was missing
+
 1.2.0.7
-Found and fixed source of SetlistManager left click on column header sorting hang
-Changed all occurences of AutoSizeMode AllCells to None or DisplayCells as appropriate
+-Found and fixed source of SetlistManager left click on column header sorting hang
+-Changed all occurences of AutoSizeMode AllCells to None or DisplayCells as appropriate
 
 1.2.0.6
 -Fixed checkbox to show 'My CDLC Only' in SongManager

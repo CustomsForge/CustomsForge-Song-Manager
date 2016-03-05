@@ -976,7 +976,7 @@ namespace CustomsForgeSongManager.UControls
 
         private void dgvSongPacks_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
-            // workaround to catch DataBindingComplete called by other UC's
+            // HACK: catch DataBindingComplete called by other UC's
             var grid = (DataGridView)sender;
             if (grid.Name != "dgvSongPacks")
                 return;
