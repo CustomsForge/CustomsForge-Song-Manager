@@ -1,8 +1,13 @@
 ﻿CFSM Release Notes
 
+1.2.0.7
+Found and fixed source of SetlistManager left click on column header sorting hang
+Changed all occurences of AutoSizeMode AllCells to None or DisplayCells as appropriate
+
 1.2.0.6
 -Fixed checkbox to show 'My CDLC Only' in SongManager
 -Fixed SaveSettings happens before removing Filter in SongManager
+-Cleaned up some resource refereneces
 
 1.2.0.5
 -Retain Song Manager column order and sizing after Rescan

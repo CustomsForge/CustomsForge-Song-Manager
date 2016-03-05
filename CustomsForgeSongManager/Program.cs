@@ -13,7 +13,7 @@ using Mutex = System.Threading.Mutex;
 #if WINDOWS
 
 #else
-using Mutex = CustomsForgeManager.CustomsForgeManagerLib.Mutex;
+using Mutex = DF.WinForms.ThemeLib.Mutex;
 #endif
 
 namespace CustomsForgeSongManager
@@ -80,7 +80,7 @@ namespace CustomsForgeSongManager
                     Application.Run(new frmMain(myLog));
                 }
                 else
-                {
+               {
                     try
                     {
                         Application.EnableVisualStyles();

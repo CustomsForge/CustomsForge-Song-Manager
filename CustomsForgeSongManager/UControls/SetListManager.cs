@@ -402,8 +402,8 @@ namespace CustomsForgeSongManager.UControls
             {
                 // var setlistSongs = Directory.EnumerateFiles(setlistPath, "*.psarc", SearchOption.AllDirectories).ToList();
 
-                    // CAREFUL - brain damage area
-                    // the use of LINQ 'Select' defeats the FilteredBindingList feature and locks data                
+                // CAREFUL - brain damage area
+                // the use of LINQ 'Select' defeats the FilteredBindingList feature and locks data                
                 var setlistSongs = songCollection.Where(sng => (sng.ArtistTitleAlbum.ToLower().Contains(search) || sng.Tuning.ToLower().Contains(search) || sng.FilePath.ToLower().Contains(search)) && Path.GetDirectoryName(sng.FilePath) == setlistPath).ToList();
 
                 // the use of .Select breaks binding
@@ -1116,8 +1116,7 @@ namespace CustomsForgeSongManager.UControls
 
         private void dgvSetlistMaster_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            // left click header may be causing crash in Win10 so commented out
-            // dgvSetlistMaster.Invalidate();
+            dgvSetlistMaster.Invalidate();
         }
 
         private void dgvSetlistMaster_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
@@ -1310,7 +1309,7 @@ namespace CustomsForgeSongManager.UControls
         private void lnkSetlistMgrHelp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Assembly assembly = Assembly.GetExecutingAssembly();
-            Stream stream = assembly.GetManifestResourceStream("CustomsForgeManager.Resources.HelpSetlistMgr.txt");
+            Stream stream = assembly.GetManifestResourceStream("CustomsSongForgeManager.Resources.HelpSetlistMgr.txt");
             using (StreamReader reader = new StreamReader(stream))
             {
                 var helpSetlistManager = reader.ReadToEnd();
@@ -1345,5 +1344,6 @@ namespace CustomsForgeSongManager.UControls
             Globals.Log("Leaving Setlist Manager GUI ...");
             Globals.Settings.SaveSettingsToFile(dgvSetlistMaster);
         }
+
     }
 }

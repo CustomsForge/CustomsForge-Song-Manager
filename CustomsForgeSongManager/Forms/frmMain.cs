@@ -111,7 +111,7 @@ namespace CustomsForgeSongManager.Forms
             // load Song Manager Tab
             LoadSongManager();
 
-            //CustomsForgeManagerLib.Extensions.Benchmark(LoadSongManager, 1);
+            //CustomsForgeSongManagerLib.Extensions.Benchmark(LoadSongManager, 1);
         }
 
         private frmMain()
@@ -140,7 +140,7 @@ namespace CustomsForgeSongManager.Forms
         private void ShowHelp()
         {
             Assembly assembly = Assembly.GetExecutingAssembly();
-            Stream stream = assembly.GetManifestResourceStream("CustomsForgeManager.Resources.HelpSongMgr.txt");
+            Stream stream = assembly.GetManifestResourceStream("CustomsForgeSongManager.Resources.HelpSongMgr.txt");
             using (StreamReader reader = new StreamReader(stream))
             {
                 var helpSongManager = reader.ReadToEnd();

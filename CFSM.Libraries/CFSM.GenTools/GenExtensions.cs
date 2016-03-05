@@ -114,7 +114,7 @@ namespace CFSM.GenTools
 
         public static void BenchmarkAction(Action action, int iterations)
         {
-            // usage example: CustomsForgeManagerLib.Extensions.Benchmark(LoadSongManager, 1);
+            // usage example: GenExtensions.Extensions.Benchmark(LoadSongManager, 1);
 
             GC.Collect();
             action.Invoke(); // run once outside loop to avoid initialization costs

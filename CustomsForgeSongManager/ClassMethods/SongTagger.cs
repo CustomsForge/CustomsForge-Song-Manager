@@ -85,12 +85,12 @@ namespace CustomsForgeSongManager.ClassMethods
             //    if (!Directory.Exists(folderPath))
             //        Directory.CreateDirectory(folderPath);
 
-            //    UtilExtensions.ExtractEmbeddedResource(folderPath, "CustomsForgeManager.Resources.tags." + resourceDir, defaultFiles);
+            //    UtilExtensions.ExtractEmbeddedResource(folderPath, "CustomsForgeSongManager.Resources.tags." + resourceDir, defaultFiles);
             //}
 
             //foreach (string previewFile in defaultTagFolders)
             //    UtilExtensions.ExtractEmbeddedResource(Constants.TaggerTemplatesFolder,
-            //        "CustomsForgeManager.Resources.tags", new string[] { previewFile + "prev.png" });
+            //        "CustomsForgeSongManager.Resources.tags", new string[] { previewFile + "prev.png" });
         }
 
         public string ThemeName { get; set; }

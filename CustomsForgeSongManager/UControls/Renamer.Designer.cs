@@ -76,7 +76,7 @@
             this.dgvRenamer.AllowUserToResizeColumns = false;
             this.dgvRenamer.AllowUserToResizeRows = false;
             this.dgvRenamer.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvRenamer.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.dgvRenamer.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells;
             this.dgvRenamer.BackgroundColor = System.Drawing.Color.WhiteSmoke;
             this.dgvRenamer.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvRenamer.Dock = System.Windows.Forms.DockStyle.Fill;

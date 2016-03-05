@@ -55,7 +55,7 @@ namespace CustomsForgeSongManager.UControls
         private void lnkHelp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Assembly assembly = Assembly.GetExecutingAssembly();
-            Stream stream = assembly.GetManifestResourceStream("CustomsForgeManager.Resources.HelpGeneral.txt");
+            Stream stream = assembly.GetManifestResourceStream("CustomsForgeSongManager.Resources.HelpGeneral.txt");
             using (StreamReader reader = new StreamReader(stream))
             {
                 var helpGeneral = reader.ReadToEnd();

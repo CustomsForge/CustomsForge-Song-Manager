@@ -105,5 +105,6 @@ namespace DataGridViewTools
             pi.SetValue(dgv, !setting, null);
             pi.SetValue(dgv, setting, null);
         }
+    
     }
 }

@@ -31,7 +31,7 @@ namespace CustomsForgeSongManager.UControls
             try
             {
                 Assembly assembly = Assembly.GetExecutingAssembly();
-                Stream stream = assembly.GetManifestResourceStream("CustomsForgeManager.Resources.renamer_properties.json");
+                Stream stream = assembly.GetManifestResourceStream("CustomsForgeSongManager.Resources.renamer_properties.json");
                 using (StreamReader reader = new StreamReader(stream))
                 {
                     string json = reader.ReadToEnd();

@@ -32,7 +32,7 @@ namespace CustomsForgeSongManager.Forms
         {
             var outdatedSongsInfo = outdatedSongList.Select(song => new {Song = song.Value.Title, Artist = song.Value.Artist, Album = song.Value.Album, Link = song.Key}).ToList();
             dgvOutdatedSongs.DataSource = outdatedSongsInfo;
-            dgvOutdatedSongs.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            dgvOutdatedSongs.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
         }
 
         private void btnOpenAllOutdatedSongs_Click(object sender, EventArgs e)
