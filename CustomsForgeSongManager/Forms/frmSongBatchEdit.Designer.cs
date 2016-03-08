@@ -30,10 +30,11 @@ namespace CustomsForgeSongManager.Forms
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmSongBatchEdit));
             this.txtAppId = new System.Windows.Forms.TextBox();
             this.cmbAppId = new System.Windows.Forms.ComboBox();
             this.lblAppID = new System.Windows.Forms.Label();
-            this.themedProgressBar1 = new ThemedProgressBar();
+            this.themedProgressBar1 = new DF.WinForms.ThemeLib.ThemedProgressBar();
             this.btnApply = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.SuspendLayout();
@@ -113,6 +114,7 @@ namespace CustomsForgeSongManager.Forms
             this.Controls.Add(this.txtAppId);
             this.Controls.Add(this.cmbAppId);
             this.Controls.Add(this.lblAppID);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmSongBatchEdit";

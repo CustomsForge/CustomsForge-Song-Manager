@@ -1,5 +1,10 @@
 ﻿CFSM Release Notes
 
+1.2.0.9
+-Added "Profile Backups" form
+-Optimized RocksmithProfile class (better Steam path detection, ...)
+-Fixed icons in other forms
+
 1.2.0.8
 -Fixed a bug with filtering and the use of multiselect
 -Added filtering to columns where it was missing
