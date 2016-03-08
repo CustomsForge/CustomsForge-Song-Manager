@@ -582,6 +582,11 @@ namespace CustomsForgeSongManager.Forms
             SongListToHTML();
         }
 
+        private void closeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
         private void frmMain_Shown(object sender, EventArgs e)
         {
             if (!AppSettings.Instance.FullScreen)

@@ -450,17 +450,23 @@ namespace CustomsForgeSongManager.UControls
             else if (e.Button == MouseButtons.Right)
             {
                 // fancy way to decide when context menu pops up
-                dgvDuplicates.ContextMenuStrip.Opening += (s, i) =>
-                    {
-                        if (rowIndex != -1)
-                        {
-                            dgvDuplicates.Rows[rowIndex].Selected = true;
-                            i.Cancel = false; // resets e.RowIndex
-                            cmsDuplicate.Show(Cursor.Position);
-                        }
-                        else
-                            i.Cancel = true;
-                    };
+                // TODO: fix exception which rasies when this block is not commented
+
+                //dgvDuplicates.ContextMenuStrip.Opening += (s, i) =>
+                //{
+                if (rowIndex != -1)
+                {
+                    dgvDuplicates.Rows[rowIndex].Selected = true;
+                    //i.Cancel = false; // resets e.RowIndex
+                    cmsDuplicate.Show(Cursor.Position);
+                }
+                else
+                {
+                    PopulateMenuWithColumnHeaders(cmsDuplicate);
+                    cmsDuplicate.Show(Cursor.Position);
+                    //i.Cancel = true;
+                }
+                //};
             }
         }
 
@@ -597,6 +603,59 @@ namespace CustomsForgeSongManager.UControls
             Globals.Settings.SaveSettingsToFile(dgvDuplicates);
         }
 
+        /* Region of copy-pasta from SongManager */
+        private void PopulateMenuWithColumnHeaders(ContextMenuStrip contextMenuStrip)
+        {
 
+            if (RAExtensions.ManagerGridSettings == null)
+            {
+                if (Globals.DgvCurrent == null)
+                    Globals.DgvCurrent = dgvDuplicates;
+
+                Globals.Settings.SaveSettingsToFile(dgvDuplicates);
+            }
+
+            contextMenuStrip.Items.Clear();
+            var gridSettings = RAExtensions.ManagerGridSettings;
+
+            foreach (ColumnOrderItem columnOrderItem in gridSettings.ColumnOrder)
+            {
+                var cn = dgvDuplicates.Columns[columnOrderItem.ColumnIndex].Name;
+                if (cn.ToLower().StartsWith("col"))
+                    cn = cn.Remove(0, 3);
+                ToolStripMenuItem columnsMenuItem = new ToolStripMenuItem(cn, null, ColumnMenuItemClick) { Checked = dgvDuplicates.Columns[columnOrderItem.ColumnIndex].Visible, Tag = dgvDuplicates.Columns[columnOrderItem.ColumnIndex].Name };
+                contextMenuStrip.Items.Add(columnsMenuItem);
+            }
+        }
+
+        private void ColumnMenuItemClick(object sender, EventArgs eventArgs)
+        {
+            ToolStripMenuItem currentContextMenuItem = sender as ToolStripMenuItem;
+            if (currentContextMenuItem != null)
+            {
+                if (!string.IsNullOrEmpty(currentContextMenuItem.Tag.ToString()))
+                {
+                    var dataGridViewColumn = dgvDuplicates.Columns[currentContextMenuItem.Tag.ToString()];
+                    if (dataGridViewColumn != null)
+                    {
+                        var columnIndex = dataGridViewColumn.Index;
+                        var columnSetting = RAExtensions.ManagerGridSettings.ColumnOrder.SingleOrDefault(x => x.ColumnIndex == columnIndex);
+                        if (columnSetting != null)
+                        {
+                            columnSetting.Visible = !columnSetting.Visible;
+                            dgvDuplicates.Columns[columnIndex].Visible = columnSetting.Visible;
+                            currentContextMenuItem.Checked = columnSetting.Visible;
+                            //   dgvSongsMaster.Invalidate();
+                        }
+                    }
+
+                    //foreach (var item in dgvSongsMaster.Columns.Cast<DataGridViewColumn>())
+                    //    if (item.Visible)
+                    //        dgvSongsMaster.InvalidateCell(item.HeaderCell);
+                }
+            }
+        }
+
+        /*End of copy-pasta region*/
     }
 }

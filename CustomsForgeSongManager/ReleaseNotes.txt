@@ -1,5 +1,10 @@
 ﻿CFSM Release Notes
 
+1.2.0.10
+-Added closing event to the tray context menu
+-Fixed right click menu in Duplicates tab
+-Added right click column editing in Duplicates tab
+
 1.2.0.9
 -Added "Profile Backups" form
 -Optimized RocksmithProfile class (better Steam path detection, ...)
