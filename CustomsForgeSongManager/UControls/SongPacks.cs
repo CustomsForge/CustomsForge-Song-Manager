@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using System.Windows.Forms;
 using System.IO;
 using CFSM.GenTools;
@@ -1016,12 +1017,81 @@ namespace CustomsForgeSongManager.UControls
             }
         }
 
-        private void dgvSongs_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
+        private void dgvSongPacks_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
-            if (e.ColumnIndex == colSelect.Index)
-                dgvSongPacks.EndEdit();
+            if (e.RowIndex == -1)
+                return;
+
+            // TODO: Make this this same in all grids
+            if (e.Button == MouseButtons.Left)
+            {
+                // select a single row by Ctrl-Click
+                if (ModifierKeys == Keys.Control)
+                {
+                    var s = DgvExtensions.GetObjectFromRow<SongPackData>(dgvSongPacks, e.RowIndex);
+                    s.Selected = !s.Selected;
+                }
+                // select multiple rows by Shift-Click on two outer rows
+                else if (ModifierKeys == Keys.Shift)
+                {
+                    if (dgvSongPacks.SelectedRows.Count > 0)
+                    {
+                        var first = dgvSongPacks.SelectedRows[0];
+                        var start = first.Index;
+                        var end = e.RowIndex + 1;
+
+                        if (start > end)
+                        {
+                            var tmp = start;
+                            start = end;
+                            end = tmp;
+                        }
+                        TemporaryDisableDatabindEvent(() =>
+                        {
+                            for (int i = start; i < end; i++)
+                            {
+                                var s = DgvExtensions.GetObjectFromRow<SongPackData>(dgvSongPacks, i);
+                                s.Selected = !s.Selected;
+                            }
+                        });
+                    }
+                }
+            }
         }
 
+ private void dgvSongs_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
+       {
+            // has precedent over a ColumnHeader_MouseClick
+            // MouseUp detection is more reliable than MouseDown
+            var grid = (DataGridView)sender;
+            var rowIndex = e.RowIndex;
+
+            if (e.Button == MouseButtons.Right)
+            {
+                if (rowIndex != -1)
+                {
+                    grid.Rows[e.RowIndex].Selected = true;
+                    // TODO: impliment cmsDuplicates action menu consistent with other grids
+                    //  cmsDuplicates.Show(Cursor.Position);
+                }
+                else
+                {
+                    // TODO: impliment cms column header menu consistent with other grids
+                    //PopulateMenuWithColumnHeaders(cmsDuplicateColumns);
+                    //cmsDuplicateColumns.Show(Cursor.Position);
+                }
+            }
+
+            // programmatic left clicking on colSelect
+            if (e.Button == MouseButtons.Left && e.RowIndex != -1 && e.ColumnIndex == colSelect.Index)
+            {
+                TemporaryDisableDatabindEvent(() => { dgvSongPacks.EndEdit(); });
+            }
+
+            Thread.Sleep(50); // debounce multiple clicks
+            dgvSongPacks.Refresh();
+        }
+        
         private void lnkClearSearch_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             cueSearch.Text = String.Empty;

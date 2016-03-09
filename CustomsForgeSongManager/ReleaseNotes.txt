@@ -1,6 +1,13 @@
 ﻿CFSM Release Notes
 
-1.2.0.10
+1.2.1.1
+-Customized Antlr for use with CFSM.
+-Made mouse left click row selection method consistent across all tables
+    - select/deselect a single row by Ctrl-Click
+	- select/deselect multiple rows by Shift-Click on two outer rows
+-Made all grids MouseUp action the same
+
+1.2.1.0
 -Added closing event to the tray context menu
 -Fixed right click menu in Duplicates tab
 -Added right click column editing in Duplicates tab

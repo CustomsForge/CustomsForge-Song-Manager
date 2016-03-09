@@ -8,14 +8,18 @@ F12 - show/hide toolstrip utilities menu bar
 Ctrl+LeftMouse Click - on column header to turn off column visibility
 Ctrl+A - select/deselect all songs
 Spacebar - select/deselect a song
-LeftMouse Click - on column header to sort the column ascending or descending
-RightMouse Click - on header to show context menu options
+Left Mouse Click - on column header to sort the column ascending or descending
+Right Mouse Click - on header to show context menu options
  - Show/Hide specific columns
-RightMouse Click - on a song to show context menu options
+Right Mouse Click - on a song to show context menu options
  - Show Song Information
  - Edit Song Information
  - Delete Song
  - Backup Song
+Ctrl + Left Mouse Click
+    - select/deselect a single row
+Shift + Left Mouse Click on two outer rows while holding Shift for multiples	 
+	- select/deselect multiple rows
 DoubleClick - anywhere on a song to show Song Information
 Ctrl+Rescan button to force complete rescan of songs
 Click anywhere on the Audio Playback Progress Bar to start song at that position

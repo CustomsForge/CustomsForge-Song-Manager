@@ -52,9 +52,9 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+    <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=aa97603a114b5f4d, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\libs\Antlr3.Runtime.dll</HintPath>
+      <HintPath>..\..\..\libs\Antlr3.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />

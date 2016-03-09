@@ -40,7 +40,7 @@ namespace CustomsForgeSongManager.UControls
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.cmsDuplicate = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.cmsDuplicateColumns = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.exploreToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gbActions = new System.Windows.Forms.GroupBox();
             this.panelActions = new System.Windows.Forms.Panel();
@@ -79,19 +79,19 @@ namespace CustomsForgeSongManager.UControls
             this.colIgnitionAuthor = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colArtistTitleAlbum = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.cmsDuplicate.SuspendLayout();
+            this.cmsDuplicateColumns.SuspendLayout();
             this.gbActions.SuspendLayout();
             this.panelActions.SuspendLayout();
             this.gbResults.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDuplicates)).BeginInit();
             this.SuspendLayout();
             // 
-            // cmsDuplicate
+            // cmsDuplicateColumns
             // 
-            this.cmsDuplicate.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cmsDuplicateColumns.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.exploreToolStripMenuItem});
-            this.cmsDuplicate.Name = "cmsDuplicate";
-            this.cmsDuplicate.Size = new System.Drawing.Size(153, 48);
+            this.cmsDuplicateColumns.Name = "cmsDuplicate";
+            this.cmsDuplicateColumns.Size = new System.Drawing.Size(153, 48);
             // 
             // exploreToolStripMenuItem
             // 
@@ -102,8 +102,8 @@ namespace CustomsForgeSongManager.UControls
             // 
             // gbActions
             // 
-            this.gbActions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbActions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.gbActions.Controls.Add(this.panelActions);
             this.gbActions.Location = new System.Drawing.Point(5, 457);
             this.gbActions.Name = "gbActions";
@@ -153,7 +153,7 @@ namespace CustomsForgeSongManager.UControls
             this.lnkPersistentId.TabStop = true;
             this.lnkPersistentId.Text = "Select SongInfo/PersistentID";
             this.toolTip.SetToolTip(this.lnkPersistentId, "Show the bad boy CDLC that are reusing Persistent IDs\r\nThese causing game hangs a" +
-        "nd need to be deleted.");
+                    "nd need to be deleted.");
             this.lnkPersistentId.VisitedLinkColor = System.Drawing.SystemColors.ActiveCaption;
             this.lnkPersistentId.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkPersistentId_LinkClicked);
             // 
@@ -213,16 +213,16 @@ namespace CustomsForgeSongManager.UControls
             this.btnRescan.Text = "Rescan";
             this.btnRescan.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.toolTip.SetToolTip(this.btnRescan, "Rescan songs for duplcates, plus\r\nCtrl-D to show disabled duplicates\r\nCtrl-E to s" +
-        "how enabled duplicates");
+                    "how enabled duplicates");
             this.btnRescan.UseVisualStyleBackColor = true;
             this.btnRescan.Click += new System.EventHandler(this.btnRescan_Click);
             this.btnRescan.KeyDown += new System.Windows.Forms.KeyEventHandler(this.btnRescan_KeyDown);
             // 
             // gbResults
             // 
-            this.gbResults.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbResults.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.gbResults.Controls.Add(this.txtNoDuplicates);
             this.gbResults.Controls.Add(this.dgvDuplicates);
             this.gbResults.Location = new System.Drawing.Point(4, 3);
@@ -247,9 +247,9 @@ namespace CustomsForgeSongManager.UControls
             // 
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.dgvDuplicates.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.dgvDuplicates.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgvDuplicates.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -292,6 +292,7 @@ namespace CustomsForgeSongManager.UControls
             this.dgvDuplicates.Tag = "Duplicates";
             this.dgvDuplicates.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvDuplicates_CellDoubleClick);
             this.dgvDuplicates.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvDups_CellFormatting);
+            this.dgvDuplicates.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvDuplicates_CellMouseDown);
             this.dgvDuplicates.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvDuplicates_CellMouseUp);
             this.dgvDuplicates.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgvDuplicates_DataBindingComplete);
             this.dgvDuplicates.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dgvDups_DataError);
@@ -547,7 +548,7 @@ namespace CustomsForgeSongManager.UControls
             this.Name = "Duplicates";
             this.Size = new System.Drawing.Size(872, 525);
             this.Resize += new System.EventHandler(this.Duplicates_Resize);
-            this.cmsDuplicate.ResumeLayout(false);
+            this.cmsDuplicateColumns.ResumeLayout(false);
             this.gbActions.ResumeLayout(false);
             this.panelActions.ResumeLayout(false);
             this.panelActions.PerformLayout();
@@ -566,7 +567,7 @@ namespace CustomsForgeSongManager.UControls
         private System.Windows.Forms.Button btnEnableDisable;
         private System.Windows.Forms.Button btnRescan;
         private System.Windows.Forms.Button btnMove;
-        private ContextMenuStrip cmsDuplicate;
+        private ContextMenuStrip cmsDuplicateColumns;
         private ToolStripMenuItem exploreToolStripMenuItem;
         private GroupBox gbResults;
         private LinkLabel lnkPersistentId;

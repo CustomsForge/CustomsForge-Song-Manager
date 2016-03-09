@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 using System.Windows.Input;
 using CustomsForgeSongManager.ClassMethods;
@@ -428,46 +429,92 @@ namespace CustomsForgeSongManager.UControls
                 ShowSongInfo();
         }
 
+        private void dgvDuplicates_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.RowIndex == -1)
+                return;
+
+            // TODO: Make this this same in all grids
+            if (e.Button == MouseButtons.Left)
+            {
+                // select a single row by Ctrl-Click
+                if (ModifierKeys == Keys.Control)
+                {
+                    var s = DgvExtensions.GetObjectFromRow<SongData>(dgvDuplicates, e.RowIndex);
+                    s.Selected = !s.Selected;
+                }
+                // select multiple rows by Shift-Click on two outer rows
+                else if (ModifierKeys == Keys.Shift)
+                {
+                    if (dgvDuplicates.SelectedRows.Count > 0)
+                    {
+                        var first = dgvDuplicates.SelectedRows[0];
+                        var start = first.Index;
+                        var end = e.RowIndex + 1;
+
+                        if (start > end)
+                        {
+                            var tmp = start;
+                            start = end;
+                            end = tmp;
+                        }
+                        TemporaryDisableDatabindEvent(() =>
+                        {
+                            for (int i = start; i < end; i++)
+                            {
+                                var s = DgvExtensions.GetObjectFromRow<SongData>(dgvDuplicates, i);
+                                s.Selected = !s.Selected;
+                            }
+                        });
+                    }
+                }
+            }
+        }
+
+        // use to manipulate data with causing error
+        private void TemporaryDisableDatabindEvent(Action action)
+        {
+            dgvDuplicates.DataBindingComplete -= dgvDuplicates_DataBindingComplete;
+            try
+            {
+                action();
+            }
+            finally
+            {
+                dgvDuplicates.DataBindingComplete += dgvDuplicates_DataBindingComplete;
+            }
+        }
+
         private void dgvDuplicates_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
             // has precedent over a ColumnHeader_MouseClick
             // MouseUp detection is more reliable than MouseDown
-
+            var grid = (DataGridView)sender;
             var rowIndex = e.RowIndex;
 
-            if (e.ColumnIndex == colSelect.Index && rowIndex != -1)
+            if (e.Button == MouseButtons.Right)
             {
-                dgvDuplicates.DataBindingComplete -= dgvDuplicates_DataBindingComplete;
-                try
-                {
-                    dgvDuplicates.EndEdit();
-                }
-                finally
-                {
-                    dgvDuplicates.DataBindingComplete += dgvDuplicates_DataBindingComplete;
-                }
-            }
-            else if (e.Button == MouseButtons.Right)
-            {
-                // fancy way to decide when context menu pops up
-                // TODO: fix exception which rasies when this block is not commented
-
-                //dgvDuplicates.ContextMenuStrip.Opening += (s, i) =>
-                //{
                 if (rowIndex != -1)
                 {
-                    dgvDuplicates.Rows[rowIndex].Selected = true;
-                    //i.Cancel = false; // resets e.RowIndex
-                    cmsDuplicate.Show(Cursor.Position);
+                    grid.Rows[e.RowIndex].Selected = true;
+                    // TODO: impliment cmsDuplicates action consistent with other grids
+                    //  cmsDuplicates.Show(Cursor.Position);
                 }
                 else
                 {
-                    PopulateMenuWithColumnHeaders(cmsDuplicate);
-                    cmsDuplicate.Show(Cursor.Position);
-                    //i.Cancel = true;
+                    PopulateMenuWithColumnHeaders(cmsDuplicateColumns);
+                    cmsDuplicateColumns.Show(Cursor.Position);
                 }
-                //};
             }
+
+            // programmatic left clicking on colSelect
+            if (e.Button == MouseButtons.Left && e.RowIndex != -1 && e.ColumnIndex == colSelect.Index)
+            {
+                TemporaryDisableDatabindEvent(() => { dgvDuplicates.EndEdit(); });
+            }
+
+            Thread.Sleep(50); // debounce multiple clicks
+            dgvDuplicates.Refresh();
         }
 
         private void dgvDuplicates_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)

@@ -1080,57 +1080,106 @@ namespace CustomsForgeSongManager.UControls
                 }
             }
         }
+        private void dgvSetlistMaster_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.RowIndex == -1)
+                return;
+
+            // TODO: Make this this same in all grids
+            if (e.Button == MouseButtons.Left)
+            {
+                // select a single row by Ctrl-Click
+                if (ModifierKeys == Keys.Control)
+                {
+                    var s = DgvExtensions.GetObjectFromRow<SongData>(dgvSetlistMaster, e.RowIndex);
+                    s.Selected = !s.Selected;
+                }
+                // select multiple rows by Shift-Click on two outer rows
+                else if (ModifierKeys == Keys.Shift)
+                {
+                    if (dgvSetlistMaster.SelectedRows.Count > 0)
+                    {
+                        var first = dgvSetlistMaster.SelectedRows[0];
+                        var start = first.Index;
+                        var end = e.RowIndex + 1;
+
+                        if (start > end)
+                        {
+                            var tmp = start;
+                            start = end;
+                            end = tmp;
+                        }
+                        TemporaryDisableDatabindEvent(() =>
+                        {
+                            for (int i = start; i < end; i++)
+                            {
+                                var s = DgvExtensions.GetObjectFromRow<SongData>(dgvSetlistMaster, i);
+                                s.Selected = !s.Selected;
+                            }
+                        });
+                    }
+                }
+            }
+        }
+
+        // use to manipulate data with causing error
+        private void TemporaryDisableDatabindEvent(Action action)
+        {
+            dgvSetlistMaster.DataBindingComplete -= dgvSetlistMaster_DataBindingComplete;
+            try
+            {
+                action();
+            }
+            finally
+            {
+                dgvSetlistMaster.DataBindingComplete += dgvSetlistMaster_DataBindingComplete;
+            }
+        }
 
         private void dgvSetlistMaster_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
-            bindingCompleted = false;
-            dgvPainted = false;
-
+            // TODO: make consistent with other grids
+            // has precedent over a ColumnHeader_MouseClick
+            // MouseUp detection is more reliable than MouseDown
             var grid = (DataGridView)sender;
-            // work around for Win10 right click header hang ... check seperate and first
-            if (e.RowIndex == -1)
-                return;
-            if (grid.Rows.Count == 0)
-                return;
-
-            // for debugging
-            //var erow = e.RowIndex;
-            //var ecol = grid.Columns[e.ColumnIndex].Name;
-            //Globals.Log("erow = " + erow + "  ecol = " + ecol);
+            var rowIndex = e.RowIndex;
 
             if (e.Button == MouseButtons.Right)
             {
-                grid.Rows[e.RowIndex].Selected = true;
-                cmsCopy.Enabled = true;
-                cmsMove.Enabled = true;
-                cmsDelete.Enabled = true;
-
-                if (chkProtectODLC.Checked)
+                if (rowIndex != -1)
                 {
-                    var sng = DgvExtensions.GetObjectFromRow<SongData>(dgvSetlistMaster, e.RowIndex);
-                    // cmsCopy.Enabled = !sng.OfficialDLC;
-                    cmsMove.Enabled = !sng.OfficialDLC;
-                    cmsDelete.Enabled = !sng.OfficialDLC;
+                    grid.Rows[e.RowIndex].Selected = true;
+                    // TODO: impliment cmsDuplicates action consistent with other grids
+                    //  cmsDuplicates.Show(Cursor.Position);
                 }
+                else
+                {
+                    grid.Rows[e.RowIndex].Selected = true;
+                    cmsCopy.Enabled = true;
+                    cmsMove.Enabled = true;
+                    cmsDelete.Enabled = true;
 
-                // known VS bug .. SourceControl returns null .. using tag for work around
-                cmsSetlistManager.Tag = dgvSetlistMaster;
-                cmsSetlistManager.Show(Cursor.Position);
+                    if (chkProtectODLC.Checked)
+                    {
+                        var sng = DgvExtensions.GetObjectFromRow<SongData>(dgvSetlistMaster, e.RowIndex);
+                        // cmsCopy.Enabled = !sng.OfficialDLC;
+                        cmsMove.Enabled = !sng.OfficialDLC;
+                        cmsDelete.Enabled = !sng.OfficialDLC;
+                    }
+
+                    // known VS bug .. SourceControl returns null .. using tag for work around
+                    cmsSetlistManager.Tag = dgvSetlistMaster;
+                    cmsSetlistManager.Show(Cursor.Position);
+                }
             }
-
-            // programmatic left clicking row to check/uncheck 'Select'
-            if (e.Button == MouseButtons.Left)
+            // programmatic left clicking on colSelect
+            if (e.Button == MouseButtons.Left && e.RowIndex != -1 && e.ColumnIndex == colSelect.Index)
             {
-                try
-                {
-                    grid.Rows[e.RowIndex].Cells["colSelect"].Value = !(bool)(grid.Rows[e.RowIndex].Cells["colSelect"].Value);
-                    RefreshAllDgv();
-                }
-                catch
-                {
-                    Thread.Sleep(50); // debounce multiple clicks
-                }
+                TemporaryDisableDatabindEvent(() => { dgvSetlistMaster.EndEdit(); });
             }
+
+            Thread.Sleep(50); // debounce multiple clicks
+            dgvSetlistMaster.Refresh();
         }
 
         private void dgvSetlistMaster_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)

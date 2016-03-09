@@ -531,7 +531,7 @@ namespace CustomsForgeSongManager.UControls
             chkMyCDLC.Checked = false;
             DataGridViewAutoFilterTextBoxColumn.RemoveFilter(dgvSongsMaster);
             ResetDetail();
-         
+
             if (!chkSubFolders.Checked)
             {
                 var results = masterSongCollection.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList();
@@ -660,7 +660,7 @@ namespace CustomsForgeSongManager.UControls
                 MessageBox.Show(string.Format("Please select (highlight) the song that  {0}you would like information about.", Environment.NewLine), Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        // TODO: document/comment ... when is this needed
+        // use to manipulate data with causing error
         private void TemporaryDisableDatabindEvent(Action action)
         {
             dgvSongsMaster.DataBindingComplete -= dgvSongsMaster_DataBindingComplete;
@@ -902,7 +902,7 @@ namespace CustomsForgeSongManager.UControls
         private void chkMyCDLC_CheckedChanged(object sender, EventArgs e)
         {
             var charterName = AppSettings.Instance.CharterName;
-            
+
             if (!String.IsNullOrEmpty(charterName))
             {
                 if (chkMyCDLC.Checked)
@@ -1289,13 +1289,16 @@ namespace CustomsForgeSongManager.UControls
             if (e.RowIndex == -1)
                 return;
 
+            // TODO: Make this this same in all grids
             if (e.Button == MouseButtons.Left)
             {
+                // select a single row by Ctrl-Click
                 if (ModifierKeys == Keys.Control)
                 {
                     var s = DgvExtensions.GetObjectFromRow<SongData>(dgvSongsMaster, e.RowIndex);
                     s.Selected = !s.Selected;
                 }
+                // select multiple rows by Shift-Click two outer rows
                 else if (ModifierKeys == Keys.Shift)
                 {
                     if (dgvSongsMaster.SelectedRows.Count > 0)
@@ -1325,16 +1328,15 @@ namespace CustomsForgeSongManager.UControls
 
         private void dgvSongsMaster_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
-            // has precedent over a ColumnHeader_MouseClick 
+             // TODO: make consistent with other grids
+            // has precedent over a ColumnHeader_MouseClick
+            // MouseUp detection is more reliable than MouseDown
             var grid = (DataGridView)sender;
-
-            // for debugging
-            //var erow = e.RowIndex;
-            //var ecol = grid.Columns[e.ColumnIndex].Name;
-            //Globals.Log("erow = " + erow + "  ecol = " + ecol);
+            var rowIndex = e.RowIndex;
 
             if (e.Button == MouseButtons.Right)
-                if (e.RowIndex != -1)
+            {
+                if (rowIndex != -1)
                 {
                     grid.Rows[e.RowIndex].Selected = true;
                     var sng = DgvExtensions.GetObjectFromRow<SongData>(dgvSongsMaster, e.RowIndex);
@@ -1348,6 +1350,7 @@ namespace CustomsForgeSongManager.UControls
                     PopulateMenuWithColumnHeaders(cmsSongManagerColumns);
                     cmsSongManagerColumns.Show(Cursor.Position);
                 }
+            }
 
             //SongData song = dgvSongsMaster.Rows[e.RowIndex].DataBoundItem as SongData;
             //// prevent selection of ODCL
@@ -1394,7 +1397,7 @@ namespace CustomsForgeSongManager.UControls
             var grid = (DataGridView)sender;
             if (grid.Name != "dgvSongsMaster")
                 return;
-            
+
             if (e.ListChangedType != ListChangedType.Reset)
                 return;
 
