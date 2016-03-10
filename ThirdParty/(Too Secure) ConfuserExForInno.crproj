@@ -1,7 +1,16 @@
 <project outputDir="..\CustomsForgeSongManager" baseDir="..\CustomsForgeSongManager" xmlns="http://confuser.codeplex.com">
- <rule pattern="true" preset="normal">
-   <protection id="rename" action="remove" />
- </rule>
+    <rule preset="normal" pattern="true">
+        <protection id="anti debug" />
+        <protection id="anti dump" />
+        <protection id="anti ildasm" />
+        <protection id="anti tamper" />
+        <protection id="constants" />
+        <protection id="ctrl flow" />
+        <protection id="invalid metadata" />
+        <protection id="ref proxy" />
+        <protection id="rename" />
+        <protection id="resources" />
+    </rule>
  <module path="bin\InnoInstaller\CFSM.AudioTools.dll" />
  <module path="bin\InnoInstaller\CFSM.ImageTools.dll" />
  <module path="bin\InnoInstaller\CFSM.GenTools.dll" />

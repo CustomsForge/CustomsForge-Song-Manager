@@ -1,10 +1,14 @@
 ﻿CFSM Release Notes
 
+1.2.1.2 
+-Reverted to fixed "Unhandled exception ..."
+
 1.2.1.1
 -Customized Antlr for use with CFSM.
 -Made mouse left click row selection method consistent across all tables
     - select/deselect a single row by Ctrl-Click
-	- select/deselect multiple rows by Shift-Click on two outer rows
+	- select/deselect multiple rows by Shift-Click on first row and 
+	  whole holding Shift, click on the second row
 -Made all grids MouseUp action the same
 
 1.2.1.0
