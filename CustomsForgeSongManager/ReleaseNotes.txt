@@ -1,5 +1,9 @@
 ﻿CFSM Release Notes
 
+1.2.1.3
+-Fixes to Renamer and issues with anltr libraries.
+-Auto open Show Log for Renamer Preview
+
 1.2.1.2 
 -Reverted to fixed "Unhandled exception ..."
 

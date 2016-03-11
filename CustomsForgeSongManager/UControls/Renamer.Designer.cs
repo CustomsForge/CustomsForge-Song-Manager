@@ -28,8 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Renamer));
             this.propertiesGroupBox = new System.Windows.Forms.GroupBox();
+            this.lblWarning = new System.Windows.Forms.Label();
             this.dgvRenamer = new System.Windows.Forms.DataGridView();
             this.howToGroupBox = new System.Windows.Forms.GroupBox();
             this.lblHeader = new System.Windows.Forms.Label();
@@ -47,7 +49,7 @@
             this.chkTheMover = new System.Windows.Forms.CheckBox();
             this.chkRemoveSpaces = new System.Windows.Forms.CheckBox();
             this.btnPreview = new System.Windows.Forms.Button();
-            this.lblWarning = new System.Windows.Forms.Label();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.propertiesGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRenamer)).BeginInit();
             this.howToGroupBox.SuspendLayout();
@@ -68,6 +70,23 @@
             this.propertiesGroupBox.TabIndex = 10;
             this.propertiesGroupBox.TabStop = false;
             this.propertiesGroupBox.Text = "Usuable Properties";
+            // 
+            // lblWarning
+            // 
+            this.lblWarning.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.lblWarning.AutoSize = true;
+            this.lblWarning.BackColor = System.Drawing.Color.Transparent;
+            this.lblWarning.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblWarning.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblWarning.ForeColor = System.Drawing.Color.Red;
+            this.lblWarning.Location = new System.Drawing.Point(135, 308);
+            this.lblWarning.Name = "lblWarning";
+            this.lblWarning.Padding = new System.Windows.Forms.Padding(10);
+            this.lblWarning.Size = new System.Drawing.Size(297, 97);
+            this.lblWarning.TabIndex = 4;
+            this.lblWarning.Text = "WARNING ... CFSM can ruin your \r\nCDLC collection if not used properly.\r\n\r\nPlease " +
+                "make a back up of your CDLC until\r\nyou get the hang of how Renamer works.";
+            this.lblWarning.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // dgvRenamer
             // 
@@ -253,25 +272,16 @@
             this.btnPreview.Size = new System.Drawing.Size(75, 23);
             this.btnPreview.TabIndex = 23;
             this.btnPreview.Text = "Preview";
+            this.toolTip.SetToolTip(this.btnPreview, "The \'Show Log\' panel must be open to view previews.");
             this.btnPreview.UseVisualStyleBackColor = true;
             this.btnPreview.Click += new System.EventHandler(this.btnPreview_Click);
             // 
-            // lblWarning
+            // toolTip
             // 
-            this.lblWarning.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.lblWarning.AutoSize = true;
-            this.lblWarning.BackColor = System.Drawing.Color.Transparent;
-            this.lblWarning.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblWarning.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblWarning.ForeColor = System.Drawing.Color.Red;
-            this.lblWarning.Location = new System.Drawing.Point(135, 308);
-            this.lblWarning.Name = "lblWarning";
-            this.lblWarning.Padding = new System.Windows.Forms.Padding(10);
-            this.lblWarning.Size = new System.Drawing.Size(297, 97);
-            this.lblWarning.TabIndex = 4;
-            this.lblWarning.Text = "WARNING ... CFSM can ruin your \r\nCDLC collection if not used properly.\r\n\r\nPlease " +
-                "make a back up of your CDLC until\r\nyou get the hang of how Renamer works.";
-            this.lblWarning.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.toolTip.AutomaticDelay = 100;
+            this.toolTip.AutoPopDelay = 8000;
+            this.toolTip.InitialDelay = 100;
+            this.toolTip.ReshowDelay = 50;
             // 
             // Renamer
             // 
@@ -323,5 +333,6 @@
         private System.Windows.Forms.CheckBox chkRemoveSpaces;
         private System.Windows.Forms.Button btnPreview;
         private System.Windows.Forms.Label lblWarning;
+        private System.Windows.Forms.ToolTip toolTip;
     }
 }

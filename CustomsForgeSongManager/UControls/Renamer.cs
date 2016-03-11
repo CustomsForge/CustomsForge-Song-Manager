@@ -62,6 +62,7 @@ namespace CustomsForgeSongManager.UControls
 
         private void btnPreview_Click(object sender, EventArgs e)
         {
+            AppSettings.Instance.ShowLogWindow = true;
             ShowRenamePreview();
         }
 
