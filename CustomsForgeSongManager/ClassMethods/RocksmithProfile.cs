@@ -221,7 +221,7 @@ namespace CustomsForgeSongManager.ClassMethods
             {
                 dateString = Path.GetFileName(backupPath).Replace("profile.backup.", "").Replace(".zip", "");
 
-                date = DateTime.ParseExact(dateString, "M-d-yyyy.H-m-s", CultureInfo.InvariantCulture);
+                date = DateTime.ParseExact(dateString, "d-M-yyyy.H-m-s", CultureInfo.InvariantCulture);
 
                 backup.Path = backupPath;
                 backup.Date = date;
