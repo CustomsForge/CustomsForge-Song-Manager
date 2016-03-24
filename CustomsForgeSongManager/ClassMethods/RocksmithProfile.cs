@@ -97,10 +97,8 @@ namespace CustomsForgeSongManager.ClassMethods
                 }
             }
 
-            if (String.IsNullOrEmpty(steamDirPath)) //TODO: Any point of actually doing this - maybe point it to Steam\userdata instead of the whole apth?   
-                steamDirPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), @"Steam\userdata\YOUR_USER_ID\221680\remote");
-
-            if (!Directory.Exists(steamDirPath)) //If we have a non existing path, ask the user to manually point the app to the correct location
+            // If we have a non existing path, ask the user to manually point the app to the correct location
+            if (!Directory.Exists(steamDirPath))
             {
                 using (var fbd = new FolderBrowserDialog())
                 {
@@ -111,22 +109,25 @@ namespace CustomsForgeSongManager.ClassMethods
                     userDirPath = fbd.SelectedPath;
                 }
             }
-
-            if (AmountOfProfileFiles(steamDirPath) <= 0) //If we have path of the Steam folder, get path of the RS profile subfolder
+            else // TODO: confirm proper function when steamDirPath exists
             {
-                var subdirs = new DirectoryInfo(steamDirPath).GetDirectories("*", SearchOption.AllDirectories).ToArray();
-
-                foreach (DirectoryInfo info in subdirs)
+                // If we have path of the Steam folder, get path of the RS profile subfolder
+                if (AmountOfProfileFiles(steamDirPath) <= 0)
                 {
-                    if (info.FullName.Contains(@"221680\remote"))
+                    var subdirs = new DirectoryInfo(steamDirPath).GetDirectories("*", SearchOption.AllDirectories).ToArray();
+
+                    foreach (DirectoryInfo info in subdirs)
                     {
-                        userDirPath = info.FullName;
-                        break;
+                        if (info.FullName.Contains(@"221680\remote"))
+                        {
+                            userDirPath = info.FullName;
+                            break;
+                        }
                     }
                 }
             }
 
-            //If we have the correct path, save it
+            // If we have the correct path, save it
             if (AmountOfProfileFiles(userDirPath) > 0)
                 AppSettings.Instance.RSProfileDir = userDirPath;
         }
@@ -137,7 +138,7 @@ namespace CustomsForgeSongManager.ClassMethods
             try
             {
                 string timestamp = string.Format("{0}-{1}-{2}.{3}-{4}-{5}", DateTime.Now.Day, DateTime.Now.Month, DateTime.Now.Year, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
-                string backupPath = string.Format("{0}\\profile.backup.{1}.zip", Constants.WorkDirectory, timestamp);
+                string backupPath = string.Format("{0}\\profile.backup.{1}.zip", Constants.ProfileBackupsFolder, timestamp);
                 string userProfilePath = String.Empty;
                 string steamProfileDir = AppSettings.Instance.RSProfileDir;
 
@@ -150,13 +151,14 @@ namespace CustomsForgeSongManager.ClassMethods
                     {
                         BackupProfiles(AppSettings.Instance.RSProfileDir, backupPath);
                     }
-                    else
-                    { //Restore profile backup
+                    else // Restore profile backup
+                    {
                         //check if there's any backups to restore 
-                        var zipFiles = Directory.EnumerateFiles(Constants.WorkDirectory, "profile.backup.*.zip", SearchOption.TopDirectoryOnly).ToArray();
+                        var zipFiles = Directory.EnumerateFiles(Constants.ProfileBackupsFolder, "profile.backup.*.zip", SearchOption.TopDirectoryOnly).ToArray();
                         if (!zipFiles.Any())
                         {
-                            MessageBox.Show("No user profile backups found in:" + Environment.NewLine + Constants.WorkDirectory, Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                            MessageBox.Show("No user profile backups found in:" + Environment.NewLine +
+                                Constants.ProfileBackupsFolder, Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Stop);
                             return;
                         }
 
@@ -176,6 +178,9 @@ namespace CustomsForgeSongManager.ClassMethods
         {
             if (Directory.Exists(userProfilePath))
             {
+                if (!Directory.Exists(Constants.ProfileBackupsFolder))
+                    Directory.CreateDirectory(Constants.ProfileBackupsFolder);
+
                 ZipUtilities.ZipDirectory(userProfilePath, backupPath);
                 Globals.Log(Properties.Resources.CreatedUserProfileBackup);
                 Globals.Log(backupPath);
@@ -186,22 +191,12 @@ namespace CustomsForgeSongManager.ClassMethods
 
         public static void RestoreBackup(string backupPath, string steamProfileDir)
         {
-            //using (var ofd = new OpenFileDialog())
-            //{
-            //    ofd.Filter = "(profile.backup.*.zip)|profile.backup.*.zip";
-
-            //    ofd.Title = "Select the Rocksmith 2014 user profile backup to restore";
-            //    ofd.FilterIndex = 1;
-            //    ofd.InitialDirectory = Constants.WorkDirectory;
-            //    ofd.CheckPathExists = true;
-            //    ofd.Multiselect = false;
-
-            //    if (ofd.ShowDialog() != DialogResult.OK) return;
-            //    srcZipPath = ofd.FileName;
-            //}
-
             // unzip and restore the files
-            if (DialogResult.Cancel == MessageBox.Show("Existing files will be overwritten.  You may want" + Environment.NewLine + "to make a backup of the corrupt files before proceeding.  " + Environment.NewLine + "Are you sure you want to restore the profile backup?", Constants.ApplicationName, MessageBoxButtons.OKCancel, MessageBoxIcon.Hand))
+            if (DialogResult.Cancel == MessageBox.Show(
+                "Existing files will be overwritten.  You may want" + Environment.NewLine +
+                "to make a backup of the corrupt files before proceeding.  " + Environment.NewLine +
+                "Are you sure you want to restore the profile backup?", Constants.ApplicationName,
+                MessageBoxButtons.OKCancel, MessageBoxIcon.Hand))
                 return;
 
             if (ZipUtilities.UnzipDir(backupPath, steamProfileDir))
@@ -213,18 +208,16 @@ namespace CustomsForgeSongManager.ClassMethods
         public static List<ProfileData> GetProfileBackupsList()
         {
             List<ProfileData> backups = new List<ProfileData>();
-            ProfileData backup = new ProfileData();
-            DateTime date = new DateTime();
-            string dateString = "";
 
-            foreach (string backupPath in Directory.EnumerateFiles(Constants.WorkDirectory, "profile.backup.*.zip", SearchOption.TopDirectoryOnly).ToList())
+            foreach (string backupPath in Directory.EnumerateFiles(Constants.ProfileBackupsFolder, "profile.backup.*.zip", SearchOption.TopDirectoryOnly).ToList())
             {
-                dateString = Path.GetFileName(backupPath).Replace("profile.backup.", "").Replace(".zip", "");
+                var dateString = Path.GetFileName(backupPath).Replace("profile.backup.", "").Replace(".zip", "");
+                var date = DateTime.ParseExact(dateString, "d-M-yyyy.H-m-s", CultureInfo.InvariantCulture);
 
-                date = DateTime.ParseExact(dateString, "d-M-yyyy.H-m-s", CultureInfo.InvariantCulture);
-
-                backup.Path = backupPath;
-                backup.Date = date;
+                ProfileData backup = new ProfileData();
+                backup.Selected = false;
+                backup.ArchivePath = backupPath;
+                backup.ArchiveDate = date;
 
                 backups.Add(backup);
             }

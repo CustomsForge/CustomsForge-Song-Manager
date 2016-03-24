@@ -281,6 +281,11 @@
                 A constant function, always returning the same value.
             </summary>
         </member>
+        <member name="T:Confuser.Core.ModuleSorter">
+            <summary>
+                Sort modules according dependencies.
+            </summary>
+        </member>
         <member name="T:Confuser.Core.Helpers.ControlFlowGraph">
             <summary>
                 A Control Flow Graph (CFG) of a method
@@ -873,11 +878,12 @@
             <param name="typeDef">The type.</param>
             <returns>A collection of all required definitions</returns>
         </member>
-        <member name="M:Confuser.Core.DnlibUtils.IsVisibleOutside(dnlib.DotNet.TypeDef)">
+        <member name="M:Confuser.Core.DnlibUtils.IsVisibleOutside(dnlib.DotNet.TypeDef,System.Boolean)">
             <summary>
                 Determines whether the specified type is visible outside the containing assembly.
             </summary>
             <param name="typeDef">The type.</param>
+            <param name="exeNonPublic">Visibility of executable modules.</param>
             <returns><c>true</c> if the specified type is visible outside the containing assembly; otherwise, <c>false</c>.</returns>
         </member>
         <member name="M:Confuser.Core.DnlibUtils.HasAttribute(dnlib.DotNet.IHasCustomAttribute,System.String)">
@@ -894,6 +900,13 @@
             </summary>
             <param name="type">The type.</param>
             <returns><c>true</c> if specified type is COM import; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:Confuser.Core.DnlibUtils.IsCompilerGenerated(dnlib.DotNet.TypeDef)">
+            <summary>
+                Determines whether the specified type is compiler generated.
+            </summary>
+            <param name="type">The type.</param>
+            <returns><c>true</c> if specified type is compiler generated; otherwise, <c>false</c>.</returns>
         </member>
         <member name="M:Confuser.Core.DnlibUtils.IsDelegate(dnlib.DotNet.TypeDef)">
             <summary>
@@ -1388,13 +1401,14 @@
                 One of the rules has invalid pattern.
             </exception>
         </member>
-        <member name="M:Confuser.Core.Marker.ApplyRules(Confuser.Core.ConfuserContext,dnlib.DotNet.IDnlibDef,System.Collections.Generic.Dictionary{Confuser.Core.Project.Rule,Confuser.Core.Project.Patterns.PatternExpression})">
+        <member name="M:Confuser.Core.Marker.ApplyRules(Confuser.Core.ConfuserContext,dnlib.DotNet.IDnlibDef,System.Collections.Generic.Dictionary{Confuser.Core.Project.Rule,Confuser.Core.Project.Patterns.PatternExpression},Confuser.Core.ProtectionSettings)">
             <summary>
                 Applies the rules to the target definition.
             </summary>
             <param name="context">The working context.</param>
             <param name="target">The target definition.</param>
             <param name="rules">The rules.</param>
+            <param name="baseSettings">The base settings.</param>
         </member>
         <member name="T:Confuser.Core.MarkerResult">
             <summary>
@@ -1456,6 +1470,17 @@
                 Gets the triggered writer event.
             </summary>
             <value>The triggered writer event.</value>
+        </member>
+        <member name="T:Confuser.Core.ObfAttrMarker">
+            <summary>
+            Obfuscation Attribute Marker
+            </summary>
+        </member>
+        <member name="M:Confuser.Core.ObfAttrMarker.MarkMember(dnlib.DotNet.IDnlibDef,Confuser.Core.ConfuserContext)">
+            <inheritdoc />
+        </member>
+        <member name="M:Confuser.Core.ObfAttrMarker.MarkProject(Confuser.Core.Project.ConfuserProject,Confuser.Core.ConfuserContext)">
+            <inheritdoc />
         </member>
         <member name="T:Confuser.Core.PluginDiscovery">
             <summary>
@@ -1642,6 +1667,12 @@
             </summary>
             <returns>A <see cref="T:System.String"/> that represents this instance.</returns>
         </member>
+        <member name="M:Confuser.Core.Project.ProjectModule.Clone">
+            <summary>
+                Clones this instance.
+            </summary>
+            <returns>A duplicated module.</returns>
+        </member>
         <member name="P:Confuser.Core.Project.ProjectModule.Path">
             <summary>
                 Gets the path to the module.
@@ -1691,6 +1722,13 @@
             </summary>
             <typeparam name="T"><see cref="T:Confuser.Core.Protection"/> or <see cref="T:Confuser.Core.Packer"/></typeparam>
         </member>
+        <member name="M:Confuser.Core.Project.SettingItem`1.#ctor(System.String,Confuser.Core.Project.SettingItemAction)">
+            <summary>
+            Initialize this setting item instance
+            </summary>
+            <param name="id">The protection id</param>
+            <param name="action">The action to take</param>
+        </member>
         <member name="M:Confuser.Core.Project.SettingItem`1.Save(System.Xml.XmlDocument)">
             <summary>
                 Saves the setting description as XML element.
@@ -1703,6 +1741,12 @@
                 Loads the setting description from XML element.
             </summary>
             <param name="elem">The serialized setting description.</param>
+        </member>
+        <member name="M:Confuser.Core.Project.SettingItem`1.Clone">
+            <summary>
+                Clones this instance.
+            </summary>
+            <returns>A duplicated setting item.</returns>
         </member>
         <member name="P:Confuser.Core.Project.SettingItem`1.Id">
             <summary>
@@ -1721,6 +1765,14 @@
             <summary>
                 A rule that control how <see cref="T:Confuser.Core.Protection"/>s are applied to module
             </summary>
+        </member>
+        <member name="M:Confuser.Core.Project.Rule.#ctor(System.String,Confuser.Core.ProtectionPreset,System.Boolean)">
+            <summary>
+            Initialize this rule instance
+            </summary>
+            <param name="pattern">The pattern</param>
+            <param name="preset">The preset</param>
+            <param name="inherit">Inherits protection</param>
         </member>
         <member name="M:Confuser.Core.Project.Rule.Save(System.Xml.XmlDocument)">
             <summary>
@@ -1810,6 +1862,12 @@
             <exception cref="T:Confuser.Core.Project.ProjectValidationException">
                 The project XML contains schema errors.
             </exception>
+        </member>
+        <member name="M:Confuser.Core.Project.ConfuserProject.Clone">
+            <summary>
+                Clones this instance.
+            </summary>
+            <returns>A duplicated project.</returns>
         </member>
         <member name="P:Confuser.Core.Project.ConfuserProject.Seed">
             <summary>
@@ -1959,9 +2017,9 @@
         <member name="P:Confuser.Core.Project.Patterns.AndOperator.IsUnary">
             <inheritdoc />
         </member>
-        <member name="T:Confuser.Core.Project.Patterns.IsTypeFunction">
+        <member name="T:Confuser.Core.Project.Patterns.HasAttrFunction">
             <summary>
-                A function that indicate the type of type(?).
+                A function that indicate whether the item has the given custom attribute.
             </summary>
         </member>
         <member name="T:Confuser.Core.Project.Patterns.PatternFunction">
@@ -1989,6 +2047,20 @@
                 Gets or sets the arguments of function.
             </summary>
             <value>The arguments.</value>
+        </member>
+        <member name="M:Confuser.Core.Project.Patterns.HasAttrFunction.Evaluate(dnlib.DotNet.IDnlibDef)">
+            <inheritdoc />
+        </member>
+        <member name="P:Confuser.Core.Project.Patterns.HasAttrFunction.Name">
+            <inheritdoc />
+        </member>
+        <member name="P:Confuser.Core.Project.Patterns.HasAttrFunction.ArgumentCount">
+            <inheritdoc />
+        </member>
+        <member name="T:Confuser.Core.Project.Patterns.IsTypeFunction">
+            <summary>
+                A function that indicate the type of type(?).
+            </summary>
         </member>
         <member name="M:Confuser.Core.Project.Patterns.IsTypeFunction.Evaluate(dnlib.DotNet.IDnlibDef)">
             <inheritdoc />
@@ -2565,6 +2637,11 @@
                 Gets output <c>byte[]</c> debug symbol of the current module
             </summary>
             <value>The output <c>byte[]</c> debug symbol.</value>
+        </member>
+        <member name="P:Confuser.Core.ConfuserContext.CancellationToken">
+            <summary>
+            	Gets the token used to indicate cancellation
+            </summary>
         </member>
         <member name="T:Confuser.Core.ProtectionParameters">
             <summary>

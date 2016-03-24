@@ -32,13 +32,14 @@
             this.tlpProfileBackups = new System.Windows.Forms.TableLayoutPanel();
             this.panelBackupedProfiles = new System.Windows.Forms.Panel();
             this.dgvProfileBackups = new System.Windows.Forms.DataGridView();
-            this.colProfileSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.colProfileDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colProfilePath = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.button1 = new System.Windows.Forms.Button();
             this.panelProfileBackups2 = new System.Windows.Forms.Panel();
             this.btnRestoreBackup = new System.Windows.Forms.Button();
             this.btnDeleteBackup = new System.Windows.Forms.Button();
+            this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.colDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tlpProfileBackups.SuspendLayout();
             this.panelBackupedProfiles.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvProfileBackups)).BeginInit();
@@ -73,41 +74,20 @@
             // 
             this.dgvProfileBackups.AllowUserToAddRows = false;
             this.dgvProfileBackups.AllowUserToDeleteRows = false;
-            this.dgvProfileBackups.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvProfileBackups.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvProfileBackups.ColumnHeadersHeight = 22;
             this.dgvProfileBackups.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.colProfileSelect,
-            this.colProfileDate,
-            this.colProfilePath});
+            this.colSelect,
+            this.colDate,
+            this.colName,
+            this.colPath});
             this.dgvProfileBackups.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvProfileBackups.Location = new System.Drawing.Point(0, 0);
-            this.dgvProfileBackups.MultiSelect = false;
             this.dgvProfileBackups.Name = "dgvProfileBackups";
-            this.dgvProfileBackups.ReadOnly = true;
             this.dgvProfileBackups.RowHeadersVisible = false;
             this.dgvProfileBackups.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvProfileBackups.Size = new System.Drawing.Size(575, 433);
             this.dgvProfileBackups.TabIndex = 0;
-            // 
-            // colProfileSelect
-            // 
-            this.colProfileSelect.HeaderText = "Select";
-            this.colProfileSelect.Name = "colProfileSelect";
-            this.colProfileSelect.ReadOnly = true;
-            // 
-            // colProfileDate
-            // 
-            this.colProfileDate.HeaderText = "Date";
-            this.colProfileDate.Name = "colProfileDate";
-            this.colProfileDate.ReadOnly = true;
-            this.colProfileDate.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colProfileDate.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // colProfilePath
-            // 
-            this.colProfilePath.HeaderText = "Path";
-            this.colProfilePath.Name = "colProfilePath";
-            this.colProfilePath.ReadOnly = true;
+            this.dgvProfileBackups.SelectionChanged += new System.EventHandler(this.dgvProfileBackups_SelectionChanged);
             // 
             // button1
             // 
@@ -148,6 +128,42 @@
             this.btnDeleteBackup.UseVisualStyleBackColor = true;
             this.btnDeleteBackup.Click += new System.EventHandler(this.btnDeleteBackup_Click);
             // 
+            // colSelect
+            // 
+            this.colSelect.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.colSelect.FalseValue = "false";
+            this.colSelect.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.colSelect.HeaderText = "Select";
+            this.colSelect.IndeterminateValue = "false";
+            this.colSelect.Name = "colSelect";
+            this.colSelect.TrueValue = "true";
+            this.colSelect.Width = 43;
+            // 
+            // colDate
+            // 
+            this.colDate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.colDate.HeaderText = "Date";
+            this.colDate.Name = "colDate";
+            this.colDate.ReadOnly = true;
+            this.colDate.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colDate.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.colDate.Width = 36;
+            // 
+            // colName
+            // 
+            this.colName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.colName.HeaderText = "Name";
+            this.colName.Name = "colName";
+            this.colName.Width = 60;
+            // 
+            // colPath
+            // 
+            this.colPath.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.colPath.HeaderText = "Path";
+            this.colPath.Name = "colPath";
+            this.colPath.ReadOnly = true;
+            this.colPath.Width = 500;
+            // 
             // frmProfileBackups
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -170,13 +186,14 @@
         private System.Windows.Forms.TableLayoutPanel tlpProfileBackups;
         private System.Windows.Forms.Panel panelBackupedProfiles;
         private System.Windows.Forms.DataGridView dgvProfileBackups;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn colProfileSelect;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colProfileDate;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colProfilePath;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Panel panelProfileBackups2;
         private System.Windows.Forms.Button btnRestoreBackup;
         private System.Windows.Forms.Button btnDeleteBackup;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn colSelect;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colDate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colPath;
 
     }
 }

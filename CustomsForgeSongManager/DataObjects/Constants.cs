@@ -34,7 +34,7 @@ namespace CustomsForgeSongManager.DataObjects
         public static string AppIdFilePath { get { return Path.Combine(ApplicationDirectory, "RocksmithToolkitLib.SongAppId.xml"); } }
         public static string TuningDefFilePath { get { return Path.Combine(ApplicationDirectory, "RocksmithToolkitLib.TuningDefinition.xml"); } }
         public static string AudioCacheDirectory { get { return Path.Combine(WorkDirectory, "AudioCache"); } }
-
+        public static string ProfileBackupsFolder { get { return Path.Combine(WorkDirectory, "ProfileBackups"); } }
         public static string TaggerWorkingFolder { get { return Path.Combine(WorkDirectory, "Tagger"); } }
         public static string TaggerTemplatesFolder { get { return Path.Combine(TaggerWorkingFolder, "templates"); } }
         public static string TaggerExtractedFolder { get { return Path.Combine(TaggerWorkingFolder, "extracted"); } }

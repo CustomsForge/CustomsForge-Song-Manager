@@ -530,6 +530,9 @@
     <Content Include="DF_DDSImage.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Licenses.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Content Include="ReleaseNotes.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -575,36 +578,16 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <EmbeddedResource Include="Resources\tags\frackDefaultprev.png" />
-    <EmbeddedResource Include="Resources\tags\frackDefault\Background.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\tags\frackDefault\Bass Bonus.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\tags\frackDefault\Bass.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\tags\frackDefault\Custom.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\tags\frackDefault\info.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\tags\frackDefault\Lead Bonus.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\tags\frackDefault\Lead.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\tags\frackDefault\Rhythm Bonus.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\tags\frackDefault\Rhythm.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\tags\frackDefault\Vocal.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\tags\frackDefault\Background.png" />
+    <EmbeddedResource Include="Resources\tags\frackDefault\Bass Bonus.png" />
+    <EmbeddedResource Include="Resources\tags\frackDefault\Bass.png" />
+    <EmbeddedResource Include="Resources\tags\frackDefault\Custom.png" />
+    <EmbeddedResource Include="Resources\tags\frackDefault\info.txt" />
+    <EmbeddedResource Include="Resources\tags\frackDefault\Lead Bonus.png" />
+    <EmbeddedResource Include="Resources\tags\frackDefault\Lead.png" />
+    <EmbeddedResource Include="Resources\tags\frackDefault\Rhythm Bonus.png" />
+    <EmbeddedResource Include="Resources\tags\frackDefault\Rhythm.png" />
+    <EmbeddedResource Include="Resources\tags\frackDefault\Vocal.png" />
     <EmbeddedResource Include="Resources\tags\motive1prev.png" />
     <EmbeddedResource Include="Resources\tags\motive1\Background.png" />
     <EmbeddedResource Include="Resources\tags\motive1\Bass Bonus.png" />

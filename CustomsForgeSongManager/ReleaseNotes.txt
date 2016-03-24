@@ -1,5 +1,9 @@
 ﻿CFSM Release Notes
 
+1.2.1.4
+-Added license agreements and credits for library dependencies
+-Fixes to UserProfile backup/restore and frmProfileBackups
+
 1.2.1.3
 -Fixes to Renamer and issues with anltr libraries.
 -Auto open Show Log for Renamer Preview

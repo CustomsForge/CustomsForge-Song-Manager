@@ -1085,7 +1085,7 @@ namespace CustomsForgeSongManager.UControls
             if (e.RowIndex == -1)
                 return;
 
-            // TODO: Make this this same in all grids
+            // same in all grids
             if (e.Button == MouseButtons.Left)
             {
                 // select a single row by Ctrl-Click
