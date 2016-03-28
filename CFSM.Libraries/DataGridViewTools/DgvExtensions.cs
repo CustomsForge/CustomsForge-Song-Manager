@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Windows.Forms;
 
 namespace DataGridViewTools
@@ -29,12 +28,12 @@ namespace DataGridViewTools
             if (rowIndex == -1)
                 return default(T);
 
-            return (T) dgvCurrent.Rows[rowIndex].DataBoundItem;
+            return (T)dgvCurrent.Rows[rowIndex].DataBoundItem;
         }
 
         public static T GetObjectFromRow<T>(DataGridViewRow dataGridViewRow)
         {
-            return (T) dataGridViewRow.DataBoundItem;
+            return (T)dataGridViewRow.DataBoundItem;
         }
 
         public static List<T> GetObjectsFromRows<T>(DataGridView dgvCurrent, TristateSelect selected = TristateSelect.Selected, string dataPropertyName = "Selected")
@@ -53,12 +52,12 @@ namespace DataGridViewTools
                 switch (selected)
                 {
                     case TristateSelect.NotSelected:
-                        if (sd != null && (!row.Selected && !(bool) row.Cells[colNdx].Value))
+                        if (sd != null && (!row.Selected && !(bool)row.Cells[colNdx].Value))
                             selectedObjects.Add(sd);
                         break;
 
                     case TristateSelect.Selected:
-                        if (sd != null && (row.Selected || (bool) row.Cells[colNdx].Value))
+                        if (sd != null && (row.Selected || (bool)row.Cells[colNdx].Value))
                             selectedObjects.Add(sd);
                         break;
 
@@ -105,6 +104,34 @@ namespace DataGridViewTools
             pi.SetValue(dgv, !setting, null);
             pi.SetValue(dgv, setting, null);
         }
-    
+
+        public static void RowsAllNone(DataGridView dgvCurrent, string dataPropertyName = "Selected")
+        {
+            var colNdxSelected = GetDataPropertyColumnIndex(dgvCurrent, dataPropertyName);
+            // use condition of first row to determine selection state
+            var selected = Convert.ToBoolean(dgvCurrent.Rows[0].Cells[colNdxSelected].Value);
+
+            foreach (DataGridViewRow row in dgvCurrent.Rows)
+                row.Cells[colNdxSelected].Value = !selected;
+
+            dgvCurrent.Refresh();
+        }
+
+        public static void RowsToggle(DataGridView dgvCurrent, string dataPropertyName = "Selected")
+        {
+            var colNdxSelected = GetDataPropertyColumnIndex(dgvCurrent, dataPropertyName);
+ 
+            foreach (DataGridViewRow row in dgvCurrent.Rows)
+                row.Cells[colNdxSelected].Value = !Convert.ToBoolean(row.Cells[colNdxSelected].Value);
+
+            dgvCurrent.Refresh();
+        }
+
+        public static int RowsSelectedCount(DataGridView dgvCurrent, string dataPropertyName = "Selected")
+        {
+            var colNdxSelected = GetDataPropertyColumnIndex(dgvCurrent, dataPropertyName);
+            return dgvCurrent.Rows.Cast<DataGridViewRow>().Count(r => Convert.ToBoolean(r.Cells[colNdxSelected].Value));
+        }
+
     }
 }

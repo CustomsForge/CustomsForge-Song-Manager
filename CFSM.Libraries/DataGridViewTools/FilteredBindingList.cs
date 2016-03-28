@@ -574,7 +574,7 @@ namespace DataGridViewTools
 
     // Enum to hold filter operators. The chars 
     // are converted to their integer values.
-    [Obfuscation(Exclude = true, ApplyToMembers = true, StripAfterObfuscation = true, Feature = "renaming")]
+    // [Obfuscation(Exclude = true, ApplyToMembers = true, StripAfterObfuscation = true, Feature = "renaming")]
     public enum FilterOperator
     {
         EqualTo = '=',

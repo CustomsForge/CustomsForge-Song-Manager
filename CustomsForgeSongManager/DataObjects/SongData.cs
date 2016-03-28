@@ -30,11 +30,11 @@ namespace CustomsForgeSongManager.DataObjects
     [Serializable]
     public class SongData : NotifyPropChangedBase
     {
-        //version 2 : SongKey changed to DLCKey.
-        //version 3 : removed DLCKey from arrangement
-        //version 4 : changed tagged to SongTaggerStatus
-        //version 5 : added ArtistSort TitleSort and AlbumSort variables
-        //version 6 : changed Path to FilePath to avoid conflict with reserved name System.IO.Path
+        //ver 2 : SongKey changed to DLCKey.
+        //ver 3 : removed DLCKey from arrangement
+        //ver 4 : changed tagged to SongTaggerStatus
+        //ver 5 : added ArtistSort TitleSort and AlbumSort variables
+        //ver 6 : changed Path to FilePath to avoid conflict with reserved name System.IO.Path
 
         public const string SongDataListCurrentVersion = "6";
 

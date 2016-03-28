@@ -18,12 +18,12 @@ namespace DataGridViewTools
 
         protected Expression[] CreateStringExpressions()
         {
-            return new Expression[] {new NoExpression("", ""), new Expression(Properties.Resources.Expression_Contains, "Contains"), new Expression(Properties.Resources.Expression_StartsWith, "StartsWith"), new Expression(Properties.Resources.Expression_EndsWith, "EndsWith"), new Expression(Properties.Resources.Expression_IsLike, "Like")};
+            return new Expression[] { new NoExpression("", ""), new Expression("Contains", "Contains"), new Expression("StartsWith", "StartsWith"), new Expression("EndsWith", "EndsWith"), new Expression("Like", "Like") };
         }
 
         protected Expression[] CreateNumberExpressions()
         {
-            return new Expression[] {new NoExpression("", ""), new BetweenExpression(), new OperatorExpression(Properties.Resources.Expression_LessThan, "<"), new OperatorExpression(Properties.Resources.Expression_GreaterThan, ">"), new OperatorExpression(Properties.Resources.Expression_LessThanOrEqual, "<="), new OperatorExpression(Properties.Resources.Expression_GreaterThanOrEqual, ">="), new OperatorExpression(Properties.Resources.Expression_Equals, "=")};
+            return new Expression[] { new NoExpression("", ""), new BetweenExpression(), new OperatorExpression("Less Than", "<"), new OperatorExpression("Greater Than", ">"), new OperatorExpression("Less Than or Equal", "<="), new OperatorExpression("Greater Than or Equal", ">="), new OperatorExpression("Equals", "=") };
         }
 
         protected void SetUp()
@@ -244,7 +244,7 @@ namespace DataGridViewTools
 
         protected virtual Control CreateEditor()
         {
-            return new CueTextBox {Cue = Properties.Resources.EnterValue};
+            return new CueTextBox { Cue = "(Enter Value)" };
         }
 
         public string Name { get; set; }
@@ -287,7 +287,7 @@ namespace DataGridViewTools
 
     public class BetweenExpression : Expression
     {
-        public BetweenExpression() : base(Properties.Resources.Expression_Between, "")
+        public BetweenExpression() : base("Between", "")
         {
         }
 
@@ -297,8 +297,8 @@ namespace DataGridViewTools
         protected override Control CreateEditor()
         {
             var panel1 = new Panel() {Size = new Size(157, 21)};
-            Value1 = new CueTextBox() {Cue = Properties.Resources.EnterValue, Location = new Point(0, 0), Size = new Size(71, 20)};
-            Value2 = new CueTextBox() {Cue = Properties.Resources.EnterValue, Location = new Point(86, 0), Size = new Size(71, 20)};
+            Value1 = new CueTextBox() {Cue = "(Enter Value)", Location = new Point(0, 0), Size = new Size(71, 20)};
+            Value2 = new CueTextBox() {Cue = "(Enter Value)", Location = new Point(86, 0), Size = new Size(71, 20)};
             panel1.Controls.Add(Value1);
             panel1.Controls.Add(Value2);
             return panel1;

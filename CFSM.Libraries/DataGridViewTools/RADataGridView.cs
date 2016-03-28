@@ -2,17 +2,14 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 
-
 namespace DataGridViewTools
 {
-    public class RADataGridView : DataGridView, IGridViewFilterStyle, IGridViewCustomFilter 
+    public class RADataGridView : DataGridView, IGridViewFilterStyle, IGridViewCustomFilter
     {
         public RADataGridView()
         {
@@ -58,7 +55,7 @@ namespace DataGridViewTools
             //    }
             //    catch (Exception)
             //    {
-            //        Console.WriteLine("<Error>: " + prop);
+            //        Console.WriteLine("Error: " + prop);
             //    }
             //}
 
@@ -88,6 +85,7 @@ namespace DataGridViewTools
     public class ColumnOrderItem
     {
         public string ColumnName { get; set; }
+        public string HeaderText { get; set; }
         public int DisplayIndex { get; set; }
         public int Width { get; set; }
         public bool Visible { get; set; }
@@ -97,7 +95,8 @@ namespace DataGridViewTools
     [Serializable]
     public class RADataGridViewSettings
     {
-        public const string gridViewSettingsVersion = "1.0";
+        // ver 1.1 - added column HeaderText to DataGridViewTools column settings
+        public const string gridViewSettingsVersion = "1.1";
 
         [XmlIgnore]
         public string LoadedVersion { get; private set; }
@@ -128,13 +127,16 @@ namespace DataGridViewTools
                 action(c);
         }
 
-        //useage: radgv.ReLoadColumnOrder(dgvSongPacks, RAExtensions.ManagerGridSettings.ColumnOrder);
+        //useage: radgv.ReLoadColumnOrder(dgvSongPacks, AppSettings.Instance.ManagerGridSettings.ColumnOrder);
         public static void ReLoadColumnOrder(this RADataGridView raDataGridView, List<ColumnOrderItem> columnOrderCollection)
         {
             DataGridViewColumnCollection orgDgvColumns = raDataGridView.Columns;
             var sorted = columnOrderCollection.OrderBy(i => i.DisplayIndex);
 
             // smooth column swapping operation when equal
+            var debugHere1 = sorted.Count();
+            var debugHere2 = raDataGridView.Columns.Count;
+
             if (sorted.Count() == raDataGridView.Columns.Count)
             {
                 foreach (var item in sorted)
@@ -145,6 +147,7 @@ namespace DataGridViewTools
                     raDataGridView.InvokeIfRequired(delegate
                         {
                             raDataGridView.Columns[item.ColumnIndex].Name = item.ColumnName;
+                            raDataGridView.Columns[item.ColumnIndex].HeaderText = item.HeaderText;
                             raDataGridView.Columns[item.ColumnIndex].DisplayIndex = item.DisplayIndex;
                             raDataGridView.Columns[item.ColumnIndex].Visible = item.Visible;
                             raDataGridView.Columns[item.ColumnIndex].Width = item.Width;
@@ -182,7 +185,8 @@ namespace DataGridViewTools
                                 DisplayIndex = columns[i].DisplayIndex,
                                 Visible = columns[i].Visible,
                                 Width = columns[i].Width,
-                                ColumnName = columns[i].Name
+                                ColumnName = columns[i].Name,
+                                HeaderText = columns[i].HeaderText 
                             });
                 }
                 catch (Exception ex)

@@ -102,10 +102,10 @@ namespace CustomsForgeSongManager
 
         public static bool RemoveGridSettings()
         {
-            if (!File.Exists(Constants.GridSettingsPath))
-                return false;
-
             if (String.IsNullOrEmpty(Globals.DgvCurrent.Name))
+                Globals.DgvCurrent.Name = "dgvSongsMaster";
+
+            if (!File.Exists(Constants.GridSettingsPath))
                 return false;
 
             using (var fs = File.OpenRead(Constants.GridSettingsPath))

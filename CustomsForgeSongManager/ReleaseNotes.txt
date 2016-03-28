@@ -1,5 +1,9 @@
 ﻿CFSM Release Notes
 
+1.2.1.7
+-Fixed SetlistManager Master Songs right click Select All/None action
+-Fixed RemoveGridSettings method
+
 1.2.1.6
 -Fixed "colSongPackSelect cannot be found" error
 -Fixed "dgvSetlistMaster column DataPropery 'Path' can not be found" error
