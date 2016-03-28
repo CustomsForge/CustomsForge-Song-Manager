@@ -239,7 +239,6 @@ namespace CustomsForgeSongManager.Forms
                 case "Song Manager":
                     LoadSongManager();
                     Globals.SongManager.UpdateToolStrip();
-                    currentControl = Globals.SongManager;
                     break;
                 case "Duplicates":
                     this.tpDuplicates.Controls.Clear();
@@ -506,7 +505,7 @@ namespace CustomsForgeSongManager.Forms
                             }
                             catch (IOException ex)
                             {
-                                Globals.Log("<Error>:" + ex.Message);
+                                Globals.Log("<Error>: " + ex.Message);
                             }
                         });
                 }

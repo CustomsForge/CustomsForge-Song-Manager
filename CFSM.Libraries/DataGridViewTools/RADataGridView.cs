@@ -12,7 +12,7 @@ using System.Xml.Serialization;
 
 namespace DataGridViewTools
 {
-    public class RADataGridView : DataGridView, IGridViewFilterStyle, IGridViewCustomFilter
+    public class RADataGridView : DataGridView, IGridViewFilterStyle, IGridViewCustomFilter 
     {
         public RADataGridView()
         {
@@ -58,7 +58,7 @@ namespace DataGridViewTools
             //    }
             //    catch (Exception)
             //    {
-            //        Console.WriteLine("Error: " + prop);
+            //        Console.WriteLine("<Error>: " + prop);
             //    }
             //}
 

@@ -1,5 +1,9 @@
 ﻿CFSM Release Notes
 
+1.2.1.5
+-Added additional error reporting to Tagger
+-Fixed bug in SongManager column settings
+
 1.2.1.4
 -Added license agreements and credits for library dependencies
 -Fixes to UserProfile backup/restore and frmProfileBackups

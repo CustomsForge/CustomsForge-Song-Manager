@@ -92,6 +92,9 @@
     <Compile Include="RADataGridView.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="SubclassedDataGridView.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="ucCustomFilter.cs">
       <SubType>UserControl</SubType>
     </Compile>

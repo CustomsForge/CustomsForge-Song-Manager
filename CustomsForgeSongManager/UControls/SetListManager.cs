@@ -194,7 +194,7 @@ namespace CustomsForgeSongManager.UControls
                     }
                     catch (IOException ex)
                     {
-                        MessageBox.Show(@"Unable to enable/disable " + dgvCurrent.Name + ": " + Path.GetFileName(originalPath) + Environment.NewLine + "Error: " + ex.Message, MESSAGE_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show(@"Unable to enable/disable " + dgvCurrent.Name + ": " + Path.GetFileName(originalPath) + Environment.NewLine + "<Error>: " + ex.Message, MESSAGE_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
@@ -658,7 +658,7 @@ namespace CustomsForgeSongManager.UControls
             }
             catch (IOException ex)
             {
-                MessageBox.Show(@"Unable to enable/disable setlist: " + setlistName + Environment.NewLine + "Error: " + ex.Message, MESSAGE_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(@"Unable to enable/disable setlist: " + setlistName + Environment.NewLine + "<Error>: " + ex.Message, MESSAGE_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -684,7 +684,7 @@ namespace CustomsForgeSongManager.UControls
                 }
                 catch (IOException ex)
                 {
-                    MessageBox.Show(@"Unable to enable/disable setlist song: " + songName + Environment.NewLine + "Error: " + ex.Message, MESSAGE_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(@"Unable to enable/disable setlist song: " + songName + Environment.NewLine + "<Error>: " + ex.Message, MESSAGE_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
 
@@ -735,7 +735,7 @@ namespace CustomsForgeSongManager.UControls
                     }
                     catch (IOException ex)
                     {
-                        MessageBox.Show(@"Unable to remove song :" + setlistSongPath + Environment.NewLine + @"Error: " + ex.Message, MESSAGE_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show(@"Unable to remove song :" + setlistSongPath + Environment.NewLine + "<Error>: " + ex.Message, MESSAGE_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
@@ -790,7 +790,7 @@ namespace CustomsForgeSongManager.UControls
                     }
                     catch (IOException ex)
                     {
-                        MessageBox.Show(@"Unable to remove all songs from setlist:" + Environment.NewLine + Path.GetDirectoryName(setlistPath) + Environment.NewLine + "Error: " + ex.Message);
+                        MessageBox.Show(@"Unable to remove all songs from setlist:" + Environment.NewLine + Path.GetDirectoryName(setlistPath) + Environment.NewLine + "<Error>: " + ex.Message);
                         safeDelete = false;
                     }
                 }
@@ -805,7 +805,9 @@ namespace CustomsForgeSongManager.UControls
                     }
                     catch (IOException ex)
                     {
-                        MessageBox.Show(@"Unable to delete setlist directory:" + Environment.NewLine + Path.GetDirectoryName(setlistPath) + Environment.NewLine + "Error: " + ex.Message);
+                        MessageBox.Show(@"Unable to delete setlist directory:" + Environment.NewLine + 
+                            Path.GetDirectoryName(setlistPath) + Environment.NewLine +
+                            "<Error>: " + ex.Message);
                     }
             }
 

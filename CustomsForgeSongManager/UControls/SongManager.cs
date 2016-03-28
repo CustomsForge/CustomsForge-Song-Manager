@@ -357,7 +357,7 @@ namespace CustomsForgeSongManager.UControls
                 if (e.InnerException != null)
                     err += ", Inner: " + e.InnerException.Message;
 
-                Globals.Log("Error: " + e.Message);
+                Globals.Log("<Error>: " + e.Message);
                 // log needs to written before it is deleted ... Bazinga
                 Globals.Log("Deleted CFSM folder and subfolders from My Documents ...");
 
@@ -448,7 +448,7 @@ namespace CustomsForgeSongManager.UControls
                                 }
                             }
                             else
-                                Globals.Log(String.Format("ERROR: Unable to preview {0}.", sel.Title));
+                                Globals.Log(String.Format("<Error>: Previewing '{0}' ...", sel.Title));
                         }
                     };
             }
@@ -556,7 +556,7 @@ namespace CustomsForgeSongManager.UControls
             // this should never happen
             if (String.IsNullOrEmpty(AppSettings.Instance.RSInstalledDir))
             {
-                MessageBox.Show("Error: Rocksmith 2014 installation directory setting is null or empty.", Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("<Error>: Rocksmith 2014 installation directory setting is null or empty.", Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -580,7 +580,8 @@ namespace CustomsForgeSongManager.UControls
             }
 
             ToggleUIControls(false);
-            Globals.Settings.SaveSettingsToFile(dgvSongsMaster);
+            if (dgvSongsMaster.DataSource != null)
+                Globals.Settings.SaveSettingsToFile(dgvSongsMaster);
 
             if (fullRescan)
                 Globals.SongCollection.Clear();
@@ -1177,7 +1178,7 @@ namespace CustomsForgeSongManager.UControls
                     var songDetails = masterSongCollection.Where(master => (master.DLCKey == songKey)).ToList();
                     if (!songDetails.Any())
                         MessageBox.Show("No Song Details Found");
-                    else
+                    else // TODO: change positioning if near bottom of dgvSongsMaster
                     {
                         // apply some formatting
                         dgvSongsMaster.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
@@ -1328,7 +1329,7 @@ namespace CustomsForgeSongManager.UControls
 
         private void dgvSongsMaster_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
-             // TODO: make consistent with other grids
+            // TODO: make consistent with other grids
             // has precedent over a ColumnHeader_MouseClick
             // MouseUp detection is more reliable than MouseDown
             var grid = (DataGridView)sender;

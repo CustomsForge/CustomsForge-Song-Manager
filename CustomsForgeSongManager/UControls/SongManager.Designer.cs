@@ -69,7 +69,6 @@ namespace CustomsForgeSongManager.UControls
             this.cmsTaggerPreview = new System.Windows.Forms.ToolStripMenuItem();
             this.lnkLblSelectAll = new System.Windows.Forms.LinkLabel();
             this.gb_Main_Grid = new System.Windows.Forms.GroupBox();
-            this.lnklblToggle = new System.Windows.Forms.LinkLabel();
             this.dgvSongsDetail = new System.Windows.Forms.DataGridView();
             this.colDetailKey = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colDetailPID = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -79,6 +78,7 @@ namespace CustomsForgeSongManager.UControls
             this.colDetailDMax = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colDetailToneBase = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgvSongsMaster = new DataGridViewTools.RADataGridView();
+            this.lnklblToggle = new System.Windows.Forms.LinkLabel();
             this.cmsSongManagerColumns = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
@@ -464,32 +464,16 @@ namespace CustomsForgeSongManager.UControls
             this.gb_Main_Grid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.gb_Main_Grid.Controls.Add(this.lnklblToggle);
             this.gb_Main_Grid.Controls.Add(this.dgvSongsDetail);
             this.gb_Main_Grid.Controls.Add(this.lnkLblSelectAll);
             this.gb_Main_Grid.Controls.Add(this.dgvSongsMaster);
+            this.gb_Main_Grid.Controls.Add(this.lnklblToggle);
             this.gb_Main_Grid.Location = new System.Drawing.Point(3, 67);
             this.gb_Main_Grid.Name = "gb_Main_Grid";
             this.gb_Main_Grid.Size = new System.Drawing.Size(891, 354);
             this.gb_Main_Grid.TabIndex = 8;
             this.gb_Main_Grid.TabStop = false;
             this.gb_Main_Grid.Text = "Results Grid:";
-            // 
-            // lnklblToggle
-            // 
-            this.lnklblToggle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lnklblToggle.AutoSize = true;
-            this.lnklblToggle.ForeColor = System.Drawing.Color.Black;
-            this.lnklblToggle.LinkColor = System.Drawing.SystemColors.ActiveCaption;
-            this.lnklblToggle.Location = new System.Drawing.Point(104, 330);
-            this.lnklblToggle.Name = "lnklblToggle";
-            this.lnklblToggle.Size = new System.Drawing.Size(87, 13);
-            this.lnklblToggle.TabIndex = 4;
-            this.lnklblToggle.TabStop = true;
-            this.lnklblToggle.Text = "Toggle Selection";
-            this.lnklblToggle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.toolTip.SetToolTip(this.lnklblToggle, "ODLC are not toggleable");
-            this.lnklblToggle.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnklblToggle_LinkClicked);
             // 
             // dgvSongsDetail
             // 
@@ -653,6 +637,22 @@ namespace CustomsForgeSongManager.UControls
             this.dgvSongsMaster.Paint += new System.Windows.Forms.PaintEventHandler(this.dgvSongsMaster_Paint);
             this.dgvSongsMaster.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvSongsMaster_KeyDown);
             this.dgvSongsMaster.KeyUp += new System.Windows.Forms.KeyEventHandler(this.dgvSongsMaster_KeyUp);
+            // 
+            // lnklblToggle
+            // 
+            this.lnklblToggle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lnklblToggle.AutoSize = true;
+            this.lnklblToggle.ForeColor = System.Drawing.Color.Black;
+            this.lnklblToggle.LinkColor = System.Drawing.SystemColors.ActiveCaption;
+            this.lnklblToggle.Location = new System.Drawing.Point(104, 330);
+            this.lnklblToggle.Name = "lnklblToggle";
+            this.lnklblToggle.Size = new System.Drawing.Size(87, 13);
+            this.lnklblToggle.TabIndex = 4;
+            this.lnklblToggle.TabStop = true;
+            this.lnklblToggle.Text = "Toggle Selection";
+            this.lnklblToggle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.toolTip.SetToolTip(this.lnklblToggle, "ODLC are not toggleable");
+            this.lnklblToggle.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnklblToggle_LinkClicked);
             // 
             // cmsSongManagerColumns
             // 
@@ -1133,6 +1133,7 @@ namespace CustomsForgeSongManager.UControls
             this.colArtistSort.DataPropertyName = "ArtistSort";
             this.colArtistSort.HeaderText = "In-Game Artist Sort";
             this.colArtistSort.Name = "colArtistSort";
+            this.colArtistSort.ReadOnly = true;
             this.colArtistSort.Width = 50;
             // 
             // colTitleSort
@@ -1140,6 +1141,7 @@ namespace CustomsForgeSongManager.UControls
             this.colTitleSort.DataPropertyName = "TitleSort";
             this.colTitleSort.HeaderText = "In-Game Title Sort";
             this.colTitleSort.Name = "colTitleSort";
+            this.colTitleSort.ReadOnly = true;
             this.colTitleSort.Width = 50;
             // 
             // colAlbumSort
@@ -1147,6 +1149,7 @@ namespace CustomsForgeSongManager.UControls
             this.colAlbumSort.DataPropertyName = "AlbumSort";
             this.colAlbumSort.HeaderText = "In-Game Album Sort";
             this.colAlbumSort.Name = "colAlbumSort";
+            this.colAlbumSort.ReadOnly = true;
             this.colAlbumSort.Width = 50;
             // 
             // SongManager

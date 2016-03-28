@@ -14,18 +14,21 @@ using System.Management;
 
 namespace CustomsForgeSongManager.ClassMethods
 {
+    // TODO: confirmed working on Win XP and Win7 Pro x64 
+    // ... need to test on all other systems
     public static class RocksmithProfile
     {
-        //Win XP: HKEY_LOCAL_MACHINE\SOFTWARE\Valve\Steam\\UserData (My installed to ..\Valve\Steam\\InstallPath )
-        //Win 7 32-bit: HKEY_LOCAL_MACHINE\SOFTWARE\Valve\Steam\\InstallPath
-        //Win 7 64-bit: HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Valve\Steam\\InstallPath
-        //Win 8 32-bit: 
-        //Win 8 64-bit: HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Valve\Steam\\InstallPath
-        //Win 8.1 32-bit: HKEY_LOCAL_MACHINE\SOFTWARE\Valve\Steam\\InstallPath
-        //Win 8.1 64-bit: HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Valve\Steam\\InstallPath
-        //Win 10 32-bit:
-        //Win 10 64-bit: HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Valve\Steam\\InstallPath
+        // Win XP:         HKEY_LOCAL_MACHINE\SOFTWARE\Valve\Steam\InstallPath
+        // Win 7 32-bit:   HKEY_LOCAL_MACHINE\SOFTWARE\Valve\Steam\InstallPath
+        // Win 7 64-bit:   HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Valve\Steam\InstallPath
+        // Win 8 32-bit: 
+        // Win 8 64-bit:   HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Valve\Steam\InstallPath
+        // Win 8.1 32-bit: HKEY_LOCAL_MACHINE\SOFTWARE\Valve\Steam\InstallPath
+        // Win 8.1 64-bit: HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Valve\Steam\InstallPath
+        // Win 10 32-bit:
+        // Win 10 64-bit:  HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Valve\Steam\InstallPath
 
+        // TODO: use it
         public static string DetectWin()
         {
             string result = "";
@@ -63,7 +66,9 @@ namespace CustomsForgeSongManager.ClassMethods
         {
             bool found = false;
             string steamDirPath = "", userDirPath = AppSettings.Instance.RSProfileDir;
-            if (String.IsNullOrEmpty(userDirPath) || AmountOfProfileFiles(userDirPath) <= 0) //If RS profile dir path is empty or if there's no profile files on the existing path, search for the correct path
+
+            //If RS profile dir path is empty or if there's no profile files on the existing path, search for the correct path
+            if (String.IsNullOrEmpty(userDirPath) || AmountOfProfileFiles(userDirPath) <= 0) 
             {
                 string rsX64Path = @"HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Valve\Steam";
                 string rsX86Path = @"HKEY_LOCAL_MACHINE\SOFTWARE\Valve\Steam";
@@ -75,9 +80,10 @@ namespace CustomsForgeSongManager.ClassMethods
                         steamDirPath = Registry.GetValue(rsX64Path, "InstallPath", null).ToString();
                         found = true;
                     }
+                    // TODO: confirm the following is correct for x86 machines
                     else if (!String.IsNullOrEmpty(Registry.GetValue(rsX86Path, "UserData", null).ToString()))
                     {
-                        steamDirPath = Registry.GetValue(rsX86Path, "UserData", null).ToString();     // TODO: confirm the following is correct for x86 machines
+                        steamDirPath = Registry.GetValue(rsX86Path, "UserData", null).ToString();
                         found = true;
                     }
                     else if (!String.IsNullOrEmpty(Registry.GetValue(rsX86Path, "InstallPath", null).ToString()))
@@ -103,7 +109,7 @@ namespace CustomsForgeSongManager.ClassMethods
                 using (var fbd = new FolderBrowserDialog())
                 {
                     fbd.SelectedPath = steamDirPath;
-                    fbd.Description = "Select Rocksmith 2014 user profile directory location" + Environment.NewLine + "HINT: Do a Windows Search for '*_prfldb' files to find the path.";
+                    fbd.Description = "Select the Rocksmith 2014 user profile directory location." + Environment.NewLine + "HINT: Do a Windows Search for '*_prfldb' files to find the path.";
 
                     if (fbd.ShowDialog() != DialogResult.OK) return;
                     userDirPath = fbd.SelectedPath;
@@ -137,15 +143,14 @@ namespace CustomsForgeSongManager.ClassMethods
             //TODO: confirm steamProfileDir is being set properly
             try
             {
-                string timestamp = string.Format("{0}-{1}-{2}.{3}-{4}-{5}", DateTime.Now.Day, DateTime.Now.Month, DateTime.Now.Year, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
-                string backupPath = string.Format("{0}\\profile.backup.{1}.zip", Constants.ProfileBackupsFolder, timestamp);
-                string userProfilePath = String.Empty;
-                string steamProfileDir = AppSettings.Instance.RSProfileDir;
+                var timestamp = string.Format("{0}-{1}-{2}.{3}-{4}-{5}", DateTime.Now.Day, DateTime.Now.Month, DateTime.Now.Year, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
+                var backupPath = string.Format("{0}\\profile.backup.{1}.zip", Constants.ProfileBackupsFolder, timestamp);
 
                 if (String.IsNullOrEmpty(AppSettings.Instance.RSProfileDir) || AmountOfProfileFiles(AppSettings.Instance.RSProfileDir) <= 0)
                     GetProfileDirPath();
 
-                if (!String.IsNullOrEmpty(AppSettings.Instance.RSProfileDir) || AmountOfProfileFiles(AppSettings.Instance.RSProfileDir) > 0) //Proceed only if there's a Steam folder has been detected
+                //Proceed only if there's a Steam folder has been detected
+                if (!String.IsNullOrEmpty(AppSettings.Instance.RSProfileDir) || AmountOfProfileFiles(AppSettings.Instance.RSProfileDir) > 0) 
                 {
                     if (DialogResult.Yes == BetterDialog.ShowDialog("Backup or restore a Rocksmith 2014 user profile?", "User Profile Backup/Restore", null, "Backup", "Restore", Bitmap.FromHicon(SystemIcons.Question.Handle), "Pick One", 150, 150))
                     {
@@ -170,7 +175,7 @@ namespace CustomsForgeSongManager.ClassMethods
             }
             catch (Exception ex)
             {
-                Globals.Log("<Error>:" + ex.Message);
+                Globals.Log("<Error>: " + ex.Message);
             }
         }
 

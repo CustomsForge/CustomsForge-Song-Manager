@@ -13,6 +13,7 @@ using CFSM.ImageTools;
 using CFSM.NCalc;
 using CustomsForgeSongManager.DataObjects;
 
+// TODO: Cleanup code and remove unused code
 
 namespace CustomsForgeSongManager.ClassMethods
 {
@@ -23,7 +24,7 @@ namespace CustomsForgeSongManager.ClassMethods
             Globals.Tagger = new SongTagger();
         }
 
-        private string[] defaultTagFolders = {"frackDefault", "motive_bl_", "motive_nv_", "motive_ws_", "motive1"};
+        private string[] defaultTagFolders = { "frackDefault", "motive_bl_", "motive_nv_", "motive_ws_", "motive1" };
 
         public List<String> Themes { get; private set; }
         private List<XmlThemeStorage> XmlThemes { get; set; }
@@ -74,9 +75,9 @@ namespace CustomsForgeSongManager.ClassMethods
         {
             if (!Directory.Exists(Constants.TaggerWorkingFolder))
                 Directory.CreateDirectory(Constants.TaggerWorkingFolder);
-           
+
             // this creates the necessary directories
-            GenExtensions.ExtractEmbeddedResources(Constants.TaggerTemplatesFolder, Assembly.GetExecutingAssembly(),"CustomsForgeSongManager.Resources.tags");
+            GenExtensions.ExtractEmbeddedResources(Constants.TaggerTemplatesFolder, Assembly.GetExecutingAssembly(), "CustomsForgeSongManager.Resources.tags");
 
             //foreach (string resourceDir in defaultTagFolders)
             //{
@@ -144,9 +145,10 @@ namespace CustomsForgeSongManager.ClassMethods
                             archive.InflateEntry(imgEntry);
                             if (imgEntry.Data == null)
                             {
-                                Globals.Log("Error inflating image entry.");
+                                Globals.Log("<Error>: Inflating image entry ...");
                                 return null;
                             }
+
                             imgEntry.Data.Position = 0;
                             var albumArtDDS = new DDSImage(imgEntry.Data);
                             var AlbumArt = albumArtDDS.images[0];
@@ -300,88 +302,98 @@ namespace CustomsForgeSongManager.ClassMethods
 
             if (File.Exists(song.FilePath)) //Just to be sure :)
             {
-                string songPath = song.FilePath;
-                using (CFSM.RSTKLib.PSARC.PSARC archive = new CFSM.RSTKLib.PSARC.PSARC())
+                try
                 {
-                    using (var fs = File.OpenRead(songPath))
-                        archive.Read(fs);
-
-                    if (song.Tagged == SongTaggerStatus.True)
+                    string songPath = song.FilePath;
+                    using (CFSM.RSTKLib.PSARC.PSARC archive = new CFSM.RSTKLib.PSARC.PSARC())
                     {
-                        UntagSong(song, archive);
-                        Globals.Log("Retagging song: " + song.Title);
-                    }
-                    else
-                        Globals.Log("Tagging song: " + song.Title);
+                        using (var fs = File.OpenRead(songPath))
+                            archive.Read(fs);
 
-                    var taggerOriginal = archive.TOC.FirstOrDefault(entry => entry.Name == "tagger.org");
-                    if (taggerOriginal != null)
-                    {
+                        if (song.Tagged == SongTaggerStatus.True)
+                        {
+                            UntagSong(song, archive);
+                            Globals.Log("Retagging song: " + song.Title);
+                        }
+                        else
+                            Globals.Log("Tagging song: " + song.Title);
+
+                        var taggerOriginal = archive.TOC.FirstOrDefault(entry => entry.Name == "tagger.org");
+                        if (taggerOriginal != null)
+                        {
+                            song.Tagged = SongTaggerStatus.True;
+                            return;
+                        }
+
+                        var toolKitEntry = archive.TOC.FirstOrDefault(entry => entry.Name == "toolkit.version");
+
+                        // CFSM does not tag Official DLC songs
+                        if (!AllowEditingOfODLC && toolKitEntry == null)
+                        {
+                            Globals.Log("CFSM can not be used to tag Official DLC songs.");
+                            song.Tagged = SongTaggerStatus.ODLC;
+                            return;
+                        }
+
+                        var albumSmallArtEntry = archive.TOC.FirstOrDefault(entry => entry.Name.EndsWith("64.dds")); //Get album art paths
+                        var albumMidArtEntry = archive.TOC.FirstOrDefault(entry => entry.Name.EndsWith("128.dds"));
+                        var albumBigArtEntry = archive.TOC.FirstOrDefault(entry => entry.Name.EndsWith("256.dds"));
+                        albumBigArtEntry.Data.Position = 0;
+
+                        //var albumArtDDS = new DDSImage(albumBigArtEntry.Data);
+                        var bigAlbumArt = ImageExtensions.DDStoBitmap(albumBigArtEntry.Data); // albumArtDDS.images[0];
+                        var orginalArtStream = new MemoryStream();
+                        albumBigArtEntry.Data.Position = 0;
+                        albumBigArtEntry.Data.CopyTo(orginalArtStream);
+                        orginalArtStream.Position = 0;
+
+                        //Check which arrangements it contains
+                        TagDrawImage(song, images, xTheme, archive, bigAlbumArt, tagsFolderFullPath);
+
+                        var largeDDS = bigAlbumArt.ToDDS(256, 256);
+                        var midDDS = bigAlbumArt.ToDDS(128, 128);
+                        var smallDDS = bigAlbumArt.ToDDS(64, 64);
+
+                        if (largeDDS == null || midDDS == null || smallDDS == null)
+                            throw new Exception("unable to convert image steams.");
+
+                        albumSmallArtEntry.Data.Dispose();
+                        smallDDS.Position = 0;
+                        albumSmallArtEntry.Data = smallDDS;
+
+                        albumMidArtEntry.Data.Dispose();
+                        midDDS.Position = 0;
+                        albumMidArtEntry.Data = midDDS;
+
+                        albumBigArtEntry.Data.Dispose();
+                        largeDDS.Position = 0;
+                        albumBigArtEntry.Data = largeDDS;
+
+                        //     archive.TOC.Insert(0, new Entry() { Name = "NamesBlock.bin" });
+                        archive.AddEntry("tagger.org", orginalArtStream);
+                        songPath = song.FilePath;
+
+                        using (var FS = File.Create(songPath))
+                            archive.Write(FS, true);
+                        song.FilePath = songPath;
+
+                        song.FileDate = File.GetLastWriteTimeUtc(song.FilePath);
+
                         song.Tagged = SongTaggerStatus.True;
-                        return;
+
+                        //  counter++;
+                        //  gbTags.Text = string.Format("Tagged: {0}/{1}", counter, songCount);                            
                     }
 
-                    var toolKitEntry = archive.TOC.FirstOrDefault(entry => entry.Name == "toolkit.version");
-
-                    // CFSM does not tag Official DLC songs
-                    if (!AllowEditingOfODLC && toolKitEntry == null)
-                    {
-                        Globals.Log("CFSM can not be used to tag Official DLC songs.");
-                        song.Tagged = SongTaggerStatus.ODLC;
-                        return;
-                    }
-
-                    var albumSmallArtEntry = archive.TOC.FirstOrDefault(entry => entry.Name.EndsWith("64.dds")); //Get album art paths
-                    var albumMidArtEntry = archive.TOC.FirstOrDefault(entry => entry.Name.EndsWith("128.dds"));
-                    var albumBigArtEntry = archive.TOC.FirstOrDefault(entry => entry.Name.EndsWith("256.dds"));
-                    albumBigArtEntry.Data.Position = 0;
-
-                    //var albumArtDDS = new DDSImage(albumBigArtEntry.Data);
-                    var bigAlbumArt = ImageExtensions.DDStoBitmap(albumBigArtEntry.Data); // albumArtDDS.images[0];
-                    var orginalArtStream = new MemoryStream();
-                    albumBigArtEntry.Data.Position = 0;
-                    albumBigArtEntry.Data.CopyTo(orginalArtStream);
-                    orginalArtStream.Position = 0;
-
-                    //Check which arrangements it contains
-                    TagDrawImage(song, images, xTheme, archive, bigAlbumArt, tagsFolderFullPath);
-
-                    var largeDDS = bigAlbumArt.ToDDS(256, 256);
-                    var midDDS = bigAlbumArt.ToDDS(128, 128);
-                    var smallDDS = bigAlbumArt.ToDDS(64, 64);
-
-                    if (largeDDS == null || midDDS == null || smallDDS == null)
-                        throw new Exception("unable to convert image steams.");
-
-                    albumSmallArtEntry.Data.Dispose();
-                    smallDDS.Position = 0;
-                    albumSmallArtEntry.Data = smallDDS;
-
-                    albumMidArtEntry.Data.Dispose();
-                    midDDS.Position = 0;
-                    albumMidArtEntry.Data = midDDS;
-
-                    albumBigArtEntry.Data.Dispose();
-                    largeDDS.Position = 0;
-                    albumBigArtEntry.Data = largeDDS;
-
-                    //     archive.TOC.Insert(0, new Entry() { Name = "NamesBlock.bin" });
-                    archive.AddEntry("tagger.org", orginalArtStream);
-                    songPath = song.FilePath;
-
-                    using (var FS = File.Create(songPath))
-                        archive.Write(FS, true);
-                    song.FilePath = songPath;
-
-                    song.FileDate = File.GetLastWriteTimeUtc(song.FilePath);
-
-                    song.Tagged = SongTaggerStatus.True;
-
-                    //  counter++;
-                    //    gbTags.Text = string.Format("Tagged: {0}/{1}", counter, songCount);                            
+                    Globals.Log("Finished tagging song ...");
                 }
-
-                Globals.Log("Finished tagging song ...");
+                catch (Exception ex)
+                {
+                    Globals.Log("<Error>: " + Path.GetFileName(song.FilePath) + " could not be tagged ...");
+                    MessageBox.Show(Path.GetFileName(song.FilePath) + " is corrupt.  " + Environment.NewLine +
+                        "The CDLC contains no album artwork." + Environment.NewLine + ex.Message,
+                        Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 
@@ -502,7 +514,7 @@ namespace CustomsForgeSongManager.ClassMethods
 
         public static void CFSM_INIT()
         {
-            var xtypes = TypeExtensions.GetLoadableTypes().Where(type => { return type.IsSubclassOf(typeof (DrawInstruction)) && !type.IsAbstract; });
+            var xtypes = TypeExtensions.GetLoadableTypes().Where(type => { return type.IsSubclassOf(typeof(DrawInstruction)) && !type.IsAbstract; });
             DrawTypes = xtypes.ToArray();
         }
     }
@@ -533,7 +545,7 @@ namespace CustomsForgeSongManager.ClassMethods
 
         private void CreateDrawerArray()
         {
-            Drawers = new List<TaggerDrawer> {DD, NDD, Custom};
+            Drawers = new List<TaggerDrawer> { DD, NDD, Custom };
         }
 
         public static SongTaggerTheme Create(Stream AStream)
@@ -634,7 +646,8 @@ namespace CustomsForgeSongManager.ClassMethods
             }
         }
 
-        [XmlIgnore] public Point Position;
+        [XmlIgnore]
+        public Point Position;
         public DrawInstructions Drawing = new DrawInstructions();
 
         public void Draw(Graphics g, Bitmap b)
@@ -695,7 +708,9 @@ namespace CustomsForgeSongManager.ClassMethods
         [XmlIgnore]
         public Point Size { get; set; }
 
-        [XmlArray("Instructions")] [XmlArrayItem("Draw")] public List<DrawInstruction> Instructions = new List<DrawInstruction>();
+        [XmlArray("Instructions")]
+        [XmlArrayItem("Draw")]
+        public List<DrawInstruction> Instructions = new List<DrawInstruction>();
 
         public virtual void Draw(Graphics g, Bitmap b)
         {
@@ -823,7 +838,7 @@ namespace CustomsForgeSongManager.ClassMethods
         {
             Brush b = null;
             if (Color != Color2 && GradientMode != GradientMode.None)
-                b = new LinearGradientBrush(r, Color, Color2, (LinearGradientMode) (int) GradientMode);
+                b = new LinearGradientBrush(r, Color, Color2, (LinearGradientMode)(int)GradientMode);
             else
                 b = new SolidBrush(Color);
             return b;
@@ -840,7 +855,7 @@ namespace CustomsForgeSongManager.ClassMethods
             template.Add("album", Data.Album);
             template.Add("filename", Data.FileName);
             template.Add("date", Data.LastConversionDateTime.ToShortDateString());
-            template.Add("tuning", Data.Tuning.Split(new[] {", "}, StringSplitOptions.None).FirstOrDefault());
+            template.Add("tuning", Data.Tuning.Split(new[] { ", " }, StringSplitOptions.None).FirstOrDefault());
             template.Add("tempo", Data.SongAverageTempo);
             template.Add("appid", Data.AppID);
             var ts = TimeSpan.FromSeconds(Data.SongLength);
@@ -856,7 +871,7 @@ namespace CustomsForgeSongManager.ClassMethods
             String arrInit = Data.ArrangementInitials;
             template.Add("arrangements", String.IsNullOrEmpty(arrInit) ? "" : arrInit);
             template.Add("\\n", Environment.NewLine);
-            template.Add("\\t", (char) 9);
+            template.Add("\\t", (char)9);
             return template;
         }
 
@@ -891,8 +906,10 @@ namespace CustomsForgeSongManager.ClassMethods
             PenSize = 1.0f;
         }
 
-        [XmlAttribute("type")] public DrawShapeType DrawType;
-        [XmlAttribute("pensize")] public float PenSize;
+        [XmlAttribute("type")]
+        public DrawShapeType DrawType;
+        [XmlAttribute("pensize")]
+        public float PenSize;
 
         public Pen GetPen()
         {
@@ -958,7 +975,7 @@ namespace CustomsForgeSongManager.ClassMethods
                         ImageAttributes attributes = new ImageAttributes();
 
                         //set the color(opacity) of the image  
-                        attributes.SetColorMatrix(new ColorMatrix() {Matrix33 = opacity}, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
+                        attributes.SetColorMatrix(new ColorMatrix() { Matrix33 = opacity }, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
 
                         RectangleF rf = new RectangleF(SourceRect.X, SourceRect.Left, SourceRect.Width == 0 ? img.Width : SourceRect.Width, SourceRect.Height == 0 ? img.Height : SourceRect.Height);
                         var src = Rect;
@@ -1053,11 +1070,16 @@ namespace CustomsForgeSongManager.ClassMethods
         [XmlAttribute("fontsize")]
         public int FontSize { get; set; }
 
-        [XmlAttribute] public StringAlignment alignment;
-        [XmlAttribute] public bool bold;
-        [XmlAttribute] public bool italic;
-        [XmlAttribute] public bool underline;
-        [XmlAttribute] public bool strikeout;
+        [XmlAttribute]
+        public StringAlignment alignment;
+        [XmlAttribute]
+        public bool bold;
+        [XmlAttribute]
+        public bool italic;
+        [XmlAttribute]
+        public bool underline;
+        [XmlAttribute]
+        public bool strikeout;
 
         [XmlIgnore]
         public FontStyle FontStyle
@@ -1095,7 +1117,7 @@ namespace CustomsForgeSongManager.ClassMethods
                             case StringAlignment.Near:
                                 break;
                             case StringAlignment.Center:
-                                f = new PointF(Rect.X + ((Rect.Width - z.Width)/2), Rect.Y);
+                                f = new PointF(Rect.X + ((Rect.Width - z.Width) / 2), Rect.Y);
                                 break;
                             case StringAlignment.Far:
                                 f = new PointF(Rect.Width - z.Width, Rect.Y);
@@ -1148,11 +1170,16 @@ namespace CustomsForgeSongManager.ClassMethods
         [XmlAttribute("fontsize")]
         public int FontSize { get; set; }
 
-        [XmlAttribute] public StringAlignment alignment;
-        [XmlAttribute] public bool bold;
-        [XmlAttribute] public bool italic;
-        [XmlAttribute] public bool underline;
-        [XmlAttribute] public bool strikeout;
+        [XmlAttribute]
+        public StringAlignment alignment;
+        [XmlAttribute]
+        public bool bold;
+        [XmlAttribute]
+        public bool italic;
+        [XmlAttribute]
+        public bool underline;
+        [XmlAttribute]
+        public bool strikeout;
 
         [XmlIgnore]
         public FontStyle FontStyle
@@ -1180,7 +1207,7 @@ namespace CustomsForgeSongManager.ClassMethods
                 var XRect = new Rectangle(Rect.X, Rect.Y, Math.Max(Rect.Width, bmp.Width), Rect.Height);
 
                 string atext = GetTemplateText(Text);
-                int[] sizes = new int[] {100, 90, 80, 75, 70, 65, 60, 55, 50, 45, 42, 40, 38, 36, 34, 32, 30, 28, 26, 24, 22, 20, 16, 12, 8, 4};
+                int[] sizes = new int[] { 100, 90, 80, 75, 70, 65, 60, 55, 50, 45, 42, 40, 38, 36, 34, 32, 30, 28, 26, 24, 22, 20, 16, 12, 8, 4 };
                 SizeF crSize = new SizeF();
                 Font crFont = null;
                 int fs = FontSize;
@@ -1189,26 +1216,26 @@ namespace CustomsForgeSongManager.ClassMethods
                     for (int i = 0; i < sizes.Length; i++)
                     {
                         crFont = new Font(FontName, sizes[i], FontStyle);
-                        crSize = g.MeasureString(atext, crFont, Math.Max(Rect.Width, bmp.Width), new StringFormat() {Alignment = alignment});
-                        if ((ushort) crSize.Width < ((ushort) bmp.Width))
+                        crSize = g.MeasureString(atext, crFont, Math.Max(Rect.Width, bmp.Width), new StringFormat() { Alignment = alignment });
+                        if ((ushort)crSize.Width < ((ushort)bmp.Width))
                             break;
                     }
                 }
                 else
                 {
                     crFont = new Font(FontName, fs, FontStyle);
-                    crSize = g.MeasureString(atext, crFont, Math.Max(Rect.Width, bmp.Width), new StringFormat() {Alignment = alignment});
+                    crSize = g.MeasureString(atext, crFont, Math.Max(Rect.Width, bmp.Width), new StringFormat() { Alignment = alignment });
                 }
                 if (XRect.Width > 0)
                 {
                     //Rect.Height = Math.Max
-                    var arect = new Rectangle(XRect.X, XRect.Y, XRect.Width, Math.Max(Rect.Height, (int) crSize.Height));
+                    var arect = new Rectangle(XRect.X, XRect.Y, XRect.Width, Math.Max(Rect.Height, (int)crSize.Height));
                     using (GraphicsPath gp = new GraphicsPath())
-                    using (Pen outline = new Pen(LineColor, LineSize) {LineJoin = LineJoin.Round})
-                    using (StringFormat sf = new StringFormat() {Alignment = StringAlignment.Center})
+                    using (Pen outline = new Pen(LineColor, LineSize) { LineJoin = LineJoin.Round })
+                    using (StringFormat sf = new StringFormat() { Alignment = StringAlignment.Center })
                     using (var foreBrush = GetBrush(arect))
                     {
-                        gp.AddString(atext, crFont.FontFamily, (int) crFont.Style, crFont.Size + 6, arect, sf);
+                        gp.AddString(atext, crFont.FontFamily, (int)crFont.Style, crFont.Size + 6, arect, sf);
 
                         g.SmoothingMode = SmoothingMode.HighQuality;
                         g.DrawPath(outline, gp);
@@ -1326,7 +1353,7 @@ namespace CustomsForgeSongManager.ClassMethods
 
         public void SetCurMax(int Current, int Max)
         {
-            this.Progress = (Current/Max)*100;
+            this.Progress = (Current / Max) * 100;
         }
 
         public void SetPos(int Current)
