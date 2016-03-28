@@ -160,7 +160,7 @@ namespace CustomsForgeSongManager.UControls
                 return;
 
             var colNdxEnabled = DgvExtensions.GetDataPropertyColumnIndex(dgvCurrent, "Enabled");
-            var colNdxPath = DgvExtensions.GetDataPropertyColumnIndex(dgvCurrent, "Path");
+            var colNdxPath = DgvExtensions.GetDataPropertyColumnIndex(dgvCurrent, "FilePath");
             var selectedDisabled = dgvCurrent.Rows.Cast<DataGridViewRow>().Count(r => Convert.ToBoolean(r.Cells[colNdxSelected].Value) && r.Cells[colNdxEnabled].Value.ToString() == "No" && Path.GetFileName(Path.GetDirectoryName(r.Cells[colNdxPath].Value.ToString().ToLower())).Contains("dlc"));
 
             if (dgvCurrent.Name == "dgvSetlistMaster" && selectedDisabled > 0)
@@ -654,7 +654,7 @@ namespace CustomsForgeSongManager.UControls
                 Directory.Move(setlistDir, newSetlistDir);
                 slRow.Cells["colSetlistName"].Value = Path.GetFileName(newSetlistDir);
                 slRow.Cells["colSetlistEnabled"].Value = setlistEnabled ? "No" : "Yes";
-                slRow.Cells["colSongPackSelect"].Value = false;
+                slRow.Cells["colSetlistSelect"].Value = false;
             }
             catch (IOException ex)
             {
@@ -805,7 +805,7 @@ namespace CustomsForgeSongManager.UControls
                     }
                     catch (IOException ex)
                     {
-                        MessageBox.Show(@"Unable to delete setlist directory:" + Environment.NewLine + 
+                        MessageBox.Show(@"Unable to delete setlist directory:" + Environment.NewLine +
                             Path.GetDirectoryName(setlistPath) + Environment.NewLine +
                             "<Error>: " + ex.Message);
                     }
@@ -1003,7 +1003,7 @@ namespace CustomsForgeSongManager.UControls
                 return;
 
             var dgvCurrent = tsmi.Owner.Tag as DataGridView;
-            var colNdxPath = DgvExtensions.GetDataPropertyColumnIndex(dgvCurrent, "Path");
+            var colNdxPath = DgvExtensions.GetDataPropertyColumnIndex(dgvCurrent, "FilePath");
             var path = selectedRow.Cells[colNdxPath].Value.ToString();
             var directory = new FileInfo(path);
 
@@ -1151,12 +1151,6 @@ namespace CustomsForgeSongManager.UControls
                 if (rowIndex != -1)
                 {
                     grid.Rows[e.RowIndex].Selected = true;
-                    // TODO: impliment cmsDuplicates action consistent with other grids
-                    //  cmsDuplicates.Show(Cursor.Position);
-                }
-                else
-                {
-                    grid.Rows[e.RowIndex].Selected = true;
                     cmsCopy.Enabled = true;
                     cmsMove.Enabled = true;
                     cmsDelete.Enabled = true;
@@ -1172,8 +1166,16 @@ namespace CustomsForgeSongManager.UControls
                     // known VS bug .. SourceControl returns null .. using tag for work around
                     cmsSetlistManager.Tag = dgvSetlistMaster;
                     cmsSetlistManager.Show(Cursor.Position);
+
+                }
+                else
+                {
+                    // TODO: impliment ContextMenu for columns
+                    //PopulateMenuWithColumnHeaders(cmsSetlistManagerColumns);
+                    //cmsSetlistManagerColumns.Show(Cursor.Position);
                 }
             }
+
             // programmatic left clicking on colSelect
             if (e.Button == MouseButtons.Left && e.RowIndex != -1 && e.ColumnIndex == colSelect.Index)
             {

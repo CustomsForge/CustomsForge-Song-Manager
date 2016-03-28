@@ -1,5 +1,10 @@
 ﻿CFSM Release Notes
 
+1.2.1.6
+-Fixed "colSongPackSelect cannot be found" error
+-Fixed "dgvSetlistMaster column DataPropery 'Path' can not be found" error
+-Fixed SetlistManager context menu, right click on a song
+
 1.2.1.5
 -Added additional error reporting to Tagger
 -Fixed bug in SongManager column settings
