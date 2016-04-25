@@ -7,8 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Collections.Generic;
 using CFSM.GenTools;
-using CustomsForgeSongManager.ClassMethods;
 using CustomsForgeSongManager.DataObjects;
+using CustomsForgeSongManager.LocalTools;
 using CustomsForgeSongManager.UITheme;
 
 namespace CustomsForgeSongManager.Forms

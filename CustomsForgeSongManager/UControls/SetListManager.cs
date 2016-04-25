@@ -9,10 +9,9 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using CFSM.GenTools;
-using CustomsForgeSongManager.ClassMethods;
-using CustomsForgeSongManager.CustomControls;
 using CustomsForgeSongManager.DataObjects;
 using CustomsForgeSongManager.Forms;
+using CustomsForgeSongManager.LocalTools;
 using CustomsForgeSongManager.UITheme;
 using DataGridViewTools;
 

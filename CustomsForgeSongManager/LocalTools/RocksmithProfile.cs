@@ -5,14 +5,13 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using CFSM.GenTools;
-using CustomsForgeSongManager.CustomControls;
 using CustomsForgeSongManager.DataObjects;
 using Microsoft.Win32;
 using System.Globalization;
 using CustomsForgeSongManager.Forms;
 using System.Management;
 
-namespace CustomsForgeSongManager.ClassMethods
+namespace CustomsForgeSongManager.LocalTools
 {
     // TODO: confirmed working on Win XP and Win7 Pro x64 
     // ... need to test on all other systems

@@ -42,7 +42,7 @@ namespace CustomsForgeSongManager.Forms
             foreach (var song in DataFiles)
             {
                 NoCloseStream dataStream = null;
-                using (CFSM.RSTKLib.PSARC.PSARC p = new CFSM.RSTKLib.PSARC.PSARC(true))
+                using (PSARC p = new PSARC(true))
                 {
                     using (var FS = File.OpenRead(song.FilePath))
                         p.Read(FS);
@@ -73,7 +73,7 @@ namespace CustomsForgeSongManager.Forms
 
     public class BatchEditor
     {
-        public virtual bool Edit(CFSM.RSTKLib.PSARC.PSARC archive)
+        public virtual bool Edit(PSARC archive)
         {
             return false;
         }

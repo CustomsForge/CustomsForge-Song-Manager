@@ -1,4 +1,13 @@
-﻿CFSM Release Notes
+﻿FSM Release Notes
+
+1.2.1.8
+-Changed behaviour of Edit Song Information so that only edited CDLC updated
+-Force Edit Song Information validation
+-Combined LocalMethods and LocalControls into LocalTools
+-Updated RocksmithToolkitLib.dll and required support files
+-Added ww2ogg executables (required by RocksmithToolkitLib for now)
+-Updated PreBuild to copy support files where they are needed
+-Cleaned up some old ClickOnce artifacts
 
 1.2.1.7
 -Fixed SetlistManager Master Songs right click Select All/None action

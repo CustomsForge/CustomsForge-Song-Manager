@@ -52,10 +52,13 @@ namespace CustomsForgeSongManager.SongEditor
         }
 
         private void Save(string outputPath)
-        {
+        {            
             Globals.Log("Saving song information for: " + Path.GetFileName(outputPath));
             Cursor.Current = Cursors.WaitCursor;
             tsProgressBar.Value = 30;
+           
+            // force validation of user controls
+            this.ValidateChildren();
 
             try
             {
@@ -100,7 +103,7 @@ namespace CustomsForgeSongManager.SongEditor
                         outputPath += "_p.psarc";
 
                     tsProgressBar.Value = 80;
-                    var p = new CFSM.RSTKLib.PSARC.PSARC();
+                    var p = new PSARC();
                     using (var fs = File.OpenRead(outputPath))
                         p.Read(fs);
                     bool needsSave = false;
@@ -121,13 +124,14 @@ namespace CustomsForgeSongManager.SongEditor
                 tsProgressBar.Value = 100;
                 Cursor.Current = Cursors.Default;
                 Globals.Log("Song information saved ... ");
-                Globals.RescanSongManager = true;
+                // changed update behaviour ... only update this CDLC
+                Globals.ReloadSongManager = true;
             }
         }
 
         private void tslSave_Click(object sender, EventArgs e)
         {
-            Save(filePath);
+             Save(filePath);
         }
 
         private void tslSaveAs_Click(object sender, EventArgs e)

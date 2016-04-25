@@ -37,6 +37,10 @@ namespace CustomsForgeSongManager.SongEditor
             cmbPreviewVolume.Value = Convert.ToDecimal(SongData.PreviewVolume);
             txtCharter.Text = song.CharterName; // not editable
 
+            //set up events
+            PopulateAppIdCombo(SongData.AppId, GameVersion.RS2014);
+
+            // create validation event handlers
             txtKey.Validating += ValidateKey;
             txtArtist.Validating += ValidateName;
             txtArtistSort.Validating += ValidateSort;
@@ -50,10 +54,7 @@ namespace CustomsForgeSongManager.SongEditor
             txtAvgTempo.Validating += ValidateTempo;
             cmbSongVolume.Validating += ValidateText;
             cmbPreviewVolume.Validating += ValidateText;
-
             cbLowBass.Validating += ValidateText;
-            //set up events
-            PopulateAppIdCombo(SongData.AppId, GameVersion.RS2014);
         }
 
         private void ValidateKey(object sender, CancelEventArgs e)
@@ -123,7 +124,9 @@ namespace CustomsForgeSongManager.SongEditor
 
         public override void Save()
         {
-            txtKey.Focus();
+            if (!Dirty)
+                return;
+
             SongData.Name = txtKey.Text;
             SongData.SongInfo.Artist = txtArtist.Text;
             SongData.SongInfo.ArtistSort = txtArtistSort.Text;

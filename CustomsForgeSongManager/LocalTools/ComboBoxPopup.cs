@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace CustomsForgeSongManager.CustomControls
+namespace CustomsForgeSongManager.LocalTools
 {
     public partial class frmComboBoxPopup : Form
     {

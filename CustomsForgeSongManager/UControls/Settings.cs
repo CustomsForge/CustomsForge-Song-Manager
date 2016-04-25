@@ -4,8 +4,8 @@ using System.IO;
 using System.Windows.Forms;
 using System.ComponentModel;
 using CFSM.GenTools;
-using CustomsForgeSongManager.ClassMethods;
 using CustomsForgeSongManager.DataObjects;
+using CustomsForgeSongManager.LocalTools;
 using DataGridViewTools;
 
 namespace CustomsForgeSongManager.UControls

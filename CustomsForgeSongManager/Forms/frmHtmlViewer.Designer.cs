@@ -1,4 +1,4 @@
-﻿using CustomsForgeSongManager.CustomControls;
+﻿using CustomsForgeSongManager.LocalTools;
 
 namespace CustomsForgeSongManager.Forms
 {
@@ -32,7 +32,7 @@ namespace CustomsForgeSongManager.Forms
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmHtmlViewer));
             this.pnlHtmlOwner = new System.Windows.Forms.Panel();
-            this.htmlPanel = new CustomsForgeSongManager.CustomControls.CFSMHtmlPanel();
+            this.htmlPanel = new CFSMHtmlPanel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();

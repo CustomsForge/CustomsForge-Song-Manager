@@ -1,16 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using CustomsForgeSongManager.DataObjects;
-using CustomsForgeSongManager.CustomControls;
 using System.IO;
-using CustomsForgeSongManager.ClassMethods;
-using DataGridViewTools;
+using CustomsForgeSongManager.LocalTools;
 
 namespace CustomsForgeSongManager.Forms
 {

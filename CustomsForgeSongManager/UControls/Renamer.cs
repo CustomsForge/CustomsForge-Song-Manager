@@ -7,8 +7,8 @@ using System.IO;
 using System.Collections.Generic;
 using System.Reflection;
 using CFSM.GenTools;
-using CustomsForgeSongManager.ClassMethods;
 using CustomsForgeSongManager.DataObjects;
+using CustomsForgeSongManager.LocalTools;
 using Newtonsoft.Json;
 
 namespace CustomsForgeSongManager.UControls

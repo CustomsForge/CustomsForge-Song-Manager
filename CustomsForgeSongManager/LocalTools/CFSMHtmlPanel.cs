@@ -2,7 +2,7 @@
 using CustomsForgeSongManager.DataObjects;
 using TheArtOfDev.HtmlRenderer.WinForms;
 
-namespace CustomsForgeSongManager.CustomControls
+namespace CustomsForgeSongManager.LocalTools
 {
     public class CFSMHtmlPanel : HtmlPanel
     {

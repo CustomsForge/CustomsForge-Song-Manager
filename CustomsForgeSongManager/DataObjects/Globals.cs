@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Windows.Forms;
 using CFSM.AudioTools;
-using CustomsForgeSongManager.ClassMethods;
+using CustomsForgeSongManager.LocalTools;
 using CustomsForgeSongManager.UControls;
 using CustomsForgeSongManager.UITheme;
 using DF.WinForms.ThemeLib;

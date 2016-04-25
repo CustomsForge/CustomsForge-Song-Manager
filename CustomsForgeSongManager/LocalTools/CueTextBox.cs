@@ -2,7 +2,7 @@
 using System.Windows.Forms;
 using System.Drawing;
 
-namespace CustomsForgeSongManager.CustomControls
+namespace CustomsForgeSongManager.LocalTools
 {
     public class CueTextBox : TextBox
     {

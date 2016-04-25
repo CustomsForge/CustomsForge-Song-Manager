@@ -4,7 +4,7 @@ using System.Net;
 using CustomsForgeSongManager.DataObjects;
 using Newtonsoft.Json.Linq;
 
-namespace CustomsForgeSongManager.ClassMethods
+namespace CustomsForgeSongManager.LocalTools
 {
     public static class Ignition
     {

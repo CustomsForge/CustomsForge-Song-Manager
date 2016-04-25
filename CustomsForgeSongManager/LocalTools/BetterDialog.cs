@@ -16,7 +16,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace CustomsForgeSongManager.CustomControls
+namespace CustomsForgeSongManager.LocalTools
 {
     /// <summary>
     /// Customizable Dialog Box to replace standard Message Box with positioning and custom buttons

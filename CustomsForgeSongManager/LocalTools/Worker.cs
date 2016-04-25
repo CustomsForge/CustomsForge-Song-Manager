@@ -7,7 +7,6 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using CFSM.GenTools;
-using CustomsForgeSongManager.CustomControls;
 using CustomsForgeSongManager.DataObjects;
 using CustomsForgeSongManager.Properties;
 using RocksmithToolkitLib;
@@ -16,7 +15,7 @@ using RocksmithToolkitLib;
 // Reusable background worker class for parsing songs
 //
 
-namespace CustomsForgeSongManager.ClassMethods
+namespace CustomsForgeSongManager.LocalTools
 {
     internal sealed class Worker : IDisposable
     {
@@ -28,7 +27,7 @@ namespace CustomsForgeSongManager.ClassMethods
         public void BackgroundScan(object sender, AbortableBackgroundWorker backgroundWorker = null)
         {
             // keep track of UC that started worker
-            workOrder = ((Control) sender);
+            workOrder = ((Control)sender);
             Globals.ResetToolStripGlobals();
             Globals.TsLabel_Cancel.Visible = true;
             Globals.TsLabel_Cancel.Enabled = true;
@@ -147,13 +146,13 @@ namespace CustomsForgeSongManager.ClassMethods
                     return;
                 }
 
-                WorkerProgress(songCounter++*100/fileList.Count);
+                WorkerProgress(songCounter++ * 100 / fileList.Count);
                 bool canScan = true;
                 var sInfo = bwSongCollection.FirstOrDefault(s => s.FilePath.Equals(file, StringComparison.OrdinalIgnoreCase));
                 if (sInfo != null)
                 {
                     var fInfo = new FileInfo(file);
-                    if ((int) fInfo.Length == sInfo.FileSize && fInfo.LastWriteTimeUtc == sInfo.FileDate)
+                    if ((int)fInfo.Length == sInfo.FileSize && fInfo.LastWriteTimeUtc == sInfo.FileDate)
                         canScan = false;
                     else
                         bwSongCollection.Remove(sInfo);
@@ -165,7 +164,7 @@ namespace CustomsForgeSongManager.ClassMethods
 
             if (!String.IsNullOrEmpty(AppSettings.Instance.SortColumn))
             {
-                var prop = typeof (SongData).GetProperty(AppSettings.Instance.SortColumn);
+                var prop = typeof(SongData).GetProperty(AppSettings.Instance.SortColumn);
                 if (prop != null)
                 {
                     Type interfaceType = prop.PropertyType.GetInterface("IComparable");
@@ -175,8 +174,8 @@ namespace CustomsForgeSongManager.ClassMethods
                         {
                             bwSongCollection.Sort((x1, x2) =>
                                 {
-                                    var c1 = (prop.GetValue(x1, new object[] {}) as IComparable);
-                                    var c2 = (prop.GetValue(x2, new object[] {}) as IComparable);
+                                    var c1 = (prop.GetValue(x1, new object[] { }) as IComparable);
+                                    var c2 = (prop.GetValue(x2, new object[] { }) as IComparable);
                                     if (c1 == null || c2 == null)
                                         return -1;
 
@@ -195,12 +194,17 @@ namespace CustomsForgeSongManager.ClassMethods
             Globals.DebugLog("Parsing done ...");
 
             counterStopwatch.Stop();
+
+            // free up memory
+            Globals.TuningXml.Clear();
         }
 
         private void ParsePSARC(string filePath)
         {
             // 2x speed hack ... preload the TuningDefinition
-            Globals.TuningXml = TuningDefinitionRepository.LoadTuningDefinitions(GameVersion.RS2014);
+            if (Globals.TuningXml == null)
+                Globals.TuningXml = TuningDefinitionRepository.LoadTuningDefinitions(GameVersion.RS2014);
+
             try
             {
                 using (var browser = new PsarcBrowser(filePath))
@@ -251,9 +255,6 @@ namespace CustomsForgeSongManager.ClassMethods
                     File.Move(filePath, corFilePath);
                 }
             }
-
-            // free up memory
-            Globals.TuningXml.Clear();
         }
 
         [SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "bWorker")]
@@ -273,14 +274,15 @@ namespace CustomsForgeSongManager.ClassMethods
 
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
+
             var files = Directory.EnumerateFiles(path, "*_p.psarc", SearchOption.AllDirectories).ToList();
             files.AddRange(Directory.EnumerateFiles(path, "*_p.disabled.psarc", SearchOption.AllDirectories).ToList());
 
             if (!includeRS1Pack)
-            {
                 files = files.Where(file => !file.Contains(Constants.RS1COMP) && !file.ToLower().Contains(Constants.SONGPACK) && !file.ToLower().Contains(Constants.ABVSONGPACK)).ToList();
-            }
+
             return files;
         }
+
     }
 }

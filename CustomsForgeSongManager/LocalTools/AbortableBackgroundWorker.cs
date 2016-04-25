@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Threading;
 
-namespace CustomsForgeSongManager.CustomControls
+namespace CustomsForgeSongManager.LocalTools
 {
     // TODO: move to Worker.cs
     public class AbortableBackgroundWorker : BackgroundWorker

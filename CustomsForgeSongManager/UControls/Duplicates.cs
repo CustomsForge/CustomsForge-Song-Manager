@@ -6,10 +6,9 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
-using System.Windows.Input;
-using CustomsForgeSongManager.ClassMethods;
 using CustomsForgeSongManager.DataObjects;
 using CustomsForgeSongManager.Forms;
+using CustomsForgeSongManager.LocalTools;
 using CustomsForgeSongManager.UITheme;
 using DataGridViewTools;
 

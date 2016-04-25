@@ -5,7 +5,7 @@ using System.IO;
 using System.Threading;
 using CustomsForgeSongManager.DataObjects;
 
-namespace CustomsForgeSongManager.ClassMethods
+namespace CustomsForgeSongManager.LocalTools
 {
     //#if AUTOUPDATE
     public class Autoupdater

@@ -8,10 +8,9 @@ using System.Net;
 using System.Threading;
 using System.Windows.Forms;
 using CFSM.GenTools;
-using CustomsForgeSongManager.ClassMethods;
-using CustomsForgeSongManager.CustomControls;
 using CustomsForgeSongManager.DataObjects;
 using CustomsForgeSongManager.Forms;
+using CustomsForgeSongManager.LocalTools;
 using CustomsForgeSongManager.SongEditor;
 using CustomsForgeSongManager.UITheme;
 using DataGridViewTools;
@@ -100,6 +99,7 @@ namespace CustomsForgeSongManager.UControls
                         return;
                     }
                 }
+
                 if (!File.Exists(fullname))
                 {
                     sng.AudioCache = String.Empty;
@@ -1097,7 +1097,7 @@ namespace CustomsForgeSongManager.UControls
                 songEditor.ShowDialog();
             }
 
-            if (Globals.RescanSongManager)
+            if (Globals.ReloadSongManager)
                 UpdateToolStrip();
         }
 

@@ -45,7 +45,7 @@
     <ManifestKeyFile>CFSM_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <GenerateManifests>true</GenerateManifests>
+    <GenerateManifests>false</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
     <SignManifests>true</SignManifests>
@@ -111,9 +111,11 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup />
   <PropertyGroup>
-    <NoWin32Manifest>true</NoWin32Manifest>
+    <TargetZone>LocalIntranet</TargetZone>
   </PropertyGroup>
+  <PropertyGroup />
   <ItemGroup>
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\libs\Antlr3.Runtime.dll</HintPath>
@@ -177,35 +179,35 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ClassMethods\LocalExtensions.cs" />
-    <Compile Include="CustomControls\AbortableBackgroundWorker.cs">
+    <Compile Include="LocalTools\LocalExtensions.cs" />
+    <Compile Include="LocalTools\AbortableBackgroundWorker.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="CustomControls\BetterDialog.cs">
+    <Compile Include="LocalTools\BetterDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CustomControls\BetterDialog.designer.cs">
+    <Compile Include="LocalTools\BetterDialog.designer.cs">
       <DependentUpon>BetterDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="CustomControls\ComboBoxPopup.cs">
+    <Compile Include="LocalTools\ComboBoxPopup.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CustomControls\ComboBoxPopup.Designer.cs">
+    <Compile Include="LocalTools\ComboBoxPopup.Designer.cs">
       <DependentUpon>ComboBoxPopup.cs</DependentUpon>
     </Compile>
-    <Compile Include="CustomControls\CueTextBox.cs">
+    <Compile Include="LocalTools\CueTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="DataObjects\AppSettings.cs" />
     <Compile Include="DataObjects\Interfaces.cs" />
-    <Compile Include="ClassMethods\Autoupdater.cs" />
+    <Compile Include="LocalTools\Autoupdater.cs" />
     <Compile Include="DataObjects\ProfileData.cs" />
     <Compile Include="DataObjects\RSModels.cs" />
     <Compile Include="DataObjects\SongCollectionException.cs" />
     <Compile Include="DataObjects\SongData.cs" />
-    <Compile Include="ClassMethods\RocksmithProfile.cs" />
+    <Compile Include="LocalTools\RocksmithProfile.cs" />
     <Compile Include="DataObjects\Constants.cs" />
-    <Compile Include="CustomControls\CFSMHtmlPanel.cs">
+    <Compile Include="LocalTools\CFSMHtmlPanel.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Forms\ClickOnceUpgrade.cs">
@@ -251,8 +253,8 @@
       <DependentUpon>frmSongBatchEdit.cs</DependentUpon>
     </Compile>
     <Compile Include="DataObjects\Globals.cs" />
-    <Compile Include="ClassMethods\Ignition.cs" />
-    <Compile Include="ClassMethods\PsarcBrowser.cs" />
+    <Compile Include="LocalTools\Ignition.cs" />
+    <Compile Include="LocalTools\PsarcBrowser.cs" />
     <Compile Include="SongEditor\DLCPackageEditorControlBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -324,7 +326,7 @@
     <Compile Include="SongEditor\ucTones.Designer.cs">
       <DependentUpon>ucTones.cs</DependentUpon>
     </Compile>
-    <Compile Include="ClassMethods\SongTagger.cs" />
+    <Compile Include="LocalTools\SongTagger.cs" />
     <Compile Include="UControls\SongPacks.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -387,11 +389,11 @@
     <Compile Include="UITheme\ThemePreview.Designer.cs">
       <DependentUpon>ThemePreview.cs</DependentUpon>
     </Compile>
-    <Compile Include="ClassMethods\Worker.cs" />
-    <EmbeddedResource Include="CustomControls\BetterDialog.resx">
+    <Compile Include="LocalTools\Worker.cs" />
+    <EmbeddedResource Include="LocalTools\BetterDialog.resx">
       <DependentUpon>BetterDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CustomControls\ComboBoxPopup.resx">
+    <EmbeddedResource Include="LocalTools\ComboBoxPopup.resx">
       <DependentUpon>ComboBoxPopup.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -495,9 +497,8 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\renamer_properties.json" />
-    <None Include="app.config" />
-    <None Include="CFSM_TemporaryKey.pfx" />
     <None Include="Resources\logo_black.png" />
+    <None Include="CFSM_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0.3">
@@ -521,18 +522,21 @@
     <None Include="Resources\cfsm_48x48.ico" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="7za.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <Content Include="bass.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="DF_DDSImage.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <None Include="Licenses.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Content Include="..\libs\7za.dll">
+      <Link>7za.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\libs\bass.dll">
+      <Link>bass.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\libs\DF_DDSImage.dll">
+      <Link>DF_DDSImage.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="ReleaseNotes.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -568,15 +572,6 @@
     <None Include="Resources\SelectCol.png" />
     <Content Include="Resources\TaggerHelp.html" />
     <Content Include="Resources\Unleashed2k.png" />
-    <Content Include="RocksmithToolkitLib.Config.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="RocksmithToolkitLib.SongAppId.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="RocksmithToolkitLib.TuningDefinition.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <EmbeddedResource Include="Resources\tags\frackDefaultprev.png" />
     <EmbeddedResource Include="Resources\tags\frackDefault\Background.png" />
     <EmbeddedResource Include="Resources\tags\frackDefault\Bass Bonus.png" />
@@ -671,38 +666,7 @@
     <None Include="Resources\cozy1.png" />
     <None Include="Resources\StartRs.jpg" />
   </ItemGroup>
-  <ItemGroup>
-    <PublishFile Include="RocksmithToolkitLib.Config.xml">
-      <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
-      <FileType>File</FileType>
-    </PublishFile>
-    <PublishFile Include="RocksmithToolkitLib.SongAppId.xml">
-      <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
-      <FileType>File</FileType>
-    </PublishFile>
-    <PublishFile Include="RocksmithToolkitLib.TuningDefinition.xml">
-      <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
-      <FileType>File</FileType>
-    </PublishFile>
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\CFSM.Libraries\CFSM.AudioTools\CFSM.AudioTools.csproj">
       <Project>{6D8C3FE6-5855-4B6C-BD2B-51954342DBEE}</Project>
@@ -765,17 +729,16 @@ CD "$(SolutionDir)ThirdParty\Inno\"
 del /q "$(TargetDir)*.pdb"
 CD "$(SolutionDir)ThirdParty\"
 "CFSMPostBuilder.exe" "CREATEVERSIONINFO"
-)</PostBuildEvent>
+)
+
+DEL /Q "$(TargetDir)*.pdb"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PreBuildEvent>if $(ConfigurationName) == Debug (
-XCOPY /Y/D "$(SolutionDir)libs\RocksmithToolkitLib.Config.xml" "$(ProjectDir)RocksmithToolkitLib.Config.xml" 
-XCOPY /Y/D "$(SolutionDir)libs\RocksmithToolkitlib.SongAppId.xml" "$(ProjectDir)RocksmithToolkitlib.SongAppId.xml" 
-XCOPY /Y/D "$(SolutionDir)libs\RocksmithToolkitlib.TuningDefinition.xml" "$(ProjectDir)RocksmithToolkitlib.TuningDefinition.xml" 
-XCOPY /Y/D "$(SolutionDir)libs\7za.dll" "$(ProjectDir)7za.dll" 
-XCOPY /Y/E/D "$(SolutionDir)libs\DF_DDSImage.dll" "$(ProjectDir)DF_DDSImage.dll" 
-XCOPY /Y/E/D "$(SolutionDir)libs\bass.dll" "$(ProjectDir)bass.dll" 
-)</PreBuildEvent>
+    <PreBuildEvent>XCOPY /Y/D "$(SolutionDir)libs\*.xml" "$(TargetDir)*.xml" 
+
+XCOPY /Y/E/D "$(SolutionDir)libs\ww2ogg\*.*" "$(TargetDir)*.*" 
+
+</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

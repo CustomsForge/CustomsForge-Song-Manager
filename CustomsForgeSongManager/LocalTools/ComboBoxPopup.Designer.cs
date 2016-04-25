@@ -1,4 +1,4 @@
-﻿namespace CustomsForgeSongManager.CustomControls
+﻿namespace CustomsForgeSongManager.LocalTools
 {
     partial class frmComboBoxPopup
     {

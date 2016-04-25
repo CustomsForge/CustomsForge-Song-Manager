@@ -4,8 +4,8 @@ using System.ComponentModel;
 using System.IO;
 using System.Windows.Forms;
 using System.Xml.Serialization;
+using CustomsForgeSongManager.LocalTools;
 using CFSM.GenTools;
-using CustomsForgeSongManager.ClassMethods;
 using DataGridViewTools;
 
 namespace CustomsForgeSongManager.DataObjects

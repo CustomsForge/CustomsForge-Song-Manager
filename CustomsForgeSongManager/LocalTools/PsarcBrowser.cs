@@ -13,7 +13,7 @@ using RocksmithToolkitLib.DLCPackage;
 using RocksmithToolkitLib.Extensions;
 using Arrangement = CustomsForgeSongManager.DataObjects.Arrangement;
 
-namespace CustomsForgeSongManager.ClassMethods
+namespace CustomsForgeSongManager.LocalTools
 {
     public sealed class PsarcBrowser : IDisposable
     {

@@ -51,7 +51,7 @@ namespace CustomsForgeSongManager.SongEditor
         }
 
         // TODO: consider move to PsarcExtensions.cs
-        private bool ReplaceImagesExtracted(CFSM.RSTKLib.PSARC.PSARC p, string imgName, int width, int height)
+        private bool ReplaceImagesExtracted(PSARC p, string imgName, int width, int height)
         {
             var newImageStream = picAlbumArt.Image.ToDDS(width, height);
 
@@ -77,7 +77,7 @@ namespace CustomsForgeSongManager.SongEditor
             return true;
         }
 
-        private bool ReplaceImages(CFSM.RSTKLib.PSARC.PSARC p)
+        private bool ReplaceImages(PSARC p)
         {
             var x = "gfxassets/album_art/album_{0}_{1}.dds";
             var large = string.Format(x, this.SongData.Name.ToLower(), 256);
@@ -96,7 +96,7 @@ namespace CustomsForgeSongManager.SongEditor
             return true;
         }
 
-        public override bool AfterSave(CFSM.RSTKLib.PSARC.PSARC archive)
+        public override bool AfterSave(PSARC archive)
         {
             if (Dirty)
             {

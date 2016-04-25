@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Windows.Forms;
-using CFSM.AudioTools;
-using CFSM.RSTKLib.PSARC;
-using CustomsForgeSongManager.CustomControls;
 using CustomsForgeSongManager.DataObjects;
 using Microsoft.Win32;
 
-namespace CustomsForgeSongManager.ClassMethods
+namespace CustomsForgeSongManager.LocalTools
 {
     public static class LocalExtensions
     {

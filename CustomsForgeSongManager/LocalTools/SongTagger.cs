@@ -15,7 +15,7 @@ using CustomsForgeSongManager.DataObjects;
 
 // TODO: Cleanup code and remove unused code
 
-namespace CustomsForgeSongManager.ClassMethods
+namespace CustomsForgeSongManager.LocalTools
 {
     public class SongTagger
     {

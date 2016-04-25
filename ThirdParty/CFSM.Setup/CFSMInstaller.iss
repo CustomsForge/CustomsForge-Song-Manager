@@ -44,6 +44,13 @@ Source: {#buildpath}Antlr4.StringTemplate.dll; DestDir: {app}; Flags: ignorevers
 Source: {#buildpath}DF_DDSImage.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}MiscUtil.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}7za.dll; DestDir: {app}; Flags: ignoreversion
+Source: {#buildpath}oggCut.exe; DestDir: {app}; Flags: ignoreversion
+Source: {#buildpath}oggdec.exe; DestDir: {app}; Flags: ignoreversion
+Source: {#buildpath}oggenc.exe; DestDir: {app}; Flags: ignoreversion
+Source: {#buildpath}packed_codebooks.bin; DestDir: {app}; Flags: ignoreversion
+Source: {#buildpath}packed_codebooks_aoTuV_603.bin; DestDir: {app}; Flags: ignoreversion
+Source: {#buildpath}revorb.exe; DestDir: {app}; Flags: ignoreversion
+Source: {#buildpath}ww2ogg.exe; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}SevenZipSharp.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}Newtonsoft.Json.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}ReleaseNotes.txt; DestDir: {app}; Flags: ignoreversion
