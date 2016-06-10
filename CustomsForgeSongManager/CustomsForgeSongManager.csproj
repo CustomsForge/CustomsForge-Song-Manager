@@ -718,7 +718,9 @@ CD "$(SolutionDir)ThirdParty\Inno\"
 "ISCC.exe" /DBETA "..\CFSM.Setup\CFSMInstaller.iss"
 del /q "$(TargetDir)*.pdb"
 CD "$(SolutionDir)ThirdParty\"
-"CFSMPostBuilder.exe" "UPLOAD" "198.58.96.81/beta/" "appdev" "kvPSF7HL"
+"CFSMPostBuilder.exe" "CREATEVERSIONINFO"
+
+REM "CFSMPostBuilder.exe" "UPLOAD" "198.58.96.81/beta/" "appdev" "kvPSF7HL"
 )
 
 if $(ConfigurationName) == PublishRelease (
@@ -729,6 +731,8 @@ CD "$(SolutionDir)ThirdParty\Inno\"
 del /q "$(TargetDir)*.pdb"
 CD "$(SolutionDir)ThirdParty\"
 "CFSMPostBuilder.exe" "CREATEVERSIONINFO"
+
+REM "CFSMPostBuilder.exe" "UPLOAD" "198.58.96.81" "appdev" "7eCheQ+bu+heRevu"
 )
 
 DEL /Q "$(TargetDir)*.pdb"</PostBuildEvent>

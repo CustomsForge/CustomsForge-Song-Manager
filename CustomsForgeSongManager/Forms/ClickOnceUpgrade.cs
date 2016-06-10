@@ -4,6 +4,8 @@ using System.IO;
 using System.Net;
 using System.Windows.Forms;
 
+// ClickOnce installer/upgrade has been depricated
+
 namespace CustomsForgeSongManager.Forms
 {
     public partial class ClickOnceUpgrade : Form

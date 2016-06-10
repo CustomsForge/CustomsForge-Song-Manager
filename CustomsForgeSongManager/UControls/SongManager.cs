@@ -368,7 +368,7 @@ namespace CustomsForgeSongManager.UControls
                 Environment.Exit(0);
             }
 
-            var stophere = masterSongCollection;
+            // var debugHere = masterSongCollection;
         }
 
         private void PopulateDataGridView() // binding data to grid
@@ -1091,6 +1091,10 @@ namespace CustomsForgeSongManager.UControls
         {
             var filePath = dgvSongsMaster.SelectedRows[0].Cells["colFilePath"].Value.ToString();
 
+            DgvExtensions.SaveSorting(dgvSongsMaster);
+            var filterStatus = DataGridViewAutoFilterColumnHeaderCell.GetFilterStatus(dgvSongsMaster);
+
+
             using (var songEditor = new frmSongEditor(filePath))
             {
                 songEditor.Text = String.Format("{0}{1}", Properties.Resources.SongEditorLoaded, Path.GetFileName(filePath));
@@ -1099,6 +1103,8 @@ namespace CustomsForgeSongManager.UControls
 
             if (Globals.ReloadSongManager)
                 UpdateToolStrip();
+
+            DgvExtensions.RestoreSorting(dgvSongsMaster);
         }
 
         private void cmsGetCharterName_Click(object sender, EventArgs e)

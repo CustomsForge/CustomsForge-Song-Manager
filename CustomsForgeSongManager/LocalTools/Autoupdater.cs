@@ -11,9 +11,9 @@ namespace CustomsForgeSongManager.LocalTools
     public class Autoupdater
     {
 #if RELEASE
-        const string UpdateURL = "http://appdev.cfmanager.com/release";
+        const string UpdateURL = "http://ignition.customsforge.com/cfsm_uploads";
 #else
-        private const string UpdateURL = "http://appdev.cfmanager.com/beta";
+        const string UpdateURL = "http://ignition.customsforge.com/cfsm_uploads/beta";
 #endif
 
         private const string VersionURL = UpdateURL + "/VersionInfo.txt";

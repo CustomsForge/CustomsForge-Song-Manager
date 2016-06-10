@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
@@ -80,7 +81,7 @@ namespace DataGridViewTools
             int colNdx = -1;
             for (int i = 0; i < dgvCurrent.Columns.Count; i++)
             {
-                var stophere = dgvCurrent.Columns[i].DataPropertyName;
+                //var debugHere = dgvCurrent.Columns[i].DataPropertyName;
                 if (dgvCurrent.Columns[i].DataPropertyName == dataPropertyName)
                 {
                     colNdx = i;
@@ -132,6 +133,42 @@ namespace DataGridViewTools
             var colNdxSelected = GetDataPropertyColumnIndex(dgvCurrent, dataPropertyName);
             return dgvCurrent.Rows.Cast<DataGridViewRow>().Count(r => Convert.ToBoolean(r.Cells[colNdxSelected].Value));
         }
+
+
+        private static ListSortDirection _oldSortOrder;
+        private static DataGridViewColumn _oldSortCol;
+
+        //Usage:
+        //GridUtility.SaveSorting(grid);    
+        //grid.DataSource = databaseFetch(); // or whatever
+        //GridUtility.RestoreSorting(grid);
+
+    /// <summary>
+    /// Saves information about sorting column, to be restored later by calling RestoreSorting
+    /// on the same DataGridView
+    /// </summary>
+    /// <param name="grid"></param>
+    public static void SaveSorting(DataGridView grid)
+    {
+        _oldSortOrder = grid.SortOrder == SortOrder.Ascending ?
+            ListSortDirection.Ascending : ListSortDirection.Descending;
+        _oldSortCol = grid.SortedColumn;
+    }
+
+    /// <summary>
+    /// Restores column sorting to a datagrid. You MUST call this AFTER calling 
+    /// SaveSorting on the same DataGridView
+    /// </summary>
+    /// <param name="grid"></param>
+    public static void RestoreSorting(DataGridView grid)
+    {
+        if (_oldSortCol != null)
+        {
+            DataGridViewColumn newCol = grid.Columns[_oldSortCol.Name];
+            grid.Sort(newCol, _oldSortOrder);
+        }
+    }
+
 
     }
 }

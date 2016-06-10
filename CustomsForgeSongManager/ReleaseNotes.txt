@@ -1,4 +1,8 @@
-﻿FSM Release Notes
+﻿CFSM Release Notes
+
+1.2.1.9
+-Updated autoupdate paths
+-Issued first Release Version of CFSM with Inno Installer
 
 1.2.1.8
 -Changed behaviour of Edit Song Information so that only edited CDLC updated

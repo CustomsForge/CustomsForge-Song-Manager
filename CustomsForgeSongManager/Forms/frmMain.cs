@@ -49,6 +49,9 @@ namespace CustomsForgeSongManager.Forms
 #if BETA
             strFormatVersion = "{0} (v{1} - BETA VERSION)";
 #endif
+#if RELEASE
+            strFormatVersion = "{0} (v{1} - RELEASE VERSION)";
+#endif
 #if DEBUG
             strFormatVersion = "{0} (v{1} - DEBUG)";
 #endif
