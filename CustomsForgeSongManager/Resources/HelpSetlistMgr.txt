@@ -1,0 +1,40 @@
+Setlist Manager Help
+--------------------
+
+- When a song is added to any setlist the background changes to yellow
+  and it is added to the corresponding SetlistSongs
+- Uncheck 'Show Setlist Songs' to hide the highlighted setlist songs
+
+Setlist Manager Usage
+----------------------
+
+Creating a new setlist:
+- Press 'Create new setlist' button, enter the desired name and press OK
+  a new folder (setlist) will be created in the 'dlc' folder, with the name you entered
+
+Copy, Move, Delete, Show setlist songs:
+- Right Mouse-Click on a song in the Main Songs or Setlist Songs table
+- Select a file operation from context menu popup
+
+Adding songs to a setlist:
+- Select (check) the songs to add to the setlist from 'DLC Songs Folder' table then
+- Press 'Move selected song(s) to setlist' button
+  all the selected songs will be moved to the setlist and all songs 
+  will automatically be disabled if the setlist was disabled beforehand
+
+Removing songs from a setlist:
+- Select the song(s) to remove from the 'Setlist Songs' table then
+- Press 'Remove selected song(s) from setlist' button
+  the selected songs will be moved back to the main dlc folder
+
+Removing setlists:
+- Select the setlist to remove
+- Press the 'Remove selected setlist(s)' 
+
+Enabling or Disabling CDLC songs, setlists, setlist songs, or song packs: 
+- Select (check) each item then
+- Press the appropriate 'enable/disable' button
+
+Toggle setlist or toggle songs in setlist:
+- Press the appropriate toggle button to select all songs, setlists, or setlist songs
+

@@ -1,0 +1,66 @@
+Song Manager Help
+-----------------
+
+Hot Keys
+--------
+F3 - show/hide application event "Log" information
+F12 - show/hide toolstrip utilities menu bar
+Ctrl+LeftMouse Click - on column header to turn off column visibility
+Ctrl+A - select/deselect all songs
+Spacebar - select/deselect a song
+Left Mouse Click - on column header to sort the column ascending or descending
+Right Mouse Click - on header to show context menu options
+ - Show/Hide specific columns
+Right Mouse Click - on a song to show context menu options
+ - Show Song Information
+ - Edit Song Information
+ - Delete Song
+ - Backup Song
+Ctrl + Left Mouse Click
+    - select/deselect a single row
+Shift + Left Mouse Click on two outer rows while holding Shift for multiples	 
+	- select/deselect multiple rows
+DoubleClick - anywhere on a song to show Song Information
+Ctrl+Rescan button to force complete rescan of songs
+Click anywhere on the Audio Playback Progress Bar to start song at that position
+
+
+General Usage
+-------------
+
+Rescan
+- press the "Rescan" button to parse songs for data
+- Option: Checkbox "Rescan Only New Songs (Faster Loading)" can be found in Settings tabmenu
+
+Backup Selected
+- checkbox "Select" for each song to be backed up and then press button "Backup Selected"
+
+Delete Selected
+- checkbox "Select" for each song to be deleted
+- checkbox "Safety Interlock"
+- press button "Delete Selected"
+
+Enabling or Disabling songs: 
+- select (check) each item then
+- press the appropriate "enable/disable" button
+
+Toggle all songs Select checkbox:
+- press the "Select All/Deselect All" linked (underlined) text
+
+Search
+- just start typing and hopefully what you are looking for will popup
+
+Clear Search
+- hopefully obvious, clears the search and shows all songs
+
+Filtering
+- if a column has a yellow funnel symbol click on it to filter the data
+- multiple filters can be added by selecting multiple columns with filters
+
+Show All 
+- (only displayed in lower right corner when Filtering is applied)
+- removes all filtering and returns data to original display
+
+
+
+

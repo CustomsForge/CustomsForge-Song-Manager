@@ -1,10 +1,12 @@
-<project outputDir="..\CustomsForgeManager" baseDir="..\CustomsForgeManager" xmlns="http://confuser.codeplex.com">
+<project outputDir="..\CustomsForgeSongManager" baseDir="..\CustomsForgeSongManager" xmlns="http://confuser.codeplex.com">
  <rule pattern="true" preset="normal">
    <protection id="rename" action="remove" />
  </rule>
- <module path="bin\ConfuserExRelease\CFMAudioTools.dll" />
- <module path="bin\ConfuserExRelease\CFMImageTools.dll" />
- <module path="bin\ConfuserExRelease\CFSM.Utils.dll" />
+ <module path="bin\ConfuserExRelease\CFSM.AudioTools.dll" />
+ <module path="bin\ConfuserExRelease\CFSM.ImageTools.dll" />
+ <module path="bin\InnoInstaller\CFSM.GenTools.dll" />
+ <module path="bin\InnoInstaller\CFSM.RSTKLib.dll" />
  <module path="bin\ConfuserExRelease\DF.WinForms.ThemeLib.dll" />
+ <module path="bin\InnoInstaller\DataGridViewTools.dll" />
  <module path="bin\ConfuserExRelease\CustomsForgeSongManager.exe" />
  </project>

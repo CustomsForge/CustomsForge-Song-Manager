@@ -1,0 +1,21 @@
+<project outputDir="..\CustomsForgeSongManager" baseDir="..\CustomsForgeSongManager" xmlns="http://confuser.codeplex.com">
+    <rule preset="normal" pattern="true">
+        <protection id="anti debug" />
+        <protection id="anti dump" />
+        <protection id="anti ildasm" />
+        <protection id="anti tamper" />
+        <protection id="constants" />
+        <protection id="ctrl flow" />
+        <protection id="invalid metadata" />
+        <protection id="ref proxy" />
+        <protection id="rename" />
+        <protection id="resources" />
+    </rule>
+ <module path="bin\InnoInstaller\CFSM.AudioTools.dll" />
+ <module path="bin\InnoInstaller\CFSM.ImageTools.dll" />
+ <module path="bin\InnoInstaller\CFSM.GenTools.dll" />
+ <module path="bin\InnoInstaller\CFSM.RSTKLib.dll" />
+ <module path="bin\InnoInstaller\DF.WinForms.ThemeLib.dll" />
+ <module path="bin\InnoInstaller\DataGridViewTools.dll" />
+ <module path="bin\InnoInstaller\CustomsForgeSongManager.exe" />
+</project>
