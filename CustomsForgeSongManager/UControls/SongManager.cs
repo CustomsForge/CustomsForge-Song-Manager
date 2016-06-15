@@ -16,6 +16,8 @@ using CustomsForgeSongManager.UITheme;
 using DataGridViewTools;
 using Newtonsoft.Json;
 using System.Xml;
+using System.Text;
+using System.Collections.Generic;
 
 namespace CustomsForgeSongManager.UControls
 {
@@ -41,6 +43,7 @@ namespace CustomsForgeSongManager.UControls
             dgvSongsDetail.Visible = false;
             PopulateSongManager();
             cmsTaggerPreview.Visible = true;
+            DoODLCCheck();
             //DataGridViewCheckBoxHeaderCell cbHeader = new DataGridViewCheckBoxHeaderCell();
             //colSelect.HeaderCell = cbHeader;
             //colSelect.HeaderText = String.Empty;
@@ -55,6 +58,35 @@ namespace CustomsForgeSongManager.UControls
             //    });
             //    allSelected = Checked;
             //};
+        }
+
+        public void PopulateODLCList()
+        {
+            string oDLCJson = Properties.Resources.OfficialSongs;
+            Globals.OfficialDLCSongList = JsonConvert.DeserializeObject<List<OfficialDLCSong>>(oDLCJson);
+        }
+
+        public void DoODLCCheck()
+        {
+            if (Globals.OfficialDLCSongList.Count == 0)
+                PopulateODLCList();
+
+            if (Globals.OfficialDLCSongList.Count == 0 || Globals.SongCollection.Count == 0 || (DateTime.Today - AppSettings.Instance.LastODLCCheckDate).TotalDays < 7)
+                return;
+
+            for (int ndx = dgvSongsMaster.Rows.Count - 1; ndx >= 0; ndx--)
+            {
+                DataGridViewRow row = dgvSongsMaster.Rows[ndx];
+                var song = DgvExtensions.GetObjectFromRow<SongData>(row);
+
+                foreach (OfficialDLCSong officialSong in Globals.OfficialDLCSongList)
+                {
+                    if (song.Artist.ToUpper() == officialSong.Artist.ToUpper() && song.Title.ToUpper() == officialSong.Title.ToUpper()) //It would probably be better to do this checks with spaces, "-", etc. removed
+                        dgvSongsMaster.Rows[ndx].DefaultCellStyle.ForeColor = Color.RosyBrown; 
+                }
+            }
+
+            AppSettings.Instance.LastODLCCheckDate = DateTime.Now;
         }
 
         public void PlaySelectedSong()

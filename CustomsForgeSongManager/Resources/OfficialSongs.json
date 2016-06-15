@@ -1,0 +1,3524 @@
+[
+  {
+    "Title": "The Sky is Crying",
+    "Artist": "Albert King",
+    "ReleaseDate": "2013-10-22",
+    "Pack": "Single"
+  },
+  {
+    "Title": "25 or 6 to 4",
+    "Artist": "Chicago",
+    "ReleaseDate": "2013-10-22",
+    "Pack": "Single"
+  },
+  {
+    "Title": "Hate to Say I Told You So",
+    "Artist": "The Hives",
+    "ReleaseDate": "2013-10-22",
+    "Pack": "Single"
+  },
+  {
+    "Title": "Ho Hey",
+    "Artist": "The Lumineers",
+    "ReleaseDate": "2013-10-22",
+    "Pack": "Single"
+  },
+  {
+    "Title": "My God is the Sun",
+    "Artist": "Queens of the Stone Age",
+    "ReleaseDate": "2013-10-22",
+    "Pack": "Single"
+  },
+  {
+    "Title": "Cherub Rock",
+    "Artist": "The Smashing Pumpkins",
+    "ReleaseDate": "2013-10-22",
+    "Pack": "Single"
+  },
+  {
+    "Title": "Elephant",
+    "Artist": "Tame Impala",
+    "ReleaseDate": "2013-10-22",
+    "Pack": "Single"
+  },
+  {
+    "Title": "Mind Eraser, No Chaser",
+    "Artist": "Them Crooked Vultures",
+    "ReleaseDate": "2013-10-22",
+    "Pack": "Single"
+  },
+  {
+    "Title": "1979",
+    "Artist": "The Smashing Pumpkins",
+    "ReleaseDate": "2013-10-29",
+    "Pack": "The Smashing Pumpkins Song Pack"
+  },
+  {
+    "Title": "Bullet With Butterfly Wings",
+    "Artist": "The Smashing Pumpkins",
+    "ReleaseDate": "2013-10-29",
+    "Pack": "The Smashing Pumpkins Song Pack"
+  },
+  {
+    "Title": "Disarm",
+    "Artist": "The Smashing Pumpkins",
+    "ReleaseDate": "2013-10-29",
+    "Pack": "The Smashing Pumpkins Song Pack"
+  },
+  {
+    "Title": "Today",
+    "Artist": "The Smashing Pumpkins",
+    "ReleaseDate": "2013-10-29",
+    "Pack": "The Smashing Pumpkins Song Pack"
+  },
+  {
+    "Title": "Tonight, Tonight",
+    "Artist": "The Smashing Pumpkins",
+    "ReleaseDate": "2013-10-29",
+    "Pack": "The Smashing Pumpkins Song Pack"
+  },
+  {
+    "Title": "Bambina",
+    "Artist": "Hotei",
+    "ReleaseDate": "2013-11-05",
+    "Pack": "Hotei Song Pack"
+  },
+  {
+    "Title": "Battle Without Honor or Humanity",
+    "Artist": "Hotei",
+    "ReleaseDate": "2013-11-05",
+    "Pack": "Hotei Song Pack"
+  },
+  {
+    "Title": "Thrill",
+    "Artist": "Hotei",
+    "ReleaseDate": "2013-11-05",
+    "Pack": "Hotei Song Pack"
+  },
+  {
+    "Title": "2 Minutes to Midnight",
+    "Artist": "Iron Maiden",
+    "ReleaseDate": "2013-11-05",
+    "Pack": "Iron Maiden Song Pack"
+  },
+  {
+    "Title": "Aces High",
+    "Artist": "Iron Maiden",
+    "ReleaseDate": "2013-11-05",
+    "Pack": "Iron Maiden Song Pack"
+  },
+  {
+    "Title": "Fear of the Dark",
+    "Artist": "Iron Maiden",
+    "ReleaseDate": "2013-11-05",
+    "Pack": "Iron Maiden Song Pack"
+  },
+  {
+    "Title": "The Number of the Beast",
+    "Artist": "Iron Maiden",
+    "ReleaseDate": "2013-11-05",
+    "Pack": "Iron Maiden Song Pack"
+  },
+  {
+    "Title": "Run to the Hills",
+    "Artist": "Iron Maiden",
+    "ReleaseDate": "2013-11-05",
+    "Pack": "Iron Maiden Song Pack"
+  },
+  {
+    "Title": "Check My Brain",
+    "Artist": "Alice in Chains",
+    "ReleaseDate": "2013-11-12",
+    "Pack": "Alice in Chains Song Pack"
+  },
+  {
+    "Title": "Hollow",
+    "Artist": "Alice in Chains",
+    "ReleaseDate": "2013-11-12",
+    "Pack": "Alice in Chains Song Pack"
+  },
+  {
+    "Title": "Man in the Box",
+    "Artist": "Alice in Chains",
+    "ReleaseDate": "2013-11-12",
+    "Pack": "Alice in Chains Song Pack"
+  },
+  {
+    "Title": "Them Bones",
+    "Artist": "Alice in Chains",
+    "ReleaseDate": "2013-11-12",
+    "Pack": "Alice in Chains Song Pack"
+  },
+  {
+    "Title": "Would?",
+    "Artist": "Alice in Chains",
+    "ReleaseDate": "2013-11-12",
+    "Pack": "Alice in Chains Song Pack"
+  },
+  {
+    "Title": "Easy Come, Easy GO!",
+    "Artist": "B&#8217;z",
+    "ReleaseDate": "2013-11-19",
+    "Pack": "B&#8217;z Song Pack"
+  },
+  {
+    "Title": "Giri Giri Chop",
+    "Artist": "B&#8217;z",
+    "ReleaseDate": "2013-11-19",
+    "Pack": "B&#8217;z Song Pack"
+  },
+  {
+    "Title": "juice",
+    "Artist": "B&#8217;z",
+    "ReleaseDate": "2013-11-19",
+    "Pack": "B&#8217;z Song Pack"
+  },
+  {
+    "Title": "American Idiot",
+    "Artist": "Green Day",
+    "ReleaseDate": "2013-11-19",
+    "Pack": "Green Day Song Pack"
+  },
+  {
+    "Title": "Basket Case",
+    "Artist": "Green Day",
+    "ReleaseDate": "2013-11-19",
+    "Pack": "Green Day Song Pack"
+  },
+  {
+    "Title": "Oh Love",
+    "Artist": "Green Day",
+    "ReleaseDate": "2013-11-19",
+    "Pack": "Green Day Song Pack"
+  },
+  {
+    "Title": "Creep",
+    "Artist": "Radiohead",
+    "ReleaseDate": "2013-11-26",
+    "Pack": "Radiohead Song Pack"
+  },
+  {
+    "Title": "Just",
+    "Artist": "Radiohead",
+    "ReleaseDate": "2013-11-26",
+    "Pack": "Radiohead Song Pack"
+  },
+  {
+    "Title": "Karma Police",
+    "Artist": "Radiohead",
+    "ReleaseDate": "2013-11-26",
+    "Pack": "Radiohead Song Pack"
+  },
+  {
+    "Title": "My Iron Lung",
+    "Artist": "Radiohead",
+    "ReleaseDate": "2013-11-26",
+    "Pack": "Radiohead Song Pack"
+  },
+  {
+    "Title": "Optimistic",
+    "Artist": "Radiohead",
+    "ReleaseDate": "2013-11-26",
+    "Pack": "Radiohead Song Pack"
+  },
+  {
+    "Title": "Yasashiku Naritai",
+    "Artist": "Kazuyoshi Saito",
+    "ReleaseDate": "2013-12-03",
+    "Pack": "Single"
+  },
+  {
+    "Title": "Liar",
+    "Artist": "ONE OK ROCK",
+    "ReleaseDate": "2013-12-03",
+    "Pack": "Single"
+  },
+  {
+    "Title": "NO SCARED",
+    "Artist": "ONE OK ROCK",
+    "ReleaseDate": "2013-12-03",
+    "Pack": "Single"
+  },
+  {
+    "Title": "Baba O&#8217;Riley",
+    "Artist": "The Who",
+    "ReleaseDate": "2013-12-03",
+    "Pack": "The Who Song Pack"
+  },
+  {
+    "Title": "Behind Blue Eyes",
+    "Artist": "The Who",
+    "ReleaseDate": "2013-12-03",
+    "Pack": "The Who Song Pack"
+  },
+  {
+    "Title": "Pinball Wizard",
+    "Artist": "The Who",
+    "ReleaseDate": "2013-12-03",
+    "Pack": "The Who Song Pack"
+  },
+  {
+    "Title": "The Seeker",
+    "Artist": "The Who",
+    "ReleaseDate": "2013-12-03",
+    "Pack": "The Who Song Pack"
+  },
+  {
+    "Title": "Who Are You",
+    "Artist": "The Who",
+    "ReleaseDate": "2013-12-03",
+    "Pack": "The Who Song Pack"
+  },
+  {
+    "Title": "Asylum",
+    "Artist": "Disturbed",
+    "ReleaseDate": "2013-12-10",
+    "Pack": "Disturbed Song Pack"
+  },
+  {
+    "Title": "Down with the Sickness",
+    "Artist": "Disturbed",
+    "ReleaseDate": "2013-12-10",
+    "Pack": "Disturbed Song Pack"
+  },
+  {
+    "Title": "Voices",
+    "Artist": "Disturbed",
+    "ReleaseDate": "2013-12-10",
+    "Pack": "Disturbed Song Pack"
+  },
+  {
+    "Title": "Death Mental",
+    "Artist": "GOLDEN BOMBER",
+    "ReleaseDate": "2013-12-17",
+    "Pack": "GOLDEN BOMBER Song Pack"
+  },
+  {
+    "Title": "Earphone",
+    "Artist": "GOLDEN BOMBER",
+    "ReleaseDate": "2013-12-17",
+    "Pack": "GOLDEN BOMBER Song Pack"
+  },
+  {
+    "Title": "Memeshikue",
+    "Artist": "GOLDEN BOMBER",
+    "ReleaseDate": "2013-12-17",
+    "Pack": "GOLDEN BOMBER Song Pack"
+  },
+  {
+    "Title": "Hysteria",
+    "Artist": "Muse",
+    "ReleaseDate": "2013-12-17",
+    "Pack": "Muse Song Pack"
+  },
+  {
+    "Title": "Muscle Museum",
+    "Artist": "Muse",
+    "ReleaseDate": "2013-12-17",
+    "Pack": "Muse Song Pack"
+  },
+  {
+    "Title": "Stockholm Syndrome",
+    "Artist": "Muse",
+    "ReleaseDate": "2013-12-17",
+    "Pack": "Muse Song Pack"
+  },
+  {
+    "Title": "Supermassive Black Hole",
+    "Artist": "Muse",
+    "ReleaseDate": "2013-12-17",
+    "Pack": "Muse Song Pack"
+  },
+  {
+    "Title": "Time is Running Out",
+    "Artist": "Muse",
+    "ReleaseDate": "2013-12-17",
+    "Pack": "Muse Song Pack"
+  },
+  {
+    "Title": "Dream On",
+    "Artist": "Aerosmith",
+    "ReleaseDate": "2014-01-07",
+    "Pack": "Aerosmith Song Pack"
+  },
+  {
+    "Title": "Legendary Child",
+    "Artist": "Aerosmith",
+    "ReleaseDate": "2014-01-07",
+    "Pack": "Aerosmith Song Pack"
+  },
+  {
+    "Title": "Oh Yeah",
+    "Artist": "Aerosmith",
+    "ReleaseDate": "2014-01-07",
+    "Pack": "Aerosmith Song Pack"
+  },
+  {
+    "Title": "Same Old Song and Dance",
+    "Artist": "Aerosmith",
+    "ReleaseDate": "2014-01-07",
+    "Pack": "Aerosmith Song Pack"
+  },
+  {
+    "Title": "Sweet Emotion",
+    "Artist": "Aerosmith",
+    "ReleaseDate": "2014-01-07",
+    "Pack": "Aerosmith Song Pack"
+  },
+  {
+    "Title": "Champagne Supernova",
+    "Artist": "Oasis",
+    "ReleaseDate": "2014-01-14",
+    "Pack": "Oasis Song Pack"
+  },
+  {
+    "Title": "Live Forever",
+    "Artist": "Oasis",
+    "ReleaseDate": "2014-01-14",
+    "Pack": "Oasis Song Pack"
+  },
+  {
+    "Title": "Some Might Say",
+    "Artist": "Oasis",
+    "ReleaseDate": "2014-01-14",
+    "Pack": "Oasis Song Pack"
+  },
+  {
+    "Title": "Supersonic",
+    "Artist": "Oasis",
+    "ReleaseDate": "2014-01-14",
+    "Pack": "Oasis Song Pack"
+  },
+  {
+    "Title": "Wonderwall",
+    "Artist": "Oasis",
+    "ReleaseDate": "2014-01-14",
+    "Pack": "Oasis Song Pack"
+  },
+  {
+    "Title": "Atarashii Hikari",
+    "Artist": "9mm Parabellum Bullet",
+    "ReleaseDate": "2014-01-14",
+    "Pack": "Single"
+  },
+  {
+    "Title": "Punishment",
+    "Artist": "9mm Parabellum Bullet",
+    "ReleaseDate": "2014-01-14",
+    "Pack": "Single"
+  },
+  {
+    "Title": "Buddy Holly",
+    "Artist": "Weezer",
+    "ReleaseDate": "2014-01-21",
+    "Pack": "Weezer Song Pack"
+  },
+  {
+    "Title": "Hash Pipe",
+    "Artist": "Weezer",
+    "ReleaseDate": "2014-01-21",
+    "Pack": "Weezer Song Pack"
+  },
+  {
+    "Title": "Island in the Sun",
+    "Artist": "Weezer",
+    "ReleaseDate": "2014-01-21",
+    "Pack": "Weezer Song Pack"
+  },
+  {
+    "Title": "My Name is Jonas",
+    "Artist": "Weezer",
+    "ReleaseDate": "2014-01-21",
+    "Pack": "Weezer Song Pack"
+  },
+  {
+    "Title": "Undone (The Sweater Song)",
+    "Artist": "Weezer",
+    "ReleaseDate": "2014-01-21",
+    "Pack": "Weezer Song Pack"
+  },
+  {
+    "Title": "Aerials",
+    "Artist": "System of a Down",
+    "ReleaseDate": "2014-01-28",
+    "Pack": "System of a Down Song Pack"
+  },
+  {
+    "Title": "B.Y.O.B.",
+    "Artist": "System of a Down",
+    "ReleaseDate": "2014-01-28",
+    "Pack": "System of a Down Song Pack"
+  },
+  {
+    "Title": "Toxicity",
+    "Artist": "System of a Down",
+    "ReleaseDate": "2014-01-28",
+    "Pack": "System of a Down Song Pack"
+  },
+  {
+    "Title": "Everybody Hurts",
+    "Artist": "R.E.M.",
+    "ReleaseDate": "2014-02-04",
+    "Pack": "R.E.M. Song Pack"
+  },
+  {
+    "Title": "The One I Love",
+    "Artist": "R.E.M.",
+    "ReleaseDate": "2014-02-04",
+    "Pack": "R.E.M. Song Pack"
+  },
+  {
+    "Title": "Shiny Happy People",
+    "Artist": "R.E.M.",
+    "ReleaseDate": "2014-02-04",
+    "Pack": "R.E.M. Song Pack"
+  },
+  {
+    "Title": "Überlin",
+    "Artist": "R.E.M.",
+    "ReleaseDate": "2014-02-04",
+    "Pack": "R.E.M. Song Pack"
+  },
+  {
+    "Title": "What&#8217;s the Frequency, Kenneth?",
+    "Artist": "R.E.M.",
+    "ReleaseDate": "2014-02-04",
+    "Pack": "R.E.M. Song Pack"
+  },
+  {
+    "Title": "ROCKSTEADY",
+    "Artist": "STRAIGHTENER",
+    "ReleaseDate": "2014-02-04",
+    "Pack": "Single"
+  },
+  {
+    "Title": "From Noon Till Dawn",
+    "Artist": "STRAIGHTENER ft. Tabu Zombie &amp; Kunikazu Tanaka",
+    "ReleaseDate": "2014-02-04",
+    "Pack": "Single"
+  },
+  {
+    "Title": "Detroit Rock City",
+    "Artist": "KISS",
+    "ReleaseDate": "2014-02-11",
+    "Pack": "KISS Song Pack"
+  },
+  {
+    "Title": "Heaven&#8217;s on Fire",
+    "Artist": "KISS",
+    "ReleaseDate": "2014-02-11",
+    "Pack": "KISS Song Pack"
+  },
+  {
+    "Title": "I Was Made for Lovin&#8217; You",
+    "Artist": "KISS",
+    "ReleaseDate": "2014-02-11",
+    "Pack": "KISS Song Pack"
+  },
+  {
+    "Title": "Shinsekai (New World)",
+    "Artist": "ACIDMAN",
+    "ReleaseDate": "2014-02-18",
+    "Pack": "Single"
+  },
+  {
+    "Title": "stupid",
+    "Artist": "The Birthday",
+    "ReleaseDate": "2014-02-18",
+    "Pack": "Single"
+  },
+  {
+    "Title": "PARADOX Gymnastics (PARADOX Taiso)",
+    "Artist": "RIZE",
+    "ReleaseDate": "2014-02-18",
+    "Pack": "Single"
+  },
+  {
+    "Title": "Give It All",
+    "Artist": "Rise Against",
+    "ReleaseDate": "2014-02-18",
+    "Pack": "Rise Against Song Pack"
+  },
+  {
+    "Title": "Make It Stop (September&#8217;s Children)",
+    "Artist": "Rise Against",
+    "ReleaseDate": "2014-02-18",
+    "Pack": "Rise Against Song Pack"
+  },
+  {
+    "Title": "Prayer Of The Refugee",
+    "Artist": "Rise Against",
+    "ReleaseDate": "2014-02-18",
+    "Pack": "Rise Against Song Pack"
+  },
+  {
+    "Title": "Satellite",
+    "Artist": "Rise Against",
+    "ReleaseDate": "2014-02-18",
+    "Pack": "Rise Against Song Pack"
+  },
+  {
+    "Title": "Swing Life Away",
+    "Artist": "Rise Against",
+    "ReleaseDate": "2014-02-18",
+    "Pack": "Rise Against Song Pack"
+  },
+  {
+    "Title": "Light My Fire",
+    "Artist": "The Doors",
+    "ReleaseDate": "2014-02-25",
+    "Pack": "The Doors Song Pack"
+  },
+  {
+    "Title": "Riders on the Storm",
+    "Artist": "The Doors",
+    "ReleaseDate": "2014-02-25",
+    "Pack": "The Doors Song Pack"
+  },
+  {
+    "Title": "Roadhouse Blues",
+    "Artist": "The Doors",
+    "ReleaseDate": "2014-02-25",
+    "Pack": "The Doors Song Pack"
+  },
+  {
+    "Title": "Don&#8217;t Look Back",
+    "Artist": "Boston",
+    "ReleaseDate": "2014-03-04",
+    "Pack": "Boston Song Pack"
+  },
+  {
+    "Title": "Foreplay/Long Time",
+    "Artist": "Boston",
+    "ReleaseDate": "2014-03-04",
+    "Pack": "Boston Song Pack"
+  },
+  {
+    "Title": "Hitch A Ride",
+    "Artist": "Boston",
+    "ReleaseDate": "2014-03-04",
+    "Pack": "Boston Song Pack"
+  },
+  {
+    "Title": "All Around Me",
+    "Artist": "Flyleaf",
+    "ReleaseDate": "2014-03-11",
+    "Pack": "Female Lead Singles"
+  },
+  {
+    "Title": "Crazy On You",
+    "Artist": "Heart",
+    "ReleaseDate": "2014-03-11",
+    "Pack": "Female Lead Singles"
+  },
+  {
+    "Title": "Love Bites (So Do I)",
+    "Artist": "Halestorm",
+    "ReleaseDate": "2014-03-11",
+    "Pack": "Female Lead Singles"
+  },
+  {
+    "Title": "All Signs Point to Lauderdale",
+    "Artist": "A Day To Remember",
+    "ReleaseDate": "2014-03-18",
+    "Pack": "A Day To Remember Song Pack"
+  },
+  {
+    "Title": "All I Want",
+    "Artist": "A Day To Remember",
+    "ReleaseDate": "2014-03-18",
+    "Pack": "A Day To Remember Song Pack"
+  },
+  {
+    "Title": "If it Means a Lot to You",
+    "Artist": "A Day To Remember",
+    "ReleaseDate": "2014-03-18",
+    "Pack": "A Day To Remember Song Pack"
+  },
+  {
+    "Title": "It&#8217;s Complicated",
+    "Artist": "A Day To Remember",
+    "ReleaseDate": "2014-03-18",
+    "Pack": "A Day To Remember Song Pack"
+  },
+  {
+    "Title": "The Downfall of Us All",
+    "Artist": "A Day To Remember",
+    "ReleaseDate": "2014-03-18",
+    "Pack": "A Day To Remember Song Pack"
+  },
+  {
+    "Title": "3AM",
+    "Artist": "Matchbox Twenty",
+    "ReleaseDate": "2014-03-25",
+    "Pack": "Matchbox Twenty Song Pack"
+  },
+  {
+    "Title": "How Far We&#8217;ve Come",
+    "Artist": "Matchbox Twenty",
+    "ReleaseDate": "2014-03-25",
+    "Pack": "Matchbox Twenty Song Pack"
+  },
+  {
+    "Title": "Push",
+    "Artist": "Matchbox Twenty",
+    "ReleaseDate": "2014-03-25",
+    "Pack": "Matchbox Twenty Song Pack"
+  },
+  {
+    "Title": "Unwell",
+    "Artist": "Matchbox Twenty",
+    "ReleaseDate": "2014-03-25",
+    "Pack": "Matchbox Twenty Song Pack"
+  },
+  {
+    "Title": "She&#8217;s So Mean",
+    "Artist": "Matchbox Twenty",
+    "ReleaseDate": "2014-03-25",
+    "Pack": "Matchbox Twenty Song Pack"
+  },
+  {
+    "Title": "Girl&#8217;s Not Grey",
+    "Artist": "AFI",
+    "ReleaseDate": "2014-04-01",
+    "Pack": "AFI Song Pack"
+  },
+  {
+    "Title": "Miss Murder",
+    "Artist": "AFI",
+    "ReleaseDate": "2014-04-01",
+    "Pack": "AFI Song Pack"
+  },
+  {
+    "Title": "Silver and Cold",
+    "Artist": "AFI",
+    "ReleaseDate": "2014-04-01",
+    "Pack": "AFI Song Pack"
+  },
+  {
+    "Title": "Totalimmortal",
+    "Artist": "AFI",
+    "ReleaseDate": "2014-04-01",
+    "Pack": "AFI Song Pack"
+  },
+  {
+    "Title": "Just Like a Woman",
+    "Artist": "Bob Dylan",
+    "ReleaseDate": "2014-04-08",
+    "Pack": "Bob Dylan Song Pack"
+  },
+  {
+    "Title": "Like a Rolling Stone",
+    "Artist": "Bob Dylan",
+    "ReleaseDate": "2014-04-08",
+    "Pack": "Bob Dylan Song Pack"
+  },
+  {
+    "Title": "Subterranean Homesick Blues",
+    "Artist": "Bob Dylan",
+    "ReleaseDate": "2014-04-08",
+    "Pack": "Bob Dylan Song Pack"
+  },
+  {
+    "Title": "I Think I&#8217;m Paranoid",
+    "Artist": "Garbage",
+    "ReleaseDate": "2014-04-15",
+    "Pack": "Garbage Song Pack"
+  },
+  {
+    "Title": "Only Happy When It Rains",
+    "Artist": "Garbage",
+    "ReleaseDate": "2014-04-15",
+    "Pack": "Garbage Song Pack"
+  },
+  {
+    "Title": "Stupid Girl",
+    "Artist": "Garbage",
+    "ReleaseDate": "2014-04-15",
+    "Pack": "Garbage Song Pack"
+  },
+  {
+    "Title": "Father of Mine",
+    "Artist": "Everclear",
+    "ReleaseDate": "2014-04-22",
+    "Pack": "90&#8217;s Rock Singles"
+  },
+  {
+    "Title": "Tomorrow",
+    "Artist": "Silverchair",
+    "ReleaseDate": "2014-04-22",
+    "Pack": "90&#8217;s Rock Singles"
+  },
+  {
+    "Title": "Two Princes",
+    "Artist": "Spin Doctors",
+    "ReleaseDate": "2014-04-22",
+    "Pack": "90&#8217;s Rock Singles"
+  },
+  {
+    "Title": "Blackbird",
+    "Artist": "Alter Bridge",
+    "ReleaseDate": "2014-04-29",
+    "Pack": "Alter Bridge Song Pack"
+  },
+  {
+    "Title": "Isolation",
+    "Artist": "Alter Bridge",
+    "ReleaseDate": "2014-04-29",
+    "Pack": "Alter Bridge Song Pack"
+  },
+  {
+    "Title": "Rise Today",
+    "Artist": "Alter Bridge",
+    "ReleaseDate": "2014-04-29",
+    "Pack": "Alter Bridge Song Pack"
+  },
+  {
+    "Title": "Ties That Bind",
+    "Artist": "Alter Bridge",
+    "ReleaseDate": "2014-04-29",
+    "Pack": "Alter Bridge Song Pack"
+  },
+  {
+    "Title": "Amber",
+    "Artist": "311",
+    "ReleaseDate": "2014-05-06",
+    "Pack": "311 Song Pack"
+  },
+  {
+    "Title": "Beautiful Disaster",
+    "Artist": "311",
+    "ReleaseDate": "2014-05-06",
+    "Pack": "311 Song Pack"
+  },
+  {
+    "Title": "Down",
+    "Artist": "311",
+    "ReleaseDate": "2014-05-06",
+    "Pack": "311 Song Pack"
+  },
+  {
+    "Title": "Black Tongue",
+    "Artist": "Mastodon",
+    "ReleaseDate": "2014-05-13",
+    "Pack": "Mastodon Song Pack"
+  },
+  {
+    "Title": "Colony of Birchmen",
+    "Artist": "Mastodon",
+    "ReleaseDate": "2014-05-13",
+    "Pack": "Mastodon Song Pack"
+  },
+  {
+    "Title": "Oblivion",
+    "Artist": "Mastodon",
+    "ReleaseDate": "2014-05-13",
+    "Pack": "Mastodon Song Pack"
+  },
+  {
+    "Title": "The Distance",
+    "Artist": "Cake",
+    "ReleaseDate": "2014-05-20",
+    "Pack": "Cake Song Pack"
+  },
+  {
+    "Title": "I Will Survive",
+    "Artist": "Cake",
+    "ReleaseDate": "2014-05-20",
+    "Pack": "Cake Song Pack"
+  },
+  {
+    "Title": "Never There",
+    "Artist": "Cake",
+    "ReleaseDate": "2014-05-20",
+    "Pack": "Cake Song Pack"
+  },
+  {
+    "Title": "Short Skirt/Long Jacket",
+    "Artist": "Cake",
+    "ReleaseDate": "2014-05-20",
+    "Pack": "Cake Song Pack"
+  },
+  {
+    "Title": "Stickshifts and Safety Belts",
+    "Artist": "Cake",
+    "ReleaseDate": "2014-05-20",
+    "Pack": "Cake Song Pack"
+  },
+  {
+    "Title": "Anastasia",
+    "Artist": "Slash featuring Myles Kennedy and The Conspirators",
+    "ReleaseDate": "2014-05-27",
+    "Pack": "Slash Song Pack"
+  },
+  {
+    "Title": "Back from Cali",
+    "Artist": "Slash featuring Myles Kennedy",
+    "ReleaseDate": "2014-05-27",
+    "Pack": "Slash Song Pack"
+  },
+  {
+    "Title": "You&#8217;re A Lie",
+    "Artist": "Slash featuring Myles Kennedy and The Conspirators",
+    "ReleaseDate": "2014-05-27",
+    "Pack": "Slash Song Pack"
+  },
+  {
+    "Title": "Fat Lip",
+    "Artist": "Sum 41",
+    "ReleaseDate": "2014-06-03",
+    "Pack": "Sum 41 Song Pack"
+  },
+  {
+    "Title": "The Hell Song",
+    "Artist": "Sum 41",
+    "ReleaseDate": "2014-06-03",
+    "Pack": "Sum 41 Song Pack"
+  },
+  {
+    "Title": "In Too Deep",
+    "Artist": "Sum 41",
+    "ReleaseDate": "2014-06-03",
+    "Pack": "Sum 41 Song Pack"
+  },
+  {
+    "Title": "Still Waiting",
+    "Artist": "Sum 41",
+    "ReleaseDate": "2014-06-03",
+    "Pack": "Sum 41 Song Pack"
+  },
+  {
+    "Title": "We&#8217;re All To Blame",
+    "Artist": "Sum 41",
+    "ReleaseDate": "2014-06-03",
+    "Pack": "Sum 41 Song Pack"
+  },
+  {
+    "Title": "Ain&#8217;t No Sunshine",
+    "Artist": "Bill Withers",
+    "ReleaseDate": "2014-06-10",
+    "Pack": "Classic Singles"
+  },
+  {
+    "Title": "Funk #49",
+    "Artist": "James Gang",
+    "ReleaseDate": "2014-06-10",
+    "Pack": "Classic Singles"
+  },
+  {
+    "Title": "Sweet Dreams",
+    "Artist": "Roy Buchanan",
+    "ReleaseDate": "2014-06-10",
+    "Pack": "Classic Singles"
+  },
+  {
+    "Title": "Awake",
+    "Artist": "Godsmack",
+    "ReleaseDate": "2014-06-17",
+    "Pack": "Godsmack Song Pack"
+  },
+  {
+    "Title": "Cryin&#8217; Like a Bitch",
+    "Artist": "Godsmack",
+    "ReleaseDate": "2014-06-17",
+    "Pack": "Godsmack Song Pack"
+  },
+  {
+    "Title": "I Stand Alone",
+    "Artist": "Godsmack",
+    "ReleaseDate": "2014-06-17",
+    "Pack": "Godsmack Song Pack"
+  },
+  {
+    "Title": "Love-Hate-Sex-Pain",
+    "Artist": "Godsmack",
+    "ReleaseDate": "2014-06-17",
+    "Pack": "Godsmack Song Pack"
+  },
+  {
+    "Title": "Voodoo",
+    "Artist": "Godsmack",
+    "ReleaseDate": "2014-06-17",
+    "Pack": "Godsmack Song Pack"
+  },
+  {
+    "Title": "Misirlou",
+    "Artist": "Dick Dale and His Del-Tones",
+    "ReleaseDate": "2014-06-24",
+    "Pack": "Surf Rock Song Pack"
+  },
+  {
+    "Title": "Wipe Out",
+    "Artist": "The Surfaris",
+    "ReleaseDate": "2014-06-24",
+    "Pack": "Surf Rock Song Pack"
+  },
+  {
+    "Title": "Walk Don&#8217;t Run",
+    "Artist": "The Ventures",
+    "ReleaseDate": "2014-06-24",
+    "Pack": "Surf Rock Song Pack"
+  },
+  {
+    "Title": "Devil in a Midnight Mass",
+    "Artist": "Billy Talent",
+    "ReleaseDate": "2014-07-01",
+    "Pack": "Billy Talent Song Pack"
+  },
+  {
+    "Title": "Fallen Leaves",
+    "Artist": "Billy Talent",
+    "ReleaseDate": "2014-07-01",
+    "Pack": "Billy Talent Song Pack"
+  },
+  {
+    "Title": "Red Flag",
+    "Artist": "Billy Talent",
+    "ReleaseDate": "2014-07-01",
+    "Pack": "Billy Talent Song Pack"
+  },
+  {
+    "Title": "Try Honesty",
+    "Artist": "Billy Talent",
+    "ReleaseDate": "2014-07-01",
+    "Pack": "Billy Talent Song Pack"
+  },
+  {
+    "Title": "Viking Death March",
+    "Artist": "Billy Talent",
+    "ReleaseDate": "2014-07-01",
+    "Pack": "Billy Talent Song Pack"
+  },
+  {
+    "Title": "Can&#8217;t Stand Me Now",
+    "Artist": "The Libertines",
+    "ReleaseDate": "2014-07-08",
+    "Pack": "The Libertines Song Pack"
+  },
+  {
+    "Title": "Don&#8217;t Look Back into the Sun",
+    "Artist": "The Libertines",
+    "ReleaseDate": "2014-07-08",
+    "Pack": "The Libertines Song Pack"
+  },
+  {
+    "Title": "What Katie Did",
+    "Artist": "The Libertines",
+    "ReleaseDate": "2014-07-08",
+    "Pack": "The Libertines Song Pack"
+  },
+  {
+    "Title": "Change (In The House Of Flies)",
+    "Artist": "Deftones",
+    "ReleaseDate": "2014-07-15",
+    "Pack": "Deftones Song Pack"
+  },
+  {
+    "Title": "Digital Bath",
+    "Artist": "Deftones",
+    "ReleaseDate": "2014-07-15",
+    "Pack": "Deftones Song Pack"
+  },
+  {
+    "Title": "Be Quiet And Drive (Far Away)",
+    "Artist": "Deftones",
+    "ReleaseDate": "2014-07-15",
+    "Pack": "Deftones Song Pack"
+  },
+  {
+    "Title": "Hole In The Earth",
+    "Artist": "Deftones",
+    "ReleaseDate": "2014-07-15",
+    "Pack": "Deftones Song Pack"
+  },
+  {
+    "Title": "Kiss On My List",
+    "Artist": "Daryl Hall and John Oates",
+    "ReleaseDate": "2014-07-22",
+    "Pack": "Yacht Rock Singles"
+  },
+  {
+    "Title": "China Grove",
+    "Artist": "The Doobie Brothers",
+    "ReleaseDate": "2014-07-22",
+    "Pack": "Yacht Rock Singles"
+  },
+  {
+    "Title": "I Keep Forgettin&#8217; (Every Time You&#8217;re Near)",
+    "Artist": "Michael McDonald",
+    "ReleaseDate": "2014-07-22",
+    "Pack": "Yacht Rock Singles"
+  },
+  {
+    "Title": "Escape (The Piña Colada Song)",
+    "Artist": "Rupert Holmes",
+    "ReleaseDate": "2014-07-22",
+    "Pack": "Yacht Rock Singles"
+  },
+  {
+    "Title": "Hold The Line",
+    "Artist": "Toto",
+    "ReleaseDate": "2014-07-22",
+    "Pack": "Yacht Rock Singles"
+  },
+  {
+    "Title": "Laid to Rest",
+    "Artist": "Lamb of God",
+    "ReleaseDate": "2014-07-29",
+    "Pack": "Lamb of God Pack"
+  },
+  {
+    "Title": "Ghost Walking",
+    "Artist": "Lamb of God",
+    "ReleaseDate": "2014-07-29",
+    "Pack": "Lamb of God Pack"
+  },
+  {
+    "Title": "Walk With Me in Hell",
+    "Artist": "Lamb of God",
+    "ReleaseDate": "2014-07-29",
+    "Pack": "Lamb of God Pack"
+  },
+  {
+    "Title": "Black Chandelier",
+    "Artist": "Biffy Clyro",
+    "ReleaseDate": "2014-08-05",
+    "Pack": "Biffy Clyro Song Pack"
+  },
+  {
+    "Title": "Bubbles",
+    "Artist": "Biffy Clyro",
+    "ReleaseDate": "2014-08-05",
+    "Pack": "Biffy Clyro Song Pack"
+  },
+  {
+    "Title": "Many Of Horror",
+    "Artist": "Biffy Clyro",
+    "ReleaseDate": "2014-08-05",
+    "Pack": "Biffy Clyro Song Pack"
+  },
+  {
+    "Title": "Mountains",
+    "Artist": "Biffy Clyro",
+    "ReleaseDate": "2014-08-05",
+    "Pack": "Biffy Clyro Song Pack"
+  },
+  {
+    "Title": "Stingin&#8217; Belle",
+    "Artist": "Biffy Clyro",
+    "ReleaseDate": "2014-08-05",
+    "Pack": "Biffy Clyro Song Pack"
+  },
+  {
+    "Title": "Don&#8217;t Speak",
+    "Artist": "No Doubt",
+    "ReleaseDate": "2014-08-12",
+    "Pack": "No Doubt Song Pack"
+  },
+  {
+    "Title": "Ex-Girlfriend",
+    "Artist": "No Doubt",
+    "ReleaseDate": "2014-08-12",
+    "Pack": "No Doubt Song Pack"
+  },
+  {
+    "Title": "Spiderwebs",
+    "Artist": "No Doubt",
+    "ReleaseDate": "2014-08-12",
+    "Pack": "No Doubt Song Pack"
+  },
+  {
+    "Title": "Hungry Like The Wolf",
+    "Artist": "Duran Duran",
+    "ReleaseDate": "2014-08-19",
+    "Pack": "Duran Duran Song Pack"
+  },
+  {
+    "Title": "Ordinary World",
+    "Artist": "Duran Duran",
+    "ReleaseDate": "2014-08-19",
+    "Pack": "Duran Duran Song Pack"
+  },
+  {
+    "Title": "Rio",
+    "Artist": "Duran Duran",
+    "ReleaseDate": "2014-08-19",
+    "Pack": "Duran Duran Song Pack"
+  },
+  {
+    "Title": "In the Hall of The Mountain King",
+    "Artist": "Edvard Grieg",
+    "ReleaseDate": "2014-08-26",
+    "Pack": "Bachsmith Song Pack"
+  },
+  {
+    "Title": "&#8220;Little&#8221; Fugue in G Minor",
+    "Artist": "Johann Sebastian Bach",
+    "ReleaseDate": "2014-08-26",
+    "Pack": "Bachsmith Song Pack"
+  },
+  {
+    "Title": "Moonlight Sonata: Adagio Sostenuto",
+    "Artist": "Ludwig van Beethoven",
+    "ReleaseDate": "2014-08-26",
+    "Pack": "Bachsmith Song Pack"
+  },
+  {
+    "Title": "Ride Of The Valkyries",
+    "Artist": "Richard Wagner",
+    "ReleaseDate": "2014-08-26",
+    "Pack": "Bachsmith Song Pack"
+  },
+  {
+    "Title": "Rondo Alla Turca",
+    "Artist": "Wolfgang Amadeus Mozart",
+    "ReleaseDate": "2014-08-26",
+    "Pack": "Bachsmith Song Pack"
+  },
+  {
+    "Title": "Caress Me Down",
+    "Artist": "Sublime",
+    "ReleaseDate": "2014-09-02",
+    "Pack": "Sublime Song Pack"
+  },
+  {
+    "Title": "Santeria",
+    "Artist": "Sublime",
+    "ReleaseDate": "2014-09-02",
+    "Pack": "Sublime Song Pack"
+  },
+  {
+    "Title": "Smoke Two Joints",
+    "Artist": "Sublime",
+    "ReleaseDate": "2014-09-02",
+    "Pack": "Sublime Song Pack"
+  },
+  {
+    "Title": "What I Got",
+    "Artist": "Sublime",
+    "ReleaseDate": "2014-09-02",
+    "Pack": "Sublime Song Pack"
+  },
+  {
+    "Title": "Wrong Way",
+    "Artist": "Sublime",
+    "ReleaseDate": "2014-09-02",
+    "Pack": "Sublime Song Pack"
+  },
+  {
+    "Title": "Highway Star",
+    "Artist": "Deep Purple",
+    "ReleaseDate": "2014-09-09",
+    "Pack": "70&#8217;s Rock Singles"
+  },
+  {
+    "Title": "Simple Man",
+    "Artist": "Lynyrd Skynyrd",
+    "ReleaseDate": "2014-09-09",
+    "Pack": "70&#8217;s Rock Singles"
+  },
+  {
+    "Title": "Stranglehold",
+    "Artist": "Ted Nugent",
+    "ReleaseDate": "2014-09-09",
+    "Pack": "70&#8217;s Rock Singles"
+  },
+  {
+    "Title": "Higher",
+    "Artist": "Creed",
+    "ReleaseDate": "2014-09-16",
+    "Pack": "Creed Song Pack"
+  },
+  {
+    "Title": "My Own Prison",
+    "Artist": "Creed",
+    "ReleaseDate": "2014-09-16",
+    "Pack": "Creed Song Pack"
+  },
+  {
+    "Title": "My Sacrifice",
+    "Artist": "Creed",
+    "ReleaseDate": "2014-09-16",
+    "Pack": "Creed Song Pack"
+  },
+  {
+    "Title": "One Last Breath",
+    "Artist": "Creed",
+    "ReleaseDate": "2014-09-16",
+    "Pack": "Creed Song Pack"
+  },
+  {
+    "Title": "With Arms Wide Open",
+    "Artist": "Creed",
+    "ReleaseDate": "2014-09-16",
+    "Pack": "Creed Song Pack"
+  },
+  {
+    "Title": "45",
+    "Artist": "Shinedown",
+    "ReleaseDate": "2014-09-23",
+    "Pack": "Shinedown Song Pack"
+  },
+  {
+    "Title": "Bully",
+    "Artist": "Shinedown",
+    "ReleaseDate": "2014-09-23",
+    "Pack": "Shinedown Song Pack"
+  },
+  {
+    "Title": "Enemies",
+    "Artist": "Shinedown",
+    "ReleaseDate": "2014-09-23",
+    "Pack": "Shinedown Song Pack"
+  },
+  {
+    "Title": "Second Chance",
+    "Artist": "Shinedown",
+    "ReleaseDate": "2014-09-23",
+    "Pack": "Shinedown Song Pack"
+  },
+  {
+    "Title": "Sound of Madness",
+    "Artist": "Shinedown",
+    "ReleaseDate": "2014-09-23",
+    "Pack": "Shinedown Song Pack"
+  },
+  {
+    "Title": "Cold As Ice",
+    "Artist": "Foreigner",
+    "ReleaseDate": "2014-09-30",
+    "Pack": "Foreigner Song Pack"
+  },
+  {
+    "Title": "Double Vision",
+    "Artist": "Foreigner",
+    "ReleaseDate": "2014-09-30",
+    "Pack": "Foreigner Song Pack"
+  },
+  {
+    "Title": "Feels Like the First Time",
+    "Artist": "Foreigner",
+    "ReleaseDate": "2014-09-30",
+    "Pack": "Foreigner Song Pack"
+  },
+  {
+    "Title": "Hot Blooded",
+    "Artist": "Foreigner",
+    "ReleaseDate": "2014-09-30",
+    "Pack": "Foreigner Song Pack"
+  },
+  {
+    "Title": "Jukebox Hero",
+    "Artist": "Foreigner",
+    "ReleaseDate": "2014-09-30",
+    "Pack": "Foreigner Song Pack"
+  },
+  {
+    "Title": " Be Yourself",
+    "Artist": "Audioslave",
+    "ReleaseDate": "2014-10-07",
+    "Pack": "Audioslave Song Pack"
+  },
+  {
+    "Title": " Cochise",
+    "Artist": "Audioslave",
+    "ReleaseDate": "2014-10-07",
+    "Pack": "Audioslave Song Pack"
+  },
+  {
+    "Title": "I Am The Highway",
+    "Artist": "Audioslave",
+    "ReleaseDate": "2014-10-07",
+    "Pack": "Audioslave Song Pack"
+  },
+  {
+    "Title": "Like a Stone",
+    "Artist": "Audioslave",
+    "ReleaseDate": "2014-10-07",
+    "Pack": "Audioslave Song Pack"
+  },
+  {
+    "Title": "Show Me How to Live",
+    "Artist": "Audioslave",
+    "ReleaseDate": "2014-10-07",
+    "Pack": "Audioslave Song Pack"
+  },
+  {
+    "Title": "Blue Orchid",
+    "Artist": "The White Stripes",
+    "ReleaseDate": "2014-10-14",
+    "Pack": "The White Stripes Song Pack"
+  },
+  {
+    "Title": "Fell In Love With A Girl",
+    "Artist": "The White Stripes",
+    "ReleaseDate": "2014-10-14",
+    "Pack": "The White Stripes Song Pack"
+  },
+  {
+    "Title": "Seven Nation Army",
+    "Artist": "The White Stripes",
+    "ReleaseDate": "2014-10-14",
+    "Pack": "The White Stripes Song Pack"
+  },
+  {
+    "Title": "The Hardest Button To Button",
+    "Artist": "The White Stripes",
+    "ReleaseDate": "2014-10-14",
+    "Pack": "The White Stripes Song Pack"
+  },
+  {
+    "Title": "You Don’t Know What Love Is (You Just Do What You’re Told)",
+    "Artist": "The White Stripes",
+    "ReleaseDate": "2014-10-14",
+    "Pack": "The White Stripes Song Pack"
+  },
+  {
+    "Title": "Turn Up the Radio",
+    "Artist": "Autograph",
+    "ReleaseDate": "2014-10-21",
+    "Pack": "Arena Rock Singles"
+  },
+  {
+    "Title": "The Stroke",
+    "Artist": "Billy Squier",
+    "ReleaseDate": "2014-10-21",
+    "Pack": "Arena Rock Singles"
+  },
+  {
+    "Title": "Holy Diver",
+    "Artist": "Dio",
+    "ReleaseDate": "2014-10-21",
+    "Pack": "Arena Rock Singles"
+  },
+  {
+    "Title": "Nothin&#8217; but a Good Time",
+    "Artist": "Poison",
+    "ReleaseDate": "2014-10-21",
+    "Pack": "Arena Rock Singles"
+  },
+  {
+    "Title": "Seventeen",
+    "Artist": "Winger",
+    "ReleaseDate": "2014-10-21",
+    "Pack": "Arena Rock Singles"
+  },
+  {
+    "Title": "Mr. Brightside",
+    "Artist": "The Killers",
+    "ReleaseDate": "2014-10-28",
+    "Pack": "The Killers Song Pack"
+  },
+  {
+    "Title": "Runaways",
+    "Artist": "The Killers",
+    "ReleaseDate": "2014-10-28",
+    "Pack": "The Killers Song Pack"
+  },
+  {
+    "Title": "Somebody Told Me",
+    "Artist": "The Killers",
+    "ReleaseDate": "2014-10-28",
+    "Pack": "The Killers Song Pack"
+  },
+  {
+    "Title": "Spaceman",
+    "Artist": "The Killers",
+    "ReleaseDate": "2014-10-28",
+    "Pack": "The Killers Song Pack"
+  },
+  {
+    "Title": "When You Were Young",
+    "Artist": "The Killers",
+    "ReleaseDate": "2014-10-28",
+    "Pack": "The Killers Song Pack"
+  },
+  {
+    "Title": "Holy Diver",
+    "Artist": "Killswitch Engage",
+    "ReleaseDate": "2014-11-04",
+    "Pack": "Killswitch Engage Song Pack"
+  },
+  {
+    "Title": "My Curse",
+    "Artist": "Killswitch Engage",
+    "ReleaseDate": "2014-11-04",
+    "Pack": "Killswitch Engage Song Pack"
+  },
+  {
+    "Title": "The End Of Heartache",
+    "Artist": "Killswitch Engage",
+    "ReleaseDate": "2014-11-04",
+    "Pack": "Killswitch Engage Song Pack"
+  },
+  {
+    "Title": "American Girl",
+    "Artist": "Tom Petty and the Heartbreakers",
+    "ReleaseDate": "2014-11-11",
+    "Pack": "Tom Petty Song Pack"
+  },
+  {
+    "Title": "Free Fallin",
+    "Artist": "Tom Petty",
+    "ReleaseDate": "2014-11-11",
+    "Pack": "Tom Petty Song Pack"
+  },
+  {
+    "Title": "I Won&#8217;t Back Down",
+    "Artist": "Tom Petty",
+    "ReleaseDate": "2014-11-11",
+    "Pack": "Tom Petty Song Pack"
+  },
+  {
+    "Title": "Learning To Fly",
+    "Artist": "Tom Petty and the Heartbreakers",
+    "ReleaseDate": "2014-11-11",
+    "Pack": "Tom Petty Song Pack"
+  },
+  {
+    "Title": "Refugee",
+    "Artist": "Tom Petty and the Heartbreakers",
+    "ReleaseDate": "2014-11-11",
+    "Pack": "Tom Petty Song Pack"
+  },
+  {
+    "Title": "Learn To Fly",
+    "Artist": "Foo Fighters",
+    "ReleaseDate": "2014-11-18",
+    "Pack": "Foo Fighters II Song Pack"
+  },
+  {
+    "Title": "Long Road To Ruin",
+    "Artist": "Foo Fighters",
+    "ReleaseDate": "2014-11-18",
+    "Pack": "Foo Fighters II Song Pack"
+  },
+  {
+    "Title": "Monkey Wrench",
+    "Artist": "Foo Fighters",
+    "ReleaseDate": "2014-11-18",
+    "Pack": "Foo Fighters II Song Pack"
+  },
+  {
+    "Title": "The Pretender",
+    "Artist": "Foo Fighters",
+    "ReleaseDate": "2014-11-18",
+    "Pack": "Foo Fighters II Song Pack"
+  },
+  {
+    "Title": "Rope",
+    "Artist": "Foo Fighters",
+    "ReleaseDate": "2014-11-18",
+    "Pack": "Foo Fighters II Song Pack"
+  },
+  {
+    "Title": "Hand Of Blood",
+    "Artist": "Bullet For My Valentine",
+    "ReleaseDate": "2014-11-25",
+    "Pack": "Bullet For My Valentine Song Pack"
+  },
+  {
+    "Title": "Hearts Burst into Fire",
+    "Artist": "Bullet For My Valentine",
+    "ReleaseDate": "2014-11-25",
+    "Pack": "Bullet For My Valentine Song Pack"
+  },
+  {
+    "Title": "Scream Aim Fire",
+    "Artist": "Bullet For My Valentine",
+    "ReleaseDate": "2014-11-25",
+    "Pack": "Bullet For My Valentine Song Pack"
+  },
+  {
+    "Title": "Tears Don&#8217;t Fall",
+    "Artist": "Bullet For My Valentine",
+    "ReleaseDate": "2014-11-25",
+    "Pack": "Bullet For My Valentine Song Pack"
+  },
+  {
+    "Title": "Your Betrayal",
+    "Artist": "Bullet For My Valentine",
+    "ReleaseDate": "2014-11-25",
+    "Pack": "Bullet For My Valentine Song Pack"
+  },
+  {
+    "Title": "Blaze Of Glory",
+    "Artist": "Jon Bon Jovi",
+    "ReleaseDate": "2014-12-02",
+    "Pack": "Bon Jovi Song Pack"
+  },
+  {
+    "Title": "It&#8217;s My Life",
+    "Artist": "Bon Jovi",
+    "ReleaseDate": "2014-12-02",
+    "Pack": "Bon Jovi Song Pack"
+  },
+  {
+    "Title": "Livin&#8217; On A Prayer",
+    "Artist": "Bon Jovi",
+    "ReleaseDate": "2014-12-02",
+    "Pack": "Bon Jovi Song Pack"
+  },
+  {
+    "Title": "Wanted Dead Or Alive",
+    "Artist": "Bon Jovi",
+    "ReleaseDate": "2014-12-02",
+    "Pack": "Bon Jovi Song Pack"
+  },
+  {
+    "Title": "You Give Love A Bad Name",
+    "Artist": "Bon Jovi",
+    "ReleaseDate": "2014-12-02",
+    "Pack": "Bon Jovi Song Pack"
+  },
+  {
+    "Title": "Bombtrack",
+    "Artist": "Rage Against The Machine",
+    "ReleaseDate": "2014-12-09",
+    "Pack": "Rage Against The Machine Song Pack (I-II)"
+  },
+  {
+    "Title": "Bulls On Parade",
+    "Artist": "Rage Against The Machine",
+    "ReleaseDate": "2014-12-09",
+    "Pack": "Rage Against The Machine Song Pack (I-II)"
+  },
+  {
+    "Title": "Down Rodeo",
+    "Artist": "Rage Against The Machine",
+    "ReleaseDate": "2014-12-09",
+    "Pack": "Rage Against The Machine Song Pack (I-II)"
+  },
+  {
+    "Title": "Killing in the Name",
+    "Artist": "Rage Against The Machine",
+    "ReleaseDate": "2014-12-09",
+    "Pack": "Rage Against The Machine Song Pack (I-II)"
+  },
+  {
+    "Title": "Know Your Enemy",
+    "Artist": "Rage Against The Machine",
+    "ReleaseDate": "2014-12-09",
+    "Pack": "Rage Against The Machine Song Pack (I-II)"
+  },
+  {
+    "Title": "Renegades Of Funk",
+    "Artist": "Rage Against The Machine",
+    "ReleaseDate": "2014-12-09",
+    "Pack": "Rage Against The Machine Song Pack (I-II)"
+  },
+  {
+    "Title": "Wake Up",
+    "Artist": "Rage Against The Machine",
+    "ReleaseDate": "2014-12-09",
+    "Pack": "Rage Against The Machine Song Pack (I-II)"
+  },
+  {
+    "Title": "Bold As Love",
+    "Artist": "The Jimi Hendrix Experience",
+    "ReleaseDate": "2014-12-16",
+    "Pack": "The Jimi Hendrix Song Pack (I-II-III-IV)"
+  },
+  {
+    "Title": "Castles Made Of Sand",
+    "Artist": "The Jimi Hendrix Experience",
+    "ReleaseDate": "2014-12-16",
+    "Pack": "The Jimi Hendrix Song Pack (I-II-III-IV)"
+  },
+  {
+    "Title": "Fire",
+    "Artist": "The Jimi Hendrix Experience",
+    "ReleaseDate": "2014-12-16",
+    "Pack": "The Jimi Hendrix Song Pack (I-II-III-IV)"
+  },
+  {
+    "Title": "Foxey Lady",
+    "Artist": "The Jimi Hendrix Experience",
+    "ReleaseDate": "2014-12-16",
+    "Pack": "The Jimi Hendrix Song Pack (I-II-III-IV)"
+  },
+  {
+    "Title": "Freedom",
+    "Artist": "Jimi Hendrix",
+    "ReleaseDate": "2014-12-16",
+    "Pack": "The Jimi Hendrix Song Pack (I-II-III-IV)"
+  },
+  {
+    "Title": "If 6 Was 9",
+    "Artist": "The Jimi Hendrix Experience",
+    "ReleaseDate": "2014-12-16",
+    "Pack": "The Jimi Hendrix Song Pack (I-II-III-IV)"
+  },
+  {
+    "Title": "Little Wing",
+    "Artist": "The Jimi Hendrix Experience",
+    "ReleaseDate": "2014-12-16",
+    "Pack": "The Jimi Hendrix Song Pack (I-II-III-IV)"
+  },
+  {
+    "Title": "Manic Depression",
+    "Artist": "The Jimi Hendrix Experience",
+    "ReleaseDate": "2014-12-16",
+    "Pack": "The Jimi Hendrix Song Pack (I-II-III-IV)"
+  },
+  {
+    "Title": "Purple Haze",
+    "Artist": "The Jimi Hendrix Experience",
+    "ReleaseDate": "2014-12-16",
+    "Pack": "The Jimi Hendrix Song Pack (I-II-III-IV)"
+  },
+  {
+    "Title": "Red House",
+    "Artist": "The Jimi Hendrix Experience",
+    "ReleaseDate": "2014-12-16",
+    "Pack": "The Jimi Hendrix Song Pack (I-II-III-IV)"
+  },
+  {
+    "Title": "Voodoo Child (Slight Return)",
+    "Artist": "The Jimi Hendrix Experience",
+    "ReleaseDate": "2014-12-16",
+    "Pack": "The Jimi Hendrix Song Pack (I-II-III-IV)"
+  },
+  {
+    "Title": "The Wind Cries Mary",
+    "Artist": "The Jimi Hendrix Experience",
+    "ReleaseDate": "2014-12-16",
+    "Pack": "The Jimi Hendrix Song Pack (I-II-III-IV)"
+  },
+  {
+    "Title": "Bleed it Out",
+    "Artist": "Linkin Park",
+    "ReleaseDate": "2015-01-06",
+    "Pack": "Linkin Park Song Pack "
+  },
+  {
+    "Title": "Guilty All the Same",
+    "Artist": "Linkin Park",
+    "ReleaseDate": "2015-01-06",
+    "Pack": "Linkin Park Song Pack "
+  },
+  {
+    "Title": "In the End",
+    "Artist": "Linkin Park",
+    "ReleaseDate": "2015-01-06",
+    "Pack": "Linkin Park Song Pack "
+  },
+  {
+    "Title": "Numb",
+    "Artist": "Linkin Park",
+    "ReleaseDate": "2015-01-06",
+    "Pack": "Linkin Park Song Pack "
+  },
+  {
+    "Title": "One Step Closer",
+    "Artist": "Linkin Park",
+    "ReleaseDate": "2015-01-06",
+    "Pack": "Linkin Park Song Pack "
+  },
+  {
+    "Title": "What I&#8217;ve Done",
+    "Artist": "Linkin Park",
+    "ReleaseDate": "2015-01-06",
+    "Pack": "Linkin Park Song Pack "
+  },
+  {
+    "Title": "Black Hole Sun",
+    "Artist": "Soundgarden",
+    "ReleaseDate": "2015-01-13",
+    "Pack": "Soundgarden Song Pack"
+  },
+  {
+    "Title": "Fell On Black Days",
+    "Artist": "Soundgarden",
+    "ReleaseDate": "2015-01-13",
+    "Pack": "Soundgarden Song Pack"
+  },
+  {
+    "Title": "Jesus Christ Pose",
+    "Artist": "Soundgarden",
+    "ReleaseDate": "2015-01-13",
+    "Pack": "Soundgarden Song Pack"
+  },
+  {
+    "Title": "Pretty Noose",
+    "Artist": "Soundgarden",
+    "ReleaseDate": "2015-01-13",
+    "Pack": "Soundgarden Song Pack"
+  },
+  {
+    "Title": "Spoonman",
+    "Artist": "Soundgarden",
+    "ReleaseDate": "2015-01-13",
+    "Pack": "Soundgarden Song Pack"
+  },
+  {
+    "Title": "Rainbow in the Dark",
+    "Artist": "Dio",
+    "ReleaseDate": "2015-01-20",
+    "Pack": "Classic Riff Singles"
+  },
+  {
+    "Title": "Ace of Spades",
+    "Artist": "Motörhead",
+    "ReleaseDate": "2015-01-20",
+    "Pack": "Classic Riff Singles"
+  },
+  {
+    "Title": "Rock And Roll, Hoochie Koo",
+    "Artist": "Rick Derringer",
+    "ReleaseDate": "2015-01-20",
+    "Pack": "Classic Riff Singles"
+  },
+  {
+    "Title": "Renegade",
+    "Artist": "Styx",
+    "ReleaseDate": "2015-01-20",
+    "Pack": "Classic Riff Singles"
+  },
+  {
+    "Title": "Cherry Pie",
+    "Artist": "Warrant",
+    "ReleaseDate": "2015-01-20",
+    "Pack": "Classic Riff Singles"
+  },
+  {
+    "Title": "Animal I Have Become",
+    "Artist": "Three Days Grace",
+    "ReleaseDate": "2015-01-27",
+    "Pack": "Three Days Grace Song Pack"
+  },
+  {
+    "Title": "Break",
+    "Artist": "Three Days Grace",
+    "ReleaseDate": "2015-01-27",
+    "Pack": "Three Days Grace Song Pack"
+  },
+  {
+    "Title": "Just Like You",
+    "Artist": "Three Days Grace",
+    "ReleaseDate": "2015-01-27",
+    "Pack": "Three Days Grace Song Pack"
+  },
+  {
+    "Title": "Never Too Late",
+    "Artist": "Three Days Grace",
+    "ReleaseDate": "2015-01-27",
+    "Pack": "Three Days Grace Song Pack"
+  },
+  {
+    "Title": "Riot",
+    "Artist": "Three Days Grace",
+    "ReleaseDate": "2015-01-27",
+    "Pack": "Three Days Grace Song Pack"
+  },
+  {
+    "Title": "Amanda",
+    "Artist": "Boston",
+    "ReleaseDate": "2015-02-03",
+    "Pack": "Power Ballad Singles"
+  },
+  {
+    "Title": "&#8220;Don&#8217;t Know What You Got (Till it&#8217;s Gone)",
+    "Artist": "Cinderella",
+    "ReleaseDate": "2015-02-03",
+    "Pack": "Power Ballad Singles"
+  },
+  {
+    "Title": "More Than Words",
+    "Artist": "Extreme",
+    "ReleaseDate": "2015-02-03",
+    "Pack": "Power Ballad Singles"
+  },
+  {
+    "Title": "Every Rose Has Its Thorn",
+    "Artist": "Poison",
+    "ReleaseDate": "2015-02-03",
+    "Pack": "Power Ballad Singles"
+  },
+  {
+    "Title": "Love Song",
+    "Artist": "Tesla",
+    "ReleaseDate": "2015-02-03",
+    "Pack": "Power Ballad Singles"
+  },
+  {
+    "Title": "&#8220;Broken&#8221; by Seether featuring Amy Lee",
+    "Artist": "Seether",
+    "ReleaseDate": "2015-02-10",
+    "Pack": "Seether Song Pack"
+  },
+  {
+    "Title": "Fake It",
+    "Artist": "Seether",
+    "ReleaseDate": "2015-02-10",
+    "Pack": "Seether Song Pack"
+  },
+  {
+    "Title": "Remedy",
+    "Artist": "Seether",
+    "ReleaseDate": "2015-02-10",
+    "Pack": "Seether Song Pack"
+  },
+  {
+    "Title": "Been Caught Stealing",
+    "Artist": "Jane&#8217;s Addiction",
+    "ReleaseDate": "2015-02-17",
+    "Pack": "Jane&#8217;s Addiction Song Pack"
+  },
+  {
+    "Title": "Jane Says",
+    "Artist": "Jane&#8217;s Addiction",
+    "ReleaseDate": "2015-02-17",
+    "Pack": "Jane&#8217;s Addiction Song Pack"
+  },
+  {
+    "Title": "Just Because",
+    "Artist": "Jane&#8217;s Addiction",
+    "ReleaseDate": "2015-02-17",
+    "Pack": "Jane&#8217;s Addiction Song Pack"
+  },
+  {
+    "Title": "Mountain Song",
+    "Artist": "Jane&#8217;s Addiction",
+    "ReleaseDate": "2015-02-17",
+    "Pack": "Jane&#8217;s Addiction Song Pack"
+  },
+  {
+    "Title": "Superhero",
+    "Artist": "Jane&#8217;s Addiction",
+    "ReleaseDate": "2015-02-17",
+    "Pack": "Jane&#8217;s Addiction Song Pack"
+  },
+  {
+    "Title": "Getting Away With Murder",
+    "Artist": "Papa Roach",
+    "ReleaseDate": "2015-02-24",
+    "Pack": "Papa Roach Song Pack "
+  },
+  {
+    "Title": "Last Resort",
+    "Artist": "Papa Roach",
+    "ReleaseDate": "2015-02-24",
+    "Pack": "Papa Roach Song Pack "
+  },
+  {
+    "Title": "Scars",
+    "Artist": "Papa Roach",
+    "ReleaseDate": "2015-02-24",
+    "Pack": "Papa Roach Song Pack "
+  },
+  {
+    "Title": "Bye Bye Love",
+    "Artist": "The Cars",
+    "ReleaseDate": "2015-03-03",
+    "Pack": "The Cars Song Pack"
+  },
+  {
+    "Title": "Good Times Roll",
+    "Artist": "The Cars",
+    "ReleaseDate": "2015-03-03",
+    "Pack": "The Cars Song Pack"
+  },
+  {
+    "Title": "Just What I Needed",
+    "Artist": "The Cars",
+    "ReleaseDate": "2015-03-03",
+    "Pack": "The Cars Song Pack"
+  },
+  {
+    "Title": "Let&#8217;s Go",
+    "Artist": "The Cars",
+    "ReleaseDate": "2015-03-03",
+    "Pack": "The Cars Song Pack"
+  },
+  {
+    "Title": "You&#8217;re All I&#8217;ve Got Tonight",
+    "Artist": "The Cars",
+    "ReleaseDate": "2015-03-03",
+    "Pack": "The Cars Song Pack"
+  },
+  {
+    "Title": "Grace",
+    "Artist": "Jeff Buckley",
+    "ReleaseDate": "2015-03-10",
+    "Pack": "Jeff Buckley Song Pack"
+  },
+  {
+    "Title": "Hallelujah",
+    "Artist": "Jeff Buckley",
+    "ReleaseDate": "2015-03-10",
+    "Pack": "Jeff Buckley Song Pack"
+  },
+  {
+    "Title": "Last Goodbye",
+    "Artist": "Jeff Buckley",
+    "ReleaseDate": "2015-03-10",
+    "Pack": "Jeff Buckley Song Pack"
+  },
+  {
+    "Title": "Zombie",
+    "Artist": "The Cranberries",
+    "ReleaseDate": "2015-03-17",
+    "Pack": "Shamrock Song Pack"
+  },
+  {
+    "Title": "I&#8217;m Shipping Up To Boston",
+    "Artist": "Dropkick Murphys",
+    "ReleaseDate": "2015-03-17",
+    "Pack": "Shamrock Song Pack"
+  },
+  {
+    "Title": "Drunken Lullabies",
+    "Artist": "Flogging Molly",
+    "ReleaseDate": "2015-03-17",
+    "Pack": "Shamrock Song Pack"
+  },
+  {
+    "Title": "Alternative Ulster",
+    "Artist": "Stiff Little Fingers",
+    "ReleaseDate": "2015-03-17",
+    "Pack": "Shamrock Song Pack"
+  },
+  {
+    "Title": "Becoming a Jackal",
+    "Artist": "Villagers",
+    "ReleaseDate": "2015-03-17",
+    "Pack": "Shamrock Song Pack"
+  },
+  {
+    "Title": "Caught In A Mosh",
+    "Artist": "Anthrax",
+    "ReleaseDate": "2015-03-23",
+    "Pack": "Anthrax Song Pack"
+  },
+  {
+    "Title": "Got The Time",
+    "Artist": "Anthrax",
+    "ReleaseDate": "2015-03-23",
+    "Pack": "Anthrax Song Pack"
+  },
+  {
+    "Title": "Indians",
+    "Artist": "Anthrax",
+    "ReleaseDate": "2015-03-23",
+    "Pack": "Anthrax Song Pack"
+  },
+  {
+    "Title": "Madhouse",
+    "Artist": "Anthrax",
+    "ReleaseDate": "2015-03-23",
+    "Pack": "Anthrax Song Pack"
+  },
+  {
+    "Title": "Big Bottom",
+    "Artist": "Spinal Tap",
+    "ReleaseDate": "2015-03-31",
+    "Pack": "Spinal Tap Song Pack"
+  },
+  {
+    "Title": "Gimme Some Money",
+    "Artist": "Spinal Tap",
+    "ReleaseDate": "2015-03-31",
+    "Pack": "Spinal Tap Song Pack"
+  },
+  {
+    "Title": "Sex Farm",
+    "Artist": "Spinal Tap",
+    "ReleaseDate": "2015-03-31",
+    "Pack": "Spinal Tap Song Pack"
+  },
+  {
+    "Title": "Stonehenge",
+    "Artist": "Spinal Tap",
+    "ReleaseDate": "2015-03-31",
+    "Pack": "Spinal Tap Song Pack"
+  },
+  {
+    "Title": "Tonight I&#8217;m Gonna Rock You Tonight",
+    "Artist": "Spinal Tap",
+    "ReleaseDate": "2015-03-31",
+    "Pack": "Spinal Tap Song Pack"
+  },
+  {
+    "Title": "Comedown",
+    "Artist": "Bush",
+    "ReleaseDate": "2015-04-07",
+    "Pack": "Bush Song Pack"
+  },
+  {
+    "Title": "Everything Zen",
+    "Artist": "Bush",
+    "ReleaseDate": "2015-04-07",
+    "Pack": "Bush Song Pack"
+  },
+  {
+    "Title": "Glycerine",
+    "Artist": "Bush",
+    "ReleaseDate": "2015-04-07",
+    "Pack": "Bush Song Pack"
+  },
+  {
+    "Title": "Swallowed",
+    "Artist": "Bush",
+    "ReleaseDate": "2015-04-07",
+    "Pack": "Bush Song Pack"
+  },
+  {
+    "Title": "The Boys Are Back In Town",
+    "Artist": "Thin Lizzy",
+    "ReleaseDate": "2015-04-14",
+    "Pack": "Thin Lizzy Song Pack"
+  },
+  {
+    "Title": "Dancing In The Moonlight (It&#8217;s Caught Me In Its Spotlight)",
+    "Artist": "Thin Lizzy",
+    "ReleaseDate": "2015-04-14",
+    "Pack": "Thin Lizzy Song Pack"
+  },
+  {
+    "Title": "Jailbreak",
+    "Artist": "Thin Lizzy",
+    "ReleaseDate": "2015-04-14",
+    "Pack": "Thin Lizzy Song Pack"
+  },
+  {
+    "Title": "Feel The Pain",
+    "Artist": "Dinosaur Jr.",
+    "ReleaseDate": "2015-04-21",
+    "Pack": "Alternative Rock Song Pack"
+  },
+  {
+    "Title": "Hemorrhage (In My Hands)",
+    "Artist": "Fuel",
+    "ReleaseDate": "2015-04-21",
+    "Pack": "Alternative Rock Song Pack"
+  },
+  {
+    "Title": "My Own Worst Enemy",
+    "Artist": "Lit",
+    "ReleaseDate": "2015-04-21",
+    "Pack": "Alternative Rock Song Pack"
+  },
+  {
+    "Title": "Ocean Avenue",
+    "Artist": "Yellowcard",
+    "ReleaseDate": "2015-04-21",
+    "Pack": "Alternative Rock Song Pack"
+  },
+  {
+    "Title": "Through Glass",
+    "Artist": "Stone Sour",
+    "ReleaseDate": "2015-04-21",
+    "Pack": "Alternative Rock Song Pack"
+  },
+  {
+    "Title": "Awaken",
+    "Artist": "Dethklok",
+    "ReleaseDate": "2015-04-28",
+    "Pack": "Dethklok Song Pack"
+  },
+  {
+    "Title": "Go Into The Water",
+    "Artist": "Dethklok",
+    "ReleaseDate": "2015-04-28",
+    "Pack": "Dethklok Song Pack"
+  },
+  {
+    "Title": "Thunderhorse",
+    "Artist": "Dethklok",
+    "ReleaseDate": "2015-04-28",
+    "Pack": "Dethklok Song Pack"
+  },
+  {
+    "Title": "Ain&#8217;t No Love In The Heart of The City",
+    "Artist": "Bobby &#8220;Blue&#8221; Bland",
+    "ReleaseDate": "2015-05-05",
+    "Pack": "Blues Song Pack"
+  },
+  {
+    "Title": "Hide Away",
+    "Artist": "Freddie King",
+    "ReleaseDate": "2015-05-05",
+    "Pack": "Blues Song Pack"
+  },
+  {
+    "Title": "Spoonful",
+    "Artist": "Howlin&#8217; Wolf",
+    "ReleaseDate": "2015-05-05",
+    "Pack": "Blues Song Pack"
+  },
+  {
+    "Title": "Boom Boom",
+    "Artist": "John Lee Hooker",
+    "ReleaseDate": "2015-05-05",
+    "Pack": "Blues Song Pack"
+  },
+  {
+    "Title": "Be Careful With A Fool",
+    "Artist": "Johnny Winter",
+    "ReleaseDate": "2015-05-05",
+    "Pack": "Blues Song Pack"
+  },
+  {
+    "Title": "Six",
+    "Artist": "All That Remains",
+    "ReleaseDate": "2015-05-12",
+    "Pack": "All That Remains"
+  },
+  {
+    "Title": "This Calling",
+    "Artist": "All That Remains",
+    "ReleaseDate": "2015-05-12",
+    "Pack": "All That Remains"
+  },
+  {
+    "Title": "Two Weeks",
+    "Artist": "All That Remains",
+    "ReleaseDate": "2015-05-12",
+    "Pack": "All That Remains"
+  },
+  {
+    "Title": "Angel of Death",
+    "Artist": "Slayer",
+    "ReleaseDate": "2015-05-19",
+    "Pack": "Slayer Song Pack "
+  },
+  {
+    "Title": "Dead Skin Mask",
+    "Artist": "Slayer",
+    "ReleaseDate": "2015-05-19",
+    "Pack": "Slayer Song Pack "
+  },
+  {
+    "Title": "Raining Blood",
+    "Artist": "Slayer",
+    "ReleaseDate": "2015-05-19",
+    "Pack": "Slayer Song Pack "
+  },
+  {
+    "Title": "Seasons In The Abyss",
+    "Artist": "Slayer",
+    "ReleaseDate": "2015-05-19",
+    "Pack": "Slayer Song Pack "
+  },
+  {
+    "Title": "South of Heaven",
+    "Artist": "Slayer",
+    "ReleaseDate": "2015-05-19",
+    "Pack": "Slayer Song Pack "
+  },
+  {
+    "Title": "Lovely Day",
+    "Artist": "Bill Withers",
+    "ReleaseDate": "2015-05-26",
+    "Pack": "Love Singles Song Pack"
+  },
+  {
+    "Title": "Friday I&#8217;m In Love",
+    "Artist": "The Cure",
+    "ReleaseDate": "2015-05-26",
+    "Pack": "Love Singles Song Pack"
+  },
+  {
+    "Title": "For The Love of God",
+    "Artist": "Steve Vai",
+    "ReleaseDate": "2015-05-26",
+    "Pack": "Love Singles Song Pack"
+  },
+  {
+    "Title": "3&#8217;s &amp; 7&#8217;s",
+    "Artist": "Queens of the Stone Age",
+    "ReleaseDate": "2015-06-02",
+    "Pack": "Queens of the Stone Age Song Pack"
+  },
+  {
+    "Title": "I Appear Missing",
+    "Artist": "Queens of the Stone Age",
+    "ReleaseDate": "2015-06-02",
+    "Pack": "Queens of the Stone Age Song Pack"
+  },
+  {
+    "Title": "Little Sister",
+    "Artist": "Queens of the Stone Age",
+    "ReleaseDate": "2015-06-02",
+    "Pack": "Queens of the Stone Age Song Pack"
+  },
+  {
+    "Title": "Make It Wit Chu&#8217;",
+    "Artist": "Queens of the Stone Age",
+    "ReleaseDate": "2015-06-02",
+    "Pack": "Queens of the Stone Age Song Pack"
+  },
+  {
+    "Title": "No One Knows",
+    "Artist": "Queens of the Stone Age",
+    "ReleaseDate": "2015-06-02",
+    "Pack": "Queens of the Stone Age Song Pack"
+  },
+  {
+    "Title": "Rock This Town",
+    "Artist": "Brian Setzer",
+    "ReleaseDate": "2015-06-09",
+    "Pack": "Rockabilly Song Pack"
+  },
+  {
+    "Title": "Blue Suede Shoes",
+    "Artist": "Carl Perkins",
+    "ReleaseDate": "2015-06-09",
+    "Pack": "Rockabilly Song Pack"
+  },
+  {
+    "Title": "Be-Bop-A-Lula",
+    "Artist": "Gene Vincent and His Blue Caps",
+    "ReleaseDate": "2015-06-09",
+    "Pack": "Rockabilly Song Pack"
+  },
+  {
+    "Title": "Hello Mary Lou (Goodbye Heart)",
+    "Artist": "Ricky Nelson",
+    "ReleaseDate": "2015-06-09",
+    "Pack": "Rockabilly Song Pack"
+  },
+  {
+    "Title": "Crazy Little Thing Called Love",
+    "Artist": "Queen",
+    "ReleaseDate": "2015-06-09",
+    "Pack": "Rockabilly Song Pack"
+  },
+  {
+    "Title": "Balls To The Wall",
+    "Artist": "Accept",
+    "ReleaseDate": "2015-06-16",
+    "Pack": "Player Picks Song Pack"
+  },
+  {
+    "Title": "Frankenstein",
+    "Artist": "Edgar Winter Group",
+    "ReleaseDate": "2015-06-16",
+    "Pack": "Player Picks Song Pack"
+  },
+  {
+    "Title": "All Right Now",
+    "Artist": "Free",
+    "ReleaseDate": "2015-06-16",
+    "Pack": "Player Picks Song Pack"
+  },
+  {
+    "Title": "Modern Day Cowboy",
+    "Artist": "Tesla",
+    "ReleaseDate": "2015-06-16",
+    "Pack": "Player Picks Song Pack"
+  },
+  {
+    "Title": "Jerry Was A Race Car Driver",
+    "Artist": "Primus",
+    "ReleaseDate": "2015-06-23",
+    "Pack": "Primus Song Pack"
+  },
+  {
+    "Title": "South Park Theme",
+    "Artist": "Primus",
+    "ReleaseDate": "2015-06-23",
+    "Pack": "Primus Song Pack"
+  },
+  {
+    "Title": "Tommy The Cat",
+    "Artist": "Primus",
+    "ReleaseDate": "2015-06-23",
+    "Pack": "Primus Song Pack"
+  },
+  {
+    "Title": "Wynona&#8217;s Big Brown Beaver",
+    "Artist": "Primus",
+    "ReleaseDate": "2015-06-23",
+    "Pack": "Primus Song Pack"
+  },
+  {
+    "Title": "I&#8217;m So Lonesome I Could Cry",
+    "Artist": "Hank Williams",
+    "ReleaseDate": "2015-6-30",
+    "Pack": "Classic Country Song Pack "
+  },
+  {
+    "Title": "King of The Road",
+    "Artist": "Roger Miller",
+    "ReleaseDate": "2015-6-30",
+    "Pack": "Classic Country Song Pack "
+  },
+  {
+    "Title": "On The Road Again",
+    "Artist": "Willie Nelson",
+    "ReleaseDate": "2015-6-30",
+    "Pack": "Classic Country Song Pack "
+  },
+  {
+    "Title": "A Warrior&#8217;s Call",
+    "Artist": "Volbeat",
+    "ReleaseDate": "2015-07-07",
+    "Pack": "Volbeat Song Pack "
+  },
+  {
+    "Title": "Fallen",
+    "Artist": "Volbeat",
+    "ReleaseDate": "2015-07-07",
+    "Pack": "Volbeat Song Pack"
+  },
+  {
+    "Title": "Heaven Nor Hell",
+    "Artist": "Volbeat",
+    "ReleaseDate": "2015-07-07",
+    "Pack": "Volbeat Song Pack"
+  },
+  {
+    "Title": "Lola Montez",
+    "Artist": "Volbeat",
+    "ReleaseDate": "2015-07-07",
+    "Pack": "Volbeat Song Pack"
+  },
+  {
+    "Title": "Still Counting",
+    "Artist": "Volbeat",
+    "ReleaseDate": "2015-07-07",
+    "Pack": "Volbeat Song Pack"
+  },
+  {
+    "Title": "Call Me The Breeze",
+    "Artist": "Lynyrd Skynyrd",
+    "ReleaseDate": "2015-07-14",
+    "Pack": "Lynyrd Skynyrd Song Pack"
+  },
+  {
+    "Title": "Gimme Three Steps",
+    "Artist": "Lynyrd Skynyrd",
+    "ReleaseDate": "2015-07-14",
+    "Pack": "Lynyrd Skynyrd Song Pack"
+  },
+  {
+    "Title": "Tuesday&#8217;s Gone",
+    "Artist": "Lynyrd Skynyrd",
+    "ReleaseDate": "2015-07-14",
+    "Pack": "Lynyrd Skynyrd Song Pack"
+  },
+  {
+    "Title": "Another One Bites the Dust",
+    "Artist": "Queen",
+    "ReleaseDate": "2015-07-20",
+    "Pack": "Regal Singles Song Pack"
+  },
+  {
+    "Title": "Silent Lucidity",
+    "Artist": "Queensrÿche",
+    "ReleaseDate": "2015-07-20",
+    "Pack": "Regal Singles Song Pack"
+  },
+  {
+    "Title": "Rock &amp; Roll Queen",
+    "Artist": "The Subways",
+    "ReleaseDate": "2015-07-20",
+    "Pack": "Regal Singles Song Pack"
+  },
+  {
+    "Title": "Sir Duke",
+    "Artist": "Stevie Wonder",
+    "ReleaseDate": "2015-07-20",
+    "Pack": "Regal Singles Song Pack"
+  },
+  {
+    "Title": "Possum Kingdom",
+    "Artist": "The Toadies",
+    "ReleaseDate": "2015-07-20",
+    "Pack": "Regal Singles Song Pack"
+  },
+  {
+    "Title": "Digging the Grave",
+    "Artist": "Faith No More",
+    "ReleaseDate": "2015-07-28",
+    "Pack": "Faith No More Song Pack "
+  },
+  {
+    "Title": "Epic",
+    "Artist": "Faith No More",
+    "ReleaseDate": "2015-07-28",
+    "Pack": "Faith No More Song Pack "
+  },
+  {
+    "Title": "Falling to Pieces",
+    "Artist": "Faith No More",
+    "ReleaseDate": "2015-07-28",
+    "Pack": "Faith No More Song Pack "
+  },
+  {
+    "Title": "From Out of Nowhere",
+    "Artist": "Faith No More",
+    "ReleaseDate": "2015-07-28",
+    "Pack": "Faith No More Song Pack "
+  },
+  {
+    "Title": "Midlife Crisis",
+    "Artist": "Faith No More",
+    "ReleaseDate": "2015-07-28",
+    "Pack": "Faith No More Song Pack "
+  },
+  {
+    "Title": "Rock Around The Clock",
+    "Artist": "Bill Haley &amp; His Comets",
+    "ReleaseDate": "2015-08-04",
+    "Pack": "1950&#8217;s Song Pack"
+  },
+  {
+    "Title": "Tequila",
+    "Artist": "The Champs",
+    "ReleaseDate": "2015-08-04",
+    "Pack": "1950&#8217;s Song Pack"
+  },
+  {
+    "Title": "La Bamba",
+    "Artist": "Ritchie Valens",
+    "ReleaseDate": "2015-08-04",
+    "Pack": "1950&#8217;s Song Pack"
+  },
+  {
+    "Title": "Bad Luck",
+    "Artist": "Social Distortion",
+    "ReleaseDate": "2015-08-11",
+    "Pack": "Social Distortion Song Pack"
+  },
+  {
+    "Title": "Ball and Chain",
+    "Artist": "Social Distortion",
+    "ReleaseDate": "2015-08-11",
+    "Pack": "Social Distortion Song Pack"
+  },
+  {
+    "Title": "Reach for the Sky",
+    "Artist": "Social Distortion",
+    "ReleaseDate": "2015-08-11",
+    "Pack": "Social Distortion Song Pack"
+  },
+  {
+    "Title": "Story of My Life",
+    "Artist": "Social Distortion",
+    "ReleaseDate": "2015-08-11",
+    "Pack": "Social Distortion Song Pack"
+  },
+  {
+    "Title": "Rock of Ages",
+    "Artist": "Def Leppard",
+    "ReleaseDate": "2015-08-18",
+    "Pack": "Hit Singles Song Pack"
+  },
+  {
+    "Title": "Go Your Own Way",
+    "Artist": "Fleetwood Mac",
+    "ReleaseDate": "2015-08-18",
+    "Pack": "Hit Singles Song Pack"
+  },
+  {
+    "Title": "Are You Gonna Be My Girl",
+    "Artist": "Jet",
+    "ReleaseDate": "2015-08-18",
+    "Pack": "Hit Singles Song Pack"
+  },
+  {
+    "Title": "Dust In The Wind",
+    "Artist": "Kansas",
+    "ReleaseDate": "2015-08-18",
+    "Pack": "Hit Singles Song Pack"
+  },
+  {
+    "Title": "I Wanna Be Adored",
+    "Artist": "The Stone Roses",
+    "ReleaseDate": "2015-08-25",
+    "Pack": "The Stone Roses Song Pack"
+  },
+  {
+    "Title": "Love Spreads",
+    "Artist": "The Stone Roses",
+    "ReleaseDate": "2015-08-25",
+    "Pack": "The Stone Roses Song Pack"
+  },
+  {
+    "Title": "She Bangs the Drums",
+    "Artist": "The Stone Roses",
+    "ReleaseDate": "2015-08-25",
+    "Pack": "The Stone Roses Song Pack"
+  },
+  {
+    "Title": "September",
+    "Artist": "Earth, Wind &amp; Fire",
+    "ReleaseDate": "2015-09-01",
+    "Pack": "Earth, Wind &amp; Fire Song Pack"
+  },
+  {
+    "Title": "Shining Star",
+    "Artist": "Earth, Wind &amp; Fire",
+    "ReleaseDate": "2015-09-01",
+    "Pack": "Earth, Wind &amp; Fire Song Pack"
+  },
+  {
+    "Title": "Sing A Song",
+    "Artist": "Earth, Wind &amp; Fire",
+    "ReleaseDate": "2015-09-01",
+    "Pack": "Earth, Wind &amp; Fire Song Pack"
+  },
+  {
+    "Title": "Dirty Little Secret",
+    "Artist": "The All-American Rejects",
+    "ReleaseDate": "2015-09-08",
+    "Pack": "The All-American Rejects Song Pack"
+  },
+  {
+    "Title": "Gives You Hell",
+    "Artist": "The All-American Rejects",
+    "ReleaseDate": "2015-09-08",
+    "Pack": "The All-American Rejects Song Pack"
+  },
+  {
+    "Title": "Move Along",
+    "Artist": "The All-American Rejects",
+    "ReleaseDate": "2015-09-08",
+    "Pack": "The All-American Rejects Song Pack"
+  },
+  {
+    "Title": "Break On Through (To the Other Side)",
+    "Artist": "The Doors",
+    "ReleaseDate": "2015-09-15",
+    "Pack": "The Doors Song Pack II"
+  },
+  {
+    "Title": "L.A. Woman",
+    "Artist": "The Doors",
+    "ReleaseDate": "2015-09-15",
+    "Pack": "The Doors Song Pack II"
+  },
+  {
+    "Title": "People Are Strange",
+    "Artist": "The Doors",
+    "ReleaseDate": "2015-09-15",
+    "Pack": "The Doors Song Pack II"
+  },
+  {
+    "Title": "Blow Me Away (Feat. Valora)",
+    "Artist": "Breaking Benjamin",
+    "ReleaseDate": "2015-09-22",
+    "Pack": "Breaking Benjamin Song Pack"
+  },
+  {
+    "Title": "Polyamorous",
+    "Artist": "Breaking Benjamin",
+    "ReleaseDate": "2015-09-22",
+    "Pack": "Breaking Benjamin Song Pack"
+  },
+  {
+    "Title": "So Cold",
+    "Artist": "Breaking Benjamin",
+    "ReleaseDate": "2015-09-22",
+    "Pack": "Breaking Benjamin Song Pack"
+  },
+  {
+    "Title": "Okay I Believe You, But My Tommy Gun Don&#8217;t",
+    "Artist": "Brand New",
+    "ReleaseDate": "2015-09-29",
+    "Pack": "Brand New Song Pack"
+  },
+  {
+    "Title": "The Quiet Things That No One Ever Knows",
+    "Artist": "Brand New",
+    "ReleaseDate": "2015-09-29",
+    "Pack": "Brand New Song Pack"
+  },
+  {
+    "Title": "Sic Transit Gloria&#8230; Glory Fades",
+    "Artist": "Brand New",
+    "ReleaseDate": "2015-09-29",
+    "Pack": "Brand New Song Pack"
+  },
+  {
+    "Title": "Sloe Gin",
+    "Artist": "Joe Bonamassa",
+    "ReleaseDate": "2015-10-06",
+    "Pack": "Blues Rock Song Pack"
+  },
+  {
+    "Title": "Blue On Black",
+    "Artist": "Kenny Wayne Shepherd",
+    "ReleaseDate": "2015-10-06",
+    "Pack": "Blues Rock Song Pack"
+  },
+  {
+    "Title": "Out Of My Mind",
+    "Artist": "Philip Sayce",
+    "ReleaseDate": "2015-10-06",
+    "Pack": "Blues Rock Song Pack"
+  },
+  {
+    "Title": "God Of Thunder",
+    "Artist": "KISS",
+    "ReleaseDate": "2015-10-13",
+    "Pack": "KISS Song Pack II"
+  },
+  {
+    "Title": "Love Gun",
+    "Artist": "KISS",
+    "ReleaseDate": "2015-10-13",
+    "Pack": "KISS Song Pack II"
+  },
+  {
+    "Title": "Strutter",
+    "Artist": "KISS",
+    "ReleaseDate": "2015-10-13",
+    "Pack": "KISS Song Pack II"
+  },
+  {
+    "Title": "Dear Maria, Count Me In",
+    "Artist": "All Time Low",
+    "ReleaseDate": "2015-10-20",
+    "Pack": "All Time Low Song Pack"
+  },
+  {
+    "Title": "Somewhere in Neverland",
+    "Artist": "All Time Low",
+    "ReleaseDate": "2015-10-20",
+    "Pack": "All Time Low Song Pack"
+  },
+  {
+    "Title": "Weightless",
+    "Artist": "All Time Low",
+    "ReleaseDate": "2015-10-20",
+    "Pack": "All Time Low Song Pack"
+  },
+  {
+    "Title": "Devil On My Shoulder",
+    "Artist": "Billy Talent",
+    "ReleaseDate": "2015-10-27",
+    "Pack": "Spooktacular Singles Song Pack"
+  },
+  {
+    "Title": "Hocus Pocus",
+    "Artist": "Focus",
+    "ReleaseDate": "2015-10-27",
+    "Pack": "Spooktacular Singles Song Pack"
+  },
+  {
+    "Title": "Killed by Death",
+    "Artist": "Motörhead",
+    "ReleaseDate": "2015-10-27",
+    "Pack": "Spooktacular Singles Song Pack"
+  },
+  {
+    "Title": "Dead Man&#8217;s Party",
+    "Artist": "Oingo Boingo",
+    "ReleaseDate": "2015-10-27",
+    "Pack": "Spooktacular Singles Song Pack"
+  },
+  {
+    "Title": "Ziggy Stardust",
+    "Artist": "David Bowie",
+    "ReleaseDate": "2015-11-03",
+    "Pack": "Hit Singles II Song Pack"
+  },
+  {
+    "Title": "Hysteria",
+    "Artist": "Def Leppard",
+    "ReleaseDate": "2015-11-03",
+    "Pack": "Hit Singles II Song Pack"
+  },
+  {
+    "Title": "Slow Ride",
+    "Artist": "Foghat",
+    "ReleaseDate": "2015-11-03",
+    "Pack": "Hit Singles II Song Pack"
+  },
+  {
+    "Title": "Joker and the Thief",
+    "Artist": "Wolfmother",
+    "ReleaseDate": "2015-11-03",
+    "Pack": "Hit Singles II Song Pack"
+  },
+  {
+    "Title": "Fall Back Down",
+    "Artist": "Rancid",
+    "ReleaseDate": "2015-11-10",
+    "Pack": "Rancid Song Pack"
+  },
+  {
+    "Title": "Maxwell Murder",
+    "Artist": "Rancid",
+    "ReleaseDate": "2015-11-10",
+    "Pack": "Rancid Song Pack"
+  },
+  {
+    "Title": "Ruby Soho",
+    "Artist": "Rancid",
+    "ReleaseDate": "2015-11-10",
+    "Pack": "Rancid Song Pack"
+  },
+  {
+    "Title": "Time Bomb",
+    "Artist": "Rancid",
+    "ReleaseDate": "2015-11-10",
+    "Pack": "Rancid Song Pack"
+  },
+  {
+    "Title": "Ode to Joy",
+    "Artist": "Ludwig van Beethoven ",
+    "ReleaseDate": "2015-11-17",
+    "Pack": "Bachsmith II "
+  },
+  {
+    "Title": "Funeral March",
+    "Artist": "Frédéric Chopin ",
+    "ReleaseDate": "2015-11-17",
+    "Pack": "Bachsmith II "
+  },
+  {
+    "Title": "The Can-Can",
+    "Artist": "Jacques Offenbach ",
+    "ReleaseDate": "2015-11-17",
+    "Pack": "Bachsmith II "
+  },
+  {
+    "Title": "Notecracker Medley",
+    "Artist": "Pyotr Ilyich Tchaikovsky ",
+    "ReleaseDate": "2015-11-17",
+    "Pack": "Bachsmith II "
+  },
+  {
+    "Title": "Symphony No. 40",
+    "Artist": "Wolfgang Amadeus Mozart ",
+    "ReleaseDate": "2015-11-17",
+    "Pack": "Bachsmith II "
+  },
+  {
+    "Title": "Howlin&#8217; For You",
+    "Artist": "The Black Keys",
+    "ReleaseDate": "2015-11-24",
+    "Pack": "The Black Keys II"
+  },
+  {
+    "Title": "Little Black Submarines",
+    "Artist": "The Black Keys",
+    "ReleaseDate": "2015-11-24",
+    "Pack": "The Black Keys II"
+  },
+  {
+    "Title": "Lonely Boy",
+    "Artist": "The Black Keys",
+    "ReleaseDate": "2015-11-24",
+    "Pack": "The Black Keys II"
+  },
+  {
+    "Title": "thickfreakness",
+    "Artist": "The Black Keys",
+    "ReleaseDate": "2015-11-24",
+    "Pack": "The Black Keys II"
+  },
+  {
+    "Title": "Your Touch",
+    "Artist": "The Black Keys",
+    "ReleaseDate": "2015-11-24",
+    "Pack": "The Black Keys II"
+  },
+  {
+    "Title": "Awake and Alive",
+    "Artist": "Skillet",
+    "ReleaseDate": "2015-12-01",
+    "Pack": "Skillet Song Pack "
+  },
+  {
+    "Title": "Hero",
+    "Artist": "Skillet",
+    "ReleaseDate": "2015-12-01",
+    "Pack": "Skillet Song Pack "
+  },
+  {
+    "Title": "Monster",
+    "Artist": "Skillet",
+    "ReleaseDate": "2015-12-01",
+    "Pack": "Skillet Song Pack "
+  },
+  {
+    "Title": "Joy to the World",
+    "Artist": "Band of Merrymakers",
+    "ReleaseDate": "2015-12-01",
+    "Pack": "Band of Merrymakers (Singles)"
+  },
+  {
+    "Title": "Must Be Christmas",
+    "Artist": "Band of Merrymakers",
+    "ReleaseDate": "2015-12-01",
+    "Pack": "Band of Merrymakers (Singles)"
+  },
+  {
+    "Title": "Master Exploder",
+    "Artist": "Tenacious D",
+    "ReleaseDate": "2015-12-08",
+    "Pack": "Tenacious D Song Pack"
+  },
+  {
+    "Title": "The Metal",
+    "Artist": "Tenacious D",
+    "ReleaseDate": "2015-12-08",
+    "Pack": "Tenacious D Song Pack"
+  },
+  {
+    "Title": "Tribute",
+    "Artist": "Tenacious D",
+    "ReleaseDate": "2015-12-08",
+    "Pack": "Tenacious D Song Pack"
+  },
+  {
+    "Title": "Dr. Feelgood",
+    "Artist": "Mötley Crüe",
+    "ReleaseDate": "2015-12-15",
+    "Pack": "Mötley Crüe Song Pack "
+  },
+  {
+    "Title": "Girls, Girls, Girls",
+    "Artist": "Mötley Crüe",
+    "ReleaseDate": "2015-12-15",
+    "Pack": "Mötley Crüe Song Pack "
+  },
+  {
+    "Title": "Home Sweet Home",
+    "Artist": "Mötley Crüe",
+    "ReleaseDate": "2015-12-15",
+    "Pack": "Mötley Crüe Song Pack "
+  },
+  {
+    "Title": "Kickstart My Heart",
+    "Artist": "Mötley Crüe",
+    "ReleaseDate": "2015-12-15",
+    "Pack": "Mötley Crüe Song Pack "
+  },
+  {
+    "Title": "Shout at the Devil",
+    "Artist": "Mötley Crüe",
+    "ReleaseDate": "2015-12-15",
+    "Pack": "Mötley Crüe Song Pack "
+  },
+  {
+    "Title": "Big Empty",
+    "Artist": "Stone Temple Pilots",
+    "ReleaseDate": "2015-12-22",
+    "Pack": "Stone Temple Pilots Song Pack"
+  },
+  {
+    "Title": "Creep",
+    "Artist": "Stone Temple Pilots",
+    "ReleaseDate": "2015-12-22",
+    "Pack": "Stone Temple Pilots Song Pack"
+  },
+  {
+    "Title": "Interstate Love Song",
+    "Artist": "Stone Temple Pilots",
+    "ReleaseDate": "2015-12-22",
+    "Pack": "Stone Temple Pilots Song Pack"
+  },
+  {
+    "Title": "Plush",
+    "Artist": "Stone Temple Pilots",
+    "ReleaseDate": "2015-12-22",
+    "Pack": "Stone Temple Pilots Song Pack"
+  },
+  {
+    "Title": "Sex Type Thing",
+    "Artist": "Stone Temple Pilots",
+    "ReleaseDate": "2015-12-22",
+    "Pack": "Stone Temple Pilots Song Pack"
+  },
+  {
+    "Title": "Wicked Garden",
+    "Artist": "Stone Temple Pilots",
+    "ReleaseDate": "2015-12-22",
+    "Pack": "Stone Temple Pilots Song Pack"
+  },
+  {
+    "Title": "Closing Time",
+    "Artist": "Semisonic",
+    "ReleaseDate": "2016-01-05",
+    "Pack": "Hit Singles III"
+  },
+  {
+    "Title": "Heat Of The Moment",
+    "Artist": "Asia",
+    "ReleaseDate": "2016-01-05",
+    "Pack": "Hit Singles III"
+  },
+  {
+    "Title": "Play That Funky Music",
+    "Artist": "Wild Cherry",
+    "ReleaseDate": "2016-01-05",
+    "Pack": "Hit Singles III"
+  },
+  {
+    "Title": "Woman",
+    "Artist": "Wolfmother",
+    "ReleaseDate": "2016-01-05",
+    "Pack": "Hit Singles III"
+  },
+  {
+    "Title": "Closer to the Edge",
+    "Artist": "Thirty Seconds To Mars",
+    "ReleaseDate": "2016-01-12",
+    "Pack": "Thirty Seconds To Mars"
+  },
+  {
+    "Title": "From Yesterday",
+    "Artist": "Thirty Seconds To Mars",
+    "ReleaseDate": "2016-01-12",
+    "Pack": "Thirty Seconds To Mars"
+  },
+  {
+    "Title": "The Kill",
+    "Artist": "Thirty Seconds To Mars",
+    "ReleaseDate": "2016-01-12",
+    "Pack": "Thirty Seconds To Mars"
+  },
+  {
+    "Title": "Kings and Queens",
+    "Artist": "Thirty Seconds To Mars",
+    "ReleaseDate": "2016-01-12",
+    "Pack": "Thirty Seconds To Mars"
+  },
+  {
+    "Title": "This is War",
+    "Artist": "Thirty Seconds To Mars",
+    "ReleaseDate": "2016-01-12",
+    "Pack": "Thirty Seconds To Mars"
+  },
+  {
+    "Title": "A Tout Le Monde",
+    "Artist": "Megadeth",
+    "ReleaseDate": "2016-01-19",
+    "Pack": "Megadeth II Song Pack"
+  },
+  {
+    "Title": "Holy Wars&#8230; The Punishment Due",
+    "Artist": "Megadeth",
+    "ReleaseDate": "2016-01-19",
+    "Pack": "Megadeth II Song Pack"
+  },
+  {
+    "Title": "Peace Sells",
+    "Artist": "Megadeth",
+    "ReleaseDate": "2016-01-19",
+    "Pack": "Megadeth II Song Pack"
+  },
+  {
+    "Title": "Tornado Of Souls",
+    "Artist": "Megadeth",
+    "ReleaseDate": "2016-01-19",
+    "Pack": "Megadeth II Song Pack"
+  },
+  {
+    "Title": "Trust",
+    "Artist": "Megadeth",
+    "ReleaseDate": "2016-01-19",
+    "Pack": "Megadeth II Song Pack"
+  },
+  {
+    "Title": "Caught Up In You",
+    "Artist": "38 Special",
+    "ReleaseDate": "2016-01-26",
+    "Pack": "38 Special Song Pack"
+  },
+  {
+    "Title": "Hold On Loosely",
+    "Artist": "38 Special",
+    "ReleaseDate": "2016-01-26",
+    "Pack": "38 Special Song Pack"
+  },
+  {
+    "Title": "Rockin&#8217; Into The Night",
+    "Artist": "38 Special",
+    "ReleaseDate": "2016-01-26",
+    "Pack": "38 Special Song Pack"
+  },
+  {
+    "Title": "All I Want",
+    "Artist": "The Offspring",
+    "ReleaseDate": "2016-02-02",
+    "Pack": "The Offspring II"
+  },
+  {
+    "Title": "Pretty Fly (For a White Guy)",
+    "Artist": "The Offspring",
+    "ReleaseDate": "2016-02-02",
+    "Pack": "The Offspring II"
+  },
+  {
+    "Title": "The Kids Aren&#8217;t Alright",
+    "Artist": "The Offspring",
+    "ReleaseDate": "2016-02-02",
+    "Pack": "The Offspring II"
+  },
+  {
+    "Title": "Want You Bad",
+    "Artist": "The Offspring",
+    "ReleaseDate": "2016-02-02",
+    "Pack": "The Offspring II"
+  },
+  {
+    "Title": "You&#8217;re Gonna Go Far Kid",
+    "Artist": "The Offspring",
+    "ReleaseDate": "2016-02-02",
+    "Pack": "The Offspring II"
+  },
+  {
+    "Title": "You Make My Dreams",
+    "Artist": "Daryl Hall and John Oates",
+    "ReleaseDate": "2016-02-09",
+    "Pack": "Valentines Day Song Pack"
+  },
+  {
+    "Title": "All For You",
+    "Artist": "Sister Hazel",
+    "ReleaseDate": "2016-02-09",
+    "Pack": "Valentines Day Song Pack"
+  },
+  {
+    "Title": "Kiss Me",
+    "Artist": "Sixpence None the Richer",
+    "ReleaseDate": "2016-02-09",
+    "Pack": "Valentines Day Song Pack"
+  },
+  {
+    "Title": "Rosanna",
+    "Artist": "Toto",
+    "ReleaseDate": "2016-02-09",
+    "Pack": "Valentines Day Song Pack"
+  },
+  {
+    "Title": "The Outsider",
+    "Artist": "A Perfect Circle",
+    "ReleaseDate": "2016-02-16",
+    "Pack": "Hit Singles IV Song Pack"
+  },
+  {
+    "Title": "Long Train Runnin&#8217;",
+    "Artist": "Doobie Brothers",
+    "ReleaseDate": "2016-02-16",
+    "Pack": "Hit Singles IV Song Pack"
+  },
+  {
+    "Title": "Working For The Weekend",
+    "Artist": "Loverboy",
+    "ReleaseDate": "2016-02-16",
+    "Pack": "Hit Singles IV Song Pack"
+  },
+  {
+    "Title": "Badfish",
+    "Artist": "Sublime",
+    "ReleaseDate": "2016-02-16",
+    "Pack": "Hit Singles IV Song Pack"
+  },
+  {
+    "Title": "Dead!",
+    "Artist": "My Chemical Romance",
+    "ReleaseDate": "2016-02-23",
+    "Pack": "My Chemical Romance II "
+  },
+  {
+    "Title": "Famous Last Words",
+    "Artist": "My Chemical Romance",
+    "ReleaseDate": "2016-02-23",
+    "Pack": "My Chemical Romance II "
+  },
+  {
+    "Title": "Helena",
+    "Artist": "My Chemical Romance",
+    "ReleaseDate": "2016-02-23",
+    "Pack": "My Chemical Romance II "
+  },
+  {
+    "Title": "I&#8217;m Not Okay (I Promise)",
+    "Artist": "My Chemical Romance",
+    "ReleaseDate": "2016-02-23",
+    "Pack": "My Chemical Romance II "
+  },
+  {
+    "Title": "Teenagers",
+    "Artist": "My Chemical Romance",
+    "ReleaseDate": "2016-02-23",
+    "Pack": "My Chemical Romance II "
+  },
+  {
+    "Title": "A Knife In The Dark",
+    "Artist": "Howard Shore",
+    "ReleaseDate": "2016-03-01",
+    "Pack": "Rocksmith Goes to the Movies"
+  },
+  {
+    "Title": "Back to the Future",
+    "Artist": "Alan Silvestri ",
+    "ReleaseDate": "2016-03-01",
+    "Pack": "Rocksmith Goes to the Movies"
+  },
+  {
+    "Title": "Batman &#8211; Theme",
+    "Artist": "Danny Elfman ",
+    "ReleaseDate": "2016-03-01",
+    "Pack": "Rocksmith Goes to the Movies"
+  },
+  {
+    "Title": "Superman &#8211; Main Title",
+    "Artist": "John Williams",
+    "ReleaseDate": "2016-03-01",
+    "Pack": "Rocksmith Goes to the Movies"
+  },
+  {
+    "Title": "Jurassic Park &#8211; Theme",
+    "Artist": "John Williams ",
+    "ReleaseDate": "2016-03-01",
+    "Pack": "Rocksmith Goes to the Movies"
+  },
+  {
+    "Title": "Take It Off",
+    "Artist": "The Donnas",
+    "ReleaseDate": "2016-03-08",
+    "Pack": "Women Who Rock Song Pack"
+  },
+  {
+    "Title": "I&#8217;m So Sick",
+    "Artist": "Flyleaf",
+    "ReleaseDate": "2016-03-08",
+    "Pack": "Women Who Rock Song Pack"
+  },
+  {
+    "Title": "Celebrity Skin",
+    "Artist": "Hole",
+    "ReleaseDate": "2016-03-08",
+    "Pack": "Women Who Rock Song Pack"
+  },
+  {
+    "Title": "Heaven Knows",
+    "Artist": "The Pretty Reckless",
+    "ReleaseDate": "2016-03-08",
+    "Pack": "Women Who Rock Song Pack"
+  },
+  {
+    "Title": "Cherry Bomb",
+    "Artist": "The Runaways",
+    "ReleaseDate": "2016-03-08",
+    "Pack": "Women Who Rock Song Pack"
+  },
+  {
+    "Title": "December",
+    "Artist": "Collective Soul",
+    "ReleaseDate": "2016-03-15",
+    "Pack": "Collective Soul"
+  },
+  {
+    "Title": "Gel",
+    "Artist": "Collective Soul",
+    "ReleaseDate": "2016-03-15",
+    "Pack": "Collective Soul"
+  },
+  {
+    "Title": "Heavy",
+    "Artist": "Collective Soul",
+    "ReleaseDate": "2016-03-15",
+    "Pack": "Collective Soul"
+  },
+  {
+    "Title": "Shine",
+    "Artist": "Collective Soul",
+    "ReleaseDate": "2016-03-15",
+    "Pack": "Collective Soul"
+  },
+  {
+    "Title": "The World I Know",
+    "Artist": "Collective Soul",
+    "ReleaseDate": "2016-03-15",
+    "Pack": "Collective Soul"
+  },
+  {
+    "Title": "Demons",
+    "Artist": "Imagine Dragons",
+    "ReleaseDate": "2016-03-22",
+    "Pack": "Imagine Dragons"
+  },
+  {
+    "Title": "It&#8217;s Time",
+    "Artist": "Imagine Dragons",
+    "ReleaseDate": "2016-03-22",
+    "Pack": "Imagine Dragons"
+  },
+  {
+    "Title": "Radioactive",
+    "Artist": "Imagine Dragons",
+    "ReleaseDate": "2016-03-22",
+    "Pack": "Imagine Dragons"
+  },
+  {
+    "Title": "My Best Friend&#8217;s Girl",
+    "Artist": "The Cars",
+    "ReleaseDate": "2016-03-29",
+    "Pack": "Hit Singles V"
+  },
+  {
+    "Title": "Summertime Blues",
+    "Artist": "Eddie Cochran ",
+    "ReleaseDate": "2016-03-29",
+    "Pack": "Hit Singles V"
+  },
+  {
+    "Title": "Free Ride",
+    "Artist": "Edgar Winter ",
+    "ReleaseDate": "2016-03-29",
+    "Pack": "Hit Singles V"
+  },
+  {
+    "Title": "The Reason",
+    "Artist": "Hoobastank ",
+    "ReleaseDate": "2016-03-29",
+    "Pack": "Hit Singles V"
+  },
+  {
+    "Title": "Overlord",
+    "Artist": "Black Label Society",
+    "ReleaseDate": "2016-04-05",
+    "Pack": "Black Label Society"
+  },
+  {
+    "Title": "Stillborn",
+    "Artist": "Black Label Society",
+    "ReleaseDate": "2016-04-05",
+    "Pack": "Black Label Society"
+  },
+  {
+    "Title": "Suicide Messiah",
+    "Artist": "Black Label Society",
+    "ReleaseDate": "2016-04-05",
+    "Pack": "Black Label Society"
+  },
+  {
+    "Title": "Indestructible",
+    "Artist": "Disturbed",
+    "ReleaseDate": "2016-04-12",
+    "Pack": "Disturbed II"
+  },
+  {
+    "Title": "Inside The Fire",
+    "Artist": "Disturbed",
+    "ReleaseDate": "2016-04-12",
+    "Pack": "Disturbed II"
+  },
+  {
+    "Title": "The Night",
+    "Artist": "Disturbed",
+    "ReleaseDate": "2016-04-12",
+    "Pack": "Disturbed II"
+  },
+  {
+    "Title": "Stricken",
+    "Artist": "Disturbed",
+    "ReleaseDate": "2016-04-12",
+    "Pack": "Disturbed II"
+  },
+  {
+    "Title": "Ten Thousand Fists",
+    "Artist": "Disturbed",
+    "ReleaseDate": "2016-04-12",
+    "Pack": "Disturbed II"
+  },
+  {
+    "Title": "Girl U Want",
+    "Artist": "Devo",
+    "ReleaseDate": "2016-04-19",
+    "Pack": "80s Mix Song Pack"
+  },
+  {
+    "Title": "Play With me",
+    "Artist": "Extreme",
+    "ReleaseDate": "2016-04-19",
+    "Pack": "80s Mix Song Pack"
+  },
+  {
+    "Title": "Electric Eye",
+    "Artist": "Judas Priest",
+    "ReleaseDate": "2016-04-19",
+    "Pack": "80s Mix Song Pack"
+  },
+  {
+    "Title": "Fly On The Wall",
+    "Artist": "Crobot",
+    "ReleaseDate": "2016-04-26",
+    "Pack": "Crobot"
+  },
+  {
+    "Title": "Legend of The Spaceborne Killer",
+    "Artist": "Crobot",
+    "ReleaseDate": "2016-04-26",
+    "Pack": "Crobot"
+  },
+  {
+    "Title": "Nowhere to Hide",
+    "Artist": "Crobot",
+    "ReleaseDate": "2016-04-26",
+    "Pack": "Crobot"
+  },
+  {
+    "Title": "Audience of One",
+    "Artist": "Rise Against",
+    "ReleaseDate": "2016-05-03",
+    "Pack": "Rise Against II"
+  },
+  {
+    "Title": "Help Is on The Way",
+    "Artist": "Rise Against",
+    "ReleaseDate": "2016-05-03",
+    "Pack": "Rise Against II"
+  },
+  {
+    "Title": "Paper Wings",
+    "Artist": "Rise Against",
+    "ReleaseDate": "2016-05-03",
+    "Pack": "Rise Against II"
+  },
+  {
+    "Title": "Ready To Fall",
+    "Artist": "Rise Against",
+    "ReleaseDate": "2016-05-03",
+    "Pack": "Rise Against II"
+  },
+  {
+    "Title": "Re-Education (Through Labor)",
+    "Artist": "Rise Against",
+    "ReleaseDate": "2016-05-03",
+    "Pack": "Rise Against II"
+  },
+  {
+    "Title": "Nemesis",
+    "Artist": "Arch Enemy",
+    "ReleaseDate": "2016-05-10",
+    "Pack": "Variety Song Pack"
+  },
+  {
+    "Title": "Hair of the Dog",
+    "Artist": "Nazareth",
+    "ReleaseDate": "2016-05-10",
+    "Pack": "Variety Song Pack"
+  },
+  {
+    "Title": "Little Talks",
+    "Artist": "Of Monsters and Men",
+    "ReleaseDate": "2016-05-10",
+    "Pack": "Variety Song Pack"
+  },
+  {
+    "Title": "Peaches",
+    "Artist": "The Presidents of The United States of America",
+    "ReleaseDate": "2016-05-10",
+    "Pack": "Variety Song Pack"
+  },
+  {
+    "Title": "Eyes Of A Stranger",
+    "Artist": "Queensrÿche",
+    "ReleaseDate": "2016-05-17",
+    "Pack": "Queensrÿche"
+  },
+  {
+    "Title": "I Don&#8217;t Believe in Love",
+    "Artist": "Queensrÿche",
+    "ReleaseDate": "2016-05-17",
+    "Pack": "Queensrÿche"
+  },
+  {
+    "Title": "Jet City Woman",
+    "Artist": "Queensrÿche",
+    "ReleaseDate": "2016-05-17",
+    "Pack": "Queensrÿche"
+  },
+  {
+    "Title": "Hats Off to the Bull",
+    "Artist": "Chevelle",
+    "ReleaseDate": "2016-05-24",
+    "Pack": "Chevelle"
+  },
+  {
+    "Title": "The Red",
+    "Artist": "Chevelle",
+    "ReleaseDate": "2016-05-24",
+    "Pack": "Chevelle"
+  },
+  {
+    "Title": "Vitamin R (Leading Us Along)",
+    "Artist": "Chevelle",
+    "ReleaseDate": "2016-05-24",
+    "Pack": "Chevelle"
+  },
+  {
+    "Title": "Santa Monica",
+    "Artist": "Everclear",
+    "ReleaseDate": "2016-05-31",
+    "Pack": "90s Mix Song Pack"
+  },
+  {
+    "Title": "Hey Man, Nice Shot",
+    "Artist": "Filter",
+    "ReleaseDate": "2016-05-31",
+    "Pack": "90s Mix Song Pack"
+  },
+  {
+    "Title": "Beer",
+    "Artist": "Reel Big Fish",
+    "ReleaseDate": "2016-05-31",
+    "Pack": "90s Mix Song Pack"
+  },
+  {
+    "Title": "The Anthem",
+    "Artist": "Good Charlotte",
+    "ReleaseDate": "2016-06-07",
+    "Pack": "Good Charlotte"
+  },
+  {
+    "Title": "Gurks &amp; Boys",
+    "Artist": "Good Charlotte",
+    "ReleaseDate": "2016-06-07",
+    "Pack": "Good Charlotte"
+  },
+  {
+    "Title": "I Just Wanna Live",
+    "Artist": "Good Charlotte",
+    "ReleaseDate": "2016-06-07",
+    "Pack": "Good Charlotte"
+  },
+  {
+    "Title": "Lifestyles Of The Rich And Famous",
+    "Artist": "Good Charlotte",
+    "ReleaseDate": "2016-06-07",
+    "Pack": "Good Charlotte"
+  },
+  {
+    "Title": "The River",
+    "Artist": "Good Charlotte (ft. Avenged Sevenfold)",
+    "ReleaseDate": "2016-06-07",
+    "Pack": "Good Charlotte"
+  },
+  {
+    "Title": "Save Tonight",
+    "Artist": "Eagle Eye Cherry",
+    "ReleaseDate": "2016-06-13",
+    "Pack": "Variety Pack II"
+  },
+  {
+    "Title": "The Gambler",
+    "Artist": "Kenny Rogers",
+    "ReleaseDate": "2016-06-13",
+    "Pack": "Variety Pack II"
+  },
+  {
+    "Title": "Under Pressure",
+    "Artist": "Queen and David Bowie ",
+    "ReleaseDate": "2016-06-13",
+    "Pack": "Variety Pack II"
+  },
+  {
+    "Title": "Right Now",
+    "Artist": "SR-71 ",
+    "ReleaseDate": "2016-06-13",
+    "Pack": "Variety Pack II"
+  }
+]

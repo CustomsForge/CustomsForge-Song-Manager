@@ -30,6 +30,7 @@ namespace CustomsForgeSongManager.DataObjects
         private string _sortColumn;
         private bool _sortAscending;
         private bool _showSetlistSongs;
+        private DateTime _lastODLCCheckDate;
 
         [Browsable(false)]
         public string LogFilePath { get; set; }
@@ -68,6 +69,12 @@ namespace CustomsForgeSongManager.DataObjects
         {
             get { return _checkForUpdateOnScan; }
             set { SetPropertyField("CheckForUpdateOnScan", ref _checkForUpdateOnScan, value); }
+        }
+
+        public DateTime LastODLCCheckDate
+        {
+            get { return _lastODLCCheckDate; }
+            set { SetPropertyField("LastODLCCheckDate", ref _lastODLCCheckDate, value); }
         }
 
         //[XmlArray("UISettings")] // provides proper xml serialization

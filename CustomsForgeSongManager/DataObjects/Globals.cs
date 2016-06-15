@@ -44,6 +44,7 @@ namespace CustomsForgeSongManager.DataObjects
         private static SongManager _songManager;
         private static Theme _theme;
         private static SongTagger _tagger;
+        private static List<OfficialDLCSong> _oDLCSongList;
 
         public static Random random = new Random();
 
@@ -103,6 +104,12 @@ namespace CustomsForgeSongManager.DataObjects
         {
             get { return _outdatedSongList ?? (_outdatedSongList = new Dictionary<string, SongData>()); }
             set { _outdatedSongList = value; }
+        }
+
+        public static List<OfficialDLCSong> OfficialDLCSongList
+        {
+            get { return _oDLCSongList ?? (_oDLCSongList = new List<OfficialDLCSong>()); }
+            set { _oDLCSongList = value; }
         }
 
         public static Renamer Renamer

@@ -173,17 +173,17 @@ namespace CustomsForgeSongManager.LocalTools
                         try
                         {
                             bwSongCollection.Sort((x1, x2) =>
-                                {
-                                    var c1 = (prop.GetValue(x1, new object[] { }) as IComparable);
-                                    var c2 = (prop.GetValue(x2, new object[] { }) as IComparable);
-                                    if (c1 == null || c2 == null)
-                                        return -1;
+                            {
+                                var c1 = (prop.GetValue(x1, new object[] { }) as IComparable);
+                                var c2 = (prop.GetValue(x2, new object[] { }) as IComparable);
+                                if (c1 == null || c2 == null)
+                                    return -1;
 
-                                    if (AppSettings.Instance.SortAscending)
-                                        return c1.CompareTo(c2);
-                                    else
-                                        return c2.CompareTo(c1);
-                                });
+                                if (AppSettings.Instance.SortAscending)
+                                    return c1.CompareTo(c2);
+                                else
+                                    return c2.CompareTo(c1);
+                            });
                         }
                         catch (Exception)
                         {
@@ -196,7 +196,8 @@ namespace CustomsForgeSongManager.LocalTools
             counterStopwatch.Stop();
 
             // free up memory
-            Globals.TuningXml.Clear();
+            if (Globals.TuningXml != null)
+                Globals.TuningXml.Clear();
         }
 
         private void ParsePSARC(string filePath)

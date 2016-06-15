@@ -179,6 +179,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataObjects\OfficialSong.cs" />
     <Compile Include="LocalTools\LocalExtensions.cs" />
     <Compile Include="LocalTools\AbortableBackgroundWorker.cs">
       <SubType>Component</SubType>
@@ -649,6 +650,7 @@
     <EmbeddedResource Include="Resources\tags\example1.tagtheme" />
     <EmbeddedResource Include="Resources\tags\zagatozeeddtext\Default.tagtheme" />
     <EmbeddedResource Include="Resources\sltsv1_aggregategraph.nt" />
+    <None Include="Resources\OfficialSongs.json" />
     <None Include="Resources\update.png" />
     <None Include="Resources\backup.png" />
     <None Include="Resources\disable.png" />
