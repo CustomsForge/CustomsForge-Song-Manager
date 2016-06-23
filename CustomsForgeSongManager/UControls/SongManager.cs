@@ -82,11 +82,12 @@ namespace CustomsForgeSongManager.UControls
 
                 foreach (OfficialDLCSong officialSong in Globals.OfficialDLCSongList)
                 {
+                    // TODO: fix ... conditional check is not picking up some ODLC that have special charactures, e.g. "Rockin' Into The Night"
                     if (song.Artist.ToUpper() == officialSong.Artist.ToUpper() && song.Title.ToUpper() == officialSong.Title.ToUpper()) //It would probably be better to do this checks with spaces, "-", etc. removed
                     {
                         dgvSongsMaster.Rows[ndx].DefaultCellStyle.ForeColor = Color.RosyBrown;
                        // added for testing
-                        dgvSongsMaster.Rows[ndx].DefaultCellStyle.BackColor = Color.Lime;
+                       // dgvSongsMaster.Rows[ndx].DefaultCellStyle.BackColor = Color.Lime;
                     } 
                 }
             }
@@ -1301,7 +1302,7 @@ namespace CustomsForgeSongManager.UControls
                     chkCell.Style.ForeColor = Color.DarkGray;
                     cell.ReadOnly = true;
 
-                    // this may be too CPU intesive so need to check for efficieny
+                    // this may be CPU intesive call need to check for efficiency
                     DoODLCCheck(); // Lovro ... moved check to here for testing
                 }
 

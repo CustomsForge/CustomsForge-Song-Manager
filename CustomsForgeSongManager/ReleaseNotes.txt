@@ -1,5 +1,9 @@
 ﻿CFSM Release Notes
 
+1.2.2.0
+-Testing ODLC colouration and notification
+-Added ReleaseNotes.txt to server
+
 1.2.1.9
 -Updated autoupdate paths
 -Issued first Release Version of CFSM with Inno Installer

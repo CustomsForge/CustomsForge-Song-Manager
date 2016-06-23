@@ -121,6 +121,8 @@ namespace CFMPostBuilder
                             Console.WriteLine("ReleaseNotes not found");
                             Environment.Exit(-5);
                         }
+                        else
+                            File.Copy(relNotesPath, Path.Combine(Path.GetDirectoryName(verInfoPath), relNotesFile));
 
                         if (!File.Exists(setupFilePath))
                         {

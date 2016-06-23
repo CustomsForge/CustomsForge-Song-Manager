@@ -1,3 +1,4 @@
+// TODO: fix special character encoding => ASCII
 [
   {
     "Title": "The Sky is Crying",
@@ -3030,7 +3031,7 @@
     "Pack": "38 Special Song Pack"
   },
   {
-    "Title": "Rockin&#8217; Into The Night",
+    "Title": "Rockin' Into The Night",
     "Artist": "38 Special",
     "ReleaseDate": "2016-01-26",
     "Pack": "38 Special Song Pack"
