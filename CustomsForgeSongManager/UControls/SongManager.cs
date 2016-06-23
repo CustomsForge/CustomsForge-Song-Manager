@@ -43,7 +43,7 @@ namespace CustomsForgeSongManager.UControls
             dgvSongsDetail.Visible = false;
             PopulateSongManager();
             cmsTaggerPreview.Visible = true;
-            DoODLCCheck();
+           // DoODLCCheck();
             //DataGridViewCheckBoxHeaderCell cbHeader = new DataGridViewCheckBoxHeaderCell();
             //colSelect.HeaderCell = cbHeader;
             //colSelect.HeaderText = String.Empty;
@@ -71,8 +71,9 @@ namespace CustomsForgeSongManager.UControls
             if (Globals.OfficialDLCSongList.Count == 0)
                 PopulateODLCList();
 
-            if (Globals.OfficialDLCSongList.Count == 0 || Globals.SongCollection.Count == 0 || (DateTime.Today - AppSettings.Instance.LastODLCCheckDate).TotalDays < 7)
-                return;
+            // Lovro ... I commented out for testing
+            //if (Globals.OfficialDLCSongList.Count == 0 || Globals.SongCollection.Count == 0 || (DateTime.Today - AppSettings.Instance.LastODLCCheckDate).TotalDays < 7)
+            //    return;
 
             for (int ndx = dgvSongsMaster.Rows.Count - 1; ndx >= 0; ndx--)
             {
@@ -82,7 +83,11 @@ namespace CustomsForgeSongManager.UControls
                 foreach (OfficialDLCSong officialSong in Globals.OfficialDLCSongList)
                 {
                     if (song.Artist.ToUpper() == officialSong.Artist.ToUpper() && song.Title.ToUpper() == officialSong.Title.ToUpper()) //It would probably be better to do this checks with spaces, "-", etc. removed
-                        dgvSongsMaster.Rows[ndx].DefaultCellStyle.ForeColor = Color.RosyBrown; 
+                    {
+                        dgvSongsMaster.Rows[ndx].DefaultCellStyle.ForeColor = Color.RosyBrown;
+                       // added for testing
+                        dgvSongsMaster.Rows[ndx].DefaultCellStyle.BackColor = Color.Lime;
+                    } 
                 }
             }
 
@@ -1295,6 +1300,9 @@ namespace CustomsForgeSongManager.UControls
                     chkCell.FlatStyle = FlatStyle.Flat;
                     chkCell.Style.ForeColor = Color.DarkGray;
                     cell.ReadOnly = true;
+
+                    // this may be too CPU intesive so need to check for efficieny
+                    DoODLCCheck(); // Lovro ... moved check to here for testing
                 }
 
                 if (e.ColumnIndex == colBass.Index || e.ColumnIndex == colVocals.Index || e.ColumnIndex == colLead.Index || e.ColumnIndex == colRhythm.Index)
