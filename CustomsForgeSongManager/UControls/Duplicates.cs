@@ -93,6 +93,7 @@ namespace CustomsForgeSongManager.UControls
 
                 colPID.Visible = true;
                 colPIDArrangement.Visible = true;
+                Globals.Log("Showing CDLC with duplicate PID's ... GAME CRASHERS!");
             }
             else
             {
@@ -113,8 +114,7 @@ namespace CustomsForgeSongManager.UControls
 
                     Globals.Log("Showing duplicate enabled songs ...");
                 }
-
-                if (keyDisabled)
+                else if (keyDisabled)
                 {
                     if (chkSubFolders.Checked)
                         duplicates = Globals.SongCollection.Where(x => Path.GetFileName(x.FilePath).Contains("disabled")).GroupBy(x => x.ArtistTitleAlbum).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
@@ -123,10 +123,13 @@ namespace CustomsForgeSongManager.UControls
 
                     Globals.Log("Showing duplicate disabled songs ...");
                 }
+                else
+                    Globals.Log("Showing duplicate CDLC ...");
 
                 // reset easter egg keys
                 keyEnabled = false;
                 keyDisabled = false;
+
             }
 
             duplicates.RemoveAll(x => x.FileName.ToLower().Contains(Constants.RS1COMP));
@@ -592,14 +595,16 @@ namespace CustomsForgeSongManager.UControls
             {
                 var x = (SongData)dgvDuplicates.Rows[e.RowIndex].DataBoundItem;
                 if (x != null)
-                {
                     if (distinctPIDS.Contains(x.PID))
                     {
+                        // make select checkbox consistent with color change
+                        dgvDuplicates.Rows[e.RowIndex].Cells["colSelect"].Style.BackColor = ErrorStyle.BackColor;
+                        dgvDuplicates.Rows[e.RowIndex].Cells["colSelect"].Style.ForeColor = ErrorStyle.ForeColor;
+                        // change color of duplicate PIDs
                         e.CellStyle.BackColor = ErrorStyle.BackColor;
                         e.CellStyle.ForeColor = ErrorStyle.ForeColor;
                         e.CellStyle.Font = ErrorStyle.Font;
                     }
-                }
             }
             catch (Exception ex)
             {
