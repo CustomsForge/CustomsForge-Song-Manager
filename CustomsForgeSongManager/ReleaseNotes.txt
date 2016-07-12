@@ -1,5 +1,8 @@
 ﻿CFSM Release Notes
 
+1.2.3.1
+-Allow user to specify highly customized paths for Rocksmith root
+
 1.2.3.0
 -Fixed Duplicates 'Selected' checkbox column coloring
 -Added Duplicate PID log messages

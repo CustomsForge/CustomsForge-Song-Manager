@@ -43,7 +43,7 @@ namespace CustomsForgeSongManager.UControls
             dgvSongsDetail.Visible = false;
             PopulateSongManager();
             cmsTaggerPreview.Visible = true;
-           // DoODLCCheck();
+            // DoODLCCheck();
             //DataGridViewCheckBoxHeaderCell cbHeader = new DataGridViewCheckBoxHeaderCell();
             //colSelect.HeaderCell = cbHeader;
             //colSelect.HeaderText = String.Empty;
@@ -86,9 +86,9 @@ namespace CustomsForgeSongManager.UControls
                     if (song.Artist.ToUpper() == officialSong.Artist.ToUpper() && song.Title.ToUpper() == officialSong.Title.ToUpper()) //It would probably be better to do this checks with spaces, "-", etc. removed
                     {
                         dgvSongsMaster.Rows[ndx].DefaultCellStyle.ForeColor = Color.RosyBrown;
-                       // added for testing
-                       // dgvSongsMaster.Rows[ndx].DefaultCellStyle.BackColor = Color.Lime;
-                    } 
+                        // added for testing
+                        // dgvSongsMaster.Rows[ndx].DefaultCellStyle.BackColor = Color.Lime;
+                    }
                 }
             }
 
@@ -603,7 +603,7 @@ namespace CustomsForgeSongManager.UControls
             var dlcFiles = Directory.EnumerateFiles(Path.Combine(AppSettings.Instance.RSInstalledDir, "dlc"), "*.psarc", SearchOption.AllDirectories).Where(fi => !fi.ToLower().Contains(Constants.RS1COMP) && !fi.ToLower().Contains(Constants.SONGPACK) && !fi.ToLower().Contains(Constants.ABVSONGPACK)).ToArray();
             if (!dlcFiles.Any())
             {
-                var msgText = string.Format("Houston ... we have a problem!{0}There are no Rocksmith 2014 songs in:" + "{0}{1}{0}{0}Please select a valid Rocksmith 2014{0}installation directory when you restart CFSM.  ", Environment.NewLine, Path.Combine(AppSettings.Instance.RSInstalledDir, "dlc"));
+                var msgText = string.Format("Houston ... We have a problem!{0}There are no Rocksmith 2014 songs in:" + "{0}{1}{0}{0}Please select a valid Rocksmith 2014{0}installation directory when you restart CFSM.  ", Environment.NewLine, Path.Combine(AppSettings.Instance.RSInstalledDir, "dlc"));
                 MessageBox.Show(msgText, Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Stop);
 
                 if (Directory.Exists(Constants.WorkDirectory))
@@ -613,8 +613,12 @@ namespace CustomsForgeSongManager.UControls
                         Directory.Delete(Constants.AudioCacheDirectory);
                 }
 
-                // prevents write log attempt and shutsdown app
-                Environment.Exit(0);
+                // prevents write log attempt and shuts down the app
+                // Environment.Exit(0);
+
+                // some users have highly customized Rocksmith directory paths
+                // this provides better user option than just stutting the app down
+                return;
             }
 
             ToggleUIControls(false);
