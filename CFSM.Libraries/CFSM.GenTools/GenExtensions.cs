@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Windows.Forms;
 using System.Diagnostics;
 using Microsoft.Win32;
+using System.Text.RegularExpressions;
 
 namespace CFSM.GenTools
 {
@@ -20,7 +21,7 @@ namespace CFSM.GenTools
                 action(c);
         }
 
-         public static string DifficultyToDD(this string maxDifficulty)
+        public static string DifficultyToDD(this string maxDifficulty)
         {
             return maxDifficulty == "0" ? "No" : "Yes";
         }
@@ -32,8 +33,43 @@ namespace CFSM.GenTools
             return result; //WebUtility.HtmlDecode(text);
         }
 
- 
- 
+        public static string CleanName(this string s)
+        {
+            s = Regex.Replace(s, @"\s+", "");
+            s = s.ToLower();
+
+            return s
+                .Replace("\\", "")
+                .Replace("/", "")
+                .Replace("\"", "")
+                .Replace("*", "")
+                .Replace(":", "")
+                .Replace("<", "")
+                .Replace(">", "")
+                .Replace("'", "")
+                .Replace(".", "")
+                .Replace("!", "")
+                .Replace("?", "")
+                .Replace("|", "")
+                .Replace("—", "")
+                .Replace("’", "")
+                .Replace("...", "");
+        }
+
+        public static DateTime NextWeekDay(DateTime date, DayOfWeek weekday)
+        {
+            return (from i in Enumerable.Range(0, 7)
+                    where date.AddDays(i).DayOfWeek == weekday
+                    select date.AddDays(i)).First();
+        }
+
+        public static DateTime LastWeekDay(DateTime date, DayOfWeek weekday)
+        {
+            return (from i in Enumerable.Range(0, 7)
+                    where date.AddDays(i * -1).DayOfWeek == weekday
+                    select date.AddDays(i * -1)).First();
+        }
+
         // Convert List to Data Table
         public static DataTable ConvertList<T>(IEnumerable<T> objectList)
         {
@@ -60,9 +96,7 @@ namespace CFSM.GenTools
             return list2DataTable;
         }
 
- 
-
- public static void ExtractEmbeddedResource(string outputDir, Assembly resourceAssembly, string resourceLocation, string[] files)
+        public static void ExtractEmbeddedResource(string outputDir, Assembly resourceAssembly, string resourceLocation, string[] files)
         {
             string resourcePath = String.Empty;
             foreach (string file in files)

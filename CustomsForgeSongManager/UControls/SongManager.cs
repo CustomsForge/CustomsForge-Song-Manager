@@ -66,8 +66,11 @@ namespace CustomsForgeSongManager.UControls
             Globals.OfficialDLCSongList = JsonConvert.DeserializeObject<List<OfficialDLCSong>>(oDLCJson);
         }
 
-        public void DoODLCCheck()
+        private Tuple<List<OfficialDLCSong>, List<SongData>> GetDuplicateODLCSongs(bool clean = true)
         {
+            List<OfficialDLCSong> duplicateList = new List<OfficialDLCSong>();
+            List<SongData> songDataList = new List<SongData>();
+
             if (Globals.OfficialDLCSongList.Count == 0)
                 PopulateODLCList();
 
@@ -80,19 +83,52 @@ namespace CustomsForgeSongManager.UControls
                 DataGridViewRow row = dgvSongsMaster.Rows[ndx];
                 var song = DgvExtensions.GetObjectFromRow<SongData>(row);
 
+                if (song.OfficialDLC)
+                    continue;
+
                 foreach (OfficialDLCSong officialSong in Globals.OfficialDLCSongList)
                 {
-                    // TODO: fix ... conditional check is not picking up some ODLC that have special charactures, e.g. "Rockin' Into The Night"
-                    if (song.Artist.ToUpper() == officialSong.Artist.ToUpper() && song.Title.ToUpper() == officialSong.Title.ToUpper()) //It would probably be better to do this checks with spaces, "-", etc. removed
+                    // TODO: fix ... conditional check is not picking up some ODLC that have special charactures, e.g. "Rockin' Into The Night" <-- this new "CleanName" function should do just that
+
+                    if (GenExtensions.CleanName(song.Artist) == GenExtensions.CleanName(officialSong.Artist) && GenExtensions.CleanName(song.Title) == GenExtensions.CleanName(officialSong.Title))
                     {
-                        dgvSongsMaster.Rows[ndx].DefaultCellStyle.ForeColor = Color.RosyBrown;
-                        // added for testing
-                        // dgvSongsMaster.Rows[ndx].DefaultCellStyle.BackColor = Color.Lime;
+                        duplicateList.Add(officialSong);
+                        songDataList.Add(song);
                     }
                 }
             }
 
-            AppSettings.Instance.LastODLCCheckDate = DateTime.Now;
+            if (clean)
+                duplicateList = duplicateList.GroupBy(x => new { x.Title, x.Artist }).Select(y => y.First()).ToList();
+
+            return Tuple.Create(duplicateList, songDataList);
+
+            // For later:
+            // AppSettings.Instance.LastODLCCheckDate = DateTime.Now; 
+        }
+
+        private void btnOCDLCCheck_Click(object sender, EventArgs e)
+        {
+            Tuple<List<OfficialDLCSong>, List<SongData>> lists = GetDuplicateODLCSongs();
+            List<OfficialDLCSong> duplicateList = lists.Item1;
+            List<SongData> songDataList = lists.Item2;
+
+            List<OfficialDLCSong> currentODLCList = new List<OfficialDLCSong>();
+            List<OfficialDLCSong> olderODLCList = new List<OfficialDLCSong>();
+            
+            foreach (OfficialDLCSong song in duplicateList)
+            {
+                if ((DateTime.Today - song.ReleaseDate).TotalDays < 7)
+                    currentODLCList.Add(song);
+                else
+                    olderODLCList.Add(song);
+            }
+            
+            using (var ODlcCheckForm = new frmCODLCDuplicates())
+            {
+                ODlcCheckForm.PopulateText(currentODLCList, olderODLCList, songDataList);
+                ODlcCheckForm.ShowDialog();
+            }
         }
 
         public void PlaySelectedSong()
@@ -1305,9 +1341,6 @@ namespace CustomsForgeSongManager.UControls
                     chkCell.FlatStyle = FlatStyle.Flat;
                     chkCell.Style.ForeColor = Color.DarkGray;
                     cell.ReadOnly = true;
-
-                    // this may be CPU intesive call need to check for efficiency
-                    DoODLCCheck(); // Lovro ... moved check to here for testing
                 }
 
                 if (e.ColumnIndex == colBass.Index || e.ColumnIndex == colVocals.Index || e.ColumnIndex == colLead.Index || e.ColumnIndex == colRhythm.Index)

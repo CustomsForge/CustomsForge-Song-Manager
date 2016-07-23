@@ -81,3 +81,4 @@ ThirdParty/CFSMPostBuilder.vshost.exe.manifest
 ThirdParty/CFSMPostBuilder.exe.config
 ThirdParty/CFSM.Setup/Output/UpdateInfo.txt
 ThirdParty/CFSM.Setup/ClickOnceUninstaller.exe.CodeAnalysisLog.xml
+.gitattributes

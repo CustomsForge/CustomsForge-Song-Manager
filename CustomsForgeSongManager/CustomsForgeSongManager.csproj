@@ -180,6 +180,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataObjects\OfficialSong.cs" />
+    <Compile Include="Forms\frmCODLCDuplicates.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmCODLCDuplicates.Designer.cs">
+      <DependentUpon>frmCODLCDuplicates.cs</DependentUpon>
+    </Compile>
     <Compile Include="LocalTools\LocalExtensions.cs" />
     <Compile Include="LocalTools\AbortableBackgroundWorker.cs">
       <SubType>Component</SubType>
@@ -391,6 +397,9 @@
       <DependentUpon>ThemePreview.cs</DependentUpon>
     </Compile>
     <Compile Include="LocalTools\Worker.cs" />
+    <EmbeddedResource Include="Forms\frmCODLCDuplicates.resx">
+      <DependentUpon>frmCODLCDuplicates.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="LocalTools\BetterDialog.resx">
       <DependentUpon>BetterDialog.cs</DependentUpon>
     </EmbeddedResource>
