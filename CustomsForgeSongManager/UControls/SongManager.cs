@@ -46,55 +46,6 @@ namespace CustomsForgeSongManager.UControls
             cmsTaggerPreview.Visible = true;
         }
 
-        public void PopulateODLCList()
-        {
-            string oDLCJson = Properties.Resources.OfficialSongs;
-            Globals.OfficialDLCSongList = JsonConvert.DeserializeObject<List<OfficialDLCSong>>(oDLCJson);
-        }
-
-        private Tuple<List<OfficialDLCSong>, List<SongData>> GetDuplicateODLCSongs(bool clean = true)
-        {
-            // TODO: Cleanup SongManager ... move OCDLCCheck methods to frmCODLCDuplicates if possible
-            List<OfficialDLCSong> duplicateList = new List<OfficialDLCSong>();
-            List<SongData> songDataList = new List<SongData>();
-
-            if (Globals.OfficialDLCSongList.Count == 0)
-                PopulateODLCList();
-
-            // commented out for testing
-            //if (Globals.OfficialDLCSongList.Count == 0 || Globals.SongCollection.Count == 0 || (DateTime.Today - AppSettings.Instance.LastODLCCheckDate).TotalDays < 7)
-            //    return;
-
-            for (int ndx = dgvSongsMaster.Rows.Count - 1; ndx >= 0; ndx--)
-            {
-                DataGridViewRow row = dgvSongsMaster.Rows[ndx];
-                var song = DgvExtensions.GetObjectFromRow<SongData>(row);
-
-                if (song.OfficialDLC)
-                    continue;
-
-                foreach (OfficialDLCSong officialSong in Globals.OfficialDLCSongList)
-                {
-                    // TODO: fix ... conditional check is not picking up some ODLC that have special charactures, e.g. "Rockin' Into The Night" <-- this new "CleanName" function should do just that
-
-                    if (GenExtensions.CleanName(song.Artist) == GenExtensions.CleanName(officialSong.Artist) && GenExtensions.CleanName(song.Title) == GenExtensions.CleanName(officialSong.Title))
-                    {
-                        duplicateList.Add(officialSong);
-                        songDataList.Add(song);
-                    }
-                }
-            }
-
-            if (clean)
-                duplicateList = duplicateList.GroupBy(x => new { x.Title, x.Artist }).Select(y => y.First()).ToList();
-
-            return Tuple.Create(duplicateList, songDataList);
-
-            // For later:
-            // AppSettings.Instance.LastODLCCheckDate = DateTime.Now; 
-        }
-
-
         public void PlaySelectedSong()
         {
             var sng = DgvExtensions.GetObjectFromFirstSelectedRow<SongData>(dgvSongsMaster);
@@ -1577,28 +1528,11 @@ namespace CustomsForgeSongManager.UControls
 
         private void lnkLblCheckODLC_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Tuple<List<OfficialDLCSong>, List<SongData>> lists = GetDuplicateODLCSongs();
-            List<OfficialDLCSong> duplicateList = lists.Item1;
-            List<SongData> songDataList = lists.Item2;
-
-            List<OfficialDLCSong> currentODLCList = new List<OfficialDLCSong>();
-            List<OfficialDLCSong> olderODLCList = new List<OfficialDLCSong>();
-
-            foreach (OfficialDLCSong song in duplicateList)
-            {
-                if ((DateTime.Today - song.ReleaseDate).TotalDays < 7)
-                    currentODLCList.Add(song);
-                else
-                    olderODLCList.Add(song);
-            }
-
             using (var ODlcCheckForm = new frmCODLCDuplicates())
             {
-                ODlcCheckForm.PopulateText(currentODLCList, olderODLCList, songDataList);
+                ODlcCheckForm.PopulateLists();
                 ODlcCheckForm.ShowDialog();
             }
         }
-
-
     }
 }

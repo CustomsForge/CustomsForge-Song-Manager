@@ -11,6 +11,7 @@ using System.Diagnostics;
 using DataGridViewTools;
 using System.IO;
 using CFSM.GenTools;
+using Newtonsoft.Json;
 
 namespace CustomsForgeSongManager.Forms
 {
@@ -25,20 +26,79 @@ namespace CustomsForgeSongManager.Forms
 
             links = new List<string>();
             songDataList = new List<SongData>();
+
+            if (Globals.OfficialDLCSongList.Count == 0)
+                PopulateODLCList();
         }
 
-        public void PopulateText(List<OfficialDLCSong> currentDuplicates, List<OfficialDLCSong> olderDuplicates, List<SongData> allDuplicates)
+        private void PopulateODLCList()
         {
-            foreach (OfficialDLCSong duplicate in currentDuplicates)
+            string oDLCJson = Properties.Resources.OfficialSongs;
+            Globals.OfficialDLCSongList = JsonConvert.DeserializeObject<List<OfficialDLCSong>>(oDLCJson);
+        }
+
+        private Tuple<List<OfficialDLCSong>, List<SongData>> GetDuplicateODLCSongs(bool clean = true)
+        {
+            List<OfficialDLCSong> duplicateList = new List<OfficialDLCSong>();
+            List<SongData> songDataList = new List<SongData>();
+
+            if (Globals.OfficialDLCSongList.Count == 0)
+                PopulateODLCList();
+
+            // commented out for testing
+            //if (Globals.OfficialDLCSongList.Count == 0 || Globals.SongCollection.Count == 0 || (DateTime.Today - AppSettings.Instance.LastODLCCheckDate).TotalDays < 7)
+            //    return;
+
+            foreach (SongData song in Globals.SongCollection)
+            {
+                if (song.OfficialDLC)
+                    continue;
+
+                foreach (OfficialDLCSong officialSong in Globals.OfficialDLCSongList)
+                {
+                    if (GenExtensions.CleanName(song.Artist) == GenExtensions.CleanName(officialSong.Artist) && GenExtensions.CleanName(song.Title) == GenExtensions.CleanName(officialSong.Title))
+                    {
+                        duplicateList.Add(officialSong);
+                        songDataList.Add(song);
+                    }
+                }
+            }
+
+            if (clean)
+                duplicateList = duplicateList.GroupBy(x => new { x.Title, x.Artist }).Select(y => y.First()).ToList();
+
+            return Tuple.Create(duplicateList, songDataList);
+
+            // For later:
+            // AppSettings.Instance.LastODLCCheckDate = DateTime.Now; 
+        }
+
+        public void PopulateLists()
+        {
+            Tuple<List<OfficialDLCSong>, List<SongData>> lists = GetDuplicateODLCSongs();
+            List<OfficialDLCSong> duplicateList = lists.Item1;
+
+            List<OfficialDLCSong> currentODLCList = new List<OfficialDLCSong>();
+            List<OfficialDLCSong> olderODLCList = new List<OfficialDLCSong>();
+
+            foreach (OfficialDLCSong song in duplicateList)
+            {
+                if ((DateTime.Today - song.ReleaseDate).TotalDays < 7)
+                    currentODLCList.Add(song);
+                else
+                    olderODLCList.Add(song);
+            }
+
+            foreach (OfficialDLCSong duplicate in currentODLCList)
                 dgvCurrentODLC.Rows.Add(false, duplicate.Title, duplicate.Artist, duplicate.Pack, duplicate.ReleaseDate.ToShortDateString(), duplicate.Link);
 
-            foreach (OfficialDLCSong duplicate in olderDuplicates)
+            foreach (OfficialDLCSong duplicate in olderODLCList)
                 dgvOlderODLC.Rows.Add(false, duplicate.Title, duplicate.Artist, duplicate.Pack, duplicate.ReleaseDate.ToShortDateString(), duplicate.Link);
 
-            songDataList = allDuplicates;
+            songDataList = lists.Item2;
         }
 
-        public void OpenInBrowser(DataGridView dgv)
+        private void OpenInBrowser(DataGridView dgv)
         {
             links.Clear();
 
@@ -48,7 +108,7 @@ namespace CustomsForgeSongManager.Forms
             {
                 DataGridViewRow row = dgv.Rows[ndx];
 
-                if (row.Selected || Convert.ToBoolean(row.Cells[colNdxSelect].Value)) //TODO: make the Boolean check work for both DataGridViews
+                if (row.Selected || Convert.ToBoolean(row.Cells[colNdxSelect].Value))
                 {
                     links.Add(row.Cells.Cast<DataGridViewCell>().First(c => c.OwningColumn.HeaderText == "Link").Value.ToString());
                 }
@@ -60,7 +120,7 @@ namespace CustomsForgeSongManager.Forms
                 Process.Start(link);
         }
 
-        public void DeleteSelectedSongs(DataGridView dgv)
+        private void DeleteSelectedSongs(DataGridView dgv)
         {
             bool safe2Delete = false;
             var colNdxTitle = DgvExtensions.GetDataPropertyColumnIndex(dgv, "Title");
@@ -90,7 +150,7 @@ namespace CustomsForgeSongManager.Forms
                     {
                         try
                         {
-                            for (int i = sdList.Count() - 1;  i >= 0; i--)
+                            for (int i = sdList.Count() - 1; i >= 0; i--)
                             {
                                 songPath = sdList[i].FilePath;
                                 sdList[i].Delete();
