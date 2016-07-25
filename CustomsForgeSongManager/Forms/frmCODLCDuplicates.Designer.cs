@@ -37,6 +37,12 @@
             this.label2 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.dgvCurrentODLC = new System.Windows.Forms.DataGridView();
+            this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.colTitle = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colArtist = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPack = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colReleaseDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colLink = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.panel5 = new System.Windows.Forms.Panel();
@@ -44,6 +50,12 @@
             this.btnDeleteOlderSongs = new System.Windows.Forms.Button();
             this.panel6 = new System.Windows.Forms.Panel();
             this.dgvOlderODLC = new System.Windows.Forms.DataGridView();
+            this.colSelect2 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.colTitle2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colArtist2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPack2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colReleaseDate2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colLink2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewCheckBoxColumn1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -56,18 +68,6 @@
             this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSelect2 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.colTitle2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colArtist2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colPack2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colReleaseDate2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colLink2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.colTitle = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colArtist = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colPack = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colReleaseDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colLink = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tlpDLCDuplicates.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -81,9 +81,9 @@
             // 
             // tlpDLCDuplicates
             // 
-            this.tlpDLCDuplicates.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tlpDLCDuplicates.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.tlpDLCDuplicates.ColumnCount = 1;
             this.tlpDLCDuplicates.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlpDLCDuplicates.Controls.Add(this.panel3, 0, 2);
@@ -107,9 +107,9 @@
             // 
             // panel3
             // 
-            this.panel3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.panel3.Controls.Add(this.btnOpenCurrentDLCRRPage);
             this.panel3.Controls.Add(this.btnDeleteCurrentSongs);
             this.panel3.Location = new System.Drawing.Point(3, 260);
@@ -143,9 +143,9 @@
             // 
             // panel4
             // 
-            this.panel4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.panel4.Controls.Add(this.label2);
             this.panel4.Location = new System.Drawing.Point(3, 312);
             this.panel4.Name = "panel4";
@@ -160,13 +160,13 @@
             this.label2.Size = new System.Drawing.Size(468, 13);
             this.label2.TabIndex = 2;
             this.label2.Text = "Older songs that have been released as official DLC and that you have in your DLC" +
-    " collection are:";
+                " collection are:";
             // 
             // panel2
             // 
-            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.panel2.Controls.Add(this.dgvCurrentODLC);
             this.panel2.Location = new System.Drawing.Point(3, 43);
             this.panel2.Name = "panel2";
@@ -177,9 +177,9 @@
             // 
             this.dgvCurrentODLC.AllowUserToAddRows = false;
             this.dgvCurrentODLC.AllowUserToDeleteRows = false;
-            this.dgvCurrentODLC.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgvCurrentODLC.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvCurrentODLC.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvCurrentODLC.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvCurrentODLC.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -198,11 +198,59 @@
             this.dgvCurrentODLC.Size = new System.Drawing.Size(874, 270);
             this.dgvCurrentODLC.TabIndex = 0;
             // 
+            // colSelect
+            // 
+            this.colSelect.DataPropertyName = "Select";
+            this.colSelect.FalseValue = "false";
+            this.colSelect.HeaderText = "Select";
+            this.colSelect.Name = "colSelect";
+            this.colSelect.ReadOnly = true;
+            this.colSelect.TrueValue = "true";
+            // 
+            // colTitle
+            // 
+            this.colTitle.DataPropertyName = "Title";
+            this.colTitle.HeaderText = "Title";
+            this.colTitle.Name = "colTitle";
+            this.colTitle.ReadOnly = true;
+            this.colTitle.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colTitle.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // colArtist
+            // 
+            this.colArtist.DataPropertyName = "Artist";
+            this.colArtist.HeaderText = "Artist";
+            this.colArtist.Name = "colArtist";
+            this.colArtist.ReadOnly = true;
+            this.colArtist.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colArtist.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // colPack
+            // 
+            this.colPack.DataPropertyName = "Pack";
+            this.colPack.HeaderText = "Pack";
+            this.colPack.Name = "colPack";
+            this.colPack.ReadOnly = true;
+            // 
+            // colReleaseDate
+            // 
+            this.colReleaseDate.DataPropertyName = "Release Date";
+            this.colReleaseDate.HeaderText = "Release Date";
+            this.colReleaseDate.Name = "colReleaseDate";
+            this.colReleaseDate.ReadOnly = true;
+            // 
+            // colLink
+            // 
+            this.colLink.DataPropertyName = "Link";
+            this.colLink.HeaderText = "Link";
+            this.colLink.Name = "colLink";
+            this.colLink.ReadOnly = true;
+            // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.Controls.Add(this.label1);
             this.panel1.Location = new System.Drawing.Point(3, 3);
             this.panel1.Name = "panel1";
@@ -217,13 +265,13 @@
             this.label1.Size = new System.Drawing.Size(533, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "Following CDLC songs were released this week as official DLC and you also have th" +
-    "em in your CDLC collection:";
+                "em in your CDLC collection:";
             // 
             // panel5
             // 
-            this.panel5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.panel5.Controls.Add(this.btnOpenOlderDLCRRPage);
             this.panel5.Controls.Add(this.btnDeleteOlderSongs);
             this.panel5.Location = new System.Drawing.Point(3, 569);
@@ -257,9 +305,9 @@
             // 
             // panel6
             // 
-            this.panel6.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel6.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.panel6.Controls.Add(this.dgvOlderODLC);
             this.panel6.Cursor = System.Windows.Forms.Cursors.Default;
             this.panel6.Location = new System.Drawing.Point(3, 352);
@@ -271,9 +319,9 @@
             // 
             this.dgvOlderODLC.AllowUserToAddRows = false;
             this.dgvOlderODLC.AllowUserToDeleteRows = false;
-            this.dgvOlderODLC.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgvOlderODLC.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvOlderODLC.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvOlderODLC.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvOlderODLC.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -291,6 +339,54 @@
             this.dgvOlderODLC.ShowEditingIcon = false;
             this.dgvOlderODLC.Size = new System.Drawing.Size(877, 208);
             this.dgvOlderODLC.TabIndex = 7;
+            // 
+            // colSelect2
+            // 
+            this.colSelect2.DataPropertyName = "Select";
+            this.colSelect2.FalseValue = "false";
+            this.colSelect2.HeaderText = "Select";
+            this.colSelect2.Name = "colSelect2";
+            this.colSelect2.ReadOnly = true;
+            this.colSelect2.TrueValue = "true";
+            // 
+            // colTitle2
+            // 
+            this.colTitle2.DataPropertyName = "Title";
+            this.colTitle2.HeaderText = "Title";
+            this.colTitle2.Name = "colTitle2";
+            this.colTitle2.ReadOnly = true;
+            this.colTitle2.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colTitle2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // colArtist2
+            // 
+            this.colArtist2.DataPropertyName = "Artist";
+            this.colArtist2.HeaderText = "Artist";
+            this.colArtist2.Name = "colArtist2";
+            this.colArtist2.ReadOnly = true;
+            this.colArtist2.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colArtist2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // colPack2
+            // 
+            this.colPack2.DataPropertyName = "Pack";
+            this.colPack2.HeaderText = "Pack";
+            this.colPack2.Name = "colPack2";
+            this.colPack2.ReadOnly = true;
+            // 
+            // colReleaseDate2
+            // 
+            this.colReleaseDate2.DataPropertyName = "Release Date";
+            this.colReleaseDate2.HeaderText = "Release Date";
+            this.colReleaseDate2.Name = "colReleaseDate2";
+            this.colReleaseDate2.ReadOnly = true;
+            // 
+            // colLink2
+            // 
+            this.colLink2.DataPropertyName = "Link";
+            this.colLink2.HeaderText = "Link";
+            this.colLink2.Name = "colLink2";
+            this.colLink2.ReadOnly = true;
             // 
             // dataGridViewCheckBoxColumn1
             // 
@@ -372,102 +468,6 @@
             this.dataGridViewTextBoxColumn10.Name = "dataGridViewTextBoxColumn10";
             this.dataGridViewTextBoxColumn10.Width = 139;
             // 
-            // colSelect2
-            // 
-            this.colSelect2.DataPropertyName = "Select";
-            this.colSelect2.FalseValue = "false";
-            this.colSelect2.HeaderText = "Select";
-            this.colSelect2.Name = "colSelect2";
-            this.colSelect2.ReadOnly = true;
-            this.colSelect2.TrueValue = "true";
-            // 
-            // colTitle2
-            // 
-            this.colTitle2.DataPropertyName = "Title";
-            this.colTitle2.HeaderText = "Title";
-            this.colTitle2.Name = "colTitle2";
-            this.colTitle2.ReadOnly = true;
-            this.colTitle2.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colTitle2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // colArtist2
-            // 
-            this.colArtist2.DataPropertyName = "Artist";
-            this.colArtist2.HeaderText = "Artist";
-            this.colArtist2.Name = "colArtist2";
-            this.colArtist2.ReadOnly = true;
-            this.colArtist2.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colArtist2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // colPack2
-            // 
-            this.colPack2.DataPropertyName = "Pack";
-            this.colPack2.HeaderText = "Pack";
-            this.colPack2.Name = "colPack2";
-            this.colPack2.ReadOnly = true;
-            // 
-            // colReleaseDate2
-            // 
-            this.colReleaseDate2.DataPropertyName = "Release Date";
-            this.colReleaseDate2.HeaderText = "Release Date";
-            this.colReleaseDate2.Name = "colReleaseDate2";
-            this.colReleaseDate2.ReadOnly = true;
-            // 
-            // colLink2
-            // 
-            this.colLink2.DataPropertyName = "Link";
-            this.colLink2.HeaderText = "Link";
-            this.colLink2.Name = "colLink2";
-            this.colLink2.ReadOnly = true;
-            // 
-            // colSelect
-            // 
-            this.colSelect.DataPropertyName = "Select";
-            this.colSelect.FalseValue = "false";
-            this.colSelect.HeaderText = "Select";
-            this.colSelect.Name = "colSelect";
-            this.colSelect.ReadOnly = true;
-            this.colSelect.TrueValue = "true";
-            // 
-            // colTitle
-            // 
-            this.colTitle.DataPropertyName = "Title";
-            this.colTitle.HeaderText = "Title";
-            this.colTitle.Name = "colTitle";
-            this.colTitle.ReadOnly = true;
-            this.colTitle.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colTitle.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // colArtist
-            // 
-            this.colArtist.DataPropertyName = "Artist";
-            this.colArtist.HeaderText = "Artist";
-            this.colArtist.Name = "colArtist";
-            this.colArtist.ReadOnly = true;
-            this.colArtist.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colArtist.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // colPack
-            // 
-            this.colPack.DataPropertyName = "Pack";
-            this.colPack.HeaderText = "Pack";
-            this.colPack.Name = "colPack";
-            this.colPack.ReadOnly = true;
-            // 
-            // colReleaseDate
-            // 
-            this.colReleaseDate.DataPropertyName = "Release Date";
-            this.colReleaseDate.HeaderText = "Release Date";
-            this.colReleaseDate.Name = "colReleaseDate";
-            this.colReleaseDate.ReadOnly = true;
-            // 
-            // colLink
-            // 
-            this.colLink.DataPropertyName = "Link";
-            this.colLink.HeaderText = "Link";
-            this.colLink.Name = "colLink";
-            this.colLink.ReadOnly = true;
-            // 
             // frmCODLCDuplicates
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -476,6 +476,7 @@
             this.Controls.Add(this.tlpDLCDuplicates);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmCODLCDuplicates";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "O-C DLC Duplicates";
             this.tlpDLCDuplicates.ResumeLayout(false);
             this.panel3.ResumeLayout(false);

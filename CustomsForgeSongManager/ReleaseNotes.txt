@@ -1,7 +1,9 @@
 ﻿CFSM Release Notes
 
 1.2.3.2
--Added "find CDLC replaced by oDLC" to Duplicates tab menu (ODLC shown in highlighted text)
+-Added ODLC highlighting in Duplicates tab menu for consistency with SongManager
+-Cleaned up UC SongManager methods
+-Added a link button to SongManager to allow users to "Find CDLC replaced by ODLC" (Lovro method)
 
 1.2.3.1
 -Allow user to specify highly customized paths for Rocksmith root

@@ -590,8 +590,6 @@ namespace CustomsForgeSongManager.UControls
             if (dgvDuplicates.Rows.Count < 1) // needed in case filter was set that returns no items
                 return;
 
-            // Note to Lovro ... 
-            // this small changes adds ability to show CDLC that have been replaced by ODLC i.e. duplicate CDLC and ODLC
             // added ODLC font highlighting
             try
             {
@@ -602,13 +600,13 @@ namespace CustomsForgeSongManager.UControls
                     if (song.OfficialDLC)
                     {
                         e.CellStyle.Font = Constants.OfficialDLCFont;
-                        // prevent checking (selecting) ODCL all together ... evil genious code
                         DataGridViewCell cell = dgvDuplicates.Rows[e.RowIndex].Cells["colSelect"];
                         DataGridViewCheckBoxCell chkCell = cell as DataGridViewCheckBoxCell;
-                        chkCell.Value = false;
                         chkCell.FlatStyle = FlatStyle.Flat;
                         chkCell.Style.ForeColor = Color.DarkGray;
-                        // cell.ReadOnly = true;
+                        // allow deletion of ODLC duplicates
+                        //chkCell.Value = false;
+                        //cell.ReadOnly = true;
                     }
 
                     if (distinctPIDS.Contains(song.PID))

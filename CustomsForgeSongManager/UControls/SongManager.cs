@@ -19,6 +19,7 @@ using System.Xml;
 using System.Text;
 using System.Collections.Generic;
 
+
 namespace CustomsForgeSongManager.UControls
 {
     public partial class SongManager : UserControl, IDataGridViewHolder, INotifyTabChanged
@@ -43,21 +44,6 @@ namespace CustomsForgeSongManager.UControls
             dgvSongsDetail.Visible = false;
             PopulateSongManager();
             cmsTaggerPreview.Visible = true;
-            // DoODLCCheck();
-            //DataGridViewCheckBoxHeaderCell cbHeader = new DataGridViewCheckBoxHeaderCell();
-            //colSelect.HeaderCell = cbHeader;
-            //colSelect.HeaderText = String.Empty;
-            //colSelect.SortMode = DataGridViewColumnSortMode.NotSortable;
-            //colSelect.HeaderCell.ToolTipText = String.Empty;
-            //cbHeader.OnCheckBoxClicked += (Checked) =>
-            //{
-            //    TemporaryDisableDatabindEvent(() =>
-            //    {
-            //        for (int i = 0; i < dgvSongsMaster.Rows.Count; i++)
-            //            DgvExtensions.GetObjectByRow<SongData>(dgvSongsMaster, i).Selected = Checked;
-            //    });
-            //    allSelected = Checked;
-            //};
         }
 
         public void PopulateODLCList()
@@ -68,13 +54,14 @@ namespace CustomsForgeSongManager.UControls
 
         private Tuple<List<OfficialDLCSong>, List<SongData>> GetDuplicateODLCSongs(bool clean = true)
         {
+            // TODO: Cleanup SongManager ... move OCDLCCheck methods to frmCODLCDuplicates if possible
             List<OfficialDLCSong> duplicateList = new List<OfficialDLCSong>();
             List<SongData> songDataList = new List<SongData>();
 
             if (Globals.OfficialDLCSongList.Count == 0)
                 PopulateODLCList();
 
-            // Lovro ... I commented out for testing
+            // commented out for testing
             //if (Globals.OfficialDLCSongList.Count == 0 || Globals.SongCollection.Count == 0 || (DateTime.Today - AppSettings.Instance.LastODLCCheckDate).TotalDays < 7)
             //    return;
 
@@ -107,29 +94,6 @@ namespace CustomsForgeSongManager.UControls
             // AppSettings.Instance.LastODLCCheckDate = DateTime.Now; 
         }
 
-        private void btnOCDLCCheck_Click(object sender, EventArgs e)
-        {
-            Tuple<List<OfficialDLCSong>, List<SongData>> lists = GetDuplicateODLCSongs();
-            List<OfficialDLCSong> duplicateList = lists.Item1;
-            List<SongData> songDataList = lists.Item2;
-
-            List<OfficialDLCSong> currentODLCList = new List<OfficialDLCSong>();
-            List<OfficialDLCSong> olderODLCList = new List<OfficialDLCSong>();
-            
-            foreach (OfficialDLCSong song in duplicateList)
-            {
-                if ((DateTime.Today - song.ReleaseDate).TotalDays < 7)
-                    currentODLCList.Add(song);
-                else
-                    olderODLCList.Add(song);
-            }
-            
-            using (var ODlcCheckForm = new frmCODLCDuplicates())
-            {
-                ODlcCheckForm.PopulateText(currentODLCList, olderODLCList, songDataList);
-                ODlcCheckForm.ShowDialog();
-            }
-        }
 
         public void PlaySelectedSong()
         {
@@ -193,8 +157,6 @@ namespace CustomsForgeSongManager.UControls
         public void PopulateSongManager()
         {
             Globals.Log("Populating SongManager GUI ...");
-            // Globals.Settings.LoadSettingsFromFile(dgvSongsMaster);
-
             PopulateTagger();
 
             // Hide main dgvSongsMaster until load completes
@@ -346,13 +308,9 @@ namespace CustomsForgeSongManager.UControls
                             columnSetting.Visible = !columnSetting.Visible;
                             dgvSongsMaster.Columns[columnIndex].Visible = columnSetting.Visible;
                             currentContextMenuItem.Checked = columnSetting.Visible;
-                            //   dgvSongsMaster.Invalidate();
                         }
                     }
 
-                    //foreach (var item in dgvSongsMaster.Columns.Cast<DataGridViewColumn>())
-                    //    if (item.Visible)
-                    //        dgvSongsMaster.InvalidateCell(item.HeaderCell);
                 }
             }
         }
@@ -532,12 +490,6 @@ namespace CustomsForgeSongManager.UControls
         {
             tagToolStripMenuItem.DropDownItems.Clear();
 
-            //SongData sdata = null;
-            //var sngs = GetSelectedSongs().Where(sd => !sd.Tagged).ToArray(); // 
-            //if (sngs.Length == 0)
-            //    sngs = Globals.SongCollection.Where(sd => !sd.Tagged).ToArray();
-            //if (sngs.Length > 0)
-            //    sdata = sngs[Globals.random.Next(sngs.Length - 1)];
             foreach (var x in Globals.Tagger.Themes)
             {
                 ToolStripMenuItem mi = new ToolStripMenuItem(x);
@@ -562,39 +514,6 @@ namespace CustomsForgeSongManager.UControls
                         }
                     };
 
-                //if (sdata != null)
-                //{
-                //    var img = Globals.Tagger.Preview(sdata,x).ResizeImage(100,100);
-                //    PictureBox pb = new PictureBox() { Image = img, Width = img.Width, Height = img.Height,Tag = x,
-                //                                       SizeMode = PictureBoxSizeMode.CenterImage,
-                //                                       Dock = DockStyle.Fill
-                //    };
-
-                //    ToolStripControlHost mi2 = new ToolStripControlHost(pb) {  Height = pb.Height, Tag = x };
-                //    pb.Click += (s, ev) =>
-                //    {
-                //        var selection = DgvExtensions.GetObjectsFromSelectedRows<SongData>(dgvSongsMaster);
-                //        if (selection.Count > 0)
-                //        {
-                //            Globals.Tagger.ThemeName = ((PictureBox)s).Tag.ToString();
-                //            Globals.Tagger.OnProgress += TaggerProgress;
-                //            try
-                //            {
-                //                Globals.Tagger.TagSongs(selection.ToArray());
-                //            }
-                //            finally
-                //            {
-                //                Globals.Tagger.OnProgress -= TaggerProgress;
-                //                // force dgvSongsMaster data to refresh after Tagging
-                //                GetGrid().Invalidate();
-                //                GetGrid().Refresh();
-                //            }
-                //        }
-
-                //    };
-                //    mi.DropDownItems.Add(mi2);
-                //}
-                // ToolStripItem
                 tagToolStripMenuItem.DropDownItems.Add(mi);
             }
         }
@@ -1655,5 +1574,31 @@ namespace CustomsForgeSongManager.UControls
             Globals.Log("SongManager GUI TabLeave ...");
             Globals.Settings.SaveSettingsToFile(dgvSongsMaster);
         }
+
+        private void lnkLblCheckODLC_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Tuple<List<OfficialDLCSong>, List<SongData>> lists = GetDuplicateODLCSongs();
+            List<OfficialDLCSong> duplicateList = lists.Item1;
+            List<SongData> songDataList = lists.Item2;
+
+            List<OfficialDLCSong> currentODLCList = new List<OfficialDLCSong>();
+            List<OfficialDLCSong> olderODLCList = new List<OfficialDLCSong>();
+
+            foreach (OfficialDLCSong song in duplicateList)
+            {
+                if ((DateTime.Today - song.ReleaseDate).TotalDays < 7)
+                    currentODLCList.Add(song);
+                else
+                    olderODLCList.Add(song);
+            }
+
+            using (var ODlcCheckForm = new frmCODLCDuplicates())
+            {
+                ODlcCheckForm.PopulateText(currentODLCList, olderODLCList, songDataList);
+                ODlcCheckForm.ShowDialog();
+            }
+        }
+
+
     }
 }
