@@ -85,7 +85,6 @@ namespace CustomsForgeSongManager.UControls
 
                 if (chkSubFolders.Checked)
                     duplicates = pidList.GroupBy(x => x.PID).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
-
                 else
                     duplicates = pidList.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").GroupBy(x => x.PID).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
 
@@ -591,11 +590,28 @@ namespace CustomsForgeSongManager.UControls
             if (dgvDuplicates.Rows.Count < 1) // needed in case filter was set that returns no items
                 return;
 
+            // Note to Lovro ... 
+            // this small changes adds ability to show CDLC that have been replaced by ODLC i.e. duplicate CDLC and ODLC
+            // added ODLC font highlighting
             try
             {
-                var x = (SongData)dgvDuplicates.Rows[e.RowIndex].DataBoundItem;
-                if (x != null)
-                    if (distinctPIDS.Contains(x.PID))
+                SongData song = dgvDuplicates.Rows[e.RowIndex].DataBoundItem as SongData;
+
+                if (song != null)
+                {
+                    if (song.OfficialDLC)
+                    {
+                        e.CellStyle.Font = Constants.OfficialDLCFont;
+                        // prevent checking (selecting) ODCL all together ... evil genious code
+                        DataGridViewCell cell = dgvDuplicates.Rows[e.RowIndex].Cells["colSelect"];
+                        DataGridViewCheckBoxCell chkCell = cell as DataGridViewCheckBoxCell;
+                        chkCell.Value = false;
+                        chkCell.FlatStyle = FlatStyle.Flat;
+                        chkCell.Style.ForeColor = Color.DarkGray;
+                        // cell.ReadOnly = true;
+                    }
+
+                    if (distinctPIDS.Contains(song.PID))
                     {
                         // make select checkbox consistent with color change
                         dgvDuplicates.Rows[e.RowIndex].Cells["colSelect"].Style.BackColor = ErrorStyle.BackColor;
@@ -605,6 +621,7 @@ namespace CustomsForgeSongManager.UControls
                         e.CellStyle.ForeColor = ErrorStyle.ForeColor;
                         e.CellStyle.Font = ErrorStyle.Font;
                     }
+                }
             }
             catch (Exception ex)
             {

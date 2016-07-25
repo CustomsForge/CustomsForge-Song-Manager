@@ -1,5 +1,8 @@
 ﻿CFSM Release Notes
 
+1.2.3.2
+-Added "find CDLC replaced by oDLC" to Duplicates tab menu (ODLC shown in highlighted text)
+
 1.2.3.1
 -Allow user to specify highly customized paths for Rocksmith root
 
