@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmCODLCDuplicates));
             this.tlpDLCDuplicates = new System.Windows.Forms.TableLayoutPanel();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.linkLblSelectAllCurrent = new System.Windows.Forms.LinkLabel();
             this.btnOpenCurrentDLCRRPage = new System.Windows.Forms.Button();
             this.btnDeleteCurrentSongs = new System.Windows.Forms.Button();
             this.panel4 = new System.Windows.Forms.Panel();
@@ -46,6 +47,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.linkLblSelectAllOlder = new System.Windows.Forms.LinkLabel();
             this.btnOpenOlderDLCRRPage = new System.Windows.Forms.Button();
             this.btnDeleteOlderSongs = new System.Windows.Forms.Button();
             this.panel6 = new System.Windows.Forms.Panel();
@@ -81,9 +83,9 @@
             // 
             // tlpDLCDuplicates
             // 
-            this.tlpDLCDuplicates.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.tlpDLCDuplicates.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tlpDLCDuplicates.ColumnCount = 1;
             this.tlpDLCDuplicates.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlpDLCDuplicates.Controls.Add(this.panel3, 0, 2);
@@ -107,9 +109,10 @@
             // 
             // panel3
             // 
-            this.panel3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel3.Controls.Add(this.linkLblSelectAllCurrent);
             this.panel3.Controls.Add(this.btnOpenCurrentDLCRRPage);
             this.panel3.Controls.Add(this.btnDeleteCurrentSongs);
             this.panel3.Location = new System.Drawing.Point(3, 260);
@@ -117,10 +120,25 @@
             this.panel3.Size = new System.Drawing.Size(877, 46);
             this.panel3.TabIndex = 4;
             // 
+            // linkLblSelectAllCurrent
+            // 
+            this.linkLblSelectAllCurrent.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.linkLblSelectAllCurrent.AutoSize = true;
+            this.linkLblSelectAllCurrent.ForeColor = System.Drawing.Color.Black;
+            this.linkLblSelectAllCurrent.LinkColor = System.Drawing.SystemColors.ActiveCaption;
+            this.linkLblSelectAllCurrent.Location = new System.Drawing.Point(9, 14);
+            this.linkLblSelectAllCurrent.Name = "linkLblSelectAllCurrent";
+            this.linkLblSelectAllCurrent.Size = new System.Drawing.Size(82, 13);
+            this.linkLblSelectAllCurrent.TabIndex = 8;
+            this.linkLblSelectAllCurrent.TabStop = true;
+            this.linkLblSelectAllCurrent.Text = "Select All/None";
+            this.linkLblSelectAllCurrent.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.linkLblSelectAllCurrent.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLblSelectAllCurrent_LinkClicked);
+            // 
             // btnOpenCurrentDLCRRPage
             // 
             this.btnOpenCurrentDLCRRPage.Font = new System.Drawing.Font("Trebuchet MS", 8.25F);
-            this.btnOpenCurrentDLCRRPage.Location = new System.Drawing.Point(436, 9);
+            this.btnOpenCurrentDLCRRPage.Location = new System.Drawing.Point(436, 8);
             this.btnOpenCurrentDLCRRPage.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnOpenCurrentDLCRRPage.Name = "btnOpenCurrentDLCRRPage";
             this.btnOpenCurrentDLCRRPage.Size = new System.Drawing.Size(249, 28);
@@ -132,7 +150,7 @@
             // btnDeleteCurrentSongs
             // 
             this.btnDeleteCurrentSongs.Font = new System.Drawing.Font("Trebuchet MS", 8.25F);
-            this.btnDeleteCurrentSongs.Location = new System.Drawing.Point(181, 9);
+            this.btnDeleteCurrentSongs.Location = new System.Drawing.Point(181, 8);
             this.btnDeleteCurrentSongs.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnDeleteCurrentSongs.Name = "btnDeleteCurrentSongs";
             this.btnDeleteCurrentSongs.Size = new System.Drawing.Size(249, 28);
@@ -143,9 +161,9 @@
             // 
             // panel4
             // 
-            this.panel4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panel4.Controls.Add(this.label2);
             this.panel4.Location = new System.Drawing.Point(3, 312);
             this.panel4.Name = "panel4";
@@ -155,18 +173,18 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(9, 10);
+            this.label2.Location = new System.Drawing.Point(9, 9);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(468, 13);
             this.label2.TabIndex = 2;
             this.label2.Text = "Older songs that have been released as official DLC and that you have in your DLC" +
-                " collection are:";
+    " collection are:";
             // 
             // panel2
             // 
-            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panel2.Controls.Add(this.dgvCurrentODLC);
             this.panel2.Location = new System.Drawing.Point(3, 43);
             this.panel2.Name = "panel2";
@@ -177,9 +195,9 @@
             // 
             this.dgvCurrentODLC.AllowUserToAddRows = false;
             this.dgvCurrentODLC.AllowUserToDeleteRows = false;
-            this.dgvCurrentODLC.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgvCurrentODLC.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvCurrentODLC.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvCurrentODLC.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvCurrentODLC.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -197,6 +215,7 @@
             this.dgvCurrentODLC.ShowEditingIcon = false;
             this.dgvCurrentODLC.Size = new System.Drawing.Size(874, 270);
             this.dgvCurrentODLC.TabIndex = 0;
+            this.dgvCurrentODLC.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvCurrentODLC_CellMouseUp);
             // 
             // colSelect
             // 
@@ -248,9 +267,9 @@
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.Controls.Add(this.label1);
             this.panel1.Location = new System.Drawing.Point(3, 3);
             this.panel1.Name = "panel1";
@@ -260,18 +279,19 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(9, 6);
+            this.label1.Location = new System.Drawing.Point(9, 9);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(533, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "Following CDLC songs were released this week as official DLC and you also have th" +
-                "em in your CDLC collection:";
+    "em in your CDLC collection:";
             // 
             // panel5
             // 
-            this.panel5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel5.Controls.Add(this.linkLblSelectAllOlder);
             this.panel5.Controls.Add(this.btnOpenOlderDLCRRPage);
             this.panel5.Controls.Add(this.btnDeleteOlderSongs);
             this.panel5.Location = new System.Drawing.Point(3, 569);
@@ -279,10 +299,25 @@
             this.panel5.Size = new System.Drawing.Size(877, 50);
             this.panel5.TabIndex = 5;
             // 
+            // linkLblSelectAllOlder
+            // 
+            this.linkLblSelectAllOlder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.linkLblSelectAllOlder.AutoSize = true;
+            this.linkLblSelectAllOlder.ForeColor = System.Drawing.Color.Black;
+            this.linkLblSelectAllOlder.LinkColor = System.Drawing.SystemColors.ActiveCaption;
+            this.linkLblSelectAllOlder.Location = new System.Drawing.Point(9, 16);
+            this.linkLblSelectAllOlder.Name = "linkLblSelectAllOlder";
+            this.linkLblSelectAllOlder.Size = new System.Drawing.Size(82, 13);
+            this.linkLblSelectAllOlder.TabIndex = 7;
+            this.linkLblSelectAllOlder.TabStop = true;
+            this.linkLblSelectAllOlder.Text = "Select All/None";
+            this.linkLblSelectAllOlder.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.linkLblSelectAllOlder.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLblSelectAllOlder_LinkClicked);
+            // 
             // btnOpenOlderDLCRRPage
             // 
             this.btnOpenOlderDLCRRPage.Font = new System.Drawing.Font("Trebuchet MS", 8.25F);
-            this.btnOpenOlderDLCRRPage.Location = new System.Drawing.Point(436, 11);
+            this.btnOpenOlderDLCRRPage.Location = new System.Drawing.Point(436, 10);
             this.btnOpenOlderDLCRRPage.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnOpenOlderDLCRRPage.Name = "btnOpenOlderDLCRRPage";
             this.btnOpenOlderDLCRRPage.Size = new System.Drawing.Size(249, 28);
@@ -294,7 +329,7 @@
             // btnDeleteOlderSongs
             // 
             this.btnDeleteOlderSongs.Font = new System.Drawing.Font("Trebuchet MS", 8.25F);
-            this.btnDeleteOlderSongs.Location = new System.Drawing.Point(181, 11);
+            this.btnDeleteOlderSongs.Location = new System.Drawing.Point(181, 10);
             this.btnDeleteOlderSongs.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnDeleteOlderSongs.Name = "btnDeleteOlderSongs";
             this.btnDeleteOlderSongs.Size = new System.Drawing.Size(249, 28);
@@ -305,9 +340,9 @@
             // 
             // panel6
             // 
-            this.panel6.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel6.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panel6.Controls.Add(this.dgvOlderODLC);
             this.panel6.Cursor = System.Windows.Forms.Cursors.Default;
             this.panel6.Location = new System.Drawing.Point(3, 352);
@@ -319,9 +354,9 @@
             // 
             this.dgvOlderODLC.AllowUserToAddRows = false;
             this.dgvOlderODLC.AllowUserToDeleteRows = false;
-            this.dgvOlderODLC.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgvOlderODLC.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvOlderODLC.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvOlderODLC.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvOlderODLC.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -339,6 +374,7 @@
             this.dgvOlderODLC.ShowEditingIcon = false;
             this.dgvOlderODLC.Size = new System.Drawing.Size(877, 208);
             this.dgvOlderODLC.TabIndex = 7;
+            this.dgvOlderODLC.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvOlderODLC_CellMouseUp);
             // 
             // colSelect2
             // 
@@ -480,6 +516,7 @@
             this.Text = "O-C DLC Duplicates";
             this.tlpDLCDuplicates.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
             this.panel2.ResumeLayout(false);
@@ -487,6 +524,7 @@
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel5.ResumeLayout(false);
+            this.panel5.PerformLayout();
             this.panel6.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvOlderODLC)).EndInit();
             this.ResumeLayout(false);
@@ -534,5 +572,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colPack2;
         private System.Windows.Forms.DataGridViewTextBoxColumn colReleaseDate2;
         private System.Windows.Forms.DataGridViewTextBoxColumn colLink2;
+        private System.Windows.Forms.LinkLabel linkLblSelectAllCurrent;
+        private System.Windows.Forms.LinkLabel linkLblSelectAllOlder;
     }
 }

@@ -19,6 +19,7 @@ namespace CustomsForgeSongManager.Forms
     {
         private List<string> links;
         private List<SongData> songDataList;
+        private bool allSelectedOlder = false, allSelectedCurrent = false;
 
         public frmCODLCDuplicates()
         {
@@ -81,6 +82,13 @@ namespace CustomsForgeSongManager.Forms
             List<OfficialDLCSong> currentODLCList = new List<OfficialDLCSong>();
             List<OfficialDLCSong> olderODLCList = new List<OfficialDLCSong>();
 
+            if(duplicateList.Count == 0)
+            {
+                MessageBox.Show(Properties.Resources.NoODLCDuplicatesDetected, "Info", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Application.Exit();
+                return;
+            }
+
             foreach (OfficialDLCSong song in duplicateList)
             {
                 if ((DateTime.Today - song.ReleaseDate).TotalDays < 7)
@@ -130,7 +138,7 @@ namespace CustomsForgeSongManager.Forms
             for (int ndx = dgv.Rows.Count - 1; ndx >= 0; ndx--)
             {
                 DataGridViewRow row = dgv.Rows[ndx];
-                var sdList = songDataList.Where(s => GenExtensions.CleanName(s.Artist) == GenExtensions.CleanName(row.Cells[colNdxArtist].Value.ToString())
+                var     sdList = songDataList.Where(s => GenExtensions.CleanName(s.Artist) == GenExtensions.CleanName(row.Cells[colNdxArtist].Value.ToString())
                           && GenExtensions.CleanName(s.Title) == GenExtensions.CleanName(row.Cells[colNdxTitle].Value.ToString())).ToList();
 
                 if (row.Selected || Convert.ToBoolean(row.Cells[colNdxSelect].Value))
@@ -192,6 +200,38 @@ namespace CustomsForgeSongManager.Forms
         private void btnOpenOlderDLCRRPage_Click(object sender, EventArgs e)
         {
             OpenInBrowser(dgvOlderODLC);
+        }
+
+        private void linkLblSelectAllCurrent_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            foreach (DataGridViewRow row in dgvCurrentODLC.Rows)
+                row.Cells["colSelect"].Value = !allSelectedCurrent;
+
+            allSelectedCurrent = !allSelectedCurrent;
+        }
+
+        private void linkLblSelectAllOlder_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            foreach (DataGridViewRow row in dgvOlderODLC.Rows)
+                row.Cells["colSelect2"].Value = !allSelectedOlder;
+
+            allSelectedOlder = !allSelectedOlder;
+        }
+
+        private void dgvCurrentODLC_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left && e.RowIndex != -1 && e.ColumnIndex == colSelect.Index)
+            {
+                dgvCurrentODLC.Rows[e.ColumnIndex].Cells["colSelect"].Value = !(bool)(dgvCurrentODLC.Rows[e.ColumnIndex].Cells["colSelect"].Value);
+            }
+        }
+
+        private void dgvOlderODLC_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left && e.RowIndex != -1 && e.ColumnIndex == colSelect.Index)
+            {
+                dgvOlderODLC.Rows[e.ColumnIndex].Cells["colSelect2"].Value = !(bool)(dgvOlderODLC.Rows[e.ColumnIndex].Cells["colSelect2"].Value);
+            }
         }
     }
 }
