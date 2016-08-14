@@ -184,13 +184,19 @@ namespace CustomsForgeSongManager.LocalTools
             {
                 if (!Directory.Exists(Constants.ProfileBackupsFolder))
                     Directory.CreateDirectory(Constants.ProfileBackupsFolder);
+ 
+                Globals.Log("Backup user profile ...");
 
-                ZipUtilities.ZipDirectory(userProfilePath, backupPath);
-                Globals.Log(Properties.Resources.CreatedUserProfileBackup);
-                Globals.Log(backupPath);
+                if (ZipUtilities.ZipDirectory(userProfilePath, backupPath))
+                {
+                    Globals.Log(backupPath);
+                    Globals.Log("User profile backup ... SUCESSFUL");
+                }
+                else
+                    Globals.Log("User profile backup ... FAILED");
             }
             else
-                Globals.Log(Properties.Resources.Rocksmith2014UserProfileNotFound);
+                Globals.Log("Rocksmith 2014 user profile ... NOT FOUND");
         }
 
         public static void RestoreBackup(string backupPath, string steamProfileDir)

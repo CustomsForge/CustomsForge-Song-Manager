@@ -535,8 +535,8 @@
     <None Include="Licenses.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <Content Include="..\libs\7za.dll">
-      <Link>7za.dll</Link>
+    <Content Include="..\libs\7z.dll">
+      <Link>7z.dll</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\libs\bass.dll">
@@ -557,6 +557,7 @@
     <EmbeddedResource Include="Resources\htmExport.css" />
     <Content Include="Resources\151.png" />
     <None Include="Resources\copy.png" />
+    <None Include="Resources\CGT_Logo.png" />
     <Content Include="Resources\dardev.png" />
     <None Include="Resources\Lovroman.png" />
     <None Include="Resources\media_pause.png" />
@@ -580,6 +581,7 @@
     <None Include="Resources\refresh.png" />
     <None Include="Resources\onoff.png" />
     <None Include="Resources\SelectCol.png" />
+    <None Include="Resources\LedGuitar.png" />
     <Content Include="Resources\TaggerHelp.html" />
     <Content Include="Resources\Unleashed2k.png" />
     <EmbeddedResource Include="Resources\tags\frackDefaultprev.png" />

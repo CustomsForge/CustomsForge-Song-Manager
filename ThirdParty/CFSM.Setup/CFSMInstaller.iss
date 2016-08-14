@@ -43,7 +43,7 @@ Source: {#buildpath}Antlr3.Runtime.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}Antlr4.StringTemplate.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}DF_DDSImage.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}MiscUtil.dll; DestDir: {app}; Flags: ignoreversion
-Source: {#buildpath}7za.dll; DestDir: {app}; Flags: ignoreversion
+Source: {#buildpath}7z.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}oggCut.exe; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}oggdec.exe; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}oggenc.exe; DestDir: {app}; Flags: ignoreversion

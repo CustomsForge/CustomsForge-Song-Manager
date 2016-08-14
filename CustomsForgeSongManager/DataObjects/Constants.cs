@@ -88,6 +88,8 @@ namespace CustomsForgeSongManager.DataObjects
         public static string SongsRs1DlcInternalPath { get { return @"manifests/songs_rs1dlc/songs_rs1dlc.hsan"; } }
 
         #region URL constants
+
+        public const string RSToolkitURL = "http://www.rscustom.net/";
         public const string CustomsForgeURL = "http://customsforge.com/";
         public const string CustomsForgeUserURL_Format = CustomsForgeURL + "user/{0}/";
         public const string IgnitionURL = "http://ignition.customsforge.com/";

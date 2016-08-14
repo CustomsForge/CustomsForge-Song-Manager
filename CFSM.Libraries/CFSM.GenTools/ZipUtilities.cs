@@ -67,7 +67,7 @@ namespace CFSM.GenTools
 
             try
             {
-                var sourceFilePaths = new string[] {sourceFilePath};
+                var sourceFilePaths = new string[] { sourceFilePath };
                 SevenZipCompressor compressor = new SevenZipCompressor();
                 compressor.ArchiveFormat = archiveFormat;
                 compressor.CompressFiles(archiveName, sourceFilePaths[0]);
@@ -142,7 +142,7 @@ namespace CFSM.GenTools
         /// </summary>
         /// <param name="zipArchivePath">The file (archive) to extract data from.</param>
         /// <param name="outputDirPath">The directory to put the extracted data into.</param>
-        public static bool UnzipDir(string zipArchivePath, string outputDirPath)
+        public static bool UnzipDir(string zipArchivePath, string outputDirPath, InArchiveFormat archiveFormat = InArchiveFormat.Zip)
         {
             SetupZlib();
 
@@ -156,8 +156,10 @@ namespace CFSM.GenTools
                     extractor.ExtractArchive(outputDirPath);
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                Debug.WriteLine("Error Unzipping: " + ex.Message + Environment.NewLine +
+                    "Make sure correct version of 7z.dll is used.");
                 return false;
             }
 
@@ -257,8 +259,9 @@ namespace CFSM.GenTools
                 //        stream.Close();
             }
 
-            // "7z86.dll"; // "7z64.dll";
-            var libraryPath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "7za.dll");
+            // changed for RSTK extraction
+            // "7z.dll" supports many archive formats "7za.dll" only supports 7Zip archives
+            var libraryPath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "7z.dll");
 
             SevenZipBase.SetLibraryPath(libraryPath);
             SevenZipBase.SetLibraryPath(libraryPath);

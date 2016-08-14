@@ -1,5 +1,21 @@
 ﻿CFSM Release Notes
 
+1.2.3.7
+-Added EOF, RSTK and CGT Deployment Strategies to About menu
+-Upgraded 7z.dll to support RSTK deployment
+
+1.2.3.6
+TBC
+
+1.2.3.5
+O/DLC list update
+
+1.2.3.4
+O/DLC check methods
+
+1.2.3.3
+-Moved O/DLC check methods to frmCODLCDuplicates
+
 1.2.3.2
 -Added ODLC highlighting in Duplicates tab menu for consistency with SongManager
 -Cleaned up UC SongManager methods

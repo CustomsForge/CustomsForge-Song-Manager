@@ -217,5 +217,125 @@ namespace CFSM.GenTools
         }
 
         #endregion
+
+        public static string RunExtExe(string exeFileName, bool appRootFolder = true,
+                                    bool runInBackground = false,
+                                    bool waitToFinish = false, string arguments = null)
+        {
+            string appRootPath = Path.GetDirectoryName(Application.ExecutablePath);
+
+            var rootPath = (appRootFolder)
+                               ? appRootPath
+                               : Path.GetDirectoryName(exeFileName);
+
+            ProcessStartInfo startInfo = new ProcessStartInfo();
+            startInfo.FileName = (appRootFolder)
+                                     ? Path.Combine(rootPath, exeFileName)
+                                     : exeFileName;
+            startInfo.WorkingDirectory = rootPath;
+
+            if (runInBackground)
+            {
+                startInfo.CreateNoWindow = true;
+                startInfo.UseShellExecute = false;
+                startInfo.RedirectStandardOutput = true;
+            }
+
+            if (!String.IsNullOrEmpty(arguments))
+                startInfo.Arguments = arguments;
+
+            Process process = new Process();
+            process.StartInfo = startInfo;
+            process.Start();
+
+            if (waitToFinish)
+                process.WaitForExit();
+
+            var output = String.Empty;
+
+            if (runInBackground)
+                output = process.StandardOutput.ReadToEnd();
+
+            return output;
+        }
+
+        #region Shortcut Methods
+
+        public static bool AddShortcut(Environment.SpecialFolder destDirectory,
+            string exeShortcutLink, string exePath, string destSubDirectory = "",
+            string shortcutDescription = "", string exeIconPath = "") // e.g. "OutlookGoogleCalendarSync.lnk"
+        {
+            Debug.WriteLine("AddShortcut: directory=" + destDirectory.ToString() + "; subdir=" + destSubDirectory);
+            if (destSubDirectory != "") destSubDirectory = "\\" + destSubDirectory;
+            var shortcutDir = Environment.GetFolderPath(destDirectory) + destSubDirectory;
+
+            if (!Directory.Exists(shortcutDir))
+            {
+                Debug.WriteLine("Creating directory " + shortcutDir);
+                Directory.CreateDirectory(shortcutDir);
+            }
+
+            var shortcutLocation = Path.Combine(shortcutDir, exeShortcutLink);
+            // IWshRuntimeLibrary is in the COM library "Windows Script Host Object Model"
+            IWshRuntimeLibrary.WshShell shell = new IWshRuntimeLibrary.WshShell();
+            IWshRuntimeLibrary.IWshShortcut shortcut = shell.CreateShortcut(shortcutLocation) as IWshRuntimeLibrary.WshShortcut;
+
+            shortcut.Description = shortcutDescription;
+            shortcut.IconLocation = exeIconPath;
+            shortcut.TargetPath = exePath;
+            shortcut.WorkingDirectory = Application.StartupPath;
+            shortcut.Save();
+            Debug.WriteLine("Created shortcut " + exeShortcutLink + " in \"" + shortcutDir + "\"");
+            return true;
+        }
+
+
+        public static bool RemoveShortcut(Environment.SpecialFolder destDirectory, 
+            string exeShortcutLink, string destSubDirectory = "")
+        {
+            Debug.WriteLine("RemoveShortcut: directory=" + destDirectory.ToString() + "; subdir=" + destSubDirectory);
+            if (destSubDirectory != "") destSubDirectory = "\\" + destSubDirectory;
+            var shortcutDir = Environment.GetFolderPath(destDirectory) + destSubDirectory;
+
+            if (!Directory.Exists(shortcutDir))
+            {
+                Debug.WriteLine("Failed to delete shortcut " + exeShortcutLink + " in \"" + shortcutDir + "\" - directory does not exist.");
+                return false;
+            }
+
+            foreach (var file in Directory.GetFiles(shortcutDir))
+            {
+                if (file.EndsWith(String.Format("{0}{1}", "\\", exeShortcutLink)))
+                {
+                    File.Delete(file);
+                    Debug.WriteLine("Deleted shortcut " + exeShortcutLink + " in \"" + shortcutDir + "\"");
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+
+        public static bool CheckShortcut(Environment.SpecialFolder destDirectory, string exeShortcutLink, string destSubDirectory = "")
+        {
+            Debug.WriteLine("CheckShortcut: directory=" + destDirectory.ToString() + "; subdir=" + destSubDirectory);
+            if (destSubDirectory != "") destSubDirectory = "\\" + destSubDirectory;
+            var shortcutDir = Environment.GetFolderPath(destDirectory) + destSubDirectory;
+
+            if (!Directory.Exists(shortcutDir)) return false;
+
+            foreach (var file in Directory.GetFiles(shortcutDir))
+            {
+                if (file.EndsWith(String.Format("{0}{1}", "\\", exeShortcutLink)))
+                {
+                    Debug.WriteLine("Found shortcut " + exeShortcutLink + " in \"" + shortcutDir + "\"");
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        #endregion
     }
 }
