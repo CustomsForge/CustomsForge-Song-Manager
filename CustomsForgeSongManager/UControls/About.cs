@@ -124,9 +124,8 @@ namespace CustomsForgeSongManager.UControls
 
         private void lnkDeployRSTK_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
+             // check system config, RSTK website http://www.rscustom.net/ uses TSL 1.2 encryption
             var errMsg = String.Empty;
-
-            // check system config, RSTK website http://www.rscustom.net/ uses TSL 1.2 encryption
             var ieVers = SysExtensions.GetBrowserVersion(SysExtensions.GetInternetExplorerVersion());
             if (ieVers < 8.0)
                 errMsg = "Internet Explorer 8 or greater is required";
@@ -144,6 +143,7 @@ namespace CustomsForgeSongManager.UControls
                 return;
             }
 
+            ToggleUIControls(false);
             var dirRSTK = Path.Combine(Constants.WorkDirectory, "RSTK");
 
             if (!Directory.Exists(dirRSTK))
@@ -166,6 +166,7 @@ namespace CustomsForgeSongManager.UControls
                 if (downloadLink == null)
                 {
                     Globals.Log("RSTK Beta Download Link ... NOT FOUND");
+                    ToggleUIControls(true);
                     return;
                 }
 
@@ -180,10 +181,8 @@ namespace CustomsForgeSongManager.UControls
                         File.Delete(Path.Combine(dirRSTK, zipFileName));
                         Globals.Log("RSTK Archive Unpacked ... SUCESSFUL");
 
-                        var dirInfo = new DirectoryInfo(dirRSTK);
-                        DirectoryInfo[] subDirs = dirInfo.GetDirectories();
-                        var exePath = Path.Combine(dirRSTK, subDirs[0].Name, "RocksmithToolkitGUI.exe");
-                        var iconPath = Path.Combine(dirRSTK, subDirs[0].Name, "songcreator.ico");
+                        var exePath = Path.Combine(dirRSTK, "RocksmithToolkitGUI.exe");
+                        var iconPath = Path.Combine(dirRSTK, "songcreator.ico");
 
                         GenExtensions.AddShortcut(Environment.SpecialFolder.Programs, exeShortcutLink: "RSTK.lnk",
                         exePath: exePath, exeIconPath: iconPath, shortcutDescription: "Rocksmith Custom Song Toolkit",
@@ -199,6 +198,8 @@ namespace CustomsForgeSongManager.UControls
             }
             else
                 Globals.Log("Link Extraction ... FAILED");
+
+            ToggleUIControls(true);
         }
 
         private List<string> ExtractUrlLinks(string webUrl, int attempts = 4)
@@ -318,6 +319,7 @@ namespace CustomsForgeSongManager.UControls
 
         private void lnkDeployEOF_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
+            ToggleUIControls(false);
             var dirEOF = Path.Combine(Constants.WorkDirectory, "EOF");
 
             if (!Directory.Exists(dirEOF))
@@ -351,11 +353,14 @@ namespace CustomsForgeSongManager.UControls
             }
             else
                 Globals.Log("EOF Download ... FAILED");
+
+            ToggleUIControls(true);
         }
 
         private void lnkDeployCGT_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             // CGT application deployment test site
+            ToggleUIControls(false);
             var dirCGT = Path.Combine(Constants.WorkDirectory, "CGT");
 
             if (!Directory.Exists(dirCGT))
@@ -382,6 +387,8 @@ namespace CustomsForgeSongManager.UControls
             }
             else
                 Globals.Log("CGT Download ... FAILED");
+            
+            ToggleUIControls(true);
         }
 
         private void wcProgressChanged(object sender, DownloadProgressChangedEventArgs e)
@@ -412,6 +419,16 @@ namespace CustomsForgeSongManager.UControls
         {
             Process.Start("https://goo.gl/hJVyLB");
         }
+
+        private void ToggleUIControls(bool enable)
+        {
+
+            GenExtensions.InvokeIfRequired(lnkDeployRSTK, delegate { lnkDeployRSTK.Enabled = enable; });
+            GenExtensions.InvokeIfRequired(lnkDeployEOF, delegate { lnkDeployEOF.Enabled = enable; });
+            GenExtensions.InvokeIfRequired(lnkDeployCGT, delegate { lnkDeployCGT.Enabled = enable; });
+         }
+
+
     }
 
     public class LinkExtractor

@@ -1,20 +1,24 @@
 ﻿CFSM Release Notes
 
+1.2.3.8
+-Added toggling (enable/disable) to About menu download links
+-Fixed RSTK installation path issue
+
 1.2.3.7
 -Added EOF, RSTK and CGT Deployment Strategies to About menu
 -Upgraded 7z.dll to support RSTK deployment
 
 1.2.3.6
-TBC
+Updated ODLC list
 
 1.2.3.5
-O/DLC list update
+Updated ODLC list
 
 1.2.3.4
-O/DLC check methods
+Fixes to ODLC check methods
 
 1.2.3.3
--Moved O/DLC check methods to frmCODLCDuplicates
+-Moved ODLC check methods to separate form
 
 1.2.3.2
 -Added ODLC highlighting in Duplicates tab menu for consistency with SongManager
