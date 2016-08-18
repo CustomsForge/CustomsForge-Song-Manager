@@ -1,8 +1,10 @@
 ﻿CFSM Release Notes
 
 1.2.3.8
--Added toggling (enable/disable) to About menu download links
+-Added toggling (enable/disable) to About menu during app downloads
 -Fixed RSTK installation path issue
+-Moved reusable generic downloader and url extractor to AutoUpdate.cs
+-Converted AutoUpdate.cs to reusable generic methods
 
 1.2.3.7
 -Added EOF, RSTK and CGT Deployment Strategies to About menu

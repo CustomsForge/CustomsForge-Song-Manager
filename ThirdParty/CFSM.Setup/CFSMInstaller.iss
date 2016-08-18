@@ -240,7 +240,8 @@ begin
     Top := WizardForm.CancelButton.Top + WizardForm.CancelButton.Height - Height - 4;
     Left := ScaleX(15);
   end;
-#IFDEF DOUPDATE
+
+  #IFDEF DOUPDATE
  //don't check for updates when -webupdate is located in the command line params.
   if not runningWebUpdate then
   begin

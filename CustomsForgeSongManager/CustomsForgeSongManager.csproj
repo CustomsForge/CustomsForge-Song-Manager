@@ -207,7 +207,7 @@
     </Compile>
     <Compile Include="DataObjects\AppSettings.cs" />
     <Compile Include="DataObjects\Interfaces.cs" />
-    <Compile Include="LocalTools\Autoupdater.cs" />
+    <Compile Include="LocalTools\AutoUpdater.cs" />
     <Compile Include="DataObjects\ProfileData.cs" />
     <Compile Include="DataObjects\RSModels.cs" />
     <Compile Include="DataObjects\SongCollectionException.cs" />

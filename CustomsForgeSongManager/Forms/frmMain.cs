@@ -348,38 +348,24 @@ namespace CustomsForgeSongManager.Forms
 
         private void frmMain_Load(object sender, EventArgs e)
         {
-#if AUTOUPDATE
-            //Autoupdater.OnInfoRecieved += (S, E) =>
-            //    {
-            if (Autoupdater.NeedsUpdate())
-            {
-                using (frmNoteViewer f = new frmNoteViewer())
-                {
-                    f.btnCopyToClipboard.Text = "Update";
-
-                    if (!Constants.DebugMode)
-                    {
-                        f.RemoveButtonHandler();
-                        f.btnCopyToClipboard.Click += (sen, evt) =>
-                            {
-                                //run setup file, since updating is done in the installer just use the installer to handle updates
-                                //the install will force the user to close the program before installing.
-                                if (File.Exists("CFSMSetup.exe"))
-                                {
-                                    System.Diagnostics.Process.Start("CFSMSetup.exe", "-appupdate");
-                                }
-                                else
-                                    MessageBox.Show("CFSMSetup not found, please download the program again.");
-                                f.Close();
-                            };
-                    }
-                    f.PopulateText(Autoupdater.ReleaseNotes);
-                    f.Text = String.Format("New version detected {0}", Autoupdater.LatestVersion.ToString());
-                    f.ShowDialog();
-                }
-            }
-            //};
+#if RELEASE
+            const string UpdateURL = "http://ignition.customsforge.com/cfsm_uploads";
+#else
+            const string UpdateURL = "http://ignition.customsforge.com/cfsm_uploads/beta";
 #endif
+
+            const string versInfoUrl = UpdateURL + "/VersionInfo.txt";
+            const string appExe = "CustomsForgeSongManager.exe";
+            const string appSetup = "CFSMSetup.exe";
+            var appExePath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), appExe);
+
+            if (AutoUpdater.NeedsUpdate(appExePath, versInfoUrl))
+            {
+                if (File.Exists(appSetup))
+                    System.Diagnostics.Process.Start(appSetup, "-appupdate");
+                else
+                    MessageBox.Show(appSetup + " not found, please download the program again.");
+            }
         }
 
         private delegate void DoSomethingWithGridSelectionAction(DataGridView dg, IEnumerable<DataGridViewRow> selected, DataGridViewColumn colSel, List<int> IgnoreColums);

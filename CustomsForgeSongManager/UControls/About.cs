@@ -1,28 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Reflection;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
 using System.Windows.Forms;
 using System.Drawing;
 using CFSM.GenTools;
 using CustomsForgeSongManager.DataObjects;
 using CustomsForgeSongManager.Forms;
 using CustomsForgeSongManager.LocalTools;
+using RocksmithToolkitLib;
 
 namespace CustomsForgeSongManager.UControls
 {
     public partial class About : UserControl
     {
-        private bool downloadComplete;
-        private bool downloadError;
-
         public About()
         {
             InitializeComponent();
@@ -124,235 +116,181 @@ namespace CustomsForgeSongManager.UControls
 
         private void lnkDeployRSTK_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-             // check system config, RSTK website http://www.rscustom.net/ uses TSL 1.2 encryption
-            var errMsg = String.Empty;
-            var ieVers = SysExtensions.GetBrowserVersion(SysExtensions.GetInternetExplorerVersion());
-            if (ieVers < 8.0)
-                errMsg = "Internet Explorer 8 or greater is required";
-
-            var sysVers = SysExtensions.MajorVersion + (double)SysExtensions.MinorVersion / 10;
-            if (sysVers < 6.1)
-                errMsg = !String.IsNullOrEmpty(errMsg) ?
-                    errMsg + Environment.NewLine + "and OS Windows 7 or greater is required" :
-                    "OS Windows 7 or greater is required";
-
-            if (!String.IsNullOrEmpty(errMsg))
-            {
-                errMsg = errMsg + Environment.NewLine + "to download Rocksmith Custom Songs Toolkit.";
-                BetterDialog.ShowDialog(errMsg, "Incompatible System Configuration", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning", 150, 150);
-                return;
-            }
-
             ToggleUIControls(false);
-            var dirRSTK = Path.Combine(Constants.WorkDirectory, "RSTK");
+            const string updateUrl = Constants.RSToolkitURL;
+            const string versInfoUrl = updateUrl + "/builds/latest_test";
+            const string appExe = "RocksmithToolkitGUI.exe";
+            const string appAcro = "RSTK";
+            const string dlSubDir = appAcro + "_Download";
+            var downloadDir = Path.Combine(Constants.WorkDirectory, dlSubDir);
+            var appExePath = Path.Combine(downloadDir, appExe);
 
-            if (!Directory.Exists(dirRSTK))
-                Directory.CreateDirectory(dirRSTK);
-
-            // TODO: save RSTK preferences
-            Globals.Log("Extracting RSTK Beta Download Link ...");
-            var urlLinksRSTK = ExtractUrlLinks(Constants.RSToolkitURL);
-
-            // latest_test.zip data for testing
-            // urlLinksRSTK.Add(Path.Combine(Constants.RSToolkitURL, "builds", "latest_test.zip"));
-
-            if (urlLinksRSTK.Any())
+            if (AutoUpdater.NeedsUpdate(appExePath, versInfoUrl))
             {
-                // update beta version number here
-                var downloadLink = urlLinksRSTK.FirstOrDefault(url =>
-                    url.ToLower().Contains("rstoolkit-2.7.1.0-") &&
-                    url.ToLower().Contains("-win.zip"));
-
-                if (downloadLink == null)
+                // save user prefs
+                Globals.Log(appAcro + " needs updating ...");
+                if (File.Exists(Path.Combine(downloadDir, "RocksmithToolkitLib.TuningDefinition.xml")))
                 {
-                    Globals.Log("RSTK Beta Download Link ... NOT FOUND");
-                    ToggleUIControls(true);
-                    return;
+                    File.Copy(Path.Combine(downloadDir, "RocksmithToolkitLib.Config.xml"), Path.Combine(Path.GetTempPath(), "RocksmithToolkitLib.Config.xml"));
+                    File.Copy(Path.Combine(downloadDir, "RocksmithToolkitLib.SongAppId.xml"), Path.Combine(Path.GetTempPath(), "RocksmithToolkitLib.SongAppId.xml"));
+                    File.Copy(Path.Combine(downloadDir, "RocksmithToolkitLib.TuningDefinition.xml"), Path.Combine(Path.GetTempPath(), "RocksmithToolkitLib.TuningDefinition.xml"));
                 }
 
-                var zipFileName = Path.GetFileName(downloadLink);
+                ZipUtilities.DeleteDirectory(downloadDir);
+                Directory.CreateDirectory(downloadDir);
 
-                if (DownloadWebApp(downloadLink, zipFileName, dirRSTK))
+                Globals.Log("Extracting " + appAcro + " Beta download link ...");
+                var urlLinks = AutoUpdater.ExtractUrlData(updateUrl);
+                // latest_test.zip data for testing
+                // urlLinks.Add(Path.Combine(Constants.RSToolkitURL, "builds", "latest_test.zip"));
+
+                if (urlLinks.Any())
                 {
-                    Globals.Log("RSTK Download ... SUCESSFUL");
+                    // update beta version number here
+                    var downloadLink = urlLinks.FirstOrDefault(url => url.ToLower()
+                        .Contains("rstoolkit-2.7.1.0-") && url.ToLower()
+                        .Contains("-win.zip"));
 
-                    if (ZipUtilities.UnzipDir(Path.Combine(dirRSTK, zipFileName), dirRSTK))
+                    if (downloadLink == null)
                     {
-                        File.Delete(Path.Combine(dirRSTK, zipFileName));
-                        Globals.Log("RSTK Archive Unpacked ... SUCESSFUL");
+                        Globals.Log(appAcro + "  Beta download link ... NOT FOUND");
+                        ToggleUIControls(true);
+                        return;
+                    }
 
-                        var exePath = Path.Combine(dirRSTK, "RocksmithToolkitGUI.exe");
-                        var iconPath = Path.Combine(dirRSTK, "songcreator.ico");
+                    var appArchive = Path.GetFileName(downloadLink);
 
-                        GenExtensions.AddShortcut(Environment.SpecialFolder.Programs, exeShortcutLink: "RSTK.lnk",
-                        exePath: exePath, exeIconPath: iconPath, shortcutDescription: "Rocksmith Custom Song Toolkit",
-                        destSubDirectory: "Rocksmith Custom Song Toolkit");
+                    if (AutoUpdater.DownloadWebApp(downloadLink, appArchive, downloadDir))
+                    {
+                        Globals.Log(appAcro + " download ... SUCESSFUL");
 
-                        Globals.Log("RSTK shortcut added to Start Menu, Programs ... SUCESSFUL");
+                        if (ZipUtilities.UnzipDir(Path.Combine(downloadDir, appArchive), downloadDir))
+                        {
+                            File.Delete(Path.Combine(downloadDir, appArchive));
+                            Globals.Log(appAcro + " archive unpacked ... SUCESSFUL");
+
+                            if (File.Exists(Path.Combine(Constants.WorkDirectory, "RocksmithToolkitLib.TuningDefinition.xml")))
+                            {
+                                XmlRepository<TuningDefinition> tuning = new TuningDefinitionRepository();
+                                XmlRepository<Config> config = new ConfigRepository();
+                                XmlRepository<SongAppId> appid = new SongAppIdRepository();
+                                config.Merge(Path.Combine(Path.GetTempPath(), "RocksmithToolkitLib.Config.xml"), Path.Combine(downloadDir, "RocksmithToolkitLib.Config.xml"));
+                                appid.Merge(Path.Combine(Path.GetTempPath(), "RocksmithToolkitLib.SongAppId.xml"), Path.Combine(downloadDir, "RocksmithToolkitLib.SongAppId.xml"));
+                                tuning.Merge(Path.Combine(Path.GetTempPath(), "RocksmithToolkitLib.TuningDefinition.xml"), Path.Combine(downloadDir, "RocksmithToolkitLib.TuningDefinition.xml"));
+                                Globals.Log(appAcro + " configurations restored ...");
+                            }
+
+                            var exePath = Path.Combine(downloadDir, appExe);
+                            var iconPath = Path.Combine(downloadDir, "songcreator.ico");
+
+                            GenExtensions.AddShortcut(Environment.SpecialFolder.Programs, exeShortcutLink: "RSTK.lnk", exePath: exePath, exeIconPath: iconPath, shortcutDescription: "Rocksmith Custom Song Toolkit", destSubDirectory: "Rocksmith Custom Song Toolkit");
+
+                            Globals.Log(appAcro + " shortcut added to Start Menu, Programs ... SUCESSFUL");
+                        }
+                        else
+                            Globals.Log(appAcro + " archive unpacked ... FAILED");
                     }
                     else
-                        Globals.Log("RSTK Archive Unpacked ... FAILED");
+                        Globals.Log(appAcro + " download ... FAILED");
                 }
                 else
-                    Globals.Log("RSTK Download ... FAILED");
+                    Globals.Log("Link Extraction ... FAILED");
             }
-            else
-                Globals.Log("Link Extraction ... FAILED");
 
             ToggleUIControls(true);
-        }
-
-        private List<string> ExtractUrlLinks(string webUrl, int attempts = 4)
-        {
-            var urlLinks = new List<string>();
-            var webClient = new WebClient();
-
-            for (int i = 0; i < attempts; i++)
-            {
-                try
-                {
-                    byte[] buffer = webClient.DownloadData(webUrl);
-                    string html = Encoding.UTF8.GetString(buffer, 0, buffer.Length);
-                    List<string> links = LinkExtractor.Extract(html);
-
-                    foreach (var link in links)
-                    {
-                        urlLinks.Add(link);
-                    }
-
-                    return urlLinks;
-                }
-                catch (WebException ex)
-                {
-                    Globals.Log("Web Exception: " + ex.Message + " ...");
-                }
-                catch (NotSupportedException ex)
-                {
-                    Globals.Log("Not Supported Exception: " + ex.Message + " ...");
-                }
-                Thread.Sleep(200);
-            }
-
-            Globals.Log("No internet connection detected ...");
-            return urlLinks;
-
-            //    for (int i = 0; i < attempts; i++)
-            //    {
-            //        var htmlDoc = new HtmlAgilityPack.HtmlDocument();
-            //        htmlDoc.Load(webUrl);
-
-            //        if (htmlDoc.ParseErrors != null && htmlDoc.ParseErrors.Any())
-            //            Globals.Log("Parsing Errors: " + i + " ...");
-            //        else
-            //        {
-            //            var links = htmlDoc.DocumentNode.SelectNodes("//a[@href]");
-
-            //            foreach (HtmlNode link in links)
-            //            {
-            //                urlLinks.Add(link.InnerText);
-            //            }
-            //        }
-            //    }
-
-            //    return urlLinks;
-        }
-
-        private bool DownloadWebApp(string webUrl, string appFileName, string downloadDir, int attempts = 4)
-        {
-            // requires Net 4.5, or Win7 and IE8
-            // use TLS 1.2 protocol if available
-            // ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072;
-
-            for (int i = 0; i < attempts; i++)
-            {
-                try
-                {
-                    using (var webClient = new WebClient())
-                    {
-                        // async download with progress
-                        downloadComplete = false;
-                        downloadError = false;
-                        webClient.DownloadFileCompleted += new AsyncCompletedEventHandler(wcCompleted);
-                        webClient.DownloadProgressChanged += new DownloadProgressChangedEventHandler(wcProgressChanged);
-                        webClient.DownloadFileAsync(new Uri(webUrl), Path.Combine(downloadDir, appFileName));
-
-                        while (!downloadComplete && !downloadError)
-                        {
-                            Application.DoEvents();
-                            Thread.Sleep(100);
-                        }
-
-                        if (downloadError)
-                            throw new WebException("The remote name could not be resolved: " + webUrl);
-
-                        return true;
-
-                        // direct download - no feedback
-                        //webClient.DownloadFile(webUrl, Path.Combine(downloadDir, appFileName));
-
-                        // pooling data prevents writing an empty file - no feedback
-                        //byte[] downloadedBytes = webClient.DownloadData(webUrl);
-
-                        //if (downloadedBytes.Length != 0)
-                        //{
-                        //    Stream file = File.Open(Path.Combine(downloadDir, appFileName), FileMode.Create);
-                        //    file.Write(downloadedBytes, 0, downloadedBytes.Length);
-                        //    file.Close();
-                        //    return true;
-                        //}
-                    }
-                }
-                catch (WebException ex)
-                {
-                    Globals.Log("Web Exception: " + ex.Message + " ...");
-                }
-                catch (NotSupportedException ex)
-                {
-                    Globals.Log("Not Supported Exception: " + ex.Message + " ...");
-                }
-                Thread.Sleep(200);
-            }
-
-            Globals.Log("No internet connection detected ...");
-            return false;
         }
 
         private void lnkDeployEOF_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             ToggleUIControls(false);
-            var dirEOF = Path.Combine(Constants.WorkDirectory, "EOF");
+            const string appExe = "eof.exe";
+            const string appArchive = "eof.zip";
+            const string appAcro = "EOF";
+            const string appCfg = "eof.cfg";
+            const string dlSubDir = appAcro + "_Download";
+            const string updateUrl = Constants.EOFURL + @"/download/3";
+            var downloadDir = Path.Combine(Constants.WorkDirectory, dlSubDir);
 
-            if (!Directory.Exists(dirEOF))
-                Directory.CreateDirectory(dirEOF);
-
-            // TODO: save EOF preferences
-            Globals.Log("Downloading EOF ...");
-
-            if (DownloadWebApp(Constants.EOFURL + @"/download/3", "EOF.zip", dirEOF))
+            // EOF stores VersionInfo in the html div class description
+            // NeedsUpdate can not be used for non .NET apps
+            var divTags = AutoUpdater.ExtractUrlData(Constants.EOFURL, "div");
+            if (!divTags.Any()) // no internet connection
             {
-                Globals.Log("EOF Download ... SUCESSFUL");
+                ToggleUIControls(true);
+                return;
+            }
 
-                if (ZipUtilities.UnzipDir(Path.Combine(dirEOF, "EOF.zip"), dirEOF))
+            string versInstalled = "";
+            var versOnline = divTags.FirstOrDefault(url => url.StartsWith("1.8 RC10"));
+            if (versOnline == null)
+            {
+                Globals.Log(appAcro + " online version ... NOT FOUND");
+                ToggleUIControls(true);
+                return;
+            }
+
+            bool needsUpdate = false;
+            if (!Directory.Exists(downloadDir))
+                needsUpdate = true;
+            else
+            {
+                var dirInfo = new DirectoryInfo(downloadDir);
+                DirectoryInfo[] subDirs = dirInfo.GetDirectories();
+                if (!subDirs.Any())
+                    needsUpdate = true;
+                else
                 {
-                    File.Delete(Path.Combine(dirEOF, "EOF.zip"));
-                    Globals.Log("EOF Archive Unpacked ... SUCESSFUL");
+                    versInstalled = subDirs[0].Name.Trim();
+                    versOnline = versOnline.Replace(" ", "").Trim();
+                    if (!versInstalled.Contains(versOnline))
+                        needsUpdate = true;
+                }
+            }
 
-                    var dirInfo = new DirectoryInfo(dirEOF);
-                    DirectoryInfo[] subDirs = dirInfo.GetDirectories();
-                    var exePath = Path.Combine(dirEOF, subDirs[0].Name, "eof.exe");
-                    var iconPath = Path.Combine(dirEOF, subDirs[0].Name, "EOF20.ico");
+            if (needsUpdate)
+            {
+                // save user prefs
+                Globals.Log(appExe + " [" + versInstalled + "] needs updating ...");
 
-                    GenExtensions.AddShortcut(Environment.SpecialFolder.Programs,
-                    exeShortcutLink: "EOF.lnk", exePath: exePath, exeIconPath: iconPath,
-                    shortcutDescription: "Editor on Fire", destSubDirectory: "Editor on Fire");
+                if (File.Exists(Path.Combine(downloadDir, "appCfg")))
+                    File.Copy(Path.Combine(downloadDir, appCfg), Path.Combine(Path.GetTempPath(), appCfg));
 
-                    Globals.Log("EOF shortcut added to Start Menu, Programs ... SUCESSFUL");
+                ZipUtilities.DeleteDirectory(downloadDir);
+                Directory.CreateDirectory(downloadDir);
+
+                if (AutoUpdater.DownloadWebApp(updateUrl, appArchive, downloadDir))
+                {
+                    Globals.Log(appArchive + " download ... SUCESSFUL");
+
+                    if (ZipUtilities.UnzipDir(Path.Combine(downloadDir, appArchive), downloadDir))
+                    {
+                        File.Delete(Path.Combine(downloadDir, appArchive));
+                        Globals.Log(appArchive + " archive unpacked ... SUCESSFUL");
+
+                        if (File.Exists(Path.Combine(Constants.WorkDirectory, appCfg)))
+                        {
+                            File.Copy(Path.Combine(Path.GetTempPath(), appCfg), Path.Combine(downloadDir, appCfg));
+                            Globals.Log(appAcro + " configuration restored ...");
+                        }
+
+                        var dirInfo = new DirectoryInfo(downloadDir);
+                        DirectoryInfo[] subDirs = dirInfo.GetDirectories();
+                        var exePath = Path.Combine(downloadDir, subDirs[0].Name, appExe);
+                        var iconPath = Path.Combine(downloadDir, subDirs[0].Name, "EOF20.ico");
+
+                        GenExtensions.AddShortcut(Environment.SpecialFolder.Programs, exeShortcutLink: "EOF.lnk", exePath: exePath, exeIconPath: iconPath, shortcutDescription: "Editor on Fire", destSubDirectory: "Editor on Fire");
+
+                        Globals.Log(appAcro + " shortcut added to Start Menu, Programs ... SUCESSFUL");
+                    }
+                    else
+                        Globals.Log(appAcro + " archive unpacked ... FAILED");
                 }
                 else
-                    Globals.Log("EOF Archive Unpacked ... FAILED");
+                    Globals.Log(appExe + " download ... FAILED");
             }
             else
-                Globals.Log("EOF Download ... FAILED");
+                Globals.Log(appExe + " [" + versInstalled + "] does not need updating ...");
+
 
             ToggleUIControls(true);
         }
@@ -361,58 +299,49 @@ namespace CustomsForgeSongManager.UControls
         {
             // CGT application deployment test site
             ToggleUIControls(false);
-            var dirCGT = Path.Combine(Constants.WorkDirectory, "CGT");
+            const string appExe = "CustomGameToolkit.exe";
+            const string appArchive = "CustomGameToolkitSetup.rar";
+            const string appSetup = "CustomGameToolkitSetup.exe";
+            const string appAcro = "CGT";
+            const string dlSubDir = appAcro + "_Download";
+            const string versInfoUrl = "https://goo.gl/K4y73H";
+            const string downloadUrl = "https://goo.gl/qRBPFI";
+            var downloadDir = Path.Combine(Constants.WorkDirectory, dlSubDir);
+            var appSetupPath = Path.Combine(downloadDir, appSetup);
 
-            if (!Directory.Exists(dirCGT))
-                Directory.CreateDirectory(dirCGT);
-
-            // TODO: save CGT preferences
-            Globals.Log("Downloading CGT ...");
-
-            if (DownloadWebApp(@"https://goo.gl/aZ1gXR", "CustomGameToolkitSetup.rar", dirCGT))
+            if (AutoUpdater.NeedsUpdate(appSetupPath, versInfoUrl))
             {
-                Globals.Log("CGT Download ... SUCESSFUL");
+                ZipUtilities.DeleteDirectory(downloadDir);
+                Directory.CreateDirectory(downloadDir);
 
-                if (ZipUtilities.UnzipDir(Path.Combine(dirCGT, "CustomGameToolkitSetup.rar"), dirCGT))
+                if (AutoUpdater.DownloadWebApp(downloadUrl, appArchive, downloadDir))
                 {
-                    File.Delete(Path.Combine(dirCGT, "CustomGameToolkitSetup.rar"));
-                    Globals.Log("CGT Archive Unpacked ... SUCESSFUL");
+                    Globals.Log(appExe + " download ... SUCESSFUL");
 
-                    GenExtensions.RunExtExe(Path.Combine(dirCGT, "CustomGameToolkitSetup.exe"), false, arguments: @"/SP /VERYSILENT /SUPPRESSMSGBOXES");
+                    if (ZipUtilities.UnzipDir(Path.Combine(downloadDir, appArchive), downloadDir))
+                    {
+                        File.Delete(Path.Combine(downloadDir, appArchive));
+                        Globals.Log(appAcro + " Archive Unpacked ... SUCESSFUL");
 
-                    Globals.Log("CGT shortcut added to Start Menu ... SUCESSFUL");
+                        var ret = GenExtensions.RunExtExe(Path.Combine(downloadDir, appSetup), false, arguments: @"/SP /VERYSILENT /SUPPRESSMSGBOXES ");
+                        //if (AutoUpdater.UpdateWithInno(Path.Combine(downloadDir, appSetup)))                  
+                        if (String.IsNullOrEmpty(ret))
+                        {
+                            // CGT user prefs are auto preserved by CGT (not overwritten)
+                            Globals.Log(appAcro + " shortcut added to Start Menu ... SUCESSFUL");
+                            Globals.Log(appAcro + " Update ... SUCESSFUL");
+                        }
+                        else
+                            Globals.Log(appAcro + " Update ... FAILED");
+                    }
+                    else
+                        Globals.Log(appAcro + " archive unpacked ... FAILED");
                 }
                 else
-                    Globals.Log("CGT Archive Unpacked ... FAILED");
+                    Globals.Log(appExe + " download ... FAILED");
             }
-            else
-                Globals.Log("CGT Download ... FAILED");
-            
+
             ToggleUIControls(true);
-        }
-
-        private void wcProgressChanged(object sender, DownloadProgressChangedEventArgs e)
-        {
-            GenExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate
-            {
-                Globals.TsProgressBar_Main.Value = e.ProgressPercentage;
-            });
-        }
-
-        private void wcCompleted(object sender, AsyncCompletedEventArgs e)
-        {
-            if (e.Error == null)
-            {
-                GenExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate
-                    {
-                        Globals.TsProgressBar_Main.Value = 100;
-                    });
-
-                downloadComplete = true;
-                Globals.Log("Download Completed ...");
-            }
-            else
-                downloadError = true;
         }
 
         private void btnCGTSite_Click(object sender, EventArgs e)
@@ -422,37 +351,11 @@ namespace CustomsForgeSongManager.UControls
 
         private void ToggleUIControls(bool enable)
         {
-
             GenExtensions.InvokeIfRequired(lnkDeployRSTK, delegate { lnkDeployRSTK.Enabled = enable; });
             GenExtensions.InvokeIfRequired(lnkDeployEOF, delegate { lnkDeployEOF.Enabled = enable; });
             GenExtensions.InvokeIfRequired(lnkDeployCGT, delegate { lnkDeployCGT.Enabled = enable; });
-         }
-
-
-    }
-
-    public class LinkExtractor
-    {
-        /// <summary>
-        /// Extracts all src and href links from a HTML string.
-        /// </summary>
-        /// <param name="html">The html source</param>
-        /// <returns>A list of links - these will be all links including javascript ones.</returns>
-        public static List<string> Extract(string html)
-        {
-            List<string> list = new List<string>();
-            Regex regex = new Regex("(?:href|src)=[\"|']?(.*?)[\"|'|>]+", RegexOptions.Singleline | RegexOptions.CultureInvariant);
-
-            if (regex.IsMatch(html))
-            {
-                foreach (Match match in regex.Matches(html))
-                {
-                    list.Add(match.Groups[1].Value);
-                }
-            }
-
-            return list;
         }
+
     }
 
     public sealed class LinkLabelStatic : LinkLabel

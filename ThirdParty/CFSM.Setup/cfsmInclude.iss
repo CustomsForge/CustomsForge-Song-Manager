@@ -11,7 +11,7 @@
 #define InstallerName "CFSMSetup";
 #else
 #define ApplicationName "CustomsForge Song Manager"
-#define BaseUpdateURL "http://appdev.cfmanager.com/release"
+#define BaseUpdateURL "http://appdev.cfmanager.com"
 #define InstallerName "CFSMSetup";
 #endif
 
