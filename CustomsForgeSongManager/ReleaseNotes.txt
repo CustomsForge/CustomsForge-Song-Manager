@@ -1,4 +1,6 @@
 ﻿CFSM Release Notes
+1.2.3.9.
+-Updated ODLC List
 
 1.2.3.8
 -Added toggling (enable/disable) to About menu during app downloads
@@ -11,13 +13,13 @@
 -Upgraded 7z.dll to support RSTK deployment
 
 1.2.3.6
-Updated ODLC list
+-Updated ODLC list
 
 1.2.3.5
-Updated ODLC list
+-Updated ODLC list
 
 1.2.3.4
-Fixes to ODLC check methods
+-Fixes to ODLC check methods
 
 1.2.3.3
 -Moved ODLC check methods to separate form
