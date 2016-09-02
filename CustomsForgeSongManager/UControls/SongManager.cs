@@ -284,7 +284,7 @@ namespace CustomsForgeSongManager.UControls
             dgvSongsMaster.AutoGenerateColumns = false;
             FilteredBindingList<SongData> fbl = new FilteredBindingList<SongData>(list);
             BindingSource bs = new BindingSource { DataSource = fbl };
-            dgvSongsMaster.DataSource = bs;
+            dgvSongsMaster.DataSource = bs; 
         }
 
         private void LoadSongCollectionFromFile()

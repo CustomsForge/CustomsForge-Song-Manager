@@ -1,4 +1,8 @@
 ﻿CFSM Release Notes
+1.2.4.0
+-Added option to select all older versions in Duplicate tab
+-Updated ODLC List
+
 1.2.3.9.
 -Updated ODLC List
 
