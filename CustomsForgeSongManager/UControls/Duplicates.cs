@@ -326,10 +326,7 @@ namespace CustomsForgeSongManager.UControls
 
         private void SelectOlderVersions()
         {
-            var bs = new BindingSource { DataSource = dgvDuplicates.DataSource };
             string titleDateCombo = "";
-
-            //bs.Sort = "LastConversionDateTime, Title";
            
             var dupList = new List<SongData>();
             var titleDateList = new List<string>();
@@ -338,19 +335,15 @@ namespace CustomsForgeSongManager.UControls
             foreach (DataGridViewRow row in dgvDuplicates.Rows)
             {
                 var song = DgvExtensions.GetObjectFromRow<SongData>(row);
-                //dupList.Add(song);
 
                 titleDateCombo = song.Title + song.LastConversionDateTime.ToString("s");
-                //titleDateList.Add(titleDateCombo);
 
                 dupes.Add(titleDateCombo, song);
             }
 
             var sortedDupes = dupes.OrderBy(s => s.Key).ToDictionary(s => s, s => s.Value);
-            //dupes = dupes.OrderBy(s => s.Title).ThenBy(s => s.LastConversionDateTime).ToList();
-
-            FilteredBindingList<SongData> fbl = new FilteredBindingList<SongData>(sortedDupes.Values.ToList());
-            bs = new BindingSource { DataSource = fbl };
+            var fbl = new FilteredBindingList<SongData>(sortedDupes.Values.ToList());
+            var bs = new BindingSource { DataSource = fbl };
 
             bindingCompleted = false;
             dgvPainted = false;
@@ -363,7 +356,7 @@ namespace CustomsForgeSongManager.UControls
                 if (ndx - 1 == -1)
                     break;
 
-                DataGridViewRow row = dgvDuplicates.Rows[ndx];
+                var row = dgvDuplicates.Rows[ndx];
                 var currSong = DgvExtensions.GetObjectFromRow<SongData>(dgvDuplicates, ndx);
                 var nextSong = DgvExtensions.GetObjectFromRow<SongData>(dgvDuplicates, ndx--);
 
