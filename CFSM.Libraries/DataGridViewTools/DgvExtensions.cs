@@ -128,6 +128,16 @@ namespace DataGridViewTools
             dgvCurrent.Refresh();
         }
 
+        public static void RowsCheckboxValue(DataGridView dgvCurrent, bool value, string dataPropertyName = "Selected")
+        {
+            var colNdxSelected = GetDataPropertyColumnIndex(dgvCurrent, dataPropertyName);
+
+            foreach (DataGridViewRow row in dgvCurrent.Rows)
+                row.Cells[colNdxSelected].Value = value;
+
+            dgvCurrent.Refresh();
+        }
+
         public static int RowsSelectedCount(DataGridView dgvCurrent, string dataPropertyName = "Selected")
         {
             var colNdxSelected = GetDataPropertyColumnIndex(dgvCurrent, dataPropertyName);

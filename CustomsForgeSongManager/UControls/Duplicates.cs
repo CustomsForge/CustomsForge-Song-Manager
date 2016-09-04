@@ -21,12 +21,13 @@ namespace CustomsForgeSongManager.UControls
         private DataGridViewCellStyle ErrorStyle;
         private Color ErrorStyleBackColor = Color.DarkGray;
         private Color ErrorStyleForeColor = Color.White;
-        private bool bindingCompleted = false;
-        private bool dgvPainted = false;
+        private bool bindingCompleted;
+        private bool dgvPainted;
         private List<string> distinctPIDS = new List<string>();
         private List<SongData> duplicates = new List<SongData>();
-        private bool keyDisabled = false;
-        private bool keyEnabled = false;
+        private bool keyDisabled;
+        private bool keyEnabled;
+        private bool olderVersionsSelected;
 
         public Duplicates()
         {
@@ -326,43 +327,56 @@ namespace CustomsForgeSongManager.UControls
 
         private void SelectOlderVersions()
         {
-            string titleDateCombo = "";
-           
-            var dupList = new List<SongData>();
-            var titleDateList = new List<string>();
-            var dupes = new Dictionary<string, SongData>();
+            // TODO: delete this commented out code if new methods are acceptable
+            //string titleDateCombo = "";
+            //var dupList = new List<SongData>();
+            //var titleDateList = new List<string>();
+            //var dupes = new Dictionary<string, SongData>();
 
-            foreach (DataGridViewRow row in dgvDuplicates.Rows)
+            //foreach (DataGridViewRow row in dgvDuplicates.Rows)
+            //{
+            //    var song = DgvExtensions.GetObjectFromRow<SongData>(row);
+
+            //    titleDateCombo = song.Title + song.LastConversionDateTime.ToString("s");
+
+            // NOTE: this method fails if two songs have same titleDateCombo
+            // because two dictionary entries can not have same key
+            //    dupes.Add(titleDateCombo, song);
+            //}
+
+            // var sortedDupes = duplicates.OrderBy(s => s.Key).ToDictionary(s => s, s => s.Value);
+            // var fbl = new FilteredBindingList<SongData>(sortedDupes.Values.ToList());
+
+            // using concatinated ArtistTitleAlbumDate column to order by/sort on
+            var sortedDupes = duplicates.OrderBy(x => x.ArtistTitleAlbumDate).ToList();
+            LoadFilteredBindingList(sortedDupes);
+
+            // TODO: confirm this does what is expected
+            var rowCount = dgvDuplicates.Rows.Count;
+            for (int i = 0; i < rowCount; i++)
             {
-                var song = DgvExtensions.GetObjectFromRow<SongData>(row);
-
-                titleDateCombo = song.Title + song.LastConversionDateTime.ToString("s");
-
-                dupes.Add(titleDateCombo, song);
-            }
-
-            var sortedDupes = dupes.OrderBy(s => s.Key).ToDictionary(s => s, s => s.Value);
-            var fbl = new FilteredBindingList<SongData>(sortedDupes.Values.ToList());
-            var bs = new BindingSource { DataSource = fbl };
-
-            bindingCompleted = false;
-            dgvPainted = false;
-            dgvDuplicates.DataSource = null;
-            dgvDuplicates.DataSource = bs;
-            dgvDuplicates.Refresh();
-
-            for (int ndx = dgvDuplicates.Rows.Count - 1; ndx >= 0; ndx--)
-            {
-                if (ndx - 1 == -1)
+                if (i + 1 == rowCount)
                     break;
 
-                var row = dgvDuplicates.Rows[ndx];
-                var currSong = DgvExtensions.GetObjectFromRow<SongData>(dgvDuplicates, ndx);
-                var nextSong = DgvExtensions.GetObjectFromRow<SongData>(dgvDuplicates, ndx--);
-
-                if (currSong.Artist == nextSong.Artist && currSong.Title == nextSong.Title)
-                    dgvDuplicates.Rows[ndx].Cells["colSelect"].Value = true;
+                var currSong = DgvExtensions.GetObjectFromRow<SongData>(dgvDuplicates, i);
+                var nextSong = DgvExtensions.GetObjectFromRow<SongData>(dgvDuplicates, i + 1);
+                if (currSong.ArtistTitleAlbum == nextSong.ArtistTitleAlbum)
+                    dgvDuplicates.Rows[i + 1].Cells["colSelect"].Value = true;
             }
+
+            // NOTE: this method fails to select the last song in dgvDuplicates
+            //for (int ndx = dgvDuplicates.Rows.Count - 1; ndx >= 0; ndx--)
+            //{
+            //    if (ndx - 1 == -1)
+            //        break;
+
+            //    var row = dgvDuplicates.Rows[ndx];
+            //    var currSong = DgvExtensions.GetObjectFromRow<SongData>(dgvDuplicates, ndx);
+            //    var nextSong = DgvExtensions.GetObjectFromRow<SongData>(dgvDuplicates, ndx--);
+
+            //    if (currSong.Artist == nextSong.Artist && currSong.Title == nextSong.Title)
+            //        dgvDuplicates.Rows[ndx].Cells["colSelect"].Value = true;
+            //}
         }
 
         private void Duplicates_Resize(object sender, EventArgs e)
@@ -694,9 +708,23 @@ namespace CustomsForgeSongManager.UControls
         {
             RemoveFilter();
         }
-        private void linkSelectOlderVersions_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void lnkSelectOlderVersions_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            SelectOlderVersions();
+            if (olderVersionsSelected)
+            {
+                // reload duplicates and deselect all
+                LoadFilteredBindingList(duplicates);
+                DgvExtensions.RowsCheckboxValue(dgvDuplicates, false);
+                olderVersionsSelected = false;
+            }
+
+            else
+            {
+                SelectOlderVersions();
+                olderVersionsSelected = true;
+            }
+
+            UpdateToolStrip();
         }
 
         public DataGridView GetGrid()
@@ -768,6 +796,8 @@ namespace CustomsForgeSongManager.UControls
                 }
             }
         }
+
+
 
         /*End of copy-pasta region*/
     }

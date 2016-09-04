@@ -1,4 +1,10 @@
 ﻿CFSM Release Notes
+
+1.2.5.0
+-Fixed bug in select all older versions
+-Updated VersionInfo.txt file on server
+-Minor adjustment to app downloader
+
 1.2.4.0
 -Added option to select all older versions in Duplicate tab
 -Updated ODLC List

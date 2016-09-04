@@ -121,7 +121,7 @@ namespace CustomsForgeSongManager.UControls
             const string versInfoUrl = updateUrl + "/builds/latest_test";
             const string appExe = "RocksmithToolkitGUI.exe";
             const string appAcro = "RSTK";
-            const string dlSubDir = appAcro + "_Download";
+            const string dlSubDir = appAcro + "_BIN";
             var downloadDir = Path.Combine(Constants.WorkDirectory, dlSubDir);
             var appExePath = Path.Combine(downloadDir, appExe);
 
@@ -207,7 +207,7 @@ namespace CustomsForgeSongManager.UControls
             const string appArchive = "eof.zip";
             const string appAcro = "EOF";
             const string appCfg = "eof.cfg";
-            const string dlSubDir = appAcro + "_Download";
+            const string dlSubDir = appAcro + "_BIN";
             const string updateUrl = Constants.EOFURL + @"/download/3";
             var downloadDir = Path.Combine(Constants.WorkDirectory, dlSubDir);
 
@@ -303,7 +303,7 @@ namespace CustomsForgeSongManager.UControls
             const string appArchive = "CustomGameToolkitSetup.rar";
             const string appSetup = "CustomGameToolkitSetup.exe";
             const string appAcro = "CGT";
-            const string dlSubDir = appAcro + "_Download";
+            const string dlSubDir = appAcro + "_BIN";
             const string versInfoUrl = "https://goo.gl/K4y73H";
             const string downloadUrl = "https://goo.gl/qRBPFI";
             var downloadDir = Path.Combine(Constants.WorkDirectory, dlSubDir);
@@ -314,6 +314,7 @@ namespace CustomsForgeSongManager.UControls
                 ZipUtilities.DeleteDirectory(downloadDir);
                 Directory.CreateDirectory(downloadDir);
 
+                // TODO: generate a click for google stats 
                 if (AutoUpdater.DownloadWebApp(downloadUrl, appArchive, downloadDir))
                 {
                     Globals.Log(appExe + " download ... SUCESSFUL");

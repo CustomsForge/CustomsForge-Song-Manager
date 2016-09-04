@@ -191,6 +191,14 @@ namespace CustomsForgeSongManager.DataObjects
             get { return String.Format("{0};{1};{2}", Artist, Title, Album); }
             // set { } // required for XML file usage
         }
+       
+        [XmlIgnore]
+        public string ArtistTitleAlbumDate
+        {
+            get { return String.Format("{0};{1};{2};{3}", Artist, Title, Album, LastConversionDateTime.ToString("s")); }
+            // set { } // required for XML file usage
+        }
+
 
         [XmlIgnore] // preserves old 1D display method
         public string Arrangements
