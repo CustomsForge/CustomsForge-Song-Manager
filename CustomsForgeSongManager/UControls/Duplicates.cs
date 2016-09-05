@@ -327,56 +327,22 @@ namespace CustomsForgeSongManager.UControls
 
         private void SelectOlderVersions()
         {
-            // TODO: delete this commented out code if new methods are acceptable
-            //string titleDateCombo = "";
-            //var dupList = new List<SongData>();
-            //var titleDateList = new List<string>();
-            //var dupes = new Dictionary<string, SongData>();
-
-            //foreach (DataGridViewRow row in dgvDuplicates.Rows)
-            //{
-            //    var song = DgvExtensions.GetObjectFromRow<SongData>(row);
-
-            //    titleDateCombo = song.Title + song.LastConversionDateTime.ToString("s");
-
-            // NOTE: this method fails if two songs have same titleDateCombo
-            // because two dictionary entries can not have same key
-            //    dupes.Add(titleDateCombo, song);
-            //}
-
-            // var sortedDupes = duplicates.OrderBy(s => s.Key).ToDictionary(s => s, s => s.Value);
-            // var fbl = new FilteredBindingList<SongData>(sortedDupes.Values.ToList());
-
             // using concatinated ArtistTitleAlbumDate column to order by/sort on
-            var sortedDupes = duplicates.OrderBy(x => x.ArtistTitleAlbumDate).ToList();
+            var sortedDupes = duplicates.OrderBy(x => x.ArtistTitleAlbumDate.ToLower()).ToList();
             LoadFilteredBindingList(sortedDupes);
 
             // TODO: confirm this does what is expected
             var rowCount = dgvDuplicates.Rows.Count;
-            for (int i = 0; i < rowCount; i++)
+            for (int i = rowCount - 1; i >= 0; i--)
             {
-                if (i + 1 == rowCount)
+                if (i - 1 == -1)
                     break;
 
                 var currSong = DgvExtensions.GetObjectFromRow<SongData>(dgvDuplicates, i);
-                var nextSong = DgvExtensions.GetObjectFromRow<SongData>(dgvDuplicates, i + 1);
-                if (currSong.ArtistTitleAlbum == nextSong.ArtistTitleAlbum)
-                    dgvDuplicates.Rows[i + 1].Cells["colSelect"].Value = true;
+                var nextSong = DgvExtensions.GetObjectFromRow<SongData>(dgvDuplicates, i - 1);
+                if (currSong.ArtistTitleAlbum.ToLower() == nextSong.ArtistTitleAlbum.ToLower())
+                    dgvDuplicates.Rows[i - 1].Cells["colSelect"].Value = true;
             }
-
-            // NOTE: this method fails to select the last song in dgvDuplicates
-            //for (int ndx = dgvDuplicates.Rows.Count - 1; ndx >= 0; ndx--)
-            //{
-            //    if (ndx - 1 == -1)
-            //        break;
-
-            //    var row = dgvDuplicates.Rows[ndx];
-            //    var currSong = DgvExtensions.GetObjectFromRow<SongData>(dgvDuplicates, ndx);
-            //    var nextSong = DgvExtensions.GetObjectFromRow<SongData>(dgvDuplicates, ndx--);
-
-            //    if (currSong.Artist == nextSong.Artist && currSong.Title == nextSong.Title)
-            //        dgvDuplicates.Rows[ndx].Cells["colSelect"].Value = true;
-            //}
         }
 
         private void Duplicates_Resize(object sender, EventArgs e)
