@@ -1,4 +1,9 @@
 ﻿CFSM Release Notes
+1.2.5.2
+-Updated ODLC List
+
+1.2.5.1
+-Fixed inversed selecting in select all older versions (newer instead of older versions)
 
 1.2.5.0
 -Fixed bug in select all older versions
