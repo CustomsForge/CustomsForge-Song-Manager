@@ -162,12 +162,12 @@ namespace CustomsForgeSongManager.UControls
 
                     if (AutoUpdater.DownloadWebApp(downloadLink, appArchive, downloadDir))
                     {
-                        Globals.Log(appAcro + " download ... SUCESSFUL");
+                        Globals.Log(appAcro + " download ... SUCCESSFUL");
 
                         if (ZipUtilities.UnzipDir(Path.Combine(downloadDir, appArchive), downloadDir))
                         {
                             File.Delete(Path.Combine(downloadDir, appArchive));
-                            Globals.Log(appAcro + " archive unpacked ... SUCESSFUL");
+                            Globals.Log(appAcro + " archive unpacked ... SUCCESSFUL");
 
                             if (File.Exists(Path.Combine(Constants.WorkDirectory, "RocksmithToolkitLib.TuningDefinition.xml")))
                             {
@@ -185,7 +185,7 @@ namespace CustomsForgeSongManager.UControls
 
                             GenExtensions.AddShortcut(Environment.SpecialFolder.Programs, exeShortcutLink: "RSTK.lnk", exePath: exePath, exeIconPath: iconPath, shortcutDescription: "Rocksmith Custom Song Toolkit", destSubDirectory: "Rocksmith Custom Song Toolkit");
 
-                            Globals.Log(appAcro + " shortcut added to Start Menu, Programs ... SUCESSFUL");
+                            Globals.Log(appAcro + " shortcut added to Start Menu, Programs ... SUCCESSFUL");
                         }
                         else
                             Globals.Log(appAcro + " archive unpacked ... FAILED");
@@ -260,12 +260,12 @@ namespace CustomsForgeSongManager.UControls
 
                 if (AutoUpdater.DownloadWebApp(updateUrl, appArchive, downloadDir))
                 {
-                    Globals.Log(appArchive + " download ... SUCESSFUL");
+                    Globals.Log(appArchive + " download ... SUCCESSFUL");
 
                     if (ZipUtilities.UnzipDir(Path.Combine(downloadDir, appArchive), downloadDir))
                     {
                         File.Delete(Path.Combine(downloadDir, appArchive));
-                        Globals.Log(appArchive + " archive unpacked ... SUCESSFUL");
+                        Globals.Log(appArchive + " archive unpacked ... SUCCESSFUL");
 
                         if (File.Exists(Path.Combine(Constants.WorkDirectory, appCfg)))
                         {
@@ -280,7 +280,7 @@ namespace CustomsForgeSongManager.UControls
 
                         GenExtensions.AddShortcut(Environment.SpecialFolder.Programs, exeShortcutLink: "EOF.lnk", exePath: exePath, exeIconPath: iconPath, shortcutDescription: "Editor on Fire", destSubDirectory: "Editor on Fire");
 
-                        Globals.Log(appAcro + " shortcut added to Start Menu, Programs ... SUCESSFUL");
+                        Globals.Log(appAcro + " shortcut added to Start Menu, Programs ... SUCCESSFUL");
                     }
                     else
                         Globals.Log(appAcro + " archive unpacked ... FAILED");
@@ -317,20 +317,20 @@ namespace CustomsForgeSongManager.UControls
                 // TODO: generate a click for google stats 
                 if (AutoUpdater.DownloadWebApp(downloadUrl, appArchive, downloadDir))
                 {
-                    Globals.Log(appExe + " download ... SUCESSFUL");
+                    Globals.Log(appExe + " download ... SUCCESSFUL");
 
                     if (ZipUtilities.UnzipDir(Path.Combine(downloadDir, appArchive), downloadDir))
                     {
                         File.Delete(Path.Combine(downloadDir, appArchive));
-                        Globals.Log(appAcro + " Archive Unpacked ... SUCESSFUL");
+                        Globals.Log(appAcro + " Archive Unpacked ... SUCCESSFUL");
 
                         var ret = GenExtensions.RunExtExe(Path.Combine(downloadDir, appSetup), false, arguments: @"/SP /VERYSILENT /SUPPRESSMSGBOXES ");
                         //if (AutoUpdater.UpdateWithInno(Path.Combine(downloadDir, appSetup)))                  
                         if (String.IsNullOrEmpty(ret))
                         {
                             // CGT user prefs are auto preserved by CGT (not overwritten)
-                            Globals.Log(appAcro + " shortcut added to Start Menu ... SUCESSFUL");
-                            Globals.Log(appAcro + " Update ... SUCESSFUL");
+                            Globals.Log(appAcro + " shortcut added to Start Menu ... SUCCESSFUL");
+                            Globals.Log(appAcro + " Update ... SUCCESSFUL");
                         }
                         else
                             Globals.Log(appAcro + " Update ... FAILED");
@@ -454,7 +454,7 @@ namespace CustomsForgeSongManager.UControls
 //    Globals.Log("Download ... FAILED");
 //else
 //{
-//    Globals.Log("Download ... SUCESSFUL");
+//    Globals.Log("Download ... SUCCESSFUL");
 //    return true;
 //} 
 

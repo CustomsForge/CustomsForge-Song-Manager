@@ -753,7 +753,11 @@ DEL /Q "$(TargetDir)*.pdb"</PostBuildEvent>
   <PropertyGroup>
     <PreBuildEvent>XCOPY /Y/D "$(SolutionDir)libs\*.xml" "$(TargetDir)*.xml" 
 
-XCOPY /Y/E/D "$(SolutionDir)libs\ww2ogg\*.*" "$(TargetDir)*.*"</PreBuildEvent>
+XCOPY /Y/E/D "$(SolutionDir)libs\ww2ogg\*.*" "$(TargetDir)*.*"
+
+CD "$(SolutionDir)ThirdParty\CFSM.Setup\Output\"
+del /q "*.txt"
+del /q "CFSMSetup.exe"</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

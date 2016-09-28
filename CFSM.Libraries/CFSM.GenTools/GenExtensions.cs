@@ -316,7 +316,6 @@ namespace CFSM.GenTools
             return false;
         }
 
-
         public static bool CheckShortcut(Environment.SpecialFolder destDirectory, string exeShortcutLink, string destSubDirectory = "")
         {
             Debug.WriteLine("CheckShortcut: directory=" + destDirectory.ToString() + "; subdir=" + destSubDirectory);
@@ -336,6 +335,68 @@ namespace CFSM.GenTools
             return false;
         }
 
+        public static string ValidateFileName(this string fileName)
+        {
+            var validFileName = Path.GetInvalidFileNameChars().Aggregate(fileName, (current, c) => current.Replace(c.ToString(), "-"));
+            // var validFileName = String.Join("-", valueFileName.Split(Path.GetInvalidFileNameChars()));
+            // var validFileName = String.Concat(fileName.Split(Path.GetInvalidFileNameChars()));                        
+            return validFileName;
+        }
+
+        public static bool IsFilePathValid(this string filePath)
+        {
+            if (filePath.IsPathLengthValid())
+                if (filePath.IsPathNameValid())
+                    return true;
+
+            return false;
+        }
+
+        public static bool IsPathLengthValid(this string filePath)
+        {
+            if (Environment.OSVersion.Version.Major >= 6 && filePath.Length > 260)
+                return false;
+
+            if (Environment.OSVersion.Version.Major < 6 && filePath.Length > 215)
+                return false;
+
+            return true;
+        }
+
+        public static bool IsPathNameValid(this string filePath)
+        {
+            try
+            {
+                // check if filePath is null or empty
+                if (String.IsNullOrEmpty(filePath))
+                    return false;
+
+                // check drive is valid
+                var pathRoot = Path.GetPathRoot(filePath);
+                if (!Directory.GetLogicalDrives().Contains(pathRoot))
+                    return false;
+
+                var fileName = Path.GetFileName(filePath);
+                if (String.IsNullOrEmpty(fileName))
+                    return false;
+
+                var dirName = Path.GetDirectoryName(filePath);
+                if (String.IsNullOrEmpty(dirName))
+                    return false;
+
+                if (dirName.IndexOfAny(Path.GetInvalidPathChars()) >= 0)
+                    return false;
+
+                if (fileName.IndexOfAny(Path.GetInvalidFileNameChars()) >= 0)
+                    return false;
+            }
+            catch (ArgumentException)
+            {
+                return false;
+            }
+
+            return true;
+        }
         #endregion
     }
 }

@@ -190,7 +190,7 @@ namespace CustomsForgeSongManager.LocalTools
                 if (ZipUtilities.ZipDirectory(userProfilePath, backupPath))
                 {
                     Globals.Log(backupPath);
-                    Globals.Log("User profile backup ... SUCESSFUL");
+                    Globals.Log("User profile backup ... SUCCESSFUL");
                 }
                 else
                     Globals.Log("User profile backup ... FAILED");
@@ -210,7 +210,7 @@ namespace CustomsForgeSongManager.LocalTools
                 return;
 
             if (ZipUtilities.UnzipDir(backupPath, steamProfileDir))
-                Globals.Log("Restored user profile backup files ... SUCESSFUL");
+                Globals.Log("Restored user profile backup files ... SUCCESSFUL");
             else
                 Globals.Log("Restored user profile backup files ... FAILED");
         }

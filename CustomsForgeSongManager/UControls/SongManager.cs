@@ -609,7 +609,7 @@ namespace CustomsForgeSongManager.UControls
                 MessageBox.Show(string.Format("Please select (highlight) the song that  {0}you would like information about.", Environment.NewLine), Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        // use to manipulate data with causing error
+        // use to manipulate data without causing error
         private void TemporaryDisableDatabindEvent(Action action)
         {
             dgvSongsMaster.DataBindingComplete -= dgvSongsMaster_DataBindingComplete;

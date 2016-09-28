@@ -54,7 +54,6 @@ namespace CustomsForgeSongManager.UControls
             this.gbResults = new System.Windows.Forms.GroupBox();
             this.txtNoDuplicates = new System.Windows.Forms.TextBox();
             this.dgvDuplicates = new DataGridViewTools.RADataGridView();
-            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.colPID = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colPIDArrangement = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colKey = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
@@ -81,6 +80,7 @@ namespace CustomsForgeSongManager.UControls
             this.colIgnitionAuthor = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colArtistTitleAlbum = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colArtistTitleAlbumDate = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.cmsDuplicateColumns.SuspendLayout();
             this.gbActions.SuspendLayout();
             this.panelActions.SuspendLayout();
@@ -147,7 +147,7 @@ namespace CustomsForgeSongManager.UControls
             // 
             // chkSubFolders
             // 
-            this.chkSubFolders.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.chkSubFolders.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkSubFolders.AutoSize = true;
             this.chkSubFolders.Checked = true;
             this.chkSubFolders.CheckState = System.Windows.Forms.CheckState.Checked;
@@ -318,14 +318,6 @@ namespace CustomsForgeSongManager.UControls
             this.dgvDuplicates.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dgvDups_DataError);
             this.dgvDuplicates.Paint += new System.Windows.Forms.PaintEventHandler(this.dgvDuplicates_Paint);
             this.dgvDuplicates.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvDuplicates_KeyDown);
-            // 
-            // toolTip
-            // 
-            this.toolTip.AutomaticDelay = 200;
-            this.toolTip.AutoPopDelay = 12000;
-            this.toolTip.InitialDelay = 200;
-            this.toolTip.IsBalloon = true;
-            this.toolTip.ReshowDelay = 100;
             // 
             // colPID
             // 
@@ -565,6 +557,14 @@ namespace CustomsForgeSongManager.UControls
             this.colArtistTitleAlbumDate.DataPropertyName = "ArtistTitleAlbumDate";
             this.colArtistTitleAlbumDate.HeaderText = "ArtistTitleAlbumDate";
             this.colArtistTitleAlbumDate.Name = "colArtistTitleAlbumDate";
+            // 
+            // toolTip
+            // 
+            this.toolTip.AutomaticDelay = 200;
+            this.toolTip.AutoPopDelay = 12000;
+            this.toolTip.InitialDelay = 200;
+            this.toolTip.IsBalloon = true;
+            this.toolTip.ReshowDelay = 100;
             // 
             // Duplicates
             // 

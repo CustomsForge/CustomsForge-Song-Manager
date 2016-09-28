@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using Antlr4.StringTemplate;
 using System.Data;
@@ -36,7 +37,7 @@ namespace CustomsForgeSongManager.UControls
                 {
                     string json = reader.ReadToEnd();
                     renamerPropertyDataSet = new DataSet();
-                    renamerPropertyDataSet = (DataSet) JsonConvert.DeserializeObject(json, (typeof (DataSet)));
+                    renamerPropertyDataSet = (DataSet)JsonConvert.DeserializeObject(json, (typeof(DataSet)));
                     dgvRenamer.AutoGenerateColumns = true;
                     dgvRenamer.DataSource = renamerPropertyDataSet.Tables[0];
                 }
@@ -77,7 +78,7 @@ namespace CustomsForgeSongManager.UControls
             template.Add("title", data.Title.Replace('\\', '_'));
             template.Add("album", data.Album.Replace('\\', '_'));
             template.Add("filename", data.FileName);
-            template.Add("tuning", data.Tuning.Split(new[] {", "}, StringSplitOptions.None).FirstOrDefault());
+            template.Add("tuning", data.Tuning.Split(new[] { ", " }, StringSplitOptions.None).FirstOrDefault());
             template.Add("dd", data.DD > 0 ? "_DD" : "");
             template.Add("ddlvl", data.DD);
             template.Add("year", data.SongYear);
@@ -91,7 +92,7 @@ namespace CustomsForgeSongManager.UControls
             var oldFilePath = data.FilePath;
             var newFileName = template.Render();
 
-            var newFilePath = Path.Combine(AppSettings.Instance.RSInstalledDir, "dlc");
+            var newPath = Path.Combine(AppSettings.Instance.RSInstalledDir, "dlc");
 
             // renamed files could be enabled or disabled
             if (Path.GetFileName(oldFilePath).ToLower().Contains("disabled"))
@@ -100,25 +101,36 @@ namespace CustomsForgeSongManager.UControls
                 newFileName = String.Format("{0}_p.psarc", newFileName);
 
             // strip any user added a directory(s) from file name and add to file path
-            var dirSeperator = new string[] {"\\"};
+            var dirSeperator = new string[] { "\\" };
             var parts = newFileName.Split(dirSeperator, StringSplitOptions.None);
             if (parts.Any())
             {
                 for (int i = 0; i < parts.Count() - 1; i++)
-                    newFilePath = Path.Combine(newFilePath, parts[i]);
+                    newPath = Path.Combine(newPath, parts[i]);
 
                 newFileName = parts[parts.Count() - 1];
             }
 
-            // generated file name and/or file path could be invalid
-            newFilePath = String.Join("", newFilePath.Split(Path.GetInvalidPathChars()));
+            // file name, path and file path length validations
+            newPath = String.Join("", newPath.Split(Path.GetInvalidPathChars()));
             newFileName = String.Join("", newFileName.Split(Path.GetInvalidFileNameChars()));
             newFileName = newFileName.Replace("__", "_");
 
             if (chkRemoveSpaces.Checked)
                 newFileName = newFileName.Replace(" ", "");
 
-            return Path.Combine(newFilePath, newFileName);
+            // test file path length is valid
+            var newFilePath = Path.Combine(newPath, newFileName);
+
+            if (!newFilePath.IsFilePathValid())
+            {
+                var dialogMsg = "New file path: " + newFilePath + Environment.NewLine + Environment.NewLine +
+                    "is not valid.  Check file path for excessive length and/or invalid characters try again.";
+                var iconMsg = "Warning: File Path Length May Exceed System Capabilities";
+                BetterDialog.ShowDialog(dialogMsg, "Renamer", "OK", null, null, Bitmap.FromHicon(SystemIcons.Warning.Handle), iconMsg, 150, 150);
+            }
+
+            return newFilePath;
         }
 
         public void RenameSongs()
@@ -217,7 +229,7 @@ namespace CustomsForgeSongManager.UControls
             }
 
             // check for duplicates
-            var dups = renSongCollection.GroupBy(x => new {Song = x.Title, x.Album, x.Artist}).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
+            var dups = renSongCollection.GroupBy(x => new { Song = x.Title, x.Album, x.Artist }).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
             if (dups.Any())
             {
                 MessageBox.Show(string.Format(Properties.Resources.UseTheDuplicatesTabmenuToDeleteMoveX0Dupli, Environment.NewLine), Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -263,7 +275,7 @@ namespace CustomsForgeSongManager.UControls
         private void dgvRenamerProperties_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             // file name template builder
-            var grid = (DataGridView) sender;
+            var grid = (DataGridView)sender;
 
             if (e.RowIndex != -1)
             {

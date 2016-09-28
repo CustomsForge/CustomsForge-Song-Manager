@@ -1,4 +1,10 @@
 ﻿CFSM Release Notes
+
+1.2.5.3
+-Added file length and file path name validation to Renamer feature
+-Fixed typos
+-Added PreBuild events to delete old files from Output directory
+
 1.2.5.2
 -Updated ODLC List
 
@@ -6,6 +12,7 @@
 -Fixed inversed selecting in select all older versions (newer instead of older versions)
 
 1.2.5.0
+
 -Fixed bug in select all older versions
 -Updated VersionInfo.txt file on server
 -Minor adjustment to app downloader

@@ -158,7 +158,7 @@ namespace CustomsForgeSongManager.UControls
             }
             catch (Exception ex)
             {
-                // it is critical that backup of originals was sucessful before proceeding
+                // it is critical that backup of originals was successful before proceeding
                 throw new Exception("Backup of: " + sourcePath + " ... FAILED" + Environment.NewLine + ex.Message + Environment.NewLine + "Please correct issue and make sure you have" + Environment.NewLine + "backup copies of your original song files.");
             }
 
@@ -564,7 +564,7 @@ namespace CustomsForgeSongManager.UControls
                 }
 
                 Globals.TsProgressBar_Main.Value = 100;
-                Globals.Log("Restored to original condition ... SUCESSFUL");
+                Globals.Log("Restored to original condition ... SUCCESSFUL");
             }
             catch (IOException ex)
             {
@@ -924,7 +924,7 @@ namespace CustomsForgeSongManager.UControls
             }
 
             Globals.TsProgressBar_Main.Value = 100;
-            Globals.Log("SUCESSFUL ...");
+            Globals.Log("SUCCESSFUL ...");
             this.Enabled = true;
             Cursor = Cursors.Default;
         }
