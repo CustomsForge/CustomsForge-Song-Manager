@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using CustomsForgeSongManager.DataObjects;
 using RocksmithToolkitLib;
 using RocksmithToolkitLib.Extensions;
+using RocksmithToolkitLib.XmlRepository;
 
 namespace CustomsForgeSongManager.SongEditor
 {
@@ -62,7 +63,7 @@ namespace CustomsForgeSongManager.SongEditor
             var tb = sender as TextBox;
             if (tb != null)
             {
-                tb.Text = tb.Text.Trim().GetValidDlcKey(txtTitle.Text);
+                tb.Text = tb.Text.Trim().GetValidKey(txtTitle.Text);
                 this.Dirty = true;
             }
         }
@@ -84,7 +85,7 @@ namespace CustomsForgeSongManager.SongEditor
             var tb = sender as TextBox;
             if (tb != null)
             {
-                tb.Text = tb.Text.Trim().GetValidSortName();
+                tb.Text = tb.Text.Trim().GetValidSortableName();
                 this.Dirty = true;
             }
         }
@@ -94,11 +95,11 @@ namespace CustomsForgeSongManager.SongEditor
             var tb = sender as TextBox;
             if (tb != null)
             {
-                tb.Text = tb.Text.Trim().GetValidName(true, true);
+                tb.Text = tb.Text.Trim().GetValidAtaSpaceName();
                 this.Dirty = true;
 
                 //if (tb.Name == "txtTitle")
-                //    txtKey.Text = String.Format("{0} {1}", txtArtist.Text.Acronym(), txtTitle.Text.GetValidSortName());
+                //    txtKey.Text = String.Format("{0} {1}", txtArtist.Text.Acronym(), txtTitle.Text.GetValidSortableName());
             }
         }
 

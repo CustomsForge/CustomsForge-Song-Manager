@@ -7,6 +7,7 @@ using Newtonsoft.Json.Linq;
 using RocksmithToolkitLib;
 using RocksmithToolkitLib.DLCPackage;
 using RocksmithToolkitLib.Xml;
+using RocksmithToolkitLib.XmlRepository;
 
 namespace CFSM.RSTKLib.PSARC
 {
@@ -19,7 +20,7 @@ namespace CFSM.RSTKLib.PSARC
 
             // 2X speed hack ... use preloaded TuningDefinitionRepository
             if (tuningXml == null)
-            tuningXml = TuningDefinitionRepository.LoadTuningDefinitions(GameVersion.RS2014);
+            tuningXml = TuningDefinitionRepository.Instance.LoadTuningDefinitions(GameVersion.RS2014);
 
             foreach (var tuning in tuningXml)
                 if (tuning.Tuning.String0 == songTuning.String0 &&
@@ -37,7 +38,7 @@ namespace CFSM.RSTKLib.PSARC
         {
             // 2X speed hack ... use preloaded TuningDefinitionRepository
             if (tuningXml == null)
-                tuningXml = TuningDefinitionRepository.LoadTuningDefinitions(GameVersion.RS2014);
+                tuningXml = TuningDefinitionRepository.Instance.LoadTuningDefinitions(GameVersion.RS2014);
 
             foreach (var tuning in tuningXml)
                 if ((string)("" + (tuning.Tuning.String0) + (tuning.Tuning.String1) + (tuning.Tuning.String2) + (tuning.Tuning.String3) + (tuning.Tuning.String4) + (tuning.Tuning.String5)) == strings)

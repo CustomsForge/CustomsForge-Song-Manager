@@ -18,6 +18,7 @@ using RocksmithToolkitLib.DLCPackage;
 using RocksmithToolkitLib.Extensions;
 using DataGridViewTools;
 using SevenZip;
+using RocksmithToolkitLib.XmlRepository;
 
 namespace CustomsForgeSongManager.UControls
 {
@@ -426,7 +427,7 @@ namespace CustomsForgeSongManager.UControls
         {
             Globals.Log("Populating Song Packs GUI ...");
             Globals.Settings.LoadSettingsFromFile(dgvSongPacks);
-            Globals.TuningXml = TuningDefinitionRepository.LoadTuningDefinitions(GameVersion.RS2014);
+            Globals.TuningXml = TuningDefinitionRepository.Instance.LoadTuningDefinitions(GameVersion.RS2014);
             var rsDir = AppSettings.Instance.RSInstalledDir;
 
             if (Directory.Exists(rsDir))
@@ -507,7 +508,7 @@ namespace CustomsForgeSongManager.UControls
                 if (!File.Exists(Path.Combine(Constants.CachePcPath, "sltsv1_aggregategraph.nt")))
                     GenExtensions.ExtractEmbeddedResource(Constants.CachePcPath, Assembly.GetExecutingAssembly(), "CustomsForgeSongManager.Resources", new string[] { "sltsv1_aggregategraph.nt" });
 
-                ZipUtilities.InjectFile(Constants.ExtractedSongsHsanPath, Constants.Cache7zPath, Constants.SongsHsanInternalPath, OutArchiveFormat.SevenZip, CompressionMode.Append);
+                ZipUtilities.InjectFile(Constants.ExtractedSongsHsanPath,@"G:\cache7.7z" /*Constants.Cache7zPath*/, Constants.SongsHsanInternalPath, OutArchiveFormat.SevenZip, CompressionMode.Append);
                 Packer.Pack(Constants.CachePcPath, Constants.CachePsarcPath);
                 Globals.Log("cache.psarc repackaged with your song selections ...");
             }

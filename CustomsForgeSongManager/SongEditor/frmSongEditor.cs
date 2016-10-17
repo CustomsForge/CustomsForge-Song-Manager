@@ -138,7 +138,7 @@ namespace CustomsForgeSongManager.SongEditor
         {
             using (var sfd = new SaveFileDialog())
             {
-                sfd.FileName = GeneralExtensions.GetShortName("{0}_{1}_v{2}", packageData.SongInfo.ArtistSort, packageData.SongInfo.SongDisplayNameSort, packageData.PackageVersion.Replace(".", "_"), false);
+                sfd.FileName = StringExtensions.GetValidShortFileName(packageData.SongInfo.ArtistSort, packageData.SongInfo.SongDisplayNameSort, packageData.PackageVersion.Replace(".", "_"), false);
                 sfd.InitialDirectory = Path.GetDirectoryName(filePath);
 
                 if (sfd.ShowDialog() == DialogResult.OK)
@@ -270,7 +270,7 @@ namespace CustomsForgeSongManager.SongEditor
                 return;
 
             var songXml = Song2014.LoadFromFile(arr.SongXml.File);
-            arr.CleanCache();
+            arr.ClearCache();
             songXml.AlbumName = info.SongInfo.Album;
             songXml.AlbumYear = info.SongInfo.SongYear.ToString();
             songXml.ArtistName = info.SongInfo.Artist;
@@ -319,7 +319,7 @@ namespace CustomsForgeSongManager.SongEditor
             var newXml = Path.GetTempFileName();
             mArr.SongXml = new RocksmithToolkitLib.DLCPackage.AggregateGraph.SongXML { File = newXml };
             mArr.SongFile = new RocksmithToolkitLib.DLCPackage.AggregateGraph.SongFile { File = "" };
-            mArr.CleanCache();
+            mArr.ClearCache();
             mArr.BonusArr = true;
             mArr.Id = IdGenerator.Guid();
             mArr.MasterId = RandomGenerator.NextInt();

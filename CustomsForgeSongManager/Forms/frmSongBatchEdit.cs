@@ -5,6 +5,7 @@ using CFSM.RSTKLib.PSARC;
 using CustomsForgeSongManager.DataObjects;
 using DF.WinForms.ThemeLib;
 using RocksmithToolkitLib;
+using RocksmithToolkitLib.XmlRepository;
 
 namespace CustomsForgeSongManager.Forms
 {

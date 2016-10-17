@@ -334,6 +334,12 @@
       <DependentUpon>ucTones.cs</DependentUpon>
     </Compile>
     <Compile Include="LocalTools\SongTagger.cs" />
+    <Compile Include="UControls\Repairs.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UControls\Repairs.Designer.cs">
+      <DependentUpon>Repairs.cs</DependentUpon>
+    </Compile>
     <Compile Include="UControls\SongPacks.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -455,8 +461,8 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources1.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -471,6 +477,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SongEditor\ucTones.resx">
       <DependentUpon>ucTones.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UControls\Repairs.resx">
+      <DependentUpon>Repairs.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UControls\SongPacks.resx">
       <DependentUpon>SongPacks.cs</DependentUpon>
@@ -555,6 +564,7 @@
     <None Include="Resources\15.png" />
     <None Include="Resources\RocksmithToolkitGUI_32512.png" />
     <EmbeddedResource Include="Resources\htmExport.css" />
+    <None Include="Resources\1476551310_delete.png" />
     <Content Include="Resources\151.png" />
     <None Include="Resources\copy.png" />
     <None Include="Resources\CGT_Logo.png" />
@@ -582,6 +592,15 @@
     <None Include="Resources\onoff.png" />
     <None Include="Resources\SelectCol.png" />
     <None Include="Resources\LedGuitar.png" />
+    <None Include="Resources\maintenance_16.png" />
+    <None Include="Resources\maintenance_48.png" />
+    <None Include="Resources\restoreBackup.png" />
+    <None Include="Resources\restoreBackup_48.bmp" />
+    <None Include="Resources\Restore-Window-icon.png" />
+    <None Include="Resources\Restore-Window-icon %281%29.png" />
+    <None Include="Resources\delete-24.png" />
+    <None Include="Resources\note-6-64x64.png" />
+    <None Include="Resources\log-icon.png" />
     <Content Include="Resources\TaggerHelp.html" />
     <Content Include="Resources\Unleashed2k.png" />
     <EmbeddedResource Include="Resources\tags\frackDefaultprev.png" />

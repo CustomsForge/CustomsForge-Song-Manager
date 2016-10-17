@@ -84,6 +84,7 @@ namespace CustomsForgeSongManager.Forms
             this.LeftToolStripPanel = new System.Windows.Forms.ToolStripPanel();
             this.ContentPanel = new System.Windows.Forms.ToolStripContentPanel();
             this.timerAudioProgress = new System.Windows.Forms.Timer(this.components);
+            this.tpRepairs = new System.Windows.Forms.TabPage();
             this.gbLog.SuspendLayout();
             this.contextMenuStrip_Tray.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.scMain)).BeginInit();
@@ -146,13 +147,13 @@ namespace CustomsForgeSongManager.Forms
             this.contextMenuStrip_Tray.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.closeToolStripMenuItem});
             this.contextMenuStrip_Tray.Name = "contextMenuStrip_Tray";
-            this.contextMenuStrip_Tray.Size = new System.Drawing.Size(112, 26);
+            this.contextMenuStrip_Tray.Size = new System.Drawing.Size(104, 26);
             // 
             // closeToolStripMenuItem
             // 
             this.closeToolStripMenuItem.Image = global::CustomsForgeSongManager.Properties.Resources.close;
             this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            this.closeToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
             this.closeToolStripMenuItem.Text = "Close";
             this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
             // 
@@ -180,7 +181,7 @@ namespace CustomsForgeSongManager.Forms
             // tstripContainer.ContentPanel
             // 
             this.tstripContainer.ContentPanel.Controls.Add(this.tcMain);
-            this.tstripContainer.ContentPanel.Size = new System.Drawing.Size(1011, 501);
+            this.tstripContainer.ContentPanel.Size = new System.Drawing.Size(1011, 498);
             this.tstripContainer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tstripContainer.LeftToolStripPanelVisible = false;
             this.tstripContainer.Location = new System.Drawing.Point(0, 0);
@@ -204,6 +205,7 @@ namespace CustomsForgeSongManager.Forms
             this.tcMain.Controls.Add(this.tpRenamer);
             this.tcMain.Controls.Add(this.tpSetlistManager);
             this.tcMain.Controls.Add(this.tpSongPacks);
+            this.tcMain.Controls.Add(this.tpRepairs);
             this.tcMain.Controls.Add(this.tpSettings);
             this.tcMain.Controls.Add(this.tpAbout);
             this.tcMain.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -211,7 +213,7 @@ namespace CustomsForgeSongManager.Forms
             this.tcMain.Location = new System.Drawing.Point(0, 0);
             this.tcMain.Name = "tcMain";
             this.tcMain.SelectedIndex = 0;
-            this.tcMain.Size = new System.Drawing.Size(1011, 501);
+            this.tcMain.Size = new System.Drawing.Size(1011, 498);
             this.tcMain.TabIndex = 2;
             this.tcMain.SelectedIndexChanged += new System.EventHandler(this.tcMain_SelectedIndexChanged);
             // 
@@ -219,7 +221,7 @@ namespace CustomsForgeSongManager.Forms
             // 
             this.tpSongManager.Location = new System.Drawing.Point(4, 25);
             this.tpSongManager.Name = "tpSongManager";
-            this.tpSongManager.Size = new System.Drawing.Size(1003, 472);
+            this.tpSongManager.Size = new System.Drawing.Size(1003, 469);
             this.tpSongManager.TabIndex = 0;
             this.tpSongManager.Text = "Song Manager";
             this.tpSongManager.UseVisualStyleBackColor = true;
@@ -228,7 +230,7 @@ namespace CustomsForgeSongManager.Forms
             // 
             this.tpDuplicates.Location = new System.Drawing.Point(4, 25);
             this.tpDuplicates.Name = "tpDuplicates";
-            this.tpDuplicates.Size = new System.Drawing.Size(1003, 472);
+            this.tpDuplicates.Size = new System.Drawing.Size(1003, 469);
             this.tpDuplicates.TabIndex = 4;
             this.tpDuplicates.Text = "Duplicates";
             this.tpDuplicates.UseVisualStyleBackColor = true;
@@ -238,7 +240,7 @@ namespace CustomsForgeSongManager.Forms
             this.tpRenamer.Location = new System.Drawing.Point(4, 25);
             this.tpRenamer.Name = "tpRenamer";
             this.tpRenamer.Padding = new System.Windows.Forms.Padding(3);
-            this.tpRenamer.Size = new System.Drawing.Size(1003, 472);
+            this.tpRenamer.Size = new System.Drawing.Size(1003, 469);
             this.tpRenamer.TabIndex = 6;
             this.tpRenamer.Text = "Renamer";
             this.tpRenamer.UseVisualStyleBackColor = true;
@@ -247,7 +249,7 @@ namespace CustomsForgeSongManager.Forms
             // 
             this.tpSetlistManager.Location = new System.Drawing.Point(4, 25);
             this.tpSetlistManager.Name = "tpSetlistManager";
-            this.tpSetlistManager.Size = new System.Drawing.Size(1003, 472);
+            this.tpSetlistManager.Size = new System.Drawing.Size(1003, 469);
             this.tpSetlistManager.TabIndex = 7;
             this.tpSetlistManager.Text = "Setlist Manager";
             this.tpSetlistManager.UseVisualStyleBackColor = true;
@@ -256,7 +258,7 @@ namespace CustomsForgeSongManager.Forms
             // 
             this.tpSongPacks.Location = new System.Drawing.Point(4, 25);
             this.tpSongPacks.Name = "tpSongPacks";
-            this.tpSongPacks.Size = new System.Drawing.Size(1003, 472);
+            this.tpSongPacks.Size = new System.Drawing.Size(1003, 469);
             this.tpSongPacks.TabIndex = 0;
             this.tpSongPacks.Text = "Song Packs";
             this.tpSongPacks.UseVisualStyleBackColor = true;
@@ -266,7 +268,7 @@ namespace CustomsForgeSongManager.Forms
             this.tpSettings.Location = new System.Drawing.Point(4, 25);
             this.tpSettings.Name = "tpSettings";
             this.tpSettings.Padding = new System.Windows.Forms.Padding(3);
-            this.tpSettings.Size = new System.Drawing.Size(1003, 472);
+            this.tpSettings.Size = new System.Drawing.Size(1003, 469);
             this.tpSettings.TabIndex = 1;
             this.tpSettings.Text = "Settings";
             this.tpSettings.UseVisualStyleBackColor = true;
@@ -275,7 +277,7 @@ namespace CustomsForgeSongManager.Forms
             // 
             this.tpAbout.Location = new System.Drawing.Point(4, 25);
             this.tpAbout.Name = "tpAbout";
-            this.tpAbout.Size = new System.Drawing.Size(1003, 472);
+            this.tpAbout.Size = new System.Drawing.Size(1003, 469);
             this.tpAbout.TabIndex = 8;
             this.tpAbout.Text = "About";
             this.tpAbout.UseVisualStyleBackColor = true;
@@ -299,7 +301,7 @@ namespace CustomsForgeSongManager.Forms
             this.tsUtilities.Location = new System.Drawing.Point(3, 0);
             this.tsUtilities.Name = "tsUtilities";
             this.tsUtilities.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.tsUtilities.Size = new System.Drawing.Size(428, 25);
+            this.tsUtilities.Size = new System.Drawing.Size(454, 25);
             this.tsUtilities.TabIndex = 0;
             // 
             // tsBtnLaunchRS
@@ -307,7 +309,7 @@ namespace CustomsForgeSongManager.Forms
             this.tsBtnLaunchRS.Image = global::CustomsForgeSongManager.Properties.Resources.launch;
             this.tsBtnLaunchRS.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsBtnLaunchRS.Name = "tsBtnLaunchRS";
-            this.tsBtnLaunchRS.Size = new System.Drawing.Size(112, 22);
+            this.tsBtnLaunchRS.Size = new System.Drawing.Size(125, 22);
             this.tsBtnLaunchRS.Text = "Launch Rocksmith";
             this.tsBtnLaunchRS.Click += new System.EventHandler(this.tsBtnLaunchRS_Click);
             // 
@@ -321,7 +323,7 @@ namespace CustomsForgeSongManager.Forms
             this.tsBtnBackup.Image = global::CustomsForgeSongManager.Properties.Resources.backup;
             this.tsBtnBackup.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsBtnBackup.Name = "tsBtnBackup";
-            this.tsBtnBackup.Size = new System.Drawing.Size(87, 22);
+            this.tsBtnBackup.Size = new System.Drawing.Size(92, 22);
             this.tsBtnBackup.Text = "User Profiles";
             this.tsBtnBackup.Click += new System.EventHandler(this.tsBtnBackup_Click);
             // 
@@ -339,27 +341,27 @@ namespace CustomsForgeSongManager.Forms
             this.toolStripDropDownButton1.Image = global::CustomsForgeSongManager.Properties.Resources.export;
             this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
-            this.toolStripDropDownButton1.Size = new System.Drawing.Size(68, 22);
+            this.toolStripDropDownButton1.Size = new System.Drawing.Size(69, 22);
             this.toolStripDropDownButton1.Text = "Export";
             // 
             // bBCodeToolStripMenuItem
             // 
             this.bBCodeToolStripMenuItem.Name = "bBCodeToolStripMenuItem";
-            this.bBCodeToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+            this.bBCodeToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
             this.bBCodeToolStripMenuItem.Text = "BB Code";
             this.bBCodeToolStripMenuItem.Click += new System.EventHandler(this.bBCodeToolStripMenuItem_Click);
             // 
             // cSVToolStripMenuItem
             // 
             this.cSVToolStripMenuItem.Name = "cSVToolStripMenuItem";
-            this.cSVToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+            this.cSVToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
             this.cSVToolStripMenuItem.Text = "CSV";
             this.cSVToolStripMenuItem.Click += new System.EventHandler(this.cSVToolStripMenuItem_Click);
             // 
             // hTMLToolStripMenuItem
             // 
             this.hTMLToolStripMenuItem.Name = "hTMLToolStripMenuItem";
-            this.hTMLToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+            this.hTMLToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
             this.hTMLToolStripMenuItem.Text = "HTML";
             this.hTMLToolStripMenuItem.Click += new System.EventHandler(this.hTMLToolStripMenuItem_Click);
             // 
@@ -373,7 +375,7 @@ namespace CustomsForgeSongManager.Forms
             this.tsBtnUpload.Image = global::CustomsForgeSongManager.Properties.Resources.upload;
             this.tsBtnUpload.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsBtnUpload.Name = "tsBtnUpload";
-            this.tsBtnUpload.Size = new System.Drawing.Size(60, 22);
+            this.tsBtnUpload.Size = new System.Drawing.Size(65, 22);
             this.tsBtnUpload.Text = "Upload";
             this.tsBtnUpload.ToolTipText = "Upload CDLC to CustomsForge";
             this.tsBtnUpload.Click += new System.EventHandler(this.tsBtnUpload_Click);
@@ -384,7 +386,7 @@ namespace CustomsForgeSongManager.Forms
             this.tsBtnRequest.Image = ((System.Drawing.Image)(resources.GetObject("tsBtnRequest.Image")));
             this.tsBtnRequest.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsBtnRequest.Name = "tsBtnRequest";
-            this.tsBtnRequest.Size = new System.Drawing.Size(51, 22);
+            this.tsBtnRequest.Size = new System.Drawing.Size(53, 22);
             this.tsBtnRequest.Text = "Request";
             this.tsBtnRequest.ToolTipText = "Request a song on CustomsForge";
             this.tsBtnRequest.Click += new System.EventHandler(this.tsBtnRequest_Click);
@@ -419,7 +421,7 @@ namespace CustomsForgeSongManager.Forms
             this.tsAudioPlayer.Padding = new System.Windows.Forms.Padding(0);
             this.tsAudioPlayer.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
             this.tsAudioPlayer.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.tsAudioPlayer.Size = new System.Drawing.Size(193, 25);
+            this.tsAudioPlayer.Size = new System.Drawing.Size(192, 25);
             this.tsAudioPlayer.TabIndex = 1;
             // 
             // tsbPlay
@@ -462,7 +464,7 @@ namespace CustomsForgeSongManager.Forms
             // 
             this.tslblTimer.Margin = new System.Windows.Forms.Padding(3, 2, 3, 3);
             this.tslblTimer.Name = "tslblTimer";
-            this.tslblTimer.Size = new System.Drawing.Size(35, 20);
+            this.tslblTimer.Size = new System.Drawing.Size(34, 20);
             this.tslblTimer.Text = "00:00";
             this.tslblTimer.ToolTipText = "Minutes:Seconds";
             // 
@@ -593,6 +595,16 @@ namespace CustomsForgeSongManager.Forms
             this.timerAudioProgress.Interval = 400;
             this.timerAudioProgress.Tick += new System.EventHandler(this.timerAudioProgress_Tick);
             // 
+            // tpRepairs
+            // 
+            this.tpRepairs.Location = new System.Drawing.Point(4, 25);
+            this.tpRepairs.Name = "tpRepairs";
+            this.tpRepairs.Padding = new System.Windows.Forms.Padding(3);
+            this.tpRepairs.Size = new System.Drawing.Size(1003, 469);
+            this.tpRepairs.TabIndex = 9;
+            this.tpRepairs.Text = "Repairs";
+            this.tpRepairs.UseVisualStyleBackColor = true;
+            // 
             // frmMain
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -684,5 +696,6 @@ namespace CustomsForgeSongManager.Forms
         private ToolStripProgressBar tspbAudioPosition;
         private TabPage tpSongPacks;
         private ToolStripLabel tslblTimer;
+        private TabPage tpRepairs;
     }
 }

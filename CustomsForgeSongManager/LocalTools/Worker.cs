@@ -10,6 +10,7 @@ using CFSM.GenTools;
 using CustomsForgeSongManager.DataObjects;
 using CustomsForgeSongManager.Properties;
 using RocksmithToolkitLib;
+using RocksmithToolkitLib.XmlRepository;
 
 //
 // Reusable background worker class for parsing songs
@@ -204,7 +205,7 @@ namespace CustomsForgeSongManager.LocalTools
         {
             // 2x speed hack ... preload the TuningDefinition
             if (Globals.TuningXml == null)
-                Globals.TuningXml = TuningDefinitionRepository.LoadTuningDefinitions(GameVersion.RS2014);
+                Globals.TuningXml = TuningDefinitionRepository.Instance.LoadTuningDefinitions(GameVersion.RS2014);
 
             try
             {

@@ -10,6 +10,7 @@ using CustomsForgeSongManager.DataObjects;
 using CustomsForgeSongManager.Forms;
 using CustomsForgeSongManager.LocalTools;
 using RocksmithToolkitLib;
+using RocksmithToolkitLib.XmlRepository;
 
 namespace CustomsForgeSongManager.UControls
 {

@@ -12,6 +12,7 @@ using RocksmithToolkitLib.Extensions;
 using RocksmithToolkitLib;
 using RocksmithToolkitLib.Xml;
 using Constants = CustomsForgeSongManager.DataObjects.Constants;
+using RocksmithToolkitLib.XmlRepository;
 
 
 // this code taken from toolkit ... needs to be manually updated if toolkit is revised
@@ -225,7 +226,7 @@ namespace CustomsForgeSongManager.SongEditor
         private void FillTuningCombo(ArrangementType arrangementType)
         {
             tuningComboBox.Items.Clear();
-            var tuningDefinitions = TuningDefinitionRepository.LoadTuningDefinitions(GameVersion.RS2014);
+            var tuningDefinitions = TuningDefinitionRepository.Instance.LoadTuningDefinitions(GameVersion.RS2014);
             foreach (var tuning in tuningDefinitions)
             {
                 tuningComboBox.Items.Add(tuning);
@@ -697,22 +698,22 @@ namespace CustomsForgeSongManager.SongEditor
                 var pcSongInfo = parentControl.SongData.SongInfo;
 
                 if (String.IsNullOrEmpty(pcSongInfo.SongDisplayName)) pcSongInfo.SongDisplayName = xmlSong.Title ?? String.Empty;
-                if (String.IsNullOrEmpty(pcSongInfo.SongDisplayNameSort)) pcSongInfo.SongDisplayNameSort = xmlSong.SongNameSort.GetValidSortName() ?? pcSongInfo.SongDisplayName.GetValidSortName();
+                if (String.IsNullOrEmpty(pcSongInfo.SongDisplayNameSort)) pcSongInfo.SongDisplayNameSort = xmlSong.SongNameSort.GetValidSortableName() ?? pcSongInfo.SongDisplayName.GetValidSortableName();
                 if (pcSongInfo.AverageTempo == 0) pcSongInfo.AverageTempo = (Int32)xmlSong.AverageTempo;
                 if (String.IsNullOrEmpty(pcSongInfo.Artist)) pcSongInfo.Artist = xmlSong.ArtistName ?? String.Empty;
-                if (String.IsNullOrEmpty(pcSongInfo.ArtistSort)) pcSongInfo.ArtistSort = xmlSong.ArtistNameSort.GetValidSortName() ?? pcSongInfo.Artist.GetValidSortName();
+                if (String.IsNullOrEmpty(pcSongInfo.ArtistSort)) pcSongInfo.ArtistSort = xmlSong.ArtistNameSort.GetValidSortableName() ?? pcSongInfo.Artist.GetValidSortableName();
                 if (String.IsNullOrEmpty(pcSongInfo.Album)) pcSongInfo.Album = xmlSong.AlbumName ?? String.Empty;
                 if (pcSongInfo.SongYear == 0) pcSongInfo.SongYear = Convert.ToInt32(xmlSong.AlbumYear);
-                if (String.IsNullOrEmpty(parentControl.SongData.Name)) parentControl.SongData.Name = String.Format("{0}{1}", pcSongInfo.Artist.Acronym(), pcSongInfo.SongDisplayName).GetValidDlcKey(pcSongInfo.SongDisplayName);
+                if (String.IsNullOrEmpty(parentControl.SongData.Name)) parentControl.SongData.Name = String.Format("{0}{1}", pcSongInfo.Artist.GetValidAcronym(), pcSongInfo.SongDisplayName).GetValidKey(pcSongInfo.SongDisplayName);
 
                 if (String.IsNullOrEmpty(pcSongInfo.AlbumSort))
                 {
                     // substitute package author for AlbumSort
                     var useDefaultAuthor = ConfigRepository.Instance().GetBoolean("creator_usedefaultauthor");
                     if (useDefaultAuthor)
-                        pcSongInfo.AlbumSort = ConfigRepository.Instance()["general_defaultauthor"].Trim().GetValidSortName();
+                        pcSongInfo.AlbumSort = ConfigRepository.Instance()["general_defaultauthor"].Trim().GetValidSortableName();
                     else
-                        pcSongInfo.AlbumSort = xmlSong.AlbumNameSort.GetValidSortName() ?? pcSongInfo.Album.GetValidSortName();
+                        pcSongInfo.AlbumSort = xmlSong.AlbumNameSort.GetValidSortableName() ?? pcSongInfo.Album.GetValidSortableName();
                 }
             }
 
@@ -866,8 +867,8 @@ namespace CustomsForgeSongManager.SongEditor
         private void SaveTuningDefinition(TuningDefinition formTuning)
         {
             // can mess up the TuningDefinition.xml file on multiple adds
-            TuningDefinitionRepository.Instance().Add(formTuning, true);
-            TuningDefinitionRepository.Instance().Save(true);
+            TuningDefinitionRepository.Instance.Add(formTuning, true);
+            TuningDefinitionRepository.Instance.Save(true);
         }
 
         #endregion

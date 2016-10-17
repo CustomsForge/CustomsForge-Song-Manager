@@ -129,8 +129,9 @@ namespace CFSM.GenTools
                 injector.Add(internalArchivePath, sourceFilePath);
                 compressor.CompressFileDictionary(injector, archiveName);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                //Globals.Log(ex.ToString());
                 return false;
             }
 

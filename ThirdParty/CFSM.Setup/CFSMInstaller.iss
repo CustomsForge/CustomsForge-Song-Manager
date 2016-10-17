@@ -51,6 +51,7 @@ Source: {#buildpath}packed_codebooks.bin; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}packed_codebooks_aoTuV_603.bin; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}revorb.exe; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}ww2ogg.exe; DestDir: {app}; Flags: ignoreversion
+Source: {#buildpath}remastered.exe; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}SevenZipSharp.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}Newtonsoft.Json.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}ReleaseNotes.txt; DestDir: {app}; Flags: ignoreversion

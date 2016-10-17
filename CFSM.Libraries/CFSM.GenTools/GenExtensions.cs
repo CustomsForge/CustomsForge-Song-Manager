@@ -102,7 +102,8 @@ namespace CFSM.GenTools
             foreach (string file in files)
             {
                 resourcePath = Path.Combine(outputDir, file);
-                //always replace with the newest resources
+                //always replace with the newest 
+
                 // if (!File.Exists(resourcePath))
                 {
                     Stream stream = resourceAssembly.GetManifestResourceStream(String.Format("{0}.{1}", resourceLocation, file));
@@ -248,13 +249,60 @@ namespace CFSM.GenTools
             process.StartInfo = startInfo;
             process.Start();
 
-            if (waitToFinish)
-                process.WaitForExit();
-
             var output = String.Empty;
 
             if (runInBackground)
                 output = process.StandardOutput.ReadToEnd();
+
+            if (waitToFinish)
+                process.WaitForExit();
+
+            return output;
+        }
+
+        public static List<string> RunExtExeAlt(string exeFileName, bool appRootFolder = true,
+                                    bool runInBackground = false,
+                                    bool waitToFinish = false, string arguments = null)
+        {
+            string appRootPath = Path.GetDirectoryName(Application.ExecutablePath);
+
+            var rootPath = (appRootFolder)
+                               ? appRootPath
+                               : Path.GetDirectoryName(exeFileName);
+
+            ProcessStartInfo startInfo = new ProcessStartInfo();
+            startInfo.FileName = (appRootFolder)
+                                     ? Path.Combine(rootPath, exeFileName)
+                                     : exeFileName;
+            startInfo.WorkingDirectory = rootPath;
+
+            if (runInBackground)
+            {
+                startInfo.CreateNoWindow = true;
+                startInfo.UseShellExecute = false;
+                startInfo.RedirectStandardOutput = true;
+            }
+
+            if (!String.IsNullOrEmpty(arguments))
+                startInfo.Arguments = arguments;
+
+            Process process = new Process();
+            process.StartInfo = startInfo;
+
+            var output = new List<string>();
+
+            if (runInBackground)
+            {
+                process.OutputDataReceived += new DataReceivedEventHandler((s, e) =>
+                {
+                    output.Add(e.Data);
+                });
+            }
+
+            process.Start();
+
+            if (waitToFinish)
+                process.BeginOutputReadLine();
 
             return output;
         }
@@ -290,7 +338,7 @@ namespace CFSM.GenTools
         }
 
 
-        public static bool RemoveShortcut(Environment.SpecialFolder destDirectory, 
+        public static bool RemoveShortcut(Environment.SpecialFolder destDirectory,
             string exeShortcutLink, string destSubDirectory = "")
         {
             Debug.WriteLine("RemoveShortcut: directory=" + destDirectory.ToString() + "; subdir=" + destSubDirectory);

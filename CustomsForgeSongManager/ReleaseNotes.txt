@@ -1,4 +1,8 @@
 ﻿CFSM Release Notes
+1.2.6.0
+-Add option to repair/"remaster" CDLC affected by 100% bug
+-Updated RSTK libs
+-Updated ODLC list
 
 1.2.5.3
 -Added file length and file path name validation to Renamer feature

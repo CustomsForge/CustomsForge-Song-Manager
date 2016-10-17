@@ -9,6 +9,7 @@ using DF.WinForms.ThemeLib;
 using DLogNet;
 using System;
 using RocksmithToolkitLib;
+using RocksmithToolkitLib.XmlRepository;
 
 namespace CustomsForgeSongManager.DataObjects
 {
@@ -45,6 +46,7 @@ namespace CustomsForgeSongManager.DataObjects
         private static Theme _theme;
         private static SongTagger _tagger;
         private static List<OfficialDLCSong> _oDLCSongList;
+        private static Repairs _repairs;
 
         public static Random random = new Random();
 
@@ -130,6 +132,12 @@ namespace CustomsForgeSongManager.DataObjects
         {
             get { return _songPacks ?? (_songPacks = new SongPacks()); }
             set { _songPacks = value; }
+        }
+
+        public static Repairs Repairs
+        {
+            get { return _repairs ?? (_repairs = new Repairs()); }
+            set { _repairs = value; }
         }
 
         public static bool RescanDuplicates { get; set; }

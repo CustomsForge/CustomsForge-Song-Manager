@@ -4,6 +4,7 @@ using CustomsForgeSongManager.DataObjects;
 using RocksmithToolkitLib;
 using RocksmithToolkitLib.Extensions;
 using RocksmithToolkitLib.Xml;
+using RocksmithToolkitLib.XmlRepository;
 
 namespace CustomsForgeSongManager.SongEditor
 {
@@ -134,7 +135,7 @@ namespace CustomsForgeSongManager.SongEditor
         {
             TextBox name = (TextBox) sender;
             name.TextChanged -= nameTB_TextChanged;
-            name.Text = name.Text.GetValidName(false);
+            name.Text = name.Text.GetValidAtaSpaceName().ReplaceSpaceWith("");
             name.TextChanged += nameTB_TextChanged;
         }
 
@@ -142,7 +143,7 @@ namespace CustomsForgeSongManager.SongEditor
         {
             TextBox name = (TextBox) sender;
             name.TextChanged -= uiNameTB_TextChanged;
-            nameTB.Text = name.Text.GetValidName(true);
+            nameTB.Text = name.Text.GetValidAtaSpaceName();
             name.TextChanged += uiNameTB_TextChanged;
         }
 
