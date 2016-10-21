@@ -118,6 +118,7 @@ namespace CFSM.GenTools
                 compressor.ArchiveFormat = archiveFormat;
                 compressor.CompressionMode = compressionMode;
                 compressor.TempFolderPath = Path.GetTempPath();
+                compressor.PreserveDirectoryRoot = true;
 
                 if (updateFile.Count > 1)
                     throw new Exception();
@@ -132,6 +133,7 @@ namespace CFSM.GenTools
             catch (Exception ex)
             {
                 //Globals.Log(ex.ToString());
+                //MessageBox.Show(ex.Message);
                 return false;
             }
 

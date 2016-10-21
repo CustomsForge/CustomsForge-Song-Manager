@@ -234,7 +234,7 @@ namespace CFSM.GenTools
                                      ? Path.Combine(rootPath, exeFileName)
                                      : exeFileName;
             startInfo.WorkingDirectory = rootPath;
-
+            
             if (runInBackground)
             {
                 startInfo.CreateNoWindow = true;

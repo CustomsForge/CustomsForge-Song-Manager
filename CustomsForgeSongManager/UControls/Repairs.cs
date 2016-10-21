@@ -12,6 +12,7 @@ using System.Threading;
 using CFSM.GenTools;
 using CustomsForgeSongManager.DataObjects;
 using CustomsForgeSongManager.Forms;
+using SevenZip;
 
 
 namespace CustomsForgeSongManager.UControls
@@ -32,7 +33,9 @@ namespace CustomsForgeSongManager.UControls
         public void RepairAllCDLC()
         {
             List<string> log = new List<string>();
+            string extraArgs = "", message = "", songPath = "";
             int progress = 0, failed = 0, songCount = Globals.SongCollection.Count();
+            dgvLog.Rows.Clear();
 
             if (!File.Exists("remastered.exe"))
             {
@@ -40,11 +43,27 @@ namespace CustomsForgeSongManager.UControls
                 return;
             }
 
+            if (checkPre.Checked)
+                extraArgs += " -pre";
+
+            if (checkOrg.Checked)
+                extraArgs += " -org";
+
             foreach (SongData song in Globals.SongCollection)
             {
                 if (!song.OfficialDLC)
                 {
-                    string message = GenExtensions.RunExtExe("remastered.exe", true, true, false, @"""" + song.FilePath + @"""");
+                    songPath = song.FilePath;
+
+                    if (checkOrg.Checked) //Would it be better to repair already repaired songs too?
+                    {
+                        if (File.Exists(songPath + ".org"))
+                            songPath = songPath + ".org";
+                        else
+                            continue;
+                    }
+
+                    message = GenExtensions.RunExtExe("remastered.exe", true, true, true, @"""" + songPath + @"""" + extraArgs);
 
                     if (message.ToLower().Contains("repair was sucessful"))
                         dgvLog.Rows.Add(song.Artist + "-" + song.Title, "Repair sucessful!");
@@ -54,7 +73,8 @@ namespace CustomsForgeSongManager.UControls
                     {
                         dgvLog.Rows.Add(song.Artist + "-" + song.Title, "Error! (saved to the log)");
 
-                        message = message.Remove(message.IndexOf("\r\n\r\n - 'Notice") + 1);
+                        if (message.Length > 0)
+                            message = message.Remove(message.IndexOf("\r\n\r\n - 'Notice") + 1);
                         log.Add(message);
 
                         failed++;
@@ -66,6 +86,10 @@ namespace CustomsForgeSongManager.UControls
 
                 lblProgress.Text = "Progress: " + progress.ToString() + "/" + songCount.ToString();
             }
+
+            //NOTE: this should probably be enabled/uncommented :)
+            //if (progress != failed)
+            //    Globals.RescanSongManager = true;
 
             failedRepairsLog = log;
             MessageBox.Show("Song collection repairing done!", "Done!", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -82,11 +106,12 @@ namespace CustomsForgeSongManager.UControls
         private void btnRemoveBackup_Click(object sender, EventArgs e)
         {
             string repairedPath, backupPath;
-
-            if (MessageBox.Show("Are you sure you want to remove your backuped songs?", "Warning", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            try
             {
-                try
+                if (MessageBox.Show("Are you sure you want to remove your backuped songs?", "Warning", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
+                    Globals.Log("Removing backuped songs...");
+
                     List<string> backups = Directory.GetFiles(Path.Combine(AppSettings.Instance.RSInstalledDir, "dlc"), "*_p.psarc.org", SearchOption.AllDirectories).ToList();
 
                     for (int i = backups.Count - 1; i >= 0; i--)
@@ -99,11 +124,13 @@ namespace CustomsForgeSongManager.UControls
                         else
                             File.Move(backupPath, repairedPath);
                     }
+
+                    Globals.Log("Backuped songs removed...");
                 }
-                catch (IOException ex)
-                {
-                    Globals.Log(ex.Message);
-                }
+            }
+            catch (IOException ex)
+            {
+                Globals.Log(ex.Message);
             }
         }
 
@@ -113,8 +140,10 @@ namespace CustomsForgeSongManager.UControls
 
             try
             {
-                if (MessageBox.Show("Are you sure you want to remove your backuped songs?", "Warning", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                if (MessageBox.Show("Are you sure you want to restore your backuped songs?", "Warning", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
+                    Globals.Log("Restoring backuped songs...");
+
                     List<string> backups = Directory.GetFiles(Path.Combine(AppSettings.Instance.RSInstalledDir, "dlc"), "*_p.psarc.org", SearchOption.AllDirectories).ToList();
 
                     for (int i = backups.Count - 1; i >= 0; i--)
@@ -127,6 +156,8 @@ namespace CustomsForgeSongManager.UControls
 
                         File.Move(backupPath, repairedPath);
                     }
+
+                    Globals.Log("Backuped songs restored...");
                 }
             }
             catch (IOException ex)

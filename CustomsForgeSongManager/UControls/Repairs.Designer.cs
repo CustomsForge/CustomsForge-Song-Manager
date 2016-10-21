@@ -34,6 +34,8 @@
             this.lblFailedRepairs = new System.Windows.Forms.Label();
             this.lblProgress = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.checkOrg = new System.Windows.Forms.CheckBox();
+            this.checkPre = new System.Windows.Forms.CheckBox();
             this.btnRemoveBackup = new System.Windows.Forms.Button();
             this.btnRestoreBackup = new System.Windows.Forms.Button();
             this.btnRepairCDLCs = new System.Windows.Forms.Button();
@@ -105,6 +107,8 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.checkOrg);
+            this.panel1.Controls.Add(this.checkPre);
             this.panel1.Controls.Add(this.btnRemoveBackup);
             this.panel1.Controls.Add(this.btnRestoreBackup);
             this.panel1.Controls.Add(this.btnRepairCDLCs);
@@ -114,13 +118,35 @@
             this.panel1.Size = new System.Drawing.Size(889, 138);
             this.panel1.TabIndex = 4;
             // 
+            // checkOrg
+            // 
+            this.checkOrg.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.checkOrg.AutoSize = true;
+            this.checkOrg.Location = new System.Drawing.Point(755, 48);
+            this.checkOrg.Name = "checkOrg";
+            this.checkOrg.Size = new System.Drawing.Size(133, 30);
+            this.checkOrg.TabIndex = 7;
+            this.checkOrg.Text = "Permit renamed CDLC \r\nto be repaired";
+            this.checkOrg.UseVisualStyleBackColor = true;
+            // 
+            // checkPre
+            // 
+            this.checkPre.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.checkPre.AutoSize = true;
+            this.checkPre.Location = new System.Drawing.Point(755, 25);
+            this.checkPre.Name = "checkPre";
+            this.checkPre.Size = new System.Drawing.Size(119, 17);
+            this.checkPre.TabIndex = 6;
+            this.checkPre.Text = "Preserve song stats";
+            this.checkPre.UseVisualStyleBackColor = true;
+            // 
             // btnRemoveBackup
             // 
             this.btnRemoveBackup.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnRemoveBackup.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.btnRemoveBackup.Image = global::CustomsForgeSongManager.Properties.Resources.deleteBackup;
             this.btnRemoveBackup.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnRemoveBackup.Location = new System.Drawing.Point(216, 86);
+            this.btnRemoveBackup.Location = new System.Drawing.Point(213, 86);
             this.btnRemoveBackup.Name = "btnRemoveBackup";
             this.btnRemoveBackup.Size = new System.Drawing.Size(187, 47);
             this.btnRemoveBackup.TabIndex = 5;
@@ -134,7 +160,7 @@
             this.btnRestoreBackup.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.btnRestoreBackup.Image = ((System.Drawing.Image)(resources.GetObject("btnRestoreBackup.Image")));
             this.btnRestoreBackup.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnRestoreBackup.Location = new System.Drawing.Point(448, 86);
+            this.btnRestoreBackup.Location = new System.Drawing.Point(445, 86);
             this.btnRestoreBackup.Name = "btnRestoreBackup";
             this.btnRestoreBackup.Size = new System.Drawing.Size(187, 47);
             this.btnRestoreBackup.TabIndex = 4;
@@ -148,7 +174,7 @@
             this.btnRepairCDLCs.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.btnRepairCDLCs.Image = global::CustomsForgeSongManager.Properties.Resources.maintenance_48;
             this.btnRepairCDLCs.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnRepairCDLCs.Location = new System.Drawing.Point(115, 20);
+            this.btnRepairCDLCs.Location = new System.Drawing.Point(108, 20);
             this.btnRepairCDLCs.Name = "btnRepairCDLCs";
             this.btnRepairCDLCs.Size = new System.Drawing.Size(641, 57);
             this.btnRepairCDLCs.TabIndex = 3;
@@ -252,6 +278,7 @@
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             this.panel4.ResumeLayout(false);
@@ -279,6 +306,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Message;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnShowLogOfFailedRepairs;
+        private System.Windows.Forms.CheckBox checkOrg;
+        private System.Windows.Forms.CheckBox checkPre;
 
     }
 }
