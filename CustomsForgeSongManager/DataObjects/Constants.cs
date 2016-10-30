@@ -87,6 +87,11 @@ namespace CustomsForgeSongManager.DataObjects
         public static string SongsRs1DiscInternalPath { get { return @"manifests/songs_rs1disc/songs_rs1disc.hsan"; } }
         public static string SongsRs1DlcInternalPath { get { return @"manifests/songs_rs1dlc/songs_rs1dlc.hsan"; } }
 
+        //RemasteredCLI_Folder can as well be placed in WorkDirectory
+        public static string RemasteredCLI_Folder { get { return Path.Combine(Rs2BackupDirectory, "Remastered_CLI"); } }
+        public static string RemasteredCLI_CorruptCDLCFolder { get { return Path.Combine(RemasteredCLI_Folder, "corrupt"); } }
+        public static string RemasteredCLI_OrgCDLCFolder { get { return Path.Combine(RemasteredCLI_Folder, "original"); } }
+
         #region URL constants
 
         public const string RSToolkitURL = "http://www.rscustom.net/";
@@ -103,7 +108,7 @@ namespace CustomsForgeSongManager.DataObjects
 #if (DEBUG)
  @"http://ignition.dev.customsforge.com/api/search";
 #else
-                 @"http://ignition.dev.customsforge.com/api/search";
+ @"http://ignition.dev.customsforge.com/api/search";
 #endif
 
         #endregion

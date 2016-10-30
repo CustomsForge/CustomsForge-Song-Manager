@@ -541,6 +541,9 @@
     <None Include="Resources\cfsm_48x48.ico" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\zip-24.ico" />
+    <None Include="Resources\zip-32.ico" />
+    <None Include="Resources\zip-24 %281%29.ico" />
     <None Include="Licenses.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -601,6 +604,9 @@
     <None Include="Resources\delete-24.png" />
     <None Include="Resources\note-6-64x64.png" />
     <None Include="Resources\log-icon.png" />
+    <None Include="Resources\file-zip-icon-6809-16x16.ico" />
+    <None Include="Resources\File Types Zip.ico" />
+    <None Include="Resources\File Types Zip1.ico" />
     <Content Include="Resources\TaggerHelp.html" />
     <Content Include="Resources\Unleashed2k.png" />
     <EmbeddedResource Include="Resources\tags\frackDefaultprev.png" />

@@ -181,6 +181,14 @@ namespace CFSM.GenTools
 
         #region Directory Methods
 
+        public static void CleanDir(this System.IO.DirectoryInfo directory, bool deleteSubDirs = false)
+        {
+            foreach (FileInfo file in directory.GetFiles()) file.Delete();
+
+            if (deleteSubDirs)
+                foreach (DirectoryInfo subDirectory in directory.GetDirectories()) subDirectory.Delete(true);
+        }
+
         public static void DeleteEmptyDirs(this DirectoryInfo dir)
         {
             foreach (DirectoryInfo d in dir.GetDirectories())
@@ -234,7 +242,7 @@ namespace CFSM.GenTools
                                      ? Path.Combine(rootPath, exeFileName)
                                      : exeFileName;
             startInfo.WorkingDirectory = rootPath;
-            
+
             if (runInBackground)
             {
                 startInfo.CreateNoWindow = true;

@@ -34,6 +34,8 @@
             this.lblFailedRepairs = new System.Windows.Forms.Label();
             this.lblProgress = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnRemoveCorruptFiles = new System.Windows.Forms.Button();
+            this.btnArchiveCorruptCDLC = new System.Windows.Forms.Button();
             this.checkOrg = new System.Windows.Forms.CheckBox();
             this.checkPre = new System.Windows.Forms.CheckBox();
             this.btnRemoveBackup = new System.Windows.Forms.Button();
@@ -107,6 +109,8 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.btnRemoveCorruptFiles);
+            this.panel1.Controls.Add(this.btnArchiveCorruptCDLC);
             this.panel1.Controls.Add(this.checkOrg);
             this.panel1.Controls.Add(this.checkPre);
             this.panel1.Controls.Add(this.btnRemoveBackup);
@@ -117,6 +121,34 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(889, 138);
             this.panel1.TabIndex = 4;
+            // 
+            // btnRemoveCorruptFiles
+            // 
+            this.btnRemoveCorruptFiles.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnRemoveCorruptFiles.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.btnRemoveCorruptFiles.Image = global::CustomsForgeSongManager.Properties.Resources.deleteBackup;
+            this.btnRemoveCorruptFiles.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnRemoveCorruptFiles.Location = new System.Drawing.Point(666, 86);
+            this.btnRemoveCorruptFiles.Name = "btnRemoveCorruptFiles";
+            this.btnRemoveCorruptFiles.Size = new System.Drawing.Size(204, 47);
+            this.btnRemoveCorruptFiles.TabIndex = 9;
+            this.btnRemoveCorruptFiles.Text = "Remove corrupt CDLC";
+            this.btnRemoveCorruptFiles.UseVisualStyleBackColor = true;
+            this.btnRemoveCorruptFiles.Click += new System.EventHandler(this.btnRemoveCorruptFiles_Click);
+            // 
+            // btnArchiveCorruptCDLC
+            // 
+            this.btnArchiveCorruptCDLC.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnArchiveCorruptCDLC.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.btnArchiveCorruptCDLC.Image = global::CustomsForgeSongManager.Properties.Resources.zip_24__1_;
+            this.btnArchiveCorruptCDLC.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnArchiveCorruptCDLC.Location = new System.Drawing.Point(451, 86);
+            this.btnArchiveCorruptCDLC.Name = "btnArchiveCorruptCDLC";
+            this.btnArchiveCorruptCDLC.Size = new System.Drawing.Size(204, 47);
+            this.btnArchiveCorruptCDLC.TabIndex = 8;
+            this.btnArchiveCorruptCDLC.Text = "Archive corrupt CDLC";
+            this.btnArchiveCorruptCDLC.UseVisualStyleBackColor = true;
+            this.btnArchiveCorruptCDLC.Click += new System.EventHandler(this.btnArchiveCorruptCDLC_Click);
             // 
             // checkOrg
             // 
@@ -146,9 +178,9 @@
             this.btnRemoveBackup.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.btnRemoveBackup.Image = global::CustomsForgeSongManager.Properties.Resources.deleteBackup;
             this.btnRemoveBackup.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnRemoveBackup.Location = new System.Drawing.Point(213, 86);
+            this.btnRemoveBackup.Location = new System.Drawing.Point(19, 86);
             this.btnRemoveBackup.Name = "btnRemoveBackup";
-            this.btnRemoveBackup.Size = new System.Drawing.Size(187, 47);
+            this.btnRemoveBackup.Size = new System.Drawing.Size(204, 47);
             this.btnRemoveBackup.TabIndex = 5;
             this.btnRemoveBackup.Text = "Remove backup";
             this.btnRemoveBackup.UseVisualStyleBackColor = true;
@@ -160,9 +192,9 @@
             this.btnRestoreBackup.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.btnRestoreBackup.Image = ((System.Drawing.Image)(resources.GetObject("btnRestoreBackup.Image")));
             this.btnRestoreBackup.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnRestoreBackup.Location = new System.Drawing.Point(445, 86);
+            this.btnRestoreBackup.Location = new System.Drawing.Point(236, 86);
             this.btnRestoreBackup.Name = "btnRestoreBackup";
-            this.btnRestoreBackup.Size = new System.Drawing.Size(187, 47);
+            this.btnRestoreBackup.Size = new System.Drawing.Size(204, 47);
             this.btnRestoreBackup.TabIndex = 4;
             this.btnRestoreBackup.Text = "Restore backup";
             this.btnRestoreBackup.UseVisualStyleBackColor = true;
@@ -308,6 +340,8 @@
         private System.Windows.Forms.Button btnShowLogOfFailedRepairs;
         private System.Windows.Forms.CheckBox checkOrg;
         private System.Windows.Forms.CheckBox checkPre;
+        private System.Windows.Forms.Button btnRemoveCorruptFiles;
+        private System.Windows.Forms.Button btnArchiveCorruptCDLC;
 
     }
 }

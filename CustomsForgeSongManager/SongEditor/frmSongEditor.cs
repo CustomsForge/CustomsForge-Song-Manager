@@ -87,7 +87,7 @@ namespace CustomsForgeSongManager.SongEditor
                     UpdateXml(arr, packageData, updateArrangmentID);
 
                     if (arr.ArrangementType == ArrangementType.Guitar || arr.ArrangementType == ArrangementType.Bass)
-                        Song2014.WriteXmlComments(arr.SongXml.File, arr.XmlComments, true, String.Format("CFSM v{0}", Constants.CustomVersion()));
+                        Song2014.WriteXmlComments(arr.SongXml.File, arr.XmlComments, true, true, String.Format("CFSM v{0}", Constants.CustomVersion()));
                 }
 
                 tsProgressBar.Value = 60;

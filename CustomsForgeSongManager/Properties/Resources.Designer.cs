@@ -631,6 +631,42 @@ namespace CustomsForgeSongManager.Properties
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap File_Types_Zip
+        {
+            get
+            {
+                object obj = ResourceManager.GetObject("File Types Zip", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap File_Types_Zip1
+        {
+            get
+            {
+                object obj = ResourceManager.GetObject("File Types Zip1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap file_zip_icon_6809_16x16
+        {
+            get
+            {
+                object obj = ResourceManager.GetObject("file-zip-icon-6809-16x16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap folder_open
         {
             get
@@ -1665,6 +1701,42 @@ namespace CustomsForgeSongManager.Properties
             get
             {
                 return ResourceManager.GetString("YouAreAboutToPermanentlyDeleteAllSelectedS", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon zip_24
+        {
+            get
+            {
+                object obj = ResourceManager.GetObject("zip_24", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap zip_24__1_
+        {
+            get
+            {
+                object obj = ResourceManager.GetObject("zip-24 (1)", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap zip_32
+        {
+            get
+            {
+                object obj = ResourceManager.GetObject("zip-32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
     }
