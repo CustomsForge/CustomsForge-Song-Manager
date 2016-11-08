@@ -617,7 +617,7 @@ namespace CustomsForgeSongManager.UControls
 
         public void TabLeave()
         {
-            ToggleToolStrip(false);
+            //ToggleToolStrip(false);
             Globals.Log("Repairs GUI TabLeave...");
         }
 
