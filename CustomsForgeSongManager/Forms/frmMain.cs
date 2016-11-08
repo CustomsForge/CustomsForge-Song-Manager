@@ -11,6 +11,10 @@ using CustomsForgeSongManager.DataObjects;
 using CustomsForgeSongManager.LocalTools;
 using CustomsForgeSongManager.UITheme;
 
+// NOTE: the app is designed for default user screen resolution of 1024x768
+// dev screen resolution should be set to this when designing forms and controls
+// all png images are 16x16 resolution for buttons, unless higher resolution for some other use
+
 namespace CustomsForgeSongManager.Forms
 {
     public partial class frmMain : Form, IMainForm //,ThemedForm

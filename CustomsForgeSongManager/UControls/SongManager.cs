@@ -506,10 +506,10 @@ namespace CustomsForgeSongManager.UControls
 
             // this is done here in case user decided to manually delete all songs
             // the default initial load condition does not include RS1 Compatiblity or SongPack files
-            var dlcFiles = Directory.EnumerateFiles(Path.Combine(AppSettings.Instance.RSInstalledDir, "dlc"), "*.psarc", SearchOption.AllDirectories).Where(fi => !fi.ToLower().Contains(Constants.RS1COMP) && !fi.ToLower().Contains(Constants.SONGPACK) && !fi.ToLower().Contains(Constants.ABVSONGPACK)).ToArray();
+            var dlcFiles = Directory.EnumerateFiles(Constants.Rs2DlcDirectory, "*.psarc", SearchOption.AllDirectories).Where(fi => !fi.ToLower().Contains(Constants.RS1COMP) && !fi.ToLower().Contains(Constants.SONGPACK) && !fi.ToLower().Contains(Constants.ABVSONGPACK)).ToArray();
             if (!dlcFiles.Any())
             {
-                var msgText = string.Format("Houston ... We have a problem!{0}There are no Rocksmith 2014 songs in:" + "{0}{1}{0}{0}Please select a valid Rocksmith 2014{0}installation directory when you restart CFSM.  ", Environment.NewLine, Path.Combine(AppSettings.Instance.RSInstalledDir, "dlc"));
+                var msgText = string.Format("Houston ... We have a problem!{0}There are no Rocksmith 2014 songs in:" + "{0}{1}{0}{0}Please select a valid Rocksmith 2014{0}installation directory when you restart CFSM.  ", Environment.NewLine, Constants.Rs2DlcDirectory);
                 MessageBox.Show(msgText, Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Stop);
 
                 if (Directory.Exists(Constants.WorkDirectory))
@@ -559,7 +559,7 @@ namespace CustomsForgeSongManager.UControls
             masterSongCollection.ToList().ForEach(a => a.Arrangements2D.ToList().ForEach(arr => arr.Parent = a));
 
             sw.Stop();
-            Globals.Log(String.Format("Parsing archives from {0} took: {1} (msec)", Path.Combine(AppSettings.Instance.RSInstalledDir, "dlc"), sw.ElapsedMilliseconds));
+            Globals.Log(String.Format("Parsing archives from {0} took: {1} (msec)", Constants.Rs2DlcDirectory, sw.ElapsedMilliseconds));
             Globals.Log("Loaded fresh song collection file ...");
             Globals.RescanSetlistManager = false;
             Globals.RescanDuplicates = false;

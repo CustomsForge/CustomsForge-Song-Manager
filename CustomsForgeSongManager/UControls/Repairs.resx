@@ -117,30 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="btnRestoreBackup.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAcNJREFUSEu1
-        lU0rBlEYhidfiSzZIEtFSVL8A9lY2FvavCUbC7FFyUJkI2wt5RewYyWlrGxRyH9wX+fMDNP5mnfKXVc9
-        cz6eM/N8nMlqqEvMi1WxnYPNGHONNSaOxZd4EOdiJwebMeZYw9ra6hCb4lPgbFSExBxrWMse9kbVK67F
-        rRhhoKY4iD3sxYdXnM6CS9Ektt2CvfjwfgmfyFuknC8KEu0Th+ADXxWRJOKYCsuU+BBz5skvwoWvSuKp
-        BJKV0r34FkdimIGAdgU+jQgJ5RarlkJr4knsiXcxI3zCFz5NuGkYarqOiPGLmBbLud0jfMInvk1X0jh1
-        NSg6rZndiCVrOsInvk1FhOJ/IAas6RWx3rKmI3yaaosd8ChmrenViVi3pqPygFiI9sWhNR31iVcxYZ5c
-        lSGKJXlI4GTFPP2qX1yJC/PkV5nkVJlOimdxJ8jJqXgTZyJUQZUyRalGo2oWxIZoiXERU6XRUHFV1Gm2
-        lPDhXBWouOxopqYKXnbo369r9PeH0064WMse9gZ/OIU4nU8kjiQ+dhBzJJS17Am+uU8kiUqg3KhpGocD
-        AZsx5ljjJLQdkQ8ahq6k9QGbsUSusuwHqRhdflSrlJAAAAAASUVORK5CYII=
-</value>
-  </data>
-  <metadata name="colRepairsCurrDLC.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>23, 5</value>
+  </metadata>
+  <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>23, 5</value>
+  </metadata>
+  <metadata name="colFileName.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <metadata name="Message.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <metadata name="colMessage.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <metadata name="colRepairsCurrDLC.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <metadata name="colFileName.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <metadata name="Message.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <metadata name="colMessage.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
+  </metadata>
+  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>28</value>
   </metadata>
 </root>

@@ -46,29 +46,30 @@ namespace CustomsForgeSongManager.DataObjects
         {
             get
             {
-                var SearchPath = Path.Combine(AppSettings.Instance.RSInstalledDir, "dlc");
+                var dlcPath = Rs2DlcDirectory;
                 // TODO: determine if GetFiles is case sensitive
-                var files = Directory.GetFiles(SearchPath, "rs1compatibilitydisc_p.psarc", SearchOption.AllDirectories);
+                var files = Directory.GetFiles(dlcPath, "rs1compatibilitydisc_p.psarc", SearchOption.AllDirectories);
                 if (files.Length > 0)
                     return files[0];
-                return Path.Combine(SearchPath, "rs1compatibilitydisc_p.psarc");
+                return Path.Combine(dlcPath, "rs1compatibilitydisc_p.psarc");
             }
         }
 
         public static string Rs1DlcPsarcPath
         {
             get
-            {
-                var SearchPath = Path.Combine(AppSettings.Instance.RSInstalledDir, "dlc");
+            { 
+                var dlcPath = Rs2DlcDirectory;
                 // TODO: determine if GetFiles is case sensitive
-                var files = Directory.GetFiles(SearchPath, "rs1compatibilitydlc_p.psarc", SearchOption.AllDirectories);
+                var files = Directory.GetFiles(dlcPath, "rs1compatibilitydlc_p.psarc", SearchOption.AllDirectories);
                 if (files.Length > 0)
                     return files[0];
-                return Path.Combine(SearchPath, "rs1compatibilitydlc_p.psarc");
+                return Path.Combine(dlcPath, "rs1compatibilitydlc_p.psarc");
             }
         }
 
         // write access to the Steam RSInstallDir is provided by the code 
+        public static string Rs2DlcDirectory { get { return Path.Combine(AppSettings.Instance.RSInstalledDir, "dlc"); } }
         public static string Rs2BackupDirectory { get { return Path.Combine(AppSettings.Instance.RSInstalledDir, "backup"); } }
         public static string Rs1DiscPsarcBackupPath { get { return Path.Combine(Rs2BackupDirectory, "rs1compatibilitydisc_p.psarc.org"); } }
         public static string Rs1DlcPsarcBackupPath { get { return Path.Combine(Rs2BackupDirectory, "rs1compatibilitydlc_p.psarc.org"); } }
@@ -87,14 +88,14 @@ namespace CustomsForgeSongManager.DataObjects
         public static string SongsRs1DiscInternalPath { get { return @"manifests/songs_rs1disc/songs_rs1disc.hsan"; } }
         public static string SongsRs1DlcInternalPath { get { return @"manifests/songs_rs1dlc/songs_rs1dlc.hsan"; } }
 
-        //RemasteredCLI_Folder can as well be placed in WorkDirectory
-        public static string RemasteredCLI_Folder { get { return Path.Combine(Rs2BackupDirectory, "Remastered_CLI"); } }
-        public static string RemasteredCLI_CorruptCDLCFolder { get { return Path.Combine(RemasteredCLI_Folder, "corrupt"); } }
-        public static string RemasteredCLI_OrgCDLCFolder { get { return Path.Combine(RemasteredCLI_Folder, "original"); } }
+        //Remastered_Folder placed in Rocksmith 2014 root, 'backup' subdirectory
+        public static string Remastered_Folder { get { return Path.Combine(Rs2BackupDirectory, "remastered"); } }
+        public static string Remastered_CorruptCDLCFolder { get { return Path.Combine(Remastered_Folder, "corrupt"); } }
+        public static string Remastered_OrgCDLCFolder { get { return Path.Combine(Remastered_Folder, "original"); } }
 
         #region URL constants
 
-        public const string RSToolkitURL = "http://www.rscustom.net/";
+        public const string RSToolkitURL = "https://www.rscustom.net/";
         public const string CustomsForgeURL = "http://customsforge.com/";
         public const string CustomsForgeUserURL_Format = CustomsForgeURL + "user/{0}/";
         public const string IgnitionURL = "http://ignition.customsforge.com/";

@@ -52,11 +52,11 @@ namespace CustomsForgeSongManager.SongEditor
         }
 
         private void Save(string outputPath)
-        {            
+        {
             Globals.Log("Saving song information for: " + Path.GetFileName(outputPath));
             Cursor.Current = Cursors.WaitCursor;
             tsProgressBar.Value = 30;
-           
+
             // force validation of user controls
             this.ValidateChildren();
 
@@ -87,7 +87,20 @@ namespace CustomsForgeSongManager.SongEditor
                     UpdateXml(arr, packageData, updateArrangmentID);
 
                     if (arr.ArrangementType == ArrangementType.Guitar || arr.ArrangementType == ArrangementType.Bass)
-                        Song2014.WriteXmlComments(arr.SongXml.File, arr.XmlComments, true, true, String.Format("CFSM v{0}", Constants.CustomVersion()));
+                    {
+                        var isCommented = false;
+                        var cfsmComment = String.Format("CFSM v{0}", Constants.CustomVersion());
+                        var commentNodes = arr.XmlComments as List<XComment> ?? arr.XmlComments.ToList();
+
+                        foreach (var commentNode in commentNodes)
+                        {
+                            if (commentNode.ToString().Contains(cfsmComment))
+                                isCommented = true;
+                        }
+        
+                        if (!isCommented)
+                            Song2014.WriteXmlComments(arr.SongXml.File, commentNodes, customComment: cfsmComment);
+                    }
                 }
 
                 tsProgressBar.Value = 60;
@@ -131,7 +144,7 @@ namespace CustomsForgeSongManager.SongEditor
 
         private void tslSave_Click(object sender, EventArgs e)
         {
-             Save(filePath);
+            Save(filePath);
         }
 
         private void tslSaveAs_Click(object sender, EventArgs e)

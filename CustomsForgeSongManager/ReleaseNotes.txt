@@ -1,4 +1,26 @@
 ﻿CFSM Release Notes
+
+1.2.6.4
+- fixed bug duplicate CFSM comments were being added to XML files
+- added SubclassedDataGridView for better control over scrollbar visibility
+- reworked Repairs tab feature 
+- localized code from remastered.exe CLI for better performance and reporting
+- added progress and status reporting to Repairs tab
+- added auto clean to 'dlc' folder to prevent issues with old backup files
+
+1.2.6.3
+- added multithreading to Repairs tab
+
+1.2.6.2
+- updated Repairs tab - added the new version of RemasteredCLI & RSTK lib
+- fixed the log and the backup function
+- added an option to make an archive with corrupt CDLC and remove them
+- updated ODLC list
+
+1.2.6.1
+- add new CDLC remaster/repair options to 'Repairs' tab
+- fixed the archiving issue SongPacks tab (updated 7z.dll and code)
+
 1.2.6.0
 -Add option to repair/"remaster" CDLC affected by 100% bug
 -Updated RSTK libs

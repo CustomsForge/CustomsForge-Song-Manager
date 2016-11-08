@@ -170,9 +170,9 @@ namespace CustomsForgeSongManager.DataObjects
         //property template
         //public type PropName { get { return propName; } set { SetPropertyField("PropName", ref propName, value); } }
 
-        private static AppSettings _instance;
         private string _themeName;
 
+        private static AppSettings _instance;
         public static AppSettings Instance
         {
             get

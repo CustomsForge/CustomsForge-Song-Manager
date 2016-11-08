@@ -262,6 +262,11 @@
     <Compile Include="DataObjects\Globals.cs" />
     <Compile Include="LocalTools\Ignition.cs" />
     <Compile Include="LocalTools\PsarcBrowser.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="SongEditor\DLCPackageEditorControlBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -435,6 +440,10 @@
       <DependentUpon>frmMain.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="SongEditor\frmArrangement.resx">
       <DependentUpon>frmArrangement.cs</DependentUpon>
     </EmbeddedResource>
@@ -459,16 +468,6 @@
     <EmbeddedResource Include="Forms\frmSongInfo.resx">
       <DependentUpon>frmSongInfo.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <SubType>Designer</SubType>
-      <LastGenOutput>Resources1.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <EmbeddedResource Include="SongEditor\ucArrangements.resx">
       <DependentUpon>ucArrangements.cs</DependentUpon>
     </EmbeddedResource>
@@ -541,9 +540,7 @@
     <None Include="Resources\cfsm_48x48.ico" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\zip-24.ico" />
-    <None Include="Resources\zip-32.ico" />
-    <None Include="Resources\zip-24 %281%29.ico" />
+    <None Include="Resources\zip.png" />
     <None Include="Licenses.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -567,11 +564,11 @@
     <None Include="Resources\15.png" />
     <None Include="Resources\RocksmithToolkitGUI_32512.png" />
     <EmbeddedResource Include="Resources\htmExport.css" />
-    <None Include="Resources\1476551310_delete.png" />
-    <Content Include="Resources\151.png" />
+    <None Include="Resources\151.png" />
     <None Include="Resources\copy.png" />
     <None Include="Resources\CGT_Logo.png" />
-    <Content Include="Resources\dardev.png" />
+    <None Include="Resources\broom.png" />
+    <None Include="Resources\dardev.png" />
     <None Include="Resources\Lovroman.png" />
     <None Include="Resources\media_pause.png" />
     <None Include="Resources\media_play_green.png" />
@@ -594,21 +591,17 @@
     <None Include="Resources\refresh.png" />
     <None Include="Resources\onoff.png" />
     <None Include="Resources\SelectCol.png" />
-    <None Include="Resources\LedGuitar.png" />
-    <None Include="Resources\maintenance_16.png" />
     <None Include="Resources\maintenance_48.png" />
-    <None Include="Resources\restoreBackup.png" />
-    <None Include="Resources\restoreBackup_48.bmp" />
-    <None Include="Resources\Restore-Window-icon.png" />
-    <None Include="Resources\Restore-Window-icon %281%29.png" />
-    <None Include="Resources\delete-24.png" />
-    <None Include="Resources\note-6-64x64.png" />
-    <None Include="Resources\log-icon.png" />
-    <None Include="Resources\file-zip-icon-6809-16x16.ico" />
-    <None Include="Resources\File Types Zip.ico" />
+    <None Include="Resources\restorebackup.png" />
     <None Include="Resources\File Types Zip1.ico" />
+    <None Include="Resources\restorewindow.png" />
+    <None Include="Resources\delete2.png" />
+    <None Include="Resources\log.png" />
+    <None Include="Resources\maintenance.png" />
+    <None Include="Resources\notes.png" />
     <Content Include="Resources\TaggerHelp.html" />
-    <Content Include="Resources\Unleashed2k.png" />
+    <None Include="Resources\trashcan.png" />
+    <None Include="Resources\Unleashed2k.png" />
     <EmbeddedResource Include="Resources\tags\frackDefaultprev.png" />
     <EmbeddedResource Include="Resources\tags\frackDefault\Background.png" />
     <EmbeddedResource Include="Resources\tags\frackDefault\Bass Bonus.png" />
@@ -680,7 +673,6 @@
     <None Include="Resources\Letter V black_small.png" />
     <None Include="Resources\Letter B black_small.png" />
     <None Include="Resources\rescan.png" />
-    <None Include="Resources\rescan1.png" />
     <None Include="Resources\clear.png" />
     <EmbeddedResource Include="Resources\tags\Default.tagtheme" />
     <EmbeddedResource Include="Resources\tags\example1.tagtheme" />
