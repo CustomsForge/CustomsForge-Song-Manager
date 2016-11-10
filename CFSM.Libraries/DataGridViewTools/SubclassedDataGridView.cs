@@ -54,5 +54,7 @@ namespace DataGridViewTools
             get { return HorizontalScrollBar.Visible; }
             set { HorizontalScrollBar.Visible = value; }
         }
+
+      
     }
 }

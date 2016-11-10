@@ -1,5 +1,11 @@
 ﻿CFSM Release Notes
 
+1.2.6.5
+- split out Repair functionality into separate reusable methods
+- optimized use of Repair background worker
+- additional progress and reporting features for Repair 
+- added toggling to Repair controls to prevent some mistakes
+
 1.2.6.4
 - fixed bug duplicate CFSM comments were being added to XML files
 - added SubclassedDataGridView for better control over scrollbar visibility
