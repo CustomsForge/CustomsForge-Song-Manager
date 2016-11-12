@@ -240,7 +240,7 @@ namespace CustomsForgeSongManager.UControls
             if (File.Exists(Constants.ExtractedSongsHsanPath))
                 File.Delete(Constants.ExtractedSongsHsanPath);
 
-            if (ZipUtilities.ExtractSingleFile(Constants.CpeWorkDirectory, Constants.Cache7zPath, Constants.SongsHsanInternalPath))
+            if (ZipUtilities.ExtractSingleFile(Constants.CpeWorkFolder, Constants.Cache7zPath, Constants.SongsHsanInternalPath))
             {
                 FileInfo f = new FileInfo(Constants.ExtractedSongsHsanPath);
                 if (f.Length > 0)
@@ -326,11 +326,11 @@ namespace CustomsForgeSongManager.UControls
             }
 
             // song pack produced by toolkit has only one hsan file
-            customInternalHsanPath = PsarcExtensions.ExtractArchiveFile(customPackPsarcPath, "hsan", Constants.CpeWorkDirectory);
+            customInternalHsanPath = PsarcExtensions.ExtractArchiveFile(customPackPsarcPath, "hsan", Constants.CpeWorkFolder);
             var extractedCustomHsanFile = Path.GetFileName(customInternalHsanPath);
-            extractedCustomHsanPath = Path.Combine(Constants.CpeWorkDirectory, extractedCustomHsanFile);
-            ConditionalBackup(customPackPsarcPath, Path.Combine(Constants.Rs2BackupDirectory, Path.ChangeExtension(Path.GetFileName(customPackPsarcPath), ".psarc.org")));
-            ConditionalBackup(extractedCustomHsanPath, Path.Combine(Constants.Rs2BackupDirectory, Path.ChangeExtension(extractedCustomHsanFile, ".hsan.org")));
+            extractedCustomHsanPath = Path.Combine(Constants.CpeWorkFolder, extractedCustomHsanFile);
+            ConditionalBackup(customPackPsarcPath, Path.Combine(Constants.SongPacksOrgFolder, Path.ChangeExtension(Path.GetFileName(customPackPsarcPath), ".psarc.org")));
+            ConditionalBackup(extractedCustomHsanPath, Path.Combine(Constants.SongPacksOrgFolder, Path.ChangeExtension(extractedCustomHsanFile, ".hsan.org")));
             PopulateSongList(extractedCustomHsanPath, CustomSongCollection, ref CustomEntireCollection, CustomDisabledSongCollection, ref CustomDisabledEntireCollection);
 
             if (CustomSongCollection.Count > 0)
@@ -557,11 +557,11 @@ namespace CustomsForgeSongManager.UControls
                     Globals.Log("cache.psarc backup restored ...");
                 }
 
-                if (Directory.Exists(Constants.CpeWorkDirectory))
+                if (Directory.Exists(Constants.CpeWorkFolder))
                 {
                     Globals.TsProgressBar_Main.Value = 80;
-                    ZipUtilities.DeleteDirectory(Constants.CpeWorkDirectory);
-                    Globals.Log("Removed: " + Constants.CpeWorkDirectory + " ...");
+                    ZipUtilities.DeleteDirectory(Constants.CpeWorkFolder);
+                    Globals.Log("Removed: " + Constants.CpeWorkFolder + " ...");
                 }
 
                 Globals.TsProgressBar_Main.Value = 100;
@@ -696,7 +696,7 @@ namespace CustomsForgeSongManager.UControls
             Globals.Log("Smart Song Pack Loader Working ... ");
             ClearCollections();
             // SAFETY FIRST - make sure a backup of the original cache.psarc exists
-            if (!File.Exists(Path.Combine(Constants.Rs2BackupDirectory, Path.ChangeExtension(Path.GetFileName(Constants.CachePsarcPath), ".psarc.org"))) || !File.Exists(Constants.ExtractedSongsHsanPath))
+            if (!File.Exists(Path.Combine(Constants.SongPacksOrgFolder, Path.ChangeExtension(Path.GetFileName(Constants.CachePsarcPath), ".psarc.org"))) || !File.Exists(Constants.ExtractedSongsHsanPath))
             {
                 if (!UnpackPsarcFiles())
                     return false;
@@ -729,23 +729,23 @@ namespace CustomsForgeSongManager.UControls
                 }
 
                 this.Enabled = false;
-                Packer.Unpack(Constants.CachePsarcPath, Constants.CpeWorkDirectory);
+                Packer.Unpack(Constants.CachePsarcPath, Constants.CpeWorkFolder);
                 ExtractSongsHsan();
-                ConditionalBackup(Constants.CachePsarcPath, Path.Combine(Constants.Rs2BackupDirectory, Path.ChangeExtension(Path.GetFileName(Constants.CachePsarcPath), ".psarc.org")));
-                ConditionalBackup(Constants.ExtractedSongsHsanPath, Path.Combine(Constants.Rs2BackupDirectory, Path.ChangeExtension(Path.GetFileName(Constants.ExtractedSongsHsanPath), ".hsan.org")));
+                ConditionalBackup(Constants.CachePsarcPath, Path.Combine(Constants.SongPacksOrgFolder, Path.ChangeExtension(Path.GetFileName(Constants.CachePsarcPath), ".psarc.org")));
+                ConditionalBackup(Constants.ExtractedSongsHsanPath, Path.Combine(Constants.SongPacksOrgFolder, Path.ChangeExtension(Path.GetFileName(Constants.ExtractedSongsHsanPath), ".hsan.org")));
 
                 if (File.Exists(Constants.Rs1DiscPsarcPath))
                 {
-                    PsarcExtensions.ExtractArchiveFile(Constants.Rs1DiscPsarcPath, Constants.SongsRs1DiscInternalPath, Constants.CpeWorkDirectory);
-                    ConditionalBackup(Constants.Rs1DiscPsarcPath, Path.Combine(Constants.Rs2BackupDirectory, Path.ChangeExtension(Path.GetFileName(Constants.Rs1DiscPsarcPath), ".psarc.org")));
-                    ConditionalBackup(Constants.ExtractedRs1DiscHsanPath, Path.Combine(Constants.Rs2BackupDirectory, Path.ChangeExtension(Path.GetFileName(Constants.ExtractedRs1DiscHsanPath), ".hsan.org")));
+                    PsarcExtensions.ExtractArchiveFile(Constants.Rs1DiscPsarcPath, Constants.SongsRs1DiscInternalPath, Constants.CpeWorkFolder);
+                    ConditionalBackup(Constants.Rs1DiscPsarcPath, Path.Combine(Constants.SongPacksOrgFolder, Path.ChangeExtension(Path.GetFileName(Constants.Rs1DiscPsarcPath), ".psarc.org")));
+                    ConditionalBackup(Constants.ExtractedRs1DiscHsanPath, Path.Combine(Constants.SongPacksOrgFolder, Path.ChangeExtension(Path.GetFileName(Constants.ExtractedRs1DiscHsanPath), ".hsan.org")));
                 }
 
                 if (File.Exists(Constants.Rs1DlcPsarcPath))
                 {
-                    PsarcExtensions.ExtractArchiveFile(Constants.Rs1DlcPsarcPath, Constants.SongsRs1DlcInternalPath, Constants.CpeWorkDirectory);
-                    ConditionalBackup(Constants.Rs1DlcPsarcPath, Path.Combine(Constants.Rs2BackupDirectory, Path.ChangeExtension(Path.GetFileName(Constants.Rs1DlcPsarcPath), ".psarc.org")));
-                    ConditionalBackup(Constants.ExtractedRs1DlcHsanPath, Path.Combine(Constants.Rs2BackupDirectory, Path.ChangeExtension(Path.GetFileName(Constants.ExtractedRs1DlcHsanPath), ".hsan.org")));
+                    PsarcExtensions.ExtractArchiveFile(Constants.Rs1DlcPsarcPath, Constants.SongsRs1DlcInternalPath, Constants.CpeWorkFolder);
+                    ConditionalBackup(Constants.Rs1DlcPsarcPath, Path.Combine(Constants.SongPacksOrgFolder, Path.ChangeExtension(Path.GetFileName(Constants.Rs1DlcPsarcPath), ".psarc.org")));
+                    ConditionalBackup(Constants.ExtractedRs1DlcHsanPath, Path.Combine(Constants.SongPacksOrgFolder, Path.ChangeExtension(Path.GetFileName(Constants.ExtractedRs1DlcHsanPath), ".hsan.org")));
                 }
 
                 return true;

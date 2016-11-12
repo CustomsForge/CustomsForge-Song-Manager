@@ -78,10 +78,10 @@ namespace CustomsForgeSongManager.Forms
             Globals.OnScanEvent += (s, e) => { tcMain.InvokeIfRequired(a => { tcMain.Enabled = !e.IsScanning; }); };
 
             // create application directory structure if it does not exist
-            if (!Directory.Exists(Constants.WorkDirectory))
+            if (!Directory.Exists(Constants.WorkFolder))
             {
-                Directory.CreateDirectory(Constants.WorkDirectory);
-                Globals.Log(String.Format("Created working directory: {0}", Constants.WorkDirectory));
+                Directory.CreateDirectory(Constants.WorkFolder);
+                Globals.Log(String.Format("Created working directory: {0}", Constants.WorkFolder));
             }
 
             // initialize all global variables
@@ -185,11 +185,11 @@ namespace CustomsForgeSongManager.Forms
 
             if (AppSettings.Instance.CleanOnClosing)
             {
-                if (Directory.Exists(Constants.CpeWorkDirectory))
-                    ZipUtilities.DeleteDirectory(Constants.CpeWorkDirectory);
+                if (Directory.Exists(Constants.CpeWorkFolder))
+                    ZipUtilities.DeleteDirectory(Constants.CpeWorkFolder);
 
-                if (Directory.Exists(Constants.AudioCacheDirectory))
-                    ZipUtilities.DeleteDirectory(Constants.AudioCacheDirectory);
+                if (Directory.Exists(Constants.AudioCacheFolder))
+                    ZipUtilities.DeleteDirectory(Constants.AudioCacheFolder);
             }
 
             Globals.Settings.SaveSettingsToFile(Globals.DgvCurrent);
@@ -457,7 +457,7 @@ namespace CustomsForgeSongManager.Forms
 
         public void SongListToCSV()
         {
-            var path = Path.Combine(Constants.WorkDirectory, "SongListCSV.csv");
+            var path = Path.Combine(Constants.WorkFolder, "SongListCSV.csv");
             using (var sfdSongListToCSV = new SaveFileDialog() { Filter = "csv files(*.csv)|*.csv|All files (*.*)|*.*", FileName = path })
 
                 if (sfdSongListToCSV.ShowDialog() == DialogResult.OK)

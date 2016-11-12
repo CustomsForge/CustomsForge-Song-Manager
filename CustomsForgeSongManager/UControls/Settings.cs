@@ -121,8 +121,8 @@ namespace CustomsForgeSongManager.UControls
                 if (String.IsNullOrEmpty(dgvCurrent.Name))
                     return;
 
-                if (!Directory.Exists(Constants.GridSettingsDirectory))
-                    Directory.CreateDirectory(Constants.GridSettingsDirectory);
+                if (!Directory.Exists(Constants.GridSettingsFolder))
+                    Directory.CreateDirectory(Constants.GridSettingsFolder);
 
                 SerialExtensions.SaveToFile(Constants.GridSettingsPath, RAExtensions.SaveColumnOrder(dgvCurrent));
                 Globals.Log("Saved " + Path.GetFileName(Constants.GridSettingsPath) + " file ...");

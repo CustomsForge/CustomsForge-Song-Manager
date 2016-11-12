@@ -123,7 +123,7 @@ namespace CustomsForgeSongManager.UControls
             const string appExe = "RocksmithToolkitGUI.exe";
             const string appAcro = "RSTK";
             const string dlSubDir = appAcro + "_BIN";
-            var downloadDir = Path.Combine(Constants.WorkDirectory, dlSubDir);
+            var downloadDir = Path.Combine(Constants.WorkFolder, dlSubDir);
             var appExePath = Path.Combine(downloadDir, appExe);
 
             if (AutoUpdater.NeedsUpdate(appExePath, versInfoUrl))
@@ -170,7 +170,7 @@ namespace CustomsForgeSongManager.UControls
                             File.Delete(Path.Combine(downloadDir, appArchive));
                             Globals.Log(appAcro + " archive unpacked ... SUCCESSFUL");
 
-                            if (File.Exists(Path.Combine(Constants.WorkDirectory, "RocksmithToolkitLib.TuningDefinition.xml")))
+                            if (File.Exists(Path.Combine(Constants.WorkFolder, "RocksmithToolkitLib.TuningDefinition.xml")))
                             {
                                 XmlRepository<TuningDefinition> tuning = new TuningDefinitionRepository();
                                 XmlRepository<Config> config = new ConfigRepository();
@@ -210,7 +210,7 @@ namespace CustomsForgeSongManager.UControls
             const string appCfg = "eof.cfg";
             const string dlSubDir = appAcro + "_BIN";
             const string updateUrl = Constants.EOFURL + @"/download/3";
-            var downloadDir = Path.Combine(Constants.WorkDirectory, dlSubDir);
+            var downloadDir = Path.Combine(Constants.WorkFolder, dlSubDir);
 
             // EOF stores VersionInfo in the html div class description
             // NeedsUpdate can not be used for non .NET apps
@@ -268,7 +268,7 @@ namespace CustomsForgeSongManager.UControls
                         File.Delete(Path.Combine(downloadDir, appArchive));
                         Globals.Log(appArchive + " archive unpacked ... SUCCESSFUL");
 
-                        if (File.Exists(Path.Combine(Constants.WorkDirectory, appCfg)))
+                        if (File.Exists(Path.Combine(Constants.WorkFolder, appCfg)))
                         {
                             File.Copy(Path.Combine(Path.GetTempPath(), appCfg), Path.Combine(downloadDir, appCfg));
                             Globals.Log(appAcro + " configuration restored ...");
@@ -307,7 +307,7 @@ namespace CustomsForgeSongManager.UControls
             const string dlSubDir = appAcro + "_BIN";
             const string versInfoUrl = "https://goo.gl/K4y73H";
             const string downloadUrl = "https://goo.gl/qRBPFI";
-            var downloadDir = Path.Combine(Constants.WorkDirectory, dlSubDir);
+            var downloadDir = Path.Combine(Constants.WorkFolder, dlSubDir);
             var appSetupPath = Path.Combine(downloadDir, appSetup);
 
             if (AutoUpdater.NeedsUpdate(appSetupPath, versInfoUrl))

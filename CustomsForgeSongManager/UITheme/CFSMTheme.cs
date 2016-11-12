@@ -11,7 +11,7 @@ namespace CustomsForgeSongManager.UITheme
     {
         public CFSMTheme() : base()
         {
-            ThemeDirectory = Constants.ThemeDirectory;
+            ThemeDirectory = Constants.ThemeFolder;
             if (!Directory.Exists(ThemeDirectory))
                 Directory.CreateDirectory(ThemeDirectory);
         }

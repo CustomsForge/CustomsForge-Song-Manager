@@ -56,7 +56,7 @@ namespace CustomsForgeSongManager.UControls
                     sng.AudioCache = string.Format("{0}_{1}", Guid.NewGuid().ToString().Replace("-", ""), sng.FileSize);
                 }
 
-                var audioCacheDir = Constants.AudioCacheDirectory;
+                var audioCacheDir = Constants.AudioCacheFolder;
                 if (!Directory.Exists(audioCacheDir))
                     Directory.CreateDirectory(audioCacheDir);
 
@@ -344,8 +344,8 @@ namespace CustomsForgeSongManager.UControls
                 // log needs to written before it is deleted ... Bazinga
                 Globals.Log("Deleted CFSM folder and subfolders from My Documents ...");
 
-                if (Directory.Exists(Constants.WorkDirectory))
-                    ZipUtilities.DeleteDirectory(Constants.WorkDirectory);
+                if (Directory.Exists(Constants.WorkFolder))
+                    ZipUtilities.DeleteDirectory(Constants.WorkFolder);
 
                 MessageBox.Show(string.Format("{0}{1}{1}The program will now shut down.", err, Environment.NewLine), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Environment.Exit(0);
@@ -506,17 +506,17 @@ namespace CustomsForgeSongManager.UControls
 
             // this is done here in case user decided to manually delete all songs
             // the default initial load condition does not include RS1 Compatiblity or SongPack files
-            var dlcFiles = Directory.EnumerateFiles(Constants.Rs2DlcDirectory, "*.psarc", SearchOption.AllDirectories).Where(fi => !fi.ToLower().Contains(Constants.RS1COMP) && !fi.ToLower().Contains(Constants.SONGPACK) && !fi.ToLower().Contains(Constants.ABVSONGPACK)).ToArray();
+            var dlcFiles = Directory.EnumerateFiles(Constants.Rs2DlcFolder, "*.psarc", SearchOption.AllDirectories).Where(fi => !fi.ToLower().Contains(Constants.RS1COMP) && !fi.ToLower().Contains(Constants.SONGPACK) && !fi.ToLower().Contains(Constants.ABVSONGPACK)).ToArray();
             if (!dlcFiles.Any())
             {
-                var msgText = string.Format("Houston ... We have a problem!{0}There are no Rocksmith 2014 songs in:" + "{0}{1}{0}{0}Please select a valid Rocksmith 2014{0}installation directory when you restart CFSM.  ", Environment.NewLine, Constants.Rs2DlcDirectory);
+                var msgText = string.Format("Houston ... We have a problem!{0}There are no Rocksmith 2014 songs in:" + "{0}{1}{0}{0}Please select a valid Rocksmith 2014{0}installation directory when you restart CFSM.  ", Environment.NewLine, Constants.Rs2DlcFolder);
                 MessageBox.Show(msgText, Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Stop);
 
-                if (Directory.Exists(Constants.WorkDirectory))
+                if (Directory.Exists(Constants.WorkFolder))
                 {
                     File.Delete(Constants.SongsInfoPath);
-                    if (Directory.Exists(Constants.AudioCacheDirectory))
-                        Directory.Delete(Constants.AudioCacheDirectory);
+                    if (Directory.Exists(Constants.AudioCacheFolder))
+                        Directory.Delete(Constants.AudioCacheFolder);
                 }
 
                 // prevents write log attempt and shuts down the app
@@ -559,7 +559,7 @@ namespace CustomsForgeSongManager.UControls
             masterSongCollection.ToList().ForEach(a => a.Arrangements2D.ToList().ForEach(arr => arr.Parent = a));
 
             sw.Stop();
-            Globals.Log(String.Format("Parsing archives from {0} took: {1} (msec)", Constants.Rs2DlcDirectory, sw.ElapsedMilliseconds));
+            Globals.Log(String.Format("Parsing archives from {0} took: {1} (msec)", Constants.Rs2DlcFolder, sw.ElapsedMilliseconds));
             Globals.Log("Loaded fresh song collection file ...");
             Globals.RescanSetlistManager = false;
             Globals.RescanDuplicates = false;

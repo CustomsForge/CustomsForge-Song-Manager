@@ -51,7 +51,7 @@ namespace CustomsForgeSongManager.UITheme
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            using (var sd = new SaveFileDialog() {InitialDirectory = Constants.ThemeDirectory, AddExtension = true, Filter = String.Format("CFSM Theme Files (*{0})|*{0}", Theme.GetThemeExt<CFSMTheme>()), FileName = theme.ThemeName + Theme.GetThemeExt<CFSMTheme>()})
+            using (var sd = new SaveFileDialog() {InitialDirectory = Constants.ThemeFolder, AddExtension = true, Filter = String.Format("CFSM Theme Files (*{0})|*{0}", Theme.GetThemeExt<CFSMTheme>()), FileName = theme.ThemeName + Theme.GetThemeExt<CFSMTheme>()})
             {
                 if (sd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                     theme.SaveToFile(sd.FileName);
@@ -75,7 +75,7 @@ namespace CustomsForgeSongManager.UITheme
 
         private void toolStripButton3_Click(object sender, EventArgs e)
         {
-            using (var od = new OpenFileDialog() {InitialDirectory = Constants.ThemeDirectory, Filter = String.Format("CFSM Theme Files (*{0})|*{0}|All Files|*.*", Theme.GetThemeExt<CFSMTheme>())})
+            using (var od = new OpenFileDialog() {InitialDirectory = Constants.ThemeFolder, Filter = String.Format("CFSM Theme Files (*{0})|*{0}|All Files|*.*", Theme.GetThemeExt<CFSMTheme>())})
             {
                 if (od.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {

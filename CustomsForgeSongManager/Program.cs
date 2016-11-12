@@ -46,11 +46,11 @@ namespace CustomsForgeSongManager
                     return;
                 }
 
-                if (!Directory.Exists(Constants.WorkDirectory))
-                    Directory.CreateDirectory(Constants.WorkDirectory);
+                if (!Directory.Exists(Constants.WorkFolder))
+                    Directory.CreateDirectory(Constants.WorkFolder);
 
                 if (RemoveGridSettings())
-                    ZipUtilities.DeleteDirectory(Constants.GridSettingsDirectory);
+                    ZipUtilities.DeleteDirectory(Constants.GridSettingsFolder);
 
                 RunApp();
             }

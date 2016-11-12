@@ -1,5 +1,10 @@
 ﻿CFSM Release Notes
 
+1.2.6.6
+- added user warning messages and color change to 'Repair' tab 
+- add exception handling to CFSM Global log
+- code clean up
+
 1.2.6.5
 - split out Repair functionality into separate reusable methods
 - optimized use of Repair background worker

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -9,12 +10,14 @@ using CFSM.GenTools;
 using CustomsForgeSongManager.DataObjects;
 using CustomsForgeSongManager.Forms;
 using CustomsForgeSongManager.LocalTools;
-using DataGridViewTools;
 using RocksmithToolkitLib.DLCPackage;
 using RocksmithToolkitLib.Extensions;
 using RocksmithToolkitLib.PsarcLoader;
 using RocksmithToolkitLib.Sng;
 using RocksmithToolkitLib.Xml;
+
+// NOTE: be carefull with use of GenExtensions.InvokeIfRequired
+// only apply as needed and fully test for bugs, i.e. watch for duplicate dgv entries
 
 namespace CustomsForgeSongManager.UControls
 {
@@ -56,7 +59,7 @@ namespace CustomsForgeSongManager.UControls
             // remove (.org) and (.cor) files from dlc folder and subfolders
             Globals.Log("Cleaning 'dlc' folder and subfolders ...");
             string[] extensions = { orgExt, corExt };
-            var extFilePaths = Directory.EnumerateFiles(Constants.Rs2DlcDirectory, "*.*", SearchOption.AllDirectories)
+            var extFilePaths = Directory.EnumerateFiles(Constants.Rs2DlcFolder, "*.*", SearchOption.AllDirectories)
                 .Where(fi => extensions.Any(fi.ToLower().Contains)).ToList();
 
             var total = extFilePaths.Count;
@@ -68,9 +71,9 @@ namespace CustomsForgeSongManager.UControls
                 processed++;
                 var destFilePath = extFilePath;
                 if (extFilePath.Contains(orgExt))
-                    destFilePath = Path.Combine(Constants.Remastered_OrgCDLCFolder, Path.GetFileName(extFilePath));
+                    destFilePath = Path.Combine(Constants.RemasteredOrgFolder, Path.GetFileName(extFilePath));
                 if (extFilePath.Contains(corExt))
-                    destFilePath = Path.Combine(Constants.Remastered_CorruptCDLCFolder, Path.GetFileName(extFilePath));
+                    destFilePath = Path.Combine(Constants.RemasteredCorruptFolder, Path.GetFileName(extFilePath));
 
                 try
                 {
@@ -78,8 +81,8 @@ namespace CustomsForgeSongManager.UControls
                     if (!File.Exists(destFilePath))
                     {
                         File.Copy(extFilePath, destFilePath, true);
-                        Globals.Log("Moved file: " + Path.GetFileName(extFilePath));
-                        GenExtensions.InvokeIfRequired(this, delegate { dgvLog.Rows.Add(Path.GetFileName(extFilePath), "Moved File Sucessful"); });
+                        Globals.Log("Moved file to: " + Path.GetFileName(destFilePath));
+                        GenExtensions.InvokeIfRequired(this, delegate { dgvLog.Rows.Add(Path.GetFileName(destFilePath), "Moved File To: " + Path.GetDirectoryName(destFilePath)); });
                     }
                     else
                     {
@@ -106,7 +109,7 @@ namespace CustomsForgeSongManager.UControls
             //DirectoryInfo backupDir = new DirectoryInfo(Constants.RemasteredCLI_OrgCDLCFolder);
             //backupDir.CleanDir();
 
-            if (extFilePaths.Any())
+            if (processed > 0)
             {
                 Globals.RescanSongManager = true;
                 Globals.Log("Finished cleaning 'dlc' folder and subfolders ...");
@@ -150,7 +153,7 @@ namespace CustomsForgeSongManager.UControls
             try
             {
                 var properExt = Path.GetExtension(srcFilePath);
-                var orgFilePath = String.Format(@"{0}{1}{2}", Path.Combine(Constants.Remastered_OrgCDLCFolder, Path.GetFileNameWithoutExtension(srcFilePath)), orgExt, properExt).Trim();
+                var orgFilePath = String.Format(@"{0}{1}{2}", Path.Combine(Constants.RemasteredOrgFolder, Path.GetFileNameWithoutExtension(srcFilePath)), orgExt, properExt).Trim();
 
                 if (!File.Exists(orgFilePath))
                 {
@@ -175,43 +178,58 @@ namespace CustomsForgeSongManager.UControls
 
         private void CreateFolders()
         {
-            if (!Directory.Exists(Constants.Remastered_Folder))
-                Directory.CreateDirectory(Constants.Remastered_Folder);
+            if (!Directory.Exists(Constants.RemasteredFolder))
+                Directory.CreateDirectory(Constants.RemasteredFolder);
 
-            if (!Directory.Exists(Constants.Remastered_CorruptCDLCFolder))
-                Directory.CreateDirectory(Constants.Remastered_CorruptCDLCFolder);
+            if (!Directory.Exists(Constants.RemasteredCorruptFolder))
+                Directory.CreateDirectory(Constants.RemasteredCorruptFolder);
 
-            if (!Directory.Exists(Constants.Remastered_OrgCDLCFolder))
-                Directory.CreateDirectory(Constants.Remastered_OrgCDLCFolder);
+            if (!Directory.Exists(Constants.RemasteredOrgFolder))
+                Directory.CreateDirectory(Constants.RemasteredOrgFolder);
         }
 
         private void DeleteCorruptFiles()
         {
-            if (MessageBox.Show("Are you sure you want to delete all corrupt CDLC files?", "Warning", MessageBoxButtons.YesNo) == DialogResult.No)
-                return;
+            Globals.Log("Deleting corrupt CDLC files ...");
+            // very fast but little oppertunity for feedback
+            //DirectoryInfo backupDir = new DirectoryInfo(Constants.Remastered_CorruptCDLCFolder);
+            //if (backupDir.GetFiles().Any())
+            //{
+            //    backupDir.CleanDir();                
+            var corFilePaths = Directory.EnumerateFiles(Constants.RemasteredCorruptFolder, "*" + corExt + "*").ToList();
+            var total = corFilePaths.Count;
+            int processed = 0, failed = 0, skipped = 0;
+            ReportProgress(processed, total, skipped, failed);
 
-            try
+            foreach (var corFilePath in corFilePaths)
             {
-                Globals.Log("Deleting corrupt CDLC files ...");
-                DirectoryInfo backupDir = new DirectoryInfo(Constants.Remastered_CorruptCDLCFolder);
-                if (backupDir.GetFiles().Any())
+                processed++;
+                try
                 {
-                    backupDir.CleanDir();
-                    Globals.Log("Corrupt CDLC deleted ...");
+                    File.SetAttributes(corFilePath, FileAttributes.Normal);
+                    File.Delete(corFilePath);
+                    GenExtensions.InvokeIfRequired(this, delegate { dgvLog.Rows.Add(Path.GetFileName(corFilePath), "Deleted Corrupt CDLC"); });
                 }
-                else
-                    Globals.Log("No corrupt CDLC found in: " + Constants.Remastered_CorruptCDLCFolder);
+                catch (IOException ex)
+                {
+                    Globals.Log(ex.Message);
+                    GenExtensions.InvokeIfRequired(this, delegate { dgvLog.Rows.Add(Path.GetFileName(corFilePath), "Could Not Delete Corrupt CDLC"); });
+                    failed++;
+                }
+
+                ReportProgress(processed, total, skipped, failed);
             }
-            catch (IOException ex)
-            {
-                Globals.Log(ex.Message);
-            }
+
+            if (processed > 0)
+                Globals.Log("Corrupt CDLC deletion finished ...");
+            else
+                Globals.Log("No corrupt CDLC to delete: " + Constants.RemasteredCorruptFolder);
         }
 
-        private string GetOriginal(string filePath)
+        private string GetOriginal(string srcFilePath)
         {
-            var dlcFileName = Path.GetFileName(filePath).Replace(orgExt, "");
-            var dlcFilePath = Path.Combine(Constants.Rs2DlcDirectory, dlcFileName);
+            var dlcFileName = Path.GetFileName(srcFilePath).Replace(orgExt, "");
+            var dlcFilePath = Path.Combine(Constants.Rs2DlcFolder, dlcFileName);
             try
             {
                 // make sure (.org) file gets put back into the correct 'dlc' subfolder
@@ -221,8 +239,8 @@ namespace CustomsForgeSongManager.UControls
                     dlcFilePath = Path.Combine(Path.GetDirectoryName(remasteredFilePath), dlcFileName);
 
                 // copy but don't delete (.org)
-                File.SetAttributes(filePath, FileAttributes.Normal);
-                File.Copy(filePath, dlcFilePath, true);
+                File.SetAttributes(srcFilePath, FileAttributes.Normal);
+                File.Copy(srcFilePath, dlcFilePath, true);
                 Globals.Log(" - Sucessfully restored backup ...");
                 return dlcFilePath;
             }
@@ -231,7 +249,7 @@ namespace CustomsForgeSongManager.UControls
                 // this should never happen but just in case
                 Globals.Log(" - Restore (" + orgExt + ") failed ...");
                 Globals.Log(ex.Message);
-                sbErrors.AppendLine(String.Format("{0}, Restore Failed", filePath));
+                sbErrors.AppendLine(String.Format("{0}, Restore Failed", srcFilePath));
                 return String.Empty;
             }
         }
@@ -360,8 +378,8 @@ namespace CustomsForgeSongManager.UControls
 
                 //  copy (org) to corrupt (cor), delete backup (org), delete original
                 var properExt = Path.GetExtension(srcFilePath);
-                var orgFilePath = String.Format(@"{0}{1}{2}", Path.Combine(Constants.Remastered_OrgCDLCFolder, Path.GetFileNameWithoutExtension(srcFilePath)), orgExt, properExt).Trim();
-                var corFilePath = String.Format(@"{0}{1}{2}", Path.Combine(Constants.Remastered_CorruptCDLCFolder, Path.GetFileNameWithoutExtension(srcFilePath)), corExt, properExt).Trim();
+                var orgFilePath = String.Format(@"{0}{1}{2}", Path.Combine(Constants.RemasteredOrgFolder, Path.GetFileNameWithoutExtension(srcFilePath)), orgExt, properExt).Trim();
+                var corFilePath = String.Format(@"{0}{1}{2}", Path.Combine(Constants.RemasteredCorruptFolder, Path.GetFileNameWithoutExtension(srcFilePath)), corExt, properExt).Trim();
                 File.SetAttributes(orgFilePath, FileAttributes.Normal);
                 File.SetAttributes(srcFilePath, FileAttributes.Normal);
                 File.Copy(orgFilePath, corFilePath, true);
@@ -426,10 +444,10 @@ namespace CustomsForgeSongManager.UControls
         {
             Globals.Log("Archiving corrupt CDLC files ...");
 
-            var corFilePaths = Directory.EnumerateFiles(Constants.Remastered_CorruptCDLCFolder, "*" + corExt).ToList();
+            var corFilePaths = Directory.EnumerateFiles(Constants.RemasteredCorruptFolder, "*" + corExt).ToList();
             if (!corFilePaths.Any())
             {
-                Globals.Log("No corrupt CDLC found in: " + Constants.Remastered_CorruptCDLCFolder);
+                Globals.Log("No corrupt CDLC to archive: " + Constants.RemasteredCorruptFolder);
                 return;
             }
 
@@ -438,7 +456,7 @@ namespace CustomsForgeSongManager.UControls
             {
                 sfd.Filter = ".zip files (*.zip)|*.zip";
                 sfd.FilterIndex = 0;
-                sfd.InitialDirectory = Constants.Remastered_Folder;
+                sfd.InitialDirectory = Constants.RemasteredFolder;
                 sfd.FileName = fileName;
 
                 if (sfd.ShowDialog() != DialogResult.OK)
@@ -447,33 +465,32 @@ namespace CustomsForgeSongManager.UControls
                 fileName = sfd.FileName;
             }
 
-            Globals.Log("Archiving corrupt CDLC ...");
-
-            // save zip file to 'remastered' subfolder so that it is not deleted accidently
+            // save zip file to 'remastered' folder so that it is not accidently deleted
             try
             {
-                if (ZipUtilities.ZipDirectory(Constants.Remastered_CorruptCDLCFolder, Path.Combine(Constants.Remastered_Folder, fileName)))
-                    Globals.Log("Archive saved to: " + Path.Combine(Constants.Remastered_Folder, fileName));
+                if (ZipUtilities.ZipDirectory(Constants.RemasteredCorruptFolder, Path.Combine(Constants.RemasteredFolder, fileName)))
+                    Globals.Log("Archive saved to: " + Path.Combine(Constants.RemasteredFolder, fileName));
                 else
                     Globals.Log("Archiving failed ...");
             }
             catch (IOException ex)
             {
+                Globals.Log("Archiving failed ...");
                 Globals.Log(ex.Message);
             }
         }
 
         private void RepairAllSongs(object sender, DoWorkEventArgs e)
         {
-            // make sure 'dlc' folder is clean before continuing
+            // make sure 'dlc' folder is clean
             CleanDlcFolder();
 
             Globals.Log("Applying Remastered repair to CDLC ...");
             var srcFilePaths = new List<string>();
-            dlcFilePaths = Directory.EnumerateFiles(Constants.Rs2DlcDirectory, "*_p.psarc", SearchOption.AllDirectories).Where(fi => !fi.ToLower().Contains(Constants.RS1COMP) && !fi.ToLower().Contains(Constants.SONGPACK) && !fi.ToLower().Contains(Constants.ABVSONGPACK)).ToList();
+            dlcFilePaths = Directory.EnumerateFiles(Constants.Rs2DlcFolder, "*_p.psarc", SearchOption.AllDirectories).Where(fi => !fi.ToLower().Contains(Constants.RS1COMP) && !fi.ToLower().Contains(Constants.SONGPACK) && !fi.ToLower().Contains(Constants.ABVSONGPACK)).ToList();
 
             if (RepairOrg)
-                srcFilePaths = Directory.EnumerateFiles(Constants.Remastered_OrgCDLCFolder, "*" + orgExt).ToList();
+                srcFilePaths = Directory.EnumerateFiles(Constants.RemasteredOrgFolder, "*" + orgExt).ToList();
             else
                 srcFilePaths = dlcFilePaths;
 
@@ -512,7 +529,7 @@ namespace CustomsForgeSongManager.UControls
                     }
                     else
                     {
-                        GenExtensions.InvokeIfRequired(this, delegate { dgvLog.Rows.Add(Path.GetFileName(srcFilePath), "Corrupt CDLC ... Moved File and Added to Error Log"); });
+                        GenExtensions.InvokeIfRequired(this, delegate { dgvLog.Rows.Add(Path.GetFileName(srcFilePath), "Corrupt CDLC ... Moved File and Added To Error Log"); });
                         failed++;
                     }
                 }
@@ -532,30 +549,33 @@ namespace CustomsForgeSongManager.UControls
                 // error log can be turned into CSV file
                 sbErrors.Insert(0, "File Path, Error Message" + Environment.NewLine);
                 sbErrors.Insert(0, DateTime.Now.ToString("MM-dd-yy HH:mm") + Environment.NewLine);
-                var errorLogPath = Path.Combine(Constants.Remastered_Folder, "remastered_error.log");
+                var errorLogPath = Path.Combine(Constants.RemasteredFolder, "remastered_error.log");
                 using (TextWriter tw = new StreamWriter(errorLogPath, true))
                 {
                     tw.WriteLine(sbErrors + Environment.NewLine);
                     tw.Close();
                 }
 
-                Globals.Log("Saved error log ... ");
-                Globals.Log(errorLogPath);
+                Globals.Log("Saved error log to: " + errorLogPath);
             }
 
-#if (!DEBUG)
-            CleanLocalTemp();
-#endif
+            if (processed > 0)
+            {
+                Globals.Log("Remastering CDLC Finished ...");
+                Globals.RescanSongManager = true;
 
-            Globals.RescanSongManager = true;
-            Globals.Log("Finished Remastering CDLC ...");
+                if (Constants.DebugMode)
+                    CleanLocalTemp();
+            }
+            else
+                Globals.Log("No CDLC were Remastered ...");
         }
 
         private void RestoreBackups(object sender, DoWorkEventArgs e)
         {
             Globals.Log("Restoring (" + orgExt + ") CDLC ...");
-            dlcFilePaths = Directory.EnumerateFiles(Constants.Rs2DlcDirectory, "*.psarc", SearchOption.AllDirectories).Where(fi => !fi.ToLower().Contains(Constants.RS1COMP) && !fi.ToLower().Contains(Constants.SONGPACK) && !fi.ToLower().Contains(Constants.ABVSONGPACK)).ToList();
-            orgFilePaths = Directory.EnumerateFiles(Constants.Remastered_OrgCDLCFolder, "*" + orgExt + "*").ToList();
+            dlcFilePaths = Directory.EnumerateFiles(Constants.Rs2DlcFolder, "*.psarc", SearchOption.AllDirectories).Where(fi => !fi.ToLower().Contains(Constants.RS1COMP) && !fi.ToLower().Contains(Constants.SONGPACK) && !fi.ToLower().Contains(Constants.ABVSONGPACK)).ToList();
+            orgFilePaths = Directory.EnumerateFiles(Constants.RemasteredOrgFolder, "*" + orgExt + "*").ToList();
 
             var dlcFilePath = String.Empty;
             var total = orgFilePaths.Count;
@@ -568,7 +588,7 @@ namespace CustomsForgeSongManager.UControls
                 try
                 {
                     var dlcFileName = Path.GetFileName(orgFilePath).Replace(orgExt, "");
-                    dlcFilePath = Path.Combine(Constants.Rs2DlcDirectory, dlcFileName);
+                    dlcFilePath = Path.Combine(Constants.Rs2DlcFolder, dlcFileName);
 
                     // make sure (.org) file gets put back into the correct 'dlc' subfolder
                     // if CDLC is not found then (.org) file is put into default 'dlc' folder
@@ -579,22 +599,25 @@ namespace CustomsForgeSongManager.UControls
                     // copy but don't delete (.org)
                     File.SetAttributes(orgFilePath, FileAttributes.Normal);
                     File.Copy(orgFilePath, dlcFilePath, true);
-                    GenExtensions.InvokeIfRequired(this, delegate { dgvLog.Rows.Add(Path.GetFileName(dlcFilePath), "Restore Backup Sucessful"); });
-
+                    GenExtensions.InvokeIfRequired(this, delegate { dgvLog.Rows.Add(Path.GetFileName(dlcFilePath), "Sucessfully restored backup"); });
                 }
                 catch (IOException ex)
                 {
                     Globals.Log(ex.Message);
-                    GenExtensions.InvokeIfRequired(this, delegate { dgvLog.Rows.Add(Path.GetFileName(dlcFilePath), "Restore Backup Failed"); });
+                    GenExtensions.InvokeIfRequired(this, delegate { dgvLog.Rows.Add(Path.GetFileName(dlcFilePath), "Could not restore backup"); });
                     failed++;
                 }
 
                 ReportProgress(processed, total, skipped, failed);
             }
 
-            Globals.Log("CDLC backups restored to original location in 'dlc' folder ...");
-            Globals.RescanSongManager = true;
-
+            if (processed > 0)
+            {
+                Globals.Log("CDLC backups restored to original location in 'dlc' folder ...");
+                Globals.RescanSongManager = true;
+            }
+            else
+                Globals.Log("No backup CDLC to restore: " + Constants.RemasteredOrgFolder);
         }
 
         private void WorkerComplete(object sender, RunWorkerCompletedEventArgs e)
@@ -624,6 +647,9 @@ namespace CustomsForgeSongManager.UControls
 
         private void btnDeleteCorruptFiles_Click(object sender, EventArgs e)
         {
+            if (MessageBox.Show("Are you sure you want to delete all corrupt CDLC files?", Constants.ApplicationName + " ... Warning", MessageBoxButtons.YesNo) == DialogResult.No)
+                return;
+
             ToggleControls(false);
             DeleteCorruptFiles();
             ToggleControls(true);
@@ -631,38 +657,52 @@ namespace CustomsForgeSongManager.UControls
 
         private void btnRemasterAllCDLC_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Are you sure you want to remaster all CDLC files?", "Warning", MessageBoxButtons.YesNo) == DialogResult.Yes)
-            {
-                ToggleControls(false);
-                bWorker = new AbortableBackgroundWorker();
-                bWorker.SetDefaults();
-                bWorker.DoWork += RepairAllSongs;
-                bWorker.RunWorkerCompleted += WorkerComplete;
+            var curBackColor = BackColor;
+            var curForeColor = ForeColor;
+            this.BackColor = Color.Black;
+            this.ForeColor = Color.Red;
 
-                if (!bWorker.IsBusy)
-                    bWorker.RunWorkerAsync();
+            if (MessageBox.Show("Are you sure you want to remaster all CDLC files?" + Environment.NewLine +
+                                "Do you have a complete backup of your CDLC collection?", Constants.ApplicationName + " ... Warning", MessageBoxButtons.YesNo) == DialogResult.No)
+            {
+                this.BackColor = curBackColor;
+                this.ForeColor = curForeColor;
+                return;
             }
+
+            this.BackColor = curBackColor;
+            this.ForeColor = curForeColor;
+
+            ToggleControls(false);
+            bWorker = new AbortableBackgroundWorker();
+            bWorker.SetDefaults();
+            bWorker.DoWork += RepairAllSongs;
+            bWorker.RunWorkerCompleted += WorkerComplete;
+
+            if (!bWorker.IsBusy)
+                bWorker.RunWorkerAsync();
+
         }
 
         private void btnRestoreBackup_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Are you sure you want to restore (" + orgExt + ") CDLC to the 'dlc' folder?", "Warning", MessageBoxButtons.YesNo) == DialogResult.Yes)
-            {
-                ToggleControls(false);
-                bWorker = new AbortableBackgroundWorker();
-                bWorker.SetDefaults();
-                bWorker.DoWork += RestoreBackups;
-                bWorker.RunWorkerCompleted += WorkerComplete;
+            if (MessageBox.Show("Are you sure you want to restore (" + orgExt + ") CDLC to the 'dlc' folder?", Constants.ApplicationName + " ... Warning", MessageBoxButtons.YesNo) == DialogResult.No)
+                return;
 
-                if (!bWorker.IsBusy)
-                    bWorker.RunWorkerAsync();
-            }
+            ToggleControls(false);
+            bWorker = new AbortableBackgroundWorker();
+            bWorker.SetDefaults();
+            bWorker.DoWork += RestoreBackups;
+            bWorker.RunWorkerCompleted += WorkerComplete;
+
+            if (!bWorker.IsBusy)
+                bWorker.RunWorkerAsync();
         }
 
         private void btnViewErrorLog_Click(object sender, EventArgs e)
         {
             string stringLog;
-            var errorLogPath = Path.Combine(Constants.Remastered_Folder, "remastered_error.log");
+            var errorLogPath = Path.Combine(Constants.RemasteredFolder, "remastered_error.log");
 
             if (!File.Exists(errorLogPath))
                 stringLog = "remastered_error.log is empty ...";
@@ -694,7 +734,7 @@ namespace CustomsForgeSongManager.UControls
 
         public void TabLeave()
         {
-            Globals.Log("Repairs GUI TabLeave...");
+            Globals.Log("Repairs GUI TabLeave ...");
         }
 
     }

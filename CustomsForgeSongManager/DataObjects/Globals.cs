@@ -196,7 +196,14 @@ namespace CustomsForgeSongManager.DataObjects
 
         public static void Log(string message)
         {
-            MyLog.Write(message);
+            try
+            {
+                MyLog.Write(message);
+            }
+            catch
+            {
+             // just ignore it
+            }
         }
 
         public static void DebugLog(string message)
