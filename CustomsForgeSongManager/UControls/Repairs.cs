@@ -132,7 +132,6 @@ namespace CustomsForgeSongManager.UControls
                     foreach (FileInfo file in di.GetFiles())
                         try
                         {
-                            File.SetAttributes(file.FullName, FileAttributes.Normal);
                             file.Delete();
                         }
                         catch { /*Don't worry just skip locked file*/ }
@@ -518,14 +517,21 @@ namespace CustomsForgeSongManager.UControls
                 else
                 {
                     // remaster the CDLC file
-                    var remSucess = RemasterSong(srcFilePath);
-                    if (remSucess)
+                    var rSucess = RemasterSong(srcFilePath);
+                    if (rSucess)
                     {
                         var message = String.Format("Repair Sucessful ... {0}", PreserveStats ? "Preserved Song Stats" : "Reset Song Stats");
                         if (RepairOrg)
                             message += " Using (" + orgExt + ") File";
 
                         GenExtensions.InvokeIfRequired(this, delegate { dgvLog.Rows.Add(Path.GetFileName(srcFilePath).Replace(orgExt, ""), message); });
+
+                        if (Constants.DebugMode)
+                        {
+                            // cleanup every nth record
+                            if (processed % 50 == 0)
+                                CleanLocalTemp();
+                        }
                     }
                     else
                     {

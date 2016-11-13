@@ -1,5 +1,9 @@
 ﻿CFSM Release Notes
 
+1.2.6.7
+- fixed bug in CleanLocalTemp
+- added periodic clean up to Repair to save disk space
+
 1.2.6.6
 - added user warning messages and color change to 'Repair' tab 
 - add exception handling to CFSM Global log
