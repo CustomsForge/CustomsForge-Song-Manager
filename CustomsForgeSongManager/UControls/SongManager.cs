@@ -18,6 +18,13 @@ using Newtonsoft.Json;
 using System.Xml;
 using System.Text;
 using System.Collections.Generic;
+using RocksmithToolkitLib.DLCPackage;
+using RocksmithToolkitLib.PsarcLoader;
+using RocksmithToolkitLib.Xml;
+using RocksmithToolkitLib.ToolkitTone;
+using RocksmithToolkitLib.DLCPackage.Manifest2014.Tone;
+using RocksmithToolkitLib.Sng;
+using RocksmithToolkitLib.Extensions;
 
 
 namespace CustomsForgeSongManager.UControls
@@ -284,7 +291,7 @@ namespace CustomsForgeSongManager.UControls
             dgvSongsMaster.AutoGenerateColumns = false;
             FilteredBindingList<SongData> fbl = new FilteredBindingList<SongData>(list);
             BindingSource bs = new BindingSource { DataSource = fbl };
-            dgvSongsMaster.DataSource = bs; 
+            dgvSongsMaster.DataSource = bs;
         }
 
         private void LoadSongCollectionFromFile()
@@ -840,7 +847,7 @@ namespace CustomsForgeSongManager.UControls
         {
             bindingCompleted = false;
             dgvPainted = false;
-            Rescan(Control.ModifierKeys == Keys.Control);
+            Rescan(System.Windows.Forms.Control.ModifierKeys == Keys.Control);
             PopulateDataGridView();
             UpdateToolStrip();
             Globals.ReloadDuplicates = true;
@@ -1535,5 +1542,200 @@ namespace CustomsForgeSongManager.UControls
             }
         }
 
+        private bool PitchShiftSong(SongData song, bool createNewFile = true)
+        {
+            string pitchShiftedMessage = "Pitch Shifted";
+            string srcFilePath = song.FilePath;
+
+            if (song.CharterName.ToLower() == "firekorn")
+            {
+                Globals.Log("NOP NOP NOP NOP NOP");
+                return false;
+            }
+
+            //if (song.OfficialDLC)
+            //    return false;
+
+            Globals.Log("Adding a pitch shifting effect to: " + Path.GetFileName(srcFilePath));
+            try
+            {
+                string ext = string.Empty, finalPath = srcFilePath;
+                Globals.Log(" - Extracting CDLC artifacts ...");
+                DLCPackageData packageData;
+
+                Pedal2014 pedal = new Pedal2014();
+                var pedals = ToolkitPedal.LoadFromResource(RocksmithToolkitLib.GameVersion.RS2014);
+                var bassPitchShiftPedal = pedals.FirstOrDefault(p => p.Type == "Pedals" && p.DisplayName.Contains("MultiPitch"));
+                var gitPitchShiftPedal = bassPitchShiftPedal; //Only one pich shift pedal for both guitar and bass
+                int gitShift = 0, bassShift = 0;
+
+                using (var psarcOld = new PsarcPackager())
+                    packageData = psarcOld.ReadPackage(srcFilePath);
+
+                List<Tone2014> tones = new List<Tone2014>();
+                packageData.TonesRS2014.ForEach(t => tones.Add(t.XmlClone()));
+
+                if (!createNewFile && packageData.PackageComment.Contains(pitchShiftedMessage))
+                {
+                    Globals.Log(" - This song has already been patched! ");
+                    return false;
+                }
+
+                foreach (var arr in packageData.Arrangements)
+                {
+                    if (arr.ArrangementType == ArrangementType.Vocal || arr.ArrangementType == ArrangementType.ShowLight)
+                        continue;
+
+                    if (!arr.Tuning.Contains("Bonus") && arr.ArrangementType != ArrangementType.Bass)
+                        gitShift = arr.TuningStrings.String0;
+
+                    if (!arr.Tuning.Contains("Bonus") && arr.ArrangementType == ArrangementType.Bass)
+                        bassShift = arr.TuningStrings.String0;
+
+                    if (arr.Tuning.Contains("Standard"))
+                    {
+                        arr.Tuning = "E Standard";
+                        arr.TuningStrings = new RocksmithToolkitLib.Xml.TuningStrings { String0 = 0, String1 = 0, String2 = 0, String3 = 0, String4 = 0, String5 = 0 };
+
+                        ext = "-e-std";
+                    }
+                    else if (arr.Tuning.Contains("Drop"))
+                    {
+                        arr.Tuning = "Drop D";
+                        arr.TuningStrings = new RocksmithToolkitLib.Xml.TuningStrings { String0 = -2, String1 = 0, String2 = 0, String3 = 0, String4 = 0, String5 = 0 };
+
+                        ext = "-drop-d";
+                    }
+
+                    if (arr.TuningPitch < 400) //If bass fix has been applied, reset reference pitch back to 440
+                        arr.TuningPitch = 440;
+                }
+
+                bassPitchShiftPedal.Knobs[0].DefaultValue = bassShift; //Pitch
+                bassPitchShiftPedal.Knobs[1].DefaultValue = 100; //Mix
+                bassPitchShiftPedal.Knobs[2].DefaultValue = 50; //Tone
+
+                gitPitchShiftPedal.Knobs[0].DefaultValue = gitShift;
+                gitPitchShiftPedal.Knobs[1].DefaultValue = 100;
+                gitPitchShiftPedal.Knobs[2].DefaultValue = 50;
+
+                foreach (var tone in tones) //Move all tones up one slot and add pitch shifter to the first slot
+                {
+                    if (tone.GearList.PrePedal3 != null) tone.GearList.PrePedal4 = tone.GearList.PrePedal3;
+                    if (tone.GearList.PrePedal2 != null) tone.GearList.PrePedal3 = tone.GearList.PrePedal2;
+                    if (tone.GearList.PrePedal1 != null) tone.GearList.PrePedal2 = tone.GearList.PrePedal1;
+
+                    if (tone.ToneDescriptors.Any(d => d.ToLower().Contains("bass")))
+                        pedal = bassPitchShiftPedal.MakePedalSetting(RocksmithToolkitLib.GameVersion.RS2014);
+                    else
+                        pedal = gitPitchShiftPedal.MakePedalSetting(RocksmithToolkitLib.GameVersion.RS2014);
+
+                    tone.GearList.PrePedal1 = pedal;
+                }
+
+                packageData.TonesRS2014 = tones;
+
+                if(!createNewFile)
+                {
+                    // add comment to ToolkitInfo to identify pitch shifted CDLC
+                    var pitchShiftedComment = packageData.PackageComment;
+                    if (String.IsNullOrEmpty(pitchShiftedComment))
+                        pitchShiftedComment = pitchShiftedMessage;
+                    else if (!pitchShiftedComment.Contains(pitchShiftedMessage))
+                        pitchShiftedComment = pitchShiftedComment + " " + pitchShiftedMessage;
+
+                    packageData.PackageComment = pitchShiftedComment;
+                }
+
+                packageData.Name = packageData.Name + ext;
+                packageData.Name = packageData.Name.GetValidKey();
+
+                packageData.SongInfo.SongDisplayName = packageData.SongInfo.SongDisplayName + ext;
+
+                foreach (var arr in packageData.Arrangements)
+                {
+                    arr.Id = IdGenerator.Guid();
+                    arr.MasterId = RandomGenerator.NextInt();
+
+                    if (arr.ArrangementType == ArrangementType.Vocal)
+                        continue;
+                    if (arr.ArrangementType == ArrangementType.ShowLight)
+                        continue;
+
+                    var songXml = Song2014.LoadFromFile(arr.SongXml.File);
+                    arr.ClearCache();
+                    songXml.Title = packageData.SongInfo.SongDisplayName;
+                    songXml.Tuning = arr.TuningStrings;
+                    if (!String.IsNullOrEmpty(arr.ToneBase)) songXml.ToneBase = arr.ToneBase; //This tone stuff doesn't have to be set again, because it's not changed
+                    if (!String.IsNullOrEmpty(arr.ToneA)) songXml.ToneA = arr.ToneA;
+                    if (!String.IsNullOrEmpty(arr.ToneB)) songXml.ToneB = arr.ToneB;
+                    if (!String.IsNullOrEmpty(arr.ToneC)) songXml.ToneC = arr.ToneC;
+                    if (!String.IsNullOrEmpty(arr.ToneD)) songXml.ToneD = arr.ToneD;
+
+                    using (var stream = File.Open(arr.SongXml.File, FileMode.Create))
+                        songXml.Serialize(stream);
+
+                    // add comments back to xml arrangement   
+                    //   Song2014.WriteXmlComments(arr.SongXml.File, arr.XmlComments);
+                }
+
+                Globals.Log(" - Repackaging pitch shifted CDLC ...");
+
+                if (createNewFile)
+                    finalPath = srcFilePath.Replace("_p.psarc", ext + "_p.psarc");
+
+                using (var psarcNew = new PsarcPackager(true))
+                    psarcNew.WritePackage(finalPath, packageData, srcFilePath);
+
+                if (File.Exists(finalPath))
+                {
+                    using (var browser = new PsarcBrowser(finalPath))
+                    {
+                        var songInfo = browser.GetSongData();
+
+                        if (songInfo != null && Globals.SongCollection.Where(sng => sng.FilePath == finalPath).Count() == 0)
+                            Globals.SongCollection.Add(songInfo.First());
+                    }
+                }
+
+                Globals.Log(" - Adding a pitch shifting effect to the CDLC sucessful ...");
+            }
+            catch (Exception ex)
+            {
+                Globals.Log(" - Adding a pitch shifting effect failed ... " + ex.Message);
+
+                return false;
+            }
+
+            return true;
+        }
+
+        private void betaPitchShiftToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show(@"Are you sure you want to add a pitch shift effect to the selected songs (shifting to E standard for songs in standard tunings or Drop D for songs in dropped tunings)?"
+                                  + Environment.NewLine + Environment.NewLine + "NOTE: neither the actual audio nor the tab are changed, so make sure to use headphones while playing!",
+                                  Constants.ApplicationName + " ... Warning", MessageBoxButtons.YesNo) == DialogResult.No)
+                return;
+
+            var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster);
+
+            if (selection.Count > 0)
+            {
+                foreach (var song in selection)
+                    PitchShiftSong(song);
+            }
+        }
+
+        private void cmsPitchShift_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show(@"Are you sure you want to add a pitch shift effect to the selected song (shifting to E standard for songs in standard tunings or Drop D for songs in dropped tunings)?"
+                                  + Environment.NewLine + Environment.NewLine + "NOTE: neither the actual audio nor the tab are changed, so make sure to use headphones while playing!",
+                                  Constants.ApplicationName + " ... Warning", MessageBoxButtons.YesNo) == DialogResult.No)
+                return;
+
+            var songData = DgvExtensions.GetObjectFromRow<SongData>(dgvSongsMaster.SelectedRows[0]);
+
+            PitchShiftSong(songData);
+        }
     }
 }

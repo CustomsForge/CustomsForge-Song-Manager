@@ -44,7 +44,7 @@ namespace CustomsForgeSongManager.SongEditor
 
         private bool EditTone(Tone2014 tone)
         {
-            frmTone f = new frmTone() {Tone = tone, StartPosition = FormStartPosition.CenterParent};
+            frmTone f = new frmTone() { Tone = tone, StartPosition = FormStartPosition.CenterParent };
             return f.ShowDialog(this.ParentForm) == DialogResult.OK;
         }
 
@@ -58,7 +58,7 @@ namespace CustomsForgeSongManager.SongEditor
         {
             if (e.ColumnIndex == this.dgvTones.Columns["colName"].Index)
             {
-                if (EditTone((Tone2014) dgvTones.Rows[e.RowIndex].DataBoundItem))
+                if (EditTone((Tone2014)dgvTones.Rows[e.RowIndex].DataBoundItem))
                 {
                     this.dgvTones.Refresh();
                     this.Dirty = true;

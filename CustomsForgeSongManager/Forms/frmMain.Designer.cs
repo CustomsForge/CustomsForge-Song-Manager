@@ -49,6 +49,7 @@ namespace CustomsForgeSongManager.Forms
             this.tpRenamer = new System.Windows.Forms.TabPage();
             this.tpSetlistManager = new System.Windows.Forms.TabPage();
             this.tpSongPacks = new System.Windows.Forms.TabPage();
+            this.tpRepairs = new System.Windows.Forms.TabPage();
             this.tpSettings = new System.Windows.Forms.TabPage();
             this.tpAbout = new System.Windows.Forms.TabPage();
             this.tsUtilities = new System.Windows.Forms.ToolStrip();
@@ -84,7 +85,6 @@ namespace CustomsForgeSongManager.Forms
             this.LeftToolStripPanel = new System.Windows.Forms.ToolStripPanel();
             this.ContentPanel = new System.Windows.Forms.ToolStripContentPanel();
             this.timerAudioProgress = new System.Windows.Forms.Timer(this.components);
-            this.tpRepairs = new System.Windows.Forms.TabPage();
             this.gbLog.SuspendLayout();
             this.contextMenuStrip_Tray.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.scMain)).BeginInit();
@@ -181,7 +181,7 @@ namespace CustomsForgeSongManager.Forms
             // tstripContainer.ContentPanel
             // 
             this.tstripContainer.ContentPanel.Controls.Add(this.tcMain);
-            this.tstripContainer.ContentPanel.Size = new System.Drawing.Size(1011, 498);
+            this.tstripContainer.ContentPanel.Size = new System.Drawing.Size(1011, 501);
             this.tstripContainer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tstripContainer.LeftToolStripPanelVisible = false;
             this.tstripContainer.Location = new System.Drawing.Point(0, 0);
@@ -213,7 +213,7 @@ namespace CustomsForgeSongManager.Forms
             this.tcMain.Location = new System.Drawing.Point(0, 0);
             this.tcMain.Name = "tcMain";
             this.tcMain.SelectedIndex = 0;
-            this.tcMain.Size = new System.Drawing.Size(1011, 498);
+            this.tcMain.Size = new System.Drawing.Size(1011, 501);
             this.tcMain.TabIndex = 2;
             this.tcMain.SelectedIndexChanged += new System.EventHandler(this.tcMain_SelectedIndexChanged);
             // 
@@ -221,7 +221,7 @@ namespace CustomsForgeSongManager.Forms
             // 
             this.tpSongManager.Location = new System.Drawing.Point(4, 25);
             this.tpSongManager.Name = "tpSongManager";
-            this.tpSongManager.Size = new System.Drawing.Size(1003, 469);
+            this.tpSongManager.Size = new System.Drawing.Size(1003, 472);
             this.tpSongManager.TabIndex = 0;
             this.tpSongManager.Text = "Song Manager";
             this.tpSongManager.UseVisualStyleBackColor = true;
@@ -262,6 +262,16 @@ namespace CustomsForgeSongManager.Forms
             this.tpSongPacks.TabIndex = 0;
             this.tpSongPacks.Text = "Song Packs";
             this.tpSongPacks.UseVisualStyleBackColor = true;
+            // 
+            // tpRepairs
+            // 
+            this.tpRepairs.Location = new System.Drawing.Point(4, 25);
+            this.tpRepairs.Name = "tpRepairs";
+            this.tpRepairs.Padding = new System.Windows.Forms.Padding(3);
+            this.tpRepairs.Size = new System.Drawing.Size(1003, 469);
+            this.tpRepairs.TabIndex = 9;
+            this.tpRepairs.Text = "Repairs";
+            this.tpRepairs.UseVisualStyleBackColor = true;
             // 
             // tpSettings
             // 
@@ -595,16 +605,6 @@ namespace CustomsForgeSongManager.Forms
             this.timerAudioProgress.Interval = 400;
             this.timerAudioProgress.Tick += new System.EventHandler(this.timerAudioProgress_Tick);
             // 
-            // tpRepairs
-            // 
-            this.tpRepairs.Location = new System.Drawing.Point(4, 25);
-            this.tpRepairs.Name = "tpRepairs";
-            this.tpRepairs.Padding = new System.Windows.Forms.Padding(3);
-            this.tpRepairs.Size = new System.Drawing.Size(1003, 469);
-            this.tpRepairs.TabIndex = 9;
-            this.tpRepairs.Text = "Repairs";
-            this.tpRepairs.UseVisualStyleBackColor = true;
-            // 
             // frmMain
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -615,7 +615,7 @@ namespace CustomsForgeSongManager.Forms
             this.KeyPreview = true;
             this.Name = "frmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "CustomsForge Song Manager";
+            this.Text = "9";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmMain_FormClosing);
             this.Load += new System.EventHandler(this.frmMain_Load);
             this.Shown += new System.EventHandler(this.frmMain_Shown);
