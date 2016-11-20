@@ -673,7 +673,7 @@ namespace CustomsForgeSongManager.UControls
                 addedDD = false;
                 SettingsDDC.Instance.LoadConfigXml();
                 // phrase length should be at least 8 to fix chord density bug
-                // using 12 bar blues beat for phrase length
+                // using 12 bar blues beat for default phrase length
                 var phraseLen = 12; // SettingsDDC.Instance.PhraseLen;
                 // removeSus may be depricated in latest DDC but left here for comptiblity
                 var removeSus = SettingsDDC.Instance.RemoveSus;

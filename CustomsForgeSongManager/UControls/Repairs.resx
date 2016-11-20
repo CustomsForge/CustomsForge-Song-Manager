@@ -122,9 +122,11 @@
   </metadata>
   <data name="rbAddDD.ToolTip" xml:space="preserve">
     <value>Adds Dynamic Difficulty (DD) to a CDLC arrangement
-if the arrangement does not already have DD.
+only if the arrangement does not already have DD.
 
 May not be combined with 'Remove NDD' checkbox.
+Can only be used in conjunction wth the 
+'Repair 100% Mastery Bug' option.
 
 The in game play count does not work properly
 when CDLC arrangements do not contain DD.
