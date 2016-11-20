@@ -90,8 +90,9 @@ namespace CustomsForgeSongManager.DataObjects
 
         //Remastered_Folder placed in Rocksmith 2014 root, 'backup' subdirectory
         public static string RemasteredFolder { get { return Path.Combine(Rs2BackupFolder, "remastered"); } }
-        public static string RemasteredCorruptFolder { get { return Path.Combine(RemasteredFolder, "corrupt"); } }
+        public static string RemasteredCorFolder { get { return Path.Combine(RemasteredFolder, "corrupt"); } }
         public static string RemasteredOrgFolder { get { return Path.Combine(RemasteredFolder, "original"); } }
+        public static string RemasteredMaxFolder { get { return Path.Combine(RemasteredFolder, "maxfive"); } }
         public static string SongPacksFolder { get { return Path.Combine(Rs2BackupFolder, "songpacks"); } }
         public static string SongPacksOrgFolder { get { return Path.Combine(SongPacksFolder, "original"); } }
 

@@ -93,12 +93,12 @@ namespace CustomsForgeSongManager.UControls
             this.cmsDuplicateColumns.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.exploreToolStripMenuItem});
             this.cmsDuplicateColumns.Name = "cmsDuplicate";
-            this.cmsDuplicateColumns.Size = new System.Drawing.Size(113, 26);
+            this.cmsDuplicateColumns.Size = new System.Drawing.Size(122, 26);
             // 
             // exploreToolStripMenuItem
             // 
             this.exploreToolStripMenuItem.Name = "exploreToolStripMenuItem";
-            this.exploreToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.exploreToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
             this.exploreToolStripMenuItem.Text = "Explore";
             this.exploreToolStripMenuItem.Click += new System.EventHandler(this.exploreToolStripMenuItem_Click);
             // 

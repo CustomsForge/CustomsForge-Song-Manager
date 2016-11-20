@@ -29,30 +29,44 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Repairs));
             this.tlpRepairs = new System.Windows.Forms.TableLayoutPanel();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.btnDeleteCorruptFiles = new System.Windows.Forms.Button();
-            this.btnArchiveCorruptCDLC = new System.Windows.Forms.Button();
+            this.pnlTop = new System.Windows.Forms.Panel();
+            this.rbAddDD = new System.Windows.Forms.RadioButton();
+            this.gbMaxPlayable = new System.Windows.Forms.GroupBox();
+            this.chkIgnoreLimit = new System.Windows.Forms.CheckBox();
+            this.chkRemoveMetronome = new System.Windows.Forms.CheckBox();
+            this.chkRemoveGuitar = new System.Windows.Forms.CheckBox();
+            this.chkRemoveBonus = new System.Windows.Forms.CheckBox();
+            this.chkRemoveNdd = new System.Windows.Forms.CheckBox();
+            this.chkRemoveBass = new System.Windows.Forms.CheckBox();
+            this.rbRepairMaxFive = new System.Windows.Forms.RadioButton();
+            this.btnRestoreMax = new System.Windows.Forms.Button();
+            this.gbMastery = new System.Windows.Forms.GroupBox();
+            this.rbRepairMastery = new System.Windows.Forms.RadioButton();
             this.chkRepairOrg = new System.Windows.Forms.CheckBox();
             this.chkPreserve = new System.Windows.Forms.CheckBox();
-            this.btnCleanupDlcFolder = new System.Windows.Forms.Button();
-            this.btnRestoreBackup = new System.Windows.Forms.Button();
-            this.btnRemasterAllCDLC = new System.Windows.Forms.Button();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.lblBetaFeature = new System.Windows.Forms.Label();
-            this.panel4 = new System.Windows.Forms.Panel();
-            this.gbLog = new System.Windows.Forms.GroupBox();
-            this.dgvLog = new DataGridViewTools.SubclassedDataGridView();
+            this.btnDeleteCorruptSongs = new System.Windows.Forms.Button();
+            this.btnArchiveCorruptSongs = new System.Windows.Forms.Button();
+            this.btnRestoreOrg = new System.Windows.Forms.Button();
+            this.btnRepairSongs = new System.Windows.Forms.Button();
+            this.pnlMiddle = new System.Windows.Forms.Panel();
+            this.gbRepairStatus = new System.Windows.Forms.GroupBox();
+            this.pnlBottom = new System.Windows.Forms.Panel();
+            this.btnViewErrorLog = new System.Windows.Forms.Button();
+            this.btnCleanDlcFolder = new System.Windows.Forms.Button();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.dgvRepair = new DataGridViewTools.SubclassedDataGridView();
             this.colFileName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colMessage = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btnViewErrorLog = new System.Windows.Forms.Button();
-            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.tlpRepairs.SuspendLayout();
-            this.panel1.SuspendLayout();
-            this.panel3.SuspendLayout();
-            this.panel4.SuspendLayout();
-            this.gbLog.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvLog)).BeginInit();
+            this.pnlTop.SuspendLayout();
+            this.gbMaxPlayable.SuspendLayout();
+            this.gbMastery.SuspendLayout();
+            this.pnlMiddle.SuspendLayout();
+            this.gbRepairStatus.SuspendLayout();
+            this.pnlBottom.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvRepair)).BeginInit();
             this.SuspendLayout();
             // 
             // tlpRepairs
@@ -60,207 +74,394 @@
             this.tlpRepairs.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Inset;
             this.tlpRepairs.ColumnCount = 1;
             this.tlpRepairs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpRepairs.Controls.Add(this.panel1, 0, 1);
-            this.tlpRepairs.Controls.Add(this.panel3, 0, 0);
-            this.tlpRepairs.Controls.Add(this.panel4, 0, 2);
+            this.tlpRepairs.Controls.Add(this.pnlTop, 0, 0);
+            this.tlpRepairs.Controls.Add(this.pnlMiddle, 0, 1);
+            this.tlpRepairs.Controls.Add(this.pnlBottom, 0, 2);
             this.tlpRepairs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpRepairs.Location = new System.Drawing.Point(0, 0);
             this.tlpRepairs.Name = "tlpRepairs";
             this.tlpRepairs.RowCount = 3;
-            this.tlpRepairs.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.tlpRepairs.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+            this.tlpRepairs.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 132F));
             this.tlpRepairs.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpRepairs.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tlpRepairs.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.tlpRepairs.Size = new System.Drawing.Size(899, 490);
             this.tlpRepairs.TabIndex = 2;
             // 
-            // panel1
+            // pnlTop
             // 
-            this.panel1.Controls.Add(this.btnDeleteCorruptFiles);
-            this.panel1.Controls.Add(this.btnArchiveCorruptCDLC);
-            this.panel1.Controls.Add(this.chkRepairOrg);
-            this.panel1.Controls.Add(this.chkPreserve);
-            this.panel1.Controls.Add(this.btnCleanupDlcFolder);
-            this.panel1.Controls.Add(this.btnRestoreBackup);
-            this.panel1.Controls.Add(this.btnRemasterAllCDLC);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(5, 47);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(889, 94);
-            this.panel1.TabIndex = 4;
+            this.pnlTop.Controls.Add(this.rbAddDD);
+            this.pnlTop.Controls.Add(this.gbMaxPlayable);
+            this.pnlTop.Controls.Add(this.btnRestoreMax);
+            this.pnlTop.Controls.Add(this.gbMastery);
+            this.pnlTop.Controls.Add(this.btnDeleteCorruptSongs);
+            this.pnlTop.Controls.Add(this.btnArchiveCorruptSongs);
+            this.pnlTop.Controls.Add(this.btnRestoreOrg);
+            this.pnlTop.Controls.Add(this.btnRepairSongs);
+            this.pnlTop.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlTop.Location = new System.Drawing.Point(2, 2);
+            this.pnlTop.Margin = new System.Windows.Forms.Padding(0);
+            this.pnlTop.Name = "pnlTop";
+            this.pnlTop.Size = new System.Drawing.Size(895, 132);
+            this.pnlTop.TabIndex = 4;
+            this.toolTip.SetToolTip(this.pnlTop, resources.GetString("pnlTop.ToolTip"));
             // 
-            // btnDeleteCorruptFiles
+            // rbAddDD
             // 
-            this.btnDeleteCorruptFiles.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.btnDeleteCorruptFiles.Image = global::CustomsForgeSongManager.Properties.Resources.delete2;
-            this.btnDeleteCorruptFiles.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnDeleteCorruptFiles.Location = new System.Drawing.Point(676, 53);
-            this.btnDeleteCorruptFiles.Name = "btnDeleteCorruptFiles";
-            this.btnDeleteCorruptFiles.Padding = new System.Windows.Forms.Padding(5, 3, 3, 3);
-            this.btnDeleteCorruptFiles.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.btnDeleteCorruptFiles.Size = new System.Drawing.Size(182, 32);
-            this.btnDeleteCorruptFiles.TabIndex = 9;
-            this.btnDeleteCorruptFiles.Text = "     Delete Corrupt CDLC";
-            this.toolTip.SetToolTip(this.btnDeleteCorruptFiles, "Delete corrupt CDLC (.cor.psarc) files.");
-            this.btnDeleteCorruptFiles.UseVisualStyleBackColor = true;
-            this.btnDeleteCorruptFiles.Click += new System.EventHandler(this.btnDeleteCorruptFiles_Click);
+            this.rbAddDD.AutoCheck = false;
+            this.rbAddDD.AutoSize = true;
+            this.rbAddDD.Checked = true;
+            this.rbAddDD.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rbAddDD.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.rbAddDD.Location = new System.Drawing.Point(383, 102);
+            this.rbAddDD.Name = "rbAddDD";
+            this.rbAddDD.Size = new System.Drawing.Size(170, 17);
+            this.rbAddDD.TabIndex = 12;
+            this.rbAddDD.TabStop = true;
+            this.rbAddDD.Text = "Add DD (if not already present)";
+            this.toolTip.SetToolTip(this.rbAddDD, resources.GetString("rbAddDD.ToolTip"));
+            this.rbAddDD.UseVisualStyleBackColor = true;
+            this.rbAddDD.Click += new System.EventHandler(this.rbAddDD_Click);
             // 
-            // btnArchiveCorruptCDLC
+            // gbMaxPlayable
             // 
-            this.btnArchiveCorruptCDLC.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.btnArchiveCorruptCDLC.Image = global::CustomsForgeSongManager.Properties.Resources.zip;
-            this.btnArchiveCorruptCDLC.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnArchiveCorruptCDLC.Location = new System.Drawing.Point(458, 53);
-            this.btnArchiveCorruptCDLC.Name = "btnArchiveCorruptCDLC";
-            this.btnArchiveCorruptCDLC.Padding = new System.Windows.Forms.Padding(5, 3, 3, 3);
-            this.btnArchiveCorruptCDLC.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.btnArchiveCorruptCDLC.Size = new System.Drawing.Size(182, 32);
-            this.btnArchiveCorruptCDLC.TabIndex = 8;
-            this.btnArchiveCorruptCDLC.Text = "     Archive Corrupt CDLC";
-            this.toolTip.SetToolTip(this.btnArchiveCorruptCDLC, "Archive corrupt CDLC to a zip file.");
-            this.btnArchiveCorruptCDLC.UseVisualStyleBackColor = true;
-            this.btnArchiveCorruptCDLC.Click += new System.EventHandler(this.btnArchiveCorruptCDLC_Click);
+            this.gbMaxPlayable.Controls.Add(this.chkIgnoreLimit);
+            this.gbMaxPlayable.Controls.Add(this.chkRemoveMetronome);
+            this.gbMaxPlayable.Controls.Add(this.chkRemoveGuitar);
+            this.gbMaxPlayable.Controls.Add(this.chkRemoveBonus);
+            this.gbMaxPlayable.Controls.Add(this.chkRemoveNdd);
+            this.gbMaxPlayable.Controls.Add(this.chkRemoveBass);
+            this.gbMaxPlayable.Controls.Add(this.rbRepairMaxFive);
+            this.gbMaxPlayable.Location = new System.Drawing.Point(578, 10);
+            this.gbMaxPlayable.Name = "gbMaxPlayable";
+            this.gbMaxPlayable.Size = new System.Drawing.Size(243, 109);
+            this.gbMaxPlayable.TabIndex = 10;
+            this.gbMaxPlayable.TabStop = false;
+            this.toolTip.SetToolTip(this.gbMaxPlayable, "WARNING:\r\nUse removal criteria sparingly so that \r\nyour CDLC are not rendered use" +
+                    "less.");
+            // 
+            // chkIgnoreLimit
+            // 
+            this.chkIgnoreLimit.AutoSize = true;
+            this.chkIgnoreLimit.Enabled = false;
+            this.chkIgnoreLimit.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkIgnoreLimit.ForeColor = System.Drawing.Color.IndianRed;
+            this.chkIgnoreLimit.Location = new System.Drawing.Point(114, 84);
+            this.chkIgnoreLimit.Name = "chkIgnoreLimit";
+            this.chkIgnoreLimit.Size = new System.Drawing.Size(105, 17);
+            this.chkIgnoreLimit.TabIndex = 16;
+            this.chkIgnoreLimit.Text = "Ignore Stop Limit";
+            this.toolTip.SetToolTip(this.chkIgnoreLimit, resources.GetString("chkIgnoreLimit.ToolTip"));
+            this.chkIgnoreLimit.UseVisualStyleBackColor = true;
+            // 
+            // chkRemoveMetronome
+            // 
+            this.chkRemoveMetronome.AutoSize = true;
+            this.chkRemoveMetronome.Enabled = false;
+            this.chkRemoveMetronome.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkRemoveMetronome.Location = new System.Drawing.Point(114, 61);
+            this.chkRemoveMetronome.Name = "chkRemoveMetronome";
+            this.chkRemoveMetronome.Size = new System.Drawing.Size(122, 17);
+            this.chkRemoveMetronome.TabIndex = 15;
+            this.chkRemoveMetronome.Text = "Remove Metronome";
+            this.toolTip.SetToolTip(this.chkRemoveMetronome, "If checked removes Metronome\r\narrangements from CDLC files.");
+            this.chkRemoveMetronome.UseVisualStyleBackColor = true;
+            // 
+            // chkRemoveGuitar
+            // 
+            this.chkRemoveGuitar.AutoSize = true;
+            this.chkRemoveGuitar.Enabled = false;
+            this.chkRemoveGuitar.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkRemoveGuitar.Location = new System.Drawing.Point(11, 84);
+            this.chkRemoveGuitar.Name = "chkRemoveGuitar";
+            this.chkRemoveGuitar.Size = new System.Drawing.Size(97, 17);
+            this.chkRemoveGuitar.TabIndex = 13;
+            this.chkRemoveGuitar.Text = "Remove Guitar";
+            this.toolTip.SetToolTip(this.chkRemoveGuitar, "If checked removes Guitar\r\narrangements from CDLC files.");
+            this.chkRemoveGuitar.UseVisualStyleBackColor = true;
+            // 
+            // chkRemoveBonus
+            // 
+            this.chkRemoveBonus.AutoSize = true;
+            this.chkRemoveBonus.Enabled = false;
+            this.chkRemoveBonus.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkRemoveBonus.Location = new System.Drawing.Point(114, 37);
+            this.chkRemoveBonus.Name = "chkRemoveBonus";
+            this.chkRemoveBonus.Size = new System.Drawing.Size(99, 17);
+            this.chkRemoveBonus.TabIndex = 14;
+            this.chkRemoveBonus.Text = "Remove Bonus";
+            this.toolTip.SetToolTip(this.chkRemoveBonus, "If checked removes Bonus\r\narrangements from CDLC files.\r\n\r\n\'Remove Bonus\' + \'Add " +
+                    "DD\' = LaceyB Repair");
+            this.chkRemoveBonus.UseVisualStyleBackColor = true;
+            // 
+            // chkRemoveNdd
+            // 
+            this.chkRemoveNdd.AutoSize = true;
+            this.chkRemoveNdd.Enabled = false;
+            this.chkRemoveNdd.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkRemoveNdd.Location = new System.Drawing.Point(10, 37);
+            this.chkRemoveNdd.Name = "chkRemoveNdd";
+            this.chkRemoveNdd.Size = new System.Drawing.Size(93, 17);
+            this.chkRemoveNdd.TabIndex = 10;
+            this.chkRemoveNdd.Text = "Remove NDD";
+            this.toolTip.SetToolTip(this.chkRemoveNdd, "If checked removes NDD (No Dynamic Difficulty)\r\narrangements from the CDLC file.\r" +
+                    "\n\r\nMay not be combined with \'Add DD\' radio button.");
+            this.chkRemoveNdd.UseVisualStyleBackColor = true;
+            // 
+            // chkRemoveBass
+            // 
+            this.chkRemoveBass.AutoSize = true;
+            this.chkRemoveBass.Enabled = false;
+            this.chkRemoveBass.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkRemoveBass.Location = new System.Drawing.Point(11, 61);
+            this.chkRemoveBass.Name = "chkRemoveBass";
+            this.chkRemoveBass.Size = new System.Drawing.Size(92, 17);
+            this.chkRemoveBass.TabIndex = 11;
+            this.chkRemoveBass.Text = "Remove Bass";
+            this.toolTip.SetToolTip(this.chkRemoveBass, "If checked removes Bass\r\narrangements from CDLC files.");
+            this.chkRemoveBass.UseVisualStyleBackColor = true;
+            // 
+            // rbRepairMaxFive
+            // 
+            this.rbRepairMaxFive.AutoCheck = false;
+            this.rbRepairMaxFive.AutoSize = true;
+            this.rbRepairMaxFive.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rbRepairMaxFive.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.rbRepairMaxFive.Location = new System.Drawing.Point(10, 13);
+            this.rbRepairMaxFive.Name = "rbRepairMaxFive";
+            this.rbRepairMaxFive.Size = new System.Drawing.Size(214, 17);
+            this.rbRepairMaxFive.TabIndex = 12;
+            this.rbRepairMaxFive.Text = "Repair Maximum Playable Arrangements";
+            this.toolTip.SetToolTip(this.rbRepairMaxFive, "A CDLC must have a type of arrangement\r\nfor it to be removed.  Arrangement types\r" +
+                    "\nare not added by this repair feature, only\r\nremoved by it.");
+            this.rbRepairMaxFive.UseVisualStyleBackColor = true;
+            this.rbRepairMaxFive.Click += new System.EventHandler(this.rbRepairMaxFive_Click);
+            // 
+            // btnRestoreMax
+            // 
+            this.btnRestoreMax.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRestoreMax.Image = ((System.Drawing.Image)(resources.GetObject("btnRestoreMax.Image")));
+            this.btnRestoreMax.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnRestoreMax.Location = new System.Drawing.Point(15, 91);
+            this.btnRestoreMax.Name = "btnRestoreMax";
+            this.btnRestoreMax.Padding = new System.Windows.Forms.Padding(5, 3, 0, 3);
+            this.btnRestoreMax.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.btnRestoreMax.Size = new System.Drawing.Size(160, 32);
+            this.btnRestoreMax.TabIndex = 11;
+            this.btnRestoreMax.Text = "   Restore (.max) Backups";
+            this.toolTip.SetToolTip(this.btnRestoreMax, resources.GetString("btnRestoreMax.ToolTip"));
+            this.btnRestoreMax.UseVisualStyleBackColor = true;
+            this.btnRestoreMax.Click += new System.EventHandler(this.btnRestoreMax_Click);
+            // 
+            // gbMastery
+            // 
+            this.gbMastery.Controls.Add(this.rbRepairMastery);
+            this.gbMastery.Controls.Add(this.chkRepairOrg);
+            this.gbMastery.Controls.Add(this.chkPreserve);
+            this.gbMastery.Location = new System.Drawing.Point(377, 10);
+            this.gbMastery.Name = "gbMastery";
+            this.gbMastery.Size = new System.Drawing.Size(174, 86);
+            this.gbMastery.TabIndex = 10;
+            this.gbMastery.TabStop = false;
+            // 
+            // rbRepairMastery
+            // 
+            this.rbRepairMastery.AutoCheck = false;
+            this.rbRepairMastery.AutoSize = true;
+            this.rbRepairMastery.Checked = true;
+            this.rbRepairMastery.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rbRepairMastery.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.rbRepairMastery.Location = new System.Drawing.Point(6, 13);
+            this.rbRepairMastery.Name = "rbRepairMastery";
+            this.rbRepairMastery.Size = new System.Drawing.Size(147, 17);
+            this.rbRepairMastery.TabIndex = 9;
+            this.rbRepairMastery.TabStop = true;
+            this.rbRepairMastery.Text = "Repair 100% Mastery Bug";
+            this.rbRepairMastery.UseVisualStyleBackColor = true;
+            this.rbRepairMastery.Click += new System.EventHandler(this.rbRepairMastery_Click);
             // 
             // chkRepairOrg
             // 
             this.chkRepairOrg.AutoSize = true;
-            this.chkRepairOrg.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkRepairOrg.Location = new System.Drawing.Point(676, 16);
+            this.chkRepairOrg.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkRepairOrg.Location = new System.Drawing.Point(6, 61);
             this.chkRepairOrg.Name = "chkRepairOrg";
-            this.chkRepairOrg.Size = new System.Drawing.Size(185, 19);
+            this.chkRepairOrg.Size = new System.Drawing.Size(161, 17);
             this.chkRepairOrg.TabIndex = 7;
             this.chkRepairOrg.Text = "Run Repair Using (.org) Files";
-            this.toolTip.SetToolTip(this.chkRepairOrg, "WARNING:\r\nExisting CDLC in the \'dlc\' folder that have\r\nthe same name will be over" +
-                    "written.\r\n\r\nIf checked run repair using the (.org.psarc) files.");
+            this.toolTip.SetToolTip(this.chkRepairOrg, resources.GetString("chkRepairOrg.ToolTip"));
             this.chkRepairOrg.UseVisualStyleBackColor = true;
             // 
             // chkPreserve
             // 
             this.chkPreserve.AutoSize = true;
-            this.chkPreserve.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkPreserve.Location = new System.Drawing.Point(458, 16);
+            this.chkPreserve.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkPreserve.Location = new System.Drawing.Point(6, 37);
             this.chkPreserve.Name = "chkPreserve";
-            this.chkPreserve.Size = new System.Drawing.Size(182, 19);
+            this.chkPreserve.Size = new System.Drawing.Size(162, 17);
             this.chkPreserve.TabIndex = 6;
             this.chkPreserve.Text = "Preserve Existing Song Stats";
             this.toolTip.SetToolTip(this.chkPreserve, "If checked preserves the existing song\r\nstats for CDLC that have not been\r\nplayed" +
                     " in Rocksmith 2014 Remastered.");
             this.chkPreserve.UseVisualStyleBackColor = true;
             // 
-            // btnCleanupDlcFolder
+            // btnDeleteCorruptSongs
             // 
-            this.btnCleanupDlcFolder.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.btnCleanupDlcFolder.Image = global::CustomsForgeSongManager.Properties.Resources.broom;
-            this.btnCleanupDlcFolder.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnCleanupDlcFolder.Location = new System.Drawing.Point(22, 53);
-            this.btnCleanupDlcFolder.Name = "btnCleanupDlcFolder";
-            this.btnCleanupDlcFolder.Padding = new System.Windows.Forms.Padding(5, 3, 3, 3);
-            this.btnCleanupDlcFolder.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.btnCleanupDlcFolder.Size = new System.Drawing.Size(182, 32);
-            this.btnCleanupDlcFolder.TabIndex = 5;
-            this.btnCleanupDlcFolder.Text = "     Cleanup \'dlc\' Folder";
-            this.toolTip.SetToolTip(this.btnCleanupDlcFolder, "Removes (.org.psarc) files if they\r\nexist from the \'dlc\' folder and saves\r\nthem t" +
-                    "o the \'backup\' folder.");
-            this.btnCleanupDlcFolder.UseVisualStyleBackColor = true;
-            this.btnCleanupDlcFolder.Click += new System.EventHandler(this.btnCleanupDlcFolder_Click);
+            this.btnDeleteCorruptSongs.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDeleteCorruptSongs.Image = ((System.Drawing.Image)(resources.GetObject("btnDeleteCorruptSongs.Image")));
+            this.btnDeleteCorruptSongs.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnDeleteCorruptSongs.Location = new System.Drawing.Point(185, 91);
+            this.btnDeleteCorruptSongs.Name = "btnDeleteCorruptSongs";
+            this.btnDeleteCorruptSongs.Padding = new System.Windows.Forms.Padding(5, 3, 0, 3);
+            this.btnDeleteCorruptSongs.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.btnDeleteCorruptSongs.Size = new System.Drawing.Size(160, 32);
+            this.btnDeleteCorruptSongs.TabIndex = 9;
+            this.btnDeleteCorruptSongs.Text = "   Delete Corrupt CDLC";
+            this.toolTip.SetToolTip(this.btnDeleteCorruptSongs, "Delete corrupt CDLC (.cor.psarc) files.");
+            this.btnDeleteCorruptSongs.UseVisualStyleBackColor = true;
+            this.btnDeleteCorruptSongs.Click += new System.EventHandler(this.btnDeleteCorruptSongs_Click);
             // 
-            // btnRestoreBackup
+            // btnArchiveCorruptSongs
             // 
-            this.btnRestoreBackup.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.btnRestoreBackup.Image = global::CustomsForgeSongManager.Properties.Resources.restorewindow;
-            this.btnRestoreBackup.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnRestoreBackup.Location = new System.Drawing.Point(240, 53);
-            this.btnRestoreBackup.Name = "btnRestoreBackup";
-            this.btnRestoreBackup.Padding = new System.Windows.Forms.Padding(5, 3, 3, 3);
-            this.btnRestoreBackup.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.btnRestoreBackup.Size = new System.Drawing.Size(182, 32);
-            this.btnRestoreBackup.TabIndex = 4;
-            this.btnRestoreBackup.Text = "     Restore (.org) Backups";
-            this.toolTip.SetToolTip(this.btnRestoreBackup, "WARNING:\r\nOverwrites files that have the same name\r\n\r\nRestore (.org.psarc) files " +
-                    "to the \'dlc\' folder\r\nso that a full repair may be run again.\r\n");
-            this.btnRestoreBackup.UseVisualStyleBackColor = true;
-            this.btnRestoreBackup.Click += new System.EventHandler(this.btnRestoreBackup_Click);
+            this.btnArchiveCorruptSongs.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnArchiveCorruptSongs.Image = ((System.Drawing.Image)(resources.GetObject("btnArchiveCorruptSongs.Image")));
+            this.btnArchiveCorruptSongs.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnArchiveCorruptSongs.Location = new System.Drawing.Point(185, 50);
+            this.btnArchiveCorruptSongs.Name = "btnArchiveCorruptSongs";
+            this.btnArchiveCorruptSongs.Padding = new System.Windows.Forms.Padding(5, 3, 0, 3);
+            this.btnArchiveCorruptSongs.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.btnArchiveCorruptSongs.Size = new System.Drawing.Size(160, 32);
+            this.btnArchiveCorruptSongs.TabIndex = 8;
+            this.btnArchiveCorruptSongs.Text = "   Archive Corrupt CDLC";
+            this.toolTip.SetToolTip(this.btnArchiveCorruptSongs, "Archive corrupt CDLC to a zip file.");
+            this.btnArchiveCorruptSongs.UseVisualStyleBackColor = true;
+            this.btnArchiveCorruptSongs.Click += new System.EventHandler(this.btnArchiveCorruptSongs_Click);
             // 
-            // btnRemasterAllCDLC
+            // btnRestoreOrg
             // 
-            this.btnRemasterAllCDLC.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.btnRemasterAllCDLC.Image = global::CustomsForgeSongManager.Properties.Resources.maintenance;
-            this.btnRemasterAllCDLC.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnRemasterAllCDLC.Location = new System.Drawing.Point(22, 9);
-            this.btnRemasterAllCDLC.Name = "btnRemasterAllCDLC";
-            this.btnRemasterAllCDLC.Padding = new System.Windows.Forms.Padding(5, 3, 3, 3);
-            this.btnRemasterAllCDLC.Size = new System.Drawing.Size(400, 32);
-            this.btnRemasterAllCDLC.TabIndex = 3;
-            this.btnRemasterAllCDLC.Text = "Remaster All CDLC Files (remove 100% mastery bug)";
-            this.toolTip.SetToolTip(this.btnRemasterAllCDLC, "Remaster any CDLC that are located\r\nin the \'dlc\' folder or subfolders.\r\n\r\nCheck t" +
-                    "he appropriate boxes first.");
-            this.btnRemasterAllCDLC.UseVisualStyleBackColor = true;
-            this.btnRemasterAllCDLC.Click += new System.EventHandler(this.btnRemasterAllCDLC_Click);
+            this.btnRestoreOrg.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRestoreOrg.Image = ((System.Drawing.Image)(resources.GetObject("btnRestoreOrg.Image")));
+            this.btnRestoreOrg.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnRestoreOrg.Location = new System.Drawing.Point(15, 50);
+            this.btnRestoreOrg.Name = "btnRestoreOrg";
+            this.btnRestoreOrg.Padding = new System.Windows.Forms.Padding(5, 3, 0, 3);
+            this.btnRestoreOrg.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.btnRestoreOrg.Size = new System.Drawing.Size(160, 32);
+            this.btnRestoreOrg.TabIndex = 4;
+            this.btnRestoreOrg.Text = "     Restore (.org) Backups";
+            this.toolTip.SetToolTip(this.btnRestoreOrg, "WARNING:\r\nOverwrites files that have the same name.\r\n\r\nRestore (.org) files to th" +
+                    "e \'dlc\' folder\r\nso that a full repair may be run again.\r\n");
+            this.btnRestoreOrg.UseVisualStyleBackColor = true;
+            this.btnRestoreOrg.Click += new System.EventHandler(this.btnRestoreOrg_Click);
             // 
-            // panel3
+            // btnRepairSongs
             // 
-            this.panel3.Controls.Add(this.lblBetaFeature);
-            this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel3.Location = new System.Drawing.Point(5, 5);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(889, 34);
-            this.panel3.TabIndex = 6;
+            this.btnRepairSongs.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRepairSongs.Image = ((System.Drawing.Image)(resources.GetObject("btnRepairSongs.Image")));
+            this.btnRepairSongs.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnRepairSongs.Location = new System.Drawing.Point(15, 10);
+            this.btnRepairSongs.Name = "btnRepairSongs";
+            this.btnRepairSongs.Padding = new System.Windows.Forms.Padding(5, 3, 0, 3);
+            this.btnRepairSongs.Size = new System.Drawing.Size(330, 32);
+            this.btnRepairSongs.TabIndex = 3;
+            this.btnRepairSongs.Text = "Repair 100% Mastery Bug";
+            this.toolTip.SetToolTip(this.btnRepairSongs, "Repair all CDLC that are located\r\ninside the \'dlc\' folder or subfolders.\r\n\r\nCheck" +
+                    " the appropriate repair options.");
+            this.btnRepairSongs.UseVisualStyleBackColor = true;
+            this.btnRepairSongs.Click += new System.EventHandler(this.btnRepairSongs_Click);
             // 
-            // lblBetaFeature
+            // pnlMiddle
             // 
-            this.lblBetaFeature.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.lblBetaFeature.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.lblBetaFeature.Location = new System.Drawing.Point(26, 5);
-            this.lblBetaFeature.Name = "lblBetaFeature";
-            this.lblBetaFeature.Size = new System.Drawing.Size(836, 24);
-            this.lblBetaFeature.TabIndex = 3;
-            this.lblBetaFeature.Text = "NOTE: This is a beta feature, use it carefully and please report every bug you en" +
-                "counter!";
+            this.pnlMiddle.Controls.Add(this.gbRepairStatus);
+            this.pnlMiddle.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlMiddle.Location = new System.Drawing.Point(5, 139);
+            this.pnlMiddle.Name = "pnlMiddle";
+            this.pnlMiddle.Size = new System.Drawing.Size(889, 309);
+            this.pnlMiddle.TabIndex = 7;
             // 
-            // panel4
+            // gbRepairStatus
             // 
-            this.panel4.Controls.Add(this.gbLog);
-            this.panel4.Controls.Add(this.btnViewErrorLog);
-            this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel4.Location = new System.Drawing.Point(5, 149);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(889, 336);
-            this.panel4.TabIndex = 7;
+            this.gbRepairStatus.Controls.Add(this.dgvRepair);
+            this.gbRepairStatus.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gbRepairStatus.Location = new System.Drawing.Point(0, 0);
+            this.gbRepairStatus.Name = "gbRepairStatus";
+            this.gbRepairStatus.Size = new System.Drawing.Size(889, 309);
+            this.gbRepairStatus.TabIndex = 11;
+            this.gbRepairStatus.TabStop = false;
+            this.gbRepairStatus.Text = "Repair Status:";
             // 
-            // gbLog
+            // pnlBottom
             // 
-            this.gbLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.pnlBottom.Controls.Add(this.btnViewErrorLog);
+            this.pnlBottom.Controls.Add(this.btnCleanDlcFolder);
+            this.pnlBottom.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlBottom.Location = new System.Drawing.Point(2, 453);
+            this.pnlBottom.Margin = new System.Windows.Forms.Padding(0);
+            this.pnlBottom.Name = "pnlBottom";
+            this.pnlBottom.Size = new System.Drawing.Size(895, 35);
+            this.pnlBottom.TabIndex = 8;
+            // 
+            // btnViewErrorLog
+            // 
+            this.btnViewErrorLog.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.btnViewErrorLog.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnViewErrorLog.Image = ((System.Drawing.Image)(resources.GetObject("btnViewErrorLog.Image")));
+            this.btnViewErrorLog.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnViewErrorLog.Location = new System.Drawing.Point(367, 2);
+            this.btnViewErrorLog.Name = "btnViewErrorLog";
+            this.btnViewErrorLog.Padding = new System.Windows.Forms.Padding(5, 3, 0, 3);
+            this.btnViewErrorLog.Size = new System.Drawing.Size(160, 32);
+            this.btnViewErrorLog.TabIndex = 10;
+            this.btnViewErrorLog.Text = "   View Error Log";
+            this.toolTip.SetToolTip(this.btnViewErrorLog, "Show \'remastered_error.log\' on the screen.");
+            this.btnViewErrorLog.UseVisualStyleBackColor = true;
+            this.btnViewErrorLog.Click += new System.EventHandler(this.btnViewErrorLog_Click);
+            // 
+            // btnCleanDlcFolder
+            // 
+            this.btnCleanDlcFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnCleanDlcFolder.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCleanDlcFolder.Image = ((System.Drawing.Image)(resources.GetObject("btnCleanDlcFolder.Image")));
+            this.btnCleanDlcFolder.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnCleanDlcFolder.Location = new System.Drawing.Point(15, 2);
+            this.btnCleanDlcFolder.Name = "btnCleanDlcFolder";
+            this.btnCleanDlcFolder.Padding = new System.Windows.Forms.Padding(5, 3, 0, 3);
+            this.btnCleanDlcFolder.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.btnCleanDlcFolder.Size = new System.Drawing.Size(160, 32);
+            this.btnCleanDlcFolder.TabIndex = 5;
+            this.btnCleanDlcFolder.Text = "   Cleanup \'dlc\' Folder";
+            this.toolTip.SetToolTip(this.btnCleanDlcFolder, "Removes (.org), (.max), and (.cor) files\r\nif they exist from the \'dlc\' folder and" +
+                    " \r\nsaves them to the \'backup\' folder.");
+            this.btnCleanDlcFolder.UseVisualStyleBackColor = true;
+            this.btnCleanDlcFolder.Click += new System.EventHandler(this.btnCleanDlcFolder_Click);
+            // 
+            // toolTip
+            // 
+            this.toolTip.AutoPopDelay = 12000;
+            this.toolTip.InitialDelay = 500;
+            this.toolTip.ReshowDelay = 100;
+            // 
+            // dgvRepair
+            // 
+            this.dgvRepair.AllowUserToAddRows = false;
+            this.dgvRepair.AllowUserToDeleteRows = false;
+            this.dgvRepair.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.gbLog.Controls.Add(this.dgvLog);
-            this.gbLog.Location = new System.Drawing.Point(3, 3);
-            this.gbLog.Name = "gbLog";
-            this.gbLog.Size = new System.Drawing.Size(883, 295);
-            this.gbLog.TabIndex = 11;
-            this.gbLog.TabStop = false;
-            this.gbLog.Text = "Log:";
-            // 
-            // dgvLog
-            // 
-            this.dgvLog.AllowUserToAddRows = false;
-            this.dgvLog.AllowUserToDeleteRows = false;
-            this.dgvLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.dgvLog.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvLog.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvLog.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dgvRepair.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvRepair.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvRepair.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colFileName,
             this.colMessage});
-            this.dgvLog.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            this.dgvLog.HorizontalScrollBarVisible = false;
-            this.dgvLog.Location = new System.Drawing.Point(6, 19);
-            this.dgvLog.Name = "dgvLog";
-            this.dgvLog.RowHeadersVisible = false;
-            this.dgvLog.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvLog.Size = new System.Drawing.Size(871, 270);
-            this.dgvLog.TabIndex = 9;
-            this.dgvLog.VerticalScrollBarVisible = false;
+            this.dgvRepair.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.dgvRepair.HorizontalScrollBarVisible = false;
+            this.dgvRepair.Location = new System.Drawing.Point(6, 19);
+            this.dgvRepair.Name = "dgvRepair";
+            this.dgvRepair.RowHeadersVisible = false;
+            this.dgvRepair.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.dgvRepair.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvRepair.Size = new System.Drawing.Size(877, 284);
+            this.dgvRepair.TabIndex = 9;
+            this.dgvRepair.VerticalScrollBarVisible = true;
             // 
             // colFileName
             // 
@@ -274,28 +475,6 @@
             this.colMessage.HeaderText = "Message";
             this.colMessage.Name = "colMessage";
             // 
-            // btnViewErrorLog
-            // 
-            this.btnViewErrorLog.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.btnViewErrorLog.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.btnViewErrorLog.Image = global::CustomsForgeSongManager.Properties.Resources.notes;
-            this.btnViewErrorLog.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnViewErrorLog.Location = new System.Drawing.Point(353, 304);
-            this.btnViewErrorLog.Name = "btnViewErrorLog";
-            this.btnViewErrorLog.Padding = new System.Windows.Forms.Padding(5, 3, 3, 3);
-            this.btnViewErrorLog.Size = new System.Drawing.Size(182, 32);
-            this.btnViewErrorLog.TabIndex = 10;
-            this.btnViewErrorLog.Text = "     View Error Log";
-            this.toolTip.SetToolTip(this.btnViewErrorLog, "Show \'remastered_error.log\' on the screen.");
-            this.btnViewErrorLog.UseVisualStyleBackColor = true;
-            this.btnViewErrorLog.Click += new System.EventHandler(this.btnViewErrorLog_Click);
-            // 
-            // toolTip
-            // 
-            this.toolTip.AutoPopDelay = 12000;
-            this.toolTip.InitialDelay = 500;
-            this.toolTip.ReshowDelay = 100;
-            // 
             // Repairs
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -304,12 +483,16 @@
             this.Name = "Repairs";
             this.Size = new System.Drawing.Size(899, 490);
             this.tlpRepairs.ResumeLayout(false);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
-            this.panel3.ResumeLayout(false);
-            this.panel4.ResumeLayout(false);
-            this.gbLog.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvLog)).EndInit();
+            this.pnlTop.ResumeLayout(false);
+            this.pnlTop.PerformLayout();
+            this.gbMaxPlayable.ResumeLayout(false);
+            this.gbMaxPlayable.PerformLayout();
+            this.gbMastery.ResumeLayout(false);
+            this.gbMastery.PerformLayout();
+            this.pnlMiddle.ResumeLayout(false);
+            this.gbRepairStatus.ResumeLayout(false);
+            this.pnlBottom.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvRepair)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -317,23 +500,34 @@
         #endregion
 
         private System.Windows.Forms.TableLayoutPanel tlpRepairs;
-        private System.Windows.Forms.Label lblBetaFeature;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Button btnRemasterAllCDLC;
-        private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.Panel panel4;
-        private System.Windows.Forms.Button btnRestoreBackup;
-        private System.Windows.Forms.Button btnCleanupDlcFolder;
+        private System.Windows.Forms.Panel pnlTop;
+        private System.Windows.Forms.Button btnRepairSongs;
+        private System.Windows.Forms.Panel pnlMiddle;
+        private System.Windows.Forms.Button btnRestoreOrg;
+        private System.Windows.Forms.Button btnCleanDlcFolder;
         private System.Windows.Forms.Button btnViewErrorLog;
         private System.Windows.Forms.CheckBox chkRepairOrg;
         private System.Windows.Forms.CheckBox chkPreserve;
-        private System.Windows.Forms.Button btnDeleteCorruptFiles;
-        private System.Windows.Forms.Button btnArchiveCorruptCDLC;
-        private System.Windows.Forms.GroupBox gbLog;
+        private System.Windows.Forms.Button btnDeleteCorruptSongs;
+        private System.Windows.Forms.Button btnArchiveCorruptSongs;
+        private System.Windows.Forms.GroupBox gbRepairStatus;
         private System.Windows.Forms.ToolTip toolTip;
-        private DataGridViewTools.SubclassedDataGridView dgvLog;
+        private DataGridViewTools.SubclassedDataGridView dgvRepair;
         private System.Windows.Forms.DataGridViewTextBoxColumn colFileName;
         private System.Windows.Forms.DataGridViewTextBoxColumn colMessage;
+        private System.Windows.Forms.GroupBox gbMastery;
+        private System.Windows.Forms.CheckBox chkRemoveMetronome;
+        private System.Windows.Forms.CheckBox chkRemoveBonus;
+        private System.Windows.Forms.CheckBox chkRemoveGuitar;
+        private System.Windows.Forms.RadioButton rbRepairMaxFive;
+        private System.Windows.Forms.CheckBox chkRemoveBass;
+        private System.Windows.Forms.CheckBox chkRemoveNdd;
+        private System.Windows.Forms.RadioButton rbRepairMastery;
+        private System.Windows.Forms.Button btnRestoreMax;
+        private System.Windows.Forms.GroupBox gbMaxPlayable;
+        private System.Windows.Forms.CheckBox chkIgnoreLimit;
+        private System.Windows.Forms.Panel pnlBottom;
+        private System.Windows.Forms.RadioButton rbAddDD;
 
-   }
+    }
 }

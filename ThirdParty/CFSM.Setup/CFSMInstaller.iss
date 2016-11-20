@@ -14,7 +14,7 @@ AppUpdatesURL=AppURL
 VersionInfoCompany=CustomsForge.com
 DefaultDirName={pf}\CustomsForgeSongManager
 DefaultGroupName=CustomsForge Song Manager
-WizardImageFile=CFSMInstallWiz.bmp
+WizardImageFile=cfsmInstallWiz.bmp
 WizardSmallImageFile=cfsmWizardSmall.bmp
 OutputBaseFilename={#InstallerName}
 VersionInfoVersion={#AppVersion}
@@ -29,7 +29,6 @@ Source: {#buildpath}DF.WinForms.ThemeLib.dll; DestDir: {app}; Flags: ignoreversi
 Source: {#buildpath}CFSM.GenTools.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}CFSM.RSTKLib.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}bass.dll; DestDir: {app}; Flags: ignoreversion
-Source: ClickOnceUninstaller.exe; DestDir: {tmp}; Flags: dontcopy
 Source: {#buildpath}DataGridViewTools.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}CFSM.NCalc.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}DLogNet.dll; DestDir: {app}; Flags: ignoreversion
@@ -59,12 +58,16 @@ Source: {#buildpath}RocksmithToolkitLib.Config.xml; DestDir: {app}; Flags: ignor
 Source: {#buildpath}RocksmithToolkitLib.SongAppId.xml; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}RocksmithToolkitLib.TuningDefinition.xml; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}zlib.net.dll; DestDir: {app}; Flags: ignoreversion
+Source: "{#buildpath}ddc\*"; DestDir: "{app}\ddc"; Flags: replacesameversion recursesubdirs
 Source: {srcexe}; DestDir: {app}; DestName: {#InstallerName}.exe; Flags: ignoreversion external
 
 [Tasks]
 Name: desktopicon; Description: {cm:CreateDesktopIcon}; GroupDescription: {cm:AdditionalIcons}; Flags: checkedonce
 ;todo: quick launch win 7 and up
 Name: quicklaunchicon; Description: {cm:CreateQuickLaunchIcon}; GroupDescription: {cm:AdditionalIcons}; Flags: unchecked; OnlyBelowVersion: 0,6.1
+
+[Run]
+Filename: {app}\{#AppExeName}; Description: "{cm:LaunchProgram, {%AppName}}"; Flags: nowait postinstall skipifsilent
 
 [Icons]
 Name: {group}\{#ApplicationName}; Filename: {app}\{#AppExeName}; WorkingDir: {app}; IconFilename: {app}\{#AppExeName}

@@ -315,6 +315,34 @@ namespace CFSM.GenTools
             return output;
         }
 
+        public static void CleanLocalTemp()
+        {
+            var di = new DirectoryInfo(Path.GetTempPath());
+
+            // 'Local Settings\Temp' in WinXp
+            // 'AppData\Local\Temp' in Win7
+            // confirm this is the correct temp directory before deleting
+            if (di.Parent != null)
+            {
+                if (di.Parent.Name.Contains("Local") && di.Name == "Temp")
+                {
+                    foreach (FileInfo file in di.GetFiles())
+                        try
+                        {
+                            file.Delete();
+                        }
+                        catch { /*Don't worry just skip locked file*/ }
+
+                    foreach (DirectoryInfo dir in di.GetDirectories())
+                        try
+                        {
+                            dir.Delete(true);
+                        }
+                        catch { /*Don't worry just skip locked directory*/ }
+                }
+            }
+        }
+
         #region Shortcut Methods
 
         public static bool AddShortcut(Environment.SpecialFolder destDirectory,

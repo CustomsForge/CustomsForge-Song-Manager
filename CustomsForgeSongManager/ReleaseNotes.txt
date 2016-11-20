@@ -1,4 +1,14 @@
 ﻿CFSM Release Notes
+1.2.6.9
+- upgrades and code improvements to CFSM Repair feature
+- use CFSM standardized grid colors for the Repair feature
+- added "Repair Maximum Playable Arrangements" to make CDLC compatible with RS14R arrangement limitations
+- added multiple repair options to reduce the number arrangements in a CDLC
+- CDLC that exceed the RS14R arrangement limit are automatically moved to 'backup' folder
+- added error checking to Repair feature options
+- added a generic and reusable background worker
+- added Dynamic Difficulty Creator to Repair feature
+
 1.2.6.8.
 - added a "pitch shift" option to Song Manager (add multipitch pedal to tones and set tuning to E Std/Drop D)
 - updated ODLC list

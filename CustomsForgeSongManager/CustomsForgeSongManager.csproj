@@ -186,6 +186,8 @@
     <Compile Include="Forms\frmCODLCDuplicates.Designer.cs">
       <DependentUpon>frmCODLCDuplicates.cs</DependentUpon>
     </Compile>
+    <Compile Include="LocalTools\DynamicDifficulty.cs" />
+    <Compile Include="LocalTools\GenericWorker.cs" />
     <Compile Include="LocalTools\LocalExtensions.cs" />
     <Compile Include="LocalTools\AbortableBackgroundWorker.cs">
       <SubType>Component</SubType>
@@ -338,7 +340,7 @@
     <Compile Include="SongEditor\ucTones.Designer.cs">
       <DependentUpon>ucTones.cs</DependentUpon>
     </Compile>
-    <Compile Include="LocalTools\SongTagger.cs" />
+    <Compile Include="Resources\SongTagger.cs" />
     <Compile Include="UControls\Repairs.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -735,7 +737,7 @@ if $(ConfigurationName) == InnoInstaller (
 CD "$(SolutionDir)ThirdParty\ConfuserEx_bin\"
 "Confuser.CLI.exe" "..\ConfuserExForInno.crproj"
 CD "$(SolutionDir)ThirdParty\Inno\"
-"ISCC.exe" /DBETA "..\CFSM.Setup\CFSMInstaller.iss"
+"ISCC.exe" /DBETA "..\CFSM.Setup\cfsmInstaller.iss"
 del /q "$(TargetDir)*.pdb"
 CD "$(SolutionDir)ThirdParty\"
 "CFSMPostBuilder.exe" "CREATEVERSIONINFO"
@@ -745,7 +747,7 @@ if $(ConfigurationName) == PublishBeta (
 CD "$(SolutionDir)ThirdParty\ConfuserEx_bin\"
 "Confuser.CLI.exe" "..\ConfuserExForInno.crproj"
 CD "$(SolutionDir)ThirdParty\Inno\"
-"ISCC.exe" /DBETA "..\CFSM.Setup\CFSMInstaller.iss"
+"ISCC.exe" /DBETA "..\CFSM.Setup\cfsmInstaller.iss"
 del /q "$(TargetDir)*.pdb"
 CD "$(SolutionDir)ThirdParty\"
 "CFSMPostBuilder.exe" "CREATEVERSIONINFO"
@@ -757,7 +759,7 @@ if $(ConfigurationName) == PublishRelease (
 CD "$(SolutionDir)ThirdParty\ConfuserEx_bin\"
 "Confuser.CLI.exe" "..\ConfuserExForInno.crproj"
 CD "$(SolutionDir)ThirdParty\Inno\"
-"ISCC.exe" "..\CFSM.Setup\CFSMInstaller.iss"
+"ISCC.exe" "..\CFSM.Setup\cfsmInstaller.iss"
 del /q "$(TargetDir)*.pdb"
 CD "$(SolutionDir)ThirdParty\"
 "CFSMPostBuilder.exe" "CREATEVERSIONINFO"
@@ -769,8 +771,8 @@ DEL /Q "$(TargetDir)*.pdb"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>XCOPY /Y/D "$(SolutionDir)libs\*.xml" "$(TargetDir)*.xml" 
-
 XCOPY /Y/E/D "$(SolutionDir)libs\ww2ogg\*.*" "$(TargetDir)*.*"
+XCOPY /Y/E/D "$(SolutionDir)libs\ddc\*.*" "$(TargetDir)ddc\*.*"
 
 CD "$(SolutionDir)ThirdParty\CFSM.Setup\Output\"
 del /q "*.txt"
