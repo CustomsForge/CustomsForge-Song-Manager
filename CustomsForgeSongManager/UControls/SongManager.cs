@@ -25,6 +25,8 @@ using RocksmithToolkitLib.ToolkitTone;
 using RocksmithToolkitLib.DLCPackage.Manifest2014.Tone;
 using RocksmithToolkitLib.Sng;
 using RocksmithToolkitLib.Extensions;
+using RocksmithToolkitLib.DLCPackage.Manifest.Functions;
+using RocksmithToolkitLib;
 
 
 namespace CustomsForgeSongManager.UControls
@@ -1547,11 +1549,11 @@ namespace CustomsForgeSongManager.UControls
             string pitchShiftedMessage = "Pitch Shifted";
             string srcFilePath = song.FilePath;
 
-            if (song.CharterName.ToLower() == "firekorn")
-            {
-                Globals.Log("NOP NOP NOP NOP NOP");
-                return false;
-            }
+            //if (song.CharterName.ToLower() == "firekorn")
+            //{
+            //    Globals.Log("NOP NOP NOP NOP NOP");
+            //    return false;
+            //}
 
             if (song.OfficialDLC)
                 return false;
@@ -1776,6 +1778,9 @@ namespace CustomsForgeSongManager.UControls
             if (song.DD > 0)
                 return false;
 
+            if (song.OfficialDLC)
+                return false;
+
             Globals.Log("Adding DD to: " + Path.GetFileName(srcFilePath) + " ...");
 
             using (var psarcOld = new PsarcPackager())
@@ -1795,6 +1800,13 @@ namespace CustomsForgeSongManager.UControls
                     continue;
 
                 var songXml = Song2014.LoadFromFile(arr.SongXml.File);
+               
+                var mf = new ManifestFunctions(GameVersion.RS2014);
+                var maxDD = mf.GetMaxDifficulty(songXml);
+
+                if (maxDD > 0)
+                    continue;
+
                 songXml.AlbumYear = packageData.SongInfo.SongYear.ToString().GetValidYear();
                 songXml.ArtistName = packageData.SongInfo.Artist.GetValidAtaSpaceName();
                 songXml.Title = packageData.SongInfo.SongDisplayName.GetValidAtaSpaceName();
