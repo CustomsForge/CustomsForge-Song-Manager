@@ -1,4 +1,7 @@
 ﻿CFSM Release Notes
+1.2.6.10
+- added an option to apply Dynamic Difficulty in Song Manager
+
 1.2.6.9
 - upgrades and code improvements to CFSM Repair feature
 - use CFSM standardized grid colors for the Repair feature
