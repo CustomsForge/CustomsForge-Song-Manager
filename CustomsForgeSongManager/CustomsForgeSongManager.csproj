@@ -264,6 +264,7 @@
     <Compile Include="DataObjects\Globals.cs" />
     <Compile Include="LocalTools\Ignition.cs" />
     <Compile Include="LocalTools\PsarcBrowser.cs" />
+    <Compile Include="LocalTools\SongTagger.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -340,7 +341,6 @@
     <Compile Include="SongEditor\ucTones.Designer.cs">
       <DependentUpon>ucTones.cs</DependentUpon>
     </Compile>
-    <Compile Include="Resources\SongTagger.cs" />
     <Compile Include="UControls\Repairs.cs">
       <SubType>UserControl</SubType>
     </Compile>
