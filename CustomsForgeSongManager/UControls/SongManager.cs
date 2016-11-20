@@ -1553,10 +1553,13 @@ namespace CustomsForgeSongManager.UControls
                 return false;
             }
 
-            //if (song.OfficialDLC)
-            //    return false;
+            if (song.OfficialDLC)
+                return false;
 
-            Globals.Log("Adding a pitch shifting effect to: " + Path.GetFileName(srcFilePath));
+            if (song.Tuning == "E Standard" || song.Tuning == "Drop D")
+                return false;
+
+            Globals.Log(" - Adding a pitch shifting effect to: " + Path.GetFileName(srcFilePath));
             try
             {
                 string ext = string.Empty, finalPath = srcFilePath;
@@ -1635,7 +1638,7 @@ namespace CustomsForgeSongManager.UControls
 
                 packageData.TonesRS2014 = tones;
 
-                if(!createNewFile)
+                if (!createNewFile)
                 {
                     // add comment to ToolkitInfo to identify pitch shifted CDLC
                     var pitchShiftedComment = packageData.PackageComment;
@@ -1710,13 +1713,15 @@ namespace CustomsForgeSongManager.UControls
             return true;
         }
 
-        private void betaPitchShiftToolStripMenuItem_Click(object sender, EventArgs e)
+        public void PitchShift_Single()
         {
-            if (MessageBox.Show(@"Are you sure you want to add a pitch shift effect to the selected songs (shifting to E standard for songs in standard tunings or Drop D for songs in dropped tunings)?"
-                                  + Environment.NewLine + Environment.NewLine + "NOTE: neither the actual audio nor the tab are changed, so make sure to use headphones while playing!",
-                                  Constants.ApplicationName + " ... Warning", MessageBoxButtons.YesNo) == DialogResult.No)
-                return;
+            var song = DgvExtensions.GetObjectFromRow<SongData>(dgvSongsMaster.SelectedRows[0]);
 
+            PitchShiftSong(song);
+        }
+
+        public void PitchShift_Selection()
+        {
             var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster);
 
             if (selection.Count > 0)
@@ -1729,13 +1734,217 @@ namespace CustomsForgeSongManager.UControls
         private void cmsPitchShift_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show(@"Are you sure you want to add a pitch shift effect to the selected song (shifting to E standard for songs in standard tunings or Drop D for songs in dropped tunings)?"
-                                  + Environment.NewLine + Environment.NewLine + "NOTE: neither the actual audio nor the tab are changed, so make sure to use headphones while playing!",
-                                  Constants.ApplicationName + " ... Warning", MessageBoxButtons.YesNo) == DialogResult.No)
+                     + Environment.NewLine + Environment.NewLine + "NOTE: neither the actual audio nor the tab are changed, so make sure to use headphones while playing!",
+                     Constants.ApplicationName + " ... Warning", MessageBoxButtons.YesNo) == DialogResult.No)
                 return;
 
-            var songData = DgvExtensions.GetObjectFromRow<SongData>(dgvSongsMaster.SelectedRows[0]);
+            using (var gWorker = new GenericWorker())
+            {
+                gWorker.WorkDescription = "applying pitch shift to a single song";
+                gWorker.BackgroundProcess(this);
+                while (Globals.WorkerFinished == Globals.Tristate.False)
+                    Application.DoEvents();
+            }
+        }
 
-            PitchShiftSong(songData);
+        private void betaPitchShiftToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show(@"Are you sure you want to add a pitch shift effect to the selected songs (shifting to E standard for songs in standard tunings or Drop D for songs in dropped tunings)?"
+                     + Environment.NewLine + Environment.NewLine + "NOTE: neither the actual audio nor the tab are changed, so make sure to use headphones while playing!",
+                     Constants.ApplicationName + " ... Warning", MessageBoxButtons.YesNo) == DialogResult.No)
+                return;
+
+            using (var gWorker = new GenericWorker())
+            {
+                gWorker.WorkDescription = "applying pitch shift to the selection";
+                gWorker.BackgroundProcess(this);
+                while (Globals.WorkerFinished == Globals.Tristate.False)
+                    Application.DoEvents();
+            }
+        }
+
+        public bool ApplyDDToPackage(SongData song, int phraseLen, bool removeSus, string rampPath, string cfgPath, out string consoleOutput, bool preserveStats = true)
+        {
+            DLCPackageData packageData;
+            int ddOutputCode = -1;
+            string ddArrIDMsg = "(Arrangement ID by DDC)";
+            string ddRemasteredMsg = "(Remastered by DDC)";
+            string srcFilePath = song.FilePath;
+
+            consoleOutput = String.Empty;
+
+            if (song.DD > 0)
+                return false;
+
+            Globals.Log("Adding DD to: " + Path.GetFileName(srcFilePath) + " ...");
+
+            using (var psarcOld = new PsarcPackager())
+                packageData = psarcOld.ReadPackage(srcFilePath);
+
+            // Update arrangement song info
+            foreach (var arr in packageData.Arrangements)
+            {
+                if (!preserveStats)
+                {
+                    arr.SongFile = new RocksmithToolkitLib.DLCPackage.AggregateGraph.SongFile { File = "" };
+                    arr.Id = IdGenerator.Guid();
+                    arr.MasterId = RandomGenerator.NextInt();
+                }
+
+                if (arr.ArrangementType == ArrangementType.Vocal || arr.ArrangementType == ArrangementType.ShowLight)
+                    continue;
+
+                var songXml = Song2014.LoadFromFile(arr.SongXml.File);
+                songXml.AlbumYear = packageData.SongInfo.SongYear.ToString().GetValidYear();
+                songXml.ArtistName = packageData.SongInfo.Artist.GetValidAtaSpaceName();
+                songXml.Title = packageData.SongInfo.SongDisplayName.GetValidAtaSpaceName();
+                songXml.AlbumName = packageData.SongInfo.Album.GetValidAtaSpaceName();
+                songXml.ArtistNameSort = packageData.SongInfo.ArtistSort.GetValidSortableName();
+                songXml.SongNameSort = packageData.SongInfo.SongDisplayNameSort.GetValidSortableName();
+                songXml.AlbumNameSort = packageData.SongInfo.AlbumSort.GetValidSortableName();
+                songXml.AverageTempo = Convert.ToSingle(packageData.SongInfo.AverageTempo.ToString().GetValidTempo());
+
+                // write updated xml arrangement
+                using (var stream = File.Open(arr.SongXml.File, FileMode.Create))
+                    songXml.Serialize(stream, true);
+
+                // restore arrangment comments 
+                Song2014.WriteXmlComments(arr.SongXml.File, arr.XmlComments);
+
+                var result = DynamicDifficulty.ApplyDD(arr.SongXml.File, phraseLen, removeSus, rampPath, cfgPath, out consoleOutput, true);
+                if (result == -1)
+                    throw new CustomException("ddc.exe is missing");
+
+                if (String.IsNullOrEmpty(consoleOutput))
+                    Globals.Log(" - Added DD to " + arr + " ...");
+                else
+                    Globals.Log(" - " + arr + " DDC console output: " + consoleOutput + " ...");
+            }
+
+            if (!preserveStats)
+            {
+                // add comment to ToolkitInfo to identify CDLC
+                var arrIdComment = packageData.PackageComment;
+                if (String.IsNullOrEmpty(arrIdComment))
+                    arrIdComment = ddArrIDMsg;
+                else if (!arrIdComment.Contains(ddArrIDMsg))
+                    arrIdComment = arrIdComment + " " + ddArrIDMsg;
+
+                packageData.PackageComment = arrIdComment;
+            }
+
+            // add comment to ToolkitInfo to identify CDLC
+            var remasterComment = packageData.PackageComment;
+            if (String.IsNullOrEmpty(remasterComment))
+                remasterComment = ddRemasteredMsg;
+            else if (!remasterComment.Contains(ddRemasteredMsg))
+                remasterComment = remasterComment + " " + ddRemasteredMsg;
+
+            packageData.PackageComment = remasterComment;
+
+            // add default package version if missing
+            if (String.IsNullOrEmpty(packageData.PackageVersion))
+                packageData.PackageVersion = "1";
+            else
+                packageData.PackageVersion = packageData.PackageVersion.GetValidVersion();
+
+            // validate packageData (important)
+            packageData.Name = packageData.Name.GetValidKey(); // DLC Key                 
+            Globals.Log(@" - Repackaging updated DDC content ...");
+
+            try
+            {
+                using (var psarcNew = new PsarcPackager(true))
+                    psarcNew.WritePackage(srcFilePath, packageData);
+            }
+            catch (InvalidDataException ex) //Invalid tones exception
+            {
+                Globals.Log("DD not added - tone structure invalid!");
+                Globals.Log(ex.Message.ToString());
+                return false;
+            }
+
+            if (File.Exists(srcFilePath))
+            {
+                using (var browser = new PsarcBrowser(srcFilePath))
+                {
+                    var songInfo = browser.GetSongData();
+
+                    if (songInfo != null)
+                    {
+                        int index = Globals.SongCollection.IndexOf(song);
+
+                        if (index != -1) //Not very likely to be -1
+                            Globals.SongCollection[index] = songInfo.First();
+                    }
+                }
+            }
+
+            return ddOutputCode == 0;
+        }
+
+        public void ApplyDD_Single()
+        {
+            string consoleOutput = "";
+
+            SettingsDDC.Instance.LoadConfigXml();
+            var phraseLen = 12;
+            var removeSus = SettingsDDC.Instance.RemoveSus;
+            var rampPath = SettingsDDC.Instance.RampPath;
+            var cfgPath = SettingsDDC.Instance.CfgPath;
+
+            var song = DgvExtensions.GetObjectFromRow<SongData>(dgvSongsMaster.SelectedRows[0]);
+
+            ApplyDDToPackage(song, phraseLen, removeSus, rampPath, cfgPath, out consoleOutput);
+        }
+
+        public void ApplyDD_Selection()
+        {
+            string consoleOutput = string.Empty;
+
+            SettingsDDC.Instance.LoadConfigXml();
+            var phraseLen = 12;
+            var removeSus = SettingsDDC.Instance.RemoveSus;
+            var rampPath = SettingsDDC.Instance.RampPath;
+            var cfgPath = SettingsDDC.Instance.CfgPath;
+
+            var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster);
+
+            if (selection.Count > 0)
+            {
+                foreach (var song in selection)
+                    ApplyDDToPackage(song, phraseLen, removeSus, rampPath, cfgPath, out consoleOutput);
+            }
+        }
+
+        private void cmsAddDD_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show(@"Are you sure you want to add DD (Dynamic difficulty) to the selected song?",
+                Constants.ApplicationName + " ... Warning", MessageBoxButtons.YesNo) == DialogResult.No)
+                return;
+
+            using (var gWorker = new GenericWorker())
+            {
+                gWorker.WorkDescription = "applying DD to a single";
+                gWorker.BackgroundProcess(this);
+                while (Globals.WorkerFinished == Globals.Tristate.False)
+                    Application.DoEvents();
+            }
+        }
+
+        private void addDDToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show(@"Are you sure you want to add DD (Dynamic difficulty) to the selected songs?",
+                Constants.ApplicationName + " ... Warning", MessageBoxButtons.YesNo) == DialogResult.No)
+                return;
+
+            using (var gWorker = new GenericWorker())
+            {
+                gWorker.WorkDescription = "applying DD to the selection";
+                gWorker.BackgroundProcess(this);
+                while (Globals.WorkerFinished == Globals.Tristate.False)
+                    Application.DoEvents();
+            }
         }
     }
 }

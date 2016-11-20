@@ -53,6 +53,14 @@ namespace CustomsForgeSongManager.LocalTools
                 bWorker.DoWork += WorkerRestoreMaxBackups;
             else if (WorkDescription.ToLower().Contains("archiving"))
                 bWorker.DoWork += WorkerArchiveCorruptSongs;
+            else if (WorkDescription.ToLower().Contains("dd to a single"))
+                bWorker.DoWork += WorkerApplyDD_Single;
+            else if (WorkDescription.ToLower().Contains("dd to the selection"))
+                bWorker.DoWork += WorkerApplyDD_Selection;
+            else if (WorkDescription.ToLower().Contains("pitch shift to a single"))
+                bWorker.DoWork += WorkerPitchShift_Single;
+            else if (WorkDescription.ToLower().Contains("pitch shift to the selection"))
+                bWorker.DoWork += WorkerPitchShift_Selection;
             else
                 throw new Exception("I'm not that kind of worker ...");
 
@@ -118,6 +126,30 @@ namespace CustomsForgeSongManager.LocalTools
         {
             if (!bWorker.CancellationPending)
                 Globals.Repairs.ArchiveCorruptCDLC();
+        }
+
+        private void WorkerApplyDD_Single(object sender, DoWorkEventArgs e)
+        {
+            if (!bWorker.CancellationPending)
+                Globals.SongManager.ApplyDD_Single();
+        }
+
+        private void WorkerApplyDD_Selection(object sender, DoWorkEventArgs e)
+        {
+            if (!bWorker.CancellationPending)
+                Globals.SongManager.ApplyDD_Selection();
+        }
+
+        private void WorkerPitchShift_Single(object sender, DoWorkEventArgs e)
+        {
+            if (!bWorker.CancellationPending)
+                Globals.SongManager.PitchShift_Single();
+        }
+
+        private void WorkerPitchShift_Selection(object sender, DoWorkEventArgs e)
+        {
+            if (!bWorker.CancellationPending)
+                Globals.SongManager.PitchShift_Selection();
         }
 
         [SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "bWorker")]
