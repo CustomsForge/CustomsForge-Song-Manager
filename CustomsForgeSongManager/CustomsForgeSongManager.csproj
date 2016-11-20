@@ -86,7 +86,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'InnoInstaller|x86'">
     <OutputPath>bin\InnoInstaller\</OutputPath>
-    <DefineConstants>TRACE;WINDOWS;AUTOUPDATE;TAGGER;BETA</DefineConstants>
+    <DefineConstants>TRACE;WINDOWS;AUTOUPDATE;TAGGER;RELEASE</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>
