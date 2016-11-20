@@ -601,6 +601,7 @@
     <None Include="Resources\log.png" />
     <None Include="Resources\maintenance.png" />
     <None Include="Resources\notes.png" />
+    <EmbeddedResource Include="Resources\HelpRepairs.txt" />
     <Content Include="Resources\TaggerHelp.html" />
     <None Include="Resources\trashcan.png" />
     <None Include="Resources\Unleashed2k.png" />

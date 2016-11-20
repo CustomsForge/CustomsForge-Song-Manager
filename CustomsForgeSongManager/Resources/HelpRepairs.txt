@@ -1,0 +1,47 @@
+Overview:  CFSM 'Repairs' feature is a GUI for making bulk repairs to all CDLC files that are located in the Rocksmith 2014 'dlc' folder and subfolders.  Once repaired these CDLC may be played bug free in Rocksmith 2014 Remastered (RS14R).
+ 
+Usage Option #1 (for Rocksmith 2014 Remastered players):
+1. Start CFSM 1.2.6.9 Beta or newer, select 'Repairs' tab.
+2. Make sure "Repair 100% Mastery Bug" and "Add DD" radio buttons are selected (have a black dot in the circle).  This will repair CDLC and add Dynamic Difficulty (DD) to CDLC that do not already have DD so that in game Song Stats are maintained properly.
+3. Press the "Restore (.org) Backups" button.
+4. If you want to preserve in game Song Stats then check the 'Preserve Existing Song Stats' checkbox.  This option only preserve Song Stats for CDLC that have not been played in  RS14R (CDLC that do not yet have the 100% Mastery Bug).
+5. Press the big 'Repair 100% Master Bug' button to start the repairs.
+6. Go get a beer or two while your CDLC collection is repaired.
+7. Start the game and play your repaired CDLC collection.
+Footnote:  Corrupt CDLC and CDLC that Exceed the Playable Arrangements Limit (aka Max5 Bug) are moved to appropriate subfolders inside the 'backup' folder which is located in the Rocksmith 2014 root folder.  CDLC that Exceed the Playable Arrangements may be repaired by following Usage Option #2 instructions below.
+ 
+Usage Option #2 (for CFSM users who want to repair the Max5 Bug):
+1. Follow and apply Usage Option #1 repairs to the entire CDLC collection.
+2. Close the CFSM application after the CDLC collection has been Option #1 repaired.
+3. Locate the 'dlc' folder inside the Rocksmith 2014 root folder.
+4. Drag (move) the 'dlc' folder to your systems root, e.g. C:\  (We are effectively removing all DLC and CDLC from the game.)
+5. Create a new EMPTY 'dlc' folder inside the Rocksmith 2014 root folder to replace the folder that was moved in Step 4.
+6. Start CFSM and select 'Repairs' tab.
+7. Press the 'Restore (.max) Backups' button.  This will load the empty 'dlc' folder with all CDLC that have the Max5 Bug.
+8. Make sure "Repair 100% Mastery Bug" and "Add DD" radio buttons are selected.
+9. Select the 'Repair Maximum Playable Arrangements' radio button.  This will activate the repair option checkboxes.
+10. Now you have to make a tough choice.  Which arrangements to remove from the CDLC that have the Max5 Bug?  If you are a Bass player then you may want to 'Remove Guitar' arrangements.  On the flip side, if you are a Guitar player you may want to 'Remove Bass' arrangements.  My suggestion is to start by selecting 'Remove Bonus' and see how many CDLC are fixed with just that one option selected.  Then if you need to fix more CDLC you can add additional checkbox options.  I know you are going to have to think about and re-read this step to get the concept of removing arrangements.
+11. The final step is to merge the CDLC that were repaired using Option #1 to the CDLC that have been repaired using Option #2.  Do this by dragging the files and any subfolders from the C:\'dlc' folder into the Rocksmith 2014 root 'dlc' folder.
+12. Start the game and play your repaired CDLC collection.
+
+Usage Option #3 (for CDLC charters who want to repair the Max5 Bug):
+1. Follow and apply Usage Option #1 repairs to the entire CDLC collection.
+2. Close the CFSM application after the CDLC collection has been Usage Option #1 repaired.
+3. Locate the 'dlc' folder inside the Rocksmith 2014 root folder.
+4. Drag (move) the 'dlc' folder to your systems root, e.g. C:\  (We are effectively removing all DLC and CDLC from the game.)
+5. Create a new EMPTY 'dlc' folder inside the Rocksmith 2014 root folder to replace the folder that was moved in Step 4.
+6. Put the CDLC that you have charted that have the Max5 Bug into the empty 'dlc' folder.  Also see Step 11 'Trick' below for how to locate the 'dlc' folder anywhere you choose.
+7. Start CFSM and select 'Repairs' tab.
+8. Make sure "Repair 100% Mastery Bug" and "Add DD" radio buttons are selected.
+9. Select the 'Repair Maximum Playable Arrangements' radio button.  This will activate the repair option checkboxes.
+10. Now select appropriate options that you think will repair the CDLC that you have charted.  My suggestion is to start by selecting 'Remove Bonus' and see how many CDLC are fixed with just that one option selected.  (As an example, checking 'Remove Bonus' repairs most CDLC for charter LaceyB's work.)  (Checking 'Remove Metronome' may repair CDLC for charter Azrael)  One TRICK is to set the CFSM Setting tab 'Rocksmith Installation Directory' to a 'dlc' work directory that you choose which can be anywhere on the system and only contains the work that you want to fix and re-author.  Remember this is a bulk repair tool so you only want CDLC that you want to repair to be in the 'dlc' folder where every it is located.  
+11. Play around with the Usage Option #3 until you achieve the output you are looking for. 
+
+First Draft
+
+
+
+
+
+
+

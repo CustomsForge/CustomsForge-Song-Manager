@@ -52,21 +52,22 @@
             this.btnRepairSongs = new System.Windows.Forms.Button();
             this.pnlMiddle = new System.Windows.Forms.Panel();
             this.gbRepairStatus = new System.Windows.Forms.GroupBox();
-            this.pnlBottom = new System.Windows.Forms.Panel();
-            this.btnViewErrorLog = new System.Windows.Forms.Button();
-            this.btnCleanDlcFolder = new System.Windows.Forms.Button();
-            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.dgvRepair = new DataGridViewTools.SubclassedDataGridView();
             this.colFileName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colMessage = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.pnlBottom = new System.Windows.Forms.Panel();
+            this.btnHelp = new System.Windows.Forms.Button();
+            this.btnViewErrorLog = new System.Windows.Forms.Button();
+            this.btnCleanDlcFolder = new System.Windows.Forms.Button();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.tlpRepairs.SuspendLayout();
             this.pnlTop.SuspendLayout();
             this.gbMaxPlayable.SuspendLayout();
             this.gbMastery.SuspendLayout();
             this.pnlMiddle.SuspendLayout();
             this.gbRepairStatus.SuspendLayout();
-            this.pnlBottom.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRepair)).BeginInit();
+            this.pnlBottom.SuspendLayout();
             this.SuspendLayout();
             // 
             // tlpRepairs
@@ -389,8 +390,44 @@
             this.gbRepairStatus.TabStop = false;
             this.gbRepairStatus.Text = "Repair Status:";
             // 
+            // dgvRepair
+            // 
+            this.dgvRepair.AllowUserToAddRows = false;
+            this.dgvRepair.AllowUserToDeleteRows = false;
+            this.dgvRepair.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgvRepair.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvRepair.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvRepair.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colFileName,
+            this.colMessage});
+            this.dgvRepair.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.dgvRepair.HorizontalScrollBarVisible = false;
+            this.dgvRepair.Location = new System.Drawing.Point(6, 19);
+            this.dgvRepair.Name = "dgvRepair";
+            this.dgvRepair.RowHeadersVisible = false;
+            this.dgvRepair.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.dgvRepair.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvRepair.Size = new System.Drawing.Size(877, 284);
+            this.dgvRepair.TabIndex = 9;
+            this.dgvRepair.VerticalScrollBarVisible = true;
+            // 
+            // colFileName
+            // 
+            this.colFileName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.colFileName.HeaderText = "CDLC File Name";
+            this.colFileName.Name = "colFileName";
+            this.colFileName.Width = 450;
+            // 
+            // colMessage
+            // 
+            this.colMessage.HeaderText = "Message";
+            this.colMessage.Name = "colMessage";
+            // 
             // pnlBottom
             // 
+            this.pnlBottom.Controls.Add(this.btnHelp);
             this.pnlBottom.Controls.Add(this.btnViewErrorLog);
             this.pnlBottom.Controls.Add(this.btnCleanDlcFolder);
             this.pnlBottom.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -399,6 +436,23 @@
             this.pnlBottom.Name = "pnlBottom";
             this.pnlBottom.Size = new System.Drawing.Size(895, 35);
             this.pnlBottom.TabIndex = 8;
+            this.toolTip.SetToolTip(this.pnlBottom, "Show Help and Usage Instructions");
+            // 
+            // btnHelp
+            // 
+            this.btnHelp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnHelp.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnHelp.Image = global::CustomsForgeSongManager.Properties.Resources.Help;
+            this.btnHelp.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnHelp.Location = new System.Drawing.Point(726, 2);
+            this.btnHelp.Name = "btnHelp";
+            this.btnHelp.Padding = new System.Windows.Forms.Padding(5, 3, 0, 3);
+            this.btnHelp.Size = new System.Drawing.Size(160, 32);
+            this.btnHelp.TabIndex = 11;
+            this.btnHelp.Text = "   Help";
+            this.toolTip.SetToolTip(this.btnHelp, "Show \'remastered_error.log\' on the screen.");
+            this.btnHelp.UseVisualStyleBackColor = true;
+            this.btnHelp.Click += new System.EventHandler(this.btnHelp_Click);
             // 
             // btnViewErrorLog
             // 
@@ -440,41 +494,6 @@
             this.toolTip.InitialDelay = 500;
             this.toolTip.ReshowDelay = 100;
             // 
-            // dgvRepair
-            // 
-            this.dgvRepair.AllowUserToAddRows = false;
-            this.dgvRepair.AllowUserToDeleteRows = false;
-            this.dgvRepair.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.dgvRepair.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvRepair.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvRepair.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.colFileName,
-            this.colMessage});
-            this.dgvRepair.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            this.dgvRepair.HorizontalScrollBarVisible = false;
-            this.dgvRepair.Location = new System.Drawing.Point(6, 19);
-            this.dgvRepair.Name = "dgvRepair";
-            this.dgvRepair.RowHeadersVisible = false;
-            this.dgvRepair.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.dgvRepair.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvRepair.Size = new System.Drawing.Size(877, 284);
-            this.dgvRepair.TabIndex = 9;
-            this.dgvRepair.VerticalScrollBarVisible = true;
-            // 
-            // colFileName
-            // 
-            this.colFileName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.colFileName.HeaderText = "CDLC File Name";
-            this.colFileName.Name = "colFileName";
-            this.colFileName.Width = 450;
-            // 
-            // colMessage
-            // 
-            this.colMessage.HeaderText = "Message";
-            this.colMessage.Name = "colMessage";
-            // 
             // Repairs
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -491,8 +510,8 @@
             this.gbMastery.PerformLayout();
             this.pnlMiddle.ResumeLayout(false);
             this.gbRepairStatus.ResumeLayout(false);
-            this.pnlBottom.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvRepair)).EndInit();
+            this.pnlBottom.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -528,6 +547,7 @@
         private System.Windows.Forms.CheckBox chkIgnoreLimit;
         private System.Windows.Forms.Panel pnlBottom;
         private System.Windows.Forms.RadioButton rbAddDD;
+        private System.Windows.Forms.Button btnHelp;
 
     }
 }

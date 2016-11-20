@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
@@ -30,9 +31,9 @@ namespace CustomsForgeSongManager.UControls
         #region Constants
 
         private const string TKI_ARRID = "(Arrangement ID by CFSM)";
+        private const string TKI_DDC = "(DDC by CFSM)";
         private const string TKI_MAX5 = "(Max5 by CFSM)";
         private const string TKI_REMASTER = "(Remastered by CFSM)";
-        private const string TKI_DDC = "(DDC by CFSM)";
         private const string corExt = ".cor";
         private const string maxExt = ".max"; // backup
         private const string orgExt = ".org"; // backup
@@ -69,6 +70,11 @@ namespace CustomsForgeSongManager.UControls
             CreateFolders();
         }
 
+        private bool AddDD
+        {
+            get { return rbAddDD.Checked; }
+        }
+
         private bool IgnoreLimit
         {
             get { return chkIgnoreLimit.Checked; }
@@ -82,11 +88,6 @@ namespace CustomsForgeSongManager.UControls
         private bool RepairOrg
         {
             get { return chkRepairOrg.Checked; }
-        }
-
-        private bool AddDD
-        {
-            get { return rbAddDD.Checked; }
         }
 
         public void ArchiveCorruptCDLC()
@@ -671,7 +672,9 @@ namespace CustomsForgeSongManager.UControls
                 // DDC generation variables
                 addedDD = false;
                 SettingsDDC.Instance.LoadConfigXml();
-                var phraseLen = SettingsDDC.Instance.PhraseLen;
+                // phrase length should be at least 8 to fix chord density bug
+                // using 12 bar blues beat for phrase length
+                var phraseLen = 12; // SettingsDDC.Instance.PhraseLen;
                 // removeSus may be depricated in latest DDC but left here for comptiblity
                 var removeSus = SettingsDDC.Instance.RemoveSus;
                 var rampPath = SettingsDDC.Instance.RampPath;
@@ -992,6 +995,23 @@ namespace CustomsForgeSongManager.UControls
             ToggleUIControls(true);
         }
 
+        private void btnHelp_Click(object sender, EventArgs e)
+        {
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            Stream stream = assembly.GetManifestResourceStream("CustomsForgeSongManager.Resources.HelpRepairs.txt");
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                var helpGeneral = reader.ReadToEnd();
+
+                using (var noteViewer = new frmNoteViewer())
+                {
+                    noteViewer.Text = String.Format("{0} . . . {1}", noteViewer.Text, "Repairs Help");
+                    noteViewer.PopulateText(helpGeneral);
+                    noteViewer.ShowDialog();
+                }
+            }
+        }
+
         private void btnRepairSongs_Click(object sender, EventArgs e)
         {
             var curBackColor = BackColor;
@@ -1126,8 +1146,6 @@ namespace CustomsForgeSongManager.UControls
         {
             Globals.Log("Repairs GUI TabLeave ...");
         }
-
-
     }
 
     internal class CustomException : Exception

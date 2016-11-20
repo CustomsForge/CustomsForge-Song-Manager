@@ -1,4 +1,4 @@
-CFM General Help
+CFSM General Help
 -----------------
 
 Application Purpose
