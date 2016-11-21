@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using RocksmithToolkitLib.XmlRepository;
+using RocksmithToolkitLib.DLCPackage;
 
 namespace CustomsForgeSongManager.LocalTools
 {
@@ -12,7 +13,7 @@ namespace CustomsForgeSongManager.LocalTools
             var baseDir = AppDomain.CurrentDomain.BaseDirectory;
             var ddcDir = Path.Combine(baseDir, "ddc");
             var ddcExePath = Path.Combine(ddcDir, "ddc.exe");
-          
+
             if (!File.Exists(ddcExePath))
             {
                 consoleOutput = "ddc.exe file is misssing.  Reinstall application and try again.";
@@ -39,6 +40,32 @@ namespace CustomsForgeSongManager.LocalTools
                 DDC.WaitForExit(1000 * 60 * 15); //wait for 15 minutes, crunchy solution for AV-sandboxing issues
                 return DDC.ExitCode;
             }
+        }
+
+        public static void AddRemasteredMsg(ref DLCPackageData packageData)
+        {
+            string ddRemasteredMsg = "(Remastered and DD by CFSM)";
+
+            var remasterComment = packageData.PackageComment;
+            if (String.IsNullOrEmpty(remasterComment))
+                remasterComment = ddRemasteredMsg;
+            else if (!remasterComment.Contains(ddRemasteredMsg))
+                remasterComment = remasterComment + " " + ddRemasteredMsg;
+
+            packageData.PackageComment = remasterComment;
+        }
+
+        public static void AddArrMsg(ref DLCPackageData packageData)
+        {
+            string ddArrIDMsg = "(Arrangement ID by CFSM)";
+
+            var arrIdComment = packageData.PackageComment;
+            if (String.IsNullOrEmpty(arrIdComment))
+                arrIdComment = ddArrIDMsg;
+            else if (!arrIdComment.Contains(ddArrIDMsg))
+                arrIdComment = arrIdComment + " " + ddArrIDMsg;
+
+            packageData.PackageComment = arrIdComment;
         }
     }
 

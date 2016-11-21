@@ -214,6 +214,8 @@
     <Compile Include="DataObjects\RSModels.cs" />
     <Compile Include="DataObjects\SongCollectionException.cs" />
     <Compile Include="DataObjects\SongData.cs" />
+    <Compile Include="LocalTools\PackageDataTools.cs" />
+    <Compile Include="LocalTools\PitchShiftTools.cs" />
     <Compile Include="LocalTools\RocksmithProfile.cs" />
     <Compile Include="DataObjects\Constants.cs" />
     <Compile Include="LocalTools\CFSMHtmlPanel.cs">

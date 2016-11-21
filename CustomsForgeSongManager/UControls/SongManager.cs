@@ -1596,17 +1596,12 @@ namespace CustomsForgeSongManager.UControls
                 Globals.Log(" - Extracting CDLC artifacts ...");
                 DLCPackageData packageData;
 
-                Pedal2014 pedal = new Pedal2014();
-                var pedals = ToolkitPedal.LoadFromResource(RocksmithToolkitLib.GameVersion.RS2014);
-                var bassPitchShiftPedal = pedals.FirstOrDefault(p => p.Type == "Pedals" && p.DisplayName.Contains("MultiPitch"));
-                var gitPitchShiftPedal = bassPitchShiftPedal; //Only one pich shift pedal for both guitar and bass
                 int gitShift = 0, bassShift = 0;
+                int mix = 100;
+                int tone = 50;
 
                 using (var psarcOld = new PsarcPackager())
                     packageData = psarcOld.ReadPackage(srcFilePath);
-
-                List<Tone2014> tones = new List<Tone2014>();
-                packageData.TonesRS2014.ForEach(t => tones.Add(t.XmlClone()));
 
                 if (!createNewFile && packageData.PackageComment.Contains(pitchShiftedMessage))
                 {
@@ -1615,104 +1610,22 @@ namespace CustomsForgeSongManager.UControls
                     return false;
                 }
 
-                foreach (var arr in packageData.Arrangements)
-                {
-                    if (arr.ArrangementType == ArrangementType.Vocal || arr.ArrangementType == ArrangementType.ShowLight)
-                        continue;
+                //Get info (amount of steps) and set correct tunings
+                PitchShiftTools.GetSetArrInfo(ref packageData, ref gitShift, ref bassShift, ref ext);
 
-                    if (!arr.Tuning.Contains("Bonus") && arr.ArrangementType != ArrangementType.Bass)
-                        gitShift = arr.TuningStrings.String0;
+                PitchShiftTools.AddPitchShiftPedalToTones(ref packageData, gitShift, bassShift, mix, tone);
 
-                    if (!arr.Tuning.Contains("Bonus") && arr.ArrangementType == ArrangementType.Bass)
-                        bassShift = arr.TuningStrings.String0;
-
-                    if (arr.Tuning.Contains("Standard"))
-                    {
-                        arr.Tuning = "E Standard";
-                        arr.TuningStrings = new RocksmithToolkitLib.Xml.TuningStrings { String0 = 0, String1 = 0, String2 = 0, String3 = 0, String4 = 0, String5 = 0 };
-
-                        ext = "-e-std";
-                    }
-                    else if (arr.Tuning.Contains("Drop"))
-                    {
-                        arr.Tuning = "Drop D";
-                        arr.TuningStrings = new RocksmithToolkitLib.Xml.TuningStrings { String0 = -2, String1 = 0, String2 = 0, String3 = 0, String4 = 0, String5 = 0 };
-
-                        ext = "-drop-d";
-                    }
-
-                    if (arr.TuningPitch < 400) //If bass fix has been applied, reset reference pitch back to 440
-                        arr.TuningPitch = 440;
-                }
-
-                bassPitchShiftPedal.Knobs[0].DefaultValue = bassShift; //Pitch
-                bassPitchShiftPedal.Knobs[1].DefaultValue = 100; //Mix
-                bassPitchShiftPedal.Knobs[2].DefaultValue = 50; //Tone
-
-                gitPitchShiftPedal.Knobs[0].DefaultValue = gitShift;
-                gitPitchShiftPedal.Knobs[1].DefaultValue = 100;
-                gitPitchShiftPedal.Knobs[2].DefaultValue = 50;
-
-                foreach (var tone in tones) //Move all tones up one slot and add pitch shifter to the first slot
-                {
-                    if (tone.GearList.PrePedal3 != null) tone.GearList.PrePedal4 = tone.GearList.PrePedal3;
-                    if (tone.GearList.PrePedal2 != null) tone.GearList.PrePedal3 = tone.GearList.PrePedal2;
-                    if (tone.GearList.PrePedal1 != null) tone.GearList.PrePedal2 = tone.GearList.PrePedal1;
-
-                    if (tone.ToneDescriptors.Any(d => d.ToLower().Contains("bass")))
-                        pedal = bassPitchShiftPedal.MakePedalSetting(RocksmithToolkitLib.GameVersion.RS2014);
-                    else
-                        pedal = gitPitchShiftPedal.MakePedalSetting(RocksmithToolkitLib.GameVersion.RS2014);
-
-                    tone.GearList.PrePedal1 = pedal;
-                }
-
-                packageData.TonesRS2014 = tones;
-
+                //Add a message if no new file will be created
                 if (!createNewFile)
-                {
-                    // add comment to ToolkitInfo to identify pitch shifted CDLC
-                    var pitchShiftedComment = packageData.PackageComment;
-                    if (String.IsNullOrEmpty(pitchShiftedComment))
-                        pitchShiftedComment = pitchShiftedMessage;
-                    else if (!pitchShiftedComment.Contains(pitchShiftedMessage))
-                        pitchShiftedComment = pitchShiftedComment + " " + pitchShiftedMessage;
+                    PackageDataTools.AddPitchShiftedMsg(ref packageData); 
 
-                    packageData.PackageComment = pitchShiftedComment;
-                }
+                //Add extension to the names and validate
+                PitchShiftTools.AddExtensionToSongName(ref packageData, ext);
+                PackageDataTools.ValidatePackageDataName(ref packageData);
 
-                packageData.Name = packageData.Name + ext;
-                packageData.Name = packageData.Name.GetValidKey();
-
-                packageData.SongInfo.SongDisplayName = packageData.SongInfo.SongDisplayName + ext;
-
-                foreach (var arr in packageData.Arrangements)
-                {
-                    arr.Id = IdGenerator.Guid();
-                    arr.MasterId = RandomGenerator.NextInt();
-
-                    if (arr.ArrangementType == ArrangementType.Vocal)
-                        continue;
-                    if (arr.ArrangementType == ArrangementType.ShowLight)
-                        continue;
-
-                    var songXml = Song2014.LoadFromFile(arr.SongXml.File);
-                    arr.ClearCache();
-                    songXml.Title = packageData.SongInfo.SongDisplayName;
-                    songXml.Tuning = arr.TuningStrings;
-                    if (!String.IsNullOrEmpty(arr.ToneBase)) songXml.ToneBase = arr.ToneBase; //This tone stuff doesn't have to be set again, because it's not changed
-                    if (!String.IsNullOrEmpty(arr.ToneA)) songXml.ToneA = arr.ToneA;
-                    if (!String.IsNullOrEmpty(arr.ToneB)) songXml.ToneB = arr.ToneB;
-                    if (!String.IsNullOrEmpty(arr.ToneC)) songXml.ToneC = arr.ToneC;
-                    if (!String.IsNullOrEmpty(arr.ToneD)) songXml.ToneD = arr.ToneD;
-
-                    using (var stream = File.Open(arr.SongXml.File, FileMode.Create))
-                        songXml.Serialize(stream);
-
-                    // add comments back to xml arrangement   
-                    //   Song2014.WriteXmlComments(arr.SongXml.File, arr.XmlComments);
-                }
-
+                //Set correct names and regenerate xml
+                PitchShiftTools.RegenerateXML(ref packageData);
+                
                 Globals.Log(" - Repackaging pitch shifted CDLC ...");
 
                 if (createNewFile)
@@ -1733,9 +1646,9 @@ namespace CustomsForgeSongManager.UControls
                                 Globals.SongCollection.Add(songInfo.First());
                         }
                     });
-                }
 
-                
+                    GenExtensions.InvokeIfRequired(dgvSongsMaster, delegate { dgvSongsMaster.Refresh(); });
+                }
 
                 Globals.Log(" - Adding a pitch shifting effect to the CDLC sucessful ...");
             }
@@ -1756,7 +1669,7 @@ namespace CustomsForgeSongManager.UControls
         public void PitchShift_Single()
         {
             var song = DgvExtensions.GetObjectFromRow<SongData>(dgvSongsMaster.SelectedRows[0]);
-           
+
             rTotal = 1;
             rProcessed = 0;
             rSkipped = 0;
@@ -1819,8 +1732,6 @@ namespace CustomsForgeSongManager.UControls
         {
             DLCPackageData packageData;
             int ddOutputCode = -1;
-            string ddArrIDMsg = "(Arrangement ID by CFSM)";
-            string ddRemasteredMsg = "(Remastered and DD by CFSM)";
             string srcFilePath = song.FilePath;
 
             consoleOutput = String.Empty;
@@ -1830,7 +1741,7 @@ namespace CustomsForgeSongManager.UControls
                 rSkipped++;
                 return false;
             }
-              
+
             Globals.Log("Adding DD to: " + Path.GetFileName(srcFilePath) + " ...");
 
             try
@@ -1856,64 +1767,40 @@ namespace CustomsForgeSongManager.UControls
                     var mf = new ManifestFunctions(GameVersion.RS2014);
                     var maxDD = mf.GetMaxDifficulty(songXml);
 
-                    if (maxDD > 0)
-                        continue;
+                    if (maxDD == 0)
+                    {
+                        PackageDataTools.ValidateData(packageData, songXml);
+                        using (var stream = File.Open(arr.SongXml.File, FileMode.Create))
+                            songXml.Serialize(stream, true);
 
-                    songXml.AlbumYear = packageData.SongInfo.SongYear.ToString().GetValidYear();
-                    songXml.ArtistName = packageData.SongInfo.Artist.GetValidAtaSpaceName();
-                    songXml.Title = packageData.SongInfo.SongDisplayName.GetValidAtaSpaceName();
-                    songXml.AlbumName = packageData.SongInfo.Album.GetValidAtaSpaceName();
-                    songXml.ArtistNameSort = packageData.SongInfo.ArtistSort.GetValidSortableName();
-                    songXml.SongNameSort = packageData.SongInfo.SongDisplayNameSort.GetValidSortableName();
-                    songXml.AlbumNameSort = packageData.SongInfo.AlbumSort.GetValidSortableName();
-                    songXml.AverageTempo = Convert.ToSingle(packageData.SongInfo.AverageTempo.ToString().GetValidTempo());
+                        Song2014.WriteXmlComments(arr.SongXml.File, arr.XmlComments);
 
-                    // write updated xml arrangement
-                    using (var stream = File.Open(arr.SongXml.File, FileMode.Create))
-                        songXml.Serialize(stream, true);
+                        var result = DynamicDifficulty.ApplyDD(arr.SongXml.File, phraseLen, removeSus, rampPath, cfgPath, out consoleOutput, true);
+                        if (result == -1)
+                            throw new CustomException("ddc.exe is missing");
 
-                    // restore arrangment comments 
-                    Song2014.WriteXmlComments(arr.SongXml.File, arr.XmlComments);
-
-                    var result = DynamicDifficulty.ApplyDD(arr.SongXml.File, phraseLen, removeSus, rampPath, cfgPath, out consoleOutput, true);
-                    if (result == -1)
-                        throw new CustomException("ddc.exe is missing");
-
-                    if (String.IsNullOrEmpty(consoleOutput))
-                        Globals.Log(" - Added DD to " + arr + " ...");
-                    else
-                        Globals.Log(" - " + arr + " DDC console output: " + consoleOutput + " ...");
+                        if (String.IsNullOrEmpty(consoleOutput))
+                            Globals.Log(" - Added DD to " + arr + " ...");
+                        else
+                            Globals.Log(" - " + arr + " DDC console output: " + consoleOutput + " ...");
+                    }
                 }
 
                 if (!preserveStats)
                 {
                     // add comment to ToolkitInfo to identify CDLC
-                    var arrIdComment = packageData.PackageComment;
-                    if (String.IsNullOrEmpty(arrIdComment))
-                        arrIdComment = ddArrIDMsg;
-                    else if (!arrIdComment.Contains(ddArrIDMsg))
-                        arrIdComment = arrIdComment + " " + ddArrIDMsg;
-
-                    packageData.PackageComment = arrIdComment;
+                    DynamicDifficulty.AddArrMsg(ref packageData);
                 }
 
                 // add comment to ToolkitInfo to identify CDLC
-                var remasterComment = packageData.PackageComment;
-                if (String.IsNullOrEmpty(remasterComment))
-                    remasterComment = ddRemasteredMsg;
-                else if (!remasterComment.Contains(ddRemasteredMsg))
-                    remasterComment = remasterComment + " " + ddRemasteredMsg;
-
-                packageData.PackageComment = remasterComment;
+                DynamicDifficulty.AddRemasteredMsg(ref packageData);
 
                 // add default package version if missing
-                if (String.IsNullOrEmpty(packageData.PackageVersion))
-                    packageData.PackageVersion = "1";
-                else
-                    packageData.PackageVersion = packageData.PackageVersion.GetValidVersion();
+                PackageDataTools.AddDefaultPackageVersion(ref packageData);
 
                 // validate packageData (important)
-                packageData.Name = packageData.Name.GetValidKey(); // DLC Key                 
+                PackageDataTools.ValidatePackageDataName(ref packageData);
+
                 Globals.Log(@" - Repackaging updated DDC content ...");
 
                 using (var psarcNew = new PsarcPackager(true))
