@@ -46,6 +46,12 @@ namespace CustomsForgeSongManager.UControls
         private int numberOfDLCPendingUpdate = 0;
         private int numberOfDisabledDLC = 0;
 
+        private int rFailed;
+        private int rProcessed;
+        private int rProgress;
+        private int rSkipped;
+        private int rTotal;
+
         public SongManager()
         {
             InitializeComponent();
@@ -1544,6 +1550,28 @@ namespace CustomsForgeSongManager.UControls
             }
         }
 
+        private void ReportProgress(int processed, int total, int skipped, int failed)
+        {
+            int progress;
+            if (total > 0)
+                progress = processed * 100 / total;
+            else
+                progress = 100;
+
+            rProgress = progress;
+            rProcessed = processed;
+            rTotal = total;
+            rSkipped = skipped;
+            rFailed = failed;
+
+            if (Globals.TsProgressBar_Main != null && progress <= 100)
+                GenExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate { Globals.TsProgressBar_Main.Value = progress; });
+
+            GenExtensions.InvokeIfRequired(Globals.TsLabel_MainMsg.GetCurrentParent(), delegate { Globals.TsLabel_MainMsg.Text = String.Format("Files Processed: {0} of {1}", processed, total); });
+            GenExtensions.InvokeIfRequired(Globals.TsLabel_StatusMsg.GetCurrentParent(), delegate { Globals.TsLabel_StatusMsg.Text = String.Format("Skipped: {0}  Failed: {1}", skipped, failed); });
+            GenExtensions.InvokeIfRequired(this, delegate { this.Refresh(); });
+        }
+
         private bool PitchShiftSong(SongData song, bool createNewFile = true)
         {
             string pitchShiftedMessage = "Pitch Shifted by CFSM";
@@ -1555,11 +1583,11 @@ namespace CustomsForgeSongManager.UControls
             //    return false;
             //}
 
-            if (song.OfficialDLC)
+            if (song.OfficialDLC || (song.Tuning == "E Standard" || song.Tuning == "Drop D"))
+            {
+                rSkipped++;
                 return false;
-
-            if (song.Tuning == "E Standard" || song.Tuning == "Drop D")
-                return false;
+            }
 
             Globals.Log(" - Adding a pitch shifting effect to: " + Path.GetFileName(srcFilePath));
             try
@@ -1583,6 +1611,7 @@ namespace CustomsForgeSongManager.UControls
                 if (!createNewFile && packageData.PackageComment.Contains(pitchShiftedMessage))
                 {
                     Globals.Log(" - This song has already been patched! ");
+                    rSkipped++;
                     return false;
                 }
 
@@ -1692,27 +1721,34 @@ namespace CustomsForgeSongManager.UControls
                 using (var psarcNew = new PsarcPackager(true))
                     psarcNew.WritePackage(finalPath, packageData, srcFilePath);
 
-                // TODO: may need to temporarily disable binding when working with SongCollection
-                // or use Invoke method ... this may be source of 'Other' tone error???            
                 if (File.Exists(finalPath))
                 {
-                    using (var browser = new PsarcBrowser(finalPath))
+                    TemporaryDisableDatabindEvent(() =>
                     {
-                        var songInfo = browser.GetSongData();
+                        using (var browser = new PsarcBrowser(finalPath))
+                        {
+                            var songInfo = browser.GetSongData();
 
-                        if (songInfo != null && Globals.SongCollection.Where(sng => sng.FilePath == finalPath).Count() == 0)
-                            Globals.SongCollection.Add(songInfo.First());
-                    }
+                            if (songInfo != null && Globals.SongCollection.Where(sng => sng.FilePath == finalPath).Count() == 0)
+                                Globals.SongCollection.Add(songInfo.First());
+                        }
+                    });
                 }
+
+                
 
                 Globals.Log(" - Adding a pitch shifting effect to the CDLC sucessful ...");
             }
             catch (Exception ex)
             {
                 Globals.Log(" - Adding a pitch shifting effect failed ... " + ex.Message);
+                rFailed++;
 
                 return false;
             }
+
+            rProcessed++;
+            ReportProgress(rProcessed, rTotal, rSkipped, rFailed);
 
             return true;
         }
@@ -1720,6 +1756,11 @@ namespace CustomsForgeSongManager.UControls
         public void PitchShift_Single()
         {
             var song = DgvExtensions.GetObjectFromRow<SongData>(dgvSongsMaster.SelectedRows[0]);
+           
+            rTotal = 1;
+            rProcessed = 0;
+            rSkipped = 0;
+            rFailed = 0;
 
             PitchShiftSong(song);
         }
@@ -1730,6 +1771,12 @@ namespace CustomsForgeSongManager.UControls
 
             if (selection.Count > 0)
             {
+                rTotal = selection.Count;
+                rProcessed = 0;
+                rSkipped = 0;
+                rFailed = 0;
+                ReportProgress(rProcessed, rTotal, rSkipped, rFailed);
+
                 foreach (var song in selection)
                     PitchShiftSong(song);
             }
@@ -1778,128 +1825,136 @@ namespace CustomsForgeSongManager.UControls
 
             consoleOutput = String.Empty;
 
-            if (song.DD > 0)
-                return false;
-
             if (song.OfficialDLC)
+            {
+                rSkipped++;
                 return false;
-
+            }
+              
             Globals.Log("Adding DD to: " + Path.GetFileName(srcFilePath) + " ...");
-
-            // TODO: CDLC Corruption Errors show up mostly during unpacking
-            // see BulkRepairs exception handler for example
-
-            using (var psarcOld = new PsarcPackager())
-                packageData = psarcOld.ReadPackage(srcFilePath);
-
-            // Update arrangement song info
-            foreach (var arr in packageData.Arrangements)
-            {
-                if (!preserveStats)
-                {
-                    arr.SongFile = new RocksmithToolkitLib.DLCPackage.AggregateGraph.SongFile { File = "" };
-                    arr.Id = IdGenerator.Guid();
-                    arr.MasterId = RandomGenerator.NextInt();
-                }
-
-                if (arr.ArrangementType == ArrangementType.Vocal || arr.ArrangementType == ArrangementType.ShowLight)
-                    continue;
-
-                var songXml = Song2014.LoadFromFile(arr.SongXml.File);
-               
-                var mf = new ManifestFunctions(GameVersion.RS2014);
-                var maxDD = mf.GetMaxDifficulty(songXml);
-
-                if (maxDD > 0)
-                    continue;
-
-                songXml.AlbumYear = packageData.SongInfo.SongYear.ToString().GetValidYear();
-                songXml.ArtistName = packageData.SongInfo.Artist.GetValidAtaSpaceName();
-                songXml.Title = packageData.SongInfo.SongDisplayName.GetValidAtaSpaceName();
-                songXml.AlbumName = packageData.SongInfo.Album.GetValidAtaSpaceName();
-                songXml.ArtistNameSort = packageData.SongInfo.ArtistSort.GetValidSortableName();
-                songXml.SongNameSort = packageData.SongInfo.SongDisplayNameSort.GetValidSortableName();
-                songXml.AlbumNameSort = packageData.SongInfo.AlbumSort.GetValidSortableName();
-                songXml.AverageTempo = Convert.ToSingle(packageData.SongInfo.AverageTempo.ToString().GetValidTempo());
-
-                // write updated xml arrangement
-                using (var stream = File.Open(arr.SongXml.File, FileMode.Create))
-                    songXml.Serialize(stream, true);
-
-                // restore arrangment comments 
-                Song2014.WriteXmlComments(arr.SongXml.File, arr.XmlComments);
-
-                var result = DynamicDifficulty.ApplyDD(arr.SongXml.File, phraseLen, removeSus, rampPath, cfgPath, out consoleOutput, true);
-                if (result == -1)
-                    throw new CustomException("ddc.exe is missing");
-
-                if (String.IsNullOrEmpty(consoleOutput))
-                    Globals.Log(" - Added DD to " + arr + " ...");
-                else
-                    Globals.Log(" - " + arr + " DDC console output: " + consoleOutput + " ...");
-            }
-
-            if (!preserveStats)
-            {
-                // add comment to ToolkitInfo to identify CDLC
-                var arrIdComment = packageData.PackageComment;
-                if (String.IsNullOrEmpty(arrIdComment))
-                    arrIdComment = ddArrIDMsg;
-                else if (!arrIdComment.Contains(ddArrIDMsg))
-                    arrIdComment = arrIdComment + " " + ddArrIDMsg;
-
-                packageData.PackageComment = arrIdComment;
-            }
-
-            // add comment to ToolkitInfo to identify CDLC
-            var remasterComment = packageData.PackageComment;
-            if (String.IsNullOrEmpty(remasterComment))
-                remasterComment = ddRemasteredMsg;
-            else if (!remasterComment.Contains(ddRemasteredMsg))
-                remasterComment = remasterComment + " " + ddRemasteredMsg;
-
-            packageData.PackageComment = remasterComment;
-
-            // add default package version if missing
-            if (String.IsNullOrEmpty(packageData.PackageVersion))
-                packageData.PackageVersion = "1";
-            else
-                packageData.PackageVersion = packageData.PackageVersion.GetValidVersion();
-
-            // validate packageData (important)
-            packageData.Name = packageData.Name.GetValidKey(); // DLC Key                 
-            Globals.Log(@" - Repackaging updated DDC content ...");
 
             try
             {
+                using (var psarcOld = new PsarcPackager())
+                    packageData = psarcOld.ReadPackage(srcFilePath);
+
+                // Update arrangement song info
+                foreach (var arr in packageData.Arrangements)
+                {
+                    if (!preserveStats)
+                    {
+                        arr.SongFile = new RocksmithToolkitLib.DLCPackage.AggregateGraph.SongFile { File = "" };
+                        arr.Id = IdGenerator.Guid();
+                        arr.MasterId = RandomGenerator.NextInt();
+                    }
+
+                    if (arr.ArrangementType == ArrangementType.Vocal || arr.ArrangementType == ArrangementType.ShowLight)
+                        continue;
+
+                    var songXml = Song2014.LoadFromFile(arr.SongXml.File);
+
+                    var mf = new ManifestFunctions(GameVersion.RS2014);
+                    var maxDD = mf.GetMaxDifficulty(songXml);
+
+                    if (maxDD > 0)
+                        continue;
+
+                    songXml.AlbumYear = packageData.SongInfo.SongYear.ToString().GetValidYear();
+                    songXml.ArtistName = packageData.SongInfo.Artist.GetValidAtaSpaceName();
+                    songXml.Title = packageData.SongInfo.SongDisplayName.GetValidAtaSpaceName();
+                    songXml.AlbumName = packageData.SongInfo.Album.GetValidAtaSpaceName();
+                    songXml.ArtistNameSort = packageData.SongInfo.ArtistSort.GetValidSortableName();
+                    songXml.SongNameSort = packageData.SongInfo.SongDisplayNameSort.GetValidSortableName();
+                    songXml.AlbumNameSort = packageData.SongInfo.AlbumSort.GetValidSortableName();
+                    songXml.AverageTempo = Convert.ToSingle(packageData.SongInfo.AverageTempo.ToString().GetValidTempo());
+
+                    // write updated xml arrangement
+                    using (var stream = File.Open(arr.SongXml.File, FileMode.Create))
+                        songXml.Serialize(stream, true);
+
+                    // restore arrangment comments 
+                    Song2014.WriteXmlComments(arr.SongXml.File, arr.XmlComments);
+
+                    var result = DynamicDifficulty.ApplyDD(arr.SongXml.File, phraseLen, removeSus, rampPath, cfgPath, out consoleOutput, true);
+                    if (result == -1)
+                        throw new CustomException("ddc.exe is missing");
+
+                    if (String.IsNullOrEmpty(consoleOutput))
+                        Globals.Log(" - Added DD to " + arr + " ...");
+                    else
+                        Globals.Log(" - " + arr + " DDC console output: " + consoleOutput + " ...");
+                }
+
+                if (!preserveStats)
+                {
+                    // add comment to ToolkitInfo to identify CDLC
+                    var arrIdComment = packageData.PackageComment;
+                    if (String.IsNullOrEmpty(arrIdComment))
+                        arrIdComment = ddArrIDMsg;
+                    else if (!arrIdComment.Contains(ddArrIDMsg))
+                        arrIdComment = arrIdComment + " " + ddArrIDMsg;
+
+                    packageData.PackageComment = arrIdComment;
+                }
+
+                // add comment to ToolkitInfo to identify CDLC
+                var remasterComment = packageData.PackageComment;
+                if (String.IsNullOrEmpty(remasterComment))
+                    remasterComment = ddRemasteredMsg;
+                else if (!remasterComment.Contains(ddRemasteredMsg))
+                    remasterComment = remasterComment + " " + ddRemasteredMsg;
+
+                packageData.PackageComment = remasterComment;
+
+                // add default package version if missing
+                if (String.IsNullOrEmpty(packageData.PackageVersion))
+                    packageData.PackageVersion = "1";
+                else
+                    packageData.PackageVersion = packageData.PackageVersion.GetValidVersion();
+
+                // validate packageData (important)
+                packageData.Name = packageData.Name.GetValidKey(); // DLC Key                 
+                Globals.Log(@" - Repackaging updated DDC content ...");
+
                 using (var psarcNew = new PsarcPackager(true))
                     psarcNew.WritePackage(srcFilePath, packageData);
+
+                if (File.Exists(srcFilePath))
+                {
+                    TemporaryDisableDatabindEvent(() =>
+                    {
+                        using (var browser = new PsarcBrowser(srcFilePath))
+                        {
+                            var songInfo = browser.GetSongData();
+
+                            if (songInfo != null)
+                            {
+                                int index = Globals.SongCollection.IndexOf(song);
+
+                                // assumes no duplicates??? may be not
+                                if (index != -1) //Not very likely to be -1
+                                    Globals.SongCollection[index] = songInfo.First();
+                            }
+                        }
+                    });
+
+                    GenExtensions.InvokeIfRequired(dgvSongsMaster, delegate { dgvSongsMaster.Refresh(); });
+                }
             }
-            catch (InvalidDataException ex) //Invalid tones exception
+            catch (Exception ex) //Invalid tones exception
             {
+                rFailed++;
                 Globals.Log("DD not added - tone structure invalid!");
                 Globals.Log(ex.Message.ToString());
+
+                //TODO: we can move corrupt songs to corrupt folder, 
+                //but I'll rather leave them here in the same state they were in the first place
+
                 return false;
             }
 
-            // TODO: may need to temporarily disable binding when working with SongCollection
-            // or use Invoke  ... also need to refresh grid so it redraws
-            if (File.Exists(srcFilePath))
-            {
-                using (var browser = new PsarcBrowser(srcFilePath))
-                {
-                    var songInfo = browser.GetSongData();
-
-                    if (songInfo != null)
-                    {
-                        int index = Globals.SongCollection.IndexOf(song);
-
-                        // assumes no duplicates??? may be not
-                        if (index != -1) //Not very likely to be -1
-                            Globals.SongCollection[index] = songInfo.First();
-                    }
-                }
-            }
+            rProcessed++;
+            ReportProgress(rProcessed, rTotal, rSkipped, rFailed);
 
             return ddOutputCode == 0;
         }
@@ -1915,6 +1970,11 @@ namespace CustomsForgeSongManager.UControls
             var cfgPath = SettingsDDC.Instance.CfgPath;
 
             var song = DgvExtensions.GetObjectFromRow<SongData>(dgvSongsMaster.SelectedRows[0]);
+
+            rTotal = 1;
+            rProcessed = 0;
+            rSkipped = 0;
+            rFailed = 0;
 
             ApplyDDToPackage(song, phraseLen, removeSus, rampPath, cfgPath, out consoleOutput);
         }
@@ -1933,6 +1993,12 @@ namespace CustomsForgeSongManager.UControls
 
             if (selection.Count > 0)
             {
+                rTotal = selection.Count;
+                rProcessed = 0;
+                rSkipped = 0;
+                rFailed = 0;
+                ReportProgress(rProcessed, rTotal, rSkipped, rFailed);
+
                 foreach (var song in selection)
                     ApplyDDToPackage(song, phraseLen, removeSus, rampPath, cfgPath, out consoleOutput);
             }

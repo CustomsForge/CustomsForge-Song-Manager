@@ -1,4 +1,7 @@
 ﻿CFSM Release Notes
+1.2.6.11.
+- fixed progress bar in Song Manager & corrected issues with updating the song collection
+
 1.2.6.10
 - added an option to apply Dynamic Difficulty in Song Manager
 
