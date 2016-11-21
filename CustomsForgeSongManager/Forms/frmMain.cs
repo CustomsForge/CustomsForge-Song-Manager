@@ -283,13 +283,13 @@ namespace CustomsForgeSongManager.Forms
                     Globals.SongPacks.Size = UCSize;
                     currentControl = Globals.SongPacks;
                     break;
-                case "Repairs":
+                case "Bulk Repairs":
                     this.tpRepairs.Controls.Clear();
-                    this.tpRepairs.Controls.Add(Globals.Repairs);
-                    Globals.Repairs.Dock = DockStyle.Fill;
-                    Globals.Repairs.Location = UCLocation;
-                    Globals.Repairs.Size = UCSize;
-                    currentControl = Globals.Repairs;
+                    this.tpRepairs.Controls.Add(Globals.BulkRepairs);
+                    Globals.BulkRepairs.Dock = DockStyle.Fill;
+                    Globals.BulkRepairs.Location = UCLocation;
+                    Globals.BulkRepairs.Size = UCSize;
+                    currentControl = Globals.BulkRepairs;
                     break;
                 case "Settings":
                     this.tpSettings.Controls.Clear();

@@ -26,12 +26,12 @@ using Arrangement = RocksmithToolkitLib.DLCPackage.Arrangement;
 
 namespace CustomsForgeSongManager.UControls
 {
-    public partial class Repairs : UserControl, INotifyTabChanged
+    public partial class BulkRepairs : UserControl, INotifyTabChanged
     {
         #region Constants
 
         private const string TKI_ARRID = "(Arrangement ID by CFSM)";
-        private const string TKI_DDC = "(DDC by CFSM)";
+        private const string TKI_DDC = "(DD by CFSM)";
         private const string TKI_MAX5 = "(Max5 by CFSM)";
         private const string TKI_REMASTER = "(Remastered by CFSM)";
         private const string corExt = ".cor";
@@ -51,7 +51,7 @@ namespace CustomsForgeSongManager.UControls
         private int rTotal;
         private StringBuilder sbErrors = new StringBuilder();
 
-        public Repairs()
+        public BulkRepairs()
         {
             InitializeComponent();
 
@@ -163,7 +163,7 @@ namespace CustomsForgeSongManager.UControls
                     else if (officialOrRepaired.Contains("Remastered") && rbRepairMastery.Checked)
                         GenExtensions.InvokeIfRequired(this, delegate { dgvRepair.Rows.Add(Path.GetFileName(srcFilePath), "Skipped Remastered File"); });
                     else
-                        GenExtensions.InvokeIfRequired(this, delegate { dgvRepair.Rows.Add(Path.GetFileName(srcFilePath), "Skipped Unknown Status File"); });
+                        GenExtensions.InvokeIfRequired(this, delegate { dgvRepair.Rows.Add(Path.GetFileName(srcFilePath), "Skipped Unknown File Status: " + officialOrRepaired); });
 
                     skipped++;
                 }

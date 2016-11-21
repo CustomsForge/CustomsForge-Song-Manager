@@ -1546,7 +1546,7 @@ namespace CustomsForgeSongManager.UControls
 
         private bool PitchShiftSong(SongData song, bool createNewFile = true)
         {
-            string pitchShiftedMessage = "Pitch Shifted";
+            string pitchShiftedMessage = "Pitch Shifted by CFSM";
             string srcFilePath = song.FilePath;
 
             //if (song.CharterName.ToLower() == "firekorn")
@@ -1692,6 +1692,8 @@ namespace CustomsForgeSongManager.UControls
                 using (var psarcNew = new PsarcPackager(true))
                     psarcNew.WritePackage(finalPath, packageData, srcFilePath);
 
+                // TODO: may need to temporarily disable binding when working with SongCollection
+                // or use Invoke method ... this may be source of 'Other' tone error???            
                 if (File.Exists(finalPath))
                 {
                     using (var browser = new PsarcBrowser(finalPath))
@@ -1735,6 +1737,7 @@ namespace CustomsForgeSongManager.UControls
 
         private void cmsPitchShift_Click(object sender, EventArgs e)
         {
+            // not sure but what does wearing headphones do?
             if (MessageBox.Show(@"Are you sure you want to add a pitch shift effect to the selected song (shifting to E standard for songs in standard tunings or Drop D for songs in dropped tunings)?"
                      + Environment.NewLine + Environment.NewLine + "NOTE: neither the actual audio nor the tab are changed, so make sure to use headphones while playing!",
                      Constants.ApplicationName + " ... Warning", MessageBoxButtons.YesNo) == DialogResult.No)
@@ -1769,8 +1772,8 @@ namespace CustomsForgeSongManager.UControls
         {
             DLCPackageData packageData;
             int ddOutputCode = -1;
-            string ddArrIDMsg = "(Arrangement ID by DDC)";
-            string ddRemasteredMsg = "(Remastered by DDC)";
+            string ddArrIDMsg = "(Arrangement ID by CFSM)";
+            string ddRemasteredMsg = "(Remastered and DD by CFSM)";
             string srcFilePath = song.FilePath;
 
             consoleOutput = String.Empty;
@@ -1782,6 +1785,9 @@ namespace CustomsForgeSongManager.UControls
                 return false;
 
             Globals.Log("Adding DD to: " + Path.GetFileName(srcFilePath) + " ...");
+
+            // TODO: CDLC Corruption Errors show up mostly during unpacking
+            // see BulkRepairs exception handler for example
 
             using (var psarcOld = new PsarcPackager())
                 packageData = psarcOld.ReadPackage(srcFilePath);
@@ -1876,6 +1882,8 @@ namespace CustomsForgeSongManager.UControls
                 return false;
             }
 
+            // TODO: may need to temporarily disable binding when working with SongCollection
+            // or use Invoke  ... also need to refresh grid so it redraws
             if (File.Exists(srcFilePath))
             {
                 using (var browser = new PsarcBrowser(srcFilePath))
@@ -1886,6 +1894,7 @@ namespace CustomsForgeSongManager.UControls
                     {
                         int index = Globals.SongCollection.IndexOf(song);
 
+                        // assumes no duplicates??? may be not
                         if (index != -1) //Not very likely to be -1
                             Globals.SongCollection[index] = songInfo.First();
                     }

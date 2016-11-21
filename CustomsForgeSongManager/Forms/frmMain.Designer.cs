@@ -270,7 +270,7 @@ namespace CustomsForgeSongManager.Forms
             this.tpRepairs.Padding = new System.Windows.Forms.Padding(3);
             this.tpRepairs.Size = new System.Drawing.Size(1003, 469);
             this.tpRepairs.TabIndex = 9;
-            this.tpRepairs.Text = "Repairs";
+            this.tpRepairs.Text = "Bulk Repairs";
             this.tpRepairs.UseVisualStyleBackColor = true;
             // 
             // tpSettings

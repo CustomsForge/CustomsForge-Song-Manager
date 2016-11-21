@@ -1,4 +1,4 @@
-Overview:  CFSM 'Repairs' feature is a GUI for making bulk repairs to all CDLC files that are located in the Rocksmith 2014 'dlc' folder and subfolders.  Once repaired these CDLC may be played bug free in Rocksmith 2014 Remastered (RS14R).
+Overview:  CFSM 'Bulk Repairs' feature is a GUI for making repairs to all CDLC files that are located in the Rocksmith 2014 'dlc' folder and subfolders.  Once repaired these CDLC may be played bug free in Rocksmith 2014 Remastered (RS14R).
  
 Usage Option #1 (for Rocksmith 2014 Remastered players):
 1. Start CFSM 1.2.6.9 Beta or newer, select 'Repairs' tab.

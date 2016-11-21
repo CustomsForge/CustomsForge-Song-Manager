@@ -133,19 +133,6 @@ when CDLC arrangements do not contain DD.
 
 'Add DD' + 'Remove Bonus' = LaceyB Repair</value>
   </data>
-  <data name="chkIgnoreLimit.ToolTip" xml:space="preserve">
-    <value>WARNING ... WARNING ...
-If checked ignores all stop limits and
-will remove all checked arrangement
-selections (if they exist) regardless
-of the final arrangement count.  This
-could render the CDLC corrupt.
-
-As an example, assuming a metronome
-arrangement exists in a CDLC, to create
-a 'metronome' only CDLC, one would check
-all boxes except 'Remove Metronome'. </value>
-  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="btnRestoreMax.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -169,18 +156,6 @@ so that a full repair may be run again.
 NOTE:  The (.max) files exceed the
 maximum arrangement limit and may 
 cause RS14R to hang if not repaired.
-</value>
-  </data>
-  <data name="chkRepairOrg.ToolTip" xml:space="preserve">
-    <value>WARNING:
-Existing CDLC in the 'dlc' folder that have
-the same name will be overwritten.
-
-If checked run repair using the (.org.psarc) files.
-
-When upgrades are issued for the CFSM Repair
-feature this allows a new full repair to be run on
-original CDLC that have never repaired before.
 </value>
   </data>
   <data name="btnDeleteCorruptSongs.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
@@ -242,16 +217,47 @@ original CDLC that have never repaired before.
 </value>
   </data>
   <data name="pnlTop.ToolTip" xml:space="preserve">
-    <value>The CFSM Repairs feature may only
-be used on original CDLC that have
-not been previously repaired. 
+    <value>The CFSM Bulk Repairs feature may
+only be used on original CDLC that 
+have not been previously repaired. 
 
-If needed the repair options may be
+If needed, the repair options may be
 run again by using the 'Run Repair Using
 (.org) Files' checkbox option or by first
 pressing the 'Restore (.org) Backups' 
 and/or 'Restore (.max) Backups' buttons.</value>
   </data>
+  <data name="chkIgnoreLimit.ToolTip" xml:space="preserve">
+    <value>WARNING ... WARNING ...
+If checked ignores all stop limits and
+will remove all checked arrangement
+selections (if they exist) regardless
+of the final arrangement count.  This
+could render the CDLC corrupt.
+
+As an example, assuming a metronome
+arrangement exists in a CDLC, to create
+a 'metronome' only CDLC, one would check
+all boxes except 'Remove Metronome'. </value>
+  </data>
+  <data name="chkRepairOrg.ToolTip" xml:space="preserve">
+    <value>WARNING:
+Existing CDLC in the 'dlc' folder that have
+the same name will be overwritten.
+
+If checked run repair using the (.org.psarc) files.
+
+When upgrades are issued for the CFSM Repair
+feature this allows a new full repair to be run on
+original CDLC that have never repaired before.
+</value>
+  </data>
+  <metadata name="colFileName.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="colMessage.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
   <metadata name="colFileName.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>

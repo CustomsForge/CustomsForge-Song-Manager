@@ -341,11 +341,11 @@
     <Compile Include="SongEditor\ucTones.Designer.cs">
       <DependentUpon>ucTones.cs</DependentUpon>
     </Compile>
-    <Compile Include="UControls\Repairs.cs">
+    <Compile Include="UControls\BulkRepairs.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UControls\Repairs.Designer.cs">
-      <DependentUpon>Repairs.cs</DependentUpon>
+    <Compile Include="UControls\BulkRepairs.Designer.cs">
+      <DependentUpon>BulkRepairs.cs</DependentUpon>
     </Compile>
     <Compile Include="UControls\SongPacks.cs">
       <SubType>UserControl</SubType>
@@ -479,8 +479,8 @@
     <EmbeddedResource Include="SongEditor\ucTones.resx">
       <DependentUpon>ucTones.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UControls\Repairs.resx">
-      <DependentUpon>Repairs.cs</DependentUpon>
+    <EmbeddedResource Include="UControls\BulkRepairs.resx">
+      <DependentUpon>BulkRepairs.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UControls\SongPacks.resx">
       <DependentUpon>SongPacks.cs</DependentUpon>

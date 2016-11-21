@@ -1,6 +1,6 @@
 ﻿namespace CustomsForgeSongManager.UControls
 {
-    partial class Repairs
+    partial class BulkRepairs
     {
         /// <summary> 
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Repairs));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BulkRepairs));
             this.tlpRepairs = new System.Windows.Forms.TableLayoutPanel();
             this.pnlTop = new System.Windows.Forms.Panel();
             this.rbAddDD = new System.Windows.Forms.RadioButton();
@@ -52,22 +52,22 @@
             this.btnRepairSongs = new System.Windows.Forms.Button();
             this.pnlMiddle = new System.Windows.Forms.Panel();
             this.gbRepairStatus = new System.Windows.Forms.GroupBox();
+            this.dgvRepair = new DataGridViewTools.SubclassedDataGridView();
+            this.colFileName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colMessage = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pnlBottom = new System.Windows.Forms.Panel();
             this.btnHelp = new System.Windows.Forms.Button();
             this.btnViewErrorLog = new System.Windows.Forms.Button();
             this.btnCleanDlcFolder = new System.Windows.Forms.Button();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.dgvRepair = new DataGridViewTools.SubclassedDataGridView();
-            this.colFileName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colMessage = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tlpRepairs.SuspendLayout();
             this.pnlTop.SuspendLayout();
             this.gbMaxPlayable.SuspendLayout();
             this.gbMastery.SuspendLayout();
             this.pnlMiddle.SuspendLayout();
             this.gbRepairStatus.SuspendLayout();
-            this.pnlBottom.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRepair)).BeginInit();
+            this.pnlBottom.SuspendLayout();
             this.SuspendLayout();
             // 
             // tlpRepairs
@@ -390,6 +390,41 @@
             this.gbRepairStatus.TabStop = false;
             this.gbRepairStatus.Text = "Repair Status:";
             // 
+            // dgvRepair
+            // 
+            this.dgvRepair.AllowUserToAddRows = false;
+            this.dgvRepair.AllowUserToDeleteRows = false;
+            this.dgvRepair.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgvRepair.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvRepair.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvRepair.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colFileName,
+            this.colMessage});
+            this.dgvRepair.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.dgvRepair.HorizontalScrollBarVisible = false;
+            this.dgvRepair.Location = new System.Drawing.Point(6, 19);
+            this.dgvRepair.Name = "dgvRepair";
+            this.dgvRepair.RowHeadersVisible = false;
+            this.dgvRepair.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.dgvRepair.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvRepair.Size = new System.Drawing.Size(877, 284);
+            this.dgvRepair.TabIndex = 9;
+            this.dgvRepair.VerticalScrollBarVisible = true;
+            // 
+            // colFileName
+            // 
+            this.colFileName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.colFileName.HeaderText = "CDLC File Name";
+            this.colFileName.Name = "colFileName";
+            this.colFileName.Width = 450;
+            // 
+            // colMessage
+            // 
+            this.colMessage.HeaderText = "Message";
+            this.colMessage.Name = "colMessage";
+            // 
             // pnlBottom
             // 
             this.pnlBottom.Controls.Add(this.btnHelp);
@@ -459,41 +494,6 @@
             this.toolTip.InitialDelay = 500;
             this.toolTip.ReshowDelay = 100;
             // 
-            // dgvRepair
-            // 
-            this.dgvRepair.AllowUserToAddRows = false;
-            this.dgvRepair.AllowUserToDeleteRows = false;
-            this.dgvRepair.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.dgvRepair.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvRepair.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvRepair.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.colFileName,
-            this.colMessage});
-            this.dgvRepair.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            this.dgvRepair.HorizontalScrollBarVisible = false;
-            this.dgvRepair.Location = new System.Drawing.Point(6, 19);
-            this.dgvRepair.Name = "dgvRepair";
-            this.dgvRepair.RowHeadersVisible = false;
-            this.dgvRepair.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.dgvRepair.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvRepair.Size = new System.Drawing.Size(877, 284);
-            this.dgvRepair.TabIndex = 9;
-            this.dgvRepair.VerticalScrollBarVisible = true;
-            // 
-            // colFileName
-            // 
-            this.colFileName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.colFileName.HeaderText = "CDLC File Name";
-            this.colFileName.Name = "colFileName";
-            this.colFileName.Width = 450;
-            // 
-            // colMessage
-            // 
-            this.colMessage.HeaderText = "Message";
-            this.colMessage.Name = "colMessage";
-            // 
             // Repairs
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -510,8 +510,8 @@
             this.gbMastery.PerformLayout();
             this.pnlMiddle.ResumeLayout(false);
             this.gbRepairStatus.ResumeLayout(false);
-            this.pnlBottom.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvRepair)).EndInit();
+            this.pnlBottom.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

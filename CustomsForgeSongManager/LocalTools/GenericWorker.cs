@@ -107,25 +107,25 @@ namespace CustomsForgeSongManager.LocalTools
         private void WorkerRepairSong(object sender, DoWorkEventArgs e)
         {
             if (!bWorker.CancellationPending)
-                Globals.Repairs.RepairSongs();
+                Globals.BulkRepairs.RepairSongs();
         }
 
         private void WorkerRestoreOrgBackups(object sender, DoWorkEventArgs e)
         {
             if (!bWorker.CancellationPending)
-                Globals.Repairs.RestoreBackups(".org", Constants.RemasteredOrgFolder);
+                Globals.BulkRepairs.RestoreBackups(".org", Constants.RemasteredOrgFolder);
         }
 
         private void WorkerRestoreMaxBackups(object sender, DoWorkEventArgs e)
         {
             if (!bWorker.CancellationPending)
-                Globals.Repairs.RestoreBackups(".max", Constants.RemasteredMaxFolder);
+                Globals.BulkRepairs.RestoreBackups(".max", Constants.RemasteredMaxFolder);
         }
 
         private void WorkerArchiveCorruptSongs(object sender, DoWorkEventArgs e)
         {
             if (!bWorker.CancellationPending)
-                Globals.Repairs.ArchiveCorruptCDLC();
+                Globals.BulkRepairs.ArchiveCorruptCDLC();
         }
 
         private void WorkerApplyDD_Single(object sender, DoWorkEventArgs e)
