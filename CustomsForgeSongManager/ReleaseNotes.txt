@@ -1,4 +1,9 @@
 ﻿CFSM Release Notes
+
+1.2.7.0
+- renamed Repairs to Bulk Repairs to better reflect purpose
+- added option to repair CDLC that have already been repaired in Bulk Repairs
+
 1.2.6.11.
 - fixed progress bar in Song Manager & corrected issues with updating the song collection
 

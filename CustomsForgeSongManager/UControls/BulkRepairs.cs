@@ -58,6 +58,7 @@ namespace CustomsForgeSongManager.UControls
             rbRepairMastery.CheckedChanged += RepairOptions_CheckedChanged;
             rbRepairMaxFive.CheckedChanged += RepairOptions_CheckedChanged;
             rbAddDD.CheckedChanged += RepairOptions_CheckedChanged;
+            rbSkipRepaired.CheckedChanged += RepairOptions_CheckedChanged;
             chkPreserve.CheckedChanged += RepairOptions_CheckedChanged;
             chkRepairOrg.CheckedChanged += RepairOptions_CheckedChanged;
             chkRemoveBass.CheckedChanged += RepairOptions_CheckedChanged;
@@ -88,6 +89,11 @@ namespace CustomsForgeSongManager.UControls
         private bool RepairOrg
         {
             get { return chkRepairOrg.Checked; }
+        }
+
+        private bool SkipRepaired
+        {
+            get { return rbSkipRepaired.Checked; }
         }
 
         public void ArchiveCorruptCDLC()
@@ -152,25 +158,28 @@ namespace CustomsForgeSongManager.UControls
 
             foreach (var srcFilePath in srcFilePaths)
             {
+                var isSkipped = false;
                 dgvRepair.ClearSelection();
                 processed++;
 
                 var officialOrRepaired = OfficialOrRepaired(srcFilePath);
-                if (!String.IsNullOrEmpty(officialOrRepaired))
+                if (officialOrRepaired.Contains("Official"))
                 {
-                    if (officialOrRepaired.Contains("Official"))
-                        GenExtensions.InvokeIfRequired(this, delegate { dgvRepair.Rows.Add(Path.GetFileName(srcFilePath), "Skipped ODLC File"); });
-                    else if (officialOrRepaired.Contains("Remastered") && rbRepairMastery.Checked)
-                        GenExtensions.InvokeIfRequired(this, delegate { dgvRepair.Rows.Add(Path.GetFileName(srcFilePath), "Skipped Remastered File"); });
-                    else
-                        GenExtensions.InvokeIfRequired(this, delegate { dgvRepair.Rows.Add(Path.GetFileName(srcFilePath), "Skipped Unknown File Status: " + officialOrRepaired); });
-
+                    GenExtensions.InvokeIfRequired(this, delegate { dgvRepair.Rows.Add(Path.GetFileName(srcFilePath), "Skipped ODLC File"); });
                     skipped++;
+                    isSkipped = true;
                 }
-                else
-                {
-                    // remaster the CDLC file
 
+                if (officialOrRepaired.Contains("Remastered") && SkipRepaired)
+                {
+                    GenExtensions.InvokeIfRequired(this, delegate { dgvRepair.Rows.Add(Path.GetFileName(srcFilePath), "Skipped Remastered File"); });
+                    skipped++;
+                    isSkipped = true;
+                }
+
+                // remaster the CDLC file
+                if (!isSkipped)
+                {
                     var rSucess = RemasterSong(srcFilePath);
                     if (rSucess)
                     {
@@ -180,19 +189,18 @@ namespace CustomsForgeSongManager.UControls
                         if (addedDD)
                             message += " ... Added Dynamic Difficulty";
 
-
                         GenExtensions.InvokeIfRequired(this, delegate { dgvRepair.Rows.Add(Path.GetFileName(srcFilePath).Replace(orgExt, ""), message); });
 
                         if (Constants.DebugMode)
                         {
                             // cleanup every nth record
-                            if (processed % 50 == 0)
+                            if (processed%50 == 0)
                                 GenExtensions.CleanLocalTemp();
                         }
                     }
                     else
                     {
-                        var lines = sbErrors.ToString().Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                        var lines = sbErrors.ToString().Split(new string[] {Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries).ToList();
                         if (lines.Last().ToLower().Contains("maximum"))
                             GenExtensions.InvokeIfRequired(this, delegate { dgvRepair.Rows.Add(Path.GetFileName(srcFilePath), "Exceeds Playable Arrangements Limit ... Moved File ... Added To Error Log"); });
                         else
@@ -1127,6 +1135,12 @@ namespace CustomsForgeSongManager.UControls
             Thread.Sleep(200); // debounce
         }
 
+        private void rbSkipRepaired_Click(object sender, EventArgs e)
+        {
+            rbSkipRepaired.Checked = !rbSkipRepaired.Checked;
+            Thread.Sleep(200); // debounce
+        }
+
         public void TabEnter()
         {
             Globals.Log("Repairs GUI TabEnter ...");
@@ -1146,6 +1160,7 @@ namespace CustomsForgeSongManager.UControls
         {
             Globals.Log("Repairs GUI TabLeave ...");
         }
+
     }
 
     internal class CustomException : Exception
