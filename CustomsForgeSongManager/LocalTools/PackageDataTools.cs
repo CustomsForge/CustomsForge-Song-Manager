@@ -23,7 +23,7 @@ namespace CustomsForgeSongManager.LocalTools
             packageData.Name = packageData.Name.GetValidKey();
         }
 
-        public static void ValidateData(DLCPackageData packageData, Song2014 songXml)
+        public static void ValidateData(DLCPackageData packageData, ref Song2014 songXml)
         {
             songXml.AlbumYear = packageData.SongInfo.SongYear.ToString().GetValidYear();
             songXml.ArtistName = packageData.SongInfo.Artist.GetValidAtaSpaceName();
@@ -33,19 +33,6 @@ namespace CustomsForgeSongManager.LocalTools
             songXml.SongNameSort = packageData.SongInfo.SongDisplayNameSort.GetValidSortableName();
             songXml.AlbumNameSort = packageData.SongInfo.AlbumSort.GetValidSortableName();
             songXml.AverageTempo = Convert.ToSingle(packageData.SongInfo.AverageTempo.ToString().GetValidTempo());
-        }
-
-        public static void AddPitchShiftedMsg(ref DLCPackageData packageData)
-        {
-            string pitchShiftedMessage = "Pitch Shifted by CFSM";
-
-            var pitchShiftedComment = packageData.PackageComment;
-            if (String.IsNullOrEmpty(pitchShiftedComment))
-                pitchShiftedComment = pitchShiftedMessage;
-            else if (!pitchShiftedComment.Contains(pitchShiftedMessage))
-                pitchShiftedComment = pitchShiftedComment + " " + pitchShiftedMessage;
-
-            packageData.PackageComment = pitchShiftedComment;
         }
     }
 }

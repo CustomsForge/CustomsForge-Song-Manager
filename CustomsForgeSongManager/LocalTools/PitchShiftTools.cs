@@ -110,5 +110,18 @@ namespace CustomsForgeSongManager.LocalTools
                     songXml.Serialize(stream);
             }
         }
+
+        public static void AddPitchShiftedMsg(ref DLCPackageData packageData)
+        {
+            string pitchShiftedMessage = "Pitch Shifted by CFSM";
+
+            var pitchShiftedComment = packageData.PackageComment;
+            if (String.IsNullOrEmpty(pitchShiftedComment))
+                pitchShiftedComment = pitchShiftedMessage;
+            else if (!pitchShiftedComment.Contains(pitchShiftedMessage))
+                pitchShiftedComment = pitchShiftedComment + " " + pitchShiftedMessage;
+
+            packageData.PackageComment = pitchShiftedComment;
+        }
     }
 }

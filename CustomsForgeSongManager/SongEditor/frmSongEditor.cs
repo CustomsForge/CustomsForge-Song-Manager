@@ -27,23 +27,36 @@ namespace CustomsForgeSongManager.SongEditor
 
         public frmSongEditor(string songPath)
         {
-            if (String.IsNullOrEmpty(songPath))
-                return;
-            this.Icon = Properties.Resources.cfsm_48x48;
+            try
+            {
+                if (String.IsNullOrEmpty(songPath))
+                    return;
+                this.Icon = Properties.Resources.cfsm_48x48;
 
-            Globals.Log("Loading song information from: " + Path.GetFileName(songPath));
-            Cursor.Current = Cursors.WaitCursor;
-            Globals.TsProgressBar_Main.Value = 10;
-            InitializeComponent();
-            Globals.TsProgressBar_Main.Value = 20;
-            var psarc = new PsarcPackage();
-            packageData = psarc.ReadPackage(songPath);
-            filePath = songPath;
-            Globals.TsProgressBar_Main.Value = 80;
-            LoadSongInfo();
-            Globals.TsProgressBar_Main.Value = 100;
-            Cursor.Current = Cursors.Default;
-            Globals.Log("Song information loaded ... ");
+                Globals.Log("Loading song information from: " + Path.GetFileName(songPath));
+                Cursor.Current = Cursors.WaitCursor;
+                Globals.TsProgressBar_Main.Value = 10;
+                InitializeComponent();
+                Globals.TsProgressBar_Main.Value = 20;
+
+                var psarc = new PsarcPackage();
+                packageData = psarc.ReadPackage(songPath);
+
+                filePath = songPath;
+                Globals.TsProgressBar_Main.Value = 80;
+                LoadSongInfo();
+                Globals.TsProgressBar_Main.Value = 100;
+                Cursor.Current = Cursors.Default;
+                Globals.Log("Song information loaded ... ");
+
+            }
+            catch (InvalidDataException ex)
+            {
+                Globals.Log("Unable to edit: " + Path.GetFileName(songPath) + " !");
+                Globals.Log("Error: " + ex.Message.ToString());
+
+                return;
+            }
         }
 
         private bool Dirty
@@ -97,7 +110,7 @@ namespace CustomsForgeSongManager.SongEditor
                             if (commentNode.ToString().Contains(cfsmComment))
                                 isCommented = true;
                         }
-        
+
                         if (!isCommented)
                             Song2014.WriteXmlComments(arr.SongXml.File, commentNodes, customComment: cfsmComment);
                     }

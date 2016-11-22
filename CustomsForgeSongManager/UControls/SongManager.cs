@@ -1617,7 +1617,7 @@ namespace CustomsForgeSongManager.UControls
 
                 //Add a message if no new file will be created
                 if (!createNewFile)
-                    PackageDataTools.AddPitchShiftedMsg(ref packageData); 
+                    PitchShiftTools.AddPitchShiftedMsg(ref packageData); 
 
                 //Add extension to the names and validate
                 PitchShiftTools.AddExtensionToSongName(ref packageData, ext);
@@ -1769,8 +1769,7 @@ namespace CustomsForgeSongManager.UControls
 
                     if (maxDD == 0)
                     {
-                        // TODO: fix ValidatedData does not currently have any return
-                        PackageDataTools.ValidateData(packageData, songXml);
+                        PackageDataTools.ValidateData(packageData, ref songXml);
                         using (var stream = File.Open(arr.SongXml.File, FileMode.Create))
                             songXml.Serialize(stream, true);
 
