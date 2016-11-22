@@ -1600,6 +1600,9 @@ namespace CustomsForgeSongManager.UControls
                 int mix = 100;
                 int tone = 50;
 
+                //Try unpacking and if it throws InvalidDataException - fix arrangement XMLs
+                packageData = PackageDataTools.GetDataWithFixedTones(srcFilePath);
+
                 using (var psarcOld = new PsarcPackager())
                     packageData = psarcOld.ReadPackage(srcFilePath);
 
@@ -1746,8 +1749,10 @@ namespace CustomsForgeSongManager.UControls
 
             try
             {
-                using (var psarcOld = new PsarcPackager())
-                    packageData = psarcOld.ReadPackage(srcFilePath);
+               // using (var psarcOld = new PsarcPackager())
+               //     packageData = psarcOld.ReadPackage(srcFilePath);
+
+                packageData = PackageDataTools.GetDataWithFixedTones(srcFilePath);
 
                 // Update arrangement song info
                 foreach (var arr in packageData.Arrangements)

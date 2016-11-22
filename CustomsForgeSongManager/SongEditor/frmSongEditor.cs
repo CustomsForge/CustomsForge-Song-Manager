@@ -36,8 +36,9 @@ namespace CustomsForgeSongManager.SongEditor
                 Globals.Log("Loading song information from: " + Path.GetFileName(songPath));
                 Cursor.Current = Cursors.WaitCursor;
                 Globals.TsProgressBar_Main.Value = 10;
-                InitializeComponent();
                 Globals.TsProgressBar_Main.Value = 20;
+
+                InitializeComponent();
 
                 var psarc = new PsarcPackage();
                 packageData = psarc.ReadPackage(songPath);
@@ -53,7 +54,9 @@ namespace CustomsForgeSongManager.SongEditor
             catch (InvalidDataException ex)
             {
                 Globals.Log("Unable to edit: " + Path.GetFileName(songPath) + " !");
-                Globals.Log("Error: " + ex.Message.ToString());
+                Globals.Log("Error: " + ex.Message.ToString().Replace(Environment.NewLine, " - "));
+
+                Load += (s, e) => Close();
 
                 return;
             }

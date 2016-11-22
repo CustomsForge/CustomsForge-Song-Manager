@@ -1,4 +1,7 @@
 ﻿CFSM Release Notes
+1.2.7.5
+-First version of the fix "EOF tone issue" (less corrupt files)
+-Updated ODLC list
 
 1.2.7.4
 - Added restore corrupt backups to Bulk Repairs
