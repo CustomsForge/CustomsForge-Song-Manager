@@ -51,6 +51,8 @@ namespace CustomsForgeSongManager.LocalTools
                 bWorker.DoWork += WorkerRestoreOrgBackups;
             else if (WorkDescription.ToLower().Contains(".max"))
                 bWorker.DoWork += WorkerRestoreMaxBackups;
+            else if (WorkDescription.ToLower().Contains(".cor"))
+                bWorker.DoWork += WorkerRestoreCorBackups;
             else if (WorkDescription.ToLower().Contains("archiving"))
                 bWorker.DoWork += WorkerArchiveCorruptSongs;
             else if (WorkDescription.ToLower().Contains("dd to a single"))
@@ -116,6 +118,12 @@ namespace CustomsForgeSongManager.LocalTools
                 Globals.BulkRepairs.RestoreBackups(".org", Constants.RemasteredOrgFolder);
         }
 
+        private void WorkerRestoreCorBackups(object sender, DoWorkEventArgs e)
+        {
+            if (!bWorker.CancellationPending)
+                Globals.BulkRepairs.RestoreBackups(".cor", Constants.RemasteredCorFolder);
+        }
+        
         private void WorkerRestoreMaxBackups(object sender, DoWorkEventArgs e)
         {
             if (!bWorker.CancellationPending)

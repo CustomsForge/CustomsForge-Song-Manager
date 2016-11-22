@@ -120,6 +120,47 @@
   <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>23, 5</value>
   </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="btnRestoreCorrupt.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALEwAA
+        CxMBAJqcGAAAAS9JREFUOE+lk71KRDEQRldkFX+xsdBmBRUEwWew868TX8FCWLB1m12xFKzURgXXt/AB
+        fAFrX0Ow9ZxLcrnJZtfCgcNNvsxMbmaSqdaoLSIdwjbMheUfvl/wDt+FmFo6YfQKPTiGvYBjNdf0Kdo5
+        6hNsTdjBNX30TeyI2TMsFIL30dYauj76GlPZEgyhUwg+RfuA1WxN37cQ2zpjcDXmt7von/AI+dGMMbYK
+        PhiTYAX9IvzuPd92w8+YauMbsNrRdhjsZgmnmd+CrY1mjLEjCWxZP0swy/wB1ksJ8iNY1Bew3/OwDJdw
+        nSWtj1Aq4gbOnvkOLOAAZrIEdRHd0ZaU2riJ3rwDMUfSRsVJFynbuLpsyUWKDv+6yjHJX49pGIqb/1Uy
+        9zlbWF+ffRbHaq4l9gsIIi5zD6fEpgAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="btnRestoreCorrupt.ToolTip" xml:space="preserve">
+    <value>WARNING ... WARNING ... WARNING
+If played in game, corrupt CDLC may break
+your user profile (game save) or hang the game.
+
+Overwrites files that have the same name.
+
+Restore original corrupt CDLC (.cor) files
+to the 'dlc' folder so that a full repair may
+be run again.</value>
+  </data>
+  <data name="btnCleanDlcFolder.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAlJJREFUOE+lk99L
+        k1Ecxr/nonuprrqKEArSMFaZIjOlHy9sZljTEeaP5jYdbmkMdFpjtWwv5bDZ/K1Imq7cSGzDNr1oVto2
+        30bWDEp33R9R8HRehSTIEjzw8MI57/M5z/eBwwDQrlaPjpGX6/F1Rt21m19Z8p681ApGfXpGvXWbe535
+        RN1KEroKSHqQSwLtAJDXq2fDPXVsmAOUD/NIEE+RFO8og/0YSf8DZPIQxrQkIr3sgqeGTTtySJq9WQjr
+        YZKaMrdPkMHHMHNzw/p6Gl6vF19CTVh754C7kr3UHSBJu48EyyH+Bx9hD4+2nxuO8A6KuFoGGzP8c0Oq
+        tdWI7afH40Eq9RVutxvJQD1SYStcWha6X87O3NPwnrjROWTeGx5rPfjW36H4GB3Tfl+JWH9IAQtiIwZ8
+        e++EKIpIJD7D6XRi6WkN4j4d7l5mE3fKOIDPpeyqYjPxFyYsPjMg3F2OaYcKr/uu4VOkZQOyOtcOu92O
+        aDQJm82GeVEDeymbvH2RAx5VM9IcJYFL6q9XINh5CTF/A5Z8RgQdJUjONOPDcwuS440wm80YGJgCY2yi
+        Tc2K21RbAHJVsMIODZuNPqnGuK0QvtZiLE4a8GakFgs9VVgJWbHcr5fNfq4CGzf/AeCl/E4SdJcixgsL
+        OAQEXTzRlGkjtqWIFkxKOssBtB2AbpWwIn44P9qcj5EbpxEdrYa/9Rx0ubRUc5LO1xcQ/RPQrt5K8sp7
+        BYPGE7iaQwltNglVCqKdAqjyOF2oyCapPIskueSKLKK/AuTXuBvtyixf/Asbp6AcXrD0oQAAAABJRU5E
+        rkJggg==
+</value>
+  </data>
   <data name="rbAddDD.ToolTip" xml:space="preserve">
     <value>Adds Dynamic Difficulty (DD) to a CDLC arrangement
 only if the arrangement does not already have DD.
@@ -146,7 +187,6 @@ arrangement exists in a CDLC, to create
 a 'metronome' only CDLC, one would check
 all boxes except 'Remove Metronome'. </value>
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="btnRestoreMax.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
@@ -254,23 +294,6 @@ original CDLC that have never repaired before.
         YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALEwAA
         CxMBAJqcGAAAAF1JREFUOE9jYEAF/9H42LgYakACMEFkGiaOTIMMRFcDFkA3BJtmXGpQDMCnEZccdQwg
         IuywKgGHB3KoEusFmGkYBpDqklEXQCOAmFjAFbjUjwVSohGeN4hNPFhzJwAf7oN9Gr13fQAAAABJRU5E
-        rkJggg==
-</value>
-  </data>
-  <data name="btnCleanDlcFolder.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAlJJREFUOE+lk99L
-        k1Ecxr/nonuprrqKEArSMFaZIjOlHy9sZljTEeaP5jYdbmkMdFpjtWwv5bDZ/K1Imq7cSGzDNr1oVto2
-        30bWDEp33R9R8HRehSTIEjzw8MI57/M5z/eBwwDQrlaPjpGX6/F1Rt21m19Z8p681ApGfXpGvXWbe535
-        RN1KEroKSHqQSwLtAJDXq2fDPXVsmAOUD/NIEE+RFO8og/0YSf8DZPIQxrQkIr3sgqeGTTtySJq9WQjr
-        YZKaMrdPkMHHMHNzw/p6Gl6vF19CTVh754C7kr3UHSBJu48EyyH+Bx9hD4+2nxuO8A6KuFoGGzP8c0Oq
-        tdWI7afH40Eq9RVutxvJQD1SYStcWha6X87O3NPwnrjROWTeGx5rPfjW36H4GB3Tfl+JWH9IAQtiIwZ8
-        e++EKIpIJD7D6XRi6WkN4j4d7l5mE3fKOIDPpeyqYjPxFyYsPjMg3F2OaYcKr/uu4VOkZQOyOtcOu92O
-        aDQJm82GeVEDeymbvH2RAx5VM9IcJYFL6q9XINh5CTF/A5Z8RgQdJUjONOPDcwuS440wm80YGJgCY2yi
-        Tc2K21RbAHJVsMIODZuNPqnGuK0QvtZiLE4a8GakFgs9VVgJWbHcr5fNfq4CGzf/AeCl/E4SdJcixgsL
-        OAQEXTzRlGkjtqWIFkxKOssBtB2AbpWwIn44P9qcj5EbpxEdrYa/9Rx0ubRUc5LO1xcQ/RPQrt5K8sp7
-        BYPGE7iaQwltNglVCqKdAqjyOF2oyCapPIskueSKLKK/AuTXuBvtyixf/Asbp6AcXrD0oQAAAABJRU5E
         rkJggg==
 </value>
   </data>

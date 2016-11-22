@@ -67,8 +67,6 @@ namespace CustomsForgeSongManager.UControls
             chkRemoveMetronome.CheckedChanged += RepairOptions_CheckedChanged;
             chkRemoveNdd.CheckedChanged += RepairOptions_CheckedChanged;
             chkIgnoreLimit.CheckedChanged += RepairOptions_CheckedChanged;
-
-            CreateFolders();
         }
 
         private bool AddDD
@@ -199,13 +197,13 @@ namespace CustomsForgeSongManager.UControls
                         if (Constants.DebugMode)
                         {
                             // cleanup every nth record
-                            if (processed%50 == 0)
+                            if (processed % 50 == 0)
                                 GenExtensions.CleanLocalTemp();
                         }
                     }
                     else
                     {
-                        var lines = sbErrors.ToString().Split(new string[] {Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries).ToList();
+                        var lines = sbErrors.ToString().Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).ToList();
                         if (lines.Last().ToLower().Contains("maximum"))
                             GenExtensions.InvokeIfRequired(this, delegate { dgvRepair.Rows.Add(Path.GetFileName(srcFilePath), "Exceeds Playable Arrangements Limit ... Moved File ... Added To Error Log"); });
                         else
@@ -255,6 +253,7 @@ namespace CustomsForgeSongManager.UControls
 
         public void RestoreBackups(string backupExt, string backupFolder)
         {
+            ValidateBackupFolders();
             Globals.Log("Restoring (" + backupExt + ") CDLC ...");
             dlcFilePaths = Directory.EnumerateFiles(Constants.Rs2DlcFolder, "*.psarc", SearchOption.AllDirectories).Where(fi => !fi.ToLower().Contains(Constants.RS1COMP) && !fi.ToLower().Contains(Constants.SONGPACK) && !fi.ToLower().Contains(Constants.ABVSONGPACK)).ToList();
             // ignore the inlay(s) folder
@@ -309,11 +308,13 @@ namespace CustomsForgeSongManager.UControls
                 Globals.RescanSongManager = true;
             }
             else
-                Globals.Log("No (" + backupExt + ") backup CDLC to restore: " + Constants.RemasteredOrgFolder);
+                Globals.Log("No (" + backupExt + ") backup CDLC restored from: " + backupFolder);
         }
 
         private void CleanDlcFolder()
         {
+            ValidateBackupFolders();
+
             // remove any (.org, (.max) and (.cor) files from dlc folder and subfolders
             Globals.Log("Cleaning 'dlc' folder and subfolders ...");
             string[] extensions = { orgExt, maxExt, corExt };
@@ -408,7 +409,7 @@ namespace CustomsForgeSongManager.UControls
             return true;
         }
 
-        private void CreateFolders()
+        private void ValidateBackupFolders()
         {
             if (!Directory.Exists(Constants.RemasteredFolder))
                 Directory.CreateDirectory(Constants.RemasteredFolder);
@@ -754,16 +755,19 @@ namespace CustomsForgeSongManager.UControls
                             throw new CustomException("ddc.exe is missing");
 
                         if (String.IsNullOrEmpty(consoleOutput))
+                        {
                             Globals.Log(" - Added DD to " + arr + " ...");
+                            addedDD = true;
+                        }
+                        // TODO: need to catch ddc.exe errors here
+                        // add custom exception handler, log to file and move to corrupt folder
                         else
                             Globals.Log(" - " + arr + " DDC console output: " + consoleOutput + " ...");
-
-                        addedDD = true;
                     }
 
                     // put arrangment comments in correct order
                     Song2014.WriteXmlComments(arr.SongXml.File);
-                 }
+                }
 
                 if (!PreserveStats)
                 {
@@ -1169,6 +1173,26 @@ namespace CustomsForgeSongManager.UControls
         public void TabLeave()
         {
             Globals.Log("Repairs GUI TabLeave ...");
+        }
+
+        private void btnRestoreCorrupt_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure you want to restore (" + corExt + ") CDLC to the 'dlc' folder?", Constants.ApplicationName + " ... Warning", MessageBoxButtons.YesNo) == DialogResult.No)
+                return;
+
+            ToggleUIControls(false);
+
+            // run new generic worker
+            using (var gWorker = new GenericWorker())
+            {
+                gWorker.WorkDescription = "restoring (.cor) backups";
+                gWorker.BackgroundProcess(this);
+                while (Globals.WorkerFinished == Globals.Tristate.False)
+                    Application.DoEvents();
+            }
+
+            ToggleUIControls(true);
+
         }
 
     }

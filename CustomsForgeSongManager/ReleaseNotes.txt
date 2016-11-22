@@ -1,5 +1,8 @@
 ﻿CFSM Release Notes
 
+1.2.7.4
+- Added restore corrupt backups to Bulk Repairs
+
 1.2.7.3
 - Fixed bug in Bulk Repairs 'Add DD' option
 
