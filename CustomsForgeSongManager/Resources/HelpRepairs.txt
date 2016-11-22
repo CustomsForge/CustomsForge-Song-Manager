@@ -26,8 +26,10 @@ Usage Option #3 (for CDLC charters who want to repair the Max5 Bug):
 5. Next select 'Repairs' tab.
 6. Make sure 'Skip Repaired CDLC', 'Repair 100% Mastery Bug', and 'Add DD' radio buttons are selected.
 7. Select the 'Repair Maximum Playable Arrangements' radio button.  This will activate the repair option checkboxes.
-8. Now select appropriate options that you think will repair the CDLC that you have charted.  My suggestion is to start by selecting 'Remove Bonus' and see how many CDLC are fixed with just that one option selected.  (As an example, checking 'Remove Bonus' repairs most CDLC for charter LaceyB's work.)  (Checking 'Remove Metronome' may repair CDLC for charter Azrael)  One TRICK is to set the CFSM Setting tab 'Rocksmith Installation Directory' to a 'dlc' work directory that you choose which can be anywhere on the system and only contains the work that you want to fix and re-author.  Remember this is a bulk repair tool so you only want CDLC that you want to repair to be in the 'dlc' folder where ever it is located.  
-9. Play around with the Usage Option #3 until you achieve the output you are looking for. 
+8. Now select appropriate options that you think will repair the CDLC that you have charted.  My suggestion is to start by selecting 'Remove Bonus' and see how many CDLC are fixed with just that one option selected.  (As an example, checking 'Remove Bonus' repairs most CDLC for charter LaceyB.)  (Checking 'Remove Metronome' may repair CDLC for charter Azrael.) 
+9. Play around with the Usage Option #3 until you achieve the output you are looking for.
+10. Put the repaired CDLC back into the official 'dlc' folder.
+11. Start the game and test the Max5 repaired CDLC.
 
 Second Draft
 

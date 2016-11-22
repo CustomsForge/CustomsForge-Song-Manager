@@ -1,5 +1,11 @@
 ﻿CFSM Release Notes
 
+1.2.7.2
+- Fixed Null Exception ODLC check in Bulk Repair
+
+1.2.7.1
+- Bulk Repairs will ignore the contents of the 'inlays' subfolder 
+
 1.2.7.0
 - renamed Repairs to Bulk Repairs to better reflect purpose
 - added option to repair CDLC that have already been repaired in Bulk Repairs

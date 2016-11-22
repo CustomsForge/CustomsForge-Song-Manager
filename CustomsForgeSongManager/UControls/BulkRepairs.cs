@@ -144,6 +144,8 @@ namespace CustomsForgeSongManager.UControls
 
             var srcFilePaths = new List<string>();
             dlcFilePaths = Directory.EnumerateFiles(Constants.Rs2DlcFolder, "*_p.psarc", SearchOption.AllDirectories).Where(fi => !fi.ToLower().Contains(Constants.RS1COMP) && !fi.ToLower().Contains(Constants.SONGPACK) && !fi.ToLower().Contains(Constants.ABVSONGPACK)).ToList();
+            // ignore the inlay(s) folder
+            dlcFilePaths = dlcFilePaths.Where(x => !x.ToLower().Contains("inlay")).ToList();
 
             if (RepairOrg)
                 srcFilePaths = Directory.EnumerateFiles(Constants.RemasteredOrgFolder, "*" + orgExt + "*").ToList();
@@ -163,18 +165,21 @@ namespace CustomsForgeSongManager.UControls
                 processed++;
 
                 var officialOrRepaired = OfficialOrRepaired(srcFilePath);
-                if (officialOrRepaired.Contains("Official"))
+                if (!String.IsNullOrEmpty(officialOrRepaired))
                 {
-                    GenExtensions.InvokeIfRequired(this, delegate { dgvRepair.Rows.Add(Path.GetFileName(srcFilePath), "Skipped ODLC File"); });
-                    skipped++;
-                    isSkipped = true;
-                }
+                    if (officialOrRepaired.Contains("Official"))
+                    {
+                        GenExtensions.InvokeIfRequired(this, delegate { dgvRepair.Rows.Add(Path.GetFileName(srcFilePath), "Skipped ODLC File"); });
+                        skipped++;
+                        isSkipped = true;
+                    }
 
-                if (officialOrRepaired.Contains("Remastered") && SkipRepaired)
-                {
-                    GenExtensions.InvokeIfRequired(this, delegate { dgvRepair.Rows.Add(Path.GetFileName(srcFilePath), "Skipped Remastered File"); });
-                    skipped++;
-                    isSkipped = true;
+                    if (officialOrRepaired.Contains("Remastered") && SkipRepaired)
+                    {
+                        GenExtensions.InvokeIfRequired(this, delegate { dgvRepair.Rows.Add(Path.GetFileName(srcFilePath), "Skipped Remastered File"); });
+                        skipped++;
+                        isSkipped = true;
+                    }
                 }
 
                 // remaster the CDLC file
@@ -252,6 +257,9 @@ namespace CustomsForgeSongManager.UControls
         {
             Globals.Log("Restoring (" + backupExt + ") CDLC ...");
             dlcFilePaths = Directory.EnumerateFiles(Constants.Rs2DlcFolder, "*.psarc", SearchOption.AllDirectories).Where(fi => !fi.ToLower().Contains(Constants.RS1COMP) && !fi.ToLower().Contains(Constants.SONGPACK) && !fi.ToLower().Contains(Constants.ABVSONGPACK)).ToList();
+            // ignore the inlay(s) folder
+            dlcFilePaths = dlcFilePaths.Where(x => !x.ToLower().Contains("inlay")).ToList();
+
             bakFilePaths = Directory.EnumerateFiles(backupFolder, "*" + backupExt + "*").ToList();
 
             var dlcFilePath = String.Empty;
