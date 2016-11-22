@@ -1769,6 +1769,7 @@ namespace CustomsForgeSongManager.UControls
 
                     if (maxDD == 0)
                     {
+                        // TODO: fix ValidatedData does not currently have any return
                         PackageDataTools.ValidateData(packageData, songXml);
                         using (var stream = File.Open(arr.SongXml.File, FileMode.Create))
                             songXml.Serialize(stream, true);

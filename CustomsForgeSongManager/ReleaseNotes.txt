@@ -1,5 +1,8 @@
 ﻿CFSM Release Notes
 
+1.2.7.3
+- Fixed bug in Bulk Repairs 'Add DD' option
+
 1.2.7.2
 - Fixed Null Exception ODLC check in Bulk Repair
 

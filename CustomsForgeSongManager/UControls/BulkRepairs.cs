@@ -259,7 +259,6 @@ namespace CustomsForgeSongManager.UControls
             dlcFilePaths = Directory.EnumerateFiles(Constants.Rs2DlcFolder, "*.psarc", SearchOption.AllDirectories).Where(fi => !fi.ToLower().Contains(Constants.RS1COMP) && !fi.ToLower().Contains(Constants.SONGPACK) && !fi.ToLower().Contains(Constants.ABVSONGPACK)).ToList();
             // ignore the inlay(s) folder
             dlcFilePaths = dlcFilePaths.Where(x => !x.ToLower().Contains("inlay")).ToList();
-
             bakFilePaths = Directory.EnumerateFiles(backupFolder, "*" + backupExt + "*").ToList();
 
             var dlcFilePath = String.Empty;
@@ -736,6 +735,13 @@ namespace CustomsForgeSongManager.UControls
                     songXml.AlbumNameSort = packageData.SongInfo.AlbumSort.GetValidSortableName();
                     songXml.AverageTempo = Convert.ToSingle(packageData.SongInfo.AverageTempo.ToString().GetValidTempo());
 
+                    // write updated xml arrangement
+                    using (var stream = File.Open(arr.SongXml.File, FileMode.Create))
+                        songXml.Serialize(stream, true);
+
+                    // add comments back to xml arrangement   
+                    Song2014.WriteXmlComments(arr.SongXml.File, arr.XmlComments);
+
                     // only add DD to NDD arrangements              
                     var mf = new ManifestFunctions(GameVersion.RS2014);
                     var maxDD = mf.GetMaxDifficulty(songXml);
@@ -755,13 +761,9 @@ namespace CustomsForgeSongManager.UControls
                         addedDD = true;
                     }
 
-                    // write updated xml arrangement
-                    using (var stream = File.Open(arr.SongXml.File, FileMode.Create))
-                        songXml.Serialize(stream, true);
-
-                    // add comments back to xml arrangement   
-                    Song2014.WriteXmlComments(arr.SongXml.File, arr.XmlComments);
-                }
+                    // put arrangment comments in correct order
+                    Song2014.WriteXmlComments(arr.SongXml.File);
+                 }
 
                 if (!PreserveStats)
                 {
