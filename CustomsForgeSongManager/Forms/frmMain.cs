@@ -71,6 +71,7 @@ namespace CustomsForgeSongManager.Forms
             Globals.TsLabel_StatusMsg = this.tsLabel_StatusMsg;
             Globals.TsLabel_DisabledCounter = this.tsLabel_DisabledCounter;
             Globals.TsLabel_Cancel = this.tsLabel_Cancel;
+            Globals.TbLog = this.tbLog;
             Globals.ResetToolStripGlobals();
             Globals.MyLog.AddTargetTextBox(tbLog);
             //    Globals.CFMTheme.AddListener(this);

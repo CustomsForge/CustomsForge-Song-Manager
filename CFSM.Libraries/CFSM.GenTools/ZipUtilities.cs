@@ -370,5 +370,32 @@ namespace CFSM.GenTools
                 return;
             }
         }
+
+        // delete files that still may be open or not empty
+        // prevents IOException: the process cannot access the file ...  
+        public static void DeleteFile(string filePath)
+        {
+            const int magicDust = 10;
+            for (var gnomes = 1; gnomes <= magicDust; gnomes++)
+            {
+                try
+                {
+                    File.Delete(filePath);
+                }
+                catch (FileNotFoundException)
+                {
+                    return;  // ok, but will never happen
+                }
+                catch (IOException)
+                {
+                    // IOException: The process cannot access the file ...
+                    Debug.WriteLine("Gnomes prevent deletion of {0}! Applying magic dust, attempt #{1}.", filePath, gnomes);
+                    Thread.Sleep(50);
+                    continue;
+                }
+                return;
+            }
+        }
+
     }
 }

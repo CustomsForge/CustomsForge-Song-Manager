@@ -1,4 +1,10 @@
 ﻿CFSM Release Notes
+
+1.2.7.6
+- changed action of 'Repair Maximum Playable Arrangements', the maximum arrangements will be kept
+- show the combined contents of 'remastered_error.log' and 'debug.log' files in the Error Log Viewer GUI
+- added 'Empty Log Files' button to 'Settings'
+
 1.2.7.5
 -First version of the fix "EOF tone issue" (less corrupt files)
 -Updated ODLC list

@@ -44,13 +44,14 @@ namespace CustomsForgeSongManager.UControls
             this.colSettingsColumnName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colSettingsColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colSettingsWidth = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.cueRsDir = new CueTextBox();
+            this.cueRsDir = new CustomsForgeSongManager.LocalTools.CueTextBox();
             this.lblSettingsRSDir = new System.Windows.Forms.Label();
-            this.btnSettingsLoad = new System.Windows.Forms.Button();
             this.btnSettingsSave = new System.Windows.Forms.Button();
             this.chkEnableLogBallon = new System.Windows.Forms.CheckBox();
-            this.txtCharterName = new CueTextBox();
+            this.txtCharterName = new CustomsForgeSongManager.LocalTools.CueTextBox();
             this.chkCleanOnClosing = new System.Windows.Forms.CheckBox();
+            this.btnSettingsLoad = new System.Windows.Forms.Button();
+            this.btnEmptyLogs = new System.Windows.Forms.Button();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.tlpSettings_Wrapper.SuspendLayout();
             this.panel5.SuspendLayout();
@@ -66,11 +67,12 @@ namespace CustomsForgeSongManager.UControls
             this.tlpSettings_Wrapper.Controls.Add(this.panel5, 2, 1);
             this.tlpSettings_Wrapper.Controls.Add(this.cueRsDir, 2, 0);
             this.tlpSettings_Wrapper.Controls.Add(this.lblSettingsRSDir, 0, 0);
-            this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsLoad, 0, 8);
             this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsSave, 1, 8);
             this.tlpSettings_Wrapper.Controls.Add(this.chkEnableLogBallon, 0, 3);
             this.tlpSettings_Wrapper.Controls.Add(this.txtCharterName, 0, 5);
             this.tlpSettings_Wrapper.Controls.Add(this.chkCleanOnClosing, 0, 4);
+            this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsLoad, 0, 8);
+            this.tlpSettings_Wrapper.Controls.Add(this.btnEmptyLogs, 0, 7);
             this.tlpSettings_Wrapper.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpSettings_Wrapper.Location = new System.Drawing.Point(0, 0);
             this.tlpSettings_Wrapper.Name = "tlpSettings_Wrapper";
@@ -82,7 +84,7 @@ namespace CustomsForgeSongManager.UControls
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
-            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 168F));
+            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 113F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 17F));
             this.tlpSettings_Wrapper.Size = new System.Drawing.Size(866, 490);
@@ -211,21 +213,6 @@ namespace CustomsForgeSongManager.UControls
             this.lblSettingsRSDir.Text = "Rocksmith Installation Directory:";
             this.lblSettingsRSDir.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // btnSettingsLoad
-            // 
-            this.btnSettingsLoad.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.btnSettingsLoad.Image = global::CustomsForgeSongManager.Properties.Resources.load;
-            this.btnSettingsLoad.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSettingsLoad.Location = new System.Drawing.Point(41, 441);
-            this.btnSettingsLoad.Name = "btnSettingsLoad";
-            this.btnSettingsLoad.Padding = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.btnSettingsLoad.Size = new System.Drawing.Size(107, 29);
-            this.btnSettingsLoad.TabIndex = 0;
-            this.btnSettingsLoad.Text = "Load Settings";
-            this.btnSettingsLoad.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnSettingsLoad.UseVisualStyleBackColor = true;
-            this.btnSettingsLoad.Click += new System.EventHandler(this.btnSettingsLoad_Click);
-            // 
             // btnSettingsSave
             // 
             this.btnSettingsSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -235,9 +222,9 @@ namespace CustomsForgeSongManager.UControls
             this.btnSettingsSave.Location = new System.Drawing.Point(192, 441);
             this.btnSettingsSave.Name = "btnSettingsSave";
             this.btnSettingsSave.Padding = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.btnSettingsSave.Size = new System.Drawing.Size(108, 29);
+            this.btnSettingsSave.Size = new System.Drawing.Size(118, 29);
             this.btnSettingsSave.TabIndex = 0;
-            this.btnSettingsSave.Text = "Save Settings";
+            this.btnSettingsSave.Text = "Save Settings  ";
             this.btnSettingsSave.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnSettingsSave.UseVisualStyleBackColor = true;
             this.btnSettingsSave.Click += new System.EventHandler(this.btnSettingsSave_Click);
@@ -291,6 +278,37 @@ namespace CustomsForgeSongManager.UControls
             this.chkCleanOnClosing.UseVisualStyleBackColor = true;
             this.chkCleanOnClosing.CheckedChanged += new System.EventHandler(this.chkCleanOnClosing_CheckedChanged);
             // 
+            // btnSettingsLoad
+            // 
+            this.btnSettingsLoad.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.btnSettingsLoad.Image = global::CustomsForgeSongManager.Properties.Resources.load;
+            this.btnSettingsLoad.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnSettingsLoad.Location = new System.Drawing.Point(35, 441);
+            this.btnSettingsLoad.Name = "btnSettingsLoad";
+            this.btnSettingsLoad.Padding = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.btnSettingsLoad.Size = new System.Drawing.Size(118, 29);
+            this.btnSettingsLoad.TabIndex = 0;
+            this.btnSettingsLoad.Text = "Load Settings  ";
+            this.btnSettingsLoad.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnSettingsLoad.UseVisualStyleBackColor = true;
+            this.btnSettingsLoad.Click += new System.EventHandler(this.btnSettingsLoad_Click);
+            // 
+            // btnEmptyLogs
+            // 
+            this.btnEmptyLogs.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.btnEmptyLogs.Image = global::CustomsForgeSongManager.Properties.Resources.delete;
+            this.btnEmptyLogs.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnEmptyLogs.Location = new System.Drawing.Point(35, 290);
+            this.btnEmptyLogs.Name = "btnEmptyLogs";
+            this.btnEmptyLogs.Padding = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.btnEmptyLogs.Size = new System.Drawing.Size(118, 29);
+            this.btnEmptyLogs.TabIndex = 11;
+            this.btnEmptyLogs.Text = "Empty Log Files";
+            this.btnEmptyLogs.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.toolTip.SetToolTip(this.btnEmptyLogs, "Empty the log files");
+            this.btnEmptyLogs.UseVisualStyleBackColor = true;
+            this.btnEmptyLogs.Click += new System.EventHandler(this.btnEmptyLogs_Click);
+            // 
             // toolTip
             // 
             this.toolTip.AutomaticDelay = 200;
@@ -333,5 +351,6 @@ namespace CustomsForgeSongManager.UControls
         private CueTextBox txtCharterName;
         private CheckBox chkCleanOnClosing;
         private ToolTip toolTip;
+        private Button btnEmptyLogs;
     }
 }

@@ -176,6 +176,7 @@ namespace CustomsForgeSongManager.DataObjects
 
         public static bool CancelBackgroundScan { get; set; }
 
+        public static TextBox TbLog { get; set; }
         public static ToolStripStatusLabel TsLabel_Cancel { get; set; }
         public static ToolStripStatusLabel TsLabel_DisabledCounter { get; set; }
         public static ToolStripStatusLabel TsLabel_MainMsg { get; set; }
@@ -221,5 +222,12 @@ namespace CustomsForgeSongManager.DataObjects
             TsLabel_Cancel.Text = "Cancel";
             TsLabel_DisabledCounter.Visible = false;
         }
+
+        public static void ClearLog()
+        {
+            TbLog.Clear();
+        }
+
+
     }
 }

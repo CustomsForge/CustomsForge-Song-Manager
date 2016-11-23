@@ -229,14 +229,13 @@ namespace CustomsForgeSongManager.UControls
                 // error log can be turned into CSV file
                 sbErrors.Insert(0, "File Path, Error Message" + Environment.NewLine);
                 sbErrors.Insert(0, DateTime.Now.ToString("MM-dd-yy HH:mm") + Environment.NewLine);
-                var errorLogPath = Path.Combine(Constants.RemasteredFolder, "remastered_error.log");
-                using (TextWriter tw = new StreamWriter(errorLogPath, true))
+                using (TextWriter tw = new StreamWriter(Constants.RemasteredErrorLogPath, true))
                 {
                     tw.WriteLine(sbErrors + Environment.NewLine);
                     tw.Close();
                 }
 
-                Globals.Log("Saved error log to: " + errorLogPath + " ...");
+                Globals.Log("Saved error log to: " + Constants.RemasteredErrorLogPath + " ...");
             }
 
             if (processed > 0)
@@ -492,13 +491,12 @@ namespace CustomsForgeSongManager.UControls
 
         private DLCPackageData MaxFiveArrangements(DLCPackageData packageData)
         {
-            if (!IgnoreLimit)
-            {
-                var playableArrCount = packageData.Arrangements.Count(arr => arr.ArrangementType == ArrangementType.Guitar || arr.ArrangementType == ArrangementType.Bass);
-                if (playableArrCount < 6)
-                    return packageData;
-            }
+            const int playableArrLimit = 5; // one based limit
+            var playableArrCount = packageData.Arrangements.Count(arr => arr.ArrangementType == ArrangementType.Guitar || arr.ArrangementType == ArrangementType.Bass);
+            if (!IgnoreLimit && playableArrCount <= playableArrLimit)
+                return packageData;
 
+            var removalNdx = playableArrCount - playableArrLimit; // zero based index
             var packageDataKept = new DLCPackageData();
             packageDataKept.Arrangements = new List<Arrangement>();
 
@@ -625,20 +623,23 @@ namespace CustomsForgeSongManager.UControls
                         break;
                 }
 
-                if (isKept)
+                if (isKept || removalNdx == 0)
                 {
                     Globals.Log(" - Kept: " + arr + " ...");
                     packageDataKept.Arrangements.Add(arr);
 
-                    if (!IgnoreLimit && packageDataKept.Arrangements.Count == 5)
+                    if (packageDataKept.Arrangements.Count == playableArrLimit)
                     {
-                        Globals.Log(" - Kept first five arrangements matching the repair criteria ...");
+                        Globals.Log(" - Kept first [" + playableArrLimit + "] arrangements matching the repair criteria ...");
                         break;
                     }
                 }
                 else
+                {
                     Globals.Log(" - Removed: " + arr + " ...");
-
+                    if (!IgnoreLimit)
+                        removalNdx--;
+                }
             }
 
             // replace original arrangements with kept arrangements
@@ -833,7 +834,7 @@ namespace CustomsForgeSongManager.UControls
             catch (CustomException ex)
             {
                 Globals.Log(" - Repair failed ... " + ex.Message);
-                Globals.Log(" - See 'remastered_error.log' file ... ");
+                Globals.Log(" - See '" + Path.GetFileName(Constants.RemasteredErrorLogPath) + "' file ... ");
 
                 //  copy (org) to maximum (max), delete backup (org), delete original
                 var properExt = Path.GetExtension(srcFilePath);
@@ -851,7 +852,7 @@ namespace CustomsForgeSongManager.UControls
             catch (Exception ex)
             {
                 Globals.Log(" - Repair failed ... " + ex.Message);
-                Globals.Log(" - See 'remastered_error.log' file ... ");
+                Globals.Log(" - See '" + Path.GetFileName(Constants.RemasteredErrorLogPath) + "' file ... ");
 
                 //  copy (org) to corrupt (cor), delete backup (org), delete original
                 var properExt = Path.GetExtension(srcFilePath);
@@ -982,6 +983,10 @@ namespace CustomsForgeSongManager.UControls
             btnRepairSongs.Enabled = rbRepairMastery.Checked || rbRepairMaxFive.Checked && checkByte != 0x00;
             if (rbRepairMaxFive.Checked && checkByte == 0x00)
                 btnRepairSongs.Enabled = false;
+            if (btnRepairSongs.Enabled)
+                btnRepairSongs.BackColor = Color.GreenYellow;
+            else
+                btnRepairSongs.BackColor = SystemColors.Control;
         }
 
         private void btnArchiveCorruptSongs_Click(object sender, EventArgs e)
@@ -1116,12 +1121,17 @@ namespace CustomsForgeSongManager.UControls
         private void btnViewErrorLog_Click(object sender, EventArgs e)
         {
             string stringLog;
-            var errorLogPath = Path.Combine(Constants.RemasteredFolder, "remastered_error.log");
 
-            if (!File.Exists(errorLogPath))
-                stringLog = "remastered_error.log is empty ...";
+            if (!File.Exists(Constants.RemasteredErrorLogPath))
+                stringLog = Path.GetFileName(Constants.RemasteredErrorLogPath) + " is empty ...";
             else
-                stringLog = File.ReadAllText(errorLogPath);
+            {
+                stringLog = Constants.RemasteredErrorLogPath + Environment.NewLine;
+                stringLog = stringLog + File.ReadAllText(Constants.RemasteredErrorLogPath);
+                stringLog = stringLog + Environment.NewLine + AppSettings.Instance.LogFilePath + Environment.NewLine;
+                stringLog = stringLog + File.ReadAllText(AppSettings.Instance.LogFilePath);
+            }
+
 
             using (var noteViewer = new frmNoteViewer())
             {

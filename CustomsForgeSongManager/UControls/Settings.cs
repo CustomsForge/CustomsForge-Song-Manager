@@ -256,5 +256,32 @@ namespace CustomsForgeSongManager.UControls
             AppSettings.Instance.CleanOnClosing = chkCleanOnClosing.Checked;
         }
 
+        private void btnEmptyLogs_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure you want to empty the log files?", Constants.ApplicationName + " ... Warning", MessageBoxButtons.YesNo) == DialogResult.No)
+                return;
+
+            ZipUtilities.DeleteFile(AppSettings.Instance.LogFilePath);
+            Globals.MyLog.AddTargetFile(AppSettings.Instance.LogFilePath);
+            ZipUtilities.DeleteFile(Constants.RemasteredErrorLogPath);
+            Globals.TbLog.Clear();
+            Globals.Log("Log files have been emptied ...");
+            Globals.Log("Starting new log ...");
+
+            var strFormatVersion = "{0} (v{1})";
+#if BETA
+            strFormatVersion = "{0} (v{1} - BETA VERSION)";
+#endif
+#if RELEASE
+            strFormatVersion = "{0} (v{1} - RELEASE VERSION)";
+#endif
+#if DEBUG
+            strFormatVersion = "{0} (v{1} - DEBUG)";
+#endif
+            
+            var stringVersion = String.Format(strFormatVersion, Constants.ApplicationName, Constants.CustomVersion());
+            Globals.Log(stringVersion);
+        }
+
     }
 }

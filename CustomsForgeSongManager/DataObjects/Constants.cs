@@ -89,6 +89,7 @@ namespace CustomsForgeSongManager.DataObjects
         public static string SongsRs1DlcInternalPath { get { return @"manifests/songs_rs1dlc/songs_rs1dlc.hsan"; } }
 
         //Remastered_Folder placed in Rocksmith 2014 root, 'backup' subdirectory
+        public static string RemasteredErrorLogPath{get { return Path.Combine(Constants.RemasteredFolder, "remastered_error.log"); }}
         public static string RemasteredFolder { get { return Path.Combine(Rs2BackupFolder, "remastered"); } }
         public static string RemasteredCorFolder { get { return Path.Combine(RemasteredFolder, "corrupt"); } }
         public static string RemasteredOrgFolder { get { return Path.Combine(RemasteredFolder, "original"); } }
