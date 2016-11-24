@@ -59,8 +59,8 @@ namespace CustomsForgeSongManager.Forms
 #if DEBUG
             strFormatVersion = "{0} (v{1} - DEBUG)";
 #endif
-            var stringVersion = String.Format(strFormatVersion, Constants.ApplicationName, Constants.CustomVersion());
-            this.Text = stringVersion;
+            Constants.AppTitle = String.Format(strFormatVersion, Constants.ApplicationName, Constants.CustomVersion());
+            this.Text = Constants.AppTitle;
             // bring CFSM to the front on startup
             this.WindowState = FormWindowState.Minimized;
 
@@ -86,7 +86,7 @@ namespace CustomsForgeSongManager.Forms
             }
 
             // initialize all global variables
-            Globals.Log(stringVersion);
+            Globals.Log(Constants.AppTitle);
             Globals.Log(GetRSTKLibVersion());
 
             // load settings

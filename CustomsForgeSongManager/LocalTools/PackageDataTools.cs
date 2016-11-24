@@ -15,6 +15,9 @@ using System.Reflection;
 
 namespace CustomsForgeSongManager.LocalTools
 {
+    // TODO: maybe think about creating Generic Repair methods
+    // SongManager repairs and Bulk Repairs are using very similar methods
+    // these methods could be made generic and moved into a 'RepairTools' class.
     class PackageDataTools
     {
         public static void AddDefaultPackageVersion(ref DLCPackageData packageData)

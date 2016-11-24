@@ -22,6 +22,7 @@ namespace CustomsForgeSongManager.DataObjects
         public static readonly string ABVSONGPACK = "_sp_";
         public static readonly string ApplicationName = "CustomsForge Song Manager";
         public static Font OfficialDLCFont { get { return new Font("Arial", 8, FontStyle.Bold | FontStyle.Italic); } }
+        public static string AppTitle { get; set; }
         public static string ApplicationVersion { get { return Assembly.GetExecutingAssembly().GetName().Version.ToString(); } }
         public static string WorkFolder { get { return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "CFSM"); } }
         public static string ThemeFolder { get { return Path.Combine(WorkFolder, "Themes"); } }
@@ -89,7 +90,7 @@ namespace CustomsForgeSongManager.DataObjects
         public static string SongsRs1DlcInternalPath { get { return @"manifests/songs_rs1dlc/songs_rs1dlc.hsan"; } }
 
         //Remastered_Folder placed in Rocksmith 2014 root, 'backup' subdirectory
-        public static string RemasteredErrorLogPath{get { return Path.Combine(Constants.RemasteredFolder, "remastered_error.log"); }}
+        public static string RemasteredErrorLogPath{get { return Path.Combine(RemasteredFolder, "remastered_error.log"); }}
         public static string RemasteredFolder { get { return Path.Combine(Rs2BackupFolder, "remastered"); } }
         public static string RemasteredCorFolder { get { return Path.Combine(RemasteredFolder, "corrupt"); } }
         public static string RemasteredOrgFolder { get { return Path.Combine(RemasteredFolder, "original"); } }
@@ -127,6 +128,5 @@ namespace CustomsForgeSongManager.DataObjects
                                  Assembly.GetExecutingAssembly().GetName().Version.Build,
                                  Assembly.GetExecutingAssembly().GetName().Version.Revision);
         }
-
     }
 }

@@ -193,7 +193,8 @@ namespace CustomsForgeSongManager.DataObjects
             get { return (IMainForm) Application.OpenForms["frmMain"]; }
         }
 
-        public static Tristate WorkerFinished { get; set; } // True = 0, False = 1, Cancelled = 2
+        public static Tristate WorkerFinished { get; set; }
+// True = 0, False = 1, Cancelled = 2
 
         public static void Log(string message)
         {

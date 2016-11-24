@@ -547,7 +547,10 @@ namespace CustomsForgeSongManager.UControls
                 Globals.Settings.SaveSettingsToFile(dgvSongsMaster);
 
             if (fullRescan)
+            {
                 Globals.SongCollection.Clear();
+                Globals.TuningXml = null;// fix for Tunings 'Other'
+            }
 
             var sw = new Stopwatch();
             sw.Restart();

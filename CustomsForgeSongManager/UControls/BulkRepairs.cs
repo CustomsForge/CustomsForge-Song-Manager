@@ -41,6 +41,7 @@ namespace CustomsForgeSongManager.UControls
         #endregion
 
         private bool addedDD = false;
+        private bool ddError = false;
         private List<string> bakFilePaths = new List<string>();
         private byte checkByte; // tracks repair checkbox condition
         private List<string> dlcFilePaths = new List<string>();
@@ -191,6 +192,8 @@ namespace CustomsForgeSongManager.UControls
                             message += " ... Used (" + orgExt + ") File";
                         if (addedDD)
                             message += " ... Added Dynamic Difficulty";
+                        if (ddError)
+                            message += " ... Error Adding Dynamic Difficulty";
 
                         GenExtensions.InvokeIfRequired(this, delegate { dgvRepair.Rows.Add(Path.GetFileName(srcFilePath).Replace(orgExt, ""), message); });
 
@@ -224,7 +227,7 @@ namespace CustomsForgeSongManager.UControls
                 ReportProgress(processed, total, skipped, failed);
             }
 
-            if (failed > 0)
+            if (!String.IsNullOrEmpty(sbErrors.ToString())) //failed > 0)
             {
                 // error log can be turned into CSV file
                 sbErrors.Insert(0, "File Path, Error Message" + Environment.NewLine);
@@ -240,7 +243,7 @@ namespace CustomsForgeSongManager.UControls
 
             if (processed > 0)
             {
-                Globals.Log("CDLC repair was sucessful ...");
+                Globals.Log("CDLC repair completed ...");
                 Globals.RescanSongManager = true;
 
                 if (Constants.DebugMode)
@@ -688,6 +691,7 @@ namespace CustomsForgeSongManager.UControls
                 Globals.Log(" - Extracting CDLC artifacts ...");
                 // DDC generation variables
                 addedDD = false;
+                ddError = false;
                 SettingsDDC.Instance.LoadConfigXml();
                 // phrase length should be at least 8 to fix chord density bug
                 // using 12 bar blues beat for default phrase length
@@ -760,10 +764,12 @@ namespace CustomsForgeSongManager.UControls
                             Globals.Log(" - Added DD to " + arr + " ...");
                             addedDD = true;
                         }
-                        // TODO: need to catch ddc.exe errors here
-                        // add custom exception handler, log to file and move to corrupt folder
                         else
+                        {
                             Globals.Log(" - " + arr + " DDC console output: " + consoleOutput + " ...");
+                            sbErrors.AppendLine(String.Format("{0}, Could not apply DD to: {1}", srcFilePath, arr));
+                            ddError = true;
+                        }
                     }
 
                     // put arrangment comments in correct order
@@ -829,23 +835,29 @@ namespace CustomsForgeSongManager.UControls
                 using (var psarcNew = new PsarcPackager(true))
                     psarcNew.WritePackage(srcFilePath, packageData);
 
-                Globals.Log(" - Repair was sucessful ...");
+                if (!ddError)
+                    Globals.Log(" - Repair was sucessful ...");
+                else
+                    Globals.Log(" - Repair was sucessful, but DD could not be applied ...");
             }
             catch (CustomException ex)
             {
                 Globals.Log(" - Repair failed ... " + ex.Message);
                 Globals.Log(" - See '" + Path.GetFileName(Constants.RemasteredErrorLogPath) + "' file ... ");
 
-                //  copy (org) to maximum (max), delete backup (org), delete original
-                var properExt = Path.GetExtension(srcFilePath);
-                var orgFilePath = String.Format(@"{0}{1}{2}", Path.Combine(Constants.RemasteredOrgFolder, Path.GetFileNameWithoutExtension(srcFilePath)), orgExt, properExt).Trim();
-                var maxFilePath = String.Format(@"{0}{1}{2}", Path.Combine(Constants.RemasteredMaxFolder, Path.GetFileNameWithoutExtension(srcFilePath)), maxExt, properExt).Trim();
-                File.SetAttributes(orgFilePath, FileAttributes.Normal);
-                File.SetAttributes(srcFilePath, FileAttributes.Normal);
-                File.Copy(orgFilePath, maxFilePath, true);
-                File.Delete(orgFilePath);
-                File.Delete(srcFilePath);
-                sbErrors.AppendLine(String.Format("{0}, Maximum playable arrangement limit exceeded", maxFilePath));
+                if (ex.Message.Contains("Maximum"))
+                {
+                    //  copy (org) to maximum (max), delete backup (org), delete original
+                    var properExt = Path.GetExtension(srcFilePath);
+                    var orgFilePath = String.Format(@"{0}{1}{2}", Path.Combine(Constants.RemasteredOrgFolder, Path.GetFileNameWithoutExtension(srcFilePath)), orgExt, properExt).Trim();
+                    var maxFilePath = String.Format(@"{0}{1}{2}", Path.Combine(Constants.RemasteredMaxFolder, Path.GetFileNameWithoutExtension(srcFilePath)), maxExt, properExt).Trim();
+                    File.SetAttributes(orgFilePath, FileAttributes.Normal);
+                    File.SetAttributes(srcFilePath, FileAttributes.Normal);
+                    File.Copy(orgFilePath, maxFilePath, true);
+                    File.Delete(orgFilePath);
+                    File.Delete(srcFilePath);
+                    sbErrors.AppendLine(String.Format("{0}, Maximum playable arrangement limit exceeded", maxFilePath));
+                }
 
                 return false;
             }
