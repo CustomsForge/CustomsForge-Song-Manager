@@ -1,5 +1,8 @@
 ﻿CFSM Release Notes
 
+1.2.7.9
+- Added user selectable checkbox to 'Ignore Multitone Ex'
+
 1.2.7.8
 - Added auto repair for multitone exceptions to convert corrupt arrangement to single tone
 - Updated RSTK libs

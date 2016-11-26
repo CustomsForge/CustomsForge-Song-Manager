@@ -50,7 +50,7 @@ namespace CustomsForgeSongManager.UControls
         private int rProgress;
         private int rSkipped;
         private int rTotal;
-        private StringBuilder sbErrors = new StringBuilder();
+        private StringBuilder sbErrors;
 
         public BulkRepairs()
         {
@@ -68,6 +68,7 @@ namespace CustomsForgeSongManager.UControls
             chkRemoveMetronome.CheckedChanged += RepairOptions_CheckedChanged;
             chkRemoveNdd.CheckedChanged += RepairOptions_CheckedChanged;
             chkIgnoreLimit.CheckedChanged += RepairOptions_CheckedChanged;
+            chkIgnoreMultitoneEx.CheckedChanged += RepairOptions_CheckedChanged;
         }
 
         private bool AddDD
@@ -94,6 +95,13 @@ namespace CustomsForgeSongManager.UControls
         {
             get { return rbSkipRepaired.Checked; }
         }
+
+
+        private bool IgnoreMultitoneEx
+        {
+            get { return chkIgnoreMultitoneEx.Checked; }
+        }
+
 
         public void ArchiveCorruptCDLC()
         {
@@ -137,11 +145,13 @@ namespace CustomsForgeSongManager.UControls
 
         public void RepairSongs()
         {
+            sbErrors = new StringBuilder();
+
             // make sure 'dlc' folder is clean
             CleanDlcFolder();
             Globals.Log("Applying selected repairs to CDLC ...");
-
             var srcFilePaths = new List<string>();
+
             dlcFilePaths = Directory.EnumerateFiles(Constants.Rs2DlcFolder, "*_p.psarc", SearchOption.AllDirectories).Where(fi => !fi.ToLower().Contains(Constants.RS1COMP) && !fi.ToLower().Contains(Constants.SONGPACK) && !fi.ToLower().Contains(Constants.ABVSONGPACK)).ToList();
             // ignore the inlay(s) folder
             dlcFilePaths = dlcFilePaths.Where(x => !x.ToLower().Contains("inlay")).ToList();
@@ -703,7 +713,7 @@ namespace CustomsForgeSongManager.UControls
 
                 DLCPackageData packageData;
                 using (var psarcOld = new PsarcPackager())
-                    packageData = psarcOld.ReadPackage(srcFilePath);
+                    packageData = psarcOld.ReadPackage(srcFilePath, IgnoreMultitoneEx);
 
                 // TODO: selectively remove arrangements here before remastering
                 if (rbRepairMaxFive.Checked)
@@ -933,11 +943,13 @@ namespace CustomsForgeSongManager.UControls
         {
             chkPreserve.Enabled = rbRepairMastery.Checked;
             chkRepairOrg.Enabled = rbRepairMastery.Checked;
+            chkIgnoreMultitoneEx.Enabled = rbRepairMastery.Checked;
 
             if (!rbRepairMastery.Checked)
             {
                 chkPreserve.Checked = false;
                 chkRepairOrg.Checked = false;
+                chkIgnoreMultitoneEx.Checked = false;
             }
 
             chkRemoveBass.Enabled = rbRepairMaxFive.Checked;
