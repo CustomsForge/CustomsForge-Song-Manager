@@ -1,5 +1,10 @@
 ﻿CFSM Release Notes
 
+1.2.7.8
+- Added auto repair for multitone exceptions to convert corrupt arrangement to single tone
+- Updated RSTK libs
+- Updated DDC to 3.2 beta (chord density fix) version
+
 1.2.7.7
 - added DD error logging to Bulk Repairs
 - fixed Tuning 'Other' bug
