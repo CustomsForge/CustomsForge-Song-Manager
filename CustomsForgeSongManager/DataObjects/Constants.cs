@@ -21,6 +21,12 @@ namespace CustomsForgeSongManager.DataObjects
         public static readonly string SONGPACK = "songpack";
         public static readonly string ABVSONGPACK = "_sp_";
         public static readonly string ApplicationName = "CustomsForge Song Manager";
+
+        public static readonly string TKI_ARRID = "(Arrangement ID by CFSM)";
+        public static readonly string TKI_DDC = "(DD by CFSM)";
+        public static readonly string TKI_MAX5 = "(Max5 by CFSM)";
+        public static readonly string TKI_REMASTER = "(Remastered by CFSM)";
+
         public static Font OfficialDLCFont { get { return new Font("Arial", 8, FontStyle.Bold | FontStyle.Italic); } }
         public static string AppTitle { get; set; }
         public static string ApplicationVersion { get { return Assembly.GetExecutingAssembly().GetName().Version.ToString(); } }

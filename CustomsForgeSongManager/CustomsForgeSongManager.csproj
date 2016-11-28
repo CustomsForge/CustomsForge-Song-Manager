@@ -186,6 +186,12 @@
     <Compile Include="Forms\frmCODLCDuplicates.Designer.cs">
       <DependentUpon>frmCODLCDuplicates.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\frmRepairOptions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmRepairOptions.Designer.cs">
+      <DependentUpon>frmRepairOptions.cs</DependentUpon>
+    </Compile>
     <Compile Include="LocalTools\DynamicDifficulty.cs" />
     <Compile Include="LocalTools\GenericWorker.cs" />
     <Compile Include="LocalTools\LocalExtensions.cs" />
@@ -216,6 +222,7 @@
     <Compile Include="DataObjects\SongData.cs" />
     <Compile Include="LocalTools\PackageDataTools.cs" />
     <Compile Include="LocalTools\PitchShiftTools.cs" />
+    <Compile Include="LocalTools\RepairTools.cs" />
     <Compile Include="LocalTools\RocksmithProfile.cs" />
     <Compile Include="DataObjects\Constants.cs" />
     <Compile Include="LocalTools\CFSMHtmlPanel.cs">
@@ -414,6 +421,9 @@
     <Compile Include="LocalTools\Worker.cs" />
     <EmbeddedResource Include="Forms\frmCODLCDuplicates.resx">
       <DependentUpon>frmCODLCDuplicates.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmRepairOptions.resx">
+      <DependentUpon>frmRepairOptions.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LocalTools\BetterDialog.resx">
       <DependentUpon>BetterDialog.cs</DependentUpon>

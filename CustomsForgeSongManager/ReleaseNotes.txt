@@ -1,4 +1,8 @@
 ﻿CFSM Release Notes
+1.2.8.0
+-added Repairs to Song Manager
+-made some more generic methods based on BulkRepairs.cs in RepairTools.cs
+-added "Repair/Add DD/Fix 5 Arr error" options to Song Manager
 
 1.2.7.9
 - Added user selectable checkbox to 'Ignore Multitone Ex'

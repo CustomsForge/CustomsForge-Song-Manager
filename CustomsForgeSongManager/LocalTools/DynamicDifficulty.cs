@@ -41,40 +41,14 @@ namespace CustomsForgeSongManager.LocalTools
                 return DDC.ExitCode;
             }
         }
-
-        public static void AddRemasteredMsg(ref DLCPackageData packageData)
-        {
-            string ddRemasteredMsg = "(Remastered and DD by CFSM)";
-
-            var remasterComment = packageData.PackageComment;
-            if (String.IsNullOrEmpty(remasterComment))
-                remasterComment = ddRemasteredMsg;
-            else if (!remasterComment.Contains(ddRemasteredMsg))
-                remasterComment = remasterComment + " " + ddRemasteredMsg;
-
-            packageData.PackageComment = remasterComment;
-        }
-
-        public static void AddArrMsg(ref DLCPackageData packageData)
-        {
-            string ddArrIDMsg = "(Arrangement ID by CFSM)";
-
-            var arrIdComment = packageData.PackageComment;
-            if (String.IsNullOrEmpty(arrIdComment))
-                arrIdComment = ddArrIDMsg;
-            else if (!arrIdComment.Contains(ddArrIDMsg))
-                arrIdComment = arrIdComment + " " + ddArrIDMsg;
-
-            packageData.PackageComment = arrIdComment;
-        }
     }
 
     public class SettingsDDC
     {
-        public int PhraseLen { get; private set; }
-        public bool RemoveSus { get; private set; }
-        public string RampPath { get; private set; }
-        public string CfgPath { get; private set; }
+        public int PhraseLen { get; set; }
+        public bool RemoveSus { get; set; }
+        public string RampPath { get; set; }
+        public string CfgPath { get; set; }
 
         // not used for now
         // public bool CleanProcess { get; set; }

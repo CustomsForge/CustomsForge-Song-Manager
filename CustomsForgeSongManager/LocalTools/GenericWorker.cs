@@ -45,7 +45,11 @@ namespace CustomsForgeSongManager.LocalTools
             bWorker.SetDefaults();
             counterStopwatch.Restart();
 
-            if (WorkDescription.ToLower().Contains("repairing"))
+            if (WorkDescription.ToLower().Contains("repairing a single"))
+                bWorker.DoWork += WorkerRepairSong_Single;
+            else if (WorkDescription.ToLower().Contains("repairing the selection"))
+                bWorker.DoWork += WorkerRepairSong_Selection;
+            else if (WorkDescription.ToLower().Contains("repairing"))
                 bWorker.DoWork += WorkerRepairSong;
             else if (WorkDescription.ToLower().Contains(".org"))
                 bWorker.DoWork += WorkerRestoreOrgBackups;
@@ -63,6 +67,8 @@ namespace CustomsForgeSongManager.LocalTools
                 bWorker.DoWork += WorkerPitchShift_Single;
             else if (WorkDescription.ToLower().Contains("pitch shift to the selection"))
                 bWorker.DoWork += WorkerPitchShift_Selection;
+            else if (WorkDescription.ToLower().Contains("moving songs from downloads"))
+                bWorker.DoWork += WorkerMoveSongsFromDownloads;
             else
                 throw new Exception("I'm not that kind of worker ...");
 
@@ -158,6 +164,24 @@ namespace CustomsForgeSongManager.LocalTools
         {
             if (!bWorker.CancellationPending)
                 Globals.SongManager.PitchShift_Selection();
+        }
+
+        private void WorkerRepairSong_Single(object sender, DoWorkEventArgs e)
+        {
+            if (!bWorker.CancellationPending)
+                Globals.SongManager.RepairSong_Single();
+        }
+
+        private void WorkerRepairSong_Selection(object sender, DoWorkEventArgs e)
+        {
+             if (!bWorker.CancellationPending)
+                 Globals.SongManager.RepairSong_Selection();
+        }
+
+        private void WorkerMoveSongsFromDownloads(object sender, DoWorkEventArgs e)
+        {
+            if (!bWorker.CancellationPending)
+                Globals.SongManager.MoveSongsFromDownloads();
         }
 
         [SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "bWorker")]

@@ -14,7 +14,7 @@ namespace CustomsForgeSongManager.LocalTools
 {
     class PitchShiftTools
     {
-        public static void GetSetArrInfo(ref DLCPackageData packageData, ref int gitShift, ref int bassShift, ref string ext )
+        public static DLCPackageData GetSetArrInfo(DLCPackageData packageData, ref int gitShift, ref int bassShift, ref string ext)
         {
             foreach (var arr in packageData.Arrangements)
             {
@@ -45,9 +45,11 @@ namespace CustomsForgeSongManager.LocalTools
                 if (arr.TuningPitch < 400) //If bass fix has been applied, reset reference pitch back to 440
                     arr.TuningPitch = 440;
             }
+
+            return packageData;
         }
 
-        public static void AddPitchShiftPedalToTones(ref DLCPackageData packageData, int gitShift, int bassShift, int mixVal, int toneVal)
+        public static DLCPackageData AddPitchShiftPedalToTones(DLCPackageData packageData, int gitShift, int bassShift, int mixVal, int toneVal)
         {
             List<Tone2014> tones = new List<Tone2014>();
             packageData.TonesRS2014.ForEach(t => tones.Add(t.XmlClone()));
@@ -78,15 +80,19 @@ namespace CustomsForgeSongManager.LocalTools
 
                 tone.GearList.PrePedal1 = pedal;
             }
+
+            return packageData;
         }
 
-        public static void AddExtensionToSongName(ref DLCPackageData packageData, string ext)
+        public static DLCPackageData AddExtensionToSongName(DLCPackageData packageData, string ext)
         {
             packageData.Name = packageData.Name + ext;
             packageData.SongInfo.SongDisplayName = packageData.SongInfo.SongDisplayName + ext;
+
+            return packageData;
         }
 
-        public static void RegenerateXML(ref DLCPackageData packageData)
+        public static DLCPackageData RegenerateXML(DLCPackageData packageData)
         {
             foreach (var arr in packageData.Arrangements)
             {
@@ -109,9 +115,11 @@ namespace CustomsForgeSongManager.LocalTools
                 using (var stream = File.Open(arr.SongXml.File, FileMode.Create))
                     songXml.Serialize(stream);
             }
+
+            return packageData;
         }
 
-        public static void AddPitchShiftedMsg(ref DLCPackageData packageData)
+        public static DLCPackageData AddPitchShiftedMsg(DLCPackageData packageData)
         {
             string pitchShiftedMessage = "Pitch Shifted by CFSM";
 
@@ -122,6 +130,8 @@ namespace CustomsForgeSongManager.LocalTools
                 pitchShiftedComment = pitchShiftedComment + " " + pitchShiftedMessage;
 
             packageData.PackageComment = pitchShiftedComment;
+
+            return packageData;
         }
     }
 }

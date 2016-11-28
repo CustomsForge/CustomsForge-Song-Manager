@@ -46,6 +46,10 @@ namespace CustomsForgeSongManager.UControls
         private int numberOfDLCPendingUpdate = 0;
         private int numberOfDisabledDLC = 0;
 
+        private StringBuilder sbErrors;
+        private bool addedDD;
+        private bool ddError;
+
         private int rFailed;
         private int rProcessed;
         private int rProgress;
@@ -1617,21 +1621,21 @@ namespace CustomsForgeSongManager.UControls
                 }
 
                 //Get info (amount of steps) and set correct tunings
-                PitchShiftTools.GetSetArrInfo(ref packageData, ref gitShift, ref bassShift, ref ext);
+                packageData = PitchShiftTools.GetSetArrInfo(packageData, ref gitShift, ref bassShift, ref ext);
 
-                PitchShiftTools.AddPitchShiftPedalToTones(ref packageData, gitShift, bassShift, mix, tone);
+                packageData = PitchShiftTools.AddPitchShiftPedalToTones(packageData, gitShift, bassShift, mix, tone);
 
                 //Add a message if no new file will be created
                 if (!createNewFile)
-                    PitchShiftTools.AddPitchShiftedMsg(ref packageData); 
+                    packageData = PitchShiftTools.AddPitchShiftedMsg(packageData);
 
                 //Add extension to the names and validate
-                PitchShiftTools.AddExtensionToSongName(ref packageData, ext);
-                PackageDataTools.ValidatePackageDataName(ref packageData);
+                packageData = PitchShiftTools.AddExtensionToSongName(packageData, ext);
+                packageData = PackageDataTools.ValidatePackageDataName(packageData);
 
                 //Set correct names and regenerate xml
-                PitchShiftTools.RegenerateXML(ref packageData);
-                
+                packageData = PitchShiftTools.RegenerateXML(packageData);
+
                 Globals.Log(" - Repackaging pitch shifted CDLC ...");
 
                 if (createNewFile)
@@ -1734,130 +1738,173 @@ namespace CustomsForgeSongManager.UControls
             }
         }
 
-        public bool ApplyDDToPackage(SongData song, int phraseLen, bool removeSus, string rampPath, string cfgPath, out string consoleOutput, bool preserveStats = true)
+        //ApplyDDToPackage(SongData song, int phraseLen, bool removeSus, string rampPath, string cfgPath, bool preserveStats = true)
+        public void ApplyDDToPackage(SongData song)
         {
-            DLCPackageData packageData;
-            int ddOutputCode = -1;
-            string srcFilePath = song.FilePath;
+            RepairSongs(song, true);
+        }
 
-            consoleOutput = String.Empty;
+        //RepairSongs(SongData song, bool SkipRepaired = true, bool PreserveStats = true, bool AddDD = true, bool FixMaxFiveArrs = true)
+        public void RepairSongs(SongData song, bool AddDD = false)
+        {
+            RepairSongs(new List<SongData>() { song }, AddDD);
+        }
 
-            if (song.OfficialDLC)
-            {
-                rSkipped++;
-                return false;
-            }
+        //RepairSongs(List<SongData> songs, bool SkipRepaired = true, bool PreserveStats = true, bool AddDD = true, bool FixMaxFiveArrs = true)
+        public void RepairSongs(List<SongData> songs, bool AddDD = false)
+        {
+            sbErrors = new StringBuilder();
+            string srcFilePath = string.Empty;
+            rTotal = songs.Count;
+            rProcessed = 0;
+            rSkipped = 0;
+            rFailed = 0;
+            bool optionsSet = false, ignoreMultiToneEx = false, reapplyDD = true, repairMaxFiveArr = false, skipRepaired = false, ignoreLimit = false, preserveStats = false, repairOrg = false;
+            byte checkByte = 0x0;
+            SettingsDDC settingsDD = new SettingsDDC();
 
-            Globals.Log("Adding DD to: " + Path.GetFileName(srcFilePath) + " ...");
-
-            try
-            {
-               // using (var psarcOld = new PsarcPackager())
-               //     packageData = psarcOld.ReadPackage(srcFilePath);
-
-                packageData = PackageDataTools.GetDataWithFixedTones(srcFilePath);
-
-                // Update arrangement song info
-                foreach (var arr in packageData.Arrangements)
-                {
-                    if (!preserveStats)
-                    {
-                        arr.SongFile = new RocksmithToolkitLib.DLCPackage.AggregateGraph.SongFile { File = "" };
-                        arr.Id = IdGenerator.Guid();
-                        arr.MasterId = RandomGenerator.NextInt();
-                    }
-
-                    if (arr.ArrangementType == ArrangementType.Vocal || arr.ArrangementType == ArrangementType.ShowLight)
-                        continue;
-
-                    var songXml = Song2014.LoadFromFile(arr.SongXml.File);
-
-                    var mf = new ManifestFunctions(GameVersion.RS2014);
-                    var maxDD = mf.GetMaxDifficulty(songXml);
-
-                    if (maxDD == 0)
-                    {
-                        PackageDataTools.ValidateData(packageData, ref songXml);
-                        using (var stream = File.Open(arr.SongXml.File, FileMode.Create))
-                            songXml.Serialize(stream, true);
-
-                        Song2014.WriteXmlComments(arr.SongXml.File, arr.XmlComments);
-
-                        var result = DynamicDifficulty.ApplyDD(arr.SongXml.File, phraseLen, removeSus, rampPath, cfgPath, out consoleOutput, true);
-                        if (result == -1)
-                            throw new CustomException("ddc.exe is missing");
-
-                        if (String.IsNullOrEmpty(consoleOutput))
-                            Globals.Log(" - Added DD to " + arr + " ...");
-                        else
-                            Globals.Log(" - " + arr + " DDC console output: " + consoleOutput + " ...");
-                    }
-                }
-
-                if (!preserveStats)
-                {
-                    // add comment to ToolkitInfo to identify CDLC
-                    DynamicDifficulty.AddArrMsg(ref packageData);
-                }
-
-                // add comment to ToolkitInfo to identify CDLC
-                DynamicDifficulty.AddRemasteredMsg(ref packageData);
-
-                // add default package version if missing
-                PackageDataTools.AddDefaultPackageVersion(ref packageData);
-
-                // validate packageData (important)
-                PackageDataTools.ValidatePackageDataName(ref packageData);
-
-                Globals.Log(@" - Repackaging updated DDC content ...");
-
-                using (var psarcNew = new PsarcPackager(true))
-                    psarcNew.WritePackage(srcFilePath, packageData);
-
-                if (File.Exists(srcFilePath))
-                {
-                    TemporaryDisableDatabindEvent(() =>
-                    {
-                        using (var browser = new PsarcBrowser(srcFilePath))
-                        {
-                            var songInfo = browser.GetSongData();
-
-                            if (songInfo != null)
-                            {
-                                int index = Globals.SongCollection.IndexOf(song);
-
-                                // assumes no duplicates??? may be not
-                                if (index != -1) //Not very likely to be -1
-                                    Globals.SongCollection[index] = songInfo.First();
-                            }
-                        }
-                    });
-
-                    GenExtensions.InvokeIfRequired(dgvSongsMaster, delegate { dgvSongsMaster.Refresh(); });
-                }
-            }
-            catch (Exception ex) //Invalid tones exception
-            {
-                rFailed++;
-                Globals.Log("DD not added - tone structure invalid!");
-                Globals.Log(ex.Message.ToString());
-
-                //TODO: we can move corrupt songs to corrupt folder, 
-                //but I'll rather leave them here in the same state they were in the first place
-
-                return false;
-            }
-
-            rProcessed++;
             ReportProgress(rProcessed, rTotal, rSkipped, rFailed);
 
-            return ddOutputCode == 0;
+            foreach (var song in songs)
+            {
+                srcFilePath = song.FilePath;
+
+                var isSkipped = false;
+                rProcessed++;
+
+                if (song.OfficialDLC)
+                {
+                    rSkipped++;
+                    isSkipped = true;
+                }
+
+                // remaster the CDLC file
+                if (!isSkipped)
+                {
+                    bool rSuccess = false;
+
+                    if (!optionsSet)
+                    {
+                        using (frmRepairOptions frmRO = new frmRepairOptions())
+                        {
+                            optionsSet = true;
+                            frmRO.ShowDialog();
+
+                            reapplyDD = frmRO.ReapplyDD;
+                            repairMaxFiveArr = frmRO.RepairMax5Arr;
+                            skipRepaired = frmRO.SkipRepaired;
+                            ignoreLimit = frmRO.IgnoreStopLimit;
+                            ignoreMultiToneEx = frmRO.IgnoreMultiToneExceptions;
+                            preserveStats = frmRO.PreserveStats;
+                            checkByte = frmRO.CheckByte;
+                            settingsDD = frmRO.SettingsDD;
+                            preserveStats = frmRO.PreserveStats;
+                        }
+                    }
+
+                    var officialOrRepaired = RepairTools.OfficialOrRepaired(srcFilePath);
+                    if (!String.IsNullOrEmpty(officialOrRepaired))
+                    {
+                        if (officialOrRepaired.Contains("Remastered") && skipRepaired)
+                        {
+                            Globals.Log(" Skipped Remastered File" + Path.GetFileName(srcFilePath));
+                            rSkipped++;
+                            isSkipped = true;
+                        }
+                    }
+
+                    if (AddDD)
+                        rSuccess = RepairTools.RepairWithDD(srcFilePath, ref sbErrors, preserveStats, ignoreMultiToneEx, ignoreLimit, settingsDD, reapplyDD, checkByte, repairMaxFiveArr, repairOrg);
+                    else
+                        rSuccess = RepairTools.RepairOnly(srcFilePath, ref sbErrors, preserveStats, ignoreMultiToneEx, ignoreLimit, checkByte, reapplyDD, repairMaxFiveArr, repairOrg);
+
+                    if (rSuccess)
+                    {
+                        var message = String.Format("Repair Sucessful ... {0}", preserveStats ? "Preserved Song Stats" : "Reset Song Stats");
+
+                        if (addedDD)
+                            message += " ... Added Dynamic Difficulty";
+                        if (ddError)
+                            message += " ... Error Adding Dynamic Difficulty";
+
+                        //Update the song's entry in the song collection
+                        if (File.Exists(srcFilePath))
+                        {
+                            TemporaryDisableDatabindEvent(() =>
+                            {
+                                using (var browser = new PsarcBrowser(srcFilePath))
+                                {
+                                    var songInfo = browser.GetSongData();
+
+                                    if (songInfo != null)
+                                    {
+                                        int index = Globals.SongCollection.IndexOf(song);
+
+                                        if (index != -1) //Not very likely to be -1
+                                            Globals.SongCollection[index] = songInfo.First();
+                                    }
+                                }
+                            });
+
+                            GenExtensions.InvokeIfRequired(dgvSongsMaster, delegate { dgvSongsMaster.Refresh(); });
+                        }
+
+                        Globals.Log("Repaired: " + Path.GetFileName(srcFilePath) + " " + message);
+
+                        if (Constants.DebugMode)
+                        {
+                            // cleanup every nth record
+                            if (rProcessed % 50 == 0)
+                                GenExtensions.CleanLocalTemp();
+                        }
+                    }
+                    else
+                    {
+                        var lines = sbErrors.ToString().Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).ToList();
+
+                        if(lines.Count > 0 )
+                        {
+                            if (lines.Last().ToLower().Contains("maximum"))
+                                Globals.Log("Repaired: " + Path.GetFileName(srcFilePath) + " " + "Exceeds Playable Arrangements Limit ... Moved File ... Added To Error Log");
+                            else
+                                Globals.Log("Repaired: " + Path.GetFileName(srcFilePath) + " " + "Corrupt CDLC ... Moved File ... Added To Error Log");
+                        }
+                   
+                        rFailed++;
+                    }
+                }
+
+                ReportProgress(rProcessed, rTotal, rSkipped, rFailed);
+            }
+
+
+            if (!String.IsNullOrEmpty(sbErrors.ToString())) //failed > 0)
+            {
+                // error log can be turned into CSV file
+                sbErrors.Insert(0, "File Path, Error Message" + Environment.NewLine);
+                sbErrors.Insert(0, DateTime.Now.ToString("MM-dd-yy HH:mm") + Environment.NewLine);
+                using (TextWriter tw = new StreamWriter(Constants.RemasteredErrorLogPath, true))
+                {
+                    tw.WriteLine(sbErrors + Environment.NewLine);
+                    tw.Close();
+                }
+
+                Globals.Log("Saved error log to: " + Constants.RemasteredErrorLogPath + " ...");
+            }
+
+            if (rProcessed > 0)
+            {
+                Globals.Log("CDLC repair completed ...");
+
+                if (Constants.DebugMode)
+                    GenExtensions.CleanLocalTemp();
+            }
+            else
+                Globals.Log("No CDLC were repaired ...");
         }
 
         public void ApplyDD_Single()
         {
-            string consoleOutput = "";
-
             SettingsDDC.Instance.LoadConfigXml();
             var phraseLen = 12;
             var removeSus = SettingsDDC.Instance.RemoveSus;
@@ -1871,13 +1918,11 @@ namespace CustomsForgeSongManager.UControls
             rSkipped = 0;
             rFailed = 0;
 
-            ApplyDDToPackage(song, phraseLen, removeSus, rampPath, cfgPath, out consoleOutput);
+            ApplyDDToPackage(song);
         }
 
         public void ApplyDD_Selection()
         {
-            string consoleOutput = string.Empty;
-
             SettingsDDC.Instance.LoadConfigXml();
             var phraseLen = 12;
             var removeSus = SettingsDDC.Instance.RemoveSus;
@@ -1895,34 +1940,172 @@ namespace CustomsForgeSongManager.UControls
                 ReportProgress(rProcessed, rTotal, rSkipped, rFailed);
 
                 foreach (var song in selection)
-                    ApplyDDToPackage(song, phraseLen, removeSus, rampPath, cfgPath, out consoleOutput);
+                    ApplyDDToPackage(song);
             }
         }
 
-        private void cmsAddDD_Click(object sender, EventArgs e)
+        public void RepairSong_Single()
         {
-            if (MessageBox.Show(@"Are you sure you want to add DD (Dynamic difficulty) to the selected song?",
+            List<SongData> song = new List<SongData>() { DgvExtensions.GetObjectFromRow<SongData>(dgvSongsMaster.SelectedRows[0]) };
+
+            rTotal = 1;
+            rProcessed = 0;
+            rSkipped = 0;
+            rFailed = 0;
+
+            RepairSongs(song, false);
+        }
+
+        public void RepairSong_Selection()
+        {
+            var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster);
+
+            if (selection.Count > 0)
+            {
+                rTotal = selection.Count;
+                rProcessed = 0;
+                rSkipped = 0;
+                rFailed = 0;
+                ReportProgress(rProcessed, rTotal, rSkipped, rFailed);
+
+                RepairSongs(selection, false);
+            }
+        }
+
+        public void MoveSongsFromDownloads()
+        {
+            string dlDirPath = AppSettings.Instance.DownloadsDir;
+
+            if (!Directory.Exists(dlDirPath))
+                return;
+
+            var dlcFiles = Directory.EnumerateFiles(dlDirPath, "*_p.psarc", SearchOption.AllDirectories).Where(fi => !fi.ToLower().Contains(Constants.RS1COMP) && !fi.ToLower().Contains(Constants.SONGPACK) && !fi.ToLower().Contains(Constants.ABVSONGPACK)).ToArray();
+
+            TemporaryDisableDatabindEvent(() =>
+            {
+                foreach (string songPath in dlcFiles)
+                {
+                    string officialOrRepaired = RepairTools.OfficialOrRepaired(songPath);
+
+                    using (var browser = new PsarcBrowser(songPath))
+                    {
+                        var songInfo = browser.GetSongData();
+
+                        if (songInfo != null)  //TODO: check if is duplicate
+                            continue;
+
+                        List<SongData> song = new List<SongData>() { songInfo.First() };
+
+                        rTotal = 1;
+                        rProcessed = 0;
+                        rSkipped = 0;
+                        rFailed = 0;
+
+                        if (!String.IsNullOrEmpty(officialOrRepaired) && officialOrRepaired == "Remastered")
+                            RepairSongs(song, true);
+
+                        File.Copy(songInfo.First().FilePath, Path.Combine(AppSettings.Instance.RSInstalledDir, "dlc", Path.GetFileName(songInfo.First().FilePath)), true);
+
+                        Globals.SongCollection.Add(songInfo.First());
+                    }
+                }
+            });
+
+            GenExtensions.InvokeIfRequired(dgvSongsMaster, delegate { dgvSongsMaster.Refresh(); });
+        }
+
+        private void cmsRepairAndAddDD_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show(@"Are you sure you want to repair and DD (Dynamic difficulty) to the selected song?",
                 Constants.ApplicationName + " ... Warning", MessageBoxButtons.YesNo) == DialogResult.No)
                 return;
 
             using (var gWorker = new GenericWorker())
             {
-                gWorker.WorkDescription = "applying DD to a single";
+                gWorker.WorkDescription = "applying DD to a single song";
                 gWorker.BackgroundProcess(this);
                 while (Globals.WorkerFinished == Globals.Tristate.False)
                     Application.DoEvents();
             }
         }
 
-        private void addDDToolStripMenuItem_Click(object sender, EventArgs e)
+        private void repairAndAddDDToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show(@"Are you sure you want to add DD (Dynamic difficulty) to the selected songs?",
+            if (MessageBox.Show(@"Are you sure you want to repair and add DD (Dynamic difficulty) to the selected songs?",
                 Constants.ApplicationName + " ... Warning", MessageBoxButtons.YesNo) == DialogResult.No)
                 return;
 
             using (var gWorker = new GenericWorker())
             {
                 gWorker.WorkDescription = "applying DD to the selection";
+                gWorker.BackgroundProcess(this);
+                while (Globals.WorkerFinished == Globals.Tristate.False)
+                    Application.DoEvents();
+            }
+        }
+
+        private void moveCDLCFromDLToDLCFolderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (frmRepairOptions frmRO = new frmRepairOptions())
+            {
+                //optionsSet = true;
+                frmRO.ShowDialog();
+            }
+            return;
+
+            string dlDirPath = AppSettings.Instance.DownloadsDir;
+
+            if (dlDirPath == null || dlDirPath == string.Empty)
+            {
+                MessageBox.Show("Path of your downloads folder not found, please select it in the following menu",
+                   Constants.ApplicationName + " ... Warning", MessageBoxButtons.OK);
+
+                using (var fbd = new FolderBrowserDialog())
+                {
+                    fbd.Description = "Select the RS2014 installation directory";
+
+                    if (fbd.ShowDialog() != DialogResult.OK)
+                        return;
+
+                    AppSettings.Instance.DownloadsDir = fbd.SelectedPath;
+                }
+            }
+
+            //TODO: make a new form with options
+
+            using (var gWorker = new GenericWorker())
+            {
+                gWorker.WorkDescription = "moving songs from Downloads folder to your dlc folder";
+                gWorker.BackgroundProcess(this);
+                while (Globals.WorkerFinished == Globals.Tristate.False)
+                    Application.DoEvents();
+            }
+        }
+
+        private void repairOnlyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show(@"Are you sure you want to repair the selected songs?",
+             Constants.ApplicationName + " ... Warning", MessageBoxButtons.YesNo) == DialogResult.No)
+                return;
+
+            using (var gWorker = new GenericWorker())
+            {
+                gWorker.WorkDescription = "repairing the selection";
+                gWorker.BackgroundProcess(this);
+                while (Globals.WorkerFinished == Globals.Tristate.False)
+                    Application.DoEvents();
+            }
+        }
+
+        private void cmsRepairOnly_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show(@"Are you sure you want to repair the selected song?",
+            Constants.ApplicationName + " ... Warning", MessageBoxButtons.YesNo) == DialogResult.No)
+                return;
+
+            using (var gWorker = new GenericWorker())
+            {
+                gWorker.WorkDescription = "repairing a single song";
                 gWorker.BackgroundProcess(this);
                 while (Globals.WorkerFinished == Globals.Tristate.False)
                     Application.DoEvents();

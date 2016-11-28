@@ -68,6 +68,8 @@ namespace CustomsForgeSongManager.UControls
             this.cmsBackupSong = new System.Windows.Forms.ToolStripMenuItem();
             this.cmsTaggerPreview = new System.Windows.Forms.ToolStripMenuItem();
             this.cmsPitchShift = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmsRepairOnly = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmsRepairAndAddDD = new System.Windows.Forms.ToolStripMenuItem();
             this.lnkLblSelectAll = new System.Windows.Forms.LinkLabel();
             this.gb_Main_Grid = new System.Windows.Forms.GroupBox();
             this.lnkLblCheckODLC = new System.Windows.Forms.LinkLabel();
@@ -125,6 +127,9 @@ namespace CustomsForgeSongManager.UControls
             this.tagToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.unTagToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.betaPitchShiftToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.RepairOnlyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.repairAndAddDDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.moveCDLCFromDLToDLCFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -136,8 +141,6 @@ namespace CustomsForgeSongManager.UControls
             this.dataGridViewImageColumn2 = new System.Windows.Forms.DataGridViewImageColumn();
             this.dataGridViewImageColumn3 = new System.Windows.Forms.DataGridViewImageColumn();
             this.dataGridViewImageColumn4 = new System.Windows.Forms.DataGridViewImageColumn();
-            this.addDDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.cmsAddDD = new System.Windows.Forms.ToolStripMenuItem();
             this.panelSearch.SuspendLayout();
             this.gb_Main_Search.SuspendLayout();
             this.panelSongListButtons.SuspendLayout();
@@ -382,9 +385,10 @@ namespace CustomsForgeSongManager.UControls
             this.cmsBackupSong,
             this.cmsTaggerPreview,
             this.cmsPitchShift,
-            this.cmsAddDD});
+            this.cmsRepairOnly,
+            this.cmsRepairAndAddDD});
             this.cmsSongManager.Name = "contextMenuStrip_MainManager";
-            this.cmsSongManager.Size = new System.Drawing.Size(191, 246);
+            this.cmsSongManager.Size = new System.Drawing.Size(191, 290);
             // 
             // cmsShowSongInfo
             // 
@@ -457,6 +461,20 @@ namespace CustomsForgeSongManager.UControls
             this.cmsPitchShift.Size = new System.Drawing.Size(190, 22);
             this.cmsPitchShift.Text = "Beta - pitch shift";
             this.cmsPitchShift.Click += new System.EventHandler(this.cmsPitchShift_Click);
+            // 
+            // cmsRepairOnly
+            // 
+            this.cmsRepairOnly.Name = "cmsRepairOnly";
+            this.cmsRepairOnly.Size = new System.Drawing.Size(190, 22);
+            this.cmsRepairOnly.Text = "Repair only";
+            this.cmsRepairOnly.Click += new System.EventHandler(this.cmsRepairOnly_Click);
+            // 
+            // cmsRepairAndAddDD
+            // 
+            this.cmsRepairAndAddDD.Name = "cmsRepairAndAddDD";
+            this.cmsRepairAndAddDD.Size = new System.Drawing.Size(190, 22);
+            this.cmsRepairAndAddDD.Text = "Repair and add DD";
+            this.cmsRepairAndAddDD.Click += new System.EventHandler(this.cmsRepairAndAddDD_Click);
             // 
             // lnkLblSelectAll
             // 
@@ -1045,15 +1063,17 @@ namespace CustomsForgeSongManager.UControls
             this.tagToolStripMenuItem,
             this.unTagToolStripMenuItem,
             this.betaPitchShiftToolStripMenuItem,
-            this.addDDToolStripMenuItem});
+            this.RepairOnlyToolStripMenuItem,
+            this.repairAndAddDDToolStripMenuItem,
+            this.moveCDLCFromDLToDLCFolderToolStripMenuItem});
             this.cmsSelection.Name = "cmsSelection";
-            this.cmsSelection.Size = new System.Drawing.Size(162, 180);
+            this.cmsSelection.Size = new System.Drawing.Size(257, 202);
             // 
             // disableEnableToolStripMenuItem
             // 
             this.disableEnableToolStripMenuItem.Image = global::CustomsForgeSongManager.Properties.Resources.disable;
             this.disableEnableToolStripMenuItem.Name = "disableEnableToolStripMenuItem";
-            this.disableEnableToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.disableEnableToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
             this.disableEnableToolStripMenuItem.Text = "Disable/Enable";
             this.disableEnableToolStripMenuItem.Click += new System.EventHandler(this.btnDisableEnableSongs_Click);
             // 
@@ -1061,37 +1081,58 @@ namespace CustomsForgeSongManager.UControls
             // 
             this.backupToolStripMenuItem.Image = global::CustomsForgeSongManager.Properties.Resources.backup;
             this.backupToolStripMenuItem.Name = "backupToolStripMenuItem";
-            this.backupToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.backupToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
             this.backupToolStripMenuItem.Text = "Backup";
             this.backupToolStripMenuItem.Click += new System.EventHandler(this.btnBackupSelectedDLCs_Click);
             // 
             // changePropertiesToolStripMenuItem
             // 
             this.changePropertiesToolStripMenuItem.Name = "changePropertiesToolStripMenuItem";
-            this.changePropertiesToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.changePropertiesToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
             this.changePropertiesToolStripMenuItem.Text = "Edit App IDs";
             this.changePropertiesToolStripMenuItem.Click += new System.EventHandler(this.changePropertiesToolStripMenuItem_Click);
             // 
             // tagToolStripMenuItem
             // 
             this.tagToolStripMenuItem.Name = "tagToolStripMenuItem";
-            this.tagToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.tagToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
             this.tagToolStripMenuItem.Text = "Tag";
             // 
             // unTagToolStripMenuItem
             // 
             this.unTagToolStripMenuItem.Image = global::CustomsForgeSongManager.Properties.Resources.clear;
             this.unTagToolStripMenuItem.Name = "unTagToolStripMenuItem";
-            this.unTagToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.unTagToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
             this.unTagToolStripMenuItem.Text = "Un-Tag";
             this.unTagToolStripMenuItem.Click += new System.EventHandler(this.unTagToolStripMenuItem_Click);
             // 
             // betaPitchShiftToolStripMenuItem
             // 
             this.betaPitchShiftToolStripMenuItem.Name = "betaPitchShiftToolStripMenuItem";
-            this.betaPitchShiftToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.betaPitchShiftToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
             this.betaPitchShiftToolStripMenuItem.Text = "Beta - pitch shift";
             this.betaPitchShiftToolStripMenuItem.Click += new System.EventHandler(this.betaPitchShiftToolStripMenuItem_Click);
+            // 
+            // RepairOnlyToolStripMenuItem
+            // 
+            this.RepairOnlyToolStripMenuItem.Name = "RepairOnlyToolStripMenuItem";
+            this.RepairOnlyToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
+            this.RepairOnlyToolStripMenuItem.Text = "Repair only";
+            this.RepairOnlyToolStripMenuItem.Click += new System.EventHandler(this.repairOnlyToolStripMenuItem_Click);
+            // 
+            // repairAndAddDDToolStripMenuItem
+            // 
+            this.repairAndAddDDToolStripMenuItem.Name = "repairAndAddDDToolStripMenuItem";
+            this.repairAndAddDDToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
+            this.repairAndAddDDToolStripMenuItem.Text = "Repair and add DD";
+            this.repairAndAddDDToolStripMenuItem.Click += new System.EventHandler(this.repairAndAddDDToolStripMenuItem_Click);
+            // 
+            // moveCDLCFromDLToDLCFolderToolStripMenuItem
+            // 
+            this.moveCDLCFromDLToDLCFolderToolStripMenuItem.Name = "moveCDLCFromDLToDLCFolderToolStripMenuItem";
+            this.moveCDLCFromDLToDLCFolderToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
+            this.moveCDLCFromDLToDLCFolderToolStripMenuItem.Text = "Move CDLC from DL to DLC folder";
+            this.moveCDLCFromDLToDLCFolderToolStripMenuItem.Click += new System.EventHandler(this.moveCDLCFromDLToDLCFolderToolStripMenuItem_Click);
             // 
             // dataGridViewTextBoxColumn1
             // 
@@ -1192,20 +1233,6 @@ namespace CustomsForgeSongManager.UControls
             this.dataGridViewImageColumn4.ToolTipText = "Vocals";
             this.dataGridViewImageColumn4.Visible = false;
             this.dataGridViewImageColumn4.Width = 21;
-            // 
-            // addDDToolStripMenuItem
-            // 
-            this.addDDToolStripMenuItem.Name = "addDDToolStripMenuItem";
-            this.addDDToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
-            this.addDDToolStripMenuItem.Text = "Add DD";
-            this.addDDToolStripMenuItem.Click += new System.EventHandler(this.addDDToolStripMenuItem_Click);
-            // 
-            // cmsAddDD
-            // 
-            this.cmsAddDD.Name = "cmsAddDD";
-            this.cmsAddDD.Size = new System.Drawing.Size(190, 22);
-            this.cmsAddDD.Text = "Add DD";
-            this.cmsAddDD.Click += new System.EventHandler(this.cmsAddDD_Click);
             // 
             // SongManager
             // 
@@ -1330,7 +1357,10 @@ namespace CustomsForgeSongManager.UControls
         private System.Windows.Forms.LinkLabel lnkLblCheckODLC;
         private System.Windows.Forms.ToolStripMenuItem betaPitchShiftToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem cmsPitchShift;
-        private System.Windows.Forms.ToolStripMenuItem cmsAddDD;
-        private System.Windows.Forms.ToolStripMenuItem addDDToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem cmsRepairAndAddDD;
+        private System.Windows.Forms.ToolStripMenuItem repairAndAddDDToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem RepairOnlyToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem moveCDLCFromDLToDLCFolderToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem cmsRepairOnly;
     }
 }

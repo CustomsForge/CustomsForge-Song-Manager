@@ -18,22 +18,40 @@ namespace CustomsForgeSongManager.LocalTools
     // TODO: maybe think about creating Generic Repair methods
     // SongManager repairs and Bulk Repairs are using very similar methods
     // these methods could be made generic and moved into a 'RepairTools' class.
-    class PackageDataTools
+    static class PackageDataTools
     {
-        public static void AddDefaultPackageVersion(ref DLCPackageData packageData)
+        #region Package Info
+        public static DLCPackageData AddMsgToPackageComment(this DLCPackageData packageData, string msg)
+        {
+            var arrIdComment = packageData.PackageComment;
+            if (String.IsNullOrEmpty(arrIdComment))
+                arrIdComment = msg;
+            else if (!arrIdComment.Contains(msg))
+                arrIdComment = arrIdComment + " " + msg;
+
+            packageData.PackageComment = arrIdComment;
+
+            return packageData;
+        }
+
+        public static DLCPackageData AddDefaultPackageVersion(this DLCPackageData packageData)
         {
             if (String.IsNullOrEmpty(packageData.PackageVersion))
                 packageData.PackageVersion = "1";
             else
                 packageData.PackageVersion = packageData.PackageVersion.GetValidVersion();
+
+            return packageData;
         }
 
-        public static void ValidatePackageDataName(ref DLCPackageData packageData)
+        public static DLCPackageData ValidatePackageDataName(this DLCPackageData packageData)
         {
             packageData.Name = packageData.Name.GetValidKey();
+
+            return packageData;
         }
 
-        public static void ValidateData(DLCPackageData packageData, ref Song2014 songXml)
+        public static Song2014 ValidateData(this Song2014 songXml, DLCPackageData packageData)
         {
             songXml.AlbumYear = packageData.SongInfo.SongYear.ToString().GetValidYear();
             songXml.ArtistName = packageData.SongInfo.Artist.GetValidAtaSpaceName();
@@ -43,8 +61,12 @@ namespace CustomsForgeSongManager.LocalTools
             songXml.SongNameSort = packageData.SongInfo.SongDisplayNameSort.GetValidSortableName();
             songXml.AlbumNameSort = packageData.SongInfo.AlbumSort.GetValidSortableName();
             songXml.AverageTempo = Convert.ToSingle(packageData.SongInfo.AverageTempo.ToString().GetValidTempo());
-        }
 
+            return songXml;
+        }
+        #endregion
+
+        #region Tone Fixing
         public static DLCPackageData GetDataWithFixedTones(string srcFilePath)
         {
 
@@ -100,5 +122,6 @@ namespace CustomsForgeSongManager.LocalTools
 
             xmlDoc.Save(xmlPath);
         }
+        #endregion
     }
 }
