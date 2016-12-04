@@ -25,6 +25,25 @@ namespace CustomsForgeSongManager.DataObjects
         ODLC = 2
     }
 
+    public enum RepairStatus : byte
+    {
+        NotRepaired = 0,
+        Repaired = 1,
+        RepairedDD = 2,
+        RepairedMaxFive = 3,
+        RepairedDDMaxFive = 4
+    }
+
+    //Static class seems more convenient to use, since the values are shown in DGV(s)
+    //public static class RepairStatus
+    //{
+    //    public const string NotRepaired = "Not repaired";
+    //    public const string Repaired = "Repaired";
+    //    public const string RepairedDD = "Repaired + added DD";
+    //    public const string RepairedMaxFive = "Repaired + fixed max 5 arr. error";
+    //    public const string RepairedDDMaxFive = "Repaired + added DD + fixed max 5 arr. error";
+    //}
+
     // only essential data needs to be saved to the XML songinfo file
     // order here determines order in xml file
     [Serializable]
@@ -185,13 +204,15 @@ namespace CustomsForgeSongManager.DataObjects
 
         public SongTaggerStatus Tagged { get; set; }
 
+        public RepairStatus RepairStatus { get; set; }
+
         [XmlIgnore]
         public string ArtistTitleAlbum
         {
             get { return String.Format("{0};{1};{2}", Artist, Title, Album); }
             // set { } // required for XML file usage
         }
-       
+
         [XmlIgnore]
         public string ArtistTitleAlbumDate
         {

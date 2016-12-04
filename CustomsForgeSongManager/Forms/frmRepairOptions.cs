@@ -14,31 +14,27 @@ namespace CustomsForgeSongManager.Forms
 {
     public partial class frmRepairOptions : Form
     {
-        private byte checkByte;
-        public SettingsDDC settingsDD;
+        private byte _checkByte;
+        public SettingsDDC _settingsDD;
+        private bool _userClosed, _btnOKClicked, _showDDTab;
 
         public frmRepairOptions()
         {
             InitializeComponent();
 
-            SettingsDDC.Instance.LoadConfigXml();
-
-            if (AppSettings.Instance.CFGPath != null)
-                tbCFGPath.Text = SettingsDDC.Instance.CfgPath;
-            else
-                tbCFGPath.Text = AppSettings.Instance.CFGPath;
-
-            if (AppSettings.Instance.RampUpPath != null)
-                tbCFGPath.Text = SettingsDDC.Instance.RampPath;
-            else
-                tbCFGPath.Text = AppSettings.Instance.RampUpPath;
-
-            settingsDD = new SettingsDDC();
-
             LoadSavedSettings();
+
+            _userClosed = false;
+            _btnOKClicked = false;
+            _showDDTab = false;
         }
 
         #region General repairs
+        //public bool RepairMastery
+        //{
+        //    get { return rbRepairMastery.Checked; }
+        //}
+
         public bool SkipRepaired
         {
             get { return rbSkipRepaired.Checked; }
@@ -84,16 +80,16 @@ namespace CustomsForgeSongManager.Forms
         {
             get { return chkRemoveSus.Checked; }
         }
-        
+
         public SettingsDDC SettingsDD
         {
             get
-            { 
-                settingsDD.PhraseLen = PhraseLenght;
-                settingsDD.RemoveSus = RemoveSus;
-                settingsDD.RampPath = RampUpPath;
-                settingsDD.CfgPath = CFGPath;
-                return settingsDD;
+            {
+                _settingsDD.PhraseLen = PhraseLenght;
+                _settingsDD.RemoveSus = RemoveSus;
+                _settingsDD.RampPath = RampUpPath;
+                _settingsDD.CfgPath = CFGPath;
+                return _settingsDD;
             }
         }
         #endregion
@@ -137,17 +133,29 @@ namespace CustomsForgeSongManager.Forms
         {
             get
             {
-                checkByte = 0x00;
-                if (chkRemoveNdd.Checked) checkByte += 0x01;
-                if (chkRemoveBass.Checked) checkByte += 0x02;
-                if (chkRemoveGuitar.Checked) checkByte += 0x04;
-                if (chkRemoveBonus.Checked) checkByte += 0x08;
-                if (chkRemoveMetronome.Checked) checkByte += 0x16;
+                _checkByte = 0x00;
+                if (chkRemoveNdd.Checked) _checkByte += 0x01;
+                if (chkRemoveBass.Checked) _checkByte += 0x02;
+                if (chkRemoveGuitar.Checked) _checkByte += 0x04;
+                if (chkRemoveBonus.Checked) _checkByte += 0x08;
+                if (chkRemoveMetronome.Checked) _checkByte += 0x16;
 
-                return checkByte;
+                return _checkByte;
             }
         }
         #endregion
+
+        public bool FormClosedByUser
+        {
+            get { return _userClosed; }
+            set { _userClosed = value; }
+        }
+
+        public bool ShowDDTab
+        {
+            get { return _showDDTab; }
+            set { _showDDTab = value; }
+        }
 
         private void LoadSavedSettings()
         {
@@ -164,8 +172,20 @@ namespace CustomsForgeSongManager.Forms
             chkRemoveNdd.Checked = AppSettings.Instance.RemoveNDD;
             chkRemoveSus.Checked = AppSettings.Instance.RemoveSus;
             tbPhraseLength.Value = AppSettings.Instance.PhraseLenght;
-            tbRampUpPath.Text = AppSettings.Instance.RampUpPath;
-            tbCFGPath.Text = AppSettings.Instance.CFGPath;
+
+            SettingsDDC.Instance.LoadConfigXml();
+
+            if (AppSettings.Instance.CFGPath != null)
+                tbCFGPath.Text = SettingsDDC.Instance.CfgPath;
+            else
+                tbCFGPath.Text = AppSettings.Instance.CFGPath;
+
+            if (AppSettings.Instance.RampUpPath != null)
+                tbCFGPath.Text = SettingsDDC.Instance.RampPath;
+            else
+                tbCFGPath.Text = AppSettings.Instance.RampUpPath;
+
+            _settingsDD = new SettingsDDC();
         }
 
         private void btnOK_Click(object sender, EventArgs e)
@@ -186,6 +206,7 @@ namespace CustomsForgeSongManager.Forms
             AppSettings.Instance.RampUpPath = tbRampUpPath.Text;
             AppSettings.Instance.PhraseLenght = Convert.ToInt32(tbPhraseLength.Value);
 
+            _btnOKClicked = true;
             this.Close();
         }
 
@@ -196,6 +217,7 @@ namespace CustomsForgeSongManager.Forms
             {
                 ofd.Filter = "CFG Files (*.cfg)|*.cfg";
                 ofd.InitialDirectory = Path.GetDirectoryName(SettingsDDC.Instance.CfgPath);
+
                 if (ofd.ShowDialog() != DialogResult.OK)
                 {
                     return;
@@ -233,6 +255,25 @@ namespace CustomsForgeSongManager.Forms
         private void rbRepairMaxFive_Click(object sender, EventArgs e)
         {
             rbRepairMaxFive.Checked = !rbRepairMaxFive.Checked;
+        }
+
+        private void btnNextTabRepairs_Click(object sender, EventArgs e)
+        {
+            if (_showDDTab)
+                tcRepairOptions.SelectedIndex = 1;
+            else
+                tcRepairOptions.SelectedIndex = 2;
+        }
+
+        private void btnNextTabDD_Click(object sender, EventArgs e)
+        {
+            tcRepairOptions.SelectedIndex = 2;
+        }
+
+        private void frmRepairOptions_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (e.CloseReason == CloseReason.UserClosing && !_btnOKClicked)
+                _userClosed = true;
         }
     }
 }

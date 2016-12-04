@@ -44,6 +44,7 @@ namespace CustomsForgeSongManager.LocalTools
             var appId = String.Empty;
 
             var tagged = _archive.TOC.Any(entry => entry.Name == "tagger.org");
+            var packageComment = String.Empty;
 
             var toolkitVersionFile = _archive.TOC.FirstOrDefault(x => (x.Name.Equals("toolkit.version")));
             if (toolkitVersionFile != null)
@@ -53,6 +54,8 @@ namespace CustomsForgeSongManager.LocalTools
                 author = tkInfo.PackageAuthor ?? "N/A";
                 version = tkInfo.PackageVersion ?? "N/A";
                 tkversion = tkInfo.ToolkitVersion ?? "N/A";
+
+                packageComment = tkInfo.PackageComment;
             }
 
             var appIdFile = _archive.TOC.FirstOrDefault(x => (x.Name.Equals("appid.appid")));
@@ -86,7 +89,23 @@ namespace CustomsForgeSongManager.LocalTools
                         currentSong.CharterName = "Ubisoft";
                 }
                 else
+                {
                     currentSong.Tagged = tagged ? SongTaggerStatus.True : SongTaggerStatus.False;
+
+                    if(packageComment == null)
+                        currentSong.RepairStatus = RepairStatus.NotRepaired;
+                    else if (packageComment.Contains("Remastered") && packageComment.Contains("DD") && packageComment.Contains("Max5"))
+                        currentSong.RepairStatus = RepairStatus.RepairedDDMaxFive;
+                    else if (packageComment.Contains("Remastered") && packageComment.Contains("DD"))
+                        currentSong.RepairStatus = RepairStatus.RepairedDD;
+                    else if (packageComment.Contains("Remastered") && packageComment.Contains("Max5"))
+                        currentSong.RepairStatus = RepairStatus.RepairedMaxFive;
+                    else if (packageComment.Contains("Remastered"))
+                        currentSong.RepairStatus = RepairStatus.Repaired;
+                    else
+                        currentSong.RepairStatus = RepairStatus.NotRepaired;
+                }
+
 
                 var strippedName = singleSong.Name.Replace(".xblock", "").Replace("gamexblocks/nsongs/", "");
                 if (strippedName.Contains("_fcp_dlc"))

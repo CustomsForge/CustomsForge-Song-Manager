@@ -31,21 +31,24 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmRepairOptions));
             this.tcRepairOptions = new System.Windows.Forms.TabControl();
             this.tpRepairs = new System.Windows.Forms.TabPage();
+            this.btnNextTabRepairs = new System.Windows.Forms.Button();
             this.rbSkipRepaired = new System.Windows.Forms.RadioButton();
             this.gbMastery = new System.Windows.Forms.GroupBox();
             this.chkIgnoreMultitoneEx = new System.Windows.Forms.CheckBox();
             this.chkRepairOrg = new System.Windows.Forms.CheckBox();
             this.chkPreserve = new System.Windows.Forms.CheckBox();
             this.tpDD = new System.Windows.Forms.TabPage();
-            this.tbRampUpPath = new CustomsForgeSongManager.LocalTools.CueTextBox();
-            this.tbCFGPath = new CustomsForgeSongManager.LocalTools.CueTextBox();
+            this.btnNextTabDD = new System.Windows.Forms.Button();
             this.chkRemoveSus = new System.Windows.Forms.CheckBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.tbPhraseLength = new System.Windows.Forms.NumericUpDown();
             this.rbReapplyDD = new System.Windows.Forms.RadioButton();
+            this.tbRampUpPath = new CustomsForgeSongManager.LocalTools.CueTextBox();
+            this.tbCFGPath = new CustomsForgeSongManager.LocalTools.CueTextBox();
             this.tpMaxFiveArrangements = new System.Windows.Forms.TabPage();
+            this.btnOK = new System.Windows.Forms.Button();
             this.gbMaxPlayable = new System.Windows.Forms.GroupBox();
             this.chkIgnoreLimit = new System.Windows.Forms.CheckBox();
             this.chkRemoveMetronome = new System.Windows.Forms.CheckBox();
@@ -54,7 +57,6 @@
             this.chkRemoveNdd = new System.Windows.Forms.CheckBox();
             this.chkRemoveBass = new System.Windows.Forms.CheckBox();
             this.rbRepairMaxFive = new System.Windows.Forms.RadioButton();
-            this.btnOK = new System.Windows.Forms.Button();
             this.tcRepairOptions.SuspendLayout();
             this.tpRepairs.SuspendLayout();
             this.gbMastery.SuspendLayout();
@@ -72,20 +74,33 @@
             this.tcRepairOptions.Location = new System.Drawing.Point(5, 4);
             this.tcRepairOptions.Name = "tcRepairOptions";
             this.tcRepairOptions.SelectedIndex = 0;
-            this.tcRepairOptions.Size = new System.Drawing.Size(268, 167);
+            this.tcRepairOptions.Size = new System.Drawing.Size(263, 199);
             this.tcRepairOptions.TabIndex = 0;
             // 
             // tpRepairs
             // 
+            this.tpRepairs.Controls.Add(this.btnNextTabRepairs);
             this.tpRepairs.Controls.Add(this.rbSkipRepaired);
             this.tpRepairs.Controls.Add(this.gbMastery);
             this.tpRepairs.Location = new System.Drawing.Point(4, 22);
             this.tpRepairs.Name = "tpRepairs";
             this.tpRepairs.Padding = new System.Windows.Forms.Padding(3);
-            this.tpRepairs.Size = new System.Drawing.Size(260, 141);
+            this.tpRepairs.Size = new System.Drawing.Size(255, 173);
             this.tpRepairs.TabIndex = 0;
             this.tpRepairs.Text = "Repairs";
             this.tpRepairs.UseVisualStyleBackColor = true;
+            // 
+            // btnNextTabRepairs
+            // 
+            this.btnNextTabRepairs.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnNextTabRepairs.Location = new System.Drawing.Point(55, 133);
+            this.btnNextTabRepairs.Name = "btnNextTabRepairs";
+            this.btnNextTabRepairs.Padding = new System.Windows.Forms.Padding(5, 3, 0, 3);
+            this.btnNextTabRepairs.Size = new System.Drawing.Size(126, 32);
+            this.btnNextTabRepairs.TabIndex = 27;
+            this.btnNextTabRepairs.Text = "Next";
+            this.btnNextTabRepairs.UseVisualStyleBackColor = true;
+            this.btnNextTabRepairs.Click += new System.EventHandler(this.btnNextTabRepairs_Click);
             // 
             // rbSkipRepaired
             // 
@@ -110,7 +125,7 @@
             this.gbMastery.Controls.Add(this.chkPreserve);
             this.gbMastery.Location = new System.Drawing.Point(34, 25);
             this.gbMastery.Name = "gbMastery";
-            this.gbMastery.Size = new System.Drawing.Size(180, 110);
+            this.gbMastery.Size = new System.Drawing.Size(180, 97);
             this.gbMastery.TabIndex = 15;
             this.gbMastery.TabStop = false;
             // 
@@ -119,7 +134,7 @@
             this.chkIgnoreMultitoneEx.AutoSize = true;
             this.chkIgnoreMultitoneEx.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chkIgnoreMultitoneEx.ForeColor = System.Drawing.Color.Red;
-            this.chkIgnoreMultitoneEx.Location = new System.Drawing.Point(6, 47);
+            this.chkIgnoreMultitoneEx.Location = new System.Drawing.Point(6, 45);
             this.chkIgnoreMultitoneEx.Name = "chkIgnoreMultitoneEx";
             this.chkIgnoreMultitoneEx.Size = new System.Drawing.Size(157, 17);
             this.chkIgnoreMultitoneEx.TabIndex = 17;
@@ -130,7 +145,7 @@
             // 
             this.chkRepairOrg.AutoSize = true;
             this.chkRepairOrg.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkRepairOrg.Location = new System.Drawing.Point(6, 77);
+            this.chkRepairOrg.Location = new System.Drawing.Point(6, 74);
             this.chkRepairOrg.Name = "chkRepairOrg";
             this.chkRepairOrg.Size = new System.Drawing.Size(161, 17);
             this.chkRepairOrg.TabIndex = 7;
@@ -142,7 +157,7 @@
             // 
             this.chkPreserve.AutoSize = true;
             this.chkPreserve.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkPreserve.Location = new System.Drawing.Point(6, 19);
+            this.chkPreserve.Location = new System.Drawing.Point(6, 15);
             this.chkPreserve.Name = "chkPreserve";
             this.chkPreserve.Size = new System.Drawing.Size(162, 17);
             this.chkPreserve.TabIndex = 6;
@@ -151,43 +166,34 @@
             // 
             // tpDD
             // 
-            this.tpDD.Controls.Add(this.tbRampUpPath);
-            this.tpDD.Controls.Add(this.tbCFGPath);
+            this.tpDD.Controls.Add(this.btnNextTabDD);
             this.tpDD.Controls.Add(this.chkRemoveSus);
             this.tpDD.Controls.Add(this.label3);
             this.tpDD.Controls.Add(this.label2);
             this.tpDD.Controls.Add(this.label1);
             this.tpDD.Controls.Add(this.tbPhraseLength);
             this.tpDD.Controls.Add(this.rbReapplyDD);
+            this.tpDD.Controls.Add(this.tbRampUpPath);
+            this.tpDD.Controls.Add(this.tbCFGPath);
             this.tpDD.Location = new System.Drawing.Point(4, 22);
             this.tpDD.Name = "tpDD";
             this.tpDD.Padding = new System.Windows.Forms.Padding(3);
-            this.tpDD.Size = new System.Drawing.Size(260, 141);
+            this.tpDD.Size = new System.Drawing.Size(255, 173);
             this.tpDD.TabIndex = 1;
             this.tpDD.Text = "DD";
             this.tpDD.UseVisualStyleBackColor = true;
             // 
-            // tbRampUpPath
+            // btnNextTabDD
             // 
-            this.tbRampUpPath.Cue = "Click and select ramp-up path";
-            this.tbRampUpPath.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.tbRampUpPath.ForeColor = System.Drawing.Color.Gray;
-            this.tbRampUpPath.Location = new System.Drawing.Point(86, 85);
-            this.tbRampUpPath.Name = "tbRampUpPath";
-            this.tbRampUpPath.Size = new System.Drawing.Size(168, 20);
-            this.tbRampUpPath.TabIndex = 25;
-            this.tbRampUpPath.MouseClick += new System.Windows.Forms.MouseEventHandler(this.tbRampUpPath_MouseClick);
-            // 
-            // tbCFGPath
-            // 
-            this.tbCFGPath.Cue = "Click and select the path of DD cfg";
-            this.tbCFGPath.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.tbCFGPath.ForeColor = System.Drawing.Color.Gray;
-            this.tbCFGPath.Location = new System.Drawing.Point(70, 56);
-            this.tbCFGPath.Name = "tbCFGPath";
-            this.tbCFGPath.Size = new System.Drawing.Size(184, 20);
-            this.tbCFGPath.TabIndex = 24;
-            this.tbCFGPath.MouseClick += new System.Windows.Forms.MouseEventHandler(this.tbCFGPath_MouseClick);
+            this.btnNextTabDD.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnNextTabDD.Location = new System.Drawing.Point(66, 135);
+            this.btnNextTabDD.Name = "btnNextTabDD";
+            this.btnNextTabDD.Padding = new System.Windows.Forms.Padding(5, 3, 0, 3);
+            this.btnNextTabDD.Size = new System.Drawing.Size(126, 32);
+            this.btnNextTabDD.TabIndex = 26;
+            this.btnNextTabDD.Text = "Next";
+            this.btnNextTabDD.UseVisualStyleBackColor = true;
+            this.btnNextTabDD.Click += new System.EventHandler(this.btnNextTabDD_Click);
             // 
             // chkRemoveSus
             // 
@@ -249,16 +255,51 @@
             this.rbReapplyDD.UseVisualStyleBackColor = true;
             this.rbReapplyDD.MouseClick += new System.Windows.Forms.MouseEventHandler(this.rbReapplyDD_MouseClick);
             // 
+            // tbRampUpPath
+            // 
+            this.tbRampUpPath.Cue = "Click and select ramp-up path";
+            this.tbRampUpPath.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.tbRampUpPath.ForeColor = System.Drawing.Color.Gray;
+            this.tbRampUpPath.Location = new System.Drawing.Point(86, 85);
+            this.tbRampUpPath.Name = "tbRampUpPath";
+            this.tbRampUpPath.Size = new System.Drawing.Size(168, 20);
+            this.tbRampUpPath.TabIndex = 25;
+            this.tbRampUpPath.MouseClick += new System.Windows.Forms.MouseEventHandler(this.tbRampUpPath_MouseClick);
+            // 
+            // tbCFGPath
+            // 
+            this.tbCFGPath.Cue = "Click and select the path of DD cfg";
+            this.tbCFGPath.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.tbCFGPath.ForeColor = System.Drawing.Color.Gray;
+            this.tbCFGPath.Location = new System.Drawing.Point(70, 56);
+            this.tbCFGPath.Name = "tbCFGPath";
+            this.tbCFGPath.Size = new System.Drawing.Size(184, 20);
+            this.tbCFGPath.TabIndex = 24;
+            this.tbCFGPath.MouseClick += new System.Windows.Forms.MouseEventHandler(this.tbCFGPath_MouseClick);
+            // 
             // tpMaxFiveArrangements
             // 
+            this.tpMaxFiveArrangements.Controls.Add(this.btnOK);
             this.tpMaxFiveArrangements.Controls.Add(this.gbMaxPlayable);
             this.tpMaxFiveArrangements.Location = new System.Drawing.Point(4, 22);
             this.tpMaxFiveArrangements.Name = "tpMaxFiveArrangements";
             this.tpMaxFiveArrangements.Padding = new System.Windows.Forms.Padding(3);
-            this.tpMaxFiveArrangements.Size = new System.Drawing.Size(260, 141);
+            this.tpMaxFiveArrangements.Size = new System.Drawing.Size(255, 173);
             this.tpMaxFiveArrangements.TabIndex = 2;
             this.tpMaxFiveArrangements.Text = "Max5Arrs";
             this.tpMaxFiveArrangements.UseVisualStyleBackColor = true;
+            // 
+            // btnOK
+            // 
+            this.btnOK.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnOK.Location = new System.Drawing.Point(54, 135);
+            this.btnOK.Name = "btnOK";
+            this.btnOK.Padding = new System.Windows.Forms.Padding(5, 3, 0, 3);
+            this.btnOK.Size = new System.Drawing.Size(126, 32);
+            this.btnOK.TabIndex = 19;
+            this.btnOK.Text = "OK";
+            this.btnOK.UseVisualStyleBackColor = true;
+            this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
             // gbMaxPlayable
             // 
@@ -362,31 +403,19 @@
             this.rbRepairMaxFive.UseVisualStyleBackColor = true;
             this.rbRepairMaxFive.Click += new System.EventHandler(this.rbRepairMaxFive_Click);
             // 
-            // btnOK
-            // 
-            this.btnOK.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnOK.Location = new System.Drawing.Point(85, 173);
-            this.btnOK.Name = "btnOK";
-            this.btnOK.Padding = new System.Windows.Forms.Padding(5, 3, 0, 3);
-            this.btnOK.Size = new System.Drawing.Size(126, 32);
-            this.btnOK.TabIndex = 6;
-            this.btnOK.Text = "OK";
-            this.btnOK.UseVisualStyleBackColor = true;
-            this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
-            // 
             // frmRepairOptions
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(280, 207);
-            this.Controls.Add(this.btnOK);
+            this.ClientSize = new System.Drawing.Size(273, 207);
             this.Controls.Add(this.tcRepairOptions);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmRepairOptions";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Choose repair options";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmRepairOptions_FormClosing);
             this.tcRepairOptions.ResumeLayout(false);
             this.tpRepairs.ResumeLayout(false);
             this.tpRepairs.PerformLayout();
@@ -422,7 +451,6 @@
         private System.Windows.Forms.CheckBox chkRemoveNdd;
         private System.Windows.Forms.CheckBox chkRemoveBass;
         private System.Windows.Forms.RadioButton rbRepairMaxFive;
-        private System.Windows.Forms.Button btnOK;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.NumericUpDown tbPhraseLength;
         private System.Windows.Forms.Label label2;
@@ -430,5 +458,8 @@
         private System.Windows.Forms.CheckBox chkRemoveSus;
         private LocalTools.CueTextBox tbRampUpPath;
         private LocalTools.CueTextBox tbCFGPath;
+        private System.Windows.Forms.Button btnNextTabDD;
+        private System.Windows.Forms.Button btnOK;
+        private System.Windows.Forms.Button btnNextTabRepairs;
     }
 }

@@ -356,6 +356,12 @@
     <Compile Include="UControls\BulkRepairs.Designer.cs">
       <DependentUpon>BulkRepairs.cs</DependentUpon>
     </Compile>
+    <Compile Include="UControls\RepairManager.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UControls\RepairManager.Designer.cs">
+      <DependentUpon>RepairManager.cs</DependentUpon>
+    </Compile>
     <Compile Include="UControls\SongPacks.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -493,6 +499,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UControls\BulkRepairs.resx">
       <DependentUpon>BulkRepairs.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UControls\RepairManager.resx">
+      <DependentUpon>RepairManager.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UControls\SongPacks.resx">
       <DependentUpon>SongPacks.cs</DependentUpon>

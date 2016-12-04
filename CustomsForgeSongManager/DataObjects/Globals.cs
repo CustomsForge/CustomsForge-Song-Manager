@@ -47,6 +47,7 @@ namespace CustomsForgeSongManager.DataObjects
         private static SongTagger _tagger;
         private static List<OfficialDLCSong> _oDLCSongList;
         private static BulkRepairs _bulkRepairs;
+        private static RepairManager _repairManager;
 
         public static Random random = new Random();
 
@@ -138,6 +139,12 @@ namespace CustomsForgeSongManager.DataObjects
         {
             get { return _bulkRepairs ?? (_bulkRepairs = new BulkRepairs()); }
             set { _bulkRepairs = value; }
+        }
+
+        public static RepairManager RepairManager
+        {
+            get { return _repairManager ?? (_repairManager = new RepairManager()); }
+            set { _repairManager = value; }
         }
 
         public static bool RescanDuplicates { get; set; }

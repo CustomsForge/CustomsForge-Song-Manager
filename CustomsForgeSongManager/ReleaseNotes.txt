@@ -1,8 +1,13 @@
 ﻿CFSM Release Notes
+1.2.8.1
+- added new Repairs  Manager tab with all repair options in one place
+- removed repair options from Song Manager
+- updated ODLC list
+
 1.2.8.0
--added Repairs to Song Manager
--made some more generic methods based on BulkRepairs.cs in RepairTools.cs
--added "Repair/Add DD/Fix 5 Arr error" options to Song Manager
+- added Repairs to Song Manager
+- made some more generic methods based on BulkRepairs.cs in RepairTools.cs
+- added "Repair/Add DD/Fix 5 Arr error" options to Song Manager
 
 1.2.7.9
 - Added user selectable checkbox to 'Ignore Multitone Ex'
@@ -22,8 +27,8 @@
 - added 'Empty Log Files' button to 'Settings'
 
 1.2.7.5
--First version of the fix "EOF tone issue" (less corrupt files)
--Updated ODLC list
+- First version of the fix "EOF tone issue" (less corrupt files)
+- Updated ODLC list
 
 1.2.7.4
 - Added restore corrupt backups to Bulk Repairs

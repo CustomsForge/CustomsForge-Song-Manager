@@ -67,6 +67,10 @@ namespace CustomsForgeSongManager.LocalTools
                 bWorker.DoWork += WorkerPitchShift_Single;
             else if (WorkDescription.ToLower().Contains("pitch shift to the selection"))
                 bWorker.DoWork += WorkerPitchShift_Selection;
+            else if (WorkDescription.ToLower().Contains("pitch shift to a single song in Song Manager"))
+                bWorker.DoWork += WorkerPitchShiftSM_Single;
+            else if (WorkDescription.ToLower().Contains("pitch shift to the selection in Song Manager"))
+                bWorker.DoWork += WorkerPitchShiftSM_Selection;
             else if (WorkDescription.ToLower().Contains("moving songs from downloads"))
                 bWorker.DoWork += WorkerMoveSongsFromDownloads;
             else
@@ -115,52 +119,63 @@ namespace CustomsForgeSongManager.LocalTools
         private void WorkerRepairSong(object sender, DoWorkEventArgs e)
         {
             if (!bWorker.CancellationPending)
-                Globals.BulkRepairs.RepairSongs();
+                Globals.RepairManager.RepairSongs();
         }
 
         private void WorkerRestoreOrgBackups(object sender, DoWorkEventArgs e)
         {
             if (!bWorker.CancellationPending)
-                Globals.BulkRepairs.RestoreBackups(".org", Constants.RemasteredOrgFolder);
+                Globals.RepairManager.RestoreBackups(".org", Constants.RemasteredOrgFolder);
         }
 
         private void WorkerRestoreCorBackups(object sender, DoWorkEventArgs e)
         {
             if (!bWorker.CancellationPending)
-                Globals.BulkRepairs.RestoreBackups(".cor", Constants.RemasteredCorFolder);
+                Globals.RepairManager.RestoreBackups(".cor", Constants.RemasteredCorFolder);
         }
         
         private void WorkerRestoreMaxBackups(object sender, DoWorkEventArgs e)
         {
             if (!bWorker.CancellationPending)
-                Globals.BulkRepairs.RestoreBackups(".max", Constants.RemasteredMaxFolder);
+                Globals.RepairManager.RestoreBackups(".max", Constants.RemasteredMaxFolder);
         }
 
         private void WorkerArchiveCorruptSongs(object sender, DoWorkEventArgs e)
         {
             if (!bWorker.CancellationPending)
-                Globals.BulkRepairs.ArchiveCorruptCDLC();
+                Globals.RepairManager.ArchiveCorruptCDLC();
         }
 
         private void WorkerApplyDD_Single(object sender, DoWorkEventArgs e)
         {
             if (!bWorker.CancellationPending)
-                Globals.SongManager.ApplyDD_Single();
+                Globals.RepairManager.ApplyDD_Single();
         }
 
         private void WorkerApplyDD_Selection(object sender, DoWorkEventArgs e)
         {
             if (!bWorker.CancellationPending)
-                Globals.SongManager.ApplyDD_Selection();
+                Globals.RepairManager.ApplyDD_Selection();
         }
 
         private void WorkerPitchShift_Single(object sender, DoWorkEventArgs e)
         {
             if (!bWorker.CancellationPending)
-                Globals.SongManager.PitchShift_Single();
+                Globals.RepairManager.PitchShift_Single();
         }
 
         private void WorkerPitchShift_Selection(object sender, DoWorkEventArgs e)
+        {
+            if (!bWorker.CancellationPending)
+                Globals.RepairManager.PitchShift_Selection();
+        }
+
+        private void WorkerPitchShiftSM_Single(object sender, DoWorkEventArgs e)
+        {
+            if (!bWorker.CancellationPending)
+                Globals.SongManager.PitchShift_Single();
+        }
+        private void WorkerPitchShiftSM_Selection(object sender, DoWorkEventArgs e)
         {
             if (!bWorker.CancellationPending)
                 Globals.SongManager.PitchShift_Selection();
@@ -169,19 +184,19 @@ namespace CustomsForgeSongManager.LocalTools
         private void WorkerRepairSong_Single(object sender, DoWorkEventArgs e)
         {
             if (!bWorker.CancellationPending)
-                Globals.SongManager.RepairSong_Single();
+                Globals.RepairManager.RepairSong_Single();
         }
 
         private void WorkerRepairSong_Selection(object sender, DoWorkEventArgs e)
         {
              if (!bWorker.CancellationPending)
-                 Globals.SongManager.RepairSong_Selection();
+                 Globals.RepairManager.RepairSong_Selection();
         }
 
         private void WorkerMoveSongsFromDownloads(object sender, DoWorkEventArgs e)
         {
             if (!bWorker.CancellationPending)
-                Globals.SongManager.MoveSongsFromDownloads();
+                Globals.RepairManager.MoveSongsFromDownloads();
         }
 
         [SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "bWorker")]

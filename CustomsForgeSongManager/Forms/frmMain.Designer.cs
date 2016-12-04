@@ -85,6 +85,7 @@ namespace CustomsForgeSongManager.Forms
             this.LeftToolStripPanel = new System.Windows.Forms.ToolStripPanel();
             this.ContentPanel = new System.Windows.Forms.ToolStripContentPanel();
             this.timerAudioProgress = new System.Windows.Forms.Timer(this.components);
+            this.tpRepairManager = new System.Windows.Forms.TabPage();
             this.gbLog.SuspendLayout();
             this.contextMenuStrip_Tray.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.scMain)).BeginInit();
@@ -181,7 +182,7 @@ namespace CustomsForgeSongManager.Forms
             // tstripContainer.ContentPanel
             // 
             this.tstripContainer.ContentPanel.Controls.Add(this.tcMain);
-            this.tstripContainer.ContentPanel.Size = new System.Drawing.Size(1011, 501);
+            this.tstripContainer.ContentPanel.Size = new System.Drawing.Size(1011, 498);
             this.tstripContainer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tstripContainer.LeftToolStripPanelVisible = false;
             this.tstripContainer.Location = new System.Drawing.Point(0, 0);
@@ -206,6 +207,7 @@ namespace CustomsForgeSongManager.Forms
             this.tcMain.Controls.Add(this.tpSetlistManager);
             this.tcMain.Controls.Add(this.tpSongPacks);
             this.tcMain.Controls.Add(this.tpRepairs);
+            this.tcMain.Controls.Add(this.tpRepairManager);
             this.tcMain.Controls.Add(this.tpSettings);
             this.tcMain.Controls.Add(this.tpAbout);
             this.tcMain.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -213,7 +215,7 @@ namespace CustomsForgeSongManager.Forms
             this.tcMain.Location = new System.Drawing.Point(0, 0);
             this.tcMain.Name = "tcMain";
             this.tcMain.SelectedIndex = 0;
-            this.tcMain.Size = new System.Drawing.Size(1011, 501);
+            this.tcMain.Size = new System.Drawing.Size(1011, 498);
             this.tcMain.TabIndex = 2;
             this.tcMain.SelectedIndexChanged += new System.EventHandler(this.tcMain_SelectedIndexChanged);
             // 
@@ -221,7 +223,7 @@ namespace CustomsForgeSongManager.Forms
             // 
             this.tpSongManager.Location = new System.Drawing.Point(4, 25);
             this.tpSongManager.Name = "tpSongManager";
-            this.tpSongManager.Size = new System.Drawing.Size(1003, 472);
+            this.tpSongManager.Size = new System.Drawing.Size(1003, 469);
             this.tpSongManager.TabIndex = 0;
             this.tpSongManager.Text = "Song Manager";
             this.tpSongManager.UseVisualStyleBackColor = true;
@@ -605,6 +607,16 @@ namespace CustomsForgeSongManager.Forms
             this.timerAudioProgress.Interval = 400;
             this.timerAudioProgress.Tick += new System.EventHandler(this.timerAudioProgress_Tick);
             // 
+            // tpRepairManager
+            // 
+            this.tpRepairManager.Location = new System.Drawing.Point(4, 25);
+            this.tpRepairManager.Name = "tpRepairManager";
+            this.tpRepairManager.Padding = new System.Windows.Forms.Padding(3);
+            this.tpRepairManager.Size = new System.Drawing.Size(1003, 469);
+            this.tpRepairManager.TabIndex = 10;
+            this.tpRepairManager.Text = "Repair Manager";
+            this.tpRepairManager.UseVisualStyleBackColor = true;
+            // 
             // frmMain
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -697,5 +709,6 @@ namespace CustomsForgeSongManager.Forms
         private TabPage tpSongPacks;
         private ToolStripLabel tslblTimer;
         private TabPage tpRepairs;
+        private TabPage tpRepairManager;
     }
 }
