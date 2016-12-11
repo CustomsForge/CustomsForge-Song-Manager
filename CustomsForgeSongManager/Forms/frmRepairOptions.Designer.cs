@@ -116,6 +116,7 @@
             this.rbSkipRepaired.TabStop = true;
             this.rbSkipRepaired.Text = "Skip Previously Repaired CDLC";
             this.rbSkipRepaired.UseVisualStyleBackColor = true;
+            this.rbSkipRepaired.CheckedChanged += new System.EventHandler(this.RepairOptions_CheckedChanged);
             this.rbSkipRepaired.MouseClick += new System.Windows.Forms.MouseEventHandler(this.rbSkipRepaired_MouseClick);
             // 
             // gbMastery
@@ -253,6 +254,7 @@
             this.rbReapplyDD.TabStop = true;
             this.rbReapplyDD.Text = "Reapply DD if already present";
             this.rbReapplyDD.UseVisualStyleBackColor = true;
+            this.rbReapplyDD.CheckedChanged += new System.EventHandler(this.RepairOptions_CheckedChanged);
             this.rbReapplyDD.MouseClick += new System.Windows.Forms.MouseEventHandler(this.rbReapplyDD_MouseClick);
             // 
             // tbRampUpPath
@@ -401,6 +403,7 @@
             this.rbRepairMaxFive.TabIndex = 12;
             this.rbRepairMaxFive.Text = "Repair Maximum Playable Arrangements";
             this.rbRepairMaxFive.UseVisualStyleBackColor = true;
+            this.rbRepairMaxFive.CheckedChanged += new System.EventHandler(this.RepairOptions_CheckedChanged);
             this.rbRepairMaxFive.Click += new System.EventHandler(this.rbRepairMaxFive_Click);
             // 
             // frmRepairOptions

@@ -15,6 +15,7 @@ namespace CustomsForgeSongManager.Forms
     public partial class frmRepairOptions : Form
     {
         private byte _checkByte;
+        private string _selectedArrs;
         public SettingsDDC _settingsDD;
         private bool _userClosed, _btnOKClicked, _showDDTab;
 
@@ -143,6 +144,21 @@ namespace CustomsForgeSongManager.Forms
                 return _checkByte;
             }
         }
+
+        public string SelectedArrangements
+        {
+            get
+            {
+                _selectedArrs = string.Empty;
+                if (chkRemoveNdd.Checked) _selectedArrs += "ndd ";
+                if (chkRemoveBass.Checked) _selectedArrs += "bass ";
+                if (chkRemoveGuitar.Checked) _selectedArrs += "guitar ";
+                if (chkRemoveBonus.Checked) _selectedArrs += "bonus ";
+                if (chkRemoveMetronome.Checked) _selectedArrs += "metronome ";
+
+                return _selectedArrs;
+            }
+        }
         #endregion
 
         public bool FormClosedByUser
@@ -181,9 +197,9 @@ namespace CustomsForgeSongManager.Forms
                 tbCFGPath.Text = AppSettings.Instance.CFGPath;
 
             if (AppSettings.Instance.RampUpPath != null)
-                tbCFGPath.Text = SettingsDDC.Instance.RampPath;
+                tbRampUpPath.Text = SettingsDDC.Instance.RampPath;
             else
-                tbCFGPath.Text = AppSettings.Instance.RampUpPath;
+                tbRampUpPath.Text = AppSettings.Instance.RampUpPath;
 
             _settingsDD = new SettingsDDC();
         }
@@ -274,6 +290,26 @@ namespace CustomsForgeSongManager.Forms
         {
             if (e.CloseReason == CloseReason.UserClosing && !_btnOKClicked)
                 _userClosed = true;
+        }
+
+        private void RepairOptions_CheckedChanged(object sender, EventArgs e)
+        {
+            chkRemoveBass.Enabled = rbRepairMaxFive.Checked;
+            chkRemoveBonus.Enabled = rbRepairMaxFive.Checked;
+            chkRemoveGuitar.Enabled = rbRepairMaxFive.Checked;
+            chkRemoveMetronome.Enabled = rbRepairMaxFive.Checked;
+            chkRemoveNdd.Enabled = rbRepairMaxFive.Checked;
+            chkIgnoreLimit.Enabled = rbRepairMaxFive.Checked;
+
+            if (!rbRepairMaxFive.Checked)
+            {
+                chkRemoveBass.Checked = false;
+                chkRemoveBonus.Checked = false;
+                chkRemoveGuitar.Checked = false;
+                chkRemoveMetronome.Checked = false;
+                chkRemoveNdd.Checked = false;
+                chkIgnoreLimit.Checked = false;
+            }
         }
     }
 }

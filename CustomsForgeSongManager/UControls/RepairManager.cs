@@ -56,6 +56,7 @@ namespace CustomsForgeSongManager.UControls
         private bool RepairMastery = true, ReapplyDD = false, IgnoreLimit = false, SkipRepaired = true, RepairOrg = false, PreserveStats = true, AddDD = true, IgnoreMultitoneEx = true, RepairMaxFive = true;
         private bool ROFormClosedByUser = false;
         private byte CheckByte;
+        private string SelectedArrs = string.Empty;
         private SettingsDDC SettingsDD = new SettingsDDC();
 
         public RepairManager()
@@ -557,8 +558,9 @@ namespace CustomsForgeSongManager.UControls
         {
             using (frmRepairOptions frmRO = new frmRepairOptions())
             {
+                frmRO.ShowDDTab = ShowDDTab;
                 frmRO.ShowDialog();
-
+                
                 ReapplyDD = frmRO.ReapplyDD;
                 RepairMaxFive = frmRO.RepairMax5Arr;
                 SkipRepaired = frmRO.SkipRepaired;
@@ -569,7 +571,7 @@ namespace CustomsForgeSongManager.UControls
                 SettingsDD = frmRO.SettingsDD;
                 PreserveStats = frmRO.PreserveStats;
                 ROFormClosedByUser = frmRO.FormClosedByUser;
-                frmRO.ShowDDTab = ShowDDTab;
+                SelectedArrs = frmRO.SelectedArrangements;
             }
         }
 
@@ -1055,121 +1057,137 @@ namespace CustomsForgeSongManager.UControls
                     continue;
 
                 var isKept = true;
-                var isNDD = false;
-                var isBass = false;
-                var isGuitar = false;
-                var isBonus = false;
-                var isMetronome = false;
+
+                //var isKept = true;
+                //var isNDD = false;
+                //var isBass = false;
+                //var isGuitar = false;
+                //var isBonus = false;
+                //var isMetronome = false;
+
+                //var songXml = Song2014.LoadFromFile(arr.SongXml.File);
+                //var mf = new ManifestFunctions(GameVersion.RS2014);
+                //if (mf.GetMaxDifficulty(songXml) == 0) isNDD = true;
+                //if (arr.ArrangementType == ArrangementType.Bass) isBass = true;
+                //if (arr.ArrangementType == ArrangementType.Guitar) isGuitar = true;
+                //if (arr.BonusArr) isBonus = true;
+                //if (arr.Metronome == Metronome.Generate) isMetronome = true;
+
+                //switch (checkByte)
+                //{
+                //    case 0x00: // repair max arrangement
+                //        break;
+                //    case 0x01: // remove - NDD
+                //        if (isNDD) isKept = false;
+                //        break;
+                //    case 0x02: // remove - Bass
+                //        if (isBass) isKept = false;
+                //        break;
+                //    case 0x03: // remove - NDD, Bass
+                //        if (isNDD || isBass) isKept = false;
+                //        break;
+                //    case 0x04: // remove - Guitar
+                //        if (isGuitar) isKept = false;
+                //        break;
+                //    case 0x05: // remove - NDD, Guitar
+                //        if (isNDD || isGuitar) isKept = false;
+                //        break;
+                //    case 0x06: // remove - Bass, Guitar
+                //        if (isBass || isGuitar) isKept = false;
+                //        break;
+                //    case 0x07: // remove - NDD, Bass, Guitar
+                //        if (isNDD || isBass || isGuitar) isKept = false;
+                //        break;
+                //    //
+                //    case 0x08: // remove - Bonus
+                //        if (isBonus) isKept = false;
+                //        break;
+                //    case 0x09: // remove - Bounus, NDD
+                //        if (isBonus || isNDD) isKept = false;
+                //        break;
+                //    case 0x10: // remove - Bonus, Bass
+                //        if (isBonus || isBass) isKept = false;
+                //        break;
+                //    case 0x11: // remove - Bounus, NDD, Bass
+                //        if (isBonus || isNDD || isBass) isKept = false;
+                //        break;
+                //    case 0x12: // remove - Bonus, Guitar
+                //        if (isBonus || isGuitar) isKept = false;
+                //        break;
+                //    case 0x13: // remove - Bonus, NDD, Guitar
+                //        if (isBonus || isNDD || isGuitar) isKept = false;
+                //        break;
+                //    case 0x14: // remove - Bonus, Bass, Guitar
+                //        if (isBonus || isBass || isGuitar) isKept = false;
+                //        break;
+                //    case 0x15: // remove - Bonus, NDD, Bass, Guitar
+                //        if (isBonus || isNDD || isBass || isGuitar) isKept = false;
+                //        break;
+                //    //
+                //    case 0x16: // remove - Metronome
+                //        if (isMetronome) isKept = false;
+                //        break;
+                //    case 0x17: // remove - Metronome, NDD
+                //        if (isMetronome || isNDD) isKept = false;
+                //        break;
+                //    case 0x18: // remove - Metronome, Bass
+                //        if (isMetronome || isBass) isKept = false;
+                //        break;
+                //    case 0x19: // remove - Metronome, NDD, Bass
+                //        if (isMetronome || isNDD || isBass) isKept = false;
+                //        break;
+                //    case 0x20: // remove - Metronome, Guitar
+                //        if (isMetronome || isGuitar) isKept = false;
+                //        break;
+                //    case 0x21: // remove - Metronome, NDD, Guitar
+                //        if (isMetronome || isNDD || isGuitar) isKept = false;
+                //        break;
+                //    case 0x22: // remove - Metronome, Bass, Guitar
+                //        if (isMetronome || isBass || isBass) isKept = false;
+                //        break;
+                //    case 0x23: // remove - Metronome, NDD, Bass, Guitar
+                //        if (isMetronome || isNDD || isBass || isGuitar) isKept = false;
+                //        break;
+                //    //
+                //    case 0x24: // remove - Metronome, Bonus
+                //        if (isMetronome || isBonus) isKept = false;
+                //        break;
+                //    case 0x25: // remove - Metronome, Bounus, NDD
+                //        if (isMetronome || isBonus || isNDD) isKept = false;
+                //        break;
+                //    case 0x26: // remove - Metronome, Bonus, Bass
+                //        if (isMetronome || isBonus || isBass) isKept = false;
+                //        break;
+                //    case 0x27: // remove - Metronome, Bounus, NDD, Bass
+                //        if (isMetronome || isBonus || isNDD || isBass) isKept = false;
+                //        break;
+                //    case 0x28: // remove - Metronome, Bonus, Guitar
+                //        if (isMetronome || isBonus || isGuitar) isKept = false;
+                //        break;
+                //    case 0x29: // remove - Metronome, Bonus, NDD, Guitar
+                //        if (isMetronome || isBonus || isNDD || isGuitar) isKept = false;
+                //        break;
+                //    case 0x30: // remove - Metronome, Bonus, Bass, Guitar
+                //        if (isMetronome || isBonus || isBass || isGuitar) isKept = false;
+                //        break;
+                //    case 0x31: // remove - Metronome, Bonus, NDD, Bass, Guitar
+                //        if (isMetronome || isBonus || isNDD || isBass || isGuitar) isKept = false;
+                //        break;
+                //}
+
+                string currArr = string.Empty;
 
                 var songXml = Song2014.LoadFromFile(arr.SongXml.File);
                 var mf = new ManifestFunctions(GameVersion.RS2014);
-                if (mf.GetMaxDifficulty(songXml) == 0) isNDD = true;
-                if (arr.ArrangementType == ArrangementType.Bass) isBass = true;
-                if (arr.ArrangementType == ArrangementType.Guitar) isGuitar = true;
-                if (arr.BonusArr) isBonus = true;
-                if (arr.Metronome == Metronome.Generate) isMetronome = true;
+                if (arr.ArrangementType == ArrangementType.Bass) currArr = "bass";
+                if (mf.GetMaxDifficulty(songXml) == 0) currArr = "ndd";
+                if (arr.ArrangementType == ArrangementType.Bass) currArr = "bass";
+                if (arr.ArrangementType == ArrangementType.Guitar) currArr = "guitar";
+                if (arr.BonusArr) currArr = "bonus";
+                if (arr.Metronome == Metronome.Generate) currArr = "metronome";
 
-                switch (checkByte)
-                {
-                    case 0x00: // repair max arrangement
-                        break;
-                    case 0x01: // remove - NDD
-                        if (isNDD) isKept = false;
-                        break;
-                    case 0x02: // remove - Bass
-                        if (isBass) isKept = false;
-                        break;
-                    case 0x03: // remove - NDD, Bass
-                        if (isNDD || isBass) isKept = false;
-                        break;
-                    case 0x04: // remove - Guitar
-                        if (isGuitar) isKept = false;
-                        break;
-                    case 0x05: // remove - NDD, Guitar
-                        if (isNDD || isGuitar) isKept = false;
-                        break;
-                    case 0x06: // remove - Bass, Guitar
-                        if (isBass || isGuitar) isKept = false;
-                        break;
-                    case 0x07: // remove - NDD, Bass, Guitar
-                        if (isNDD || isBass || isGuitar) isKept = false;
-                        break;
-                    //
-                    case 0x08: // remove - Bonus
-                        if (isBonus) isKept = false;
-                        break;
-                    case 0x09: // remove - Bounus, NDD
-                        if (isBonus || isNDD) isKept = false;
-                        break;
-                    case 0x10: // remove - Bonus, Bass
-                        if (isBonus || isBass) isKept = false;
-                        break;
-                    case 0x11: // remove - Bounus, NDD, Bass
-                        if (isBonus || isNDD || isBass) isKept = false;
-                        break;
-                    case 0x12: // remove - Bonus, Guitar
-                        if (isBonus || isGuitar) isKept = false;
-                        break;
-                    case 0x13: // remove - Bonus, NDD, Guitar
-                        if (isBonus || isNDD || isGuitar) isKept = false;
-                        break;
-                    case 0x14: // remove - Bonus, Bass, Guitar
-                        if (isBonus || isBass || isGuitar) isKept = false;
-                        break;
-                    case 0x15: // remove - Bonus, NDD, Bass, Guitar
-                        if (isBonus || isNDD || isBass || isGuitar) isKept = false;
-                        break;
-                    //
-                    case 0x16: // remove - Metronome
-                        if (isMetronome) isKept = false;
-                        break;
-                    case 0x17: // remove - Metronome, NDD
-                        if (isMetronome || isNDD) isKept = false;
-                        break;
-                    case 0x18: // remove - Metronome, Bass
-                        if (isMetronome || isBass) isKept = false;
-                        break;
-                    case 0x19: // remove - Metronome, NDD, Bass
-                        if (isMetronome || isNDD || isBass) isKept = false;
-                        break;
-                    case 0x20: // remove - Metronome, Guitar
-                        if (isMetronome || isGuitar) isKept = false;
-                        break;
-                    case 0x21: // remove - Metronome, NDD, Guitar
-                        if (isMetronome || isNDD || isGuitar) isKept = false;
-                        break;
-                    case 0x22: // remove - Metronome, Bass, Guitar
-                        if (isMetronome || isBass || isBass) isKept = false;
-                        break;
-                    case 0x23: // remove - Metronome, NDD, Bass, Guitar
-                        if (isMetronome || isNDD || isBass || isGuitar) isKept = false;
-                        break;
-                    //
-                    case 0x24: // remove - Metronome, Bonus
-                        if (isMetronome || isBonus) isKept = false;
-                        break;
-                    case 0x25: // remove - Metronome, Bounus, NDD
-                        if (isMetronome || isBonus || isNDD) isKept = false;
-                        break;
-                    case 0x26: // remove - Metronome, Bonus, Bass
-                        if (isMetronome || isBonus || isBass) isKept = false;
-                        break;
-                    case 0x27: // remove - Metronome, Bounus, NDD, Bass
-                        if (isMetronome || isBonus || isNDD || isBass) isKept = false;
-                        break;
-                    case 0x28: // remove - Metronome, Bonus, Guitar
-                        if (isMetronome || isBonus || isGuitar) isKept = false;
-                        break;
-                    case 0x29: // remove - Metronome, Bonus, NDD, Guitar
-                        if (isMetronome || isBonus || isNDD || isGuitar) isKept = false;
-                        break;
-                    case 0x30: // remove - Metronome, Bonus, Bass, Guitar
-                        if (isMetronome || isBonus || isBass || isGuitar) isKept = false;
-                        break;
-                    case 0x31: // remove - Metronome, Bonus, NDD, Bass, Guitar
-                        if (isMetronome || isBonus || isNDD || isBass || isGuitar) isKept = false;
-                        break;
-                }
+                if (SelectedArrs.Contains(currArr))
+                    isKept = false;
 
                 if (isKept || removalNdx == 0)
                 {
