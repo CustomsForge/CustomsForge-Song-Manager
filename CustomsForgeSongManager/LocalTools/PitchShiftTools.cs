@@ -123,13 +123,13 @@ namespace CustomsForgeSongManager.LocalTools
         {
             string pitchShiftedMessage = "Pitch Shifted by CFSM";
 
-            var pitchShiftedComment = packageData.PackageComment;
+            var pitchShiftedComment = packageData.ToolkitInfo.PackageComment;
             if (String.IsNullOrEmpty(pitchShiftedComment))
                 pitchShiftedComment = pitchShiftedMessage;
             else if (!pitchShiftedComment.Contains(pitchShiftedMessage))
                 pitchShiftedComment = pitchShiftedComment + " " + pitchShiftedMessage;
 
-            packageData.PackageComment = pitchShiftedComment;
+            packageData.ToolkitInfo.PackageComment = pitchShiftedComment;
 
             return packageData;
         }

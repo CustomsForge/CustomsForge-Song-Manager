@@ -167,7 +167,7 @@ namespace CustomsForgeSongManager.SongEditor
         {
             using (var sfd = new SaveFileDialog())
             {
-                sfd.FileName = StringExtensions.GetValidShortFileName(packageData.SongInfo.ArtistSort, packageData.SongInfo.SongDisplayNameSort, packageData.PackageVersion.Replace(".", "_"), false);
+                sfd.FileName = StringExtensions.GetValidShortFileName(packageData.SongInfo.ArtistSort, packageData.SongInfo.SongDisplayNameSort, packageData.ToolkitInfo.PackageVersion.Replace(".", "_"), false);
                 sfd.InitialDirectory = Path.GetDirectoryName(filePath);
 
                 if (sfd.ShowDialog() == DialogResult.OK)

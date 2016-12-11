@@ -23,23 +23,23 @@ namespace CustomsForgeSongManager.LocalTools
         #region Package Info
         public static DLCPackageData AddMsgToPackageComment(this DLCPackageData packageData, string msg)
         {
-            var arrIdComment = packageData.PackageComment;
+            var arrIdComment = packageData.ToolkitInfo.PackageComment;
             if (String.IsNullOrEmpty(arrIdComment))
                 arrIdComment = msg;
             else if (!arrIdComment.Contains(msg))
                 arrIdComment = arrIdComment + " " + msg;
 
-            packageData.PackageComment = arrIdComment;
+            packageData.ToolkitInfo.PackageComment = arrIdComment;
 
             return packageData;
         }
 
         public static DLCPackageData AddDefaultPackageVersion(this DLCPackageData packageData)
         {
-            if (String.IsNullOrEmpty(packageData.PackageVersion))
-                packageData.PackageVersion = "1";
+            if (String.IsNullOrEmpty(packageData.ToolkitInfo.PackageVersion))
+                packageData.ToolkitInfo.PackageVersion = "1";
             else
-                packageData.PackageVersion = packageData.PackageVersion.GetValidVersion();
+                packageData.ToolkitInfo.PackageVersion = packageData.ToolkitInfo.PackageVersion.GetValidVersion();
 
             return packageData;
         }

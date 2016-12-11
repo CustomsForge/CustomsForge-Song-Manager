@@ -117,38 +117,24 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="cmsSelection.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>37, 12</value>
+  <metadata name="cmsRepairOptons.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>37, 1</value>
   </metadata>
   <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>160, 12</value>
+    <value>681, 4</value>
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="btnRepairSongs.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="btnViewErrorLog.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6
-        JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAADMklEQVQ4T21SbUiTURh9zCwpqZkLw0Qa
-        r1m6qVkUJFJpn64Izb6m/pCBqBWZWfkRtWU6zZlj86OltnRuuem+p2wpthKc1YQS+5GETVCjoCB/KBbo
-        093rIsEOHO59z73ncO69LywHi8UCiqK8X//wrIgJ+Iojei0NWOOVVmJ0dDR4fHxcNzY2ZnC73fFJhw/T
-        uk0QAvOWiJffnwCifQOfFv+H7OxsGBkZKenr60OHw4HOIdce1gaA3x2hVnc14JdGwBlDyNDc86iogjPL
-        ivD5fEhMTKTn4eHh4HQ679rtdux/4bjs0SZEQE2LQTwpgbmvjwB/dqxGHNp0gTZ4YLFYeBMTE9dzcnLo
-        sMHBQa3VakUyHgkL20bvacjfBW8lsYNTUsBvjwFnTcFvPrRshWueJkqlMr23txeHh4e7XC6X2mw2o8lk
-        wp6eHhx+N3q8/d4pcEoPuSx3IvFFGQunZSSkCXDeGow/9EwuFBcX+wwMDLhtNhttIo0W9Xo9ajQa7NQZ
-        sV/zYEqXz0RDcQSa73JEn8WrsqbrAT2XOtkCh+iKubm5UFZWFltUVMSsr28I6NSbP6qeaZC0w6ftGjQp
-        JWgWJpQejAmC97chclYOJtRCXtaSfSUssisb26QCVCg7sKmpCesb5ajtMn/q6DQErVnHAF/vvhVY6+sD
-        7beObmm+FDtTx9uCjaU8bJC3oEwmw5qaGpTL5Qs2m31/TGyc17EMAWt9QVl4glXHj/tVfZ7Ch7ztWHcx
-        7IRUKouvlUiwsrISyTGxqqoKu7u7CzIyMrxOAuZ6P2LmcsS86MXyFApFaREo5e08EBroBz6+fp77CSYB
-        054AoVCIAoHARV5Km5ycvBSQErfZvzadjeWp4ShKpbD6LLWb4b+09heeP5WEOMRi8YhCoTgnEomQy+Uu
-        LSZFh0B1GtVy/2TIQm3WPtae6AjYEckGDodDk81mA4PBgLy8PCDGCtLAc5S9tJm8e6jeaD6mVLWntTY/
-        ylZr9AV6g7HQYDCUElYQlhuNxpukcqFWqy1QqVSZra2tJ9VqdYJOp9sIbW1tLCKeJsxSqdVXyVhCKPgP
-        hYQ3CK8QZhIeVygUgX8A1ROhyz3IC5sAAAAASUVORK5CYII=
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALEwAA
+        CxMBAJqcGAAAAF1JREFUOE9jYEAF/9H42LgYakACMEFkGiaOTIMMRFcDFkA3BJtmXGpQDMCnEZccdQwg
+        IuywKgGHB3KoEusFmGkYBpDqklEXQCOAmFjAFbjUjwVSohGeN4hNPFhzJwAf7oN9Gr13fQAAAABJRU5E
+        rkJggg==
 </value>
   </data>
   <metadata name="cmsRepairManagerColumns.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>250, 12</value>
-  </metadata>
-  <metadata name="cmsRepairManager.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>448, 12</value>
+    <value>374, -2</value>
   </metadata>
   <metadata name="colShowDetail.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -257,5 +243,11 @@
   </metadata>
   <metadata name="colDetailToneBase.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
+  </metadata>
+  <metadata name="cmsRestoreOptions.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>206, 2</value>
+  </metadata>
+  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>30</value>
   </metadata>
 </root>

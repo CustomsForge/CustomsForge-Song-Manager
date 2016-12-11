@@ -41,9 +41,9 @@ namespace CustomsForgeSongManager.UControls
         #endregion
 
         private bool addedDD = false;
-        private bool ddError = false;
         private List<string> bakFilePaths = new List<string>();
         private byte checkByte; // tracks repair checkbox condition
+        private bool ddError = false;
         private List<string> dlcFilePaths = new List<string>();
         private int rFailed;
         private int rProcessed;
@@ -71,37 +71,12 @@ namespace CustomsForgeSongManager.UControls
             chkIgnoreMultitoneEx.CheckedChanged += RepairOptions_CheckedChanged;
         }
 
-        private bool AddDD
-        {
-            get { return rbAddDD.Checked; }
-        }
-
-        private bool IgnoreLimit
-        {
-            get { return chkIgnoreLimit.Checked; }
-        }
-
-        private bool PreserveStats
-        {
-            get { return chkPreserve.Checked; }
-        }
-
-        private bool RepairOrg
-        {
-            get { return chkRepairOrg.Checked; }
-        }
-
-        private bool SkipRepaired
-        {
-            get { return rbSkipRepaired.Checked; }
-        }
-
-
-        private bool IgnoreMultitoneEx
-        {
-            get { return chkIgnoreMultitoneEx.Checked; }
-        }
-
+        private bool AddDD { get { return rbAddDD.Checked; } }
+        private bool IgnoreLimit { get { return chkIgnoreLimit.Checked; } }
+        private bool IgnoreMultitoneEx { get { return chkIgnoreMultitoneEx.Checked; } }
+        private bool PreserveStats { get { return chkPreserve.Checked; } }
+        private bool RepairOrg { get { return chkRepairOrg.Checked; } }
+        private bool SkipRepaired { get { return rbSkipRepaired.Checked; } }
 
         public void ArchiveCorruptCDLC()
         {
@@ -421,21 +396,6 @@ namespace CustomsForgeSongManager.UControls
             return true;
         }
 
-        private void ValidateBackupFolders()
-        {
-            if (!Directory.Exists(Constants.RemasteredFolder))
-                Directory.CreateDirectory(Constants.RemasteredFolder);
-
-            if (!Directory.Exists(Constants.RemasteredOrgFolder))
-                Directory.CreateDirectory(Constants.RemasteredOrgFolder);
-
-            if (!Directory.Exists(Constants.RemasteredMaxFolder))
-                Directory.CreateDirectory(Constants.RemasteredMaxFolder);
-
-            if (!Directory.Exists(Constants.RemasteredCorFolder))
-                Directory.CreateDirectory(Constants.RemasteredCorFolder);
-        }
-
         private void DeleteCorruptFiles()
         {
             Globals.Log("Deleting corrupt CDLC files ...");
@@ -525,9 +485,9 @@ namespace CustomsForgeSongManager.UControls
                 var isGuitar = false;
                 var isBonus = false;
                 var isMetronome = false;
-
                 var songXml = Song2014.LoadFromFile(arr.SongXml.File);
                 var mf = new ManifestFunctions(GameVersion.RS2014);
+
                 if (mf.GetMaxDifficulty(songXml) == 0) isNDD = true;
                 if (arr.ArrangementType == ArrangementType.Bass) isBass = true;
                 if (arr.ArrangementType == ArrangementType.Guitar) isGuitar = true;
@@ -789,53 +749,53 @@ namespace CustomsForgeSongManager.UControls
                 if (!PreserveStats)
                 {
                     // add comment to ToolkitInfo to identify CDLC
-                    var arrIdComment = packageData.PackageComment;
+                    var arrIdComment = packageData.ToolkitInfo.PackageComment;
                     if (String.IsNullOrEmpty(arrIdComment))
                         arrIdComment = TKI_ARRID;
                     else if (!arrIdComment.Contains(TKI_ARRID))
                         arrIdComment = arrIdComment + " " + TKI_ARRID;
 
-                    packageData.PackageComment = arrIdComment;
+                    packageData.ToolkitInfo.PackageComment = arrIdComment;
                 }
 
                 if (rbRepairMaxFive.Checked)
                 {
                     // add comment to ToolkitInfo to identify CDLC
-                    var arrIdComment = packageData.PackageComment;
+                    var arrIdComment = packageData.ToolkitInfo.PackageComment;
                     if (String.IsNullOrEmpty(arrIdComment))
                         arrIdComment = TKI_MAX5;
                     else if (!arrIdComment.Contains(TKI_MAX5))
                         arrIdComment = arrIdComment + " " + TKI_MAX5;
 
-                    packageData.PackageComment = arrIdComment;
+                    packageData.ToolkitInfo.PackageComment = arrIdComment;
                 }
 
                 if (AddDD && addedDD)
                 {
                     // add TKI_DDC comment
-                    var ddcComment = packageData.PackageComment;
+                    var ddcComment = packageData.ToolkitInfo.PackageComment;
                     if (String.IsNullOrEmpty(ddcComment))
                         ddcComment = TKI_DDC;
                     else if (!ddcComment.Contains(TKI_DDC))
                         ddcComment = ddcComment + " " + TKI_DDC;
 
-                    packageData.PackageComment = ddcComment;
+                    packageData.ToolkitInfo.PackageComment = ddcComment;
                 }
 
                 // add comment to ToolkitInfo to identify CDLC
-                var remasterComment = packageData.PackageComment;
+                var remasterComment = packageData.ToolkitInfo.PackageComment;
                 if (String.IsNullOrEmpty(remasterComment))
                     remasterComment = TKI_REMASTER;
                 else if (!remasterComment.Contains(TKI_REMASTER))
                     remasterComment = remasterComment + " " + TKI_REMASTER;
 
-                packageData.PackageComment = remasterComment;
+                packageData.ToolkitInfo.PackageComment = remasterComment;
 
                 // add default package version if missing
-                if (String.IsNullOrEmpty(packageData.PackageVersion))
-                    packageData.PackageVersion = "1";
+                if (String.IsNullOrEmpty(packageData.ToolkitInfo.PackageVersion))
+                    packageData.ToolkitInfo.PackageVersion = "1";
                 else
-                    packageData.PackageVersion = packageData.PackageVersion.GetValidVersion();
+                    packageData.ToolkitInfo.PackageVersion = packageData.ToolkitInfo.PackageVersion.GetValidVersion();
 
                 // validate packageData (important)
                 packageData.Name = packageData.Name.GetValidKey(); // DLC Key                 
@@ -937,6 +897,21 @@ namespace CustomsForgeSongManager.UControls
 
             pnlTop.Enabled = enable;
             pnlBottom.Enabled = enable;
+        }
+
+        private void ValidateBackupFolders()
+        {
+            if (!Directory.Exists(Constants.RemasteredFolder))
+                Directory.CreateDirectory(Constants.RemasteredFolder);
+
+            if (!Directory.Exists(Constants.RemasteredOrgFolder))
+                Directory.CreateDirectory(Constants.RemasteredOrgFolder);
+
+            if (!Directory.Exists(Constants.RemasteredMaxFolder))
+                Directory.CreateDirectory(Constants.RemasteredMaxFolder);
+
+            if (!Directory.Exists(Constants.RemasteredCorFolder))
+                Directory.CreateDirectory(Constants.RemasteredCorFolder);
         }
 
         private void RepairOptions_CheckedChanged(object sender, EventArgs e)
@@ -1056,7 +1031,7 @@ namespace CustomsForgeSongManager.UControls
 
                 using (var noteViewer = new frmNoteViewer())
                 {
-                    noteViewer.Text = String.Format("{0} . . . {1}", noteViewer.Text, "Repairs Help");
+                    noteViewer.Text = String.Format("{0} . . . {1}", noteViewer.Text, "Bulk Repairs Help");
                     noteViewer.PopulateText(helpGeneral);
                     noteViewer.ShowDialog();
                 }
@@ -1102,6 +1077,26 @@ namespace CustomsForgeSongManager.UControls
             }
 
             ToggleUIControls(true);
+        }
+
+        private void btnRestoreCorrupt_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure you want to restore (" + corExt + ") CDLC to the 'dlc' folder?", Constants.ApplicationName + " ... Warning", MessageBoxButtons.YesNo) == DialogResult.No)
+                return;
+
+            ToggleUIControls(false);
+
+            // run new generic worker
+            using (var gWorker = new GenericWorker())
+            {
+                gWorker.WorkDescription = "restoring (.cor) backups";
+                gWorker.BackgroundProcess(this);
+                while (Globals.WorkerFinished == Globals.Tristate.False)
+                    Application.DoEvents();
+            }
+
+            ToggleUIControls(true);
+
         }
 
         private void btnRestoreMax_Click(object sender, EventArgs e)
@@ -1191,7 +1186,7 @@ namespace CustomsForgeSongManager.UControls
 
         public void TabEnter()
         {
-            Globals.Log("Repairs GUI TabEnter ...");
+            Globals.Log("Bulk Repairs GUI TabEnter ...");
             // this is required if user goes in and out of Repair tab to refresh Toolstrip
             GenExtensions.InvokeIfRequired(this, delegate
                 {
@@ -1206,29 +1201,8 @@ namespace CustomsForgeSongManager.UControls
 
         public void TabLeave()
         {
-            Globals.Log("Repairs GUI TabLeave ...");
+            Globals.Log("Bulk Repairs GUI TabLeave ...");
         }
-
-        private void btnRestoreCorrupt_Click(object sender, EventArgs e)
-        {
-            if (MessageBox.Show("Are you sure you want to restore (" + corExt + ") CDLC to the 'dlc' folder?", Constants.ApplicationName + " ... Warning", MessageBoxButtons.YesNo) == DialogResult.No)
-                return;
-
-            ToggleUIControls(false);
-
-            // run new generic worker
-            using (var gWorker = new GenericWorker())
-            {
-                gWorker.WorkDescription = "restoring (.cor) backups";
-                gWorker.BackgroundProcess(this);
-                while (Globals.WorkerFinished == Globals.Tristate.False)
-                    Application.DoEvents();
-            }
-
-            ToggleUIControls(true);
-
-        }
-
     }
 
     internal class CustomException : Exception

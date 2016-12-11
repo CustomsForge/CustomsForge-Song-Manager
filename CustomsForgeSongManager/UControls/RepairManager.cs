@@ -26,7 +26,7 @@ using CustomsForgeSongManager.DataObjects;
 
 namespace CustomsForgeSongManager.UControls
 {
-    public partial class RepairManager : UserControl
+    public partial class RepairManager : UserControl, IDataGridViewHolder, INotifyTabChanged
     {
         private Bitmap MinusBitmap = new Bitmap(Properties.Resources.minus);
         private Bitmap PlusBitmap = new Bitmap(Properties.Resources.plus);
@@ -71,10 +71,10 @@ namespace CustomsForgeSongManager.UControls
             bindingCompleted = false;
             dgvPainted = false;
             // sortable binding list with drop down filtering
-            dgvSongsMaster.AutoGenerateColumns = false;
+            dgvRepairManager.AutoGenerateColumns = false;
             FilteredBindingList<SongData> fbl = new FilteredBindingList<SongData>(list);
             BindingSource bs = new BindingSource { DataSource = fbl };
-            dgvSongsMaster.DataSource = bs;
+            dgvRepairManager.DataSource = bs;
         }
 
         private void PopulateRepairsManager()
@@ -82,17 +82,17 @@ namespace CustomsForgeSongManager.UControls
             Globals.Log("Populating RepairManager GUI ...");
 
             // respect processing order
-            DgvExtensions.DoubleBuffered(dgvSongsMaster);
+            DgvExtensions.DoubleBuffered(dgvRepairManager);
             LoadFilteredBindingList(Globals.SongCollection);
-            CFSMTheme.InitializeDgvAppearance(dgvSongsMaster);
+            CFSMTheme.InitializeDgvAppearance(dgvRepairManager);
             // reload column order, width, visibility
             //Globals.Settings.LoadSettingsFromFile(dgvSongsMaster);
 
             if (RAExtensions.ManagerGridSettings != null)
-                dgvSongsMaster.ReLoadColumnOrder(RAExtensions.ManagerGridSettings.ColumnOrder);
+                dgvRepairManager.ReLoadColumnOrder(RAExtensions.ManagerGridSettings.ColumnOrder);
 
             // lock OfficialDLC from being selected
-            foreach (DataGridViewRow row in dgvSongsMaster.Rows)
+            foreach (DataGridViewRow row in dgvRepairManager.Rows)
             {
                 var sng = DgvExtensions.GetObjectFromRow<SongData>(row);
                 if (sng.OfficialDLC)
@@ -103,15 +103,15 @@ namespace CustomsForgeSongManager.UControls
                 }
             }
 
-            dgvSongsMaster.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCells);
-            dgvSongsMaster.Refresh();
+            dgvRepairManager.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCells);
+            dgvRepairManager.Refresh();
 
             //Worker actually does the sorting after parsing, this is just to tell the grid that it is sorted.
             if (!String.IsNullOrEmpty(AppSettings.Instance.SortColumn))
             {
-                var colX = dgvSongsMaster.Columns.Cast<DataGridViewColumn>().Where(col => col.DataPropertyName == AppSettings.Instance.SortColumn).FirstOrDefault();
+                var colX = dgvRepairManager.Columns.Cast<DataGridViewColumn>().Where(col => col.DataPropertyName == AppSettings.Instance.SortColumn).FirstOrDefault();
                 if (colX != null)
-                    dgvSongsMaster.Sort(colX, AppSettings.Instance.SortAscending ? ListSortDirection.Ascending : ListSortDirection.Descending);
+                    dgvRepairManager.Sort(colX, AppSettings.Instance.SortAscending ? ListSortDirection.Ascending : ListSortDirection.Descending);
             }
 
             dgvPainted = true;
@@ -121,14 +121,14 @@ namespace CustomsForgeSongManager.UControls
         #region Others
         private void TemporaryDisableDatabindEvent(Action action)
         {
-            dgvSongsMaster.DataBindingComplete -= dgvSongsMaster_DataBindingComplete;
+            dgvRepairManager.DataBindingComplete -= dgvRepairManager_DataBindingComplete;
             try
             {
                 action();
             }
             finally
             {
-                dgvSongsMaster.DataBindingComplete += dgvSongsMaster_DataBindingComplete;
+                dgvRepairManager.DataBindingComplete += dgvRepairManager_DataBindingComplete;
             }
         }
 
@@ -144,26 +144,26 @@ namespace CustomsForgeSongManager.UControls
         private void ResetDetail()
         {
             //reset plus/minus in case user did not
-            for (int ndx = dgvSongsMaster.Rows.Count - 1; ndx >= 0; ndx--)
-                if (!String.IsNullOrEmpty(dgvSongsMaster.Rows[ndx].Cells["colShowDetail"].Tag as String))
+            for (int ndx = dgvRepairManager.Rows.Count - 1; ndx >= 0; ndx--)
+                if (!String.IsNullOrEmpty(dgvRepairManager.Rows[ndx].Cells["colShowDetail"].Tag as String))
                 {
-                    dgvSongsMaster.Rows[ndx].Cells["colShowDetail"].Value = PlusBitmap;
-                    dgvSongsMaster.Rows[ndx].Cells["colShowDetail"].Tag = null;
+                    dgvRepairManager.Rows[ndx].Cells["colShowDetail"].Value = PlusBitmap;
+                    dgvRepairManager.Rows[ndx].Cells["colShowDetail"].Tag = null;
                     dgvSongsDetail.Visible = false;
                     break;
                 }
         }
 
-        private void btnBulkActions_Click(object sender, EventArgs e)
+        private void btnRepairOptions_Click(object sender, EventArgs e)
         {
-            cmsSelection.Show(btnBulkActions, 0, btnBulkActions.Height + 2);
+            cmsRepairOptons.Show(btnRepairOptions, 0, btnRepairOptions.Height + 2);
         }
 
-        private void dgvSongsMaster_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        private void dgvRepairManager_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
             // HACK: catch DataBindingComplete called by other UC's
             var grid = (DataGridView)sender;
-            if (grid.Name != "dgvSongsMaster")
+            if (grid.Name != "dgvRepairManager")
                 return;
 
             if (e.ListChangedType != ListChangedType.Reset)
@@ -178,7 +178,7 @@ namespace CustomsForgeSongManager.UControls
                 bindingCompleted = true;
             }
 
-            var filterStatus = DataGridViewAutoFilterColumnHeaderCell.GetFilterStatus(dgvSongsMaster);
+            var filterStatus = DataGridViewAutoFilterColumnHeaderCell.GetFilterStatus(dgvRepairManager);
             // filter applied
             if (!String.IsNullOrEmpty(filterStatus) && dgvPainted)
             {
@@ -194,15 +194,15 @@ namespace CustomsForgeSongManager.UControls
             }
 
             // filter removed
-            if (String.IsNullOrEmpty(filterStatus) && dgvPainted && this.dgvSongsMaster.CurrentCell != null)
+            if (String.IsNullOrEmpty(filterStatus) && dgvPainted && this.dgvRepairManager.CurrentCell != null)
                 RemoveFilter();
         }
 
         private void RemoveFilter()
         {
-            Globals.Settings.SaveSettingsToFile(dgvSongsMaster);
+            Globals.Settings.SaveSettingsToFile(dgvRepairManager);
             chkMyCDLC.Checked = false;
-            DataGridViewAutoFilterTextBoxColumn.RemoveFilter(dgvSongsMaster);
+            DataGridViewAutoFilterTextBoxColumn.RemoveFilter(dgvRepairManager);
             ResetDetail();
 
             if (!chkSubFolders.Checked)
@@ -214,10 +214,10 @@ namespace CustomsForgeSongManager.UControls
                 LoadFilteredBindingList(Globals.SongCollection);
 
             // reset alternating row color
-            foreach (DataGridViewRow row in dgvSongsMaster.Rows)
+            foreach (DataGridViewRow row in dgvRepairManager.Rows)
                 row.DefaultCellStyle.BackColor = Color.Empty;
 
-            dgvSongsMaster.AlternatingRowsDefaultCellStyle = new DataGridViewCellStyle() { BackColor = Color.LightSteelBlue };
+            dgvRepairManager.AlternatingRowsDefaultCellStyle = new DataGridViewCellStyle() { BackColor = Color.LightSteelBlue };
             UpdateToolStrip();
         }
 
@@ -239,7 +239,7 @@ namespace CustomsForgeSongManager.UControls
             {
                 if (!string.IsNullOrEmpty(currentContextMenuItem.Tag.ToString()))
                 {
-                    var dataGridViewColumn = dgvSongsMaster.Columns[currentContextMenuItem.Tag.ToString()];
+                    var dataGridViewColumn = dgvRepairManager.Columns[currentContextMenuItem.Tag.ToString()];
                     if (dataGridViewColumn != null)
                     {
                         var columnIndex = dataGridViewColumn.Index;
@@ -247,7 +247,7 @@ namespace CustomsForgeSongManager.UControls
                         if (columnSetting != null)
                         {
                             columnSetting.Visible = !columnSetting.Visible;
-                            dgvSongsMaster.Columns[columnIndex].Visible = columnSetting.Visible;
+                            dgvRepairManager.Columns[columnIndex].Visible = columnSetting.Visible;
                             currentContextMenuItem.Checked = columnSetting.Visible;
                         }
                     }
@@ -262,9 +262,9 @@ namespace CustomsForgeSongManager.UControls
             if (RAExtensions.ManagerGridSettings == null)
             {
                 if (Globals.DgvCurrent == null)
-                    Globals.DgvCurrent = dgvSongsMaster;
+                    Globals.DgvCurrent = dgvRepairManager;
 
-                Globals.Settings.SaveSettingsToFile(dgvSongsMaster);
+                Globals.Settings.SaveSettingsToFile(dgvRepairManager);
             }
 
             contextMenuStrip.Items.Clear();
@@ -272,10 +272,10 @@ namespace CustomsForgeSongManager.UControls
 
             foreach (ColumnOrderItem columnOrderItem in gridSettings.ColumnOrder)
             {
-                var cn = dgvSongsMaster.Columns[columnOrderItem.ColumnIndex].Name;
+                var cn = dgvRepairManager.Columns[columnOrderItem.ColumnIndex].Name;
                 if (cn.ToLower().StartsWith("col"))
                     cn = cn.Remove(0, 3);
-                ToolStripMenuItem columnsMenuItem = new ToolStripMenuItem(cn, null, ColumnMenuItemClick) { Checked = dgvSongsMaster.Columns[columnOrderItem.ColumnIndex].Visible, Tag = dgvSongsMaster.Columns[columnOrderItem.ColumnIndex].Name };
+                ToolStripMenuItem columnsMenuItem = new ToolStripMenuItem(cn, null, ColumnMenuItemClick) { Checked = dgvRepairManager.Columns[columnOrderItem.ColumnIndex].Visible, Tag = dgvRepairManager.Columns[columnOrderItem.ColumnIndex].Name };
                 contextMenuStrip.Items.Add(columnsMenuItem);
             }
         }
@@ -285,12 +285,13 @@ namespace CustomsForgeSongManager.UControls
 
         }
         #endregion
+
         #region LinkLabel events
         private void lnklblToggle_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             TemporaryDisableDatabindEvent(() =>
             {
-                foreach (DataGridViewRow row in dgvSongsMaster.Rows)
+                foreach (DataGridViewRow row in dgvRepairManager.Rows)
                     row.Cells["colSelect"].Value = !Convert.ToBoolean(row.Cells["colSelect"].Value);
             });
         }
@@ -299,7 +300,7 @@ namespace CustomsForgeSongManager.UControls
         {
             TemporaryDisableDatabindEvent(() =>
             {
-                foreach (DataGridViewRow row in dgvSongsMaster.Rows)
+                foreach (DataGridViewRow row in dgvRepairManager.Rows)
                     row.Cells["colSelect"].Value = !allSelected;
             });
 
@@ -312,30 +313,8 @@ namespace CustomsForgeSongManager.UControls
             RemoveFilter();
         }
         #endregion
+
         #region Other events
-        private void chkTheMover_CheckedChanged(object sender, EventArgs e)
-        {
-            if (dgvSongsMaster.DataSource == null)
-                return;
-
-            for (int i = 0; i < dgvSongsMaster.Rows.Count; i++)
-            {
-                DataGridViewRow row = dgvSongsMaster.Rows[i];
-                var artist = (string)row.Cells["colArtist"].Value;
-
-                // 'The' mover
-                if (chkTheMover.Checked)
-                {
-                    if (artist.StartsWith("The ", StringComparison.CurrentCultureIgnoreCase))
-                        row.Cells["colArtist"].Value = String.Format("{0}, The", artist.Substring(4, artist.Length - 4)).Trim();
-                }
-                else
-                {
-                    if (artist.EndsWith(", The", StringComparison.CurrentCultureIgnoreCase))
-                        row.Cells["colArtist"].Value = String.Format("The {0}", artist.Substring(0, artist.Length - 5)).Trim();
-                }
-            }
-        }
         private void cueSearch_KeyUp(object sender, KeyEventArgs e)
         {
             ResetDetail();
@@ -346,6 +325,7 @@ namespace CustomsForgeSongManager.UControls
                 LoadFilteredBindingList(Globals.SongCollection);
         }
         #endregion
+
         #region DGV events
         private void dgvSongsMaster_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -356,10 +336,10 @@ namespace CustomsForgeSongManager.UControls
             // get detail from master
             if (e.RowIndex >= 0 && e.ColumnIndex == colShowDetail.Index)
             {
-                if (dgvSongsMaster.Rows[e.RowIndex].Cells["colKey"].Value == null)
+                if (dgvRepairManager.Rows[e.RowIndex].Cells["colKey"].Value == null)
                     return;
 
-                var songKey = dgvSongsMaster.Rows[e.RowIndex].Cells["colKey"].Value.ToString();
+                var songKey = dgvRepairManager.Rows[e.RowIndex].Cells["colKey"].Value.ToString();
 
                 if (String.IsNullOrEmpty(songKey))
                     return;
@@ -368,7 +348,7 @@ namespace CustomsForgeSongManager.UControls
                     if (dgvSongsDetail.Rows[0].Cells["colDetailKey"].Value.ToString() != songKey)
                         ResetDetail();
 
-                if (String.IsNullOrEmpty(dgvSongsMaster.Rows[e.RowIndex].Cells["colShowDetail"].Tag as String))
+                if (String.IsNullOrEmpty(dgvRepairManager.Rows[e.RowIndex].Cells["colShowDetail"].Tag as String))
                 {
                     var songDetails = Globals.SongCollection.Where(master => (master.DLCKey == songKey)).ToList();
                     if (!songDetails.Any())
@@ -376,17 +356,17 @@ namespace CustomsForgeSongManager.UControls
                     else // TODO: change positioning if near bottom of dgvSongsMaster
                     {
                         // apply some formatting
-                        dgvSongsMaster.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                        dgvRepairManager.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
                         dgvSongsDetail.ColumnHeadersDefaultCellStyle.WrapMode = DataGridViewTriState.False;
                         dgvSongsDetail.Columns["colDetailPID"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
                         dgvSongsDetail.Columns["colDetailSections"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
                         dgvSongsDetail.Columns["colDetailDMax"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
-                        var rowHeight = dgvSongsMaster.Rows[e.RowIndex].Height + 0; // height tweak
-                        var colWidth = dgvSongsMaster.Columns[e.ColumnIndex].Width - 16; // width tweak
-                        dgvSongsMaster.Rows[e.RowIndex].Cells["colShowDetail"].Tag = "TRUE";
-                        dgvSongsMaster.Rows[e.RowIndex].Cells["colShowDetail"].Value = MinusBitmap;
-                        Rectangle dgvRectangle = dgvSongsMaster.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true);
+                        var rowHeight = dgvRepairManager.Rows[e.RowIndex].Height + 0; // height tweak
+                        var colWidth = dgvRepairManager.Columns[e.ColumnIndex].Width - 16; // width tweak
+                        dgvRepairManager.Rows[e.RowIndex].Cells["colShowDetail"].Tag = "TRUE";
+                        dgvRepairManager.Rows[e.RowIndex].Cells["colShowDetail"].Value = MinusBitmap;
+                        Rectangle dgvRectangle = dgvRepairManager.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true);
                         dgvSongsDetail.Location = new Point(dgvRectangle.Right + colWidth, dgvRectangle.Bottom + rowHeight - 2);
 
                         // CRITICAL CODE AREA - CAREFUL - No Filtering
@@ -395,7 +375,7 @@ namespace CustomsForgeSongManager.UControls
                         dgvSongsDetail.DataMember = "Arrangements2D";
 
                         // calculate the height and width of dgvSongsDetail
-                        dgvSongsDetail.Columns["colDetailKey"].Width = dgvSongsMaster.Columns["colKey"].Width;
+                        dgvSongsDetail.Columns["colDetailKey"].Width = dgvRepairManager.Columns["colKey"].Width;
                         var colHeaderHeight = dgvSongsDetail.Columns[e.ColumnIndex].HeaderCell.Size.Height;
                         dgvSongsDetail.Height = dgvSongsDetail.Rows.Cast<DataGridViewRow>().Sum(row => row.Height) + colHeaderHeight - 3;
                         dgvSongsDetail.Width = dgvSongsDetail.Columns.Cast<DataGridViewColumn>().Sum(col => col.Width) + colWidth;
@@ -405,15 +385,15 @@ namespace CustomsForgeSongManager.UControls
                         dgvSongsDetail.Refresh();
                         //dgvSongsDetail.Invalidate();
                         dgvSongsDetail.Visible = true;
-                        dgvSongsMaster.ScrollBars = ScrollBars.Horizontal;
+                        dgvRepairManager.ScrollBars = ScrollBars.Horizontal;
                     }
                 }
                 else
                 {
-                    dgvSongsMaster.Rows[e.RowIndex].Cells["colShowDetail"].Value = PlusBitmap;
-                    dgvSongsMaster.Rows[e.RowIndex].Cells["colShowDetail"].Tag = null;
+                    dgvRepairManager.Rows[e.RowIndex].Cells["colShowDetail"].Value = PlusBitmap;
+                    dgvRepairManager.Rows[e.RowIndex].Cells["colShowDetail"].Tag = null;
                     dgvSongsDetail.Visible = false;
-                    dgvSongsMaster.ScrollBars = ScrollBars.Both;
+                    dgvRepairManager.ScrollBars = ScrollBars.Both;
                 }
             }
 
@@ -424,9 +404,9 @@ namespace CustomsForgeSongManager.UControls
             {
                 TemporaryDisableDatabindEvent(() =>
                 {
-                    for (int i = 0; i < dgvSongsMaster.Rows.Count; i++)
+                    for (int i = 0; i < dgvRepairManager.Rows.Count; i++)
                     {
-                        DgvExtensions.GetObjectFromRow<SongData>(dgvSongsMaster, i).Selected = allSelected;
+                        DgvExtensions.GetObjectFromRow<SongData>(dgvRepairManager, i).Selected = allSelected;
                     }
                 });
                 allSelected = !allSelected;
@@ -437,7 +417,7 @@ namespace CustomsForgeSongManager.UControls
         {
             if (e.Alt && (e.KeyCode == Keys.Down || e.KeyCode == Keys.Up))
             {
-                DataGridViewAutoFilterColumnHeaderCell filterCell = this.dgvSongsMaster.CurrentCell.OwningColumn.HeaderCell as DataGridViewAutoFilterColumnHeaderCell;
+                DataGridViewAutoFilterColumnHeaderCell filterCell = this.dgvRepairManager.CurrentCell.OwningColumn.HeaderCell as DataGridViewAutoFilterColumnHeaderCell;
 
                 if (filterCell != null)
                 {
@@ -449,11 +429,11 @@ namespace CustomsForgeSongManager.UControls
             // space bar used to select a song (w/ checkbox "Select")
             if (e.KeyCode == Keys.Space)
             {
-                for (int i = 0; i < dgvSongsMaster.Rows.Count; i++)
+                for (int i = 0; i < dgvRepairManager.Rows.Count; i++)
                 {
-                    if (dgvSongsMaster.Rows[i].Selected)
+                    if (dgvRepairManager.Rows[i].Selected)
                     {
-                        var sng = DgvExtensions.GetObjectFromRow<SongData>(dgvSongsMaster, i);
+                        var sng = DgvExtensions.GetObjectFromRow<SongData>(dgvRepairManager, i);
                         // beyound current scope of CFM
                         if (sng.IsRsCompPack)
                             Globals.Log(Properties.Resources.CanNotSelectIndividualRS1CompatiblityDLC);
@@ -468,14 +448,14 @@ namespace CustomsForgeSongManager.UControls
 
         private void dgvSongsMaster_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            if (dgvSongsMaster.DataSource == null)
+            if (dgvRepairManager.DataSource == null)
                 return;
 
             ResetDetail();
             // Ctrl Key w/ left mouse click to quickly turn off column visiblity
             if (ModifierKeys == Keys.Control)
             {
-                dgvSongsMaster.Columns[e.ColumnIndex].Visible = false;
+                dgvRepairManager.Columns[e.ColumnIndex].Visible = false;
                 return;
             }
         }
@@ -491,15 +471,15 @@ namespace CustomsForgeSongManager.UControls
                 // select a single row by Ctrl-Click
                 if (ModifierKeys == Keys.Control)
                 {
-                    var s = DgvExtensions.GetObjectFromRow<SongData>(dgvSongsMaster, e.RowIndex);
+                    var s = DgvExtensions.GetObjectFromRow<SongData>(dgvRepairManager, e.RowIndex);
                     s.Selected = !s.Selected;
                 }
                 // select multiple rows by Shift-Click two outer rows
                 else if (ModifierKeys == Keys.Shift)
                 {
-                    if (dgvSongsMaster.SelectedRows.Count > 0)
+                    if (dgvRepairManager.SelectedRows.Count > 0)
                     {
-                        var first = dgvSongsMaster.SelectedRows[0];
+                        var first = dgvRepairManager.SelectedRows[0];
                         var start = first.Index;
                         var end = e.RowIndex + 1;
 
@@ -513,7 +493,7 @@ namespace CustomsForgeSongManager.UControls
                         {
                             for (int i = start; i < end; i++)
                             {
-                                var s = DgvExtensions.GetObjectFromRow<SongData>(dgvSongsMaster, i);
+                                var s = DgvExtensions.GetObjectFromRow<SongData>(dgvRepairManager, i);
                                 s.Selected = !s.Selected;
                             }
                         });
@@ -534,12 +514,9 @@ namespace CustomsForgeSongManager.UControls
             {
                 if (rowIndex != -1)
                 {
+                    // left this for future use?
                     grid.Rows[e.RowIndex].Selected = true;
-                    var sng = DgvExtensions.GetObjectFromRow<SongData>(dgvSongsMaster, e.RowIndex);
-                    //cmsRepairOnly.Enabled = !sng.OfficialDLC;
-                    //cmsRepairAndAddDD.Enabled = !sng.OfficialDLC;
-                    //cmsPitchShift.Enabled = !sng.OfficialDLC;
-                    cmsRepairManager.Show(Cursor.Position);
+                    var sng = DgvExtensions.GetObjectFromRow<SongData>(dgvRepairManager, e.RowIndex);
                 }
                 else
                 {
@@ -547,12 +524,6 @@ namespace CustomsForgeSongManager.UControls
                     cmsRepairManagerColumns.Show(Cursor.Position);
                 }
             }
-
-            //SongData song = dgvSongsMaster.Rows[e.RowIndex].DataBoundItem as SongData;
-            //// prevent selection of ODCL
-            //if (song != null)
-            //    if (song.OfficialDLC)
-            //        (grid.Rows[e.RowIndex].Cells["colSelect"] as DataGridViewCheckBoxCell).Value = false;
 
             // programmatic left clicking on colSelect
             if (e.Button == MouseButtons.Left && e.RowIndex != -1 && e.ColumnIndex == colSelect.Index)
@@ -562,24 +533,25 @@ namespace CustomsForgeSongManager.UControls
                     Globals.Log(Properties.Resources.CanNotSelectIndividualRS1CompatiblityDLC);
                 else // required to force selected row change
                 {
-                    TemporaryDisableDatabindEvent(() => { dgvSongsMaster.EndEdit(); });
+                    TemporaryDisableDatabindEvent(() => { dgvRepairManager.EndEdit(); });
                 }
             }
 
             Thread.Sleep(50); // debounce multiple clicks
-            dgvSongsMaster.Refresh();
+            dgvRepairManager.Refresh();
         }
 
         private void dgvSongsMaster_Sorted(object sender, EventArgs e)
         {
-            if (dgvSongsMaster.SortedColumn != null)
+            if (dgvRepairManager.SortedColumn != null)
             {
-                AppSettings.Instance.SortColumn = dgvSongsMaster.SortedColumn.DataPropertyName;
-                AppSettings.Instance.SortAscending = dgvSongsMaster.SortOrder == SortOrder.Ascending ? true : false;
+                AppSettings.Instance.SortColumn = dgvRepairManager.SortedColumn.DataPropertyName;
+                AppSettings.Instance.SortAscending = dgvRepairManager.SortOrder == SortOrder.Ascending ? true : false;
             }
         }
 
         #endregion
+
         #region Repair tools
         private void GetRepairOptions(bool ShowDDTab = false)
         {
@@ -1408,7 +1380,7 @@ namespace CustomsForgeSongManager.UControls
                         }
                     });
 
-                    GenExtensions.InvokeIfRequired(dgvSongsMaster, delegate { dgvSongsMaster.Refresh(); });
+                    GenExtensions.InvokeIfRequired(dgvRepairManager, delegate { dgvRepairManager.Refresh(); });
                 }
 
                 if (!ddError)
@@ -1492,7 +1464,7 @@ namespace CustomsForgeSongManager.UControls
                 using (var psarcOld = new PsarcPackager())
                     packageData = psarcOld.ReadPackage(srcFilePath);
 
-                if (!createNewFile && packageData.PackageComment.Contains(pitchShiftedMessage))
+                if (!createNewFile && packageData.ToolkitInfo.PackageComment.Contains(pitchShiftedMessage))
                 {
                     Globals.Log(" - This song has already been patched! ");
                     rSkipped++;
@@ -1536,7 +1508,7 @@ namespace CustomsForgeSongManager.UControls
                         }
                     });
 
-                    GenExtensions.InvokeIfRequired(dgvSongsMaster, delegate { dgvSongsMaster.Refresh(); });
+                    GenExtensions.InvokeIfRequired(dgvRepairManager, delegate { dgvRepairManager.Refresh(); });
                 }
 
                 Globals.Log(" - Adding a pitch shifting effect to the CDLC sucessful ...");
@@ -1557,7 +1529,7 @@ namespace CustomsForgeSongManager.UControls
 
         public void PitchShift_Single()
         {
-            var song = DgvExtensions.GetObjectFromRow<SongData>(dgvSongsMaster.SelectedRows[0]);
+            var song = DgvExtensions.GetObjectFromRow<SongData>(dgvRepairManager.SelectedRows[0]);
 
             rTotal = 1;
             rProcessed = 0;
@@ -1569,7 +1541,7 @@ namespace CustomsForgeSongManager.UControls
 
         public void PitchShift_Selection()
         {
-            var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster);
+            var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvRepairManager);
 
             if (selection.Count > 0)
             {
@@ -1592,14 +1564,14 @@ namespace CustomsForgeSongManager.UControls
 
         public void ApplyDD_Single()
         {
-            var song = DgvExtensions.GetObjectFromRow<SongData>(dgvSongsMaster.SelectedRows[0]);
+            var song = DgvExtensions.GetObjectFromRow<SongData>(dgvRepairManager.SelectedRows[0]);
 
             ApplyDDToPackage(song);
         }
 
         public void ApplyDD_Selection()
         {
-            var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster);
+            var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvRepairManager);
 
             if (selection.Count > 0)
             {
@@ -1611,7 +1583,7 @@ namespace CustomsForgeSongManager.UControls
         public void RepairSong_Single()
         {
             AddDD = false;
-            var song = DgvExtensions.GetObjectFromRow<SongData>(dgvSongsMaster.SelectedRows[0]);
+            var song = DgvExtensions.GetObjectFromRow<SongData>(dgvRepairManager.SelectedRows[0]);
 
             RepairSong(song);
         }
@@ -1619,7 +1591,7 @@ namespace CustomsForgeSongManager.UControls
         public void RepairSong_Selection()
         {
             AddDD = false;
-            var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster);
+            var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvRepairManager);
 
             if (selection.Count > 0)
                 RepairSongs(selection);
@@ -1664,7 +1636,7 @@ namespace CustomsForgeSongManager.UControls
                 }
             });
 
-            GenExtensions.InvokeIfRequired(dgvSongsMaster, delegate { dgvSongsMaster.Refresh(); });
+            GenExtensions.InvokeIfRequired(dgvRepairManager, delegate { dgvRepairManager.Refresh(); });
         }
         #endregion
 
@@ -1916,6 +1888,7 @@ namespace CustomsForgeSongManager.UControls
             ToggleUIControls(true);
         }
 
+        //TODO: reconnect tsmi
         private void deleteCorruptCDLCToolStripMenuItem_Click(object sender, EventArgs e) //Fix BW!
         {
             if (MessageBox.Show("Are you sure you want to delete all corrupt CDLC files?", Constants.ApplicationName + " ... Warning", MessageBoxButtons.YesNo) == DialogResult.No)
@@ -1950,5 +1923,27 @@ namespace CustomsForgeSongManager.UControls
             }
         }
         #endregion
+
+        private void btnRestoreOptions_Click(object sender, EventArgs e)
+        {
+            cmsRestoreOptions.Show(btnRestoreOptions, 0, btnRestoreOptions.Height + 2);
+        }
+
+        public void TabEnter()
+        {
+            Globals.Log("RepairManager GUI TabEnter ...");
+            Globals.DgvCurrent = dgvRepairManager;
+        }
+
+        public void TabLeave()
+        {
+            Globals.Log("RepairManager GUI TabLeave ...");
+            Globals.Settings.SaveSettingsToFile(dgvRepairManager);
+        }
+
+        public DataGridView GetGrid()
+        {
+            return dgvRepairManager;
+        }
     }
 }

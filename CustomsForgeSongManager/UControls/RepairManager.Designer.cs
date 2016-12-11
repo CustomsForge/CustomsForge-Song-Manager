@@ -32,12 +32,12 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RepairManager));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridViewImageColumn4 = new System.Windows.Forms.DataGridViewImageColumn();
             this.dataGridViewImageColumn2 = new System.Windows.Forms.DataGridViewImageColumn();
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
@@ -63,27 +63,20 @@
             this.repairAndAddDDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.RepairOnlyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.betaPitchShiftToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.cmsSelection = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.cmsRepairOptons = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.cmsRepairOnly = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmsRepairAndAddDD = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmsPitchShift = new System.Windows.Forms.ToolStripMenuItem();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.lnklblToggle = new System.Windows.Forms.LinkLabel();
             this.chkMyCDLC = new System.Windows.Forms.CheckBox();
-            this.btnBulkActions = new System.Windows.Forms.Button();
+            this.btnRepairOptions = new System.Windows.Forms.Button();
             this.lnkLblSelectAll = new System.Windows.Forms.LinkLabel();
-            this.btnRepairSongs = new System.Windows.Forms.Button();
             this.btnHelp = new System.Windows.Forms.Button();
+            this.btnRestoreOptions = new System.Windows.Forms.Button();
+            this.btnViewErrorLog = new System.Windows.Forms.Button();
             this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cmsRepairManagerColumns = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.cmsRepairManager = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.cmsRepairOnly = new System.Windows.Forms.ToolStripMenuItem();
-            this.cmsRepairAndAddDD = new System.Windows.Forms.ToolStripMenuItem();
-            this.restoreorgBackupsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.restorecorBackupsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.restoremaxBackupsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.archiveCorruptCDLCToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.deleteCorruptCDLCToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.cleanupdlcFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.cmsPitchShift = new System.Windows.Forms.ToolStripMenuItem();
-            this.chkTheMover = new System.Windows.Forms.CheckBox();
             this.gb_Main_Actions = new System.Windows.Forms.GroupBox();
             this.panelSongListButtons = new System.Windows.Forms.Panel();
             this.gb_Main_Search = new System.Windows.Forms.GroupBox();
@@ -92,17 +85,7 @@
             this.lnkClearSearch = new System.Windows.Forms.LinkLabel();
             this.lbl_Search = new System.Windows.Forms.Label();
             this.cueSearch = new DataGridViewTools.CueTextBox();
-            this.dgvSongsMaster = new DataGridViewTools.RADataGridView();
-            this.dataGridViewImageColumn8 = new System.Windows.Forms.DataGridViewImageColumn();
-            this.gb_Main_Grid = new System.Windows.Forms.GroupBox();
-            this.dgvSongsDetail = new System.Windows.Forms.DataGridView();
-            this.colDetailKey = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colDetailPID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colDetailArrangement = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colDetailTuning = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colDetailSections = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colDetailDMax = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colDetailToneBase = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgvRepairManager = new DataGridViewTools.RADataGridView();
             this.colShowDetail = new System.Windows.Forms.DataGridViewImageColumn();
             this.colKey = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
@@ -138,16 +121,33 @@
             this.colArtistSort = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colTitleSort = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colAlbumSort = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
-            this.cmsSelection.SuspendLayout();
+            this.dataGridViewImageColumn8 = new System.Windows.Forms.DataGridViewImageColumn();
+            this.gb_Main_Grid = new System.Windows.Forms.GroupBox();
+            this.dgvSongsDetail = new System.Windows.Forms.DataGridView();
+            this.colDetailKey = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colDetailPID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colDetailArrangement = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colDetailTuning = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colDetailSections = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colDetailDMax = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colDetailToneBase = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cmsRestoreOptions = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.RestoreOrgBackups = new System.Windows.Forms.ToolStripMenuItem();
+            this.RestoreCorBackups = new System.Windows.Forms.ToolStripMenuItem();
+            this.RestoreMaxBackups = new System.Windows.Forms.ToolStripMenuItem();
+            this.ArchiveCorCDLC = new System.Windows.Forms.ToolStripMenuItem();
+            this.DeleteCorCDLC = new System.Windows.Forms.ToolStripMenuItem();
+            this.CleanRsDlcFolder = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmsRepairOptons.SuspendLayout();
             this.cmsRepairManagerColumns.SuspendLayout();
-            this.cmsRepairManager.SuspendLayout();
             this.gb_Main_Actions.SuspendLayout();
             this.panelSongListButtons.SuspendLayout();
             this.gb_Main_Search.SuspendLayout();
             this.panelSearch.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvSongsMaster)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvRepairManager)).BeginInit();
             this.gb_Main_Grid.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSongsDetail)).BeginInit();
+            this.cmsRestoreOptions.SuspendLayout();
             this.SuspendLayout();
             // 
             // dataGridViewImageColumn4
@@ -342,40 +342,64 @@
             // moveCDLCFromDLToDLCFolderToolStripMenuItem
             // 
             this.moveCDLCFromDLToDLCFolderToolStripMenuItem.Name = "moveCDLCFromDLToDLCFolderToolStripMenuItem";
-            this.moveCDLCFromDLToDLCFolderToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
+            this.moveCDLCFromDLToDLCFolderToolStripMenuItem.Size = new System.Drawing.Size(246, 22);
             this.moveCDLCFromDLToDLCFolderToolStripMenuItem.Text = "Move CDLC from DL to DLC folder";
             this.moveCDLCFromDLToDLCFolderToolStripMenuItem.Click += new System.EventHandler(this.moveCDLCFromDLToDLCFolderToolStripMenuItem_Click);
             // 
             // repairAndAddDDToolStripMenuItem
             // 
             this.repairAndAddDDToolStripMenuItem.Name = "repairAndAddDDToolStripMenuItem";
-            this.repairAndAddDDToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
+            this.repairAndAddDDToolStripMenuItem.Size = new System.Drawing.Size(246, 22);
             this.repairAndAddDDToolStripMenuItem.Text = "Repair and add DD";
             this.repairAndAddDDToolStripMenuItem.Click += new System.EventHandler(this.repairAndAddDDToolStripMenuItem_Click);
             // 
             // RepairOnlyToolStripMenuItem
             // 
             this.RepairOnlyToolStripMenuItem.Name = "RepairOnlyToolStripMenuItem";
-            this.RepairOnlyToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
+            this.RepairOnlyToolStripMenuItem.Size = new System.Drawing.Size(246, 22);
             this.RepairOnlyToolStripMenuItem.Text = "Repair only";
             this.RepairOnlyToolStripMenuItem.Click += new System.EventHandler(this.repairOnlyToolStripMenuItem_Click);
             // 
             // betaPitchShiftToolStripMenuItem
             // 
             this.betaPitchShiftToolStripMenuItem.Name = "betaPitchShiftToolStripMenuItem";
-            this.betaPitchShiftToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
+            this.betaPitchShiftToolStripMenuItem.Size = new System.Drawing.Size(246, 22);
             this.betaPitchShiftToolStripMenuItem.Text = "Beta - pitch shift";
             this.betaPitchShiftToolStripMenuItem.Click += new System.EventHandler(this.betaPitchShiftToolStripMenuItem_Click);
             // 
-            // cmsSelection
+            // cmsRepairOptons
             // 
-            this.cmsSelection.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cmsRepairOptons.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cmsRepairOnly,
+            this.cmsRepairAndAddDD,
+            this.cmsPitchShift,
             this.betaPitchShiftToolStripMenuItem,
             this.RepairOnlyToolStripMenuItem,
             this.repairAndAddDDToolStripMenuItem,
             this.moveCDLCFromDLToDLCFolderToolStripMenuItem});
-            this.cmsSelection.Name = "cmsSelection";
-            this.cmsSelection.Size = new System.Drawing.Size(257, 92);
+            this.cmsRepairOptons.Name = "cmsRepairOptions";
+            this.cmsRepairOptons.Size = new System.Drawing.Size(247, 158);
+            // 
+            // cmsRepairOnly
+            // 
+            this.cmsRepairOnly.Name = "cmsRepairOnly";
+            this.cmsRepairOnly.Size = new System.Drawing.Size(246, 22);
+            this.cmsRepairOnly.Text = "Repair only";
+            this.cmsRepairOnly.Click += new System.EventHandler(this.cmsRepairOnly_Click);
+            // 
+            // cmsRepairAndAddDD
+            // 
+            this.cmsRepairAndAddDD.Name = "cmsRepairAndAddDD";
+            this.cmsRepairAndAddDD.Size = new System.Drawing.Size(246, 22);
+            this.cmsRepairAndAddDD.Text = "Repair and add DD";
+            this.cmsRepairAndAddDD.Click += new System.EventHandler(this.cmsRepairAndAddDD_Click);
+            // 
+            // cmsPitchShift
+            // 
+            this.cmsPitchShift.Name = "cmsPitchShift";
+            this.cmsPitchShift.Size = new System.Drawing.Size(246, 22);
+            this.cmsPitchShift.Text = "Beta - pitch shift";
+            this.cmsPitchShift.Click += new System.EventHandler(this.cmsPitchShift_Click);
             // 
             // toolTip
             // 
@@ -413,21 +437,21 @@
             this.toolTip.SetToolTip(this.chkMyCDLC, "Show ONLY My CDLC ");
             this.chkMyCDLC.UseVisualStyleBackColor = true;
             // 
-            // btnBulkActions
+            // btnRepairOptions
             // 
-            this.btnBulkActions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnBulkActions.Image = global::CustomsForgeSongManager.Properties.Resources.SelectRow;
-            this.btnBulkActions.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnBulkActions.Location = new System.Drawing.Point(6, 6);
-            this.btnBulkActions.Name = "btnBulkActions";
-            this.btnBulkActions.Padding = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.btnBulkActions.Size = new System.Drawing.Size(101, 29);
-            this.btnBulkActions.TabIndex = 14;
-            this.btnBulkActions.Text = "Bulk Actions";
-            this.btnBulkActions.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.toolTip.SetToolTip(this.btnBulkActions, "Select a couple of songs and then apply an action.");
-            this.btnBulkActions.UseVisualStyleBackColor = true;
-            this.btnBulkActions.Click += new System.EventHandler(this.btnBulkActions_Click);
+            this.btnRepairOptions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnRepairOptions.Image = global::CustomsForgeSongManager.Properties.Resources.maintenance;
+            this.btnRepairOptions.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnRepairOptions.Location = new System.Drawing.Point(6, 6);
+            this.btnRepairOptions.Name = "btnRepairOptions";
+            this.btnRepairOptions.Padding = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.btnRepairOptions.Size = new System.Drawing.Size(126, 29);
+            this.btnRepairOptions.TabIndex = 14;
+            this.btnRepairOptions.Text = "Repair Options";
+            this.btnRepairOptions.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.toolTip.SetToolTip(this.btnRepairOptions, "Select some songs and then apply repair options.");
+            this.btnRepairOptions.UseVisualStyleBackColor = true;
+            this.btnRepairOptions.Click += new System.EventHandler(this.btnRepairOptions_Click);
             // 
             // lnkLblSelectAll
             // 
@@ -445,23 +469,6 @@
             this.toolTip.SetToolTip(this.lnkLblSelectAll, "ODLC are not selectable");
             this.lnkLblSelectAll.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkLblSelectAll_LinkClicked);
             // 
-            // btnRepairSongs
-            // 
-            this.btnRepairSongs.BackColor = System.Drawing.Color.GreenYellow;
-            this.btnRepairSongs.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRepairSongs.Image = ((System.Drawing.Image)(resources.GetObject("btnRepairSongs.Image")));
-            this.btnRepairSongs.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnRepairSongs.Location = new System.Drawing.Point(122, 5);
-            this.btnRepairSongs.Name = "btnRepairSongs";
-            this.btnRepairSongs.Padding = new System.Windows.Forms.Padding(5, 3, 0, 3);
-            this.btnRepairSongs.Size = new System.Drawing.Size(232, 32);
-            this.btnRepairSongs.TabIndex = 5;
-            this.btnRepairSongs.Text = "Repair 100% Mastery Bug in all DLCs";
-            this.toolTip.SetToolTip(this.btnRepairSongs, "Repair all CDLC that are located\r\ninside the \'dlc\' folder or subfolders.\r\n\r\nCheck" +
-        " the appropriate repair options.");
-            this.btnRepairSongs.UseVisualStyleBackColor = false;
-            this.btnRepairSongs.Click += new System.EventHandler(this.btnRepairSongs_Click);
-            // 
             // btnHelp
             // 
             this.btnHelp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -478,6 +485,37 @@
             this.btnHelp.UseVisualStyleBackColor = true;
             this.btnHelp.Click += new System.EventHandler(this.btnHelp_Click);
             // 
+            // btnRestoreOptions
+            // 
+            this.btnRestoreOptions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnRestoreOptions.Image = global::CustomsForgeSongManager.Properties.Resources.restorewindow;
+            this.btnRestoreOptions.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnRestoreOptions.Location = new System.Drawing.Point(165, 6);
+            this.btnRestoreOptions.Name = "btnRestoreOptions";
+            this.btnRestoreOptions.Padding = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.btnRestoreOptions.Size = new System.Drawing.Size(126, 29);
+            this.btnRestoreOptions.TabIndex = 24;
+            this.btnRestoreOptions.Text = "Restore Options";
+            this.btnRestoreOptions.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.toolTip.SetToolTip(this.btnRestoreOptions, "Restore original files so they can be repaired again.");
+            this.btnRestoreOptions.UseVisualStyleBackColor = true;
+            this.btnRestoreOptions.Click += new System.EventHandler(this.btnRestoreOptions_Click);
+            // 
+            // btnViewErrorLog
+            // 
+            this.btnViewErrorLog.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.btnViewErrorLog.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnViewErrorLog.Image = ((System.Drawing.Image)(resources.GetObject("btnViewErrorLog.Image")));
+            this.btnViewErrorLog.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnViewErrorLog.Location = new System.Drawing.Point(324, 6);
+            this.btnViewErrorLog.Name = "btnViewErrorLog";
+            this.btnViewErrorLog.Padding = new System.Windows.Forms.Padding(5, 3, 0, 3);
+            this.btnViewErrorLog.Size = new System.Drawing.Size(126, 29);
+            this.btnViewErrorLog.TabIndex = 25;
+            this.btnViewErrorLog.Text = "   View Error Log";
+            this.toolTip.SetToolTip(this.btnViewErrorLog, "Show \'remastered_error.log\' on the screen.");
+            this.btnViewErrorLog.UseVisualStyleBackColor = true;
+            // 
             // testToolStripMenuItem
             // 
             this.testToolStripMenuItem.Checked = true;
@@ -485,7 +523,7 @@
             this.testToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.testToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.testToolStripMenuItem.Name = "testToolStripMenuItem";
-            this.testToolStripMenuItem.Size = new System.Drawing.Size(96, 22);
+            this.testToolStripMenuItem.Size = new System.Drawing.Size(106, 22);
             this.testToolStripMenuItem.Text = "Test";
             // 
             // cmsRepairManagerColumns
@@ -493,102 +531,12 @@
             this.cmsRepairManagerColumns.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.testToolStripMenuItem});
             this.cmsRepairManagerColumns.Name = "cmsSongManagerColumns";
-            this.cmsRepairManagerColumns.Size = new System.Drawing.Size(97, 26);
-            // 
-            // cmsRepairManager
-            // 
-            this.cmsRepairManager.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.cmsRepairOnly,
-            this.cmsRepairAndAddDD,
-            this.restoreorgBackupsToolStripMenuItem,
-            this.restorecorBackupsToolStripMenuItem,
-            this.restoremaxBackupsToolStripMenuItem,
-            this.archiveCorruptCDLCToolStripMenuItem,
-            this.deleteCorruptCDLCToolStripMenuItem,
-            this.cleanupdlcFolderToolStripMenuItem,
-            this.cmsPitchShift});
-            this.cmsRepairManager.Name = "contextMenuStrip_MainManager";
-            this.cmsRepairManager.Size = new System.Drawing.Size(197, 202);
-            // 
-            // cmsRepairOnly
-            // 
-            this.cmsRepairOnly.Name = "cmsRepairOnly";
-            this.cmsRepairOnly.Size = new System.Drawing.Size(196, 22);
-            this.cmsRepairOnly.Text = "Repair only";
-            this.cmsRepairOnly.Click += new System.EventHandler(this.cmsRepairOnly_Click);
-            // 
-            // cmsRepairAndAddDD
-            // 
-            this.cmsRepairAndAddDD.Name = "cmsRepairAndAddDD";
-            this.cmsRepairAndAddDD.Size = new System.Drawing.Size(196, 22);
-            this.cmsRepairAndAddDD.Text = "Repair and add DD";
-            this.cmsRepairAndAddDD.Click += new System.EventHandler(this.cmsRepairAndAddDD_Click);
-            // 
-            // restoreorgBackupsToolStripMenuItem
-            // 
-            this.restoreorgBackupsToolStripMenuItem.Name = "restoreorgBackupsToolStripMenuItem";
-            this.restoreorgBackupsToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
-            this.restoreorgBackupsToolStripMenuItem.Text = "Restore (.org) Backups";
-            this.restoreorgBackupsToolStripMenuItem.Click += new System.EventHandler(this.restoreOrgBackupsToolStripMenuItem_Click);
-            // 
-            // restorecorBackupsToolStripMenuItem
-            // 
-            this.restorecorBackupsToolStripMenuItem.Name = "restorecorBackupsToolStripMenuItem";
-            this.restorecorBackupsToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
-            this.restorecorBackupsToolStripMenuItem.Text = "Restore (.cor) Backups";
-            this.restorecorBackupsToolStripMenuItem.Click += new System.EventHandler(this.restoreCorBackupsToolStripMenuItem_Click);
-            // 
-            // restoremaxBackupsToolStripMenuItem
-            // 
-            this.restoremaxBackupsToolStripMenuItem.Name = "restoremaxBackupsToolStripMenuItem";
-            this.restoremaxBackupsToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
-            this.restoremaxBackupsToolStripMenuItem.Text = "Restore (.max) Backups";
-            this.restoremaxBackupsToolStripMenuItem.Click += new System.EventHandler(this.restoreMaxBackupsToolStripMenuItem_Click);
-            // 
-            // archiveCorruptCDLCToolStripMenuItem
-            // 
-            this.archiveCorruptCDLCToolStripMenuItem.Name = "archiveCorruptCDLCToolStripMenuItem";
-            this.archiveCorruptCDLCToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
-            this.archiveCorruptCDLCToolStripMenuItem.Text = "Archive Corrupt CDLC";
-            this.archiveCorruptCDLCToolStripMenuItem.Click += new System.EventHandler(this.archiveCorruptCDLCToolStripMenuItem_Click);
-            // 
-            // deleteCorruptCDLCToolStripMenuItem
-            // 
-            this.deleteCorruptCDLCToolStripMenuItem.Name = "deleteCorruptCDLCToolStripMenuItem";
-            this.deleteCorruptCDLCToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
-            this.deleteCorruptCDLCToolStripMenuItem.Text = "Delete Corrupt CDLC";
-            this.deleteCorruptCDLCToolStripMenuItem.Click += new System.EventHandler(this.deleteCorruptCDLCToolStripMenuItem_Click);
-            // 
-            // cleanupdlcFolderToolStripMenuItem
-            // 
-            this.cleanupdlcFolderToolStripMenuItem.Name = "cleanupdlcFolderToolStripMenuItem";
-            this.cleanupdlcFolderToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
-            this.cleanupdlcFolderToolStripMenuItem.Text = "Cleanup \'dlc\' Folder";
-            this.cleanupdlcFolderToolStripMenuItem.Click += new System.EventHandler(this.cleanupDlcFolderToolStripMenuItem_Click);
-            // 
-            // cmsPitchShift
-            // 
-            this.cmsPitchShift.Name = "cmsPitchShift";
-            this.cmsPitchShift.Size = new System.Drawing.Size(196, 22);
-            this.cmsPitchShift.Text = "Beta - pitch shift";
-            this.cmsPitchShift.Click += new System.EventHandler(this.cmsPitchShift_Click);
-            // 
-            // chkTheMover
-            // 
-            this.chkTheMover.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.chkTheMover.AutoSize = true;
-            this.chkTheMover.Location = new System.Drawing.Point(478, 13);
-            this.chkTheMover.Name = "chkTheMover";
-            this.chkTheMover.Size = new System.Drawing.Size(241, 17);
-            this.chkTheMover.TabIndex = 20;
-            this.chkTheMover.Text = "\'The\' Mover e.g., The Beatles -> Beatles, The\r\n";
-            this.chkTheMover.UseVisualStyleBackColor = true;
-            this.chkTheMover.CheckedChanged += new System.EventHandler(this.chkTheMover_CheckedChanged);
+            this.cmsRepairManagerColumns.Size = new System.Drawing.Size(107, 26);
             // 
             // gb_Main_Actions
             // 
-            this.gb_Main_Actions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gb_Main_Actions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.gb_Main_Actions.Controls.Add(this.panelSongListButtons);
             this.gb_Main_Actions.Location = new System.Drawing.Point(4, 427);
             this.gb_Main_Actions.Name = "gb_Main_Actions";
@@ -600,10 +548,10 @@
             // panelSongListButtons
             // 
             this.panelSongListButtons.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelSongListButtons.Controls.Add(this.btnRepairSongs);
-            this.panelSongListButtons.Controls.Add(this.chkTheMover);
+            this.panelSongListButtons.Controls.Add(this.btnViewErrorLog);
+            this.panelSongListButtons.Controls.Add(this.btnRestoreOptions);
             this.panelSongListButtons.Controls.Add(this.chkMyCDLC);
-            this.panelSongListButtons.Controls.Add(this.btnBulkActions);
+            this.panelSongListButtons.Controls.Add(this.btnRepairOptions);
             this.panelSongListButtons.Location = new System.Drawing.Point(9, 13);
             this.panelSongListButtons.Name = "panelSongListButtons";
             this.panelSongListButtons.Size = new System.Drawing.Size(876, 41);
@@ -611,8 +559,8 @@
             // 
             // gb_Main_Search
             // 
-            this.gb_Main_Search.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gb_Main_Search.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.gb_Main_Search.Controls.Add(this.panelSearch);
             this.gb_Main_Search.Location = new System.Drawing.Point(4, 3);
             this.gb_Main_Search.Name = "gb_Main_Search";
@@ -623,9 +571,9 @@
             // 
             // panelSearch
             // 
-            this.panelSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.panelSearch.Controls.Add(this.btnHelp);
             this.panelSearch.Controls.Add(this.chkSubFolders);
             this.panelSearch.Controls.Add(this.lnkClearSearch);
@@ -665,9 +613,9 @@
             // 
             // lbl_Search
             // 
-            this.lbl_Search.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbl_Search.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.lbl_Search.AutoSize = true;
             this.lbl_Search.Location = new System.Drawing.Point(3, 9);
             this.lbl_Search.Name = "lbl_Search";
@@ -686,13 +634,13 @@
             this.cueSearch.TabIndex = 1;
             this.cueSearch.KeyUp += new System.Windows.Forms.KeyEventHandler(this.cueSearch_KeyUp);
             // 
-            // dgvSongsMaster
+            // dgvRepairManager
             // 
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.dgvSongsMaster.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.dgvSongsMaster.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgvRepairManager.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            this.dgvRepairManager.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -700,8 +648,8 @@
             dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvSongsMaster.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
-            this.dgvSongsMaster.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dgvRepairManager.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            this.dgvRepairManager.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colShowDetail,
             this.colKey,
             this.colSelect,
@@ -737,142 +685,19 @@
             this.colArtistSort,
             this.colTitleSort,
             this.colAlbumSort});
-            this.dgvSongsMaster.Location = new System.Drawing.Point(6, 19);
-            this.dgvSongsMaster.Name = "dgvSongsMaster";
-            this.dgvSongsMaster.RowHeadersVisible = false;
-            this.dgvSongsMaster.Size = new System.Drawing.Size(879, 308);
-            this.dgvSongsMaster.TabIndex = 1;
-            this.dgvSongsMaster.Tag = "Song Manager";
-            this.dgvSongsMaster.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSongsMaster_CellContentClick);
-            this.dgvSongsMaster.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongsMaster_CellMouseDown);
-            this.dgvSongsMaster.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongsMaster_CellMouseUp);
-            this.dgvSongsMaster.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongsMaster_ColumnHeaderMouseClick);
-            this.dgvSongsMaster.Sorted += new System.EventHandler(this.dgvSongsMaster_Sorted);
-            this.dgvSongsMaster.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvSongsMaster_KeyDown);
-            this.dgvSongsMaster.KeyUp += new System.Windows.Forms.KeyEventHandler(this.dgvSongsMaster_KeyUp);
-            // 
-            // dataGridViewImageColumn8
-            // 
-            this.dataGridViewImageColumn8.DataPropertyName = "Rhythm";
-            this.dataGridViewImageColumn8.HeaderText = "R";
-            this.dataGridViewImageColumn8.Image = global::CustomsForgeSongManager.Properties.Resources.Letter_R;
-            this.dataGridViewImageColumn8.MinimumWidth = 21;
-            this.dataGridViewImageColumn8.Name = "dataGridViewImageColumn8";
-            this.dataGridViewImageColumn8.ReadOnly = true;
-            this.dataGridViewImageColumn8.ToolTipText = "Rhythm";
-            this.dataGridViewImageColumn8.Width = 21;
-            // 
-            // gb_Main_Grid
-            // 
-            this.gb_Main_Grid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.gb_Main_Grid.Controls.Add(this.dgvSongsDetail);
-            this.gb_Main_Grid.Controls.Add(this.lnkLblSelectAll);
-            this.gb_Main_Grid.Controls.Add(this.dgvSongsMaster);
-            this.gb_Main_Grid.Controls.Add(this.lnklblToggle);
-            this.gb_Main_Grid.Location = new System.Drawing.Point(4, 67);
-            this.gb_Main_Grid.Name = "gb_Main_Grid";
-            this.gb_Main_Grid.Size = new System.Drawing.Size(891, 354);
-            this.gb_Main_Grid.TabIndex = 11;
-            this.gb_Main_Grid.TabStop = false;
-            this.gb_Main_Grid.Text = "Results Grid:";
-            // 
-            // dgvSongsDetail
-            // 
-            this.dgvSongsDetail.AllowUserToAddRows = false;
-            this.dgvSongsDetail.AllowUserToDeleteRows = false;
-            this.dgvSongsDetail.AllowUserToResizeColumns = false;
-            this.dgvSongsDetail.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells;
-            this.dgvSongsDetail.BackgroundColor = System.Drawing.Color.AliceBlue;
-            this.dgvSongsDetail.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvSongsDetail.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
-            this.dgvSongsDetail.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvSongsDetail.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.colDetailKey,
-            this.colDetailPID,
-            this.colDetailArrangement,
-            this.colDetailTuning,
-            this.colDetailSections,
-            this.colDetailDMax,
-            this.colDetailToneBase});
-            this.dgvSongsDetail.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
-            this.dgvSongsDetail.GridColor = System.Drawing.SystemColors.InfoText;
-            this.dgvSongsDetail.Location = new System.Drawing.Point(34, 86);
-            this.dgvSongsDetail.Name = "dgvSongsDetail";
-            this.dgvSongsDetail.ReadOnly = true;
-            this.dgvSongsDetail.RowHeadersVisible = false;
-            dataGridViewCellStyle8.BackColor = System.Drawing.Color.AliceBlue;
-            this.dgvSongsDetail.RowsDefaultCellStyle = dataGridViewCellStyle8;
-            this.dgvSongsDetail.RowTemplate.DefaultCellStyle.BackColor = System.Drawing.Color.AliceBlue;
-            this.dgvSongsDetail.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.dgvSongsDetail.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            this.dgvSongsDetail.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            this.dgvSongsDetail.Size = new System.Drawing.Size(813, 70);
-            this.dgvSongsDetail.TabIndex = 5;
-            this.dgvSongsDetail.Visible = false;
-            // 
-            // colDetailKey
-            // 
-            this.colDetailKey.DataPropertyName = "DLCKey";
-            this.colDetailKey.HeaderText = "DLC Key";
-            this.colDetailKey.Name = "colDetailKey";
-            this.colDetailKey.ReadOnly = true;
-            this.colDetailKey.Width = 95;
-            // 
-            // colDetailPID
-            // 
-            this.colDetailPID.DataPropertyName = "PersistentID";
-            this.colDetailPID.HeaderText = "Persistent ID";
-            this.colDetailPID.Name = "colDetailPID";
-            this.colDetailPID.ReadOnly = true;
-            this.colDetailPID.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colDetailPID.Width = 250;
-            // 
-            // colDetailArrangement
-            // 
-            this.colDetailArrangement.DataPropertyName = "Name";
-            this.colDetailArrangement.HeaderText = "Arrangement";
-            this.colDetailArrangement.Name = "colDetailArrangement";
-            this.colDetailArrangement.ReadOnly = true;
-            // 
-            // colDetailTuning
-            // 
-            this.colDetailTuning.DataPropertyName = "Tuning";
-            this.colDetailTuning.HeaderText = "Tuning";
-            this.colDetailTuning.Name = "colDetailTuning";
-            this.colDetailTuning.ReadOnly = true;
-            // 
-            // colDetailSections
-            // 
-            this.colDetailSections.DataPropertyName = "SectionCount";
-            this.colDetailSections.HeaderText = "Sections";
-            this.colDetailSections.Name = "colDetailSections";
-            this.colDetailSections.ReadOnly = true;
-            this.colDetailSections.Width = 60;
-            // 
-            // colDetailDMax
-            // 
-            this.colDetailDMax.DataPropertyName = "DMax";
-            this.colDetailDMax.HeaderText = "DMax";
-            this.colDetailDMax.Name = "colDetailDMax";
-            this.colDetailDMax.ReadOnly = true;
-            this.colDetailDMax.Width = 55;
-            // 
-            // colDetailToneBase
-            // 
-            this.colDetailToneBase.DataPropertyName = "ToneBase";
-            this.colDetailToneBase.HeaderText = "Tone Base";
-            this.colDetailToneBase.Name = "colDetailToneBase";
-            this.colDetailToneBase.ReadOnly = true;
-            this.colDetailToneBase.Width = 150;
+            this.dgvRepairManager.Location = new System.Drawing.Point(6, 19);
+            this.dgvRepairManager.Name = "dgvRepairManager";
+            this.dgvRepairManager.RowHeadersVisible = false;
+            this.dgvRepairManager.Size = new System.Drawing.Size(879, 308);
+            this.dgvRepairManager.TabIndex = 1;
+            this.dgvRepairManager.Tag = "Repair Manager";
+            this.dgvRepairManager.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSongsMaster_CellContentClick);
+            this.dgvRepairManager.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongsMaster_CellMouseDown);
+            this.dgvRepairManager.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongsMaster_CellMouseUp);
+            this.dgvRepairManager.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongsMaster_ColumnHeaderMouseClick);
+            this.dgvRepairManager.Sorted += new System.EventHandler(this.dgvSongsMaster_Sorted);
+            this.dgvRepairManager.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvSongsMaster_KeyDown);
+            this.dgvRepairManager.KeyUp += new System.Windows.Forms.KeyEventHandler(this.dgvSongsMaster_KeyUp);
             // 
             // colShowDetail
             // 
@@ -1211,6 +1036,177 @@
             this.colAlbumSort.Visible = false;
             this.colAlbumSort.Width = 50;
             // 
+            // dataGridViewImageColumn8
+            // 
+            this.dataGridViewImageColumn8.DataPropertyName = "Rhythm";
+            this.dataGridViewImageColumn8.HeaderText = "R";
+            this.dataGridViewImageColumn8.Image = global::CustomsForgeSongManager.Properties.Resources.Letter_R;
+            this.dataGridViewImageColumn8.MinimumWidth = 21;
+            this.dataGridViewImageColumn8.Name = "dataGridViewImageColumn8";
+            this.dataGridViewImageColumn8.ReadOnly = true;
+            this.dataGridViewImageColumn8.ToolTipText = "Rhythm";
+            this.dataGridViewImageColumn8.Width = 21;
+            // 
+            // gb_Main_Grid
+            // 
+            this.gb_Main_Grid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.gb_Main_Grid.Controls.Add(this.dgvSongsDetail);
+            this.gb_Main_Grid.Controls.Add(this.lnkLblSelectAll);
+            this.gb_Main_Grid.Controls.Add(this.dgvRepairManager);
+            this.gb_Main_Grid.Controls.Add(this.lnklblToggle);
+            this.gb_Main_Grid.Location = new System.Drawing.Point(4, 67);
+            this.gb_Main_Grid.Name = "gb_Main_Grid";
+            this.gb_Main_Grid.Size = new System.Drawing.Size(891, 354);
+            this.gb_Main_Grid.TabIndex = 11;
+            this.gb_Main_Grid.TabStop = false;
+            this.gb_Main_Grid.Text = "Results Grid:";
+            // 
+            // dgvSongsDetail
+            // 
+            this.dgvSongsDetail.AllowUserToAddRows = false;
+            this.dgvSongsDetail.AllowUserToDeleteRows = false;
+            this.dgvSongsDetail.AllowUserToResizeColumns = false;
+            this.dgvSongsDetail.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells;
+            this.dgvSongsDetail.BackgroundColor = System.Drawing.Color.AliceBlue;
+            this.dgvSongsDetail.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvSongsDetail.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            this.dgvSongsDetail.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvSongsDetail.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colDetailKey,
+            this.colDetailPID,
+            this.colDetailArrangement,
+            this.colDetailTuning,
+            this.colDetailSections,
+            this.colDetailDMax,
+            this.colDetailToneBase});
+            this.dgvSongsDetail.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
+            this.dgvSongsDetail.GridColor = System.Drawing.SystemColors.InfoText;
+            this.dgvSongsDetail.Location = new System.Drawing.Point(34, 86);
+            this.dgvSongsDetail.Name = "dgvSongsDetail";
+            this.dgvSongsDetail.ReadOnly = true;
+            this.dgvSongsDetail.RowHeadersVisible = false;
+            dataGridViewCellStyle8.BackColor = System.Drawing.Color.AliceBlue;
+            this.dgvSongsDetail.RowsDefaultCellStyle = dataGridViewCellStyle8;
+            this.dgvSongsDetail.RowTemplate.DefaultCellStyle.BackColor = System.Drawing.Color.AliceBlue;
+            this.dgvSongsDetail.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.dgvSongsDetail.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            this.dgvSongsDetail.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            this.dgvSongsDetail.Size = new System.Drawing.Size(813, 70);
+            this.dgvSongsDetail.TabIndex = 5;
+            this.dgvSongsDetail.Visible = false;
+            // 
+            // colDetailKey
+            // 
+            this.colDetailKey.DataPropertyName = "DLCKey";
+            this.colDetailKey.HeaderText = "DLC Key";
+            this.colDetailKey.Name = "colDetailKey";
+            this.colDetailKey.ReadOnly = true;
+            this.colDetailKey.Width = 95;
+            // 
+            // colDetailPID
+            // 
+            this.colDetailPID.DataPropertyName = "PersistentID";
+            this.colDetailPID.HeaderText = "Persistent ID";
+            this.colDetailPID.Name = "colDetailPID";
+            this.colDetailPID.ReadOnly = true;
+            this.colDetailPID.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colDetailPID.Width = 250;
+            // 
+            // colDetailArrangement
+            // 
+            this.colDetailArrangement.DataPropertyName = "Name";
+            this.colDetailArrangement.HeaderText = "Arrangement";
+            this.colDetailArrangement.Name = "colDetailArrangement";
+            this.colDetailArrangement.ReadOnly = true;
+            // 
+            // colDetailTuning
+            // 
+            this.colDetailTuning.DataPropertyName = "Tuning";
+            this.colDetailTuning.HeaderText = "Tuning";
+            this.colDetailTuning.Name = "colDetailTuning";
+            this.colDetailTuning.ReadOnly = true;
+            // 
+            // colDetailSections
+            // 
+            this.colDetailSections.DataPropertyName = "SectionCount";
+            this.colDetailSections.HeaderText = "Sections";
+            this.colDetailSections.Name = "colDetailSections";
+            this.colDetailSections.ReadOnly = true;
+            this.colDetailSections.Width = 60;
+            // 
+            // colDetailDMax
+            // 
+            this.colDetailDMax.DataPropertyName = "DMax";
+            this.colDetailDMax.HeaderText = "DMax";
+            this.colDetailDMax.Name = "colDetailDMax";
+            this.colDetailDMax.ReadOnly = true;
+            this.colDetailDMax.Width = 55;
+            // 
+            // colDetailToneBase
+            // 
+            this.colDetailToneBase.DataPropertyName = "ToneBase";
+            this.colDetailToneBase.HeaderText = "Tone Base";
+            this.colDetailToneBase.Name = "colDetailToneBase";
+            this.colDetailToneBase.ReadOnly = true;
+            this.colDetailToneBase.Width = 150;
+            // 
+            // cmsRestoreOptions
+            // 
+            this.cmsRestoreOptions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.RestoreOrgBackups,
+            this.RestoreCorBackups,
+            this.RestoreMaxBackups,
+            this.ArchiveCorCDLC,
+            this.DeleteCorCDLC,
+            this.CleanRsDlcFolder});
+            this.cmsRestoreOptions.Name = "cmsRestoreOptions";
+            this.cmsRestoreOptions.Size = new System.Drawing.Size(201, 136);
+            // 
+            // RestoreOrgBackups
+            // 
+            this.RestoreOrgBackups.Name = "RestoreOrgBackups";
+            this.RestoreOrgBackups.Size = new System.Drawing.Size(200, 22);
+            this.RestoreOrgBackups.Text = "Restore (.org) Backups";
+            // 
+            // RestoreCorBackups
+            // 
+            this.RestoreCorBackups.Name = "RestoreCorBackups";
+            this.RestoreCorBackups.Size = new System.Drawing.Size(200, 22);
+            this.RestoreCorBackups.Text = "Restore (.cor) Backups";
+            // 
+            // RestoreMaxBackups
+            // 
+            this.RestoreMaxBackups.Name = "RestoreMaxBackups";
+            this.RestoreMaxBackups.Size = new System.Drawing.Size(200, 22);
+            this.RestoreMaxBackups.Text = "Restore (.max) Backups";
+            // 
+            // ArchiveCorCDLC
+            // 
+            this.ArchiveCorCDLC.Name = "ArchiveCorCDLC";
+            this.ArchiveCorCDLC.Size = new System.Drawing.Size(200, 22);
+            this.ArchiveCorCDLC.Text = "Archive Corrupt CDLC";
+            // 
+            // DeleteCorCDLC
+            // 
+            this.DeleteCorCDLC.Name = "DeleteCorCDLC";
+            this.DeleteCorCDLC.Size = new System.Drawing.Size(200, 22);
+            this.DeleteCorCDLC.Text = "Delete Corrupt CDLC";
+            // 
+            // CleanRsDlcFolder
+            // 
+            this.CleanRsDlcFolder.Name = "CleanRsDlcFolder";
+            this.CleanRsDlcFolder.Size = new System.Drawing.Size(200, 22);
+            this.CleanRsDlcFolder.Text = "Cleanup \'dlc\' Folder";
+            // 
             // RepairManager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1220,19 +1216,19 @@
             this.Controls.Add(this.gb_Main_Grid);
             this.Name = "RepairManager";
             this.Size = new System.Drawing.Size(899, 490);
-            this.cmsSelection.ResumeLayout(false);
+            this.cmsRepairOptons.ResumeLayout(false);
             this.cmsRepairManagerColumns.ResumeLayout(false);
-            this.cmsRepairManager.ResumeLayout(false);
             this.gb_Main_Actions.ResumeLayout(false);
             this.panelSongListButtons.ResumeLayout(false);
             this.panelSongListButtons.PerformLayout();
             this.gb_Main_Search.ResumeLayout(false);
             this.panelSearch.ResumeLayout(false);
             this.panelSearch.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvSongsMaster)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvRepairManager)).EndInit();
             this.gb_Main_Grid.ResumeLayout(false);
             this.gb_Main_Grid.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSongsDetail)).EndInit();
+            this.cmsRestoreOptions.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1264,19 +1260,17 @@
         private System.Windows.Forms.ToolStripMenuItem repairAndAddDDToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem RepairOnlyToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem betaPitchShiftToolStripMenuItem;
-        private System.Windows.Forms.ContextMenuStrip cmsSelection;
+        private System.Windows.Forms.ContextMenuStrip cmsRepairOptons;
         private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.LinkLabel lnklblToggle;
         private System.Windows.Forms.CheckBox chkMyCDLC;
-        private System.Windows.Forms.Button btnBulkActions;
+        private System.Windows.Forms.Button btnRepairOptions;
         private System.Windows.Forms.LinkLabel lnkLblSelectAll;
         private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip cmsRepairManagerColumns;
-        private System.Windows.Forms.ContextMenuStrip cmsRepairManager;
         private System.Windows.Forms.ToolStripMenuItem cmsPitchShift;
         private System.Windows.Forms.ToolStripMenuItem cmsRepairOnly;
         private System.Windows.Forms.ToolStripMenuItem cmsRepairAndAddDD;
-        private System.Windows.Forms.CheckBox chkTheMover;
         private System.Windows.Forms.GroupBox gb_Main_Actions;
         private System.Windows.Forms.Panel panelSongListButtons;
         private System.Windows.Forms.GroupBox gb_Main_Search;
@@ -1285,17 +1279,10 @@
         private System.Windows.Forms.LinkLabel lnkClearSearch;
         private System.Windows.Forms.Label lbl_Search;
         private DataGridViewTools.CueTextBox cueSearch;
-        private DataGridViewTools.RADataGridView dgvSongsMaster;
+        private DataGridViewTools.RADataGridView dgvRepairManager;
         private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn8;
         private System.Windows.Forms.GroupBox gb_Main_Grid;
-        private System.Windows.Forms.Button btnRepairSongs;
-        private System.Windows.Forms.ToolStripMenuItem restoreorgBackupsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem restorecorBackupsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem restoremaxBackupsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem archiveCorruptCDLCToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem deleteCorruptCDLCToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem cleanupdlcFolderToolStripMenuItem;
-        private System.Windows.Forms.Button btnHelp;
+         private System.Windows.Forms.Button btnHelp;
         private System.Windows.Forms.DataGridView dgvSongsDetail;
         private System.Windows.Forms.DataGridViewTextBoxColumn colDetailKey;
         private System.Windows.Forms.DataGridViewTextBoxColumn colDetailPID;
@@ -1339,5 +1326,14 @@
         private DataGridViewTools.DataGridViewAutoFilterTextBoxColumn colArtistSort;
         private DataGridViewTools.DataGridViewAutoFilterTextBoxColumn colTitleSort;
         private DataGridViewTools.DataGridViewAutoFilterTextBoxColumn colAlbumSort;
+        private System.Windows.Forms.Button btnRestoreOptions;
+        private System.Windows.Forms.ContextMenuStrip cmsRestoreOptions;
+        private System.Windows.Forms.ToolStripMenuItem RestoreOrgBackups;
+        private System.Windows.Forms.ToolStripMenuItem RestoreCorBackups;
+        private System.Windows.Forms.ToolStripMenuItem RestoreMaxBackups;
+        private System.Windows.Forms.ToolStripMenuItem ArchiveCorCDLC;
+        private System.Windows.Forms.ToolStripMenuItem DeleteCorCDLC;
+        private System.Windows.Forms.ToolStripMenuItem CleanRsDlcFolder;
+        private System.Windows.Forms.Button btnViewErrorLog;
     }
 }

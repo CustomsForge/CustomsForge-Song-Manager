@@ -525,7 +525,8 @@ namespace CustomsForgeSongManager.UControls
 
             // this is done here in case user decided to manually delete all songs
             // the default initial load condition does not include RS1 Compatiblity or SongPack files
-            var dlcFiles = Directory.EnumerateFiles(Constants.Rs2DlcFolder, "*.psarc", SearchOption.AllDirectories).Where(fi => !fi.ToLower().Contains(Constants.RS1COMP) && !fi.ToLower().Contains(Constants.SONGPACK) && !fi.ToLower().Contains(Constants.ABVSONGPACK)).ToArray();
+            var dlcFiles = Directory.EnumerateFiles(Constants.Rs2DlcFolder, "*.psarc", SearchOption.AllDirectories).ToList();
+            dlcFiles = dlcFiles.Where(fi => !fi.ToLower().Contains(Constants.RS1COMP) && !fi.ToLower().Contains(Constants.SONGPACK) && !fi.ToLower().Contains(Constants.ABVSONGPACK)).ToList();
             if (!dlcFiles.Any())
             {
                 var msgText = string.Format("Houston ... We have a problem!{0}There are no Rocksmith 2014 songs in:" + "{0}{1}{0}{0}Please select a valid Rocksmith 2014{0}installation directory when you restart CFSM.  ", Environment.NewLine, Constants.Rs2DlcFolder);
@@ -1608,7 +1609,7 @@ namespace CustomsForgeSongManager.UControls
                 using (var psarcOld = new PsarcPackager())
                     packageData = psarcOld.ReadPackage(srcFilePath);
 
-                if (!createNewFile && packageData.PackageComment.Contains(pitchShiftedMessage))
+                if (!createNewFile && packageData.ToolkitInfo.PackageComment.Contains(pitchShiftedMessage))
                 {
                     Globals.Log(" - This song has already been patched! ");
                     rSkipped++;

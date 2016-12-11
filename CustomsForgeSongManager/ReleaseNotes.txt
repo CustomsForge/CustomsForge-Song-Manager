@@ -1,4 +1,10 @@
 ﻿CFSM Release Notes
+
+1.2.8.2
+- RepairManager for Dev review
+- Added cmsRepairOptions and cmsRestoreOptions
+- Fixed issues with dgvRepairManager not working with Settings tab
+
 1.2.8.1
 - added new Repairs  Manager tab with all repair options in one place
 - removed repair options from Song Manager
