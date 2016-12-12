@@ -458,7 +458,7 @@ namespace CustomsForgeSongManager.UControls
 
         private void PrepareDropdown()
         {
-            tagToolStripMenuItem.DropDownItems.Clear();
+            tsmiTagArtwork.DropDownItems.Clear();
 
             foreach (var x in Globals.Tagger.Themes)
             {
@@ -484,7 +484,7 @@ namespace CustomsForgeSongManager.UControls
                         }
                     };
 
-                tagToolStripMenuItem.DropDownItems.Add(mi);
+                tsmiTagArtwork.DropDownItems.Add(mi);
             }
         }
 
@@ -648,11 +648,9 @@ namespace CustomsForgeSongManager.UControls
 
         private void ToggleUIControls(bool enable)
         {
-            GenExtensions.InvokeIfRequired(btnRescan, delegate { btnRescan.Enabled = enable; });
             GenExtensions.InvokeIfRequired(btnCheckAllForUpdates, delegate { btnCheckAllForUpdates.Enabled = enable; });
             GenExtensions.InvokeIfRequired(cueSearch, delegate { cueSearch.Enabled = enable; });
-            GenExtensions.InvokeIfRequired(btnBulkActions, delegate { btnBulkActions.Enabled = enable; });
-            GenExtensions.InvokeIfRequired(cmsSelection, delegate { cmsSelection.Enabled = enable; });
+            GenExtensions.InvokeIfRequired(menuStrip, delegate { menuStrip.Enabled = enable; });
             GenExtensions.InvokeIfRequired(lnkLblSelectAll, delegate { lnkLblSelectAll.Enabled = enable; });
             GenExtensions.InvokeIfRequired(lnkClearSearch, delegate { lnkClearSearch.Enabled = enable; });
         }
@@ -678,13 +676,13 @@ namespace CustomsForgeSongManager.UControls
 
         public void btnBulkActions_Click(object sender, EventArgs e)
         {
-            if (tagToolStripMenuItem.DropDownItems.Count == 0)
+            if (tsmiTagArtwork.DropDownItems.Count == 0)
             {
                 Cursor = Cursors.WaitCursor;
                 PrepareDropdown();
                 Cursor = Cursors.Default;
             }
-            cmsSelection.Show(btnBulkActions, 0, btnBulkActions.Height + 2);
+            // cmsSelection.Show(btnBulkActions, 0, btnBulkActions.Height + 2);
         }
 
         private void TaggerProgress(object sender, TaggerProgress e)
@@ -758,7 +756,7 @@ namespace CustomsForgeSongManager.UControls
             GenExtensions.InvokeIfRequired(this, delegate { Globals.TsLabel_Cancel.Visible = false; });
         }
 
-        private void btnDeleteSongs_Click(object sender, EventArgs e)
+        private void tsmiFilesDelete_Click(object sender, EventArgs e)
         {
             bool safe2Delete = false;
 
@@ -859,18 +857,6 @@ namespace CustomsForgeSongManager.UControls
             Globals.RescanRenamer = true;
         }
 
-        private void btnRescan_Click(object sender, EventArgs e)
-        {
-            bindingCompleted = false;
-            dgvPainted = false;
-            Rescan(System.Windows.Forms.Control.ModifierKeys == Keys.Control);
-            PopulateDataGridView();
-            UpdateToolStrip();
-            Globals.ReloadDuplicates = true;
-            Globals.ReloadSetlistManager = true;
-            Globals.ReloadRenamer = true;
-        }
-
         private void chkMyCDLC_CheckedChanged(object sender, EventArgs e)
         {
             var charterName = AppSettings.Instance.CharterName;
@@ -939,14 +925,14 @@ namespace CustomsForgeSongManager.UControls
             counterStopwatch.Stop();
         }
 
-        private void chkEnableDelete_CheckedChanged(object sender, EventArgs e)
+        private void tsmiEnableDelete_CheckedChanged(object sender, EventArgs e)
         {
-            btnDeleteSongs.Enabled = chkEnableDelete.Checked;
+            tsmiFilesDelete.Enabled = tsmiEnableDelete.Checked;
 
-            if (btnDeleteSongs.Enabled)
-                btnDeleteSongs.BackColor = Color.Red;
+            if (tsmiFilesDelete.Enabled)
+                tsmiFilesDelete.BackColor = Color.Red;
             else
-                btnDeleteSongs.BackColor = SystemColors.Control;
+                tsmiFilesDelete.BackColor = SystemColors.Control;
         }
 
         private void chkSubFolders_MouseUp(object sender, MouseEventArgs e)
@@ -1733,5 +1719,32 @@ namespace CustomsForgeSongManager.UControls
                     Application.DoEvents();
             }
         }
+
+        private void tsmiQuickRescan_Click(object sender, EventArgs e)
+        {
+            RefreshDgv(false);
+        }
+
+        private void tsmiFullRescan_Click(object sender, EventArgs e)
+        {
+            RefreshDgv(true);
+        }
+
+        private void RefreshDgv(bool fullRescan)
+        {
+            bindingCompleted = false;
+            dgvPainted = false;
+            Rescan(System.Windows.Forms.Control.ModifierKeys == Keys.Control);
+            PopulateDataGridView();
+            UpdateToolStrip();
+            Globals.ReloadDuplicates = true;
+            Globals.ReloadSetlistManager = true;
+            Globals.ReloadRenamer = true;
+        }
+
+  
+
+ 
+
     }
 }

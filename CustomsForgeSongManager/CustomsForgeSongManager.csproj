@@ -274,6 +274,9 @@
     <Compile Include="LocalTools\Ignition.cs" />
     <Compile Include="LocalTools\PsarcBrowser.cs" />
     <Compile Include="LocalTools\SongTagger.cs" />
+    <Compile Include="LocalTools\ToolStripEnhancedMenuItem.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

@@ -138,6 +138,7 @@
             this.ArchiveCorCDLC = new System.Windows.Forms.ToolStripMenuItem();
             this.DeleteCorCDLC = new System.Windows.Forms.ToolStripMenuItem();
             this.CleanRsDlcFolder = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnTweakOptions = new System.Windows.Forms.Button();
             this.cmsRepairOptons.SuspendLayout();
             this.cmsRepairManagerColumns.SuspendLayout();
             this.gb_Main_Actions.SuspendLayout();
@@ -445,7 +446,7 @@
             this.btnRepairOptions.Location = new System.Drawing.Point(6, 6);
             this.btnRepairOptions.Name = "btnRepairOptions";
             this.btnRepairOptions.Padding = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.btnRepairOptions.Size = new System.Drawing.Size(126, 29);
+            this.btnRepairOptions.Size = new System.Drawing.Size(119, 29);
             this.btnRepairOptions.TabIndex = 14;
             this.btnRepairOptions.Text = "Repair Options";
             this.btnRepairOptions.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -490,10 +491,10 @@
             this.btnRestoreOptions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnRestoreOptions.Image = global::CustomsForgeSongManager.Properties.Resources.restorewindow;
             this.btnRestoreOptions.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnRestoreOptions.Location = new System.Drawing.Point(165, 6);
+            this.btnRestoreOptions.Location = new System.Drawing.Point(300, 6);
             this.btnRestoreOptions.Name = "btnRestoreOptions";
             this.btnRestoreOptions.Padding = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.btnRestoreOptions.Size = new System.Drawing.Size(126, 29);
+            this.btnRestoreOptions.Size = new System.Drawing.Size(119, 29);
             this.btnRestoreOptions.TabIndex = 24;
             this.btnRestoreOptions.Text = "Restore Options";
             this.btnRestoreOptions.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -507,14 +508,15 @@
             this.btnViewErrorLog.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnViewErrorLog.Image = ((System.Drawing.Image)(resources.GetObject("btnViewErrorLog.Image")));
             this.btnViewErrorLog.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnViewErrorLog.Location = new System.Drawing.Point(324, 6);
+            this.btnViewErrorLog.Location = new System.Drawing.Point(447, 6);
             this.btnViewErrorLog.Name = "btnViewErrorLog";
             this.btnViewErrorLog.Padding = new System.Windows.Forms.Padding(5, 3, 0, 3);
-            this.btnViewErrorLog.Size = new System.Drawing.Size(126, 29);
+            this.btnViewErrorLog.Size = new System.Drawing.Size(119, 29);
             this.btnViewErrorLog.TabIndex = 25;
             this.btnViewErrorLog.Text = "   View Error Log";
             this.toolTip.SetToolTip(this.btnViewErrorLog, "Show \'remastered_error.log\' on the screen.");
             this.btnViewErrorLog.UseVisualStyleBackColor = true;
+            this.btnViewErrorLog.Click += new System.EventHandler(this.btnViewErrorLog_Click);
             // 
             // testToolStripMenuItem
             // 
@@ -548,6 +550,7 @@
             // panelSongListButtons
             // 
             this.panelSongListButtons.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelSongListButtons.Controls.Add(this.btnTweakOptions);
             this.panelSongListButtons.Controls.Add(this.btnViewErrorLog);
             this.panelSongListButtons.Controls.Add(this.btnRestoreOptions);
             this.panelSongListButtons.Controls.Add(this.chkMyCDLC);
@@ -1207,6 +1210,22 @@
             this.CleanRsDlcFolder.Size = new System.Drawing.Size(200, 22);
             this.CleanRsDlcFolder.Text = "Cleanup \'dlc\' Folder";
             // 
+            // btnTweakOptions
+            // 
+            this.btnTweakOptions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnTweakOptions.Image = global::CustomsForgeSongManager.Properties.Resources.maintenance;
+            this.btnTweakOptions.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnTweakOptions.Location = new System.Drawing.Point(153, 6);
+            this.btnTweakOptions.Name = "btnTweakOptions";
+            this.btnTweakOptions.Padding = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.btnTweakOptions.Size = new System.Drawing.Size(119, 29);
+            this.btnTweakOptions.TabIndex = 26;
+            this.btnTweakOptions.Text = "Tweak Options";
+            this.btnTweakOptions.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.toolTip.SetToolTip(this.btnTweakOptions, "Select some songs and then apply repair options.");
+            this.btnTweakOptions.UseVisualStyleBackColor = true;
+            this.btnTweakOptions.Click += new System.EventHandler(this.btnTweakOptions_Click);
+            // 
             // RepairManager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1335,5 +1354,6 @@
         private System.Windows.Forms.ToolStripMenuItem DeleteCorCDLC;
         private System.Windows.Forms.ToolStripMenuItem CleanRsDlcFolder;
         private System.Windows.Forms.Button btnViewErrorLog;
+        private System.Windows.Forms.Button btnTweakOptions;
     }
 }

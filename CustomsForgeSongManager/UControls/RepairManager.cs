@@ -1233,6 +1233,7 @@ namespace CustomsForgeSongManager.UControls
             return null;
         }
         #endregion
+       
         #region Repair methods
         private bool RemasterSong(string srcFilePath, ref StringBuilder sbErrors, byte ArrCheckByte = 0x0, bool PreserveStats = true, bool RepairOrg = false, bool IgnoreMultitoneEx = true, bool AddDD = true, bool RepairMaxFive = true, bool IgnoreLimit = false, SettingsDDC SettingsDD = null, bool ReapplyDD = false)
         {
@@ -1962,6 +1963,34 @@ namespace CustomsForgeSongManager.UControls
         public DataGridView GetGrid()
         {
             return dgvRepairManager;
+        }
+
+        private void btnViewErrorLog_Click(object sender, EventArgs e)
+        {
+            string stringLog;
+
+            if (!File.Exists(Constants.RemasteredErrorLogPath))
+                stringLog = Path.GetFileName(Constants.RemasteredErrorLogPath) + " is empty ...";
+            else
+            {
+                stringLog = Constants.RemasteredErrorLogPath + Environment.NewLine;
+                stringLog = stringLog + File.ReadAllText(Constants.RemasteredErrorLogPath);
+                stringLog = stringLog + Environment.NewLine + AppSettings.Instance.LogFilePath + Environment.NewLine;
+                stringLog = stringLog + File.ReadAllText(AppSettings.Instance.LogFilePath);
+            }
+
+
+            using (var noteViewer = new frmNoteViewer())
+            {
+                noteViewer.Width = 700;
+                noteViewer.PopulateText(stringLog);
+                noteViewer.ShowDialog();
+            }
+        }
+
+        private void btnTweakOptions_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
