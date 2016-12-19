@@ -186,31 +186,11 @@
     <Compile Include="Forms\frmCODLCDuplicates.Designer.cs">
       <DependentUpon>frmCODLCDuplicates.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmRepairOptions.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\frmRepairOptions.Designer.cs">
-      <DependentUpon>frmRepairOptions.cs</DependentUpon>
-    </Compile>
+    <Compile Include="LocalTools\FileTools.cs" />
     <Compile Include="LocalTools\DynamicDifficulty.cs" />
     <Compile Include="LocalTools\GenericWorker.cs" />
     <Compile Include="LocalTools\LocalExtensions.cs" />
     <Compile Include="LocalTools\AbortableBackgroundWorker.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="LocalTools\BetterDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="LocalTools\BetterDialog.designer.cs">
-      <DependentUpon>BetterDialog.cs</DependentUpon>
-    </Compile>
-    <Compile Include="LocalTools\ComboBoxPopup.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="LocalTools\ComboBoxPopup.Designer.cs">
-      <DependentUpon>ComboBoxPopup.cs</DependentUpon>
-    </Compile>
-    <Compile Include="LocalTools\CueTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="DataObjects\AppSettings.cs" />
@@ -264,19 +244,16 @@
     <Compile Include="Forms\frmProfileBackups.Designer.cs">
       <DependentUpon>frmProfileBackups.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmSongBatchEdit.cs">
+    <Compile Include="Forms\frmModAppId.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmSongBatchEdit.Designer.cs">
-      <DependentUpon>frmSongBatchEdit.cs</DependentUpon>
+    <Compile Include="Forms\frmModAppId.Designer.cs">
+      <DependentUpon>frmModAppId.cs</DependentUpon>
     </Compile>
     <Compile Include="DataObjects\Globals.cs" />
     <Compile Include="LocalTools\Ignition.cs" />
     <Compile Include="LocalTools\PsarcBrowser.cs" />
-    <Compile Include="LocalTools\SongTagger.cs" />
-    <Compile Include="LocalTools\ToolStripEnhancedMenuItem.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="LocalTools\TaggerTools.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -353,18 +330,6 @@
     <Compile Include="SongEditor\ucTones.Designer.cs">
       <DependentUpon>ucTones.cs</DependentUpon>
     </Compile>
-    <Compile Include="UControls\BulkRepairs.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UControls\BulkRepairs.Designer.cs">
-      <DependentUpon>BulkRepairs.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UControls\RepairManager.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UControls\RepairManager.Designer.cs">
-      <DependentUpon>RepairManager.cs</DependentUpon>
-    </Compile>
     <Compile Include="UControls\SongPacks.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -431,21 +396,11 @@
     <EmbeddedResource Include="Forms\frmCODLCDuplicates.resx">
       <DependentUpon>frmCODLCDuplicates.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmRepairOptions.resx">
-      <DependentUpon>frmRepairOptions.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="LocalTools\BetterDialog.resx">
-      <DependentUpon>BetterDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="LocalTools\ComboBoxPopup.resx">
-      <DependentUpon>ComboBoxPopup.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmProfileBackups.resx">
       <DependentUpon>frmProfileBackups.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmSongBatchEdit.resx">
-      <DependentUpon>frmSongBatchEdit.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\frmModAppId.resx">
+      <DependentUpon>frmModAppId.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ClickOnceUpgrade.resx">
       <DependentUpon>ClickOnceUpgrade.cs</DependentUpon>
@@ -499,12 +454,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SongEditor\ucTones.resx">
       <DependentUpon>ucTones.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UControls\BulkRepairs.resx">
-      <DependentUpon>BulkRepairs.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UControls\RepairManager.resx">
-      <DependentUpon>RepairManager.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UControls\SongPacks.resx">
       <DependentUpon>SongPacks.cs</DependentUpon>
@@ -619,7 +568,6 @@
     <None Include="Resources\SelectCol.png" />
     <None Include="Resources\maintenance_48.png" />
     <None Include="Resources\restorebackup.png" />
-    <None Include="Resources\File Types Zip1.ico" />
     <None Include="Resources\restorewindow.png" />
     <None Include="Resources\delete2.png" />
     <None Include="Resources\log.png" />
@@ -729,10 +677,6 @@
       <Project>{6D8C3FE6-5855-4B6C-BD2B-51954342DBEE}</Project>
       <Name>CFSM.AudioTools</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CFSM.Libraries\CFSM.GenTools\CFSM.GenTools.csproj">
-      <Project>{21357BB0-4C21-4244-AF9F-DD59FC0F616A}</Project>
-      <Name>CFSM.GenTools</Name>
-    </ProjectReference>
     <ProjectReference Include="..\CFSM.Libraries\CFSM.ImageTools\CFSM.ImageTools.csproj">
       <Project>{E6565985-C477-46F4-8A42-08E04CD40B65}</Project>
       <Name>CFSM.ImageTools</Name>
@@ -741,6 +685,10 @@
       <Project>{B59A7CDF-086B-4B94-A917-4CFA4D42F981}</Project>
       <Name>CFSM.RSTKLib</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CFSM.Libraries\CustomControls\CustomControls.csproj">
+      <Project>{CBB57466-4341-49BC-A61D-43A7CC656A95}</Project>
+      <Name>CustomControls</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CFSM.Libraries\DataGridViewTools\DataGridViewTools.csproj">
       <Project>{5A4B4B14-D3B5-4D54-80EC-0877C1E6E73A}</Project>
       <Name>DataGridViewTools</Name>
@@ -748,6 +696,10 @@
     <ProjectReference Include="..\CFSM.Libraries\DF.WinForms.ThemeLib\DF.WinForms.ThemeLib.csproj">
       <Project>{E3A2283B-A2B8-46E5-AF49-DF6CD156EB0D}</Project>
       <Name>DF.WinForms.ThemeLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CFSM.Libraries\GenTools\GenTools.csproj">
+      <Project>{41EA9CF7-BF72-4243-98A8-5BF16BCD90AD}</Project>
+      <Name>GenTools</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

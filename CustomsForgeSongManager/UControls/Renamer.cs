@@ -7,7 +7,8 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Reflection;
-using CFSM.GenTools;
+using CustomControls;
+using GenTools;
 using CustomsForgeSongManager.DataObjects;
 using CustomsForgeSongManager.LocalTools;
 using Newtonsoft.Json;
@@ -127,7 +128,7 @@ namespace CustomsForgeSongManager.UControls
                 var dialogMsg = "New file path: " + newFilePath + Environment.NewLine + Environment.NewLine +
                     "is not valid.  Check file path for excessive length and/or invalid characters try again.";
                 var iconMsg = "Warning: File Path Length May Exceed System Capabilities";
-                BetterDialog.ShowDialog(dialogMsg, "Renamer", "OK", null, null, Bitmap.FromHicon(SystemIcons.Warning.Handle), iconMsg, 150, 150);
+                BetterDialog2.ShowDialog(dialogMsg, "Renamer", "OK", null, null, Bitmap.FromHicon(SystemIcons.Warning.Handle), iconMsg, 150, 150);
             }
 
             return newFilePath;

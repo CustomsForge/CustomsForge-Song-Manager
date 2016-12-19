@@ -6,10 +6,11 @@ using System.Reflection;
 using System.Linq;
 using System.Text;
 using System.Collections.Generic;
-using CFSM.GenTools;
+using GenTools;
 using CustomsForgeSongManager.DataObjects;
 using CustomsForgeSongManager.LocalTools;
 using CustomsForgeSongManager.UITheme;
+
 
 // NOTE: the app is designed for default user screen resolution of 1024x768
 // dev screen resolution should be set to this when designing forms and controls
@@ -283,22 +284,6 @@ namespace CustomsForgeSongManager.Forms
                     Globals.SongPacks.Location = UCLocation;
                     Globals.SongPacks.Size = UCSize;
                     currentControl = Globals.SongPacks;
-                    break;
-                case "Bulk Repairs":
-                    this.tpRepairs.Controls.Clear();
-                    this.tpRepairs.Controls.Add(Globals.BulkRepairs);
-                    Globals.BulkRepairs.Dock = DockStyle.Fill;
-                    Globals.BulkRepairs.Location = UCLocation;
-                    Globals.BulkRepairs.Size = UCSize;
-                    currentControl = Globals.BulkRepairs;
-                    break;
-                case "Repair Manager":
-                    this.tpRepairManager.Controls.Clear();
-                    this.tpRepairManager.Controls.Add(Globals.RepairManager);
-                    Globals.RepairManager.Dock = DockStyle.Fill;
-                    Globals.RepairManager.Location = UCLocation;
-                    Globals.RepairManager.Size = UCSize;
-                    currentControl = Globals.RepairManager;
                     break;
                 case "Settings":
                     this.tpSettings.Controls.Clear();

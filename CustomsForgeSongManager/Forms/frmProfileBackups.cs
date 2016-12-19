@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using CustomControls;
 using CustomsForgeSongManager.DataObjects;
 using System.IO;
 using CustomsForgeSongManager.LocalTools;
@@ -28,7 +29,7 @@ namespace CustomsForgeSongManager.Forms
 
         private void btnDeleteBackup_Click(object sender, EventArgs e)
         {
-            if (DialogResult.No == BetterDialog.ShowDialog("Delete selected backups?", "Delete Backups", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Question.Handle), "Pick One", 150, 150))
+            if (DialogResult.No == BetterDialog2.ShowDialog("Delete selected backups?", "Delete Backups", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Question.Handle), "Pick One", 150, 150))
                 return;
 
             try
@@ -67,7 +68,7 @@ namespace CustomsForgeSongManager.Forms
                     RocksmithProfile.RestoreBackup(dgvProfileBackups.Rows[index].Cells["colPath"].Value.ToString(), AppSettings.Instance.RSProfileDir);
                 }
                 else
-                    BetterDialog.ShowDialog("Select a single profile to restore.", "Restore Backups", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning", 150, 150);
+                    BetterDialog2.ShowDialog("Select a single profile to restore.", "Restore Backups", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning", 150, 150);
             }
         }
 

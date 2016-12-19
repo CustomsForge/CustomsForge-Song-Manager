@@ -5,7 +5,7 @@ using System.IO;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using CustomsForgeSongManager.LocalTools;
-using CFSM.GenTools;
+using GenTools;
 using DataGridViewTools;
 
 namespace CustomsForgeSongManager.DataObjects
@@ -32,23 +32,7 @@ namespace CustomsForgeSongManager.DataObjects
         private bool _showSetlistSongs;
         private string _downloadsDir;
         private DateTime _lastODLCCheckDate;
-
-        //Repairs
-        private bool _skipRepaired;
-        private bool _preserveStats;
-        private bool _ignoreMultiToneExceptions;
-        private bool _reapplyDD;
-        private int _phraseLenght;
-        private string _cfgPath;
-        private string _rampUpPath;
-        private bool _repairMax5;
-        private bool _removeSus;
-        private bool _removeNDD;
-        private bool _removeBass;
-        private bool _removeGuitar;
-        private bool _removeBonus;
-        private bool _removeMetronome;
-        private bool _ignoreStopLimit;
+        private RepairOptions _repairOptions;
 
         [Browsable(false)]
         public string LogFilePath { get; set; }
@@ -185,102 +169,15 @@ namespace CustomsForgeSongManager.DataObjects
             set { SetPropertyField("ShowSetlistSongs", ref _showSetlistSongs, value); }
         }
 
-
-        //--> Repairs settings
-        public bool SkipRepaired
-        {
-            get { return _skipRepaired; }
-            set { SetPropertyField("SkipRepaired", ref _skipRepaired, value); }
-        }
-
-        public bool PreserveStats
-        {
-            get { return _preserveStats; }
-            set { SetPropertyField("PreserveStats", ref _preserveStats, value); }
-        }
-
-        public bool IgnoreMultiToneExceptions
-        {
-            get { return _ignoreMultiToneExceptions; }
-            set { SetPropertyField("IgnoreMultiToneExceptions", ref _ignoreMultiToneExceptions, value); }
-        }
-
-        public bool ReapplyDD
-        {
-            get { return _reapplyDD; }
-            set { SetPropertyField("ReapplyDD", ref _reapplyDD, value); }
-        }
-
-        public int PhraseLenght
-        {
-            get { return _phraseLenght; }
-            set { SetPropertyField("PhraseLenght", ref _phraseLenght, value); }
-        }
-
-        public string CFGPath
-        {
-            get { return _cfgPath; }
-            set { SetPropertyField("CFGPath", ref _cfgPath, value); }
-        }
-
-        public string RampUpPath
-        {
-            get { return _rampUpPath; }
-            set { SetPropertyField("RampUpPath", ref _rampUpPath, value); }
-        }
-
-        public bool RemoveSus
-        {
-            get { return _removeSus; }
-            set { SetPropertyField("RemoveSus", ref _removeSus, value); }
-        }
-
-        public bool RepairMax5
-        {
-            get { return _repairMax5; }
-            set { SetPropertyField("RepairMax5", ref _repairMax5, value); }
-        }
-
-        public bool RemoveNDD
-        {
-            get { return _removeNDD; }
-            set { SetPropertyField("RemoveNDDArr", ref _removeNDD, value); }
-        }
-
-        public bool RemoveBass
-        {
-            get { return _removeBass; }
-            set { SetPropertyField("RemoveBassArr", ref _removeBass, value); }
-        }
-
-        public bool RemoveGuitar
-        {
-            get { return _removeGuitar; }
-            set { SetPropertyField("RemoveGuitarArr", ref _removeGuitar, value); }
-        }
-
-        public bool RemoveBonus
-        {
-            get { return _removeBonus; }
-            set { SetPropertyField("RemoveBonusArr", ref _removeBonus, value); }
-        }
-
-        public bool RemoveMetronome
-        {
-            get { return _removeMetronome; }
-            set { SetPropertyField("RemoveMetronomeArr", ref _removeMetronome, value); }
-        }
-
-        public bool IgnoreStopLimit
-        {
-            get { return _ignoreStopLimit; }
-            set { SetPropertyField("IgnoreStopLimit", ref _ignoreStopLimit, value); }
-        }
-        //--> Repairs settings end
-        
         [XmlArray("CustomSettings")] // provides proper xml serialization
         [XmlArrayItem("CustomSetting")] // provides proper xml serialization
         public List<CustomSetting> CustomSettings { get; set; }
+
+        public RepairOptions RepairOptions
+        {
+            get { return _repairOptions ?? (_repairOptions = new RepairOptions()); }
+            set { _repairOptions = value; }
+        }
 
         public bool MoveToQuarantine { get; set; }
 
@@ -339,6 +236,7 @@ namespace CustomsForgeSongManager.DataObjects
             Instance.CleanOnClosing = false;
             Instance.ShowLogWindow = Constants.DebugMode;
             RAExtensions.ManagerGridSettings = new RADataGridViewSettings();
+            Instance.RepairOptions = new RepairOptions();
         }
 
         /// Initialise settings with default values

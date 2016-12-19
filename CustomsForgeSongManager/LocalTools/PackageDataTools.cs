@@ -1,35 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using RocksmithToolkitLib.DLCPackage;
 using RocksmithToolkitLib.Extensions;
 using RocksmithToolkitLib.Xml;
 using System.Xml;
 using System.IO;
-using System.Xml.Linq;
 using RocksmithToolkitLib.PsarcLoader;
 using RocksmithToolkitLib;
-using RocksmithToolkitLib.DLCPackage.Manifest2014;
 using System.Reflection;
 
 namespace CustomsForgeSongManager.LocalTools
 {
-    // TODO: maybe think about creating Generic Repair methods
-    // SongManager repairs and Bulk Repairs are using very similar methods
-    // these methods could be made generic and moved into a 'RepairTools' class.
-    static class PackageDataTools
+     static class PackageDataTools
     {
         #region Package Info
-        public static DLCPackageData AddMsgToPackageComment(this DLCPackageData packageData, string msg)
+        public static DLCPackageData AddPackageComment(this DLCPackageData packageData, string packageComment)
         {
-            var arrIdComment = packageData.ToolkitInfo.PackageComment;
-            if (String.IsNullOrEmpty(arrIdComment))
-                arrIdComment = msg;
-            else if (!arrIdComment.Contains(msg))
-                arrIdComment = arrIdComment + " " + msg;
+            var arrComment = packageData.ToolkitInfo.PackageComment;
+            if (String.IsNullOrEmpty(arrComment))
+                arrComment = packageComment;
+            else if (!arrComment.Contains(packageComment))
+                arrComment = arrComment + " " + packageComment;
 
-            packageData.ToolkitInfo.PackageComment = arrIdComment;
+            packageData.ToolkitInfo.PackageComment = arrComment;
 
             return packageData;
         }

@@ -2,49 +2,25 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using CFSM.GenTools;
+using GenTools;
+using CustomsForgeSongManager.DataObjects;
 using RocksmithToolkitLib.DLCPackage;
 using RocksmithToolkitLib.DLCPackage.Manifest2014.Tone;
+using RocksmithToolkitLib.PsarcLoader;
 using RocksmithToolkitLib.Sng;
 using RocksmithToolkitLib.ToolkitTone;
 using RocksmithToolkitLib.Xml;
 
 namespace CustomsForgeSongManager.LocalTools
 {
-    class PitchShiftTools
+    public class PitchShiftTools
     {
-        public static DLCPackageData GetSetArrInfo(DLCPackageData packageData, ref int gitShift, ref int bassShift, ref string ext)
+        #region Class Methods
+
+        public static DLCPackageData AddExtensionToSongName(DLCPackageData packageData, string ext)
         {
-            foreach (var arr in packageData.Arrangements)
-            {
-                if (arr.ArrangementType == ArrangementType.Vocal || arr.ArrangementType == ArrangementType.ShowLight)
-                    continue;
-
-                if (!arr.Tuning.Contains("Bonus") && arr.ArrangementType != ArrangementType.Bass)
-                    gitShift = arr.TuningStrings.String0;
-
-                if (!arr.Tuning.Contains("Bonus") && arr.ArrangementType == ArrangementType.Bass)
-                    bassShift = arr.TuningStrings.String0;
-
-                if (arr.Tuning.Contains("Standard"))
-                {
-                    arr.Tuning = "E Standard";
-                    arr.TuningStrings = new RocksmithToolkitLib.Xml.TuningStrings { String0 = 0, String1 = 0, String2 = 0, String3 = 0, String4 = 0, String5 = 0 };
-
-                    ext = "-e-std";
-                }
-                else if (arr.Tuning.Contains("Drop"))
-                {
-                    arr.Tuning = "Drop D";
-                    arr.TuningStrings = new RocksmithToolkitLib.Xml.TuningStrings { String0 = -2, String1 = 0, String2 = 0, String3 = 0, String4 = 0, String5 = 0 };
-
-                    ext = "-drop-d";
-                }
-
-                if (arr.TuningPitch < 400) //If bass fix has been applied, reset reference pitch back to 440
-                    arr.TuningPitch = 440;
-            }
+            packageData.Name = packageData.Name + ext;
+            packageData.SongInfo.SongDisplayName = packageData.SongInfo.SongDisplayName + ext;
 
             return packageData;
         }
@@ -84,12 +60,164 @@ namespace CustomsForgeSongManager.LocalTools
             return packageData;
         }
 
-        public static DLCPackageData AddExtensionToSongName(DLCPackageData packageData, string ext)
+        public static DLCPackageData GetSetArrInfo(DLCPackageData packageData, ref int gitShift, ref int bassShift, ref string ext)
         {
-            packageData.Name = packageData.Name + ext;
-            packageData.SongInfo.SongDisplayName = packageData.SongInfo.SongDisplayName + ext;
+            foreach (var arr in packageData.Arrangements)
+            {
+                if (arr.ArrangementType == ArrangementType.Vocal || arr.ArrangementType == ArrangementType.ShowLight)
+                    continue;
+
+                if (!arr.Tuning.Contains("Bonus") && arr.ArrangementType != ArrangementType.Bass)
+                    gitShift = arr.TuningStrings.String0;
+
+                if (!arr.Tuning.Contains("Bonus") && arr.ArrangementType == ArrangementType.Bass)
+                    bassShift = arr.TuningStrings.String0;
+
+                if (arr.Tuning.Contains("Standard"))
+                {
+                    arr.Tuning = "E Standard";
+                    arr.TuningStrings = new RocksmithToolkitLib.Xml.TuningStrings { String0 = 0, String1 = 0, String2 = 0, String3 = 0, String4 = 0, String5 = 0 };
+
+                    ext = "-e-std";
+                }
+                else if (arr.Tuning.Contains("Drop"))
+                {
+                    arr.Tuning = "Drop D";
+                    arr.TuningStrings = new RocksmithToolkitLib.Xml.TuningStrings { String0 = -2, String1 = 0, String2 = 0, String3 = 0, String4 = 0, String5 = 0 };
+
+                    ext = "-drop-d";
+                }
+
+                if (arr.TuningPitch < 400) //If bass fix has been applied, reset reference pitch back to 440
+                    arr.TuningPitch = 440;
+            }
 
             return packageData;
+        }
+
+        // TODO: Debug this code and confirm proper operation
+        public static bool PitchShiftSong(List<SongData> songs, bool overwriteFile = false)
+        {
+            // this method can also be used for a single song
+            var srcFilePaths = FileTools.SongFilePaths(songs);
+            var total = srcFilePaths.Count;
+            var processed = 0;
+            var failed = 0;
+            var skipped = 0;
+            GenericWorker.InitReportProgress();
+            GenericWorker.ReportProgress(processed, total, skipped, failed);
+
+            foreach (var srcFilePath in srcFilePaths)
+            {
+                var isSkipped = false;
+                Globals.Log("Processing: " + Path.GetFileName(srcFilePath));
+                processed++;
+
+                var officialOrRepaired = FileTools.OfficialOrRepaired(srcFilePath);
+                if (!String.IsNullOrEmpty(officialOrRepaired))
+                {
+                    if (officialOrRepaired.Contains("Official"))
+                    {
+                        Globals.Log(" - Skipped ODLC File");
+                        skipped++;
+                        isSkipped = true;
+                    }
+                }
+
+                try
+                {
+                    var ext = string.Empty;
+                    var finalPath = srcFilePath;
+                    Globals.Log(" - Extracting CDLC artifacts");
+                    DLCPackageData packageData;
+
+                    //Try unpacking and if it throws InvalidDataException - fix arrangement XMLs
+                    packageData = PackageDataTools.GetDataWithFixedTones(srcFilePath);
+
+                    // TODO: need to confirm desired action
+                    var alreadyPitchShifted = packageData.ToolkitInfo.PackageComment.Contains(Constants.TKI_PITCHSHIFT);
+                    if (!overwriteFile && alreadyPitchShifted)
+                    {
+                        Globals.Log(" - Song is already pitch shifted");
+                        skipped++;
+                        isSkipped = true;
+                    }
+
+                    if (!isSkipped)
+                    {
+                        Globals.Log(" - Adding pitch shifting effect");
+                        int gitShift = 0, bassShift = 0;
+                        int mix = 100;
+                        int tone = 50;
+
+                        //Get info (amount of steps) and set correct tunings
+                        packageData = GetSetArrInfo(packageData, ref gitShift, ref bassShift, ref ext);
+
+                        packageData = AddPitchShiftPedalToTones(packageData, gitShift, bassShift, mix, tone);
+
+                        //Add a comment
+                        packageData = packageData.AddPackageComment(Constants.TKI_PITCHSHIFT);
+
+                        //Add extension to the names and validate
+                        packageData = AddExtensionToSongName(packageData, ext);
+                        packageData = PackageDataTools.ValidatePackageDataName(packageData);
+
+                        //Set correct names and regenerate xml
+                        packageData = RegenerateXML(packageData);
+
+                        Globals.Log(" - Repackaging");
+
+                        if (overwriteFile)
+                            finalPath = srcFilePath.Replace("_p.psarc", ext + "_p.psarc");
+
+                        using (var psarcNew = new PsarcPackager(true))
+                            psarcNew.WritePackage(finalPath, packageData, srcFilePath);
+
+                        if (File.Exists(finalPath))
+                        {
+                            //TemporaryDisableDatabindEvent(() =>
+                            //{
+                            using (var browser = new PsarcBrowser(finalPath))
+                            {
+                                var songInfo = browser.GetSongData();
+
+                                if (songInfo != null && Globals.SongCollection.Where(sng => sng.FilePath == finalPath).Count() == 0)
+                                    Globals.SongCollection.Add(songInfo.First());
+                            }
+                            //  });
+
+                            //  GenExtensions.InvokeIfRequired(dgvSongsMaster, delegate { dgvSongsMaster.Refresh(); });
+                        }
+
+                        Globals.Log(" - Pitch shifting was sucessful");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Globals.Log(" - Pitch shifting failed: " + ex.Message);
+                    failed++;
+
+                }
+
+                GenericWorker.ReportProgress(processed, total, skipped, failed);
+            }
+
+
+            if (processed > 0)
+            {
+                Globals.Log("CDLC pitch shifting completed ...");
+                Globals.RescanSongManager = true;
+
+                if (!Constants.DebugMode)
+                    GenExtensions.CleanLocalTemp();
+            }
+            else
+            {
+                Globals.Log("No CDLC were pitch shifted ...");
+                return false;
+            }
+
+            return true;
         }
 
         public static DLCPackageData RegenerateXML(DLCPackageData packageData)
@@ -119,19 +247,6 @@ namespace CustomsForgeSongManager.LocalTools
             return packageData;
         }
 
-        public static DLCPackageData AddPitchShiftedMsg(DLCPackageData packageData)
-        {
-            string pitchShiftedMessage = "Pitch Shifted by CFSM";
-
-            var pitchShiftedComment = packageData.ToolkitInfo.PackageComment;
-            if (String.IsNullOrEmpty(pitchShiftedComment))
-                pitchShiftedComment = pitchShiftedMessage;
-            else if (!pitchShiftedComment.Contains(pitchShiftedMessage))
-                pitchShiftedComment = pitchShiftedComment + " " + pitchShiftedMessage;
-
-            packageData.ToolkitInfo.PackageComment = pitchShiftedComment;
-
-            return packageData;
-        }
+        #endregion
     }
 }

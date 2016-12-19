@@ -92,6 +92,7 @@ namespace CustomsForgeSongManager.LocalTools
                 {
                     currentSong.Tagged = tagged ? SongTaggerStatus.True : SongTaggerStatus.False;
 
+                    // TODO: reconsider/simplify this
                     if(packageComment == null)
                         currentSong.RepairStatus = RepairStatus.NotRepaired;
                     else if (packageComment.Contains("Remastered") && packageComment.Contains("DD") && packageComment.Contains("Max5"))

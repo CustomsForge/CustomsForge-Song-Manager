@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
 using System.Drawing;
-using CFSM.GenTools;
+using GenTools;
 
 namespace DF.WinForms.ThemeLib
 {

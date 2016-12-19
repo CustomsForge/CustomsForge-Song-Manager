@@ -10,7 +10,7 @@ using CustomsForgeSongManager.DataObjects;
 using System.Diagnostics;
 using DataGridViewTools;
 using System.IO;
-using CFSM.GenTools;
+using GenTools;
 using Newtonsoft.Json;
 
 namespace CustomsForgeSongManager.Forms

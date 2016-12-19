@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 using System.ComponentModel;
-using CFSM.GenTools;
+using GenTools;
 using CustomsForgeSongManager.DataObjects;
 using CustomsForgeSongManager.LocalTools;
 using DataGridViewTools;
@@ -23,8 +23,8 @@ namespace CustomsForgeSongManager.UControls
         {
             var settingsPath = Constants.SettingsPath;
 
-            // initialize application startup 
-            if (!File.Exists(settingsPath))
+            // initialize application startup or check for empty settings file 
+            if (!File.Exists(settingsPath) || new FileInfo(settingsPath).Length == 0)
             {
                 ResetSettings();
                 ValidateRsDir();
@@ -261,9 +261,9 @@ namespace CustomsForgeSongManager.UControls
             if (MessageBox.Show("Are you sure you want to empty the log files?", Constants.ApplicationName + " ... Warning", MessageBoxButtons.YesNo) == DialogResult.No)
                 return;
 
-            ZipUtilities.DeleteFile(AppSettings.Instance.LogFilePath);
+            GenExtensions.DeleteFile(AppSettings.Instance.LogFilePath);
             Globals.MyLog.AddTargetFile(AppSettings.Instance.LogFilePath);
-            ZipUtilities.DeleteFile(Constants.RemasteredErrorLogPath);
+            GenExtensions.DeleteFile(Constants.RemasteredErrorLogPath);
             Globals.TbLog.Clear();
             Globals.Log("Log files have been emptied ...");
             Globals.Log("Starting new log ...");

@@ -10,7 +10,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
-using CFSM.GenTools;
+using CustomControls;
+using GenTools;
 using CustomsForgeSongManager.DataObjects;
 using CustomsForgeSongManager.Forms;
 using RocksmithToolkitLib;
@@ -343,7 +344,7 @@ namespace CustomsForgeSongManager.LocalTools
             if (!String.IsNullOrEmpty(errMsg))
             {
                 errMsg = errMsg + Environment.NewLine + "to download " + appName;
-                BetterDialog.ShowDialog(errMsg, "Incompatible System Configuration", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning", 150, 150);
+                BetterDialog2.ShowDialog(errMsg, "Incompatible System Configuration", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning", 150, 150);
                 return false;
             }
 

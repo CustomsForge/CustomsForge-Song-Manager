@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-using CFSM.GenTools;
+using GenTools;
 using RocksmithToolkitLib.DLCPackage;
 
 namespace CustomsForgeSongManager.SongEditor

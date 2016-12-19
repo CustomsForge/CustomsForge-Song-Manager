@@ -26,7 +26,8 @@ Source: {#buildpath}{#AppExeName}; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}CFSM.AudioTools.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}CFSM.ImageTools.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}DF.WinForms.ThemeLib.dll; DestDir: {app}; Flags: ignoreversion
-Source: {#buildpath}CFSM.GenTools.dll; DestDir: {app}; Flags: ignoreversion
+Source: {#buildpath}GenTools.dll; DestDir: {app}; Flags: ignoreversion
+Source: {#buildpath}CustomControls.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}CFSM.RSTKLib.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}bass.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}DataGridViewTools.dll; DestDir: {app}; Flags: ignoreversion

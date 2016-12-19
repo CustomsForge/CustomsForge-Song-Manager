@@ -14,6 +14,12 @@ namespace CustomsForgeSongManager.LocalTools
             var ddcDir = Path.Combine(baseDir, "ddc");
             var ddcExePath = Path.Combine(ddcDir, "ddc.exe");
 
+            if (String.IsNullOrEmpty(rampPath))
+                rampPath = Path.Combine(ddcDir, "ddc_default.xml");
+
+            if (String.IsNullOrEmpty(cfgPath))
+                cfgPath = Path.Combine(ddcDir, "ddc_default.cfg");
+
             if (!File.Exists(ddcExePath))
             {
                 consoleOutput = "ddc.exe file is misssing.  Reinstall application and try again.";

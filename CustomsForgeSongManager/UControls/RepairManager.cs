@@ -1629,7 +1629,8 @@ namespace CustomsForgeSongManager.UControls
             {
                 foreach (string songPath in dlcFiles)
                 {
-                    string officialOrRepaired = RepairTools.OfficialOrRepaired(songPath);
+                    var rp = new RepairTools();
+                    string officialOrRepaired = rp.OfficialOrRepaired(songPath);
 
                     using (var browser = new PsarcBrowser(songPath))
                     {

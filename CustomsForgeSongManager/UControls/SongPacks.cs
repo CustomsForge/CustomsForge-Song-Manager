@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
 using System.IO;
-using CFSM.GenTools;
+using GenTools;
 using CFSM.RSTKLib.PSARC;
 using CustomsForgeSongManager.DataObjects;
 using CustomsForgeSongManager.UITheme;

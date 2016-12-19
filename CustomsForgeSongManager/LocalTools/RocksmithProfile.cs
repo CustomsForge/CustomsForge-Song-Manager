@@ -4,7 +4,8 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using CFSM.GenTools;
+using CustomControls;
+using GenTools;
 using CustomsForgeSongManager.DataObjects;
 using Microsoft.Win32;
 using System.Globalization;
@@ -151,7 +152,7 @@ namespace CustomsForgeSongManager.LocalTools
                 //Proceed only if there's a Steam folder has been detected
                 if (!String.IsNullOrEmpty(AppSettings.Instance.RSProfileDir) || AmountOfProfileFiles(AppSettings.Instance.RSProfileDir) > 0) 
                 {
-                    if (DialogResult.Yes == BetterDialog.ShowDialog("Backup or restore a Rocksmith 2014 user profile?", "User Profile Backup/Restore", null, "Backup", "Restore", Bitmap.FromHicon(SystemIcons.Question.Handle), "Pick One", 150, 150))
+                    if (DialogResult.Yes == BetterDialog2.ShowDialog("Backup or restore a Rocksmith 2014 user profile?", "User Profile Backup/Restore", null, "Backup", "Restore", Bitmap.FromHicon(SystemIcons.Question.Handle), "Pick One", 150, 150))
                     {
                         BackupProfiles(AppSettings.Instance.RSProfileDir, backupPath);
                     }

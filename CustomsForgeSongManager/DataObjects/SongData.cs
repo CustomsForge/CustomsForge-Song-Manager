@@ -2,7 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
-using CFSM.GenTools;
+using GenTools;
 using DataGridViewTools;
 
 namespace CustomsForgeSongManager.DataObjects
@@ -31,7 +31,7 @@ namespace CustomsForgeSongManager.DataObjects
         Repaired = 1,
         RepairedDD = 2,
         RepairedMaxFive = 3,
-        RepairedDDMaxFive = 4
+        RepairedDDMaxFive = 4 // not sure why this is needed
     }
 
     //Static class seems more convenient to use, since the values are shown in DGV(s)

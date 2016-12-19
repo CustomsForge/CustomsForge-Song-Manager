@@ -1,19 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using System.IO;
-using System.Linq;
 using System.Windows.Forms;
-using CFSM.GenTools;
+using GenTools;
 using CustomsForgeSongManager.DataObjects;
 using CustomsForgeSongManager.Properties;
-using RocksmithToolkitLib;
-using RocksmithToolkitLib.XmlRepository;
 
 //
 // Reusable generic background worker class
+// TODO: cautously reimpliment background worker, i.e.,
+// only use background worker if it improves the function of a method
 //
 
 namespace CustomsForgeSongManager.LocalTools
@@ -45,34 +42,8 @@ namespace CustomsForgeSongManager.LocalTools
             bWorker.SetDefaults();
             counterStopwatch.Restart();
 
-            if (WorkDescription.ToLower().Contains("repairing a single"))
-                bWorker.DoWork += WorkerRepairSong_Single;
-            else if (WorkDescription.ToLower().Contains("repairing the selection"))
-                bWorker.DoWork += WorkerRepairSong_Selection;
-            else if (WorkDescription.ToLower().Contains("repairing"))
-                bWorker.DoWork += WorkerRepairSong;
-            else if (WorkDescription.ToLower().Contains(".org"))
-                bWorker.DoWork += WorkerRestoreOrgBackups;
-            else if (WorkDescription.ToLower().Contains(".max"))
-                bWorker.DoWork += WorkerRestoreMaxBackups;
-            else if (WorkDescription.ToLower().Contains(".cor"))
-                bWorker.DoWork += WorkerRestoreCorBackups;
-            else if (WorkDescription.ToLower().Contains("archiving"))
+            if (WorkDescription.ToLower().Contains("archiving"))
                 bWorker.DoWork += WorkerArchiveCorruptSongs;
-            else if (WorkDescription.ToLower().Contains("dd to a single"))
-                bWorker.DoWork += WorkerApplyDD_Single;
-            else if (WorkDescription.ToLower().Contains("dd to the selection"))
-                bWorker.DoWork += WorkerApplyDD_Selection;
-            else if (WorkDescription.ToLower().Contains("pitch shift to a single"))
-                bWorker.DoWork += WorkerPitchShift_Single;
-            else if (WorkDescription.ToLower().Contains("pitch shift to the selection"))
-                bWorker.DoWork += WorkerPitchShift_Selection;
-            else if (WorkDescription.ToLower().Contains("pitch shift to a single song in Song Manager"))
-                bWorker.DoWork += WorkerPitchShiftSM_Single;
-            else if (WorkDescription.ToLower().Contains("pitch shift to the selection in Song Manager"))
-                bWorker.DoWork += WorkerPitchShiftSM_Selection;
-            else if (WorkDescription.ToLower().Contains("moving songs from downloads"))
-                bWorker.DoWork += WorkerMoveSongsFromDownloads;
             else
                 throw new Exception("I'm not that kind of worker ...");
 
@@ -116,94 +87,60 @@ namespace CustomsForgeSongManager.LocalTools
             Globals.RescanSongManager = true;
         }
 
-        private void WorkerRepairSong(object sender, DoWorkEventArgs e)
-        {
-            if (!bWorker.CancellationPending)
-                Globals.RepairManager.RepairSongs();
-        }
-
-        private void WorkerRestoreOrgBackups(object sender, DoWorkEventArgs e)
-        {
-            if (!bWorker.CancellationPending)
-                Globals.RepairManager.RestoreBackups(".org", Constants.RemasteredOrgFolder);
-        }
-
-        private void WorkerRestoreCorBackups(object sender, DoWorkEventArgs e)
-        {
-            if (!bWorker.CancellationPending)
-                Globals.RepairManager.RestoreBackups(".cor", Constants.RemasteredCorFolder);
-        }
-        
-        private void WorkerRestoreMaxBackups(object sender, DoWorkEventArgs e)
-        {
-            if (!bWorker.CancellationPending)
-                Globals.RepairManager.RestoreBackups(".max", Constants.RemasteredMaxFolder);
-        }
-
         private void WorkerArchiveCorruptSongs(object sender, DoWorkEventArgs e)
         {
-            if (!bWorker.CancellationPending)
-                Globals.RepairManager.ArchiveCorruptCDLC();
+            //if (!bWorker.CancellationPending)
+            //    RepairTools.ArchiveFiles();
         }
 
-        private void WorkerApplyDD_Single(object sender, DoWorkEventArgs e)
-        {
-            if (!bWorker.CancellationPending)
-                Globals.RepairManager.ApplyDD_Single();
-        }
-
-        private void WorkerApplyDD_Selection(object sender, DoWorkEventArgs e)
-        {
-            if (!bWorker.CancellationPending)
-                Globals.RepairManager.ApplyDD_Selection();
-        }
-
-        private void WorkerPitchShift_Single(object sender, DoWorkEventArgs e)
-        {
-            if (!bWorker.CancellationPending)
-                Globals.RepairManager.PitchShift_Single();
-        }
-
-        private void WorkerPitchShift_Selection(object sender, DoWorkEventArgs e)
-        {
-            if (!bWorker.CancellationPending)
-                Globals.RepairManager.PitchShift_Selection();
-        }
-
-        private void WorkerPitchShiftSM_Single(object sender, DoWorkEventArgs e)
-        {
-            if (!bWorker.CancellationPending)
-                Globals.SongManager.PitchShift_Single();
-        }
-        private void WorkerPitchShiftSM_Selection(object sender, DoWorkEventArgs e)
-        {
-            if (!bWorker.CancellationPending)
-                Globals.SongManager.PitchShift_Selection();
-        }
-
-        private void WorkerRepairSong_Single(object sender, DoWorkEventArgs e)
-        {
-            if (!bWorker.CancellationPending)
-                Globals.RepairManager.RepairSong_Single();
-        }
-
-        private void WorkerRepairSong_Selection(object sender, DoWorkEventArgs e)
-        {
-             if (!bWorker.CancellationPending)
-                 Globals.RepairManager.RepairSong_Selection();
-        }
-
-        private void WorkerMoveSongsFromDownloads(object sender, DoWorkEventArgs e)
-        {
-            if (!bWorker.CancellationPending)
-                Globals.RepairManager.MoveSongsFromDownloads();
-        }
 
         [SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "bWorker")]
         public void Dispose()
         {
         }
 
+        public static void ReportProgress(int processed = 0, int total = 0, int skipped = 0, int failed = 0)
+        {
+            int progress;
+            if (total > 0)
+                progress = processed * 100 / total;
+            else
+                progress = 100;
 
+            // load to ProgressStatus so current data can be shared externally
+            var rs = new ProgressStatus()
+                {
+                    Progress = progress,
+                    Processed = processed,
+                    Total = total,
+                    Skipped = skipped,
+                    Failed = failed
+                };
+
+            if (Globals.TsProgressBar_Main != null && progress <= 100)
+                GenExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate { Globals.TsProgressBar_Main.Value = progress; });
+
+            GenExtensions.InvokeIfRequired(Globals.TsLabel_MainMsg.GetCurrentParent(), delegate { Globals.TsLabel_MainMsg.Text = String.Format("Files Processed: {0} of {1}", processed, total); });
+            GenExtensions.InvokeIfRequired(Globals.TsLabel_StatusMsg.GetCurrentParent(), delegate { Globals.TsLabel_StatusMsg.Text = String.Format("Skipped: {0}  Failed: {1}", skipped, failed); });
+        }
+
+        public static void InitReportProgress()
+        {
+            GenExtensions.InvokeIfRequired(Globals.TsLabel_MainMsg.GetCurrentParent(), delegate { Globals.TsLabel_MainMsg.Text = String.Format("Files Processed: {0} of {1}", 0, 0); });
+            GenExtensions.InvokeIfRequired(Globals.TsLabel_MainMsg.GetCurrentParent(), delegate { Globals.TsLabel_MainMsg.Visible = true; });
+            GenExtensions.InvokeIfRequired(Globals.TsLabel_StatusMsg.GetCurrentParent(), delegate { Globals.TsLabel_StatusMsg.Text = String.Format("Skipped: {0}  Failed: {1}", 0, 0); });
+            GenExtensions.InvokeIfRequired(Globals.TsLabel_StatusMsg.GetCurrentParent(), delegate { Globals.TsLabel_StatusMsg.Visible = true; });
+            GenExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate { Globals.TsProgressBar_Main.Value = 0; });
+        }
     }
+
+    public class ProgressStatus
+    {
+        public int Failed { get; set; }
+        public int Processed { get; set; }
+        public int Progress { get; set; }
+        public int Skipped { get; set; }
+        public int Total { get; set; }
+    }
+
 }

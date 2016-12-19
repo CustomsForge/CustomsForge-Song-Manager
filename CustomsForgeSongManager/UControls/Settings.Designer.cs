@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Windows.Forms;
+using CustomControls;
 using CustomsForgeSongManager.LocalTools;
 
 namespace CustomsForgeSongManager.UControls
@@ -44,11 +45,11 @@ namespace CustomsForgeSongManager.UControls
             this.colSettingsColumnName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colSettingsColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colSettingsWidth = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.cueRsDir = new CustomsForgeSongManager.LocalTools.CueTextBox();
+            this.cueRsDir = new CustomControls.CueTextBox();
             this.lblSettingsRSDir = new System.Windows.Forms.Label();
             this.btnSettingsSave = new System.Windows.Forms.Button();
             this.chkEnableLogBallon = new System.Windows.Forms.CheckBox();
-            this.txtCharterName = new CustomsForgeSongManager.LocalTools.CueTextBox();
+            this.txtCharterName = new CustomControls.CueTextBox();
             this.chkCleanOnClosing = new System.Windows.Forms.CheckBox();
             this.btnSettingsLoad = new System.Windows.Forms.Button();
             this.btnEmptyLogs = new System.Windows.Forms.Button();

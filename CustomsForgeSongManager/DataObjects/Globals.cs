@@ -44,10 +44,8 @@ namespace CustomsForgeSongManager.DataObjects
         private static BindingList<SongData> _songCollection;
         private static SongManager _songManager;
         private static Theme _theme;
-        private static SongTagger _tagger;
+        private static TaggerTools _tagger;
         private static List<OfficialDLCSong> _oDLCSongList;
-        private static BulkRepairs _bulkRepairs;
-        private static RepairManager _repairManager;
 
         public static Random random = new Random();
 
@@ -122,9 +120,9 @@ namespace CustomsForgeSongManager.DataObjects
         }
 
 #if TAGGER
-        public static SongTagger Tagger
+        public static TaggerTools Tagger
         {
-            get { return _tagger ?? (_tagger = new SongTagger()); }
+            get { return _tagger ?? (_tagger = new TaggerTools()); }
             set { _tagger = value; }
         }
 #endif
@@ -133,18 +131,6 @@ namespace CustomsForgeSongManager.DataObjects
         {
             get { return _songPacks ?? (_songPacks = new SongPacks()); }
             set { _songPacks = value; }
-        }
-
-        public static BulkRepairs BulkRepairs
-        {
-            get { return _bulkRepairs ?? (_bulkRepairs = new BulkRepairs()); }
-            set { _bulkRepairs = value; }
-        }
-
-        public static RepairManager RepairManager
-        {
-            get { return _repairManager ?? (_repairManager = new RepairManager()); }
-            set { _repairManager = value; }
         }
 
         public static bool RescanDuplicates { get; set; }
@@ -192,16 +178,16 @@ namespace CustomsForgeSongManager.DataObjects
 
         public static CustomsForgeSongManager.Forms.frmMain MainForm
         {
-            get { return (CustomsForgeSongManager.Forms.frmMain) Application.OpenForms["frmMain"]; }
+            get { return (CustomsForgeSongManager.Forms.frmMain)Application.OpenForms["frmMain"]; }
         }
 
         public static IMainForm iMainForm
         {
-            get { return (IMainForm) Application.OpenForms["frmMain"]; }
+            get { return (IMainForm)Application.OpenForms["frmMain"]; }
         }
 
         public static Tristate WorkerFinished { get; set; }
-// True = 0, False = 1, Cancelled = 2
+        // True = 0, False = 1, Cancelled = 2
 
         public static void Log(string message)
         {
@@ -211,7 +197,7 @@ namespace CustomsForgeSongManager.DataObjects
             }
             catch
             {
-             // just ignore it
+                // just ignore it
             }
         }
 

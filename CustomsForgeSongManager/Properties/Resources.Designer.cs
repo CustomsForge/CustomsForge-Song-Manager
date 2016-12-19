@@ -862,6 +862,13 @@ namespace CustomsForgeSongManager.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap restorebackup {
+            get {
+                object obj = ResourceManager.GetObject("restorebackup", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap restorewindow {
             get {
                 object obj = ResourceManager.GetObject("restorewindow", resourceCulture);

@@ -1,5 +1,13 @@
 ﻿CFSM Release Notes
 
+1.2.8.3
+- Combined Bulk Repairs, Repairs, and mods such as Pitch Shifting
+- Added a new menustrip and toolstripmenuitems for these features in SongManager
+- Moving project towards more generic and reusable code
+- Added tooltip popups for all new features and items to help explain the use
+- TODO debug and confirm operation of Pitch Shifter
+- TODO conservatively add back background worker or task factory to repairs and pitch shifter as needed
+
 1.2.8.2
 - RepairManager for Dev review
 - Added cmsRepairOptions and cmsRestoreOptions
