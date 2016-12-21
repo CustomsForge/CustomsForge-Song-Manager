@@ -1,5 +1,8 @@
 ﻿CFSM Release Notes
 
+1.2.8.5
+- Restored super generic background worker for long running tasks
+
 1.2.8.4
 - Restored Pitch Shifter operation
 - Fixed Enable/Disable

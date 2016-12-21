@@ -28,6 +28,10 @@ namespace CustomsForgeSongManager.DataObjects
         public static string EXT_MAX = ".max";
         public static string EXT_ORG = ".org";
 
+        public static string WORKER_REPAIR = "repairing";
+        public static string WORKER_ACHRIVE = "archiving";
+        public static string WORKER_PITCHSHIFT = "pitch shifting";
+
         public static readonly string RS1COMP = "rs1compatibility";
         public static readonly string SONGPACK = "songpack";
         public static readonly string ABVSONGPACK = "_sp_";

@@ -22,6 +22,9 @@ namespace CustomsForgeSongManager.LocalTools
         private Control workOrder;
 
         public string WorkDescription = String.Empty;
+        public dynamic WorkParm1;
+        public dynamic WorkParm2;
+        public dynamic WorkParm3;
 
         public void BackgroundProcess(object sender, AbortableBackgroundWorker backgroundWorker = null)
         {
@@ -42,8 +45,13 @@ namespace CustomsForgeSongManager.LocalTools
             bWorker.SetDefaults();
             counterStopwatch.Restart();
 
-            if (WorkDescription.ToLower().Contains("archiving"))
-                bWorker.DoWork += WorkerArchiveCorruptSongs;
+            if (WorkDescription.ToLower().Contains(Constants.WORKER_REPAIR))
+                bWorker.DoWork += WorkerRepairSongs;
+            else if (WorkDescription.ToLower().Contains(Constants.WORKER_ACHRIVE))
+                bWorker.DoWork += WorkerArchiveSongs;
+            else if (WorkDescription.ToLower().Contains(Constants.WORKER_PITCHSHIFT))
+                bWorker.DoWork += WorkerPitchShiftSongs;
+
             else
                 throw new Exception("I'm not that kind of worker ...");
 
@@ -87,10 +95,22 @@ namespace CustomsForgeSongManager.LocalTools
             Globals.RescanSongManager = true;
         }
 
-        private void WorkerArchiveCorruptSongs(object sender, DoWorkEventArgs e)
+        private void WorkerRepairSongs(object sender, DoWorkEventArgs e)
         {
-            //if (!bWorker.CancellationPending)
-            //    RepairTools.ArchiveFiles();
+            if (!bWorker.CancellationPending)
+                RepairTools.RepairSongs(WorkParm1, WorkParm2);
+        }
+
+        private void WorkerPitchShiftSongs(object sender, DoWorkEventArgs e)
+        {
+            if (!bWorker.CancellationPending)
+                PitchShiftTools.PitchShiftSongs(WorkParm1, WorkParm2);
+        }
+
+        private void WorkerArchiveSongs(object sender, DoWorkEventArgs e)
+        {
+            if (!bWorker.CancellationPending)
+                FileTools.ArchiveFiles(WorkParm1, WorkParm2, WorkParm3);
         }
 
 

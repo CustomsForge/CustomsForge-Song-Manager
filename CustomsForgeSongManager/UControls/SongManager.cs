@@ -1420,6 +1420,7 @@ namespace CustomsForgeSongManager.UControls
         {
             using (var ODlcCheckForm = new frmCODLCDuplicates())
             {
+                // declared for debugging
                 var conflicted = ODlcCheckForm.PopulateLists();
                 if (conflicted)
                     ODlcCheckForm.ShowDialog();
@@ -1428,12 +1429,14 @@ namespace CustomsForgeSongManager.UControls
 
         private void tsmiFilesArcBak_Click(object sender, EventArgs e)
         {
-            FileTools.ArchiveFiles(Constants.EXT_BAK, Constants.BackupFolder, tsmiFilesArcDeleteAfter.Checked);
+            this.Refresh();
+            DoWork(Constants.WORKER_ACHRIVE, Constants.EXT_BAK, Constants.BackupFolder, tsmiFilesArcDeleteAfter.Checked);
         }
 
         private void tsmiFilesArcCor_Click(object sender, EventArgs e)
         {
-            FileTools.ArchiveFiles(Constants.EXT_COR, Constants.RemasteredCorFolder, tsmiFilesArcDeleteAfter.Checked);
+            this.Refresh();
+            DoWork(Constants.WORKER_ACHRIVE, Constants.EXT_COR, Constants.RemasteredCorFolder, tsmiFilesArcDeleteAfter.Checked);
         }
 
         private void tsmiFilesArcDelete_CheckedChanged(object sender, EventArgs e)
@@ -1444,13 +1447,14 @@ namespace CustomsForgeSongManager.UControls
         }
 
         private void tsmiFilesArcMax_Click(object sender, EventArgs e)
-        {
-            FileTools.ArchiveFiles(Constants.EXT_MAX, Constants.RemasteredMaxFolder, tsmiFilesArcDeleteAfter.Checked);
+        {  
+            this.Refresh();
+            DoWork(Constants.WORKER_ACHRIVE, Constants.EXT_MAX, Constants.RemasteredMaxFolder, tsmiFilesArcDeleteAfter.Checked);
         }
 
         private void tsmiFilesArcOrg_Click(object sender, EventArgs e)
         {
-            FileTools.ArchiveFiles(Constants.EXT_ORG, Constants.RemasteredOrgFolder, tsmiFilesArcDeleteAfter.Checked);
+            DoWork(Constants.WORKER_ACHRIVE, Constants.EXT_ORG, Constants.RemasteredOrgFolder, tsmiFilesArcDeleteAfter.Checked);
         }
 
         private void tsmiFilesBackup_Click(object sender, EventArgs e)
@@ -1531,21 +1535,25 @@ namespace CustomsForgeSongManager.UControls
         private void tsmiFilesRestoreBak_Click(object sender, EventArgs e)
         {
             FileTools.RestoreBackups(Constants.EXT_BAK, Constants.BackupFolder);
+            RefreshDgv(false);
         }
 
         private void tsmiFilesRestoreCor_Click(object sender, EventArgs e)
         {
             FileTools.RestoreBackups(Constants.EXT_COR, Constants.RemasteredCorFolder);
+            RefreshDgv(false);
         }
 
         private void tsmiFilesRestoreMax_Click(object sender, EventArgs e)
         {
             FileTools.RestoreBackups(Constants.EXT_MAX, Constants.RemasteredMaxFolder);
+            RefreshDgv(false);
         }
 
         private void tsmiFilesRestoreOrg_Click(object sender, EventArgs e)
         {
             FileTools.RestoreBackups(Constants.EXT_ORG, Constants.RemasteredOrgFolder);
+            RefreshDgv(false);
         }
 
         private void tsmiFilesSafetyInterlock_CheckStateChanged(object sender, EventArgs e)
@@ -1611,14 +1619,11 @@ namespace CustomsForgeSongManager.UControls
             var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster);
             if (!selection.Any()) return;
 
-            // TODO: maybe start genericWorker or TaskFactory here
-            PitchShiftTools.PitchShiftSongs(selection, tsmiModsPitchShiftOverwrite.Checked);
+            this.Refresh();
+            DoWork(Constants.WORKER_PITCHSHIFT, selection, tsmiModsPitchShiftOverwrite.Checked);
 
-            GetGrid().Invalidate();
-            GetGrid().Refresh();
-
-            // TODO: figure out a better way to refresh the dgv contents
-            //RefreshDgv(false);
+            // TODO: figure out if there is better way to refresh the dgv contents
+            RefreshDgv(false);
         }
 
         private void tsmiModsTagArtwork_Click(object sender, EventArgs e)
@@ -1724,8 +1729,12 @@ namespace CustomsForgeSongManager.UControls
                 return;
             }
 
-            RepairTools.RepairSongs(selection, SetRepairOptions());
-            // TODO: figure out a better way to refresh the dgv contents
+            this.Refresh();
+            // start new generic worker
+            DoWork("repairing", selection, SetRepairOptions());
+ 
+            // RepairTools.RepairSongs(selection, SetRepairOptions());
+            // TODO: figure out if there is better way to refresh the dgv contents
             RefreshDgv(false);
 
         }
@@ -1758,6 +1767,21 @@ namespace CustomsForgeSongManager.UControls
         {
             Globals.Log("SongManager GUI TabLeave ...");
             Globals.Settings.SaveSettingsToFile(dgvSongsMaster);
+        }
+
+        private void DoWork(string workDescription, dynamic workerParm1 = null, dynamic workerParm2 = null, dynamic workerParm3 = null)
+        {
+            using (var gWorker = new GenericWorker())
+            {
+                gWorker.WorkDescription = workDescription;
+                gWorker.WorkParm1 = workerParm1;
+                gWorker.WorkParm2 = workerParm2;
+                gWorker.WorkParm3 = workerParm3;
+                gWorker.BackgroundProcess(this);
+                while (Globals.WorkerFinished == Globals.Tristate.False)
+                    Application.DoEvents();
+            }
+
         }
     }
 }
