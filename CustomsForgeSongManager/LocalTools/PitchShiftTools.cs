@@ -96,7 +96,7 @@ namespace CustomsForgeSongManager.LocalTools
         }
 
         // TODO: Debug this code and confirm proper operation
-        public static bool PitchShiftSong(List<SongData> songs, bool overwriteFile = false)
+        public static bool PitchShiftSongs(List<SongData> songs, bool overwriteFile)
         {
             // this method can also be used for a single song
             var srcFilePaths = FileTools.SongFilePaths(songs);
@@ -131,25 +131,29 @@ namespace CustomsForgeSongManager.LocalTools
                     Globals.Log(" - Extracting CDLC artifacts");
                     DLCPackageData packageData;
 
-                    //Try unpacking and if it throws InvalidDataException - fix arrangement XMLs
+                    // TODO: consider using tone exception handler from RepairTools
+                    // Try unpacking and if it throws InvalidDataException - fix arrangement XMLs
                     packageData = PackageDataTools.GetDataWithFixedTones(srcFilePath);
 
-                    // TODO: need to confirm desired action
-                    var alreadyPitchShifted = packageData.ToolkitInfo.PackageComment.Contains(Constants.TKI_PITCHSHIFT);
-                    if (!overwriteFile && alreadyPitchShifted)
+                    // this allows user to reapply pitch shifter using latest code
+                    if (!isSkipped && !overwriteFile)
                     {
-                        Globals.Log(" - Song is already pitch shifted");
-                        skipped++;
-                        isSkipped = true;
+                        var packageComment = packageData.ToolkitInfo.PackageComment;
+                        if (!String.IsNullOrEmpty(packageComment) && packageComment.Contains(Constants.TKI_PITCHSHIFT))
+                        {
+                            Globals.Log(" - Song is already pitch shifted");
+                            skipped++;
+                            isSkipped = true;
+                        }
                     }
 
                     if (!isSkipped)
                     {
-                        Globals.Log(" - Adding pitch shifting effect");
-                        int gitShift = 0, bassShift = 0;
-                        int mix = 100;
-                        int tone = 50;
-
+                        var gitShift = 0;
+                        var bassShift = 0;
+                        const int mix = 100;
+                        const int tone = 50;
+             
                         //Get info (amount of steps) and set correct tunings
                         packageData = GetSetArrInfo(packageData, ref gitShift, ref bassShift, ref ext);
 
@@ -165,29 +169,30 @@ namespace CustomsForgeSongManager.LocalTools
                         //Set correct names and regenerate xml
                         packageData = RegenerateXML(packageData);
 
-                        Globals.Log(" - Repackaging");
-
-                        if (overwriteFile)
+                        // TODO: confirm Arrangment Ids have been changed elsewhere
+                        // two CDLC with same ids will lock the game
+                        if (!overwriteFile)
+                        {
+                            Globals.Log(" - Adding pitch shifting effect to new CDLC file");
                             finalPath = srcFilePath.Replace("_p.psarc", ext + "_p.psarc");
+                        }
+                        else
+                            Globals.Log(" - Adding pitch shifting effect to existing file");
 
+                        Globals.Log(" - Repackaging");
                         using (var psarcNew = new PsarcPackager(true))
                             psarcNew.WritePackage(finalPath, packageData, srcFilePath);
 
                         if (File.Exists(finalPath))
                         {
-                            //TemporaryDisableDatabindEvent(() =>
-                            //{
-                            using (var browser = new PsarcBrowser(finalPath))
+                             using (var browser = new PsarcBrowser(finalPath))
                             {
                                 var songInfo = browser.GetSongData();
 
-                                if (songInfo != null && Globals.SongCollection.Where(sng => sng.FilePath == finalPath).Count() == 0)
+                                if (songInfo != null && !Globals.SongCollection.Where(sng => sng.FilePath == finalPath).Any())
                                     Globals.SongCollection.Add(songInfo.First());
                             }
-                            //  });
-
-                            //  GenExtensions.InvokeIfRequired(dgvSongsMaster, delegate { dgvSongsMaster.Refresh(); });
-                        }
+                         }
 
                         Globals.Log(" - Pitch shifting was sucessful");
                     }
@@ -196,7 +201,6 @@ namespace CustomsForgeSongManager.LocalTools
                 {
                     Globals.Log(" - Pitch shifting failed: " + ex.Message);
                     failed++;
-
                 }
 
                 GenericWorker.ReportProgress(processed, total, skipped, failed);

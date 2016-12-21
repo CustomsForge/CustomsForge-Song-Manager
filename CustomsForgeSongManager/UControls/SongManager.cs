@@ -129,6 +129,8 @@ namespace CustomsForgeSongManager.UControls
                 if (colX != null)
                     dgvSongsMaster.Sort(colX, AppSettings.Instance.SortAscending ? ListSortDirection.Ascending : ListSortDirection.Descending);
             }
+
+            UpdateToolStrip();
         }
 
         public void SaveSongCollectionToFile()
@@ -178,6 +180,7 @@ namespace CustomsForgeSongManager.UControls
             Globals.TsLabel_DisabledCounter.Text = tsldcMsg;
             Globals.TsLabel_DisabledCounter.Visible = true;
             Globals.TsLabel_StatusMsg.Visible = false;
+            TemporaryDisableDatabindEvent(() => { dgvSongsMaster.Refresh(); });
         }
 
         private void CheckForUpdatesEvent(object o, DoWorkEventArgs args)
@@ -295,16 +298,6 @@ namespace CustomsForgeSongManager.UControls
 
             FileTools.DeleteFiles(selection);
             UpdateToolStrip();
-        }
-
-        private void DisableEnabled()
-        {
-            // TODO: impliment this if RS1 Compatiblity Songs are included by default
-            foreach (DataGridViewRow row in dgvSongsMaster.Rows)
-            {
-                if (row.Cells["colFilePath"].Value.ToString().ToLower().Contains(Constants.RS1COMP))
-                    row.Cells["colEnabled"].Value = false;
-            }
         }
 
         private void GetRepairOptions()
@@ -530,7 +523,7 @@ namespace CustomsForgeSongManager.UControls
         {
             bindingCompleted = false;
             dgvPainted = false;
-            Rescan(System.Windows.Forms.Control.ModifierKeys == Keys.Control);
+            Rescan(fullRescan);
             PopulateDataGridView();
             UpdateToolStrip();
             Globals.ReloadDuplicates = true;
@@ -1359,14 +1352,7 @@ namespace CustomsForgeSongManager.UControls
             RemoveFilter();
         }
 
-        private void lnkLblCheckODLC_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            using (var ODlcCheckForm = new frmCODLCDuplicates())
-            {
-                ODlcCheckForm.PopulateLists();
-                ODlcCheckForm.ShowDialog();
-            }
-        }
+
 
         private void lnkLblSelectAll_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
@@ -1428,6 +1414,16 @@ namespace CustomsForgeSongManager.UControls
             tsmiRepairs.ShowDropDown();
             tsmiAddDDSettings.ShowDropDown();
             menuStrip.Focus();
+        }
+
+        private void tsmiFilesCheckODLC_Click(object sender, EventArgs e)
+        {
+            using (var ODlcCheckForm = new frmCODLCDuplicates())
+            {
+                var conflicted = ODlcCheckForm.PopulateLists();
+                if (conflicted)
+                    ODlcCheckForm.ShowDialog();
+            }
         }
 
         private void tsmiFilesArcBak_Click(object sender, EventArgs e)
@@ -1493,7 +1489,7 @@ namespace CustomsForgeSongManager.UControls
         {
             foreach (DataGridViewRow row in dgvSongsMaster.Rows)
             {
-                if (Convert.ToBoolean(row.Cells["colSelect"].Value))
+                if (Convert.ToBoolean(row.Cells["colSelect"].Value) || row.Selected)
                 {
                     var originalPath = row.Cells["colFilePath"].Value.ToString();
                     var originalFile = row.Cells["colFileName"].Value.ToString();
@@ -1518,19 +1514,16 @@ namespace CustomsForgeSongManager.UControls
                                 row.Cells["colFileName"].Value = originalFile.Replace("_p.disabled.psarc", "_p.psarc");
                                 row.Cells["colEnabled"].Value = "Yes";
                             }
+
+                            UpdateToolStrip();
                         }
                         catch (IOException ex)
                         {
                             MessageBox.Show(string.Format(Properties.Resources.UnableToEnableDisableSongX0InDlcFolderX1Er, Path.GetFileName(originalPath), Environment.NewLine, ex.Message));
                         }
-
-                        // row.Cells["colSelect"].Value = false;
-                        numberOfDisabledDLC = masterSongCollection.Where(song => song.Enabled == "No").ToList().Count();
-                        var tsldcMsg = String.Format("Outdated: {0} | Disabled CDLC: {1}", numberOfDLCPendingUpdate, numberOfDisabledDLC);
-                        GenExtensions.InvokeIfRequired(this, delegate { Globals.TsLabel_DisabledCounter.Text = tsldcMsg; });
                     }
                     else
-                        Globals.Log(string.Format(Properties.Resources.ThisIsARocksmith1CompatiblitySongX0RS1Comp, Environment.NewLine));
+                        Globals.Log(String.Format(Properties.Resources.ThisIsARocksmith1CompatiblitySongX0RS1Comp, Environment.NewLine));
                 }
             }
         }
@@ -1613,13 +1606,19 @@ namespace CustomsForgeSongManager.UControls
             menuStrip.Focus();
         }
 
-        private void tsmiModsPitchShift_Click(object sender, EventArgs e)
+        private void tsmiModsPitchShifter_Click(object sender, EventArgs e)
         {
             var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster);
             if (!selection.Any()) return;
 
             // TODO: maybe start genericWorker or TaskFactory here
-            PitchShiftTools.PitchShiftSong(selection, tsmiModsPitchShiftOverwrite.Checked);
+            PitchShiftTools.PitchShiftSongs(selection, tsmiModsPitchShiftOverwrite.Checked);
+
+            GetGrid().Invalidate();
+            GetGrid().Refresh();
+
+            // TODO: figure out a better way to refresh the dgv contents
+            //RefreshDgv(false);
         }
 
         private void tsmiModsTagArtwork_Click(object sender, EventArgs e)
@@ -1693,7 +1692,7 @@ namespace CustomsForgeSongManager.UControls
         private void tsmiOverwriteCDLC_Click(object sender, EventArgs e)
         {
             tsmiMods.ShowDropDown();
-            tsmiModsPitchShift.ShowDropDown();
+            tsmiModsPitchShifter.ShowDropDown();
             menuStrip.Focus();
         }
 

@@ -33,14 +33,14 @@ namespace CustomsForgeSongManager.UControls
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SongManager));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panelSearch = new System.Windows.Forms.Panel();
             this.chkSubFolders = new System.Windows.Forms.CheckBox();
             this.lnkClearSearch = new System.Windows.Forms.LinkLabel();
@@ -60,7 +60,6 @@ namespace CustomsForgeSongManager.UControls
             this.cmsTaggerPreview = new CustomControls.ToolStripEnhancedMenuItem();
             this.lnkLblSelectAll = new System.Windows.Forms.LinkLabel();
             this.gb_Main_Grid = new System.Windows.Forms.GroupBox();
-            this.lnkLblCheckODLC = new System.Windows.Forms.LinkLabel();
             this.dgvSongsDetail = new System.Windows.Forms.DataGridView();
             this.colDetailKey = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colDetailPID = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -147,7 +146,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiMods = new CustomControls.ToolStripEnhancedMenuItem();
             this.tsmiModsChangeAppId = new CustomControls.ToolStripEnhancedMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.tsmiModsPitchShift = new CustomControls.ToolStripEnhancedMenuItem();
+            this.tsmiModsPitchShifter = new CustomControls.ToolStripEnhancedMenuItem();
             this.tsmiModsPitchShiftOverwrite = new CustomControls.ToolStripEnhancedMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiTagStyle = new CustomControls.ToolStripEnhancedMenuItem();
@@ -157,6 +156,8 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiModsTheMover = new CustomControls.ToolStripEnhancedMenuItem();
             this.tsmiModsMyCDLC = new CustomControls.ToolStripEnhancedMenuItem();
             this.tsmiFiles = new CustomControls.ToolStripEnhancedMenuItem();
+            this.tsmiFilesCheckODLC = new CustomControls.ToolStripEnhancedMenuItem();
+            this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiFilesDisableEnable = new CustomControls.ToolStripEnhancedMenuItem();
             this.tsmiFilesBackup = new CustomControls.ToolStripEnhancedMenuItem();
             this.tsmiFilesCheckUpdates = new CustomControls.ToolStripEnhancedMenuItem();
@@ -400,7 +401,6 @@ namespace CustomsForgeSongManager.UControls
             this.gb_Main_Grid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.gb_Main_Grid.Controls.Add(this.lnkLblCheckODLC);
             this.gb_Main_Grid.Controls.Add(this.dgvSongsDetail);
             this.gb_Main_Grid.Controls.Add(this.lnkLblSelectAll);
             this.gb_Main_Grid.Controls.Add(this.dgvSongsMaster);
@@ -412,22 +412,6 @@ namespace CustomsForgeSongManager.UControls
             this.gb_Main_Grid.TabStop = false;
             this.gb_Main_Grid.Text = "Results Grid:";
             // 
-            // lnkLblCheckODLC
-            // 
-            this.lnkLblCheckODLC.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.lnkLblCheckODLC.AutoSize = true;
-            this.lnkLblCheckODLC.ForeColor = System.Drawing.Color.Black;
-            this.lnkLblCheckODLC.LinkColor = System.Drawing.SystemColors.ActiveCaption;
-            this.lnkLblCheckODLC.Location = new System.Drawing.Point(782, 370);
-            this.lnkLblCheckODLC.Name = "lnkLblCheckODLC";
-            this.lnkLblCheckODLC.Size = new System.Drawing.Size(103, 13);
-            this.lnkLblCheckODLC.TabIndex = 5;
-            this.lnkLblCheckODLC.TabStop = true;
-            this.lnkLblCheckODLC.Text = "Check CDLC/ODLC";
-            this.lnkLblCheckODLC.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.toolTip.SetToolTip(this.lnkLblCheckODLC, "Find CDLC replaced by ODLC");
-            this.lnkLblCheckODLC.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkLblCheckODLC_LinkClicked);
-            // 
             // dgvSongsDetail
             // 
             this.dgvSongsDetail.AllowUserToAddRows = false;
@@ -436,14 +420,14 @@ namespace CustomsForgeSongManager.UControls
             this.dgvSongsDetail.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells;
             this.dgvSongsDetail.BackgroundColor = System.Drawing.Color.AliceBlue;
             this.dgvSongsDetail.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvSongsDetail.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvSongsDetail.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle9;
             this.dgvSongsDetail.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvSongsDetail.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colDetailKey,
@@ -459,8 +443,8 @@ namespace CustomsForgeSongManager.UControls
             this.dgvSongsDetail.Name = "dgvSongsDetail";
             this.dgvSongsDetail.ReadOnly = true;
             this.dgvSongsDetail.RowHeadersVisible = false;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.AliceBlue;
-            this.dgvSongsDetail.RowsDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle10.BackColor = System.Drawing.Color.AliceBlue;
+            this.dgvSongsDetail.RowsDefaultCellStyle = dataGridViewCellStyle10;
             this.dgvSongsDetail.RowTemplate.DefaultCellStyle.BackColor = System.Drawing.Color.AliceBlue;
             this.dgvSongsDetail.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.SystemColors.ControlText;
             this.dgvSongsDetail.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.SystemColors.Highlight;
@@ -468,21 +452,76 @@ namespace CustomsForgeSongManager.UControls
             this.dgvSongsDetail.Size = new System.Drawing.Size(813, 70);
             this.dgvSongsDetail.TabIndex = 3;
             // 
+            // colDetailKey
+            // 
+            this.colDetailKey.DataPropertyName = "DLCKey";
+            this.colDetailKey.HeaderText = "DLC Key";
+            this.colDetailKey.Name = "colDetailKey";
+            this.colDetailKey.ReadOnly = true;
+            this.colDetailKey.Width = 95;
+            // 
+            // colDetailPID
+            // 
+            this.colDetailPID.DataPropertyName = "PersistentID";
+            this.colDetailPID.HeaderText = "Persistent ID";
+            this.colDetailPID.Name = "colDetailPID";
+            this.colDetailPID.ReadOnly = true;
+            this.colDetailPID.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colDetailPID.Width = 250;
+            // 
+            // colDetailArrangement
+            // 
+            this.colDetailArrangement.DataPropertyName = "Name";
+            this.colDetailArrangement.HeaderText = "Arrangement";
+            this.colDetailArrangement.Name = "colDetailArrangement";
+            this.colDetailArrangement.ReadOnly = true;
+            // 
+            // colDetailTuning
+            // 
+            this.colDetailTuning.DataPropertyName = "Tuning";
+            this.colDetailTuning.HeaderText = "Tuning";
+            this.colDetailTuning.Name = "colDetailTuning";
+            this.colDetailTuning.ReadOnly = true;
+            // 
+            // colDetailSections
+            // 
+            this.colDetailSections.DataPropertyName = "SectionCount";
+            this.colDetailSections.HeaderText = "Sections";
+            this.colDetailSections.Name = "colDetailSections";
+            this.colDetailSections.ReadOnly = true;
+            this.colDetailSections.Width = 60;
+            // 
+            // colDetailDMax
+            // 
+            this.colDetailDMax.DataPropertyName = "DMax";
+            this.colDetailDMax.HeaderText = "DMax";
+            this.colDetailDMax.Name = "colDetailDMax";
+            this.colDetailDMax.ReadOnly = true;
+            this.colDetailDMax.Width = 55;
+            // 
+            // colDetailToneBase
+            // 
+            this.colDetailToneBase.DataPropertyName = "ToneBase";
+            this.colDetailToneBase.HeaderText = "Tone Base";
+            this.colDetailToneBase.Name = "colDetailToneBase";
+            this.colDetailToneBase.ReadOnly = true;
+            this.colDetailToneBase.Width = 150;
+            // 
             // dgvSongsMaster
             // 
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.dgvSongsMaster.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle11.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.dgvSongsMaster.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle11;
             this.dgvSongsMaster.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvSongsMaster.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle12.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle12.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle12.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle12.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvSongsMaster.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle12;
             this.dgvSongsMaster.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colShowDetail,
             this.colKey,
@@ -537,6 +576,15 @@ namespace CustomsForgeSongManager.UControls
             this.dgvSongsMaster.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvSongsMaster_KeyDown);
             this.dgvSongsMaster.KeyUp += new System.Windows.Forms.KeyEventHandler(this.dgvSongsMaster_KeyUp);
             // 
+            // colShowDetail
+            // 
+            this.colShowDetail.DataPropertyName = "ShowDetail";
+            this.colShowDetail.HeaderText = "";
+            this.colShowDetail.Image = ((System.Drawing.Image)(resources.GetObject("colShowDetail.Image")));
+            this.colShowDetail.Name = "colShowDetail";
+            this.colShowDetail.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colShowDetail.Width = 20;
+            // 
             // colKey
             // 
             this.colKey.DataPropertyName = "DLCKey";
@@ -545,6 +593,66 @@ namespace CustomsForgeSongManager.UControls
             this.colKey.ReadOnly = true;
             this.colKey.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.colKey.Width = 95;
+            // 
+            // colSelect
+            // 
+            this.colSelect.DataPropertyName = "Selected";
+            this.colSelect.FalseValue = "false";
+            this.colSelect.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.colSelect.HeaderText = "Select";
+            this.colSelect.IndeterminateValue = "false";
+            this.colSelect.Name = "colSelect";
+            this.colSelect.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.colSelect.TrueValue = "true";
+            this.colSelect.Width = 50;
+            // 
+            // colBass
+            // 
+            this.colBass.DataPropertyName = "Bass";
+            this.colBass.HeaderText = "B";
+            this.colBass.Image = ((System.Drawing.Image)(resources.GetObject("colBass.Image")));
+            this.colBass.MinimumWidth = 21;
+            this.colBass.Name = "colBass";
+            this.colBass.ReadOnly = true;
+            this.colBass.ToolTipText = "Bass";
+            this.colBass.Visible = false;
+            this.colBass.Width = 21;
+            // 
+            // colLead
+            // 
+            this.colLead.DataPropertyName = "Lead";
+            this.colLead.HeaderText = "L";
+            this.colLead.Image = ((System.Drawing.Image)(resources.GetObject("colLead.Image")));
+            this.colLead.MinimumWidth = 21;
+            this.colLead.Name = "colLead";
+            this.colLead.ReadOnly = true;
+            this.colLead.ToolTipText = "Lead";
+            this.colLead.Visible = false;
+            this.colLead.Width = 21;
+            // 
+            // colRhythm
+            // 
+            this.colRhythm.DataPropertyName = "Rhythm";
+            this.colRhythm.HeaderText = "R";
+            this.colRhythm.Image = ((System.Drawing.Image)(resources.GetObject("colRhythm.Image")));
+            this.colRhythm.MinimumWidth = 21;
+            this.colRhythm.Name = "colRhythm";
+            this.colRhythm.ReadOnly = true;
+            this.colRhythm.ToolTipText = "Rhythm";
+            this.colRhythm.Visible = false;
+            this.colRhythm.Width = 21;
+            // 
+            // colVocals
+            // 
+            this.colVocals.DataPropertyName = "Vocals";
+            this.colVocals.HeaderText = "V";
+            this.colVocals.Image = ((System.Drawing.Image)(resources.GetObject("colVocals.Image")));
+            this.colVocals.MinimumWidth = 21;
+            this.colVocals.Name = "colVocals";
+            this.colVocals.ReadOnly = true;
+            this.colVocals.ToolTipText = "Vocals";
+            this.colVocals.Visible = false;
+            this.colVocals.Width = 21;
             // 
             // colRepairStatus
             // 
@@ -624,6 +732,28 @@ namespace CustomsForgeSongManager.UControls
             this.colDD.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.colDD.Visible = false;
             // 
+            // colSongLength
+            // 
+            this.colSongLength.DataPropertyName = "SongLength";
+            dataGridViewCellStyle13.Format = "N2";
+            dataGridViewCellStyle13.NullValue = null;
+            this.colSongLength.DefaultCellStyle = dataGridViewCellStyle13;
+            this.colSongLength.HeaderText = "Length Seconds";
+            this.colSongLength.Name = "colSongLength";
+            this.colSongLength.ReadOnly = true;
+            this.colSongLength.Visible = false;
+            // 
+            // colAvgTempo
+            // 
+            this.colAvgTempo.DataPropertyName = "SongAverageTempo";
+            dataGridViewCellStyle14.Format = "N2";
+            dataGridViewCellStyle14.NullValue = null;
+            this.colAvgTempo.DefaultCellStyle = dataGridViewCellStyle14;
+            this.colAvgTempo.HeaderText = "BPM";
+            this.colAvgTempo.Name = "colAvgTempo";
+            this.colAvgTempo.ReadOnly = true;
+            this.colAvgTempo.Visible = false;
+            // 
             // colAppID
             // 
             this.colAppID.DataPropertyName = "AppID";
@@ -672,6 +802,26 @@ namespace CustomsForgeSongManager.UControls
             this.colCharter.Visible = false;
             this.colCharter.Width = 50;
             // 
+            // colUpdated
+            // 
+            this.colUpdated.DataPropertyName = "LastConversionDateTime";
+            dataGridViewCellStyle15.NullValue = null;
+            this.colUpdated.DefaultCellStyle = dataGridViewCellStyle15;
+            this.colUpdated.HeaderText = "Updated";
+            this.colUpdated.Name = "colUpdated";
+            this.colUpdated.ReadOnly = true;
+            this.colUpdated.Visible = false;
+            this.colUpdated.Width = 50;
+            // 
+            // colVersion
+            // 
+            this.colVersion.DataPropertyName = "Version";
+            this.colVersion.HeaderText = "Version";
+            this.colVersion.Name = "colVersion";
+            this.colVersion.ReadOnly = true;
+            this.colVersion.Visible = false;
+            this.colVersion.Width = 50;
+            // 
             // colToolkitVersion
             // 
             this.colToolkitVersion.DataPropertyName = "ToolkitVer";
@@ -688,6 +838,52 @@ namespace CustomsForgeSongManager.UControls
             this.colTagged.Name = "colTagged";
             this.colTagged.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.colTagged.Width = 72;
+            // 
+            // colIgnitionID
+            // 
+            this.colIgnitionID.DataPropertyName = "IgnitionID";
+            this.colIgnitionID.HeaderText = "Ignition ID";
+            this.colIgnitionID.Name = "colIgnitionID";
+            this.colIgnitionID.ReadOnly = true;
+            this.colIgnitionID.Visible = false;
+            this.colIgnitionID.Width = 50;
+            // 
+            // colIgnitionUpdated
+            // 
+            this.colIgnitionUpdated.DataPropertyName = "IgnitionUpdated";
+            dataGridViewCellStyle16.NullValue = null;
+            this.colIgnitionUpdated.DefaultCellStyle = dataGridViewCellStyle16;
+            this.colIgnitionUpdated.HeaderText = "Ignition Updated";
+            this.colIgnitionUpdated.Name = "colIgnitionUpdated";
+            this.colIgnitionUpdated.ReadOnly = true;
+            this.colIgnitionUpdated.Visible = false;
+            this.colIgnitionUpdated.Width = 50;
+            // 
+            // colIgnitionVersion
+            // 
+            this.colIgnitionVersion.DataPropertyName = "IgnitionVersion";
+            this.colIgnitionVersion.HeaderText = "Ignition Version";
+            this.colIgnitionVersion.Name = "colIgnitionVersion";
+            this.colIgnitionVersion.ReadOnly = true;
+            this.colIgnitionVersion.Visible = false;
+            this.colIgnitionVersion.Width = 50;
+            // 
+            // colIgnitionAuthor
+            // 
+            this.colIgnitionAuthor.DataPropertyName = "IgnitionAuthor";
+            this.colIgnitionAuthor.HeaderText = "Ignition Author";
+            this.colIgnitionAuthor.Name = "colIgnitionAuthor";
+            this.colIgnitionAuthor.ReadOnly = true;
+            this.colIgnitionAuthor.Visible = false;
+            this.colIgnitionAuthor.Width = 50;
+            // 
+            // colArtistTitleAlbum
+            // 
+            this.colArtistTitleAlbum.DataPropertyName = "ArtistTitleAlbum";
+            this.colArtistTitleAlbum.HeaderText = "ArtistTitleAlbum";
+            this.colArtistTitleAlbum.Name = "colArtistTitleAlbum";
+            this.colArtistTitleAlbum.ReadOnly = true;
+            this.colArtistTitleAlbum.Visible = false;
             // 
             // colArtistSort
             // 
@@ -1187,7 +1383,8 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiMods.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiModsChangeAppId,
             this.toolStripSeparator4,
-            this.tsmiModsPitchShift,
+            this.tsmiModsPitchShifter,
+            this.tsmiModsPitchShiftOverwrite,
             this.toolStripSeparator5,
             this.tsmiTagStyle,
             this.tsmiModsTagArtwork,
@@ -1208,6 +1405,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiModsChangeAppId.RadioButtonGroupName = null;
             this.tsmiModsChangeAppId.Size = new System.Drawing.Size(176, 22);
             this.tsmiModsChangeAppId.Text = "Edit App IDs";
+            this.tsmiModsChangeAppId.ToolTipText = "Change from CDLC from the Cherb Rock \r\nApp ID to any other DLC that you own.";
             this.tsmiModsChangeAppId.Click += new System.EventHandler(this.tsmiModsChangeAppId_Click);
             // 
             // toolStripSeparator4
@@ -1215,16 +1413,16 @@ namespace CustomsForgeSongManager.UControls
             this.toolStripSeparator4.Name = "toolStripSeparator4";
             this.toolStripSeparator4.Size = new System.Drawing.Size(173, 6);
             // 
-            // tsmiModsPitchShift
+            // tsmiModsPitchShifter
             // 
-            this.tsmiModsPitchShift.AssociatedEnumValue = null;
-            this.tsmiModsPitchShift.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiModsPitchShiftOverwrite});
-            this.tsmiModsPitchShift.Name = "tsmiModsPitchShift";
-            this.tsmiModsPitchShift.RadioButtonGroupName = "PitchShift";
-            this.tsmiModsPitchShift.Size = new System.Drawing.Size(176, 22);
-            this.tsmiModsPitchShift.Text = "Pitch Shift";
-            this.tsmiModsPitchShift.Click += new System.EventHandler(this.tsmiModsPitchShift_Click);
+            this.tsmiModsPitchShifter.AssociatedEnumValue = null;
+            this.tsmiModsPitchShifter.Name = "tsmiModsPitchShifter";
+            this.tsmiModsPitchShifter.RadioButtonGroupName = "PitchShifter";
+            this.tsmiModsPitchShifter.Size = new System.Drawing.Size(176, 22);
+            this.tsmiModsPitchShifter.Text = "Pitch Shifter";
+            this.tsmiModsPitchShifter.ToolTipText = "Convert non-starndard tuning to standard tuning.\r\nMay not sound the best but eh w" +
+                "ho cares, right.";
+            this.tsmiModsPitchShifter.Click += new System.EventHandler(this.tsmiModsPitchShifter_Click);
             // 
             // tsmiModsPitchShiftOverwrite
             // 
@@ -1233,8 +1431,8 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiModsPitchShiftOverwrite.Name = "tsmiModsPitchShiftOverwrite";
             this.tsmiModsPitchShiftOverwrite.RadioButtonGroupName = "PitchShift";
             this.tsmiModsPitchShiftOverwrite.Size = new System.Drawing.Size(202, 22);
-            this.tsmiModsPitchShiftOverwrite.Text = "Overwrite existing CDLC";
-            this.tsmiModsPitchShiftOverwrite.ToolTipText = "Overwrite existing CDLC";
+            this.tsmiModsPitchShiftOverwrite.Text = "Overwrite File";
+            this.tsmiModsPitchShiftOverwrite.ToolTipText = "Overwrite existing CDLC with\r\npitch shifted arrangements.";
             this.tsmiModsPitchShiftOverwrite.Click += new System.EventHandler(this.tsmiOverwriteCDLC_Click);
             // 
             // toolStripSeparator5
@@ -1298,6 +1496,8 @@ namespace CustomsForgeSongManager.UControls
             // 
             this.tsmiFiles.AssociatedEnumValue = null;
             this.tsmiFiles.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiFilesCheckODLC,
+            this.toolStripSeparator11,
             this.tsmiFilesDisableEnable,
             this.tsmiFilesBackup,
             this.tsmiFilesCheckUpdates,
@@ -1313,6 +1513,21 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiFiles.RadioButtonGroupName = null;
             this.tsmiFiles.Size = new System.Drawing.Size(56, 20);
             this.tsmiFiles.Text = "Files";
+            // 
+            // tsmiFilesCheckODLC
+            // 
+            this.tsmiFilesCheckODLC.AssociatedEnumValue = null;
+            this.tsmiFilesCheckODLC.Name = "tsmiFilesCheckODLC";
+            this.tsmiFilesCheckODLC.RadioButtonGroupName = null;
+            this.tsmiFilesCheckODLC.Size = new System.Drawing.Size(174, 22);
+            this.tsmiFilesCheckODLC.Text = "Check CDLC/ODLC";
+            this.tsmiFilesCheckODLC.ToolTipText = "Determines if any of your CDLC\r\nhave been replaced by ODLC.";
+            this.tsmiFilesCheckODLC.Click += new System.EventHandler(this.tsmiFilesCheckODLC_Click);
+            // 
+            // toolStripSeparator11
+            // 
+            this.toolStripSeparator11.Name = "toolStripSeparator11";
+            this.toolStripSeparator11.Size = new System.Drawing.Size(171, 6);
             // 
             // tsmiFilesDisableEnable
             // 
@@ -1552,218 +1767,6 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiHelpErrorLog.Text = "View Error Log";
             this.tsmiHelpErrorLog.Click += new System.EventHandler(this.tsmiHelpErrorLog_Click);
             // 
-            // colDetailKey
-            // 
-            this.colDetailKey.DataPropertyName = "DLCKey";
-            this.colDetailKey.HeaderText = "DLC Key";
-            this.colDetailKey.Name = "colDetailKey";
-            this.colDetailKey.ReadOnly = true;
-            this.colDetailKey.Width = 95;
-            // 
-            // colDetailPID
-            // 
-            this.colDetailPID.DataPropertyName = "PersistentID";
-            this.colDetailPID.HeaderText = "Persistent ID";
-            this.colDetailPID.Name = "colDetailPID";
-            this.colDetailPID.ReadOnly = true;
-            this.colDetailPID.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colDetailPID.Width = 250;
-            // 
-            // colDetailArrangement
-            // 
-            this.colDetailArrangement.DataPropertyName = "Name";
-            this.colDetailArrangement.HeaderText = "Arrangement";
-            this.colDetailArrangement.Name = "colDetailArrangement";
-            this.colDetailArrangement.ReadOnly = true;
-            // 
-            // colDetailTuning
-            // 
-            this.colDetailTuning.DataPropertyName = "Tuning";
-            this.colDetailTuning.HeaderText = "Tuning";
-            this.colDetailTuning.Name = "colDetailTuning";
-            this.colDetailTuning.ReadOnly = true;
-            // 
-            // colDetailSections
-            // 
-            this.colDetailSections.DataPropertyName = "SectionCount";
-            this.colDetailSections.HeaderText = "Sections";
-            this.colDetailSections.Name = "colDetailSections";
-            this.colDetailSections.ReadOnly = true;
-            this.colDetailSections.Width = 60;
-            // 
-            // colDetailDMax
-            // 
-            this.colDetailDMax.DataPropertyName = "DMax";
-            this.colDetailDMax.HeaderText = "DMax";
-            this.colDetailDMax.Name = "colDetailDMax";
-            this.colDetailDMax.ReadOnly = true;
-            this.colDetailDMax.Width = 55;
-            // 
-            // colDetailToneBase
-            // 
-            this.colDetailToneBase.DataPropertyName = "ToneBase";
-            this.colDetailToneBase.HeaderText = "Tone Base";
-            this.colDetailToneBase.Name = "colDetailToneBase";
-            this.colDetailToneBase.ReadOnly = true;
-            this.colDetailToneBase.Width = 150;
-            // 
-            // colShowDetail
-            // 
-            this.colShowDetail.DataPropertyName = "ShowDetail";
-            this.colShowDetail.HeaderText = "";
-            this.colShowDetail.Image = ((System.Drawing.Image)(resources.GetObject("colShowDetail.Image")));
-            this.colShowDetail.Name = "colShowDetail";
-            this.colShowDetail.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colShowDetail.Width = 20;
-            // 
-            // colSelect
-            // 
-            this.colSelect.DataPropertyName = "Selected";
-            this.colSelect.FalseValue = "false";
-            this.colSelect.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.colSelect.HeaderText = "Select";
-            this.colSelect.IndeterminateValue = "false";
-            this.colSelect.Name = "colSelect";
-            this.colSelect.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.colSelect.TrueValue = "true";
-            this.colSelect.Width = 50;
-            // 
-            // colBass
-            // 
-            this.colBass.DataPropertyName = "Bass";
-            this.colBass.HeaderText = "B";
-            this.colBass.Image = ((System.Drawing.Image)(resources.GetObject("colBass.Image")));
-            this.colBass.MinimumWidth = 21;
-            this.colBass.Name = "colBass";
-            this.colBass.ReadOnly = true;
-            this.colBass.ToolTipText = "Bass";
-            this.colBass.Visible = false;
-            this.colBass.Width = 21;
-            // 
-            // colLead
-            // 
-            this.colLead.DataPropertyName = "Lead";
-            this.colLead.HeaderText = "L";
-            this.colLead.Image = ((System.Drawing.Image)(resources.GetObject("colLead.Image")));
-            this.colLead.MinimumWidth = 21;
-            this.colLead.Name = "colLead";
-            this.colLead.ReadOnly = true;
-            this.colLead.ToolTipText = "Lead";
-            this.colLead.Visible = false;
-            this.colLead.Width = 21;
-            // 
-            // colRhythm
-            // 
-            this.colRhythm.DataPropertyName = "Rhythm";
-            this.colRhythm.HeaderText = "R";
-            this.colRhythm.Image = ((System.Drawing.Image)(resources.GetObject("colRhythm.Image")));
-            this.colRhythm.MinimumWidth = 21;
-            this.colRhythm.Name = "colRhythm";
-            this.colRhythm.ReadOnly = true;
-            this.colRhythm.ToolTipText = "Rhythm";
-            this.colRhythm.Visible = false;
-            this.colRhythm.Width = 21;
-            // 
-            // colVocals
-            // 
-            this.colVocals.DataPropertyName = "Vocals";
-            this.colVocals.HeaderText = "V";
-            this.colVocals.Image = ((System.Drawing.Image)(resources.GetObject("colVocals.Image")));
-            this.colVocals.MinimumWidth = 21;
-            this.colVocals.Name = "colVocals";
-            this.colVocals.ReadOnly = true;
-            this.colVocals.ToolTipText = "Vocals";
-            this.colVocals.Visible = false;
-            this.colVocals.Width = 21;
-            // 
-            // colSongLength
-            // 
-            this.colSongLength.DataPropertyName = "SongLength";
-            dataGridViewCellStyle9.Format = "N2";
-            dataGridViewCellStyle9.NullValue = null;
-            this.colSongLength.DefaultCellStyle = dataGridViewCellStyle9;
-            this.colSongLength.HeaderText = "Length Seconds";
-            this.colSongLength.Name = "colSongLength";
-            this.colSongLength.ReadOnly = true;
-            this.colSongLength.Visible = false;
-            // 
-            // colAvgTempo
-            // 
-            this.colAvgTempo.DataPropertyName = "SongAverageTempo";
-            dataGridViewCellStyle10.Format = "N2";
-            dataGridViewCellStyle10.NullValue = null;
-            this.colAvgTempo.DefaultCellStyle = dataGridViewCellStyle10;
-            this.colAvgTempo.HeaderText = "BPM";
-            this.colAvgTempo.Name = "colAvgTempo";
-            this.colAvgTempo.ReadOnly = true;
-            this.colAvgTempo.Visible = false;
-            // 
-            // colUpdated
-            // 
-            this.colUpdated.DataPropertyName = "LastConversionDateTime";
-            dataGridViewCellStyle11.NullValue = null;
-            this.colUpdated.DefaultCellStyle = dataGridViewCellStyle11;
-            this.colUpdated.HeaderText = "Updated";
-            this.colUpdated.Name = "colUpdated";
-            this.colUpdated.ReadOnly = true;
-            this.colUpdated.Visible = false;
-            this.colUpdated.Width = 50;
-            // 
-            // colVersion
-            // 
-            this.colVersion.DataPropertyName = "Version";
-            this.colVersion.HeaderText = "Version";
-            this.colVersion.Name = "colVersion";
-            this.colVersion.ReadOnly = true;
-            this.colVersion.Visible = false;
-            this.colVersion.Width = 50;
-            // 
-            // colIgnitionID
-            // 
-            this.colIgnitionID.DataPropertyName = "IgnitionID";
-            this.colIgnitionID.HeaderText = "Ignition ID";
-            this.colIgnitionID.Name = "colIgnitionID";
-            this.colIgnitionID.ReadOnly = true;
-            this.colIgnitionID.Visible = false;
-            this.colIgnitionID.Width = 50;
-            // 
-            // colIgnitionUpdated
-            // 
-            this.colIgnitionUpdated.DataPropertyName = "IgnitionUpdated";
-            dataGridViewCellStyle12.NullValue = null;
-            this.colIgnitionUpdated.DefaultCellStyle = dataGridViewCellStyle12;
-            this.colIgnitionUpdated.HeaderText = "Ignition Updated";
-            this.colIgnitionUpdated.Name = "colIgnitionUpdated";
-            this.colIgnitionUpdated.ReadOnly = true;
-            this.colIgnitionUpdated.Visible = false;
-            this.colIgnitionUpdated.Width = 50;
-            // 
-            // colIgnitionVersion
-            // 
-            this.colIgnitionVersion.DataPropertyName = "IgnitionVersion";
-            this.colIgnitionVersion.HeaderText = "Ignition Version";
-            this.colIgnitionVersion.Name = "colIgnitionVersion";
-            this.colIgnitionVersion.ReadOnly = true;
-            this.colIgnitionVersion.Visible = false;
-            this.colIgnitionVersion.Width = 50;
-            // 
-            // colIgnitionAuthor
-            // 
-            this.colIgnitionAuthor.DataPropertyName = "IgnitionAuthor";
-            this.colIgnitionAuthor.HeaderText = "Ignition Author";
-            this.colIgnitionAuthor.Name = "colIgnitionAuthor";
-            this.colIgnitionAuthor.ReadOnly = true;
-            this.colIgnitionAuthor.Visible = false;
-            this.colIgnitionAuthor.Width = 50;
-            // 
-            // colArtistTitleAlbum
-            // 
-            this.colArtistTitleAlbum.DataPropertyName = "ArtistTitleAlbum";
-            this.colArtistTitleAlbum.HeaderText = "ArtistTitleAlbum";
-            this.colArtistTitleAlbum.Name = "colArtistTitleAlbum";
-            this.colArtistTitleAlbum.ReadOnly = true;
-            this.colArtistTitleAlbum.Visible = false;
-            // 
             // SongManager
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1860,8 +1863,7 @@ namespace CustomsForgeSongManager.UControls
         private DataGridViewAutoFilterTextBoxColumn colArtistSort;
         private DataGridViewAutoFilterTextBoxColumn colTitleSort;
         private DataGridViewAutoFilterTextBoxColumn colAlbumSort;
-        private System.Windows.Forms.LinkLabel lnkLblCheckODLC;
-        private CustomControls.ToolStripEnhancedMenuItem tsmiModsPitchShift;
+        private CustomControls.ToolStripEnhancedMenuItem tsmiModsPitchShifter;
         private System.Windows.Forms.MenuStrip menuStrip;
         private CustomControls.ToolStripEnhancedMenuItem tsmiRescan;
         private CustomControls.ToolStripEnhancedMenuItem tsmiRescanQuick;
@@ -1930,5 +1932,7 @@ namespace CustomsForgeSongManager.UControls
         private CustomControls.ToolStripEnhancedMenuItem tsmiFilesRestoreBak;
         private CustomControls.ToolStripEnhancedMenuItem tsmiFilesArcBak;
         private CustomControls.ToolStripEnhancedMenuItem tsmiModsPitchShiftOverwrite;
+        private CustomControls.ToolStripEnhancedMenuItem tsmiFilesCheckODLC;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator11;
     }
 }

@@ -1,5 +1,10 @@
 ﻿CFSM Release Notes
 
+1.2.8.4
+- Restored Pitch Shifter operation
+- Fixed Enable/Disable
+- Fixed CODLC Application Exit bug
+
 1.2.8.3
 - Combined Bulk Repairs, Repairs, and mods such as Pitch Shifting
 - Added a new menustrip and toolstripmenuitems for these features in SongManager

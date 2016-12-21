@@ -259,7 +259,7 @@ namespace CustomsForgeSongManager.LocalTools
             else
                 Globals.Log("No files deleted ...");
         }
-
+ 
         public static string GetDownloadsPath()
         {
             var dlDirPath = AppSettings.Instance.DownloadsDir;

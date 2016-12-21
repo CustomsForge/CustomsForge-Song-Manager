@@ -40,9 +40,12 @@ namespace CustomsForgeSongManager.Forms
 
         private void btnApply_Click(object sender, EventArgs e)
         {
+            lblMsg.Visible = true;
+            this.Refresh();
             themedProgressBar1.Maximum = DataFiles.Length;
             themedProgressBar1.Value = 0;
-            string newID = txtAppId.Text.Trim();
+            var newID = txtAppId.Text.Trim();
+            
             foreach (var song in DataFiles)
             {
                 NoCloseStream dataStream = null;
@@ -67,7 +70,10 @@ namespace CustomsForgeSongManager.Forms
                 if (isCancelled)
                     break;
             }
+
+            lblMsg.Visible = false;
             DialogResult = DialogResult.OK;
+
             this.Close();
         }
 

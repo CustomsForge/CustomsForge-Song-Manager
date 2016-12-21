@@ -17,6 +17,8 @@ using RocksmithToolkitLib.DLCPackage.Manifest.Functions;
 using RocksmithToolkitLib;
 using Arrangement = RocksmithToolkitLib.DLCPackage.Arrangement;
 
+
+// DO NOT USE RESHAPER SORT ON THIS METHOD IT RUINS REPAIROPTIONS OBJECT ORDER
 namespace CustomsForgeSongManager.LocalTools
 {
     public class RepairTools
@@ -26,8 +28,6 @@ namespace CustomsForgeSongManager.LocalTools
         private static RepairOptions options;
         private static ProgressStatus repairStatus;
         private static StringBuilder sbErrors;
-
-        #region Class Methods
 
         public static void DoRepairs(object sender, List<SongData> songs, RepairOptions repairOptions)
         {
@@ -404,7 +404,7 @@ namespace CustomsForgeSongManager.LocalTools
             return sbErrors;
         }
 
-        public static void ShowNoteViewer(string resourceHelpPath = "CustomsForgeSongManager.Resources.HelpGeneral.txt", string windowText = "Default") 
+        public static void ShowNoteViewer(string resourceHelpPath = "CustomsForgeSongManager.Resources.HelpGeneral.txt", string windowText = "Default")
         {
             Assembly assembly = Assembly.GetExecutingAssembly();
             Stream stream = assembly.GetManifestResourceStream(resourceHelpPath);
@@ -443,8 +443,6 @@ namespace CustomsForgeSongManager.LocalTools
                 noteViewer.ShowDialog();
             }
         }
-
-        #endregion
     }
 
     internal class CustomException : Exception
@@ -456,21 +454,16 @@ namespace CustomsForgeSongManager.LocalTools
     [Serializable]
     public class RepairOptions
     {
+        // this object order reflects in the apperance of the settings xml file
+        // DO NOT SORT THIS CLASS
+
         private string _cfgPath;
         private int _phraseLen;
         private string _rampUpPath;
+
+        public bool SkipRemastered { get; set; }
+        public bool UsingOrgFiles { get; set; }
         public bool AddDD { get; set; }
-
-        public string CfgPath
-        {
-            get { return _cfgPath ?? (_cfgPath = String.Empty); }
-            set { _cfgPath = value; }
-        }
-
-        // this object order reflects in the apperance of the settings xml file
-        public bool IgnoreMultitone { get; set; }
-        public bool IgnoreStopLimit { get; set; }
-        public bool OverwriteDD { get; set; }
 
         public int PhraseLength
         {
@@ -478,8 +471,13 @@ namespace CustomsForgeSongManager.LocalTools
             set { _phraseLen = value; }
         }
 
-        public bool PreserveStats { get; set; }
-        public bool ProcessDLFolder { get; set; }
+        public bool RemoveSustain { get; set; }
+
+        public string CfgPath
+        {
+            get { return _cfgPath ?? (_cfgPath = String.Empty); }
+            set { _cfgPath = value; }
+        }
 
         public string RampUpPath
         {
@@ -487,18 +485,23 @@ namespace CustomsForgeSongManager.LocalTools
             set { _rampUpPath = value; }
         }
 
-        public bool RemoveBass { get; set; }
-        public bool RemoveBonus { get; set; }
-        public bool RemoveGuitar { get; set; }
-        public bool RemoveMetronome { get; set; }
-        public bool RemoveNDD { get; set; }
-        public bool RemoveSections { get; set; }
-
-        public bool RemoveSustain { get; set; }
+        public bool OverwriteDD { get; set; }
+        //
         public bool RepairMastery { get; set; }
+        public bool PreserveStats { get; set; }
+        public bool IgnoreMultitone { get; set; }
+        //
         public bool RepairMaxFive { get; set; }
-        public bool SkipRemastered { get; set; }
-        public bool UsingOrgFiles { get; set; }
+        public bool RemoveNDD { get; set; }
+        public bool RemoveBass { get; set; }
+        public bool RemoveGuitar { get; set; }
+        public bool RemoveBonus { get; set; }
+        public bool RemoveMetronome { get; set; }
+        public bool IgnoreStopLimit { get; set; }
+        //
+        public bool RemoveSections { get; set; }
+        //
+        public bool ProcessDLFolder { get; set; }
     }
 
 

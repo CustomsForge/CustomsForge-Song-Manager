@@ -310,6 +310,9 @@ namespace CustomControls
         {
             base.OnMouseUp(mea);
             ToolStrip parent = GetCurrentParent();
+            if (parent == null) 
+                return;
+
             ToolStripItem newMouseOverItem = parent.GetItemAt(mea.Location);
         }
 

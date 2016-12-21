@@ -74,7 +74,7 @@ namespace CustomsForgeSongManager.Forms
             // AppSettings.Instance.LastODLCCheckDate = DateTime.Now; 
         }
 
-        public void PopulateLists()
+        public bool PopulateLists()
         {
             Tuple<List<OfficialDLCSong>, List<SongData>> lists = GetDuplicateODLCSongs();
             List<OfficialDLCSong> duplicateList = lists.Item1;
@@ -85,8 +85,8 @@ namespace CustomsForgeSongManager.Forms
             if(duplicateList.Count == 0)
             {
                 MessageBox.Show(Properties.Resources.NoODLCDuplicatesDetected, "Info", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                Application.Exit();
-                return;
+                // Application.Exit(); // WTF?
+                return false;
             }
 
             foreach (OfficialDLCSong song in duplicateList)
@@ -104,6 +104,7 @@ namespace CustomsForgeSongManager.Forms
                 dgvOlderODLC.Rows.Add(false, duplicate.Title, duplicate.Artist, duplicate.Pack, duplicate.ReleaseDate.ToShortDateString(), duplicate.Link);
 
             songDataList = lists.Item2;
+            return true;
         }
 
         private void OpenInBrowser(DataGridView dgv)
