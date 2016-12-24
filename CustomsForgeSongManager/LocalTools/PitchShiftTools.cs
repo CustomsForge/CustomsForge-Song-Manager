@@ -57,6 +57,7 @@ namespace CustomsForgeSongManager.LocalTools
                 tone.GearList.PrePedal1 = pedal;
             }
 
+            packageData.TonesRS2014 = tones;
             return packageData;
         }
 
@@ -152,7 +153,7 @@ namespace CustomsForgeSongManager.LocalTools
                         var gitShift = 0;
                         var bassShift = 0;
                         const int mix = 100;
-                        const int tone = 50;
+                        const int tone = 100;
              
                         //Get info (amount of steps) and set correct tunings
                         packageData = GetSetArrInfo(packageData, ref gitShift, ref bassShift, ref ext);

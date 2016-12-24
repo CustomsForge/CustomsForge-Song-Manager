@@ -923,7 +923,7 @@ namespace CustomsForgeSongManager.UControls
 
         private void cmsBackupSelection_Click(object sender, EventArgs e)
         {
-            var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster); //.Where(sd => sd.Tagged);
+            var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster);
             if (!selection.Any()) return;
 
             FileTools.CreateBackupOfType(selection, Constants.BackupFolder, "");
@@ -1430,13 +1430,13 @@ namespace CustomsForgeSongManager.UControls
         private void tsmiFilesArcBak_Click(object sender, EventArgs e)
         {
             this.Refresh();
-            DoWork(Constants.WORKER_ACHRIVE, Constants.EXT_BAK, Constants.BackupFolder, tsmiFilesArcDeleteAfter.Checked);
+            DoWork(Constants.GWORKER_ACHRIVE, Constants.EXT_BAK, Constants.BackupFolder, tsmiFilesArcDeleteAfter.Checked);
         }
 
         private void tsmiFilesArcCor_Click(object sender, EventArgs e)
         {
             this.Refresh();
-            DoWork(Constants.WORKER_ACHRIVE, Constants.EXT_COR, Constants.RemasteredCorFolder, tsmiFilesArcDeleteAfter.Checked);
+            DoWork(Constants.GWORKER_ACHRIVE, Constants.EXT_COR, Constants.RemasteredCorFolder, tsmiFilesArcDeleteAfter.Checked);
         }
 
         private void tsmiFilesArcDelete_CheckedChanged(object sender, EventArgs e)
@@ -1449,17 +1449,18 @@ namespace CustomsForgeSongManager.UControls
         private void tsmiFilesArcMax_Click(object sender, EventArgs e)
         {  
             this.Refresh();
-            DoWork(Constants.WORKER_ACHRIVE, Constants.EXT_MAX, Constants.RemasteredMaxFolder, tsmiFilesArcDeleteAfter.Checked);
+            DoWork(Constants.GWORKER_ACHRIVE, Constants.EXT_MAX, Constants.RemasteredMaxFolder, tsmiFilesArcDeleteAfter.Checked);
         }
 
         private void tsmiFilesArcOrg_Click(object sender, EventArgs e)
         {
-            DoWork(Constants.WORKER_ACHRIVE, Constants.EXT_ORG, Constants.RemasteredOrgFolder, tsmiFilesArcDeleteAfter.Checked);
+            this.Refresh();
+            DoWork(Constants.GWORKER_ACHRIVE, Constants.EXT_ORG, Constants.RemasteredOrgFolder, tsmiFilesArcDeleteAfter.Checked);
         }
 
         private void tsmiFilesBackup_Click(object sender, EventArgs e)
         {
-            var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster); //.Where(sd => sd.Tagged);
+            var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster); 
             if (!selection.Any()) return;
 
             FileTools.CreateBackupOfType(selection, Constants.BackupFolder, Constants.EXT_BAK);
@@ -1487,6 +1488,8 @@ namespace CustomsForgeSongManager.UControls
         private void tsmiFilesDelete_Click(object sender, EventArgs e)
         {
             DeleteSelection();
+            // reset safety interlock
+            tsmiFilesSafetyInterlock.Checked = false;            
         }
 
         private void tsmiFilesDisableEnable_Click(object sender, EventArgs e)
@@ -1620,9 +1623,9 @@ namespace CustomsForgeSongManager.UControls
             if (!selection.Any()) return;
 
             this.Refresh();
-            DoWork(Constants.WORKER_PITCHSHIFT, selection, tsmiModsPitchShiftOverwrite.Checked);
+            DoWork(Constants.GWORKER_PITCHSHIFT, selection, tsmiModsPitchShiftOverwrite.Checked);
 
-            // TODO: figure out if there is better way to refresh the dgv contents
+            // TODO: determine better way to refresh the dgv contents
             RefreshDgv(false);
         }
 
@@ -1631,6 +1634,7 @@ namespace CustomsForgeSongManager.UControls
             var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster); //.Where(sd => sd.Tagged == false);
             if (!selection.Any()) return;
 
+            // should not occure because tagger is defaulting to frack theme
             if (String.IsNullOrEmpty(Globals.Tagger.ThemeName))
             {
                 MessageBox.Show("Please select a tag style first");
@@ -1703,7 +1707,7 @@ namespace CustomsForgeSongManager.UControls
 
         private void tsmiRepairsRun_Click(object sender, EventArgs e)
         {
-            var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster); //.Where(sd => sd.Tagged);
+            var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster);
             if (!selection.Any()) return;
 
             var items = tsmiRepairs.DropDownItems;
@@ -1734,7 +1738,7 @@ namespace CustomsForgeSongManager.UControls
             DoWork("repairing", selection, SetRepairOptions());
  
             // RepairTools.RepairSongs(selection, SetRepairOptions());
-            // TODO: figure out if there is better way to refresh the dgv contents
+            // TODO: determine better way to refresh the dgv contents
             RefreshDgv(false);
 
         }

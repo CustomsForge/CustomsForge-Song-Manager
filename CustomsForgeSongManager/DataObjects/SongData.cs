@@ -54,8 +54,9 @@ namespace CustomsForgeSongManager.DataObjects
         //ver 4 : changed tagged to SongTaggerStatus
         //ver 5 : added ArtistSort TitleSort and AlbumSort variables
         //ver 6 : changed Path to FilePath to avoid conflict with reserved name System.IO.Path
+        //ver 7 : add RepairStatus
 
-        public const string SongDataListCurrentVersion = "6";
+        public const string SongDataListCurrentVersion = "7";
 
         public string DLCKey { get; set; }
 

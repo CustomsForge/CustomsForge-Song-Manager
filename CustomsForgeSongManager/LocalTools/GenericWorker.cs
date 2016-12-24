@@ -45,11 +45,11 @@ namespace CustomsForgeSongManager.LocalTools
             bWorker.SetDefaults();
             counterStopwatch.Restart();
 
-            if (WorkDescription.ToLower().Contains(Constants.WORKER_REPAIR))
+            if (WorkDescription.ToLower().Contains(Constants.GWORKER_REPAIR))
                 bWorker.DoWork += WorkerRepairSongs;
-            else if (WorkDescription.ToLower().Contains(Constants.WORKER_ACHRIVE))
+            else if (WorkDescription.ToLower().Contains(Constants.GWORKER_ACHRIVE))
                 bWorker.DoWork += WorkerArchiveSongs;
-            else if (WorkDescription.ToLower().Contains(Constants.WORKER_PITCHSHIFT))
+            else if (WorkDescription.ToLower().Contains(Constants.GWORKER_PITCHSHIFT))
                 bWorker.DoWork += WorkerPitchShiftSongs;
 
             else

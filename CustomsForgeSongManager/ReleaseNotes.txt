@@ -1,7 +1,13 @@
 ﻿CFSM Release Notes
 
+1.2.8.6
+- Updated SongDataListCurrentVersion to accommodate new RepairStatus
+- Changed to PitchShifter tone variable initialization
+- Added PitchShifter updater code
+- SongManager DGV is updated after deleting files
+
 1.2.8.5
-- Restored super generic background worker for long running tasks
+- Restored generic background worker for long running tasks
 
 1.2.8.4
 - Restored Pitch Shifter operation
