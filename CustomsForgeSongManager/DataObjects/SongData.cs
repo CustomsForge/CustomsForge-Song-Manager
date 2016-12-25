@@ -31,7 +31,8 @@ namespace CustomsForgeSongManager.DataObjects
         Repaired = 1,
         RepairedDD = 2,
         RepairedMaxFive = 3,
-        RepairedDDMaxFive = 4 // not sure why this is needed
+        RepairedDDMaxFive = 4, // not sure why this is needed
+        ODLC = 5
     }
 
     //Static class seems more convenient to use, since the values are shown in DGV(s)

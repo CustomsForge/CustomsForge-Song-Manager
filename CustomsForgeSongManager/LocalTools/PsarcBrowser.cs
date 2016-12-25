@@ -87,6 +87,8 @@ namespace CustomsForgeSongManager.LocalTools
                     currentSong.Tagged = SongTaggerStatus.ODLC;
                     if (String.IsNullOrEmpty(author))
                         currentSong.CharterName = "Ubisoft";
+
+                    currentSong.RepairStatus = RepairStatus.ODLC;
                 }
                 else
                 {

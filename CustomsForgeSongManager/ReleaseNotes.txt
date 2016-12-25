@@ -1,4 +1,6 @@
 ﻿CFSM Release Notes
+1.2.8.7
+- Added ODLC option to RepairStatus column
 
 1.2.8.6
 - Updated SongDataListCurrentVersion to accommodate new RepairStatus
