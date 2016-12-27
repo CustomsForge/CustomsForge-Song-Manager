@@ -54,6 +54,7 @@ namespace CustomsForgeSongManager.UControls
             this.btnSettingsLoad = new System.Windows.Forms.Button();
             this.btnEmptyLogs = new System.Windows.Forms.Button();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.chkEnableAutoUpdate = new System.Windows.Forms.CheckBox();
             this.tlpSettings_Wrapper.SuspendLayout();
             this.panel5.SuspendLayout();
             this.SuspendLayout();
@@ -64,16 +65,17 @@ namespace CustomsForgeSongManager.UControls
             this.tlpSettings_Wrapper.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 21.88513F));
             this.tlpSettings_Wrapper.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 17.94813F));
             this.tlpSettings_Wrapper.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60.16674F));
-            this.tlpSettings_Wrapper.Controls.Add(this.chkIncludeRS1DLC, 0, 2);
             this.tlpSettings_Wrapper.Controls.Add(this.panel5, 2, 1);
             this.tlpSettings_Wrapper.Controls.Add(this.cueRsDir, 2, 0);
             this.tlpSettings_Wrapper.Controls.Add(this.lblSettingsRSDir, 0, 0);
             this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsSave, 1, 8);
-            this.tlpSettings_Wrapper.Controls.Add(this.chkEnableLogBallon, 0, 3);
-            this.tlpSettings_Wrapper.Controls.Add(this.txtCharterName, 0, 5);
-            this.tlpSettings_Wrapper.Controls.Add(this.chkCleanOnClosing, 0, 4);
             this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsLoad, 0, 8);
             this.tlpSettings_Wrapper.Controls.Add(this.btnEmptyLogs, 0, 7);
+            this.tlpSettings_Wrapper.Controls.Add(this.txtCharterName, 0, 6);
+            this.tlpSettings_Wrapper.Controls.Add(this.chkCleanOnClosing, 0, 5);
+            this.tlpSettings_Wrapper.Controls.Add(this.chkEnableLogBallon, 0, 4);
+            this.tlpSettings_Wrapper.Controls.Add(this.chkIncludeRS1DLC, 0, 3);
+            this.tlpSettings_Wrapper.Controls.Add(this.chkEnableAutoUpdate, 0, 2);
             this.tlpSettings_Wrapper.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpSettings_Wrapper.Location = new System.Drawing.Point(0, 0);
             this.tlpSettings_Wrapper.Name = "tlpSettings_Wrapper";
@@ -97,7 +99,7 @@ namespace CustomsForgeSongManager.UControls
             this.chkIncludeRS1DLC.AutoSize = true;
             this.tlpSettings_Wrapper.SetColumnSpan(this.chkIncludeRS1DLC, 2);
             this.chkIncludeRS1DLC.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkIncludeRS1DLC.Location = new System.Drawing.Point(3, 55);
+            this.chkIncludeRS1DLC.Location = new System.Drawing.Point(3, 87);
             this.chkIncludeRS1DLC.Name = "chkIncludeRS1DLC";
             this.chkIncludeRS1DLC.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
             this.chkIncludeRS1DLC.Size = new System.Drawing.Size(205, 19);
@@ -236,7 +238,7 @@ namespace CustomsForgeSongManager.UControls
             this.chkEnableLogBallon.AutoSize = true;
             this.tlpSettings_Wrapper.SetColumnSpan(this.chkEnableLogBallon, 2);
             this.chkEnableLogBallon.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkEnableLogBallon.Location = new System.Drawing.Point(3, 87);
+            this.chkEnableLogBallon.Location = new System.Drawing.Point(3, 119);
             this.chkEnableLogBallon.Name = "chkEnableLogBallon";
             this.chkEnableLogBallon.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
             this.chkEnableLogBallon.Size = new System.Drawing.Size(143, 19);
@@ -253,7 +255,7 @@ namespace CustomsForgeSongManager.UControls
             this.txtCharterName.Cue = "Enter CDLC Charter Name";
             this.txtCharterName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.txtCharterName.ForeColor = System.Drawing.Color.Gray;
-            this.txtCharterName.Location = new System.Drawing.Point(12, 151);
+            this.txtCharterName.Location = new System.Drawing.Point(12, 183);
             this.txtCharterName.Margin = new System.Windows.Forms.Padding(12, 3, 3, 3);
             this.txtCharterName.Name = "txtCharterName";
             this.txtCharterName.Size = new System.Drawing.Size(179, 20);
@@ -268,7 +270,7 @@ namespace CustomsForgeSongManager.UControls
             this.chkCleanOnClosing.AutoSize = true;
             this.tlpSettings_Wrapper.SetColumnSpan(this.chkCleanOnClosing, 2);
             this.chkCleanOnClosing.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkCleanOnClosing.Location = new System.Drawing.Point(3, 119);
+            this.chkCleanOnClosing.Location = new System.Drawing.Point(3, 151);
             this.chkCleanOnClosing.Name = "chkCleanOnClosing";
             this.chkCleanOnClosing.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
             this.chkCleanOnClosing.Size = new System.Drawing.Size(287, 19);
@@ -318,6 +320,24 @@ namespace CustomsForgeSongManager.UControls
             this.toolTip.IsBalloon = true;
             this.toolTip.ReshowDelay = 100;
             // 
+            // chkEnableAutoUpdate
+            // 
+            this.chkEnableAutoUpdate.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.chkEnableAutoUpdate.AutoSize = true;
+            this.tlpSettings_Wrapper.SetColumnSpan(this.chkEnableAutoUpdate, 2);
+            this.chkEnableAutoUpdate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkEnableAutoUpdate.Location = new System.Drawing.Point(3, 55);
+            this.chkEnableAutoUpdate.Name = "chkEnableAutoUpdate";
+            this.chkEnableAutoUpdate.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
+            this.chkEnableAutoUpdate.Size = new System.Drawing.Size(144, 19);
+            this.chkEnableAutoUpdate.TabIndex = 12;
+            this.chkEnableAutoUpdate.Text = "Enable Auto Update";
+            this.chkEnableAutoUpdate.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.toolTip.SetToolTip(this.chkEnableAutoUpdate, "If checked the application will automatically\r\nupdate to the latest version if th" +
+                    "ere is\r\nan internet connection.");
+            this.chkEnableAutoUpdate.UseVisualStyleBackColor = true;
+            this.chkEnableAutoUpdate.CheckedChanged += new System.EventHandler(this.chkEnableAutoUpdate_CheckedChanged);
+            // 
             // Settings
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -353,5 +373,6 @@ namespace CustomsForgeSongManager.UControls
         private CheckBox chkCleanOnClosing;
         private ToolTip toolTip;
         private Button btnEmptyLogs;
+        public CheckBox chkEnableAutoUpdate;
     }
 }

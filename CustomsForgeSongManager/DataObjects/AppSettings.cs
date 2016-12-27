@@ -16,7 +16,8 @@ namespace CustomsForgeSongManager.DataObjects
         private string _rsInstalledDir;
         private string _rsProfileDir;
         private bool _includeRs1DlCs;
-        private bool _enabledLogBaloon;
+        private bool _enableAutoUpdate;
+        private bool _enableLogBaloon;
         private bool _cleanOnClosing;
         private bool _checkForUpdateOnScan;
         private bool _fullScreen;
@@ -49,16 +50,22 @@ namespace CustomsForgeSongManager.DataObjects
             set { SetPropertyField("RSProfileDir", ref _rsProfileDir, value); }
         }
 
+        public bool EnableAutoUpdate
+        {
+            get { return _enableAutoUpdate; }
+            set { SetPropertyField("EnableAutoUpdate", ref _enableAutoUpdate, value); }
+        }
+     
         public bool IncludeRS1DLCs
         {
             get { return _includeRs1DlCs; }
             set { SetPropertyField("IncludeRS1DLCs", ref _includeRs1DlCs, value); }
         }
 
-        public bool EnabledLogBaloon
+        public bool EnableLogBaloon
         {
-            get { return _enabledLogBaloon; }
-            set { SetPropertyField("EnabledLogBaloon", ref _enabledLogBaloon, value); }
+            get { return _enableLogBaloon; }
+            set { SetPropertyField("EnableLogBaloon", ref _enableLogBaloon, value); }
         }
 
         public bool CleanOnClosing
@@ -232,7 +239,8 @@ namespace CustomsForgeSongManager.DataObjects
             Instance.RSInstalledDir = LocalExtensions.GetSteamDirectory();
             Instance.RSProfileDir = String.Empty;
             Instance.IncludeRS1DLCs = false; // changed to false (fewer issues)
-            Instance.EnabledLogBaloon = false; // fewer notfication issues
+            Instance.EnableAutoUpdate = true; 
+            Instance.EnableLogBaloon = false; // fewer notfication issues
             Instance.CleanOnClosing = false;
             Instance.ShowLogWindow = Constants.DebugMode;
             RAExtensions.ManagerGridSettings = new RADataGridViewSettings();

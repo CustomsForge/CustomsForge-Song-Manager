@@ -1447,7 +1447,7 @@ namespace CustomsForgeSongManager.UControls
         }
 
         private void tsmiFilesArcMax_Click(object sender, EventArgs e)
-        {  
+        {
             this.Refresh();
             DoWork(Constants.GWORKER_ACHRIVE, Constants.EXT_MAX, Constants.RemasteredMaxFolder, tsmiFilesArcDeleteAfter.Checked);
         }
@@ -1460,7 +1460,7 @@ namespace CustomsForgeSongManager.UControls
 
         private void tsmiFilesBackup_Click(object sender, EventArgs e)
         {
-            var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster); 
+            var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster);
             if (!selection.Any()) return;
 
             FileTools.CreateBackupOfType(selection, Constants.BackupFolder, Constants.EXT_BAK);
@@ -1489,7 +1489,7 @@ namespace CustomsForgeSongManager.UControls
         {
             DeleteSelection();
             // reset safety interlock
-            tsmiFilesSafetyInterlock.Checked = false;            
+            tsmiFilesSafetyInterlock.Checked = false;
         }
 
         private void tsmiFilesDisableEnable_Click(object sender, EventArgs e)
@@ -1579,7 +1579,7 @@ namespace CustomsForgeSongManager.UControls
 
         private void tsmiHelpGeneral_Click(object sender, EventArgs e)
         {
-            RepairTools.ShowNoteViewer("CustomsForgeSongManager.Resources.HelpGeneral.txt", "General Help");
+            RepairTools.ShowNoteViewer("CustomsForgeSongManager.Resources.HelpSongMgr.txt", "Song Manager Help");
         }
 
         private void tsmiHelpRepairs_Click(object sender, EventArgs e)
@@ -1736,7 +1736,7 @@ namespace CustomsForgeSongManager.UControls
             this.Refresh();
             // start new generic worker
             DoWork("repairing", selection, SetRepairOptions());
- 
+
             // RepairTools.RepairSongs(selection, SetRepairOptions());
             // TODO: determine better way to refresh the dgv contents
             RefreshDgv(false);

@@ -43,8 +43,9 @@ namespace CustomsForgeSongManager.UControls
                 AppSettings.Instance.LoadFromFile(settingsPath, Globals.DgvCurrent);
 
                 cueRsDir.Text = AppSettings.Instance.RSInstalledDir;
+                chkEnableAutoUpdate.Checked = AppSettings.Instance.EnableAutoUpdate;
                 chkIncludeRS1DLC.Checked = AppSettings.Instance.IncludeRS1DLCs;
-                chkEnableLogBallon.Checked = AppSettings.Instance.EnabledLogBaloon;
+                chkEnableLogBallon.Checked = AppSettings.Instance.EnableLogBaloon;
                 chkCleanOnClosing.Checked = AppSettings.Instance.CleanOnClosing;
                 txtCharterName.Text = AppSettings.Instance.CharterName;
 
@@ -63,11 +64,14 @@ namespace CustomsForgeSongManager.UControls
                 case "RSInstalledDir":
                     cueRsDir.Text = AppSettings.Instance.RSInstalledDir;
                     break;
+                case "EnableAutoUpdate":
+                    chkEnableAutoUpdate.Checked = AppSettings.Instance.EnableAutoUpdate;
+                    break;
                 case "IncludeRS1DLCs":
                     chkIncludeRS1DLC.Checked = AppSettings.Instance.IncludeRS1DLCs;
                     break;
                 case "EnabledLogBaloon":
-                    chkEnableLogBallon.Checked = AppSettings.Instance.EnabledLogBaloon;
+                    chkEnableLogBallon.Checked = AppSettings.Instance.EnableLogBaloon;
                     break;
                 case "CleanOnClosing":
                     chkCleanOnClosing.Checked = AppSettings.Instance.CleanOnClosing;
@@ -244,6 +248,11 @@ namespace CustomsForgeSongManager.UControls
         private void tbCreator_TextChanged(object sender, EventArgs e)
         {
             AppSettings.Instance.CharterName = txtCharterName.Text;
+        }
+
+        private void chkEnableAutoUpdate_CheckedChanged(object sender, EventArgs e)
+        {
+            AppSettings.Instance.EnableAutoUpdate = chkEnableAutoUpdate.Checked;
         }
 
         private void chkIncludeRS1DLC_CheckedChanged(object sender, EventArgs e)

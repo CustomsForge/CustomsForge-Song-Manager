@@ -1,4 +1,11 @@
 ﻿CFSM Release Notes
+
+1.2.8.8
+- fixed General and SongManager help links
+- TODO: update General Help
+- added user option to Settings to disable CFSM auto update
+- added better file exclusions to WorkerParseSongs
+
 1.2.8.7
 - Added ODLC option to RepairStatus column
 

@@ -44,7 +44,7 @@ namespace CustomsForgeSongManager.LocalTools
 
             if (workOrder.Name == "Renamer")
                 bWorker.DoWork += WorkerRenameSongs;
-             else
+            else
                 bWorker.DoWork += WorkerParseSongs;
 
             bWorker.RunWorkerCompleted += WorkerComplete;
@@ -88,7 +88,7 @@ namespace CustomsForgeSongManager.LocalTools
                     Globals.Log(String.Format("Finished parsing ... took {0}", counterStopwatch.Elapsed));
                 else if (workOrder.Name == "Renamer")
                     Globals.Log(String.Format("Finished renaming ... took {0}", counterStopwatch.Elapsed));
-     
+
                 Globals.SongCollection = new BindingList<SongData>(bwSongCollection);
                 Globals.WorkerFinished = Globals.Tristate.True;
             }
@@ -107,6 +107,10 @@ namespace CustomsForgeSongManager.LocalTools
         {
             Globals.IsScanning = true;
             List<string> fileList = FilesList(Path.Combine(AppSettings.Instance.RSInstalledDir, "dlc"), AppSettings.Instance.IncludeRS1DLCs);
+            fileList = fileList.Where(fi => !fi.ToLower().Contains(Constants.SONGPACK) &&
+                !fi.ToLower().Contains(Constants.ABVSONGPACK) &&
+                !fi.ToLower().Contains("inlay")) // ignore inlays
+                .ToList();
 
             bwSongCollection = Globals.SongCollection.ToList();
 

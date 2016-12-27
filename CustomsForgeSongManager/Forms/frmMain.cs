@@ -111,7 +111,7 @@ namespace CustomsForgeSongManager.Forms
             this.Show();
             this.WindowState = AppSettings.Instance.FullScreen ? FormWindowState.Maximized : FormWindowState.Normal;
 
-            if (AppSettings.Instance.EnabledLogBaloon)
+            if (AppSettings.Instance.EnableLogBaloon)
                 Globals.MyLog.AddTargetNotifyIcon(Globals.Notifier);
             else
                 Globals.MyLog.RemoveTargetNotifyIcon(Globals.Notifier);
@@ -148,19 +148,7 @@ namespace CustomsForgeSongManager.Forms
 
         private void ShowHelp()
         {
-            Assembly assembly = Assembly.GetExecutingAssembly();
-            Stream stream = assembly.GetManifestResourceStream("CustomsForgeSongManager.Resources.HelpSongMgr.txt");
-            using (StreamReader reader = new StreamReader(stream))
-            {
-                var helpSongManager = reader.ReadToEnd();
-
-                using (var noteViewer = new frmNoteViewer())
-                {
-                    noteViewer.Text = String.Format("{0} . . . {1}", noteViewer.Text, "Song Manager Help");
-                    noteViewer.PopulateText(helpSongManager);
-                    noteViewer.ShowDialog();
-                }
-            }
+            RepairTools.ShowNoteViewer("CustomsForgeSongManager.Resources.HelpGeneral.txt", "General Help");
         }
 
         private void ShowHideLog()
@@ -365,13 +353,14 @@ namespace CustomsForgeSongManager.Forms
             const string appSetup = "CFSMSetup.exe";
             var appExePath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), appExe);
 
-            if (AutoUpdater.NeedsUpdate(appExePath, versInfoUrl))
-            {
-                if (File.Exists(appSetup))
-                    System.Diagnostics.Process.Start(appSetup, "-appupdate");
-                else
-                    MessageBox.Show(appSetup + " not found, please download the program again.");
-            }
+            if (AppSettings.Instance.EnableAutoUpdate)
+                if (AutoUpdater.NeedsUpdate(appExePath, versInfoUrl))
+                {
+                    if (File.Exists(appSetup))
+                        System.Diagnostics.Process.Start(appSetup, "-appupdate");
+                    else
+                        MessageBox.Show(appSetup + " not found, please download the program again.");
+                }
         }
 
         private delegate void DoSomethingWithGridSelectionAction(DataGridView dg, IEnumerable<DataGridViewRow> selected, DataGridViewColumn colSel, List<int> IgnoreColums);
