@@ -1,4 +1,8 @@
 ﻿CFSM Release Notes
+1.2.8.9
+- added option to disable/enable tracks in the right mouse button menu
+- added play/stop option in the RMB menu
+- fixed position reset after sorting
 
 1.2.8.8
 - fixed General and SongManager help links

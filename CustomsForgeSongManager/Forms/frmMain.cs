@@ -24,6 +24,9 @@ namespace CustomsForgeSongManager.Forms
         private static Size UCSize = new Size(990, 490);
         private Control currentControl = null;
 
+        public delegate void PlayCall();
+        private event PlayCall playMethod;
+
         public frmMain(DLogNet.DLogger myLog)
         {
             InitializeComponent();
@@ -117,15 +120,18 @@ namespace CustomsForgeSongManager.Forms
                 Globals.MyLog.RemoveTargetNotifyIcon(Globals.Notifier);
 
             tsAudioPlayer.Visible = true;
+
+            playMethod += new PlayCall(PlaySong);
+
             // load Song Manager Tab
             LoadSongManager();
 
             //CustomsForgeSongManagerLib.Extensions.Benchmark(LoadSongManager, 1);
         }
 
-        private frmMain()
+        public frmMain()
         {
-            throw new Exception("Improper constructor used");
+          //  throw new Exception("Improper constructor used");
         }
 
         private string GetRSTKLibVersion()
@@ -139,6 +145,7 @@ namespace CustomsForgeSongManager.Forms
             {
                 this.tpSongManager.Controls.Clear();
                 this.tpSongManager.Controls.Add(Globals.SongManager);
+                Globals.SongManager.PlaySongFunction = playMethod;
                 Globals.SongManager.Dock = DockStyle.Fill;
                 Globals.SongManager.Location = UCLocation;
                 Globals.SongManager.Size = UCSize;
@@ -592,7 +599,7 @@ namespace CustomsForgeSongManager.Forms
             }
         }
 
-        private void tsbPlay_Click(object sender, EventArgs e)
+        public void PlaySong()
         {
             if (Globals.AudioEngine.IsPaused() || Globals.AudioEngine.IsPlaying())
             {
@@ -610,6 +617,11 @@ namespace CustomsForgeSongManager.Forms
             }
 
             timerAudioProgress.Enabled = (Globals.AudioEngine.IsPlaying());
+        }
+
+        private void tsbPlay_Click(object sender, EventArgs e)
+        {
+            PlaySong();
         }
 
         private void timerAudioProgress_Tick(object sender, EventArgs e)

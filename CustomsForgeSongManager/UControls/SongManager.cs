@@ -39,6 +39,8 @@ namespace CustomsForgeSongManager.UControls
         private BindingList<SongData> masterSongCollection = new BindingList<SongData>();
         private int numberOfDLCPendingUpdate = 0;
         private int numberOfDisabledDLC = 0;
+        private string lastSelectedSongPath = string.Empty;
+        public Delegate PlaySongFunction;
 
         public SongManager()
         {
@@ -921,6 +923,50 @@ namespace CustomsForgeSongManager.UControls
                 RemoveFilter();
         }
 
+        private void cmsDisableEnableToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var selection = DgvExtensions.GetObjectFromRow<SongData>(dgvSongsMaster.SelectedRows[0]);
+
+            var originalPath = selection.FilePath;
+            var originalFile = selection.FileName;
+
+            if (!originalPath.ToLower().Contains(Constants.RS1COMP))
+            {
+                try
+                {
+                    if (selection.Enabled == "Yes")
+                    {
+                        var disabledPath = originalPath.Replace("_p.psarc", "_p.disabled.psarc");
+                        File.Move(originalPath, disabledPath);
+                        dgvSongsMaster.SelectedRows[0].Cells["colFilePath"].Value = disabledPath;
+                        dgvSongsMaster.SelectedRows[0].Cells["colFileName"].Value = originalFile.Replace("_p.psarc", "_p.disabled.psarc");
+                        dgvSongsMaster.SelectedRows[0].Cells["colEnabled"].Value = "No";
+                    }
+                    else
+                    {
+                        var enabledPath = originalPath.Replace("_p.disabled.psarc", "_p.psarc");
+                        File.Move(originalPath, enabledPath);
+                        dgvSongsMaster.SelectedRows[0].Cells["colFilePath"].Value = enabledPath;
+                        dgvSongsMaster.SelectedRows[0].Cells["colFileName"].Value = originalFile.Replace("_p.disabled.psarc", "_p.psarc");
+                        dgvSongsMaster.SelectedRows[0].Cells["colEnabled"].Value = "Yes";
+                    }
+
+                    UpdateToolStrip();
+                }
+                catch (IOException ex)
+                {
+                    MessageBox.Show(string.Format(Properties.Resources.UnableToEnableDisableSongX0InDlcFolderX1Er, Path.GetFileName(originalPath), Environment.NewLine, ex.Message));
+                }
+            }
+            else
+                Globals.Log(String.Format(Properties.Resources.ThisIsARocksmith1CompatiblitySongX0RS1Comp, Environment.NewLine));
+        }
+
+        private void cmsPlaySelectedSongToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            PlaySongFunction.DynamicInvoke();
+        }
+
         private void cmsBackupSelection_Click(object sender, EventArgs e)
         {
             var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster);
@@ -1020,6 +1066,9 @@ namespace CustomsForgeSongManager.UControls
             // make sure grid has been painted before proceeding
             if (!dgvPainted)
                 return;
+
+            if (dgvSongsMaster.SelectedRows.Count > 0)
+                lastSelectedSongPath = dgvSongsMaster.SelectedRows[0].Cells["colFilePath"].Value.ToString();
 
             // get detail from master
             if (e.RowIndex >= 0 && e.ColumnIndex == colShowDetail.Index)
@@ -1152,7 +1201,7 @@ namespace CustomsForgeSongManager.UControls
         {
             if (e.RowIndex == -1)
                 return;
-
+           
             // same in all grids
             if (e.Button == MouseButtons.Left)
             {
@@ -1187,6 +1236,11 @@ namespace CustomsForgeSongManager.UControls
                             });
                     }
                 }
+
+                //if (dgvSongsMaster.SelectedRows.Count > 0)
+                //    lastSelectedSongPath = dgvSongsMaster.SelectedRows[0].Cells["colFilePath"].Value.ToString();
+                //else
+                //    lastSelectedSongPath = string.Empty;
             }
         }
 
@@ -1343,6 +1397,13 @@ namespace CustomsForgeSongManager.UControls
             {
                 AppSettings.Instance.SortColumn = dgvSongsMaster.SortedColumn.DataPropertyName;
                 AppSettings.Instance.SortAscending = dgvSongsMaster.SortOrder == SortOrder.Ascending ? true : false;
+
+                if (lastSelectedSongPath != string.Empty) //Reselect last selected row after sorting
+                {
+                    int newRowIndex = dgvSongsMaster.Rows.Cast<DataGridViewRow>().FirstOrDefault(r => r.Cells["colFilePath"].Value.ToString() == lastSelectedSongPath).Index;
+                    dgvSongsMaster.Rows[newRowIndex].Selected = true;
+                    dgvSongsMaster.FirstDisplayedScrollingRowIndex = newRowIndex;
+                }
             }
         }
 
@@ -1739,7 +1800,9 @@ namespace CustomsForgeSongManager.UControls
 
             // RepairTools.RepairSongs(selection, SetRepairOptions());
             // TODO: determine better way to refresh the dgv contents
-            RefreshDgv(false);
+          
+            // TODO: fix this ^ - commented for now because it's not intutive
+           RefreshDgv(false);
 
         }
 
@@ -1785,7 +1848,6 @@ namespace CustomsForgeSongManager.UControls
                 while (Globals.WorkerFinished == Globals.Tristate.False)
                     Application.DoEvents();
             }
-
         }
     }
 }
