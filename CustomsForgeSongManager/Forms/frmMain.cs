@@ -25,7 +25,7 @@ namespace CustomsForgeSongManager.Forms
         private Control currentControl = null;
 
         public delegate void PlayCall();
-        private event PlayCall playMethod;
+        private event PlayCall playFunction;
 
         public frmMain(DLogNet.DLogger myLog)
         {
@@ -121,7 +121,7 @@ namespace CustomsForgeSongManager.Forms
 
             tsAudioPlayer.Visible = true;
 
-            playMethod += new PlayCall(PlaySong);
+            playFunction += new PlayCall(PlaySong);
 
             // load Song Manager Tab
             LoadSongManager();
@@ -145,7 +145,7 @@ namespace CustomsForgeSongManager.Forms
             {
                 this.tpSongManager.Controls.Clear();
                 this.tpSongManager.Controls.Add(Globals.SongManager);
-                Globals.SongManager.PlaySongFunction = playMethod;
+                Globals.SongManager.PlaySongFunction = playFunction;
                 Globals.SongManager.Dock = DockStyle.Fill;
                 Globals.SongManager.Location = UCLocation;
                 Globals.SongManager.Size = UCSize;

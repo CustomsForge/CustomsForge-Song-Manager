@@ -245,6 +245,13 @@ namespace CustomsForgeSongManager.LocalTools
                     Globals.Log(" - Moved new CDLC to 'dlc' folder");
                 }
 
+                using (var browser = new PsarcBrowser(srcFilePath))
+                {
+                    var songInfo = browser.GetSongData();
+                    var song = Globals.SongCollection.FirstOrDefault(s => s.FilePath == srcFilePath);
+                    int index = Globals.SongCollection.IndexOf(song);
+                    Globals.SongCollection[index] = songInfo.First();
+                }
             }
             catch (CustomException ex)
             {

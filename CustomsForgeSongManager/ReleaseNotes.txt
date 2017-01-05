@@ -1,4 +1,7 @@
 ﻿CFSM Release Notes
+1.2.9.0
+- changed the way songs were rescaned after they were repaired
+
 1.2.8.9
 - added option to disable/enable tracks in the right mouse button menu
 - added play/stop option in the RMB menu

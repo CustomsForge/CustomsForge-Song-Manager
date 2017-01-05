@@ -41,14 +41,14 @@ namespace CustomsForgeSongManager.UControls
         private int numberOfDisabledDLC = 0;
         private string lastSelectedSongPath = string.Empty;
         public Delegate PlaySongFunction;
-
+    
         public SongManager()
         {
             InitializeComponent();
-
+              
             Globals.TsLabel_StatusMsg.Click += lnkShowAll_Click;
             dgvSongsDetail.Visible = false;
-
+                  
             PopulateTagger();
             PopulateSongManager();
             cmsTaggerPreview.Visible = true; // ???
@@ -1201,7 +1201,7 @@ namespace CustomsForgeSongManager.UControls
         {
             if (e.RowIndex == -1)
                 return;
-           
+
             // same in all grids
             if (e.Button == MouseButtons.Left)
             {
@@ -1800,10 +1800,10 @@ namespace CustomsForgeSongManager.UControls
 
             // RepairTools.RepairSongs(selection, SetRepairOptions());
             // TODO: determine better way to refresh the dgv contents
-          
-            // TODO: fix this ^ - commented for now because it's not intutive
-           RefreshDgv(false);
+            // UPDATE: added another way of updating - a bit of testing is required
 
+            dgvSongsMaster.Refresh();
+            //RefreshDgv(false);
         }
 
         private void tsmiRescanFull_Click(object sender, EventArgs e)

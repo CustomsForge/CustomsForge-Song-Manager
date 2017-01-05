@@ -417,23 +417,9 @@
   <metadata name="cmsSongManagerColumns.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>442, -1</value>
   </metadata>
-  <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>640, -1</value>
-  </metadata>
   <metadata name="menuStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 0</value>
   </metadata>
-  <data name="tsmiRescan.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6
-        JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAABJElEQVQ4T83RO0vDUBjG8dxD7oRI3NTZ
-        wcHFC4rgoqObg4WOQhVcVEQUQSs6iH4EN3UtXcVREAqKiPhx/J/YlBMTbcHFF37kXHIe3pMo/6YmcYxT
-        yQnm0beG0IYIGZdM4BrTGKswiqymsPM1LNUMLnBV4RI+soBtMfihajj85gCzyEoOcCCulFvBG54rPMFD
-        L2AR7/iQiHnV4dwwegFNlF6yLKsVhmHd87yG7/ubrHWk/UKA+G2Fw0Icx2s8RScvuq7fESS+Qb7/e4Cm
-        aZ0gCDbktSiK1qX5QB2s0vq54zhNDu8xrtPJfXe/f4Cqqg+u6zZM09wyDGM/SZK5NE2XbNu+Zb8QsItS
-        gOS1+3ykgxrXu2EcQBnBMhIc4WwA4o8t4K+lKJ/Cu2OyQ49nfQAAAABJRU5ErkJggg==
-</value>
-  </data>
   <data name="tsmiRescanQuick.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6
@@ -465,6 +451,25 @@
         QmCC
 </value>
   </data>
+  <data name="tsmiRescan.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6
+        JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAABJElEQVQ4T83RO0vDUBjG8dxD7oRI3NTZ
+        wcHFC4rgoqObg4WOQhVcVEQUQSs6iH4EN3UtXcVREAqKiPhx/J/YlBMTbcHFF37kXHIe3pMo/6YmcYxT
+        yQnm0beG0IYIGZdM4BrTGKswiqymsPM1LNUMLnBV4RI+soBtMfihajj85gCzyEoOcCCulFvBG54rPMFD
+        L2AR7/iQiHnV4dwwegFNlF6yLKsVhmHd87yG7/ubrHWk/UKA+G2Fw0Icx2s8RScvuq7fESS+Qb7/e4Cm
+        aZ0gCDbktSiK1qX5QB2s0vq54zhNDu8xrtPJfXe/f4Cqqg+u6zZM09wyDGM/SZK5NE2XbNu+Zb8QsItS
+        gOS1+3ykgxrXu2EcQBnBMhIc4WwA4o8t4K+lKJ/Cu2OyQ49nfQAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="tsmiRepairsUsingOrg.ToolTipText" xml:space="preserve">
+    <value>Developers do not recommend use of this option.
+
+If selected, only files from the (org) folder
+are used for the selected repair options.
+This option may not be combined with
+the "Process 'downloads' Folder" button</value>
+  </data>
   <data name="tsmiRepairs.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6
@@ -492,14 +497,6 @@ various user selectable options.
 HINT: First use 'Select All/None' and/or 
 'Toggle Selection' links to quckly choose
 the CDLC files to repair (aka Bulk Repair).</value>
-  </data>
-  <data name="tsmiRepairsUsingOrg.ToolTipText" xml:space="preserve">
-    <value>Developers do not recommend use of this option.
-
-If selected, only files from the (org) folder
-are used for the selected repair options.
-This option may not be combined with
-the "Process 'downloads' Folder" button</value>
   </data>
   <data name="tsmiModsChangeAppId.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -530,15 +527,6 @@ the "Process 'downloads' Folder" button</value>
         rueCwWCZk5q+yIgCorTb7Vw2m93G4oAoinKmquoq7vkW+oSTmr7IuAtIDx7WfD6f38ByB/C2eHj/U3NS
         06fe+VpAAmC2UCis4W/VvED2WwHh6zwNVLD8A9wPdCsg//oa/4AtfQDJzRDfz9fi1wAAAABJRU5ErkJg
         gg==
-</value>
-  </data>
-  <data name="tsmiFiles.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6
-        JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAArklEQVQ4T2P4//8/RRirICkYqyApGKsg
-        KRhMnFpsDsL/kTBMDC9GNgBILYJjEB8Pxm7Ar/cN/3+8DAVjEBsXRjYExYBvj9L+f75hDMZQRYQwqgHf
-        n2T9/3LbAiyJ7B1cGKIOyYAfL0vAgsguwYZB8iB1QIzqApj/QAZ9e+iKE8MswjAAhP987f//+1MmTgyS
-        B6mD6sE0AJtf0TEuA+CGEIFh6hEGUIKxChKP/zMAANUl4l77fa9/AAAAAElFTkSuQmCC
 </value>
   </data>
   <data name="tsmiFilesDisableEnable.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
@@ -576,6 +564,15 @@ the "Process 'downloads' Folder" button</value>
         Tf+9fQKABjj+d3TyAtru8t/c0h7Idv+fmpb938nJtQWkFqQB3QAQEJ88ecaBq9fu/s/Lr/xfXFL/f9v2
         vf///Pn7f8qUOf/19E2OAPOFFFQtVgPAQF5e0VpLS6/c1tZpWlZWzvTs7OwKeXkFG6g0HPz//58BANKJ
         gitnOICiAAAAAElFTkSuQmCC
+</value>
+  </data>
+  <data name="tsmiFiles.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6
+        JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAArklEQVQ4T2P4//8/RRirICkYqyApGKsg
+        KRhMnFpsDsL/kTBMDC9GNgBILYJjEB8Pxm7Ar/cN/3+8DAVjEBsXRjYExYBvj9L+f75hDMZQRYQwqgHf
+        n2T9/3LbAiyJ7B1cGKIOyYAfL0vAgsguwYZB8iB1QIzqApj/QAZ9e+iKE8MswjAAhP987f//+1MmTgyS
+        B6mD6sE0AJtf0TEuA+CGEIFh6hEGUIKxChKP/zMAANUl4l77fa9/AAAAAElFTkSuQmCC
 </value>
   </data>
   <data name="tsmiHelp.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
