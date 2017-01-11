@@ -41,14 +41,14 @@ namespace CustomsForgeSongManager.UControls
         private int numberOfDisabledDLC = 0;
         private string lastSelectedSongPath = string.Empty;
         public Delegate PlaySongFunction;
-    
+
         public SongManager()
         {
             InitializeComponent();
-              
+
             Globals.TsLabel_StatusMsg.Click += lnkShowAll_Click;
             dgvSongsDetail.Visible = false;
-                  
+
             PopulateTagger();
             PopulateSongManager();
             cmsTaggerPreview.Visible = true; // ???
@@ -964,6 +964,9 @@ namespace CustomsForgeSongManager.UControls
 
         private void cmsPlaySelectedSongToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (lastSelectedSongPath != string.Empty && lastSelectedSongPath != dgvSongsMaster.SelectedRows[0].Cells["colFilePath"].Value.ToString())
+                Globals.AudioEngine.Stop();
+
             PlaySongFunction.DynamicInvoke();
         }
 
@@ -1236,11 +1239,6 @@ namespace CustomsForgeSongManager.UControls
                             });
                     }
                 }
-
-                //if (dgvSongsMaster.SelectedRows.Count > 0)
-                //    lastSelectedSongPath = dgvSongsMaster.SelectedRows[0].Cells["colFilePath"].Value.ToString();
-                //else
-                //    lastSelectedSongPath = string.Empty;
             }
         }
 

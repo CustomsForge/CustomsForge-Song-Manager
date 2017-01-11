@@ -1,4 +1,9 @@
 ﻿CFSM Release Notes
+1.2.9.1
+- fixed the unhandled exception appearing if Renamer was opened after clicking on Setlist Mgr.
+- fixed the pausing bug after playing a song from right mouse button menu
+- improved the download folder path check
+
 1.2.9.0
 - changed the way songs were rescaned after they were repaired
 

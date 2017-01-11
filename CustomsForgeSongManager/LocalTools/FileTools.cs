@@ -259,20 +259,23 @@ namespace CustomsForgeSongManager.LocalTools
             else
                 Globals.Log("No files deleted ...");
         }
- 
+
         public static string GetDownloadsPath()
         {
             var dlDirPath = AppSettings.Instance.DownloadsDir;
 
-            using (var fbd = new FolderBrowserDialog())
+            if (!Directory.Exists(dlDirPath))
             {
-                fbd.Description = "Select the folder where new CDLC 'downloads' are stored.";
-                fbd.SelectedPath = dlDirPath;
+                using (var fbd = new FolderBrowserDialog())
+                {
+                    fbd.Description = "Select the folder where new CDLC 'downloads' are stored.";
+                    fbd.SelectedPath = dlDirPath;
 
-                if (fbd.ShowDialog() != DialogResult.OK)
-                    return null;
+                    if (fbd.ShowDialog() != DialogResult.OK)
+                        return null;
 
-                dlDirPath = fbd.SelectedPath;
+                    dlDirPath = fbd.SelectedPath;
+                }
             }
 
             AppSettings.Instance.DownloadsDir = dlDirPath;
