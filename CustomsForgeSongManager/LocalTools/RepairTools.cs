@@ -173,14 +173,14 @@ namespace CustomsForgeSongManager.LocalTools
                     // add comments back to xml arrangement   
                     Song2014.WriteXmlComments(arr.SongXml.File, arr.XmlComments);
 
-                    // only add DD to NDD arrangements              
+                    // only add DD to NDD arrangements (unless user specifies otherwise)             
                     var mf = new ManifestFunctions(GameVersion.RS2014);
                     var maxDD = mf.GetMaxDifficulty(songXml);
 
                     if ((options.AddDD && maxDD == 0) || (options.AddDD && options.OverwriteDD))
                     {
                         // phrase length should be at least 8 to fix chord density bug
-                        if (options.PhraseLength < 8) throw new Exception("DD Phrase Length less than eight.");
+                        if (options.PhraseLength < 8) throw new Exception("DD Phrase Length less than eight."); // belt and suspenders code
 
                         var consoleOutput = String.Empty;
                         var result = DynamicDifficulty.ApplyDD(arr.SongXml.File, options.PhraseLength, options.RemoveSustain, options.RampUpPath, options.CfgPath, out consoleOutput, true);
@@ -239,6 +239,7 @@ namespace CustomsForgeSongManager.LocalTools
                     Globals.Log(" - Repair was sucessful");
                 else
                     Globals.Log(" - Repair was sucessful, but DD could not be applied");
+
                 if (options.ProcessDLFolder)
                 {
                     GenExtensions.MoveFile(srcFilePath, Constants.Rs2DlcFolder);
@@ -296,6 +297,7 @@ namespace CustomsForgeSongManager.LocalTools
             return true;
         }
 
+        // CAREFUL ... this is called from a background worker
         public static StringBuilder RepairSongs(List<SongData> songs, RepairOptions repairOptions)
         {
             InitRepairTools();
@@ -314,12 +316,15 @@ namespace CustomsForgeSongManager.LocalTools
             else if (options.ProcessDLFolder)
             {
                 // TODO: maybe make sure new CDLC have been unzipped/unrar'd first
-                var dlDirPath = FileTools.GetDownloadsPath();
+                // AppSettings.Instance.DownloadsDir is (must be) validated before being used by the bWorker
+                var dlDirPath = AppSettings.Instance.DownloadsDir;
                 if (!String.IsNullOrEmpty(dlDirPath))
                 {
                     Globals.Log("Repairing CDLC files from: " + dlDirPath + " ...");
                     srcFilePaths = Directory.EnumerateFiles(dlDirPath, "*.psarc").ToList();
                 }
+                else
+                    Globals.Log("<ERROR> 'Downloads' directory path is not set properly ...");
             }
             else
                 srcFilePaths = FileTools.SongFilePaths(songs);

@@ -70,7 +70,7 @@ namespace CustomsForgeSongManager.UControls
                 case "IncludeRS1DLCs":
                     chkIncludeRS1DLC.Checked = AppSettings.Instance.IncludeRS1DLCs;
                     break;
-                case "EnabledLogBaloon":
+                case "EnableLogBaloon":
                     chkEnableLogBallon.Checked = AppSettings.Instance.EnableLogBaloon;
                     break;
                 case "CleanOnClosing":
@@ -277,6 +277,12 @@ namespace CustomsForgeSongManager.UControls
             Globals.Log("Log files have been emptied ...");
             Globals.Log("Starting new log ...");
             Globals.Log(Constants.AppTitle);
+        }
+
+        private void btnResetDownloads_Click(object sender, EventArgs e)
+        {
+            AppSettings.Instance.DownloadsDir = String.Empty;
+            Globals.Log("CDLC 'Downloads' folder path was reset ...");
         }
 
     }

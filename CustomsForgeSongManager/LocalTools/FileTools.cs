@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using CustomsForgeSongManager.DataObjects;
+using CustomsForgeSongManager.Forms;
 using GenTools;
 using RocksmithToolkitLib.DLCPackage;
 using RocksmithToolkitLib.Extensions;
@@ -11,7 +12,7 @@ using RocksmithToolkitLib.PsarcLoader;
 
 namespace CustomsForgeSongManager.LocalTools
 {
-    public class FileTools
+    public static class FileTools
     {
         #region Class Methods
 
@@ -260,28 +261,6 @@ namespace CustomsForgeSongManager.LocalTools
                 Globals.Log("No files deleted ...");
         }
 
-        public static string GetDownloadsPath()
-        {
-            var dlDirPath = AppSettings.Instance.DownloadsDir;
-
-            if (!Directory.Exists(dlDirPath))
-            {
-                using (var fbd = new FolderBrowserDialog())
-                {
-                    fbd.Description = "Select the folder where new CDLC 'downloads' are stored.";
-                    fbd.SelectedPath = dlDirPath;
-
-                    if (fbd.ShowDialog() != DialogResult.OK)
-                        return null;
-
-                    dlDirPath = fbd.SelectedPath;
-                }
-            }
-
-            AppSettings.Instance.DownloadsDir = dlDirPath;
-            return dlDirPath;
-        }
-
         public static string GetOriginal(string srcFilePath)
         {
             var dlcFileName = Path.GetFileName(srcFilePath).Replace(Constants.EXT_ORG, "");
@@ -420,6 +399,28 @@ namespace CustomsForgeSongManager.LocalTools
 
             if (!Directory.Exists(Constants.RemasteredCorFolder))
                 Directory.CreateDirectory(Constants.RemasteredCorFolder);
+        }
+
+        public static void ValidateDownloadsDir()
+        {
+            var downloadsDir = AppSettings.Instance.DownloadsDir;
+     
+            if (String.IsNullOrEmpty(downloadsDir) || !Directory.Exists(downloadsDir))
+            {
+                Globals.Log("Select CDLC 'Downloads' directory ...");
+                using (var fbd = new FolderBrowserDialog())
+                {
+                    // set valid initial default speical folder path
+                    fbd.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                    fbd.Description = "Select the folder where new CDLC 'Downloads' are stored.";
+
+                    if (fbd.ShowDialog() != DialogResult.OK)
+                        return;
+
+                    downloadsDir = fbd.SelectedPath;
+                    AppSettings.Instance.DownloadsDir = downloadsDir;
+                }
+            }
         }
 
         #endregion

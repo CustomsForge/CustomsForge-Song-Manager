@@ -88,7 +88,7 @@ namespace CustomsForgeSongManager.LocalTools
             {
                 WorkerProgress(100);
                 counterStopwatch.Stop();
-                Globals.Log(String.Format("Finished " + WorkDescription.ToLower() + " ... took {0}", counterStopwatch.Elapsed));
+                Globals.Log(String.Format("Finished " + WorkDescription.ToLower() + " took: {0}", counterStopwatch.Elapsed));
                 Globals.WorkerFinished = Globals.Tristate.True;
             }
 

@@ -84,10 +84,8 @@ namespace CustomsForgeSongManager.LocalTools
 
                 if (toolkitVersionFile == null)
                 {
+                    currentSong.CharterName = "Ubisoft";
                     currentSong.Tagged = SongTaggerStatus.ODLC;
-                    if (String.IsNullOrEmpty(author))
-                        currentSong.CharterName = "Ubisoft";
-
                     currentSong.RepairStatus = RepairStatus.ODLC;
                 }
                 else
@@ -95,7 +93,7 @@ namespace CustomsForgeSongManager.LocalTools
                     currentSong.Tagged = tagged ? SongTaggerStatus.True : SongTaggerStatus.False;
 
                     // TODO: reconsider/simplify this
-                    if(packageComment == null)
+                    if (packageComment == null)
                         currentSong.RepairStatus = RepairStatus.NotRepaired;
                     else if (packageComment.Contains("Remastered") && packageComment.Contains("DD") && packageComment.Contains("Max5"))
                         currentSong.RepairStatus = RepairStatus.RepairedDDMaxFive;

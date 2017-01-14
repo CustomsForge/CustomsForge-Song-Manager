@@ -31,7 +31,7 @@ namespace CustomsForgeSongManager.DataObjects
         Repaired = 1,
         RepairedDD = 2,
         RepairedMaxFive = 3,
-        RepairedDDMaxFive = 4, // not sure why this is needed
+        RepairedDDMaxFive = 4,
         ODLC = 5
     }
 
@@ -56,8 +56,9 @@ namespace CustomsForgeSongManager.DataObjects
         //ver 5 : added ArtistSort TitleSort and AlbumSort variables
         //ver 6 : changed Path to FilePath to avoid conflict with reserved name System.IO.Path
         //ver 7 : add RepairStatus
+        //ver 8 : add RepairStatus 'ODLC'
 
-        public const string SongDataListCurrentVersion = "7";
+        public const string SongDataListCurrentVersion = "8";
 
         public string DLCKey { get; set; }
 

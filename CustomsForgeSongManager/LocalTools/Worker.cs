@@ -85,9 +85,9 @@ namespace CustomsForgeSongManager.LocalTools
                 WorkerProgress(100);
 
                 if (workOrder.Name == "SongManager" || workOrder.Name == "Duplicates" || workOrder.Name == "SetlistManager")
-                    Globals.Log(String.Format("Finished parsing ... took {0}", counterStopwatch.Elapsed));
+                    Globals.Log(String.Format("Finished parsing took: {0}", counterStopwatch.Elapsed));
                 else if (workOrder.Name == "Renamer")
-                    Globals.Log(String.Format("Finished renaming ... took {0}", counterStopwatch.Elapsed));
+                    Globals.Log(String.Format("Finished renaming took: {0}", counterStopwatch.Elapsed));
 
                 Globals.SongCollection = new BindingList<SongData>(bwSongCollection);
                 Globals.WorkerFinished = Globals.Tristate.True;

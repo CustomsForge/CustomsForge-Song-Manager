@@ -330,6 +330,7 @@ namespace CustomsForgeSongManager.UControls
             tsmiAddDDCfgPath.Tag = AppSettings.Instance.RepairOptions.RampUpPath;
             if (!String.IsNullOrEmpty(tsmiAddDDCfgPath.Tag.ToString()))
                 tsmiAddDDRampUpPath.Text = Path.GetFileName(tsmiAddDDRampUpPath.Tag.ToString());
+        
         }
 
         private void InitializeRepairMenu()
@@ -841,7 +842,7 @@ namespace CustomsForgeSongManager.UControls
                 tsmiProcessDLFolder.Checked = false;
             }
             else
-                tsmiProcessDLFolder.Enabled = false;
+                tsmiProcessDLFolder.Enabled = true;
 
             tsmiRepairs.ShowDropDown();
             menuStrip.Focus();
@@ -1793,6 +1794,10 @@ namespace CustomsForgeSongManager.UControls
             }
 
             this.Refresh();
+  
+            if (tsmiProcessDLFolder.Checked)
+                FileTools.ValidateDownloadsDir();
+
             // start new generic worker
             DoWork("repairing", selection, SetRepairOptions());
 
