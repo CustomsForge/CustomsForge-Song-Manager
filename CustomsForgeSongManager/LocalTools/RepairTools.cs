@@ -246,6 +246,7 @@ namespace CustomsForgeSongManager.LocalTools
                     Globals.Log(" - Moved new CDLC to 'dlc' folder");
                 }
 
+                // update/rescan just one CDLC in the bound SongCollection ... very cool lovro
                 using (var browser = new PsarcBrowser(srcFilePath))
                 {
                     var songInfo = browser.GetSongData();

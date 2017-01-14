@@ -996,11 +996,18 @@ namespace CustomsForgeSongManager.UControls
 
         private void cmsEditSong_Click(object sender, EventArgs e)
         {
-            var filePath = dgvSongsMaster.SelectedRows[0].Cells["colFilePath"].Value.ToString();
-
             DgvExtensions.SaveSorting(dgvSongsMaster);
-            var filterStatus = DataGridViewAutoFilterColumnHeaderCell.GetFilterStatus(dgvSongsMaster);
+            var selection = DgvExtensions.GetObjectFromRow<SongData>(dgvSongsMaster.SelectedRows[0]);
+            var filePath = selection.FilePath;
+            var enabled = selection.Enabled == "Yes";
 
+            // do not edit disabled songs
+            if (!enabled)
+            {
+                var diaMsg = Environment.NewLine + "Disabled CDLC may not be edited." + Environment.NewLine + "Please enable the CLDC and then edit it.";
+                BetterDialog2.ShowDialog(diaMsg, "Disabled CDLC ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "", 0, 150);
+                return;
+            }
 
             using (var songEditor = new frmSongEditor(filePath))
             {
