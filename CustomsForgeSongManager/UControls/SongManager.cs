@@ -330,7 +330,7 @@ namespace CustomsForgeSongManager.UControls
             tsmiAddDDCfgPath.Tag = AppSettings.Instance.RepairOptions.RampUpPath;
             if (!String.IsNullOrEmpty(tsmiAddDDCfgPath.Tag.ToString()))
                 tsmiAddDDRampUpPath.Text = Path.GetFileName(tsmiAddDDRampUpPath.Tag.ToString());
-        
+
         }
 
         private void InitializeRepairMenu()
@@ -377,6 +377,7 @@ namespace CustomsForgeSongManager.UControls
                         {
                             if (versionNode.HasAttribute("version"))
                                 correctVersion = (versionNode.GetAttribute("version") == SongData.SongDataListCurrentVersion);
+       
                             listNode.RemoveChild(versionNode);
                         }
                     }
@@ -391,7 +392,10 @@ namespace CustomsForgeSongManager.UControls
                     if (correctVersion)
                         Rescan(false); // smart scan
                     else
+                    {
                         Globals.Log("Incorrect song collection version found, rescanning songs.");
+                        GenExtensions.DeleteFile(songsInfoPath);
+                    }
                 }
 
                 if (!correctVersion || !File.Exists(songsInfoPath))
@@ -403,7 +407,7 @@ namespace CustomsForgeSongManager.UControls
             }
             catch (Exception e)
             {
-                // failsafe ... delete CFM folder files and start over
+                // failsafe ... delete My Documents/CFSM folder and files
                 string err = e.Message;
                 if (e.InnerException != null)
                     err += ", Inner: " + e.InnerException.Message;
@@ -415,7 +419,7 @@ namespace CustomsForgeSongManager.UControls
                 if (Directory.Exists(Constants.WorkFolder))
                     ZipUtilities.DeleteDirectory(Constants.WorkFolder);
 
-                MessageBox.Show(string.Format("{0}{1}{1}The program will now shut down.", err, Environment.NewLine), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(string.Format("{0}{1}{1}CFSM will now shut down.", err, Environment.NewLine), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Environment.Exit(0);
             }
 
@@ -600,7 +604,6 @@ namespace CustomsForgeSongManager.UControls
             if (fullRescan)
                 Globals.SongCollection.Clear();
 
-            Globals.TuningXml = null;// fix for Tunings 'Other'
             var sw = new Stopwatch();
             sw.Restart();
 
@@ -1801,7 +1804,7 @@ namespace CustomsForgeSongManager.UControls
             }
 
             this.Refresh();
-  
+
             if (tsmiProcessDLFolder.Checked)
                 FileTools.ValidateDownloadsDir();
 

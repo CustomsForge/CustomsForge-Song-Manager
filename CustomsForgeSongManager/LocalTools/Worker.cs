@@ -195,19 +195,15 @@ namespace CustomsForgeSongManager.LocalTools
                     }
                 }
             }
+
             Globals.DebugLog("Parsing done ...");
-
             counterStopwatch.Stop();
-
-            // free up memory
-            if (Globals.TuningXml != null)
-                Globals.TuningXml.Clear();
         }
 
         private void ParsePSARC(string filePath)
         {
-            // 2x speed hack ... preload the TuningDefinition
-            if (Globals.TuningXml == null)
+            // 2x speed hack ... preload the TuningDefinition and fix for tuning 'Other' issue           
+            if (Globals.TuningXml == null || Globals.TuningXml.Count == 0)
                 Globals.TuningXml = TuningDefinitionRepository.Instance.LoadTuningDefinitions(GameVersion.RS2014);
 
             try

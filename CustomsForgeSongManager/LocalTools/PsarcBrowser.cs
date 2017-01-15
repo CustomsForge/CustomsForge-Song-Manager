@@ -9,8 +9,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using RocksmithToolkitLib;
 using RocksmithToolkitLib.DLCPackage;
 using RocksmithToolkitLib.Extensions;
+using RocksmithToolkitLib.XmlRepository;
 using Arrangement = CustomsForgeSongManager.DataObjects.Arrangement;
 
 namespace CustomsForgeSongManager.LocalTools
@@ -167,6 +169,10 @@ namespace CustomsForgeSongManager.LocalTools
                                 });
                         else
                         {
+                            // fix for tuning 'Other' issue
+                            if (Globals.TuningXml == null || Globals.TuningXml.Count == 0)
+                                Globals.TuningXml = TuningDefinitionRepository.Instance.LoadTuningDefinitions(GameVersion.RS2014);
+
                             arrangmentsFromPsarc.Add(new Arrangement(currentSong)
                                 {
                                     PersistentID = attributes["PersistentID"].ToString(),

@@ -1,5 +1,8 @@
 ﻿CFSM Release Notes
 
+1.2.9.4
+- fixed tuning 'Other' bug that occurred after repairs, rescan, or restore
+
 1.2.9.3
 - added warning message to alert user that disabled CDLC may not be edited
 
