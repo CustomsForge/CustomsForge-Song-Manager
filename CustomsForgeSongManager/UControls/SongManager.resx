@@ -439,14 +439,6 @@
         TkSuQmCC
 </value>
   </data>
-  <data name="tsmiRepairsUsingOrg.ToolTipText" xml:space="preserve">
-    <value>Developers do not recommend use of this option.
-
-If selected, only files from the (org) folder
-are used for the selected repair options.
-This option may not be combined with
-the "Process 'downloads' Folder" button</value>
-  </data>
   <data name="tsmiRepairs.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
@@ -533,6 +525,24 @@ the CDLC files to repair (aka Bulk Repair).</value>
         h5Z2AyKR8RR+2NHRcZZhmFi84xjfIx2rfMwtqs3hBXryI6H1RRSDetG6uwQOMkVgI1J0eHj4SbQfRzqM
         dATpBFJs4V1ORVUWd638EVeemxAW9Q+PJHKtAgrQ1gAAAABJRU5ErkJggg==
 </value>
+  </data>
+  <data name="tsmiRepairsUsingOrg.ToolTipText" xml:space="preserve">
+    <value>Developers do not recommend use of this option.
+
+If selected, only files from the (org) folder
+are used for the selected repair options.
+This option may not be combined with
+the "Process 'downloads' Folder" button</value>
+  </data>
+  <data name="tsmiProcessDLFolder.ToolTipText" xml:space="preserve">
+    <value>Process new CDLC from 'Downloads' 
+folder and move them to 'dlc' folder.  
+
+If selected, only files in the 'Downloads'
+folder are processed/repaired.
+
+The 'Downloads' folder location may
+be reset from the 'Settings' tab menu.</value>
   </data>
   <data name="tsmiModsChangeAppId.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>

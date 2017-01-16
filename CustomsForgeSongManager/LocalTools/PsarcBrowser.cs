@@ -136,7 +136,6 @@ namespace CustomsForgeSongManager.LocalTools
                         var attributes = o["Entries"].First.Last["Attributes"];
 
                         // mini speed hack - these don't change so skip after first pass
-
                         if (!gotSongInfo)
                         {
                             currentSong.DLCKey = attributes["SongKey"].ToString();
@@ -220,7 +219,7 @@ namespace CustomsForgeSongManager.LocalTools
 
             Globals.Log("Extracting Audio ... Please wait ...");
             // TODO: maintain app responsiveness during audio extraction
-
+            // get contents of archive
             using (var archive = new PSARC(true))
             using (var stream = File.OpenRead(archiveName))
             {

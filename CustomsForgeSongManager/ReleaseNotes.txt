@@ -1,5 +1,9 @@
 ﻿CFSM Release Notes
 
+1.2.9.5
+- fixed Select All/None and Toggle Selection action so ODLC does not appear to be selected
+- fixed 'Process Downloads Folder' move repaired file to 'dlc' folder
+
 1.2.9.4
 - fixed tuning 'Other' bug that occurred after repairs, rescan, or restore
 

@@ -19,8 +19,8 @@ namespace CFSM.RSTKLib.PSARC
             TuningStrings songTuning = jObj.ToObject<TuningStrings>();
 
             // 2X speed hack ... use preloaded TuningDefinitionRepository
-            if (tuningXml == null)
-            tuningXml = TuningDefinitionRepository.Instance.LoadTuningDefinitions(GameVersion.RS2014);
+            if (tuningXml == null || tuningXml.Count == 0)
+                tuningXml = TuningDefinitionRepository.Instance.LoadTuningDefinitions(GameVersion.RS2014);
 
             foreach (var tuning in tuningXml)
                 if (tuning.Tuning.String0 == songTuning.String0 &&
@@ -32,12 +32,12 @@ namespace CFSM.RSTKLib.PSARC
                     return tuning.UIName;
 
             return "Other";
-         }
+        }
 
         public static string TuningStringToName(string strings, List<TuningDefinition> tuningXml = null)
         {
             // 2X speed hack ... use preloaded TuningDefinitionRepository
-            if (tuningXml == null)
+            if (tuningXml == null || tuningXml.Count == 0)
                 tuningXml = TuningDefinitionRepository.Instance.LoadTuningDefinitions(GameVersion.RS2014);
 
             foreach (var tuning in tuningXml)
@@ -190,7 +190,7 @@ namespace CFSM.RSTKLib.PSARC
             return null;
         }
 
- 
+
         public static bool ReplaceData(this PSARC p, Func<Entry, bool> dataEntry, Stream newData)
         {
             var de = p.TOC.Where(dataEntry).FirstOrDefault();

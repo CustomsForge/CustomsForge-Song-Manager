@@ -1032,6 +1032,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiDuplicates.RadioButtonGroupName = null;
             this.tsmiDuplicates.Size = new System.Drawing.Size(68, 20);
             this.tsmiDuplicates.Text = "Duplicates";
+            this.tsmiDuplicates.Visible = false;
             // 
             // tsmiDuplicatesSoon
             // 
@@ -1379,8 +1380,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiProcessDLFolder.RadioButtonGroupName = "ProcessDLFolder";
             this.tsmiProcessDLFolder.Size = new System.Drawing.Size(246, 22);
             this.tsmiProcessDLFolder.Text = "Process \'Downloads\' Folder";
-            this.tsmiProcessDLFolder.ToolTipText = "Process new CDLC from \'Downloads\' \r\nfolder and move them to \'dlc\' folder.  \r\n\r\nIf" +
-                " selected, only files in the \'Downloads\'\r\nfolder are processed/repaired.";
+            this.tsmiProcessDLFolder.ToolTipText = resources.GetString("tsmiProcessDLFolder.ToolTipText");
             this.tsmiProcessDLFolder.Click += new System.EventHandler(this.RepairsButton_Click);
             // 
             // toolStripSeparator13

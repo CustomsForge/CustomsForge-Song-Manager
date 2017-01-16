@@ -377,7 +377,7 @@ namespace CustomsForgeSongManager.UControls
                         {
                             if (versionNode.HasAttribute("version"))
                                 correctVersion = (versionNode.GetAttribute("version") == SongData.SongDataListCurrentVersion);
-       
+
                             listNode.RemoveChild(versionNode);
                         }
                     }
@@ -1422,8 +1422,6 @@ namespace CustomsForgeSongManager.UControls
             RemoveFilter();
         }
 
-
-
         private void lnkLblSelectAll_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             TemporaryDisableDatabindEvent(() =>
@@ -1433,6 +1431,7 @@ namespace CustomsForgeSongManager.UControls
                 });
 
             allSelected = !allSelected;
+            dgvSongsMaster.Refresh();
         }
 
         private void lnkShowAll_Click(object sender, EventArgs e)
@@ -1447,6 +1446,8 @@ namespace CustomsForgeSongManager.UControls
                     foreach (DataGridViewRow row in dgvSongsMaster.Rows)
                         row.Cells["colSelect"].Value = !Convert.ToBoolean(row.Cells["colSelect"].Value);
                 });
+
+            dgvSongsMaster.Refresh();
         }
 
         private void tsmiAddDDCfgPath_Click(object sender, EventArgs e)
@@ -1811,12 +1812,10 @@ namespace CustomsForgeSongManager.UControls
             // start new generic worker
             DoWork("repairing", selection, SetRepairOptions());
 
-            // RepairTools.RepairSongs(selection, SetRepairOptions());
-            // TODO: determine better way to refresh the dgv contents
-            // UPDATE: added another way of updating - a bit of testing is required
+            if (tsmiProcessDLFolder.Checked)
+                LoadFilteredBindingList(Globals.SongCollection);
 
             dgvSongsMaster.Refresh();
-            //RefreshDgv(false);
         }
 
         private void tsmiRescanFull_Click(object sender, EventArgs e)

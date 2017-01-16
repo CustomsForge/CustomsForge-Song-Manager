@@ -215,7 +215,6 @@ namespace CustomsForgeSongManager.LocalTools
 
                 // add comment to ToolkitInfo to identify Remastered CDLC
                 packageData = packageData.AddPackageComment(Constants.TKI_REMASTER);
-
                 // add default package version if missing
                 if (String.IsNullOrEmpty(packageData.ToolkitInfo.PackageVersion))
                     packageData.ToolkitInfo.PackageVersion = "1";
@@ -242,18 +241,29 @@ namespace CustomsForgeSongManager.LocalTools
 
                 if (options.ProcessDLFolder)
                 {
-                    GenExtensions.MoveFile(srcFilePath, Constants.Rs2DlcFolder);
+                    var destFilePath = Path.Combine(Constants.Rs2DlcFolder, Path.GetFileName(srcFilePath));
+                    GenExtensions.MoveFile(srcFilePath, destFilePath);
+                    srcFilePath = destFilePath;
                     Globals.Log(" - Moved new CDLC to 'dlc' folder");
+                    // add new repaired CDLC to the SongCollection
+                    using (var browser = new PsarcBrowser(srcFilePath))
+                    {
+                        var songInfo = browser.GetSongData();
+                        Globals.SongCollection.Add(songInfo.First());
+                    }
                 }
-
-                // update/rescan just one CDLC in the bound SongCollection ... very cool lovro
-                using (var browser = new PsarcBrowser(srcFilePath))
+                else
                 {
-                    var songInfo = browser.GetSongData();
-                    var song = Globals.SongCollection.FirstOrDefault(s => s.FilePath == srcFilePath);
-                    int index = Globals.SongCollection.IndexOf(song);
-                    Globals.SongCollection[index] = songInfo.First();
-                }
+                    // update/rescan just one CDLC in the bound SongCollection ... very cool lovro
+                    // gets contents of archive after it has been repaired
+                    using (var browser = new PsarcBrowser(srcFilePath))
+                    {
+                        var songInfo = browser.GetSongData();
+                        var song = Globals.SongCollection.FirstOrDefault(s => s.FilePath == srcFilePath);
+                        int index = Globals.SongCollection.IndexOf(song);
+                        Globals.SongCollection[index] = songInfo.First();
+                    }
+                }                
             }
             catch (CustomException ex)
             {
