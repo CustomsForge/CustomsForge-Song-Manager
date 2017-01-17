@@ -239,20 +239,7 @@ namespace CustomsForgeSongManager.LocalTools
                 else
                     Globals.Log(" - Repair was sucessful, but DD could not be applied");
 
-                if (options.ProcessDLFolder)
-                {
-                    var destFilePath = Path.Combine(Constants.Rs2DlcFolder, Path.GetFileName(srcFilePath));
-                    GenExtensions.MoveFile(srcFilePath, destFilePath);
-                    srcFilePath = destFilePath;
-                    Globals.Log(" - Moved new CDLC to 'dlc' folder");
-                    // add new repaired CDLC to the SongCollection
-                    using (var browser = new PsarcBrowser(srcFilePath))
-                    {
-                        var songInfo = browser.GetSongData();
-                        Globals.SongCollection.Add(songInfo.First());
-                    }
-                }
-                else
+                if (!options.ProcessDLFolder)
                 {
                     // update/rescan just one CDLC in the bound SongCollection ... very cool lovro
                     // gets contents of archive after it has been repaired
@@ -263,7 +250,7 @@ namespace CustomsForgeSongManager.LocalTools
                         int index = Globals.SongCollection.IndexOf(song);
                         Globals.SongCollection[index] = songInfo.First();
                     }
-                }                
+                }
             }
             catch (CustomException ex)
             {
@@ -308,7 +295,7 @@ namespace CustomsForgeSongManager.LocalTools
             return true;
         }
 
-        // CAREFUL ... this is called from a background worker
+        // CAREFUL ... this is called from a background worker ... threading issues
         public static StringBuilder RepairSongs(List<SongData> songs, RepairOptions repairOptions)
         {
             InitRepairTools();
@@ -357,14 +344,14 @@ namespace CustomsForgeSongManager.LocalTools
                 {
                     if (officialOrRepaired.Contains("Official"))
                     {
-                        Globals.Log(Path.GetFileName(srcFilePath) + " - Skipped ODLC File");
+                        Globals.Log(" - Skipped ODLC File");
                         skipped++;
                         isSkipped = true;
                     }
 
                     if (officialOrRepaired.Contains("Remastered") && options.SkipRemastered)
                     {
-                        Globals.Log(Path.GetFileName(srcFilePath) + " - Skipped Remastered File");
+                        Globals.Log(" - Skipped Remastered File");
                         skipped++;
                         isSkipped = true;
                     }
@@ -386,6 +373,21 @@ namespace CustomsForgeSongManager.LocalTools
                             Globals.Log(Path.GetFileName(srcFilePath) + " - Corrupt CDLC ... Moved file to 'corrupt' subfolder");
 
                         failed++;
+                    }
+                }
+
+                // move new CDLC from the 'Downloads' folder to the 'dlc' folder
+                if (options.ProcessDLFolder)
+                {
+                    var destFilePath = Path.Combine(Constants.Rs2DlcFolder, Path.GetFileName(srcFilePath));
+                    GenExtensions.MoveFile(srcFilePath, destFilePath);
+                    Globals.Log(" - Moved new CDLC to 'dlc' folder");
+              
+                    // add new repaired 'Downloads' CDLC to the SongCollection
+                    using (var browser = new PsarcBrowser(destFilePath))
+                    {
+                        var songInfo = browser.GetSongData();
+                        Globals.SongCollection.Add(songInfo.First());
                     }
                 }
 

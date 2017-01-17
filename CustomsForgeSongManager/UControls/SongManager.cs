@@ -1004,7 +1004,7 @@ namespace CustomsForgeSongManager.UControls
             var filePath = selection.FilePath;
             var enabled = selection.Enabled == "Yes";
 
-            // do not edit disabled songs
+            // do not edit disabled CDLC
             if (!enabled)
             {
                 var diaMsg = Environment.NewLine + "Disabled CDLC may not be edited." + Environment.NewLine + "Please enable the CLDC and then edit it.";

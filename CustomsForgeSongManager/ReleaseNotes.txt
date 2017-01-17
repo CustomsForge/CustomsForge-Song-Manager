@@ -1,5 +1,8 @@
 ﻿CFSM Release Notes
 
+1.2.9.6
+- move new CDLC from the 'Downloads' folder that have been previously repaired
+
 1.2.9.5
 - fixed Select All/None and Toggle Selection action so ODLC does not appear to be selected
 - fixed 'Process Downloads Folder' move repaired file to 'dlc' folder
