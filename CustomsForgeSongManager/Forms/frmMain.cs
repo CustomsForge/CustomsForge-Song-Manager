@@ -189,6 +189,7 @@ namespace CustomsForgeSongManager.Forms
                     ZipUtilities.DeleteDirectory(Constants.AudioCacheFolder);
             }
 
+            Globals.SongManager.SetRepairOptions();
             Globals.Settings.SaveSettingsToFile(Globals.DgvCurrent);
             Globals.SongManager.SaveSongCollectionToFile();
         }

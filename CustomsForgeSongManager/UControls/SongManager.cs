@@ -294,7 +294,7 @@ namespace CustomsForgeSongManager.UControls
             {
                 DataGridViewRow row = dgvSongsMaster.Rows[ndx];
 
-                if (Convert.ToBoolean(row.Cells["colSelect"].Value))
+                if (Convert.ToBoolean(row.Cells["colSelect"].Value) || row.Selected)
                     TemporaryDisableDatabindEvent(() => dgvSongsMaster.Rows.Remove(row));
             }
 
@@ -339,8 +339,8 @@ namespace CustomsForgeSongManager.UControls
             GetRepairOptions();
 
             var items = tsmiRepairs.DropDownItems;
-
-            foreach (var item in items.OfType<ToolStripEnhancedMenuItem>())
+            foreach (var item in items.OfType<ToolStripEnhancedMenuItem>()
+                .Where(item => item.CheckMarkDisplayStyle == CheckMarkDisplayStyle.RadioButton))
                 ToggleRepairMenu(item);
         }
 
@@ -664,7 +664,7 @@ namespace CustomsForgeSongManager.UControls
             LoadFilteredBindingList(results);
         }
 
-        private RepairOptions SetRepairOptions()
+        public RepairOptions SetRepairOptions()
         {
             var ro = new RepairOptions();
             ro.SkipRemastered = tsmiSkipRemastered.Checked;
@@ -724,14 +724,14 @@ namespace CustomsForgeSongManager.UControls
         private void ToggleRepairMenu(object sender)
         {
             // enables/disables repair options depending on button selection
-
             var clickedItem = (ToolStripEnhancedMenuItem)sender;
             var clickedItemGroup = clickedItem.RadioButtonGroupName;
             var items = tsmiRepairs.DropDownItems;
 
-            foreach (var item in items.OfType<ToolStripEnhancedMenuItem>())
+            foreach (var item in items.OfType<ToolStripEnhancedMenuItem>()
+                .Where(item => item.RadioButtonGroupName == clickedItemGroup))
             {
-                if (item.RadioButtonGroupName == clickedItemGroup && item.CheckMarkDisplayStyle == CheckMarkDisplayStyle.CheckBox)
+                if (item.CheckMarkDisplayStyle == CheckMarkDisplayStyle.CheckBox)
                 {
                     if (!clickedItem.Checked)
                     {
@@ -1558,9 +1558,9 @@ namespace CustomsForgeSongManager.UControls
 
         private void tsmiFilesDelete_Click(object sender, EventArgs e)
         {
-            DeleteSelection();
-            // reset safety interlock
+            // reset safety interlock ... must come first
             tsmiFilesSafetyInterlock.Checked = false;
+            DeleteSelection();
         }
 
         private void tsmiFilesDisableEnable_Click(object sender, EventArgs e)
@@ -1812,8 +1812,13 @@ namespace CustomsForgeSongManager.UControls
             // start new generic worker
             DoWork("repairing", selection, SetRepairOptions());
 
-            if (tsmiProcessDLFolder.Checked)
+            // new 'Downloads' CDLC added or corrupt CDLC were removed
+            // reload the SongCollection
+            if (Globals.ReloadSongManager)
+            {
                 LoadFilteredBindingList(Globals.SongCollection);
+                Globals.ReloadSongManager = false;
+            }
 
             dgvSongsMaster.Refresh();
         }
@@ -1844,8 +1849,9 @@ namespace CustomsForgeSongManager.UControls
 
         public void TabLeave()
         {
-            Globals.Log("SongManager GUI TabLeave ...");
+            SetRepairOptions();
             Globals.Settings.SaveSettingsToFile(dgvSongsMaster);
+            Globals.Log("SongManager GUI TabLeave ...");
         }
 
         private void DoWork(string workDescription, dynamic workerParm1 = null, dynamic workerParm2 = null, dynamic workerParm3 = null)

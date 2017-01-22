@@ -1,5 +1,10 @@
 ﻿CFSM Release Notes
 
+1.2.9.7
+- fixed 'Repairs' toolstripmenuitems toggling and save settings action
+- fixed 'Delete' files action
+- fixed handling and removal of corrupt CDLC and dgv refreshing
+
 1.2.9.6
 - move new CDLC from the 'Downloads' folder that have been previously repaired
 

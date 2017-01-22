@@ -185,7 +185,7 @@ namespace CustomsForgeSongManager.LocalTools
                         var consoleOutput = String.Empty;
                         var result = DynamicDifficulty.ApplyDD(arr.SongXml.File, options.PhraseLength, options.RemoveSustain, options.RampUpPath, options.CfgPath, out consoleOutput, true);
                         if (result == -1)
-                            throw new CustomException("ddc.exe is missing");
+                            throw new CustomException("ddc.exe is missing"); // may want to exit the application if this happens
 
                         if (String.IsNullOrEmpty(consoleOutput))
                         {
@@ -269,9 +269,9 @@ namespace CustomsForgeSongManager.LocalTools
                     File.Delete(orgFilePath);
                     File.Delete(srcFilePath);
                     sbErrors.AppendLine(String.Format("{0}, Maximum playable arrangement limit exceeded", maxFilePath));
-                }
 
-                return false;
+                    return false;
+                }
             }
             catch (Exception ex)
             {
@@ -363,16 +363,20 @@ namespace CustomsForgeSongManager.LocalTools
                     var rSucess = RemasterSong(srcFilePath);
                     if (!rSucess)
                     {
-                        if (!String.IsNullOrEmpty(sbErrors.ToString()))
-                        {
-                            var lines = sbErrors.ToString().Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).ToList();
-                            if (lines.Last().ToLower().Contains("maximum"))
-                                Globals.Log(Path.GetFileName(srcFilePath) + " - Exceeds Playable Arrangements Limit ... Moved file to 'maxfive' subfolder");
-                        }
+                        var lines = sbErrors.ToString().Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                        if (lines.Last().ToLower().Contains("maximum"))
+                            Globals.Log(Path.GetFileName(srcFilePath) + " - Exceeds Playable Arrangements Limit ... Moved file to 'maxfive' subfolder");                        
                         else
                             Globals.Log(Path.GetFileName(srcFilePath) + " - Corrupt CDLC ... Moved file to 'corrupt' subfolder");
 
                         failed++;
+                        
+                        // remove corrupt CDLC from SongCollection
+                        var song = Globals.SongCollection.FirstOrDefault(s => s.FilePath == srcFilePath);
+                        int index = Globals.SongCollection.IndexOf(song);
+                        Globals.SongCollection.AllowRemove = true;
+                        Globals.SongCollection.RemoveAt(index);
+                        Globals.ReloadSongManager = true;
                     }
                 }
 
@@ -382,7 +386,8 @@ namespace CustomsForgeSongManager.LocalTools
                     var destFilePath = Path.Combine(Constants.Rs2DlcFolder, Path.GetFileName(srcFilePath));
                     GenExtensions.MoveFile(srcFilePath, destFilePath);
                     Globals.Log(" - Moved new CDLC to 'dlc' folder");
-              
+                    Globals.ReloadSongManager = true;
+
                     // add new repaired 'Downloads' CDLC to the SongCollection
                     using (var browser = new PsarcBrowser(destFilePath))
                     {
