@@ -9,12 +9,12 @@
         <protection id="ref proxy" />
  		<protection id="resources" />
 	</rule>
-	<module path="bin\InnoInstaller\CFSM.AudioTools.dll" />
-	<module path="bin\InnoInstaller\CFSM.ImageTools.dll" />
-	<module path="bin\InnoInstaller\GenTools.dll" />
-	<module path="bin\InnoInstaller\CustomControls.dll" />
-	<module path="bin\InnoInstaller\CFSM.RSTKLib.dll" />
-	<module path="bin\InnoInstaller\DF.WinForms.ThemeLib.dll" />
-	<module path="bin\InnoInstaller\DataGridViewTools.dll" />
-	<module path="bin\InnoInstaller\CustomsForgeSongManager.exe" />
+	<module path="bin\ConfuserEx\CFSM.AudioTools.dll" />
+	<module path="bin\ConfuserEx\CFSM.ImageTools.dll" />
+	<module path="bin\ConfuserEx\GenTools.dll" />
+	<module path="bin\ConfuserEx\CustomControls.dll" />
+	<module path="bin\ConfuserEx\CFSM.RSTKLib.dll" />
+	<module path="bin\ConfuserEx\DF.WinForms.ThemeLib.dll" />
+	<module path="bin\ConfuserEx\DataGridViewTools.dll" />
+	<module path="bin\ConfuserEx\CustomsForgeSongManager.exe" />
 </project>

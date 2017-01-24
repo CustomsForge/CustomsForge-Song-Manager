@@ -3,7 +3,7 @@
 #include "idp.iss"
 
 [Setup]
-AppName={#ApplicationName}
+AppName={#AppName}
 AppVersion={#AppVersion}
 AppId={{58F35625-541C-493A-A289-4B2D362DAFE0}
 RestartIfNeededByRun=False
@@ -71,10 +71,10 @@ Name: quicklaunchicon; Description: {cm:CreateQuickLaunchIcon}; GroupDescription
 Filename: {app}\{#AppExeName}; Description: "{cm:LaunchProgram, {%AppName}}"; Flags: nowait postinstall skipifsilent
 
 [Icons]
-Name: {group}\{#ApplicationName}; Filename: {app}\{#AppExeName}; WorkingDir: {app}; IconFilename: {app}\{#AppExeName}
-Name: {group}\{cm:UninstallProgram,{#ApplicationName}}; Filename: {uninstallexe}
-Name: {commondesktop}\{#ApplicationName}; Filename: {app}\{#AppExeName}; WorkingDir: {app}; IconFilename: {app}\{#AppExeName}; Tasks: desktopicon
-Name: {userappdata}\Microsoft\Internet Explorer\Quick Launch\{#ApplicationName}; Filename: {app}\{#AppExeName}; Tasks: quicklaunchicon
+Name: {group}\{#AppName}; Filename: {app}\{#AppExeName}; WorkingDir: {app}; IconFilename: {app}\{#AppExeName}
+Name: {group}\{cm:UninstallProgram,{#AppName}}; Filename: {uninstallexe}
+Name: {commondesktop}\{#AppName}; Filename: {app}\{#AppExeName}; WorkingDir: {app}; IconFilename: {app}\{#AppExeName}; Tasks: desktopicon
+Name: {userappdata}\Microsoft\Internet Explorer\Quick Launch\{#AppName}; Filename: {app}\{#AppExeName}; Tasks: quicklaunchicon
 
 [Code]
 const
@@ -189,8 +189,8 @@ end;
 procedure CreateUninstallPage;
 begin
   doneUninstall := false;
-  UninstallPage := CreateCustomPage(wpWelcome, 'Removing old version of ' + ExpandConstant('{#ApplicationName}'),
-  'Uninstalling ' + ExpandConstant('{#ApplicationName}'));
+  UninstallPage := CreateCustomPage(wpWelcome, 'Removing old version of ' + ExpandConstant('{#AppName}'),
+  'Uninstalling ' + ExpandConstant('{#AppName}'));
 
     with TNewStaticText.Create(UninstallPage) do
     begin
@@ -213,16 +213,15 @@ end;
 
 procedure InitializeWizard();
 var
- currentVersion,newVersion,updateLoc : string;
+ customCaption,currentVersion,newVersion,updateLoc : string;
  sl:TStringlist;
  i:integer;
  updateUrl:string;
  urlLabel : TNewStaticText;
  DownloadStep : integer;
 begin
-  currentVersion := ExpandConstant('{#AppVersion}');
-
-  WizardForm.Caption := WizardForm.Caption + ' v'+ currentVersion;
+  customCaption := ExpandConstant('{#InstallerCaption}');
+  WizardForm.Caption := customCaption;
 
   DownloadStep := wpWelcome;
   CreateUninstallPage();

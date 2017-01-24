@@ -75,17 +75,8 @@
   </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup />
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ConfuserExRelease|x86' ">
-    <OutputPath>bin\ConfuserExRelease\</OutputPath>
-    <DefineConstants>TRACE;WINDOWS;TAGGER;RELEASE;AUTOUPDATE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'InnoInstaller|x86'">
-    <OutputPath>bin\InnoInstaller\</OutputPath>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ConfuserEx|x86' ">
+    <OutputPath>bin\ConfuserEx\</OutputPath>
     <DefineConstants>TRACE;WINDOWS;AUTOUPDATE;TAGGER;BETA</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -93,17 +84,17 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'PublishBeta|x86'">
-    <OutputPath>bin\InnoInstaller\</OutputPath>
-    <DefineConstants>TRACE;WINDOWS;AUTOUPDATE;BETA;TAGGER</DefineConstants>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'InnoBeta|x86' ">
+    <OutputPath>bin\ConfuserEx\</OutputPath>
+    <DefineConstants>TRACE;WINDOWS;AUTOUPDATE;TAGGER;BETA</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'PublishRelease|x86'">
-    <OutputPath>bin\InnoInstaller\</OutputPath>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'InnoRelease|x86' ">
+    <OutputPath>bin\ConfuserEx\</OutputPath>
     <DefineConstants>TRACE;WINDOWS;AUTOUPDATE;TAGGER;RELEASE</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -705,17 +696,12 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>if $(ConfigurationName) == InnoInstaller (
+    <PostBuildEvent>if $(ConfigurationName) == ConfuserEx (
 CD "$(SolutionDir)ThirdParty\ConfuserEx_bin\"
 "Confuser.CLI.exe" "..\ConfuserExForInno.crproj"
-CD "$(SolutionDir)ThirdParty\Inno\"
-"ISCC.exe" /DBETA "..\CFSM.Setup\cfsmInstaller.iss"
-del /q "$(TargetDir)*.pdb"
-CD "$(SolutionDir)ThirdParty\"
-"CFSMPostBuilder.exe" "CREATEVERSIONINFO"
 )
 
-if $(ConfigurationName) == PublishBeta (
+if $(ConfigurationName) == InnoBeta (
 CD "$(SolutionDir)ThirdParty\ConfuserEx_bin\"
 "Confuser.CLI.exe" "..\ConfuserExForInno.crproj"
 CD "$(SolutionDir)ThirdParty\Inno\"
@@ -727,7 +713,7 @@ CD "$(SolutionDir)ThirdParty\"
 REM "CFSMPostBuilder.exe" "UPLOAD" "198.58.96.81/beta/" "appdev" "kvPSF7HL"
 )
 
-if $(ConfigurationName) == PublishRelease (
+if $(ConfigurationName) == InnoRelease (
 CD "$(SolutionDir)ThirdParty\ConfuserEx_bin\"
 "Confuser.CLI.exe" "..\ConfuserExForInno.crproj"
 CD "$(SolutionDir)ThirdParty\Inno\"

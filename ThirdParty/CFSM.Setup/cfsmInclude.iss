@@ -1,18 +1,18 @@
-#define buildpath SourcePath +"..\..\CustomsForgeSongManager\bin\InnoInstaller\"
+#define buildpath SourcePath +"..\..\CustomsForgeSongManager\bin\ConfuserEx\"
 #define AppVersion GetFileVersion(buildpath + "CustomsForgeSongManager.exe")
 #define AppURL "http://customsforge.com/"
 #define AppExeName "CustomsForgeSongManager.exe"
+#define AppName "CustomsForge Song Manager"
+#define InstallerName "CFSMSetup";
 
 #define DOUPDATE
 
 #ifdef BETA
-#define ApplicationName "CustomsForge Song Manager - BETA"
 #define BaseUpdateURL "http://appdev.cfmanager.com/beta"
-#define InstallerName "CFSMSetup";
+#define InstallerCaption "Setup - CustomsForge Song Manager - Beta Version"
 #else
-#define ApplicationName "CustomsForge Song Manager - RELEASE"
 #define BaseUpdateURL "http://appdev.cfmanager.com"
-#define InstallerName "CFSMSetup";
+#define InstallerCaption "Setup - CustomsForge Song Manager - Release Version"
 #endif
 
 #define UpdateInfoLocation BaseUpdateURL + "/VersionInfo.txt"
