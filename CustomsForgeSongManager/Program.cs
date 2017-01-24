@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 using System.Windows.Forms;
 using GenTools;
 using CustomsForgeSongManager.DataObjects;
@@ -80,7 +81,7 @@ namespace CustomsForgeSongManager
                     Application.Run(new frmMain(myLog));
                 }
                 else
-               {
+                {
                     try
                     {
                         Application.EnableVisualStyles();

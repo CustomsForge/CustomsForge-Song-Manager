@@ -1,12 +1,14 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Xml.Serialization;
 using GenTools;
 using DataGridViewTools;
 
 namespace CustomsForgeSongManager.DataObjects
 {
+    [Obfuscation(Exclude = false, Feature = "-rename")]
     public enum SongDataStatus : byte
     {
         None = 0,
@@ -15,6 +17,7 @@ namespace CustomsForgeSongManager.DataObjects
         NotFound = 3
     }
 
+    [Obfuscation(Exclude = false, Feature = "-rename")]
     public enum SongTaggerStatus : byte
     {
         [XmlEnum("0")]
@@ -25,6 +28,8 @@ namespace CustomsForgeSongManager.DataObjects
         ODLC = 2
     }
 
+    // TODO: get custom filter to work with Enums, i.e. p.PropertyType.IsEnum
+    [Obfuscation(Exclude = false, Feature = "-rename")]
     public enum RepairStatus : byte
     {
         NotRepaired = 0,

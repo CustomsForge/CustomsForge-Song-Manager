@@ -154,7 +154,7 @@ namespace CustomsForgeSongManager.LocalTools
                         var bassShift = 0;
                         const int mix = 100;
                         const int tone = 100;
-             
+
                         //Get info (amount of steps) and set correct tunings
                         packageData = GetSetArrInfo(packageData, ref gitShift, ref bassShift, ref ext);
 
@@ -184,16 +184,16 @@ namespace CustomsForgeSongManager.LocalTools
                         using (var psarcNew = new PsarcPackager(true))
                             psarcNew.WritePackage(finalPath, packageData, srcFilePath);
 
+                        // TODO: add new named pitchshift CDLC to SongCollection
                         if (File.Exists(finalPath))
                         {
-                             using (var browser = new PsarcBrowser(finalPath))
+                            using (var browser = new PsarcBrowser(finalPath))
                             {
                                 var songInfo = browser.GetSongData();
-
                                 if (songInfo != null && !Globals.SongCollection.Where(sng => sng.FilePath == finalPath).Any())
                                     Globals.SongCollection.Add(songInfo.First());
                             }
-                         }
+                        }
 
                         Globals.Log(" - Pitch shifting was sucessful");
                     }
@@ -211,7 +211,7 @@ namespace CustomsForgeSongManager.LocalTools
             if (processed > 0)
             {
                 Globals.Log("CDLC pitch shifting completed ...");
-                Globals.RescanSongManager = true;
+                Globals.ReloadSongManager = true; // set quick reload flag
 
                 if (!Constants.DebugMode)
                     GenExtensions.CleanLocalTemp();

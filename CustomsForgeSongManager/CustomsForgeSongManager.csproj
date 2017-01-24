@@ -705,13 +705,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>if $(ConfigurationName) == ConfuserExRelease (
-CD "$(SolutionDir)ThirdParty\ConfuserEx_bin\"
-"Confuser.CLI.exe" "..\ConfuserExGeneric.crproj"
-del /q "$(TargetDir)*.pdb"
-)
-
-if $(ConfigurationName) == InnoInstaller (
+    <PostBuildEvent>if $(ConfigurationName) == InnoInstaller (
 CD "$(SolutionDir)ThirdParty\ConfuserEx_bin\"
 "Confuser.CLI.exe" "..\ConfuserExForInno.crproj"
 CD "$(SolutionDir)ThirdParty\Inno\"
@@ -745,7 +739,10 @@ CD "$(SolutionDir)ThirdParty\"
 REM "CFSMPostBuilder.exe" "UPLOAD" "198.58.96.81" "appdev" "7eCheQ+bu+heRevu"
 )
 
-DEL /Q "$(TargetDir)*.pdb"</PostBuildEvent>
+DEL /Q "$(TargetDir)*.pdb"
+
+REM if $(ConfigurationName should throw an error
+</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>XCOPY /Y/D "$(SolutionDir)libs\*.xml" "$(TargetDir)*.xml" 

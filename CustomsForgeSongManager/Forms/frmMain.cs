@@ -16,6 +16,11 @@ using CustomsForgeSongManager.UITheme;
 // dev screen resolution should be set to this when designing forms and controls
 // all png images are 16x16 resolution for buttons, unless higher resolution for some other use
 
+// NOTE: any usage of 'public enum' in code that will be obfuscated must be preceeded with
+// [Obfuscation(Exclude = false, Feature = "-rename")]
+// [assembly: Obfuscation(Exclude = false, Feature = "is-type('enum'):rename(mode=sequential,forceRen=true")]
+// so that ConfuserEx does not rename the enumerators
+//
 namespace CustomsForgeSongManager.Forms
 {
     public partial class frmMain : Form, IMainForm //,ThemedForm
@@ -131,7 +136,7 @@ namespace CustomsForgeSongManager.Forms
 
         public frmMain()
         {
-          //  throw new Exception("Improper constructor used");
+            //  throw new Exception("Improper constructor used");
         }
 
         private string GetRSTKLibVersion()

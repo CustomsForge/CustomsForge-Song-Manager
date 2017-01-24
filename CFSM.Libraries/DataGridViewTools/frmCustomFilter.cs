@@ -79,7 +79,8 @@ namespace DataGridViewTools
 
         public void AddExpressionControl()
         {
-            var ec = new ExpressionGroupControl() {Dock = DockStyle.Fill};
+            // TODO: get custom filter to work with Enums, i.e. p.PropertyType.IsEnum
+            var ec = new ExpressionGroupControl() { Dock = DockStyle.Fill };
             if (propInfo.PropertyType == typeof (string))
                 ec.cbExpression.DataSource = CreateStringExpressions();
             else if (propInfo.PropertyType == typeof (int) || propInfo.PropertyType == typeof (double) || propInfo.PropertyType == typeof (float))

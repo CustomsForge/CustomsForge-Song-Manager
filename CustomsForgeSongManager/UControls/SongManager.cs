@@ -21,7 +21,9 @@ using Newtonsoft.Json;
 using System.Xml;
 using Globals = CustomsForgeSongManager.DataObjects.Globals;
 
-// Think twice before adding any code to this already bloated UC.
+// TODO: apply Lovro's SongCollection rescan/updated as a generic method to
+// replace usages of Globals.ReloadSongManager or RescanSongManager = true
+// see comment about binding in DeleteSelection method
 
 namespace CustomsForgeSongManager.UControls
 {
@@ -280,6 +282,12 @@ namespace CustomsForgeSongManager.UControls
 
         private void DeleteSelection()
         {
+            // INFORMATION - deleting data from the dgv is the same as deleting data
+            // from the SongCollection because the dgv and the SongCollection are bound
+            // similarly deleting data from the SongCollection is the same as deleting data
+            // from the dgv after it is refreshed because the two are bound to each other
+            var stopHere = Globals.SongCollection; // for debugging
+
             var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster);
             if (!selection.Any()) return;
 
@@ -298,7 +306,10 @@ namespace CustomsForgeSongManager.UControls
                     TemporaryDisableDatabindEvent(() => dgvSongsMaster.Rows.Remove(row));
             }
 
+            var stopHere2 = Globals.SongCollection; // for debugging
+
             FileTools.DeleteFiles(selection);
+            Globals.RescanSongManager = false; // stops full rescan set by worker
             UpdateToolStrip();
         }
 
@@ -342,6 +353,8 @@ namespace CustomsForgeSongManager.UControls
             foreach (var item in items.OfType<ToolStripEnhancedMenuItem>()
                 .Where(item => item.CheckMarkDisplayStyle == CheckMarkDisplayStyle.RadioButton))
                 ToggleRepairMenu(item);
+
+            this.Refresh();
         }
 
         private void LoadFilteredBindingList(dynamic list)
@@ -1691,13 +1704,20 @@ namespace CustomsForgeSongManager.UControls
         private void tsmiModsPitchShifter_Click(object sender, EventArgs e)
         {
             var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster);
-            if (!selection.Any()) return;
+            if (!selection.Any()) 
+                return;
 
             this.Refresh();
             DoWork(Constants.GWORKER_PITCHSHIFT, selection, tsmiModsPitchShiftOverwrite.Checked);
 
-            // TODO: determine better way to refresh the dgv contents
-            RefreshDgv(false);
+            // quickly reload the SongCollection to the dgv
+            if (Globals.ReloadSongManager)
+            {
+                LoadFilteredBindingList(Globals.SongCollection);
+                Globals.ReloadSongManager = false;
+            }
+
+            dgvSongsMaster.Refresh();
         }
 
         private void tsmiModsTagArtwork_Click(object sender, EventArgs e)
@@ -1813,7 +1833,7 @@ namespace CustomsForgeSongManager.UControls
             DoWork("repairing", selection, SetRepairOptions());
 
             // new 'Downloads' CDLC added or corrupt CDLC were removed
-            // reload the SongCollection
+            // quickly reload the SongCollection to the dgv
             if (Globals.ReloadSongManager)
             {
                 LoadFilteredBindingList(Globals.SongCollection);

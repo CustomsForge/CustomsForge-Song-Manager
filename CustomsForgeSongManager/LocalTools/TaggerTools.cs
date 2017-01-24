@@ -727,6 +727,7 @@ namespace CustomsForgeSongManager.LocalTools
         }
     }
 
+    [Obfuscation(Exclude = false, Feature = "-rename")]
     public enum GradientMode
     {
         Horizontal,
@@ -890,6 +891,7 @@ namespace CustomsForgeSongManager.LocalTools
 
     #region Shapes
 
+    [Obfuscation(Exclude = false, Feature = "-rename")]
     public enum DrawShapeType
     {
         fill,

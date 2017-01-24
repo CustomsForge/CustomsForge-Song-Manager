@@ -376,7 +376,7 @@ namespace CustomsForgeSongManager.LocalTools
                         int index = Globals.SongCollection.IndexOf(song);
                         Globals.SongCollection.AllowRemove = true;
                         Globals.SongCollection.RemoveAt(index);
-                        Globals.ReloadSongManager = true;
+                        Globals.ReloadSongManager = true; // set quick reload flag
                     }
                 }
 
@@ -386,7 +386,7 @@ namespace CustomsForgeSongManager.LocalTools
                     var destFilePath = Path.Combine(Constants.Rs2DlcFolder, Path.GetFileName(srcFilePath));
                     GenExtensions.MoveFile(srcFilePath, destFilePath);
                     Globals.Log(" - Moved new CDLC to 'dlc' folder");
-                    Globals.ReloadSongManager = true;
+                    Globals.ReloadSongManager = true; // set quick reload flag
 
                     // add new repaired 'Downloads' CDLC to the SongCollection
                     using (var browser = new PsarcBrowser(destFilePath))
