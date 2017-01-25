@@ -238,9 +238,9 @@ namespace CustomsForgeSongManager.LocalTools
                 if (addedDD)
                     Globals.Log(" - Added Dynamic Difficulty");
                 if (!ddError)
-                    Globals.Log(" - Repair was sucessful");
+                    Globals.Log(" - Repair was successful");
                 else
-                    Globals.Log(" - Repair was sucessful, but DD could not be applied");
+                    Globals.Log(" - Repair was successful, but DD could not be applied");
 
                 if (!options.ProcessDLFolder)
                 {
