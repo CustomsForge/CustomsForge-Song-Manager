@@ -820,7 +820,7 @@ namespace CustomsForgeSongManager.UControls
 
                     Globals.Log("Sucessfuly restored (" + backupExt + ") Backup of " + Path.GetFileName(dlcFilePath));
 
-                    //GenExtensions.InvokeIfRequired(this, delegate { dgvRepair.Rows.Add(Path.GetFileName(dlcFilePath), "Sucessfully Restored (" + backupExt + ") Backup"); });
+                    //GenExtensions.InvokeIfRequired(this, delegate { dgvRepair.Rows.Add(Path.GetFileName(dlcFilePath), "Successfully Restored (" + backupExt + ") Backup"); });
                 }
                 catch (IOException ex)
                 {
@@ -936,7 +936,7 @@ namespace CustomsForgeSongManager.UControls
                 {
                     File.SetAttributes(srcFilePath, FileAttributes.Normal);
                     File.Copy(srcFilePath, orgFilePath, false);
-                    Globals.Log(" - Sucessfully created backup ..."); // a good thing
+                    Globals.Log(" - Successfully created backup ..."); // a good thing
                 }
                 else
                     Globals.Log(" - Backup already exists ..."); // also a good thing
@@ -1026,7 +1026,7 @@ namespace CustomsForgeSongManager.UControls
                 // copy but don't delete (.org)
                 File.SetAttributes(srcFilePath, FileAttributes.Normal);
                 File.Copy(srcFilePath, dlcFilePath, true);
-                Globals.Log(" - Sucessfully restored backup ...");
+                Globals.Log(" - Successfully restored backup ...");
                 return dlcFilePath;
             }
             catch (Exception ex)
