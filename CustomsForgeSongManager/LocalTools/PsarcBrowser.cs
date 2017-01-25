@@ -9,8 +9,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using RocksmithToolkitLib;
 using RocksmithToolkitLib.DLCPackage;
 using RocksmithToolkitLib.Extensions;
+using RocksmithToolkitLib.XmlRepository;
 using Arrangement = CustomsForgeSongManager.DataObjects.Arrangement;
 
 namespace CustomsForgeSongManager.LocalTools
@@ -44,6 +46,7 @@ namespace CustomsForgeSongManager.LocalTools
             var appId = String.Empty;
 
             var tagged = _archive.TOC.Any(entry => entry.Name == "tagger.org");
+            var packageComment = String.Empty;
 
             var toolkitVersionFile = _archive.TOC.FirstOrDefault(x => (x.Name.Equals("toolkit.version")));
             if (toolkitVersionFile != null)
@@ -53,6 +56,8 @@ namespace CustomsForgeSongManager.LocalTools
                 author = tkInfo.PackageAuthor ?? "N/A";
                 version = tkInfo.PackageVersion ?? "N/A";
                 tkversion = tkInfo.ToolkitVersion ?? "N/A";
+
+                packageComment = tkInfo.PackageComment;
             }
 
             var appIdFile = _archive.TOC.FirstOrDefault(x => (x.Name.Equals("appid.appid")));
@@ -81,12 +86,29 @@ namespace CustomsForgeSongManager.LocalTools
 
                 if (toolkitVersionFile == null)
                 {
+                    currentSong.CharterName = "Ubisoft";
                     currentSong.Tagged = SongTaggerStatus.ODLC;
-                    if (String.IsNullOrEmpty(author))
-                        currentSong.CharterName = "Ubisoft";
+                    currentSong.RepairStatus = RepairStatus.ODLC;
                 }
                 else
+                {
                     currentSong.Tagged = tagged ? SongTaggerStatus.True : SongTaggerStatus.False;
+
+                    // TODO: reconsider/simplify this
+                    if (packageComment == null)
+                        currentSong.RepairStatus = RepairStatus.NotRepaired;
+                    else if (packageComment.Contains("Remastered") && packageComment.Contains("DD") && packageComment.Contains("Max5"))
+                        currentSong.RepairStatus = RepairStatus.RepairedDDMaxFive;
+                    else if (packageComment.Contains("Remastered") && packageComment.Contains("DD"))
+                        currentSong.RepairStatus = RepairStatus.RepairedDD;
+                    else if (packageComment.Contains("Remastered") && packageComment.Contains("Max5"))
+                        currentSong.RepairStatus = RepairStatus.RepairedMaxFive;
+                    else if (packageComment.Contains("Remastered"))
+                        currentSong.RepairStatus = RepairStatus.Repaired;
+                    else
+                        currentSong.RepairStatus = RepairStatus.NotRepaired;
+                }
+
 
                 var strippedName = singleSong.Name.Replace(".xblock", "").Replace("gamexblocks/nsongs/", "");
                 if (strippedName.Contains("_fcp_dlc"))
@@ -114,7 +136,6 @@ namespace CustomsForgeSongManager.LocalTools
                         var attributes = o["Entries"].First.Last["Attributes"];
 
                         // mini speed hack - these don't change so skip after first pass
-
                         if (!gotSongInfo)
                         {
                             currentSong.DLCKey = attributes["SongKey"].ToString();
@@ -147,6 +168,10 @@ namespace CustomsForgeSongManager.LocalTools
                                 });
                         else
                         {
+                            // fix for tuning 'Other' issue
+                            if (Globals.TuningXml == null || Globals.TuningXml.Count == 0)
+                                Globals.TuningXml = TuningDefinitionRepository.Instance.LoadTuningDefinitions(GameVersion.RS2014);
+
                             arrangmentsFromPsarc.Add(new Arrangement(currentSong)
                                 {
                                     PersistentID = attributes["PersistentID"].ToString(),
@@ -194,7 +219,7 @@ namespace CustomsForgeSongManager.LocalTools
 
             Globals.Log("Extracting Audio ... Please wait ...");
             // TODO: maintain app responsiveness during audio extraction
-
+            // get contents of archive
             using (var archive = new PSARC(true))
             using (var stream = File.OpenRead(archiveName))
             {

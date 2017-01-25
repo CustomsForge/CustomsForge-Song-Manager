@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 using System.ComponentModel;
-using CFSM.GenTools;
+using GenTools;
 using CustomsForgeSongManager.DataObjects;
 using CustomsForgeSongManager.LocalTools;
 using DataGridViewTools;
@@ -23,8 +23,8 @@ namespace CustomsForgeSongManager.UControls
         {
             var settingsPath = Constants.SettingsPath;
 
-            // initialize application startup 
-            if (!File.Exists(settingsPath))
+            // initialize application startup or check for empty settings file 
+            if (!File.Exists(settingsPath) || new FileInfo(settingsPath).Length == 0)
             {
                 ResetSettings();
                 ValidateRsDir();
@@ -43,8 +43,9 @@ namespace CustomsForgeSongManager.UControls
                 AppSettings.Instance.LoadFromFile(settingsPath, Globals.DgvCurrent);
 
                 cueRsDir.Text = AppSettings.Instance.RSInstalledDir;
+                chkEnableAutoUpdate.Checked = AppSettings.Instance.EnableAutoUpdate;
                 chkIncludeRS1DLC.Checked = AppSettings.Instance.IncludeRS1DLCs;
-                chkEnableLogBallon.Checked = AppSettings.Instance.EnabledLogBaloon;
+                chkEnableLogBallon.Checked = AppSettings.Instance.EnableLogBaloon;
                 chkCleanOnClosing.Checked = AppSettings.Instance.CleanOnClosing;
                 txtCharterName.Text = AppSettings.Instance.CharterName;
 
@@ -63,11 +64,14 @@ namespace CustomsForgeSongManager.UControls
                 case "RSInstalledDir":
                     cueRsDir.Text = AppSettings.Instance.RSInstalledDir;
                     break;
+                case "EnableAutoUpdate":
+                    chkEnableAutoUpdate.Checked = AppSettings.Instance.EnableAutoUpdate;
+                    break;
                 case "IncludeRS1DLCs":
                     chkIncludeRS1DLC.Checked = AppSettings.Instance.IncludeRS1DLCs;
                     break;
-                case "EnabledLogBaloon":
-                    chkEnableLogBallon.Checked = AppSettings.Instance.EnabledLogBaloon;
+                case "EnableLogBaloon":
+                    chkEnableLogBallon.Checked = AppSettings.Instance.EnableLogBaloon;
                     break;
                 case "CleanOnClosing":
                     chkCleanOnClosing.Checked = AppSettings.Instance.CleanOnClosing;
@@ -121,8 +125,8 @@ namespace CustomsForgeSongManager.UControls
                 if (String.IsNullOrEmpty(dgvCurrent.Name))
                     return;
 
-                if (!Directory.Exists(Constants.GridSettingsDirectory))
-                    Directory.CreateDirectory(Constants.GridSettingsDirectory);
+                if (!Directory.Exists(Constants.GridSettingsFolder))
+                    Directory.CreateDirectory(Constants.GridSettingsFolder);
 
                 SerialExtensions.SaveToFile(Constants.GridSettingsPath, RAExtensions.SaveColumnOrder(dgvCurrent));
                 Globals.Log("Saved " + Path.GetFileName(Constants.GridSettingsPath) + " file ...");
@@ -246,6 +250,11 @@ namespace CustomsForgeSongManager.UControls
             AppSettings.Instance.CharterName = txtCharterName.Text;
         }
 
+        private void chkEnableAutoUpdate_CheckedChanged(object sender, EventArgs e)
+        {
+            AppSettings.Instance.EnableAutoUpdate = chkEnableAutoUpdate.Checked;
+        }
+
         private void chkIncludeRS1DLC_CheckedChanged(object sender, EventArgs e)
         {
             AppSettings.Instance.IncludeRS1DLCs = chkIncludeRS1DLC.Checked;
@@ -254,6 +263,26 @@ namespace CustomsForgeSongManager.UControls
         private void chkCleanOnClosing_CheckedChanged(object sender, EventArgs e)
         {
             AppSettings.Instance.CleanOnClosing = chkCleanOnClosing.Checked;
+        }
+
+        private void btnEmptyLogs_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure you want to empty the log files?", Constants.ApplicationName + " ... Warning", MessageBoxButtons.YesNo) == DialogResult.No)
+                return;
+
+            GenExtensions.DeleteFile(AppSettings.Instance.LogFilePath);
+            Globals.MyLog.AddTargetFile(AppSettings.Instance.LogFilePath);
+            GenExtensions.DeleteFile(Constants.RemasteredErrorLogPath);
+            Globals.TbLog.Clear();
+            Globals.Log("Log files have been emptied ...");
+            Globals.Log("Starting new log ...");
+            Globals.Log(Constants.AppTitle);
+        }
+
+        private void btnResetDownloads_Click(object sender, EventArgs e)
+        {
+            AppSettings.Instance.DownloadsDir = String.Empty;
+            Globals.Log("CDLC 'Downloads' folder path was reset ...");
         }
 
     }

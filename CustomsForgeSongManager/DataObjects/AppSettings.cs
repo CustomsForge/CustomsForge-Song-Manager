@@ -5,7 +5,7 @@ using System.IO;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using CustomsForgeSongManager.LocalTools;
-using CFSM.GenTools;
+using GenTools;
 using DataGridViewTools;
 
 namespace CustomsForgeSongManager.DataObjects
@@ -16,7 +16,8 @@ namespace CustomsForgeSongManager.DataObjects
         private string _rsInstalledDir;
         private string _rsProfileDir;
         private bool _includeRs1DlCs;
-        private bool _enabledLogBaloon;
+        private bool _enableAutoUpdate;
+        private bool _enableLogBaloon;
         private bool _cleanOnClosing;
         private bool _checkForUpdateOnScan;
         private bool _fullScreen;
@@ -30,6 +31,9 @@ namespace CustomsForgeSongManager.DataObjects
         private string _sortColumn;
         private bool _sortAscending;
         private bool _showSetlistSongs;
+        private string _downloadsDir;
+        private DateTime _lastODLCCheckDate;
+        private RepairOptions _repairOptions;
 
         [Browsable(false)]
         public string LogFilePath { get; set; }
@@ -46,16 +50,22 @@ namespace CustomsForgeSongManager.DataObjects
             set { SetPropertyField("RSProfileDir", ref _rsProfileDir, value); }
         }
 
+        public bool EnableAutoUpdate
+        {
+            get { return _enableAutoUpdate; }
+            set { SetPropertyField("EnableAutoUpdate", ref _enableAutoUpdate, value); }
+        }
+     
         public bool IncludeRS1DLCs
         {
             get { return _includeRs1DlCs; }
             set { SetPropertyField("IncludeRS1DLCs", ref _includeRs1DlCs, value); }
         }
 
-        public bool EnabledLogBaloon
+        public bool EnableLogBaloon
         {
-            get { return _enabledLogBaloon; }
-            set { SetPropertyField("EnabledLogBaloon", ref _enabledLogBaloon, value); }
+            get { return _enableLogBaloon; }
+            set { SetPropertyField("EnableLogBaloon", ref _enableLogBaloon, value); }
         }
 
         public bool CleanOnClosing
@@ -68,6 +78,18 @@ namespace CustomsForgeSongManager.DataObjects
         {
             get { return _checkForUpdateOnScan; }
             set { SetPropertyField("CheckForUpdateOnScan", ref _checkForUpdateOnScan, value); }
+        }
+
+        public DateTime LastODLCCheckDate
+        {
+            get { return _lastODLCCheckDate; }
+            set { SetPropertyField("LastODLCCheckDate", ref _lastODLCCheckDate, value); }
+        }
+
+        public string DownloadsDir
+        {
+            get { return _downloadsDir; }
+            set { SetPropertyField("DownloadsDir", ref _downloadsDir, value); }
         }
 
         //[XmlArray("UISettings")] // provides proper xml serialization
@@ -158,14 +180,20 @@ namespace CustomsForgeSongManager.DataObjects
         [XmlArrayItem("CustomSetting")] // provides proper xml serialization
         public List<CustomSetting> CustomSettings { get; set; }
 
+        public RepairOptions RepairOptions
+        {
+            get { return _repairOptions ?? (_repairOptions = new RepairOptions()); }
+            set { _repairOptions = value; }
+        }
+
         public bool MoveToQuarantine { get; set; }
 
         //property template
         //public type PropName { get { return propName; } set { SetPropertyField("PropName", ref propName, value); } }
 
-        private static AppSettings _instance;
         private string _themeName;
 
+        private static AppSettings _instance;
         public static AppSettings Instance
         {
             get
@@ -211,10 +239,12 @@ namespace CustomsForgeSongManager.DataObjects
             Instance.RSInstalledDir = LocalExtensions.GetSteamDirectory();
             Instance.RSProfileDir = String.Empty;
             Instance.IncludeRS1DLCs = false; // changed to false (fewer issues)
-            Instance.EnabledLogBaloon = false; // fewer notfication issues
+            Instance.EnableAutoUpdate = true; 
+            Instance.EnableLogBaloon = false; // fewer notfication issues
             Instance.CleanOnClosing = false;
             Instance.ShowLogWindow = Constants.DebugMode;
             RAExtensions.ManagerGridSettings = new RADataGridViewSettings();
+            Instance.RepairOptions = new RepairOptions();
         }
 
         /// Initialise settings with default values

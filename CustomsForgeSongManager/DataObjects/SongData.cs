@@ -1,12 +1,14 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Xml.Serialization;
-using CFSM.GenTools;
+using GenTools;
 using DataGridViewTools;
 
 namespace CustomsForgeSongManager.DataObjects
 {
+    [Obfuscation(Exclude = false, Feature = "-rename")]
     public enum SongDataStatus : byte
     {
         None = 0,
@@ -15,6 +17,7 @@ namespace CustomsForgeSongManager.DataObjects
         NotFound = 3
     }
 
+    [Obfuscation(Exclude = false, Feature = "-rename")]
     public enum SongTaggerStatus : byte
     {
         [XmlEnum("0")]
@@ -24,6 +27,28 @@ namespace CustomsForgeSongManager.DataObjects
         [XmlEnum("2")]
         ODLC = 2
     }
+
+    // TODO: get custom filter to work with Enums, i.e. p.PropertyType.IsEnum
+    [Obfuscation(Exclude = false, Feature = "-rename")]
+    public enum RepairStatus : byte
+    {
+        NotRepaired = 0,
+        Repaired = 1,
+        RepairedDD = 2,
+        RepairedMaxFive = 3,
+        RepairedDDMaxFive = 4,
+        ODLC = 5
+    }
+
+    //Static class seems more convenient to use, since the values are shown in DGV(s)
+    //public static class RepairStatus
+    //{
+    //    public const string NotRepaired = "Not repaired";
+    //    public const string Repaired = "Repaired";
+    //    public const string RepairedDD = "Repaired + added DD";
+    //    public const string RepairedMaxFive = "Repaired + fixed max 5 arr. error";
+    //    public const string RepairedDDMaxFive = "Repaired + added DD + fixed max 5 arr. error";
+    //}
 
     // only essential data needs to be saved to the XML songinfo file
     // order here determines order in xml file
@@ -35,8 +60,10 @@ namespace CustomsForgeSongManager.DataObjects
         //ver 4 : changed tagged to SongTaggerStatus
         //ver 5 : added ArtistSort TitleSort and AlbumSort variables
         //ver 6 : changed Path to FilePath to avoid conflict with reserved name System.IO.Path
+        //ver 7 : add RepairStatus
+        //ver 8 : add RepairStatus 'ODLC'
 
-        public const string SongDataListCurrentVersion = "6";
+        public const string SongDataListCurrentVersion = "8";
 
         public string DLCKey { get; set; }
 
@@ -185,12 +212,22 @@ namespace CustomsForgeSongManager.DataObjects
 
         public SongTaggerStatus Tagged { get; set; }
 
+        public RepairStatus RepairStatus { get; set; }
+
         [XmlIgnore]
         public string ArtistTitleAlbum
         {
             get { return String.Format("{0};{1};{2}", Artist, Title, Album); }
             // set { } // required for XML file usage
         }
+
+        [XmlIgnore]
+        public string ArtistTitleAlbumDate
+        {
+            get { return String.Format("{0};{1};{2};{3}", Artist, Title, Album, LastConversionDateTime.ToString("s")); }
+            // set { } // required for XML file usage
+        }
+
 
         [XmlIgnore] // preserves old 1D display method
         public string Arrangements

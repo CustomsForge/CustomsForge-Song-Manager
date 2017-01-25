@@ -215,9 +215,6 @@ any form of the word 'disabled'</value>
     <value>Use the Duplicates tabmenu to delete/move{0}duplicates before attempting to use Renamer.</value>
     <comment>UseTheDuplicatesTabmenuToDeleteMoveX0Dupli description</comment>
   </data>
-  <data name="rescan" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\rescan1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="PleaseSelectTheCheckboxNextToSongsNthatYou" xml:space="preserve">
     <value>Please select the checkbox next to songs 
 that you would like to delete or move.</value>
@@ -391,10 +388,6 @@ Warning:  This can not be undone!</value>
   <data name="Letter_B" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Letter B black_small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="CreatedUserProfileBackup" xml:space="preserve">
-    <value>Created user profile backup:</value>
-    <comment>CreatedUserProfileBackup description</comment>
-  </data>
   <data name="ThisIsARocksmith1SongItCanTBeDisabled" xml:space="preserve">
     <value>This is a Rocksmith 1 song. It can't be disabled at this moment. (You just can disable all of them!)</value>
     <comment>ThisIsARocksmith1SongItCanTBeDisabled description</comment>
@@ -402,10 +395,6 @@ Warning:  This can not be undone!</value>
   <data name="RocksmithIsAlreadyRunning" xml:space="preserve">
     <value>Rocksmith is already running!</value>
     <comment>RocksmithIsAlreadyRunning description</comment>
-  </data>
-  <data name="Rocksmith2014UserProfileNotFound" xml:space="preserve">
-    <value>Rocksmith 2014 user profile not found!</value>
-    <comment>Rocksmith2014UserProfileNotFound description</comment>
   </data>
   <data name="cfsm_48x48" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\cfsm_48x48.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -596,5 +585,39 @@ Click the update button to continue.
   </data>
   <data name="SelectCol" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\selectcol.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="OfficialSongs" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\OfficialSongs.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="NoODLCDuplicatesDetected" xml:space="preserve">
+    <value>No CDLC songs released as ODLC detected in your DLC folder.</value>
+    <comment>NoODLCDuplicatesDetected description</comment>
+  </data>
+  <data name="CGT_Logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CGT_Logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="broom" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\broom.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="delete2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\delete2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="maintenance" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\maintenance.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="notes" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\notes.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="rescan" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\rescan.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="restorewindow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\restorewindow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="zip" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\zip.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="restorebackup" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\restorebackup.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

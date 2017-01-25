@@ -33,7 +33,7 @@ namespace CustomsForgeSongManager.Forms
             // TODO: reimpliment
             FillGridWithArrangements(song.Arrangements);
 
-            //
+            // debug image extraction here 
             if (File.Exists(song.FilePath))
                 using (var fs = File.OpenRead(song.FilePath))
                 {

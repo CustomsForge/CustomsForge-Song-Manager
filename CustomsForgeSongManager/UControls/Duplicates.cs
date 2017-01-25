@@ -11,6 +11,8 @@ using CustomsForgeSongManager.Forms;
 using CustomsForgeSongManager.LocalTools;
 using CustomsForgeSongManager.UITheme;
 using DataGridViewTools;
+using System.ComponentModel;
+using System.Data;
 
 namespace CustomsForgeSongManager.UControls
 {
@@ -19,12 +21,13 @@ namespace CustomsForgeSongManager.UControls
         private DataGridViewCellStyle ErrorStyle;
         private Color ErrorStyleBackColor = Color.DarkGray;
         private Color ErrorStyleForeColor = Color.White;
-        private bool bindingCompleted = false;
-        private bool dgvPainted = false;
+        private bool bindingCompleted;
+        private bool dgvPainted;
         private List<string> distinctPIDS = new List<string>();
         private List<SongData> duplicates = new List<SongData>();
-        private bool keyDisabled = false;
-        private bool keyEnabled = false;
+        private bool keyDisabled;
+        private bool keyEnabled;
+        private bool olderVersionsSelected;
 
         public Duplicates()
         {
@@ -85,7 +88,6 @@ namespace CustomsForgeSongManager.UControls
 
                 if (chkSubFolders.Checked)
                     duplicates = pidList.GroupBy(x => x.PID).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
-
                 else
                     duplicates = pidList.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").GroupBy(x => x.PID).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
 
@@ -93,6 +95,7 @@ namespace CustomsForgeSongManager.UControls
 
                 colPID.Visible = true;
                 colPIDArrangement.Visible = true;
+                Globals.Log("Showing CDLC with duplicate PID's ... GAME CRASHERS!");
             }
             else
             {
@@ -113,8 +116,7 @@ namespace CustomsForgeSongManager.UControls
 
                     Globals.Log("Showing duplicate enabled songs ...");
                 }
-
-                if (keyDisabled)
+                else if (keyDisabled)
                 {
                     if (chkSubFolders.Checked)
                         duplicates = Globals.SongCollection.Where(x => Path.GetFileName(x.FilePath).Contains("disabled")).GroupBy(x => x.ArtistTitleAlbum).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
@@ -123,10 +125,13 @@ namespace CustomsForgeSongManager.UControls
 
                     Globals.Log("Showing duplicate disabled songs ...");
                 }
+                else
+                    Globals.Log("Showing duplicate CDLC ...");
 
                 // reset easter egg keys
                 keyEnabled = false;
                 keyDisabled = false;
+
             }
 
             duplicates.RemoveAll(x => x.FileName.ToLower().Contains(Constants.RS1COMP));
@@ -318,6 +323,26 @@ namespace CustomsForgeSongManager.UControls
             Globals.RescanSongManager = true;
             Globals.RescanSetlistManager = true;
             Globals.RescanRenamer = true;
+        }
+
+        private void SelectOlderVersions()
+        {
+            // using concatinated ArtistTitleAlbumDate column to order by/sort on
+            var sortedDupes = duplicates.OrderBy(x => x.ArtistTitleAlbumDate.ToLower()).ToList();
+            LoadFilteredBindingList(sortedDupes);
+
+            // TODO: confirm this does what is expected
+            var rowCount = dgvDuplicates.Rows.Count;
+            for (int i = rowCount - 1; i >= 0; i--)
+            {
+                if (i - 1 == -1)
+                    break;
+
+                var currSong = DgvExtensions.GetObjectFromRow<SongData>(dgvDuplicates, i);
+                var nextSong = DgvExtensions.GetObjectFromRow<SongData>(dgvDuplicates, i - 1);
+                if (currSong.ArtistTitleAlbum.ToLower() == nextSong.ArtistTitleAlbum.ToLower())
+                    dgvDuplicates.Rows[i - 1].Cells["colSelect"].Value = true;
+            }
         }
 
         private void Duplicates_Resize(object sender, EventArgs e)
@@ -588,13 +613,31 @@ namespace CustomsForgeSongManager.UControls
             if (dgvDuplicates.Rows.Count < 1) // needed in case filter was set that returns no items
                 return;
 
+            // added ODLC font highlighting
             try
             {
-                var x = (SongData)dgvDuplicates.Rows[e.RowIndex].DataBoundItem;
-                if (x != null)
+                SongData song = dgvDuplicates.Rows[e.RowIndex].DataBoundItem as SongData;
+
+                if (song != null)
                 {
-                    if (distinctPIDS.Contains(x.PID))
+                    if (song.OfficialDLC)
                     {
+                        e.CellStyle.Font = Constants.OfficialDLCFont;
+                        DataGridViewCell cell = dgvDuplicates.Rows[e.RowIndex].Cells["colSelect"];
+                        DataGridViewCheckBoxCell chkCell = cell as DataGridViewCheckBoxCell;
+                        chkCell.FlatStyle = FlatStyle.Flat;
+                        chkCell.Style.ForeColor = Color.DarkGray;
+                        // allow deletion of ODLC duplicates
+                        //chkCell.Value = false;
+                        //cell.ReadOnly = true;
+                    }
+
+                    if (distinctPIDS.Contains(song.PID))
+                    {
+                        // make select checkbox consistent with color change
+                        dgvDuplicates.Rows[e.RowIndex].Cells["colSelect"].Style.BackColor = ErrorStyle.BackColor;
+                        dgvDuplicates.Rows[e.RowIndex].Cells["colSelect"].Style.ForeColor = ErrorStyle.ForeColor;
+                        // change color of duplicate PIDs
                         e.CellStyle.BackColor = ErrorStyle.BackColor;
                         e.CellStyle.ForeColor = ErrorStyle.ForeColor;
                         e.CellStyle.Font = ErrorStyle.Font;
@@ -630,6 +673,24 @@ namespace CustomsForgeSongManager.UControls
         private void lnkShowAll_Click(object sender, EventArgs e)
         {
             RemoveFilter();
+        }
+        private void lnkSelectOlderVersions_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            if (olderVersionsSelected)
+            {
+                // reload duplicates and deselect all
+                LoadFilteredBindingList(duplicates);
+                DgvExtensions.RowsCheckboxValue(dgvDuplicates, false);
+                olderVersionsSelected = false;
+            }
+
+            else
+            {
+                SelectOlderVersions();
+                olderVersionsSelected = true;
+            }
+
+            UpdateToolStrip();
         }
 
         public DataGridView GetGrid()
@@ -701,6 +762,8 @@ namespace CustomsForgeSongManager.UControls
                 }
             }
         }
+
+
 
         /*End of copy-pasta region*/
     }

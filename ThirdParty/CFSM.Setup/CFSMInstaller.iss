@@ -3,7 +3,7 @@
 #include "idp.iss"
 
 [Setup]
-AppName={#ApplicationName}
+AppName={#AppName}
 AppVersion={#AppVersion}
 AppId={{58F35625-541C-493A-A289-4B2D362DAFE0}
 RestartIfNeededByRun=False
@@ -14,7 +14,7 @@ AppUpdatesURL=AppURL
 VersionInfoCompany=CustomsForge.com
 DefaultDirName={pf}\CustomsForgeSongManager
 DefaultGroupName=CustomsForge Song Manager
-WizardImageFile=CFSMInstallWiz.bmp
+WizardImageFile=cfsmInstallWiz.bmp
 WizardSmallImageFile=cfsmWizardSmall.bmp
 OutputBaseFilename={#InstallerName}
 VersionInfoVersion={#AppVersion}
@@ -26,10 +26,10 @@ Source: {#buildpath}{#AppExeName}; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}CFSM.AudioTools.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}CFSM.ImageTools.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}DF.WinForms.ThemeLib.dll; DestDir: {app}; Flags: ignoreversion
-Source: {#buildpath}CFSM.GenTools.dll; DestDir: {app}; Flags: ignoreversion
+Source: {#buildpath}GenTools.dll; DestDir: {app}; Flags: ignoreversion
+Source: {#buildpath}CustomControls.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}CFSM.RSTKLib.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}bass.dll; DestDir: {app}; Flags: ignoreversion
-Source: ClickOnceUninstaller.exe; DestDir: {tmp}; Flags: dontcopy
 Source: {#buildpath}DataGridViewTools.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}CFSM.NCalc.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}DLogNet.dll; DestDir: {app}; Flags: ignoreversion
@@ -43,7 +43,7 @@ Source: {#buildpath}Antlr3.Runtime.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}Antlr4.StringTemplate.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}DF_DDSImage.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}MiscUtil.dll; DestDir: {app}; Flags: ignoreversion
-Source: {#buildpath}7za.dll; DestDir: {app}; Flags: ignoreversion
+Source: {#buildpath}7z.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}oggCut.exe; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}oggdec.exe; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}oggenc.exe; DestDir: {app}; Flags: ignoreversion
@@ -51,6 +51,7 @@ Source: {#buildpath}packed_codebooks.bin; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}packed_codebooks_aoTuV_603.bin; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}revorb.exe; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}ww2ogg.exe; DestDir: {app}; Flags: ignoreversion
+Source: {#buildpath}remastered.exe; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}SevenZipSharp.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}Newtonsoft.Json.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}ReleaseNotes.txt; DestDir: {app}; Flags: ignoreversion
@@ -58,6 +59,7 @@ Source: {#buildpath}RocksmithToolkitLib.Config.xml; DestDir: {app}; Flags: ignor
 Source: {#buildpath}RocksmithToolkitLib.SongAppId.xml; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}RocksmithToolkitLib.TuningDefinition.xml; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}zlib.net.dll; DestDir: {app}; Flags: ignoreversion
+Source: "{#buildpath}ddc\*"; DestDir: "{app}\ddc"; Flags: replacesameversion recursesubdirs
 Source: {srcexe}; DestDir: {app}; DestName: {#InstallerName}.exe; Flags: ignoreversion external
 
 [Tasks]
@@ -65,11 +67,14 @@ Name: desktopicon; Description: {cm:CreateDesktopIcon}; GroupDescription: {cm:Ad
 ;todo: quick launch win 7 and up
 Name: quicklaunchicon; Description: {cm:CreateQuickLaunchIcon}; GroupDescription: {cm:AdditionalIcons}; Flags: unchecked; OnlyBelowVersion: 0,6.1
 
+[Run]
+Filename: {app}\{#AppExeName}; Description: "{cm:LaunchProgram, {%AppName}}"; Flags: nowait postinstall skipifsilent
+
 [Icons]
-Name: {group}\{#ApplicationName}; Filename: {app}\{#AppExeName}; WorkingDir: {app}; IconFilename: {app}\{#AppExeName}
-Name: {group}\{cm:UninstallProgram,{#ApplicationName}}; Filename: {uninstallexe}
-Name: {commondesktop}\{#ApplicationName}; Filename: {app}\{#AppExeName}; WorkingDir: {app}; IconFilename: {app}\{#AppExeName}; Tasks: desktopicon
-Name: {userappdata}\Microsoft\Internet Explorer\Quick Launch\{#ApplicationName}; Filename: {app}\{#AppExeName}; Tasks: quicklaunchicon
+Name: {group}\{#AppName}; Filename: {app}\{#AppExeName}; WorkingDir: {app}; IconFilename: {app}\{#AppExeName}
+Name: {group}\{cm:UninstallProgram,{#AppName}}; Filename: {uninstallexe}
+Name: {commondesktop}\{#AppName}; Filename: {app}\{#AppExeName}; WorkingDir: {app}; IconFilename: {app}\{#AppExeName}; Tasks: desktopicon
+Name: {userappdata}\Microsoft\Internet Explorer\Quick Launch\{#AppName}; Filename: {app}\{#AppExeName}; Tasks: quicklaunchicon
 
 [Code]
 const
@@ -184,8 +189,8 @@ end;
 procedure CreateUninstallPage;
 begin
   doneUninstall := false;
-  UninstallPage := CreateCustomPage(wpWelcome, 'Removing old version of ' + ExpandConstant('{#ApplicationName}'),
-  'Uninstalling ' + ExpandConstant('{#ApplicationName}'));
+  UninstallPage := CreateCustomPage(wpWelcome, 'Removing old version of ' + ExpandConstant('{#AppName}'),
+  'Uninstalling ' + ExpandConstant('{#AppName}'));
 
     with TNewStaticText.Create(UninstallPage) do
     begin
@@ -208,16 +213,15 @@ end;
 
 procedure InitializeWizard();
 var
- currentVersion,newVersion,updateLoc : string;
+ customCaption,currentVersion,newVersion,updateLoc : string;
  sl:TStringlist;
  i:integer;
  updateUrl:string;
  urlLabel : TNewStaticText;
  DownloadStep : integer;
 begin
-  currentVersion := ExpandConstant('{#AppVersion}');
-
-  WizardForm.Caption := WizardForm.Caption + ' v'+ currentVersion;
+  customCaption := ExpandConstant('{#InstallerCaption}');
+  WizardForm.Caption := customCaption;
 
   DownloadStep := wpWelcome;
   CreateUninstallPage();
@@ -240,7 +244,8 @@ begin
     Top := WizardForm.CancelButton.Top + WizardForm.CancelButton.Height - Height - 4;
     Left := ScaleX(15);
   end;
-#IFDEF DOUPDATE
+
+  #IFDEF DOUPDATE
  //don't check for updates when -webupdate is located in the command line params.
   if not runningWebUpdate then
   begin

@@ -13,9 +13,9 @@ namespace CustomsForgeSongManager.LocalTools
 
         protected override void OnStylesheetLoad(TheArtOfDev.HtmlRenderer.Core.Entities.HtmlStylesheetLoadEventArgs e)
         {
-            if (File.Exists(Path.Combine(Constants.WorkDirectory, e.Src)))
+            if (File.Exists(Path.Combine(Constants.WorkFolder, e.Src)))
             {
-                e.SetStyleSheet = File.ReadAllText(Path.Combine(Constants.WorkDirectory, e.Src));
+                e.SetStyleSheet = File.ReadAllText(Path.Combine(Constants.WorkFolder, e.Src));
                 return;
             }
             if (e.Src == "htmExport.css")

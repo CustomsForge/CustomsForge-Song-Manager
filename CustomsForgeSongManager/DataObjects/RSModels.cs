@@ -73,6 +73,11 @@ namespace CustomsForgeSongManager.DataObjects
         public bool Shipping { get; set; }
     }
 
+    public class RSBassData : RSDataAbstract
+    {
+        public int BassPick { get; set; }
+    }
+
     public class RS1DiscVocalsData : RS2VocalsData
     {
         public string DLCKey { get; set; }

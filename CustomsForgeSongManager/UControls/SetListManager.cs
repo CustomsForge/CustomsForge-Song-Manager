@@ -8,7 +8,8 @@ using System.Linq;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using CFSM.GenTools;
+using CustomControls;
+using GenTools;
 using CustomsForgeSongManager.DataObjects;
 using CustomsForgeSongManager.Forms;
 using CustomsForgeSongManager.LocalTools;
@@ -78,12 +79,6 @@ namespace CustomsForgeSongManager.UControls
             LoadSetLists(); // this generates a selection change
             // LoadSetlistSongs(); // so this is not needed
             LoadSongPacks();
-
-            // directory/file manipulation requires forced rescan
-            // TODO: check if user made any actual changes
-            Globals.RescanSongManager = true;
-            Globals.RescanDuplicates = true;
-            Globals.RescanRenamer = true;
         }
 
         public void UpdateToolStrip()
@@ -296,6 +291,11 @@ namespace CustomsForgeSongManager.UControls
             LoadSetlistSongs(curSetlistName);
             UpdateToolStrip();
             RefreshAllDgv(false);
+
+            //TODO: we mainly change paths here, so why don't we just change paths in the SongCollection list instead of doing full rescans (which can be rather lengthy)
+            Globals.RescanSongManager = true;
+            Globals.RescanDuplicates = true;
+            Globals.RescanRenamer = true;
         }
 
         private void LoadFilteredBindingList(dynamic list)

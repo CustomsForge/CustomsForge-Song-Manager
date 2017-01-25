@@ -9,6 +9,7 @@ using DF.WinForms.ThemeLib;
 using DLogNet;
 using System;
 using RocksmithToolkitLib;
+using RocksmithToolkitLib.XmlRepository;
 
 namespace CustomsForgeSongManager.DataObjects
 {
@@ -43,7 +44,8 @@ namespace CustomsForgeSongManager.DataObjects
         private static BindingList<SongData> _songCollection;
         private static SongManager _songManager;
         private static Theme _theme;
-        private static SongTagger _tagger;
+        private static TaggerTools _tagger;
+        private static List<OfficialDLCSong> _oDLCSongList;
 
         public static Random random = new Random();
 
@@ -105,6 +107,12 @@ namespace CustomsForgeSongManager.DataObjects
             set { _outdatedSongList = value; }
         }
 
+        public static List<OfficialDLCSong> OfficialDLCSongList
+        {
+            get { return _oDLCSongList ?? (_oDLCSongList = new List<OfficialDLCSong>()); }
+            set { _oDLCSongList = value; }
+        }
+
         public static Renamer Renamer
         {
             get { return _renamer ?? (_renamer = new Renamer()); }
@@ -112,9 +120,9 @@ namespace CustomsForgeSongManager.DataObjects
         }
 
 #if TAGGER
-        public static SongTagger Tagger
+        public static TaggerTools Tagger
         {
-            get { return _tagger ?? (_tagger = new SongTagger()); }
+            get { return _tagger ?? (_tagger = new TaggerTools()); }
             set { _tagger = value; }
         }
 #endif
@@ -161,6 +169,7 @@ namespace CustomsForgeSongManager.DataObjects
 
         public static bool CancelBackgroundScan { get; set; }
 
+        public static TextBox TbLog { get; set; }
         public static ToolStripStatusLabel TsLabel_Cancel { get; set; }
         public static ToolStripStatusLabel TsLabel_DisabledCounter { get; set; }
         public static ToolStripStatusLabel TsLabel_MainMsg { get; set; }
@@ -169,19 +178,27 @@ namespace CustomsForgeSongManager.DataObjects
 
         public static CustomsForgeSongManager.Forms.frmMain MainForm
         {
-            get { return (CustomsForgeSongManager.Forms.frmMain) Application.OpenForms["frmMain"]; }
+            get { return (CustomsForgeSongManager.Forms.frmMain)Application.OpenForms["frmMain"]; }
         }
 
         public static IMainForm iMainForm
         {
-            get { return (IMainForm) Application.OpenForms["frmMain"]; }
+            get { return (IMainForm)Application.OpenForms["frmMain"]; }
         }
 
-        public static Tristate WorkerFinished { get; set; } // True = 0, False = 1, Cancelled = 2
+        public static Tristate WorkerFinished { get; set; }
+        // True = 0, False = 1, Cancelled = 2
 
         public static void Log(string message)
         {
-            MyLog.Write(message);
+            try
+            {
+                MyLog.Write(message);
+            }
+            catch
+            {
+                // just ignore it
+            }
         }
 
         public static void DebugLog(string message)
@@ -199,5 +216,12 @@ namespace CustomsForgeSongManager.DataObjects
             TsLabel_Cancel.Text = "Cancel";
             TsLabel_DisabledCounter.Visible = false;
         }
+
+        public static void ClearLog()
+        {
+            TbLog.Clear();
+        }
+
+
     }
 }

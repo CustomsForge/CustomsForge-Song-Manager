@@ -165,6 +165,13 @@ namespace CustomsForgeSongManager.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap broom {
+            get {
+                object obj = ResourceManager.GetObject("broom", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
@@ -198,6 +205,13 @@ namespace CustomsForgeSongManager.Properties {
             get {
                 object obj = ResourceManager.GetObject("cfsm_48x48", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap CGT_Logo {
+            get {
+                object obj = ResourceManager.GetObject("CGT_Logo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -238,15 +252,6 @@ namespace CustomsForgeSongManager.Properties {
             }
         }
         
-        /// <summary>
-        ///   Looks up a localized string similar to Created user profile backup:.
-        /// </summary>
-        internal static string CreatedUserProfileBackup {
-            get {
-                return ResourceManager.GetString("CreatedUserProfileBackup", resourceCulture);
-            }
-        }
-        
         internal static System.Drawing.Bitmap creditsbackground {
             get {
                 object obj = ResourceManager.GetObject("creditsbackground", resourceCulture);
@@ -282,6 +287,13 @@ namespace CustomsForgeSongManager.Properties {
         internal static System.Drawing.Bitmap delete {
             get {
                 object obj = ResourceManager.GetObject("delete", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap delete2 {
+            get {
+                object obj = ResourceManager.GetObject("delete2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -580,6 +592,13 @@ namespace CustomsForgeSongManager.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap maintenance {
+            get {
+                object obj = ResourceManager.GetObject("maintenance", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap minus {
             get {
                 object obj = ResourceManager.GetObject("minus", resourceCulture);
@@ -597,11 +616,53 @@ namespace CustomsForgeSongManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No CDLC songs released as ODLC detected in your DLC folder..
+        /// </summary>
+        internal static string NoODLCDuplicatesDetected {
+            get {
+                return ResourceManager.GetString("NoODLCDuplicatesDetected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No songs found for rename preview..
         /// </summary>
         internal static string NoSongsFoundForRenamePreview {
             get {
                 return ResourceManager.GetString("NoSongsFoundForRenamePreview", resourceCulture);
+            }
+        }
+        
+        internal static System.Drawing.Bitmap notes {
+            get {
+                object obj = ResourceManager.GetObject("notes", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [
+        ///  {
+        ///    &quot;Title&quot;: &quot;The Sky is Crying&quot;,
+        ///    &quot;Artist&quot;: &quot;Albert King&quot;,
+        ///    &quot;ReleaseDate&quot;: &quot;2013-10-22&quot;,
+        ///    &quot;Pack&quot;: &quot;Single&quot;,
+        ///    &quot;Link&quot;: &quot;http://www.theriffrepeater.com/rocksmith-2014-dlc-1022-pre-order-madness/&quot;
+        ///  },
+        ///  {
+        ///    &quot;Title&quot;: &quot;25 or 6 to 4&quot;,
+        ///    &quot;Artist&quot;: &quot;Chicago&quot;,
+        ///    &quot;ReleaseDate&quot;: &quot;2013-10-22&quot;,
+        ///    &quot;Pack&quot;: &quot;Single&quot;,
+        ///    &quot;Link&quot;: &quot;http://www.theriffrepeater.com/rocksmith-2014-dlc-1022-pre-order-madness/&quot;
+        ///  },
+        ///  {
+        ///    &quot;Title&quot;: &quot;Hate to Say I Told You So&quot;,
+        ///    &quot;Artist&quot;: &quot;The Hives&quot;, [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string OfficialSongs {
+            get {
+                return ResourceManager.GetString("OfficialSongs", resourceCulture);
             }
         }
         
@@ -801,19 +862,24 @@ namespace CustomsForgeSongManager.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap Rocksmith_2014_Background_Guitar {
+        internal static System.Drawing.Bitmap restorebackup {
             get {
-                object obj = ResourceManager.GetObject("Rocksmith_2014_Background_Guitar", resourceCulture);
+                object obj = ResourceManager.GetObject("restorebackup", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
         
-        /// <summary>
-        ///   Looks up a localized string similar to Rocksmith 2014 user profile not found!.
-        /// </summary>
-        internal static string Rocksmith2014UserProfileNotFound {
+        internal static System.Drawing.Bitmap restorewindow {
             get {
-                return ResourceManager.GetString("Rocksmith2014UserProfileNotFound", resourceCulture);
+                object obj = ResourceManager.GetObject("restorewindow", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap Rocksmith_2014_Background_Guitar {
+            get {
+                object obj = ResourceManager.GetObject("Rocksmith_2014_Background_Guitar", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -1153,6 +1219,13 @@ namespace CustomsForgeSongManager.Properties {
         internal static string YouAreAboutToPermanentlyDeleteAllSelectedS {
             get {
                 return ResourceManager.GetString("YouAreAboutToPermanentlyDeleteAllSelectedS", resourceCulture);
+            }
+        }
+        
+        internal static System.Drawing.Bitmap zip {
+            get {
+                object obj = ResourceManager.GetObject("zip", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
     }

@@ -6,11 +6,20 @@ using System.Reflection;
 using System.Linq;
 using System.Text;
 using System.Collections.Generic;
-using CFSM.GenTools;
+using GenTools;
 using CustomsForgeSongManager.DataObjects;
 using CustomsForgeSongManager.LocalTools;
 using CustomsForgeSongManager.UITheme;
 
+
+// NOTE: the app is designed for default user screen resolution of 1024x768
+// dev screen resolution should be set to this when designing forms and controls
+// all png images are 16x16 resolution for buttons, unless higher resolution for some other use
+
+// NOTE: any usage of 'public enum' in code that will be obfuscated must be preceeded with
+// [Obfuscation(Exclude = false, Feature = "-rename")]
+// so that ConfuserEx does not rename the enumerators
+//
 namespace CustomsForgeSongManager.Forms
 {
     public partial class frmMain : Form, IMainForm //,ThemedForm
@@ -18,6 +27,9 @@ namespace CustomsForgeSongManager.Forms
         private static Point UCLocation = new Point(5, 10);
         private static Size UCSize = new Size(990, 490);
         private Control currentControl = null;
+
+        public delegate void PlayCall();
+        private event PlayCall playFunction;
 
         public frmMain(DLogNet.DLogger myLog)
         {
@@ -55,8 +67,8 @@ namespace CustomsForgeSongManager.Forms
 #if DEBUG
             strFormatVersion = "{0} (v{1} - DEBUG)";
 #endif
-            var stringVersion = String.Format(strFormatVersion, Constants.ApplicationName, Constants.CustomVersion());
-            this.Text = stringVersion;
+            Constants.AppTitle = String.Format(strFormatVersion, Constants.ApplicationName, Constants.CustomVersion());
+            this.Text = Constants.AppTitle;
             // bring CFSM to the front on startup
             this.WindowState = FormWindowState.Minimized;
 
@@ -67,6 +79,7 @@ namespace CustomsForgeSongManager.Forms
             Globals.TsLabel_StatusMsg = this.tsLabel_StatusMsg;
             Globals.TsLabel_DisabledCounter = this.tsLabel_DisabledCounter;
             Globals.TsLabel_Cancel = this.tsLabel_Cancel;
+            Globals.TbLog = this.tbLog;
             Globals.ResetToolStripGlobals();
             Globals.MyLog.AddTargetTextBox(tbLog);
             //    Globals.CFMTheme.AddListener(this);
@@ -74,14 +87,14 @@ namespace CustomsForgeSongManager.Forms
             Globals.OnScanEvent += (s, e) => { tcMain.InvokeIfRequired(a => { tcMain.Enabled = !e.IsScanning; }); };
 
             // create application directory structure if it does not exist
-            if (!Directory.Exists(Constants.WorkDirectory))
+            if (!Directory.Exists(Constants.WorkFolder))
             {
-                Directory.CreateDirectory(Constants.WorkDirectory);
-                Globals.Log(String.Format("Created working directory: {0}", Constants.WorkDirectory));
+                Directory.CreateDirectory(Constants.WorkFolder);
+                Globals.Log(String.Format("Created working directory: {0}", Constants.WorkFolder));
             }
 
             // initialize all global variables
-            Globals.Log(stringVersion);
+            Globals.Log(Constants.AppTitle);
             Globals.Log(GetRSTKLibVersion());
 
             // load settings
@@ -105,21 +118,24 @@ namespace CustomsForgeSongManager.Forms
             this.Show();
             this.WindowState = AppSettings.Instance.FullScreen ? FormWindowState.Maximized : FormWindowState.Normal;
 
-            if (AppSettings.Instance.EnabledLogBaloon)
+            if (AppSettings.Instance.EnableLogBaloon)
                 Globals.MyLog.AddTargetNotifyIcon(Globals.Notifier);
             else
                 Globals.MyLog.RemoveTargetNotifyIcon(Globals.Notifier);
 
             tsAudioPlayer.Visible = true;
+
+            playFunction += new PlayCall(PlaySong);
+
             // load Song Manager Tab
             LoadSongManager();
 
             //CustomsForgeSongManagerLib.Extensions.Benchmark(LoadSongManager, 1);
         }
 
-        private frmMain()
+        public frmMain()
         {
-            throw new Exception("Improper constructor used");
+            //  throw new Exception("Improper constructor used");
         }
 
         private string GetRSTKLibVersion()
@@ -133,6 +149,7 @@ namespace CustomsForgeSongManager.Forms
             {
                 this.tpSongManager.Controls.Clear();
                 this.tpSongManager.Controls.Add(Globals.SongManager);
+                Globals.SongManager.PlaySongFunction = playFunction;
                 Globals.SongManager.Dock = DockStyle.Fill;
                 Globals.SongManager.Location = UCLocation;
                 Globals.SongManager.Size = UCSize;
@@ -142,19 +159,7 @@ namespace CustomsForgeSongManager.Forms
 
         private void ShowHelp()
         {
-            Assembly assembly = Assembly.GetExecutingAssembly();
-            Stream stream = assembly.GetManifestResourceStream("CustomsForgeSongManager.Resources.HelpSongMgr.txt");
-            using (StreamReader reader = new StreamReader(stream))
-            {
-                var helpSongManager = reader.ReadToEnd();
-
-                using (var noteViewer = new frmNoteViewer())
-                {
-                    noteViewer.Text = String.Format("{0} . . . {1}", noteViewer.Text, "Song Manager Help");
-                    noteViewer.PopulateText(helpSongManager);
-                    noteViewer.ShowDialog();
-                }
-            }
+            RepairTools.ShowNoteViewer("CustomsForgeSongManager.Resources.HelpGeneral.txt", "General Help");
         }
 
         private void ShowHideLog()
@@ -181,13 +186,14 @@ namespace CustomsForgeSongManager.Forms
 
             if (AppSettings.Instance.CleanOnClosing)
             {
-                if (Directory.Exists(Constants.CpeWorkDirectory))
-                    ZipUtilities.DeleteDirectory(Constants.CpeWorkDirectory);
+                if (Directory.Exists(Constants.CpeWorkFolder))
+                    ZipUtilities.DeleteDirectory(Constants.CpeWorkFolder);
 
-                if (Directory.Exists(Constants.AudioCacheDirectory))
-                    ZipUtilities.DeleteDirectory(Constants.AudioCacheDirectory);
+                if (Directory.Exists(Constants.AudioCacheFolder))
+                    ZipUtilities.DeleteDirectory(Constants.AudioCacheFolder);
             }
 
+            Globals.SongManager.SetRepairOptions();
             Globals.Settings.SaveSettingsToFile(Globals.DgvCurrent);
             Globals.SongManager.SaveSongCollectionToFile();
         }
@@ -348,38 +354,25 @@ namespace CustomsForgeSongManager.Forms
 
         private void frmMain_Load(object sender, EventArgs e)
         {
-#if AUTOUPDATE
-            //Autoupdater.OnInfoRecieved += (S, E) =>
-            //    {
-            if (Autoupdater.NeedsUpdate())
-            {
-                using (frmNoteViewer f = new frmNoteViewer())
-                {
-                    f.btnCopyToClipboard.Text = "Update";
-
-                    if (!Constants.DebugMode)
-                    {
-                        f.RemoveButtonHandler();
-                        f.btnCopyToClipboard.Click += (sen, evt) =>
-                            {
-                                //run setup file, since updating is done in the installer just use the installer to handle updates
-                                //the install will force the user to close the program before installing.
-                                if (File.Exists("CFSMSetup.exe"))
-                                {
-                                    System.Diagnostics.Process.Start("CFSMSetup.exe", "-appupdate");
-                                }
-                                else
-                                    MessageBox.Show("CFSMSetup not found, please download the program again.");
-                                f.Close();
-                            };
-                    }
-                    f.PopulateText(Autoupdater.ReleaseNotes);
-                    f.Text = String.Format("New version detected {0}", Autoupdater.LatestVersion.ToString());
-                    f.ShowDialog();
-                }
-            }
-            //};
+#if RELEASE
+            const string UpdateURL = "http://ignition.customsforge.com/cfsm_uploads";
+#else
+            const string UpdateURL = "http://ignition.customsforge.com/cfsm_uploads/beta";
 #endif
+
+            const string versInfoUrl = UpdateURL + "/VersionInfo.txt";
+            const string appExe = "CustomsForgeSongManager.exe";
+            const string appSetup = "CFSMSetup.exe";
+            var appExePath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), appExe);
+
+            if (AppSettings.Instance.EnableAutoUpdate)
+                if (AutoUpdater.NeedsUpdate(appExePath, versInfoUrl))
+                {
+                    if (File.Exists(appSetup))
+                        System.Diagnostics.Process.Start(appSetup, "-appupdate");
+                    else
+                        MessageBox.Show(appSetup + " not found, please download the program again.");
+                }
         }
 
         private delegate void DoSomethingWithGridSelectionAction(DataGridView dg, IEnumerable<DataGridViewRow> selected, DataGridViewColumn colSel, List<int> IgnoreColums);
@@ -459,7 +452,7 @@ namespace CustomsForgeSongManager.Forms
 
         public void SongListToCSV()
         {
-            var path = Path.Combine(Constants.WorkDirectory, "SongListCSV.csv");
+            var path = Path.Combine(Constants.WorkFolder, "SongListCSV.csv");
             using (var sfdSongListToCSV = new SaveFileDialog() { Filter = "csv files(*.csv)|*.csv|All files (*.*)|*.*", FileName = path })
 
                 if (sfdSongListToCSV.ShowDialog() == DialogResult.OK)
@@ -611,7 +604,7 @@ namespace CustomsForgeSongManager.Forms
             }
         }
 
-        private void tsbPlay_Click(object sender, EventArgs e)
+        public void PlaySong()
         {
             if (Globals.AudioEngine.IsPaused() || Globals.AudioEngine.IsPlaying())
             {
@@ -629,6 +622,11 @@ namespace CustomsForgeSongManager.Forms
             }
 
             timerAudioProgress.Enabled = (Globals.AudioEngine.IsPlaying());
+        }
+
+        private void tsbPlay_Click(object sender, EventArgs e)
+        {
+            PlaySong();
         }
 
         private void timerAudioProgress_Tick(object sender, EventArgs e)

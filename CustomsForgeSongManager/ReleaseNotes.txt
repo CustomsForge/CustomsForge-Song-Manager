@@ -1,5 +1,263 @@
 ﻿CFSM Release Notes
 
+1.3.0.0
+- compatibility Release version of CFSM for Rocksmith 2014 Remastered 
+- eliminated rescan of SongCollection after Renaming
+- added check to Max5 repair to improve package comments
+
+1.2.9.9
+- restructured solution configuration options
+
+1.2.9.8
+- fixed PitchShifter dgv updating when creating new pitchshifted CDLC files
+- updated RocksmithToolkitLib.dll and dependencies to latest release version
+
+1.2.9.7
+- fixed 'Repairs' toolstripmenuitems toggling and save settings action
+- fixed 'Delete' files action
+- fixed handling and removal of corrupt CDLC and dgv refreshing
+
+1.2.9.6
+- move new CDLC from the 'Downloads' folder that have been previously repaired
+
+1.2.9.5
+- fixed Select All/None and Toggle Selection action so ODLC does not appear to be selected
+- fixed 'Process Downloads Folder' move repaired file to 'dlc' folder
+
+1.2.9.4
+- fixed tuning 'Other' bug that occurred after repairs, rescan, or restore
+
+1.2.9.3
+- added warning message to alert user that disabled CDLC may not be edited
+
+1.2.9.2
+- fixed 'Process Downloads Folder' repair so folder browser displays properly
+- added 'Reset DL Folder' so new CDLC downloads folder may be reselected
+- fixed toolkitVersionFile ODLC check
+- updated SongDataListCurrentVersion to accommodate new ODCL check
+
+1.2.9.1
+- fixed the unhandled exception appearing if Renamer was opened after clicking on Setlist Mgr.
+- fixed the pausing bug after playing a song from right mouse button menu
+- improved the download folder path check
+
+1.2.9.0
+- changed the way songs were rescaned after they were repaired
+
+1.2.8.9
+- added option to disable/enable tracks in the right mouse button menu
+- added play/stop option in the RMB menu
+- fixed position reset after sorting
+
+- fixed toolkitVersionFile ODLC check
+- Updated SongDataListCurrentVersion to accommodate new ODCL check
+
+1.2.8.8
+- fixed General and SongManager help links
+- TODO: update General Help
+- added user option to Settings to disable CFSM auto update
+- added better file exclusions to WorkerParseSongs
+
+1.2.8.7
+- Added ODLC option to RepairStatus column
+
+1.2.8.6
+- Updated SongDataListCurrentVersion to accommodate new RepairStatus
+- Changed to PitchShifter tone variable initialization
+- Added PitchShifter updater code
+- SongManager DGV is updated after deleting files
+
+1.2.8.5
+- Restored generic background worker for long running tasks
+
+1.2.8.4
+- Restored Pitch Shifter operation
+- Fixed Enable/Disable
+- Fixed CODLC Application Exit bug
+
+1.2.8.3
+- Combined Bulk Repairs, Repairs, and mods such as Pitch Shifting
+- Added a new menustrip and toolstripmenuitems for these features in SongManager
+- Moving project towards more generic and reusable code
+- Added tooltip popups for all new features and items to help explain the use
+- TODO debug and confirm operation of Pitch Shifter
+- TODO conservatively add back background worker or task factory to repairs and pitch shifter as needed
+
+1.2.8.2
+- RepairManager for Dev review
+- Added cmsRepairOptions and cmsRestoreOptions
+- Fixed issues with dgvRepairManager not working with Settings tab
+
+1.2.8.1
+- added new Repairs  Manager tab with all repair options in one place
+- removed repair options from Song Manager
+- updated ODLC list
+
+1.2.8.0
+- added Repairs to Song Manager
+- made some more generic methods based on BulkRepairs.cs in RepairTools.cs
+- added "Repair/Add DD/Fix 5 Arr error" options to Song Manager
+
+1.2.7.9
+- Added user selectable checkbox to 'Ignore Multitone Ex'
+
+1.2.7.8
+- Added auto repair for multitone exceptions to convert corrupt arrangement to single tone
+- Updated RSTK libs
+- Updated DDC to 3.2 beta (chord density fix) version
+
+1.2.7.7
+- added DD error logging to Bulk Repairs
+- fixed Tuning 'Other' bug
+
+1.2.7.6
+- changed action of 'Repair Maximum Playable Arrangements', the maximum arrangements will be kept
+- show the combined contents of 'remastered_error.log' and 'debug.log' files in the Error Log Viewer GUI
+- added 'Empty Log Files' button to 'Settings'
+
+1.2.7.5
+- First version of the fix "EOF tone issue" (less corrupt files)
+- Updated ODLC list
+
+1.2.7.4
+- Added restore corrupt backups to Bulk Repairs
+
+1.2.7.3
+- Fixed bug in Bulk Repairs 'Add DD' option
+
+1.2.7.2
+- Fixed Null Exception ODLC check in Bulk Repair
+
+1.2.7.1
+- Bulk Repairs will ignore the contents of the 'inlays' subfolder 
+
+1.2.7.0
+- renamed Repairs to Bulk Repairs to better reflect purpose
+- added option to repair CDLC that have already been repaired in Bulk Repairs
+
+1.2.6.11.
+- fixed progress bar in Song Manager & corrected issues with updating the song collection
+
+1.2.6.10
+- added an option to apply Dynamic Difficulty in Song Manager
+
+1.2.6.9
+- upgrades and code improvements to CFSM Repair feature
+- use CFSM standardized grid colors for the Repair feature
+- added "Repair Maximum Playable Arrangements" to make CDLC compatible with RS14R arrangement limitations
+- added multiple repair options to reduce the number arrangements in a CDLC
+- CDLC that exceed the RS14R arrangement limit are automatically moved to 'backup' folder
+- added error checking to Repair feature options
+- added a generic and reusable background worker
+- added Dynamic Difficulty Creator to Repair feature
+
+1.2.6.8.
+- added a "pitch shift" option to Song Manager (add multipitch pedal to tones and set tuning to E Std/Drop D)
+- updated ODLC list
+
+1.2.6.7
+- fixed bug in CleanLocalTemp
+- added periodic clean up to Repair to save disk space
+
+1.2.6.6
+- added user warning messages and color change to 'Repair' tab 
+- add exception handling to CFSM Global log
+- code clean up
+
+1.2.6.5
+- split out Repair functionality into separate reusable methods
+- optimized use of Repair background worker
+- additional progress and reporting features for Repair 
+- added toggling to Repair controls to prevent some mistakes
+
+1.2.6.4
+- fixed bug duplicate CFSM comments were being added to XML files
+- added SubclassedDataGridView for better control over scrollbar visibility
+- reworked Repairs tab feature 
+- localized code from remastered.exe CLI for better performance and reporting
+- added progress and status reporting to Repairs tab
+- added auto clean to 'dlc' folder to prevent issues with old backup files
+
+1.2.6.3
+- added multithreading to Repairs tab
+
+1.2.6.2
+- updated Repairs tab - added the new version of RemasteredCLI & RSTK lib
+- fixed the log and the backup function
+- added an option to make an archive with corrupt CDLC and remove them
+- updated ODLC list
+
+1.2.6.1
+- add new CDLC remaster/repair options to 'Repairs' tab
+- fixed the archiving issue SongPacks tab (updated 7z.dll and code)
+
+1.2.6.0
+-Add option to repair/"remaster" CDLC affected by 100% bug
+-Updated RSTK libs
+-Updated ODLC list
+
+1.2.5.3
+-Added file length and file path name validation to Renamer feature
+-Fixed typos
+-Added PreBuild events to delete old files from Output directory
+
+1.2.5.2
+-Updated ODLC List
+
+1.2.5.1
+-Fixed inversed selecting in select all older versions (newer instead of older versions)
+
+1.2.5.0
+
+-Fixed bug in select all older versions
+-Updated VersionInfo.txt file on server
+-Minor adjustment to app downloader
+
+1.2.4.0
+-Added option to select all older versions in Duplicate tab
+-Updated ODLC List
+
+1.2.3.9.
+-Updated ODLC List
+
+1.2.3.8
+-Added toggling (enable/disable) to About menu during app downloads
+-Fixed RSTK installation path issue
+-Moved reusable generic downloader and url extractor to AutoUpdate.cs
+-Converted AutoUpdate.cs to reusable generic methods
+
+1.2.3.7
+-Added EOF, RSTK and CGT Deployment Strategies to About menu
+-Upgraded 7z.dll to support RSTK deployment
+
+1.2.3.6
+-Updated ODLC list
+
+1.2.3.5
+-Updated ODLC list
+
+1.2.3.4
+-Fixes to ODLC check methods
+
+1.2.3.3
+-Moved ODLC check methods to separate form
+
+1.2.3.2
+-Added ODLC highlighting in Duplicates tab menu for consistency with SongManager
+-Cleaned up UC SongManager methods
+-Added a link button to SongManager to allow users to "Find CDLC replaced by ODLC" (Lovro method)
+
+1.2.3.1
+-Allow user to specify highly customized paths for Rocksmith root
+
+1.2.3.0
+-Fixed Duplicates 'Selected' checkbox column coloring
+-Added Duplicate PID log messages
+
+1.2.2.0
+-Testing ODLC colouration and notification
+-Added ReleaseNotes.txt to server
+
 1.2.1.9
 -Updated autoupdate paths
 -Issued first Release Version of CFSM with Inno Installer

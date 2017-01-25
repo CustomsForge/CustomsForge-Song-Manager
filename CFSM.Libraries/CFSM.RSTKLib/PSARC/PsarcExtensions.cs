@@ -7,6 +7,7 @@ using Newtonsoft.Json.Linq;
 using RocksmithToolkitLib;
 using RocksmithToolkitLib.DLCPackage;
 using RocksmithToolkitLib.Xml;
+using RocksmithToolkitLib.XmlRepository;
 
 namespace CFSM.RSTKLib.PSARC
 {
@@ -18,8 +19,8 @@ namespace CFSM.RSTKLib.PSARC
             TuningStrings songTuning = jObj.ToObject<TuningStrings>();
 
             // 2X speed hack ... use preloaded TuningDefinitionRepository
-            if (tuningXml == null)
-            tuningXml = TuningDefinitionRepository.LoadTuningDefinitions(GameVersion.RS2014);
+            if (tuningXml == null || tuningXml.Count == 0)
+                tuningXml = TuningDefinitionRepository.Instance.LoadTuningDefinitions(GameVersion.RS2014);
 
             foreach (var tuning in tuningXml)
                 if (tuning.Tuning.String0 == songTuning.String0 &&
@@ -31,13 +32,13 @@ namespace CFSM.RSTKLib.PSARC
                     return tuning.UIName;
 
             return "Other";
-         }
+        }
 
         public static string TuningStringToName(string strings, List<TuningDefinition> tuningXml = null)
         {
             // 2X speed hack ... use preloaded TuningDefinitionRepository
-            if (tuningXml == null)
-                tuningXml = TuningDefinitionRepository.LoadTuningDefinitions(GameVersion.RS2014);
+            if (tuningXml == null || tuningXml.Count == 0)
+                tuningXml = TuningDefinitionRepository.Instance.LoadTuningDefinitions(GameVersion.RS2014);
 
             foreach (var tuning in tuningXml)
                 if ((string)("" + (tuning.Tuning.String0) + (tuning.Tuning.String1) + (tuning.Tuning.String2) + (tuning.Tuning.String3) + (tuning.Tuning.String4) + (tuning.Tuning.String5)) == strings)
@@ -189,7 +190,7 @@ namespace CFSM.RSTKLib.PSARC
             return null;
         }
 
- 
+
         public static bool ReplaceData(this PSARC p, Func<Entry, bool> dataEntry, Stream newData)
         {
             var de = p.TOC.Where(dataEntry).FirstOrDefault();

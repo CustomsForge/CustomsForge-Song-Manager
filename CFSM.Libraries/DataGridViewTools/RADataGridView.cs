@@ -66,19 +66,19 @@ namespace DataGridViewTools
             var handle = Activator.CreateInstance(remoteAssembly.ToString(), dataObj);
             var obj = handle.Unwrap();
 
+            // TODO: get custom filter to work with Enums, i.e. p.PropertyType.IsEnum
             // determine the property type
             var p = obj.GetType().GetProperty(ColumnName);
             if (p != null)
             {
-                if (p.PropertyType == typeof(string) || p.PropertyType == typeof(int) ||
+                if (p.PropertyType == typeof(string) ||
+                    p.PropertyType == typeof(int) ||
                     p.PropertyType == typeof(double) ||
                     p.PropertyType == typeof(float))
                     return true;
-                //todo: Enums
-            }
+              }
             return false;
         }
-
     }
 
     [Serializable]
@@ -186,7 +186,7 @@ namespace DataGridViewTools
                                 Visible = columns[i].Visible,
                                 Width = columns[i].Width,
                                 ColumnName = columns[i].Name,
-                                HeaderText = columns[i].HeaderText 
+                                HeaderText = columns[i].HeaderText
                             });
                 }
                 catch (Exception ex)

@@ -8,10 +8,10 @@ namespace DataGridViewTools
     {
         public SubclassedDataGridView()
         {
-            VerticalScrollBar.Visible = true;
+            // VerticalScrollBar.Visible = true;
             VerticalScrollBar.VisibleChanged += VerticalScrollBar_VisibleChanged;
 
-            HorizontalScrollBar.Visible = true;
+            // HorizontalScrollBar.Visible = true;
             HorizontalScrollBar.VisibleChanged += HorizontalScrollBar_VisibleChanged;
         }
 
@@ -40,5 +40,21 @@ namespace DataGridViewTools
 
             HorizontalScrollBar.Show();
         }
+
+        // added to the control property choices
+        public bool VerticalScrollBarVisible
+        {
+            get { return VerticalScrollBar.Visible; }
+            set { VerticalScrollBar.Visible = value; }
+        }
+
+        // added to the control property choices
+        public bool HorizontalScrollBarVisible
+        {
+            get { return HorizontalScrollBar.Visible; }
+            set { HorizontalScrollBar.Visible = value; }
+        }
+
+      
     }
 }

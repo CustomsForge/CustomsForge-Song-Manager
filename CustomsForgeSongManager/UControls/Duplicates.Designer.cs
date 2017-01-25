@@ -44,6 +44,7 @@ namespace CustomsForgeSongManager.UControls
             this.exploreToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gbActions = new System.Windows.Forms.GroupBox();
             this.panelActions = new System.Windows.Forms.Panel();
+            this.linkSelectOlderVersions = new System.Windows.Forms.LinkLabel();
             this.chkSubFolders = new System.Windows.Forms.CheckBox();
             this.lnkPersistentId = new System.Windows.Forms.LinkLabel();
             this.btnMove = new System.Windows.Forms.Button();
@@ -78,6 +79,7 @@ namespace CustomsForgeSongManager.UControls
             this.colIgnitionVersion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colIgnitionAuthor = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colArtistTitleAlbum = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colArtistTitleAlbumDate = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.cmsDuplicateColumns.SuspendLayout();
             this.gbActions.SuspendLayout();
@@ -91,12 +93,12 @@ namespace CustomsForgeSongManager.UControls
             this.cmsDuplicateColumns.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.exploreToolStripMenuItem});
             this.cmsDuplicateColumns.Name = "cmsDuplicate";
-            this.cmsDuplicateColumns.Size = new System.Drawing.Size(153, 48);
+            this.cmsDuplicateColumns.Size = new System.Drawing.Size(122, 26);
             // 
             // exploreToolStripMenuItem
             // 
             this.exploreToolStripMenuItem.Name = "exploreToolStripMenuItem";
-            this.exploreToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exploreToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
             this.exploreToolStripMenuItem.Text = "Explore";
             this.exploreToolStripMenuItem.Click += new System.EventHandler(this.exploreToolStripMenuItem_Click);
             // 
@@ -114,6 +116,7 @@ namespace CustomsForgeSongManager.UControls
             // 
             // panelActions
             // 
+            this.panelActions.Controls.Add(this.linkSelectOlderVersions);
             this.panelActions.Controls.Add(this.chkSubFolders);
             this.panelActions.Controls.Add(this.lnkPersistentId);
             this.panelActions.Controls.Add(this.btnMove);
@@ -126,13 +129,29 @@ namespace CustomsForgeSongManager.UControls
             this.panelActions.Size = new System.Drawing.Size(858, 41);
             this.panelActions.TabIndex = 3;
             // 
+            // linkSelectOlderVersions
+            // 
+            this.linkSelectOlderVersions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.linkSelectOlderVersions.AutoSize = true;
+            this.linkSelectOlderVersions.ForeColor = System.Drawing.Color.Black;
+            this.linkSelectOlderVersions.LinkColor = System.Drawing.SystemColors.ActiveCaption;
+            this.linkSelectOlderVersions.Location = new System.Drawing.Point(584, 14);
+            this.linkSelectOlderVersions.Name = "linkSelectOlderVersions";
+            this.linkSelectOlderVersions.Size = new System.Drawing.Size(118, 13);
+            this.linkSelectOlderVersions.TabIndex = 26;
+            this.linkSelectOlderVersions.TabStop = true;
+            this.linkSelectOlderVersions.Text = "Select all older versions";
+            this.toolTip.SetToolTip(this.linkSelectOlderVersions, "Select all duplicate songs excluding the newest versions ");
+            this.linkSelectOlderVersions.VisitedLinkColor = System.Drawing.SystemColors.ActiveCaption;
+            this.linkSelectOlderVersions.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkSelectOlderVersions_LinkClicked);
+            // 
             // chkSubFolders
             // 
-            this.chkSubFolders.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.chkSubFolders.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkSubFolders.AutoSize = true;
             this.chkSubFolders.Checked = true;
             this.chkSubFolders.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkSubFolders.Location = new System.Drawing.Point(523, 13);
+            this.chkSubFolders.Location = new System.Drawing.Point(514, 13);
             this.chkSubFolders.Name = "chkSubFolders";
             this.chkSubFolders.Size = new System.Drawing.Size(125, 17);
             this.chkSubFolders.TabIndex = 25;
@@ -146,7 +165,7 @@ namespace CustomsForgeSongManager.UControls
             this.lnkPersistentId.AutoSize = true;
             this.lnkPersistentId.ForeColor = System.Drawing.Color.Black;
             this.lnkPersistentId.LinkColor = System.Drawing.SystemColors.ActiveCaption;
-            this.lnkPersistentId.Location = new System.Drawing.Point(698, 14);
+            this.lnkPersistentId.Location = new System.Drawing.Point(709, 14);
             this.lnkPersistentId.Name = "lnkPersistentId";
             this.lnkPersistentId.Size = new System.Drawing.Size(145, 13);
             this.lnkPersistentId.TabIndex = 18;
@@ -283,7 +302,8 @@ namespace CustomsForgeSongManager.UControls
             this.colIgnitionUpdated,
             this.colIgnitionVersion,
             this.colIgnitionAuthor,
-            this.colArtistTitleAlbum});
+            this.colArtistTitleAlbum,
+            this.colArtistTitleAlbumDate});
             this.dgvDuplicates.Location = new System.Drawing.Point(6, 19);
             this.dgvDuplicates.Name = "dgvDuplicates";
             this.dgvDuplicates.RowHeadersVisible = false;
@@ -532,6 +552,12 @@ namespace CustomsForgeSongManager.UControls
             this.colArtistTitleAlbum.ReadOnly = true;
             this.colArtistTitleAlbum.Visible = false;
             // 
+            // colArtistTitleAlbumDate
+            // 
+            this.colArtistTitleAlbumDate.DataPropertyName = "ArtistTitleAlbumDate";
+            this.colArtistTitleAlbumDate.HeaderText = "ArtistTitleAlbumDate";
+            this.colArtistTitleAlbumDate.Name = "colArtistTitleAlbumDate";
+            // 
             // toolTip
             // 
             this.toolTip.AutomaticDelay = 200;
@@ -575,6 +601,7 @@ namespace CustomsForgeSongManager.UControls
         private RADataGridView dgvDuplicates;
         private ToolTip toolTip;
         private CheckBox chkSubFolders;
+        private LinkLabel linkSelectOlderVersions;
         private DataGridViewAutoFilterTextBoxColumn colPID;
         private DataGridViewAutoFilterTextBoxColumn colPIDArrangement;
         private DataGridViewAutoFilterTextBoxColumn colKey;
@@ -600,5 +627,6 @@ namespace CustomsForgeSongManager.UControls
         private DataGridViewTextBoxColumn colIgnitionVersion;
         private DataGridViewTextBoxColumn colIgnitionAuthor;
         private DataGridViewTextBoxColumn colArtistTitleAlbum;
+        private DataGridViewAutoFilterTextBoxColumn colArtistTitleAlbumDate;
     }
 }

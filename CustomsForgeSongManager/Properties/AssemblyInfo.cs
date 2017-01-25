@@ -2,16 +2,18 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
+// NOTE: project related ConfuserEx rules can go here
+[assembly: Obfuscation(Exclude = false, Feature = "is-type('enum'):rename(mode=sequential,forceRen=true")]
+
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-
 [assembly: AssemblyTitle("CustomsForge Song Manager")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("CustomsForge.com")]
 [assembly: AssemblyProduct("CustomsForge Song Manager")]
-[assembly: AssemblyCopyright("Copyright © CustomsForge Song Manager 2016")]
+[assembly: AssemblyCopyright("Copyright © CustomsForge Song Manager 2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -36,5 +38,5 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 
-[assembly: AssemblyVersion("1.2.1.9")]
-[assembly: AssemblyFileVersion("1.2.1.9")]
+[assembly: AssemblyVersion("1.3.0.0")]
+[assembly: AssemblyFileVersion("1.3.0.0")]

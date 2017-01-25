@@ -204,7 +204,7 @@
             this.lbl_PanelSongAuthorLbl.Name = "lbl_PanelSongAuthorLbl";
             this.lbl_PanelSongAuthorLbl.Size = new System.Drawing.Size(46, 20);
             this.lbl_PanelSongAuthorLbl.TabIndex = 1;
-            this.lbl_PanelSongAuthorLbl.Text = "Author:";
+            this.lbl_PanelSongAuthorLbl.Text = "Charter:";
             this.lbl_PanelSongAuthorLbl.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // lbl_PanelSongTitle

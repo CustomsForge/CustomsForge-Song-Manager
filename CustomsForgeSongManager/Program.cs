@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 using System.Windows.Forms;
-using CFSM.GenTools;
+using GenTools;
 using CustomsForgeSongManager.DataObjects;
 using CustomsForgeSongManager.Forms;
 using DF.WinForms.ThemeLib;
@@ -46,11 +47,11 @@ namespace CustomsForgeSongManager
                     return;
                 }
 
-                if (!Directory.Exists(Constants.WorkDirectory))
-                    Directory.CreateDirectory(Constants.WorkDirectory);
+                if (!Directory.Exists(Constants.WorkFolder))
+                    Directory.CreateDirectory(Constants.WorkFolder);
 
                 if (RemoveGridSettings())
-                    ZipUtilities.DeleteDirectory(Constants.GridSettingsDirectory);
+                    ZipUtilities.DeleteDirectory(Constants.GridSettingsFolder);
 
                 RunApp();
             }
@@ -80,7 +81,7 @@ namespace CustomsForgeSongManager
                     Application.Run(new frmMain(myLog));
                 }
                 else
-               {
+                {
                     try
                     {
                         Application.EnableVisualStyles();

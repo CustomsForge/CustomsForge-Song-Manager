@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using CustomsForgeSongManager.DataObjects;
 using RocksmithToolkitLib;
 using RocksmithToolkitLib.Extensions;
+using RocksmithToolkitLib.XmlRepository;
 
 namespace CustomsForgeSongManager.SongEditor
 {
@@ -30,7 +31,7 @@ namespace CustomsForgeSongManager.SongEditor
             txtAlbum.Text = SongData.SongInfo.Album;
             txtAlbumSort.Text = SongData.SongInfo.AlbumSort;
             txtAppId.Text = SongData.AppId;
-            txtVersion.Text = SongData.PackageVersion;
+            txtVersion.Text = SongData.ToolkitInfo.PackageVersion;
             txtYear.Text = SongData.SongInfo.SongYear.ToString();
             txtAvgTempo.Text = SongData.SongInfo.AverageTempo.ToString();
             cmbSongVolume.Value = Convert.ToDecimal(SongData.Volume);
@@ -62,7 +63,7 @@ namespace CustomsForgeSongManager.SongEditor
             var tb = sender as TextBox;
             if (tb != null)
             {
-                tb.Text = tb.Text.Trim().GetValidDlcKey(txtTitle.Text);
+                tb.Text = tb.Text.Trim().GetValidKey(txtTitle.Text);
                 this.Dirty = true;
             }
         }
@@ -84,7 +85,7 @@ namespace CustomsForgeSongManager.SongEditor
             var tb = sender as TextBox;
             if (tb != null)
             {
-                tb.Text = tb.Text.Trim().GetValidSortName();
+                tb.Text = tb.Text.Trim().GetValidSortableName();
                 this.Dirty = true;
             }
         }
@@ -94,11 +95,11 @@ namespace CustomsForgeSongManager.SongEditor
             var tb = sender as TextBox;
             if (tb != null)
             {
-                tb.Text = tb.Text.Trim().GetValidName(true, true);
+                tb.Text = tb.Text.Trim().GetValidAtaSpaceName();
                 this.Dirty = true;
 
                 //if (tb.Name == "txtTitle")
-                //    txtKey.Text = String.Format("{0} {1}", txtArtist.Text.Acronym(), txtTitle.Text.GetValidSortName());
+                //    txtKey.Text = String.Format("{0} {1}", txtArtist.Text.Acronym(), txtTitle.Text.GetValidSortableName());
             }
         }
 
@@ -135,7 +136,7 @@ namespace CustomsForgeSongManager.SongEditor
             SongData.SongInfo.Album = txtAlbum.Text;
             SongData.SongInfo.AlbumSort = txtAlbumSort.Text;
             SongData.AppId = txtAppId.Text;
-            SongData.PackageVersion = txtVersion.Text;
+            SongData.ToolkitInfo.PackageVersion = txtVersion.Text;
             SongData.SongInfo.SongYear = Convert.ToInt32(txtYear.Text);
             SongData.SongInfo.AverageTempo = Convert.ToInt32(txtAvgTempo.Text);
             SongData.Volume = Convert.ToSingle(cmbSongVolume.Value);

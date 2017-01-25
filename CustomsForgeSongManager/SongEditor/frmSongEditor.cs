@@ -27,23 +27,39 @@ namespace CustomsForgeSongManager.SongEditor
 
         public frmSongEditor(string songPath)
         {
-            if (String.IsNullOrEmpty(songPath))
-                return;
-            this.Icon = Properties.Resources.cfsm_48x48;
+            try
+            {
+                if (String.IsNullOrEmpty(songPath))
+                    return;
+                this.Icon = Properties.Resources.cfsm_48x48;
 
-            Globals.Log("Loading song information from: " + Path.GetFileName(songPath));
-            Cursor.Current = Cursors.WaitCursor;
-            Globals.TsProgressBar_Main.Value = 10;
-            InitializeComponent();
-            Globals.TsProgressBar_Main.Value = 20;
-            var psarc = new PsarcPackage();
-            packageData = psarc.ReadPackage(songPath);
-            filePath = songPath;
-            Globals.TsProgressBar_Main.Value = 80;
-            LoadSongInfo();
-            Globals.TsProgressBar_Main.Value = 100;
-            Cursor.Current = Cursors.Default;
-            Globals.Log("Song information loaded ... ");
+                Globals.Log("Loading song information from: " + Path.GetFileName(songPath));
+                Cursor.Current = Cursors.WaitCursor;
+                Globals.TsProgressBar_Main.Value = 10;
+                Globals.TsProgressBar_Main.Value = 20;
+
+                InitializeComponent();
+
+                var psarc = new PsarcPackage();
+                packageData = psarc.ReadPackage(songPath);
+
+                filePath = songPath;
+                Globals.TsProgressBar_Main.Value = 80;
+                LoadSongInfo();
+                Globals.TsProgressBar_Main.Value = 100;
+                Cursor.Current = Cursors.Default;
+                Globals.Log("Song information loaded ... ");
+
+            }
+            catch (InvalidDataException ex)
+            {
+                Globals.Log("Unable to edit: " + Path.GetFileName(songPath) + " !");
+                Globals.Log("Error: " + ex.Message.ToString().Replace(Environment.NewLine, " - "));
+
+                Load += (s, e) => Close();
+
+                return;
+            }
         }
 
         private bool Dirty
@@ -52,11 +68,11 @@ namespace CustomsForgeSongManager.SongEditor
         }
 
         private void Save(string outputPath)
-        {            
+        {
             Globals.Log("Saving song information for: " + Path.GetFileName(outputPath));
             Cursor.Current = Cursors.WaitCursor;
             tsProgressBar.Value = 30;
-           
+
             // force validation of user controls
             this.ValidateChildren();
 
@@ -87,7 +103,20 @@ namespace CustomsForgeSongManager.SongEditor
                     UpdateXml(arr, packageData, updateArrangmentID);
 
                     if (arr.ArrangementType == ArrangementType.Guitar || arr.ArrangementType == ArrangementType.Bass)
-                        Song2014.WriteXmlComments(arr.SongXml.File, arr.XmlComments, true, String.Format("CFSM v{0}", Constants.CustomVersion()));
+                    {
+                        var isCommented = false;
+                        var cfsmComment = String.Format("CFSM v{0}", Constants.CustomVersion());
+                        var commentNodes = arr.XmlComments as List<XComment> ?? arr.XmlComments.ToList();
+
+                        foreach (var commentNode in commentNodes)
+                        {
+                            if (commentNode.ToString().Contains(cfsmComment))
+                                isCommented = true;
+                        }
+
+                        if (!isCommented)
+                            Song2014.WriteXmlComments(arr.SongXml.File, commentNodes, customComment: cfsmComment);
+                    }
                 }
 
                 tsProgressBar.Value = 60;
@@ -131,14 +160,14 @@ namespace CustomsForgeSongManager.SongEditor
 
         private void tslSave_Click(object sender, EventArgs e)
         {
-             Save(filePath);
+            Save(filePath);
         }
 
         private void tslSaveAs_Click(object sender, EventArgs e)
         {
             using (var sfd = new SaveFileDialog())
             {
-                sfd.FileName = GeneralExtensions.GetShortName("{0}_{1}_v{2}", packageData.SongInfo.ArtistSort, packageData.SongInfo.SongDisplayNameSort, packageData.PackageVersion.Replace(".", "_"), false);
+                sfd.FileName = StringExtensions.GetValidShortFileName(packageData.SongInfo.ArtistSort, packageData.SongInfo.SongDisplayNameSort, packageData.ToolkitInfo.PackageVersion.Replace(".", "_"), false);
                 sfd.InitialDirectory = Path.GetDirectoryName(filePath);
 
                 if (sfd.ShowDialog() == DialogResult.OK)
@@ -270,7 +299,7 @@ namespace CustomsForgeSongManager.SongEditor
                 return;
 
             var songXml = Song2014.LoadFromFile(arr.SongXml.File);
-            arr.CleanCache();
+            arr.ClearCache();
             songXml.AlbumName = info.SongInfo.Album;
             songXml.AlbumYear = info.SongInfo.SongYear.ToString();
             songXml.ArtistName = info.SongInfo.Artist;
@@ -319,7 +348,7 @@ namespace CustomsForgeSongManager.SongEditor
             var newXml = Path.GetTempFileName();
             mArr.SongXml = new RocksmithToolkitLib.DLCPackage.AggregateGraph.SongXML { File = newXml };
             mArr.SongFile = new RocksmithToolkitLib.DLCPackage.AggregateGraph.SongFile { File = "" };
-            mArr.CleanCache();
+            mArr.ClearCache();
             mArr.BonusArr = true;
             mArr.Id = IdGenerator.Guid();
             mArr.MasterId = RandomGenerator.NextInt();

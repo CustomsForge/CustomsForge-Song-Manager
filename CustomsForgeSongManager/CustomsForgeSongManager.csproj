@@ -75,47 +75,29 @@
   </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup />
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ConfuserExRelease|x86' ">
-    <OutputPath>bin\ConfuserExRelease\</OutputPath>
-    <DefineConstants>TRACE;WINDOWS;TAGGER;RELEASE;AUTOUPDATE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'InnoInstaller|x86'">
-    <OutputPath>bin\InnoInstaller\</OutputPath>
-    <DefineConstants>TRACE;WINDOWS;AUTOUPDATE;TAGGER;RELEASE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'PublishBeta|x86'">
-    <OutputPath>bin\InnoInstaller\</OutputPath>
-    <DefineConstants>TRACE;WINDOWS;AUTOUPDATE;BETA;TAGGER</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'PublishRelease|x86'">
-    <OutputPath>bin\InnoInstaller\</OutputPath>
-    <DefineConstants>TRACE;WINDOWS;AUTOUPDATE;TAGGER;RELEASE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup>
     <TargetZone>LocalIntranet</TargetZone>
   </PropertyGroup>
   <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ConfuserEx|x86'">
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>WINDOWS;RELEASE;TAGGER;AUTOUPDATE</DefineConstants>
+    <PlatformTarget>x86</PlatformTarget>
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'InnoBeta|x86'">
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>WINDOWS;BETA;TAGGER;AUTOUPDATE</DefineConstants>
+    <PlatformTarget>x86</PlatformTarget>
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'InnoRelease|x86'">
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>WINDOWS;RELEASE;TAGGER;AUTOUPDATE</DefineConstants>
+    <PlatformTarget>x86</PlatformTarget>
+    <Optimize>true</Optimize>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\libs\Antlr3.Runtime.dll</HintPath>
@@ -179,32 +161,30 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataObjects\OfficialSong.cs" />
+    <Compile Include="Forms\frmCODLCDuplicates.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmCODLCDuplicates.Designer.cs">
+      <DependentUpon>frmCODLCDuplicates.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LocalTools\FileTools.cs" />
+    <Compile Include="LocalTools\DynamicDifficulty.cs" />
+    <Compile Include="LocalTools\GenericWorker.cs" />
     <Compile Include="LocalTools\LocalExtensions.cs" />
     <Compile Include="LocalTools\AbortableBackgroundWorker.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="LocalTools\BetterDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="LocalTools\BetterDialog.designer.cs">
-      <DependentUpon>BetterDialog.cs</DependentUpon>
-    </Compile>
-    <Compile Include="LocalTools\ComboBoxPopup.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="LocalTools\ComboBoxPopup.Designer.cs">
-      <DependentUpon>ComboBoxPopup.cs</DependentUpon>
-    </Compile>
-    <Compile Include="LocalTools\CueTextBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="DataObjects\AppSettings.cs" />
     <Compile Include="DataObjects\Interfaces.cs" />
-    <Compile Include="LocalTools\Autoupdater.cs" />
+    <Compile Include="LocalTools\AutoUpdater.cs" />
     <Compile Include="DataObjects\ProfileData.cs" />
     <Compile Include="DataObjects\RSModels.cs" />
     <Compile Include="DataObjects\SongCollectionException.cs" />
     <Compile Include="DataObjects\SongData.cs" />
+    <Compile Include="LocalTools\PackageDataTools.cs" />
+    <Compile Include="LocalTools\PitchShiftTools.cs" />
+    <Compile Include="LocalTools\RepairTools.cs" />
     <Compile Include="LocalTools\RocksmithProfile.cs" />
     <Compile Include="DataObjects\Constants.cs" />
     <Compile Include="LocalTools\CFSMHtmlPanel.cs">
@@ -246,15 +226,21 @@
     <Compile Include="Forms\frmProfileBackups.Designer.cs">
       <DependentUpon>frmProfileBackups.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmSongBatchEdit.cs">
+    <Compile Include="Forms\frmModAppId.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmSongBatchEdit.Designer.cs">
-      <DependentUpon>frmSongBatchEdit.cs</DependentUpon>
+    <Compile Include="Forms\frmModAppId.Designer.cs">
+      <DependentUpon>frmModAppId.cs</DependentUpon>
     </Compile>
     <Compile Include="DataObjects\Globals.cs" />
     <Compile Include="LocalTools\Ignition.cs" />
     <Compile Include="LocalTools\PsarcBrowser.cs" />
+    <Compile Include="LocalTools\TaggerTools.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="SongEditor\DLCPackageEditorControlBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -326,7 +312,6 @@
     <Compile Include="SongEditor\ucTones.Designer.cs">
       <DependentUpon>ucTones.cs</DependentUpon>
     </Compile>
-    <Compile Include="LocalTools\SongTagger.cs" />
     <Compile Include="UControls\SongPacks.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -390,18 +375,14 @@
       <DependentUpon>ThemePreview.cs</DependentUpon>
     </Compile>
     <Compile Include="LocalTools\Worker.cs" />
-    <EmbeddedResource Include="LocalTools\BetterDialog.resx">
-      <DependentUpon>BetterDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="LocalTools\ComboBoxPopup.resx">
-      <DependentUpon>ComboBoxPopup.cs</DependentUpon>
-      <SubType>Designer</SubType>
+    <EmbeddedResource Include="Forms\frmCODLCDuplicates.resx">
+      <DependentUpon>frmCODLCDuplicates.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmProfileBackups.resx">
       <DependentUpon>frmProfileBackups.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmSongBatchEdit.resx">
-      <DependentUpon>frmSongBatchEdit.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\frmModAppId.resx">
+      <DependentUpon>frmModAppId.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ClickOnceUpgrade.resx">
       <DependentUpon>ClickOnceUpgrade.cs</DependentUpon>
@@ -417,6 +398,11 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="SongEditor\frmArrangement.resx">
@@ -443,16 +429,6 @@
     <EmbeddedResource Include="Forms\frmSongInfo.resx">
       <DependentUpon>frmSongInfo.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <EmbeddedResource Include="SongEditor\ucArrangements.resx">
       <DependentUpon>ucArrangements.cs</DependentUpon>
     </EmbeddedResource>
@@ -522,11 +498,12 @@
     <None Include="Resources\cfsm_48x48.ico" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\zip.png" />
     <None Include="Licenses.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <Content Include="..\libs\7za.dll">
-      <Link>7za.dll</Link>
+    <Content Include="..\libs\7z.dll">
+      <Link>7z.dll</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\libs\bass.dll">
@@ -545,9 +522,11 @@
     <None Include="Resources\15.png" />
     <None Include="Resources\RocksmithToolkitGUI_32512.png" />
     <EmbeddedResource Include="Resources\htmExport.css" />
-    <Content Include="Resources\151.png" />
+    <None Include="Resources\151.png" />
     <None Include="Resources\copy.png" />
-    <Content Include="Resources\dardev.png" />
+    <None Include="Resources\CGT_Logo.png" />
+    <None Include="Resources\broom.png" />
+    <None Include="Resources\dardev.png" />
     <None Include="Resources\Lovroman.png" />
     <None Include="Resources\media_pause.png" />
     <None Include="Resources\media_play_green.png" />
@@ -570,8 +549,17 @@
     <None Include="Resources\refresh.png" />
     <None Include="Resources\onoff.png" />
     <None Include="Resources\SelectCol.png" />
+    <None Include="Resources\maintenance_48.png" />
+    <None Include="Resources\restorebackup.png" />
+    <None Include="Resources\restorewindow.png" />
+    <None Include="Resources\delete2.png" />
+    <None Include="Resources\log.png" />
+    <None Include="Resources\maintenance.png" />
+    <None Include="Resources\notes.png" />
+    <EmbeddedResource Include="Resources\HelpRepairs.txt" />
     <Content Include="Resources\TaggerHelp.html" />
-    <Content Include="Resources\Unleashed2k.png" />
+    <None Include="Resources\trashcan.png" />
+    <None Include="Resources\Unleashed2k.png" />
     <EmbeddedResource Include="Resources\tags\frackDefaultprev.png" />
     <EmbeddedResource Include="Resources\tags\frackDefault\Background.png" />
     <EmbeddedResource Include="Resources\tags\frackDefault\Bass Bonus.png" />
@@ -643,12 +631,12 @@
     <None Include="Resources\Letter V black_small.png" />
     <None Include="Resources\Letter B black_small.png" />
     <None Include="Resources\rescan.png" />
-    <None Include="Resources\rescan1.png" />
     <None Include="Resources\clear.png" />
     <EmbeddedResource Include="Resources\tags\Default.tagtheme" />
     <EmbeddedResource Include="Resources\tags\example1.tagtheme" />
     <EmbeddedResource Include="Resources\tags\zagatozeeddtext\Default.tagtheme" />
     <EmbeddedResource Include="Resources\sltsv1_aggregategraph.nt" />
+    <None Include="Resources\OfficialSongs.json" />
     <None Include="Resources\update.png" />
     <None Include="Resources\backup.png" />
     <None Include="Resources\disable.png" />
@@ -672,10 +660,6 @@
       <Project>{6D8C3FE6-5855-4B6C-BD2B-51954342DBEE}</Project>
       <Name>CFSM.AudioTools</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CFSM.Libraries\CFSM.GenTools\CFSM.GenTools.csproj">
-      <Project>{21357BB0-4C21-4244-AF9F-DD59FC0F616A}</Project>
-      <Name>CFSM.GenTools</Name>
-    </ProjectReference>
     <ProjectReference Include="..\CFSM.Libraries\CFSM.ImageTools\CFSM.ImageTools.csproj">
       <Project>{E6565985-C477-46F4-8A42-08E04CD40B65}</Project>
       <Name>CFSM.ImageTools</Name>
@@ -683,6 +667,10 @@
     <ProjectReference Include="..\CFSM.Libraries\CFSM.RSTKLib\CFSM.RSTKLib.csproj">
       <Project>{B59A7CDF-086B-4B94-A917-4CFA4D42F981}</Project>
       <Name>CFSM.RSTKLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CFSM.Libraries\CustomControls\CustomControls.csproj">
+      <Project>{CBB57466-4341-49BC-A61D-43A7CC656A95}</Project>
+      <Name>CustomControls</Name>
     </ProjectReference>
     <ProjectReference Include="..\CFSM.Libraries\DataGridViewTools\DataGridViewTools.csproj">
       <Project>{5A4B4B14-D3B5-4D54-80EC-0877C1E6E73A}</Project>
@@ -692,56 +680,64 @@
       <Project>{E3A2283B-A2B8-46E5-AF49-DF6CD156EB0D}</Project>
       <Name>DF.WinForms.ThemeLib</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CFSM.Libraries\GenTools\GenTools.csproj">
+      <Project>{41EA9CF7-BF72-4243-98A8-5BF16BCD90AD}</Project>
+      <Name>GenTools</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>if $(ConfigurationName) == ConfuserExRelease (
+    <PostBuildEvent>if $(ConfigurationName) == ConfuserEx (
+MKDIR "$(ProjectDir)bin\ConfuserEx\"
+XCOPY /Y /E /D "$(TargetDir)*.*" "$(ProjectDir)bin\ConfuserEx\*.*"
 CD "$(SolutionDir)ThirdParty\ConfuserEx_bin\"
-"Confuser.CLI.exe" "..\ConfuserExGeneric.crproj"
-del /q "$(TargetDir)*.pdb"
+"Confuser.CLI.exe" "..\ConfuserExForInno.crproj"
 )
 
-if $(ConfigurationName) == InnoInstaller (
+if $(ConfigurationName) == InnoBeta (
+MKDIR "$(ProjectDir)bin\ConfuserEx\"
+XCOPY /Y /E /D "$(TargetDir)*.*" "$(ProjectDir)bin\ConfuserEx\*.*"
 CD "$(SolutionDir)ThirdParty\ConfuserEx_bin\"
 "Confuser.CLI.exe" "..\ConfuserExForInno.crproj"
 CD "$(SolutionDir)ThirdParty\Inno\"
-"ISCC.exe" /DBETA "..\CFSM.Setup\CFSMInstaller.iss"
-del /q "$(TargetDir)*.pdb"
-CD "$(SolutionDir)ThirdParty\"
-"CFSMPostBuilder.exe" "CREATEVERSIONINFO"
-)
-
-if $(ConfigurationName) == PublishBeta (
-CD "$(SolutionDir)ThirdParty\ConfuserEx_bin\"
-"Confuser.CLI.exe" "..\ConfuserExForInno.crproj"
-CD "$(SolutionDir)ThirdParty\Inno\"
-"ISCC.exe" /DBETA "..\CFSM.Setup\CFSMInstaller.iss"
-del /q "$(TargetDir)*.pdb"
+"ISCC.exe" /DBETA "..\CFSM.Setup\cfsmInstaller.iss"
 CD "$(SolutionDir)ThirdParty\"
 "CFSMPostBuilder.exe" "CREATEVERSIONINFO"
 
 REM "CFSMPostBuilder.exe" "UPLOAD" "198.58.96.81/beta/" "appdev" "kvPSF7HL"
 )
 
-if $(ConfigurationName) == PublishRelease (
+if $(ConfigurationName) == InnoRelease (
+MKDIR "$(ProjectDir)bin\ConfuserEx\"
+XCOPY /Y /E /D "$(TargetDir)*.*" "$(ProjectDir)bin\ConfuserEx\*.*"
 CD "$(SolutionDir)ThirdParty\ConfuserEx_bin\"
 "Confuser.CLI.exe" "..\ConfuserExForInno.crproj"
 CD "$(SolutionDir)ThirdParty\Inno\"
-"ISCC.exe" "..\CFSM.Setup\CFSMInstaller.iss"
-del /q "$(TargetDir)*.pdb"
+"ISCC.exe" "..\CFSM.Setup\cfsmInstaller.iss"
 CD "$(SolutionDir)ThirdParty\"
 "CFSMPostBuilder.exe" "CREATEVERSIONINFO"
 
 REM "CFSMPostBuilder.exe" "UPLOAD" "198.58.96.81" "appdev" "7eCheQ+bu+heRevu"
 )
 
-DEL /Q "$(TargetDir)*.pdb"</PostBuildEvent>
+REM if $(ConfigurationName This line will throw an error for debugging
+</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PreBuildEvent>XCOPY /Y/D "$(SolutionDir)libs\*.xml" "$(TargetDir)*.xml" 
+    <PreBuildEvent>REM do some housekeeping here
 
-XCOPY /Y/E/D "$(SolutionDir)libs\ww2ogg\*.*" "$(TargetDir)*.*" 
+DEL /S /Q " "$(ProjectDir)bin\ConfuserEx\*"
+RMDIR /S /Q "$(ProjectDir)bin\ConfuserEx\"
 
+CD "$(SolutionDir)ThirdParty\CFSM.Setup\Output\"
+DEL /Q "*.txt"
+DEL /Q "CFSMSetup.exe"
+
+XCOPY /Y /D "$(SolutionDir)libs\*.xml" "$(TargetDir)*.xml" 
+XCOPY /Y /E /D "$(SolutionDir)libs\ww2ogg\*.*" "$(TargetDir)*.*"
+XCOPY /Y /E /D "$(SolutionDir)libs\ddc\*.*" "$(TargetDir)ddc\*.*"
+
+REM if $(ConfigurationName This line will throw an error for debugging
 </PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

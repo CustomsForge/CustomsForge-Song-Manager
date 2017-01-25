@@ -6,10 +6,11 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using CFSM.GenTools;
+using GenTools;
 using CustomsForgeSongManager.DataObjects;
 using CustomsForgeSongManager.Properties;
 using RocksmithToolkitLib;
+using RocksmithToolkitLib.XmlRepository;
 
 //
 // Reusable background worker class for parsing songs
@@ -73,8 +74,6 @@ namespace CustomsForgeSongManager.LocalTools
             if (e.Cancelled || Globals.TsLabel_Cancel.Text == "Canceling" || Globals.CancelBackgroundScan)
             {
                 // bWorker.Abort(); // don't use abort
-                bWorker.Dispose();
-                bWorker = null;
                 Globals.Log(Resources.UserCanceledProcess);
                 Globals.TsLabel_MainMsg.Text = Resources.UserCanceled;
                 Globals.WorkerFinished = Globals.Tristate.Cancelled;
@@ -84,16 +83,17 @@ namespace CustomsForgeSongManager.LocalTools
                 WorkerProgress(100);
 
                 if (workOrder.Name == "SongManager" || workOrder.Name == "Duplicates" || workOrder.Name == "SetlistManager")
-                    Globals.Log(String.Format("Finished parsing ... took {0}", counterStopwatch.Elapsed));
-
+                    Globals.Log(String.Format("Finished parsing took: {0}", counterStopwatch.Elapsed));
                 else if (workOrder.Name == "Renamer")
-                    Globals.Log(String.Format("Finished renaming ... took {0}", counterStopwatch.Elapsed));
+                    Globals.Log(String.Format("Finished renaming took: {0}", counterStopwatch.Elapsed));
 
-                Globals.SongCollection = new BindingList<SongData>(bwSongCollection);
-                Globals.WorkerFinished = Globals.Tristate.True;
+                 Globals.WorkerFinished = Globals.Tristate.True;
             }
+
+            bWorker.Dispose();
+            bWorker = null;
             Globals.IsScanning = false;
-        }
+         }
 
         private void WorkerRenameSongs(object sender, DoWorkEventArgs e)
         {
@@ -107,6 +107,10 @@ namespace CustomsForgeSongManager.LocalTools
         {
             Globals.IsScanning = true;
             List<string> fileList = FilesList(Path.Combine(AppSettings.Instance.RSInstalledDir, "dlc"), AppSettings.Instance.IncludeRS1DLCs);
+            fileList = fileList.Where(fi => !fi.ToLower().Contains(Constants.SONGPACK) &&
+                !fi.ToLower().Contains(Constants.ABVSONGPACK) &&
+                !fi.ToLower().Contains("inlay")) // ignore inlays
+                .ToList();
 
             bwSongCollection = Globals.SongCollection.ToList();
 
@@ -173,17 +177,17 @@ namespace CustomsForgeSongManager.LocalTools
                         try
                         {
                             bwSongCollection.Sort((x1, x2) =>
-                                {
-                                    var c1 = (prop.GetValue(x1, new object[] { }) as IComparable);
-                                    var c2 = (prop.GetValue(x2, new object[] { }) as IComparable);
-                                    if (c1 == null || c2 == null)
-                                        return -1;
+                            {
+                                var c1 = (prop.GetValue(x1, new object[] { }) as IComparable);
+                                var c2 = (prop.GetValue(x2, new object[] { }) as IComparable);
+                                if (c1 == null || c2 == null)
+                                    return -1;
 
-                                    if (AppSettings.Instance.SortAscending)
-                                        return c1.CompareTo(c2);
-                                    else
-                                        return c2.CompareTo(c1);
-                                });
+                                if (AppSettings.Instance.SortAscending)
+                                    return c1.CompareTo(c2);
+                                else
+                                    return c2.CompareTo(c1);
+                            });
                         }
                         catch (Exception)
                         {
@@ -191,19 +195,17 @@ namespace CustomsForgeSongManager.LocalTools
                     }
                 }
             }
+
+            Globals.SongCollection = new BindingList<SongData>(bwSongCollection);
             Globals.DebugLog("Parsing done ...");
-
             counterStopwatch.Stop();
-
-            // free up memory
-            Globals.TuningXml.Clear();
         }
 
         private void ParsePSARC(string filePath)
         {
-            // 2x speed hack ... preload the TuningDefinition
-            if (Globals.TuningXml == null)
-                Globals.TuningXml = TuningDefinitionRepository.LoadTuningDefinitions(GameVersion.RS2014);
+            // 2x speed hack ... preload the TuningDefinition and fix for tuning 'Other' issue           
+            if (Globals.TuningXml == null || Globals.TuningXml.Count == 0)
+                Globals.TuningXml = TuningDefinitionRepository.Instance.LoadTuningDefinitions(GameVersion.RS2014);
 
             try
             {

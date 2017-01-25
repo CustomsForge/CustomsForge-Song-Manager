@@ -69,15 +69,12 @@ packages/
 
 #others
 CleanupBeforeGitPullRequest.bat
-BinForRelease*/
-Copy*/
 
-ThirdParty/Dotfuscator/*
 ThirdParty/CFSM.Setup/Output/*
 ThirdParty/CFSMPostBuilder.vshost.exe
 ThirdParty/CFSMPostBuilder.vshost.exe.config
 ThirdParty/CFSMPostBuilder.pdb
 ThirdParty/CFSMPostBuilder.vshost.exe.manifest
 ThirdParty/CFSMPostBuilder.exe.config
-ThirdParty/CFSM.Setup/Output/UpdateInfo.txt
-ThirdParty/CFSM.Setup/ClickOnceUninstaller.exe.CodeAnalysisLog.xml
+ThirdParty/ignore*.*
+.gitattributes
