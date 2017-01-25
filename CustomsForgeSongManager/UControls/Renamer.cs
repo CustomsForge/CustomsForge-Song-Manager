@@ -80,7 +80,7 @@ namespace CustomsForgeSongManager.UControls
             template.Add("album", data.Album.Replace('\\', '_'));
             template.Add("filename", data.FileName);
             template.Add("tuning", data.Tuning.Split(new[] { ", " }, StringSplitOptions.None).FirstOrDefault());
-            template.Add("dd", data.DD > 0 ? "_DD" : "");
+            template.Add("dd", data.DD > 0 ? "DD" : "");
             template.Add("ddlvl", data.DD);
             template.Add("year", data.SongYear);
             template.Add("version", data.Version == null ? "" : data.Version);
@@ -183,7 +183,7 @@ namespace CustomsForgeSongManager.UControls
 
         private void BackgroundRenamer()
         {
-            ToggleUIControls();
+            ToggleUiControls(false);
 
             // run new worker
             using (Worker worker = new Worker())
@@ -192,21 +192,15 @@ namespace CustomsForgeSongManager.UControls
                 while (Globals.WorkerFinished == Globals.Tristate.False)
                     Application.DoEvents();
             }
-            using (Worker worker = new Worker())
-            {
-                worker.BackgroundScan(Globals.SongManager);
-                while (Globals.WorkerFinished == Globals.Tristate.False)
-                    Application.DoEvents();
-            }
 
-            ToggleUIControls();
+            ToggleUiControls(true);
         }
 
-        private void ToggleUIControls()
+        private void ToggleUiControls(bool enabled)
         {
-            GenExtensions.InvokeIfRequired(btnRenameAll, delegate { btnRenameAll.Enabled = !btnRenameAll.Enabled; });
-            GenExtensions.InvokeIfRequired(txtRenameTemplate, delegate { txtRenameTemplate.Enabled = !txtRenameTemplate.Enabled; });
-            GenExtensions.InvokeIfRequired(chkDeleteEmptyDir, delegate { chkDeleteEmptyDir.Enabled = !chkDeleteEmptyDir.Enabled; });
+            btnRenameAll.Enabled = enabled;
+            txtRenameTemplate.Enabled = enabled;
+            chkDeleteEmptyDir.Enabled = enabled;
         }
 
         private bool ValidateInput()
@@ -247,30 +241,24 @@ namespace CustomsForgeSongManager.UControls
 
         private void btnRenameAll_Click(object sender, System.EventArgs e)
         {
-            if (MessageBox.Show("Rename all files?", "Comfirmation", MessageBoxButtons.YesNo) == DialogResult.Yes)
-            {
-                renSongCollection = new List<SongData>(Globals.SongCollection);
-                // do not rename RS1 compatiblity files
-                renSongCollection.RemoveAll(x => x.FileName.Contains(Constants.RS1COMP));
+            if (MessageBox.Show("Rename all files?", "Comfirmation", MessageBoxButtons.YesNo) == DialogResult.No)
+                return;
 
-                // do not rename any disabled songs
-                renSongCollection.RemoveAll(x => x.Enabled.Contains("No"));
+            renSongCollection = new List<SongData>(Globals.SongCollection);
+            // do not rename RS1 compatiblity files
+            renSongCollection.RemoveAll(x => x.FileName.Contains(Constants.RS1COMP));
 
-                // rename only user selected songs
-                if (chkRenameOnlySelected.Checked)
-                    renSongCollection.RemoveAll(x => x.Selected == false);
+            // do not rename any disabled songs
+            renSongCollection.RemoveAll(x => x.Enabled.Contains("No"));
 
-                if (!ValidateInput())
-                    return;
+            // rename only user selected songs
+            if (chkRenameOnlySelected.Checked)
+                renSongCollection.RemoveAll(x => x.Selected == false);
 
-                // TODO: why use a background worker here?
-                BackgroundRenamer();
-                // could just do this instead
-                // RenameSongs();
-                Globals.RescanSongManager = false;
-                Globals.RescanDuplicates = false;
-                Globals.RescanSetlistManager = false;
-            }
+            if (!ValidateInput())
+                return;
+
+            BackgroundRenamer();
         }
 
         private void dgvRenamerProperties_CellDoubleClick(object sender, DataGridViewCellEventArgs e)

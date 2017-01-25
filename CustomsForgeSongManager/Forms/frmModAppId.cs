@@ -6,6 +6,7 @@ using CFSM.RSTKLib.PSARC;
 using CustomsForgeSongManager.DataObjects;
 using DF.WinForms.ThemeLib;
 using RocksmithToolkitLib;
+using RocksmithToolkitLib.Extensions;
 using RocksmithToolkitLib.XmlRepository;
 
 namespace CustomsForgeSongManager.Forms
@@ -44,7 +45,7 @@ namespace CustomsForgeSongManager.Forms
             this.Refresh();
             themedProgressBar1.Maximum = DataFiles.Length;
             themedProgressBar1.Value = 0;
-            var newID = txtAppId.Text.Trim();
+            var newID = txtAppId.Text.Trim().GetValidAppIdSixDigits();
             
             foreach (var song in DataFiles)
             {

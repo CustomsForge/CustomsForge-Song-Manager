@@ -18,7 +18,6 @@ using CustomsForgeSongManager.UITheme;
 
 // NOTE: any usage of 'public enum' in code that will be obfuscated must be preceeded with
 // [Obfuscation(Exclude = false, Feature = "-rename")]
-// [assembly: Obfuscation(Exclude = false, Feature = "is-type('enum'):rename(mode=sequential,forceRen=true")]
 // so that ConfuserEx does not rename the enumerators
 //
 namespace CustomsForgeSongManager.Forms

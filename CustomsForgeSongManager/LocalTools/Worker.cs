@@ -74,8 +74,6 @@ namespace CustomsForgeSongManager.LocalTools
             if (e.Cancelled || Globals.TsLabel_Cancel.Text == "Canceling" || Globals.CancelBackgroundScan)
             {
                 // bWorker.Abort(); // don't use abort
-                bWorker.Dispose();
-                bWorker = null;
                 Globals.Log(Resources.UserCanceledProcess);
                 Globals.TsLabel_MainMsg.Text = Resources.UserCanceled;
                 Globals.WorkerFinished = Globals.Tristate.Cancelled;
@@ -89,11 +87,13 @@ namespace CustomsForgeSongManager.LocalTools
                 else if (workOrder.Name == "Renamer")
                     Globals.Log(String.Format("Finished renaming took: {0}", counterStopwatch.Elapsed));
 
-                Globals.SongCollection = new BindingList<SongData>(bwSongCollection);
-                Globals.WorkerFinished = Globals.Tristate.True;
+                 Globals.WorkerFinished = Globals.Tristate.True;
             }
+
+            bWorker.Dispose();
+            bWorker = null;
             Globals.IsScanning = false;
-        }
+         }
 
         private void WorkerRenameSongs(object sender, DoWorkEventArgs e)
         {
@@ -196,6 +196,7 @@ namespace CustomsForgeSongManager.LocalTools
                 }
             }
 
+            Globals.SongCollection = new BindingList<SongData>(bwSongCollection);
             Globals.DebugLog("Parsing done ...");
             counterStopwatch.Stop();
         }

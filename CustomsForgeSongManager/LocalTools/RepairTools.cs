@@ -23,8 +23,9 @@ namespace CustomsForgeSongManager.LocalTools
 {
     public class RepairTools
     {
-        private static bool addedDD = false;
-        private static bool ddError = false;
+        private static bool addedDD;
+        private static bool ddError;
+        private static bool fixedMax5;
         private static RepairOptions options;
         private static ProgressStatus repairStatus;
         private static StringBuilder sbErrors;
@@ -97,6 +98,7 @@ namespace CustomsForgeSongManager.LocalTools
                 }
             }
 
+            fixedMax5 = true;
             // replace original arrangements with kept arrangements
             packageData.Arrangements = packageDataKept.Arrangements;
             return packageData;
@@ -122,9 +124,10 @@ namespace CustomsForgeSongManager.LocalTools
                 // ArrangmentIDs are stored in multiple place and all need to be updated
                 // therefore we are going to unpack, apply repair, and repack
                 Globals.Log(" - Extracting CDLC artifacts");
-                // DDC generation variables
+                // repair status variables
                 addedDD = false;
                 ddError = false;
+                fixedMax5 = false;
 
                 DLCPackageData packageData;
                 using (var psarcOld = new PsarcPackager())
@@ -207,7 +210,7 @@ namespace CustomsForgeSongManager.LocalTools
                 if (!options.PreserveStats)
                     packageData = packageData.AddPackageComment(Constants.TKI_ARRID);
 
-                if (options.RepairMaxFive)
+                if (options.RepairMaxFive && fixedMax5)
                     packageData = packageData.AddPackageComment(Constants.TKI_MAX5);
 
                 if (options.AddDD && addedDD)
@@ -423,7 +426,7 @@ namespace CustomsForgeSongManager.LocalTools
             if (processed > 0)
             {
                 Globals.Log("CDLC repair completed ...");
-                Globals.RescanSongManager = true;
+                Globals.ReloadSongManager = true;
 
                 if (!Constants.DebugMode)
                     GenExtensions.CleanLocalTemp();

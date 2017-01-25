@@ -1,10 +1,16 @@
 ﻿CFSM Release Notes
 
+1.3.0.0
+- compatibility Release version of CFSM for Rocksmith 2014 Remastered 
+- eliminated rescan of SongCollection after Renaming
+- added check to Max5 repair to improve package comments
+
 1.2.9.9
 - restructured solution configuration options
 
 1.2.9.8
 - fixed PitchShifter dgv updating when creating new pitchshifted CDLC files
+- updated RocksmithToolkitLib.dll and dependencies to latest release version
 
 1.2.9.7
 - fixed 'Repairs' toolstripmenuitems toggling and save settings action

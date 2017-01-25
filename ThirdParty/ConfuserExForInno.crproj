@@ -1,4 +1,4 @@
-<project outputDir="..\CustomsForgeSongManager" baseDir="..\CustomsForgeSongManager" xmlns="http://confuser.codeplex.com">
+<project outputDir="..\ConfuserEx\" baseDir="..\CustomsForgeSongManager\bin\Release\" xmlns="http://confuser.codeplex.com">
  	<rule preset="none" pattern="true">	
         <protection id="anti debug" />
 		<protection id="anti ildasm" />
@@ -9,12 +9,12 @@
         <protection id="ref proxy" />
  		<protection id="resources" />
 	</rule>
-	<module path="bin\ConfuserEx\CFSM.AudioTools.dll" />
-	<module path="bin\ConfuserEx\CFSM.ImageTools.dll" />
-	<module path="bin\ConfuserEx\GenTools.dll" />
-	<module path="bin\ConfuserEx\CustomControls.dll" />
-	<module path="bin\ConfuserEx\CFSM.RSTKLib.dll" />
-	<module path="bin\ConfuserEx\DF.WinForms.ThemeLib.dll" />
-	<module path="bin\ConfuserEx\DataGridViewTools.dll" />
-	<module path="bin\ConfuserEx\CustomsForgeSongManager.exe" />
+	<module path="CFSM.AudioTools.dll" />
+	<module path="CFSM.ImageTools.dll" />
+	<module path="GenTools.dll" />
+	<module path="CustomControls.dll" />
+	<module path="CFSM.RSTKLib.dll" />
+	<module path="DF.WinForms.ThemeLib.dll" />
+	<module path="DataGridViewTools.dll" />
+	<module path="CustomsForgeSongManager.exe" />
 </project>

@@ -75,38 +75,29 @@
   </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup />
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ConfuserEx|x86' ">
-    <OutputPath>bin\ConfuserEx\</OutputPath>
-    <DefineConstants>TRACE;WINDOWS;AUTOUPDATE;TAGGER;BETA</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'InnoBeta|x86' ">
-    <OutputPath>bin\ConfuserEx\</OutputPath>
-    <DefineConstants>TRACE;WINDOWS;AUTOUPDATE;TAGGER;BETA</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'InnoRelease|x86' ">
-    <OutputPath>bin\ConfuserEx\</OutputPath>
-    <DefineConstants>TRACE;WINDOWS;AUTOUPDATE;TAGGER;RELEASE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup>
     <TargetZone>LocalIntranet</TargetZone>
   </PropertyGroup>
   <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ConfuserEx|x86'">
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>WINDOWS;RELEASE;TAGGER;AUTOUPDATE</DefineConstants>
+    <PlatformTarget>x86</PlatformTarget>
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'InnoBeta|x86'">
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>WINDOWS;BETA;TAGGER;AUTOUPDATE</DefineConstants>
+    <PlatformTarget>x86</PlatformTarget>
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'InnoRelease|x86'">
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>WINDOWS;RELEASE;TAGGER;AUTOUPDATE</DefineConstants>
+    <PlatformTarget>x86</PlatformTarget>
+    <Optimize>true</Optimize>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\libs\Antlr3.Runtime.dll</HintPath>
@@ -697,16 +688,19 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName) == ConfuserEx (
+MKDIR "$(ProjectDir)bin\ConfuserEx\"
+XCOPY /Y /E /D "$(TargetDir)*.*" "$(ProjectDir)bin\ConfuserEx\*.*"
 CD "$(SolutionDir)ThirdParty\ConfuserEx_bin\"
 "Confuser.CLI.exe" "..\ConfuserExForInno.crproj"
 )
 
 if $(ConfigurationName) == InnoBeta (
+MKDIR "$(ProjectDir)bin\ConfuserEx\"
+XCOPY /Y /E /D "$(TargetDir)*.*" "$(ProjectDir)bin\ConfuserEx\*.*"
 CD "$(SolutionDir)ThirdParty\ConfuserEx_bin\"
 "Confuser.CLI.exe" "..\ConfuserExForInno.crproj"
 CD "$(SolutionDir)ThirdParty\Inno\"
 "ISCC.exe" /DBETA "..\CFSM.Setup\cfsmInstaller.iss"
-del /q "$(TargetDir)*.pdb"
 CD "$(SolutionDir)ThirdParty\"
 "CFSMPostBuilder.exe" "CREATEVERSIONINFO"
 
@@ -714,30 +708,37 @@ REM "CFSMPostBuilder.exe" "UPLOAD" "198.58.96.81/beta/" "appdev" "kvPSF7HL"
 )
 
 if $(ConfigurationName) == InnoRelease (
+MKDIR "$(ProjectDir)bin\ConfuserEx\"
+XCOPY /Y /E /D "$(TargetDir)*.*" "$(ProjectDir)bin\ConfuserEx\*.*"
 CD "$(SolutionDir)ThirdParty\ConfuserEx_bin\"
 "Confuser.CLI.exe" "..\ConfuserExForInno.crproj"
 CD "$(SolutionDir)ThirdParty\Inno\"
 "ISCC.exe" "..\CFSM.Setup\cfsmInstaller.iss"
-del /q "$(TargetDir)*.pdb"
 CD "$(SolutionDir)ThirdParty\"
 "CFSMPostBuilder.exe" "CREATEVERSIONINFO"
 
 REM "CFSMPostBuilder.exe" "UPLOAD" "198.58.96.81" "appdev" "7eCheQ+bu+heRevu"
 )
 
-DEL /Q "$(TargetDir)*.pdb"
-
-REM if $(ConfigurationName should throw an error
+REM if $(ConfigurationName This line will throw an error for debugging
 </PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PreBuildEvent>XCOPY /Y/D "$(SolutionDir)libs\*.xml" "$(TargetDir)*.xml" 
-XCOPY /Y/E/D "$(SolutionDir)libs\ww2ogg\*.*" "$(TargetDir)*.*"
-XCOPY /Y/E/D "$(SolutionDir)libs\ddc\*.*" "$(TargetDir)ddc\*.*"
+    <PreBuildEvent>REM do some housekeeping here
+
+DEL /S /Q " "$(ProjectDir)bin\ConfuserEx\*"
+RMDIR /S /Q "$(ProjectDir)bin\ConfuserEx\"
 
 CD "$(SolutionDir)ThirdParty\CFSM.Setup\Output\"
-del /q "*.txt"
-del /q "CFSMSetup.exe"</PreBuildEvent>
+DEL /Q "*.txt"
+DEL /Q "CFSMSetup.exe"
+
+XCOPY /Y /D "$(SolutionDir)libs\*.xml" "$(TargetDir)*.xml" 
+XCOPY /Y /E /D "$(SolutionDir)libs\ww2ogg\*.*" "$(TargetDir)*.*"
+XCOPY /Y /E /D "$(SolutionDir)libs\ddc\*.*" "$(TargetDir)ddc\*.*"
+
+REM if $(ConfigurationName This line will throw an error for debugging
+</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

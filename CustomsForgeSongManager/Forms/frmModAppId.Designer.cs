@@ -30,6 +30,7 @@ namespace CustomsForgeSongManager.Forms
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmModAppId));
             this.txtAppId = new System.Windows.Forms.TextBox();
             this.cmbAppId = new System.Windows.Forms.ComboBox();
@@ -38,6 +39,7 @@ namespace CustomsForgeSongManager.Forms
             this.btnApply = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.lblMsg = new System.Windows.Forms.Label();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.SuspendLayout();
             // 
             // txtAppId
@@ -46,12 +48,12 @@ namespace CustomsForgeSongManager.Forms
             this.txtAppId.Location = new System.Drawing.Point(299, 24);
             this.txtAppId.MaxLength = 6;
             this.txtAppId.Name = "txtAppId";
-            this.txtAppId.ReadOnly = true;
             this.txtAppId.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtAppId.Size = new System.Drawing.Size(61, 20);
             this.txtAppId.TabIndex = 85;
             this.txtAppId.Text = "AppID";
             this.txtAppId.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.toolTip.SetToolTip(this.txtAppId, "Hint:\r\nType in a valid AppID of\r\nany DLC that you own.");
             // 
             // cmbAppId
             // 
@@ -149,5 +151,6 @@ namespace CustomsForgeSongManager.Forms
         private System.Windows.Forms.Button btnApply;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Label lblMsg;
+        private System.Windows.Forms.ToolTip toolTip;
     }
 }
