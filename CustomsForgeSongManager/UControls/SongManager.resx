@@ -439,6 +439,24 @@
         TkSuQmCC
 </value>
   </data>
+  <data name="tsmiRepairsUsingOrg.ToolTipText" xml:space="preserve">
+    <value>Developers do not recommend use of this option.
+
+If selected, only files from the (org) folder
+are used for the selected repair options.
+This option may not be combined with
+the "Process 'downloads' Folder" button</value>
+  </data>
+  <data name="tsmiProcessDLFolder.ToolTipText" xml:space="preserve">
+    <value>Process new CDLC from 'Downloads' 
+folder and move them to 'dlc' folder.  
+
+If selected, only files in the 'Downloads'
+folder are processed/repaired.
+
+The 'Downloads' folder location may
+be reset from the 'Settings' tab menu.</value>
+  </data>
   <data name="tsmiRepairs.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
@@ -466,43 +484,6 @@ various user selectable options.
 HINT: First use 'Select All/None' and/or 
 'Toggle Selection' links to quckly choose
 the CDLC files to repair (aka Bulk Repair).</value>
-  </data>
-  <data name="tsmiFilesDisableEnable.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAkJJREFUOE9j/P//
-        PwMMGJfPZGBkZARxVaCYDygPEvgEpG//+/fvDhAzXOrLgethABkAw0ZlMxiBhphHT1ybceDqwzVP3n07
-        cvXxx70bTt1eGtKzMku/eKqlbuFkRmQ96AaoATVnffz26+bLDz+uPHz99fSRG292rT35ZNvNp59Ohfas
-        yNMpmKSB0wCDkml+J2493fj644/rT99+O/v4zbczJ26/3bvo4IN1W88927Hv8sP1WnkTQnAaoFc0Jf7N
-        5x9XgBrBmm89/3xs96UX2+bvv792/amnm4Bip9Sze9NwGgB0XgLQ2SBb94Fs3n3p5bbFhx6uX3zw4bpd
-        F19se/zm63GVjK4MnAYAnee35OCVhXsvvzoIcjbIZpDmzWefbb744MORNceuLFdMbQ/FaQDQebLWlTNy
-        rj95f3zj6adb1518uhFo89bTd97tffj682nT4oklckktCvgMYAA60Saqd3ndw9ffLp2683bP+fvv9z17
-        //1KWOfiFun4RkfZxGaUmEPhKKS0MQAxM9CW2BWHL62++ezT8RtPPx1ddvDCGomYuiQgZgZi3AYAbWCA
-        Yq2Y3mWND15/vXj/1dcLUV2LW8SianREI6sZQBinF8SjaxmgmEsxqan60Ztvl4Gxckk+vqFOOLySG4gZ
-        QBinAWYRmQwwrKurm7Zly5b//f39/5mZmWdwatswwDBOA0JDQxlgGGTA3bt3/q9btwtsACL3MOB2AboB
-        J0+e+D9//lLyDNDW1hYDZu2dQHwZaLssLhcAANOsUruQGin5AAAAAElFTkSuQmCC
-</value>
-  </data>
-  <data name="tsmiFilesDelete.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALEwAA
-        CxMBAJqcGAAAA1tJREFUOE9j/P//P8Pnz58Zvn37wQACbGxsSvz8fBYvXrxWu337oSArG+sfWRnJj7Ky
-        4neePXt14t79R/d4edgZ5OVlGAQEBBkYQAZ8+vSJ4fWbtwx37z5QP3r0RO2lS5dXbN++Y09n58T9rW19
-        W5csWb3vxo1bm+7de1R/7Ng59UuXrjC8f/8OrBdM/Pv3j+Hhw8f+vr6BF4WEhJcLCAjUsLGzZwJdk8HB
-        wZ4BpAv5+fkbtbV1FwYGhh08ceK07/fv3xEGlFdUM+TkFExmYWGZysTMlMPFxVnEy8uXz8fHl8rHz58J
-        pPN4eXnLgfK1jIyME6qq6ttmzVqIMICVlZ1BWVktMS+v+FpwcMhUTU3NHBER0VSgplRubu4YYWHhDGVl
-        lUo7O/v5Pr6Bt2Ljk/PCIqIRBtjZ2zMYGBqa6hsYXq+pqd/f3T1pR3vHhKO1tW3Hampbj8ydt/DYwkWL
-        L/j5B+8XE5c45uPv75Gdl48wIDwyisHPP0BDSlr6EdDJq/gFBCaLi0v0ysrJ94OwmLh4N1C8R1hEeIGM
-        rOzlsIhIs7SMTIQBkdHRDCFhYcJy8vLbJaWkNklISs4Wl5CYBtQ4UVRMrAtITxCXkJwCFF8ur6h4JDoh
-        STYlKxthQGBwCENEVDSruobmaglJqR1AhdOBTu0EuqIbaBDYBUB6MlB8s7qGxjag7TzJqWkIA5iZmRmE
-        hIQY5BUUFwNdcBCoYYGQsNB0YHROFhAUmCAkLDwRKDZbQkJyi7Kq6iZ5BQUGTk5OhAHABMgISoRAv88A
-        hsMFoFd2GxqZnHJ0cjtra+d4XkdX7yxQfIeUlPQxoKFLgGo5QHrgCQnI4QViIS4url6gLd8lpaT/e3oF
-        /i8srv8fl5D139rG4b+MjNx/oPe+AqN1BlCtMEgPsgFcIANkZOVm8fML/heXkPlvZe303z8w6r+vX8R/
-        W3v3/wqKav+FhUX/K6uozgeqBWYCBi5kA0D5iEleQamuprbpv7dPANAAx/+OTl5A213+m1vaA9nu/1PT
-        sv87Obm2gNSCNKAbABITnzx5xoGr1+7+z8uv/F9cUv9/2/a9///8+ft/ypQ5//X0TY4A84UUONviMAAs
-        IS+vaK2lpVdua+s0LSsrZ3p2dnaFvLyCDUwjsgEA5ndtyrezF80AAAAASUVORK5CYII=
-</value>
   </data>
   <data name="tsmiFiles.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -563,24 +544,6 @@ the CDLC files to repair (aka Bulk Repair).</value>
         dATpBFJs4V1ORVUWd638EVeemxAW9Q+PJHKtAgrQ1gAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="tsmiRepairsUsingOrg.ToolTipText" xml:space="preserve">
-    <value>Developers do not recommend use of this option.
-
-If selected, only files from the (org) folder
-are used for the selected repair options.
-This option may not be combined with
-the "Process 'downloads' Folder" button</value>
-  </data>
-  <data name="tsmiProcessDLFolder.ToolTipText" xml:space="preserve">
-    <value>Process new CDLC from 'Downloads' 
-folder and move them to 'dlc' folder.  
-
-If selected, only files in the 'Downloads'
-folder are processed/repaired.
-
-The 'Downloads' folder location may
-be reset from the 'Settings' tab menu.</value>
-  </data>
   <data name="tsmiModsChangeAppId.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
@@ -610,6 +573,43 @@ be reset from the 'Settings' tab menu.</value>
         RjKZPMLCuaBUKh0gMGEYRjoQCBQ5qemLjPMtKK1WK51KpQ6xeEoURbnWNG0b9/wEfclJTV9ker+DQTys
         1Uwms4dAFvC2uPmkqzmp6XM921vAj8oPlnO53A5eq+6FWwFL+C8sAg1s9oHro24/Ez2pW8Syfkh/Ffzb
         /wUk6+TrspQ9MgAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="tsmiFilesDisableEnable.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAkJJREFUOE9j/P//
+        PwMMGJfPZGBkZARxVaCYDygPEvgEpG//+/fvDhAzXOrLgethABkAw0ZlMxiBhphHT1ybceDqwzVP3n07
+        cvXxx70bTt1eGtKzMku/eKqlbuFkRmQ96AaoATVnffz26+bLDz+uPHz99fSRG292rT35ZNvNp59Ohfas
+        yNMpmKSB0wCDkml+J2493fj644/rT99+O/v4zbczJ26/3bvo4IN1W88927Hv8sP1WnkTQnAaoFc0Jf7N
+        5x9XgBrBmm89/3xs96UX2+bvv792/amnm4Bip9Sze9NwGgB0XgLQ2SBb94Fs3n3p5bbFhx6uX3zw4bpd
+        F19se/zm63GVjK4MnAYAnee35OCVhXsvvzoIcjbIZpDmzWefbb744MORNceuLFdMbQ/FaQDQebLWlTNy
+        rj95f3zj6adb1518uhFo89bTd97tffj682nT4oklckktCvgMYAA60Saqd3ndw9ffLp2683bP+fvv9z17
+        //1KWOfiFun4RkfZxGaUmEPhKKS0MQAxM9CW2BWHL62++ezT8RtPPx1ddvDCGomYuiQgZgZi3AYAbWCA
+        Yq2Y3mWND15/vXj/1dcLUV2LW8SianREI6sZQBinF8SjaxmgmEsxqan60Ztvl4Gxckk+vqFOOLySG4gZ
+        QBinAWYRmQwwrKurm7Zly5b//f39/5mZmWdwatswwDBOA0JDQxlgGGTA3bt3/q9btwtsACL3MOB2AboB
+        J0+e+D9//lLyDNDW1hYDZu2dQHwZaLssLhcAANOsUruQGin5AAAAAElFTkSuQmCC
+</value>
+  </data>
+  <data name="tsmiFilesDelete.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALEwAA
+        CxMBAJqcGAAAA1tJREFUOE9j/P//P8Pnz58Zvn37wQACbGxsSvz8fBYvXrxWu337oSArG+sfWRnJj7Ky
+        4neePXt14t79R/d4edgZ5OVlGAQEBBkYQAZ8+vSJ4fWbtwx37z5QP3r0RO2lS5dXbN++Y09n58T9rW19
+        W5csWb3vxo1bm+7de1R/7Ng59UuXrjC8f/8OrBdM/Pv3j+Hhw8f+vr6BF4WEhJcLCAjUsLGzZwJdk8HB
+        wZ4BpAv5+fkbtbV1FwYGhh08ceK07/fv3xEGlFdUM+TkFExmYWGZysTMlMPFxVnEy8uXz8fHl8rHz58J
+        pPN4eXnLgfK1jIyME6qq6ttmzVqIMICVlZ1BWVktMS+v+FpwcMhUTU3NHBER0VSgplRubu4YYWHhDGVl
+        lUo7O/v5Pr6Bt2Ljk/PCIqIRBtjZ2zMYGBqa6hsYXq+pqd/f3T1pR3vHhKO1tW3Hampbj8ydt/DYwkWL
+        L/j5B+8XE5c45uPv75Gdl48wIDwyisHPP0BDSlr6EdDJq/gFBCaLi0v0ysrJ94OwmLh4N1C8R1hEeIGM
+        rOzlsIhIs7SMTIQBkdHRDCFhYcJy8vLbJaWkNklISs4Wl5CYBtQ4UVRMrAtITxCXkJwCFF8ur6h4JDoh
+        STYlKxthQGBwCENEVDSruobmaglJqR1AhdOBTu0EuqIbaBDYBUB6MlB8s7qGxjag7TzJqWkIA5iZmRmE
+        hIQY5BUUFwNdcBCoYYGQsNB0YHROFhAUmCAkLDwRKDZbQkJyi7Kq6iZ5BQUGTk5OhAHABMgISoRAv88A
+        hsMFoFd2GxqZnHJ0cjtra+d4XkdX7yxQfIeUlPQxoKFLgGo5QHrgCQnI4QViIS4url6gLd8lpaT/e3oF
+        /i8srv8fl5D139rG4b+MjNx/oPe+AqN1BlCtMEgPsgFcIANkZOVm8fML/heXkPlvZe303z8w6r+vX8R/
+        W3v3/wqKav+FhUX/K6uozgeqBWYCBi5kA0D5iEleQamuprbpv7dPANAAx/+OTl5A213+m1vaA9nu/1PT
+        sv87Obm2gNSCNKAbABITnzx5xoGr1+7+z8uv/F9cUv9/2/a9///8+ft/ypQ5//X0TY4A84UUONviMAAs
+        IS+vaK2lpVdua+s0LSsrZ3p2dnaFvLyCDUwjsgEA5ndtyrezF80AAAAASUVORK5CYII=
 </value>
   </data>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">

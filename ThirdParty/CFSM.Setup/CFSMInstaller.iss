@@ -159,6 +159,8 @@ end;
 function OldVersionInstalled:Boolean;
 begin
    result := RegKeyExists(HKEY_CURRENT_USER, 'Software\Microsoft\Windows\CurrentVersion\Uninstall\73e8aceb7ff35be2');
+   //ignore this check
+   result := false;
 end;
 
 

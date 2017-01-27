@@ -166,7 +166,7 @@ namespace CustomsForgeSongManager.UControls
 
         public void UpdateToolStrip()
         {
-            if (Globals.RescanSongManager || Globals.WorkerFinished == Globals.Tristate.Cancelled)
+            if (Globals.WorkerFinished == Globals.Tristate.Cancelled)
             {
                 MessageBox.Show(string.Format(Properties.Resources.Renamer_SongsNeedToBeRescanned, Environment.NewLine), Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;

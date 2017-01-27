@@ -154,7 +154,7 @@ namespace CustomsForgeSongManager.LocalTools
                 if (!File.Exists(destFilePath))
                 {
                     GenExtensions.CopyFile(srcFilePath, destFilePath, false);
-                    Globals.Log(" - Sucessfully created backup"); // a good thing
+                    Globals.Log(" - Successfully created backup"); // a good thing
                 }
                 else
                     Globals.Log(" - Backup already exists"); // also a good thing
@@ -197,7 +197,7 @@ namespace CustomsForgeSongManager.LocalTools
                     else if (!File.Exists(destFilePath))
                     {
                         GenExtensions.CopyFile(srcFilePath, destFilePath, false);
-                        Globals.Log(" - Sucessfully created backup"); // a good thing
+                        Globals.Log(" - Successfully created backup"); // a good thing
                     }
                     else
                     {
@@ -275,7 +275,7 @@ namespace CustomsForgeSongManager.LocalTools
 
                 // copy but don't delete (.org)
                 GenExtensions.CopyFile(srcFilePath, dlcFilePath, true, false);
-                Globals.Log(" - Sucessfully restored backup");
+                Globals.Log(" - Successfully restored backup");
                 return dlcFilePath;
             }
             catch (Exception ex)
@@ -341,7 +341,7 @@ namespace CustomsForgeSongManager.LocalTools
 
                     // copy but don't delete bakExt
                     GenExtensions.CopyFile(bakFilePath, dlcFilePath, true, false);
-                    Globals.Log("Sucessfully Restored: " + Path.GetFileName(dlcFilePath));
+                    Globals.Log("Successfully Restored: " + Path.GetFileName(dlcFilePath));
                 }
                 catch (IOException ex)
                 {

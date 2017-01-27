@@ -195,7 +195,7 @@ namespace CustomsForgeSongManager.LocalTools
                             }
                         }
 
-                        Globals.Log(" - Pitch shifting was sucessful");
+                        Globals.Log(" - Pitch shifting was successful");
                     }
                 }
                 catch (Exception ex)
