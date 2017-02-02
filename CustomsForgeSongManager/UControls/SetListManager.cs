@@ -1388,7 +1388,7 @@ namespace CustomsForgeSongManager.UControls
         private void lnkSetlistMgrHelp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Assembly assembly = Assembly.GetExecutingAssembly();
-            Stream stream = assembly.GetManifestResourceStream("CustomsSongForgeManager.Resources.HelpSetlistMgr.txt");
+            Stream stream = assembly.GetManifestResourceStream("CustomsForgeSongManager.Resources.HelpSetlistMgr.txt");
             using (StreamReader reader = new StreamReader(stream))
             {
                 var helpSetlistManager = reader.ReadToEnd();
