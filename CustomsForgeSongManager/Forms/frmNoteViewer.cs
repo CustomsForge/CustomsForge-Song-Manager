@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Drawing;
+using System.IO;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace CustomsForgeSongManager.Forms
@@ -13,14 +16,29 @@ namespace CustomsForgeSongManager.Forms
         public void PopulateText(string notes2View, bool wordWrap = true)
         {
             if (String.IsNullOrEmpty(notes2View))
-                rtbNotes.Text = @"Could not find any notes to view";
+                rtbText.Text = @"Could not find any notes to view";
             else
-                rtbNotes.Text = notes2View;
-            rtbNotes.WordWrap = wordWrap;
-            rtbNotes.Select(0, 0);
+                rtbText.Text = notes2View;
+
+            rtbText.WordWrap = wordWrap;
+            rtbText.Select(0, 0);
         }
 
-        public void RemoveButtonHandler()
+        private void PopulateRichText(Stream streamRtfNotes = null)
+        {
+            if (streamRtfNotes == null)
+            {
+                this.Size = new Size(550, 200);
+                rtbText.Text = "Additional help will be displayed here when available.";
+            }
+            else
+            {
+                this.Size = new Size(800, 640);
+                rtbText.LoadFile(streamRtfNotes, RichTextBoxStreamType.RichText);
+            }
+        }
+
+        private void RemoveButtonHandler()
         {
             btnCopyToClipboard.Click -= btnCopyToClipboard_Click;
         }
@@ -29,10 +47,60 @@ namespace CustomsForgeSongManager.Forms
         {
             Clipboard.Clear();
 
-            if (rtbNotes.SelectionLength > 0)
-                Clipboard.SetText(rtbNotes.SelectedText, TextDataFormat.Text);
+            if (rtbText.SelectionLength > 0)
+                Clipboard.SetText(rtbText.SelectedText, TextDataFormat.Text);
             else
-                Clipboard.SetText(rtbNotes.Text, TextDataFormat.Text);
+                Clipboard.SetText(rtbText.Text, TextDataFormat.Text);
         }
+
+
+        public static void ViewResourcesFile(string resourceHelpPath = "CustomsForgeSongManager.Resources.HelpGeneral.txt", string windowText = "Default")
+        {
+            using (var noteViewer = new frmNoteViewer())
+            {
+                noteViewer.Text = String.Format("{0} . . . {1}", noteViewer.Text, windowText);
+                Assembly assembly = Assembly.GetExecutingAssembly();
+
+                using (Stream stream = assembly.GetManifestResourceStream(resourceHelpPath))
+                {
+                    if (resourceHelpPath.EndsWith(".rtf")) // view rtf notes
+                    {
+                        noteViewer.PopulateRichText(stream);
+                    }
+                    else // view simple text notes
+                    {
+                        using (StreamReader reader = new StreamReader(stream))
+                        {
+                            var helpGeneral = reader.ReadToEnd();
+                            noteViewer.PopulateText(helpGeneral);
+                        }
+                    }
+
+                    noteViewer.ShowDialog();
+                }
+            }
+        }
+
+        public static void ViewExternalFile(string filePath, string windowText = "")
+        {
+            using (var noteViewer = new frmNoteViewer())
+            {
+                noteViewer.Text = String.Format("{0} . . . {1}", noteViewer.Text, windowText);
+
+                if (filePath.EndsWith(".rtf")) // view rtf file
+                {
+                    using (Stream stream = File.OpenRead(filePath))
+                        noteViewer.PopulateRichText(stream);
+                }
+                else // view simple text file
+                    noteViewer.PopulateText(File.ReadAllText(filePath));
+
+                noteViewer.ShowDialog();
+            }
+        }
+
+
+
+
     }
 }

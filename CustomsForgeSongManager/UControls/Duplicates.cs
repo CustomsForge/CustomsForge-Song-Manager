@@ -52,7 +52,7 @@ namespace CustomsForgeSongManager.UControls
 
             if (Globals.WorkerFinished == Globals.Tristate.Cancelled)
             {
-                MessageBox.Show(Properties.Resources.DuplicatesNeedToBeRescanned, Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Duplicates needs to be rescanned.", Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 

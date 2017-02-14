@@ -59,19 +59,7 @@ namespace CustomsForgeSongManager.UControls
 
         private void lnkHelp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Assembly assembly = Assembly.GetExecutingAssembly();
-            Stream stream = assembly.GetManifestResourceStream("CustomsForgeSongManager.Resources.HelpGeneral.txt");
-            using (StreamReader reader = new StreamReader(stream))
-            {
-                var helpGeneral = reader.ReadToEnd();
-
-                using (var noteViewer = new frmNoteViewer())
-                {
-                    noteViewer.Text = String.Format("{0} . . . {1}", noteViewer.Text, "General Help");
-                    noteViewer.PopulateText(helpGeneral);
-                    noteViewer.ShowDialog();
-                }
-            }
+            frmNoteViewer.ViewResourcesFile("CustomsForgeSongManager.Resources.HelpGeneral.txt", "General Help");
         }
 
         private void lnkHomePage_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -86,13 +74,7 @@ namespace CustomsForgeSongManager.UControls
 
         private void lnkReleaseNotes_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            // ensures proper disposal of objects and variables
-            using (var noteViewer = new frmNoteViewer())
-            {
-                noteViewer.Text = String.Format("{0} . . . {1}", noteViewer.Text, "About");
-                noteViewer.PopulateText(File.ReadAllText("ReleaseNotes.txt"));
-                noteViewer.ShowDialog();
-            }
+            frmNoteViewer.ViewExternalFile("ReleaseNotes.txt", "Release Notes");
         }
 
         private void lnkRequests_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

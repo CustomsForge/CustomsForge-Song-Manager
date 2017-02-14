@@ -13,6 +13,7 @@ using CustomsForgeSongManager.DataObjects;
 using CustomsForgeSongManager.LocalTools;
 using Newtonsoft.Json;
 
+// TODO: localize all messages that are single usage
 namespace CustomsForgeSongManager.UControls
 {
     public partial class Renamer : UserControl
@@ -55,15 +56,18 @@ namespace CustomsForgeSongManager.UControls
             SongData sd = null;
             List<SongData> List = renSongCollection.Count > 0 ? renSongCollection : Globals.SongCollection.ToList();
             if (List.Count == 0)
-                Globals.Log(Properties.Resources.NoSongsFoundForRenamePreview);
+                Globals.Log("No songs found for rename preview.");
             int x = Globals.random.Next(List.Count() - 1);
             sd = List[x];
             if (sd != null)
-                Globals.Log(string.Format(Properties.Resources.RenamerPreviewX0, GetNewSongName(sd)));
+                Globals.Log(String.Format("Renamer preview : {0}", GetNewSongName(sd)));
         }
 
         private void btnPreview_Click(object sender, EventArgs e)
         {
+            if (!ValidateInput())
+                return;
+
             AppSettings.Instance.ShowLogWindow = true;
             ShowRenamePreview();
         }
@@ -83,17 +87,20 @@ namespace CustomsForgeSongManager.UControls
             template.Add("dd", data.DD > 0 ? "DD" : "");
             template.Add("ddlvl", data.DD);
             template.Add("year", data.SongYear);
-            template.Add("version", data.Version == null ? "" : data.Version);
+            var pkgVersion = data.Version;
+            if (pkgVersion == "N/A") pkgVersion = "0";
+            if (String.IsNullOrEmpty(pkgVersion)) pkgVersion = "1";
+            template.Add("version", String.Format("v{0}", pkgVersion));
             template.Add("author", String.IsNullOrEmpty(data.CharterName) ? "Unknown" : data.CharterName.Replace('\\', '_'));
             template.Add("arrangements", data.ArrangementInitials);
+            template.Add("_", "_");
 
             // CAREFUL - lots to go wrong in this simple method :(
             // there could be setlist directories or user added directory(s)
             // beethoven_p.psarc is a good song to use for testing
             var oldFilePath = data.FilePath;
             var newFileName = template.Render();
-
-            var newPath = Path.Combine(AppSettings.Instance.RSInstalledDir, "dlc");
+            var dlcDir = Constants.Rs2DlcFolder;
 
             // renamed files could be enabled or disabled
             if (Path.GetFileName(oldFilePath).ToLower().Contains("disabled"))
@@ -107,13 +114,13 @@ namespace CustomsForgeSongManager.UControls
             if (parts.Any())
             {
                 for (int i = 0; i < parts.Count() - 1; i++)
-                    newPath = Path.Combine(newPath, parts[i]);
+                    dlcDir = Path.Combine(dlcDir, parts[i]);
 
                 newFileName = parts[parts.Count() - 1];
             }
 
             // file name, path and file path length validations
-            newPath = String.Join("", newPath.Split(Path.GetInvalidPathChars()));
+            dlcDir = String.Join("", dlcDir.Split(Path.GetInvalidPathChars()));
             newFileName = String.Join("", newFileName.Split(Path.GetInvalidFileNameChars()));
             newFileName = newFileName.Replace("__", "_");
 
@@ -121,7 +128,7 @@ namespace CustomsForgeSongManager.UControls
                 newFileName = newFileName.Replace(" ", "");
 
             // test file path length is valid
-            var newFilePath = Path.Combine(newPath, newFileName);
+            var newFilePath = Path.Combine(dlcDir, newFileName);
 
             if (!newFilePath.IsFilePathValid())
             {
@@ -147,19 +154,20 @@ namespace CustomsForgeSongManager.UControls
                 try
                 {
                     File.Move(oldFilePath, newFilePath);
-                    Globals.Log(string.Format(Properties.Resources.Renamer_RenamingFrom, oldFilePath));
+                    Globals.Log(String.Format("Renaming From: {0}", oldFilePath));
                     Globals.Log("To: " + newFilePath);
                     data.FilePath = newFilePath;
+
                     if (chkDeleteEmptyDir.Checked)
-                        new DirectoryInfo(Path.Combine(AppSettings.Instance.RSInstalledDir, "dlc")).DeleteEmptyDirs();
+                        new DirectoryInfo(Constants.Rs2DlcFolder).DeleteEmptyDirs();
                 }
                 catch (Exception e)
                 {
-                    //todo: Localize this
                     if (e.Message.ToLower().Contains("cannot create a file"))
-                        Globals.Log(string.Format(Properties.Resources.Renamer_UseDuplicatesToDeleteMove, Path.GetFileName(newFilePath)));
+                        Globals.Log("Use the Duplicates tabmenu to delete/move" + Environment.NewLine +
+                            Path.GetFileName(newFilePath) + "duplicates before attempting to use Renamer.");
 
-                    Globals.Log(string.Format("{0}: {1}", Properties.Resources.ERROR, e.Message));
+                    Globals.Log(String.Format("<ERROR>: {0}", e.Message));
                 }
             }
         }
@@ -168,17 +176,21 @@ namespace CustomsForgeSongManager.UControls
         {
             if (Globals.WorkerFinished == Globals.Tristate.Cancelled)
             {
-                MessageBox.Show(string.Format(Properties.Resources.Renamer_SongsNeedToBeRescanned, Environment.NewLine), Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Please rescan the song collection" + Environment.NewLine + "using Song Manager tab first.", Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             Globals.TsLabel_MainMsg.Text = string.Format(Properties.Resources.RocksmithSongsCountFormat, Globals.SongCollection.Count);
             Globals.TsLabel_MainMsg.Visible = true;
             var selectedDLC = Globals.SongCollection.Where(song => song.Selected).ToList().Count();
-            var tsldcMsg = String.Format(Properties.Resources.SelectedSongsInSongManagerCountX0, selectedDLC);
+            var tsldcMsg = String.Format("Selected Songs in SongManager Count: {0}", selectedDLC);
             Globals.TsLabel_DisabledCounter.Alignment = ToolStripItemAlignment.Right;
             Globals.TsLabel_DisabledCounter.Text = tsldcMsg;
             Globals.TsLabel_DisabledCounter.Visible = true;
+
+            // move caret to textbox
+            txtRenameTemplate.Focus();
+            txtRenameTemplate.Select(txtRenameTemplate.Text.Length, 0);
         }
 
         private void BackgroundRenamer()
@@ -207,19 +219,24 @@ namespace CustomsForgeSongManager.UControls
         {
             if (!txtRenameTemplate.Text.Contains("<title>"))
             {
-                MessageBox.Show(Properties.Resources.RenameTemplateRequiresTitleToPrevent);
+                MessageBox.Show("The template must contain at least" + Environment.NewLine + "<title> to prevent renamining errors.", Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
 
-            if (renSongCollection == null || renSongCollection.Count == 0)
-            {
-                MessageBox.Show(Properties.Resources.PleaseScanInAtLeastOneSong);
-                return false;
-            }
+            renSongCollection = new List<SongData>(Globals.SongCollection);
+            // do not rename RS1 compatiblity files
+            renSongCollection.RemoveAll(x => x.FileName.Contains(Constants.RS1COMP));
 
-            if (Globals.RescanSongManager || Globals.WorkerFinished == Globals.Tristate.Cancelled)
+            // do not rename any disabled songs
+            renSongCollection.RemoveAll(x => x.Enabled.Contains("No"));
+
+            // rename only user selected songs
+            if (chkRenameOnlySelected.Checked)
+                renSongCollection.RemoveAll(x => x.Selected == false);
+
+            if (renSongCollection == null || renSongCollection.Count == 0 || Globals.WorkerFinished == Globals.Tristate.Cancelled)
             {
-                MessageBox.Show(string.Format(Properties.Resources.SongsNeedToBeRescannedWithX0SongManagerBef, Environment.NewLine), Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Please rescan the song collection" + Environment.NewLine + "using Song Manager tab first.", Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
 
@@ -227,7 +244,7 @@ namespace CustomsForgeSongManager.UControls
             var dups = renSongCollection.GroupBy(x => new { Song = x.Title, x.Album, x.Artist }).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
             if (dups.Any())
             {
-                MessageBox.Show(string.Format(Properties.Resources.UseTheDuplicatesTabmenuToDeleteMoveX0Dupli, Environment.NewLine), Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Please remove duplicate songs" + Environment.NewLine + "using the Duplicates tab first.", Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
 
@@ -244,17 +261,6 @@ namespace CustomsForgeSongManager.UControls
             if (MessageBox.Show("Rename all files?", "Comfirmation", MessageBoxButtons.YesNo) == DialogResult.No)
                 return;
 
-            renSongCollection = new List<SongData>(Globals.SongCollection);
-            // do not rename RS1 compatiblity files
-            renSongCollection.RemoveAll(x => x.FileName.Contains(Constants.RS1COMP));
-
-            // do not rename any disabled songs
-            renSongCollection.RemoveAll(x => x.Enabled.Contains("No"));
-
-            // rename only user selected songs
-            if (chkRenameOnlySelected.Checked)
-                renSongCollection.RemoveAll(x => x.Selected == false);
-
             if (!ValidateInput())
                 return;
 
@@ -268,19 +274,18 @@ namespace CustomsForgeSongManager.UControls
 
             if (e.RowIndex != -1)
             {
-                string s = txtRenameTemplate.Text;
-                if (txtRenameTemplate.SelectionLength > 0)
-                    s = s.Remove(txtRenameTemplate.SelectionStart, txtRenameTemplate.SelectionLength);
-                //insert at selection start
-                txtRenameTemplate.Text = s.Insert(txtRenameTemplate.SelectionStart, String.Format("<{0}>", grid.Rows[e.RowIndex].Cells["Key"].Value));
+                var selStart = txtRenameTemplate.SelectionStart;
+                var newProp = String.Format("<{0}>", grid.Rows[e.RowIndex].Cells["Key"].Value);
+                newProp = newProp.Replace("<_>", "_");
+                
+                if (selStart != txtRenameTemplate.Text.Length)
+                    txtRenameTemplate.Text = txtRenameTemplate.Text.Insert(selStart, newProp);
+                else
+                    txtRenameTemplate.Text += newProp;
 
-                //if (String.IsNullOrEmpty(txtRenameTemplate.Text))
-                //    txtRenameTemplate.Text = String.Format("<{0}>", grid.Rows[e.RowIndex].Cells["Key"].Value);
-                //else
-                //    if (txtRenameTemplate.Text.Substring(txtRenameTemplate.Text.Length - 2) == @"\\")
-                //        txtRenameTemplate.Text = String.Format("{0}<{1}>", txtRenameTemplate.Text, grid.Rows[e.RowIndex].Cells["Key"].Value);
-                //    else
-                //        txtRenameTemplate.Text = String.Format("{0}_<{1}>", txtRenameTemplate.Text, grid.Rows[e.RowIndex].Cells["Key"].Value);
+                // move to the end of new property addition
+                txtRenameTemplate.Select(selStart + newProp.Length, 0);
+                txtRenameTemplate.Focus();
             }
         }
 

@@ -34,7 +34,7 @@ namespace CustomsForgeSongManager.DataObjects
 
         public static readonly string RS1COMP = "rs1compatibility";
         public static readonly string SONGPACK = "songpack";
-        public static readonly string ABVSONGPACK = "_sp_";
+        public static readonly string ABVSONGPACK = "_sp_"; // what is this?
         public static readonly string ApplicationName = "CustomsForge Song Manager";
 
         public static Font OfficialDLCFont { get { return new Font("Arial", 8, FontStyle.Bold | FontStyle.Italic); } }

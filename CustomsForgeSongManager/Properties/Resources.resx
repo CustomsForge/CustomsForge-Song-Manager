@@ -117,10 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="SongsNeedToBeRescannedWithX0SongManagerBef" xml:space="preserve">
-    <value>Songs need to be rescanned with  {0}Song Manager before renaming!</value>
-    <comment>SongsNeedToBeRescannedWithX0SongManagerBef description</comment>
-  </data>
   <data name="ERROR" xml:space="preserve">
     <value>&lt;Error&gt;</value>
     <comment>ERROR</comment>
@@ -189,31 +185,15 @@ any form of the word 'disabled'</value>
   <data name="_151" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\151.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="DuplicatesNeedToBeRescanned" xml:space="preserve">
-    <value>Duplicates need to be rescanned!</value>
-    <comment>DuplicatesNeedToBeRescanned description</comment>
-  </data>
   <data name="cozy1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\cozy1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ap_stop" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\media_stop_red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="NoSongsFoundForRenamePreview" xml:space="preserve">
-    <value>No songs found for rename preview.</value>
-    <comment>NoSongsFoundForRenamePreview description</comment>
-  </data>
-  <data name="RawSongsCountX0" xml:space="preserve">
-    <value>Raw songs count: {0}</value>
-    <comment>RawSongsCountX0 description</comment>
-  </data>
   <data name="RocksmithSongsCountFormat" xml:space="preserve">
     <value>Rocksmith Song Count: {0}</value>
     <comment>RocksmithSongsCountFormat description</comment>
-  </data>
-  <data name="UseTheDuplicatesTabmenuToDeleteMoveX0Dupli" xml:space="preserve">
-    <value>Use the Duplicates tabmenu to delete/move{0}duplicates before attempting to use Renamer.</value>
-    <comment>UseTheDuplicatesTabmenuToDeleteMoveX0Dupli description</comment>
   </data>
   <data name="PleaseSelectTheCheckboxNextToSongsNthatYou" xml:space="preserve">
     <value>Please select the checkbox next to songs 
@@ -222,10 +202,6 @@ that you would like to delete or move.</value>
   </data>
   <data name="Rocksmith_2014_Background_Guitar" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Rocksmith_2014_Background_Guitar.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Renamer_UseDuplicatesToDeleteMove" xml:space="preserve">
-    <value>Use Duplicates to delete/move '{0}' before using Renamer.</value>
-    <comment>Renamer_UseDuplicatesToDeleteMove description</comment>
   </data>
   <data name="DoYouReallyWantToRemoveThisCDLCX0Warning" xml:space="preserve">
     <value>Do you really want to remove this CDLC?  {0}Warning:  This cannot be undone!</value>
@@ -253,10 +229,6 @@ that you would like to delete or move.</value>
     <value>This song is included in a setlist.
 Please use Setlist Songs to enable/disable setlist songs.</value>
     <comment>ThisSongIsIncludedInASetlist description</comment>
-  </data>
-  <data name="Renamer_RenamingFrom" xml:space="preserve">
-    <value>Renaming From: {0}</value>
-    <comment>Renamer_RenamingFrom description</comment>
   </data>
   <data name="backup" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\backup.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -317,10 +289,6 @@ Please use Setlist Songs to enable/disable setlist songs.</value>
   <data name="Open" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Open.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="SelectedSongsInSongManagerCountX0" xml:space="preserve">
-    <value>Selected Songs in SongManager Count: {0}</value>
-    <comment>SelectedSongsInSongManagerCountX0 description</comment>
-  </data>
   <data name="EOF201" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\EOF20.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -371,10 +339,6 @@ Warning:  This can not be undone!</value>
   </data>
   <data name="disable" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\disable.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Renamer_SongsNeedToBeRescanned" xml:space="preserve">
-    <value>Songs need to be rescanned with  {0}Song Manager before renaming!</value>
-    <comment>Renamer_SongsNeedToBeRescanned description</comment>
   </data>
   <data name="RocksmithToolkitGUI_32512" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RocksmithToolkitGUI_32512.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

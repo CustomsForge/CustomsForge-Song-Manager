@@ -71,7 +71,7 @@ namespace CustomsForgeSongManager.UControls
             dgvSetlists.MultiSelect = true;
             dgvSongPacks.MultiSelect = false;
 
-            dlcDir = Path.Combine(AppSettings.Instance.RSInstalledDir, "dlc");
+            dlcDir = Constants.Rs2DlcFolder;
             cdlcDir = Path.Combine(dlcDir, "CDLC").ToLower();
             if (!LoadSetlistMaster())
                 return;
@@ -1387,19 +1387,7 @@ namespace CustomsForgeSongManager.UControls
 
         private void lnkSetlistMgrHelp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Assembly assembly = Assembly.GetExecutingAssembly();
-            Stream stream = assembly.GetManifestResourceStream("CustomsForgeSongManager.Resources.HelpSetlistMgr.txt");
-            using (StreamReader reader = new StreamReader(stream))
-            {
-                var helpSetlistManager = reader.ReadToEnd();
-
-                using (var noteViewer = new frmNoteViewer())
-                {
-                    noteViewer.Text = String.Format("{0} . . . {1}", noteViewer.Text, "Setlist Manager Help");
-                    noteViewer.PopulateText(helpSetlistManager);
-                    noteViewer.ShowDialog();
-                }
-            }
+            frmNoteViewer.ViewResourcesFile("CustomsForgeSongManager.Resources.HelpSetlistMgr.txt", "Setlist Manager Help");
         }
 
         private void lnkShowAll_Click(object sender, EventArgs e)

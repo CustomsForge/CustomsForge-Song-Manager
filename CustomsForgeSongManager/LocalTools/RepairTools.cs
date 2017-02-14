@@ -437,23 +437,6 @@ namespace CustomsForgeSongManager.LocalTools
             return sbErrors;
         }
 
-        public static void ShowNoteViewer(string resourceHelpPath = "CustomsForgeSongManager.Resources.HelpGeneral.txt", string windowText = "Default")
-        {
-            Assembly assembly = Assembly.GetExecutingAssembly();
-            Stream stream = assembly.GetManifestResourceStream(resourceHelpPath);
-            using (StreamReader reader = new StreamReader(stream))
-            {
-                var helpGeneral = reader.ReadToEnd();
-
-                using (var noteViewer = new frmNoteViewer())
-                {
-                    noteViewer.Text = String.Format("{0} . . . {1}", noteViewer.Text, windowText);
-                    noteViewer.PopulateText(helpGeneral);
-                    noteViewer.ShowDialog();
-                }
-            }
-        }
-
         public static void ViewErrorLog()
         {
             string stringLog;

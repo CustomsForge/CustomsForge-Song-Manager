@@ -106,7 +106,7 @@ namespace CustomsForgeSongManager.LocalTools
         private void WorkerParseSongs(object sender, DoWorkEventArgs e)
         {
             Globals.IsScanning = true;
-            List<string> fileList = FilesList(Path.Combine(AppSettings.Instance.RSInstalledDir, "dlc"), AppSettings.Instance.IncludeRS1DLCs);
+            List<string> fileList = FilesList(Constants.Rs2DlcFolder, AppSettings.Instance.IncludeRS1DLCs);
             fileList = fileList.Where(fi => !fi.ToLower().Contains(Constants.SONGPACK) &&
                 !fi.ToLower().Contains(Constants.ABVSONGPACK) &&
                 !fi.ToLower().Contains("inlay")) // ignore inlays

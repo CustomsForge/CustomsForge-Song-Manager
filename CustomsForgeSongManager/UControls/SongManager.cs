@@ -1688,12 +1688,12 @@ namespace CustomsForgeSongManager.UControls
 
         private void tsmiHelpGeneral_Click(object sender, EventArgs e)
         {
-            RepairTools.ShowNoteViewer("CustomsForgeSongManager.Resources.HelpSongMgr.txt", "Song Manager Help");
+            frmNoteViewer.ViewResourcesFile("CustomsForgeSongManager.Resources.HelpSongMgr.txt", "Song Manager Help");
         }
 
         private void tsmiHelpRepairs_Click(object sender, EventArgs e)
         {
-            RepairTools.ShowNoteViewer("CustomsForgeSongManager.Resources.HelpRepairs.txt", "Repairs Help");
+            frmNoteViewer.ViewResourcesFile("CustomsForgeSongManager.Resources.HelpRepairs.rtf", "Repairs Help");
         }
 
         private void tsmiModsChangeAppId_Click(object sender, EventArgs e)

@@ -1,4 +1,9 @@
 ﻿CFSM Release Notes
+
+1.3.0.3
+- improved Renamer template and property ordering
+- updated 'Repairs Help' instructions
+
 1.3.0.2
 -fixed the typo in Setlist Manager help link
 

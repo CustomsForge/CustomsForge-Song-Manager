@@ -314,9 +314,9 @@ namespace CustomsForgeSongManager.LocalTools
             var bakFilePaths = Directory.EnumerateFiles(backupFolder, "*" + backupExt + "*").ToList();
             // get contents of 'dlc' folder for comparison
             var dlcFilePaths = Directory.EnumerateFiles(Constants.Rs2DlcFolder, "*.psarc", SearchOption.AllDirectories)
-                .Where(fi => !fi.ToLower().Contains(Constants.RS1COMP) &&
-                             !fi.ToLower().Contains(Constants.SONGPACK) &&
-                             !fi.ToLower().Contains(Constants.ABVSONGPACK) &&
+                .Where(fi => !fi.ToLower().Contains(Constants.RS1COMP) && // ignore compatibility packs
+                             !fi.ToLower().Contains(Constants.SONGPACK) && // ignore songpacks
+                             !fi.ToLower().Contains(Constants.ABVSONGPACK) && // ignore _sp_
                              !fi.ToLower().Contains("inlay")) // ignore inlays
                 .ToList();
 

@@ -38,7 +38,6 @@
             this.lblInstructions = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.chkDeleteEmptyDir = new System.Windows.Forms.CheckBox();
-            this.slashLabel = new System.Windows.Forms.Label();
             this.renameTemplateLabel = new System.Windows.Forms.Label();
             this.txtRenameTemplate = new System.Windows.Forms.TextBox();
             this.btnRenameAll = new System.Windows.Forms.Button();
@@ -75,14 +74,15 @@
             // 
             this.lblWarning.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.lblWarning.AutoSize = true;
-            this.lblWarning.BackColor = System.Drawing.Color.Transparent;
-            this.lblWarning.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblWarning.BackColor = System.Drawing.Color.Khaki;
+            this.lblWarning.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblWarning.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblWarning.ForeColor = System.Drawing.Color.Red;
-            this.lblWarning.Location = new System.Drawing.Point(135, 308);
+            this.lblWarning.Location = new System.Drawing.Point(144, 319);
+            this.lblWarning.Margin = new System.Windows.Forms.Padding(3);
             this.lblWarning.Name = "lblWarning";
-            this.lblWarning.Padding = new System.Windows.Forms.Padding(10);
-            this.lblWarning.Size = new System.Drawing.Size(297, 97);
+            this.lblWarning.Padding = new System.Windows.Forms.Padding(5);
+            this.lblWarning.Size = new System.Drawing.Size(287, 87);
             this.lblWarning.TabIndex = 4;
             this.lblWarning.Text = "WARNING ... CFSM can ruin your \r\nCDLC collection if not used properly.\r\n\r\nPlease " +
                 "make a back up of your CDLC until\r\nyou get the hang of how Renamer works.";
@@ -106,7 +106,7 @@
             this.dgvRenamer.RowHeadersVisible = false;
             this.dgvRenamer.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dgvRenamer.Size = new System.Drawing.Size(546, 398);
-            this.dgvRenamer.TabIndex = 2;
+            this.dgvRenamer.TabIndex = 1;
             this.dgvRenamer.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvRenamerProperties_CellDoubleClick);
             // 
             // howToGroupBox
@@ -121,7 +121,7 @@
             this.howToGroupBox.Location = new System.Drawing.Point(6, 62);
             this.howToGroupBox.Name = "howToGroupBox";
             this.howToGroupBox.Size = new System.Drawing.Size(419, 417);
-            this.howToGroupBox.TabIndex = 9;
+            this.howToGroupBox.TabIndex = 6;
             this.howToGroupBox.TabStop = false;
             this.howToGroupBox.Text = "How To Use:";
             // 
@@ -145,7 +145,7 @@
             this.lblInstructions.Location = new System.Drawing.Point(10, 147);
             this.lblInstructions.Name = "lblInstructions";
             this.lblInstructions.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.lblInstructions.Size = new System.Drawing.Size(335, 169);
+            this.lblInstructions.Size = new System.Drawing.Size(349, 143);
             this.lblInstructions.TabIndex = 1;
             this.lblInstructions.Text = resources.GetString("lblInstructions.Text");
             // 
@@ -167,44 +167,35 @@
             this.chkDeleteEmptyDir.Text = "Delete empty directories after renaming";
             this.chkDeleteEmptyDir.UseVisualStyleBackColor = true;
             // 
-            // slashLabel
-            // 
-            this.slashLabel.AutoSize = true;
-            this.slashLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.slashLabel.Location = new System.Drawing.Point(110, 10);
-            this.slashLabel.Name = "slashLabel";
-            this.slashLabel.Size = new System.Drawing.Size(39, 16);
-            this.slashLabel.TabIndex = 14;
-            this.slashLabel.Text = "dlc\\\\";
-            this.slashLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
             // renameTemplateLabel
             // 
             this.renameTemplateLabel.AutoSize = true;
             this.renameTemplateLabel.Location = new System.Drawing.Point(3, 12);
             this.renameTemplateLabel.Name = "renameTemplateLabel";
             this.renameTemplateLabel.Size = new System.Drawing.Size(105, 13);
-            this.renameTemplateLabel.TabIndex = 13;
+            this.renameTemplateLabel.TabIndex = 5;
             this.renameTemplateLabel.Text = "Renaming Template:";
             // 
             // txtRenameTemplate
             // 
-            this.txtRenameTemplate.Location = new System.Drawing.Point(149, 8);
+            this.txtRenameTemplate.Location = new System.Drawing.Point(114, 8);
+            this.txtRenameTemplate.Multiline = true;
             this.txtRenameTemplate.Name = "txtRenameTemplate";
-            this.txtRenameTemplate.Size = new System.Drawing.Size(379, 20);
-            this.txtRenameTemplate.TabIndex = 12;
-            this.txtRenameTemplate.Text = "<title>_<artist>";
+            this.txtRenameTemplate.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtRenameTemplate.Size = new System.Drawing.Size(372, 20);
+            this.txtRenameTemplate.TabIndex = 0;
+            this.txtRenameTemplate.Text = "<title>_<artist>_<version>";
             this.txtRenameTemplate.TextChanged += new System.EventHandler(this.txtRenameTemplate_TextChanged);
             // 
             // btnRenameAll
             // 
             this.btnRenameAll.Image = global::CustomsForgeSongManager.Properties.Resources.rename;
             this.btnRenameAll.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnRenameAll.Location = new System.Drawing.Point(534, 4);
+            this.btnRenameAll.Location = new System.Drawing.Point(498, 4);
             this.btnRenameAll.Name = "btnRenameAll";
-            this.btnRenameAll.Size = new System.Drawing.Size(90, 26);
+            this.btnRenameAll.Size = new System.Drawing.Size(122, 26);
             this.btnRenameAll.TabIndex = 11;
-            this.btnRenameAll.Text = "Rename All";
+            this.btnRenameAll.Text = "Rename All Songs";
             this.btnRenameAll.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnRenameAll.UseVisualStyleBackColor = true;
             this.btnRenameAll.Click += new System.EventHandler(this.btnRenameAll_Click);
@@ -227,7 +218,7 @@
             // 
             this.lbl2.AutoSize = true;
             this.lbl2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl2.Location = new System.Drawing.Point(630, 8);
+            this.lbl2.Location = new System.Drawing.Point(626, 8);
             this.lbl2.Name = "lbl2";
             this.lbl2.Size = new System.Drawing.Size(22, 16);
             this.lbl2.TabIndex = 17;
@@ -293,7 +284,6 @@
             this.Controls.Add(this.chkDeleteEmptyDir);
             this.Controls.Add(this.lbl2);
             this.Controls.Add(this.chkRenameOnlySelected);
-            this.Controls.Add(this.slashLabel);
             this.Controls.Add(this.renameTemplateLabel);
             this.Controls.Add(this.txtRenameTemplate);
             this.Controls.Add(this.btnRenameAll);
@@ -320,7 +310,6 @@
         private System.Windows.Forms.Label lblInstructions;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.CheckBox chkDeleteEmptyDir;
-        private System.Windows.Forms.Label slashLabel;
         private System.Windows.Forms.Label renameTemplateLabel;
         private System.Windows.Forms.TextBox txtRenameTemplate;
         private System.Windows.Forms.Button btnRenameAll;
