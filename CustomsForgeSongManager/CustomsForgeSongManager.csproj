@@ -473,6 +473,7 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\renamer_properties.json" />
+    <EmbeddedResource Include="Resources\HelpGeneral.rtf" />
     <None Include="Resources\logo_black.png" />
     <None Include="CFSM_TemporaryKey.pfx" />
   </ItemGroup>
@@ -617,14 +618,13 @@
     <EmbeddedResource Include="Resources\tags\motive_ws_\Rhythm.png" />
     <EmbeddedResource Include="Resources\tags\motive_ws_\Vocal.png" />
     <None Include="Resources\DreddFoxx.png" />
-    <EmbeddedResource Include="Resources\HelpGeneral.txt" />
-    <EmbeddedResource Include="Resources\HelpSongMgr.txt" />
+    <EmbeddedResource Include="Resources\HelpSongMgr.rtf" />
     <None Include="Resources\minus.png" />
     <None Include="Resources\plus.png" />
     <None Include="Resources\eof-bg.jpg" />
     <None Include="Resources\Rocksmith_2014_Background_Guitar.jpg" />
     <None Include="Resources\instructionLabel.txt" />
-    <EmbeddedResource Include="Resources\HelpSetlistMgr.txt" />
+    <EmbeddedResource Include="Resources\HelpSetlistMgr.rtf" />
     <None Include="Resources\Letter D black_small.png" />
     <None Include="Resources\Letter L black_small.png" />
     <None Include="Resources\Letter R black_small.png" />

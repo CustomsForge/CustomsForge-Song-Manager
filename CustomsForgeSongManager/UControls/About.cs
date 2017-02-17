@@ -59,7 +59,7 @@ namespace CustomsForgeSongManager.UControls
 
         private void lnkHelp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            frmNoteViewer.ViewResourcesFile("CustomsForgeSongManager.Resources.HelpGeneral.txt", "General Help");
+            frmNoteViewer.ViewResourcesFile("CustomsForgeSongManager.Resources.HelpGeneral.rtf", "General Help");
         }
 
         private void lnkHomePage_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

@@ -6,13 +6,14 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
+using CustomControls;
 using CustomsForgeSongManager.DataObjects;
 using CustomsForgeSongManager.Forms;
 using CustomsForgeSongManager.LocalTools;
 using CustomsForgeSongManager.UITheme;
 using DataGridViewTools;
-using System.ComponentModel;
-using System.Data;
+
+// TODO: merge duplicates tool to Song Manager
 
 namespace CustomsForgeSongManager.UControls
 {
@@ -33,11 +34,7 @@ namespace CustomsForgeSongManager.UControls
         {
             InitializeComponent();
             Globals.TsLabel_StatusMsg.Click += lnkShowAll_Click;
-            btnMove.Click += DeleteMoveSelected;
-            btnDeleteSong.Click += DeleteMoveSelected;
-
             ErrorStyle = new DataGridViewCellStyle() { Font = new Font("Arial", 8, FontStyle.Italic), ForeColor = ErrorStyleForeColor, BackColor = ErrorStyleBackColor };
-
             txtNoDuplicates.Visible = false;
             PopulateDuplicates();
         }
@@ -261,71 +258,7 @@ namespace CustomsForgeSongManager.UControls
                 MessageBox.Show(Properties.Resources.PleaseSelectHighlightTheSongThatNYouWould, Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        private void DeleteMoveSelected(object sender, System.EventArgs e)
-        {
-            if (dgvDuplicates.Rows.Count == 0)
-                return;
-
-            var selectedCount = dgvDuplicates.Rows.Cast<DataGridViewRow>().Count(row => Convert.ToBoolean(row.Cells["colSelect"].Value));
-            if (selectedCount == 0)
-            {
-                MessageBox.Show(Properties.Resources.PleaseSelectTheCheckboxNextToSongsNthatYou, Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
-            }
-
-            var buttonName = (Button)sender;
-
-            if (buttonName.Text.ToLower().Contains("delete"))
-                if (MessageBox.Show(Properties.Resources.DeleteTheSelectedDuplicates, Constants.ApplicationName, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.No)
-                    return;
-
-            var dupDir = Path.Combine(AppSettings.Instance.RSInstalledDir, "duplicates");
-
-            if (!Directory.Exists(dupDir))
-                Directory.CreateDirectory(dupDir);
-
-            for (int ndx = dgvDuplicates.Rows.Count - 1; ndx >= 0; ndx--)
-            {
-                DataGridViewRow row = dgvDuplicates.Rows[ndx];
-
-                if (Convert.ToBoolean(row.Cells["colSelect"].Value))
-                {
-                    // check if user manually (re)moved the song and has not rescanned 
-                    if (File.Exists(duplicates[ndx].FilePath))
-                    {
-                        if (buttonName.Text.ToLower().Contains("move"))
-                        {
-                            var filePath = duplicates[ndx].FilePath;
-                            var dupFileName = String.Format("{0}{1}", Path.GetFileName(filePath), ".dup");
-                            var dupFilePath = Path.Combine(dupDir, dupFileName);
-
-                            if (File.Exists(dupFilePath))
-                                File.Delete(dupFilePath);
-
-                            File.Move(duplicates[ndx].FilePath, dupFilePath);
-                            Globals.Log(Properties.Resources.DuplicateFile + dupFileName);
-                            Globals.Log(Properties.Resources.MovedTo + dupDir);
-                        }
-                        else
-                            File.Delete(duplicates[ndx].FilePath);
-                    }
-
-                    dgvDuplicates.Rows.Remove(row);
-                }
-            }
-
-            if (dgvDuplicates.Rows.Count == 1)
-                dgvDuplicates.Rows.Clear();
-
-            Globals.RescanDuplicates = true;
-            UpdateToolStrip();
-            // rescan on tabpage change to remove from Globals.SongCollection
-            Globals.RescanSongManager = true;
-            Globals.RescanSetlistManager = true;
-            Globals.RescanRenamer = true;
-        }
-
-        private void SelectOlderVersions()
+         private void SelectOlderVersions()
         {
             // using concatinated ArtistTitleAlbumDate column to order by/sort on
             var sortedDupes = duplicates.OrderBy(x => x.ArtistTitleAlbumDate.ToLower()).ToList();
@@ -710,8 +643,7 @@ namespace CustomsForgeSongManager.UControls
             Globals.Settings.SaveSettingsToFile(dgvDuplicates);
         }
 
-        /* Region of copy-pasta from SongManager */
-        private void PopulateMenuWithColumnHeaders(ContextMenuStrip contextMenuStrip)
+         private void PopulateMenuWithColumnHeaders(ContextMenuStrip contextMenuStrip)
         {
 
             if (RAExtensions.ManagerGridSettings == null)
@@ -763,8 +695,56 @@ namespace CustomsForgeSongManager.UControls
             }
         }
 
+        private void btnMove_Click(object sender, EventArgs e)
+        {
+            DeleteMoveSelection(dgvDuplicates, false);
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            DeleteMoveSelection(dgvDuplicates, true);
+        }
+
+        private void DeleteMoveSelection(DataGridView dgvCurrent, bool modeDelete = false)
+        {
+            // INFORMATION - deleting data from the dgv is the same as deleting data
+            // from the SongCollection because the dgv and the SongCollection are bound
+            // similarly deleting data from the SongCollection is the same as deleting data
+            // from the dgv after it is refreshed because the two are bound to each other
+            var stopHere = Globals.SongCollection; // for debugging
+
+            var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvCurrent);
+            if (!selection.Any()) return;
+
+            if (modeDelete)
+            {
+                var diaMsg = "You are about to delete CDLC file(s)." + Environment.NewLine + "Deletion is permenant and can not be undone." + Environment.NewLine + "Do you want to continue?";
+                if (DialogResult.No == BetterDialog2.ShowDialog(diaMsg, "Delete CDLC ...", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning", 0, 150))
+                    return;
+            }
+
+            for (int ndx = dgvCurrent.Rows.Count - 1; ndx >= 0; ndx--)
+            {
+                DataGridViewRow row = dgvCurrent.Rows[ndx];
+
+                if (Convert.ToBoolean(row.Cells["colSelect"].Value) || row.Selected)
+                    TemporaryDisableDatabindEvent(() => dgvCurrent.Rows.Remove(row));
+            }
+
+            var stopHere2 = Globals.SongCollection; // for debugging
+
+            if (!modeDelete)
+            {
+                if (FileTools.CreateBackupOfType(selection, Constants.DuplicatesFolder, Constants.EXT_DUP))
+                    FileTools.DeleteFiles(selection);
+            }
+            else
+                FileTools.DeleteFiles(selection);
+
+            Globals.RescanSongManager = false; // stops full rescan set by worker
+            UpdateToolStrip();
+        }
 
 
-        /*End of copy-pasta region*/
     }
 }

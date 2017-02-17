@@ -27,6 +27,7 @@ namespace CustomsForgeSongManager.DataObjects
         public static string EXT_COR = ".cor";
         public static string EXT_MAX = ".max";
         public static string EXT_ORG = ".org";
+        public static string EXT_DUP = ".dup";
 
         public static string GWORKER_REPAIR = "repairing";
         public static string GWORKER_ACHRIVE = "archiving";
@@ -109,6 +110,7 @@ namespace CustomsForgeSongManager.DataObjects
         public static string RemasteredErrorLogPath{get { return Path.Combine(RemasteredFolder, "remastered_error.log"); }}
         public static string RemasteredFolder { get { return Path.Combine(Rs2CfsmFolder, "remastered"); } }
         public static string BackupFolder { get { return Path.Combine(Rs2CfsmFolder, "backups"); } }
+        public static string DuplicatesFolder { get { return Path.Combine(Rs2CfsmFolder, "duplicates"); } }
         public static string ArchiveFolder { get { return Path.Combine(Rs2CfsmFolder, "archives"); } }
         public static string RemasteredCorFolder { get { return Path.Combine(RemasteredFolder, "corrupt"); } }
         public static string RemasteredOrgFolder { get { return Path.Combine(RemasteredFolder, "original"); } }

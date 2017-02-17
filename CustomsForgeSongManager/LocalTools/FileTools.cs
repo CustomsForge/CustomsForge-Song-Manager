@@ -97,6 +97,9 @@ namespace CustomsForgeSongManager.LocalTools
                     destFilePath = Path.Combine(Constants.RemasteredMaxFolder, Path.GetFileName(extFilePath));
                 if (extFilePath.Contains(Constants.EXT_COR))
                     destFilePath = Path.Combine(Constants.RemasteredCorFolder, Path.GetFileName(extFilePath));
+                if (extFilePath.Contains(Constants.EXT_DUP))
+                    destFilePath = Path.Combine(Constants.DuplicatesFolder, Path.GetFileName(extFilePath));
+
 
                 try
                 {
@@ -244,10 +247,11 @@ namespace CustomsForgeSongManager.LocalTools
                 try
                 {
                     GenExtensions.DeleteFile(srcFilePath);
+                    Globals.Log(" - Successfully created backup"); // a good thing
                 }
                 catch (IOException ex)
                 {
-                    Globals.Log("<Error> Could Not Delete File: " + Path.GetFileName(srcFilePath));
+                    Globals.Log(" - <ERROR> Deletion failed"); // a bad thing
                     Globals.Log(ex.Message);
                     failed++;
                 }

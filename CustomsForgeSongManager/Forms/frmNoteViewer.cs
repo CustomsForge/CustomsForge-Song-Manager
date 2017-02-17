@@ -54,7 +54,7 @@ namespace CustomsForgeSongManager.Forms
         }
 
 
-        public static void ViewResourcesFile(string resourceHelpPath = "CustomsForgeSongManager.Resources.HelpGeneral.txt", string windowText = "Default")
+        public static void ViewResourcesFile(string resourceHelpPath = "CustomsForgeSongManager.Resources.HelpGeneral.rtf", string windowText = "Default")
         {
             using (var noteViewer = new frmNoteViewer())
             {

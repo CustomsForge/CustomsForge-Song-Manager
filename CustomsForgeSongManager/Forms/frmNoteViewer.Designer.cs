@@ -39,10 +39,11 @@
             this.rtbText.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.rtbText.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.rtbText.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rtbText.Location = new System.Drawing.Point(21, 23);
+            this.rtbText.Location = new System.Drawing.Point(25, 21);
             this.rtbText.Name = "rtbText";
-            this.rtbText.Size = new System.Drawing.Size(513, 362);
+            this.rtbText.Size = new System.Drawing.Size(516, 367);
             this.rtbText.TabIndex = 1;
             this.rtbText.Text = "This is a generic Rich Textbox Note Viewer";
             // 
@@ -63,14 +64,14 @@
             this.rtbBlank.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.rtbBlank.BackColor = System.Drawing.SystemColors.ScrollBar;
+            this.rtbBlank.BackColor = System.Drawing.SystemColors.Window;
             this.rtbBlank.Location = new System.Drawing.Point(12, 12);
             this.rtbBlank.Name = "rtbBlank";
             this.rtbBlank.Size = new System.Drawing.Size(533, 384);
             this.rtbBlank.TabIndex = 31;
             this.rtbBlank.Text = "";
             // 
-            // frmRtfViewer
+            // frmNoteViewer
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(557, 449);
@@ -78,7 +79,7 @@
             this.Controls.Add(this.rtbBlank);
             this.Controls.Add(this.btnCopyToClipboard);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "frmRtfViewer";
+            this.Name = "frmNoteViewer";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "CFSM Note Viewer";
             this.TopMost = true;

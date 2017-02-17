@@ -1387,7 +1387,7 @@ namespace CustomsForgeSongManager.UControls
 
         private void lnkSetlistMgrHelp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            frmNoteViewer.ViewResourcesFile("CustomsForgeSongManager.Resources.HelpSetlistMgr.txt", "Setlist Manager Help");
+            frmNoteViewer.ViewResourcesFile("CustomsForgeSongManager.Resources.HelpSetlistMgr.rtf", "Setlist Manager Help");
         }
 
         private void lnkShowAll_Click(object sender, EventArgs e)

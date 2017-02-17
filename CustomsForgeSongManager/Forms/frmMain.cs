@@ -159,7 +159,7 @@ namespace CustomsForgeSongManager.Forms
 
         private void ShowHelp()
         {
-            frmNoteViewer.ViewResourcesFile("CustomsForgeSongManager.Resources.HelpGeneral.txt", "General Help");
+            frmNoteViewer.ViewResourcesFile("CustomsForgeSongManager.Resources.HelpGeneral.rtf", "General Help");
         }
 
         private void ShowHideLog()

@@ -1688,7 +1688,7 @@ namespace CustomsForgeSongManager.UControls
 
         private void tsmiHelpGeneral_Click(object sender, EventArgs e)
         {
-            frmNoteViewer.ViewResourcesFile("CustomsForgeSongManager.Resources.HelpSongMgr.txt", "Song Manager Help");
+            frmNoteViewer.ViewResourcesFile("CustomsForgeSongManager.Resources.HelpSongMgr.rtf", "Song Manager Help");
         }
 
         private void tsmiHelpRepairs_Click(object sender, EventArgs e)
