@@ -67,10 +67,94 @@ namespace CustomsForgeSongManager.LocalTools
             // run new generic worker
             using (var gWorker = new GenericWorker())
             {
-                gWorker.WorkDescription = "archiving files";
+                gWorker.WorkDescription = Constants.GWORKER_ACHRIVE;
                 gWorker.BackgroundProcess(sender);
                 while (Globals.WorkerFinished == Globals.Tristate.False)
                     Application.DoEvents();
+            }
+        }
+
+        public static void ArtistFolders(string dlcDir, List<SongData> selectedSongs, bool isUndo)
+        {
+            if (isUndo)
+                Globals.Log("Restoring CDLC files to 'dlc' folder ...");
+            else
+                Globals.Log("Organizing CDLC into ArtistName Folders ...");
+
+            var total = selectedSongs.Where(x => x.Selected).Count();
+            int processed = 0, failed = 0, skipped = 0;
+            GenericWorker.InitReportProgress();
+
+            foreach (var songInfo in selectedSongs)
+            {
+                var srcFilePath = songInfo.FilePath;
+                Globals.Log(" - Processing: " + Path.GetFileName(srcFilePath));
+                processed++;
+                GenericWorker.ReportProgress(processed, total, skipped, failed);
+
+                string destFilePath;
+                if (isUndo)
+                    destFilePath = Path.Combine(dlcDir, Path.GetFileName(srcFilePath));
+                else
+                {
+                    var version = songInfo.Version;
+
+                    // workaround for old toolkit behavior
+                    if (String.IsNullOrEmpty(version))
+                        version = "1";
+
+                    // workaround to identify ODLC
+                    if (songInfo.CharterName == "Ubisoft")
+                        version = "0";
+
+                    var artistName = songInfo.Artist;
+                    var titleName = songInfo.Title;
+                    var destFileName = String.Format("{0}_{1}_v{2}_p.psarc", artistName, titleName, version);
+                    var destDir = Path.Combine(dlcDir, artistName);
+                    destFilePath = Path.Combine(destDir, destFileName);
+
+                    // create new ArtistName folder for song files
+                    if (!Directory.Exists(destDir))
+                        Directory.CreateDirectory(destDir);
+                }
+
+                try
+                {
+                    // no point moving what is already in the correct folder
+                    if (srcFilePath != destFilePath)
+                    {
+                        // update Global SongCollection
+                        var song = Globals.SongCollection.FirstOrDefault(s => s.FilePath == srcFilePath);
+                        int index = Globals.SongCollection.IndexOf(song);
+                        Globals.SongCollection[index].FilePath = destFilePath;
+                        GenExtensions.MoveFile(srcFilePath, destFilePath);
+                    }
+                    else
+                        skipped++;
+                }
+                catch
+                {
+                    if (isUndo)
+                        Globals.Log("<ERROR> Failed to restore CDLC: " + srcFilePath);
+                    else
+                        Globals.Log("<ERROR> Failed to organized CDLC: " + srcFilePath);
+
+                    failed++;
+                }
+            }
+
+            GenericWorker.ReportProgress(processed, total, skipped, failed);
+
+            if (processed > 0)
+            {
+                if (isUndo)
+                {
+                    // remove empty directories from inside the 'dlc' folder
+                    new DirectoryInfo(dlcDir).DeleteEmptyDirs();
+                    Globals.Log("Sucessully restored CDLC files to 'dlc' folder and removed empty ArtistName folders ...");
+                }
+                else
+                    Globals.Log("Sucessully organized and renamed CDLC into ArtistName Folders ...");
             }
         }
 
@@ -82,14 +166,14 @@ namespace CustomsForgeSongManager.LocalTools
             var extFilePaths = Directory.EnumerateFiles(Constants.Rs2DlcFolder, "*.*", SearchOption.AllDirectories).Where(fi => extensions.Any(fi.ToLower().Contains)).ToList();
 
             var total = extFilePaths.Count;
-            var processed = 0;
-            var failed = 0;
-            var skipped = 0;
-            GenericWorker.ReportProgress(processed, total, skipped, failed);
+            int processed = 0, failed = 0, skipped = 0;
+            GenericWorker.InitReportProgress();
 
             foreach (var extFilePath in extFilePaths)
             {
                 processed++;
+                GenericWorker.ReportProgress(processed, total, skipped, failed);
+
                 var destFilePath = extFilePath;
                 if (extFilePath.Contains(Constants.EXT_ORG))
                     destFilePath = Path.Combine(Constants.RemasteredOrgFolder, Path.GetFileName(extFilePath));
@@ -123,14 +207,14 @@ namespace CustomsForgeSongManager.LocalTools
                     Globals.Log(ex.Message);
                     failed++;
                 }
-
-                GenericWorker.ReportProgress(processed, total, skipped, failed);
             }
 
             // Commented out ... so devs don't hear, "I deleted all my cdlc files" 
             // Remove originals from Remastered_backup/orignals folder
             //DirectoryInfo backupDir = new DirectoryInfo(Constants.RemasteredCLI_OrgCDLCFolder);
             //backupDir.CleanDir();
+
+            GenericWorker.ReportProgress(processed, total, skipped, failed);
 
             if (processed > 0)
             {
@@ -180,12 +264,13 @@ namespace CustomsForgeSongManager.LocalTools
             var srcFilePaths = SongFilePaths(songs);
             var total = srcFilePaths.Count;
             int processed = 0, failed = 0, skipped = 0;
-            GenericWorker.ReportProgress(processed, total, skipped, failed);
+            GenericWorker.InitReportProgress();
 
             foreach (var srcFilePath in srcFilePaths)
             {
                 Globals.Log("Processing File: " + Path.GetFileName(srcFilePath));
                 processed++;
+                GenericWorker.ReportProgress(processed, total, skipped, failed);
 
                 try
                 {
@@ -216,11 +301,11 @@ namespace CustomsForgeSongManager.LocalTools
                     failed++;
                 }
 
-                GenericWorker.ReportProgress(processed, total, skipped, failed);
-
                 if (failed > 0)
                     return false;
             }
+
+            GenericWorker.ReportProgress(processed, total, skipped, failed);
 
             if (processed > 0)
             {
@@ -238,16 +323,18 @@ namespace CustomsForgeSongManager.LocalTools
             var srcFilePaths = SongFilePaths(songs);
             var total = srcFilePaths.Count;
             int processed = 0, failed = 0, skipped = 0;
-            GenericWorker.ReportProgress(processed, total, skipped, failed);
+            GenericWorker.InitReportProgress();
 
             foreach (var srcFilePath in srcFilePaths)
             {
                 Globals.Log("Processing File: " + Path.GetFileName(srcFilePath));
                 processed++;
+                GenericWorker.ReportProgress(processed, total, skipped, failed);
+
                 try
                 {
                     GenExtensions.DeleteFile(srcFilePath);
-                    Globals.Log(" - Successfully created backup"); // a good thing
+                    Globals.Log(" - Successfully deleted file"); // a good thing
                 }
                 catch (IOException ex)
                 {
@@ -255,9 +342,9 @@ namespace CustomsForgeSongManager.LocalTools
                     Globals.Log(ex.Message);
                     failed++;
                 }
-
-                GenericWorker.ReportProgress(processed, total, skipped, failed);
             }
+
+            GenericWorker.ReportProgress(processed, total, skipped, failed);
 
             if (processed > 0)
                 Globals.Log("Finished deleting files ...");
@@ -289,6 +376,24 @@ namespace CustomsForgeSongManager.LocalTools
                 Globals.Log(ex.Message);
                 return String.Empty;
             }
+        }
+
+        public static bool IsDirectory(string path)
+        {
+            bool isDirectory = false;
+
+            try
+            {
+                FileAttributes attr = File.GetAttributes(path);
+                if ((attr & FileAttributes.Directory) == FileAttributes.Directory)
+                    isDirectory = true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(@"Invalid directory." + Environment.NewLine + ex.Message);
+            }
+
+            return isDirectory;
         }
 
         public static string OfficialOrRepaired(string filePath)
@@ -327,11 +432,13 @@ namespace CustomsForgeSongManager.LocalTools
             var dlcFilePath = String.Empty;
             var total = bakFilePaths.Count;
             int processed = 0, failed = 0, skipped = 0;
-            GenericWorker.ReportProgress(processed, total, skipped, failed);
+            GenericWorker.InitReportProgress();
 
             foreach (var bakFilePath in bakFilePaths)
             {
                 processed++;
+                GenericWorker.ReportProgress(processed, total, skipped, failed);
+
                 try
                 {
                     var dlcFileName = Path.GetFileName(bakFilePath).Replace(backupExt, "");
@@ -353,9 +460,9 @@ namespace CustomsForgeSongManager.LocalTools
                     Globals.Log("<ERROR> Could Not Restore: " + Path.GetFileName(dlcFilePath));
                     failed++;
                 }
-
-                GenericWorker.ReportProgress(processed, total, skipped, failed);
             }
+
+            GenericWorker.ReportProgress(processed, total, skipped, failed);
 
             if (processed > 0)
             {
@@ -381,6 +488,28 @@ namespace CustomsForgeSongManager.LocalTools
             return srcFilePaths;
         }
 
+        public static void ValidateDownloadsDir()
+        {
+            var downloadsDir = AppSettings.Instance.DownloadsDir;
+
+            if (String.IsNullOrEmpty(downloadsDir) || !Directory.Exists(downloadsDir))
+            {
+                Globals.Log("Select CDLC 'Downloads' directory ...");
+                using (var fbd = new FolderBrowserDialog())
+                {
+                    // set valid initial default speical folder path
+                    fbd.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                    fbd.Description = "Select the folder where new CDLC 'Downloads' are stored.";
+
+                    if (fbd.ShowDialog() != DialogResult.OK)
+                        return;
+
+                    downloadsDir = fbd.SelectedPath;
+                    AppSettings.Instance.DownloadsDir = downloadsDir;
+                }
+            }
+        }
+
         public static void VerifyCfsmFolders()
         {
             if (!Directory.Exists(Constants.Rs2CfsmFolder))
@@ -403,28 +532,10 @@ namespace CustomsForgeSongManager.LocalTools
 
             if (!Directory.Exists(Constants.RemasteredCorFolder))
                 Directory.CreateDirectory(Constants.RemasteredCorFolder);
-        }
 
-        public static void ValidateDownloadsDir()
-        {
-            var downloadsDir = AppSettings.Instance.DownloadsDir;
-     
-            if (String.IsNullOrEmpty(downloadsDir) || !Directory.Exists(downloadsDir))
-            {
-                Globals.Log("Select CDLC 'Downloads' directory ...");
-                using (var fbd = new FolderBrowserDialog())
-                {
-                    // set valid initial default speical folder path
-                    fbd.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                    fbd.Description = "Select the folder where new CDLC 'Downloads' are stored.";
+            if (!Directory.Exists(Constants.DuplicatesFolder))
+                Directory.CreateDirectory(Constants.DuplicatesFolder);
 
-                    if (fbd.ShowDialog() != DialogResult.OK)
-                        return;
-
-                    downloadsDir = fbd.SelectedPath;
-                    AppSettings.Instance.DownloadsDir = downloadsDir;
-                }
-            }
         }
 
         #endregion

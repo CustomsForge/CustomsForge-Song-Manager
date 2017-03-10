@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -46,7 +47,7 @@ namespace CustomsForgeSongManager.Forms
             themedProgressBar1.Maximum = DataFiles.Length;
             themedProgressBar1.Value = 0;
             var newID = txtAppId.Text.Trim().GetValidAppIdSixDigits();
-            
+
             foreach (var song in DataFiles)
             {
                 NoCloseStream dataStream = null;
@@ -81,7 +82,17 @@ namespace CustomsForgeSongManager.Forms
         private void cmbAppId_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cmbAppId.SelectedItem != null)
-                txtAppId.Text = cmbAppId.SelectedItem.ToString().Split(new string[] { " - " }, StringSplitOptions.None)[2];
+            {
+                try
+                {
+                    txtAppId.Text = cmbAppId.SelectedItem.ToString().Split(new string[] { " - " }, StringSplitOptions.None)[2];
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("song 'Name' in the AppId repository is missing the required ' - '");
+                    Debug.WriteLine(ex.Message);
+                }
+            }
         }
 
         private void btnCancel_Click(object sender, EventArgs e)

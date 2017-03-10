@@ -35,6 +35,7 @@ namespace CustomsForgeSongManager.LocalTools
             Globals.TsLabel_Cancel.Enabled = true;
             Globals.TsLabel_MainMsg.Visible = true;
             Globals.TsLabel_StatusMsg.Visible = true;
+            Globals.TsProgressBar_Main.Value = 0;
             Globals.WorkerFinished = Globals.Tristate.False;
 
             if (backgroundWorker == null)
@@ -51,7 +52,8 @@ namespace CustomsForgeSongManager.LocalTools
                 bWorker.DoWork += WorkerArchiveSongs;
             else if (WorkDescription.ToLower().Contains(Constants.GWORKER_PITCHSHIFT))
                 bWorker.DoWork += WorkerPitchShiftSongs;
-
+            else if (WorkDescription.ToLower().Contains(Constants.GWORKER_ORGANIZE))
+                bWorker.DoWork += WorkerOrganizeSongs;
             else
                 throw new Exception("I'm not that kind of worker ...");
 
@@ -66,7 +68,10 @@ namespace CustomsForgeSongManager.LocalTools
             if (Globals.TsProgressBar_Main != null && value <= 100)
             {
                 // perma fix for periodic cross threading issue with TsProgressBar on initial startups
-                GenExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate { Globals.TsProgressBar_Main.Value = value; });
+                GenExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate
+                    {
+                        Globals.TsProgressBar_Main.Value = value;
+                    });
             }
         }
 
@@ -113,6 +118,11 @@ namespace CustomsForgeSongManager.LocalTools
                 FileTools.ArchiveFiles(WorkParm1, WorkParm2, WorkParm3);
         }
 
+        private void WorkerOrganizeSongs(object sender, DoWorkEventArgs e)
+        {
+            if (!bWorker.CancellationPending)
+                FileTools.ArtistFolders(WorkParm1, WorkParm2, WorkParm3);
+        }
 
         [SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "bWorker")]
         public void Dispose()

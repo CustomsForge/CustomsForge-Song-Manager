@@ -1855,7 +1855,7 @@ namespace CustomsForgeSongManager.UControls
                 FileTools.ValidateDownloadsDir();
 
             // start new generic worker
-            DoWork("repairing", selection, SetRepairOptions());
+            DoWork(Constants.GWORKER_REPAIR, selection, SetRepairOptions());
 
             // new 'Downloads' CDLC added or corrupt CDLC were removed
             // quickly reload the SongCollection to the dgv
@@ -1900,6 +1900,41 @@ namespace CustomsForgeSongManager.UControls
             Globals.Settings.SaveSettingsToFile(dgvSongsMaster);
             Globals.Log("SongManager GUI TabLeave ...");
         }
+
+        private void tsmiFilesOrganize_Click(object sender, EventArgs e)
+        {
+            var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster);
+
+            if (tsmiFilesIncludeODLC.Checked)
+                selection.AddRange(Globals.SongCollection.Where(x => x.CharterName == "Ubisoft").ToList());
+
+            if (!selection.Any()) return;
+
+            // start new generic worker
+            DoWork(Constants.GWORKER_ORGANIZE, Constants.Rs2DlcFolder, selection, false);
+            dgvSongsMaster.Refresh();
+        }
+
+        private void tsmiFilesUnorganize_Click(object sender, EventArgs e)
+        {
+            var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster);
+
+            if (tsmiFilesIncludeODLC.Checked)
+                selection.AddRange(Globals.SongCollection.Where(x => x.CharterName == "Ubisoft").ToList());
+
+            if (!selection.Any()) return;
+
+            // start new generic worker
+            DoWork(Constants.GWORKER_ORGANIZE, Constants.Rs2DlcFolder, selection, true);
+            dgvSongsMaster.Refresh();
+        }
+
+        private void tsmiFilesIncludeODLC_Click(object sender, EventArgs e)
+        {
+            tsmiFiles.ShowDropDown();
+            menuStrip.Focus();
+        }
+
     }
 }
 

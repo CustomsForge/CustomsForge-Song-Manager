@@ -18,7 +18,7 @@ using RocksmithToolkitLib;
 using Arrangement = RocksmithToolkitLib.DLCPackage.Arrangement;
 
 
-// DO NOT USE RESHAPER SORT ON THIS METHOD IT RUINS REPAIROPTIONS OBJECT ORDER
+// DO NOT USE RESHAPER SORT ON THIS METHOD IT RUINS REPAIR OPTIONS OBJECT ORDER
 namespace CustomsForgeSongManager.LocalTools
 {
     public class RepairTools
@@ -124,6 +124,11 @@ namespace CustomsForgeSongManager.LocalTools
                 // ArrangmentIDs are stored in multiple place and all need to be updated
                 // therefore we are going to unpack, apply repair, and repack
                 Globals.Log(" - Extracting CDLC artifacts");
+                GenExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate
+                {
+                    Globals.TsProgressBar_Main.Value = 35;
+                });
+
                 // repair status variables
                 addedDD = false;
                 ddError = false;
@@ -227,6 +232,10 @@ namespace CustomsForgeSongManager.LocalTools
                 // validate packageData (important)
                 packageData.Name = packageData.Name.GetValidKey(); // DLC Key                 
                 Globals.Log(" - Repackaging Remastered CDLC");
+                GenExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate
+                {
+                    Globals.TsProgressBar_Main.Value = 70;
+                });
 
                 // regenerates the SNG with the repair and repackages               
                 using (var psarcNew = new PsarcPackager(true))
@@ -331,16 +340,15 @@ namespace CustomsForgeSongManager.LocalTools
                 srcFilePaths = FileTools.SongFilePaths(songs);
 
             var total = srcFilePaths.Count;
-            var processed = 0;
-            var failed = 0;
-            var skipped = 0;
-            GenericWorker.ReportProgress(processed, total, skipped, failed);
+            int processed = 0, failed = 0, skipped = 0;
+            GenericWorker.InitReportProgress();
 
             foreach (var srcFilePath in srcFilePaths)
             {
                 var isSkipped = false;
                 Globals.Log("Processing: " + Path.GetFileName(srcFilePath));
                 processed++;
+                GenericWorker.ReportProgress(processed, total, skipped, failed);
 
                 var officialOrRepaired = FileTools.OfficialOrRepaired(srcFilePath);
                 if (!String.IsNullOrEmpty(officialOrRepaired))
@@ -399,8 +407,6 @@ namespace CustomsForgeSongManager.LocalTools
                     }
                 }
 
-                GenericWorker.ReportProgress(processed, total, skipped, failed);
-
                 if (!Constants.DebugMode)
                 {
                     // cleanup after every nth record
@@ -408,6 +414,19 @@ namespace CustomsForgeSongManager.LocalTools
                         GenExtensions.CleanLocalTemp();
                 }
             }
+
+            GenericWorker.ReportProgress(processed, total, skipped, failed);
+
+            if (processed > 0)
+            {
+                Globals.Log("CDLC repair completed ...");
+                Globals.ReloadSongManager = true;
+
+                if (!Constants.DebugMode)
+                    GenExtensions.CleanLocalTemp();
+            }
+            else
+                Globals.Log("No CDLC were repaired ...");
 
             if (!String.IsNullOrEmpty(sbErrors.ToString())) //failed > 0)
             {
@@ -422,17 +441,6 @@ namespace CustomsForgeSongManager.LocalTools
 
                 Globals.Log("Saved error log to: " + Constants.RemasteredErrorLogPath + " ...");
             }
-
-            if (processed > 0)
-            {
-                Globals.Log("CDLC repair completed ...");
-                Globals.ReloadSongManager = true;
-
-                if (!Constants.DebugMode)
-                    GenExtensions.CleanLocalTemp();
-            }
-            else
-                Globals.Log("No CDLC were repaired ...");
 
             return sbErrors;
         }
@@ -519,7 +527,5 @@ namespace CustomsForgeSongManager.LocalTools
         //
         public bool ProcessDLFolder { get; set; }
     }
-
-
 
 }

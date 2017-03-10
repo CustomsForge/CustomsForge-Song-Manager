@@ -106,13 +106,13 @@ namespace CustomsForgeSongManager.LocalTools
             var failed = 0;
             var skipped = 0;
             GenericWorker.InitReportProgress();
-            GenericWorker.ReportProgress(processed, total, skipped, failed);
-
+ 
             foreach (var srcFilePath in srcFilePaths)
             {
                 var isSkipped = false;
                 Globals.Log("Processing: " + Path.GetFileName(srcFilePath));
                 processed++;
+                GenericWorker.ReportProgress(processed, total, skipped, failed);
 
                 var officialOrRepaired = FileTools.OfficialOrRepaired(srcFilePath);
                 if (!String.IsNullOrEmpty(officialOrRepaired))
@@ -203,10 +203,9 @@ namespace CustomsForgeSongManager.LocalTools
                     Globals.Log(" - Pitch shifting failed: " + ex.Message);
                     failed++;
                 }
-
-                GenericWorker.ReportProgress(processed, total, skipped, failed);
             }
 
+            GenericWorker.ReportProgress(processed, total, skipped, failed);
 
             if (processed > 0)
             {

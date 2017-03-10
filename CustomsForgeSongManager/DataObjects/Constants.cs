@@ -32,6 +32,7 @@ namespace CustomsForgeSongManager.DataObjects
         public static string GWORKER_REPAIR = "repairing";
         public static string GWORKER_ACHRIVE = "archiving";
         public static string GWORKER_PITCHSHIFT = "pitch shifting";
+        public static string GWORKER_ORGANIZE = "organizing";
 
         public static readonly string RS1COMP = "rs1compatibility";
         public static readonly string SONGPACK = "songpack";
