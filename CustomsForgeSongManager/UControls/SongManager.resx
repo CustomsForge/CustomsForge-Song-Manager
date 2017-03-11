@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>640, -1</value>
+  </metadata>
   <metadata name="sfdSongListToCSV.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>142, -1</value>
   </metadata>
@@ -421,9 +424,6 @@
   <metadata name="cmsSongManagerColumns.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>442, -1</value>
   </metadata>
-  <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>640, -1</value>
-  </metadata>
   <metadata name="menuStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 0</value>
   </metadata>
@@ -437,98 +437,6 @@
         +fn504k2AKQQ6IJwoNM7ODk5W4CaK4DseKBL9kANIewFRkbGfVxcXFmsrKz5LCwsVcLCwjZiYmLu7Ozs
         y4GGoBhQRiDEL0HljwFdEAP03jIgnxcUC3JA7AHEwkBcD8TtRGBQjNmDNFMMAMK7Y7LorC+/AAAAAElF
         TkSuQmCC
-</value>
-  </data>
-  <data name="tsmiRepairs.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAy5JREFUOE91kmtI
-        k1EYxx8zM0ps1kIxkcZrlm5mJgWJlHZTV4Rmt2UfZCBqSWZWXiK3zKY5c2zelpm5m262+5QtJVeCs5pQ
-        Yh+SsAlmFBTUh8ICfTrvpDLMA3/Oy3PO/8f/Oc8LsGCxWCygKGphyfvdWcIEfMIRPZUGrFh0+LswNjYW
-        PDExoR8fHzd6PJ6Evfv2eY/sglCYsUY+/nQPEB2B/CUBOTk5MDo6Wtbf349OpxNdw+54ViDAz64wm6cW
-        8H0z4Fdj6PD3h9HRRUcXBOHz+ZCcnOwFR0REgMvlqnA4HPhowHmOrk2KgJoWg3hKAt8/tAB+6VqOOLz2
-        5J8kVquVNzk5eTE3Nxdo2NDQkM5msyHZ94eHb/TeayrcBs8lsUPvpIAf7wB+Mwc/e9W2AS7QSZRK5em+
-        vj4cGRl54Ha7NRaLBc1mM/b29uLIi7EU1fXD4JImua3XonCgkoXTMgJpBZyxBeNnA5MLpaWlPoODgx67
-        3e41kURzBoMBtVotdutN+Eh7652+kInG0ki0VHBEb8XLsqcbAelHnWqDJG/EvLw8qKysjC0pKWE2NjYF
-        dBssr9WdWiTp8L5Ki2alBC3CxPI9W9fBy6sQ9U0OZtRBfva8ffGyygrWKKQCbFd2YWtrKzY2y1H3wPKm
-        q9u4bsUqBvguNUt/Xx9QXTkQcvds7NcGXgg2l/OwSd6GMpkM6+rqUC6Xz9rtjl1bY+MWIwL8fUFZnMpq
-        4Mf9qD1B4W3eJmw4FZ4qlcoS6iUSrK6uRtIm1tTUYE9PT1FWVtZfCHO1HzFzOWJezFxVOoWizEiU8rbs
-        DgvyAx9fP/p9gglgmgYIhUIUCARuMildWlraPCQ9bv3K+tNsrMqIQFEGhbXHqO2Mlf+mpP9UAnGKxeLR
-        9vb24yKRCLlc7vylvTGhUJtJtd04FDpbn72TFR8TCZuj2MDhcLxis9nAYDAgPz8fiPEmSUC3ssNrJnMP
-        M5gsB5VqVWbH3ZYcjdZQZDCaio1GYznRTaIqk8l0mUQu1ul0RWq1+kxHR8chjUaTqNfr14BCoWCR4hGi
-        bLVGc57sZUSC/0hIapeICmgIUQppJegX1ROhy2FVN2oAAAAASUVORK5CYII=
-</value>
-  </data>
-  <data name="tsmiRepairs.ToolTipText" xml:space="preserve">
-    <value>This tool repairs CDLC files using
-various user selectable options.
-
-HINT: First use 'Select All/None' and/or 
-'Toggle Selection' links to quckly choose
-the CDLC files to repair (aka Bulk Repair).</value>
-  </data>
-  <data name="tsmiFilesDisableEnable.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAkJJREFUOE9j/P//
-        PwMMGJfPZGBkZARxVaCYDygPEvgEpG//+/fvDhAzXOrLgethABkAw0ZlMxiBhphHT1ybceDqwzVP3n07
-        cvXxx70bTt1eGtKzMku/eKqlbuFkRmQ96AaoATVnffz26+bLDz+uPHz99fSRG292rT35ZNvNp59Ohfas
-        yNMpmKSB0wCDkml+J2493fj644/rT99+O/v4zbczJ26/3bvo4IN1W88927Hv8sP1WnkTQnAaoFc0Jf7N
-        5x9XgBrBmm89/3xs96UX2+bvv792/amnm4Bip9Sze9NwGgB0XgLQ2SBb94Fs3n3p5bbFhx6uX3zw4bpd
-        F19se/zm63GVjK4MnAYAnee35OCVhXsvvzoIcjbIZpDmzWefbb744MORNceuLFdMbQ/FaQDQebLWlTNy
-        rj95f3zj6adb1518uhFo89bTd97tffj682nT4oklckktCvgMYAA60Saqd3ndw9ffLp2683bP+fvv9z17
-        //1KWOfiFun4RkfZxGaUmEPhKKS0MQAxM9CW2BWHL62++ezT8RtPPx1ddvDCGomYuiQgZgZi3AYAbWCA
-        Yq2Y3mWND15/vXj/1dcLUV2LW8SianREI6sZQBinF8SjaxmgmEsxqan60Ztvl4Gxckk+vqFOOLySG4gZ
-        QBinAWYRmQwwrKurm7Zly5b//f39/5mZmWdwatswwDBOA0JDQxlgGGTA3bt3/q9btwtsACL3MOB2AboB
-        J0+e+D9//lLyDNDW1hYDZu2dQHwZaLssLhcAANOsUruQGin5AAAAAElFTkSuQmCC
-</value>
-  </data>
-  <data name="tsmiFilesDelete.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALEwAA
-        CxMBAJqcGAAAA1tJREFUOE9j/P//P8Pnz58Zvn37wQACbGxsSvz8fBYvXrxWu337oSArG+sfWRnJj7Ky
-        4neePXt14t79R/d4edgZ5OVlGAQEBBkYQAZ8+vSJ4fWbtwx37z5QP3r0RO2lS5dXbN++Y09n58T9rW19
-        W5csWb3vxo1bm+7de1R/7Ng59UuXrjC8f/8OrBdM/Pv3j+Hhw8f+vr6BF4WEhJcLCAjUsLGzZwJdk8HB
-        wZ4BpAv5+fkbtbV1FwYGhh08ceK07/fv3xEGlFdUM+TkFExmYWGZysTMlMPFxVnEy8uXz8fHl8rHz58J
-        pPN4eXnLgfK1jIyME6qq6ttmzVqIMICVlZ1BWVktMS+v+FpwcMhUTU3NHBER0VSgplRubu4YYWHhDGVl
-        lUo7O/v5Pr6Bt2Ljk/PCIqIRBtjZ2zMYGBqa6hsYXq+pqd/f3T1pR3vHhKO1tW3Hampbj8ydt/DYwkWL
-        L/j5B+8XE5c45uPv75Gdl48wIDwyisHPP0BDSlr6EdDJq/gFBCaLi0v0ysrJ94OwmLh4N1C8R1hEeIGM
-        rOzlsIhIs7SMTIQBkdHRDCFhYcJy8vLbJaWkNklISs4Wl5CYBtQ4UVRMrAtITxCXkJwCFF8ur6h4JDoh
-        STYlKxthQGBwCENEVDSruobmaglJqR1AhdOBTu0EuqIbaBDYBUB6MlB8s7qGxjag7TzJqWkIA5iZmRmE
-        hIQY5BUUFwNdcBCoYYGQsNB0YHROFhAUmCAkLDwRKDZbQkJyi7Kq6iZ5BQUGTk5OhAHABMgISoRAv88A
-        hsMFoFd2GxqZnHJ0cjtra+d4XkdX7yxQfIeUlPQxoKFLgGo5QHrgCQnI4QViIS4url6gLd8lpaT/e3oF
-        /i8srv8fl5D139rG4b+MjNx/oPe+AqN1BlCtMEgPsgFcIANkZOVm8fML/heXkPlvZe303z8w6r+vX8R/
-        W3v3/wqKav+FhUX/K6uozgeqBWYCBi5kA0D5iEleQamuprbpv7dPANAAx/+OTl5A213+m1vaA9nu/1PT
-        sv87Obm2gNSCNKAbABITnzx5xoGr1+7+z8uv/F9cUv9/2/a9///8+ft/ypQ5//X0TY4A84UUONviMAAs
-        IS+vaK2lpVdua+s0LSsrZ3p2dnaFvLyCDUwjsgEA5ndtyrezF80AAAAASUVORK5CYII=
-</value>
-  </data>
-  <data name="tsmiFiles.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAALRJREFUOE9j/P//
-        PwNFAGQAJZgizWDXU2I73IBTi80ZgPg/EgbxCWJkA4DsRXCMZhiywSA23GAUA369b/j/42UoGIPYuDDU
-        cLAhKAZ8e5T2//MNYzAm4AKYPKoB359k/f9y2wIsiewdXGyIOmgsgDg/XpaANSO7BOYiZBokD/MGRhjA
-        DPr20PU/LgyzCCMMQJr/fO3///tTJk4Mkoc5HasBpPgd3QD0hIQvJjDTASXJmeK8AACpu7WMtPg+dgAA
-        AABJRU5ErkJggg==
-</value>
-  </data>
-  <data name="tsmiHelp.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAABOIAAA
-        TiABFn2Z3gAAAmxJREFUOE+VUl1r0mEU/2s3oy9gEX2AddEgYl2uLhSiW1EIZIEQ3nXTXTdBIkjdTDff
-        8F1x7kJEnZigwjZFZeIbytimMkFNnG91kSvU0zkPGGUFTTh4/g/P7+X8nsPjln42m22Nx+M94/P5aysr
-        K7cBgJtMJp+m02kRz8Nyuby8jGHfCFz1er2Bo6Ojq0ajMe/3+/PhcAiDwQA6nQ6Uy2WIRCLf7HZ7wGQy
-        rf5G4nQ6n+zv77dbrdZ8NBrBeDyG4+NjEAqFgBdhY2MD9vb24OzsDLLZLHg8np7RaHzMSBB8JxQKXfR6
-        vRkBF7W+vg4ymQyq1SojEQgEjICcJJNJcDgcXSS5y2Hz7vz8/OtCeUEgFotBoVBAt9tlBBKJBE5OTqBQ
-        KEAqlYJAIDBHgvecy+X6iDPOaF4i+bVofp1OB1KpFPL5PHOTy+Xg4OAAcGRAgiLndrtjzWZzSkqXl5cs
-        NCrq6Yysk21SLxaLkE6nIRaLgd/vJ4I6Z7VaTZVKZYIkgCFCu91mRT2d1Wo1BiYSCpbUw+Ew7O7uws7O
-        jpMzm80PcZ7R6enpDLOAer3OQNRTBlSlUolZPzw8hGg0Cj6fj9Sv9Hr9ffYSSPIaWT+jyozmpEJXDCwS
-        idjTLcBk3WKxfN/e3n75cxeUSiUfSTbR1kUikZhmMpk52cV/wMWCeDzObNMuoHJLq9U+RzDvj400GAwC
-        vPAKFaK4HzUM+AumPQ4Gg4CbOkHVNwi+9ddVXj5Uq9U3MaS3SNLBzaPnTKtUqhv/BV5cQsUX+EpTVAdU
-        /nAtMF1G0FPMBjDt4dbW1r1rE2g0mgdYcaxH/wL/AOVaF8U6tAoVAAAAAElFTkSuQmCC
 </value>
   </data>
   <data name="tsmiRescanQuick.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
@@ -562,6 +470,34 @@ the CDLC files to repair (aka Bulk Repair).</value>
         h5Z2AyKR8RR+2NHRcZZhmFi84xjfIx2rfMwtqs3hBXryI6H1RRSDetG6uwQOMkVgI1J0eHj4SbQfRzqM
         dATpBFJs4V1ORVUWd638EVeemxAW9Q+PJHKtAgrQ1gAAAABJRU5ErkJggg==
 </value>
+  </data>
+  <data name="tsmiRepairs.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAy5JREFUOE91kmtI
+        k1EYxx8zM0ps1kIxkcZrlm5mJgWJlHZTV4Rmt2UfZCBqSWZWXiK3zKY5c2zelpm5m262+5QtJVeCs5pQ
+        Yh+SsAlmFBTUh8ICfTrvpDLMA3/Oy3PO/8f/Oc8LsGCxWCygKGphyfvdWcIEfMIRPZUGrFh0+LswNjYW
+        PDExoR8fHzd6PJ6Evfv2eY/sglCYsUY+/nQPEB2B/CUBOTk5MDo6Wtbf349OpxNdw+54ViDAz64wm6cW
+        8H0z4Fdj6PD3h9HRRUcXBOHz+ZCcnOwFR0REgMvlqnA4HPhowHmOrk2KgJoWg3hKAt8/tAB+6VqOOLz2
+        5J8kVquVNzk5eTE3Nxdo2NDQkM5msyHZ94eHb/TeayrcBs8lsUPvpIAf7wB+Mwc/e9W2AS7QSZRK5em+
+        vj4cGRl54Ha7NRaLBc1mM/b29uLIi7EU1fXD4JImua3XonCgkoXTMgJpBZyxBeNnA5MLpaWlPoODgx67
+        3e41kURzBoMBtVotdutN+Eh7652+kInG0ki0VHBEb8XLsqcbAelHnWqDJG/EvLw8qKysjC0pKWE2NjYF
+        dBssr9WdWiTp8L5Ki2alBC3CxPI9W9fBy6sQ9U0OZtRBfva8ffGyygrWKKQCbFd2YWtrKzY2y1H3wPKm
+        q9u4bsUqBvguNUt/Xx9QXTkQcvds7NcGXgg2l/OwSd6GMpkM6+rqUC6Xz9rtjl1bY+MWIwL8fUFZnMpq
+        4Mf9qD1B4W3eJmw4FZ4qlcoS6iUSrK6uRtIm1tTUYE9PT1FWVtZfCHO1HzFzOWJezFxVOoWizEiU8rbs
+        DgvyAx9fP/p9gglgmgYIhUIUCARuMildWlraPCQ9bv3K+tNsrMqIQFEGhbXHqO2Mlf+mpP9UAnGKxeLR
+        9vb24yKRCLlc7vylvTGhUJtJtd04FDpbn72TFR8TCZuj2MDhcLxis9nAYDAgPz8fiPEmSUC3ssNrJnMP
+        M5gsB5VqVWbH3ZYcjdZQZDCaio1GYznRTaIqk8l0mUQu1ul0RWq1+kxHR8chjUaTqNfr14BCoWCR4hGi
+        bLVGc57sZUSC/0hIapeICmgIUQppJegX1ROhy2FVN2oAAAAASUVORK5CYII=
+</value>
+  </data>
+  <data name="tsmiRepairs.ToolTipText" xml:space="preserve">
+    <value>This tool repairs CDLC files using
+various user selectable options.
+
+HINT: First use 'Select All/None' and/or 
+'Toggle Selection' links to quckly choose
+the CDLC files to repair (aka Bulk Repair).</value>
   </data>
   <data name="tsmiRepairsUsingOrg.ToolTipText" xml:space="preserve">
     <value>Developers do not recommend use of this option.
@@ -610,6 +546,70 @@ be reset from the 'Settings' tab menu.</value>
         RjKZPMLCuaBUKh0gMGEYRjoQCBQ5qemLjPMtKK1WK51KpQ6xeEoURbnWNG0b9/wEfclJTV9ker+DQTys
         1Uwms4dAFvC2uPmkqzmp6XM921vAj8oPlnO53A5eq+6FWwFL+C8sAg1s9oHro24/Ez2pW8Syfkh/Ffzb
         /wUk6+TrspQ9MgAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="tsmiFiles.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAALRJREFUOE9j/P//
+        PwNFAGQAJZgizWDXU2I73IBTi80ZgPg/EgbxCWJkA4DsRXCMZhiywSA23GAUA369b/j/42UoGIPYuDDU
+        cLAhKAZ8e5T2//MNYzAm4AKYPKoB359k/f9y2wIsiewdXGyIOmgsgDg/XpaANSO7BOYiZBokD/MGRhjA
+        DPr20PU/LgyzCCMMQJr/fO3///tTJk4Mkoc5HasBpPgd3QD0hIQvJjDTASXJmeK8AACpu7WMtPg+dgAA
+        AABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="tsmiFilesDisableEnable.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAkJJREFUOE9j/P//
+        PwMMGJfPZGBkZARxVaCYDygPEvgEpG//+/fvDhAzXOrLgethABkAw0ZlMxiBhphHT1ybceDqwzVP3n07
+        cvXxx70bTt1eGtKzMku/eKqlbuFkRmQ96AaoATVnffz26+bLDz+uPHz99fSRG292rT35ZNvNp59Ohfas
+        yNMpmKSB0wCDkml+J2493fj644/rT99+O/v4zbczJ26/3bvo4IN1W88927Hv8sP1WnkTQnAaoFc0Jf7N
+        5x9XgBrBmm89/3xs96UX2+bvv792/amnm4Bip9Sze9NwGgB0XgLQ2SBb94Fs3n3p5bbFhx6uX3zw4bpd
+        F19se/zm63GVjK4MnAYAnee35OCVhXsvvzoIcjbIZpDmzWefbb744MORNceuLFdMbQ/FaQDQebLWlTNy
+        rj95f3zj6adb1518uhFo89bTd97tffj682nT4oklckktCvgMYAA60Saqd3ndw9ffLp2683bP+fvv9z17
+        //1KWOfiFun4RkfZxGaUmEPhKKS0MQAxM9CW2BWHL62++ezT8RtPPx1ddvDCGomYuiQgZgZi3AYAbWCA
+        Yq2Y3mWND15/vXj/1dcLUV2LW8SianREI6sZQBinF8SjaxmgmEsxqan60Ztvl4Gxckk+vqFOOLySG4gZ
+        QBinAWYRmQwwrKurm7Zly5b//f39/5mZmWdwatswwDBOA0JDQxlgGGTA3bt3/q9btwtsACL3MOB2AboB
+        J0+e+D9//lLyDNDW1hYDZu2dQHwZaLssLhcAANOsUruQGin5AAAAAElFTkSuQmCC
+</value>
+  </data>
+  <data name="tsmiFilesDelete.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALEwAA
+        CxMBAJqcGAAAA1tJREFUOE9j/P//P8Pnz58Zvn37wQACbGxsSvz8fBYvXrxWu337oSArG+sfWRnJj7Ky
+        4neePXt14t79R/d4edgZ5OVlGAQEBBkYQAZ8+vSJ4fWbtwx37z5QP3r0RO2lS5dXbN++Y09n58T9rW19
+        W5csWb3vxo1bm+7de1R/7Ng59UuXrjC8f/8OrBdM/Pv3j+Hhw8f+vr6BF4WEhJcLCAjUsLGzZwJdk8HB
+        wZ4BpAv5+fkbtbV1FwYGhh08ceK07/fv3xEGlFdUM+TkFExmYWGZysTMlMPFxVnEy8uXz8fHl8rHz58J
+        pPN4eXnLgfK1jIyME6qq6ttmzVqIMICVlZ1BWVktMS+v+FpwcMhUTU3NHBER0VSgplRubu4YYWHhDGVl
+        lUo7O/v5Pr6Bt2Ljk/PCIqIRBtjZ2zMYGBqa6hsYXq+pqd/f3T1pR3vHhKO1tW3Hampbj8ydt/DYwkWL
+        L/j5B+8XE5c45uPv75Gdl48wIDwyisHPP0BDSlr6EdDJq/gFBCaLi0v0ysrJ94OwmLh4N1C8R1hEeIGM
+        rOzlsIhIs7SMTIQBkdHRDCFhYcJy8vLbJaWkNklISs4Wl5CYBtQ4UVRMrAtITxCXkJwCFF8ur6h4JDoh
+        STYlKxthQGBwCENEVDSruobmaglJqR1AhdOBTu0EuqIbaBDYBUB6MlB8s7qGxjag7TzJqWkIA5iZmRmE
+        hIQY5BUUFwNdcBCoYYGQsNB0YHROFhAUmCAkLDwRKDZbQkJyi7Kq6iZ5BQUGTk5OhAHABMgISoRAv88A
+        hsMFoFd2GxqZnHJ0cjtra+d4XkdX7yxQfIeUlPQxoKFLgGo5QHrgCQnI4QViIS4url6gLd8lpaT/e3oF
+        /i8srv8fl5D139rG4b+MjNx/oPe+AqN1BlCtMEgPsgFcIANkZOVm8fML/heXkPlvZe303z8w6r+vX8R/
+        W3v3/wqKav+FhUX/K6uozgeqBWYCBi5kA0D5iEleQamuprbpv7dPANAAx/+OTl5A213+m1vaA9nu/1PT
+        sv87Obm2gNSCNKAbABITnzx5xoGr1+7+z8uv/F9cUv9/2/a9///8+ft/ypQ5//X0TY4A84UUONviMAAs
+        IS+vaK2lpVdua+s0LSsrZ3p2dnaFvLyCDUwjsgEA5ndtyrezF80AAAAASUVORK5CYII=
+</value>
+  </data>
+  <data name="tsmiHelp.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAABOIAAA
+        TiABFn2Z3gAAAmxJREFUOE+VUl1r0mEU/2s3oy9gEX2AddEgYl2uLhSiW1EIZIEQ3nXTXTdBIkjdTDff
+        8F1x7kJEnZigwjZFZeIbytimMkFNnG91kSvU0zkPGGUFTTh4/g/P7+X8nsPjln42m22Nx+M94/P5aysr
+        K7cBgJtMJp+m02kRz8Nyuby8jGHfCFz1er2Bo6Ojq0ajMe/3+/PhcAiDwQA6nQ6Uy2WIRCLf7HZ7wGQy
+        rf5G4nQ6n+zv77dbrdZ8NBrBeDyG4+NjEAqFgBdhY2MD9vb24OzsDLLZLHg8np7RaHzMSBB8JxQKXfR6
+        vRkBF7W+vg4ymQyq1SojEQgEjICcJJNJcDgcXSS5y2Hz7vz8/OtCeUEgFotBoVBAt9tlBBKJBE5OTqBQ
+        KEAqlYJAIDBHgvecy+X6iDPOaF4i+bVofp1OB1KpFPL5PHOTy+Xg4OAAcGRAgiLndrtjzWZzSkqXl5cs
+        NCrq6Yysk21SLxaLkE6nIRaLgd/vJ4I6Z7VaTZVKZYIkgCFCu91mRT2d1Wo1BiYSCpbUw+Ew7O7uws7O
+        jpMzm80PcZ7R6enpDLOAer3OQNRTBlSlUolZPzw8hGg0Cj6fj9Sv9Hr9ffYSSPIaWT+jyozmpEJXDCwS
+        idjTLcBk3WKxfN/e3n75cxeUSiUfSTbR1kUikZhmMpk52cV/wMWCeDzObNMuoHJLq9U+RzDvj400GAwC
+        vPAKFaK4HzUM+AumPQ4Gg4CbOkHVNwi+9ddVXj5Uq9U3MaS3SNLBzaPnTKtUqhv/BV5cQsUX+EpTVAdU
+        /nAtMF1G0FPMBjDt4dbW1r1rE2g0mgdYcaxH/wL/AOVaF8U6tAoVAAAAAElFTkSuQmCC
 </value>
   </data>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">

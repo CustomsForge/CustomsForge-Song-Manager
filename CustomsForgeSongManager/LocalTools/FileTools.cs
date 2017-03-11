@@ -81,7 +81,7 @@ namespace CustomsForgeSongManager.LocalTools
             else
                 Globals.Log("Organizing CDLC into ArtistName Folders ...");
 
-            var total = selectedSongs.Where(x => x.Selected).Count();
+            var total = selectedSongs.Count();
             int processed = 0, failed = 0, skipped = 0;
             GenericWorker.InitReportProgress();
 

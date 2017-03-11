@@ -1,5 +1,9 @@
 ﻿CFSM Release Notes
 
+1.3.0.6
+- added some additional tooltips
+- fixed 'Files' organizer 'Processed' song count 
+
 1.3.0.5
 - added additional progress bar updates during repair
 - added feature to 'Files' dropdown menu that quickly organizes and renames CDLC into ArtistName subfolders (code from CGT)

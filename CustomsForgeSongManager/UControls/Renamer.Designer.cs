@@ -197,6 +197,8 @@
             this.btnRenameAll.TabIndex = 11;
             this.btnRenameAll.Text = "Rename All Songs";
             this.btnRenameAll.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.toolTip.SetToolTip(this.btnRenameAll, "If \'Rename only the songs that are \r\nselected in Song Manager\' is unchecked,\r\nthi" +
+                    "s renames all CDLC and ODLC too!");
             this.btnRenameAll.UseVisualStyleBackColor = true;
             this.btnRenameAll.Click += new System.EventHandler(this.btnRenameAll_Click);
             // 
