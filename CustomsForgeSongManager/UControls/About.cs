@@ -339,7 +339,6 @@ namespace CustomsForgeSongManager.UControls
             GenExtensions.InvokeIfRequired(lnkDeployEOF, delegate { lnkDeployEOF.Enabled = enable; });
             GenExtensions.InvokeIfRequired(lnkDeployCGT, delegate { lnkDeployCGT.Enabled = enable; });
         }
-
     }
 
     public sealed class LinkLabelStatic : LinkLabel

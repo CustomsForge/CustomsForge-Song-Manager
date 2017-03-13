@@ -147,12 +147,11 @@ namespace CustomsForgeSongManager.LocalTools
 
             if (processed > 0)
             {
+                // remove empty directories from inside the 'dlc' folder
+                new DirectoryInfo(dlcDir).DeleteEmptyDirs();
+
                 if (isUndo)
-                {
-                    // remove empty directories from inside the 'dlc' folder
-                    new DirectoryInfo(dlcDir).DeleteEmptyDirs();
                     Globals.Log("Sucessully restored CDLC files to 'dlc' folder and removed empty ArtistName folders ...");
-                }
                 else
                     Globals.Log("Sucessully organized and renamed CDLC into ArtistName Folders ...");
             }

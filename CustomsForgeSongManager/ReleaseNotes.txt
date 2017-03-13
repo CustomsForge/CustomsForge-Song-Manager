@@ -1,5 +1,9 @@
 ﻿CFSM Release Notes
 
+1.3.0.7
+- fixed 'Files' organizer so that it removes empty subdirectories from the 'dlc' folder
+- added additional tooltip WARNINGS to 'Files' organizer.
+
 1.3.0.6
 - added some additional tooltips
 - fixed 'Files' organizer 'Processed' song count 
