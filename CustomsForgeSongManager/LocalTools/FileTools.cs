@@ -395,8 +395,11 @@ namespace CustomsForgeSongManager.LocalTools
             return isDirectory;
         }
 
-        public static string OfficialOrRepaired(string filePath)
+        public static string IsOfficialRepairedDisabled(string filePath)
         {
+            if (filePath.ToLower().Contains("disable"))
+                return "Disabled";
+
             ToolkitInfo entryTkInfo;
             using (var browser = new PsarcLoader(filePath, true))
                 entryTkInfo = browser.ExtractToolkitInfo();

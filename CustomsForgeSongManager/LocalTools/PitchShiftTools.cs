@@ -114,12 +114,19 @@ namespace CustomsForgeSongManager.LocalTools
                 processed++;
                 GenericWorker.ReportProgress(processed, total, skipped, failed);
 
-                var officialOrRepaired = FileTools.OfficialOrRepaired(srcFilePath);
+                var officialOrRepaired = FileTools.IsOfficialRepairedDisabled(srcFilePath);
                 if (!String.IsNullOrEmpty(officialOrRepaired))
                 {
                     if (officialOrRepaired.Contains("Official"))
                     {
                         Globals.Log(" - Skipped ODLC File");
+                        skipped++;
+                        isSkipped = true;
+                    }
+
+                    if (officialOrRepaired.Contains("Disabled"))
+                    {
+                        Globals.Log(" - Skipped Disabled File");
                         skipped++;
                         isSkipped = true;
                     }

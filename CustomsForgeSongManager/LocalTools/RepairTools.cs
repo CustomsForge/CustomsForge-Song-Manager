@@ -350,7 +350,7 @@ namespace CustomsForgeSongManager.LocalTools
                 processed++;
                 GenericWorker.ReportProgress(processed, total, skipped, failed);
 
-                var officialOrRepaired = FileTools.OfficialOrRepaired(srcFilePath);
+                var officialOrRepaired = FileTools.IsOfficialRepairedDisabled(srcFilePath);
                 if (!String.IsNullOrEmpty(officialOrRepaired))
                 {
                     if (officialOrRepaired.Contains("Official"))
@@ -366,6 +366,13 @@ namespace CustomsForgeSongManager.LocalTools
                         skipped++;
                         isSkipped = true;
                     }
+
+                    if (officialOrRepaired.Contains("Disabled"))
+                    {
+                        Globals.Log(" - Skipped Disabled File");
+                        skipped++;
+                        isSkipped = true;
+                    }
                 }
 
                 // remaster the CDLC file
@@ -376,12 +383,12 @@ namespace CustomsForgeSongManager.LocalTools
                     {
                         var lines = sbErrors.ToString().Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).ToList();
                         if (lines.Last().ToLower().Contains("maximum"))
-                            Globals.Log(Path.GetFileName(srcFilePath) + " - Exceeds Playable Arrangements Limit ... Moved file to 'maxfive' subfolder");                        
+                            Globals.Log(Path.GetFileName(srcFilePath) + " - Exceeds Playable Arrangements Limit ... Moved file to 'maxfive' subfolder");
                         else
                             Globals.Log(Path.GetFileName(srcFilePath) + " - Corrupt CDLC ... Moved file to 'corrupt' subfolder");
 
                         failed++;
-                        
+
                         // remove corrupt CDLC from SongCollection
                         var song = Globals.SongCollection.FirstOrDefault(s => s.FilePath == srcFilePath);
                         int index = Globals.SongCollection.IndexOf(song);

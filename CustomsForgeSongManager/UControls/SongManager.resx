@@ -376,6 +376,12 @@
   <metadata name="colFilePath.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
+  <metadata name="colFileDate.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="colFileSize.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
   <metadata name="colStatus.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -511,15 +517,24 @@ rename CDLC with 'ArtistName_SongName_Vers#_p.psarc'
 WARNING
 ------------
 You may not want to use this feature if you have 
-created custom setlists with Setlist Manager.
-
-This feature will modify any existing setlists that
-may have been created with Setlist Manager, i.e.,
-Setlist Manager songs will also be moved to 
+created custom setlists with Setlist Manager and/or
+have renamed any songs with Renamer.  All 
+selected songs will be rename and moved to
 ArtistName subfolders.
 
 On the flip side, this feature can be used to
 quickly create setlists by ArtistName.  </value>
+  </data>
+  <data name="tsmiFilesUnorganize.ToolTipText" xml:space="preserve">
+    <value>Restore CDLC files back to the master 'dlc'
+folder and remove empty ArtistName subfolders.
+
+WARNING
+------------
+This will remove any custom setlists that
+were created using Setlist Manager.  Songs
+are not renamed during restore operation.
+</value>
   </data>
   <data name="tsmiFiles.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
