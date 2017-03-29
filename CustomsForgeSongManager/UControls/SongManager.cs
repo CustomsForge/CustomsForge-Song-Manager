@@ -998,7 +998,6 @@ namespace CustomsForgeSongManager.UControls
         private void cmsDisableEnableToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var selection = DgvExtensions.GetObjectFromRow<SongData>(dgvSongsMaster.SelectedRows[0]);
-
             var originalPath = selection.FilePath;
             var originalFile = selection.FileName;
 
@@ -1041,7 +1040,7 @@ namespace CustomsForgeSongManager.UControls
             var filePath = selection.FilePath;
             var enabled = selection.Enabled == "Yes";
 
-            // do not edit disabled CDLC
+            // DO NOT edit/modify/repair disabled CDLC
             if (!enabled)
             {
                 var diaMsg = Environment.NewLine + "Disabled CDLC may not be edited." + Environment.NewLine + "Please enable the CLDC and then edit it.";
@@ -1051,7 +1050,7 @@ namespace CustomsForgeSongManager.UControls
 
             using (var songEditor = new frmSongEditor(filePath))
             {
-                songEditor.Text = String.Format("{0}{1}", Properties.Resources.SongEditorLoaded, Path.GetFileName(filePath));
+                songEditor.Text = String.Format("{0}{1}", "Song Editor ... Loaded: ", Path.GetFileName(filePath));
                 songEditor.ShowDialog();
             }
 

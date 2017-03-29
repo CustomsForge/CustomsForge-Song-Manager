@@ -938,15 +938,6 @@ namespace CustomsForgeSongManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Song Editor ... Loaded: .
-        /// </summary>
-        internal static string SongEditorLoaded {
-            get {
-                return ResourceManager.GetString("SongEditorLoaded", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Song Manager.
         /// </summary>
         internal static string SongManager {

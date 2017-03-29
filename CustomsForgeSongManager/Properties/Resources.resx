@@ -409,10 +409,6 @@ Warning:  This can not be undone!</value>
     <value>Please select (highlight) the song  {0}that you would like to backup.</value>
     <comment>PleaseSelectHighlightTheSongX0ThatYouWould description</comment>
   </data>
-  <data name="SongEditorLoaded" xml:space="preserve">
-    <value>Song Editor ... Loaded: </value>
-    <comment>SongEditorLoaded description</comment>
-  </data>
   <data name="CanNotSelectIndividualRS1CompatiblityDLC" xml:space="preserve">
     <value>Can not 'Select' individual RS1 Compatiblity DLC</value>
     <comment>CanNotSelectIndividualRS1CompatiblityDLC description</comment>
