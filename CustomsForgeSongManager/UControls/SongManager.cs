@@ -465,7 +465,20 @@ namespace CustomsForgeSongManager.UControls
             }
             catch (Exception e)
             {
-                // failsafe ... delete My Documents/CFSM folder and files
+                // failsafe ... delete My Documents/CFSM folder and files with option not to delete
+
+                //var diaMsg = "A fatal CFSM application error has occured." + Environment.NewLine +
+                //             "You are about to delete all work files created" + Environment.NewLine +
+                //             "by CFSM, including any backups of CDLC files." + Environment.NewLine +
+                //             "Deletion is permenant and can not be undone." + Environment.NewLine +
+                //             "Do you want to continue?";
+
+                //if (DialogResult.No == BetterDialog2.ShowDialog(diaMsg, "Delete 'My Documents/CFSM' ...", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning", 0, 150))
+                //{
+                //    Globals.Log("User aborted deleting CFSM folder and subfolders from My Documents ...");
+                //    Environment.Exit(0);
+                //}
+
                 string err = e.Message;
                 if (e.InnerException != null)
                     err += ", Inner: " + e.InnerException.Message;
@@ -475,7 +488,12 @@ namespace CustomsForgeSongManager.UControls
                 Globals.Log("Deleted CFSM folder and subfolders from My Documents ...");
 
                 if (Directory.Exists(Constants.WorkFolder))
-                    ZipUtilities.DeleteDirectory(Constants.WorkFolder);
+                {
+                    GenExtensions.DeleteFile(Constants.SongsInfoPath);
+                    GenExtensions.DeleteFile(Constants.SettingsPath);
+                    GenExtensions.DeleteFile(Constants.LogFilePath);
+                    // GenExtensions.DeleteDirectory(Constants.WorkFolder);
+                }
 
                 MessageBox.Show(string.Format("{0}{1}{1}CFSM will now shut down.", err, Environment.NewLine), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Environment.Exit(0);

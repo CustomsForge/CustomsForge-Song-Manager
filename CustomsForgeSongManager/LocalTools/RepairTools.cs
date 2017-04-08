@@ -267,7 +267,7 @@ namespace CustomsForgeSongManager.LocalTools
             catch (CustomException ex)
             {
                 Globals.Log(" - Repair failed ... " + ex.Message);
-                Globals.Log(" - See '" + Path.GetFileName(Constants.RemasteredErrorLogPath) + "' file");
+                Globals.Log(" - See '" + Path.GetFileName(Constants.RepairsErrorLogPath) + "' file");
 
                 if (ex.Message.Contains("Maximum"))
                 {
@@ -288,7 +288,7 @@ namespace CustomsForgeSongManager.LocalTools
             catch (Exception ex)
             {
                 Globals.Log(" - Repair failed ... " + ex.Message);
-                Globals.Log(" - See '" + Path.GetFileName(Constants.RemasteredErrorLogPath) + "' file");
+                Globals.Log(" - See '" + Path.GetFileName(Constants.RepairsErrorLogPath) + "' file");
 
                 //  copy (org) to corrupt (cor), delete backup (org), delete original
                 var properExt = Path.GetExtension(srcFilePath);
@@ -440,13 +440,13 @@ namespace CustomsForgeSongManager.LocalTools
                 // error log can be turned into CSV file
                 sbErrors.Insert(0, "File Path, Error Message" + Environment.NewLine);
                 sbErrors.Insert(0, DateTime.Now.ToString("MM-dd-yy HH:mm") + Environment.NewLine);
-                using (TextWriter tw = new StreamWriter(Constants.RemasteredErrorLogPath, true))
+                using (TextWriter tw = new StreamWriter(Constants.RepairsErrorLogPath, true))
                 {
                     tw.WriteLine(sbErrors + Environment.NewLine);
                     tw.Close();
                 }
 
-                Globals.Log("Saved error log to: " + Constants.RemasteredErrorLogPath + " ...");
+                Globals.Log("Saved error log to: " + Constants.RepairsErrorLogPath + " ...");
             }
 
             return sbErrors;
@@ -456,12 +456,12 @@ namespace CustomsForgeSongManager.LocalTools
         {
             string stringLog;
 
-            if (!File.Exists(Constants.RemasteredErrorLogPath))
-                stringLog = Path.GetFileName(Constants.RemasteredErrorLogPath) + " is empty ...";
+            if (!File.Exists(Constants.RepairsErrorLogPath))
+                stringLog = Path.GetFileName(Constants.RepairsErrorLogPath) + " is empty ...";
             else
             {
-                stringLog = Constants.RemasteredErrorLogPath + Environment.NewLine;
-                stringLog = stringLog + File.ReadAllText(Constants.RemasteredErrorLogPath);
+                stringLog = Constants.RepairsErrorLogPath + Environment.NewLine;
+                stringLog = stringLog + File.ReadAllText(Constants.RepairsErrorLogPath);
                 stringLog = stringLog + Environment.NewLine + AppSettings.Instance.LogFilePath + Environment.NewLine;
                 stringLog = stringLog + File.ReadAllText(AppSettings.Instance.LogFilePath);
             }

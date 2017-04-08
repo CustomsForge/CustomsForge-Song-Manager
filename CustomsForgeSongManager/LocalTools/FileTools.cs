@@ -32,7 +32,7 @@ namespace CustomsForgeSongManager.LocalTools
             {
                 sfd.Filter = ".zip files (*.zip)|*.zip";
                 sfd.FilterIndex = 0;
-                sfd.InitialDirectory = Constants.ArchiveFolder;
+                sfd.InitialDirectory = Constants.ArchivesFolder;
                 sfd.FileName = fileName;
 
                 if (sfd.ShowDialog() != DialogResult.OK)
@@ -44,8 +44,8 @@ namespace CustomsForgeSongManager.LocalTools
             // save zip file to 'remastered' folder so that it is not accidently deleted
             try
             {
-                if (ZipUtilities.ZipDirectory(srcFolder, Path.Combine(Constants.ArchiveFolder, fileName)))
-                    Globals.Log("Archive saved to: " + Path.Combine(Constants.ArchiveFolder, fileName));
+                if (ZipUtilities.ZipDirectory(srcFolder, Path.Combine(Constants.ArchivesFolder, fileName)))
+                    Globals.Log("Archive saved to: " + Path.Combine(Constants.ArchivesFolder, fileName));
                 else
                     throw new IOException();
 
@@ -514,14 +514,24 @@ namespace CustomsForgeSongManager.LocalTools
 
         public static void VerifyCfsmFolders()
         {
-            if (!Directory.Exists(Constants.Rs2CfsmFolder))
-                Directory.CreateDirectory(Constants.Rs2CfsmFolder);
+            if (!Directory.Exists(Constants.RemasteredFolder))
+                Directory.CreateDirectory(Constants.RemasteredFolder);
+
+            // Move old shit to new shit to avoid future OS Permission issues
+            if (Directory.Exists(Constants.Rs2CfsmFolder))
+            {
+                GenExtensions.CopyDir(Path.Combine(Constants.Rs2CfsmFolder, "archives"), Constants.ArchivesFolder);
+                GenExtensions.CopyDir(Path.Combine(Constants.Rs2CfsmFolder, "backups"), Constants.BackupFolder);
+                GenExtensions.CopyDir(Path.Combine(Constants.Rs2CfsmFolder, "duplicates"), Constants.DuplicatesFolder);
+                GenExtensions.CopyDir(Path.Combine(Constants.Rs2CfsmFolder, "remastered"), Constants.RemasteredFolder);
+                GenExtensions.DeleteDirectory(Constants.Rs2CfsmFolder, true);
+            }
 
             if (!Directory.Exists(Constants.BackupFolder))
                 Directory.CreateDirectory(Constants.BackupFolder);
 
-            if (!Directory.Exists(Constants.ArchiveFolder))
-                Directory.CreateDirectory(Constants.ArchiveFolder);
+            if (!Directory.Exists(Constants.ArchivesFolder))
+                Directory.CreateDirectory(Constants.ArchivesFolder);
 
             if (!Directory.Exists(Constants.RemasteredFolder))
                 Directory.CreateDirectory(Constants.RemasteredFolder);
@@ -537,7 +547,6 @@ namespace CustomsForgeSongManager.LocalTools
 
             if (!Directory.Exists(Constants.DuplicatesFolder))
                 Directory.CreateDirectory(Constants.DuplicatesFolder);
-
         }
 
         #endregion

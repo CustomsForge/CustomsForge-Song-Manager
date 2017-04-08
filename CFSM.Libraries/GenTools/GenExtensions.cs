@@ -123,10 +123,12 @@ namespace GenTools
 
         public static void CleanDir(this System.IO.DirectoryInfo directory, bool deleteSubDirs = false)
         {
-            foreach (FileInfo file in directory.GetFiles()) file.Delete();
+            foreach (FileInfo file in directory.GetFiles())
+                file.Delete();
 
             if (deleteSubDirs)
-                foreach (DirectoryInfo subDirectory in directory.GetDirectories()) subDirectory.Delete(true);
+                foreach (DirectoryInfo subDirectory in directory.GetDirectories())
+                    subDirectory.Delete(true);
         }
 
         public static string CleanForAPI(this string text)
@@ -570,6 +572,57 @@ namespace GenTools
             }
         }
 
+        public static bool CopyDir(string srcFolder, string destFolder, bool isRecursive = true)
+        {
+            if (!Directory.Exists(destFolder))
+            {
+                try
+                {
+                    Directory.CreateDirectory(destFolder);
+                }
+                catch (IOException e)
+                {
+                    BetterDialog.ShowDialog(
+                        "<ERROR> Could not create directory: " + destFolder + Environment.NewLine + e.Message,
+                        MESSAGEBOX_CAPTION, MessageBoxButtons.OK, Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning ...", 150, 150);
+                    return false;
+                }
+            }
+
+            // Get Files and Copy
+            string[] files = Directory.GetFiles(srcFolder);
+            foreach (string file in files)
+            {
+                string name = Path.GetFileName(file);
+
+                string dest = Path.Combine(destFolder, name);
+                try
+                {
+                    File.Copy(file, dest, true);
+                }
+                catch (IOException e)
+                {
+                    BetterDialog.ShowDialog(
+                        "<ERROR> Could not copy the file: " + file + Environment.NewLine + e.Message,
+                        MESSAGEBOX_CAPTION, MessageBoxButtons.OK, Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning ...", 150, 150);
+                    return false;
+                }
+            }
+
+            // Get dirs recursively and copy files
+            if (isRecursive)
+            {
+                string[] folders = Directory.GetDirectories(srcFolder);
+                foreach (string folder in folders)
+                {
+                    string name = Path.GetFileName(folder);
+                    string dest = Path.Combine(destFolder, name);
+                    CopyDir(folder, dest);
+                }
+            }
+
+            return true;
+        }
 
         public static bool MoveFile(string fileFrom, string fileTo, bool verbose = true)
         {

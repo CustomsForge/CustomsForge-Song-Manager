@@ -59,7 +59,6 @@ namespace CustomsForgeSongManager.DataObjects
         public static string TaggerExtractedFolder { get { return Path.Combine(TaggerWorkingFolder, "extracted"); } }
         public static string TaggerPreviewsFolder { get { return Path.Combine(TaggerWorkingFolder, "previews"); } }
 
-        public static string CachePsarcPath { get { return Path.Combine(AppSettings.Instance.RSInstalledDir, "cache.psarc"); } }
 
         public static string Rs1DiscPsarcPath
         {
@@ -77,7 +76,7 @@ namespace CustomsForgeSongManager.DataObjects
         public static string Rs1DlcPsarcPath
         {
             get
-            { 
+            {
                 var dlcPath = Rs2DlcFolder;
                 // TODO: determine if GetFiles is case sensitive
                 var files = Directory.GetFiles(dlcPath, "rs1compatibilitydlc_p.psarc", SearchOption.AllDirectories);
@@ -89,10 +88,11 @@ namespace CustomsForgeSongManager.DataObjects
 
         // write access to the Steam RSInstallDir is provided by the code 
         public static string Rs2DlcFolder { get { return Path.Combine(AppSettings.Instance.RSInstalledDir, "dlc"); } }
+        public static string CachePsarcPath { get { return Path.Combine(AppSettings.Instance.RSInstalledDir, "cache.psarc"); } }
+
+        // no reliable/safe write to rocksmith2014/cfsm folder because of modern OS Permissions
+        [Obsolete("Depricated, please use 'My Documents/CFSM' folder", false)]
         public static string Rs2CfsmFolder { get { return Path.Combine(AppSettings.Instance.RSInstalledDir, "cfsm"); } }
-        public static string Rs1DiscPsarcBackupPath { get { return Path.Combine(Rs2CfsmFolder, "rs1compatibilitydisc_p.psarc.org"); } }
-        public static string Rs1DlcPsarcBackupPath { get { return Path.Combine(Rs2CfsmFolder, "rs1compatibilitydlc_p.psarc.org"); } }
-        public static string CachePsarcBackupPath { get { return Path.Combine(Rs2CfsmFolder, "cache.psarc.org"); } }
 
         public static string CpeWorkFolder { get { return Path.Combine(WorkFolder, "SongPacks"); } }
         public static string ExtractedSongsHsanPath { get { return Path.Combine(CpeWorkFolder, "songs.hsan"); } }
@@ -107,17 +107,21 @@ namespace CustomsForgeSongManager.DataObjects
         public static string SongsRs1DiscInternalPath { get { return @"manifests/songs_rs1disc/songs_rs1disc.hsan"; } }
         public static string SongsRs1DlcInternalPath { get { return @"manifests/songs_rs1dlc/songs_rs1dlc.hsan"; } }
 
-        //Remastered_Folder placed in Rocksmith 2014 root, 'backup' subdirectory
-        public static string RemasteredErrorLogPath{get { return Path.Combine(RemasteredFolder, "remastered_error.log"); }}
-        public static string RemasteredFolder { get { return Path.Combine(Rs2CfsmFolder, "remastered"); } }
-        public static string BackupFolder { get { return Path.Combine(Rs2CfsmFolder, "backups"); } }
-        public static string DuplicatesFolder { get { return Path.Combine(Rs2CfsmFolder, "duplicates"); } }
-        public static string ArchiveFolder { get { return Path.Combine(Rs2CfsmFolder, "archives"); } }
+        // do not attempt to write files to Rocksmith 2014 root because of OS Permission issues      
+        public static string RemasteredFolder { get { return Path.Combine(WorkFolder, "Remastered"); } }
+        public static string RepairsErrorLogPath { get { return Path.Combine(RemasteredFolder, "remastered_error.log"); } }
+        public static string BackupFolder { get { return Path.Combine(WorkFolder, "Backups"); } }
+        public static string DuplicatesFolder { get { return Path.Combine(WorkFolder, "Duplicates"); } }
+        public static string ArchivesFolder { get { return Path.Combine(RemasteredFolder, "archives"); } }
         public static string RemasteredCorFolder { get { return Path.Combine(RemasteredFolder, "corrupt"); } }
         public static string RemasteredOrgFolder { get { return Path.Combine(RemasteredFolder, "original"); } }
         public static string RemasteredMaxFolder { get { return Path.Combine(RemasteredFolder, "maxfive"); } }
-        public static string SongPacksFolder { get { return Path.Combine(Rs2CfsmFolder, "songpacks"); } }
+        public static string SongPacksFolder { get { return Path.Combine(WorkFolder, "Songpacks"); } }
         public static string SongPacksOrgFolder { get { return Path.Combine(SongPacksFolder, "original"); } }
+        public static string Rs1DiscPsarcBackupPath { get { return Path.Combine(BackupFolder, "rs1compatibilitydisc_p.psarc.org"); } }
+        public static string Rs1DlcPsarcBackupPath { get { return Path.Combine(BackupFolder, "rs1compatibilitydlc_p.psarc.org"); } }
+        public static string CachePsarcBackupPath { get { return Path.Combine(BackupFolder, "cache.psarc.org"); } }
+
 
         #region URL constants
 

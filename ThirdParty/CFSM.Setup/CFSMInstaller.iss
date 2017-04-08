@@ -12,6 +12,10 @@ AppPublisherURL=AppURL
 AppSupportURL=AppURL
 AppUpdatesURL=AppURL
 VersionInfoCompany=CustomsForge.com
+; TODO: install CFMS in current user's Common Files dirctory, may have less OS permission issues
+; DefaultDirName={usercf}\CustomsForgeSongManager
+; TODO: install CFMS in current user's Program Files dirctory, may have less OS permission issues
+; DefaultDirName={userpf}\CustomsForgeSongManager
 DefaultDirName={pf}\CustomsForgeSongManager
 DefaultGroupName=CustomsForge Song Manager
 WizardImageFile=cfsmInstallWiz.bmp
@@ -21,8 +25,14 @@ VersionInfoVersion={#AppVersion}
 AppCopyright=CustomsForge.com
 SetupIconFile=..\..\CustomsForgeSongManager\Resources\cfsm_48x48.ico
 
+; Give OS write permissions to CFSM over these folders
+[Dirs]
+Name: "{app}";
+Name: "{app}\ddc"; Permissions: everyone-full
+
+; Give OS write permisions to all app exe and library exe files
 [Files]
-Source: {#buildpath}{#AppExeName}; DestDir: {app}; Flags: ignoreversion
+Source: {#buildpath}{#AppExeName}; DestDir: {app}; Flags: ignoreversion; Permissions: everyone-full 
 Source: {#buildpath}CFSM.AudioTools.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}CFSM.ImageTools.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}DF.WinForms.ThemeLib.dll; DestDir: {app}; Flags: ignoreversion
@@ -44,27 +54,26 @@ Source: {#buildpath}Antlr4.StringTemplate.dll; DestDir: {app}; Flags: ignorevers
 Source: {#buildpath}DF_DDSImage.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}MiscUtil.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}7z.dll; DestDir: {app}; Flags: ignoreversion
-Source: {#buildpath}oggCut.exe; DestDir: {app}; Flags: ignoreversion
-Source: {#buildpath}oggdec.exe; DestDir: {app}; Flags: ignoreversion
-Source: {#buildpath}oggenc.exe; DestDir: {app}; Flags: ignoreversion
+Source: {#buildpath}oggCut.exe; DestDir: {app}; Flags: ignoreversion; Permissions: everyone-full
+Source: {#buildpath}oggdec.exe; DestDir: {app}; Flags: ignoreversion; Permissions: everyone-full
+Source: {#buildpath}oggenc.exe; DestDir: {app}; Flags: ignoreversion; Permissions: everyone-full
 Source: {#buildpath}packed_codebooks.bin; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}packed_codebooks_aoTuV_603.bin; DestDir: {app}; Flags: ignoreversion
-Source: {#buildpath}revorb.exe; DestDir: {app}; Flags: ignoreversion
-Source: {#buildpath}ww2ogg.exe; DestDir: {app}; Flags: ignoreversion
-Source: {#buildpath}remastered.exe; DestDir: {app}; Flags: ignoreversion
+Source: {#buildpath}revorb.exe; DestDir: {app}; Flags: ignoreversion; Permissions: everyone-full
+Source: {#buildpath}ww2ogg.exe; DestDir: {app}; Flags: ignoreversion; Permissions: everyone-full
 Source: {#buildpath}SevenZipSharp.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}Newtonsoft.Json.dll; DestDir: {app}; Flags: ignoreversion
-Source: {#buildpath}ReleaseNotes.txt; DestDir: {app}; Flags: ignoreversion
-Source: {#buildpath}RocksmithToolkitLib.Config.xml; DestDir: {app}; Flags: ignoreversion
-Source: {#buildpath}RocksmithToolkitLib.SongAppId.xml; DestDir: {app}; Flags: ignoreversion
-Source: {#buildpath}RocksmithToolkitLib.TuningDefinition.xml; DestDir: {app}; Flags: ignoreversion
+Source: {#buildpath}ReleaseNotes.txt; DestDir: {app}; Flags: ignoreversion; Permissions: everyone-full
+Source: {#buildpath}RocksmithToolkitLib.Config.xml; DestDir: {app}; Flags: ignoreversion; Permissions: everyone-full
+Source: {#buildpath}RocksmithToolkitLib.SongAppId.xml; DestDir: {app}; Flags: ignoreversion; Permissions: everyone-full
+Source: {#buildpath}RocksmithToolkitLib.TuningDefinition.xml; DestDir: {app}; Flags: ignoreversion; Permissions: everyone-full
 Source: {#buildpath}zlib.net.dll; DestDir: {app}; Flags: ignoreversion
-Source: "{#buildpath}ddc\*"; DestDir: "{app}\ddc"; Flags: replacesameversion recursesubdirs
-Source: {srcexe}; DestDir: {app}; DestName: {#InstallerName}.exe; Flags: ignoreversion external
+Source: "{#buildpath}ddc\*"; DestDir: "{app}\ddc"; Flags: ignoreversion recursesubdirs createallsubdirs; Permissions: everyone-full
+Source: {srcexe}; DestDir: {app}; DestName: {#InstallerName}.exe; Flags: ignoreversion external; Permissions: everyone-full
 
 [Tasks]
 Name: desktopicon; Description: {cm:CreateDesktopIcon}; GroupDescription: {cm:AdditionalIcons}; Flags: checkedonce
-;todo: quick launch win 7 and up
+; TODO: quick launch win 7 and up
 Name: quicklaunchicon; Description: {cm:CreateQuickLaunchIcon}; GroupDescription: {cm:AdditionalIcons}; Flags: unchecked; OnlyBelowVersion: 0,6.1
 
 [Run]

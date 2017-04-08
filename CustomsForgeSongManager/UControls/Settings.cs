@@ -272,7 +272,7 @@ namespace CustomsForgeSongManager.UControls
 
             GenExtensions.DeleteFile(AppSettings.Instance.LogFilePath);
             Globals.MyLog.AddTargetFile(AppSettings.Instance.LogFilePath);
-            GenExtensions.DeleteFile(Constants.RemasteredErrorLogPath);
+            GenExtensions.DeleteFile(Constants.RepairsErrorLogPath);
             Globals.TbLog.Clear();
             Globals.Log("Log files have been emptied ...");
             Globals.Log("Starting new log ...");
