@@ -514,6 +514,20 @@ namespace CustomsForgeSongManager.LocalTools
 
         public static void VerifyCfsmFolders()
         {
+            // make sure we have write access to Rocksmith2014 folders
+            var rsDir = AppSettings.Instance.RSInstalledDir;
+
+            if (Directory.Exists(rsDir))
+            {
+                // make sure we have write access to the RSInstallDir
+                if (!ZipUtilities.EnsureWritableDirectory(rsDir))
+                    ZipUtilities.RemoveReadOnlyAttribute(rsDir);
+
+                // make sure we have write access to the 'dlc' folder
+                if (!ZipUtilities.EnsureWritableDirectory(Constants.Rs2DlcFolder))
+                    ZipUtilities.RemoveReadOnlyAttribute(Constants.Rs2DlcFolder);
+            }
+
             if (!Directory.Exists(Constants.RemasteredFolder))
                 Directory.CreateDirectory(Constants.RemasteredFolder);
 

@@ -90,7 +90,7 @@ namespace CustomsForgeSongManager.DataObjects
         public static string Rs2DlcFolder { get { return Path.Combine(AppSettings.Instance.RSInstalledDir, "dlc"); } }
         public static string CachePsarcPath { get { return Path.Combine(AppSettings.Instance.RSInstalledDir, "cache.psarc"); } }
 
-        // no reliable/safe write to rocksmith2014/cfsm folder because of modern OS Permissions
+        // issues writing to rocksmith2014/cfsm folder because of modern OS Permissions
         [Obsolete("Depricated, please use 'My Documents/CFSM' folder", false)]
         public static string Rs2CfsmFolder { get { return Path.Combine(AppSettings.Instance.RSInstalledDir, "cfsm"); } }
 
