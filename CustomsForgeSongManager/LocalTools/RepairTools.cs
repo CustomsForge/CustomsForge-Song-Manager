@@ -99,6 +99,12 @@ namespace CustomsForgeSongManager.LocalTools
             }
 
             fixedMax5 = true;
+
+            // add back vocals and showlights arrangements
+            foreach (var arr in packageData.Arrangements)
+                if (arr.ArrangementType == ArrangementType.Vocal || arr.ArrangementType == ArrangementType.ShowLight)
+                    packageDataKept.Arrangements.Add(arr);
+
             // replace original arrangements with kept arrangements
             packageData.Arrangements = packageDataKept.Arrangements;
             return packageData;

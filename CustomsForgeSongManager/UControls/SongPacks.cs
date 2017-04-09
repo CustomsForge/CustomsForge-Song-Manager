@@ -160,7 +160,7 @@ namespace CustomsForgeSongManager.UControls
             catch (Exception ex)
             {
                 // it is critical that backup of originals was successful before proceeding
-                throw new Exception("Backup of: " + sourcePath + " ... FAILED" + Environment.NewLine + ex.Message + Environment.NewLine + "Please correct issue and make sure you have" + Environment.NewLine + "backup copies of your original song files.");
+                throw new Exception("<ERROR> Backup of: " + sourcePath + " ... FAILED" + Environment.NewLine + ex.Message + Environment.NewLine + "Please correct issue and make sure you have" + Environment.NewLine + "backup copies of your original song files.");
             }
 
             if (writeProtect)
@@ -240,14 +240,14 @@ namespace CustomsForgeSongManager.UControls
             if (File.Exists(Constants.ExtractedSongsHsanPath))
                 File.Delete(Constants.ExtractedSongsHsanPath);
 
-            if (ZipUtilities.ExtractSingleFile(Constants.CpeWorkFolder, Constants.Cache7zPath, Constants.SongsHsanInternalPath))
+            if (ZipUtilities.ExtractSingleFile(Constants.SongPacksFolder, Constants.Cache7zPath, Constants.SongsHsanInternalPath))
             {
                 FileInfo f = new FileInfo(Constants.ExtractedSongsHsanPath);
                 if (f.Length > 0)
                     return true;
             }
 
-            MessageBox.Show("Extracting song cache failed!", "Extracting failed!", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            MessageBox.Show("<ERROR> Extracting song cache ... FAILED", "Extraction Failed", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             return false;
         }
 
@@ -326,11 +326,11 @@ namespace CustomsForgeSongManager.UControls
             }
 
             // song pack produced by toolkit has only one hsan file
-            customInternalHsanPath = PsarcExtensions.ExtractArchiveFile(customPackPsarcPath, "hsan", Constants.CpeWorkFolder);
+            customInternalHsanPath = PsarcExtensions.ExtractArchiveFile(customPackPsarcPath, "hsan", Constants.SongPacksFolder);
             var extractedCustomHsanFile = Path.GetFileName(customInternalHsanPath);
-            extractedCustomHsanPath = Path.Combine(Constants.CpeWorkFolder, extractedCustomHsanFile);
-            ConditionalBackup(customPackPsarcPath, Path.Combine(Constants.SongPacksOrgFolder, Path.ChangeExtension(Path.GetFileName(customPackPsarcPath), ".psarc.org")));
-            ConditionalBackup(extractedCustomHsanPath, Path.Combine(Constants.SongPacksOrgFolder, Path.ChangeExtension(extractedCustomHsanFile, ".hsan.org")));
+            extractedCustomHsanPath = Path.Combine(Constants.SongPacksFolder, extractedCustomHsanFile);
+            ConditionalBackup(customPackPsarcPath, Path.Combine(Constants.SongPacksOrgFolder, Path.ChangeExtension(Path.GetFileName(customPackPsarcPath), ".org.psarc")));
+            ConditionalBackup(extractedCustomHsanPath, Path.Combine(Constants.SongPacksOrgFolder, Path.ChangeExtension(extractedCustomHsanFile, ".org.hsan")));
             PopulateSongList(extractedCustomHsanPath, CustomSongCollection, ref CustomEntireCollection, CustomDisabledSongCollection, ref CustomDisabledEntireCollection);
 
             if (CustomSongCollection.Count > 0)
@@ -380,18 +380,23 @@ namespace CustomsForgeSongManager.UControls
         // ... deserialize filePath
         private void PopulateSongList<T>(string songFilePath, RSDataJsonDictionary<T> songCollection, ref RSDataJsonDictionary<T> fullSongCollection, RSDataJsonDictionary<T> disabledSongCollection, ref RSDataJsonDictionary<T> fullDisabledSongCollection) where T : RSDataAbstractBase
         {
+            Globals.TsProgressBar_Main.Value = 0;
+
             try
             {
                 string songFileContent = File.ReadAllText(songFilePath);
                 var songsJson = JObject.Parse(songFileContent);
                 var songsList = songsJson["Entries"];
+                Globals.TsProgressBar_Main.Value = 50;
 
                 fullSongCollection = JsonConvert.DeserializeObject<RSDataJsonDictionary<T>>(songsList.ToString());
                 AddSongsToNestedDictionary(fullSongCollection, songCollection, fullSongCollection, true);
+                Globals.TsProgressBar_Main.Value = 70;
 
                 if (songsJson.ToString().Contains("DisabledSongs"))
                 {
                     var disabledSongsList = songsJson["DisabledSongs"];
+                    Globals.TsProgressBar_Main.Value = 90;
                     fullDisabledSongCollection = JsonConvert.DeserializeObject<RSDataJsonDictionary<T>>(disabledSongsList.ToString());
                     AddSongsToNestedDictionary(fullDisabledSongCollection, disabledSongCollection, fullSongCollection, false);
                 }
@@ -425,6 +430,7 @@ namespace CustomsForgeSongManager.UControls
 
         private void PopulateSongPacks()
         {
+            Globals.TsProgressBar_Main.Value = 0;
             Globals.Log("Populating Song Packs GUI ...");
             Globals.Settings.LoadSettingsFromFile(dgvSongPacks);
             Globals.TuningXml = TuningDefinitionRepository.Instance.LoadTuningDefinitions(GameVersion.RS2014);
@@ -440,19 +446,20 @@ namespace CustomsForgeSongManager.UControls
                     if (PopulateSongLists())
                         PopulateDataGridView();
                     else
-                        Globals.Log("PopulateSongLists ... FAILED");
+                        Globals.Log("<ERROR> PopulateSongLists ... FAILED");
                 else
-                    Globals.Log("SmartSongLoader ... FAILED");
+                    Globals.Log("<ERROR> SmartSongLoader ... FAILED");
             }
             else
             {
                 Globals.ReloadSongPacks = true;
-                Globals.Log("Method PopulateSongPacks ... FAILED");
+                Globals.Log("<ERROR> Method PopulateSongPacks ... FAILED");
                 Globals.Log("Could not find Rocksmith Installation Directory");
             }
 
             // free up memory
             Globals.TuningXml.Clear();
+            Globals.TsProgressBar_Main.Value = 100;
         }
 
         private void RefreshDgvSongs()
@@ -557,11 +564,11 @@ namespace CustomsForgeSongManager.UControls
                     Globals.Log("cache.psarc backup restored ...");
                 }
 
-                if (Directory.Exists(Constants.CpeWorkFolder))
+                if (Directory.Exists(Constants.SongPacksFolder))
                 {
                     Globals.TsProgressBar_Main.Value = 80;
-                    ZipUtilities.DeleteDirectory(Constants.CpeWorkFolder);
-                    Globals.Log("Removed: " + Constants.CpeWorkFolder + " ...");
+                    ZipUtilities.DeleteDirectory(Constants.SongPacksFolder);
+                    Globals.Log("Removed: " + Constants.SongPacksFolder + " ...");
                 }
 
                 Globals.TsProgressBar_Main.Value = 100;
@@ -696,7 +703,7 @@ namespace CustomsForgeSongManager.UControls
             Globals.Log("Smart Song Pack Loader Working ... ");
             ClearCollections();
             // SAFETY FIRST - make sure a backup of the original cache.psarc exists
-            if (!File.Exists(Path.Combine(Constants.SongPacksOrgFolder, Path.ChangeExtension(Path.GetFileName(Constants.CachePsarcPath), ".psarc.org"))) || !File.Exists(Constants.ExtractedSongsHsanPath))
+            if (!File.Exists(Path.Combine(Constants.SongPacksOrgFolder, Path.ChangeExtension(Path.GetFileName(Constants.CachePsarcPath), ".org.psarc"))) || !File.Exists(Constants.ExtractedSongsHsanPath))
             {
                 if (!UnpackPsarcFiles())
                     return false;
@@ -717,6 +724,8 @@ namespace CustomsForgeSongManager.UControls
 
         private bool UnpackPsarcFiles()
         {
+            Globals.TsProgressBar_Main.Value = 0;
+
             try
             {
                 // if cache.psarc not found then exit (avoids RocksmithToolkitLib exception)
@@ -729,23 +738,29 @@ namespace CustomsForgeSongManager.UControls
                 }
 
                 this.Enabled = false;
-                Packer.Unpack(Constants.CachePsarcPath, Constants.CpeWorkFolder);
+                Globals.TsProgressBar_Main.Value = 50;
+                Packer.Unpack(Constants.CachePsarcPath, Constants.SongPacksFolder);
+                Globals.TsProgressBar_Main.Value = 75;
                 ExtractSongsHsan();
-                ConditionalBackup(Constants.CachePsarcPath, Path.Combine(Constants.SongPacksOrgFolder, Path.ChangeExtension(Path.GetFileName(Constants.CachePsarcPath), ".psarc.org")));
-                ConditionalBackup(Constants.ExtractedSongsHsanPath, Path.Combine(Constants.SongPacksOrgFolder, Path.ChangeExtension(Path.GetFileName(Constants.ExtractedSongsHsanPath), ".hsan.org")));
+                ConditionalBackup(Constants.CachePsarcPath, Path.Combine(Constants.SongPacksOrgFolder, Path.ChangeExtension(Path.GetFileName(Constants.CachePsarcPath), ".org.psarc")));
+                ConditionalBackup(Constants.ExtractedSongsHsanPath, Path.Combine(Constants.SongPacksOrgFolder, Path.ChangeExtension(Path.GetFileName(Constants.ExtractedSongsHsanPath), ".org.hsan")));
 
                 if (File.Exists(Constants.Rs1DiscPsarcPath))
                 {
-                    PsarcExtensions.ExtractArchiveFile(Constants.Rs1DiscPsarcPath, Constants.SongsRs1DiscInternalPath, Constants.CpeWorkFolder);
-                    ConditionalBackup(Constants.Rs1DiscPsarcPath, Path.Combine(Constants.SongPacksOrgFolder, Path.ChangeExtension(Path.GetFileName(Constants.Rs1DiscPsarcPath), ".psarc.org")));
-                    ConditionalBackup(Constants.ExtractedRs1DiscHsanPath, Path.Combine(Constants.SongPacksOrgFolder, Path.ChangeExtension(Path.GetFileName(Constants.ExtractedRs1DiscHsanPath), ".hsan.org")));
+                    Globals.TsProgressBar_Main.Value = 50;
+                    PsarcExtensions.ExtractArchiveFile(Constants.Rs1DiscPsarcPath, Constants.SongsRs1DiscInternalPath, Constants.SongPacksFolder);
+                    Globals.TsProgressBar_Main.Value = 75;
+                    ConditionalBackup(Constants.Rs1DiscPsarcPath, Path.Combine(Constants.SongPacksOrgFolder, Path.ChangeExtension(Path.GetFileName(Constants.Rs1DiscPsarcPath), ".org.psarc")));
+                    ConditionalBackup(Constants.ExtractedRs1DiscHsanPath, Path.Combine(Constants.SongPacksOrgFolder, Path.ChangeExtension(Path.GetFileName(Constants.ExtractedRs1DiscHsanPath), ".org.hsan")));
                 }
 
                 if (File.Exists(Constants.Rs1DlcPsarcPath))
                 {
-                    PsarcExtensions.ExtractArchiveFile(Constants.Rs1DlcPsarcPath, Constants.SongsRs1DlcInternalPath, Constants.CpeWorkFolder);
-                    ConditionalBackup(Constants.Rs1DlcPsarcPath, Path.Combine(Constants.SongPacksOrgFolder, Path.ChangeExtension(Path.GetFileName(Constants.Rs1DlcPsarcPath), ".psarc.org")));
-                    ConditionalBackup(Constants.ExtractedRs1DlcHsanPath, Path.Combine(Constants.SongPacksOrgFolder, Path.ChangeExtension(Path.GetFileName(Constants.ExtractedRs1DlcHsanPath), ".hsan.org")));
+                    Globals.TsProgressBar_Main.Value = 50;
+                    PsarcExtensions.ExtractArchiveFile(Constants.Rs1DlcPsarcPath, Constants.SongsRs1DlcInternalPath, Constants.SongPacksFolder);
+                    Globals.TsProgressBar_Main.Value = 75;
+                    ConditionalBackup(Constants.Rs1DlcPsarcPath, Path.Combine(Constants.SongPacksOrgFolder, Path.ChangeExtension(Path.GetFileName(Constants.Rs1DlcPsarcPath), ".org.psarc")));
+                    ConditionalBackup(Constants.ExtractedRs1DlcHsanPath, Path.Combine(Constants.SongPacksOrgFolder, Path.ChangeExtension(Path.GetFileName(Constants.ExtractedRs1DlcHsanPath), ".org.hsan")));
                 }
 
                 return true;
@@ -879,9 +894,9 @@ namespace CustomsForgeSongManager.UControls
                     if (File.Exists(Constants.ExtractedSongsHsanPath))
                         File.Delete(Constants.ExtractedSongsHsanPath);
 
-                    Globals.TsProgressBar_Main.Value = 30;
+                    Globals.TsProgressBar_Main.Value = 50;
                     SerializeSongFile(Constants.ExtractedSongsHsanPath, CacheEntireCollection, CacheDisabledEntireCollection, typeof(RS2VocalsData));
-                    Globals.TsProgressBar_Main.Value = 60;
+                    Globals.TsProgressBar_Main.Value = 75;
                     RepackCachePsarc();
                     break;
                 case 1: // rs1compatibilitydisc_p.psarc
@@ -890,9 +905,9 @@ namespace CustomsForgeSongManager.UControls
                         if (File.Exists(Constants.ExtractedRs1DiscHsanPath))
                             File.Delete(Constants.ExtractedRs1DiscHsanPath);
 
-                        Globals.TsProgressBar_Main.Value = 30;
+                        Globals.TsProgressBar_Main.Value = 50;
                         SerializeSongFile(Constants.ExtractedRs1DiscHsanPath, Rs1DiscEntireCollection, Rs1DiscDisabledEntireCollection, typeof(RS1DiscVocalsData));
-                        Globals.TsProgressBar_Main.Value = 60;
+                        Globals.TsProgressBar_Main.Value = 75;
                         PsarcExtensions.InjectArchiveEntry(Constants.Rs1DiscPsarcPath, Constants.SongsRs1DiscInternalPath, Constants.ExtractedRs1DiscHsanPath);
                     }
                     break;
@@ -902,9 +917,9 @@ namespace CustomsForgeSongManager.UControls
                         if (File.Exists(Constants.ExtractedRs1DlcHsanPath))
                             File.Delete(Constants.ExtractedRs1DlcHsanPath);
 
-                        Globals.TsProgressBar_Main.Value = 30;
+                        Globals.TsProgressBar_Main.Value = 50;
                         SerializeSongFile(Constants.ExtractedRs1DlcHsanPath, Rs1DlcEntireCollection, Rs1DlcDisabledEntireCollection, typeof(RS1DLCVocalsData));
-                        Globals.TsProgressBar_Main.Value = 60;
+                        Globals.TsProgressBar_Main.Value = 75;
                         PsarcExtensions.InjectArchiveEntry(Constants.Rs1DlcPsarcPath, Constants.SongsRs1DlcInternalPath, Constants.ExtractedRs1DlcHsanPath);
                     }
                     break;
@@ -914,9 +929,9 @@ namespace CustomsForgeSongManager.UControls
                         if (File.Exists(extractedCustomHsanPath))
                             File.Delete(extractedCustomHsanPath);
 
-                        Globals.TsProgressBar_Main.Value = 30;
+                        Globals.TsProgressBar_Main.Value = 50;
                         SerializeSongFile(extractedCustomHsanPath, CustomEntireCollection, CustomDisabledEntireCollection, typeof(RS1DiscVocalsData));
-                        Globals.TsProgressBar_Main.Value = 60;
+                        Globals.TsProgressBar_Main.Value = 75;
                         PsarcExtensions.InjectArchiveEntry(customPackPsarcPath, customInternalHsanPath, extractedCustomHsanPath);
                     }
                     break;
@@ -1101,7 +1116,9 @@ namespace CustomsForgeSongManager.UControls
 
         private void lnkRefreshAll_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
+            UnpackPsarcFiles();
             PopulateSongLists();
+            dgvSongPacks.Refresh();
             Globals.Log("GUI Refreshed ...");
         }
 
@@ -1131,7 +1148,7 @@ namespace CustomsForgeSongManager.UControls
 
         public void TabEnter()
         {
-            Globals.Log("SongPacks GUI Activated...");
+            Globals.Log("SongPacks GUI Activated ...");
             Globals.DgvCurrent = dgvSongPacks;
         }
 

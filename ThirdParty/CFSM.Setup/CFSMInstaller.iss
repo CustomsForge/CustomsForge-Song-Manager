@@ -24,11 +24,13 @@ OutputBaseFilename={#InstallerName}
 VersionInfoVersion={#AppVersion}
 AppCopyright=CustomsForge.com
 SetupIconFile=..\..\CustomsForgeSongManager\Resources\cfsm_48x48.ico
+DirExistsWarning=no
 
 ; Give OS write permissions to CFSM over these folders
 [Dirs]
-Name: "{app}";
+Name: "{app}"
 Name: "{app}\ddc"; Permissions: everyone-full
+;Name: "{tmp}"; Permissions: everyone-full
 
 ; Give OS write permisions to all app exe and library exe files
 [Files]
@@ -46,7 +48,7 @@ Source: {#buildpath}DLogNet.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}HtmlRenderer.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}HtmlRenderer.WinForms.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}ICSharpCode.SharpZipLib.dll; DestDir: {app}; Flags: ignoreversion
-Source: {#buildpath}RocksmithToolkitLib.dll; DestDir: {app}; Flags: ignoreversion
+Source: {#buildpath}RocksmithToolkitLib.dll; DestDir: {app}; Flags: ignoreversion; Permissions: everyone-full
 Source: {#buildpath}RocksmithToTabLib.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}X360.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}Antlr3.Runtime.dll; DestDir: {app}; Flags: ignoreversion
@@ -84,6 +86,9 @@ Name: {group}\{#AppName}; Filename: {app}\{#AppExeName}; WorkingDir: {app}; Icon
 Name: {group}\{cm:UninstallProgram,{#AppName}}; Filename: {uninstallexe}
 Name: {commondesktop}\{#AppName}; Filename: {app}\{#AppExeName}; WorkingDir: {app}; IconFilename: {app}\{#AppExeName}; Tasks: desktopicon
 Name: {userappdata}\Microsoft\Internet Explorer\Quick Launch\{#AppName}; Filename: {app}\{#AppExeName}; Tasks: quicklaunchicon
+
+;[UninstallDelete]
+;Type: files; Name: "{app}"
 
 [Code]
 const
@@ -281,7 +286,7 @@ begin
         hasUpgrade := CompareVersion(currentVersion, newVersion) < 0;
         if hasUpgrade then
         begin
-            tmpUpdateLocation := ExpandConstant('{tmp}\cfm_'+newVersion+'_setup.exe');
+            tmpUpdateLocation := ExpandConstant('{tmp}\cfsm_'+newVersion+'_setup.exe');
             WizardForm.Caption := WizardForm.Caption + ' - '+ '(V'+newVersion+' available.)';
             idpAddFile(updateUrl, tmpUpdateLocation);
             idpDownloadAfter(DownloadStep);
@@ -335,5 +340,50 @@ begin
         end;
       end;
     end;
+  end;
+end;
+// ========= App Uninstaller Code ===========
+
+function GetUninstallString: string;
+var
+  sUnInstPath: string;
+  sUnInstallString: String;
+begin
+  Result := '';
+  sUnInstPath := ExpandConstant('Software\Microsoft\Windows\CurrentVersion\Uninstall\{{58F35625-541C-493A-A289-4B2D362DAFE0}_is1'); //Your App GUID/ID
+  sUnInstallString := '';
+  if not RegQueryStringValue(HKLM, sUnInstPath, 'UninstallString', sUnInstallString) then
+    RegQueryStringValue(HKCU, sUnInstPath, 'UninstallString', sUnInstallString);
+  Result := sUnInstallString;
+end;
+
+function IsUpgrade: Boolean;
+begin
+  Result := (GetUninstallString() <> '');
+end;
+
+function InitializeSetup: Boolean;
+var
+  V: Integer;
+  iResultCode: Integer;
+  sUnInstallString: string;
+begin
+  Result := True; // in case when no previous version is found
+  if RegValueExists(HKEY_LOCAL_MACHINE,'Software\Microsoft\Windows\CurrentVersion\Uninstall\{58F35625-541C-493A-A289-4B2D362DAFE0}_is1', 'UninstallString') then  //Your App GUID/ID
+  begin
+    //V := MsgBox(ExpandConstant('An old version of CFSM was detected. Do you want to uninstall it?'), mbInformation, MB_YESNO); //Custom Message if App installed
+    V := IDYES;
+    if V = IDYES then
+    begin
+      sUnInstallString := GetUninstallString();
+      sUnInstallString :=  RemoveQuotes(sUnInstallString);
+      Exec(ExpandConstant(sUnInstallString), '/VERYSILENT /SUPPRESSMSGBOXES','', SW_HIDE, ewWaitUntilTerminated, iResultCode);
+      //commented out showing all user prompts
+      //Exec(ExpandConstant(sUnInstallString), '', '', SW_SHOW, ewWaitUntilTerminated, iResultCode);
+      Result := True; //if you want to proceed after uninstall
+      //Exit; //if you want to quit after uninstall
+    end
+    else
+      Result := False; //when older version present and not uninstalled
   end;
 end;

@@ -186,8 +186,8 @@ namespace CustomsForgeSongManager.Forms
 
             if (AppSettings.Instance.CleanOnClosing)
             {
-                if (Directory.Exists(Constants.CpeWorkFolder))
-                    ZipUtilities.DeleteDirectory(Constants.CpeWorkFolder);
+                if (Directory.Exists(Constants.SongPacksFolder))
+                    ZipUtilities.DeleteDirectory(Constants.SongPacksFolder);
 
                 if (Directory.Exists(Constants.AudioCacheFolder))
                     ZipUtilities.DeleteDirectory(Constants.AudioCacheFolder);
