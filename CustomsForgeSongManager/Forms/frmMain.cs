@@ -187,7 +187,14 @@ namespace CustomsForgeSongManager.Forms
             if (AppSettings.Instance.CleanOnClosing)
             {
                 if (Directory.Exists(Constants.SongPacksFolder))
-                    ZipUtilities.DeleteDirectory(Constants.SongPacksFolder);
+                {
+                    // don't delete files in 'original' subfolder
+                    var songpackFiles = Directory.EnumerateFiles(Constants.SongPacksFolder, "*", SearchOption.TopDirectoryOnly).ToList();
+                    foreach (var songpackFile in songpackFiles)
+                        GenExtensions.DeleteFile(songpackFile);
+
+                    ZipUtilities.DeleteDirectory(Constants.CachePcPath);
+                }
 
                 if (Directory.Exists(Constants.AudioCacheFolder))
                     ZipUtilities.DeleteDirectory(Constants.AudioCacheFolder);

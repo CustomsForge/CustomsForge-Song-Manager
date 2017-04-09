@@ -140,7 +140,8 @@ namespace CustomsForgeSongManager.UControls
 
         private bool ConditionalBackup(string sourcePath, string backupPath, bool forceBackup = false, bool writeProtect = true)
         {
-            if (!File.Exists(sourcePath)) return false;
+            if (!File.Exists(sourcePath)) 
+                return false;
 
             if (!Directory.Exists(Path.GetDirectoryName(backupPath)))
                 Directory.CreateDirectory(Path.GetDirectoryName(backupPath));

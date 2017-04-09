@@ -30,7 +30,7 @@ DirExistsWarning=no
 [Dirs]
 Name: "{app}"
 Name: "{app}\ddc"; Permissions: everyone-full
-;Name: "{tmp}"; Permissions: everyone-full
+Name: "{app}\tmp"; Permissions: everyone-full
 
 ; Give OS write permisions to all app exe and library exe files
 [Files]
@@ -87,15 +87,12 @@ Name: {group}\{cm:UninstallProgram,{#AppName}}; Filename: {uninstallexe}
 Name: {commondesktop}\{#AppName}; Filename: {app}\{#AppExeName}; WorkingDir: {app}; IconFilename: {app}\{#AppExeName}; Tasks: desktopicon
 Name: {userappdata}\Microsoft\Internet Explorer\Quick Launch\{#AppName}; Filename: {app}\{#AppExeName}; Tasks: quicklaunchicon
 
-;[UninstallDelete]
-;Type: files; Name: "{app}"
 
 [Code]
 const
   WM_COMMAND = $0111;
   CN_BASE = $BC00;
   CN_COMMAND = CN_BASE + WM_COMMAND;
-
 
 var runningWebUpdate: boolean;
 var hasUpgrade : boolean;
