@@ -186,6 +186,10 @@ namespace CustomsForgeSongManager.Forms
 
             if (AppSettings.Instance.CleanOnClosing)
             {
+                var cfsmFiles = Directory.EnumerateFiles(Constants.WorkFolder, "*", SearchOption.TopDirectoryOnly).ToList();
+                foreach (var cfsmFile in cfsmFiles)
+                    GenExtensions.DeleteFile(cfsmFile);
+
                 if (Directory.Exists(Constants.SongPacksFolder))
                 {
                     // don't delete files in 'original' subfolder
@@ -198,11 +202,18 @@ namespace CustomsForgeSongManager.Forms
 
                 if (Directory.Exists(Constants.AudioCacheFolder))
                     ZipUtilities.DeleteDirectory(Constants.AudioCacheFolder);
-            }
 
-            Globals.SongManager.SetRepairOptions();
-            Globals.Settings.SaveSettingsToFile(Globals.DgvCurrent);
-            Globals.SongManager.SaveSongCollectionToFile();
+                if (Directory.Exists(Constants.TaggerWorkingFolder))
+                    ZipUtilities.DeleteDirectory(Constants.TaggerWorkingFolder);
+
+                AppSettings.Instance.CleanOnClosing = false;
+            }
+            else
+            {
+                Globals.SongManager.SetRepairOptions();
+                Globals.Settings.SaveSettingsToFile(Globals.DgvCurrent);
+                Globals.SongManager.SaveSongCollectionToFile();
+            }
         }
 
         private void frmMain_KeyDown(object sender, KeyEventArgs e)

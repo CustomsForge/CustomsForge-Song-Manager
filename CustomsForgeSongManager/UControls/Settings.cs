@@ -46,7 +46,7 @@ namespace CustomsForgeSongManager.UControls
                 chkEnableAutoUpdate.Checked = AppSettings.Instance.EnableAutoUpdate;
                 chkIncludeRS1DLC.Checked = AppSettings.Instance.IncludeRS1DLCs;
                 chkEnableLogBallon.Checked = AppSettings.Instance.EnableLogBaloon;
-                chkCleanOnClosing.Checked = AppSettings.Instance.CleanOnClosing;
+                rbCleanOnClosing.Checked = AppSettings.Instance.CleanOnClosing;
                 txtCharterName.Text = AppSettings.Instance.CharterName;
 
                 ValidateRsDir();
@@ -74,7 +74,7 @@ namespace CustomsForgeSongManager.UControls
                     chkEnableLogBallon.Checked = AppSettings.Instance.EnableLogBaloon;
                     break;
                 case "CleanOnClosing":
-                    chkCleanOnClosing.Checked = AppSettings.Instance.CleanOnClosing;
+                    rbCleanOnClosing.Checked = AppSettings.Instance.CleanOnClosing;
                     break;
                 case "CreatorName":
                     txtCharterName.Text = AppSettings.Instance.CharterName;
@@ -260,9 +260,9 @@ namespace CustomsForgeSongManager.UControls
             AppSettings.Instance.IncludeRS1DLCs = chkIncludeRS1DLC.Checked;
         }
 
-        private void chkCleanOnClosing_CheckedChanged(object sender, EventArgs e)
+        private void rbCleanOnClosing_CheckedChanged(object sender, EventArgs e)
         {
-            AppSettings.Instance.CleanOnClosing = chkCleanOnClosing.Checked;
+           AppSettings.Instance.CleanOnClosing = rbCleanOnClosing.Checked;
         }
 
         private void btnEmptyLogs_Click(object sender, EventArgs e)
@@ -285,5 +285,6 @@ namespace CustomsForgeSongManager.UControls
             Globals.Log("CDLC 'Downloads' folder path was reset ...");
         }
 
+ 
     }
 }
