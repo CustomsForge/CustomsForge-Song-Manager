@@ -326,10 +326,15 @@ namespace CustomsForgeSongManager.Forms
                     (currentControl as INotifyTabChanged).TabEnter();
         }
 
-        private void tsBtnBackup_Click(object sender, EventArgs e)
+        private void tsBtnBackup_MouseUp(object sender, MouseEventArgs e)
         {
             Globals.TsProgressBar_Main.Value = 50;
-            RocksmithProfile.BackupRestore();
+
+            var resetProfileDirPath = false;
+            if (e.Button == MouseButtons.Right)
+                resetProfileDirPath = true;
+
+            RocksmithProfile.BackupRestore(resetProfileDirPath);
             Globals.TsProgressBar_Main.Value = 100;
         }
 
@@ -683,5 +688,7 @@ namespace CustomsForgeSongManager.Forms
         {
             return this;
         }
+
+
     }
 }

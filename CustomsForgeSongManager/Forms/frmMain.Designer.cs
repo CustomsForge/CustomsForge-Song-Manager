@@ -299,7 +299,7 @@ namespace CustomsForgeSongManager.Forms
             this.tsUtilities.Location = new System.Drawing.Point(3, 0);
             this.tsUtilities.Name = "tsUtilities";
             this.tsUtilities.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.tsUtilities.Size = new System.Drawing.Size(428, 25);
+            this.tsUtilities.Size = new System.Drawing.Size(459, 25);
             this.tsUtilities.TabIndex = 0;
             // 
             // tsBtnLaunchRS
@@ -323,7 +323,9 @@ namespace CustomsForgeSongManager.Forms
             this.tsBtnBackup.Name = "tsBtnBackup";
             this.tsBtnBackup.Size = new System.Drawing.Size(87, 22);
             this.tsBtnBackup.Text = "User Profiles";
-            this.tsBtnBackup.Click += new System.EventHandler(this.tsBtnBackup_Click);
+            this.tsBtnBackup.ToolTipText = "Right Mouse Click to reset UserProfile Directory Path\r\n\r\nLeft Mouse Click to back" +
+                "up or restore a UserProfile";
+            this.tsBtnBackup.MouseUp += new System.Windows.Forms.MouseEventHandler(this.tsBtnBackup_MouseUp);
             // 
             // toolStripSeparator6
             // 
@@ -414,7 +416,7 @@ namespace CustomsForgeSongManager.Forms
             this.tspbAudioPosition,
             this.tslblTimer});
             this.tsAudioPlayer.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
-            this.tsAudioPlayer.Location = new System.Drawing.Point(465, 0);
+            this.tsAudioPlayer.Location = new System.Drawing.Point(496, 0);
             this.tsAudioPlayer.Name = "tsAudioPlayer";
             this.tsAudioPlayer.Padding = new System.Windows.Forms.Padding(0);
             this.tsAudioPlayer.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;

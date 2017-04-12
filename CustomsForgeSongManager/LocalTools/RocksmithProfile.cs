@@ -138,7 +138,7 @@ namespace CustomsForgeSongManager.LocalTools
                 AppSettings.Instance.RSProfileDir = userDirPath;
         }
 
-        public static void BackupRestore()
+        public static void BackupRestore(bool resetProfileDirPath)
         {
             //TODO: confirm steamProfileDir is being set properly
             try
@@ -146,7 +146,7 @@ namespace CustomsForgeSongManager.LocalTools
                 var timestamp = string.Format("{0}-{1}-{2}.{3}-{4}-{5}", DateTime.Now.Day, DateTime.Now.Month, DateTime.Now.Year, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
                 var backupPath = string.Format("{0}\\profile.backup.{1}.zip", Constants.ProfileBackupsFolder, timestamp);
 
-                if (String.IsNullOrEmpty(AppSettings.Instance.RSProfileDir) || AmountOfProfileFiles(AppSettings.Instance.RSProfileDir) <= 0)
+                if (resetProfileDirPath || String.IsNullOrEmpty(AppSettings.Instance.RSProfileDir) || AmountOfProfileFiles(AppSettings.Instance.RSProfileDir) <= 0)
                     GetProfileDirPath();
 
                 //Proceed only if there's a Steam folder has been detected
