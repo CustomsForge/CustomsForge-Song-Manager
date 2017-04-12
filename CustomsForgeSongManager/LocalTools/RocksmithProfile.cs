@@ -104,35 +104,38 @@ namespace CustomsForgeSongManager.LocalTools
                 }
             }
 
-            // If we have a non existing path, ask the user to manually point the app to the correct location
-            if (!Directory.Exists(steamDirPath))
+            // commented out ... auto selection is unreliable for some installations
+            // instead ask the user to confirm or manually point to the correct location
+            //if (!Directory.Exists(steamDirPath))
+            //{
+            using (var fbd = new FolderBrowserDialog())
             {
-                using (var fbd = new FolderBrowserDialog())
-                {
-                    fbd.SelectedPath = steamDirPath;
-                    fbd.Description = "Select the Rocksmith 2014 user profile directory location." + Environment.NewLine + "HINT: Do a Windows Search for '*_prfldb' files to find the path.";
+                fbd.SelectedPath = steamDirPath;
+                fbd.Description = "Select the Rocksmith 2014 user profile directory location." + Environment.NewLine + "HINT: Do a Windows Search for '*_prfldb' files to find the path.";
 
-                    if (fbd.ShowDialog() != DialogResult.OK) return;
-                    userDirPath = fbd.SelectedPath;
-                }
+                if (fbd.ShowDialog() != DialogResult.OK) return;
+                userDirPath = fbd.SelectedPath;
             }
-            else // TODO: confirm proper function when steamDirPath exists
-            {
-                // If we have path of the Steam folder, get path of the RS profile subfolder
-                if (AmountOfProfileFiles(steamDirPath) <= 0)
-                {
-                    var subdirs = new DirectoryInfo(steamDirPath).GetDirectories("*", SearchOption.AllDirectories).ToArray();
 
-                    foreach (DirectoryInfo info in subdirs)
-                    {
-                        if (info.FullName.Contains(@"221680\remote"))
-                        {
-                            userDirPath = info.FullName;
-                            break;
-                        }
-                    }
-                }
-            }
+            // commented out ... unreliable for some installations
+            //}
+            //else // TODO: confirm proper function when steamDirPath exists
+            //{
+            //    // If we have path of the Steam folder, get path of the RS profile subfolder
+            //    if (AmountOfProfileFiles(steamDirPath) <= 0)
+            //    {
+            //        var subdirs = new DirectoryInfo(steamDirPath).GetDirectories("*", SearchOption.AllDirectories).ToArray();
+
+            //        foreach (DirectoryInfo info in subdirs)
+            //        {
+            //            if (info.FullName.Contains(@"221680\remote"))
+            //            {
+            //                userDirPath = info.FullName;
+            //                break;
+            //            }
+            //        }
+            //    }
+            //}
 
             // If we have the correct path, save it
             if (AmountOfProfileFiles(userDirPath) > 0)
