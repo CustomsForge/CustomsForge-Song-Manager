@@ -65,10 +65,11 @@ namespace CustomsForgeSongManager.LocalTools
         public static void GetProfileDirPath()
         {
             bool found = false;
-            string steamDirPath = "", userDirPath = AppSettings.Instance.RSProfileDir;
+            var steamDirPath = String.Empty;
+            var userDirPath = AppSettings.Instance.RSProfileDir;
 
             //If RS profile dir path is empty or if there's no profile files on the existing path, search for the correct path
-            if (String.IsNullOrEmpty(userDirPath) || AmountOfProfileFiles(userDirPath) <= 0) 
+            if (String.IsNullOrEmpty(userDirPath) || AmountOfProfileFiles(userDirPath) <= 0)
             {
                 string rsX64Path = @"HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Valve\Steam";
                 string rsX86Path = @"HKEY_LOCAL_MACHINE\SOFTWARE\Valve\Steam";
@@ -146,11 +147,14 @@ namespace CustomsForgeSongManager.LocalTools
                 var timestamp = string.Format("{0}-{1}-{2}.{3}-{4}-{5}", DateTime.Now.Day, DateTime.Now.Month, DateTime.Now.Year, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
                 var backupPath = string.Format("{0}\\profile.backup.{1}.zip", Constants.ProfileBackupsFolder, timestamp);
 
-                if (resetProfileDirPath || String.IsNullOrEmpty(AppSettings.Instance.RSProfileDir) || AmountOfProfileFiles(AppSettings.Instance.RSProfileDir) <= 0)
+                if (resetProfileDirPath || !Directory.Exists(AppSettings.Instance.RSProfileDir) ||
+                    String.IsNullOrEmpty(AppSettings.Instance.RSProfileDir.Trim()) || AmountOfProfileFiles(AppSettings.Instance.RSProfileDir) <= 0)
+                {
                     GetProfileDirPath();
+                }
 
                 //Proceed only if there's a Steam folder has been detected
-                if (!String.IsNullOrEmpty(AppSettings.Instance.RSProfileDir) || AmountOfProfileFiles(AppSettings.Instance.RSProfileDir) > 0) 
+                if (!String.IsNullOrEmpty(AppSettings.Instance.RSProfileDir) || AmountOfProfileFiles(AppSettings.Instance.RSProfileDir) > 0)
                 {
                     if (DialogResult.Yes == BetterDialog2.ShowDialog("Backup or restore a Rocksmith 2014 user profile?", "User Profile Backup/Restore", null, "Backup", "Restore", Bitmap.FromHicon(SystemIcons.Question.Handle), "Pick One", 150, 150))
                     {
@@ -176,6 +180,7 @@ namespace CustomsForgeSongManager.LocalTools
             catch (Exception ex)
             {
                 Globals.Log("<Error>: " + ex.Message);
+                Globals.Log(" - Right mouse click the 'User Profiles' button to reset the path ...");
             }
         }
 
@@ -185,7 +190,7 @@ namespace CustomsForgeSongManager.LocalTools
             {
                 if (!Directory.Exists(Constants.ProfileBackupsFolder))
                     Directory.CreateDirectory(Constants.ProfileBackupsFolder);
- 
+
                 Globals.Log("Backup user profile ...");
 
                 if (ZipUtilities.ZipDirectory(userProfilePath, backupPath))

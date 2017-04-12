@@ -54,7 +54,7 @@ namespace CustomsForgeSongManager.Forms
             this.tsUtilities = new System.Windows.Forms.ToolStrip();
             this.tsBtnLaunchRS = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.tsBtnBackup = new System.Windows.Forms.ToolStripButton();
+            this.tsUserProfiles = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
             this.bBCodeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -287,7 +287,7 @@ namespace CustomsForgeSongManager.Forms
             this.tsUtilities.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsBtnLaunchRS,
             this.toolStripSeparator1,
-            this.tsBtnBackup,
+            this.tsUserProfiles,
             this.toolStripSeparator6,
             this.toolStripDropDownButton1,
             this.toolStripSeparator2,
@@ -316,16 +316,16 @@ namespace CustomsForgeSongManager.Forms
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
-            // tsBtnBackup
+            // tsUserProfiles
             // 
-            this.tsBtnBackup.Image = global::CustomsForgeSongManager.Properties.Resources.backup;
-            this.tsBtnBackup.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsBtnBackup.Name = "tsBtnBackup";
-            this.tsBtnBackup.Size = new System.Drawing.Size(87, 22);
-            this.tsBtnBackup.Text = "User Profiles";
-            this.tsBtnBackup.ToolTipText = "Right Mouse Click to reset UserProfile Directory Path\r\n\r\nLeft Mouse Click to back" +
+            this.tsUserProfiles.Image = global::CustomsForgeSongManager.Properties.Resources.backup;
+            this.tsUserProfiles.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsUserProfiles.Name = "tsUserProfiles";
+            this.tsUserProfiles.Size = new System.Drawing.Size(87, 22);
+            this.tsUserProfiles.Text = "User Profiles";
+            this.tsUserProfiles.ToolTipText = "Right Mouse Click to reset UserProfile Directory Path\r\n\r\nLeft Mouse Click to back" +
                 "up or restore a UserProfile";
-            this.tsBtnBackup.MouseUp += new System.Windows.Forms.MouseEventHandler(this.tsBtnBackup_MouseUp);
+            this.tsUserProfiles.MouseUp += new System.Windows.Forms.MouseEventHandler(this.tsUserProfiles_MouseUp);
             // 
             // toolStripSeparator6
             // 
@@ -416,7 +416,7 @@ namespace CustomsForgeSongManager.Forms
             this.tspbAudioPosition,
             this.tslblTimer});
             this.tsAudioPlayer.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
-            this.tsAudioPlayer.Location = new System.Drawing.Point(496, 0);
+            this.tsAudioPlayer.Location = new System.Drawing.Point(527, 0);
             this.tsAudioPlayer.Name = "tsAudioPlayer";
             this.tsAudioPlayer.Padding = new System.Windows.Forms.Padding(0);
             this.tsAudioPlayer.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
@@ -661,7 +661,7 @@ namespace CustomsForgeSongManager.Forms
         private TabPage tpAbout;
         private ToolStrip tsUtilities;
         private ToolStripButton tsBtnLaunchRS;
-        private ToolStripButton tsBtnBackup;
+        private ToolStripButton tsUserProfiles;
         private ToolStripSeparator toolStripSeparator1;
         private ToolStripButton tsBtnUpload;
         private ToolStripButton tsBtnRequest;

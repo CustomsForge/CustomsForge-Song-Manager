@@ -186,6 +186,7 @@ namespace CustomsForgeSongManager.Forms
 
             if (AppSettings.Instance.CleanOnClosing)
             {
+                // delete xml and log files (ensure clean startup)
                 var cfsmFiles = Directory.EnumerateFiles(Constants.WorkFolder, "*", SearchOption.TopDirectoryOnly).ToList();
                 foreach (var cfsmFile in cfsmFiles)
                     GenExtensions.DeleteFile(cfsmFile);
@@ -326,7 +327,7 @@ namespace CustomsForgeSongManager.Forms
                     (currentControl as INotifyTabChanged).TabEnter();
         }
 
-        private void tsBtnBackup_MouseUp(object sender, MouseEventArgs e)
+        private void tsUserProfiles_MouseUp(object sender, MouseEventArgs e)
         {
             Globals.TsProgressBar_Main.Value = 50;
 

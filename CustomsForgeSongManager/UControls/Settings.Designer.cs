@@ -209,13 +209,14 @@ namespace CustomsForgeSongManager.UControls
             // 
             this.rbCleanOnClosing.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.rbCleanOnClosing.AutoSize = true;
+            this.tlpSettings_Wrapper.SetColumnSpan(this.rbCleanOnClosing, 2);
             this.rbCleanOnClosing.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rbCleanOnClosing.Location = new System.Drawing.Point(3, 247);
             this.rbCleanOnClosing.Name = "rbCleanOnClosing";
             this.rbCleanOnClosing.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
-            this.rbCleanOnClosing.Size = new System.Drawing.Size(167, 19);
+            this.rbCleanOnClosing.Size = new System.Drawing.Size(166, 19);
             this.rbCleanOnClosing.TabIndex = 10;
-            this.rbCleanOnClosing.Text = "Remove temporary work";
+            this.rbCleanOnClosing.Text = "Reset CFSM On Closing";
             this.rbCleanOnClosing.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.toolTip.SetToolTip(this.rbCleanOnClosing, resources.GetString("rbCleanOnClosing.ToolTip"));
             this.rbCleanOnClosing.UseVisualStyleBackColor = true;
