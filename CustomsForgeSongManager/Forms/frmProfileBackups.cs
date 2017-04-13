@@ -42,7 +42,10 @@ namespace CustomsForgeSongManager.Forms
                     {
                         var filePath = dgvProfileBackups.Rows[rowNdx].Cells["colPath"].Value.ToString();
                         if (File.Exists(filePath))
+                        {
                             File.Delete(filePath);
+                            Globals.Log("Deleted profile backup: " + filePath);
+                        }
 
                         dgvProfileBackups.Rows.RemoveAt(rowNdx);
                     }
@@ -50,7 +53,8 @@ namespace CustomsForgeSongManager.Forms
                     rowNdx--;
                 }
                 while (rowNdx > -1);
-            }
+
+                    }
             catch (IOException ex)
             {
                 Globals.Log("Unable to delete the profile backup, error: " + ex.Message.ToString());
@@ -66,6 +70,7 @@ namespace CustomsForgeSongManager.Forms
                 {
                     var index = dgvProfileBackups.Rows.Cast<DataGridViewRow>().Where(r => Convert.ToBoolean(r.Cells[0].Value)).Select(r => r.Index).First();
                     RocksmithProfile.RestoreBackup(dgvProfileBackups.Rows[index].Cells["colPath"].Value.ToString(), AppSettings.Instance.RSProfileDir);
+                    this.Close();
                 }
                 else
                     BetterDialog2.ShowDialog("Select a single profile to restore.", "Restore Backups", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning", 150, 150);

@@ -1,5 +1,11 @@
 ﻿CFSM Release Notes
 
+1.3.1.7
+- improved user profile backup and restore operations
+- allow user to restore a user profile backup when no user profile exist in the 'remote' directory
+- allow user to reset the user profile 'remote' directory location
+- require user to confirm location of user profile 'remote' directory even when auto selected by CFSM
+
 1.3.1.6
 - trim UserProfile Directory Path to avoid whitespace errors.
 

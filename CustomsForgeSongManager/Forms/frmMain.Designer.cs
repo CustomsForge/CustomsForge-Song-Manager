@@ -299,7 +299,7 @@ namespace CustomsForgeSongManager.Forms
             this.tsUtilities.Location = new System.Drawing.Point(3, 0);
             this.tsUtilities.Name = "tsUtilities";
             this.tsUtilities.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.tsUtilities.Size = new System.Drawing.Size(459, 25);
+            this.tsUtilities.Size = new System.Drawing.Size(428, 25);
             this.tsUtilities.TabIndex = 0;
             // 
             // tsBtnLaunchRS
@@ -323,8 +323,8 @@ namespace CustomsForgeSongManager.Forms
             this.tsUserProfiles.Name = "tsUserProfiles";
             this.tsUserProfiles.Size = new System.Drawing.Size(87, 22);
             this.tsUserProfiles.Text = "User Profiles";
-            this.tsUserProfiles.ToolTipText = "Right Mouse Click to reset UserProfile Directory Path\r\n\r\nLeft Mouse Click to back" +
-                "up or restore a UserProfile";
+            this.tsUserProfiles.ToolTipText = "Left Mouse Click to backup or restore a UserProfile\r\nRight Mouse Click to reset U" +
+                "serProfile Directory Path";
             this.tsUserProfiles.MouseUp += new System.Windows.Forms.MouseEventHandler(this.tsUserProfiles_MouseUp);
             // 
             // toolStripSeparator6
