@@ -300,6 +300,12 @@ namespace GenTools
                     Thread.Sleep(50);
                     continue;
                 }
+                catch (UnauthorizedAccessException)
+                {
+                    Debug.WriteLine("Unauthorized access to: " + dirPath);
+                    return;
+                }
+
                 return;
             }
         }

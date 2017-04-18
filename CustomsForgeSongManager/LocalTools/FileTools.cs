@@ -534,10 +534,15 @@ namespace CustomsForgeSongManager.LocalTools
             // Move old shit to new shit to avoid future OS Permission issues
             if (Directory.Exists(Constants.Rs2CfsmFolder))
             {
-                GenExtensions.CopyDir(Path.Combine(Constants.Rs2CfsmFolder, "archives"), Constants.ArchivesFolder);
-                GenExtensions.CopyDir(Path.Combine(Constants.Rs2CfsmFolder, "backups"), Constants.BackupFolder);
-                GenExtensions.CopyDir(Path.Combine(Constants.Rs2CfsmFolder, "duplicates"), Constants.DuplicatesFolder);
-                GenExtensions.CopyDir(Path.Combine(Constants.Rs2CfsmFolder, "remastered"), Constants.RemasteredFolder);
+                if (Directory.Exists(Path.Combine(Constants.Rs2CfsmFolder, "archives")))
+                    GenExtensions.CopyDir(Path.Combine(Constants.Rs2CfsmFolder, "archives"), Constants.ArchivesFolder);
+                if (Directory.Exists(Path.Combine(Constants.Rs2CfsmFolder, "backups")))
+                    GenExtensions.CopyDir(Path.Combine(Constants.Rs2CfsmFolder, "backups"), Constants.BackupFolder);
+                if (Directory.Exists(Path.Combine(Constants.Rs2CfsmFolder, "duplicates")))
+                    GenExtensions.CopyDir(Path.Combine(Constants.Rs2CfsmFolder, "duplicates"), Constants.DuplicatesFolder);
+                if (Directory.Exists(Path.Combine(Constants.Rs2CfsmFolder, "remastered")))
+                    GenExtensions.CopyDir(Path.Combine(Constants.Rs2CfsmFolder, "remastered"), Constants.RemasteredFolder);
+
                 GenExtensions.DeleteDirectory(Constants.Rs2CfsmFolder, true);
             }
 

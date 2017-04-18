@@ -10,6 +10,11 @@ using GenTools;
 using CustomsForgeSongManager.DataObjects;
 using CustomsForgeSongManager.LocalTools;
 using CustomsForgeSongManager.UITheme;
+using RocksmithToolkitLib.Xml;
+using RocksmithToolkitLib.DLCPackage;
+using RocksmithToolkitLib.PsarcLoader;
+using RocksmithToolkitLib;
+using RocksmithToolkitLib.Song2014ToTab;
 
 
 // NOTE: the app is designed for default user screen resolution of 1024x768
@@ -438,6 +443,122 @@ namespace CustomsForgeSongManager.Forms
             }
         }
 
+        public void ExportSongStats(string srcFilePath)
+        {
+            //--> unpacking part start
+            DLCPackageData packageData;
+            var psarc = new PsarcPackager();
+            Platform platform = Packer.GetPlatform(srcFilePath);
+
+            packageData = psarc.ReadPackage(srcFilePath);
+
+            var field = typeof(PsarcPackager).GetField("packageDir", BindingFlags.NonPublic | BindingFlags.GetField | BindingFlags.Instance);
+            var workingDir = field.GetValue(psarc).ToString();
+
+            packageData = DLCPackageData.LoadFromFolder(workingDir, platform, platform);
+            //-->unpacking part end
+
+
+            //-->data gathering part start
+            var data = new AnalyzerData();
+            var arrData = new ArrangementData();
+            var chords = new Dictionary<string, int>();
+
+            foreach (var arr in packageData.Arrangements)
+            {
+                arrData = new ArrangementData();
+                string arrName = arr.Name.ToString().ToLower();
+
+                if (arrName.Contains("vocals") || arrName.Contains("showlights"))
+                    continue;
+
+                var song2014Data = Song2014.LoadFromFile(Path.Combine(workingDir, "EOF", packageData.Name + "_" + arrName + ".xml"));
+                var noteList = song2014Data.Levels[song2014Data.Levels.Length - 1].Notes;
+                var chordList = song2014Data.Levels[song2014Data.Levels.Length - 1].Chords;
+                var arrProperties = song2014Data.ArrangementProperties;
+
+                foreach (var chord in chordList)
+                {
+                    string chordName = song2014Data.ChordTemplates[chord.ChordId].ChordName;
+                    int chordCount = 0;
+
+                    if (chordName == "")
+                        continue;
+
+                    if (chords.TryGetValue(chordName, out chordCount))
+                        chords[chordName] = chordCount + 1;
+                    else
+                        chords.Add(chordName, 1);
+                }
+
+                foreach (var note in noteList)
+                {
+                    if (note.HammerOn > 0)
+                        arrData.HammerOns++;
+
+                    if (note.Sustain > 0.0f)
+                        arrData.Sustains++;
+
+                    if (note.PullOff > 0)
+                        arrData.PullOffs++;
+
+                    if (note.Slap > 0)
+                        arrData.Slaps++;
+
+                    if (note.Hopo > 0)
+                        arrData.Pops++;
+
+                    if (note.Vibrato > 0)
+                        arrData.Vibratos++;
+
+                    if (note.Bend > 0)
+                        arrData.Bends++;
+
+                    if (note.Harmonic > 0)
+                        arrData.Harmonics++;
+
+                    if (note.HarmonicPinch > 0)
+                        arrData.HarmonicPinches++;
+
+                    if (note.SlideTo > -1)
+                        arrData.Slides++;
+
+                    if (note.SlideUnpitchTo > -1)
+                        arrData.UnpitchedSlides++;
+
+                    if (note.Tap > 0)
+                        arrData.Taps++;
+
+                    if (note.Pluck > 0)
+                        arrData.Plucks++;
+
+                    if (note.PalmMute > 0)
+                        arrData.PalmMutes++;
+
+                    if (note.Mute > 0)
+                        arrData.FretHandMutes++;
+
+                    if (note.Tremolo > 0)
+                        arrData.Tremolos++;
+                }
+
+                arrData.ArrangementName = arr.Name.ToString();
+                arrData.Chords = chords;
+
+                data.SongName = song2014Data.Title;
+                data.Artist = song2014Data.ArtistName;
+                data.Arrangements.Add(arrData);
+            }
+
+            //--> data gathering part end
+
+            //--> CSV export part start
+
+            int y = 0;
+
+            //--> CSV export part end
+        }
+
         public void SongListToBBCode()
         {
             DoSomethingWithGrid((dataGrid, selection, colSel, ignoreColumns) =>
@@ -690,6 +811,9 @@ namespace CustomsForgeSongManager.Forms
             return this;
         }
 
-
+        private void analyzerToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            ExportSongStats("");
+        }
     }
 }
