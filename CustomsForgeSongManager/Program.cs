@@ -77,7 +77,7 @@ namespace CustomsForgeSongManager
                 {
                     Application.EnableVisualStyles();
                     // this is throwing an error so commented out and moved
-                    //  Application.SetCompatibleTextRenderingDefault(false);
+                    //  Application.SetCompatibleTextRenderingDefault(false);    
                     Application.Run(new frmMain(myLog));
                 }
                 else

@@ -161,7 +161,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataObjects\AnalyzerData.cs" />
     <Compile Include="DataObjects\OfficialSong.cs" />
     <Compile Include="Forms\frmCODLCDuplicates.cs">
       <SubType>Form</SubType>

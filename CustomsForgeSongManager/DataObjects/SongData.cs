@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Xml.Serialization;
 using GenTools;
 using DataGridViewTools;
+using System.Collections.Generic;
 
 namespace CustomsForgeSongManager.DataObjects
 {
@@ -262,6 +263,47 @@ namespace CustomsForgeSongManager.DataObjects
 
         [XmlIgnore]
         public string PIDArrangement { get; set; }
+
+        //extra arrangemenet data
+
+        [XmlIgnore]
+        public Int32 ChordCount { get { return Arrangements2D.Sum(a => a.ChordCount); } }
+        [XmlIgnore]
+        public Int32 NoteCount { get { return Arrangements2D.Sum(a => a.NoteCount); } }
+        [XmlIgnore]
+        public Int32 OctaveCount { get { return Arrangements2D.Sum(a => a.OctaveCount); } }
+        [XmlIgnore]
+        public Int32 BendCount { get { return Arrangements2D.Sum(a => a.BendCount); } }
+        [XmlIgnore]
+        public Int32 HammerOnCount { get { return Arrangements2D.Sum(a => a.HammerOnCount); } }
+        [XmlIgnore]
+        public Int32 PullOffCount { get { return Arrangements2D.Sum(a => a.PullOffCount); } }
+        [XmlIgnore]
+        public Int32 HarmonicCount { get { return Arrangements2D.Sum(a => a.HarmonicCount); } }
+        [XmlIgnore]
+        public Int32 FretHandMuteCount { get { return Arrangements2D.Sum(a => a.FretHandMuteCount); } }
+        [XmlIgnore]
+        public Int32 PalmMuteCount { get { return Arrangements2D.Sum(a => a.PalmMuteCount); } }
+        [XmlIgnore]
+        public Int32 PluckCount { get { return Arrangements2D.Sum(a => a.PluckCount); } }
+        [XmlIgnore]
+        public Int32 SlapCount { get { return Arrangements2D.Sum(a => a.SlapCount); } }
+        [XmlIgnore]
+        public Int32 PopCount { get { return Arrangements2D.Sum(a => a.PopCount); } }
+        [XmlIgnore]
+        public Int32 SlideCount { get { return Arrangements2D.Sum(a => a.SlideCount); } }
+        [XmlIgnore]
+        public Int32 SustainCount { get { return Arrangements2D.Sum(a => a.SustainCount); } }
+        [XmlIgnore]
+        public Int32 TremoloCount { get { return Arrangements2D.Sum(a => a.TremoloCount); } }
+        [XmlIgnore]
+        public Int32 HarmonicPinchCount { get { return Arrangements2D.Sum(a => a.HarmonicCount); } }
+        [XmlIgnore]
+        public Int32 UnpitchedSlideCount { get { return Arrangements2D.Sum(a => a.UnpitchedSlideCount); } }
+        [XmlIgnore]
+        public Int32 TapCount { get { return Arrangements2D.Sum(a => a.TapCount); } }
+        [XmlIgnore]
+        public Int32 VibratoCount { get { return Arrangements2D.Sum(a => a.VibratoCount); } }
     }
 
     // detail table data
@@ -297,5 +339,28 @@ namespace CustomsForgeSongManager.DataObjects
         public Int32 DMax { get; set; }
         public string ToneBase { get; set; }
         public Int32 SectionCount { get; set; }
+
+        [XmlIgnore]
+        public Dictionary<string, int> ChordList { get; set; }
+
+        public Int32 ChordCount { get; set; }
+        public Int32 NoteCount { get; set; }
+        public Int32 OctaveCount { get; set; }
+        public Int32 BendCount { get; set; }
+        public Int32 HammerOnCount { get; set; }
+        public Int32 PullOffCount { get; set; }
+        public Int32 HarmonicCount { get; set; }
+        public Int32 FretHandMuteCount { get; set; }
+        public Int32 PalmMuteCount { get; set; }
+        public Int32 PluckCount { get; set; }
+        public Int32 SlapCount { get; set; }
+        public Int32 PopCount { get; set; }
+        public Int32 SlideCount { get; set; }
+        public Int32 SustainCount { get; set; }
+        public Int32 TremoloCount { get; set; }
+        public Int32 HarmonicPinchCount { get; set; }
+        public Int32 UnpitchedSlideCount { get; set; }
+        public Int32 TapCount { get; set; }
+        public Int32 VibratoCount { get; set; }
     }
 }

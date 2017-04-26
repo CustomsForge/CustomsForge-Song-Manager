@@ -44,6 +44,8 @@ namespace CustomsForgeSongManager.LocalTools
 
             if (workOrder.Name == "Renamer")
                 bWorker.DoWork += WorkerRenameSongs;
+            else if (workOrder.Name == "Analyzer")
+                bWorker.DoWork += WorkerAnalyzerParseSong;
             else
                 bWorker.DoWork += WorkerParseSongs;
 
@@ -87,13 +89,13 @@ namespace CustomsForgeSongManager.LocalTools
                 else if (workOrder.Name == "Renamer")
                     Globals.Log(String.Format("Finished renaming took: {0}", counterStopwatch.Elapsed));
 
-                 Globals.WorkerFinished = Globals.Tristate.True;
+                Globals.WorkerFinished = Globals.Tristate.True;
             }
 
             bWorker.Dispose();
             bWorker = null;
             Globals.IsScanning = false;
-         }
+        }
 
         private void WorkerRenameSongs(object sender, DoWorkEventArgs e)
         {
@@ -104,6 +106,16 @@ namespace CustomsForgeSongManager.LocalTools
         }
 
         private void WorkerParseSongs(object sender, DoWorkEventArgs e)
+        {
+            ParseSongs(sender, e);
+        }
+
+        private void WorkerAnalyzerParseSong(object sender, DoWorkEventArgs e)
+        {
+            ParseSongs(sender, e, true);
+        }
+
+        private void ParseSongs(object sender, DoWorkEventArgs e, bool getAnalyzerData = false)
         {
             Globals.IsScanning = true;
             List<string> fileList = FilesList(Constants.Rs2DlcFolder, AppSettings.Instance.IncludeRS1DLCs);
@@ -163,7 +175,7 @@ namespace CustomsForgeSongManager.LocalTools
                 }
 
                 if (canScan)
-                    ParsePSARC(file);
+                    ParsePSARC(file, getAnalyzerData);
             }
 
             if (!String.IsNullOrEmpty(AppSettings.Instance.SortColumn))
@@ -201,7 +213,7 @@ namespace CustomsForgeSongManager.LocalTools
             counterStopwatch.Stop();
         }
 
-        private void ParsePSARC(string filePath)
+        private void ParsePSARC(string filePath, bool getAnalyzerData = false)
         {
             // 2x speed hack ... preload the TuningDefinition and fix for tuning 'Other' issue           
             if (Globals.TuningXml == null || Globals.TuningXml.Count == 0)
@@ -211,7 +223,7 @@ namespace CustomsForgeSongManager.LocalTools
             {
                 using (var browser = new PsarcBrowser(filePath))
                 {
-                    var songInfo = browser.GetSongData();
+                    var songInfo = browser.GetSongData(getAnalyzerData);
 
                     foreach (var songData in songInfo.Distinct())
                     {

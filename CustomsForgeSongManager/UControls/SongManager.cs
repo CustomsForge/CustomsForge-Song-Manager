@@ -602,11 +602,11 @@ namespace CustomsForgeSongManager.UControls
             }
         }
 
-        private void RefreshDgv(bool fullRescan)
+        private void RefreshDgv(bool fullRescan, bool parseExtraData = false)
         {
             bindingCompleted = false;
             dgvPainted = false;
-            Rescan(fullRescan);
+            Rescan(fullRescan, parseExtraData);
             PopulateDataGridView();
             UpdateToolStrip();
             Globals.ReloadDuplicates = true;
@@ -637,7 +637,7 @@ namespace CustomsForgeSongManager.UControls
             UpdateToolStrip();
         }
 
-        private void Rescan(bool fullRescan)
+        private void Rescan(bool fullRescan, bool parseExtraData = false)
         {
             dgvSongsMaster.DataSource = null;
             dgvSongsDetail.Visible = false;
@@ -686,7 +686,16 @@ namespace CustomsForgeSongManager.UControls
             // run new worker
             using (Worker worker = new Worker())
             {
-                worker.BackgroundScan(dgvSongsMaster, bWorker);
+                if (parseExtraData)
+                {
+                    string oldName = dgvSongsMaster.Name; //TODO: replace this with a more suitable/less hacky way to the bigger rescan
+                    dgvSongsMaster.Name = "Analyzer";
+                    worker.BackgroundScan(dgvSongsMaster, bWorker);
+                    dgvSongsMaster.Name = oldName;
+                }
+                else
+                    worker.BackgroundScan(dgvSongsMaster, bWorker);
+
                 while (Globals.WorkerFinished == Globals.Tristate.False)
                 {
                     Application.DoEvents();
@@ -1958,6 +1967,23 @@ namespace CustomsForgeSongManager.UControls
             SetRepairOptions();
             Globals.Settings.SaveSettingsToFile(dgvSongsMaster);
             Globals.Log("SongManager GUI TabLeave ...");
+        }
+
+        private void fullWithExtraDataToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            RefreshDgv(true, true);
+        }
+
+        private void getExtraDataToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var sng = DgvExtensions.GetObjectFromFirstSelectedRow<SongData>(dgvSongsMaster);
+
+            using (var browser = new PsarcBrowser(sng.FilePath))
+            {
+               var data = browser.GetSongData(true);
+               int index = Globals.SongCollection.IndexOf(sng);
+               Globals.SongCollection[index] = data.First();
+            }
         }
 
     }
