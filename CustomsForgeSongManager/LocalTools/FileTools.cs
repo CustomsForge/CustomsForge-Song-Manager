@@ -74,6 +74,22 @@ namespace CustomsForgeSongManager.LocalTools
             }
         }
 
+        public static void GetExtraSongData(List<SongData> selectedSongs)
+        {
+            if (selectedSongs.Count == 0)
+                return;
+
+            foreach (var song in selectedSongs)
+            {
+                using (var browser = new PsarcBrowser(song.FilePath))
+                {
+                    var data = browser.GetSongData(true);
+                    int index = Globals.SongCollection.IndexOf(song);
+                    Globals.SongCollection[index] = data.First();
+                }
+            }
+        }
+
         public static void ArtistFolders(string dlcDir, List<SongData> selectedSongs, bool isUndo)
         {
             if (isUndo)

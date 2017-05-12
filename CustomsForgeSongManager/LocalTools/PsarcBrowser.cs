@@ -19,6 +19,8 @@ using RocksmithToolkitLib.Xml;
 using RocksmithToolkitLib.Sng2014HSL;
 using RocksmithToolkitLib.DLCPackage.Manifest2014;
 using Newtonsoft.Json;
+using GenTools;
+using System.Windows.Forms;
 
 namespace CustomsForgeSongManager.LocalTools
 {
@@ -75,6 +77,10 @@ namespace CustomsForgeSongManager.LocalTools
 
             // every song contains gamesxblock but may not contain showlights.xml
             var singleSongCount = _archive.TOC.Where(x => x.Name.Contains(".xblock") && x.Name.Contains("nsongs"));
+
+            if (_filePath.Contains("songs.psarc"))
+                singleSongCount = singleSongCount.Where(s => !s.Name.Contains("rs2"));
+
             // this foreach loop addresses song packs otherwise it is only done one time
             foreach (var singleSong in singleSongCount)
             {
@@ -121,6 +127,10 @@ namespace CustomsForgeSongManager.LocalTools
 
                 var infoFiles = _archive.TOC.Where(x => x.Name.StartsWith("manifests/songs") && x.Name.EndsWith(".json") && x.Name.Contains(strippedName)).OrderBy(x => x.Name);
 
+                if (_filePath.Contains("rs1comp")) //there seems to be a problem with single-word names (like Pearl Jam's 'Black'), causing multiple songs to be stacked together
+                    if (infoFiles.Where(x => x.Name.Contains(strippedName + "_")).ToList().Count() != 0)
+                        infoFiles = infoFiles.Where(x => x.Name.Contains(strippedName + "_")).OrderBy(x => x.Name);
+
                 // speed hack ... some song info is only needed one time
                 bool gotSongInfo = false;
                 var arrangmentsFromPsarc = new FilteredBindingList<Arrangement>();
@@ -164,6 +174,9 @@ namespace CustomsForgeSongManager.LocalTools
 
                         var arrName = attributes["ArrangementName"].ToString();
 
+                        if (Char.IsNumber(entry.Name[entry.Name.IndexOf(".json") - 1]))
+                            arrName = arrName + entry.Name[entry.Name.IndexOf(".json") - 1];
+
                         // get vocal arrangment info
                         if (arrName.ToLower().Contains("vocal"))
                             arrangmentsFromPsarc.Add(new Arrangement(currentSong)
@@ -185,7 +198,7 @@ namespace CustomsForgeSongManager.LocalTools
 
                                 if (currentSong.OfficialDLC)
                                 {
-                                    var arrSngEntry = _archive.TOC.FirstOrDefault(x => x.Name.EndsWith(".sng") && x.Name.ToLower().Contains(arrName.ToLower()));
+                                    var arrSngEntry = _archive.TOC.FirstOrDefault(x => x.Name.EndsWith(".sng") && x.Name.ToLower().Contains(arrName.ToLower() + ".sng") && x.Name.Contains(strippedName));
 
                                     _archive.InflateEntry(arrSngEntry);
 
@@ -210,7 +223,7 @@ namespace CustomsForgeSongManager.LocalTools
                                 }
                                 else
                                 {
-                                    var arrXmlEntry = _archive.TOC.FirstOrDefault(x => x.Name.EndsWith(".xml") && x.Name.ToLower().Contains(arrName.ToLower()));
+                                    var arrXmlEntry = _archive.TOC.FirstOrDefault(x => x.Name.EndsWith(".xml") && x.Name.ToLower().Contains(arrName.ToLower()) && x.Name.Contains(strippedName));
 
                                     _archive.InflateEntry(arrXmlEntry);
 
@@ -220,22 +233,6 @@ namespace CustomsForgeSongManager.LocalTools
                                         arrXmlEntry.Data.CopyTo(xmlMS);
                                         arrXmlEntry.Data.Position = 0;
                                         xmlMS.Position = 0;
-
-                                        //string xmlContent = xmlReader.ReadToEnd();
-                                        //var lines = xmlContent.Split(new[] { '\r', '\n' });
-                                        //string cleanXML = "";
-
-                                        //if (lines[0].Contains("version"))
-                                        //    xmlReader.ReadLine();
-
-                                        //foreach (var line in lines)
-                                        //    if (!line.Contains("xml version") && !line.Contains("<!--"))
-                                        //        cleanXML += line;
-
-                                        //using (TextReader rd = new StringReader(cleanXML))
-                                        //{
-                                        //    song2014Data = new XmlStreamingDeserializer<Song2014>(rd).Deserialize();
-                                        //}
 
                                         using (var fileStream = File.Create(Path.Combine(Constants.WorkFolder, "sng.xml")))
                                         {
@@ -247,6 +244,8 @@ namespace CustomsForgeSongManager.LocalTools
                                     }
                                 }
 
+
+
                                 int octaveCount = 0;
                                 int chordCount = 0;
                                 bool isOctave = false;
@@ -257,7 +256,9 @@ namespace CustomsForgeSongManager.LocalTools
                                 var allLevelData = song2014Data.Levels;
                                 var maxLevelNotes = new List<SongNote2014>();
                                 var maxLevelChords = new List<SongChord2014>();
-                                var chordCountDict = new Dictionary<string, int>();
+                                //var chordCountDict = new Dictionary<string, int>();
+                                var chordNames = new List<string>();
+                                var chordCounts = new List<int>();
 
                                 for (int i = allLevelData.Count() - 1; i > 0; i--) //go from the highest level to prevent adding the lower level notes
                                 {
@@ -271,18 +272,24 @@ namespace CustomsForgeSongManager.LocalTools
                                     {
                                         if (!maxLevelChords.Any(c => c.Time == chord.Time) && !maxLevelNotes.Any(n => n.Time == chord.Time))
                                             maxLevelChords.Add(chord);
+                                    }
+                                }
 
-                                        string chordName = song2014Data.ChordTemplates[chord.ChordId].ChordName;
+                                foreach (var chord in maxLevelChords)
+                                {
+                                    string chordName = song2014Data.ChordTemplates[chord.ChordId].ChordName;
 
-                                        chordCount = 0;
+                                    chordCount = 0;
 
-                                        if (chordName == "")
-                                            continue;
+                                    if (chordName == "")
+                                        continue;
 
-                                        if (chordCountDict.TryGetValue(chordName, out chordCount))
-                                            chordCountDict[chordName] = chordCount + 1;
-                                        else
-                                            chordCountDict.Add(chordName, 1);
+                                    if (chordNames.Where(c => c == chordName).Count() > 0)
+                                        chordCounts[chordNames.IndexOf(chordName)] += 1;
+                                    else
+                                    {
+                                        chordNames.Add(chordName);
+                                        chordCounts.Add(1);
                                     }
                                 }
 
@@ -331,7 +338,8 @@ namespace CustomsForgeSongManager.LocalTools
                                      BendCount = maxLevelNotes.Count(n => n.Bend > 0.0f),
 
                                      OctaveCount = octaveCount,
-                                     ChordList = chordCountDict
+                                     ChordNames = chordNames,
+                                     ChordCounts = chordCounts
                                  };
                             }
 
@@ -345,6 +353,12 @@ namespace CustomsForgeSongManager.LocalTools
                             arrangmentsFromPsarc.Add(arr);
                         }
                     }
+                }
+
+                if (_filePath.Contains("songs.psarc"))
+                {
+                    if (currentSong.Album == null || currentSong.Album.Contains("Rocksmith") || currentSong.ArtistTitleAlbum.Contains(";;") || currentSong.LastConversionDateTime.Year == 1)
+                        continue;
                 }
 
                 currentSong.Arrangements2D = arrangmentsFromPsarc;

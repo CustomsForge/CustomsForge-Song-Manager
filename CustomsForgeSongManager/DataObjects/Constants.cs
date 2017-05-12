@@ -33,6 +33,7 @@ namespace CustomsForgeSongManager.DataObjects
         public static string GWORKER_ACHRIVE = "archiving";
         public static string GWORKER_PITCHSHIFT = "pitch shifting";
         public static string GWORKER_ORGANIZE = "organizing";
+        public static string GWORKER_ANALYZE = "analyzing";
 
         public static readonly string RS1COMP = "rs1compatibility";
         public static readonly string SONGPACK = "songpack";
@@ -89,6 +90,7 @@ namespace CustomsForgeSongManager.DataObjects
         // write access to the Steam RSInstallDir is provided by the code 
         public static string Rs2DlcFolder { get { return Path.Combine(AppSettings.Instance.RSInstalledDir, "dlc"); } }
         public static string CachePsarcPath { get { return Path.Combine(AppSettings.Instance.RSInstalledDir, "cache.psarc"); } }
+        public static string SongsPsarcPath { get { return Path.Combine(AppSettings.Instance.RSInstalledDir, "songs.psarc"); } }
 
         // issues writing to rocksmith2014/cfsm folder because of modern OS Permissions
         [Obsolete("Depricated, please use 'My Documents/CFSM' folder", false)]
@@ -119,7 +121,7 @@ namespace CustomsForgeSongManager.DataObjects
         public static string RemasteredCorFolder { get { return Path.Combine(RemasteredFolder, "corrupt"); } }
         public static string RemasteredOrgFolder { get { return Path.Combine(RemasteredFolder, "original"); } }
         public static string RemasteredMaxFolder { get { return Path.Combine(RemasteredFolder, "maxfive"); } }
-  
+
         #region URL constants
 
         public const string RSToolkitURL = "https://www.rscustom.net/";

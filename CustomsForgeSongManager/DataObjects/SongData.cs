@@ -340,8 +340,29 @@ namespace CustomsForgeSongManager.DataObjects
         public string ToneBase { get; set; }
         public Int32 SectionCount { get; set; }
 
+        //[XmlIgnore]
+        //public Dictionary<string, int> ChordList { get; set; }
+
+        public List<string> ChordNames { get; set; }
+        public List<int> ChordCounts { get; set; }
         [XmlIgnore]
-        public Dictionary<string, int> ChordList { get; set; }
+        public string ChordCountsCombined
+        {
+            get
+            {
+                if (ChordNames == null)
+                    return "";
+
+                string stringList = "";
+
+                for (int i = 0; i < ChordNames.Count(); i++)
+                {
+                    stringList += (ChordNames[i] + "-" + ChordCounts[i].ToString() + "| ");
+                }
+
+                return stringList;
+            }
+        }
 
         public Int32 ChordCount { get; set; }
         public Int32 NoteCount { get; set; }

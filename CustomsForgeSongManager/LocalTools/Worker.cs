@@ -118,7 +118,7 @@ namespace CustomsForgeSongManager.LocalTools
         private void ParseSongs(object sender, DoWorkEventArgs e, bool getAnalyzerData = false)
         {
             Globals.IsScanning = true;
-            List<string> fileList = FilesList(Constants.Rs2DlcFolder, AppSettings.Instance.IncludeRS1DLCs);
+            List<string> fileList = FilesList(Constants.Rs2DlcFolder, AppSettings.Instance.IncludeRS1DLCs, AppSettings.Instance.IncludeRS2014BaseSongs);
             fileList = fileList.Where(fi => !fi.ToLower().Contains(Constants.SONGPACK) &&
                 !fi.ToLower().Contains(Constants.ABVSONGPACK) &&
                 !fi.ToLower().Contains("inlay")) // ignore inlays
@@ -281,7 +281,7 @@ namespace CustomsForgeSongManager.LocalTools
         //    {
         //    });
 
-        public static List<string> FilesList(string path, bool includeRS1Pack = false)
+        public static List<string> FilesList(string path, bool includeRS1Pack = false, bool includeRS2014BaseSongs = false)
         {
             if (String.IsNullOrEmpty(path))
                 throw new Exception("<ERROR>: No path provided for file scanning");
@@ -294,6 +294,9 @@ namespace CustomsForgeSongManager.LocalTools
 
             if (!includeRS1Pack)
                 files = files.Where(file => !file.Contains(Constants.RS1COMP) && !file.ToLower().Contains(Constants.SONGPACK) && !file.ToLower().Contains(Constants.ABVSONGPACK)).ToList();
+
+            if (includeRS2014BaseSongs)
+                files.Add(Constants.SongsPsarcPath);
 
             return files;
         }

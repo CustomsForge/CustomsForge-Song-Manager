@@ -14,6 +14,7 @@ using RocksmithToolkitLib.Xml;
 using RocksmithToolkitLib.DLCPackage;
 using RocksmithToolkitLib.PsarcLoader;
 using RocksmithToolkitLib;
+using System.Diagnostics;
 
 
 // NOTE: the app is designed for default user screen resolution of 1024x768
@@ -692,6 +693,100 @@ namespace CustomsForgeSongManager.Forms
         public Control GetControl()
         {
             return this;
+        }
+
+        private void analyzerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var path = Path.Combine(Constants.WorkFolder, "Analyzer.csv");
+            using (var sfdSongListToCSV = new SaveFileDialog() { Filter = "csv files(*.csv)|*.csv|All files (*.*)|*.*", FileName = path })
+                if (sfdSongListToCSV.ShowDialog() == DialogResult.OK)
+                {
+                    path = sfdSongListToCSV.FileName;
+
+                    var sbCSV = new StringBuilder();
+
+                    const char csvSep = ';';
+                    sbCSV.AppendLine(String.Format(@"sep={0}", csvSep));
+
+                    string[] columns = { "Artist","Song name", "Path", "Notes", "Hammer-ons", "Pulloffs", "Harmonics", "Pinch harmonics", "Frethand mutes", "Palm mutes",
+                                         "Plucks", "Slaps", "Slides", "Unpitched slides", "Tremolos", "Taps", "Vibratos", "Sustains", "Bends"};
+
+                    foreach (var song in Globals.SongCollection) //TODO: make this get data from dgvSongDetails
+                    {
+                        var arrangements = song.Arrangements2D;
+
+                        string s = song.Artist + " - " + song.Title;
+                        string columnsCSV = String.Join(csvSep.ToString(), columns);
+
+                        try
+                        {
+                            string chordColumns = "Chord" + csvSep + "# of chord" + csvSep;
+                            int nrOfDifferentChords = arrangements.Where(a => a.ChordCounts != null).Max(ar => (int?)ar.ChordCounts.Count() ?? 0);
+
+                            columnsCSV += csvSep + string.Concat((Enumerable.Repeat(chordColumns, nrOfDifferentChords)));
+                        }
+                        catch (ArgumentNullException)
+                        {
+                            Globals.Log("Analyzer error: problem with getting a part of data for song " + song.Title + " by " + song.Artist);
+                        }
+
+                        // s += csvSep + columnsCSV;
+                        sbCSV.AppendLine(columnsCSV.Trim(new char[] { ',', ' ' }));
+
+                        foreach (var arr in song.Arrangements2D)
+                        {
+                            if (arr.Name == "Vocals")
+                                continue;
+
+                            //this Replace is used in order not to have to convert every one of these to string
+
+                            s = song.Artist + csvSep + song.Title + csvSep + arr.Name + csvSep + " " + arr.NoteCount + csvSep + arr.HammerOnCount + csvSep + arr.PullOffCount + csvSep + arr.HarmonicCount
+                                + csvSep + arr.HarmonicPinchCount + csvSep + arr.FretHandMuteCount + csvSep + arr.PalmMuteCount + csvSep + arr.PluckCount + csvSep + arr.SlapCount + csvSep + arr.SlideCount
+                                + csvSep + arr.UnpitchedSlideCount + csvSep + arr.TremoloCount + csvSep + arr.TapCount + csvSep + arr.VibratoCount + csvSep + arr.SustainCount + csvSep + arr.BendCount + csvSep;
+
+                            if (arr.ChordNames.Count() == 0)
+                                s +=
+                                    "no chords";
+                            else
+                                for (int i = 0; i < arr.ChordNames.Count(); i++)
+                                    s += arr.ChordNames[i] + csvSep + arr.ChordCounts[i] + csvSep;
+
+                            sbCSV.AppendLine(s.Trim(new char[] { ',', ' ' }));
+
+                            //for (int i = 0; i < arr.ChordNames.Count(); i++)
+                            //{
+                            //    if (i == 0)
+                            //        s = csvSep + arr.ChordNames[i] + csvSep + arr.ChordCounts[i] + csvSep + arr.NoteCount + csvSep + arr.HammerOnCount + csvSep + arr.PullOffCount + csvSep + arr.HarmonicCount
+                            //            + csvSep + arr.HarmonicPinchCount + csvSep + arr.FretHandMuteCount + csvSep + arr.PalmMuteCount + csvSep + arr.PluckCount + csvSep + arr.SlapCount + csvSep + arr.SlideCount
+                            //            + csvSep + arr.UnpitchedSlideCount + csvSep + arr.TremoloCount + csvSep + arr.TapCount + csvSep + arr.VibratoCount + csvSep + arr.SustainCount + csvSep + arr.BendCount + csvSep;
+                            //    else
+                            //        s = csvSep + arr.ChordNames[i] + csvSep + arr.ChordCounts[i] + csvSep;
+
+                            //    sbCSV.AppendLine(s.Trim(new char[] { ',', ' ' }));
+                            //}
+                        }
+
+                        sbCSV.AppendLine("");
+                    }
+
+                    try
+                    {
+                        using (StreamWriter file = new StreamWriter(path, false, Encoding.Unicode))
+                            file.Write(sbCSV.ToString());
+
+                        Globals.Log("Song data saved to:" + path);
+                    }
+                    catch (IOException ex)
+                    {
+                        Globals.Log("<Error>: " + ex.Message);
+                    }
+                }
+
+            if(File.Exists(path))
+            {
+                if (MessageBox.Show("Do you want to open the exported file?", "Open the exported file", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
+                    Process.Start(path);
+            }
         }
     }
 }

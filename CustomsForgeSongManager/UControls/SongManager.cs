@@ -1199,8 +1199,8 @@ namespace CustomsForgeSongManager.UControls
                         // calculate the height and width of dgvSongsDetail
                         dgvSongsDetail.Columns["colDetailKey"].Width = dgvSongsMaster.Columns["colKey"].Width;
                         var colHeaderHeight = dgvSongsDetail.Columns[e.ColumnIndex].HeaderCell.Size.Height;
-                        dgvSongsDetail.Height = dgvSongsDetail.Rows.Cast<DataGridViewRow>().Sum(row => row.Height) + colHeaderHeight - 3;
-                        dgvSongsDetail.Width = dgvSongsDetail.Columns.Cast<DataGridViewColumn>().Sum(col => col.Width) + colWidth;
+                        dgvSongsDetail.Height = dgvSongsDetail.Rows.Cast<DataGridViewRow>().Sum(row => row.Height) + colHeaderHeight - 3;//TODO: somewhat inprecise on certains songs
+                        dgvSongsDetail.Width = dgvSongsDetail.Columns.Cast<DataGridViewColumn>().Sum(col => col.Width) + colWidth * 2; 
                         if (dgvSongsDetail.Rows.Count < 3) // need extra tweak 
                             dgvSongsDetail.Height = dgvSongsDetail.Height + 4;
 
@@ -1976,14 +1976,38 @@ namespace CustomsForgeSongManager.UControls
 
         private void getExtraDataToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var sng = DgvExtensions.GetObjectFromFirstSelectedRow<SongData>(dgvSongsMaster);
+            var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster);
+            if (!selection.Any())
+                return;
 
-            using (var browser = new PsarcBrowser(sng.FilePath))
-            {
-               var data = browser.GetSongData(true);
-               int index = Globals.SongCollection.IndexOf(sng);
-               Globals.SongCollection[index] = data.First();
-            }
+            DoWork(Constants.GWORKER_ANALYZE, selection);
+        }
+
+        private void rescanToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster);
+            if (!selection.Any())
+                return;
+
+            DoWork(Constants.GWORKER_ANALYZE, selection);
+
+            dgvSongsMaster.Refresh();
+        }
+
+        private void quickWithExtraDataToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            RefreshDgv(false, true);
+        }
+
+        private void getExtraDataForFilteredSongsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster, DgvExtensions.TristateSelect.All);
+            if (!selection.Any())
+                return;
+
+            DoWork(Constants.GWORKER_ANALYZE, selection);
+
+            dgvSongsMaster.Refresh();
         }
 
     }
