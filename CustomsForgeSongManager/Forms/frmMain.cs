@@ -712,8 +712,12 @@ namespace CustomsForgeSongManager.Forms
                     string[] columns = { "Artist","Song name", "Path", "Notes", "Hammer-ons", "Pulloffs", "Harmonics", "Pinch harmonics", "Frethand mutes", "Palm mutes",
                                          "Plucks", "Slaps", "Slides", "Unpitched slides", "Tremolos", "Taps", "Vibratos", "Sustains", "Bends"};
 
+                    int maxChordNumber = 0;
+
                     DoSomethingWithGrid((dataGrid, selection, colSel, ignoreColumns) =>
                         {
+                            string columnsCSV = "sep=" + csvSep.ToString();
+
                             foreach (var songRow in selection)
                             {
                                 var song = DGVTools.DgvExtensions.GetObjectFromRow<SongData>(songRow);
@@ -721,17 +725,17 @@ namespace CustomsForgeSongManager.Forms
                                 var arrangements = song.Arrangements2D;
 
                                 string s = song.Artist + " - " + song.Title;
-                                string columnsCSV = String.Join(csvSep.ToString(), columns);
 
                                 try
                                 {
-                                    string chordColumns = "Chord" + csvSep + "# of chord" + csvSep;
                                     var arrangementsWithChords = arrangements.Where(a => a.ChordCounts != null).ToList();
 
                                     if (arrangementsWithChords != null) //Just an extra check
                                     {
                                         int nrOfDifferentChords = arrangementsWithChords.Max(ar => (int?)ar.ChordCounts.Count() ?? 0);
-                                        columnsCSV += csvSep + string.Concat((Enumerable.Repeat(chordColumns, nrOfDifferentChords)));
+
+                                        if (nrOfDifferentChords > maxChordNumber)
+                                            maxChordNumber = nrOfDifferentChords;
                                     }
                                 }
                                 catch (ArgumentNullException)
@@ -739,8 +743,7 @@ namespace CustomsForgeSongManager.Forms
                                     Globals.Log("Analyzer error: problem with getting a part of data for song " + song.Title + " by " + song.Artist);
                                 }
 
-                                // s += csvSep + columnsCSV;
-                                sbCSV.AppendLine(columnsCSV.Trim(new char[] { ',', ' ' }));
+                                //sbCSV.AppendLine(columnsCSV.Trim(new char[] { ',', ' ' }));
 
                                 foreach (var arr in song.Arrangements2D)
                                 {
@@ -765,6 +768,13 @@ namespace CustomsForgeSongManager.Forms
 
                                 sbCSV.AppendLine("");
                             }
+
+                            string chordColumns = "Chord" + csvSep + "# of chord" + csvSep;
+
+                            columnsCSV += Environment.NewLine + String.Join(csvSep.ToString(), columns);
+                            columnsCSV += csvSep + string.Concat((Enumerable.Repeat(chordColumns, maxChordNumber)));
+
+                            sbCSV.Insert(0, columnsCSV.Trim(new char[] { ',', ' ' }));
                         });
 
                     try

@@ -2,6 +2,7 @@
 1.3.1.9.
 -Analyzer now only exports songs currently shown in the main data table
 -Corrected incorrect chord listing
+-Column headers in the CSV file exported by Analyzer now only show once on top
 
 1.3.1.8. 
 - added an option to export more tehnical informations (number of chords, hammer-on/pull offs,...)
