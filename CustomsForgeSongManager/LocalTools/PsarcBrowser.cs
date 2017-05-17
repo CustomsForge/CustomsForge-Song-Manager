@@ -244,8 +244,6 @@ namespace CustomsForgeSongManager.LocalTools
                                     }
                                 }
 
-
-
                                 int octaveCount = 0;
                                 int chordCount = 0;
                                 bool isOctave = false;
@@ -256,7 +254,7 @@ namespace CustomsForgeSongManager.LocalTools
                                 var allLevelData = song2014Data.Levels;
                                 var maxLevelNotes = new List<SongNote2014>();
                                 var maxLevelChords = new List<SongChord2014>();
-                                //var chordCountDict = new Dictionary<string, int>();
+
                                 var chordNames = new List<string>();
                                 var chordCounts = new List<int>();
 
@@ -277,7 +275,7 @@ namespace CustomsForgeSongManager.LocalTools
 
                                 foreach (var chord in maxLevelChords)
                                 {
-                                    string chordName = song2014Data.ChordTemplates[chord.ChordId].ChordName;
+                                    string chordName = song2014Data.ChordTemplates[chord.ChordId].ChordName.Replace(" ", string.Empty);
 
                                     chordCount = 0;
 
