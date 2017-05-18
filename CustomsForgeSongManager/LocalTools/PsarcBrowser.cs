@@ -348,6 +348,7 @@ namespace CustomsForgeSongManager.LocalTools
                             arr.ToneBase = attributes["Tone_Base"].ToString();
                             arr.SectionCount = attributes["Sections"].ToArray().Count();
 
+                            currentSong.ExtraMetaDataScanned = true;
                             arrangmentsFromPsarc.Add(arr);
                         }
                     }

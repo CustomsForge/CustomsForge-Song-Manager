@@ -1,11 +1,13 @@
 ﻿CFSM Release Notes
-1.3.1.9.
--Analyzer now only exports songs currently shown in the main data table
--Corrected incorrect chord listing
--Column headers in the CSV file exported by Analyzer now only show once on top
+1.3.1.9
+- analyzer now only exports songs currently shown in the main data table
+- corrected incorrect chord listing
+- column headers in the CSV file exported by Analyzer now only show once on top
+- added an option to include extra data in every scan (in Settings)
+- the Analyzer will now automatically rescan the song with extra data if the arrangement data is not available to it
 
-1.3.1.8. 
-- added an option to export more tehnical informations (number of chords, hammer-on/pull offs,...)
+1.3.1.8
+- added an option to export more arrangement data (number of chords, hammer-on/pull offs,...)
 - improved updating process for older versions (prevented possible uncaught exceptions)
 
 1.3.1.7

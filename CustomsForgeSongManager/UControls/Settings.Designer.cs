@@ -58,6 +58,7 @@ namespace CustomsForgeSongManager.UControls
             this.chkEnableLogBallon = new System.Windows.Forms.CheckBox();
             this.chkIncludeRS2014BaseSongs = new System.Windows.Forms.CheckBox();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.chkScanWithExtraData = new System.Windows.Forms.CheckBox();
             this.tlpSettings_Wrapper.SuspendLayout();
             this.panel5.SuspendLayout();
             this.SuspendLayout();
@@ -71,22 +72,24 @@ namespace CustomsForgeSongManager.UControls
             this.tlpSettings_Wrapper.Controls.Add(this.panel5, 2, 1);
             this.tlpSettings_Wrapper.Controls.Add(this.cueRsDir, 2, 0);
             this.tlpSettings_Wrapper.Controls.Add(this.lblSettingsRSDir, 0, 0);
-            this.tlpSettings_Wrapper.Controls.Add(this.rbCleanOnClosing, 0, 8);
-            this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsSave, 1, 10);
-            this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsLoad, 0, 10);
-            this.tlpSettings_Wrapper.Controls.Add(this.btnEmptyLogs, 0, 9);
+            this.tlpSettings_Wrapper.Controls.Add(this.rbCleanOnClosing, 0, 9);
+            this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsSave, 1, 11);
+            this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsLoad, 0, 11);
+            this.tlpSettings_Wrapper.Controls.Add(this.btnEmptyLogs, 0, 10);
             this.tlpSettings_Wrapper.Controls.Add(this.chkIncludeRS1DLC, 0, 3);
             this.tlpSettings_Wrapper.Controls.Add(this.chkEnableAutoUpdate, 0, 2);
-            this.tlpSettings_Wrapper.Controls.Add(this.btnResetDownloads, 1, 9);
-            this.tlpSettings_Wrapper.Controls.Add(this.txtCharterName, 0, 6);
+            this.tlpSettings_Wrapper.Controls.Add(this.btnResetDownloads, 1, 10);
+            this.tlpSettings_Wrapper.Controls.Add(this.txtCharterName, 0, 7);
             this.tlpSettings_Wrapper.Controls.Add(this.chkEnableLogBallon, 0, 5);
             this.tlpSettings_Wrapper.Controls.Add(this.chkIncludeRS2014BaseSongs, 0, 4);
+            this.tlpSettings_Wrapper.Controls.Add(this.chkScanWithExtraData, 0, 6);
             this.tlpSettings_Wrapper.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpSettings_Wrapper.Location = new System.Drawing.Point(0, 0);
             this.tlpSettings_Wrapper.Name = "tlpSettings_Wrapper";
-            this.tlpSettings_Wrapper.RowCount = 12;
+            this.tlpSettings_Wrapper.RowCount = 13;
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
@@ -108,7 +111,7 @@ namespace CustomsForgeSongManager.UControls
             this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel5.Location = new System.Drawing.Point(347, 28);
             this.panel5.Name = "panel5";
-            this.tlpSettings_Wrapper.SetRowSpan(this.panel5, 11);
+            this.tlpSettings_Wrapper.SetRowSpan(this.panel5, 12);
             this.panel5.Size = new System.Drawing.Size(516, 459);
             this.panel5.TabIndex = 4;
             // 
@@ -213,7 +216,7 @@ namespace CustomsForgeSongManager.UControls
             this.rbCleanOnClosing.AutoSize = true;
             this.tlpSettings_Wrapper.SetColumnSpan(this.rbCleanOnClosing, 2);
             this.rbCleanOnClosing.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rbCleanOnClosing.Location = new System.Drawing.Point(3, 247);
+            this.rbCleanOnClosing.Location = new System.Drawing.Point(3, 279);
             this.rbCleanOnClosing.Name = "rbCleanOnClosing";
             this.rbCleanOnClosing.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
             this.rbCleanOnClosing.Size = new System.Drawing.Size(166, 19);
@@ -260,7 +263,7 @@ namespace CustomsForgeSongManager.UControls
             this.btnEmptyLogs.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnEmptyLogs.Image = global::CustomsForgeSongManager.Properties.Resources.delete;
             this.btnEmptyLogs.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnEmptyLogs.Location = new System.Drawing.Point(35, 354);
+            this.btnEmptyLogs.Location = new System.Drawing.Point(35, 386);
             this.btnEmptyLogs.Name = "btnEmptyLogs";
             this.btnEmptyLogs.Padding = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.btnEmptyLogs.Size = new System.Drawing.Size(118, 29);
@@ -310,7 +313,7 @@ namespace CustomsForgeSongManager.UControls
             this.btnResetDownloads.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnResetDownloads.Image = global::CustomsForgeSongManager.Properties.Resources.clear;
             this.btnResetDownloads.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnResetDownloads.Location = new System.Drawing.Point(192, 354);
+            this.btnResetDownloads.Location = new System.Drawing.Point(192, 386);
             this.btnResetDownloads.Name = "btnResetDownloads";
             this.btnResetDownloads.Padding = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.btnResetDownloads.Size = new System.Drawing.Size(118, 29);
@@ -328,7 +331,7 @@ namespace CustomsForgeSongManager.UControls
             this.txtCharterName.Cue = "Enter CDLC Charter Name";
             this.txtCharterName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.txtCharterName.ForeColor = System.Drawing.Color.Gray;
-            this.txtCharterName.Location = new System.Drawing.Point(12, 183);
+            this.txtCharterName.Location = new System.Drawing.Point(12, 215);
             this.txtCharterName.Margin = new System.Windows.Forms.Padding(12, 3, 3, 3);
             this.txtCharterName.Name = "txtCharterName";
             this.txtCharterName.Size = new System.Drawing.Size(179, 20);
@@ -376,6 +379,21 @@ namespace CustomsForgeSongManager.UControls
             this.toolTip.IsBalloon = true;
             this.toolTip.ReshowDelay = 100;
             // 
+            // chkScanWithExtraData
+            // 
+            this.chkScanWithExtraData.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.chkScanWithExtraData.AutoSize = true;
+            this.tlpSettings_Wrapper.SetColumnSpan(this.chkScanWithExtraData, 2);
+            this.chkScanWithExtraData.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkScanWithExtraData.Location = new System.Drawing.Point(3, 183);
+            this.chkScanWithExtraData.Name = "chkScanWithExtraData";
+            this.chkScanWithExtraData.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
+            this.chkScanWithExtraData.Size = new System.Drawing.Size(145, 19);
+            this.chkScanWithExtraData.TabIndex = 17;
+            this.chkScanWithExtraData.Text = "Scan with extra data";
+            this.chkScanWithExtraData.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.chkScanWithExtraData.UseVisualStyleBackColor = true;
+            // 
             // Settings
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -414,5 +432,6 @@ namespace CustomsForgeSongManager.UControls
         private Button btnResetDownloads;
         private CheckBox chkEnableLogBallon;
         public CheckBox chkIncludeRS2014BaseSongs;
+        private CheckBox chkScanWithExtraData;
     }
 }

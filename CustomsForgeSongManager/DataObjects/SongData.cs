@@ -304,6 +304,7 @@ namespace CustomsForgeSongManager.DataObjects
         public Int32 TapCount { get { return Arrangements2D.Sum(a => a.TapCount); } }
         [XmlIgnore]
         public Int32 VibratoCount { get { return Arrangements2D.Sum(a => a.VibratoCount); } }
+        public bool ExtraMetaDataScanned { get; set; }
     }
 
     // detail table data

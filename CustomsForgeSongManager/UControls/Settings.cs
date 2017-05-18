@@ -77,6 +77,9 @@ namespace CustomsForgeSongManager.UControls
                 case "EnableLogBaloon":
                     chkEnableLogBallon.Checked = AppSettings.Instance.EnableLogBaloon;
                     break;
+                case "ScanWithExtraData":
+                    chkScanWithExtraData.Checked = AppSettings.Instance.ScanWithExtraData;
+                    break;
                 case "CleanOnClosing":
                     rbCleanOnClosing.Checked = AppSettings.Instance.CleanOnClosing;
                     break;

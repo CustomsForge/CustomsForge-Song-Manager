@@ -722,15 +722,35 @@ namespace CustomsForgeSongManager.Forms
                             {
                                 var song = DGVTools.DgvExtensions.GetObjectFromRow<SongData>(songRow);
 
-                                var arrangements = song.Arrangements2D;
-
                                 string s = song.Artist + " - " + song.Title;
+
+                                if (!song.ExtraMetaDataScanned && song.NoteCount == 0)
+                                {
+                                    Globals.Log("No arrangement data found in " + s);
+
+                                    int sngIndex = Globals.SongCollection.IndexOf(song);
+
+                                    using (var browser = new PsarcBrowser(song.FilePath))
+                                    {
+                                        var songInfo = browser.GetSongData(true);
+
+                                        if (song.FilePath.ToLower().Contains("rs1comp"))
+                                            song = songInfo.FirstOrDefault(i => i.Title == song.Title);
+                                        else
+                                            song = songInfo.First();
+
+                                        song.ExtraMetaDataScanned = true;
+                                        Globals.SongCollection[sngIndex] = song;
+                                    }
+                                }
+
+                                var arrangements = song.Arrangements2D;
 
                                 try
                                 {
                                     var arrangementsWithChords = arrangements.Where(a => a.ChordCounts != null).ToList();
 
-                                    if (arrangementsWithChords != null) //Just an extra check
+                                    if (arrangementsWithChords != null && arrangementsWithChords.Count != 0) //Just an extra check
                                     {
                                         int nrOfDifferentChords = arrangementsWithChords.Max(ar => (int?)ar.ChordCounts.Count() ?? 0);
 
@@ -756,7 +776,7 @@ namespace CustomsForgeSongManager.Forms
                                         + csvSep + arr.HarmonicPinchCount + csvSep + arr.FretHandMuteCount + csvSep + arr.PalmMuteCount + csvSep + arr.PluckCount + csvSep + arr.SlapCount + csvSep + arr.SlideCount
                                         + csvSep + arr.UnpitchedSlideCount + csvSep + arr.TremoloCount + csvSep + arr.TapCount + csvSep + arr.VibratoCount + csvSep + arr.SustainCount + csvSep + arr.BendCount + csvSep;
 
-                                    if (arr.ChordNames.Count() == 0)
+                                    if (arr.ChordNames != null && arr.ChordNames.Count() == 0)
                                         s +=
                                             "no chords";
                                     else
