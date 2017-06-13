@@ -110,6 +110,9 @@ namespace CustomsForgeSongManager.UControls
 
                 if (Globals.AudioEngine.OpenAudioFile(fullname))
                 {
+                    //float inGameVolume = (float)Math.Pow(10, sng.SongVolume / 10) - 1; // if in dB
+                    //Globals.AudioEngine.SetVolume(1.0f - sng.SongVolume);
+
                     Globals.AudioEngine.Play();
                     Globals.Log(String.Format("Playing {0} by {1} ... ({2})", sng.Title, sng.Artist, Path.GetFileName(sng.FilePath)));
                 }
@@ -686,7 +689,7 @@ namespace CustomsForgeSongManager.UControls
             // run new worker
             using (Worker worker = new Worker())
             {
-                if (parseExtraData || (parseExtraData && AppSettings.Instance.ScanWithExtraData ))
+                if (parseExtraData || (parseExtraData && AppSettings.Instance.ScanWithExtraData))
                 {
                     string oldName = dgvSongsMaster.Name; //TODO: replace this with a more suitable/less hacky way to the bigger rescan
                     dgvSongsMaster.Name = "Analyzer";
@@ -1796,7 +1799,7 @@ namespace CustomsForgeSongManager.UControls
 
         private void tsmiModsPitchShifter_Click(object sender, EventArgs e)
         {
-            var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster);
+             var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster);
             if (!selection.Any())
                 return;
 

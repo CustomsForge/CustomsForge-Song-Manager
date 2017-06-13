@@ -113,7 +113,7 @@ namespace CustomsForgeSongManager.DataObjects
         public Int32 SongYear { get; set; }
         public Single SongLength { get; set; }
         public Single SongAverageTempo { get; set; }
-        public Single SongVolume { get; set; }
+        public Single SongVolume  { get; set; }
         public DateTime FileDate { get; set; }
         public int FileSize { get; set; }
 
