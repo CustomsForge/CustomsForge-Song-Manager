@@ -705,14 +705,9 @@ namespace CustomsForgeSongManager.Forms
             public Dictionary<string, int> ChordNums { get; set; }
         }
 
-        private class AllArrangements
+        private class AnalyzerInfo
         {
-            public List<StatPair> AllArrs { get; set; }
-        }
-
-        private class AllSongInfo
-        {
-            public Dictionary<string, List<StatPair>> AllInfo { get; set; }
+            public Dictionary<string, List<StatPair>> SongInfo { get; set; }
         }
 
         private void AnalyzerJSON()
@@ -732,71 +727,61 @@ namespace CustomsForgeSongManager.Forms
                         dgvSelection = selection.ToList();
                     });
 
-                    var allInfo = new AllSongInfo();
-                    allInfo.AllInfo = new Dictionary<string, List<StatPair>>();
-
-                    var allArrs = new AllArrangements();
-                    allArrs.AllArrs = new List<StatPair>();
-
-                    var arrInfo = new StatPair();
-
-                    var dictJSON = new Dictionary<string, string>();
-                    var dictChordNums = new Dictionary<string, int>();
+                    var allInfo = new List<AnalyzerInfo>();
 
                     foreach (var songRow in dgvSelection)
                     {
                         var song = DGVTools.DgvExtensions.GetObjectFromRow<SongData>(songRow);
+                        var artistTitle = song.Artist + " - " + song.Title;
+                        var statPairList = new List<StatPair>();
 
-                        string sTitle = song.Artist + " - " + song.Title;
-
-                        var arrangements = song.Arrangements2D;
-
-                        allArrs.AllArrs.Clear();
                         foreach (var arr in song.Arrangements2D)
                         {
                             if (arr.Name == "Vocals")
                                 continue;
 
-                            arrInfo = new StatPair();
-                            arrInfo.ChordNums = new Dictionary<string, int>();
-                            arrInfo.GeneralStats = new Dictionary<string, string>();
+                            var statPair = new StatPair();
+                            statPair.GeneralStats = new Dictionary<string, string>();
 
-                            arrInfo.GeneralStats.Add("Arrangement", arr.Name);
-                            arrInfo.GeneralStats.Add("Note Count", arr.NoteCount.ToString());
-                            arrInfo.GeneralStats.Add("Hammer-ons", arr.HammerOnCount.ToString());
-                            arrInfo.GeneralStats.Add("Pulloffs", arr.PullOffCount.ToString());
-                            arrInfo.GeneralStats.Add("Harmonics", arr.HarmonicCount.ToString());
-                            arrInfo.GeneralStats.Add("Pinch harmonics", arr.HarmonicPinchCount.ToString());
-                            arrInfo.GeneralStats.Add("Frethand mutes", arr.FretHandMuteCount.ToString());
-                            arrInfo.GeneralStats.Add("Palm mutes", arr.PalmMuteCount.ToString());
-                            arrInfo.GeneralStats.Add("Plucks", arr.PluckCount.ToString());
-                            arrInfo.GeneralStats.Add("Slaps", arr.SlapCount.ToString());
-                            arrInfo.GeneralStats.Add("Slides", arr.SlideCount.ToString());
-                            arrInfo.GeneralStats.Add("Unpitched slides", arr.UnpitchedSlideCount.ToString());
-                            arrInfo.GeneralStats.Add("Tremolos", arr.TremoloCount.ToString());
-                            arrInfo.GeneralStats.Add("Vibratos", arr.VibratoCount.ToString());
-                            arrInfo.GeneralStats.Add("Sustains", arr.SustainCount.ToString());
-                            arrInfo.GeneralStats.Add("Bends", arr.BendCount.ToString());
+                            statPair.GeneralStats.Add("Arrangement", arr.Name);
+                            statPair.GeneralStats.Add("Note Count", arr.NoteCount.ToString());
+                            statPair.GeneralStats.Add("Hammer-ons", arr.HammerOnCount.ToString());
+                            statPair.GeneralStats.Add("Pulloffs", arr.PullOffCount.ToString());
+                            statPair.GeneralStats.Add("Harmonics", arr.HarmonicCount.ToString());
+                            statPair.GeneralStats.Add("Pinch harmonics", arr.HarmonicPinchCount.ToString());
+                            statPair.GeneralStats.Add("Frethand mutes", arr.FretHandMuteCount.ToString());
+                            statPair.GeneralStats.Add("Palm mutes", arr.PalmMuteCount.ToString());
+                            statPair.GeneralStats.Add("Plucks", arr.PluckCount.ToString());
+                            statPair.GeneralStats.Add("Slaps", arr.SlapCount.ToString());
+                            statPair.GeneralStats.Add("Slides", arr.SlideCount.ToString());
+                            statPair.GeneralStats.Add("Unpitched slides", arr.UnpitchedSlideCount.ToString());
+                            statPair.GeneralStats.Add("Tremolos", arr.TremoloCount.ToString());
+                            statPair.GeneralStats.Add("Vibratos", arr.VibratoCount.ToString());
+                            statPair.GeneralStats.Add("Sustains", arr.SustainCount.ToString());
+                            statPair.GeneralStats.Add("Bends", arr.BendCount.ToString());
 
+                            statPair.ChordNums = new Dictionary<string, int>();
                             for (int i = 0; i < arr.ChordNames.Count; i++)
-                                arrInfo.ChordNums.Add(arr.ChordNames[i], arr.ChordCounts[i]);
+                                statPair.ChordNums.Add(arr.ChordNames[i], arr.ChordCounts[i]);
 
-                            allArrs.AllArrs.Add(arrInfo);
+                            statPairList.Add(statPair);
                         }
 
-                        if (allInfo.AllInfo.Any(t => t.Key == sTitle))
-                            sTitle += " ";
+                        var analyzerInfo = new AnalyzerInfo();
+                        analyzerInfo.SongInfo = new Dictionary<string, List<StatPair>>();
+                        analyzerInfo.SongInfo.Add(artistTitle, statPairList);
 
-                        allInfo.AllInfo[sTitle] = allArrs.AllArrs;
+                        allInfo.Add(analyzerInfo);
                     }
 
                     try
                     {
-                        dynamic analyzerJson = new { Songs = allInfo.AllInfo };
-                        JToken serializedJson = JsonConvert.SerializeObject(analyzerJson, Formatting.Indented, new JsonSerializerSettings { });
+
+                        JToken serializedJson = JsonConvert.SerializeObject(allInfo, Formatting.Indented);
+                        outputJSON = Regex.Unescape(serializedJson.ToString());
 
                         using (StreamWriter file = new StreamWriter(path, false, Encoding.Unicode))
-                            file.Write(serializedJson);
+                            file.Write(outputJSON);
 
                         Globals.Log("Song data saved to:" + path);
                     }
