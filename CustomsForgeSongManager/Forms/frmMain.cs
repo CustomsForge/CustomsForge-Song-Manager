@@ -732,8 +732,10 @@ namespace CustomsForgeSongManager.Forms
                         dgvSelection = selection.ToList();
                     });
 
-                    var allInfo = new AllSongInfo();
-                    allInfo.AllInfo = new Dictionary<string, List<StatPair>>();
+                    //var allInfo = new AllSongInfo();
+                    //allInfo.AllInfo = new Dictionary<string, List<StatPair>>();
+
+                    var allInfo = new Dictionary<string, JToken>();
 
                     var allArrs = new AllArrangements();
                     allArrs.AllArrs = new List<StatPair>();
@@ -747,7 +749,7 @@ namespace CustomsForgeSongManager.Forms
                     {
                         var song = DGVTools.DgvExtensions.GetObjectFromRow<SongData>(songRow);
 
-                        string sTitle = song.Artist + " - " + song.Title;
+                        string s = song.Artist + " - " + song.Title;
 
                         var arrangements = song.Arrangements2D;
 
@@ -783,20 +785,22 @@ namespace CustomsForgeSongManager.Forms
 
                             allArrs.AllArrs.Add(arrInfo);
                         }
+                                
+                         if (allInfo.Any(t => t.Key == s))
+                            s += " ";
 
-                        if (allInfo.AllInfo.Any(t => t.Key == sTitle))
-                            sTitle += " ";
-
-                        allInfo.AllInfo[sTitle] = allArrs.AllArrs;
+                        allInfo.Add(s, JsonConvert.SerializeObject(allArrs.AllArrs, Formatting.Indented, new JsonSerializerSettings { }));
+                        //allInfo.AllInfo[s] = allArrs.AllArrs;
                     }
 
                     try
                     {
-                        dynamic analyzerJson = new { Songs = allInfo.AllInfo };
+                        dynamic analyzerJson = new { Songs = allInfo };
                         JToken serializedJson = JsonConvert.SerializeObject(analyzerJson, Formatting.Indented, new JsonSerializerSettings { });
+                        outputJSON = Regex.Unescape(serializedJson.ToString());
 
                         using (StreamWriter file = new StreamWriter(path, false, Encoding.Unicode))
-                            file.Write(serializedJson);
+                            file.Write(outputJSON);
 
                         Globals.Log("Song data saved to:" + path);
                     }
