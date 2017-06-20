@@ -18,7 +18,6 @@ using System.Diagnostics;
 using DGVTools = DataGridViewTools;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
-using System.Text.RegularExpressions;
 
 
 // NOTE: the app is designed for default user screen resolution of 1024x768
@@ -712,7 +711,12 @@ namespace CustomsForgeSongManager.Forms
 
         private class AllSongInfo
         {
-            public Dictionary<string, List<StatPair>> AllInfo { get; set; }
+         public Dictionary<string, List<StatPair>> AllInfo { get; set; }
+        }          
+
+        private class All
+        {
+            public HashSet<List<StatPair>> AllInfo { get; set; }
         }
 
         private void AnalyzerJSON()
@@ -732,10 +736,8 @@ namespace CustomsForgeSongManager.Forms
                         dgvSelection = selection.ToList();
                     });
 
-                    //var allInfo = new AllSongInfo();
-                    //allInfo.AllInfo = new Dictionary<string, List<StatPair>>();
-
-                    var allInfo = new Dictionary<string, JToken>();
+                    var allInfo = new AllSongInfo();
+                    allInfo.AllInfo = new Dictionary<string, List<StatPair>>();
 
                     var allArrs = new AllArrangements();
                     allArrs.AllArrs = new List<StatPair>();
@@ -744,6 +746,7 @@ namespace CustomsForgeSongManager.Forms
 
                     var dictJSON = new Dictionary<string, string>();
                     var dictChordNums = new Dictionary<string, int>();
+                    var jArray = new JArray();
 
                     foreach (var songRow in dgvSelection)
                     {
@@ -785,22 +788,25 @@ namespace CustomsForgeSongManager.Forms
 
                             allArrs.AllArrs.Add(arrInfo);
                         }
-                                
-                         if (allInfo.Any(t => t.Key == s))
+
+                        if (allInfo.AllInfo.Any(t => t.Key == s))
                             s += " ";
 
-                        allInfo.Add(s, JsonConvert.SerializeObject(allArrs.AllArrs, Formatting.Indented, new JsonSerializerSettings { }));
-                        //allInfo.AllInfo[s] = allArrs.AllArrs;
+                        jArray.Add(JsonConvert.SerializeObject(allArrs.AllArrs, Formatting.Indented, new JsonSerializerSettings { }));
+                        allInfo.AllInfo[s] =  allArrs.AllArrs;
                     }
+
+                    var str = JsonConvert.SerializeObject(jArray, Formatting.Indented, new JsonSerializerSettings { });
+                    //var str = jArray.ToString().Replace("\r\n", Environment.NewLine);
 
                     try
                     {
-                        dynamic analyzerJson = new { Songs = allInfo };
+                        dynamic analyzerJson = new { Songs = allInfo }; 
                         JToken serializedJson = JsonConvert.SerializeObject(analyzerJson, Formatting.Indented, new JsonSerializerSettings { });
-                        outputJSON = Regex.Unescape(serializedJson.ToString());
+                        outputJSON = serializedJson.ToString();
 
                         using (StreamWriter file = new StreamWriter(path, false, Encoding.Unicode))
-                            file.Write(outputJSON);
+                            file.Write(str);
 
                         Globals.Log("Song data saved to:" + path);
                     }
