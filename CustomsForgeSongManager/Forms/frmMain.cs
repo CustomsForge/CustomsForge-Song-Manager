@@ -710,94 +710,6 @@ namespace CustomsForgeSongManager.Forms
             public Dictionary<string, List<StatPair>> SongInfo { get; set; }
         }
 
-        private void AnalyzerJSON()
-        {
-            var path = Path.Combine(Constants.WorkFolder, "Analyzer.json");
-            var filter = "json files(*.json)|*.json|All files (*.*)|*.*";
-
-            using (var sfdSongListToCSV = new SaveFileDialog() { Filter = filter, FileName = path })
-                if (sfdSongListToCSV.ShowDialog() == DialogResult.OK)
-                {
-                    path = sfdSongListToCSV.FileName;
-                    string outputJSON = "";
-                    var dgvSelection = new List<DataGridViewRow>();
-
-                    DoSomethingWithGrid((dataGrid, selection, colSel, ignoreColumns) =>
-                    {
-                        dgvSelection = selection.ToList();
-                    });
-
-                    var allInfo = new List<AnalyzerInfo>();
-
-                    foreach (var songRow in dgvSelection)
-                    {
-                        var song = DGVTools.DgvExtensions.GetObjectFromRow<SongData>(songRow);
-                        var artistTitle = song.Artist + " - " + song.Title;
-                        var statPairList = new List<StatPair>();
-
-                        foreach (var arr in song.Arrangements2D)
-                        {
-                            if (arr.Name == "Vocals")
-                                continue;
-
-                            var statPair = new StatPair();
-                            statPair.GeneralStats = new Dictionary<string, string>();
-
-                            statPair.GeneralStats.Add("Arrangement", arr.Name);
-                            statPair.GeneralStats.Add("Note Count", arr.NoteCount.ToString());
-                            statPair.GeneralStats.Add("Hammer-ons", arr.HammerOnCount.ToString());
-                            statPair.GeneralStats.Add("Pulloffs", arr.PullOffCount.ToString());
-                            statPair.GeneralStats.Add("Harmonics", arr.HarmonicCount.ToString());
-                            statPair.GeneralStats.Add("Pinch harmonics", arr.HarmonicPinchCount.ToString());
-                            statPair.GeneralStats.Add("Frethand mutes", arr.FretHandMuteCount.ToString());
-                            statPair.GeneralStats.Add("Palm mutes", arr.PalmMuteCount.ToString());
-                            statPair.GeneralStats.Add("Plucks", arr.PluckCount.ToString());
-                            statPair.GeneralStats.Add("Slaps", arr.SlapCount.ToString());
-                            statPair.GeneralStats.Add("Slides", arr.SlideCount.ToString());
-                            statPair.GeneralStats.Add("Unpitched slides", arr.UnpitchedSlideCount.ToString());
-                            statPair.GeneralStats.Add("Tremolos", arr.TremoloCount.ToString());
-                            statPair.GeneralStats.Add("Vibratos", arr.VibratoCount.ToString());
-                            statPair.GeneralStats.Add("Sustains", arr.SustainCount.ToString());
-                            statPair.GeneralStats.Add("Bends", arr.BendCount.ToString());
-
-                            statPair.ChordNums = new Dictionary<string, int>();
-                            for (int i = 0; i < arr.ChordNames.Count; i++)
-                                statPair.ChordNums.Add(arr.ChordNames[i], arr.ChordCounts[i]);
-
-                            statPairList.Add(statPair);
-                        }
-
-                        var analyzerInfo = new AnalyzerInfo();
-                        analyzerInfo.SongInfo = new Dictionary<string, List<StatPair>>();
-                        analyzerInfo.SongInfo.Add(artistTitle, statPairList);
-
-                        allInfo.Add(analyzerInfo);
-                    }
-
-                    try
-                    {
-
-                        JToken serializedJson = JsonConvert.SerializeObject(allInfo, Formatting.Indented);
-                        outputJSON = Regex.Unescape(serializedJson.ToString());
-
-                        using (StreamWriter file = new StreamWriter(path, false, Encoding.Unicode))
-                            file.Write(outputJSON);
-
-                        Globals.Log("Song data saved to:" + path);
-                    }
-                    catch (IOException ex)
-                    {
-                        Globals.Log("<Error>: " + ex.Message);
-                    }
-
-                    if (File.Exists(path))
-                    {
-                        if (MessageBox.Show("Do you want to open the exported file?", "Open the exported file", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
-                            Process.Start(path);
-                    }
-                }
-        }
-
         private void AnalyzerExport(string format)
         {
             var path = Path.Combine(Constants.WorkFolder, "Analyzer.csv");
@@ -832,21 +744,14 @@ namespace CustomsForgeSongManager.Forms
 
                     string columnsCSV = "sep=" + csvSep.ToString();
 
-                    var all = new Dictionary<string, List<StatPair>>();
-                    var allInfo = new Dictionary<string, List<StatPair>>(); // var allInfo = new List<Tuple<string, List<Tuple<Dictionary<string, string>, Dictionary<string, int>>>>>();
-
-                    var allArrs = new List<StatPair>();
-                    var arrInfo = new StatPair();
-                    var list = new List<StatPair>();
-
-                    var dictJSON = new Dictionary<string, string>();
-                    var dictChordNums = new Dictionary<string, int>();
+                    var allInfo = new List<AnalyzerInfo>();
 
                     foreach (var songRow in dgvSelection)
                     {
                         var song = DGVTools.DgvExtensions.GetObjectFromRow<SongData>(songRow);
 
                         string s = song.Artist + " - " + song.Title;
+                        var statPairList = new List<StatPair>();
 
                         if (!song.ExtraMetaDataScanned && song.NoteCount == 0)
                         {
@@ -911,62 +816,46 @@ namespace CustomsForgeSongManager.Forms
                             }
                             else if (format == "json")
                             {
-                                //TODO: make this look a bit nicer :)
+                                var statPair = new StatPair();
+                                statPair.GeneralStats = new Dictionary<string, string>();
 
-                                string title = song.Artist + " - " + song.Title;
+                                statPair.GeneralStats.Add("Arrangement", arr.Name);
+                                statPair.GeneralStats.Add("Note Count", arr.NoteCount.ToString());
+                                statPair.GeneralStats.Add("Hammer-ons", arr.HammerOnCount.ToString());
+                                statPair.GeneralStats.Add("Pulloffs", arr.PullOffCount.ToString());
+                                statPair.GeneralStats.Add("Harmonics", arr.HarmonicCount.ToString());
+                                statPair.GeneralStats.Add("Pinch harmonics", arr.HarmonicPinchCount.ToString());
+                                statPair.GeneralStats.Add("Frethand mutes", arr.FretHandMuteCount.ToString());
+                                statPair.GeneralStats.Add("Palm mutes", arr.PalmMuteCount.ToString());
+                                statPair.GeneralStats.Add("Plucks", arr.PluckCount.ToString());
+                                statPair.GeneralStats.Add("Slaps", arr.SlapCount.ToString());
+                                statPair.GeneralStats.Add("Slides", arr.SlideCount.ToString());
+                                statPair.GeneralStats.Add("Unpitched slides", arr.UnpitchedSlideCount.ToString());
+                                statPair.GeneralStats.Add("Tremolos", arr.TremoloCount.ToString());
+                                statPair.GeneralStats.Add("Vibratos", arr.VibratoCount.ToString());
+                                statPair.GeneralStats.Add("Sustains", arr.SustainCount.ToString());
+                                statPair.GeneralStats.Add("Bends", arr.BendCount.ToString());
 
-                                dictJSON.Clear();
-                                dictChordNums.Clear();
-
-                                dictJSON.Add("Arrangement", arr.Name);
-                                dictJSON.Add("Note Count", arr.NoteCount.ToString());
-                                dictJSON.Add("Hammer-ons", arr.HammerOnCount.ToString());
-                                dictJSON.Add("Pulloffs", arr.PullOffCount.ToString());
-                                dictJSON.Add("Harmonics", arr.HarmonicCount.ToString());
-                                dictJSON.Add("Pinch harmonics", arr.HarmonicPinchCount.ToString());
-                                dictJSON.Add("Frethand mutes", arr.FretHandMuteCount.ToString());
-                                dictJSON.Add("Palm mutes", arr.PalmMuteCount.ToString());
-                                dictJSON.Add("Plucks", arr.PluckCount.ToString());
-                                dictJSON.Add("Slaps", arr.SlapCount.ToString());
-                                dictJSON.Add("Slides", arr.SlideCount.ToString());
-                                dictJSON.Add("Unpitched slides", arr.UnpitchedSlideCount.ToString());
-                                dictJSON.Add("Tremolos", arr.TremoloCount.ToString());
-                                dictJSON.Add("Vibratos", arr.VibratoCount.ToString());
-                                dictJSON.Add("Sustains", arr.SustainCount.ToString());
-                                dictJSON.Add("Bends", arr.BendCount.ToString());
-
+                                statPair.ChordNums = new Dictionary<string, int>();
                                 for (int i = 0; i < arr.ChordNames.Count; i++)
-                                    dictChordNums.Add(arr.ChordNames[i], arr.ChordCounts[i]);
+                                    statPair.ChordNums.Add(arr.ChordNames[i], arr.ChordCounts[i]);
 
-                                arrInfo = new StatPair();
-                                arrInfo.GeneralStats = dictJSON;
-                                arrInfo.ChordNums = dictChordNums;
-
-                                allArrs.Add(arrInfo);
+                                statPairList.Add(statPair);
                             }
                         }
 
-                        sbCSV.AppendLine("");
-
-                        if (format == "json") //Inside the loop... https://prnt.sc/fiu8y2 ... just outside the loop: http://prntscr.com/fiu9lw just outside the loop, no data ! :(
+                        if (format == "json")
                         {
-                            string title = song.Artist + " - " + song.Title;
+                            var analyzerInfo = new AnalyzerInfo();
+                            analyzerInfo.SongInfo = new Dictionary<string, List<StatPair>>();
+                            analyzerInfo.SongInfo.Add(s, statPairList);
 
-                            if (allInfo.Any(t => t.Key == title))
-                                title += " ";
-
-                            allInfo.Add(title, allArrs);
-
-                            if (songRow.Equals(dgvSelection.Last())) //Due to reason above, saving is implemented here, in this somewhat hacky way
-                            {
-                                dynamic analyzerJson = new { Songs = allInfo };
-                                JToken serializedJson = JsonConvert.SerializeObject(analyzerJson, Formatting.Indented, new JsonSerializerSettings { });
-                                outputJSON = serializedJson.ToString();
-                            }
-
-                            allArrs.Clear();
+                            allInfo.Add(analyzerInfo);
                         }
+                        else
+                            sbCSV.AppendLine("");
                     }
+
 
                     if (format == "csv")
                     {
@@ -982,10 +871,16 @@ namespace CustomsForgeSongManager.Forms
                     {
                         using (StreamWriter file = new StreamWriter(path, false, Encoding.Unicode))
                         {
-                            if (format == "csv")
-                                file.Write(sbCSV.ToString());
-                            else if (format == "json")
+
+                            if (format == "json")
+                            {
+                                JToken serializedJson = JsonConvert.SerializeObject(allInfo, Formatting.Indented);
+                                outputJSON = Regex.Unescape(serializedJson.ToString());
+
                                 file.Write(outputJSON);
+                            }
+                            else if (format == "csv")
+                                file.Write(sbCSV.ToString());
                         }
 
                         Globals.Log("Song data saved to:" + path);
@@ -1010,8 +905,7 @@ namespace CustomsForgeSongManager.Forms
 
         private void analyzerJSONToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // AnalyzerExport("json");
-            AnalyzerJSON();
+            AnalyzerExport("json");
         }
     }
 }

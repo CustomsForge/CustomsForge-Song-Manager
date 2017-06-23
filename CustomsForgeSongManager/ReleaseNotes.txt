@@ -1,4 +1,8 @@
 ﻿CFSM Release Notes
+1.3.2.0
+- analyzer can now output song arr. data in JSON format
+- if 'cdlc' folder exists in the 'dlc' folder, CDLCs will be moved to that folder from the download folder when "Process 'Downloads' folder" option is used in the repair process
+
 1.3.1.9
 - analyzer now only exports songs currently shown in the main data table
 - corrected incorrect chord listing

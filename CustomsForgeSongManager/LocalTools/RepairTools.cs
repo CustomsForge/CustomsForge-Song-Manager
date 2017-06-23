@@ -407,7 +407,14 @@ namespace CustomsForgeSongManager.LocalTools
                 // move new CDLC from the 'Downloads' folder to the 'dlc' folder
                 if (options.ProcessDLFolder)
                 {
-                    var destFilePath = Path.Combine(Constants.Rs2DlcFolder, Path.GetFileName(srcFilePath));
+                    var destFilePath = Constants.Rs2DlcFolder;
+                    var cdlcFolderPath = Path.Combine(Constants.Rs2DlcFolder, "cdlc");
+
+                    if(Directory.Exists(cdlcFolderPath))
+                        destFilePath = cdlcFolderPath;
+                   
+                    destFilePath = Path.Combine(destFilePath, Path.GetFileName(srcFilePath));
+                    
                     GenExtensions.MoveFile(srcFilePath, destFilePath);
                     Globals.Log(" - Moved new CDLC to 'dlc' folder");
                     Globals.ReloadSongManager = true; // set quick reload flag
