@@ -87,7 +87,7 @@ namespace CustomsForgeSongManager.SongEditor
                         mArr.Add(GenMetronomeArr(arr));
 
                 packageData.Arrangements.AddRange(mArr);
-                packageData.Showlights = true;
+                packageData.DefaultShowlights = true;
 
                 var msg = "The song information has been changed." + Environment.NewLine + "Do you want to update the 'Persistent ID'?" + Environment.NewLine + "Answering 'Yes' will reduce the risk of CDLC" + Environment.NewLine + "in game hanging and song stats will be reset.  ";
                 //only ask if it's a new filename.

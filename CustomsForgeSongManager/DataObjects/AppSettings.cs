@@ -16,10 +16,12 @@ namespace CustomsForgeSongManager.DataObjects
         private string _rsInstalledDir;
         private string _rsProfileDir;
         private bool _includeRs1DlCs;
+        private bool _includeRs2014BaseSongs;
         private bool _enableAutoUpdate;
         private bool _enableLogBaloon;
         private bool _cleanOnClosing;
         private bool _checkForUpdateOnScan;
+        private bool _scanWithExtraData;
         private bool _fullScreen;
         private int _windowWidth;
         private int _windowHeight;
@@ -55,11 +57,23 @@ namespace CustomsForgeSongManager.DataObjects
             get { return _enableAutoUpdate; }
             set { SetPropertyField("EnableAutoUpdate", ref _enableAutoUpdate, value); }
         }
-     
+
         public bool IncludeRS1DLCs
         {
             get { return _includeRs1DlCs; }
             set { SetPropertyField("IncludeRS1DLCs", ref _includeRs1DlCs, value); }
+        }
+
+        public bool IncludeRS2014BaseSongs
+        {
+            get { return _includeRs2014BaseSongs; }
+            set { SetPropertyField("IncludeRS2014BaseSongs", ref _includeRs2014BaseSongs, value); }
+        }
+
+        public bool ScanWithExtraData
+        {
+            get { return _scanWithExtraData; }
+            set { SetPropertyField("ScanWithExtraData", ref _scanWithExtraData, value); }
         }
 
         public bool EnableLogBaloon
@@ -239,7 +253,8 @@ namespace CustomsForgeSongManager.DataObjects
             Instance.RSInstalledDir = LocalExtensions.GetSteamDirectory();
             Instance.RSProfileDir = String.Empty;
             Instance.IncludeRS1DLCs = false; // changed to false (fewer issues)
-            Instance.EnableAutoUpdate = true; 
+            Instance.IncludeRS2014BaseSongs = false;
+            Instance.EnableAutoUpdate = true;
             Instance.EnableLogBaloon = false; // fewer notfication issues
             Instance.CleanOnClosing = false;
             Instance.ShowLogWindow = Constants.DebugMode;

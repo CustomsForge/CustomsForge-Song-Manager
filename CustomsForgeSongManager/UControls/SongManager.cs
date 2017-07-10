@@ -110,6 +110,9 @@ namespace CustomsForgeSongManager.UControls
 
                 if (Globals.AudioEngine.OpenAudioFile(fullname))
                 {
+                    //float inGameVolume = (float)Math.Pow(10, sng.SongVolume / 10) - 1; // if in dB
+                    //Globals.AudioEngine.SetVolume(1.0f - sng.SongVolume);
+
                     Globals.AudioEngine.Play();
                     Globals.Log(String.Format("Playing {0} by {1} ... ({2})", sng.Title, sng.Artist, Path.GetFileName(sng.FilePath)));
                 }
@@ -602,11 +605,11 @@ namespace CustomsForgeSongManager.UControls
             }
         }
 
-        private void RefreshDgv(bool fullRescan)
+        private void RefreshDgv(bool fullRescan, bool parseExtraData = false)
         {
             bindingCompleted = false;
             dgvPainted = false;
-            Rescan(fullRescan);
+            Rescan(fullRescan, parseExtraData);
             PopulateDataGridView();
             UpdateToolStrip();
             Globals.ReloadDuplicates = true;
@@ -637,7 +640,7 @@ namespace CustomsForgeSongManager.UControls
             UpdateToolStrip();
         }
 
-        private void Rescan(bool fullRescan)
+        private void Rescan(bool fullRescan, bool parseExtraData = false)
         {
             dgvSongsMaster.DataSource = null;
             dgvSongsDetail.Visible = false;
@@ -686,7 +689,16 @@ namespace CustomsForgeSongManager.UControls
             // run new worker
             using (Worker worker = new Worker())
             {
-                worker.BackgroundScan(dgvSongsMaster, bWorker);
+                if (parseExtraData || (parseExtraData && AppSettings.Instance.ScanWithExtraData))
+                {
+                    string oldName = dgvSongsMaster.Name; //TODO: replace this with a more suitable/less hacky way to the bigger rescan
+                    dgvSongsMaster.Name = "Analyzer";
+                    worker.BackgroundScan(dgvSongsMaster, bWorker);
+                    dgvSongsMaster.Name = oldName;
+                }
+                else
+                    worker.BackgroundScan(dgvSongsMaster, bWorker);
+
                 while (Globals.WorkerFinished == Globals.Tristate.False)
                 {
                     Application.DoEvents();
@@ -1190,8 +1202,8 @@ namespace CustomsForgeSongManager.UControls
                         // calculate the height and width of dgvSongsDetail
                         dgvSongsDetail.Columns["colDetailKey"].Width = dgvSongsMaster.Columns["colKey"].Width;
                         var colHeaderHeight = dgvSongsDetail.Columns[e.ColumnIndex].HeaderCell.Size.Height;
-                        dgvSongsDetail.Height = dgvSongsDetail.Rows.Cast<DataGridViewRow>().Sum(row => row.Height) + colHeaderHeight - 3;
-                        dgvSongsDetail.Width = dgvSongsDetail.Columns.Cast<DataGridViewColumn>().Sum(col => col.Width) + colWidth;
+                        dgvSongsDetail.Height = dgvSongsDetail.Rows.Cast<DataGridViewRow>().Sum(row => row.Height) + colHeaderHeight - 3;//TODO: somewhat inprecise on certains songs
+                        dgvSongsDetail.Width = dgvSongsDetail.Columns.Cast<DataGridViewColumn>().Sum(col => col.Width) + colWidth * 2;
                         if (dgvSongsDetail.Rows.Count < 3) // need extra tweak 
                             dgvSongsDetail.Height = dgvSongsDetail.Height + 4;
 
@@ -1787,7 +1799,7 @@ namespace CustomsForgeSongManager.UControls
 
         private void tsmiModsPitchShifter_Click(object sender, EventArgs e)
         {
-            var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster);
+             var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster);
             if (!selection.Any())
                 return;
 
@@ -1958,6 +1970,38 @@ namespace CustomsForgeSongManager.UControls
             SetRepairOptions();
             Globals.Settings.SaveSettingsToFile(dgvSongsMaster);
             Globals.Log("SongManager GUI TabLeave ...");
+        }
+
+        private void fullWithExtraDataToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("You are about to run a full rescan with extra metadata, which is fairly longer than the normal scan?" + Environment.NewLine + "Do you want to proceed?",
+                "Rescan with extra metadata", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
+                RefreshDgv(true, true);
+        }
+
+        private void getExtraDataToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster);
+            if (!selection.Any())
+                return;
+
+            DoWork(Constants.GWORKER_ANALYZE, selection);
+        }
+
+        private void rescanToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster);
+            if (!selection.Any())
+                return;
+
+            DoWork(Constants.GWORKER_ANALYZE, selection);
+
+            dgvSongsMaster.Refresh();
+        }
+
+        private void quickWithExtraDataToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            RefreshDgv(false, true);
         }
 
     }

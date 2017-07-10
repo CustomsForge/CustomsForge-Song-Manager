@@ -91,6 +91,8 @@
     <DefineConstants>WINDOWS;RELEASE;TAGGER;AUTOUPDATE</DefineConstants>
     <PlatformTarget>x86</PlatformTarget>
     <Optimize>true</Optimize>
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>false</SignAssembly>
@@ -161,7 +163,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataObjects\AnalyzerData.cs" />
     <Compile Include="DataObjects\OfficialSong.cs" />
     <Compile Include="Forms\frmCODLCDuplicates.cs">
       <SubType>Form</SubType>
@@ -695,32 +696,47 @@ CD "$(SolutionDir)ThirdParty\ConfuserEx_bin\"
 )
 
 if $(ConfigurationName) == InnoBeta (
-MKDIR "$(ProjectDir)bin\ConfuserEx\"
-XCOPY /Y /E /D "$(TargetDir)*.*" "$(ProjectDir)bin\ConfuserEx\*.*"
-CD "$(SolutionDir)ThirdParty\ConfuserEx_bin\"
-"Confuser.CLI.exe" "..\ConfuserExForInno.crproj"
-CD "$(SolutionDir)ThirdParty\Inno\"
-"ISCC.exe" /DBETA "..\CFSM.Setup\cfsmInstaller.iss"
-CD "$(SolutionDir)ThirdParty\"
-"CFSMPostBuilder.exe" "CREATEVERSIONINFO"
+   MKDIR "$(ProjectDir)bin\ConfuserEx\"
+   XCOPY /Y /E /D "$(TargetDir)*.*" "$(ProjectDir)bin\ConfuserEx\*.*"
+   CD "$(SolutionDir)ThirdParty\ConfuserEx_bin\"
+   "Confuser.CLI.exe" "..\ConfuserExForInno.crproj"
+   CD "$(SolutionDir)ThirdParty\Inno\"
+   "ISCC.exe" /DBETA "..\CFSM.Setup\cfsmInstaller.iss"
+   CD "$(SolutionDir)ThirdParty\"
+   "CFSMPostBuilder.exe" "CREATEVERSIONINFO"
+
+   CD "$(SolutionDir)ThirdParty\CFSM.Setup\Output\"
+   DEL /Q CFSMSetup.rar
+
+   "%25programfiles%25\WinRAR\WinRar.exe" a -r "CFSMSetup.rar" "CFSMSetup.exe"
+
+   DEL /Q CFSMSetup.exe
 
 REM "CFSMPostBuilder.exe" "UPLOAD" "198.58.96.81/beta/" "appdev" "kvPSF7HL"
 )
 
 if $(ConfigurationName) == InnoRelease (
-MKDIR "$(ProjectDir)bin\ConfuserEx\"
-XCOPY /Y /E /D "$(TargetDir)*.*" "$(ProjectDir)bin\ConfuserEx\*.*"
-CD "$(SolutionDir)ThirdParty\ConfuserEx_bin\"
-"Confuser.CLI.exe" "..\ConfuserExForInno.crproj"
-CD "$(SolutionDir)ThirdParty\Inno\"
-"ISCC.exe" "..\CFSM.Setup\cfsmInstaller.iss"
-CD "$(SolutionDir)ThirdParty\"
-"CFSMPostBuilder.exe" "CREATEVERSIONINFO"
+   MKDIR "$(ProjectDir)bin\ConfuserEx\"
+   XCOPY /Y /E /D "$(TargetDir)*.*" "$(ProjectDir)bin\ConfuserEx\*.*"
+  CD "$(SolutionDir)ThirdParty\ConfuserEx_bin\"
+  "Confuser.CLI.exe" "..\ConfuserExForInno.crproj"
+  CD "$(SolutionDir)ThirdParty\Inno\"
+  "ISCC.exe" "..\CFSM_Setup\cfsmInstaller.iss"
+  CD "$(SolutionDir)ThirdParty\"
+  "CFSMPostBuilder.exe" "CREATEVERSIONINFO"
+
+   CD "$(SolutionDir)ThirdParty\CFSM.Setup\Output\"
+   DEL /Q CFSMSetup.rar
+
+   "%25programfiles%25\WinRAR\WinRar.exe" a -r "CFSMSetup.rar" "CFSMSetup.exe"
+
+   DEL /Q CFSMSetup.exe
 
 REM "CFSMPostBuilder.exe" "UPLOAD" "198.58.96.81" "appdev" "7eCheQ+bu+heRevu"
 )
 
-REM if $(ConfigurationName This line will throw an error for debugging
+rem if $(ConfigurationName This line will throw an error for post build debugging purposes
+
 </PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>

@@ -344,10 +344,12 @@ namespace CustomsForgeSongManager.UControls
             if (AppSettings.Instance.IncludeRS1DLCs)
             {
                 Globals.Settings.chkIncludeRS1DLC.Checked = false;
+                Globals.Settings.chkIncludeRS2014BaseSongs.Checked = false;
                 // ask user to rescan song collection to remove all RS1 Compatibility songs
                 MessageBox.Show(Properties.Resources.CanNotIncludeRS1CompatibilityFiles, MESSAGE_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Hand);
                 return false;
             }
+
 
             // commented out for testing ... do duplicates really cause game hangs?
             // check for duplicates

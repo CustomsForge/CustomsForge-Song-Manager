@@ -167,7 +167,7 @@ Do you want to close without saving?</value>
     <comment>PleaseScanInAtLeastOneSong description</comment>
   </data>
   <data name="CanNotIncludeRS1CompatibilityFiles" xml:space="preserve">
-    <value>Can not include RS1 compatibility files as individual 
+    <value>Can not include RS2014 base song file/RS1 compatibility files as individual 
  songs in a setlist.  Please return to SongManager and 
 rescan before returning to Setlist Manager. </value>
     <comment>CanNotIncludeRS1CompatibilityFiles description</comment>

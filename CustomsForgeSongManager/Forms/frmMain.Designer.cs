@@ -60,6 +60,7 @@ namespace CustomsForgeSongManager.Forms
             this.bBCodeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cSVToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hTMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.analyzerCSVToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.tsBtnUpload = new System.Windows.Forms.ToolStripButton();
             this.tsBtnRequest = new System.Windows.Forms.ToolStripButton();
@@ -84,7 +85,7 @@ namespace CustomsForgeSongManager.Forms
             this.LeftToolStripPanel = new System.Windows.Forms.ToolStripPanel();
             this.ContentPanel = new System.Windows.Forms.ToolStripContentPanel();
             this.timerAudioProgress = new System.Windows.Forms.Timer(this.components);
-            this.analyzerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.analyzerjSONToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gbLog.SuspendLayout();
             this.contextMenuStrip_Tray.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.scMain)).BeginInit();
@@ -339,7 +340,8 @@ namespace CustomsForgeSongManager.Forms
             this.bBCodeToolStripMenuItem,
             this.cSVToolStripMenuItem,
             this.hTMLToolStripMenuItem,
-            this.analyzerToolStripMenuItem});
+            this.analyzerCSVToolStripMenuItem,
+            this.analyzerjSONToolStripMenuItem});
             this.toolStripDropDownButton1.Image = global::CustomsForgeSongManager.Properties.Resources.export;
             this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
@@ -349,23 +351,30 @@ namespace CustomsForgeSongManager.Forms
             // bBCodeToolStripMenuItem
             // 
             this.bBCodeToolStripMenuItem.Name = "bBCodeToolStripMenuItem";
-            this.bBCodeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.bBCodeToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
             this.bBCodeToolStripMenuItem.Text = "BB Code";
             this.bBCodeToolStripMenuItem.Click += new System.EventHandler(this.bBCodeToolStripMenuItem_Click);
             // 
             // cSVToolStripMenuItem
             // 
             this.cSVToolStripMenuItem.Name = "cSVToolStripMenuItem";
-            this.cSVToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.cSVToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
             this.cSVToolStripMenuItem.Text = "CSV";
             this.cSVToolStripMenuItem.Click += new System.EventHandler(this.cSVToolStripMenuItem_Click);
             // 
             // hTMLToolStripMenuItem
             // 
             this.hTMLToolStripMenuItem.Name = "hTMLToolStripMenuItem";
-            this.hTMLToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.hTMLToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
             this.hTMLToolStripMenuItem.Text = "HTML";
             this.hTMLToolStripMenuItem.Click += new System.EventHandler(this.hTMLToolStripMenuItem_Click);
+            // 
+            // analyzerCSVToolStripMenuItem
+            // 
+            this.analyzerCSVToolStripMenuItem.Name = "analyzerCSVToolStripMenuItem";
+            this.analyzerCSVToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.analyzerCSVToolStripMenuItem.Text = "Analyzer - CSV";
+            this.analyzerCSVToolStripMenuItem.Click += new System.EventHandler(this.analyzerToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
@@ -418,7 +427,7 @@ namespace CustomsForgeSongManager.Forms
             this.tspbAudioPosition,
             this.tslblTimer});
             this.tsAudioPlayer.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
-            this.tsAudioPlayer.Location = new System.Drawing.Point(558, 0);
+            this.tsAudioPlayer.Location = new System.Drawing.Point(651, 0);
             this.tsAudioPlayer.Name = "tsAudioPlayer";
             this.tsAudioPlayer.Padding = new System.Windows.Forms.Padding(0);
             this.tsAudioPlayer.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
@@ -597,12 +606,12 @@ namespace CustomsForgeSongManager.Forms
             this.timerAudioProgress.Interval = 400;
             this.timerAudioProgress.Tick += new System.EventHandler(this.timerAudioProgress_Tick);
             // 
-            // analyzerToolStripMenuItem
+            // analyzerjSONToolStripMenuItem
             // 
-            this.analyzerToolStripMenuItem.Name = "analyzerToolStripMenuItem";
-            this.analyzerToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.analyzerToolStripMenuItem.Text = "Analyzer";
-            this.analyzerToolStripMenuItem.Click += new System.EventHandler(this.analyzerToolStripMenuItem_Click_1);
+            this.analyzerjSONToolStripMenuItem.Name = "analyzerjSONToolStripMenuItem";
+            this.analyzerjSONToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.analyzerjSONToolStripMenuItem.Text = "Analyzer - JSON";
+            this.analyzerjSONToolStripMenuItem.Click += new System.EventHandler(this.analyzerJSONToolStripMenuItem_Click);
             // 
             // frmMain
             // 
@@ -695,6 +704,7 @@ namespace CustomsForgeSongManager.Forms
         private ToolStripProgressBar tspbAudioPosition;
         private TabPage tpSongPacks;
         private ToolStripLabel tslblTimer;
-        private ToolStripMenuItem analyzerToolStripMenuItem;
+        private ToolStripMenuItem analyzerCSVToolStripMenuItem;
+        private ToolStripMenuItem analyzerjSONToolStripMenuItem;
     }
 }
