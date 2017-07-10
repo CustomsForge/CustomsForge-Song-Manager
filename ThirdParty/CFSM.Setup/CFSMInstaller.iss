@@ -49,7 +49,6 @@ Source: {#buildpath}HtmlRenderer.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}HtmlRenderer.WinForms.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}ICSharpCode.SharpZipLib.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}RocksmithToolkitLib.dll; DestDir: {app}; Flags: ignoreversion; Permissions: everyone-full
-Source: {#buildpath}RocksmithToTabLib.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}X360.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}Antlr3.Runtime.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}Antlr4.StringTemplate.dll; DestDir: {app}; Flags: ignoreversion
