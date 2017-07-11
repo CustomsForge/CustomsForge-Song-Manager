@@ -9,7 +9,7 @@ using RocksmithToolkitLib.DLCPackage.Manifest2014.Tone;
 using RocksmithToolkitLib.PsarcLoader;
 using RocksmithToolkitLib.Sng;
 using RocksmithToolkitLib.ToolkitTone;
-using RocksmithToolkitLib.Xml;
+using RocksmithToolkitLib.XML;
 
 namespace CustomsForgeSongManager.LocalTools
 {
@@ -77,14 +77,14 @@ namespace CustomsForgeSongManager.LocalTools
                 if (arr.Tuning.Contains("Standard"))
                 {
                     arr.Tuning = "E Standard";
-                    arr.TuningStrings = new RocksmithToolkitLib.Xml.TuningStrings { String0 = 0, String1 = 0, String2 = 0, String3 = 0, String4 = 0, String5 = 0 };
+                    arr.TuningStrings = new RocksmithToolkitLib.XML.TuningStrings { String0 = 0, String1 = 0, String2 = 0, String3 = 0, String4 = 0, String5 = 0 };
 
                     ext = "-e-std";
                 }
                 else if (arr.Tuning.Contains("Drop"))
                 {
                     arr.Tuning = "Drop D";
-                    arr.TuningStrings = new RocksmithToolkitLib.Xml.TuningStrings { String0 = -2, String1 = 0, String2 = 0, String3 = 0, String4 = 0, String5 = 0 };
+                    arr.TuningStrings = new RocksmithToolkitLib.XML.TuningStrings { String0 = -2, String1 = 0, String2 = 0, String3 = 0, String4 = 0, String5 = 0 };
 
                     ext = "-drop-d";
                 }

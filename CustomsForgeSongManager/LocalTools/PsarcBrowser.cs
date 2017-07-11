@@ -15,7 +15,7 @@ using RocksmithToolkitLib.Extensions;
 using RocksmithToolkitLib.XmlRepository;
 using Arrangement = CustomsForgeSongManager.DataObjects.Arrangement;
 using RocksmithToolkitLib.Sng;
-using RocksmithToolkitLib.Xml;
+using RocksmithToolkitLib.XML;
 using RocksmithToolkitLib.Sng2014HSL;
 using RocksmithToolkitLib.DLCPackage.Manifest2014;
 using Newtonsoft.Json;

@@ -9,7 +9,7 @@ using CustomsForgeSongManager.DataObjects;
 using RocksmithToolkitLib.DLCPackage;
 using RocksmithToolkitLib.Extensions;
 using RocksmithToolkitLib.Sng;
-using RocksmithToolkitLib.Xml;
+using RocksmithToolkitLib.XML;
 using Arrangement = RocksmithToolkitLib.DLCPackage.Arrangement;
 
 namespace CustomsForgeSongManager.SongEditor
@@ -356,10 +356,10 @@ namespace CustomsForgeSongManager.SongEditor
             songXml.ArrangementProperties.Metronome = (int)Metronome.Itself;
 
             var ebeats = songXml.Ebeats;
-            var songEvents = new RocksmithToolkitLib.Xml.SongEvent[ebeats.Length];
+            var songEvents = new RocksmithToolkitLib.XML.SongEvent[ebeats.Length];
             for (var i = 0; i < ebeats.Length; i++)
             {
-                songEvents[i] = new RocksmithToolkitLib.Xml.SongEvent { Code = ebeats[i].Measure == -1 ? "B1" : "B0", Time = ebeats[i].Time };
+                songEvents[i] = new RocksmithToolkitLib.XML.SongEvent { Code = ebeats[i].Measure == -1 ? "B1" : "B0", Time = ebeats[i].Time };
             }
             songXml.Events = songXml.Events.Union(songEvents, new EqSEvent()).OrderBy(x => x.Time).ToArray();
             using (var stream = File.OpenWrite(mArr.SongXml.File))
@@ -369,9 +369,9 @@ namespace CustomsForgeSongManager.SongEditor
             return mArr;
         }
 
-        private class EqSEvent : IEqualityComparer<RocksmithToolkitLib.Xml.SongEvent>
+        private class EqSEvent : IEqualityComparer<RocksmithToolkitLib.XML.SongEvent>
         {
-            public bool Equals(RocksmithToolkitLib.Xml.SongEvent x, RocksmithToolkitLib.Xml.SongEvent y)
+            public bool Equals(RocksmithToolkitLib.XML.SongEvent x, RocksmithToolkitLib.XML.SongEvent y)
             {
                 if (x == null)
                     return y == null;
@@ -379,7 +379,7 @@ namespace CustomsForgeSongManager.SongEditor
                 return x.Code == y.Code && x.Time.Equals(y.Time);
             }
 
-            public int GetHashCode(RocksmithToolkitLib.Xml.SongEvent obj)
+            public int GetHashCode(RocksmithToolkitLib.XML.SongEvent obj)
             {
                 if (ReferenceEquals(obj, null))
                     return 0;

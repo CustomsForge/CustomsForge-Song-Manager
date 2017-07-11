@@ -12,7 +12,7 @@ using RocksmithToolkitLib.PsarcLoader;
 using RocksmithToolkitLib.DLCPackage;
 using RocksmithToolkitLib.Sng;
 using RocksmithToolkitLib.Extensions;
-using RocksmithToolkitLib.Xml;
+using RocksmithToolkitLib.XML;
 using RocksmithToolkitLib.DLCPackage.Manifest.Functions;
 using RocksmithToolkitLib;
 using Arrangement = RocksmithToolkitLib.DLCPackage.Arrangement;

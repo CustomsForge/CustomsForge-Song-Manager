@@ -10,7 +10,7 @@ using GenTools;
 using CustomsForgeSongManager.DataObjects;
 using CustomsForgeSongManager.LocalTools;
 using CustomsForgeSongManager.UITheme;
-using RocksmithToolkitLib.Xml;
+using RocksmithToolkitLib.XML;
 using RocksmithToolkitLib.DLCPackage;
 using RocksmithToolkitLib.PsarcLoader;
 using RocksmithToolkitLib;

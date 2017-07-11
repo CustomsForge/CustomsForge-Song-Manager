@@ -6,8 +6,9 @@ using System.Reflection;
 using Newtonsoft.Json.Linq;
 using RocksmithToolkitLib;
 using RocksmithToolkitLib.DLCPackage;
-using RocksmithToolkitLib.Xml;
+using RocksmithToolkitLib.XML;
 using RocksmithToolkitLib.XmlRepository;
+
 
 namespace CFSM.RSTKLib.PSARC
 {

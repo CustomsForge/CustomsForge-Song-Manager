@@ -1,7 +1,7 @@
 ﻿using System;
 using RocksmithToolkitLib.DLCPackage;
 using RocksmithToolkitLib.Extensions;
-using RocksmithToolkitLib.Xml;
+using RocksmithToolkitLib.XML;
 using System.Xml;
 using System.IO;
 using RocksmithToolkitLib.PsarcLoader;
