@@ -44,6 +44,7 @@ namespace CustomsForgeSongManager.UControls
         private BindingList<SongData> masterSongCollection = new BindingList<SongData>();
         private int numberOfDLCPendingUpdate = 0;
         private int numberOfDisabledDLC = 0;
+        private int indexBefore = 0;
 
         public SongManager()
         {
@@ -1202,15 +1203,23 @@ namespace CustomsForgeSongManager.UControls
                         // calculate the height and width of dgvSongsDetail
                         dgvSongsDetail.Columns["colDetailKey"].Width = dgvSongsMaster.Columns["colKey"].Width;
                         var colHeaderHeight = dgvSongsDetail.Columns[e.ColumnIndex].HeaderCell.Size.Height;
-                        dgvSongsDetail.Height = dgvSongsDetail.Rows.Cast<DataGridViewRow>().Sum(row => row.Height) + colHeaderHeight - 3;//TODO: somewhat inprecise on certains songs
-                        dgvSongsDetail.Width = dgvSongsDetail.Columns.Cast<DataGridViewColumn>().Sum(col => col.Width) + colWidth * 2;
+                        var vertScrollWidth = SystemInformation.VerticalScrollBarWidth;
+                        var horizScrollHeight = SystemInformation.HorizontalScrollBarHeight;
+                        dgvSongsDetail.Width = this.Width - (dgvSongsDetail.Location.X * 2) - vertScrollWidth;
+                        dgvSongsDetail.Height = dgvSongsDetail.Rows.Cast<DataGridViewRow>().Sum(row => row.Height) + colHeaderHeight;
+
                         if (dgvSongsDetail.Rows.Count < 3) // need extra tweak 
                             dgvSongsDetail.Height = dgvSongsDetail.Height + 4;
 
-                        dgvSongsDetail.Refresh();
-                        //dgvSongsDetail.Invalidate();
+                        var maxDetailWidth = dgvSongsDetail.Columns.Cast<DataGridViewColumn>().Sum(col => col.Width) + colWidth * 2;
+                        if (maxDetailWidth > this.Width)
+                        {
+                            dgvSongsDetail.ScrollBars = ScrollBars.Horizontal;
+                            dgvSongsDetail.Height = dgvSongsDetail.Height + horizScrollHeight;
+                        }
+
                         dgvSongsDetail.Visible = true;
-                        dgvSongsMaster.ScrollBars = ScrollBars.Horizontal;
+                        dgvSongsDetail.Refresh();
                     }
                 }
                 else
@@ -1218,7 +1227,6 @@ namespace CustomsForgeSongManager.UControls
                     dgvSongsMaster.Rows[e.RowIndex].Cells["colShowDetail"].Value = PlusBitmap;
                     dgvSongsMaster.Rows[e.RowIndex].Cells["colShowDetail"].Tag = null;
                     dgvSongsDetail.Visible = false;
-                    dgvSongsMaster.ScrollBars = ScrollBars.Both;
                 }
             }
         }
@@ -1799,7 +1807,7 @@ namespace CustomsForgeSongManager.UControls
 
         private void tsmiModsPitchShifter_Click(object sender, EventArgs e)
         {
-             var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster);
+            var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster);
             if (!selection.Any())
                 return;
 
@@ -2002,6 +2010,42 @@ namespace CustomsForgeSongManager.UControls
         private void quickWithExtraDataToolStripMenuItem_Click(object sender, EventArgs e)
         {
             RefreshDgv(false, true);
+        }
+
+        private void SongManager_Resize(object sender, EventArgs e)
+        {
+            if (dgvSongsDetail.Visible)
+            {
+                dgvSongsDetail.Width = this.Width - (dgvSongsDetail.Location.X * 2) - 3;
+                var indexAfter = dgvSongsMaster.FirstDisplayedCell.RowIndex;
+                var indexOffset = indexBefore - indexAfter;
+                var rowHeight = dgvSongsMaster.Rows[dgvSongsMaster.FirstDisplayedCell.RowIndex].Height;
+                var vertOffset = rowHeight * indexOffset;
+                var vertLocation = dgvSongsDetail.Location.Y;
+                var horizLocation = dgvSongsDetail.Location.X;
+                dgvSongsDetail.Location = new Point(horizLocation, vertLocation + vertOffset); dgvSongsDetail.Invalidate();
+            }
+
+            indexBefore = dgvSongsMaster.FirstDisplayedCell.RowIndex;
+        }
+
+        private void dgvSongsMaster_Scroll(object sender, ScrollEventArgs e)
+        {
+            if (dgvSongsDetail.Visible)
+            {
+                if (e.ScrollOrientation == ScrollOrientation.VerticalScroll)
+                {
+                    var indexAfter = dgvSongsMaster.FirstDisplayedCell.RowIndex;
+                    var indexOffset = indexBefore - indexAfter;
+                    var rowHeight = dgvSongsMaster.Rows[dgvSongsMaster.FirstDisplayedCell.RowIndex].Height;
+                    var vertOffset = rowHeight * indexOffset;
+                    var vertLocation = dgvSongsDetail.Location.Y;
+                    var horizLocation = dgvSongsDetail.Location.X;
+                    dgvSongsDetail.Location = new Point(horizLocation, vertLocation + vertOffset); dgvSongsDetail.Invalidate();
+                }
+            }
+
+            indexBefore = dgvSongsMaster.FirstDisplayedCell.RowIndex;
         }
 
     }

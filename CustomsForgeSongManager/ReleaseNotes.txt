@@ -1,5 +1,8 @@
 ﻿CFSM Release Notes
 
+1.3.2.3
+Added scrolling, resize, and refresh to SongDetail datagridview
+
 1.3.2.2
 Package CFSM as a rar file for distibution to solve some AV issues
 Merged earlier work to develop branch
