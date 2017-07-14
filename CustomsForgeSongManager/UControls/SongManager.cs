@@ -44,7 +44,7 @@ namespace CustomsForgeSongManager.UControls
         private BindingList<SongData> masterSongCollection = new BindingList<SongData>();
         private int numberOfDLCPendingUpdate = 0;
         private int numberOfDisabledDLC = 0;
-        private int indexBefore = 0;
+        private int firstIndex = 0;
 
         public SongManager()
         {
@@ -1179,47 +1179,76 @@ namespace CustomsForgeSongManager.UControls
                     var songDetails = masterSongCollection.Where(master => (master.DLCKey == songKey)).ToList();
                     if (!songDetails.Any())
                         MessageBox.Show("No Song Details Found");
-                    else // TODO: change positioning if near bottom of dgvSongsMaster
+                    else
                     {
-                        // apply some formatting
-                        dgvSongsMaster.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                        dgvSongsDetail.ColumnHeadersDefaultCellStyle.WrapMode = DataGridViewTriState.False;
-                        dgvSongsDetail.Columns["colDetailPID"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                        dgvSongsDetail.Columns["colDetailSections"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                        dgvSongsDetail.Columns["colDetailDMax"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
-                        var rowHeight = dgvSongsMaster.Rows[e.RowIndex].Height + 0; // height tweak
-                        var colWidth = dgvSongsMaster.Columns[e.ColumnIndex].Width - 16; // width tweak
                         dgvSongsMaster.Rows[e.RowIndex].Cells["colShowDetail"].Tag = "TRUE";
                         dgvSongsMaster.Rows[e.RowIndex].Cells["colShowDetail"].Value = MinusBitmap;
-                        Rectangle dgvRectangle = dgvSongsMaster.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true);
-                        dgvSongsDetail.Location = new Point(dgvRectangle.Right + colWidth, dgvRectangle.Bottom + rowHeight - 2);
 
-                        // CRITICAL CODE AREA - CAREFUL - No Filtering
+                        // CRITICAL CODE AREA - CAREFUL - No Filtering KISS
                         dgvSongsDetail.AutoGenerateColumns = false;
                         dgvSongsDetail.DataSource = songDetails;
                         dgvSongsDetail.DataMember = "Arrangements2D";
 
-                        // calculate the height and width of dgvSongsDetail
-                        dgvSongsDetail.Columns["colDetailKey"].Width = dgvSongsMaster.Columns["colKey"].Width;
-                        var colHeaderHeight = dgvSongsDetail.Columns[e.ColumnIndex].HeaderCell.Size.Height;
-                        var vertScrollWidth = SystemInformation.VerticalScrollBarWidth;
-                        var horizScrollHeight = SystemInformation.HorizontalScrollBarHeight;
-                        dgvSongsDetail.Width = this.Width - (dgvSongsDetail.Location.X * 2) - vertScrollWidth;
-                        dgvSongsDetail.Height = dgvSongsDetail.Rows.Cast<DataGridViewRow>().Sum(row => row.Height) + colHeaderHeight;
+                        // apply some fixed formatting
+                        // any column/row sizing triggers SubclassedDataGridView
+                        dgvSongsDetail.Visible = true;
+                        dgvSongsDetail.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
+                        dgvSongsDetail.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+                        dgvSongsDetail.ScrollBars = ScrollBars.Horizontal;
 
-                        if (dgvSongsDetail.Rows.Count < 3) // need extra tweak 
-                            dgvSongsDetail.Height = dgvSongsDetail.Height + 4;
-
-                        var maxDetailWidth = dgvSongsDetail.Columns.Cast<DataGridViewColumn>().Sum(col => col.Width) + colWidth * 2;
-                        if (maxDetailWidth > this.Width)
+                        foreach (DataGridViewColumn col in dgvSongsDetail.Columns)
                         {
-                            dgvSongsDetail.ScrollBars = ScrollBars.Horizontal;
-                            dgvSongsDetail.Height = dgvSongsDetail.Height + horizScrollHeight;
+                            col.SortMode = DataGridViewColumnSortMode.NotSortable; // ensures proper header alignments
+                            col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                            col.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
                         }
 
-                        dgvSongsDetail.Visible = true;
-                        dgvSongsDetail.Refresh();
+                        dgvSongsDetail.Columns["colDetailKey"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                        dgvSongsDetail.Columns["colDetailKey"].Width = dgvSongsMaster.Columns["colKey"].Width - 1;
+                        dgvSongsDetail.Columns["colDetailPID"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                        dgvSongsDetail.Columns["colDetailPID"].Width = 220;
+                        dgvSongsDetail.Columns["colDetailChords"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+                        dgvSongsDetail.Columns["colDetailChords"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells; // work around forces horiz scroll to display
+
+                        // calculate the height and width of dgvSongsDetail
+                        var colHeaderHeight = dgvSongsMaster.Columns[e.ColumnIndex].HeaderCell.Size.Height;
+                        var rowHeight = dgvSongsMaster.Rows[e.RowIndex].Height;
+                        var colWidth = dgvSongsMaster.Columns[e.ColumnIndex].Width;
+                        var horizScrollHeight = SystemInformation.HorizontalScrollBarHeight;
+
+                        var vertScrollWidth = 0;
+                        if (dgvSongsMaster.Controls.OfType<VScrollBar>().First().Visible)
+                            vertScrollWidth = SystemInformation.VerticalScrollBarWidth;
+
+                        dgvSongsDetail.Width = dgvSongsMaster.Width - vertScrollWidth - dgvSongsDetail.Location.X + 5; // tweak
+                        dgvSongsDetail.Height = dgvSongsDetail.Rows.Cast<DataGridViewRow>().Sum(row => row.Height + 1) + colHeaderHeight + horizScrollHeight;
+
+                        // height tweak
+                        if (dgvSongsDetail.RowCount < 3)
+                            dgvSongsDetail.Height = dgvSongsDetail.Height + 4;
+
+                        // given current formatting what is the real width
+                        //var rowsWidth = dgvSongsDetail.Rows.Cast<DataGridViewRow>().Sum(row => row.Height);
+                        var colsWidth = dgvSongsDetail.Columns.Cast<DataGridViewColumn>().Sum(col => col.Width);
+                        if (colsWidth < dgvSongsDetail.Width)
+                        {
+                            dgvSongsDetail.Columns["colDetailChords"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                        }
+
+                        firstIndex = dgvSongsMaster.FirstDisplayedCell.RowIndex;
+                        int maxRows = dgvSongsMaster.Height / rowHeight - 1; // tweaked
+                        var selectedIndex = e.RowIndex;
+                        var indexOffset = selectedIndex - firstIndex;
+                        Rectangle cellRectangle = dgvSongsMaster.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true);
+
+                        // display SongsDetail below selected row
+                        if (dgvSongsDetail.Height / rowHeight < maxRows - indexOffset - 1 )
+                            dgvSongsDetail.Location = new Point(colWidth + 7, cellRectangle.Bottom + rowHeight - 4); // tweaked
+                        else // display SongsDetail above selected row
+                            dgvSongsDetail.Location = new Point(colWidth + 7, cellRectangle.Bottom - dgvSongsDetail.Height - 4); // tweaked
+                        
+                        // required here to refresh the scrollbar                       
+                        dgvSongsDetail.Invalidate();
                     }
                 }
                 else
@@ -2014,19 +2043,28 @@ namespace CustomsForgeSongManager.UControls
 
         private void SongManager_Resize(object sender, EventArgs e)
         {
-            if (dgvSongsDetail.Visible)
-            {
-                dgvSongsDetail.Width = this.Width - (dgvSongsDetail.Location.X * 2) - 3;
-                var indexAfter = dgvSongsMaster.FirstDisplayedCell.RowIndex;
-                var indexOffset = indexBefore - indexAfter;
-                var rowHeight = dgvSongsMaster.Rows[dgvSongsMaster.FirstDisplayedCell.RowIndex].Height;
-                var vertOffset = rowHeight * indexOffset;
-                var vertLocation = dgvSongsDetail.Location.Y;
-                var horizLocation = dgvSongsDetail.Location.X;
-                dgvSongsDetail.Location = new Point(horizLocation, vertLocation + vertOffset); dgvSongsDetail.Invalidate();
-            }
+            ResetDetail();
 
-            indexBefore = dgvSongsMaster.FirstDisplayedCell.RowIndex;
+            // alternate method: maintains SongsDetail visiblity while resizing
+            //if (dgvSongsDetail.Visible)
+            //{
+            //    var vertScrollWidth = 0;
+            //    if (dgvSongsMaster.Controls.OfType<VScrollBar>().First().Visible)
+            //        vertScrollWidth = SystemInformation.VerticalScrollBarWidth;
+
+            //    dgvSongsDetail.Width = dgvSongsMaster.Width - vertScrollWidth - dgvSongsDetail.Location.X + 5; // tweak
+
+            //    var indexAfter = dgvSongsMaster.FirstDisplayedCell.RowIndex;
+            //    var indexOffset = firstIndex - indexAfter;
+            //    var rowHeight = dgvSongsMaster.Rows[dgvSongsMaster.FirstDisplayedCell.RowIndex].Height;
+            //    var vertOffset = rowHeight * indexOffset;
+            //    var vertLocation = dgvSongsDetail.Location.Y;
+            //    var horizLocation = dgvSongsDetail.Location.X;
+            //    dgvSongsDetail.Location = new Point(horizLocation, vertLocation + vertOffset);
+            //    dgvSongsDetail.Invalidate();
+            //}
+
+            firstIndex = dgvSongsMaster.FirstDisplayedCell.RowIndex;
         }
 
         private void dgvSongsMaster_Scroll(object sender, ScrollEventArgs e)
@@ -2036,16 +2074,17 @@ namespace CustomsForgeSongManager.UControls
                 if (e.ScrollOrientation == ScrollOrientation.VerticalScroll)
                 {
                     var indexAfter = dgvSongsMaster.FirstDisplayedCell.RowIndex;
-                    var indexOffset = indexBefore - indexAfter;
+                    var indexOffset = firstIndex - indexAfter;
                     var rowHeight = dgvSongsMaster.Rows[dgvSongsMaster.FirstDisplayedCell.RowIndex].Height;
                     var vertOffset = rowHeight * indexOffset;
                     var vertLocation = dgvSongsDetail.Location.Y;
                     var horizLocation = dgvSongsDetail.Location.X;
-                    dgvSongsDetail.Location = new Point(horizLocation, vertLocation + vertOffset); dgvSongsDetail.Invalidate();
+                    dgvSongsDetail.Location = new Point(horizLocation, vertLocation + vertOffset); 
+                    dgvSongsDetail.Invalidate();
                 }
             }
 
-            indexBefore = dgvSongsMaster.FirstDisplayedCell.RowIndex;
+            firstIndex = dgvSongsMaster.FirstDisplayedCell.RowIndex;
         }
 
     }
