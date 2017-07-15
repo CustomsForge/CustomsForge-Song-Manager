@@ -457,6 +457,9 @@ namespace CustomsForgeSongManager.UControls
                     {
                         Globals.Log("Incorrect song collection version found, rescanning songs.");
                         GenExtensions.DeleteFile(songsInfoPath);
+                        // extreme (maybe unnecessary) refresh of 'My Documents/CFSM' folder
+                        //GenExtensions.DeleteDirectory(Constants.WorkFolder);
+                        //FileTools.VerifyCfsmFolders();
                     }
                 }
 
@@ -1183,7 +1186,7 @@ namespace CustomsForgeSongManager.UControls
                     {
                         dgvSongsMaster.Rows[e.RowIndex].Cells["colShowDetail"].Tag = "TRUE";
                         dgvSongsMaster.Rows[e.RowIndex].Cells["colShowDetail"].Value = MinusBitmap;
- 
+
                         // CRITICAL EXECUTION ORDER - Workaround for intermitent bug not displaying horizscrollbar when last row is selected
                         dgvSongsDetail.Visible = true;
                         dgvSongsDetail.ScrollBars = ScrollBars.Horizontal;

@@ -562,6 +562,7 @@ namespace CustomsForgeSongManager.LocalTools
                     ZipUtilities.RemoveReadOnlyAttribute(Constants.Rs2DlcFolder);
             }
 
+            // TODO: this check can be depricated after a year or 10 releases
             // if old CFSM remenants exist then move them to 'My Documents/CFSM' 
             if (Directory.Exists(Constants.Rs2CfsmFolder))
             {
@@ -569,6 +570,7 @@ namespace CustomsForgeSongManager.LocalTools
                 GenExtensions.CopyDir(Path.Combine(Constants.Rs2CfsmFolder, "backups"), Constants.BackupsFolder);
                 GenExtensions.CopyDir(Path.Combine(Constants.Rs2CfsmFolder, "duplicates"), Constants.DuplicatesFolder);
                 GenExtensions.CopyDir(Path.Combine(Constants.Rs2CfsmFolder, "remastered"), Constants.RemasteredFolder);
+                GenExtensions.CopyDir(Path.Combine(Constants.Rs2CfsmFolder, "songpacks"), Constants.SongPacksFolder);
                 GenExtensions.DeleteDirectory(Constants.Rs2CfsmFolder, true);
             }
         }
