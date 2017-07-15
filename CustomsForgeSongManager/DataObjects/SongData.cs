@@ -63,8 +63,9 @@ namespace CustomsForgeSongManager.DataObjects
         //ver 6 : changed Path to FilePath to avoid conflict with reserved name System.IO.Path
         //ver 7 : add RepairStatus
         //ver 8 : add RepairStatus 'ODLC'
+        //ver 9 : all reference files moved to 'My Documents/CFSM'
 
-        public const string SongDataListCurrentVersion = "8";
+        public const string SongDataListCurrentVersion = "9";
 
         public string DLCKey { get; set; }
 

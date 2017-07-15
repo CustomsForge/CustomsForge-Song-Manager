@@ -3,6 +3,7 @@
 #include "idp.iss"
 
 [Setup]
+SignTool=signtool
 AppName={#AppName}
 AppVersion={#AppVersion}
 AppId={{58F35625-541C-493A-A289-4B2D362DAFE0}

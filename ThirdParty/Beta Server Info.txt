@@ -1,8 +1,0 @@
-ftp://198.58.96.81/app/
-
-ftp://198.58.96.81/
-login: appdev
-pw: kvPSF7HL
-
-http://beta.customsforge.com
-http://app.customsforge.com

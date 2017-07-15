@@ -691,8 +691,14 @@ if $(ConfigurationName) == InnoBeta (
    XCOPY /Y /E /D "$(TargetDir)*.*" "$(ProjectDir)bin\ConfuserEx\*.*"
    CD "$(SolutionDir)ThirdParty\ConfuserEx_bin\"
    "Confuser.CLI.exe" "..\ConfuserExForInno.crproj"
+
+rem must be connected to internet for signtool to work properly
+CD "$(ProjectDir)bin\ConfuserEx\"
+rem "%25programfiles%25\Microsoft SDKs\Windows\v7.0A\bin\signtool.exe"  sign /f CFSM_Certificate.pfx /p cozylov /t http://timestamp.verisign.com/scripts/timstamp.dll CustomsForgeSongManager.exe
+
    CD "$(SolutionDir)ThirdParty\Inno\"
    "ISCC.exe" /DBETA "..\CFSM.Setup\cfsmInstaller.iss"
+
    CD "$(SolutionDir)ThirdParty\"
    "CFSMPostBuilder.exe" "CREATEVERSIONINFO"
 
@@ -707,11 +713,13 @@ REM "CFSMPostBuilder.exe" "UPLOAD" "198.58.96.81/beta/" "appdev" "kvPSF7HL"
 )
 
 if $(ConfigurationName) == InnoRelease (
+
    MKDIR "$(ProjectDir)bin\ConfuserEx\"
    XCOPY /Y /E /D "$(TargetDir)*.*" "$(ProjectDir)bin\ConfuserEx\*.*"
   CD "$(SolutionDir)ThirdParty\ConfuserEx_bin\"
   "Confuser.CLI.exe" "..\ConfuserExForInno.crproj"
-  CD "$(SolutionDir)ThirdParty\Inno\"
+
+ CD "$(SolutionDir)ThirdParty\Inno\"
   "ISCC.exe" "..\CFSM_Setup\cfsmInstaller.iss"
   CD "$(SolutionDir)ThirdParty\"
   "CFSMPostBuilder.exe" "CREATEVERSIONINFO"

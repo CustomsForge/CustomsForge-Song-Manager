@@ -55,7 +55,7 @@ namespace CustomsForgeSongManager.LocalTools
             return false;
         }
 
-        public static void GetRemoteDir()
+        public static string GetRemoteDir()
         {
             bool foundSteamDirPath = false;
             var remoteDirPath = String.Empty;
@@ -119,16 +119,17 @@ namespace CustomsForgeSongManager.LocalTools
                         fbd.SelectedPath = remoteDirPath;
                 }
 
-                fbd.Description = "Select the Rocksmith 2014 user profile directory location." + Environment.NewLine + "HINT: Do a Windows Search for '*_prfldb' files to find the path.";
+                fbd.Description = "Select the Rocksmith 2014 user profile directory location." + Environment.NewLine + "HINT: Do a Windows Search for '*_prfldb' files to find the path" + Environment.NewLine + "then back out of the subfolder and select the '221680' root folder.";
 
                 if (fbd.ShowDialog() != DialogResult.OK)
-                    return;
+                    return null;
 
                 remoteDirPath = fbd.SelectedPath;
             }
 
             AppSettings.Instance.RSProfileDir = remoteDirPath;
             Globals.Log("User Profile Directory changed to: " + remoteDirPath);
+            return remoteDirPath;
         }
 
         public static void BackupRestore(bool resetProfileDirPath)
@@ -137,7 +138,10 @@ namespace CustomsForgeSongManager.LocalTools
             {
                 // locate Steam 'remote' folder
                 if (resetProfileDirPath || String.IsNullOrEmpty(AppSettings.Instance.RSProfileDir.Trim()))
-                    GetRemoteDir();
+                {
+                    if (String.IsNullOrEmpty(GetRemoteDir()))
+                        return;
+                }
 
                 if (DialogResult.Yes == BetterDialog2.ShowDialog("Backup or restore a Rocksmith 2014 user profile?", "User Profile Backup/Restore", null, "Backup", "Restore", Bitmap.FromHicon(SystemIcons.Question.Handle), "Pick One", 150, 150))
                 {
