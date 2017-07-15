@@ -1008,7 +1008,7 @@ namespace CustomsForgeSongManager.UControls
             var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster);
             if (!selection.Any()) return;
 
-            FileTools.CreateBackupOfType(selection, Constants.BackupFolder, "");
+            FileTools.CreateBackupOfType(selection, Constants.BackupsFolder, "");
         }
 
         private void cmsCheckForUpdate_Click(object sender, EventArgs e)
@@ -1183,6 +1183,10 @@ namespace CustomsForgeSongManager.UControls
                     {
                         dgvSongsMaster.Rows[e.RowIndex].Cells["colShowDetail"].Tag = "TRUE";
                         dgvSongsMaster.Rows[e.RowIndex].Cells["colShowDetail"].Value = MinusBitmap;
+ 
+                        // CRITICAL EXECUTION ORDER - Workaround for intermitent bug not displaying horizscrollbar when last row is selected
+                        dgvSongsDetail.Visible = true;
+                        dgvSongsDetail.ScrollBars = ScrollBars.Horizontal;
 
                         // CRITICAL CODE AREA - CAREFUL - No Filtering KISS
                         dgvSongsDetail.AutoGenerateColumns = false;
@@ -1191,14 +1195,12 @@ namespace CustomsForgeSongManager.UControls
 
                         // apply some fixed formatting
                         // any column/row sizing triggers SubclassedDataGridView
-                        dgvSongsDetail.Visible = true;
                         dgvSongsDetail.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
                         dgvSongsDetail.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
-                        dgvSongsDetail.ScrollBars = ScrollBars.Horizontal;
 
                         foreach (DataGridViewColumn col in dgvSongsDetail.Columns)
                         {
-                            col.SortMode = DataGridViewColumnSortMode.NotSortable; // ensures proper header alignments
+                            col.SortMode = DataGridViewColumnSortMode.NotSortable; // to ensure proper header alignments
                             col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
                             col.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
                         }
@@ -1242,11 +1244,11 @@ namespace CustomsForgeSongManager.UControls
                         Rectangle cellRectangle = dgvSongsMaster.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true);
 
                         // display SongsDetail below selected row
-                        if (dgvSongsDetail.Height / rowHeight < maxRows - indexOffset - 1 )
+                        if (dgvSongsDetail.Height / rowHeight < maxRows - indexOffset - 1)
                             dgvSongsDetail.Location = new Point(colWidth + 7, cellRectangle.Bottom + rowHeight - 4); // tweaked
                         else // display SongsDetail above selected row
                             dgvSongsDetail.Location = new Point(colWidth + 7, cellRectangle.Bottom - dgvSongsDetail.Height - 4); // tweaked
-                        
+
                         // required here to refresh the scrollbar                       
                         dgvSongsDetail.Invalidate();
                     }
@@ -1590,11 +1592,10 @@ namespace CustomsForgeSongManager.UControls
             tsmiAddDDSettings.ShowDropDown();
             menuStrip.Focus();
         }
-
         private void tsmiFilesArcBak_Click(object sender, EventArgs e)
         {
             this.Refresh();
-            DoWork(Constants.GWORKER_ACHRIVE, Constants.EXT_BAK, Constants.BackupFolder, tsmiFilesArcDeleteAfter.Checked);
+            DoWork(Constants.GWORKER_ACHRIVE, Constants.EXT_BAK, Constants.BackupsFolder, tsmiFilesArcDeleteAfter.Checked);
         }
 
         private void tsmiFilesArcCor_Click(object sender, EventArgs e)
@@ -1627,7 +1628,7 @@ namespace CustomsForgeSongManager.UControls
             var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster);
             if (!selection.Any()) return;
 
-            FileTools.CreateBackupOfType(selection, Constants.BackupFolder, Constants.EXT_BAK);
+            FileTools.CreateBackupOfType(selection, Constants.BackupsFolder, Constants.EXT_BAK);
         }
 
         private void tsmiFilesCheckODLC_Click(object sender, EventArgs e)
@@ -1736,7 +1737,7 @@ namespace CustomsForgeSongManager.UControls
 
         private void tsmiFilesRestoreBak_Click(object sender, EventArgs e)
         {
-            FileTools.RestoreBackups(Constants.EXT_BAK, Constants.BackupFolder);
+            FileTools.RestoreBackups(Constants.EXT_BAK, Constants.BackupsFolder);
             RefreshDgv(false);
         }
 
@@ -1841,7 +1842,7 @@ namespace CustomsForgeSongManager.UControls
                 return;
 
             this.Refresh();
-            DoWork(Constants.GWORKER_PITCHSHIFT, selection, tsmiModsPitchShiftOverwrite.Checked);
+            DoWork(Constants.GWORKER_PITCHSHIFT, selection, tsmiModsPitchShiftOverwrite.Checked, tsmiModsPitchShiftStandard.Checked);
 
             // quickly reload the SongCollection to the dgv
             if (Globals.ReloadSongManager)
@@ -1922,7 +1923,7 @@ namespace CustomsForgeSongManager.UControls
             }
         }
 
-        private void tsmiOverwriteCDLC_Click(object sender, EventArgs e)
+        private void tsmiModsPitchShifterCheckbox_Click(object sender, EventArgs e)
         {
             tsmiMods.ShowDropDown();
             tsmiModsPitchShifter.ShowDropDown();
@@ -2079,7 +2080,7 @@ namespace CustomsForgeSongManager.UControls
                     var vertOffset = rowHeight * indexOffset;
                     var vertLocation = dgvSongsDetail.Location.Y;
                     var horizLocation = dgvSongsDetail.Location.X;
-                    dgvSongsDetail.Location = new Point(horizLocation, vertLocation + vertOffset); 
+                    dgvSongsDetail.Location = new Point(horizLocation, vertLocation + vertOffset);
                     dgvSongsDetail.Invalidate();
                 }
             }

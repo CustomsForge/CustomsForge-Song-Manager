@@ -11,10 +11,7 @@ namespace DataGridViewTools
 
         public SubclassedDataGridView()
         {
-            //VerticalScrollBar.Visible = false;
             VerticalScrollBar.VisibleChanged += VerticalScrollBar_VisibleChanged;
-
-            //HorizontalScrollBar.Visible = true;
             HorizontalScrollBar.VisibleChanged += HorizontalScrollBar_VisibleChanged;
         }
 

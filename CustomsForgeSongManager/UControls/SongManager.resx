@@ -274,6 +274,39 @@
   <metadata name="colDetailChords.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
+  <metadata name="colDetailKey.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="colDetailPID.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="colDetailArrangement.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="colDetailTuning.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="colDetailSections.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="colDetailDMax.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="colDetailToneBase.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="colDetailChordCount.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="colDetailNoteCount.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="colDetailOctaveCount.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="colDetailChords.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
   <metadata name="colShowDetail.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -499,6 +532,18 @@
   <metadata name="menuStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 0</value>
   </metadata>
+  <data name="tsmiRescan.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAShJREFUOE9jYBgs
+        wAjokCYgbkXCzUC2LTEOFAEq2gzEIEO0kLAekD0fiC2AWAELlocZbg5klOKwyRIo3gPE/VhwH1CMB6QP
+        ZEAJHqfGAOVq0XANkG+F7AKYAZxAQZCXYDgAyL4CxOex4JNAMW5kFzgBOdeA+AYSBvGxaYaJiSMb0IJN
+        MRsb20Y+Pr54bm7uLB4enhygmjNI6lAMAEUbhm2CgoLRUJddYGZmXgE0CBQeWF2AYQATE9MZXl7ebGSD
+        +fn504k2AKQQ6IJwoNM7ODk5W4CaK4DseKBL9kANIewFRkbGfVxcXFmsrKz5LCwsVcLCwjZiYmLu7Ozs
+        y4GGoBhQRiDEL0HljwFdEAP03jIgnxcUC3JA7AHEwkBcD8TtRGBQjNmDNFMMAMK7Y7LorC+/AAAAAElF
+        TkSuQmCC
+</value>
+  </data>
   <data name="tsmiRescanQuick.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
@@ -531,36 +576,6 @@
         dATpBFJs4V1ORVUWd638EVeemxAW9Q+PJHKtAgrQ1gAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="tsmiRescan.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAShJREFUOE9jYBgs
-        wAjokCYgbkXCzUC2LTEOFAEq2gzEIEO0kLAekD0fiC2AWAELlocZbg5klOKwyRIo3gPE/VhwH1CMB6QP
-        ZEAJHqfGAOVq0XANkG+F7AKYAZxAQZCXYDgAyL4CxOex4JNAMW5kFzgBOdeA+AYSBvGxaYaJiSMb0IJN
-        MRsb20Y+Pr54bm7uLB4enhygmjNI6lAMAEUbhm2CgoLRUJddYGZmXgE0CBQeWF2AYQATE9MZXl7ebGSD
-        +fn504k2AKQQ6IJwoNM7ODk5W4CaK4DseKBL9kANIewFRkbGfVxcXFmsrKz5LCwsVcLCwjZiYmLu7Ozs
-        y4GGoBhQRiDEL0HljwFdEAP03jIgnxcUC3JA7AHEwkBcD8TtRGBQjNmDNFMMAMK7Y7LorC+/AAAAAElF
-        TkSuQmCC
-</value>
-  </data>
-  <data name="tsmiRepairsUsingOrg.ToolTipText" xml:space="preserve">
-    <value>Developers do not recommend use of this option.
-
-If selected, only files from the (org) folder
-are used for the selected repair options.
-This option may not be combined with
-the "Process 'downloads' Folder" button</value>
-  </data>
-  <data name="tsmiProcessDLFolder.ToolTipText" xml:space="preserve">
-    <value>Process new CDLC from 'Downloads' 
-folder and move them to 'dlc' folder.  
-
-If selected, only files in the 'Downloads'
-folder are processed/repaired.
-
-The 'Downloads' folder location may
-be reset from the 'Settings' tab menu.</value>
-  </data>
   <data name="tsmiRepairs.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
@@ -588,6 +603,24 @@ various user selectable options.
 HINT: First use 'Select All/None' and/or 
 'Toggle Selection' links to quckly choose
 the CDLC files to repair (aka Bulk Repair).</value>
+  </data>
+  <data name="tsmiRepairsUsingOrg.ToolTipText" xml:space="preserve">
+    <value>Developers do not recommend use of this option.
+
+If selected, only files from the (org) folder
+are used for the selected repair options.
+This option may not be combined with
+the "Process 'downloads' Folder" button</value>
+  </data>
+  <data name="tsmiProcessDLFolder.ToolTipText" xml:space="preserve">
+    <value>Process new CDLC from 'Downloads' 
+folder and move them to 'dlc' folder.  
+
+If selected, only files in the 'Downloads'
+folder are processed/repaired.
+
+The 'Downloads' folder location may
+be reset from the 'Settings' tab menu.</value>
   </data>
   <data name="tsmiModsChangeAppId.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -618,6 +651,16 @@ the CDLC files to repair (aka Bulk Repair).</value>
         RjKZPMLCuaBUKh0gMGEYRjoQCBQ5qemLjPMtKK1WK51KpQ6xeEoURbnWNG0b9/wEfclJTV9ker+DQTys
         1Uwms4dAFvC2uPmkqzmp6XM921vAj8oPlnO53A5eq+6FWwFL+C8sAg1s9oHro24/Ez2pW8Syfkh/Ffzb
         /wUk6+TrspQ9MgAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="tsmiFiles.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAALRJREFUOE9j/P//
+        PwNFAGQAJZgizWDXU2I73IBTi80ZgPg/EgbxCWJkA4DsRXCMZhiywSA23GAUA369b/j/42UoGIPYuDDU
+        cLAhKAZ8e5T2//MNYzAm4AKYPKoB359k/f9y2wIsiewdXGyIOmgsgDg/XpaANSO7BOYiZBokD/MGRhjA
+        DPr20PU/LgyzCCMMQJr/fO3///tTJk4Mkoc5HasBpPgd3QD0hIQvJjDTASXJmeK8AACpu7WMtPg+dgAA
+        AABJRU5ErkJggg==
 </value>
   </data>
   <data name="tsmiFilesDisableEnable.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
@@ -670,27 +713,17 @@ selected songs will be rename and moved to
 ArtistName subfolders.
 
 On the flip side, this feature can be used to
-quickly create setlists by ArtistName.  </value>
+quickly create setlists by ArtistName.</value>
   </data>
   <data name="tsmiFilesUnorganize.ToolTipText" xml:space="preserve">
-    <value>Restore CDLC files back to the master 'dlc'
-folder and remove empty ArtistName subfolders.
+    <value>Restore CDLC files back to the master 'dlc' and 'dlc/cdlc'
+folders and removes empty ArtistName subfolders.
 
 WARNING
 ------------
 This will remove any custom setlists that
 were created using Setlist Manager.  Songs
-are not renamed during restore operation.
-</value>
-  </data>
-  <data name="tsmiFiles.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAALRJREFUOE9j/P//
-        PwNFAGQAJZgizWDXU2I73IBTi80ZgPg/EgbxCWJkA4DsRXCMZhiywSA23GAUA369b/j/42UoGIPYuDDU
-        cLAhKAZ8e5T2//MNYzAm4AKYPKoB359k/f9y2wIsiewdXGyIOmgsgDg/XpaANSO7BOYiZBokD/MGRhjA
-        DPr20PU/LgyzCCMMQJr/fO3///tTJk4Mkoc5HasBpPgd3QD0hIQvJjDTASXJmeK8AACpu7WMtPg+dgAA
-        AABJRU5ErkJggg==
+are not renamed during restore operations.
 </value>
   </data>
   <data name="tsmiHelp.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">

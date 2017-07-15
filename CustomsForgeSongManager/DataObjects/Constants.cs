@@ -89,6 +89,7 @@ namespace CustomsForgeSongManager.DataObjects
 
         // write access to the Steam RSInstallDir is provided by the code 
         public static string Rs2DlcFolder { get { return Path.Combine(AppSettings.Instance.RSInstalledDir, "dlc"); } }
+        public static string Rs2CdlcFolder { get { return Path.Combine(Rs2DlcFolder, "cdlc"); } }
         public static string CachePsarcPath { get { return Path.Combine(AppSettings.Instance.RSInstalledDir, "cache.psarc"); } }
         public static string SongsPsarcPath { get { return Path.Combine(AppSettings.Instance.RSInstalledDir, "songs.psarc"); } }
 
@@ -113,11 +114,11 @@ namespace CustomsForgeSongManager.DataObjects
         public static string SongsRs1DlcInternalPath { get { return @"manifests/songs_rs1dlc/songs_rs1dlc.hsan"; } }
 
         // do not attempt to write files to Rocksmith 2014 root because of OS Permission issues      
+        public static string BackupsFolder { get { return Path.Combine(WorkFolder, "Backups"); } }
+        public static string DuplicatesFolder { get { return Path.Combine(WorkFolder, "Duplicates"); } }
         public static string RemasteredFolder { get { return Path.Combine(WorkFolder, "Remastered"); } }
         public static string RepairsErrorLogPath { get { return Path.Combine(RemasteredFolder, "remastered_error.log"); } }
-        public static string BackupFolder { get { return Path.Combine(WorkFolder, "Backups"); } }
-        public static string DuplicatesFolder { get { return Path.Combine(WorkFolder, "Duplicates"); } }
-        public static string ArchivesFolder { get { return Path.Combine(RemasteredFolder, "archives"); } }
+        public static string RemasteredArcFolder { get { return Path.Combine(RemasteredFolder, "archives"); } }
         public static string RemasteredCorFolder { get { return Path.Combine(RemasteredFolder, "corrupt"); } }
         public static string RemasteredOrgFolder { get { return Path.Combine(RemasteredFolder, "original"); } }
         public static string RemasteredMaxFolder { get { return Path.Combine(RemasteredFolder, "maxfive"); } }

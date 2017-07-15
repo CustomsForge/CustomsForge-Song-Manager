@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Windows.Forms;
 using GenTools;
 using CustomsForgeSongManager.DataObjects;
 using RocksmithToolkitLib.DLCPackage;
@@ -15,8 +16,6 @@ namespace CustomsForgeSongManager.LocalTools
 {
     public class PitchShiftTools
     {
-        #region Class Methods
-
         public static DLCPackageData AddExtensionToSongName(DLCPackageData packageData, string ext)
         {
             packageData.Name = packageData.Name + ext;
@@ -61,7 +60,7 @@ namespace CustomsForgeSongManager.LocalTools
             return packageData;
         }
 
-        public static DLCPackageData GetSetArrInfo(DLCPackageData packageData, ref int gitShift, ref int bassShift, ref string ext)
+        public static DLCPackageData GetSetArrInfo(DLCPackageData packageData, ref int gitShift, ref int bassShift, ref string ext, bool forceStdTuning)
         {
             foreach (var arr in packageData.Arrangements)
             {
@@ -74,7 +73,8 @@ namespace CustomsForgeSongManager.LocalTools
                 if (!arr.Tuning.Contains("Bonus") && arr.ArrangementType == ArrangementType.Bass)
                     bassShift = arr.TuningStrings.String0;
 
-                if (arr.Tuning.Contains("Standard"))
+                // added option to always convert tuning to E Standard (prevents having to retune)
+                if (arr.Tuning.Contains("Standard") || forceStdTuning)
                 {
                     arr.Tuning = "E Standard";
                     arr.TuningStrings = new RocksmithToolkitLib.XML.TuningStrings { String0 = 0, String1 = 0, String2 = 0, String3 = 0, String4 = 0, String5 = 0 };
@@ -97,7 +97,7 @@ namespace CustomsForgeSongManager.LocalTools
         }
 
         // TODO: Debug this code and confirm proper operation
-        public static bool PitchShiftSongs(List<SongData> songs, bool overwriteFile)
+        public static bool PitchShiftSongs(List<SongData> songs, bool overwriteFile, bool forceStdTuning)
         {
             // this method can also be used for a single song
             var srcFilePaths = FileTools.SongFilePaths(songs);
@@ -106,7 +106,13 @@ namespace CustomsForgeSongManager.LocalTools
             var failed = 0;
             var skipped = 0;
             GenericWorker.InitReportProgress();
- 
+
+            GenExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate
+            {
+                Globals.TsProgressBar_Main.Style = ProgressBarStyle.Marquee;
+                Globals.TsProgressBar_Main.Value = 40;
+            });
+
             foreach (var srcFilePath in srcFilePaths)
             {
                 var isSkipped = false;
@@ -117,7 +123,7 @@ namespace CustomsForgeSongManager.LocalTools
                 var isOfficialRepairedDisabled = FileTools.IsOfficialRepairedDisabled(srcFilePath);
                 if (!String.IsNullOrEmpty(isOfficialRepairedDisabled))
                 {
-                    if (isOfficialRepairedDisabled.Contains("Official"))
+                    if (isOfficialRepairedDisabled.Contains("Official") && Globals.PublicRelease) // developer testing mode
                     {
                         Globals.Log(" - Skipped ODLC File");
                         skipped++;
@@ -163,7 +169,7 @@ namespace CustomsForgeSongManager.LocalTools
                         const int tone = 100;
 
                         //Get info (amount of steps) and set correct tunings
-                        packageData = GetSetArrInfo(packageData, ref gitShift, ref bassShift, ref ext);
+                        packageData = GetSetArrInfo(packageData, ref gitShift, ref bassShift, ref ext, forceStdTuning);
 
                         packageData = AddPitchShiftPedalToTones(packageData, gitShift, bassShift, mix, tone);
 
@@ -181,17 +187,19 @@ namespace CustomsForgeSongManager.LocalTools
                         // two CDLC with same ids will lock the game
                         if (!overwriteFile)
                         {
-                            Globals.Log(" - Adding pitch shifting effect to new CDLC file");
+                            Globals.Log(" - Adding pitch shifting effect to a new CDLC file");
                             finalPath = srcFilePath.Replace("_p.psarc", ext + "_p.psarc");
                         }
                         else
                             Globals.Log(" - Adding pitch shifting effect to existing file");
 
                         Globals.Log(" - Repackaging");
+                        Globals.Log(" - Please wait this could take a couple of minutes ...");
+
                         using (var psarcNew = new PsarcPackager(true))
                             psarcNew.WritePackage(finalPath, packageData, srcFilePath);
 
-                        // TODO: add new named pitchshift CDLC to SongCollection
+                        // add new named pitchshift CDLC to SongCollection
                         if (File.Exists(finalPath))
                         {
                             using (var browser = new PsarcBrowser(finalPath))
@@ -211,6 +219,12 @@ namespace CustomsForgeSongManager.LocalTools
                     failed++;
                 }
             }
+
+            GenExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate
+            {
+                Globals.TsProgressBar_Main.Style = ProgressBarStyle.Continuous;
+                Globals.TsProgressBar_Main.Value = 100;
+            });
 
             GenericWorker.ReportProgress(processed, total, skipped, failed);
 
@@ -258,6 +272,5 @@ namespace CustomsForgeSongManager.LocalTools
             return packageData;
         }
 
-        #endregion
     }
 }

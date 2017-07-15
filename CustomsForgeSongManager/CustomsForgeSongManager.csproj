@@ -112,10 +112,6 @@
     <Reference Include="CFSM.NCalc">
       <HintPath>..\libs\CFSM.NCalc.dll</HintPath>
     </Reference>
-    <Reference Include="DLogNet, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\libs\DLogNet.dll</HintPath>
-    </Reference>
     <Reference Include="HtmlRenderer">
       <HintPath>..\libs\HtmlRenderer.dll</HintPath>
     </Reference>
@@ -191,12 +187,6 @@
     <Compile Include="DataObjects\Constants.cs" />
     <Compile Include="LocalTools\CFSMHtmlPanel.cs">
       <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Forms\ClickOnceUpgrade.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\ClickOnceUpgrade.Designer.cs">
-      <DependentUpon>ClickOnceUpgrade.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmHtmlViewer.cs">
       <SubType>Form</SubType>
@@ -385,9 +375,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmModAppId.resx">
       <DependentUpon>frmModAppId.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ClickOnceUpgrade.resx">
-      <DependentUpon>ClickOnceUpgrade.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmHtmlViewer.resx">
       <DependentUpon>frmHtmlViewer.cs</DependentUpon>
@@ -680,6 +667,10 @@
     <ProjectReference Include="..\CFSM.Libraries\DF.WinForms.ThemeLib\DF.WinForms.ThemeLib.csproj">
       <Project>{E3A2283B-A2B8-46E5-AF49-DF6CD156EB0D}</Project>
       <Name>DF.WinForms.ThemeLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CFSM.Libraries\DLogNet\DLogNet.csproj">
+      <Project>{04B8EBDC-6226-456E-8BD4-AEF7BAF682AA}</Project>
+      <Name>DLogNet</Name>
     </ProjectReference>
     <ProjectReference Include="..\CFSM.Libraries\GenTools\GenTools.csproj">
       <Project>{41EA9CF7-BF72-4243-98A8-5BF16BCD90AD}</Project>

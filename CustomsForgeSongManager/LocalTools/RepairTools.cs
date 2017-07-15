@@ -404,19 +404,16 @@ namespace CustomsForgeSongManager.LocalTools
                     }
                 }
 
-                // move new CDLC from the 'Downloads' folder to the 'dlc' folder
+                // move new CDLC from the 'Downloads' folder to the 'dlc/cdlc' folder
                 if (options.ProcessDLFolder)
                 {
-                    var destFilePath = Constants.Rs2DlcFolder;
-                    var cdlcFolderPath = Path.Combine(Constants.Rs2DlcFolder, "cdlc");
+                    var cdlcFolder = Path.Combine(Constants.Rs2DlcFolder, "cdlc");
+                    if (!Directory.Exists(cdlcFolder))
+                        Directory.CreateDirectory(cdlcFolder);
 
-                    if(Directory.Exists(cdlcFolderPath))
-                        destFilePath = cdlcFolderPath;
-                   
-                    destFilePath = Path.Combine(destFilePath, Path.GetFileName(srcFilePath));
-                    
+                    var destFilePath = Path.Combine(cdlcFolder, Path.GetFileName(srcFilePath));
                     GenExtensions.MoveFile(srcFilePath, destFilePath);
-                    Globals.Log(" - Moved new CDLC to 'dlc' folder");
+                    Globals.Log(" - Moved new CDLC to: " + cdlcFolder);
                     Globals.ReloadSongManager = true; // set quick reload flag
 
                     // add new repaired 'Downloads' CDLC to the SongCollection
@@ -452,7 +449,7 @@ namespace CustomsForgeSongManager.LocalTools
             {
                 // error log can be turned into CSV file
                 sbErrors.Insert(0, "File Path, Error Message" + Environment.NewLine);
-                sbErrors.Insert(0, DateTime.Now.ToString("MM-dd-yy HH:mm") + Environment.NewLine);
+                sbErrors.Insert(0, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss") + Environment.NewLine);
                 using (TextWriter tw = new StreamWriter(Constants.RepairsErrorLogPath, true))
                 {
                     tw.WriteLine(sbErrors + Environment.NewLine);

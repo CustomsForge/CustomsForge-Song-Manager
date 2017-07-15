@@ -59,6 +59,8 @@ namespace CustomsForgeSongManager.LocalTools
         #endregion
 
         #region Tone Fixing
+        // TODO: FIXME ... this is not changing tuning for DropD
+
         public static DLCPackageData GetDataWithFixedTones(string srcFilePath)
         {
 

@@ -1,20 +1,45 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+
+// Usage in frmMain comes after InitializeComponent();
+// DLogger.Instance.AddTargetFile(Constants.AppLogPath);
+// DLogger.Instance.AddTargetTextBox(tbLog);            
+// DLogger.Log("Initialed application logger ...");
+
 
 namespace DLogNet
 {
     public class DLogger
     {
         private List<DLogMessage> logEntries;
-
         private List<TextBox> targetTextBoxes = new List<TextBox>();
         private List<FileInfo> targetFiles = new List<FileInfo>();
         private List<NotifyIcon> targetNotifyIcons = new List<NotifyIcon>();
         private List<ProgressBar> targetProgressBars = new List<ProgressBar>();
         private List<ToolStripProgressBar> targetToolStripProgressBars = new List<ToolStripProgressBar>();
+
+        private static DLogger _instance;
+        public static DLogger Instance
+        {
+            get { return _instance ?? (_instance = new DLogger()); }
+            set { _instance = value; }
+        }
+
+        public static void Log(string message)
+        {
+            Instance.Write(message);
+        }
+
+        private static NotifyIcon _notifyIcon;
+        public static NotifyIcon Notifier
+        {
+            get { return _notifyIcon ?? (_notifyIcon = new NotifyIcon()); }
+            set { _notifyIcon = value; }
+        }
 
         public List<NotifyIcon> TargetNotifyIcons
         {
@@ -39,7 +64,7 @@ namespace DLogNet
         public List<ToolStripProgressBar> TargetToolStripProgressBars
         {
             get { return targetToolStripProgressBars; }
-        } 
+        }
 
         /// <summary>
         /// Instanciates Log class
@@ -80,16 +105,23 @@ namespace DLogNet
             if (targetFiles == null)
                 targetFiles = new List<FileInfo>();
             FileInfo newTargetFile = new FileInfo(path);
+
             if (newTargetFile.Directory != null && !newTargetFile.Directory.Exists)
                 Directory.CreateDirectory(newTargetFile.Directory.FullName);
+
+            // commented out ... not a good idea to do this in middle of a process
+            // automatically delete and recreate log file when it gets too big
+            //if (newTargetFile.Exists && newTargetFile.Length / 1024 > 1024)
+            //    File.Delete(path);
+
             if (!newTargetFile.Exists)
             {
                 StreamWriter sw = File.CreateText(newTargetFile.FullName);
                 sw.Flush();
                 sw.Close();
             }
-            bool exists = false;
 
+            bool exists = false;
             foreach (FileInfo targetFile in targetFiles)
             {
                 if (targetFile.FullName == path)
@@ -197,87 +229,97 @@ namespace DLogNet
                 logEntries = new List<DLogMessage>();
             logEntries.Add(msg);
 
-            foreach (var entry in logEntries)
+            try
             {
-                if (targetTextBoxes != null)
+                foreach (var entry in logEntries)
                 {
-                    foreach (Control control in targetTextBoxes)
+                    if (targetTextBoxes != null)
                     {
-                        Control myControl = control;
-                        DLogMessage myLogEntry = entry;
-                        control.InvokeIfRequired(delegate
+                        foreach (Control control in targetTextBoxes)
                         {
-                            myControl.Text += myLogEntry.GetFormatted() + Environment.NewLine;
-                            if (myControl is TextBox)
+                            Control myControl = control;
+                            DLogMessage myLogEntry = entry;
+                            control.InvokeIfRequired(delegate
+                                {
+                                    myControl.Text += myLogEntry.GetFormatted() + Environment.NewLine;
+                                    if (myControl is TextBox)
+                                    {
+                                        ((TextBox)myControl).SelectionStart = ((TextBox)myControl).TextLength;
+                                        ((TextBox)myControl).ScrollToCaret();
+                                    }
+                                });
+                        }
+                    }
+                    if (targetFiles != null)
+                    {
+                        foreach (FileInfo targetFile in targetFiles)
+                        {
+                            // workaround FileInfo sometimes returns false when file exists
+                            var targetPath = Path.Combine(targetFile.DirectoryName, targetFile.Name);
+                            if (!File.Exists(targetPath)) // targetFile.Exists))
                             {
-                                ((TextBox)myControl).SelectionStart = ((TextBox)myControl).TextLength;
-                                ((TextBox)myControl).ScrollToCaret();
+                                using (StreamWriter sw = targetFile.CreateText())
+                                {
+                                    sw.WriteLine("Log started");
+                                    sw.Flush();
+                                    sw.Close();
+                                }
                             }
-                        });
-                    }
-                }
-                if (targetFiles != null)
-                {
-                    foreach (FileInfo targetFile in targetFiles)
-                    {
-                        if (!targetFile.Exists)
-                        {
-                            using (StreamWriter sw = targetFile.CreateText())
+
+                            using (StreamWriter sw = targetFile.AppendText())
                             {
-                                sw.WriteLine("Log started");
+                                sw.WriteLine(entry.GetFormatted());
+                                sw.Flush();
+                                sw.Close();
+                            }
+                        }
+                    }
+                    if (targetNotifyIcons != null)
+                    {
+                        foreach (NotifyIcon notifyIcon in targetNotifyIcons)
+                        {
+                            ToolTipIcon icon;
+                            notifyIcon.BalloonTipText = entry.GetFormatted();
+                            notifyIcon.Visible = true;
+                            if (entry.Message == null) continue;
+                            if (entry.Message.ToLower().Contains("error"))
+                                icon = ToolTipIcon.Error;
+                            else
+                                icon = ToolTipIcon.Info;
+
+                            notifyIcon.ShowBalloonTip(1, "Information", entry.Message, icon);
+                        }
+                    }
+
+                    if (progress > -1)
+                    {
+                        if (targetProgressBars != null)
+                        {
+                            foreach (ProgressBar progressBar in targetProgressBars)
+                            {
+                                ProgressBar bar = progressBar;
+                                bar.InvokeIfRequired(delegate
+                                    { bar.Value = progress; });
                             }
                         }
 
-                        using (StreamWriter sw = targetFile.AppendText())
+                        if (targetToolStripProgressBars != null)
                         {
-                            sw.WriteLine(entry.GetFormatted());
-                        }
-                    }
-                }
-                if (targetNotifyIcons != null)
-                {
-                    foreach (NotifyIcon notifyIcon in targetNotifyIcons)
-                    {
-                        ToolTipIcon icon;
-                        notifyIcon.BalloonTipText = entry.GetFormatted();
-                        notifyIcon.Visible = true;
-                        if (entry.Message.ToLower().Contains("error"))
-                            icon = ToolTipIcon.Error;
-                        else
-                            icon = ToolTipIcon.Info;
-
-                        notifyIcon.ShowBalloonTip(1, "Information", entry.Message, icon);
-                    }
-                }
-
-                if (progress > -1)
-                {
-                    if (targetProgressBars != null)
-                    {
-                        foreach (ProgressBar progressBar in targetProgressBars)
-                        {
-                            ProgressBar bar = progressBar;
-                            bar.InvokeIfRequired(delegate
+                            foreach (ToolStripProgressBar toolStripProgressBar in targetToolStripProgressBars)
                             {
-                                bar.Value = progress;
-                            });
+                                toolStripProgressBar.Value = progress;
+                            }
                         }
                     }
-
-                    if (targetToolStripProgressBars != null)
-                    {
-                        foreach (ToolStripProgressBar toolStripProgressBar in targetToolStripProgressBars)
-                        {
-                            toolStripProgressBar.Value = progress;
-                        }
-                    }
-
                 }
-
             }
+            catch (Exception ex)
+            {
+                // some intermitent error shows up here
+                Debug.Write("DLogger: " + ex.Message);
+            }
+
             logEntries = new List<DLogMessage>();
         }
-
-
     }
 }

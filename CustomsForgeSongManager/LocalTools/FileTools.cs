@@ -27,12 +27,12 @@ namespace CustomsForgeSongManager.LocalTools
                 return;
             }
 
-            var fileName = String.Format("{0}{1}.zip", DateTime.Now.ToString("yyyyMMdd_hhmm"), srcExt).GetValidFileName();
+            var fileName = String.Format("{0}{1}.zip", DateTime.Now.ToString("yyyyMMddTHHmmss"), srcExt).GetValidFileName();
             using (var sfd = new SaveFileDialog())
             {
                 sfd.Filter = ".zip files (*.zip)|*.zip";
                 sfd.FilterIndex = 0;
-                sfd.InitialDirectory = Constants.ArchivesFolder;
+                sfd.InitialDirectory = Constants.RemasteredArcFolder;
                 sfd.FileName = fileName;
 
                 if (sfd.ShowDialog() != DialogResult.OK)
@@ -44,8 +44,8 @@ namespace CustomsForgeSongManager.LocalTools
             // save zip file to 'remastered' folder so that it is not accidently deleted
             try
             {
-                if (ZipUtilities.ZipDirectory(srcFolder, Path.Combine(Constants.ArchivesFolder, fileName)))
-                    Globals.Log("Archive saved to: " + Path.Combine(Constants.ArchivesFolder, fileName));
+                if (ZipUtilities.ZipDirectory(srcFolder, Path.Combine(Constants.RemasteredArcFolder, fileName)))
+                    Globals.Log("Archive saved to: " + Path.Combine(Constants.RemasteredArcFolder, fileName));
                 else
                     throw new IOException();
 
@@ -92,8 +92,13 @@ namespace CustomsForgeSongManager.LocalTools
 
         public static void ArtistFolders(string dlcDir, List<SongData> selectedSongs, bool isUndo)
         {
+
             if (isUndo)
-                Globals.Log("Restoring CDLC files to 'dlc' folder ...");
+            {
+                Globals.Log("Restoring CDLC files to 'dlc/cdlc' folder ...");
+                if (!Directory.Exists(Constants.Rs2CdlcFolder))
+                    Directory.CreateDirectory(Constants.Rs2CdlcFolder);
+            }
             else
                 Globals.Log("Organizing CDLC into ArtistName Folders ...");
 
@@ -110,7 +115,12 @@ namespace CustomsForgeSongManager.LocalTools
 
                 string destFilePath;
                 if (isUndo)
-                    destFilePath = Path.Combine(dlcDir, Path.GetFileName(srcFilePath));
+                {
+                    if (songInfo.CharterName == "Ubisoft")
+                        destFilePath = Path.Combine(Constants.Rs2DlcFolder, Path.GetFileName(srcFilePath));
+                    else
+                        destFilePath = Path.Combine(Constants.Rs2CdlcFolder, Path.GetFileName(srcFilePath));
+                }
                 else
                 {
                     var version = songInfo.Version;
@@ -167,7 +177,7 @@ namespace CustomsForgeSongManager.LocalTools
                 new DirectoryInfo(dlcDir).DeleteEmptyDirs();
 
                 if (isUndo)
-                    Globals.Log("Sucessully restored CDLC files to 'dlc' folder and removed empty ArtistName folders ...");
+                    Globals.Log("Sucessully restored CDLC files to 'dlc/cdlc' folder and removed empty ArtistName folders ...");
                 else
                     Globals.Log("Sucessully organized and renamed CDLC into ArtistName Folders ...");
             }
@@ -530,9 +540,17 @@ namespace CustomsForgeSongManager.LocalTools
 
         public static void VerifyCfsmFolders()
         {
+            // use 'My Documents/CFSM' to avoid future OS Permission and AV issues
+            // validate/create CFSM subfolders
+            GenExtensions.MakeDir(Constants.BackupsFolder);
+            GenExtensions.MakeDir(Constants.DuplicatesFolder);
+            GenExtensions.MakeDir(Constants.RemasteredArcFolder);
+            GenExtensions.MakeDir(Constants.RemasteredOrgFolder);
+            GenExtensions.MakeDir(Constants.RemasteredMaxFolder);
+            GenExtensions.MakeDir(Constants.RemasteredCorFolder);
+
             // make sure we have write access to Rocksmith2014 folders
             var rsDir = AppSettings.Instance.RSInstalledDir;
-
             if (Directory.Exists(rsDir))
             {
                 // make sure we have write access to the RSInstallDir
@@ -544,46 +562,18 @@ namespace CustomsForgeSongManager.LocalTools
                     ZipUtilities.RemoveReadOnlyAttribute(Constants.Rs2DlcFolder);
             }
 
-            if (!Directory.Exists(Constants.RemasteredFolder))
-                Directory.CreateDirectory(Constants.RemasteredFolder);
-
-            // Move old shit to new shit to avoid future OS Permission issues
+            // if old CFSM remenants exist then move them to 'My Documents/CFSM' 
             if (Directory.Exists(Constants.Rs2CfsmFolder))
             {
-                if (Directory.Exists(Path.Combine(Constants.Rs2CfsmFolder, "archives")))
-                    GenExtensions.CopyDir(Path.Combine(Constants.Rs2CfsmFolder, "archives"), Constants.ArchivesFolder);
-                if (Directory.Exists(Path.Combine(Constants.Rs2CfsmFolder, "backups")))
-                    GenExtensions.CopyDir(Path.Combine(Constants.Rs2CfsmFolder, "backups"), Constants.BackupFolder);
-                if (Directory.Exists(Path.Combine(Constants.Rs2CfsmFolder, "duplicates")))
-                    GenExtensions.CopyDir(Path.Combine(Constants.Rs2CfsmFolder, "duplicates"), Constants.DuplicatesFolder);
-                if (Directory.Exists(Path.Combine(Constants.Rs2CfsmFolder, "remastered")))
-                    GenExtensions.CopyDir(Path.Combine(Constants.Rs2CfsmFolder, "remastered"), Constants.RemasteredFolder);
-
+                GenExtensions.CopyDir(Path.Combine(Constants.Rs2CfsmFolder, "archives"), Constants.RemasteredArcFolder);
+                GenExtensions.CopyDir(Path.Combine(Constants.Rs2CfsmFolder, "backups"), Constants.BackupsFolder);
+                GenExtensions.CopyDir(Path.Combine(Constants.Rs2CfsmFolder, "duplicates"), Constants.DuplicatesFolder);
+                GenExtensions.CopyDir(Path.Combine(Constants.Rs2CfsmFolder, "remastered"), Constants.RemasteredFolder);
                 GenExtensions.DeleteDirectory(Constants.Rs2CfsmFolder, true);
             }
-
-            if (!Directory.Exists(Constants.BackupFolder))
-                Directory.CreateDirectory(Constants.BackupFolder);
-
-            if (!Directory.Exists(Constants.ArchivesFolder))
-                Directory.CreateDirectory(Constants.ArchivesFolder);
-
-            if (!Directory.Exists(Constants.RemasteredFolder))
-                Directory.CreateDirectory(Constants.RemasteredFolder);
-
-            if (!Directory.Exists(Constants.RemasteredOrgFolder))
-                Directory.CreateDirectory(Constants.RemasteredOrgFolder);
-
-            if (!Directory.Exists(Constants.RemasteredMaxFolder))
-                Directory.CreateDirectory(Constants.RemasteredMaxFolder);
-
-            if (!Directory.Exists(Constants.RemasteredCorFolder))
-                Directory.CreateDirectory(Constants.RemasteredCorFolder);
-
-            if (!Directory.Exists(Constants.DuplicatesFolder))
-                Directory.CreateDirectory(Constants.DuplicatesFolder);
         }
 
         #endregion
     }
 }
+

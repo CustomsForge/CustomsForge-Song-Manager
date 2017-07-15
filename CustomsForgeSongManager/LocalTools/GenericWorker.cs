@@ -111,7 +111,7 @@ namespace CustomsForgeSongManager.LocalTools
         private void WorkerPitchShiftSongs(object sender, DoWorkEventArgs e)
         {
             if (!bWorker.CancellationPending)
-                PitchShiftTools.PitchShiftSongs(WorkParm1, WorkParm2);
+                PitchShiftTools.PitchShiftSongs(WorkParm1, WorkParm2, WorkParm3);
         }
 
         private void WorkerArchiveSongs(object sender, DoWorkEventArgs e)
