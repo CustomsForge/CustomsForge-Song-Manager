@@ -696,7 +696,7 @@ if $(ConfigurationName) == InnoBeta (
    "Confuser.CLI.exe" "..\ConfuserExForInno.crproj"
 
 rem must be connected to internet for signtool to work properly
-CD "$(ProjectDir)bin\ConfuserEx\"
+rem CD "$(ProjectDir)bin\ConfuserEx\"
 rem "%25programfiles%25\Microsoft SDKs\Windows\v7.0A\bin\signtool.exe"  sign /f CFSM_Certificate.pfx /p cozylov /t http://timestamp.verisign.com/scripts/timstamp.dll CustomsForgeSongManager.exe
 
    CD "$(SolutionDir)ThirdParty\Inno\"
@@ -710,7 +710,7 @@ rem "%25programfiles%25\Microsoft SDKs\Windows\v7.0A\bin\signtool.exe"  sign /f 
 
    "%25programfiles%25\WinRAR\WinRar.exe" a -r "CFSMSetup.rar" "CFSMSetup.exe"
 
-   DEL /Q CFSMSetup.exe
+  rem DEL /Q CFSMSetup.exe
 
 REM "CFSMPostBuilder.exe" "UPLOAD" "198.58.96.81/beta/" "appdev" "kvPSF7HL"
 )

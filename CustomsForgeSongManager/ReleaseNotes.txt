@@ -14,6 +14,9 @@ until you can confirm it is safe directly through your AV provider.
 
 CFSM Release Notes
 
+1.3.2.5
+- incremented SongDataListCurrentVersion so that app will regenerate a new songs.Info.xml file 
+
 1.3.2.4
 - added marquee progress bar to pitchshifter for better action
 - profiles backup and logger date time stamp in ISO8601 format for compatibility
