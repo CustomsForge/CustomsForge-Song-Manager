@@ -44,6 +44,7 @@ namespace CustomsForgeSongManager.DataObjects
         public static string AppTitle { get; set; }
         public static string ApplicationVersion { get { return Assembly.GetExecutingAssembly().GetName().Version.ToString(); } }
         public static string WorkFolder { get { return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "CFSM"); } }
+        public static string TempWorkFolder { get { return Path.Combine(Path.GetTempPath(), "CFSM"); } }
         public static string ThemeFolder { get { return Path.Combine(WorkFolder, "Themes"); } }
         public static string LogFilePath { get { return Path.Combine(WorkFolder, "debug.log"); } }
         public static string SettingsPath { get { return Path.Combine(WorkFolder, "cfsm.Settings.xml"); } }
@@ -93,7 +94,7 @@ namespace CustomsForgeSongManager.DataObjects
         public static string CachePsarcPath { get { return Path.Combine(AppSettings.Instance.RSInstalledDir, "cache.psarc"); } }
         public static string SongsPsarcPath { get { return Path.Combine(AppSettings.Instance.RSInstalledDir, "songs.psarc"); } }
 
-        // issues writing to rocksmith2014/cfsm folder because of modern OS Permissions
+        // not a good practice for app to use rocksmith2014 folder because of issues with OS Permissions and some AV
         [Obsolete("Depricated, please use 'My Documents/CFSM' folder", false)]
         public static string Rs2CfsmFolder { get { return Path.Combine(AppSettings.Instance.RSInstalledDir, "cfsm"); } }
 

@@ -139,8 +139,8 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiRescan = new CustomControls.ToolStripEnhancedMenuItem();
             this.tsmiRescanQuick = new CustomControls.ToolStripEnhancedMenuItem();
             this.tsmiRescanFull = new CustomControls.ToolStripEnhancedMenuItem();
-            this.fullWithExtraDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.quickWithExtraDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.fullWithExtraDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rescanToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiRepairs = new CustomControls.ToolStripEnhancedMenuItem();
             this.tsmiSkipRemastered = new CustomControls.ToolStripEnhancedMenuItem();
@@ -1252,9 +1252,9 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiRescan.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiRescanQuick,
             this.tsmiRescanFull,
-            this.fullWithExtraDataToolStripMenuItem,
+            this.rescanToolStripMenuItem,
             this.quickWithExtraDataToolStripMenuItem,
-            this.rescanToolStripMenuItem});
+            this.fullWithExtraDataToolStripMenuItem});
             this.tsmiRescan.Image = ((System.Drawing.Image)(resources.GetObject("tsmiRescan.Image")));
             this.tsmiRescan.Name = "tsmiRescan";
             this.tsmiRescan.RadioButtonGroupName = null;
@@ -1282,22 +1282,25 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiRescanFull.Text = "Full";
             this.tsmiRescanFull.Click += new System.EventHandler(this.tsmiRescanFull_Click);
             // 
-            // fullWithExtraDataToolStripMenuItem
-            // 
-            this.fullWithExtraDataToolStripMenuItem.Name = "fullWithExtraDataToolStripMenuItem";
-            this.fullWithExtraDataToolStripMenuItem.Size = new System.Drawing.Size(247, 22);
-            this.fullWithExtraDataToolStripMenuItem.Text = "Full with extra data";
-            this.fullWithExtraDataToolStripMenuItem.Click += new System.EventHandler(this.fullWithExtraDataToolStripMenuItem_Click);
-            // 
             // quickWithExtraDataToolStripMenuItem
             // 
+            this.quickWithExtraDataToolStripMenuItem.Image = global::CustomsForgeSongManager.Properties.Resources.refresh_plus;
             this.quickWithExtraDataToolStripMenuItem.Name = "quickWithExtraDataToolStripMenuItem";
             this.quickWithExtraDataToolStripMenuItem.Size = new System.Drawing.Size(247, 22);
             this.quickWithExtraDataToolStripMenuItem.Text = "Quick with extra data";
             this.quickWithExtraDataToolStripMenuItem.Click += new System.EventHandler(this.quickWithExtraDataToolStripMenuItem_Click);
             // 
+            // fullWithExtraDataToolStripMenuItem
+            // 
+            this.fullWithExtraDataToolStripMenuItem.Image = global::CustomsForgeSongManager.Properties.Resources.rescan_plus;
+            this.fullWithExtraDataToolStripMenuItem.Name = "fullWithExtraDataToolStripMenuItem";
+            this.fullWithExtraDataToolStripMenuItem.Size = new System.Drawing.Size(247, 22);
+            this.fullWithExtraDataToolStripMenuItem.Text = "Full with extra data";
+            this.fullWithExtraDataToolStripMenuItem.Click += new System.EventHandler(this.fullWithExtraDataToolStripMenuItem_Click);
+            // 
             // rescanToolStripMenuItem
             // 
+            this.rescanToolStripMenuItem.Image = global::CustomsForgeSongManager.Properties.Resources.extra_data;
             this.rescanToolStripMenuItem.Name = "rescanToolStripMenuItem";
             this.rescanToolStripMenuItem.Size = new System.Drawing.Size(247, 22);
             this.rescanToolStripMenuItem.Text = "Get extra data for selected songs";

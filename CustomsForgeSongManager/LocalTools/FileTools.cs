@@ -542,6 +542,7 @@ namespace CustomsForgeSongManager.LocalTools
         {
             // use 'My Documents/CFSM' to avoid future OS Permission and AV issues
             // validate/create CFSM subfolders
+            GenExtensions.MakeDir(Constants.TempWorkFolder);
             GenExtensions.MakeDir(Constants.BackupsFolder);
             GenExtensions.MakeDir(Constants.DuplicatesFolder);
             GenExtensions.MakeDir(Constants.RemasteredArcFolder);
@@ -562,7 +563,7 @@ namespace CustomsForgeSongManager.LocalTools
                     ZipUtilities.RemoveReadOnlyAttribute(Constants.Rs2DlcFolder);
             }
 
-            // TODO: this check can be depricated after a year or 10 releases
+            // TODO: eventually this conditional check can be depricated
             // if old CFSM remenants exist then move them to 'My Documents/CFSM' 
             if (Directory.Exists(Constants.Rs2CfsmFolder))
             {

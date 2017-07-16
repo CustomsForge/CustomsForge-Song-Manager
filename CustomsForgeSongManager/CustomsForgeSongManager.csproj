@@ -546,6 +546,9 @@
     <None Include="Resources\maintenance.png" />
     <None Include="Resources\notes.png" />
     <EmbeddedResource Include="Resources\HelpRepairs.rtf" />
+    <None Include="Resources\refresh_plus.png" />
+    <None Include="Resources\rescan_plus.png" />
+    <None Include="Resources\extra_data.png" />
     <Content Include="Resources\TaggerHelp.html" />
     <None Include="Resources\trashcan.png" />
     <None Include="Resources\Unleashed2k.png" />

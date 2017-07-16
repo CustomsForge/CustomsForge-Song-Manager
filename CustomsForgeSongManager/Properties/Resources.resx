@@ -580,4 +580,13 @@ Click the update button to continue.
   <data name="restorebackup" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\restorebackup.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="extra_data" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\extra_data.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="refresh_plus" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\refresh_plus.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="rescan_plus" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\rescan_plus.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

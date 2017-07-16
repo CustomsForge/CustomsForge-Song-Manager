@@ -233,14 +233,14 @@ namespace CustomsForgeSongManager.LocalTools
                                         arrXmlEntry.Data.CopyTo(xmlMS);
                                         arrXmlEntry.Data.Position = 0;
                                         xmlMS.Position = 0;
-
-                                        using (var fileStream = File.Create(Path.Combine(Constants.WorkFolder, "sng.xml")))
+                            
+                                        using (var fileStream = File.Create(Path.Combine(Constants.TempWorkFolder, "tmpSng.xml")))
                                         {
                                             xmlMS.Seek(0, SeekOrigin.Begin);
                                             xmlMS.CopyTo(fileStream);
                                         }
 
-                                        song2014Data = Song2014.LoadFromFile(Path.Combine(Constants.WorkFolder, "sng.xml"));
+                                        song2014Data = Song2014.LoadFromFile(Path.Combine(Constants.TempWorkFolder, "tmpSng.xml"));
                                     }
                                 }
 
