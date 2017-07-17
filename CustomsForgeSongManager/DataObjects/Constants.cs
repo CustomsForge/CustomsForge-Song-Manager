@@ -99,10 +99,9 @@ namespace CustomsForgeSongManager.DataObjects
         public static string Rs2CfsmFolder { get { return Path.Combine(AppSettings.Instance.RSInstalledDir, "cfsm"); } }
 
         public static string SongPacksFolder { get { return Path.Combine(WorkFolder, "SongPacks"); } }
-        public static string SongPacksOrgFolder { get { return Path.Combine(SongPacksFolder, "original"); } }
-        public static string Rs1DiscPsarcBackupPath { get { return Path.Combine(SongPacksOrgFolder, "rs1compatibilitydisc_p.org.psarc"); } }
-        public static string Rs1DlcPsarcBackupPath { get { return Path.Combine(SongPacksOrgFolder, "rs1compatibilitydlc_p.org.psarc"); } }
-        public static string CachePsarcBackupPath { get { return Path.Combine(SongPacksOrgFolder, "cache.org.psarc"); } }
+        public static string Rs1DiscPsarcBackupPath { get { return Path.Combine(SongPacksFolder, "rs1compatibilitydisc_p.org.psarc"); } }
+        public static string Rs1DlcPsarcBackupPath { get { return Path.Combine(SongPacksFolder, "rs1compatibilitydlc_p.org.psarc"); } }
+        public static string CachePsarcBackupPath { get { return Path.Combine(SongPacksFolder, "cache.org.psarc"); } }
         public static string ExtractedSongsHsanPath { get { return Path.Combine(SongPacksFolder, "songs.hsan"); } }
         public static string ExtractedRs1DiscHsanPath { get { return Path.Combine(SongPacksFolder, "songs_rs1disc.hsan"); } }
         public static string ExtractedRs1DlcHsanPath { get { return Path.Combine(SongPacksFolder, "songs_rs1dlc.hsan"); } }

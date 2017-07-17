@@ -140,7 +140,7 @@ namespace CustomsForgeSongManager.UControls
 
         private bool ConditionalBackup(string sourcePath, string backupPath, bool forceBackup = false, bool writeProtect = true)
         {
-            if (!File.Exists(sourcePath)) 
+            if (!File.Exists(sourcePath))
                 return false;
 
             if (!Directory.Exists(Path.GetDirectoryName(backupPath)))
@@ -330,8 +330,8 @@ namespace CustomsForgeSongManager.UControls
             customInternalHsanPath = PsarcExtensions.ExtractArchiveFile(customPackPsarcPath, "hsan", Constants.SongPacksFolder);
             var extractedCustomHsanFile = Path.GetFileName(customInternalHsanPath);
             extractedCustomHsanPath = Path.Combine(Constants.SongPacksFolder, extractedCustomHsanFile);
-            ConditionalBackup(customPackPsarcPath, Path.Combine(Constants.SongPacksOrgFolder, Path.ChangeExtension(Path.GetFileName(customPackPsarcPath), ".org.psarc")));
-            ConditionalBackup(extractedCustomHsanPath, Path.Combine(Constants.SongPacksOrgFolder, Path.ChangeExtension(extractedCustomHsanFile, ".org.hsan")));
+            ConditionalBackup(customPackPsarcPath, Path.Combine(Constants.SongPacksFolder, Path.ChangeExtension(Path.GetFileName(customPackPsarcPath), ".org.psarc")));
+            ConditionalBackup(extractedCustomHsanPath, Path.Combine(Constants.SongPacksFolder, Path.ChangeExtension(extractedCustomHsanFile, ".org.hsan")));
             PopulateSongList(extractedCustomHsanPath, CustomSongCollection, ref CustomEntireCollection, CustomDisabledSongCollection, ref CustomDisabledEntireCollection);
 
             if (CustomSongCollection.Count > 0)
@@ -704,7 +704,7 @@ namespace CustomsForgeSongManager.UControls
             Globals.Log("Smart Song Pack Loader Working ... ");
             ClearCollections();
             // SAFETY FIRST - make sure a backup of the original cache.psarc exists
-            if (!File.Exists(Path.Combine(Constants.SongPacksOrgFolder, Path.ChangeExtension(Path.GetFileName(Constants.CachePsarcPath), ".org.psarc"))) || !File.Exists(Constants.ExtractedSongsHsanPath))
+            if (!File.Exists(Path.Combine(Constants.SongPacksFolder, Path.ChangeExtension(Path.GetFileName(Constants.CachePsarcPath), ".org.psarc"))) || !File.Exists(Constants.ExtractedSongsHsanPath))
             {
                 if (!UnpackPsarcFiles())
                     return false;
@@ -743,16 +743,16 @@ namespace CustomsForgeSongManager.UControls
                 Packer.Unpack(Constants.CachePsarcPath, Constants.SongPacksFolder);
                 Globals.TsProgressBar_Main.Value = 75;
                 ExtractSongsHsan();
-                ConditionalBackup(Constants.CachePsarcPath, Path.Combine(Constants.SongPacksOrgFolder, Path.ChangeExtension(Path.GetFileName(Constants.CachePsarcPath), ".org.psarc")));
-                ConditionalBackup(Constants.ExtractedSongsHsanPath, Path.Combine(Constants.SongPacksOrgFolder, Path.ChangeExtension(Path.GetFileName(Constants.ExtractedSongsHsanPath), ".org.hsan")));
+                ConditionalBackup(Constants.CachePsarcPath, Path.Combine(Constants.SongPacksFolder, Path.ChangeExtension(Path.GetFileName(Constants.CachePsarcPath), ".org.psarc")));
+                ConditionalBackup(Constants.ExtractedSongsHsanPath, Path.Combine(Constants.SongPacksFolder, Path.ChangeExtension(Path.GetFileName(Constants.ExtractedSongsHsanPath), ".org.hsan")));
 
                 if (File.Exists(Constants.Rs1DiscPsarcPath))
                 {
                     Globals.TsProgressBar_Main.Value = 50;
                     PsarcExtensions.ExtractArchiveFile(Constants.Rs1DiscPsarcPath, Constants.SongsRs1DiscInternalPath, Constants.SongPacksFolder);
                     Globals.TsProgressBar_Main.Value = 75;
-                    ConditionalBackup(Constants.Rs1DiscPsarcPath, Path.Combine(Constants.SongPacksOrgFolder, Path.ChangeExtension(Path.GetFileName(Constants.Rs1DiscPsarcPath), ".org.psarc")));
-                    ConditionalBackup(Constants.ExtractedRs1DiscHsanPath, Path.Combine(Constants.SongPacksOrgFolder, Path.ChangeExtension(Path.GetFileName(Constants.ExtractedRs1DiscHsanPath), ".org.hsan")));
+                    ConditionalBackup(Constants.Rs1DiscPsarcPath, Path.Combine(Constants.SongPacksFolder, Path.ChangeExtension(Path.GetFileName(Constants.Rs1DiscPsarcPath), ".org.psarc")));
+                    ConditionalBackup(Constants.ExtractedRs1DiscHsanPath, Path.Combine(Constants.SongPacksFolder, Path.ChangeExtension(Path.GetFileName(Constants.ExtractedRs1DiscHsanPath), ".org.hsan")));
                 }
 
                 if (File.Exists(Constants.Rs1DlcPsarcPath))
@@ -760,8 +760,8 @@ namespace CustomsForgeSongManager.UControls
                     Globals.TsProgressBar_Main.Value = 50;
                     PsarcExtensions.ExtractArchiveFile(Constants.Rs1DlcPsarcPath, Constants.SongsRs1DlcInternalPath, Constants.SongPacksFolder);
                     Globals.TsProgressBar_Main.Value = 75;
-                    ConditionalBackup(Constants.Rs1DlcPsarcPath, Path.Combine(Constants.SongPacksOrgFolder, Path.ChangeExtension(Path.GetFileName(Constants.Rs1DlcPsarcPath), ".org.psarc")));
-                    ConditionalBackup(Constants.ExtractedRs1DlcHsanPath, Path.Combine(Constants.SongPacksOrgFolder, Path.ChangeExtension(Path.GetFileName(Constants.ExtractedRs1DlcHsanPath), ".org.hsan")));
+                    ConditionalBackup(Constants.Rs1DlcPsarcPath, Path.Combine(Constants.SongPacksFolder, Path.ChangeExtension(Path.GetFileName(Constants.Rs1DlcPsarcPath), ".org.psarc")));
+                    ConditionalBackup(Constants.ExtractedRs1DlcHsanPath, Path.Combine(Constants.SongPacksFolder, Path.ChangeExtension(Path.GetFileName(Constants.ExtractedRs1DlcHsanPath), ".org.hsan")));
                 }
 
                 return true;
@@ -1076,8 +1076,8 @@ namespace CustomsForgeSongManager.UControls
             }
         }
 
- private void dgvSongs_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
-       {
+        private void dgvSongs_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
+        {
             // has precedent over a ColumnHeader_MouseClick
             // MouseUp detection is more reliable than MouseDown
             var grid = (DataGridView)sender;
@@ -1108,7 +1108,7 @@ namespace CustomsForgeSongManager.UControls
             Thread.Sleep(50); // debounce multiple clicks
             dgvSongPacks.Refresh();
         }
-        
+
         private void lnkClearSearch_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             cueSearch.Text = String.Empty;

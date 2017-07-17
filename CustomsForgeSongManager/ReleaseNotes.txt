@@ -14,6 +14,9 @@ until you can confirm it is safe directly through your AV provider.
 
 CFSM Release Notes
 
+1.3.3.0
+- cleanup old SongPacks
+
 1.3.2.9 
 - preserve some original files
 

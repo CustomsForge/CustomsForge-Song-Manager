@@ -456,7 +456,7 @@ namespace CustomsForgeSongManager.UControls
                     else
                     {
                         Globals.Log("Incorrect song collection version found, rescanning songs.");
-                        // may contain some original files so don't use the bulldozer
+                        // may now contain some original files so don't use the bulldozer
                         GenExtensions.DeleteFile(songsInfoPath);
                         GenExtensions.DeleteFile(Constants.SettingsPath);
                         FileTools.VerifyCfsmFolders();
