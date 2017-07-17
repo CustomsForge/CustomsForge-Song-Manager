@@ -233,26 +233,27 @@ namespace CustomsForgeSongManager.DataObjects
         {
             try
             {
-            var x = stream.DeserializeXml<AppSettings>();
-            var props = GetType().GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+                var x = stream.DeserializeXml<AppSettings>();
+                var props = GetType().GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
 
-            var emptyObjParams = new object[] { };
+                var emptyObjParams = new object[] { };
 
-            foreach (var p in props)
-                if (p.CanRead && p.CanWrite)
-                {
-                    var ignore = p.GetCustomAttributes(typeof(XmlIgnoreAttribute), true).Length > 0;
-                    if (!ignore)
-                        p.SetValue(this, p.GetValue(x, emptyObjParams), emptyObjParams);
-                }
+                // TODO: FIXME sporadic error here
+                foreach (var p in props)
+                    if (p.CanRead && p.CanWrite)
+                    {
+                        var ignore = p.GetCustomAttributes(typeof(XmlIgnoreAttribute), true).Length > 0;
+                        if (!ignore)
+                            p.SetValue(this, p.GetValue(x, emptyObjParams), emptyObjParams);
+                    }
 
-            Globals.Log("Loaded settings file ...");
-
+                Globals.Log("Loaded settings file ...");
             }
             catch (Exception ex)
             {
                 Globals.Log("<ERROR> Could not loaded settings file ...");
                 Globals.Log(ex.Message);
+                MessageBox.Show("Please send the debug.log file to the developers.");
             }
         }
 

@@ -68,7 +68,7 @@ namespace CustomsForgeSongManager.DataObjects
         //ver 11 : remove CFSM remnants from rs root
         //ver 1 - 10: time to recycle some ver numbers
 
-        public const string SongDataListCurrentVersion = "4";
+        public const string SongDataListCurrentVersion = "5";
 
         public string DLCKey { get; set; }
 

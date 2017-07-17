@@ -1729,6 +1729,9 @@ namespace CustomsForgeSongManager.UControls
                 selection = selection.GroupBy(x => x.FilePath).Select(s => s.First()).ToList();
             }
 
+            // never try to rename dlc compatibility files ... doh!
+            selection = selection.Where(fi => !fi.FileName.ToLower().Contains(Constants.RS1COMP) && !fi.FileName.ToLower().Contains(Constants.SONGPACK) && !fi.FileName.ToLower().Contains(Constants.ABVSONGPACK)).ToList();
+
             if (!selection.Any()) return;
 
             // start new generic worker
