@@ -231,6 +231,8 @@ namespace CustomsForgeSongManager.DataObjects
 
         public void LoadFromStream(Stream stream)
         {
+            try
+            {
             var x = stream.DeserializeXml<AppSettings>();
             var props = GetType().GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
 
@@ -243,7 +245,15 @@ namespace CustomsForgeSongManager.DataObjects
                     if (!ignore)
                         p.SetValue(this, p.GetValue(x, emptyObjParams), emptyObjParams);
                 }
+
             Globals.Log("Loaded settings file ...");
+
+            }
+            catch (Exception ex)
+            {
+                Globals.Log("<ERROR> Could not loaded settings file ...");
+                Globals.Log(ex.Message);
+            }
         }
 
         public void Reset()

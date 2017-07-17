@@ -570,11 +570,15 @@ namespace CustomsForgeSongManager.LocalTools
                 GenExtensions.CopyDir(Path.Combine(Constants.Rs2CfsmFolder, "backups"), Constants.BackupsFolder);
                 GenExtensions.CopyDir(Path.Combine(Constants.Rs2CfsmFolder, "duplicates"), Constants.DuplicatesFolder);
                 GenExtensions.CopyDir(Path.Combine(Constants.Rs2CfsmFolder, "remastered"), Constants.RemasteredFolder);
+                GenExtensions.CopyDir(Path.Combine(AppSettings.Instance.RSInstalledDir, "duplicates"), Constants.DuplicatesFolder);
+
                 GenExtensions.CopyDir(Path.Combine(Constants.Rs2CfsmFolder, "songpacks"), Constants.SongPacksFolder, false);
-                GenExtensions.CopyDir(Path.Combine(Constants.Rs2CfsmFolder, "songpacks", "original"), Constants.SongPacksFolder, true);
-                GenExtensions.CopyDir(Path.Combine(AppSettings.Instance.RSInstalledDir, "cdlc_quarantined"), Constants.QuarantineFolder);
-                GenExtensions.DeleteDirectory(Constants.Rs2CfsmFolder, true);
-                GenExtensions.DeleteDirectory(Path.Combine(AppSettings.Instance.RSInstalledDir, "cdlc_quarantined"), true);
+                GenExtensions.CopyDir(Path.Combine(Constants.Rs2CfsmFolder, "songpacks", "original"), Constants.SongPacksFolder);
+
+                GenExtensions.DeleteDirectory(Constants.Rs2CfsmFolder);
+                GenExtensions.DeleteDirectory(Path.Combine(AppSettings.Instance.RSInstalledDir, "cdlc_quarantined"));
+                GenExtensions.DeleteDirectory(Path.Combine(AppSettings.Instance.RSInstalledDir, "cdlc_duplicates"));
+                GenExtensions.DeleteDirectory(Path.Combine(AppSettings.Instance.RSInstalledDir, "duplicates"));
             }
         }
 
