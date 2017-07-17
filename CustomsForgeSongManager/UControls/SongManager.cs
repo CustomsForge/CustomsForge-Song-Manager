@@ -456,10 +456,9 @@ namespace CustomsForgeSongManager.UControls
                     else
                     {
                         Globals.Log("Incorrect song collection version found, rescanning songs.");
-                        //GenExtensions.DeleteFile(songsInfoPath);
-                        //GenExtensions.DeleteFile(Constants.SettingsPath);
-                        // use the sledge hammer
-                        GenExtensions.DeleteDirectory(Constants.WorkFolder);
+                        // may contain some original files so don't use the bulldozer
+                        GenExtensions.DeleteFile(songsInfoPath);
+                        GenExtensions.DeleteFile(Constants.SettingsPath);
                         FileTools.VerifyCfsmFolders();
                     }
                 }
@@ -494,6 +493,10 @@ namespace CustomsForgeSongManager.UControls
                 Globals.Log("<Error>: " + e.Message);
                 // log needs to written before it is deleted ... Bazinga
                 Globals.Log("Deleted CFSM folder and subfolders from My Documents ...");
+                // use the bulldozer
+                if (!ZipUtilities.EnsureWritableDirectory(Constants.WorkFolder))
+                    ZipUtilities.RemoveReadOnlyAttribute(Constants.WorkFolder);
+
                 GenExtensions.DeleteDirectory(Constants.WorkFolder);
                 FileTools.VerifyCfsmFolders();
 

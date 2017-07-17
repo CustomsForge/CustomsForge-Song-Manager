@@ -14,7 +14,16 @@ until you can confirm it is safe directly through your AV provider.
 
 CFSM Release Notes
 
-1.3.2.6
+1.3.2.9 
+- preserve some original files
+
+1.3.2.8 
+- clean up rs root
+
+1.3.2.7 
+- clean up rs root
+
+1.3.2.6 
 - start with a fresh 'My Documents/CFSM' folder.
 
 1.3.2.5

@@ -66,9 +66,9 @@ namespace CustomsForgeSongManager.DataObjects
         //ver 9 : all reference files moved to 'My Documents/CFSM'
         //ver 10 : force create a fresh 'My Documents/CFSM' folder'
         //ver 11 : remove CFSM remnants from rs root
-        //ver 1: time to recycle some ver numbers
+        //ver 1 - 10: time to recycle some ver numbers
 
-        public const string SongDataListCurrentVersion = "1";
+        public const string SongDataListCurrentVersion = "2";
 
         public string DLCKey { get; set; }
 

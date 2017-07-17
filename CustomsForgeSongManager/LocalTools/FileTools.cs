@@ -575,6 +575,7 @@ namespace CustomsForgeSongManager.LocalTools
                 GenExtensions.CopyDir(Path.Combine(Constants.Rs2CfsmFolder, "songpacks"), Constants.SongPacksFolder);
                 GenExtensions.CopyDir(Path.Combine(AppSettings.Instance.RSInstalledDir, "cdlc_quarantined"), Constants.QuarantineFolder);
                 GenExtensions.DeleteDirectory(Constants.Rs2CfsmFolder, true);
+                GenExtensions.DeleteDirectory(Path.Combine(AppSettings.Instance.RSInstalledDir, "cdlc_quarantined"), true);
             }
         }
 
