@@ -123,6 +123,7 @@ namespace CustomsForgeSongManager.DataObjects
         public static string RemasteredCorFolder { get { return Path.Combine(RemasteredFolder, "corrupt"); } }
         public static string RemasteredOrgFolder { get { return Path.Combine(RemasteredFolder, "original"); } }
         public static string RemasteredMaxFolder { get { return Path.Combine(RemasteredFolder, "maxfive"); } }
+        public static string QuarantineFolder { get { return Path.Combine(Constants.WorkFolder, "Quarantine"); } }
 
         #region URL constants
 

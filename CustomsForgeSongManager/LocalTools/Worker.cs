@@ -255,13 +255,12 @@ namespace CustomsForgeSongManager.LocalTools
 
                 if (AppSettings.Instance.MoveToQuarantine)
                 {
-                    var corDir = Path.Combine(AppSettings.Instance.RSInstalledDir, "cdlc_quarantined");
-                    var corFileName = String.Format("{0}{1}", Path.GetFileName(filePath), ".corrupt");
-                    var corFilePath = Path.Combine(corDir, corFileName);
-                    Globals.Log("File has been moved to: " + corDir);
+                    var corFileName = String.Format("{0}{1}", Path.GetFileName(filePath), ".cor");
+                    var corFilePath = Path.Combine(Constants.QuarantineFolder, corFileName);
+                    Globals.Log("File has been moved to: " + Constants.QuarantineFolder);
 
-                    if (!Directory.Exists(corDir))
-                        Directory.CreateDirectory(corDir);
+                    if (!Directory.Exists(Constants.QuarantineFolder))
+                        Directory.CreateDirectory(Constants.QuarantineFolder);
 
                     //if (File.Exists(corFilePath))
                     //    File.Delete(corFilePath);
