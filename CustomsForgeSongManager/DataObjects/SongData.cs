@@ -64,10 +64,11 @@ namespace CustomsForgeSongManager.DataObjects
         //ver 7 : add RepairStatus
         //ver 8 : add RepairStatus 'ODLC'
         //ver 9 : all reference files moved to 'My Documents/CFSM'
-        //ver 10 : force create a fresh 'My Documents/CFSM' folder
+        //ver 10 : force create a fresh 'My Documents/CFSM' folder'
         //ver 11 : remove CFSM remnants from rs root
+        //ver 1: time to recycle some ver numbers
 
-        public const string SongDataListCurrentVersion = "11";
+        public const string SongDataListCurrentVersion = "1";
 
         public string DLCKey { get; set; }
 

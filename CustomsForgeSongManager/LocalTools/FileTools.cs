@@ -541,7 +541,7 @@ namespace CustomsForgeSongManager.LocalTools
         public static void VerifyCfsmFolders()
         {
             // use 'My Documents/CFSM' to avoid future OS Permission and AV issues
-            // validate/create CFSM subfolders
+            // validate/create CFSM subfolders            
             GenExtensions.MakeDir(Constants.TempWorkFolder);
             GenExtensions.MakeDir(Constants.BackupsFolder);
             GenExtensions.MakeDir(Constants.DuplicatesFolder);
