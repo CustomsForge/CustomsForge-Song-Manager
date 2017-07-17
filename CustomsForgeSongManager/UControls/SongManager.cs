@@ -457,9 +457,9 @@ namespace CustomsForgeSongManager.UControls
                     {
                         Globals.Log("Incorrect song collection version found, rescanning songs.");
                         GenExtensions.DeleteFile(songsInfoPath);
-                        // extreme (maybe unnecessary) refresh of 'My Documents/CFSM' folder
-                        //GenExtensions.DeleteDirectory(Constants.WorkFolder);
-                        //FileTools.VerifyCfsmFolders();
+                        GenExtensions.DeleteFile(Constants.SettingsPath);
+                        GenExtensions.DeleteDirectory(Constants.WorkFolder);
+                        FileTools.VerifyCfsmFolders();
                     }
                 }
 
@@ -499,7 +499,7 @@ namespace CustomsForgeSongManager.UControls
                     GenExtensions.DeleteFile(Constants.SongsInfoPath);
                     GenExtensions.DeleteFile(Constants.SettingsPath);
                     GenExtensions.DeleteFile(Constants.LogFilePath);
-                    // GenExtensions.DeleteDirectory(Constants.WorkFolder);
+                    GenExtensions.DeleteDirectory(Constants.WorkFolder);
                 }
 
                 MessageBox.Show(string.Format("{0}{1}{1}CFSM will now shut down.", err, Environment.NewLine), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
