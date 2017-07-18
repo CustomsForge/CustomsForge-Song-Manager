@@ -580,6 +580,10 @@ namespace GenTools
 
         public static bool CopyDir(string srcFolder, string destFolder, bool isRecursive = true)
         {
+            // You can not copy something that does not exist ... doh!  Banging head on desk ...
+            if (!Directory.Exists(srcFolder))
+                return false;
+
             if (!Directory.Exists(destFolder))
             {
                 try

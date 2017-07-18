@@ -14,6 +14,9 @@ until you can confirm it is safe directly through your AV provider.
 
 CFSM Release Notes
 
+1.3.3.5
+- modified CopyDir to return false if source directory is not found
+
 1.3.3.4
 - changed to create application without a manifest
 - incremented GUI (attempt to fix cfsm/archive error)
