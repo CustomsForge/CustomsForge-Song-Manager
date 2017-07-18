@@ -548,6 +548,7 @@ namespace CustomsForgeSongManager.LocalTools
             GenExtensions.MakeDir(Constants.RemasteredMaxFolder);
             GenExtensions.MakeDir(Constants.RemasteredCorFolder);
             GenExtensions.MakeDir(Constants.QuarantineFolder);
+            GenExtensions.MakeDir(Constants.SongPacksFolder);
 
             // make sure we have write access to Rocksmith2014 folders
             var rsDir = AppSettings.Instance.RSInstalledDir;
@@ -557,8 +558,7 @@ namespace CustomsForgeSongManager.LocalTools
                 if (!ZipUtilities.EnsureWritableDirectory(rsDir))
                     ZipUtilities.RemoveReadOnlyAttribute(rsDir);
 
-                // make sure we have write access to the 'dlc' folder
-                if (!ZipUtilities.EnsureWritableDirectory(Constants.Rs2DlcFolder))
+                // make sure we have write access to all files in 'dlc' folder
                     ZipUtilities.RemoveReadOnlyAttribute(Constants.Rs2DlcFolder);
             }
 
@@ -571,9 +571,10 @@ namespace CustomsForgeSongManager.LocalTools
                 GenExtensions.CopyDir(Path.Combine(Constants.Rs2CfsmFolder, "duplicates"), Constants.DuplicatesFolder);
                 GenExtensions.CopyDir(Path.Combine(Constants.Rs2CfsmFolder, "remastered"), Constants.RemasteredFolder);
                 GenExtensions.CopyDir(Path.Combine(AppSettings.Instance.RSInstalledDir, "duplicates"), Constants.DuplicatesFolder);
-
                 GenExtensions.CopyDir(Path.Combine(Constants.Rs2CfsmFolder, "songpacks"), Constants.SongPacksFolder, false);
-                GenExtensions.CopyDir(Path.Combine(Constants.Rs2CfsmFolder, "songpacks", "originals"), Constants.SongPacksFolder);
+                
+                // leave these important orginal files in RS root
+                GenExtensions.CopyDir(Path.Combine(Constants.Rs2CfsmFolder, "songpacks", "originals"), Constants.Rs2OriginalsFolder);
 
                 GenExtensions.DeleteDirectory(Constants.Rs2CfsmFolder);
                 GenExtensions.DeleteDirectory(Path.Combine(AppSettings.Instance.RSInstalledDir, "cdlc_quarantined"));

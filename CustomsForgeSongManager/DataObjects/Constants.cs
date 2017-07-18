@@ -37,7 +37,7 @@ namespace CustomsForgeSongManager.DataObjects
 
         public static readonly string RS1COMP = "rs1compatibility";
         public static readonly string SONGPACK = "songpack";
-        public static readonly string ABVSONGPACK = "_sp_"; // what is this?
+        public static readonly string ABVSONGPACK = "_sp_"; // abreviation for songpack
         public static readonly string ApplicationName = "CustomsForge Song Manager";
 
         public static Font OfficialDLCFont { get { return new Font("Arial", 8, FontStyle.Bold | FontStyle.Italic); } }
@@ -47,8 +47,8 @@ namespace CustomsForgeSongManager.DataObjects
         public static string TempWorkFolder { get { return Path.Combine(Path.GetTempPath(), "CFSM"); } }
         public static string ThemeFolder { get { return Path.Combine(WorkFolder, "Themes"); } }
         public static string LogFilePath { get { return Path.Combine(WorkFolder, "debug.log"); } }
-        public static string SettingsPath { get { return Path.Combine(WorkFolder, "cfsm.Settings.xml"); } }
-        public static string SongsInfoPath { get { return Path.Combine(WorkFolder, "songs.Info.xml"); } }
+        public static string SettingsPath { get { return Path.Combine(WorkFolder, "settings.xml"); } }
+        public static string SongsInfoPath { get { return Path.Combine(WorkFolder, "songsInfo.xml"); } }
         public static string GridSettingsFolder { get { return Path.Combine(WorkFolder, "DgvSettings"); } }
         public static string GridSettingsPath { get { return Path.Combine(GridSettingsFolder, String.Format("{0}{1}", Globals.DgvCurrent.Name, ".xml")); } }
         public static string ApplicationFolder { get { return Path.GetDirectoryName(Application.ExecutablePath); } }
@@ -98,10 +98,10 @@ namespace CustomsForgeSongManager.DataObjects
         [Obsolete("Depricated, please use 'My Documents/CFSM' folder", false)]
         public static string Rs2CfsmFolder { get { return Path.Combine(AppSettings.Instance.RSInstalledDir, "cfsm"); } }
 
-        public static string SongPacksFolder { get { return Path.Combine(WorkFolder, "SongPacks"); } }
-        public static string Rs1DiscPsarcBackupPath { get { return Path.Combine(SongPacksFolder, "rs1compatibilitydisc_p.org.psarc"); } }
-        public static string Rs1DlcPsarcBackupPath { get { return Path.Combine(SongPacksFolder, "rs1compatibilitydlc_p.org.psarc"); } }
-        public static string CachePsarcBackupPath { get { return Path.Combine(SongPacksFolder, "cache.org.psarc"); } }
+        public static string Rs2OriginalsFolder { get { return Path.Combine(AppSettings.Instance.RSInstalledDir, "originals"); } }
+        public static string Rs1DiscPsarcBackupPath { get { return Path.Combine(Rs2OriginalsFolder, "rs1compatibilitydisc_p.org.psarc"); } }
+        public static string Rs1DlcPsarcBackupPath { get { return Path.Combine(Rs2OriginalsFolder, "rs1compatibilitydlc_p.org.psarc"); } }
+        public static string CachePsarcBackupPath { get { return Path.Combine(Rs2OriginalsFolder, "cache.org.psarc"); } }
         public static string ExtractedSongsHsanPath { get { return Path.Combine(SongPacksFolder, "songs.hsan"); } }
         public static string ExtractedRs1DiscHsanPath { get { return Path.Combine(SongPacksFolder, "songs_rs1disc.hsan"); } }
         public static string ExtractedRs1DlcHsanPath { get { return Path.Combine(SongPacksFolder, "songs_rs1dlc.hsan"); } }
@@ -113,7 +113,8 @@ namespace CustomsForgeSongManager.DataObjects
         public static string SongsRs1DiscInternalPath { get { return @"manifests/songs_rs1disc/songs_rs1disc.hsan"; } }
         public static string SongsRs1DlcInternalPath { get { return @"manifests/songs_rs1dlc/songs_rs1dlc.hsan"; } }
 
-        // do not attempt to write files to Rocksmith 2014 root because of OS Permission issues      
+        // not a good practice to use Rocksmith 2014 root for CFSM content     
+        public static string SongPacksFolder { get { return Path.Combine(WorkFolder, "SongPacks"); } }
         public static string BackupsFolder { get { return Path.Combine(WorkFolder, "Backups"); } }
         public static string DuplicatesFolder { get { return Path.Combine(WorkFolder, "Duplicates"); } }
         public static string RemasteredFolder { get { return Path.Combine(WorkFolder, "Remastered"); } }

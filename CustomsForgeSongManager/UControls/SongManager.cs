@@ -456,10 +456,16 @@ namespace CustomsForgeSongManager.UControls
                     else
                     {
                         Globals.Log("Incorrect song collection version found, rescanning songs.");
+
+                        // comment this out after debugging is finished
+                        // use the bulldozer
+                        ZipUtilities.RemoveReadOnlyAttribute(Constants.WorkFolder);
+                        GenExtensions.DeleteDirectory(Constants.WorkFolder);
+
+                        // uncomment this out after debugging is finished
                         // may now contain some original files so don't use the bulldozer
-                        GenExtensions.DeleteFile(songsInfoPath);
-                        GenExtensions.DeleteFile(Constants.SettingsPath);
-                        FileTools.VerifyCfsmFolders();
+                        //GenExtensions.DeleteFile(songsInfoPath);
+                        //GenExtensions.DeleteFile(Constants.SettingsPath);
                     }
                 }
 
@@ -493,12 +499,10 @@ namespace CustomsForgeSongManager.UControls
                 Globals.Log("<Error>: " + e.Message);
                 // log needs to written before it is deleted ... Bazinga
                 Globals.Log("Deleted CFSM folder and subfolders from My Documents ...");
+                
                 // use the bulldozer
-                if (!ZipUtilities.EnsureWritableDirectory(Constants.WorkFolder))
-                    ZipUtilities.RemoveReadOnlyAttribute(Constants.WorkFolder);
-
+                ZipUtilities.RemoveReadOnlyAttribute(Constants.WorkFolder);
                 GenExtensions.DeleteDirectory(Constants.WorkFolder);
-                FileTools.VerifyCfsmFolders();
 
                 MessageBox.Show(string.Format("{0}{1}{1}CFSM will now shut down.", err, Environment.NewLine), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Environment.Exit(0);
@@ -654,11 +658,9 @@ namespace CustomsForgeSongManager.UControls
                 return;
             }
 
-            // this is done here in case user decided to manually delete all songs
-            // the default initial load condition does not include RS1 Compatiblity or SongPack files
-            var dlcFiles = Directory.EnumerateFiles(Constants.Rs2DlcFolder, "*.psarc", SearchOption.AllDirectories).ToList();
-            dlcFiles = dlcFiles.Where(fi => !fi.ToLower().Contains(Constants.RS1COMP) && !fi.ToLower().Contains(Constants.SONGPACK) && !fi.ToLower().Contains(Constants.ABVSONGPACK)).ToList();
-            if (!dlcFiles.Any())
+            // this is done here in case user decided to manually delete songs
+            List<string> filesList = Worker.FilesList(Constants.Rs2DlcFolder, AppSettings.Instance.IncludeRS1CompSongs, AppSettings.Instance.IncludeRS2BaseSongs);
+            if (!filesList.Any())
             {
                 var msgText = string.Format("Houston ... We have a problem!{0}There are no Rocksmith 2014 songs in:" + "{0}{1}{0}{0}Please select a valid Rocksmith 2014{0}installation directory when you restart CFSM.  ", Environment.NewLine, Constants.Rs2DlcFolder);
                 MessageBox.Show(msgText, Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Stop);
@@ -682,7 +684,9 @@ namespace CustomsForgeSongManager.UControls
             if (dgvSongsMaster.DataSource != null)
                 Globals.Settings.SaveSettingsToFile(dgvSongsMaster);
 
-            if (fullRescan)
+            // TODO: FIXME
+            // for now force full rescan for IncludeRS1DLCs and/or IncludeRS2014BaseSongs
+            if (fullRescan) //  || AppSettings.Instance.IncludeRS1DLCs || AppSettings.Instance.IncludeRS2014BaseSongs)
                 Globals.SongCollection.Clear();
 
             var sw = new Stopwatch();
@@ -691,7 +695,7 @@ namespace CustomsForgeSongManager.UControls
             // run new worker
             using (Worker worker = new Worker())
             {
-                if (parseExtraData || (parseExtraData && AppSettings.Instance.ScanWithExtraData))
+                if (parseExtraData || (parseExtraData && AppSettings.Instance.IncludeExtraData))
                 {
                     string oldName = dgvSongsMaster.Name; //TODO: replace this with a more suitable/less hacky way to the bigger rescan
                     dgvSongsMaster.Name = "Analyzer";

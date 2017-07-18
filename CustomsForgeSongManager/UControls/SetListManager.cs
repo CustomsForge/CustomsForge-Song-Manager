@@ -341,10 +341,10 @@ namespace CustomsForgeSongManager.UControls
             bindingCompleted = false;
             dgvPainted = false;
 
-            if (AppSettings.Instance.IncludeRS1DLCs)
+            if (AppSettings.Instance.IncludeRS1CompSongs)
             {
-                Globals.Settings.chkIncludeRS1DLC.Checked = false;
-                Globals.Settings.chkIncludeRS2014BaseSongs.Checked = false;
+                Globals.Settings.chkIncludeRS1CompSongs.Checked = false;
+                Globals.Settings.chkIncludeRS2BaseSongs.Checked = false;
                 // ask user to rescan song collection to remove all RS1 Compatibility songs
                 MessageBox.Show(Properties.Resources.CanNotIncludeRS1CompatibilityFiles, MESSAGE_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Hand);
                 return false;

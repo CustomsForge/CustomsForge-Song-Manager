@@ -14,6 +14,16 @@ until you can confirm it is safe directly through your AV provider.
 
 CFSM Release Notes
 
+1.3.3.3
+- backup original content (song packs) in the RS root folder/originals for safe keeping
+- song packs and compatibility packs are searchable when checked in 'Settings' menu
+- perform auto rescan when settings change (include compatibility, include base, extra data)
+- fixed checkbox in 'Settings' to autoscan and show RS1 Compatibility in SongManager
+- fixed checkbox in 'Settings' to autoscan and show Base Songs in SongManager
+- added separate checkbox in 'Settings' to autoscan and show Custom Song Packs in SongManager
+- fixed rescan method
+- improved code uniformity
+
 1.3.3.2
 - change 'original' to 'originals'
 

@@ -44,8 +44,8 @@ namespace CustomsForgeSongManager.UControls
 
                 cueRsDir.Text = AppSettings.Instance.RSInstalledDir;
                 chkEnableAutoUpdate.Checked = AppSettings.Instance.EnableAutoUpdate;
-                chkIncludeRS1DLC.Checked = AppSettings.Instance.IncludeRS1DLCs;
-                chkIncludeRS2014BaseSongs.Checked = AppSettings.Instance.IncludeRS2014BaseSongs;
+                chkIncludeRS1CompSongs.Checked = AppSettings.Instance.IncludeRS1CompSongs;
+                chkIncludeRS2BaseSongs.Checked = AppSettings.Instance.IncludeRS2BaseSongs;
                 chkEnableLogBallon.Checked = AppSettings.Instance.EnableLogBaloon;
                 rbCleanOnClosing.Checked = AppSettings.Instance.CleanOnClosing;
                 txtCharterName.Text = AppSettings.Instance.CharterName;
@@ -55,37 +55,6 @@ namespace CustomsForgeSongManager.UControls
             catch (Exception ex)
             {
                 Globals.MyLog.Write(String.Format("<Error>: {0}", ex.Message));
-            }
-        }
-
-        private void SettingsPropChanged(object sender, PropertyChangedEventArgs e)
-        {
-            switch (e.PropertyName)
-            {
-                case "RSInstalledDir":
-                    cueRsDir.Text = AppSettings.Instance.RSInstalledDir;
-                    break;
-                case "EnableAutoUpdate":
-                    chkEnableAutoUpdate.Checked = AppSettings.Instance.EnableAutoUpdate;
-                    break;
-                case "IncludeRS2014BaseSongs":
-                    chkIncludeRS2014BaseSongs.Checked = AppSettings.Instance.IncludeRS2014BaseSongs;
-                    break;
-                case "IncludeRS1DLCs":
-                    chkIncludeRS1DLC.Checked = AppSettings.Instance.IncludeRS1DLCs;
-                    break;
-                case "EnableLogBaloon":
-                    chkEnableLogBallon.Checked = AppSettings.Instance.EnableLogBaloon;
-                    break;
-                case "ScanWithExtraData":
-                    chkScanWithExtraData.Checked = AppSettings.Instance.ScanWithExtraData;
-                    break;
-                case "CleanOnClosing":
-                    rbCleanOnClosing.Checked = AppSettings.Instance.CleanOnClosing;
-                    break;
-                case "CreatorName":
-                    txtCharterName.Text = AppSettings.Instance.CharterName;
-                    break;
             }
         }
 
@@ -144,6 +113,17 @@ namespace CustomsForgeSongManager.UControls
             }
         }
 
+        private void ToogleRescan(bool rescan)
+        {
+            // rescan on tabpage change ... safest but may be better way
+            // possibly never overwrite masterSongControl with Duplicates
+            Globals.RescanSongManager = rescan;
+            Globals.RescanDuplicates = rescan;
+            Globals.RescanSetlistManager = rescan;
+            Globals.RescanRenamer = rescan;
+            Globals.ReloadSongPacks = rescan;
+        }
+
         private void ValidateRsDir()
         {
             // validate Rocksmith installation directory
@@ -171,12 +151,74 @@ namespace CustomsForgeSongManager.UControls
             }
         }
 
+        private void chkEnableLogBaloon_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkEnableLogBallon.Checked)
+                Globals.MyLog.AddTargetNotifyIcon(Globals.Notifier);
+            else
+                Globals.MyLog.RemoveTargetNotifyIcon(Globals.Notifier);
+        }
+
+        private void SettingsPropChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case "RSInstalledDir":
+                    cueRsDir.Text = AppSettings.Instance.RSInstalledDir;
+                    break;
+                case "EnableAutoUpdate":
+                    chkEnableAutoUpdate.Checked = AppSettings.Instance.EnableAutoUpdate;
+                    break;
+                case "IncludeRS2BaseSongs":
+                    chkIncludeRS2BaseSongs.Checked = AppSettings.Instance.IncludeRS2BaseSongs;
+                    break;
+                case "IncludeRS1CompSongs":
+                    chkIncludeRS1CompSongs.Checked = AppSettings.Instance.IncludeRS1CompSongs;
+                    break;
+                case "IncludeCustomPacks":
+                    chkIncludeCustomPacks.Checked = AppSettings.Instance.IncludeCustomPacks;
+                    break;
+                case "IncludeExtraData":
+                    chkIncludeExtraData.Checked = AppSettings.Instance.IncludeExtraData;
+                    break;
+                case "EnableLogBaloon":
+                    chkEnableLogBallon.Checked = AppSettings.Instance.EnableLogBaloon;
+                    break;
+                 case "CleanOnClosing":
+                    rbCleanOnClosing.Checked = AppSettings.Instance.CleanOnClosing;
+                    break;
+                case "CreatorName":
+                    txtCharterName.Text = AppSettings.Instance.CharterName;
+                    break;
+            }
+        }
+
         private void Settings_Leave(object sender, EventArgs e)
         {
             if (String.IsNullOrEmpty(AppSettings.Instance.RSInstalledDir))
                 ValidateRsDir();
 
             SaveSettingsToFile(Globals.DgvCurrent);
+        }
+
+        private void btnEmptyLogs_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure you want to empty the log files?", Constants.ApplicationName + " ... Warning", MessageBoxButtons.YesNo) == DialogResult.No)
+                return;
+
+            GenExtensions.DeleteFile(AppSettings.Instance.LogFilePath);
+            Globals.MyLog.AddTargetFile(AppSettings.Instance.LogFilePath);
+            GenExtensions.DeleteFile(Constants.RepairsErrorLogPath);
+            Globals.TbLog.Clear();
+            Globals.Log("Log files have been emptied ...");
+            Globals.Log("Starting new log ...");
+            Globals.Log(Constants.AppTitle);
+        }
+
+        private void btnResetDownloads_Click(object sender, EventArgs e)
+        {
+            AppSettings.Instance.DownloadsDir = String.Empty;
+            Globals.Log("CDLC 'Downloads' folder path was reset ...");
         }
 
         private void btnSettingsLoad_Click(object sender, EventArgs e)
@@ -190,12 +232,33 @@ namespace CustomsForgeSongManager.UControls
             SaveSettingsToFile(Globals.DgvCurrent);
         }
 
-        private void chkEnableLogBaloon_CheckedChanged(object sender, EventArgs e)
+        private void chkEnableAutoUpdate_CheckedChanged(object sender, EventArgs e)
         {
-            if (chkEnableLogBallon.Checked)
-                Globals.MyLog.AddTargetNotifyIcon(Globals.Notifier);
-            else
-                Globals.MyLog.RemoveTargetNotifyIcon(Globals.Notifier);
+            AppSettings.Instance.EnableAutoUpdate = chkEnableAutoUpdate.Checked;
+        }
+
+        private void chkIncludeCustomPacks_CheckedChanged(object sender, EventArgs e)
+        {
+            AppSettings.Instance.IncludeCustomPacks = chkIncludeCustomPacks.Checked;
+            ToogleRescan(true);
+        }
+
+        private void chkIncludeExtraData_CheckedChanged(object sender, EventArgs e)
+        {
+            AppSettings.Instance.IncludeExtraData = chkIncludeExtraData.Checked;
+            ToogleRescan(true);
+        }
+
+        private void chkIncludeRS1CompSongs_CheckedChanged(object sender, EventArgs e)
+        {
+            AppSettings.Instance.IncludeRS1CompSongs = chkIncludeRS1CompSongs.Checked;
+            ToogleRescan(true);
+        }
+
+        private void chkIncludeRS2BaseSongs_CheckedChanged(object sender, EventArgs e)
+        {
+            AppSettings.Instance.IncludeRS2BaseSongs = chkIncludeRS2BaseSongs.Checked;
+            ToogleRescan(true);
         }
 
         private void cueRsDir_MouseClick(object sender, MouseEventArgs e)
@@ -215,13 +278,7 @@ namespace CustomsForgeSongManager.UControls
                 return;
             }
 
-            // rescan on tabpage change ... safest but may be better way
-            // possibly never overwrite masterSongControl with Duplicates
-            Globals.RescanSongManager = true;
-            Globals.RescanDuplicates = true;
-            Globals.RescanSetlistManager = true;
-            Globals.RescanRenamer = true;
-            Globals.ReloadSongPacks = true;
+            ToogleRescan(true);
 
             // update RSInstalledDir after above error check passes
             AppSettings.Instance.RSInstalledDir = cueRsDir.Text;
@@ -247,9 +304,9 @@ namespace CustomsForgeSongManager.UControls
             }
         }
 
-        private static string GetInstallDirFromRegistry()
+        private void rbCleanOnClosing_CheckedChanged(object sender, EventArgs e)
         {
-            return LocalExtensions.GetSteamDirectory();
+            AppSettings.Instance.CleanOnClosing = rbCleanOnClosing.Checked;
         }
 
         private void tbCreator_TextChanged(object sender, EventArgs e)
@@ -257,47 +314,11 @@ namespace CustomsForgeSongManager.UControls
             AppSettings.Instance.CharterName = txtCharterName.Text;
         }
 
-        private void chkEnableAutoUpdate_CheckedChanged(object sender, EventArgs e)
+
+        private static string GetInstallDirFromRegistry()
         {
-            AppSettings.Instance.EnableAutoUpdate = chkEnableAutoUpdate.Checked;
+            return LocalExtensions.GetSteamDirectory();
         }
-
-        private void chkIncludeRS1DLC_CheckedChanged(object sender, EventArgs e)
-        {
-            AppSettings.Instance.IncludeRS1DLCs = chkIncludeRS1DLC.Checked;
-        }
-
-        private void rbCleanOnClosing_CheckedChanged(object sender, EventArgs e)
-        {
-            AppSettings.Instance.CleanOnClosing = rbCleanOnClosing.Checked;
-        }
-
-        private void chkIncludeRS2014BaseSongs_CheckedChanged(object sender, EventArgs e)
-        {
-            AppSettings.Instance.IncludeRS2014BaseSongs = chkIncludeRS2014BaseSongs.Checked;
-
-        }
-
-        private void btnEmptyLogs_Click(object sender, EventArgs e)
-        {
-            if (MessageBox.Show("Are you sure you want to empty the log files?", Constants.ApplicationName + " ... Warning", MessageBoxButtons.YesNo) == DialogResult.No)
-                return;
-
-            GenExtensions.DeleteFile(AppSettings.Instance.LogFilePath);
-            Globals.MyLog.AddTargetFile(AppSettings.Instance.LogFilePath);
-            GenExtensions.DeleteFile(Constants.RepairsErrorLogPath);
-            Globals.TbLog.Clear();
-            Globals.Log("Log files have been emptied ...");
-            Globals.Log("Starting new log ...");
-            Globals.Log(Constants.AppTitle);
-        }
-
-        private void btnResetDownloads_Click(object sender, EventArgs e)
-        {
-            AppSettings.Instance.DownloadsDir = String.Empty;
-            Globals.Log("CDLC 'Downloads' folder path was reset ...");
-        }
-
 
     }
 }

@@ -747,7 +747,8 @@ RMDIR /S /Q "$(ProjectDir)bin\ConfuserEx\"
 
 CD "$(SolutionDir)ThirdParty\CFSM.Setup\Output\"
 DEL /Q "*.txt"
-DEL /Q "CFSMSetup.exe"
+DEL /Q "*.exe"
+DEL /Q "*.rar"
 
 XCOPY /Y /D "$(SolutionDir)libs\*.xml" "$(TargetDir)*.xml" 
 XCOPY /Y /E /D "$(SolutionDir)libs\ww2ogg\*.*" "$(TargetDir)*.*"
