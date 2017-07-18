@@ -461,9 +461,10 @@ namespace CustomsForgeSongManager.UControls
                         // use the bulldozer
                         ZipUtilities.RemoveReadOnlyAttribute(Constants.WorkFolder);
                         GenExtensions.DeleteDirectory(Constants.WorkFolder);
+                        FileTools.VerifyCfsmFolders();
 
                         // uncomment this out after debugging is finished
-                        // may now contain some original files so don't use the bulldozer
+                        // 'My Documents/CFSM' may contain some original files so don't use a bulldozer
                         //GenExtensions.DeleteFile(songsInfoPath);
                         //GenExtensions.DeleteFile(Constants.SettingsPath);
                     }
@@ -503,6 +504,7 @@ namespace CustomsForgeSongManager.UControls
                 // use the bulldozer
                 ZipUtilities.RemoveReadOnlyAttribute(Constants.WorkFolder);
                 GenExtensions.DeleteDirectory(Constants.WorkFolder);
+                FileTools.VerifyCfsmFolders();
 
                 MessageBox.Show(string.Format("{0}{1}{1}CFSM will now shut down.", err, Environment.NewLine), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Environment.Exit(0);

@@ -47,6 +47,9 @@ namespace CustomsForgeSongManager.LocalTools
 
         public static string GetSteamDirectory()
         {
+            // for debugging force user to select
+            return String.Empty;
+
             const string installValueName = "InstallLocation";
             const string steamRegPath = @"HKEY_CURRENT_USER\SOFTWARE\Valve\Steam";
 

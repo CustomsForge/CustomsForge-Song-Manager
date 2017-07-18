@@ -70,7 +70,7 @@ namespace CustomsForgeSongManager.DataObjects
             get { return _includeRS2BaseSongs; }
             set { SetPropertyField("IncludeRS2BaseSongs", ref _includeRS2BaseSongs, value); }
         }
-   
+
         public bool IncludeCustomPacks
         {
             get { return _includeCustomPacks; }
@@ -229,39 +229,35 @@ namespace CustomsForgeSongManager.DataObjects
         {
             if (!String.IsNullOrEmpty(settingsPath) && File.Exists(settingsPath))
                 using (var fs = File.OpenRead(settingsPath))
-                    LoadFromStream(fs);
+                    LoadSettingsFromStream(fs);
 
             if (dgvCurrent != null)
+            {
                 if (File.Exists(Constants.GridSettingsPath))
                     RAExtensions.ManagerGridSettings = SerialExtensions.LoadFromFile<RADataGridViewSettings>(Constants.GridSettingsPath);
+                else
+                    Globals.Log("<WARNING> Could not find file: " + Constants.GridSettingsPath);
+            }
+            else
+                Globals.Log("<WARNING> dgvCurrent is null ...");
         }
 
-        public void LoadFromStream(Stream stream)
+        public void LoadSettingsFromStream(Stream stream)
         {
-            try
-            {
-                var x = stream.DeserializeXml<AppSettings>();
-                var props = GetType().GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+            var x = stream.DeserializeXml<AppSettings>();
+            var props = GetType().GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
 
-                var emptyObjParams = new object[] { };
+            var emptyObjParams = new object[] { };
 
-                // TODO: FIXME sporadic error here
-                foreach (var p in props)
-                    if (p.CanRead && p.CanWrite)
-                    {
-                        var ignore = p.GetCustomAttributes(typeof(XmlIgnoreAttribute), true).Length > 0;
-                        if (!ignore)
-                            p.SetValue(this, p.GetValue(x, emptyObjParams), emptyObjParams);
-                    }
+            foreach (var p in props)
+                if (p.CanRead && p.CanWrite)
+                {
+                    var ignore = p.GetCustomAttributes(typeof(XmlIgnoreAttribute), true).Length > 0;
+                    if (!ignore)
+                        p.SetValue(this, p.GetValue(x, emptyObjParams), emptyObjParams);
+                }
 
-                Globals.Log("Loaded settings file ...");
-            }
-            catch (Exception ex)
-            {
-                Globals.Log("<ERROR> Could not loaded settings file ...");
-                Globals.Log(ex.Message);
-                MessageBox.Show("Please send the debug.log file to the developers.");
-            }
+            Globals.Log("Loaded settings file ...");
         }
 
         public void Reset()

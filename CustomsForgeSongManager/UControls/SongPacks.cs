@@ -285,7 +285,7 @@ namespace CustomsForgeSongManager.UControls
         private void InitializeSongPacksCombo()
         {
             cmbSongPacks.Items.Clear();
-            cmbSongPacks.Items.Add("Rocksmith 2014 Tracks");
+            cmbSongPacks.Items.Add("Rocksmith 2014 Base Songs");
             cmbSongPacks.Items.Add("RS1 Compatibility Disc");
             cmbSongPacks.Items.Add("RS1 Compatibility DLC");
             cmbSongPacks.Items.Add("Load Custom Song Pack");

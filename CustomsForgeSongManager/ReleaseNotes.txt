@@ -14,6 +14,11 @@ until you can confirm it is safe directly through your AV provider.
 
 CFSM Release Notes
 
+1.3.3.4
+- changed to create application without a manifest
+- incremented GUI (attempt to fix cfsm/archive error)
+- force user to select RS root directory on fresh start
+
 1.3.3.3
 - backup original content (song packs) in the RS root folder/originals for safe keeping
 - song packs and compatibility packs are searchable when checked in 'Settings' menu

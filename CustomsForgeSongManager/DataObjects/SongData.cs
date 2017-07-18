@@ -56,20 +56,20 @@ namespace CustomsForgeSongManager.DataObjects
     [Serializable]
     public class SongData : NotifyPropChangedBase
     {
-        //ver 2 : SongKey changed to DLCKey.
+        //ver 1 : Initial release
+        //ver 2 : SongKey changed to DLCKey
         //ver 3 : removed DLCKey from arrangement
         //ver 4 : changed tagged to SongTaggerStatus
         //ver 5 : added ArtistSort TitleSort and AlbumSort variables
         //ver 6 : changed Path to FilePath to avoid conflict with reserved name System.IO.Path
         //ver 7 : add RepairStatus
         //ver 8 : add RepairStatus 'ODLC'
-        //ver 9 : all reference files moved to 'My Documents/CFSM'
+        //ver 9 : all app reference files moved to 'My Documents/CFSM'
         //ver 10 : force create a fresh 'My Documents/CFSM' folder'
-        //ver 11 : remove CFSM remnants from rs root
         //ver 1 - 10: time to recycle some ver numbers
 
-        // incrimenting forces song.Info.xml to update
-        public const string SongDataListCurrentVersion = "6";
+        // incrimenting forces songInfo.xml to update
+        public const string SongDataListCurrentVersion = "8";
 
         public string DLCKey { get; set; }
 
@@ -118,7 +118,7 @@ namespace CustomsForgeSongManager.DataObjects
         public Int32 SongYear { get; set; }
         public Single SongLength { get; set; }
         public Single SongAverageTempo { get; set; }
-        public Single SongVolume  { get; set; }
+        public Single SongVolume { get; set; }
         public DateTime FileDate { get; set; }
         public int FileSize { get; set; }
 
