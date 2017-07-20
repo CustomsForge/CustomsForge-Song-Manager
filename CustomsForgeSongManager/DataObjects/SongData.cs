@@ -7,6 +7,8 @@ using GenTools;
 using DataGridViewTools;
 using System.Collections.Generic;
 
+// DO NOT USE RESHAPER TO SORT THIS CLASS -- HAND SORT ONLY
+
 namespace CustomsForgeSongManager.DataObjects
 {
     [Obfuscation(Exclude = false, Feature = "-rename")]
@@ -41,18 +43,8 @@ namespace CustomsForgeSongManager.DataObjects
         ODLC = 5
     }
 
-    //Static class seems more convenient to use, since the values are shown in DGV(s)
-    //public static class RepairStatus
-    //{
-    //    public const string NotRepaired = "Not repaired";
-    //    public const string Repaired = "Repaired";
-    //    public const string RepairedDD = "Repaired + added DD";
-    //    public const string RepairedMaxFive = "Repaired + fixed max 5 arr. error";
-    //    public const string RepairedDDMaxFive = "Repaired + added DD + fixed max 5 arr. error";
-    //}
-
-    // only essential data needs to be saved to the XML songinfo file
-    // order here determines order in xml file
+    // only essential data should be saved to the XML songinfo file (NO BLOAT)
+    // NOTE: custom object order here determines order of elements in the xml file
     [Serializable]
     public class SongData : NotifyPropChangedBase
     {
@@ -69,10 +61,65 @@ namespace CustomsForgeSongManager.DataObjects
         //ver 1 - 10: time to recycle some ver numbers
 
         // incrimenting forces songInfo.xml to update
-        public const string SongDataListCurrentVersion = "9";
+        public const string SongDataListCurrentVersion = "10";
 
+        public string FilePath { get; set; }
+        public DateTime FileDate { get; set; }
+        public int FileSize { get; set; }
         public string DLCKey { get; set; }
+        public string Artist { get; set; }
+        public string ArtistSort { get; set; }
+        public string Title { get; set; }
+        public string TitleSort { get; set; }
+        public string Album { get; set; }
+        public string AlbumSort { get; set; }
+        public Int32 SongYear { get; set; }
+        public Single SongLength { get; set; }
+        public Single SongAverageTempo { get; set; }
+        public Single SongVolume { get; set; }
+        public DateTime LastConversionDateTime { get; set; }
+        public string Version { get; set; }
 
+        // used by detail table
+        [XmlArray("Arrangments")] // provides proper xml serialization
+        [XmlArrayItem("Arrangement")] // provides proper xml serialization
+        public FilteredBindingList<Arrangement> Arrangements2D { get; set; }
+
+        public string ToolkitVer { get; set; }
+
+        private string _charterName;
+        public string CharterName
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(_charterName))
+                {
+                    _charterName = "N/A";
+                    if (OfficialDLC)
+                        _charterName = "Ubisoft";
+                }
+                return _charterName;
+            }
+            set
+            {
+                _charterName = value;
+            }
+        }
+
+        public string AppID { get; set; }
+        //
+        public string IgnitionID { get; set; } // not serialized if empty
+        public string IgnitionVersion { get; set; } // not serialized if empty
+        public string IgnitionAuthor { get; set; }
+        public string IgnitionUpdated { get; set; } // not serialized if empty
+        public string AudioCache { get; set; } // not serialized if empty
+        public SongDataStatus Status { get; set; }
+        public SongTaggerStatus Tagged { get; set; }
+        public RepairStatus RepairStatus { get; set; }
+        public bool ExtraMetaDataScanned { get; set; }
+        //
+        // these elements are not serialized only used to display data in datagridview
+        //
         private bool _selected;
         [XmlIgnore]
         public bool Selected
@@ -96,6 +143,12 @@ namespace CustomsForgeSongManager.DataObjects
         }
 
         [XmlIgnore]
+        public bool OfficialDLC
+        {
+            get { return this.Tagged == SongTaggerStatus.ODLC; }
+        }
+
+        [XmlIgnore]
         public bool IsRsCompPack
         {
             get { return !String.IsNullOrEmpty(FilePath) && FilePath.Contains(Constants.RS1COMP); }
@@ -106,50 +159,6 @@ namespace CustomsForgeSongManager.DataObjects
         {
             get { return (new FileInfo(FilePath).Name).ToLower().Contains("disabled") ? "No" : "Yes"; }
             set { } // required for XML file usage
-        }
-
-        public string AudioCache { get; set; }
-        public string Artist { get; set; }
-        public string ArtistSort { get; set; }
-        public string Title { get; set; }
-        public string TitleSort { get; set; }
-        public string Album { get; set; }
-        public string AlbumSort { get; set; }
-        public Int32 SongYear { get; set; }
-        public Single SongLength { get; set; }
-        public Single SongAverageTempo { get; set; }
-        public Single SongVolume { get; set; }
-        public DateTime FileDate { get; set; }
-        public int FileSize { get; set; }
-
-        public void UpdateFileInfo()
-        {
-            var fi = new FileInfo(FilePath);
-            FileDate = fi.LastWriteTimeUtc;
-            FileSize = (int)fi.Length;
-        }
-
-        public void Delete()
-        {
-            if (!String.IsNullOrEmpty(AudioCache) && File.Exists(AudioCache))
-                File.Delete(AudioCache);
-            AudioCache = String.Empty;
-            if (File.Exists(FilePath))
-                File.Delete(FilePath);
-        }
-
-        // used by detail table
-        [XmlArray("Arrangments")] // provides proper xml serialization
-        [XmlArrayItem("Arrangement")] // provides proper xml serialization
-        public FilteredBindingList<Arrangement> Arrangements2D { get; set; }
-
-        public string FilePath { get; set; }
-
-        [XmlIgnore]
-        public string FileName
-        {
-            get { return (Path.Combine(Path.GetFileName(Path.GetDirectoryName(FilePath)), Path.GetFileName(FilePath))); }
-            // set { } // required for XML file usage
         }
 
         [XmlIgnore]
@@ -181,60 +190,6 @@ namespace CustomsForgeSongManager.DataObjects
             }
         }
 
-        [XmlIgnore]
-        public bool OfficialDLC
-        {
-            get { return this.Tagged == SongTaggerStatus.ODLC; }
-        }
-
-        private string _charterName;
-        public string CharterName
-        {
-            get
-            {
-                if (String.IsNullOrEmpty(_charterName))
-                {
-                    _charterName = "N/A";
-                    if (OfficialDLC)
-                        _charterName = "Ubisoft";
-                }
-                return _charterName;
-            }
-            set
-            {
-                _charterName = value;
-            }
-        }
-
-        public DateTime LastConversionDateTime { get; set; }
-        public string Version { get; set; }
-        public string ToolkitVer { get; set; }
-        public string AppID { get; set; }
-        public SongDataStatus Status { get; set; }
-        public string IgnitionID { get; set; }
-        public string IgnitionAuthor { get; set; }
-        public string IgnitionVersion { get; set; }
-        public string IgnitionUpdated { get; set; }
-
-        public SongTaggerStatus Tagged { get; set; }
-
-        public RepairStatus RepairStatus { get; set; }
-
-        [XmlIgnore]
-        public string ArtistTitleAlbum
-        {
-            get { return String.Format("{0};{1};{2}", Artist, Title, Album); }
-            // set { } // required for XML file usage
-        }
-
-        [XmlIgnore]
-        public string ArtistTitleAlbumDate
-        {
-            get { return String.Format("{0};{1};{2};{3}", Artist, Title, Album, LastConversionDateTime.ToString("s")); }
-            // set { } // required for XML file usage
-        }
-
-
         [XmlIgnore] // preserves old 1D display method
         public string Arrangements
         {
@@ -262,6 +217,27 @@ namespace CustomsForgeSongManager.DataObjects
             get { return Arrangements2D.Max(o => o.SectionCount); }
         }
 
+        [XmlIgnore]
+        public string ArtistTitleAlbum
+        {
+            get { return String.Format("{0};{1};{2}", Artist, Title, Album); }
+            // set { } // required for XML file usage
+        }
+
+        [XmlIgnore]
+        public string ArtistTitleAlbumDate
+        {
+            get { return String.Format("{0};{1};{2};{3}", Artist, Title, Album, LastConversionDateTime.ToString("s")); }
+            // set { } // required for XML file usage
+        }
+
+        [XmlIgnore]
+        public string FileName
+        {
+            get { return (Path.Combine(Path.GetFileName(Path.GetDirectoryName(FilePath)), Path.GetFileName(FilePath))); }
+            // set { } // required for XML file usage
+        }
+
         // duplicate PID finder
         [XmlIgnore]
         public string PID { get; set; }
@@ -269,9 +245,7 @@ namespace CustomsForgeSongManager.DataObjects
         [XmlIgnore]
         public string PIDArrangement { get; set; }
 
-        //extra arrangemenet data
-
-        [XmlIgnore]
+        //extra arrangemenet data        
         public Int32 ChordCount { get { return Arrangements2D.Sum(a => a.ChordCount); } }
         [XmlIgnore]
         public Int32 NoteCount { get { return Arrangements2D.Sum(a => a.NoteCount); } }
@@ -309,13 +283,38 @@ namespace CustomsForgeSongManager.DataObjects
         public Int32 TapCount { get { return Arrangements2D.Sum(a => a.TapCount); } }
         [XmlIgnore]
         public Int32 VibratoCount { get { return Arrangements2D.Sum(a => a.VibratoCount); } }
-        public bool ExtraMetaDataScanned { get; set; }
+
+        public void Delete()
+        {
+            if (!String.IsNullOrEmpty(AudioCache) && File.Exists(AudioCache))
+                File.Delete(AudioCache);
+            AudioCache = String.Empty;
+            if (File.Exists(FilePath))
+                File.Delete(FilePath);
+        }
+
+        public void UpdateFileInfo()
+        {
+            var fi = new FileInfo(FilePath);
+            FileDate = fi.LastWriteTimeUtc;
+            FileSize = (int)fi.Length;
+        }
     }
 
     // detail table data
     [XmlRoot("Arrangment")] // provides proper xml serialization
     public class Arrangement
     {
+        public string PersistentID { get; set; }
+        public string Name { get; set; } // arrangement name
+        public string Tuning { get; set; }
+        public Int32 DMax { get; set; }
+        public string ToneBase { get; set; }
+        public Int32 SectionCount { get; set; }
+       
+        // TODO: make custom object for Analyzer data and save to seperate xml file
+        // public Analyzer Analyzer { get; set; }
+
         public Arrangement()
         {
         }
@@ -339,14 +338,14 @@ namespace CustomsForgeSongManager.DataObjects
         [XmlIgnore]
         public SongData Parent { get; set; }
 
-        public string PersistentID { get; set; }
-        public string Name { get; set; } // arrangement name
-        public string Tuning { get; set; }
-        public Int32 DMax { get; set; }
-        public string ToneBase { get; set; }
-        public Int32 SectionCount { get; set; }
+        //}
+        // TODO: make custom object for Analyzer data and save to seperate xml file
+        // to  keep songInfo.xml from balloning in size
+        //[XmlRoot("Analzyer")] // provides proper xml serialization
+        //public class Analyzer
+        //{
 
-        //[XmlIgnore]
+        //    //[XmlIgnore]
         //public Dictionary<string, int> ChordList { get; set; }
 
         public List<string> ChordNames { get; set; }
@@ -390,4 +389,7 @@ namespace CustomsForgeSongManager.DataObjects
         public Int32 TapCount { get; set; }
         public Int32 VibratoCount { get; set; }
     }
+
+
+
 }

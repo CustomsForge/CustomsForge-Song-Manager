@@ -295,7 +295,11 @@ namespace GenTools
                 }
                 catch (IOException)
                 {
-                    // System.IO.IOException: The directory is not empty
+                    // System.IO.IOException: The directory is not empty so delete as many files as possible
+                    var files = Directory.EnumerateFiles(dirPath, "*", SearchOption.AllDirectories).ToList();
+                    foreach (var file in files)
+                        DeleteFile(file);
+
                     Debug.WriteLine("Gnomes prevent deletion of {0}! Applying magic dust, attempt #{1}.", dirPath, gnomes);
                     Thread.Sleep(50);
                     continue;

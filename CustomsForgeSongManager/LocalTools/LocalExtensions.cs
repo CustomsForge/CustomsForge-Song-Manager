@@ -47,7 +47,7 @@ namespace CustomsForgeSongManager.LocalTools
 
         public static string GetSteamDirectory()
         {
-            // for debugging force user to select
+            // for debugging force user to select the RS root
             // return String.Empty;
 
             const string installValueName = "InstallLocation";

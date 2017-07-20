@@ -178,8 +178,8 @@ namespace CustomsForgeSongManager.UControls
                 case "IncludeCustomPacks":
                     chkIncludeCustomPacks.Checked = AppSettings.Instance.IncludeCustomPacks;
                     break;
-                case "IncludeExtraData":
-                    chkIncludeExtraData.Checked = AppSettings.Instance.IncludeExtraData;
+                case "IncludeAnalyzerData":
+                    chkIncludeAnalyzerData.Checked = AppSettings.Instance.IncludeAnalyzerData;
                     break;
                 case "EnableLogBaloon":
                     chkEnableLogBallon.Checked = AppSettings.Instance.EnableLogBaloon;
@@ -243,9 +243,9 @@ namespace CustomsForgeSongManager.UControls
             ToogleRescan(true);
         }
 
-        private void chkIncludeExtraData_CheckedChanged(object sender, EventArgs e)
+        private void chkIncludeAnalyzerData_CheckedChanged(object sender, EventArgs e)
         {
-            AppSettings.Instance.IncludeExtraData = chkIncludeExtraData.Checked;
+            AppSettings.Instance.IncludeAnalyzerData = chkIncludeAnalyzerData.Checked;
             ToogleRescan(true);
         }
 

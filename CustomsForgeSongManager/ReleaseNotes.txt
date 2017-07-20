@@ -13,6 +13,12 @@ until you can confirm it is safe directly through your AV provider.
 ========================================================================
 
 CFSM Release Notes
+1.3.3.6
+- added an exception handler to VerifyCfsmFolders method for better debugging
+- load (Analyzer) extra data on startup if 'Settings' checkbox is selected
+- Rescan Quick and Full now works for (Analyzer) extra data when 'Setting' menu checkbox is selected
+- Right Mouse Click on a song to show context menu options and Get Analyzer Data for selected songs
+- correct status of 'ExtraMetaDataScanned'
 
 1.3.3.5
 - modified CopyDir to return false if source directory is not found

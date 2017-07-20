@@ -54,11 +54,11 @@ namespace CustomsForgeSongManager.UControls
             this.chkIncludeRS1CompSongs = new System.Windows.Forms.CheckBox();
             this.chkEnableAutoUpdate = new System.Windows.Forms.CheckBox();
             this.btnResetDownloads = new System.Windows.Forms.Button();
-            this.txtCharterName = new CustomControls.CueTextBox();
-            this.chkEnableLogBallon = new System.Windows.Forms.CheckBox();
-            this.chkIncludeExtraData = new System.Windows.Forms.CheckBox();
             this.chkIncludeRS2BaseSongs = new System.Windows.Forms.CheckBox();
             this.chkIncludeCustomPacks = new System.Windows.Forms.CheckBox();
+            this.chkIncludeAnalyzerData = new System.Windows.Forms.CheckBox();
+            this.chkEnableLogBallon = new System.Windows.Forms.CheckBox();
+            this.txtCharterName = new CustomControls.CueTextBox();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.tlpSettings_Wrapper.SuspendLayout();
             this.panel5.SuspendLayout();
@@ -82,7 +82,7 @@ namespace CustomsForgeSongManager.UControls
             this.tlpSettings_Wrapper.Controls.Add(this.btnResetDownloads, 1, 11);
             this.tlpSettings_Wrapper.Controls.Add(this.chkIncludeRS2BaseSongs, 0, 4);
             this.tlpSettings_Wrapper.Controls.Add(this.chkIncludeCustomPacks, 0, 5);
-            this.tlpSettings_Wrapper.Controls.Add(this.chkIncludeExtraData, 0, 6);
+            this.tlpSettings_Wrapper.Controls.Add(this.chkIncludeAnalyzerData, 0, 6);
             this.tlpSettings_Wrapper.Controls.Add(this.chkEnableLogBallon, 0, 7);
             this.tlpSettings_Wrapper.Controls.Add(this.txtCharterName, 0, 8);
             this.tlpSettings_Wrapper.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -290,7 +290,7 @@ namespace CustomsForgeSongManager.UControls
             this.chkIncludeRS1CompSongs.TabIndex = 3;
             this.chkIncludeRS1CompSongs.Text = "Include RS1 Compatibility Packs";
             this.chkIncludeRS1CompSongs.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.toolTip.SetToolTip(this.chkIncludeRS1CompSongs, "If checked, include RS1 Compatibility \r\nPacks in the SongManger.");
+            this.toolTip.SetToolTip(this.chkIncludeRS1CompSongs, "If checked, include RS1 Compatibility \r\nPacks with the scanned data.");
             this.chkIncludeRS1CompSongs.UseVisualStyleBackColor = true;
             this.chkIncludeRS1CompSongs.CheckedChanged += new System.EventHandler(this.chkIncludeRS1CompSongs_CheckedChanged);
             // 
@@ -328,21 +328,57 @@ namespace CustomsForgeSongManager.UControls
             this.btnResetDownloads.UseVisualStyleBackColor = true;
             this.btnResetDownloads.Click += new System.EventHandler(this.btnResetDownloads_Click);
             // 
-            // txtCharterName
+            // chkIncludeRS2BaseSongs
             // 
-            this.txtCharterName.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.tlpSettings_Wrapper.SetColumnSpan(this.txtCharterName, 2);
-            this.txtCharterName.Cue = "Enter CDLC Charter Name";
-            this.txtCharterName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.txtCharterName.ForeColor = System.Drawing.Color.Gray;
-            this.txtCharterName.Location = new System.Drawing.Point(12, 247);
-            this.txtCharterName.Margin = new System.Windows.Forms.Padding(12, 3, 3, 3);
-            this.txtCharterName.Name = "txtCharterName";
-            this.txtCharterName.Size = new System.Drawing.Size(179, 20);
-            this.txtCharterName.TabIndex = 9;
-            this.toolTip.SetToolTip(this.txtCharterName, "Enter your charter name or the name\r\nof any charter you would like to show \r\nquic" +
-                    "kly when checkbox \'My CDLC Only\' \r\nis checked in Song Manager.\r\n");
-            this.txtCharterName.TextChanged += new System.EventHandler(this.tbCreator_TextChanged);
+            this.chkIncludeRS2BaseSongs.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.chkIncludeRS2BaseSongs.AutoSize = true;
+            this.tlpSettings_Wrapper.SetColumnSpan(this.chkIncludeRS2BaseSongs, 2);
+            this.chkIncludeRS2BaseSongs.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.chkIncludeRS2BaseSongs.Location = new System.Drawing.Point(3, 119);
+            this.chkIncludeRS2BaseSongs.Name = "chkIncludeRS2BaseSongs";
+            this.chkIncludeRS2BaseSongs.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
+            this.chkIncludeRS2BaseSongs.Size = new System.Drawing.Size(192, 19);
+            this.chkIncludeRS2BaseSongs.TabIndex = 15;
+            this.chkIncludeRS2BaseSongs.Text = "Include RS2014 Base Songs";
+            this.chkIncludeRS2BaseSongs.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.toolTip.SetToolTip(this.chkIncludeRS2BaseSongs, "If checked, include RS2014 Base\r\n(Included) Songs with the scanned data.");
+            this.chkIncludeRS2BaseSongs.UseVisualStyleBackColor = true;
+            this.chkIncludeRS2BaseSongs.CheckedChanged += new System.EventHandler(this.chkIncludeRS2BaseSongs_CheckedChanged);
+            // 
+            // chkIncludeCustomPacks
+            // 
+            this.chkIncludeCustomPacks.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.chkIncludeCustomPacks.AutoSize = true;
+            this.tlpSettings_Wrapper.SetColumnSpan(this.chkIncludeCustomPacks, 2);
+            this.chkIncludeCustomPacks.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.chkIncludeCustomPacks.Location = new System.Drawing.Point(3, 151);
+            this.chkIncludeCustomPacks.Name = "chkIncludeCustomPacks";
+            this.chkIncludeCustomPacks.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
+            this.chkIncludeCustomPacks.Size = new System.Drawing.Size(188, 19);
+            this.chkIncludeCustomPacks.TabIndex = 18;
+            this.chkIncludeCustomPacks.Text = "Include Custom Song Packs";
+            this.chkIncludeCustomPacks.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.toolTip.SetToolTip(this.chkIncludeCustomPacks, "If checked, include Custom\r\nSongPacks with the scanned data.");
+            this.chkIncludeCustomPacks.UseVisualStyleBackColor = true;
+            this.chkIncludeCustomPacks.CheckedChanged += new System.EventHandler(this.chkIncludeCustomPacks_CheckedChanged);
+            // 
+            // chkIncludeAnalyzerData
+            // 
+            this.chkIncludeAnalyzerData.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.chkIncludeAnalyzerData.AutoSize = true;
+            this.tlpSettings_Wrapper.SetColumnSpan(this.chkIncludeAnalyzerData, 2);
+            this.chkIncludeAnalyzerData.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkIncludeAnalyzerData.Location = new System.Drawing.Point(3, 183);
+            this.chkIncludeAnalyzerData.Name = "chkIncludeAnalyzerData";
+            this.chkIncludeAnalyzerData.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
+            this.chkIncludeAnalyzerData.Size = new System.Drawing.Size(153, 19);
+            this.chkIncludeAnalyzerData.TabIndex = 17;
+            this.chkIncludeAnalyzerData.Text = "Include Analyzer Data";
+            this.chkIncludeAnalyzerData.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.toolTip.SetToolTip(this.chkIncludeAnalyzerData, "If check, include Anayzer Data, such as,\r\nnotes count, chords count, chord names\r" +
+                    "\nwith the scanned data.\r\n\r\nNOTE: \r\nThis scan takes much longer to complete.");
+            this.chkIncludeAnalyzerData.UseVisualStyleBackColor = true;
+            this.chkIncludeAnalyzerData.CheckedChanged += new System.EventHandler(this.chkIncludeAnalyzerData_CheckedChanged);
             // 
             // chkEnableLogBallon
             // 
@@ -360,57 +396,21 @@ namespace CustomsForgeSongManager.UControls
             this.toolTip.SetToolTip(this.chkEnableLogBallon, "If checked, shows popup log \r\nballon on system task bar.");
             this.chkEnableLogBallon.UseVisualStyleBackColor = true;
             // 
-            // chkIncludeExtraData
+            // txtCharterName
             // 
-            this.chkIncludeExtraData.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.chkIncludeExtraData.AutoSize = true;
-            this.tlpSettings_Wrapper.SetColumnSpan(this.chkIncludeExtraData, 2);
-            this.chkIncludeExtraData.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkIncludeExtraData.Location = new System.Drawing.Point(3, 183);
-            this.chkIncludeExtraData.Name = "chkIncludeExtraData";
-            this.chkIncludeExtraData.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
-            this.chkIncludeExtraData.Size = new System.Drawing.Size(135, 19);
-            this.chkIncludeExtraData.TabIndex = 17;
-            this.chkIncludeExtraData.Text = "Include Extra Data";
-            this.chkIncludeExtraData.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.toolTip.SetToolTip(this.chkIncludeExtraData, "If check, include extra data, such as,\r\nnotes count, chords count, chord names.\r\n" +
-                    "\r\nNOTE: This scan takes much longer.");
-            this.chkIncludeExtraData.UseVisualStyleBackColor = true;
-            this.chkIncludeExtraData.CheckedChanged += new System.EventHandler(this.chkIncludeExtraData_CheckedChanged);
-            // 
-            // chkIncludeRS2BaseSongs
-            // 
-            this.chkIncludeRS2BaseSongs.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.chkIncludeRS2BaseSongs.AutoSize = true;
-            this.tlpSettings_Wrapper.SetColumnSpan(this.chkIncludeRS2BaseSongs, 2);
-            this.chkIncludeRS2BaseSongs.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.chkIncludeRS2BaseSongs.Location = new System.Drawing.Point(3, 119);
-            this.chkIncludeRS2BaseSongs.Name = "chkIncludeRS2BaseSongs";
-            this.chkIncludeRS2BaseSongs.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
-            this.chkIncludeRS2BaseSongs.Size = new System.Drawing.Size(192, 19);
-            this.chkIncludeRS2BaseSongs.TabIndex = 15;
-            this.chkIncludeRS2BaseSongs.Text = "Include RS2014 Base Songs";
-            this.chkIncludeRS2BaseSongs.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.toolTip.SetToolTip(this.chkIncludeRS2BaseSongs, "If checked, include RS2014 \r\nBase Songs in the SongManger.");
-            this.chkIncludeRS2BaseSongs.UseVisualStyleBackColor = true;
-            this.chkIncludeRS2BaseSongs.CheckedChanged += new System.EventHandler(this.chkIncludeRS2BaseSongs_CheckedChanged);
-            // 
-            // chkIncludeCustomPacks
-            // 
-            this.chkIncludeCustomPacks.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.chkIncludeCustomPacks.AutoSize = true;
-            this.tlpSettings_Wrapper.SetColumnSpan(this.chkIncludeCustomPacks, 2);
-            this.chkIncludeCustomPacks.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.chkIncludeCustomPacks.Location = new System.Drawing.Point(3, 151);
-            this.chkIncludeCustomPacks.Name = "chkIncludeCustomPacks";
-            this.chkIncludeCustomPacks.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
-            this.chkIncludeCustomPacks.Size = new System.Drawing.Size(188, 19);
-            this.chkIncludeCustomPacks.TabIndex = 18;
-            this.chkIncludeCustomPacks.Text = "Include Custom Song Packs";
-            this.chkIncludeCustomPacks.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.toolTip.SetToolTip(this.chkIncludeCustomPacks, "If checked, include Custom \r\nSongPacks in the SongManger.");
-            this.chkIncludeCustomPacks.UseVisualStyleBackColor = true;
-            this.chkIncludeCustomPacks.CheckedChanged += new System.EventHandler(this.chkIncludeCustomPacks_CheckedChanged);
+            this.txtCharterName.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.tlpSettings_Wrapper.SetColumnSpan(this.txtCharterName, 2);
+            this.txtCharterName.Cue = "Enter CDLC Charter Name";
+            this.txtCharterName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.txtCharterName.ForeColor = System.Drawing.Color.Gray;
+            this.txtCharterName.Location = new System.Drawing.Point(12, 247);
+            this.txtCharterName.Margin = new System.Windows.Forms.Padding(12, 3, 3, 3);
+            this.txtCharterName.Name = "txtCharterName";
+            this.txtCharterName.Size = new System.Drawing.Size(179, 20);
+            this.txtCharterName.TabIndex = 9;
+            this.toolTip.SetToolTip(this.txtCharterName, "Enter your charter name or the name\r\nof any charter you would like to show \r\nquic" +
+                    "kly when checkbox \'My CDLC Only\' \r\nis checked in Song Manager.\r\n");
+            this.txtCharterName.TextChanged += new System.EventHandler(this.tbCreator_TextChanged);
             // 
             // toolTip
             // 
@@ -458,7 +458,7 @@ namespace CustomsForgeSongManager.UControls
         private Button btnResetDownloads;
         private CheckBox chkEnableLogBallon;
         public CheckBox chkIncludeRS2BaseSongs;
-        private CheckBox chkIncludeExtraData;
+        private CheckBox chkIncludeAnalyzerData;
         public CheckBox chkIncludeCustomPacks;
     }
 }

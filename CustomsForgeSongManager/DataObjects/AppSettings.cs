@@ -18,7 +18,7 @@ namespace CustomsForgeSongManager.DataObjects
         private bool _includeRS1CompSongs;
         private bool _includeRS2BaseSongs;
         private bool _includeCustomPacks;
-        private bool _includeExtraData;
+        private bool _includeAnalyzerData;
         private bool _enableAutoUpdate;
         private bool _enableLogBaloon;
         private bool _cleanOnClosing;
@@ -77,10 +77,10 @@ namespace CustomsForgeSongManager.DataObjects
             set { SetPropertyField("IncludeCustomPacks", ref _includeCustomPacks, value); }
         }
 
-        public bool IncludeExtraData
+        public bool IncludeAnalyzerData
         {
-            get { return _includeExtraData; }
-            set { SetPropertyField("IncludeExtraData", ref _includeExtraData, value); }
+            get { return _includeAnalyzerData; }
+            set { SetPropertyField("IncludeAnalyzerData", ref _includeAnalyzerData, value); }
         }
 
         public bool EnableLogBaloon
@@ -236,7 +236,10 @@ namespace CustomsForgeSongManager.DataObjects
                 if (File.Exists(Constants.GridSettingsPath))
                     RAExtensions.ManagerGridSettings = SerialExtensions.LoadFromFile<RADataGridViewSettings>(Constants.GridSettingsPath);
                 else
-                    Globals.Log("<WARNING> Could not find file: " + Constants.GridSettingsPath);
+                {
+                    Globals.Log("<WARNING> Could not find file ...");
+                    Globals.Log(Constants.GridSettingsPath);
+                }
             }
             else
                 Globals.Log("<WARNING> dgvCurrent is null ...");

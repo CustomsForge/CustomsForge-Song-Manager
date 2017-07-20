@@ -538,52 +538,61 @@ namespace CustomsForgeSongManager.LocalTools
 
         public static void VerifyCfsmFolders()
         {
-            // use 'My Documents/CFSM' to avoid future OS Permission and AV issues
-            // validate/create CFSM subfolders            
-            GenExtensions.MakeDir(Constants.TempWorkFolder);
-            GenExtensions.MakeDir(Constants.BackupsFolder);
-            GenExtensions.MakeDir(Constants.DuplicatesFolder);
-            GenExtensions.MakeDir(Constants.RemasteredArcFolder);
-            GenExtensions.MakeDir(Constants.RemasteredOrgFolder);
-            GenExtensions.MakeDir(Constants.RemasteredMaxFolder);
-            GenExtensions.MakeDir(Constants.RemasteredCorFolder);
-            GenExtensions.MakeDir(Constants.QuarantineFolder);
-            GenExtensions.MakeDir(Constants.SongPacksFolder);
-
-            // make sure we have write access to Rocksmith2014 folders
-            var rsDir = AppSettings.Instance.RSInstalledDir;
-            if (Directory.Exists(rsDir))
+            try
             {
-                // make sure we have write access to the RSInstallDir
-                if (!ZipUtilities.EnsureWritableDirectory(rsDir))
-                    ZipUtilities.RemoveReadOnlyAttribute(rsDir);
+                // use 'My Documents/CFSM' to avoid future OS Permission and AV issues
+                // validate/create CFSM subfolders            
+                GenExtensions.MakeDir(Constants.TempWorkFolder);
+                GenExtensions.MakeDir(Constants.BackupsFolder);
+                GenExtensions.MakeDir(Constants.DuplicatesFolder);
+                GenExtensions.MakeDir(Constants.RemasteredArcFolder);
+                GenExtensions.MakeDir(Constants.RemasteredOrgFolder);
+                GenExtensions.MakeDir(Constants.RemasteredMaxFolder);
+                GenExtensions.MakeDir(Constants.RemasteredCorFolder);
+                GenExtensions.MakeDir(Constants.QuarantineFolder);
+                GenExtensions.MakeDir(Constants.SongPacksFolder);
 
-                // make sure we have write access to all files in 'dlc' folder
+                // make sure we have write access to Rocksmith2014 folders
+                var rsDir = AppSettings.Instance.RSInstalledDir;
+                if (Directory.Exists(rsDir))
+                {
+                    // make sure we have write access to the RSInstallDir
+                    if (!ZipUtilities.EnsureWritableDirectory(rsDir))
+                        ZipUtilities.RemoveReadOnlyAttribute(rsDir);
+
+                    // make sure we have write access to all files in 'dlc' folder
                     ZipUtilities.RemoveReadOnlyAttribute(Constants.Rs2DlcFolder);
-            }
+                }
 
-            // TODO: eventually this conditional check can be depricated
-            // if old CFSM remenants exist then move them to 'My Documents/CFSM' 
-            if (Directory.Exists(Constants.Rs2CfsmFolder))
-            {
-                GenExtensions.CopyDir(Path.Combine(Constants.Rs2CfsmFolder, "archives"), Constants.RemasteredArcFolder);
-                GenExtensions.CopyDir(Path.Combine(Constants.Rs2CfsmFolder, "backups"), Constants.BackupsFolder);
-                GenExtensions.CopyDir(Path.Combine(Constants.Rs2CfsmFolder, "duplicates"), Constants.DuplicatesFolder);
-                GenExtensions.CopyDir(Path.Combine(Constants.Rs2CfsmFolder, "remastered"), Constants.RemasteredFolder);
+                // TODO: eventually this conditional check can be depricated
+                // if old CFSM remenants exist then move them to 'My Documents/CFSM' 
+                if (Directory.Exists(Constants.Rs2CfsmFolder))
+                {
+                    // leave these important orginal files in RS root (file attribute flags are unchanged)
+                    GenExtensions.CopyDir(Path.Combine(Constants.Rs2CfsmFolder, "songpacks", "originals"), Constants.Rs2OriginalsFolder);
+                    //             
+                    GenExtensions.CopyDir(Path.Combine(Constants.Rs2CfsmFolder, "archives"), Constants.RemasteredArcFolder);
+                    GenExtensions.CopyDir(Path.Combine(Constants.Rs2CfsmFolder, "backups"), Constants.BackupsFolder);
+                    GenExtensions.CopyDir(Path.Combine(Constants.Rs2CfsmFolder, "duplicates"), Constants.DuplicatesFolder);
+                    GenExtensions.CopyDir(Path.Combine(Constants.Rs2CfsmFolder, "remastered"), Constants.RemasteredFolder);
+                    GenExtensions.CopyDir(Path.Combine(Constants.Rs2CfsmFolder, "songpacks"), Constants.SongPacksFolder, false);
+
+                    // make sure we have write access to all files in 'cfsm' folder
+                    ZipUtilities.RemoveReadOnlyAttribute(Constants.Rs2CfsmFolder);
+                    GenExtensions.DeleteDirectory(Constants.Rs2CfsmFolder);
+                }
+
                 GenExtensions.CopyDir(Path.Combine(AppSettings.Instance.RSInstalledDir, "duplicates"), Constants.DuplicatesFolder);
-                GenExtensions.CopyDir(Path.Combine(Constants.Rs2CfsmFolder, "songpacks"), Constants.SongPacksFolder, false);
-                
-                // leave these important orginal files in RS root
-                GenExtensions.CopyDir(Path.Combine(Constants.Rs2CfsmFolder, "songpacks", "originals"), Constants.Rs2OriginalsFolder);
-
-                GenExtensions.DeleteDirectory(Constants.Rs2CfsmFolder);
                 GenExtensions.DeleteDirectory(Path.Combine(AppSettings.Instance.RSInstalledDir, "cdlc_quarantined"));
                 GenExtensions.DeleteDirectory(Path.Combine(AppSettings.Instance.RSInstalledDir, "cdlc_duplicates"));
                 GenExtensions.DeleteDirectory(Path.Combine(AppSettings.Instance.RSInstalledDir, "duplicates"));
             }
+            catch (Exception ex)
+            {
+                Globals.Log("<ERROR> Could not verify CFSM folders ...");
+                Globals.Log(ex.Message);
+            }
         }
-
-
     }
 }
 

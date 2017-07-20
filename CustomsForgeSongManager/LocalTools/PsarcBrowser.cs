@@ -169,6 +169,11 @@ namespace CustomsForgeSongManager.LocalTools
                             if (attributes["SongVolume"] != null)
                                 currentSong.SongVolume = Convert.ToSingle(attributes["SongVolume"]);
 
+                            if (getAnalyzerData)
+                                currentSong.ExtraMetaDataScanned = true;
+                            else
+                                currentSong.ExtraMetaDataScanned = false;
+
                             gotSongInfo = true;
                         }
 
@@ -177,20 +182,14 @@ namespace CustomsForgeSongManager.LocalTools
                         if (Char.IsNumber(entry.Name[entry.Name.IndexOf(".json") - 1]))
                             arrName = arrName + entry.Name[entry.Name.IndexOf(".json") - 1];
 
-                        // get vocal arrangment info
-                        if (arrName.ToLower().Contains("vocal"))
-                            arrangmentsFromPsarc.Add(new Arrangement(currentSong)
-                                {
-                                    PersistentID = attributes["PersistentID"].ToString(),
-                                    Name = arrName
-                                });
-                        else
+                        // get arrangment info
+                        Arrangement arr = new Arrangement(currentSong);
+ 
+                        if (!arrName.ToLower().Contains("vocal"))
                         {
                             // fix for tuning 'Other' issue
                             if (Globals.TuningXml == null || Globals.TuningXml.Count == 0)
                                 Globals.TuningXml = TuningDefinitionRepository.Instance.LoadTuningDefinitions(GameVersion.RS2014);
-
-                            Arrangement arr = new Arrangement(currentSong);
 
                             if (getAnalyzerData) //this is a very lenghty process compared to the "regular" loading, seems to be mainly related to loading of XML/SNG files
                             {
@@ -233,7 +232,7 @@ namespace CustomsForgeSongManager.LocalTools
                                         arrXmlEntry.Data.CopyTo(xmlMS);
                                         arrXmlEntry.Data.Position = 0;
                                         xmlMS.Position = 0;
-                            
+
                                         using (var fileStream = File.Create(Path.Combine(Constants.TempWorkFolder, "tmpSng.xml")))
                                         {
                                             xmlMS.Seek(0, SeekOrigin.Begin);
@@ -302,9 +301,9 @@ namespace CustomsForgeSongManager.LocalTools
 
                                     for (int i = 0; i < chordFrets.Count() - 2; i++)
                                     {
-                                        sbyte firstFret = (sbyte)chordFrets[i].GetValue(chordTemplate, null);
-                                        sbyte secondFret = (sbyte)chordFrets[i + 1].GetValue(chordTemplate, null);
-                                        sbyte thirdFret = (sbyte)chordFrets[i + 2].GetValue(chordTemplate, null);
+                                        sbyte firstFret = (sbyte) chordFrets[i].GetValue(chordTemplate, null);
+                                        sbyte secondFret = (sbyte) chordFrets[i + 1].GetValue(chordTemplate, null);
+                                        sbyte thirdFret = (sbyte) chordFrets[i + 2].GetValue(chordTemplate, null);
 
                                         if (firstFret != -1 && secondFret == -1 || thirdFret != -1)
                                             isOctave = true;
@@ -314,43 +313,22 @@ namespace CustomsForgeSongManager.LocalTools
                                         octaveCount++;
                                 }
 
-                                arr = new Arrangement(currentSong)
-                                 {
-                                     NoteCount = maxLevelNotes.Count(),
-                                     ChordCount = maxLevelChords.Count(),
-                                     HammerOnCount = maxLevelNotes.Count(n => n.HammerOn > 0),
-                                     PullOffCount = maxLevelNotes.Count(n => n.PullOff > 0),
-                                     HarmonicCount = maxLevelNotes.Count(n => n.Harmonic > 0),
-                                     HarmonicPinchCount = maxLevelNotes.Count(n => n.HarmonicPinch > 0),
-                                     FretHandMuteCount = maxLevelNotes.Count(n => n.Mute > 0) + maxLevelChords.Count(c => c.FretHandMute > 0),
-                                     PalmMuteCount = maxLevelNotes.Count(n => n.PalmMute > 0) + maxLevelChords.Count(c => c.PalmMute > 0),
-                                     PluckCount = maxLevelNotes.Count(n => n.Pluck > 0),
-                                     SlapCount = maxLevelNotes.Count(n => n.Slap > 0),
-                                     //PopCount = noteList.Count(n=>n.P > 0),
-                                     SlideCount = maxLevelNotes.Count(n => n.SlideTo > 0),
-                                     UnpitchedSlideCount = maxLevelNotes.Count(n => n.SlideUnpitchTo > 0),
-                                     TremoloCount = maxLevelNotes.Count(n => n.Tremolo > 0),
-                                     TapCount = maxLevelNotes.Count(n => n.Tap > 0),
-                                     VibratoCount = maxLevelNotes.Count(n => n.Vibrato > 0),
-                                     SustainCount = maxLevelNotes.Count(n => n.Sustain > 0.0f),
-                                     BendCount = maxLevelNotes.Count(n => n.Bend > 0.0f),
-
-                                     OctaveCount = octaveCount,
-                                     ChordNames = chordNames,
-                                     ChordCounts = chordCounts
-                                 };
+                                arr = new Arrangement(currentSong) {NoteCount = maxLevelNotes.Count(), ChordCount = maxLevelChords.Count(), HammerOnCount = maxLevelNotes.Count(n => n.HammerOn > 0), PullOffCount = maxLevelNotes.Count(n => n.PullOff > 0), HarmonicCount = maxLevelNotes.Count(n => n.Harmonic > 0), HarmonicPinchCount = maxLevelNotes.Count(n => n.HarmonicPinch > 0), FretHandMuteCount = maxLevelNotes.Count(n => n.Mute > 0) + maxLevelChords.Count(c => c.FretHandMute > 0), PalmMuteCount = maxLevelNotes.Count(n => n.PalmMute > 0) + maxLevelChords.Count(c => c.PalmMute > 0), PluckCount = maxLevelNotes.Count(n => n.Pluck > 0), SlapCount = maxLevelNotes.Count(n => n.Slap > 0),
+                                    //PopCount = noteList.Count(n=>n.P > 0),
+                                    SlideCount = maxLevelNotes.Count(n => n.SlideTo > 0), UnpitchedSlideCount = maxLevelNotes.Count(n => n.SlideUnpitchTo > 0), TremoloCount = maxLevelNotes.Count(n => n.Tremolo > 0), TapCount = maxLevelNotes.Count(n => n.Tap > 0), VibratoCount = maxLevelNotes.Count(n => n.Vibrato > 0), SustainCount = maxLevelNotes.Count(n => n.Sustain > 0.0f), BendCount = maxLevelNotes.Count(n => n.Bend > 0.0f), OctaveCount = octaveCount, ChordNames = chordNames, ChordCounts = chordCounts};
                             }
 
-                            arr.PersistentID = attributes["PersistentID"].ToString();
-                            arr.Name = arrName;
                             arr.Tuning = PsarcExtensions.TuningToName(attributes["Tuning"].ToString(), Globals.TuningXml);
                             arr.DMax = Convert.ToInt32(attributes["MaxPhraseDifficulty"].ToString());
                             arr.ToneBase = attributes["Tone_Base"].ToString();
                             arr.SectionCount = attributes["Sections"].ToArray().Count();
-
-                            currentSong.ExtraMetaDataScanned = true;
-                            arrangmentsFromPsarc.Add(arr);
                         }
+             
+                        // a smidge of arr info for vocals too!
+                        arr.PersistentID = attributes["PersistentID"].ToString();
+                        arr.Name = arrName;
+                
+                        arrangmentsFromPsarc.Add(arr);                      
                     }
                 }
 

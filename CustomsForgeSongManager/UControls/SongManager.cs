@@ -459,14 +459,15 @@ namespace CustomsForgeSongManager.UControls
 
                         // comment this out after debugging is finished
                         // use the bulldozer
-                        ZipUtilities.RemoveReadOnlyAttribute(Constants.WorkFolder);
-                        GenExtensions.DeleteDirectory(Constants.WorkFolder);
-                        FileTools.VerifyCfsmFolders();
+                        //ZipUtilities.RemoveReadOnlyAttribute(Constants.WorkFolder);
+                        //GenExtensions.DeleteDirectory(Constants.WorkFolder);
+                        //FileTools.VerifyCfsmFolders();
 
                         // uncomment this out after debugging is finished
                         // 'My Documents/CFSM' may contain some original files so don't use a bulldozer
-                        //GenExtensions.DeleteFile(songsInfoPath);
-                        //GenExtensions.DeleteFile(Constants.SettingsPath);
+                        GenExtensions.DeleteFile(songsInfoPath);
+                        GenExtensions.DeleteFile(Constants.SettingsPath);
+                        FileTools.VerifyCfsmFolders();
                     }
                 }
 
@@ -500,7 +501,7 @@ namespace CustomsForgeSongManager.UControls
                 Globals.Log("<Error>: " + e.Message);
                 // log needs to written before it is deleted ... Bazinga
                 Globals.Log("Deleted CFSM folder and subfolders from My Documents ...");
-                
+
                 // use the bulldozer
                 ZipUtilities.RemoveReadOnlyAttribute(Constants.WorkFolder);
                 GenExtensions.DeleteDirectory(Constants.WorkFolder);
@@ -661,7 +662,7 @@ namespace CustomsForgeSongManager.UControls
             }
 
             // this is done here in case user decided to manually delete songs
-            List<string> filesList = Worker.FilesList(Constants.Rs2DlcFolder, AppSettings.Instance.IncludeRS1CompSongs, AppSettings.Instance.IncludeRS2BaseSongs);
+            List<string> filesList = Worker.FilesList(Constants.Rs2DlcFolder, AppSettings.Instance.IncludeRS1CompSongs, AppSettings.Instance.IncludeRS2BaseSongs, AppSettings.Instance.IncludeCustomPacks);
             if (!filesList.Any())
             {
                 var msgText = string.Format("Houston ... We have a problem!{0}There are no Rocksmith 2014 songs in:" + "{0}{1}{0}{0}Please select a valid Rocksmith 2014{0}installation directory when you restart CFSM.  ", Environment.NewLine, Constants.Rs2DlcFolder);
@@ -686,9 +687,7 @@ namespace CustomsForgeSongManager.UControls
             if (dgvSongsMaster.DataSource != null)
                 Globals.Settings.SaveSettingsToFile(dgvSongsMaster);
 
-            // TODO: FIXME
-            // for now force full rescan for IncludeRS1DLCs and/or IncludeRS2014BaseSongs
-            if (fullRescan) //  || AppSettings.Instance.IncludeRS1DLCs || AppSettings.Instance.IncludeRS2014BaseSongs)
+            if (fullRescan)
                 Globals.SongCollection.Clear();
 
             var sw = new Stopwatch();
@@ -697,7 +696,7 @@ namespace CustomsForgeSongManager.UControls
             // run new worker
             using (Worker worker = new Worker())
             {
-                if (parseExtraData || (parseExtraData && AppSettings.Instance.IncludeExtraData))
+                if (parseExtraData || (AppSettings.Instance.IncludeAnalyzerData))
                 {
                     string oldName = dgvSongsMaster.Name; //TODO: replace this with a more suitable/less hacky way to the bigger rescan
                     dgvSongsMaster.Name = "Analyzer";
@@ -1991,12 +1990,21 @@ namespace CustomsForgeSongManager.UControls
 
         private void tsmiRescanFull_Click(object sender, EventArgs e)
         {
-            RefreshDgv(true);
+            if (AppSettings.Instance.IncludeAnalyzerData)
+            {
+                if (MessageBox.Show("You are about to run a full rescan with extra metadata, " +
+                    "which is fairly longer than the normal scan?" + Environment.NewLine +
+                    "Do you want to proceed?", "Include Analyzer Data", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.No)
+
+                    return;
+            }
+
+            RefreshDgv(true, AppSettings.Instance.IncludeAnalyzerData);
         }
 
         private void tsmiRescanQuick_Click(object sender, EventArgs e)
         {
-            RefreshDgv(false);
+            RefreshDgv(false, AppSettings.Instance.IncludeAnalyzerData);
         }
 
         public DataGridView GetGrid()
@@ -2020,37 +2028,6 @@ namespace CustomsForgeSongManager.UControls
             Globals.Log("SongManager GUI TabLeave ...");
         }
 
-        private void fullWithExtraDataToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (MessageBox.Show("You are about to run a full rescan with extra metadata, which is fairly longer than the normal scan?" + Environment.NewLine + "Do you want to proceed?",
-                "Rescan with extra metadata", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
-                RefreshDgv(true, true);
-        }
-
-        private void getExtraDataToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster);
-            if (!selection.Any())
-                return;
-
-            DoWork(Constants.GWORKER_ANALYZE, selection);
-        }
-
-        private void rescanToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster);
-            if (!selection.Any())
-                return;
-
-            DoWork(Constants.GWORKER_ANALYZE, selection);
-
-            dgvSongsMaster.Refresh();
-        }
-
-        private void quickWithExtraDataToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            RefreshDgv(false, true);
-        }
 
         private void SongManager_Resize(object sender, EventArgs e)
         {
@@ -2097,6 +2074,20 @@ namespace CustomsForgeSongManager.UControls
 
             firstIndex = dgvSongsMaster.FirstDisplayedCell.RowIndex;
         }
+
+        private void cmsGetAnalyzerData_Click(object sender, EventArgs e)
+        {
+            var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster);
+            if (!selection.Any())
+                return;
+
+            Globals.Log("Please wait ...");
+            Globals.Log("Getting Analyzer Data for selected songs ...");
+            DoWork(Constants.GWORKER_ANALYZE, selection);
+
+            dgvSongsMaster.Refresh();
+        }
+
 
     }
 }

@@ -59,7 +59,7 @@ namespace CustomsForgeSongManager.UControls
             this.cmsDeleteSong = new CustomControls.ToolStripEnhancedMenuItem();
             this.cmsBackupSong = new CustomControls.ToolStripEnhancedMenuItem();
             this.cmsTaggerPreview = new CustomControls.ToolStripEnhancedMenuItem();
-            this.getExtraDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmsGetAnalyzerData = new CustomControls.ToolStripEnhancedMenuItem();
             this.lnkLblSelectAll = new System.Windows.Forms.LinkLabel();
             this.gb_Main_Grid = new System.Windows.Forms.GroupBox();
             this.dgvSongsDetail = new DataGridViewTools.SubclassedDataGridView();
@@ -83,9 +83,6 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiRescan = new CustomControls.ToolStripEnhancedMenuItem();
             this.tsmiRescanQuick = new CustomControls.ToolStripEnhancedMenuItem();
             this.tsmiRescanFull = new CustomControls.ToolStripEnhancedMenuItem();
-            this.rescanToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.quickWithExtraDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.fullWithExtraDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiRepairs = new CustomControls.ToolStripEnhancedMenuItem();
             this.tsmiSkipRemastered = new CustomControls.ToolStripEnhancedMenuItem();
             this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
@@ -324,7 +321,7 @@ namespace CustomsForgeSongManager.UControls
             this.cmsDeleteSong,
             this.cmsBackupSong,
             this.cmsTaggerPreview,
-            this.getExtraDataToolStripMenuItem});
+            this.cmsGetAnalyzerData});
             this.cmsSongManager.Name = "contextMenuStrip_MainManager";
             this.cmsSongManager.Size = new System.Drawing.Size(210, 268);
             // 
@@ -435,12 +432,18 @@ namespace CustomsForgeSongManager.UControls
             this.cmsTaggerPreview.Text = "Tagger Preview";
             this.cmsTaggerPreview.Visible = false;
             // 
-            // getExtraDataToolStripMenuItem
+            // cmsGetAnalyzerData
             // 
-            this.getExtraDataToolStripMenuItem.Name = "getExtraDataToolStripMenuItem";
-            this.getExtraDataToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
-            this.getExtraDataToolStripMenuItem.Text = "Get extra data";
-            this.getExtraDataToolStripMenuItem.Click += new System.EventHandler(this.getExtraDataToolStripMenuItem_Click);
+            this.cmsGetAnalyzerData.AssociatedEnumValue = null;
+            this.cmsGetAnalyzerData.Image = global::CustomsForgeSongManager.Properties.Resources.rescan_plus;
+            this.cmsGetAnalyzerData.Name = "cmsGetAnalyzerData";
+            this.cmsGetAnalyzerData.RadioButtonGroupName = null;
+            this.cmsGetAnalyzerData.Size = new System.Drawing.Size(209, 22);
+            this.cmsGetAnalyzerData.Text = "Get Analyzer Data";
+            this.cmsGetAnalyzerData.ToolTipText = "Shows note count, chord count, and\r\nlists all chords for the selected songs.\r\n\r\nN" +
+                "OTE:\r\n Data may be shown for all\r\nsongs by using the checkbox \'Include\r\nAnayzer " +
+                "Data\' in the \'Settings\' menu";
+            this.cmsGetAnalyzerData.Click += new System.EventHandler(this.cmsGetAnalyzerData_Click);
             // 
             // lnkLblSelectAll
             // 
@@ -750,16 +753,13 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiRescan.AssociatedEnumValue = null;
             this.tsmiRescan.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiRescanQuick,
-            this.tsmiRescanFull,
-            this.rescanToolStripMenuItem,
-            this.quickWithExtraDataToolStripMenuItem,
-            this.fullWithExtraDataToolStripMenuItem});
+            this.tsmiRescanFull});
             this.tsmiRescan.Image = ((System.Drawing.Image)(resources.GetObject("tsmiRescan.Image")));
             this.tsmiRescan.Name = "tsmiRescan";
             this.tsmiRescan.RadioButtonGroupName = null;
             this.tsmiRescan.Size = new System.Drawing.Size(70, 20);
             this.tsmiRescan.Text = "Rescan";
-            this.tsmiRescan.ToolTipText = "Try running a \'Full\' rescan if the CDLC\r\ncollection does not look as expected.";
+            this.tsmiRescan.ToolTipText = "See \'Settings\' menu for additional\r\ndata rescan and inclusion options.";
             // 
             // tsmiRescanQuick
             // 
@@ -767,8 +767,9 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiRescanQuick.Image = ((System.Drawing.Image)(resources.GetObject("tsmiRescanQuick.Image")));
             this.tsmiRescanQuick.Name = "tsmiRescanQuick";
             this.tsmiRescanQuick.RadioButtonGroupName = null;
-            this.tsmiRescanQuick.Size = new System.Drawing.Size(247, 22);
+            this.tsmiRescanQuick.Size = new System.Drawing.Size(111, 22);
             this.tsmiRescanQuick.Text = "Quick";
+            this.tsmiRescanQuick.ToolTipText = "Quick reload of previously scanned data.\r\nOnly rescans data if necessary.";
             this.tsmiRescanQuick.Click += new System.EventHandler(this.tsmiRescanQuick_Click);
             // 
             // tsmiRescanFull
@@ -777,33 +778,11 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiRescanFull.Image = ((System.Drawing.Image)(resources.GetObject("tsmiRescanFull.Image")));
             this.tsmiRescanFull.Name = "tsmiRescanFull";
             this.tsmiRescanFull.RadioButtonGroupName = null;
-            this.tsmiRescanFull.Size = new System.Drawing.Size(247, 22);
+            this.tsmiRescanFull.Size = new System.Drawing.Size(111, 22);
             this.tsmiRescanFull.Text = "Full";
+            this.tsmiRescanFull.ToolTipText = "Preliminary scan or after significant changes.\r\n\r\nHint:\r\nTry running a \'Full\' res" +
+                "can if the CDLC\r\ncollection does not look as expected.";
             this.tsmiRescanFull.Click += new System.EventHandler(this.tsmiRescanFull_Click);
-            // 
-            // rescanToolStripMenuItem
-            // 
-            this.rescanToolStripMenuItem.Image = global::CustomsForgeSongManager.Properties.Resources.extra_data;
-            this.rescanToolStripMenuItem.Name = "rescanToolStripMenuItem";
-            this.rescanToolStripMenuItem.Size = new System.Drawing.Size(247, 22);
-            this.rescanToolStripMenuItem.Text = "Get extra data for selected songs";
-            this.rescanToolStripMenuItem.Click += new System.EventHandler(this.rescanToolStripMenuItem_Click);
-            // 
-            // quickWithExtraDataToolStripMenuItem
-            // 
-            this.quickWithExtraDataToolStripMenuItem.Image = global::CustomsForgeSongManager.Properties.Resources.refresh_plus;
-            this.quickWithExtraDataToolStripMenuItem.Name = "quickWithExtraDataToolStripMenuItem";
-            this.quickWithExtraDataToolStripMenuItem.Size = new System.Drawing.Size(247, 22);
-            this.quickWithExtraDataToolStripMenuItem.Text = "Quick with extra data";
-            this.quickWithExtraDataToolStripMenuItem.Click += new System.EventHandler(this.quickWithExtraDataToolStripMenuItem_Click);
-            // 
-            // fullWithExtraDataToolStripMenuItem
-            // 
-            this.fullWithExtraDataToolStripMenuItem.Image = global::CustomsForgeSongManager.Properties.Resources.rescan_plus;
-            this.fullWithExtraDataToolStripMenuItem.Name = "fullWithExtraDataToolStripMenuItem";
-            this.fullWithExtraDataToolStripMenuItem.Size = new System.Drawing.Size(247, 22);
-            this.fullWithExtraDataToolStripMenuItem.Text = "Full with extra data";
-            this.fullWithExtraDataToolStripMenuItem.Click += new System.EventHandler(this.fullWithExtraDataToolStripMenuItem_Click);
             // 
             // tsmiRepairs
             // 
@@ -2266,10 +2245,7 @@ namespace CustomsForgeSongManager.UControls
         private CustomControls.ToolStripEnhancedMenuItem tsmiFilesUnorganize;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator14;
         private CustomControls.ToolStripEnhancedMenuItem tsmiFilesIncludeODLC;
-        private System.Windows.Forms.ToolStripMenuItem fullWithExtraDataToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem getExtraDataToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem rescanToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem quickWithExtraDataToolStripMenuItem;
+        private CustomControls.ToolStripEnhancedMenuItem cmsGetAnalyzerData;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn8;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn9;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn10;

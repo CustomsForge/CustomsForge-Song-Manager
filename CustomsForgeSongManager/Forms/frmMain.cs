@@ -336,7 +336,7 @@ namespace CustomsForgeSongManager.Forms
                     (currentControl as INotifyTabChanged).TabEnter();
         }
 
-        private void tsUserProfiles_MouseUp(object sender, MouseEventArgs e)
+        private void tsBtnUserProfiles_MouseUp(object sender, MouseEventArgs e)
         {
             Globals.TsProgressBar_Main.Value = 50;
 
@@ -595,17 +595,17 @@ namespace CustomsForgeSongManager.Forms
             // TODO:
         }
 
-        private void bBCodeToolStripMenuItem_Click(object sender, EventArgs e)
+        private void tsmiBBCode_Click(object sender, EventArgs e)
         {
             SongListToBBCode();
         }
 
-        private void cSVToolStripMenuItem_Click(object sender, EventArgs e)
+        private void tsmiCSV_Click(object sender, EventArgs e)
         {
             SongListToCSV();
         }
 
-        private void hTMLToolStripMenuItem_Click(object sender, EventArgs e)
+        private void tsmiHTML_Click(object sender, EventArgs e)
         {
             SongListToHTML();
         }
@@ -763,6 +763,7 @@ namespace CustomsForgeSongManager.Forms
                             {
                                 var songInfo = browser.GetSongData(true);
 
+            //                    // TODO: FIXME what about songs.psarc and custom song packs?
                                 if (song.FilePath.ToLower().Contains("rs1comp"))
                                     song = songInfo.FirstOrDefault(i => i.Title == song.Title);
                                 else
@@ -898,12 +899,12 @@ namespace CustomsForgeSongManager.Forms
                 }
         }
 
-        private void analyzerToolStripMenuItem_Click(object sender, EventArgs e)
+        private void tsmiAnalyzerCSV_Click(object sender, EventArgs e)
         {
             AnalyzerExport("csv");
         }
 
-        private void analyzerJSONToolStripMenuItem_Click(object sender, EventArgs e)
+        private void tsmiAnalyzerJSON_Click(object sender, EventArgs e)
         {
             AnalyzerExport("json");
         }
