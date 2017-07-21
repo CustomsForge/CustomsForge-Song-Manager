@@ -81,7 +81,7 @@ namespace CustomsForgeSongManager.DataObjects
         public string Version { get; set; }
 
         // used by detail table
-        [XmlArray("Arrangments")] // provides proper xml serialization
+        [XmlArray("Arrangements")] // provides proper xml serialization
         [XmlArrayItem("Arrangement")] // provides proper xml serialization
         public FilteredBindingList<Arrangement> Arrangements2D { get; set; }
 

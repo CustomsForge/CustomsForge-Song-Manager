@@ -49,6 +49,7 @@ namespace CustomsForgeSongManager.DataObjects
         public static string LogFilePath { get { return Path.Combine(WorkFolder, "debug.log"); } }
         public static string SettingsPath { get { return Path.Combine(WorkFolder, "appSettings.xml"); } }
         public static string SongsInfoPath { get { return Path.Combine(WorkFolder, "songsInfo.xml"); } }
+        public static string ArrangementDataPath { get { return Path.Combine(WorkFolder, "arrangementDataPath.xml"); } }
         public static string GridSettingsFolder { get { return Path.Combine(WorkFolder, "DgvSettings"); } }
         public static string GridSettingsPath { get { return Path.Combine(GridSettingsFolder, String.Format("{0}{1}", Globals.DgvCurrent.Name, ".xml")); } }
         public static string ApplicationFolder { get { return Path.GetDirectoryName(Application.ExecutablePath); } }

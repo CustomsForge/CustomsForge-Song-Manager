@@ -154,7 +154,26 @@ namespace CustomsForgeSongManager.UControls
                 versionNode.SetAttribute("version", SongData.SongDataListCurrentVersion);
                 versionNode.SetAttribute("AppVersion", Constants.CustomVersion());
                 dom.DocumentElement.AppendChild(versionNode);
+
+                var arrDom = new XmlDocument();
+                var allArrsNode = arrDom.CreateElement("ArrangementData");
+
+                foreach (XmlElement songData in dom.GetElementsByTagName("ArrayOfSongData")[0].ChildNodes)
+                {
+                    var arrangementsNode = songData.GetElementsByTagName("Arrangements")[0];
+
+                    if (arrangementsNode != null)
+                    {
+                        string dlcKey = songData.SelectSingleNode("DLCKey").ChildNodes[0].Value.ToString();
+                        ((XmlElement)arrangementsNode).SetAttribute("DLCKey", dlcKey);
+                        allArrsNode.AppendChild(arrDom.ImportNode(arrangementsNode, true));
+                        arrangementsNode.RemoveAll();
+                    }
+                }
+
+                arrDom.AppendChild(allArrsNode);
                 dom.Save(Constants.SongsInfoPath);
+                arrDom.Save(Constants.ArrangementDataPath);
                 Globals.Log("Saved song collection file ...");
             }
         }
@@ -422,15 +441,37 @@ namespace CustomsForgeSongManager.UControls
             chkSubFolders.Checked = true;
             masterSongCollection.Clear();
             var songsInfoPath = Constants.SongsInfoPath;
+            var arrInfoPath = Constants.ArrangementDataPath;
             bool correctVersion = false;
 
             try
             {
                 // load songs from file into memory
-                if (File.Exists(songsInfoPath))
+                if (File.Exists(songsInfoPath) && File.Exists(arrInfoPath))
                 {
                     XmlDocument dom = new XmlDocument();
                     dom.Load(songsInfoPath);
+
+                    //------add Arrangements back
+
+                    XmlDocument arrDom = new XmlDocument();
+                    arrDom.Load(arrInfoPath);
+
+                    foreach (XmlElement songData in dom.GetElementsByTagName("ArrayOfSongData")[0].ChildNodes)
+                    {
+                        if (songData.Name == "SongDataList")
+                            continue;
+
+                        string dlcKey = songData.SelectSingleNode("DLCKey").ChildNodes[0].Value.ToString();
+                        var arrangementsNode = arrDom.DocumentElement.ChildNodes.OfType<XmlElement>().FirstOrDefault(n => n.Attributes["DLCKey"].Value == dlcKey);
+                        var originalArrNode = songData.SelectSingleNode("Arrangements");
+
+                        if (arrangementsNode != null)
+                            originalArrNode.ParentNode.ReplaceChild(dom.ImportNode(arrangementsNode, true), originalArrNode );
+                    }
+
+                    //------
+
                     var listNode = dom["ArrayOfSongData"];
                     if (listNode != null)
                     {
