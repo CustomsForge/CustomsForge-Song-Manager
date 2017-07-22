@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>640, -1</value>
+  </metadata>
   <metadata name="sfdSongListToCSV.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>142, -1</value>
   </metadata>
@@ -238,9 +241,6 @@
         DE0L/3uZ5iQpiu/Gd11N7kZSkL9kq4dQEEnaFPy9Zib+Awq/ZxIdYNC5AAAAAElFTkSuQmCC
 </value>
   </data>
-  <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>640, -1</value>
-  </metadata>
   <metadata name="colDetailKey.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -260,6 +260,18 @@
     <value>True</value>
   </metadata>
   <metadata name="colDetailToneBase.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="colDetailChordCount.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="colDetailNoteCount.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="colDetailOctaveCount.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="colDetailChords.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <metadata name="colShowDetail.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
@@ -376,6 +388,12 @@
   <metadata name="colFilePath.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
+  <metadata name="colFileDate.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="colFileSize.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
   <metadata name="colStatus.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -418,15 +436,101 @@
   <metadata name="colAlbumSort.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
+  <metadata name="colNoteCount.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="colChordCount.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="colOctaveCount.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="colVibratoCount.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="colHammerOnCount.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="colBendCount.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="colPullOffCount.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="colHarmonicCount.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="colFretHandMuteCount.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="colPalmMuteCount.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="colPluckCount.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="colSlapCount.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="colPopCount.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="colSlideCount.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="colSustainCount.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="colTremoloCount.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="colPinchHarmonicCount.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="colUnpitchedSlideCount.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="colTotalTapCount.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
   <metadata name="cmsSongManagerColumns.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>442, -1</value>
-  </metadata>
-  <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>640, -1</value>
   </metadata>
   <metadata name="menuStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 0</value>
   </metadata>
+  <data name="tsmiRescanQuick.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAATNJREFUOE9j/P//
+        PwMIyEyWgjDQwIsTLxgkLCQYQPSfpf8YMRSADABh6UmS/4/+X4CBmaMYgdIQeRAbxofpA2tGNqTvQ9B/
+        EK667/E/9ZwdigaQISA5ZENQNINcANOcd9UJqwEhB0xRDEFxPrJmbAbAvLLhbz3cFSgGgJyNrBHdC8hh
+        1f7KH2wIPPBAtqPbii3QYIHd8MQb0wBsNiIHMohtuFnvP8gL5XfdMQ1AjyJ0zTDbYa7F8AK6ASANIIzs
+        d5Dmwhsu8BhCCQNsBoCiFtnmkluu/zMu2GPGAnLUoKfO7reB4LgH+Tv7suP/+JPWmAaAFIASCbIrYDa3
+        vvAFp0xQLCWdtsGdEtGTKcyA2kdeKP5GDlyMvADLNMgBB/N37HErDFeiGIDsd5BXkHMgLFGhJy4AhUFl
+        BYyb8vkAAAAASUVORK5CYII=
+</value>
+  </data>
+  <data name="tsmiRescanFull.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAN1QAA
+        DdUBPdZY8QAAAxhJREFUOE9lkvtLU2EYx3ObGV2ktCxC+gsiAn+I0NCMLO2mWUGSgr+UUPRLhRlokmGo
+        IcpE8ZI/ZOrc9Wwu9Wibm3p2KTfn1G063UXNzdS8DM5Bxs7T+wqK5gtf3vd5+b6f8zzPecIA4MD2khKS
+        OC6X+wbFl1iWjeVwOPPobAyFQhX30zNNO8bdBwyQyMQ8mVxaRihktMGoY8fGR2F6ehLsDhuYzMMsvkcq
+        wz7s362tAD/uJrtox5QdFCp9sF6iZWrEg6EvcoohKUtw8Y8ffqj7tiD7AIgah7+AHzdK+jf5YspVLvpV
+        VEVY05q7rXltfSOTQpVpc31jA+Sdchr792SAHgtw2gq1IVgtHnIVCycSZPq51EH70h2hbu5mpcKZSAzZ
+        7XrrdBCVxMo7CcH/ALfNNg71Yg1TKjCUtGi8152+wMO/60yWbnIxHcdCrSOP0FroBd9vlAXh3gNAnQ/O
+        zXuhWqgNlQiGbwio2RSLZzXD4Qs8oCaW7wm0sym1PbZbQpU5tLKyDNi/B4CJLvcMNEgHmU/thmI+6Uju
+        MvtSSYv/Ni6lkZxObiFH8yRqE+31uvdngGsaG7eyfXprsE5GOQu/jcRXKx1Xm3q91/hdjuRS0cSVdtI4
+        pflpZS2jZvxL9/YAdxVB6I1AAFq+6zbrCWqyTmZ8+llkSmtQDj9rUeqd4l4dOzvnBYIQQlNBYt2+OcD/
+        V9WvolfX10BttAa/KofoJmIg1NpN0Sq9mfXOuqGvVwkjBhLa3p6n+dkRhduQrUHCE4YhOBNcDq7V71+A
+        mZkpMI8MszJZB/Q2vwRP12sIeCloL7iwA9kZSzTevIbG+ssIJiLkUg/uNppQj1gqEtW8im+oyeYFBj6c
+        A5fiOWx4BkDw7iLNz4nI3wKgdRDpKFJUdHR0TFJS0umMjIwzeMcxvv+YyS3hP+EFNO9jwCnOBRdZBDU5
+        h5Z2AyKR8RR+2NHRcZZhmFi84xjfIx2rfMwtqs3hBXryI6H1RRSDetG6uwQOMkVgI1J0eHj4SbQfRzqM
+        dATpBFJs4V1ORVUWd638EVeemxAW9Q+PJHKtAgrQ1gAAAABJRU5ErkJggg==
+</value>
+  </data>
   <data name="tsmiRescan.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
@@ -438,6 +542,24 @@
         y4GGoBhQRiDEL0HljwFdEAP03jIgnxcUC3JA7AHEwkBcD8TtRGBQjNmDNFMMAMK7Y7LorC+/AAAAAElF
         TkSuQmCC
 </value>
+  </data>
+  <data name="tsmiRepairsUsingOrg.ToolTipText" xml:space="preserve">
+    <value>Developers do not recommend use of this option.
+
+If selected, only files from the (org) folder
+are used for the selected repair options.
+This option may not be combined with
+the "Process 'downloads' Folder" button</value>
+  </data>
+  <data name="tsmiProcessDLFolder.ToolTipText" xml:space="preserve">
+    <value>Process new CDLC from 'Downloads' 
+folder and move them to 'dlc' folder.  
+
+If selected, only files in the 'Downloads'
+folder are processed/repaired.
+
+The 'Downloads' folder location may
+be reset from the 'Settings' tab menu.</value>
   </data>
   <data name="tsmiRepairs.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -466,6 +588,37 @@ various user selectable options.
 HINT: First use 'Select All/None' and/or 
 'Toggle Selection' links to quckly choose
 the CDLC files to repair (aka Bulk Repair).</value>
+  </data>
+  <data name="tsmiModsChangeAppId.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAohJREFUOE99kk1I
+        FGEcxnPJREqEzClKAtvWNBJUOihBJRp5qOgQhAeLILBDBRHB1iUkLx3Cj6KD0GFdUNeLmrTbh8maNhJt
+        JJmzUiNzatmv2Z0ZZ2Ztd92n9113BjVr4GGGYZ7f83//z+RtW7ssRDtzz/+99dzM390Ubnn3WwhylqKi
+        a8bHpZIkIyqKiMXjiEsSJFmGrChQlpexTKWqUKQIYuwZPG2zYoJh4CksHDMAjBiLIRQOIxKNQtwCJMsS
+        op9a8fz+QZSVHUDHhby0s7xg2ATE49KamYCMCRQyAU1XSbr47QFe9lbBaj2E6+d3YMGZP9t83LLXBNCR
+        DTMd3TBquo44/wK+4ZOoPlaJi6d3gR+tQGOd5RQxF5gAmkaTs2aSqGkaEokElF9vIUxewon6GjTV74Hf
+        tQ9f2FEQYyVRngmgJtNMUqlZi84h/Lkd51oa0FBXhrn+Ysy8fga/308B+9fXxagkkY5tJOuyAPm7HVcu
+        N6K2uhyzfUXwjtjBsixkclxiZjYA6FkphCYn1BDUxQ7caW/B0Sor3vQUY8rVhvHxcQQCAayurv4N0IlR
+        JxBdJ51zdnTeO4sK22EMdpaAHWqGw+EAx3FIpVJIbwXIJhOJQQGv+tths9nQfZfB1+FadHU9gdfrRSQS
+        QTAYRDAUTpLxSzYcYWVlBVTCvBvsyA30ddSAHzuC3u7HcLvdWCDpH6an4fP5MoMu1+31DVAQQ80aaeKR
+        vRXeoavwTTnA/1zMLoymTryfBK3a7XE/3Gw2AX5uAc5+B2lCRTqdzi4rmUyC55cwM/Mx4/mHmQJK6YdU
+        2SXlzJlMhrxL4ceSkHQODNzaKtnYw3YKyXVL+90sujDzr1u/vD8g8iopeAoinwAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="tsmiModsUntagArtwork.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAN1QAA
+        DdUBPdZY8QAAAZtJREFUOE+Nk79LAmEcxjs9s8MUh8A6IYKwqaGGyqmpLbCp2bYCL6KlqIO6RUoaoq3a
+        CiGIOOiHYEeREBFO2tofIEiDi+Ai2PMcvnDI5XXw4cvzvM/73G+p0+kMuBwSPOJ1dAZY0IMPegzMgFkP
+        VLfNk7FY7Ban/vGC5c4Cf71en45Go4/Y+A0qXjgL5EqlMh8KhZ6x6Qt8qKp6VygUjuEVqTmp6VMTUSBb
+        lrUUDAZfYX6CF2KapoHAVLlc3o/H4zec1PRFxi7I5/Mrsiy/wWQBL9/G5/O967q+htB4u91e56SmLzJ2
+        AS7pHsYD4INzYobDYavZbC4gOMRJjYwpcnZBrVbbSiQSZzCvnEQikYtqtbqL0Ag2z3FS0xc58QyGG43G
+        RjKZPMLCuaBUKh0gMGEYRjoQCBQ5qemLjPMtKK1WK51KpQ6xeEoURbnWNG0b9/wEfclJTV9ker+DQTys
+        1Uwms4dAFvC2uPmkqzmp6XM921vAj8oPlnO53A5eq+6FWwFL+C8sAg1s9oHro24/Ez2pW8Syfkh/Ffzb
+        /wUk6+TrspQ9MgAAAABJRU5ErkJggg==
+</value>
   </data>
   <data name="tsmiFilesDisableEnable.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -504,6 +657,32 @@ the CDLC files to repair (aka Bulk Repair).</value>
         IS+vaK2lpVdua+s0LSsrZ3p2dnaFvLyCDUwjsgEA5ndtyrezF80AAAAASUVORK5CYII=
 </value>
   </data>
+  <data name="tsmiFilesOrganize.ToolTipText" xml:space="preserve">
+    <value>Quickly organize CDLC files into ArtistName subfolders and
+rename CDLC with 'ArtistName_SongName_Vers#_p.psarc'
+
+WARNING
+------------
+You may not want to use this feature if you have 
+created custom setlists with Setlist Manager and/or
+have renamed any songs with Renamer.  All 
+selected songs will be rename and moved to
+ArtistName subfolders.
+
+On the flip side, this feature can be used to
+quickly create setlists by ArtistName.</value>
+  </data>
+  <data name="tsmiFilesUnorganize.ToolTipText" xml:space="preserve">
+    <value>Restore CDLC files back to the master 'dlc' and 'dlc/cdlc'
+folders and removes empty ArtistName subfolders.
+
+WARNING
+------------
+This will remove any custom setlists that
+were created using Setlist Manager.  Songs
+are not renamed during restore operations.
+</value>
+  </data>
   <data name="tsmiFiles.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
@@ -531,88 +710,7 @@ the CDLC files to repair (aka Bulk Repair).</value>
         /nAtMF1G0FPMBjDt4dbW1r1rE2g0mgdYcaxH/wL/AOVaF8U6tAoVAAAAAElFTkSuQmCC
 </value>
   </data>
-  <data name="tsmiRescanQuick.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAATNJREFUOE9j/P//
-        PwMIyEyWgjDQwIsTLxgkLCQYQPSfpf8YMRSADABh6UmS/4/+X4CBmaMYgdIQeRAbxofpA2tGNqTvQ9B/
-        EK667/E/9ZwdigaQISA5ZENQNINcANOcd9UJqwEhB0xRDEFxPrJmbAbAvLLhbz3cFSgGgJyNrBHdC8hh
-        1f7KH2wIPPBAtqPbii3QYIHd8MQb0wBsNiIHMohtuFnvP8gL5XfdMQ1AjyJ0zTDbYa7F8AK6ASANIIzs
-        d5Dmwhsu8BhCCQNsBoCiFtnmkluu/zMu2GPGAnLUoKfO7reB4LgH+Tv7suP/+JPWmAaAFIASCbIrYDa3
-        vvAFp0xQLCWdtsGdEtGTKcyA2kdeKP5GDlyMvADLNMgBB/N37HErDFeiGIDsd5BXkHMgLFGhJy4AhUFl
-        BYyb8vkAAAAASUVORK5CYII=
-</value>
-  </data>
-  <data name="tsmiRescanFull.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAN1QAA
-        DdUBPdZY8QAAAxhJREFUOE9lkvtLU2EYx3ObGV2ktCxC+gsiAn+I0NCMLO2mWUGSgr+UUPRLhRlokmGo
-        IcpE8ZI/ZOrc9Wwu9Wibm3p2KTfn1G063UXNzdS8DM5Bxs7T+wqK5gtf3vd5+b6f8zzPecIA4MD2khKS
-        OC6X+wbFl1iWjeVwOPPobAyFQhX30zNNO8bdBwyQyMQ8mVxaRihktMGoY8fGR2F6ehLsDhuYzMMsvkcq
-        wz7s362tAD/uJrtox5QdFCp9sF6iZWrEg6EvcoohKUtw8Y8ffqj7tiD7AIgah7+AHzdK+jf5YspVLvpV
-        VEVY05q7rXltfSOTQpVpc31jA+Sdchr792SAHgtw2gq1IVgtHnIVCycSZPq51EH70h2hbu5mpcKZSAzZ
-        7XrrdBCVxMo7CcH/ALfNNg71Yg1TKjCUtGi8152+wMO/60yWbnIxHcdCrSOP0FroBd9vlAXh3gNAnQ/O
-        zXuhWqgNlQiGbwio2RSLZzXD4Qs8oCaW7wm0sym1PbZbQpU5tLKyDNi/B4CJLvcMNEgHmU/thmI+6Uju
-        MvtSSYv/Ni6lkZxObiFH8yRqE+31uvdngGsaG7eyfXprsE5GOQu/jcRXKx1Xm3q91/hdjuRS0cSVdtI4
-        pflpZS2jZvxL9/YAdxVB6I1AAFq+6zbrCWqyTmZ8+llkSmtQDj9rUeqd4l4dOzvnBYIQQlNBYt2+OcD/
-        V9WvolfX10BttAa/KofoJmIg1NpN0Sq9mfXOuqGvVwkjBhLa3p6n+dkRhduQrUHCE4YhOBNcDq7V71+A
-        mZkpMI8MszJZB/Q2vwRP12sIeCloL7iwA9kZSzTevIbG+ssIJiLkUg/uNppQj1gqEtW8im+oyeYFBj6c
-        A5fiOWx4BkDw7iLNz4nI3wKgdRDpKFJUdHR0TFJS0umMjIwzeMcxvv+YyS3hP+EFNO9jwCnOBRdZBDU5
-        h5Z2AyKR8RR+2NHRcZZhmFi84xjfIx2rfMwtqs3hBXryI6H1RRSDetG6uwQOMkVgI1J0eHj4SbQfRzqM
-        dATpBFJs4V1ORVUWd638EVeemxAW9Q+PJHKtAgrQ1gAAAABJRU5ErkJggg==
-</value>
-  </data>
-  <data name="tsmiRepairsUsingOrg.ToolTipText" xml:space="preserve">
-    <value>Developers do not recommend use of this option.
-
-If selected, only files from the (org) folder
-are used for the selected repair options.
-This option may not be combined with
-the "Process 'downloads' Folder" button</value>
-  </data>
-  <data name="tsmiProcessDLFolder.ToolTipText" xml:space="preserve">
-    <value>Process new CDLC from 'Downloads' 
-folder and move them to 'dlc' folder.  
-
-If selected, only files in the 'Downloads'
-folder are processed/repaired.
-
-The 'Downloads' folder location may
-be reset from the 'Settings' tab menu.</value>
-  </data>
-  <data name="tsmiModsChangeAppId.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAohJREFUOE99kk1I
-        FGEcxnPJREqEzClKAtvWNBJUOihBJRp5qOgQhAeLILBDBRHB1iUkLx3Cj6KD0GFdUNeLmrTbh8maNhJt
-        JJmzUiNzatmv2Z0ZZ2Ztd92n9113BjVr4GGGYZ7f83//z+RtW7ssRDtzz/+99dzM390Ubnn3WwhylqKi
-        a8bHpZIkIyqKiMXjiEsSJFmGrChQlpexTKWqUKQIYuwZPG2zYoJh4CksHDMAjBiLIRQOIxKNQtwCJMsS
-        op9a8fz+QZSVHUDHhby0s7xg2ATE49KamYCMCRQyAU1XSbr47QFe9lbBaj2E6+d3YMGZP9t83LLXBNCR
-        DTMd3TBquo44/wK+4ZOoPlaJi6d3gR+tQGOd5RQxF5gAmkaTs2aSqGkaEokElF9vIUxewon6GjTV74Hf
-        tQ9f2FEQYyVRngmgJtNMUqlZi84h/Lkd51oa0FBXhrn+Ysy8fga/308B+9fXxagkkY5tJOuyAPm7HVcu
-        N6K2uhyzfUXwjtjBsixkclxiZjYA6FkphCYn1BDUxQ7caW/B0Sor3vQUY8rVhvHxcQQCAayurv4N0IlR
-        JxBdJ51zdnTeO4sK22EMdpaAHWqGw+EAx3FIpVJIbwXIJhOJQQGv+tths9nQfZfB1+FadHU9gdfrRSQS
-        QTAYRDAUTpLxSzYcYWVlBVTCvBvsyA30ddSAHzuC3u7HcLvdWCDpH6an4fP5MoMu1+31DVAQQ80aaeKR
-        vRXeoavwTTnA/1zMLoymTryfBK3a7XE/3Gw2AX5uAc5+B2lCRTqdzi4rmUyC55cwM/Mx4/mHmQJK6YdU
-        2SXlzJlMhrxL4ceSkHQODNzaKtnYw3YKyXVL+90sujDzr1u/vD8g8iopeAoinwAAAABJRU5ErkJggg==
-</value>
-  </data>
-  <data name="tsmiModsUntagArtwork.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAN1QAA
-        DdUBPdZY8QAAAZtJREFUOE+Nk79LAmEcxjs9s8MUh8A6IYKwqaGGyqmpLbCp2bYCL6KlqIO6RUoaoq3a
-        CiGIOOiHYEeREBFO2tofIEiDi+Ai2PMcvnDI5XXw4cvzvM/73G+p0+kMuBwSPOJ1dAZY0IMPegzMgFkP
-        VLfNk7FY7Ban/vGC5c4Cf71en45Go4/Y+A0qXjgL5EqlMh8KhZ6x6Qt8qKp6VygUjuEVqTmp6VMTUSBb
-        lrUUDAZfYX6CF2KapoHAVLlc3o/H4zec1PRFxi7I5/Mrsiy/wWQBL9/G5/O967q+htB4u91e56SmLzJ2
-        AS7pHsYD4INzYobDYavZbC4gOMRJjYwpcnZBrVbbSiQSZzCvnEQikYtqtbqL0Ag2z3FS0xc58QyGG43G
-        RjKZPMLCuaBUKh0gMGEYRjoQCBQ5qemLjPMtKK1WK51KpQ6xeEoURbnWNG0b9/wEfclJTV9ker+DQTys
-        1Uwms4dAFvC2uPmkqzmp6XM921vAj8oPlnO53A5eq+6FWwFL+C8sAg1s9oHro24/Ez2pW8Syfkh/Ffzb
-        /wUk6+TrspQ9MgAAAABJRU5ErkJggg==
-</value>
-  </data>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>37</value>
+    <value>40</value>
   </metadata>
 </root>

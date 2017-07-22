@@ -29,6 +29,7 @@ namespace CFSM.AudioTools
         public abstract void Pause();
         public abstract double GetSongLength();
         public abstract double GetSongPos();
+        public abstract void SetVolume(float volume);
         public abstract void Seek(double position);
 
         public abstract bool IsPlaying();
@@ -40,7 +41,7 @@ namespace CFSM.AudioTools
             if (!IsPlaying())
                 return 0;
 
-            return Convert.ToInt32((GetSongPos()/GetSongLength())*100);
+            return Convert.ToInt32((GetSongPos() / GetSongLength()) * 100);
         }
 
         public string GetSongPosition()
@@ -48,8 +49,8 @@ namespace CFSM.AudioTools
             if (!IsPlaying())
                 return "00:00";
 
-            var seconds = Convert.ToInt32(GetSongPos())%60;
-            var minutes = Convert.ToInt32(GetSongPos())/60;
+            var seconds = Convert.ToInt32(GetSongPos()) % 60;
+            var minutes = Convert.ToInt32(GetSongPos()) / 60;
             return String.Format("{0:00}:{1:00}", minutes, seconds);
         }
     }
@@ -78,7 +79,7 @@ namespace CFSM.AudioTools
         {
             if (input is MemoryStream)
             {
-                return ((MemoryStream) input).ToArray();
+                return ((MemoryStream)input).ToArray();
             }
             else
                 using (MemoryStream ms = new MemoryStream())
@@ -215,6 +216,13 @@ namespace CFSM.AudioTools
             if (!checkInit())
                 return;
             Bass.BASS_ChannelSetPosition(FHandle, seconds);
+        }
+
+        public override void SetVolume(float volume)
+        {
+            if (!checkInit())
+                return;
+            Bass.BASS_ChannelSetAttribute(FHandle, BASSAttribute.BASS_ATTRIB_VOL, volume);
         }
     }
 }

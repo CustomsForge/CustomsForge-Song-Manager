@@ -33,7 +33,7 @@ namespace CFSM.RSTKLib.PSARC
 
             // toolkit will generate showlights if none was found
             if (!foundShowlights)
-                info.Showlights = true;
+                info.DefaultShowlights = true;
 
             return info;
         }

@@ -18,6 +18,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomControls", "CFSM.Libr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenTools", "CFSM.Libraries\GenTools\GenTools.csproj", "{41EA9CF7-BF72-4243-98A8-5BF16BCD90AD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DLogNet", "CFSM.Libraries\DLogNet\DLogNet.csproj", "{04B8EBDC-6226-456E-8BD4-AEF7BAF682AA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		ConfuserEx|x86 = ConfuserEx|x86
@@ -117,6 +119,16 @@ Global
 		{41EA9CF7-BF72-4243-98A8-5BF16BCD90AD}.InnoRelease|x86.Build.0 = Release|x86
 		{41EA9CF7-BF72-4243-98A8-5BF16BCD90AD}.Release|x86.ActiveCfg = Release|x86
 		{41EA9CF7-BF72-4243-98A8-5BF16BCD90AD}.Release|x86.Build.0 = Release|x86
+		{04B8EBDC-6226-456E-8BD4-AEF7BAF682AA}.ConfuserEx|x86.ActiveCfg = InnoInstaller|x86
+		{04B8EBDC-6226-456E-8BD4-AEF7BAF682AA}.ConfuserEx|x86.Build.0 = InnoInstaller|x86
+		{04B8EBDC-6226-456E-8BD4-AEF7BAF682AA}.Debug|x86.ActiveCfg = Debug|x86
+		{04B8EBDC-6226-456E-8BD4-AEF7BAF682AA}.Debug|x86.Build.0 = Debug|x86
+		{04B8EBDC-6226-456E-8BD4-AEF7BAF682AA}.InnoBeta|x86.ActiveCfg = InnoInstaller|x86
+		{04B8EBDC-6226-456E-8BD4-AEF7BAF682AA}.InnoBeta|x86.Build.0 = InnoInstaller|x86
+		{04B8EBDC-6226-456E-8BD4-AEF7BAF682AA}.InnoRelease|x86.ActiveCfg = Release|x86
+		{04B8EBDC-6226-456E-8BD4-AEF7BAF682AA}.InnoRelease|x86.Build.0 = Release|x86
+		{04B8EBDC-6226-456E-8BD4-AEF7BAF682AA}.Release|x86.ActiveCfg = Release|x86
+		{04B8EBDC-6226-456E-8BD4-AEF7BAF682AA}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

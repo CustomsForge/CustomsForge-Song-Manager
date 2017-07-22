@@ -10,7 +10,7 @@ using RocksmithToolkitLib.DLCPackage.Manifest2014.Tone;
 using RocksmithToolkitLib.Sng;
 using RocksmithToolkitLib.Extensions;
 using RocksmithToolkitLib;
-using RocksmithToolkitLib.Xml;
+using RocksmithToolkitLib.XML;
 using Constants = CustomsForgeSongManager.DataObjects.Constants;
 using RocksmithToolkitLib.XmlRepository;
 

@@ -1,0 +1,60 @@
+Error	23	The command "if InnoBeta == ConfuserEx (
+MKDIR "D:\Documents and Settings\Administrator\My Documents\Visual Studio 2010\Projects\CustomsForge-Song-Manager\CustomsForgeSongManager\bin\ConfuserEx\"
+XCOPY /Y /E /D "D:\Documents and Settings\Administrator\My Documents\Visual Studio 2010\Projects\CustomsForge-Song-Manager\CustomsForgeSongManager\bin\Release\*.*" "D:\Documents and Settings\Administrator\My Documents\Visual Studio 2010\Projects\CustomsForge-Song-Manager\CustomsForgeSongManager\bin\ConfuserEx\*.*"
+CD "D:\Documents and Settings\Administrator\My Documents\Visual Studio 2010\Projects\CustomsForge-Song-Manager\ThirdParty\ConfuserEx_bin\"
+"Confuser.CLI.exe" "..\ConfuserExForInno.crproj"
+)
+
+if InnoBeta == InnoBeta (
+   MKDIR "D:\Documents and Settings\Administrator\My Documents\Visual Studio 2010\Projects\CustomsForge-Song-Manager\CustomsForgeSongManager\bin\ConfuserEx\"
+   XCOPY /Y /E /D "D:\Documents and Settings\Administrator\My Documents\Visual Studio 2010\Projects\CustomsForge-Song-Manager\CustomsForgeSongManager\bin\Release\*.*" "D:\Documents and Settings\Administrator\My Documents\Visual Studio 2010\Projects\CustomsForge-Song-Manager\CustomsForgeSongManager\bin\ConfuserEx\*.*"
+   CD "D:\Documents and Settings\Administrator\My Documents\Visual Studio 2010\Projects\CustomsForge-Song-Manager\ThirdParty\ConfuserEx_bin\"
+   "Confuser.CLI.exe" "..\ConfuserExForInno.crproj"
+
+rem must be connected to internet for signtool to work properly
+rem CD "D:\Documents and Settings\Administrator\My Documents\Visual Studio 2010\Projects\CustomsForge-Song-Manager\CustomsForgeSongManager\bin\ConfuserEx\"
+rem "%programfiles%\Microsoft SDKs\Windows\v7.0A\bin\signtool.exe"  sign /f CFSM_Certificate.pfx /p cozylov /t http://timestamp.verisign.com/scripts/timstamp.dll CustomsForgeSongManager.exe
+
+   CD "D:\Documents and Settings\Administrator\My Documents\Visual Studio 2010\Projects\CustomsForge-Song-Manager\ThirdParty\Inno\"
+   "ISCC.exe" /DBETA "..\CFSM.Setup\cfsmInstaller.iss"
+
+   CD "D:\Documents and Settings\Administrator\My Documents\Visual Studio 2010\Projects\CustomsForge-Song-Manager\ThirdParty\"
+   "CFSMPostBuilder.exe" "CREATEVERSIONINFO"
+
+   CD "D:\Documents and Settings\Administrator\My Documents\Visual Studio 2010\Projects\CustomsForge-Song-Manager\ThirdParty\CFSM.Setup\Output\"
+   DEL /Q CFSMSetup.rar
+   "%programfiles%\WinRAR\WinRar.exe" a -r "CFSMSetup.rar" "CFSMSetup.exe"
+
+  rem DEL /Q CFSMSetup.exe
+
+REM "CFSMPostBuilder.exe" "UPLOAD" "198.58.96.81/beta/" "appdev" "kvPSF7HL"
+)
+
+if InnoBeta == InnoRelease (
+
+   MKDIR "D:\Documents and Settings\Administrator\My Documents\Visual Studio 2010\Projects\CustomsForge-Song-Manager\CustomsForgeSongManager\bin\ConfuserEx\"
+   XCOPY /Y /E /D "D:\Documents and Settings\Administrator\My Documents\Visual Studio 2010\Projects\CustomsForge-Song-Manager\CustomsForgeSongManager\bin\Release\*.*" "D:\Documents and Settings\Administrator\My Documents\Visual Studio 2010\Projects\CustomsForge-Song-Manager\CustomsForgeSongManager\bin\ConfuserEx\*.*"
+   CD "D:\Documents and Settings\Administrator\My Documents\Visual Studio 2010\Projects\CustomsForge-Song-Manager\ThirdParty\ConfuserEx_bin\"
+   "Confuser.CLI.exe" "..\ConfuserExForInno.crproj"
+
+rem must be connected to internet for signtool to work properly
+rem CD "D:\Documents and Settings\Administrator\My Documents\Visual Studio 2010\Projects\CustomsForge-Song-Manager\CustomsForgeSongManager\bin\ConfuserEx\"
+rem "%programfiles%\Microsoft SDKs\Windows\v7.0A\bin\signtool.exe"  sign /f CFSM_Certificate.pfx /p cozylov /t http://timestamp.verisign.com/scripts/timstamp.dll CustomsForgeSongManager.exe
+
+   CD "D:\Documents and Settings\Administrator\My Documents\Visual Studio 2010\Projects\CustomsForge-Song-Manager\ThirdParty\Inno\"
+  "ISCC.exe" "..\CFSM.Setup\cfsmInstaller.iss"
+
+   CD "D:\Documents and Settings\Administrator\My Documents\Visual Studio 2010\Projects\CustomsForge-Song-Manager\ThirdParty\"
+   "CFSMPostBuilder.exe" "CREATEVERSIONINFO"
+
+   CD "D:\Documents and Settings\Administrator\My Documents\Visual Studio 2010\Projects\CustomsForge-Song-Manager\ThirdParty\CFSM.Setup\Output\"
+   DEL /Q CFSMSetup.rar
+  "%programfiles%\WinRAR\WinRar.exe" a -r "CFSMSetup.rar" "CFSMSetup.exe"
+
+  rem DEL /Q CFSMSetup.exe
+
+
+REM "CFSMPostBuilder.exe" "UPLOAD" "198.58.96.81" "appdev" "7eCheQ+bu+heRevu"
+)
+
+rem if $(ConfigurationName This line will throw an error for post build debugging purposes" exited with code 1.	D:\WINDOWS\Microsoft.NET\Framework\v4.0.30319\Microsoft.Common.targets	3717	9	CustomsForgeSongManager

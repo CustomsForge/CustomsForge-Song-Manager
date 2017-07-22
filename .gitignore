@@ -78,3 +78,5 @@ ThirdParty/CFSMPostBuilder.vshost.exe.manifest
 ThirdParty/CFSMPostBuilder.exe.config
 ThirdParty/ignore*.*
 .gitattributes
+index*.html
+OpenCmd.bat

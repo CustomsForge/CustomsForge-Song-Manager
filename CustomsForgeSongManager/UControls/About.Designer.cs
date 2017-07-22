@@ -125,7 +125,7 @@ namespace CustomsForgeSongManager.UControls
             this.linkLabel4.Size = new System.Drawing.Size(489, 20);
             this.linkLabel4.TabIndex = 10;
             this.linkLabel4.TabStop = true;
-            this.linkLabel4.Text = "Copyright 2015 - CustomsForge Song Manager";
+            this.linkLabel4.Text = "Copyright 2017 - CustomsForge Song Manager";
             this.linkLabel4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.linkLabel4.VisitedLinkColor = System.Drawing.Color.Black;
             // 
@@ -414,10 +414,10 @@ namespace CustomsForgeSongManager.UControls
             this.lnkZerkzProfile.Location = new System.Drawing.Point(235, 137);
             this.lnkZerkzProfile.Name = "lnkZerkzProfile";
             this.lnkZerkzProfile.ResourceImg = null;
-            this.lnkZerkzProfile.Size = new System.Drawing.Size(40, 16);
+            this.lnkZerkzProfile.Size = new System.Drawing.Size(83, 16);
             this.lnkZerkzProfile.TabIndex = 6;
             this.lnkZerkzProfile.TabStop = true;
-            this.lnkZerkzProfile.Text = "Zerkz";
+            this.lnkZerkzProfile.Text = "Zerkz (hiatus)";
             this.lnkZerkzProfile.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lnkZerkzProfile.URL = "20759-zerkz";
             // 
@@ -581,10 +581,10 @@ namespace CustomsForgeSongManager.UControls
             this.lnkDarjuszProfile.Location = new System.Drawing.Point(235, 57);
             this.lnkDarjuszProfile.Name = "lnkDarjuszProfile";
             this.lnkDarjuszProfile.ResourceImg = "dardev";
-            this.lnkDarjuszProfile.Size = new System.Drawing.Size(48, 16);
+            this.lnkDarjuszProfile.Size = new System.Drawing.Size(91, 16);
             this.lnkDarjuszProfile.TabIndex = 1;
             this.lnkDarjuszProfile.TabStop = true;
-            this.lnkDarjuszProfile.Text = "Darjusz";
+            this.lnkDarjuszProfile.Text = "Darjusz (hiatus)";
             this.lnkDarjuszProfile.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lnkDarjuszProfile.URL = "5299-darjusz";
             // 
@@ -657,10 +657,10 @@ namespace CustomsForgeSongManager.UControls
             this.lnkDreddFoxxProfile.Location = new System.Drawing.Point(235, 77);
             this.lnkDreddFoxxProfile.Name = "lnkDreddFoxxProfile";
             this.lnkDreddFoxxProfile.ResourceImg = null;
-            this.lnkDreddFoxxProfile.Size = new System.Drawing.Size(68, 16);
+            this.lnkDreddFoxxProfile.Size = new System.Drawing.Size(111, 16);
             this.lnkDreddFoxxProfile.TabIndex = 1;
             this.lnkDreddFoxxProfile.TabStop = true;
-            this.lnkDreddFoxxProfile.Text = "DreddFoxx";
+            this.lnkDreddFoxxProfile.Text = "DreddFoxx (hiatus)";
             this.lnkDreddFoxxProfile.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lnkDreddFoxxProfile.URL = "40453-dreddfoxx";
             // 

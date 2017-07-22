@@ -39,16 +39,10 @@
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>C7D0B2EF4EF79665955CD6C533F88AB9C6850443</ManifestCertificateThumbprint>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ManifestKeyFile>CFSM_TemporaryKey.pfx</ManifestKeyFile>
-  </PropertyGroup>
-  <PropertyGroup>
     <GenerateManifests>false</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Resources\cfsm_48x48.ico</ApplicationIcon>
@@ -56,7 +50,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS;AUTOUPDATE;TAGGER;WINDOWS;BETA;CUSTOMUI</DefineConstants>
+    <DefineConstants>TRACE;CODE_ANALYSIS;AUTOUPDATE;TAGGER;WINDOWS;DEBUG;CUSTOMUI</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <RunCodeAnalysis>true</RunCodeAnalysis>
@@ -97,6 +91,18 @@
     <DefineConstants>WINDOWS;RELEASE;TAGGER;AUTOUPDATE</DefineConstants>
     <PlatformTarget>x86</PlatformTarget>
     <Optimize>true</Optimize>
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Antlr3.Runtime">
@@ -106,13 +112,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\libs\Antlr4.StringTemplate.dll</HintPath>
     </Reference>
-    <Reference Include="CFSM.NCalc, Version=1.4.1.1, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="CFSM.NCalc">
       <HintPath>..\libs\CFSM.NCalc.dll</HintPath>
-    </Reference>
-    <Reference Include="DLogNet, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\libs\DLogNet.dll</HintPath>
     </Reference>
     <Reference Include="HtmlRenderer">
       <HintPath>..\libs\HtmlRenderer.dll</HintPath>
@@ -189,12 +190,6 @@
     <Compile Include="DataObjects\Constants.cs" />
     <Compile Include="LocalTools\CFSMHtmlPanel.cs">
       <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Forms\ClickOnceUpgrade.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\ClickOnceUpgrade.Designer.cs">
-      <DependentUpon>ClickOnceUpgrade.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmHtmlViewer.cs">
       <SubType>Form</SubType>
@@ -384,9 +379,6 @@
     <EmbeddedResource Include="Forms\frmModAppId.resx">
       <DependentUpon>frmModAppId.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ClickOnceUpgrade.resx">
-      <DependentUpon>ClickOnceUpgrade.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmHtmlViewer.resx">
       <DependentUpon>frmHtmlViewer.cs</DependentUpon>
     </EmbeddedResource>
@@ -473,8 +465,8 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\renamer_properties.json" />
+    <EmbeddedResource Include="Resources\HelpGeneral.rtf" />
     <None Include="Resources\logo_black.png" />
-    <None Include="CFSM_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0.3">
@@ -556,7 +548,10 @@
     <None Include="Resources\log.png" />
     <None Include="Resources\maintenance.png" />
     <None Include="Resources\notes.png" />
-    <EmbeddedResource Include="Resources\HelpRepairs.txt" />
+    <EmbeddedResource Include="Resources\HelpRepairs.rtf" />
+    <None Include="Resources\refresh_plus.png" />
+    <None Include="Resources\rescan_plus.png" />
+    <None Include="Resources\extra_data.png" />
     <Content Include="Resources\TaggerHelp.html" />
     <None Include="Resources\trashcan.png" />
     <None Include="Resources\Unleashed2k.png" />
@@ -617,14 +612,13 @@
     <EmbeddedResource Include="Resources\tags\motive_ws_\Rhythm.png" />
     <EmbeddedResource Include="Resources\tags\motive_ws_\Vocal.png" />
     <None Include="Resources\DreddFoxx.png" />
-    <EmbeddedResource Include="Resources\HelpGeneral.txt" />
-    <EmbeddedResource Include="Resources\HelpSongMgr.txt" />
+    <EmbeddedResource Include="Resources\HelpSongMgr.rtf" />
     <None Include="Resources\minus.png" />
     <None Include="Resources\plus.png" />
     <None Include="Resources\eof-bg.jpg" />
     <None Include="Resources\Rocksmith_2014_Background_Guitar.jpg" />
     <None Include="Resources\instructionLabel.txt" />
-    <EmbeddedResource Include="Resources\HelpSetlistMgr.txt" />
+    <EmbeddedResource Include="Resources\HelpSetlistMgr.rtf" />
     <None Include="Resources\Letter D black_small.png" />
     <None Include="Resources\Letter L black_small.png" />
     <None Include="Resources\Letter R black_small.png" />
@@ -680,6 +674,10 @@
       <Project>{E3A2283B-A2B8-46E5-AF49-DF6CD156EB0D}</Project>
       <Name>DF.WinForms.ThemeLib</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CFSM.Libraries\DLogNet\DLogNet.csproj">
+      <Project>{04B8EBDC-6226-456E-8BD4-AEF7BAF682AA}</Project>
+      <Name>DLogNet</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CFSM.Libraries\GenTools\GenTools.csproj">
       <Project>{41EA9CF7-BF72-4243-98A8-5BF16BCD90AD}</Project>
       <Name>GenTools</Name>
@@ -695,33 +693,58 @@ CD "$(SolutionDir)ThirdParty\ConfuserEx_bin\"
 )
 
 if $(ConfigurationName) == InnoBeta (
-MKDIR "$(ProjectDir)bin\ConfuserEx\"
-XCOPY /Y /E /D "$(TargetDir)*.*" "$(ProjectDir)bin\ConfuserEx\*.*"
-CD "$(SolutionDir)ThirdParty\ConfuserEx_bin\"
-"Confuser.CLI.exe" "..\ConfuserExForInno.crproj"
-CD "$(SolutionDir)ThirdParty\Inno\"
-"ISCC.exe" /DBETA "..\CFSM.Setup\cfsmInstaller.iss"
-CD "$(SolutionDir)ThirdParty\"
-"CFSMPostBuilder.exe" "CREATEVERSIONINFO"
+   MKDIR "$(ProjectDir)bin\ConfuserEx\"
+   XCOPY /Y /E /D "$(TargetDir)*.*" "$(ProjectDir)bin\ConfuserEx\*.*"
+   CD "$(SolutionDir)ThirdParty\ConfuserEx_bin\"
+   "Confuser.CLI.exe" "..\ConfuserExForInno.crproj"
+
+rem must be connected to internet for signtool to work properly
+rem CD "$(ProjectDir)bin\ConfuserEx\"
+rem "%25programfiles%25\Microsoft SDKs\Windows\v7.0A\bin\signtool.exe"  sign /f CFSM_Certificate.pfx /p cozylov /t http://timestamp.verisign.com/scripts/timstamp.dll CustomsForgeSongManager.exe
+
+   CD "$(SolutionDir)ThirdParty\Inno\"
+   "ISCC.exe" /DBETA "..\CFSM.Setup\cfsmInstaller.iss"
+
+   CD "$(SolutionDir)ThirdParty\"
+   "CFSMPostBuilder.exe" "CREATEVERSIONINFO"
+
+   CD "$(SolutionDir)ThirdParty\CFSM.Setup\Output\"
+   DEL /Q CFSMSetup.rar
+   "%25programfiles%25\WinRAR\WinRar.exe" a -r "CFSMSetup.rar" "CFSMSetup.exe"
+
+  rem DEL /Q CFSMSetup.exe
 
 REM "CFSMPostBuilder.exe" "UPLOAD" "198.58.96.81/beta/" "appdev" "kvPSF7HL"
 )
 
 if $(ConfigurationName) == InnoRelease (
-MKDIR "$(ProjectDir)bin\ConfuserEx\"
-XCOPY /Y /E /D "$(TargetDir)*.*" "$(ProjectDir)bin\ConfuserEx\*.*"
-CD "$(SolutionDir)ThirdParty\ConfuserEx_bin\"
-"Confuser.CLI.exe" "..\ConfuserExForInno.crproj"
-CD "$(SolutionDir)ThirdParty\Inno\"
-"ISCC.exe" "..\CFSM.Setup\cfsmInstaller.iss"
-CD "$(SolutionDir)ThirdParty\"
-"CFSMPostBuilder.exe" "CREATEVERSIONINFO"
+
+   MKDIR "$(ProjectDir)bin\ConfuserEx\"
+   XCOPY /Y /E /D "$(TargetDir)*.*" "$(ProjectDir)bin\ConfuserEx\*.*"
+   CD "$(SolutionDir)ThirdParty\ConfuserEx_bin\"
+   "Confuser.CLI.exe" "..\ConfuserExForInno.crproj"
+
+rem must be connected to internet for signtool to work properly
+rem CD "$(ProjectDir)bin\ConfuserEx\"
+rem "%25programfiles%25\Microsoft SDKs\Windows\v7.0A\bin\signtool.exe"  sign /f CFSM_Certificate.pfx /p cozylov /t http://timestamp.verisign.com/scripts/timstamp.dll CustomsForgeSongManager.exe
+
+   CD "$(SolutionDir)ThirdParty\Inno\"
+  "ISCC.exe" "..\CFSM.Setup\cfsmInstaller.iss"
+
+   CD "$(SolutionDir)ThirdParty\"
+   "CFSMPostBuilder.exe" "CREATEVERSIONINFO"
+
+   CD "$(SolutionDir)ThirdParty\CFSM.Setup\Output\"
+   DEL /Q CFSMSetup.rar
+  "%25programfiles%25\WinRAR\WinRar.exe" a -r "CFSMSetup.rar" "CFSMSetup.exe"
+
+  rem DEL /Q CFSMSetup.exe
+
 
 REM "CFSMPostBuilder.exe" "UPLOAD" "198.58.96.81" "appdev" "7eCheQ+bu+heRevu"
 )
 
-REM if $(ConfigurationName This line will throw an error for debugging
-</PostBuildEvent>
+rem if $(ConfigurationName This line will throw an error for post build debugging purposes</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>REM do some housekeeping here
@@ -731,14 +754,14 @@ RMDIR /S /Q "$(ProjectDir)bin\ConfuserEx\"
 
 CD "$(SolutionDir)ThirdParty\CFSM.Setup\Output\"
 DEL /Q "*.txt"
-DEL /Q "CFSMSetup.exe"
+DEL /Q "*.exe"
+DEL /Q "*.rar"
 
 XCOPY /Y /D "$(SolutionDir)libs\*.xml" "$(TargetDir)*.xml" 
 XCOPY /Y /E /D "$(SolutionDir)libs\ww2ogg\*.*" "$(TargetDir)*.*"
 XCOPY /Y /E /D "$(SolutionDir)libs\ddc\*.*" "$(TargetDir)ddc\*.*"
 
-REM if $(ConfigurationName This line will throw an error for debugging
-</PreBuildEvent>
+REM if $(ConfigurationName This line will throw an error for debugging</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

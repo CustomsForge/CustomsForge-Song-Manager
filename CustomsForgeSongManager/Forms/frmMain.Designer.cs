@@ -54,12 +54,14 @@ namespace CustomsForgeSongManager.Forms
             this.tsUtilities = new System.Windows.Forms.ToolStrip();
             this.tsBtnLaunchRS = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.tsBtnBackup = new System.Windows.Forms.ToolStripButton();
+            this.tsBtnUserProfiles = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
-            this.bBCodeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.cSVToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.hTMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsBtnExport = new System.Windows.Forms.ToolStripDropDownButton();
+            this.tsmiBBCode = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiCSV = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiHTML = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiAnalyzerCSV = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiAnalyzerJSON = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.tsBtnUpload = new System.Windows.Forms.ToolStripButton();
             this.tsBtnRequest = new System.Windows.Forms.ToolStripButton();
@@ -287,9 +289,9 @@ namespace CustomsForgeSongManager.Forms
             this.tsUtilities.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsBtnLaunchRS,
             this.toolStripSeparator1,
-            this.tsBtnBackup,
+            this.tsBtnUserProfiles,
             this.toolStripSeparator6,
-            this.toolStripDropDownButton1,
+            this.tsBtnExport,
             this.toolStripSeparator2,
             this.tsBtnUpload,
             this.tsBtnRequest,
@@ -299,7 +301,7 @@ namespace CustomsForgeSongManager.Forms
             this.tsUtilities.Location = new System.Drawing.Point(3, 0);
             this.tsUtilities.Name = "tsUtilities";
             this.tsUtilities.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.tsUtilities.Size = new System.Drawing.Size(428, 25);
+            this.tsUtilities.Size = new System.Drawing.Size(459, 25);
             this.tsUtilities.TabIndex = 0;
             // 
             // tsBtnLaunchRS
@@ -316,52 +318,70 @@ namespace CustomsForgeSongManager.Forms
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
-            // tsBtnBackup
+            // tsBtnUserProfiles
             // 
-            this.tsBtnBackup.Image = global::CustomsForgeSongManager.Properties.Resources.backup;
-            this.tsBtnBackup.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsBtnBackup.Name = "tsBtnBackup";
-            this.tsBtnBackup.Size = new System.Drawing.Size(87, 22);
-            this.tsBtnBackup.Text = "User Profiles";
-            this.tsBtnBackup.Click += new System.EventHandler(this.tsBtnBackup_Click);
+            this.tsBtnUserProfiles.Image = global::CustomsForgeSongManager.Properties.Resources.backup;
+            this.tsBtnUserProfiles.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsBtnUserProfiles.Name = "tsBtnUserProfiles";
+            this.tsBtnUserProfiles.Size = new System.Drawing.Size(87, 22);
+            this.tsBtnUserProfiles.Text = "User Profiles";
+            this.tsBtnUserProfiles.ToolTipText = "Left Mouse Click to backup or restore a UserProfile\r\nRight Mouse Click to reset U" +
+                "serProfile Directory Path";
+            this.tsBtnUserProfiles.MouseUp += new System.Windows.Forms.MouseEventHandler(this.tsBtnUserProfiles_MouseUp);
             // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
             this.toolStripSeparator6.Size = new System.Drawing.Size(6, 25);
             // 
-            // toolStripDropDownButton1
+            // tsBtnExport
             // 
-            this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.bBCodeToolStripMenuItem,
-            this.cSVToolStripMenuItem,
-            this.hTMLToolStripMenuItem});
-            this.toolStripDropDownButton1.Image = global::CustomsForgeSongManager.Properties.Resources.export;
-            this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
-            this.toolStripDropDownButton1.Size = new System.Drawing.Size(68, 22);
-            this.toolStripDropDownButton1.Text = "Export";
+            this.tsBtnExport.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiBBCode,
+            this.tsmiCSV,
+            this.tsmiHTML,
+            this.tsmiAnalyzerCSV,
+            this.tsmiAnalyzerJSON});
+            this.tsBtnExport.Image = global::CustomsForgeSongManager.Properties.Resources.export;
+            this.tsBtnExport.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsBtnExport.Name = "tsBtnExport";
+            this.tsBtnExport.Size = new System.Drawing.Size(68, 22);
+            this.tsBtnExport.Text = "Export";
             // 
-            // bBCodeToolStripMenuItem
+            // tsmiBBCode
             // 
-            this.bBCodeToolStripMenuItem.Name = "bBCodeToolStripMenuItem";
-            this.bBCodeToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
-            this.bBCodeToolStripMenuItem.Text = "BB Code";
-            this.bBCodeToolStripMenuItem.Click += new System.EventHandler(this.bBCodeToolStripMenuItem_Click);
+            this.tsmiBBCode.Name = "tsmiBBCode";
+            this.tsmiBBCode.Size = new System.Drawing.Size(163, 22);
+            this.tsmiBBCode.Text = "BB Code";
+            this.tsmiBBCode.Click += new System.EventHandler(this.tsmiBBCode_Click);
             // 
-            // cSVToolStripMenuItem
+            // tsmiCSV
             // 
-            this.cSVToolStripMenuItem.Name = "cSVToolStripMenuItem";
-            this.cSVToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
-            this.cSVToolStripMenuItem.Text = "CSV";
-            this.cSVToolStripMenuItem.Click += new System.EventHandler(this.cSVToolStripMenuItem_Click);
+            this.tsmiCSV.Name = "tsmiCSV";
+            this.tsmiCSV.Size = new System.Drawing.Size(163, 22);
+            this.tsmiCSV.Text = "CSV";
+            this.tsmiCSV.Click += new System.EventHandler(this.tsmiCSV_Click);
             // 
-            // hTMLToolStripMenuItem
+            // tsmiHTML
             // 
-            this.hTMLToolStripMenuItem.Name = "hTMLToolStripMenuItem";
-            this.hTMLToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
-            this.hTMLToolStripMenuItem.Text = "HTML";
-            this.hTMLToolStripMenuItem.Click += new System.EventHandler(this.hTMLToolStripMenuItem_Click);
+            this.tsmiHTML.Name = "tsmiHTML";
+            this.tsmiHTML.Size = new System.Drawing.Size(163, 22);
+            this.tsmiHTML.Text = "HTML";
+            this.tsmiHTML.Click += new System.EventHandler(this.tsmiHTML_Click);
+            // 
+            // tsmiAnalyzerCSV
+            // 
+            this.tsmiAnalyzerCSV.Name = "tsmiAnalyzerCSV";
+            this.tsmiAnalyzerCSV.Size = new System.Drawing.Size(163, 22);
+            this.tsmiAnalyzerCSV.Text = "Analyzer - CSV";
+            this.tsmiAnalyzerCSV.Click += new System.EventHandler(this.tsmiAnalyzerCSV_Click);
+            // 
+            // tsmiAnalyzerJSON
+            // 
+            this.tsmiAnalyzerJSON.Name = "tsmiAnalyzerJSON";
+            this.tsmiAnalyzerJSON.Size = new System.Drawing.Size(163, 22);
+            this.tsmiAnalyzerJSON.Text = "Analyzer - JSON";
+            this.tsmiAnalyzerJSON.Click += new System.EventHandler(this.tsmiAnalyzerJSON_Click);
             // 
             // toolStripSeparator2
             // 
@@ -414,7 +434,7 @@ namespace CustomsForgeSongManager.Forms
             this.tspbAudioPosition,
             this.tslblTimer});
             this.tsAudioPlayer.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
-            this.tsAudioPlayer.Location = new System.Drawing.Point(465, 0);
+            this.tsAudioPlayer.Location = new System.Drawing.Point(682, 0);
             this.tsAudioPlayer.Name = "tsAudioPlayer";
             this.tsAudioPlayer.Padding = new System.Windows.Forms.Padding(0);
             this.tsAudioPlayer.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
@@ -659,7 +679,7 @@ namespace CustomsForgeSongManager.Forms
         private TabPage tpAbout;
         private ToolStrip tsUtilities;
         private ToolStripButton tsBtnLaunchRS;
-        private ToolStripButton tsBtnBackup;
+        private ToolStripButton tsBtnUserProfiles;
         private ToolStripSeparator toolStripSeparator1;
         private ToolStripButton tsBtnUpload;
         private ToolStripButton tsBtnRequest;
@@ -667,10 +687,10 @@ namespace CustomsForgeSongManager.Forms
         private ToolStripSeparator toolStripSeparator4;
         private ToolStripButton tsBtnHelp;
         public ToolStripContainer tstripContainer;
-        private ToolStripDropDownButton toolStripDropDownButton1;
-        private ToolStripMenuItem bBCodeToolStripMenuItem;
-        private ToolStripMenuItem cSVToolStripMenuItem;
-        private ToolStripMenuItem hTMLToolStripMenuItem;
+        private ToolStripDropDownButton tsBtnExport;
+        private ToolStripMenuItem tsmiBBCode;
+        private ToolStripMenuItem tsmiCSV;
+        private ToolStripMenuItem tsmiHTML;
         private ToolStripPanel BottomToolStripPanel;
         private ToolStripPanel TopToolStripPanel;
         private ToolStripPanel RightToolStripPanel;
@@ -684,5 +704,7 @@ namespace CustomsForgeSongManager.Forms
         private ToolStripProgressBar tspbAudioPosition;
         private TabPage tpSongPacks;
         private ToolStripLabel tslblTimer;
+        private ToolStripMenuItem tsmiAnalyzerCSV;
+        private ToolStripMenuItem tsmiAnalyzerJSON;
     }
 }

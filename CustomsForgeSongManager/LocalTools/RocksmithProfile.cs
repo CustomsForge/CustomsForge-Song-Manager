@@ -14,8 +14,6 @@ using System.Management;
 
 namespace CustomsForgeSongManager.LocalTools
 {
-    // TODO: confirmed working on Win XP and Win7 Pro x64 
-    // ... need to test on all other systems
     public static class RocksmithProfile
     {
         // Win XP:         HKEY_LOCAL_MACHINE\SOFTWARE\Valve\Steam\InstallPath
@@ -28,7 +26,7 @@ namespace CustomsForgeSongManager.LocalTools
         // Win 10 32-bit:
         // Win 10 64-bit:  HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Valve\Steam\InstallPath
 
-        // TODO: use it
+        // TODO: use method to detect Win
         public static string DetectWin()
         {
             string result = "";
@@ -42,155 +40,152 @@ namespace CustomsForgeSongManager.LocalTools
             return result;
         }
 
-        public static int AmountOfProfileFiles(string path)
+        public static bool FoundProfileBackups(string profileBackupsDir)
         {
-            var subdirs = new DirectoryInfo(path).GetDirectories("*", SearchOption.AllDirectories).ToArray();
+            if (!Directory.Exists(profileBackupsDir))
+                return false;
 
-            if (!subdirs.Any())
+            string[] filePatterns = new string[] { "ProfilesBackup.*.zip" };
+            foreach (var filePattern in filePatterns)
             {
-                List<string> files = new List<string>();
-                string[] filePatterns = new string[] { "*_prfldb", "localprofiles.json", "crd" };
-
-                foreach (var pattern in filePatterns)
-                {
-                    var partial = Directory.GetFiles(path, pattern, SearchOption.AllDirectories);
-                    files.AddRange(partial);
-                }
-
-                return files.Count();
+                if (Directory.EnumerateFiles(profileBackupsDir, filePattern, SearchOption.TopDirectoryOnly).Any())
+                    return true;
             }
-            return -1;
+
+            return false;
         }
 
-        public static void GetProfileDirPath()
+        public static string GetRemoteDir()
         {
-            bool found = false;
-            string steamDirPath = "", userDirPath = AppSettings.Instance.RSProfileDir;
+            bool foundSteamDirPath = false;
+            var remoteDirPath = String.Empty;
+            var steamDirPath = String.Empty;
+            string rsX64Path = @"HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Valve\Steam";
+            string rsX86Path = @"HKEY_LOCAL_MACHINE\SOFTWARE\Valve\Steam";
 
-            //If RS profile dir path is empty or if there's no profile files on the existing path, search for the correct path
-            if (String.IsNullOrEmpty(userDirPath) || AmountOfProfileFiles(userDirPath) <= 0) 
-            {
-                string rsX64Path = @"HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Valve\Steam";
-                string rsX86Path = @"HKEY_LOCAL_MACHINE\SOFTWARE\Valve\Steam";
-
-                try
-                {
-                    if (!String.IsNullOrEmpty(Registry.GetValue(rsX64Path, "InstallPath", null).ToString()))
-                    {
-                        steamDirPath = Registry.GetValue(rsX64Path, "InstallPath", null).ToString();
-                        found = true;
-                    }
-                    // TODO: confirm the following is correct for x86 machines
-                    else if (!String.IsNullOrEmpty(Registry.GetValue(rsX86Path, "UserData", null).ToString()))
-                    {
-                        steamDirPath = Registry.GetValue(rsX86Path, "UserData", null).ToString();
-                        found = true;
-                    }
-                    else if (!String.IsNullOrEmpty(Registry.GetValue(rsX86Path, "InstallPath", null).ToString()))
-                    {
-                        steamDirPath = Registry.GetValue(rsX86Path, "InstallPath", null).ToString();
-                        found = true;
-                    }
-                }
-                catch (NullReferenceException)
-                {
-                    if (!found) //To prevent unnecessesary showing of the message
-                    {
-                        // needed for WinXP SP3 which throws NullReferenceException when registry not found
-                        Globals.Log("RS2014 User Profile Directory not found in Registry");
-                        Globals.Log("You will need to manually locate the user profile directory");
-                    }
-                }
-            }
-
-            // If we have a non existing path, ask the user to manually point the app to the correct location
-            if (!Directory.Exists(steamDirPath))
-            {
-                using (var fbd = new FolderBrowserDialog())
-                {
-                    fbd.SelectedPath = steamDirPath;
-                    fbd.Description = "Select the Rocksmith 2014 user profile directory location." + Environment.NewLine + "HINT: Do a Windows Search for '*_prfldb' files to find the path.";
-
-                    if (fbd.ShowDialog() != DialogResult.OK) return;
-                    userDirPath = fbd.SelectedPath;
-                }
-            }
-            else // TODO: confirm proper function when steamDirPath exists
-            {
-                // If we have path of the Steam folder, get path of the RS profile subfolder
-                if (AmountOfProfileFiles(steamDirPath) <= 0)
-                {
-                    var subdirs = new DirectoryInfo(steamDirPath).GetDirectories("*", SearchOption.AllDirectories).ToArray();
-
-                    foreach (DirectoryInfo info in subdirs)
-                    {
-                        if (info.FullName.Contains(@"221680\remote"))
-                        {
-                            userDirPath = info.FullName;
-                            break;
-                        }
-                    }
-                }
-            }
-
-            // If we have the correct path, save it
-            if (AmountOfProfileFiles(userDirPath) > 0)
-                AppSettings.Instance.RSProfileDir = userDirPath;
-        }
-
-        public static void BackupRestore()
-        {
-            //TODO: confirm steamProfileDir is being set properly
             try
             {
-                var timestamp = string.Format("{0}-{1}-{2}.{3}-{4}-{5}", DateTime.Now.Day, DateTime.Now.Month, DateTime.Now.Year, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
-                var backupPath = string.Format("{0}\\profile.backup.{1}.zip", Constants.ProfileBackupsFolder, timestamp);
-
-                if (String.IsNullOrEmpty(AppSettings.Instance.RSProfileDir) || AmountOfProfileFiles(AppSettings.Instance.RSProfileDir) <= 0)
-                    GetProfileDirPath();
-
-                //Proceed only if there's a Steam folder has been detected
-                if (!String.IsNullOrEmpty(AppSettings.Instance.RSProfileDir) || AmountOfProfileFiles(AppSettings.Instance.RSProfileDir) > 0) 
+                if (!String.IsNullOrEmpty(Registry.GetValue(rsX64Path, "InstallPath", null).ToString()))
                 {
-                    if (DialogResult.Yes == BetterDialog2.ShowDialog("Backup or restore a Rocksmith 2014 user profile?", "User Profile Backup/Restore", null, "Backup", "Restore", Bitmap.FromHicon(SystemIcons.Question.Handle), "Pick One", 150, 150))
-                    {
-                        BackupProfiles(AppSettings.Instance.RSProfileDir, backupPath);
-                    }
-                    else // Restore profile backup
-                    {
-                        //check if there's any backups to restore 
-                        var zipFiles = Directory.EnumerateFiles(Constants.ProfileBackupsFolder, "profile.backup.*.zip", SearchOption.TopDirectoryOnly).ToArray();
-                        if (!zipFiles.Any())
-                        {
-                            MessageBox.Show("No user profile backups found in:" + Environment.NewLine +
-                                Constants.ProfileBackupsFolder, Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                            return;
-                        }
+                    steamDirPath = Registry.GetValue(rsX64Path, "InstallPath", null).ToString();
+                    foundSteamDirPath = true;
+                }
+                // TODO: confirm the following is correct for x86 machines
+                else if (!String.IsNullOrEmpty(Registry.GetValue(rsX86Path, "UserData", null).ToString()))
+                {
+                    steamDirPath = Registry.GetValue(rsX86Path, "UserData", null).ToString();
+                    foundSteamDirPath = true;
+                }
+                else if (!String.IsNullOrEmpty(Registry.GetValue(rsX86Path, "InstallPath", null).ToString()))
+                {
+                    steamDirPath = Registry.GetValue(rsX86Path, "InstallPath", null).ToString();
+                    foundSteamDirPath = true;
+                }
+            }
+            catch (NullReferenceException)
+            {
+                if (!foundSteamDirPath) // prevents unnecessesary display of the message
+                {
+                    // needed for WinXP SP3 which throws NullReferenceException when registry not found
+                    Globals.Log("RS2014 User Profile Directory not found in Registry");
+                    Globals.Log("You will need to manually locate the user profile directory");
+                }
+            }
 
+            if (foundSteamDirPath && FoundProfileBackups(steamDirPath))
+            {
+                var subdirs = new DirectoryInfo(steamDirPath).GetDirectories("*", SearchOption.AllDirectories).ToArray();
+
+                foreach (DirectoryInfo info in subdirs)
+                {
+                    if (info.FullName.Contains(@"221680\remote"))
+                    {
+                        remoteDirPath = info.FullName;
+                        break;
+                    }
+                }
+            }
+
+            // user should still confirm location of remoteDirPath
+            using (var fbd = new FolderBrowserDialog())
+            {
+                if (!String.IsNullOrEmpty(AppSettings.Instance.RSProfileDir.Trim()))
+                    fbd.SelectedPath = AppSettings.Instance.RSProfileDir;
+                else
+                {
+                    if (String.IsNullOrEmpty(remoteDirPath))
+                        fbd.SelectedPath = steamDirPath;
+                    else
+                        fbd.SelectedPath = remoteDirPath;
+                }
+
+                fbd.Description = "Select the Rocksmith 2014 user profile directory location." + Environment.NewLine + "HINT: Do a Windows Search for '*_prfldb' files to find the path" + Environment.NewLine + "then back out of the subfolder and select the '221680' root folder.";
+
+                if (fbd.ShowDialog() != DialogResult.OK)
+                    return null;
+
+                remoteDirPath = fbd.SelectedPath;
+            }
+
+            AppSettings.Instance.RSProfileDir = remoteDirPath;
+            Globals.Log("User Profile Directory changed to: " + remoteDirPath);
+            return remoteDirPath;
+        }
+
+        public static void BackupRestore(bool resetProfileDirPath)
+        {
+            try
+            {
+                // locate Steam 'remote' folder
+                if (resetProfileDirPath || String.IsNullOrEmpty(AppSettings.Instance.RSProfileDir.Trim()))
+                {
+                    if (String.IsNullOrEmpty(GetRemoteDir()))
+                        return;
+                }
+
+                if (DialogResult.Yes == BetterDialog2.ShowDialog("Backup or restore a Rocksmith 2014 user profile?", "User Profile Backup/Restore", null, "Backup", "Restore", Bitmap.FromHicon(SystemIcons.Question.Handle), "Pick One", 150, 150))
+                {
+                    var timestamp = DateTime.Now.ToString("yyyyMMddTHHmmss"); // use ISO8601 format
+                    var backupFileName = String.Format("ProfilesBackup.{0}.zip", timestamp);
+                    var backupPath = Path.Combine(Constants.ProfileBackupsFolder, backupFileName);
+                    BackupProfiles(AppSettings.Instance.RSProfileDir, backupPath);
+                }
+                else
+                {
+                    if (FoundProfileBackups(Constants.ProfileBackupsFolder))
+                    {
                         frmProfileBackups frmBackups = new frmProfileBackups();
                         frmBackups.PopulateBackupList(GetProfileBackupsList());
                         frmBackups.Show();
                     }
+                    else
+                        Globals.Log("<Error>: No Profile Backups Found ...");
                 }
             }
             catch (Exception ex)
             {
                 Globals.Log("<Error>: " + ex.Message);
+                Globals.Log(" - Right mouse click the 'User Profiles' button to reset the path ...");
             }
         }
 
-        public static void BackupProfiles(string userProfilePath, string backupPath)
+        public static void BackupProfiles(string remoteDirPath, string backupPath)
         {
-            if (Directory.Exists(userProfilePath))
+            // backup the entire 221680 folder/subfolders which includes important remotecache.vdf
+            if (remoteDirPath.Contains("221680\\remote")) // official steam dir
+                remoteDirPath = Path.GetDirectoryName(remoteDirPath);
+
+            if (Directory.Exists(remoteDirPath))
             {
                 if (!Directory.Exists(Constants.ProfileBackupsFolder))
                     Directory.CreateDirectory(Constants.ProfileBackupsFolder);
- 
+
                 Globals.Log("Backup user profile ...");
 
-                if (ZipUtilities.ZipDirectory(userProfilePath, backupPath))
+                if (ZipUtilities.ZipDirectory(remoteDirPath, backupPath, preserveRoot: true))
                 {
-                    Globals.Log(backupPath);
+                    Globals.Log("From: " + remoteDirPath);
+                    Globals.Log("To: " + backupPath);
                     Globals.Log("User profile backup ... SUCCESSFUL");
                 }
                 else
@@ -203,32 +198,38 @@ namespace CustomsForgeSongManager.LocalTools
         public static void RestoreBackup(string backupPath, string steamProfileDir)
         {
             // unzip and restore the files
-            if (DialogResult.Cancel == MessageBox.Show(
-                "Existing files will be overwritten.  You may want" + Environment.NewLine +
-                "to make a backup of the corrupt files before proceeding.  " + Environment.NewLine +
-                "Are you sure you want to restore the profile backup?", Constants.ApplicationName,
-                MessageBoxButtons.OKCancel, MessageBoxIcon.Hand))
+            if (DialogResult.Cancel == MessageBox.Show("Existing files will be overwritten.  Do you may want" + Environment.NewLine + "to make a backup of the corrupt files before proceeding.  " + Environment.NewLine + "Are you sure you want to restore the profile backup?", Constants.ApplicationName, MessageBoxButtons.OKCancel, MessageBoxIcon.Hand))
                 return;
 
+            Globals.Log("Restore user profile ...");
+
+            // restore 221680 folder/subfolders which includes important remotecache.vdf
+            if (steamProfileDir.Contains("221680\\remote")) // official steam dir
+                steamProfileDir = Path.GetDirectoryName(Path.GetDirectoryName(steamProfileDir));
+
             if (ZipUtilities.UnzipDir(backupPath, steamProfileDir))
-                Globals.Log("Restored user profile backup files ... SUCCESSFUL");
+            {
+                Globals.Log("From: " + backupPath);
+                Globals.Log("To: " + steamProfileDir);
+                Globals.Log("User profile restore ... SUCCESSFUL");
+            }
             else
-                Globals.Log("Restored user profile backup files ... FAILED");
+                Globals.Log("User profile restore ... FAILED");
         }
 
         public static List<ProfileData> GetProfileBackupsList()
         {
             List<ProfileData> backups = new List<ProfileData>();
 
-            foreach (string backupPath in Directory.EnumerateFiles(Constants.ProfileBackupsFolder, "profile.backup.*.zip", SearchOption.TopDirectoryOnly).ToList())
+            foreach (string backupPath in Directory.EnumerateFiles(Constants.ProfileBackupsFolder, "ProfilesBackup.*.zip", SearchOption.TopDirectoryOnly).ToList())
             {
-                var dateString = Path.GetFileName(backupPath).Replace("profile.backup.", "").Replace(".zip", "");
-                var date = DateTime.ParseExact(dateString, "d-M-yyyy.H-m-s", CultureInfo.InvariantCulture);
+                var dateString = Path.GetFileName(backupPath).Replace("ProfilesBackup.", "").Replace(".zip", "");
+                var dateTime = DateTime.ParseExact(dateString, "yyyyMMddTHHmmss", CultureInfo.InvariantCulture);
 
                 ProfileData backup = new ProfileData();
                 backup.Selected = false;
                 backup.ArchivePath = backupPath;
-                backup.ArchiveDate = date;
+                backup.ArchiveDate = dateTime;
 
                 backups.Add(backup);
             }

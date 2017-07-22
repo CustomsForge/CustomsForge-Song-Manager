@@ -10,6 +10,7 @@
         { "Key": "author", "Description": "CDLC Author" },
         { "Key": "filename", "Description": "Original Filename" },        
         { "Key": "arrangements", "Description": "Song Arrangements" },
-        { "Key": "ddlvl", "Description": "Dynamic Difficulty Level" }
+        { "Key": "ddlvl", "Description": "Dynamic Difficulty Level" },
+        { "Key": "_", "Description": "underscore" }
     ]
 }

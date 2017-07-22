@@ -1,4 +1,177 @@
-﻿CFSM Release Notes
+﻿DEVELOPER NOTE TO USERS:  THIS RELEASE CONTAINS NO VIRUSES OR TROJANS
+Any such report from your AV is a false positive and is due to how
+the installer and application updater works.  You must manually add 
+CFSMSetup.exe and CustomsForgeSongManager.exe to you AV's whitelist
+of approved/excluded applications.
+
+IT IS A WASTE OF BOTH YOUR TIME, AND THE CF ADMINS AND DEVELOPERS TIME
+for you to post on CF that this application contains viruses or trojans.  
+
+If you don't believe this then simply don't install the CFSM application
+until you can confirm it is safe directly through your AV provider.
+
+========================================================================
+
+CFSM Release Notes
+1.4.0.0
+- release version issued
+- does not include revisions from 1.3.3.7 beta still in testing
+
+1.3.3.7
+
+1.3.3.6
+- added an exception handler to VerifyCfsmFolders method for better debugging
+- load (Analyzer) extra data on startup if 'Settings' checkbox is selected
+- Rescan Quick and Full now works for (Analyzer) extra data when 'Setting' menu checkbox is selected
+- Right Mouse Click on a song to show context menu options and Get Analyzer Data for selected songs
+- correct status of 'ExtraMetaDataScanned'
+
+1.3.3.5
+- modified CopyDir to return false if source directory is not found
+
+1.3.3.4
+- changed to create application without a manifest
+- incremented GUI (attempt to fix cfsm/archive error)
+- force user to select RS root directory on fresh start
+
+1.3.3.3
+- backup original content (song packs) in the RS root folder/originals for safe keeping
+- song packs and compatibility packs are searchable when checked in 'Settings' menu
+- perform auto rescan when settings change (include compatibility, include base, extra data)
+- fixed checkbox in 'Settings' to autoscan and show RS1 Compatibility in SongManager
+- fixed checkbox in 'Settings' to autoscan and show Base Songs in SongManager
+- added separate checkbox in 'Settings' to autoscan and show Custom Song Packs in SongManager
+- fixed rescan method
+- improved code uniformity
+
+1.3.3.2
+- change 'original' to 'originals'
+
+1.3.3.1
+- GorbyRulez helping debug now
+
+1.3.3.0
+- cleanup old SongPacks
+
+1.3.2.9 
+- preserve some original files
+
+1.3.2.8 
+- clean up rs root
+
+1.3.2.7 
+- clean up rs root
+
+1.3.2.6 
+- start with a fresh 'My Documents/CFSM' folder.
+
+1.3.2.5
+- incremented SongDataListCurrentVersion so that app will regenerate a new songs.Info.xml file 
+
+1.3.2.4
+- added marquee progress bar to pitchshifter for better action
+- profiles backup and logger date time stamp in ISO8601 format for compatibility
+- synchronized profiles backup zip format and naming with CGT for compatibility
+- downloaded CDLC are saved to 'dlc/cdlc' folder after repair
+- fixed user profile backup and restore to/from 'My Documents\CFSM\ProfileBackups' folder
+- added checkbox to PitchShifter feature to force arrangement to standard tuning 
+- optimized 'My Document/CFSM' subfolder validation/creation
+- fixed scrollbars in Profile Backups form
+
+1.3.2.3
+Added scrolling, resize, and refresh to SongDetail datagridview
+
+1.3.2.2
+Package CFSM as a rar file for distibution to solve some AV issues
+Merged earlier work to develop branch
+
+1.3.2.1
+- updated RSTK libs
+
+1.3.2.0
+- analyzer can now output song arr. data in JSON format
+- if 'cdlc' folder exists in the 'dlc' folder, CDLCs will be moved to that folder from the download folder when "Process 'Downloads' folder" option is used in the repair process
+
+1.3.1.9
+- analyzer now only exports songs currently shown in the main data table
+- corrected incorrect chord listing
+- column headers in the CSV file exported by Analyzer now only show once on top
+- added an option to include extra data in every scan (in Settings)
+- the Analyzer will now automatically rescan the song with extra data if the arrangement data is not available to it
+
+1.3.1.8
+- added an option to export more arrangement data (number of chords, hammer-on/pull offs,...)
+- improved updating process for older versions (prevented possible uncaught exceptions)
+
+1.3.1.7
+- improved user profile backup and restore operations
+- allow user to restore a user profile backup when no user profile exist in the 'remote' directory
+- allow user to reset the user profile 'remote' directory location
+- require user to confirm location of user profile 'remote' directory even when auto selected by CFSM
+
+1.3.1.6
+- trim UserProfile Directory Path to avoid whitespace errors.
+
+1.3.1.5
+- added tooltip to toolstrip item 'User Profiles'
+- added ability to reset the UserProfile Directory Path by right mouse clicking 'User Profiles' button
+
+1.3.1.4
+- recompiled CFSMSetup.exe
+
+1.3.1.3
+- added additional folders to 'CleanOnClosing'
+- toggle 'CleanOnClosing' to off after cleanup
+
+1.3.1.2
+- fixed issue with 'CleanOnClosing' caused by moving 'cfsm' folder
+
+1.3.1.1
+- the contents of Rocksmith2014 'cfsm' folder are now located in 'My Documents\CFSM' subfolders
+- testing new installer script, forcing clean install of CFSM
+
+1.3.1.0
+- grant additional write access to folders, attempting to fix AV and OS permission issues
+
+1.3.0.9
+- some improved tooltips
+- testing new installer script, attempting to fix AV and OS permission issues
+- the contents of Rocksmith2014 'cfsm' folder are now located in 'My Documents\CFSM' subfolders
+
+1.3.0.8
+- added 'File Date' and 'File Size' sortable columns to Song Manager datagrid.  Right click in column header to enable these.
+- added additional checks, it is the intended function of the application to not apply any modifications, and/or repairs to disabled CDLC or any ODLC.
+
+1.3.0.7
+- fixed 'Files' organizer so that it removes empty subdirectories from the 'dlc' folder
+- added additional tooltip WARNINGS to 'Files' organizer.
+
+1.3.0.6
+- added some additional tooltips
+- fixed 'Files' organizer 'Processed' song count 
+
+1.3.0.5
+- added additional progress bar updates during repair
+- added feature to 'Files' dropdown menu that quickly organizes and renames CDLC into ArtistName subfolders (code from CGT)
+- applied consistent use of GenericWorker code throughout application
+- updated libraries and dependencies
+
+1.3.0.4
+- updated help instructions to new rtf format
+- restored and improved function of 'Duplicates' move and delete buttons
+- added duplicates (*.dup) to dlc folder cleaner
+
+1.3.0.3
+- improved Renamer template and property ordering
+- updated 'Repairs Help' instructions
+
+1.3.0.2
+-fixed the typo in Setlist Manager help link
+
+1.3.0.1
+- hide the Repairs dropdown menu on startup
+- set InnoInstaller so it no longer checks for legacy ClickOnce installation
+- some typos corrected
 
 1.3.0.0
 - compatibility Release version of CFSM for Rocksmith 2014 Remastered 

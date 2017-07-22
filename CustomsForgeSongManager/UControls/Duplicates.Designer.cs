@@ -34,12 +34,12 @@ namespace CustomsForgeSongManager.UControls
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Duplicates));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             this.cmsDuplicateColumns = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.exploreToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gbActions = new System.Windows.Forms.GroupBox();
@@ -48,7 +48,7 @@ namespace CustomsForgeSongManager.UControls
             this.chkSubFolders = new System.Windows.Forms.CheckBox();
             this.lnkPersistentId = new System.Windows.Forms.LinkLabel();
             this.btnMove = new System.Windows.Forms.Button();
-            this.btnDeleteSong = new System.Windows.Forms.Button();
+            this.btnDelete = new System.Windows.Forms.Button();
             this.btnEnableDisable = new System.Windows.Forms.Button();
             this.btnRescan = new System.Windows.Forms.Button();
             this.gbResults = new System.Windows.Forms.GroupBox();
@@ -120,7 +120,7 @@ namespace CustomsForgeSongManager.UControls
             this.panelActions.Controls.Add(this.chkSubFolders);
             this.panelActions.Controls.Add(this.lnkPersistentId);
             this.panelActions.Controls.Add(this.btnMove);
-            this.panelActions.Controls.Add(this.btnDeleteSong);
+            this.panelActions.Controls.Add(this.btnDelete);
             this.panelActions.Controls.Add(this.btnEnableDisable);
             this.panelActions.Controls.Add(this.btnRescan);
             this.panelActions.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -189,20 +189,22 @@ namespace CustomsForgeSongManager.UControls
             this.btnMove.Text = "Move Selected";
             this.btnMove.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnMove.UseVisualStyleBackColor = true;
+            this.btnMove.Click += new System.EventHandler(this.btnMove_Click);
             // 
-            // btnDeleteSong
+            // btnDelete
             // 
-            this.btnDeleteSong.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnDeleteSong.Image = global::CustomsForgeSongManager.Properties.Resources.delete;
-            this.btnDeleteSong.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnDeleteSong.Location = new System.Drawing.Point(266, 7);
-            this.btnDeleteSong.Name = "btnDeleteSong";
-            this.btnDeleteSong.Padding = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.btnDeleteSong.Size = new System.Drawing.Size(117, 27);
-            this.btnDeleteSong.TabIndex = 11;
-            this.btnDeleteSong.Text = "Delete Selected";
-            this.btnDeleteSong.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnDeleteSong.UseVisualStyleBackColor = true;
+            this.btnDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnDelete.Image = global::CustomsForgeSongManager.Properties.Resources.delete;
+            this.btnDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnDelete.Location = new System.Drawing.Point(266, 7);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Padding = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.btnDelete.Size = new System.Drawing.Size(117, 27);
+            this.btnDelete.TabIndex = 11;
+            this.btnDelete.Text = "Delete Selected";
+            this.btnDelete.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // btnEnableDisable
             // 
@@ -264,19 +266,19 @@ namespace CustomsForgeSongManager.UControls
             // 
             // dgvDuplicates
             // 
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.dgvDuplicates.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.dgvDuplicates.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle7;
             this.dgvDuplicates.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvDuplicates.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvDuplicates.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle8;
             this.dgvDuplicates.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colPID,
             this.colPIDArrangement,
@@ -403,9 +405,9 @@ namespace CustomsForgeSongManager.UControls
             // colSongLength
             // 
             this.colSongLength.DataPropertyName = "SongLength";
-            dataGridViewCellStyle3.Format = "N2";
-            dataGridViewCellStyle3.NullValue = null;
-            this.colSongLength.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle9.Format = "N2";
+            dataGridViewCellStyle9.NullValue = null;
+            this.colSongLength.DefaultCellStyle = dataGridViewCellStyle9;
             this.colSongLength.HeaderText = "Length Seconds";
             this.colSongLength.Name = "colSongLength";
             this.colSongLength.ReadOnly = true;
@@ -414,9 +416,9 @@ namespace CustomsForgeSongManager.UControls
             // colAvgTempo
             // 
             this.colAvgTempo.DataPropertyName = "SongAverageTempo";
-            dataGridViewCellStyle4.Format = "N2";
-            dataGridViewCellStyle4.NullValue = null;
-            this.colAvgTempo.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle10.Format = "N2";
+            dataGridViewCellStyle10.NullValue = null;
+            this.colAvgTempo.DefaultCellStyle = dataGridViewCellStyle10;
             this.colAvgTempo.HeaderText = "BPM";
             this.colAvgTempo.Name = "colAvgTempo";
             this.colAvgTempo.ReadOnly = true;
@@ -470,8 +472,8 @@ namespace CustomsForgeSongManager.UControls
             // colUpdated
             // 
             this.colUpdated.DataPropertyName = "LastConversionDateTime";
-            dataGridViewCellStyle5.NullValue = null;
-            this.colUpdated.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle11.NullValue = null;
+            this.colUpdated.DefaultCellStyle = dataGridViewCellStyle11;
             this.colUpdated.HeaderText = "Updated";
             this.colUpdated.Name = "colUpdated";
             this.colUpdated.ReadOnly = true;
@@ -518,8 +520,8 @@ namespace CustomsForgeSongManager.UControls
             // colIgnitionUpdated
             // 
             this.colIgnitionUpdated.DataPropertyName = "IgnitionUpdated";
-            dataGridViewCellStyle6.NullValue = null;
-            this.colIgnitionUpdated.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle12.NullValue = null;
+            this.colIgnitionUpdated.DefaultCellStyle = dataGridViewCellStyle12;
             this.colIgnitionUpdated.HeaderText = "Ignition Updated";
             this.colIgnitionUpdated.Name = "colIgnitionUpdated";
             this.colIgnitionUpdated.ReadOnly = true;
@@ -587,7 +589,7 @@ namespace CustomsForgeSongManager.UControls
 
         #endregion
 
-        private System.Windows.Forms.Button btnDeleteSong;
+        private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.GroupBox gbActions;
         private System.Windows.Forms.Panel panelActions;
         private System.Windows.Forms.Button btnEnableDisable;

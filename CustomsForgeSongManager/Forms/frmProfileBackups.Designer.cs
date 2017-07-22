@@ -30,17 +30,17 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmProfileBackups));
             this.tlpProfileBackups = new System.Windows.Forms.TableLayoutPanel();
+            this.panelProfileBackups2 = new System.Windows.Forms.Panel();
+            this.btnRestoreBackup = new System.Windows.Forms.Button();
+            this.btnDeleteBackup = new System.Windows.Forms.Button();
             this.dgvProfileBackups = new System.Windows.Forms.DataGridView();
             this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.colDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.panelProfileBackups2 = new System.Windows.Forms.Panel();
-            this.btnDeleteBackup = new System.Windows.Forms.Button();
-            this.btnRestoreBackup = new System.Windows.Forms.Button();
             this.tlpProfileBackups.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvProfileBackups)).BeginInit();
             this.panelProfileBackups2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvProfileBackups)).BeginInit();
             this.SuspendLayout();
             // 
             // tlpProfileBackups
@@ -56,8 +56,40 @@
             this.tlpProfileBackups.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlpProfileBackups.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tlpProfileBackups.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tlpProfileBackups.Size = new System.Drawing.Size(756, 278);
+            this.tlpProfileBackups.Size = new System.Drawing.Size(489, 271);
             this.tlpProfileBackups.TabIndex = 0;
+            // 
+            // panelProfileBackups2
+            // 
+            this.panelProfileBackups2.Controls.Add(this.btnRestoreBackup);
+            this.panelProfileBackups2.Controls.Add(this.btnDeleteBackup);
+            this.panelProfileBackups2.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panelProfileBackups2.Location = new System.Drawing.Point(3, 234);
+            this.panelProfileBackups2.Name = "panelProfileBackups2";
+            this.panelProfileBackups2.Size = new System.Drawing.Size(483, 34);
+            this.panelProfileBackups2.TabIndex = 2;
+            // 
+            // btnRestoreBackup
+            // 
+            this.btnRestoreBackup.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnRestoreBackup.Location = new System.Drawing.Point(63, 4);
+            this.btnRestoreBackup.Name = "btnRestoreBackup";
+            this.btnRestoreBackup.Size = new System.Drawing.Size(144, 23);
+            this.btnRestoreBackup.TabIndex = 1;
+            this.btnRestoreBackup.Text = "Restore Selected Backup";
+            this.btnRestoreBackup.UseVisualStyleBackColor = true;
+            this.btnRestoreBackup.Click += new System.EventHandler(this.btnRestoreBackup_Click);
+            // 
+            // btnDeleteBackup
+            // 
+            this.btnDeleteBackup.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnDeleteBackup.Location = new System.Drawing.Point(271, 4);
+            this.btnDeleteBackup.Name = "btnDeleteBackup";
+            this.btnDeleteBackup.Size = new System.Drawing.Size(144, 23);
+            this.btnDeleteBackup.TabIndex = 0;
+            this.btnDeleteBackup.Text = "Delete Selected Backup";
+            this.btnDeleteBackup.UseVisualStyleBackColor = true;
+            this.btnDeleteBackup.Click += new System.EventHandler(this.btnDeleteBackup_Click);
             // 
             // dgvProfileBackups
             // 
@@ -74,7 +106,7 @@
             this.dgvProfileBackups.Name = "dgvProfileBackups";
             this.dgvProfileBackups.RowHeadersVisible = false;
             this.dgvProfileBackups.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvProfileBackups.Size = new System.Drawing.Size(750, 232);
+            this.dgvProfileBackups.Size = new System.Drawing.Size(483, 225);
             this.dgvProfileBackups.TabIndex = 3;
             // 
             // colSelect
@@ -107,55 +139,24 @@
             // 
             // colPath
             // 
-            this.colPath.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colPath.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.colPath.HeaderText = "Path";
             this.colPath.Name = "colPath";
             this.colPath.ReadOnly = true;
-            // 
-            // panelProfileBackups2
-            // 
-            this.panelProfileBackups2.Controls.Add(this.btnRestoreBackup);
-            this.panelProfileBackups2.Controls.Add(this.btnDeleteBackup);
-            this.panelProfileBackups2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panelProfileBackups2.Location = new System.Drawing.Point(3, 241);
-            this.panelProfileBackups2.Name = "panelProfileBackups2";
-            this.panelProfileBackups2.Size = new System.Drawing.Size(750, 34);
-            this.panelProfileBackups2.TabIndex = 2;
-            // 
-            // btnDeleteBackup
-            // 
-            this.btnDeleteBackup.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnDeleteBackup.Location = new System.Drawing.Point(205, 4);
-            this.btnDeleteBackup.Name = "btnDeleteBackup";
-            this.btnDeleteBackup.Size = new System.Drawing.Size(144, 23);
-            this.btnDeleteBackup.TabIndex = 0;
-            this.btnDeleteBackup.Text = "Delete selected backup";
-            this.btnDeleteBackup.UseVisualStyleBackColor = true;
-            this.btnDeleteBackup.Click += new System.EventHandler(this.btnDeleteBackup_Click);
-            // 
-            // btnRestoreBackup
-            // 
-            this.btnRestoreBackup.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnRestoreBackup.Location = new System.Drawing.Point(34, 4);
-            this.btnRestoreBackup.Name = "btnRestoreBackup";
-            this.btnRestoreBackup.Size = new System.Drawing.Size(144, 23);
-            this.btnRestoreBackup.TabIndex = 1;
-            this.btnRestoreBackup.Text = "Restore selected backup";
-            this.btnRestoreBackup.UseVisualStyleBackColor = true;
-            this.btnRestoreBackup.Click += new System.EventHandler(this.btnRestoreBackup_Click);
+            this.colPath.Width = 54;
             // 
             // frmProfileBackups
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(756, 278);
+            this.ClientSize = new System.Drawing.Size(489, 271);
             this.Controls.Add(this.tlpProfileBackups);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmProfileBackups";
             this.Text = "Profile Backups";
             this.tlpProfileBackups.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvProfileBackups)).EndInit();
             this.panelProfileBackups2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvProfileBackups)).EndInit();
             this.ResumeLayout(false);
 
         }

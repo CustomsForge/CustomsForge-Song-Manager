@@ -12,13 +12,13 @@ using RocksmithToolkitLib.PsarcLoader;
 using RocksmithToolkitLib.DLCPackage;
 using RocksmithToolkitLib.Sng;
 using RocksmithToolkitLib.Extensions;
-using RocksmithToolkitLib.Xml;
+using RocksmithToolkitLib.XML;
 using RocksmithToolkitLib.DLCPackage.Manifest.Functions;
 using RocksmithToolkitLib;
 using Arrangement = RocksmithToolkitLib.DLCPackage.Arrangement;
 
 
-// DO NOT USE RESHAPER SORT ON THIS METHOD IT RUINS REPAIROPTIONS OBJECT ORDER
+// DO NOT USE RESHAPER SORT ON THIS METHOD IT RUINS REPAIR OPTIONS OBJECT ORDER
 namespace CustomsForgeSongManager.LocalTools
 {
     public class RepairTools
@@ -99,6 +99,12 @@ namespace CustomsForgeSongManager.LocalTools
             }
 
             fixedMax5 = true;
+
+            // add back vocals and showlights arrangements
+            foreach (var arr in packageData.Arrangements)
+                if (arr.ArrangementType == ArrangementType.Vocal || arr.ArrangementType == ArrangementType.ShowLight)
+                    packageDataKept.Arrangements.Add(arr);
+
             // replace original arrangements with kept arrangements
             packageData.Arrangements = packageDataKept.Arrangements;
             return packageData;
@@ -124,6 +130,11 @@ namespace CustomsForgeSongManager.LocalTools
                 // ArrangmentIDs are stored in multiple place and all need to be updated
                 // therefore we are going to unpack, apply repair, and repack
                 Globals.Log(" - Extracting CDLC artifacts");
+                GenExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate
+                {
+                    Globals.TsProgressBar_Main.Value = 35;
+                });
+
                 // repair status variables
                 addedDD = false;
                 ddError = false;
@@ -227,6 +238,10 @@ namespace CustomsForgeSongManager.LocalTools
                 // validate packageData (important)
                 packageData.Name = packageData.Name.GetValidKey(); // DLC Key                 
                 Globals.Log(" - Repackaging Remastered CDLC");
+                GenExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate
+                {
+                    Globals.TsProgressBar_Main.Value = 70;
+                });
 
                 // regenerates the SNG with the repair and repackages               
                 using (var psarcNew = new PsarcPackager(true))
@@ -258,7 +273,7 @@ namespace CustomsForgeSongManager.LocalTools
             catch (CustomException ex)
             {
                 Globals.Log(" - Repair failed ... " + ex.Message);
-                Globals.Log(" - See '" + Path.GetFileName(Constants.RemasteredErrorLogPath) + "' file");
+                Globals.Log(" - See '" + Path.GetFileName(Constants.RepairsErrorLogPath) + "' file");
 
                 if (ex.Message.Contains("Maximum"))
                 {
@@ -279,7 +294,7 @@ namespace CustomsForgeSongManager.LocalTools
             catch (Exception ex)
             {
                 Globals.Log(" - Repair failed ... " + ex.Message);
-                Globals.Log(" - See '" + Path.GetFileName(Constants.RemasteredErrorLogPath) + "' file");
+                Globals.Log(" - See '" + Path.GetFileName(Constants.RepairsErrorLogPath) + "' file");
 
                 //  copy (org) to corrupt (cor), delete backup (org), delete original
                 var properExt = Path.GetExtension(srcFilePath);
@@ -331,30 +346,36 @@ namespace CustomsForgeSongManager.LocalTools
                 srcFilePaths = FileTools.SongFilePaths(songs);
 
             var total = srcFilePaths.Count;
-            var processed = 0;
-            var failed = 0;
-            var skipped = 0;
-            GenericWorker.ReportProgress(processed, total, skipped, failed);
+            int processed = 0, failed = 0, skipped = 0;
+            GenericWorker.InitReportProgress();
 
             foreach (var srcFilePath in srcFilePaths)
             {
                 var isSkipped = false;
                 Globals.Log("Processing: " + Path.GetFileName(srcFilePath));
                 processed++;
+                GenericWorker.ReportProgress(processed, total, skipped, failed);
 
-                var officialOrRepaired = FileTools.OfficialOrRepaired(srcFilePath);
-                if (!String.IsNullOrEmpty(officialOrRepaired))
+                var isOfficialRepairedDisabled = FileTools.IsOfficialRepairedDisabled(srcFilePath);
+                if (!String.IsNullOrEmpty(isOfficialRepairedDisabled))
                 {
-                    if (officialOrRepaired.Contains("Official"))
+                    if (isOfficialRepairedDisabled.Contains("Official"))
                     {
                         Globals.Log(" - Skipped ODLC File");
                         skipped++;
                         isSkipped = true;
                     }
 
-                    if (officialOrRepaired.Contains("Remastered") && options.SkipRemastered)
+                    if (isOfficialRepairedDisabled.Contains("Remastered") && options.SkipRemastered)
                     {
                         Globals.Log(" - Skipped Remastered File");
+                        skipped++;
+                        isSkipped = true;
+                    }
+
+                    if (isOfficialRepairedDisabled.Contains("Disabled"))
+                    {
+                        Globals.Log(" - Skipped Disabled File");
                         skipped++;
                         isSkipped = true;
                     }
@@ -368,12 +389,12 @@ namespace CustomsForgeSongManager.LocalTools
                     {
                         var lines = sbErrors.ToString().Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).ToList();
                         if (lines.Last().ToLower().Contains("maximum"))
-                            Globals.Log(Path.GetFileName(srcFilePath) + " - Exceeds Playable Arrangements Limit ... Moved file to 'maxfive' subfolder");                        
+                            Globals.Log(Path.GetFileName(srcFilePath) + " - Exceeds Playable Arrangements Limit ... Moved file to 'maxfive' subfolder");
                         else
                             Globals.Log(Path.GetFileName(srcFilePath) + " - Corrupt CDLC ... Moved file to 'corrupt' subfolder");
 
                         failed++;
-                        
+
                         // remove corrupt CDLC from SongCollection
                         var song = Globals.SongCollection.FirstOrDefault(s => s.FilePath == srcFilePath);
                         int index = Globals.SongCollection.IndexOf(song);
@@ -383,12 +404,16 @@ namespace CustomsForgeSongManager.LocalTools
                     }
                 }
 
-                // move new CDLC from the 'Downloads' folder to the 'dlc' folder
+                // move new CDLC from the 'Downloads' folder to the 'dlc/cdlc' folder
                 if (options.ProcessDLFolder)
                 {
-                    var destFilePath = Path.Combine(Constants.Rs2DlcFolder, Path.GetFileName(srcFilePath));
+                    var cdlcFolder = Path.Combine(Constants.Rs2DlcFolder, "cdlc");
+                    if (!Directory.Exists(cdlcFolder))
+                        Directory.CreateDirectory(cdlcFolder);
+
+                    var destFilePath = Path.Combine(cdlcFolder, Path.GetFileName(srcFilePath));
                     GenExtensions.MoveFile(srcFilePath, destFilePath);
-                    Globals.Log(" - Moved new CDLC to 'dlc' folder");
+                    Globals.Log(" - Moved new CDLC to: " + cdlcFolder);
                     Globals.ReloadSongManager = true; // set quick reload flag
 
                     // add new repaired 'Downloads' CDLC to the SongCollection
@@ -399,8 +424,6 @@ namespace CustomsForgeSongManager.LocalTools
                     }
                 }
 
-                GenericWorker.ReportProgress(processed, total, skipped, failed);
-
                 if (!Constants.DebugMode)
                 {
                     // cleanup after every nth record
@@ -409,19 +432,7 @@ namespace CustomsForgeSongManager.LocalTools
                 }
             }
 
-            if (!String.IsNullOrEmpty(sbErrors.ToString())) //failed > 0)
-            {
-                // error log can be turned into CSV file
-                sbErrors.Insert(0, "File Path, Error Message" + Environment.NewLine);
-                sbErrors.Insert(0, DateTime.Now.ToString("MM-dd-yy HH:mm") + Environment.NewLine);
-                using (TextWriter tw = new StreamWriter(Constants.RemasteredErrorLogPath, true))
-                {
-                    tw.WriteLine(sbErrors + Environment.NewLine);
-                    tw.Close();
-                }
-
-                Globals.Log("Saved error log to: " + Constants.RemasteredErrorLogPath + " ...");
-            }
+            GenericWorker.ReportProgress(processed, total, skipped, failed);
 
             if (processed > 0)
             {
@@ -434,36 +445,33 @@ namespace CustomsForgeSongManager.LocalTools
             else
                 Globals.Log("No CDLC were repaired ...");
 
-            return sbErrors;
-        }
-
-        public static void ShowNoteViewer(string resourceHelpPath = "CustomsForgeSongManager.Resources.HelpGeneral.txt", string windowText = "Default")
-        {
-            Assembly assembly = Assembly.GetExecutingAssembly();
-            Stream stream = assembly.GetManifestResourceStream(resourceHelpPath);
-            using (StreamReader reader = new StreamReader(stream))
+            if (!String.IsNullOrEmpty(sbErrors.ToString())) //failed > 0)
             {
-                var helpGeneral = reader.ReadToEnd();
-
-                using (var noteViewer = new frmNoteViewer())
+                // error log can be turned into CSV file
+                sbErrors.Insert(0, "File Path, Error Message" + Environment.NewLine);
+                sbErrors.Insert(0, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss") + Environment.NewLine);
+                using (TextWriter tw = new StreamWriter(Constants.RepairsErrorLogPath, true))
                 {
-                    noteViewer.Text = String.Format("{0} . . . {1}", noteViewer.Text, windowText);
-                    noteViewer.PopulateText(helpGeneral);
-                    noteViewer.ShowDialog();
+                    tw.WriteLine(sbErrors + Environment.NewLine);
+                    tw.Close();
                 }
+
+                Globals.Log("Saved error log to: " + Constants.RepairsErrorLogPath + " ...");
             }
+
+            return sbErrors;
         }
 
         public static void ViewErrorLog()
         {
             string stringLog;
 
-            if (!File.Exists(Constants.RemasteredErrorLogPath))
-                stringLog = Path.GetFileName(Constants.RemasteredErrorLogPath) + " is empty ...";
+            if (!File.Exists(Constants.RepairsErrorLogPath))
+                stringLog = Path.GetFileName(Constants.RepairsErrorLogPath) + " is empty ...";
             else
             {
-                stringLog = Constants.RemasteredErrorLogPath + Environment.NewLine;
-                stringLog = stringLog + File.ReadAllText(Constants.RemasteredErrorLogPath);
+                stringLog = Constants.RepairsErrorLogPath + Environment.NewLine;
+                stringLog = stringLog + File.ReadAllText(Constants.RepairsErrorLogPath);
                 stringLog = stringLog + Environment.NewLine + AppSettings.Instance.LogFilePath + Environment.NewLine;
                 stringLog = stringLog + File.ReadAllText(AppSettings.Instance.LogFilePath);
             }
@@ -536,7 +544,5 @@ namespace CustomsForgeSongManager.LocalTools
         //
         public bool ProcessDLFolder { get; set; }
     }
-
-
 
 }

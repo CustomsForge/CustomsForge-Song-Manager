@@ -71,7 +71,7 @@ namespace CustomsForgeSongManager.UControls
             dgvSetlists.MultiSelect = true;
             dgvSongPacks.MultiSelect = false;
 
-            dlcDir = Path.Combine(AppSettings.Instance.RSInstalledDir, "dlc");
+            dlcDir = Constants.Rs2DlcFolder;
             cdlcDir = Path.Combine(dlcDir, "CDLC").ToLower();
             if (!LoadSetlistMaster())
                 return;
@@ -341,13 +341,15 @@ namespace CustomsForgeSongManager.UControls
             bindingCompleted = false;
             dgvPainted = false;
 
-            if (AppSettings.Instance.IncludeRS1DLCs)
+            if (AppSettings.Instance.IncludeRS1CompSongs)
             {
-                Globals.Settings.chkIncludeRS1DLC.Checked = false;
+                Globals.Settings.chkIncludeRS1CompSongs.Checked = false;
+                Globals.Settings.chkIncludeRS2BaseSongs.Checked = false;
                 // ask user to rescan song collection to remove all RS1 Compatibility songs
                 MessageBox.Show(Properties.Resources.CanNotIncludeRS1CompatibilityFiles, MESSAGE_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Hand);
                 return false;
             }
+
 
             // commented out for testing ... do duplicates really cause game hangs?
             // check for duplicates
@@ -1387,19 +1389,7 @@ namespace CustomsForgeSongManager.UControls
 
         private void lnkSetlistMgrHelp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Assembly assembly = Assembly.GetExecutingAssembly();
-            Stream stream = assembly.GetManifestResourceStream("CustomsSongForgeManager.Resources.HelpSetlistMgr.txt");
-            using (StreamReader reader = new StreamReader(stream))
-            {
-                var helpSetlistManager = reader.ReadToEnd();
-
-                using (var noteViewer = new frmNoteViewer())
-                {
-                    noteViewer.Text = String.Format("{0} . . . {1}", noteViewer.Text, "Setlist Manager Help");
-                    noteViewer.PopulateText(helpSetlistManager);
-                    noteViewer.ShowDialog();
-                }
-            }
+            frmNoteViewer.ViewResourcesFile("CustomsForgeSongManager.Resources.HelpSetlistMgr.rtf", "Setlist Manager Help");
         }
 
         private void lnkShowAll_Click(object sender, EventArgs e)

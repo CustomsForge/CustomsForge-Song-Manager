@@ -123,10 +123,12 @@ namespace GenTools
 
         public static void CleanDir(this System.IO.DirectoryInfo directory, bool deleteSubDirs = false)
         {
-            foreach (FileInfo file in directory.GetFiles()) file.Delete();
+            foreach (FileInfo file in directory.GetFiles())
+                file.Delete();
 
             if (deleteSubDirs)
-                foreach (DirectoryInfo subDirectory in directory.GetDirectories()) subDirectory.Delete(true);
+                foreach (DirectoryInfo subDirectory in directory.GetDirectories())
+                    subDirectory.Delete(true);
         }
 
         public static string CleanForAPI(this string text)
@@ -293,11 +295,21 @@ namespace GenTools
                 }
                 catch (IOException)
                 {
-                    // System.IO.IOException: The directory is not empty
+                    // System.IO.IOException: The directory is not empty so delete as many files as possible
+                    var files = Directory.EnumerateFiles(dirPath, "*", SearchOption.AllDirectories).ToList();
+                    foreach (var file in files)
+                        DeleteFile(file);
+
                     Debug.WriteLine("Gnomes prevent deletion of {0}! Applying magic dust, attempt #{1}.", dirPath, gnomes);
                     Thread.Sleep(50);
                     continue;
                 }
+                catch (UnauthorizedAccessException)
+                {
+                    Debug.WriteLine("Unauthorized access to: " + dirPath);
+                    return;
+                }
+
                 return;
             }
         }
@@ -570,6 +582,61 @@ namespace GenTools
             }
         }
 
+        public static bool CopyDir(string srcFolder, string destFolder, bool isRecursive = true)
+        {
+            // You can not copy something that does not exist ... doh!  Banging head on desk ...
+            if (!Directory.Exists(srcFolder))
+                return false;
+
+            if (!Directory.Exists(destFolder))
+            {
+                try
+                {
+                    Directory.CreateDirectory(destFolder);
+                }
+                catch (IOException e)
+                {
+                    BetterDialog.ShowDialog(
+                        "<ERROR> Could not create directory: " + destFolder + Environment.NewLine + e.Message,
+                        MESSAGEBOX_CAPTION, MessageBoxButtons.OK, Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning ...", 150, 150);
+                    return false;
+                }
+            }
+
+            // Get Files and Copy
+            string[] files = Directory.GetFiles(srcFolder);
+            foreach (string file in files)
+            {
+                string name = Path.GetFileName(file);
+
+                string dest = Path.Combine(destFolder, name);
+                try
+                {
+                    File.Copy(file, dest, true);
+                }
+                catch (IOException e)
+                {
+                    BetterDialog.ShowDialog(
+                        "<ERROR> Could not copy the file: " + file + Environment.NewLine + e.Message,
+                        MESSAGEBOX_CAPTION, MessageBoxButtons.OK, Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning ...", 150, 150);
+                    return false;
+                }
+            }
+
+            // Get dirs recursively and copy files
+            if (isRecursive)
+            {
+                string[] folders = Directory.GetDirectories(srcFolder);
+                foreach (string folder in folders)
+                {
+                    string name = Path.GetFileName(folder);
+                    string dest = Path.Combine(destFolder, name);
+                    CopyDir(folder, dest);
+                }
+            }
+
+            return true;
+        }
 
         public static bool MoveFile(string fileFrom, string fileTo, bool verbose = true)
         {

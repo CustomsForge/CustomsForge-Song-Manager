@@ -13,9 +13,12 @@ namespace CustomsForgeSongManager.DataObjects
     [Serializable]
     public class AppSettings : NotifyPropChangedBase
     {
-        private string _rsInstalledDir;
-        private string _rsProfileDir;
-        private bool _includeRs1DlCs;
+        private string _rsInstalledDir = String.Empty;
+        private string _rsProfileDir = String.Empty;
+        private bool _includeRS1CompSongs;
+        private bool _includeRS2BaseSongs;
+        private bool _includeCustomPacks;
+        private bool _includeAnalyzerData;
         private bool _enableAutoUpdate;
         private bool _enableLogBaloon;
         private bool _cleanOnClosing;
@@ -26,9 +29,9 @@ namespace CustomsForgeSongManager.DataObjects
         private int _windowTop;
         private int _windowLeft;
         private bool _showLogWindow;
-        private string _charterName;
-        private string _renameTemplate;
-        private string _sortColumn;
+        private string _charterName = String.Empty;
+        private string _renameTemplate = String.Empty;
+        private string _sortColumn = String.Empty;
         private bool _sortAscending;
         private bool _showSetlistSongs;
         private string _downloadsDir;
@@ -55,11 +58,29 @@ namespace CustomsForgeSongManager.DataObjects
             get { return _enableAutoUpdate; }
             set { SetPropertyField("EnableAutoUpdate", ref _enableAutoUpdate, value); }
         }
-     
-        public bool IncludeRS1DLCs
+
+        public bool IncludeRS1CompSongs
         {
-            get { return _includeRs1DlCs; }
-            set { SetPropertyField("IncludeRS1DLCs", ref _includeRs1DlCs, value); }
+            get { return _includeRS1CompSongs; }
+            set { SetPropertyField("IncludeRS1CompSongs", ref _includeRS1CompSongs, value); }
+        }
+
+        public bool IncludeRS2BaseSongs
+        {
+            get { return _includeRS2BaseSongs; }
+            set { SetPropertyField("IncludeRS2BaseSongs", ref _includeRS2BaseSongs, value); }
+        }
+
+        public bool IncludeCustomPacks
+        {
+            get { return _includeCustomPacks; }
+            set { SetPropertyField("IncludeCustomPacks", ref _includeCustomPacks, value); }
+        }
+
+        public bool IncludeAnalyzerData
+        {
+            get { return _includeAnalyzerData; }
+            set { SetPropertyField("IncludeAnalyzerData", ref _includeAnalyzerData, value); }
         }
 
         public bool EnableLogBaloon
@@ -207,15 +228,28 @@ namespace CustomsForgeSongManager.DataObjects
         public void LoadFromFile(string settingsPath, DataGridView dgvCurrent)
         {
             if (!String.IsNullOrEmpty(settingsPath) && File.Exists(settingsPath))
+            {
                 using (var fs = File.OpenRead(settingsPath))
-                    LoadFromStream(fs);
+                    LoadSettingsFromStream(fs);
+            }
+ 
+            // not done on app startup
+            if (dgvCurrent != null) 
+            {
+                if (File.Exists(settingsPath))
+                    Globals.Log("Loaded File: " + Path.GetFileName(Constants.AppSettingsPath));
 
-            if (dgvCurrent != null)
                 if (File.Exists(Constants.GridSettingsPath))
+                {
+                    Globals.Log("Loaded File: " + Path.GetFileName(Constants.GridSettingsPath));
                     RAExtensions.ManagerGridSettings = SerialExtensions.LoadFromFile<RADataGridViewSettings>(Constants.GridSettingsPath);
+                }
+                //else
+                //    Globals.Log("<WARNING> Did not find file: " + Path.GetFileName(Constants.GridSettingsPath));
+            }
         }
 
-        public void LoadFromStream(Stream stream)
+        public void LoadSettingsFromStream(Stream stream)
         {
             var x = stream.DeserializeXml<AppSettings>();
             var props = GetType().GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
@@ -229,7 +263,6 @@ namespace CustomsForgeSongManager.DataObjects
                     if (!ignore)
                         p.SetValue(this, p.GetValue(x, emptyObjParams), emptyObjParams);
                 }
-            Globals.Log("Loaded settings file ...");
         }
 
         public void Reset()
@@ -238,8 +271,9 @@ namespace CustomsForgeSongManager.DataObjects
             Instance.LogFilePath = Constants.LogFilePath;
             Instance.RSInstalledDir = LocalExtensions.GetSteamDirectory();
             Instance.RSProfileDir = String.Empty;
-            Instance.IncludeRS1DLCs = false; // changed to false (fewer issues)
-            Instance.EnableAutoUpdate = true; 
+            Instance.IncludeRS1CompSongs = false; // changed to false (fewer issues)
+            Instance.IncludeRS2BaseSongs = false;
+            Instance.EnableAutoUpdate = true;
             Instance.EnableLogBaloon = false; // fewer notfication issues
             Instance.CleanOnClosing = false;
             Instance.ShowLogWindow = Constants.DebugMode;

@@ -1,7 +1,7 @@
 ﻿using System;
 using RocksmithToolkitLib.DLCPackage;
 using RocksmithToolkitLib.Extensions;
-using RocksmithToolkitLib.Xml;
+using RocksmithToolkitLib.XML;
 using System.Xml;
 using System.IO;
 using RocksmithToolkitLib.PsarcLoader;
@@ -59,6 +59,8 @@ namespace CustomsForgeSongManager.LocalTools
         #endregion
 
         #region Tone Fixing
+        // TODO: FIXME ... this is not changing tuning for DropD
+
         public static DLCPackageData GetDataWithFixedTones(string srcFilePath)
         {
 

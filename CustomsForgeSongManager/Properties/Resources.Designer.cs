@@ -182,7 +182,7 @@ namespace CustomsForgeSongManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Can not include RS1 compatibility files as individual 
+        ///   Looks up a localized string similar to Can not include RS2014 base song file/RS1 compatibility files as individual 
         /// songs in a setlist.  Please return to SongManager and 
         ///rescan before returning to Setlist Manager. .
         /// </summary>
@@ -378,15 +378,6 @@ namespace CustomsForgeSongManager.Properties {
             }
         }
         
-        /// <summary>
-        ///   Looks up a localized string similar to Duplicates need to be rescanned!.
-        /// </summary>
-        internal static string DuplicatesNeedToBeRescanned {
-            get {
-                return ResourceManager.GetString("DuplicatesNeedToBeRescanned", resourceCulture);
-            }
-        }
-        
         internal static System.Drawing.Bitmap edit {
             get {
                 object obj = ResourceManager.GetObject("edit", resourceCulture);
@@ -454,6 +445,13 @@ namespace CustomsForgeSongManager.Properties {
         internal static System.Drawing.Bitmap export {
             get {
                 object obj = ResourceManager.GetObject("export", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap extra_data {
+            get {
+                object obj = ResourceManager.GetObject("extra_data", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -624,15 +622,6 @@ namespace CustomsForgeSongManager.Properties {
             }
         }
         
-        /// <summary>
-        ///   Looks up a localized string similar to No songs found for rename preview..
-        /// </summary>
-        internal static string NoSongsFoundForRenamePreview {
-            get {
-                return ResourceManager.GetString("NoSongsFoundForRenamePreview", resourceCulture);
-            }
-        }
-        
         internal static System.Drawing.Bitmap notes {
             get {
                 object obj = ResourceManager.GetObject("notes", resourceCulture);
@@ -734,18 +723,16 @@ namespace CustomsForgeSongManager.Properties {
             }
         }
         
-        /// <summary>
-        ///   Looks up a localized string similar to Raw songs count: {0}.
-        /// </summary>
-        internal static string RawSongsCountX0 {
-            get {
-                return ResourceManager.GetString("RawSongsCountX0", resourceCulture);
-            }
-        }
-        
         internal static System.Drawing.Bitmap refresh {
             get {
                 object obj = ResourceManager.GetObject("refresh", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap refresh_plus {
+            get {
+                object obj = ResourceManager.GetObject("refresh_plus", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -811,33 +798,6 @@ namespace CustomsForgeSongManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Renaming From: {0}.
-        /// </summary>
-        internal static string Renamer_RenamingFrom {
-            get {
-                return ResourceManager.GetString("Renamer_RenamingFrom", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Songs need to be rescanned with  {0}Song Manager before renaming!.
-        /// </summary>
-        internal static string Renamer_SongsNeedToBeRescanned {
-            get {
-                return ResourceManager.GetString("Renamer_SongsNeedToBeRescanned", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Use Duplicates to delete/move &apos;{0}&apos; before using Renamer..
-        /// </summary>
-        internal static string Renamer_UseDuplicatesToDeleteMove {
-            get {
-                return ResourceManager.GetString("Renamer_UseDuplicatesToDeleteMove", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Renamer preview : {0}.
         /// </summary>
         internal static string RenamerPreviewX0 {
@@ -858,6 +818,13 @@ namespace CustomsForgeSongManager.Properties {
         internal static System.Drawing.Bitmap rescan {
             get {
                 object obj = ResourceManager.GetObject("rescan", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap rescan_plus {
+            get {
+                object obj = ResourceManager.GetObject("rescan_plus", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -931,15 +898,6 @@ namespace CustomsForgeSongManager.Properties {
             }
         }
         
-        /// <summary>
-        ///   Looks up a localized string similar to Selected Songs in SongManager Count: {0}.
-        /// </summary>
-        internal static string SelectedSongsInSongManagerCountX0 {
-            get {
-                return ResourceManager.GetString("SelectedSongsInSongManagerCountX0", resourceCulture);
-            }
-        }
-        
         internal static System.Drawing.Bitmap SelectRow {
             get {
                 object obj = ResourceManager.GetObject("SelectRow", resourceCulture);
@@ -1001,29 +959,11 @@ namespace CustomsForgeSongManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Song Editor ... Loaded: .
-        /// </summary>
-        internal static string SongEditorLoaded {
-            get {
-                return ResourceManager.GetString("SongEditorLoaded", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Song Manager.
         /// </summary>
         internal static string SongManager {
             get {
                 return ResourceManager.GetString("SongManager", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Songs need to be rescanned with  {0}Song Manager before renaming!.
-        /// </summary>
-        internal static string SongsNeedToBeRescannedWithX0SongManagerBef {
-            get {
-                return ResourceManager.GetString("SongsNeedToBeRescannedWithX0SongManagerBef", resourceCulture);
             }
         }
         
@@ -1183,15 +1123,6 @@ namespace CustomsForgeSongManager.Properties {
         internal static string UserCanceledProcess {
             get {
                 return ResourceManager.GetString("UserCanceledProcess", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Use the Duplicates tabmenu to delete/move{0}duplicates before attempting to use Renamer..
-        /// </summary>
-        internal static string UseTheDuplicatesTabmenuToDeleteMoveX0Dupli {
-            get {
-                return ResourceManager.GetString("UseTheDuplicatesTabmenuToDeleteMoveX0Dupli", resourceCulture);
             }
         }
         

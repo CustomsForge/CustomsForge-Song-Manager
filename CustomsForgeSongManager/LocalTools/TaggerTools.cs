@@ -372,10 +372,9 @@ namespace CustomsForgeSongManager.LocalTools
 
                         using (var FS = File.Create(songPath))
                             archive.Write(FS, true);
+
                         song.FilePath = songPath;
-
                         song.FileDate = File.GetLastWriteTimeUtc(song.FilePath);
-
                         song.Tagged = SongTaggerStatus.True;
 
                         //  counter++;

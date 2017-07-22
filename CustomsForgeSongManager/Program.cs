@@ -47,11 +47,11 @@ namespace CustomsForgeSongManager
                     return;
                 }
 
-                if (!Directory.Exists(Constants.WorkFolder))
-                    Directory.CreateDirectory(Constants.WorkFolder);
+                //if (!Directory.Exists(Constants.WorkFolder))
+                //    Directory.CreateDirectory(Constants.WorkFolder);
 
-                if (RemoveGridSettings())
-                    ZipUtilities.DeleteDirectory(Constants.GridSettingsFolder);
+                //if (RemoveGridSettings())
+                //    ZipUtilities.DeleteDirectory(Constants.GridSettingsFolder);
 
                 RunApp();
             }
@@ -77,7 +77,7 @@ namespace CustomsForgeSongManager
                 {
                     Application.EnableVisualStyles();
                     // this is throwing an error so commented out and moved
-                    //  Application.SetCompatibleTextRenderingDefault(false);
+                    //  Application.SetCompatibleTextRenderingDefault(false);    
                     Application.Run(new frmMain(myLog));
                 }
                 else

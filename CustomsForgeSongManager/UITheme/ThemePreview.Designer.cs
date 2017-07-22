@@ -59,9 +59,9 @@ namespace CustomsForgeSongManager.UITheme
             this.tsBtnBackup = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.tsddExport = new System.Windows.Forms.ToolStripDropDownButton();
-            this.bBCodeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.cSVToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.hTMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiBBCode = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiCSV = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiHTML = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.tsBtnUpload = new System.Windows.Forms.ToolStripButton();
             this.tsBtnRequest = new System.Windows.Forms.ToolStripButton();
@@ -333,32 +333,32 @@ namespace CustomsForgeSongManager.UITheme
             // tsddExport
             // 
             this.tsddExport.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.bBCodeToolStripMenuItem,
-            this.cSVToolStripMenuItem,
-            this.hTMLToolStripMenuItem});
+            this.tsmiBBCode,
+            this.tsmiCSV,
+            this.tsmiHTML});
             this.tsddExport.Image = global::CustomsForgeSongManager.Properties.Resources.export;
             this.tsddExport.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsddExport.Name = "tsddExport";
             this.tsddExport.Size = new System.Drawing.Size(69, 22);
             this.tsddExport.Text = "Export";
             // 
-            // bBCodeToolStripMenuItem
+            // tsmiBBCode
             // 
-            this.bBCodeToolStripMenuItem.Name = "bBCodeToolStripMenuItem";
-            this.bBCodeToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
-            this.bBCodeToolStripMenuItem.Text = "BB Code";
+            this.tsmiBBCode.Name = "tsmiBBCode";
+            this.tsmiBBCode.Size = new System.Drawing.Size(119, 22);
+            this.tsmiBBCode.Text = "BB Code";
             // 
-            // cSVToolStripMenuItem
+            // tsmiCSV
             // 
-            this.cSVToolStripMenuItem.Name = "cSVToolStripMenuItem";
-            this.cSVToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
-            this.cSVToolStripMenuItem.Text = "CSV";
+            this.tsmiCSV.Name = "tsmiCSV";
+            this.tsmiCSV.Size = new System.Drawing.Size(119, 22);
+            this.tsmiCSV.Text = "CSV";
             // 
-            // hTMLToolStripMenuItem
+            // tsmiHTML
             // 
-            this.hTMLToolStripMenuItem.Name = "hTMLToolStripMenuItem";
-            this.hTMLToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
-            this.hTMLToolStripMenuItem.Text = "HTML";
+            this.tsmiHTML.Name = "tsmiHTML";
+            this.tsmiHTML.Size = new System.Drawing.Size(119, 22);
+            this.tsmiHTML.Text = "HTML";
             // 
             // toolStripSeparator2
             // 
@@ -848,9 +848,9 @@ namespace CustomsForgeSongManager.UITheme
         private System.Windows.Forms.ToolStripButton tsBtnBackup;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
         private System.Windows.Forms.ToolStripDropDownButton tsddExport;
-        private System.Windows.Forms.ToolStripMenuItem bBCodeToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem cSVToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem hTMLToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tsmiBBCode;
+        private System.Windows.Forms.ToolStripMenuItem tsmiCSV;
+        private System.Windows.Forms.ToolStripMenuItem tsmiHTML;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripButton tsBtnUpload;
         private System.Windows.Forms.ToolStripButton tsBtnRequest;

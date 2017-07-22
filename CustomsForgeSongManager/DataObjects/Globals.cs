@@ -222,6 +222,15 @@ namespace CustomsForgeSongManager.DataObjects
             TbLog.Clear();
         }
 
+        // Release version = true, Development version = false            
+        public static bool PublicRelease
+        {
+#if !DEBUG
+            get { return true; }
+#else
+            get { return false; }
+#endif
+        }
 
     }
 }
