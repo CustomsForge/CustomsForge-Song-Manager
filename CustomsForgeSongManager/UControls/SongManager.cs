@@ -157,6 +157,7 @@ namespace CustomsForgeSongManager.UControls
 
                 var arrDom = new XmlDocument();
                 var allArrsNode = arrDom.CreateElement("ArrangementData");
+                string keptInfo = "persistentid_dmax_name_dd_tuning_tonebase_tonebase_sectioncount"; //don't move these to ArrInfo file
 
                 foreach (XmlElement songData in dom.GetElementsByTagName("ArrayOfSongData")[0].ChildNodes)
                 {
@@ -167,7 +168,16 @@ namespace CustomsForgeSongManager.UControls
                         string dlcKey = songData.SelectSingleNode("DLCKey").ChildNodes[0].Value.ToString();
                         ((XmlElement)arrangementsNode).SetAttribute("DLCKey", dlcKey);
                         allArrsNode.AppendChild(arrDom.ImportNode(arrangementsNode, true));
-                        arrangementsNode.RemoveAll();
+
+                        var arrNodes = arrangementsNode.ChildNodes.OfType<XmlNode>().ToList();
+                        arrNodes.ForEach(arr =>
+                        {
+                            arr.ChildNodes.OfType<XmlNode>().ToList().ForEach(n =>
+                            {
+                                if (!keptInfo.Contains(n.Name.ToLower()))
+                                    arr.RemoveChild(n);
+                            });
+                        });
                     }
                 }
 
@@ -467,7 +477,7 @@ namespace CustomsForgeSongManager.UControls
                         var originalArrNode = songData.SelectSingleNode("Arrangements");
 
                         if (arrangementsNode != null)
-                            originalArrNode.ParentNode.ReplaceChild(dom.ImportNode(arrangementsNode, true), originalArrNode );
+                            originalArrNode.ParentNode.ReplaceChild(dom.ImportNode(arrangementsNode, true), originalArrNode);
                     }
 
                     //------
