@@ -61,7 +61,7 @@ namespace CustomsForgeSongManager.DataObjects
         //ver 1 - 10: time to recycle some ver numbers
 
         // incrimenting forces songInfo.xml to update
-        public const string SongDataListCurrentVersion = "10";
+        public const string SongDataListCurrentVersion = "1";
 
         public string FilePath { get; set; }
         public DateTime FileDate { get; set; }

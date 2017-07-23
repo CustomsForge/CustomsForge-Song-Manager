@@ -135,7 +135,6 @@ namespace CustomsForgeSongManager.LocalTools
             if (filesList.Count == 0)
                 return;
 
-            counterStopwatch.Restart();
             int songCounter = 0;
             int oldCount = bwSongCollection.Count();
             bwSongCollection.RemoveAll(sd => !File.Exists(sd.FilePath));
@@ -223,8 +222,6 @@ namespace CustomsForgeSongManager.LocalTools
             }
 
             Globals.SongCollection = new BindingList<SongData>(bwSongCollection);
-            Globals.DebugLog("Parsing done ...");
-            counterStopwatch.Stop();
         }
 
         private void ParsePSARC(string filePath, bool getAnalyzerData = false)

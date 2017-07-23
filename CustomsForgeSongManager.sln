@@ -25,7 +25,6 @@ Global
 		ConfuserEx|x86 = ConfuserEx|x86
 		Debug|x86 = Debug|x86
 		InnoBeta|x86 = InnoBeta|x86
-		InnoInstaller|x86 = InnoInstaller|x86
 		InnoRelease|x86 = InnoRelease|x86
 		Release|x86 = Release|x86
 	EndGlobalSection
@@ -36,8 +35,6 @@ Global
 		{25E15C6A-AEAE-4958-80EA-44062DF402F7}.Debug|x86.Build.0 = Debug|x86
 		{25E15C6A-AEAE-4958-80EA-44062DF402F7}.InnoBeta|x86.ActiveCfg = InnoBeta|x86
 		{25E15C6A-AEAE-4958-80EA-44062DF402F7}.InnoBeta|x86.Build.0 = InnoBeta|x86
-		{25E15C6A-AEAE-4958-80EA-44062DF402F7}.InnoInstaller|x86.ActiveCfg = InnoRelease|x86
-		{25E15C6A-AEAE-4958-80EA-44062DF402F7}.InnoInstaller|x86.Build.0 = InnoRelease|x86
 		{25E15C6A-AEAE-4958-80EA-44062DF402F7}.InnoRelease|x86.ActiveCfg = InnoRelease|x86
 		{25E15C6A-AEAE-4958-80EA-44062DF402F7}.InnoRelease|x86.Build.0 = InnoRelease|x86
 		{25E15C6A-AEAE-4958-80EA-44062DF402F7}.Release|x86.ActiveCfg = Release|x86
@@ -48,8 +45,6 @@ Global
 		{6D8C3FE6-5855-4B6C-BD2B-51954342DBEE}.Debug|x86.Build.0 = Debug|x86
 		{6D8C3FE6-5855-4B6C-BD2B-51954342DBEE}.InnoBeta|x86.ActiveCfg = Release|x86
 		{6D8C3FE6-5855-4B6C-BD2B-51954342DBEE}.InnoBeta|x86.Build.0 = Release|x86
-		{6D8C3FE6-5855-4B6C-BD2B-51954342DBEE}.InnoInstaller|x86.ActiveCfg = Release|x86
-		{6D8C3FE6-5855-4B6C-BD2B-51954342DBEE}.InnoInstaller|x86.Build.0 = Release|x86
 		{6D8C3FE6-5855-4B6C-BD2B-51954342DBEE}.InnoRelease|x86.ActiveCfg = Release|x86
 		{6D8C3FE6-5855-4B6C-BD2B-51954342DBEE}.InnoRelease|x86.Build.0 = Release|x86
 		{6D8C3FE6-5855-4B6C-BD2B-51954342DBEE}.Release|x86.ActiveCfg = Release|x86
@@ -60,8 +55,6 @@ Global
 		{E6565985-C477-46F4-8A42-08E04CD40B65}.Debug|x86.Build.0 = Debug|x86
 		{E6565985-C477-46F4-8A42-08E04CD40B65}.InnoBeta|x86.ActiveCfg = Release|x86
 		{E6565985-C477-46F4-8A42-08E04CD40B65}.InnoBeta|x86.Build.0 = Release|x86
-		{E6565985-C477-46F4-8A42-08E04CD40B65}.InnoInstaller|x86.ActiveCfg = Release|x86
-		{E6565985-C477-46F4-8A42-08E04CD40B65}.InnoInstaller|x86.Build.0 = Release|x86
 		{E6565985-C477-46F4-8A42-08E04CD40B65}.InnoRelease|x86.ActiveCfg = Release|x86
 		{E6565985-C477-46F4-8A42-08E04CD40B65}.InnoRelease|x86.Build.0 = Release|x86
 		{E6565985-C477-46F4-8A42-08E04CD40B65}.Release|x86.ActiveCfg = Release|x86
@@ -72,8 +65,6 @@ Global
 		{9C36009D-1BB2-40FA-882A-094EA69B2C92}.Debug|x86.Build.0 = Debug|x86
 		{9C36009D-1BB2-40FA-882A-094EA69B2C92}.InnoBeta|x86.ActiveCfg = Release|x86
 		{9C36009D-1BB2-40FA-882A-094EA69B2C92}.InnoBeta|x86.Build.0 = Release|x86
-		{9C36009D-1BB2-40FA-882A-094EA69B2C92}.InnoInstaller|x86.ActiveCfg = Release|x86
-		{9C36009D-1BB2-40FA-882A-094EA69B2C92}.InnoInstaller|x86.Build.0 = Release|x86
 		{9C36009D-1BB2-40FA-882A-094EA69B2C92}.InnoRelease|x86.ActiveCfg = Release|x86
 		{9C36009D-1BB2-40FA-882A-094EA69B2C92}.InnoRelease|x86.Build.0 = Release|x86
 		{9C36009D-1BB2-40FA-882A-094EA69B2C92}.Release|x86.ActiveCfg = Release|x86
@@ -84,8 +75,6 @@ Global
 		{5A4B4B14-D3B5-4D54-80EC-0877C1E6E73A}.Debug|x86.Build.0 = Debug|x86
 		{5A4B4B14-D3B5-4D54-80EC-0877C1E6E73A}.InnoBeta|x86.ActiveCfg = Release|x86
 		{5A4B4B14-D3B5-4D54-80EC-0877C1E6E73A}.InnoBeta|x86.Build.0 = Release|x86
-		{5A4B4B14-D3B5-4D54-80EC-0877C1E6E73A}.InnoInstaller|x86.ActiveCfg = Release|x86
-		{5A4B4B14-D3B5-4D54-80EC-0877C1E6E73A}.InnoInstaller|x86.Build.0 = Release|x86
 		{5A4B4B14-D3B5-4D54-80EC-0877C1E6E73A}.InnoRelease|x86.ActiveCfg = Release|x86
 		{5A4B4B14-D3B5-4D54-80EC-0877C1E6E73A}.InnoRelease|x86.Build.0 = Release|x86
 		{5A4B4B14-D3B5-4D54-80EC-0877C1E6E73A}.Release|x86.ActiveCfg = Release|x86
@@ -96,8 +85,6 @@ Global
 		{E3A2283B-A2B8-46E5-AF49-DF6CD156EB0D}.Debug|x86.Build.0 = Debug|x86
 		{E3A2283B-A2B8-46E5-AF49-DF6CD156EB0D}.InnoBeta|x86.ActiveCfg = Release|x86
 		{E3A2283B-A2B8-46E5-AF49-DF6CD156EB0D}.InnoBeta|x86.Build.0 = Release|x86
-		{E3A2283B-A2B8-46E5-AF49-DF6CD156EB0D}.InnoInstaller|x86.ActiveCfg = Release|x86
-		{E3A2283B-A2B8-46E5-AF49-DF6CD156EB0D}.InnoInstaller|x86.Build.0 = Release|x86
 		{E3A2283B-A2B8-46E5-AF49-DF6CD156EB0D}.InnoRelease|x86.ActiveCfg = Release|x86
 		{E3A2283B-A2B8-46E5-AF49-DF6CD156EB0D}.InnoRelease|x86.Build.0 = Release|x86
 		{E3A2283B-A2B8-46E5-AF49-DF6CD156EB0D}.Release|x86.ActiveCfg = Release|x86
@@ -108,8 +95,6 @@ Global
 		{B59A7CDF-086B-4B94-A917-4CFA4D42F981}.Debug|x86.Build.0 = Debug|x86
 		{B59A7CDF-086B-4B94-A917-4CFA4D42F981}.InnoBeta|x86.ActiveCfg = Release|x86
 		{B59A7CDF-086B-4B94-A917-4CFA4D42F981}.InnoBeta|x86.Build.0 = Release|x86
-		{B59A7CDF-086B-4B94-A917-4CFA4D42F981}.InnoInstaller|x86.ActiveCfg = Release|x86
-		{B59A7CDF-086B-4B94-A917-4CFA4D42F981}.InnoInstaller|x86.Build.0 = Release|x86
 		{B59A7CDF-086B-4B94-A917-4CFA4D42F981}.InnoRelease|x86.ActiveCfg = Release|x86
 		{B59A7CDF-086B-4B94-A917-4CFA4D42F981}.InnoRelease|x86.Build.0 = Release|x86
 		{B59A7CDF-086B-4B94-A917-4CFA4D42F981}.Release|x86.ActiveCfg = Release|x86
@@ -120,8 +105,6 @@ Global
 		{CBB57466-4341-49BC-A61D-43A7CC656A95}.Debug|x86.Build.0 = Debug|x86
 		{CBB57466-4341-49BC-A61D-43A7CC656A95}.InnoBeta|x86.ActiveCfg = Release|x86
 		{CBB57466-4341-49BC-A61D-43A7CC656A95}.InnoBeta|x86.Build.0 = Release|x86
-		{CBB57466-4341-49BC-A61D-43A7CC656A95}.InnoInstaller|x86.ActiveCfg = Release|x86
-		{CBB57466-4341-49BC-A61D-43A7CC656A95}.InnoInstaller|x86.Build.0 = Release|x86
 		{CBB57466-4341-49BC-A61D-43A7CC656A95}.InnoRelease|x86.ActiveCfg = Release|x86
 		{CBB57466-4341-49BC-A61D-43A7CC656A95}.InnoRelease|x86.Build.0 = Release|x86
 		{CBB57466-4341-49BC-A61D-43A7CC656A95}.Release|x86.ActiveCfg = Release|x86
@@ -132,8 +115,6 @@ Global
 		{41EA9CF7-BF72-4243-98A8-5BF16BCD90AD}.Debug|x86.Build.0 = Debug|x86
 		{41EA9CF7-BF72-4243-98A8-5BF16BCD90AD}.InnoBeta|x86.ActiveCfg = Release|x86
 		{41EA9CF7-BF72-4243-98A8-5BF16BCD90AD}.InnoBeta|x86.Build.0 = Release|x86
-		{41EA9CF7-BF72-4243-98A8-5BF16BCD90AD}.InnoInstaller|x86.ActiveCfg = Release|x86
-		{41EA9CF7-BF72-4243-98A8-5BF16BCD90AD}.InnoInstaller|x86.Build.0 = Release|x86
 		{41EA9CF7-BF72-4243-98A8-5BF16BCD90AD}.InnoRelease|x86.ActiveCfg = Release|x86
 		{41EA9CF7-BF72-4243-98A8-5BF16BCD90AD}.InnoRelease|x86.Build.0 = Release|x86
 		{41EA9CF7-BF72-4243-98A8-5BF16BCD90AD}.Release|x86.ActiveCfg = Release|x86
@@ -144,8 +125,6 @@ Global
 		{04B8EBDC-6226-456E-8BD4-AEF7BAF682AA}.Debug|x86.Build.0 = Debug|x86
 		{04B8EBDC-6226-456E-8BD4-AEF7BAF682AA}.InnoBeta|x86.ActiveCfg = InnoInstaller|x86
 		{04B8EBDC-6226-456E-8BD4-AEF7BAF682AA}.InnoBeta|x86.Build.0 = InnoInstaller|x86
-		{04B8EBDC-6226-456E-8BD4-AEF7BAF682AA}.InnoInstaller|x86.ActiveCfg = InnoInstaller|x86
-		{04B8EBDC-6226-456E-8BD4-AEF7BAF682AA}.InnoInstaller|x86.Build.0 = InnoInstaller|x86
 		{04B8EBDC-6226-456E-8BD4-AEF7BAF682AA}.InnoRelease|x86.ActiveCfg = Release|x86
 		{04B8EBDC-6226-456E-8BD4-AEF7BAF682AA}.InnoRelease|x86.Build.0 = Release|x86
 		{04B8EBDC-6226-456E-8BD4-AEF7BAF682AA}.Release|x86.ActiveCfg = Release|x86

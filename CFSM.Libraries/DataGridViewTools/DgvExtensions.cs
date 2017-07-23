@@ -44,8 +44,9 @@ namespace DataGridViewTools
             // determine DataProperty Selected column index
             int colNdx = GetDataPropertyColumnIndex(dgvCurrent, dataPropertyName);
 
-            // checkbox value changes but not detected here (known VS issue)
-            // so added extra check of row cell value
+            // the checkbox value changes but not detected here (known VS issue)
+            // DO NOT USE - 'row.Selected' returns incorrect value  
+            // so added check of row cell value which returns correct value
             foreach (DataGridViewRow row in dgvCurrent.Rows)
             {
                 var sd = GetObjectFromRow<T>(row);
@@ -53,12 +54,12 @@ namespace DataGridViewTools
                 switch (selected)
                 {
                     case TristateSelect.NotSelected:
-                        if (sd != null && (!row.Selected && !(bool)row.Cells[colNdx].Value))
+                        if (sd != null && !(bool)row.Cells[colNdx].Value)
                             selectedObjects.Add(sd);
                         break;
 
                     case TristateSelect.Selected:
-                        if (sd != null && (row.Selected || (bool)row.Cells[colNdx].Value))
+                        if (sd != null && (bool)row.Cells[colNdx].Value)
                             selectedObjects.Add(sd);
                         break;
 

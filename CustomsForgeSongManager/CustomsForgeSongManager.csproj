@@ -710,7 +710,6 @@ rem "%25programfiles%25\Microsoft SDKs\Windows\v7.0A\bin\signtool.exe"  sign /f 
 
    CD "$(SolutionDir)ThirdParty\CFSM.Setup\Output\"
    DEL /Q CFSMSetup.rar
-
    "%25programfiles%25\WinRAR\WinRar.exe" a -r "CFSMSetup.rar" "CFSMSetup.exe"
 
   rem DEL /Q CFSMSetup.exe
@@ -722,25 +721,30 @@ if $(ConfigurationName) == InnoRelease (
 
    MKDIR "$(ProjectDir)bin\ConfuserEx\"
    XCOPY /Y /E /D "$(TargetDir)*.*" "$(ProjectDir)bin\ConfuserEx\*.*"
-  CD "$(SolutionDir)ThirdParty\ConfuserEx_bin\"
-  "Confuser.CLI.exe" "..\ConfuserExForInno.crproj"
+   CD "$(SolutionDir)ThirdParty\ConfuserEx_bin\"
+   "Confuser.CLI.exe" "..\ConfuserExForInno.crproj"
 
- CD "$(SolutionDir)ThirdParty\Inno\"
-  "ISCC.exe" "..\CFSM_Setup\cfsmInstaller.iss"
-  CD "$(SolutionDir)ThirdParty\"
-  "CFSMPostBuilder.exe" "CREATEVERSIONINFO"
+rem must be connected to internet for signtool to work properly
+rem CD "$(ProjectDir)bin\ConfuserEx\"
+rem "%25programfiles%25\Microsoft SDKs\Windows\v7.0A\bin\signtool.exe"  sign /f CFSM_Certificate.pfx /p cozylov /t http://timestamp.verisign.com/scripts/timstamp.dll CustomsForgeSongManager.exe
+
+   CD "$(SolutionDir)ThirdParty\Inno\"
+  "ISCC.exe" "..\CFSM.Setup\cfsmInstaller.iss"
+
+   CD "$(SolutionDir)ThirdParty\"
+   "CFSMPostBuilder.exe" "CREATEVERSIONINFO"
 
    CD "$(SolutionDir)ThirdParty\CFSM.Setup\Output\"
    DEL /Q CFSMSetup.rar
+  "%25programfiles%25\WinRAR\WinRar.exe" a -r "CFSMSetup.rar" "CFSMSetup.exe"
 
-   "%25programfiles%25\WinRAR\WinRar.exe" a -r "CFSMSetup.rar" "CFSMSetup.exe"
+  rem DEL /Q CFSMSetup.exe
 
-   DEL /Q CFSMSetup.exe
 
 REM "CFSMPostBuilder.exe" "UPLOAD" "198.58.96.81" "appdev" "7eCheQ+bu+heRevu"
 )
 
-rem if $(ConfigurationName This line will throw an error for post build debugging purposes</PostBuildEvent>
+rem if $(ConfigurationName This line will throw an error for post build debugging purposes purposes</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>REM do some housekeeping here

@@ -13,8 +13,8 @@ namespace CustomsForgeSongManager.DataObjects
     [Serializable]
     public class AppSettings : NotifyPropChangedBase
     {
-        private string _rsInstalledDir;
-        private string _rsProfileDir;
+        private string _rsInstalledDir = String.Empty;
+        private string _rsProfileDir = String.Empty;
         private bool _includeRS1CompSongs;
         private bool _includeRS2BaseSongs;
         private bool _includeCustomPacks;
@@ -29,9 +29,9 @@ namespace CustomsForgeSongManager.DataObjects
         private int _windowTop;
         private int _windowLeft;
         private bool _showLogWindow;
-        private string _charterName;
-        private string _renameTemplate;
-        private string _sortColumn;
+        private string _charterName = String.Empty;
+        private string _renameTemplate = String.Empty;
+        private string _sortColumn = String.Empty;
         private bool _sortAscending;
         private bool _showSetlistSongs;
         private string _downloadsDir;
@@ -228,21 +228,25 @@ namespace CustomsForgeSongManager.DataObjects
         public void LoadFromFile(string settingsPath, DataGridView dgvCurrent)
         {
             if (!String.IsNullOrEmpty(settingsPath) && File.Exists(settingsPath))
+            {
                 using (var fs = File.OpenRead(settingsPath))
                     LoadSettingsFromStream(fs);
-
-            if (dgvCurrent != null)
-            {
-                if (File.Exists(Constants.GridSettingsPath))
-                    RAExtensions.ManagerGridSettings = SerialExtensions.LoadFromFile<RADataGridViewSettings>(Constants.GridSettingsPath);
-                else
-                {
-                    Globals.Log("<WARNING> Could not find file ...");
-                    Globals.Log(Constants.GridSettingsPath);
-                }
             }
-            else
-                Globals.Log("<WARNING> dgvCurrent is null ...");
+ 
+            // not done on app startup
+            if (dgvCurrent != null) 
+            {
+                if (File.Exists(settingsPath))
+                    Globals.Log("Loaded File: " + Path.GetFileName(Constants.AppSettingsPath));
+
+                if (File.Exists(Constants.GridSettingsPath))
+                {
+                    Globals.Log("Loaded File: " + Path.GetFileName(Constants.GridSettingsPath));
+                    RAExtensions.ManagerGridSettings = SerialExtensions.LoadFromFile<RADataGridViewSettings>(Constants.GridSettingsPath);
+                }
+                //else
+                //    Globals.Log("<WARNING> Did not find file: " + Path.GetFileName(Constants.GridSettingsPath));
+            }
         }
 
         public void LoadSettingsFromStream(Stream stream)
@@ -259,8 +263,6 @@ namespace CustomsForgeSongManager.DataObjects
                     if (!ignore)
                         p.SetValue(this, p.GetValue(x, emptyObjParams), emptyObjParams);
                 }
-
-            Globals.Log("Loaded settings file ...");
         }
 
         public void Reset()

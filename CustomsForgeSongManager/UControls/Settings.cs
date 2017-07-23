@@ -21,26 +21,10 @@ namespace CustomsForgeSongManager.UControls
 
         public void LoadSettingsFromFile(DataGridView dgvCurrent)
         {
-            var settingsPath = Constants.SettingsPath;
-
-            // initialize application startup or check for empty settings file 
-            if (!File.Exists(settingsPath) || new FileInfo(settingsPath).Length == 0)
-            {
-                ResetSettings();
-                ValidateRsDir();
-                SaveSettingsToFile(dgvCurrent);
-                return;
-            }
-
-            if (!String.IsNullOrEmpty(dgvCurrent.Name))
-            {
-                Debug.WriteLine("Load DataGridView Settings: " + dgvCurrent.Name);
-                Globals.DgvCurrent = dgvCurrent;
-            }
-
             try
             {
-                AppSettings.Instance.LoadFromFile(settingsPath, Globals.DgvCurrent);
+                Globals.DgvCurrent = dgvCurrent;
+                AppSettings.Instance.LoadFromFile(Constants.AppSettingsPath, dgvCurrent);
 
                 cueRsDir.Text = AppSettings.Instance.RSInstalledDir;
                 chkEnableAutoUpdate.Checked = AppSettings.Instance.EnableAutoUpdate;
@@ -79,12 +63,6 @@ namespace CustomsForgeSongManager.UControls
             }
         }
 
-        public void ResetSettings()
-        {
-            AppSettings.Instance.Reset();
-            Globals.MyLog.Write("Reset settings to defaults ...");
-        }
-
         public void SaveSettingsToFile(DataGridView dgvCurrent)
         {
             Globals.DgvCurrent = dgvCurrent;
@@ -92,11 +70,10 @@ namespace CustomsForgeSongManager.UControls
 
             try
             {
-                using (var fs = new FileStream(Constants.SettingsPath, FileMode.Create, FileAccess.Write, FileShare.Write))
+                using (var fs = new FileStream(Constants.AppSettingsPath, FileMode.Create, FileAccess.Write, FileShare.Write))
                 {
                     AppSettings.Instance.SerializeXml(fs);
-                    Globals.Log("Saved cfsm.Settings.xml file ...");
-                }
+                    Globals.Log("Saved File: " + Path.GetFileName(Constants.AppSettingsPath));                }
 
                 if (String.IsNullOrEmpty(dgvCurrent.Name))
                     return;
@@ -105,7 +82,7 @@ namespace CustomsForgeSongManager.UControls
                     Directory.CreateDirectory(Constants.GridSettingsFolder);
 
                 SerialExtensions.SaveToFile(Constants.GridSettingsPath, RAExtensions.SaveColumnOrder(dgvCurrent));
-                Globals.Log("Saved " + Path.GetFileName(Constants.GridSettingsPath) + " file ...");
+                Globals.Log("Saved File: " + Path.GetFileName(Constants.GridSettingsPath));
             }
             catch (Exception ex)
             {
@@ -130,10 +107,9 @@ namespace CustomsForgeSongManager.UControls
             var rsDir = AppSettings.Instance.RSInstalledDir;
             if (String.IsNullOrEmpty(rsDir) || !Directory.Exists(rsDir)) // || rsDir.Text.Contains("Click here"))
             {
-                Globals.Log("Select your Rocksmith installation directory ...");
                 using (var fbd = new FolderBrowserDialog())
                 {
-                    fbd.Description = "Select the RS2014 installation directory";
+                    fbd.Description = "Select Rocksmith 2014 Installation Directory";
 
                     if (fbd.ShowDialog() != DialogResult.OK)
                         return;
@@ -144,10 +120,11 @@ namespace CustomsForgeSongManager.UControls
                 if (!Directory.Exists(Path.Combine(cueRsDir.Text, "dlc")))
                 {
                     MessageBox.Show(new Form { TopMost = true }, String.Format("Please select a directory that  {0}contains a 'dlc' subdirectory.", Environment.NewLine), Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    ValidateRsDir(); // put the user in a bit of a loop
+                    ValidateRsDir(); // put the user into a loop (force selection)
                 }
 
                 AppSettings.Instance.RSInstalledDir = cueRsDir.Text;
+                Globals.Log("Rocksmith Installation Directory: " + AppSettings.Instance.RSInstalledDir);
             }
         }
 
@@ -184,7 +161,7 @@ namespace CustomsForgeSongManager.UControls
                 case "EnableLogBaloon":
                     chkEnableLogBallon.Checked = AppSettings.Instance.EnableLogBaloon;
                     break;
-                 case "CleanOnClosing":
+                case "CleanOnClosing":
                     rbCleanOnClosing.Checked = AppSettings.Instance.CleanOnClosing;
                     break;
                 case "CreatorName":
@@ -265,7 +242,7 @@ namespace CustomsForgeSongManager.UControls
         {
             using (var fbd = new FolderBrowserDialog())
             {
-                fbd.Description = "Select the RS2014 installation directory";
+                fbd.Description = "Select the Rocksmith 2014 installation directory";
                 fbd.SelectedPath = GetInstallDirFromRegistry();
 
                 if (fbd.ShowDialog() != DialogResult.OK) return;

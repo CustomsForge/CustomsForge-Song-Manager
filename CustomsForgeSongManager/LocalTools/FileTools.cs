@@ -332,7 +332,8 @@ namespace CustomsForgeSongManager.LocalTools
 
             if (processed > 0)
             {
-                Globals.Log("Finished backing up files ...");
+                Globals.Log("Finished backing up selected files ...");
+                Globals.Log("Backups saved to: " + destFolder);
                 return true;
             }
 
@@ -589,8 +590,9 @@ namespace CustomsForgeSongManager.LocalTools
             }
             catch (Exception ex)
             {
-                Globals.Log("<ERROR> Could not verify CFSM folders ...");
+                Globals.Log("<ERROR> Could not verify CFSM work folders ...");
                 Globals.Log(ex.Message);
+                throw new Exception(); // force app to stop here
             }
         }
     }

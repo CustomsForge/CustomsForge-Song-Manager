@@ -56,7 +56,6 @@ namespace CustomsForgeSongManager.UControls
             PopulateTagger();
             PopulateSongManager();
             cmsTaggerPreview.Visible = true; // ???
-            FileTools.VerifyCfsmFolders();
             InitializeRepairMenu();
         }
 
@@ -124,12 +123,12 @@ namespace CustomsForgeSongManager.UControls
 
         public void PopulateSongManager()
         {
-            Globals.Log("Populating SongManager GUI ...");
-
             // Hide main dgvSongsMaster until load completes
             dgvSongsMaster.Visible = false;
             //Load Song Collection from file must be called before
             LoadSongCollectionFromFile();
+
+            Globals.Log("Populating SongManager GUI ...");
 
             //Worker actually does the sorting after parsing, this is just to tell the grid that it is sorted.
             if (!String.IsNullOrEmpty(AppSettings.Instance.SortColumn))
@@ -156,7 +155,7 @@ namespace CustomsForgeSongManager.UControls
                 dom.DocumentElement.AppendChild(versionNode);
 
                 var arrDom = new XmlDocument();
-                var allArrsNode = arrDom.CreateElement("ArrangementData");
+                var allArrsNode = arrDom.CreateElement("AnalyzerData");
                 string keptInfo = "persistentid_dmax_name_dd_tuning_tonebase_tonebase_sectioncount"; //don't move these to ArrInfo file
 
                 foreach (XmlElement songData in dom.GetElementsByTagName("ArrayOfSongData")[0].ChildNodes)
@@ -167,7 +166,10 @@ namespace CustomsForgeSongManager.UControls
                     {
                         string dlcKey = songData.SelectSingleNode("DLCKey").ChildNodes[0].Value.ToString();
                         ((XmlElement)arrangementsNode).SetAttribute("DLCKey", dlcKey);
-                        allArrsNode.AppendChild(arrDom.ImportNode(arrangementsNode, true));
+
+                        var extraMetaDataScanned = Convert.ToBoolean(songData.SelectSingleNode("ExtraMetaDataScanned").ChildNodes[0].Value);
+                        if (extraMetaDataScanned)
+                            allArrsNode.AppendChild(arrDom.ImportNode(arrangementsNode, true));
 
                         var arrNodes = arrangementsNode.ChildNodes.OfType<XmlNode>().ToList();
                         arrNodes.ForEach(arr =>
@@ -181,10 +183,18 @@ namespace CustomsForgeSongManager.UControls
                     }
                 }
 
-                arrDom.AppendChild(allArrsNode);
+                // do not save analyzerData.xml if empty
+                if (!allArrsNode.IsEmpty)
+                {
+                    arrDom.AppendChild(allArrsNode);
+                    arrDom.Save(Constants.AnalyzerDataPath);
+                    Globals.Log("Saved File: " + Path.GetFileName(Constants.AnalyzerDataPath));
+                }
+                else
+                    GenExtensions.DeleteFile(Constants.AnalyzerDataPath);
+
                 dom.Save(Constants.SongsInfoPath);
-                arrDom.Save(Constants.ArrangementDataPath);
-                Globals.Log("Saved song collection file ...");
+                Globals.Log("Saved File: " + Path.GetFileName(Constants.SongsInfoPath));
             }
         }
 
@@ -451,21 +461,21 @@ namespace CustomsForgeSongManager.UControls
             chkSubFolders.Checked = true;
             masterSongCollection.Clear();
             var songsInfoPath = Constants.SongsInfoPath;
-            var arrInfoPath = Constants.ArrangementDataPath;
+            var arrDataPath = Constants.AnalyzerDataPath;
             bool correctVersion = false;
 
             try
             {
-                // load songs from file into memory
-                if (File.Exists(songsInfoPath) && File.Exists(arrInfoPath))
+                // load songsInfo.xml if it exists 
+                if (File.Exists(songsInfoPath))
                 {
                     XmlDocument dom = new XmlDocument();
                     dom.Load(songsInfoPath);
 
-                    //------add Arrangements back
-
+                    // load arrangmentData.xml if it exists 
                     XmlDocument arrDom = new XmlDocument();
-                    arrDom.Load(arrInfoPath);
+                    if (File.Exists(arrDataPath))
+                        arrDom.Load(arrDataPath);
 
                     foreach (XmlElement songData in dom.GetElementsByTagName("ArrayOfSongData")[0].ChildNodes)
                     {
@@ -473,15 +483,16 @@ namespace CustomsForgeSongManager.UControls
                             continue;
 
                         string dlcKey = songData.SelectSingleNode("DLCKey").ChildNodes[0].Value.ToString();
-                        var arrangementsNode = arrDom.DocumentElement.ChildNodes.OfType<XmlElement>().FirstOrDefault(n => n.Attributes["DLCKey"].Value == dlcKey);
-                        var originalArrNode = songData.SelectSingleNode("Arrangements");
-
-                        if (arrangementsNode != null)
+                        XmlElement arrangementsNode = null;
+                        if (arrDom.HasChildNodes)
+                        {
+                            arrangementsNode = arrDom.DocumentElement.ChildNodes.OfType<XmlElement>().FirstOrDefault(n => n.Attributes["DLCKey"].Value == dlcKey);
+                            var originalArrNode = songData.SelectSingleNode("Arrangements");
                             originalArrNode.ParentNode.ReplaceChild(dom.ImportNode(arrangementsNode, true), originalArrNode);
+                        }
                     }
 
-                    //------
-
+                    // remove version info node
                     var listNode = dom["ArrayOfSongData"];
                     if (listNode != null)
                     {
@@ -493,57 +504,61 @@ namespace CustomsForgeSongManager.UControls
 
                             listNode.RemoveChild(versionNode);
                         }
-                    }
 
-                    masterSongCollection = SerialExtensions.XmlDeserialize<BindingList<SongData>>(listNode.OuterXml);
+                        masterSongCollection = SerialExtensions.XmlDeserialize<BindingList<SongData>>(listNode.OuterXml);
 
-                    if (masterSongCollection == null || masterSongCollection.Count == 0)
-                        throw new SongCollectionException(masterSongCollection == null ? "Master Collection = null" : "Master Collection.Count = 0");
-
-                    Globals.SongCollection = masterSongCollection;
-
-                    if (correctVersion)
-                        Rescan(false); // smart scan
-                    else
-                    {
-                        Globals.Log("Incorrect song collection version found, rescanning songs.");
-
-                        // comment this out after debugging is finished
-                        // use the bulldozer
-                        //ZipUtilities.RemoveReadOnlyAttribute(Constants.WorkFolder);
-                        //GenExtensions.DeleteDirectory(Constants.WorkFolder);
-                        //FileTools.VerifyCfsmFolders();
-
-                        // uncomment this out after debugging is finished
-                        // 'My Documents/CFSM' may contain some original files so don't use a bulldozer
-                        GenExtensions.DeleteFile(songsInfoPath);
-                        GenExtensions.DeleteFile(Constants.SettingsPath);
-                        FileTools.VerifyCfsmFolders();
+                        if (masterSongCollection == null || masterSongCollection.Count == 0)
+                            throw new SongCollectionException(masterSongCollection == null ? "Master Collection = null" : "Master Collection.Count = 0");
                     }
                 }
 
-                if (!correctVersion || !File.Exists(songsInfoPath))
-                    Rescan(true); // full scan
+                // load song collection into memory
+                if (correctVersion)
+                {
+                    Globals.SongCollection = masterSongCollection;
+                    Rescan(false); // smart scan
+                }
                 else
-                    Globals.Log("Loaded saved song collection file ...");
+                {
+                    if (File.Exists(Constants.SongsInfoPath))
+                        Globals.Log("<WARNING> Incorrect song collection version found ...");
+
+                    Globals.Log("Performing full scan of song collection ...");
+
+                    try
+                    {
+                        // DO NOT use the bulldozer here
+                        // 'My Documents/CFSM' may contain some original files
+                        GenExtensions.DeleteFile(Constants.LogFilePath);
+                        GenExtensions.DeleteFile(Constants.SongsInfoPath);
+                        GenExtensions.DeleteFile(Constants.AnalyzerDataPath);
+                        GenExtensions.DeleteFile(Constants.AppSettingsPath);
+                    }
+                    catch (Exception ex)
+                    {
+                        Globals.Log("<ERROR> Cleaning " + Path.GetFileName(Constants.WorkFolder) + " : " + ex.Message);
+                    }
+
+                    // full scan
+                    Rescan(true);
+                }
 
                 PopulateDataGridView();
             }
             catch (Exception e)
             {
                 // failsafe ... delete My Documents/CFSM folder and files with option not to delete
+                var diaMsg = "A fatal CFSM application error has occured." + Environment.NewLine +
+                             "You are about to delete all work files created" + Environment.NewLine +
+                             "by CFSM, including any backups of CDLC files." + Environment.NewLine +
+                             "Deletion is permenant and can not be undone." + Environment.NewLine +
+                             "Do you want to continue?";
 
-                //var diaMsg = "A fatal CFSM application error has occured." + Environment.NewLine +
-                //             "You are about to delete all work files created" + Environment.NewLine +
-                //             "by CFSM, including any backups of CDLC files." + Environment.NewLine +
-                //             "Deletion is permenant and can not be undone." + Environment.NewLine +
-                //             "Do you want to continue?";
-
-                //if (DialogResult.No == BetterDialog2.ShowDialog(diaMsg, "Delete 'My Documents/CFSM' ...", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning", 0, 150))
-                //{
-                //    Globals.Log("User aborted deleting CFSM folder and subfolders from My Documents ...");
-                //    Environment.Exit(0);
-                //}
+                if (DialogResult.No == BetterDialog2.ShowDialog(diaMsg, "Delete 'My Documents/CFSM' ...", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning", 0, 150))
+                {
+                    Globals.Log("User aborted deleting CFSM folder and subfolders from My Documents ...");
+                    Environment.Exit(0);
+                }
 
                 string err = e.Message;
                 if (e.InnerException != null)
@@ -562,7 +577,7 @@ namespace CustomsForgeSongManager.UControls
                 Environment.Exit(0);
             }
 
-            // var debugHere = masterSongCollection;
+            // var debugMe = masterSongCollection;
         }
 
         private void PopulateDataGridView() // binding data to grid
@@ -708,7 +723,7 @@ namespace CustomsForgeSongManager.UControls
             // this should never happen
             if (String.IsNullOrEmpty(AppSettings.Instance.RSInstalledDir))
             {
-                MessageBox.Show("<Error>: Rocksmith 2014 installation directory setting is null or empty.", Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("<Error>: Rocksmith 2014 Installation Directory setting is null or empty.", Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -776,7 +791,6 @@ namespace CustomsForgeSongManager.UControls
 
             sw.Stop();
             Globals.Log(String.Format("Parsing archives from {0} took: {1} (msec)", Constants.Rs2DlcFolder, sw.ElapsedMilliseconds));
-            Globals.Log("Loaded fresh song collection file ...");
             Globals.RescanSetlistManager = false;
             Globals.RescanDuplicates = false;
             Globals.RescanSongManager = false;
@@ -2082,6 +2096,9 @@ namespace CustomsForgeSongManager.UControls
 
         private void SongManager_Resize(object sender, EventArgs e)
         {
+            if (dgvSongsMaster.DataSource == null || dgvSongsMaster.RowCount == 0)
+                return;
+
             ResetDetail();
 
             // alternate method: maintains SongsDetail visiblity while resizing
@@ -2108,6 +2125,9 @@ namespace CustomsForgeSongManager.UControls
 
         private void dgvSongsMaster_Scroll(object sender, ScrollEventArgs e)
         {
+            if (dgvSongsMaster.DataSource == null || dgvSongsMaster.RowCount == 0)
+                return;
+
             if (dgvSongsDetail.Visible)
             {
                 if (e.ScrollOrientation == ScrollOrientation.VerticalScroll)

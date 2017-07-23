@@ -95,19 +95,15 @@ namespace CustomsForgeSongManager.Forms
 
             Globals.OnScanEvent += (s, e) => { tcMain.InvokeIfRequired(a => { tcMain.Enabled = !e.IsScanning; }); };
 
-            // create application directory structure if it does not exist
-            if (!Directory.Exists(Constants.WorkFolder))
-            {
-                Directory.CreateDirectory(Constants.WorkFolder);
-                Globals.Log(String.Format("Created working directory: {0}", Constants.WorkFolder));
-            }
+            // verify application directory structure
+            FileTools.VerifyCfsmFolders();
 
             // initialize all global variables
             Globals.Log(Constants.AppTitle);
             Globals.Log(GetRSTKLibVersion());
 
             // load settings
-            Globals.Settings.LoadSettingsFromFile(Globals.DgvCurrent);
+            Globals.Settings.LoadSettingsFromFile(null); // null => workaround to prevent showing 'Loaded appSettings.xml file ...' 2X
 
             if (AppSettings.Instance.ShowLogWindow)
             {

@@ -100,7 +100,6 @@ var tmpUpdateLocation : string;
 var UninstallPage: TWizardPage;
 var doneUninstall : boolean;
 
-
 function GetNumber(var temp: String): Integer;
 var
   part: String;
@@ -359,28 +358,78 @@ begin
   Result := (GetUninstallString() <> '');
 end;
 
+//http://www.kynosarges.de/DotNetVersion.html
+function IsDotNetDetected(version: string; service: cardinal): boolean;
+// Indicates whether the specified version and service pack of the .NET Framework is installed.
+//
+// version -- Specify one of these strings for the required .NET Framework version:
+//    'v1.1.4322'     .NET Framework 1.1
+//    'v2.0.50727'    .NET Framework 2.0
+//    'v3.0'          .NET Framework 3.0
+//    'v3.5'          .NET Framework 3.5
+//    'v4\Client'     .NET Framework 4.0 Client Profile
+//    'v4\Full'       .NET Framework 4.0 Full Installation
+//
+// service -- Specify any non-negative integer for the required service pack level:
+//    0               No service packs required
+//    1, 2, etc.      Service pack 1, 2, etc. required
+var
+    key: string;
+    install, serviceCount: cardinal;
+    success: boolean;
+begin
+    key := 'SOFTWARE\Microsoft\NET Framework Setup\NDP\' + version;
+    // .NET 3.0 uses value InstallSuccess in subkey Setup
+    if Pos('v3.0', version) = 1 then begin
+        success := RegQueryDWordValue(HKLM, key + '\Setup', 'InstallSuccess', install);
+    end else begin
+        success := RegQueryDWordValue(HKLM, key, 'Install', install);
+    end;
+    // .NET 4.0 uses value Servicing instead of SP
+    if Pos('v4', version) = 1 then begin
+        success := success and RegQueryDWordValue(HKLM, key, 'Servicing', serviceCount);
+    end else begin
+        success := success and RegQueryDWordValue(HKLM, key, 'SP', serviceCount);
+    end;
+    result := success and (install = 1) and (serviceCount >= service);
+end;
+
 function InitializeSetup: Boolean;
 var
   V: Integer;
   iResultCode: Integer;
   sUnInstallString: string;
 begin
-  Result := True; // in case when no previous version is found
-  if RegValueExists(HKEY_LOCAL_MACHINE,'Software\Microsoft\Windows\CurrentVersion\Uninstall\{58F35625-541C-493A-A289-4B2D362DAFE0}_is1', 'UninstallString') then  //Your App GUID/ID
   begin
-    //V := MsgBox(ExpandConstant('An old version of CFSM was detected. Do you want to uninstall it?'), mbInformation, MB_YESNO); //Custom Message if App installed
-    V := IDYES;
-    if V = IDYES then
+    if not IsDotNetDetected('v4\Client', 0)
+    and not IsDotNetDetected('v4\Full', 0)
+    then begin
+        MsgBox('This application requires Microsoft .NET Framework 4.0.30319.'#13#13
+            'Please use install it from the Microsoft website,'#13
+            'and then re-run the setup program.', mbInformation, MB_OK);
+        result := false;
+    end else
+        result := true;
+  end;
+
+  begin
+    Result := True; // in case when no previous version is found
+    if RegValueExists(HKEY_LOCAL_MACHINE,'Software\Microsoft\Windows\CurrentVersion\Uninstall\{58F35625-541C-493A-A289-4B2D362DAFE0}_is1', 'UninstallString') then  //Your App GUID/ID
     begin
-      sUnInstallString := GetUninstallString();
-      sUnInstallString :=  RemoveQuotes(sUnInstallString);
-      Exec(ExpandConstant(sUnInstallString), '/VERYSILENT /SUPPRESSMSGBOXES','', SW_HIDE, ewWaitUntilTerminated, iResultCode);
-      //commented out showing all user prompts
-      //Exec(ExpandConstant(sUnInstallString), '', '', SW_SHOW, ewWaitUntilTerminated, iResultCode);
-      Result := True; //if you want to proceed after uninstall
-      //Exit; //if you want to quit after uninstall
-    end
-    else
-      Result := False; //when older version present and not uninstalled
+      //V := MsgBox(ExpandConstant('An old version of CFSM was detected. Do you want to uninstall it?'), mbInformation, MB_YESNO); //Custom Message if App installed
+      V := IDYES;
+      if V = IDYES then
+      begin
+        sUnInstallString := GetUninstallString();
+        sUnInstallString :=  RemoveQuotes(sUnInstallString);
+        Exec(ExpandConstant(sUnInstallString), '/VERYSILENT /SUPPRESSMSGBOXES','', SW_HIDE, ewWaitUntilTerminated, iResultCode);
+        //commented out showing all user prompts
+        //Exec(ExpandConstant(sUnInstallString), '', '', SW_SHOW, ewWaitUntilTerminated, iResultCode);
+        Result := True; //if you want to proceed after uninstall
+        //Exit; //if you want to quit after uninstall
+      end
+      else
+        Result := False; //when older version present and not uninstalled
+    end;
   end;
 end;

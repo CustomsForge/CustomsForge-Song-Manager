@@ -120,7 +120,6 @@ namespace CustomsForgeSongManager.LocalTools
                         currentSong.RepairStatus = RepairStatus.NotRepaired;
                 }
 
-
                 var strippedName = singleSong.Name.Replace(".xblock", "").Replace("gamexblocks/nsongs/", "");
                 if (strippedName.Contains("_fcp_dlc"))
                     strippedName = strippedName.Replace("_fcp_dlc", "");
@@ -343,7 +342,7 @@ namespace CustomsForgeSongManager.LocalTools
             }
 
             sw.Stop();
-            Globals.Log(String.Format("{0} parsing took: {1} (msec)", Path.GetFileName(_filePath), sw.ElapsedMilliseconds));
+            Globals.Log(String.Format(" - {0} parsing took: {1} (msec)", Path.GetFileName(_filePath), sw.ElapsedMilliseconds));
 
             return songsFromPsarc;
         }
