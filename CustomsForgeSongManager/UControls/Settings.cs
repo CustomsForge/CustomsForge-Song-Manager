@@ -242,7 +242,7 @@ namespace CustomsForgeSongManager.UControls
         {
             using (var fbd = new FolderBrowserDialog())
             {
-                fbd.Description = "Select the Rocksmith 2014 installation directory";
+                fbd.Description = "Select Rocksmith 2014 Installation Directory";
                 fbd.SelectedPath = GetInstallDirFromRegistry();
 
                 if (fbd.ShowDialog() != DialogResult.OK) return;

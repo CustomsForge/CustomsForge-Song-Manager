@@ -16,4 +16,4 @@
 #endif
 
 #define UpdateInfoLocation BaseUpdateURL + "/VersionInfo.txt"
-#define LatestVersionDowload BaseUpdateURL + "/CFSMSetup.exe"
+#define LatestVersionDowload BaseUpdateURL + "/CFSMSetup.rar"

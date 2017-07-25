@@ -14,6 +14,9 @@ until you can confirm it is safe directly through your AV provider.
 
 CFSM Release Notes
 
+1.3.3.9
+- a few tweaks 
+
 1.3.3.8
 - fixed a old bug in GetObjectsFromRows method that turned up in SetlistManager
 - only save analyzerData.xml file if ExtraMetaDataScanned is true

@@ -97,8 +97,8 @@ namespace CustomsForgeSongManager.DataObjects
 
         // not a good practice for app to use rocksmith2014 folder because of issues with OS Permissions and some AV
         [Obsolete("Depricated, please use 'My Documents/CFSM' folder", false)]
-
         public static string Rs2CfsmFolder { get { return Path.Combine(AppSettings.Instance.RSInstalledDir, "cfsm"); } }
+        
         public static string Rs2OriginalsFolder { get { return Path.Combine(AppSettings.Instance.RSInstalledDir, "originals"); } }
         public static string Rs1DiscPsarcBackupPath { get { return Path.Combine(Rs2OriginalsFolder, "rs1compatibilitydisc_p.org.psarc"); } }
         public static string Rs1DlcPsarcBackupPath { get { return Path.Combine(Rs2OriginalsFolder, "rs1compatibilitydlc_p.org.psarc"); } }

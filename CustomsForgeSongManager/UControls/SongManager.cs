@@ -161,7 +161,6 @@ namespace CustomsForgeSongManager.UControls
                 foreach (XmlElement songData in dom.GetElementsByTagName("ArrayOfSongData")[0].ChildNodes)
                 {
                     var arrangementsNode = songData.GetElementsByTagName("Arrangements")[0];
-
                     if (arrangementsNode != null)
                     {
                         string dlcKey = songData.SelectSingleNode("DLCKey").ChildNodes[0].Value.ToString();
@@ -183,15 +182,21 @@ namespace CustomsForgeSongManager.UControls
                     }
                 }
 
-                // do not save analyzerData.xml if empty
-                if (!allArrsNode.IsEmpty)
+                // save analyzerData.xml
+                if (AppSettings.Instance.IncludeAnalyzerData && !allArrsNode.IsEmpty)
                 {
                     arrDom.AppendChild(allArrsNode);
                     arrDom.Save(Constants.AnalyzerDataPath);
                     Globals.Log("Saved File: " + Path.GetFileName(Constants.AnalyzerDataPath));
                 }
-                else
-                    GenExtensions.DeleteFile(Constants.AnalyzerDataPath);
+                //else // remove old anlayzer data
+                //{
+                //    if (GenExtensions.DeleteFile(Constants.AnalyzerDataPath))
+                //    {
+                //        Globals.Log("User Disabled Analyzer ...");
+                //        Globals.Log("Deleted File: " + Path.GetFileName(Constants.AnalyzerDataPath));
+                //    }
+                //}
 
                 dom.Save(Constants.SongsInfoPath);
                 Globals.Log("Saved File: " + Path.GetFileName(Constants.SongsInfoPath));
@@ -460,22 +465,26 @@ namespace CustomsForgeSongManager.UControls
         {
             chkSubFolders.Checked = true;
             masterSongCollection.Clear();
-            var songsInfoPath = Constants.SongsInfoPath;
-            var arrDataPath = Constants.AnalyzerDataPath;
             bool correctVersion = false;
 
             try
             {
                 // load songsInfo.xml if it exists 
-                if (File.Exists(songsInfoPath))
+                if (File.Exists(Constants.SongsInfoPath))
                 {
                     XmlDocument dom = new XmlDocument();
-                    dom.Load(songsInfoPath);
+                    dom.Load(Constants.SongsInfoPath);
+                    Globals.Log("Loaded File: " + Path.GetFileName(Constants.SongsInfoPath));
 
-                    // load arrangmentData.xml if it exists 
+                    // load analyzerData.xml
                     XmlDocument arrDom = new XmlDocument();
-                    if (File.Exists(arrDataPath))
-                        arrDom.Load(arrDataPath);
+                    if (AppSettings.Instance.IncludeAnalyzerData && File.Exists(Constants.AnalyzerDataPath))
+                    {
+                        arrDom.Load(Constants.AnalyzerDataPath);
+                        Globals.Log("Loaded File: " + Path.GetFileName(Constants.AnalyzerDataPath));
+                    }
+                    //else // remove old anlayzer data
+                    //    GenExtensions.DeleteFile(Constants.AnalyzerDataPath);
 
                     foreach (XmlElement songData in dom.GetElementsByTagName("ArrayOfSongData")[0].ChildNodes)
                     {

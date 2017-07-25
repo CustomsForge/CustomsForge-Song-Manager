@@ -282,7 +282,8 @@ begin
         hasUpgrade := CompareVersion(currentVersion, newVersion) < 0;
         if hasUpgrade then
         begin
-            tmpUpdateLocation := ExpandConstant('{tmp}\cfsm_'+newVersion+'_setup.exe');
+            // TODO: debug this
+            tmpUpdateLocation := ExpandConstant('{tmp}\cfsm_'+newVersion+'_setup.rar');
             WizardForm.Caption := WizardForm.Caption + ' - '+ '(V'+newVersion+' available.)';
             idpAddFile(updateUrl, tmpUpdateLocation);
             idpDownloadAfter(DownloadStep);
