@@ -72,5 +72,3 @@ CleanupBeforeGitPullRequest.bat
 index*.html
 OpenCmd.bat
 inno.bat
-ThirdParty/CFSM_Beta_Setup/*.*
-ThirdParty/CFSM_Release_Setup/*.*
