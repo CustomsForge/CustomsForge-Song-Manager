@@ -44,6 +44,10 @@ namespace CustomsForgeSongManager.Forms
         public frmMain(DLogNet.DLogger myLog)
         {
             InitializeComponent();
+
+            // create VersionInfo.txt file
+            VersionInfo.CreateVersionInfo();
+
             //this will initialize classes that need to be initialized right away.
             TypeExtensions.InitializeClasses(new string[] { "UTILS_INIT", "CFSM_INIT" }, new Type[] { }, new object[] { });
 

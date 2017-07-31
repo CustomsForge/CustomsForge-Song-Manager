@@ -14,6 +14,12 @@ until you can confirm it is safe directly through your AV provider.
 
 CFSM Release Notes
 
+1.3.4.1
+- restructured Inno Installer
+- added unRAR ability to Inno Installer
+- force user to run Inno Uninstaller as Admin to reduce AV false positives
+- synchronized develop and master repo branches
+
 1.3.3.9
 - a few tweaks 
 
