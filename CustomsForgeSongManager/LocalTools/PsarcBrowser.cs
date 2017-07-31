@@ -195,7 +195,6 @@ namespace CustomsForgeSongManager.LocalTools
                                 var song2014Data = new Song2014();
 
                                 if (currentSong.OfficialDLC)
-<<<<<<< HEAD
                                 {
                                     var arrSngEntry = _archive.TOC.FirstOrDefault(x => x.Name.EndsWith(".sng") && x.Name.ToLower().Contains(arrName.ToLower() + ".sng") && x.Name.Contains(strippedName));
 
@@ -292,104 +291,6 @@ namespace CustomsForgeSongManager.LocalTools
 
                                 foreach (var chord in maxLevelChords)
                                 {
-=======
-                                {
-                                    var arrSngEntry = _archive.TOC.FirstOrDefault(x => x.Name.EndsWith(".sng") && x.Name.ToLower().Contains(arrName.ToLower() + ".sng") && x.Name.Contains(strippedName));
-
-                                    _archive.InflateEntry(arrSngEntry);
-
-                                    var sngMS = new MemoryStream();
-                                    using (var sngReader = new StreamReader(sngMS, new UTF8Encoding(), false, 65536))
-                                    {
-                                        arrSngEntry.Data.CopyTo(sngMS);
-                                        arrSngEntry.Data.Position = 0;
-                                        sngMS.Position = 0;
-
-                                        var sngFile = Sng2014File.ReadSng(sngMS, new Platform(GamePlatform.Pc, GameVersion.RS2014));
-
-                                        entry.Data.Position = 0;
-                                        ms.Position = 0;
-                                        var man = JsonConvert.DeserializeObject<Manifest2014<Attributes2014>>(reader.ReadToEnd());
-
-                                        var atr = new Attributes2014();
-                                        atr = man.Entries.ToArray()[0].Value.ToArray()[0].Value;
-
-                                        song2014Data = new Song2014(sngFile, atr);
-                                    }
-                                }
-                                else
-                                {
-                                    var arrXmlEntry = _archive.TOC.FirstOrDefault(x => x.Name.EndsWith(".xml") && x.Name.ToLower().Contains(arrName.ToLower()) && x.Name.Contains(strippedName));
-
-                                    _archive.InflateEntry(arrXmlEntry);
-
-                                    var xmlMS = new MemoryStream();
-                                    using (var xmlReader = new StreamReader(xmlMS, new UTF8Encoding(), false, 65536))
-                                    {
-                                        arrXmlEntry.Data.CopyTo(xmlMS);
-                                        arrXmlEntry.Data.Position = 0;
-                                        xmlMS.Position = 0;
-
-                                        using (var fileStream = File.Create(Path.Combine(Constants.TempWorkFolder, "tmpSng.xml")))
-                                        {
-                                            xmlMS.Seek(0, SeekOrigin.Begin);
-                                            xmlMS.CopyTo(fileStream);
-                                        }
-
-                                        song2014Data = Song2014.LoadFromFile(Path.Combine(Constants.TempWorkFolder, "tmpSng.xml"));
-                                    }
-                                }
-
-                                int octaveCount = 0;
-                                int chordCount = 0;
-                                bool isOctave = false;
-
-                                var chordTemplates = song2014Data.ChordTemplates;
-                                var arrProperties = song2014Data.ArrangementProperties;
-
-                                var allLevelData = song2014Data.Levels;
-                                var maxLevelNotes = new List<SongNote2014>();
-                                var maxLevelChords = new List<SongChord2014>();
-
-                                var chordNames = new List<string>();
-                                var chordCounts = new List<int>();
-
-                                for (int i = allLevelData.Count() - 1; i > 0; i--) //go from the highest level to prevent adding the lower level notes
-                                {
-                                    foreach (var note in allLevelData[i].Notes)
-                                    {
-                                        if (!maxLevelNotes.Any(n => n.Time == note.Time) && !maxLevelChords.Any(c => c.Time == note.Time))
-                                            maxLevelNotes.Add(note);
-                                    }
-
-                                    foreach (var chord in allLevelData[i].Chords)
-                                    {
-                                        if (!maxLevelChords.Any(c => c.Time == chord.Time) && !maxLevelNotes.Any(n => n.Time == chord.Time))
-                                            maxLevelChords.Add(chord);
-                                    }
-                                }
-
-                                foreach (var chord in maxLevelChords)
-                                {
-                                    string chordName = song2014Data.ChordTemplates[chord.ChordId].ChordName.Replace(" ", string.Empty);
-
-                                    chordCount = 0;
-
-                                    if (chordName == "")
-                                        continue;
-
-                                    if (chordNames.Where(c => c == chordName).Count() > 0)
-                                        chordCounts[chordNames.IndexOf(chordName)] += 1;
-                                    else
-                                    {
-                                        chordNames.Add(chordName);
-                                        chordCounts.Add(1);
-                                    }
-                                }
-
-                                foreach (var chord in maxLevelChords)
-                                {
->>>>>>> origin/develop
                                     var chordTemplate = chordTemplates[chord.ChordId];
 
                                     if (chordTemplate.ChordName != "") //check if the current chord has no name (those who don't usually are either double stops or octaves)

@@ -308,15 +308,8 @@ namespace GenTools
                 catch (UnauthorizedAccessException)
                 {
                     Debug.WriteLine("Unauthorized access to: " + dirPath);
-<<<<<<< HEAD
-                    return;
-                }
-
-                return;
-=======
                     return false;
                 }
->>>>>>> origin/develop
             }
 
             return false;

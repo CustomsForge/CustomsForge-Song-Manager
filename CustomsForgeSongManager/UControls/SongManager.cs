@@ -469,13 +469,8 @@ namespace CustomsForgeSongManager.UControls
 
             try
             {
-<<<<<<< HEAD
-                // check songInfo.xml version
-                if (File.Exists(songsInfoPath))
-=======
                 // load songsInfo.xml if it exists 
                 if (File.Exists(Constants.SongsInfoPath))
->>>>>>> origin/develop
                 {
                     XmlDocument dom = new XmlDocument();
                     dom.Load(Constants.SongsInfoPath);
@@ -526,11 +521,7 @@ namespace CustomsForgeSongManager.UControls
                     }
                 }
 
-<<<<<<< HEAD
-                // load songs from file into memory
-=======
                 // load song collection into memory
->>>>>>> origin/develop
                 if (correctVersion)
                 {
                     Globals.SongCollection = masterSongCollection;
@@ -549,10 +540,7 @@ namespace CustomsForgeSongManager.UControls
                         // 'My Documents/CFSM' may contain some original files
                         GenExtensions.DeleteFile(Constants.LogFilePath);
                         GenExtensions.DeleteFile(Constants.SongsInfoPath);
-<<<<<<< HEAD
-=======
                         GenExtensions.DeleteFile(Constants.AnalyzerDataPath);
->>>>>>> origin/develop
                         GenExtensions.DeleteFile(Constants.AppSettingsPath);
                     }
                     catch (Exception ex)
@@ -2117,12 +2105,9 @@ namespace CustomsForgeSongManager.UControls
 
         private void SongManager_Resize(object sender, EventArgs e)
         {
-<<<<<<< HEAD
-=======
             if (dgvSongsMaster.DataSource == null || dgvSongsMaster.RowCount == 0)
                 return;
 
->>>>>>> origin/develop
             ResetDetail();
 
             // alternate method: maintains SongsDetail visiblity while resizing
@@ -2149,12 +2134,9 @@ namespace CustomsForgeSongManager.UControls
 
         private void dgvSongsMaster_Scroll(object sender, ScrollEventArgs e)
         {
-<<<<<<< HEAD
-=======
             if (dgvSongsMaster.DataSource == null || dgvSongsMaster.RowCount == 0)
                 return;
 
->>>>>>> origin/develop
             if (dgvSongsDetail.Visible)
             {
                 if (e.ScrollOrientation == ScrollOrientation.VerticalScroll)
@@ -2171,7 +2153,6 @@ namespace CustomsForgeSongManager.UControls
             }
 
             firstIndex = dgvSongsMaster.FirstDisplayedCell.RowIndex;
-<<<<<<< HEAD
         }
 
         private void cmsGetAnalyzerData_Click(object sender, EventArgs e)
@@ -2187,23 +2168,6 @@ namespace CustomsForgeSongManager.UControls
             dgvSongsMaster.Refresh();
         }
 
-=======
-        }
-
-        private void cmsGetAnalyzerData_Click(object sender, EventArgs e)
-        {
-            var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster);
-            if (!selection.Any())
-                return;
-
-            Globals.Log("Please wait ...");
-            Globals.Log("Getting Analyzer Data for selected songs ...");
-            DoWork(Constants.GWORKER_ANALYZE, selection);
-
-            dgvSongsMaster.Refresh();
-        }
-
->>>>>>> origin/develop
 
     }
 }

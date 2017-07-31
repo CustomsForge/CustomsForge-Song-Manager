@@ -124,11 +124,7 @@ namespace CustomsForgeSongManager.UControls
                 }
 
                 AppSettings.Instance.RSInstalledDir = cueRsDir.Text;
-<<<<<<< HEAD
-                Globals.Log("Set Rocksmith Installation Directory: " + AppSettings.Instance.RSInstalledDir);
-=======
                 Globals.Log("Rocksmith Installation Directory: " + AppSettings.Instance.RSInstalledDir);
->>>>>>> origin/develop
             }
         }
 
@@ -246,11 +242,7 @@ namespace CustomsForgeSongManager.UControls
         {
             using (var fbd = new FolderBrowserDialog())
             {
-<<<<<<< HEAD
-                fbd.Description = "Select the Rocksmith 2014 installation directory";
-=======
                 fbd.Description = "Select Rocksmith 2014 Installation Directory";
->>>>>>> origin/develop
                 fbd.SelectedPath = GetInstallDirFromRegistry();
 
                 if (fbd.ShowDialog() != DialogResult.OK) return;

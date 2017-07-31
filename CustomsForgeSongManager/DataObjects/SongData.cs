@@ -61,11 +61,7 @@ namespace CustomsForgeSongManager.DataObjects
         //ver 1 - 10: time to recycle some ver numbers
 
         // incrimenting forces songInfo.xml to update
-<<<<<<< HEAD
-        public const string SongDataListCurrentVersion = "1";
-=======
         public const string SongDataListCurrentVersion = "3";
->>>>>>> origin/develop
 
         public string FilePath { get; set; }
         public DateTime FileDate { get; set; }
@@ -85,16 +81,11 @@ namespace CustomsForgeSongManager.DataObjects
         public string Version { get; set; }
 
         // used by detail table
-<<<<<<< HEAD
-        [XmlArray("Arrangments")] // provides proper xml serialization
-=======
         [XmlArray("Arrangements")] // provides proper xml serialization
->>>>>>> origin/develop
         [XmlArrayItem("Arrangement")] // provides proper xml serialization
         public FilteredBindingList<Arrangement> Arrangements2D { get; set; }
 
         public string ToolkitVer { get; set; }
-<<<<<<< HEAD
 
         private string _charterName;
         public string CharterName
@@ -115,28 +106,6 @@ namespace CustomsForgeSongManager.DataObjects
             }
         }
 
-=======
-
-        private string _charterName;
-        public string CharterName
-        {
-            get
-            {
-                if (String.IsNullOrEmpty(_charterName))
-                {
-                    _charterName = "N/A";
-                    if (OfficialDLC)
-                        _charterName = "Ubisoft";
-                }
-                return _charterName;
-            }
-            set
-            {
-                _charterName = value;
-            }
-        }
-
->>>>>>> origin/develop
         public string AppID { get; set; }
         //
         public string IgnitionID { get; set; } // not serialized if empty

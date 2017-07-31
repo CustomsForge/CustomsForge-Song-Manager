@@ -19,10 +19,7 @@ using DGVTools = DataGridViewTools;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Text.RegularExpressions;
-<<<<<<< HEAD
-=======
 using CustomControls;
->>>>>>> origin/develop
 
 
 // NOTE: the app is designed for default user screen resolution of 1024x768
@@ -761,11 +758,7 @@ namespace CustomsForgeSongManager.Forms
 
                         if (!song.ExtraMetaDataScanned && song.NoteCount == 0)
                         {
-<<<<<<< HEAD
-                            Globals.Log("No arrangement data found in " + s);
-=======
                             Globals.Log("Parsing Analyzer Data From: " + s);
->>>>>>> origin/develop
 
                             int sngIndex = Globals.SongCollection.IndexOf(song);
 
@@ -773,11 +766,7 @@ namespace CustomsForgeSongManager.Forms
                             {
                                 var songInfo = browser.GetSongData(true);
 
-<<<<<<< HEAD
-            //                    // TODO: FIXME what about songs.psarc and custom song packs?
-=======
                                 // TODO: should songs.psarc and custom song packs be addressed too
->>>>>>> origin/develop
                                 if (song.FilePath.ToLower().Contains("rs1comp"))
                                     song = songInfo.FirstOrDefault(i => i.Title == song.Title);
                                 else
@@ -804,11 +793,7 @@ namespace CustomsForgeSongManager.Forms
                         }
                         catch (ArgumentNullException)
                         {
-<<<<<<< HEAD
-                            Globals.Log("Analyzer error: problem with getting a part of data for the song " + song.Title + " by " + song.Artist);
-=======
                             Globals.Log("<ERROR> Could not get Analyzer Data for: " + song.Title + " by " + song.Artist);
->>>>>>> origin/develop
                         }
 
                         foreach (var arr in song.Arrangements2D)
@@ -868,10 +853,6 @@ namespace CustomsForgeSongManager.Forms
                             var analyzerInfo = new AnalyzerInfo();
                             analyzerInfo.SongInfo = new Dictionary<string, List<StatPair>>();
                             analyzerInfo.SongInfo.Add(s, statPairList);
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/develop
                             allInfo.Add(analyzerInfo);
                         }
                         else
@@ -882,15 +863,8 @@ namespace CustomsForgeSongManager.Forms
                     if (format == "csv")
                     {
                         string chordColumns = "Chord" + csvSep + "# of chord" + csvSep;
-<<<<<<< HEAD
-
                         columnsCSV += Environment.NewLine + String.Join(csvSep.ToString(), columns);
                         columnsCSV += csvSep + string.Concat((Enumerable.Repeat(chordColumns, maxChordNumber)));
-
-=======
-                        columnsCSV += Environment.NewLine + String.Join(csvSep.ToString(), columns);
-                        columnsCSV += csvSep + string.Concat((Enumerable.Repeat(chordColumns, maxChordNumber)));
->>>>>>> origin/develop
                         sbCSV.Insert(0, columnsCSV.Trim(new char[] { ',', ' ' }));
                     }
 
@@ -898,29 +872,17 @@ namespace CustomsForgeSongManager.Forms
                     {
                         using (StreamWriter file = new StreamWriter(path, false, Encoding.Unicode))
                         {
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/develop
                             if (format == "json")
                             {
                                 JToken serializedJson = JsonConvert.SerializeObject(allInfo, Formatting.Indented);
                                 outputJSON = Regex.Unescape(serializedJson.ToString());
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/develop
                                 file.Write(outputJSON);
                             }
                             else if (format == "csv")
                                 file.Write(sbCSV.ToString());
                         }
 
-<<<<<<< HEAD
-                        Globals.Log("Song data saved to:" + path);
-=======
                         Globals.Log("Analyzer Data Saved: " + path);
->>>>>>> origin/develop
                     }
                     catch (IOException ex)
                     {

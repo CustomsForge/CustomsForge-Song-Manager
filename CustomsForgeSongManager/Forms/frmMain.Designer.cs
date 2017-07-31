@@ -301,7 +301,7 @@ namespace CustomsForgeSongManager.Forms
             this.tsUtilities.Location = new System.Drawing.Point(3, 0);
             this.tsUtilities.Name = "tsUtilities";
             this.tsUtilities.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.tsUtilities.Size = new System.Drawing.Size(459, 25);
+            this.tsUtilities.Size = new System.Drawing.Size(428, 25);
             this.tsUtilities.TabIndex = 0;
             // 
             // tsBtnLaunchRS
@@ -347,11 +347,8 @@ namespace CustomsForgeSongManager.Forms
             this.tsBtnExport.Name = "tsBtnExport";
             this.tsBtnExport.Size = new System.Drawing.Size(68, 22);
             this.tsBtnExport.Text = "Export";
-<<<<<<< HEAD
-=======
             this.tsBtnExport.ToolTipText = "The default action is to export all\r\ndata if no rows have been selected.\r\nOthewis" +
                 "e exports only the data\r\nthat has been manually selected.";
->>>>>>> origin/develop
             // 
             // tsmiBBCode
             // 
