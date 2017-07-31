@@ -1971,6 +1971,10 @@ namespace CustomsForgeSongManager.UControls
             this.colNoteCount.HeaderText = "Note Count";
             this.colNoteCount.Name = "colNoteCount";
             this.colNoteCount.ReadOnly = true;
+<<<<<<< HEAD
+=======
+            this.colNoteCount.Visible = false;
+>>>>>>> origin/develop
             // 
             // colChordCount
             // 
@@ -1978,6 +1982,10 @@ namespace CustomsForgeSongManager.UControls
             this.colChordCount.HeaderText = "Chord Count";
             this.colChordCount.Name = "colChordCount";
             this.colChordCount.ReadOnly = true;
+<<<<<<< HEAD
+=======
+            this.colChordCount.Visible = false;
+>>>>>>> origin/develop
             // 
             // colOctaveCount
             // 
@@ -1985,6 +1993,10 @@ namespace CustomsForgeSongManager.UControls
             this.colOctaveCount.HeaderText = "Octave Count";
             this.colOctaveCount.Name = "colOctaveCount";
             this.colOctaveCount.ReadOnly = true;
+<<<<<<< HEAD
+=======
+            this.colOctaveCount.Visible = false;
+>>>>>>> origin/develop
             // 
             // colVibratoCount
             // 

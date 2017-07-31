@@ -274,8 +274,6 @@ namespace CustomsForgeSongManager.UControls
 
                 if (mode == "move" || mode == "delete")
                 {
-                    File.Delete(srcPath);
-
                     // remove song from dgvSetlistMaster if it exists
                     foreach (DataGridViewRow row in dgvSetlistMaster.Rows)
                     {
@@ -283,6 +281,8 @@ namespace CustomsForgeSongManager.UControls
                         if (sdRow.FilePath == srcPath)
                             dgvSetlistMaster.Rows.RemoveAt(row.Index);
                     }
+
+                    File.Delete(srcPath);
                 }
             }
 

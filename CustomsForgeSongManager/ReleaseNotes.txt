@@ -13,11 +13,31 @@ until you can confirm it is safe directly through your AV provider.
 ========================================================================
 
 CFSM Release Notes
+<<<<<<< HEAD
 1.4.0.0
 - release version issued
 - does not include revisions from 1.3.3.7 beta still in testing
 
 1.3.3.7
+=======
+
+1.3.4.1
+- restructured Inno Installer
+- added unRAR ability to Inno Installer
+- force user to run Inno Uninstaller as Admin to reduce AV false positives
+- synchronized develop and master repo branches
+
+1.3.3.9
+- a few tweaks 
+
+1.3.3.8
+- fixed a old bug in GetObjectsFromRows method that turned up in SetlistManager
+- only save analyzerData.xml file if ExtraMetaDataScanned is true
+- only load analyzerData.xml if it exists
+
+1.3.3.7
+- split the songInfo.xml file into two files (for main song data and for detailed arrangement data) 
+>>>>>>> origin/develop
 
 1.3.3.6
 - added an exception handler to VerifyCfsmFolders method for better debugging

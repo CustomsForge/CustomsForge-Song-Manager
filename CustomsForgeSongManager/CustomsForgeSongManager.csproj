@@ -231,6 +231,7 @@
     <Compile Include="LocalTools\Ignition.cs" />
     <Compile Include="LocalTools\PsarcBrowser.cs" />
     <Compile Include="LocalTools\TaggerTools.cs" />
+    <Compile Include="LocalTools\VersionInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -685,13 +686,11 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>if $(ConfigurationName) == ConfuserEx (
-MKDIR "$(ProjectDir)bin\ConfuserEx\"
-XCOPY /Y /E /D "$(TargetDir)*.*" "$(ProjectDir)bin\ConfuserEx\*.*"
-CD "$(SolutionDir)ThirdParty\ConfuserEx_bin\"
-"Confuser.CLI.exe" "..\ConfuserExForInno.crproj"
-)
+    <PostBuildEvent>REM always check for matching quotes
+REM spacing around == and ( is important
+REM upper lower case is important for Directory and File names
 
+<<<<<<< HEAD
 if $(ConfigurationName) == InnoBeta (
    MKDIR "$(ProjectDir)bin\ConfuserEx\"
    XCOPY /Y /E /D "$(TargetDir)*.*" "$(ProjectDir)bin\ConfuserEx\*.*"
@@ -713,10 +712,26 @@ rem "%25programfiles%25\Microsoft SDKs\Windows\v7.0A\bin\signtool.exe"  sign /f 
    "%25programfiles%25\WinRAR\WinRar.exe" a -r "CFSMSetup.rar" "CFSMSetup.exe"
 
   rem DEL /Q CFSMSetup.exe
+=======
+if $(ConfigurationName) ==InnoRelease (
+  CD "$(SolutionDir)ThirdParty\CFSM_Release_Setup\"
+  DEL /Q *.*
+ 
+  DEL /S /Q " "$(ProjectDir)bin\ConfuserEx\*"
+  RD /S /Q "$(ProjectDir)bin\ConfuserEx\"
+  MKDIR "$(ProjectDir)bin\ConfuserEx\"
+  XCOPY /Y /E /D "$(TargetDir)*.*" "$(ProjectDir)bin\ConfuserEx\*.*"
+>>>>>>> origin/develop
 
-REM "CFSMPostBuilder.exe" "UPLOAD" "198.58.96.81/beta/" "appdev" "kvPSF7HL"
-)
+  CD "$(SolutionDir)ThirdParty\ConfuserEx_bin\"
+  "Confuser.CLI.exe" "$(SolutionDir)ThirdParty\ConfuserExScripts\ConfuserExInno.crproj"
 
+rem must be connected to internet for signtool to work properly
+rem CD "$(ProjectDir)bin\ConfuserEx\"
+rem "%25programfiles%25\Microsoft SDKs\Windows\v7.0A\bin\signtool.exe"  sign /f CFSM_Certificate.pfx /p cozylov /t http://timestamp.verisign.com/scripts/timstamp.dll CustomsForgeSongManager.exe
+rem "CFSMPostBuilder.exe" "UPLOAD" "198.58.96.81" "appdev" "7eCheQ+bu+heRevu"
+
+<<<<<<< HEAD
 if $(ConfigurationName) == InnoRelease (
 
    MKDIR "$(ProjectDir)bin\ConfuserEx\"
@@ -740,24 +755,61 @@ rem "%25programfiles%25\Microsoft SDKs\Windows\v7.0A\bin\signtool.exe"  sign /f 
 
   rem DEL /Q CFSMSetup.exe
 
+=======
+  CD "$(SolutionDir)ThirdParty\Inno_bin\"
+ "ISCC.exe" "$(SolutionDir)ThirdParty\InnoScripts\genericInstaller.iss"
+>>>>>>> origin/develop
 
-REM "CFSMPostBuilder.exe" "UPLOAD" "198.58.96.81" "appdev" "7eCheQ+bu+heRevu"
+  CD "$(SolutionDir)ThirdParty\CFSM_Release_Setup\"   
+  "D:\Program Files\WinRAR\WinRar.exe" a -r "CFSMSetup.rar" "CFSMSetup.exe"
+  COPY /Y "$(TargetDir)ReleaseNotes.txt" "ReleaseNotes.txt"
+  COPY /Y "$(SolutionDir)ThirdParty\VersionInfo.txt" "VersionInfo.txt"
 )
 
+<<<<<<< HEAD
 rem if $(ConfigurationName This line will throw an error for post build debugging purposes</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>REM do some housekeeping here
+=======
+if $(ConfigurationName) ==InnoBeta (
+  CD "$(SolutionDir)ThirdParty\CFSM_Beta_Setup\"
+  DEL /Q *.*
+ 
+  DEL /S /Q " "$(ProjectDir)bin\ConfuserEx\*"
+  RD /S /Q "$(ProjectDir)bin\ConfuserEx\"
+  MKDIR "$(ProjectDir)bin\ConfuserEx\"
+  XCOPY /Y /E /D "$(TargetDir)*.*" "$(ProjectDir)bin\ConfuserEx\*.*"
+>>>>>>> origin/develop
 
-DEL /S /Q " "$(ProjectDir)bin\ConfuserEx\*"
-RMDIR /S /Q "$(ProjectDir)bin\ConfuserEx\"
+  CD "$(SolutionDir)ThirdParty\ConfuserEx_bin\"
+  "Confuser.CLI.exe" "$(SolutionDir)ThirdParty\ConfuserExScripts\ConfuserExInno.crproj"
 
+<<<<<<< HEAD
 CD "$(SolutionDir)ThirdParty\CFSM.Setup\Output\"
 DEL /Q "*.txt"
 DEL /Q "*.exe"
 DEL /Q "*.rar"
+=======
+rem must be connected to internet for signtool to work properly
+rem CD "$(ProjectDir)bin\ConfuserEx\"
+rem "%25programfiles%25\Microsoft SDKs\Windows\v7.0A\bin\signtool.exe"  sign /f CFSM_Certificate.pfx /p cozylov /t http://timestamp.verisign.com/scripts/timstamp.dll CustomsForgeSongManager.exe
+rem "CFSMPostBuilder.exe" "UPLOAD" "198.58.96.81/beta/" "appdev" "kvPSF7HL"
+>>>>>>> origin/develop
 
-XCOPY /Y /D "$(SolutionDir)libs\*.xml" "$(TargetDir)*.xml" 
+  CD "$(SolutionDir)ThirdParty\Inno_bin\"
+ "ISCC.exe" /DBETA "$(SolutionDir)ThirdParty\InnoScripts\genericInstaller.iss"
+
+  CD "$(SolutionDir)ThirdParty\CFSM_Beta_Setup\"   
+  "D:\Program Files\WinRAR\WinRar.exe" a -r "CFSMSetup.rar" "CFSMSetup.exe"
+  COPY /Y "$(TargetDir)ReleaseNotes.txt" "ReleaseNotes.txt"
+  COPY /Y "$(SolutionDir)ThirdParty\VersionInfo.txt" "VersionInfo.txt"
+)
+
+rem if $(ConfigurationName This line will throw an error for post build debugging purposes purposes</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>XCOPY /Y /D "$(SolutionDir)libs\*.xml" "$(TargetDir)*.xml" 
 XCOPY /Y /E /D "$(SolutionDir)libs\ww2ogg\*.*" "$(TargetDir)*.*"
 XCOPY /Y /E /D "$(SolutionDir)libs\ddc\*.*" "$(TargetDir)ddc\*.*"
 

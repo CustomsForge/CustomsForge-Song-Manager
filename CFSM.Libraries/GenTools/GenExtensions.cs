@@ -280,7 +280,7 @@ namespace GenTools
             return index;
         }
 
-        public static void DeleteDirectory(string dirPath, bool includeSubDirs = true)
+        public static bool DeleteDirectory(string dirPath, bool includeSubDirs = true)
         {
             const int magicDust = 10;
             for (var gnomes = 1; gnomes <= magicDust; gnomes++)
@@ -288,10 +288,11 @@ namespace GenTools
                 try
                 {
                     Directory.Delete(dirPath, includeSubDirs);
+                    return true;
                 }
                 catch (DirectoryNotFoundException)
                 {
-                    return; // ok!
+                    return false;
                 }
                 catch (IOException)
                 {
@@ -307,11 +308,18 @@ namespace GenTools
                 catch (UnauthorizedAccessException)
                 {
                     Debug.WriteLine("Unauthorized access to: " + dirPath);
+<<<<<<< HEAD
                     return;
                 }
 
                 return;
+=======
+                    return false;
+                }
+>>>>>>> origin/develop
             }
+
+            return false;
         }
 
         public static void DeleteEmptyDirs(this DirectoryInfo dir)
@@ -331,7 +339,7 @@ namespace GenTools
             }
         }
 
-        public static void DeleteFile(string filePath)
+        public static bool DeleteFile(string filePath)
         {
             const int magicDust = 10;
             for (var gnomes = 1; gnomes <= magicDust; gnomes++)
@@ -340,10 +348,11 @@ namespace GenTools
                 {
                     File.SetAttributes(filePath, FileAttributes.Normal);
                     File.Delete(filePath);
+                    return true;
                 }
                 catch (FileNotFoundException)
                 {
-                    return; // file does not exist
+                    return false; // file does not exist
                 }
                 catch (IOException)
                 {
@@ -352,8 +361,9 @@ namespace GenTools
                     Thread.Sleep(50);
                     continue;
                 }
-                return;
             }
+
+            return false;
         }
 
         public static string DifficultyToDD(this string maxDifficulty)

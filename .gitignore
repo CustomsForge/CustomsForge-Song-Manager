@@ -69,6 +69,7 @@ packages/
 
 #others
 CleanupBeforeGitPullRequest.bat
+<<<<<<< HEAD
 
 ThirdParty/CFSM.Setup/Output/*
 ThirdParty/CFSMPostBuilder.vshost.exe
@@ -80,3 +81,8 @@ ThirdParty/ignore*.*
 .gitattributes
 index*.html
 OpenCmd.bat
+=======
+index*.html
+OpenCmd.bat
+inno.bat
+>>>>>>> origin/develop

@@ -347,6 +347,11 @@ namespace CustomsForgeSongManager.Forms
             this.tsBtnExport.Name = "tsBtnExport";
             this.tsBtnExport.Size = new System.Drawing.Size(68, 22);
             this.tsBtnExport.Text = "Export";
+<<<<<<< HEAD
+=======
+            this.tsBtnExport.ToolTipText = "The default action is to export all\r\ndata if no rows have been selected.\r\nOthewis" +
+                "e exports only the data\r\nthat has been manually selected.";
+>>>>>>> origin/develop
             // 
             // tsmiBBCode
             // 

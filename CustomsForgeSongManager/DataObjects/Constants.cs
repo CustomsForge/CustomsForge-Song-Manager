@@ -49,6 +49,10 @@ namespace CustomsForgeSongManager.DataObjects
         public static string LogFilePath { get { return Path.Combine(WorkFolder, "debug.log"); } }
         public static string AppSettingsPath { get { return Path.Combine(WorkFolder, "appSettings.xml"); } }
         public static string SongsInfoPath { get { return Path.Combine(WorkFolder, "songsInfo.xml"); } }
+<<<<<<< HEAD
+=======
+        public static string AnalyzerDataPath { get { return Path.Combine(WorkFolder, "analyzerData.xml"); } } // ArrangementData is used elsewhere so changed naming to avoid confusion
+>>>>>>> origin/develop
         public static string GridSettingsFolder { get { return Path.Combine(WorkFolder, "DgvSettings"); } }
         public static string GridSettingsPath { get { return Path.Combine(GridSettingsFolder, String.Format("{0}{1}", Globals.DgvCurrent.Name, ".xml")); } }
         public static string ApplicationFolder { get { return Path.GetDirectoryName(Application.ExecutablePath); } }
@@ -93,11 +97,19 @@ namespace CustomsForgeSongManager.DataObjects
         public static string Rs2CdlcFolder { get { return Path.Combine(Rs2DlcFolder, "cdlc"); } }
         public static string CachePsarcPath { get { return Path.Combine(AppSettings.Instance.RSInstalledDir, "cache.psarc"); } }
         public static string SongsPsarcPath { get { return Path.Combine(AppSettings.Instance.RSInstalledDir, "songs.psarc"); } }
+<<<<<<< HEAD
 
         // not a good practice for app to use rocksmith2014 folder because of issues with OS Permissions and some AV
         [Obsolete("Depricated, please use 'My Documents/CFSM' folder", false)]
 
         public static string Rs2CfsmFolder { get { return Path.Combine(AppSettings.Instance.RSInstalledDir, "cfsm"); } }
+=======
+
+        // not a good practice for app to use rocksmith2014 folder because of issues with OS Permissions and some AV
+        [Obsolete("Depricated, please use 'My Documents/CFSM' folder", false)]
+        public static string Rs2CfsmFolder { get { return Path.Combine(AppSettings.Instance.RSInstalledDir, "cfsm"); } }
+        
+>>>>>>> origin/develop
         public static string Rs2OriginalsFolder { get { return Path.Combine(AppSettings.Instance.RSInstalledDir, "originals"); } }
         public static string Rs1DiscPsarcBackupPath { get { return Path.Combine(Rs2OriginalsFolder, "rs1compatibilitydisc_p.org.psarc"); } }
         public static string Rs1DlcPsarcBackupPath { get { return Path.Combine(Rs2OriginalsFolder, "rs1compatibilitydlc_p.org.psarc"); } }

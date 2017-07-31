@@ -153,6 +153,51 @@ namespace CustomsForgeSongManager.UControls
                 versionNode.SetAttribute("version", SongData.SongDataListCurrentVersion);
                 versionNode.SetAttribute("AppVersion", Constants.CustomVersion());
                 dom.DocumentElement.AppendChild(versionNode);
+
+                var arrDom = new XmlDocument();
+                var allArrsNode = arrDom.CreateElement("AnalyzerData");
+                string keptInfo = "persistentid_dmax_name_dd_tuning_tonebase_tonebase_sectioncount"; //don't move these to ArrInfo file
+
+                foreach (XmlElement songData in dom.GetElementsByTagName("ArrayOfSongData")[0].ChildNodes)
+                {
+                    var arrangementsNode = songData.GetElementsByTagName("Arrangements")[0];
+                    if (arrangementsNode != null)
+                    {
+                        string dlcKey = songData.SelectSingleNode("DLCKey").ChildNodes[0].Value.ToString();
+                        ((XmlElement)arrangementsNode).SetAttribute("DLCKey", dlcKey);
+
+                        var extraMetaDataScanned = Convert.ToBoolean(songData.SelectSingleNode("ExtraMetaDataScanned").ChildNodes[0].Value);
+                        if (extraMetaDataScanned)
+                            allArrsNode.AppendChild(arrDom.ImportNode(arrangementsNode, true));
+
+                        var arrNodes = arrangementsNode.ChildNodes.OfType<XmlNode>().ToList();
+                        arrNodes.ForEach(arr =>
+                        {
+                            arr.ChildNodes.OfType<XmlNode>().ToList().ForEach(n =>
+                            {
+                                if (!keptInfo.Contains(n.Name.ToLower()))
+                                    arr.RemoveChild(n);
+                            });
+                        });
+                    }
+                }
+
+                // save analyzerData.xml
+                if (AppSettings.Instance.IncludeAnalyzerData && !allArrsNode.IsEmpty)
+                {
+                    arrDom.AppendChild(allArrsNode);
+                    arrDom.Save(Constants.AnalyzerDataPath);
+                    Globals.Log("Saved File: " + Path.GetFileName(Constants.AnalyzerDataPath));
+                }
+                //else // remove old anlayzer data
+                //{
+                //    if (GenExtensions.DeleteFile(Constants.AnalyzerDataPath))
+                //    {
+                //        Globals.Log("User Disabled Analyzer ...");
+                //        Globals.Log("Deleted File: " + Path.GetFileName(Constants.AnalyzerDataPath));
+                //    }
+                //}
+
                 dom.Save(Constants.SongsInfoPath);
                 Globals.Log("Saved File: " + Path.GetFileName(Constants.SongsInfoPath));
             }
@@ -420,16 +465,48 @@ namespace CustomsForgeSongManager.UControls
         {
             chkSubFolders.Checked = true;
             masterSongCollection.Clear();
-            var songsInfoPath = Constants.SongsInfoPath;
             bool correctVersion = false;
 
             try
             {
+<<<<<<< HEAD
                 // check songInfo.xml version
                 if (File.Exists(songsInfoPath))
+=======
+                // load songsInfo.xml if it exists 
+                if (File.Exists(Constants.SongsInfoPath))
+>>>>>>> origin/develop
                 {
                     XmlDocument dom = new XmlDocument();
-                    dom.Load(songsInfoPath);
+                    dom.Load(Constants.SongsInfoPath);
+                    Globals.Log("Loaded File: " + Path.GetFileName(Constants.SongsInfoPath));
+
+                    // load analyzerData.xml
+                    XmlDocument arrDom = new XmlDocument();
+                    if (AppSettings.Instance.IncludeAnalyzerData && File.Exists(Constants.AnalyzerDataPath))
+                    {
+                        arrDom.Load(Constants.AnalyzerDataPath);
+                        Globals.Log("Loaded File: " + Path.GetFileName(Constants.AnalyzerDataPath));
+                    }
+                    //else // remove old anlayzer data
+                    //    GenExtensions.DeleteFile(Constants.AnalyzerDataPath);
+
+                    foreach (XmlElement songData in dom.GetElementsByTagName("ArrayOfSongData")[0].ChildNodes)
+                    {
+                        if (songData.Name == "SongDataList")
+                            continue;
+
+                        string dlcKey = songData.SelectSingleNode("DLCKey").ChildNodes[0].Value.ToString();
+                        XmlElement arrangementsNode = null;
+                        if (arrDom.HasChildNodes)
+                        {
+                            arrangementsNode = arrDom.DocumentElement.ChildNodes.OfType<XmlElement>().FirstOrDefault(n => n.Attributes["DLCKey"].Value == dlcKey);
+                            var originalArrNode = songData.SelectSingleNode("Arrangements");
+                            originalArrNode.ParentNode.ReplaceChild(dom.ImportNode(arrangementsNode, true), originalArrNode);
+                        }
+                    }
+
+                    // remove version info node
                     var listNode = dom["ArrayOfSongData"];
                     if (listNode != null)
                     {
@@ -449,7 +526,11 @@ namespace CustomsForgeSongManager.UControls
                     }
                 }
 
+<<<<<<< HEAD
                 // load songs from file into memory
+=======
+                // load song collection into memory
+>>>>>>> origin/develop
                 if (correctVersion)
                 {
                     Globals.SongCollection = masterSongCollection;
@@ -468,6 +549,10 @@ namespace CustomsForgeSongManager.UControls
                         // 'My Documents/CFSM' may contain some original files
                         GenExtensions.DeleteFile(Constants.LogFilePath);
                         GenExtensions.DeleteFile(Constants.SongsInfoPath);
+<<<<<<< HEAD
+=======
+                        GenExtensions.DeleteFile(Constants.AnalyzerDataPath);
+>>>>>>> origin/develop
                         GenExtensions.DeleteFile(Constants.AppSettingsPath);
                     }
                     catch (Exception ex)
@@ -2032,6 +2117,12 @@ namespace CustomsForgeSongManager.UControls
 
         private void SongManager_Resize(object sender, EventArgs e)
         {
+<<<<<<< HEAD
+=======
+            if (dgvSongsMaster.DataSource == null || dgvSongsMaster.RowCount == 0)
+                return;
+
+>>>>>>> origin/develop
             ResetDetail();
 
             // alternate method: maintains SongsDetail visiblity while resizing
@@ -2058,6 +2149,12 @@ namespace CustomsForgeSongManager.UControls
 
         private void dgvSongsMaster_Scroll(object sender, ScrollEventArgs e)
         {
+<<<<<<< HEAD
+=======
+            if (dgvSongsMaster.DataSource == null || dgvSongsMaster.RowCount == 0)
+                return;
+
+>>>>>>> origin/develop
             if (dgvSongsDetail.Visible)
             {
                 if (e.ScrollOrientation == ScrollOrientation.VerticalScroll)
@@ -2074,6 +2171,7 @@ namespace CustomsForgeSongManager.UControls
             }
 
             firstIndex = dgvSongsMaster.FirstDisplayedCell.RowIndex;
+<<<<<<< HEAD
         }
 
         private void cmsGetAnalyzerData_Click(object sender, EventArgs e)
@@ -2089,6 +2187,23 @@ namespace CustomsForgeSongManager.UControls
             dgvSongsMaster.Refresh();
         }
 
+=======
+        }
+
+        private void cmsGetAnalyzerData_Click(object sender, EventArgs e)
+        {
+            var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster);
+            if (!selection.Any())
+                return;
+
+            Globals.Log("Please wait ...");
+            Globals.Log("Getting Analyzer Data for selected songs ...");
+            DoWork(Constants.GWORKER_ANALYZE, selection);
+
+            dgvSongsMaster.Refresh();
+        }
+
+>>>>>>> origin/develop
 
     }
 }
