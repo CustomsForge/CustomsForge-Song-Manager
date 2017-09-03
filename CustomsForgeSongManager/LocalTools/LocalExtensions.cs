@@ -29,7 +29,7 @@ namespace CustomsForgeSongManager.LocalTools
                 }
                 catch (Exception)
                 {
-                    Globals.Log("Can not find Steam version of Rocksmith 2014");
+                    Globals.Log("Can not find Steam version of Rocksmith 2014 ...");
                 }
         }
 

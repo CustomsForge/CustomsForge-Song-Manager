@@ -96,12 +96,12 @@ namespace CustomsForgeSongManager.Forms
             Globals.TbLog = this.tbLog;
             Globals.ResetToolStripGlobals();
             Globals.MyLog.AddTargetTextBox(tbLog);
-            //    Globals.CFMTheme.AddListener(this);
+            // Globals.CFMTheme.AddListener(this);
 
             Globals.OnScanEvent += (s, e) => { tcMain.InvokeIfRequired(a => { tcMain.Enabled = !e.IsScanning; }); };
 
             // verify application directory structure
-            FileTools.VerifyCfsmFolders();
+                FileTools.VerifyCfsmFolders();
 
             // initialize all global variables
             Globals.Log(Constants.AppTitle);

@@ -251,11 +251,11 @@ namespace GenTools
             }
             catch (IOException e)
             {
-                if (!overWrite) return true; // be nice don't throw error
-                BetterDialog.ShowDialog(
-                    "Could not copy file " + fileFrom + "\r\nError Code: " + e.Message +
-                    "\r\nMake sure associated file/folders are closed.",
-                    MESSAGEBOX_CAPTION, MessageBoxButtons.OK, Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning ...", 150, 150);
+                if (!overWrite)
+                    return true; // be nice don't throw error
+
+                var diaMsg = "Could not copy file " + fileFrom + "  Error Code: " + e.Message + "  Make sure associated file/folders are closed.";
+                BetterDialog.ShowDialog(GenExtensions.SplitString(diaMsg, 30), MESSAGEBOX_CAPTION, MessageBoxButtons.OK, Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning ...", 150, 150);
                 return false;
             }
         }

@@ -67,6 +67,7 @@ Source: {#buildpath}RocksmithToolkitLib.Config.xml; DestDir: {app}; Flags: ignor
 Source: {#buildpath}RocksmithToolkitLib.SongAppId.xml; DestDir: {app}; Flags: ignoreversion; Permissions: everyone-full
 Source: {#buildpath}RocksmithToolkitLib.TuningDefinition.xml; DestDir: {app}; Flags: ignoreversion; Permissions: everyone-full
 Source: {#buildpath}zlib.net.dll; DestDir: {app}; Flags: ignoreversion
+Source: {#buildpath}D3DX9_42.dll; DestDir: {app}; Flags: ignoreversion
 Source: "{#buildpath}ddc\*"; DestDir: "{app}\ddc"; Flags: ignoreversion recursesubdirs createallsubdirs; Permissions: everyone-full
 Source: {srcexe}; DestDir: {app}; DestName: {#InstallerName}.exe; Flags: ignoreversion external; Permissions: everyone-full
 /////////////////////////////////////////////////////////////////////
@@ -98,7 +99,7 @@ const
   CN_BASE = $BC00;
   CN_COMMAND = CN_BASE + WM_COMMAND;
 var 
-	doneUninstall, runningWebUpdate, hasUpgrade: Boolean;
+	okToCopyLog, doneUninstall, runningWebUpdate, hasUpgrade: Boolean;
   oldGuid, tmpUpdateLocation, tmpUpdateRarLocation, currentVersion, newVersion : String;
 	DownloadPageId : Integer;
 	UninstallPage: TWizardPage;
@@ -373,6 +374,21 @@ begin
 		WizardForm.FinishedHeadingLabel.Caption := 'Completed Installing CustomsForge' + #13#10 + 'Song Manager Setup';		
 		//WizardForm.FinishedLabel.Caption
 	end;
+end;
+//
+// ============== Save Installation Log File ==============
+//
+procedure CurStepChanged(CurStep: TSetupStep);
+begin
+  if CurStep = ssDone then
+    okToCopyLog := True;
+end;
+/////////////////////////////////////////////////////////////////////
+procedure DeinitializeSetup();
+begin
+  if okToCopyLog then
+    FileCopy (ExpandConstant ('{log}'), ExpandConstant ('{app}\Installation.log'), FALSE);
+  RestartReplace (ExpandConstant ('{log}'), '');
 end;
 //
 // ============== Uninstall Other Applications (with page dialog) ==============

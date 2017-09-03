@@ -503,6 +503,10 @@
       <Link>bass.dll</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\libs\D3DX9_42.dll">
+      <Link>D3DX9_42.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="..\libs\DF_DDSImage.dll">
       <Link>DF_DDSImage.dll</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

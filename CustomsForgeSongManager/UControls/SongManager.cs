@@ -554,10 +554,16 @@ namespace CustomsForgeSongManager.UControls
 
                 PopulateDataGridView();
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
+                string err = ex.Message;
+                if (ex.InnerException != null)
+                    err += Environment.NewLine + "Inner: " + ex.InnerException.Message;
+
+
                 // failsafe ... delete My Documents/CFSM folder and files with option not to delete
-                var diaMsg = "A fatal CFSM application error has occured." + Environment.NewLine +
+                var diaMsg = "A fatal CFSM application error has occured:" + Environment.NewLine +
+                             err + Environment.NewLine +
                              "You are about to delete all work files created" + Environment.NewLine +
                              "by CFSM, including any backups of CDLC files." + Environment.NewLine +
                              "Deletion is permenant and can not be undone." + Environment.NewLine +
@@ -565,24 +571,19 @@ namespace CustomsForgeSongManager.UControls
 
                 if (DialogResult.No == BetterDialog2.ShowDialog(diaMsg, "Delete 'My Documents/CFSM' ...", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning", 0, 150))
                 {
+                    Globals.Log("<Fatal Error>: " + err);
                     Globals.Log("User aborted deleting CFSM folder and subfolders from My Documents ...");
                     Environment.Exit(0);
                 }
-
-                string err = e.Message;
-                if (e.InnerException != null)
-                    err += ", Inner: " + e.InnerException.Message;
-
-                Globals.Log("<Error>: " + e.Message);
-                // log needs to written before it is deleted ... Bazinga
-                Globals.Log("Deleted CFSM folder and subfolders from My Documents ...");
 
                 // use the bulldozer
                 ZipUtilities.RemoveReadOnlyAttribute(Constants.WorkFolder);
                 GenExtensions.DeleteDirectory(Constants.WorkFolder);
                 FileTools.VerifyCfsmFolders();
 
-                MessageBox.Show(string.Format("{0}{1}{1}CFSM will now shut down.", err, Environment.NewLine), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                diaMsg = "Deleted CFSM folder and subfolders from My Documents ..." + Environment.NewLine +
+                    err + Environment.NewLine + Environment.NewLine + "CFSM will now shut down.";
+                MessageBox.Show(diaMsg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Environment.Exit(0);
             }
 

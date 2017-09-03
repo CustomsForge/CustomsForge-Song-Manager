@@ -14,10 +14,17 @@ until you can confirm it is safe directly through your AV provider.
 
 CFSM Release Notes
 
+1.4.0.3
+- validate D3DX9_42.dll file installation and install per user selection
+
+1.4.0.2
+- added back InnoSetup log creation
+- improved fatal error reporting
+
 1.4.0.1
-- restructured Inno Installer
+- restructured InnoSetup
 - added unRAR ability to Inno Installer
-- force user to run Inno Uninstaller as Admin to reduce AV false positives
+- force user to run Inno uninstaller as Admin to reduce AV false positives
 - synchronized develop and master repo branches
 
 1.4.0.0

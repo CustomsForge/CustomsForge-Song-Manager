@@ -7,6 +7,8 @@ using GenTools;
 using CustomsForgeSongManager.DataObjects;
 using CustomsForgeSongManager.LocalTools;
 using DataGridViewTools;
+using CustomControls;
+using System.Drawing;
 
 namespace CustomsForgeSongManager.UControls
 {
@@ -34,7 +36,8 @@ namespace CustomsForgeSongManager.UControls
                 rbCleanOnClosing.Checked = AppSettings.Instance.CleanOnClosing;
                 txtCharterName.Text = AppSettings.Instance.CharterName;
 
-                ValidateRsDir();
+                if (dgvCurrent == null)
+                    ValidateRsDir();
             }
             catch (Exception ex)
             {
@@ -73,7 +76,8 @@ namespace CustomsForgeSongManager.UControls
                 using (var fs = new FileStream(Constants.AppSettingsPath, FileMode.Create, FileAccess.Write, FileShare.Write))
                 {
                     AppSettings.Instance.SerializeXml(fs);
-                    Globals.Log("Saved File: " + Path.GetFileName(Constants.AppSettingsPath));                }
+                    Globals.Log("Saved File: " + Path.GetFileName(Constants.AppSettingsPath));
+                }
 
                 if (String.IsNullOrEmpty(dgvCurrent.Name))
                     return;
@@ -126,6 +130,50 @@ namespace CustomsForgeSongManager.UControls
                 AppSettings.Instance.RSInstalledDir = cueRsDir.Text;
                 Globals.Log("Rocksmith Installation Directory: " + AppSettings.Instance.RSInstalledDir);
             }
+
+            ValidateD3D();
+        }
+
+        private bool ValidateD3D()
+        {
+            // TODO: force user to always run as Admin
+            var d3dPath = Path.Combine(AppSettings.Instance.RSInstalledDir, "D3DX9_42.dll");
+
+            if (!File.Exists(d3dPath))
+            {
+                var diaMsg = "The 'D3DX9_42.dll' file could not be found.  Would you like CFSM to install the file required to play CDLC?";
+                if (DialogResult.No == BetterDialog2.ShowDialog(GenExtensions.SplitString(diaMsg, 30), "Validating D3DX9_42.dll ...", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning", 0, 150))
+                {
+                    Globals.Log("User aborted installing 'D3DX9_42.dll' file ...");
+                    return false;
+                }
+
+                GenExtensions.CopyFile(Path.Combine(Constants.ApplicationFolder, "D3DX9_42.dll"), Path.Combine(AppSettings.Instance.RSInstalledDir, "D3DX9_42.dll"), true, false);
+                Globals.Log("Successfully installed 'D3DX9_42.dll' file ...");
+            }
+            else
+            {
+                // verify correct dll is installed
+                var d3dFileInfo = new FileInfo(d3dPath);
+                var d3dResource = new FileInfo(Path.Combine(Constants.ApplicationFolder, "D3DX9_42.dll"));
+
+                if (d3dFileInfo.Length != d3dResource.Length)
+                {
+                    var diaMsg = "The installed 'D3DX9_42.dll' file is not valid.  Would you like CFSM to update the file required to play CDLC?";
+                    if (DialogResult.No == BetterDialog2.ShowDialog(GenExtensions.SplitString(diaMsg, 30), "Validating D3DX9_42.dll ...", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning", 0, 150))
+                    {
+                        Globals.Log("User aborted updating the 'D3DX9_42.dll' file installation ...");
+                        return false;
+                    }
+
+                    GenExtensions.CopyFile(Path.Combine(Constants.ApplicationFolder, "D3DX9_42.dll"), Path.Combine(AppSettings.Instance.RSInstalledDir, "D3DX9_42.dll"), true, false);
+                    Globals.Log("Successfully updated 'D3DX9_42.dll' file installation ...");
+                }
+                else
+                    Globals.Log("Sucessfully validated 'D3DX9_42.dll' file installation ...");
+            }
+
+            return true;
         }
 
         private void chkEnableLogBaloon_CheckedChanged(object sender, EventArgs e)

@@ -587,10 +587,11 @@ namespace CustomsForgeSongManager.LocalTools
                 GenExtensions.DeleteDirectory(Path.Combine(AppSettings.Instance.RSInstalledDir, "cdlc_quarantined"));
                 GenExtensions.DeleteDirectory(Path.Combine(AppSettings.Instance.RSInstalledDir, "cdlc_duplicates"));
                 GenExtensions.DeleteDirectory(Path.Combine(AppSettings.Instance.RSInstalledDir, "duplicates"));
+                GenExtensions.DeleteDirectory(Path.Combine(AppSettings.Instance.RSInstalledDir, "backup"));
             }
             catch (Exception ex)
             {
-                Globals.Log("<ERROR> Could not verify CFSM work folders ...");
+                Globals.Log("<ERROR> Could not verify 'My Documents/CFSM' subfolders ...");
                 Globals.Log(ex.Message);
                 throw new Exception(); // force app to stop here
             }
