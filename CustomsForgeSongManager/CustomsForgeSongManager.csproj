@@ -101,8 +101,9 @@
     <AssemblyOriginatorKeyFile>
     </AssemblyOriginatorKeyFile>
   </PropertyGroup>
+  <PropertyGroup />
   <PropertyGroup>
-    <NoWin32Manifest>true</NoWin32Manifest>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Antlr3.Runtime">
@@ -467,6 +468,15 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\renamer_properties.json" />
     <EmbeddedResource Include="Resources\HelpGeneral.rtf" />
+    <Content Include="..\libs\D3DX9_42.dll.new">
+      <Link>D3DX9_42.dll.new</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\libs\D3DX9_42.dll.old">
+      <Link>D3DX9_42.dll.old</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="app.manifest" />
     <None Include="Resources\logo_black.png" />
   </ItemGroup>
   <ItemGroup>
@@ -501,10 +511,6 @@
     </Content>
     <Content Include="..\libs\bass.dll">
       <Link>bass.dll</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\libs\D3DX9_42.dll">
-      <Link>D3DX9_42.dll</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\libs\DF_DDSImage.dll">

@@ -67,7 +67,8 @@ Source: {#buildpath}RocksmithToolkitLib.Config.xml; DestDir: {app}; Flags: ignor
 Source: {#buildpath}RocksmithToolkitLib.SongAppId.xml; DestDir: {app}; Flags: ignoreversion; Permissions: everyone-full
 Source: {#buildpath}RocksmithToolkitLib.TuningDefinition.xml; DestDir: {app}; Flags: ignoreversion; Permissions: everyone-full
 Source: {#buildpath}zlib.net.dll; DestDir: {app}; Flags: ignoreversion
-Source: {#buildpath}D3DX9_42.dll; DestDir: {app}; Flags: ignoreversion
+Source: {#buildpath}D3DX9_42.dll.old; DestDir: {app}; Flags: ignoreversion
+Source: {#buildpath}D3DX9_42.dll.new; DestDir: {app}; Flags: ignoreversion
 Source: "{#buildpath}ddc\*"; DestDir: "{app}\ddc"; Flags: ignoreversion recursesubdirs createallsubdirs; Permissions: everyone-full
 Source: {srcexe}; DestDir: {app}; DestName: {#InstallerName}.exe; Flags: ignoreversion external; Permissions: everyone-full
 /////////////////////////////////////////////////////////////////////

@@ -136,37 +136,47 @@ namespace CustomsForgeSongManager.UControls
 
         private bool ValidateD3D()
         {
-            // TODO: force user to always run as Admin
+            // validates either old and new (Remastered) version of Rocksmith 2014 D3DX9_42.dll
+            var luaPath = Path.Combine(AppSettings.Instance.RSInstalledDir, "lua5.1.dll");
             var d3dPath = Path.Combine(AppSettings.Instance.RSInstalledDir, "D3DX9_42.dll");
 
             if (!File.Exists(d3dPath))
             {
-                var diaMsg = "The 'D3DX9_42.dll' file could not be found.  Would you like CFSM to install the file required to play CDLC?";
+                var diaMsg = "The 'D3DX9_42.dll' file could not be found. Would you like CFSM to install the dll file that is required to play CDLC files?";
                 if (DialogResult.No == BetterDialog2.ShowDialog(GenExtensions.SplitString(diaMsg, 30), "Validating D3DX9_42.dll ...", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning", 0, 150))
                 {
                     Globals.Log("User aborted installing 'D3DX9_42.dll' file ...");
                     return false;
                 }
 
-                GenExtensions.CopyFile(Path.Combine(Constants.ApplicationFolder, "D3DX9_42.dll"), Path.Combine(AppSettings.Instance.RSInstalledDir, "D3DX9_42.dll"), true, false);
+                if (File.Exists(luaPath))
+                    GenExtensions.CopyFile(Path.Combine(Constants.ApplicationFolder, "D3DX9_42.dll.old"), Path.Combine(AppSettings.Instance.RSInstalledDir, "D3DX9_42.dll"), true, false);
+                else
+                    GenExtensions.CopyFile(Path.Combine(Constants.ApplicationFolder, "D3DX9_42.dll.new"), Path.Combine(AppSettings.Instance.RSInstalledDir, "D3DX9_42.dll"), true, false);
+
                 Globals.Log("Successfully installed 'D3DX9_42.dll' file ...");
             }
             else
             {
                 // verify correct dll is installed
                 var d3dFileInfo = new FileInfo(d3dPath);
-                var d3dResource = new FileInfo(Path.Combine(Constants.ApplicationFolder, "D3DX9_42.dll"));
+                var d3dNew = new FileInfo(Path.Combine(Constants.ApplicationFolder, "D3DX9_42.dll.new"));
+                var d3dOld = new FileInfo(Path.Combine(Constants.ApplicationFolder, "D3DX9_42.dll.old"));
 
-                if (d3dFileInfo.Length != d3dResource.Length)
+                if ((File.Exists(luaPath) && d3dFileInfo.Length != d3dOld.Length) || (!File.Exists(luaPath) && d3dFileInfo.Length != d3dNew.Length) )
                 {
-                    var diaMsg = "The installed 'D3DX9_42.dll' file is not valid.  Would you like CFSM to update the file required to play CDLC?";
+                    var diaMsg = "The installed 'D3DX9_42.dll' file is not valid. Would you like CFSM to update the dll file that is required to play CDLC files?";
                     if (DialogResult.No == BetterDialog2.ShowDialog(GenExtensions.SplitString(diaMsg, 30), "Validating D3DX9_42.dll ...", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning", 0, 150))
                     {
                         Globals.Log("User aborted updating the 'D3DX9_42.dll' file installation ...");
                         return false;
                     }
 
-                    GenExtensions.CopyFile(Path.Combine(Constants.ApplicationFolder, "D3DX9_42.dll"), Path.Combine(AppSettings.Instance.RSInstalledDir, "D3DX9_42.dll"), true, false);
+                    if (File.Exists(luaPath))
+                        GenExtensions.CopyFile(Path.Combine(Constants.ApplicationFolder, "D3DX9_42.dll.old"), Path.Combine(AppSettings.Instance.RSInstalledDir, "D3DX9_42.dll"), true, false);
+                    else
+                        GenExtensions.CopyFile(Path.Combine(Constants.ApplicationFolder, "D3DX9_42.dll.new"), Path.Combine(AppSettings.Instance.RSInstalledDir, "D3DX9_42.dll"), true, false);
+
                     Globals.Log("Successfully updated 'D3DX9_42.dll' file installation ...");
                 }
                 else
