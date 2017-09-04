@@ -18,7 +18,6 @@ namespace CustomsForgeSongManager.UControls
         {
             InitializeComponent();
             Leave += Settings_Leave;
-            AppSettings.Instance.PropertyChanged += SettingsPropChanged;
         }
 
         public void LoadSettingsFromFile(DataGridView dgvCurrent)
@@ -33,11 +32,16 @@ namespace CustomsForgeSongManager.UControls
                 chkIncludeRS1CompSongs.Checked = AppSettings.Instance.IncludeRS1CompSongs;
                 chkIncludeRS2BaseSongs.Checked = AppSettings.Instance.IncludeRS2BaseSongs;
                 chkEnableLogBallon.Checked = AppSettings.Instance.EnableLogBaloon;
+                chkValidateD3D.Checked = AppSettings.Instance.ValidateD3D;
                 rbCleanOnClosing.Checked = AppSettings.Instance.CleanOnClosing;
                 txtCharterName.Text = AppSettings.Instance.CharterName;
 
+                // check validation only on startup
                 if (dgvCurrent == null)
+                {
                     ValidateRsDir();
+                    ValidateD3D();
+                }
             }
             catch (Exception ex)
             {
@@ -105,37 +109,14 @@ namespace CustomsForgeSongManager.UControls
             Globals.ReloadSongPacks = rescan;
         }
 
-        private void ValidateRsDir()
-        {
-            // validate Rocksmith installation directory
-            var rsDir = AppSettings.Instance.RSInstalledDir;
-            if (String.IsNullOrEmpty(rsDir) || !Directory.Exists(rsDir)) // || rsDir.Text.Contains("Click here"))
-            {
-                using (var fbd = new FolderBrowserDialog())
-                {
-                    fbd.Description = "Select Rocksmith 2014 Installation Directory";
-
-                    if (fbd.ShowDialog() != DialogResult.OK)
-                        return;
-
-                    cueRsDir.Text = fbd.SelectedPath;
-                }
-
-                if (!Directory.Exists(Path.Combine(cueRsDir.Text, "dlc")))
-                {
-                    MessageBox.Show(new Form { TopMost = true }, String.Format("Please select a directory that  {0}contains a 'dlc' subdirectory.", Environment.NewLine), Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    ValidateRsDir(); // put the user into a loop (force selection)
-                }
-
-                AppSettings.Instance.RSInstalledDir = cueRsDir.Text;
-                Globals.Log("Rocksmith Installation Directory: " + AppSettings.Instance.RSInstalledDir);
-            }
-
-            ValidateD3D();
-        }
-
         private bool ValidateD3D()
         {
+            if (!AppSettings.Instance.ValidateD3D)
+            {
+                Globals.Log("<WARNING> 'D3DX9_42.dll' file validation is disabled ...");
+                return false;
+            }
+
             // validates either old and new (Remastered) version of Rocksmith 2014 D3DX9_42.dll
             var luaPath = Path.Combine(AppSettings.Instance.RSInstalledDir, "lua5.1.dll");
             var d3dPath = Path.Combine(AppSettings.Instance.RSInstalledDir, "D3DX9_42.dll");
@@ -163,7 +144,7 @@ namespace CustomsForgeSongManager.UControls
                 var d3dNew = new FileInfo(Path.Combine(Constants.ApplicationFolder, "D3DX9_42.dll.new"));
                 var d3dOld = new FileInfo(Path.Combine(Constants.ApplicationFolder, "D3DX9_42.dll.old"));
 
-                if ((File.Exists(luaPath) && d3dFileInfo.Length != d3dOld.Length) || (!File.Exists(luaPath) && d3dFileInfo.Length != d3dNew.Length) )
+                if ((File.Exists(luaPath) && d3dFileInfo.Length != d3dOld.Length) || (!File.Exists(luaPath) && d3dFileInfo.Length != d3dNew.Length))
                 {
                     var diaMsg = "The installed 'D3DX9_42.dll' file is not valid. Would you like CFSM to update the dll file that is required to play CDLC files?";
                     if (DialogResult.No == BetterDialog2.ShowDialog(GenExtensions.SplitString(diaMsg, 30), "Validating D3DX9_42.dll ...", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning", 0, 150))
@@ -186,45 +167,30 @@ namespace CustomsForgeSongManager.UControls
             return true;
         }
 
-        private void chkEnableLogBaloon_CheckedChanged(object sender, EventArgs e)
+        private void ValidateRsDir()
         {
-            if (chkEnableLogBallon.Checked)
-                Globals.MyLog.AddTargetNotifyIcon(Globals.Notifier);
-            else
-                Globals.MyLog.RemoveTargetNotifyIcon(Globals.Notifier);
-        }
-
-        private void SettingsPropChanged(object sender, PropertyChangedEventArgs e)
-        {
-            switch (e.PropertyName)
+            // validate Rocksmith installation directory
+            var rsDir = AppSettings.Instance.RSInstalledDir;
+            if (String.IsNullOrEmpty(rsDir) || !Directory.Exists(rsDir)) // || rsDir.Text.Contains("Click here"))
             {
-                case "RSInstalledDir":
-                    cueRsDir.Text = AppSettings.Instance.RSInstalledDir;
-                    break;
-                case "EnableAutoUpdate":
-                    chkEnableAutoUpdate.Checked = AppSettings.Instance.EnableAutoUpdate;
-                    break;
-                case "IncludeRS2BaseSongs":
-                    chkIncludeRS2BaseSongs.Checked = AppSettings.Instance.IncludeRS2BaseSongs;
-                    break;
-                case "IncludeRS1CompSongs":
-                    chkIncludeRS1CompSongs.Checked = AppSettings.Instance.IncludeRS1CompSongs;
-                    break;
-                case "IncludeCustomPacks":
-                    chkIncludeCustomPacks.Checked = AppSettings.Instance.IncludeCustomPacks;
-                    break;
-                case "IncludeAnalyzerData":
-                    chkIncludeAnalyzerData.Checked = AppSettings.Instance.IncludeAnalyzerData;
-                    break;
-                case "EnableLogBaloon":
-                    chkEnableLogBallon.Checked = AppSettings.Instance.EnableLogBaloon;
-                    break;
-                case "CleanOnClosing":
-                    rbCleanOnClosing.Checked = AppSettings.Instance.CleanOnClosing;
-                    break;
-                case "CreatorName":
-                    txtCharterName.Text = AppSettings.Instance.CharterName;
-                    break;
+                using (var fbd = new FolderBrowserDialog())
+                {
+                    fbd.Description = "Select Rocksmith 2014 Installation Directory";
+
+                    if (fbd.ShowDialog() != DialogResult.OK)
+                        return;
+
+                    cueRsDir.Text = fbd.SelectedPath;
+                }
+
+                if (!Directory.Exists(Path.Combine(cueRsDir.Text, "dlc")))
+                {
+                    MessageBox.Show(new Form { TopMost = true }, String.Format("Please select a directory that  {0}contains a 'dlc' subdirectory.", Environment.NewLine), Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    ValidateRsDir(); // put the user into a loop (force selection)
+                }
+
+                AppSettings.Instance.RSInstalledDir = cueRsDir.Text;
+                Globals.Log("Rocksmith Installation Directory: " + AppSettings.Instance.RSInstalledDir);
             }
         }
 
@@ -267,33 +233,49 @@ namespace CustomsForgeSongManager.UControls
             SaveSettingsToFile(Globals.DgvCurrent);
         }
 
-        private void chkEnableAutoUpdate_CheckedChanged(object sender, EventArgs e)
+        private void chkEnableAutoUpdate_Click(object sender, EventArgs e)
         {
             AppSettings.Instance.EnableAutoUpdate = chkEnableAutoUpdate.Checked;
         }
 
-        private void chkIncludeCustomPacks_CheckedChanged(object sender, EventArgs e)
+        private void chkEnableLogBaloon_Click(object sender, EventArgs e)
         {
-            AppSettings.Instance.IncludeCustomPacks = chkIncludeCustomPacks.Checked;
-            ToogleRescan(true);
+            AppSettings.Instance.EnableLogBaloon = chkEnableLogBallon.Checked;
+
+            if (chkEnableLogBallon.Checked)
+                Globals.MyLog.AddTargetNotifyIcon(Globals.Notifier);
+            else
+                Globals.MyLog.RemoveTargetNotifyIcon(Globals.Notifier);
         }
 
-        private void chkIncludeAnalyzerData_CheckedChanged(object sender, EventArgs e)
+        private void chkIncludeAnalyzerData_Click(object sender, EventArgs e)
         {
             AppSettings.Instance.IncludeAnalyzerData = chkIncludeAnalyzerData.Checked;
             ToogleRescan(true);
         }
 
-        private void chkIncludeRS1CompSongs_CheckedChanged(object sender, EventArgs e)
+        private void chkIncludeCustomPacks_Click(object sender, EventArgs e)
+        {
+            AppSettings.Instance.IncludeCustomPacks = chkIncludeCustomPacks.Checked;
+            ToogleRescan(true);
+        }
+
+        private void chkIncludeRS1CompSongs_Click(object sender, EventArgs e)
         {
             AppSettings.Instance.IncludeRS1CompSongs = chkIncludeRS1CompSongs.Checked;
             ToogleRescan(true);
         }
 
-        private void chkIncludeRS2BaseSongs_CheckedChanged(object sender, EventArgs e)
+        private void chkIncludeRS2BaseSongs_Click(object sender, EventArgs e)
         {
             AppSettings.Instance.IncludeRS2BaseSongs = chkIncludeRS2BaseSongs.Checked;
             ToogleRescan(true);
+        }
+
+        private void chkValidateD3D_Click(object sender, EventArgs e)
+        {
+            AppSettings.Instance.ValidateD3D = chkValidateD3D.Checked;
+            ValidateD3D();
         }
 
         private void cueRsDir_MouseClick(object sender, MouseEventArgs e)
@@ -339,7 +321,7 @@ namespace CustomsForgeSongManager.UControls
             }
         }
 
-        private void rbCleanOnClosing_CheckedChanged(object sender, EventArgs e)
+        private void rbCleanOnClosing_Click(object sender, EventArgs e)
         {
             AppSettings.Instance.CleanOnClosing = rbCleanOnClosing.Checked;
         }
@@ -348,7 +330,6 @@ namespace CustomsForgeSongManager.UControls
         {
             AppSettings.Instance.CharterName = txtCharterName.Text;
         }
-
 
         private static string GetInstallDirFromRegistry()
         {

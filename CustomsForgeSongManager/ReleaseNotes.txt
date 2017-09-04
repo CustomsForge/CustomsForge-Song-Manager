@@ -14,6 +14,9 @@ until you can confirm it is safe directly through your AV provider.
 
 CFSM Release Notes
 
+1.4.0.5
+- added user selectable checkbox (ValidateD3D) to Settings tab for 'D3DX9_42.dll' validation
+
 1.4.0.4
 - added application manifest file to force user to run CFSM as Administrator
 - validate D3DX9_42.dll file for either original Rocksmith 2014 or Rocksmith 2014 Remastered versions

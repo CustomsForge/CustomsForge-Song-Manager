@@ -21,6 +21,7 @@ namespace CustomsForgeSongManager.DataObjects
         private bool _includeAnalyzerData;
         private bool _enableAutoUpdate;
         private bool _enableLogBaloon;
+        private bool _validateD3D = true;
         private bool _cleanOnClosing;
         private bool _checkForUpdateOnScan;
         private bool _fullScreen;
@@ -87,6 +88,12 @@ namespace CustomsForgeSongManager.DataObjects
         {
             get { return _enableLogBaloon; }
             set { SetPropertyField("EnableLogBaloon", ref _enableLogBaloon, value); }
+        }
+
+        public bool ValidateD3D
+        {
+            get { return _validateD3D; }
+            set { SetPropertyField("ValidateD3D", ref _validateD3D, value); }
         }
 
         public bool CleanOnClosing
@@ -275,6 +282,7 @@ namespace CustomsForgeSongManager.DataObjects
             Instance.IncludeRS2BaseSongs = false;
             Instance.EnableAutoUpdate = true;
             Instance.EnableLogBaloon = false; // fewer notfication issues
+            Instance.ValidateD3D = true;
             Instance.CleanOnClosing = false;
             Instance.ShowLogWindow = Constants.DebugMode;
             RAExtensions.ManagerGridSettings = new RADataGridViewSettings();
