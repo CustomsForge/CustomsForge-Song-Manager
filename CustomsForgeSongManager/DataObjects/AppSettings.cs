@@ -54,12 +54,6 @@ namespace CustomsForgeSongManager.DataObjects
             set { SetPropertyField("RSProfileDir", ref _rsProfileDir, value); }
         }
 
-        public bool EnableAutoUpdate
-        {
-            get { return _enableAutoUpdate; }
-            set { SetPropertyField("EnableAutoUpdate", ref _enableAutoUpdate, value); }
-        }
-
         public bool IncludeRS1CompSongs
         {
             get { return _includeRS1CompSongs; }
@@ -84,6 +78,12 @@ namespace CustomsForgeSongManager.DataObjects
             set { SetPropertyField("IncludeAnalyzerData", ref _includeAnalyzerData, value); }
         }
 
+        public bool EnableAutoUpdate
+        {
+            get { return _enableAutoUpdate; }
+            set { SetPropertyField("EnableAutoUpdate", ref _enableAutoUpdate, value); }
+        }
+        
         public bool EnableLogBaloon
         {
             get { return _enableLogBaloon; }
@@ -239,9 +239,9 @@ namespace CustomsForgeSongManager.DataObjects
                 using (var fs = File.OpenRead(settingsPath))
                     LoadSettingsFromStream(fs);
             }
- 
+
             // not done on app startup
-            if (dgvCurrent != null) 
+            if (dgvCurrent != null)
             {
                 if (File.Exists(settingsPath))
                     Globals.Log("Loaded File: " + Path.GetFileName(Constants.AppSettingsPath));
@@ -280,7 +280,9 @@ namespace CustomsForgeSongManager.DataObjects
             Instance.RSProfileDir = String.Empty;
             Instance.IncludeRS1CompSongs = false; // changed to false (fewer issues)
             Instance.IncludeRS2BaseSongs = false;
-            Instance.EnableAutoUpdate = true;
+            Instance.IncludeCustomPacks = false;
+            Instance.IncludeAnalyzerData = false;
+            Instance.EnableAutoUpdate = false;
             Instance.EnableLogBaloon = false; // fewer notfication issues
             Instance.ValidateD3D = true;
             Instance.CleanOnClosing = false;

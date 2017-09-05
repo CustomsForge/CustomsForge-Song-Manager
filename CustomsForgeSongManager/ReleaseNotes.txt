@@ -8,11 +8,15 @@ IT IS A WASTE OF BOTH YOUR TIME, AND THE CF ADMINS AND DEVELOPERS TIME
 for you to post on CF that this application contains viruses or trojans.  
 
 If you don't believe this then simply don't install the CFSM application
-until you can confirm it is safe directly through your AV provider.
+until you can confirm it is safe by working directly with your AV provider.
 
 ========================================================================
 
 CFSM Release Notes
+
+1.4.0.6
+- code cleanup
+- use the MD5 Hash value of 'D3DX9_42.dll' to validate the file
 
 1.4.0.5
 - added user selectable checkbox (ValidateD3D) to Settings tab for 'D3DX9_42.dll' validation

@@ -11,6 +11,7 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Diagnostics;
 using CustomControls;
+using System.Security.Cryptography;
 
 namespace GenTools
 {
@@ -232,6 +233,62 @@ namespace GenTools
             return list2DataTable;
         }
 
+        public static bool CopyDir(string srcFolder, string destFolder, bool isRecursive = true)
+        {
+            // You can not copy something that does not exist ... doh!  Banging head on desk ...
+            if (!Directory.Exists(srcFolder))
+                return false;
+
+            if (!Directory.Exists(destFolder))
+            {
+                try
+                {
+                    Directory.CreateDirectory(destFolder);
+                }
+                catch (IOException e)
+                {
+                    BetterDialog.ShowDialog(
+                        "<ERROR> Could not create directory: " + destFolder + Environment.NewLine + e.Message,
+                        MESSAGEBOX_CAPTION, MessageBoxButtons.OK, Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning ...", 150, 150);
+                    return false;
+                }
+            }
+
+            // Get Files and Copy
+            string[] files = Directory.GetFiles(srcFolder);
+            foreach (string file in files)
+            {
+                string name = Path.GetFileName(file);
+
+                string dest = Path.Combine(destFolder, name);
+                try
+                {
+                    File.Copy(file, dest, true);
+                }
+                catch (IOException e)
+                {
+                    BetterDialog.ShowDialog(
+                        "<ERROR> Could not copy the file: " + file + Environment.NewLine + e.Message,
+                        MESSAGEBOX_CAPTION, MessageBoxButtons.OK, Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning ...", 150, 150);
+                    return false;
+                }
+            }
+
+            // Get dirs recursively and copy files
+            if (isRecursive)
+            {
+                string[] folders = Directory.GetDirectories(srcFolder);
+                foreach (string folder in folders)
+                {
+                    string name = Path.GetFileName(folder);
+                    string dest = Path.Combine(destFolder, name);
+                    CopyDir(folder, dest);
+                }
+            }
+
+            return true;
+        }
+
         public static bool CopyFile(string fileFrom, string fileTo, bool overWrite, bool verbose = true)
         {
             if (verbose)
@@ -426,6 +483,39 @@ namespace GenTools
                                  Assembly.GetEntryAssembly().GetName().Version.Revision);
         }
 
+        private static FileStream GetFileStream(string pathName)
+        {
+            return (new FileStream(pathName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite));
+        }
+
+        public static string GetMD5Hash(string srcPath)
+        {
+            string strResult = "";
+            string strHashData = "";
+
+            byte[] arrbytHashValue;
+            FileStream fileStream = null;
+
+            MD5CryptoServiceProvider md5Hasher = new MD5CryptoServiceProvider();
+
+            try
+            {
+                fileStream = GetFileStream(srcPath);
+                arrbytHashValue = md5Hasher.ComputeHash(fileStream);
+                fileStream.Close();
+
+                strHashData = System.BitConverter.ToString(arrbytHashValue);
+                strHashData = strHashData.Replace("-", "");
+                strResult = strHashData;
+            }
+            catch (System.Exception ex)
+            {
+                return ex.Message;
+            }
+
+            return (strResult);
+        }
+
         public static string GetResource(string resName)
         {
             // very usefull, move next line before method call to determine valid resource paths and names 
@@ -583,62 +673,6 @@ namespace GenTools
                     MESSAGEBOX_CAPTION, MessageBoxButtons.OK, Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning ...", 150, 150);
                 return false;
             }
-        }
-
-        public static bool CopyDir(string srcFolder, string destFolder, bool isRecursive = true)
-        {
-            // You can not copy something that does not exist ... doh!  Banging head on desk ...
-            if (!Directory.Exists(srcFolder))
-                return false;
-
-            if (!Directory.Exists(destFolder))
-            {
-                try
-                {
-                    Directory.CreateDirectory(destFolder);
-                }
-                catch (IOException e)
-                {
-                    BetterDialog.ShowDialog(
-                        "<ERROR> Could not create directory: " + destFolder + Environment.NewLine + e.Message,
-                        MESSAGEBOX_CAPTION, MessageBoxButtons.OK, Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning ...", 150, 150);
-                    return false;
-                }
-            }
-
-            // Get Files and Copy
-            string[] files = Directory.GetFiles(srcFolder);
-            foreach (string file in files)
-            {
-                string name = Path.GetFileName(file);
-
-                string dest = Path.Combine(destFolder, name);
-                try
-                {
-                    File.Copy(file, dest, true);
-                }
-                catch (IOException e)
-                {
-                    BetterDialog.ShowDialog(
-                        "<ERROR> Could not copy the file: " + file + Environment.NewLine + e.Message,
-                        MESSAGEBOX_CAPTION, MessageBoxButtons.OK, Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning ...", 150, 150);
-                    return false;
-                }
-            }
-
-            // Get dirs recursively and copy files
-            if (isRecursive)
-            {
-                string[] folders = Directory.GetDirectories(srcFolder);
-                foreach (string folder in folders)
-                {
-                    string name = Path.GetFileName(folder);
-                    string dest = Path.Combine(destFolder, name);
-                    CopyDir(folder, dest);
-                }
-            }
-
-            return true;
         }
 
         public static bool MoveFile(string fileFrom, string fileTo, bool verbose = true)

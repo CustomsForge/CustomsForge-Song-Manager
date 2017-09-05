@@ -46,7 +46,7 @@ namespace CustomsForgeSongManager.DataObjects
     // only essential data should be saved to the XML songinfo file (NO BLOAT)
     // NOTE: custom object order here determines order of elements in the xml file
     [Serializable]
-    public class SongData : NotifyPropChangedBase
+    public class SongData : NotifyPropChangedBase 
     {
         //ver 1 : Initial release
         //ver 2 : SongKey changed to DLCKey
@@ -58,7 +58,7 @@ namespace CustomsForgeSongManager.DataObjects
         //ver 8 : add RepairStatus 'ODLC'
         //ver 9 : all app reference files moved to 'My Documents/CFSM'
         //ver 10 : force create a fresh 'My Documents/CFSM' folder'
-        //ver 1 - 10: time to recycle some ver numbers
+        //ver 1 - 10: time to recycle vers numbers
 
         // incrimenting forces songInfo.xml to update
         public const string SongDataListCurrentVersion = "4";
@@ -136,9 +136,9 @@ namespace CustomsForgeSongManager.DataObjects
             set
             {
                 if (!OfficialDLC || Globals.DgvCurrent.Name != "dgvMasterSongs")
-                    _selected = value; // SetPropertyField("Selected", ref FSelected, value);              
+                    SetPropertyField("Selected", ref _selected, value); // _selected = value;          
                 else
-                    _selected = false;
+                    SetPropertyField("Selected", ref _selected, false); //_selected = false;
             }
         }
 

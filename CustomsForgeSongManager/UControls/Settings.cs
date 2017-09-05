@@ -28,9 +28,11 @@ namespace CustomsForgeSongManager.UControls
                 AppSettings.Instance.LoadFromFile(Constants.AppSettingsPath, dgvCurrent);
 
                 cueRsDir.Text = AppSettings.Instance.RSInstalledDir;
-                chkEnableAutoUpdate.Checked = AppSettings.Instance.EnableAutoUpdate;
                 chkIncludeRS1CompSongs.Checked = AppSettings.Instance.IncludeRS1CompSongs;
                 chkIncludeRS2BaseSongs.Checked = AppSettings.Instance.IncludeRS2BaseSongs;
+                chkIncludeCustomPacks.Checked = AppSettings.Instance.IncludeCustomPacks;
+                chkIncludeAnalyzerData.Checked = AppSettings.Instance.IncludeAnalyzerData;
+                chkEnableAutoUpdate.Checked = AppSettings.Instance.EnableAutoUpdate;
                 chkEnableLogBallon.Checked = AppSettings.Instance.EnableLogBaloon;
                 chkValidateD3D.Checked = AppSettings.Instance.ValidateD3D;
                 rbCleanOnClosing.Checked = AppSettings.Instance.CleanOnClosing;
@@ -126,7 +128,7 @@ namespace CustomsForgeSongManager.UControls
                 var diaMsg = "The 'D3DX9_42.dll' file could not be found. Would you like CFSM to install the dll file that is required to play CDLC files?";
                 if (DialogResult.No == BetterDialog2.ShowDialog(GenExtensions.SplitString(diaMsg, 30), "Validating D3DX9_42.dll ...", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning", 0, 150))
                 {
-                    Globals.Log("User aborted installing 'D3DX9_42.dll' file ...");
+                    Globals.Log("<WARNING> User aborted installing 'D3DX9_42.dll' file ...");
                     return false;
                 }
 
@@ -135,21 +137,24 @@ namespace CustomsForgeSongManager.UControls
                 else
                     GenExtensions.CopyFile(Path.Combine(Constants.ApplicationFolder, "D3DX9_42.dll.new"), Path.Combine(AppSettings.Instance.RSInstalledDir, "D3DX9_42.dll"), true, false);
 
-                Globals.Log("Successfully installed 'D3DX9_42.dll' file ...");
+                Globals.Log("Installed 'D3DX9_42.dll' file ...");
             }
             else
             {
-                // verify correct dll is installed
-                var d3dFileInfo = new FileInfo(d3dPath);
-                var d3dNew = new FileInfo(Path.Combine(Constants.ApplicationFolder, "D3DX9_42.dll.new"));
-                var d3dOld = new FileInfo(Path.Combine(Constants.ApplicationFolder, "D3DX9_42.dll.old"));
+                // verify correct dll is installed using MD5 Hash
+                var d3dFileMD5 = GenExtensions.GetMD5Hash(d3dPath);
+                var d3dNewMD5 = GenExtensions.GetMD5Hash(Path.Combine(Constants.ApplicationFolder, "D3DX9_42.dll.new"));
+                var d3dOldMD5 = GenExtensions.GetMD5Hash(Path.Combine(Constants.ApplicationFolder, "D3DX9_42.dll.old"));
 
-                if ((File.Exists(luaPath) && d3dFileInfo.Length != d3dOld.Length) || (!File.Exists(luaPath) && d3dFileInfo.Length != d3dNew.Length))
+                if ((File.Exists(luaPath) && d3dFileMD5 != d3dOldMD5) || (!File.Exists(luaPath) && d3dFileMD5 != d3dNewMD5))
                 {
-                    var diaMsg = "The installed 'D3DX9_42.dll' file is not valid. Would you like CFSM to update the dll file that is required to play CDLC files?";
-                    if (DialogResult.No == BetterDialog2.ShowDialog(GenExtensions.SplitString(diaMsg, 30), "Validating D3DX9_42.dll ...", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning", 0, 150))
+                    var dlgMsg1 = "The installed 'D3DX9_42.dll' file MD5 hash value is invalid. Would you like CFSM to update the dll file that is required to play CDLC files?";
+                    var dlgMsg2 = "Note: If your CDLC are working fine then answer 'No' and then disable future validation checks in the 'Settings' tab menu.";
+                    var dlgMsg = GenExtensions.SplitString(dlgMsg1, 30) + Environment.NewLine + Environment.NewLine + GenExtensions.SplitString(dlgMsg2, 30);
+
+                    if (DialogResult.No == BetterDialog2.ShowDialog(dlgMsg, "Validating D3DX9_42.dll ...", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning", 0, 150))
                     {
-                        Globals.Log("User aborted updating the 'D3DX9_42.dll' file installation ...");
+                        Globals.Log("<WARNING> User aborted updating the 'D3DX9_42.dll' file ...");
                         return false;
                     }
 
@@ -158,10 +163,10 @@ namespace CustomsForgeSongManager.UControls
                     else
                         GenExtensions.CopyFile(Path.Combine(Constants.ApplicationFolder, "D3DX9_42.dll.new"), Path.Combine(AppSettings.Instance.RSInstalledDir, "D3DX9_42.dll"), true, false);
 
-                    Globals.Log("Successfully updated 'D3DX9_42.dll' file installation ...");
+                    Globals.Log("Updated 'D3DX9_42.dll' file installation ...");
                 }
                 else
-                    Globals.Log("Sucessfully validated 'D3DX9_42.dll' file installation ...");
+                    Globals.Log("Validated 'D3DX9_42.dll' file installation ...");
             }
 
             return true;
