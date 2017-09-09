@@ -308,11 +308,11 @@ namespace GenTools
             }
             catch (IOException e)
             {
-                if (!overWrite)
-                    return true; // be nice don't throw error
-
-                var diaMsg = "Could not copy file " + fileFrom + "  Error Code: " + e.Message + "  Make sure associated file/folders are closed.";
-                BetterDialog.ShowDialog(GenExtensions.SplitString(diaMsg, 30), MESSAGEBOX_CAPTION, MessageBoxButtons.OK, Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning ...", 150, 150);
+                if (!overWrite) return true; // be nice don't throw error
+                BetterDialog.ShowDialog(
+                    "Could not copy file " + fileFrom + "\r\nError Code: " + e.Message +
+                    "\r\nMake sure associated file/folders are closed.",
+                    MESSAGEBOX_CAPTION, MessageBoxButtons.OK, Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning ...", 150, 150);
                 return false;
             }
         }
@@ -481,11 +481,6 @@ namespace GenTools
                                  Assembly.GetEntryAssembly().GetName().Version.Minor,
                                  Assembly.GetEntryAssembly().GetName().Version.Build,
                                  Assembly.GetEntryAssembly().GetName().Version.Revision);
-        }
-
-        private static FileStream GetFileStream(string pathName)
-        {
-            return (new FileStream(pathName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite));
         }
 
         public static string GetMD5Hash(string srcPath)
@@ -782,8 +777,12 @@ namespace GenTools
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
 
-            var files = Directory.EnumerateFiles(path, "*_p.psarc", includeSubfolders ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly).ToList();
-            files.AddRange(Directory.EnumerateFiles(path, "*_p.disabled.psarc", includeSubfolders ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly).ToList());
+            //TODO: FIX OnMac method
+            string extension = SysExtensions.OnMac() ? "_m.psarc" : "_p.psarc";
+            string disabledExtension = SysExtensions.OnMac() ? "_m.disabled.psarc" : "_p.disabled.psarc";
+
+            var files = Directory.EnumerateFiles(path, "*" + extension, includeSubfolders ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly).ToList();
+            files.AddRange(Directory.EnumerateFiles(path, "*" + disabledExtension, includeSubfolders ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly).ToList());
             files = files.Where(file => !file.ToLower().Contains("inlay")).ToList();
 
             if (!includeRs1Packs)
@@ -1005,6 +1004,11 @@ namespace GenTools
                     Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning ...", 150, 150);
                 return false;
             }
+        }
+
+        private static FileStream GetFileStream(string pathName)
+        {
+            return (new FileStream(pathName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite));
         }
 
         [DllImport("user32.dll")]

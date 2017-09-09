@@ -25,12 +25,22 @@ namespace CustomsForgeSongManager.LocalTools
             else
                 try
                 {
-                    Process.Start("steam://rungameid/221680");
+                    //Process.Start("steam://rungameid/221680");
+                    ProcessStartInfo startInfo = new ProcessStartInfo() { FileName = "/bin/bash", Arguments = "open -a Steam.app --rungameid/221680 -no-dwrite", };
+                    Process proc = new Process() { StartInfo = startInfo, };
+                    proc.Start();
+
+                    Process.Start("steam steam://rungameid/221680");
                 }
                 catch (Exception)
                 {
-                    Globals.Log("Can not find Steam version of Rocksmith 2014 ...");
+                    Globals.Log("Can not find Steam version of Rocksmith 2014");
                 }
+        }
+        
+        public static void LaunchApp(string path)
+        {
+            Process.Start(path);
         }
 
         private static string GetStringValueFromRegistry(string keyName, string valueName)

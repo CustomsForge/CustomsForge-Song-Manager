@@ -171,14 +171,14 @@ namespace CustomsForgeSongManager.UControls
                     {
                         if (row.Cells[colNdxEnabled].Value.ToString() == "Yes")
                         {
-                            var disabledPath = originalPath.Replace("_p.psarc", "_p.disabled.psarc");
+                            var disabledPath = originalPath.Replace(Constants.PsarcExtension, Constants.DisabledPsarcExtension);
                             File.Move(originalPath, disabledPath);
                             row.Cells[colNdxPath].Value = disabledPath;
                             row.Cells[colNdxEnabled].Value = "No";
                         }
                         else
                         {
-                            var enabledPath = originalPath.Replace("_p.disabled.psarc", "_p.psarc");
+                            var enabledPath = originalPath.Replace(Constants.DisabledPsarcExtension, Constants.PsarcExtension);
                             File.Move(originalPath, enabledPath);
                             row.Cells[colNdxPath].Value = enabledPath;
                             row.Cells[colNdxEnabled].Value = "Yes";
@@ -232,8 +232,8 @@ namespace CustomsForgeSongManager.UControls
                 var srcPath = song.FilePath;
                 var srcDir = Path.GetDirectoryName(srcPath);
                 var srcFileName = Path.GetFileName(srcPath);
-                var srcFnEnabled = srcFileName.Replace("_p.disabled.psarc", "_p.psarc");
-                var srcFnDisabled = srcFileName.Replace("_p.psarc", "_p.disabled.psarc");
+                var srcFnEnabled = srcFileName.Replace(Constants.DisabledPsarcExtension, Constants.PsarcExtension);
+                var srcFnDisabled = srcFileName.Replace(Constants.PsarcExtension, Constants.DisabledPsarcExtension);
                 bool isSrcDlcDir = Path.GetFileName(srcDir).ToLower().Contains("dlc");
                 bool isSrcDisabled = srcFileName.ToLower().Contains("disabled");
                 var destPath = String.Empty;
@@ -670,9 +670,9 @@ namespace CustomsForgeSongManager.UControls
                 var newSongName = String.Empty;
 
                 if (setlistEnabled)
-                    newSongName = songName.Replace("_p.psarc", "_p.disabled.psarc");
+                    newSongName = songName.Replace(Constants.PsarcExtension, Constants.DisabledPsarcExtension);
                 else
-                    newSongName = songName.Replace("_p.disabled.psarc", "_p.psarc");
+                    newSongName = songName.Replace(Constants.DisabledPsarcExtension, Constants.PsarcExtension);
 
                 var songPath = Path.Combine(newSetlistDir, songName);
                 var newSongPath = Path.Combine(newSetlistDir, newSongName);
@@ -881,7 +881,7 @@ namespace CustomsForgeSongManager.UControls
                 if (rs1DLCPack != "Select a setlist")
                     foreach (string rs1DLCFile in rs1DLCFiles)
                         if (Path.GetDirectoryName(rs1DLCFile) != Path.Combine(dlcDir, rs1DLCPack))
-                            File.Move(rs1DLCFile, rs1DLCFile.Replace("_p.psarc", "_p.disabled.psarc"));
+                            File.Move(rs1DLCFile, rs1DLCFile.Replace(Constants.PsarcExtension, Constants.DisabledPsarcExtension));
             }
 
             if (rs1Files.Count > 1)
@@ -904,7 +904,7 @@ namespace CustomsForgeSongManager.UControls
                 {
                     foreach (string rs1File in rs1Files)
                         if (Path.GetDirectoryName(rs1File) != Path.Combine(dlcDir, rs1MainPack))
-                            File.Move(rs1File, rs1File.Replace("_p.psarc", "_p.disabled.psarc"));
+                            File.Move(rs1File, rs1File.Replace(Constants.PsarcExtension, Constants.DisabledPsarcExtension));
                 }
             }
 

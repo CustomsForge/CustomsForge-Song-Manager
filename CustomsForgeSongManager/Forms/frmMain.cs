@@ -20,6 +20,7 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Text.RegularExpressions;
 using CustomControls;
+using System.ComponentModel;
 
 
 // NOTE: the app is designed for default user screen resolution of 1024x768
@@ -71,18 +72,19 @@ namespace CustomsForgeSongManager.Forms
                 Dispose();
             };
 
-            var strFormatVersion = "{0} (v{1})";
+
+            var strFormatVersion = "{0} (v{1} - {2})";
 #if BETA
-            strFormatVersion = "{0} (v{1} - BETA VERSION)";
+            strFormatVersion = "{0} (v{1} - {2} BETA VERSION)";
 #endif
 #if RELEASE
-            strFormatVersion = "{0} (v{1} - RELEASE VERSION)";
+            strFormatVersion = "{0} (v{1} - {2} RELEASE VERSION)";
 #endif
 #if DEBUG
-            strFormatVersion = "{0} (v{1} - DEBUG)";
+            strFormatVersion = "{0} (v{1} - {2} DEBUG)";
 #endif
-            Constants.AppTitle = String.Format(strFormatVersion, Constants.ApplicationName, Constants.CustomVersion());
-            this.Text = Constants.AppTitle;
+            Constants.AppTitle = String.Format(strFormatVersion, Constants.ApplicationName, Constants.CustomVersion(), SysExtensions.OnMac() ? "MAC" : "PC");
+            this.Text = Constants.AppTitle ;
             // bring CFSM to the front on startup
             this.WindowState = FormWindowState.Minimized;
 
@@ -96,12 +98,12 @@ namespace CustomsForgeSongManager.Forms
             Globals.TbLog = this.tbLog;
             Globals.ResetToolStripGlobals();
             Globals.MyLog.AddTargetTextBox(tbLog);
-            // Globals.CFMTheme.AddListener(this);
+            //    Globals.CFMTheme.AddListener(this);
 
             Globals.OnScanEvent += (s, e) => { tcMain.InvokeIfRequired(a => { tcMain.Enabled = !e.IsScanning; }); };
 
             // verify application directory structure
-                FileTools.VerifyCfsmFolders();
+            FileTools.VerifyCfsmFolders();
 
             // initialize all global variables
             Globals.Log(Constants.AppTitle);
@@ -357,6 +359,7 @@ namespace CustomsForgeSongManager.Forms
         private void tsBtnLaunchRS_Click(object sender, EventArgs e)
         {
             LocalExtensions.LaunchRocksmith2014();
+            //LocalExtensions.LaunchApp(Path.Combine(AppSettings.Instance.RSInstalledDir, "Rocksmith2014"));
         }
 
         private void tsBtnRequest_Click(object sender, EventArgs e)
@@ -889,10 +892,18 @@ namespace CustomsForgeSongManager.Forms
                         Globals.Log("<Error>: " + ex.Message);
                     }
 
-                    if (File.Exists(path))
+
+                    try
                     {
-                        if (MessageBox.Show("Do you want to open the exported file?", "Open the exported file", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
-                            Process.Start(path);
+                        if (File.Exists(path))
+                        {
+                            if (MessageBox.Show("Do you want to open the exported file?", "Open the exported file", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
+                                Process.Start(path);
+                        }
+                    }
+                    catch (Win32Exception)
+                    {
+                        Globals.Log("No suitable application detected!");
                     }
                 }
         }

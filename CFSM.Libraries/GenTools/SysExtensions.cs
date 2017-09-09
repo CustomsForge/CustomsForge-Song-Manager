@@ -8,6 +8,7 @@ using System.Management;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
 using Microsoft.Win32;
+using System.IO;
 
 namespace GenTools
 {
@@ -636,6 +637,24 @@ namespace GenTools
             get { return Environment.Version.ToString(); }
         }
 
+        #endregion
+
+        #region MAC
+        public static bool OnMac(string path = "")
+        {
+            if (path.Contains("Users") && path.Contains("Library"))
+                return true;
+
+            if (File.Exists(@"/System/Library/CoreServices/SystemVersion.plist") || Directory.Exists("@/Users"))
+                return true;
+           
+            //string windir = Environment.GetEnvironmentVariable("windir");
+
+            //if (!string.IsNullOrEmpty(windir) && windir.Contains(@"\") && Directory.Exists(windir))
+            //    return false;
+
+            return false;
+        }
         #endregion
 
         #region ADMIN RIGHTS

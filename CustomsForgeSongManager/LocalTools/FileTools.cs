@@ -133,7 +133,7 @@ namespace CustomsForgeSongManager.LocalTools
 
                     var artistName = songInfo.Artist;
                     var titleName = songInfo.Title;
-                    var destFileName = String.Format("{0}_{1}_v{2}_p.psarc", artistName, titleName, version);
+                    var destFileName = String.Format("{0}_{1}_v{2}{3}", artistName, titleName, version, Constants.PsarcExtension);
                     var destDir = Path.Combine(dlcDir, artistName);
                     destFilePath = Path.Combine(destDir, destFileName);
 
@@ -587,11 +587,10 @@ namespace CustomsForgeSongManager.LocalTools
                 GenExtensions.DeleteDirectory(Path.Combine(AppSettings.Instance.RSInstalledDir, "cdlc_quarantined"));
                 GenExtensions.DeleteDirectory(Path.Combine(AppSettings.Instance.RSInstalledDir, "cdlc_duplicates"));
                 GenExtensions.DeleteDirectory(Path.Combine(AppSettings.Instance.RSInstalledDir, "duplicates"));
-                GenExtensions.DeleteDirectory(Path.Combine(AppSettings.Instance.RSInstalledDir, "backup"));
             }
             catch (Exception ex)
             {
-                Globals.Log("<ERROR> Could not verify 'My Documents/CFSM' subfolders ...");
+                Globals.Log("<ERROR> Could not verify CFSM work folders ...");
                 Globals.Log(ex.Message);
                 throw new Exception(); // force app to stop here
             }

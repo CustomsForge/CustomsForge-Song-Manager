@@ -128,8 +128,8 @@ namespace CustomsForgeSongManager.SongEditor
                 var x = editorControls.Where(e => e.NeedsAfterSave());
                 if (x.Count() > 0)
                 {
-                    if (!outputPath.ToLower().EndsWith("_p.psarc"))
-                        outputPath += "_p.psarc";
+                    if (!outputPath.ToLower().EndsWith(Constants.PsarcExtension))
+                        outputPath += Constants.PsarcExtension;
 
                     tsProgressBar.Value = 80;
                     var p = new PSARC();

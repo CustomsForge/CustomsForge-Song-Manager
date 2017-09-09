@@ -119,9 +119,9 @@ namespace CustomsForgeSongManager.LocalTools
         {
             Globals.IsScanning = true;
             List<string> filesList;
-            
+
             // is this a full rescan
-            if (Globals.SongCollection.Count == 0) 
+            if (Globals.SongCollection.Count == 0)
                 filesList = FilesList(Constants.Rs2DlcFolder, AppSettings.Instance.IncludeRS1CompSongs, AppSettings.Instance.IncludeRS2BaseSongs, AppSettings.Instance.IncludeCustomPacks);
             else
                 filesList = FilesList(Constants.Rs2DlcFolder, false, false, false);
@@ -304,8 +304,8 @@ namespace CustomsForgeSongManager.LocalTools
             if (!Directory.Exists(filePath))
                 Directory.CreateDirectory(filePath);
 
-            var files = Directory.EnumerateFiles(filePath, "*_p.psarc", SearchOption.AllDirectories).ToList();
-            files.AddRange(Directory.EnumerateFiles(filePath, "*_p.disabled.psarc", SearchOption.AllDirectories).ToList());
+            var files = Directory.EnumerateFiles(filePath, "*" + Constants.PsarcExtension, SearchOption.AllDirectories).ToList();
+             files.AddRange(Directory.EnumerateFiles(filePath, "*" + Constants.DisabledPsarcExtension, SearchOption.AllDirectories).ToList());
 
             if (!includeRS1Pack)
                 files = files.Where(file => !file.ToLower().Contains(Constants.RS1COMP)).ToList();

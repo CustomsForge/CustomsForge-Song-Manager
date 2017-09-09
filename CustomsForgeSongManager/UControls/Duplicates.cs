@@ -312,14 +312,14 @@ namespace CustomsForgeSongManager.UControls
                             // confirmed CDLC is disabled in game when using this file naming method
                             if (ColEnabled.Value.ToString() == "Yes")
                             {
-                                var disabledDLCPath = originalPath.Replace("_p.psarc", "_p.disabled.psarc");
+                                var disabledDLCPath = originalPath.Replace(Constants.PsarcExtension, Constants.DisabledPsarcExtension);
                                 File.Move(originalPath, disabledDLCPath);
                                 row.Cells["colFilePath"].Value = disabledDLCPath;
                                 ColEnabled.Value = "No";
                             }
                             else
                             {
-                                var enabledDLCPath = originalPath.Replace("_p.disabled.psarc", "_p.psarc");
+                                var enabledDLCPath = originalPath.Replace(Constants.DisabledPsarcExtension, Constants.PsarcExtension);
                                 File.Move(originalPath, enabledDLCPath);
                                 row.Cells["colFilePath"].Value = enabledDLCPath;
                                 ColEnabled.Value = "Yes";
