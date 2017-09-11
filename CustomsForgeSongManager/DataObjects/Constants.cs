@@ -67,7 +67,7 @@ namespace CustomsForgeSongManager.DataObjects
         {
             get
             {
-                if (Rs2CdlcFolder.Contains("Application Support")) //Rather unreliable, but other methods have been proven not to work in all cases on Wineskin
+                if (Rs2DlcFolder.Contains("Application Support")) //Rather unreliable, but other methods have been proven not to work in all cases on Wineskin
                     return true;
 
                 return false;

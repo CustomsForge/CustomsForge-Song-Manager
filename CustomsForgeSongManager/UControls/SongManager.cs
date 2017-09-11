@@ -2165,7 +2165,7 @@ namespace CustomsForgeSongManager.UControls
                 if (selected == null)
                     return;
                 else
-                    selection.Add(selected); 
+                    selection.Add(selected);
             }
 
             Globals.Log("Please wait ...");

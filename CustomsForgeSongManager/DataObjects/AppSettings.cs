@@ -20,7 +20,7 @@ namespace CustomsForgeSongManager.DataObjects
         private bool _includeCustomPacks;
         private bool _includeAnalyzerData;
         private bool _enableAutoUpdate;
-        private bool _enableLogBaloon;
+        private bool _enableLogBaloon = false;
         private bool _validateD3D = true;
         private bool _cleanOnClosing;
         private bool _checkForUpdateOnScan;

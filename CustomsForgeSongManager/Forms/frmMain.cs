@@ -31,6 +31,8 @@ using System.ComponentModel;
 // [Obfuscation(Exclude = false, Feature = "-rename")]
 // so that ConfuserEx does not rename the enumerators
 //
+// NOTE: for Mac compatiblity use absolute paths ... do not use generic/relative @"./" paths 
+//
 namespace CustomsForgeSongManager.Forms
 {
     public partial class frmMain : Form, IMainForm //,ThemedForm
@@ -83,8 +85,8 @@ namespace CustomsForgeSongManager.Forms
 #if DEBUG
             strFormatVersion = "{0} (v{1} - {2} DEBUG)";
 #endif
-            Constants.AppTitle = String.Format(strFormatVersion, Constants.ApplicationName, Constants.CustomVersion(), SysExtensions.OnMac(AppSettings.Instance.RSInstalledDir) ? "MAC" : "PC");
-            this.Text = Constants.AppTitle ;
+            Constants.AppTitle = String.Format(strFormatVersion, Constants.ApplicationName, Constants.CustomVersion(), SysExtensions.OnMac(Constants.Rs2DlcFolder) ? "MAC" : "PC");
+            this.Text = Constants.AppTitle;
             // bring CFSM to the front on startup
             this.WindowState = FormWindowState.Minimized;
 

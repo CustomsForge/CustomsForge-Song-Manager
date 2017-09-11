@@ -26,7 +26,7 @@ namespace CustomsForgeSongManager.LocalTools
             else
                 try
                 {
-                    if(SysExtensions.OnMac(AppSettings.Instance.RSInstalledDir))
+                    if (SysExtensions.OnMac(AppSettings.Instance.RSInstalledDir))
                     {
                         string command = "open steam://rungameid/221680";
 
@@ -43,7 +43,7 @@ namespace CustomsForgeSongManager.LocalTools
                     Globals.Log("Can not find Steam version of Rocksmith 2014");
                 }
         }
-        
+
         public static void LaunchApp(string path)
         {
             Process.Start(path);

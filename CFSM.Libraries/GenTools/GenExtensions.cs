@@ -777,7 +777,6 @@ namespace GenTools
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
 
-            //TODO: FIX OnMac method
             string extension = SysExtensions.OnMac() ? "_m.psarc" : "_p.psarc";
             string disabledExtension = SysExtensions.OnMac() ? "_m.disabled.psarc" : "_p.disabled.psarc";
 
