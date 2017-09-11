@@ -83,7 +83,7 @@ namespace CustomsForgeSongManager.Forms
 #if DEBUG
             strFormatVersion = "{0} (v{1} - {2} DEBUG)";
 #endif
-            Constants.AppTitle = String.Format(strFormatVersion, Constants.ApplicationName, Constants.CustomVersion(), SysExtensions.OnMac() ? "MAC" : "PC");
+            Constants.AppTitle = String.Format(strFormatVersion, Constants.ApplicationName, Constants.CustomVersion(), SysExtensions.OnMac(AppSettings.Instance.RSInstalledDir) ? "MAC" : "PC");
             this.Text = Constants.AppTitle ;
             // bring CFSM to the front on startup
             this.WindowState = FormWindowState.Minimized;
@@ -359,7 +359,6 @@ namespace CustomsForgeSongManager.Forms
         private void tsBtnLaunchRS_Click(object sender, EventArgs e)
         {
             LocalExtensions.LaunchRocksmith2014();
-            //LocalExtensions.LaunchApp(Path.Combine(AppSettings.Instance.RSInstalledDir, "Rocksmith2014"));
         }
 
         private void tsBtnRequest_Click(object sender, EventArgs e)

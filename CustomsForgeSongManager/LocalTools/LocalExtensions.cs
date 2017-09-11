@@ -4,6 +4,7 @@ using System.IO;
 using System.Windows.Forms;
 using CustomsForgeSongManager.DataObjects;
 using Microsoft.Win32;
+using GenTools;
 
 namespace CustomsForgeSongManager.LocalTools
 {
@@ -25,12 +26,17 @@ namespace CustomsForgeSongManager.LocalTools
             else
                 try
                 {
-                    //Process.Start("steam://rungameid/221680");
-                    ProcessStartInfo startInfo = new ProcessStartInfo() { FileName = "/bin/bash", Arguments = "open -a Steam.app --rungameid/221680 -no-dwrite", };
-                    Process proc = new Process() { StartInfo = startInfo, };
-                    proc.Start();
+                    if(SysExtensions.OnMac(AppSettings.Instance.RSInstalledDir))
+                    {
+                        string command = "open steam://rungameid/221680";
 
-                    Process.Start("steam steam://rungameid/221680");
+                        Process proc = new Process();
+                        proc.StartInfo.FileName = "/bin/bash";
+                        proc.StartInfo.Arguments = "-c \" " + command + " \"";
+                        proc.Start();
+                    }
+                    else
+                        Process.Start("steam://rungameid/221680");
                 }
                 catch (Exception)
                 {

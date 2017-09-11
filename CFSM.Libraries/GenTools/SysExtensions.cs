@@ -640,18 +640,24 @@ namespace GenTools
         #endregion
 
         #region MAC
-        public static bool OnMac(string path = "")
+        public static bool OnMac(string path = "") //path = rs2Folder
         {
-            if (path.Contains("Users") && path.Contains("Library"))
-                return true;
+            if(path != "") //If ran for the first time, RS path is empty, so search on all Wine partitions for Mac folders, otherwise check the RS path for signs of Mac
+            {
+                if (path.Contains("Users") && path.Contains("Library"))
+                    return true;
 
-            if (File.Exists(@"/System/Library/CoreServices/SystemVersion.plist") || Directory.Exists("@/Users"))
-                return true;
-           
-            //string windir = Environment.GetEnvironmentVariable("windir");
+                if (path.Contains("Application Support")) // hack work around
+                    return true;
+            }
+            else
+            {
+                string[] strDrives = Environment.GetLogicalDrives(); 
 
-            //if (!string.IsNullOrEmpty(windir) && windir.Contains(@"\") && Directory.Exists(windir))
-            //    return false;
+                foreach (string strDrive in strDrives)
+                    if (Directory.Exists(Path.Combine(strDrive, "Library", "Application Support")))
+                        return true;
+            }
 
             return false;
         }
