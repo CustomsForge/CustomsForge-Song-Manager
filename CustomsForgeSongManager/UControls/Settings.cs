@@ -9,6 +9,7 @@ using CustomsForgeSongManager.LocalTools;
 using DataGridViewTools;
 using CustomControls;
 using System.Drawing;
+using System.Threading;
 
 namespace CustomsForgeSongManager.UControls
 {
@@ -35,6 +36,7 @@ namespace CustomsForgeSongManager.UControls
                 chkEnableAutoUpdate.Checked = AppSettings.Instance.EnableAutoUpdate;
                 chkEnableLogBallon.Checked = AppSettings.Instance.EnableLogBaloon;
                 chkValidateD3D.Checked = AppSettings.Instance.ValidateD3D;
+                chkMacMode.Checked = AppSettings.Instance.MacMode;
                 rbCleanOnClosing.Checked = AppSettings.Instance.CleanOnClosing;
                 txtCharterName.Text = AppSettings.Instance.CharterName;
 
@@ -277,6 +279,28 @@ namespace CustomsForgeSongManager.UControls
             ToogleRescan(true);
         }
 
+        private void chkMacMode_Click(object sender, EventArgs e)
+        {
+            if (chkMacMode.Checked)
+            {
+                MessageBox.Show("Switching to Mac Compatibility Mode ...  " + Environment.NewLine + "CFSM will automatically restart!", "Mac Mode Enabled ...", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                Globals.Log("Switched to Mac Compatibility Mode ...");
+            }
+            else
+            {
+                MessageBox.Show("Switching to PC Compatibility Mode ...  " + Environment.NewLine + "CFSM will automatically restart!", "PC Mode Enabled ...", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                Globals.Log("Switched to PC Compatibility Mode ...");
+            }
+
+            GenExtensions.DeleteFile(Constants.SongsInfoPath);
+            GenExtensions.DeleteFile(Constants.AnalyzerDataPath);
+            AppSettings.Instance.MacMode = chkMacMode.Checked;
+
+            // restart new instance of application and shutdown original
+            Application.Restart(); // this triggers frmMain_FormClosing method
+            Environment.Exit(0);
+        }
+
         private void chkValidateD3D_Click(object sender, EventArgs e)
         {
             AppSettings.Instance.ValidateD3D = chkValidateD3D.Checked;
@@ -336,10 +360,13 @@ namespace CustomsForgeSongManager.UControls
             AppSettings.Instance.CharterName = txtCharterName.Text;
         }
 
+        #region Class Methods
+
         private static string GetInstallDirFromRegistry()
         {
             return LocalExtensions.GetSteamDirectory();
         }
 
+        #endregion
     }
 }

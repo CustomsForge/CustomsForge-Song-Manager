@@ -74,19 +74,6 @@ namespace CustomsForgeSongManager.Forms
                 Dispose();
             };
 
-
-            var strFormatVersion = "{0} (v{1} - {2})";
-#if BETA
-            strFormatVersion = "{0} (v{1} - {2} BETA VERSION)";
-#endif
-#if RELEASE
-            strFormatVersion = "{0} (v{1} - {2} RELEASE VERSION)";
-#endif
-#if DEBUG
-            strFormatVersion = "{0} (v{1} - {2} DEBUG)";
-#endif
-            Constants.AppTitle = String.Format(strFormatVersion, Constants.ApplicationName, Constants.CustomVersion(), SysExtensions.OnMac(Constants.Rs2DlcFolder) ? "MAC" : "PC");
-            this.Text = Constants.AppTitle;
             // bring CFSM to the front on startup
             this.WindowState = FormWindowState.Minimized;
 
@@ -114,6 +101,21 @@ namespace CustomsForgeSongManager.Forms
             // load settings
             Globals.Settings.LoadSettingsFromFile(null); // null => workaround to prevent showing 'Loaded appSettings.xml file ...' 2X
 
+            // set app title after settings are loaded
+            var strFormatVersion = "{0} (v{1} - {2})";
+#if BETA
+            strFormatVersion = "{0} (v{1} - {2} BETA VERSION)";
+#endif
+#if RELEASE
+            strFormatVersion = "{0} (v{1} - {2} RELEASE VERSION)";
+#endif
+#if DEBUG
+            strFormatVersion = "{0} (v{1} - {2} DEBUG)";
+#endif
+            Constants.AppTitle = String.Format(strFormatVersion, Constants.ApplicationName, Constants.CustomVersion(), Constants.OnMac ? "MAC" : "PC");
+            this.Text = Constants.AppTitle;
+
+            // show log
             if (AppSettings.Instance.ShowLogWindow)
             {
                 tsLabel_ShowHideLog.Text = Properties.Resources.HideLog;
@@ -227,7 +229,10 @@ namespace CustomsForgeSongManager.Forms
             {
                 Globals.SongManager.SetRepairOptions();
                 Globals.Settings.SaveSettingsToFile(Globals.DgvCurrent);
-                Globals.SongManager.SaveSongCollectionToFile();
+
+                // do not SaveSongCollectionToFile when changing compatibility mode
+                if (File.Exists(Constants.SongsInfoPath) || File.Exists(Constants.AnalyzerDataPath))
+                    Globals.SongManager.SaveSongCollectionToFile();
             }
         }
 

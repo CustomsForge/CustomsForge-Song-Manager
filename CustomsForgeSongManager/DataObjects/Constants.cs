@@ -68,6 +68,13 @@ namespace CustomsForgeSongManager.DataObjects
             get
             {
                 if (Rs2DlcFolder.Contains("Application Support")) //Rather unreliable, but other methods have been proven not to work in all cases on Wineskin
+                {
+                    AppSettings.Instance.MacMode = true;
+                    return true;
+                }
+
+                // run Mac compatiblity mode when on a PC
+                if (AppSettings.Instance.MacMode)
                     return true;
 
                 return false;
@@ -95,8 +102,6 @@ namespace CustomsForgeSongManager.DataObjects
                     return "_p.disabled.psarc";
             }
         }
-
-
 
         public static string Rs1DiscPsarcPath
         {
@@ -176,13 +181,7 @@ namespace CustomsForgeSongManager.DataObjects
         public const string DefaultAuthURL = "http://ignition.dev.customsforge.com/api/auth";
         public const string DefaultDetailsURL = "http://ignition.dev.customsforge.com/api/details";
         public const string DefaultCFSongUrl = CustomsForgeURL + "page/customsforge_rs_2014_cdlc.html/_/pc-enabled-rs-2014-cdlc/";
-        public const string DefaultInfoURL =
-
-#if (DEBUG)
- @"http://ignition.dev.customsforge.com/api/search";
-#else
- @"http://ignition.dev.customsforge.com/api/search";
-#endif
+        public const string DefaultInfoURL = "http://ignition.dev.customsforge.com/api/search";
 
         #endregion
 

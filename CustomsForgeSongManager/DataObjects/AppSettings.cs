@@ -22,6 +22,7 @@ namespace CustomsForgeSongManager.DataObjects
         private bool _enableAutoUpdate;
         private bool _enableLogBaloon = false;
         private bool _validateD3D = true;
+        private bool _macMode;
         private bool _cleanOnClosing;
         private bool _checkForUpdateOnScan;
         private bool _fullScreen;
@@ -94,6 +95,12 @@ namespace CustomsForgeSongManager.DataObjects
         {
             get { return _validateD3D; }
             set { SetPropertyField("ValidateD3D", ref _validateD3D, value); }
+        }
+
+        public bool MacMode
+        {
+            get { return _macMode; }
+            set { SetPropertyField("MacMode", ref _macMode, value); }
         }
 
         public bool CleanOnClosing
