@@ -98,6 +98,16 @@ namespace CustomsForgeSongManager.Forms
             Globals.Log(Constants.AppTitle);
             Globals.Log(GetRSTKLibVersion());
 
+            // initialize show log event handler before loading settings
+            AppSettings.Instance.PropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName == "ShowLogWindow")
+                {
+                    scMain.Panel2Collapsed = !AppSettings.Instance.ShowLogWindow;
+                    tsLabel_ShowHideLog.Text = scMain.Panel2Collapsed ? Properties.Resources.ShowLog : Properties.Resources.HideLog;
+                }
+            };
+            
             // load settings
             Globals.Settings.LoadSettingsFromFile(null); // null => workaround to prevent showing 'Loaded appSettings.xml file ...' 2X
 
@@ -114,22 +124,6 @@ namespace CustomsForgeSongManager.Forms
 #endif
             Constants.AppTitle = String.Format(strFormatVersion, Constants.ApplicationName, Constants.CustomVersion(), Constants.OnMac ? "MAC" : "PC");
             this.Text = Constants.AppTitle;
-
-            // show log
-            if (AppSettings.Instance.ShowLogWindow)
-            {
-                tsLabel_ShowHideLog.Text = Properties.Resources.HideLog;
-                scMain.Panel2Collapsed = false;
-            }
-
-            AppSettings.Instance.PropertyChanged += (s, e) =>
-            {
-                if (e.PropertyName == "ShowLogWindow")
-                {
-                    scMain.Panel2Collapsed = !AppSettings.Instance.ShowLogWindow;
-                    tsLabel_ShowHideLog.Text = scMain.Panel2Collapsed ? Properties.Resources.ShowLog : Properties.Resources.HideLog;
-                }
-            };
 
             this.Show();
             this.WindowState = AppSettings.Instance.FullScreen ? FormWindowState.Maximized : FormWindowState.Normal;

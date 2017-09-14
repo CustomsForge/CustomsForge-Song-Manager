@@ -15,6 +15,8 @@ until you can confirm it is safe by working directly with your AV provider.
 CFSM Release Notes
 
 1.4.1.0
+- updated toolkit lib
+- fixed initial show log condition
 - added Mac Compatibility Mode checkbox to 'Settings' tab to force Mac Mode even on a PC
 - added CFSM auto restart and rescan when OS compatibility mode changes
 
