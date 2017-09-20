@@ -70,7 +70,7 @@ namespace CustomsForgeSongManager.LocalTools
             // the installer forces the user to close the program before installing
             if (File.Exists(appSetupPath))
             {
-                GenExtensions.RunExtExe(appSetupPath, false, arguments: "-appupdat");
+                GenExtensions.RunExtExe(appSetupPath, false, arguments: "-appupdate");
                 return true;
             }
 
@@ -157,7 +157,7 @@ namespace CustomsForgeSongManager.LocalTools
                 }
                 catch (WebException ex)
                 {
-                    Globals.Log("DownloadVersionInfo Web exception: " + ex.Message + " ...");
+                    Globals.Log("DownloadVersionInfo Web Exception: " + ex.Message + " ...");
                 }
                 catch (NotSupportedException ex)
                 {
@@ -166,7 +166,7 @@ namespace CustomsForgeSongManager.LocalTools
                 Thread.Sleep(200);
             }
 
-            Globals.Log("DownloadVersInfo no internet connection detected ...");
+            Globals.Log("DownloadVersionInfo Web Exception: Connection Timed Out ...");
             VersOnline = NO_INTERNET;
         }
 
@@ -233,6 +233,7 @@ namespace CustomsForgeSongManager.LocalTools
                         if (_downloadError)
                             throw new WebException("The remote name could not be resolved: " + webUrl);
 
+                        Globals.Log("Successfully Downloaded WebApp: " + appFileName);
                         return true;
 
                         // alternate methods of download

@@ -1,5 +1,7 @@
+#include "ISPPBuiltins.iss"
 #include "genericInclude.iss"
 #include "idp.iss"; // downloader plugin script
+
 /////////////////////////////////////////////////////////////////////
 [Setup]
 ; TODO: SignTool=signtool
@@ -27,6 +29,7 @@ DefaultDirName={pf}\{#InstallDir}
 DefaultGroupName={#InstallGroup}
 OutputBaseFilename={#InstallerName}
 OutputDir={#OutputDirExe}
+
 /////////////////////////////////////////////////////////////////////
 ; Give OS write permisions to all app exe and library exe files
 [Files]
@@ -69,12 +72,16 @@ Source: {#buildpath}RocksmithToolkitLib.TuningDefinition.xml; DestDir: {app}; Fl
 Source: {#buildpath}zlib.net.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}D3DX9_42.dll.old; DestDir: {app}; Flags: ignoreversion
 Source: {#buildpath}D3DX9_42.dll.new; DestDir: {app}; Flags: ignoreversion
+Source: {#buildpath}ReleaseNotes.txt; DestDir: {app}; Flags: ignoreversion
 Source: "{#buildpath}ddc\*"; DestDir: "{app}\ddc"; Flags: ignoreversion recursesubdirs createallsubdirs; Permissions: everyone-full
 Source: {srcexe}; DestDir: {app}; DestName: {#InstallerName}.exe; Flags: ignoreversion external; Permissions: everyone-full
+Source: UnRar.exe; DestDir: {tmp}; Flags: dontcopy
+
 /////////////////////////////////////////////////////////////////////
 [Tasks]
 Name: desktopicon; Description: {cm:CreateDesktopIcon}; GroupDescription: {cm:AdditionalIcons};
 Name: quicklaunchicon; Description: {cm:CreateQuickLaunchIcon}; GroupDescription: {cm:AdditionalIcons}; Flags: unchecked; OnlyBelowVersion: 0,6.1
+
 ///////////////////////////////////////////////////////////////////// 
 [Run]
 Filename: {app}\{#AppExeName}; Description: "{cm:LaunchProgram, {%AppName}}"; Flags: nowait postinstall skipifsilent
@@ -84,26 +91,33 @@ Name: {group}\{#AppTitle}; Filename: {app}\{#AppExeName}; WorkingDir: {app}; Ico
 Name: {group}\{cm:UninstallProgram,{#AppTitle}}; Filename: {uninstallexe}; IconFilename: "{app}\uninstall.ico"
 Name: {commondesktop}\{#AppTitle}; Filename: {app}\{#AppExeName}; WorkingDir: {app}; IconFilename: {app}\{#AppExeName}; Tasks: desktopicon
 Name: {userappdata}\Microsoft\Internet Explorer\Quick Launch\{#AppTitle}; Filename: {app}\{#AppExeName}; Tasks: quicklaunchicon
+
 /////////////////////////////////////////////////////////////////////
 [InstallDelete]
 // cleanup the programs start group
 Type: files; Name: "{group}\*";
 Type: files; Name: "{group}\*";
+
 /////////////////////////////////////////////////////////////////////
 [UninstallDelete]
 Type: files; Name: {app}\Installation.log
 // Type: filesandordirs; Name: {app}\Template // uninstall user any created files/settings here
+
 /////////////////////////////////////////////////////////////////////
 [Code]
 const
   WM_COMMAND = $0111;
   CN_BASE = $BC00;
   CN_COMMAND = CN_BASE + WM_COMMAND;
+//  
+// Global Variables
+//
 var 
-	okToCopyLog, doneUninstall, runningWebUpdate, hasUpgrade: Boolean;
-  oldGuid, tmpUpdateLocation, tmpUpdateRarLocation, currentVersion, newVersion : String;
-	DownloadPageId : Integer;
-	UninstallPage: TWizardPage;
+  okToCopyLog, doneUninstall, runningWebUpdate, hasUpgrade: Boolean;
+  oldGuid, currentVersion, newVersion : String;
+  tmpUpdateLocation, tmpUpdateRarLocation : String;
+  DownloadPageId : Integer;
+  UninstallPage: TWizardPage;
 //
 // ============== Display a messagebox (used mainly for debugging) ===============
 //
@@ -275,35 +289,36 @@ end;
 //
 function UnRar(RarPath: String) : Boolean; 
 var
-	fn, args : String;
+  fn, args : String;
   ErrorCode: Integer;
 begin
-	Result := False;
+  Result := False;
   if VarIsClear(RarPath) then
     RaiseException(Format('RAR file "%s" does not exist or cannot be opened', [RarPath]));
 
-    ExtractTemporaryFiles('{tmp}\unRAR.exe');
-    fn := ExpandConstant('{tmp}\unRAR.exe');
-    if FileExists(fn)
-		then begin
-			args := 'e ' + RarPath;
-			// may need to run unRAR as Admin to avoid some AV issues
-	    // ShellExec('runas', fn, ExpandConstant(args), '', SW_HIDE, ewWaitUntilTerminated, ErrorCode);
-      Exec(fn, ExpandConstant(args), '', SW_HIDE, ewWaitUntilTerminated, ErrorCode);		
-			if ErrorCode <> 0 
-			then begin
-				ShowMessage('<ERROR> Could not extract ' + ExpandConstant(RarPath));
-			end else begin	
-				DeleteFile(fn);
-				Result := True;
-			end;	
-    end;
+  ExtractTemporaryFiles('{tmp}\UnRAR.exe');
+  fn := ExpandConstant('{tmp}\UnRAR.exe');
+  if FileExists(fn)
+  then begin
+    args := 'e ' + RarPath;
+    // may need to run UnRAR as Admin to avoid some AV issues
+    // ShellExec('runas', fn, ExpandConstant(args), '', SW_HIDE, ewWaitUntilTerminated, ErrorCode);
+    Exec(fn, ExpandConstant(args), '', SW_HIDE, ewWaitUntilTerminated, ErrorCode);		
+    if ErrorCode <> 0 
+    then begin
+      ShowMessage('<ERROR> Could not extract ' + ExpandConstant(RarPath));
+	  end else begin	
+	    DeleteFile(fn);
+	    Result := True;
+	  end;	
+  end;
 end;
 //
 // ============== Exit Process Smoothly ==============
 //
 procedure ExitProcess(exitCode:integer);
   external 'ExitProcess@kernel32.dll stdcall';
+//
 // ============== Do Something when next button is clicked ==============
 //
 function NextButtonClick(CurPageID: Integer): Boolean;
@@ -311,70 +326,79 @@ var
   ErrorCode: Integer;
   ucInstallerName : String;
 begin
-	// ShowMessage('Debugging NextButtonClick PageID:' + IntToStr(CurPageID));	
+  // ShowMessage('Debugging NextButtonClick PageID:' + IntToStr(CurPageID));	
   ucInstallerName :=  UpperCase(ExpandConstant('{#InstallerName}'));
   if CheckForMutexes('Global\' + ucInstallerName)
-	then begin
+  then begin
     ShowMessage('Application is running.' + #13#10 + 'It will need to be closed before installation continues.');
     Result := False;
     exit;
   end;
+  
   if not hasUpgrade
 	then begin
     Result := True;
     exit;
   end else begin
-    case CurPageID of
-			IDPForm.Page.Id: // IDP Form Page 101
-      begin
+    if (CurPageID =	IDPForm.Page.Id) // IDP Form Page 101
+    then begin
       WizardForm.Visible := False;
-        // may need to run webupdate as Admin to avoid some AV issues
+      hasUpgrade := UnRar(tmpUpdateRarLocation);
+      if hasUpgrade
+      then begin
+  	    // ShowMessage('tmpUpdateLocation: ' + tmpUpdateLocation);	
+        // may need to run webupdate as Admin to avoid some AV issues        
         if Exec(tmpUpdateLocation, '-webupdate', '', SW_SHOW, ewNoWait, ErrorCode)
-				then begin
+	      then begin
 	        ExitProcess(0);
         end else begin
-					WizardForm.Visible := true;
+	        ShowMessage('<ERROR> -webupdate failed ...');	
+          WizardForm.Visible := true;
         end;
+      end else begin
+   	    ShowMessage('<ERROR> UnRar updates failed ...');	
+	      WizardForm.Visible := true;
       end;
-		end;
+    end;
   end;
-	// move through wizard pages smoothly
-	Result := True;
+  // move through wizard pages smoothly
+  Result := True;
 end;
 //
 //  ============== Customize Current Page ==============
 //
 procedure CurPageChanged(CurPageID: Integer);
 begin
-	// ShowMessage('Debugging CurPageChanged PageID:' + IntToStr(CurPageID));	
- 	// wpWelcome
-	if (CurPageID = 1)
-	then begin
-		if hasUpgrade
-		then begin
-			WizardForm.Caption := ExpandConstant('Version ' + newVersion + ' is now available for download ...');	
-		end else begin
-		  WizardForm.Caption := ExpandConstant('{#AppTitle}') + ' (v'	+ currentVersion + ')';
-		end;
-		WizardForm.WelcomeLabel1.Caption := 'Welcome to CustomsForge' + #13#10 + 'Song Manager Setup';		
-		WizardForm.WelcomeLabel2.Font.Color := clBlue;
-		WizardForm.WelcomeLabel2.Font.Size := 10;
-		; WizardForm.WelcomeLabel2.Font.Style := [fsBold];
-		WizardForm.WelcomeLabel2.Caption := 'This will install ' + ExpandConstant('{#AppTitle}') + ' on your computer.' + #13#10 + #13#10 + 
-			'It is recommended that you close all other applications and disable any anti virus before continuing.';
-	end;
-	if (CurPageID = 6) and hasUpgrade
-	then begin
-		WizardForm.Caption := ExpandConstant('{#AppTitle}') + ' (v'	+ newVersion + ')';
-	end;
-	// wpFinished
-	if (CurPageID = 14)  
-	then begin
-		// ShowMessage('Debugging CurPageChanged PageID:' + IntToStr(CurPageID));	
-		WizardForm.FinishedHeadingLabel.Font.Size := 10;
-		WizardForm.FinishedHeadingLabel.Caption := 'Completed Installing CustomsForge' + #13#10 + 'Song Manager Setup';		
-		//WizardForm.FinishedLabel.Caption
-	end;
+  // ShowMessage('Debugging CurPageChanged PageID:' + IntToStr(CurPageID));	
+  // wpWelcome
+  if (CurPageID = 1)
+  then begin
+	  if hasUpgrade
+	  then begin
+      WizardForm.Caption := ExpandConstant('Version ' + newVersion + ' is now available for download ...');	
+	  end else begin
+	    WizardForm.Caption := ExpandConstant('{#AppTitle}') + ' (v'	+ currentVersion + ')';
+	  end;	  
+    WizardForm.WelcomeLabel1.Caption := 'Welcome to CustomsForge' + #13#10 + 'Song Manager Setup';		
+	  WizardForm.WelcomeLabel2.Font.Color := clBlue;
+	  WizardForm.WelcomeLabel2.Font.Size := 10;
+	  ; WizardForm.WelcomeLabel2.Font.Style := [fsBold];
+	  WizardForm.WelcomeLabel2.Caption := 'This will install ' + ExpandConstant('{#AppTitle}') + ' on your computer.' + #13#10 + #13#10 + 
+	  'It is recommended that you close all other applications and disable any anti virus before continuing.';
+  end;
+  
+  if (CurPageID = 6) and hasUpgrade
+  then begin
+ 	  WizardForm.Caption := ExpandConstant('{#AppTitle}') + ' (v'	+ newVersion + ')';
+  end;
+  
+  if (CurPageID = 14) // wpFinished
+  then begin
+	  // ShowMessage('Debugging CurPageChanged PageID:' + IntToStr(CurPageID));	
+	  WizardForm.FinishedHeadingLabel.Font.Size := 10;
+	  WizardForm.FinishedHeadingLabel.Caption := 'Completed Installing CustomsForge' + #13#10 + 'Song Manager Setup';		
+	  //WizardForm.FinishedLabel.Caption
+  end;
 end;
 //
 // ============== Save Installation Log File ==============
@@ -405,17 +429,16 @@ var
  fn : String;
 begin
   if OldVersionInstalled and not doneUninstall 
-	then begin
-		// REVISE As Needed
+  then begin
+    // REVISE As Needed
     ExtractTemporaryFiles('{tmp}\ClickOnceUninstaller.exe');
     fn := ExpandConstant('{tmp}\ClickOnceUninstaller.exe');
     if FileExists(fn) 
-		then begin
-		  // may need to run as Admin to avoid some AV issues
+	  then begin
+	    // may need to run as Admin to avoid some AV issues
       Exec(fn, '', '', SW_HIDE, ewWaitUntilTerminated, ErrorCode);
       DeleteFile(fn);
     end;
-		
   end;
   doneUninstall := true;
   Result := true;
@@ -434,19 +457,19 @@ begin
 
     with TNewStaticText.Create(UninstallPage) do
     begin
-        Parent := UninstallPage.Surface;
-        Caption := 'Click the next button to uninstall the old version.';
-        Left := ScaleX(0);
-        Top := ScaleY(10);
-        Width := ScaleX(400);
-        Height := ScaleY(14);
-        AutoSize := False;
+      Parent := UninstallPage.Surface;
+      Caption := 'Click the next button to uninstall the old version.';
+      Left := ScaleX(0);
+      Top := ScaleY(10);
+      Width := ScaleX(400);
+      Height := ScaleY(14);
+      AutoSize := False;
     end;
 
   with UninstallPage do
   begin
-      OnShouldSkipPage    := @UninstallShouldSkipPage;
-      OnNextButtonClick   := @UninstallNextButtonClick;
+    OnShouldSkipPage    := @UninstallShouldSkipPage;
+    OnNextButtonClick   := @UninstallNextButtonClick;
   end;
 end;
 //
@@ -455,18 +478,17 @@ end;
 procedure InitializeWizard();
 var
   updateLoc, updateUrl : String;
-	DownloadStep, i : Integer;
-	sl:TStringlist;
+  DownloadStep, i : Integer;
+  sl:TStringlist;
   DownloadPage: TWizardPage;
   urlLabel : TNewStaticText;	
 begin
-	//ShowMessage('Running InitializeWizard ...');
+  //ShowMessage('Running InitializeWizard ...');
+  // as needed uninstall some old application
+  oldGuid := '73e8aceb7ff35be2'
   currentVersion := ExpandConstant('{#AppVersion}');
   DownloadStep := wpWelcome;
-
-	// as needed uninstall some old application
-	oldGuid := '73e8aceb7ff35be2'
-	CreateUninstallPage();
+  CreateUninstallPage();
   if OldVersionInstalled then
      DownloadStep := UninstallPage.Id;
 
@@ -491,42 +513,42 @@ begin
 #IFDEF DOUPDATE
 //don't check for updates when -webupdate is located in the command line params.
   if not runningWebUpdate
-	then begin
+  then begin
     updateLoc :=  ExpandConstant('{tmp}\update.txt');
     //check for an update
     if idpDownloadFile('{#VersionInfoLocation}', updateLoc)
-		then begin
+	  then begin
       //ShowMessage('Successfully Downloaded ' + updateLoc);
       sl := TStringlist.Create;
       sl.LoadFromFile(updateLoc);
       if sl.count > 0
-			then begin
+      then begin
         for i := 0 to sl.count -1 do
         begin
-           if sl[i] <> '' 
-		  			then begin
-              newVersion := sl[i];
-              break;
-           end;
+          if sl[i] <> '' 
+		      then begin
+            newVersion := sl[i];
+            break;
+          end;
         end;
        
-        updateUrl := ExpandConstant('{#LatestVersionDowload}');		
+        updateUrl := ExpandConstant('{#LatestVersionDownload}');		
         hasUpgrade := CompareVersion(currentVersion, newVersion) < 0;        
         if hasUpgrade
         then begin
           tmpUpdateRarLocation := ExpandConstant('{tmp}\' + ExpandConstant('{#InstallerName}') + '_'+ newVersion+ '.rar');
           tmpUpdateLocation := ExpandConstant('{tmp}\' + ExpandConstant('{#InstallerName}') + '.exe');
-					// add files to downloader
-					idpAddFile(updateUrl, tmpUpdateRarLocation);				
-					// create a custom (idp) download page							
-					DownloadPageId := idpCreateDownloadForm(DownloadStep);
-					DownloadPage := PageFromID(DownloadPageId);
-					DownloadPage.Caption := ExpandConstant('{#InstallerName} Downloader ...');
-					DownloadPage.Description := ExpandConstant('Setup is downloading a new version of {#AppTitle} ...');
-					idpSetOption('DetailsVisible', '1');					
-					idpConnectControls();	
-					idpInitMessages();
-				end;
+          // add files to downloader
+		      idpAddFile(updateUrl, tmpUpdateRarLocation);				
+		      // create a custom (idp) download page							
+          DownloadPageId := idpCreateDownloadForm(DownloadStep);
+		      DownloadPage := PageFromID(DownloadPageId);
+		      DownloadPage.Caption := ExpandConstant('{#InstallerName} Downloader ...');
+		      DownloadPage.Description := ExpandConstant('Setup is downloading a new version of {#AppTitle} ...');
+		      idpSetOption('DetailsVisible', '1');					
+		      idpConnectControls();	
+		      idpInitMessages();
+		    end;
       end;
       sl.Free;
     end;
@@ -616,5 +638,5 @@ begin
 		end;
 	end;	
 end;
-//
+// Really THE END
 end;

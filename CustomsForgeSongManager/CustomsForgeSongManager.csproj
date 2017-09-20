@@ -703,7 +703,7 @@ REM spacing around == and ( is important
 REM upper lower case is important for Directory and File names
 
 if $(ConfigurationName) ==InnoRelease (
-  CD "$(SolutionDir)ThirdParty\CFSM_Release_Setup\"
+  CD "$(SolutionDir)ThirdParty\CFSM_Setup_Release\"
   DEL /Q *.txt
   DEL /Q *.exe
   DEL /Q *.rar
@@ -719,19 +719,18 @@ if $(ConfigurationName) ==InnoRelease (
 rem must be connected to internet for signtool to work properly
 rem CD "$(ProjectDir)bin\ConfuserEx\"
 rem "%25programfiles%25\Microsoft SDKs\Windows\v7.0A\bin\signtool.exe"  sign /f CFSM_Certificate.pfx /p cozylov /t http://timestamp.verisign.com/scripts/timstamp.dll CustomsForgeSongManager.exe
-rem "CFSMPostBuilder.exe" "UPLOAD" "198.58.96.81" "appdev" "7eCheQ+bu+heRevu"
 
   CD "$(SolutionDir)ThirdParty\Inno_bin\"
  "ISCC.exe" "$(SolutionDir)ThirdParty\InnoScripts\genericInstaller.iss"
 
-  CD "$(SolutionDir)ThirdParty\CFSM_Release_Setup\"   
+  CD "$(SolutionDir)ThirdParty\CFSM_Setup_Release\"   
   "D:\Program Files\WinRAR\WinRar.exe" a -r "CFSMSetup.rar" "CFSMSetup.exe"
   COPY /Y "$(TargetDir)ReleaseNotes.txt" "ReleaseNotes.txt"
   COPY /Y "$(SolutionDir)ThirdParty\VersionInfo.txt" "VersionInfo.txt"
 )
 
 if $(ConfigurationName) ==InnoBeta (
-  CD "$(SolutionDir)ThirdParty\CFSM_Beta_Setup\"
+  CD "$(SolutionDir)ThirdParty\CFSM_Setup_Beta\"
   DEL /Q *.txt
   DEL /Q *.exe
   DEL /Q *.rar
@@ -747,13 +746,12 @@ if $(ConfigurationName) ==InnoBeta (
 rem must be connected to internet for signtool to work properly
 rem CD "$(ProjectDir)bin\ConfuserEx\"
 rem "%25programfiles%25\Microsoft SDKs\Windows\v7.0A\bin\signtool.exe"  sign /f CFSM_Certificate.pfx /p cozylov /t http://timestamp.verisign.com/scripts/timstamp.dll CustomsForgeSongManager.exe
-rem "CFSMPostBuilder.exe" "UPLOAD" "198.58.96.81/beta/" "appdev" "kvPSF7HL"
 
   CD "$(SolutionDir)ThirdParty\Inno_bin\"
  "ISCC.exe" /DBETA "$(SolutionDir)ThirdParty\InnoScripts\genericInstaller.iss"
 
-  CD "$(SolutionDir)ThirdParty\CFSM_Beta_Setup\"   
-  "D:\Program Files\WinRAR\WinRar.exe" a -r "CFSMSetup.rar" "CFSMSetup.exe"
+  CD "$(SolutionDir)ThirdParty\CFSM_Setup_Beta\"   
+  "D:\Program Files\WinRAR\WinRar.exe" a -r "CFSMSetupBeta.rar" "CFSMSetup.exe"
   COPY /Y "$(TargetDir)ReleaseNotes.txt" "ReleaseNotes.txt"
   COPY /Y "$(SolutionDir)ThirdParty\VersionInfo.txt" "VersionInfo.txt"
 )

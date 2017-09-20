@@ -107,7 +107,7 @@ namespace CustomsForgeSongManager.Forms
                     tsLabel_ShowHideLog.Text = scMain.Panel2Collapsed ? Properties.Resources.ShowLog : Properties.Resources.HideLog;
                 }
             };
-            
+
             // load settings
             Globals.Settings.LoadSettingsFromFile(null); // null => workaround to prevent showing 'Loaded appSettings.xml file ...' 2X
 
@@ -392,28 +392,33 @@ namespace CustomsForgeSongManager.Forms
         private void frmMain_Load(object sender, EventArgs e)
         {
 #if RELEASE
-            const string UpdateURL = "http://ignition.customsforge.com/cfsm_uploads";
+            const string serverUrl = "http://ignition.customsforge.com/cfsm_uploads";
+            const string appArchive = "CFSMSetup.rar";
 #else
-            const string UpdateURL = "http://ignition.customsforge.com/cfsm_uploads/beta";
+            const string serverUrl = "http://ignition.customsforge.com/cfsm_uploads/beta";
+            const string appArchive = "CFSMSetupBeta.rar";
 #endif
 
-            const string versInfoUrl = UpdateURL + "/VersionInfo.txt";
-            const string appExe = "CustomsForgeSongManager.exe";
             const string appSetup = "CFSMSetup.exe";
+            const string appExe = "CustomsForgeSongManager.exe";
             var appExePath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), appExe);
+            var versInfoUrl = String.Format("{0}/{1}", serverUrl, "VersionInfo.txt");
 
             if (AppSettings.Instance.EnableAutoUpdate)
                 if (AutoUpdater.NeedsUpdate(appExePath, versInfoUrl))
                 {
-                    if (File.Exists(appSetup))
-                        System.Diagnostics.Process.Start(appSetup, "-appupdate");
-                    else
-                        MessageBox.Show(appSetup + " not found, please download the program again.");
+                    var tempDir = Path.GetTempPath();
+                    var downloadUrl = String.Format("{0}/{1}", serverUrl, appArchive);
+
+                    if (AutoUpdater.DownloadWebApp(downloadUrl, appArchive, tempDir))
+                        if (ZipUtilities.UnrarDir(Path.Combine(tempDir, appArchive), tempDir))
+                            Process.Start(Path.Combine(tempDir, appSetup), "-appupdate");
+                        else
+                            MessageBox.Show(appSetup + " not found ..." + Environment.NewLine + "Please manually download CFSM from the webpage.");
                 }
         }
 
         private delegate void DoSomethingWithGridSelectionAction(DataGridView dg, IEnumerable<DataGridViewRow> selected, DataGridViewColumn colSel, List<int> IgnoreColums);
-
         private void DoSomethingWithGrid(DoSomethingWithGridSelectionAction action)
         {
             if (action != null && currentControl != null && currentControl is IDataGridViewHolder)
@@ -917,6 +922,7 @@ namespace CustomsForgeSongManager.Forms
         {
             AnalyzerExport("json");
         }
+
 
     }
 }
