@@ -8,11 +8,10 @@ using System.Windows.Forms;
 using System.Xml.Serialization;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
+using CustomsForgeSongManager.DataObjects;
 using GenTools;
 using CFSM.ImageTools;
 using CFSM.NCalc;
-using CustomsForgeSongManager.DataObjects;
-
 
 namespace CustomsForgeSongManager.LocalTools
 {

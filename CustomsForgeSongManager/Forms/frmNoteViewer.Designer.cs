@@ -43,7 +43,7 @@
             this.rtbText.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rtbText.Location = new System.Drawing.Point(25, 21);
             this.rtbText.Name = "rtbText";
-            this.rtbText.Size = new System.Drawing.Size(516, 367);
+            this.rtbText.Size = new System.Drawing.Size(619, 367);
             this.rtbText.TabIndex = 1;
             this.rtbText.Text = "This is a generic Rich Textbox Note Viewer";
             // 
@@ -53,7 +53,7 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCopyToClipboard.Location = new System.Drawing.Point(221, 411);
             this.btnCopyToClipboard.Name = "btnCopyToClipboard";
-            this.btnCopyToClipboard.Size = new System.Drawing.Size(115, 23);
+            this.btnCopyToClipboard.Size = new System.Drawing.Size(218, 23);
             this.btnCopyToClipboard.TabIndex = 2;
             this.btnCopyToClipboard.Text = "Copy to Clipboard";
             this.btnCopyToClipboard.UseVisualStyleBackColor = true;
@@ -67,14 +67,14 @@
             this.rtbBlank.BackColor = System.Drawing.SystemColors.Window;
             this.rtbBlank.Location = new System.Drawing.Point(12, 12);
             this.rtbBlank.Name = "rtbBlank";
-            this.rtbBlank.Size = new System.Drawing.Size(533, 384);
+            this.rtbBlank.Size = new System.Drawing.Size(636, 384);
             this.rtbBlank.TabIndex = 31;
             this.rtbBlank.Text = "";
             // 
             // frmNoteViewer
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(557, 449);
+            this.ClientSize = new System.Drawing.Size(660, 449);
             this.Controls.Add(this.rtbText);
             this.Controls.Add(this.rtbBlank);
             this.Controls.Add(this.btnCopyToClipboard);

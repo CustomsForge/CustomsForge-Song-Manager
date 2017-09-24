@@ -13,14 +13,11 @@ using RocksmithToolkitLib;
 using RocksmithToolkitLib.DLCPackage;
 using RocksmithToolkitLib.Extensions;
 using RocksmithToolkitLib.XmlRepository;
-using Arrangement = CustomsForgeSongManager.DataObjects.Arrangement;
-using RocksmithToolkitLib.Sng;
 using RocksmithToolkitLib.XML;
 using RocksmithToolkitLib.Sng2014HSL;
 using RocksmithToolkitLib.DLCPackage.Manifest2014;
 using Newtonsoft.Json;
-using GenTools;
-using System.Windows.Forms;
+using Arrangement = CustomsForgeSongManager.DataObjects.Arrangement;
 
 namespace CustomsForgeSongManager.LocalTools
 {

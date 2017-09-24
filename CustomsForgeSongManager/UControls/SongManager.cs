@@ -6,20 +6,18 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
 using CustomControls;
-using GenTools;
 using CustomsForgeSongManager.DataObjects;
 using CustomsForgeSongManager.Forms;
 using CustomsForgeSongManager.LocalTools;
 using CustomsForgeSongManager.SongEditor;
 using CustomsForgeSongManager.UITheme;
+using GenTools;
 using DataGridViewTools;
 using Newtonsoft.Json;
 using System.Xml;
-using Globals = CustomsForgeSongManager.DataObjects.Globals;
 
 // TODO: apply Lovro's SongCollection rescan/updated as a generic method to
 // replace usages of Globals.ReloadSongManager or RescanSongManager = true

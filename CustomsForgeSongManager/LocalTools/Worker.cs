@@ -6,11 +6,11 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using GenTools;
 using CustomsForgeSongManager.DataObjects;
-using CustomsForgeSongManager.Properties;
+using GenTools;
 using RocksmithToolkitLib;
 using RocksmithToolkitLib.XmlRepository;
+using CustomsForgeSongManager.Properties;
 
 //
 // Reusable background worker class for parsing songs

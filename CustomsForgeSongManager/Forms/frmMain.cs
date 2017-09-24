@@ -6,22 +6,15 @@ using System.Reflection;
 using System.Linq;
 using System.Text;
 using System.Collections.Generic;
-using GenTools;
 using CustomsForgeSongManager.DataObjects;
 using CustomsForgeSongManager.LocalTools;
 using CustomsForgeSongManager.UITheme;
-using RocksmithToolkitLib.XML;
-using RocksmithToolkitLib.DLCPackage;
-using RocksmithToolkitLib.PsarcLoader;
-using RocksmithToolkitLib;
+using GenTools;
 using System.Diagnostics;
-using DGVTools = DataGridViewTools;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Text.RegularExpressions;
-using CustomControls;
 using System.ComponentModel;
-
 
 // NOTE: the app is designed for default user screen resolution of 1024x768
 // dev screen resolution should be set to this when designing forms and controls
@@ -89,7 +82,7 @@ namespace CustomsForgeSongManager.Forms
             Globals.MyLog.AddTargetTextBox(tbLog);
             //    Globals.CFMTheme.AddListener(this);
 
-            Globals.OnScanEvent += (s, e) => { tcMain.InvokeIfRequired(a => { tcMain.Enabled = !e.IsScanning; }); };
+            Globals.OnScanEvent += (s, e) => { GenExtensions.InvokeIfRequired(tcMain, a => { tcMain.Enabled = !e.IsScanning; }); };
 
             // verify application directory structure
             FileTools.VerifyCfsmFolders();
@@ -119,9 +112,10 @@ namespace CustomsForgeSongManager.Forms
 #if RELEASE
             strFormatVersion = "{0} (v{1} - {2} RELEASE VERSION)";
 #endif
-#if DEBUG
-            strFormatVersion = "{0} (v{1} - {2} DEBUG)";
-#endif
+
+            if (Constants.DebugMode)
+                strFormatVersion = "{0} (v{1} - {2} DEBUG)";
+
             Constants.AppTitle = String.Format(strFormatVersion, Constants.ApplicationName, Constants.CustomVersion(), Constants.OnMac ? "MAC" : "PC");
             this.Text = Constants.AppTitle;
 
@@ -389,33 +383,50 @@ namespace CustomsForgeSongManager.Forms
             ShowHideLog();
         }
 
-        private void frmMain_Load(object sender, EventArgs e)
+        private void frmMain_Load(object sender, EventArgs e) // done after frmMain()
         {
+#if AUTOUPDATE
+            //TODO: add Mac Autoupdate
 #if RELEASE
             const string serverUrl = "http://ignition.customsforge.com/cfsm_uploads";
             const string appArchive = "CFSMSetup.rar";
-#else
+#endif
+#if BETA
             const string serverUrl = "http://ignition.customsforge.com/cfsm_uploads/beta";
             const string appArchive = "CFSMSetupBeta.rar";
 #endif
 
-            const string appSetup = "CFSMSetup.exe";
-            const string appExe = "CustomsForgeSongManager.exe";
-            var appExePath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), appExe);
-            var versInfoUrl = String.Format("{0}/{1}", serverUrl, "VersionInfo.txt");
-
             if (AppSettings.Instance.EnableAutoUpdate)
+            {
+                const string appSetup = "CFSMSetup.exe";
+                const string appExe = "CustomsForgeSongManager.exe";
+                var appExePath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), appExe);
+                var versInfoUrl = String.Format("{0}/{1}", serverUrl, "VersionInfo.txt");
+
                 if (AutoUpdater.NeedsUpdate(appExePath, versInfoUrl))
                 {
-                    var tempDir = Path.GetTempPath();
+                    Globals.Log("Downloading WebApp: " + appArchive + " ...");
+                    var tempDir = Constants.TempWorkFolder;
                     var downloadUrl = String.Format("{0}/{1}", serverUrl, appArchive);
 
                     if (AutoUpdater.DownloadWebApp(downloadUrl, appArchive, tempDir))
+                    {
                         if (ZipUtilities.UnrarDir(Path.Combine(tempDir, appArchive), tempDir))
-                            Process.Start(Path.Combine(tempDir, appSetup), "-appupdate");
+                        {
+                            Process proc = new Process();
+                            proc.StartInfo.FileName = Path.Combine(tempDir, appSetup);
+                            proc.StartInfo.Arguments = "-appupdate";
+                            proc.Start();
+                            // Kill app abruptly so InnoSetup completes
+                            // DO NOT use Application.Exit     
+                            Environment.Exit(0);                        
+                        }
                         else
                             MessageBox.Show(appSetup + " not found ..." + Environment.NewLine + "Please manually download CFSM from the webpage.");
+                    }
                 }
+            }
+#endif
         }
 
         private delegate void DoSomethingWithGridSelectionAction(DataGridView dg, IEnumerable<DataGridViewRow> selected, DataGridViewColumn colSel, List<int> IgnoreColums);
@@ -759,7 +770,7 @@ namespace CustomsForgeSongManager.Forms
 
                     foreach (var songRow in dgvSelection)
                     {
-                        var song = DGVTools.DgvExtensions.GetObjectFromRow<SongData>(songRow);
+                        var song = DataGridViewTools.DgvExtensions.GetObjectFromRow<SongData>(songRow);
 
                         string s = song.Artist + " - " + song.Title;
                         var statPairList = new List<StatPair>();

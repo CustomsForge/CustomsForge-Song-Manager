@@ -2,7 +2,7 @@
 #define AppGUID "58F35625-541C-493A-A289-4B2D362DAFE0"
 #define AppWebsite "http://customsforge.com/"
 #define AppExeName "CustomsForgeSongManager.exe"
-#define AppCopyright "CF © 2017"
+#define AppCopyright "CustomsForge © 2017"
 #define AppCompany "CustomsForge"
 #define InstallGroup "CustomsForge Song Manager"; // Start Menu
 #define InstallDir "CustomsForgeSongManager"; // Programs sub folder
@@ -12,12 +12,12 @@
 
 /////////////////////////////////////////////////////////////////////
 #ifdef BETA
-#define BaseUpdateURL "http://appdev.cfmanager.com/beta"
-#define OutputDirExe SourcePath +"..\..\ThirdParty\CFSM_Setup_Beta\"
+#define BaseUpdateURL "http://ignition.customsforge.com/cfsm_uploads/beta"
+#define OutputDirExe SourcePath + "..\..\ThirdParty\CFSM_Setup_Beta\"
 #define AppTitle "CustomsForge Song Manager - Beta Version"
 #define LatestVersionDownload BaseUpdateURL + "/CFSMSetupBeta.rar"
 #else
-#define BaseUpdateURL "http://appdev.cfmanager.com"
+#define BaseUpdateURL "http://ignition.customsforge.com/cfsm_uploads"
 #define OutputDirExe SourcePath +"..\..\ThirdParty\CFSM_Setup_Release\"
 #define AppTitle "CustomsForge Song Manager - Release Version"
 #define LatestVersionDownload BaseUpdateURL + "/CFSMSetup.rar"

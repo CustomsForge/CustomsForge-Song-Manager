@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.IO;
 using RocksmithToolkitLib.XmlRepository;
-using RocksmithToolkitLib.DLCPackage;
 
 namespace CustomsForgeSongManager.LocalTools
 {

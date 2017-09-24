@@ -221,7 +221,30 @@ namespace GenTools
 
             return list;
         }
+
     }
-
-
 }
+
+
+// used with AsyncDownload
+//webClient.DownloadFileCompleted -= new AsyncCompletedEventHandler(wcCompleted);
+//webClient.DownloadProgressChanged -= new DownloadProgressChangedEventHandler(wcProgressChanged);
+//webClient.DownloadFileCompleted += new AsyncCompletedEventHandler(wcCompleted);
+//webClient.DownloadProgressChanged += new DownloadProgressChangedEventHandler(wcProgressChanged);
+//webClient.DownloadFileAsync(new Uri(webUrl), Path.Combine(downloadDir, appFileName));
+
+//Task task = Task.Factory.StartNew(() => webClient.DownloadFileAsync(new Uri(webUrl), Path.Combine(downloadDir, appFileName)));
+//// this method may not be desirable but at least the GUI stays responsive during task
+//while (!task.IsCompleted)
+//{
+//    Application.DoEvents();
+//    Thread.Sleep(100);
+//}
+
+//if (task.IsCanceled || !task.IsFaulted)
+//    Globals.Log("Download ... FAILED");
+//else
+//{
+//    Globals.Log("Download ... SUCCESSFUL");
+//    return true;
+//} 

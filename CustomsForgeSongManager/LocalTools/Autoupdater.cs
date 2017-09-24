@@ -11,20 +11,21 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 using CustomControls;
-using GenTools;
 using CustomsForgeSongManager.DataObjects;
-using CustomsForgeSongManager.Forms;
+using GenTools;
 using RocksmithToolkitLib;
 
 namespace CustomsForgeSongManager.LocalTools
 {
     public class AutoUpdater
     {
-        private const string NO_INTERNET = "No Internet Connection";
         private const string NOT_FOUND = "Not Found";
-        private static string _versOnline;
+        private const string NO_INTERNET = "No Internet Connection";
+        private static bool _downloadComplete;
+        private static bool _downloadError;
         private static DateTime _lastCheck = default(DateTime);
         private static string _versInfoUrl;
+        private static string _versOnline;
 
         public static string ReleaseNotes { get; private set; }
 
@@ -49,33 +50,123 @@ namespace CustomsForgeSongManager.LocalTools
             }
         }
 
-        public static string VersInstalled(string appExePath)
+        public static bool DownloadWebApp(string webUrl, string appFileName, string downloadDir, int attempts = 4)
         {
-            if (!File.Exists(appExePath))
-                return NOT_FOUND;
-
-            var versInfo = FileVersionInfo.GetVersionInfo(appExePath);
-            var fileVersion = versInfo.FileVersion;
-            var productVersion = versInfo.ProductVersion;
-
-            if (String.IsNullOrEmpty(productVersion))
-                return NOT_FOUND;
-
-            return productVersion;
-        }
-
-        public static bool UpdateWithInno(string appSetupPath)
-        {
-            // updating is handled by Inno Setup Installer
-            // the installer forces the user to close the program before installing
-            if (File.Exists(appSetupPath))
+            for (int i = 0; i < attempts; i++)
             {
-                GenExtensions.RunExtExe(appSetupPath, false, arguments: "-appupdate");
-                return true;
+                try
+                {
+                    using (var webClient = new WebClient())
+                    {
+                        // async download with progress
+                        _downloadComplete = false;
+                        _downloadError = false;
+                        webClient.DownloadFileCompleted += new AsyncCompletedEventHandler(wcCompleted);
+                        webClient.DownloadProgressChanged += new DownloadProgressChangedEventHandler(wcProgressChanged);
+                        webClient.DownloadFileAsync(new Uri(webUrl), Path.Combine(downloadDir, appFileName));
+
+                        while (!_downloadComplete && !_downloadError)
+                        {
+                            Application.DoEvents();
+                            Thread.Sleep(100);
+                        }
+
+                        if (_downloadError)
+                            throw new WebException("The remote name could not be resolved: " + webUrl);
+
+                        Globals.Log("Successfully Downloaded WebApp: " + appFileName);
+                        return true;
+
+                        // alternate methods of download
+                        // direct download - no feedback
+                        //webClient.DownloadFile(webUrl, Path.Combine(downloadDir, appFileName));
+
+                        // pooling data prevents writing an empty file - no feedback
+                        //byte[] downloadedBytes = webClient.DownloadData(webUrl);
+
+                        //if (downloadedBytes.Length != 0)
+                        //{
+                        //    Stream file = File.Open(Path.Combine(downloadDir, appFileName), FileMode.Create);
+                        //    file.Write(downloadedBytes, 0, downloadedBytes.Length);
+                        //    file.Close();
+                        //    return true;
+                        //}
+                    }
+                }
+                catch (WebException ex)
+                {
+                    Globals.Log("DownloadWebApp Web Exception: " + ex.Message + " ...");
+                }
+                catch (NotSupportedException ex)
+                {
+                    Globals.Log("DownloadWebApp Not Supported Exception: " + ex.Message + " ...");
+                }
+                Thread.Sleep(200);
             }
 
-            MessageBox.Show(Path.GetFileName(appSetupPath) + " not found, please download the program again.");
+            Globals.Log("DownloadWebApp no internet connection detected ...");
             return false;
+        }
+
+        public static List<string> ExtractUrlData(string webUrl, string extractSwitch = "", int attempts = 4)
+        {
+            var urlLinks = new List<string>();
+            var webClient = new WebClient();
+
+            for (int i = 0; i < attempts; i++)
+            {
+                try
+                {
+                    byte[] buffer = webClient.DownloadData(webUrl);
+                    string htmlSource = Encoding.UTF8.GetString(buffer, 0, buffer.Length);
+                    List<string> links = DataExtractor.Extract(htmlSource, extractSwitch);
+
+                    foreach (var link in links)
+                    {
+                        urlLinks.Add(link);
+                    }
+
+                    return urlLinks;
+                }
+                catch (WebException ex)
+                {
+                    Globals.Log("ExtractUrlData Web Exception: " + ex.Message + " ...");
+                }
+                catch (NotSupportedException ex)
+                {
+                    Globals.Log("ExtractUrlData Not Supported Exception: " + ex.Message + " ...");
+                }
+                Thread.Sleep(200);
+            }
+
+            Globals.Log("ExtractUrlData no internet connection detected ...");
+            return urlLinks;
+        }
+
+        public static bool IsTlsCompat(string appName)
+        {
+            // requires Net 4.5, or Win7 and IE8
+            // use TLS 1.2 protocol if available
+            // ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072;
+
+            // check system config, some websites e.g. http://www.rscustom.net/ require TSL 1.2 compatible browswer
+            var errMsg = String.Empty;
+            var ieVers = SysExtensions.GetBrowserVersion(SysExtensions.GetInternetExplorerVersion());
+            if (ieVers < 8.0)
+                errMsg = "Internet Explorer 8 or greater is required";
+
+            var sysVers = SysExtensions.MajorVersion + (double)SysExtensions.MinorVersion / 10;
+            if (sysVers < 6.1)
+                errMsg = !String.IsNullOrEmpty(errMsg) ? errMsg + Environment.NewLine + "and OS Windows 7 or greater is required" : "OS Windows 7 or greater is required";
+
+            if (!String.IsNullOrEmpty(errMsg))
+            {
+                errMsg = errMsg + Environment.NewLine + "to download " + appName;
+                BetterDialog2.ShowDialog(errMsg, "Incompatible System Configuration", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning", 150, 150);
+                return false;
+            }
+
+            return true;
         }
 
         public static bool NeedsUpdate(string appExePath, string versInfoUrl)
@@ -132,6 +223,55 @@ namespace CustomsForgeSongManager.LocalTools
             }
 
             return false;
+        }
+
+        public static bool SilentUrl(string webUrl)
+        {
+            try
+            {
+                WebClient client = new WebClient();
+                Stream data = client.OpenRead(webUrl);
+                StreamReader reader = new StreamReader(data);
+                string s = reader.ReadToEnd();
+                data.Close();
+                s = reader.ReadToEnd();
+                reader.Close();
+            }
+            catch
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public static bool UpdateWithInno(string appSetupPath)
+        {
+            // updating is handled by Inno Setup Installer
+            // the installer forces the user to close the program before installing
+            if (File.Exists(appSetupPath))
+            {
+                GenExtensions.RunExtExe(appSetupPath, false, arguments: "-appupdate");
+                return true;
+            }
+
+            MessageBox.Show(Path.GetFileName(appSetupPath) + " not found, please download the program again.");
+            return false;
+        }
+
+        public static string VersInstalled(string appExePath)
+        {
+            if (!File.Exists(appExePath))
+                return NOT_FOUND;
+
+            var versInfo = FileVersionInfo.GetVersionInfo(appExePath);
+            var fileVersion = versInfo.FileVersion;
+            var productVersion = versInfo.ProductVersion;
+
+            if (String.IsNullOrEmpty(productVersion))
+                return NOT_FOUND;
+
+            return productVersion;
         }
 
         private static void DownloadVersInfo(string versionUrl, int attempts = 4)
@@ -206,152 +346,29 @@ namespace CustomsForgeSongManager.LocalTools
             }
         }
 
-        private static bool _downloadComplete;
-        private static bool _downloadError;
-
-        public static bool DownloadWebApp(string webUrl, string appFileName, string downloadDir, int attempts = 4)
-        {
-            for (int i = 0; i < attempts; i++)
-            {
-                try
-                {
-                    using (var webClient = new WebClient())
-                    {
-                        // async download with progress
-                        _downloadComplete = false;
-                        _downloadError = false;
-                        webClient.DownloadFileCompleted += new AsyncCompletedEventHandler(wcCompleted);
-                        webClient.DownloadProgressChanged += new DownloadProgressChangedEventHandler(wcProgressChanged);
-                        webClient.DownloadFileAsync(new Uri(webUrl), Path.Combine(downloadDir, appFileName));
-
-                        while (!_downloadComplete && !_downloadError)
-                        {
-                            Application.DoEvents();
-                            Thread.Sleep(100);
-                        }
-
-                        if (_downloadError)
-                            throw new WebException("The remote name could not be resolved: " + webUrl);
-
-                        Globals.Log("Successfully Downloaded WebApp: " + appFileName);
-                        return true;
-
-                        // alternate methods of download
-                        // direct download - no feedback
-                        //webClient.DownloadFile(webUrl, Path.Combine(downloadDir, appFileName));
-
-                        // pooling data prevents writing an empty file - no feedback
-                        //byte[] downloadedBytes = webClient.DownloadData(webUrl);
-
-                        //if (downloadedBytes.Length != 0)
-                        //{
-                        //    Stream file = File.Open(Path.Combine(downloadDir, appFileName), FileMode.Create);
-                        //    file.Write(downloadedBytes, 0, downloadedBytes.Length);
-                        //    file.Close();
-                        //    return true;
-                        //}
-                    }
-                }
-                catch (WebException ex)
-                {
-                    Globals.Log("DownloadWebApp Web Exception: " + ex.Message + " ...");
-                }
-                catch (NotSupportedException ex)
-                {
-                    Globals.Log("DownloadWebApp Not Supported Exception: " + ex.Message + " ...");
-                }
-                Thread.Sleep(200);
-            }
-
-            Globals.Log("DownloadWebApp no internet connection detected ...");
-            return false;
-        }
-
-        private static void wcProgressChanged(object sender, DownloadProgressChangedEventArgs e)
-        {
-            GenExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate
-            {
-                Globals.TsProgressBar_Main.Value = e.ProgressPercentage;
-            });
-        }
-
         private static void wcCompleted(object sender, AsyncCompletedEventArgs e)
         {
             if (e.Error == null)
             {
                 GenExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate
-                {
-                    Globals.TsProgressBar_Main.Value = 100;
-                });
+                    {
+                        Globals.TsProgressBar_Main.Value = 100;
+                    });
 
                 _downloadComplete = true;
-                Globals.Log("Download Completed ...");
+                //Globals.Log("Download Completed ...");
             }
             else
                 _downloadError = true;
         }
 
-        public static List<string> ExtractUrlData(string webUrl, string extractSwitch = "", int attempts = 4)
+        private static void wcProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
-            var urlLinks = new List<string>();
-            var webClient = new WebClient();
-
-            for (int i = 0; i < attempts; i++)
-            {
-                try
+            GenExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate
                 {
-                    byte[] buffer = webClient.DownloadData(webUrl);
-                    string htmlSource = Encoding.UTF8.GetString(buffer, 0, buffer.Length);
-                    List<string> links = DataExtractor.Extract(htmlSource, extractSwitch);
-
-                    foreach (var link in links)
-                    {
-                        urlLinks.Add(link);
-                    }
-
-                    return urlLinks;
-                }
-                catch (WebException ex)
-                {
-                    Globals.Log("ExtractUrlData Web Exception: " + ex.Message + " ...");
-                }
-                catch (NotSupportedException ex)
-                {
-                    Globals.Log("ExtractUrlData Not Supported Exception: " + ex.Message + " ...");
-                }
-                Thread.Sleep(200);
-            }
-
-            Globals.Log("ExtractUrlData no internet connection detected ...");
-            return urlLinks;
+                    Globals.TsProgressBar_Main.Value = e.ProgressPercentage;
+                });
         }
-
-        public static bool IsTlsCompat(string appName)
-        {
-            // requires Net 4.5, or Win7 and IE8
-            // use TLS 1.2 protocol if available
-            // ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072;
-
-            // check system config, some websites e.g. http://www.rscustom.net/ require TSL 1.2 compatible browswer
-            var errMsg = String.Empty;
-            var ieVers = SysExtensions.GetBrowserVersion(SysExtensions.GetInternetExplorerVersion());
-            if (ieVers < 8.0)
-                errMsg = "Internet Explorer 8 or greater is required";
-
-            var sysVers = SysExtensions.MajorVersion + (double)SysExtensions.MinorVersion / 10;
-            if (sysVers < 6.1)
-                errMsg = !String.IsNullOrEmpty(errMsg) ? errMsg + Environment.NewLine + "and OS Windows 7 or greater is required" : "OS Windows 7 or greater is required";
-
-            if (!String.IsNullOrEmpty(errMsg))
-            {
-                errMsg = errMsg + Environment.NewLine + "to download " + appName;
-                BetterDialog2.ShowDialog(errMsg, "Incompatible System Configuration", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning", 150, 150);
-                return false;
-            }
-
-            return true;
-        }
-
     }
 
     public class DataExtractor
@@ -390,6 +407,4 @@ namespace CustomsForgeSongManager.LocalTools
             return list;
         }
     }
-
-
 }

@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using CustomsForgeSongManager.DataObjects;
-using CustomsForgeSongManager.Forms;
 using GenTools;
 using RocksmithToolkitLib.DLCPackage;
 using RocksmithToolkitLib.Extensions;

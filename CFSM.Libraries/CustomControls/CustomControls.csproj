@@ -86,6 +86,12 @@
       <DependentUpon>ComboBoxPopup.cs</DependentUpon>
     </Compile>
     <Compile Include="ControlHelpers.cs" />
+    <Compile Include="LinkLabelStatic.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="LinkLabelPopup.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="ToolStripNumUpDown.cs">
       <SubType>Component</SubType>
     </Compile>

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.IO;
 using System.Xml.Linq;
+using CustomsForgeSongManager.DataObjects;
 using RocksmithToolkitLib.DLCPackage;
 using RocksmithToolkitLib.DLCPackage.AggregateGraph;
 using RocksmithToolkitLib.DLCPackage.Manifest2014.Tone;
@@ -11,9 +12,8 @@ using RocksmithToolkitLib.Sng;
 using RocksmithToolkitLib.Extensions;
 using RocksmithToolkitLib;
 using RocksmithToolkitLib.XML;
-using Constants = CustomsForgeSongManager.DataObjects.Constants;
 using RocksmithToolkitLib.XmlRepository;
-
+using Arrangement = RocksmithToolkitLib.DLCPackage.Arrangement;
 
 // this code taken from toolkit ... needs to be manually updated if toolkit is revised
 namespace CustomsForgeSongManager.SongEditor

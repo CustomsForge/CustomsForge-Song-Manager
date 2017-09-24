@@ -15,9 +15,11 @@ until you can confirm it is safe by working directly with your AV provider.
 CFSM Release Notes
 
 1.4.1.1
-- renamed rar setup file names
-- updated toolkitlib 
-- fixing CFSM and InnoSetup AutoUpdate features
+- updated RocksmithToolkitLib 
+- fix downloaded WebApp rar setup file names and links
+- fixed InnoSetup installer script and webupdate feature
+- fixed CFSM Autoupdate class method
+- revised and added credits in the 'About' tab
 
 1.4.1.0
 - updated toolkit lib

@@ -8,9 +8,9 @@ using System.IO;
 using System.Collections.Generic;
 using System.Reflection;
 using CustomControls;
-using GenTools;
 using CustomsForgeSongManager.DataObjects;
 using CustomsForgeSongManager.LocalTools;
+using GenTools;
 using Newtonsoft.Json;
 
 // TODO: localize all messages that are single usage

@@ -1,8 +1,6 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Windows.Forms;
 using CustomControls;
-using CustomsForgeSongManager.LocalTools;
 
 namespace CustomsForgeSongManager.UControls
 {

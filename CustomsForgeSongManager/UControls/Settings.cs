@@ -2,14 +2,12 @@
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
-using System.ComponentModel;
-using GenTools;
 using CustomsForgeSongManager.DataObjects;
 using CustomsForgeSongManager.LocalTools;
+using GenTools;
 using DataGridViewTools;
 using CustomControls;
 using System.Drawing;
-using System.Threading;
 
 namespace CustomsForgeSongManager.UControls
 {
