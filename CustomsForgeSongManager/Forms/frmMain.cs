@@ -385,6 +385,7 @@ namespace CustomsForgeSongManager.Forms
 
         private void frmMain_Load(object sender, EventArgs e) // done after frmMain()
         {
+            // be nice to the developers ... don't update in Debug mode
 #if AUTOUPDATE
             //TODO: add Mac Autoupdate
 #if RELEASE

@@ -14,6 +14,9 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.4.1.2
+- updated general help document
+
 1.4.1.1
 - updated RocksmithToolkitLib 
 - fix downloaded WebApp rar setup file names and links
