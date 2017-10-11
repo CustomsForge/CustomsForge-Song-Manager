@@ -46,7 +46,7 @@ namespace CustomsForgeSongManager.DataObjects
     // only essential data should be saved to the XML songinfo file (NO BLOAT)
     // NOTE: custom object order here determines order of elements in the xml file
     [Serializable]
-    public class SongData : NotifyPropChangedBase 
+    public class SongData : NotifyPropChangedBase
     {
         //ver 1 : Initial release
         //ver 2 : SongKey changed to DLCKey
@@ -283,6 +283,9 @@ namespace CustomsForgeSongManager.DataObjects
         public Int32 TapCount { get { return Arrangements2D.Sum(a => a.TapCount); } }
         [XmlIgnore]
         public Int32 VibratoCount { get { return Arrangements2D.Sum(a => a.VibratoCount); } }
+        [XmlIgnore]
+        public Int32 HighestFretUsed { get { return Arrangements2D.Sum(a => a.HighestFretUsed); } }
+
 
         public void Delete()
         {
@@ -311,7 +314,7 @@ namespace CustomsForgeSongManager.DataObjects
         public Int32 DMax { get; set; }
         public string ToneBase { get; set; }
         public Int32 SectionCount { get; set; }
-       
+
         // TODO: make custom object for Analyzer data and save to seperate xml file
         // public Analyzer Analyzer { get; set; }
 
@@ -388,6 +391,7 @@ namespace CustomsForgeSongManager.DataObjects
         public Int32 UnpitchedSlideCount { get; set; }
         public Int32 TapCount { get; set; }
         public Int32 VibratoCount { get; set; }
+        public Int32 HighestFretUsed { get; set; }
     }
 
 

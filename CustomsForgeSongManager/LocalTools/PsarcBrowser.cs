@@ -238,6 +238,8 @@ namespace CustomsForgeSongManager.LocalTools
 
                                 int octaveCount = 0;
                                 int chordCount = 0;
+                                int highestFretUsed = 0;
+                                int maxChordFret = 0;
                                 bool isOctave = false;
                                 var chordTemplates = song2014Data.ChordTemplates;
                                 var arrProperties = song2014Data.ArrangementProperties;
@@ -253,12 +255,19 @@ namespace CustomsForgeSongManager.LocalTools
                                     {
                                         if (!maxLevelNotes.Any(n => n.Time == note.Time) && !maxLevelChords.Any(c => c.Time == note.Time))
                                             maxLevelNotes.Add(note);
+
+                                        if (note.Fret > highestFretUsed)
+                                            highestFretUsed = note.Fret;
                                     }
 
                                     foreach (var chord in allLevelData[i].Chords)
                                     {
                                         if (!maxLevelChords.Any(c => c.Time == chord.Time) && !maxLevelNotes.Any(n => n.Time == chord.Time))
                                             maxLevelChords.Add(chord);
+
+                                        maxChordFret = chord.ChordNotes.Max(n => n.Fret);
+                                        if (maxChordFret > highestFretUsed)
+                                            highestFretUsed = maxChordFret;
                                     }
                                 }
 
@@ -323,7 +332,8 @@ namespace CustomsForgeSongManager.LocalTools
                                     BendCount = maxLevelNotes.Count(n => n.Bend > 0.0f),
                                     OctaveCount = octaveCount,
                                     ChordNames = chordNames,
-                                    ChordCounts = chordCounts
+                                    ChordCounts = chordCounts,
+                                    HighestFretUsed = highestFretUsed
                                 };
                             }
 

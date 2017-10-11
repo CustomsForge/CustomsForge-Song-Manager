@@ -213,6 +213,7 @@ namespace CustomsForgeSongManager.UControls
             this.colPinchHarmonicCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colUnpitchedSlideCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colTotalTapCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colHighestFretUsed = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panelSearch.SuspendLayout();
             this.gb_Main_Search.SuspendLayout();
             this.cmsSongManager.SuspendLayout();
@@ -225,9 +226,9 @@ namespace CustomsForgeSongManager.UControls
             // 
             // panelSearch
             // 
-            this.panelSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panelSearch.Controls.Add(this.chkSubFolders);
             this.panelSearch.Controls.Add(this.lnkClearSearch);
             this.panelSearch.Controls.Add(this.lbl_Search);
@@ -268,9 +269,9 @@ namespace CustomsForgeSongManager.UControls
             // 
             // lbl_Search
             // 
-            this.lbl_Search.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbl_Search.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lbl_Search.AutoSize = true;
             this.lbl_Search.Location = new System.Drawing.Point(3, 9);
             this.lbl_Search.Name = "lbl_Search";
@@ -291,8 +292,8 @@ namespace CustomsForgeSongManager.UControls
             // 
             // gb_Main_Search
             // 
-            this.gb_Main_Search.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.gb_Main_Search.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.gb_Main_Search.Controls.Add(this.panelSearch);
             this.gb_Main_Search.Location = new System.Drawing.Point(3, 427);
             this.gb_Main_Search.Name = "gb_Main_Search";
@@ -440,8 +441,8 @@ namespace CustomsForgeSongManager.UControls
             this.cmsGetAnalyzerData.Size = new System.Drawing.Size(209, 22);
             this.cmsGetAnalyzerData.Text = "Get Analyzer Data";
             this.cmsGetAnalyzerData.ToolTipText = "Shows note count, chord count, and\r\nlists all chords for the selected songs.\r\n\r\nN" +
-                "OTE:\r\n Data may be shown for all\r\nsongs by using the checkbox \'Include\r\nAnayzer " +
-                "Data\' in the \'Settings\' menu";
+    "OTE:\r\n Data may be shown for all\r\nsongs by using the checkbox \'Include\r\nAnayzer " +
+    "Data\' in the \'Settings\' menu";
             this.cmsGetAnalyzerData.Click += new System.EventHandler(this.cmsGetAnalyzerData_Click);
             // 
             // lnkLblSelectAll
@@ -462,9 +463,9 @@ namespace CustomsForgeSongManager.UControls
             // 
             // gb_Main_Grid
             // 
-            this.gb_Main_Grid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.gb_Main_Grid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.gb_Main_Grid.Controls.Add(this.dgvSongsDetail);
             this.gb_Main_Grid.Controls.Add(this.lnkLblSelectAll);
             this.gb_Main_Grid.Controls.Add(this.dgvSongsMaster);
@@ -602,9 +603,9 @@ namespace CustomsForgeSongManager.UControls
             // 
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.dgvSongsMaster.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.dgvSongsMaster.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgvSongsMaster.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -669,7 +670,8 @@ namespace CustomsForgeSongManager.UControls
             this.colTremoloCount,
             this.colPinchHarmonicCount,
             this.colUnpitchedSlideCount,
-            this.colTotalTapCount});
+            this.colTotalTapCount,
+            this.colHighestFretUsed});
             this.dgvSongsMaster.Location = new System.Drawing.Point(6, 19);
             this.dgvSongsMaster.Name = "dgvSongsMaster";
             this.dgvSongsMaster.RowHeadersVisible = false;
@@ -710,7 +712,7 @@ namespace CustomsForgeSongManager.UControls
             this.cmsSongManagerColumns.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.testToolStripMenuItem});
             this.cmsSongManagerColumns.Name = "cmsSongManagerColumns";
-            this.cmsSongManagerColumns.Size = new System.Drawing.Size(107, 26);
+            this.cmsSongManagerColumns.Size = new System.Drawing.Size(97, 26);
             // 
             // testToolStripMenuItem
             // 
@@ -721,7 +723,7 @@ namespace CustomsForgeSongManager.UControls
             this.testToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.testToolStripMenuItem.Name = "testToolStripMenuItem";
             this.testToolStripMenuItem.RadioButtonGroupName = null;
-            this.testToolStripMenuItem.Size = new System.Drawing.Size(106, 22);
+            this.testToolStripMenuItem.Size = new System.Drawing.Size(96, 22);
             this.testToolStripMenuItem.Text = "Test";
             // 
             // toolTip
@@ -756,7 +758,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiRescan.Image = ((System.Drawing.Image)(resources.GetObject("tsmiRescan.Image")));
             this.tsmiRescan.Name = "tsmiRescan";
             this.tsmiRescan.RadioButtonGroupName = null;
-            this.tsmiRescan.Size = new System.Drawing.Size(70, 20);
+            this.tsmiRescan.Size = new System.Drawing.Size(72, 20);
             this.tsmiRescan.Text = "Rescan";
             this.tsmiRescan.ToolTipText = "See \'Settings\' menu for additional\r\ndata rescan and inclusion options.";
             // 
@@ -766,7 +768,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiRescanQuick.Image = ((System.Drawing.Image)(resources.GetObject("tsmiRescanQuick.Image")));
             this.tsmiRescanQuick.Name = "tsmiRescanQuick";
             this.tsmiRescanQuick.RadioButtonGroupName = null;
-            this.tsmiRescanQuick.Size = new System.Drawing.Size(111, 22);
+            this.tsmiRescanQuick.Size = new System.Drawing.Size(105, 22);
             this.tsmiRescanQuick.Text = "Quick";
             this.tsmiRescanQuick.ToolTipText = "Quick reload of previously scanned data.\r\nOnly rescans data if necessary.";
             this.tsmiRescanQuick.Click += new System.EventHandler(this.tsmiRescanQuick_Click);
@@ -777,10 +779,10 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiRescanFull.Image = ((System.Drawing.Image)(resources.GetObject("tsmiRescanFull.Image")));
             this.tsmiRescanFull.Name = "tsmiRescanFull";
             this.tsmiRescanFull.RadioButtonGroupName = null;
-            this.tsmiRescanFull.Size = new System.Drawing.Size(111, 22);
+            this.tsmiRescanFull.Size = new System.Drawing.Size(105, 22);
             this.tsmiRescanFull.Text = "Full";
             this.tsmiRescanFull.ToolTipText = "Preliminary scan or after significant changes.\r\n\r\nHint:\r\nTry running a \'Full\' res" +
-                "can if the CDLC\r\ncollection does not look as expected.";
+    "can if the CDLC\r\ncollection does not look as expected.";
             this.tsmiRescanFull.Click += new System.EventHandler(this.tsmiRescanFull_Click);
             // 
             // tsmiRepairs
@@ -814,7 +816,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiRepairs.Image = ((System.Drawing.Image)(resources.GetObject("tsmiRepairs.Image")));
             this.tsmiRepairs.Name = "tsmiRepairs";
             this.tsmiRepairs.RadioButtonGroupName = null;
-            this.tsmiRepairs.Size = new System.Drawing.Size(71, 20);
+            this.tsmiRepairs.Size = new System.Drawing.Size(73, 20);
             this.tsmiRepairs.Text = "Repairs";
             this.tsmiRepairs.ToolTipText = resources.GetString("tsmiRepairs.ToolTipText");
             // 
@@ -827,7 +829,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiSkipRemastered.ForeColor = System.Drawing.Color.RoyalBlue;
             this.tsmiSkipRemastered.Name = "tsmiSkipRemastered";
             this.tsmiSkipRemastered.RadioButtonGroupName = "SkipRemastered";
-            this.tsmiSkipRemastered.Size = new System.Drawing.Size(246, 22);
+            this.tsmiSkipRemastered.Size = new System.Drawing.Size(251, 22);
             this.tsmiSkipRemastered.Text = "Skip Previously Remastered CDLC";
             this.tsmiSkipRemastered.ToolTipText = "Skipping previously remastered CDLC\r\nwill greatly speed up the repair\r\nprocess.";
             this.tsmiSkipRemastered.Click += new System.EventHandler(this.RepairsButton_Click);
@@ -835,7 +837,7 @@ namespace CustomsForgeSongManager.UControls
             // toolStripSeparator12
             // 
             this.toolStripSeparator12.Name = "toolStripSeparator12";
-            this.toolStripSeparator12.Size = new System.Drawing.Size(243, 6);
+            this.toolStripSeparator12.Size = new System.Drawing.Size(248, 6);
             // 
             // tsmiRepairsAddDD
             // 
@@ -847,10 +849,10 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiRepairsAddDD.ForeColor = System.Drawing.Color.RoyalBlue;
             this.tsmiRepairsAddDD.Name = "tsmiRepairsAddDD";
             this.tsmiRepairsAddDD.RadioButtonGroupName = "AddDD";
-            this.tsmiRepairsAddDD.Size = new System.Drawing.Size(246, 22);
+            this.tsmiRepairsAddDD.Size = new System.Drawing.Size(251, 22);
             this.tsmiRepairsAddDD.Text = "Add Dynamic Difficulty (DD)";
             this.tsmiRepairsAddDD.ToolTipText = "Fixes Remastered Play Count tracking\r\nby adding Dynamic Difficulty (DD) to\r\narran" +
-                "gements that do not have DD";
+    "gements that do not have DD";
             this.tsmiRepairsAddDD.Click += new System.EventHandler(this.RepairsButton_Click);
             // 
             // tsmiAddDDSettings
@@ -863,7 +865,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiAddDDRampUpPath});
             this.tsmiAddDDSettings.Name = "tsmiAddDDSettings";
             this.tsmiAddDDSettings.RadioButtonGroupName = "AddDD";
-            this.tsmiAddDDSettings.Size = new System.Drawing.Size(246, 22);
+            this.tsmiAddDDSettings.Size = new System.Drawing.Size(251, 22);
             this.tsmiAddDDSettings.Text = "Customizable DDC Settings";
             this.tsmiAddDDSettings.ToolTipText = "Configuration settings for ddc.exe CLI";
             // 
@@ -935,16 +937,16 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiOverwriteDD.ForeColor = System.Drawing.Color.Red;
             this.tsmiOverwriteDD.Name = "tsmiOverwriteDD";
             this.tsmiOverwriteDD.RadioButtonGroupName = "AddDD";
-            this.tsmiOverwriteDD.Size = new System.Drawing.Size(246, 22);
+            this.tsmiOverwriteDD.Size = new System.Drawing.Size(251, 22);
             this.tsmiOverwriteDD.Text = "Overwrite Existing DD";
             this.tsmiOverwriteDD.ToolTipText = "Overwrite existing Dynamic Difficulty (DD)\r\nwith new DD even if arrangement alrea" +
-                "dy\r\nhas DD.";
+    "dy\r\nhas DD.";
             this.tsmiOverwriteDD.CheckStateChanged += new System.EventHandler(this.Repairs_CheckStateChanged);
             // 
             // toolStripSeparator9
             // 
             this.toolStripSeparator9.Name = "toolStripSeparator9";
-            this.toolStripSeparator9.Size = new System.Drawing.Size(243, 6);
+            this.toolStripSeparator9.Size = new System.Drawing.Size(248, 6);
             // 
             // tsmiRepairsMastery
             // 
@@ -956,10 +958,10 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiRepairsMastery.ForeColor = System.Drawing.Color.RoyalBlue;
             this.tsmiRepairsMastery.Name = "tsmiRepairsMastery";
             this.tsmiRepairsMastery.RadioButtonGroupName = "Mastery";
-            this.tsmiRepairsMastery.Size = new System.Drawing.Size(246, 22);
+            this.tsmiRepairsMastery.Size = new System.Drawing.Size(251, 22);
             this.tsmiRepairsMastery.Text = "Mastery 100% Bug";
             this.tsmiRepairsMastery.ToolTipText = "Mastery 100% Bug is repaired\r\nby default regardless of\r\nother selected options.\r\n" +
-                "\r\nOnce the Mastery Bug is repaired\r\nthe CDLC is considered to be\r\n\'Remastered\'.";
+    "\r\nOnce the Mastery Bug is repaired\r\nthe CDLC is considered to be\r\n\'Remastered\'.";
             this.tsmiRepairsMastery.Click += new System.EventHandler(this.RepairsButton_Click);
             // 
             // tsmiRepairsPreserveStats
@@ -969,7 +971,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiRepairsPreserveStats.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tsmiRepairsPreserveStats.Name = "tsmiRepairsPreserveStats";
             this.tsmiRepairsPreserveStats.RadioButtonGroupName = "Mastery";
-            this.tsmiRepairsPreserveStats.Size = new System.Drawing.Size(246, 22);
+            this.tsmiRepairsPreserveStats.Size = new System.Drawing.Size(251, 22);
             this.tsmiRepairsPreserveStats.Text = "Preserve Stats";
             this.tsmiRepairsPreserveStats.CheckStateChanged += new System.EventHandler(this.Repairs_CheckStateChanged);
             // 
@@ -981,7 +983,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiRepairsUsingOrg.ForeColor = System.Drawing.SystemColors.ControlText;
             this.tsmiRepairsUsingOrg.Name = "tsmiRepairsUsingOrg";
             this.tsmiRepairsUsingOrg.RadioButtonGroupName = "Mastery";
-            this.tsmiRepairsUsingOrg.Size = new System.Drawing.Size(246, 22);
+            this.tsmiRepairsUsingOrg.Size = new System.Drawing.Size(251, 22);
             this.tsmiRepairsUsingOrg.Text = "Use (.org) Files";
             this.tsmiRepairsUsingOrg.ToolTipText = resources.GetString("tsmiRepairsUsingOrg.ToolTipText");
             this.tsmiRepairsUsingOrg.CheckStateChanged += new System.EventHandler(this.Repairs_CheckStateChanged);
@@ -994,16 +996,16 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiRepairsMultitone.ForeColor = System.Drawing.Color.Red;
             this.tsmiRepairsMultitone.Name = "tsmiRepairsMultitone";
             this.tsmiRepairsMultitone.RadioButtonGroupName = "Mastery";
-            this.tsmiRepairsMultitone.Size = new System.Drawing.Size(246, 22);
+            this.tsmiRepairsMultitone.Size = new System.Drawing.Size(251, 22);
             this.tsmiRepairsMultitone.Text = "Prevent Multitone Exceptions";
             this.tsmiRepairsMultitone.ToolTipText = "Prevent multitone exceptions\r\nby converting corrupt multitone\r\narrangements to si" +
-                "ngle tone.";
+    "ngle tone.";
             this.tsmiRepairsMultitone.Click += new System.EventHandler(this.Repairs_CheckStateChanged);
             // 
             // toolStripSeparator8
             // 
             this.toolStripSeparator8.Name = "toolStripSeparator8";
-            this.toolStripSeparator8.Size = new System.Drawing.Size(243, 6);
+            this.toolStripSeparator8.Size = new System.Drawing.Size(248, 6);
             // 
             // tsmiRepairsMaxFive
             // 
@@ -1015,7 +1017,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiRepairsMaxFive.ForeColor = System.Drawing.Color.RoyalBlue;
             this.tsmiRepairsMaxFive.Name = "tsmiRepairsMaxFive";
             this.tsmiRepairsMaxFive.RadioButtonGroupName = "MaxFive";
-            this.tsmiRepairsMaxFive.Size = new System.Drawing.Size(246, 22);
+            this.tsmiRepairsMaxFive.Size = new System.Drawing.Size(251, 22);
             this.tsmiRepairsMaxFive.Text = "Max Five Arrangements";
             this.tsmiRepairsMaxFive.ToolTipText = "Select Max5 Repair Options";
             this.tsmiRepairsMaxFive.Click += new System.EventHandler(this.RepairsButton_Click);
@@ -1027,7 +1029,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiRemoveNDD.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tsmiRemoveNDD.Name = "tsmiRemoveNDD";
             this.tsmiRemoveNDD.RadioButtonGroupName = "MaxFive";
-            this.tsmiRemoveNDD.Size = new System.Drawing.Size(246, 22);
+            this.tsmiRemoveNDD.Size = new System.Drawing.Size(251, 22);
             this.tsmiRemoveNDD.Text = "Remove NDD";
             this.tsmiRemoveNDD.CheckStateChanged += new System.EventHandler(this.Repairs_CheckStateChanged);
             // 
@@ -1038,7 +1040,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiRemoveBass.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tsmiRemoveBass.Name = "tsmiRemoveBass";
             this.tsmiRemoveBass.RadioButtonGroupName = "MaxFive";
-            this.tsmiRemoveBass.Size = new System.Drawing.Size(246, 22);
+            this.tsmiRemoveBass.Size = new System.Drawing.Size(251, 22);
             this.tsmiRemoveBass.Text = "Remove Bass";
             this.tsmiRemoveBass.CheckStateChanged += new System.EventHandler(this.Repairs_CheckStateChanged);
             // 
@@ -1048,7 +1050,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiRemoveGuitar.CheckOnClick = true;
             this.tsmiRemoveGuitar.Name = "tsmiRemoveGuitar";
             this.tsmiRemoveGuitar.RadioButtonGroupName = "MaxFive";
-            this.tsmiRemoveGuitar.Size = new System.Drawing.Size(246, 22);
+            this.tsmiRemoveGuitar.Size = new System.Drawing.Size(251, 22);
             this.tsmiRemoveGuitar.Text = "Remove Guitar";
             this.tsmiRemoveGuitar.CheckStateChanged += new System.EventHandler(this.Repairs_CheckStateChanged);
             // 
@@ -1059,7 +1061,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiRemoveBonus.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tsmiRemoveBonus.Name = "tsmiRemoveBonus";
             this.tsmiRemoveBonus.RadioButtonGroupName = "MaxFive";
-            this.tsmiRemoveBonus.Size = new System.Drawing.Size(246, 22);
+            this.tsmiRemoveBonus.Size = new System.Drawing.Size(251, 22);
             this.tsmiRemoveBonus.Text = "Remove Bonus";
             this.tsmiRemoveBonus.CheckStateChanged += new System.EventHandler(this.Repairs_CheckStateChanged);
             // 
@@ -1070,7 +1072,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiRemoveMetronome.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tsmiRemoveMetronome.Name = "tsmiRemoveMetronome";
             this.tsmiRemoveMetronome.RadioButtonGroupName = "MaxFive";
-            this.tsmiRemoveMetronome.Size = new System.Drawing.Size(246, 22);
+            this.tsmiRemoveMetronome.Size = new System.Drawing.Size(251, 22);
             this.tsmiRemoveMetronome.Text = "Remove Metronone";
             this.tsmiRemoveMetronome.CheckStateChanged += new System.EventHandler(this.Repairs_CheckStateChanged);
             // 
@@ -1082,7 +1084,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiIgnoreStopLimit.ForeColor = System.Drawing.Color.Red;
             this.tsmiIgnoreStopLimit.Name = "tsmiIgnoreStopLimit";
             this.tsmiIgnoreStopLimit.RadioButtonGroupName = "MaxFive";
-            this.tsmiIgnoreStopLimit.Size = new System.Drawing.Size(246, 22);
+            this.tsmiIgnoreStopLimit.Size = new System.Drawing.Size(251, 22);
             this.tsmiIgnoreStopLimit.Text = "Ignore Arrangement Stop Limit";
             this.tsmiIgnoreStopLimit.ToolTipText = "Removes all arrangements of\r\nselected type and ignores\r\nstop limit.";
             this.tsmiIgnoreStopLimit.CheckStateChanged += new System.EventHandler(this.Repairs_CheckStateChanged);
@@ -1090,7 +1092,7 @@ namespace CustomsForgeSongManager.UControls
             // toolStripSeparator7
             // 
             this.toolStripSeparator7.Name = "toolStripSeparator7";
-            this.toolStripSeparator7.Size = new System.Drawing.Size(243, 6);
+            this.toolStripSeparator7.Size = new System.Drawing.Size(248, 6);
             // 
             // tsmiRemoveSections
             // 
@@ -1102,7 +1104,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiRemoveSections.ForeColor = System.Drawing.Color.RoyalBlue;
             this.tsmiRemoveSections.Name = "tsmiRemoveSections";
             this.tsmiRemoveSections.RadioButtonGroupName = "RemoveSections";
-            this.tsmiRemoveSections.Size = new System.Drawing.Size(246, 22);
+            this.tsmiRemoveSections.Size = new System.Drawing.Size(251, 22);
             this.tsmiRemoveSections.Text = "Remove Sections/Phrases";
             this.tsmiRemoveSections.ToolTipText = "Coming Soon";
             this.tsmiRemoveSections.Visible = false;
@@ -1111,7 +1113,7 @@ namespace CustomsForgeSongManager.UControls
             // toolStripSeparator10
             // 
             this.toolStripSeparator10.Name = "toolStripSeparator10";
-            this.toolStripSeparator10.Size = new System.Drawing.Size(243, 6);
+            this.toolStripSeparator10.Size = new System.Drawing.Size(248, 6);
             this.toolStripSeparator10.Visible = false;
             // 
             // tsmiProcessDLFolder
@@ -1123,7 +1125,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiProcessDLFolder.ForeColor = System.Drawing.Color.RoyalBlue;
             this.tsmiProcessDLFolder.Name = "tsmiProcessDLFolder";
             this.tsmiProcessDLFolder.RadioButtonGroupName = "ProcessDLFolder";
-            this.tsmiProcessDLFolder.Size = new System.Drawing.Size(246, 22);
+            this.tsmiProcessDLFolder.Size = new System.Drawing.Size(251, 22);
             this.tsmiProcessDLFolder.Text = "Process \'Downloads\' Folder";
             this.tsmiProcessDLFolder.ToolTipText = resources.GetString("tsmiProcessDLFolder.ToolTipText");
             this.tsmiProcessDLFolder.Click += new System.EventHandler(this.RepairsButton_Click);
@@ -1131,7 +1133,7 @@ namespace CustomsForgeSongManager.UControls
             // toolStripSeparator13
             // 
             this.toolStripSeparator13.Name = "toolStripSeparator13";
-            this.toolStripSeparator13.Size = new System.Drawing.Size(243, 6);
+            this.toolStripSeparator13.Size = new System.Drawing.Size(248, 6);
             // 
             // tsmiRepairsRun
             // 
@@ -1140,7 +1142,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiRepairsRun.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tsmiRepairsRun.Name = "tsmiRepairsRun";
             this.tsmiRepairsRun.RadioButtonGroupName = null;
-            this.tsmiRepairsRun.Size = new System.Drawing.Size(246, 22);
+            this.tsmiRepairsRun.Size = new System.Drawing.Size(251, 22);
             this.tsmiRepairsRun.Text = "Run Selected Repair Optons";
             this.tsmiRepairsRun.ToolTipText = "Select repair options first";
             this.tsmiRepairsRun.Click += new System.EventHandler(this.tsmiRepairsRun_Click);
@@ -1152,7 +1154,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiDuplicatesSoon});
             this.tsmiDuplicates.Name = "tsmiDuplicates";
             this.tsmiDuplicates.RadioButtonGroupName = null;
-            this.tsmiDuplicates.Size = new System.Drawing.Size(68, 20);
+            this.tsmiDuplicates.Size = new System.Drawing.Size(74, 20);
             this.tsmiDuplicates.Text = "Duplicates";
             this.tsmiDuplicates.Visible = false;
             // 
@@ -1182,7 +1184,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiModsMyCDLC});
             this.tsmiMods.Name = "tsmiMods";
             this.tsmiMods.RadioButtonGroupName = null;
-            this.tsmiMods.Size = new System.Drawing.Size(83, 20);
+            this.tsmiMods.Size = new System.Drawing.Size(94, 20);
             this.tsmiMods.Text = "Custom Mods";
             // 
             // tsmiModsChangeAppId
@@ -1194,7 +1196,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiModsChangeAppId.Size = new System.Drawing.Size(203, 22);
             this.tsmiModsChangeAppId.Text = "Edit App IDs";
             this.tsmiModsChangeAppId.ToolTipText = "Change the CDLC App ID to\r\nany other DLC that you own.\r\n\r\nHINT:\r\nYou can also typ" +
-                "e in any valid\r\nApp ID if it is not on the list.";
+    "e in any valid\r\nApp ID if it is not on the list.";
             this.tsmiModsChangeAppId.Click += new System.EventHandler(this.tsmiModsChangeAppId_Click);
             // 
             // toolStripSeparator4
@@ -1210,7 +1212,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiModsPitchShifter.Size = new System.Drawing.Size(203, 22);
             this.tsmiModsPitchShifter.Text = "Pitch Shifter";
             this.tsmiModsPitchShifter.ToolTipText = "Add additional options to Pitch Shifter if desired\r\nwith check boxes before press" +
-                "ing Pitch Shifter.";
+    "ing Pitch Shifter.";
             this.tsmiModsPitchShifter.Click += new System.EventHandler(this.tsmiModsPitchShifter_Click);
             // 
             // tsmiModsPitchShiftStandard
@@ -1317,7 +1319,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiFiles.Image = ((System.Drawing.Image)(resources.GetObject("tsmiFiles.Image")));
             this.tsmiFiles.Name = "tsmiFiles";
             this.tsmiFiles.RadioButtonGroupName = null;
-            this.tsmiFiles.Size = new System.Drawing.Size(56, 20);
+            this.tsmiFiles.Size = new System.Drawing.Size(58, 20);
             this.tsmiFiles.Text = "Files";
             // 
             // tsmiFilesCheckODLC
@@ -1325,7 +1327,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiFilesCheckODLC.AssociatedEnumValue = null;
             this.tsmiFilesCheckODLC.Name = "tsmiFilesCheckODLC";
             this.tsmiFilesCheckODLC.RadioButtonGroupName = null;
-            this.tsmiFilesCheckODLC.Size = new System.Drawing.Size(238, 22);
+            this.tsmiFilesCheckODLC.Size = new System.Drawing.Size(243, 22);
             this.tsmiFilesCheckODLC.Text = "Check CDLC/ODLC";
             this.tsmiFilesCheckODLC.ToolTipText = "Determines if any of your CDLC\r\nhave been replaced by ODLC.";
             this.tsmiFilesCheckODLC.Click += new System.EventHandler(this.tsmiFilesCheckODLC_Click);
@@ -1333,7 +1335,7 @@ namespace CustomsForgeSongManager.UControls
             // toolStripSeparator11
             // 
             this.toolStripSeparator11.Name = "toolStripSeparator11";
-            this.toolStripSeparator11.Size = new System.Drawing.Size(235, 6);
+            this.toolStripSeparator11.Size = new System.Drawing.Size(240, 6);
             // 
             // tsmiFilesDisableEnable
             // 
@@ -1341,7 +1343,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiFilesDisableEnable.Image = ((System.Drawing.Image)(resources.GetObject("tsmiFilesDisableEnable.Image")));
             this.tsmiFilesDisableEnable.Name = "tsmiFilesDisableEnable";
             this.tsmiFilesDisableEnable.RadioButtonGroupName = null;
-            this.tsmiFilesDisableEnable.Size = new System.Drawing.Size(238, 22);
+            this.tsmiFilesDisableEnable.Size = new System.Drawing.Size(243, 22);
             this.tsmiFilesDisableEnable.Text = "Disable/Enable";
             this.tsmiFilesDisableEnable.Click += new System.EventHandler(this.tsmiFilesDisableEnable_Click);
             // 
@@ -1351,7 +1353,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiFilesBackup.Image = global::CustomsForgeSongManager.Properties.Resources.restorebackup;
             this.tsmiFilesBackup.Name = "tsmiFilesBackup";
             this.tsmiFilesBackup.RadioButtonGroupName = null;
-            this.tsmiFilesBackup.Size = new System.Drawing.Size(238, 22);
+            this.tsmiFilesBackup.Size = new System.Drawing.Size(243, 22);
             this.tsmiFilesBackup.Text = "Backup";
             this.tsmiFilesBackup.Click += new System.EventHandler(this.tsmiFilesBackup_Click);
             // 
@@ -1362,14 +1364,14 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiFilesCheckUpdates.Image = global::CustomsForgeSongManager.Properties.Resources.update;
             this.tsmiFilesCheckUpdates.Name = "tsmiFilesCheckUpdates";
             this.tsmiFilesCheckUpdates.RadioButtonGroupName = null;
-            this.tsmiFilesCheckUpdates.Size = new System.Drawing.Size(238, 22);
+            this.tsmiFilesCheckUpdates.Size = new System.Drawing.Size(243, 22);
             this.tsmiFilesCheckUpdates.Text = "Check for Updates";
             this.tsmiFilesCheckUpdates.Click += new System.EventHandler(this.tsmiFilesCheckUpdates_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(235, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(240, 6);
             // 
             // tsmiFilesSafetyInterlock
             // 
@@ -1377,7 +1379,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiFilesSafetyInterlock.CheckOnClick = true;
             this.tsmiFilesSafetyInterlock.Name = "tsmiFilesSafetyInterlock";
             this.tsmiFilesSafetyInterlock.RadioButtonGroupName = null;
-            this.tsmiFilesSafetyInterlock.Size = new System.Drawing.Size(238, 22);
+            this.tsmiFilesSafetyInterlock.Size = new System.Drawing.Size(243, 22);
             this.tsmiFilesSafetyInterlock.Text = "Unlock Delete";
             this.tsmiFilesSafetyInterlock.ToolTipText = "Must be checked to activate permenant \'Delete\' option";
             this.tsmiFilesSafetyInterlock.CheckStateChanged += new System.EventHandler(this.tsmiFilesSafetyInterlock_CheckStateChanged);
@@ -1389,7 +1391,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiFilesDelete.Image = ((System.Drawing.Image)(resources.GetObject("tsmiFilesDelete.Image")));
             this.tsmiFilesDelete.Name = "tsmiFilesDelete";
             this.tsmiFilesDelete.RadioButtonGroupName = null;
-            this.tsmiFilesDelete.Size = new System.Drawing.Size(238, 22);
+            this.tsmiFilesDelete.Size = new System.Drawing.Size(243, 22);
             this.tsmiFilesDelete.Text = "Delete";
             this.tsmiFilesDelete.ToolTipText = "WARNING ...\r\nPermenatly deletes any selected files.";
             this.tsmiFilesDelete.Click += new System.EventHandler(this.tsmiFilesDelete_Click);
@@ -1397,7 +1399,7 @@ namespace CustomsForgeSongManager.UControls
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(235, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(240, 6);
             // 
             // tsmiFilesCleanDlc
             // 
@@ -1405,10 +1407,10 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiFilesCleanDlc.Image = global::CustomsForgeSongManager.Properties.Resources.broom;
             this.tsmiFilesCleanDlc.Name = "tsmiFilesCleanDlc";
             this.tsmiFilesCleanDlc.RadioButtonGroupName = null;
-            this.tsmiFilesCleanDlc.Size = new System.Drawing.Size(238, 22);
+            this.tsmiFilesCleanDlc.Size = new System.Drawing.Size(243, 22);
             this.tsmiFilesCleanDlc.Text = "Clean \'dlc\' Folder";
             this.tsmiFilesCleanDlc.ToolTipText = "Remove any [.org] [.max] or [.cor]\r\nbackup files from the \'dlc\' folder and\r\nsubfo" +
-                "lders.";
+    "lders.";
             this.tsmiFilesCleanDlc.Click += new System.EventHandler(this.tsmiFilesCleanDlc_Click);
             // 
             // tsmiFilesRestore
@@ -1422,7 +1424,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiFilesRestore.Image = global::CustomsForgeSongManager.Properties.Resources.restorewindow;
             this.tsmiFilesRestore.Name = "tsmiFilesRestore";
             this.tsmiFilesRestore.RadioButtonGroupName = null;
-            this.tsmiFilesRestore.Size = new System.Drawing.Size(238, 22);
+            this.tsmiFilesRestore.Size = new System.Drawing.Size(243, 22);
             this.tsmiFilesRestore.Text = "Restore";
             // 
             // tsmiFilesRestoreBak
@@ -1430,7 +1432,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiFilesRestoreBak.AssociatedEnumValue = null;
             this.tsmiFilesRestoreBak.Name = "tsmiFilesRestoreBak";
             this.tsmiFilesRestoreBak.RadioButtonGroupName = null;
-            this.tsmiFilesRestoreBak.Size = new System.Drawing.Size(163, 22);
+            this.tsmiFilesRestoreBak.Size = new System.Drawing.Size(157, 22);
             this.tsmiFilesRestoreBak.Text = "File Type (.bak)";
             this.tsmiFilesRestoreBak.Click += new System.EventHandler(this.tsmiFilesRestoreBak_Click);
             // 
@@ -1439,7 +1441,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiFilesRestoreOrg.AssociatedEnumValue = null;
             this.tsmiFilesRestoreOrg.Name = "tsmiFilesRestoreOrg";
             this.tsmiFilesRestoreOrg.RadioButtonGroupName = null;
-            this.tsmiFilesRestoreOrg.Size = new System.Drawing.Size(163, 22);
+            this.tsmiFilesRestoreOrg.Size = new System.Drawing.Size(157, 22);
             this.tsmiFilesRestoreOrg.Text = "File Type (.org)";
             this.tsmiFilesRestoreOrg.Click += new System.EventHandler(this.tsmiFilesRestoreOrg_Click);
             // 
@@ -1448,7 +1450,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiFilesRestoreMax.AssociatedEnumValue = null;
             this.tsmiFilesRestoreMax.Name = "tsmiFilesRestoreMax";
             this.tsmiFilesRestoreMax.RadioButtonGroupName = null;
-            this.tsmiFilesRestoreMax.Size = new System.Drawing.Size(163, 22);
+            this.tsmiFilesRestoreMax.Size = new System.Drawing.Size(157, 22);
             this.tsmiFilesRestoreMax.Text = "File Type (.max)";
             this.tsmiFilesRestoreMax.Click += new System.EventHandler(this.tsmiFilesRestoreMax_Click);
             // 
@@ -1457,7 +1459,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiFilesRestoreCor.AssociatedEnumValue = null;
             this.tsmiFilesRestoreCor.Name = "tsmiFilesRestoreCor";
             this.tsmiFilesRestoreCor.RadioButtonGroupName = null;
-            this.tsmiFilesRestoreCor.Size = new System.Drawing.Size(163, 22);
+            this.tsmiFilesRestoreCor.Size = new System.Drawing.Size(157, 22);
             this.tsmiFilesRestoreCor.Text = "File Type (.cor)";
             this.tsmiFilesRestoreCor.Click += new System.EventHandler(this.tsmiFilesRestoreCor_Click);
             // 
@@ -1473,7 +1475,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiFilesArchive.Image = global::CustomsForgeSongManager.Properties.Resources.zip;
             this.tsmiFilesArchive.Name = "tsmiFilesArchive";
             this.tsmiFilesArchive.RadioButtonGroupName = null;
-            this.tsmiFilesArchive.Size = new System.Drawing.Size(238, 22);
+            this.tsmiFilesArchive.Size = new System.Drawing.Size(243, 22);
             this.tsmiFilesArchive.Text = "Archive";
             // 
             // tsmiFilesArcBak
@@ -1481,7 +1483,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiFilesArcBak.AssociatedEnumValue = null;
             this.tsmiFilesArcBak.Name = "tsmiFilesArcBak";
             this.tsmiFilesArcBak.RadioButtonGroupName = null;
-            this.tsmiFilesArcBak.Size = new System.Drawing.Size(210, 22);
+            this.tsmiFilesArcBak.Size = new System.Drawing.Size(199, 22);
             this.tsmiFilesArcBak.Text = "File Type (.bak)";
             this.tsmiFilesArcBak.Click += new System.EventHandler(this.tsmiFilesArcBak_Click);
             // 
@@ -1490,7 +1492,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiFilesArcOrg.AssociatedEnumValue = null;
             this.tsmiFilesArcOrg.Name = "tsmiFilesArcOrg";
             this.tsmiFilesArcOrg.RadioButtonGroupName = null;
-            this.tsmiFilesArcOrg.Size = new System.Drawing.Size(210, 22);
+            this.tsmiFilesArcOrg.Size = new System.Drawing.Size(199, 22);
             this.tsmiFilesArcOrg.Text = "File Type (.org)";
             this.tsmiFilesArcOrg.Click += new System.EventHandler(this.tsmiFilesArcOrg_Click);
             // 
@@ -1499,7 +1501,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiFilesArcMax.AssociatedEnumValue = null;
             this.tsmiFilesArcMax.Name = "tsmiFilesArcMax";
             this.tsmiFilesArcMax.RadioButtonGroupName = null;
-            this.tsmiFilesArcMax.Size = new System.Drawing.Size(210, 22);
+            this.tsmiFilesArcMax.Size = new System.Drawing.Size(199, 22);
             this.tsmiFilesArcMax.Text = "File Type (.max)";
             this.tsmiFilesArcMax.Click += new System.EventHandler(this.tsmiFilesArcMax_Click);
             // 
@@ -1508,7 +1510,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiFilesArcCor.AssociatedEnumValue = null;
             this.tsmiFilesArcCor.Name = "tsmiFilesArcCor";
             this.tsmiFilesArcCor.RadioButtonGroupName = null;
-            this.tsmiFilesArcCor.Size = new System.Drawing.Size(210, 22);
+            this.tsmiFilesArcCor.Size = new System.Drawing.Size(199, 22);
             this.tsmiFilesArcCor.Text = "File Type (.cor)";
             this.tsmiFilesArcCor.Click += new System.EventHandler(this.tsmiFilesArcCor_Click);
             // 
@@ -1520,21 +1522,21 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiFilesArcDeleteAfter.ForeColor = System.Drawing.Color.Red;
             this.tsmiFilesArcDeleteAfter.Name = "tsmiFilesArcDeleteAfter";
             this.tsmiFilesArcDeleteAfter.RadioButtonGroupName = null;
-            this.tsmiFilesArcDeleteAfter.Size = new System.Drawing.Size(210, 22);
+            this.tsmiFilesArcDeleteAfter.Size = new System.Drawing.Size(199, 22);
             this.tsmiFilesArcDeleteAfter.Text = "Delete Files After Arhiving";
             this.tsmiFilesArcDeleteAfter.CheckedChanged += new System.EventHandler(this.tsmiFilesArcDelete_CheckedChanged);
             // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(235, 6);
+            this.toolStripSeparator6.Size = new System.Drawing.Size(240, 6);
             // 
             // tsmiFilesOrganize
             // 
             this.tsmiFilesOrganize.AssociatedEnumValue = null;
             this.tsmiFilesOrganize.Name = "tsmiFilesOrganize";
             this.tsmiFilesOrganize.RadioButtonGroupName = null;
-            this.tsmiFilesOrganize.Size = new System.Drawing.Size(238, 22);
+            this.tsmiFilesOrganize.Size = new System.Drawing.Size(243, 22);
             this.tsmiFilesOrganize.Text = "Organize ArtistName Subfolders";
             this.tsmiFilesOrganize.ToolTipText = resources.GetString("tsmiFilesOrganize.ToolTipText");
             this.tsmiFilesOrganize.Click += new System.EventHandler(this.tsmiFilesOrganize_Click);
@@ -1544,7 +1546,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiFilesUnorganize.AssociatedEnumValue = null;
             this.tsmiFilesUnorganize.Name = "tsmiFilesUnorganize";
             this.tsmiFilesUnorganize.RadioButtonGroupName = null;
-            this.tsmiFilesUnorganize.Size = new System.Drawing.Size(238, 22);
+            this.tsmiFilesUnorganize.Size = new System.Drawing.Size(243, 22);
             this.tsmiFilesUnorganize.Text = "Restore CDLC to the \'dlc\' Folder";
             this.tsmiFilesUnorganize.ToolTipText = resources.GetString("tsmiFilesUnorganize.ToolTipText");
             this.tsmiFilesUnorganize.Click += new System.EventHandler(this.tsmiFilesUnorganize_Click);
@@ -1557,10 +1559,10 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiFilesIncludeODLC.ForeColor = System.Drawing.Color.Red;
             this.tsmiFilesIncludeODLC.Name = "tsmiFilesIncludeODLC";
             this.tsmiFilesIncludeODLC.RadioButtonGroupName = null;
-            this.tsmiFilesIncludeODLC.Size = new System.Drawing.Size(238, 22);
+            this.tsmiFilesIncludeODLC.Size = new System.Drawing.Size(243, 22);
             this.tsmiFilesIncludeODLC.Text = "Include ODLC Files";
             this.tsmiFilesIncludeODLC.ToolTipText = "If checked, ODLC files will be organized\r\ntoo, even though they are not selectabl" +
-                "e.";
+    "e.";
             this.tsmiFilesIncludeODLC.Click += new System.EventHandler(this.tsmiFilesIncludeODLC_Click);
             // 
             // tsmiHelp
@@ -1574,7 +1576,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiHelp.Image = ((System.Drawing.Image)(resources.GetObject("tsmiHelp.Image")));
             this.tsmiHelp.Name = "tsmiHelp";
             this.tsmiHelp.RadioButtonGroupName = null;
-            this.tsmiHelp.Size = new System.Drawing.Size(56, 20);
+            this.tsmiHelp.Size = new System.Drawing.Size(60, 20);
             this.tsmiHelp.Text = "Help";
             // 
             // tsmiHelpGeneral
@@ -1583,14 +1585,14 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiHelpGeneral.Image = global::CustomsForgeSongManager.Properties.Resources.info;
             this.tsmiHelpGeneral.Name = "tsmiHelpGeneral";
             this.tsmiHelpGeneral.RadioButtonGroupName = null;
-            this.tsmiHelpGeneral.Size = new System.Drawing.Size(154, 22);
+            this.tsmiHelpGeneral.Size = new System.Drawing.Size(150, 22);
             this.tsmiHelpGeneral.Text = "General Help";
             this.tsmiHelpGeneral.Click += new System.EventHandler(this.tsmiHelpGeneral_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(151, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(147, 6);
             // 
             // tsmiHelpRepairs
             // 
@@ -1598,7 +1600,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiHelpRepairs.Image = global::CustomsForgeSongManager.Properties.Resources.maintenance;
             this.tsmiHelpRepairs.Name = "tsmiHelpRepairs";
             this.tsmiHelpRepairs.RadioButtonGroupName = null;
-            this.tsmiHelpRepairs.Size = new System.Drawing.Size(154, 22);
+            this.tsmiHelpRepairs.Size = new System.Drawing.Size(150, 22);
             this.tsmiHelpRepairs.Text = "Repairs Help";
             this.tsmiHelpRepairs.Click += new System.EventHandler(this.tsmiHelpRepairs_Click);
             // 
@@ -1608,7 +1610,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiHelpErrorLog.Image = global::CustomsForgeSongManager.Properties.Resources.notes;
             this.tsmiHelpErrorLog.Name = "tsmiHelpErrorLog";
             this.tsmiHelpErrorLog.RadioButtonGroupName = null;
-            this.tsmiHelpErrorLog.Size = new System.Drawing.Size(154, 22);
+            this.tsmiHelpErrorLog.Size = new System.Drawing.Size(150, 22);
             this.tsmiHelpErrorLog.Text = "View Error Log";
             this.tsmiHelpErrorLog.Click += new System.EventHandler(this.tsmiHelpErrorLog_Click);
             // 
@@ -2116,6 +2118,14 @@ namespace CustomsForgeSongManager.UControls
             this.colTotalTapCount.ReadOnly = true;
             this.colTotalTapCount.Visible = false;
             // 
+            // colHighestFretUsed
+            // 
+            this.colHighestFretUsed.DataPropertyName = "HighestFretUsed";
+            this.colHighestFretUsed.HeaderText = "Highest Fret Used";
+            this.colHighestFretUsed.Name = "colHighestFretUsed";
+            this.colHighestFretUsed.ReadOnly = true;
+            this.colHighestFretUsed.Visible = false;
+            // 
             // SongManager
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -2321,6 +2331,7 @@ namespace CustomsForgeSongManager.UControls
         private DataGridViewTextBoxColumn colPinchHarmonicCount;
         private DataGridViewTextBoxColumn colUnpitchedSlideCount;
         private DataGridViewTextBoxColumn colTotalTapCount;
+        private DataGridViewTextBoxColumn colHighestFretUsed;
 
     }
 }

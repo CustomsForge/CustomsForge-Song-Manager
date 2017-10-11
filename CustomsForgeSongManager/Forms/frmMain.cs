@@ -827,7 +827,7 @@ namespace CustomsForgeSongManager.Forms
 
                                 s = song.Artist + csvSep + song.Title + csvSep + arr.Name + csvSep + " " + arr.NoteCount + csvSep + arr.HammerOnCount + csvSep + arr.PullOffCount + csvSep + arr.HarmonicCount
                                     + csvSep + arr.HarmonicPinchCount + csvSep + arr.FretHandMuteCount + csvSep + arr.PalmMuteCount + csvSep + arr.PluckCount + csvSep + arr.SlapCount + csvSep + arr.SlideCount
-                                    + csvSep + arr.UnpitchedSlideCount + csvSep + arr.TremoloCount + csvSep + arr.TapCount + csvSep + arr.VibratoCount + csvSep + arr.SustainCount + csvSep + arr.BendCount + csvSep;
+                                    + csvSep + arr.UnpitchedSlideCount + csvSep + arr.TremoloCount + csvSep + arr.TapCount + csvSep + arr.VibratoCount + csvSep + arr.SustainCount + csvSep + arr.BendCount + csvSep + arr.HighestFretUsed + csvSep;
 
                                 if (arr.ChordNames != null && arr.ChordNames.Count() == 0)
                                     s +=
@@ -859,6 +859,7 @@ namespace CustomsForgeSongManager.Forms
                                 statPair.GeneralStats.Add("Vibratos", arr.VibratoCount.ToString());
                                 statPair.GeneralStats.Add("Sustains", arr.SustainCount.ToString());
                                 statPair.GeneralStats.Add("Bends", arr.BendCount.ToString());
+                                statPair.GeneralStats.Add("Highest Fret Used", arr.HighestFretUsed.ToString());
 
                                 statPair.ChordNums = new Dictionary<string, int>();
                                 for (int i = 0; i < arr.ChordNames.Count; i++)
