@@ -106,10 +106,10 @@ namespace CustomsForgeSongManager.Forms
 
             // set app title after settings are loaded
             var strFormatVersion = "{0} (v{1} - {2})";
-#if BETA
+#if INNOBETA
             strFormatVersion = "{0} (v{1} - {2} BETA VERSION)";
 #endif
-#if RELEASE
+#if INNORELEASE
             strFormatVersion = "{0} (v{1} - {2} RELEASE VERSION)";
 #endif
 
@@ -388,11 +388,11 @@ namespace CustomsForgeSongManager.Forms
             // be nice to the developers ... don't update in Debug mode
 #if AUTOUPDATE
             //TODO: add Mac Autoupdate
-#if RELEASE
+#if INNORELEASE
             const string serverUrl = "http://ignition.customsforge.com/cfsm_uploads";
             const string appArchive = "CFSMSetup.rar";
 #endif
-#if BETA
+#if INNOBETA
             const string serverUrl = "http://ignition.customsforge.com/cfsm_uploads/beta";
             const string appArchive = "CFSMSetupBeta.rar";
 #endif

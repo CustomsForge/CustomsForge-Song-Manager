@@ -37,7 +37,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;WINDOWS;TAGGER;BETA</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;WINDOWS;TAGGER;INNOBETA</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <RunCodeAnalysis>true</RunCodeAnalysis>
@@ -48,7 +48,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;WINDOWS;TAGGER;RELEASE</DefineConstants>
+    <DefineConstants>TRACE;WINDOWS;TAGGER;INNORELEASE</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>none</DebugType>
     <PlatformTarget>x86</PlatformTarget>
@@ -74,13 +74,13 @@
   <PropertyGroup />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'InnoBeta|x86'">
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>WINDOWS;TAGGER;BETA;AUTOUPDATE</DefineConstants>
+    <DefineConstants>WINDOWS;TAGGER;INNOBETA;AUTOUPDATE</DefineConstants>
     <PlatformTarget>x86</PlatformTarget>
     <Optimize>true</Optimize>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'InnoRelease|x86'">
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>WINDOWS;TAGGER;RELEASE;AUTOUPDATE</DefineConstants>
+    <DefineConstants>WINDOWS;TAGGER;INNORELEASE;AUTOUPDATE</DefineConstants>
     <PlatformTarget>x86</PlatformTarget>
     <Optimize>true</Optimize>
     <DebugType>none</DebugType>

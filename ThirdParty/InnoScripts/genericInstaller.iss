@@ -722,7 +722,8 @@ begin
 	// most AV does not like automated uninstalls so prompt to run as Admin
 	mbRet := MsgBox(ExpandConstant('{#AppTitle}') + ' (v'	+ installedVersion + ')' + #13#10 + 
                     'is currently installed.'  + #13#10 +  #13#10 + 
-			        'The uninstaller must be run as Administrator.   ' + #13#10 + #13#10 + 
+			        'The uninstaller must be run as Administrator   ' + #13#10 + 
+                    'to help prevent antivirus false positives.' + #13#10 + #13#10 + 
 			        'Do you want to perform a clean installation?', mbConfirmation, MB_YESNO);
 	//mbRet := IDNO; // silent uninstall
 	if  mbRet = IDNO

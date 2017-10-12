@@ -540,6 +540,7 @@ namespace CustomsForgeSongManager.UControls
                         GenExtensions.DeleteFile(Constants.SongsInfoPath);
                         GenExtensions.DeleteFile(Constants.AnalyzerDataPath);
                         GenExtensions.DeleteFile(Constants.AppSettingsPath);
+                        GenExtensions.DeleteDirectory(Constants.GridSettingsFolder);
                     }
                     catch (Exception ex)
                     {
@@ -613,19 +614,24 @@ namespace CustomsForgeSongManager.UControls
 
         private void PopulateMenuWithColumnHeaders(ContextMenuStrip contextMenuStrip)
         {
-
+            // fixes contextual menu bug 'Object reference not set to an instance of an object.' 
+            // that occur on startup when dgv settings have not yet been saved       
             if (RAExtensions.ManagerGridSettings == null)
             {
                 if (Globals.DgvCurrent == null)
                     Globals.DgvCurrent = dgvSongsMaster;
 
                 Globals.Settings.SaveSettingsToFile(dgvSongsMaster);
+                Globals.Settings.LoadSettingsFromFile(dgvSongsMaster);
+
+                if (RAExtensions.ManagerGridSettings != null)
+                    dgvSongsMaster.ReLoadColumnOrder(RAExtensions.ManagerGridSettings.ColumnOrder);
+                else
+                    return;
             }
 
             contextMenuStrip.Items.Clear();
-            var gridSettings = RAExtensions.ManagerGridSettings;
-
-            foreach (ColumnOrderItem columnOrderItem in gridSettings.ColumnOrder)
+            foreach (ColumnOrderItem columnOrderItem in RAExtensions.ManagerGridSettings.ColumnOrder)
             {
                 var cn = dgvSongsMaster.Columns[columnOrderItem.ColumnIndex].Name;
                 if (cn.ToLower().StartsWith("col"))

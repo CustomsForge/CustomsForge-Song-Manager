@@ -258,7 +258,7 @@ namespace CustomsForgeSongManager.UControls
                 MessageBox.Show(Properties.Resources.PleaseSelectHighlightTheSongThatNYouWould, Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-         private void SelectOlderVersions()
+        private void SelectOlderVersions()
         {
             // using concatinated ArtistTitleAlbumDate column to order by/sort on
             var sortedDupes = duplicates.OrderBy(x => x.ArtistTitleAlbumDate.ToLower()).ToList();
@@ -643,21 +643,26 @@ namespace CustomsForgeSongManager.UControls
             Globals.Settings.SaveSettingsToFile(dgvDuplicates);
         }
 
-         private void PopulateMenuWithColumnHeaders(ContextMenuStrip contextMenuStrip)
+        private void PopulateMenuWithColumnHeaders(ContextMenuStrip contextMenuStrip)
         {
-
+            // fixes contextual menu bug 'Object reference not set to an instance of an object.' 
+            // that occur on startup when dgv settings have not yet been saved       
             if (RAExtensions.ManagerGridSettings == null)
             {
                 if (Globals.DgvCurrent == null)
                     Globals.DgvCurrent = dgvDuplicates;
 
                 Globals.Settings.SaveSettingsToFile(dgvDuplicates);
+                Globals.Settings.LoadSettingsFromFile(dgvDuplicates);
+
+                if (RAExtensions.ManagerGridSettings != null)
+                    dgvDuplicates.ReLoadColumnOrder(RAExtensions.ManagerGridSettings.ColumnOrder);
+                else
+                    return;
             }
 
             contextMenuStrip.Items.Clear();
-            var gridSettings = RAExtensions.ManagerGridSettings;
-
-            foreach (ColumnOrderItem columnOrderItem in gridSettings.ColumnOrder)
+            foreach (ColumnOrderItem columnOrderItem in RAExtensions.ManagerGridSettings.ColumnOrder)
             {
                 var cn = dgvDuplicates.Columns[columnOrderItem.ColumnIndex].Name;
                 if (cn.ToLower().StartsWith("col"))
