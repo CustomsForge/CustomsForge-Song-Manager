@@ -756,7 +756,7 @@ namespace CustomsForgeSongManager.Forms
                     sbCSV.AppendLine(String.Format(@"sep={0}", csvSep));
 
                     string[] columns = { "Artist","Song name", "Path", "Notes", "Hammer-ons", "Pulloffs", "Harmonics", "Pinch harmonics", "Frethand mutes", "Palm mutes",
-                                         "Plucks", "Slaps", "Slides", "Unpitched slides", "Tremolos", "Taps", "Vibratos", "Sustains", "Bends"};
+                                         "Plucks", "Slaps", "Slides", "Unpitched slides", "Tremolos", "Taps", "Vibratos", "Sustains", "Bends", "Highest Fret Used"};
 
                     int maxChordNumber = 0;
                     var dgvSelection = new List<DataGridViewRow>();

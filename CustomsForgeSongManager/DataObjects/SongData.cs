@@ -284,7 +284,7 @@ namespace CustomsForgeSongManager.DataObjects
         [XmlIgnore]
         public Int32 VibratoCount { get { return Arrangements2D.Sum(a => a.VibratoCount); } }
         [XmlIgnore]
-        public Int32 HighestFretUsed { get { return Arrangements2D.Sum(a => a.HighestFretUsed); } }
+        public Int32 HighestFretUsed { get { return Arrangements2D.Max(a => a.HighestFretUsed); } }
 
 
         public void Delete()

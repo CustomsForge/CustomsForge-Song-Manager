@@ -265,9 +265,12 @@ namespace CustomsForgeSongManager.LocalTools
                                         if (!maxLevelChords.Any(c => c.Time == chord.Time) && !maxLevelNotes.Any(n => n.Time == chord.Time))
                                             maxLevelChords.Add(chord);
 
-                                        maxChordFret = chord.ChordNotes.Max(n => n.Fret);
-                                        if (maxChordFret > highestFretUsed)
-                                            highestFretUsed = maxChordFret;
+                                        if(chord.ChordNotes != null)
+                                        {
+                                            maxChordFret = chord.ChordNotes.Max(n => n.Fret);
+                                            if (maxChordFret > highestFretUsed)
+                                                highestFretUsed = maxChordFret;
+                                        }
                                     }
                                 }
 
