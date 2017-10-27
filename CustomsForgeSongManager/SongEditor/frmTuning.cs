@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
 using CustomsForgeSongManager.DataObjects;
-using RocksmithToolkitLib;
 using RocksmithToolkitLib.Extensions;
 using RocksmithToolkitLib.XML;
 using RocksmithToolkitLib.XmlRepository;

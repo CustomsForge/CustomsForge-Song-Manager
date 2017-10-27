@@ -2,13 +2,13 @@
 using System.ComponentModel;
 using System.Windows.Forms;
 using CFSM.AudioTools;
+using CustomsForgeSongManager.Forms;
 using CustomsForgeSongManager.LocalTools;
 using CustomsForgeSongManager.UControls;
 using CustomsForgeSongManager.UITheme;
 using DF.WinForms.ThemeLib;
 using DLogNet;
 using System;
-using RocksmithToolkitLib;
 using RocksmithToolkitLib.XmlRepository;
 
 namespace CustomsForgeSongManager.DataObjects
@@ -176,9 +176,9 @@ namespace CustomsForgeSongManager.DataObjects
         public static ToolStripStatusLabel TsLabel_StatusMsg { get; set; }
         public static ToolStripProgressBar TsProgressBar_Main { get; set; }
 
-        public static CustomsForgeSongManager.Forms.frmMain MainForm
+        public static frmMain MainForm
         {
-            get { return (CustomsForgeSongManager.Forms.frmMain)Application.OpenForms["frmMain"]; }
+            get { return (frmMain)Application.OpenForms["frmMain"]; }
         }
 
         public static IMainForm iMainForm

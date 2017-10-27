@@ -16,7 +16,6 @@ using Newtonsoft.Json;
 using System.Text.RegularExpressions;
 using System.ComponentModel;
 
-
 // NOTE: the app is designed for default user screen resolution of 1024x768
 // dev screen resolution should be set to this when designing forms and controls
 // all png images are 16x16 resolution for buttons, unless higher resolution for some other use
@@ -24,6 +23,8 @@ using System.ComponentModel;
 // NOTE: any usage of 'public enum' in code that will be obfuscated must be preceeded with
 // [Obfuscation(Exclude = false, Feature = "-rename")]
 // so that ConfuserEx does not rename the enumerators
+//
+// NOTE: for Mac compatiblity use absolute paths ... do not use generic/relative @"./" paths 
 //
 namespace CustomsForgeSongManager.Forms
 {
@@ -96,15 +97,7 @@ namespace CustomsForgeSongManager.Forms
             Globals.Log(Constants.AppTitle);
             Globals.Log(GetRSTKLibVersion());
 
-            // load settings
-            Globals.Settings.LoadSettingsFromFile(null); // null => workaround to prevent showing 'Loaded appSettings.xml file ...' 2X
-
-            if (AppSettings.Instance.ShowLogWindow)
-            {
-                tsLabel_ShowHideLog.Text = Properties.Resources.HideLog;
-                scMain.Panel2Collapsed = false;
-            }
-
+            // initialize show log event handler before loading settings
             AppSettings.Instance.PropertyChanged += (s, e) =>
             {
                 if (e.PropertyName == "ShowLogWindow")
@@ -113,6 +106,24 @@ namespace CustomsForgeSongManager.Forms
                     tsLabel_ShowHideLog.Text = scMain.Panel2Collapsed ? Properties.Resources.ShowLog : Properties.Resources.HideLog;
                 }
             };
+
+            // load settings
+            Globals.Settings.LoadSettingsFromFile(null); // null => workaround to prevent showing 'Loaded appSettings.xml file ...' 2X
+
+            // set app title after settings are loaded
+            var strFormatVersion = "{0} (v{1} - {2})";
+#if INNOBETA
+            strFormatVersion = "{0} (v{1} - {2} BETA VERSION)";
+#endif
+#if INNORELEASE
+            strFormatVersion = "{0} (v{1} - {2} RELEASE VERSION)";
+#endif
+
+            if (Constants.DebugMode)
+                strFormatVersion = "{0} (v{1} - {2} DEBUG)";
+
+            Constants.AppTitle = String.Format(strFormatVersion, Constants.ApplicationName, Constants.CustomVersion(), Constants.OnMac ? "MAC" : "PC");
+            this.Text = Constants.AppTitle;
 
             this.Show();
             this.WindowState = AppSettings.Instance.FullScreen ? FormWindowState.Maximized : FormWindowState.Normal;
@@ -212,7 +223,10 @@ namespace CustomsForgeSongManager.Forms
             {
                 Globals.SongManager.SetRepairOptions();
                 Globals.Settings.SaveSettingsToFile(Globals.DgvCurrent);
-                Globals.SongManager.SaveSongCollectionToFile();
+
+                // do not SaveSongCollectionToFile when changing compatibility mode
+                if (File.Exists(Constants.SongsInfoPath) || File.Exists(Constants.AnalyzerDataPath))
+                    Globals.SongManager.SaveSongCollectionToFile();
             }
         }
 
@@ -375,7 +389,7 @@ namespace CustomsForgeSongManager.Forms
             ShowHideLog();
         }
 
-        private void frmMain_Load(object sender, EventArgs e)
+        private void frmMain_Load(object sender, EventArgs e) // done after frmMain()
         {
             // be nice to the developers ... don't try to update in Debug mode
 #if AUTOUPDATE
@@ -389,23 +403,40 @@ namespace CustomsForgeSongManager.Forms
             const string appArchive = "CFSMSetupBeta.rar";
 #endif
 
-            const string versInfoUrl = UpdateURL + "/VersionInfo.txt";
-            const string appExe = "CustomsForgeSongManager.exe";
-            const string appSetup = "CFSMSetup.exe";
-            var appExePath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), appExe);
-
             if (AppSettings.Instance.EnableAutoUpdate)
+            {
+                const string appSetup = "CFSMSetup.exe";
+                const string appExe = "CustomsForgeSongManager.exe";
+                var appExePath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), appExe);
+                var versInfoUrl = String.Format("{0}/{1}", serverUrl, "VersionInfo.txt");
+
                 if (AutoUpdater.NeedsUpdate(appExePath, versInfoUrl))
                 {
-                    if (File.Exists(appSetup))
-                        System.Diagnostics.Process.Start(appSetup, "-appupdate");
-                    else
-                        MessageBox.Show(appSetup + " not found, please download the program again.");
+                    Globals.Log("Downloading WebApp: " + appArchive + " ...");
+                    var tempDir = Constants.TempWorkFolder;
+                    var downloadUrl = String.Format("{0}/{1}", serverUrl, appArchive);
+
+                    if (AutoUpdater.DownloadWebApp(downloadUrl, appArchive, tempDir))
+                    {
+                        if (ZipUtilities.UnrarDir(Path.Combine(tempDir, appArchive), tempDir))
+                        {
+                            Process proc = new Process();
+                            proc.StartInfo.FileName = Path.Combine(tempDir, appSetup);
+                            proc.StartInfo.Arguments = "-appupdate";
+                            proc.Start();
+                            // Kill app abruptly so InnoSetup completes
+                            // DO NOT use Application.Exit     
+                            Environment.Exit(0);                        
+                        }
+                        else
+                            MessageBox.Show(appSetup + " not found ..." + Environment.NewLine + "Please manually download CFSM from the webpage.");
+                    }
                 }
+            }
+#endif
         }
 
         private delegate void DoSomethingWithGridSelectionAction(DataGridView dg, IEnumerable<DataGridViewRow> selected, DataGridViewColumn colSel, List<int> IgnoreColums);
-
         private void DoSomethingWithGrid(DoSomethingWithGridSelectionAction action)
         {
             if (action != null && currentControl != null && currentControl is IDataGridViewHolder)
@@ -731,7 +762,7 @@ namespace CustomsForgeSongManager.Forms
                     sbCSV.AppendLine(String.Format(@"sep={0}", csvSep));
 
                     string[] columns = { "Artist","Song name", "Path", "Notes", "Hammer-ons", "Pulloffs", "Harmonics", "Pinch harmonics", "Frethand mutes", "Palm mutes",
-                                         "Plucks", "Slaps", "Slides", "Unpitched slides", "Tremolos", "Taps", "Vibratos", "Sustains", "Bends"};
+                                         "Plucks", "Slaps", "Slides", "Unpitched slides", "Tremolos", "Taps", "Vibratos", "Sustains", "Bends", "Highest Fret Used"};
 
                     int maxChordNumber = 0;
                     var dgvSelection = new List<DataGridViewRow>();
@@ -746,7 +777,7 @@ namespace CustomsForgeSongManager.Forms
 
                     foreach (var songRow in dgvSelection)
                     {
-                        var song = DGVTools.DgvExtensions.GetObjectFromRow<SongData>(songRow);
+                        var song = DataGridViewTools.DgvExtensions.GetObjectFromRow<SongData>(songRow);
 
                         string s = song.Artist + " - " + song.Title;
                         var statPairList = new List<StatPair>();
@@ -802,7 +833,7 @@ namespace CustomsForgeSongManager.Forms
 
                                 s = song.Artist + csvSep + song.Title + csvSep + arr.Name + csvSep + " " + arr.NoteCount + csvSep + arr.HammerOnCount + csvSep + arr.PullOffCount + csvSep + arr.HarmonicCount
                                     + csvSep + arr.HarmonicPinchCount + csvSep + arr.FretHandMuteCount + csvSep + arr.PalmMuteCount + csvSep + arr.PluckCount + csvSep + arr.SlapCount + csvSep + arr.SlideCount
-                                    + csvSep + arr.UnpitchedSlideCount + csvSep + arr.TremoloCount + csvSep + arr.TapCount + csvSep + arr.VibratoCount + csvSep + arr.SustainCount + csvSep + arr.BendCount + csvSep;
+                                    + csvSep + arr.UnpitchedSlideCount + csvSep + arr.TremoloCount + csvSep + arr.TapCount + csvSep + arr.VibratoCount + csvSep + arr.SustainCount + csvSep + arr.BendCount + csvSep + arr.HighestFretUsed + csvSep;
 
                                 if (arr.ChordNames != null && arr.ChordNames.Count() == 0)
                                     s +=
@@ -834,6 +865,7 @@ namespace CustomsForgeSongManager.Forms
                                 statPair.GeneralStats.Add("Vibratos", arr.VibratoCount.ToString());
                                 statPair.GeneralStats.Add("Sustains", arr.SustainCount.ToString());
                                 statPair.GeneralStats.Add("Bends", arr.BendCount.ToString());
+                                statPair.GeneralStats.Add("Highest Fret Used", arr.HighestFretUsed.ToString());
 
                                 statPair.ChordNums = new Dictionary<string, int>();
                                 for (int i = 0; i < arr.ChordNames.Count; i++)
@@ -884,10 +916,18 @@ namespace CustomsForgeSongManager.Forms
                         Globals.Log("<Error>: " + ex.Message);
                     }
 
-                    if (File.Exists(path))
+
+                    try
                     {
-                        if (MessageBox.Show("Do you want to open the exported file?", "Open the exported file", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
-                            Process.Start(path);
+                        if (File.Exists(path))
+                        {
+                            if (MessageBox.Show("Do you want to open the exported file?", "Open the exported file", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
+                                Process.Start(path);
+                        }
+                    }
+                    catch (Win32Exception)
+                    {
+                        Globals.Log("No suitable application detected!");
                     }
                 }
         }
@@ -901,6 +941,7 @@ namespace CustomsForgeSongManager.Forms
         {
             AnalyzerExport("json");
         }
+
 
     }
 }

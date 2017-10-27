@@ -4,6 +4,7 @@ using System.IO;
 using System.Windows.Forms;
 using CustomsForgeSongManager.DataObjects;
 using Microsoft.Win32;
+using GenTools;
 
 namespace CustomsForgeSongManager.LocalTools
 {
@@ -25,12 +26,27 @@ namespace CustomsForgeSongManager.LocalTools
             else
                 try
                 {
-                    Process.Start("steam://rungameid/221680");
+                    if (SysExtensions.OnMac(AppSettings.Instance.RSInstalledDir))
+                    {
+                        string command = "open steam://rungameid/221680";
+
+                        Process proc = new Process();
+                        proc.StartInfo.FileName = "/bin/bash";
+                        proc.StartInfo.Arguments = "-c \" " + command + " \"";
+                        proc.Start();
+                    }
+                    else
+                        Process.Start("steam://rungameid/221680");
                 }
                 catch (Exception)
                 {
                     Globals.Log("Can not find Steam version of Rocksmith 2014");
                 }
+        }
+
+        public static void LaunchApp(string path)
+        {
+            Process.Start(path);
         }
 
         private static string GetStringValueFromRegistry(string keyName, string valueName)

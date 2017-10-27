@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
-using System.Reflection;
 using System.Windows.Forms;
-using GenTools;
 using CustomsForgeSongManager.DataObjects;
 using CustomsForgeSongManager.Forms;
+using GenTools;
 using DF.WinForms.ThemeLib;
 using DLogNet;
 using DataGridViewTools;
@@ -59,7 +58,7 @@ namespace CustomsForgeSongManager
 
         private static void RunApp()
         {
-            // TODO: RunApp() seems very redundant ... please comment code
+            // depricated ClickOnceUpgrade legacy code
 #if WEBDEPLOY_RELEASE
             if (System.Deployment.Application.ApplicationDeployment.IsNetworkDeployed)
             {

@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
 using CustomsForgeSongManager.DataObjects;
-using GenTools;
 using CustomsForgeSongManager.Forms;
+using GenTools;
 using RocksmithToolkitLib.PsarcLoader;
 using RocksmithToolkitLib.DLCPackage;
 using RocksmithToolkitLib.Sng;
@@ -16,7 +15,6 @@ using RocksmithToolkitLib.XML;
 using RocksmithToolkitLib.DLCPackage.Manifest.Functions;
 using RocksmithToolkitLib;
 using Arrangement = RocksmithToolkitLib.DLCPackage.Arrangement;
-
 
 // DO NOT USE RESHAPER SORT ON THIS METHOD IT RUINS REPAIR OPTIONS OBJECT ORDER
 namespace CustomsForgeSongManager.LocalTools

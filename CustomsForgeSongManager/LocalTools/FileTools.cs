@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using CustomsForgeSongManager.DataObjects;
-using CustomsForgeSongManager.Forms;
 using GenTools;
 using RocksmithToolkitLib.DLCPackage;
 using RocksmithToolkitLib.Extensions;
@@ -133,7 +132,7 @@ namespace CustomsForgeSongManager.LocalTools
 
                     var artistName = songInfo.Artist;
                     var titleName = songInfo.Title;
-                    var destFileName = String.Format("{0}_{1}_v{2}_p.psarc", artistName, titleName, version);
+                    var destFileName = String.Format("{0}_{1}_v{2}{3}", artistName, titleName, version, Constants.PsarcExtension);
                     var destDir = Path.Combine(dlcDir, artistName);
                     destFilePath = Path.Combine(destDir, destFileName);
 

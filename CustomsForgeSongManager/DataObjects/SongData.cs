@@ -136,9 +136,9 @@ namespace CustomsForgeSongManager.DataObjects
             set
             {
                 if (!OfficialDLC || Globals.DgvCurrent.Name != "dgvMasterSongs")
-                    _selected = value; // SetPropertyField("Selected", ref FSelected, value);              
+                    SetPropertyField("Selected", ref _selected, value); // _selected = value;          
                 else
-                    _selected = false;
+                    SetPropertyField("Selected", ref _selected, false); //_selected = false;
             }
         }
 
@@ -283,6 +283,9 @@ namespace CustomsForgeSongManager.DataObjects
         public Int32 TapCount { get { return Arrangements2D.Sum(a => a.TapCount); } }
         [XmlIgnore]
         public Int32 VibratoCount { get { return Arrangements2D.Sum(a => a.VibratoCount); } }
+        [XmlIgnore]
+        public Int32 HighestFretUsed { get { return Arrangements2D.Max(a => a.HighestFretUsed); } }
+
 
         public void Delete()
         {
@@ -311,7 +314,7 @@ namespace CustomsForgeSongManager.DataObjects
         public Int32 DMax { get; set; }
         public string ToneBase { get; set; }
         public Int32 SectionCount { get; set; }
-       
+
         // TODO: make custom object for Analyzer data and save to seperate xml file
         // public Analyzer Analyzer { get; set; }
 
@@ -388,6 +391,7 @@ namespace CustomsForgeSongManager.DataObjects
         public Int32 UnpitchedSlideCount { get; set; }
         public Int32 TapCount { get; set; }
         public Int32 VibratoCount { get; set; }
+        public Int32 HighestFretUsed { get; set; }
     }
 
 

@@ -284,6 +284,13 @@ namespace CustomsForgeSongManager.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap darkseph {
+            get {
+                object obj = ResourceManager.GetObject("darkseph", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap delete {
             get {
                 object obj = ResourceManager.GetObject("delete", resourceCulture);

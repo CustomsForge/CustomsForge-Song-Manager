@@ -6,20 +6,18 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
 using CustomControls;
-using GenTools;
 using CustomsForgeSongManager.DataObjects;
 using CustomsForgeSongManager.Forms;
 using CustomsForgeSongManager.LocalTools;
 using CustomsForgeSongManager.SongEditor;
 using CustomsForgeSongManager.UITheme;
+using GenTools;
 using DataGridViewTools;
 using Newtonsoft.Json;
 using System.Xml;
-using Globals = CustomsForgeSongManager.DataObjects.Globals;
 
 // TODO: apply Lovro's SongCollection rescan/updated as a generic method to
 // replace usages of Globals.ReloadSongManager or RescanSongManager = true
@@ -542,6 +540,7 @@ namespace CustomsForgeSongManager.UControls
                         GenExtensions.DeleteFile(Constants.SongsInfoPath);
                         GenExtensions.DeleteFile(Constants.AnalyzerDataPath);
                         GenExtensions.DeleteFile(Constants.AppSettingsPath);
+                        GenExtensions.DeleteDirectory(Constants.GridSettingsFolder);
                     }
                     catch (Exception ex)
                     {
@@ -615,19 +614,24 @@ namespace CustomsForgeSongManager.UControls
 
         private void PopulateMenuWithColumnHeaders(ContextMenuStrip contextMenuStrip)
         {
-
+            // fixes contextual menu bug 'Object reference not set to an instance of an object.' 
+            // that occur on startup when dgv settings have not yet been saved       
             if (RAExtensions.ManagerGridSettings == null)
             {
                 if (Globals.DgvCurrent == null)
                     Globals.DgvCurrent = dgvSongsMaster;
 
                 Globals.Settings.SaveSettingsToFile(dgvSongsMaster);
+                Globals.Settings.LoadSettingsFromFile(dgvSongsMaster);
+
+                if (RAExtensions.ManagerGridSettings != null)
+                    dgvSongsMaster.ReLoadColumnOrder(RAExtensions.ManagerGridSettings.ColumnOrder);
+                else
+                    return;
             }
 
             contextMenuStrip.Items.Clear();
-            var gridSettings = RAExtensions.ManagerGridSettings;
-
-            foreach (ColumnOrderItem columnOrderItem in gridSettings.ColumnOrder)
+            foreach (ColumnOrderItem columnOrderItem in RAExtensions.ManagerGridSettings.ColumnOrder)
             {
                 var cn = dgvSongsMaster.Columns[columnOrderItem.ColumnIndex].Name;
                 if (cn.ToLower().StartsWith("col"))
@@ -1118,18 +1122,18 @@ namespace CustomsForgeSongManager.UControls
                 {
                     if (selection.Enabled == "Yes")
                     {
-                        var disabledPath = originalPath.Replace("_p.psarc", "_p.disabled.psarc");
+                        var disabledPath = originalPath.Replace(Constants.PsarcExtension, Constants.DisabledPsarcExtension);
                         File.Move(originalPath, disabledPath);
                         dgvSongsMaster.SelectedRows[0].Cells["colFilePath"].Value = disabledPath;
-                        dgvSongsMaster.SelectedRows[0].Cells["colFileName"].Value = originalFile.Replace("_p.psarc", "_p.disabled.psarc");
+                        dgvSongsMaster.SelectedRows[0].Cells["colFileName"].Value = originalFile.Replace(Constants.PsarcExtension, Constants.DisabledPsarcExtension);
                         dgvSongsMaster.SelectedRows[0].Cells["colEnabled"].Value = "No";
                     }
                     else
                     {
-                        var enabledPath = originalPath.Replace("_p.disabled.psarc", "_p.psarc");
+                        var enabledPath = originalPath.Replace(Constants.DisabledPsarcExtension, Constants.PsarcExtension);
                         File.Move(originalPath, enabledPath);
                         dgvSongsMaster.SelectedRows[0].Cells["colFilePath"].Value = enabledPath;
-                        dgvSongsMaster.SelectedRows[0].Cells["colFileName"].Value = originalFile.Replace("_p.disabled.psarc", "_p.psarc");
+                        dgvSongsMaster.SelectedRows[0].Cells["colFileName"].Value = originalFile.Replace(Constants.DisabledPsarcExtension, Constants.PsarcExtension);
                         dgvSongsMaster.SelectedRows[0].Cells["colEnabled"].Value = "Yes";
                     }
 
@@ -1763,18 +1767,18 @@ namespace CustomsForgeSongManager.UControls
                         {
                             if (row.Cells["colEnabled"].Value.ToString() == "Yes")
                             {
-                                var disabledPath = originalPath.Replace("_p.psarc", "_p.disabled.psarc");
+                                var disabledPath = originalPath.Replace(Constants.PsarcExtension, Constants.DisabledPsarcExtension);
                                 File.Move(originalPath, disabledPath);
                                 row.Cells["colFilePath"].Value = disabledPath;
-                                row.Cells["colFileName"].Value = originalFile.Replace("_p.psarc", "_p.disabled.psarc");
+                                row.Cells["colFileName"].Value = originalFile.Replace(Constants.PsarcExtension, Constants.DisabledPsarcExtension);
                                 row.Cells["colEnabled"].Value = "No";
                             }
                             else
                             {
-                                var enabledPath = originalPath.Replace("_p.disabled.psarc", "_p.psarc");
+                                var enabledPath = originalPath.Replace(Constants.PsarcExtension, Constants.DisabledPsarcExtension);
                                 File.Move(originalPath, enabledPath);
                                 row.Cells["colFilePath"].Value = enabledPath;
-                                row.Cells["colFileName"].Value = originalFile.Replace("_p.disabled.psarc", "_p.psarc");
+                                row.Cells["colFileName"].Value = originalFile.Replace(Constants.DisabledPsarcExtension, Constants.PsarcExtension);
                                 row.Cells["colEnabled"].Value = "Yes";
                             }
 
@@ -2159,7 +2163,14 @@ namespace CustomsForgeSongManager.UControls
         {
             var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster);
             if (!selection.Any())
-                return;
+            {
+                // get analyzer data for a single highlighted ODLC/CDLC
+                var selected = DgvExtensions.GetObjectFromFirstSelectedRow<SongData>(dgvSongsMaster);
+                if (selected == null)
+                    return;
+                else
+                    selection.Add(selected);
+            }
 
             Globals.Log("Please wait ...");
             Globals.Log("Getting Analyzer Data for selected songs ...");

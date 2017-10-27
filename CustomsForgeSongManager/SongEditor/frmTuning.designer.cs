@@ -1,7 +1,4 @@
-﻿
-
-using CustomControls;
-using CustomsForgeSongManager.LocalTools;
+﻿using CustomControls;
 
 namespace CustomsForgeSongManager.SongEditor
 {

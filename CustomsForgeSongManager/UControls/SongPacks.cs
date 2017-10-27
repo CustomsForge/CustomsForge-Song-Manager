@@ -7,10 +7,10 @@ using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
 using System.IO;
-using GenTools;
-using CFSM.RSTKLib.PSARC;
 using CustomsForgeSongManager.DataObjects;
 using CustomsForgeSongManager.UITheme;
+using GenTools;
+using CFSM.RSTKLib.PSARC;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using RocksmithToolkitLib;
@@ -475,11 +475,11 @@ namespace CustomsForgeSongManager.UControls
                     LoadSongPackList(CacheSongCollection, CacheDisabledSongCollection);
                     break;
                 case 1: // rs1compatibilitydisc_p.psarc
-                    txtFileName.Text = " rs1compatibilitydisc_p.psarc";
+                    txtFileName.Text = " rs1compatibilitydisc" + Constants.PsarcExtension;
                     LoadSongPackList(Rs1DiscSongCollection, Rs1DiscDisabledSongCollection);
                     break;
                 case 2: // rs1compatibilitydlc_p.psarc
-                    txtFileName.Text = "rs1compatibilitydlc_p.psarc";
+                    txtFileName.Text = "rs1compatibilitydlc" + Constants.PsarcExtension;
                     LoadSongPackList(Rs1DlcSongCollection, Rs1DlcDisabledSongCollection);
                     break;
                 case 3: // custom song pack
@@ -537,8 +537,8 @@ namespace CustomsForgeSongManager.UControls
                 {
                     Globals.TsProgressBar_Main.Value = 20;
 
-                    if (File.Exists(Constants.Rs1DiscPsarcPath.Replace("_p.", "_p.disabled.")))
-                        File.Delete(Constants.Rs1DiscPsarcPath.Replace("_p.", "_p.disabled."));
+                    if (File.Exists(Constants.Rs1DiscPsarcPath.Replace(Constants.PsarcExtension, Constants.DisabledPsarcExtension)))
+                        File.Delete(Constants.Rs1DiscPsarcPath.Replace(Constants.PsarcExtension, Constants.DisabledPsarcExtension));
 
                     File.Copy(Constants.Rs1DiscPsarcBackupPath, Constants.Rs1DiscPsarcPath, true);
                     File.SetAttributes(Constants.Rs1DiscPsarcPath, FileAttributes.Normal);

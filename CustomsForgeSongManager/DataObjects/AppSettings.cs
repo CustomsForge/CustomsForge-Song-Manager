@@ -55,12 +55,6 @@ namespace CustomsForgeSongManager.DataObjects
             set { SetPropertyField("RSProfileDir", ref _rsProfileDir, value); }
         }
 
-        public bool EnableAutoUpdate
-        {
-            get { return _enableAutoUpdate; }
-            set { SetPropertyField("EnableAutoUpdate", ref _enableAutoUpdate, value); }
-        }
-
         public bool IncludeRS1CompSongs
         {
             get { return _includeRS1CompSongs; }
@@ -95,6 +89,18 @@ namespace CustomsForgeSongManager.DataObjects
         {
             get { return _enableNotifications; }
             set { SetPropertyField("EnableNotifications", ref _enableNotifications, value); }
+        }
+
+        public bool ValidateD3D
+        {
+            get { return _validateD3D; }
+            set { SetPropertyField("ValidateD3D", ref _validateD3D, value); }
+        }
+
+        public bool MacMode
+        {
+            get { return _macMode; }
+            set { SetPropertyField("MacMode", ref _macMode, value); }
         }
 
         public bool CleanOnClosing
@@ -240,9 +246,9 @@ namespace CustomsForgeSongManager.DataObjects
                 using (var fs = File.OpenRead(settingsPath))
                     LoadSettingsFromStream(fs);
             }
- 
+
             // not done on app startup
-            if (dgvCurrent != null) 
+            if (dgvCurrent != null)
             {
                 if (File.Exists(settingsPath))
                     Globals.Log("Loaded File: " + Path.GetFileName(Constants.AppSettingsPath));

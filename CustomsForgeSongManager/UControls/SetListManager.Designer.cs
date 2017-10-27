@@ -1,7 +1,6 @@
 ﻿using System.Windows.Forms;
 using DataGridViewTools;
 
-
 namespace CustomsForgeSongManager.UControls
 {
     partial class SetlistManager

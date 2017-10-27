@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using GenTools;
 using CustomsForgeSongManager.DataObjects;
+using GenTools;
 using RocksmithToolkitLib.DLCPackage;
 using RocksmithToolkitLib.DLCPackage.Manifest2014.Tone;
 using RocksmithToolkitLib.PsarcLoader;
@@ -188,7 +188,7 @@ namespace CustomsForgeSongManager.LocalTools
                         if (!overwriteFile)
                         {
                             Globals.Log(" - Adding pitch shifting effect to a new CDLC file");
-                            finalPath = srcFilePath.Replace("_p.psarc", ext + "_p.psarc");
+                            finalPath = srcFilePath.Replace(Constants.PsarcExtension, ext + Constants.PsarcExtension);
                         }
                         else
                             Globals.Log(" - Adding pitch shifting effect to existing file");

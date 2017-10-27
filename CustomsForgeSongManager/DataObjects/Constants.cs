@@ -37,7 +37,7 @@ namespace CustomsForgeSongManager.DataObjects
 
         public static readonly string RS1COMP = "rs1compatibility";
         public static readonly string SONGPACK = "songpack";
-        public static readonly string ABVSONGPACK = "_sp_"; // abreviation for songpack
+        public static readonly string ABVSONGPACK = "_sp_"; // abbreviation for songpack
         public static readonly string ApplicationName = "CustomsForge Song Manager";
 
         public static Font OfficialDLCFont { get { return new Font("Arial", 8, FontStyle.Bold | FontStyle.Italic); } }
@@ -62,17 +62,58 @@ namespace CustomsForgeSongManager.DataObjects
         public static string TaggerExtractedFolder { get { return Path.Combine(TaggerWorkingFolder, "extracted"); } }
         public static string TaggerPreviewsFolder { get { return Path.Combine(TaggerWorkingFolder, "previews"); } }
 
+        public static bool OnMac
+        {
+            get
+            {
+                if (Rs2DlcFolder.Contains("Application Support")) //Rather unreliable, but other methods have been proven not to work in all cases on Wineskin
+                {
+                    AppSettings.Instance.MacMode = true;
+                    return true;
+                }
+
+                // run Mac compatiblity mode when on a PC
+                if (AppSettings.Instance.MacMode)
+                    return true;
+
+                return false;
+            }
+        }
+
+        public static string PsarcExtension
+        {
+            get
+            {
+                if (OnMac)
+                    return "_m.psarc";
+                else
+                    return "_p.psarc";
+            }
+        }
+
+        public static string DisabledPsarcExtension
+        {
+            get
+            {
+                if (OnMac)
+                    return "_m.disabled.psarc";
+                else
+                    return "_p.disabled.psarc";
+            }
+        }
 
         public static string Rs1DiscPsarcPath
         {
             get
             {
+                var rs1PackName = "rs1compatibilitydisc" + PsarcExtension;
                 var dlcPath = Rs2DlcFolder;
+
                 // TODO: determine if GetFiles is case sensitive
-                var files = Directory.GetFiles(dlcPath, "rs1compatibilitydisc_p.psarc", SearchOption.AllDirectories);
+                var files = Directory.GetFiles(dlcPath, rs1PackName, SearchOption.AllDirectories);
                 if (files.Length > 0)
                     return files[0];
-                return Path.Combine(dlcPath, "rs1compatibilitydisc_p.psarc");
+                return Path.Combine(dlcPath, rs1PackName);
             }
         }
 
@@ -80,12 +121,14 @@ namespace CustomsForgeSongManager.DataObjects
         {
             get
             {
+                var rs1DlcPackName = "rs1compatibilitydlc" + PsarcExtension;
                 var dlcPath = Rs2DlcFolder;
+
                 // TODO: determine if GetFiles is case sensitive
-                var files = Directory.GetFiles(dlcPath, "rs1compatibilitydlc_p.psarc", SearchOption.AllDirectories);
+                var files = Directory.GetFiles(dlcPath, rs1DlcPackName, SearchOption.AllDirectories);
                 if (files.Length > 0)
                     return files[0];
-                return Path.Combine(dlcPath, "rs1compatibilitydlc_p.psarc");
+                return Path.Combine(dlcPath, rs1DlcPackName);
             }
         }
 
@@ -98,7 +141,7 @@ namespace CustomsForgeSongManager.DataObjects
         // not a good practice for app to use rocksmith2014 folder because of issues with OS Permissions and some AV
         [Obsolete("Depricated, please use 'My Documents/CFSM' folder", false)]
         public static string Rs2CfsmFolder { get { return Path.Combine(AppSettings.Instance.RSInstalledDir, "cfsm"); } }
-        
+
         public static string Rs2OriginalsFolder { get { return Path.Combine(AppSettings.Instance.RSInstalledDir, "originals"); } }
         public static string Rs1DiscPsarcBackupPath { get { return Path.Combine(Rs2OriginalsFolder, "rs1compatibilitydisc_p.org.psarc"); } }
         public static string Rs1DlcPsarcBackupPath { get { return Path.Combine(Rs2OriginalsFolder, "rs1compatibilitydlc_p.org.psarc"); } }
@@ -137,13 +180,7 @@ namespace CustomsForgeSongManager.DataObjects
         public const string DefaultAuthURL = "http://ignition.dev.customsforge.com/api/auth";
         public const string DefaultDetailsURL = "http://ignition.dev.customsforge.com/api/details";
         public const string DefaultCFSongUrl = CustomsForgeURL + "page/customsforge_rs_2014_cdlc.html/_/pc-enabled-rs-2014-cdlc/";
-        public const string DefaultInfoURL =
-
-#if (DEBUG)
- @"http://ignition.dev.customsforge.com/api/search";
-#else
- @"http://ignition.dev.customsforge.com/api/search";
-#endif
+        public const string DefaultInfoURL = "http://ignition.dev.customsforge.com/api/search";
 
         #endregion
 

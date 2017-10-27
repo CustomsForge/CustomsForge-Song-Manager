@@ -133,6 +133,16 @@ NOTE:
 This is a resettable toggle button
 so the action occurs only one time.</value>
   </data>
+  <data name="chkMacMode.ToolTip" xml:space="preserve">
+    <value>If checked, switch CFSM to Mac
+compatibility mode to use with
+Mac CDLC '_m.psarc' files even
+when running on a PC.
+
+NOTE: CFSM will automatically restart
+and rescan the 'dlc' folder when 
+switching compatibility modes.</value>
+  </data>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>39</value>
   </metadata>

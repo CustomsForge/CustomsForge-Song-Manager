@@ -37,7 +37,6 @@ namespace CustomsForgeSongManager.LocalTools
             File.WriteAllText(verInfoPath, txt);
             Debug.WriteLine("CreateVersionInfo was sucessful");
         }
-
     }
 }
 

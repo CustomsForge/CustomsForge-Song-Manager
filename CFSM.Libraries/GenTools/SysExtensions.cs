@@ -8,6 +8,7 @@ using System.Management;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
 using Microsoft.Win32;
+using System.IO;
 
 namespace GenTools
 {
@@ -636,6 +637,25 @@ namespace GenTools
             get { return Environment.Version.ToString(); }
         }
 
+        #endregion
+
+        #region MAC
+        public static bool OnMac(string rs2DlcFolder = "")
+        {
+            if (rs2DlcFolder.Contains("Users") && rs2DlcFolder.Contains("Library"))
+                return true;
+
+            if (rs2DlcFolder.Contains("Application Support")) // hack work around
+                return true;
+
+            // TODO: for Wine compatiblity make all paths absolute, i.e. do not use '@"/'
+            //if (File.Exists(@"/System/Library/CoreServices/SystemVersion.plist") || Directory.Exists("@/Users"))
+            if (Directory.Exists("/Applications") & Directory.Exists("/System") &
+                Directory.Exists("/Users") & Directory.Exists("/Volumes"))
+                return true;
+
+            return false;
+        }
         #endregion
 
         #region ADMIN RIGHTS

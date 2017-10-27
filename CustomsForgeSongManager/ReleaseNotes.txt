@@ -69,9 +69,9 @@ CFSM Release Notes
 - improved fatal error reporting
 
 1.4.0.1
-- restructured Inno Installer
+- restructured InnoSetup
 - added unRAR ability to Inno Installer
-- force user to run Inno Uninstaller as Admin to reduce AV false positives
+- force user to run Inno uninstaller as Admin to reduce AV false positives
 - synchronized develop and master repo branches
 
 1.4.0.0

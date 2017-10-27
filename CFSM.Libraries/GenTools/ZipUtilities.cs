@@ -366,5 +366,34 @@ namespace GenTools
                 return;
             }
         }
+
+        /// <summary>
+        /// Extracts all data from a .rar archive to an output directory path.
+        /// </summary>
+        /// <param name="rarArchivePath">The file (archive) to extract data from.</param>
+        /// <param name="outputDirPath">The directory to put the extracted data into.</param>
+        public static bool UnrarDir(string rarArchivePath, string outputDirPath, InArchiveFormat archiveFormat = InArchiveFormat.Rar)
+        {
+            rarArchivePath = Path.GetFullPath(rarArchivePath);
+            outputDirPath = Path.GetFullPath(outputDirPath);
+
+            try
+            {
+                using (SevenZipExtractor extractor = new SevenZipExtractor(rarArchivePath))
+                {
+                    extractor.ExtractArchive(outputDirPath);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("<Error> UnrarDir - " + ex.Message);
+                return false;
+            }
+
+            return true;
+        }
+
+
+
     }
 }

@@ -11,20 +11,21 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 using CustomControls;
-using GenTools;
 using CustomsForgeSongManager.DataObjects;
-using CustomsForgeSongManager.Forms;
+using GenTools;
 using RocksmithToolkitLib;
 
 namespace CustomsForgeSongManager.LocalTools
 {
     public class AutoUpdater
     {
-        private const string NO_INTERNET = "No Internet Connection";
         private const string NOT_FOUND = "Not Found";
-        private static string _versOnline;
+        private const string NO_INTERNET = "No Internet Connection";
+        private static bool _downloadComplete;
+        private static bool _downloadError;
         private static DateTime _lastCheck = default(DateTime);
         private static string _versInfoUrl;
+        private static string _versOnline;
 
         public static string ReleaseNotes { get; private set; }
 
@@ -48,166 +49,6 @@ namespace CustomsForgeSongManager.LocalTools
                 _versOnline = value;
             }
         }
-
-        public static string VersInstalled(string appExePath)
-        {
-            if (!File.Exists(appExePath))
-                return NOT_FOUND;
-
-            var versInfo = FileVersionInfo.GetVersionInfo(appExePath);
-            var fileVersion = versInfo.FileVersion;
-            var productVersion = versInfo.ProductVersion;
-
-            if (String.IsNullOrEmpty(productVersion))
-                return NOT_FOUND;
-
-            return productVersion;
-        }
-
-        public static bool UpdateWithInno(string appSetupPath)
-        {
-            // updating is handled by Inno Setup Installer
-            // the installer forces the user to close the program before installing
-            if (File.Exists(appSetupPath))
-            {
-                GenExtensions.RunExtExe(appSetupPath, false, arguments: "-appupdat");
-                return true;
-            }
-
-            MessageBox.Show(Path.GetFileName(appSetupPath) + " not found, please download the program again.");
-            return false;
-        }
-
-        public static bool NeedsUpdate(string appExePath, string versInfoUrl)
-        {
-            _versInfoUrl = versInfoUrl; // share versInfoUrl
-            VersOnline = null; // reset OnlineVersion data
-
-            // RSTK stores VersionInfo differently than Inno apps
-            if (versInfoUrl.StartsWith(Constants.RSToolkitURL))
-            {
-                if (IsTlsCompat("Rocksmith Custom Song Toolkit"))
-                {
-                    for (int i = 0; i < 4; i++)
-                    {
-                        try
-                        {
-                            var versOnlineRSTK = ToolkitVersionOnline.Load();
-                            VersOnline = versOnlineRSTK.Revision; // returns github commit (4 bytes)
-                            break;
-                        }
-                        catch (WebException ex)
-                        {
-                            // Globals.Log("NeedsUpdate Web Exception: " + ex.Message + " ...");
-                        }
-                        catch (NotSupportedException ex)
-                        {
-                            // Globals.Log("NeedsUpdate Not Supported Exception: " + ex.Message + " ...");
-                        }
-                        Thread.Sleep(200);
-                    }
-
-                    if (VersOnline == NO_INTERNET)
-                        return false;
-                }
-                else
-                    return false;
-            }
-
-            var versInstalled = VersInstalled(appExePath).Trim();
-            var versOnline = VersOnline.Trim();
-
-            if (versOnline != versInstalled && versOnline != NO_INTERNET)
-            {
-                Globals.Log(Path.GetFileName(appExePath) + "[" + versInstalled + "] needs updating ...");
-                Debug.WriteLine("OnlineVers: " + versOnline + "  InstalledVers: " + versInstalled);
-                return true;
-            }
-
-            if (versOnline == versInstalled)
-            {
-                Globals.Log(Path.GetFileName(appExePath) + " [" + versInstalled + "] does not need updating ...");
-                Debug.WriteLine("OnlineVers: " + versOnline + "  InstalledVers: " + versInstalled);
-                return false;
-            }
-
-            return false;
-        }
-
-        private static void DownloadVersInfo(string versionUrl, int attempts = 4)
-        {
-            for (int i = 0; i < attempts; i++)
-            {
-                // this will throw an exception if there is no internet connection
-                try
-                {
-                    var webRequest = (HttpWebRequest)WebRequest.Create(versionUrl);
-                    webRequest.Method = "GET";
-                    webRequest.Timeout = 5000;
-                    webRequest.KeepAlive = true;
-
-                    using (var webResponse = (HttpWebResponse)webRequest.GetResponse())
-                    {
-                        if (webResponse.StatusCode == HttpStatusCode.OK)
-                        {
-                            webRequest.BeginGetResponse(new AsyncCallback(GetVersionInfo), webRequest);
-                            return;
-                        }
-                    }
-                }
-                catch (WebException ex)
-                {
-                    Globals.Log("DownloadVersionInfo Web exception: " + ex.Message + " ...");
-                }
-                catch (NotSupportedException ex)
-                {
-                    Globals.Log("DownloadVersionInfo Not Supported Exception: " + ex.Message + " ...");
-                }
-                Thread.Sleep(200);
-            }
-
-            Globals.Log("DownloadVersInfo no internet connection detected ...");
-            VersOnline = NO_INTERNET;
-        }
-
-        private static void GetVersionInfo(IAsyncResult asyncResult)
-        {
-            HttpWebRequest webRequest = (HttpWebRequest)asyncResult.AsyncState;
-            try
-            {
-                using (var webResponse = (HttpWebResponse)webRequest.EndGetResponse(asyncResult))
-                using (var streamReader = new StreamReader(webResponse.GetResponseStream()))
-                {
-                    var s = streamReader.ReadToEnd();
-                    if (!string.IsNullOrEmpty(s))
-                    {
-                        var lines = s.Split('\n');
-                        //_latestVers = new Version(lines[0]);
-                        VersOnline = lines[0];
-                        var l = lines.ToList();
-                        l.RemoveAt(0);
-                        if (l.Count > 0)
-                        {
-                            ReleaseNotes = String.Join("\n", l.ToArray());
-                        }
-
-                        _lastCheck = DateTime.Now;
-                        Globals.Log("GetVersionInfo made a good connection with the server ...");
-                    }
-                }
-            }
-            catch (WebException ex)
-            {
-                Globals.Log("GetVersionInfo Web Exception: " + ex.Message + " ...");
-            }
-            catch (NotSupportedException ex)
-            {
-                Globals.Log("GetVersionInfo Not Supported Exception: " + ex.Message + " ...");
-            }
-        }
-
-        private static bool _downloadComplete;
-        private static bool _downloadError;
 
         public static bool DownloadWebApp(string webUrl, string appFileName, string downloadDir, int attempts = 4)
         {
@@ -233,6 +74,7 @@ namespace CustomsForgeSongManager.LocalTools
                         if (_downloadError)
                             throw new WebException("The remote name could not be resolved: " + webUrl);
 
+                        Globals.Log("Successfully Downloaded WebApp: " + appFileName);
                         return true;
 
                         // alternate methods of download
@@ -264,30 +106,6 @@ namespace CustomsForgeSongManager.LocalTools
 
             Globals.Log("DownloadWebApp no internet connection detected ...");
             return false;
-        }
-
-        private static void wcProgressChanged(object sender, DownloadProgressChangedEventArgs e)
-        {
-            GenExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate
-            {
-                Globals.TsProgressBar_Main.Value = e.ProgressPercentage;
-            });
-        }
-
-        private static void wcCompleted(object sender, AsyncCompletedEventArgs e)
-        {
-            if (e.Error == null)
-            {
-                GenExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate
-                {
-                    Globals.TsProgressBar_Main.Value = 100;
-                });
-
-                _downloadComplete = true;
-                Globals.Log("Download Completed ...");
-            }
-            else
-                _downloadError = true;
         }
 
         public static List<string> ExtractUrlData(string webUrl, string extractSwitch = "", int attempts = 4)
@@ -351,6 +169,206 @@ namespace CustomsForgeSongManager.LocalTools
             return true;
         }
 
+        public static bool NeedsUpdate(string appExePath, string versInfoUrl)
+        {
+            _versInfoUrl = versInfoUrl; // share versInfoUrl
+            VersOnline = null; // reset OnlineVersion data
+
+            // RSTK stores VersionInfo differently than Inno apps
+            if (versInfoUrl.StartsWith(Constants.RSToolkitURL))
+            {
+                if (IsTlsCompat("Rocksmith Custom Song Toolkit"))
+                {
+                    for (int i = 0; i < 4; i++)
+                    {
+                        try
+                        {
+                            var versOnlineRSTK = ToolkitVersionOnline.Load();
+                            VersOnline = versOnlineRSTK.Revision; // returns github commit (4 bytes)
+                            break;
+                        }
+                        catch (WebException ex)
+                        {
+                            // Globals.Log("NeedsUpdate Web Exception: " + ex.Message + " ...");
+                        }
+                        catch (NotSupportedException ex)
+                        {
+                            // Globals.Log("NeedsUpdate Not Supported Exception: " + ex.Message + " ...");
+                        }
+                        Thread.Sleep(200);
+                    }
+
+                    if (VersOnline == NO_INTERNET)
+                        return false;
+                }
+                else
+                    return false;
+            }
+
+            var versInstalled = VersInstalled(appExePath).Trim();
+            var versOnline = VersOnline.Trim();
+
+            if (versOnline != versInstalled && versOnline != NO_INTERNET)
+            {
+                Globals.Log(Path.GetFileName(appExePath) + "[" + versInstalled + "] needs updating ...");
+                Debug.WriteLine("OnlineVers: " + versOnline + "  InstalledVers: " + versInstalled);
+                return true;
+            }
+
+            if (versOnline == versInstalled)
+            {
+                Globals.Log(Path.GetFileName(appExePath) + " [" + versInstalled + "] does not need updating ...");
+                Debug.WriteLine("OnlineVers: " + versOnline + "  InstalledVers: " + versInstalled);
+                return false;
+            }
+
+            return false;
+        }
+
+        public static bool SilentUrl(string webUrl)
+        {
+            try
+            {
+                WebClient client = new WebClient();
+                Stream data = client.OpenRead(webUrl);
+                StreamReader reader = new StreamReader(data);
+                string s = reader.ReadToEnd();
+                data.Close();
+                s = reader.ReadToEnd();
+                reader.Close();
+            }
+            catch
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public static bool UpdateWithInno(string appSetupPath)
+        {
+            // updating is handled by Inno Setup Installer
+            // the installer forces the user to close the program before installing
+            if (File.Exists(appSetupPath))
+            {
+                GenExtensions.RunExtExe(appSetupPath, false, arguments: "-appupdate");
+                return true;
+            }
+
+            MessageBox.Show(Path.GetFileName(appSetupPath) + " not found, please download the program again.");
+            return false;
+        }
+
+        public static string VersInstalled(string appExePath)
+        {
+            if (!File.Exists(appExePath))
+                return NOT_FOUND;
+
+            var versInfo = FileVersionInfo.GetVersionInfo(appExePath);
+            var fileVersion = versInfo.FileVersion;
+            var productVersion = versInfo.ProductVersion;
+
+            if (String.IsNullOrEmpty(productVersion))
+                return NOT_FOUND;
+
+            return productVersion;
+        }
+
+        private static void DownloadVersInfo(string versionUrl, int attempts = 4)
+        {
+            for (int i = 0; i < attempts; i++)
+            {
+                // this will throw an exception if there is no internet connection
+                try
+                {
+                    var webRequest = (HttpWebRequest)WebRequest.Create(versionUrl);
+                    webRequest.Method = "GET";
+                    webRequest.Timeout = 5000;
+                    webRequest.KeepAlive = true;
+
+                    using (var webResponse = (HttpWebResponse)webRequest.GetResponse())
+                    {
+                        if (webResponse.StatusCode == HttpStatusCode.OK)
+                        {
+                            webRequest.BeginGetResponse(new AsyncCallback(GetVersionInfo), webRequest);
+                            return;
+                        }
+                    }
+                }
+                catch (WebException ex)
+                {
+                    Globals.Log("DownloadVersionInfo Web Exception: " + ex.Message + " ...");
+                }
+                catch (NotSupportedException ex)
+                {
+                    Globals.Log("DownloadVersionInfo Not Supported Exception: " + ex.Message + " ...");
+                }
+                Thread.Sleep(200);
+            }
+
+            Globals.Log("DownloadVersionInfo Web Exception: Connection Timed Out ...");
+            VersOnline = NO_INTERNET;
+        }
+
+        private static void GetVersionInfo(IAsyncResult asyncResult)
+        {
+            HttpWebRequest webRequest = (HttpWebRequest)asyncResult.AsyncState;
+            try
+            {
+                using (var webResponse = (HttpWebResponse)webRequest.EndGetResponse(asyncResult))
+                using (var streamReader = new StreamReader(webResponse.GetResponseStream()))
+                {
+                    var s = streamReader.ReadToEnd();
+                    if (!string.IsNullOrEmpty(s))
+                    {
+                        var lines = s.Split('\n');
+                        //_latestVers = new Version(lines[0]);
+                        VersOnline = lines[0];
+                        var l = lines.ToList();
+                        l.RemoveAt(0);
+                        if (l.Count > 0)
+                        {
+                            ReleaseNotes = String.Join("\n", l.ToArray());
+                        }
+
+                        _lastCheck = DateTime.Now;
+                        Globals.Log("GetVersionInfo made a good connection with the server ...");
+                    }
+                }
+            }
+            catch (WebException ex)
+            {
+                Globals.Log("GetVersionInfo Web Exception: " + ex.Message + " ...");
+            }
+            catch (NotSupportedException ex)
+            {
+                Globals.Log("GetVersionInfo Not Supported Exception: " + ex.Message + " ...");
+            }
+        }
+
+        private static void wcCompleted(object sender, AsyncCompletedEventArgs e)
+        {
+            if (e.Error == null)
+            {
+                GenExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate
+                    {
+                        Globals.TsProgressBar_Main.Value = 100;
+                    });
+
+                _downloadComplete = true;
+                //Globals.Log("Download Completed ...");
+            }
+            else
+                _downloadError = true;
+        }
+
+        private static void wcProgressChanged(object sender, DownloadProgressChangedEventArgs e)
+        {
+            GenExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate
+                {
+                    Globals.TsProgressBar_Main.Value = e.ProgressPercentage;
+                });
+        }
     }
 
     public class DataExtractor
@@ -389,6 +407,4 @@ namespace CustomsForgeSongManager.LocalTools
             return list;
         }
     }
-
-
 }

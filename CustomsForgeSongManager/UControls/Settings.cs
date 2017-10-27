@@ -38,7 +38,12 @@ namespace CustomsForgeSongManager.UControls
                 rbCleanOnClosing.Checked = AppSettings.Instance.CleanOnClosing;
                 txtCharterName.Text = AppSettings.Instance.CharterName;
 
-                ValidateRsDir();
+                // check validation only on startup
+                if (dgvCurrent == null)
+                {
+                    ValidateRsDir();
+                    ValidateD3D();
+                }
             }
             catch (Exception ex)
             {
@@ -77,7 +82,8 @@ namespace CustomsForgeSongManager.UControls
                 using (var fs = new FileStream(Constants.AppSettingsPath, FileMode.Create, FileAccess.Write, FileShare.Write))
                 {
                     AppSettings.Instance.SerializeXml(fs);
-                    Globals.Log("Saved File: " + Path.GetFileName(Constants.AppSettingsPath));                }
+                    Globals.Log("Saved File: " + Path.GetFileName(Constants.AppSettingsPath));
+                }
 
                 if (String.IsNullOrEmpty(dgvCurrent.Name))
                     return;
@@ -105,6 +111,67 @@ namespace CustomsForgeSongManager.UControls
             Globals.ReloadSongPacks = rescan;
         }
 
+        private bool ValidateD3D()
+        {
+            if (!AppSettings.Instance.ValidateD3D)
+            {
+                Globals.Log("<WARNING> 'D3DX9_42.dll' file validation is disabled ...");
+                return false;
+            }
+
+            // validates either old and new (Remastered) version of Rocksmith 2014 D3DX9_42.dll
+            var luaPath = Path.Combine(AppSettings.Instance.RSInstalledDir, "lua5.1.dll");
+            var d3dPath = Path.Combine(AppSettings.Instance.RSInstalledDir, "D3DX9_42.dll");
+
+            if (!File.Exists(d3dPath))
+            {
+                var diaMsg = "The 'D3DX9_42.dll' file could not be found. Would you like CFSM to install the dll file that is required to play CDLC files?";
+                if (DialogResult.No == BetterDialog2.ShowDialog(GenExtensions.SplitString(diaMsg, 30), "Validating D3DX9_42.dll ...", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning", 0, 150))
+                {
+                    Globals.Log("<WARNING> User aborted installing 'D3DX9_42.dll' file ...");
+                    return false;
+                }
+
+                if (File.Exists(luaPath))
+                    GenExtensions.CopyFile(Path.Combine(Constants.ApplicationFolder, "D3DX9_42.dll.old"), Path.Combine(AppSettings.Instance.RSInstalledDir, "D3DX9_42.dll"), true, false);
+                else
+                    GenExtensions.CopyFile(Path.Combine(Constants.ApplicationFolder, "D3DX9_42.dll.new"), Path.Combine(AppSettings.Instance.RSInstalledDir, "D3DX9_42.dll"), true, false);
+
+                Globals.Log("Installed 'D3DX9_42.dll' file ...");
+            }
+            else
+            {
+                // verify correct dll is installed using MD5 Hash
+                var d3dFileMD5 = GenExtensions.GetMD5Hash(d3dPath);
+                var d3dNewMD5 = GenExtensions.GetMD5Hash(Path.Combine(Constants.ApplicationFolder, "D3DX9_42.dll.new"));
+                var d3dOldMD5 = GenExtensions.GetMD5Hash(Path.Combine(Constants.ApplicationFolder, "D3DX9_42.dll.old"));
+
+                if ((File.Exists(luaPath) && d3dFileMD5 != d3dOldMD5) || (!File.Exists(luaPath) && d3dFileMD5 != d3dNewMD5))
+                {
+                    var dlgMsg1 = "The installed 'D3DX9_42.dll' file MD5 hash value is invalid. Would you like CFSM to update the dll file that is required to play CDLC files?";
+                    var dlgMsg2 = "Note: If your CDLC are working fine then answer 'No' and then disable future validation checks in the 'Settings' tab menu.";
+                    var dlgMsg = GenExtensions.SplitString(dlgMsg1, 30) + Environment.NewLine + Environment.NewLine + GenExtensions.SplitString(dlgMsg2, 30);
+
+                    if (DialogResult.No == BetterDialog2.ShowDialog(dlgMsg, "Validating D3DX9_42.dll ...", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning", 0, 150))
+                    {
+                        Globals.Log("<WARNING> User aborted updating the 'D3DX9_42.dll' file ...");
+                        return false;
+                    }
+
+                    if (File.Exists(luaPath))
+                        GenExtensions.CopyFile(Path.Combine(Constants.ApplicationFolder, "D3DX9_42.dll.old"), Path.Combine(AppSettings.Instance.RSInstalledDir, "D3DX9_42.dll"), true, false);
+                    else
+                        GenExtensions.CopyFile(Path.Combine(Constants.ApplicationFolder, "D3DX9_42.dll.new"), Path.Combine(AppSettings.Instance.RSInstalledDir, "D3DX9_42.dll"), true, false);
+
+                    Globals.Log("Updated 'D3DX9_42.dll' file installation ...");
+                }
+                else
+                    Globals.Log("Validated 'D3DX9_42.dll' file installation ...");
+            }
+
+            return true;
+        }
+
         private void ValidateRsDir()
         {
             // validate Rocksmith installation directory
@@ -129,48 +196,6 @@ namespace CustomsForgeSongManager.UControls
 
                 AppSettings.Instance.RSInstalledDir = cueRsDir.Text;
                 Globals.Log("Rocksmith Installation Directory: " + AppSettings.Instance.RSInstalledDir);
-            }
-        }
-
-        private void chkEnableLogBaloon_CheckedChanged(object sender, EventArgs e)
-        {
-            if (chkEnableLogBallon.Checked)
-                Globals.MyLog.AddTargetNotifyIcon(Globals.Notifier);
-            else
-                Globals.MyLog.RemoveTargetNotifyIcon(Globals.Notifier);
-        }
-
-        private void SettingsPropChanged(object sender, PropertyChangedEventArgs e)
-        {
-            switch (e.PropertyName)
-            {
-                case "RSInstalledDir":
-                    cueRsDir.Text = AppSettings.Instance.RSInstalledDir;
-                    break;
-                case "EnableAutoUpdate":
-                    chkEnableAutoUpdate.Checked = AppSettings.Instance.EnableAutoUpdate;
-                    break;
-                case "IncludeRS2BaseSongs":
-                    chkIncludeRS2BaseSongs.Checked = AppSettings.Instance.IncludeRS2BaseSongs;
-                    break;
-                case "IncludeRS1CompSongs":
-                    chkIncludeRS1CompSongs.Checked = AppSettings.Instance.IncludeRS1CompSongs;
-                    break;
-                case "IncludeCustomPacks":
-                    chkIncludeCustomPacks.Checked = AppSettings.Instance.IncludeCustomPacks;
-                    break;
-                case "IncludeAnalyzerData":
-                    chkIncludeAnalyzerData.Checked = AppSettings.Instance.IncludeAnalyzerData;
-                    break;
-                case "EnableLogBaloon":
-                    chkEnableLogBallon.Checked = AppSettings.Instance.EnableLogBaloon;
-                    break;
-                case "CleanOnClosing":
-                    rbCleanOnClosing.Checked = AppSettings.Instance.CleanOnClosing;
-                    break;
-                case "CreatorName":
-                    txtCharterName.Text = AppSettings.Instance.CharterName;
-                    break;
             }
         }
 
@@ -213,7 +238,7 @@ namespace CustomsForgeSongManager.UControls
             SaveSettingsToFile(Globals.DgvCurrent);
         }
 
-        private void chkEnableAutoUpdate_CheckedChanged(object sender, EventArgs e)
+        private void chkEnableAutoUpdate_Click(object sender, EventArgs e)
         {
             AppSettings.Instance.EnableAutoUpdate = chkEnableAutoUpdate.Checked;
         }
@@ -240,22 +265,44 @@ namespace CustomsForgeSongManager.UControls
             ToogleRescan(true);
         }
 
-        private void chkIncludeAnalyzerData_CheckedChanged(object sender, EventArgs e)
-        {
-            AppSettings.Instance.IncludeAnalyzerData = chkIncludeAnalyzerData.Checked;
-            ToogleRescan(true);
-        }
-
-        private void chkIncludeRS1CompSongs_CheckedChanged(object sender, EventArgs e)
+        private void chkIncludeRS1CompSongs_Click(object sender, EventArgs e)
         {
             AppSettings.Instance.IncludeRS1CompSongs = chkIncludeRS1CompSongs.Checked;
             ToogleRescan(true);
         }
 
-        private void chkIncludeRS2BaseSongs_CheckedChanged(object sender, EventArgs e)
+        private void chkIncludeRS2BaseSongs_Click(object sender, EventArgs e)
         {
             AppSettings.Instance.IncludeRS2BaseSongs = chkIncludeRS2BaseSongs.Checked;
             ToogleRescan(true);
+        }
+
+        private void chkMacMode_Click(object sender, EventArgs e)
+        {
+            if (chkMacMode.Checked)
+            {
+                MessageBox.Show("Switching to Mac Compatibility Mode ...  " + Environment.NewLine + "CFSM will automatically restart!", "Mac Mode Enabled ...", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                Globals.Log("Switched to Mac Compatibility Mode ...");
+            }
+            else
+            {
+                MessageBox.Show("Switching to PC Compatibility Mode ...  " + Environment.NewLine + "CFSM will automatically restart!", "PC Mode Enabled ...", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                Globals.Log("Switched to PC Compatibility Mode ...");
+            }
+
+            GenExtensions.DeleteFile(Constants.SongsInfoPath);
+            GenExtensions.DeleteFile(Constants.AnalyzerDataPath);
+            AppSettings.Instance.MacMode = chkMacMode.Checked;
+
+            // restart new instance of application and shutdown original
+            Application.Restart(); // this triggers frmMain_FormClosing method
+            Environment.Exit(0);
+        }
+
+        private void chkValidateD3D_Click(object sender, EventArgs e)
+        {
+            AppSettings.Instance.ValidateD3D = chkValidateD3D.Checked;
+            ValidateD3D();
         }
 
         private void cueRsDir_MouseClick(object sender, MouseEventArgs e)
@@ -301,7 +348,7 @@ namespace CustomsForgeSongManager.UControls
             }
         }
 
-        private void rbCleanOnClosing_CheckedChanged(object sender, EventArgs e)
+        private void rbCleanOnClosing_Click(object sender, EventArgs e)
         {
             AppSettings.Instance.CleanOnClosing = rbCleanOnClosing.Checked;
         }
@@ -311,6 +358,7 @@ namespace CustomsForgeSongManager.UControls
             AppSettings.Instance.CharterName = txtCharterName.Text;
         }
 
+        #region Class Methods
 
         private static string GetInstallDirFromRegistry()
         {

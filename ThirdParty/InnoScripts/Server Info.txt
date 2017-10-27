@@ -2,6 +2,11 @@ ftp://appdev@198.58.96.81/
 
 http://app.customsforge.com
 http://beta.customsforge.com
+http://appdev.cfmanager.com
+
+http://ignition.customsforge.com/cfsm_uploads/index.html
+http://ignition.customsforge.com/cfsm_uploads/beta/index.html
+http://ignition.customsforge.com/cfsm_uploads/beta_mac/index.html
 
 198.58.96.81/beta/
 appdev

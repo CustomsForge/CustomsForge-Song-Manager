@@ -2,7 +2,6 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{25E15C6A-AEAE-4958-80EA-44062DF402F7}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -10,32 +9,20 @@
     <AssemblyName>CustomsForgeSongManager</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <IsWebBootstrapper>true</IsWebBootstrapper>
-    <PublishUrl>ftp://198.58.96.81/app/</PublishUrl>
+    <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
-    <InstallFrom>Web</InstallFrom>
-    <UpdateEnabled>true</UpdateEnabled>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
     <UpdateMode>Foreground</UpdateMode>
     <UpdateInterval>7</UpdateInterval>
     <UpdateIntervalUnits>Days</UpdateIntervalUnits>
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
-    <MapFileExtensions>false</MapFileExtensions>
-    <InstallUrl>http://app.customsforge.com/</InstallUrl>
-    <SupportUrl>http://customsforge.com/</SupportUrl>
-    <ErrorReportUrl>http://customsforge.com/</ErrorReportUrl>
-    <ProductName>CustomsForge Manager</ProductName>
-    <PublisherName>CustomsForge.com</PublisherName>
-    <SuiteName>CustomsForge</SuiteName>
-    <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
-    <WebPage>index.html</WebPage>
-    <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
+    <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.2.0.0</ApplicationVersion>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
-    <CreateDesktopShortcut>true</CreateDesktopShortcut>
-    <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup>
@@ -50,7 +37,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;CODE_ANALYSIS;AUTOUPDATE;TAGGER;WINDOWS;DEBUG;CUSTOMUI</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;WINDOWS;TAGGER;INNOBETA</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <RunCodeAnalysis>true</RunCodeAnalysis>
@@ -61,34 +48,39 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;WINDOWS;RELEASE;TAGGER;AUTOUPDATE</DefineConstants>
+    <DefineConstants>TRACE;WINDOWS;TAGGER;INNORELEASE</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>none</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
-  <PropertyGroup />
-  <PropertyGroup />
-  <PropertyGroup />
-  <PropertyGroup>
-    <TargetZone>LocalIntranet</TargetZone>
-  </PropertyGroup>
-  <PropertyGroup />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ConfuserEx|x86'">
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>WINDOWS;RELEASE;TAGGER;AUTOUPDATE</DefineConstants>
-    <PlatformTarget>x86</PlatformTarget>
-    <Optimize>true</Optimize>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'InnoBeta|x86'">
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>WINDOWS;BETA;TAGGER;AUTOUPDATE</DefineConstants>
+    <DefineConstants>WINDOWS;TAGGER;BETA;AUTOUPDATE</DefineConstants>
     <PlatformTarget>x86</PlatformTarget>
     <Optimize>true</Optimize>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'InnoRelease|x86'">
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>WINDOWS;RELEASE;TAGGER;AUTOUPDATE</DefineConstants>
+    <DefineConstants>WINDOWS;TAGGER;RELEASE;AUTOUPDATE</DefineConstants>
+    <PlatformTarget>x86</PlatformTarget>
+    <Optimize>true</Optimize>
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetZone>LocalIntranet</TargetZone>
+  </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'InnoBeta|x86'">
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>WINDOWS;TAGGER;INNOBETA;AUTOUPDATE</DefineConstants>
+    <PlatformTarget>x86</PlatformTarget>
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'InnoRelease|x86'">
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>WINDOWS;TAGGER;INNORELEASE;AUTOUPDATE</DefineConstants>
     <PlatformTarget>x86</PlatformTarget>
     <Optimize>true</Optimize>
     <DebugType>none</DebugType>
@@ -101,8 +93,15 @@
     <AssemblyOriginatorKeyFile>
     </AssemblyOriginatorKeyFile>
   </PropertyGroup>
+  <PropertyGroup />
   <PropertyGroup>
-    <NoWin32Manifest>true</NoWin32Manifest>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Antlr3.Runtime">
@@ -373,6 +372,7 @@
     <Compile Include="LocalTools\Worker.cs" />
     <EmbeddedResource Include="Forms\frmCODLCDuplicates.resx">
       <DependentUpon>frmCODLCDuplicates.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmProfileBackups.resx">
       <DependentUpon>frmProfileBackups.cs</DependentUpon>
@@ -467,6 +467,17 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\renamer_properties.json" />
     <EmbeddedResource Include="Resources\HelpGeneral.rtf" />
+    <Content Include="..\libs\D3DX9_42.dll.new">
+      <Link>D3DX9_42.dll.new</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\libs\D3DX9_42.dll.old">
+      <Link>D3DX9_42.dll.old</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="app.manifest">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Resources\logo_black.png" />
   </ItemGroup>
   <ItemGroup>
@@ -553,6 +564,7 @@
     <None Include="Resources\refresh_plus.png" />
     <None Include="Resources\rescan_plus.png" />
     <None Include="Resources\extra_data.png" />
+    <Content Include="Resources\darkseph.png" />
     <Content Include="Resources\TaggerHelp.html" />
     <None Include="Resources\trashcan.png" />
     <None Include="Resources\Unleashed2k.png" />
@@ -691,7 +703,7 @@ REM spacing around == and ( is important
 REM upper lower case is important for Directory and File names
 
 if $(ConfigurationName) ==InnoRelease (
-  CD "$(SolutionDir)ThirdParty\CFSM_Release_Setup\"
+  CD "$(SolutionDir)ThirdParty\CFSM_Setup_Release\"
   DEL /Q *.txt
   DEL /Q *.exe
   DEL /Q *.rar
@@ -707,19 +719,18 @@ if $(ConfigurationName) ==InnoRelease (
 rem must be connected to internet for signtool to work properly
 rem CD "$(ProjectDir)bin\ConfuserEx\"
 rem "%25programfiles%25\Microsoft SDKs\Windows\v7.0A\bin\signtool.exe"  sign /f CFSM_Certificate.pfx /p cozylov /t http://timestamp.verisign.com/scripts/timstamp.dll CustomsForgeSongManager.exe
-rem "CFSMPostBuilder.exe" "UPLOAD" "198.58.96.81" "appdev" "7eCheQ+bu+heRevu"
 
   CD "$(SolutionDir)ThirdParty\Inno_bin\"
  "ISCC.exe" "$(SolutionDir)ThirdParty\InnoScripts\genericInstaller.iss"
 
-  CD "$(SolutionDir)ThirdParty\CFSM_Release_Setup\"   
+  CD "$(SolutionDir)ThirdParty\CFSM_Setup_Release\"   
   "D:\Program Files\WinRAR\WinRar.exe" a -r "CFSMSetup.rar" "CFSMSetup.exe"
   COPY /Y "$(TargetDir)ReleaseNotes.txt" "ReleaseNotes.txt"
   COPY /Y "$(SolutionDir)ThirdParty\VersionInfo.txt" "VersionInfo.txt"
 )
 
 if $(ConfigurationName) ==InnoBeta (
-  CD "$(SolutionDir)ThirdParty\CFSM_Beta_Setup\"
+  CD "$(SolutionDir)ThirdParty\CFSM_Setup_Beta\"
   DEL /Q *.txt
   DEL /Q *.exe
   DEL /Q *.rar
@@ -735,13 +746,12 @@ if $(ConfigurationName) ==InnoBeta (
 rem must be connected to internet for signtool to work properly
 rem CD "$(ProjectDir)bin\ConfuserEx\"
 rem "%25programfiles%25\Microsoft SDKs\Windows\v7.0A\bin\signtool.exe"  sign /f CFSM_Certificate.pfx /p cozylov /t http://timestamp.verisign.com/scripts/timstamp.dll CustomsForgeSongManager.exe
-rem "CFSMPostBuilder.exe" "UPLOAD" "198.58.96.81/beta/" "appdev" "kvPSF7HL"
 
   CD "$(SolutionDir)ThirdParty\Inno_bin\"
  "ISCC.exe" /DBETA "$(SolutionDir)ThirdParty\InnoScripts\genericInstaller.iss"
 
-  CD "$(SolutionDir)ThirdParty\CFSM_Beta_Setup\"   
-  "D:\Program Files\WinRAR\WinRar.exe" a -r "CFSMSetup.rar" "CFSMSetup.exe"
+  CD "$(SolutionDir)ThirdParty\CFSM_Setup_Beta\"   
+  "D:\Program Files\WinRAR\WinRar.exe" a -r "CFSMSetupBeta.rar" "CFSMSetup.exe"
   COPY /Y "$(TargetDir)ReleaseNotes.txt" "ReleaseNotes.txt"
   COPY /Y "$(SolutionDir)ThirdParty\VersionInfo.txt" "VersionInfo.txt"
 )
