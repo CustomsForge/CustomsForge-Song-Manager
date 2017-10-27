@@ -2,11 +2,12 @@
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
-using System.ComponentModel;
-using GenTools;
 using CustomsForgeSongManager.DataObjects;
 using CustomsForgeSongManager.LocalTools;
+using GenTools;
 using DataGridViewTools;
+using CustomControls;
+using System.Drawing;
 
 namespace CustomsForgeSongManager.UControls
 {
@@ -16,7 +17,6 @@ namespace CustomsForgeSongManager.UControls
         {
             InitializeComponent();
             Leave += Settings_Leave;
-            AppSettings.Instance.PropertyChanged += SettingsPropChanged;
         }
 
         public void LoadSettingsFromFile(DataGridView dgvCurrent)
@@ -27,10 +27,14 @@ namespace CustomsForgeSongManager.UControls
                 AppSettings.Instance.LoadFromFile(Constants.AppSettingsPath, dgvCurrent);
 
                 cueRsDir.Text = AppSettings.Instance.RSInstalledDir;
-                chkEnableAutoUpdate.Checked = AppSettings.Instance.EnableAutoUpdate;
                 chkIncludeRS1CompSongs.Checked = AppSettings.Instance.IncludeRS1CompSongs;
                 chkIncludeRS2BaseSongs.Checked = AppSettings.Instance.IncludeRS2BaseSongs;
-                chkEnableLogBallon.Checked = AppSettings.Instance.EnableLogBaloon;
+                chkIncludeCustomPacks.Checked = AppSettings.Instance.IncludeCustomPacks;
+                chkIncludeAnalyzerData.Checked = AppSettings.Instance.IncludeAnalyzerData;
+                chkEnableAutoUpdate.Checked = AppSettings.Instance.EnableAutoUpdate;
+                chkEnableNotifications.Checked = AppSettings.Instance.EnableNotifications;
+                chkValidateD3D.Checked = AppSettings.Instance.ValidateD3D;
+                chkMacMode.Checked = AppSettings.Instance.MacMode;
                 rbCleanOnClosing.Checked = AppSettings.Instance.CleanOnClosing;
                 txtCharterName.Text = AppSettings.Instance.CharterName;
 
@@ -214,7 +218,23 @@ namespace CustomsForgeSongManager.UControls
             AppSettings.Instance.EnableAutoUpdate = chkEnableAutoUpdate.Checked;
         }
 
-        private void chkIncludeCustomPacks_CheckedChanged(object sender, EventArgs e)
+        private void chkEnableNotifications_Click(object sender, EventArgs e)
+        {
+            AppSettings.Instance.EnableNotifications = chkEnableNotifications.Checked;
+
+            if (chkEnableNotifications.Checked)
+                Globals.MyLog.AddTargetNotifyIcon(Globals.Notifier);
+            else
+                Globals.MyLog.RemoveTargetNotifyIcon(Globals.Notifier);
+        }
+
+        private void chkIncludeAnalyzerData_Click(object sender, EventArgs e)
+        {
+            AppSettings.Instance.IncludeAnalyzerData = chkIncludeAnalyzerData.Checked;
+            ToogleRescan(true);
+        }
+
+        private void chkIncludeCustomPacks_Click(object sender, EventArgs e)
         {
             AppSettings.Instance.IncludeCustomPacks = chkIncludeCustomPacks.Checked;
             ToogleRescan(true);
@@ -296,6 +316,9 @@ namespace CustomsForgeSongManager.UControls
         {
             return LocalExtensions.GetSteamDirectory();
         }
+
+        #endregion
+
 
     }
 }

@@ -6,20 +6,15 @@ using System.Reflection;
 using System.Linq;
 using System.Text;
 using System.Collections.Generic;
-using GenTools;
 using CustomsForgeSongManager.DataObjects;
 using CustomsForgeSongManager.LocalTools;
 using CustomsForgeSongManager.UITheme;
-using RocksmithToolkitLib.XML;
-using RocksmithToolkitLib.DLCPackage;
-using RocksmithToolkitLib.PsarcLoader;
-using RocksmithToolkitLib;
+using GenTools;
 using System.Diagnostics;
-using DGVTools = DataGridViewTools;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Text.RegularExpressions;
-using CustomControls;
+using System.ComponentModel;
 
 
 // NOTE: the app is designed for default user screen resolution of 1024x768
@@ -61,30 +56,18 @@ namespace CustomsForgeSongManager.Forms
 
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);
 
-            // gets rid of notifier icon on closing
-            this.FormClosed += delegate
+            // event handler to maybe get rid of notifier icon on closing
+            this.Closing += (object sender, CancelEventArgs e) =>
             {
                 Globals.MyLog.RemoveTargetNotifyIcon(Globals.Notifier);
                 notifyIcon_Main.Visible = false;
-                notifyIcon_Main.Dispose();
                 notifyIcon_Main.Icon = null;
-                Dispose();
+                notifyIcon_Main.Dispose();
             };
-
-            var strFormatVersion = "{0} (v{1})";
-#if BETA
-            strFormatVersion = "{0} (v{1} - BETA VERSION)";
-#endif
-#if RELEASE
-            strFormatVersion = "{0} (v{1} - RELEASE VERSION)";
-#endif
-#if DEBUG
-            strFormatVersion = "{0} (v{1} - DEBUG)";
-#endif
-            Constants.AppTitle = String.Format(strFormatVersion, Constants.ApplicationName, Constants.CustomVersion());
-            this.Text = Constants.AppTitle;
+           
             // bring CFSM to the front on startup
             this.WindowState = FormWindowState.Minimized;
+            this.BringToFront();
 
             Globals.MyLog = myLog;
             Globals.Notifier = this.notifyIcon_Main;
@@ -98,7 +81,13 @@ namespace CustomsForgeSongManager.Forms
             Globals.MyLog.AddTargetTextBox(tbLog);
             //    Globals.CFMTheme.AddListener(this);
 
-            Globals.OnScanEvent += (s, e) => { tcMain.InvokeIfRequired(a => { tcMain.Enabled = !e.IsScanning; }); };
+            Globals.OnScanEvent += (s, e) =>
+            {
+                GenExtensions.InvokeIfRequired(tcMain, a =>
+                {
+                    tcMain.Enabled = !e.IsScanning;
+                });
+            };
 
             // verify application directory structure
             FileTools.VerifyCfsmFolders();
@@ -128,7 +117,7 @@ namespace CustomsForgeSongManager.Forms
             this.Show();
             this.WindowState = AppSettings.Instance.FullScreen ? FormWindowState.Maximized : FormWindowState.Normal;
 
-            if (AppSettings.Instance.EnableLogBaloon)
+            if (AppSettings.Instance.EnableNotifications)
                 Globals.MyLog.AddTargetNotifyIcon(Globals.Notifier);
             else
                 Globals.MyLog.RemoveTargetNotifyIcon(Globals.Notifier);
@@ -388,10 +377,16 @@ namespace CustomsForgeSongManager.Forms
 
         private void frmMain_Load(object sender, EventArgs e)
         {
-#if RELEASE
-            const string UpdateURL = "http://ignition.customsforge.com/cfsm_uploads";
-#else
-            const string UpdateURL = "http://ignition.customsforge.com/cfsm_uploads/beta";
+            // be nice to the developers ... don't try to update in Debug mode
+#if AUTOUPDATE
+            //TODO: add Mac Autoupdate
+#if INNORELEASE
+            const string serverUrl = "http://ignition.customsforge.com/cfsm_uploads";
+            const string appArchive = "CFSMSetup.rar";
+#endif
+#if INNOBETA
+            const string serverUrl = "http://ignition.customsforge.com/cfsm_uploads/beta";
+            const string appArchive = "CFSMSetupBeta.rar";
 #endif
 
             const string versInfoUrl = UpdateURL + "/VersionInfo.txt";

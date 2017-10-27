@@ -8,11 +8,65 @@ IT IS A WASTE OF BOTH YOUR TIME, AND THE CF ADMINS AND DEVELOPERS TIME
 for you to post on CF that this application contains viruses or trojans.  
 
 If you don't believe this then simply don't install the CFSM application
-until you can confirm it is safe directly through your AV provider.
+until you can confirm it is safe by working directly with your AV provider.
 
 ========================================================================
 
 CFSM Release Notes
+
+1.4.1.4
+- issue new Release version
+- fixed issue with 'Highest Fret Used' counting and saving
+- automatically delete CFSM support files and subfolders if they need updating due to a revision
+
+1.4.1.3
+- added 'Highest Fret Used' to the Analyzer
+- fixed contextual menu bug 'Object reference not set to an instance of an object.' 
+  that occur on startup when dgv settings have not yet been saved
+
+1.4.1.2
+- updated general help document
+
+1.4.1.1
+- updated RocksmithToolkitLib 
+- fix downloaded WebApp rar setup file names and links
+- fixed InnoSetup installer script and webupdate feature
+- fixed CFSM Autoupdate class method
+- revised and added credits in the 'About' tab
+
+1.4.1.0
+- updated toolkit lib
+- fixed initial show log condition
+- added Mac Compatibility Mode checkbox to 'Settings' tab to force Mac Mode even on a PC
+- added CFSM auto restart and rescan when OS compatibility mode changes
+
+1.4.0.9
+- testing Mac Wine beta release
+- fixed Launch Rocksmith 2014 on Mac Wine
+
+1.4.0.8
+- updated toolkit libs that work with Wine on Mac
+
+1.4.0.7
+- getting ready for Mac compatibility
+
+1.4.0.6
+- code cleanup
+- use the MD5 Hash value of 'D3DX9_42.dll' to validate the file
+
+1.4.0.5
+- added user selectable checkbox (ValidateD3D) to Settings tab for 'D3DX9_42.dll' validation
+
+1.4.0.4
+- added application manifest file to force user to run CFSM as Administrator
+- validate D3DX9_42.dll file for either original Rocksmith 2014 or Rocksmith 2014 Remastered versions
+
+1.4.0.3
+- validate D3DX9_42.dll file installation and install per user selection
+
+1.4.0.2
+- added back InnoSetup log creation
+- improved fatal error reporting
 
 1.4.0.1
 - restructured Inno Installer

@@ -58,10 +58,10 @@ namespace CustomsForgeSongManager.DataObjects
         //ver 8 : add RepairStatus 'ODLC'
         //ver 9 : all app reference files moved to 'My Documents/CFSM'
         //ver 10 : force create a fresh 'My Documents/CFSM' folder'
-        //ver 1 - 10: time to recycle some ver numbers
+        //ver 1 - 10: time to recycle vers numbers
 
         // incrimenting forces songInfo.xml to update
-        public const string SongDataListCurrentVersion = "3";
+        public const string SongDataListCurrentVersion = "7";
 
         public string FilePath { get; set; }
         public DateTime FileDate { get; set; }

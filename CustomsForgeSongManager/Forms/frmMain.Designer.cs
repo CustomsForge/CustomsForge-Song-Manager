@@ -140,7 +140,7 @@ namespace CustomsForgeSongManager.Forms
             this.notifyIcon_Main.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             this.notifyIcon_Main.ContextMenuStrip = this.contextMenuStrip_Tray;
             this.notifyIcon_Main.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon_Main.Icon")));
-            this.notifyIcon_Main.Text = "Notification";
+            this.notifyIcon_Main.Text = "CFSM";
             this.notifyIcon_Main.Visible = true;
             // 
             // contextMenuStrip_Tray

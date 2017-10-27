@@ -19,8 +19,10 @@ namespace CustomsForgeSongManager.DataObjects
         private bool _includeRS2BaseSongs;
         private bool _includeCustomPacks;
         private bool _includeAnalyzerData;
-        private bool _enableAutoUpdate;
-        private bool _enableLogBaloon;
+        private bool _enableAutoUpdate = false;
+        private bool _enableNotifications = false;
+        private bool _validateD3D = true;
+        private bool _macMode;
         private bool _cleanOnClosing;
         private bool _checkForUpdateOnScan;
         private bool _fullScreen;
@@ -83,10 +85,16 @@ namespace CustomsForgeSongManager.DataObjects
             set { SetPropertyField("IncludeAnalyzerData", ref _includeAnalyzerData, value); }
         }
 
-        public bool EnableLogBaloon
+        public bool EnableAutoUpdate
         {
-            get { return _enableLogBaloon; }
-            set { SetPropertyField("EnableLogBaloon", ref _enableLogBaloon, value); }
+            get { return _enableAutoUpdate; }
+            set { SetPropertyField("EnableAutoUpdate", ref _enableAutoUpdate, value); }
+        }
+        
+        public bool EnableNotifications
+        {
+            get { return _enableNotifications; }
+            set { SetPropertyField("EnableNotifications", ref _enableNotifications, value); }
         }
 
         public bool CleanOnClosing
@@ -273,8 +281,11 @@ namespace CustomsForgeSongManager.DataObjects
             Instance.RSProfileDir = String.Empty;
             Instance.IncludeRS1CompSongs = false; // changed to false (fewer issues)
             Instance.IncludeRS2BaseSongs = false;
-            Instance.EnableAutoUpdate = true;
-            Instance.EnableLogBaloon = false; // fewer notfication issues
+            Instance.IncludeCustomPacks = false;
+            Instance.IncludeAnalyzerData = false;
+            Instance.EnableAutoUpdate = false;
+            Instance.EnableNotifications = false; // fewer notfication issues
+            Instance.ValidateD3D = true;
             Instance.CleanOnClosing = false;
             Instance.ShowLogWindow = Constants.DebugMode;
             RAExtensions.ManagerGridSettings = new RADataGridViewSettings();
