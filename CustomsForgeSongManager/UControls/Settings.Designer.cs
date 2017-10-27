@@ -55,7 +55,7 @@ namespace CustomsForgeSongManager.UControls
             this.chkIncludeCustomPacks = new System.Windows.Forms.CheckBox();
             this.chkIncludeAnalyzerData = new System.Windows.Forms.CheckBox();
             this.chkValidateD3D = new System.Windows.Forms.CheckBox();
-            this.chkEnableLogBallon = new System.Windows.Forms.CheckBox();
+            this.chkEnableNotifications = new System.Windows.Forms.CheckBox();
             this.chkEnableAutoUpdate = new System.Windows.Forms.CheckBox();
             this.txtCharterName = new CustomControls.CueTextBox();
             this.chkMacMode = new System.Windows.Forms.CheckBox();
@@ -83,7 +83,7 @@ namespace CustomsForgeSongManager.UControls
             this.tlpSettings_Wrapper.Controls.Add(this.chkIncludeCustomPacks, 0, 4);
             this.tlpSettings_Wrapper.Controls.Add(this.chkIncludeAnalyzerData, 0, 5);
             this.tlpSettings_Wrapper.Controls.Add(this.chkValidateD3D, 0, 8);
-            this.tlpSettings_Wrapper.Controls.Add(this.chkEnableLogBallon, 0, 7);
+            this.tlpSettings_Wrapper.Controls.Add(this.chkEnableNotifications, 0, 7);
             this.tlpSettings_Wrapper.Controls.Add(this.chkEnableAutoUpdate, 0, 6);
             this.tlpSettings_Wrapper.Controls.Add(this.txtCharterName, 0, 11);
             this.tlpSettings_Wrapper.Controls.Add(this.chkMacMode, 0, 9);
@@ -384,22 +384,22 @@ namespace CustomsForgeSongManager.UControls
             this.chkValidateD3D.UseVisualStyleBackColor = true;
             this.chkValidateD3D.Click += new System.EventHandler(this.chkValidateD3D_Click);
             // 
-            // chkEnableLogBallon
+            // chkEnableNotifications
             // 
-            this.chkEnableLogBallon.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.chkEnableLogBallon.AutoSize = true;
-            this.tlpSettings_Wrapper.SetColumnSpan(this.chkEnableLogBallon, 2);
-            this.chkEnableLogBallon.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkEnableLogBallon.Location = new System.Drawing.Point(3, 197);
-            this.chkEnableLogBallon.Name = "chkEnableLogBallon";
-            this.chkEnableLogBallon.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
-            this.chkEnableLogBallon.Size = new System.Drawing.Size(143, 19);
-            this.chkEnableLogBallon.TabIndex = 16;
-            this.chkEnableLogBallon.Text = "Enable Log Baloon ";
-            this.chkEnableLogBallon.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.toolTip.SetToolTip(this.chkEnableLogBallon, "If checked, shows popup log \r\nballon on system task bar.");
-            this.chkEnableLogBallon.UseVisualStyleBackColor = true;
-            this.chkEnableLogBallon.Click += new System.EventHandler(this.chkEnableLogBaloon_Click);
+            this.chkEnableNotifications.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.chkEnableNotifications.AutoSize = true;
+            this.tlpSettings_Wrapper.SetColumnSpan(this.chkEnableNotifications, 2);
+            this.chkEnableNotifications.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkEnableNotifications.Location = new System.Drawing.Point(3, 197);
+            this.chkEnableNotifications.Name = "chkEnableNotifications";
+            this.chkEnableNotifications.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
+            this.chkEnableNotifications.Size = new System.Drawing.Size(144, 19);
+            this.chkEnableNotifications.TabIndex = 16;
+            this.chkEnableNotifications.Text = "Enable Notifications";
+            this.chkEnableNotifications.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.toolTip.SetToolTip(this.chkEnableNotifications, "If checked, shows popup notification\r\nballon messages on system task bar.");
+            this.chkEnableNotifications.UseVisualStyleBackColor = true;
+            this.chkEnableNotifications.Click += new System.EventHandler(this.chkEnableNotifications_Click);
             // 
             // chkEnableAutoUpdate
             // 
@@ -496,7 +496,7 @@ namespace CustomsForgeSongManager.UControls
         private Button btnEmptyLogs;
         public CheckBox chkEnableAutoUpdate;
         private Button btnResetDownloads;
-        private CheckBox chkEnableLogBallon;
+        private CheckBox chkEnableNotifications;
         public CheckBox chkIncludeRS2BaseSongs;
         private CheckBox chkIncludeAnalyzerData;
         public CheckBox chkIncludeCustomPacks;

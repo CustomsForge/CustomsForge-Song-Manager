@@ -57,18 +57,18 @@ namespace CustomsForgeSongManager.Forms
 
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);
 
-            // gets rid of notifier icon on closing
-            this.FormClosed += delegate
+            // event handler to maybe get rid of notifier icon on closing
+            this.Closing += (object sender, CancelEventArgs e) =>
             {
                 Globals.MyLog.RemoveTargetNotifyIcon(Globals.Notifier);
                 notifyIcon_Main.Visible = false;
-                notifyIcon_Main.Dispose();
                 notifyIcon_Main.Icon = null;
-                Dispose();
+                notifyIcon_Main.Dispose();
             };
-
+           
             // bring CFSM to the front on startup
             this.WindowState = FormWindowState.Minimized;
+            this.BringToFront();
 
             Globals.MyLog = myLog;
             Globals.Notifier = this.notifyIcon_Main;
@@ -82,7 +82,13 @@ namespace CustomsForgeSongManager.Forms
             Globals.MyLog.AddTargetTextBox(tbLog);
             //    Globals.CFMTheme.AddListener(this);
 
-            Globals.OnScanEvent += (s, e) => { GenExtensions.InvokeIfRequired(tcMain, a => { tcMain.Enabled = !e.IsScanning; }); };
+            Globals.OnScanEvent += (s, e) =>
+            {
+                GenExtensions.InvokeIfRequired(tcMain, a =>
+                {
+                    tcMain.Enabled = !e.IsScanning;
+                });
+            };
 
             // verify application directory structure
             FileTools.VerifyCfsmFolders();
@@ -122,7 +128,7 @@ namespace CustomsForgeSongManager.Forms
             this.Show();
             this.WindowState = AppSettings.Instance.FullScreen ? FormWindowState.Maximized : FormWindowState.Normal;
 
-            if (AppSettings.Instance.EnableLogBaloon)
+            if (AppSettings.Instance.EnableNotifications)
                 Globals.MyLog.AddTargetNotifyIcon(Globals.Notifier);
             else
                 Globals.MyLog.RemoveTargetNotifyIcon(Globals.Notifier);
@@ -385,7 +391,7 @@ namespace CustomsForgeSongManager.Forms
 
         private void frmMain_Load(object sender, EventArgs e) // done after frmMain()
         {
-            // be nice to the developers ... don't update in Debug mode
+            // be nice to the developers ... don't try to update in Debug mode
 #if AUTOUPDATE
             //TODO: add Mac Autoupdate
 #if INNORELEASE

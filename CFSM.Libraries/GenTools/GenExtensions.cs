@@ -12,6 +12,7 @@ using System.Windows.Forms;
 using System.Diagnostics;
 using CustomControls;
 using System.Security.Cryptography;
+using System.ComponentModel;
 
 namespace GenTools
 {
@@ -34,7 +35,12 @@ namespace GenTools
         {
             get
             {
-                if (Application.ExecutablePath.IndexOf("devenv.exe", StringComparison.OrdinalIgnoreCase) > -1 || System.Diagnostics.Debugger.IsAttached)
+                var bVshostCheck = Process.GetCurrentProcess().ProcessName.IndexOf("vshost", StringComparison.OrdinalIgnoreCase) > -1 ? true : false;
+                var bModeCheck = LicenseManager.UsageMode == LicenseUsageMode.Designtime ? true : false;
+                var bDevEnvCheck = Application.ExecutablePath.IndexOf("devenv", StringComparison.OrdinalIgnoreCase) > -1 ? true : false;
+                var bDebuggerAttached = Debugger.IsAttached;
+
+                if (bDebuggerAttached || bDevEnvCheck || bModeCheck || bVshostCheck)
                     return true;
 
                 return false;

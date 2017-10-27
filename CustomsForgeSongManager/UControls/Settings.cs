@@ -32,7 +32,7 @@ namespace CustomsForgeSongManager.UControls
                 chkIncludeCustomPacks.Checked = AppSettings.Instance.IncludeCustomPacks;
                 chkIncludeAnalyzerData.Checked = AppSettings.Instance.IncludeAnalyzerData;
                 chkEnableAutoUpdate.Checked = AppSettings.Instance.EnableAutoUpdate;
-                chkEnableLogBallon.Checked = AppSettings.Instance.EnableLogBaloon;
+                chkEnableNotifications.Checked = AppSettings.Instance.EnableNotifications;
                 chkValidateD3D.Checked = AppSettings.Instance.ValidateD3D;
                 chkMacMode.Checked = AppSettings.Instance.MacMode;
                 rbCleanOnClosing.Checked = AppSettings.Instance.CleanOnClosing;
@@ -243,11 +243,11 @@ namespace CustomsForgeSongManager.UControls
             AppSettings.Instance.EnableAutoUpdate = chkEnableAutoUpdate.Checked;
         }
 
-        private void chkEnableLogBaloon_Click(object sender, EventArgs e)
+        private void chkEnableNotifications_Click(object sender, EventArgs e)
         {
-            AppSettings.Instance.EnableLogBaloon = chkEnableLogBallon.Checked;
+            AppSettings.Instance.EnableNotifications = chkEnableNotifications.Checked;
 
-            if (chkEnableLogBallon.Checked)
+            if (chkEnableNotifications.Checked)
                 Globals.MyLog.AddTargetNotifyIcon(Globals.Notifier);
             else
                 Globals.MyLog.RemoveTargetNotifyIcon(Globals.Notifier);
@@ -366,5 +366,7 @@ namespace CustomsForgeSongManager.UControls
         }
 
         #endregion
+
+
     }
 }

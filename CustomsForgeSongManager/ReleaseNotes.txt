@@ -14,6 +14,11 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.4.1.4
+- issue new Release version
+- fixed issue with 'Highest Fret Used' counting and saving
+- automatically delete CFSM support files and subfolders if they need updating due to a revision
+
 1.4.1.3
 - added 'Highest Fret Used' to the Analyzer
 - fixed contextual menu bug 'Object reference not set to an instance of an object.' 

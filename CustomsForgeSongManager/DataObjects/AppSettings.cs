@@ -19,8 +19,8 @@ namespace CustomsForgeSongManager.DataObjects
         private bool _includeRS2BaseSongs;
         private bool _includeCustomPacks;
         private bool _includeAnalyzerData;
-        private bool _enableAutoUpdate;
-        private bool _enableLogBaloon = false;
+        private bool _enableAutoUpdate = false;
+        private bool _enableNotifications = false;
         private bool _validateD3D = true;
         private bool _macMode;
         private bool _cleanOnClosing;
@@ -85,10 +85,10 @@ namespace CustomsForgeSongManager.DataObjects
             set { SetPropertyField("EnableAutoUpdate", ref _enableAutoUpdate, value); }
         }
         
-        public bool EnableLogBaloon
+        public bool EnableNotifications
         {
-            get { return _enableLogBaloon; }
-            set { SetPropertyField("EnableLogBaloon", ref _enableLogBaloon, value); }
+            get { return _enableNotifications; }
+            set { SetPropertyField("EnableNotifications", ref _enableNotifications, value); }
         }
 
         public bool ValidateD3D
@@ -290,7 +290,7 @@ namespace CustomsForgeSongManager.DataObjects
             Instance.IncludeCustomPacks = false;
             Instance.IncludeAnalyzerData = false;
             Instance.EnableAutoUpdate = false;
-            Instance.EnableLogBaloon = false; // fewer notfication issues
+            Instance.EnableNotifications = false; // fewer notfication issues
             Instance.ValidateD3D = true;
             Instance.CleanOnClosing = false;
             Instance.ShowLogWindow = Constants.DebugMode;
