@@ -14,6 +14,11 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.4.1.5
+- improved 'Clean On Closing' method
+- fix for persistent contextual menu bug 'Object reference not set to an instance of an object.' 
+  that could occur on startup when dgv settings have not yet been saved and/or when tabbing through menus
+  
 1.4.1.4
 - issue new Release version
 - fixed issue with 'Highest Fret Used' counting and saving

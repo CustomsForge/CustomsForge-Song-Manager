@@ -536,6 +536,7 @@ namespace CustomsForgeSongManager.UControls
                     {
                         // DO NOT use the bulldozer here
                         // 'My Documents/CFSM' may contain some original files
+                        ZipUtilities.RemoveReadOnlyAttribute(Constants.WorkFolder);
                         GenExtensions.DeleteFile(Constants.LogFilePath);
                         GenExtensions.DeleteFile(Constants.SongsInfoPath);
                         GenExtensions.DeleteFile(Constants.AnalyzerDataPath);
@@ -614,20 +615,13 @@ namespace CustomsForgeSongManager.UControls
 
         private void PopulateMenuWithColumnHeaders(ContextMenuStrip contextMenuStrip)
         {
-            // fixes contextual menu bug 'Object reference not set to an instance of an object.' 
+            // fix for contextual menu bug 'Object reference not set to an instance of an object.' 
             // that occur on startup when dgv settings have not yet been saved       
             if (RAExtensions.ManagerGridSettings == null)
             {
-                if (Globals.DgvCurrent == null)
-                    Globals.DgvCurrent = dgvSongsMaster;
-
                 Globals.Settings.SaveSettingsToFile(dgvSongsMaster);
                 Globals.Settings.LoadSettingsFromFile(dgvSongsMaster);
-
-                if (RAExtensions.ManagerGridSettings != null)
-                    dgvSongsMaster.ReLoadColumnOrder(RAExtensions.ManagerGridSettings.ColumnOrder);
-                else
-                    return;
+                dgvSongsMaster.ReLoadColumnOrder(RAExtensions.ManagerGridSettings.ColumnOrder);
             }
 
             contextMenuStrip.Items.Clear();
@@ -636,6 +630,7 @@ namespace CustomsForgeSongManager.UControls
                 var cn = dgvSongsMaster.Columns[columnOrderItem.ColumnIndex].Name;
                 if (cn.ToLower().StartsWith("col"))
                     cn = cn.Remove(0, 3);
+
                 ToolStripMenuItem columnsMenuItem = new ToolStripMenuItem(cn, null, ColumnMenuItemClick) { Checked = dgvSongsMaster.Columns[columnOrderItem.ColumnIndex].Visible, Tag = dgvSongsMaster.Columns[columnOrderItem.ColumnIndex].Name };
                 contextMenuStrip.Items.Add(columnsMenuItem);
             }
@@ -1485,7 +1480,7 @@ namespace CustomsForgeSongManager.UControls
             // programmatic left clicking on colSelect
             if (e.Button == MouseButtons.Left && e.RowIndex != -1 && e.ColumnIndex == colSelect.Index)
             {
-                // beyound current scope of CFM
+                // beyound current scope of CFSM
                 if (grid.Rows[e.RowIndex].Cells["colSelect"].Value.ToString().ToLower().Contains(Constants.RS1COMP))
                     Globals.Log(Properties.Resources.CanNotSelectIndividualRS1CompatiblityDLC);
                 else // required to force selected row change
@@ -2178,6 +2173,7 @@ namespace CustomsForgeSongManager.UControls
 
             dgvSongsMaster.Refresh();
         }
+
 
 
     }

@@ -645,20 +645,13 @@ namespace CustomsForgeSongManager.UControls
 
         private void PopulateMenuWithColumnHeaders(ContextMenuStrip contextMenuStrip)
         {
-            // fixes contextual menu bug 'Object reference not set to an instance of an object.' 
+            // fix for contextual menu bug 'Object reference not set to an instance of an object.' 
             // that occur on startup when dgv settings have not yet been saved       
             if (RAExtensions.ManagerGridSettings == null)
             {
-                if (Globals.DgvCurrent == null)
-                    Globals.DgvCurrent = dgvDuplicates;
-
                 Globals.Settings.SaveSettingsToFile(dgvDuplicates);
                 Globals.Settings.LoadSettingsFromFile(dgvDuplicates);
-
-                if (RAExtensions.ManagerGridSettings != null)
-                    dgvDuplicates.ReLoadColumnOrder(RAExtensions.ManagerGridSettings.ColumnOrder);
-                else
-                    return;
+                dgvDuplicates.ReLoadColumnOrder(RAExtensions.ManagerGridSettings.ColumnOrder);
             }
 
             contextMenuStrip.Items.Clear();
@@ -667,6 +660,7 @@ namespace CustomsForgeSongManager.UControls
                 var cn = dgvDuplicates.Columns[columnOrderItem.ColumnIndex].Name;
                 if (cn.ToLower().StartsWith("col"))
                     cn = cn.Remove(0, 3);
+
                 ToolStripMenuItem columnsMenuItem = new ToolStripMenuItem(cn, null, ColumnMenuItemClick) { Checked = dgvDuplicates.Columns[columnOrderItem.ColumnIndex].Visible, Tag = dgvDuplicates.Columns[columnOrderItem.ColumnIndex].Name };
                 contextMenuStrip.Items.Add(columnsMenuItem);
             }

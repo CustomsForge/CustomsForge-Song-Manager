@@ -74,6 +74,63 @@ namespace CustomsForgeSongManager.UControls
             this.colDetailOctaveCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colDetailChords = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgvSongsMaster = new DataGridViewTools.RADataGridView();
+            this.colShowDetail = new System.Windows.Forms.DataGridViewImageColumn();
+            this.colKey = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.colBass = new System.Windows.Forms.DataGridViewImageColumn();
+            this.colLead = new System.Windows.Forms.DataGridViewImageColumn();
+            this.colRhythm = new System.Windows.Forms.DataGridViewImageColumn();
+            this.colVocals = new System.Windows.Forms.DataGridViewImageColumn();
+            this.colRepairStatus = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.colEnabled = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.colArtist = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.colTitle = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.colAlbum = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.colSongYear = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.colArrangements = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.colTuning = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.colDD = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.colSongLength = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.colAvgTempo = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.colAppID = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.colFileName = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.colFilePath = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.colFileDate = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.colFileSize = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.colStatus = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.colCharter = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.colUpdated = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.colVersion = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.colToolkitVersion = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.colTagged = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.colIgnitionID = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.colIgnitionUpdated = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.colIgnitionVersion = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.colIgnitionAuthor = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.colArtistTitleAlbum = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.colArtistSort = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.colTitleSort = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.colAlbumSort = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.colNoteCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colChordCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colOctaveCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colVibratoCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colHammerOnCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colBendCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPullOffCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colHarmonicCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colFretHandMuteCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPalmMuteCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPluckCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSlapCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPopCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSlideCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSustainCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colTremoloCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPinchHarmonicCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colUnpitchedSlideCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colTotalTapCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colHighestFretUsed = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.lnklblToggle = new System.Windows.Forms.LinkLabel();
             this.cmsSongManagerColumns = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.testToolStripMenuItem = new CustomControls.ToolStripEnhancedMenuItem();
@@ -157,63 +214,6 @@ namespace CustomsForgeSongManager.UControls
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiHelpRepairs = new CustomControls.ToolStripEnhancedMenuItem();
             this.tsmiHelpErrorLog = new CustomControls.ToolStripEnhancedMenuItem();
-            this.colShowDetail = new System.Windows.Forms.DataGridViewImageColumn();
-            this.colKey = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
-            this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.colBass = new System.Windows.Forms.DataGridViewImageColumn();
-            this.colLead = new System.Windows.Forms.DataGridViewImageColumn();
-            this.colRhythm = new System.Windows.Forms.DataGridViewImageColumn();
-            this.colVocals = new System.Windows.Forms.DataGridViewImageColumn();
-            this.colRepairStatus = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
-            this.colEnabled = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
-            this.colArtist = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
-            this.colTitle = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
-            this.colAlbum = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
-            this.colSongYear = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
-            this.colArrangements = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
-            this.colTuning = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
-            this.colDD = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
-            this.colSongLength = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
-            this.colAvgTempo = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
-            this.colAppID = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
-            this.colFileName = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
-            this.colFilePath = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
-            this.colFileDate = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
-            this.colFileSize = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
-            this.colStatus = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
-            this.colCharter = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
-            this.colUpdated = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
-            this.colVersion = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
-            this.colToolkitVersion = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
-            this.colTagged = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
-            this.colIgnitionID = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
-            this.colIgnitionUpdated = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
-            this.colIgnitionVersion = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
-            this.colIgnitionAuthor = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
-            this.colArtistTitleAlbum = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
-            this.colArtistSort = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
-            this.colTitleSort = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
-            this.colAlbumSort = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
-            this.colNoteCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colChordCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colOctaveCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colVibratoCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colHammerOnCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colBendCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colPullOffCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colHarmonicCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colFretHandMuteCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colPalmMuteCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colPluckCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSlapCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colPopCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSlideCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSustainCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colTremoloCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colPinchHarmonicCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colUnpitchedSlideCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colTotalTapCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colHighestFretUsed = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panelSearch.SuspendLayout();
             this.gb_Main_Search.SuspendLayout();
             this.cmsSongManager.SuspendLayout();
@@ -226,9 +226,9 @@ namespace CustomsForgeSongManager.UControls
             // 
             // panelSearch
             // 
-            this.panelSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.panelSearch.Controls.Add(this.chkSubFolders);
             this.panelSearch.Controls.Add(this.lnkClearSearch);
             this.panelSearch.Controls.Add(this.lbl_Search);
@@ -269,9 +269,9 @@ namespace CustomsForgeSongManager.UControls
             // 
             // lbl_Search
             // 
-            this.lbl_Search.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbl_Search.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.lbl_Search.AutoSize = true;
             this.lbl_Search.Location = new System.Drawing.Point(3, 9);
             this.lbl_Search.Name = "lbl_Search";
@@ -292,8 +292,8 @@ namespace CustomsForgeSongManager.UControls
             // 
             // gb_Main_Search
             // 
-            this.gb_Main_Search.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gb_Main_Search.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.gb_Main_Search.Controls.Add(this.panelSearch);
             this.gb_Main_Search.Location = new System.Drawing.Point(3, 427);
             this.gb_Main_Search.Name = "gb_Main_Search";
@@ -441,8 +441,8 @@ namespace CustomsForgeSongManager.UControls
             this.cmsGetAnalyzerData.Size = new System.Drawing.Size(209, 22);
             this.cmsGetAnalyzerData.Text = "Get Analyzer Data";
             this.cmsGetAnalyzerData.ToolTipText = "Shows note count, chord count, and\r\nlists all chords for the selected songs.\r\n\r\nN" +
-    "OTE:\r\n Data may be shown for all\r\nsongs by using the checkbox \'Include\r\nAnayzer " +
-    "Data\' in the \'Settings\' menu";
+                "OTE:\r\n Data may be shown for all\r\nsongs by using the checkbox \'Include\r\nAnayzer " +
+                "Data\' in the \'Settings\' menu";
             this.cmsGetAnalyzerData.Click += new System.EventHandler(this.cmsGetAnalyzerData_Click);
             // 
             // lnkLblSelectAll
@@ -463,9 +463,9 @@ namespace CustomsForgeSongManager.UControls
             // 
             // gb_Main_Grid
             // 
-            this.gb_Main_Grid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gb_Main_Grid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.gb_Main_Grid.Controls.Add(this.dgvSongsDetail);
             this.gb_Main_Grid.Controls.Add(this.lnkLblSelectAll);
             this.gb_Main_Grid.Controls.Add(this.dgvSongsMaster);
@@ -603,9 +603,9 @@ namespace CustomsForgeSongManager.UControls
             // 
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.dgvSongsMaster.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.dgvSongsMaster.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgvSongsMaster.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -690,929 +690,6 @@ namespace CustomsForgeSongManager.UControls
             this.dgvSongsMaster.Paint += new System.Windows.Forms.PaintEventHandler(this.dgvSongsMaster_Paint);
             this.dgvSongsMaster.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvSongsMaster_KeyDown);
             this.dgvSongsMaster.KeyUp += new System.Windows.Forms.KeyEventHandler(this.dgvSongsMaster_KeyUp);
-            // 
-            // lnklblToggle
-            // 
-            this.lnklblToggle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lnklblToggle.AutoSize = true;
-            this.lnklblToggle.ForeColor = System.Drawing.Color.Black;
-            this.lnklblToggle.LinkColor = System.Drawing.SystemColors.ActiveCaption;
-            this.lnklblToggle.Location = new System.Drawing.Point(104, 370);
-            this.lnklblToggle.Name = "lnklblToggle";
-            this.lnklblToggle.Size = new System.Drawing.Size(87, 13);
-            this.lnklblToggle.TabIndex = 4;
-            this.lnklblToggle.TabStop = true;
-            this.lnklblToggle.Text = "Toggle Selection";
-            this.lnklblToggle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.toolTip.SetToolTip(this.lnklblToggle, "ODLC are not toggleable");
-            this.lnklblToggle.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnklblToggle_LinkClicked);
-            // 
-            // cmsSongManagerColumns
-            // 
-            this.cmsSongManagerColumns.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.testToolStripMenuItem});
-            this.cmsSongManagerColumns.Name = "cmsSongManagerColumns";
-            this.cmsSongManagerColumns.Size = new System.Drawing.Size(97, 26);
-            // 
-            // testToolStripMenuItem
-            // 
-            this.testToolStripMenuItem.AssociatedEnumValue = null;
-            this.testToolStripMenuItem.Checked = true;
-            this.testToolStripMenuItem.CheckOnClick = true;
-            this.testToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.testToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.testToolStripMenuItem.Name = "testToolStripMenuItem";
-            this.testToolStripMenuItem.RadioButtonGroupName = null;
-            this.testToolStripMenuItem.Size = new System.Drawing.Size(96, 22);
-            this.testToolStripMenuItem.Text = "Test";
-            // 
-            // toolTip
-            // 
-            this.toolTip.AutomaticDelay = 200;
-            this.toolTip.AutoPopDelay = 12000;
-            this.toolTip.InitialDelay = 200;
-            this.toolTip.IsBalloon = true;
-            this.toolTip.ReshowDelay = 100;
-            // 
-            // menuStrip
-            // 
-            this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiRescan,
-            this.tsmiRepairs,
-            this.tsmiDuplicates,
-            this.tsmiMods,
-            this.tsmiFiles,
-            this.tsmiHelp});
-            this.menuStrip.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(899, 24);
-            this.menuStrip.TabIndex = 11;
-            this.menuStrip.Text = "menuStrip1";
-            // 
-            // tsmiRescan
-            // 
-            this.tsmiRescan.AssociatedEnumValue = null;
-            this.tsmiRescan.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiRescanQuick,
-            this.tsmiRescanFull});
-            this.tsmiRescan.Image = ((System.Drawing.Image)(resources.GetObject("tsmiRescan.Image")));
-            this.tsmiRescan.Name = "tsmiRescan";
-            this.tsmiRescan.RadioButtonGroupName = null;
-            this.tsmiRescan.Size = new System.Drawing.Size(72, 20);
-            this.tsmiRescan.Text = "Rescan";
-            this.tsmiRescan.ToolTipText = "See \'Settings\' menu for additional\r\ndata rescan and inclusion options.";
-            // 
-            // tsmiRescanQuick
-            // 
-            this.tsmiRescanQuick.AssociatedEnumValue = null;
-            this.tsmiRescanQuick.Image = ((System.Drawing.Image)(resources.GetObject("tsmiRescanQuick.Image")));
-            this.tsmiRescanQuick.Name = "tsmiRescanQuick";
-            this.tsmiRescanQuick.RadioButtonGroupName = null;
-            this.tsmiRescanQuick.Size = new System.Drawing.Size(105, 22);
-            this.tsmiRescanQuick.Text = "Quick";
-            this.tsmiRescanQuick.ToolTipText = "Quick reload of previously scanned data.\r\nOnly rescans data if necessary.";
-            this.tsmiRescanQuick.Click += new System.EventHandler(this.tsmiRescanQuick_Click);
-            // 
-            // tsmiRescanFull
-            // 
-            this.tsmiRescanFull.AssociatedEnumValue = null;
-            this.tsmiRescanFull.Image = ((System.Drawing.Image)(resources.GetObject("tsmiRescanFull.Image")));
-            this.tsmiRescanFull.Name = "tsmiRescanFull";
-            this.tsmiRescanFull.RadioButtonGroupName = null;
-            this.tsmiRescanFull.Size = new System.Drawing.Size(105, 22);
-            this.tsmiRescanFull.Text = "Full";
-            this.tsmiRescanFull.ToolTipText = "Preliminary scan or after significant changes.\r\n\r\nHint:\r\nTry running a \'Full\' res" +
-    "can if the CDLC\r\ncollection does not look as expected.";
-            this.tsmiRescanFull.Click += new System.EventHandler(this.tsmiRescanFull_Click);
-            // 
-            // tsmiRepairs
-            // 
-            this.tsmiRepairs.AssociatedEnumValue = null;
-            this.tsmiRepairs.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiSkipRemastered,
-            this.toolStripSeparator12,
-            this.tsmiRepairsAddDD,
-            this.tsmiAddDDSettings,
-            this.tsmiOverwriteDD,
-            this.toolStripSeparator9,
-            this.tsmiRepairsMastery,
-            this.tsmiRepairsPreserveStats,
-            this.tsmiRepairsUsingOrg,
-            this.tsmiRepairsMultitone,
-            this.toolStripSeparator8,
-            this.tsmiRepairsMaxFive,
-            this.tsmiRemoveNDD,
-            this.tsmiRemoveBass,
-            this.tsmiRemoveGuitar,
-            this.tsmiRemoveBonus,
-            this.tsmiRemoveMetronome,
-            this.tsmiIgnoreStopLimit,
-            this.toolStripSeparator7,
-            this.tsmiRemoveSections,
-            this.toolStripSeparator10,
-            this.tsmiProcessDLFolder,
-            this.toolStripSeparator13,
-            this.tsmiRepairsRun});
-            this.tsmiRepairs.Image = ((System.Drawing.Image)(resources.GetObject("tsmiRepairs.Image")));
-            this.tsmiRepairs.Name = "tsmiRepairs";
-            this.tsmiRepairs.RadioButtonGroupName = null;
-            this.tsmiRepairs.Size = new System.Drawing.Size(73, 20);
-            this.tsmiRepairs.Text = "Repairs";
-            this.tsmiRepairs.ToolTipText = resources.GetString("tsmiRepairs.ToolTipText");
-            // 
-            // tsmiSkipRemastered
-            // 
-            this.tsmiSkipRemastered.AssociatedEnumValue = null;
-            this.tsmiSkipRemastered.AutoCheck = false;
-            this.tsmiSkipRemastered.CheckMarkDisplayStyle = CustomControls.CheckMarkDisplayStyle.RadioButton;
-            this.tsmiSkipRemastered.CheckOnClick = true;
-            this.tsmiSkipRemastered.ForeColor = System.Drawing.Color.RoyalBlue;
-            this.tsmiSkipRemastered.Name = "tsmiSkipRemastered";
-            this.tsmiSkipRemastered.RadioButtonGroupName = "SkipRemastered";
-            this.tsmiSkipRemastered.Size = new System.Drawing.Size(251, 22);
-            this.tsmiSkipRemastered.Text = "Skip Previously Remastered CDLC";
-            this.tsmiSkipRemastered.ToolTipText = "Skipping previously remastered CDLC\r\nwill greatly speed up the repair\r\nprocess.";
-            this.tsmiSkipRemastered.Click += new System.EventHandler(this.RepairsButton_Click);
-            // 
-            // toolStripSeparator12
-            // 
-            this.toolStripSeparator12.Name = "toolStripSeparator12";
-            this.toolStripSeparator12.Size = new System.Drawing.Size(248, 6);
-            // 
-            // tsmiRepairsAddDD
-            // 
-            this.tsmiRepairsAddDD.AssociatedEnumValue = null;
-            this.tsmiRepairsAddDD.AutoCheck = false;
-            this.tsmiRepairsAddDD.CheckMarkDisplayStyle = CustomControls.CheckMarkDisplayStyle.RadioButton;
-            this.tsmiRepairsAddDD.CheckOnClick = true;
-            this.tsmiRepairsAddDD.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tsmiRepairsAddDD.ForeColor = System.Drawing.Color.RoyalBlue;
-            this.tsmiRepairsAddDD.Name = "tsmiRepairsAddDD";
-            this.tsmiRepairsAddDD.RadioButtonGroupName = "AddDD";
-            this.tsmiRepairsAddDD.Size = new System.Drawing.Size(251, 22);
-            this.tsmiRepairsAddDD.Text = "Add Dynamic Difficulty (DD)";
-            this.tsmiRepairsAddDD.ToolTipText = "Fixes Remastered Play Count tracking\r\nby adding Dynamic Difficulty (DD) to\r\narran" +
-    "gements that do not have DD";
-            this.tsmiRepairsAddDD.Click += new System.EventHandler(this.RepairsButton_Click);
-            // 
-            // tsmiAddDDSettings
-            // 
-            this.tsmiAddDDSettings.AssociatedEnumValue = null;
-            this.tsmiAddDDSettings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiAddDDNumericUpDown,
-            this.tsmiAddDDRemoveSustain,
-            this.tsmiAddDDCfgPath,
-            this.tsmiAddDDRampUpPath});
-            this.tsmiAddDDSettings.Name = "tsmiAddDDSettings";
-            this.tsmiAddDDSettings.RadioButtonGroupName = "AddDD";
-            this.tsmiAddDDSettings.Size = new System.Drawing.Size(251, 22);
-            this.tsmiAddDDSettings.Text = "Customizable DDC Settings";
-            this.tsmiAddDDSettings.ToolTipText = "Configuration settings for ddc.exe CLI";
-            // 
-            // tsmiAddDDNumericUpDown
-            // 
-            this.tsmiAddDDNumericUpDown.BackColor = System.Drawing.Color.Transparent;
-            this.tsmiAddDDNumericUpDown.DecimalPlaces = 0;
-            this.tsmiAddDDNumericUpDown.Margin = new System.Windows.Forms.Padding(0, 1, 3, 1);
-            this.tsmiAddDDNumericUpDown.Minimum = new decimal(new int[] {
-            8,
-            0,
-            0,
-            0});
-            this.tsmiAddDDNumericUpDown.Name = "tsmiAddDDNumericUpDown";
-            this.tsmiAddDDNumericUpDown.NumBackColor = System.Drawing.SystemColors.Window;
-            this.tsmiAddDDNumericUpDown.Size = new System.Drawing.Size(53, 22);
-            this.tsmiAddDDNumericUpDown.Text = "Phrase Length";
-            this.tsmiAddDDNumericUpDown.TextVisible = false;
-            this.tsmiAddDDNumericUpDown.ToolTipText = "Set custom Phrase Length greater than eight";
-            this.tsmiAddDDNumericUpDown.Value = new decimal(new int[] {
-            8,
-            0,
-            0,
-            0});
-            this.tsmiAddDDNumericUpDown.Click += new System.EventHandler(this.RepairsAddDDSettings_Click);
-            // 
-            // tsmiAddDDRemoveSustain
-            // 
-            this.tsmiAddDDRemoveSustain.AssociatedEnumValue = null;
-            this.tsmiAddDDRemoveSustain.CheckOnClick = true;
-            this.tsmiAddDDRemoveSustain.Name = "tsmiAddDDRemoveSustain";
-            this.tsmiAddDDRemoveSustain.RadioButtonGroupName = "AddDD";
-            this.tsmiAddDDRemoveSustain.Size = new System.Drawing.Size(260, 22);
-            this.tsmiAddDDRemoveSustain.Text = "Remove Sustain";
-            this.tsmiAddDDRemoveSustain.ToolTipText = "If checked, sustain will be removed.";
-            this.tsmiAddDDRemoveSustain.Click += new System.EventHandler(this.RepairsAddDDSettings_Click);
-            // 
-            // tsmiAddDDCfgPath
-            // 
-            this.tsmiAddDDCfgPath.AssociatedEnumValue = null;
-            this.tsmiAddDDCfgPath.AutoSize = false;
-            this.tsmiAddDDCfgPath.Name = "tsmiAddDDCfgPath";
-            this.tsmiAddDDCfgPath.Overflow = System.Windows.Forms.ToolStripItemOverflow.AsNeeded;
-            this.tsmiAddDDCfgPath.RadioButtonGroupName = null;
-            this.tsmiAddDDCfgPath.Size = new System.Drawing.Size(170, 22);
-            this.tsmiAddDDCfgPath.Spring = true;
-            this.tsmiAddDDCfgPath.Text = "Click to set CFG path";
-            this.tsmiAddDDCfgPath.ToolTipText = "Set custom CFG path";
-            this.tsmiAddDDCfgPath.Click += new System.EventHandler(this.tsmiAddDDCfgPath_Click);
-            // 
-            // tsmiAddDDRampUpPath
-            // 
-            this.tsmiAddDDRampUpPath.AssociatedEnumValue = null;
-            this.tsmiAddDDRampUpPath.AutoSize = false;
-            this.tsmiAddDDRampUpPath.Name = "tsmiAddDDRampUpPath";
-            this.tsmiAddDDRampUpPath.Overflow = System.Windows.Forms.ToolStripItemOverflow.AsNeeded;
-            this.tsmiAddDDRampUpPath.RadioButtonGroupName = null;
-            this.tsmiAddDDRampUpPath.Size = new System.Drawing.Size(170, 22);
-            this.tsmiAddDDRampUpPath.Spring = true;
-            this.tsmiAddDDRampUpPath.Text = "Click to set RampUp path";
-            this.tsmiAddDDRampUpPath.ToolTipText = "Set custom RampUp path";
-            this.tsmiAddDDRampUpPath.Click += new System.EventHandler(this.tsmiAddDDRampUpPath_Click);
-            // 
-            // tsmiOverwriteDD
-            // 
-            this.tsmiOverwriteDD.AssociatedEnumValue = null;
-            this.tsmiOverwriteDD.CheckOnClick = true;
-            this.tsmiOverwriteDD.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tsmiOverwriteDD.ForeColor = System.Drawing.Color.Red;
-            this.tsmiOverwriteDD.Name = "tsmiOverwriteDD";
-            this.tsmiOverwriteDD.RadioButtonGroupName = "AddDD";
-            this.tsmiOverwriteDD.Size = new System.Drawing.Size(251, 22);
-            this.tsmiOverwriteDD.Text = "Overwrite Existing DD";
-            this.tsmiOverwriteDD.ToolTipText = "Overwrite existing Dynamic Difficulty (DD)\r\nwith new DD even if arrangement alrea" +
-    "dy\r\nhas DD.";
-            this.tsmiOverwriteDD.CheckStateChanged += new System.EventHandler(this.Repairs_CheckStateChanged);
-            // 
-            // toolStripSeparator9
-            // 
-            this.toolStripSeparator9.Name = "toolStripSeparator9";
-            this.toolStripSeparator9.Size = new System.Drawing.Size(248, 6);
-            // 
-            // tsmiRepairsMastery
-            // 
-            this.tsmiRepairsMastery.AssociatedEnumValue = null;
-            this.tsmiRepairsMastery.AutoCheck = false;
-            this.tsmiRepairsMastery.CheckMarkDisplayStyle = CustomControls.CheckMarkDisplayStyle.RadioButton;
-            this.tsmiRepairsMastery.CheckOnClick = true;
-            this.tsmiRepairsMastery.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tsmiRepairsMastery.ForeColor = System.Drawing.Color.RoyalBlue;
-            this.tsmiRepairsMastery.Name = "tsmiRepairsMastery";
-            this.tsmiRepairsMastery.RadioButtonGroupName = "Mastery";
-            this.tsmiRepairsMastery.Size = new System.Drawing.Size(251, 22);
-            this.tsmiRepairsMastery.Text = "Mastery 100% Bug";
-            this.tsmiRepairsMastery.ToolTipText = "Mastery 100% Bug is repaired\r\nby default regardless of\r\nother selected options.\r\n" +
-    "\r\nOnce the Mastery Bug is repaired\r\nthe CDLC is considered to be\r\n\'Remastered\'.";
-            this.tsmiRepairsMastery.Click += new System.EventHandler(this.RepairsButton_Click);
-            // 
-            // tsmiRepairsPreserveStats
-            // 
-            this.tsmiRepairsPreserveStats.AssociatedEnumValue = null;
-            this.tsmiRepairsPreserveStats.CheckOnClick = true;
-            this.tsmiRepairsPreserveStats.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tsmiRepairsPreserveStats.Name = "tsmiRepairsPreserveStats";
-            this.tsmiRepairsPreserveStats.RadioButtonGroupName = "Mastery";
-            this.tsmiRepairsPreserveStats.Size = new System.Drawing.Size(251, 22);
-            this.tsmiRepairsPreserveStats.Text = "Preserve Stats";
-            this.tsmiRepairsPreserveStats.CheckStateChanged += new System.EventHandler(this.Repairs_CheckStateChanged);
-            // 
-            // tsmiRepairsUsingOrg
-            // 
-            this.tsmiRepairsUsingOrg.AssociatedEnumValue = null;
-            this.tsmiRepairsUsingOrg.CheckOnClick = true;
-            this.tsmiRepairsUsingOrg.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tsmiRepairsUsingOrg.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.tsmiRepairsUsingOrg.Name = "tsmiRepairsUsingOrg";
-            this.tsmiRepairsUsingOrg.RadioButtonGroupName = "Mastery";
-            this.tsmiRepairsUsingOrg.Size = new System.Drawing.Size(251, 22);
-            this.tsmiRepairsUsingOrg.Text = "Use (.org) Files";
-            this.tsmiRepairsUsingOrg.ToolTipText = resources.GetString("tsmiRepairsUsingOrg.ToolTipText");
-            this.tsmiRepairsUsingOrg.CheckStateChanged += new System.EventHandler(this.Repairs_CheckStateChanged);
-            // 
-            // tsmiRepairsMultitone
-            // 
-            this.tsmiRepairsMultitone.AssociatedEnumValue = null;
-            this.tsmiRepairsMultitone.CheckOnClick = true;
-            this.tsmiRepairsMultitone.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tsmiRepairsMultitone.ForeColor = System.Drawing.Color.Red;
-            this.tsmiRepairsMultitone.Name = "tsmiRepairsMultitone";
-            this.tsmiRepairsMultitone.RadioButtonGroupName = "Mastery";
-            this.tsmiRepairsMultitone.Size = new System.Drawing.Size(251, 22);
-            this.tsmiRepairsMultitone.Text = "Prevent Multitone Exceptions";
-            this.tsmiRepairsMultitone.ToolTipText = "Prevent multitone exceptions\r\nby converting corrupt multitone\r\narrangements to si" +
-    "ngle tone.";
-            this.tsmiRepairsMultitone.Click += new System.EventHandler(this.Repairs_CheckStateChanged);
-            // 
-            // toolStripSeparator8
-            // 
-            this.toolStripSeparator8.Name = "toolStripSeparator8";
-            this.toolStripSeparator8.Size = new System.Drawing.Size(248, 6);
-            // 
-            // tsmiRepairsMaxFive
-            // 
-            this.tsmiRepairsMaxFive.AssociatedEnumValue = null;
-            this.tsmiRepairsMaxFive.AutoCheck = false;
-            this.tsmiRepairsMaxFive.CheckMarkDisplayStyle = CustomControls.CheckMarkDisplayStyle.RadioButton;
-            this.tsmiRepairsMaxFive.CheckOnClick = true;
-            this.tsmiRepairsMaxFive.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tsmiRepairsMaxFive.ForeColor = System.Drawing.Color.RoyalBlue;
-            this.tsmiRepairsMaxFive.Name = "tsmiRepairsMaxFive";
-            this.tsmiRepairsMaxFive.RadioButtonGroupName = "MaxFive";
-            this.tsmiRepairsMaxFive.Size = new System.Drawing.Size(251, 22);
-            this.tsmiRepairsMaxFive.Text = "Max Five Arrangements";
-            this.tsmiRepairsMaxFive.ToolTipText = "Select Max5 Repair Options";
-            this.tsmiRepairsMaxFive.Click += new System.EventHandler(this.RepairsButton_Click);
-            // 
-            // tsmiRemoveNDD
-            // 
-            this.tsmiRemoveNDD.AssociatedEnumValue = null;
-            this.tsmiRemoveNDD.CheckOnClick = true;
-            this.tsmiRemoveNDD.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tsmiRemoveNDD.Name = "tsmiRemoveNDD";
-            this.tsmiRemoveNDD.RadioButtonGroupName = "MaxFive";
-            this.tsmiRemoveNDD.Size = new System.Drawing.Size(251, 22);
-            this.tsmiRemoveNDD.Text = "Remove NDD";
-            this.tsmiRemoveNDD.CheckStateChanged += new System.EventHandler(this.Repairs_CheckStateChanged);
-            // 
-            // tsmiRemoveBass
-            // 
-            this.tsmiRemoveBass.AssociatedEnumValue = null;
-            this.tsmiRemoveBass.CheckOnClick = true;
-            this.tsmiRemoveBass.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tsmiRemoveBass.Name = "tsmiRemoveBass";
-            this.tsmiRemoveBass.RadioButtonGroupName = "MaxFive";
-            this.tsmiRemoveBass.Size = new System.Drawing.Size(251, 22);
-            this.tsmiRemoveBass.Text = "Remove Bass";
-            this.tsmiRemoveBass.CheckStateChanged += new System.EventHandler(this.Repairs_CheckStateChanged);
-            // 
-            // tsmiRemoveGuitar
-            // 
-            this.tsmiRemoveGuitar.AssociatedEnumValue = null;
-            this.tsmiRemoveGuitar.CheckOnClick = true;
-            this.tsmiRemoveGuitar.Name = "tsmiRemoveGuitar";
-            this.tsmiRemoveGuitar.RadioButtonGroupName = "MaxFive";
-            this.tsmiRemoveGuitar.Size = new System.Drawing.Size(251, 22);
-            this.tsmiRemoveGuitar.Text = "Remove Guitar";
-            this.tsmiRemoveGuitar.CheckStateChanged += new System.EventHandler(this.Repairs_CheckStateChanged);
-            // 
-            // tsmiRemoveBonus
-            // 
-            this.tsmiRemoveBonus.AssociatedEnumValue = null;
-            this.tsmiRemoveBonus.CheckOnClick = true;
-            this.tsmiRemoveBonus.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tsmiRemoveBonus.Name = "tsmiRemoveBonus";
-            this.tsmiRemoveBonus.RadioButtonGroupName = "MaxFive";
-            this.tsmiRemoveBonus.Size = new System.Drawing.Size(251, 22);
-            this.tsmiRemoveBonus.Text = "Remove Bonus";
-            this.tsmiRemoveBonus.CheckStateChanged += new System.EventHandler(this.Repairs_CheckStateChanged);
-            // 
-            // tsmiRemoveMetronome
-            // 
-            this.tsmiRemoveMetronome.AssociatedEnumValue = null;
-            this.tsmiRemoveMetronome.CheckOnClick = true;
-            this.tsmiRemoveMetronome.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tsmiRemoveMetronome.Name = "tsmiRemoveMetronome";
-            this.tsmiRemoveMetronome.RadioButtonGroupName = "MaxFive";
-            this.tsmiRemoveMetronome.Size = new System.Drawing.Size(251, 22);
-            this.tsmiRemoveMetronome.Text = "Remove Metronone";
-            this.tsmiRemoveMetronome.CheckStateChanged += new System.EventHandler(this.Repairs_CheckStateChanged);
-            // 
-            // tsmiIgnoreStopLimit
-            // 
-            this.tsmiIgnoreStopLimit.AssociatedEnumValue = null;
-            this.tsmiIgnoreStopLimit.CheckOnClick = true;
-            this.tsmiIgnoreStopLimit.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tsmiIgnoreStopLimit.ForeColor = System.Drawing.Color.Red;
-            this.tsmiIgnoreStopLimit.Name = "tsmiIgnoreStopLimit";
-            this.tsmiIgnoreStopLimit.RadioButtonGroupName = "MaxFive";
-            this.tsmiIgnoreStopLimit.Size = new System.Drawing.Size(251, 22);
-            this.tsmiIgnoreStopLimit.Text = "Ignore Arrangement Stop Limit";
-            this.tsmiIgnoreStopLimit.ToolTipText = "Removes all arrangements of\r\nselected type and ignores\r\nstop limit.";
-            this.tsmiIgnoreStopLimit.CheckStateChanged += new System.EventHandler(this.Repairs_CheckStateChanged);
-            // 
-            // toolStripSeparator7
-            // 
-            this.toolStripSeparator7.Name = "toolStripSeparator7";
-            this.toolStripSeparator7.Size = new System.Drawing.Size(248, 6);
-            // 
-            // tsmiRemoveSections
-            // 
-            this.tsmiRemoveSections.AssociatedEnumValue = null;
-            this.tsmiRemoveSections.AutoCheck = false;
-            this.tsmiRemoveSections.CheckMarkDisplayStyle = CustomControls.CheckMarkDisplayStyle.RadioButton;
-            this.tsmiRemoveSections.CheckOnClick = true;
-            this.tsmiRemoveSections.Enabled = false;
-            this.tsmiRemoveSections.ForeColor = System.Drawing.Color.RoyalBlue;
-            this.tsmiRemoveSections.Name = "tsmiRemoveSections";
-            this.tsmiRemoveSections.RadioButtonGroupName = "RemoveSections";
-            this.tsmiRemoveSections.Size = new System.Drawing.Size(251, 22);
-            this.tsmiRemoveSections.Text = "Remove Sections/Phrases";
-            this.tsmiRemoveSections.ToolTipText = "Coming Soon";
-            this.tsmiRemoveSections.Visible = false;
-            this.tsmiRemoveSections.Click += new System.EventHandler(this.RepairsButton_Click);
-            // 
-            // toolStripSeparator10
-            // 
-            this.toolStripSeparator10.Name = "toolStripSeparator10";
-            this.toolStripSeparator10.Size = new System.Drawing.Size(248, 6);
-            this.toolStripSeparator10.Visible = false;
-            // 
-            // tsmiProcessDLFolder
-            // 
-            this.tsmiProcessDLFolder.AssociatedEnumValue = null;
-            this.tsmiProcessDLFolder.AutoCheck = false;
-            this.tsmiProcessDLFolder.CheckMarkDisplayStyle = CustomControls.CheckMarkDisplayStyle.RadioButton;
-            this.tsmiProcessDLFolder.CheckOnClick = true;
-            this.tsmiProcessDLFolder.ForeColor = System.Drawing.Color.RoyalBlue;
-            this.tsmiProcessDLFolder.Name = "tsmiProcessDLFolder";
-            this.tsmiProcessDLFolder.RadioButtonGroupName = "ProcessDLFolder";
-            this.tsmiProcessDLFolder.Size = new System.Drawing.Size(251, 22);
-            this.tsmiProcessDLFolder.Text = "Process \'Downloads\' Folder";
-            this.tsmiProcessDLFolder.ToolTipText = resources.GetString("tsmiProcessDLFolder.ToolTipText");
-            this.tsmiProcessDLFolder.Click += new System.EventHandler(this.RepairsButton_Click);
-            // 
-            // toolStripSeparator13
-            // 
-            this.toolStripSeparator13.Name = "toolStripSeparator13";
-            this.toolStripSeparator13.Size = new System.Drawing.Size(248, 6);
-            // 
-            // tsmiRepairsRun
-            // 
-            this.tsmiRepairsRun.AssociatedEnumValue = null;
-            this.tsmiRepairsRun.BackColor = System.Drawing.SystemColors.Control;
-            this.tsmiRepairsRun.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tsmiRepairsRun.Name = "tsmiRepairsRun";
-            this.tsmiRepairsRun.RadioButtonGroupName = null;
-            this.tsmiRepairsRun.Size = new System.Drawing.Size(251, 22);
-            this.tsmiRepairsRun.Text = "Run Selected Repair Optons";
-            this.tsmiRepairsRun.ToolTipText = "Select repair options first";
-            this.tsmiRepairsRun.Click += new System.EventHandler(this.tsmiRepairsRun_Click);
-            // 
-            // tsmiDuplicates
-            // 
-            this.tsmiDuplicates.AssociatedEnumValue = null;
-            this.tsmiDuplicates.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiDuplicatesSoon});
-            this.tsmiDuplicates.Name = "tsmiDuplicates";
-            this.tsmiDuplicates.RadioButtonGroupName = null;
-            this.tsmiDuplicates.Size = new System.Drawing.Size(74, 20);
-            this.tsmiDuplicates.Text = "Duplicates";
-            this.tsmiDuplicates.Visible = false;
-            // 
-            // tsmiDuplicatesSoon
-            // 
-            this.tsmiDuplicatesSoon.AssociatedEnumValue = null;
-            this.tsmiDuplicatesSoon.Name = "tsmiDuplicatesSoon";
-            this.tsmiDuplicatesSoon.RadioButtonGroupName = null;
-            this.tsmiDuplicatesSoon.Size = new System.Drawing.Size(158, 22);
-            this.tsmiDuplicatesSoon.Text = "COMING SOON";
-            // 
-            // tsmiMods
-            // 
-            this.tsmiMods.AssociatedEnumValue = null;
-            this.tsmiMods.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiModsChangeAppId,
-            this.toolStripSeparator4,
-            this.tsmiModsPitchShifter,
-            this.tsmiModsPitchShiftStandard,
-            this.tsmiModsPitchShiftOverwrite,
-            this.toolStripSeparator5,
-            this.tsmiTagStyle,
-            this.tsmiModsTagArtwork,
-            this.tsmiModsUntagArtwork,
-            this.toolStripSeparator14,
-            this.tsmiModsTheMover,
-            this.tsmiModsMyCDLC});
-            this.tsmiMods.Name = "tsmiMods";
-            this.tsmiMods.RadioButtonGroupName = null;
-            this.tsmiMods.Size = new System.Drawing.Size(94, 20);
-            this.tsmiMods.Text = "Custom Mods";
-            // 
-            // tsmiModsChangeAppId
-            // 
-            this.tsmiModsChangeAppId.AssociatedEnumValue = null;
-            this.tsmiModsChangeAppId.Image = ((System.Drawing.Image)(resources.GetObject("tsmiModsChangeAppId.Image")));
-            this.tsmiModsChangeAppId.Name = "tsmiModsChangeAppId";
-            this.tsmiModsChangeAppId.RadioButtonGroupName = null;
-            this.tsmiModsChangeAppId.Size = new System.Drawing.Size(203, 22);
-            this.tsmiModsChangeAppId.Text = "Edit App IDs";
-            this.tsmiModsChangeAppId.ToolTipText = "Change the CDLC App ID to\r\nany other DLC that you own.\r\n\r\nHINT:\r\nYou can also typ" +
-    "e in any valid\r\nApp ID if it is not on the list.";
-            this.tsmiModsChangeAppId.Click += new System.EventHandler(this.tsmiModsChangeAppId_Click);
-            // 
-            // toolStripSeparator4
-            // 
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(200, 6);
-            // 
-            // tsmiModsPitchShifter
-            // 
-            this.tsmiModsPitchShifter.AssociatedEnumValue = null;
-            this.tsmiModsPitchShifter.Name = "tsmiModsPitchShifter";
-            this.tsmiModsPitchShifter.RadioButtonGroupName = "PitchShifter";
-            this.tsmiModsPitchShifter.Size = new System.Drawing.Size(203, 22);
-            this.tsmiModsPitchShifter.Text = "Pitch Shifter";
-            this.tsmiModsPitchShifter.ToolTipText = "Add additional options to Pitch Shifter if desired\r\nwith check boxes before press" +
-    "ing Pitch Shifter.";
-            this.tsmiModsPitchShifter.Click += new System.EventHandler(this.tsmiModsPitchShifter_Click);
-            // 
-            // tsmiModsPitchShiftStandard
-            // 
-            this.tsmiModsPitchShiftStandard.AssociatedEnumValue = null;
-            this.tsmiModsPitchShiftStandard.CheckOnClick = true;
-            this.tsmiModsPitchShiftStandard.Name = "tsmiModsPitchShiftStandard";
-            this.tsmiModsPitchShiftStandard.RadioButtonGroupName = null;
-            this.tsmiModsPitchShiftStandard.Size = new System.Drawing.Size(203, 22);
-            this.tsmiModsPitchShiftStandard.Text = "Force E Standard Tuning";
-            this.tsmiModsPitchShiftStandard.ToolTipText = "If checked, forces E Standard Tuning";
-            this.tsmiModsPitchShiftStandard.Click += new System.EventHandler(this.tsmiModsPitchShifterCheckbox_Click);
-            // 
-            // tsmiModsPitchShiftOverwrite
-            // 
-            this.tsmiModsPitchShiftOverwrite.AssociatedEnumValue = null;
-            this.tsmiModsPitchShiftOverwrite.CheckOnClick = true;
-            this.tsmiModsPitchShiftOverwrite.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tsmiModsPitchShiftOverwrite.ForeColor = System.Drawing.Color.Red;
-            this.tsmiModsPitchShiftOverwrite.Name = "tsmiModsPitchShiftOverwrite";
-            this.tsmiModsPitchShiftOverwrite.RadioButtonGroupName = "PitchShift";
-            this.tsmiModsPitchShiftOverwrite.Size = new System.Drawing.Size(203, 22);
-            this.tsmiModsPitchShiftOverwrite.Text = "Overwrite File";
-            this.tsmiModsPitchShiftOverwrite.ToolTipText = "If checked, overwrite existing CDLC\r\nwith pitch shifted arrangements.";
-            this.tsmiModsPitchShiftOverwrite.Click += new System.EventHandler(this.tsmiModsPitchShifterCheckbox_Click);
-            // 
-            // toolStripSeparator5
-            // 
-            this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(200, 6);
-            // 
-            // tsmiTagStyle
-            // 
-            this.tsmiTagStyle.AssociatedEnumValue = null;
-            this.tsmiTagStyle.Name = "tsmiTagStyle";
-            this.tsmiTagStyle.RadioButtonGroupName = null;
-            this.tsmiTagStyle.Size = new System.Drawing.Size(203, 22);
-            this.tsmiTagStyle.Text = "Tag Style";
-            // 
-            // tsmiModsTagArtwork
-            // 
-            this.tsmiModsTagArtwork.AssociatedEnumValue = null;
-            this.tsmiModsTagArtwork.Name = "tsmiModsTagArtwork";
-            this.tsmiModsTagArtwork.RadioButtonGroupName = null;
-            this.tsmiModsTagArtwork.Size = new System.Drawing.Size(203, 22);
-            this.tsmiModsTagArtwork.Text = "Tag Album Artwork";
-            this.tsmiModsTagArtwork.Click += new System.EventHandler(this.tsmiModsTagArtwork_Click);
-            // 
-            // tsmiModsUntagArtwork
-            // 
-            this.tsmiModsUntagArtwork.AssociatedEnumValue = null;
-            this.tsmiModsUntagArtwork.Image = ((System.Drawing.Image)(resources.GetObject("tsmiModsUntagArtwork.Image")));
-            this.tsmiModsUntagArtwork.Name = "tsmiModsUntagArtwork";
-            this.tsmiModsUntagArtwork.RadioButtonGroupName = null;
-            this.tsmiModsUntagArtwork.Size = new System.Drawing.Size(203, 22);
-            this.tsmiModsUntagArtwork.Text = "Un-Tag";
-            this.tsmiModsUntagArtwork.Click += new System.EventHandler(this.tsmiModsUntagArtwork_Click);
-            // 
-            // toolStripSeparator14
-            // 
-            this.toolStripSeparator14.Name = "toolStripSeparator14";
-            this.toolStripSeparator14.Size = new System.Drawing.Size(200, 6);
-            // 
-            // tsmiModsTheMover
-            // 
-            this.tsmiModsTheMover.AssociatedEnumValue = null;
-            this.tsmiModsTheMover.CheckOnClick = true;
-            this.tsmiModsTheMover.Name = "tsmiModsTheMover";
-            this.tsmiModsTheMover.RadioButtonGroupName = null;
-            this.tsmiModsTheMover.Size = new System.Drawing.Size(203, 22);
-            this.tsmiModsTheMover.Text = "\'The\' mover";
-            this.tsmiModsTheMover.ToolTipText = "\'The\' Mover e.g., The Beatles -> Beatles, The";
-            this.tsmiModsTheMover.CheckStateChanged += new System.EventHandler(this.tsmiModsTheMover_CheckStateChanged);
-            // 
-            // tsmiModsMyCDLC
-            // 
-            this.tsmiModsMyCDLC.AssociatedEnumValue = null;
-            this.tsmiModsMyCDLC.Name = "tsmiModsMyCDLC";
-            this.tsmiModsMyCDLC.RadioButtonGroupName = null;
-            this.tsmiModsMyCDLC.Size = new System.Drawing.Size(203, 22);
-            this.tsmiModsMyCDLC.Text = "Show My CDLC";
-            this.tsmiModsMyCDLC.CheckStateChanged += new System.EventHandler(this.tsmiModsMyCDLC_CheckStateChanged);
-            // 
-            // tsmiFiles
-            // 
-            this.tsmiFiles.AssociatedEnumValue = null;
-            this.tsmiFiles.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiFilesCheckODLC,
-            this.toolStripSeparator11,
-            this.tsmiFilesDisableEnable,
-            this.tsmiFilesBackup,
-            this.tsmiFilesCheckUpdates,
-            this.toolStripSeparator1,
-            this.tsmiFilesSafetyInterlock,
-            this.tsmiFilesDelete,
-            this.toolStripSeparator2,
-            this.tsmiFilesCleanDlc,
-            this.tsmiFilesRestore,
-            this.tsmiFilesArchive,
-            this.toolStripSeparator6,
-            this.tsmiFilesOrganize,
-            this.tsmiFilesUnorganize,
-            this.tsmiFilesIncludeODLC});
-            this.tsmiFiles.Image = ((System.Drawing.Image)(resources.GetObject("tsmiFiles.Image")));
-            this.tsmiFiles.Name = "tsmiFiles";
-            this.tsmiFiles.RadioButtonGroupName = null;
-            this.tsmiFiles.Size = new System.Drawing.Size(58, 20);
-            this.tsmiFiles.Text = "Files";
-            // 
-            // tsmiFilesCheckODLC
-            // 
-            this.tsmiFilesCheckODLC.AssociatedEnumValue = null;
-            this.tsmiFilesCheckODLC.Name = "tsmiFilesCheckODLC";
-            this.tsmiFilesCheckODLC.RadioButtonGroupName = null;
-            this.tsmiFilesCheckODLC.Size = new System.Drawing.Size(243, 22);
-            this.tsmiFilesCheckODLC.Text = "Check CDLC/ODLC";
-            this.tsmiFilesCheckODLC.ToolTipText = "Determines if any of your CDLC\r\nhave been replaced by ODLC.";
-            this.tsmiFilesCheckODLC.Click += new System.EventHandler(this.tsmiFilesCheckODLC_Click);
-            // 
-            // toolStripSeparator11
-            // 
-            this.toolStripSeparator11.Name = "toolStripSeparator11";
-            this.toolStripSeparator11.Size = new System.Drawing.Size(240, 6);
-            // 
-            // tsmiFilesDisableEnable
-            // 
-            this.tsmiFilesDisableEnable.AssociatedEnumValue = null;
-            this.tsmiFilesDisableEnable.Image = ((System.Drawing.Image)(resources.GetObject("tsmiFilesDisableEnable.Image")));
-            this.tsmiFilesDisableEnable.Name = "tsmiFilesDisableEnable";
-            this.tsmiFilesDisableEnable.RadioButtonGroupName = null;
-            this.tsmiFilesDisableEnable.Size = new System.Drawing.Size(243, 22);
-            this.tsmiFilesDisableEnable.Text = "Disable/Enable";
-            this.tsmiFilesDisableEnable.Click += new System.EventHandler(this.tsmiFilesDisableEnable_Click);
-            // 
-            // tsmiFilesBackup
-            // 
-            this.tsmiFilesBackup.AssociatedEnumValue = null;
-            this.tsmiFilesBackup.Image = global::CustomsForgeSongManager.Properties.Resources.restorebackup;
-            this.tsmiFilesBackup.Name = "tsmiFilesBackup";
-            this.tsmiFilesBackup.RadioButtonGroupName = null;
-            this.tsmiFilesBackup.Size = new System.Drawing.Size(243, 22);
-            this.tsmiFilesBackup.Text = "Backup";
-            this.tsmiFilesBackup.Click += new System.EventHandler(this.tsmiFilesBackup_Click);
-            // 
-            // tsmiFilesCheckUpdates
-            // 
-            this.tsmiFilesCheckUpdates.AssociatedEnumValue = null;
-            this.tsmiFilesCheckUpdates.Enabled = false;
-            this.tsmiFilesCheckUpdates.Image = global::CustomsForgeSongManager.Properties.Resources.update;
-            this.tsmiFilesCheckUpdates.Name = "tsmiFilesCheckUpdates";
-            this.tsmiFilesCheckUpdates.RadioButtonGroupName = null;
-            this.tsmiFilesCheckUpdates.Size = new System.Drawing.Size(243, 22);
-            this.tsmiFilesCheckUpdates.Text = "Check for Updates";
-            this.tsmiFilesCheckUpdates.Click += new System.EventHandler(this.tsmiFilesCheckUpdates_Click);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(240, 6);
-            // 
-            // tsmiFilesSafetyInterlock
-            // 
-            this.tsmiFilesSafetyInterlock.AssociatedEnumValue = null;
-            this.tsmiFilesSafetyInterlock.CheckOnClick = true;
-            this.tsmiFilesSafetyInterlock.Name = "tsmiFilesSafetyInterlock";
-            this.tsmiFilesSafetyInterlock.RadioButtonGroupName = null;
-            this.tsmiFilesSafetyInterlock.Size = new System.Drawing.Size(243, 22);
-            this.tsmiFilesSafetyInterlock.Text = "Unlock Delete";
-            this.tsmiFilesSafetyInterlock.ToolTipText = "Must be checked to activate permenant \'Delete\' option";
-            this.tsmiFilesSafetyInterlock.CheckStateChanged += new System.EventHandler(this.tsmiFilesSafetyInterlock_CheckStateChanged);
-            // 
-            // tsmiFilesDelete
-            // 
-            this.tsmiFilesDelete.AssociatedEnumValue = null;
-            this.tsmiFilesDelete.Enabled = false;
-            this.tsmiFilesDelete.Image = ((System.Drawing.Image)(resources.GetObject("tsmiFilesDelete.Image")));
-            this.tsmiFilesDelete.Name = "tsmiFilesDelete";
-            this.tsmiFilesDelete.RadioButtonGroupName = null;
-            this.tsmiFilesDelete.Size = new System.Drawing.Size(243, 22);
-            this.tsmiFilesDelete.Text = "Delete";
-            this.tsmiFilesDelete.ToolTipText = "WARNING ...\r\nPermenatly deletes any selected files.";
-            this.tsmiFilesDelete.Click += new System.EventHandler(this.tsmiFilesDelete_Click);
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(240, 6);
-            // 
-            // tsmiFilesCleanDlc
-            // 
-            this.tsmiFilesCleanDlc.AssociatedEnumValue = null;
-            this.tsmiFilesCleanDlc.Image = global::CustomsForgeSongManager.Properties.Resources.broom;
-            this.tsmiFilesCleanDlc.Name = "tsmiFilesCleanDlc";
-            this.tsmiFilesCleanDlc.RadioButtonGroupName = null;
-            this.tsmiFilesCleanDlc.Size = new System.Drawing.Size(243, 22);
-            this.tsmiFilesCleanDlc.Text = "Clean \'dlc\' Folder";
-            this.tsmiFilesCleanDlc.ToolTipText = "Remove any [.org] [.max] or [.cor]\r\nbackup files from the \'dlc\' folder and\r\nsubfo" +
-    "lders.";
-            this.tsmiFilesCleanDlc.Click += new System.EventHandler(this.tsmiFilesCleanDlc_Click);
-            // 
-            // tsmiFilesRestore
-            // 
-            this.tsmiFilesRestore.AssociatedEnumValue = null;
-            this.tsmiFilesRestore.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiFilesRestoreBak,
-            this.tsmiFilesRestoreOrg,
-            this.tsmiFilesRestoreMax,
-            this.tsmiFilesRestoreCor});
-            this.tsmiFilesRestore.Image = global::CustomsForgeSongManager.Properties.Resources.restorewindow;
-            this.tsmiFilesRestore.Name = "tsmiFilesRestore";
-            this.tsmiFilesRestore.RadioButtonGroupName = null;
-            this.tsmiFilesRestore.Size = new System.Drawing.Size(243, 22);
-            this.tsmiFilesRestore.Text = "Restore";
-            // 
-            // tsmiFilesRestoreBak
-            // 
-            this.tsmiFilesRestoreBak.AssociatedEnumValue = null;
-            this.tsmiFilesRestoreBak.Name = "tsmiFilesRestoreBak";
-            this.tsmiFilesRestoreBak.RadioButtonGroupName = null;
-            this.tsmiFilesRestoreBak.Size = new System.Drawing.Size(157, 22);
-            this.tsmiFilesRestoreBak.Text = "File Type (.bak)";
-            this.tsmiFilesRestoreBak.Click += new System.EventHandler(this.tsmiFilesRestoreBak_Click);
-            // 
-            // tsmiFilesRestoreOrg
-            // 
-            this.tsmiFilesRestoreOrg.AssociatedEnumValue = null;
-            this.tsmiFilesRestoreOrg.Name = "tsmiFilesRestoreOrg";
-            this.tsmiFilesRestoreOrg.RadioButtonGroupName = null;
-            this.tsmiFilesRestoreOrg.Size = new System.Drawing.Size(157, 22);
-            this.tsmiFilesRestoreOrg.Text = "File Type (.org)";
-            this.tsmiFilesRestoreOrg.Click += new System.EventHandler(this.tsmiFilesRestoreOrg_Click);
-            // 
-            // tsmiFilesRestoreMax
-            // 
-            this.tsmiFilesRestoreMax.AssociatedEnumValue = null;
-            this.tsmiFilesRestoreMax.Name = "tsmiFilesRestoreMax";
-            this.tsmiFilesRestoreMax.RadioButtonGroupName = null;
-            this.tsmiFilesRestoreMax.Size = new System.Drawing.Size(157, 22);
-            this.tsmiFilesRestoreMax.Text = "File Type (.max)";
-            this.tsmiFilesRestoreMax.Click += new System.EventHandler(this.tsmiFilesRestoreMax_Click);
-            // 
-            // tsmiFilesRestoreCor
-            // 
-            this.tsmiFilesRestoreCor.AssociatedEnumValue = null;
-            this.tsmiFilesRestoreCor.Name = "tsmiFilesRestoreCor";
-            this.tsmiFilesRestoreCor.RadioButtonGroupName = null;
-            this.tsmiFilesRestoreCor.Size = new System.Drawing.Size(157, 22);
-            this.tsmiFilesRestoreCor.Text = "File Type (.cor)";
-            this.tsmiFilesRestoreCor.Click += new System.EventHandler(this.tsmiFilesRestoreCor_Click);
-            // 
-            // tsmiFilesArchive
-            // 
-            this.tsmiFilesArchive.AssociatedEnumValue = null;
-            this.tsmiFilesArchive.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiFilesArcBak,
-            this.tsmiFilesArcOrg,
-            this.tsmiFilesArcMax,
-            this.tsmiFilesArcCor,
-            this.tsmiFilesArcDeleteAfter});
-            this.tsmiFilesArchive.Image = global::CustomsForgeSongManager.Properties.Resources.zip;
-            this.tsmiFilesArchive.Name = "tsmiFilesArchive";
-            this.tsmiFilesArchive.RadioButtonGroupName = null;
-            this.tsmiFilesArchive.Size = new System.Drawing.Size(243, 22);
-            this.tsmiFilesArchive.Text = "Archive";
-            // 
-            // tsmiFilesArcBak
-            // 
-            this.tsmiFilesArcBak.AssociatedEnumValue = null;
-            this.tsmiFilesArcBak.Name = "tsmiFilesArcBak";
-            this.tsmiFilesArcBak.RadioButtonGroupName = null;
-            this.tsmiFilesArcBak.Size = new System.Drawing.Size(199, 22);
-            this.tsmiFilesArcBak.Text = "File Type (.bak)";
-            this.tsmiFilesArcBak.Click += new System.EventHandler(this.tsmiFilesArcBak_Click);
-            // 
-            // tsmiFilesArcOrg
-            // 
-            this.tsmiFilesArcOrg.AssociatedEnumValue = null;
-            this.tsmiFilesArcOrg.Name = "tsmiFilesArcOrg";
-            this.tsmiFilesArcOrg.RadioButtonGroupName = null;
-            this.tsmiFilesArcOrg.Size = new System.Drawing.Size(199, 22);
-            this.tsmiFilesArcOrg.Text = "File Type (.org)";
-            this.tsmiFilesArcOrg.Click += new System.EventHandler(this.tsmiFilesArcOrg_Click);
-            // 
-            // tsmiFilesArcMax
-            // 
-            this.tsmiFilesArcMax.AssociatedEnumValue = null;
-            this.tsmiFilesArcMax.Name = "tsmiFilesArcMax";
-            this.tsmiFilesArcMax.RadioButtonGroupName = null;
-            this.tsmiFilesArcMax.Size = new System.Drawing.Size(199, 22);
-            this.tsmiFilesArcMax.Text = "File Type (.max)";
-            this.tsmiFilesArcMax.Click += new System.EventHandler(this.tsmiFilesArcMax_Click);
-            // 
-            // tsmiFilesArcCor
-            // 
-            this.tsmiFilesArcCor.AssociatedEnumValue = null;
-            this.tsmiFilesArcCor.Name = "tsmiFilesArcCor";
-            this.tsmiFilesArcCor.RadioButtonGroupName = null;
-            this.tsmiFilesArcCor.Size = new System.Drawing.Size(199, 22);
-            this.tsmiFilesArcCor.Text = "File Type (.cor)";
-            this.tsmiFilesArcCor.Click += new System.EventHandler(this.tsmiFilesArcCor_Click);
-            // 
-            // tsmiFilesArcDeleteAfter
-            // 
-            this.tsmiFilesArcDeleteAfter.AssociatedEnumValue = null;
-            this.tsmiFilesArcDeleteAfter.CheckOnClick = true;
-            this.tsmiFilesArcDeleteAfter.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tsmiFilesArcDeleteAfter.ForeColor = System.Drawing.Color.Red;
-            this.tsmiFilesArcDeleteAfter.Name = "tsmiFilesArcDeleteAfter";
-            this.tsmiFilesArcDeleteAfter.RadioButtonGroupName = null;
-            this.tsmiFilesArcDeleteAfter.Size = new System.Drawing.Size(199, 22);
-            this.tsmiFilesArcDeleteAfter.Text = "Delete Files After Arhiving";
-            this.tsmiFilesArcDeleteAfter.CheckedChanged += new System.EventHandler(this.tsmiFilesArcDelete_CheckedChanged);
-            // 
-            // toolStripSeparator6
-            // 
-            this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(240, 6);
-            // 
-            // tsmiFilesOrganize
-            // 
-            this.tsmiFilesOrganize.AssociatedEnumValue = null;
-            this.tsmiFilesOrganize.Name = "tsmiFilesOrganize";
-            this.tsmiFilesOrganize.RadioButtonGroupName = null;
-            this.tsmiFilesOrganize.Size = new System.Drawing.Size(243, 22);
-            this.tsmiFilesOrganize.Text = "Organize ArtistName Subfolders";
-            this.tsmiFilesOrganize.ToolTipText = resources.GetString("tsmiFilesOrganize.ToolTipText");
-            this.tsmiFilesOrganize.Click += new System.EventHandler(this.tsmiFilesOrganize_Click);
-            // 
-            // tsmiFilesUnorganize
-            // 
-            this.tsmiFilesUnorganize.AssociatedEnumValue = null;
-            this.tsmiFilesUnorganize.Name = "tsmiFilesUnorganize";
-            this.tsmiFilesUnorganize.RadioButtonGroupName = null;
-            this.tsmiFilesUnorganize.Size = new System.Drawing.Size(243, 22);
-            this.tsmiFilesUnorganize.Text = "Restore CDLC to the \'dlc\' Folder";
-            this.tsmiFilesUnorganize.ToolTipText = resources.GetString("tsmiFilesUnorganize.ToolTipText");
-            this.tsmiFilesUnorganize.Click += new System.EventHandler(this.tsmiFilesUnorganize_Click);
-            // 
-            // tsmiFilesIncludeODLC
-            // 
-            this.tsmiFilesIncludeODLC.AssociatedEnumValue = null;
-            this.tsmiFilesIncludeODLC.CheckOnClick = true;
-            this.tsmiFilesIncludeODLC.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tsmiFilesIncludeODLC.ForeColor = System.Drawing.Color.Red;
-            this.tsmiFilesIncludeODLC.Name = "tsmiFilesIncludeODLC";
-            this.tsmiFilesIncludeODLC.RadioButtonGroupName = null;
-            this.tsmiFilesIncludeODLC.Size = new System.Drawing.Size(243, 22);
-            this.tsmiFilesIncludeODLC.Text = "Include ODLC Files";
-            this.tsmiFilesIncludeODLC.ToolTipText = "If checked, ODLC files will be organized\r\ntoo, even though they are not selectabl" +
-    "e.";
-            this.tsmiFilesIncludeODLC.Click += new System.EventHandler(this.tsmiFilesIncludeODLC_Click);
-            // 
-            // tsmiHelp
-            // 
-            this.tsmiHelp.AssociatedEnumValue = null;
-            this.tsmiHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiHelpGeneral,
-            this.toolStripSeparator3,
-            this.tsmiHelpRepairs,
-            this.tsmiHelpErrorLog});
-            this.tsmiHelp.Image = ((System.Drawing.Image)(resources.GetObject("tsmiHelp.Image")));
-            this.tsmiHelp.Name = "tsmiHelp";
-            this.tsmiHelp.RadioButtonGroupName = null;
-            this.tsmiHelp.Size = new System.Drawing.Size(60, 20);
-            this.tsmiHelp.Text = "Help";
-            // 
-            // tsmiHelpGeneral
-            // 
-            this.tsmiHelpGeneral.AssociatedEnumValue = null;
-            this.tsmiHelpGeneral.Image = global::CustomsForgeSongManager.Properties.Resources.info;
-            this.tsmiHelpGeneral.Name = "tsmiHelpGeneral";
-            this.tsmiHelpGeneral.RadioButtonGroupName = null;
-            this.tsmiHelpGeneral.Size = new System.Drawing.Size(150, 22);
-            this.tsmiHelpGeneral.Text = "General Help";
-            this.tsmiHelpGeneral.Click += new System.EventHandler(this.tsmiHelpGeneral_Click);
-            // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(147, 6);
-            // 
-            // tsmiHelpRepairs
-            // 
-            this.tsmiHelpRepairs.AssociatedEnumValue = null;
-            this.tsmiHelpRepairs.Image = global::CustomsForgeSongManager.Properties.Resources.maintenance;
-            this.tsmiHelpRepairs.Name = "tsmiHelpRepairs";
-            this.tsmiHelpRepairs.RadioButtonGroupName = null;
-            this.tsmiHelpRepairs.Size = new System.Drawing.Size(150, 22);
-            this.tsmiHelpRepairs.Text = "Repairs Help";
-            this.tsmiHelpRepairs.Click += new System.EventHandler(this.tsmiHelpRepairs_Click);
-            // 
-            // tsmiHelpErrorLog
-            // 
-            this.tsmiHelpErrorLog.AssociatedEnumValue = null;
-            this.tsmiHelpErrorLog.Image = global::CustomsForgeSongManager.Properties.Resources.notes;
-            this.tsmiHelpErrorLog.Name = "tsmiHelpErrorLog";
-            this.tsmiHelpErrorLog.RadioButtonGroupName = null;
-            this.tsmiHelpErrorLog.Size = new System.Drawing.Size(150, 22);
-            this.tsmiHelpErrorLog.Text = "View Error Log";
-            this.tsmiHelpErrorLog.Click += new System.EventHandler(this.tsmiHelpErrorLog_Click);
             // 
             // colShowDetail
             // 
@@ -2125,6 +1202,929 @@ namespace CustomsForgeSongManager.UControls
             this.colHighestFretUsed.Name = "colHighestFretUsed";
             this.colHighestFretUsed.ReadOnly = true;
             this.colHighestFretUsed.Visible = false;
+            // 
+            // lnklblToggle
+            // 
+            this.lnklblToggle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lnklblToggle.AutoSize = true;
+            this.lnklblToggle.ForeColor = System.Drawing.Color.Black;
+            this.lnklblToggle.LinkColor = System.Drawing.SystemColors.ActiveCaption;
+            this.lnklblToggle.Location = new System.Drawing.Point(104, 370);
+            this.lnklblToggle.Name = "lnklblToggle";
+            this.lnklblToggle.Size = new System.Drawing.Size(87, 13);
+            this.lnklblToggle.TabIndex = 4;
+            this.lnklblToggle.TabStop = true;
+            this.lnklblToggle.Text = "Toggle Selection";
+            this.lnklblToggle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.toolTip.SetToolTip(this.lnklblToggle, "ODLC are not toggleable");
+            this.lnklblToggle.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnklblToggle_LinkClicked);
+            // 
+            // cmsSongManagerColumns
+            // 
+            this.cmsSongManagerColumns.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.testToolStripMenuItem});
+            this.cmsSongManagerColumns.Name = "cmsSongManagerColumns";
+            this.cmsSongManagerColumns.Size = new System.Drawing.Size(153, 48);
+            // 
+            // testToolStripMenuItem
+            // 
+            this.testToolStripMenuItem.AssociatedEnumValue = null;
+            this.testToolStripMenuItem.Checked = true;
+            this.testToolStripMenuItem.CheckOnClick = true;
+            this.testToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.testToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.testToolStripMenuItem.Name = "testToolStripMenuItem";
+            this.testToolStripMenuItem.RadioButtonGroupName = null;
+            this.testToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.testToolStripMenuItem.Text = "Test";
+            // 
+            // toolTip
+            // 
+            this.toolTip.AutomaticDelay = 200;
+            this.toolTip.AutoPopDelay = 12000;
+            this.toolTip.InitialDelay = 200;
+            this.toolTip.IsBalloon = true;
+            this.toolTip.ReshowDelay = 100;
+            // 
+            // menuStrip
+            // 
+            this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiRescan,
+            this.tsmiRepairs,
+            this.tsmiDuplicates,
+            this.tsmiMods,
+            this.tsmiFiles,
+            this.tsmiHelp});
+            this.menuStrip.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip.Name = "menuStrip";
+            this.menuStrip.Size = new System.Drawing.Size(899, 24);
+            this.menuStrip.TabIndex = 11;
+            this.menuStrip.Text = "menuStrip1";
+            // 
+            // tsmiRescan
+            // 
+            this.tsmiRescan.AssociatedEnumValue = null;
+            this.tsmiRescan.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiRescanQuick,
+            this.tsmiRescanFull});
+            this.tsmiRescan.Image = ((System.Drawing.Image)(resources.GetObject("tsmiRescan.Image")));
+            this.tsmiRescan.Name = "tsmiRescan";
+            this.tsmiRescan.RadioButtonGroupName = null;
+            this.tsmiRescan.Size = new System.Drawing.Size(70, 20);
+            this.tsmiRescan.Text = "Rescan";
+            this.tsmiRescan.ToolTipText = "See \'Settings\' menu for additional\r\ndata rescan and inclusion options.";
+            // 
+            // tsmiRescanQuick
+            // 
+            this.tsmiRescanQuick.AssociatedEnumValue = null;
+            this.tsmiRescanQuick.Image = ((System.Drawing.Image)(resources.GetObject("tsmiRescanQuick.Image")));
+            this.tsmiRescanQuick.Name = "tsmiRescanQuick";
+            this.tsmiRescanQuick.RadioButtonGroupName = null;
+            this.tsmiRescanQuick.Size = new System.Drawing.Size(111, 22);
+            this.tsmiRescanQuick.Text = "Quick";
+            this.tsmiRescanQuick.ToolTipText = "Quick reload of previously scanned data.\r\nOnly rescans data if necessary.";
+            this.tsmiRescanQuick.Click += new System.EventHandler(this.tsmiRescanQuick_Click);
+            // 
+            // tsmiRescanFull
+            // 
+            this.tsmiRescanFull.AssociatedEnumValue = null;
+            this.tsmiRescanFull.Image = ((System.Drawing.Image)(resources.GetObject("tsmiRescanFull.Image")));
+            this.tsmiRescanFull.Name = "tsmiRescanFull";
+            this.tsmiRescanFull.RadioButtonGroupName = null;
+            this.tsmiRescanFull.Size = new System.Drawing.Size(111, 22);
+            this.tsmiRescanFull.Text = "Full";
+            this.tsmiRescanFull.ToolTipText = "Preliminary scan or after significant changes.\r\n\r\nHint:\r\nTry running a \'Full\' res" +
+                "can if the CDLC\r\ncollection does not look as expected.";
+            this.tsmiRescanFull.Click += new System.EventHandler(this.tsmiRescanFull_Click);
+            // 
+            // tsmiRepairs
+            // 
+            this.tsmiRepairs.AssociatedEnumValue = null;
+            this.tsmiRepairs.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiSkipRemastered,
+            this.toolStripSeparator12,
+            this.tsmiRepairsAddDD,
+            this.tsmiAddDDSettings,
+            this.tsmiOverwriteDD,
+            this.toolStripSeparator9,
+            this.tsmiRepairsMastery,
+            this.tsmiRepairsPreserveStats,
+            this.tsmiRepairsUsingOrg,
+            this.tsmiRepairsMultitone,
+            this.toolStripSeparator8,
+            this.tsmiRepairsMaxFive,
+            this.tsmiRemoveNDD,
+            this.tsmiRemoveBass,
+            this.tsmiRemoveGuitar,
+            this.tsmiRemoveBonus,
+            this.tsmiRemoveMetronome,
+            this.tsmiIgnoreStopLimit,
+            this.toolStripSeparator7,
+            this.tsmiRemoveSections,
+            this.toolStripSeparator10,
+            this.tsmiProcessDLFolder,
+            this.toolStripSeparator13,
+            this.tsmiRepairsRun});
+            this.tsmiRepairs.Image = ((System.Drawing.Image)(resources.GetObject("tsmiRepairs.Image")));
+            this.tsmiRepairs.Name = "tsmiRepairs";
+            this.tsmiRepairs.RadioButtonGroupName = null;
+            this.tsmiRepairs.Size = new System.Drawing.Size(71, 20);
+            this.tsmiRepairs.Text = "Repairs";
+            this.tsmiRepairs.ToolTipText = resources.GetString("tsmiRepairs.ToolTipText");
+            // 
+            // tsmiSkipRemastered
+            // 
+            this.tsmiSkipRemastered.AssociatedEnumValue = null;
+            this.tsmiSkipRemastered.AutoCheck = false;
+            this.tsmiSkipRemastered.CheckMarkDisplayStyle = CustomControls.CheckMarkDisplayStyle.RadioButton;
+            this.tsmiSkipRemastered.CheckOnClick = true;
+            this.tsmiSkipRemastered.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.tsmiSkipRemastered.Name = "tsmiSkipRemastered";
+            this.tsmiSkipRemastered.RadioButtonGroupName = "SkipRemastered";
+            this.tsmiSkipRemastered.Size = new System.Drawing.Size(246, 22);
+            this.tsmiSkipRemastered.Text = "Skip Previously Remastered CDLC";
+            this.tsmiSkipRemastered.ToolTipText = "Skipping previously remastered CDLC\r\nwill greatly speed up the repair\r\nprocess.";
+            this.tsmiSkipRemastered.Click += new System.EventHandler(this.RepairsButton_Click);
+            // 
+            // toolStripSeparator12
+            // 
+            this.toolStripSeparator12.Name = "toolStripSeparator12";
+            this.toolStripSeparator12.Size = new System.Drawing.Size(243, 6);
+            // 
+            // tsmiRepairsAddDD
+            // 
+            this.tsmiRepairsAddDD.AssociatedEnumValue = null;
+            this.tsmiRepairsAddDD.AutoCheck = false;
+            this.tsmiRepairsAddDD.CheckMarkDisplayStyle = CustomControls.CheckMarkDisplayStyle.RadioButton;
+            this.tsmiRepairsAddDD.CheckOnClick = true;
+            this.tsmiRepairsAddDD.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tsmiRepairsAddDD.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.tsmiRepairsAddDD.Name = "tsmiRepairsAddDD";
+            this.tsmiRepairsAddDD.RadioButtonGroupName = "AddDD";
+            this.tsmiRepairsAddDD.Size = new System.Drawing.Size(246, 22);
+            this.tsmiRepairsAddDD.Text = "Add Dynamic Difficulty (DD)";
+            this.tsmiRepairsAddDD.ToolTipText = "Fixes Remastered Play Count tracking\r\nby adding Dynamic Difficulty (DD) to\r\narran" +
+                "gements that do not have DD";
+            this.tsmiRepairsAddDD.Click += new System.EventHandler(this.RepairsButton_Click);
+            // 
+            // tsmiAddDDSettings
+            // 
+            this.tsmiAddDDSettings.AssociatedEnumValue = null;
+            this.tsmiAddDDSettings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiAddDDNumericUpDown,
+            this.tsmiAddDDRemoveSustain,
+            this.tsmiAddDDCfgPath,
+            this.tsmiAddDDRampUpPath});
+            this.tsmiAddDDSettings.Name = "tsmiAddDDSettings";
+            this.tsmiAddDDSettings.RadioButtonGroupName = "AddDD";
+            this.tsmiAddDDSettings.Size = new System.Drawing.Size(246, 22);
+            this.tsmiAddDDSettings.Text = "Customizable DDC Settings";
+            this.tsmiAddDDSettings.ToolTipText = "Configuration settings for ddc.exe CLI";
+            // 
+            // tsmiAddDDNumericUpDown
+            // 
+            this.tsmiAddDDNumericUpDown.BackColor = System.Drawing.Color.Transparent;
+            this.tsmiAddDDNumericUpDown.DecimalPlaces = 0;
+            this.tsmiAddDDNumericUpDown.Margin = new System.Windows.Forms.Padding(0, 1, 3, 1);
+            this.tsmiAddDDNumericUpDown.Minimum = new decimal(new int[] {
+            8,
+            0,
+            0,
+            0});
+            this.tsmiAddDDNumericUpDown.Name = "tsmiAddDDNumericUpDown";
+            this.tsmiAddDDNumericUpDown.NumBackColor = System.Drawing.SystemColors.Window;
+            this.tsmiAddDDNumericUpDown.Size = new System.Drawing.Size(53, 22);
+            this.tsmiAddDDNumericUpDown.Text = "Phrase Length";
+            this.tsmiAddDDNumericUpDown.TextVisible = false;
+            this.tsmiAddDDNumericUpDown.ToolTipText = "Set custom Phrase Length greater than eight";
+            this.tsmiAddDDNumericUpDown.Value = new decimal(new int[] {
+            8,
+            0,
+            0,
+            0});
+            this.tsmiAddDDNumericUpDown.Click += new System.EventHandler(this.RepairsAddDDSettings_Click);
+            // 
+            // tsmiAddDDRemoveSustain
+            // 
+            this.tsmiAddDDRemoveSustain.AssociatedEnumValue = null;
+            this.tsmiAddDDRemoveSustain.CheckOnClick = true;
+            this.tsmiAddDDRemoveSustain.Name = "tsmiAddDDRemoveSustain";
+            this.tsmiAddDDRemoveSustain.RadioButtonGroupName = "AddDD";
+            this.tsmiAddDDRemoveSustain.Size = new System.Drawing.Size(260, 22);
+            this.tsmiAddDDRemoveSustain.Text = "Remove Sustain";
+            this.tsmiAddDDRemoveSustain.ToolTipText = "If checked, sustain will be removed.";
+            this.tsmiAddDDRemoveSustain.Click += new System.EventHandler(this.RepairsAddDDSettings_Click);
+            // 
+            // tsmiAddDDCfgPath
+            // 
+            this.tsmiAddDDCfgPath.AssociatedEnumValue = null;
+            this.tsmiAddDDCfgPath.AutoSize = false;
+            this.tsmiAddDDCfgPath.Name = "tsmiAddDDCfgPath";
+            this.tsmiAddDDCfgPath.Overflow = System.Windows.Forms.ToolStripItemOverflow.AsNeeded;
+            this.tsmiAddDDCfgPath.RadioButtonGroupName = null;
+            this.tsmiAddDDCfgPath.Size = new System.Drawing.Size(170, 22);
+            this.tsmiAddDDCfgPath.Spring = true;
+            this.tsmiAddDDCfgPath.Text = "Click to set CFG path";
+            this.tsmiAddDDCfgPath.ToolTipText = "Set custom CFG path";
+            this.tsmiAddDDCfgPath.Click += new System.EventHandler(this.tsmiAddDDCfgPath_Click);
+            // 
+            // tsmiAddDDRampUpPath
+            // 
+            this.tsmiAddDDRampUpPath.AssociatedEnumValue = null;
+            this.tsmiAddDDRampUpPath.AutoSize = false;
+            this.tsmiAddDDRampUpPath.Name = "tsmiAddDDRampUpPath";
+            this.tsmiAddDDRampUpPath.Overflow = System.Windows.Forms.ToolStripItemOverflow.AsNeeded;
+            this.tsmiAddDDRampUpPath.RadioButtonGroupName = null;
+            this.tsmiAddDDRampUpPath.Size = new System.Drawing.Size(170, 22);
+            this.tsmiAddDDRampUpPath.Spring = true;
+            this.tsmiAddDDRampUpPath.Text = "Click to set RampUp path";
+            this.tsmiAddDDRampUpPath.ToolTipText = "Set custom RampUp path";
+            this.tsmiAddDDRampUpPath.Click += new System.EventHandler(this.tsmiAddDDRampUpPath_Click);
+            // 
+            // tsmiOverwriteDD
+            // 
+            this.tsmiOverwriteDD.AssociatedEnumValue = null;
+            this.tsmiOverwriteDD.CheckOnClick = true;
+            this.tsmiOverwriteDD.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tsmiOverwriteDD.ForeColor = System.Drawing.Color.Red;
+            this.tsmiOverwriteDD.Name = "tsmiOverwriteDD";
+            this.tsmiOverwriteDD.RadioButtonGroupName = "AddDD";
+            this.tsmiOverwriteDD.Size = new System.Drawing.Size(246, 22);
+            this.tsmiOverwriteDD.Text = "Overwrite Existing DD";
+            this.tsmiOverwriteDD.ToolTipText = "Overwrite existing Dynamic Difficulty (DD)\r\nwith new DD even if arrangement alrea" +
+                "dy\r\nhas DD.";
+            this.tsmiOverwriteDD.CheckStateChanged += new System.EventHandler(this.Repairs_CheckStateChanged);
+            // 
+            // toolStripSeparator9
+            // 
+            this.toolStripSeparator9.Name = "toolStripSeparator9";
+            this.toolStripSeparator9.Size = new System.Drawing.Size(243, 6);
+            // 
+            // tsmiRepairsMastery
+            // 
+            this.tsmiRepairsMastery.AssociatedEnumValue = null;
+            this.tsmiRepairsMastery.AutoCheck = false;
+            this.tsmiRepairsMastery.CheckMarkDisplayStyle = CustomControls.CheckMarkDisplayStyle.RadioButton;
+            this.tsmiRepairsMastery.CheckOnClick = true;
+            this.tsmiRepairsMastery.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tsmiRepairsMastery.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.tsmiRepairsMastery.Name = "tsmiRepairsMastery";
+            this.tsmiRepairsMastery.RadioButtonGroupName = "Mastery";
+            this.tsmiRepairsMastery.Size = new System.Drawing.Size(246, 22);
+            this.tsmiRepairsMastery.Text = "Mastery 100% Bug";
+            this.tsmiRepairsMastery.ToolTipText = "Mastery 100% Bug is repaired\r\nby default regardless of\r\nother selected options.\r\n" +
+                "\r\nOnce the Mastery Bug is repaired\r\nthe CDLC is considered to be\r\n\'Remastered\'.";
+            this.tsmiRepairsMastery.Click += new System.EventHandler(this.RepairsButton_Click);
+            // 
+            // tsmiRepairsPreserveStats
+            // 
+            this.tsmiRepairsPreserveStats.AssociatedEnumValue = null;
+            this.tsmiRepairsPreserveStats.CheckOnClick = true;
+            this.tsmiRepairsPreserveStats.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tsmiRepairsPreserveStats.Name = "tsmiRepairsPreserveStats";
+            this.tsmiRepairsPreserveStats.RadioButtonGroupName = "Mastery";
+            this.tsmiRepairsPreserveStats.Size = new System.Drawing.Size(246, 22);
+            this.tsmiRepairsPreserveStats.Text = "Preserve Stats";
+            this.tsmiRepairsPreserveStats.CheckStateChanged += new System.EventHandler(this.Repairs_CheckStateChanged);
+            // 
+            // tsmiRepairsUsingOrg
+            // 
+            this.tsmiRepairsUsingOrg.AssociatedEnumValue = null;
+            this.tsmiRepairsUsingOrg.CheckOnClick = true;
+            this.tsmiRepairsUsingOrg.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tsmiRepairsUsingOrg.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.tsmiRepairsUsingOrg.Name = "tsmiRepairsUsingOrg";
+            this.tsmiRepairsUsingOrg.RadioButtonGroupName = "Mastery";
+            this.tsmiRepairsUsingOrg.Size = new System.Drawing.Size(246, 22);
+            this.tsmiRepairsUsingOrg.Text = "Use (.org) Files";
+            this.tsmiRepairsUsingOrg.ToolTipText = resources.GetString("tsmiRepairsUsingOrg.ToolTipText");
+            this.tsmiRepairsUsingOrg.CheckStateChanged += new System.EventHandler(this.Repairs_CheckStateChanged);
+            // 
+            // tsmiRepairsMultitone
+            // 
+            this.tsmiRepairsMultitone.AssociatedEnumValue = null;
+            this.tsmiRepairsMultitone.CheckOnClick = true;
+            this.tsmiRepairsMultitone.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tsmiRepairsMultitone.ForeColor = System.Drawing.Color.Red;
+            this.tsmiRepairsMultitone.Name = "tsmiRepairsMultitone";
+            this.tsmiRepairsMultitone.RadioButtonGroupName = "Mastery";
+            this.tsmiRepairsMultitone.Size = new System.Drawing.Size(246, 22);
+            this.tsmiRepairsMultitone.Text = "Prevent Multitone Exceptions";
+            this.tsmiRepairsMultitone.ToolTipText = "Prevent multitone exceptions\r\nby converting corrupt multitone\r\narrangements to si" +
+                "ngle tone.";
+            this.tsmiRepairsMultitone.Click += new System.EventHandler(this.Repairs_CheckStateChanged);
+            // 
+            // toolStripSeparator8
+            // 
+            this.toolStripSeparator8.Name = "toolStripSeparator8";
+            this.toolStripSeparator8.Size = new System.Drawing.Size(243, 6);
+            // 
+            // tsmiRepairsMaxFive
+            // 
+            this.tsmiRepairsMaxFive.AssociatedEnumValue = null;
+            this.tsmiRepairsMaxFive.AutoCheck = false;
+            this.tsmiRepairsMaxFive.CheckMarkDisplayStyle = CustomControls.CheckMarkDisplayStyle.RadioButton;
+            this.tsmiRepairsMaxFive.CheckOnClick = true;
+            this.tsmiRepairsMaxFive.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tsmiRepairsMaxFive.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.tsmiRepairsMaxFive.Name = "tsmiRepairsMaxFive";
+            this.tsmiRepairsMaxFive.RadioButtonGroupName = "MaxFive";
+            this.tsmiRepairsMaxFive.Size = new System.Drawing.Size(246, 22);
+            this.tsmiRepairsMaxFive.Text = "Max Five Arrangements";
+            this.tsmiRepairsMaxFive.ToolTipText = "Select Max5 Repair Options";
+            this.tsmiRepairsMaxFive.Click += new System.EventHandler(this.RepairsButton_Click);
+            // 
+            // tsmiRemoveNDD
+            // 
+            this.tsmiRemoveNDD.AssociatedEnumValue = null;
+            this.tsmiRemoveNDD.CheckOnClick = true;
+            this.tsmiRemoveNDD.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tsmiRemoveNDD.Name = "tsmiRemoveNDD";
+            this.tsmiRemoveNDD.RadioButtonGroupName = "MaxFive";
+            this.tsmiRemoveNDD.Size = new System.Drawing.Size(246, 22);
+            this.tsmiRemoveNDD.Text = "Remove NDD";
+            this.tsmiRemoveNDD.CheckStateChanged += new System.EventHandler(this.Repairs_CheckStateChanged);
+            // 
+            // tsmiRemoveBass
+            // 
+            this.tsmiRemoveBass.AssociatedEnumValue = null;
+            this.tsmiRemoveBass.CheckOnClick = true;
+            this.tsmiRemoveBass.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tsmiRemoveBass.Name = "tsmiRemoveBass";
+            this.tsmiRemoveBass.RadioButtonGroupName = "MaxFive";
+            this.tsmiRemoveBass.Size = new System.Drawing.Size(246, 22);
+            this.tsmiRemoveBass.Text = "Remove Bass";
+            this.tsmiRemoveBass.CheckStateChanged += new System.EventHandler(this.Repairs_CheckStateChanged);
+            // 
+            // tsmiRemoveGuitar
+            // 
+            this.tsmiRemoveGuitar.AssociatedEnumValue = null;
+            this.tsmiRemoveGuitar.CheckOnClick = true;
+            this.tsmiRemoveGuitar.Name = "tsmiRemoveGuitar";
+            this.tsmiRemoveGuitar.RadioButtonGroupName = "MaxFive";
+            this.tsmiRemoveGuitar.Size = new System.Drawing.Size(246, 22);
+            this.tsmiRemoveGuitar.Text = "Remove Guitar";
+            this.tsmiRemoveGuitar.CheckStateChanged += new System.EventHandler(this.Repairs_CheckStateChanged);
+            // 
+            // tsmiRemoveBonus
+            // 
+            this.tsmiRemoveBonus.AssociatedEnumValue = null;
+            this.tsmiRemoveBonus.CheckOnClick = true;
+            this.tsmiRemoveBonus.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tsmiRemoveBonus.Name = "tsmiRemoveBonus";
+            this.tsmiRemoveBonus.RadioButtonGroupName = "MaxFive";
+            this.tsmiRemoveBonus.Size = new System.Drawing.Size(246, 22);
+            this.tsmiRemoveBonus.Text = "Remove Bonus";
+            this.tsmiRemoveBonus.CheckStateChanged += new System.EventHandler(this.Repairs_CheckStateChanged);
+            // 
+            // tsmiRemoveMetronome
+            // 
+            this.tsmiRemoveMetronome.AssociatedEnumValue = null;
+            this.tsmiRemoveMetronome.CheckOnClick = true;
+            this.tsmiRemoveMetronome.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tsmiRemoveMetronome.Name = "tsmiRemoveMetronome";
+            this.tsmiRemoveMetronome.RadioButtonGroupName = "MaxFive";
+            this.tsmiRemoveMetronome.Size = new System.Drawing.Size(246, 22);
+            this.tsmiRemoveMetronome.Text = "Remove Metronone";
+            this.tsmiRemoveMetronome.CheckStateChanged += new System.EventHandler(this.Repairs_CheckStateChanged);
+            // 
+            // tsmiIgnoreStopLimit
+            // 
+            this.tsmiIgnoreStopLimit.AssociatedEnumValue = null;
+            this.tsmiIgnoreStopLimit.CheckOnClick = true;
+            this.tsmiIgnoreStopLimit.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tsmiIgnoreStopLimit.ForeColor = System.Drawing.Color.Red;
+            this.tsmiIgnoreStopLimit.Name = "tsmiIgnoreStopLimit";
+            this.tsmiIgnoreStopLimit.RadioButtonGroupName = "MaxFive";
+            this.tsmiIgnoreStopLimit.Size = new System.Drawing.Size(246, 22);
+            this.tsmiIgnoreStopLimit.Text = "Ignore Arrangement Stop Limit";
+            this.tsmiIgnoreStopLimit.ToolTipText = "Removes all arrangements of\r\nselected type and ignores\r\nstop limit.";
+            this.tsmiIgnoreStopLimit.CheckStateChanged += new System.EventHandler(this.Repairs_CheckStateChanged);
+            // 
+            // toolStripSeparator7
+            // 
+            this.toolStripSeparator7.Name = "toolStripSeparator7";
+            this.toolStripSeparator7.Size = new System.Drawing.Size(243, 6);
+            // 
+            // tsmiRemoveSections
+            // 
+            this.tsmiRemoveSections.AssociatedEnumValue = null;
+            this.tsmiRemoveSections.AutoCheck = false;
+            this.tsmiRemoveSections.CheckMarkDisplayStyle = CustomControls.CheckMarkDisplayStyle.RadioButton;
+            this.tsmiRemoveSections.CheckOnClick = true;
+            this.tsmiRemoveSections.Enabled = false;
+            this.tsmiRemoveSections.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.tsmiRemoveSections.Name = "tsmiRemoveSections";
+            this.tsmiRemoveSections.RadioButtonGroupName = "RemoveSections";
+            this.tsmiRemoveSections.Size = new System.Drawing.Size(246, 22);
+            this.tsmiRemoveSections.Text = "Remove Sections/Phrases";
+            this.tsmiRemoveSections.ToolTipText = "Coming Soon";
+            this.tsmiRemoveSections.Visible = false;
+            this.tsmiRemoveSections.Click += new System.EventHandler(this.RepairsButton_Click);
+            // 
+            // toolStripSeparator10
+            // 
+            this.toolStripSeparator10.Name = "toolStripSeparator10";
+            this.toolStripSeparator10.Size = new System.Drawing.Size(243, 6);
+            this.toolStripSeparator10.Visible = false;
+            // 
+            // tsmiProcessDLFolder
+            // 
+            this.tsmiProcessDLFolder.AssociatedEnumValue = null;
+            this.tsmiProcessDLFolder.AutoCheck = false;
+            this.tsmiProcessDLFolder.CheckMarkDisplayStyle = CustomControls.CheckMarkDisplayStyle.RadioButton;
+            this.tsmiProcessDLFolder.CheckOnClick = true;
+            this.tsmiProcessDLFolder.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.tsmiProcessDLFolder.Name = "tsmiProcessDLFolder";
+            this.tsmiProcessDLFolder.RadioButtonGroupName = "ProcessDLFolder";
+            this.tsmiProcessDLFolder.Size = new System.Drawing.Size(246, 22);
+            this.tsmiProcessDLFolder.Text = "Process \'Downloads\' Folder";
+            this.tsmiProcessDLFolder.ToolTipText = resources.GetString("tsmiProcessDLFolder.ToolTipText");
+            this.tsmiProcessDLFolder.Click += new System.EventHandler(this.RepairsButton_Click);
+            // 
+            // toolStripSeparator13
+            // 
+            this.toolStripSeparator13.Name = "toolStripSeparator13";
+            this.toolStripSeparator13.Size = new System.Drawing.Size(243, 6);
+            // 
+            // tsmiRepairsRun
+            // 
+            this.tsmiRepairsRun.AssociatedEnumValue = null;
+            this.tsmiRepairsRun.BackColor = System.Drawing.SystemColors.Control;
+            this.tsmiRepairsRun.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tsmiRepairsRun.Name = "tsmiRepairsRun";
+            this.tsmiRepairsRun.RadioButtonGroupName = null;
+            this.tsmiRepairsRun.Size = new System.Drawing.Size(246, 22);
+            this.tsmiRepairsRun.Text = "Run Selected Repair Optons";
+            this.tsmiRepairsRun.ToolTipText = "Select repair options first";
+            this.tsmiRepairsRun.Click += new System.EventHandler(this.tsmiRepairsRun_Click);
+            // 
+            // tsmiDuplicates
+            // 
+            this.tsmiDuplicates.AssociatedEnumValue = null;
+            this.tsmiDuplicates.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiDuplicatesSoon});
+            this.tsmiDuplicates.Name = "tsmiDuplicates";
+            this.tsmiDuplicates.RadioButtonGroupName = null;
+            this.tsmiDuplicates.Size = new System.Drawing.Size(68, 20);
+            this.tsmiDuplicates.Text = "Duplicates";
+            this.tsmiDuplicates.Visible = false;
+            // 
+            // tsmiDuplicatesSoon
+            // 
+            this.tsmiDuplicatesSoon.AssociatedEnumValue = null;
+            this.tsmiDuplicatesSoon.Name = "tsmiDuplicatesSoon";
+            this.tsmiDuplicatesSoon.RadioButtonGroupName = null;
+            this.tsmiDuplicatesSoon.Size = new System.Drawing.Size(158, 22);
+            this.tsmiDuplicatesSoon.Text = "COMING SOON";
+            // 
+            // tsmiMods
+            // 
+            this.tsmiMods.AssociatedEnumValue = null;
+            this.tsmiMods.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiModsChangeAppId,
+            this.toolStripSeparator4,
+            this.tsmiModsPitchShifter,
+            this.tsmiModsPitchShiftStandard,
+            this.tsmiModsPitchShiftOverwrite,
+            this.toolStripSeparator5,
+            this.tsmiTagStyle,
+            this.tsmiModsTagArtwork,
+            this.tsmiModsUntagArtwork,
+            this.toolStripSeparator14,
+            this.tsmiModsTheMover,
+            this.tsmiModsMyCDLC});
+            this.tsmiMods.Name = "tsmiMods";
+            this.tsmiMods.RadioButtonGroupName = null;
+            this.tsmiMods.Size = new System.Drawing.Size(83, 20);
+            this.tsmiMods.Text = "Custom Mods";
+            // 
+            // tsmiModsChangeAppId
+            // 
+            this.tsmiModsChangeAppId.AssociatedEnumValue = null;
+            this.tsmiModsChangeAppId.Image = ((System.Drawing.Image)(resources.GetObject("tsmiModsChangeAppId.Image")));
+            this.tsmiModsChangeAppId.Name = "tsmiModsChangeAppId";
+            this.tsmiModsChangeAppId.RadioButtonGroupName = null;
+            this.tsmiModsChangeAppId.Size = new System.Drawing.Size(203, 22);
+            this.tsmiModsChangeAppId.Text = "Edit App IDs";
+            this.tsmiModsChangeAppId.ToolTipText = "Change the CDLC App ID to\r\nany other DLC that you own.\r\n\r\nHINT:\r\nYou can also typ" +
+                "e in any valid\r\nApp ID if it is not on the list.";
+            this.tsmiModsChangeAppId.Click += new System.EventHandler(this.tsmiModsChangeAppId_Click);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(200, 6);
+            // 
+            // tsmiModsPitchShifter
+            // 
+            this.tsmiModsPitchShifter.AssociatedEnumValue = null;
+            this.tsmiModsPitchShifter.Name = "tsmiModsPitchShifter";
+            this.tsmiModsPitchShifter.RadioButtonGroupName = "PitchShifter";
+            this.tsmiModsPitchShifter.Size = new System.Drawing.Size(203, 22);
+            this.tsmiModsPitchShifter.Text = "Pitch Shifter";
+            this.tsmiModsPitchShifter.ToolTipText = "Add additional options to Pitch Shifter if desired\r\nwith check boxes before press" +
+                "ing Pitch Shifter.";
+            this.tsmiModsPitchShifter.Click += new System.EventHandler(this.tsmiModsPitchShifter_Click);
+            // 
+            // tsmiModsPitchShiftStandard
+            // 
+            this.tsmiModsPitchShiftStandard.AssociatedEnumValue = null;
+            this.tsmiModsPitchShiftStandard.CheckOnClick = true;
+            this.tsmiModsPitchShiftStandard.Name = "tsmiModsPitchShiftStandard";
+            this.tsmiModsPitchShiftStandard.RadioButtonGroupName = null;
+            this.tsmiModsPitchShiftStandard.Size = new System.Drawing.Size(203, 22);
+            this.tsmiModsPitchShiftStandard.Text = "Force E Standard Tuning";
+            this.tsmiModsPitchShiftStandard.ToolTipText = "If checked, forces E Standard Tuning";
+            this.tsmiModsPitchShiftStandard.Click += new System.EventHandler(this.tsmiModsPitchShifterCheckbox_Click);
+            // 
+            // tsmiModsPitchShiftOverwrite
+            // 
+            this.tsmiModsPitchShiftOverwrite.AssociatedEnumValue = null;
+            this.tsmiModsPitchShiftOverwrite.CheckOnClick = true;
+            this.tsmiModsPitchShiftOverwrite.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tsmiModsPitchShiftOverwrite.ForeColor = System.Drawing.Color.Red;
+            this.tsmiModsPitchShiftOverwrite.Name = "tsmiModsPitchShiftOverwrite";
+            this.tsmiModsPitchShiftOverwrite.RadioButtonGroupName = "PitchShift";
+            this.tsmiModsPitchShiftOverwrite.Size = new System.Drawing.Size(203, 22);
+            this.tsmiModsPitchShiftOverwrite.Text = "Overwrite File";
+            this.tsmiModsPitchShiftOverwrite.ToolTipText = "If checked, overwrite existing CDLC\r\nwith pitch shifted arrangements.";
+            this.tsmiModsPitchShiftOverwrite.Click += new System.EventHandler(this.tsmiModsPitchShifterCheckbox_Click);
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(200, 6);
+            // 
+            // tsmiTagStyle
+            // 
+            this.tsmiTagStyle.AssociatedEnumValue = null;
+            this.tsmiTagStyle.Name = "tsmiTagStyle";
+            this.tsmiTagStyle.RadioButtonGroupName = null;
+            this.tsmiTagStyle.Size = new System.Drawing.Size(203, 22);
+            this.tsmiTagStyle.Text = "Tag Style";
+            // 
+            // tsmiModsTagArtwork
+            // 
+            this.tsmiModsTagArtwork.AssociatedEnumValue = null;
+            this.tsmiModsTagArtwork.Name = "tsmiModsTagArtwork";
+            this.tsmiModsTagArtwork.RadioButtonGroupName = null;
+            this.tsmiModsTagArtwork.Size = new System.Drawing.Size(203, 22);
+            this.tsmiModsTagArtwork.Text = "Tag Album Artwork";
+            this.tsmiModsTagArtwork.Click += new System.EventHandler(this.tsmiModsTagArtwork_Click);
+            // 
+            // tsmiModsUntagArtwork
+            // 
+            this.tsmiModsUntagArtwork.AssociatedEnumValue = null;
+            this.tsmiModsUntagArtwork.Image = ((System.Drawing.Image)(resources.GetObject("tsmiModsUntagArtwork.Image")));
+            this.tsmiModsUntagArtwork.Name = "tsmiModsUntagArtwork";
+            this.tsmiModsUntagArtwork.RadioButtonGroupName = null;
+            this.tsmiModsUntagArtwork.Size = new System.Drawing.Size(203, 22);
+            this.tsmiModsUntagArtwork.Text = "Un-Tag";
+            this.tsmiModsUntagArtwork.Click += new System.EventHandler(this.tsmiModsUntagArtwork_Click);
+            // 
+            // toolStripSeparator14
+            // 
+            this.toolStripSeparator14.Name = "toolStripSeparator14";
+            this.toolStripSeparator14.Size = new System.Drawing.Size(200, 6);
+            // 
+            // tsmiModsTheMover
+            // 
+            this.tsmiModsTheMover.AssociatedEnumValue = null;
+            this.tsmiModsTheMover.CheckOnClick = true;
+            this.tsmiModsTheMover.Name = "tsmiModsTheMover";
+            this.tsmiModsTheMover.RadioButtonGroupName = null;
+            this.tsmiModsTheMover.Size = new System.Drawing.Size(203, 22);
+            this.tsmiModsTheMover.Text = "\'The\' mover";
+            this.tsmiModsTheMover.ToolTipText = "\'The\' Mover e.g., The Beatles -> Beatles, The";
+            this.tsmiModsTheMover.CheckStateChanged += new System.EventHandler(this.tsmiModsTheMover_CheckStateChanged);
+            // 
+            // tsmiModsMyCDLC
+            // 
+            this.tsmiModsMyCDLC.AssociatedEnumValue = null;
+            this.tsmiModsMyCDLC.Name = "tsmiModsMyCDLC";
+            this.tsmiModsMyCDLC.RadioButtonGroupName = null;
+            this.tsmiModsMyCDLC.Size = new System.Drawing.Size(203, 22);
+            this.tsmiModsMyCDLC.Text = "Show My CDLC";
+            this.tsmiModsMyCDLC.CheckStateChanged += new System.EventHandler(this.tsmiModsMyCDLC_CheckStateChanged);
+            // 
+            // tsmiFiles
+            // 
+            this.tsmiFiles.AssociatedEnumValue = null;
+            this.tsmiFiles.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiFilesCheckODLC,
+            this.toolStripSeparator11,
+            this.tsmiFilesDisableEnable,
+            this.tsmiFilesBackup,
+            this.tsmiFilesCheckUpdates,
+            this.toolStripSeparator1,
+            this.tsmiFilesSafetyInterlock,
+            this.tsmiFilesDelete,
+            this.toolStripSeparator2,
+            this.tsmiFilesCleanDlc,
+            this.tsmiFilesRestore,
+            this.tsmiFilesArchive,
+            this.toolStripSeparator6,
+            this.tsmiFilesOrganize,
+            this.tsmiFilesUnorganize,
+            this.tsmiFilesIncludeODLC});
+            this.tsmiFiles.Image = ((System.Drawing.Image)(resources.GetObject("tsmiFiles.Image")));
+            this.tsmiFiles.Name = "tsmiFiles";
+            this.tsmiFiles.RadioButtonGroupName = null;
+            this.tsmiFiles.Size = new System.Drawing.Size(56, 20);
+            this.tsmiFiles.Text = "Files";
+            // 
+            // tsmiFilesCheckODLC
+            // 
+            this.tsmiFilesCheckODLC.AssociatedEnumValue = null;
+            this.tsmiFilesCheckODLC.Name = "tsmiFilesCheckODLC";
+            this.tsmiFilesCheckODLC.RadioButtonGroupName = null;
+            this.tsmiFilesCheckODLC.Size = new System.Drawing.Size(238, 22);
+            this.tsmiFilesCheckODLC.Text = "Check CDLC/ODLC";
+            this.tsmiFilesCheckODLC.ToolTipText = "Determines if any of your CDLC\r\nhave been replaced by ODLC.";
+            this.tsmiFilesCheckODLC.Click += new System.EventHandler(this.tsmiFilesCheckODLC_Click);
+            // 
+            // toolStripSeparator11
+            // 
+            this.toolStripSeparator11.Name = "toolStripSeparator11";
+            this.toolStripSeparator11.Size = new System.Drawing.Size(235, 6);
+            // 
+            // tsmiFilesDisableEnable
+            // 
+            this.tsmiFilesDisableEnable.AssociatedEnumValue = null;
+            this.tsmiFilesDisableEnable.Image = ((System.Drawing.Image)(resources.GetObject("tsmiFilesDisableEnable.Image")));
+            this.tsmiFilesDisableEnable.Name = "tsmiFilesDisableEnable";
+            this.tsmiFilesDisableEnable.RadioButtonGroupName = null;
+            this.tsmiFilesDisableEnable.Size = new System.Drawing.Size(238, 22);
+            this.tsmiFilesDisableEnable.Text = "Disable/Enable";
+            this.tsmiFilesDisableEnable.Click += new System.EventHandler(this.tsmiFilesDisableEnable_Click);
+            // 
+            // tsmiFilesBackup
+            // 
+            this.tsmiFilesBackup.AssociatedEnumValue = null;
+            this.tsmiFilesBackup.Image = global::CustomsForgeSongManager.Properties.Resources.restorebackup;
+            this.tsmiFilesBackup.Name = "tsmiFilesBackup";
+            this.tsmiFilesBackup.RadioButtonGroupName = null;
+            this.tsmiFilesBackup.Size = new System.Drawing.Size(238, 22);
+            this.tsmiFilesBackup.Text = "Backup";
+            this.tsmiFilesBackup.Click += new System.EventHandler(this.tsmiFilesBackup_Click);
+            // 
+            // tsmiFilesCheckUpdates
+            // 
+            this.tsmiFilesCheckUpdates.AssociatedEnumValue = null;
+            this.tsmiFilesCheckUpdates.Enabled = false;
+            this.tsmiFilesCheckUpdates.Image = global::CustomsForgeSongManager.Properties.Resources.update;
+            this.tsmiFilesCheckUpdates.Name = "tsmiFilesCheckUpdates";
+            this.tsmiFilesCheckUpdates.RadioButtonGroupName = null;
+            this.tsmiFilesCheckUpdates.Size = new System.Drawing.Size(238, 22);
+            this.tsmiFilesCheckUpdates.Text = "Check for Updates";
+            this.tsmiFilesCheckUpdates.Click += new System.EventHandler(this.tsmiFilesCheckUpdates_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(235, 6);
+            // 
+            // tsmiFilesSafetyInterlock
+            // 
+            this.tsmiFilesSafetyInterlock.AssociatedEnumValue = null;
+            this.tsmiFilesSafetyInterlock.CheckOnClick = true;
+            this.tsmiFilesSafetyInterlock.Name = "tsmiFilesSafetyInterlock";
+            this.tsmiFilesSafetyInterlock.RadioButtonGroupName = null;
+            this.tsmiFilesSafetyInterlock.Size = new System.Drawing.Size(238, 22);
+            this.tsmiFilesSafetyInterlock.Text = "Unlock Delete";
+            this.tsmiFilesSafetyInterlock.ToolTipText = "Must be checked to activate permenant \'Delete\' option";
+            this.tsmiFilesSafetyInterlock.CheckStateChanged += new System.EventHandler(this.tsmiFilesSafetyInterlock_CheckStateChanged);
+            // 
+            // tsmiFilesDelete
+            // 
+            this.tsmiFilesDelete.AssociatedEnumValue = null;
+            this.tsmiFilesDelete.Enabled = false;
+            this.tsmiFilesDelete.Image = ((System.Drawing.Image)(resources.GetObject("tsmiFilesDelete.Image")));
+            this.tsmiFilesDelete.Name = "tsmiFilesDelete";
+            this.tsmiFilesDelete.RadioButtonGroupName = null;
+            this.tsmiFilesDelete.Size = new System.Drawing.Size(238, 22);
+            this.tsmiFilesDelete.Text = "Delete";
+            this.tsmiFilesDelete.ToolTipText = "WARNING ...\r\nPermenatly deletes any selected files.";
+            this.tsmiFilesDelete.Click += new System.EventHandler(this.tsmiFilesDelete_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(235, 6);
+            // 
+            // tsmiFilesCleanDlc
+            // 
+            this.tsmiFilesCleanDlc.AssociatedEnumValue = null;
+            this.tsmiFilesCleanDlc.Image = global::CustomsForgeSongManager.Properties.Resources.broom;
+            this.tsmiFilesCleanDlc.Name = "tsmiFilesCleanDlc";
+            this.tsmiFilesCleanDlc.RadioButtonGroupName = null;
+            this.tsmiFilesCleanDlc.Size = new System.Drawing.Size(238, 22);
+            this.tsmiFilesCleanDlc.Text = "Clean \'dlc\' Folder";
+            this.tsmiFilesCleanDlc.ToolTipText = "Remove any [.org] [.max] or [.cor]\r\nbackup files from the \'dlc\' folder and\r\nsubfo" +
+                "lders.";
+            this.tsmiFilesCleanDlc.Click += new System.EventHandler(this.tsmiFilesCleanDlc_Click);
+            // 
+            // tsmiFilesRestore
+            // 
+            this.tsmiFilesRestore.AssociatedEnumValue = null;
+            this.tsmiFilesRestore.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiFilesRestoreBak,
+            this.tsmiFilesRestoreOrg,
+            this.tsmiFilesRestoreMax,
+            this.tsmiFilesRestoreCor});
+            this.tsmiFilesRestore.Image = global::CustomsForgeSongManager.Properties.Resources.restorewindow;
+            this.tsmiFilesRestore.Name = "tsmiFilesRestore";
+            this.tsmiFilesRestore.RadioButtonGroupName = null;
+            this.tsmiFilesRestore.Size = new System.Drawing.Size(238, 22);
+            this.tsmiFilesRestore.Text = "Restore";
+            // 
+            // tsmiFilesRestoreBak
+            // 
+            this.tsmiFilesRestoreBak.AssociatedEnumValue = null;
+            this.tsmiFilesRestoreBak.Name = "tsmiFilesRestoreBak";
+            this.tsmiFilesRestoreBak.RadioButtonGroupName = null;
+            this.tsmiFilesRestoreBak.Size = new System.Drawing.Size(163, 22);
+            this.tsmiFilesRestoreBak.Text = "File Type (.bak)";
+            this.tsmiFilesRestoreBak.Click += new System.EventHandler(this.tsmiFilesRestoreBak_Click);
+            // 
+            // tsmiFilesRestoreOrg
+            // 
+            this.tsmiFilesRestoreOrg.AssociatedEnumValue = null;
+            this.tsmiFilesRestoreOrg.Name = "tsmiFilesRestoreOrg";
+            this.tsmiFilesRestoreOrg.RadioButtonGroupName = null;
+            this.tsmiFilesRestoreOrg.Size = new System.Drawing.Size(163, 22);
+            this.tsmiFilesRestoreOrg.Text = "File Type (.org)";
+            this.tsmiFilesRestoreOrg.Click += new System.EventHandler(this.tsmiFilesRestoreOrg_Click);
+            // 
+            // tsmiFilesRestoreMax
+            // 
+            this.tsmiFilesRestoreMax.AssociatedEnumValue = null;
+            this.tsmiFilesRestoreMax.Name = "tsmiFilesRestoreMax";
+            this.tsmiFilesRestoreMax.RadioButtonGroupName = null;
+            this.tsmiFilesRestoreMax.Size = new System.Drawing.Size(163, 22);
+            this.tsmiFilesRestoreMax.Text = "File Type (.max)";
+            this.tsmiFilesRestoreMax.Click += new System.EventHandler(this.tsmiFilesRestoreMax_Click);
+            // 
+            // tsmiFilesRestoreCor
+            // 
+            this.tsmiFilesRestoreCor.AssociatedEnumValue = null;
+            this.tsmiFilesRestoreCor.Name = "tsmiFilesRestoreCor";
+            this.tsmiFilesRestoreCor.RadioButtonGroupName = null;
+            this.tsmiFilesRestoreCor.Size = new System.Drawing.Size(163, 22);
+            this.tsmiFilesRestoreCor.Text = "File Type (.cor)";
+            this.tsmiFilesRestoreCor.Click += new System.EventHandler(this.tsmiFilesRestoreCor_Click);
+            // 
+            // tsmiFilesArchive
+            // 
+            this.tsmiFilesArchive.AssociatedEnumValue = null;
+            this.tsmiFilesArchive.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiFilesArcBak,
+            this.tsmiFilesArcOrg,
+            this.tsmiFilesArcMax,
+            this.tsmiFilesArcCor,
+            this.tsmiFilesArcDeleteAfter});
+            this.tsmiFilesArchive.Image = global::CustomsForgeSongManager.Properties.Resources.zip;
+            this.tsmiFilesArchive.Name = "tsmiFilesArchive";
+            this.tsmiFilesArchive.RadioButtonGroupName = null;
+            this.tsmiFilesArchive.Size = new System.Drawing.Size(238, 22);
+            this.tsmiFilesArchive.Text = "Archive";
+            // 
+            // tsmiFilesArcBak
+            // 
+            this.tsmiFilesArcBak.AssociatedEnumValue = null;
+            this.tsmiFilesArcBak.Name = "tsmiFilesArcBak";
+            this.tsmiFilesArcBak.RadioButtonGroupName = null;
+            this.tsmiFilesArcBak.Size = new System.Drawing.Size(210, 22);
+            this.tsmiFilesArcBak.Text = "File Type (.bak)";
+            this.tsmiFilesArcBak.Click += new System.EventHandler(this.tsmiFilesArcBak_Click);
+            // 
+            // tsmiFilesArcOrg
+            // 
+            this.tsmiFilesArcOrg.AssociatedEnumValue = null;
+            this.tsmiFilesArcOrg.Name = "tsmiFilesArcOrg";
+            this.tsmiFilesArcOrg.RadioButtonGroupName = null;
+            this.tsmiFilesArcOrg.Size = new System.Drawing.Size(210, 22);
+            this.tsmiFilesArcOrg.Text = "File Type (.org)";
+            this.tsmiFilesArcOrg.Click += new System.EventHandler(this.tsmiFilesArcOrg_Click);
+            // 
+            // tsmiFilesArcMax
+            // 
+            this.tsmiFilesArcMax.AssociatedEnumValue = null;
+            this.tsmiFilesArcMax.Name = "tsmiFilesArcMax";
+            this.tsmiFilesArcMax.RadioButtonGroupName = null;
+            this.tsmiFilesArcMax.Size = new System.Drawing.Size(210, 22);
+            this.tsmiFilesArcMax.Text = "File Type (.max)";
+            this.tsmiFilesArcMax.Click += new System.EventHandler(this.tsmiFilesArcMax_Click);
+            // 
+            // tsmiFilesArcCor
+            // 
+            this.tsmiFilesArcCor.AssociatedEnumValue = null;
+            this.tsmiFilesArcCor.Name = "tsmiFilesArcCor";
+            this.tsmiFilesArcCor.RadioButtonGroupName = null;
+            this.tsmiFilesArcCor.Size = new System.Drawing.Size(210, 22);
+            this.tsmiFilesArcCor.Text = "File Type (.cor)";
+            this.tsmiFilesArcCor.Click += new System.EventHandler(this.tsmiFilesArcCor_Click);
+            // 
+            // tsmiFilesArcDeleteAfter
+            // 
+            this.tsmiFilesArcDeleteAfter.AssociatedEnumValue = null;
+            this.tsmiFilesArcDeleteAfter.CheckOnClick = true;
+            this.tsmiFilesArcDeleteAfter.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tsmiFilesArcDeleteAfter.ForeColor = System.Drawing.Color.Red;
+            this.tsmiFilesArcDeleteAfter.Name = "tsmiFilesArcDeleteAfter";
+            this.tsmiFilesArcDeleteAfter.RadioButtonGroupName = null;
+            this.tsmiFilesArcDeleteAfter.Size = new System.Drawing.Size(210, 22);
+            this.tsmiFilesArcDeleteAfter.Text = "Delete Files After Arhiving";
+            this.tsmiFilesArcDeleteAfter.CheckedChanged += new System.EventHandler(this.tsmiFilesArcDelete_CheckedChanged);
+            // 
+            // toolStripSeparator6
+            // 
+            this.toolStripSeparator6.Name = "toolStripSeparator6";
+            this.toolStripSeparator6.Size = new System.Drawing.Size(235, 6);
+            // 
+            // tsmiFilesOrganize
+            // 
+            this.tsmiFilesOrganize.AssociatedEnumValue = null;
+            this.tsmiFilesOrganize.Name = "tsmiFilesOrganize";
+            this.tsmiFilesOrganize.RadioButtonGroupName = null;
+            this.tsmiFilesOrganize.Size = new System.Drawing.Size(238, 22);
+            this.tsmiFilesOrganize.Text = "Organize ArtistName Subfolders";
+            this.tsmiFilesOrganize.ToolTipText = resources.GetString("tsmiFilesOrganize.ToolTipText");
+            this.tsmiFilesOrganize.Click += new System.EventHandler(this.tsmiFilesOrganize_Click);
+            // 
+            // tsmiFilesUnorganize
+            // 
+            this.tsmiFilesUnorganize.AssociatedEnumValue = null;
+            this.tsmiFilesUnorganize.Name = "tsmiFilesUnorganize";
+            this.tsmiFilesUnorganize.RadioButtonGroupName = null;
+            this.tsmiFilesUnorganize.Size = new System.Drawing.Size(238, 22);
+            this.tsmiFilesUnorganize.Text = "Restore CDLC to the \'dlc\' Folder";
+            this.tsmiFilesUnorganize.ToolTipText = resources.GetString("tsmiFilesUnorganize.ToolTipText");
+            this.tsmiFilesUnorganize.Click += new System.EventHandler(this.tsmiFilesUnorganize_Click);
+            // 
+            // tsmiFilesIncludeODLC
+            // 
+            this.tsmiFilesIncludeODLC.AssociatedEnumValue = null;
+            this.tsmiFilesIncludeODLC.CheckOnClick = true;
+            this.tsmiFilesIncludeODLC.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tsmiFilesIncludeODLC.ForeColor = System.Drawing.Color.Red;
+            this.tsmiFilesIncludeODLC.Name = "tsmiFilesIncludeODLC";
+            this.tsmiFilesIncludeODLC.RadioButtonGroupName = null;
+            this.tsmiFilesIncludeODLC.Size = new System.Drawing.Size(238, 22);
+            this.tsmiFilesIncludeODLC.Text = "Include ODLC Files";
+            this.tsmiFilesIncludeODLC.ToolTipText = "If checked, ODLC files will be organized\r\ntoo, even though they are not selectabl" +
+                "e.";
+            this.tsmiFilesIncludeODLC.Click += new System.EventHandler(this.tsmiFilesIncludeODLC_Click);
+            // 
+            // tsmiHelp
+            // 
+            this.tsmiHelp.AssociatedEnumValue = null;
+            this.tsmiHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiHelpGeneral,
+            this.toolStripSeparator3,
+            this.tsmiHelpRepairs,
+            this.tsmiHelpErrorLog});
+            this.tsmiHelp.Image = ((System.Drawing.Image)(resources.GetObject("tsmiHelp.Image")));
+            this.tsmiHelp.Name = "tsmiHelp";
+            this.tsmiHelp.RadioButtonGroupName = null;
+            this.tsmiHelp.Size = new System.Drawing.Size(56, 20);
+            this.tsmiHelp.Text = "Help";
+            // 
+            // tsmiHelpGeneral
+            // 
+            this.tsmiHelpGeneral.AssociatedEnumValue = null;
+            this.tsmiHelpGeneral.Image = global::CustomsForgeSongManager.Properties.Resources.info;
+            this.tsmiHelpGeneral.Name = "tsmiHelpGeneral";
+            this.tsmiHelpGeneral.RadioButtonGroupName = null;
+            this.tsmiHelpGeneral.Size = new System.Drawing.Size(154, 22);
+            this.tsmiHelpGeneral.Text = "General Help";
+            this.tsmiHelpGeneral.Click += new System.EventHandler(this.tsmiHelpGeneral_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(151, 6);
+            // 
+            // tsmiHelpRepairs
+            // 
+            this.tsmiHelpRepairs.AssociatedEnumValue = null;
+            this.tsmiHelpRepairs.Image = global::CustomsForgeSongManager.Properties.Resources.maintenance;
+            this.tsmiHelpRepairs.Name = "tsmiHelpRepairs";
+            this.tsmiHelpRepairs.RadioButtonGroupName = null;
+            this.tsmiHelpRepairs.Size = new System.Drawing.Size(154, 22);
+            this.tsmiHelpRepairs.Text = "Repairs Help";
+            this.tsmiHelpRepairs.Click += new System.EventHandler(this.tsmiHelpRepairs_Click);
+            // 
+            // tsmiHelpErrorLog
+            // 
+            this.tsmiHelpErrorLog.AssociatedEnumValue = null;
+            this.tsmiHelpErrorLog.Image = global::CustomsForgeSongManager.Properties.Resources.notes;
+            this.tsmiHelpErrorLog.Name = "tsmiHelpErrorLog";
+            this.tsmiHelpErrorLog.RadioButtonGroupName = null;
+            this.tsmiHelpErrorLog.Size = new System.Drawing.Size(154, 22);
+            this.tsmiHelpErrorLog.Text = "View Error Log";
+            this.tsmiHelpErrorLog.Click += new System.EventHandler(this.tsmiHelpErrorLog_Click);
             // 
             // SongManager
             // 

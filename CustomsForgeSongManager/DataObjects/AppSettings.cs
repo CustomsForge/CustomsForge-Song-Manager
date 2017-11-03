@@ -84,7 +84,7 @@ namespace CustomsForgeSongManager.DataObjects
             get { return _enableAutoUpdate; }
             set { SetPropertyField("EnableAutoUpdate", ref _enableAutoUpdate, value); }
         }
-        
+
         public bool EnableNotifications
         {
             get { return _enableNotifications; }
@@ -258,8 +258,11 @@ namespace CustomsForgeSongManager.DataObjects
                     Globals.Log("Loaded File: " + Path.GetFileName(Constants.GridSettingsPath));
                     RAExtensions.ManagerGridSettings = SerialExtensions.LoadFromFile<RADataGridViewSettings>(Constants.GridSettingsPath);
                 }
-                //else
-                //    Globals.Log("<WARNING> Did not find file: " + Path.GetFileName(Constants.GridSettingsPath));
+                else
+                {
+                    //Globals.Log("<WARNING> Did not find file: " + Path.GetFileName(Constants.GridSettingsPath));
+                    RAExtensions.ManagerGridSettings = null; // reset
+                }
             }
         }
 

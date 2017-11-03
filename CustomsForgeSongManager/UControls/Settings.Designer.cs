@@ -397,7 +397,7 @@ namespace CustomsForgeSongManager.UControls
             this.chkEnableNotifications.TabIndex = 16;
             this.chkEnableNotifications.Text = "Enable Notifications";
             this.chkEnableNotifications.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.toolTip.SetToolTip(this.chkEnableNotifications, "If checked, shows popup notification\r\nballon messages on system task bar.");
+            this.toolTip.SetToolTip(this.chkEnableNotifications, "If checked, shows popup notification\r\nballon messages in the System Tray.");
             this.chkEnableNotifications.UseVisualStyleBackColor = true;
             this.chkEnableNotifications.Click += new System.EventHandler(this.chkEnableNotifications_Click);
             // 

@@ -65,7 +65,7 @@ namespace CustomsForgeSongManager.Forms
                 notifyIcon_Main.Icon = null;
                 notifyIcon_Main.Dispose();
             };
-           
+
             // bring CFSM to the front on startup
             this.WindowState = FormWindowState.Minimized;
             this.BringToFront();
@@ -196,26 +196,18 @@ namespace CustomsForgeSongManager.Forms
 
             if (AppSettings.Instance.CleanOnClosing)
             {
-                // delete xml and log files (ensure clean startup)
-                var cfsmFiles = Directory.EnumerateFiles(Constants.WorkFolder, "*", SearchOption.TopDirectoryOnly).ToList();
-                foreach (var cfsmFile in cfsmFiles)
-                    GenExtensions.DeleteFile(cfsmFile);
-
-                if (Directory.Exists(Constants.SongPacksFolder))
-                {
-                    // don't delete files in 'original' subfolder
-                    var songpackFiles = Directory.EnumerateFiles(Constants.SongPacksFolder, "*", SearchOption.TopDirectoryOnly).ToList();
-                    foreach (var songpackFile in songpackFiles)
-                        GenExtensions.DeleteFile(songpackFile);
-
-                    ZipUtilities.DeleteDirectory(Constants.CachePcPath);
-                }
-
-                if (Directory.Exists(Constants.AudioCacheFolder))
-                    ZipUtilities.DeleteDirectory(Constants.AudioCacheFolder);
-
-                if (Directory.Exists(Constants.TaggerWorkingFolder))
-                    ZipUtilities.DeleteDirectory(Constants.TaggerWorkingFolder);
+                // don't use the bulldozer here, instead use the bobcat
+                // 'My Documents/CFSM' may contain some original files
+                Globals.Log("User selected Clean On Closing ...");
+                GenExtensions.DeleteFile(Constants.LogFilePath);
+                GenExtensions.DeleteFile(Constants.SongsInfoPath);
+                GenExtensions.DeleteFile(Constants.AnalyzerDataPath);
+                GenExtensions.DeleteFile(Constants.AppSettingsPath);
+                GenExtensions.DeleteDirectory(Constants.GridSettingsFolder);
+                GenExtensions.DeleteDirectory(Constants.AudioCacheFolder);
+                GenExtensions.DeleteDirectory(Constants.TaggerWorkingFolder);
+                GenExtensions.DeleteDirectory(Constants.CachePcPath);
+                GenExtensions.DeleteDirectory(Constants.SongPacksFolder);
 
                 AppSettings.Instance.CleanOnClosing = false;
             }
