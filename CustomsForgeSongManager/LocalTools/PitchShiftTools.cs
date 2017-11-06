@@ -78,14 +78,15 @@ namespace CustomsForgeSongManager.LocalTools
                 {
                     arr.Tuning = "E Standard";
                     arr.TuningStrings = new RocksmithToolkitLib.XML.TuningStrings { String0 = 0, String1 = 0, String2 = 0, String3 = 0, String4 = 0, String5 = 0 };
-
+                    arr.TuningPitch = 440.0;
+                    arr.ArrangementPropeties.StandardTuning = 1;
                     ext = "-e-std";
                 }
                 else if (arr.Tuning.Contains("Drop"))
                 {
                     arr.Tuning = "Drop D";
                     arr.TuningStrings = new RocksmithToolkitLib.XML.TuningStrings { String0 = -2, String1 = 0, String2 = 0, String3 = 0, String4 = 0, String5 = 0 };
-
+                    arr.ArrangementPropeties.StandardTuning = 0;
                     ext = "-drop-d";
                 }
 
