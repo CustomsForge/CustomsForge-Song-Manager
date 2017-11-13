@@ -408,6 +408,7 @@ namespace CustomsForgeSongManager.UControls
             tsmiSkipRemastered.Checked = AppSettings.Instance.RepairOptions.SkipRemastered;
             tsmiRepairsMastery.Checked = AppSettings.Instance.RepairOptions.RepairMastery;
             tsmiRepairsPreserveStats.Checked = AppSettings.Instance.RepairOptions.PreserveStats;
+            tsmiModsPreserveStats.Checked = AppSettings.Instance.RepairOptions.PreserveStats;
             tsmiRepairsUsingOrg.Checked = AppSettings.Instance.RepairOptions.UsingOrgFiles;
             tsmiRepairsMultitone.Checked = AppSettings.Instance.RepairOptions.IgnoreMultitone;
             tsmiRepairsMaxFive.Checked = AppSettings.Instance.RepairOptions.RepairMaxFive;
@@ -2005,14 +2006,7 @@ namespace CustomsForgeSongManager.UControls
             }
         }
 
-        private void tsmiModsPitchShifterCheckbox_Click(object sender, EventArgs e)
-        {
-            tsmiMods.ShowDropDown();
-            tsmiModsPitchShifter.ShowDropDown();
-            menuStrip.Focus();
-        }
-
-        private void tsmiRepairsRun_Click(object sender, EventArgs e)
+         private void tsmiRepairsRun_Click(object sender, EventArgs e)
         {
             var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster);
             if (!selection.Any()) return;
@@ -2174,7 +2168,35 @@ namespace CustomsForgeSongManager.UControls
             dgvSongsMaster.Refresh();
         }
 
+        private void tsmiModPreserveStats_Click(object sender, EventArgs e)
+        {
+            // prevents flicker
+            ignoreCheckStateChanged = true;
+            // syncronize PreserveStats checkboxes
+            tsmiRepairsPreserveStats.Checked = tsmiModsPreserveStats.Checked;
+            ignoreCheckStateChanged = false;
+            AppSettings.Instance.RepairOptions.PreserveStats = tsmiModsPreserveStats.Checked;
+        }
 
+        private void tsmiRepairsPreserveStats_Click(object sender, EventArgs e)
+        {
+            // prevents flicker
+            ignoreCheckStateChanged = true;
+            // syncronize PreserveStats checkboxes
+            tsmiModsPreserveStats.Checked = tsmiRepairsPreserveStats.Checked;
+            ignoreCheckStateChanged = false;
+            AppSettings.Instance.RepairOptions.PreserveStats = tsmiRepairsPreserveStats.Checked;
+        }
+
+ 
+        private void ModsPitchShift_CheckStateChanged(object sender, EventArgs e)
+        {
+            if (ignoreCheckStateChanged)
+                return;
+
+            tsmiMods.ShowDropDown();
+            menuStrip.Focus();
+        }
 
     }
 }

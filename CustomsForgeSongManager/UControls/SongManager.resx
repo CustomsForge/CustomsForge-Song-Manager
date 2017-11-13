@@ -546,6 +546,17 @@
         TkSuQmCC
 </value>
   </data>
+  <data name="tsmiRepairsPreserveStats.ToolTipText" xml:space="preserve">
+    <value>If checked, preserves in-game stats.
+
+If unchecked, reset the song stats 
+and reduce the risk of in-game hangs.
+
+NOTE:  If you choose to preserve stats
+then make sure only one version of the
+CDLC is in the 'dlc' folder at a time 
+otherwise in-game hangs will happen.</value>
+  </data>
   <data name="tsmiRepairsUsingOrg.ToolTipText" xml:space="preserve">
     <value>Developers do not recommend use of this option.
 
@@ -608,6 +619,25 @@ the CDLC files to repair (aka Bulk Repair).</value>
         vRXeoavwTTnA/1zMLoymTryfBK3a7XE/3Gw2AX5uAc5+B2lCRTqdzi4rmUyC55cwM/Mx4/mHmQJK6YdU
         2SXlzJlMhrxL4ceSkHQODNzaKtnYw3YKyXVL+90sujDzr1u/vD8g8iopeAoinwAAAABJRU5ErkJggg==
 </value>
+  </data>
+  <data name="tsmiModsPitchShifter.ToolTipText" xml:space="preserve">
+    <value>Add additional options to Pitch Shifter if desired
+with check boxes before pressing Pitch Shifter.
+
+NOTE:  Pitch shifting is currently derived from
+String0 tuning and the arrangement will be 
+accordingly changed to E Standard or Drop D.  </value>
+  </data>
+  <data name="tsmiModsPreserveStats.ToolTipText" xml:space="preserve">
+    <value>If checked, preserves in-game stats.
+
+If unchecked, reset the song stats 
+and reduce the risk of in-game hangs.
+
+NOTE:  If you choose to preserve stats
+then make sure only one version of the
+CDLC is in the 'dlc' folder at a time 
+otherwise in-game hangs will happen.</value>
   </data>
   <data name="tsmiModsUntagArtwork.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>

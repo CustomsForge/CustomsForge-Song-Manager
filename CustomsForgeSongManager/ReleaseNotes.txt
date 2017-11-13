@@ -14,6 +14,11 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.4.1.7
+- updated DDC.exe to latest version
+- added 'Preserve Stats' checkbox to 'Pitch Shifter'
+- added tooltip describing the expected behaviour of Pitch Shifter
+
 1.4.1.6
 - 'Pitch Shifter' 'Force E Standard Tuning' applies 440 Hz TuningPitch to minimize need for retuning
 - updated RocksmithToolkitLib.dll to latest version

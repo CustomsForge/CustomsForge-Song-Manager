@@ -32,7 +32,7 @@ namespace CustomsForgeSongManager.LocalTools
             Pedal2014 pedal = new Pedal2014();
             var pedals = ToolkitPedal.LoadFromResource(RocksmithToolkitLib.GameVersion.RS2014);
             var bassPitchShiftPedal = pedals.FirstOrDefault(p => p.Type == "Pedals" && p.DisplayName.Contains("MultiPitch"));
-            var gitPitchShiftPedal = bassPitchShiftPedal; //Only one pich shift pedal for both guitar and bass
+            var gitPitchShiftPedal = bassPitchShiftPedal; //Only one pitch shift pedal for both guitar and bass
 
             bassPitchShiftPedal.Knobs[0].DefaultValue = bassShift; //Pitch
             bassPitchShiftPedal.Knobs[1].DefaultValue = mixVal; //Mix
@@ -64,6 +64,17 @@ namespace CustomsForgeSongManager.LocalTools
         {
             foreach (var arr in packageData.Arrangements)
             {
+                // reduces in-game hanging issues
+                if (!AppSettings.Instance.RepairOptions.PreserveStats)
+                {
+                    // generate new AggregateGraph
+                    arr.SongFile = new RocksmithToolkitLib.DLCPackage.AggregateGraph.SongFile() { File = "" };
+
+                    // generate new Arrangement IDs
+                    arr.Id = IdGenerator.Guid();
+                    arr.MasterId = RandomGenerator.NextInt();
+                }
+
                 if (arr.ArrangementType == ArrangementType.Vocal || arr.ArrangementType == ArrangementType.ShowLight)
                     continue;
 
@@ -73,7 +84,7 @@ namespace CustomsForgeSongManager.LocalTools
                 if (!arr.Tuning.Contains("Bonus") && arr.ArrangementType == ArrangementType.Bass)
                     bassShift = arr.TuningStrings.String0;
 
-                // added option to always convert tuning to E Standard (prevents having to retune)
+                // option to convert tuning to E Standard (prevents having to retune)
                 if (arr.Tuning.Contains("Standard") || forceStdTuning)
                 {
                     arr.Tuning = "E Standard";
@@ -184,8 +195,6 @@ namespace CustomsForgeSongManager.LocalTools
                         //Set correct names and regenerate xml
                         packageData = RegenerateXML(packageData);
 
-                        // TODO: confirm Arrangment Ids have been changed elsewhere
-                        // two CDLC with same ids will lock the game
                         if (!overwriteFile)
                         {
                             Globals.Log(" - Adding pitch shifting effect to a new CDLC file");
@@ -248,11 +257,9 @@ namespace CustomsForgeSongManager.LocalTools
 
         public static DLCPackageData RegenerateXML(DLCPackageData packageData)
         {
+            // TODO ensure that xml comments are retained
             foreach (var arr in packageData.Arrangements)
             {
-                arr.Id = IdGenerator.Guid();
-                arr.MasterId = RandomGenerator.NextInt();
-
                 if (arr.ArrangementType == ArrangementType.Vocal || arr.ArrangementType == ArrangementType.ShowLight)
                     continue;
 

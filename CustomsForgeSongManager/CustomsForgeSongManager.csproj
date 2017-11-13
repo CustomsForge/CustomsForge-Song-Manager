@@ -565,6 +565,7 @@
     <None Include="Resources\rescan_plus.png" />
     <None Include="Resources\extra_data.png" />
     <Content Include="Resources\darkseph.png" />
+    <None Include="Resources\shift.png" />
     <Content Include="Resources\TaggerHelp.html" />
     <None Include="Resources\trashcan.png" />
     <None Include="Resources\Unleashed2k.png" />

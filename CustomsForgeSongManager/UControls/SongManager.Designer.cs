@@ -175,6 +175,7 @@ namespace CustomsForgeSongManager.UControls
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiModsPitchShifter = new CustomControls.ToolStripEnhancedMenuItem();
             this.tsmiModsPitchShiftStandard = new CustomControls.ToolStripEnhancedMenuItem();
+            this.tsmiModsPreserveStats = new CustomControls.ToolStripEnhancedMenuItem();
             this.tsmiModsPitchShiftOverwrite = new CustomControls.ToolStripEnhancedMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiTagStyle = new CustomControls.ToolStripEnhancedMenuItem();
@@ -1224,7 +1225,7 @@ namespace CustomsForgeSongManager.UControls
             this.cmsSongManagerColumns.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.testToolStripMenuItem});
             this.cmsSongManagerColumns.Name = "cmsSongManagerColumns";
-            this.cmsSongManagerColumns.Size = new System.Drawing.Size(153, 48);
+            this.cmsSongManagerColumns.Size = new System.Drawing.Size(107, 26);
             // 
             // testToolStripMenuItem
             // 
@@ -1235,7 +1236,7 @@ namespace CustomsForgeSongManager.UControls
             this.testToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.testToolStripMenuItem.Name = "testToolStripMenuItem";
             this.testToolStripMenuItem.RadioButtonGroupName = null;
-            this.testToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.testToolStripMenuItem.Size = new System.Drawing.Size(106, 22);
             this.testToolStripMenuItem.Text = "Test";
             // 
             // toolTip
@@ -1485,7 +1486,9 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiRepairsPreserveStats.RadioButtonGroupName = "Mastery";
             this.tsmiRepairsPreserveStats.Size = new System.Drawing.Size(246, 22);
             this.tsmiRepairsPreserveStats.Text = "Preserve Stats";
+            this.tsmiRepairsPreserveStats.ToolTipText = resources.GetString("tsmiRepairsPreserveStats.ToolTipText");
             this.tsmiRepairsPreserveStats.CheckStateChanged += new System.EventHandler(this.Repairs_CheckStateChanged);
+            this.tsmiRepairsPreserveStats.Click += new System.EventHandler(this.tsmiRepairsPreserveStats_Click);
             // 
             // tsmiRepairsUsingOrg
             // 
@@ -1686,6 +1689,7 @@ namespace CustomsForgeSongManager.UControls
             this.toolStripSeparator4,
             this.tsmiModsPitchShifter,
             this.tsmiModsPitchShiftStandard,
+            this.tsmiModsPreserveStats,
             this.tsmiModsPitchShiftOverwrite,
             this.toolStripSeparator5,
             this.tsmiTagStyle,
@@ -1719,12 +1723,12 @@ namespace CustomsForgeSongManager.UControls
             // tsmiModsPitchShifter
             // 
             this.tsmiModsPitchShifter.AssociatedEnumValue = null;
+            this.tsmiModsPitchShifter.Image = global::CustomsForgeSongManager.Properties.Resources.shift;
             this.tsmiModsPitchShifter.Name = "tsmiModsPitchShifter";
             this.tsmiModsPitchShifter.RadioButtonGroupName = "PitchShifter";
             this.tsmiModsPitchShifter.Size = new System.Drawing.Size(203, 22);
             this.tsmiModsPitchShifter.Text = "Pitch Shifter";
-            this.tsmiModsPitchShifter.ToolTipText = "Add additional options to Pitch Shifter if desired\r\nwith check boxes before press" +
-                "ing Pitch Shifter.";
+            this.tsmiModsPitchShifter.ToolTipText = resources.GetString("tsmiModsPitchShifter.ToolTipText");
             this.tsmiModsPitchShifter.Click += new System.EventHandler(this.tsmiModsPitchShifter_Click);
             // 
             // tsmiModsPitchShiftStandard
@@ -1735,8 +1739,21 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiModsPitchShiftStandard.RadioButtonGroupName = null;
             this.tsmiModsPitchShiftStandard.Size = new System.Drawing.Size(203, 22);
             this.tsmiModsPitchShiftStandard.Text = "Force E Standard Tuning";
-            this.tsmiModsPitchShiftStandard.ToolTipText = "If checked, forces E Standard Tuning";
-            this.tsmiModsPitchShiftStandard.Click += new System.EventHandler(this.tsmiModsPitchShifterCheckbox_Click);
+            this.tsmiModsPitchShiftStandard.ToolTipText = "If checked, forces E Standard Tuning even\r\nif arrangement is currently a Drop tun" +
+                "ing.";
+            this.tsmiModsPitchShiftStandard.CheckStateChanged += new System.EventHandler(this.ModsPitchShift_CheckStateChanged);
+            // 
+            // tsmiModsPreserveStats
+            // 
+            this.tsmiModsPreserveStats.AssociatedEnumValue = null;
+            this.tsmiModsPreserveStats.CheckOnClick = true;
+            this.tsmiModsPreserveStats.Name = "tsmiModsPreserveStats";
+            this.tsmiModsPreserveStats.RadioButtonGroupName = null;
+            this.tsmiModsPreserveStats.Size = new System.Drawing.Size(203, 22);
+            this.tsmiModsPreserveStats.Text = "Preserve Stats";
+            this.tsmiModsPreserveStats.ToolTipText = resources.GetString("tsmiModsPreserveStats.ToolTipText");
+            this.tsmiModsPreserveStats.CheckStateChanged += new System.EventHandler(this.ModsPitchShift_CheckStateChanged);
+            this.tsmiModsPreserveStats.Click += new System.EventHandler(this.tsmiModPreserveStats_Click);
             // 
             // tsmiModsPitchShiftOverwrite
             // 
@@ -1748,8 +1765,9 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiModsPitchShiftOverwrite.RadioButtonGroupName = "PitchShift";
             this.tsmiModsPitchShiftOverwrite.Size = new System.Drawing.Size(203, 22);
             this.tsmiModsPitchShiftOverwrite.Text = "Overwrite File";
-            this.tsmiModsPitchShiftOverwrite.ToolTipText = "If checked, overwrite existing CDLC\r\nwith pitch shifted arrangements.";
-            this.tsmiModsPitchShiftOverwrite.Click += new System.EventHandler(this.tsmiModsPitchShifterCheckbox_Click);
+            this.tsmiModsPitchShiftOverwrite.ToolTipText = "If checked, overwrite existing CDLC\r\nwith pitch shifted arrangements and\r\nreduces" +
+                " the risk of in-game hangs.";
+            this.tsmiModsPitchShiftOverwrite.CheckStateChanged += new System.EventHandler(this.ModsPitchShift_CheckStateChanged);
             // 
             // toolStripSeparator5
             // 
@@ -2332,6 +2350,7 @@ namespace CustomsForgeSongManager.UControls
         private DataGridViewTextBoxColumn colUnpitchedSlideCount;
         private DataGridViewTextBoxColumn colTotalTapCount;
         private DataGridViewTextBoxColumn colHighestFretUsed;
+        private CustomControls.ToolStripEnhancedMenuItem tsmiModsPreserveStats;
 
     }
 }
