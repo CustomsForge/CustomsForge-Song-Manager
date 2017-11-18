@@ -436,6 +436,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UControls\Duplicates.resx">
       <DependentUpon>Duplicates.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UControls\Renamer.resx">
       <DependentUpon>Renamer.cs</DependentUpon>
@@ -478,6 +479,7 @@
     <None Include="app.manifest">
       <SubType>Designer</SubType>
     </None>
+    <EmbeddedResource Include="Resources\HelpDuplicates.rtf" />
     <None Include="Resources\logo_black.png" />
   </ItemGroup>
   <ItemGroup>
@@ -566,6 +568,8 @@
     <None Include="Resources\extra_data.png" />
     <Content Include="Resources\darkseph.png" />
     <None Include="Resources\shift.png" />
+    <None Include="Resources\rescan1.png" />
+    <None Include="Resources\tag.png" />
     <Content Include="Resources\TaggerHelp.html" />
     <None Include="Resources\trashcan.png" />
     <None Include="Resources\Unleashed2k.png" />

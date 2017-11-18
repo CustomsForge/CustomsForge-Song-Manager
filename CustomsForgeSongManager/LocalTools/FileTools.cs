@@ -279,9 +279,13 @@ namespace CustomsForgeSongManager.LocalTools
             return true;
         }
 
-        public static bool CreateBackupOfType(List<SongData> songs, string destFolder, string backupExt)
+        public static bool CreateBackupOfType(List<SongData> songs, string destFolder, string backupExt, bool isBackup = true)
         {
-            Globals.Log("Backing up selected CDLC files ...");
+            if (isBackup)
+                Globals.Log("Backing up selected CDLC files ...");
+            else
+                Globals.Log("Moving selected CDLC files ...");
+
             VerifyCfsmFolders();
             var srcFilePaths = SongFilePaths(songs);
             var total = srcFilePaths.Count;
@@ -301,24 +305,24 @@ namespace CustomsForgeSongManager.LocalTools
 
                     if (srcFilePath.Contains(Constants.RS1COMP))
                     {
-                        Globals.Log(" - Can not backup individual RS1 Compatiblity DLC");
+                        Globals.Log(" - Can not process individual RS1 Compatiblity DLC");
                         ++skipped;
                     }
                     else if (!File.Exists(destFilePath))
                     {
                         GenExtensions.CopyFile(srcFilePath, destFilePath, false);
-                        Globals.Log(" - Successfully created backup"); // a good thing
+                        Globals.Log(" - Successfully processed file"); // a good thing
                     }
                     else
                     {
-                        Globals.Log(" - Backup already exists"); // also a good thing
+                        Globals.Log(" - File already exists"); // also a good thing
                         skipped++;
                     }
                 }
                 catch (Exception ex)
                 {
                     // it is critical that backup of originals was successful before proceeding
-                    Globals.Log(" - <ERROR> Backup failed"); // a bad thing
+                    Globals.Log(" - <ERROR> CreateBackupOfType method failed"); // a bad thing
                     Globals.Log(ex.Message);
                     failed++;
                 }
@@ -331,18 +335,24 @@ namespace CustomsForgeSongManager.LocalTools
 
             if (processed > 0)
             {
-                Globals.Log("Finished backing up selected files ...");
-                Globals.Log("Backups saved to: " + destFolder);
+                if (isBackup)
+                    Globals.Log("Finished backing up selected files ...");
+                else
+                    Globals.Log("Finished moving selected files ...");
+
+                Globals.Log("Files saved to: " + destFolder);
                 return true;
             }
 
-            Globals.Log("No files backed up ...");
+            Globals.Log("No files processed ...");
             return false;
         }
 
-        public static void DeleteFiles(List<SongData> songs)
+        public static void DeleteFiles(List<SongData> songs, bool verbose = true)
         {
-            Globals.Log("Deleting selected CDLC files ...");
+            if (verbose)
+                Globals.Log("Deleting selected CDLC files ...");
+
             var srcFilePaths = SongFilePaths(songs);
             var total = srcFilePaths.Count;
             int processed = 0, failed = 0, skipped = 0;
@@ -350,14 +360,18 @@ namespace CustomsForgeSongManager.LocalTools
 
             foreach (var srcFilePath in srcFilePaths)
             {
-                Globals.Log("Processing File: " + Path.GetFileName(srcFilePath));
+                if (verbose)
+                    Globals.Log("Processing File: " + Path.GetFileName(srcFilePath));
+                
                 processed++;
                 GenericWorker.ReportProgress(processed, total, skipped, failed);
 
                 try
                 {
                     GenExtensions.DeleteFile(srcFilePath);
-                    Globals.Log(" - Successfully deleted file"); // a good thing
+
+                    if (verbose)
+                        Globals.Log(" - Successfully deleted file"); // a good thing
                 }
                 catch (IOException ex)
                 {
@@ -369,10 +383,13 @@ namespace CustomsForgeSongManager.LocalTools
 
             GenericWorker.ReportProgress(processed, total, skipped, failed);
 
-            if (processed > 0)
-                Globals.Log("Finished deleting files ...");
-            else
-                Globals.Log("No files deleted ...");
+            if (verbose)
+            {
+                if (processed > 0)
+                    Globals.Log("Finished deleting files ...");
+                else
+                    Globals.Log("No files deleted ...");
+            }
         }
 
         public static string GetOriginal(string srcFilePath)

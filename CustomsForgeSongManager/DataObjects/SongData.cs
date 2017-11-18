@@ -60,8 +60,8 @@ namespace CustomsForgeSongManager.DataObjects
         //ver 10 : force create a fresh 'My Documents/CFSM' folder'
         //ver 1 - 10: time to recycle vers numbers
 
-        // incrimenting forces songInfo.xml to update
-        public const string SongDataListCurrentVersion = "7";
+        // incrementing forces songInfo.xml and appSettings.xml to reset/update to defaults
+        public const string SongDataListCurrentVersion = "8";
 
         public string FilePath { get; set; }
         public DateTime FileDate { get; set; }

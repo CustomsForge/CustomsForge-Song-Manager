@@ -33,25 +33,21 @@ namespace CustomsForgeSongManager.UControls
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Duplicates));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             this.cmsDuplicateColumns = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.exploreToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.gbActions = new System.Windows.Forms.GroupBox();
-            this.panelActions = new System.Windows.Forms.Panel();
+            this.cmsColumnHeaders = new System.Windows.Forms.ToolStripMenuItem();
             this.linkSelectOlderVersions = new System.Windows.Forms.LinkLabel();
             this.chkSubFolders = new System.Windows.Forms.CheckBox();
             this.lnkPersistentId = new System.Windows.Forms.LinkLabel();
-            this.btnMove = new System.Windows.Forms.Button();
-            this.btnDelete = new System.Windows.Forms.Button();
-            this.btnEnableDisable = new System.Windows.Forms.Button();
-            this.btnRescan = new System.Windows.Forms.Button();
             this.gbResults = new System.Windows.Forms.GroupBox();
+            this.lnkLblSelectAll = new System.Windows.Forms.LinkLabel();
+            this.lnklblToggle = new System.Windows.Forms.LinkLabel();
             this.txtNoDuplicates = new System.Windows.Forms.TextBox();
             this.dgvDuplicates = new DataGridViewTools.RADataGridView();
             this.colPID = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
@@ -81,66 +77,52 @@ namespace CustomsForgeSongManager.UControls
             this.colArtistTitleAlbum = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colArtistTitleAlbumDate = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.cmsDuplicates = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.cmsActions = new CustomControls.ToolStripEnhancedMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.cmsEnableDisable = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmsOpenLocation = new CustomControls.ToolStripEnhancedMenuItem();
+            this.cmsMove = new CustomControls.ToolStripEnhancedMenuItem();
+            this.cmsDelete = new CustomControls.ToolStripEnhancedMenuItem();
+            this.menuStrip = new System.Windows.Forms.MenuStrip();
+            this.tsmiRescan = new CustomControls.ToolStripEnhancedMenuItem();
+            this.tsmiRescanAll = new CustomControls.ToolStripEnhancedMenuItem();
+            this.tsmiRescanEnabledDisabled = new CustomControls.ToolStripEnhancedMenuItem();
+            this.tsmiHelp = new CustomControls.ToolStripEnhancedMenuItem();
+            this.cmsShowSongInfo = new CustomControls.ToolStripEnhancedMenuItem();
             this.cmsDuplicateColumns.SuspendLayout();
-            this.gbActions.SuspendLayout();
-            this.panelActions.SuspendLayout();
             this.gbResults.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDuplicates)).BeginInit();
+            this.cmsDuplicates.SuspendLayout();
+            this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // cmsDuplicateColumns
             // 
             this.cmsDuplicateColumns.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.exploreToolStripMenuItem});
+            this.cmsColumnHeaders});
             this.cmsDuplicateColumns.Name = "cmsDuplicate";
-            this.cmsDuplicateColumns.Size = new System.Drawing.Size(122, 26);
+            this.cmsDuplicateColumns.Size = new System.Drawing.Size(107, 26);
             // 
-            // exploreToolStripMenuItem
+            // cmsColumnHeaders
             // 
-            this.exploreToolStripMenuItem.Name = "exploreToolStripMenuItem";
-            this.exploreToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
-            this.exploreToolStripMenuItem.Text = "Explore";
-            this.exploreToolStripMenuItem.Click += new System.EventHandler(this.exploreToolStripMenuItem_Click);
-            // 
-            // gbActions
-            // 
-            this.gbActions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.gbActions.Controls.Add(this.panelActions);
-            this.gbActions.Location = new System.Drawing.Point(5, 457);
-            this.gbActions.Name = "gbActions";
-            this.gbActions.Size = new System.Drawing.Size(864, 60);
-            this.gbActions.TabIndex = 14;
-            this.gbActions.TabStop = false;
-            this.gbActions.Text = "Actions:";
-            // 
-            // panelActions
-            // 
-            this.panelActions.Controls.Add(this.linkSelectOlderVersions);
-            this.panelActions.Controls.Add(this.chkSubFolders);
-            this.panelActions.Controls.Add(this.lnkPersistentId);
-            this.panelActions.Controls.Add(this.btnMove);
-            this.panelActions.Controls.Add(this.btnDelete);
-            this.panelActions.Controls.Add(this.btnEnableDisable);
-            this.panelActions.Controls.Add(this.btnRescan);
-            this.panelActions.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panelActions.Location = new System.Drawing.Point(3, 16);
-            this.panelActions.Name = "panelActions";
-            this.panelActions.Size = new System.Drawing.Size(858, 41);
-            this.panelActions.TabIndex = 3;
+            this.cmsColumnHeaders.Name = "cmsColumnHeaders";
+            this.cmsColumnHeaders.Size = new System.Drawing.Size(106, 22);
+            this.cmsColumnHeaders.Text = "Test";
+            this.cmsColumnHeaders.Click += new System.EventHandler(this.exploreToolStripMenuItem_Click);
             // 
             // linkSelectOlderVersions
             // 
-            this.linkSelectOlderVersions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.linkSelectOlderVersions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.linkSelectOlderVersions.AutoSize = true;
             this.linkSelectOlderVersions.ForeColor = System.Drawing.Color.Black;
             this.linkSelectOlderVersions.LinkColor = System.Drawing.SystemColors.ActiveCaption;
-            this.linkSelectOlderVersions.Location = new System.Drawing.Point(584, 14);
+            this.linkSelectOlderVersions.Location = new System.Drawing.Point(209, 493);
             this.linkSelectOlderVersions.Name = "linkSelectOlderVersions";
-            this.linkSelectOlderVersions.Size = new System.Drawing.Size(118, 13);
+            this.linkSelectOlderVersions.Size = new System.Drawing.Size(122, 13);
             this.linkSelectOlderVersions.TabIndex = 26;
             this.linkSelectOlderVersions.TabStop = true;
-            this.linkSelectOlderVersions.Text = "Select all older versions";
+            this.linkSelectOlderVersions.Text = "Select All Older Versions";
             this.toolTip.SetToolTip(this.linkSelectOlderVersions, "Select all duplicate songs excluding the newest versions ");
             this.linkSelectOlderVersions.VisitedLinkColor = System.Drawing.SystemColors.ActiveCaption;
             this.linkSelectOlderVersions.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkSelectOlderVersions_LinkClicked);
@@ -151,107 +133,81 @@ namespace CustomsForgeSongManager.UControls
             this.chkSubFolders.AutoSize = true;
             this.chkSubFolders.Checked = true;
             this.chkSubFolders.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkSubFolders.Location = new System.Drawing.Point(514, 13);
+            this.chkSubFolders.Location = new System.Drawing.Point(522, 492);
             this.chkSubFolders.Name = "chkSubFolders";
-            this.chkSubFolders.Size = new System.Drawing.Size(125, 17);
+            this.chkSubFolders.Size = new System.Drawing.Size(197, 17);
             this.chkSubFolders.TabIndex = 25;
-            this.chkSubFolders.Text = "Include Setlist Songs";
+            this.chkSubFolders.Text = "Include Organized and Setlist Songs";
             this.chkSubFolders.UseVisualStyleBackColor = true;
             this.chkSubFolders.MouseUp += new System.Windows.Forms.MouseEventHandler(this.chkSubFolders_MouseUp);
             // 
             // lnkPersistentId
             // 
-            this.lnkPersistentId.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lnkPersistentId.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lnkPersistentId.AutoSize = true;
             this.lnkPersistentId.ForeColor = System.Drawing.Color.Black;
             this.lnkPersistentId.LinkColor = System.Drawing.SystemColors.ActiveCaption;
-            this.lnkPersistentId.Location = new System.Drawing.Point(709, 14);
+            this.lnkPersistentId.Location = new System.Drawing.Point(344, 493);
             this.lnkPersistentId.Name = "lnkPersistentId";
-            this.lnkPersistentId.Size = new System.Drawing.Size(145, 13);
+            this.lnkPersistentId.Size = new System.Drawing.Size(142, 13);
             this.lnkPersistentId.TabIndex = 18;
             this.lnkPersistentId.TabStop = true;
-            this.lnkPersistentId.Text = "Select SongInfo/PersistentID";
+            this.lnkPersistentId.Text = "Show SongInfo/PersistentID";
             this.toolTip.SetToolTip(this.lnkPersistentId, "Show the bad boy CDLC that are reusing Persistent IDs\r\nThese causing game hangs a" +
                     "nd need to be deleted.");
             this.lnkPersistentId.VisitedLinkColor = System.Drawing.SystemColors.ActiveCaption;
             this.lnkPersistentId.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkPersistentId_LinkClicked);
-            // 
-            // btnMove
-            // 
-            this.btnMove.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnMove.Image = global::CustomsForgeSongManager.Properties.Resources.export;
-            this.btnMove.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnMove.Location = new System.Drawing.Point(396, 7);
-            this.btnMove.Name = "btnMove";
-            this.btnMove.Padding = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.btnMove.Size = new System.Drawing.Size(112, 27);
-            this.btnMove.TabIndex = 15;
-            this.btnMove.Text = "Move Selected";
-            this.btnMove.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnMove.UseVisualStyleBackColor = true;
-            this.btnMove.Click += new System.EventHandler(this.btnMove_Click);
-            // 
-            // btnDelete
-            // 
-            this.btnDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnDelete.Image = global::CustomsForgeSongManager.Properties.Resources.delete;
-            this.btnDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnDelete.Location = new System.Drawing.Point(266, 7);
-            this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Padding = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.btnDelete.Size = new System.Drawing.Size(117, 27);
-            this.btnDelete.TabIndex = 11;
-            this.btnDelete.Text = "Delete Selected";
-            this.btnDelete.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnDelete.UseVisualStyleBackColor = true;
-            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
-            // 
-            // btnEnableDisable
-            // 
-            this.btnEnableDisable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnEnableDisable.Image = global::CustomsForgeSongManager.Properties.Resources.disable;
-            this.btnEnableDisable.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnEnableDisable.Location = new System.Drawing.Point(99, 6);
-            this.btnEnableDisable.Name = "btnEnableDisable";
-            this.btnEnableDisable.Padding = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.btnEnableDisable.Size = new System.Drawing.Size(154, 29);
-            this.btnEnableDisable.TabIndex = 14;
-            this.btnEnableDisable.Text = "Enable/Disable Selected";
-            this.btnEnableDisable.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnEnableDisable.UseVisualStyleBackColor = true;
-            this.btnEnableDisable.Click += new System.EventHandler(this.btnEnableDisable_Click);
-            // 
-            // btnRescan
-            // 
-            this.btnRescan.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnRescan.Image = ((System.Drawing.Image)(resources.GetObject("btnRescan.Image")));
-            this.btnRescan.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnRescan.Location = new System.Drawing.Point(8, 6);
-            this.btnRescan.Name = "btnRescan";
-            this.btnRescan.Padding = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.btnRescan.Size = new System.Drawing.Size(78, 29);
-            this.btnRescan.TabIndex = 4;
-            this.btnRescan.Text = "Rescan";
-            this.btnRescan.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.toolTip.SetToolTip(this.btnRescan, "Rescan songs for duplcates, plus\r\nCtrl-D to show disabled duplicates\r\nCtrl-E to s" +
-                    "how enabled duplicates");
-            this.btnRescan.UseVisualStyleBackColor = true;
-            this.btnRescan.Click += new System.EventHandler(this.btnRescan_Click);
-            this.btnRescan.KeyDown += new System.Windows.Forms.KeyEventHandler(this.btnRescan_KeyDown);
             // 
             // gbResults
             // 
             this.gbResults.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbResults.Controls.Add(this.lnkLblSelectAll);
+            this.gbResults.Controls.Add(this.lnklblToggle);
+            this.gbResults.Controls.Add(this.chkSubFolders);
+            this.gbResults.Controls.Add(this.linkSelectOlderVersions);
+            this.gbResults.Controls.Add(this.lnkPersistentId);
             this.gbResults.Controls.Add(this.txtNoDuplicates);
             this.gbResults.Controls.Add(this.dgvDuplicates);
             this.gbResults.Location = new System.Drawing.Point(4, 3);
             this.gbResults.Name = "gbResults";
-            this.gbResults.Size = new System.Drawing.Size(864, 454);
+            this.gbResults.Size = new System.Drawing.Size(864, 517);
             this.gbResults.TabIndex = 16;
             this.gbResults.TabStop = false;
             this.gbResults.Text = "Results Grid:";
+            // 
+            // lnkLblSelectAll
+            // 
+            this.lnkLblSelectAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lnkLblSelectAll.AutoSize = true;
+            this.lnkLblSelectAll.ForeColor = System.Drawing.Color.Black;
+            this.lnkLblSelectAll.LinkColor = System.Drawing.SystemColors.ActiveCaption;
+            this.lnkLblSelectAll.Location = new System.Drawing.Point(14, 493);
+            this.lnkLblSelectAll.Name = "lnkLblSelectAll";
+            this.lnkLblSelectAll.Size = new System.Drawing.Size(82, 13);
+            this.lnkLblSelectAll.TabIndex = 27;
+            this.lnkLblSelectAll.TabStop = true;
+            this.lnkLblSelectAll.Text = "Select All/None";
+            this.lnkLblSelectAll.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.toolTip.SetToolTip(this.lnkLblSelectAll, "ODLC are not selectable");
+            this.lnkLblSelectAll.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkLblSelectAll_LinkClicked);
+            // 
+            // lnklblToggle
+            // 
+            this.lnklblToggle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lnklblToggle.AutoSize = true;
+            this.lnklblToggle.ForeColor = System.Drawing.Color.Black;
+            this.lnklblToggle.LinkColor = System.Drawing.SystemColors.ActiveCaption;
+            this.lnklblToggle.Location = new System.Drawing.Point(109, 493);
+            this.lnklblToggle.Name = "lnklblToggle";
+            this.lnklblToggle.Size = new System.Drawing.Size(87, 13);
+            this.lnklblToggle.TabIndex = 28;
+            this.lnklblToggle.TabStop = true;
+            this.lnklblToggle.Text = "Toggle Selection";
+            this.lnklblToggle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.toolTip.SetToolTip(this.lnklblToggle, "ODLC are not toggleable");
+            this.lnklblToggle.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnklblToggle_LinkClicked);
             // 
             // txtNoDuplicates
             // 
@@ -266,19 +222,19 @@ namespace CustomsForgeSongManager.UControls
             // 
             // dgvDuplicates
             // 
-            dataGridViewCellStyle7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.dgvDuplicates.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle13.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.dgvDuplicates.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle13;
             this.dgvDuplicates.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvDuplicates.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle14.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle14.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle14.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle14.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle14.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvDuplicates.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle14;
             this.dgvDuplicates.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colPID,
             this.colPIDArrangement,
@@ -309,15 +265,15 @@ namespace CustomsForgeSongManager.UControls
             this.dgvDuplicates.Location = new System.Drawing.Point(6, 19);
             this.dgvDuplicates.Name = "dgvDuplicates";
             this.dgvDuplicates.RowHeadersVisible = false;
-            this.dgvDuplicates.Size = new System.Drawing.Size(852, 429);
+            this.dgvDuplicates.Size = new System.Drawing.Size(852, 460);
             this.dgvDuplicates.TabIndex = 17;
             this.dgvDuplicates.Tag = "Duplicates";
             this.dgvDuplicates.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvDuplicates_CellDoubleClick);
-            this.dgvDuplicates.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvDups_CellFormatting);
+            this.dgvDuplicates.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvDuplicates_CellFormatting);
             this.dgvDuplicates.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvDuplicates_CellMouseDown);
             this.dgvDuplicates.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvDuplicates_CellMouseUp);
             this.dgvDuplicates.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgvDuplicates_DataBindingComplete);
-            this.dgvDuplicates.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dgvDups_DataError);
+            this.dgvDuplicates.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dgvDuplicates_DataError);
             this.dgvDuplicates.Paint += new System.Windows.Forms.PaintEventHandler(this.dgvDuplicates_Paint);
             this.dgvDuplicates.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvDuplicates_KeyDown);
             // 
@@ -405,9 +361,9 @@ namespace CustomsForgeSongManager.UControls
             // colSongLength
             // 
             this.colSongLength.DataPropertyName = "SongLength";
-            dataGridViewCellStyle9.Format = "N2";
-            dataGridViewCellStyle9.NullValue = null;
-            this.colSongLength.DefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle15.Format = "N2";
+            dataGridViewCellStyle15.NullValue = null;
+            this.colSongLength.DefaultCellStyle = dataGridViewCellStyle15;
             this.colSongLength.HeaderText = "Length Seconds";
             this.colSongLength.Name = "colSongLength";
             this.colSongLength.ReadOnly = true;
@@ -416,9 +372,9 @@ namespace CustomsForgeSongManager.UControls
             // colAvgTempo
             // 
             this.colAvgTempo.DataPropertyName = "SongAverageTempo";
-            dataGridViewCellStyle10.Format = "N2";
-            dataGridViewCellStyle10.NullValue = null;
-            this.colAvgTempo.DefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle16.Format = "N2";
+            dataGridViewCellStyle16.NullValue = null;
+            this.colAvgTempo.DefaultCellStyle = dataGridViewCellStyle16;
             this.colAvgTempo.HeaderText = "BPM";
             this.colAvgTempo.Name = "colAvgTempo";
             this.colAvgTempo.ReadOnly = true;
@@ -472,8 +428,8 @@ namespace CustomsForgeSongManager.UControls
             // colUpdated
             // 
             this.colUpdated.DataPropertyName = "LastConversionDateTime";
-            dataGridViewCellStyle11.NullValue = null;
-            this.colUpdated.DefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle17.NullValue = null;
+            this.colUpdated.DefaultCellStyle = dataGridViewCellStyle17;
             this.colUpdated.HeaderText = "Updated";
             this.colUpdated.Name = "colUpdated";
             this.colUpdated.ReadOnly = true;
@@ -520,8 +476,8 @@ namespace CustomsForgeSongManager.UControls
             // colIgnitionUpdated
             // 
             this.colIgnitionUpdated.DataPropertyName = "IgnitionUpdated";
-            dataGridViewCellStyle12.NullValue = null;
-            this.colIgnitionUpdated.DefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle18.NullValue = null;
+            this.colIgnitionUpdated.DefaultCellStyle = dataGridViewCellStyle18;
             this.colIgnitionUpdated.HeaderText = "Ignition Updated";
             this.colIgnitionUpdated.Name = "colIgnitionUpdated";
             this.colIgnitionUpdated.ReadOnly = true;
@@ -568,35 +524,164 @@ namespace CustomsForgeSongManager.UControls
             this.toolTip.IsBalloon = true;
             this.toolTip.ReshowDelay = 100;
             // 
+            // cmsDuplicates
+            // 
+            this.cmsDuplicates.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cmsActions,
+            this.toolStripSeparator1,
+            this.cmsShowSongInfo,
+            this.cmsOpenLocation,
+            this.cmsEnableDisable,
+            this.cmsDelete,
+            this.cmsMove});
+            this.cmsDuplicates.Name = "contextMenuStrip_MainManager";
+            this.cmsDuplicates.Size = new System.Drawing.Size(188, 164);
+            this.cmsDuplicates.Closing += new System.Windows.Forms.ToolStripDropDownClosingEventHandler(this.cmsDuplicates_Closing);
+            this.cmsDuplicates.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.cmsDuplicates_ItemClicked);
+            // 
+            // cmsActions
+            // 
+            this.cmsActions.AssociatedEnumValue = null;
+            this.cmsActions.Name = "cmsActions";
+            this.cmsActions.RadioButtonGroupName = null;
+            this.cmsActions.Size = new System.Drawing.Size(187, 22);
+            this.cmsActions.Text = "Actions:";
+            this.cmsActions.ToolTipText = resources.GetString("cmsActions.ToolTipText");
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(184, 6);
+            // 
+            // cmsEnableDisable
+            // 
+            this.cmsEnableDisable.Image = global::CustomsForgeSongManager.Properties.Resources.disable;
+            this.cmsEnableDisable.Name = "cmsEnableDisable";
+            this.cmsEnableDisable.Size = new System.Drawing.Size(187, 22);
+            this.cmsEnableDisable.Text = "Enable/Disable Songs";
+            this.cmsEnableDisable.Click += new System.EventHandler(this.cmsEnableDisable_Click);
+            // 
+            // cmsOpenLocation
+            // 
+            this.cmsOpenLocation.AssociatedEnumValue = null;
+            this.cmsOpenLocation.Image = ((System.Drawing.Image)(resources.GetObject("cmsOpenLocation.Image")));
+            this.cmsOpenLocation.Name = "cmsOpenLocation";
+            this.cmsOpenLocation.RadioButtonGroupName = null;
+            this.cmsOpenLocation.Size = new System.Drawing.Size(187, 22);
+            this.cmsOpenLocation.Text = "Open Song Location";
+            this.cmsOpenLocation.Click += new System.EventHandler(this.cmsOpenLocation_Click);
+            // 
+            // cmsMove
+            // 
+            this.cmsMove.AssociatedEnumValue = null;
+            this.cmsMove.Image = global::CustomsForgeSongManager.Properties.Resources.export;
+            this.cmsMove.Name = "cmsMove";
+            this.cmsMove.RadioButtonGroupName = null;
+            this.cmsMove.Size = new System.Drawing.Size(187, 22);
+            this.cmsMove.Text = "Move Songs";
+            this.cmsMove.ToolTipText = "Move the selected duplicate file(s).\r\nSee Log for moved file location.";
+            this.cmsMove.Click += new System.EventHandler(this.cmsMove_Click);
+            // 
+            // cmsDelete
+            // 
+            this.cmsDelete.AssociatedEnumValue = null;
+            this.cmsDelete.Image = ((System.Drawing.Image)(resources.GetObject("cmsDelete.Image")));
+            this.cmsDelete.Name = "cmsDelete";
+            this.cmsDelete.RadioButtonGroupName = null;
+            this.cmsDelete.Size = new System.Drawing.Size(187, 22);
+            this.cmsDelete.Text = "Delete Songs";
+            this.cmsDelete.ToolTipText = "WARNING\r\nDeletion can not be undone.";
+            this.cmsDelete.Click += new System.EventHandler(this.cmsDelete_Click);
+            // 
+            // menuStrip
+            // 
+            this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiRescan,
+            this.tsmiHelp});
+            this.menuStrip.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip.Name = "menuStrip";
+            this.menuStrip.Size = new System.Drawing.Size(872, 24);
+            this.menuStrip.TabIndex = 17;
+            this.menuStrip.Text = "menuStrip1";
+            // 
+            // tsmiRescan
+            // 
+            this.tsmiRescan.AssociatedEnumValue = null;
+            this.tsmiRescan.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiRescanAll,
+            this.tsmiRescanEnabledDisabled});
+            this.tsmiRescan.Image = ((System.Drawing.Image)(resources.GetObject("tsmiRescan.Image")));
+            this.tsmiRescan.Name = "tsmiRescan";
+            this.tsmiRescan.RadioButtonGroupName = null;
+            this.tsmiRescan.Size = new System.Drawing.Size(70, 20);
+            this.tsmiRescan.Text = "Rescan";
+            // 
+            // tsmiRescanAll
+            // 
+            this.tsmiRescanAll.AssociatedEnumValue = null;
+            this.tsmiRescanAll.Image = ((System.Drawing.Image)(resources.GetObject("tsmiRescanAll.Image")));
+            this.tsmiRescanAll.Name = "tsmiRescanAll";
+            this.tsmiRescanAll.RadioButtonGroupName = null;
+            this.tsmiRescanAll.Size = new System.Drawing.Size(196, 22);
+            this.tsmiRescanAll.Text = "Show All Duplicates";
+            this.tsmiRescanAll.ToolTipText = "Rescan songs for all duplcates";
+            this.tsmiRescanAll.Click += new System.EventHandler(this.tsmiRescanAll_Click);
+            // 
+            // tsmiRescanEnabledDisabled
+            // 
+            this.tsmiRescanEnabledDisabled.AssociatedEnumValue = null;
+            this.tsmiRescanEnabledDisabled.Image = ((System.Drawing.Image)(resources.GetObject("tsmiRescanEnabledDisabled.Image")));
+            this.tsmiRescanEnabledDisabled.Name = "tsmiRescanEnabledDisabled";
+            this.tsmiRescanEnabledDisabled.RadioButtonGroupName = null;
+            this.tsmiRescanEnabledDisabled.Size = new System.Drawing.Size(196, 22);
+            this.tsmiRescanEnabledDisabled.Text = "Show Enabled/Disabled";
+            this.tsmiRescanEnabledDisabled.ToolTipText = "Toggles showing enabled or disabled duplicates";
+            this.tsmiRescanEnabledDisabled.Click += new System.EventHandler(this.tsmiRescanEnabledDisabled_Click);
+            // 
+            // tsmiHelp
+            // 
+            this.tsmiHelp.AssociatedEnumValue = null;
+            this.tsmiHelp.Image = ((System.Drawing.Image)(resources.GetObject("tsmiHelp.Image")));
+            this.tsmiHelp.Name = "tsmiHelp";
+            this.tsmiHelp.RadioButtonGroupName = null;
+            this.tsmiHelp.Size = new System.Drawing.Size(56, 20);
+            this.tsmiHelp.Text = "Help";
+            this.tsmiHelp.Click += new System.EventHandler(this.tsmiHelp_Click);
+            // 
+            // cmsShowSongInfo
+            // 
+            this.cmsShowSongInfo.AssociatedEnumValue = null;
+            this.cmsShowSongInfo.Image = ((System.Drawing.Image)(resources.GetObject("cmsShowSongInfo.Image")));
+            this.cmsShowSongInfo.Name = "cmsShowSongInfo";
+            this.cmsShowSongInfo.RadioButtonGroupName = null;
+            this.cmsShowSongInfo.Size = new System.Drawing.Size(187, 22);
+            this.cmsShowSongInfo.Text = "Show Song Info";
+            this.cmsShowSongInfo.Click += new System.EventHandler(this.cmsShowSongInfo_Click);
+            // 
             // Duplicates
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.Controls.Add(this.menuStrip);
             this.Controls.Add(this.gbResults);
-            this.Controls.Add(this.gbActions);
             this.Name = "Duplicates";
             this.Size = new System.Drawing.Size(872, 525);
             this.Resize += new System.EventHandler(this.Duplicates_Resize);
             this.cmsDuplicateColumns.ResumeLayout(false);
-            this.gbActions.ResumeLayout(false);
-            this.panelActions.ResumeLayout(false);
-            this.panelActions.PerformLayout();
             this.gbResults.ResumeLayout(false);
             this.gbResults.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDuplicates)).EndInit();
+            this.cmsDuplicates.ResumeLayout(false);
+            this.menuStrip.ResumeLayout(false);
+            this.menuStrip.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Button btnDelete;
-        private System.Windows.Forms.GroupBox gbActions;
-        private System.Windows.Forms.Panel panelActions;
-        private System.Windows.Forms.Button btnEnableDisable;
-        private System.Windows.Forms.Button btnRescan;
-        private System.Windows.Forms.Button btnMove;
         private ContextMenuStrip cmsDuplicateColumns;
-        private ToolStripMenuItem exploreToolStripMenuItem;
+        private ToolStripMenuItem cmsColumnHeaders;
         private GroupBox gbResults;
         private LinkLabel lnkPersistentId;
         private TextBox txtNoDuplicates;
@@ -630,5 +715,20 @@ namespace CustomsForgeSongManager.UControls
         private DataGridViewTextBoxColumn colIgnitionAuthor;
         private DataGridViewTextBoxColumn colArtistTitleAlbum;
         private DataGridViewAutoFilterTextBoxColumn colArtistTitleAlbumDate;
+        private ContextMenuStrip cmsDuplicates;
+        private CustomControls.ToolStripEnhancedMenuItem cmsOpenLocation;
+        private ToolStripMenuItem cmsEnableDisable;
+        private CustomControls.ToolStripEnhancedMenuItem cmsDelete;
+        private CustomControls.ToolStripEnhancedMenuItem cmsMove;
+        private MenuStrip menuStrip;
+        private CustomControls.ToolStripEnhancedMenuItem tsmiRescan;
+        private CustomControls.ToolStripEnhancedMenuItem tsmiRescanEnabledDisabled;
+        private CustomControls.ToolStripEnhancedMenuItem tsmiRescanAll;
+        private CustomControls.ToolStripEnhancedMenuItem tsmiHelp;
+        private LinkLabel lnkLblSelectAll;
+        private LinkLabel lnklblToggle;
+        private CustomControls.ToolStripEnhancedMenuItem cmsActions;
+        private ToolStripSeparator toolStripSeparator1;
+        private CustomControls.ToolStripEnhancedMenuItem cmsShowSongInfo;
     }
 }

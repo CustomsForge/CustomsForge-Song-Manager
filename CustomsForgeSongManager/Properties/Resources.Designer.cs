@@ -836,6 +836,13 @@ namespace CustomsForgeSongManager.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap rescan1 {
+            get {
+                object obj = ResourceManager.GetObject("rescan1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap restorebackup {
             get {
                 object obj = ResourceManager.GetObject("restorebackup", resourceCulture);
@@ -1002,6 +1009,13 @@ namespace CustomsForgeSongManager.Properties {
         internal static System.Drawing.Bitmap StartRs {
             get {
                 object obj = ResourceManager.GetObject("StartRs", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap tag {
+            get {
+                object obj = ResourceManager.GetObject("tag", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

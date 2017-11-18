@@ -21,7 +21,7 @@ namespace CustomsForgeSongManager.DataObjects
         private bool _includeAnalyzerData;
         private bool _enableAutoUpdate = false;
         private bool _enableNotifications = false;
-        private bool _validateD3D = true;
+        private bool _validateD3D = false;
         private bool _macMode;
         private bool _cleanOnClosing;
         private bool _checkForUpdateOnScan;

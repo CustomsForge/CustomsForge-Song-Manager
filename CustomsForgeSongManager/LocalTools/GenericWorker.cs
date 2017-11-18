@@ -99,6 +99,7 @@ namespace CustomsForgeSongManager.LocalTools
                 Globals.WorkerFinished = Globals.Tristate.True;
             }
 
+            // TODO: determine if rescan is necessary
             Globals.RescanSongManager = true;
         }
 

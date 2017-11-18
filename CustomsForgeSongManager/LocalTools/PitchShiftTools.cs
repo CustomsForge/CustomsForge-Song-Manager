@@ -78,13 +78,14 @@ namespace CustomsForgeSongManager.LocalTools
                 if (arr.ArrangementType == ArrangementType.Vocal || arr.ArrangementType == ArrangementType.ShowLight)
                     continue;
 
+                // TODO: see customsforge.com/topic/41503-1416-pitch-shifter-mod-wrong-pitch-for-drop-tuning/#entry268144
                 if (!arr.Tuning.Contains("Bonus") && arr.ArrangementType != ArrangementType.Bass)
                     gitShift = arr.TuningStrings.String0;
 
                 if (!arr.Tuning.Contains("Bonus") && arr.ArrangementType == ArrangementType.Bass)
                     bassShift = arr.TuningStrings.String0;
 
-                // option to convert tuning to E Standard (prevents having to retune)
+                // option to force tuning to E Standard (prevents having to retune)
                 if (arr.Tuning.Contains("Standard") || forceStdTuning)
                 {
                     arr.Tuning = "E Standard";

@@ -34,6 +34,7 @@ namespace CustomsForgeSongManager.UITheme
             // required when using FilteredBindingList
             dgvTheme.ColumnHeadersDefaultCellStyle.WrapMode = DataGridViewTriState.False;
             dgvTheme.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            // dgvTheme.CurrentCell.Selected = false; // causes fatal error
             // set custom selection (highlighting) color
             dgvTheme.DefaultCellStyle.SelectionBackColor = Color.Gold; // dgvLook.DefaultCellStyle.BackColor; // or removes selection highlight
             dgvTheme.DefaultCellStyle.SelectionForeColor = dgvTheme.DefaultCellStyle.ForeColor;
