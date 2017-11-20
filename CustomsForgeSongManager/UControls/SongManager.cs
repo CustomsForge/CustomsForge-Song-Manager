@@ -842,10 +842,9 @@ namespace CustomsForgeSongManager.UControls
                 }
 
                 FileTools.DeleteFiles(selection);
+                // stops any unnecessary full rescan set by DeleteFiles worker
+                Globals.RescanSongManager = false;
             }
-
-            // stops any unnecessary full rescan set by DeleteFiles worker
-            Globals.RescanSongManager = false;
 
             // a hacky workaround to get rid of the remaining single datagrid row
             if (dgvCurrent.Rows.Count == 1)
@@ -1182,7 +1181,7 @@ namespace CustomsForgeSongManager.UControls
 
         private void cmsCheckForUpdate_Click(object sender, EventArgs e)
         {
-             // TODO: need to remove RS1 Compatiblity DLCs from this check
+            // TODO: need to remove RS1 Compatiblity DLCs from this check
             GenExtensions.InvokeIfRequired(this, delegate { Globals.TsLabel_Cancel.Enabled = true; });
             bWorker = new AbortableBackgroundWorker();
             bWorker.SetDefaults();
@@ -1833,7 +1832,7 @@ namespace CustomsForgeSongManager.UControls
             }
         }
 
- private void tsmiFilesCleanDlc_Click(object sender, EventArgs e)
+        private void tsmiFilesCleanDlc_Click(object sender, EventArgs e)
         {
             FileTools.CleanDlcFolder();
         }

@@ -14,11 +14,16 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.4.2.0
+- improved Help message for SongManager and Duplicates 
+- consolidate duplicate toolstrip menu actions into the contextual menu
+- implemented more generic code methods for enable/disable, and delete/move/backup
+ 
 1.4.1.9
 - removed unnecessary SaveSettingsToFile when RemoveFilter is called.
-- implemented user suggesting to make 'Duplicate' control functions similar 'SongManager', 
+- implemented user suggestion to make 'Duplicate' actions work same as 'SongManager', 
   i.e., right clicking on a song opens a contextual menu with various options
-- added multiple selection of songs for file IO operations, such as, delete, move/backup, enable/disable.
+- added multiple selection of songs for File IO operations, such as, delete, move/backup, enable/disable.
 
 1.4.1.8
 - validate D3DX9_42.dll initially defaults to false.  This can be changed in 'Settings' menu.

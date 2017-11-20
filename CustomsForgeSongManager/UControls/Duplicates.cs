@@ -145,7 +145,12 @@ namespace CustomsForgeSongManager.UControls
         public void UpdateToolStrip()
         {
             if (dgvDuplicates.Rows.Count == 0)
+            {
+                // remove the empty data grid columns
+                dgvDuplicates.DataSource = null;
+                dgvDuplicates.Columns.Clear();
                 txtNoDuplicates.Visible = true;
+            }
             else
                 txtNoDuplicates.Visible = false;
 
@@ -336,7 +341,7 @@ namespace CustomsForgeSongManager.UControls
             UpdateToolStrip();
         }
 
-
+        // TODO: move to FileTools as generic method
         private void SelectionEnableDisable(DataGridView dgvCurrent)
         {
             // user must check Select to Enable/Disable
@@ -466,6 +471,11 @@ namespace CustomsForgeSongManager.UControls
             var directory = new FileInfo(path);
             if (directory.DirectoryName != null)
                 Process.Start("explorer.exe", string.Format("/select,\"{0}\"", directory.FullName));
+        }
+
+        private void cmsShowSongInfo_Click(object sender, EventArgs e)
+        {
+            ShowSongInfo();
         }
 
         private void dgvDuplicates_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -763,11 +773,6 @@ namespace CustomsForgeSongManager.UControls
         {
             Globals.Log("Leaving Duplicates GUI ...");
             Globals.Settings.SaveSettingsToFile(dgvDuplicates);
-        }
-
-        private void cmsShowSongInfo_Click(object sender, EventArgs e)
-        {
-            ShowSongInfo();
         }
     }
 }
