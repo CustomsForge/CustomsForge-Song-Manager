@@ -1608,9 +1608,12 @@ namespace CustomsForgeSongManager.UControls
                 bindingCompleted = true;
             }
 
+            if (!dgvPainted) // speed hack
+                return;
+
             var filterStatus = DataGridViewAutoFilterColumnHeaderCell.GetFilterStatus(dgvSongsMaster);
             // filter applied
-            if (!String.IsNullOrEmpty(filterStatus) && dgvPainted)
+            if (!String.IsNullOrEmpty(filterStatus))
             {
                 Globals.TsLabel_StatusMsg.Alignment = ToolStripItemAlignment.Right;
                 Globals.TsLabel_StatusMsg.Text = "Show &All";
@@ -1624,7 +1627,7 @@ namespace CustomsForgeSongManager.UControls
             }
 
             // filter removed
-            if (String.IsNullOrEmpty(filterStatus) && dgvPainted && this.dgvSongsMaster.CurrentCell != null)
+            if (String.IsNullOrEmpty(filterStatus) && this.dgvSongsMaster.CurrentCell != null && String.IsNullOrEmpty(cueSearch.Text))
                 RemoveFilter();
         }
 
