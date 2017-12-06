@@ -14,6 +14,9 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.4.2.3
+- added 'Tuning' to Analyzer data export
+
 1.4.2.2
 - restructured data binding between the different data grids
 - fixed sort glyph visibility issues on filtered and non-filtered columns

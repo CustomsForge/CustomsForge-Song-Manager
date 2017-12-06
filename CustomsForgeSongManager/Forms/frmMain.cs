@@ -768,7 +768,7 @@ namespace CustomsForgeSongManager.Forms
             const char csvSep = ';';
             sbCSV.AppendLine(String.Format(@"sep={0}", csvSep));
 
-            string[] columns = { "Artist","Song name", "Path", "Notes", "Hammer-ons", "Pulloffs", "Harmonics", "Pinch harmonics", "Frethand mutes", "Palm mutes",
+            string[] columns = { "Artist", "Song name", "Arrangement", "Tuning", "Notes", "Hammer-ons", "Pulloffs", "Harmonics", "Pinch harmonics", "Frethand mutes", "Palm mutes",
                                          "Plucks", "Slaps", "Slides", "Unpitched slides", "Tremolos", "Taps", "Vibratos", "Sustains", "Bends", "Highest Fret Used"};
 
             int maxChordNumber = 0;
@@ -837,8 +837,11 @@ namespace CustomsForgeSongManager.Forms
                     if (format == "csv")
                     {
                         //this Replace is used in order not to have to convert every one of these to string
+                        var stopHere = arr.Tuning;
 
-                        s = song.Artist + csvSep + song.Title + csvSep + arr.Name + csvSep + " " + arr.NoteCount + csvSep + arr.HammerOnCount + csvSep + arr.PullOffCount + csvSep + arr.HarmonicCount
+                        // s = song.Artist + csvSep + song.Title + csvSep + arr.Name + csvSep + " " + arr.NoteCount + csvSep + arr.HammerOnCount + csvSep + arr.PullOffCount + csvSep + arr.HarmonicCount
+
+                        s = song.Artist + csvSep + song.Title + csvSep + arr.Name + csvSep + arr.Tuning + csvSep + arr.NoteCount + csvSep + arr.HammerOnCount + csvSep + arr.PullOffCount + csvSep + arr.HarmonicCount
                             + csvSep + arr.HarmonicPinchCount + csvSep + arr.FretHandMuteCount + csvSep + arr.PalmMuteCount + csvSep + arr.PluckCount + csvSep + arr.SlapCount + csvSep + arr.SlideCount
                             + csvSep + arr.UnpitchedSlideCount + csvSep + arr.TremoloCount + csvSep + arr.TapCount + csvSep + arr.VibratoCount + csvSep + arr.SustainCount + csvSep + arr.BendCount + csvSep + arr.HighestFretUsed + csvSep;
 
@@ -857,6 +860,7 @@ namespace CustomsForgeSongManager.Forms
                         statPair.GeneralStats = new Dictionary<string, string>();
 
                         statPair.GeneralStats.Add("Arrangement", arr.Name);
+                        statPair.GeneralStats.Add("Tuning", arr.Tuning);
                         statPair.GeneralStats.Add("Note Count", arr.NoteCount.ToString());
                         statPair.GeneralStats.Add("Hammer-ons", arr.HammerOnCount.ToString());
                         statPair.GeneralStats.Add("Pulloffs", arr.PullOffCount.ToString());
