@@ -15,7 +15,7 @@ namespace CustomsForgeSongManager.LocalTools
     {
         public static void ArchiveFiles(string srcExt, string srcFolder, bool srcDelete = false)
         {
-            Globals.Log("Archiving  (" + srcExt + ") files ...");
+            Globals.Log("Archiving  [" + srcExt + "] files ...");
 
             var srcFilePaths = Directory.EnumerateFiles(srcFolder, "*" + srcExt + "*").ToList();
             if (!srcFilePaths.Any())
@@ -81,8 +81,8 @@ namespace CustomsForgeSongManager.LocalTools
                 using (var browser = new PsarcBrowser(song.FilePath))
                 {
                     var data = browser.GetSongData(true);
-                    int index = Globals.SongCollection.IndexOf(song);
-                    Globals.SongCollection[index] = data.First();
+                    int index = Globals.MasterCollection.IndexOf(song);
+                    Globals.MasterCollection[index] = data.First();
                 }
             }
         }
@@ -123,7 +123,7 @@ namespace CustomsForgeSongManager.LocalTools
                     var version = songInfo.Version;
 
                     // workaround for old toolkit behavior
-                    if (String.IsNullOrEmpty(version))
+                    if (String.IsNullOrEmpty(version) || version == "N/A")
                         version = "1";
 
                     // workaround to identify ODLC
@@ -147,10 +147,10 @@ namespace CustomsForgeSongManager.LocalTools
                     if (srcFilePath != destFilePath)
                     {
                         // update Global SongCollection
-                        var song = Globals.SongCollection.FirstOrDefault(s => s.FilePath == srcFilePath);
-                        int index = Globals.SongCollection.IndexOf(song);
-                        Globals.SongCollection[index].FilePath = destFilePath;
-                        GenExtensions.MoveFile(srcFilePath, destFilePath);
+                        var song = Globals.MasterCollection.FirstOrDefault(s => s.FilePath == srcFilePath);
+                        int index = Globals.MasterCollection.IndexOf(song);
+                        Globals.MasterCollection[index].FilePath = destFilePath;
+                        GenExtensions.MoveFile(srcFilePath, destFilePath, false);
                     }
                     else
                         skipped++;
@@ -362,7 +362,7 @@ namespace CustomsForgeSongManager.LocalTools
             {
                 if (verbose)
                     Globals.Log("Processing File: " + Path.GetFileName(srcFilePath));
-                
+
                 processed++;
                 GenericWorker.ReportProgress(processed, total, skipped, failed);
 
@@ -392,27 +392,33 @@ namespace CustomsForgeSongManager.LocalTools
             }
         }
 
-        public static string GetOriginal(string srcFilePath)
+        public static string RestoreOriginal(string srcFilePath)
         {
-            var dlcFileName = Path.GetFileName(srcFilePath).Replace(Constants.EXT_ORG, "");
-            var dlcFilePath = Path.Combine(Constants.Rs2DlcFolder, dlcFileName);
+            var srcFileName = Path.GetFileName(srcFilePath).Replace(Constants.EXT_ORG, "");
+            var destFilePath = Path.Combine(Constants.Rs2DlcFolder, srcFileName);
             try
             {
-                // make sure (.org) file gets put back into the correct 'dlc' subfolder
-                // if CDLC is not found then (.org) file is renamed and put into default 'dlc' folder
-                var remasteredFilePath = Globals.SongCollection.FirstOrDefault(s => s.FilePath.Contains(dlcFileName)).FilePath;
+                // make sure [.org] file gets put back into the correct 'dlc' subfolder
+                // if CDLC is not found then [.org] file is renamed and put into default 'dlc' folder
+                var remasteredFilePath = Globals.MasterCollection.FirstOrDefault(s => s.FilePath.Contains(srcFileName)).FilePath;
                 if (remasteredFilePath.Any())
-                    dlcFilePath = Path.Combine(Path.GetDirectoryName(remasteredFilePath), dlcFileName);
+                    destFilePath = Path.Combine(Path.GetDirectoryName(remasteredFilePath), srcFileName);
 
-                // copy but don't delete (.org)
-                GenExtensions.CopyFile(srcFilePath, dlcFilePath, true, false);
-                Globals.Log(" - Successfully restored backup");
-                return dlcFilePath;
+                // copy but don't delete [.org]
+                if (GenExtensions.CopyFile(srcFilePath, destFilePath, true, false))
+                    Globals.Log(" - Successfully restored file: " + Path.GetFileName(srcFilePath));
+                else
+                {
+                    Globals.Log(" - <ERROR> Could not restore file: " + Path.GetFileName(srcFilePath));
+                    destFilePath = String.Empty;
+                }
+
+                return destFilePath;
             }
             catch (Exception ex)
             {
                 // this should never happen but just in case
-                Globals.Log(" - <ERROR> Restore (" + Constants.EXT_ORG + ") failed");
+                Globals.Log(" - <ERROR> Restore [" + Constants.EXT_ORG + "] failed ...");
                 Globals.Log(ex.Message);
                 return String.Empty;
             }

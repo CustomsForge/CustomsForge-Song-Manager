@@ -54,7 +54,7 @@ namespace CustomsForgeSongManager.UControls
         public void ShowRenamePreview()
         {
             SongData sd = null;
-            List<SongData> List = renSongCollection.Count > 0 ? renSongCollection : Globals.SongCollection.ToList();
+            List<SongData> List = renSongCollection.Count > 0 ? renSongCollection : Globals.MasterCollection.ToList();
             if (List.Count == 0)
                 Globals.Log("No songs found for rename preview.");
             int x = Globals.random.Next(List.Count() - 1);
@@ -180,9 +180,9 @@ namespace CustomsForgeSongManager.UControls
                 return;
             }
 
-            Globals.TsLabel_MainMsg.Text = string.Format(Properties.Resources.RocksmithSongsCountFormat, Globals.SongCollection.Count);
+            Globals.TsLabel_MainMsg.Text = string.Format(Properties.Resources.RocksmithSongsCountFormat, Globals.MasterCollection.Count);
             Globals.TsLabel_MainMsg.Visible = true;
-            var selectedDLC = Globals.SongCollection.Where(song => song.Selected).ToList().Count();
+            var selectedDLC = Globals.MasterCollection.Where(song => song.Selected).ToList().Count();
             var tsldcMsg = String.Format("Selected Songs in SongManager Count: {0}", selectedDLC);
             Globals.TsLabel_DisabledCounter.Alignment = ToolStripItemAlignment.Right;
             Globals.TsLabel_DisabledCounter.Text = tsldcMsg;
@@ -206,6 +206,12 @@ namespace CustomsForgeSongManager.UControls
             }
 
             ToggleUiControls(true);
+
+            // force reload
+            Globals.ReloadSetlistManager = true;
+            Globals.ReloadDuplicates = true;
+            //Globals.ReloadRenamer = true;
+            Globals.ReloadSongManager = true;
         }
 
         private void ToggleUiControls(bool enabled)
@@ -223,7 +229,7 @@ namespace CustomsForgeSongManager.UControls
                 return false;
             }
 
-            renSongCollection = new List<SongData>(Globals.SongCollection);
+            renSongCollection = new List<SongData>(Globals.MasterCollection);
             // do not rename RS1 compatiblity files
             renSongCollection.RemoveAll(x => x.FileName.Contains(Constants.RS1COMP));
 

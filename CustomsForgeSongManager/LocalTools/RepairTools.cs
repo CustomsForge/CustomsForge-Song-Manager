@@ -112,7 +112,7 @@ namespace CustomsForgeSongManager.LocalTools
         {
             if (options.UsingOrgFiles)
             {
-                srcFilePath = FileTools.GetOriginal(srcFilePath);
+                srcFilePath = FileTools.RestoreOriginal(srcFilePath);
                 if (String.IsNullOrEmpty(srcFilePath))
                     return false;
             }
@@ -124,7 +124,7 @@ namespace CustomsForgeSongManager.LocalTools
 
             try
             {
-                // SNG's needs to be regenerated
+                // SNG's must be regenerated
                 // ArrangmentIDs are stored in multiple place and all need to be updated
                 // therefore we are going to unpack, apply repair, and repack
                 Globals.Log(" - Extracting CDLC artifacts");
@@ -140,7 +140,7 @@ namespace CustomsForgeSongManager.LocalTools
 
                 DLCPackageData packageData;
                 using (var psarcOld = new PsarcPackager())
-                    packageData = psarcOld.ReadPackage(srcFilePath, options.IgnoreMultitone);
+                    packageData = psarcOld.ReadPackage(srcFilePath, options.IgnoreMultitone, options.FixLowBass);
 
                 // TODO: selectively remove arrangements here before remastering
                 if (options.RepairMaxFive)
@@ -262,9 +262,9 @@ namespace CustomsForgeSongManager.LocalTools
                     using (var browser = new PsarcBrowser(srcFilePath))
                     {
                         var songInfo = browser.GetSongData();
-                        var song = Globals.SongCollection.FirstOrDefault(s => s.FilePath == srcFilePath);
-                        int index = Globals.SongCollection.IndexOf(song);
-                        Globals.SongCollection[index] = songInfo.First();
+                        var song = Globals.MasterCollection.FirstOrDefault(s => s.FilePath == srcFilePath);
+                        int index = Globals.MasterCollection.IndexOf(song);
+                        Globals.MasterCollection[index] = songInfo.First();
                     }
                 }
             }
@@ -324,8 +324,15 @@ namespace CustomsForgeSongManager.LocalTools
 
             if (options.UsingOrgFiles)
             {
-                Globals.Log("Using (.org) files for all repairs ...");
+                Globals.Log("Using [.org] files for all selected repairs ...");
                 srcFilePaths = Directory.EnumerateFiles(Constants.RemasteredOrgFolder, "*" + Constants.EXT_ORG + "*").ToList();
+                // only repair selected files (not all of them, doh!)
+                List<string> selectedFileNames = FileTools.SongFilePaths(songs).Select(x => Path.GetFileNameWithoutExtension(x)).ToList();
+                srcFilePaths = srcFilePaths.Where(x => selectedFileNames.Any(y => x.Contains(y))).ToList();
+                if (!srcFilePaths.Any())
+                {
+                    Globals.Log("<ERROR> Did not find any [.org] files ...");
+                }
             }
             else if (options.ProcessDLFolder)
             {
@@ -382,8 +389,8 @@ namespace CustomsForgeSongManager.LocalTools
                 // remaster the CDLC file
                 if (!isSkipped)
                 {
-                    var rSucess = RemasterSong(srcFilePath);
-                    if (!rSucess)
+                    var result = RemasterSong(srcFilePath);
+                    if (!result)
                     {
                         var lines = sbErrors.ToString().Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).ToList();
                         if (lines.Last().ToLower().Contains("maximum"))
@@ -394,10 +401,10 @@ namespace CustomsForgeSongManager.LocalTools
                         failed++;
 
                         // remove corrupt CDLC from SongCollection
-                        var song = Globals.SongCollection.FirstOrDefault(s => s.FilePath == srcFilePath);
-                        int index = Globals.SongCollection.IndexOf(song);
-                        Globals.SongCollection.AllowRemove = true;
-                        Globals.SongCollection.RemoveAt(index);
+                        var song = Globals.MasterCollection.FirstOrDefault(s => s.FilePath == srcFilePath);
+                        int index = Globals.MasterCollection.IndexOf(song);
+                        Globals.MasterCollection.AllowRemove = true;
+                        Globals.MasterCollection.RemoveAt(index);
                         Globals.ReloadSongManager = true; // set quick reload flag
                     }
                 }
@@ -418,7 +425,7 @@ namespace CustomsForgeSongManager.LocalTools
                     using (var browser = new PsarcBrowser(destFilePath))
                     {
                         var songInfo = browser.GetSongData();
-                        Globals.SongCollection.Add(songInfo.First());
+                        Globals.MasterCollection.Add(songInfo.First());
                     }
                 }
 
@@ -539,6 +546,7 @@ namespace CustomsForgeSongManager.LocalTools
         public bool IgnoreStopLimit { get; set; }
         //
         public bool RemoveSections { get; set; }
+        public bool FixLowBass { get; set; }
         //
         public bool ProcessDLFolder { get; set; }
     }

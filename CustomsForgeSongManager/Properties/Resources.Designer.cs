@@ -1137,20 +1137,20 @@ namespace CustomsForgeSongManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User Canceled.
+        ///   Looks up a localized string similar to User Cancelled.
         /// </summary>
-        internal static string UserCanceled {
+        internal static string UserCancelled {
             get {
-                return ResourceManager.GetString("UserCanceled", resourceCulture);
+                return ResourceManager.GetString("UserCancelled", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User canceled process ....
+        ///   Looks up a localized string similar to &lt;WARNING&gt; User cancelled process ....
         /// </summary>
-        internal static string UserCanceledProcess {
+        internal static string UserCancelledProcess {
             get {
-                return ResourceManager.GetString("UserCanceledProcess", resourceCulture);
+                return ResourceManager.GetString("UserCancelledProcess", resourceCulture);
             }
         }
         

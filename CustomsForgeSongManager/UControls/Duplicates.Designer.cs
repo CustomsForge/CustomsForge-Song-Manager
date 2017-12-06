@@ -64,7 +64,7 @@ namespace CustomsForgeSongManager.UControls
             this.colAppID = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colFileName = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colFilePath = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
-            this.colStatus = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.colRepairStatus = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colCharter = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colUpdated = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colVersion = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -117,7 +117,7 @@ namespace CustomsForgeSongManager.UControls
             this.linkSelectOlderVersions.AutoSize = true;
             this.linkSelectOlderVersions.ForeColor = System.Drawing.Color.Black;
             this.linkSelectOlderVersions.LinkColor = System.Drawing.SystemColors.ActiveCaption;
-            this.linkSelectOlderVersions.Location = new System.Drawing.Point(209, 493);
+            this.linkSelectOlderVersions.Location = new System.Drawing.Point(216, 492);
             this.linkSelectOlderVersions.Name = "linkSelectOlderVersions";
             this.linkSelectOlderVersions.Size = new System.Drawing.Size(122, 13);
             this.linkSelectOlderVersions.TabIndex = 26;
@@ -147,7 +147,7 @@ namespace CustomsForgeSongManager.UControls
             this.lnkPersistentId.AutoSize = true;
             this.lnkPersistentId.ForeColor = System.Drawing.Color.Black;
             this.lnkPersistentId.LinkColor = System.Drawing.SystemColors.ActiveCaption;
-            this.lnkPersistentId.Location = new System.Drawing.Point(344, 493);
+            this.lnkPersistentId.Location = new System.Drawing.Point(351, 492);
             this.lnkPersistentId.Name = "lnkPersistentId";
             this.lnkPersistentId.Size = new System.Drawing.Size(142, 13);
             this.lnkPersistentId.TabIndex = 18;
@@ -183,7 +183,7 @@ namespace CustomsForgeSongManager.UControls
             this.lnkLblSelectAll.AutoSize = true;
             this.lnkLblSelectAll.ForeColor = System.Drawing.Color.Black;
             this.lnkLblSelectAll.LinkColor = System.Drawing.SystemColors.ActiveCaption;
-            this.lnkLblSelectAll.Location = new System.Drawing.Point(14, 493);
+            this.lnkLblSelectAll.Location = new System.Drawing.Point(21, 492);
             this.lnkLblSelectAll.Name = "lnkLblSelectAll";
             this.lnkLblSelectAll.Size = new System.Drawing.Size(82, 13);
             this.lnkLblSelectAll.TabIndex = 27;
@@ -199,7 +199,7 @@ namespace CustomsForgeSongManager.UControls
             this.lnklblToggle.AutoSize = true;
             this.lnklblToggle.ForeColor = System.Drawing.Color.Black;
             this.lnklblToggle.LinkColor = System.Drawing.SystemColors.ActiveCaption;
-            this.lnklblToggle.Location = new System.Drawing.Point(109, 493);
+            this.lnklblToggle.Location = new System.Drawing.Point(116, 492);
             this.lnklblToggle.Name = "lnklblToggle";
             this.lnklblToggle.Size = new System.Drawing.Size(87, 13);
             this.lnklblToggle.TabIndex = 28;
@@ -219,6 +219,7 @@ namespace CustomsForgeSongManager.UControls
             this.txtNoDuplicates.TabIndex = 16;
             this.txtNoDuplicates.Text = "\r\nGood News ...\r\nNo Duplicates Found";
             this.txtNoDuplicates.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtNoDuplicates.Visible = false;
             // 
             // dgvDuplicates
             // 
@@ -250,7 +251,7 @@ namespace CustomsForgeSongManager.UControls
             this.colAppID,
             this.colFileName,
             this.colFilePath,
-            this.colStatus,
+            this.colRepairStatus,
             this.colCharter,
             this.colUpdated,
             this.colVersion,
@@ -268,12 +269,14 @@ namespace CustomsForgeSongManager.UControls
             this.dgvDuplicates.Size = new System.Drawing.Size(852, 460);
             this.dgvDuplicates.TabIndex = 17;
             this.dgvDuplicates.Tag = "Duplicates";
+            this.dgvDuplicates.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvDuplicates_CellContentClick);
             this.dgvDuplicates.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvDuplicates_CellDoubleClick);
             this.dgvDuplicates.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvDuplicates_CellFormatting);
             this.dgvDuplicates.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvDuplicates_CellMouseDown);
             this.dgvDuplicates.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvDuplicates_CellMouseUp);
             this.dgvDuplicates.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgvDuplicates_DataBindingComplete);
             this.dgvDuplicates.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dgvDuplicates_DataError);
+            this.dgvDuplicates.Sorted += new System.EventHandler(this.dgvDuplicates_Sorted);
             this.dgvDuplicates.Paint += new System.Windows.Forms.PaintEventHandler(this.dgvDuplicates_Paint);
             this.dgvDuplicates.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvDuplicates_KeyDown);
             // 
@@ -405,15 +408,15 @@ namespace CustomsForgeSongManager.UControls
             this.colFilePath.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.colFilePath.Width = 50;
             // 
-            // colStatus
+            // colRepairStatus
             // 
-            this.colStatus.DataPropertyName = "Status";
-            this.colStatus.HeaderText = "Status";
-            this.colStatus.Name = "colStatus";
-            this.colStatus.ReadOnly = true;
-            this.colStatus.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colStatus.Visible = false;
-            this.colStatus.Width = 50;
+            this.colRepairStatus.DataPropertyName = "RepairStatus";
+            this.colRepairStatus.HeaderText = "Repair Status";
+            this.colRepairStatus.Name = "colRepairStatus";
+            this.colRepairStatus.ReadOnly = true;
+            this.colRepairStatus.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colRepairStatus.Visible = false;
+            this.colRepairStatus.Width = 50;
             // 
             // colCharter
             // 
@@ -590,7 +593,7 @@ namespace CustomsForgeSongManager.UControls
             this.cmsDelete.RadioButtonGroupName = null;
             this.cmsDelete.Size = new System.Drawing.Size(187, 22);
             this.cmsDelete.Text = "Delete Songs";
-            this.cmsDelete.ToolTipText = "WARNING\r\nDeletion can not be undone.";
+            this.cmsDelete.ToolTipText = "WARNING\r\nDeletion can not be undone.\r\nSelect must be checked.";
             this.cmsDelete.Click += new System.EventHandler(this.cmsDelete_Click);
             // 
             // cmsMove
@@ -601,7 +604,7 @@ namespace CustomsForgeSongManager.UControls
             this.cmsMove.RadioButtonGroupName = null;
             this.cmsMove.Size = new System.Drawing.Size(187, 22);
             this.cmsMove.Text = "Move Songs";
-            this.cmsMove.ToolTipText = "Move the selected duplicate file(s).\r\nSee Log for moved file location.";
+            this.cmsMove.ToolTipText = "Select must be checked.\r\nSee Log for moved file location.\r\n";
             this.cmsMove.Click += new System.EventHandler(this.cmsMove_Click);
             // 
             // menuStrip
@@ -690,32 +693,6 @@ namespace CustomsForgeSongManager.UControls
         private ToolTip toolTip;
         private CheckBox chkSubFolders;
         private LinkLabel linkSelectOlderVersions;
-        private DataGridViewAutoFilterTextBoxColumn colPID;
-        private DataGridViewAutoFilterTextBoxColumn colPIDArrangement;
-        private DataGridViewAutoFilterTextBoxColumn colKey;
-        private DataGridViewCheckBoxColumn colSelect;
-        private DataGridViewAutoFilterTextBoxColumn colEnabled;
-        private DataGridViewAutoFilterTextBoxColumn colArtist;
-        private DataGridViewAutoFilterTextBoxColumn colTitle;
-        private DataGridViewAutoFilterTextBoxColumn colAlbum;
-        private DataGridViewAutoFilterTextBoxColumn colSongYear;
-        private DataGridViewTextBoxColumn colSongLength;
-        private DataGridViewTextBoxColumn colAvgTempo;
-        private DataGridViewAutoFilterTextBoxColumn colAppID;
-        private DataGridViewAutoFilterTextBoxColumn colFileName;
-        private DataGridViewAutoFilterTextBoxColumn colFilePath;
-        private DataGridViewAutoFilterTextBoxColumn colStatus;
-        private DataGridViewAutoFilterTextBoxColumn colCharter;
-        private DataGridViewTextBoxColumn colUpdated;
-        private DataGridViewTextBoxColumn colVersion;
-        private DataGridViewAutoFilterTextBoxColumn colToolkitVersion;
-        private DataGridViewAutoFilterTextBoxColumn colTagged;
-        private DataGridViewTextBoxColumn colIgnitionID;
-        private DataGridViewTextBoxColumn colIgnitionUpdated;
-        private DataGridViewTextBoxColumn colIgnitionVersion;
-        private DataGridViewTextBoxColumn colIgnitionAuthor;
-        private DataGridViewTextBoxColumn colArtistTitleAlbum;
-        private DataGridViewAutoFilterTextBoxColumn colArtistTitleAlbumDate;
         private ContextMenuStrip cmsDuplicates;
         private CustomControls.ToolStripEnhancedMenuItem cmsOpenLocation;
         private ToolStripMenuItem cmsEnableDisable;
@@ -731,5 +708,31 @@ namespace CustomsForgeSongManager.UControls
         private CustomControls.ToolStripEnhancedMenuItem cmsActions;
         private ToolStripSeparator toolStripSeparator1;
         private CustomControls.ToolStripEnhancedMenuItem cmsShowSongInfo;
+        private DataGridViewAutoFilterTextBoxColumn colPID;
+        private DataGridViewAutoFilterTextBoxColumn colPIDArrangement;
+        private DataGridViewAutoFilterTextBoxColumn colKey;
+        private DataGridViewCheckBoxColumn colSelect;
+        private DataGridViewAutoFilterTextBoxColumn colEnabled;
+        private DataGridViewAutoFilterTextBoxColumn colArtist;
+        private DataGridViewAutoFilterTextBoxColumn colTitle;
+        private DataGridViewAutoFilterTextBoxColumn colAlbum;
+        private DataGridViewAutoFilterTextBoxColumn colSongYear;
+        private DataGridViewTextBoxColumn colSongLength;
+        private DataGridViewTextBoxColumn colAvgTempo;
+        private DataGridViewAutoFilterTextBoxColumn colAppID;
+        private DataGridViewAutoFilterTextBoxColumn colFileName;
+        private DataGridViewAutoFilterTextBoxColumn colFilePath;
+        private DataGridViewAutoFilterTextBoxColumn colRepairStatus;
+        private DataGridViewAutoFilterTextBoxColumn colCharter;
+        private DataGridViewTextBoxColumn colUpdated;
+        private DataGridViewTextBoxColumn colVersion;
+        private DataGridViewAutoFilterTextBoxColumn colToolkitVersion;
+        private DataGridViewAutoFilterTextBoxColumn colTagged;
+        private DataGridViewTextBoxColumn colIgnitionID;
+        private DataGridViewTextBoxColumn colIgnitionUpdated;
+        private DataGridViewTextBoxColumn colIgnitionVersion;
+        private DataGridViewTextBoxColumn colIgnitionAuthor;
+        private DataGridViewTextBoxColumn colArtistTitleAlbum;
+        private DataGridViewAutoFilterTextBoxColumn colArtistTitleAlbumDate;
     }
 }

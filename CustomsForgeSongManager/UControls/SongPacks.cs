@@ -59,6 +59,23 @@ namespace CustomsForgeSongManager.UControls
             InitializeSongPacks();
         }
 
+        public void UpdateToolStrip()
+        {
+            Globals.DgvCurrent = dgvSongPacks;
+
+            if (Globals.ReloadSongPacks)
+                InitializeSongPacks();
+            else
+            {
+                Globals.TsLabel_MainMsg.Text = string.Format("Song Count: {0}", dgvSongPacks.Rows.Count);
+                Globals.TsLabel_MainMsg.Visible = true;
+                var tsldcMsg = String.Format("Disabled CDLC: {0}", DisabledSongColorizerCounter());
+                Globals.TsLabel_DisabledCounter.Alignment = ToolStripItemAlignment.Right;
+                Globals.TsLabel_DisabledCounter.Text = tsldcMsg;
+                Globals.TsLabel_DisabledCounter.Visible = true;
+            }
+        }
+
         // ... filtering
         private void AddSongsToNestedDictionary(dynamic songsToBeAddedCollection, dynamic songCollection, dynamic fullSongCollection, bool enabled, bool RS2014 = false)
         {
@@ -297,7 +314,7 @@ namespace CustomsForgeSongManager.UControls
         {
             using (var ofd = new OpenFileDialog())
             {
-                ofd.Filter = "Song Pack Files (*.psarc)|*.psarc";
+                ofd.Filter = "Song Pack Files (*.psarc)|*_songpack_p.psarc; *_sp_p.psarc|All Files (*.psarc)|*.psarc";
                 ofd.Title = "Select a Custom Song Pack File";
                 ofd.CheckPathExists = true;
                 ofd.Multiselect = false;
@@ -309,6 +326,12 @@ namespace CustomsForgeSongManager.UControls
                 txtFileName.Text = Path.GetFileName(customPackPsarcPath);
             }
 
+            dgvSongPacks.Rows.Clear();
+            CustomDisabledEntireCollection.Clear();
+            CustomDisabledSongCollection.Clear();
+            CustomEntireCollection.Clear();
+            CustomSongCollection.Clear();
+
             // song pack validation
             var version = String.Empty;
             var tkVersionData = PsarcExtensions.ExtractArchiveFile(customPackPsarcPath, "toolkit.version");
@@ -318,13 +341,13 @@ namespace CustomsForgeSongManager.UControls
                 version = tkInfo.PackageVersion ?? "N/A";
 
                 if (!version.Contains("SongPack"))
-                    MessageBox.Show(txtFileName.Text + " is not a Custom Song Pack", "Select a Song Pack File", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    if (DialogResult.No == MessageBox.Show("<WARNING> File: " + txtFileName.Text + Environment.NewLine +
+                        "is missing the expected Custom Song Pack identifier.  " + Environment.NewLine + Environment.NewLine +
+                        "Would you like to try to load the file anyhow?", "Select a Song Pack File", MessageBoxButtons.YesNo, MessageBoxIcon.Stop))
+                        return;
             }
-            else // ODCL
-            {
-                dgvSongPacks.Rows.Clear();
+            else // ODLC
                 return;
-            }
 
             // song pack produced by toolkit has only one hsan file
             customInternalHsanPath = PsarcExtensions.ExtractArchiveFile(customPackPsarcPath, "hsan", Constants.SongPacksFolder);
@@ -376,6 +399,8 @@ namespace CustomsForgeSongManager.UControls
 
             if (RAExtensions.ManagerGridSettings != null)
                 dgvSongPacks.ReLoadColumnOrder(RAExtensions.ManagerGridSettings.ColumnOrder);
+            else
+                Globals.Settings.SaveSettingsToFile(dgvSongPacks);
         }
 
         // ... deserialize filePath
@@ -495,15 +520,13 @@ namespace CustomsForgeSongManager.UControls
 
         private void RemoveFilter()
         {
+            // save current sorting before removing filter
+            DgvExtensions.SaveSorting(dgvSongPacks);
+            // remove the filter
             DataGridViewAutoFilterTextBoxColumn.RemoveFilter(dgvSongPacks);
-            LoadFilteredBindingList(songPackList);
-
-            // reset alternating row color
-            foreach (DataGridViewRow row in dgvSongPacks.Rows)
-                row.DefaultCellStyle.BackColor = Color.Empty;
-
-            dgvSongPacks.AlternatingRowsDefaultCellStyle = new DataGridViewCellStyle() { BackColor = Color.LightSteelBlue };
             UpdateToolStrip();
+            // reapply sort direction to reselect the filtered song
+            DgvExtensions.RestoreSorting(dgvSongPacks);
         }
 
         private void RepackCachePsarc()
@@ -713,6 +736,19 @@ namespace CustomsForgeSongManager.UControls
             return true;
         }
 
+        private void TemporaryDisableDatabindEvent(Action action)
+        {
+            dgvSongPacks.DataBindingComplete -= dgvSongPacks_DataBindingComplete;
+            try
+            {
+                action();
+            }
+            finally
+            {
+                dgvSongPacks.DataBindingComplete += dgvSongPacks_DataBindingComplete;
+            }
+        }
+
         private string TuningJsonToStrings(Dictionary<string, int> tuningJson)
         {
             string tuning = String.Empty;
@@ -817,19 +853,6 @@ namespace CustomsForgeSongManager.UControls
 
                     dgvSongPacks.EndEdit();
                 });
-        }
-
-        private void TemporaryDisableDatabindEvent(Action action)
-        {
-            dgvSongPacks.DataBindingComplete -= dgvSongPacks_DataBindingComplete;
-            try
-            {
-                action();
-            }
-            finally
-            {
-                dgvSongPacks.DataBindingComplete += dgvSongPacks_DataBindingComplete;
-            }
         }
 
         private void btnEnableSongs_Click(object sender, EventArgs e)
@@ -992,6 +1015,48 @@ namespace CustomsForgeSongManager.UControls
                 RefreshDgvSongs();
         }
 
+        private void dgvSongPacks_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.RowIndex == -1)
+                return;
+
+            // same in all grids
+            if (e.Button == MouseButtons.Left)
+            {
+                // select a single row by Ctrl-Click
+                if (ModifierKeys == Keys.Control)
+                {
+                    var s = DgvExtensions.GetObjectFromRow<SongPackData>(dgvSongPacks, e.RowIndex);
+                    s.Selected = !s.Selected;
+                }
+                // select multiple rows by Shift-Click on two outer rows
+                else if (ModifierKeys == Keys.Shift)
+                {
+                    if (dgvSongPacks.SelectedRows.Count > 0)
+                    {
+                        var first = dgvSongPacks.SelectedRows[0];
+                        var start = first.Index;
+                        var end = e.RowIndex + 1;
+
+                        if (start > end)
+                        {
+                            var tmp = start;
+                            start = end;
+                            end = tmp;
+                        }
+                        TemporaryDisableDatabindEvent(() =>
+                            {
+                                for (int i = start; i < end; i++)
+                                {
+                                    var s = DgvExtensions.GetObjectFromRow<SongPackData>(dgvSongPacks, i);
+                                    s.Selected = !s.Selected;
+                                }
+                            });
+                    }
+                }
+            }
+        }
+
         private void dgvSongPacks_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
             // HACK: catch DataBindingComplete called by other UC's
@@ -1031,48 +1096,6 @@ namespace CustomsForgeSongManager.UControls
                 dgvPainted = true;
                 // Globals.DebugLog("dgvSongPacks Painted ... ");
                 // it is now safe to do cell formatting (coloring)
-            }
-        }
-
-        private void dgvSongPacks_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            if (e.RowIndex == -1)
-                return;
-
-            // same in all grids
-            if (e.Button == MouseButtons.Left)
-            {
-                // select a single row by Ctrl-Click
-                if (ModifierKeys == Keys.Control)
-                {
-                    var s = DgvExtensions.GetObjectFromRow<SongPackData>(dgvSongPacks, e.RowIndex);
-                    s.Selected = !s.Selected;
-                }
-                // select multiple rows by Shift-Click on two outer rows
-                else if (ModifierKeys == Keys.Shift)
-                {
-                    if (dgvSongPacks.SelectedRows.Count > 0)
-                    {
-                        var first = dgvSongPacks.SelectedRows[0];
-                        var start = first.Index;
-                        var end = e.RowIndex + 1;
-
-                        if (start > end)
-                        {
-                            var tmp = start;
-                            start = end;
-                            end = tmp;
-                        }
-                        TemporaryDisableDatabindEvent(() =>
-                        {
-                            for (int i = start; i < end; i++)
-                            {
-                                var s = DgvExtensions.GetObjectFromRow<SongPackData>(dgvSongPacks, i);
-                                s.Selected = !s.Selected;
-                            }
-                        });
-                    }
-                }
             }
         }
 
@@ -1150,33 +1173,14 @@ namespace CustomsForgeSongManager.UControls
         public void TabEnter()
         {
             Globals.Log("SongPacks GUI Activated ...");
-            Globals.DgvCurrent = dgvSongPacks;
         }
 
         public void TabLeave()
         {
-            LeaveSongPacks();
-        }
+            if (songPackList.Any())
+                Globals.Settings.SaveSettingsToFile(dgvSongPacks);
 
-        public void LeaveSongPacks()
-        {
-            Globals.Log("Leaving SongPacks GUI ...");
-            Globals.Settings.SaveSettingsToFile(dgvSongPacks);
-        }
-
-        public void UpdateToolStrip()
-        {
-            if (Globals.ReloadSongPacks)
-                InitializeSongPacks();
-            else
-            {
-                Globals.TsLabel_MainMsg.Text = string.Format("Song Count: {0}", dgvSongPacks.Rows.Count);
-                Globals.TsLabel_MainMsg.Visible = true;
-                var tsldcMsg = String.Format("Disabled CDLC: {0}", DisabledSongColorizerCounter());
-                Globals.TsLabel_DisabledCounter.Alignment = ToolStripItemAlignment.Right;
-                Globals.TsLabel_DisabledCounter.Text = tsldcMsg;
-                Globals.TsLabel_DisabledCounter.Visible = true;
-            }
+            Globals.Log("SongPacks GUI Deactivated ...");
         }
     }
 }

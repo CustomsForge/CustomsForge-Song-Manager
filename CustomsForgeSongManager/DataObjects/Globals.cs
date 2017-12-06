@@ -10,6 +10,7 @@ using DF.WinForms.ThemeLib;
 using DLogNet;
 using System;
 using RocksmithToolkitLib.XmlRepository;
+using System.Reflection;
 
 namespace CustomsForgeSongManager.DataObjects
 {
@@ -25,6 +26,7 @@ namespace CustomsForgeSongManager.DataObjects
 
     internal static class Globals
     {
+        [Obfuscation(Exclude = false, Feature = "-rename")]
         internal enum Tristate : byte
         {
             False = 0,
@@ -41,7 +43,7 @@ namespace CustomsForgeSongManager.DataObjects
         private static SetlistManager _setlistManager;
         private static SongPacks _songPacks;
         private static Settings _settings;
-        private static BindingList<SongData> _songCollection;
+        private static BindingList<SongData> _masterCollection;
         private static SongManager _songManager;
         private static Theme _theme;
         private static TaggerTools _tagger;
@@ -155,10 +157,10 @@ namespace CustomsForgeSongManager.DataObjects
             set { _settings = value; }
         }
 
-        public static BindingList<SongData> SongCollection
+        public static BindingList<SongData> MasterCollection
         {
-            get { return _songCollection ?? (_songCollection = new BindingList<SongData>()); }
-            set { _songCollection = value; }
+            get { return _masterCollection ?? (_masterCollection = new BindingList<SongData>()); }
+            set { _masterCollection = value; }
         }
 
         public static SongManager SongManager

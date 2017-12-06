@@ -134,7 +134,7 @@ namespace CustomsForgeSongManager.UControls
             this.txtFileName.Location = new System.Drawing.Point(97, 38);
             this.txtFileName.Name = "txtFileName";
             this.txtFileName.ReadOnly = true;
-            this.txtFileName.Size = new System.Drawing.Size(157, 20);
+            this.txtFileName.Size = new System.Drawing.Size(177, 20);
             this.txtFileName.TabIndex = 19;
             // 
             // lnkRefreshAll
@@ -170,7 +170,7 @@ namespace CustomsForgeSongManager.UControls
             this.cmbSongPacks.FormattingEnabled = true;
             this.cmbSongPacks.Location = new System.Drawing.Point(97, 8);
             this.cmbSongPacks.Name = "cmbSongPacks";
-            this.cmbSongPacks.Size = new System.Drawing.Size(157, 21);
+            this.cmbSongPacks.Size = new System.Drawing.Size(177, 21);
             this.cmbSongPacks.TabIndex = 15;
             this.cmbSongPacks.SelectedIndexChanged += new System.EventHandler(this.cmbSongPacks_SelectedIndexChanged);
             // 

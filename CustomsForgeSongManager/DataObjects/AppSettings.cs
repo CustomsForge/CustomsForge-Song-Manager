@@ -33,8 +33,10 @@ namespace CustomsForgeSongManager.DataObjects
         private bool _showLogWindow;
         private string _charterName = String.Empty;
         private string _renameTemplate = String.Empty;
-        private string _sortColumn = String.Empty;
-        private bool _sortAscending;
+        private string _searchString = String.Empty;
+        private string _filterString = String.Empty;
+        private string _sortColumn = "Artist"; // set default sort column (retains selection)
+        private bool _sortAscending = true;
         private bool _showSetlistSongs;
         private string _downloadsDir;
         private DateTime _lastODLCCheckDate;
@@ -192,6 +194,20 @@ namespace CustomsForgeSongManager.DataObjects
         }
 
         [Browsable(false)]
+        public string SearchString
+        {
+            get { return _searchString; }
+            set { SetPropertyField("SearchString", ref _searchString, value); }
+        }
+
+        [Browsable(false)]
+        public string FilterString
+        {
+            get { return _filterString; }
+            set { SetPropertyField("FilterString", ref _filterString, value); }
+        }
+
+        [Browsable(false)]
         public string SortColumn
         {
             get { return _sortColumn; }
@@ -239,30 +255,29 @@ namespace CustomsForgeSongManager.DataObjects
             }
         }
 
-        public void LoadFromFile(string settingsPath, DataGridView dgvCurrent)
+        public void LoadFromFile(string settingsPath, bool verbose = false)
         {
             if (!String.IsNullOrEmpty(settingsPath) && File.Exists(settingsPath))
             {
                 using (var fs = File.OpenRead(settingsPath))
                     LoadSettingsFromStream(fs);
+
+                if (verbose)
+                    Globals.Log("Loaded File: " + Path.GetFileName(Constants.AppSettingsPath));
             }
 
-            // not done on app startup
-            if (dgvCurrent != null)
-            {
-                if (File.Exists(settingsPath))
-                    Globals.Log("Loaded File: " + Path.GetFileName(Constants.AppSettingsPath));
+            if (String.IsNullOrEmpty(Globals.DgvCurrent.Name))
+                return;
 
-                if (File.Exists(Constants.GridSettingsPath))
-                {
-                    Globals.Log("Loaded File: " + Path.GetFileName(Constants.GridSettingsPath));
-                    RAExtensions.ManagerGridSettings = SerialExtensions.LoadFromFile<RADataGridViewSettings>(Constants.GridSettingsPath);
-                }
-                else
-                {
-                    //Globals.Log("<WARNING> Did not find file: " + Path.GetFileName(Constants.GridSettingsPath));
-                    RAExtensions.ManagerGridSettings = null; // reset
-                }
+            if (File.Exists(Constants.GridSettingsPath))
+            {
+                Globals.Log("Loaded File: " + Path.GetFileName(Constants.GridSettingsPath));
+                RAExtensions.ManagerGridSettings = SerialExtensions.LoadFromFile<RADataGridViewSettings>(Constants.GridSettingsPath);
+            }
+            else
+            {
+                Globals.Log("<WARNING> Did not find file: " + Path.GetFileName(Constants.GridSettingsPath));
+                RAExtensions.ManagerGridSettings = null; // reset
             }
         }
 

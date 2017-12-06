@@ -25,9 +25,7 @@ namespace DataGridViewTools
     // aka FilteredBindingList but better
     public class FilteredBindingList<T> : BindingList<T>, IBindingListView, IFilteredBindingList
     {
-        public FilteredBindingList()
-        {
-        }
+        public FilteredBindingList() { }
 
         // Cozy mod added IList constructor
         public FilteredBindingList(IList<T> list)
@@ -110,8 +108,7 @@ namespace DataGridViewTools
             // Check the properties for a property with the specified name.
             PropertyDescriptor prop = TypeDescriptor.GetProperties(typeof(T))[propertyName];
 
-            // If there is not a match, return -1 otherwise pass search to
-            // FindCore method.
+            // If there is not a match, return -1 otherwise pass search to FindCore method.
             if (prop == null)
                 throw new ArgumentException(propertyName + " is not a valid property for type:" + typeof(T).Name);
             else
@@ -185,12 +182,12 @@ namespace DataGridViewTools
                 // If the list does not have a filter applied, 
                 // raise the ListChanged event so bound controls refresh their
                 // values. Pass -1 for the index since this is a Reset.
-                if (String.IsNullOrEmpty(Filter))
-                    OnListChanged(new ListChangedEventArgs(ListChangedType.Reset, -1));
+
+                // prevents sort glyph to be shown in columns so commented out
+                // if (String.IsNullOrEmpty(Filter))
+                OnListChanged(new ListChangedEventArgs(ListChangedType.Reset, -1));
             }
-            else
-                // If the property type does not implement IComparable, let the user
-                // know.
+            else // If the property type does not implement IComparable, let the user know.
                 throw new InvalidOperationException("Cannot sort by " + prop.Name + ". This" + prop.PropertyType.ToString() + " does not implement IComparable");
         }
 
@@ -214,8 +211,7 @@ namespace DataGridViewTools
                 }
                 isSortedValue = false;
                 this.RaiseListChangedEvents = true;
-                // Raise the list changed event, indicating a reset, and index
-                // of -1.
+                // Raise the list changed event, indicating a reset, and index of -1.
                 OnListChanged(new ListChangedEventArgs(ListChangedType.Reset, -1));
             }
         }

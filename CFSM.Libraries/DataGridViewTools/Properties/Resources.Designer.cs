@@ -159,16 +159,16 @@ namespace DataGridViewTools.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap Filtered {
+        internal static System.Drawing.Bitmap filtered {
             get {
-                object obj = ResourceManager.GetObject("Filtered", resourceCulture);
+                object obj = ResourceManager.GetObject("filtered", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
         
-        internal static System.Drawing.Bitmap Unfiltered {
+        internal static System.Drawing.Bitmap unfiltered {
             get {
-                object obj = ResourceManager.GetObject("Unfiltered", resourceCulture);
+                object obj = ResourceManager.GetObject("unfiltered", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

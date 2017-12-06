@@ -76,8 +76,8 @@ namespace CustomsForgeSongManager.LocalTools
             if (e.Cancelled || Globals.TsLabel_Cancel.Text == "Canceling" || Globals.CancelBackgroundScan)
             {
                 // bWorker.Abort(); // don't use abort
-                Globals.Log(Resources.UserCanceledProcess);
-                Globals.TsLabel_MainMsg.Text = Resources.UserCanceled;
+                Globals.Log(Resources.UserCancelledProcess);
+                Globals.TsLabel_MainMsg.Text = Resources.UserCancelled;
                 Globals.WorkerFinished = Globals.Tristate.Cancelled;
             }
             else
@@ -121,13 +121,15 @@ namespace CustomsForgeSongManager.LocalTools
             List<string> filesList;
 
             // is this a full rescan
-            if (Globals.SongCollection.Count == 0)
+            if (Globals.MasterCollection.Count == 0)
                 filesList = FilesList(Constants.Rs2DlcFolder, AppSettings.Instance.IncludeRS1CompSongs, AppSettings.Instance.IncludeRS2BaseSongs, AppSettings.Instance.IncludeCustomPacks);
             else
                 filesList = FilesList(Constants.Rs2DlcFolder, false, false, false);
 
             filesList = filesList.Where(fi => !fi.ToLower().Contains("inlay")).ToList();
-            bwSongCollection = Globals.SongCollection.ToList();
+            
+            // initialization
+            bwSongCollection = Globals.MasterCollection.ToList();
 
             //// "Raw" is good descriptor :)
             Globals.Log(String.Format("Raw songs count: {0}", filesList.Count));
@@ -151,6 +153,7 @@ namespace CustomsForgeSongManager.LocalTools
                 !x.FilePath.ToLower().Equals(Constants.SongsPsarcPath.ToLower())) // must have ToLower()
                 .ToList() as List<SongData>;
 
+            // this is improbable ... two songs have same FilePath
             var dupPaths = checkThese.GroupBy(x => x.FilePath).Where(group => group.Count() > 1);
             if (dupPaths.Count() > 0)
             {
@@ -168,7 +171,7 @@ namespace CustomsForgeSongManager.LocalTools
                 {
                     bWorker.CancelAsync();
                     e.Cancel = true;
-                    Globals.DebugLog("Parsing canceled ...");
+                    Globals.DebugLog(Resources.UserCancelledProcess);
                     return;
                 }
 
@@ -221,7 +224,9 @@ namespace CustomsForgeSongManager.LocalTools
                 }
             }
 
-            Globals.SongCollection = new BindingList<SongData>(bwSongCollection);
+            Globals.MasterCollection = new BindingList<SongData>(bwSongCollection);
+            // -- CRITCAL -- this populates Arrangment DLCKey info in Arrangements2D
+            Globals.MasterCollection.ToList().ForEach(a => a.Arrangements2D.ToList().ForEach(arr => arr.Parent = a));
         }
 
         private void ParsePSARC(string filePath, bool getAnalyzerData = false)
@@ -305,7 +310,7 @@ namespace CustomsForgeSongManager.LocalTools
                 Directory.CreateDirectory(filePath);
 
             var files = Directory.EnumerateFiles(filePath, "*" + Constants.PsarcExtension, SearchOption.AllDirectories).ToList();
-             files.AddRange(Directory.EnumerateFiles(filePath, "*" + Constants.DisabledPsarcExtension, SearchOption.AllDirectories).ToList());
+            files.AddRange(Directory.EnumerateFiles(filePath, "*" + Constants.DisabledPsarcExtension, SearchOption.AllDirectories).ToList());
 
             if (!includeRS1Pack)
                 files = files.Where(file => !file.ToLower().Contains(Constants.RS1COMP)).ToList();

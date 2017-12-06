@@ -86,8 +86,8 @@ namespace CustomsForgeSongManager.LocalTools
                 // bWorker.Abort(); // don't use abort
                 bWorker.Dispose();
                 bWorker = null;
-                Globals.Log(Resources.UserCanceledProcess);
-                Globals.TsLabel_MainMsg.Text = Resources.UserCanceled;
+                Globals.Log(Resources.UserCancelledProcess);
+                Globals.TsLabel_MainMsg.Text = Resources.UserCancelled;
                 Globals.TsLabel_StatusMsg.Text = "";
                 Globals.WorkerFinished = Globals.Tristate.Cancelled;
             }
@@ -99,8 +99,14 @@ namespace CustomsForgeSongManager.LocalTools
                 Globals.WorkerFinished = Globals.Tristate.True;
             }
 
-            // TODO: determine if rescan is necessary
-            Globals.RescanSongManager = true;
+            Globals.RescanSetlistManager = false;
+            Globals.RescanDuplicates = false;
+            Globals.RescanSongManager = false;
+            Globals.RescanRenamer = false;
+            Globals.ReloadSetlistManager = true;
+            Globals.ReloadDuplicates = true;
+            Globals.ReloadRenamer = true;
+            Globals.ReloadSongManager = true;
         }
 
         private void WorkerRepairSongs(object sender, DoWorkEventArgs e)

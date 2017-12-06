@@ -178,9 +178,9 @@ Setlist names may not contain
 any form of the word 'disabled'</value>
     <comment>DisabledIsAReservedWord description</comment>
   </data>
-  <data name="UserCanceledProcess" xml:space="preserve">
-    <value>User canceled process ...</value>
-    <comment>UserCanceledProcess description</comment>
+  <data name="UserCancelledProcess" xml:space="preserve">
+    <value>&lt;WARNING&gt; User cancelled process ...</value>
+    <comment>UserCancelledProcess description</comment>
   </data>
   <data name="_151" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\151.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -242,9 +242,9 @@ Please use Setlist Songs to enable/disable setlist songs.</value>
   <data name="StartRs" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\StartRs.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="UserCanceled" xml:space="preserve">
-    <value>User Canceled</value>
-    <comment>UserCanceled description</comment>
+  <data name="UserCancelled" xml:space="preserve">
+    <value>User Cancelled</value>
+    <comment>UserCancelled description</comment>
   </data>
   <data name="EOF20" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\EOF20.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

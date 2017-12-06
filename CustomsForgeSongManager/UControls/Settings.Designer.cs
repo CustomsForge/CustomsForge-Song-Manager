@@ -73,11 +73,11 @@ namespace CustomsForgeSongManager.UControls
             this.tlpSettings_Wrapper.Controls.Add(this.panel5, 2, 1);
             this.tlpSettings_Wrapper.Controls.Add(this.cueRsDir, 2, 0);
             this.tlpSettings_Wrapper.Controls.Add(this.lblSettingsRSDir, 0, 0);
-            this.tlpSettings_Wrapper.Controls.Add(this.rbCleanOnClosing, 0, 12);
-            this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsSave, 1, 15);
-            this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsLoad, 0, 15);
-            this.tlpSettings_Wrapper.Controls.Add(this.btnEmptyLogs, 0, 14);
-            this.tlpSettings_Wrapper.Controls.Add(this.btnResetDownloads, 1, 14);
+            this.tlpSettings_Wrapper.Controls.Add(this.rbCleanOnClosing, 0, 13);
+            this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsSave, 1, 16);
+            this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsLoad, 0, 16);
+            this.tlpSettings_Wrapper.Controls.Add(this.btnEmptyLogs, 0, 15);
+            this.tlpSettings_Wrapper.Controls.Add(this.btnResetDownloads, 1, 15);
             this.tlpSettings_Wrapper.Controls.Add(this.chkIncludeRS1CompSongs, 0, 2);
             this.tlpSettings_Wrapper.Controls.Add(this.chkIncludeRS2BaseSongs, 0, 3);
             this.tlpSettings_Wrapper.Controls.Add(this.chkIncludeCustomPacks, 0, 4);
@@ -90,7 +90,7 @@ namespace CustomsForgeSongManager.UControls
             this.tlpSettings_Wrapper.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpSettings_Wrapper.Location = new System.Drawing.Point(0, 0);
             this.tlpSettings_Wrapper.Name = "tlpSettings_Wrapper";
-            this.tlpSettings_Wrapper.RowCount = 17;
+            this.tlpSettings_Wrapper.RowCount = 18;
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
@@ -101,8 +101,9 @@ namespace CustomsForgeSongManager.UControls
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
-            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 14F));
+            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 8F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
+            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 8F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 45F));
@@ -119,7 +120,7 @@ namespace CustomsForgeSongManager.UControls
             this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel5.Location = new System.Drawing.Point(347, 28);
             this.panel5.Name = "panel5";
-            this.tlpSettings_Wrapper.SetRowSpan(this.panel5, 16);
+            this.tlpSettings_Wrapper.SetRowSpan(this.panel5, 17);
             this.panel5.Size = new System.Drawing.Size(516, 459);
             this.panel5.TabIndex = 4;
             // 
@@ -224,7 +225,7 @@ namespace CustomsForgeSongManager.UControls
             this.rbCleanOnClosing.AutoSize = true;
             this.tlpSettings_Wrapper.SetColumnSpan(this.rbCleanOnClosing, 2);
             this.rbCleanOnClosing.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rbCleanOnClosing.Location = new System.Drawing.Point(3, 323);
+            this.rbCleanOnClosing.Location = new System.Drawing.Point(3, 325);
             this.rbCleanOnClosing.Name = "rbCleanOnClosing";
             this.rbCleanOnClosing.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
             this.rbCleanOnClosing.Size = new System.Drawing.Size(166, 19);
@@ -423,16 +424,16 @@ namespace CustomsForgeSongManager.UControls
             // 
             this.txtCharterName.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.tlpSettings_Wrapper.SetColumnSpan(this.txtCharterName, 2);
-            this.txtCharterName.Cue = "Enter CDLC Charter Name";
+            this.txtCharterName.Cue = "Enter a CDLC Charter\'s Name";
             this.txtCharterName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.txtCharterName.ForeColor = System.Drawing.Color.Gray;
-            this.txtCharterName.Location = new System.Drawing.Point(12, 295);
+            this.txtCharterName.Location = new System.Drawing.Point(12, 289);
             this.txtCharterName.Margin = new System.Windows.Forms.Padding(12, 3, 3, 3);
             this.txtCharterName.Name = "txtCharterName";
             this.txtCharterName.Size = new System.Drawing.Size(179, 20);
             this.txtCharterName.TabIndex = 9;
             this.toolTip.SetToolTip(this.txtCharterName, "Enter your charter name or the name\r\nof any charter you would like to show \r\nquic" +
-                    "kly when checkbox \'My CDLC Only\' \r\nis checked in Song Manager.\r\n");
+                    "kly when checkbox \'Show My CDLC\' \r\nis checked in Song Manager, Custom Mods.\r\n");
             this.txtCharterName.TextChanged += new System.EventHandler(this.tbCreator_TextChanged);
             // 
             // chkMacMode

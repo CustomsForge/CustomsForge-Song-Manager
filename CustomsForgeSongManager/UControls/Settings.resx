@@ -121,17 +121,18 @@
     <value>54, 15</value>
   </metadata>
   <data name="rbCleanOnClosing.ToolTip" xml:space="preserve">
-    <value>Removes working directories and files 
-from the 'My Documents/CFSM' folder
-and restores function of the appliaction.
-
-This frees up HDD space but may
-result in slower loading on restart.
-
-NOTE:
+    <value>NOTE:
 -------
 This is a resettable toggle button
-so the action occurs only one time.</value>
+so the action occurs only one time.
+
+Removes working directories and files 
+from the 'My Documents/CFSM' folder.
+
+Restores default GUI view and functiion.
+
+Frees up HDD space but may result
+in slower loading on initial restart.</value>
   </data>
   <data name="chkMacMode.ToolTip" xml:space="preserve">
     <value>If checked, switch CFSM to Mac

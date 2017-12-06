@@ -46,7 +46,7 @@ namespace CustomsForgeSongManager.Forms
             //if (Globals.OfficialDLCSongList.Count == 0 || Globals.SongCollection.Count == 0 || (DateTime.Today - AppSettings.Instance.LastODLCCheckDate).TotalDays < 7)
             //    return;
 
-            foreach (SongData song in Globals.SongCollection)
+            foreach (SongData song in Globals.MasterCollection)
             {
                 if (song.OfficialDLC)
                     continue;

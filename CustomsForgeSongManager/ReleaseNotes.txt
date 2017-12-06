@@ -14,11 +14,23 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.4.2.2
+- restructured data binding between the different data grids
+- fixed sort glyph visibility issues on filtered and non-filtered columns
+- preserve sorting selection after clearing search and/or filtering
+- maintain the highlighted song selection after filtering is removed
+- remind user to remove filter if filter is applied and no duplicates are found
+- fixed Remastered Repair using .org files
+- added Fix Low Bass Tuning to Repairs options
+- fixed occasional bug in 'Files' 'Organize ArtistName Subfolders' caused by version 'N/A' 
+- improved Song Packs open file dialogue and messages
+- only load one Custom Song Pack at a time
+ 
 1.4.2.1
-- fixed search, sort, click last, click any other then search resets bug
+- fixed search, sort, click last, click any other; which would cause search to reset
 
 1.4.2.0
-- improved Help message for SongManager and Duplicates 
+- improved Help dialogue for SongManager and Duplicates 
 - consolidate duplicate toolstrip menu actions into the contextual menu
 - implemented more generic code methods for enable/disable, and delete/move/backup
  

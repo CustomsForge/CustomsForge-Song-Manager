@@ -19,12 +19,12 @@ namespace CustomsForgeSongManager.UControls
             Leave += Settings_Leave;
         }
 
-        public void LoadSettingsFromFile(DataGridView dgvCurrent)
+        public void LoadSettingsFromFile(DataGridView dgvCurrent = null, bool verbose = false)
         {
             try
             {
                 Globals.DgvCurrent = dgvCurrent;
-                AppSettings.Instance.LoadFromFile(Constants.AppSettingsPath, dgvCurrent);
+                AppSettings.Instance.LoadFromFile(Constants.AppSettingsPath, verbose);
 
                 cueRsDir.Text = AppSettings.Instance.RSInstalledDir;
                 chkIncludeRS1CompSongs.Checked = AppSettings.Instance.IncludeRS1CompSongs;
@@ -72,7 +72,7 @@ namespace CustomsForgeSongManager.UControls
             }
         }
 
-        public void SaveSettingsToFile(DataGridView dgvCurrent)
+        public void SaveSettingsToFile(DataGridView dgvCurrent, bool verbose = false)
         {
             Globals.DgvCurrent = dgvCurrent;
             Debug.WriteLine("Save DataGridView Settings: " + dgvCurrent.Name);
@@ -82,7 +82,8 @@ namespace CustomsForgeSongManager.UControls
                 using (var fs = new FileStream(Constants.AppSettingsPath, FileMode.Create, FileAccess.Write, FileShare.Write))
                 {
                     AppSettings.Instance.SerializeXml(fs);
-                    Globals.Log("Saved File: " + Path.GetFileName(Constants.AppSettingsPath));
+                    if (verbose)
+                        Globals.Log("Saved File: " + Path.GetFileName(Constants.AppSettingsPath));
                 }
 
                 if (String.IsNullOrEmpty(dgvCurrent.Name))
@@ -229,7 +230,7 @@ namespace CustomsForgeSongManager.UControls
 
         private void btnSettingsLoad_Click(object sender, EventArgs e)
         {
-            LoadSettingsFromFile(Globals.DgvCurrent);
+            LoadSettingsFromFile(Globals.DgvCurrent, true);
         }
 
         private void btnSettingsSave_Click(object sender, EventArgs e)

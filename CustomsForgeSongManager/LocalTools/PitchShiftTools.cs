@@ -216,8 +216,8 @@ namespace CustomsForgeSongManager.LocalTools
                             using (var browser = new PsarcBrowser(finalPath))
                             {
                                 var songInfo = browser.GetSongData();
-                                if (songInfo != null && !Globals.SongCollection.Where(sng => sng.FilePath == finalPath).Any())
-                                    Globals.SongCollection.Add(songInfo.First());
+                                if (songInfo != null && !Globals.MasterCollection.Where(sng => sng.FilePath == finalPath).Any())
+                                    Globals.MasterCollection.Add(songInfo.First());
                             }
                         }
 

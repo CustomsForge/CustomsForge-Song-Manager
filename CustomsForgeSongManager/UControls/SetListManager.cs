@@ -14,6 +14,7 @@ using CustomsForgeSongManager.LocalTools;
 using CustomsForgeSongManager.UITheme;
 using GenTools;
 using DataGridViewTools;
+using CustomsForgeSongManager.Properties;
 
 // cache.psarc may not be renamed
 
@@ -52,7 +53,7 @@ namespace CustomsForgeSongManager.UControls
         {
             Globals.Log("Populating SetlistManager GUI ...");
             DgvExtensions.DoubleBuffered(dgvSetlistMaster);
-            Globals.Settings.LoadSettingsFromFile(dgvSetlistMaster);
+            Globals.Settings.LoadSettingsFromFile(dgvSetlistMaster, true);
             chkShowSetlistSongs.Checked = AppSettings.Instance.ShowSetlistSongs;
 
             // theoretically this error condition should never exist
@@ -82,6 +83,8 @@ namespace CustomsForgeSongManager.UControls
 
         public void UpdateToolStrip()
         {
+            Globals.DgvCurrent = dgvSetlistMaster;
+
             if (Globals.RescanSetlistManager)
             {
                 Globals.RescanSetlistManager = false;
@@ -95,7 +98,6 @@ namespace CustomsForgeSongManager.UControls
                 PopulateSetlistManager();
             }
 
-            Globals.DgvCurrent = dgvSetlistMaster;
             Globals.TsLabel_MainMsg.Text = string.Format(Properties.Resources.RocksmithSongsCountFormat, setlistCollection.Count);
             Globals.TsLabel_MainMsg.Visible = true;
             Globals.TsLabel_DisabledCounter.Alignment = ToolStripItemAlignment.Right;
@@ -291,10 +293,11 @@ namespace CustomsForgeSongManager.UControls
             UpdateToolStrip();
             RefreshAllDgv(false);
 
-            //TODO: we mainly change paths here, so why don't we just change paths in the SongCollection list instead of doing full rescans (which can be rather lengthy)
-            Globals.RescanSongManager = true;
+            // force reload/rescan
             Globals.RescanDuplicates = true;
-            Globals.RescanRenamer = true;
+            Globals.ReloadSongManager = true;
+            Globals.ReloadRenamer = true;
+            Globals.ReloadSetlistManager = true;
         }
 
         private void LoadFilteredBindingList(dynamic list)
@@ -376,7 +379,7 @@ namespace CustomsForgeSongManager.UControls
             //}
 
             // local setlistCollection is loaded with Globals SongCollection
-            setlistCollection = Globals.SongCollection;
+            setlistCollection = Globals.MasterCollection;
             LoadFilteredBindingList(setlistCollection);
             CFSMTheme.InitializeDgvAppearance(dgvSetlistMaster);
 
@@ -497,17 +500,17 @@ namespace CustomsForgeSongManager.UControls
                     Application.DoEvents();
             }
 
-            if (Globals.WorkerFinished == Globals.Tristate.Cancelled)
-                return;
-
-            Globals.ReloadSetlistManager = false;
-            Globals.RescanDuplicates = false;
-            Globals.RescanSongManager = false;
-            Globals.RescanRenamer = false;
-            Globals.ReloadSetlistManager = true;
+            // force reload
+            //Globals.ReloadSetlistManager = true;
             Globals.ReloadDuplicates = true;
             Globals.ReloadRenamer = true;
             Globals.ReloadSongManager = true;
+
+            if (Globals.WorkerFinished == Globals.Tristate.Cancelled)
+            {
+                Globals.Log(Resources.UserCancelledProcess);
+                return;
+            }
         }
 
         private void SearchCDLC(string criteria)
@@ -1036,7 +1039,6 @@ namespace CustomsForgeSongManager.UControls
             if (grid.Name != "dgvSetlistMaster")
                 return;
 
-
             // speed hacks ...
             if (e.RowIndex == -1)
                 return;
@@ -1404,13 +1406,12 @@ namespace CustomsForgeSongManager.UControls
         public void TabEnter()
         {
             Globals.Log("Setlist Manager GUI Activated...");
-            Globals.DgvCurrent = dgvSetlistMaster;
         }
 
         public void TabLeave()
         {
-            Globals.Log("Leaving Setlist Manager GUI ...");
             Globals.Settings.SaveSettingsToFile(dgvSetlistMaster);
+            Globals.Log("Setlist Manager GUI Deactivated ...");
         }
 
     }

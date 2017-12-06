@@ -19,7 +19,7 @@ namespace CustomsForgeSongManager.SongEditor
         public override void DoInit()
         {
             // this will throw exception if SongFilePath not found
-            var song = Globals.SongCollection.First(x => x.FilePath == FilePath);
+            var song = Globals.MasterCollection.First(x => x.FilePath == FilePath);
 
             cbLowBass.Visible = song.ArrangementInitials.Contains('B');
 

@@ -15,6 +15,7 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Text.RegularExpressions;
 using System.ComponentModel;
+using DataGridViewTools;
 
 // NOTE: the app is designed for default user screen resolution of 1024x768
 // dev screen resolution should be set to this when designing forms and controls
@@ -108,7 +109,7 @@ namespace CustomsForgeSongManager.Forms
             };
 
             // load settings
-            Globals.Settings.LoadSettingsFromFile(null); // null => workaround to prevent showing 'Loaded appSettings.xml file ...' 2X
+            Globals.Settings.LoadSettingsFromFile();
 
             // set app title after settings are loaded
             var strFormatVersion = "{0} (v{1} - {2})";
@@ -218,7 +219,10 @@ namespace CustomsForgeSongManager.Forms
 
                 // do not SaveSongCollectionToFile when changing compatibility mode
                 if (File.Exists(Constants.SongsInfoPath) || File.Exists(Constants.AnalyzerDataPath))
+                {
+                    DataGridViewAutoFilterColumnHeaderCell.RemoveFilter(Globals.SongManager.GetGrid());
                     Globals.SongManager.SaveSongCollectionToFile();
+                }
             }
         }
 
@@ -789,7 +793,7 @@ namespace CustomsForgeSongManager.Forms
                 {
                     Globals.Log("Parsing Analyzer Data From: " + s);
 
-                    int sngIndex = Globals.SongCollection.IndexOf(song);
+                    int sngIndex = Globals.MasterCollection.IndexOf(song);
 
                     using (var browser = new PsarcBrowser(song.FilePath))
                     {
@@ -802,7 +806,7 @@ namespace CustomsForgeSongManager.Forms
                             song = songInfo.First();
 
                         song.ExtraMetaDataScanned = true;
-                        Globals.SongCollection[sngIndex] = song;
+                        Globals.MasterCollection[sngIndex] = song;
                     }
                 }
 

@@ -76,7 +76,7 @@ namespace DataGridViewTools
                     p.PropertyType == typeof(double) ||
                     p.PropertyType == typeof(float))
                     return true;
-              }
+            }
             return false;
         }
     }
@@ -130,6 +130,9 @@ namespace DataGridViewTools
         //useage: radgv.ReLoadColumnOrder(dgvSongPacks, AppSettings.Instance.ManagerGridSettings.ColumnOrder);
         public static void ReLoadColumnOrder(this RADataGridView raDataGridView, List<ColumnOrderItem> columnOrderCollection)
         {
+            if (columnOrderCollection.Count == 0)
+                return;
+
             DataGridViewColumnCollection orgDgvColumns = raDataGridView.Columns;
             var sorted = columnOrderCollection.OrderBy(i => i.DisplayIndex);
 
