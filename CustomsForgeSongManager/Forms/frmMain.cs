@@ -16,6 +16,7 @@ using Newtonsoft.Json;
 using System.Text.RegularExpressions;
 using System.ComponentModel;
 using DataGridViewTools;
+using CustomControls;
 
 // NOTE: the app is designed for default user screen resolution of 1024x768
 // dev screen resolution should be set to this when designing forms and controls
@@ -422,7 +423,7 @@ namespace CustomsForgeSongManager.Forms
                             proc.Start();
                             // Kill app abruptly so InnoSetup completes
                             // DO NOT use Application.Exit     
-                            Environment.Exit(0);                        
+                            Environment.Exit(0);
                         }
                         else
                             MessageBox.Show(appSetup + " not found ..." + Environment.NewLine + "Please manually download CFSM from the webpage.");
@@ -742,6 +743,41 @@ namespace CustomsForgeSongManager.Forms
 
         private void AnalyzerExport(string format)
         {
+            // get data from a grid
+            var dgvCurrent = new DataGridView();
+            var dgvSelection = new List<DataGridViewRow>();
+
+            DoSomethingWithGrid((dataGrid, selection, colSel, ignoreColumns) =>
+            {
+                dgvCurrent = dataGrid;
+                dgvSelection = selection.ToList();
+            });
+
+            var isFiltered = !String.IsNullOrEmpty(AppSettings.Instance.FilterString);
+            var isSelected = dgvCurrent.Rows.Count != dgvSelection.Count ? true : false;
+
+            if (isFiltered || isSelected)
+            {
+                var msgInset1 = "selected and filtered.";
+                var msgInset2 = "selection/filtering?";
+
+                if (isFiltered && !isSelected)
+                {
+                    msgInset1 = "filtered.";
+                    msgInset2 = "filtering?";
+                }
+                else if (!isFiltered && isSelected)
+                {
+                    msgInset1 = "selected.";
+                    msgInset2 = "selection?";
+                }
+
+                var msgText = "The song data is user " + msgInset1 + Environment.NewLine + "This may produce unintended or undesired results." + Environment.NewLine + "Would you like to return and remove the data " + msgInset2;
+
+                if (BetterDialog.ShowDialog(msgText, @"Customized Song Data ...", MessageBoxButtons.YesNo, Bitmap.FromHicon(SystemIcons.Exclamation.Handle), "WARNING", 10, 10) == DialogResult.Yes)
+                    return;
+            }
+
             var path = Path.Combine(Constants.WorkFolder, "Analyzer.csv");
             var filter = "csv files(*.csv)|*.csv|All files (*.*)|*.*";
 
@@ -762,38 +798,30 @@ namespace CustomsForgeSongManager.Forms
                 path = sfd.FileName;
             }
 
-            string outputJSON = "";
-            var sbCSV = new StringBuilder();
-
-            const char csvSep = ';';
-            sbCSV.AppendLine(String.Format(@"sep={0}", csvSep));
-
-            string[] columns = { "Artist", "Song name", "Arrangement", "Tuning", "Notes", "Hammer-ons", "Pulloffs", "Harmonics", "Pinch harmonics", "Frethand mutes", "Palm mutes",
-                                         "Plucks", "Slaps", "Slides", "Unpitched slides", "Tremolos", "Taps", "Vibratos", "Sustains", "Bends", "Highest Fret Used"};
-
             int maxChordNumber = 0;
-            var dgvSelection = new List<DataGridViewRow>();
-            DoSomethingWithGrid((dataGrid, selection, colSel, ignoreColumns) =>
-            {
-                dgvSelection = selection.ToList();
-            });
-
-            string columnsCSV = "sep=" + csvSep.ToString();
-
+            var outputJSON = String.Empty;
             var allInfo = new List<AnalyzerInfo>();
+            const char csvSep = ';';
+            var columnsCSV = "sep=" + csvSep.ToString();
+            var sbCSV = new StringBuilder();
+            sbCSV.AppendLine(String.Format(@"sep={0}", csvSep));
+            string[] columns = { "Artist", "Song Name", "Arrangement", "Tuning", "Notes", "Hammer-ons", "Pull-offs", "Harmonics", "Pinch Harmonics", "Frethand Mutes", "Palm Mutes",
+                                   "Plucks", "Slaps", "Slides", "Unpitched Slides", "Tremolos", "Taps", "Vibratos", "Sustains", "Bends", "Highest Fret Used"};
 
+            // process and assemble data
             foreach (var songRow in dgvSelection)
             {
                 var song = DataGridViewTools.DgvExtensions.GetObjectFromRow<SongData>(songRow);
-
-                string s = song.Artist + " - " + song.Title;
+                var artistTitle = song.Artist + " - " + song.Title;
                 var statPairList = new List<StatPair>();
 
+                // get analyzer data if it has not already been parsed
                 if (!song.ExtraMetaDataScanned && song.NoteCount == 0)
                 {
-                    Globals.Log("Parsing Analyzer Data From: " + s);
-
-                    int sngIndex = Globals.MasterCollection.IndexOf(song);
+                    Globals.Log("Parsing Analyzer Data From: " + artistTitle);
+                    var sngIndex = Globals.MasterCollection.IndexOf(song);
+                    if (sngIndex == -1)
+                        throw new Exception("<ERROR> sngIndex = -1");
 
                     using (var browser = new PsarcBrowser(song.FilePath))
                     {
@@ -815,7 +843,6 @@ namespace CustomsForgeSongManager.Forms
                 try
                 {
                     var arrangementsWithChords = arrangements.Where(a => a.ChordCounts != null).ToList();
-
                     if (arrangementsWithChords != null && arrangementsWithChords.Count != 0) //Just an extra check
                     {
                         int nrOfDifferentChords = arrangementsWithChords.Max(ar => (int?)ar.ChordCounts.Count() ?? 0);
@@ -826,7 +853,7 @@ namespace CustomsForgeSongManager.Forms
                 }
                 catch (ArgumentNullException)
                 {
-                    Globals.Log("<ERROR> Could not get Analyzer Data for: " + song.Title + " by " + song.Artist);
+                    Globals.Log("<ERROR> Could not get Analyzer Data for: " + artistTitle);
                 }
 
                 foreach (var arr in song.Arrangements2D)
@@ -836,23 +863,17 @@ namespace CustomsForgeSongManager.Forms
 
                     if (format == "csv")
                     {
-                        //this Replace is used in order not to have to convert every one of these to string
-                        var stopHere = arr.Tuning;
-
-                        // s = song.Artist + csvSep + song.Title + csvSep + arr.Name + csvSep + " " + arr.NoteCount + csvSep + arr.HammerOnCount + csvSep + arr.PullOffCount + csvSep + arr.HarmonicCount
-
-                        s = song.Artist + csvSep + song.Title + csvSep + arr.Name + csvSep + arr.Tuning + csvSep + arr.NoteCount + csvSep + arr.HammerOnCount + csvSep + arr.PullOffCount + csvSep + arr.HarmonicCount
-                            + csvSep + arr.HarmonicPinchCount + csvSep + arr.FretHandMuteCount + csvSep + arr.PalmMuteCount + csvSep + arr.PluckCount + csvSep + arr.SlapCount + csvSep + arr.SlideCount
-                            + csvSep + arr.UnpitchedSlideCount + csvSep + arr.TremoloCount + csvSep + arr.TapCount + csvSep + arr.VibratoCount + csvSep + arr.SustainCount + csvSep + arr.BendCount + csvSep + arr.HighestFretUsed + csvSep;
+                        var sbRow = song.Artist + csvSep + song.Title + csvSep + arr.Name + csvSep + arr.Tuning + csvSep + arr.NoteCount + csvSep + arr.HammerOnCount + csvSep + arr.PullOffCount + csvSep + arr.HarmonicCount + csvSep +
+                            arr.HarmonicPinchCount + csvSep + arr.FretHandMuteCount + csvSep + arr.PalmMuteCount + csvSep + arr.PluckCount + csvSep + arr.SlapCount + csvSep + arr.SlideCount + csvSep +
+                            arr.UnpitchedSlideCount + csvSep + arr.TremoloCount + csvSep + arr.TapCount + csvSep + arr.VibratoCount + csvSep + arr.SustainCount + csvSep + arr.BendCount + csvSep + arr.HighestFretUsed + csvSep;
 
                         if (arr.ChordNames != null && arr.ChordNames.Count() == 0)
-                            s +=
-                                "no chords";
+                            sbRow += "no chords";
                         else
                             for (int i = 0; i < arr.ChordNames.Count(); i++)
-                                s += arr.ChordNames[i] + csvSep + arr.ChordCounts[i] + csvSep;
+                                sbRow += arr.ChordNames[i] + csvSep + arr.ChordCounts[i] + csvSep;
 
-                        sbCSV.AppendLine(s.Trim(new char[] { ',', ' ' }));
+                        sbCSV.AppendLine(sbRow.Trim(new char[] { ',', ' ' }));
                     }
                     else if (format == "json")
                     {
@@ -863,15 +884,15 @@ namespace CustomsForgeSongManager.Forms
                         statPair.GeneralStats.Add("Tuning", arr.Tuning);
                         statPair.GeneralStats.Add("Note Count", arr.NoteCount.ToString());
                         statPair.GeneralStats.Add("Hammer-ons", arr.HammerOnCount.ToString());
-                        statPair.GeneralStats.Add("Pulloffs", arr.PullOffCount.ToString());
+                        statPair.GeneralStats.Add("Pull-offs", arr.PullOffCount.ToString());
                         statPair.GeneralStats.Add("Harmonics", arr.HarmonicCount.ToString());
-                        statPair.GeneralStats.Add("Pinch harmonics", arr.HarmonicPinchCount.ToString());
-                        statPair.GeneralStats.Add("Frethand mutes", arr.FretHandMuteCount.ToString());
-                        statPair.GeneralStats.Add("Palm mutes", arr.PalmMuteCount.ToString());
+                        statPair.GeneralStats.Add("Pinch Harmonics", arr.HarmonicPinchCount.ToString());
+                        statPair.GeneralStats.Add("Frethand Mutes", arr.FretHandMuteCount.ToString());
+                        statPair.GeneralStats.Add("Palm Mutes", arr.PalmMuteCount.ToString());
                         statPair.GeneralStats.Add("Plucks", arr.PluckCount.ToString());
                         statPair.GeneralStats.Add("Slaps", arr.SlapCount.ToString());
                         statPair.GeneralStats.Add("Slides", arr.SlideCount.ToString());
-                        statPair.GeneralStats.Add("Unpitched slides", arr.UnpitchedSlideCount.ToString());
+                        statPair.GeneralStats.Add("Unpitched Slides", arr.UnpitchedSlideCount.ToString());
                         statPair.GeneralStats.Add("Tremolos", arr.TremoloCount.ToString());
                         statPair.GeneralStats.Add("Vibratos", arr.VibratoCount.ToString());
                         statPair.GeneralStats.Add("Sustains", arr.SustainCount.ToString());
@@ -890,14 +911,14 @@ namespace CustomsForgeSongManager.Forms
                 {
                     var analyzerInfo = new AnalyzerInfo();
                     analyzerInfo.SongInfo = new Dictionary<string, List<StatPair>>();
-                    analyzerInfo.SongInfo.Add(s, statPairList);
+                    analyzerInfo.SongInfo.Add(artistTitle, statPairList);
                     allInfo.Add(analyzerInfo);
                 }
-                else
+                else if (format == "csv")
                     sbCSV.AppendLine("");
             }
 
-
+            // add header row
             if (format == "csv")
             {
                 string chordColumns = "Chord" + csvSep + "# of chord" + csvSep;
@@ -906,6 +927,7 @@ namespace CustomsForgeSongManager.Forms
                 sbCSV.Insert(0, columnsCSV.Trim(new char[] { ',', ' ' }));
             }
 
+            // save data to formatted file
             try
             {
                 using (StreamWriter file = new StreamWriter(path, false, Encoding.Unicode))
@@ -918,6 +940,8 @@ namespace CustomsForgeSongManager.Forms
                     }
                     else if (format == "csv")
                         file.Write(sbCSV.ToString());
+                    else
+                        throw new FormatException("<ERROR> Unknown export format: " + format);
                 }
 
                 Globals.Log("Analyzer Data Saved: " + path);
@@ -926,7 +950,6 @@ namespace CustomsForgeSongManager.Forms
             {
                 Globals.Log("<Error>: " + ex.Message);
             }
-
 
             try
             {
