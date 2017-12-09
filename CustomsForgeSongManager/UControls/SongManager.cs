@@ -227,9 +227,7 @@ namespace CustomsForgeSongManager.UControls
 
         public void UpdateToolStrip()
         {
-            Globals.DgvCurrent = dgvSongsMaster;
-
-            if (Globals.RescanSongManager)
+           if (Globals.RescanSongManager)
             {
                 Globals.RescanSongManager = false;
                 Globals.ReloadRenamer = true;
@@ -2128,18 +2126,7 @@ namespace CustomsForgeSongManager.UControls
 
             // start new generic worker
             DoWork(Constants.GWORKER_REPAIR, selection, SetRepairOptions());
-
-            // new 'Downloads' CDLC added or corrupt CDLC were removed
-            // quickly reload the songCollection to the dgv
-            if (Globals.ReloadSongManager)
-            {
-                LoadFilteredBindingList(songCollection);
-                Globals.ReloadSongManager = false;
-            }
-
-            // deselect the repaired songs
-            //allSelected = true;
-            //SelectAllNone();
+            UpdateToolStrip();
         }
 
         private void tsmiRescanFull_Click(object sender, EventArgs e)
@@ -2168,6 +2155,7 @@ namespace CustomsForgeSongManager.UControls
 
         public void TabEnter()
         {
+            Globals.DgvCurrent = dgvSongsMaster;
             Globals.Log("Song Manager GUI Activated ...");
         }
 
@@ -2182,6 +2170,7 @@ namespace CustomsForgeSongManager.UControls
 
         private void tsmiDevsDebugUse_Click(object sender, EventArgs e)
         {
+            // temporarily debugging some things here
             var stopHere = songCollection;
             var stopHere2 = Globals.MasterCollection;
             var stopHere3 = AppSettings.Instance.FilterString;

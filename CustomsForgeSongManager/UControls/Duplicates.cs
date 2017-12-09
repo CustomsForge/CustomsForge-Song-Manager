@@ -154,8 +154,6 @@ namespace CustomsForgeSongManager.UControls
 
         public void UpdateToolStrip()
         {
-            Globals.DgvCurrent = dgvDuplicates;
-
             if (Globals.RescanDuplicates) // || !String.IsNullOrEmpty(AppSettings.Instance.FilterString))
             {
                 // AppSettings.Instance.FilterString = String.Empty;
@@ -831,6 +829,7 @@ namespace CustomsForgeSongManager.UControls
 
         public void TabEnter()
         {
+            Globals.DgvCurrent = dgvDuplicates;
             Globals.Log("Duplicate GUI Activated...");
         }
 

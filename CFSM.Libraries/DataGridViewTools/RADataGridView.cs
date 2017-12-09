@@ -59,6 +59,8 @@ namespace DataGridViewTools
             //    }
             //}
 
+            //var startupPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetModules()[0].FullyQualifiedName);
+
             // instantiate an instance of the object from the dataObject's remote assembly
             // var moduleName = dataObject.GetType().GetProperty("Module").GetValue(dataObject, null);
             // var remoteAssembly = Assembly.LoadFrom(moduleName.ToString());
@@ -71,6 +73,7 @@ namespace DataGridViewTools
                 .Select(x => x.GetMethod().ReflectedType.Assembly)
                 .Distinct().Where(x => x.GetReferencedAssemblies()
                     .Any(y => y.FullName == currentAssembly.FullName));
+            
             var initialAssembly = callerAssemblies.Last();
             object moduleName = dataObject.GetType().GetProperty("Module").GetValue(dataObject, null);
             Module assemblyName = initialAssembly.GetModules()[0];

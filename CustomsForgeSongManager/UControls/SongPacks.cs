@@ -61,8 +61,6 @@ namespace CustomsForgeSongManager.UControls
 
         public void UpdateToolStrip()
         {
-            Globals.DgvCurrent = dgvSongPacks;
-
             if (Globals.ReloadSongPacks)
                 InitializeSongPacks();
             else
@@ -1172,6 +1170,7 @@ namespace CustomsForgeSongManager.UControls
 
         public void TabEnter()
         {
+            Globals.DgvCurrent = dgvSongPacks;
             Globals.Log("SongPacks GUI Activated ...");
         }
 

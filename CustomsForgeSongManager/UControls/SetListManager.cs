@@ -83,8 +83,6 @@ namespace CustomsForgeSongManager.UControls
 
         public void UpdateToolStrip()
         {
-            Globals.DgvCurrent = dgvSetlistMaster;
-
             if (Globals.RescanSetlistManager)
             {
                 Globals.RescanSetlistManager = false;
@@ -1405,6 +1403,7 @@ namespace CustomsForgeSongManager.UControls
 
         public void TabEnter()
         {
+            Globals.DgvCurrent = dgvSetlistMaster;
             Globals.Log("Setlist Manager GUI Activated...");
         }
 
