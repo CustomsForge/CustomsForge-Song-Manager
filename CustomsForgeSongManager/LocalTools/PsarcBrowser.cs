@@ -60,8 +60,7 @@ namespace CustomsForgeSongManager.LocalTools
                 author = tkInfo.PackageAuthor ?? "N/A";
                 version = tkInfo.PackageVersion ?? "N/A";
                 tkversion = tkInfo.ToolkitVersion ?? "N/A";
-
-                packageComment = tkInfo.PackageComment;
+                packageComment = tkInfo.PackageComment ?? "N/A";
             }
 
             var appIdFile = _archive.TOC.FirstOrDefault(x => (x.Name.Equals("appid.appid")));
@@ -102,8 +101,11 @@ namespace CustomsForgeSongManager.LocalTools
                 {
                     currentSong.Tagged = tagged ? SongTaggerStatus.True : SongTaggerStatus.False;
 
-                    // TODO: reconsider/simplify this
-                    if (packageComment == null)
+                    // address old songpack files with unknown repair status
+                    if (version.Contains("SongPack Maker v1.1") || (version.Contains("N/A") && 
+                        (_filePath.Contains("_sp_") || _filePath.Contains("_songpack_"))))
+                        currentSong.RepairStatus = RepairStatus.Unknown;
+                    else if (packageComment.Contains("N/A"))
                         currentSong.RepairStatus = RepairStatus.NotRepaired;
                     else if (packageComment.Contains("Remastered") && packageComment.Contains("DD") && packageComment.Contains("Max5"))
                         currentSong.RepairStatus = RepairStatus.RepairedDDMaxFive;
@@ -265,7 +267,7 @@ namespace CustomsForgeSongManager.LocalTools
                                         if (!maxLevelChords.Any(c => c.Time == chord.Time) && !maxLevelNotes.Any(n => n.Time == chord.Time))
                                             maxLevelChords.Add(chord);
 
-                                        if(chord.ChordNotes != null)
+                                        if (chord.ChordNotes != null)
                                         {
                                             maxChordFret = chord.ChordNotes.Max(n => n.Fret);
                                             if (maxChordFret > highestFretUsed)

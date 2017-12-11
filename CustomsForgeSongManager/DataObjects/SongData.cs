@@ -40,7 +40,8 @@ namespace CustomsForgeSongManager.DataObjects
         RepairedDD = 2,
         RepairedMaxFive = 3,
         RepairedDDMaxFive = 4,
-        ODLC = 5
+        ODLC = 5,
+        Unknown = 6
     }
 
     // only essential data should be saved to the XML songinfo file (NO BLOAT)
@@ -61,7 +62,7 @@ namespace CustomsForgeSongManager.DataObjects
         //ver 1 - 10: time to recycle vers numbers
 
         // incrementing forces songInfo.xml and appSettings.xml to reset/update to defaults
-        public const string SongDataListCurrentVersion = "1";
+        public const string SongDataListCurrentVersion = "2";
 
         public string FilePath { get; set; }
         public DateTime FileDate { get; set; }

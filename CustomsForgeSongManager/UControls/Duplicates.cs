@@ -345,10 +345,11 @@ namespace CustomsForgeSongManager.UControls
                 if (DialogResult.No == BetterDialog2.ShowDialog(diaMsg, "Delete CDLC ...", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning", 0, 150))
                     return;
             }
-
+           
             for (int ndx = dgvCurrent.Rows.Count - 1; ndx >= 0; ndx--)
             {
                 DataGridViewRow row = dgvCurrent.Rows[ndx];
+
                 if (Convert.ToBoolean(row.Cells["colSelect"].Value))
                     dgvCurrent.Rows.Remove(row);
             }
