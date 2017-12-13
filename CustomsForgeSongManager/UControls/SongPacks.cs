@@ -52,7 +52,7 @@ namespace CustomsForgeSongManager.UControls
         private string customPackPsarcPath;
         private bool dgvPainted = false;
         private string extractedCustomHsanPath;
-        private List<SongPackData> songPackList = new List<SongPackData>();
+        private List<SongPackData> songPackList = new List<SongPackData>(); // prevents filtering from being inherited
 
         public SongPacks()
         {

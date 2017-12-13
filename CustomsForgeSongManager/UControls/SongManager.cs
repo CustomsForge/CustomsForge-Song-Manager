@@ -38,10 +38,10 @@ namespace CustomsForgeSongManager.UControls
         private int firstIndex = 0;
         private bool ignoreCheckStateChanged = false;
         private bool keepOpen;
-        private string lastSelectedSongPath = string.Empty;
+        private string lastSelectedSongPath = String.Empty;
         private int numberOfDLCPendingUpdate = 0;
         private int numberOfDisabledDLC = 0;
-        private List<SongData> songCollection = new List<SongData>();
+        private List<SongData> songList = new List<SongData>(); // prevents filtering from being inherited
 
         public SongManager()
         {
@@ -227,7 +227,7 @@ namespace CustomsForgeSongManager.UControls
 
         public void UpdateToolStrip()
         {
-           if (Globals.RescanSongManager)
+            if (Globals.RescanSongManager)
             {
                 Globals.RescanSongManager = false;
                 Globals.ReloadRenamer = true;
@@ -246,9 +246,9 @@ namespace CustomsForgeSongManager.UControls
                 PopulateDataGridView();
             }
 
-            Globals.TsLabel_MainMsg.Text = string.Format("Rocksmith Song Count: {0}", songCollection.Count);
+            Globals.TsLabel_MainMsg.Text = string.Format("Rocksmith Song Count: {0}", songList.Count);
             Globals.TsLabel_MainMsg.Visible = true;
-            numberOfDisabledDLC = songCollection.Where(song => song.Enabled == "No").ToList().Count();
+            numberOfDisabledDLC = songList.Where(song => song.Enabled == "No").ToList().Count();
             numberOfDLCPendingUpdate = 0;
             var tsldcMsg = String.Format("Outdated: {0} | Disabled CDLC: {1}", numberOfDLCPendingUpdate, numberOfDisabledDLC);
             Globals.TsLabel_DisabledCounter.Alignment = ToolStripItemAlignment.Right;
@@ -476,12 +476,12 @@ namespace CustomsForgeSongManager.UControls
                             listNode.RemoveChild(versionNode);
                         }
 
-                        songCollection = SerialExtensions.XmlDeserialize<List<SongData>>(listNode.OuterXml);
+                        songList = SerialExtensions.XmlDeserialize<List<SongData>>(listNode.OuterXml);
 
-                        if (songCollection == null || songCollection.Count == 0)
-                            throw new SongCollectionException(songCollection == null ? "Master Collection = null" : "Master Collection.Count = 0");
+                        if (songList == null || songList.Count == 0)
+                            throw new SongCollectionException(songList == null ? "Master Collection = null" : "Master Collection.Count = 0");
 
-                        Globals.MasterCollection = new BindingList<SongData>(songCollection);
+                        Globals.MasterCollection = new BindingList<SongData>(songList);
                     }
                 }
 
@@ -557,7 +557,7 @@ namespace CustomsForgeSongManager.UControls
         {
             // respect processing order
             DgvExtensions.DoubleBuffered(dgvSongsMaster);
-            LoadFilteredBindingList(songCollection);
+            LoadFilteredBindingList(songList);
             CFSMTheme.InitializeDgvAppearance(dgvSongsMaster);
             // reload column order, width, visibility
             Globals.Settings.LoadSettingsFromFile(dgvSongsMaster, true);
@@ -760,7 +760,7 @@ namespace CustomsForgeSongManager.UControls
             }
 
             // BackgroundScan populates Globals.MasterCollection
-            songCollection = Globals.MasterCollection.ToList();
+            songList = Globals.MasterCollection.ToList();
             sw.Stop();
             Globals.Log(String.Format("Parsing archives from {0} took: {1} (msec)", Constants.Rs2DlcFolder, sw.ElapsedMilliseconds));
             SaveSongCollectionToFile();
@@ -784,7 +784,7 @@ namespace CustomsForgeSongManager.UControls
             var lowerCriteria = criteria.ToLower();
             AppSettings.Instance.SearchString = lowerCriteria;
 
-            var results = songCollection
+            var results = songList
                 .Where(x => x.ArtistTitleAlbum.ToLower().Contains(lowerCriteria) ||
                     x.Tuning.ToLower().Contains(lowerCriteria) ||
                     x.Arrangements.ToLower().Contains(lowerCriteria) ||
@@ -1011,7 +1011,7 @@ namespace CustomsForgeSongManager.UControls
             if (!String.IsNullOrEmpty(charterName))
             {
                 if (tsmiModsMyCDLC.Checked)
-                    LoadFilteredBindingList(songCollection.Where(x => x.CharterName == charterName).ToList());
+                    LoadFilteredBindingList(songList.Where(x => x.CharterName == charterName).ToList());
                 else
                     PopulateDataGridView();
             }
@@ -1161,15 +1161,15 @@ namespace CustomsForgeSongManager.UControls
         private void chkSubFolders_MouseUp(object sender, MouseEventArgs e)
         {
             cueSearch.Text = String.Empty;
-            songCollection = Globals.MasterCollection.ToList();
+            songList = Globals.MasterCollection.ToList();
 
             if (!chkSubFolders.Checked)
             {
-                var results = songCollection.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList();
+                var results = songList.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList();
                 LoadFilteredBindingList(results);
             }
             else
-                LoadFilteredBindingList(songCollection);
+                LoadFilteredBindingList(songList);
         }
 
         private void cmsBackup_Click(object sender, EventArgs e)
@@ -1322,7 +1322,7 @@ namespace CustomsForgeSongManager.UControls
             if (cueSearch.Text.Length > 0) // && e.KeyCode == Keys.Enter)
                 SearchCDLC(cueSearch.Text);
             else
-                LoadFilteredBindingList(songCollection);
+                LoadFilteredBindingList(songList);
 
             // restore current sort
             DgvExtensions.RestoreSorting(dgvSongsMaster);
@@ -1354,7 +1354,7 @@ namespace CustomsForgeSongManager.UControls
 
                 if (String.IsNullOrEmpty(dgvSongsMaster.Rows[e.RowIndex].Cells["colShowDetail"].Tag as String))
                 {
-                    var songDetails = songCollection.Where(master => (master.DLCKey == songKey)).ToList();
+                    var songDetails = songList.Where(master => (master.DLCKey == songKey)).ToList();
                     if (!songDetails.Any())
                         MessageBox.Show("No Song Details Found");
                     else
@@ -1728,14 +1728,21 @@ namespace CustomsForgeSongManager.UControls
                 AppSettings.Instance.SortColumn = dgvSongsMaster.SortedColumn.DataPropertyName;
                 AppSettings.Instance.SortAscending = dgvSongsMaster.SortOrder == SortOrder.Ascending ? true : false;
 
-                //Reselect last selected row after sorting
+                // refresh is necessary to avoid exceptions when row has been deleted
+                dgvSongsMaster.Refresh();
+                
+                // Reselect last selected row after sorting
                 if (lastSelectedSongPath != string.Empty)
                 {
                     int newRowIndex = dgvSongsMaster.Rows.Cast<DataGridViewRow>().FirstOrDefault(r => r.Cells["colFilePath"].Value.ToString() == lastSelectedSongPath).Index;
                     dgvSongsMaster.Rows[newRowIndex].Selected = true;
                     dgvSongsMaster.FirstDisplayedScrollingRowIndex = newRowIndex;
                 }
+                else
+                    lastSelectedSongPath = String.Empty;
             }
+
+            dgvSongsMaster.Refresh();
         }
 
         private void lnkClearSearch_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -1748,14 +1755,14 @@ namespace CustomsForgeSongManager.UControls
             // save current sorting before clearing search
             DgvExtensions.SaveSorting(dgvSongsMaster);
 
-            songCollection = Globals.MasterCollection.ToList();
+            songList = Globals.MasterCollection.ToList();
             if (!chkSubFolders.Checked)
             {
-                var results = songCollection.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList();
+                var results = songList.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList();
                 LoadFilteredBindingList(results);
             }
             else
-                LoadFilteredBindingList(songCollection);
+                LoadFilteredBindingList(songList);
 
             UpdateToolStrip();
 
@@ -1881,7 +1888,7 @@ namespace CustomsForgeSongManager.UControls
 
             if (tsmiFilesIncludeODLC.Checked)
             {
-                selection.AddRange(songCollection.Where(x => x.CharterName == "Ubisoft").ToList());
+                selection.AddRange(songList.Where(x => x.CharterName == "Ubisoft").ToList());
                 // prevent double selecting ODLC files
                 selection = selection.GroupBy(x => x.FilePath).Select(s => s.First()).ToList();
             }
@@ -1926,7 +1933,7 @@ namespace CustomsForgeSongManager.UControls
 
             if (tsmiFilesIncludeODLC.Checked)
             {
-                selection.AddRange(songCollection.Where(x => x.CharterName == "Ubisoft").ToList());
+                selection.AddRange(songList.Where(x => x.CharterName == "Ubisoft").ToList());
                 // prevent double selecting ODLC files
                 selection = selection.GroupBy(x => x.FilePath).Select(s => s.First()).ToList();
             }
@@ -1979,7 +1986,7 @@ namespace CustomsForgeSongManager.UControls
             if (!String.IsNullOrEmpty(charterName))
             {
                 if (tsmiModsMyCDLC.Checked)
-                    LoadFilteredBindingList(songCollection.Where(x => x.CharterName == charterName).ToList());
+                    LoadFilteredBindingList(songList.Where(x => x.CharterName == charterName).ToList());
                 else
                     PopulateDataGridView();
             }
@@ -2005,7 +2012,7 @@ namespace CustomsForgeSongManager.UControls
             // quickly reload the songCollection to the dgv
             if (Globals.ReloadSongManager)
             {
-                LoadFilteredBindingList(songCollection);
+                LoadFilteredBindingList(songList);
                 Globals.ReloadSongManager = false;
             }
 
@@ -2162,7 +2169,7 @@ namespace CustomsForgeSongManager.UControls
         public void TabLeave()
         {
             SetRepairOptions();
-            if (songCollection.Any())
+            if (songList.Any())
                 Globals.Settings.SaveSettingsToFile(dgvSongsMaster);
 
             Globals.Log("Song Manager GUI Deactivated ...");
@@ -2171,7 +2178,7 @@ namespace CustomsForgeSongManager.UControls
         private void tsmiDevsDebugUse_Click(object sender, EventArgs e)
         {
             // temporarily debugging some things here
-            var stopHere = songCollection;
+            var stopHere = songList;
             var stopHere2 = Globals.MasterCollection;
             var stopHere3 = AppSettings.Instance.FilterString;
         }

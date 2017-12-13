@@ -29,7 +29,7 @@ namespace CustomsForgeSongManager.UControls
         private bool bindingCompleted;
         private bool dgvPainted;
         private List<string> distinctPIDS = new List<string>();
-        private List<SongData> duplicateList = new List<SongData>();
+        private List<SongData> duplicateList = new List<SongData>(); // prevents filtering from being inherited
         private bool keepOpen;
         private bool keyDisabled;
         private bool keyEnabled;
@@ -345,7 +345,7 @@ namespace CustomsForgeSongManager.UControls
                 if (DialogResult.No == BetterDialog2.ShowDialog(diaMsg, "Delete CDLC ...", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning", 0, 150))
                     return;
             }
-           
+
             for (int ndx = dgvCurrent.Rows.Count - 1; ndx >= 0; ndx--)
             {
                 DataGridViewRow row = dgvCurrent.Rows[ndx];
@@ -716,16 +716,21 @@ namespace CustomsForgeSongManager.UControls
         {
             if (dgvDuplicates.SortedColumn != null)
             {
-                //Reselect last selected row after sorting
+                // refresh is necessary to avoid exceptions when row has been deleted
+                dgvDuplicates.Refresh();
+                
+                // Reselect last selected row after sorting
                 if (lastSelectedSongPath != string.Empty)
                 {
                     int newRowIndex = dgvDuplicates.Rows.Cast<DataGridViewRow>().FirstOrDefault(r => r.Cells["colFilePath"].Value.ToString() == lastSelectedSongPath).Index;
                     dgvDuplicates.Rows[newRowIndex].Selected = true;
                     dgvDuplicates.FirstDisplayedScrollingRowIndex = newRowIndex;
                 }
+                else
+                    lastSelectedSongPath = String.Empty;
             }
-            else
-                lastSelectedSongPath = String.Empty;
+
+            dgvDuplicates.Refresh();
         }
 
         private void exploreToolStripMenuItem_Click(object sender, EventArgs e)

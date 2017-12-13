@@ -18,7 +18,7 @@ namespace CustomsForgeSongManager.UControls
 {
     public partial class Renamer : UserControl
     {
-        private List<SongData> renSongCollection = new List<SongData>();
+        private List<SongData> renSongList = new List<SongData>();
 
         public Renamer()
         {
@@ -54,7 +54,7 @@ namespace CustomsForgeSongManager.UControls
         public void ShowRenamePreview()
         {
             SongData sd = null;
-            List<SongData> List = renSongCollection.Count > 0 ? renSongCollection : Globals.MasterCollection.ToList();
+            List<SongData> List = renSongList.Count > 0 ? renSongList : Globals.MasterCollection.ToList();
             if (List.Count == 0)
                 Globals.Log("No songs found for rename preview.");
             int x = Globals.random.Next(List.Count() - 1);
@@ -143,7 +143,7 @@ namespace CustomsForgeSongManager.UControls
 
         public void RenameSongs()
         {
-            foreach (SongData data in renSongCollection)
+            foreach (SongData data in renSongList)
             {
                 var oldFilePath = data.FilePath;
                 var newFilePath = GetNewSongName(data);
@@ -229,25 +229,26 @@ namespace CustomsForgeSongManager.UControls
                 return false;
             }
 
-            renSongCollection = new List<SongData>(Globals.MasterCollection);
+           // renSongList = new List<SongData>(Globals.MasterCollection);
+            renSongList = Globals.MasterCollection.ToList();
             // do not rename RS1 compatiblity files
-            renSongCollection.RemoveAll(x => x.FileName.Contains(Constants.RS1COMP));
+            renSongList.RemoveAll(x => x.FileName.Contains(Constants.RS1COMP));
 
             // do not rename any disabled songs
-            renSongCollection.RemoveAll(x => x.Enabled.Contains("No"));
+            renSongList.RemoveAll(x => x.Enabled.Contains("No"));
 
             // rename only user selected songs
             if (chkRenameOnlySelected.Checked)
-                renSongCollection.RemoveAll(x => x.Selected == false);
+                renSongList.RemoveAll(x => x.Selected == false);
 
-            if (renSongCollection == null || renSongCollection.Count == 0 || Globals.WorkerFinished == Globals.Tristate.Cancelled)
+            if (renSongList == null || renSongList.Count == 0 || Globals.WorkerFinished == Globals.Tristate.Cancelled)
             {
                 MessageBox.Show("Please rescan the song collection" + Environment.NewLine + "using Song Manager tab first.", Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
 
             // check for duplicates
-            var dups = renSongCollection.GroupBy(x => new { Song = x.Title, x.Album, x.Artist }).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
+            var dups = renSongList.GroupBy(x => new { Song = x.Title, x.Album, x.Artist }).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
             if (dups.Any())
             {
                 MessageBox.Show("Please remove duplicate songs" + Environment.NewLine + "using the Duplicates tab first.", Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
