@@ -9,6 +9,8 @@ using System.Runtime.InteropServices;
 using System.Security.Principal;
 using Microsoft.Win32;
 using System.IO;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace GenTools
 {
@@ -635,6 +637,35 @@ namespace GenTools
         public static string DotNetVersion
         {
             get { return Environment.Version.ToString(); }
+        }
+
+        /// <summary>
+        /// Checks if .Net 4.0.30319 is installed
+        /// </summary>
+        /// <param name="conditionalCheckResult">[Optional] Result of some preliminary conditional check</param>
+        /// <returns></returns>
+        public static bool IsDotNet4(bool conditionalCheckResult = true)
+        {
+            if (!DotNetVersion.Contains("4.0.30319") && conditionalCheckResult)
+            {
+                var envMsg = "This application runs best with .NET 4.0.30319 installed." + Environment.NewLine +
+                    "You are currently running .NET " + DotNetVersion + Environment.NewLine +
+                    "Install the correct version if you experinece problems running this application.   " + Environment.NewLine + Environment.NewLine +
+                    "Click 'Yes' to download and install the correct version now from:" + Environment.NewLine +
+                    "https://www.microsoft.com/en-us/download/confirmation.aspx?id=17718";
+
+                if (MessageBox.Show(envMsg, "Incorrect .NET Version ...", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                {
+                    Process.Start("https://www.microsoft.com/en-us/download/confirmation.aspx?id=17718");
+                    Thread.Sleep(500);
+                    Process.Start("https://www.howtogeek.com/118869/how-to-easily-install-previous-versions-of-the-.net-framework-in-windows-8");
+                    Environment.Exit(0);
+                }
+
+                return false;
+            }
+
+            return true;
         }
 
         #endregion

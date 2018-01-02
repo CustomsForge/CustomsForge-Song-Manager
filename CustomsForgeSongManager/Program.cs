@@ -9,6 +9,7 @@ using DF.WinForms.ThemeLib;
 using DLogNet;
 using DataGridViewTools;
 using Mutex = System.Threading.Mutex;
+using System.Threading;
 
 #if WINDOWS
 
@@ -46,56 +47,42 @@ namespace CustomsForgeSongManager
                     return;
                 }
 
-                //if (!Directory.Exists(Constants.WorkFolder))
-                //    Directory.CreateDirectory(Constants.WorkFolder);
-
-                //if (RemoveGridSettings())
-                //    ZipUtilities.DeleteDirectory(Constants.GridSettingsFolder);
-
                 RunApp();
             }
         }
 
         private static void RunApp()
         {
-            // depricated ClickOnceUpgrade legacy code
-#if WEBDEPLOY_RELEASE
-            if (System.Deployment.Application.ApplicationDeployment.IsNetworkDeployed)
+            // check for correct version of .NET
+            if (!File.Exists(Constants.SongsInfoPath))
+                SysExtensions.IsDotNet4();
+
+            DLogger myLog = new DLogger();
+            myLog.AddTargetFile(AppSettings.Instance.LogFilePath);
+
+            if (Constants.DebugMode) // have VS handle the exception
             {
                 Application.EnableVisualStyles();
-               // Application.SetCompatibleTextRenderingDefault(false);
-                Application.Run(new ClickOnceUpgrade());
+                // this is throwing an error so commented out and moved
+                //  Application.SetCompatibleTextRenderingDefault(false);    
+                Application.Run(new frmMain(myLog));
             }
             else
-#endif
             {
-                DLogger myLog = new DLogger();
-                myLog.AddTargetFile(AppSettings.Instance.LogFilePath);
-
-                if (Constants.DebugMode) // have VS handle the exception
+                try
                 {
                     Application.EnableVisualStyles();
-                    // this is throwing an error so commented out and moved
-                    //  Application.SetCompatibleTextRenderingDefault(false);    
+                    // Application.SetCompatibleTextRenderingDefault(false);
                     Application.Run(new frmMain(myLog));
                 }
-                else
+                catch (Exception ex)
                 {
-                    try
-                    {
-                        Application.EnableVisualStyles();
-                        // Application.SetCompatibleTextRenderingDefault(false);
-                        Application.Run(new frmMain(myLog));
-                    }
-                    catch (Exception ex)
-                    {
-                        //a more detailed exception message
-                        var exMessage = String.Format("Exception({0}): {1}", ex.GetType().Name, ex.Message);
-                        if (ex.InnerException != null)
-                            exMessage += String.Format(", InnerException({0}): {1}", ex.InnerException.GetType().Name, ex.InnerException.Message);
-                        Globals.MyLog.Write(exMessage);
-                        Process.Start(AppSettings.Instance.LogFilePath);
-                    }
+                    //a more detailed exception message
+                    var exMessage = String.Format("Exception({0}): {1}", ex.GetType().Name, ex.Message);
+                    if (ex.InnerException != null)
+                        exMessage += String.Format(", InnerException({0}): {1}", ex.InnerException.GetType().Name, ex.InnerException.Message);
+                    Globals.MyLog.Write(exMessage);
+                    Process.Start(AppSettings.Instance.LogFilePath);
                 }
             }
         }

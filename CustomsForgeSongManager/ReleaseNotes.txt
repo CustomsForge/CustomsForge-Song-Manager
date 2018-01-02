@@ -14,6 +14,10 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.4.2.8
+- added .Net validation check
+- fixed variable PC/Mac app title
+
 1.4.2.7
 - data binding practices clean up
 - fixed reselect sorted data after delete

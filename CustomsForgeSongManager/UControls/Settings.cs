@@ -116,7 +116,7 @@ namespace CustomsForgeSongManager.UControls
         {
             if (!AppSettings.Instance.ValidateD3D)
             {
-                Globals.Log("<WARNING> 'D3DX9_42.dll' file validation is disabled ...");
+                Globals.Log("+ <WARNING> 'D3DX9_42.dll' file validation is disabled ...");
                 return false;
             }
 
@@ -133,6 +133,7 @@ namespace CustomsForgeSongManager.UControls
                     return false;
                 }
 
+                // working directly with the file rather than an embedded resource 
                 if (File.Exists(luaPath))
                     GenExtensions.CopyFile(Path.Combine(Constants.ApplicationFolder, "D3DX9_42.dll.old"), Path.Combine(AppSettings.Instance.RSInstalledDir, "D3DX9_42.dll"), true, false);
                 else

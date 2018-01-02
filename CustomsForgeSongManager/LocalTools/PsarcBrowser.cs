@@ -102,7 +102,7 @@ namespace CustomsForgeSongManager.LocalTools
                     currentSong.Tagged = tagged ? SongTaggerStatus.True : SongTaggerStatus.False;
 
                     // address old songpack files with unknown repair status
-                    if (version.Contains("SongPack Maker v1.1") || (version.Contains("N/A") && 
+                    if (version.Contains("SongPack Maker v1.1") || (version.Contains("N/A") &&
                         (_filePath.Contains("_sp_") || _filePath.Contains("_songpack_"))))
                         currentSong.RepairStatus = RepairStatus.Unknown;
                     else if (packageComment.Contains("N/A"))
@@ -393,7 +393,8 @@ namespace CustomsForgeSongManager.LocalTools
             if (String.IsNullOrEmpty(audioName))
                 return false;
 
-            Globals.Log("Extracting Audio ... Please wait ...");
+            Globals.Log("Extracting Audio ...");
+            Globals.Log("Please wait ...");
             // TODO: maintain app responsiveness during audio extraction
             // get contents of archive
             using (var archive = new PSARC(true))

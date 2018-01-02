@@ -1241,8 +1241,8 @@ namespace CustomsForgeSongManager.UControls
                     selection.Add(selected);
             }
 
-            Globals.Log("Please wait ...");
             Globals.Log("Getting Analyzer Data for selected songs ...");
+            Globals.Log("Please wait ...");
             DoWork(Constants.GWORKER_ANALYZE, selection);
 
             dgvSongsMaster.Refresh();

@@ -17,6 +17,7 @@ using System.Text.RegularExpressions;
 using System.ComponentModel;
 using DataGridViewTools;
 using CustomControls;
+using RocksmithToolkitLib;
 
 // NOTE: the app is designed for default user screen resolution of 1024x768
 // dev screen resolution should be set to this when designing forms and controls
@@ -95,10 +96,6 @@ namespace CustomsForgeSongManager.Forms
             // verify application directory structure
             FileTools.VerifyCfsmFolders();
 
-            // initialize all global variables
-            Globals.Log(Constants.AppTitle);
-            Globals.Log(GetRSTKLibVersion());
-
             // initialize show log event handler before loading settings
             AppSettings.Instance.PropertyChanged += (s, e) =>
             {
@@ -112,7 +109,7 @@ namespace CustomsForgeSongManager.Forms
             // load settings
             Globals.Settings.LoadSettingsFromFile();
 
-            // set app title after settings are loaded
+            // set app title
             var strFormatVersion = "{0} (v{1} - {2})";
 #if INNOBETA
             strFormatVersion = "{0} (v{1} - {2} BETA VERSION)";
@@ -126,6 +123,11 @@ namespace CustomsForgeSongManager.Forms
 
             Constants.AppTitle = String.Format(strFormatVersion, Constants.ApplicationName, Constants.CustomVersion(), Constants.OnMac ? "MAC" : "PC");
             this.Text = Constants.AppTitle;
+
+            // log application environment
+            Globals.Log("+ " + Constants.AppTitle);
+            Globals.Log("+ .NET (v" + SysExtensions.DotNetVersion + ")");
+            Globals.Log("+ RocksmithToolkitLib (v" + ToolkitVersion.RSTKLibVersion() + ")");
 
             this.Show();
             this.WindowState = AppSettings.Instance.FullScreen ? FormWindowState.Maximized : FormWindowState.Normal;
@@ -148,11 +150,6 @@ namespace CustomsForgeSongManager.Forms
         public frmMain()
         {
             //  throw new Exception("Improper constructor used");
-        }
-
-        private string GetRSTKLibVersion()
-        {
-            return String.Format("RocksmithToolkitLib Version: {0}", Assembly.LoadFrom("RocksmithToolkitLib.dll").GetName().Version);
         }
 
         private void LoadSongManager()
