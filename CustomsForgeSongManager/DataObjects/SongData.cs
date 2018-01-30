@@ -6,6 +6,7 @@ using System.Xml.Serialization;
 using GenTools;
 using DataGridViewTools;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 // DO NOT USE RESHAPER TO SORT THIS CLASS -- HAND SORT ONLY
 
@@ -62,7 +63,7 @@ namespace CustomsForgeSongManager.DataObjects
         //ver 1 - 10: time to recycle vers numbers
 
         // incrementing forces songInfo.xml and appSettings.xml to reset/update to defaults
-        public const string SongDataListCurrentVersion = "2";
+        public const string SongDataListCurrentVersion = "4";
 
         public string FilePath { get; set; }
         public DateTime FileDate { get; set; }
@@ -163,7 +164,7 @@ namespace CustomsForgeSongManager.DataObjects
         }
 
         [XmlIgnore]
-        public string ArrangementInitials
+        public string ArrangementsInitials
         {
             get
             {
@@ -192,7 +193,7 @@ namespace CustomsForgeSongManager.DataObjects
         }
 
         [XmlIgnore] // preserves old 1D display method
-        public string Arrangements
+        public string Arrangements1D
         {
             get { return String.Join(", ", Arrangements2D.Select(o => o.Name)); }
             set { }
@@ -206,14 +207,14 @@ namespace CustomsForgeSongManager.DataObjects
         }
 
         [XmlIgnore] // preserves old 1D display method show DMax
-        public Int32 DD
+        public Int32? DD
         {
             get { return Convert.ToInt32(Arrangements2D.Max(o => o.DMax)); }
             //get { return String.Join(", ", Arrangements2D.Select(o => o.DMax)); }
         }
 
         [XmlIgnore] // preserves old 1D display method
-        public Int32 Sections
+        public Int32? Sections
         {
             get { return Arrangements2D.Max(o => o.SectionCount); }
         }
@@ -246,7 +247,10 @@ namespace CustomsForgeSongManager.DataObjects
         [XmlIgnore]
         public string PIDArrangement { get; set; }
 
-        //extra arrangemenet data        
+        //extra arrangemenet data   
+        [XmlIgnore]
+        public string ChordNums { get { return Arrangements2D[0].ChordNums.ToString(); } }
+        [XmlIgnore]
         public Int32 ChordCount { get { return Arrangements2D.Sum(a => a.ChordCount); } }
         [XmlIgnore]
         public Int32 NoteCount { get { return Arrangements2D.Sum(a => a.NoteCount); } }
@@ -305,19 +309,26 @@ namespace CustomsForgeSongManager.DataObjects
         }
     }
 
-    // detail table data
-    [XmlRoot("Arrangment")] // provides proper xml serialization
+    // used for Analyzer data
+    [XmlRoot("Arrangment")]
     public class Arrangement
     {
         public string PersistentID { get; set; }
         public string Name { get; set; } // arrangement name
         public string Tuning { get; set; }
-        public Int32 DMax { get; set; }
         public string ToneBase { get; set; }
-        public Int32 SectionCount { get; set; }
+        public Int32? DMax { get; set; } // null value is not serialized
+        public Int32? SectionCount { get; set; } // null value is not serialized
 
-        // TODO: make custom object for Analyzer data and save to seperate xml file
-        // public Analyzer Analyzer { get; set; }
+        public bool ShouldSerializeDMax()
+        {
+            return DMax.HasValue;
+        }
+
+        public bool ShouldSerializeSectionCount()
+        {
+            return SectionCount.HasValue;
+        }
 
         public Arrangement()
         {
@@ -341,21 +352,12 @@ namespace CustomsForgeSongManager.DataObjects
 
         [XmlIgnore]
         public SongData Parent { get; set; }
-
-        //}
-        // TODO: make custom object for Analyzer data and save to seperate xml file
-        // to  keep songInfo.xml from balloning in size
-        //[XmlRoot("Analzyer")] // provides proper xml serialization
-        //public class Analyzer
-        //{
-
-        //    //[XmlIgnore]
-        //public Dictionary<string, int> ChordList { get; set; }
-
-        public List<string> ChordNames { get; set; }
-        public List<int> ChordCounts { get; set; }
         [XmlIgnore]
-        public string ChordCountsCombined
+        public List<string> ChordNames { get; set; }
+        [XmlIgnore]
+        public List<int> ChordCounts { get; set; }
+
+        public string ChordNums
         {
             get
             {
@@ -371,28 +373,32 @@ namespace CustomsForgeSongManager.DataObjects
 
                 return stringList;
             }
+            set { }
         }
 
         public Int32 ChordCount { get; set; }
         public Int32 NoteCount { get; set; }
-        public Int32 OctaveCount { get; set; }
         public Int32 BendCount { get; set; }
-        public Int32 HammerOnCount { get; set; }
-        public Int32 PullOffCount { get; set; }
-        public Int32 HarmonicCount { get; set; }
         public Int32 FretHandMuteCount { get; set; }
+        public Int32 HammerOnCount { get; set; }
+        public Int32 HarmonicCount { get; set; }
+        public Int32 HarmonicPinchCount { get; set; }
+        public Int32 HighestFretUsed { get; set; }
+        public Int32 OctaveCount { get; set; }
         public Int32 PalmMuteCount { get; set; }
         public Int32 PluckCount { get; set; }
-        public Int32 SlapCount { get; set; }
         public Int32 PopCount { get; set; }
+        public Int32 PullOffCount { get; set; }
+        public Int32 SlapCount { get; set; }
         public Int32 SlideCount { get; set; }
         public Int32 SustainCount { get; set; }
-        public Int32 TremoloCount { get; set; }
-        public Int32 HarmonicPinchCount { get; set; }
-        public Int32 UnpitchedSlideCount { get; set; }
         public Int32 TapCount { get; set; }
+        public Int32 TremoloCount { get; set; }
+        public Int32 UnpitchedSlideCount { get; set; }
         public Int32 VibratoCount { get; set; }
-        public Int32 HighestFretUsed { get; set; }
+
+        // TODO: add progress tracker fields 
+
     }
 
 

@@ -14,9 +14,18 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.4.2.9
+- convert SongPacks DisabledSongs to more standardized DisabledEntries
+- added Windows 10 NullReference exception handler when loading GridSettings
+- added more descriptive error messages to log when CDLC are missing required data
+- added 'Enable Quarantine' checkbox to 'Settings' menu to automatically quarantine corrupt CDLC when found
+- fixed Analyzer data base zero index bug for Note and Chord count
+- cleaned up songInfo.xml and analyzerData.xml serialization and eliminated null values
+- added ChordNums to analyzerData.xml
+
 1.4.2.8
 - added .Net validation check
-- fixed variable PC/Mac app title
+- fixed CFSM PC/Mac application title
 
 1.4.2.7
 - data binding practices clean up

@@ -21,7 +21,7 @@ namespace CustomsForgeSongManager.SongEditor
             // this will throw exception if SongFilePath not found
             var song = Globals.MasterCollection.First(x => x.FilePath == FilePath);
 
-            cbLowBass.Visible = song.ArrangementInitials.Contains('B');
+            cbLowBass.Visible = song.ArrangementsInitials.Contains('B');
 
             txtKey.Text = SongData.Name;
             txtArtist.Text = SongData.SongInfo.Artist;

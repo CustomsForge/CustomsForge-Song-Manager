@@ -18,6 +18,7 @@ using RocksmithToolkitLib.Sng2014HSL;
 using RocksmithToolkitLib.DLCPackage.Manifest2014;
 using Newtonsoft.Json;
 using Arrangement = CustomsForgeSongManager.DataObjects.Arrangement;
+using System.Threading;
 
 namespace CustomsForgeSongManager.LocalTools
 {
@@ -151,39 +152,54 @@ namespace CustomsForgeSongManager.LocalTools
                         // mini speed hack - these don't change so skip after first pass
                         if (!gotSongInfo)
                         {
-                            currentSong.DLCKey = attributes["SongKey"].ToString();
-                            currentSong.Artist = attributes["ArtistName"].ToString();
-                            currentSong.ArtistSort = attributes["ArtistNameSort"].ToString();
-                            currentSong.Title = attributes["SongName"].ToString();
-                            currentSong.TitleSort = attributes["SongNameSort"].ToString();
-                            currentSong.Album = attributes["AlbumName"].ToString();
-                            currentSong.AlbumSort = attributes["AlbumNameSort"].ToString();
-                            currentSong.LastConversionDateTime = Convert.ToDateTime(attributes["LastConversionDateTime"]);
-                            currentSong.SongYear = Convert.ToInt32(attributes["SongYear"]);
-                            currentSong.SongLength = Convert.ToSingle(attributes["SongLength"]);
-                            currentSong.SongAverageTempo = Convert.ToSingle(attributes["SongAverageTempo"]);
-
-                            // some CDLC may not have SongVolume info
-                            if (attributes["SongVolume"] != null)
-                                currentSong.SongVolume = Convert.ToSingle(attributes["SongVolume"]);
-
+                            // do this first in case there is a data exception
                             if (getAnalyzerData)
                                 currentSong.ExtraMetaDataScanned = true;
                             else
                                 currentSong.ExtraMetaDataScanned = false;
 
+                            try
+                            {
+                                currentSong.DLCKey = attributes["SongKey"].ToString();
+                                currentSong.Artist = attributes["ArtistName"].ToString();
+                                currentSong.ArtistSort = attributes["ArtistNameSort"].ToString();
+                                currentSong.Title = attributes["SongName"].ToString();
+                                currentSong.TitleSort = attributes["SongNameSort"].ToString();
+                                currentSong.Album = attributes["AlbumName"].ToString();
+                                currentSong.LastConversionDateTime = Convert.ToDateTime(attributes["LastConversionDateTime"]);
+                                currentSong.SongYear = Convert.ToInt32(attributes["SongYear"]);
+                                currentSong.SongLength = Convert.ToSingle(attributes["SongLength"]);
+                                currentSong.SongAverageTempo = Convert.ToSingle(attributes["SongAverageTempo"]);
+
+                                // some CDLC may not have SongVolume info
+                                if (attributes["SongVolume"] != null)
+                                    currentSong.SongVolume = Convert.ToSingle(attributes["SongVolume"]);
+
+                                // some CDLC may not have AlbmumSort info
+                                if (attributes["AlbumNameSort"] != null)
+                                    currentSong.AlbumSort = attributes["AlbumNameSort"].ToString();
+                            }
+                            catch (Exception ex)
+                            {
+                                for (int i = 0; i < 3; i++)
+                                    Console.Beep(800, 200);
+
+                                Globals.Log("<WARNING> CDLC is missing some critical arrangement data ...");
+                                Globals.Log(" - " + Path.GetFileName(_filePath));
+                                Globals.Log(" - Please PM a copy of this CDLC to the CFSM Developers ...");
+                            }
+
                             gotSongInfo = true;
                         }
 
+                        // get arrangment info
+                        Arrangement arr = new Arrangement(currentSong);
                         var arrName = attributes["ArrangementName"].ToString();
 
                         if (Char.IsNumber(entry.Name[entry.Name.IndexOf(".json") - 1]))
                             arrName = arrName + entry.Name[entry.Name.IndexOf(".json") - 1];
 
-                        // get arrangment info
-                        Arrangement arr = new Arrangement(currentSong);
-
-                        if (!arrName.ToLower().Contains("vocal"))
+                        if (!arrName.ToLower().Contains("vocals"))
                         {
                             // fix for tuning 'Other' issue
                             if (Globals.TuningXml == null || Globals.TuningXml.Count == 0)
@@ -251,7 +267,7 @@ namespace CustomsForgeSongManager.LocalTools
                                 var chordNames = new List<string>();
                                 var chordCounts = new List<int>();
 
-                                for (int i = allLevelData.Count() - 1; i > 0; i--) //go from the highest level to prevent adding the lower level notes
+                                for (int i = allLevelData.Count() - 1; i >= 0; i--) // go from the highest level to prevent adding the lower level notes
                                 {
                                     foreach (var note in allLevelData[i].Notes)
                                     {
@@ -315,6 +331,7 @@ namespace CustomsForgeSongManager.LocalTools
                                         octaveCount++;
                                 }
 
+                                // this only works for CDLC that has DD
                                 arr = new Arrangement(currentSong)
                                 {
                                     NoteCount = maxLevelNotes.Count(),

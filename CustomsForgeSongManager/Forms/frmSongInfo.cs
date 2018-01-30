@@ -25,13 +25,13 @@ namespace CustomsForgeSongManager.Forms
             lbl_PanelSongArtist.Text = song.Artist;
             lbl_PanelSongYear.Text = song.SongYear.ToString();
             lbl_PanelSongTuning.Text = song.Tuning;
-            lbl_PanelSongArrangements.Text = song.Arrangements;
+            lbl_PanelSongArrangements.Text = song.Arrangements1D;
             lbl_PanelSongDD.Text = song.DD.ToString();
             lbl_PanelSongAuthor.Text = song.CharterName;
             lbl_PanelSongPath.Text = song.FilePath;
 
             // TODO: reimpliment
-            FillGridWithArrangements(song.Arrangements);
+            FillGridWithArrangements(song.Arrangements1D);
 
             // debug image extraction here 
             if (File.Exists(song.FilePath))

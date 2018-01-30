@@ -127,7 +127,7 @@ namespace CustomsForgeSongManager.LocalTools
                 filesList = FilesList(Constants.Rs2DlcFolder, false, false, false);
 
             filesList = filesList.Where(fi => !fi.ToLower().Contains("inlay")).ToList();
-            
+
             // initialization
             bwSongCollection = Globals.MasterCollection.ToList();
 
@@ -219,6 +219,7 @@ namespace CustomsForgeSongManager.LocalTools
                         }
                         catch (Exception)
                         {
+                            // do nothing
                         }
                     }
                 }
@@ -271,22 +272,26 @@ namespace CustomsForgeSongManager.LocalTools
                 // move to Quarantine folder
                 if (ex.Message.StartsWith("Error reading JObject"))
                     Globals.Log(String.Format("<ERROR>: {0}  -  CDLC is corrupt!", filePath));
+                else if (ex.Message.StartsWith("Object reference not set"))
+                    Globals.Log(String.Format("<ERROR>: {0}  -  CDLC is missing data!", filePath));
                 else
                     Globals.Log(String.Format("<ERROR>: {0}  -  {1}", filePath, ex.Message));
 
-                if (AppSettings.Instance.MoveToQuarantine)
+                if (AppSettings.Instance.EnableQuarantine)
                 {
                     var corFileName = String.Format("{0}{1}", Path.GetFileName(filePath), ".cor");
                     var corFilePath = Path.Combine(Constants.QuarantineFolder, corFileName);
-                    Globals.Log("File has been moved to: " + Constants.QuarantineFolder);
 
                     if (!Directory.Exists(Constants.QuarantineFolder))
                         Directory.CreateDirectory(Constants.QuarantineFolder);
 
-                    //if (File.Exists(corFilePath))
-                    //    File.Delete(corFilePath);
-
                     File.Move(filePath, corFilePath);
+                    Globals.Log(String.Format("File has been quarantined to: {0}", Constants.QuarantineFolder));
+                }
+                else
+                {
+                    Globals.Log(String.Format("<WARNING> File was not quarantined ..."));
+                    Globals.Log(String.Format(" - Auto quarantine may be enabled in the 'Settings' menu ..."));
                 }
             }
         }

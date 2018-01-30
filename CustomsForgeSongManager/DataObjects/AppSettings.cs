@@ -20,7 +20,8 @@ namespace CustomsForgeSongManager.DataObjects
         private bool _includeCustomPacks;
         private bool _includeAnalyzerData;
         private bool _enableAutoUpdate = false;
-        private bool _enableNotifications = false;
+        private bool _enableNotifications = false; 
+        private bool _enableQuarantine = false;
         private bool _validateD3D = false;
         private bool _macMode;
         private bool _cleanOnClosing;
@@ -91,6 +92,12 @@ namespace CustomsForgeSongManager.DataObjects
         {
             get { return _enableNotifications; }
             set { SetPropertyField("EnableNotifications", ref _enableNotifications, value); }
+        }
+
+        public bool EnableQuarantine
+        {
+            get { return _enableQuarantine; }
+            set { SetPropertyField("EnableQuarantine", ref _enableQuarantine, value); }
         }
 
         public bool ValidateD3D
@@ -237,8 +244,7 @@ namespace CustomsForgeSongManager.DataObjects
             set { _repairOptions = value; }
         }
 
-        public bool MoveToQuarantine { get; set; }
-
+ 
         //property template
         //public type PropName { get { return propName; } set { SetPropertyField("PropName", ref propName, value); } }
 
@@ -271,8 +277,18 @@ namespace CustomsForgeSongManager.DataObjects
 
             if (File.Exists(Constants.GridSettingsPath))
             {
-                Globals.Log("Loaded File: " + Path.GetFileName(Constants.GridSettingsPath));
-                RAExtensions.ManagerGridSettings = SerialExtensions.LoadFromFile<RADataGridViewSettings>(Constants.GridSettingsPath);
+                try
+                {
+                    RAExtensions.ManagerGridSettings = SerialExtensions.LoadFromFile<RADataGridViewSettings>(Constants.GridSettingsPath);
+                    Globals.Log("Loaded File: " + Path.GetFileName(Constants.GridSettingsPath));
+                }
+                catch (Exception ex)
+                {
+                    Globals.Log("<ERROR> GridSettings could not be loaded ...");
+                    Globals.Log("Windows 10 users must uninstall .Net 4.7 and manually install .Net 4.0 if this error persists ...");
+                    Globals.Log(ex.Message);
+                    RAExtensions.ManagerGridSettings = null; // reset
+                }
             }
             else
             {
@@ -299,7 +315,7 @@ namespace CustomsForgeSongManager.DataObjects
 
         public void Reset()
         {
-            Instance.MoveToQuarantine = false;
+            Instance.EnableQuarantine = false;
             Instance.LogFilePath = Constants.LogFilePath;
             Instance.RSInstalledDir = LocalExtensions.GetSteamDirectory();
             Instance.RSProfileDir = String.Empty;

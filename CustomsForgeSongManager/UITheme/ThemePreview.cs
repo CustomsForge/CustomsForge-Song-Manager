@@ -75,7 +75,7 @@ namespace CustomsForgeSongManager.UITheme
                 var x = (SongData) dgvSongsMaster.Rows[e.RowIndex].DataBoundItem;
                 if (x != null)
                 {
-                    string arrInit = x.Arrangements.ToUpper();
+                    string arrInit = x.Arrangements1D.ToUpper();
 
                     if (e.ColumnIndex == colBass.Index)
                         e.CellStyle.BackColor = arrInit.Contains("BASS") ? _Enabled : _Disabled;

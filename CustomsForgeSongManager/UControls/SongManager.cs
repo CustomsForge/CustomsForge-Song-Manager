@@ -141,6 +141,8 @@ namespace CustomsForgeSongManager.UControls
 
         public void SaveSongCollectionToFile()
         {
+            // TODO: simplify serialization
+
             // save with version info
             var dom = Globals.MasterCollection.XmlSerializeToDom();
             XmlElement versionNode = dom.CreateElement("SongDataList");
@@ -150,7 +152,7 @@ namespace CustomsForgeSongManager.UControls
 
             var arrDom = new XmlDocument();
             var allArrsNode = arrDom.CreateElement("AnalyzerData");
-            string keptInfo = "persistentid_dmax_name_dd_tuning_tonebase_tonebase_sectioncount"; //don't move these to ArrInfo file
+            string keptInfo = "persistentid_dmax_name_dd_tuning_tonebase_tonebase_sectioncount"; //don't move these to AnalyzerInfo.xml file
 
             foreach (XmlElement songData in dom.GetElementsByTagName("ArrayOfSongData")[0].ChildNodes)
             {
@@ -160,19 +162,32 @@ namespace CustomsForgeSongManager.UControls
                     string dlcKey = songData.SelectSingleNode("DLCKey").ChildNodes[0].Value.ToString();
                     ((XmlElement)arrangementsNode).SetAttribute("DLCKey", dlcKey);
 
+                    // create structure for analyzerData.xml - this must come first
                     var extraMetaDataScanned = Convert.ToBoolean(songData.SelectSingleNode("ExtraMetaDataScanned").ChildNodes[0].Value);
                     if (extraMetaDataScanned)
+                    {
                         allArrsNode.AppendChild(arrDom.ImportNode(arrangementsNode, true));
+                        var arrsNode = allArrsNode.ChildNodes.OfType<XmlNode>().ToList();
+                        arrsNode.ForEach(arr =>
+                        {
+                            arr.ChildNodes.OfType<XmlNode>().ToList().ForEach(n =>
+                            {
+                                if (n.SelectSingleNode("Name").ChildNodes[0].Value.ToString() == "Vocals")
+                                    arr.RemoveChild(n);
+                            });
+                        });
+                    }
 
+                    // create arrangement structure for songInfo.xml
                     var arrNodes = arrangementsNode.ChildNodes.OfType<XmlNode>().ToList();
                     arrNodes.ForEach(arr =>
-                    {
-                        arr.ChildNodes.OfType<XmlNode>().ToList().ForEach(n =>
                         {
-                            if (!keptInfo.Contains(n.Name.ToLower()))
-                                arr.RemoveChild(n);
+                            arr.ChildNodes.OfType<XmlNode>().ToList().ForEach(n =>
+                                {
+                                    if (!keptInfo.Contains(n.Name.ToLower()))
+                                        arr.RemoveChild(n);
+                                });
                         });
-                    });
                 }
             }
 
@@ -520,7 +535,7 @@ namespace CustomsForgeSongManager.UControls
                 // and local songCollection is loaded with Globals.MasterCollection
                 PopulateDataGridView();
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
                 // failsafe ... delete My Documents/CFSM folder and files with option not to delete
                 var diaMsg = "A fatal CFSM application error has occured." + Environment.NewLine +
@@ -535,12 +550,12 @@ namespace CustomsForgeSongManager.UControls
                     Environment.Exit(0);
                 }
 
-                string err = e.Message;
-                if (e.InnerException != null)
-                    err += ", Inner: " + e.InnerException.Message;
+                string err = ex.Message;
+                if (ex.InnerException != null)
+                    err += ", Inner: " + ex.InnerException.Message;
 
                 // log message needs to written before it is deleted ... Bazinga
-                Globals.Log("<Error>: " + e.Message);
+                Globals.Log("<Error>: " + ex.Message);
                 Globals.Log("Deleted CFSM folder and subfolders from My Documents ...");
 
                 // use the bulldozer
@@ -787,7 +802,7 @@ namespace CustomsForgeSongManager.UControls
             var results = songList
                 .Where(x => x.ArtistTitleAlbum.ToLower().Contains(lowerCriteria) ||
                     x.Tuning.ToLower().Contains(lowerCriteria) ||
-                    x.Arrangements.ToLower().Contains(lowerCriteria) ||
+                    x.Arrangements1D.ToLower().Contains(lowerCriteria) ||
                     x.CharterName.ToLower().Contains(lowerCriteria) ||
                     (x.IgnitionAuthor != null &&
                     x.IgnitionAuthor.ToLower().Contains(lowerCriteria) ||
@@ -1387,8 +1402,8 @@ namespace CustomsForgeSongManager.UControls
                         dgvSongsDetail.Columns["colDetailKey"].Width = dgvSongsMaster.Columns["colKey"].Width - 1;
                         dgvSongsDetail.Columns["colDetailPID"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
                         dgvSongsDetail.Columns["colDetailPID"].Width = 220;
-                        dgvSongsDetail.Columns["colDetailChords"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
-                        dgvSongsDetail.Columns["colDetailChords"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells; // work around forces horiz scroll to display
+                        dgvSongsDetail.Columns["colDetailChordNums"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+                        dgvSongsDetail.Columns["colDetailChordNums"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells; // work around forces horiz scroll to display
 
                         // calculate the height and width of dgvSongsDetail
                         var colHeaderHeight = dgvSongsMaster.Columns[e.ColumnIndex].HeaderCell.Size.Height;
@@ -1412,7 +1427,7 @@ namespace CustomsForgeSongManager.UControls
                         var colsWidth = dgvSongsDetail.Columns.Cast<DataGridViewColumn>().Sum(col => col.Width);
                         if (colsWidth < dgvSongsDetail.Width)
                         {
-                            dgvSongsDetail.Columns["colDetailChords"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                            dgvSongsDetail.Columns["colDetailChordNums"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                         }
 
                         firstIndex = dgvSongsMaster.FirstDisplayedCell.RowIndex;
@@ -1478,7 +1493,7 @@ namespace CustomsForgeSongManager.UControls
 
                 if (e.ColumnIndex == colBass.Index || e.ColumnIndex == colVocals.Index || e.ColumnIndex == colLead.Index || e.ColumnIndex == colRhythm.Index)
                 {
-                    string arrInit = song.Arrangements.ToUpper();
+                    string arrInit = song.Arrangements1D.ToUpper();
 
                     if (e.ColumnIndex == colBass.Index)
                         e.CellStyle.BackColor = arrInit.Contains("BASS") ? _Enabled : _Disabled;
@@ -1730,7 +1745,7 @@ namespace CustomsForgeSongManager.UControls
 
                 // refresh is necessary to avoid exceptions when row has been deleted
                 dgvSongsMaster.Refresh();
-                
+
                 // Reselect last selected row after sorting
                 if (lastSelectedSongPath != string.Empty)
                 {

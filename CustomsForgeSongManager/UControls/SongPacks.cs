@@ -303,7 +303,7 @@ namespace CustomsForgeSongManager.UControls
             cmbSongPacks.Items.Add("Rocksmith 2014 Base Songs");
             cmbSongPacks.Items.Add("RS1 Compatibility Disc");
             cmbSongPacks.Items.Add("RS1 Compatibility DLC");
-            cmbSongPacks.Items.Add("Load Custom Song Pack");
+            cmbSongPacks.Items.Add("Custom Song Pack");
 
             cmbSongPacks.SelectedIndex = 0; // gens call to EH cmbSongPacks.Index_Changed
         }
@@ -420,6 +420,13 @@ namespace CustomsForgeSongManager.UControls
                 if (songsJson.ToString().Contains("DisabledSongs"))
                 {
                     var disabledSongsList = songsJson["DisabledSongs"];
+                    Globals.TsProgressBar_Main.Value = 90;
+                    fullDisabledSongCollection = JsonConvert.DeserializeObject<RSDataJsonDictionary<T>>(disabledSongsList.ToString());
+                    AddSongsToNestedDictionary(fullDisabledSongCollection, disabledSongCollection, fullSongCollection, false);
+                }
+                 else if(songsJson.ToString().Contains("DisabledEntries")) // allow CFSM to read/convert to standard DisabledEntries
+                {
+                    var disabledSongsList = songsJson["DisabledEntries"];
                     Globals.TsProgressBar_Main.Value = 90;
                     fullDisabledSongCollection = JsonConvert.DeserializeObject<RSDataJsonDictionary<T>>(disabledSongsList.ToString());
                     AddSongsToNestedDictionary(fullDisabledSongCollection, disabledSongCollection, fullSongCollection, false);
@@ -713,8 +720,8 @@ namespace CustomsForgeSongManager.UControls
 
             using (StreamWriter fs = new StreamWriter(destHsanPath))
             {
-                dynamic songJson = new { Entries = tempFullSongCollection, DisabledSongs = tempFullDisabledSongCollection, InsertRoot = "Static.Songs.Headers" };
-
+                // save to standard DisabledEntries format
+                dynamic songJson = new { Entries = tempFullSongCollection, DisabledEntries = tempFullDisabledSongCollection, InsertRoot = "Static.Songs.Headers" };
                 JToken serializedJson = JsonConvert.SerializeObject(songJson, Formatting.Indented, new JsonSerializerSettings { });
                 fs.Write(serializedJson.ToString());
             }

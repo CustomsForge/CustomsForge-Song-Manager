@@ -44,6 +44,10 @@ namespace CustomsForgeSongManager.Forms
         {
             InitializeComponent();
 
+            // TODO: future progress tracker feature
+            if (!Constants.DebugMode)
+                tcMain.TabPages.RemoveByKey("tpProgTracker");
+
             // create VersionInfo.txt file
             VersionInfo.CreateVersionInfo();
 
@@ -284,7 +288,7 @@ namespace CustomsForgeSongManager.Forms
                     Globals.Duplicates.Size = UCSize;
                     currentControl = Globals.Duplicates;
                     break;
-                case "Renamer":
+                 case "Renamer":
                     this.tpRenamer.Controls.Clear();
                     this.tpRenamer.Controls.Add(Globals.Renamer);
                     Globals.Renamer.Dock = DockStyle.Fill;
@@ -936,7 +940,10 @@ namespace CustomsForgeSongManager.Forms
                         file.Write(outputJSON);
                     }
                     else if (format == "csv")
-                        file.Write(sbCSV.ToString());
+                    {
+                        var outputCSV = sbCSV.ToString(); // for debugging
+                        file.Write(outputCSV);
+                    }
                     else
                         throw new FormatException("<ERROR> Unknown export format: " + format);
                 }

@@ -33,6 +33,7 @@ namespace CustomsForgeSongManager.UControls
                 chkIncludeAnalyzerData.Checked = AppSettings.Instance.IncludeAnalyzerData;
                 chkEnableAutoUpdate.Checked = AppSettings.Instance.EnableAutoUpdate;
                 chkEnableNotifications.Checked = AppSettings.Instance.EnableNotifications;
+                chkEnableQuarantine.Checked = AppSettings.Instance.EnableQuarantine;
                 chkValidateD3D.Checked = AppSettings.Instance.ValidateD3D;
                 chkMacMode.Checked = AppSettings.Instance.MacMode;
                 rbCleanOnClosing.Checked = AppSettings.Instance.CleanOnClosing;
@@ -255,6 +256,11 @@ namespace CustomsForgeSongManager.UControls
                 Globals.MyLog.RemoveTargetNotifyIcon(Globals.Notifier);
         }
 
+        private void chkEnableQuarantine_Click(object sender, EventArgs e)
+        {
+            AppSettings.Instance.EnableQuarantine = chkEnableQuarantine.Checked;
+        }
+
         private void chkIncludeAnalyzerData_Click(object sender, EventArgs e)
         {
             AppSettings.Instance.IncludeAnalyzerData = chkIncludeAnalyzerData.Checked;
@@ -368,7 +374,5 @@ namespace CustomsForgeSongManager.UControls
         }
 
         #endregion
-
-
     }
 }

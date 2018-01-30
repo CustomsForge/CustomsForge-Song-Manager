@@ -49,7 +49,8 @@ namespace CustomsForgeSongManager.DataObjects
         public static string LogFilePath { get { return Path.Combine(WorkFolder, "debug.log"); } }
         public static string AppSettingsPath { get { return Path.Combine(WorkFolder, "appSettings.xml"); } }
         public static string SongsInfoPath { get { return Path.Combine(WorkFolder, "songsInfo.xml"); } }
-        public static string AnalyzerDataPath { get { return Path.Combine(WorkFolder, "analyzerData.xml"); } } // ArrangementData is used elsewhere so changed naming to avoid confusion
+        public static string AnalyzerDataPath { get { return Path.Combine(WorkFolder, "analyzerData.xml"); } } 
+        public static string ProfileDataPath { get { return Path.Combine(WorkFolder, "profileData.xml"); } } 
         public static string GridSettingsFolder { get { return Path.Combine(WorkFolder, "DgvSettings"); } }
         public static string GridSettingsPath { get { return Path.Combine(GridSettingsFolder, String.Format("{0}{1}", Globals.DgvCurrent.Name, ".xml")); } }
         public static string ApplicationFolder { get { return Path.GetDirectoryName(Application.ExecutablePath); } }

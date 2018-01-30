@@ -92,7 +92,7 @@ namespace CustomsForgeSongManager.UControls
             if (String.IsNullOrEmpty(pkgVersion)) pkgVersion = "1";
             template.Add("version", String.Format("v{0}", pkgVersion));
             template.Add("author", String.IsNullOrEmpty(data.CharterName) ? "Unknown" : data.CharterName.Replace('\\', '_'));
-            template.Add("arrangements", data.ArrangementInitials);
+            template.Add("arrangements", data.ArrangementsInitials);
             template.Add("_", "_");
 
             // CAREFUL - lots to go wrong in this simple method :(

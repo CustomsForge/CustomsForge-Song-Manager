@@ -60,6 +60,7 @@ namespace CustomsForgeSongManager.UControls
             this.txtCharterName = new CustomControls.CueTextBox();
             this.chkMacMode = new System.Windows.Forms.CheckBox();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.chkEnableQuarantine = new System.Windows.Forms.CheckBox();
             this.tlpSettings_Wrapper.SuspendLayout();
             this.panel5.SuspendLayout();
             this.SuspendLayout();
@@ -82,11 +83,12 @@ namespace CustomsForgeSongManager.UControls
             this.tlpSettings_Wrapper.Controls.Add(this.chkIncludeRS2BaseSongs, 0, 3);
             this.tlpSettings_Wrapper.Controls.Add(this.chkIncludeCustomPacks, 0, 4);
             this.tlpSettings_Wrapper.Controls.Add(this.chkIncludeAnalyzerData, 0, 5);
-            this.tlpSettings_Wrapper.Controls.Add(this.chkValidateD3D, 0, 8);
             this.tlpSettings_Wrapper.Controls.Add(this.chkEnableNotifications, 0, 7);
             this.tlpSettings_Wrapper.Controls.Add(this.chkEnableAutoUpdate, 0, 6);
             this.tlpSettings_Wrapper.Controls.Add(this.txtCharterName, 0, 11);
-            this.tlpSettings_Wrapper.Controls.Add(this.chkMacMode, 0, 9);
+            this.tlpSettings_Wrapper.Controls.Add(this.chkMacMode, 0, 10);
+            this.tlpSettings_Wrapper.Controls.Add(this.chkValidateD3D, 0, 9);
+            this.tlpSettings_Wrapper.Controls.Add(this.chkEnableQuarantine, 0, 8);
             this.tlpSettings_Wrapper.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpSettings_Wrapper.Location = new System.Drawing.Point(0, 0);
             this.tlpSettings_Wrapper.Name = "tlpSettings_Wrapper";
@@ -101,7 +103,7 @@ namespace CustomsForgeSongManager.UControls
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
-            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 8F));
+            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 8F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
@@ -225,7 +227,7 @@ namespace CustomsForgeSongManager.UControls
             this.rbCleanOnClosing.AutoSize = true;
             this.tlpSettings_Wrapper.SetColumnSpan(this.rbCleanOnClosing, 2);
             this.rbCleanOnClosing.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rbCleanOnClosing.Location = new System.Drawing.Point(3, 325);
+            this.rbCleanOnClosing.Location = new System.Drawing.Point(3, 345);
             this.rbCleanOnClosing.Name = "rbCleanOnClosing";
             this.rbCleanOnClosing.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
             this.rbCleanOnClosing.Size = new System.Drawing.Size(166, 19);
@@ -374,7 +376,7 @@ namespace CustomsForgeSongManager.UControls
             this.chkValidateD3D.AutoSize = true;
             this.tlpSettings_Wrapper.SetColumnSpan(this.chkValidateD3D, 2);
             this.chkValidateD3D.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkValidateD3D.Location = new System.Drawing.Point(3, 225);
+            this.chkValidateD3D.Location = new System.Drawing.Point(3, 253);
             this.chkValidateD3D.Name = "chkValidateD3D";
             this.chkValidateD3D.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
             this.chkValidateD3D.Size = new System.Drawing.Size(159, 19);
@@ -427,7 +429,7 @@ namespace CustomsForgeSongManager.UControls
             this.txtCharterName.Cue = "Enter a CDLC Charter\'s Name";
             this.txtCharterName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.txtCharterName.ForeColor = System.Drawing.Color.Gray;
-            this.txtCharterName.Location = new System.Drawing.Point(12, 289);
+            this.txtCharterName.Location = new System.Drawing.Point(12, 309);
             this.txtCharterName.Margin = new System.Windows.Forms.Padding(12, 3, 3, 3);
             this.txtCharterName.Name = "txtCharterName";
             this.txtCharterName.Size = new System.Drawing.Size(179, 20);
@@ -442,7 +444,7 @@ namespace CustomsForgeSongManager.UControls
             this.chkMacMode.AutoSize = true;
             this.tlpSettings_Wrapper.SetColumnSpan(this.chkMacMode, 2);
             this.chkMacMode.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkMacMode.Location = new System.Drawing.Point(3, 253);
+            this.chkMacMode.Location = new System.Drawing.Point(3, 281);
             this.chkMacMode.Name = "chkMacMode";
             this.chkMacMode.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
             this.chkMacMode.Size = new System.Drawing.Size(167, 19);
@@ -460,6 +462,24 @@ namespace CustomsForgeSongManager.UControls
             this.toolTip.InitialDelay = 200;
             this.toolTip.IsBalloon = true;
             this.toolTip.ReshowDelay = 100;
+            // 
+            // chkEnableQuarantine
+            // 
+            this.chkEnableQuarantine.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.chkEnableQuarantine.AutoSize = true;
+            this.tlpSettings_Wrapper.SetColumnSpan(this.chkEnableQuarantine, 2);
+            this.chkEnableQuarantine.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkEnableQuarantine.Location = new System.Drawing.Point(3, 225);
+            this.chkEnableQuarantine.Name = "chkEnableQuarantine";
+            this.chkEnableQuarantine.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
+            this.chkEnableQuarantine.Size = new System.Drawing.Size(165, 19);
+            this.chkEnableQuarantine.TabIndex = 21;
+            this.chkEnableQuarantine.Text = "Enable Auto Quarantine";
+            this.chkEnableQuarantine.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.toolTip.SetToolTip(this.chkEnableQuarantine, "If checked, corrupt CDLC will \r\nautomatically be moved to quarantine\r\nand be remo" +
+                    "ved from the \'dlc\' folder.");
+            this.chkEnableQuarantine.UseVisualStyleBackColor = true;
+            this.chkEnableQuarantine.Click += new System.EventHandler(this.chkEnableQuarantine_Click);
             // 
             // Settings
             // 
@@ -503,5 +523,6 @@ namespace CustomsForgeSongManager.UControls
         public CheckBox chkIncludeCustomPacks;
         private CheckBox chkValidateD3D;
         private CheckBox chkMacMode;
+        private CheckBox chkEnableQuarantine;
     }
 }
