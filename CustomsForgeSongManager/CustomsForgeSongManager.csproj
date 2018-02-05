@@ -480,7 +480,6 @@
       <SubType>Designer</SubType>
     </None>
     <EmbeddedResource Include="Resources\HelpDuplicates.rtf" />
-    <EmbeddedResource Include="Resources\HelpProgress.rtf" />
     <None Include="Resources\logo_black.png" />
   </ItemGroup>
   <ItemGroup>

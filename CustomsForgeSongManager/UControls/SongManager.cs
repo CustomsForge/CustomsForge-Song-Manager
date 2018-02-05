@@ -698,7 +698,6 @@ namespace CustomsForgeSongManager.UControls
 
         private void Rescan(bool fullRescan, bool parseExtraData = false)
         {
-            Globals.Settings.SaveSettingsToFile(dgvSongsMaster, true);
             dgvSongsMaster.DataSource = null;
             dgvSongsDetail.Visible = false;
 

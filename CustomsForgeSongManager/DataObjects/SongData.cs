@@ -397,8 +397,6 @@ namespace CustomsForgeSongManager.DataObjects
         public Int32 UnpitchedSlideCount { get; set; }
         public Int32 VibratoCount { get; set; }
 
-        // TODO: add progress tracker fields 
-
     }
 
 
