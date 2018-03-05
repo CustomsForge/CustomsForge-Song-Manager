@@ -1415,11 +1415,11 @@ namespace CustomsForgeSongManager.UControls
                             vertScrollWidth = SystemInformation.VerticalScrollBarWidth;
 
                         dgvSongsDetail.Width = dgvSongsMaster.Width - vertScrollWidth - dgvSongsDetail.Location.X + 5; // tweak
-                        dgvSongsDetail.Height = dgvSongsDetail.Rows.Cast<DataGridViewRow>().Sum(row => row.Height + 1) + colHeaderHeight + horizScrollHeight;
+                        dgvSongsDetail.Height = dgvSongsDetail.Rows.Cast<DataGridViewRow>().Sum(row => row.Height + 1) + horizScrollHeight + dgvSongsDetail.Rows[0].Height * 2;
 
                         // height tweak
                         if (dgvSongsDetail.RowCount < 3)
-                            dgvSongsDetail.Height = dgvSongsDetail.Height + 4;
+                            dgvSongsDetail.Height = dgvSongsDetail.Height + 3;
 
                         // given current formatting what is the real width
                         //var rowsWidth = dgvSongsDetail.Rows.Cast<DataGridViewRow>().Sum(row => row.Height);
@@ -1441,7 +1441,7 @@ namespace CustomsForgeSongManager.UControls
                         else // display SongsDetail above selected row
                             dgvSongsDetail.Location = new Point(colWidth + 7, cellRectangle.Bottom - dgvSongsDetail.Height - 4); // tweaked
 
-                        // required here to refresh the scrollbar                       
+                        // required here to refresh the scrollbar   
                         dgvSongsDetail.Invalidate();
                     }
                 }

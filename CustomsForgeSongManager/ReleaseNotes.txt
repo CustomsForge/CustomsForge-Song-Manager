@@ -14,8 +14,11 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.4.3.1
+- fixed SongsDetail datagrid display height
+
 1.4.3.0
-- fixed bug that prevented properly saving SongManager grid settings
+- fixed bug that prevented SongManager grid settings from reloading properly
 
 1.4.2.9
 - convert SongPacks DisabledSongs to more standardized DisabledEntries

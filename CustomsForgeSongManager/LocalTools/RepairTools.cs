@@ -257,7 +257,7 @@ namespace CustomsForgeSongManager.LocalTools
 
                 if (!options.ProcessDLFolder)
                 {
-                    // update/rescan just one CDLC in the bound SongCollection ... very cool lovro
+                    // update/rescan just one CDLC in the bound SongCollection
                     // gets contents of archive after it has been repaired
                     using (var browser = new PsarcBrowser(srcFilePath))
                     {
