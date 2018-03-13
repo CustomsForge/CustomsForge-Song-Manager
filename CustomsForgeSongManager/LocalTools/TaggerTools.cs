@@ -851,7 +851,7 @@ namespace CustomsForgeSongManager.LocalTools
             template.Add("album", Data.Album);
             template.Add("filename", Data.FileName);
             template.Add("date", Data.LastConversionDateTime.ToShortDateString());
-            template.Add("tuning", Data.Tuning.Split(new[] { ", " }, StringSplitOptions.None).FirstOrDefault());
+            template.Add("tuning", Data.Tunings1D.Split(new[] { ", " }, StringSplitOptions.None).FirstOrDefault());
             template.Add("tempo", Data.SongAverageTempo);
             template.Add("appid", Data.AppID);
             var ts = TimeSpan.FromSeconds(Data.SongLength);

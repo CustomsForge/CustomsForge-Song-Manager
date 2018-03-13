@@ -254,6 +254,12 @@ namespace CustomsForgeSongManager.LocalTools
                                     }
                                 }
 
+                                decimal capoFret = song2014Data.Capo == 0xFF ? 0 : Convert.ToDecimal(song2014Data.Capo);
+                                double centOffset = Convert.ToDouble(song2014Data.CentOffset);
+                                int bassPick = 0;
+                                if (song2014Data.ArrangementProperties.PathBass == 1)
+                                    bassPick = (int)song2014Data.ArrangementProperties.BassPick;
+
                                 int octaveCount = 0;
                                 int chordCount = 0;
                                 int highestFretUsed = 0;
@@ -334,6 +340,9 @@ namespace CustomsForgeSongManager.LocalTools
                                 // this only works for CDLC that has DD
                                 arr = new Arrangement(currentSong)
                                 {
+                                    BassPick = bassPick,
+                                    CapoFret = capoFret,
+                                    CentOffset = centOffset,
                                     NoteCount = maxLevelNotes.Count(),
                                     ChordCount = maxLevelChords.Count(),
                                     HammerOnCount = maxLevelNotes.Count(n => n.HammerOn > 0),
@@ -357,7 +366,7 @@ namespace CustomsForgeSongManager.LocalTools
                                     ChordCounts = chordCounts,
                                     HighestFretUsed = highestFretUsed
                                 };
-                            }
+                            } // endif getAnalyzerData
 
                             arr.Tuning = PsarcExtensions.TuningToName(attributes["Tuning"].ToString(), Globals.TuningXml);
                             arr.DMax = Convert.ToInt32(attributes["MaxPhraseDifficulty"].ToString());

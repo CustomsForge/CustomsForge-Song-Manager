@@ -63,7 +63,7 @@ namespace CustomsForgeSongManager.DataObjects
         //ver 1 - 10: time to recycle vers numbers
 
         // incrementing forces songInfo.xml and appSettings.xml to reset/update to defaults
-        public const string SongDataListCurrentVersion = "4";
+        public const string SongDataListCurrentVersion = "5";
 
         public string FilePath { get; set; }
         public DateTime FileDate { get; set; }
@@ -200,10 +200,10 @@ namespace CustomsForgeSongManager.DataObjects
         }
 
         [XmlIgnore] // preserves old 1D display method
-        public string Tuning
+        public string Tunings1D
         {
-            get { return Arrangements2D.Select(o => o.Tuning).FirstOrDefault(); }
-            // get { return String.Join(", ", Arrangements2D.Select(o => o.Tuning)); }
+            //get { return Arrangements2D.Select(o => o.Tuning).FirstOrDefault(); }
+            get { return String.Join(", ", Arrangements2D.Select(o => o.Tuning)).TrimEnd(" ,".ToCharArray()); }
         }
 
         [XmlIgnore] // preserves old 1D display method show DMax
@@ -247,9 +247,16 @@ namespace CustomsForgeSongManager.DataObjects
         [XmlIgnore]
         public string PIDArrangement { get; set; }
 
-        //extra arrangemenet data   
+        //extra arrangemenet data 
         [XmlIgnore]
-        public string ChordNums { get { return Arrangements2D[0].ChordNums.ToString(); } }
+        public int BassPick { get { return Arrangements2D.Max(a => a.BassPick); } }
+        [XmlIgnore]
+        public decimal CapoFret { get { return Arrangements2D.Max(a => a.CapoFret); } }
+        [XmlIgnore]
+        public double CentOffset { get { return Arrangements2D.Max(a => a.CentOffset); } }
+        //
+        [XmlIgnore]
+        public string ChordNamesCounts { get { return Arrangements2D[0].ChordNamesCounts.ToString(); } }
         [XmlIgnore]
         public Int32 ChordCount { get { return Arrangements2D.Sum(a => a.ChordCount); } }
         [XmlIgnore]
@@ -296,7 +303,9 @@ namespace CustomsForgeSongManager.DataObjects
         {
             if (!String.IsNullOrEmpty(AudioCache) && File.Exists(AudioCache))
                 File.Delete(AudioCache);
+
             AudioCache = String.Empty;
+
             if (File.Exists(FilePath))
                 File.Delete(FilePath);
         }
@@ -357,23 +366,40 @@ namespace CustomsForgeSongManager.DataObjects
         [XmlIgnore]
         public List<int> ChordCounts { get; set; }
 
-        public string ChordNums
+        public int BassPick { get; set; }
+        public decimal CapoFret { get; set; }
+        public double CentOffset { get; set; } // tuning frequency, see Cents2Frequency method
+        //
+        private string _chordNamesCounts;
+        public string ChordNamesCounts
         {
             get
             {
-                if (ChordNames == null)
-                    return "";
-
-                string stringList = "";
-
-                for (int i = 0; i < ChordNames.Count(); i++)
+                if (String.IsNullOrEmpty(_chordNamesCounts))
                 {
-                    stringList += (ChordNames[i] + "-" + ChordCounts[i].ToString() + "| ");
+                    if (ChordNames == null || ChordNames.Count == 0)
+                        _chordNamesCounts = "";
+                    else
+                    {
+                        var sep = " | ";
+                        for (int i = 0; i < ChordNames.Count(); i++)
+                            _chordNamesCounts += ChordNames[i] + "-" + ChordCounts[i].ToString() + sep;
+
+                        _chordNamesCounts = _chordNamesCounts.TrimEnd(sep.ToCharArray());
+                    }
                 }
 
-                return stringList;
+                return _chordNamesCounts;
             }
-            set { }
+            set
+            {
+                _chordNamesCounts = value;
+            }
+        }
+
+        public bool ShouldSerializeChordNamesCounts()
+        {
+            return ChordCount > 0;
         }
 
         public Int32 ChordCount { get; set; }

@@ -694,6 +694,7 @@ namespace CustomsForgeSongManager.UControls
 
             // reapply sort direction to reselect the filtered song
             DgvExtensions.RestoreSorting(dgvSongsMaster);
+            this.Refresh();
         }
 
         private void Rescan(bool fullRescan, bool parseExtraData = false)
@@ -800,7 +801,7 @@ namespace CustomsForgeSongManager.UControls
 
             var results = songList
                 .Where(x => x.ArtistTitleAlbum.ToLower().Contains(lowerCriteria) ||
-                    x.Tuning.ToLower().Contains(lowerCriteria) ||
+                    x.Tunings1D.ToLower().Contains(lowerCriteria) ||
                     x.Arrangements1D.ToLower().Contains(lowerCriteria) ||
                     x.CharterName.ToLower().Contains(lowerCriteria) ||
                     (x.IgnitionAuthor != null &&
@@ -1379,6 +1380,8 @@ namespace CustomsForgeSongManager.UControls
                         // CRITICAL EXECUTION ORDER - Workaround for intermitent bug not displaying horizscrollbar when last row is selected
                         dgvSongsDetail.Visible = true;
                         dgvSongsDetail.ScrollBars = ScrollBars.Horizontal;
+                        // keep column headers on single line
+                        dgvSongsDetail.ColumnHeadersDefaultCellStyle.WrapMode = DataGridViewTriState.False;
 
                         // CRITICAL CODE AREA - CAREFUL - No Filtering KISS
                         dgvSongsDetail.AutoGenerateColumns = false;
@@ -1387,7 +1390,6 @@ namespace CustomsForgeSongManager.UControls
 
                         // apply some fixed formatting
                         // any column/row sizing triggers SubclassedDataGridView
-                        dgvSongsDetail.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
                         dgvSongsDetail.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
 
                         foreach (DataGridViewColumn col in dgvSongsDetail.Columns)
@@ -1401,8 +1403,14 @@ namespace CustomsForgeSongManager.UControls
                         dgvSongsDetail.Columns["colDetailKey"].Width = dgvSongsMaster.Columns["colKey"].Width - 1;
                         dgvSongsDetail.Columns["colDetailPID"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
                         dgvSongsDetail.Columns["colDetailPID"].Width = 220;
-                        dgvSongsDetail.Columns["colDetailChordNums"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
-                        dgvSongsDetail.Columns["colDetailChordNums"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells; // work around forces horiz scroll to display
+                        dgvSongsDetail.Columns["colDetailChordNamesCounts"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+                        dgvSongsDetail.Columns["colDetailChordNamesCounts"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells; // work around forces horiz scroll to display
+
+                        // allow user to resize the column after it has been autosized
+                        var width = dgvSongsDetail.Columns["colDetailChordNamesCounts"].Width;
+                        dgvSongsDetail.Columns["colDetailChordNamesCounts"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None; // work around forces horiz scroll to display
+                        dgvSongsDetail.Columns["colDetailChordNamesCounts"].Width = width;
+                        dgvSongsDetail.Columns["colDetailChordNamesCounts"].Resizable = DataGridViewTriState.True;
 
                         // calculate the height and width of dgvSongsDetail
                         var colHeaderHeight = dgvSongsMaster.Columns[e.ColumnIndex].HeaderCell.Size.Height;
@@ -1415,7 +1423,7 @@ namespace CustomsForgeSongManager.UControls
                             vertScrollWidth = SystemInformation.VerticalScrollBarWidth;
 
                         dgvSongsDetail.Width = dgvSongsMaster.Width - vertScrollWidth - dgvSongsDetail.Location.X + 5; // tweak
-                        dgvSongsDetail.Height = dgvSongsDetail.Rows.Cast<DataGridViewRow>().Sum(row => row.Height + 1) + horizScrollHeight + dgvSongsDetail.Rows[0].Height * 2;
+                        dgvSongsDetail.Height = dgvSongsDetail.Rows.Cast<DataGridViewRow>().Sum(row => row.Height + 1) + horizScrollHeight + colHeaderHeight + 2;
 
                         // height tweak
                         if (dgvSongsDetail.RowCount < 3)
@@ -1426,7 +1434,8 @@ namespace CustomsForgeSongManager.UControls
                         var colsWidth = dgvSongsDetail.Columns.Cast<DataGridViewColumn>().Sum(col => col.Width);
                         if (colsWidth < dgvSongsDetail.Width)
                         {
-                            dgvSongsDetail.Columns["colDetailChordNums"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                            Debug.WriteLine("Resize colDetailChordNamesCounts");
+                            dgvSongsDetail.Columns["colDetailChordNamesCounts"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                         }
 
                         firstIndex = dgvSongsMaster.FirstDisplayedCell.RowIndex;

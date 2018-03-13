@@ -83,7 +83,7 @@ namespace CustomsForgeSongManager.UControls
             template.Add("title", data.Title.Replace('\\', '_'));
             template.Add("album", data.Album.Replace('\\', '_'));
             template.Add("filename", data.FileName);
-            template.Add("tuning", data.Tuning.Split(new[] { ", " }, StringSplitOptions.None).FirstOrDefault());
+            template.Add("tuning", data.Tunings1D.Split(new[] { ", " }, StringSplitOptions.None).FirstOrDefault());
             template.Add("dd", data.DD > 0 ? "DD" : "");
             template.Add("ddlvl", data.DD);
             template.Add("year", data.SongYear);

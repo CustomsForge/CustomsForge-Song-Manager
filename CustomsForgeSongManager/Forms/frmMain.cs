@@ -288,7 +288,7 @@ namespace CustomsForgeSongManager.Forms
                     Globals.Duplicates.Size = UCSize;
                     currentControl = Globals.Duplicates;
                     break;
-                 case "Renamer":
+                case "Renamer":
                     this.tpRenamer.Controls.Clear();
                     this.tpRenamer.Controls.Add(Globals.Renamer);
                     Globals.Renamer.Dock = DockStyle.Fill;
@@ -734,7 +734,7 @@ namespace CustomsForgeSongManager.Forms
         private class StatPair
         {
             public Dictionary<string, string> GeneralStats { get; set; }
-            public Dictionary<string, int> ChordNums { get; set; }
+            public Dictionary<string, int> ChordNamesCounts { get; set; }
         }
 
         private class AnalyzerInfo
@@ -806,8 +806,11 @@ namespace CustomsForgeSongManager.Forms
             var columnsCSV = "sep=" + csvSep.ToString();
             var sbCSV = new StringBuilder();
             sbCSV.AppendLine(String.Format(@"sep={0}", csvSep));
-            string[] columns = { "Artist", "Song Name", "Arrangement", "Tuning", "Notes", "Hammer-ons", "Pull-offs", "Harmonics", "Pinch Harmonics", "Frethand Mutes", "Palm Mutes",
-                                   "Plucks", "Slaps", "Slides", "Unpitched Slides", "Tremolos", "Taps", "Vibratos", "Sustains", "Bends", "Highest Fret Used"};
+            string[] columns = {
+                                   "Artist", "Song Name", "Arrangement", "Tuning", "Notes", "Chords", "Hammer-ons", "Pull-offs", "Harmonics", "Pinch Harmonics", "Frethand Mutes", "Palm Mutes",
+                                   "Plucks", "Slaps", "Slides", "Unpitched Slides", "Tremolos", "Taps", "Vibratos", "Sustains", "Bends", "Highest Fret Used",
+                                   "BassPick", "CapoFret", "CentOffset"
+                               };
 
             // process and assemble data
             foreach (var songRow in dgvSelection)
@@ -817,7 +820,7 @@ namespace CustomsForgeSongManager.Forms
                 var statPairList = new List<StatPair>();
 
                 // get analyzer data if it has not already been parsed
-                if (!song.ExtraMetaDataScanned && song.NoteCount == 0)
+                if (!song.ExtraMetaDataScanned && ( song.NoteCount == 0 || song.ChordCount == 0))
                 {
                     Globals.Log("Parsing Analyzer Data From: " + artistTitle);
                     var sngIndex = Globals.MasterCollection.IndexOf(song);
@@ -864,9 +867,10 @@ namespace CustomsForgeSongManager.Forms
 
                     if (format == "csv")
                     {
-                        var sbRow = song.Artist + csvSep + song.Title + csvSep + arr.Name + csvSep + arr.Tuning + csvSep + arr.NoteCount + csvSep + arr.HammerOnCount + csvSep + arr.PullOffCount + csvSep + arr.HarmonicCount + csvSep +
-                            arr.HarmonicPinchCount + csvSep + arr.FretHandMuteCount + csvSep + arr.PalmMuteCount + csvSep + arr.PluckCount + csvSep + arr.SlapCount + csvSep + arr.SlideCount + csvSep +
-                            arr.UnpitchedSlideCount + csvSep + arr.TremoloCount + csvSep + arr.TapCount + csvSep + arr.VibratoCount + csvSep + arr.SustainCount + csvSep + arr.BendCount + csvSep + arr.HighestFretUsed + csvSep;
+                        var sbRow = song.Artist + csvSep + song.Title + csvSep + arr.Name + csvSep + arr.Tuning + csvSep + arr.NoteCount + csvSep + arr.ChordCount + csvSep + arr.HammerOnCount + csvSep + arr.PullOffCount + csvSep +
+                            arr.HarmonicCount + csvSep + arr.HarmonicPinchCount + csvSep + arr.FretHandMuteCount + csvSep + arr.PalmMuteCount + csvSep + arr.PluckCount + csvSep + arr.SlapCount + csvSep + arr.SlideCount + csvSep +
+                            arr.UnpitchedSlideCount + csvSep + arr.TremoloCount + csvSep + arr.TapCount + csvSep + arr.VibratoCount + csvSep + arr.SustainCount + csvSep + arr.BendCount + csvSep + arr.HighestFretUsed + csvSep +
+                            arr.BassPick + csvSep + arr.CapoFret + csvSep + arr.CentOffset + csvSep;
 
                         if (arr.ChordNames != null && arr.ChordNames.Count() == 0)
                             sbRow += "no chords";
@@ -883,13 +887,14 @@ namespace CustomsForgeSongManager.Forms
 
                         statPair.GeneralStats.Add("Arrangement", arr.Name);
                         statPair.GeneralStats.Add("Tuning", arr.Tuning);
-                        statPair.GeneralStats.Add("Note Count", arr.NoteCount.ToString());
+                        statPair.GeneralStats.Add("NoteCount", arr.NoteCount.ToString());
+                        statPair.GeneralStats.Add("ChordCount", arr.ChordCount.ToString());
                         statPair.GeneralStats.Add("Hammer-ons", arr.HammerOnCount.ToString());
                         statPair.GeneralStats.Add("Pull-offs", arr.PullOffCount.ToString());
                         statPair.GeneralStats.Add("Harmonics", arr.HarmonicCount.ToString());
-                        statPair.GeneralStats.Add("Pinch Harmonics", arr.HarmonicPinchCount.ToString());
-                        statPair.GeneralStats.Add("Frethand Mutes", arr.FretHandMuteCount.ToString());
-                        statPair.GeneralStats.Add("Palm Mutes", arr.PalmMuteCount.ToString());
+                        statPair.GeneralStats.Add("PinchHarmonics", arr.HarmonicPinchCount.ToString());
+                        statPair.GeneralStats.Add("FrethandMutes", arr.FretHandMuteCount.ToString());
+                        statPair.GeneralStats.Add("PalmMutes", arr.PalmMuteCount.ToString());
                         statPair.GeneralStats.Add("Plucks", arr.PluckCount.ToString());
                         statPair.GeneralStats.Add("Slaps", arr.SlapCount.ToString());
                         statPair.GeneralStats.Add("Slides", arr.SlideCount.ToString());
@@ -898,11 +903,14 @@ namespace CustomsForgeSongManager.Forms
                         statPair.GeneralStats.Add("Vibratos", arr.VibratoCount.ToString());
                         statPair.GeneralStats.Add("Sustains", arr.SustainCount.ToString());
                         statPair.GeneralStats.Add("Bends", arr.BendCount.ToString());
-                        statPair.GeneralStats.Add("Highest Fret Used", arr.HighestFretUsed.ToString());
+                        statPair.GeneralStats.Add("HighestFretUsed", arr.HighestFretUsed.ToString());
+                        statPair.GeneralStats.Add("BassPick", arr.BassPick.ToString());
+                        statPair.GeneralStats.Add("CapoFret", arr.CapoFret.ToString());
+                        statPair.GeneralStats.Add("CentOffset", arr.CentOffset.ToString());
 
-                        statPair.ChordNums = new Dictionary<string, int>();
+                        statPair.ChordNamesCounts = new Dictionary<string, int>();
                         for (int i = 0; i < arr.ChordNames.Count; i++)
-                            statPair.ChordNums.Add(arr.ChordNames[i], arr.ChordCounts[i]);
+                            statPair.ChordNamesCounts.Add(arr.ChordNames[i], arr.ChordCounts[i]);
 
                         statPairList.Add(statPair);
                     }

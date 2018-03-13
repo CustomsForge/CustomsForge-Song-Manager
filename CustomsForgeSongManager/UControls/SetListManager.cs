@@ -407,7 +407,7 @@ namespace CustomsForgeSongManager.UControls
 
                 // CAREFUL - brain damage area
                 // the use of LINQ 'Select' defeats the FilteredBindingList feature and locks data                
-                var setlistSongs = setlistList.Where(sng => (sng.ArtistTitleAlbum.ToLower().Contains(search) || sng.Tuning.ToLower().Contains(search) || sng.FilePath.ToLower().Contains(search)) && Path.GetDirectoryName(sng.FilePath) == setlistPath).ToList();
+                var setlistSongs = setlistList.Where(sng => (sng.ArtistTitleAlbum.ToLower().Contains(search) || sng.Tunings1D.ToLower().Contains(search) || sng.FilePath.ToLower().Contains(search)) && Path.GetDirectoryName(sng.FilePath) == setlistPath).ToList();
 
                 // the use of .Select breaks binding
                 // .Select(x => new { x.Selected, x.Enabled, x.Artist, x.Song, x.Album, x.Tuning, x.Path }).ToList();
@@ -514,7 +514,7 @@ namespace CustomsForgeSongManager.UControls
         private void SearchCDLC(string criteria)
         {
             var lowerCriteria = criteria.ToLower();
-            var results = setlistList.Where(x => x.ArtistTitleAlbum.ToLower().Contains(lowerCriteria) || x.Tuning.ToLower().Contains(lowerCriteria) && Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList();
+            var results = setlistList.Where(x => x.ArtistTitleAlbum.ToLower().Contains(lowerCriteria) || x.Tunings1D.ToLower().Contains(lowerCriteria) && Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList();
 
             LoadFilteredBindingList(results);
             songSearch.Clear();
