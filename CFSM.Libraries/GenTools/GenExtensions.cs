@@ -138,13 +138,6 @@ namespace GenTools
                     subDirectory.Delete(true);
         }
 
-        public static string CleanForAPI(this string text)
-        {
-            //return text.Replace("/", "_"); //.Replace("\\","");
-            var result = text.Replace("/", "_1_").Replace("\\", "_2_"); //WebUtility.HtmlEncode(text);
-            return result; //WebUtility.HtmlDecode(text);
-        }
-
         public static void CleanLocalTemp()
         {
             var di = new DirectoryInfo(Path.GetTempPath());

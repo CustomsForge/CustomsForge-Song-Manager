@@ -120,15 +120,12 @@ namespace CustomsForgeSongManager.LocalTools
                         currentSong.RepairStatus = RepairStatus.NotRepaired;
                 }
 
-                var strippedName = singleSong.Name.Replace(".xblock", "").Replace("gamexblocks/nsongs/", "");
+                var strippedName = singleSong.Name.Replace(".xblock", "").Replace("gamexblocks/nsongs", "");
                 if (strippedName.Contains("_fcp_dlc"))
-                    strippedName = strippedName.Replace("_fcp_dlc", "");
+                    strippedName = strippedName.Replace("fcp_dlc", "");
 
-                var infoFiles = _archive.TOC.Where(x => x.Name.StartsWith("manifests/songs") && x.Name.EndsWith(".json") && x.Name.Contains(strippedName)).OrderBy(x => x.Name);
-
-                if (_filePath.Contains("rs1comp")) //there seems to be a problem with single-word names (like Pearl Jam's 'Black'), causing multiple songs to be stacked together
-                    if (infoFiles.Where(x => x.Name.Contains(strippedName + "_")).ToList().Count() != 0)
-                        infoFiles = infoFiles.Where(x => x.Name.Contains(strippedName + "_")).OrderBy(x => x.Name);
+                var infoFiles = _archive.TOC.Where(x => x.Name.StartsWith("manifests/songs") &&
+                    x.Name.EndsWith(".json") && x.Name.Contains(strippedName)).OrderBy(x => x.Name).ToList();
 
                 // speed hack ... some song info is only needed one time
                 bool gotSongInfo = false;
@@ -256,6 +253,7 @@ namespace CustomsForgeSongManager.LocalTools
 
                                 decimal capoFret = song2014Data.Capo == 0xFF ? 0 : Convert.ToDecimal(song2014Data.Capo);
                                 double centOffset = Convert.ToDouble(song2014Data.CentOffset);
+                                double tuningPitch = centOffset.Cents2Frequency();
                                 int bassPick = 0;
                                 if (song2014Data.ArrangementProperties.PathBass == 1)
                                     bassPick = (int)song2014Data.ArrangementProperties.BassPick;
@@ -340,9 +338,6 @@ namespace CustomsForgeSongManager.LocalTools
                                 // this only works for CDLC that has DD
                                 arr = new Arrangement(currentSong)
                                 {
-                                    BassPick = bassPick,
-                                    CapoFret = capoFret,
-                                    CentOffset = centOffset,
                                     NoteCount = maxLevelNotes.Count(),
                                     ChordCount = maxLevelChords.Count(),
                                     HammerOnCount = maxLevelNotes.Count(n => n.HammerOn > 0),
@@ -364,19 +359,43 @@ namespace CustomsForgeSongManager.LocalTools
                                     OctaveCount = octaveCount,
                                     ChordNames = chordNames,
                                     ChordCounts = chordCounts,
-                                    HighestFretUsed = highestFretUsed
+                                    HighestFretUsed = highestFretUsed,
+                                    BassPick = bassPick,
+                                    CapoFret = String.Format("[{0}] {1}", arrName, capoFret),
+                                    TuningPitch = String.Format("[{0}] {1}", arrName, tuningPitch)
                                 };
                             } // endif getAnalyzerData
-
-                            arr.Tuning = PsarcExtensions.TuningToName(attributes["Tuning"].ToString(), Globals.TuningXml);
+                            
+                            var tuning = PsarcExtensions.TuningToName(attributes["Tuning"].ToString(), Globals.TuningXml);
+                            arr.Tuning = String.Format("[{0}] {1}", arrName, tuning);
                             arr.DMax = Convert.ToInt32(attributes["MaxPhraseDifficulty"].ToString());
-                            arr.ToneBase = attributes["Tone_Base"].ToString();
+
+                            if (!String.IsNullOrEmpty(attributes["Tone_Base"].ToString()))
+                            {
+                                arr.ToneBase = attributes["Tone_Base"].ToString();
+                                arr.Tones = String.Format("[{0}] (Base) {1}", arrName, arr.ToneBase);
+                            }
+                            try
+                            {
+                                if (!String.IsNullOrEmpty(attributes["Tone_A"].ToString()))
+                                    arr.Tones = String.Join(", (A) ", arr.Tones, attributes["Tone_A"].ToString());
+                                if (!String.IsNullOrEmpty(attributes["Tone_B"].ToString()))
+                                    arr.Tones = String.Join(", (B) ", arr.Tones, attributes["Tone_B"].ToString());
+                                if (!String.IsNullOrEmpty(attributes["Tone_C"].ToString()))
+                                    arr.Tones = String.Join(", (C) ", arr.Tones, attributes["Tone_C"].ToString());
+                                if (!String.IsNullOrEmpty(attributes["Tone_D"].ToString()))
+                                    arr.Tones = String.Join(", (D) ", arr.Tones, attributes["Tone_D"].ToString());
+                                if (!String.IsNullOrEmpty(attributes["Tone_Multiplayer"].ToString()))
+                                    arr.Tones = String.Join(", (M) ", arr.Tones, attributes["Tone_Multiplayer"].ToString());
+                            }
+                            catch { /* DO NOTHING */}
+
                             arr.SectionCount = attributes["Sections"].ToArray().Count();
                         }
 
                         // a smidge of arr info for vocals too!
                         arr.PersistentID = attributes["PersistentID"].ToString();
-                        arr.Name = arrName;
+                        arr.Name = String.Format("[{0}]", arrName);
                         arrangmentsFromPsarc.Add(arr);
                     }
                 }

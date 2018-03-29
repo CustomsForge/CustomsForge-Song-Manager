@@ -13,7 +13,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("CustomsForge.com")]
 [assembly: AssemblyProduct("CustomsForge Song Manager")]
-[assembly: AssemblyCopyright("Copyright © CustomsForge Song Manager 2017")]
+[assembly: AssemblyCopyright("Copyright © CustomsForge Song Manager 2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -38,5 +38,5 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 
-[assembly: AssemblyVersion("1.4.3.2")]
-[assembly: AssemblyFileVersion("1.4.3.2")]
+[assembly: AssemblyVersion("1.4.3.3")]
+[assembly: AssemblyFileVersion("1.4.3.3")]

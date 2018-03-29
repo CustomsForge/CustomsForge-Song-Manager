@@ -50,20 +50,9 @@ namespace CustomsForgeSongManager.DataObjects
     [Serializable]
     public class SongData : NotifyPropChangedBase
     {
-        //ver 1 : Initial release
-        //ver 2 : SongKey changed to DLCKey
-        //ver 3 : removed DLCKey from arrangement
-        //ver 4 : changed tagged to SongTaggerStatus
-        //ver 5 : added ArtistSort TitleSort and AlbumSort variables
-        //ver 6 : changed Path to FilePath to avoid conflict with reserved name System.IO.Path
-        //ver 7 : add RepairStatus
-        //ver 8 : add RepairStatus 'ODLC'
-        //ver 9 : all app reference files moved to 'My Documents/CFSM'
-        //ver 10 : force create a fresh 'My Documents/CFSM' folder'
-        //ver 1 - 10: time to recycle vers numbers
-
-        // incrementing forces songInfo.xml and appSettings.xml to reset/update to defaults
-        public const string SongDataListCurrentVersion = "5";
+        // version 1 - 10: recyclable vers numbers
+        // incrementing version forces songInfo.xml and appSettings.xml to reset/update to defaults
+        public const string SongDataListCurrentVersion = "7";
 
         public string FilePath { get; set; }
         public DateTime FileDate { get; set; }
@@ -75,10 +64,10 @@ namespace CustomsForgeSongManager.DataObjects
         public string TitleSort { get; set; }
         public string Album { get; set; }
         public string AlbumSort { get; set; }
-        public Int32 SongYear { get; set; }
-        public Single SongLength { get; set; }
-        public Single SongAverageTempo { get; set; }
-        public Single SongVolume { get; set; }
+        public int SongYear { get; set; }
+        public float SongLength { get; set; }
+        public float SongAverageTempo { get; set; }
+        public float SongVolume { get; set; }
         public DateTime LastConversionDateTime { get; set; }
         public string Version { get; set; }
 
@@ -191,54 +180,19 @@ namespace CustomsForgeSongManager.DataObjects
                 return result;
             }
         }
-
-        [XmlIgnore] // preserves old 1D display method
-        public string Arrangements1D
-        {
-            get { return String.Join(", ", Arrangements2D.Select(o => o.Name)); }
-            set { }
-        }
-
-        [XmlIgnore] // preserves old 1D display method
-        public string Tunings1D
-        {
-            //get { return Arrangements2D.Select(o => o.Tuning).FirstOrDefault(); }
-            get { return String.Join(", ", Arrangements2D.Select(o => o.Tuning)).TrimEnd(" ,".ToCharArray()); }
-        }
-
-        [XmlIgnore] // preserves old 1D display method show DMax
-        public Int32? DD
-        {
-            get { return Convert.ToInt32(Arrangements2D.Max(o => o.DMax)); }
-            //get { return String.Join(", ", Arrangements2D.Select(o => o.DMax)); }
-        }
-
-        [XmlIgnore] // preserves old 1D display method
-        public Int32? Sections
-        {
-            get { return Arrangements2D.Max(o => o.SectionCount); }
-        }
-
+        // preserves 1D display methods
         [XmlIgnore]
-        public string ArtistTitleAlbum
-        {
-            get { return String.Format("{0};{1};{2}", Artist, Title, Album); }
-            // set { } // required for XML file usage
-        }
-
+        public string Arrangements1D { get { return String.Join(", ", Arrangements2D.Select(o => o.Name)).TrimEnd(" ,".ToCharArray()); } }
         [XmlIgnore]
-        public string ArtistTitleAlbumDate
-        {
-            get { return String.Format("{0};{1};{2};{3}", Artist, Title, Album, LastConversionDateTime.ToString("s")); }
-            // set { } // required for XML file usage
-        }
-
+        public string Tunings1D { get { return String.Join(", ", Arrangements2D.Select(o => o.Tuning)).TrimEnd(" ,".ToCharArray()); } }
         [XmlIgnore]
-        public string FileName
-        {
-            get { return (Path.Combine(Path.GetFileName(Path.GetDirectoryName(FilePath)), Path.GetFileName(FilePath))); }
-            // set { } // required for XML file usage
-        }
+        public string Tones1D { get { return String.Join(", ", Arrangements2D.Select(o => o.Tones)).TrimEnd(" ,".ToCharArray()); } }
+        [XmlIgnore]
+        public string ArtistTitleAlbum { get { return String.Format("{0};{1};{2}", Artist, Title, Album); } }
+        [XmlIgnore]
+        public string ArtistTitleAlbumDate { get { return String.Format("{0};{1};{2};{3}", Artist, Title, Album, LastConversionDateTime.ToString("s")); } }
+        [XmlIgnore]
+        public string FileName { get { return (Path.Combine(Path.GetFileName(Path.GetDirectoryName(FilePath)), Path.GetFileName(FilePath))); } }
 
         // duplicate PID finder
         [XmlIgnore]
@@ -247,56 +201,59 @@ namespace CustomsForgeSongManager.DataObjects
         [XmlIgnore]
         public string PIDArrangement { get; set; }
 
-        //extra arrangemenet data 
+        //extra arrangemenet data for Analyzer
         [XmlIgnore]
-        public int BassPick { get { return Arrangements2D.Max(a => a.BassPick); } }
+        public int? DD { get { return Convert.ToInt32(Arrangements2D.Max(o => o.DMax)); } }
         [XmlIgnore]
-        public decimal CapoFret { get { return Arrangements2D.Max(a => a.CapoFret); } }
+        public int? Sections { get { return Arrangements2D.Max(o => o.SectionCount); } }
         [XmlIgnore]
-        public double CentOffset { get { return Arrangements2D.Max(a => a.CentOffset); } }
-        //
+        public string CapoFret1D { get { return String.Join(", ", Arrangements2D.Select(o => o.CapoFret)).TrimEnd(" ,".ToCharArray()); } }
+        [XmlIgnore]
+        public string TuningPitch1D { get { return String.Join(", ", Arrangements2D.Select(o => o.TuningPitch)).TrimEnd(" ,".ToCharArray()); } }
+        [XmlIgnore]
+        public int? BassPick { get { return Arrangements2D.Max(a => a.BassPick); } }
         [XmlIgnore]
         public string ChordNamesCounts { get { return Arrangements2D[0].ChordNamesCounts.ToString(); } }
         [XmlIgnore]
-        public Int32 ChordCount { get { return Arrangements2D.Sum(a => a.ChordCount); } }
+        public int? ChordCount { get { return Arrangements2D.Sum(a => a.ChordCount); } }
         [XmlIgnore]
-        public Int32 NoteCount { get { return Arrangements2D.Sum(a => a.NoteCount); } }
+        public int? NoteCount { get { return Arrangements2D.Sum(a => a.NoteCount); } }
         [XmlIgnore]
-        public Int32 OctaveCount { get { return Arrangements2D.Sum(a => a.OctaveCount); } }
+        public int? OctaveCount { get { return Arrangements2D.Sum(a => a.OctaveCount); } }
         [XmlIgnore]
-        public Int32 BendCount { get { return Arrangements2D.Sum(a => a.BendCount); } }
+        public int? BendCount { get { return Arrangements2D.Sum(a => a.BendCount); } }
         [XmlIgnore]
-        public Int32 HammerOnCount { get { return Arrangements2D.Sum(a => a.HammerOnCount); } }
+        public int? HammerOnCount { get { return Arrangements2D.Sum(a => a.HammerOnCount); } }
         [XmlIgnore]
-        public Int32 PullOffCount { get { return Arrangements2D.Sum(a => a.PullOffCount); } }
+        public int? PullOffCount { get { return Arrangements2D.Sum(a => a.PullOffCount); } }
         [XmlIgnore]
-        public Int32 HarmonicCount { get { return Arrangements2D.Sum(a => a.HarmonicCount); } }
+        public int? HarmonicCount { get { return Arrangements2D.Sum(a => a.HarmonicCount); } }
         [XmlIgnore]
-        public Int32 FretHandMuteCount { get { return Arrangements2D.Sum(a => a.FretHandMuteCount); } }
+        public int? FretHandMuteCount { get { return Arrangements2D.Sum(a => a.FretHandMuteCount); } }
         [XmlIgnore]
-        public Int32 PalmMuteCount { get { return Arrangements2D.Sum(a => a.PalmMuteCount); } }
+        public int? PalmMuteCount { get { return Arrangements2D.Sum(a => a.PalmMuteCount); } }
         [XmlIgnore]
-        public Int32 PluckCount { get { return Arrangements2D.Sum(a => a.PluckCount); } }
+        public int? PluckCount { get { return Arrangements2D.Sum(a => a.PluckCount); } }
         [XmlIgnore]
-        public Int32 SlapCount { get { return Arrangements2D.Sum(a => a.SlapCount); } }
+        public int? SlapCount { get { return Arrangements2D.Sum(a => a.SlapCount); } }
         [XmlIgnore]
-        public Int32 PopCount { get { return Arrangements2D.Sum(a => a.PopCount); } }
+        public int? PopCount { get { return Arrangements2D.Sum(a => a.PopCount); } }
         [XmlIgnore]
-        public Int32 SlideCount { get { return Arrangements2D.Sum(a => a.SlideCount); } }
+        public int? SlideCount { get { return Arrangements2D.Sum(a => a.SlideCount); } }
         [XmlIgnore]
-        public Int32 SustainCount { get { return Arrangements2D.Sum(a => a.SustainCount); } }
+        public int? SustainCount { get { return Arrangements2D.Sum(a => a.SustainCount); } }
         [XmlIgnore]
-        public Int32 TremoloCount { get { return Arrangements2D.Sum(a => a.TremoloCount); } }
+        public int? TremoloCount { get { return Arrangements2D.Sum(a => a.TremoloCount); } }
         [XmlIgnore]
-        public Int32 HarmonicPinchCount { get { return Arrangements2D.Sum(a => a.HarmonicCount); } }
+        public int? HarmonicPinchCount { get { return Arrangements2D.Sum(a => a.HarmonicCount); } }
         [XmlIgnore]
-        public Int32 UnpitchedSlideCount { get { return Arrangements2D.Sum(a => a.UnpitchedSlideCount); } }
+        public int? UnpitchedSlideCount { get { return Arrangements2D.Sum(a => a.UnpitchedSlideCount); } }
         [XmlIgnore]
-        public Int32 TapCount { get { return Arrangements2D.Sum(a => a.TapCount); } }
+        public int? TapCount { get { return Arrangements2D.Sum(a => a.TapCount); } }
         [XmlIgnore]
-        public Int32 VibratoCount { get { return Arrangements2D.Sum(a => a.VibratoCount); } }
+        public int? VibratoCount { get { return Arrangements2D.Sum(a => a.VibratoCount); } }
         [XmlIgnore]
-        public Int32 HighestFretUsed { get { return Arrangements2D.Max(a => a.HighestFretUsed); } }
+        public int? HighestFretUsed { get { return Arrangements2D.Max(a => a.HighestFretUsed); } }
 
 
         public void Delete()
@@ -326,8 +283,12 @@ namespace CustomsForgeSongManager.DataObjects
         public string Name { get; set; } // arrangement name
         public string Tuning { get; set; }
         public string ToneBase { get; set; }
-        public Int32? DMax { get; set; } // null value is not serialized
-        public Int32? SectionCount { get; set; } // null value is not serialized
+        public string Tones { get; set; }
+        public int? DMax { get; set; } // null value is not serialized
+        public int? SectionCount { get; set; } // null value is not serialized
+        public int? BassPick { get; set; } // null value is not serialized
+        public string TuningPitch { get; set; } // tuning frequency, see Cents2Frequency method
+        public string CapoFret { get; set; }
 
         public bool ShouldSerializeDMax()
         {
@@ -365,10 +326,6 @@ namespace CustomsForgeSongManager.DataObjects
         public List<string> ChordNames { get; set; }
         [XmlIgnore]
         public List<int> ChordCounts { get; set; }
-
-        public int BassPick { get; set; }
-        public decimal CapoFret { get; set; }
-        public double CentOffset { get; set; } // tuning frequency, see Cents2Frequency method
         //
         private string _chordNamesCounts;
         public string ChordNamesCounts
@@ -402,26 +359,26 @@ namespace CustomsForgeSongManager.DataObjects
             return ChordCount > 0;
         }
 
-        public Int32 ChordCount { get; set; }
-        public Int32 NoteCount { get; set; }
-        public Int32 BendCount { get; set; }
-        public Int32 FretHandMuteCount { get; set; }
-        public Int32 HammerOnCount { get; set; }
-        public Int32 HarmonicCount { get; set; }
-        public Int32 HarmonicPinchCount { get; set; }
-        public Int32 HighestFretUsed { get; set; }
-        public Int32 OctaveCount { get; set; }
-        public Int32 PalmMuteCount { get; set; }
-        public Int32 PluckCount { get; set; }
-        public Int32 PopCount { get; set; }
-        public Int32 PullOffCount { get; set; }
-        public Int32 SlapCount { get; set; }
-        public Int32 SlideCount { get; set; }
-        public Int32 SustainCount { get; set; }
-        public Int32 TapCount { get; set; }
-        public Int32 TremoloCount { get; set; }
-        public Int32 UnpitchedSlideCount { get; set; }
-        public Int32 VibratoCount { get; set; }
+        public int? ChordCount { get; set; }
+        public int? NoteCount { get; set; }
+        public int? BendCount { get; set; }
+        public int? FretHandMuteCount { get; set; }
+        public int? HammerOnCount { get; set; }
+        public int? HarmonicCount { get; set; }
+        public int? HarmonicPinchCount { get; set; }
+        public int? HighestFretUsed { get; set; }
+        public int? OctaveCount { get; set; }
+        public int? PalmMuteCount { get; set; }
+        public int? PluckCount { get; set; }
+        public int? PopCount { get; set; }
+        public int? PullOffCount { get; set; }
+        public int? SlapCount { get; set; }
+        public int? SlideCount { get; set; }
+        public int? SustainCount { get; set; }
+        public int? TapCount { get; set; }
+        public int? TremoloCount { get; set; }
+        public int? UnpitchedSlideCount { get; set; }
+        public int? VibratoCount { get; set; }
 
     }
 

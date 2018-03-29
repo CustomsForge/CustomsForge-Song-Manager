@@ -19,6 +19,7 @@ using DataGridViewTools;
 using Newtonsoft.Json;
 using System.Xml;
 using CustomsForgeSongManager.Properties;
+using System.Net.Cache;
 
 
 namespace CustomsForgeSongManager.UControls
@@ -48,7 +49,10 @@ namespace CustomsForgeSongManager.UControls
             InitializeComponent();
             Globals.TsLabel_StatusMsg.Click += lnkShowAll_Click;
             dgvSongsDetail.Visible = false;
+
             tsmiDevDebugUse.Visible = GenExtensions.IsInDesignMode ? true : false;
+            cmsCheckForUpdate.Visible = GenExtensions.IsInDesignMode ? true : false;
+            cmsOpenSongLocation.Visible = GenExtensions.IsInDesignMode ? true : false;
 
             PopulateTagger();
             cmsTaggerPreview.Visible = true; // ???
@@ -62,9 +66,7 @@ namespace CustomsForgeSongManager.UControls
             if (song != null)
             {
                 if (String.IsNullOrEmpty(song.AudioCache))
-                {
                     song.AudioCache = string.Format("{0}_{1}", Guid.NewGuid().ToString().Replace("-", ""), song.FileSize);
-                }
 
                 var audioCacheDir = Constants.AudioCacheFolder;
                 if (!Directory.Exists(audioCacheDir))
@@ -281,7 +283,6 @@ namespace CustomsForgeSongManager.UControls
                     if (dgvSongsMaster.SelectedRows.Count > 0)
                     {
                         CheckRowForUpdate(dgvSongsMaster.SelectedRows[0]);
-                        // SaveSongCollectionToFile();
                     }
                 });
         }
@@ -289,56 +290,56 @@ namespace CustomsForgeSongManager.UControls
         private void CheckRowForUpdate(DataGridViewRow dataGridViewRow)
         {
             // part of ContextMenuStrip action
-            if (!bWorker.CancellationPending)
+            if (bWorker.CancellationPending)
+                return;
+
+            var sd = DgvExtensions.GetObjectFromRow<SongData>(dataGridViewRow);
+            if (sd == null || sd.OfficialDLC || sd.IsRsCompPack)
+                return;
+
+            //currentSong.IgnitionVersion = Ignition.GetDLCInfoFromURL(currentSong.GetInfoURL(), "version");
+            string url = sd.GetInfoURL();
+            //string response = String.Empty;
+            //string cfUrl = String.Empty;
+            //int version = 0;
+
+            string auth_token = String.Empty;
+
+            var body = new { grant_type = "client_credentials", client_id = "CFSM", client_secret = "snIsh4bir9Il4woTh1aG6jiD5Ag8An" };
+            using (var client = new WebClient())
             {
-                var sd = DgvExtensions.GetObjectFromRow<SongData>(dataGridViewRow);
-                if (sd != null)
-                {
-                    //currentSong.IgnitionVersion = Ignition.GetDLCInfoFromURL(currentSong.GetInfoURL(), "version");
-                    string url = sd.GetInfoURL();
-                    //string response = String.Empty;
-                    //string cfUrl = String.Empty;
-                    //int version = 0;
+                var dataString = JsonConvert.SerializeObject(body);
+                client.Headers.Add(HttpRequestHeader.ContentType, "application/json");
+                string authresponse = client.UploadString(new Uri(Constants.DefaultAuthURL), "POST", dataString);
+                dynamic deserialized = JsonConvert.DeserializeObject(authresponse);
+                auth_token = deserialized.access_token;
+            }
 
-                    string auth_token = String.Empty;
+            using (WebClient client = new WebClient())
+            {
+                const string myParametersTemplate = "filters[artist]={artist}&filters[album]={album}&filters[title]={title}&per_page=1";
+                string myParameters = myParametersTemplate.Replace("{artist}", sd.Artist).Replace("{album}", sd.Album).Replace("{title}", sd.Title);
 
-                    var body = new { grant_type = "client_credentials", client_id = "CFSM", client_secret = "snIsh4bir9Il4woTh1aG6jiD5Ag8An" };
-                    using (var client = new WebClient())
-                    {
-                        var dataString = JsonConvert.SerializeObject(body);
-                        client.Headers.Add(HttpRequestHeader.ContentType, "application/json");
-                        string authresponse = client.UploadString(new Uri(Constants.DefaultAuthURL), "POST", dataString);
-                        dynamic deserialized = JsonConvert.DeserializeObject(authresponse);
-                        auth_token = deserialized.access_token;
-                    }
+                string clientURL = string.Concat(url, "?", myParameters);
 
-                    using (WebClient client = new WebClient())
-                    {
-                        const string myParametersTemplate = "filters[artist]={artist}&filters[album]={album}&filters[title]={title}&per_page=1";
-                        string myParameters = myParametersTemplate.Replace("{artist}", sd.Artist).Replace("{album}", sd.Album).Replace("{title}", sd.Title);
+                string authHeader = string.Concat("Bearer ", auth_token);
 
-                        string clientURL = string.Concat(url, "?", myParameters);
+                client.Headers[HttpRequestHeader.ContentType] = "Content-Type: application/json";
+                client.Headers.Add("Authorization", authHeader);
 
-                        string authHeader = string.Concat("Bearer ", auth_token);
+                if (client.Headers["Authorization"] == null)
+                    throw new Exception("Cannot add auth header");
+                else if (string.IsNullOrEmpty(client.Headers["Authorization"]))
+                    throw new Exception("Header auth value is empty");
 
-                        client.Headers[HttpRequestHeader.ContentType] = "Content-Type: application/json";
-                        client.Headers.Add("Authorization", authHeader);
+                client.CachePolicy = new RequestCachePolicy(RequestCacheLevel.NoCacheNoStore);
 
-                        if (client.Headers["Authorization"] == null)
-                            throw new Exception("Cannot add auth header");
-                        else if (string.IsNullOrEmpty(client.Headers["Authorization"]))
-                            throw new Exception("Header auth value is empty");
+                dynamic HtmlResult = client.UploadString(clientURL, string.Empty);
 
-                        client.CachePolicy = new System.Net.Cache.RequestCachePolicy(System.Net.Cache.RequestCacheLevel.NoCacheNoStore);
-
-                        dynamic HtmlResult = client.UploadString(clientURL, string.Empty);
-
-                        //currentSong.IgnitionID = HtmlResult.data.id;
-                        //currentSong.IgnitionUpdated = HtmlResult.data.updated;
-                        //currentSong.IgnitionVersion = HtmlResult.data.version;
-                        //currentSong.IgnitionAuthor = HtmlResult.data.name;
-                    }
-                }
+                //currentSong.IgnitionID = HtmlResult.data.id;
+                //currentSong.IgnitionUpdated = HtmlResult.data.updated;
+                //currentSong.IgnitionVersion = HtmlResult.data.version;
+                //currentSong.IgnitionAuthor = HtmlResult.data.name;                    
             }
         }
 
@@ -990,7 +991,7 @@ namespace CustomsForgeSongManager.UControls
                 var sd = DgvExtensions.GetObjectFromRow<SongData>(selectedRow);
                 if (sd != null)
                 {
-                    sd.IgnitionAuthor = Ignition.GetDLCInfoFromURL(sd.GetInfoURL(), "name");
+                    sd.IgnitionAuthor = Ignition.GetSongInfoFromURL(sd.GetInfoURL(), "name");
                     selectedRow.Cells["IgnitionAuthor"].Value = sd.IgnitionAuthor;
                 }
             }
@@ -1133,7 +1134,7 @@ namespace CustomsForgeSongManager.UControls
             Application.DoEvents();
         }
 
-        private void checkAllForUpdates(object sender, DoWorkEventArgs e)
+        private void CheckAllForUpdates(object sender, DoWorkEventArgs e)
         {
             if (Globals.TsLabel_Cancel.Visible)
             {
@@ -1151,23 +1152,18 @@ namespace CustomsForgeSongManager.UControls
 
             GenExtensions.InvokeIfRequired(dgvSongsMaster, delegate
                 {
-                    if (!bWorker.CancellationPending)
+                    foreach (DataGridViewRow row in dgvSongsMaster.Rows)
                     {
-                        foreach (DataGridViewRow row in dgvSongsMaster.Rows)
+                        if (bWorker.CancellationPending)
                         {
-                            //string songname = row.Cells[3].Value.ToString();
-                            if (!bWorker.CancellationPending)
-                            {
-                                DataGridViewRow currentRow = (DataGridViewRow)row;
-                                if (!currentRow.Cells["FileName"].Value.ToString().Contains("rs1comp"))
-                                    CheckRowForUpdate(currentRow);
-                            }
-                            else
-                                bWorker.Abort();
+                            bWorker.Abort();
+                            Globals.Log("<WARNING> User aborted checking for updates on CF ...");
+                            break;
                         }
-                    }
 
-                    // SaveSongCollectionToFile();
+                        DataGridViewRow currentRow = (DataGridViewRow)row;
+                        CheckRowForUpdate(currentRow);
+                    }
                 });
 
             counterStopwatch.Stop();
@@ -1198,7 +1194,8 @@ namespace CustomsForgeSongManager.UControls
             GenExtensions.InvokeIfRequired(this, delegate { Globals.TsLabel_Cancel.Enabled = true; });
             bWorker = new AbortableBackgroundWorker();
             bWorker.SetDefaults();
-            bWorker.DoWork += checkAllForUpdates;
+            bWorker.DoWork += CheckAllForUpdates; // check all rows
+            // bWorker.DoWork += CheckForUpdateEvent; // check single row
 
             if (!bWorker.IsBusy)
                 bWorker.RunWorkerAsync();
@@ -1281,7 +1278,7 @@ namespace CustomsForgeSongManager.UControls
                 Process.Start("explorer.exe", string.Format("/select,\"{0}\"", directory.FullName));
         }
 
-        private void cmsOpenDLCPage_Click(object sender, EventArgs e)
+        private void cmsOpenSongPage_Click(object sender, EventArgs e)
         {
             if (dgvSongsMaster.SelectedRows.Count == 1)
             {
@@ -1289,7 +1286,7 @@ namespace CustomsForgeSongManager.UControls
                 if (sd != null)
                 {
                     if (sd.IgnitionID == null || sd.IgnitionID == "No Results")
-                        sd.IgnitionID = Ignition.GetDLCInfoFromURL(sd.GetInfoURL(), "id");
+                        sd.IgnitionID = Ignition.GetSongInfoFromURL(sd.GetInfoURL(), "id");
 
                     if (sd.IgnitionID == null || sd.IgnitionID == "No Results")
                         Globals.Log("<ERROR>: Song doesn't exist in Ignition anymore.");

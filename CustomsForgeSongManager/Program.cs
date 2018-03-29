@@ -26,7 +26,7 @@ namespace CustomsForgeSongManager
         /// </summary>
         [STAThread]
         private static void Main()
-        {
+         {
             // must come first if it is used
             Application.SetCompatibleTextRenderingDefault(false);
 
