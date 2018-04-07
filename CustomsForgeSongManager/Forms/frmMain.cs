@@ -873,14 +873,23 @@ namespace CustomsForgeSongManager.Forms
                         var sbRow = String.Empty;
                         if (arr.Name != "[Vocals]")
                         {
-                            sbRow = song.Artist + csvSep + song.Title + csvSep + arr.Name.TrimStart('[').TrimEnd(']') + csvSep +
-                                arr.Tuning.Replace(arr.Name, "").Trim() + csvSep + arr.Tones.Replace(arr.Name + " ", "") + csvSep +
+                            string arrName =  arr.Name != null ? arr.Name.TrimStart('[').TrimEnd(']') : "";
+                            string arrTones = arr.Tones != null ? arr.Tones.Replace(arr.Name + " ", "") : ""; //this four (or five) like to to throw null reference erors if the song hasn't been rescanned between updates
+                            string arrTuning = arr.Tuning != null ? arr.Tuning.Replace(arr.Name, "").Trim() : "";
+                            string arrCapoFret = arr.CapoFret != null ? arr.CapoFret.Replace(arr.Name, "").Trim() : "";
+                            string arrTuningPitch = arr.TuningPitch != null ? arr.TuningPitch.Replace(arr.Name, "").Trim() : "";
+
+                            if(arrName == "" || arrTones == "" || arrTuning == "" || arrCapoFret == "" || arrTuningPitch == "")
+                                Globals.Log(string.Format("Please rescan the song: {0} by {1}! (right click on song -> Get Analyzer Data or do a full rescan with metadata)", song.Title, song.Artist));
+
+                            sbRow = song.Artist + csvSep + song.Title + csvSep + arrName + csvSep +
+                                arrTuning + csvSep + arrTones + csvSep +
                                 arr.NoteCount + csvSep + arr.ChordCount + csvSep + arr.HammerOnCount + csvSep + arr.PullOffCount + csvSep +
                                 arr.HarmonicCount + csvSep + arr.HarmonicPinchCount + csvSep + arr.FretHandMuteCount + csvSep +
                                 arr.PalmMuteCount + csvSep + arr.PluckCount + csvSep + arr.SlapCount + csvSep + arr.SlideCount + csvSep +
                                 arr.UnpitchedSlideCount + csvSep + arr.TremoloCount + csvSep + arr.TapCount + csvSep + arr.VibratoCount + csvSep +
                                 arr.SustainCount + csvSep + arr.BendCount + csvSep + arr.HighestFretUsed + csvSep + arr.BassPick + csvSep +
-                                arr.CapoFret.Replace(arr.Name, "").Trim() + csvSep + arr.TuningPitch.Replace(arr.Name, "").Trim() + csvSep;
+                                arrCapoFret + csvSep + arrTuningPitch + csvSep;
 
                             if (arr.ChordNames == null || arr.ChordNames.Count() == 0)
                                 sbRow += "no chords";
