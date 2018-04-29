@@ -128,9 +128,9 @@ namespace CustomsForgeSongManager.LocalTools
                 currentSong.IgnitionVersion = GetSongInfoFromResponse(response, "version");
                 currentSong.IgnitionAuthor = GetSongInfoFromResponse(response, "name");
 
-                if (Int32.TryParse(currentSong.Version, out version))
+                if (Int32.TryParse(currentSong.PackageVersion, out version))
                 {
-                    currentSong.Version += ".0";
+                    currentSong.PackageVersion += ".0";
                 }
 
                 if (Int32.TryParse(currentSong.IgnitionVersion, out version))
@@ -142,15 +142,15 @@ namespace CustomsForgeSongManager.LocalTools
                 {
                     currentSong.Status = SongDataStatus.NotFound;
                 }
-                else if (currentSong.Version == "N/A")
+                else if (currentSong.PackageVersion == "N/A")
                 {
                     //TODO: Check for updates by release/update date
                 }
-                else if (currentSong.IgnitionVersion != currentSong.Version)
+                else if (currentSong.IgnitionVersion != currentSong.PackageVersion)
                 {
                     currentSong.Status = SongDataStatus.OutDated;
                 }
-                else if (currentSong.IgnitionVersion == currentSong.Version)
+                else if (currentSong.IgnitionVersion == currentSong.PackageVersion)
                 {
                     currentSong.Status = SongDataStatus.UpToDate;
                 }
@@ -166,9 +166,9 @@ namespace CustomsForgeSongManager.LocalTools
                         currentSong.IgnitionVersion = GetSongInfoFromResponse(response, "version");
                         currentSong.IgnitionAuthor = GetSongInfoFromResponse(response, "name");
 
-                        if (Int32.TryParse(currentSong.Version, out version))
+                        if (Int32.TryParse(currentSong.PackageVersion, out version))
                         {
-                            currentSong.Version += ".0";
+                            currentSong.PackageVersion += ".0";
                         }
 
                         if (Int32.TryParse(currentSong.IgnitionVersion, out version))
@@ -180,15 +180,15 @@ namespace CustomsForgeSongManager.LocalTools
                         {
                             currentSong.Status = SongDataStatus.NotFound;
                         }
-                        else if (currentSong.Version == "N/A")
+                        else if (currentSong.PackageVersion == "N/A")
                         {
                             //TODO: Check for updates by release/update date
                         }
-                        else if (currentSong.IgnitionVersion != currentSong.Version)
+                        else if (currentSong.IgnitionVersion != currentSong.PackageVersion)
                         {
                             currentSong.Status = SongDataStatus.OutDated;
                         }
-                        else if (currentSong.IgnitionVersion == currentSong.Version)
+                        else if (currentSong.IgnitionVersion == currentSong.PackageVersion)
                         {
                             currentSong.Status = SongDataStatus.UpToDate;
                         }

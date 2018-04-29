@@ -44,8 +44,6 @@ namespace CustomsForgeSongManager.LocalTools
 
             if (workOrder.Name == "Renamer")
                 bWorker.DoWork += WorkerRenameSongs;
-            else if (workOrder.Name == "Analyzer")
-                bWorker.DoWork += WorkerAnalyzerParseSong;
             else
                 bWorker.DoWork += WorkerParseSongs;
 
@@ -110,12 +108,7 @@ namespace CustomsForgeSongManager.LocalTools
             ParseSongs(sender, e);
         }
 
-        private void WorkerAnalyzerParseSong(object sender, DoWorkEventArgs e)
-        {
-            ParseSongs(sender, e, true);
-        }
-
-        private void ParseSongs(object sender, DoWorkEventArgs e, bool getAnalyzerData = false)
+        private void ParseSongs(object sender, DoWorkEventArgs e)
         {
             Globals.IsScanning = true;
             List<string> filesList;
@@ -190,7 +183,7 @@ namespace CustomsForgeSongManager.LocalTools
                 }
 
                 if (canScan)
-                    ParsePSARC(file, getAnalyzerData);
+                    ParsePSARC(file);
             }
 
             // cleanup and sort
@@ -230,7 +223,7 @@ namespace CustomsForgeSongManager.LocalTools
             Globals.MasterCollection.ToList().ForEach(a => a.Arrangements2D.ToList().ForEach(arr => arr.Parent = a));
         }
 
-        private void ParsePSARC(string filePath, bool getAnalyzerData = false)
+        private void ParsePSARC(string filePath)
         {
             // 2x speed hack ... preload the TuningDefinition and fix for tuning 'Other' issue           
             if (Globals.TuningXml == null || Globals.TuningXml.Count == 0)
@@ -240,30 +233,19 @@ namespace CustomsForgeSongManager.LocalTools
             {
                 using (var browser = new PsarcBrowser(filePath))
                 {
-                    var songInfo = browser.GetSongData(getAnalyzerData);
+                    var songInfo = browser.GetSongData();
 
                     foreach (var songData in songInfo.Distinct())
                     {
-                        //foreach (var arr in songData.Arrangements2D)
-                        //     arr.Tuning = Extensions.TuningToName(arr.Tuning);
-
-                        if (songData.Version == "N/A")
+                        if (songData.PackageVersion == "Null")
                         {
                             var fileNameVersion = songData.GetVersionFromFileName();
                             if (fileNameVersion != "")
-                                songData.Version = fileNameVersion;
+                                songData.PackageVersion = fileNameVersion;
                         }
 
-                        GenExtensions.InvokeIfRequired(workOrder, delegate { bwSongCollection.Add(songData); });
-
-                        //if (songData.FileName.ToLower().Contains(Constants.RS1COMP) && AppSettings.Instance.IncludeRS1DLCs)
-                        //    GenExtensions.InvokeIfRequired(workOrder, delegate { bwSongCollection.Add(songData); });
-
-                        //if (songData.FileName.ToLower().Contains(Constants.SongsPsarcPath.ToLower()) && AppSettings.Instance.IncludeRS2014BaseSongs)
-                        //    GenExtensions.InvokeIfRequired(workOrder, delegate { bwSongCollection.Add(songData); });
-
-                        //if (songData.FileName.ToLower().Contains(Constants.SONGPACK) || songData.FileName..ToLower().Contains(Constants.ABVSONGPACK) && AppSettings.Instance.IncludeCustomPacks)
-                        //    GenExtensions.InvokeIfRequired(workOrder, delegate { bwSongCollection.Add(songData); });
+                        GenExtensions.InvokeIfRequired(workOrder, delegate
+                            { bwSongCollection.Add(songData); });
                     }
                 }
             }

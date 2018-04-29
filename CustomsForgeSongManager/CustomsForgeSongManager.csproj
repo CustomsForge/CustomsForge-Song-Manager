@@ -161,6 +161,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataObjects\ArrangementData.cs" />
     <Compile Include="DataObjects\OfficialSong.cs" />
     <Compile Include="Forms\frmCODLCDuplicates.cs">
       <SubType>Form</SubType>
@@ -307,6 +308,12 @@
     <Compile Include="SongEditor\ucTones.Designer.cs">
       <DependentUpon>ucTones.cs</DependentUpon>
     </Compile>
+    <Compile Include="UControls\ArrangementManager.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UControls\ArrangementManager.Designer.cs">
+      <DependentUpon>ArrangementManager.cs</DependentUpon>
+    </Compile>
     <Compile Include="UControls\SongPacks.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -430,6 +437,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SongEditor\ucTones.resx">
       <DependentUpon>ucTones.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UControls\ArrangementManager.resx">
+      <DependentUpon>ArrangementManager.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UControls\SongPacks.resx">
       <DependentUpon>SongPacks.cs</DependentUpon>

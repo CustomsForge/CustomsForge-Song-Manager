@@ -12,6 +12,7 @@ using System;
 using RocksmithToolkitLib.XmlRepository;
 using System.Reflection;
 
+
 namespace CustomsForgeSongManager.DataObjects
 {
     public class ScannerEventHandler : EventArgs
@@ -45,6 +46,7 @@ namespace CustomsForgeSongManager.DataObjects
         private static Settings _settings;
         private static BindingList<SongData> _masterCollection;
         private static SongManager _songManager;
+        private static ArrangementManager _arrangementManager;
         private static Theme _theme;
         private static TaggerTools _tagger;
         private static List<OfficialDLCSong> _oDLCSongList;
@@ -139,10 +141,12 @@ namespace CustomsForgeSongManager.DataObjects
         public static bool RescanRenamer { get; set; }
         public static bool RescanSetlistManager { get; set; }
         public static bool RescanSongManager { get; set; }
+        public static bool RescanArrangements { get; set; }
         public static bool ReloadDuplicates { get; set; }
         public static bool ReloadRenamer { get; set; }
         public static bool ReloadSetlistManager { get; set; }
         public static bool ReloadSongManager { get; set; }
+        public static bool ReloadArrangements { get; set; }
         public static bool ReloadSongPacks { get; set; }
 
         public static SetlistManager SetlistManager
@@ -155,6 +159,12 @@ namespace CustomsForgeSongManager.DataObjects
         {
             get { return _settings ?? (_settings = new Settings()); }
             set { _settings = value; }
+        }
+
+        public static ArrangementManager ArrangementManager
+        {
+            get { return _arrangementManager ?? (_arrangementManager = new ArrangementManager()); }
+            set { _arrangementManager = value; }
         }
 
         public static BindingList<SongData> MasterCollection

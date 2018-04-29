@@ -36,7 +36,7 @@ namespace CustomsForgeSongManager.SongEditor
             txtAvgTempo.Text = SongData.SongInfo.AverageTempo.ToString();
             cmbSongVolume.Value = Convert.ToDecimal(SongData.Volume);
             cmbPreviewVolume.Value = Convert.ToDecimal(SongData.PreviewVolume);
-            txtCharter.Text = song.CharterName; // not editable
+            txtCharter.Text = song.PackageAuthor; // not editable
 
             //set up events
             PopulateAppIdCombo(SongData.AppId, GameVersion.RS2014);

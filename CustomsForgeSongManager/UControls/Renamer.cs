@@ -87,11 +87,11 @@ namespace CustomsForgeSongManager.UControls
             template.Add("dd", data.DD > 0 ? "DD" : "");
             template.Add("ddlvl", data.DD);
             template.Add("year", data.SongYear);
-            var pkgVersion = data.Version;
+            var pkgVersion = data.PackageVersion;
             if (pkgVersion == "N/A") pkgVersion = "0";
             if (String.IsNullOrEmpty(pkgVersion)) pkgVersion = "1";
             template.Add("version", String.Format("v{0}", pkgVersion));
-            template.Add("author", String.IsNullOrEmpty(data.CharterName) ? "Unknown" : data.CharterName.Replace('\\', '_'));
+            template.Add("author", String.IsNullOrEmpty(data.PackageAuthor) ? "Unknown" : data.PackageAuthor.Replace('\\', '_'));
             template.Add("arrangements", data.ArrangementsInitials);
             template.Add("_", "_");
 

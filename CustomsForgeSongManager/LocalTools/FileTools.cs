@@ -76,15 +76,15 @@ namespace CustomsForgeSongManager.LocalTools
             if (selectedSongs.Count == 0)
                 return;
 
-            foreach (var song in selectedSongs)
-            {
-                using (var browser = new PsarcBrowser(song.FilePath))
-                {
-                    var data = browser.GetSongData(true);
-                    int index = Globals.MasterCollection.IndexOf(song);
-                    Globals.MasterCollection[index] = data.First();
-                }
-            }
+            //foreach (var song in selectedSongs)
+            //{
+            //    using (var browser = new PsarcBrowser(song.FilePath))
+            //    {
+            //        var data = browser.GetSongData(true);
+            //        int index = Globals.MasterCollection.IndexOf(song);
+            //        Globals.MasterCollection[index] = data.First();
+            //    }
+            //}
         }
 
         public static void ArtistFolders(string dlcDir, List<SongData> selectedSongs, bool isUndo)
@@ -113,21 +113,21 @@ namespace CustomsForgeSongManager.LocalTools
                 string destFilePath;
                 if (isUndo)
                 {
-                    if (songInfo.CharterName == "Ubisoft")
+                    if (songInfo.PackageAuthor == "Ubisoft")
                         destFilePath = Path.Combine(Constants.Rs2DlcFolder, Path.GetFileName(srcFilePath));
                     else
                         destFilePath = Path.Combine(Constants.Rs2CdlcFolder, Path.GetFileName(srcFilePath));
                 }
                 else
                 {
-                    var version = songInfo.Version;
+                    var version = songInfo.PackageVersion;
 
                     // workaround for old toolkit behavior
                     if (String.IsNullOrEmpty(version) || version == "N/A")
                         version = "1";
 
                     // workaround to identify ODLC
-                    if (songInfo.CharterName == "Ubisoft")
+                    if (songInfo.PackageAuthor == "Ubisoft")
                         version = "0";
 
                     var artistName = songInfo.Artist;

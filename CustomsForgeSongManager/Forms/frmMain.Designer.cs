@@ -45,6 +45,7 @@ namespace CustomsForgeSongManager.Forms
             this.tstripContainer = new System.Windows.Forms.ToolStripContainer();
             this.tcMain = new System.Windows.Forms.TabControl();
             this.tpSongManager = new System.Windows.Forms.TabPage();
+            this.tpArrangements = new System.Windows.Forms.TabPage();
             this.tpDuplicates = new System.Windows.Forms.TabPage();
             this.tpRenamer = new System.Windows.Forms.TabPage();
             this.tpSetlistManager = new System.Windows.Forms.TabPage();
@@ -60,8 +61,6 @@ namespace CustomsForgeSongManager.Forms
             this.tsmiBBCode = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiCSV = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiHTML = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiAnalyzerCSV = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiAnalyzerJSON = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.tsBtnUpload = new System.Windows.Forms.ToolStripButton();
             this.tsBtnRequest = new System.Windows.Forms.ToolStripButton();
@@ -202,6 +201,7 @@ namespace CustomsForgeSongManager.Forms
             // tcMain
             // 
             this.tcMain.Controls.Add(this.tpSongManager);
+            this.tcMain.Controls.Add(this.tpArrangements);
             this.tcMain.Controls.Add(this.tpDuplicates);
             this.tcMain.Controls.Add(this.tpRenamer);
             this.tcMain.Controls.Add(this.tpSetlistManager);
@@ -225,6 +225,15 @@ namespace CustomsForgeSongManager.Forms
             this.tpSongManager.TabIndex = 0;
             this.tpSongManager.Text = "Song Manager";
             this.tpSongManager.UseVisualStyleBackColor = true;
+            // 
+            // tpArrangements
+            // 
+            this.tpArrangements.Location = new System.Drawing.Point(4, 25);
+            this.tpArrangements.Name = "tpArrangements";
+            this.tpArrangements.Size = new System.Drawing.Size(1003, 472);
+            this.tpArrangements.TabIndex = 9;
+            this.tpArrangements.Text = "Arrangements";
+            this.tpArrangements.UseVisualStyleBackColor = true;
             // 
             // tpDuplicates
             // 
@@ -339,51 +348,36 @@ namespace CustomsForgeSongManager.Forms
             this.tsBtnExport.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiBBCode,
             this.tsmiCSV,
-            this.tsmiHTML,
-            this.tsmiAnalyzerCSV,
-            this.tsmiAnalyzerJSON});
+            this.tsmiHTML});
             this.tsBtnExport.Image = global::CustomsForgeSongManager.Properties.Resources.export;
             this.tsBtnExport.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsBtnExport.Name = "tsBtnExport";
             this.tsBtnExport.Size = new System.Drawing.Size(68, 22);
             this.tsBtnExport.Text = "Export";
-            this.tsBtnExport.ToolTipText = "The default action is to export all\r\ndata if no rows have been selected.\r\nOthewis" +
-                "e exports only the data\r\nthat has been manually selected.";
+            this.tsBtnExport.ToolTipText = "HEY READ THIS: \r\nThe default action is to export all\r\ndata if no rows have been s" +
+                "elected.\r\nOthewise only the data that has\r\nbeen manually selected is exported.";
             // 
             // tsmiBBCode
             // 
             this.tsmiBBCode.Name = "tsmiBBCode";
-            this.tsmiBBCode.Size = new System.Drawing.Size(163, 22);
+            this.tsmiBBCode.Size = new System.Drawing.Size(152, 22);
             this.tsmiBBCode.Text = "BB Code";
             this.tsmiBBCode.Click += new System.EventHandler(this.tsmiBBCode_Click);
             // 
             // tsmiCSV
             // 
             this.tsmiCSV.Name = "tsmiCSV";
-            this.tsmiCSV.Size = new System.Drawing.Size(163, 22);
+            this.tsmiCSV.Size = new System.Drawing.Size(152, 22);
             this.tsmiCSV.Text = "CSV";
+            this.tsmiCSV.ToolTipText = "Export to CSV format the data that\r\nis currently displayed on the screen.";
             this.tsmiCSV.Click += new System.EventHandler(this.tsmiCSV_Click);
             // 
             // tsmiHTML
             // 
             this.tsmiHTML.Name = "tsmiHTML";
-            this.tsmiHTML.Size = new System.Drawing.Size(163, 22);
+            this.tsmiHTML.Size = new System.Drawing.Size(152, 22);
             this.tsmiHTML.Text = "HTML";
             this.tsmiHTML.Click += new System.EventHandler(this.tsmiHTML_Click);
-            // 
-            // tsmiAnalyzerCSV
-            // 
-            this.tsmiAnalyzerCSV.Name = "tsmiAnalyzerCSV";
-            this.tsmiAnalyzerCSV.Size = new System.Drawing.Size(163, 22);
-            this.tsmiAnalyzerCSV.Text = "Analyzer - CSV";
-            this.tsmiAnalyzerCSV.Click += new System.EventHandler(this.tsmiAnalyzerCSV_Click);
-            // 
-            // tsmiAnalyzerJSON
-            // 
-            this.tsmiAnalyzerJSON.Name = "tsmiAnalyzerJSON";
-            this.tsmiAnalyzerJSON.Size = new System.Drawing.Size(163, 22);
-            this.tsmiAnalyzerJSON.Text = "Analyzer - JSON";
-            this.tsmiAnalyzerJSON.Click += new System.EventHandler(this.tsmiAnalyzerJSON_Click);
             // 
             // toolStripSeparator2
             // 
@@ -706,7 +700,6 @@ namespace CustomsForgeSongManager.Forms
         private ToolStripProgressBar tspbAudioPosition;
         private TabPage tpSongPacks;
         private ToolStripLabel tslblTimer;
-        private ToolStripMenuItem tsmiAnalyzerCSV;
-        private ToolStripMenuItem tsmiAnalyzerJSON;
+        private TabPage tpArrangements;
     }
 }

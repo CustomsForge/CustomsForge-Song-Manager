@@ -30,7 +30,6 @@ namespace CustomsForgeSongManager.UControls
                 chkIncludeRS1CompSongs.Checked = AppSettings.Instance.IncludeRS1CompSongs;
                 chkIncludeRS2BaseSongs.Checked = AppSettings.Instance.IncludeRS2BaseSongs;
                 chkIncludeCustomPacks.Checked = AppSettings.Instance.IncludeCustomPacks;
-                chkIncludeAnalyzerData.Checked = AppSettings.Instance.IncludeAnalyzerData;
                 chkEnableAutoUpdate.Checked = AppSettings.Instance.EnableAutoUpdate;
                 chkEnableNotifications.Checked = AppSettings.Instance.EnableNotifications;
                 chkEnableQuarantine.Checked = AppSettings.Instance.EnableQuarantine;
@@ -261,12 +260,6 @@ namespace CustomsForgeSongManager.UControls
             AppSettings.Instance.EnableQuarantine = chkEnableQuarantine.Checked;
         }
 
-        private void chkIncludeAnalyzerData_Click(object sender, EventArgs e)
-        {
-            AppSettings.Instance.IncludeAnalyzerData = chkIncludeAnalyzerData.Checked;
-            ToogleRescan(true);
-        }
-
         private void chkIncludeCustomPacks_Click(object sender, EventArgs e)
         {
             AppSettings.Instance.IncludeCustomPacks = chkIncludeCustomPacks.Checked;
@@ -299,7 +292,6 @@ namespace CustomsForgeSongManager.UControls
             }
 
             GenExtensions.DeleteFile(Constants.SongsInfoPath);
-            GenExtensions.DeleteFile(Constants.AnalyzerDataPath);
             AppSettings.Instance.MacMode = chkMacMode.Checked;
 
             // restart new instance of application and shutdown original

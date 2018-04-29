@@ -143,71 +143,30 @@ namespace CustomsForgeSongManager.UControls
 
         public void SaveSongCollectionToFile()
         {
-            // TODO: simplify serialization
-
-            // save with version info
             var dom = Globals.MasterCollection.XmlSerializeToDom();
             XmlElement versionNode = dom.CreateElement("SongDataList");
             versionNode.SetAttribute("version", SongData.SongDataListCurrentVersion);
             versionNode.SetAttribute("AppVersion", Constants.CustomVersion());
             dom.DocumentElement.AppendChild(versionNode);
 
-            var arrDom = new XmlDocument();
-            var allArrsNode = arrDom.CreateElement("AnalyzerData");
-            string keptInfo = "persistentid_dmax_name_dd_tuning_tonebase_tonebase_sectioncount"; //don't move these to AnalyzerInfo.xml file
-
             foreach (XmlElement songData in dom.GetElementsByTagName("ArrayOfSongData")[0].ChildNodes)
             {
                 var arrangementsNode = songData.GetElementsByTagName("Arrangements")[0];
                 if (arrangementsNode != null)
                 {
-                    string dlcKey = songData.SelectSingleNode("DLCKey").ChildNodes[0].Value.ToString();
-                    ((XmlElement)arrangementsNode).SetAttribute("DLCKey", dlcKey);
-
-                    // create structure for analyzerData.xml - this must come first
-                    var extraMetaDataScanned = Convert.ToBoolean(songData.SelectSingleNode("ExtraMetaDataScanned").ChildNodes[0].Value);
-                    if (extraMetaDataScanned)
-                    {
-                        allArrsNode.AppendChild(arrDom.ImportNode(arrangementsNode, true));
-                        var arrsNode = allArrsNode.ChildNodes.OfType<XmlNode>().ToList();
-                        arrsNode.ForEach(arr =>
-                        {
-                            arr.ChildNodes.OfType<XmlNode>().ToList().ForEach(n =>
-                            {
-                                if (n.SelectSingleNode("Name").ChildNodes[0].Value.ToString() == "Vocals")
-                                    arr.RemoveChild(n);
-                            });
-                        });
-                    }
-
-                    // create arrangement structure for songInfo.xml
                     var arrNodes = arrangementsNode.ChildNodes.OfType<XmlNode>().ToList();
+
                     arrNodes.ForEach(arr =>
+                    {
+                        arr.ChildNodes.OfType<XmlNode>().ToList().ForEach(n =>
                         {
-                            arr.ChildNodes.OfType<XmlNode>().ToList().ForEach(n =>
-                                {
-                                    if (!keptInfo.Contains(n.Name.ToLower()))
-                                        arr.RemoveChild(n);
-                                });
+                            // remove null/empty nodes
+                            if (String.IsNullOrEmpty(n.InnerText))
+                                arr.RemoveChild(n);
                         });
+                    });
                 }
             }
-
-            // save analyzerData.xml
-            if (AppSettings.Instance.IncludeAnalyzerData && !allArrsNode.IsEmpty)
-            {
-                arrDom.AppendChild(allArrsNode);
-                arrDom.Save(Constants.AnalyzerDataPath);
-                Globals.Log("Saved File: " + Path.GetFileName(Constants.AnalyzerDataPath));
-            }
-            //else // remove old anlayzer data
-            //{
-            //    if (GenExtensions.DeleteFile(Constants.AnalyzerDataPath))
-            //    {
-            //        Globals.Log("User Disabled Analyzer ...");
-            //        Globals.Log("Deleted File: " + Path.GetFileName(Constants.AnalyzerDataPath));
-            //    }
-            //}
 
             dom.Save(Constants.SongsInfoPath);
             Globals.Log("Saved File: " + Path.GetFileName(Constants.SongsInfoPath));
@@ -454,30 +413,30 @@ namespace CustomsForgeSongManager.UControls
                     dom.Load(Constants.SongsInfoPath);
                     Globals.Log("Loaded File: " + Path.GetFileName(Constants.SongsInfoPath));
 
-                    // load analyzerData.xml
-                    XmlDocument arrDom = new XmlDocument();
-                    if (AppSettings.Instance.IncludeAnalyzerData && File.Exists(Constants.AnalyzerDataPath))
-                    {
-                        arrDom.Load(Constants.AnalyzerDataPath);
-                        Globals.Log("Loaded File: " + Path.GetFileName(Constants.AnalyzerDataPath));
-                    }
-                    //else // remove old anlayzer data
-                    //    GenExtensions.DeleteFile(Constants.AnalyzerDataPath);
+                    // Depricated Code ... load analyzerData.xml
+                    //XmlDocument arrDom = new XmlDocument();
+                    //if (AppSettings.Instance.IncludeAnalyzerData && File.Exists(Constants.AnalyzerDataPath))
+                    //{
+                    //    arrDom.Load(Constants.AnalyzerDataPath);
+                    //    Globals.Log("Loaded File: " + Path.GetFileName(Constants.AnalyzerDataPath));
+                    //}
+                    ////else // remove old anlayzer data
+                    ////    GenExtensions.DeleteFile(Constants.AnalyzerDataPath);
 
-                    foreach (XmlElement songData in dom.GetElementsByTagName("ArrayOfSongData")[0].ChildNodes)
-                    {
-                        if (songData.Name == "SongDataList")
-                            continue;
+                    //foreach (XmlElement songData in dom.GetElementsByTagName("ArrayOfSongData")[0].ChildNodes)
+                    //{
+                    //    if (songData.Name == "SongDataList")
+                    //        continue;
 
-                        string dlcKey = songData.SelectSingleNode("DLCKey").ChildNodes[0].Value.ToString();
-                        XmlElement arrangementsNode = null;
-                        if (arrDom.HasChildNodes)
-                        {
-                            arrangementsNode = arrDom.DocumentElement.ChildNodes.OfType<XmlElement>().FirstOrDefault(n => n.Attributes["DLCKey"].Value == dlcKey);
-                            var originalArrNode = songData.SelectSingleNode("Arrangements");
-                            originalArrNode.ParentNode.ReplaceChild(dom.ImportNode(arrangementsNode, true), originalArrNode);
-                        }
-                    }
+                    //    string dlcKey = songData.SelectSingleNode("DLCKey").ChildNodes[0].Value.ToString();
+                    //    XmlElement arrangementsNode = null;
+                    //    if (arrDom.HasChildNodes)
+                    //    {
+                    //        arrangementsNode = arrDom.DocumentElement.ChildNodes.OfType<XmlElement>().FirstOrDefault(n => n.Attributes["DLCKey"].Value == dlcKey);
+                    //        var originalArrNode = songData.SelectSingleNode("Arrangements");
+                    //        originalArrNode.ParentNode.ReplaceChild(dom.ImportNode(arrangementsNode, true), originalArrNode);
+                    //    }
+                    //}
 
                     // remove version info node
                     var listNode = dom["ArrayOfSongData"];
@@ -519,7 +478,6 @@ namespace CustomsForgeSongManager.UControls
                         ZipUtilities.RemoveReadOnlyAttribute(Constants.WorkFolder);
                         GenExtensions.DeleteFile(Constants.LogFilePath);
                         GenExtensions.DeleteFile(Constants.SongsInfoPath);
-                        GenExtensions.DeleteFile(Constants.AnalyzerDataPath);
                         GenExtensions.DeleteFile(Constants.AppSettingsPath);
                         GenExtensions.DeleteDirectory(Constants.GridSettingsFolder);
                     }
@@ -671,17 +629,14 @@ namespace CustomsForgeSongManager.UControls
             }
         }
 
-        private void RefreshDgv(bool fullRescan, bool parseExtraData = false)
+        private void RefreshDgv(bool fullRescan)
         {
             bindingCompleted = false;
             dgvPainted = false;
-            Rescan(fullRescan, parseExtraData);
+            Rescan(fullRescan);
             PopulateDataGridView();
             UpdateToolStrip();
-            Globals.ReloadDuplicates = true;
-            Globals.ReloadSetlistManager = true;
-            Globals.ReloadRenamer = true;
-        }
+         }
 
         private void RemoveFilter()
         {
@@ -698,7 +653,7 @@ namespace CustomsForgeSongManager.UControls
             this.Refresh();
         }
 
-        private void Rescan(bool fullRescan, bool parseExtraData = false)
+        private void Rescan(bool fullRescan)
         {
             dgvSongsMaster.DataSource = null;
             dgvSongsDetail.Visible = false;
@@ -742,7 +697,7 @@ namespace CustomsForgeSongManager.UControls
                 Globals.ReloadSetlistManager = true;
                 Globals.ReloadDuplicates = true;
                 Globals.ReloadRenamer = true;
-                //Globals.ReloadSongManager = true;
+                Globals.ReloadArrangements = true;
             }
 
             var sw = new Stopwatch();
@@ -751,20 +706,10 @@ namespace CustomsForgeSongManager.UControls
             // run new worker
             using (Worker worker = new Worker())
             {
-                if (parseExtraData || (AppSettings.Instance.IncludeAnalyzerData))
-                {
-                    string oldName = dgvSongsMaster.Name; //TODO: replace this with a more suitable/less hacky way to the bigger rescan
-                    dgvSongsMaster.Name = "Analyzer";
-                    worker.BackgroundScan(dgvSongsMaster, bWorker);
-                    dgvSongsMaster.Name = oldName;
-                }
-                else
-                    worker.BackgroundScan(dgvSongsMaster, bWorker);
+                worker.BackgroundScan(this, bWorker);
 
                 while (Globals.WorkerFinished == Globals.Tristate.False)
-                {
                     Application.DoEvents();
-                }
             }
 
             ToggleUIControls(true);
@@ -804,7 +749,7 @@ namespace CustomsForgeSongManager.UControls
                 .Where(x => x.ArtistTitleAlbum.ToLower().Contains(lowerCriteria) ||
                     x.Tunings1D.ToLower().Contains(lowerCriteria) ||
                     x.Arrangements1D.ToLower().Contains(lowerCriteria) ||
-                    x.CharterName.ToLower().Contains(lowerCriteria) ||
+                    x.PackageAuthor.ToLower().Contains(lowerCriteria) ||
                     (x.IgnitionAuthor != null &&
                     x.IgnitionAuthor.ToLower().Contains(lowerCriteria) ||
                     (x.IgnitionID != null &&
@@ -1027,7 +972,7 @@ namespace CustomsForgeSongManager.UControls
             if (!String.IsNullOrEmpty(charterName))
             {
                 if (tsmiModsMyCDLC.Checked)
-                    LoadFilteredBindingList(songList.Where(x => x.CharterName == charterName).ToList());
+                    LoadFilteredBindingList(songList.Where(x => x.PackageAuthor == charterName).ToList());
                 else
                     PopulateDataGridView();
             }
@@ -1240,26 +1185,6 @@ namespace CustomsForgeSongManager.UControls
             SelectionEnableDisable(dgvSongsMaster);
         }
 
-        private void cmsGetAnalyzerData_Click(object sender, EventArgs e)
-        {
-            var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster);
-            if (!selection.Any())
-            {
-                // get analyzer data for a single highlighted ODLC/CDLC
-                var selected = DgvExtensions.GetObjectFromFirstSelectedRow<SongData>(dgvSongsMaster);
-                if (selected == null)
-                    return;
-                else
-                    selection.Add(selected);
-            }
-
-            Globals.Log("Getting Analyzer Data for selected songs ...");
-            Globals.Log("Please wait ...");
-            DoWork(Constants.GWORKER_ANALYZE, selection);
-
-            dgvSongsMaster.Refresh();
-        }
-
         private void cmsGetCharterName_Click(object sender, EventArgs e)
         {
             // TODO: add image for GetCharterName to Context Menu Strip item
@@ -1400,14 +1325,12 @@ namespace CustomsForgeSongManager.UControls
                         dgvSongsDetail.Columns["colDetailKey"].Width = dgvSongsMaster.Columns["colKey"].Width - 1;
                         dgvSongsDetail.Columns["colDetailPID"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
                         dgvSongsDetail.Columns["colDetailPID"].Width = 220;
-                        dgvSongsDetail.Columns["colDetailChordNamesCounts"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
-                        dgvSongsDetail.Columns["colDetailChordNamesCounts"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells; // work around forces horiz scroll to display
 
                         // allow user to resize the column after it has been autosized
-                        var width = dgvSongsDetail.Columns["colDetailChordNamesCounts"].Width;
-                        dgvSongsDetail.Columns["colDetailChordNamesCounts"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None; // work around forces horiz scroll to display
-                        dgvSongsDetail.Columns["colDetailChordNamesCounts"].Width = width;
-                        dgvSongsDetail.Columns["colDetailChordNamesCounts"].Resizable = DataGridViewTriState.True;
+                        var width = dgvSongsDetail.Columns["colDetailArrangement"].Width;
+                        dgvSongsDetail.Columns["colDetailArrangement"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None; // work around forces horiz scroll to display
+                        dgvSongsDetail.Columns["colDetailArrangement"].Width = width;
+                        dgvSongsDetail.Columns["colDetailArrangement"].Resizable = DataGridViewTriState.True;
 
                         // calculate the height and width of dgvSongsDetail
                         var colHeaderHeight = dgvSongsMaster.Columns[e.ColumnIndex].HeaderCell.Size.Height;
@@ -1431,8 +1354,8 @@ namespace CustomsForgeSongManager.UControls
                         var colsWidth = dgvSongsDetail.Columns.Cast<DataGridViewColumn>().Sum(col => col.Width);
                         if (colsWidth < dgvSongsDetail.Width)
                         {
-                            Debug.WriteLine("Resize colDetailChordNamesCounts");
-                            dgvSongsDetail.Columns["colDetailChordNamesCounts"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                            Debug.WriteLine("Resize colDetailSections");
+                            dgvSongsDetail.Columns["colDetailSections"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                         }
 
                         firstIndex = dgvSongsMaster.FirstDisplayedCell.RowIndex;
@@ -1908,7 +1831,7 @@ namespace CustomsForgeSongManager.UControls
 
             if (tsmiFilesIncludeODLC.Checked)
             {
-                selection.AddRange(songList.Where(x => x.CharterName == "Ubisoft").ToList());
+                selection.AddRange(songList.Where(x => x.PackageAuthor == "Ubisoft").ToList());
                 // prevent double selecting ODLC files
                 selection = selection.GroupBy(x => x.FilePath).Select(s => s.First()).ToList();
             }
@@ -1953,7 +1876,7 @@ namespace CustomsForgeSongManager.UControls
 
             if (tsmiFilesIncludeODLC.Checked)
             {
-                selection.AddRange(songList.Where(x => x.CharterName == "Ubisoft").ToList());
+                selection.AddRange(songList.Where(x => x.PackageAuthor == "Ubisoft").ToList());
                 // prevent double selecting ODLC files
                 selection = selection.GroupBy(x => x.FilePath).Select(s => s.First()).ToList();
             }
@@ -2006,7 +1929,7 @@ namespace CustomsForgeSongManager.UControls
             if (!String.IsNullOrEmpty(charterName))
             {
                 if (tsmiModsMyCDLC.Checked)
-                    LoadFilteredBindingList(songList.Where(x => x.CharterName == charterName).ToList());
+                    LoadFilteredBindingList(songList.Where(x => x.PackageAuthor == charterName).ToList());
                 else
                     PopulateDataGridView();
             }
@@ -2158,21 +2081,16 @@ namespace CustomsForgeSongManager.UControls
 
         private void tsmiRescanFull_Click(object sender, EventArgs e)
         {
-            if (AppSettings.Instance.IncludeAnalyzerData)
-            {
-                if (MessageBox.Show("You are about to run a full rescan with extra metadata, " +
-                    "which is fairly longer than the normal scan?" + Environment.NewLine +
-                    "Do you want to proceed?", "Include Analyzer Data", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.No)
+            if (MessageBox.Show("You are about to run a full rescan of all song data." + Environment.NewLine +                
+                "Do you want to proceed?", "Full Rescan", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.No)
+                return;
 
-                    return;
-            }
-
-            RefreshDgv(true, AppSettings.Instance.IncludeAnalyzerData);
+            RefreshDgv(true);
         }
 
         private void tsmiRescanQuick_Click(object sender, EventArgs e)
         {
-            RefreshDgv(false, AppSettings.Instance.IncludeAnalyzerData);
+            RefreshDgv(false);
         }
 
         public DataGridView GetGrid()

@@ -35,6 +35,24 @@ namespace CFSM.RSTKLib.PSARC
             return "Other";
         }
 
+        public static string TuningToName(TuningStrings songTuning, List<TuningDefinition> tuningXml = null)
+        {
+            // 2X speed hack ... use preloaded TuningDefinitionRepository
+            if (tuningXml == null || tuningXml.Count == 0)
+                tuningXml = TuningDefinitionRepository.Instance.LoadTuningDefinitions(GameVersion.RS2014);
+
+            foreach (var tuning in tuningXml)
+                if (tuning.Tuning.String0 == songTuning.String0 &&
+                    tuning.Tuning.String1 == songTuning.String1 &&
+                    tuning.Tuning.String2 == songTuning.String2 &&
+                    tuning.Tuning.String3 == songTuning.String3 &&
+                    tuning.Tuning.String4 == songTuning.String4 &&
+                    tuning.Tuning.String5 == songTuning.String5)
+                    return tuning.UIName;
+
+            return "Other";
+        }
+
         public static string TuningStringToName(string strings, List<TuningDefinition> tuningXml = null)
         {
             // 2X speed hack ... use preloaded TuningDefinitionRepository
@@ -233,6 +251,7 @@ namespace CFSM.RSTKLib.PSARC
             }
         }
 
+ 
         public static Stream GetData(this PSARC p, Func<Entry, bool> dataEntry)
         {
             var de = p.TOC.Where(dataEntry).FirstOrDefault();

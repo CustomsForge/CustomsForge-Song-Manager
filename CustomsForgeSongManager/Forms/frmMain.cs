@@ -204,7 +204,6 @@ namespace CustomsForgeSongManager.Forms
                 Globals.Log("User selected Clean On Closing ...");
                 GenExtensions.DeleteFile(Constants.LogFilePath);
                 GenExtensions.DeleteFile(Constants.SongsInfoPath);
-                GenExtensions.DeleteFile(Constants.AnalyzerDataPath);
                 GenExtensions.DeleteFile(Constants.AppSettingsPath);
                 GenExtensions.DeleteDirectory(Constants.GridSettingsFolder);
                 GenExtensions.DeleteDirectory(Constants.AudioCacheFolder);
@@ -220,7 +219,7 @@ namespace CustomsForgeSongManager.Forms
                 Globals.Settings.SaveSettingsToFile(Globals.DgvCurrent);
 
                 // do not SaveSongCollectionToFile when changing compatibility mode
-                if (File.Exists(Constants.SongsInfoPath) || File.Exists(Constants.AnalyzerDataPath))
+                if (File.Exists(Constants.SongsInfoPath))
                 {
                     DataGridViewAutoFilterColumnHeaderCell.RemoveFilter(Globals.SongManager.GetGrid());
                     Globals.SongManager.SaveSongCollectionToFile();
@@ -278,6 +277,15 @@ namespace CustomsForgeSongManager.Forms
                 case "Song Manager":
                     LoadSongManager();
                     Globals.SongManager.UpdateToolStrip();
+                    break;
+                case "Arrangements":
+                    this.tpArrangements.Controls.Clear();
+                    this.tpArrangements.Controls.Add(Globals.ArrangementManager);
+                    Globals.ArrangementManager.Dock = DockStyle.Fill;
+                    Globals.ArrangementManager.UpdateToolStrip();
+                    Globals.ArrangementManager.Location = UCLocation;
+                    Globals.ArrangementManager.Size = UCSize;
+                    currentControl = Globals.ArrangementManager;
                     break;
                 case "Duplicates":
                     this.tpDuplicates.Controls.Clear();
@@ -474,7 +482,7 @@ namespace CustomsForgeSongManager.Forms
             }
         }
 
-        public void SongListToBBCode()
+        public void DGV2BBCode()
         {
             DoSomethingWithGrid((dataGrid, selection, colSel, ignoreColumns) =>
             {
@@ -510,9 +518,10 @@ namespace CustomsForgeSongManager.Forms
             });
         }
 
-        public void SongListToCSV()
+        public void DGV2CSV()
         {
-            var path = Path.Combine(Constants.WorkFolder, "SongListCSV.csv");
+            var fileName = String.Format("{0}.csv", Globals.DgvCurrent.Name);
+            var path = Path.Combine(Constants.WorkFolder, fileName);
 
             using (var sfd = new SaveFileDialog())
             {
@@ -542,7 +551,7 @@ namespace CustomsForgeSongManager.Forms
 
                 foreach (var row in selection)
                 {
-                    string s = "[*]";
+                    string s = "";
                     foreach (var col in row.Cells.Cast<DataGridViewCell>().Where(c => !ignoreColumns.Contains(c.ColumnIndex)))
                     {
                         s += col.Value == null ? csvSep.ToString() : col.Value.ToString() + csvSep;
@@ -572,7 +581,7 @@ namespace CustomsForgeSongManager.Forms
             });
         }
 
-        public void SongListToHTML()
+        public void DGV2HTML()
         {
             DoSomethingWithGrid((dataGrid, selection, colSel, ignoreColumns) =>
             {
@@ -632,17 +641,17 @@ namespace CustomsForgeSongManager.Forms
 
         private void tsmiBBCode_Click(object sender, EventArgs e)
         {
-            SongListToBBCode();
+            DGV2BBCode();
         }
 
         private void tsmiCSV_Click(object sender, EventArgs e)
         {
-            SongListToCSV();
+            DGV2CSV();
         }
 
         private void tsmiHTML_Click(object sender, EventArgs e)
         {
-            SongListToHTML();
+            DGV2HTML();
         }
 
         private void closeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1017,5 +1026,4 @@ namespace CustomsForgeSongManager.Forms
         }
 
 
-    }
-}
+

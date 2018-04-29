@@ -53,14 +53,13 @@ namespace CustomsForgeSongManager.UControls
             this.chkIncludeRS1CompSongs = new System.Windows.Forms.CheckBox();
             this.chkIncludeRS2BaseSongs = new System.Windows.Forms.CheckBox();
             this.chkIncludeCustomPacks = new System.Windows.Forms.CheckBox();
-            this.chkIncludeAnalyzerData = new System.Windows.Forms.CheckBox();
-            this.chkValidateD3D = new System.Windows.Forms.CheckBox();
             this.chkEnableNotifications = new System.Windows.Forms.CheckBox();
             this.chkEnableAutoUpdate = new System.Windows.Forms.CheckBox();
             this.txtCharterName = new CustomControls.CueTextBox();
             this.chkMacMode = new System.Windows.Forms.CheckBox();
-            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.chkValidateD3D = new System.Windows.Forms.CheckBox();
             this.chkEnableQuarantine = new System.Windows.Forms.CheckBox();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.tlpSettings_Wrapper.SuspendLayout();
             this.panel5.SuspendLayout();
             this.SuspendLayout();
@@ -82,13 +81,12 @@ namespace CustomsForgeSongManager.UControls
             this.tlpSettings_Wrapper.Controls.Add(this.chkIncludeRS1CompSongs, 0, 2);
             this.tlpSettings_Wrapper.Controls.Add(this.chkIncludeRS2BaseSongs, 0, 3);
             this.tlpSettings_Wrapper.Controls.Add(this.chkIncludeCustomPacks, 0, 4);
-            this.tlpSettings_Wrapper.Controls.Add(this.chkIncludeAnalyzerData, 0, 5);
-            this.tlpSettings_Wrapper.Controls.Add(this.chkEnableNotifications, 0, 7);
-            this.tlpSettings_Wrapper.Controls.Add(this.chkEnableAutoUpdate, 0, 6);
-            this.tlpSettings_Wrapper.Controls.Add(this.txtCharterName, 0, 11);
-            this.tlpSettings_Wrapper.Controls.Add(this.chkMacMode, 0, 10);
-            this.tlpSettings_Wrapper.Controls.Add(this.chkValidateD3D, 0, 9);
-            this.tlpSettings_Wrapper.Controls.Add(this.chkEnableQuarantine, 0, 8);
+            this.tlpSettings_Wrapper.Controls.Add(this.chkEnableAutoUpdate, 0, 5);
+            this.tlpSettings_Wrapper.Controls.Add(this.chkEnableNotifications, 0, 6);
+            this.tlpSettings_Wrapper.Controls.Add(this.chkEnableQuarantine, 0, 7);
+            this.tlpSettings_Wrapper.Controls.Add(this.chkValidateD3D, 0, 8);
+            this.tlpSettings_Wrapper.Controls.Add(this.chkMacMode, 0, 9);
+            this.tlpSettings_Wrapper.Controls.Add(this.txtCharterName, 0, 10);
             this.tlpSettings_Wrapper.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpSettings_Wrapper.Location = new System.Drawing.Point(0, 0);
             this.tlpSettings_Wrapper.Name = "tlpSettings_Wrapper";
@@ -352,48 +350,13 @@ namespace CustomsForgeSongManager.UControls
             this.chkIncludeCustomPacks.UseVisualStyleBackColor = true;
             this.chkIncludeCustomPacks.Click += new System.EventHandler(this.chkIncludeCustomPacks_Click);
             // 
-            // chkIncludeAnalyzerData
-            // 
-            this.chkIncludeAnalyzerData.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.chkIncludeAnalyzerData.AutoSize = true;
-            this.tlpSettings_Wrapper.SetColumnSpan(this.chkIncludeAnalyzerData, 2);
-            this.chkIncludeAnalyzerData.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkIncludeAnalyzerData.Location = new System.Drawing.Point(3, 141);
-            this.chkIncludeAnalyzerData.Name = "chkIncludeAnalyzerData";
-            this.chkIncludeAnalyzerData.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
-            this.chkIncludeAnalyzerData.Size = new System.Drawing.Size(153, 19);
-            this.chkIncludeAnalyzerData.TabIndex = 17;
-            this.chkIncludeAnalyzerData.Text = "Include Analyzer Data";
-            this.chkIncludeAnalyzerData.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.toolTip.SetToolTip(this.chkIncludeAnalyzerData, "If check, include Anayzer Data, such as,\r\nnotes count, chords count, chord names\r" +
-                    "\nwith the scanned data.\r\n\r\nNOTE: \r\nThis scan takes much longer to complete.");
-            this.chkIncludeAnalyzerData.UseVisualStyleBackColor = true;
-            this.chkIncludeAnalyzerData.Click += new System.EventHandler(this.chkIncludeAnalyzerData_Click);
-            // 
-            // chkValidateD3D
-            // 
-            this.chkValidateD3D.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.chkValidateD3D.AutoSize = true;
-            this.tlpSettings_Wrapper.SetColumnSpan(this.chkValidateD3D, 2);
-            this.chkValidateD3D.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkValidateD3D.Location = new System.Drawing.Point(3, 253);
-            this.chkValidateD3D.Name = "chkValidateD3D";
-            this.chkValidateD3D.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
-            this.chkValidateD3D.Size = new System.Drawing.Size(159, 19);
-            this.chkValidateD3D.TabIndex = 19;
-            this.chkValidateD3D.Text = "Validate D3DX9_42.dll";
-            this.chkValidateD3D.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.toolTip.SetToolTip(this.chkValidateD3D, "If checked, CFSM will validate the\r\nuser\'s \'D3DX9_42.dll\' file installation.");
-            this.chkValidateD3D.UseVisualStyleBackColor = true;
-            this.chkValidateD3D.Click += new System.EventHandler(this.chkValidateD3D_Click);
-            // 
             // chkEnableNotifications
             // 
             this.chkEnableNotifications.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.chkEnableNotifications.AutoSize = true;
             this.tlpSettings_Wrapper.SetColumnSpan(this.chkEnableNotifications, 2);
             this.chkEnableNotifications.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkEnableNotifications.Location = new System.Drawing.Point(3, 197);
+            this.chkEnableNotifications.Location = new System.Drawing.Point(3, 169);
             this.chkEnableNotifications.Name = "chkEnableNotifications";
             this.chkEnableNotifications.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
             this.chkEnableNotifications.Size = new System.Drawing.Size(144, 19);
@@ -410,7 +373,7 @@ namespace CustomsForgeSongManager.UControls
             this.chkEnableAutoUpdate.AutoSize = true;
             this.tlpSettings_Wrapper.SetColumnSpan(this.chkEnableAutoUpdate, 2);
             this.chkEnableAutoUpdate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkEnableAutoUpdate.Location = new System.Drawing.Point(3, 169);
+            this.chkEnableAutoUpdate.Location = new System.Drawing.Point(3, 141);
             this.chkEnableAutoUpdate.Name = "chkEnableAutoUpdate";
             this.chkEnableAutoUpdate.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
             this.chkEnableAutoUpdate.Size = new System.Drawing.Size(144, 19);
@@ -429,7 +392,7 @@ namespace CustomsForgeSongManager.UControls
             this.txtCharterName.Cue = "Enter a CDLC Charter\'s Name";
             this.txtCharterName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.txtCharterName.ForeColor = System.Drawing.Color.Gray;
-            this.txtCharterName.Location = new System.Drawing.Point(12, 309);
+            this.txtCharterName.Location = new System.Drawing.Point(12, 281);
             this.txtCharterName.Margin = new System.Windows.Forms.Padding(12, 3, 3, 3);
             this.txtCharterName.Name = "txtCharterName";
             this.txtCharterName.Size = new System.Drawing.Size(179, 20);
@@ -444,7 +407,7 @@ namespace CustomsForgeSongManager.UControls
             this.chkMacMode.AutoSize = true;
             this.tlpSettings_Wrapper.SetColumnSpan(this.chkMacMode, 2);
             this.chkMacMode.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkMacMode.Location = new System.Drawing.Point(3, 281);
+            this.chkMacMode.Location = new System.Drawing.Point(3, 253);
             this.chkMacMode.Name = "chkMacMode";
             this.chkMacMode.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
             this.chkMacMode.Size = new System.Drawing.Size(167, 19);
@@ -455,13 +418,22 @@ namespace CustomsForgeSongManager.UControls
             this.chkMacMode.UseVisualStyleBackColor = true;
             this.chkMacMode.Click += new System.EventHandler(this.chkMacMode_Click);
             // 
-            // toolTip
+            // chkValidateD3D
             // 
-            this.toolTip.AutomaticDelay = 200;
-            this.toolTip.AutoPopDelay = 12000;
-            this.toolTip.InitialDelay = 200;
-            this.toolTip.IsBalloon = true;
-            this.toolTip.ReshowDelay = 100;
+            this.chkValidateD3D.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.chkValidateD3D.AutoSize = true;
+            this.tlpSettings_Wrapper.SetColumnSpan(this.chkValidateD3D, 2);
+            this.chkValidateD3D.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkValidateD3D.Location = new System.Drawing.Point(3, 225);
+            this.chkValidateD3D.Name = "chkValidateD3D";
+            this.chkValidateD3D.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
+            this.chkValidateD3D.Size = new System.Drawing.Size(159, 19);
+            this.chkValidateD3D.TabIndex = 19;
+            this.chkValidateD3D.Text = "Validate D3DX9_42.dll";
+            this.chkValidateD3D.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.toolTip.SetToolTip(this.chkValidateD3D, "If checked, CFSM will validate the\r\nuser\'s \'D3DX9_42.dll\' file installation.");
+            this.chkValidateD3D.UseVisualStyleBackColor = true;
+            this.chkValidateD3D.Click += new System.EventHandler(this.chkValidateD3D_Click);
             // 
             // chkEnableQuarantine
             // 
@@ -469,7 +441,7 @@ namespace CustomsForgeSongManager.UControls
             this.chkEnableQuarantine.AutoSize = true;
             this.tlpSettings_Wrapper.SetColumnSpan(this.chkEnableQuarantine, 2);
             this.chkEnableQuarantine.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkEnableQuarantine.Location = new System.Drawing.Point(3, 225);
+            this.chkEnableQuarantine.Location = new System.Drawing.Point(3, 197);
             this.chkEnableQuarantine.Name = "chkEnableQuarantine";
             this.chkEnableQuarantine.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
             this.chkEnableQuarantine.Size = new System.Drawing.Size(165, 19);
@@ -480,6 +452,14 @@ namespace CustomsForgeSongManager.UControls
                     "ved from the \'dlc\' folder.");
             this.chkEnableQuarantine.UseVisualStyleBackColor = true;
             this.chkEnableQuarantine.Click += new System.EventHandler(this.chkEnableQuarantine_Click);
+            // 
+            // toolTip
+            // 
+            this.toolTip.AutomaticDelay = 200;
+            this.toolTip.AutoPopDelay = 12000;
+            this.toolTip.InitialDelay = 200;
+            this.toolTip.IsBalloon = true;
+            this.toolTip.ReshowDelay = 100;
             // 
             // Settings
             // 
@@ -519,7 +499,6 @@ namespace CustomsForgeSongManager.UControls
         private Button btnResetDownloads;
         private CheckBox chkEnableNotifications;
         public CheckBox chkIncludeRS2BaseSongs;
-        private CheckBox chkIncludeAnalyzerData;
         public CheckBox chkIncludeCustomPacks;
         private CheckBox chkValidateD3D;
         private CheckBox chkMacMode;

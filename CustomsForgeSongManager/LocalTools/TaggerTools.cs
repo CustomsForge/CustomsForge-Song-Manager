@@ -862,8 +862,8 @@ namespace CustomsForgeSongManager.LocalTools
                 template.Add("dd", "NDD");
 
             template.Add("year", Data.SongYear);
-            template.Add("version", String.IsNullOrEmpty(Data.Version) ? "N/A" : Data.Version);
-            template.Add("author", String.IsNullOrEmpty(Data.CharterName) ? "Unknown" : Data.CharterName);
+            template.Add("version", String.IsNullOrEmpty(Data.PackageVersion) ? "N/A" : Data.PackageVersion);
+            template.Add("author", String.IsNullOrEmpty(Data.PackageAuthor) ? "Unknown" : Data.PackageAuthor);
             String arrInit = Data.ArrangementsInitials;
             template.Add("arrangements", String.IsNullOrEmpty(arrInit) ? "" : arrInit);
             template.Add("\\n", Environment.NewLine);

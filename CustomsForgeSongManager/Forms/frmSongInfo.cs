@@ -27,7 +27,7 @@ namespace CustomsForgeSongManager.Forms
             lbl_PanelSongTuning.Text = song.Tunings1D;
             lbl_PanelSongArrangements.Text = song.Arrangements1D;
             lbl_PanelSongDD.Text = song.DD.ToString();
-            lbl_PanelSongAuthor.Text = song.CharterName;
+            lbl_PanelSongAuthor.Text = song.PackageAuthor;
             lbl_PanelSongPath.Text = song.FilePath;
 
             // TODO: reimpliment
