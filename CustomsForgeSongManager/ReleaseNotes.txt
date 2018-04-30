@@ -15,9 +15,9 @@ until you can confirm it is safe by working directly with your AV provider.
 CFSM Release Notes
 
 1.4.3.4
-- add new Arrangements tab that provides complete information for each song arrangement (replaces Analyzer methods)
-- switched PSCAR parsing to extract directly from memory for speed
-- Arrangements grid may be exported to common file formats like SongManager grid (be sure to read any tooltips)
+- add new Arrangements feature that provides complete (Analyzer) information for each song arrangement (replaces old Analyzer methods)
+- parsing archives now extract directly from memory for improved speed
+- Arrangements and other grids may be exported to common file formats (be sure to read any tooltips)
 
 1.4.3.3
 - added Tones column to Song Manger displayed as a concatenated string of tones from each arrangement

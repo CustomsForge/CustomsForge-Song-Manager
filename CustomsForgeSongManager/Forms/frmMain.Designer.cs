@@ -354,8 +354,9 @@ namespace CustomsForgeSongManager.Forms
             this.tsBtnExport.Name = "tsBtnExport";
             this.tsBtnExport.Size = new System.Drawing.Size(68, 22);
             this.tsBtnExport.Text = "Export";
-            this.tsBtnExport.ToolTipText = "HEY READ THIS: \r\nThe default action is to export all\r\ndata if no rows have been s" +
-                "elected.\r\nOthewise only the data that has\r\nbeen manually selected is exported.";
+            this.tsBtnExport.ToolTipText = "HEY READ THIS ... \r\nThe default action is to export all\r\ndata if no rows have bee" +
+                "n selected.\r\nOthewise only the data that has\r\nbeen manually selected is exported" +
+                ".";
             // 
             // tsmiBBCode
             // 
