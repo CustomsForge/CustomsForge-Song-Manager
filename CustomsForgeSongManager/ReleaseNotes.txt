@@ -14,6 +14,9 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.4.3.7
+- improved initial and full rescan song parsing speed
+
 1.4.3.6
 - restore/load CFSM default settings on first run
 - restored parsing stopwatch

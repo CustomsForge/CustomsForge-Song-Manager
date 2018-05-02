@@ -2085,7 +2085,7 @@ namespace CustomsForgeSongManager.UControls
         private void tsmiRescanFull_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show("You are about to run a full rescan of all song data." + Environment.NewLine +
-                "Do you want to proceed?", "Full Rescan", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.No)
+                "This will take some time.  Do you want to proceed?", "Full Rescan", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.No)
                 return;
 
             RefreshDgv(true);
