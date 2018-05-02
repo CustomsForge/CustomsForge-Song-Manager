@@ -15,3 +15,7 @@ kvPSF7HL
 198.58.96.81
 appdev
 7eCheQ+bu+heRevu
+
+45.33.13.92:21
+appdev
+7eCheQ+bu+heRevu

@@ -16,6 +16,7 @@ namespace CustomsForgeSongManager.DataObjects
 
     /// <summary>
     /// flattened SongData for direct use with dgvArrangments
+    /// elements can not be sorted/filtered (IComparable) if nullable is used
     /// </summary>
     [Serializable]
     public class ArrangementData
@@ -33,7 +34,7 @@ namespace CustomsForgeSongManager.DataObjects
         public int SongYear { get; set; }
         public double SongLength { get; set; }
         public float SongAverageTempo { get; set; }
-        public float? SongVolume { get; set; } // older CDLC do not have this
+        public float SongVolume { get; set; } // older CDLC do not have this
         public DateTime LastConversionDateTime { get; set; }
         public string AppID { get; set; }
         public string PackageAuthor { get; set; }
@@ -50,30 +51,30 @@ namespace CustomsForgeSongManager.DataObjects
         public string Tuning { get; set; }
         public string ToneBase { get; set; }
         public string Tones { get; set; } // concatinated string of the tones used in arrangement
-        public int? DDMax { get; set; } // null value is not serialized
-        public int? SectionCount { get; set; } // null value is not serialized
-        public int? BassPick { get; set; } // null value is not serialized
-        public double? TuningPitch { get; set; } // tuning frequency, see Cents2Frequency method
-        public int? CapoFret { get; set; }
-        public int? ChordCount { get; set; }
-        public int? NoteCount { get; set; }
-        public int? BendCount { get; set; }
-        public int? FretHandMuteCount { get; set; }
-        public int? HammerOnCount { get; set; }
-        public int? HarmonicCount { get; set; }
-        public int? HarmonicPinchCount { get; set; }
-        public int? HighestFretUsed { get; set; }
-        public int? OctaveCount { get; set; }
-        public int? PalmMuteCount { get; set; }
-        public int? PluckCount { get; set; }
-        public int? PullOffCount { get; set; }
-        public int? SlapCount { get; set; }
-        public int? SlideCount { get; set; }
-        public int? SustainCount { get; set; }
-        public int? TapCount { get; set; }
-        public int? TremoloCount { get; set; }
-        public int? UnpitchedSlideCount { get; set; }
-        public int? VibratoCount { get; set; }
+        public int DDMax { get; set; } // null value is not serialized
+        public int SectionCount { get; set; } // null value is not serialized
+        public int BassPick { get; set; } // null value is not serialized
+        public double TuningPitch { get; set; } // tuning frequency, see Cents2Frequency method
+        public int CapoFret { get; set; }
+        public int ChordCount { get; set; }
+        public int NoteCount { get; set; }
+        public int BendCount { get; set; }
+        public int FretHandMuteCount { get; set; }
+        public int HammerOnCount { get; set; }
+        public int HarmonicCount { get; set; }
+        public int HarmonicPinchCount { get; set; }
+        public int HighestFretUsed { get; set; }
+        public int OctaveCount { get; set; }
+        public int PalmMuteCount { get; set; }
+        public int PluckCount { get; set; }
+        public int PullOffCount { get; set; }
+        public int SlapCount { get; set; }
+        public int SlideCount { get; set; }
+        public int SustainCount { get; set; }
+        public int TapCount { get; set; }
+        public int TremoloCount { get; set; }
+        public int UnpitchedSlideCount { get; set; }
+        public int VibratoCount { get; set; }
         // calculated content taken from SongData
         public string ChordNamesCounts { get; set; }
         public bool Selected { get; set; }
@@ -87,61 +88,4 @@ namespace CustomsForgeSongManager.DataObjects
     }
 }
 
-/*
- *         // song key
-        DLCKey
 
-        // song elements
-        Artist
-        ArtistSort
-        Title
-        TitleSort
-        Album
-        AlbumSort // older CDLC do not have this
-        SongYear
-        SongLength
-        SongAverageTempo
-        SongVolume // older CDLC do not have this
-        LastConversionDateTime
-        AppID
-        PackageAuthor
-        PackageVersion
-        PackageComment
-        ToolkitVersion
-        FilePath
-        FileDate
-        FileSize
-
-        // arrangement elements
-        PersistentID // arrangment key
-        Name // arrangement name
-        Tuning
-        ToneBase
-        Tones // concatinated string of the tones used in arrangement
-         DDMax // null value is not serialized
-         SectionCount // null value is not serialized
-         BassPick // null value is not serialized
-         TuningPitch // tuning frequency, see Cents2Frequency method
-         CapoFret
-         ChordCount
-         NoteCount
-         BendCount
-         FretHandMuteCount
-         HammerOnCount
-         HarmonicCount
-         HarmonicPinchCount
-         HighestFretUsed
-         OctaveCount
-         PalmMuteCount
-         PluckCount
-         PullOffCount
-         SlapCount
-         SlideCount
-         SustainCount
-         TapCount
-         TremoloCount
-         UnpitchedSlideCount
-         VibratoCount
-        //
-
- */

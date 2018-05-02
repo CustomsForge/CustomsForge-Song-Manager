@@ -155,16 +155,21 @@ namespace CustomsForgeSongManager.UControls
                 if (arrangementsNode != null)
                 {
                     var arrNodes = arrangementsNode.ChildNodes.OfType<XmlNode>().ToList();
-
-                    arrNodes.ForEach(arr =>
+                    
+                    foreach (var arrNode in arrNodes)
                     {
-                        arr.ChildNodes.OfType<XmlNode>().ToList().ForEach(n =>
+                        var isVocals = arrNode.InnerXml.Contains("<Name>Vocals</Name>");
+                        var innerNodes = arrNode.ChildNodes.OfType<XmlNode>().ToList();
+
+                        foreach (var n in innerNodes)
                         {
-                            // remove null/empty nodes
+                            if (n.InnerText == "0" && isVocals)
+                                arrNode.RemoveChild(n);
+
                             if (String.IsNullOrEmpty(n.InnerText))
-                                arr.RemoveChild(n);
-                        });
-                    });
+                                arrNode.RemoveChild(n);
+                        }
+                    }
                 }
             }
 
@@ -636,7 +641,7 @@ namespace CustomsForgeSongManager.UControls
             Rescan(fullRescan);
             PopulateDataGridView();
             UpdateToolStrip();
-         }
+        }
 
         private void RemoveFilter()
         {
@@ -2081,7 +2086,7 @@ namespace CustomsForgeSongManager.UControls
 
         private void tsmiRescanFull_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("You are about to run a full rescan of all song data." + Environment.NewLine +                
+            if (MessageBox.Show("You are about to run a full rescan of all song data." + Environment.NewLine +
                 "Do you want to proceed?", "Full Rescan", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.No)
                 return;
 

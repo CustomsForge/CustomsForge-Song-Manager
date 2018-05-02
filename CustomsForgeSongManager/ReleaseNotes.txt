@@ -14,6 +14,13 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.4.3.5
+- removed audible warning that CDLC may not have SongVolume or AlbumNameSort
+- SPECIAL NOTE: The newest version of CFSM will initially take longer to load your
+                CDLC collection but after the initial run it will load much faster.
+- added missing/additional song data columns to SongManager
+- updated D3DX9_42.dll and set Settings to automatically deploy the revised dll
+
 1.4.3.4
 - add new Arrangements feature that provides complete (Analyzer) information for each song arrangement (replaces old Analyzer methods)
 - parsing archives now extract directly from memory for improved speed

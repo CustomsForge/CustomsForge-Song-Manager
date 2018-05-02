@@ -48,12 +48,13 @@ namespace CustomsForgeSongManager.DataObjects
     }
 
     // NOTE: custom object order here determines order of elements in the xml file
+    // use of nullables is not compatible with filtering/sorting
     [Serializable]
     public class SongData : NotifyPropChangedBase
     {
         // version 1 - 10: recyclable vers numbers
         // incrementing version forces songInfo.xml and appSettings.xml to reset/update to defaults
-        public const string SongDataListCurrentVersion = "3";
+        public const string SongDataListCurrentVersion = "2";
 
         // common key element
         public string DLCKey { get; set; }
@@ -68,7 +69,7 @@ namespace CustomsForgeSongManager.DataObjects
         public int SongYear { get; set; }
         public double SongLength { get; set; }
         public float SongAverageTempo { get; set; }
-        public float? SongVolume { get; set; } // older CDLC do not have this
+        public float SongVolume { get; set; } // older CDLC do not have this
         public DateTime LastConversionDateTime { get; set; }
         public string AppID { get; set; }
         public string PackageAuthor { get; set; }
@@ -184,69 +185,17 @@ namespace CustomsForgeSongManager.DataObjects
         [XmlIgnore]
         public string Tones1D { get { return String.Join(", ", Arrangements2D.Select(o => o.Tones)).TrimEnd(" ,".ToCharArray()); } }
 
-        // duplicate PID finder
         [XmlIgnore]
-        public string PID { get; set; }
+        public string PID { get; set; } // duplicate finder
 
         [XmlIgnore]
-        public string PIDArrangement { get; set; } // arrangement name
-
-        //extra arrangemenet data for Analyzer
-        [XmlIgnore]
-        public int? DD { get { return Convert.ToInt32(Arrangements2D.Max(o => o.DDMax)); } }
-        [XmlIgnore]
-        public int? Sections { get { return Arrangements2D.Max(o => o.SectionCount); } }
-        [XmlIgnore]
-        public string CapoFret1D { get { return String.Join(", ", Arrangements2D.Select(o => o.CapoFret)).TrimEnd(" ,".ToCharArray()); } }
-        [XmlIgnore]
-        public string TuningPitch1D { get { return String.Join(", ", Arrangements2D.Select(o => o.TuningPitch)).TrimEnd(" ,".ToCharArray()); } }
-        [XmlIgnore]
-        public int? BassPick { get { return Arrangements2D.Max(a => a.BassPick); } }
-        [XmlIgnore]
-        public string ChordNamesCounts { get { return Arrangements2D[0].ChordNamesCounts.ToString(); } }
-        [XmlIgnore]
-        public int? ChordCount { get { return Arrangements2D.Sum(a => a.ChordCount); } }
-        [XmlIgnore]
-        public int? NoteCount { get { return Arrangements2D.Sum(a => a.NoteCount); } }
-        [XmlIgnore]
-        public int? OctaveCount { get { return Arrangements2D.Sum(a => a.OctaveCount); } }
-        [XmlIgnore]
-        public int? BendCount { get { return Arrangements2D.Sum(a => a.BendCount); } }
-        [XmlIgnore]
-        public int? HammerOnCount { get { return Arrangements2D.Sum(a => a.HammerOnCount); } }
-        [XmlIgnore]
-        public int? PullOffCount { get { return Arrangements2D.Sum(a => a.PullOffCount); } }
-        [XmlIgnore]
-        public int? HarmonicCount { get { return Arrangements2D.Sum(a => a.HarmonicCount); } }
-        [XmlIgnore]
-        public int? FretHandMuteCount { get { return Arrangements2D.Sum(a => a.FretHandMuteCount); } }
-        [XmlIgnore]
-        public int? PalmMuteCount { get { return Arrangements2D.Sum(a => a.PalmMuteCount); } }
-        [XmlIgnore]
-        public int? PluckCount { get { return Arrangements2D.Sum(a => a.PluckCount); } }
-        [XmlIgnore]
-        public int? SlapCount { get { return Arrangements2D.Sum(a => a.SlapCount); } }
-        // commented out because the toolkit does/can not capture any data for Pop 
-        // [XmlIgnore]
-        // public int? PopCount { get { return Arrangements2D.Sum(a => a.PopCount); } }
-        [XmlIgnore]
-        public int? SlideCount { get { return Arrangements2D.Sum(a => a.SlideCount); } }
-        [XmlIgnore]
-        public int? SustainCount { get { return Arrangements2D.Sum(a => a.SustainCount); } }
-        [XmlIgnore]
-        public int? TremoloCount { get { return Arrangements2D.Sum(a => a.TremoloCount); } }
-        [XmlIgnore]
-        public int? HarmonicPinchCount { get { return Arrangements2D.Sum(a => a.HarmonicCount); } }
-        [XmlIgnore]
-        public int? UnpitchedSlideCount { get { return Arrangements2D.Sum(a => a.UnpitchedSlideCount); } }
-        [XmlIgnore]
-        public int? TapCount { get { return Arrangements2D.Sum(a => a.TapCount); } }
-        [XmlIgnore]
-        public int? VibratoCount { get { return Arrangements2D.Sum(a => a.VibratoCount); } }
-        [XmlIgnore]
-        public int? HighestFretUsed { get { return Arrangements2D.Max(a => a.HighestFretUsed); } }
+        public string PIDArrangement { get; set; } // for duplicate finder
 
 
+        // DD maximum used by Tagger and Renamer
+        [XmlIgnore]
+        public int DD { get { return Convert.ToInt32(Arrangements2D.Max(o => o.DDMax)); } }
+       
         public void Delete()
         {
             if (!String.IsNullOrEmpty(AudioCache) && File.Exists(AudioCache))
@@ -275,30 +224,30 @@ namespace CustomsForgeSongManager.DataObjects
         public string Tuning { get; set; }
         public string ToneBase { get; set; }
         public string Tones { get; set; } // concatinated string of the tones used in arrangement
-        public int? DDMax { get; set; }
-        public int? SectionCount { get; set; }
-        public int? BassPick { get; set; }
-        public double? TuningPitch { get; set; } // tuning frequency, see Cents2Frequency method
-        public int? CapoFret { get; set; }
-        public int? ChordCount { get; set; }
-        public int? NoteCount { get; set; }
-        public int? BendCount { get; set; }
-        public int? FretHandMuteCount { get; set; }
-        public int? HammerOnCount { get; set; }
-        public int? HarmonicCount { get; set; }
-        public int? HarmonicPinchCount { get; set; }
-        public int? HighestFretUsed { get; set; }
-        public int? OctaveCount { get; set; }
-        public int? PalmMuteCount { get; set; }
-        public int? PluckCount { get; set; }
-        public int? PullOffCount { get; set; }
-        public int? SlapCount { get; set; }
-        public int? SlideCount { get; set; }
-        public int? SustainCount { get; set; }
-        public int? TapCount { get; set; }
-        public int? TremoloCount { get; set; }
-        public int? UnpitchedSlideCount { get; set; }
-        public int? VibratoCount { get; set; }
+        public int DDMax { get; set; }
+        public int SectionCount { get; set; }
+        public int BassPick { get; set; }
+        public double TuningPitch { get; set; } // tuning frequency, see Cents2Frequency method
+        public int CapoFret { get; set; }
+        public int ChordCount { get; set; }
+        public int NoteCount { get; set; }
+        public int BendCount { get; set; }
+        public int FretHandMuteCount { get; set; }
+        public int HammerOnCount { get; set; }
+        public int HarmonicCount { get; set; }
+        public int HarmonicPinchCount { get; set; }
+        public int HighestFretUsed { get; set; }
+        public int OctaveCount { get; set; }
+        public int PalmMuteCount { get; set; }
+        public int PluckCount { get; set; }
+        public int PullOffCount { get; set; }
+        public int SlapCount { get; set; }
+        public int SlideCount { get; set; }
+        public int SustainCount { get; set; }
+        public int TapCount { get; set; }
+        public int TremoloCount { get; set; }
+        public int UnpitchedSlideCount { get; set; }
+        public int VibratoCount { get; set; }
         //
         private string _chordNamesCounts;
         public string ChordNamesCounts

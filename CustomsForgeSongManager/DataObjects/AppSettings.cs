@@ -271,7 +271,9 @@ namespace CustomsForgeSongManager.DataObjects
                 if (verbose)
                     Globals.Log("Loaded File: " + Path.GetFileName(Constants.AppSettingsPath));
             }
-
+            else
+                ResetSettings();
+ 
             if (String.IsNullOrEmpty(Globals.DgvCurrent.Name))
                 return;
 
@@ -313,7 +315,7 @@ namespace CustomsForgeSongManager.DataObjects
                 }
         }
 
-        public void Reset()
+        public void ResetSettings()
         {
             Instance.EnableQuarantine = false;
             Instance.LogFilePath = Constants.LogFilePath;
@@ -323,7 +325,7 @@ namespace CustomsForgeSongManager.DataObjects
             Instance.IncludeRS2BaseSongs = false;
             Instance.IncludeCustomPacks = false;
             Instance.IncludeAnalyzerData = false;
-            Instance.EnableAutoUpdate = false;
+            Instance.EnableAutoUpdate = true; // switch to false once dll is stable
             Instance.EnableNotifications = false; // fewer notfication issues
             Instance.ValidateD3D = true;
             Instance.CleanOnClosing = false;

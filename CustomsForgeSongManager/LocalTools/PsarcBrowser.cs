@@ -189,18 +189,20 @@ namespace CustomsForgeSongManager.LocalTools
                             song.SongYear = (int)attributes.SongYear;
                             song.SongLength = (double)attributes.SongLength;
                             song.SongAverageTempo = attributes.SongAverageTempo;
-                            // NOTE: older CDLC do not have SongVolume or AlbumNameSort
-                            song.SongVolume = attributes.SongVolume;
+                            // NOTE: older CDLC do not have AlbumNameSort or SongVolume
+                            // ODLC does not have SongVolume
                             song.AlbumSort = attributes.AlbumNameSort;
+                            if (toolkitVersionFile != null)
+                                song.SongVolume = attributes.SongVolume ?? -120.0f; // assign dumby value if null
+                            else
+                                song.SongVolume = 120.0f;
                         }
-                        catch (Exception ex)
+                        catch (Exception ex) // CDLC may still be usable
                         {
-                            for (int i = 0; i < 3; i++)
-                                Console.Beep(800, 200);
-
-                            Globals.Log("<WARNING> CDLC is missing some critical arrangement data ...");
+                            Globals.Log("<WARNING> CDLC is missing some basic song information meta data ...");
+                            Globals.Log(ex.Message + " : " + ex.InnerException);
                             Globals.Log(" - " + Path.GetFileName(_filePath));
-                            Globals.Log(" - Please PM a copy of this CDLC to the CFSM Developers ...");
+                            Globals.Log(" - This CDLC may still be usable but it should be updated if a newer version is available ...");
                         }
 
                         gotSongInfo = true;

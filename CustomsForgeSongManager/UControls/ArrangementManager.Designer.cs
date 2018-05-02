@@ -429,6 +429,7 @@ namespace CustomsForgeSongManager.UControls
             this.colCapoFret.HeaderText = "CapoFret";
             this.colCapoFret.Name = "colCapoFret";
             this.colCapoFret.ReadOnly = true;
+            this.colCapoFret.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             // 
             // colTuningPitch
             // 
