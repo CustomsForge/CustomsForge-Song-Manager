@@ -312,7 +312,8 @@ namespace CustomsForgeSongManager.UControls
             this.chkIncludeRS1CompSongs.TabIndex = 3;
             this.chkIncludeRS1CompSongs.Text = "Include RS1 Compatibility Packs";
             this.chkIncludeRS1CompSongs.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.toolTip.SetToolTip(this.chkIncludeRS1CompSongs, "If checked, include RS1 Compatibility \r\nPacks with the scanned data.");
+            this.toolTip.SetToolTip(this.chkIncludeRS1CompSongs, "If checked, include RS1 Compatibility \r\nPacks with the scanned data.\r\n\r\nNOTE: Ini" +
+                    "tial load is very slow.");
             this.chkIncludeRS1CompSongs.UseVisualStyleBackColor = true;
             this.chkIncludeRS1CompSongs.Click += new System.EventHandler(this.chkIncludeRS1CompSongs_Click);
             // 
@@ -329,7 +330,8 @@ namespace CustomsForgeSongManager.UControls
             this.chkIncludeRS2BaseSongs.TabIndex = 15;
             this.chkIncludeRS2BaseSongs.Text = "Include RS2014 Base Songs";
             this.chkIncludeRS2BaseSongs.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.toolTip.SetToolTip(this.chkIncludeRS2BaseSongs, "If checked, include RS2014 Base\r\nSongs with the scanned data.");
+            this.toolTip.SetToolTip(this.chkIncludeRS2BaseSongs, "If checked, include RS2014 Base\r\nSongs with the scanned data.\r\n\r\nNOTE: Initial lo" +
+                    "ad is very slow.");
             this.chkIncludeRS2BaseSongs.UseVisualStyleBackColor = true;
             this.chkIncludeRS2BaseSongs.Click += new System.EventHandler(this.chkIncludeRS2BaseSongs_Click);
             // 

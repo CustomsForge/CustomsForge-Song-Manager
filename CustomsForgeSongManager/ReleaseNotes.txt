@@ -14,6 +14,10 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.4.3.6
+- restore/load CFSM default settings on first run
+- restored parsing stopwatch
+
 1.4.3.5
 - removed audible warning that CDLC may not have SongVolume or AlbumNameSort
 - SPECIAL NOTE: The newest version of CFSM will initially take longer to load your

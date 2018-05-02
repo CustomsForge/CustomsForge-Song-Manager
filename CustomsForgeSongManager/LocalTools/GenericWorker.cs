@@ -54,8 +54,6 @@ namespace CustomsForgeSongManager.LocalTools
                 bWorker.DoWork += WorkerPitchShiftSongs;
             else if (WorkDescription.ToLower().Contains(Constants.GWORKER_ORGANIZE))
                 bWorker.DoWork += WorkerOrganizeSongs;
-            else if (WorkDescription.ToLower().Contains(Constants.GWORKER_ANALYZE))
-                bWorker.DoWork += WorkerAnalyzeSongs;
             else
                 throw new Exception("I'm not that kind of worker ...");
 
@@ -131,12 +129,6 @@ namespace CustomsForgeSongManager.LocalTools
         {
             if (!bWorker.CancellationPending)
                 FileTools.ArtistFolders(WorkParm1, WorkParm2, WorkParm3);
-        }
-
-        private void WorkerAnalyzeSongs(object sender, DoWorkEventArgs e)
-        {
-            if (!bWorker.CancellationPending)
-                FileTools.GetExtraSongData(WorkParm1);
         }
 
         [SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "bWorker")]

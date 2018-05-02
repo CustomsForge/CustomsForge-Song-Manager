@@ -20,7 +20,7 @@ namespace CustomsForgeSongManager.DataObjects
         private bool _includeCustomPacks;
         private bool _includeAnalyzerData;
         private bool _enableAutoUpdate = false;
-        private bool _enableNotifications = false; 
+        private bool _enableNotifications = false;
         private bool _enableQuarantine = false;
         private bool _validateD3D = false;
         private bool _macMode;
@@ -74,12 +74,6 @@ namespace CustomsForgeSongManager.DataObjects
         {
             get { return _includeCustomPacks; }
             set { SetPropertyField("IncludeCustomPacks", ref _includeCustomPacks, value); }
-        }
-
-        public bool IncludeAnalyzerData
-        {
-            get { return _includeAnalyzerData; }
-            set { SetPropertyField("IncludeAnalyzerData", ref _includeAnalyzerData, value); }
         }
 
         public bool EnableAutoUpdate
@@ -244,7 +238,7 @@ namespace CustomsForgeSongManager.DataObjects
             set { _repairOptions = value; }
         }
 
- 
+
         //property template
         //public type PropName { get { return propName; } set { SetPropertyField("PropName", ref propName, value); } }
 
@@ -272,8 +266,8 @@ namespace CustomsForgeSongManager.DataObjects
                     Globals.Log("Loaded File: " + Path.GetFileName(Constants.AppSettingsPath));
             }
             else
-                ResetSettings();
- 
+                RestoreDefaults();
+
             if (String.IsNullOrEmpty(Globals.DgvCurrent.Name))
                 return;
 
@@ -315,23 +309,24 @@ namespace CustomsForgeSongManager.DataObjects
                 }
         }
 
-        public void ResetSettings()
+        public void RestoreDefaults()
         {
+            RAExtensions.ManagerGridSettings = new RADataGridViewSettings();
             Instance.EnableQuarantine = false;
             Instance.LogFilePath = Constants.LogFilePath;
-            Instance.RSInstalledDir = LocalExtensions.GetSteamDirectory();
             Instance.RSProfileDir = String.Empty;
             Instance.IncludeRS1CompSongs = false; // changed to false (fewer issues)
             Instance.IncludeRS2BaseSongs = false;
             Instance.IncludeCustomPacks = false;
-            Instance.IncludeAnalyzerData = false;
             Instance.EnableAutoUpdate = true; // switch to false once dll is stable
             Instance.EnableNotifications = false; // fewer notfication issues
             Instance.ValidateD3D = true;
             Instance.CleanOnClosing = false;
             Instance.ShowLogWindow = Constants.DebugMode;
-            RAExtensions.ManagerGridSettings = new RADataGridViewSettings();
             Instance.RepairOptions = new RepairOptions();
+
+            if (!String.IsNullOrEmpty(LocalExtensions.GetSteamDirectory()))
+                Instance.RSInstalledDir = LocalExtensions.GetSteamDirectory();
         }
 
         /// Initialise settings with default values

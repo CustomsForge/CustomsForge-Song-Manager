@@ -130,6 +130,7 @@ namespace CustomsForgeSongManager.LocalTools
             if (filesList.Count == 0)
                 return;
 
+            counterStopwatch.Restart();
             int songCounter = 0;
             int oldCount = bwSongCollection.Count();
             bwSongCollection.RemoveAll(sd => !File.Exists(sd.FilePath));
@@ -221,6 +222,7 @@ namespace CustomsForgeSongManager.LocalTools
             Globals.MasterCollection = new BindingList<SongData>(bwSongCollection);
             // -- CRITCAL -- this populates Arrangment DLCKey info in Arrangements2D
             Globals.MasterCollection.ToList().ForEach(a => a.Arrangements2D.ToList().ForEach(arr => arr.Parent = a));
+            counterStopwatch.Stop();
         }
 
         private void ParsePSARC(string filePath)

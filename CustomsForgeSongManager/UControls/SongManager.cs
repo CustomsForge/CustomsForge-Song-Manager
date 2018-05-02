@@ -155,17 +155,20 @@ namespace CustomsForgeSongManager.UControls
                 if (arrangementsNode != null)
                 {
                     var arrNodes = arrangementsNode.ChildNodes.OfType<XmlNode>().ToList();
-                    
+
                     foreach (var arrNode in arrNodes)
                     {
                         var isVocals = arrNode.InnerXml.Contains("<Name>Vocals</Name>");
                         var innerNodes = arrNode.ChildNodes.OfType<XmlNode>().ToList();
 
+                        // reduce songInfo.xml file size
                         foreach (var n in innerNodes)
                         {
+                            // remove analyzer data from vocals
                             if (n.InnerText == "0" && isVocals)
                                 arrNode.RemoveChild(n);
 
+                            // remove null/empty data
                             if (String.IsNullOrEmpty(n.InnerText))
                                 arrNode.RemoveChild(n);
                         }
@@ -705,9 +708,6 @@ namespace CustomsForgeSongManager.UControls
                 Globals.ReloadArrangements = true;
             }
 
-            var sw = new Stopwatch();
-            sw.Restart();
-
             // run new worker
             using (Worker worker = new Worker())
             {
@@ -727,8 +727,6 @@ namespace CustomsForgeSongManager.UControls
 
             // BackgroundScan populates Globals.MasterCollection
             songList = Globals.MasterCollection.ToList();
-            sw.Stop();
-            Globals.Log(String.Format("Parsing archives from {0} took: {1} (msec)", Constants.Rs2DlcFolder, sw.ElapsedMilliseconds));
             SaveSongCollectionToFile();
         }
 

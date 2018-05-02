@@ -16,7 +16,8 @@ namespace CustomsForgeSongManager.DataObjects
 
     /// <summary>
     /// flattened SongData for direct use with dgvArrangments
-    /// elements can not be sorted/filtered (IComparable) if nullable is used
+    /// TODO: convert all elements to 'public string' because elements may
+    /// not be sorted/filtered (IComparable) when defined as nullable 'int?'
     /// </summary>
     [Serializable]
     public class ArrangementData
