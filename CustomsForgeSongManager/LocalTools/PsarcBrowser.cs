@@ -20,6 +20,7 @@ using Newtonsoft.Json;
 using Arrangement = CustomsForgeSongManager.DataObjects.Arrangement;
 using System.Threading;
 using GenTools;
+using System.Globalization;
 
 namespace CustomsForgeSongManager.LocalTools
 {
@@ -177,15 +178,21 @@ namespace CustomsForgeSongManager.LocalTools
                     // speed hack - these don't change so skip after first pass
                     if (!gotSongInfo)
                     {
+                        song.DLCKey = attributes.SongKey;
+                        song.Artist = attributes.ArtistName;
+                        song.Title = attributes.SongName;
+                        song.Album = attributes.AlbumName;
+
                         try
                         {
-                            song.DLCKey = attributes.SongKey;
-                            song.Artist = attributes.ArtistName;
-                            song.ArtistSort = attributes.ArtistNameSort;
-                            song.Title = attributes.SongName;
                             song.TitleSort = attributes.SongNameSort;
-                            song.Album = attributes.AlbumName;
-                            song.LastConversionDateTime = Convert.ToDateTime(attributes.LastConversionDateTime);
+                            song.ArtistSort = attributes.ArtistNameSort;
+                            // FIXME: date string to DateTime conversion is not working on some user machines
+                            // song.LastConversionDateTime = Convert.ToDateTime(attributes.LastConversionDateTime, new CultureInfo("en-US", false).DateTimeFormat);
+                            DateTime dateTime = DateTime.Now;
+                            DateTime.TryParse(attributes.LastConversionDateTime, out dateTime);
+                            song.LastConversionDateTime = dateTime;
+                            // song.LastConversionDateTime = DateTime.Parse(attributes.LastConversionDateTime);                           
                             song.SongYear = (int)attributes.SongYear;
                             song.SongLength = (double)attributes.SongLength;
                             song.SongAverageTempo = attributes.SongAverageTempo;
@@ -243,34 +250,14 @@ namespace CustomsForgeSongManager.LocalTools
                             // DO NOTHING
                         }
 
+                        // loading SNG is 5X faster than loading XML and ODLC does not have XML
                         var song2014 = new Song2014();
-
-                        //Stopwatch sw2 = null;
-                        //sw2 = new Stopwatch();
-                        //sw2.Restart();
-                        //if (toolkitVersionFile == null)
-                        //{
-                        // loading SNG file (real ODLC does not have XML)
-                        // confirmed that loading SNG is 5X faster than loading XML
                         var sngEntry = _archive.TOC.FirstOrDefault(x => x.Name.EndsWith(".sng") && x.Name.ToLower().Contains(arrName.ToLower() + ".sng") && x.Name.Contains(strippedName));
                         using (var ms = ExtractEntryData(x => x.Name.Equals(sngEntry.Name)))
                         {
                             var sng2014File = Sng2014File.ReadSng(ms, new Platform(GamePlatform.Pc, GameVersion.RS2014));
                             song2014 = new Song2014(sng2014File, attributes);
                         }
-                        //}
-                        //else
-                        //{
-                        //    var xmlEntry = _archive.TOC.FirstOrDefault(x => x.Name.EndsWith(".xml") && x.Name.ToLower().Contains(arrName.ToLower()) && x.Name.Contains(strippedName));
-                        //    using (var ms = ExtractEntryData(x => x.Name.Equals(xmlEntry.Name)))
-                        //    using (var readerXml = new StreamReader(ms, new UTF8Encoding(), true, 65536)) // changing ByteOrderMarks to 'true' elimated issues deserializing some xml
-                        //    {
-                        //        song2014 = SerialExtensions.XmlDeserialize<Song2014>(readerXml.ReadToEnd());
-                        //    }
-                        //}
-
-                        //sw2.Stop();
-                        //Globals.Log(String.Format(" - {0} parsing {2} took: {1} (msec)", Path.GetFileName(_filePath), sw2.ElapsedMilliseconds, toolkitVersionFile == null ? "SNG" : "XML"));
 
                         int octaveCount = 0;
                         int chordCount = 0;

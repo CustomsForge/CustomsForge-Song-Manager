@@ -14,6 +14,10 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.4.3.8
+- added some additional user feedback for a full rescan
+- attempt to fix date string to DateTime bug (unable to reproduce on devs machine)
+
 1.4.3.7
 - improved initial and full rescan song parsing speed
 
