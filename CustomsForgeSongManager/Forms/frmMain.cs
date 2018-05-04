@@ -18,6 +18,7 @@ using System.ComponentModel;
 using DataGridViewTools;
 using CustomControls;
 using RocksmithToolkitLib;
+using System.Data;
 
 // NOTE: the app is designed for default user screen resolution of 1024x768
 // dev screen resolution should be set to this when designing forms and controls
@@ -523,6 +524,61 @@ namespace CustomsForgeSongManager.Forms
             });
         }
 
+        public void DGV2HTML()
+        {
+            DoSomethingWithGrid((dataGrid, selection, colSel, ignoreColumns) =>
+            {
+                //in the future maybe add some javascript to sort the html table by column
+                var sbTXT = new StringBuilder();
+                sbTXT.AppendLine("<html><head>");
+                sbTXT.AppendLine("<title>CFSM Songs</title>");
+                //add the style directly to so it can be saved correctly without external css.
+                sbTXT.AppendLine("<style>");
+                sbTXT.AppendLine(Properties.Resources.htmExport);
+                sbTXT.AppendLine("</style>");
+                // sbTXT.AppendLine("<link rel='stylesheet' type='text/css' href='htmExport.css'>");
+                sbTXT.AppendLine("</head><body>");
+                sbTXT.AppendLine("<table id='CFMGrid'>");
+                sbTXT.AppendLine("<tr>");
+                var columns = String.Empty;
+                var orderedCols = dataGrid.Columns.Cast<DataGridViewColumn>()
+                    .Where(c => !ignoreColumns.Contains(c.Index))
+                    .OrderBy(x => x.DisplayIndex).ToList();
+
+                foreach (var c in orderedCols)
+                {
+                    columns += ((char)9) + String.Format("<th>{0}</th>{1}", c.HeaderText, Environment.NewLine);
+                }
+
+                sbTXT.AppendLine(columns.Trim());
+                sbTXT.AppendLine("</tr>");
+                bool altOn = false;
+
+                foreach (var row in selection)
+                {
+                    sbTXT.AppendLine("<tr" + (altOn ? " class='alt'>" : ">"));
+                    string s = string.Empty;
+                    foreach (var c in orderedCols)
+                    {
+                        s += String.Format("<td>{0}</td>", row.Cells[c.Index].Value == null ? "" : row.Cells[c.Index].Value.ToString());
+                    }
+                    sbTXT.AppendLine(s.Trim());
+                    sbTXT.AppendLine("</tr>");
+                    altOn = !altOn;
+                }
+
+                sbTXT.AppendLine("</table>");
+                sbTXT.AppendLine("</body></html>");
+
+                using (var noteViewer = new frmHtmlViewer())
+                {
+                    noteViewer.Text = String.Format("{0} . . . {1}", noteViewer.Text, "Song list to HTML");
+                    noteViewer.PopulateHtml(sbTXT.ToString());
+                    noteViewer.ShowDialog();
+                }
+            });
+        }
+
         public void DGV2CSV()
         {
             var fileName = String.Format("{0}.csv", Globals.DgvCurrent.Name);
@@ -581,7 +637,8 @@ namespace CustomsForgeSongManager.Forms
                     using (StreamWriter file = new StreamWriter(path, false, Encoding.Unicode)) // Excel does not recognize UTF8
                         file.Write(sbCSV.ToString());
 
-                    Globals.Log("Song list saved to:" + path);
+                    Globals.Log(Globals.DgvCurrent.Name + " data saved to:" + path);
+                    GenExtensions.PromptOpen(Path.GetDirectoryName(path), Globals.DgvCurrent.Name + " data saved ...");
                 }
                 catch (IOException ex)
                 {
@@ -590,65 +647,92 @@ namespace CustomsForgeSongManager.Forms
             });
         }
 
-        public void DGV2HTML()
+        public void DGV2XML()
         {
+            var fileName = String.Format("{0}.xml", Globals.DgvCurrent.Name);
+            var path = Path.Combine(Constants.WorkFolder, fileName);
+
+            using (var sfd = new SaveFileDialog())
+            {
+                sfd.Filter = "xml files(*.xml)|*.xml|All files (*.*)|*.*";
+                sfd.FileName = path;
+
+                if (sfd.ShowDialog() != DialogResult.OK)
+                    return;
+
+                path = sfd.FileName;
+            }
+
             DoSomethingWithGrid((dataGrid, selection, colSel, ignoreColumns) =>
             {
-                //in the future maybe add some javascript to sort the html table by column
-                var sbTXT = new StringBuilder();
-                sbTXT.AppendLine("<html><head>");
-                sbTXT.AppendLine("<title>CFSM Songs</title>");
-                //add the style directly to so it can be saved correctly without external css.
-                sbTXT.AppendLine("<style>");
-                sbTXT.AppendLine(Properties.Resources.htmExport);
-                sbTXT.AppendLine("</style>");
-                // sbTXT.AppendLine("<link rel='stylesheet' type='text/css' href='htmExport.css'>");
-                sbTXT.AppendLine("</head><body>");
-                sbTXT.AppendLine("<table id='CFMGrid'>");
-                sbTXT.AppendLine("<tr>");
-                var columns = String.Empty;
-                var orderedCols = dataGrid.Columns.Cast<DataGridViewColumn>()
-                    .Where(c => !ignoreColumns.Contains(c.Index))
-                    .OrderBy(x => x.DisplayIndex).ToList();
-
-                foreach (var c in orderedCols)
+                try
                 {
-                    columns += ((char)9) + String.Format("<th>{0}</th>{1}", c.HeaderText, Environment.NewLine);
+                    // TODO: FIXME
+                    DataTable dT = DgvConversion.DataGridViewToDataTable(Globals.DgvCurrent, true);
+                    DataSet dS = new DataSet();
+                    dS.Tables.Add(dT);
+                    using (StreamWriter fs = new StreamWriter(path))
+                         dS.WriteXml(fs);
+                    
+                    Globals.Log(Globals.DgvCurrent.Name + " data saved to:" + path);
+                    GenExtensions.PromptOpen(Path.GetDirectoryName(path), Globals.DgvCurrent.Name + " data saved ...");
                 }
-
-                sbTXT.AppendLine(columns.Trim());
-                sbTXT.AppendLine("</tr>");
-                bool altOn = false;
-
-                foreach (var row in selection)
+                catch (IOException ex)
                 {
-                    sbTXT.AppendLine("<tr" + (altOn ? " class='alt'>" : ">"));
-                    string s = string.Empty;
-                    foreach (var c in orderedCols)
-                    {
-                        s += String.Format("<td>{0}</td>", row.Cells[c.Index].Value == null ? "" : row.Cells[c.Index].Value.ToString());
-                    }
-                    sbTXT.AppendLine(s.Trim());
-                    sbTXT.AppendLine("</tr>");
-                    altOn = !altOn;
-                }
-
-                sbTXT.AppendLine("</table>");
-                sbTXT.AppendLine("</body></html>");
-
-                using (var noteViewer = new frmHtmlViewer())
-                {
-                    noteViewer.Text = String.Format("{0} . . . {1}", noteViewer.Text, "Song list to HTML");
-                    noteViewer.PopulateHtml(sbTXT.ToString());
-                    noteViewer.ShowDialog();
+                    Globals.Log("<Error>: " + ex.Message);
                 }
             });
         }
 
-        private void SongListToJsonOrXml()
+        public void DGV2JSON()
         {
-            // TODO:
+            var fileName = String.Format("{0}.json", Globals.DgvCurrent.Name);
+            var path = Path.Combine(Constants.WorkFolder, fileName);
+
+            using (var sfd = new SaveFileDialog())
+            {
+                sfd.Filter = "json files(*.json)|*.json|All files (*.*)|*.*";
+                sfd.FileName = path;
+
+                if (sfd.ShowDialog() != DialogResult.OK)
+                    return;
+
+                path = sfd.FileName;
+            }
+
+            DoSomethingWithGrid((dataGrid, selection, colSel, ignoreColumns) =>
+            {
+                try
+                {
+                    using (StreamWriter fs = new StreamWriter(path))
+                    {
+                        var dataSource = dataGrid.DataSource;
+                        // TODO: pick and choose the selection
+                        dynamic filteredJson = dataSource;
+                        JToken serializedJson = JsonConvert.SerializeObject(filteredJson, Formatting.Indented, new JsonSerializerSettings { });
+                        fs.Write(serializedJson.ToString());
+                    }
+
+                    Globals.Log(Globals.DgvCurrent.Name + " data saved to:" + path);
+                    GenExtensions.PromptOpen(Path.GetDirectoryName(path), Globals.DgvCurrent.Name + " data saved ...");
+                }
+                catch (IOException ex)
+                {
+                    Globals.Log("<Error>: " + ex.Message);
+                }
+            });
         }
+
+        private void tsmiJSON_Click(object sender, EventArgs e)
+        {
+            DGV2JSON();
+        }
+
+        private void tsmiXML_Click(object sender, EventArgs e)
+        {
+            DGV2XML();
+        }
+
 
         private void tsmiBBCode_Click(object sender, EventArgs e)
         {

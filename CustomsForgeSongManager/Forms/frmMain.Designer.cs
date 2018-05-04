@@ -61,6 +61,8 @@ namespace CustomsForgeSongManager.Forms
             this.tsmiBBCode = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiCSV = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiHTML = new System.Windows.Forms.ToolStripMenuItem();
+            this.jSONToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.xMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.tsBtnUpload = new System.Windows.Forms.ToolStripButton();
             this.tsBtnRequest = new System.Windows.Forms.ToolStripButton();
@@ -348,7 +350,9 @@ namespace CustomsForgeSongManager.Forms
             this.tsBtnExport.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiBBCode,
             this.tsmiCSV,
-            this.tsmiHTML});
+            this.tsmiHTML,
+            this.jSONToolStripMenuItem,
+            this.xMLToolStripMenuItem});
             this.tsBtnExport.Image = global::CustomsForgeSongManager.Properties.Resources.export;
             this.tsBtnExport.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsBtnExport.Name = "tsBtnExport";
@@ -379,6 +383,22 @@ namespace CustomsForgeSongManager.Forms
             this.tsmiHTML.Size = new System.Drawing.Size(152, 22);
             this.tsmiHTML.Text = "HTML";
             this.tsmiHTML.Click += new System.EventHandler(this.tsmiHTML_Click);
+            // 
+            // jSONToolStripMenuItem
+            // 
+            this.jSONToolStripMenuItem.Name = "jSONToolStripMenuItem";
+            this.jSONToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.jSONToolStripMenuItem.Text = "JSON";
+            this.jSONToolStripMenuItem.ToolTipText = "THERE IS NO DATA FILTERING OR SELECTION FOR NOW\r\n\r\nThe complete datasource is exp" +
+                "orted for this file type.";
+            this.jSONToolStripMenuItem.Click += new System.EventHandler(this.tsmiJSON_Click);
+            // 
+            // xMLToolStripMenuItem
+            // 
+            this.xMLToolStripMenuItem.Name = "xMLToolStripMenuItem";
+            this.xMLToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.xMLToolStripMenuItem.Text = "XML";
+            this.xMLToolStripMenuItem.Click += new System.EventHandler(this.tsmiXML_Click);
             // 
             // toolStripSeparator2
             // 
@@ -702,5 +722,7 @@ namespace CustomsForgeSongManager.Forms
         private TabPage tpSongPacks;
         private ToolStripLabel tslblTimer;
         private TabPage tpArrangements;
+        private ToolStripMenuItem jSONToolStripMenuItem;
+        private ToolStripMenuItem xMLToolStripMenuItem;
     }
 }

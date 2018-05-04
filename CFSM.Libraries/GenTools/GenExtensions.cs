@@ -207,31 +207,6 @@ namespace GenTools
             }
         }
 
-        public static DataTable ConvertList<T>(IEnumerable<T> objectList)
-        {
-            Type type = typeof(T);
-            var typeproperties = type.GetProperties();
-
-            DataTable list2DataTable = new DataTable();
-            foreach (PropertyInfo propInfo in typeproperties)
-            {
-                list2DataTable.Columns.Add(new DataColumn(propInfo.Name, propInfo.PropertyType));
-            }
-
-            foreach (T listItem in objectList)
-            {
-                object[] values = new object[typeproperties.Length];
-                for (int i = 0; i < typeproperties.Length; i++)
-                {
-                    values[i] = typeproperties[i].GetValue(listItem, null);
-                }
-
-                list2DataTable.Rows.Add(values);
-            }
-
-            return list2DataTable;
-        }
-
         public static bool CopyDir(string srcFolder, string destFolder, bool isRecursive = true)
         {
             // You can not copy something that does not exist ... doh!  Banging head on desk ...
@@ -708,10 +683,10 @@ namespace GenTools
                     select date.AddDays(i)).First();
         }
 
-        public static bool PromptOpen(string destDir, string msgText, string windowTitle)
+        public static bool PromptOpen(string destDir, string msgText, string windowTitle = "CustomsForge Song Manager")
         {
             if (BetterDialog.ShowDialog(msgText + Environment.NewLine +
-                                        "Would you like to open the folder?", @"Information: Prompt Open Message",
+                                        "Would you like to open the folder?", @"Open Directory/File Location",
                                         MessageBoxButtons.YesNo, Bitmap.FromHicon(SystemIcons.Information.Handle),
                                         "Information ...", 150, 150) == DialogResult.Yes)
             {

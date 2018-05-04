@@ -111,14 +111,6 @@ namespace CustomsForgeSongManager.UControls
             // flatten SongData to ArrangementData
             arrangementList = new List<ArrangementData>();
 
-            // NEAT TRICK: to perform object inheretence w/ deep cloning using Newtonsoft.Json
-            // unfortunately does not fully deserialize multi dimensional data
-            //var jsonString = JsonConvert.SerializeObject(Globals.MasterCollection);
-            //arrangementList = JsonConvert.DeserializeObject<List<ArrangementData>>(jsonString);
-
-            // LOVRO??? ... could LINQ method be used to flatten SongData and would it be faster than recursion?
-            var testMe = Globals.MasterCollection.SelectMany(x => x.Arrangements2D).ToList();
-
             Stopwatch sw = null;
             sw = new Stopwatch();
             sw.Restart();
