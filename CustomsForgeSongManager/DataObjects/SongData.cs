@@ -66,10 +66,10 @@ namespace CustomsForgeSongManager.DataObjects
         public string TitleSort { get; set; }
         public string Album { get; set; }
         public string AlbumSort { get; set; } // older CDLC do not have this
-        public int SongYear { get; set; }
+        public int? SongYear { get; set; }
         public double SongLength { get; set; }
         public float SongAverageTempo { get; set; }
-        public float SongVolume { get; set; } // older CDLC do not have this
+        public float? SongVolume { get; set; } // older CDLC do not have this
         public DateTime LastConversionDateTime { get; set; }
         public string AppID { get; set; }
         public string PackageAuthor { get; set; }
@@ -224,30 +224,30 @@ namespace CustomsForgeSongManager.DataObjects
         public string Tuning { get; set; }
         public string ToneBase { get; set; }
         public string Tones { get; set; } // concatinated string of the tones used in arrangement
-        public int DDMax { get; set; }
-        public int SectionCount { get; set; }
-        public int BassPick { get; set; }
-        public double TuningPitch { get; set; } // tuning frequency, see Cents2Frequency method
-        public int CapoFret { get; set; }
-        public int ChordCount { get; set; }
-        public int NoteCount { get; set; }
-        public int BendCount { get; set; }
-        public int FretHandMuteCount { get; set; }
-        public int HammerOnCount { get; set; }
-        public int HarmonicCount { get; set; }
-        public int HarmonicPinchCount { get; set; }
-        public int HighestFretUsed { get; set; }
-        public int OctaveCount { get; set; }
-        public int PalmMuteCount { get; set; }
-        public int PluckCount { get; set; }
-        public int PullOffCount { get; set; }
-        public int SlapCount { get; set; }
-        public int SlideCount { get; set; }
-        public int SustainCount { get; set; }
-        public int TapCount { get; set; }
-        public int TremoloCount { get; set; }
-        public int UnpitchedSlideCount { get; set; }
-        public int VibratoCount { get; set; }
+        public int? DDMax { get; set; }
+        public int? SectionCount { get; set; }
+        public int? BassPick { get; set; }
+        public double? TuningPitch { get; set; } // tuning frequency, see Cents2Frequency method
+        public int? CapoFret { get; set; }
+        public int? ChordCount { get; set; }
+        public int? NoteCount { get; set; }
+        public int? BendCount { get; set; }
+        public int? FretHandMuteCount { get; set; }
+        public int? HammerOnCount { get; set; }
+        public int? HarmonicCount { get; set; }
+        public int? HarmonicPinchCount { get; set; }
+        public int? HighestFretUsed { get; set; }
+        public int? OctaveCount { get; set; }
+        public int? PalmMuteCount { get; set; }
+        public int? PluckCount { get; set; }
+        public int? PullOffCount { get; set; }
+        public int? SlapCount { get; set; }
+        public int? SlideCount { get; set; }
+        public int? SustainCount { get; set; }
+        public int? TapCount { get; set; }
+        public int? TremoloCount { get; set; }
+        public int? UnpitchedSlideCount { get; set; }
+        public int? VibratoCount { get; set; }
         //
         private string _chordNamesCounts;
         public string ChordNamesCounts

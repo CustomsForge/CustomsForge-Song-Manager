@@ -123,6 +123,18 @@ namespace DataGridViewTools
             // the IComparable interface.
             Type interfaceType = prop.PropertyType.GetInterface("IComparable");
 
+            // added this code to allow sorting of nullable types
+            // Interface not found on the property's type. Maybe the property was nullable?
+            // For that to happen, it must be value type.
+            if (interfaceType == null && prop.PropertyType.IsValueType)
+            {
+                Type underlyingType = Nullable.GetUnderlyingType(prop.PropertyType);
+                // Nullable.GetUnderlyingType only returns a non-null value if the
+                // supplied type was indeed a nullable type.
+                if (underlyingType != null)
+                    interfaceType = underlyingType.GetInterface("IComparable");
+            }
+
             if (interfaceType != null)
             {
                 // If so, set the SortPropertyValue and SortDirectionValue.
@@ -141,17 +153,39 @@ namespace DataGridViewTools
                     }
                 }
 
-                // Call Sort on the ArrayList.
+                // Call Sort on the ArrayList (put nullable last)
                 try
                 {
+                    // group nullables and sort all others having values
                     sortedList.Sort((x1, x2) =>
-                        {
-                            var c1 = (prop.GetValue(x1) as IComparable);
-                            var c2 = (prop.GetValue(x2) as IComparable);
-                            if (c1 == null || c2 == null)
-                                return -1;
-                            return c1.CompareTo(c2);
-                        });
+                       {
+                           var c1 = (prop.GetValue(x1) as IComparable);
+                           var c2 = (prop.GetValue(x2) as IComparable);
+
+                           if (c1 == null)
+                           {
+                               if (c2 == null) return 0; // equal
+                               else return -1; // x2 is greater
+                           }
+                           else
+                           {
+                               if (c2 == null) return 1; // x1 is greater
+                               if (c1 == c2) return 0; // equal
+
+                               return c1.CompareTo(c2); // let IComparable decide
+                           }
+                       });
+
+                    // original sort does not group nullables
+                    //sortedList.Sort((x1, x2) =>
+                    //   {
+                    //       var c1 = (prop.GetValue(x1) as IComparable);
+                    //       var c2 = (prop.GetValue(x2) as IComparable);
+                    //       if (c1 == null || c2 == null)
+                    //           return  -1;
+
+                    //       return c1.CompareTo(c2);
+                    //   });
                 }
                 catch (Exception)
                 {

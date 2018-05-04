@@ -488,10 +488,13 @@ namespace CustomsForgeSongManager.Forms
             {
                 var sbTXT = new StringBuilder();
                 string columns = String.Empty;
-                foreach (var c in dataGrid.Columns.Cast<DataGridViewColumn>())
+                var orderedCols = dataGrid.Columns.Cast<DataGridViewColumn>()
+                    .Where(c => !ignoreColumns.Contains(c.Index))
+                    .OrderBy(x => x.DisplayIndex).ToList();
+
+                foreach (var c in orderedCols)
                 {
-                    if (!ignoreColumns.Contains(c.Index))
-                        columns += c.HeaderText + ", ";
+                    columns += c.HeaderText + ", ";
                 }
 
                 sbTXT.AppendLine(columns.Trim(new char[] { ',', ' ' }));
@@ -499,13 +502,15 @@ namespace CustomsForgeSongManager.Forms
 
                 foreach (var row in selection)
                 {
-                    string s = "[*]";
-                    foreach (var col in row.Cells.Cast<DataGridViewCell>().Where(c => !ignoreColumns.Contains(c.ColumnIndex)))
+                    string s = "";
+                    foreach (var c in orderedCols)
                     {
-                        s += col.Value == null ? " , " : col.Value + ", ";
+                        s += row.Cells[c.Index].Value == null ? " , " : row.Cells[c.Index].Value.ToString() + ", ";
                     }
+
                     sbTXT.AppendLine(s.Trim(new char[] { ',', ' ' }) + "[/*]");
                 }
+
                 sbTXT.AppendLine("[/LIST]");
 
                 using (var noteViewer = new frmNoteViewer())
@@ -541,10 +546,13 @@ namespace CustomsForgeSongManager.Forms
                 const char csvSep = ';';
                 sbCSV.AppendLine(String.Format(@"sep={0}", csvSep)); // used by Excel to recognize seperator if Encoding.Unicode is used
                 string columns = String.Empty;
-                foreach (var c in dataGrid.Columns.Cast<DataGridViewColumn>())
+                var orderedCols = dataGrid.Columns.Cast<DataGridViewColumn>()
+                    .Where(c => !ignoreColumns.Contains(c.Index))
+                        .OrderBy(x => x.DisplayIndex).ToList();
+
+                foreach (var c in orderedCols)
                 {
-                    if (!ignoreColumns.Contains(c.Index))
-                        columns += c.HeaderText + csvSep;
+                    columns += c.HeaderText + csvSep;
                 }
 
                 sbCSV.AppendLine(columns.Trim(new char[] { csvSep, ' ' }));
@@ -552,10 +560,11 @@ namespace CustomsForgeSongManager.Forms
                 foreach (var row in selection)
                 {
                     string s = "";
-                    foreach (var col in row.Cells.Cast<DataGridViewCell>().Where(c => !ignoreColumns.Contains(c.ColumnIndex)))
+                    foreach (var c in orderedCols)
                     {
-                        s += col.Value == null ? csvSep.ToString() : col.Value.ToString() + csvSep;
+                        s += row.Cells[c.Index].Value == null ? csvSep.ToString() : row.Cells[c.Index].Value.ToString() + csvSep;
                     }
+
                     sbCSV.AppendLine(s.Trim(new char[] { ',', ' ' }));
                 }
 
@@ -598,11 +607,13 @@ namespace CustomsForgeSongManager.Forms
                 sbTXT.AppendLine("<table id='CFMGrid'>");
                 sbTXT.AppendLine("<tr>");
                 var columns = String.Empty;
+                var orderedCols = dataGrid.Columns.Cast<DataGridViewColumn>()
+                    .Where(c => !ignoreColumns.Contains(c.Index))
+                    .OrderBy(x => x.DisplayIndex).ToList();
 
-                foreach (var c in dataGrid.Columns.Cast<DataGridViewColumn>())
+                foreach (var c in orderedCols)
                 {
-                    if (!ignoreColumns.Contains(c.Index))
-                        columns += ((char)9) + String.Format("<th>{0}</th>{1}", c.HeaderText, Environment.NewLine);
+                    columns += ((char)9) + String.Format("<th>{0}</th>{1}", c.HeaderText, Environment.NewLine);
                 }
 
                 sbTXT.AppendLine(columns.Trim());
@@ -613,9 +624,9 @@ namespace CustomsForgeSongManager.Forms
                 {
                     sbTXT.AppendLine("<tr" + (altOn ? " class='alt'>" : ">"));
                     string s = string.Empty;
-                    foreach (var col in row.Cells.Cast<DataGridViewCell>().Where(c => !ignoreColumns.Contains(c.ColumnIndex)))
+                    foreach (var c in orderedCols)
                     {
-                        s += String.Format("<td>{0}</td>", col.Value == null ? "" : col.Value);
+                        s += String.Format("<td>{0}</td>", row.Cells[c.Index].Value == null ? "" : row.Cells[c.Index].Value.ToString());
                     }
                     sbTXT.AppendLine(s.Trim());
                     sbTXT.AppendLine("</tr>");

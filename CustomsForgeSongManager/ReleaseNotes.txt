@@ -14,6 +14,13 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.4.3.9
+- rewired dgvArrangements events including column selection menu
+- fixed datagridview IComparable bug to allow sorting of nullable values
+- display null datagrid values as a blank instead of a zero (0)
+- export null datagrid values as a blank instead of a zero (0)
+- fixed CSV column export order to match the displayed datagrid
+
 1.4.3.8
 - added some additional user feedback for a full rescan
 - attempt to fix date string to DateTime bug (unable to reproduce on devs machine)

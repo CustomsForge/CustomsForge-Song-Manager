@@ -187,22 +187,17 @@ namespace CustomsForgeSongManager.LocalTools
                         {
                             song.TitleSort = attributes.SongNameSort;
                             song.ArtistSort = attributes.ArtistNameSort;
-                            // FIXME: date string to DateTime conversion is not working on some user machines
-                            // song.LastConversionDateTime = Convert.ToDateTime(attributes.LastConversionDateTime, new CultureInfo("en-US", false).DateTimeFormat);
+                            // fix for date string to DateTime conversion
                             DateTime dateTime = DateTime.Now;
                             DateTime.TryParse(attributes.LastConversionDateTime, out dateTime);
                             song.LastConversionDateTime = dateTime;
-                            // song.LastConversionDateTime = DateTime.Parse(attributes.LastConversionDateTime);                           
-                            song.SongYear = (int)attributes.SongYear;
-                            song.SongLength = (double)attributes.SongLength;
+                            song.SongYear = attributes.SongYear;
+                            song.SongLength = (double) attributes.SongLength;
                             song.SongAverageTempo = attributes.SongAverageTempo;
                             // NOTE: older CDLC do not have AlbumNameSort or SongVolume
                             // ODLC does not have SongVolume
                             song.AlbumSort = attributes.AlbumNameSort;
-                            if (toolkitVersionFile != null)
-                                song.SongVolume = attributes.SongVolume ?? -120.0f; // assign dumby value if null
-                            else
-                                song.SongVolume = 120.0f;
+                            song.SongVolume = attributes.SongVolume;
                         }
                         catch (Exception ex) // CDLC may still be usable
                         {

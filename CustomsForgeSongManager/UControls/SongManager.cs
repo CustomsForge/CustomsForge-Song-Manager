@@ -2084,9 +2084,10 @@ namespace CustomsForgeSongManager.UControls
 
         private void tsmiRescanFull_Click(object sender, EventArgs e)
         {
-            // how long it takes is just a SWAG
+            // TODO: caculate parsing speed based on users machine via an algo
+            // FIXME: operation duration is a SWAG for now
             var diaMsg = "You are about to run a full rescan of (" + songList.Count + ") songs." + Environment.NewLine +
-                "Operation will take approximately (" + songList.Count * songList.Count / 1.5 + ") seconds  " + Environment.NewLine +
+                "Operation will take approximately (" + songList.Count * 3 + ") seconds  " + Environment.NewLine +
                 "to complete." + Environment.NewLine + Environment.NewLine + "Do you want to proceed?";
 
             if (DialogResult.No == BetterDialog2.ShowDialog(diaMsg, "Full Rescan", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Question.Handle), "INFO", 0, 150))
