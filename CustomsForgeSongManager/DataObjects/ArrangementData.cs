@@ -74,8 +74,10 @@ namespace CustomsForgeSongManager.DataObjects
         public int? TremoloCount { get; set; }
         public int? UnpitchedSlideCount { get; set; }
         public int? VibratoCount { get; set; }
+        public int? AccentsCount { get; set; }
 
         // calculated content taken from SongData
+        public int? ToneChanges { get; set; }
         public string ChordNamesCounts { get; set; }
         public bool Selected { get; set; }
         public bool OfficialDLC { get; set; }

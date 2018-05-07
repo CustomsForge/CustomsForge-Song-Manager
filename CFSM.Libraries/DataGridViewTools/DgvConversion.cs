@@ -19,6 +19,10 @@ namespace DataGridViewTools
                 return null;
 
             DataTable dtSource = new DataTable();
+            DataColumn idCol = new DataColumn("rowId", typeof(int));
+            idCol.AutoIncrement = true;
+            dtSource.Columns.Add(idCol);
+
             foreach (DataGridViewColumn col in dgv.Columns)
             {
                 if (ignoreHiddenColumns & !col.Visible)
@@ -40,8 +44,7 @@ namespace DataGridViewTools
                         throw new DataException("Column ValueType is not defined");
                 }
 
-                //dtSource.Columns.Add(col.Name, col.ValueType);
-                // address nullables
+                // proper handling of nullables
                 dtSource.Columns.Add(col.Name, Nullable.GetUnderlyingType(col.ValueType) ?? col.ValueType);
                 dtSource.Columns[col.Name].Caption = col.HeaderText;
             }
@@ -62,8 +65,11 @@ namespace DataGridViewTools
                         if (dtCol.DataType == typeof(bool) && row.Cells[dtCol.ColumnName].Value == null)
                             row.Cells[dtCol.ColumnName].Value = false;
 
-                        drNewRow[dtCol.ColumnName] = row.Cells[dtCol.ColumnName].Value;
+                        // skip over rowId and proper handling of nullables
+                        if (dtCol.ColumnName != "rowId")
+                            drNewRow[dtCol.ColumnName] = row.Cells[dtCol.ColumnName].Value ?? DBNull.Value;
                     }
+
                     dtSource.Rows.Add(drNewRow);
                 }
             }

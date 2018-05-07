@@ -389,8 +389,6 @@ namespace CustomsForgeSongManager.Forms
             this.jSONToolStripMenuItem.Name = "jSONToolStripMenuItem";
             this.jSONToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.jSONToolStripMenuItem.Text = "JSON";
-            this.jSONToolStripMenuItem.ToolTipText = "THERE IS NO DATA FILTERING OR SELECTION FOR NOW\r\n\r\nThe complete datasource is exp" +
-                "orted for this file type.";
             this.jSONToolStripMenuItem.Click += new System.EventHandler(this.tsmiJSON_Click);
             // 
             // xMLToolStripMenuItem

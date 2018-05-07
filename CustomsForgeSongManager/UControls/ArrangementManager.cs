@@ -151,9 +151,9 @@ namespace CustomsForgeSongManager.UControls
                             Tones = songArr.Tones,
                             DDMax = songArr.DDMax,
                             SectionCount = songArr.SectionCount,
-                            BassPick = songArr.BassPick,
                             TuningPitch = songArr.TuningPitch,
                             CapoFret = songArr.CapoFret,
+                            BassPick = songArr.BassPick,
                             ChordCount = songArr.ChordCount,
                             NoteCount = songArr.NoteCount,
                             BendCount = songArr.BendCount,
@@ -173,6 +173,7 @@ namespace CustomsForgeSongManager.UControls
                             TremoloCount = songArr.TremoloCount,
                             UnpitchedSlideCount = songArr.UnpitchedSlideCount,
                             VibratoCount = songArr.VibratoCount,
+                            AccentsCount = songArr.AccentsCount,
                             // calculated content taken from SongData
                             ChordNamesCounts = songArr.ChordNamesCounts,
                             Selected = song.Selected,
@@ -184,6 +185,9 @@ namespace CustomsForgeSongManager.UControls
                             Tagged = song.Tagged,
                             RepairStatus = song.RepairStatus
                         };
+
+                    if (!String.IsNullOrEmpty(songArr.Tones))
+                        arr.ToneChanges = songArr.Tones.Count(c => c == ',') == 0 ? 1 : songArr.Tones.Count(c => c == ',');
 
                     arrangementList.Add(arr);
                 }

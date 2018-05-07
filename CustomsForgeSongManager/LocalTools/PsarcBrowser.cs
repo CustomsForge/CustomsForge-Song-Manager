@@ -192,7 +192,7 @@ namespace CustomsForgeSongManager.LocalTools
                             DateTime.TryParse(attributes.LastConversionDateTime, out dateTime);
                             song.LastConversionDateTime = dateTime;
                             song.SongYear = attributes.SongYear;
-                            song.SongLength = (double) attributes.SongLength;
+                            song.SongLength = (double)attributes.SongLength;
                             song.SongAverageTempo = attributes.SongAverageTempo;
                             // NOTE: older CDLC do not have AlbumNameSort or SongVolume
                             // ODLC does not have SongVolume
@@ -215,7 +215,7 @@ namespace CustomsForgeSongManager.LocalTools
                     if (Char.IsNumber(jsonEntry.Name[jsonEntry.Name.IndexOf(".json") - 1]))
                         arrName = arrName + jsonEntry.Name[jsonEntry.Name.IndexOf(".json") - 1];
 
-                    if (!arrName.ToLower().Contains("vocals"))
+                    if (!arrName.ToLower().EndsWith("vocals"))
                     {
                         arr.SectionCount = attributes.Sections.Count();
                         arr.DDMax = attributes.MaxPhraseDifficulty;
@@ -355,9 +355,13 @@ namespace CustomsForgeSongManager.LocalTools
                         arr.ChordNames = chordNames;
                         arr.ChordCounts = chordCounts;
                         arr.HighestFretUsed = highestFretUsed;
-                        arr.BassPick = bassPick;
                         arr.TuningPitch = Convert.ToDouble(song2014.CentOffset).Cents2Frequency();
                         arr.CapoFret = song2014.Capo == 0xFF ? 0 : Convert.ToInt16(song2014.Capo);
+
+                        arr.AccentsCount = maxLevelNotes.Count(n => n.Accent > 0);
+
+                        if (arrName.ToLower().Equals("bass"))
+                            arr.BassPick = bassPick;
                     }
 
                     // add a smidge of arr info for vocals too!

@@ -314,13 +314,13 @@ namespace CustomsForgeSongManager.DataObjects
             RAExtensions.ManagerGridSettings = new RADataGridViewSettings();
             Instance.EnableQuarantine = false;
             Instance.LogFilePath = Constants.LogFilePath;
-            Instance.RSProfileDir = String.Empty;
-            Instance.IncludeRS1CompSongs = false; // changed to false (fewer issues)
+            Instance.RSProfileDir = String.Empty; 
+            Instance.IncludeRS1CompSongs = false; // false for fewer new user issues
             Instance.IncludeRS2BaseSongs = false;
             Instance.IncludeCustomPacks = false;
             Instance.EnableAutoUpdate = true; // switch to false once dll is stable
-            Instance.EnableNotifications = false; // fewer notfication issues
-            Instance.ValidateD3D = true;
+            Instance.EnableNotifications = false; // false for fewer notfication issues
+            Instance.ValidateD3D = true; // switch to false once dll is stable
             Instance.CleanOnClosing = false;
             Instance.ShowLogWindow = Constants.DebugMode;
             Instance.RepairOptions = new RepairOptions();

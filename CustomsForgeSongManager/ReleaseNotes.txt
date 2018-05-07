@@ -14,6 +14,11 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.4.4.1
+- fixed JSON and XML export features so that all or only selected, and visible data are exported
+- added Accent and ToneChanges count to Arrangements grid
+- fixed BassPick count
+
 1.4.4.0
 - force auto deletion of My Documents/CFSM folder to avoid issues with nullable values
 - added XML and JSON file formats to grid export for testing

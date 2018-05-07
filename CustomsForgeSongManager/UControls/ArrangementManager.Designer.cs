@@ -54,6 +54,9 @@ namespace CustomsForgeSongManager.UControls
             this.colArtist = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colTitle = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colAlbum = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.colArtistSort = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.colTitleSort = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.colAlbumSort = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colSongYear = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colCapoFret = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colTuningPitch = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
@@ -67,6 +70,8 @@ namespace CustomsForgeSongManager.UControls
             this.colCharter = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colVersion = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colToolkitVersion = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.colPackageAuthor = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.colPackageVersion = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colPackageComment = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colBassPick = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colNoteCount = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
@@ -89,6 +94,8 @@ namespace CustomsForgeSongManager.UControls
             this.colUnpitchedSlideCount = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colTotalTapCount = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colHighestFretUsed = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.colAccentCount = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.colToneChanges = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colFilePath = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colFileName = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colFileDate = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
@@ -261,6 +268,8 @@ namespace CustomsForgeSongManager.UControls
             this.colCharter,
             this.colVersion,
             this.colToolkitVersion,
+            this.colPackageAuthor,
+            this.colPackageVersion,
             this.colPackageComment,
             this.colBassPick,
             this.colNoteCount,
@@ -283,6 +292,8 @@ namespace CustomsForgeSongManager.UControls
             this.colUnpitchedSlideCount,
             this.colTotalTapCount,
             this.colHighestFretUsed,
+            this.colAccentCount,
+            this.colToneChanges,
             this.colFilePath,
             this.colFileName,
             this.colFileDate,
@@ -291,6 +302,9 @@ namespace CustomsForgeSongManager.UControls
             this.colIsRsCompPack,
             this.colTagged,
             this.colRepairStatus,
+            this.colArtistSort,
+            this.colTitleSort,
+            this.colAlbumSort,
             this.colArtistTitleAlbum,
             this.colArtistTitleAlbumDate});
             this.dgvArrangements.Location = new System.Drawing.Point(6, 19);
@@ -405,7 +419,7 @@ namespace CustomsForgeSongManager.UControls
             // colDDMax
             // 
             this.colDDMax.DataPropertyName = "DDMax";
-            this.colDDMax.HeaderText = "DD Max";
+            this.colDDMax.HeaderText = "DDMax";
             this.colDDMax.Name = "colDDMax";
             this.colDDMax.ReadOnly = true;
             this.colDDMax.Resizable = System.Windows.Forms.DataGridViewTriState.True;
@@ -416,7 +430,7 @@ namespace CustomsForgeSongManager.UControls
             dataGridViewCellStyle3.Format = "N2";
             dataGridViewCellStyle3.NullValue = null;
             this.colSongLength.DefaultCellStyle = dataGridViewCellStyle3;
-            this.colSongLength.HeaderText = "Length Seconds";
+            this.colSongLength.HeaderText = "LengthSeconds";
             this.colSongLength.Name = "colSongLength";
             this.colSongLength.ReadOnly = true;
             this.colSongLength.Visible = false;
@@ -437,7 +451,7 @@ namespace CustomsForgeSongManager.UControls
             this.colUpdated.DataPropertyName = "LastConversionDateTime";
             dataGridViewCellStyle5.NullValue = null;
             this.colUpdated.DefaultCellStyle = dataGridViewCellStyle5;
-            this.colUpdated.HeaderText = "Last Conversion";
+            this.colUpdated.HeaderText = "LastConversion";
             this.colUpdated.Name = "colUpdated";
             this.colUpdated.ReadOnly = true;
             this.colUpdated.Width = 50;
@@ -445,7 +459,7 @@ namespace CustomsForgeSongManager.UControls
             // colAppID
             // 
             this.colAppID.DataPropertyName = "AppID";
-            this.colAppID.HeaderText = "App ID";
+            this.colAppID.HeaderText = "AppID";
             this.colAppID.Name = "colAppID";
             this.colAppID.ReadOnly = true;
             this.colAppID.Resizable = System.Windows.Forms.DataGridViewTriState.True;
@@ -473,17 +487,35 @@ namespace CustomsForgeSongManager.UControls
             // colToolkitVersion
             // 
             this.colToolkitVersion.DataPropertyName = "ToolkitVer";
-            this.colToolkitVersion.HeaderText = "Toolkit Version";
+            this.colToolkitVersion.HeaderText = "ToolkitVersion";
             this.colToolkitVersion.Name = "colToolkitVersion";
             this.colToolkitVersion.ReadOnly = true;
             this.colToolkitVersion.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.colToolkitVersion.Visible = false;
             this.colToolkitVersion.Width = 110;
             // 
+            // colPackageAuthor
+            // 
+            this.colPackageAuthor.DataPropertyName = "PackageAuthor";
+            this.colPackageAuthor.HeaderText = "PackageAuthor";
+            this.colPackageAuthor.Name = "colPackageAuthor";
+            this.colPackageAuthor.ReadOnly = true;
+            this.colPackageAuthor.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colPackageAuthor.Visible = false;
+            // 
+            // colPackageVersion
+            // 
+            this.colPackageVersion.DataPropertyName = "PackageVersion";
+            this.colPackageVersion.HeaderText = "PackageVersion";
+            this.colPackageVersion.Name = "colPackageVersion";
+            this.colPackageVersion.ReadOnly = true;
+            this.colPackageVersion.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colPackageVersion.Visible = false;
+            // 
             // colPackageComment
             // 
             this.colPackageComment.DataPropertyName = "PackageComment";
-            this.colPackageComment.HeaderText = "Package Comment";
+            this.colPackageComment.HeaderText = "PackageComment";
             this.colPackageComment.Name = "colPackageComment";
             this.colPackageComment.ReadOnly = true;
             this.colPackageComment.Resizable = System.Windows.Forms.DataGridViewTriState.True;
@@ -500,28 +532,28 @@ namespace CustomsForgeSongManager.UControls
             // colNoteCount
             // 
             this.colNoteCount.DataPropertyName = "NoteCount";
-            this.colNoteCount.HeaderText = "Note Count";
+            this.colNoteCount.HeaderText = "NoteCount";
             this.colNoteCount.Name = "colNoteCount";
             this.colNoteCount.ReadOnly = true;
             // 
             // colChordCount
             // 
             this.colChordCount.DataPropertyName = "ChordCount";
-            this.colChordCount.HeaderText = "Chord Count";
+            this.colChordCount.HeaderText = "ChordCount";
             this.colChordCount.Name = "colChordCount";
             this.colChordCount.ReadOnly = true;
             // 
             // colCordNamesCounts
             // 
             this.colCordNamesCounts.DataPropertyName = "ChordNamesCounts";
-            this.colCordNamesCounts.HeaderText = "Chord Names Counts";
+            this.colCordNamesCounts.HeaderText = "ChordNamesCounts";
             this.colCordNamesCounts.Name = "colCordNamesCounts";
             this.colCordNamesCounts.ReadOnly = true;
             // 
             // colOctaveCount
             // 
             this.colOctaveCount.DataPropertyName = "OctaveCount";
-            this.colOctaveCount.HeaderText = "Octave Count";
+            this.colOctaveCount.HeaderText = "OctaveCount";
             this.colOctaveCount.Name = "colOctaveCount";
             this.colOctaveCount.ReadOnly = true;
             this.colOctaveCount.Visible = false;
@@ -529,7 +561,7 @@ namespace CustomsForgeSongManager.UControls
             // colVibratoCount
             // 
             this.colVibratoCount.DataPropertyName = "VibratoCount";
-            this.colVibratoCount.HeaderText = "Vibrato Count";
+            this.colVibratoCount.HeaderText = "VibratoCount";
             this.colVibratoCount.Name = "colVibratoCount";
             this.colVibratoCount.ReadOnly = true;
             this.colVibratoCount.Visible = false;
@@ -545,7 +577,7 @@ namespace CustomsForgeSongManager.UControls
             // colBendCount
             // 
             this.colBendCount.DataPropertyName = "BendCount";
-            this.colBendCount.HeaderText = "Bend Count";
+            this.colBendCount.HeaderText = "BendCount";
             this.colBendCount.Name = "colBendCount";
             this.colBendCount.ReadOnly = true;
             this.colBendCount.Visible = false;
@@ -553,7 +585,7 @@ namespace CustomsForgeSongManager.UControls
             // colPullOffCount
             // 
             this.colPullOffCount.DataPropertyName = "PullOffCount";
-            this.colPullOffCount.HeaderText = "Pull-Off Count";
+            this.colPullOffCount.HeaderText = "Pull-OffCount";
             this.colPullOffCount.Name = "colPullOffCount";
             this.colPullOffCount.ReadOnly = true;
             this.colPullOffCount.Visible = false;
@@ -561,7 +593,7 @@ namespace CustomsForgeSongManager.UControls
             // colHarmonicCount
             // 
             this.colHarmonicCount.DataPropertyName = "HarmonicCount";
-            this.colHarmonicCount.HeaderText = "Harmonic Count";
+            this.colHarmonicCount.HeaderText = "HarmonicCount";
             this.colHarmonicCount.Name = "colHarmonicCount";
             this.colHarmonicCount.ReadOnly = true;
             this.colHarmonicCount.Visible = false;
@@ -569,7 +601,7 @@ namespace CustomsForgeSongManager.UControls
             // colFretHandMuteCount
             // 
             this.colFretHandMuteCount.DataPropertyName = "FretHandMuteCount";
-            this.colFretHandMuteCount.HeaderText = "Frethand Mute Count";
+            this.colFretHandMuteCount.HeaderText = "FrethandMuteCount";
             this.colFretHandMuteCount.Name = "colFretHandMuteCount";
             this.colFretHandMuteCount.ReadOnly = true;
             this.colFretHandMuteCount.Visible = false;
@@ -577,7 +609,7 @@ namespace CustomsForgeSongManager.UControls
             // colPalmMuteCount
             // 
             this.colPalmMuteCount.DataPropertyName = "PalmMuteCount";
-            this.colPalmMuteCount.HeaderText = "PalmMute Count";
+            this.colPalmMuteCount.HeaderText = "PalmMuteCount";
             this.colPalmMuteCount.Name = "colPalmMuteCount";
             this.colPalmMuteCount.ReadOnly = true;
             this.colPalmMuteCount.Visible = false;
@@ -585,7 +617,7 @@ namespace CustomsForgeSongManager.UControls
             // colPluckCount
             // 
             this.colPluckCount.DataPropertyName = "PluckCount";
-            this.colPluckCount.HeaderText = "Pluck Count";
+            this.colPluckCount.HeaderText = "PluckCount";
             this.colPluckCount.Name = "colPluckCount";
             this.colPluckCount.ReadOnly = true;
             this.colPluckCount.Visible = false;
@@ -593,7 +625,7 @@ namespace CustomsForgeSongManager.UControls
             // colSlapCount
             // 
             this.colSlapCount.DataPropertyName = "SlapCount";
-            this.colSlapCount.HeaderText = "Slap Count";
+            this.colSlapCount.HeaderText = "SlapCount";
             this.colSlapCount.Name = "colSlapCount";
             this.colSlapCount.ReadOnly = true;
             this.colSlapCount.Visible = false;
@@ -601,7 +633,7 @@ namespace CustomsForgeSongManager.UControls
             // colSlideCount
             // 
             this.colSlideCount.DataPropertyName = "SlideCount";
-            this.colSlideCount.HeaderText = "Slide Count";
+            this.colSlideCount.HeaderText = "SlideCount";
             this.colSlideCount.Name = "colSlideCount";
             this.colSlideCount.ReadOnly = true;
             this.colSlideCount.Visible = false;
@@ -609,7 +641,7 @@ namespace CustomsForgeSongManager.UControls
             // colSustainCount
             // 
             this.colSustainCount.DataPropertyName = "SustainCount";
-            this.colSustainCount.HeaderText = "Sustain Count";
+            this.colSustainCount.HeaderText = "SustainCount";
             this.colSustainCount.Name = "colSustainCount";
             this.colSustainCount.ReadOnly = true;
             this.colSustainCount.Visible = false;
@@ -617,7 +649,7 @@ namespace CustomsForgeSongManager.UControls
             // colTremoloCount
             // 
             this.colTremoloCount.DataPropertyName = "TremoloCount";
-            this.colTremoloCount.HeaderText = "Tremolo Count";
+            this.colTremoloCount.HeaderText = "TremoloCount";
             this.colTremoloCount.Name = "colTremoloCount";
             this.colTremoloCount.ReadOnly = true;
             this.colTremoloCount.Visible = false;
@@ -625,7 +657,7 @@ namespace CustomsForgeSongManager.UControls
             // colPinchHarmonicCount
             // 
             this.colPinchHarmonicCount.DataPropertyName = "HarmonicPinchCount";
-            this.colPinchHarmonicCount.HeaderText = "Pinch Harmonic Count";
+            this.colPinchHarmonicCount.HeaderText = "PinchHarmonicCount";
             this.colPinchHarmonicCount.Name = "colPinchHarmonicCount";
             this.colPinchHarmonicCount.ReadOnly = true;
             this.colPinchHarmonicCount.Visible = false;
@@ -641,7 +673,7 @@ namespace CustomsForgeSongManager.UControls
             // colTotalTapCount
             // 
             this.colTotalTapCount.DataPropertyName = "TapCount";
-            this.colTotalTapCount.HeaderText = "Tap Count";
+            this.colTotalTapCount.HeaderText = "TapCount";
             this.colTotalTapCount.Name = "colTotalTapCount";
             this.colTotalTapCount.ReadOnly = true;
             this.colTotalTapCount.Visible = false;
@@ -649,10 +681,26 @@ namespace CustomsForgeSongManager.UControls
             // colHighestFretUsed
             // 
             this.colHighestFretUsed.DataPropertyName = "HighestFretUsed";
-            this.colHighestFretUsed.HeaderText = "Highest Fret Used";
+            this.colHighestFretUsed.HeaderText = "HighestFretUsed";
             this.colHighestFretUsed.Name = "colHighestFretUsed";
             this.colHighestFretUsed.ReadOnly = true;
             this.colHighestFretUsed.Visible = false;
+            // 
+            // colAccentCount
+            // 
+            this.colAccentCount.DataPropertyName = "AccentCount";
+            this.colAccentCount.HeaderText = "AccentCount";
+            this.colAccentCount.Name = "colAccentCount";
+            this.colAccentCount.ReadOnly = true;
+            this.colAccentCount.Visible = false;
+            // 
+            // colToneChanges
+            // 
+            this.colToneChanges.DataPropertyName = "ToneChanges";
+            this.colToneChanges.HeaderText = "ToneChanges";
+            this.colToneChanges.Name = "colToneChanges";
+            this.colToneChanges.ReadOnly = true;
+            this.colToneChanges.Visible = false;
             // 
             // colFilePath
             // 
@@ -718,6 +766,33 @@ namespace CustomsForgeSongManager.UControls
             this.colRepairStatus.HeaderText = "RepairStatus";
             this.colRepairStatus.Name = "colRepairStatus";
             this.colRepairStatus.ReadOnly = true;
+            // 
+            // colArtistSort
+            // 
+            this.colArtistSort.DataPropertyName = "ArtistSort";
+            this.colArtistSort.HeaderText = "ArtistSort";
+            this.colArtistSort.Name = "colArtistSort";
+            this.colArtistSort.ReadOnly = true;
+            this.colArtistSort.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colArtistSort.Visible = false;
+            // 
+            // colTitleSort
+            // 
+            this.colTitleSort.DataPropertyName = "TitleSort";
+            this.colTitleSort.HeaderText = "SongTitleSort";
+            this.colTitleSort.Name = "colTitleSort";
+            this.colTitleSort.ReadOnly = true;
+            this.colTitleSort.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colTitleSort.Visible = false;
+            // 
+            // colAlbumSort
+            // 
+            this.colAlbumSort.DataPropertyName = "AlbumSort";
+            this.colAlbumSort.HeaderText = "AlbumSort";
+            this.colAlbumSort.Name = "colAlbumSort";
+            this.colAlbumSort.ReadOnly = true;
+            this.colAlbumSort.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colAlbumSort.Visible = false;
             // 
             // colArtistTitleAlbum
             // 
@@ -850,6 +925,8 @@ namespace CustomsForgeSongManager.UControls
         private DataGridViewAutoFilterTextBoxColumn colCharter;
         private DataGridViewAutoFilterTextBoxColumn colVersion;
         private DataGridViewAutoFilterTextBoxColumn colToolkitVersion;
+        private DataGridViewAutoFilterTextBoxColumn colPackageAuthor;
+        private DataGridViewAutoFilterTextBoxColumn colPackageVersion;
         private DataGridViewAutoFilterTextBoxColumn colPackageComment;
         private DataGridViewAutoFilterTextBoxColumn colBassPick;
         private DataGridViewAutoFilterTextBoxColumn colNoteCount;
@@ -882,6 +959,11 @@ namespace CustomsForgeSongManager.UControls
         private DataGridViewAutoFilterTextBoxColumn colRepairStatus;
         private DataGridViewAutoFilterTextBoxColumn colArtistTitleAlbum;
         private DataGridViewAutoFilterTextBoxColumn colArtistTitleAlbumDate;
+        private DataGridViewAutoFilterTextBoxColumn colArtistSort;
+        private DataGridViewAutoFilterTextBoxColumn colTitleSort;
+        private DataGridViewAutoFilterTextBoxColumn colAlbumSort;
+        private DataGridViewAutoFilterTextBoxColumn colAccentCount;
+        private DataGridViewAutoFilterTextBoxColumn colToneChanges;
 
     }
 }

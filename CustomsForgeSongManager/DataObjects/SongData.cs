@@ -54,7 +54,7 @@ namespace CustomsForgeSongManager.DataObjects
     {
         // version 1 - 10: recyclable vers numbers
         // incrementing version forces songInfo.xml and appSettings.xml to reset/update to defaults
-        public const string SongDataListCurrentVersion = "0";
+        public const string SongDataListCurrentVersion = "1";
 
         // common key element
         public string DLCKey { get; set; }
@@ -195,7 +195,7 @@ namespace CustomsForgeSongManager.DataObjects
         // DD maximum used by Tagger and Renamer
         [XmlIgnore]
         public int DD { get { return Convert.ToInt32(Arrangements2D.Max(o => o.DDMax)); } }
-       
+
         public void Delete()
         {
             if (!String.IsNullOrEmpty(AudioCache) && File.Exists(AudioCache))
@@ -248,6 +248,8 @@ namespace CustomsForgeSongManager.DataObjects
         public int? TremoloCount { get; set; }
         public int? UnpitchedSlideCount { get; set; }
         public int? VibratoCount { get; set; }
+        public int? AccentsCount { get; set; }
+
         //
         private string _chordNamesCounts;
         public string ChordNamesCounts
@@ -280,22 +282,6 @@ namespace CustomsForgeSongManager.DataObjects
         public List<string> ChordNames { get; set; }
         [XmlIgnore]
         public List<int> ChordCounts { get; set; }
-
-        //public bool ShouldSerializeDDMax()
-        //{
-        //    return DDMax.HasValue;
-        //}
-
-        //public bool ShouldSerializeSectionCount()
-        //{
-        //    return SectionCount.HasValue;
-        //}
-
-        //public bool ShouldSerializeChordNamesCounts()
-        //{
-        //    return ChordCount > 0;
-        //}
-
 
         public Arrangement()
         {

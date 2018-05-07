@@ -664,24 +664,35 @@ namespace CustomsForgeSongManager.Forms
             }
 
             DoSomethingWithGrid((dataGrid, selection, colSel, ignoreColumns) =>
-            {
-                try
                 {
-                    // TODO: FIXME
-                    DataTable dT = DgvConversion.DataGridViewToDataTable(Globals.DgvCurrent, true);
-                    DataSet dS = new DataSet();
-                    dS.Tables.Add(dT);
-                    using (StreamWriter fs = new StreamWriter(path))
-                         dS.WriteXml(fs);
-                    
-                    Globals.Log(Globals.DgvCurrent.Name + " data saved to:" + path);
-                    GenExtensions.PromptOpen(Path.GetDirectoryName(path), Globals.DgvCurrent.Name + " data saved ...");
-                }
-                catch (IOException ex)
-                {
-                    Globals.Log("<Error>: " + ex.Message);
-                }
-            });
+                    try
+                    {
+                        DataGridView dgvSelection = new DataGridView();
+                        foreach (DataGridViewColumn col in dataGrid.Columns)
+                            dgvSelection.Columns.Add((DataGridViewColumn)col.Clone());
+
+                        dgvSelection.Rows.Add(selection.Count());
+
+                        foreach (DataGridViewRow row in selection)
+                            foreach (DataGridViewColumn col in dataGrid.Columns)
+                                dgvSelection.Rows[row.Index].Cells[col.Index].Value = row.Cells[col.Index].Value == null ? DBNull.Value : row.Cells[col.Index].Value;
+
+                        DataTable dT = DgvConversion.DataGridViewToDataTable(dgvSelection, true);
+                        dT.TableName = "item"; // row node name
+                        DataSet dS = new DataSet();
+                        dS.DataSetName = Globals.DgvCurrent.Name; // root node name
+                        dS.Tables.Add(dT);
+                        using (StreamWriter fs = new StreamWriter(path))
+                            dS.WriteXml(fs);
+
+                        Globals.Log(Globals.DgvCurrent.Name + " data saved to:" + path);
+                        GenExtensions.PromptOpen(Path.GetDirectoryName(path), Globals.DgvCurrent.Name + " data saved ...");
+                    }
+                    catch (IOException ex)
+                    {
+                        Globals.Log("<Error>: " + ex.Message);
+                    }
+                });
         }
 
         public void DGV2JSON()
@@ -704,14 +715,23 @@ namespace CustomsForgeSongManager.Forms
             {
                 try
                 {
+                    DataGridView dgvSelection = new DataGridView();
+                    foreach (DataGridViewColumn col in dataGrid.Columns)
+                        dgvSelection.Columns.Add((DataGridViewColumn)col.Clone());
+
+                    dgvSelection.Rows.Add(selection.Count());
+
+                    foreach (DataGridViewRow row in selection)
+                        foreach (DataGridViewColumn col in dataGrid.Columns)
+                            dgvSelection.Rows[row.Index].Cells[col.Index].Value = row.Cells[col.Index].Value == null ? DBNull.Value : row.Cells[col.Index].Value;
+
+                    DataTable dT = DgvConversion.DataGridViewToDataTable(dgvSelection, true);
+                    dT.TableName = Globals.DgvCurrent.Name;
+                    DataSet dS = new DataSet();
+                    dS.Tables.Add(dT);
+                    JToken serializedJson = JsonConvert.SerializeObject(dS, Formatting.Indented, new JsonSerializerSettings { });
                     using (StreamWriter fs = new StreamWriter(path))
-                    {
-                        var dataSource = dataGrid.DataSource;
-                        // TODO: pick and choose the selection
-                        dynamic filteredJson = dataSource;
-                        JToken serializedJson = JsonConvert.SerializeObject(filteredJson, Formatting.Indented, new JsonSerializerSettings { });
                         fs.Write(serializedJson.ToString());
-                    }
 
                     Globals.Log(Globals.DgvCurrent.Name + " data saved to:" + path);
                     GenExtensions.PromptOpen(Path.GetDirectoryName(path), Globals.DgvCurrent.Name + " data saved ...");
