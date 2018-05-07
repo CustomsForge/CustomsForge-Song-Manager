@@ -43,6 +43,11 @@ namespace CustomsForgeSongManager.DataObjects
         public string FilePath { get; set; }
         public DateTime FileDate { get; set; }
         public int FileSize { get; set; }
+        public string IgnitionID { get; set; }
+        public string IgnitionVersion { get; set; }
+        public string IgnitionAuthor { get; set; }
+        public string IgnitionDate { get; set; } 
+
 
         // arrangement elements
         public string PersistentID { get; set; } // arrangment key
@@ -74,7 +79,8 @@ namespace CustomsForgeSongManager.DataObjects
         public int? TremoloCount { get; set; }
         public int? UnpitchedSlideCount { get; set; }
         public int? VibratoCount { get; set; }
-        public int? AccentsCount { get; set; }
+        public int? AccentCount { get; set; }
+        public int? IgnoreCount { get; set; }
 
         // calculated content taken from SongData
         public int? ToneChanges { get; set; }

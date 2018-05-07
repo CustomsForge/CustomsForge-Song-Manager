@@ -54,7 +54,7 @@ namespace CustomsForgeSongManager.DataObjects
     {
         // version 1 - 10: recyclable vers numbers
         // incrementing version forces songInfo.xml and appSettings.xml to reset/update to defaults
-        public const string SongDataListCurrentVersion = "1";
+        public const string SongDataListCurrentVersion = "2";
 
         // common key element
         public string DLCKey { get; set; }
@@ -109,9 +109,9 @@ namespace CustomsForgeSongManager.DataObjects
 
         // TODO: impliment Ignition API if it is ever finished
         public string IgnitionID { get; set; } // not serialized if empty
-        public string IgnitionVersion { get; set; } // not serialized if empty
+        public string IgnitionVersion { get; set; } 
         public string IgnitionAuthor { get; set; }
-        public string IgnitionUpdated { get; set; } // not serialized if empty
+        public string IgnitionDate { get; set; } 
 
         public string AudioCache { get; set; } // not serialized if empty
         public SongDataStatus Status { get; set; }
@@ -248,7 +248,8 @@ namespace CustomsForgeSongManager.DataObjects
         public int? TremoloCount { get; set; }
         public int? UnpitchedSlideCount { get; set; }
         public int? VibratoCount { get; set; }
-        public int? AccentsCount { get; set; }
+        public int? AccentCount { get; set; }
+        public int? IgnoreCount { get; set; }
 
         //
         private string _chordNamesCounts;

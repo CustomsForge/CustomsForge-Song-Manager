@@ -65,14 +65,16 @@ namespace CustomsForgeSongManager.UControls
             this.colDDMax = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colSongLength = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colAvgTempo = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
-            this.colUpdated = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.colConversionDate = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colAppID = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
-            this.colCharter = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
-            this.colVersion = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colToolkitVersion = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colPackageAuthor = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colPackageVersion = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colPackageComment = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.colIgnitionID = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.colIgnitionVersion = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.colIgnitionAuthor = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.colIgnitionDate = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colBassPick = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colNoteCount = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colChordCount = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
@@ -95,6 +97,7 @@ namespace CustomsForgeSongManager.UControls
             this.colTotalTapCount = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colHighestFretUsed = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colAccentCount = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.colIgnoreCount = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colToneChanges = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colFilePath = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colFileName = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
@@ -263,14 +266,16 @@ namespace CustomsForgeSongManager.UControls
             this.colDDMax,
             this.colSongLength,
             this.colAvgTempo,
-            this.colUpdated,
+            this.colConversionDate,
             this.colAppID,
-            this.colCharter,
-            this.colVersion,
             this.colToolkitVersion,
             this.colPackageAuthor,
             this.colPackageVersion,
             this.colPackageComment,
+            this.colIgnitionID,
+            this.colIgnitionVersion,
+            this.colIgnitionAuthor,
+            this.colIgnitionDate,
             this.colBassPick,
             this.colNoteCount,
             this.colChordCount,
@@ -293,6 +298,7 @@ namespace CustomsForgeSongManager.UControls
             this.colTotalTapCount,
             this.colHighestFretUsed,
             this.colAccentCount,
+            this.colIgnoreCount,
             this.colToneChanges,
             this.colFilePath,
             this.colFileName,
@@ -446,15 +452,15 @@ namespace CustomsForgeSongManager.UControls
             this.colAvgTempo.ReadOnly = true;
             this.colAvgTempo.Visible = false;
             // 
-            // colUpdated
+            // colConversionDate
             // 
-            this.colUpdated.DataPropertyName = "LastConversionDateTime";
+            this.colConversionDate.DataPropertyName = "LastConversionDateTime";
             dataGridViewCellStyle5.NullValue = null;
-            this.colUpdated.DefaultCellStyle = dataGridViewCellStyle5;
-            this.colUpdated.HeaderText = "LastConversion";
-            this.colUpdated.Name = "colUpdated";
-            this.colUpdated.ReadOnly = true;
-            this.colUpdated.Width = 50;
+            this.colConversionDate.DefaultCellStyle = dataGridViewCellStyle5;
+            this.colConversionDate.HeaderText = "ConversionDate";
+            this.colConversionDate.Name = "colConversionDate";
+            this.colConversionDate.ReadOnly = true;
+            this.colConversionDate.Width = 50;
             // 
             // colAppID
             // 
@@ -464,25 +470,6 @@ namespace CustomsForgeSongManager.UControls
             this.colAppID.ReadOnly = true;
             this.colAppID.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.colAppID.Width = 80;
-            // 
-            // colCharter
-            // 
-            this.colCharter.DataPropertyName = "CharterName";
-            this.colCharter.HeaderText = "Charter";
-            this.colCharter.Name = "colCharter";
-            this.colCharter.ReadOnly = true;
-            this.colCharter.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colCharter.Visible = false;
-            this.colCharter.Width = 50;
-            // 
-            // colVersion
-            // 
-            this.colVersion.DataPropertyName = "Version";
-            this.colVersion.HeaderText = "Version";
-            this.colVersion.Name = "colVersion";
-            this.colVersion.ReadOnly = true;
-            this.colVersion.Visible = false;
-            this.colVersion.Width = 50;
             // 
             // colToolkitVersion
             // 
@@ -520,6 +507,44 @@ namespace CustomsForgeSongManager.UControls
             this.colPackageComment.ReadOnly = true;
             this.colPackageComment.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.colPackageComment.Visible = false;
+            // 
+            // colIgnitionID
+            // 
+            this.colIgnitionID.DataPropertyName = "IgnitionID";
+            this.colIgnitionID.HeaderText = "IgnitionID";
+            this.colIgnitionID.Name = "colIgnitionID";
+            this.colIgnitionID.ReadOnly = true;
+            this.colIgnitionID.Visible = false;
+            this.colIgnitionID.Width = 50;
+            // 
+            // colIgnitionVersion
+            // 
+            this.colIgnitionVersion.DataPropertyName = "IgnitionVersion";
+            this.colIgnitionVersion.HeaderText = "IgnitionVersion";
+            this.colIgnitionVersion.Name = "colIgnitionVersion";
+            this.colIgnitionVersion.ReadOnly = true;
+            this.colIgnitionVersion.Visible = false;
+            this.colIgnitionVersion.Width = 50;
+            // 
+            // colIgnitionAuthor
+            // 
+            this.colIgnitionAuthor.DataPropertyName = "IgnitionAuthor";
+            this.colIgnitionAuthor.HeaderText = "IgnitionAuthor";
+            this.colIgnitionAuthor.Name = "colIgnitionAuthor";
+            this.colIgnitionAuthor.ReadOnly = true;
+            this.colIgnitionAuthor.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colIgnitionAuthor.Visible = false;
+            this.colIgnitionAuthor.Width = 50;
+            // 
+            // colIgnitionDate
+            // 
+            this.colIgnitionDate.DataPropertyName = "IgnitionDate";
+            dataGridViewCellStyle5.NullValue = null;
+            this.colIgnitionDate.DefaultCellStyle = dataGridViewCellStyle5;
+            this.colIgnitionDate.HeaderText = "IgnitionDate";
+            this.colIgnitionDate.Name = "colIgnitionDate";
+            this.colIgnitionDate.ReadOnly = true;
+            this.colIgnitionDate.Width = 50;
             // 
             // colBassPick
             // 
@@ -693,6 +718,14 @@ namespace CustomsForgeSongManager.UControls
             this.colAccentCount.Name = "colAccentCount";
             this.colAccentCount.ReadOnly = true;
             this.colAccentCount.Visible = false;
+            // 
+            // colIgnoreCount
+            // 
+            this.colIgnoreCount.DataPropertyName = "IgnoreCount";
+            this.colIgnoreCount.HeaderText = "IgnoreCount";
+            this.colIgnoreCount.Name = "colIgnoreCount";
+            this.colIgnoreCount.ReadOnly = true;
+            this.colIgnoreCount.Visible = false;
             // 
             // colToneChanges
             // 
@@ -920,7 +953,7 @@ namespace CustomsForgeSongManager.UControls
         private DataGridViewAutoFilterTextBoxColumn colDDMax;
         private DataGridViewAutoFilterTextBoxColumn colSongLength;
         private DataGridViewAutoFilterTextBoxColumn colAvgTempo;
-        private DataGridViewAutoFilterTextBoxColumn colUpdated;
+        private DataGridViewAutoFilterTextBoxColumn colConversionDate;
         private DataGridViewAutoFilterTextBoxColumn colAppID;
         private DataGridViewAutoFilterTextBoxColumn colCharter;
         private DataGridViewAutoFilterTextBoxColumn colVersion;
@@ -963,7 +996,11 @@ namespace CustomsForgeSongManager.UControls
         private DataGridViewAutoFilterTextBoxColumn colTitleSort;
         private DataGridViewAutoFilterTextBoxColumn colAlbumSort;
         private DataGridViewAutoFilterTextBoxColumn colAccentCount;
+        private DataGridViewAutoFilterTextBoxColumn colIgnoreCount;
         private DataGridViewAutoFilterTextBoxColumn colToneChanges;
-
+        private DataGridViewAutoFilterTextBoxColumn colIgnitionID;
+        private DataGridViewAutoFilterTextBoxColumn colIgnitionAuthor;
+        private DataGridViewAutoFilterTextBoxColumn colIgnitionVersion;
+        private DataGridViewAutoFilterTextBoxColumn colIgnitionDate;
     }
 }

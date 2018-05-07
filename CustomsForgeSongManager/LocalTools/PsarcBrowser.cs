@@ -358,7 +358,11 @@ namespace CustomsForgeSongManager.LocalTools
                         arr.TuningPitch = Convert.ToDouble(song2014.CentOffset).Cents2Frequency();
                         arr.CapoFret = song2014.Capo == 0xFF ? 0 : Convert.ToInt16(song2014.Capo);
 
-                        arr.AccentsCount = maxLevelNotes.Count(n => n.Accent > 0);
+                        arr.AccentCount = maxLevelNotes.Count(n => n.Accent > 0);
+                        arr.IgnoreCount = maxLevelNotes.Count(n => n.Ignore > 0);
+
+                        if (arr.AccentCount > 0 || arr.IgnoreCount > 0)
+                            Debug.WriteLine("found data");
 
                         if (arrName.ToLower().Equals("bass"))
                             arr.BassPick = bassPick;

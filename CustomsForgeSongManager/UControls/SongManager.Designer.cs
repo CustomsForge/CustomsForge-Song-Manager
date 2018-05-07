@@ -176,7 +176,6 @@ namespace CustomsForgeSongManager.UControls
             this.colFileDate = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colFileSize = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colStatus = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
-            this.colCharter = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colConversionDate = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colToolkitVersion = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colPackageAuthor = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
@@ -184,7 +183,7 @@ namespace CustomsForgeSongManager.UControls
             this.colPackageComment = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colTagged = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colIgnitionID = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
-            this.colIgnitionUpdated = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.colIgnitionDate = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colIgnitionVersion = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colIgnitionAuthor = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colArtistTitleAlbum = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
@@ -601,7 +600,6 @@ namespace CustomsForgeSongManager.UControls
             this.colFileDate,
             this.colFileSize,
             this.colStatus,
-            this.colCharter,
             this.colConversionDate,
             this.colToolkitVersion,
             this.colPackageAuthor,
@@ -609,7 +607,7 @@ namespace CustomsForgeSongManager.UControls
             this.colPackageComment,
             this.colTagged,
             this.colIgnitionID,
-            this.colIgnitionUpdated,
+            this.colIgnitionDate,
             this.colIgnitionVersion,
             this.colIgnitionAuthor,
             this.colArtistTitleAlbum,
@@ -764,7 +762,9 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiRepairs.RadioButtonGroupName = null;
             this.tsmiRepairs.Size = new System.Drawing.Size(71, 20);
             this.tsmiRepairs.Text = "Repairs";
-            this.tsmiRepairs.ToolTipText = resources.GetString("tsmiRepairs.ToolTipText");
+            this.tsmiRepairs.ToolTipText = "This tool repairs CDLC files using\nvarious user selectable options.\n\nHINT: First " +
+                "use \'Select All/None\' and/or \n\'Toggle Selection\' links to quckly choose\nthe CDLC" +
+                " files to repair (aka Bulk Repair).";
             // 
             // tsmiSkipRemastered
             // 
@@ -1718,60 +1718,6 @@ namespace CustomsForgeSongManager.UControls
             this.colAppID.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.colAppID.Width = 80;
             // 
-            // colFileName
-            // 
-            this.colFileName.DataPropertyName = "FileName";
-            this.colFileName.HeaderText = "File Name";
-            this.colFileName.Name = "colFileName";
-            this.colFileName.ReadOnly = true;
-            this.colFileName.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colFileName.Visible = false;
-            this.colFileName.Width = 50;
-            // 
-            // colFilePath
-            // 
-            this.colFilePath.DataPropertyName = "FilePath";
-            this.colFilePath.HeaderText = "File Path";
-            this.colFilePath.Name = "colFilePath";
-            this.colFilePath.ReadOnly = true;
-            this.colFilePath.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colFilePath.Width = 150;
-            // 
-            // colFileDate
-            // 
-            this.colFileDate.DataPropertyName = "FileDate";
-            this.colFileDate.HeaderText = "File Date";
-            this.colFileDate.Name = "colFileDate";
-            this.colFileDate.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colFileDate.Visible = false;
-            // 
-            // colFileSize
-            // 
-            this.colFileSize.DataPropertyName = "FileSize";
-            this.colFileSize.HeaderText = "File Size (bytes)";
-            this.colFileSize.Name = "colFileSize";
-            this.colFileSize.Visible = false;
-            // 
-            // colStatus
-            // 
-            this.colStatus.DataPropertyName = "Status";
-            this.colStatus.HeaderText = "Status";
-            this.colStatus.Name = "colStatus";
-            this.colStatus.ReadOnly = true;
-            this.colStatus.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colStatus.Visible = false;
-            this.colStatus.Width = 50;
-            // 
-            // colCharter
-            // 
-            this.colCharter.DataPropertyName = "CharterName";
-            this.colCharter.HeaderText = "Charter";
-            this.colCharter.Name = "colCharter";
-            this.colCharter.ReadOnly = true;
-            this.colCharter.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colCharter.Visible = false;
-            this.colCharter.Width = 50;
-            // 
             // colConversionDate
             // 
             this.colConversionDate.DataPropertyName = "LastConversionDateTime";
@@ -1817,38 +1763,64 @@ namespace CustomsForgeSongManager.UControls
             this.colPackageComment.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.colPackageComment.Visible = false;
             // 
-            // colTagged
+            // colFileName
             // 
-            this.colTagged.DataPropertyName = "Tagged";
-            this.colTagged.HeaderText = "Tagged";
-            this.colTagged.Name = "colTagged";
-            this.colTagged.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colTagged.Width = 72;
+            this.colFileName.DataPropertyName = "FileName";
+            this.colFileName.HeaderText = "File Name";
+            this.colFileName.Name = "colFileName";
+            this.colFileName.ReadOnly = true;
+            this.colFileName.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colFileName.Visible = false;
+            this.colFileName.Width = 50;
+            // 
+            // colFilePath
+            // 
+            this.colFilePath.DataPropertyName = "FilePath";
+            this.colFilePath.HeaderText = "File Path";
+            this.colFilePath.Name = "colFilePath";
+            this.colFilePath.ReadOnly = true;
+            this.colFilePath.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colFilePath.Width = 150;
+            // 
+            // colFileDate
+            // 
+            this.colFileDate.DataPropertyName = "FileDate";
+            this.colFileDate.HeaderText = "File Date";
+            this.colFileDate.Name = "colFileDate";
+            this.colFileDate.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colFileDate.Visible = false;
+            // 
+            // colFileSize
+            // 
+            this.colFileSize.DataPropertyName = "FileSize";
+            this.colFileSize.HeaderText = "File Size (bytes)";
+            this.colFileSize.Name = "colFileSize";
+            this.colFileSize.Visible = false;
             // 
             // colIgnitionID
             // 
             this.colIgnitionID.DataPropertyName = "IgnitionID";
-            this.colIgnitionID.HeaderText = "Ignition ID";
+            this.colIgnitionID.HeaderText = "IgnitionID";
             this.colIgnitionID.Name = "colIgnitionID";
             this.colIgnitionID.ReadOnly = true;
             this.colIgnitionID.Visible = false;
             this.colIgnitionID.Width = 50;
             // 
-            // colIgnitionUpdated
+            // colIgnitionDate
             // 
-            this.colIgnitionUpdated.DataPropertyName = "IgnitionUpdated";
+            this.colIgnitionDate.DataPropertyName = "IgnitionDate";
             dataGridViewCellStyle6.NullValue = null;
-            this.colIgnitionUpdated.DefaultCellStyle = dataGridViewCellStyle6;
-            this.colIgnitionUpdated.HeaderText = "Ignition Updated";
-            this.colIgnitionUpdated.Name = "colIgnitionUpdated";
-            this.colIgnitionUpdated.ReadOnly = true;
-            this.colIgnitionUpdated.Visible = false;
-            this.colIgnitionUpdated.Width = 50;
+            this.colIgnitionDate.DefaultCellStyle = dataGridViewCellStyle6;
+            this.colIgnitionDate.HeaderText = "IgnitionDate";
+            this.colIgnitionDate.Name = "colIgnitionDate";
+            this.colIgnitionDate.ReadOnly = true;
+            this.colIgnitionDate.Visible = false;
+            this.colIgnitionDate.Width = 50;
             // 
             // colIgnitionVersion
             // 
             this.colIgnitionVersion.DataPropertyName = "IgnitionVersion";
-            this.colIgnitionVersion.HeaderText = "Ignition Version";
+            this.colIgnitionVersion.HeaderText = "IgnitionVersion";
             this.colIgnitionVersion.Name = "colIgnitionVersion";
             this.colIgnitionVersion.ReadOnly = true;
             this.colIgnitionVersion.Visible = false;
@@ -1857,11 +1829,29 @@ namespace CustomsForgeSongManager.UControls
             // colIgnitionAuthor
             // 
             this.colIgnitionAuthor.DataPropertyName = "IgnitionAuthor";
-            this.colIgnitionAuthor.HeaderText = "Ignition Author";
+            this.colIgnitionAuthor.HeaderText = "IgnitionAuthor";
             this.colIgnitionAuthor.Name = "colIgnitionAuthor";
             this.colIgnitionAuthor.ReadOnly = true;
             this.colIgnitionAuthor.Visible = false;
             this.colIgnitionAuthor.Width = 50;
+            // 
+            // colStatus
+            // 
+            this.colStatus.DataPropertyName = "Status";
+            this.colStatus.HeaderText = "Status";
+            this.colStatus.Name = "colStatus";
+            this.colStatus.ReadOnly = true;
+            this.colStatus.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colStatus.Visible = false;
+            this.colStatus.Width = 50;
+            // 
+            // colTagged
+            // 
+            this.colTagged.DataPropertyName = "Tagged";
+            this.colTagged.HeaderText = "Tagged";
+            this.colTagged.Name = "colTagged";
+            this.colTagged.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colTagged.Width = 72;
             // 
             // colArtistTitleAlbum
             // 
@@ -2073,7 +2063,6 @@ namespace CustomsForgeSongManager.UControls
         private DataGridViewAutoFilterTextBoxColumn colFileDate;
         private DataGridViewAutoFilterTextBoxColumn colFileSize;
         private DataGridViewAutoFilterTextBoxColumn colStatus;
-        private DataGridViewAutoFilterTextBoxColumn colCharter;
         private DataGridViewAutoFilterTextBoxColumn colConversionDate;
         private DataGridViewAutoFilterTextBoxColumn colToolkitVersion;
         private DataGridViewAutoFilterTextBoxColumn colPackageAuthor;
@@ -2081,7 +2070,7 @@ namespace CustomsForgeSongManager.UControls
         private DataGridViewAutoFilterTextBoxColumn colPackageComment;
         private DataGridViewAutoFilterTextBoxColumn colTagged;
         private DataGridViewAutoFilterTextBoxColumn colIgnitionID;
-        private DataGridViewAutoFilterTextBoxColumn colIgnitionUpdated;
+        private DataGridViewAutoFilterTextBoxColumn colIgnitionDate;
         private DataGridViewAutoFilterTextBoxColumn colIgnitionVersion;
         private DataGridViewAutoFilterTextBoxColumn colIgnitionAuthor;
         private DataGridViewAutoFilterTextBoxColumn colArtistTitleAlbum;

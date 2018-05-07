@@ -89,7 +89,7 @@ namespace CustomsForgeSongManager.LocalTools
                 {
                     response = e.Result;
                     song.IgnitionID = GetSongInfoFromResponse(response, "id");
-                    song.IgnitionUpdated = GetSongInfoFromResponse(response, "updated");
+                    song.IgnitionDate = GetSongInfoFromResponse(response, "updated");
                     song.IgnitionVersion = GetSongInfoFromResponse(response, "version");
                     song.IgnitionAuthor = GetSongInfoFromResponse(response, "name");
                 };
@@ -124,7 +124,7 @@ namespace CustomsForgeSongManager.LocalTools
                 response = client.DownloadString(new Uri(url));
 
                 currentSong.IgnitionID = GetSongInfoFromResponse(response, "id");
-                currentSong.IgnitionUpdated = GetSongInfoFromResponse(response, "updated");
+                currentSong.IgnitionDate = GetSongInfoFromResponse(response, "updated");
                 currentSong.IgnitionVersion = GetSongInfoFromResponse(response, "version");
                 currentSong.IgnitionAuthor = GetSongInfoFromResponse(response, "name");
 
@@ -162,7 +162,7 @@ namespace CustomsForgeSongManager.LocalTools
                         response = e.Result;
 
                         currentSong.IgnitionID = GetSongInfoFromResponse(response, "id");
-                        currentSong.IgnitionUpdated = GetSongInfoFromResponse(response, "updated");
+                        currentSong.IgnitionDate = GetSongInfoFromResponse(response, "updated");
                         currentSong.IgnitionVersion = GetSongInfoFromResponse(response, "version");
                         currentSong.IgnitionAuthor = GetSongInfoFromResponse(response, "name");
 

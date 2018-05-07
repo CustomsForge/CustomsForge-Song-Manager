@@ -456,7 +456,7 @@ three File IO related 'Actions'.</value>
   <metadata name="colIgnitionID.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <metadata name="colIgnitionUpdated.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <metadata name="colIgnitionDate.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <metadata name="colIgnitionVersion.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
@@ -578,14 +578,6 @@ be reset from the 'Settings' tab menu.</value>
         M5gsB5VqVWbH3ZYcjdZQZDCaio1GYznRTaIqk8l0mUQu1ul0RWq1+kxHR8chjUaTqNfr14BCoWCR4hGi
         bLVGc57sZUSC/0hIapeICmgIUQppJegX1ROhy2FVN2oAAAAASUVORK5CYII=
 </value>
-  </data>
-  <data name="tsmiRepairs.ToolTipText" xml:space="preserve">
-    <value>This tool repairs CDLC files using
-various user selectable options.
-
-HINT: First use 'Select All/None' and/or 
-'Toggle Selection' links to quckly choose
-the CDLC files to repair (aka Bulk Repair).</value>
   </data>
   <data name="tsmiModsChangeAppId.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
