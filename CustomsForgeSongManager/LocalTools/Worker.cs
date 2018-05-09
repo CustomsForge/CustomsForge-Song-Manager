@@ -220,7 +220,7 @@ namespace CustomsForgeSongManager.LocalTools
             }
 
             Globals.MasterCollection = new BindingList<SongData>(bwSongCollection);
-            // -- CRITCAL -- this populates Arrangment DLCKey info in Arrangements2D
+            // -- CRITCAL -- this populates Arrangement DLCKey info in Arrangements2D
             Globals.MasterCollection.ToList().ForEach(a => a.Arrangements2D.ToList().ForEach(arr => arr.Parent = a));
             counterStopwatch.Stop();
         }

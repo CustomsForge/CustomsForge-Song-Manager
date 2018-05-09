@@ -46,7 +46,7 @@ namespace CustomsForgeSongManager.UControls
 
         public void PopulateDuplicates(bool findDupPIDs = false)
         {
-            // NOTE: do not add SongData.Arrangments to the datagridview
+            // NOTE: do not add SongData.Arrangements to the datagridview
             Globals.Log("Populating Duplicates GUI ...");
             dgvDuplicates.Visible = false;
 

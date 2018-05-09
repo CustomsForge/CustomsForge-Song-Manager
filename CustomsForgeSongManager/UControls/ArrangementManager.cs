@@ -122,7 +122,7 @@ namespace CustomsForgeSongManager.UControls
                 {
                     var arr = new ArrangementData
                         {
-                            // add song elements
+                            // Song Attributes
                             DLCKey = song.DLCKey,
                             Artist = song.Artist,
                             ArtistSort = song.ArtistSort,
@@ -147,7 +147,8 @@ namespace CustomsForgeSongManager.UControls
                             FilePath = song.FilePath,
                             FileDate = song.FileDate,
                             FileSize = song.FileSize,
-                            // add arrangement elements
+                            
+                            // Arrangement Attributes
                             PersistentID = songArr.PersistentID,
                             Name = songArr.Name,
                             Tuning = songArr.Tuning,
@@ -157,28 +158,32 @@ namespace CustomsForgeSongManager.UControls
                             SectionCount = songArr.SectionCount,
                             TuningPitch = songArr.TuningPitch,
                             CapoFret = songArr.CapoFret,
-                            BassPick = songArr.BassPick,
+                            
+                            // Arrangement Levels
                             ChordCount = songArr.ChordCount,
                             NoteCount = songArr.NoteCount,
+                            AccentCount = songArr.AccentCount,
                             BendCount = songArr.BendCount,
                             FretHandMuteCount = songArr.FretHandMuteCount,
                             HammerOnCount = songArr.HammerOnCount,
                             HarmonicCount = songArr.HarmonicCount,
                             HarmonicPinchCount = songArr.HarmonicPinchCount,
                             HighestFretUsed = songArr.HighestFretUsed,
+                            HopoCount = songArr.HopoCount,
+                            IgnoreCount = songArr.IgnoreCount,
+                            LinkNextCount = songArr.LinkNextCount,
                             OctaveCount = songArr.OctaveCount,
                             PalmMuteCount = songArr.PalmMuteCount,
                             PluckCount = songArr.PluckCount,
                             PullOffCount = songArr.PullOffCount,
                             SlapCount = songArr.SlapCount,
                             SlideCount = songArr.SlideCount,
+                            SlideUnpitchToCount = songArr.SlideUnpitchToCount,
                             SustainCount = songArr.SustainCount,
                             TapCount = songArr.TapCount,
                             TremoloCount = songArr.TremoloCount,
-                            UnpitchedSlideCount = songArr.UnpitchedSlideCount,
                             VibratoCount = songArr.VibratoCount,
-                            AccentCount = songArr.AccentCount,
-                            IgnoreCount = songArr.IgnoreCount,
+
                             // calculated content taken from SongData
                             ChordNamesCounts = songArr.ChordNamesCounts,
                             Selected = song.Selected,
@@ -188,7 +193,10 @@ namespace CustomsForgeSongManager.UControls
                             ArtistTitleAlbumDate = song.ArtistTitleAlbumDate,
                             FileName = song.FileName,
                             Tagged = song.Tagged,
-                            RepairStatus = song.RepairStatus
+                            RepairStatus = song.RepairStatus,
+                            
+                            // Arrangement Property
+                            BassPick = songArr.BassPick
                         };
 
                     if (!String.IsNullOrEmpty(songArr.Tones))

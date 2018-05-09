@@ -581,7 +581,7 @@ namespace CustomsForgeSongManager.Forms
 
         public void DGV2CSV()
         {
-            var fileName = String.Format("{0}.csv", Globals.DgvCurrent.Name);
+            var fileName = String.Format("{0}Grid.csv", Globals.DgvCurrent.Name.Replace("dgv", ""));
             var path = Path.Combine(Constants.WorkFolder, fileName);
 
             using (var sfd = new SaveFileDialog())
@@ -649,7 +649,7 @@ namespace CustomsForgeSongManager.Forms
 
         public void DGV2XML()
         {
-            var fileName = String.Format("{0}.xml", Globals.DgvCurrent.Name);
+            var fileName = String.Format("{0}Grid.xml", Globals.DgvCurrent.Name.Replace("dgv", ""));
             var path = Path.Combine(Constants.WorkFolder, fileName);
 
             using (var sfd = new SaveFileDialog())
@@ -697,7 +697,7 @@ namespace CustomsForgeSongManager.Forms
 
         public void DGV2JSON()
         {
-            var fileName = String.Format("{0}.json", Globals.DgvCurrent.Name);
+            var fileName = String.Format("{0}Grid.json", Globals.DgvCurrent.Name.Replace("dgv", ""));
             var path = Path.Combine(Constants.WorkFolder, fileName);
 
             using (var sfd = new SaveFileDialog())

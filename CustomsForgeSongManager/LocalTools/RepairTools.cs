@@ -125,7 +125,7 @@ namespace CustomsForgeSongManager.LocalTools
             try
             {
                 // SNG's must be regenerated
-                // ArrangmentIDs are stored in multiple place and all need to be updated
+                // ArrangementIDs are stored in multiple place and all need to be updated
                 // therefore we are going to unpack, apply repair, and repack
                 Globals.Log(" - Extracting CDLC artifacts");
                 GenExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate
@@ -212,7 +212,7 @@ namespace CustomsForgeSongManager.LocalTools
                         }
                     }
 
-                    // put arrangment comments in correct order
+                    // put arrangement comments in correct order
                     Song2014.WriteXmlComments(arr.SongXml.File);
                 }
 

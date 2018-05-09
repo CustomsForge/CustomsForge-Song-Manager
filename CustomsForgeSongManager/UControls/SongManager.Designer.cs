@@ -38,7 +38,6 @@ namespace CustomsForgeSongManager.UControls
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panelSearch = new System.Windows.Forms.Panel();
             this.chkSubFolders = new System.Windows.Forms.CheckBox();
             this.lnkClearSearch = new System.Windows.Forms.LinkLabel();
@@ -64,13 +63,6 @@ namespace CustomsForgeSongManager.UControls
             this.lnkLblSelectAll = new System.Windows.Forms.LinkLabel();
             this.gb_Main_Grid = new System.Windows.Forms.GroupBox();
             this.dgvSongsDetail = new DataGridViewTools.SubclassedDataGridView();
-            this.colDetailKey = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colDetailPID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colDetailArrangement = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colDetailTuning = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colDetailToneBase = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colDetailDMax = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colDetailSections = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgvSongsMaster = new DataGridViewTools.RADataGridView();
             this.lnklblToggle = new System.Windows.Forms.LinkLabel();
             this.cmsSongManagerColumns = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -149,6 +141,13 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiHelpRepairs = new CustomControls.ToolStripEnhancedMenuItem();
             this.tsmiHelpErrorLog = new CustomControls.ToolStripEnhancedMenuItem();
             this.tsmiDevDebugUse = new System.Windows.Forms.ToolStripMenuItem();
+            this.colDetailKey = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colDetailPID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colDetailArrangement = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colDetailTuning = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colDetailToneBase = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colDetailDDMax = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colDetailSections = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colShowDetail = new System.Windows.Forms.DataGridViewImageColumn();
             this.colKey = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
@@ -168,7 +167,6 @@ namespace CustomsForgeSongManager.UControls
             this.colDD = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colSongLength = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colSongAverageTempo = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
-            this.colAvgTempo = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colSongVolume = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colAppID = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colFileName = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
@@ -485,7 +483,7 @@ namespace CustomsForgeSongManager.UControls
             this.colDetailArrangement,
             this.colDetailTuning,
             this.colDetailToneBase,
-            this.colDetailDMax,
+            this.colDetailDDMax,
             this.colDetailSections});
             this.dgvSongsDetail.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.dgvSongsDetail.HorizontalScrollBarVisible = true;
@@ -497,65 +495,6 @@ namespace CustomsForgeSongManager.UControls
             this.dgvSongsDetail.Size = new System.Drawing.Size(842, 70);
             this.dgvSongsDetail.TabIndex = 5;
             this.dgvSongsDetail.VerticalScrollBarVisible = false;
-            // 
-            // colDetailKey
-            // 
-            this.colDetailKey.DataPropertyName = "DLCKey";
-            this.colDetailKey.Frozen = true;
-            this.colDetailKey.HeaderText = "DLC Key";
-            this.colDetailKey.Name = "colDetailKey";
-            this.colDetailKey.ReadOnly = true;
-            this.colDetailKey.Width = 95;
-            // 
-            // colDetailPID
-            // 
-            this.colDetailPID.DataPropertyName = "PersistentID";
-            this.colDetailPID.Frozen = true;
-            this.colDetailPID.HeaderText = "Persistent ID";
-            this.colDetailPID.Name = "colDetailPID";
-            this.colDetailPID.ReadOnly = true;
-            this.colDetailPID.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            // 
-            // colDetailArrangement
-            // 
-            this.colDetailArrangement.DataPropertyName = "Name";
-            this.colDetailArrangement.Frozen = true;
-            this.colDetailArrangement.HeaderText = "Arrangement";
-            this.colDetailArrangement.Name = "colDetailArrangement";
-            this.colDetailArrangement.ReadOnly = true;
-            this.colDetailArrangement.Width = 92;
-            // 
-            // colDetailTuning
-            // 
-            this.colDetailTuning.DataPropertyName = "Tuning";
-            this.colDetailTuning.HeaderText = "Tuning";
-            this.colDetailTuning.Name = "colDetailTuning";
-            this.colDetailTuning.ReadOnly = true;
-            this.colDetailTuning.Width = 65;
-            // 
-            // colDetailToneBase
-            // 
-            this.colDetailToneBase.DataPropertyName = "ToneBase";
-            this.colDetailToneBase.HeaderText = "Tone Base";
-            this.colDetailToneBase.Name = "colDetailToneBase";
-            this.colDetailToneBase.ReadOnly = true;
-            this.colDetailToneBase.Width = 84;
-            // 
-            // colDetailDMax
-            // 
-            this.colDetailDMax.DataPropertyName = "DMax";
-            this.colDetailDMax.HeaderText = "DMax";
-            this.colDetailDMax.Name = "colDetailDMax";
-            this.colDetailDMax.ReadOnly = true;
-            this.colDetailDMax.Width = 60;
-            // 
-            // colDetailSections
-            // 
-            this.colDetailSections.DataPropertyName = "SectionCount";
-            this.colDetailSections.HeaderText = "Sections";
-            this.colDetailSections.Name = "colDetailSections";
-            this.colDetailSections.ReadOnly = true;
-            this.colDetailSections.Width = 73;
             // 
             // dgvSongsMaster
             // 
@@ -592,7 +531,6 @@ namespace CustomsForgeSongManager.UControls
             this.colDD,
             this.colSongLength,
             this.colSongAverageTempo,
-            this.colAvgTempo,
             this.colSongVolume,
             this.colAppID,
             this.colFileName,
@@ -1509,6 +1447,65 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiDevDebugUse.Text = "Devs Debug Use";
             this.tsmiDevDebugUse.Click += new System.EventHandler(this.tsmiDevsDebugUse_Click);
             // 
+            // colDetailKey
+            // 
+            this.colDetailKey.DataPropertyName = "DLCKey";
+            this.colDetailKey.Frozen = true;
+            this.colDetailKey.HeaderText = "DLCKey";
+            this.colDetailKey.Name = "colDetailKey";
+            this.colDetailKey.ReadOnly = true;
+            this.colDetailKey.Width = 95;
+            // 
+            // colDetailPID
+            // 
+            this.colDetailPID.DataPropertyName = "PersistentID";
+            this.colDetailPID.Frozen = true;
+            this.colDetailPID.HeaderText = "PersistentID";
+            this.colDetailPID.Name = "colDetailPID";
+            this.colDetailPID.ReadOnly = true;
+            this.colDetailPID.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // colDetailArrangement
+            // 
+            this.colDetailArrangement.DataPropertyName = "Name";
+            this.colDetailArrangement.Frozen = true;
+            this.colDetailArrangement.HeaderText = "Arrangement";
+            this.colDetailArrangement.Name = "colDetailArrangement";
+            this.colDetailArrangement.ReadOnly = true;
+            this.colDetailArrangement.Width = 92;
+            // 
+            // colDetailTuning
+            // 
+            this.colDetailTuning.DataPropertyName = "Tuning";
+            this.colDetailTuning.HeaderText = "Tuning";
+            this.colDetailTuning.Name = "colDetailTuning";
+            this.colDetailTuning.ReadOnly = true;
+            this.colDetailTuning.Width = 65;
+            // 
+            // colDetailToneBase
+            // 
+            this.colDetailToneBase.DataPropertyName = "ToneBase";
+            this.colDetailToneBase.HeaderText = "ToneBase";
+            this.colDetailToneBase.Name = "colDetailToneBase";
+            this.colDetailToneBase.ReadOnly = true;
+            this.colDetailToneBase.Width = 84;
+            // 
+            // colDetailDDMax
+            // 
+            this.colDetailDDMax.DataPropertyName = "DDMax";
+            this.colDetailDDMax.HeaderText = "DDMax";
+            this.colDetailDDMax.Name = "colDetailDDMax";
+            this.colDetailDDMax.ReadOnly = true;
+            this.colDetailDDMax.Width = 60;
+            // 
+            // colDetailSections
+            // 
+            this.colDetailSections.DataPropertyName = "SectionCount";
+            this.colDetailSections.HeaderText = "Sections";
+            this.colDetailSections.Name = "colDetailSections";
+            this.colDetailSections.ReadOnly = true;
+            this.colDetailSections.Width = 73;
+            // 
             // colShowDetail
             // 
             this.colShowDetail.DataPropertyName = "ShowDetail";
@@ -1591,7 +1588,7 @@ namespace CustomsForgeSongManager.UControls
             // colRepairStatus
             // 
             this.colRepairStatus.DataPropertyName = "RepairStatus";
-            this.colRepairStatus.HeaderText = "Repair Status";
+            this.colRepairStatus.HeaderText = "RepairStatus";
             this.colRepairStatus.Name = "colRepairStatus";
             this.colRepairStatus.ReadOnly = true;
             this.colRepairStatus.Resizable = System.Windows.Forms.DataGridViewTriState.True;
@@ -1616,7 +1613,7 @@ namespace CustomsForgeSongManager.UControls
             // colTitle
             // 
             this.colTitle.DataPropertyName = "Title";
-            this.colTitle.HeaderText = "Song Title";
+            this.colTitle.HeaderText = "Title";
             this.colTitle.Name = "colTitle";
             this.colTitle.ReadOnly = true;
             this.colTitle.Resizable = System.Windows.Forms.DataGridViewTriState.True;
@@ -1666,7 +1663,7 @@ namespace CustomsForgeSongManager.UControls
             // colDD
             // 
             this.colDD.DataPropertyName = "DD";
-            this.colDD.HeaderText = "DD";
+            this.colDD.HeaderText = "DDMax";
             this.colDD.Name = "colDD";
             this.colDD.ReadOnly = true;
             this.colDD.Resizable = System.Windows.Forms.DataGridViewTriState.True;
@@ -1685,21 +1682,10 @@ namespace CustomsForgeSongManager.UControls
             // colSongAverageTempo
             // 
             this.colSongAverageTempo.DataPropertyName = "SongAverageTempo";
-            this.colSongAverageTempo.HeaderText = "SongAverageTempo";
+            this.colSongAverageTempo.HeaderText = "BPM";
             this.colSongAverageTempo.Name = "colSongAverageTempo";
             this.colSongAverageTempo.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.colSongAverageTempo.Visible = false;
-            // 
-            // colAvgTempo
-            // 
-            this.colAvgTempo.DataPropertyName = "SongAverageTempo";
-            dataGridViewCellStyle4.Format = "N2";
-            dataGridViewCellStyle4.NullValue = null;
-            this.colAvgTempo.DefaultCellStyle = dataGridViewCellStyle4;
-            this.colAvgTempo.HeaderText = "BPM";
-            this.colAvgTempo.Name = "colAvgTempo";
-            this.colAvgTempo.ReadOnly = true;
-            this.colAvgTempo.Visible = false;
             // 
             // colSongVolume
             // 
@@ -1707,6 +1693,7 @@ namespace CustomsForgeSongManager.UControls
             this.colSongVolume.HeaderText = "SongVolume";
             this.colSongVolume.Name = "colSongVolume";
             this.colSongVolume.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colSongVolume.ToolTipText = "ODLC does not have this";
             this.colSongVolume.Visible = false;
             // 
             // colAppID
@@ -1718,11 +1705,55 @@ namespace CustomsForgeSongManager.UControls
             this.colAppID.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.colAppID.Width = 80;
             // 
+            // colFileName
+            // 
+            this.colFileName.DataPropertyName = "FileName";
+            this.colFileName.HeaderText = "FileName";
+            this.colFileName.Name = "colFileName";
+            this.colFileName.ReadOnly = true;
+            this.colFileName.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colFileName.Visible = false;
+            this.colFileName.Width = 50;
+            // 
+            // colFilePath
+            // 
+            this.colFilePath.DataPropertyName = "FilePath";
+            this.colFilePath.HeaderText = "FilePath";
+            this.colFilePath.Name = "colFilePath";
+            this.colFilePath.ReadOnly = true;
+            this.colFilePath.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colFilePath.Width = 150;
+            // 
+            // colFileDate
+            // 
+            this.colFileDate.DataPropertyName = "FileDate";
+            this.colFileDate.HeaderText = "FileDate";
+            this.colFileDate.Name = "colFileDate";
+            this.colFileDate.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colFileDate.Visible = false;
+            // 
+            // colFileSize
+            // 
+            this.colFileSize.DataPropertyName = "FileSize";
+            this.colFileSize.HeaderText = "FileSize (bytes)";
+            this.colFileSize.Name = "colFileSize";
+            this.colFileSize.Visible = false;
+            // 
+            // colStatus
+            // 
+            this.colStatus.DataPropertyName = "Status";
+            this.colStatus.HeaderText = "Status";
+            this.colStatus.Name = "colStatus";
+            this.colStatus.ReadOnly = true;
+            this.colStatus.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colStatus.Visible = false;
+            this.colStatus.Width = 50;
+            // 
             // colConversionDate
             // 
             this.colConversionDate.DataPropertyName = "LastConversionDateTime";
-            dataGridViewCellStyle5.NullValue = null;
-            this.colConversionDate.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle4.NullValue = null;
+            this.colConversionDate.DefaultCellStyle = dataGridViewCellStyle4;
             this.colConversionDate.HeaderText = "ConversionDate";
             this.colConversionDate.Name = "colConversionDate";
             this.colConversionDate.ReadOnly = true;
@@ -1763,39 +1794,13 @@ namespace CustomsForgeSongManager.UControls
             this.colPackageComment.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.colPackageComment.Visible = false;
             // 
-            // colFileName
+            // colTagged
             // 
-            this.colFileName.DataPropertyName = "FileName";
-            this.colFileName.HeaderText = "File Name";
-            this.colFileName.Name = "colFileName";
-            this.colFileName.ReadOnly = true;
-            this.colFileName.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colFileName.Visible = false;
-            this.colFileName.Width = 50;
-            // 
-            // colFilePath
-            // 
-            this.colFilePath.DataPropertyName = "FilePath";
-            this.colFilePath.HeaderText = "File Path";
-            this.colFilePath.Name = "colFilePath";
-            this.colFilePath.ReadOnly = true;
-            this.colFilePath.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colFilePath.Width = 150;
-            // 
-            // colFileDate
-            // 
-            this.colFileDate.DataPropertyName = "FileDate";
-            this.colFileDate.HeaderText = "File Date";
-            this.colFileDate.Name = "colFileDate";
-            this.colFileDate.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colFileDate.Visible = false;
-            // 
-            // colFileSize
-            // 
-            this.colFileSize.DataPropertyName = "FileSize";
-            this.colFileSize.HeaderText = "File Size (bytes)";
-            this.colFileSize.Name = "colFileSize";
-            this.colFileSize.Visible = false;
+            this.colTagged.DataPropertyName = "Tagged";
+            this.colTagged.HeaderText = "Tagged";
+            this.colTagged.Name = "colTagged";
+            this.colTagged.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colTagged.Width = 72;
             // 
             // colIgnitionID
             // 
@@ -1809,8 +1814,8 @@ namespace CustomsForgeSongManager.UControls
             // colIgnitionDate
             // 
             this.colIgnitionDate.DataPropertyName = "IgnitionDate";
-            dataGridViewCellStyle6.NullValue = null;
-            this.colIgnitionDate.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle5.NullValue = null;
+            this.colIgnitionDate.DefaultCellStyle = dataGridViewCellStyle5;
             this.colIgnitionDate.HeaderText = "IgnitionDate";
             this.colIgnitionDate.Name = "colIgnitionDate";
             this.colIgnitionDate.ReadOnly = true;
@@ -1834,24 +1839,6 @@ namespace CustomsForgeSongManager.UControls
             this.colIgnitionAuthor.ReadOnly = true;
             this.colIgnitionAuthor.Visible = false;
             this.colIgnitionAuthor.Width = 50;
-            // 
-            // colStatus
-            // 
-            this.colStatus.DataPropertyName = "Status";
-            this.colStatus.HeaderText = "Status";
-            this.colStatus.Name = "colStatus";
-            this.colStatus.ReadOnly = true;
-            this.colStatus.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colStatus.Visible = false;
-            this.colStatus.Width = 50;
-            // 
-            // colTagged
-            // 
-            this.colTagged.DataPropertyName = "Tagged";
-            this.colTagged.HeaderText = "Tagged";
-            this.colTagged.Name = "colTagged";
-            this.colTagged.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colTagged.Width = 72;
             // 
             // colArtistTitleAlbum
             // 
@@ -2034,7 +2021,7 @@ namespace CustomsForgeSongManager.UControls
         private DataGridViewTextBoxColumn colDetailArrangement;
         private DataGridViewTextBoxColumn colDetailTuning;
         private DataGridViewTextBoxColumn colDetailToneBase;
-        private DataGridViewTextBoxColumn colDetailDMax;
+        private DataGridViewTextBoxColumn colDetailDDMax;
         private DataGridViewTextBoxColumn colDetailSections;
         private DataGridViewImageColumn colShowDetail;
         private DataGridViewAutoFilterTextBoxColumn colKey;
@@ -2055,7 +2042,6 @@ namespace CustomsForgeSongManager.UControls
         private DataGridViewAutoFilterTextBoxColumn colDD;
         private DataGridViewAutoFilterTextBoxColumn colSongLength;
         private DataGridViewAutoFilterTextBoxColumn colSongAverageTempo;
-        private DataGridViewAutoFilterTextBoxColumn colAvgTempo;
         private DataGridViewAutoFilterTextBoxColumn colSongVolume;
         private DataGridViewAutoFilterTextBoxColumn colAppID;
         private DataGridViewAutoFilterTextBoxColumn colFileName;

@@ -114,7 +114,7 @@ namespace CustomsForgeSongManager.LocalTools
             // this foreach loop addresses song packs otherwise it is only done one time
             foreach (var xblockEntry in xblockEntries)
             {
-                var arrangments = new List<Arrangement>();
+                var arrangements = new List<Arrangement>();
                 bool gotSongInfo = false;
                 var song = new SongData
                     {
@@ -217,34 +217,6 @@ namespace CustomsForgeSongManager.LocalTools
 
                     if (!arrName.ToLower().EndsWith("vocals"))
                     {
-                        arr.SectionCount = attributes.Sections.Count();
-                        arr.DDMax = attributes.MaxPhraseDifficulty;
-                        arr.Tuning = PsarcExtensions.TuningToName(attributes.Tuning, Globals.TuningXml);
-
-                        if (!String.IsNullOrEmpty(attributes.Tone_Base))
-                        {
-                            arr.ToneBase = attributes.Tone_Base;
-                            arr.Tones = String.Format("(Base) {0}", arr.ToneBase);
-                        }
-
-                        try
-                        {
-                            if (!String.IsNullOrEmpty(attributes.Tone_A))
-                                arr.Tones = String.Join(", (A) ", arr.Tones, attributes.Tone_A);
-                            if (!String.IsNullOrEmpty(attributes.Tone_B))
-                                arr.Tones = String.Join(", (B) ", arr.Tones, attributes.Tone_B);
-                            if (!String.IsNullOrEmpty(attributes.Tone_C))
-                                arr.Tones = String.Join(", (C) ", arr.Tones, attributes.Tone_C);
-                            if (!String.IsNullOrEmpty(attributes.Tone_D))
-                                arr.Tones = String.Join(", (D) ", arr.Tones, attributes.Tone_D);
-                            if (!String.IsNullOrEmpty(attributes.Tone_Multiplayer))
-                                arr.Tones = String.Join(", (M) ", arr.Tones, attributes.Tone_Multiplayer);
-                        }
-                        catch
-                        {
-                            // DO NOTHING
-                        }
-
                         // loading SNG is 5X faster than loading XML and ODLC does not have XML
                         var song2014 = new Song2014();
                         var sngEntry = _archive.TOC.FirstOrDefault(x => x.Name.EndsWith(".sng") && x.Name.ToLower().Contains(arrName.ToLower() + ".sng") && x.Name.Contains(strippedName));
@@ -334,44 +306,76 @@ namespace CustomsForgeSongManager.LocalTools
                                 octaveCount++;
                         }
 
-                        arr.NoteCount = maxLevelNotes.Count();
-                        arr.ChordCount = maxLevelChords.Count();
-                        arr.HammerOnCount = maxLevelNotes.Count(n => n.HammerOn > 0);
-                        arr.PullOffCount = maxLevelNotes.Count(n => n.PullOff > 0);
-                        arr.HarmonicCount = maxLevelNotes.Count(n => n.Harmonic > 0);
-                        arr.HarmonicPinchCount = maxLevelNotes.Count(n => n.HarmonicPinch > 0);
-                        arr.FretHandMuteCount = maxLevelNotes.Count(n => n.Mute > 0) + maxLevelChords.Count(c => c.FretHandMute > 0);
-                        arr.PalmMuteCount = maxLevelNotes.Count(n => n.PalmMute > 0) + maxLevelChords.Count(c => c.PalmMute > 0);
-                        arr.PluckCount = maxLevelNotes.Count(n => n.Pluck > 0);
-                        arr.SlapCount = maxLevelNotes.Count(n => n.Slap > 0);
-                        arr.SlideCount = maxLevelNotes.Count(n => n.SlideTo > 0);
-                        arr.UnpitchedSlideCount = maxLevelNotes.Count(n => n.SlideUnpitchTo > 0);
-                        arr.TremoloCount = maxLevelNotes.Count(n => n.Tremolo > 0);
-                        arr.TapCount = maxLevelNotes.Count(n => n.Tap > 0);
-                        arr.VibratoCount = maxLevelNotes.Count(n => n.Vibrato > 0);
-                        arr.SustainCount = maxLevelNotes.Count(n => n.Sustain > 0.0f);
-                        arr.BendCount = maxLevelNotes.Count(n => n.Bend > 0.0f);
-                        arr.OctaveCount = octaveCount;
                         arr.ChordNames = chordNames;
                         arr.ChordCounts = chordCounts;
+
+                        // Arrangement Levels
+                        arr.NoteCount = maxLevelNotes.Count();
+                        arr.ChordCount = maxLevelChords.Count();
+                        arr.AccentCount = maxLevelNotes.Count(n => n.Accent > 0);
+                        arr.BendCount = maxLevelNotes.Count(n => n.Bend > 0.0f);
+                        arr.FretHandMuteCount = maxLevelNotes.Count(n => n.Mute > 0) + maxLevelChords.Count(c => c.FretHandMute > 0);
+                        arr.HammerOnCount = maxLevelNotes.Count(n => n.HammerOn > 0);
+                        arr.HarmonicCount = maxLevelNotes.Count(n => n.Harmonic > 0);
+                        arr.HarmonicPinchCount = maxLevelNotes.Count(n => n.HarmonicPinch > 0);
                         arr.HighestFretUsed = highestFretUsed;
+                        arr.HopoCount = maxLevelNotes.Count(n => n.Hopo > 0); // TODO: validate
+                        arr.IgnoreCount = maxLevelNotes.Count(n => n.Ignore > 0);
+                        arr.LinkNextCount = maxLevelNotes.Count(n => n.LinkNext > 0);
+                        arr.OctaveCount = octaveCount;
+                        arr.PalmMuteCount = maxLevelNotes.Count(n => n.PalmMute > 0) + maxLevelChords.Count(c => c.PalmMute > 0);
+                        arr.PluckCount = maxLevelNotes.Count(n => n.Pluck > 0);
+                        arr.PullOffCount = maxLevelNotes.Count(n => n.PullOff > 0);
+                        arr.SlapCount = maxLevelNotes.Count(n => n.Slap > 0);
+                        arr.SlideCount = maxLevelNotes.Count(n => n.SlideTo > 0);
+                        arr.SlideUnpitchToCount = maxLevelNotes.Count(n => n.SlideUnpitchTo > 0);
+                        arr.SustainCount = maxLevelNotes.Count(n => n.Sustain > 0.0f);
+                        arr.TapCount = maxLevelNotes.Count(n => n.Tap > 0);
+                        arr.TremoloCount = maxLevelNotes.Count(n => n.Tremolo > 0);
+                        arr.VibratoCount = maxLevelNotes.Count(n => n.Vibrato > 0);
+
+                        // TODO: extract all AP (not sure how useful though) 
+                        // Arrangement Properties
+                        if (arrName.ToLower().Equals("bass"))
+                            arr.BassPick = bassPick;
+
+                        // Arrangement Attributes
+                        arr.SectionCount = attributes.Sections.Count();
+                        arr.DDMax = attributes.MaxPhraseDifficulty;
+                        arr.Tuning = PsarcExtensions.TuningToName(attributes.Tuning, Globals.TuningXml);
                         arr.TuningPitch = Convert.ToDouble(song2014.CentOffset).Cents2Frequency();
                         arr.CapoFret = song2014.Capo == 0xFF ? 0 : Convert.ToInt16(song2014.Capo);
 
-                        arr.AccentCount = maxLevelNotes.Count(n => n.Accent > 0);
-                        arr.IgnoreCount = maxLevelNotes.Count(n => n.Ignore > 0);
+                        if (!String.IsNullOrEmpty(attributes.Tone_Base))
+                        {
+                            arr.ToneBase = attributes.Tone_Base;
+                            arr.Tones = String.Format("(Base) {0}", arr.ToneBase);
+                        }
 
-                        if (arr.AccentCount > 0 || arr.IgnoreCount > 0)
-                            Debug.WriteLine("found data");
-
-                        if (arrName.ToLower().Equals("bass"))
-                            arr.BassPick = bassPick;
+                        try
+                        {
+                            if (!String.IsNullOrEmpty(attributes.Tone_A))
+                                arr.Tones = String.Join(", (A) ", arr.Tones, attributes.Tone_A);
+                            if (!String.IsNullOrEmpty(attributes.Tone_B))
+                                arr.Tones = String.Join(", (B) ", arr.Tones, attributes.Tone_B);
+                            if (!String.IsNullOrEmpty(attributes.Tone_C))
+                                arr.Tones = String.Join(", (C) ", arr.Tones, attributes.Tone_C);
+                            if (!String.IsNullOrEmpty(attributes.Tone_D))
+                                arr.Tones = String.Join(", (D) ", arr.Tones, attributes.Tone_D);
+                            if (!String.IsNullOrEmpty(attributes.Tone_Multiplayer))
+                                arr.Tones = String.Join(", (M) ", arr.Tones, attributes.Tone_Multiplayer);
+                        }
+                        catch
+                        {
+                            // DO NOTHING
+                        }
                     }
 
-                    // add a smidge of arr info for vocals too!
+                    // add a smidge of Arrangement Attributes for vocals too
                     arr.PersistentID = attributes.PersistentID;
                     arr.Name = arrName;
-                    arrangments.Add(arr);
+
+                    arrangements.Add(arr);
                 }
 
                 if (_filePath.Contains("songs.psarc"))
@@ -380,7 +384,7 @@ namespace CustomsForgeSongManager.LocalTools
                         continue;
                 }
 
-                song.Arrangements2D = arrangments;
+                song.Arrangements2D = arrangements;
                 songsData.Add(song);
             }
 

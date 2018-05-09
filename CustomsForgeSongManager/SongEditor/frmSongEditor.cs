@@ -91,7 +91,7 @@ namespace CustomsForgeSongManager.SongEditor
 
                 var msg = "The song information has been changed." + Environment.NewLine + "Do you want to update the 'Persistent ID'?" + Environment.NewLine + "Answering 'Yes' will reduce the risk of CDLC" + Environment.NewLine + "in game hanging and song stats will be reset.  ";
                 //only ask if it's a new filename.
-                bool updateArrangmentID = (outputPath != filePath) ? MessageBox.Show(msg, "Song Editor ...", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes : false;
+                bool updateArrangementID = (outputPath != filePath) ? MessageBox.Show(msg, "Song Editor ...", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes : false;
 
                 // Update Xml arrangements song info
                 foreach (var arr in packageData.Arrangements)
@@ -100,7 +100,7 @@ namespace CustomsForgeSongManager.SongEditor
                     if (arr.ArrangementType == ArrangementType.Guitar || arr.ArrangementType == ArrangementType.Bass)
                         arr.XmlComments = Song2014.ReadXmlComments(arr.SongXml.File);
 
-                    UpdateXml(arr, packageData, updateArrangmentID);
+                    UpdateXml(arr, packageData, updateArrangementID);
 
                     if (arr.ArrangementType == ArrangementType.Guitar || arr.ArrangementType == ArrangementType.Bass)
                     {
