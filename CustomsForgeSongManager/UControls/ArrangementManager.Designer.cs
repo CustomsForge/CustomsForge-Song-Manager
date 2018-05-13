@@ -95,8 +95,8 @@ namespace CustomsForgeSongManager.UControls
             this.colTuningPitch = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colToneBase = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colTones = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
-            this.colToneChanges = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
-            this.colSectionCount = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.colTonesCount = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.colSectionsCount = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colNoteCount = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colChordCount = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colChordNamesCounts = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
@@ -299,8 +299,8 @@ namespace CustomsForgeSongManager.UControls
             this.colTuningPitch,
             this.colToneBase,
             this.colTones,
-            this.colToneChanges,
-            this.colSectionCount,
+            this.colTonesCount,
+            this.colSectionsCount,
             this.colNoteCount,
             this.colChordCount,
             this.colChordNamesCounts,
@@ -748,18 +748,19 @@ namespace CustomsForgeSongManager.UControls
             this.colTones.Name = "colTones";
             this.colTones.ReadOnly = true;
             // 
-            // colToneChanges
+            // colTonesCount
             // 
-            this.colToneChanges.DataPropertyName = "ToneChanges";
-            this.colToneChanges.HeaderText = "ToneChanges";
-            this.colToneChanges.Name = "colToneChanges";
-            this.colToneChanges.ReadOnly = true;
+            this.colTonesCount.DataPropertyName = "TonesCount";
+            this.colTonesCount.HeaderText = "TonesCount";
+            this.colTonesCount.Name = "colTonesCount";
+            this.colTonesCount.ReadOnly = true;
+            this.colTonesCount.ToolTipText = "Number of tone changes\r\nin the arrangement.";
             // 
-            // colSectionCount
+            // colSectionsCount
             // 
-            this.colSectionCount.DataPropertyName = "SectionCount";
-            this.colSectionCount.HeaderText = "SectionCount";
-            this.colSectionCount.Name = "colSectionCount";
+            this.colSectionsCount.DataPropertyName = "SectionsCount";
+            this.colSectionsCount.HeaderText = "SectionsCount";
+            this.colSectionsCount.Name = "colSectionsCount";
             // 
             // colNoteCount
             // 
@@ -1046,8 +1047,8 @@ namespace CustomsForgeSongManager.UControls
         private DataGridViewAutoFilterTextBoxColumn colTuningPitch;
         private DataGridViewAutoFilterTextBoxColumn colToneBase;
         private DataGridViewAutoFilterTextBoxColumn colTones;
-        private DataGridViewAutoFilterTextBoxColumn colToneChanges;
-        private DataGridViewAutoFilterTextBoxColumn colSectionCount;
+        private DataGridViewAutoFilterTextBoxColumn colTonesCount;
+        private DataGridViewAutoFilterTextBoxColumn colSectionsCount;
         private DataGridViewAutoFilterTextBoxColumn colNoteCount;
         private DataGridViewAutoFilterTextBoxColumn colChordCount;
         private DataGridViewAutoFilterTextBoxColumn colChordNamesCounts;

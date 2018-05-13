@@ -336,7 +336,7 @@ namespace CustomsForgeSongManager.UControls
             if (tkVersionData != null)
             {
                 ToolkitInfo tkInfo = GeneralExtensions.GetToolkitInfo(new StreamReader(tkVersionData));
-                version = tkInfo.PackageVersion ?? "N/A";
+                version = tkInfo.PackageVersion ?? "Null";
 
                 if (!version.Contains("SongPack"))
                     if (DialogResult.No == MessageBox.Show("<WARNING> File: " + txtFileName.Text + Environment.NewLine +

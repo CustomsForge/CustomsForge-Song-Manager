@@ -142,7 +142,7 @@ namespace CustomsForgeSongManager.LocalTools
                 {
                     currentSong.Status = SongDataStatus.NotFound;
                 }
-                else if (currentSong.PackageVersion == "N/A")
+                else if (currentSong.PackageVersion == "Null")
                 {
                     //TODO: Check for updates by release/update date
                 }
@@ -180,7 +180,7 @@ namespace CustomsForgeSongManager.LocalTools
                         {
                             currentSong.Status = SongDataStatus.NotFound;
                         }
-                        else if (currentSong.PackageVersion == "N/A")
+                        else if (currentSong.PackageVersion == "Null")
                         {
                             //TODO: Check for updates by release/update date
                         }

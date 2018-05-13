@@ -88,8 +88,8 @@ namespace CustomsForgeSongManager.UControls
             template.Add("ddlvl", data.DD);
             template.Add("year", data.SongYear);
             var pkgVersion = data.PackageVersion;
-            if (pkgVersion == "N/A") pkgVersion = "0";
-            if (String.IsNullOrEmpty(pkgVersion)) pkgVersion = "1";
+            if (pkgVersion == "N/A" || pkgVersion == "Null") pkgVersion = "1";
+            if (data.PackageAuthor == "Ubisoft") pkgVersion = "0";
             template.Add("version", String.Format("v{0}", pkgVersion));
             template.Add("author", String.IsNullOrEmpty(data.PackageAuthor) ? "Unknown" : data.PackageAuthor.Replace('\\', '_'));
             template.Add("arrangements", data.ArrangementsInitials);
@@ -229,7 +229,7 @@ namespace CustomsForgeSongManager.UControls
                 return false;
             }
 
-           // renSongList = new List<SongData>(Globals.MasterCollection);
+            // renSongList = new List<SongData>(Globals.MasterCollection);
             renSongList = Globals.MasterCollection.ToList();
             // do not rename RS1 compatiblity files
             renSongList.RemoveAll(x => x.FileName.Contains(Constants.RS1COMP));
@@ -284,7 +284,7 @@ namespace CustomsForgeSongManager.UControls
                 var selStart = txtRenameTemplate.SelectionStart;
                 var newProp = String.Format("<{0}>", grid.Rows[e.RowIndex].Cells["Key"].Value);
                 newProp = newProp.Replace("<_>", "_");
-                
+
                 if (selStart != txtRenameTemplate.Text.Length)
                     txtRenameTemplate.Text = txtRenameTemplate.Text.Insert(selStart, newProp);
                 else

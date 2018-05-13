@@ -107,7 +107,7 @@ namespace CustomsForgeSongManager.LocalTools
                     var version = songInfo.PackageVersion;
 
                     // workaround for old toolkit behavior
-                    if (String.IsNullOrEmpty(version) || version == "N/A")
+                    if (String.IsNullOrEmpty(version) || version == "Null")
                         version = "1";
 
                     // workaround to identify ODLC

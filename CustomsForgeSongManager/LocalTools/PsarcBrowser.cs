@@ -139,9 +139,9 @@ namespace CustomsForgeSongManager.LocalTools
                     song.Tagged = tagged ? SongTaggerStatus.True : SongTaggerStatus.False;
 
                     // address old songpack files with unknown repair status
-                    if (packageComment.Contains("SongPack Maker v1.1") || (packageVersion.Contains("N/A") && (_filePath.Contains("_sp_") || _filePath.Contains("_songpack_"))))
+                    if (packageComment.Contains("SongPack Maker v1.1") || (packageVersion.Contains("N/A") || packageVersion.Contains("Null") && (_filePath.Contains("_sp_") || _filePath.Contains("_songpack_"))))
                         song.RepairStatus = RepairStatus.Unknown;
-                    else if (packageComment.Contains("N/A"))
+                    else if (packageComment.Contains("N/A") || packageComment.Contains("Null"))
                         song.RepairStatus = RepairStatus.NotRepaired;
                     else if (packageComment.Contains("Remastered") && packageComment.Contains("DD") && packageComment.Contains("Max5"))
                         song.RepairStatus = RepairStatus.RepairedDDMaxFive;
@@ -340,7 +340,8 @@ namespace CustomsForgeSongManager.LocalTools
                             arr.BassPick = bassPick;
 
                         // Arrangement Attributes
-                        arr.SectionCount = attributes.Sections.Count();
+                        arr.SectionsCount = song2014.Sections.ToList().Count();
+                        arr.TonesCount = song2014.Tones.ToList().Count;
                         arr.DDMax = attributes.MaxPhraseDifficulty;
                         arr.Tuning = PsarcExtensions.TuningToName(attributes.Tuning, Globals.TuningXml);
                         arr.TuningPitch = Convert.ToDouble(song2014.CentOffset).Cents2Frequency();

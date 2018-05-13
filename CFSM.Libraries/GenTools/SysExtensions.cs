@@ -764,6 +764,10 @@ namespace GenTools
                         else if (vs.Minor == 3)
                             operatingSystem = "Windows 8.1";
                         break;
+                    case 10:
+                        if (vs.Minor == 0)
+                            operatingSystem = "Windows 10";
+                        break;
                     default:
                         break;
                 }
@@ -805,6 +809,24 @@ namespace GenTools
             ram = (Math.Sign(size) * num).ToString() + suf[place];
 
             return ram;
+        }
+
+        public static int GetProcessorSpeed()
+        {
+            using (RegistryKey regKey = Registry.LocalMachine.OpenSubKey(@"HARDWARE\DESCRIPTION\System\CentralProcessor\0"))
+                return (int)regKey.GetValue("~MHz", 0);
+        }
+
+        public static int GetCoreCount()
+        {
+            int coreCount = 0;
+            using (ManagementObjectSearcher mos = new ManagementObjectSearcher("root\\CIMV2", "SELECT * FROM Win32_Processor"))
+            {
+                foreach (ManagementObject mo in mos.Get())
+                    coreCount += int.Parse(mo["NumberOfCores"].ToString());
+            }
+
+            return coreCount;
         }
 
 
@@ -936,7 +958,7 @@ namespace GenTools
             }
 
             if (version == null)
-                return "N/A";
+                return "Null";
             else
                 return version.ToString();
         }

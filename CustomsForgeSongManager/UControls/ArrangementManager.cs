@@ -151,14 +151,15 @@ namespace CustomsForgeSongManager.UControls
                             // Arrangement Attributes
                             PersistentID = songArr.PersistentID,
                             Name = songArr.Name,
+                            CapoFret = songArr.CapoFret,
+                            DDMax = songArr.DDMax,
+                            TuningPitch = songArr.TuningPitch,
                             Tuning = songArr.Tuning,
                             ToneBase = songArr.ToneBase,
                             Tones = songArr.Tones,
-                            DDMax = songArr.DDMax,
-                            SectionCount = songArr.SectionCount,
-                            TuningPitch = songArr.TuningPitch,
-                            CapoFret = songArr.CapoFret,
-                            
+                            SectionsCount = songArr.SectionsCount,
+                            TonesCount = songArr.TonesCount,
+                         
                             // Arrangement Levels
                             ChordCount = songArr.ChordCount,
                             NoteCount = songArr.NoteCount,
@@ -198,9 +199,6 @@ namespace CustomsForgeSongManager.UControls
                             // Arrangement Property
                             BassPick = songArr.BassPick
                         };
-
-                    if (!String.IsNullOrEmpty(songArr.Tones))
-                        arr.ToneChanges = songArr.Tones.Count(c => c == ',') == 0 ? 1 : songArr.Tones.Count(c => c == ',');
 
                     arrangementList.Add(arr);
                 }

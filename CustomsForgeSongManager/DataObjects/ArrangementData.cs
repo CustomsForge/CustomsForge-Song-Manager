@@ -61,7 +61,8 @@ namespace CustomsForgeSongManager.DataObjects
         public double? TuningPitch { get; set; } // tuning frequency, see Cents2Frequency method
         public string ToneBase { get; set; }
         public string Tones { get; set; } // concatinated string of the tones used in arrangement
-        public int? SectionCount { get; set; }
+        public int? SectionsCount { get; set; }
+        public int? TonesCount { get; set; }
 
         // Arrangement Levels
         public int? ChordCount { get; set; }
@@ -90,7 +91,6 @@ namespace CustomsForgeSongManager.DataObjects
 
         // useful calculated content taken from SongData
         public bool Selected { get; set; }
-        public int? ToneChanges { get; set; }
         public string ChordNamesCounts { get; set; }
         public bool OfficialDLC { get; set; }
         public bool IsRsCompPack { get; set; }

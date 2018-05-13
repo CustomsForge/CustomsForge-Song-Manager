@@ -1842,7 +1842,13 @@ namespace CustomsForgeSongManager.UControls
             // never try to rename dlc compatibility files ... doh!
             selection = selection.Where(fi => !fi.FileName.ToLower().Contains(Constants.RS1COMP) && !fi.FileName.ToLower().Contains(Constants.SONGPACK) && !fi.FileName.ToLower().Contains(Constants.ABVSONGPACK)).ToList();
             if (!selection.Any())
+            {
+                var diaMsg = Environment.NewLine + "First select some songs using the 'Select' checkbox" + Environment.NewLine +
+                     "then try using the organize feature again.";
+
+                BetterDialog2.ShowDialog(diaMsg, "Organize ArtistName Subfolders ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Hand.Handle), "", 0, 150);
                 return;
+            }
 
             // start new generic worker
             DoWork(Constants.GWORKER_ORGANIZE, Constants.Rs2DlcFolder, selection, false);
@@ -2084,16 +2090,33 @@ namespace CustomsForgeSongManager.UControls
 
         private void tsmiRescanFull_Click(object sender, EventArgs e)
         {
-            // TODO: caculate parsing speed based on users machine via an algo
-            // FIXME: operation duration is a SWAG for now
-            var diaMsg = "You are about to run a full rescan of (" + songList.Count + ") songs." + Environment.NewLine +
-                "Operation will take approximately (" + songList.Count * 3 + ") seconds  " + Environment.NewLine +
+            // just for fun ... estimate parsing time
+            // based on machine specs (speed, cores and OS) (P4 2500 C1 5) (i7 3500 C4 10)           
+            const float psarcFactor = 41000.0f; // adjust as needed 
+            var osMajor = Environment.OSVersion.Version.Major;
+            var processorSpeed = SysExtensions.GetProcessorSpeed();
+            var coreCount = SysExtensions.GetCoreCount();
+            var secsPerSong = (float)Math.Round(psarcFactor / (processorSpeed * coreCount * osMajor), 2);
+            var songsCount = songList.Count;
+            var secsEPT = songsCount * secsPerSong; // estimated pasing time (secs)
+            var diaMsg = "You are about to run a full rescan of (" + songsCount + ") songs." + Environment.NewLine +
+                "Operation will take approximately (" + secsEPT + ") seconds  " + Environment.NewLine +
                 "to complete." + Environment.NewLine + Environment.NewLine + "Do you want to proceed?";
 
             if (DialogResult.No == BetterDialog2.ShowDialog(diaMsg, "Full Rescan", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Question.Handle), "INFO", 0, 150))
                 return;
 
+            Globals.Log("OS Version: " + osMajor);
+            Globals.Log("Processor Speed (MHz): " + processorSpeed);
+            Globals.Log("Processor Cores: " + coreCount);
+            Globals.Log("Songs Count: " + songsCount);
+            Globals.Log("Estimate Parsing Time (secs): " + secsEPT);
+
+            Stopwatch sw = new Stopwatch();
+            sw.Restart();
             RefreshDgv(true);
+            Globals.Log("Actual Parsing Time (secs): " + sw.ElapsedMilliseconds / 1000f);
+            sw.Stop();
         }
 
         private void tsmiRescanQuick_Click(object sender, EventArgs e)
