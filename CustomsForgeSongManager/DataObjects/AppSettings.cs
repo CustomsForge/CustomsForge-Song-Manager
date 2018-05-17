@@ -318,9 +318,10 @@ namespace CustomsForgeSongManager.DataObjects
             Instance.IncludeRS1CompSongs = false; // false for fewer new user issues
             Instance.IncludeRS2BaseSongs = false;
             Instance.IncludeCustomPacks = false;
-            Instance.EnableAutoUpdate = true; // switch to false once dll is stable
+            Instance.EnableAutoUpdate = false; // switch to false once dll is stable
             Instance.EnableNotifications = false; // false for fewer notfication issues
-            Instance.ValidateD3D = true; // switch to false once dll is stable
+            Instance.MacMode = false; // switch for dev Mac testing
+            Instance.ValidateD3D = false; // switch to false once dll is stable
             Instance.CleanOnClosing = false;
             Instance.ShowLogWindow = Constants.DebugMode;
             Instance.RepairOptions = new RepairOptions();

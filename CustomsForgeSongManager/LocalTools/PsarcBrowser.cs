@@ -195,14 +195,25 @@ namespace CustomsForgeSongManager.LocalTools
                             song.SongLength = (double)attributes.SongLength;
                             song.SongAverageTempo = attributes.SongAverageTempo;
                             // NOTE: older CDLC do not have AlbumNameSort or SongVolume
-                            // ODLC does not have SongVolume
                             song.AlbumSort = attributes.AlbumNameSort;
                             song.SongVolume = attributes.SongVolume;
+
+                            // try to get SongVolume from main audio bnk file 
+                            if (song.SongVolume == null)
+                            {
+                                Platform platform = _filePath.GetPlatform();
+                                var bnkEntry = _archive.TOC.FirstOrDefault(x => x.Name.StartsWith("audio/") && x.Name.EndsWith(".bnk") && !x.Name.Contains("_preview.bnk"));
+                                if (bnkEntry == null)
+                                    throw new Exception("Could not find valid bnk file : " + _filePath);
+
+                                _archive.InflateEntry(bnkEntry);
+                                song.SongVolume = SoundBankGenerator2014.ReadBNKVolume(bnkEntry.Data, platform);
+                            }
                         }
                         catch (Exception ex) // CDLC may still be usable
                         {
                             Globals.Log("<WARNING> CDLC is missing some basic song information meta data ...");
-                            Globals.Log(ex.Message + " : " + ex.InnerException);
+                            Globals.Log(" - " + ex.Message + " : " + ex.InnerException);
                             Globals.Log(" - " + Path.GetFileName(_filePath));
                             Globals.Log(" - This CDLC may still be usable but it should be updated if a newer version is available ...");
                         }
@@ -222,7 +233,8 @@ namespace CustomsForgeSongManager.LocalTools
                         var sngEntry = _archive.TOC.FirstOrDefault(x => x.Name.EndsWith(".sng") && x.Name.ToLower().Contains(arrName.ToLower() + ".sng") && x.Name.Contains(strippedName));
                         using (var ms = ExtractEntryData(x => x.Name.Equals(sngEntry.Name)))
                         {
-                            var sng2014File = Sng2014File.ReadSng(ms, new Platform(GamePlatform.Pc, GameVersion.RS2014));
+                            Platform platform = _filePath.GetPlatform();
+                            var sng2014File = Sng2014File.ReadSng(ms, platform);
                             song2014 = new Song2014(sng2014File, attributes);
                         }
 
