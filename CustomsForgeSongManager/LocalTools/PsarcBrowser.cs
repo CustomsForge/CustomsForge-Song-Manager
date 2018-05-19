@@ -202,7 +202,7 @@ namespace CustomsForgeSongManager.LocalTools
                             if (song.SongVolume == null)
                             {
                                 Platform platform = _filePath.GetPlatform();
-                                var bnkEntry = _archive.TOC.FirstOrDefault(x => x.Name.StartsWith("audio/") && x.Name.EndsWith(".bnk") && !x.Name.Contains("_preview.bnk"));
+                                var bnkEntry = _archive.TOC.FirstOrDefault(x => x.Name.StartsWith("audio/") && x.Name.EndsWith(".bnk") && !x.Name.EndsWith("_preview.bnk"));
                                 if (bnkEntry == null)
                                     throw new Exception("Could not find valid bnk file : " + _filePath);
 
@@ -226,138 +226,12 @@ namespace CustomsForgeSongManager.LocalTools
                     if (Char.IsNumber(jsonEntry.Name[jsonEntry.Name.IndexOf(".json") - 1]))
                         arrName = arrName + jsonEntry.Name[jsonEntry.Name.IndexOf(".json") - 1];
 
+
                     if (!arrName.ToLower().EndsWith("vocals"))
                     {
-                        // loading SNG is 5X faster than loading XML and ODLC does not have XML
-                        var song2014 = new Song2014();
-                        var sngEntry = _archive.TOC.FirstOrDefault(x => x.Name.EndsWith(".sng") && x.Name.ToLower().Contains(arrName.ToLower() + ".sng") && x.Name.Contains(strippedName));
-                        using (var ms = ExtractEntryData(x => x.Name.Equals(sngEntry.Name)))
-                        {
-                            Platform platform = _filePath.GetPlatform();
-                            var sng2014File = Sng2014File.ReadSng(ms, platform);
-                            song2014 = new Song2014(sng2014File, attributes);
-                        }
-
-                        int octaveCount = 0;
-                        int chordCount = 0;
-                        int highestFretUsed = 0;
-                        int maxChordFret = 0;
-                        bool isOctave = false;
-                        var chordTemplates = song2014.ChordTemplates;
-                        var arrProperties = song2014.ArrangementProperties;
-                        var allLevelData = song2014.Levels;
-                        var maxLevelNotes = new List<SongNote2014>();
-                        var maxLevelChords = new List<SongChord2014>();
-                        var chordNames = new List<string>();
-                        var chordCounts = new List<int>();
-                        int bassPick = 0;
-                        if (song2014.ArrangementProperties.PathBass == 1)
-                            bassPick = (int)song2014.ArrangementProperties.BassPick;
-
-                        for (int i = allLevelData.Count() - 1; i >= 0; i--) // go from the highest level to prevent adding the lower level notes
-                        {
-                            foreach (var note in allLevelData[i].Notes)
-                            {
-                                if (!maxLevelNotes.Any(n => n.Time == note.Time) && !maxLevelChords.Any(c => c.Time == note.Time))
-                                    maxLevelNotes.Add(note);
-
-                                if (note.Fret > highestFretUsed)
-                                    highestFretUsed = note.Fret;
-                            }
-
-                            foreach (var chord in allLevelData[i].Chords)
-                            {
-                                if (!maxLevelChords.Any(c => c.Time == chord.Time) && !maxLevelNotes.Any(n => n.Time == chord.Time))
-                                    maxLevelChords.Add(chord);
-
-                                if (chord.ChordNotes != null)
-                                {
-                                    maxChordFret = chord.ChordNotes.Max(n => n.Fret);
-                                    if (maxChordFret > highestFretUsed)
-                                        highestFretUsed = maxChordFret;
-                                }
-                            }
-                        }
-
-                        foreach (var chord in maxLevelChords)
-                        {
-                            string chordName = song2014.ChordTemplates[chord.ChordId].ChordName.Replace(" ", string.Empty);
-
-                            chordCount = 0;
-                            if (chordName == "")
-                                continue;
-
-                            if (chordNames.Where(c => c == chordName).Count() > 0)
-                                chordCounts[chordNames.IndexOf(chordName)] += 1;
-                            else
-                            {
-                                chordNames.Add(chordName);
-                                chordCounts.Add(1);
-                            }
-                        }
-
-                        foreach (var chord in maxLevelChords)
-                        {
-                            var chordTemplate = chordTemplates[chord.ChordId];
-
-                            if (chordTemplate.ChordName != "") //check if the current chord has no name (those who don't usually are either double stops or octaves)
-                                continue;
-
-                            var chordFrets = chordTemplate.GetType().GetProperties().Where(p => p.Name.Contains("Fret")).ToList();
-                            for (int i = 0; i < chordFrets.Count() - 2; i++)
-                            {
-                                sbyte firstFret = (sbyte)chordFrets[i].GetValue(chordTemplate, null);
-                                sbyte secondFret = (sbyte)chordFrets[i + 1].GetValue(chordTemplate, null);
-                                sbyte thirdFret = (sbyte)chordFrets[i + 2].GetValue(chordTemplate, null);
-
-                                if (firstFret != -1 && secondFret == -1 || thirdFret != -1)
-                                    isOctave = true;
-                            }
-
-                            if (isOctave)
-                                octaveCount++;
-                        }
-
-                        arr.ChordNames = chordNames;
-                        arr.ChordCounts = chordCounts;
-
-                        // Arrangement Levels
-                        arr.NoteCount = maxLevelNotes.Count();
-                        arr.ChordCount = maxLevelChords.Count();
-                        arr.AccentCount = maxLevelNotes.Count(n => n.Accent > 0);
-                        arr.BendCount = maxLevelNotes.Count(n => n.Bend > 0.0f);
-                        arr.FretHandMuteCount = maxLevelNotes.Count(n => n.Mute > 0) + maxLevelChords.Count(c => c.FretHandMute > 0);
-                        arr.HammerOnCount = maxLevelNotes.Count(n => n.HammerOn > 0);
-                        arr.HarmonicCount = maxLevelNotes.Count(n => n.Harmonic > 0);
-                        arr.HarmonicPinchCount = maxLevelNotes.Count(n => n.HarmonicPinch > 0);
-                        arr.HighestFretUsed = highestFretUsed;
-                        arr.HopoCount = maxLevelNotes.Count(n => n.Hopo > 0); // TODO: validate
-                        arr.IgnoreCount = maxLevelNotes.Count(n => n.Ignore > 0);
-                        arr.LinkNextCount = maxLevelNotes.Count(n => n.LinkNext > 0);
-                        arr.OctaveCount = octaveCount;
-                        arr.PalmMuteCount = maxLevelNotes.Count(n => n.PalmMute > 0) + maxLevelChords.Count(c => c.PalmMute > 0);
-                        arr.PluckCount = maxLevelNotes.Count(n => n.Pluck > 0);
-                        arr.PullOffCount = maxLevelNotes.Count(n => n.PullOff > 0);
-                        arr.SlapCount = maxLevelNotes.Count(n => n.Slap > 0);
-                        arr.SlideCount = maxLevelNotes.Count(n => n.SlideTo > 0);
-                        arr.SlideUnpitchToCount = maxLevelNotes.Count(n => n.SlideUnpitchTo > 0);
-                        arr.SustainCount = maxLevelNotes.Count(n => n.Sustain > 0.0f);
-                        arr.TapCount = maxLevelNotes.Count(n => n.Tap > 0);
-                        arr.TremoloCount = maxLevelNotes.Count(n => n.Tremolo > 0);
-                        arr.VibratoCount = maxLevelNotes.Count(n => n.Vibrato > 0);
-
-                        // TODO: extract all AP (not sure how useful though) 
-                        // Arrangement Properties
-                        if (arrName.ToLower().Equals("bass"))
-                            arr.BassPick = bassPick;
-
-                        // Arrangement Attributes
-                        arr.SectionsCount = song2014.Sections.ToList().Count();
-                        arr.TonesCount = song2014.Tones.ToList().Count;
-                        arr.DDMax = attributes.MaxPhraseDifficulty;
+                        // Arrangement Attributes            
                         arr.Tuning = PsarcExtensions.TuningToName(attributes.Tuning, Globals.TuningXml);
-                        arr.TuningPitch = Convert.ToDouble(song2014.CentOffset).Cents2Frequency();
-                        arr.CapoFret = song2014.Capo == 0xFF ? 0 : Convert.ToInt16(song2014.Capo);
+                        arr.DDMax = attributes.MaxPhraseDifficulty;
 
                         if (!String.IsNullOrEmpty(attributes.Tone_Base))
                         {
@@ -381,6 +255,138 @@ namespace CustomsForgeSongManager.LocalTools
                         catch
                         {
                             // DO NOTHING
+                        }
+
+                        // parse Analyzer data for each Arrangement (slow process, only done if requested by user)
+                        if (AppSettings.Instance.IncludeArrangementData)
+                        {
+                            // loading SNG is 5X faster than loading XML (ODLC does not have XML)
+                            var song2014 = new Song2014();
+                            var sngEntry = _archive.TOC.FirstOrDefault(x => x.Name.EndsWith(".sng") && x.Name.ToLower().Contains(arrName.ToLower() + ".sng") && x.Name.Contains(strippedName));
+                            using (var ms = ExtractEntryData(x => x.Name.Equals(sngEntry.Name)))
+                            {
+                                Platform platform = _filePath.GetPlatform();
+                                var sng2014File = Sng2014File.ReadSng(ms, platform);
+                                song2014 = new Song2014(sng2014File, attributes);
+                            }
+
+                            int octaveCount = 0;
+                            int chordCount = 0;
+                            int highestFretUsed = 0;
+                            int maxChordFret = 0;
+                            bool isOctave = false;
+                            var chordTemplates = song2014.ChordTemplates;
+                            var arrProperties = song2014.ArrangementProperties;
+                            var allLevelData = song2014.Levels;
+                            var maxLevelNotes = new List<SongNote2014>();
+                            var maxLevelChords = new List<SongChord2014>();
+                            var chordNames = new List<string>();
+                            var chordCounts = new List<int>();
+                            int bassPick = 0;
+                            if (song2014.ArrangementProperties.PathBass == 1)
+                                bassPick = (int)song2014.ArrangementProperties.BassPick;
+
+                            for (int i = allLevelData.Count() - 1; i >= 0; i--) // go from the highest level to prevent adding the lower level notes
+                            {
+                                foreach (var note in allLevelData[i].Notes)
+                                {
+                                    if (!maxLevelNotes.Any(n => n.Time == note.Time) && !maxLevelChords.Any(c => c.Time == note.Time))
+                                        maxLevelNotes.Add(note);
+
+                                    if (note.Fret > highestFretUsed)
+                                        highestFretUsed = note.Fret;
+                                }
+
+                                foreach (var chord in allLevelData[i].Chords)
+                                {
+                                    if (!maxLevelChords.Any(c => c.Time == chord.Time) && !maxLevelNotes.Any(n => n.Time == chord.Time))
+                                        maxLevelChords.Add(chord);
+
+                                    if (chord.ChordNotes != null)
+                                    {
+                                        maxChordFret = chord.ChordNotes.Max(n => n.Fret);
+                                        if (maxChordFret > highestFretUsed)
+                                            highestFretUsed = maxChordFret;
+                                    }
+                                }
+                            }
+
+                            foreach (var chord in maxLevelChords)
+                            {
+                                string chordName = song2014.ChordTemplates[chord.ChordId].ChordName.Replace(" ", string.Empty);
+
+                                chordCount = 0;
+                                if (chordName == "")
+                                    continue;
+
+                                if (chordNames.Where(c => c == chordName).Count() > 0)
+                                    chordCounts[chordNames.IndexOf(chordName)] += 1;
+                                else
+                                {
+                                    chordNames.Add(chordName);
+                                    chordCounts.Add(1);
+                                }
+                            }
+
+                            foreach (var chord in maxLevelChords)
+                            {
+                                var chordTemplate = chordTemplates[chord.ChordId];
+
+                                if (chordTemplate.ChordName != "") //check if the current chord has no name (those who don't usually are either double stops or octaves)
+                                    continue;
+
+                                var chordFrets = chordTemplate.GetType().GetProperties().Where(p => p.Name.Contains("Fret")).ToList();
+                                for (int i = 0; i < chordFrets.Count() - 2; i++)
+                                {
+                                    sbyte firstFret = (sbyte)chordFrets[i].GetValue(chordTemplate, null);
+                                    sbyte secondFret = (sbyte)chordFrets[i + 1].GetValue(chordTemplate, null);
+                                    sbyte thirdFret = (sbyte)chordFrets[i + 2].GetValue(chordTemplate, null);
+
+                                    if (firstFret != -1 && secondFret == -1 || thirdFret != -1)
+                                        isOctave = true;
+                                }
+
+                                if (isOctave)
+                                    octaveCount++;
+                            }
+
+                            arr.ChordNames = chordNames;
+                            arr.ChordCounts = chordCounts;
+
+                            // Arrangement Levels
+                            arr.NoteCount = maxLevelNotes.Count();
+                            arr.ChordCount = maxLevelChords.Count();
+                            arr.AccentCount = maxLevelNotes.Count(n => n.Accent > 0);
+                            arr.BendCount = maxLevelNotes.Count(n => n.Bend > 0.0f);
+                            arr.FretHandMuteCount = maxLevelNotes.Count(n => n.Mute > 0) + maxLevelChords.Count(c => c.FretHandMute > 0);
+                            arr.HammerOnCount = maxLevelNotes.Count(n => n.HammerOn > 0);
+                            arr.HarmonicCount = maxLevelNotes.Count(n => n.Harmonic > 0);
+                            arr.HarmonicPinchCount = maxLevelNotes.Count(n => n.HarmonicPinch > 0);
+                            arr.HighestFretUsed = highestFretUsed;
+                            arr.HopoCount = maxLevelNotes.Count(n => n.Hopo > 0); // TODO: validate
+                            arr.IgnoreCount = maxLevelNotes.Count(n => n.Ignore > 0);
+                            arr.LinkNextCount = maxLevelNotes.Count(n => n.LinkNext > 0);
+                            arr.OctaveCount = octaveCount;
+                            arr.PalmMuteCount = maxLevelNotes.Count(n => n.PalmMute > 0) + maxLevelChords.Count(c => c.PalmMute > 0);
+                            arr.PluckCount = maxLevelNotes.Count(n => n.Pluck > 0);
+                            arr.PullOffCount = maxLevelNotes.Count(n => n.PullOff > 0);
+                            arr.SlapCount = maxLevelNotes.Count(n => n.Slap > 0);
+                            arr.SlideCount = maxLevelNotes.Count(n => n.SlideTo > 0);
+                            arr.SlideUnpitchToCount = maxLevelNotes.Count(n => n.SlideUnpitchTo > 0);
+                            arr.SustainCount = maxLevelNotes.Count(n => n.Sustain > 0.0f);
+                            arr.TapCount = maxLevelNotes.Count(n => n.Tap > 0);
+                            arr.TremoloCount = maxLevelNotes.Count(n => n.Tremolo > 0);
+                            arr.VibratoCount = maxLevelNotes.Count(n => n.Vibrato > 0);
+
+                            // TODO: extract all AP (not sure how useful data is though) 
+                            // Arrangement Properties
+                            if (arrName.ToLower().Equals("bass"))
+                                arr.BassPick = bassPick;
+
+                            arr.SectionsCount = song2014.Sections.ToList().Count();
+                            arr.TonesCount = song2014.Tones.ToList().Count;
+                            arr.TuningPitch = Convert.ToDouble(song2014.CentOffset).Cents2Frequency();
+                            arr.CapoFret = song2014.Capo == 0xFF ? 0 : Convert.ToInt16(song2014.Capo);
                         }
                     }
 

@@ -2091,8 +2091,11 @@ namespace CustomsForgeSongManager.UControls
         private void tsmiRescanFull_Click(object sender, EventArgs e)
         {
             // just for fun ... estimate parsing time
-            // based on machine specs (speed, cores and OS) (P4 2500 C1 5) (i7 3500 C4 10)           
-            const float psarcFactor = 41000.0f; // adjust as needed 
+            // based on machine specs (speed, cores and OS) (P4 2500 C1 5) (i7 3500 C4 10)                       
+            float psarcFactor = 4100.0f; // adjust as needed 
+            if (AppSettings.Instance.IncludeArrangementData)
+                psarcFactor = 41000.0f;
+
             var osMajor = Environment.OSVersion.Version.Major;
             var processorSpeed = SysExtensions.GetProcessorSpeed();
             var coreCount = SysExtensions.GetCoreCount();
@@ -2113,8 +2116,8 @@ namespace CustomsForgeSongManager.UControls
             Globals.Log("Estimate Parsing Time (secs): " + secsEPT);
 
             Stopwatch sw = new Stopwatch();
-            sw.Restart();
-            RefreshDgv(true);
+            sw.Restart();            
+            RefreshDgv(true);            
             Globals.Log("Actual Parsing Time (secs): " + sw.ElapsedMilliseconds / 1000f);
             sw.Stop();
         }

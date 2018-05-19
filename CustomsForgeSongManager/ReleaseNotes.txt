@@ -14,6 +14,12 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.4.5.6
+- 5X faster initial SongManager scan (Arrangement data is optional, see 'Settings', 'Include Arrangement Data')
+- apply standardize column formatting to SongManager and Arrangements data grids
+- rewired Arrangement grid event handlers
+- BassPick now displays as "True" instead of "1"
+
 1.4.4.5
 - added support for Mac compatibility to Arrangements
 - read SongVolume from bnk file if SongVolume is null in Manifest

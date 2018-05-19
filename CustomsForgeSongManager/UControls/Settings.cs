@@ -30,6 +30,7 @@ namespace CustomsForgeSongManager.UControls
                 chkIncludeRS1CompSongs.Checked = AppSettings.Instance.IncludeRS1CompSongs;
                 chkIncludeRS2BaseSongs.Checked = AppSettings.Instance.IncludeRS2BaseSongs;
                 chkIncludeCustomPacks.Checked = AppSettings.Instance.IncludeCustomPacks;
+                chkIncludeArrangementData.Checked = AppSettings.Instance.IncludeArrangementData;
                 chkEnableAutoUpdate.Checked = AppSettings.Instance.EnableAutoUpdate;
                 chkEnableNotifications.Checked = AppSettings.Instance.EnableNotifications;
                 chkEnableQuarantine.Checked = AppSettings.Instance.EnableQuarantine;
@@ -366,5 +367,12 @@ namespace CustomsForgeSongManager.UControls
         }
 
         #endregion
+
+        private void chkIncludeArrangementData_Click(object sender, EventArgs e)
+        {
+            AppSettings.Instance.IncludeArrangementData = chkIncludeArrangementData.Checked;
+            ToogleRescan(true);
+
+        }
     }
 }

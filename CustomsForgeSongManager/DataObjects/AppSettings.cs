@@ -18,7 +18,7 @@ namespace CustomsForgeSongManager.DataObjects
         private bool _includeRS1CompSongs;
         private bool _includeRS2BaseSongs;
         private bool _includeCustomPacks;
-        private bool _includeAnalyzerData;
+        private bool _includeArrangementData;
         private bool _enableAutoUpdate = false;
         private bool _enableNotifications = false;
         private bool _enableQuarantine = false;
@@ -74,6 +74,12 @@ namespace CustomsForgeSongManager.DataObjects
         {
             get { return _includeCustomPacks; }
             set { SetPropertyField("IncludeCustomPacks", ref _includeCustomPacks, value); }
+        }
+
+        public bool IncludeArrangementData
+        {
+            get { return _includeArrangementData; }
+            set { SetPropertyField("IncludeArrangementData", ref _includeArrangementData, value); }
         }
 
         public bool EnableAutoUpdate
@@ -318,9 +324,10 @@ namespace CustomsForgeSongManager.DataObjects
             Instance.IncludeRS1CompSongs = false; // false for fewer new user issues
             Instance.IncludeRS2BaseSongs = false;
             Instance.IncludeCustomPacks = false;
+            Instance.IncludeArrangementData = false;
             Instance.EnableAutoUpdate = false; // switch to false once dll is stable
             Instance.EnableNotifications = false; // false for fewer notfication issues
-            Instance.MacMode = false; // switch for dev Mac testing
+            Instance.MacMode = false; // switch for testing Mac dev
             Instance.ValidateD3D = false; // switch to false once dll is stable
             Instance.CleanOnClosing = false;
             Instance.ShowLogWindow = Constants.DebugMode;

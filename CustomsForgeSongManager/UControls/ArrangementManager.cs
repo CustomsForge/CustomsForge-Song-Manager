@@ -147,7 +147,7 @@ namespace CustomsForgeSongManager.UControls
                             FilePath = song.FilePath,
                             FileDate = song.FileDate,
                             FileSize = song.FileSize,
-                            
+
                             // Arrangement Attributes
                             PersistentID = songArr.PersistentID,
                             Name = songArr.Name,
@@ -159,7 +159,7 @@ namespace CustomsForgeSongManager.UControls
                             Tones = songArr.Tones,
                             SectionsCount = songArr.SectionsCount,
                             TonesCount = songArr.TonesCount,
-                         
+
                             // Arrangement Levels
                             ChordCount = songArr.ChordCount,
                             NoteCount = songArr.NoteCount,
@@ -195,7 +195,7 @@ namespace CustomsForgeSongManager.UControls
                             FileName = song.FileName,
                             Tagged = song.Tagged,
                             RepairStatus = song.RepairStatus,
-                            
+
                             // Arrangement Property
                             BassPick = songArr.BassPick
                         };
@@ -408,6 +408,19 @@ namespace CustomsForgeSongManager.UControls
                     chkCell.Style.ForeColor = Color.DarkGray;
                     // cell.ReadOnly = true;
                 }
+            }
+
+            // Convert BassPick formatting from 1, 0, or null => True, False, or ""
+            if (dgvArrangements.Columns[e.ColumnIndex].Name == "colBassPick")
+            {
+                if ((int?)e.Value == 1)
+                    e.Value = "True";
+                else if ((int?)e.Value == 0)
+                    e.Value = "False";
+                else
+                    e.Value = "";
+
+                e.FormattingApplied = true;
             }
         }
 
@@ -708,14 +721,150 @@ namespace CustomsForgeSongManager.UControls
                 PopulateArrangementManager();
                 Globals.ReloadArrangements = false;
             }
+            
+            // required to display menu strip properly
+            this.Invalidate();
+            this.Refresh(); 
 
+            if (!AppSettings.Instance.IncludeArrangementData)
+            {
+                var diaMsg = "Arrangement data has not been fully parsed" + Environment.NewLine +
+                             "from the songs yet.  Use 'Rescan Full' to" + Environment.NewLine +
+                             "display the complete Arrangement data.";
+
+                BetterDialog2.ShowDialog(diaMsg, "Rescan Full Required", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "WARNING", 0, 150);
+            }
         }
 
         public void TabLeave()
         {
+            if (arrangementList.Any())
+                Globals.Settings.SaveSettingsToFile(dgvArrangements);
+
             Globals.Log("Arrangements GUI Deactivated ...");
         }
 
+        private void tsmiRescanFull_Click(object sender, EventArgs e)
+        {
+            // just for fun ... estimate parsing time
+            // based on machine specs (speed, cores and OS) (P4 2500 C1 5) (i7 3500 C4 10)           
+            const float psarcFactor = 41000.0f; // adjust as needed 
+            var osMajor = Environment.OSVersion.Version.Major;
+            var processorSpeed = SysExtensions.GetProcessorSpeed();
+            var coreCount = SysExtensions.GetCoreCount();
+            var secsPerSong = (float)Math.Round(psarcFactor / (processorSpeed * coreCount * osMajor), 2);
+            var songsCount = Globals.MasterCollection.Count;
+            var secsEPT = songsCount * secsPerSong; // estimated pasing time (secs)
+            var diaMsg = "You are about to run a full rescan of (" + songsCount + ") songs." + Environment.NewLine +
+                "Operation will take approximately (" + secsEPT + ") seconds  " + Environment.NewLine +
+                "to complete." + Environment.NewLine + Environment.NewLine + "Do you want to proceed?";
+
+            if (DialogResult.No == BetterDialog2.ShowDialog(diaMsg, "Full Rescan", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Question.Handle), "INFO", 0, 150))
+                return;
+
+            Globals.Log("OS Version: " + osMajor);
+            Globals.Log("Processor Speed (MHz): " + processorSpeed);
+            Globals.Log("Processor Cores: " + coreCount);
+            Globals.Log("Songs Count: " + songsCount);
+            Globals.Log("Estimate Parsing Time (secs): " + secsEPT);
+
+            Stopwatch sw = new Stopwatch();
+            sw.Restart();
+            RefreshDgv(true);
+            Globals.Log("Actual Parsing Time (secs): " + sw.ElapsedMilliseconds / 1000f);
+            sw.Stop();
+        }
+
+        private void tsmiRescanQuick_Click(object sender, EventArgs e)
+        {
+            if (!AppSettings.Instance.IncludeArrangementData)
+            {
+                var diaMsg = "Arrangement data has not been fully parsed" + Environment.NewLine +
+                             "from the songs yet.  Use 'Rescan Full' to" + Environment.NewLine +
+                             "display the complete Arrangement data.";
+
+                BetterDialog2.ShowDialog(diaMsg, "Rescan Full Required", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "WARNING", 0, 150);
+            }
+            else
+                RefreshDgv(false);
+        }
+
+        private void RefreshDgv(bool fullRescan)
+        {
+            bindingCompleted = false;
+            dgvPainted = false;
+            Rescan(fullRescan);
+            PopulateArrangementManager();
+        }
+
+        private void Rescan(bool fullRescan)
+        {
+            dgvArrangements.DataSource = null;
+
+            // this should never happen
+            if (String.IsNullOrEmpty(AppSettings.Instance.RSInstalledDir))
+            {
+                MessageBox.Show("<Error>: Rocksmith 2014 Installation Directory setting is null or empty.", Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            // this is done here in case user decided to manually delete songs
+            List<string> filesList = Worker.FilesList(Constants.Rs2DlcFolder, AppSettings.Instance.IncludeRS1CompSongs, AppSettings.Instance.IncludeRS2BaseSongs, AppSettings.Instance.IncludeCustomPacks);
+            if (!filesList.Any())
+            {
+                var msgText = string.Format("Houston ... We have a problem!{0}There are no Rocksmith 2014 songs in:" + "{0}{1}{0}{0}Please select a valid Rocksmith 2014{0}installation directory when you restart CFSM.  ", Environment.NewLine, Constants.Rs2DlcFolder);
+                MessageBox.Show(msgText, Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Stop);
+
+                if (Directory.Exists(Constants.WorkFolder))
+                {
+                    File.Delete(Constants.SongsInfoPath);
+                    if (Directory.Exists(Constants.AudioCacheFolder))
+                        Directory.Delete(Constants.AudioCacheFolder);
+                }
+
+                // prevents write log attempt and shuts down the app
+                // Environment.Exit(0);
+
+                // some users have highly customized Rocksmith directory paths
+                // this provides better user option than just killing the app down
+                return;
+            }
+
+            ToggleUIControls(false);
+
+            if (fullRescan)
+            {
+                // force full rescan by clearing MasterCollection before calling BackgroundScan
+                Globals.MasterCollection.Clear();
+                // force reload
+                Globals.ReloadSetlistManager = true;
+                Globals.ReloadDuplicates = true;
+                Globals.ReloadRenamer = true;
+                Globals.ReloadSongManager = true;
+                AppSettings.Instance.IncludeArrangementData = true;
+                Globals.Settings.SaveSettingsToFile(Globals.DgvCurrent);
+            }
+
+            // run new worker
+            using (Worker worker = new Worker())
+            {
+                worker.BackgroundScan(this, bWorker);
+
+                while (Globals.WorkerFinished == Globals.Tristate.False)
+                    Application.DoEvents();
+            }
+
+            ToggleUIControls(true);
+
+            if (Globals.WorkerFinished == Globals.Tristate.Cancelled)
+            {
+                Globals.Log(Resources.UserCancelledProcess);
+                return;
+            }
+
+            // BackgroundScan populates Globals.MasterCollection
+            Globals.SongManager.SaveSongCollectionToFile();
+        }
     }
 }
 

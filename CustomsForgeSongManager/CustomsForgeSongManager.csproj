@@ -491,6 +491,7 @@
       <SubType>Designer</SubType>
     </None>
     <EmbeddedResource Include="Resources\HelpDuplicates.rtf" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="Resources\logo_black.png" />
   </ItemGroup>
   <ItemGroup>
