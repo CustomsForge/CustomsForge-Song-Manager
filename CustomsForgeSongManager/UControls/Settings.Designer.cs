@@ -470,8 +470,8 @@ namespace CustomsForgeSongManager.UControls
             this.chkIncludeArrangementData.TabIndex = 22;
             this.chkIncludeArrangementData.Text = "Include Arrangement Data";
             this.chkIncludeArrangementData.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.toolTip.SetToolTip(this.chkIncludeArrangementData, "If checked, include Arrangement \r\ndata in the the scan.  Scanning \r\ntakes twice a" +
-                    "s long if checked.");
+            this.toolTip.SetToolTip(this.chkIncludeArrangementData, "If checked, include complete\r\narrangement data with scan.  \r\n\r\nNote:  A full resc" +
+                    "an of CDLC \r\ntakes 5x longer when checked.");
             this.chkIncludeArrangementData.UseVisualStyleBackColor = true;
             this.chkIncludeArrangementData.Click += new System.EventHandler(this.chkIncludeArrangementData_Click);
             // 

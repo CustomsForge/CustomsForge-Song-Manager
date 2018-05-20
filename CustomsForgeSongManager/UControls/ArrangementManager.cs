@@ -257,7 +257,7 @@ namespace CustomsForgeSongManager.UControls
             LoadFilteredBindingList(arrangementList);
             CFSMTheme.InitializeDgvAppearance(dgvArrangements);
             // reload column order, width, visibility
-            Globals.Settings.LoadSettingsFromFile(dgvArrangements, true);
+            Globals.Settings.LoadSettingsFromFile(dgvArrangements);
 
             if (RAExtensions.ManagerGridSettings != null)
                 dgvArrangements.ReLoadColumnOrder(RAExtensions.ManagerGridSettings.ColumnOrder);
@@ -718,18 +718,25 @@ namespace CustomsForgeSongManager.UControls
 
             if (Globals.ReloadArrangements)
             {
-                PopulateArrangementManager();
+                RefreshDgv(false);
                 Globals.ReloadArrangements = false;
             }
-            
-            // required to display menu strip properly
+
+            if (Globals.RescanArrangements && AppSettings.Instance.IncludeArrangementData)
+            {
+                RefreshDgv(true);
+                Globals.RescanArrangements = false;
+            }
+
+            // work around for menu strip display glitch in IDE
             this.Invalidate();
-            this.Refresh(); 
+            this.Update();
+            this.Refresh();
 
             if (!AppSettings.Instance.IncludeArrangementData)
             {
                 var diaMsg = "Arrangement data has not been fully parsed" + Environment.NewLine +
-                             "from the songs yet.  Use 'Rescan Full' to" + Environment.NewLine +
+                             "from the songs.  Use 'Rescan Full' to" + Environment.NewLine +
                              "display the complete Arrangement data.";
 
                 BetterDialog2.ShowDialog(diaMsg, "Rescan Full Required", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "WARNING", 0, 150);
@@ -780,7 +787,7 @@ namespace CustomsForgeSongManager.UControls
             if (!AppSettings.Instance.IncludeArrangementData)
             {
                 var diaMsg = "Arrangement data has not been fully parsed" + Environment.NewLine +
-                             "from the songs yet.  Use 'Rescan Full' to" + Environment.NewLine +
+                             "from the songs.  Use 'Rescan Full' to" + Environment.NewLine +
                              "display the complete Arrangement data.";
 
                 BetterDialog2.ShowDialog(diaMsg, "Rescan Full Required", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "WARNING", 0, 150);

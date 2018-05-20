@@ -107,6 +107,7 @@ namespace CustomsForgeSongManager.UControls
             // rescan on tabpage change ... safest but may be better way
             // possibly never overwrite masterSongControl with Duplicates
             Globals.RescanSongManager = rescan;
+            Globals.RescanArrangements = rescan;
             Globals.RescanDuplicates = rescan;
             Globals.RescanSetlistManager = rescan;
             Globals.RescanRenamer = rescan;
@@ -261,6 +262,12 @@ namespace CustomsForgeSongManager.UControls
             AppSettings.Instance.EnableQuarantine = chkEnableQuarantine.Checked;
         }
 
+        private void chkIncludeArrangementData_Click(object sender, EventArgs e)
+        {
+            AppSettings.Instance.IncludeArrangementData = chkIncludeArrangementData.Checked;
+            ToogleRescan(true);
+        }
+
         private void chkIncludeCustomPacks_Click(object sender, EventArgs e)
         {
             AppSettings.Instance.IncludeCustomPacks = chkIncludeCustomPacks.Checked;
@@ -367,12 +374,5 @@ namespace CustomsForgeSongManager.UControls
         }
 
         #endregion
-
-        private void chkIncludeArrangementData_Click(object sender, EventArgs e)
-        {
-            AppSettings.Instance.IncludeArrangementData = chkIncludeArrangementData.Checked;
-            ToogleRescan(true);
-
-        }
     }
 }

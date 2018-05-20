@@ -214,6 +214,7 @@ namespace CustomsForgeSongManager.UControls
             if (Globals.RescanSongManager)
             {
                 Globals.RescanSongManager = false;
+                Globals.ReloadArrangements = true;
                 Globals.ReloadRenamer = true;
                 Globals.ReloadSetlistManager = true;
                 Globals.ReloadDuplicates = true;

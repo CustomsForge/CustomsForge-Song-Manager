@@ -1629,9 +1629,9 @@ namespace CustomsForgeSongManager.UControls
             // colSongYear
             // 
             this.colSongYear.DataPropertyName = "SongYear";
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle3.NullValue = null;
-            this.colSongYear.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle4.NullValue = null;
+            this.colSongYear.DefaultCellStyle = dataGridViewCellStyle4;
             this.colSongYear.HeaderText = "Year";
             this.colSongYear.Name = "colSongYear";
             this.colSongYear.ReadOnly = true;

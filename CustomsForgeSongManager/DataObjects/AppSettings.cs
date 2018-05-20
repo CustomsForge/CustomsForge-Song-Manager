@@ -318,17 +318,17 @@ namespace CustomsForgeSongManager.DataObjects
         public void RestoreDefaults()
         {
             RAExtensions.ManagerGridSettings = new RADataGridViewSettings();
-            Instance.EnableQuarantine = false;
+            Instance.EnableQuarantine = false; // false because users like using corrupt CDLC
             Instance.LogFilePath = Constants.LogFilePath;
             Instance.RSProfileDir = String.Empty; 
             Instance.IncludeRS1CompSongs = false; // false for fewer new user issues
             Instance.IncludeRS2BaseSongs = false;
             Instance.IncludeCustomPacks = false;
-            Instance.IncludeArrangementData = false;
-            Instance.EnableAutoUpdate = false; // switch to false once dll is stable
+            Instance.IncludeArrangementData = false; // false for 5X faster initial parsing
+            Instance.EnableAutoUpdate = false; // false when D3DX9_42.dll is stable
             Instance.EnableNotifications = false; // false for fewer notfication issues
-            Instance.MacMode = false; // switch for testing Mac dev
-            Instance.ValidateD3D = false; // switch to false once dll is stable
+            Instance.MacMode = false; // true for testing Mac dev
+            Instance.ValidateD3D = false; // false when D3DX9_42.dll is stable
             Instance.CleanOnClosing = false;
             Instance.ShowLogWindow = Constants.DebugMode;
             Instance.RepairOptions = new RepairOptions();

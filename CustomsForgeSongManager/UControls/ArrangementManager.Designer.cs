@@ -118,11 +118,11 @@ namespace CustomsForgeSongManager.UControls
             this.testToolStripMenuItem = new CustomControls.ToolStripEnhancedMenuItem();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.menuStrip = new System.Windows.Forms.MenuStrip();
-            this.tsmiHelp = new CustomControls.ToolStripEnhancedMenuItem();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiRescan = new CustomControls.ToolStripEnhancedMenuItem();
             this.tsmiRescanQuick = new CustomControls.ToolStripEnhancedMenuItem();
             this.tsmiRescanFull = new CustomControls.ToolStripEnhancedMenuItem();
+            this.tsmiHelp = new CustomControls.ToolStripEnhancedMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.panelSearch.SuspendLayout();
             this.gb_Main_Search.SuspendLayout();
             this.gb_Main_Grid.SuspendLayout();
@@ -984,22 +984,6 @@ namespace CustomsForgeSongManager.UControls
             this.menuStrip.TabIndex = 11;
             this.menuStrip.Text = "menuStrip1";
             // 
-            // tsmiHelp
-            // 
-            this.tsmiHelp.AssociatedEnumValue = null;
-            this.tsmiHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripSeparator3});
-            this.tsmiHelp.Image = ((System.Drawing.Image)(resources.GetObject("tsmiHelp.Image")));
-            this.tsmiHelp.Name = "tsmiHelp";
-            this.tsmiHelp.RadioButtonGroupName = null;
-            this.tsmiHelp.Size = new System.Drawing.Size(56, 20);
-            this.tsmiHelp.Text = "Help";
-            // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(149, 6);
-            // 
             // tsmiRescan
             // 
             this.tsmiRescan.AssociatedEnumValue = null;
@@ -1019,7 +1003,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiRescanQuick.Image = ((System.Drawing.Image)(resources.GetObject("tsmiRescanQuick.Image")));
             this.tsmiRescanQuick.Name = "tsmiRescanQuick";
             this.tsmiRescanQuick.RadioButtonGroupName = null;
-            this.tsmiRescanQuick.Size = new System.Drawing.Size(152, 22);
+            this.tsmiRescanQuick.Size = new System.Drawing.Size(111, 22);
             this.tsmiRescanQuick.Text = "Quick";
             this.tsmiRescanQuick.ToolTipText = "Quick reload of previously scanned data.\r\nOnly rescans data if necessary.";
             this.tsmiRescanQuick.Click += new System.EventHandler(this.tsmiRescanQuick_Click);
@@ -1030,11 +1014,27 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiRescanFull.Image = ((System.Drawing.Image)(resources.GetObject("tsmiRescanFull.Image")));
             this.tsmiRescanFull.Name = "tsmiRescanFull";
             this.tsmiRescanFull.RadioButtonGroupName = null;
-            this.tsmiRescanFull.Size = new System.Drawing.Size(152, 22);
+            this.tsmiRescanFull.Size = new System.Drawing.Size(111, 22);
             this.tsmiRescanFull.Text = "Full";
             this.tsmiRescanFull.ToolTipText = "Preliminary scan or after significant changes.\r\n\r\nHint:\r\nTry running a \'Full\' res" +
                 "can if the CDLC\r\ncollection does not look as expected.";
             this.tsmiRescanFull.Click += new System.EventHandler(this.tsmiRescanFull_Click);
+            // 
+            // tsmiHelp
+            // 
+            this.tsmiHelp.AssociatedEnumValue = null;
+            this.tsmiHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripSeparator3});
+            this.tsmiHelp.Image = ((System.Drawing.Image)(resources.GetObject("tsmiHelp.Image")));
+            this.tsmiHelp.Name = "tsmiHelp";
+            this.tsmiHelp.RadioButtonGroupName = null;
+            this.tsmiHelp.Size = new System.Drawing.Size(56, 20);
+            this.tsmiHelp.Text = "Help";
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(57, 6);
             // 
             // ArrangementManager
             // 
@@ -1044,6 +1044,7 @@ namespace CustomsForgeSongManager.UControls
             this.Controls.Add(this.menuStrip);
             this.Name = "ArrangementManager";
             this.Size = new System.Drawing.Size(899, 490);
+            this.Resize += new System.EventHandler(this.Arrangements_Resize);
             this.panelSearch.ResumeLayout(false);
             this.panelSearch.PerformLayout();
             this.gb_Main_Search.ResumeLayout(false);
