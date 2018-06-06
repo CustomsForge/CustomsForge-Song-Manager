@@ -543,7 +543,7 @@ namespace CustomsForgeSongManager.UControls
 
                 if (song != null)
                 {
-                    if (song.OfficialDLC)
+                    if (song.IsOfficialDLC)
                     {
                         e.CellStyle.Font = Constants.OfficialDLCFont;
                         DataGridViewCell cell = dgvDuplicates.Rows[e.RowIndex].Cells["colSelect"];

@@ -92,15 +92,16 @@ namespace CustomsForgeSongManager.DataObjects
         // useful calculated content taken from SongData
         public bool Selected { get; set; }
         public string ChordNamesCounts { get; set; }
-        public bool OfficialDLC { get; set; }
+        public bool IsOfficialDLC { get; set; }
         public bool IsRsCompPack { get; set; }
+        public string IsBassPick { get; set; }
         public string ArtistTitleAlbum { get; set; }
         public string ArtistTitleAlbumDate { get; set; }
         public string FileName { get; set; }
 
-        // Arrangement Properties (1 = true or 0 = false)
-        public int? BassPick { get; set; }
-        // TODO: future expansion Arrangement Properties
+        // TODO: future expansion analyze Arrangement Properties
+        // Arrangement Properties
+        //public int? BassPick { get; set; }
         //public int? BarreChords { get; set; }
         //public int? Bends { get; set; }
         //public int? BonusArr { get; set; }

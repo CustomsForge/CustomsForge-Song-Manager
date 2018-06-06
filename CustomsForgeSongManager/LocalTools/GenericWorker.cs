@@ -46,13 +46,13 @@ namespace CustomsForgeSongManager.LocalTools
             bWorker.SetDefaults();
             counterStopwatch.Restart();
 
-            if (WorkDescription.ToLower().Contains(Constants.GWORKER_REPAIR))
+            if (WorkDescription.Equals(Constants.GWORKER_REPAIR))
                 bWorker.DoWork += WorkerRepairSongs;
-            else if (WorkDescription.ToLower().Contains(Constants.GWORKER_ACHRIVE))
+            else if (WorkDescription.Equals(Constants.GWORKER_ACHRIVE))
                 bWorker.DoWork += WorkerArchiveSongs;
-            else if (WorkDescription.ToLower().Contains(Constants.GWORKER_PITCHSHIFT))
+            else if (WorkDescription.Equals(Constants.GWORKER_PITCHSHIFT))
                 bWorker.DoWork += WorkerPitchShiftSongs;
-            else if (WorkDescription.ToLower().Contains(Constants.GWORKER_ORGANIZE))
+            else if (WorkDescription.Equals(Constants.GWORKER_ORGANIZE))
                 bWorker.DoWork += WorkerOrganizeSongs;
             else
                 throw new Exception("I'm not that kind of worker ...");

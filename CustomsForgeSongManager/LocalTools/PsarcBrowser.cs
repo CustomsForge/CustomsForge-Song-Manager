@@ -199,7 +199,7 @@ namespace CustomsForgeSongManager.LocalTools
                             song.SongVolume = attributes.SongVolume;
 
                             // try to get SongVolume from main audio bnk file 
-                            if (song.SongVolume == null)
+                            if (song.SongVolume == null && !song.IsRsCompPack && !song.IsSongPack && !song.IsSongsPsarc)
                             {
                                 Platform platform = _filePath.GetPlatform();
                                 var bnkEntry = _archive.TOC.FirstOrDefault(x => x.Name.StartsWith("audio/") && x.Name.EndsWith(".bnk") && !x.Name.EndsWith("_preview.bnk"));
@@ -378,10 +378,11 @@ namespace CustomsForgeSongManager.LocalTools
                             arr.TremoloCount = maxLevelNotes.Count(n => n.Tremolo > 0);
                             arr.VibratoCount = maxLevelNotes.Count(n => n.Vibrato > 0);
 
-                            // TODO: extract all AP (not sure how useful data is though) 
                             // Arrangement Properties
                             if (arrName.ToLower().Equals("bass"))
                                 arr.BassPick = bassPick;
+
+                            // TODO: extract all AP (not sure how useful data is though) 
 
                             arr.SectionsCount = song2014.Sections.ToList().Count();
                             arr.TonesCount = song2014.Tones.ToList().Count;

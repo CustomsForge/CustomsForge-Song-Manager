@@ -25,7 +25,7 @@ using System.Net.Cache;
 
 namespace CustomsForgeSongManager.UControls
 {
-    public partial class ArrangementManager : UserControl, IDataGridViewHolder, INotifyTabChanged
+    public partial class ArrangementAnalyzer : UserControl, IDataGridViewHolder, INotifyTabChanged
     {
         private bool allSelected = false;
         private List<ArrangementData> arrangementList = new List<ArrangementData>();
@@ -36,7 +36,7 @@ namespace CustomsForgeSongManager.UControls
         private int firstIndex = 0;
         private string lastSelectedSongPath = String.Empty;
 
-        public ArrangementManager()
+        public ArrangementAnalyzer()
         {
             InitializeComponent();
             Globals.TsLabel_StatusMsg.Click += lnkShowAll_Click;
@@ -70,14 +70,6 @@ namespace CustomsForgeSongManager.UControls
             Globals.TsLabel_MainMsg.Visible = true;
             Globals.TsLabel_DisabledCounter.Visible = false;
             Globals.TsLabel_StatusMsg.Visible = false;
-        }
-
-        private void Arrangements_Resize(object sender, EventArgs e)
-        {
-            if (dgvArrangements.DataSource == null || dgvArrangements.RowCount == 0)
-                return;
-
-            firstIndex = dgvArrangements.FirstDisplayedCell.RowIndex;
         }
 
         private void ColumnMenuItemClick(object sender, EventArgs eventArgs)
@@ -188,16 +180,14 @@ namespace CustomsForgeSongManager.UControls
                             // calculated content taken from SongData
                             ChordNamesCounts = songArr.ChordNamesCounts,
                             Selected = song.Selected,
-                            OfficialDLC = song.OfficialDLC,
+                            IsOfficialDLC = song.IsOfficialDLC,
                             IsRsCompPack = song.IsRsCompPack,
+                            IsBassPick = songArr.IsBassPick,
                             ArtistTitleAlbum = song.ArtistTitleAlbum,
                             ArtistTitleAlbumDate = song.ArtistTitleAlbumDate,
                             FileName = song.FileName,
                             Tagged = song.Tagged,
-                            RepairStatus = song.RepairStatus,
-
-                            // Arrangement Property
-                            BassPick = songArr.BassPick
+                            RepairStatus = song.RepairStatus
                         };
 
                     arrangementList.Add(arr);
@@ -268,10 +258,10 @@ namespace CustomsForgeSongManager.UControls
             foreach (DataGridViewRow row in dgvArrangements.Rows)
             {
                 var sd = DgvExtensions.GetObjectFromRow<ArrangementData>(row);
-                if (sd.OfficialDLC)
+                if (sd.IsOfficialDLC)
                 {
                     row.Cells["colSelect"].Value = false;
-                    row.Cells["colSelect"].ReadOnly = sd.OfficialDLC;
+                    row.Cells["colSelect"].ReadOnly = sd.IsOfficialDLC;
                     sd.Selected = false;
                 }
             }
@@ -300,6 +290,14 @@ namespace CustomsForgeSongManager.UControls
             }
         }
 
+        private void RefreshDgv(bool fullRescan)
+        {
+            bindingCompleted = false;
+            dgvPainted = false;
+            Rescan(fullRescan);
+            PopulateArrangementManager();
+        }
+
         private void RemoveFilter()
         {
             // save current sorting before removing filter
@@ -312,6 +310,75 @@ namespace CustomsForgeSongManager.UControls
             // reapply sort direction to reselect the filtered song
             DgvExtensions.RestoreSorting(dgvArrangements);
             this.Refresh();
+        }
+
+        private void Rescan(bool fullRescan)
+        {
+            dgvArrangements.DataSource = null;
+
+            // this should never happen
+            if (String.IsNullOrEmpty(AppSettings.Instance.RSInstalledDir))
+            {
+                MessageBox.Show("<Error>: Rocksmith 2014 Installation Directory setting is null or empty.", Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            // this is done here in case user decided to manually delete songs
+            List<string> filesList = Worker.FilesList(Constants.Rs2DlcFolder, AppSettings.Instance.IncludeRS1CompSongs, AppSettings.Instance.IncludeRS2BaseSongs, AppSettings.Instance.IncludeCustomPacks);
+            if (!filesList.Any())
+            {
+                var msgText = string.Format("Houston ... We have a problem!{0}There are no Rocksmith 2014 songs in:" + "{0}{1}{0}{0}Please select a valid Rocksmith 2014{0}installation directory when you restart CFSM.  ", Environment.NewLine, Constants.Rs2DlcFolder);
+                MessageBox.Show(msgText, Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Stop);
+
+                if (Directory.Exists(Constants.WorkFolder))
+                {
+                    File.Delete(Constants.SongsInfoPath);
+                    if (Directory.Exists(Constants.AudioCacheFolder))
+                        Directory.Delete(Constants.AudioCacheFolder);
+                }
+
+                // prevents write log attempt and shuts down the app
+                // Environment.Exit(0);
+
+                // some users have highly customized Rocksmith directory paths
+                // this provides better user option than just killing the app down
+                return;
+            }
+
+            ToggleUIControls(false);
+
+            if (fullRescan)
+            {
+                // force full rescan by clearing MasterCollection before calling BackgroundScan
+                Globals.MasterCollection.Clear();
+                // force reload
+                Globals.ReloadSetlistManager = true;
+                Globals.ReloadDuplicates = true;
+                Globals.ReloadRenamer = true;
+                Globals.ReloadSongManager = true;
+                AppSettings.Instance.IncludeArrangementData = true;
+                Globals.Settings.SaveSettingsToFile(Globals.DgvCurrent);
+            }
+
+            // run new worker
+            using (Worker worker = new Worker())
+            {
+                worker.BackgroundScan(this, bWorker);
+
+                while (Globals.WorkerFinished == Globals.Tristate.False)
+                    Application.DoEvents();
+            }
+
+            ToggleUIControls(true);
+
+            if (Globals.WorkerFinished == Globals.Tristate.Cancelled)
+            {
+                Globals.Log(Resources.UserCancelledProcess);
+                return;
+            }
+
+            // BackgroundScan populates Globals.MasterCollection
+            Globals.SongManager.SaveSongCollectionToFile();
         }
 
         private void SearchCDLC(string criteria)
@@ -361,6 +428,72 @@ namespace CustomsForgeSongManager.UControls
             GenExtensions.InvokeIfRequired(lnkClearSearch, delegate { lnkClearSearch.Enabled = enable; });
         }
 
+        private void dgvArrangements_Paint(object sender, PaintEventArgs e)
+        {
+            // need to wait for DataBinding and DataGridView Paint to complete before  
+            // changing BLRV column color (cell formating) on initial loading
+
+            if (bindingCompleted && !dgvPainted)
+            {
+                dgvPainted = true;
+                // Globals.Log("dgvArrangements Painted ... ");
+            }
+        }
+
+        private void dgvArrangements_Scroll(object sender, ScrollEventArgs e)
+        {
+            if (dgvArrangements.DataSource == null || dgvArrangements.RowCount == 0)
+                return;
+
+            firstIndex = dgvArrangements.FirstDisplayedCell.RowIndex;
+        }
+
+        private void dgvArrangements_Sorted(object sender, EventArgs e)
+        {
+            if (dgvArrangements.SortedColumn != null)
+            {
+                AppSettings.Instance.SortColumn = dgvArrangements.SortedColumn.DataPropertyName;
+                AppSettings.Instance.SortAscending = dgvArrangements.SortOrder == SortOrder.Ascending ? true : false;
+
+                // refresh is necessary to avoid exceptions when row has been deleted
+                dgvArrangements.Refresh();
+
+                // Reselect last selected row after sorting
+                if (lastSelectedSongPath != string.Empty)
+                {
+                    int newRowIndex = dgvArrangements.Rows.Cast<DataGridViewRow>().FirstOrDefault(r => r.Cells["colFilePath"].Value.ToString() == lastSelectedSongPath).Index;
+                    dgvArrangements.Rows[newRowIndex].Selected = true;
+                    dgvArrangements.FirstDisplayedScrollingRowIndex = newRowIndex;
+                }
+                else
+                    lastSelectedSongPath = String.Empty;
+            }
+
+            dgvArrangements.Refresh();
+        }
+
+        private void Arrangements_Resize(object sender, EventArgs e)
+        {
+            if (dgvArrangements.DataSource == null || dgvArrangements.RowCount == 0)
+                return;
+
+            firstIndex = dgvArrangements.FirstDisplayedCell.RowIndex;
+        }
+
+        private void cueSearch_KeyUp(object sender, KeyEventArgs e)
+        {
+            // save current sort
+            DgvExtensions.SaveSorting(dgvArrangements);
+
+            if (cueSearch.Text.Length > 0) // && e.KeyCode == Keys.Enter)
+                SearchCDLC(cueSearch.Text);
+            else
+                LoadFilteredBindingList(arrangementList);
+
+            // restore current sort
+            DgvExtensions.RestoreSorting(dgvArrangements);
+        }
+
         private void dgvArrangements_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             // make sure grid has been painted before proceeding
@@ -397,7 +530,7 @@ namespace CustomsForgeSongManager.UControls
 
             if (arr != null)
             {
-                if (arr.OfficialDLC)
+                if (arr.IsOfficialDLC)
                 {
                     e.CellStyle.Font = Constants.OfficialDLCFont;
                     // prevent checking (selecting) ODCL all together ... evil genious code
@@ -411,17 +544,17 @@ namespace CustomsForgeSongManager.UControls
             }
 
             // Convert BassPick formatting from 1, 0, or null => True, False, or ""
-            if (dgvArrangements.Columns[e.ColumnIndex].Name == "colBassPick")
-            {
-                if ((int?)e.Value == 1)
-                    e.Value = "True";
-                else if ((int?)e.Value == 0)
-                    e.Value = "False";
-                else
-                    e.Value = "";
+            //if (dgvArrangements.Columns[e.ColumnIndex].Name == "colBassPick")
+            //{
+            //    if ((int?)e.Value == 1)
+            //        e.Value = "True";
+            //    else if ((int?)e.Value == 0)
+            //        e.Value = "False";
+            //    else
+            //        e.Value = "";
 
-                e.FormattingApplied = true;
-            }
+            //    e.FormattingApplied = true;
+            //}
         }
 
         private void dgvArrangements_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
@@ -521,6 +654,50 @@ namespace CustomsForgeSongManager.UControls
             }
         }
 
+        private void dgvArrangements_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            // HACK: catch DataBindingComplete called by other UC's
+            var grid = (DataGridView)sender;
+            if (grid.Name != "dgvArrangements")
+                return;
+
+            if (e.ListChangedType != ListChangedType.Reset)
+                return;
+
+            // need to wait for DataBinding and DataGridView Paint to complete before  
+            // changing BLRV column color (cell formating) on initial loading
+
+            if (!bindingCompleted)
+            {
+                // Globals.Log("DataBinding Complete ... ");
+                bindingCompleted = true;
+            }
+
+            if (!dgvPainted) // speed hack
+                return;
+
+            var filterStatus = DataGridViewAutoFilterColumnHeaderCell.GetFilterStatus(dgvArrangements);
+            // filter applied
+            if (!String.IsNullOrEmpty(filterStatus))
+            {
+                Globals.TsLabel_StatusMsg.Alignment = ToolStripItemAlignment.Right;
+                Globals.TsLabel_StatusMsg.Text = "Show &All";
+                Globals.TsLabel_StatusMsg.IsLink = true;
+                Globals.TsLabel_StatusMsg.LinkBehavior = LinkBehavior.HoverUnderline;
+                Globals.TsLabel_StatusMsg.Visible = true;
+                Globals.TsLabel_DisabledCounter.Alignment = ToolStripItemAlignment.Right;
+                Globals.TsLabel_DisabledCounter.Text = filterStatus;
+                Globals.TsLabel_DisabledCounter.Visible = true;
+            }
+
+            // filter removed
+            if (String.IsNullOrEmpty(filterStatus) && this.dgvArrangements.CurrentCell != null && String.IsNullOrEmpty(cueSearch.Text))
+                RemoveFilter();
+
+            // save filter - future use
+            AppSettings.Instance.FilterString = DataGridViewAutoFilterColumnHeaderCell.GetFilterString(dgvArrangements);
+        }
+
         private void dgvArrangements_KeyDown(object sender, KeyEventArgs e)
         {
             // shortcut keys to show column filter dropdown
@@ -570,108 +747,6 @@ namespace CustomsForgeSongManager.UControls
             }
         }
 
-        private void dgvArrangements_Paint(object sender, PaintEventArgs e)
-        {
-            // need to wait for DataBinding and DataGridView Paint to complete before  
-            // changing BLRV column color (cell formating) on initial loading
-
-            if (bindingCompleted && !dgvPainted)
-            {
-                dgvPainted = true;
-                // Globals.Log("dgvArrangements Painted ... ");
-            }
-        }
-
-        private void dgvArrangements_Scroll(object sender, ScrollEventArgs e)
-        {
-            if (dgvArrangements.DataSource == null || dgvArrangements.RowCount == 0)
-                return;
-
-            firstIndex = dgvArrangements.FirstDisplayedCell.RowIndex;
-        }
-
-        private void dgvArrangements_Sorted(object sender, EventArgs e)
-        {
-            if (dgvArrangements.SortedColumn != null)
-            {
-                AppSettings.Instance.SortColumn = dgvArrangements.SortedColumn.DataPropertyName;
-                AppSettings.Instance.SortAscending = dgvArrangements.SortOrder == SortOrder.Ascending ? true : false;
-
-                // refresh is necessary to avoid exceptions when row has been deleted
-                dgvArrangements.Refresh();
-
-                // Reselect last selected row after sorting
-                if (lastSelectedSongPath != string.Empty)
-                {
-                    int newRowIndex = dgvArrangements.Rows.Cast<DataGridViewRow>().FirstOrDefault(r => r.Cells["colFilePath"].Value.ToString() == lastSelectedSongPath).Index;
-                    dgvArrangements.Rows[newRowIndex].Selected = true;
-                    dgvArrangements.FirstDisplayedScrollingRowIndex = newRowIndex;
-                }
-                else
-                    lastSelectedSongPath = String.Empty;
-            }
-
-            dgvArrangements.Refresh();
-        }
-
-        private void cueSearch_KeyUp(object sender, KeyEventArgs e)
-        {
-            // save current sort
-            DgvExtensions.SaveSorting(dgvArrangements);
-
-            if (cueSearch.Text.Length > 0) // && e.KeyCode == Keys.Enter)
-                SearchCDLC(cueSearch.Text);
-            else
-                LoadFilteredBindingList(arrangementList);
-
-            // restore current sort
-            DgvExtensions.RestoreSorting(dgvArrangements);
-        }
-
-        private void dgvArrangements_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
-        {
-            // HACK: catch DataBindingComplete called by other UC's
-            var grid = (DataGridView)sender;
-            if (grid.Name != "dgvArrangements")
-                return;
-
-            if (e.ListChangedType != ListChangedType.Reset)
-                return;
-
-            // need to wait for DataBinding and DataGridView Paint to complete before  
-            // changing BLRV column color (cell formating) on initial loading
-
-            if (!bindingCompleted)
-            {
-                // Globals.Log("DataBinding Complete ... ");
-                bindingCompleted = true;
-            }
-
-            if (!dgvPainted) // speed hack
-                return;
-
-            var filterStatus = DataGridViewAutoFilterColumnHeaderCell.GetFilterStatus(dgvArrangements);
-            // filter applied
-            if (!String.IsNullOrEmpty(filterStatus))
-            {
-                Globals.TsLabel_StatusMsg.Alignment = ToolStripItemAlignment.Right;
-                Globals.TsLabel_StatusMsg.Text = "Show &All";
-                Globals.TsLabel_StatusMsg.IsLink = true;
-                Globals.TsLabel_StatusMsg.LinkBehavior = LinkBehavior.HoverUnderline;
-                Globals.TsLabel_StatusMsg.Visible = true;
-                Globals.TsLabel_DisabledCounter.Alignment = ToolStripItemAlignment.Right;
-                Globals.TsLabel_DisabledCounter.Text = filterStatus;
-                Globals.TsLabel_DisabledCounter.Visible = true;
-            }
-
-            // filter removed
-            if (String.IsNullOrEmpty(filterStatus) && this.dgvArrangements.CurrentCell != null && String.IsNullOrEmpty(cueSearch.Text))
-                RemoveFilter();
-
-            // save filter - future use
-            AppSettings.Instance.FilterString = DataGridViewAutoFilterColumnHeaderCell.GetFilterString(dgvArrangements);
-        }
-
         private void lnkClearSearch_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             cueSearch.Text = String.Empty;
@@ -706,56 +781,17 @@ namespace CustomsForgeSongManager.UControls
             dgvArrangements.Refresh();
         }
 
-        public DataGridView GetGrid()
+        private void tsmiHelpGeneral_Click(object sender, EventArgs e)
         {
-            return dgvArrangements;
-        }
-
-        public void TabEnter()
-        {
-            Globals.DgvCurrent = dgvArrangements;
-            Globals.Log("Arrangements GUI Activated ...");
-
-            if (Globals.ReloadArrangements)
-            {
-                RefreshDgv(false);
-                Globals.ReloadArrangements = false;
-            }
-
-            if (Globals.RescanArrangements && AppSettings.Instance.IncludeArrangementData)
-            {
-                RefreshDgv(true);
-                Globals.RescanArrangements = false;
-            }
-
-            // work around for menu strip display glitch in IDE
-            this.Invalidate();
-            this.Update();
-            this.Refresh();
-
-            if (!AppSettings.Instance.IncludeArrangementData)
-            {
-                var diaMsg = "Arrangement data has not been fully parsed" + Environment.NewLine +
-                             "from the songs.  Use 'Rescan Full' to" + Environment.NewLine +
-                             "display the complete Arrangement data.";
-
-                BetterDialog2.ShowDialog(diaMsg, "Rescan Full Required", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "WARNING", 0, 150);
-            }
-        }
-
-        public void TabLeave()
-        {
-            if (arrangementList.Any())
-                Globals.Settings.SaveSettingsToFile(dgvArrangements);
-
-            Globals.Log("Arrangements GUI Deactivated ...");
+            frmNoteViewer.ViewResourcesFile("CustomsForgeSongManager.Resources.HelpArrangements.rtf", "Arrangements Help");
+            this.Refresh(); // gets rid of screen refresh glitch in IDE mode
         }
 
         private void tsmiRescanFull_Click(object sender, EventArgs e)
         {
             // just for fun ... estimate parsing time
             // based on machine specs (speed, cores and OS) (P4 2500 C1 5) (i7 3500 C4 10)           
-            const float psarcFactor = 41000.0f; // adjust as needed 
+            const float psarcFactor = 41000.0f; // adjust as needed (lower factor => less time)
             var osMajor = Environment.OSVersion.Version.Major;
             var processorSpeed = SysExtensions.GetProcessorSpeed();
             var coreCount = SysExtensions.GetCoreCount();
@@ -763,8 +799,8 @@ namespace CustomsForgeSongManager.UControls
             var songsCount = Globals.MasterCollection.Count;
             var secsEPT = songsCount * secsPerSong; // estimated pasing time (secs)
             var diaMsg = "You are about to run a full rescan of (" + songsCount + ") songs." + Environment.NewLine +
-                "Operation will take approximately (" + secsEPT + ") seconds  " + Environment.NewLine +
-                "to complete." + Environment.NewLine + Environment.NewLine + "Do you want to proceed?";
+                         "Operation will take approximately (" + secsEPT + ") seconds  " + Environment.NewLine +
+                         "to complete." + Environment.NewLine + Environment.NewLine + "Do you want to proceed?";
 
             if (DialogResult.No == BetterDialog2.ShowDialog(diaMsg, "Full Rescan", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Question.Handle), "INFO", 0, 150))
                 return;
@@ -796,81 +832,49 @@ namespace CustomsForgeSongManager.UControls
                 RefreshDgv(false);
         }
 
-        private void RefreshDgv(bool fullRescan)
+        public DataGridView GetGrid()
         {
-            bindingCompleted = false;
-            dgvPainted = false;
-            Rescan(fullRescan);
-            PopulateArrangementManager();
+            return dgvArrangements;
         }
 
-        private void Rescan(bool fullRescan)
+        public void TabEnter()
         {
-            dgvArrangements.DataSource = null;
+            Globals.DgvCurrent = dgvArrangements;
+            Globals.Log("Arrangements GUI Activated ...");
 
-            // this should never happen
-            if (String.IsNullOrEmpty(AppSettings.Instance.RSInstalledDir))
+            if (Globals.ReloadArrangements)
             {
-                MessageBox.Show("<Error>: Rocksmith 2014 Installation Directory setting is null or empty.", Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                RefreshDgv(false);
+                Globals.ReloadArrangements = false;
             }
 
-            // this is done here in case user decided to manually delete songs
-            List<string> filesList = Worker.FilesList(Constants.Rs2DlcFolder, AppSettings.Instance.IncludeRS1CompSongs, AppSettings.Instance.IncludeRS2BaseSongs, AppSettings.Instance.IncludeCustomPacks);
-            if (!filesList.Any())
+            if (Globals.RescanArrangements && AppSettings.Instance.IncludeArrangementData)
             {
-                var msgText = string.Format("Houston ... We have a problem!{0}There are no Rocksmith 2014 songs in:" + "{0}{1}{0}{0}Please select a valid Rocksmith 2014{0}installation directory when you restart CFSM.  ", Environment.NewLine, Constants.Rs2DlcFolder);
-                MessageBox.Show(msgText, Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Stop);
-
-                if (Directory.Exists(Constants.WorkFolder))
-                {
-                    File.Delete(Constants.SongsInfoPath);
-                    if (Directory.Exists(Constants.AudioCacheFolder))
-                        Directory.Delete(Constants.AudioCacheFolder);
-                }
-
-                // prevents write log attempt and shuts down the app
-                // Environment.Exit(0);
-
-                // some users have highly customized Rocksmith directory paths
-                // this provides better user option than just killing the app down
-                return;
+                RefreshDgv(true);
+                Globals.RescanArrangements = false;
             }
 
-            ToggleUIControls(false);
+            // work around for menu strip display glitch in IDE mode
+            this.Invalidate();
+            this.Update();
+            this.Refresh();
 
-            if (fullRescan)
+            if (!AppSettings.Instance.IncludeArrangementData)
             {
-                // force full rescan by clearing MasterCollection before calling BackgroundScan
-                Globals.MasterCollection.Clear();
-                // force reload
-                Globals.ReloadSetlistManager = true;
-                Globals.ReloadDuplicates = true;
-                Globals.ReloadRenamer = true;
-                Globals.ReloadSongManager = true;
-                AppSettings.Instance.IncludeArrangementData = true;
-                Globals.Settings.SaveSettingsToFile(Globals.DgvCurrent);
+                var diaMsg = "Arrangement data has not been fully parsed" + Environment.NewLine +
+                             "from the CDLC archives.  Use 'Rescan Full'" + Environment.NewLine +
+                             "to display the complete Arrangement data.";
+
+                BetterDialog2.ShowDialog(diaMsg, "Rescan Full Required", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "WARNING", 0, 150);
             }
+        }
 
-            // run new worker
-            using (Worker worker = new Worker())
-            {
-                worker.BackgroundScan(this, bWorker);
+        public void TabLeave()
+        {
+            if (arrangementList.Any())
+                Globals.Settings.SaveSettingsToFile(dgvArrangements);
 
-                while (Globals.WorkerFinished == Globals.Tristate.False)
-                    Application.DoEvents();
-            }
-
-            ToggleUIControls(true);
-
-            if (Globals.WorkerFinished == Globals.Tristate.Cancelled)
-            {
-                Globals.Log(Resources.UserCancelledProcess);
-                return;
-            }
-
-            // BackgroundScan populates Globals.MasterCollection
-            Globals.SongManager.SaveSongCollectionToFile();
+            Globals.Log("Arrangements GUI Deactivated ...");
         }
     }
 }

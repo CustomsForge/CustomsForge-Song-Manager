@@ -308,11 +308,11 @@
     <Compile Include="SongEditor\ucTones.Designer.cs">
       <DependentUpon>ucTones.cs</DependentUpon>
     </Compile>
-    <Compile Include="UControls\ArrangementManager.cs">
+    <Compile Include="UControls\ArrangementAnalyzer.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UControls\ArrangementManager.Designer.cs">
-      <DependentUpon>ArrangementManager.cs</DependentUpon>
+    <Compile Include="UControls\ArrangementAnalyzer.Designer.cs">
+      <DependentUpon>ArrangementAnalyzer.cs</DependentUpon>
     </Compile>
     <Compile Include="UControls\SongPacks.cs">
       <SubType>UserControl</SubType>
@@ -438,8 +438,8 @@
     <EmbeddedResource Include="SongEditor\ucTones.resx">
       <DependentUpon>ucTones.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UControls\ArrangementManager.resx">
-      <DependentUpon>ArrangementManager.cs</DependentUpon>
+    <EmbeddedResource Include="UControls\ArrangementAnalyzer.resx">
+      <DependentUpon>ArrangementAnalyzer.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UControls\SongPacks.resx">
@@ -491,7 +491,7 @@
       <SubType>Designer</SubType>
     </None>
     <EmbeddedResource Include="Resources\HelpDuplicates.rtf" />
-    <None Include="ClassDiagram1.cd" />
+    <EmbeddedResource Include="Resources\HelpArrangements.rtf" />
     <None Include="Resources\logo_black.png" />
   </ItemGroup>
   <ItemGroup>
@@ -720,66 +720,55 @@ REM spacing around == and ( is important
 REM upper lower case is important for Directory and File names
 
 if $(ConfigurationName) ==InnoRelease (
-  CD "$(SolutionDir)ThirdParty\CFSM_Setup_Release\"
-  DEL /Q *.txt
-  DEL /Q *.exe
-  DEL /Q *.rar
-
-  DEL /S /Q " "$(ProjectDir)bin\ConfuserEx\*"
-  RD /S /Q "$(ProjectDir)bin\ConfuserEx\"
-  MKDIR "$(ProjectDir)bin\ConfuserEx\"
-  XCOPY /Y /E /D "$(TargetDir)*.*" "$(ProjectDir)bin\ConfuserEx\*.*"
-
-  CD "$(SolutionDir)ThirdParty\ConfuserEx_bin\"
-  "Confuser.CLI.exe" "$(SolutionDir)ThirdParty\ConfuserExScripts\ConfuserExInno.crproj"
-
+CD "$(SolutionDir)ThirdParty\CFSM_Setup_Release\"
+DEL /Q *.txt
+DEL /Q *.exe
+DEL /Q *.rar
+DEL /S /Q " "$(ProjectDir)bin\ConfuserEx\*"
+RD /S /Q "$(ProjectDir)bin\ConfuserEx\"
+MKDIR "$(ProjectDir)bin\ConfuserEx\"
+XCOPY /Y /E /D "$(TargetDir)*.*" "$(ProjectDir)bin\ConfuserEx\*.*"
+CD "$(SolutionDir)ThirdParty\ConfuserEx_bin\"
+"Confuser.CLI.exe" "$(SolutionDir)ThirdParty\ConfuserExScripts\ConfuserExInno.crproj"
 rem must be connected to internet for signtool to work properly
 rem CD "$(ProjectDir)bin\ConfuserEx\"
 rem "%25programfiles%25\Microsoft SDKs\Windows\v7.0A\bin\signtool.exe"  sign /f CFSM_Certificate.pfx /p cozylov /t http://timestamp.verisign.com/scripts/timstamp.dll CustomsForgeSongManager.exe
-
-  CD "$(SolutionDir)ThirdParty\Inno_bin\"
- "ISCC.exe" "$(SolutionDir)ThirdParty\InnoScripts\genericInstaller.iss"
-
-  CD "$(SolutionDir)ThirdParty\CFSM_Setup_Release\"   
-  "D:\Program Files\WinRAR\WinRar.exe" a -r "CFSMSetup.rar" "CFSMSetup.exe"
-  COPY /Y "$(TargetDir)ReleaseNotes.txt" "ReleaseNotes.txt"
-  COPY /Y "$(SolutionDir)ThirdParty\VersionInfo.txt" "VersionInfo.txt"
+CD "$(SolutionDir)ThirdParty\Inno_bin\"
+"ISCC.exe" "$(SolutionDir)ThirdParty\InnoScripts\genericInstaller.iss"
+CD "$(SolutionDir)ThirdParty\CFSM_Setup_Release\"   
+"D:\Program Files\WinRAR\WinRar.exe" a -r "CFSMSetup.rar" "CFSMSetup.exe"
+COPY /Y "$(TargetDir)ReleaseNotes.txt" "ReleaseNotes.txt"
+COPY /Y "$(SolutionDir)ThirdParty\VersionInfo.txt" "VersionInfo.txt"
 )
 
 if $(ConfigurationName) ==InnoBeta (
-  CD "$(SolutionDir)ThirdParty\CFSM_Setup_Beta\"
-  DEL /Q *.txt
-  DEL /Q *.exe
-  DEL /Q *.rar
- 
-  DEL /S /Q " "$(ProjectDir)bin\ConfuserEx\*"
-  RD /S /Q "$(ProjectDir)bin\ConfuserEx\"
-  MKDIR "$(ProjectDir)bin\ConfuserEx\"
-  XCOPY /Y /E /D "$(TargetDir)*.*" "$(ProjectDir)bin\ConfuserEx\*.*"
-
-  CD "$(SolutionDir)ThirdParty\ConfuserEx_bin\"
-  "Confuser.CLI.exe" "$(SolutionDir)ThirdParty\ConfuserExScripts\ConfuserExInno.crproj"
-
+CD "$(SolutionDir)ThirdParty\CFSM_Setup_Beta\"
+DEL /Q *.txt
+DEL /Q *.exe
+DEL /Q *.rar
+DEL /S /Q " "$(ProjectDir)bin\ConfuserEx\*"
+RD /S /Q "$(ProjectDir)bin\ConfuserEx\"
+MKDIR "$(ProjectDir)bin\ConfuserEx\"
+XCOPY /Y /E /D "$(TargetDir)*.*" "$(ProjectDir)bin\ConfuserEx\*.*"
+CD "$(SolutionDir)ThirdParty\ConfuserEx_bin\"
+"Confuser.CLI.exe" "$(SolutionDir)ThirdParty\ConfuserExScripts\ConfuserExInno.crproj"
 rem must be connected to internet for signtool to work properly
 rem CD "$(ProjectDir)bin\ConfuserEx\"
 rem "%25programfiles%25\Microsoft SDKs\Windows\v7.0A\bin\signtool.exe"  sign /f CFSM_Certificate.pfx /p cozylov /t http://timestamp.verisign.com/scripts/timstamp.dll CustomsForgeSongManager.exe
-
-  CD "$(SolutionDir)ThirdParty\Inno_bin\"
- "ISCC.exe" /DBETA "$(SolutionDir)ThirdParty\InnoScripts\genericInstaller.iss"
-
-  CD "$(SolutionDir)ThirdParty\CFSM_Setup_Beta\"   
-  "D:\Program Files\WinRAR\WinRar.exe" a -r "CFSMSetupBeta.rar" "CFSMSetup.exe"
-  COPY /Y "$(TargetDir)ReleaseNotes.txt" "ReleaseNotes.txt"
-  COPY /Y "$(SolutionDir)ThirdParty\VersionInfo.txt" "VersionInfo.txt"
+CD "$(SolutionDir)ThirdParty\Inno_bin\"
+"ISCC.exe" /DBETA "$(SolutionDir)ThirdParty\InnoScripts\genericInstaller.iss"
+CD "$(SolutionDir)ThirdParty\CFSM_Setup_Beta\"   
+"D:\Program Files\WinRAR\WinRar.exe" a -r "CFSMSetupBeta.rar" "CFSMSetup.exe"
+COPY /Y "$(TargetDir)ReleaseNotes.txt" "ReleaseNotes.txt"
+COPY /Y "$(SolutionDir)ThirdParty\VersionInfo.txt" "VersionInfo.txt"
 )
 
 rem if $(ConfigurationName This line will throw an error for post build debugging purposes purposes</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>XCOPY /Y /D "$(SolutionDir)libs\*.xml" "$(TargetDir)*.xml" 
-XCOPY /Y /E /D "$(SolutionDir)libs\ww2ogg\*.*" "$(TargetDir)*.*"
+XCOPY /Y /E /D "$(SolutionDir)libs\tools\*.*" "$(TargetDir)tools\*.*"
 XCOPY /Y /E /D "$(SolutionDir)libs\ddc\*.*" "$(TargetDir)ddc\*.*"
-
 REM if $(ConfigurationName This line will throw an error for debugging</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

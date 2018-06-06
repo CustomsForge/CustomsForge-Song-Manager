@@ -1059,7 +1059,7 @@ namespace CustomsForgeSongManager.UControls
 
             if (song != null && song.DLCKey != null)
             {
-                if (song.OfficialDLC)
+                if (song.IsOfficialDLC)
                 {
                     e.CellStyle.Font = Constants.OfficialDLCFont;
                     // prevent checking (selecting) ODCL all together ... evil genious code
@@ -1159,8 +1159,8 @@ namespace CustomsForgeSongManager.UControls
                     {
                         var sng = DgvExtensions.GetObjectFromRow<SongData>(dgvSetlistMaster, e.RowIndex);
                         // cmsCopy.Enabled = !sng.OfficialDLC;
-                        cmsMove.Enabled = !sng.OfficialDLC;
-                        cmsDelete.Enabled = !sng.OfficialDLC;
+                        cmsMove.Enabled = !sng.IsOfficialDLC;
+                        cmsDelete.Enabled = !sng.IsOfficialDLC;
                     }
 
                     // known VS bug .. SourceControl returns null .. using tag for work around

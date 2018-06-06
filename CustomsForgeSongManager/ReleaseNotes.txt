@@ -14,10 +14,32 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
-1.4.5.7
+1.4.5.1
+- added Help menu item to the renamed Arrangement Analyzer feature
+- fixed ArrangementAnalyzer tag
+- fixed small issue with CSV export of Arrangement Analyzer data
+
+1.4.5.0
+- fixed SongManager (DDMax, BPM, FileDate, ConversionDate) column formatting
+- fixed Edit Song Information call to RockmsithToolkitLib.dll
+
+1.4.4.9
+- direct users to customize CFSM Settings on initial SongManager load, or
+  whenever a new SongData version is issued.
+
+1.4.4.8
+- fixed 'Repairs' 'Process Downloads Folder' ('Downloads' folder location can
+  be reset in 'Settings' tab menu)
+- added a user requested checkbox 'Auto Monitor Downloads Folder' to 'Repairs' menu
+  which will start automatic monitoring of a user selected 'Downloads' folder which
+  is used for incoming downloads, CFSM will apply auto repairs to the downloaded CDLC
+  and then auto move the repaired files to the Rocksmith 'dlc/downloads' folder.
+- improved user prompts for 'Repairs' 'Run Selected Repair Optons'.
+
+1.4.4.7
 - fixed 'Settings' 'Include Arrangements Data' parsing action when returning to 'Arrangement' tab menu
 
-1.4.5.6
+1.4.4.6
 - 5X faster initial SongManager scan (Arrangement data is optional, see 'Settings', 'Include Arrangement Data')
 - apply standardize column formatting to SongManager and Arrangements data grids
 - rewired Arrangement grid event handlers

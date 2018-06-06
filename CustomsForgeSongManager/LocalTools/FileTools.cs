@@ -521,13 +521,12 @@ namespace CustomsForgeSongManager.LocalTools
             return srcFilePaths;
         }
 
-        public static void ValidateDownloadsDir()
+        public static bool ValidateDownloadsDir()
         {
-            var downloadsDir = AppSettings.Instance.DownloadsDir;
+            var dlDirectory = AppSettings.Instance.DownloadsDir;
 
-            if (String.IsNullOrEmpty(downloadsDir) || !Directory.Exists(downloadsDir))
+            if (String.IsNullOrEmpty(dlDirectory) || !Directory.Exists(dlDirectory))
             {
-                Globals.Log("Select CDLC 'Downloads' directory ...");
                 using (var fbd = new FolderBrowserDialog())
                 {
                     // set valid initial default speical folder path
@@ -535,12 +534,15 @@ namespace CustomsForgeSongManager.LocalTools
                     fbd.Description = "Select the folder where new CDLC 'Downloads' are stored.";
 
                     if (fbd.ShowDialog() != DialogResult.OK)
-                        return;
+                        return false;
 
-                    downloadsDir = fbd.SelectedPath;
-                    AppSettings.Instance.DownloadsDir = downloadsDir;
+                    dlDirectory = fbd.SelectedPath;
+                    AppSettings.Instance.DownloadsDir = dlDirectory;
                 }
             }
+
+            Globals.Log("Validated Downloads Directory: " + dlDirectory + " ...");
+            return true;
         }
 
         public static void VerifyCfsmFolders()

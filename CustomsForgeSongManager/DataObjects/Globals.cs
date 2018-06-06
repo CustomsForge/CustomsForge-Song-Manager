@@ -46,7 +46,7 @@ namespace CustomsForgeSongManager.DataObjects
         private static Settings _settings;
         private static BindingList<SongData> _masterCollection;
         private static SongManager _songManager;
-        private static ArrangementManager _arrangementManager;
+        private static ArrangementAnalyzer _arrangementAnalyzer;
         private static Theme _theme;
         private static TaggerTools _tagger;
         private static List<OfficialDLCSong> _oDLCSongList;
@@ -161,10 +161,10 @@ namespace CustomsForgeSongManager.DataObjects
             set { _settings = value; }
         }
 
-        public static ArrangementManager ArrangementManager
+        public static ArrangementAnalyzer ArrangementAnalyzer
         {
-            get { return _arrangementManager ?? (_arrangementManager = new ArrangementManager()); }
-            set { _arrangementManager = value; }
+            get { return _arrangementAnalyzer ?? (_arrangementAnalyzer = new ArrangementAnalyzer()); }
+            set { _arrangementAnalyzer = value; }
         }
 
         public static BindingList<SongData> MasterCollection

@@ -44,6 +44,7 @@ namespace CustomsForgeSongManager.UControls
                 {
                     ValidateRsDir();
                     ValidateD3D();
+                    // FileTools.ValidateDownloadsDir();
                 }
             }
             catch (Exception ex)

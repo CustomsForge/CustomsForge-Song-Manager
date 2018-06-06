@@ -234,7 +234,7 @@ namespace CustomsForgeSongManager.Forms
             this.tpArrangements.Name = "tpArrangements";
             this.tpArrangements.Size = new System.Drawing.Size(1003, 472);
             this.tpArrangements.TabIndex = 9;
-            this.tpArrangements.Text = "Arrangements";
+            this.tpArrangements.Text = "Arrangement Analyzer";
             this.tpArrangements.UseVisualStyleBackColor = true;
             // 
             // tpDuplicates
@@ -363,35 +363,35 @@ namespace CustomsForgeSongManager.Forms
             // tsmiBBCode
             // 
             this.tsmiBBCode.Name = "tsmiBBCode";
-            this.tsmiBBCode.Size = new System.Drawing.Size(152, 22);
+            this.tsmiBBCode.Size = new System.Drawing.Size(125, 22);
             this.tsmiBBCode.Text = "BB Code";
             this.tsmiBBCode.Click += new System.EventHandler(this.tsmiBBCode_Click);
             // 
             // tsmiCSV
             // 
             this.tsmiCSV.Name = "tsmiCSV";
-            this.tsmiCSV.Size = new System.Drawing.Size(152, 22);
+            this.tsmiCSV.Size = new System.Drawing.Size(125, 22);
             this.tsmiCSV.Text = "CSV";
             this.tsmiCSV.Click += new System.EventHandler(this.tsmiCSV_Click);
             // 
             // tsmiHTML
             // 
             this.tsmiHTML.Name = "tsmiHTML";
-            this.tsmiHTML.Size = new System.Drawing.Size(152, 22);
+            this.tsmiHTML.Size = new System.Drawing.Size(125, 22);
             this.tsmiHTML.Text = "HTML";
             this.tsmiHTML.Click += new System.EventHandler(this.tsmiHTML_Click);
             // 
             // jSONToolStripMenuItem
             // 
             this.jSONToolStripMenuItem.Name = "jSONToolStripMenuItem";
-            this.jSONToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.jSONToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
             this.jSONToolStripMenuItem.Text = "JSON";
             this.jSONToolStripMenuItem.Click += new System.EventHandler(this.tsmiJSON_Click);
             // 
             // xMLToolStripMenuItem
             // 
             this.xMLToolStripMenuItem.Name = "xMLToolStripMenuItem";
-            this.xMLToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.xMLToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
             this.xMLToolStripMenuItem.Text = "XML";
             this.xMLToolStripMenuItem.Click += new System.EventHandler(this.tsmiXML_Click);
             // 
@@ -682,7 +682,6 @@ namespace CustomsForgeSongManager.Forms
         public ToolStripStatusLabel tsLabel_StatusMsg;
         public ToolStripStatusLabel tsLabel_Cancel;
         public ToolStripStatusLabel tsLabel_DisabledCounter;
-        private TabControl tcMain;
         private TabPage tpSongManager;
         private TabPage tpDuplicates;
         private TabPage tpRenamer;
@@ -719,5 +718,6 @@ namespace CustomsForgeSongManager.Forms
         private TabPage tpArrangements;
         private ToolStripMenuItem jSONToolStripMenuItem;
         private ToolStripMenuItem xMLToolStripMenuItem;
+        public TabControl tcMain;
     }
 }

@@ -1,3 +1,5 @@
+This CFSM application subfolder must be named 'ddc' to work properly with ddc.exe
+
 -------------------------------------------------------------
 -- DDC v3.4 (c) 2013-2017, by Chlipouni
 -------------------------------------------------------------

@@ -168,6 +168,7 @@ namespace CustomsForgeSongManager.Forms
                 Globals.SongManager.Location = UCLocation;
                 Globals.SongManager.Size = UCSize;
             }
+
             currentControl = Globals.SongManager;
         }
 
@@ -253,8 +254,10 @@ namespace CustomsForgeSongManager.Forms
             }
         }
 
-        private void tcMain_SelectedIndexChanged(object sender, EventArgs e)
+        public void tcMain_SelectedIndexChanged(object sender, EventArgs e)
         {
+            var debugMe = sender;
+
             // reset toolstrip globals
             Globals.ResetToolStripGlobals();
 
@@ -279,14 +282,14 @@ namespace CustomsForgeSongManager.Forms
                     LoadSongManager();
                     Globals.SongManager.UpdateToolStrip();
                     break;
-                case "Arrangements":
+                case "Arrangement Analyzer":
                     this.tpArrangements.Controls.Clear();
-                    this.tpArrangements.Controls.Add(Globals.ArrangementManager);
-                    Globals.ArrangementManager.Dock = DockStyle.Fill;
-                    Globals.ArrangementManager.UpdateToolStrip();
-                    Globals.ArrangementManager.Location = UCLocation;
-                    Globals.ArrangementManager.Size = UCSize;
-                    currentControl = Globals.ArrangementManager;
+                    this.tpArrangements.Controls.Add(Globals.ArrangementAnalyzer);
+                    Globals.ArrangementAnalyzer.Dock = DockStyle.Fill;
+                    Globals.ArrangementAnalyzer.UpdateToolStrip();
+                    Globals.ArrangementAnalyzer.Location = UCLocation;
+                    Globals.ArrangementAnalyzer.Size = UCSize;
+                    currentControl = Globals.ArrangementAnalyzer;
                     break;
                 case "Duplicates":
                     this.tpDuplicates.Controls.Clear();

@@ -52,9 +52,9 @@ namespace CustomsForgeSongManager.DataObjects
     [Serializable]
     public class SongData : NotifyPropChangedBase
     {
-        // version 1 - 10: recyclable vers numbers
+        // version 0 - 9: recyclable vers numbers
         // incrementing version forces songInfo.xml and appSettings.xml to reset/update to defaults
-        public const string SongDataListCurrentVersion = "6";
+        public const string SongDataListVersion = "1";
 
         // Unique Song Key
         public string DLCKey { get; set; }
@@ -99,15 +99,27 @@ namespace CustomsForgeSongManager.DataObjects
         // these elements are not serialized only used to display data in datagridview
         //
         [XmlIgnore]
-        public bool OfficialDLC
+        public bool IsOfficialDLC
         {
             get { return PackageAuthor == "Ubisoft" ? true : false; }
         }
 
         [XmlIgnore]
+        public bool IsSongsPsarc
+        {
+            get { return !String.IsNullOrEmpty(FilePath) && FileName.Equals("songs.psarc"); }
+        }
+
+        [XmlIgnore]
         public bool IsRsCompPack
         {
-            get { return !String.IsNullOrEmpty(FilePath) && FilePath.Contains(Constants.RS1COMP); }
+            get { return !String.IsNullOrEmpty(FilePath) && FileName.Contains(Constants.RS1COMP); }
+        }
+
+        [XmlIgnore]
+        public bool IsSongPack
+        {
+            get { return !String.IsNullOrEmpty(FilePath) && (FileName.Contains(Constants.SONGPACK) || FileName.Contains(Constants.ABVSONGPACK)); }
         }
 
         [XmlIgnore]
@@ -126,13 +138,13 @@ namespace CustomsForgeSongManager.DataObjects
                 // TODO: handle ODLC decisions at the datagrid level
                 // allow non dgvMasterSongs ODLC to be deleted/moved/selected
                 if (Globals.DgvCurrent.Name == "dgvMasterSongs")
-                    return OfficialDLC ? false : _selected;
+                    return IsOfficialDLC ? false : _selected;
 
                 return _selected;
             }
             set
             {
-                if (!OfficialDLC || Globals.DgvCurrent.Name != "dgvMasterSongs")
+                if (!IsOfficialDLC || Globals.DgvCurrent.Name != "dgvMasterSongs")
                     SetPropertyField("Selected", ref _selected, value); // _selected = value;          
                 else
                     SetPropertyField("Selected", ref _selected, false); //_selected = false;
@@ -253,9 +265,10 @@ namespace CustomsForgeSongManager.DataObjects
         public int? TremoloCount { get; set; }
         public int? VibratoCount { get; set; }
 
-        // Arrangement Properties (1 = true or 0 = false)
+        // TODO: future expansion analyzer Arrangement Properties
+        // Arrangement Properties 
+
         public int? BassPick { get; set; }
-        // TODO: future expansion Arrangement Properties
         //public int? BarreChords { get; set; }
         //public int? Bends { get; set; }
         //public int? BonusArr { get; set; }
@@ -288,6 +301,23 @@ namespace CustomsForgeSongManager.DataObjects
         //public int? TwoFingerPicking { get; set; }
         //public int? UnpitchedSlides { get; set; }
         //public int? Vibrato { get; set; }
+
+        //public bool ShouldSerializeBassPick()
+        //{
+        //    return BassPick.HasValue;
+        //}
+
+        [XmlIgnore]
+        public string IsBassPick
+        {
+            get
+            {
+                if (BassPick == null)
+                    return null;
+
+                return BassPick == 0 ? "Fingered" : "Picked";
+            }
+        }
 
         // concatinated string of chord names and cord counts
         private string _chordNamesCounts;

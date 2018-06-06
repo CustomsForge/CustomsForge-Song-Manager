@@ -15,12 +15,14 @@ using RocksmithToolkitLib.XML;
 using RocksmithToolkitLib.DLCPackage.Manifest.Functions;
 using RocksmithToolkitLib;
 using Arrangement = RocksmithToolkitLib.DLCPackage.Arrangement;
+using System.Threading;
 
 // DO NOT USE RESHAPER SORT ON THIS METHOD IT RUINS REPAIR OPTIONS OBJECT ORDER
 namespace CustomsForgeSongManager.LocalTools
 {
     public class RepairTools
     {
+        private static FileSystemWatcher watcher;
         private static bool addedDD;
         private static bool ddError;
         private static bool fixedMax5;
@@ -409,16 +411,16 @@ namespace CustomsForgeSongManager.LocalTools
                     }
                 }
 
-                // move new CDLC from the 'Downloads' folder to the 'dlc/cdlc' folder
+                // move new CDLC from the 'Downloads' folder to the 'dlc/downloads' folder
                 if (options.ProcessDLFolder)
                 {
-                    var cdlcFolder = Path.Combine(Constants.Rs2DlcFolder, "cdlc");
-                    if (!Directory.Exists(cdlcFolder))
-                        Directory.CreateDirectory(cdlcFolder);
+                    var downloadsFolder = Path.Combine(Constants.Rs2DlcFolder, "downloads");
+                    if (!Directory.Exists(downloadsFolder))
+                        Directory.CreateDirectory(downloadsFolder);
 
-                    var destFilePath = Path.Combine(cdlcFolder, Path.GetFileName(srcFilePath));
+                    var destFilePath = Path.Combine(downloadsFolder, Path.GetFileName(srcFilePath));
                     GenExtensions.MoveFile(srcFilePath, destFilePath);
-                    Globals.Log(" - Moved new CDLC to: " + cdlcFolder);
+                    Globals.Log(" - Moved new CDLC to: " + downloadsFolder);
                     Globals.ReloadSongManager = true; // set quick reload flag
 
                     // add new repaired 'Downloads' CDLC to the SongCollection
@@ -489,6 +491,77 @@ namespace CustomsForgeSongManager.LocalTools
                 noteViewer.ShowDialog();
             }
         }
+
+        #region Monitor Downloads Folder
+        public static void MonitorDLFolder(RepairOptions repairOptions)
+        {
+            if (!FileTools.ValidateDownloadsDir())
+                return;
+
+            if (repairOptions.MonitorDLFolder)
+            {
+                // Create a new FileSystemWatcher and set its properties.
+                watcher = new FileSystemWatcher();
+                watcher.Path = AppSettings.Instance.DownloadsDir;
+                /* Watch for changes in LastAccess and LastWrite times, and 
+                   the renaming of files or directories. */
+                watcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite
+                   | NotifyFilters.FileName | NotifyFilters.DirectoryName;
+                // Only watch psarc files.
+                watcher.Filter = "*.psarc";
+                // include subdirectories
+                watcher.IncludeSubdirectories = true;
+
+                // Add event handlers.
+                watcher.Changed += new FileSystemEventHandler(OnChanged);
+                watcher.Created += new FileSystemEventHandler(OnChanged);
+                watcher.Deleted += new FileSystemEventHandler(OnChanged);
+                watcher.Renamed += new RenamedEventHandler(OnRenamed);
+
+                // Begin watching.
+                watcher.EnableRaisingEvents = true;
+                Globals.Log(" - Started Watching Downloads Directory ...");
+            }
+            else
+            {
+                if (watcher != null)
+                {
+                    watcher.EnableRaisingEvents = false;
+                    watcher.Dispose();
+                    watcher = null;
+                }
+
+                Globals.Log(" - Stopped Watching Downloads Directory ...");
+            }
+        }
+
+        // Define the watcher event handlers.
+        private static void OnChanged(object source, FileSystemEventArgs e)
+        {
+            // Specify what is done when a file is changed, created, or deleted.
+            // Globals.Log(" - File " + e.ChangeType + ": " + e.FullPath);
+            
+            // only interested in new file creation
+            if (e.ChangeType == WatcherChangeTypes.Created)
+            {
+                 Globals.Log(" - New File Downloaded/Created: " + e.FullPath);
+                // Cozy needs three cases of beer donations to finish coding this feature - INK
+                // Watch user specified 'Downloads' Folder, Auto Repair, and Move to 'dlc' folder
+                Globals.Log(" - Please make a donation at https://goo.gl/iTPfRU (copy/paste this link to your browser)");
+                Globals.Log("      if you would like to have this or other special request features added to CFSM.");
+                Globals.Log("      The donation goal to implement this new feature is three cases of beer. INK");
+                //
+                Globals.Log(" - Continue Watching ...");
+            }
+        }
+
+        private static void OnRenamed(object source, RenamedEventArgs e)
+        {
+            // Specify what is done when a file is renamed.
+            Globals.Log(" - File " + e.ChangeType + ": " + e.OldFullPath + " to " + e.FullPath);
+        }
+        #endregion
+
     }
 
     internal class CustomException : Exception
@@ -549,6 +622,8 @@ namespace CustomsForgeSongManager.LocalTools
         public bool FixLowBass { get; set; }
         //
         public bool ProcessDLFolder { get; set; }
+        public bool MonitorDLFolder { get; set; }
+
     }
 
 }

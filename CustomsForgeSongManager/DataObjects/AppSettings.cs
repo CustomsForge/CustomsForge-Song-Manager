@@ -58,6 +58,12 @@ namespace CustomsForgeSongManager.DataObjects
             set { SetPropertyField("RSProfileDir", ref _rsProfileDir, value); }
         }
 
+        public string DownloadsDir
+        {
+            get { return _downloadsDir; }
+            set { SetPropertyField("DownloadsDir", ref _downloadsDir, value); }
+        }
+
         public bool IncludeRS1CompSongs
         {
             get { return _includeRS1CompSongs; }
@@ -128,12 +134,6 @@ namespace CustomsForgeSongManager.DataObjects
         {
             get { return _lastODLCCheckDate; }
             set { SetPropertyField("LastODLCCheckDate", ref _lastODLCCheckDate, value); }
-        }
-
-        public string DownloadsDir
-        {
-            get { return _downloadsDir; }
-            set { SetPropertyField("DownloadsDir", ref _downloadsDir, value); }
         }
 
         //[XmlArray("UISettings")] // provides proper xml serialization
@@ -320,7 +320,8 @@ namespace CustomsForgeSongManager.DataObjects
             RAExtensions.ManagerGridSettings = new RADataGridViewSettings();
             Instance.EnableQuarantine = false; // false because users like using corrupt CDLC
             Instance.LogFilePath = Constants.LogFilePath;
-            Instance.RSProfileDir = String.Empty; 
+            Instance.RSProfileDir = String.Empty;
+            Instance.DownloadsDir = String.Empty;
             Instance.IncludeRS1CompSongs = false; // false for fewer new user issues
             Instance.IncludeRS2BaseSongs = false;
             Instance.IncludeCustomPacks = false;
