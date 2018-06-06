@@ -1957,12 +1957,7 @@ namespace CustomsForgeSongManager.UControls
 
             this.Refresh();
             DoWork(Constants.GWORKER_PITCHSHIFT, selection, tsmiModsPitchShiftOverwrite.Checked, tsmiModsPitchShiftStandard.Checked);
-
-            // quickly reload the songCollection to the dgv
-            if (Globals.ReloadSongManager)
-                UpdateToolStrip();
-
-            dgvSongsMaster.Refresh();
+            UpdateToolStrip();
         }
 
         private void tsmiModsTagArtwork_Click(object sender, EventArgs e)

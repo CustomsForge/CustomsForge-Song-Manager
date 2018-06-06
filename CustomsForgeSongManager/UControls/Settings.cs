@@ -123,6 +123,17 @@ namespace CustomsForgeSongManager.UControls
                 return false;
             }
 
+            if (AppSettings.Instance.MacMode)
+            {
+                Globals.Log("Send the 'debug.log' file to the CFSM Developers for analysis ...");
+                Globals.Log("+ <WARNING> 'D3DX9_42.dll' file validation is disabled while in MacMode ...");
+                Globals.Log("AppSettings.Instance.RSInstalledDir = " + AppSettings.Instance.RSInstalledDir);
+                Globals.Log("Application.ExecutablePath = " + Application.ExecutablePath);
+                Globals.Log("Path.GetDirectoryName(Application.ExecutablePath) = " + Path.GetDirectoryName(Application.ExecutablePath));
+                Globals.Log("Constants.ApplicationFolder = " + Constants.ApplicationFolder);
+                return false;
+            }
+
             // validates either old and new (Remastered) version of Rocksmith 2014 D3DX9_42.dll
             var luaPath = Path.Combine(AppSettings.Instance.RSInstalledDir, "lua5.1.dll");
             var d3dPath = Path.Combine(AppSettings.Instance.RSInstalledDir, "D3DX9_42.dll");
