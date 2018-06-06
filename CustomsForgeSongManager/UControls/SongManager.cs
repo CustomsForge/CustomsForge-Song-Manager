@@ -1960,10 +1960,7 @@ namespace CustomsForgeSongManager.UControls
 
             // quickly reload the songCollection to the dgv
             if (Globals.ReloadSongManager)
-            {
-                LoadFilteredBindingList(songList);
-                Globals.ReloadSongManager = false;
-            }
+                UpdateToolStrip();
 
             dgvSongsMaster.Refresh();
         }
