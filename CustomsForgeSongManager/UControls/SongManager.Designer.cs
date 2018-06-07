@@ -68,7 +68,7 @@ namespace CustomsForgeSongManager.UControls
             this.colDetailTuning = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colDetailToneBase = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colDetailDDMax = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colDetailSections = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colDetailPitch = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgvSongsMaster = new DataGridViewTools.RADataGridView();
             this.colShowDetail = new System.Windows.Forms.DataGridViewImageColumn();
             this.colKey = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
@@ -482,9 +482,9 @@ namespace CustomsForgeSongManager.UControls
             this.colDetailPID,
             this.colDetailArrangement,
             this.colDetailTuning,
+            this.colDetailPitch,
             this.colDetailToneBase,
-            this.colDetailDDMax,
-            this.colDetailSections});
+            this.colDetailDDMax});
             this.dgvSongsDetail.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.dgvSongsDetail.HorizontalScrollBarVisible = true;
             this.dgvSongsDetail.Location = new System.Drawing.Point(27, 78);
@@ -521,7 +521,7 @@ namespace CustomsForgeSongManager.UControls
             this.colDetailArrangement.HeaderText = "Arrangement";
             this.colDetailArrangement.Name = "colDetailArrangement";
             this.colDetailArrangement.ReadOnly = true;
-            this.colDetailArrangement.Width = 92;
+            this.colDetailArrangement.Width = 120;
             // 
             // colDetailTuning
             // 
@@ -529,7 +529,15 @@ namespace CustomsForgeSongManager.UControls
             this.colDetailTuning.HeaderText = "Tuning";
             this.colDetailTuning.Name = "colDetailTuning";
             this.colDetailTuning.ReadOnly = true;
-            this.colDetailTuning.Width = 65;
+            this.colDetailTuning.Width = 100;
+            // 
+            // colDetailPitch
+            // 
+            this.colDetailPitch.DataPropertyName = "TuningPitch";
+            this.colDetailPitch.HeaderText = "TuningPitch";
+            this.colDetailPitch.Name = "colDetailPitch";
+            this.colDetailPitch.ReadOnly = true;
+            this.colDetailPitch.Width = 100;
             // 
             // colDetailToneBase
             // 
@@ -537,7 +545,7 @@ namespace CustomsForgeSongManager.UControls
             this.colDetailToneBase.HeaderText = "ToneBase";
             this.colDetailToneBase.Name = "colDetailToneBase";
             this.colDetailToneBase.ReadOnly = true;
-            this.colDetailToneBase.Width = 84;
+            this.colDetailToneBase.Width = 120;
             // 
             // colDetailDDMax
             // 
@@ -545,15 +553,7 @@ namespace CustomsForgeSongManager.UControls
             this.colDetailDDMax.HeaderText = "DDMax";
             this.colDetailDDMax.Name = "colDetailDDMax";
             this.colDetailDDMax.ReadOnly = true;
-            this.colDetailDDMax.Width = 60;
-            // 
-            // colDetailSections
-            // 
-            this.colDetailSections.DataPropertyName = "SectionCount";
-            this.colDetailSections.HeaderText = "Sections";
-            this.colDetailSections.Name = "colDetailSections";
-            this.colDetailSections.ReadOnly = true;
-            this.colDetailSections.Width = 73;
+            this.colDetailDDMax.Width = 80;
             // 
             // dgvSongsMaster
             // 
@@ -2044,9 +2044,9 @@ namespace CustomsForgeSongManager.UControls
         private DataGridViewTextBoxColumn colDetailPID;
         private DataGridViewTextBoxColumn colDetailArrangement;
         private DataGridViewTextBoxColumn colDetailTuning;
+        private DataGridViewTextBoxColumn colDetailPitch;
         private DataGridViewTextBoxColumn colDetailToneBase;
         private DataGridViewTextBoxColumn colDetailDDMax;
-        private DataGridViewTextBoxColumn colDetailSections;
         private DataGridViewImageColumn colShowDetail;
         private DataGridViewAutoFilterTextBoxColumn colKey;
         private DataGridViewCheckBoxColumn colSelect;

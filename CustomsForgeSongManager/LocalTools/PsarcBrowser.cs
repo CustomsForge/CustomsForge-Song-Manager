@@ -229,8 +229,9 @@ namespace CustomsForgeSongManager.LocalTools
 
                     if (!arrName.ToLower().EndsWith("vocals"))
                     {
-                        // Arrangement Attributes            
+                        // Arrangement Attributes used by SongManager            
                         arr.Tuning = PsarcExtensions.TuningToName(attributes.Tuning, Globals.TuningXml);
+                        arr.TuningPitch = Convert.ToDouble(attributes.CentOffset).Cents2Frequency();
                         arr.DDMax = attributes.MaxPhraseDifficulty;
 
                         if (!String.IsNullOrEmpty(attributes.Tone_Base))
@@ -257,7 +258,7 @@ namespace CustomsForgeSongManager.LocalTools
                             // DO NOTHING
                         }
 
-                        // parse Analyzer data for each Arrangement (slow process, only done if requested by user)
+                        // parse Arrangment Analyzer data (slow process, only done if requested by user)
                         if (AppSettings.Instance.IncludeArrangementData)
                         {
                             // loading SNG is 5X faster than loading XML (ODLC does not have XML)
@@ -382,11 +383,10 @@ namespace CustomsForgeSongManager.LocalTools
                             if (arrName.ToLower().Equals("bass"))
                                 arr.BassPick = bassPick;
 
-                            // TODO: extract all AP (not sure how useful data is though) 
+                            // TODO: maybe extract all AP (not sure how useful data is though) 
 
                             arr.SectionsCount = song2014.Sections.ToList().Count();
                             arr.TonesCount = song2014.Tones.ToList().Count;
-                            arr.TuningPitch = Convert.ToDouble(song2014.CentOffset).Cents2Frequency();
                             arr.CapoFret = song2014.Capo == 0xFF ? 0 : Convert.ToInt16(song2014.Capo);
                         }
                     }

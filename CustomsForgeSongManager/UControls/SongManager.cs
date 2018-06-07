@@ -1354,8 +1354,8 @@ namespace CustomsForgeSongManager.UControls
                         var colsWidth = dgvSongsDetail.Columns.Cast<DataGridViewColumn>().Sum(col => col.Width);
                         if (colsWidth < dgvSongsDetail.Width)
                         {
-                            Debug.WriteLine("Resize colDetailSections");
-                            dgvSongsDetail.Columns["colDetailSections"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                            Debug.WriteLine("Resize colDetailDDMax");
+                            dgvSongsDetail.Columns["colDetailDDMax"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                         }
 
                         firstIndex = dgvSongsMaster.FirstDisplayedCell.RowIndex;

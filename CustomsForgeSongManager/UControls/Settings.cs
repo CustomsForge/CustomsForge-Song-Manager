@@ -125,7 +125,7 @@ namespace CustomsForgeSongManager.UControls
 
             if (AppSettings.Instance.MacMode)
             {
-                Globals.Log("Send the 'debug.log' file to the CFSM Developers for analysis ...");
+                Globals.Log("Send the 'debug.log' file to CFSM Developer, Cozy1 for analysis ...");
                 Globals.Log("+ <WARNING> 'D3DX9_42.dll' file validation is disabled while in MacMode ...");
                 Globals.Log("AppSettings.Instance.RSInstalledDir = " + AppSettings.Instance.RSInstalledDir);
                 Globals.Log("Application.ExecutablePath = " + Application.ExecutablePath);
