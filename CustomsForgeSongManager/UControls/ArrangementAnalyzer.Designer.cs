@@ -689,7 +689,7 @@ namespace CustomsForgeSongManager.UControls
             // colTuningPitch
             // 
             this.colTuningPitch.DataPropertyName = "TuningPitch";
-            this.colTuningPitch.DefaultCellStyle = dataGridViewCellStyle4;
+            this.colTuningPitch.DefaultCellStyle = dataGridViewCellStyle3;
             this.colTuningPitch.HeaderText = "TuningPitch";
             this.colTuningPitch.Name = "colTuningPitch";
             // 

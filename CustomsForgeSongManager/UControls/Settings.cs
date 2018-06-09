@@ -44,7 +44,9 @@ namespace CustomsForgeSongManager.UControls
                 {
                     ValidateRsDir();
                     ValidateD3D();
-                    // FileTools.ValidateDownloadsDir();
+
+                    if (!AppSettings.Instance.EnableQuarantine)
+                        Globals.Log("+ <WARNING> 'Auto Quarantine' is disabled ...");
                 }
             }
             catch (Exception ex)
@@ -119,7 +121,7 @@ namespace CustomsForgeSongManager.UControls
         {
             if (!AppSettings.Instance.ValidateD3D)
             {
-                Globals.Log("+ <WARNING> 'D3DX9_42.dll' file validation is disabled ...");
+                Globals.Log("+ <WARNING> 'Validate D3DX9_42.dll' is disabled ...");
                 return false;
             }
 
@@ -211,8 +213,9 @@ namespace CustomsForgeSongManager.UControls
                 }
 
                 AppSettings.Instance.RSInstalledDir = cueRsDir.Text;
-                Globals.Log("Rocksmith Installation Directory: " + AppSettings.Instance.RSInstalledDir);
             }
+
+            Globals.Log("+ Validated RS2014 Installation Directory: " + AppSettings.Instance.RSInstalledDir);
         }
 
         private void Settings_Leave(object sender, EventArgs e)
@@ -329,8 +332,8 @@ namespace CustomsForgeSongManager.UControls
         {
             using (var fbd = new FolderBrowserDialog())
             {
-                fbd.Description = "Select Rocksmith 2014 Installation Directory";
-                fbd.SelectedPath = GetInstallDirFromRegistry();
+                fbd.Description = "Select RS2014 Installation Directory ...";
+                fbd.SelectedPath = LocalExtensions.GetSteamDirectory();
 
                 if (fbd.ShowDialog() != DialogResult.OK) return;
                 cueRsDir.Text = fbd.SelectedPath;
@@ -346,6 +349,7 @@ namespace CustomsForgeSongManager.UControls
 
             // update RSInstalledDir after above error check passes
             AppSettings.Instance.RSInstalledDir = cueRsDir.Text;
+            Globals.Log("Updated RS2014 Installation Directory: " + AppSettings.Instance.RSInstalledDir);
         }
 
         private void listDisabledColumns_ItemChecked(object sender, ItemCheckedEventArgs e)
@@ -378,13 +382,5 @@ namespace CustomsForgeSongManager.UControls
             AppSettings.Instance.CharterName = txtCharterName.Text;
         }
 
-        #region Class Methods
-
-        private static string GetInstallDirFromRegistry()
-        {
-            return LocalExtensions.GetSteamDirectory();
-        }
-
-        #endregion
     }
 }

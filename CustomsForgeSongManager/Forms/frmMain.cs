@@ -111,9 +111,6 @@ namespace CustomsForgeSongManager.Forms
                 }
             };
 
-            // load settings
-            Globals.Settings.LoadSettingsFromFile();
-
             // set app title
             var strFormatVersion = "{0} (v{1} - {2})";
 #if INNOBETA
@@ -133,6 +130,9 @@ namespace CustomsForgeSongManager.Forms
             Globals.Log("+ " + Constants.AppTitle);
             Globals.Log("+ .NET (v" + SysExtensions.DotNetVersion + ")");
             Globals.Log("+ RocksmithToolkitLib (v" + ToolkitVersion.RSTKLibVersion() + ")");
+         
+            // load settings
+            Globals.Settings.LoadSettingsFromFile();
 
             this.Show();
             this.WindowState = AppSettings.Instance.FullScreen ? FormWindowState.Maximized : FormWindowState.Normal;

@@ -34,6 +34,7 @@ namespace CustomsForgeSongManager.DataObjects
         public static string GWORKER_PITCHSHIFT = "pitch shifting";
         public static string GWORKER_ORGANIZE = "organizing";
 
+        public static readonly string BASESONGS = "songs.psarc";
         public static readonly string RS1COMP = "rs1compatibility";
         public static readonly string SONGPACK = "songpack";
         public static readonly string ABVSONGPACK = "_sp_"; // abbreviation for songpack

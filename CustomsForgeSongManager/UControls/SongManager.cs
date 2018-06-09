@@ -467,7 +467,6 @@ namespace CustomsForgeSongManager.UControls
                         // DO NOT use the bulldozer here
                         // 'My Documents/CFSM' may contain some original files
                         ZipUtilities.RemoveReadOnlyAttribute(Constants.WorkFolder);
-                        GenExtensions.DeleteFile(Constants.LogFilePath);
                         GenExtensions.DeleteFile(Constants.SongsInfoPath);
                         GenExtensions.DeleteFile(Constants.AppSettingsPath);
                         GenExtensions.DeleteDirectory(Constants.GridSettingsFolder);
@@ -1252,6 +1251,9 @@ namespace CustomsForgeSongManager.UControls
 
         private void cueSearch_KeyUp(object sender, KeyEventArgs e)
         {
+            // debounce KeyUp to eliminate intermittent NullReferenceException
+            Thread.Sleep(50);
+
             // save current sort
             DgvExtensions.SaveSorting(dgvSongsMaster);
             ResetDetail();

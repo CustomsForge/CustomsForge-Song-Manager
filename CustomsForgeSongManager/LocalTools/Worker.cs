@@ -141,10 +141,10 @@ namespace CustomsForgeSongManager.LocalTools
 
             // skip dup check of songs.psarc or compatibility and song packs
             List<SongData> checkThese = bwSongCollection
-                .Where(x => !x.FilePath.ToLower().Contains(Constants.RS1COMP) &&
-                !x.FilePath.ToLower().Contains(Constants.SONGPACK) &&
-                !x.FilePath.ToLower().Contains(Constants.ABVSONGPACK) &&
-                !x.FilePath.ToLower().Equals(Constants.SongsPsarcPath.ToLower())) // must have ToLower()
+                .Where(x => !x.FileName.ToLower().Contains(Constants.RS1COMP) &&
+                !x.FileName.ToLower().Contains(Constants.SONGPACK) &&
+                !x.FileName.ToLower().Contains(Constants.ABVSONGPACK) &&
+                !x.FileName.ToLower().EndsWith(Constants.BASESONGS)) 
                 .ToList() as List<SongData>;
 
             // this is improbable ... two songs have same FilePath

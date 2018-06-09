@@ -54,7 +54,7 @@ namespace CustomsForgeSongManager.DataObjects
     {
         // version 0 - 9: recyclable version number is the current Assembly Revision number
         // incrementing version forces songInfo.xml and appSettings.xml to reset/update to defaults
-        public const string SongDataListVersion = "4"; // devs change only when needed
+        public const string SongDataListVersion = "9"; // devs change only when needed
 
         // Unique Song Key
         public string DLCKey { get; set; }
@@ -107,19 +107,19 @@ namespace CustomsForgeSongManager.DataObjects
         [XmlIgnore]
         public bool IsSongsPsarc
         {
-            get { return !String.IsNullOrEmpty(FilePath) && FileName.Equals("songs.psarc"); }
+            get { return !String.IsNullOrEmpty(FilePath) && FileName.ToLower().Equals(Constants.BASESONGS); }
         }
 
         [XmlIgnore]
         public bool IsRsCompPack
         {
-            get { return !String.IsNullOrEmpty(FilePath) && FileName.Contains(Constants.RS1COMP); }
+            get { return !String.IsNullOrEmpty(FilePath) && FileName.ToLower().Contains(Constants.RS1COMP); }
         }
 
         [XmlIgnore]
         public bool IsSongPack
         {
-            get { return !String.IsNullOrEmpty(FilePath) && (FileName.Contains(Constants.SONGPACK) || FileName.Contains(Constants.ABVSONGPACK)); }
+            get { return !String.IsNullOrEmpty(FilePath) && (FileName.ToLower().Contains(Constants.SONGPACK) || FileName.ToLower().Contains(Constants.ABVSONGPACK)); }
         }
 
         [XmlIgnore]

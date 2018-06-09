@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace GenTools
 {
@@ -24,6 +25,19 @@ namespace GenTools
         public static long DateToUnixEpoch(string timestamp)
         {
             return DateToUnixEpoch(DateTime.Parse(timestamp));
+        }
+
+        /// <summary>
+        /// Converts LastConversionDateTime string to DateTime
+        /// string in "en-US" format, e.g. "08-15-13 16:13" 
+        /// to culture independent DateTime {8/15/2013 4:13:00 PM}
+        /// </summary>
+        /// <param name="lastConversionDateTime"></param>
+        /// <returns>Culture Independant DateTime</returns>
+        public static DateTime LastConversion2DateTime(string lastConversionDateTime)
+        {
+            CultureInfo cultureInfo = new CultureInfo("en-US");
+            return DateTime.Parse(lastConversionDateTime, cultureInfo, DateTimeStyles.NoCurrentDateDefault);
         }
     }
 }

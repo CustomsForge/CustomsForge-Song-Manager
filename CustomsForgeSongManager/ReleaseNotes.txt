@@ -14,6 +14,22 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.4.5.9
+- added debounce feature to 'Search' to eliminate intermittent NullReferenceException
+
+1.4.5.8
+- permafix for non "en-US" Date/Time cultures
+
+1.4.5.7
+- improved debug.log information
+- fixed issue scanning Base Songs, and Compatibility Packs for non-US Date/Time current culture
+
+1.4.5.6
+- added additional debug log messages to identify issue with 'songs.psarc'
+
+1.4.5.5
+- improved the robustness of 'songs.psarc' file detection
+
 1.4.5.4
 - SongDetail grid tweaking
 

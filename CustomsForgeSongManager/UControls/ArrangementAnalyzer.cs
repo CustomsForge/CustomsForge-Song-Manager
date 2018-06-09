@@ -482,6 +482,9 @@ namespace CustomsForgeSongManager.UControls
 
         private void cueSearch_KeyUp(object sender, KeyEventArgs e)
         {
+            // debounce KeyUp to eliminate intermittent NullReferenceException
+            Thread.Sleep(50);
+
             // save current sort
             DgvExtensions.SaveSorting(dgvArrangements);
 

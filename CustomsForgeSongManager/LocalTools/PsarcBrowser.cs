@@ -22,18 +22,21 @@ using System.Threading;
 using GenTools;
 using System.Globalization;
 
+
 namespace CustomsForgeSongManager.LocalTools
 {
     public sealed class PsarcBrowser : IDisposable
     {
         private PSARC _archive;
         private string _filePath;
+        private string _fileName;
         private Stream _fileStream;
 
         // Loads song archive file to memory.
-        public PsarcBrowser(string fileName)
+        public PsarcBrowser(string filePath)
         {
-            _filePath = fileName;
+            _filePath = filePath;
+            _fileName = Path.GetFileName(_filePath);
             _archive = new PSARC();
             _fileStream = File.OpenRead(_filePath);
             _archive.Read(_fileStream, true);
@@ -65,6 +68,7 @@ namespace CustomsForgeSongManager.LocalTools
         /// <returns></returns>
         public IEnumerable<SongData> GetSongData()
         {
+            Globals.Log(" - Parsing song data from: " + _filePath);
             Stopwatch sw = null;
             sw = new Stopwatch();
             sw.Restart();
@@ -107,7 +111,7 @@ namespace CustomsForgeSongManager.LocalTools
             if (!xblockEntries.Any())
                 throw new Exception("Could not find valid xblock file : " + _filePath);
 
-            if (_filePath.Contains("songs.psarc"))
+            if (_filePath.ToLower().EndsWith(Constants.BASESONGS))
                 xblockEntries = xblockEntries.Where(s => !s.Name.Contains("rs2"));
 
             var jsonData = new List<Manifest2014<Attributes2014>>();
@@ -187,10 +191,12 @@ namespace CustomsForgeSongManager.LocalTools
                         {
                             song.TitleSort = attributes.SongNameSort;
                             song.ArtistSort = attributes.ArtistNameSort;
-                            // fix for date string to DateTime conversion
-                            DateTime dateTime = DateTime.Now;
-                            DateTime.TryParse(attributes.LastConversionDateTime, out dateTime);
-                            song.LastConversionDateTime = dateTime;
+                            // permafix for LastConversionDateTime string to DateTime conversion
+                            // LastConversionDateTime stored as string in en-US format, e.g. 08-15-13 16:13
+                            // convert to culture independent DateTime {8/15/2013 4:13:00 PM}             
+                            CultureInfo cultureInfo = new CultureInfo("en-US");
+                            DateTime dt = DateTime.Parse(attributes.LastConversionDateTime, cultureInfo, DateTimeStyles.NoCurrentDateDefault);
+                            song.LastConversionDateTime = dt;
                             song.SongYear = attributes.SongYear;
                             song.SongLength = (double)attributes.SongLength;
                             song.SongAverageTempo = attributes.SongAverageTempo;
@@ -398,10 +404,17 @@ namespace CustomsForgeSongManager.LocalTools
                     arrangements.Add(arr);
                 }
 
-                if (_filePath.Contains("songs.psarc"))
+                // log some songpacks parsing info
+                if (_fileName.ToLower().EndsWith(Constants.BASESONGS) ||
+                    _fileName.ToLower().Contains(Constants.RS1COMP) ||
+                    _fileName.ToLower().Contains(Constants.SONGPACK) ||
+                    _fileName.ToLower().Contains(Constants.ABVSONGPACK))
                 {
-                    if (song.Album == null || song.Album.Contains("Rocksmith") || song.ArtistTitleAlbum.Contains(";;") || song.LastConversionDateTime.Year == 1)
+                    // ignore any non-song data from songpacks
+                    if (song.Album == null || song.Album.Contains("Rocksmith") || song.ArtistTitleAlbum.Contains(";;"))
                         continue;
+
+                    Globals.Log(" + Parsed " + _fileName + " for: " + song.ArtistTitleAlbumDate);
                 }
 
                 song.Arrangements2D = arrangements;
