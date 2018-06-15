@@ -255,11 +255,11 @@ namespace CustomsForgeSongManager.LocalTools
             {
                 // move to Quarantine folder
                 if (ex.Message.StartsWith("Error reading JObject"))
-                    Globals.Log(String.Format("<ERROR>: {0}  -  CDLC is corrupt!", filePath));
+                    Globals.Log(String.Format("<ERROR> {0}  -  CDLC is corrupt!", filePath));
                 else if (ex.Message.StartsWith("Object reference not set"))
-                    Globals.Log(String.Format("<ERROR>: {0}  -  CDLC is missing data!", filePath));
+                    Globals.Log(String.Format("<ERROR> {0}  -  CDLC is missing data!", filePath));
                 else
-                    Globals.Log(String.Format("<ERROR>: {0}  -  {1}", filePath, ex.Message));
+                    Globals.Log(String.Format("<ERROR> {0}  -  {1}", filePath, ex.Message));
 
                 if (AppSettings.Instance.EnableQuarantine)
                 {
@@ -293,7 +293,7 @@ namespace CustomsForgeSongManager.LocalTools
         public static List<string> FilesList(string filePath, bool includeRS1Pack = false, bool includeRS2014BaseSongs = false, bool includeCustomPacks = false)
         {
             if (String.IsNullOrEmpty(filePath))
-                throw new Exception("<ERROR>: No path provided for file scanning");
+                throw new Exception("<ERROR> No path provided for file scanning");
 
             if (!Directory.Exists(filePath))
                 Directory.CreateDirectory(filePath);

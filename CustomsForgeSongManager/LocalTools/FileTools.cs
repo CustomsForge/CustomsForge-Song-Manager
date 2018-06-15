@@ -255,7 +255,7 @@ namespace CustomsForgeSongManager.LocalTools
             catch (Exception ex)
             {
                 // it is critical that backup of originals was successful before proceeding
-                Globals.Log(" - <ERROR> Backup failed"); // a bad thing
+                Globals.Log(" - <ERROR> Backup failed ..."); // a bad thing
                 Globals.Log(ex.Message);
                 return false;
             }
@@ -306,7 +306,7 @@ namespace CustomsForgeSongManager.LocalTools
                 catch (Exception ex)
                 {
                     // it is critical that backup of originals was successful before proceeding
-                    Globals.Log(" - <ERROR> CreateBackupOfType method failed"); // a bad thing
+                    Globals.Log(" - <ERROR> CreateBackupOfType method failed ..."); // a bad thing
                     Globals.Log(ex.Message);
                     failed++;
                 }
@@ -359,7 +359,7 @@ namespace CustomsForgeSongManager.LocalTools
                 }
                 catch (IOException ex)
                 {
-                    Globals.Log(" - <ERROR> Deletion failed"); // a bad thing
+                    Globals.Log(" - <ERROR> Deletion failed ..."); // a bad thing
                     Globals.Log(ex.Message);
                     failed++;
                 }

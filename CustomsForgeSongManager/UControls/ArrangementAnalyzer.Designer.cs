@@ -311,7 +311,7 @@ namespace CustomsForgeSongManager.UControls
             this.colHarmonicCount,
             this.colHarmonicPinchCount,
             this.colHighestFretUsed,
-            this.colHopoCount,
+            //this.colHopoCount,
             this.colIgnoreCount,
             this.colLinkNextCount,
             this.colOctaveCount,
@@ -564,7 +564,7 @@ namespace CustomsForgeSongManager.UControls
             // colFileSize
             // 
             this.colFileSize.DataPropertyName = "FileSize";
-            this.colFileSize.DefaultCellStyle = dataGridViewCellStyle3;
+            this.colFileSize.DefaultCellStyle = dataGridViewCellStyle4;
             this.colFileSize.HeaderText = "FileSize (bytes)";
             this.colFileSize.Name = "colFileSize";
             this.colFileSize.ReadOnly = true;
@@ -654,7 +654,7 @@ namespace CustomsForgeSongManager.UControls
             // colBassPick
             // 
             this.colBassPick.DataPropertyName = "IsBassPick";
-            this.colBassPick.HeaderText = "BassPick";
+            this.colBassPick.HeaderText = "BassPickedFingered";
             this.colBassPick.Name = "colBassPick";
             this.colBassPick.ReadOnly = true;
             this.colBassPick.Visible = false;
@@ -673,7 +673,7 @@ namespace CustomsForgeSongManager.UControls
             // 
             this.colDDMax.DataPropertyName = "DDMax";
             this.colDDMax.DefaultCellStyle = dataGridViewCellStyle4;
-            this.colDDMax.HeaderText = "DDMax";
+            this.colDDMax.HeaderText = "DDMaxLevel";
             this.colDDMax.Name = "colDDMax";
             this.colDDMax.ReadOnly = true;
             this.colDDMax.Resizable = System.Windows.Forms.DataGridViewTriState.True;
@@ -710,7 +710,7 @@ namespace CustomsForgeSongManager.UControls
             // 
             this.colTonesCount.DataPropertyName = "TonesCount";
             this.colTonesCount.DefaultCellStyle = dataGridViewCellStyle4;
-            this.colTonesCount.HeaderText = "TonesCount";
+            this.colTonesCount.HeaderText = "ToneSwitchCount";
             this.colTonesCount.Name = "colTonesCount";
             this.colTonesCount.ReadOnly = true;
             this.colTonesCount.ToolTipText = "Number of tone changes\r\nin the arrangement.";

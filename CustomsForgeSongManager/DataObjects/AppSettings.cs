@@ -277,6 +277,7 @@ namespace CustomsForgeSongManager.DataObjects
             if (String.IsNullOrEmpty(Globals.DgvCurrent.Name))
                 return;
 
+            // TODO: allow customized grid settings to be saved and loaded by name
             if (File.Exists(Constants.GridSettingsPath))
             {
                 try
@@ -334,7 +335,7 @@ namespace CustomsForgeSongManager.DataObjects
             Instance.ShowLogWindow = Constants.DebugMode;
             Instance.RepairOptions = new RepairOptions();
 
-            if (!String.IsNullOrEmpty(LocalExtensions.GetSteamDirectory()))
+            if (String.IsNullOrEmpty(Instance.RSInstalledDir))
                 Instance.RSInstalledDir = LocalExtensions.GetSteamDirectory();
         }
 

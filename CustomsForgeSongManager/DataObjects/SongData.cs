@@ -48,13 +48,13 @@ namespace CustomsForgeSongManager.DataObjects
     }
 
     // NOTE: custom object order here determines order of elements in the xml file
-    // use of nullables is not compatible with filtering/sorting
+    // the use of nullables is compatible with filtering/sorting ... NOW
     [Serializable]
     public class SongData : NotifyPropChangedBase
     {
         // version 0 - 9: recyclable version number is the current Assembly Revision number
         // incrementing version forces songInfo.xml and appSettings.xml to reset/update to defaults
-        public const string SongDataListVersion = "9"; // devs change only when needed
+        public const string SongDataListVersion = "1"; // devs change only when needed to force user update
 
         // Unique Song Key
         public string DLCKey { get; set; }
@@ -250,7 +250,7 @@ namespace CustomsForgeSongManager.DataObjects
         public int? HarmonicCount { get; set; }
         public int? HarmonicPinchCount { get; set; }
         public int? HighestFretUsed { get; set; }
-        public int? HopoCount { get; set; }
+        public int? HopoCount { get; set; } // FIXME
         public int? IgnoreCount { get; set; }
         public int? LinkNextCount { get; set; }
         public int? OctaveCount { get; set; }

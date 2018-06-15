@@ -430,9 +430,9 @@ namespace CustomsForgeSongManager.UControls
             this.chkIncludeArrangementData.Location = new System.Drawing.Point(3, 141);
             this.chkIncludeArrangementData.Name = "chkIncludeArrangementData";
             this.chkIncludeArrangementData.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
-            this.chkIncludeArrangementData.Size = new System.Drawing.Size(178, 19);
+            this.chkIncludeArrangementData.Size = new System.Drawing.Size(227, 19);
             this.chkIncludeArrangementData.TabIndex = 22;
-            this.chkIncludeArrangementData.Text = "Include Arrangement Data";
+            this.chkIncludeArrangementData.Text = "Include Arrangement Analyzer Data";
             this.chkIncludeArrangementData.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.toolTip.SetToolTip(this.chkIncludeArrangementData, "If checked, include complete\r\narrangement data with scan.  \r\n\r\nNOTE:  A full resc" +
                     "an of CDLC \r\ntakes 5x longer when checked.");

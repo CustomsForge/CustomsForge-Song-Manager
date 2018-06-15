@@ -63,15 +63,14 @@ namespace CustomsForgeSongManager.UControls
         {
             if (Globals.ReloadSongPacks)
                 InitializeSongPacks();
-            else
-            {
-                Globals.TsLabel_MainMsg.Text = string.Format("Song Count: {0}", dgvSongPacks.Rows.Count);
-                Globals.TsLabel_MainMsg.Visible = true;
-                var tsldcMsg = String.Format("Disabled CDLC: {0}", DisabledSongColorizerCounter());
-                Globals.TsLabel_DisabledCounter.Alignment = ToolStripItemAlignment.Right;
-                Globals.TsLabel_DisabledCounter.Text = tsldcMsg;
-                Globals.TsLabel_DisabledCounter.Visible = true;
-            }
+
+            Globals.ReloadSongPacks = false;
+            Globals.TsLabel_MainMsg.Text = string.Format("Song Count: {0}", dgvSongPacks.Rows.Count);
+            Globals.TsLabel_MainMsg.Visible = true;
+            var tsldcMsg = String.Format("Disabled CDLC: {0}", DisabledSongColorizerCounter());
+            Globals.TsLabel_DisabledCounter.Alignment = ToolStripItemAlignment.Right;
+            Globals.TsLabel_DisabledCounter.Text = tsldcMsg;
+            Globals.TsLabel_DisabledCounter.Visible = true;
         }
 
         // ... filtering
@@ -424,7 +423,7 @@ namespace CustomsForgeSongManager.UControls
                     fullDisabledSongCollection = JsonConvert.DeserializeObject<RSDataJsonDictionary<T>>(disabledSongsList.ToString());
                     AddSongsToNestedDictionary(fullDisabledSongCollection, disabledSongCollection, fullSongCollection, false);
                 }
-                 else if(songsJson.ToString().Contains("DisabledEntries")) // allow CFSM to read/convert to standard DisabledEntries
+                else if (songsJson.ToString().Contains("DisabledEntries")) // allow CFSM to read/convert to standard DisabledEntries
                 {
                     var disabledSongsList = songsJson["DisabledEntries"];
                     Globals.TsProgressBar_Main.Value = 90;
@@ -801,7 +800,7 @@ namespace CustomsForgeSongManager.UControls
                     Globals.TsProgressBar_Main.Value = 50;
                     PsarcExtensions.ExtractArchiveFile(Constants.Rs1DlcPsarcPath, Constants.SongsRs1DlcInternalPath, Constants.SongPacksFolder);
                     Globals.TsProgressBar_Main.Value = 75;
-                    ConditionalBackup(Constants.Rs1DlcPsarcPath, Path.Combine(AppSettings.Instance.RSInstalledDir, Path.ChangeExtension(Path.GetFileName(Constants.Rs1DlcPsarcPath), ".org.psarc")));
+                    ConditionalBackup(Constants.Rs1DlcPsarcPath, Path.Combine(Constants.Rs2OriginalsFolder, Path.ChangeExtension(Path.GetFileName(Constants.Rs1DlcPsarcPath), ".org.psarc")));
                     ConditionalBackup(Constants.ExtractedRs1DlcHsanPath, Path.Combine(Constants.SongPacksFolder, Path.ChangeExtension(Path.GetFileName(Constants.ExtractedRs1DlcHsanPath), ".org.hsan")));
                 }
 

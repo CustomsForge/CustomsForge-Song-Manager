@@ -74,7 +74,7 @@ namespace CustomsForgeSongManager.DataObjects
         public int? HarmonicCount { get; set; }
         public int? HarmonicPinchCount { get; set; }
         public int? HighestFretUsed { get; set; }
-        public int? HopoCount { get; set; }
+        public int? HopoCount { get; set; } // FIXME
         public int? IgnoreCount { get; set; }
         public int? LinkNextCount { get; set; }
         public int? OctaveCount { get; set; }

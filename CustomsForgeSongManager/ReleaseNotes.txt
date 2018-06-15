@@ -14,6 +14,15 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.4.6.1
+- fixed filtering on nullable columns
+
+1.4.6.0
+- removed unsupported hopoCount from Arrangement Analyzer
+- added Log <WARNING> message that audio from SongPacks is not available for playback
+- fixed Arrangement Analyzer reload/rescan issues
+- fixed SongPack ConditionalBackup path
+
 1.4.5.9
 - added debounce feature to 'Search' to eliminate intermittent NullReferenceException
 

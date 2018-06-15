@@ -167,7 +167,7 @@ namespace CustomsForgeSongManager.UControls
                         Globals.Log("Use the Duplicates tabmenu to delete/move" + Environment.NewLine +
                             Path.GetFileName(newFilePath) + "duplicates before attempting to use Renamer.");
 
-                    Globals.Log(String.Format("<ERROR>: {0}", e.Message));
+                    Globals.Log(String.Format("<ERROR> {0}", e.Message));
                 }
             }
         }

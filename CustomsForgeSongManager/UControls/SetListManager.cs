@@ -85,17 +85,14 @@ namespace CustomsForgeSongManager.UControls
         {
             if (Globals.RescanSetlistManager)
             {
-                Globals.RescanSetlistManager = false;
                 Rescan();
                 PopulateSetlistManager();
             }
-
-            if (Globals.ReloadSetlistManager)
-            {
-                Globals.ReloadSetlistManager = false;
+            else if (Globals.ReloadSetlistManager)
                 PopulateSetlistManager();
-            }
 
+            Globals.RescanSetlistManager = false;
+            Globals.ReloadSetlistManager = false;
             Globals.TsLabel_MainMsg.Text = string.Format(Properties.Resources.RocksmithSongsCountFormat, setlistList.Count);
             Globals.TsLabel_MainMsg.Visible = true;
             Globals.TsLabel_DisabledCounter.Alignment = ToolStripItemAlignment.Right;

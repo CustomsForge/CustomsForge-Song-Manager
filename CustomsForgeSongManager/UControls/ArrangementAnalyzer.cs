@@ -844,18 +844,14 @@ namespace CustomsForgeSongManager.UControls
         {
             Globals.DgvCurrent = dgvArrangements;
             Globals.Log("Arrangements GUI Activated ...");
-
-            if (Globals.ReloadArrangements)
-            {
-                RefreshDgv(false);
-                Globals.ReloadArrangements = false;
-            }
-
+            
             if (Globals.RescanArrangements && AppSettings.Instance.IncludeArrangementData)
-            {
                 RefreshDgv(true);
-                Globals.RescanArrangements = false;
-            }
+            else if (Globals.ReloadArrangements)
+                RefreshDgv(false);
+
+            Globals.ReloadArrangements = false;
+            Globals.RescanArrangements = false;
 
             // work around for menu strip display glitch in IDE mode
             this.Invalidate();

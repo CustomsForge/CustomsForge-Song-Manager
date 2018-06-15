@@ -46,7 +46,7 @@ namespace CustomsForgeSongManager.UControls
                     ValidateD3D();
 
                     if (!AppSettings.Instance.EnableQuarantine)
-                        Globals.Log("+ <WARNING> 'Auto Quarantine' is disabled ...");
+                        Globals.Log("<WARNING> 'Auto Quarantine' is disabled ...");
                 }
             }
             catch (Exception ex)
@@ -96,6 +96,7 @@ namespace CustomsForgeSongManager.UControls
                 if (!Directory.Exists(Constants.GridSettingsFolder))
                     Directory.CreateDirectory(Constants.GridSettingsFolder);
 
+                // TODO: allow customized grid settings to be saved and loaded by name
                 SerialExtensions.SaveToFile(Constants.GridSettingsPath, RAExtensions.SaveColumnOrder(dgvCurrent));
                 Globals.Log("Saved File: " + Path.GetFileName(Constants.GridSettingsPath));
             }
@@ -121,14 +122,14 @@ namespace CustomsForgeSongManager.UControls
         {
             if (!AppSettings.Instance.ValidateD3D)
             {
-                Globals.Log("+ <WARNING> 'Validate D3DX9_42.dll' is disabled ...");
+                Globals.Log("<WARNING> 'Validate D3DX9_42.dll' is disabled ...");
                 return false;
             }
 
             if (AppSettings.Instance.MacMode)
             {
                 Globals.Log("Send the 'debug.log' file to CFSM Developer, Cozy1 for analysis ...");
-                Globals.Log("+ <WARNING> 'D3DX9_42.dll' file validation is disabled while in MacMode ...");
+                Globals.Log("<WARNING> 'D3DX9_42.dll' file validation is disabled while in MacMode ...");
                 Globals.Log("AppSettings.Instance.RSInstalledDir = " + AppSettings.Instance.RSInstalledDir);
                 Globals.Log("Application.ExecutablePath = " + Application.ExecutablePath);
                 Globals.Log("Path.GetDirectoryName(Application.ExecutablePath) = " + Path.GetDirectoryName(Application.ExecutablePath));
@@ -215,7 +216,7 @@ namespace CustomsForgeSongManager.UControls
                 AppSettings.Instance.RSInstalledDir = cueRsDir.Text;
             }
 
-            Globals.Log("+ Validated RS2014 Installation Directory: " + AppSettings.Instance.RSInstalledDir);
+            Globals.Log("Validated RS2014 Installation Directory: " + AppSettings.Instance.RSInstalledDir);
         }
 
         private void Settings_Leave(object sender, EventArgs e)

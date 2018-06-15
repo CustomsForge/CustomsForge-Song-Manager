@@ -123,14 +123,14 @@ namespace DataGridViewTools
             // the IComparable interface.
             Type interfaceType = prop.PropertyType.GetInterface("IComparable");
 
-            // added this code to allow sorting of nullable types
+            // Added this code to allow sorting of nullable types
             // Interface not found on the property's type. Maybe the property was nullable?
             // For that to happen, it must be value type.
             if (interfaceType == null && prop.PropertyType.IsValueType)
             {
                 Type underlyingType = Nullable.GetUnderlyingType(prop.PropertyType);
-                // Nullable.GetUnderlyingType only returns a non-null value if the
-                // supplied type was indeed a nullable type.
+                // Nullable.GetUnderlyingType only returns a non-null value
+                // if the supplied type was indeed a nullable type.
                 if (underlyingType != null)
                     interfaceType = underlyingType.GetInterface("IComparable");
             }
@@ -504,8 +504,20 @@ namespace DataGridViewTools
             // the IComparable interface.
             Type interfaceType = TypeDescriptor.GetProperties(typeof(T))[filterParts.PropName].PropertyType.GetInterface("IComparable");
 
-            if (interfaceType == null)
-                throw new InvalidOperationException("Filtered property" + " must implement IComparable.");
+            // Added this code to allow filtering of nullable types
+            // Interface not found on the property's type. Maybe the property was nullable?
+            // For that to happen, it must be value type.
+            if (interfaceType == null && TypeDescriptor.GetProperties(typeof(T))[filterParts.PropName].PropertyType.IsValueType)
+            {
+                Type underlyingType = Nullable.GetUnderlyingType(TypeDescriptor.GetProperties(typeof(T))[filterParts.PropName].PropertyType);
+                // Nullable.GetUnderlyingType only returns a non-null value
+                // if the supplied type was indeed a nullable type.
+                if (underlyingType != null)
+                    interfaceType = underlyingType.GetInterface("IComparable");
+            }
+
+            //if (interfaceType == null)
+            //    throw new InvalidOperationException("Filtered property" + " must implement IComparable.");
 
             List<T> results = new List<T>();
 

@@ -195,7 +195,7 @@ namespace CustomsForgeSongManager.Forms
 
             if (Globals.Settings == null || Globals.SongManager == null)
             {
-                Globals.Log("<ERROR>: Save on close failed ...");
+                Globals.Log("<ERROR> Save on close failed ...");
                 return;
             }
 

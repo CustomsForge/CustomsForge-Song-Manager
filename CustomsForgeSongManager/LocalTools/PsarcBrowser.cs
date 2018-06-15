@@ -370,7 +370,13 @@ namespace CustomsForgeSongManager.LocalTools
                             arr.HarmonicCount = maxLevelNotes.Count(n => n.Harmonic > 0);
                             arr.HarmonicPinchCount = maxLevelNotes.Count(n => n.HarmonicPinch > 0);
                             arr.HighestFretUsed = highestFretUsed;
-                            arr.HopoCount = maxLevelNotes.Count(n => n.Hopo > 0); // TODO: validate
+                            // FIXME: toolkit hopo is always zero
+                            //var hopoNote = maxLevelNotes.Count(n => n.Hopo > 0);
+                            //var hopoChord = maxLevelChords.Count(n => n.Hopo > 0);
+                            //arr.HopoCount = hopoNote + hopoChord;
+                            //if (arr.HopoCount > 0)
+                            //    Debug.WriteLine("DebuMe");
+                            //                        
                             arr.IgnoreCount = maxLevelNotes.Count(n => n.Ignore > 0);
                             arr.LinkNextCount = maxLevelNotes.Count(n => n.LinkNext > 0);
                             arr.OctaveCount = octaveCount;

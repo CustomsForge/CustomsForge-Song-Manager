@@ -746,7 +746,7 @@ namespace GenTools
         public static List<string> RsFilesList(string path, bool includeRs1Packs = false, bool includeSongPacks = false, bool includeSubfolders = true)
         {
             if (String.IsNullOrEmpty(path))
-                throw new Exception("<ERROR>: No path provided for file scanning");
+                throw new Exception("<ERROR> No path provided for file scanning");
 
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);

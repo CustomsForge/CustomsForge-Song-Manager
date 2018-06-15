@@ -157,19 +157,18 @@ namespace CustomsForgeSongManager.UControls
             if (Globals.RescanDuplicates) // || !String.IsNullOrEmpty(AppSettings.Instance.FilterString))
             {
                 // AppSettings.Instance.FilterString = String.Empty;
-                Globals.RescanDuplicates = false;
-                Globals.ReloadRenamer = true;
-                Globals.ReloadSetlistManager = true;
-                Globals.ReloadSongManager = true;
                 Rescan();
                 PopulateDuplicates();
             }
-
-            if (Globals.ReloadDuplicates)
-            {
-                Globals.ReloadDuplicates = false;
+            else if (Globals.ReloadDuplicates)
                 PopulateDuplicates();
-            }
+
+            Globals.RescanDuplicates = false;
+            Globals.ReloadDuplicates = false;
+            Globals.ReloadRenamer = true;
+            Globals.ReloadSetlistManager = true;
+            Globals.ReloadSongManager = true;
+            Globals.ReloadArrangements = true;
 
             if (!duplicateList.Any())
             {

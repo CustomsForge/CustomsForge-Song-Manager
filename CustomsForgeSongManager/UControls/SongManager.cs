@@ -65,6 +65,15 @@ namespace CustomsForgeSongManager.UControls
             var song = DgvExtensions.GetObjectFromFirstSelectedRow<SongData>(dgvSongsMaster);
             if (song != null)
             {
+                if (song.FileName.ToLower().EndsWith(Constants.BASESONGS) ||
+                    song.FileName.ToLower().Contains(Constants.RS1COMP) ||
+                    song.FileName.ToLower().Contains(Constants.SONGPACK) ||
+                    song.FileName.ToLower().Contains(Constants.ABVSONGPACK))
+                {
+                    Globals.Log("<WARNING> Audio from SongPacks is not available for playback ...");
+                    return;
+                }
+
                 if (String.IsNullOrEmpty(song.AudioCache))
                     song.AudioCache = string.Format("{0}_{1}", Guid.NewGuid().ToString().Replace("-", ""), song.FileSize);
 
@@ -214,23 +223,25 @@ namespace CustomsForgeSongManager.UControls
         {
             if (Globals.RescanSongManager)
             {
-                Globals.RescanSongManager = false;
-                Globals.ReloadArrangements = true;
-                Globals.ReloadRenamer = true;
-                Globals.ReloadSetlistManager = true;
-                Globals.ReloadDuplicates = true;
                 // full rescan of song collection
                 Rescan(true);
                 PopulateDataGridView();
             }
-
-            if (Globals.ReloadSongManager)
+            else if (Globals.ReloadSongManager)
             {
-                Globals.ReloadSongManager = false;
                 // smart quick rescan of song collection
                 Rescan(false);
                 PopulateDataGridView();
             }
+
+            Globals.RescanSongManager = false;
+            Globals.RescanArrangements = false;
+            Globals.ReloadSongManager = false;
+            Globals.ReloadArrangements = true;
+            Globals.ReloadRenamer = true;
+            Globals.ReloadSetlistManager = true;
+            Globals.ReloadDuplicates = true;
+
 
             Globals.TsLabel_MainMsg.Text = string.Format("Rocksmith Song Count: {0}", songList.Count);
             Globals.TsLabel_MainMsg.Visible = true;
@@ -478,9 +489,9 @@ namespace CustomsForgeSongManager.UControls
 
                     // switch to Setting tab so user can customize first run settings
                     var diaMsg = Environment.NewLine +
-                        "CFSM will now switch to the Settings tab menu." + Environment.NewLine +
-                        "Please customize the CFSM Settings options." + Environment.NewLine +
-                        "before returning to the SongManager tab.";
+                        "CFSM will now switch to the Settings menu." + Environment.NewLine +
+                        "Please customize the CFSM Settings options" + Environment.NewLine +
+                        "before returning to the Song Manager tab.";
 
                     BetterDialog2.ShowDialog(diaMsg, hdrMsg, null, null, "Ok", Bitmap.FromHicon(SystemIcons.Information.Handle), "", 0, 150);
                     Globals.DgvCurrent = dgvSongsMaster;
@@ -665,7 +676,7 @@ namespace CustomsForgeSongManager.UControls
             // this should never happen
             if (String.IsNullOrEmpty(AppSettings.Instance.RSInstalledDir))
             {
-                MessageBox.Show("<Error>: Rocksmith 2014 Installation Directory setting is null or empty.", Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("<ERROR> Rocksmith 2014 Installation Directory setting is null or empty ...", Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -1213,7 +1224,7 @@ namespace CustomsForgeSongManager.UControls
                         sd.IgnitionID = Ignition.GetSongInfoFromURL(sd.GetInfoURL(), "id");
 
                     if (sd.IgnitionID == null || sd.IgnitionID == "No Results")
-                        Globals.Log("<ERROR>: Song doesn't exist in Ignition anymore.");
+                        Globals.Log("<ERROR> Song doesn't exist in Ignition anymore ...");
                     else
                         Process.Start(string.Format("{0}/{1}", Constants.DefaultDetailsURL, sd.IgnitionID));
                 }
