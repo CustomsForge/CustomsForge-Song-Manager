@@ -176,6 +176,7 @@ namespace CustomsForgeSongManager.UControls
                             TapCount = songArr.TapCount,
                             TremoloCount = songArr.TremoloCount,
                             VibratoCount = songArr.VibratoCount,
+                            ThumbCount = songArr.ThumbCount,
 
                             // calculated content taken from SongData
                             ChordNamesCounts = songArr.ChordNamesCounts,

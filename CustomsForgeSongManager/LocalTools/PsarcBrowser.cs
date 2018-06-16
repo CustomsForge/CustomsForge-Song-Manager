@@ -287,9 +287,12 @@ namespace CustomsForgeSongManager.LocalTools
                             var allLevelData = song2014.Levels;
                             var maxLevelNotes = new List<SongNote2014>();
                             var maxLevelChords = new List<SongChord2014>();
+                            var maxLevelHandShapes = new List<SongHandShape>();
                             var chordNames = new List<string>();
                             var chordCounts = new List<int>();
                             int bassPick = 0;
+                            int thumbCount = 0;
+
                             if (song2014.ArrangementProperties.PathBass == 1)
                                 bassPick = (int)song2014.ArrangementProperties.BassPick;
 
@@ -315,6 +318,12 @@ namespace CustomsForgeSongManager.LocalTools
                                         if (maxChordFret > highestFretUsed)
                                             highestFretUsed = maxChordFret;
                                     }
+                                }
+
+                                foreach (var hs in allLevelData[i].HandShapes)
+                                {
+                                    if (!maxLevelHandShapes.Any(h => h.StartTime == hs.StartTime))
+                                        maxLevelHandShapes.Add(hs);
                                 }
                             }
 
@@ -357,6 +366,17 @@ namespace CustomsForgeSongManager.LocalTools
                                     octaveCount++;
                             }
 
+                            foreach (var hs in maxLevelHandShapes) //TODO: check for performance impact and optimize
+                            {
+                                if (chordTemplates[hs.ChordId].Finger0 != 0)
+                                    continue;
+
+                                var chords = maxLevelChords.Where(c => c.Time >= hs.StartTime && c.Time < hs.EndTime);
+                                var notes = maxLevelNotes.Where(n => n.Time >= hs.StartTime && n.Time < hs.EndTime && n.String == 0);
+
+                                thumbCount += chords.Count() + notes.Count();
+                            }
+
                             arr.ChordNames = chordNames;
                             arr.ChordCounts = chordCounts;
 
@@ -390,6 +410,7 @@ namespace CustomsForgeSongManager.LocalTools
                             arr.TapCount = maxLevelNotes.Count(n => n.Tap > 0);
                             arr.TremoloCount = maxLevelNotes.Count(n => n.Tremolo > 0);
                             arr.VibratoCount = maxLevelNotes.Count(n => n.Vibrato > 0);
+                            arr.ThumbCount = thumbCount;
 
                             // Arrangement Properties
                             if (arrName.ToLower().Equals("bass"))

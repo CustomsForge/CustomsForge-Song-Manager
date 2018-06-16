@@ -264,6 +264,7 @@ namespace CustomsForgeSongManager.DataObjects
         public int? TapCount { get; set; }
         public int? TremoloCount { get; set; }
         public int? VibratoCount { get; set; }
+        public int? ThumbCount { get; set; }
 
         // TODO: future expansion analyzer Arrangement Properties
         // Arrangement Properties 
