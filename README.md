@@ -1,5 +1,3 @@
-CustomsForge Song Manager
+CustomsForge Song Manager (Dev Branch)
 ===============
-
-More information on the project:
-https://docs.google.com/document/d/1hncOeKWz4Z2nyKwpZfTegMyoYEDGbzyNDUTawpbNaCE/
+Latest Beta Builds: http://cfmanager.com (Select Beta)
