@@ -9,7 +9,7 @@
         { "Key": "version", "Description": "Version (of the song)" },
         { "Key": "author", "Description": "CDLC Author" },
         { "Key": "filename", "Description": "Original Filename" },        
-        { "Key": "arrangements", "Description": "Song Arrangements" },
+        { "Key": "arrangements", "Description": "Song Arrangements BLRV (in memory of LaceyB)" },
         { "Key": "ddlvl", "Description": "Dynamic Difficulty Level" },
         { "Key": "_", "Description": "underscore" }
     ]

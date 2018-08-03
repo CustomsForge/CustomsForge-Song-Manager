@@ -132,10 +132,10 @@ namespace CustomsForgeSongManager.UControls
 
             if (!newFilePath.IsFilePathValid())
             {
-                var dialogMsg = "New file path: " + newFilePath + Environment.NewLine + Environment.NewLine +
+                var diaMsg = "New file path: " + newFilePath + Environment.NewLine + Environment.NewLine +
                     "is not valid.  Check file path for excessive length and/or invalid characters try again.";
                 var iconMsg = "Warning: File Path Length May Exceed System Capabilities";
-                BetterDialog2.ShowDialog(dialogMsg, "Renamer", "OK", null, null, Bitmap.FromHicon(SystemIcons.Warning.Handle), iconMsg, 150, 150);
+                BetterDialog2.ShowDialog(diaMsg, "Renamer", "OK", null, null, Bitmap.FromHicon(SystemIcons.Warning.Handle), iconMsg, 150, 150);
             }
 
             return newFilePath;
@@ -265,7 +265,11 @@ namespace CustomsForgeSongManager.UControls
 
         private void btnRenameAll_Click(object sender, System.EventArgs e)
         {
-            if (MessageBox.Show("Rename all files?", "Comfirmation", MessageBoxButtons.YesNo) == DialogResult.No)
+            var diaMsg = "Rename all song files?";
+            if (chkRenameOnlySelected.Checked)
+                diaMsg = "Rename only the selected song files?";
+
+            if (DialogResult.No == BetterDialog2.ShowDialog(diaMsg, "Confirmation", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning", 150, 150))
                 return;
 
             if (!ValidateInput())

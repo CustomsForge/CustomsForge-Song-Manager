@@ -213,7 +213,16 @@ namespace CustomsForgeSongManager.LocalTools
                                     throw new Exception("Could not find valid bnk file : " + _filePath);
 
                                 _archive.InflateEntry(bnkEntry);
-                                song.SongVolume = SoundBankGenerator2014.ReadBNKVolume(bnkEntry.Data, platform);
+                                
+                                var bnkPath = Path.GetTempFileName();
+                                using (var fs = File.Create(bnkPath))
+                                {
+                                    bnkEntry.Data.Seek(0, SeekOrigin.Begin);
+                                    bnkEntry.Data.CopyTo(fs);
+                                }
+
+                                song.SongVolume = SoundBankGenerator2014.ReadVolumeFactor(bnkPath, platform);
+                                File.Delete(bnkPath);
                             }
                         }
                         catch (Exception ex) // CDLC may still be usable

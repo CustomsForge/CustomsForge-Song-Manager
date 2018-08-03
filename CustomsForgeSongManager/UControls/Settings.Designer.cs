@@ -134,7 +134,7 @@ namespace CustomsForgeSongManager.UControls
             this.lnkSelectAll.Size = new System.Drawing.Size(98, 13);
             this.lnkSelectAll.TabIndex = 6;
             this.lnkSelectAll.TabStop = true;
-            this.lnkSelectAll.Text = "Select/Deselect All";
+            this.lnkSelectAll.Text = "Deselect/Select All";
             this.lnkSelectAll.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkSelectAll_LinkClicked);
             // 
             // lblDgvColumns
@@ -297,7 +297,8 @@ namespace CustomsForgeSongManager.UControls
             this.btnResetDownloads.TabIndex = 13;
             this.btnResetDownloads.Text = "Reset DL Folder";
             this.btnResetDownloads.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.toolTip.SetToolTip(this.btnResetDownloads, "Reset the \'Downloads\' folder path to\r\nspecify where new CDLC are stored.");
+            this.toolTip.SetToolTip(this.btnResetDownloads, "Reset the \'Downloads\' folder path to empty.\r\nYou will be asked later on to specif" +
+                    "y the new path\r\nof the \'Downloads\' folder when it is needed.");
             this.btnResetDownloads.UseVisualStyleBackColor = true;
             this.btnResetDownloads.Click += new System.EventHandler(this.btnResetDownloads_Click);
             // 

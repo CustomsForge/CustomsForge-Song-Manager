@@ -20,7 +20,7 @@ namespace CFSM.RSTKLib.PSARC
         public DLCPackageData ReadPackage(string inputPath)
         {
             // UNPACK
-            packageDir = Packer.Unpack(inputPath, Path.GetTempPath(), true);
+            packageDir = Packer.Unpack(inputPath, Path.GetTempPath(), decodeAudio: true);
 
             // REORGANIZE
             packageDir = DLCPackageData.DoLikeProject(packageDir);

@@ -237,7 +237,7 @@ namespace CustomsForgeSongManager.UControls
             Globals.RescanSongManager = false;
             Globals.RescanArrangements = false;
             Globals.ReloadSongManager = false;
-            Globals.ReloadArrangements = true;
+                Globals.ReloadArrangements = false; // testing w/ 'false' faster load of ArrangementAnalyzer 
             Globals.ReloadRenamer = true;
             Globals.ReloadSetlistManager = true;
             Globals.ReloadDuplicates = true;

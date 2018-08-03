@@ -70,8 +70,7 @@ packages/
 #others
 CleanupBeforeGitPullRequest.bat
 index*.html
-OpenCmd.bat
-inno.bat
+dev*.bat
 BeerMoneyCode.txt
 
 
