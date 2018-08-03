@@ -184,7 +184,7 @@
             this.txtRenameTemplate.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtRenameTemplate.Size = new System.Drawing.Size(372, 20);
             this.txtRenameTemplate.TabIndex = 0;
-            this.txtRenameTemplate.Text = "<title>_<artist>_<version>";
+            this.txtRenameTemplate.Text = "<artist>_<title>_<version>";
             this.txtRenameTemplate.TextChanged += new System.EventHandler(this.txtRenameTemplate_TextChanged);
             // 
             // btnRenameAll
@@ -197,8 +197,8 @@
             this.btnRenameAll.TabIndex = 11;
             this.btnRenameAll.Text = "Rename All Songs";
             this.btnRenameAll.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.toolTip.SetToolTip(this.btnRenameAll, "If \'Rename only the songs that are \r\nselected in Song Manager\' is unchecked,\r\nthi" +
-                    "s renames all CDLC and ODLC too!");
+            this.toolTip.SetToolTip(this.btnRenameAll, "CAREFUL: Renames all CDLC and ODLC\r\ntoo, if \'Rename only the songs that are \r\nsel" +
+                    "ected in Song Manager\' is unchecked.\r\n");
             this.btnRenameAll.UseVisualStyleBackColor = true;
             this.btnRenameAll.Click += new System.EventHandler(this.btnRenameAll_Click);
             // 
@@ -271,10 +271,10 @@
             // 
             // toolTip
             // 
-            this.toolTip.AutomaticDelay = 100;
-            this.toolTip.AutoPopDelay = 8000;
-            this.toolTip.InitialDelay = 100;
-            this.toolTip.ReshowDelay = 50;
+            this.toolTip.AutomaticDelay = 200;
+            this.toolTip.AutoPopDelay = 12000;
+            this.toolTip.InitialDelay = 200;
+            this.toolTip.ReshowDelay = 100;
             // 
             // Renamer
             // 

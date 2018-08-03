@@ -13,7 +13,230 @@ until you can confirm it is safe by working directly with your AV provider.
 ========================================================================
 
 CFSM Release Notes
+1.4.6.3
+- updated RockmsithToolkitLib.dll
 
+1.4.6.2
+- added count of chords/notes that use 'Thumb'
+- added automatic RS folder path search for Mac
+
+1.4.6.1
+- fixed filtering on nullable columns
+
+1.4.6.0
+- removed unsupported hopoCount from Arrangement Analyzer
+- added Log <WARNING> message that audio from SongPacks is not available for playback
+- fixed Arrangement Analyzer reload/rescan issues
+- fixed SongPack ConditionalBackup path
+
+1.4.5.9
+- added debounce feature to 'Search' to eliminate intermittent NullReferenceException
+
+1.4.5.8
+- permafix for non "en-US" Date/Time cultures
+
+1.4.5.7
+- improved debug.log information
+- fixed issue scanning Base Songs, and Compatibility Packs for non-US Date/Time current culture
+
+1.4.5.6
+- added additional debug log messages to identify issue with 'songs.psarc'
+
+1.4.5.5
+- improved the robustness of 'songs.psarc' file detection
+
+1.4.5.4
+- SongDetail grid tweaking
+
+1.4.5.3
+- adding D3DX9_42.dll validation and installer to the CFSM Mac Wine version
+  Mac Wine users should send the 'debug.log' file to the CFSM Developers for analysis ...
+
+1.4.5.2
+- fixed Pitch Shifter so that SongManager auto refreshes
+
+1.4.5.1
+- added Help menu item to the renamed Arrangement Analyzer feature
+- fixed ArrangementAnalyzer tag
+- fixed small issue with CSV export of Arrangement Analyzer data
+
+1.4.5.0
+- fixed SongManager (DDMax, BPM, FileDate, ConversionDate) column formatting
+- fixed Edit Song Information call to RockmsithToolkitLib.dll
+
+1.4.4.9
+- direct users to customize CFSM Settings on initial SongManager load, or
+  whenever a new SongData version is issued.
+
+1.4.4.8
+- fixed 'Repairs' 'Process Downloads Folder' ('Downloads' folder location can
+  be reset in 'Settings' tab menu)
+- added a user requested checkbox 'Auto Monitor Downloads Folder' to 'Repairs' menu
+  which will start automatic monitoring of a user selected 'Downloads' folder which
+  is used for incoming downloads, CFSM will apply auto repairs to the downloaded CDLC
+  and then auto move the repaired files to the Rocksmith 'dlc/downloads' folder.
+- improved user prompts for 'Repairs' 'Run Selected Repair Optons'.
+
+1.4.4.7
+- fixed 'Settings' 'Include Arrangements Data' parsing action when returning to 'Arrangement' tab menu
+
+1.4.4.6
+- 5X faster initial SongManager scan (Arrangement data is optional, see 'Settings', 'Include Arrangement Data')
+- apply standardize column formatting to SongManager and Arrangements data grids
+- rewired Arrangement grid event handlers
+- BassPick now displays as "True" instead of "1"
+
+1.4.4.5
+- added support for Mac compatibility to Arrangements
+- read SongVolume from bnk file if SongVolume is null in Manifest
+- restored system default settings to less restrictive mode
+
+1.4.4.4
+- improved full rescan estimated time to parse algo
+- changed ToneChanges from the number of tones used to the tone changes count (TonesCount)
+
+1.4.4.3
+- standardized the grid export naming convention
+- added additional  Arrangement Levels metadata to Arrangement gid
+- fixed SongManager Details grid DDMax column
+
+1.4.4.2
+- fixed Accent Count and added Ignore (notes) Count
+
+1.4.4.1
+- fixed JSON and XML export features so that all or only selected, and visible data are exported
+- added Accent and ToneChanges count to Arrangements grid
+- fixed BassPick count
+
+1.4.4.0
+- force auto deletion of My Documents/CFSM folder to avoid issues with nullable values
+- added XML and JSON file formats to grid export for testing
+- made all Arrangements grid columns filterable
+
+1.4.3.9
+- rewired dgvArrangements events including column selection menu
+- fixed datagridview IComparable bug to allow sorting of nullable values
+- display null datagrid values as a blank instead of a zero (0)
+- export null datagrid values as a blank instead of a zero (0)
+- fixed CSV column export order to match the displayed datagrid
+
+1.4.3.8
+- added some additional user feedback for a full rescan
+- attempt to fix date string to DateTime bug (unable to reproduce on devs machine)
+
+1.4.3.7
+- improved initial and full rescan song parsing speed
+
+1.4.3.6
+- restore/load CFSM default settings on first run
+- restored parsing stopwatch
+
+1.4.3.5
+- removed audible warning that CDLC may not have SongVolume or AlbumNameSort
+- SPECIAL NOTE: The newest version of CFSM will initially take longer to load your
+                CDLC collection but after the initial run it will load much faster.
+- added missing/additional song data columns to SongManager
+- updated D3DX9_42.dll and set Settings to automatically deploy the revised dll
+
+1.4.3.4
+- add new Arrangements feature that provides complete (Analyzer) information for each song arrangement (replaces old Analyzer methods)
+- parsing archives now extract directly from memory for improved speed
+- Arrangements and other grids may be exported to common file formats (be sure to read any tooltips)
+
+1.4.3.3
+- added Tones column to Song Manger displayed as a concatenated string of tones from each arrangement
+- Arrangements, Tunings, Tones, TuningFrequency, and Capo columns use same concatenated string format for improved filtering
+- Improved Analyzer data CSV and JSON file exports
+- display tuning Frequency instead of CentOffset in Analyzer data
+- fixed potential arrangement double counting issue
+
+1.4.3.2
+- fixed columns Tuning and Arrangements to show proper 1D data which provides customizable sorting options
+- added BassPick, CapoFret, and CentOffset to Analyzer data
+- fixed quick reload of SongsDetail grid ChordNamesCounts display and scrollbar issue
+- display OctaveCount in SongsDetail grid
+
+1.4.3.1
+- fixed SongsDetail datagrid display height
+
+1.4.3.0
+- fixed bug that prevented SongManager grid settings from reloading properly
+
+1.4.2.9
+- convert SongPacks DisabledSongs to more standardized DisabledEntries
+- added Windows 10 NullReference exception handler when loading GridSettings
+- added more descriptive error messages to log when CDLC are missing required data
+- added 'Enable Quarantine' checkbox to 'Settings' menu to automatically quarantine corrupt CDLC when found
+- fixed Analyzer data base zero index bug for Note and Chord count
+- cleaned up songInfo.xml and analyzerData.xml serialization and eliminated null values
+- added ChordNums to analyzerData.xml
+
+1.4.2.8
+- added .Net validation check
+- fixed CFSM PC/Mac application title
+
+1.4.2.7
+- data binding practices clean up
+- fixed reselect sorted data after delete
+
+1.4.2.6
+- added Unknown repair status for SongPacks created with older toolkit versions
+
+1.4.2.5
+- update data in SongManager after Repairs
+
+1.4.2.4
+- revised Analyzer data exporter and commented code
+- remind user to remove filtering/selection before exporting Analyzer data
+- fixed intermittent 'FileNotFoundException' exception in CanFilter method
+
+1.4.2.3
+- added 'Tuning' to Analyzer data export
+
+1.4.2.2
+- restructured data binding between the different data grids
+- fixed sort glyph visibility issues on filtered and non-filtered columns
+- preserve sorting selection after clearing search and/or filtering
+- maintain the highlighted song selection after filtering is removed
+- remind user to remove filter if filter is applied and no duplicates are found
+- fixed Remastered Repair using .org files
+- added Fix Low Bass Tuning to Repairs options
+- fixed occasional bug in 'Files' 'Organize ArtistName Subfolders' caused by version 'N/A' 
+- improved Song Packs open file dialogue and messages
+- only load one Custom Song Pack at a time
+ 
+1.4.2.1
+- fixed search, sort, click last, click any other; which would cause search to reset
+
+1.4.2.0
+- improved Help dialogue for SongManager and Duplicates 
+- consolidate duplicate toolstrip menu actions into the contextual menu
+- implemented more generic code methods for enable/disable, and delete/move/backup
+ 
+1.4.1.9
+- removed unnecessary SaveSettingsToFile when RemoveFilter is called.
+- implemented user suggestion to make 'Duplicate' actions work same as 'SongManager', 
+  i.e., right clicking on a song opens a contextual menu with various options
+- added multiple selection of songs for File IO operations, such as, delete, move/backup, enable/disable.
+
+1.4.1.8
+- validate D3DX9_42.dll initially defaults to false.  This can be changed in 'Settings' menu.
+- 'Duplicates' does a quick rescan rather than full rescan to improve speed.
+
+1.4.1.7
+- updated DDC.exe to latest version
+- added 'Preserve Stats' checkbox to 'Pitch Shifter'
+- added tooltip describing the expected behaviour of Pitch Shifter
+
+1.4.1.6
+- 'Pitch Shifter' 'Force E Standard Tuning' applies 440 Hz TuningPitch to minimize need for retuning
+- updated RocksmithToolkitLib.dll to latest version
+
+1.4.1.5
+- improved 'Clean On Closing' method
+- fix for persistent contextual menu bug 'Object reference not set to an instance of an object.' 
+  that could occur on startup when dgv settings have not yet been saved and/or when tabbing through menus
+  
 1.4.1.4
 - issue new Release version
 - fixed issue with 'Highest Fret Used' counting and saving

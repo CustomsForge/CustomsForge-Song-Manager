@@ -44,8 +44,6 @@ namespace CustomsForgeSongManager.LocalTools
 
             if (workOrder.Name == "Renamer")
                 bWorker.DoWork += WorkerRenameSongs;
-            else if (workOrder.Name == "Analyzer")
-                bWorker.DoWork += WorkerAnalyzerParseSong;
             else
                 bWorker.DoWork += WorkerParseSongs;
 
@@ -76,8 +74,8 @@ namespace CustomsForgeSongManager.LocalTools
             if (e.Cancelled || Globals.TsLabel_Cancel.Text == "Canceling" || Globals.CancelBackgroundScan)
             {
                 // bWorker.Abort(); // don't use abort
-                Globals.Log(Resources.UserCanceledProcess);
-                Globals.TsLabel_MainMsg.Text = Resources.UserCanceled;
+                Globals.Log(Resources.UserCancelledProcess);
+                Globals.TsLabel_MainMsg.Text = Resources.UserCancelled;
                 Globals.WorkerFinished = Globals.Tristate.Cancelled;
             }
             else
@@ -110,24 +108,21 @@ namespace CustomsForgeSongManager.LocalTools
             ParseSongs(sender, e);
         }
 
-        private void WorkerAnalyzerParseSong(object sender, DoWorkEventArgs e)
-        {
-            ParseSongs(sender, e, true);
-        }
-
-        private void ParseSongs(object sender, DoWorkEventArgs e, bool getAnalyzerData = false)
+        private void ParseSongs(object sender, DoWorkEventArgs e)
         {
             Globals.IsScanning = true;
             List<string> filesList;
 
             // is this a full rescan
-            if (Globals.SongCollection.Count == 0)
+            if (Globals.MasterCollection.Count == 0)
                 filesList = FilesList(Constants.Rs2DlcFolder, AppSettings.Instance.IncludeRS1CompSongs, AppSettings.Instance.IncludeRS2BaseSongs, AppSettings.Instance.IncludeCustomPacks);
             else
                 filesList = FilesList(Constants.Rs2DlcFolder, false, false, false);
 
             filesList = filesList.Where(fi => !fi.ToLower().Contains("inlay")).ToList();
-            bwSongCollection = Globals.SongCollection.ToList();
+
+            // initialization
+            bwSongCollection = Globals.MasterCollection.ToList();
 
             //// "Raw" is good descriptor :)
             Globals.Log(String.Format("Raw songs count: {0}", filesList.Count));
@@ -135,6 +130,7 @@ namespace CustomsForgeSongManager.LocalTools
             if (filesList.Count == 0)
                 return;
 
+            counterStopwatch.Restart();
             int songCounter = 0;
             int oldCount = bwSongCollection.Count();
             bwSongCollection.RemoveAll(sd => !File.Exists(sd.FilePath));
@@ -145,12 +141,13 @@ namespace CustomsForgeSongManager.LocalTools
 
             // skip dup check of songs.psarc or compatibility and song packs
             List<SongData> checkThese = bwSongCollection
-                .Where(x => !x.FilePath.ToLower().Contains(Constants.RS1COMP) &&
-                !x.FilePath.ToLower().Contains(Constants.SONGPACK) &&
-                !x.FilePath.ToLower().Contains(Constants.ABVSONGPACK) &&
-                !x.FilePath.ToLower().Equals(Constants.SongsPsarcPath.ToLower())) // must have ToLower()
+                .Where(x => !x.FileName.ToLower().Contains(Constants.RS1COMP) &&
+                !x.FileName.ToLower().Contains(Constants.SONGPACK) &&
+                !x.FileName.ToLower().Contains(Constants.ABVSONGPACK) &&
+                !x.FileName.ToLower().EndsWith(Constants.BASESONGS)) 
                 .ToList() as List<SongData>;
 
+            // this is improbable ... two songs have same FilePath
             var dupPaths = checkThese.GroupBy(x => x.FilePath).Where(group => group.Count() > 1);
             if (dupPaths.Count() > 0)
             {
@@ -168,7 +165,7 @@ namespace CustomsForgeSongManager.LocalTools
                 {
                     bWorker.CancelAsync();
                     e.Cancel = true;
-                    Globals.DebugLog("Parsing canceled ...");
+                    Globals.DebugLog(Resources.UserCancelledProcess);
                     return;
                 }
 
@@ -187,7 +184,7 @@ namespace CustomsForgeSongManager.LocalTools
                 }
 
                 if (canScan)
-                    ParsePSARC(file, getAnalyzerData);
+                    ParsePSARC(file);
             }
 
             // cleanup and sort
@@ -216,15 +213,19 @@ namespace CustomsForgeSongManager.LocalTools
                         }
                         catch (Exception)
                         {
+                            // do nothing
                         }
                     }
                 }
             }
 
-            Globals.SongCollection = new BindingList<SongData>(bwSongCollection);
+            Globals.MasterCollection = new BindingList<SongData>(bwSongCollection);
+            // -- CRITCAL -- this populates Arrangement DLCKey info in Arrangements2D
+            Globals.MasterCollection.ToList().ForEach(a => a.Arrangements2D.ToList().ForEach(arr => arr.Parent = a));
+            counterStopwatch.Stop();
         }
 
-        private void ParsePSARC(string filePath, bool getAnalyzerData = false)
+        private void ParsePSARC(string filePath)
         {
             // 2x speed hack ... preload the TuningDefinition and fix for tuning 'Other' issue           
             if (Globals.TuningXml == null || Globals.TuningXml.Count == 0)
@@ -234,30 +235,19 @@ namespace CustomsForgeSongManager.LocalTools
             {
                 using (var browser = new PsarcBrowser(filePath))
                 {
-                    var songInfo = browser.GetSongData(getAnalyzerData);
+                    var songInfo = browser.GetSongData();
 
                     foreach (var songData in songInfo.Distinct())
                     {
-                        //foreach (var arr in songData.Arrangements2D)
-                        //     arr.Tuning = Extensions.TuningToName(arr.Tuning);
-
-                        if (songData.Version == "N/A")
+                        if (songData.PackageVersion == "Null")
                         {
                             var fileNameVersion = songData.GetVersionFromFileName();
                             if (fileNameVersion != "")
-                                songData.Version = fileNameVersion;
+                                songData.PackageVersion = fileNameVersion;
                         }
 
-                        GenExtensions.InvokeIfRequired(workOrder, delegate { bwSongCollection.Add(songData); });
-
-                        //if (songData.FileName.ToLower().Contains(Constants.RS1COMP) && AppSettings.Instance.IncludeRS1DLCs)
-                        //    GenExtensions.InvokeIfRequired(workOrder, delegate { bwSongCollection.Add(songData); });
-
-                        //if (songData.FileName.ToLower().Contains(Constants.SongsPsarcPath.ToLower()) && AppSettings.Instance.IncludeRS2014BaseSongs)
-                        //    GenExtensions.InvokeIfRequired(workOrder, delegate { bwSongCollection.Add(songData); });
-
-                        //if (songData.FileName.ToLower().Contains(Constants.SONGPACK) || songData.FileName..ToLower().Contains(Constants.ABVSONGPACK) && AppSettings.Instance.IncludeCustomPacks)
-                        //    GenExtensions.InvokeIfRequired(workOrder, delegate { bwSongCollection.Add(songData); });
+                        GenExtensions.InvokeIfRequired(workOrder, delegate
+                            { bwSongCollection.Add(songData); });
                     }
                 }
             }
@@ -265,23 +255,27 @@ namespace CustomsForgeSongManager.LocalTools
             {
                 // move to Quarantine folder
                 if (ex.Message.StartsWith("Error reading JObject"))
-                    Globals.Log(String.Format("<ERROR>: {0}  -  CDLC is corrupt!", filePath));
+                    Globals.Log(String.Format("<ERROR> {0}  -  CDLC is corrupt!", filePath));
+                else if (ex.Message.StartsWith("Object reference not set"))
+                    Globals.Log(String.Format("<ERROR> {0}  -  CDLC is missing data!", filePath));
                 else
-                    Globals.Log(String.Format("<ERROR>: {0}  -  {1}", filePath, ex.Message));
+                    Globals.Log(String.Format("<ERROR> {0}  -  {1}", filePath, ex.Message));
 
-                if (AppSettings.Instance.MoveToQuarantine)
+                if (AppSettings.Instance.EnableQuarantine)
                 {
                     var corFileName = String.Format("{0}{1}", Path.GetFileName(filePath), ".cor");
                     var corFilePath = Path.Combine(Constants.QuarantineFolder, corFileName);
-                    Globals.Log("File has been moved to: " + Constants.QuarantineFolder);
 
                     if (!Directory.Exists(Constants.QuarantineFolder))
                         Directory.CreateDirectory(Constants.QuarantineFolder);
 
-                    //if (File.Exists(corFilePath))
-                    //    File.Delete(corFilePath);
-
                     File.Move(filePath, corFilePath);
+                    Globals.Log(String.Format("File has been quarantined to: {0}", Constants.QuarantineFolder));
+                }
+                else
+                {
+                    Globals.Log(String.Format("<WARNING> File was not quarantined ..."));
+                    Globals.Log(String.Format(" - Auto quarantine may be enabled in the 'Settings' menu ..."));
                 }
             }
         }
@@ -299,13 +293,13 @@ namespace CustomsForgeSongManager.LocalTools
         public static List<string> FilesList(string filePath, bool includeRS1Pack = false, bool includeRS2014BaseSongs = false, bool includeCustomPacks = false)
         {
             if (String.IsNullOrEmpty(filePath))
-                throw new Exception("<ERROR>: No path provided for file scanning");
+                throw new Exception("<ERROR> No path provided for file scanning");
 
             if (!Directory.Exists(filePath))
                 Directory.CreateDirectory(filePath);
 
             var files = Directory.EnumerateFiles(filePath, "*" + Constants.PsarcExtension, SearchOption.AllDirectories).ToList();
-             files.AddRange(Directory.EnumerateFiles(filePath, "*" + Constants.DisabledPsarcExtension, SearchOption.AllDirectories).ToList());
+            files.AddRange(Directory.EnumerateFiles(filePath, "*" + Constants.DisabledPsarcExtension, SearchOption.AllDirectories).ToList());
 
             if (!includeRS1Pack)
                 files = files.Where(file => !file.ToLower().Contains(Constants.RS1COMP)).ToList();

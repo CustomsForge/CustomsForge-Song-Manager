@@ -45,6 +45,7 @@ namespace CustomsForgeSongManager.Forms
             this.tstripContainer = new System.Windows.Forms.ToolStripContainer();
             this.tcMain = new System.Windows.Forms.TabControl();
             this.tpSongManager = new System.Windows.Forms.TabPage();
+            this.tpArrangements = new System.Windows.Forms.TabPage();
             this.tpDuplicates = new System.Windows.Forms.TabPage();
             this.tpRenamer = new System.Windows.Forms.TabPage();
             this.tpSetlistManager = new System.Windows.Forms.TabPage();
@@ -60,8 +61,8 @@ namespace CustomsForgeSongManager.Forms
             this.tsmiBBCode = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiCSV = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiHTML = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiAnalyzerCSV = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiAnalyzerJSON = new System.Windows.Forms.ToolStripMenuItem();
+            this.jSONToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.xMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.tsBtnUpload = new System.Windows.Forms.ToolStripButton();
             this.tsBtnRequest = new System.Windows.Forms.ToolStripButton();
@@ -148,13 +149,13 @@ namespace CustomsForgeSongManager.Forms
             this.contextMenuStrip_Tray.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.closeToolStripMenuItem});
             this.contextMenuStrip_Tray.Name = "contextMenuStrip_Tray";
-            this.contextMenuStrip_Tray.Size = new System.Drawing.Size(104, 26);
+            this.contextMenuStrip_Tray.Size = new System.Drawing.Size(112, 26);
             // 
             // closeToolStripMenuItem
             // 
             this.closeToolStripMenuItem.Image = global::CustomsForgeSongManager.Properties.Resources.close;
             this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            this.closeToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
             this.closeToolStripMenuItem.Text = "Close";
             this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
             // 
@@ -202,6 +203,7 @@ namespace CustomsForgeSongManager.Forms
             // tcMain
             // 
             this.tcMain.Controls.Add(this.tpSongManager);
+            this.tcMain.Controls.Add(this.tpArrangements);
             this.tcMain.Controls.Add(this.tpDuplicates);
             this.tcMain.Controls.Add(this.tpRenamer);
             this.tcMain.Controls.Add(this.tpSetlistManager);
@@ -225,6 +227,15 @@ namespace CustomsForgeSongManager.Forms
             this.tpSongManager.TabIndex = 0;
             this.tpSongManager.Text = "Song Manager";
             this.tpSongManager.UseVisualStyleBackColor = true;
+            // 
+            // tpArrangements
+            // 
+            this.tpArrangements.Location = new System.Drawing.Point(4, 25);
+            this.tpArrangements.Name = "tpArrangements";
+            this.tpArrangements.Size = new System.Drawing.Size(1003, 472);
+            this.tpArrangements.TabIndex = 9;
+            this.tpArrangements.Text = "Arrangement Analyzer";
+            this.tpArrangements.UseVisualStyleBackColor = true;
             // 
             // tpDuplicates
             // 
@@ -340,50 +351,50 @@ namespace CustomsForgeSongManager.Forms
             this.tsmiBBCode,
             this.tsmiCSV,
             this.tsmiHTML,
-            this.tsmiAnalyzerCSV,
-            this.tsmiAnalyzerJSON});
+            this.jSONToolStripMenuItem,
+            this.xMLToolStripMenuItem});
             this.tsBtnExport.Image = global::CustomsForgeSongManager.Properties.Resources.export;
             this.tsBtnExport.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsBtnExport.Name = "tsBtnExport";
             this.tsBtnExport.Size = new System.Drawing.Size(68, 22);
             this.tsBtnExport.Text = "Export";
-            this.tsBtnExport.ToolTipText = "The default action is to export all\r\ndata if no rows have been selected.\r\nOthewis" +
-                "e exports only the data\r\nthat has been manually selected.";
+            this.tsBtnExport.ToolTipText = resources.GetString("tsBtnExport.ToolTipText");
             // 
             // tsmiBBCode
             // 
             this.tsmiBBCode.Name = "tsmiBBCode";
-            this.tsmiBBCode.Size = new System.Drawing.Size(163, 22);
+            this.tsmiBBCode.Size = new System.Drawing.Size(152, 22);
             this.tsmiBBCode.Text = "BB Code";
             this.tsmiBBCode.Click += new System.EventHandler(this.tsmiBBCode_Click);
             // 
             // tsmiCSV
             // 
             this.tsmiCSV.Name = "tsmiCSV";
-            this.tsmiCSV.Size = new System.Drawing.Size(163, 22);
+            this.tsmiCSV.Size = new System.Drawing.Size(152, 22);
             this.tsmiCSV.Text = "CSV";
+            this.tsmiCSV.ToolTipText = resources.GetString("tsmiCSV.ToolTipText");
             this.tsmiCSV.Click += new System.EventHandler(this.tsmiCSV_Click);
             // 
             // tsmiHTML
             // 
             this.tsmiHTML.Name = "tsmiHTML";
-            this.tsmiHTML.Size = new System.Drawing.Size(163, 22);
+            this.tsmiHTML.Size = new System.Drawing.Size(152, 22);
             this.tsmiHTML.Text = "HTML";
             this.tsmiHTML.Click += new System.EventHandler(this.tsmiHTML_Click);
             // 
-            // tsmiAnalyzerCSV
+            // jSONToolStripMenuItem
             // 
-            this.tsmiAnalyzerCSV.Name = "tsmiAnalyzerCSV";
-            this.tsmiAnalyzerCSV.Size = new System.Drawing.Size(163, 22);
-            this.tsmiAnalyzerCSV.Text = "Analyzer - CSV";
-            this.tsmiAnalyzerCSV.Click += new System.EventHandler(this.tsmiAnalyzerCSV_Click);
+            this.jSONToolStripMenuItem.Name = "jSONToolStripMenuItem";
+            this.jSONToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.jSONToolStripMenuItem.Text = "JSON";
+            this.jSONToolStripMenuItem.Click += new System.EventHandler(this.tsmiJSON_Click);
             // 
-            // tsmiAnalyzerJSON
+            // xMLToolStripMenuItem
             // 
-            this.tsmiAnalyzerJSON.Name = "tsmiAnalyzerJSON";
-            this.tsmiAnalyzerJSON.Size = new System.Drawing.Size(163, 22);
-            this.tsmiAnalyzerJSON.Text = "Analyzer - JSON";
-            this.tsmiAnalyzerJSON.Click += new System.EventHandler(this.tsmiAnalyzerJSON_Click);
+            this.xMLToolStripMenuItem.Name = "xMLToolStripMenuItem";
+            this.xMLToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.xMLToolStripMenuItem.Text = "XML";
+            this.xMLToolStripMenuItem.Click += new System.EventHandler(this.tsmiXML_Click);
             // 
             // toolStripSeparator2
             // 
@@ -625,7 +636,7 @@ namespace CustomsForgeSongManager.Forms
             this.KeyPreview = true;
             this.Name = "frmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "9";
+            this.Text = "frmMain";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmMain_FormClosing);
             this.Load += new System.EventHandler(this.frmMain_Load);
             this.Shown += new System.EventHandler(this.frmMain_Shown);
@@ -672,7 +683,6 @@ namespace CustomsForgeSongManager.Forms
         public ToolStripStatusLabel tsLabel_StatusMsg;
         public ToolStripStatusLabel tsLabel_Cancel;
         public ToolStripStatusLabel tsLabel_DisabledCounter;
-        private TabControl tcMain;
         private TabPage tpSongManager;
         private TabPage tpDuplicates;
         private TabPage tpRenamer;
@@ -706,7 +716,9 @@ namespace CustomsForgeSongManager.Forms
         private ToolStripProgressBar tspbAudioPosition;
         private TabPage tpSongPacks;
         private ToolStripLabel tslblTimer;
-        private ToolStripMenuItem tsmiAnalyzerCSV;
-        private ToolStripMenuItem tsmiAnalyzerJSON;
+        private TabPage tpArrangements;
+        private ToolStripMenuItem jSONToolStripMenuItem;
+        private ToolStripMenuItem xMLToolStripMenuItem;
+        public TabControl tcMain;
     }
 }

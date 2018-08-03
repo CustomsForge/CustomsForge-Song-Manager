@@ -1,4 +1,5 @@
-<project outputDir="..\ConfuserEx\" baseDir="..\CustomsForgeSongManager\bin\Release\" xmlns="http://confuser.codeplex.com">
+<!-- CAREFUL it is very easy to break these paths and thus obfuscation is useless -->
+<project outputDir="..\ConfuserEx\" baseDir="..\..\CustomsForgeSongManager\bin\Release\" xmlns="http://confuser.codeplex.com">
  	<rule preset="none" pattern="true">	
         <protection id="anti debug" />
 		<protection id="anti ildasm" />

@@ -3,9 +3,8 @@ using Newtonsoft.Json;
 
 namespace CustomsForgeSongManager.DataObjects
 {
-    public class RSDataJsonDictionary<T> : Dictionary<string, Dictionary<string, T>> where T : RSDataAbstractBase
-    {
-    }
+    // SongPack related
+    public class RSDataJsonDictionary<T> : Dictionary<string, Dictionary<string, T>> where T : RSDataAbstractBase { }
 
     public class RSDataAbstract
     {

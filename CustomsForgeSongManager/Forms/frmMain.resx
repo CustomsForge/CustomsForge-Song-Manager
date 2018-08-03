@@ -389,6 +389,26 @@
   <metadata name="tsUtilities.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>489, 22</value>
   </metadata>
+  <data name="tsmiCSV.ToolTipText" xml:space="preserve">
+    <value>READ THIS ... 
+
+The default action is to export all
+data that is displayed in the grid if no
+rows have been manually selected.
+
+Othewise only the data that has
+been manually selected is exported.</value>
+  </data>
+  <data name="tsBtnExport.ToolTipText" xml:space="preserve">
+    <value>READ THIS ... 
+
+The default action is to export all
+data that is displayed in the grid if no
+rows have been manually selected.
+
+Othewise only the data that has
+been manually selected is exported.</value>
+  </data>
   <data name="tsBtnRequest.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8

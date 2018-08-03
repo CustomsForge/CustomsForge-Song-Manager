@@ -162,10 +162,10 @@
     <comment>EnterValue description</comment>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="Filtered" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="filtered" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\filtered.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Unfiltered" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="unfiltered" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\unfiltered.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

@@ -19,9 +19,9 @@ namespace CustomsForgeSongManager.SongEditor
         public override void DoInit()
         {
             // this will throw exception if SongFilePath not found
-            var song = Globals.SongCollection.First(x => x.FilePath == FilePath);
+            var song = Globals.MasterCollection.First(x => x.FilePath == FilePath);
 
-            cbLowBass.Visible = song.ArrangementInitials.Contains('B');
+            cbLowBass.Visible = song.ArrangementsInitials.Contains('B');
 
             txtKey.Text = SongData.Name;
             txtArtist.Text = SongData.SongInfo.Artist;
@@ -36,7 +36,7 @@ namespace CustomsForgeSongManager.SongEditor
             txtAvgTempo.Text = SongData.SongInfo.AverageTempo.ToString();
             cmbSongVolume.Value = Convert.ToDecimal(SongData.Volume);
             cmbPreviewVolume.Value = Convert.ToDecimal(SongData.PreviewVolume);
-            txtCharter.Text = song.CharterName; // not editable
+            txtCharter.Text = song.PackageAuthor; // not editable
 
             //set up events
             PopulateAppIdCombo(SongData.AppId, GameVersion.RS2014);

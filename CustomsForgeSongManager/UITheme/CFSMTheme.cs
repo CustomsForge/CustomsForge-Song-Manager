@@ -9,7 +9,8 @@ namespace CustomsForgeSongManager.UITheme
     [ThemeFileVersion("1.0"), ThemeFileExtension(".cfsmtheme")]
     public class CFSMTheme : Theme
     {
-        public CFSMTheme() : base()
+        public CFSMTheme()
+            : base()
         {
             ThemeDirectory = Constants.ThemeFolder;
             if (!Directory.Exists(ThemeDirectory))
@@ -19,10 +20,11 @@ namespace CustomsForgeSongManager.UITheme
         public static void InitializeDgvAppearance(DataGridView dgvTheme)
         {
             // set all columns to read only except colSelect
+            // dgvSongsMaster.Columns.OfType<DataGridViewColumn>().ToList().ForEach(col => col.ReadOnly = true);
             foreach (DataGridViewColumn col in dgvTheme.Columns)
                 col.ReadOnly = true;
 
-            dgvTheme.AlternatingRowsDefaultCellStyle = new DataGridViewCellStyle() {BackColor = Color.LightSteelBlue};
+            dgvTheme.AlternatingRowsDefaultCellStyle = new DataGridViewCellStyle() { BackColor = Color.LightSteelBlue };
             dgvTheme.AllowUserToAddRows = false; // removes empty row at bottom
             dgvTheme.AllowUserToDeleteRows = false;
             dgvTheme.AllowUserToOrderColumns = true;
@@ -34,6 +36,7 @@ namespace CustomsForgeSongManager.UITheme
             // required when using FilteredBindingList
             dgvTheme.ColumnHeadersDefaultCellStyle.WrapMode = DataGridViewTriState.False;
             dgvTheme.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            // dgvTheme.CurrentCell.Selected = false; // causes fatal error
             // set custom selection (highlighting) color
             dgvTheme.DefaultCellStyle.SelectionBackColor = Color.Gold; // dgvLook.DefaultCellStyle.BackColor; // or removes selection highlight
             dgvTheme.DefaultCellStyle.SelectionForeColor = dgvTheme.DefaultCellStyle.ForeColor;

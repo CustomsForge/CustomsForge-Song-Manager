@@ -18,10 +18,11 @@ namespace CustomsForgeSongManager.DataObjects
         private bool _includeRS1CompSongs;
         private bool _includeRS2BaseSongs;
         private bool _includeCustomPacks;
-        private bool _includeAnalyzerData;
+        private bool _includeArrangementData;
         private bool _enableAutoUpdate = false;
         private bool _enableNotifications = false;
-        private bool _validateD3D = true;
+        private bool _enableQuarantine = false;
+        private bool _validateD3D = false;
         private bool _macMode;
         private bool _cleanOnClosing;
         private bool _checkForUpdateOnScan;
@@ -33,8 +34,10 @@ namespace CustomsForgeSongManager.DataObjects
         private bool _showLogWindow;
         private string _charterName = String.Empty;
         private string _renameTemplate = String.Empty;
-        private string _sortColumn = String.Empty;
-        private bool _sortAscending;
+        private string _searchString = String.Empty;
+        private string _filterString = String.Empty;
+        private string _sortColumn = "Artist"; // set default sort column (retains selection)
+        private bool _sortAscending = true;
         private bool _showSetlistSongs;
         private string _downloadsDir;
         private DateTime _lastODLCCheckDate;
@@ -55,6 +58,12 @@ namespace CustomsForgeSongManager.DataObjects
             set { SetPropertyField("RSProfileDir", ref _rsProfileDir, value); }
         }
 
+        public string DownloadsDir
+        {
+            get { return _downloadsDir; }
+            set { SetPropertyField("DownloadsDir", ref _downloadsDir, value); }
+        }
+
         public bool IncludeRS1CompSongs
         {
             get { return _includeRS1CompSongs; }
@@ -73,10 +82,10 @@ namespace CustomsForgeSongManager.DataObjects
             set { SetPropertyField("IncludeCustomPacks", ref _includeCustomPacks, value); }
         }
 
-        public bool IncludeAnalyzerData
+        public bool IncludeArrangementData
         {
-            get { return _includeAnalyzerData; }
-            set { SetPropertyField("IncludeAnalyzerData", ref _includeAnalyzerData, value); }
+            get { return _includeArrangementData; }
+            set { SetPropertyField("IncludeArrangementData", ref _includeArrangementData, value); }
         }
 
         public bool EnableAutoUpdate
@@ -84,11 +93,17 @@ namespace CustomsForgeSongManager.DataObjects
             get { return _enableAutoUpdate; }
             set { SetPropertyField("EnableAutoUpdate", ref _enableAutoUpdate, value); }
         }
-        
+
         public bool EnableNotifications
         {
             get { return _enableNotifications; }
             set { SetPropertyField("EnableNotifications", ref _enableNotifications, value); }
+        }
+
+        public bool EnableQuarantine
+        {
+            get { return _enableQuarantine; }
+            set { SetPropertyField("EnableQuarantine", ref _enableQuarantine, value); }
         }
 
         public bool ValidateD3D
@@ -119,12 +134,6 @@ namespace CustomsForgeSongManager.DataObjects
         {
             get { return _lastODLCCheckDate; }
             set { SetPropertyField("LastODLCCheckDate", ref _lastODLCCheckDate, value); }
-        }
-
-        public string DownloadsDir
-        {
-            get { return _downloadsDir; }
-            set { SetPropertyField("DownloadsDir", ref _downloadsDir, value); }
         }
 
         //[XmlArray("UISettings")] // provides proper xml serialization
@@ -192,6 +201,20 @@ namespace CustomsForgeSongManager.DataObjects
         }
 
         [Browsable(false)]
+        public string SearchString
+        {
+            get { return _searchString; }
+            set { SetPropertyField("SearchString", ref _searchString, value); }
+        }
+
+        [Browsable(false)]
+        public string FilterString
+        {
+            get { return _filterString; }
+            set { SetPropertyField("FilterString", ref _filterString, value); }
+        }
+
+        [Browsable(false)]
         public string SortColumn
         {
             get { return _sortColumn; }
@@ -221,7 +244,6 @@ namespace CustomsForgeSongManager.DataObjects
             set { _repairOptions = value; }
         }
 
-        public bool MoveToQuarantine { get; set; }
 
         //property template
         //public type PropName { get { return propName; } set { SetPropertyField("PropName", ref propName, value); } }
@@ -239,27 +261,42 @@ namespace CustomsForgeSongManager.DataObjects
             }
         }
 
-        public void LoadFromFile(string settingsPath, DataGridView dgvCurrent)
+        public void LoadFromFile(string settingsPath, bool verbose = false)
         {
             if (!String.IsNullOrEmpty(settingsPath) && File.Exists(settingsPath))
             {
                 using (var fs = File.OpenRead(settingsPath))
                     LoadSettingsFromStream(fs);
-            }
 
-            // not done on app startup
-            if (dgvCurrent != null)
-            {
-                if (File.Exists(settingsPath))
+                if (verbose)
                     Globals.Log("Loaded File: " + Path.GetFileName(Constants.AppSettingsPath));
+            }
+            else
+                RestoreDefaults();
 
-                if (File.Exists(Constants.GridSettingsPath))
+            if (String.IsNullOrEmpty(Globals.DgvCurrent.Name))
+                return;
+
+            // TODO: allow customized grid settings to be saved and loaded by name
+            if (File.Exists(Constants.GridSettingsPath))
+            {
+                try
                 {
-                    Globals.Log("Loaded File: " + Path.GetFileName(Constants.GridSettingsPath));
                     RAExtensions.ManagerGridSettings = SerialExtensions.LoadFromFile<RADataGridViewSettings>(Constants.GridSettingsPath);
+                    Globals.Log("Loaded File: " + Path.GetFileName(Constants.GridSettingsPath));
                 }
-                //else
-                //    Globals.Log("<WARNING> Did not find file: " + Path.GetFileName(Constants.GridSettingsPath));
+                catch (Exception ex)
+                {
+                    Globals.Log("<ERROR> GridSettings could not be loaded ...");
+                    Globals.Log("Windows 10 users must uninstall .Net 4.7 and manually install .Net 4.0 if this error persists ...");
+                    Globals.Log(ex.Message);
+                    RAExtensions.ManagerGridSettings = null; // reset
+                }
+            }
+            else
+            {
+                Globals.Log("<WARNING> Did not find file: " + Path.GetFileName(Constants.GridSettingsPath));
+                RAExtensions.ManagerGridSettings = null; // reset
             }
         }
 
@@ -279,23 +316,27 @@ namespace CustomsForgeSongManager.DataObjects
                 }
         }
 
-        public void Reset()
+        public void RestoreDefaults()
         {
-            Instance.MoveToQuarantine = false;
+            RAExtensions.ManagerGridSettings = new RADataGridViewSettings();
+            Instance.EnableQuarantine = false; // false because users like using corrupt CDLC
             Instance.LogFilePath = Constants.LogFilePath;
-            Instance.RSInstalledDir = LocalExtensions.GetSteamDirectory();
             Instance.RSProfileDir = String.Empty;
-            Instance.IncludeRS1CompSongs = false; // changed to false (fewer issues)
+            Instance.DownloadsDir = String.Empty;
+            Instance.IncludeRS1CompSongs = false; // false for fewer new user issues
             Instance.IncludeRS2BaseSongs = false;
             Instance.IncludeCustomPacks = false;
-            Instance.IncludeAnalyzerData = false;
-            Instance.EnableAutoUpdate = false;
-            Instance.EnableNotifications = false; // fewer notfication issues
-            Instance.ValidateD3D = true;
+            Instance.IncludeArrangementData = false; // false for 5X faster initial parsing
+            Instance.EnableAutoUpdate = false; // false when D3DX9_42.dll is stable
+            Instance.EnableNotifications = false; // false for fewer notfication issues
+            Instance.MacMode = false; // true for testing Mac dev
+            Instance.ValidateD3D = false; // false when D3DX9_42.dll is stable
             Instance.CleanOnClosing = false;
             Instance.ShowLogWindow = Constants.DebugMode;
-            RAExtensions.ManagerGridSettings = new RADataGridViewSettings();
             Instance.RepairOptions = new RepairOptions();
+
+            if (String.IsNullOrEmpty(Instance.RSInstalledDir))
+                Instance.RSInstalledDir = LocalExtensions.GetSteamDirectory();
         }
 
         /// Initialise settings with default values

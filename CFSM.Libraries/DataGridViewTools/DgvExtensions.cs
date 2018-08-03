@@ -4,11 +4,13 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
+using System.Data;
 
 namespace DataGridViewTools
 {
     public static class DgvExtensions
     {
+        [Obfuscation(Exclude = false, Feature = "-rename")]
         public enum TristateSelect : byte
         {
             NotSelected = 0,
@@ -16,6 +18,12 @@ namespace DataGridViewTools
             All = 2
         }
 
+        /// <summary>
+        /// Get the data object of first selected (highlighted) row
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="dgvCurrent"></param>
+        /// <returns></returns>
         public static T GetObjectFromFirstSelectedRow<T>(DataGridView dgvCurrent)
         {
             if (dgvCurrent.SelectedRows.Count > 0)
@@ -161,23 +169,37 @@ namespace DataGridViewTools
         /// <param name="grid"></param>
         public static void SaveSorting(DataGridView grid)
         {
+            _oldSortCol = null;
             _oldSortOrder = grid.SortOrder == SortOrder.Ascending ?
                 ListSortDirection.Ascending : ListSortDirection.Descending;
             _oldSortCol = grid.SortedColumn;
         }
 
         /// <summary>
-        /// Restores column sorting to a datagrid. You MUST call this AFTER calling 
-        /// SaveSorting on the same DataGridView
+        /// Restores column sorting and sort glpyh to a DataGridView.
+        ///<para>Call this AFTER calling SaveSorting on the same DataGridView.</para>   
         /// </summary>
         /// <param name="grid"></param>
-        public static void RestoreSorting(DataGridView grid)
+        /// <param name="toogleSort">If TRUE toggles column sorting from Ascending to Desending and viseversa</param>
+        public static void RestoreSorting(DataGridView grid, bool toggleSort = false)
         {
             if (_oldSortCol != null)
             {
-                DataGridViewColumn newCol = grid.Columns[_oldSortCol.Name];
-                grid.Sort(newCol, _oldSortOrder);
+                if (toggleSort)
+                {
+                    _oldSortOrder = _oldSortOrder == ListSortDirection.Ascending ?
+                        ListSortDirection.Descending : ListSortDirection.Ascending;
+                    DataGridViewColumn newCol = grid.Columns[_oldSortCol.Name];
+                    grid.Sort(newCol, _oldSortOrder);
+                }
+                else
+                {
+                    DataGridViewColumn newCol = grid.Columns[_oldSortCol.Name];
+                    grid.Sort(newCol, _oldSortOrder);
+                }
             }
         }
+
+
     }
 }

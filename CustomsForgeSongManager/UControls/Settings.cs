@@ -19,20 +19,21 @@ namespace CustomsForgeSongManager.UControls
             Leave += Settings_Leave;
         }
 
-        public void LoadSettingsFromFile(DataGridView dgvCurrent)
+        public void LoadSettingsFromFile(DataGridView dgvCurrent = null, bool verbose = false)
         {
             try
             {
                 Globals.DgvCurrent = dgvCurrent;
-                AppSettings.Instance.LoadFromFile(Constants.AppSettingsPath, dgvCurrent);
+                AppSettings.Instance.LoadFromFile(Constants.AppSettingsPath, verbose);
 
                 cueRsDir.Text = AppSettings.Instance.RSInstalledDir;
                 chkIncludeRS1CompSongs.Checked = AppSettings.Instance.IncludeRS1CompSongs;
                 chkIncludeRS2BaseSongs.Checked = AppSettings.Instance.IncludeRS2BaseSongs;
                 chkIncludeCustomPacks.Checked = AppSettings.Instance.IncludeCustomPacks;
-                chkIncludeAnalyzerData.Checked = AppSettings.Instance.IncludeAnalyzerData;
+                chkIncludeArrangementData.Checked = AppSettings.Instance.IncludeArrangementData;
                 chkEnableAutoUpdate.Checked = AppSettings.Instance.EnableAutoUpdate;
                 chkEnableNotifications.Checked = AppSettings.Instance.EnableNotifications;
+                chkEnableQuarantine.Checked = AppSettings.Instance.EnableQuarantine;
                 chkValidateD3D.Checked = AppSettings.Instance.ValidateD3D;
                 chkMacMode.Checked = AppSettings.Instance.MacMode;
                 rbCleanOnClosing.Checked = AppSettings.Instance.CleanOnClosing;
@@ -43,6 +44,9 @@ namespace CustomsForgeSongManager.UControls
                 {
                     ValidateRsDir();
                     ValidateD3D();
+
+                    if (!AppSettings.Instance.EnableQuarantine)
+                        Globals.Log("<WARNING> 'Auto Quarantine' is disabled ...");
                 }
             }
             catch (Exception ex)
@@ -72,7 +76,7 @@ namespace CustomsForgeSongManager.UControls
             }
         }
 
-        public void SaveSettingsToFile(DataGridView dgvCurrent)
+        public void SaveSettingsToFile(DataGridView dgvCurrent, bool verbose = false)
         {
             Globals.DgvCurrent = dgvCurrent;
             Debug.WriteLine("Save DataGridView Settings: " + dgvCurrent.Name);
@@ -82,7 +86,8 @@ namespace CustomsForgeSongManager.UControls
                 using (var fs = new FileStream(Constants.AppSettingsPath, FileMode.Create, FileAccess.Write, FileShare.Write))
                 {
                     AppSettings.Instance.SerializeXml(fs);
-                    Globals.Log("Saved File: " + Path.GetFileName(Constants.AppSettingsPath));
+                    if (verbose)
+                        Globals.Log("Saved File: " + Path.GetFileName(Constants.AppSettingsPath));
                 }
 
                 if (String.IsNullOrEmpty(dgvCurrent.Name))
@@ -91,6 +96,7 @@ namespace CustomsForgeSongManager.UControls
                 if (!Directory.Exists(Constants.GridSettingsFolder))
                     Directory.CreateDirectory(Constants.GridSettingsFolder);
 
+                // TODO: allow customized grid settings to be saved and loaded by name
                 SerialExtensions.SaveToFile(Constants.GridSettingsPath, RAExtensions.SaveColumnOrder(dgvCurrent));
                 Globals.Log("Saved File: " + Path.GetFileName(Constants.GridSettingsPath));
             }
@@ -105,6 +111,7 @@ namespace CustomsForgeSongManager.UControls
             // rescan on tabpage change ... safest but may be better way
             // possibly never overwrite masterSongControl with Duplicates
             Globals.RescanSongManager = rescan;
+            Globals.RescanArrangements = rescan;
             Globals.RescanDuplicates = rescan;
             Globals.RescanSetlistManager = rescan;
             Globals.RescanRenamer = rescan;
@@ -115,7 +122,18 @@ namespace CustomsForgeSongManager.UControls
         {
             if (!AppSettings.Instance.ValidateD3D)
             {
-                Globals.Log("<WARNING> 'D3DX9_42.dll' file validation is disabled ...");
+                Globals.Log("<WARNING> 'Validate D3DX9_42.dll' is disabled ...");
+                return false;
+            }
+
+            if (AppSettings.Instance.MacMode)
+            {
+                Globals.Log("Send the 'debug.log' file to CFSM Developer, Cozy1 for analysis ...");
+                Globals.Log("<WARNING> 'D3DX9_42.dll' file validation is disabled while in MacMode ...");
+                Globals.Log("AppSettings.Instance.RSInstalledDir = " + AppSettings.Instance.RSInstalledDir);
+                Globals.Log("Application.ExecutablePath = " + Application.ExecutablePath);
+                Globals.Log("Path.GetDirectoryName(Application.ExecutablePath) = " + Path.GetDirectoryName(Application.ExecutablePath));
+                Globals.Log("Constants.ApplicationFolder = " + Constants.ApplicationFolder);
                 return false;
             }
 
@@ -132,6 +150,7 @@ namespace CustomsForgeSongManager.UControls
                     return false;
                 }
 
+                // working directly with the file rather than an embedded resource 
                 if (File.Exists(luaPath))
                     GenExtensions.CopyFile(Path.Combine(Constants.ApplicationFolder, "D3DX9_42.dll.old"), Path.Combine(AppSettings.Instance.RSInstalledDir, "D3DX9_42.dll"), true, false);
                 else
@@ -195,8 +214,9 @@ namespace CustomsForgeSongManager.UControls
                 }
 
                 AppSettings.Instance.RSInstalledDir = cueRsDir.Text;
-                Globals.Log("Rocksmith Installation Directory: " + AppSettings.Instance.RSInstalledDir);
             }
+
+            Globals.Log("Validated RS2014 Installation Directory: " + AppSettings.Instance.RSInstalledDir);
         }
 
         private void Settings_Leave(object sender, EventArgs e)
@@ -229,7 +249,7 @@ namespace CustomsForgeSongManager.UControls
 
         private void btnSettingsLoad_Click(object sender, EventArgs e)
         {
-            LoadSettingsFromFile(Globals.DgvCurrent);
+            LoadSettingsFromFile(Globals.DgvCurrent, true);
         }
 
         private void btnSettingsSave_Click(object sender, EventArgs e)
@@ -253,9 +273,14 @@ namespace CustomsForgeSongManager.UControls
                 Globals.MyLog.RemoveTargetNotifyIcon(Globals.Notifier);
         }
 
-        private void chkIncludeAnalyzerData_Click(object sender, EventArgs e)
+        private void chkEnableQuarantine_Click(object sender, EventArgs e)
         {
-            AppSettings.Instance.IncludeAnalyzerData = chkIncludeAnalyzerData.Checked;
+            AppSettings.Instance.EnableQuarantine = chkEnableQuarantine.Checked;
+        }
+
+        private void chkIncludeArrangementData_Click(object sender, EventArgs e)
+        {
+            AppSettings.Instance.IncludeArrangementData = chkIncludeArrangementData.Checked;
             ToogleRescan(true);
         }
 
@@ -291,7 +316,6 @@ namespace CustomsForgeSongManager.UControls
             }
 
             GenExtensions.DeleteFile(Constants.SongsInfoPath);
-            GenExtensions.DeleteFile(Constants.AnalyzerDataPath);
             AppSettings.Instance.MacMode = chkMacMode.Checked;
 
             // restart new instance of application and shutdown original
@@ -309,8 +333,8 @@ namespace CustomsForgeSongManager.UControls
         {
             using (var fbd = new FolderBrowserDialog())
             {
-                fbd.Description = "Select Rocksmith 2014 Installation Directory";
-                fbd.SelectedPath = GetInstallDirFromRegistry();
+                fbd.Description = "Select RS2014 Installation Directory ...";
+                fbd.SelectedPath = LocalExtensions.GetSteamDirectory();
 
                 if (fbd.ShowDialog() != DialogResult.OK) return;
                 cueRsDir.Text = fbd.SelectedPath;
@@ -326,6 +350,7 @@ namespace CustomsForgeSongManager.UControls
 
             // update RSInstalledDir after above error check passes
             AppSettings.Instance.RSInstalledDir = cueRsDir.Text;
+            Globals.Log("Updated RS2014 Installation Directory: " + AppSettings.Instance.RSInstalledDir);
         }
 
         private void listDisabledColumns_ItemChecked(object sender, ItemCheckedEventArgs e)
@@ -357,16 +382,6 @@ namespace CustomsForgeSongManager.UControls
         {
             AppSettings.Instance.CharterName = txtCharterName.Text;
         }
-
-        #region Class Methods
-
-        private static string GetInstallDirFromRegistry()
-        {
-            return LocalExtensions.GetSteamDirectory();
-        }
-
-        #endregion
-
 
     }
 }

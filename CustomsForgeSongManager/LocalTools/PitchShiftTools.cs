@@ -32,7 +32,7 @@ namespace CustomsForgeSongManager.LocalTools
             Pedal2014 pedal = new Pedal2014();
             var pedals = ToolkitPedal.LoadFromResource(RocksmithToolkitLib.GameVersion.RS2014);
             var bassPitchShiftPedal = pedals.FirstOrDefault(p => p.Type == "Pedals" && p.DisplayName.Contains("MultiPitch"));
-            var gitPitchShiftPedal = bassPitchShiftPedal; //Only one pich shift pedal for both guitar and bass
+            var gitPitchShiftPedal = bassPitchShiftPedal; //Only one pitch shift pedal for both guitar and bass
 
             bassPitchShiftPedal.Knobs[0].DefaultValue = bassShift; //Pitch
             bassPitchShiftPedal.Knobs[1].DefaultValue = mixVal; //Mix
@@ -64,28 +64,41 @@ namespace CustomsForgeSongManager.LocalTools
         {
             foreach (var arr in packageData.Arrangements)
             {
+                // reduces in-game hanging issues
+                if (!AppSettings.Instance.RepairOptions.PreserveStats)
+                {
+                    // generate new AggregateGraph
+                    arr.SongFile = new RocksmithToolkitLib.DLCPackage.AggregateGraph.SongFile() { File = "" };
+
+                    // generate new Arrangement IDs
+                    arr.Id = IdGenerator.Guid();
+                    arr.MasterId = RandomGenerator.NextInt();
+                }
+
                 if (arr.ArrangementType == ArrangementType.Vocal || arr.ArrangementType == ArrangementType.ShowLight)
                     continue;
 
+                // TODO: see customsforge.com/topic/41503-1416-pitch-shifter-mod-wrong-pitch-for-drop-tuning/#entry268144
                 if (!arr.Tuning.Contains("Bonus") && arr.ArrangementType != ArrangementType.Bass)
                     gitShift = arr.TuningStrings.String0;
 
                 if (!arr.Tuning.Contains("Bonus") && arr.ArrangementType == ArrangementType.Bass)
                     bassShift = arr.TuningStrings.String0;
 
-                // added option to always convert tuning to E Standard (prevents having to retune)
+                // option to force tuning to E Standard (prevents having to retune)
                 if (arr.Tuning.Contains("Standard") || forceStdTuning)
                 {
                     arr.Tuning = "E Standard";
                     arr.TuningStrings = new RocksmithToolkitLib.XML.TuningStrings { String0 = 0, String1 = 0, String2 = 0, String3 = 0, String4 = 0, String5 = 0 };
-
+                    arr.TuningPitch = 440.0;
+                    arr.ArrangementPropeties.StandardTuning = 1;
                     ext = "-e-std";
                 }
                 else if (arr.Tuning.Contains("Drop"))
                 {
                     arr.Tuning = "Drop D";
                     arr.TuningStrings = new RocksmithToolkitLib.XML.TuningStrings { String0 = -2, String1 = 0, String2 = 0, String3 = 0, String4 = 0, String5 = 0 };
-
+                    arr.ArrangementPropeties.StandardTuning = 0;
                     ext = "-drop-d";
                 }
 
@@ -183,8 +196,6 @@ namespace CustomsForgeSongManager.LocalTools
                         //Set correct names and regenerate xml
                         packageData = RegenerateXML(packageData);
 
-                        // TODO: confirm Arrangment Ids have been changed elsewhere
-                        // two CDLC with same ids will lock the game
                         if (!overwriteFile)
                         {
                             Globals.Log(" - Adding pitch shifting effect to a new CDLC file");
@@ -205,8 +216,8 @@ namespace CustomsForgeSongManager.LocalTools
                             using (var browser = new PsarcBrowser(finalPath))
                             {
                                 var songInfo = browser.GetSongData();
-                                if (songInfo != null && !Globals.SongCollection.Where(sng => sng.FilePath == finalPath).Any())
-                                    Globals.SongCollection.Add(songInfo.First());
+                                if (songInfo != null && !Globals.MasterCollection.Where(sng => sng.FilePath == finalPath).Any())
+                                    Globals.MasterCollection.Add(songInfo.First());
                             }
                         }
 
@@ -247,11 +258,9 @@ namespace CustomsForgeSongManager.LocalTools
 
         public static DLCPackageData RegenerateXML(DLCPackageData packageData)
         {
+            // TODO ensure that xml comments are retained
             foreach (var arr in packageData.Arrangements)
             {
-                arr.Id = IdGenerator.Guid();
-                arr.MasterId = RandomGenerator.NextInt();
-
                 if (arr.ArrangementType == ArrangementType.Vocal || arr.ArrangementType == ArrangementType.ShowLight)
                     continue;
 

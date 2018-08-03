@@ -8,20 +8,29 @@ namespace CustomsForgeSongManager.LocalTools
 {
     public static class Ignition
     {
-        public static string GetDLCInfoFromURL(string apiUrl, string fieldName)
+        public static string GetSongInfoFromURL(string apiUrl, string fieldName)
         {
-            string result = String.Empty;
+            string result = "No Internet Connection";
             WebClient client = new WebClient();
-            var response = client.DownloadString(apiUrl);
-            if (response == "No Results")
-                result = response;
-            else if (response == "No album with that name")
-                result = "No Results";
+            try
+            {
+                result = client.DownloadString(apiUrl);
+            }
+            catch (WebException ex)
+            {
+                Debug.WriteLine(result + " : " + ex.Message);
+                return result;
+            }
+
+            if (result == "No Results")
+            { /* DO NOTHING */}
+            else if (result == "No album with that name")
+            { /* DO NOTHING */}
             else
             {
-                if (response != "")
+                if (result != "")
                 {
-                    JArray jsonJArray = JArray.Parse(response);
+                    JArray jsonJArray = JArray.Parse(result);
                     JToken jsonJToken = jsonJArray.First;
                     if (jsonJToken != null)
                         result = jsonJToken.SelectToken(fieldName).ToString();
@@ -31,10 +40,11 @@ namespace CustomsForgeSongManager.LocalTools
                 else
                     result = "No Results";
             }
+
             return result;
         }
 
-        public static string GetDLCInfoFromResponse(string response, string fieldName)
+        public static string GetSongInfoFromResponse(string response, string fieldName)
         {
             string result = String.Empty;
             if (response == "No Results")
@@ -78,12 +88,12 @@ namespace CustomsForgeSongManager.LocalTools
             client.DownloadStringCompleted += (sender, e) =>
                 {
                     response = e.Result;
-
-                    song.IgnitionID = GetDLCInfoFromResponse(response, "id");
-                    song.IgnitionUpdated = GetDLCInfoFromResponse(response, "updated");
-                    song.IgnitionVersion = GetDLCInfoFromResponse(response, "version");
-                    song.IgnitionAuthor = GetDLCInfoFromResponse(response, "name");
+                    song.IgnitionID = GetSongInfoFromResponse(response, "id");
+                    song.IgnitionDate = GetSongInfoFromResponse(response, "updated");
+                    song.IgnitionVersion = GetSongInfoFromResponse(response, "version");
+                    song.IgnitionAuthor = GetSongInfoFromResponse(response, "name");
                 };
+
             client.DownloadStringAsync(new Uri(url));
         }
 
@@ -113,14 +123,14 @@ namespace CustomsForgeSongManager.LocalTools
             {
                 response = client.DownloadString(new Uri(url));
 
-                currentSong.IgnitionID = GetDLCInfoFromResponse(response, "id");
-                currentSong.IgnitionUpdated = GetDLCInfoFromResponse(response, "updated");
-                currentSong.IgnitionVersion = GetDLCInfoFromResponse(response, "version");
-                currentSong.IgnitionAuthor = GetDLCInfoFromResponse(response, "name");
+                currentSong.IgnitionID = GetSongInfoFromResponse(response, "id");
+                currentSong.IgnitionDate = GetSongInfoFromResponse(response, "updated");
+                currentSong.IgnitionVersion = GetSongInfoFromResponse(response, "version");
+                currentSong.IgnitionAuthor = GetSongInfoFromResponse(response, "name");
 
-                if (Int32.TryParse(currentSong.Version, out version))
+                if (Int32.TryParse(currentSong.PackageVersion, out version))
                 {
-                    currentSong.Version += ".0";
+                    currentSong.PackageVersion += ".0";
                 }
 
                 if (Int32.TryParse(currentSong.IgnitionVersion, out version))
@@ -132,15 +142,15 @@ namespace CustomsForgeSongManager.LocalTools
                 {
                     currentSong.Status = SongDataStatus.NotFound;
                 }
-                else if (currentSong.Version == "N/A")
+                else if (currentSong.PackageVersion == "Null")
                 {
                     //TODO: Check for updates by release/update date
                 }
-                else if (currentSong.IgnitionVersion != currentSong.Version)
+                else if (currentSong.IgnitionVersion != currentSong.PackageVersion)
                 {
                     currentSong.Status = SongDataStatus.OutDated;
                 }
-                else if (currentSong.IgnitionVersion == currentSong.Version)
+                else if (currentSong.IgnitionVersion == currentSong.PackageVersion)
                 {
                     currentSong.Status = SongDataStatus.UpToDate;
                 }
@@ -151,14 +161,14 @@ namespace CustomsForgeSongManager.LocalTools
                     {
                         response = e.Result;
 
-                        currentSong.IgnitionID = GetDLCInfoFromResponse(response, "id");
-                        currentSong.IgnitionUpdated = GetDLCInfoFromResponse(response, "updated");
-                        currentSong.IgnitionVersion = GetDLCInfoFromResponse(response, "version");
-                        currentSong.IgnitionAuthor = GetDLCInfoFromResponse(response, "name");
+                        currentSong.IgnitionID = GetSongInfoFromResponse(response, "id");
+                        currentSong.IgnitionDate = GetSongInfoFromResponse(response, "updated");
+                        currentSong.IgnitionVersion = GetSongInfoFromResponse(response, "version");
+                        currentSong.IgnitionAuthor = GetSongInfoFromResponse(response, "name");
 
-                        if (Int32.TryParse(currentSong.Version, out version))
+                        if (Int32.TryParse(currentSong.PackageVersion, out version))
                         {
-                            currentSong.Version += ".0";
+                            currentSong.PackageVersion += ".0";
                         }
 
                         if (Int32.TryParse(currentSong.IgnitionVersion, out version))
@@ -170,15 +180,15 @@ namespace CustomsForgeSongManager.LocalTools
                         {
                             currentSong.Status = SongDataStatus.NotFound;
                         }
-                        else if (currentSong.Version == "N/A")
+                        else if (currentSong.PackageVersion == "Null")
                         {
                             //TODO: Check for updates by release/update date
                         }
-                        else if (currentSong.IgnitionVersion != currentSong.Version)
+                        else if (currentSong.IgnitionVersion != currentSong.PackageVersion)
                         {
                             currentSong.Status = SongDataStatus.OutDated;
                         }
-                        else if (currentSong.IgnitionVersion == currentSong.Version)
+                        else if (currentSong.IgnitionVersion == currentSong.PackageVersion)
                         {
                             currentSong.Status = SongDataStatus.UpToDate;
                         }
@@ -187,5 +197,13 @@ namespace CustomsForgeSongManager.LocalTools
                 client.DownloadStringAsync(new Uri(url));
             }
         }
+
+        public static string CleanForAPI(this string text)
+        {
+            //return text.Replace("/", "_"); //.Replace("\\","");
+            var result = text.Replace("/", "_1_").Replace("\\", "_2_"); //WebUtility.HtmlEncode(text);
+            return result; //WebUtility.HtmlDecode(text);
+        }
+
     }
 }

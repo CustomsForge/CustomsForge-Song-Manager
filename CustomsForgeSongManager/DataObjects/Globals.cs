@@ -10,6 +10,8 @@ using DF.WinForms.ThemeLib;
 using DLogNet;
 using System;
 using RocksmithToolkitLib.XmlRepository;
+using System.Reflection;
+
 
 namespace CustomsForgeSongManager.DataObjects
 {
@@ -25,6 +27,7 @@ namespace CustomsForgeSongManager.DataObjects
 
     internal static class Globals
     {
+        [Obfuscation(Exclude = false, Feature = "-rename")]
         internal enum Tristate : byte
         {
             False = 0,
@@ -41,8 +44,9 @@ namespace CustomsForgeSongManager.DataObjects
         private static SetlistManager _setlistManager;
         private static SongPacks _songPacks;
         private static Settings _settings;
-        private static BindingList<SongData> _songCollection;
+        private static BindingList<SongData> _masterCollection;
         private static SongManager _songManager;
+        private static ArrangementAnalyzer _arrangementAnalyzer;
         private static Theme _theme;
         private static TaggerTools _tagger;
         private static List<OfficialDLCSong> _oDLCSongList;
@@ -137,10 +141,12 @@ namespace CustomsForgeSongManager.DataObjects
         public static bool RescanRenamer { get; set; }
         public static bool RescanSetlistManager { get; set; }
         public static bool RescanSongManager { get; set; }
+        public static bool RescanArrangements { get; set; }
         public static bool ReloadDuplicates { get; set; }
         public static bool ReloadRenamer { get; set; }
         public static bool ReloadSetlistManager { get; set; }
         public static bool ReloadSongManager { get; set; }
+        public static bool ReloadArrangements { get; set; }
         public static bool ReloadSongPacks { get; set; }
 
         public static SetlistManager SetlistManager
@@ -155,10 +161,16 @@ namespace CustomsForgeSongManager.DataObjects
             set { _settings = value; }
         }
 
-        public static BindingList<SongData> SongCollection
+        public static ArrangementAnalyzer ArrangementAnalyzer
         {
-            get { return _songCollection ?? (_songCollection = new BindingList<SongData>()); }
-            set { _songCollection = value; }
+            get { return _arrangementAnalyzer ?? (_arrangementAnalyzer = new ArrangementAnalyzer()); }
+            set { _arrangementAnalyzer = value; }
+        }
+
+        public static BindingList<SongData> MasterCollection
+        {
+            get { return _masterCollection ?? (_masterCollection = new BindingList<SongData>()); }
+            set { _masterCollection = value; }
         }
 
         public static SongManager SongManager

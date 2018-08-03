@@ -18,7 +18,7 @@ namespace CustomsForgeSongManager.UControls
 {
     public partial class Renamer : UserControl
     {
-        private List<SongData> renSongCollection = new List<SongData>();
+        private List<SongData> renSongList = new List<SongData>();
 
         public Renamer()
         {
@@ -54,7 +54,7 @@ namespace CustomsForgeSongManager.UControls
         public void ShowRenamePreview()
         {
             SongData sd = null;
-            List<SongData> List = renSongCollection.Count > 0 ? renSongCollection : Globals.SongCollection.ToList();
+            List<SongData> List = renSongList.Count > 0 ? renSongList : Globals.MasterCollection.ToList();
             if (List.Count == 0)
                 Globals.Log("No songs found for rename preview.");
             int x = Globals.random.Next(List.Count() - 1);
@@ -83,16 +83,16 @@ namespace CustomsForgeSongManager.UControls
             template.Add("title", data.Title.Replace('\\', '_'));
             template.Add("album", data.Album.Replace('\\', '_'));
             template.Add("filename", data.FileName);
-            template.Add("tuning", data.Tuning.Split(new[] { ", " }, StringSplitOptions.None).FirstOrDefault());
+            template.Add("tuning", data.Tunings1D.Split(new[] { ", " }, StringSplitOptions.None).FirstOrDefault());
             template.Add("dd", data.DD > 0 ? "DD" : "");
             template.Add("ddlvl", data.DD);
             template.Add("year", data.SongYear);
-            var pkgVersion = data.Version;
-            if (pkgVersion == "N/A") pkgVersion = "0";
-            if (String.IsNullOrEmpty(pkgVersion)) pkgVersion = "1";
+            var pkgVersion = data.PackageVersion;
+            if (pkgVersion == "N/A" || pkgVersion == "Null") pkgVersion = "1";
+            if (data.PackageAuthor == "Ubisoft") pkgVersion = "0";
             template.Add("version", String.Format("v{0}", pkgVersion));
-            template.Add("author", String.IsNullOrEmpty(data.CharterName) ? "Unknown" : data.CharterName.Replace('\\', '_'));
-            template.Add("arrangements", data.ArrangementInitials);
+            template.Add("author", String.IsNullOrEmpty(data.PackageAuthor) ? "Unknown" : data.PackageAuthor.Replace('\\', '_'));
+            template.Add("arrangements", data.ArrangementsInitials);
             template.Add("_", "_");
 
             // CAREFUL - lots to go wrong in this simple method :(
@@ -132,10 +132,10 @@ namespace CustomsForgeSongManager.UControls
 
             if (!newFilePath.IsFilePathValid())
             {
-                var dialogMsg = "New file path: " + newFilePath + Environment.NewLine + Environment.NewLine +
+                var diaMsg = "New file path: " + newFilePath + Environment.NewLine + Environment.NewLine +
                     "is not valid.  Check file path for excessive length and/or invalid characters try again.";
                 var iconMsg = "Warning: File Path Length May Exceed System Capabilities";
-                BetterDialog2.ShowDialog(dialogMsg, "Renamer", "OK", null, null, Bitmap.FromHicon(SystemIcons.Warning.Handle), iconMsg, 150, 150);
+                BetterDialog2.ShowDialog(diaMsg, "Renamer", "OK", null, null, Bitmap.FromHicon(SystemIcons.Warning.Handle), iconMsg, 150, 150);
             }
 
             return newFilePath;
@@ -143,7 +143,7 @@ namespace CustomsForgeSongManager.UControls
 
         public void RenameSongs()
         {
-            foreach (SongData data in renSongCollection)
+            foreach (SongData data in renSongList)
             {
                 var oldFilePath = data.FilePath;
                 var newFilePath = GetNewSongName(data);
@@ -167,7 +167,7 @@ namespace CustomsForgeSongManager.UControls
                         Globals.Log("Use the Duplicates tabmenu to delete/move" + Environment.NewLine +
                             Path.GetFileName(newFilePath) + "duplicates before attempting to use Renamer.");
 
-                    Globals.Log(String.Format("<ERROR>: {0}", e.Message));
+                    Globals.Log(String.Format("<ERROR> {0}", e.Message));
                 }
             }
         }
@@ -180,9 +180,9 @@ namespace CustomsForgeSongManager.UControls
                 return;
             }
 
-            Globals.TsLabel_MainMsg.Text = string.Format(Properties.Resources.RocksmithSongsCountFormat, Globals.SongCollection.Count);
+            Globals.TsLabel_MainMsg.Text = string.Format(Properties.Resources.RocksmithSongsCountFormat, Globals.MasterCollection.Count);
             Globals.TsLabel_MainMsg.Visible = true;
-            var selectedDLC = Globals.SongCollection.Where(song => song.Selected).ToList().Count();
+            var selectedDLC = Globals.MasterCollection.Where(song => song.Selected).ToList().Count();
             var tsldcMsg = String.Format("Selected Songs in SongManager Count: {0}", selectedDLC);
             Globals.TsLabel_DisabledCounter.Alignment = ToolStripItemAlignment.Right;
             Globals.TsLabel_DisabledCounter.Text = tsldcMsg;
@@ -206,6 +206,12 @@ namespace CustomsForgeSongManager.UControls
             }
 
             ToggleUiControls(true);
+
+            // force reload
+            Globals.ReloadSetlistManager = true;
+            Globals.ReloadDuplicates = true;
+            //Globals.ReloadRenamer = true;
+            Globals.ReloadSongManager = true;
         }
 
         private void ToggleUiControls(bool enabled)
@@ -223,25 +229,26 @@ namespace CustomsForgeSongManager.UControls
                 return false;
             }
 
-            renSongCollection = new List<SongData>(Globals.SongCollection);
+            // renSongList = new List<SongData>(Globals.MasterCollection);
+            renSongList = Globals.MasterCollection.ToList();
             // do not rename RS1 compatiblity files
-            renSongCollection.RemoveAll(x => x.FileName.Contains(Constants.RS1COMP));
+            renSongList.RemoveAll(x => x.FileName.Contains(Constants.RS1COMP));
 
             // do not rename any disabled songs
-            renSongCollection.RemoveAll(x => x.Enabled.Contains("No"));
+            renSongList.RemoveAll(x => x.Enabled.Contains("No"));
 
             // rename only user selected songs
             if (chkRenameOnlySelected.Checked)
-                renSongCollection.RemoveAll(x => x.Selected == false);
+                renSongList.RemoveAll(x => x.Selected == false);
 
-            if (renSongCollection == null || renSongCollection.Count == 0 || Globals.WorkerFinished == Globals.Tristate.Cancelled)
+            if (renSongList == null || renSongList.Count == 0 || Globals.WorkerFinished == Globals.Tristate.Cancelled)
             {
                 MessageBox.Show("Please rescan the song collection" + Environment.NewLine + "using Song Manager tab first.", Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
 
             // check for duplicates
-            var dups = renSongCollection.GroupBy(x => new { Song = x.Title, x.Album, x.Artist }).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
+            var dups = renSongList.GroupBy(x => new { Song = x.Title, x.Album, x.Artist }).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
             if (dups.Any())
             {
                 MessageBox.Show("Please remove duplicate songs" + Environment.NewLine + "using the Duplicates tab first.", Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -258,7 +265,11 @@ namespace CustomsForgeSongManager.UControls
 
         private void btnRenameAll_Click(object sender, System.EventArgs e)
         {
-            if (MessageBox.Show("Rename all files?", "Comfirmation", MessageBoxButtons.YesNo) == DialogResult.No)
+            var diaMsg = "Rename all song files?";
+            if (chkRenameOnlySelected.Checked)
+                diaMsg = "Rename only the selected song files?";
+
+            if (DialogResult.No == BetterDialog2.ShowDialog(diaMsg, "Confirmation", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning", 150, 150))
                 return;
 
             if (!ValidateInput())
@@ -277,7 +288,7 @@ namespace CustomsForgeSongManager.UControls
                 var selStart = txtRenameTemplate.SelectionStart;
                 var newProp = String.Format("<{0}>", grid.Rows[e.RowIndex].Cells["Key"].Value);
                 newProp = newProp.Replace("<_>", "_");
-                
+
                 if (selStart != txtRenameTemplate.Text.Length)
                     txtRenameTemplate.Text = txtRenameTemplate.Text.Insert(selStart, newProp);
                 else

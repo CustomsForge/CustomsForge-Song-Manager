@@ -46,16 +46,14 @@ namespace CustomsForgeSongManager.LocalTools
             bWorker.SetDefaults();
             counterStopwatch.Restart();
 
-            if (WorkDescription.ToLower().Contains(Constants.GWORKER_REPAIR))
+            if (WorkDescription.Equals(Constants.GWORKER_REPAIR))
                 bWorker.DoWork += WorkerRepairSongs;
-            else if (WorkDescription.ToLower().Contains(Constants.GWORKER_ACHRIVE))
+            else if (WorkDescription.Equals(Constants.GWORKER_ACHRIVE))
                 bWorker.DoWork += WorkerArchiveSongs;
-            else if (WorkDescription.ToLower().Contains(Constants.GWORKER_PITCHSHIFT))
+            else if (WorkDescription.Equals(Constants.GWORKER_PITCHSHIFT))
                 bWorker.DoWork += WorkerPitchShiftSongs;
-            else if (WorkDescription.ToLower().Contains(Constants.GWORKER_ORGANIZE))
+            else if (WorkDescription.Equals(Constants.GWORKER_ORGANIZE))
                 bWorker.DoWork += WorkerOrganizeSongs;
-            else if (WorkDescription.ToLower().Contains(Constants.GWORKER_ANALYZE))
-                bWorker.DoWork += WorkerAnalyzeSongs;
             else
                 throw new Exception("I'm not that kind of worker ...");
 
@@ -86,8 +84,8 @@ namespace CustomsForgeSongManager.LocalTools
                 // bWorker.Abort(); // don't use abort
                 bWorker.Dispose();
                 bWorker = null;
-                Globals.Log(Resources.UserCanceledProcess);
-                Globals.TsLabel_MainMsg.Text = Resources.UserCanceled;
+                Globals.Log(Resources.UserCancelledProcess);
+                Globals.TsLabel_MainMsg.Text = Resources.UserCancelled;
                 Globals.TsLabel_StatusMsg.Text = "";
                 Globals.WorkerFinished = Globals.Tristate.Cancelled;
             }
@@ -99,7 +97,14 @@ namespace CustomsForgeSongManager.LocalTools
                 Globals.WorkerFinished = Globals.Tristate.True;
             }
 
-            Globals.RescanSongManager = true;
+            Globals.RescanSetlistManager = false;
+            Globals.RescanDuplicates = false;
+            Globals.RescanSongManager = false;
+            Globals.RescanRenamer = false;
+            Globals.ReloadSetlistManager = true;
+            Globals.ReloadDuplicates = true;
+            Globals.ReloadRenamer = true;
+            Globals.ReloadSongManager = true;
         }
 
         private void WorkerRepairSongs(object sender, DoWorkEventArgs e)
@@ -124,12 +129,6 @@ namespace CustomsForgeSongManager.LocalTools
         {
             if (!bWorker.CancellationPending)
                 FileTools.ArtistFolders(WorkParm1, WorkParm2, WorkParm3);
-        }
-
-        private void WorkerAnalyzeSongs(object sender, DoWorkEventArgs e)
-        {
-            if (!bWorker.CancellationPending)
-                FileTools.GetExtraSongData(WorkParm1);
         }
 
         [SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "bWorker")]

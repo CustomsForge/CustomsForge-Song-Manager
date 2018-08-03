@@ -59,24 +59,46 @@ namespace DataGridViewTools
             //    }
             //}
 
-            // instantiate an instance of the object from the dataObject's remote assembly
-            var dataObj = dataObject.ToString();
-            var moduleName = dataObject.GetType().GetProperty("Module").GetValue(dataObject, null);
-            var remoteAssembly = Assembly.LoadFrom(moduleName.ToString());
-            var handle = Activator.CreateInstance(remoteAssembly.ToString(), dataObj);
-            var obj = handle.Unwrap();
+            //var startupPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetModules()[0].FullyQualifiedName);
 
-            // TODO: get custom filter to work with Enums, i.e. p.PropertyType.IsEnum
-            // determine the property type
-            var p = obj.GetType().GetProperty(ColumnName);
-            if (p != null)
+            // instantiate an instance of the object from the dataObject's remote assembly
+            // var moduleName = dataObject.GetType().GetProperty("Module").GetValue(dataObject, null);
+            // var remoteAssembly = Assembly.LoadFrom(moduleName.ToString());
+            // above code causes 'FileNotFoundException' exception when
+            // called after DoSomethingWithGrid method on filtered data               
+
+            // instantiate an instance of the object from the caller assembly
+            var currentAssembly = Assembly.GetExecutingAssembly();
+            var callerAssemblies = new StackTrace().GetFrames()
+                .Select(x => x.GetMethod().ReflectedType.Assembly)
+                .Distinct().Where(x => x.GetReferencedAssemblies()
+                    .Any(y => y.FullName == currentAssembly.FullName));
+            
+            var initialAssembly = callerAssemblies.Last();
+            object moduleName = dataObject.GetType().GetProperty("Module").GetValue(dataObject, null);
+            Module assemblyName = initialAssembly.GetModules()[0];
+
+            // confirm the dataObject originates from the assembly
+            if (assemblyName.ToString() == moduleName.ToString())
             {
-                if (p.PropertyType == typeof(string) ||
-                    p.PropertyType == typeof(int) ||
-                    p.PropertyType == typeof(double) ||
-                    p.PropertyType == typeof(float))
-                    return true;
-              }
+                var remoteAssembly = Assembly.LoadFile(assemblyName.FullyQualifiedName);
+                var dataObj = dataObject.ToString();
+                var handle = Activator.CreateInstance(remoteAssembly.ToString(), dataObj);
+                var obj = handle.Unwrap();
+
+                // TODO: get custom filter to work with Enums, i.e. p.PropertyType.IsEnum
+                // determine the property type
+                var p = obj.GetType().GetProperty(ColumnName);
+                if (p != null)
+                {
+                    if (p.PropertyType == typeof(string) ||
+                        p.PropertyType == typeof(int) ||
+                        p.PropertyType == typeof(double) ||
+                        p.PropertyType == typeof(float))
+                        return true;
+                }
+            }
+
             return false;
         }
     }
@@ -130,6 +152,9 @@ namespace DataGridViewTools
         //useage: radgv.ReLoadColumnOrder(dgvSongPacks, AppSettings.Instance.ManagerGridSettings.ColumnOrder);
         public static void ReLoadColumnOrder(this RADataGridView raDataGridView, List<ColumnOrderItem> columnOrderCollection)
         {
+            if (columnOrderCollection.Count == 0)
+                return;
+
             DataGridViewColumnCollection orgDgvColumns = raDataGridView.Columns;
             var sorted = columnOrderCollection.OrderBy(i => i.DisplayIndex);
 

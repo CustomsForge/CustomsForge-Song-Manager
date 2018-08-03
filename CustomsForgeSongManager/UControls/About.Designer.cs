@@ -583,7 +583,7 @@ namespace CustomsForgeSongManager.UControls
             this.linkLabel2.Size = new System.Drawing.Size(227, 72);
             this.linkLabel2.TabIndex = 2;
             this.linkLabel2.TabStop = true;
-            this.linkLabel2.Text = "ZagatoZee, DarkSeph, ForgeOn,\r\nrummhamm87, and also\r\nCustomsForge Staff and Beta " +
+            this.linkLabel2.Text = "ZagatoZee, DarkSeph, ForgeOn,\r\nrummhamm87, and\r\nCustomsForge Staff and Beta " +
                 "Testers";
             this.linkLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.linkLabel2.UseCompatibleTextRendering = true;

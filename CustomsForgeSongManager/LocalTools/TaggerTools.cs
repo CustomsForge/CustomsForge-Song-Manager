@@ -851,7 +851,7 @@ namespace CustomsForgeSongManager.LocalTools
             template.Add("album", Data.Album);
             template.Add("filename", Data.FileName);
             template.Add("date", Data.LastConversionDateTime.ToShortDateString());
-            template.Add("tuning", Data.Tuning.Split(new[] { ", " }, StringSplitOptions.None).FirstOrDefault());
+            template.Add("tuning", Data.Tunings1D.Split(new[] { ", " }, StringSplitOptions.None).FirstOrDefault());
             template.Add("tempo", Data.SongAverageTempo);
             template.Add("appid", Data.AppID);
             var ts = TimeSpan.FromSeconds(Data.SongLength);
@@ -862,9 +862,9 @@ namespace CustomsForgeSongManager.LocalTools
                 template.Add("dd", "NDD");
 
             template.Add("year", Data.SongYear);
-            template.Add("version", String.IsNullOrEmpty(Data.Version) ? "N/A" : Data.Version);
-            template.Add("author", String.IsNullOrEmpty(Data.CharterName) ? "Unknown" : Data.CharterName);
-            String arrInit = Data.ArrangementInitials;
+            template.Add("version", String.IsNullOrEmpty(Data.PackageVersion) ? "" : Data.PackageVersion);
+            template.Add("author", String.IsNullOrEmpty(Data.PackageAuthor) ? "" : Data.PackageAuthor);
+            String arrInit = Data.ArrangementsInitials;
             template.Add("arrangements", String.IsNullOrEmpty(arrInit) ? "" : arrInit);
             template.Add("\\n", Environment.NewLine);
             template.Add("\\t", (char)9);

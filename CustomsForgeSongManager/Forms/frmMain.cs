@@ -15,6 +15,10 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Text.RegularExpressions;
 using System.ComponentModel;
+using DataGridViewTools;
+using CustomControls;
+using RocksmithToolkitLib;
+using System.Data;
 
 // NOTE: the app is designed for default user screen resolution of 1024x768
 // dev screen resolution should be set to this when designing forms and controls
@@ -41,6 +45,10 @@ namespace CustomsForgeSongManager.Forms
         {
             InitializeComponent();
 
+            // TODO: future progress tracker feature
+            if (!Constants.DebugMode)
+                tcMain.TabPages.RemoveByKey("tpProgTracker");
+
             // create VersionInfo.txt file
             VersionInfo.CreateVersionInfo();
 
@@ -65,7 +73,7 @@ namespace CustomsForgeSongManager.Forms
                 notifyIcon_Main.Icon = null;
                 notifyIcon_Main.Dispose();
             };
-           
+
             // bring CFSM to the front on startup
             this.WindowState = FormWindowState.Minimized;
             this.BringToFront();
@@ -93,10 +101,6 @@ namespace CustomsForgeSongManager.Forms
             // verify application directory structure
             FileTools.VerifyCfsmFolders();
 
-            // initialize all global variables
-            Globals.Log(Constants.AppTitle);
-            Globals.Log(GetRSTKLibVersion());
-
             // initialize show log event handler before loading settings
             AppSettings.Instance.PropertyChanged += (s, e) =>
             {
@@ -107,10 +111,7 @@ namespace CustomsForgeSongManager.Forms
                 }
             };
 
-            // load settings
-            Globals.Settings.LoadSettingsFromFile(null); // null => workaround to prevent showing 'Loaded appSettings.xml file ...' 2X
-
-            // set app title after settings are loaded
+            // set app title
             var strFormatVersion = "{0} (v{1} - {2})";
 #if INNOBETA
             strFormatVersion = "{0} (v{1} - {2} BETA VERSION)";
@@ -124,6 +125,14 @@ namespace CustomsForgeSongManager.Forms
 
             Constants.AppTitle = String.Format(strFormatVersion, Constants.ApplicationName, Constants.CustomVersion(), Constants.OnMac ? "MAC" : "PC");
             this.Text = Constants.AppTitle;
+
+            // log application environment
+            Globals.Log("+ " + Constants.AppTitle);
+            Globals.Log("+ .NET (v" + SysExtensions.DotNetVersion + ")");
+            Globals.Log("+ RocksmithToolkitLib (v" + ToolkitVersion.RSTKLibVersion() + ")");
+         
+            // load settings
+            Globals.Settings.LoadSettingsFromFile();
 
             this.Show();
             this.WindowState = AppSettings.Instance.FullScreen ? FormWindowState.Maximized : FormWindowState.Normal;
@@ -148,11 +157,6 @@ namespace CustomsForgeSongManager.Forms
             //  throw new Exception("Improper constructor used");
         }
 
-        private string GetRSTKLibVersion()
-        {
-            return String.Format("RocksmithToolkitLib Version: {0}", Assembly.LoadFrom("RocksmithToolkitLib.dll").GetName().Version);
-        }
-
         private void LoadSongManager()
         {
             if (!tpSongManager.Controls.Contains(Globals.SongManager))
@@ -164,6 +168,7 @@ namespace CustomsForgeSongManager.Forms
                 Globals.SongManager.Location = UCLocation;
                 Globals.SongManager.Size = UCSize;
             }
+
             currentControl = Globals.SongManager;
         }
 
@@ -190,32 +195,23 @@ namespace CustomsForgeSongManager.Forms
 
             if (Globals.Settings == null || Globals.SongManager == null)
             {
-                Globals.Log("<ERROR>: Save on close failed ...");
+                Globals.Log("<ERROR> Save on close failed ...");
                 return;
             }
 
             if (AppSettings.Instance.CleanOnClosing)
             {
-                // delete xml and log files (ensure clean startup)
-                var cfsmFiles = Directory.EnumerateFiles(Constants.WorkFolder, "*", SearchOption.TopDirectoryOnly).ToList();
-                foreach (var cfsmFile in cfsmFiles)
-                    GenExtensions.DeleteFile(cfsmFile);
-
-                if (Directory.Exists(Constants.SongPacksFolder))
-                {
-                    // don't delete files in 'original' subfolder
-                    var songpackFiles = Directory.EnumerateFiles(Constants.SongPacksFolder, "*", SearchOption.TopDirectoryOnly).ToList();
-                    foreach (var songpackFile in songpackFiles)
-                        GenExtensions.DeleteFile(songpackFile);
-
-                    ZipUtilities.DeleteDirectory(Constants.CachePcPath);
-                }
-
-                if (Directory.Exists(Constants.AudioCacheFolder))
-                    ZipUtilities.DeleteDirectory(Constants.AudioCacheFolder);
-
-                if (Directory.Exists(Constants.TaggerWorkingFolder))
-                    ZipUtilities.DeleteDirectory(Constants.TaggerWorkingFolder);
+                // don't use the bulldozer here, instead use the bobcat
+                // 'My Documents/CFSM' may contain some original files
+                Globals.Log("User selected Clean On Closing ...");
+                GenExtensions.DeleteFile(Constants.LogFilePath);
+                GenExtensions.DeleteFile(Constants.SongsInfoPath);
+                GenExtensions.DeleteFile(Constants.AppSettingsPath);
+                GenExtensions.DeleteDirectory(Constants.GridSettingsFolder);
+                GenExtensions.DeleteDirectory(Constants.AudioCacheFolder);
+                GenExtensions.DeleteDirectory(Constants.TaggerWorkingFolder);
+                GenExtensions.DeleteDirectory(Constants.CachePcPath);
+                GenExtensions.DeleteDirectory(Constants.SongPacksFolder);
 
                 AppSettings.Instance.CleanOnClosing = false;
             }
@@ -225,8 +221,11 @@ namespace CustomsForgeSongManager.Forms
                 Globals.Settings.SaveSettingsToFile(Globals.DgvCurrent);
 
                 // do not SaveSongCollectionToFile when changing compatibility mode
-                if (File.Exists(Constants.SongsInfoPath) || File.Exists(Constants.AnalyzerDataPath))
+                if (File.Exists(Constants.SongsInfoPath))
+                {
+                    DataGridViewAutoFilterColumnHeaderCell.RemoveFilter(Globals.SongManager.GetGrid());
                     Globals.SongManager.SaveSongCollectionToFile();
+                }
             }
         }
 
@@ -255,8 +254,10 @@ namespace CustomsForgeSongManager.Forms
             }
         }
 
-        private void tcMain_SelectedIndexChanged(object sender, EventArgs e)
+        public void tcMain_SelectedIndexChanged(object sender, EventArgs e)
         {
+            var debugMe = sender;
+
             // reset toolstrip globals
             Globals.ResetToolStripGlobals();
 
@@ -280,6 +281,15 @@ namespace CustomsForgeSongManager.Forms
                 case "Song Manager":
                     LoadSongManager();
                     Globals.SongManager.UpdateToolStrip();
+                    break;
+                case "Arrangement Analyzer":
+                    this.tpArrangements.Controls.Clear();
+                    this.tpArrangements.Controls.Add(Globals.ArrangementAnalyzer);
+                    Globals.ArrangementAnalyzer.Dock = DockStyle.Fill;
+                    Globals.ArrangementAnalyzer.UpdateToolStrip();
+                    Globals.ArrangementAnalyzer.Location = UCLocation;
+                    Globals.ArrangementAnalyzer.Size = UCSize;
+                    currentControl = Globals.ArrangementAnalyzer;
                     break;
                 case "Duplicates":
                     this.tpDuplicates.Controls.Clear();
@@ -426,7 +436,7 @@ namespace CustomsForgeSongManager.Forms
                             proc.Start();
                             // Kill app abruptly so InnoSetup completes
                             // DO NOT use Application.Exit     
-                            Environment.Exit(0);                        
+                            Environment.Exit(0);
                         }
                         else
                             MessageBox.Show(appSetup + " not found ..." + Environment.NewLine + "Please manually download CFSM from the webpage.");
@@ -476,16 +486,19 @@ namespace CustomsForgeSongManager.Forms
             }
         }
 
-        public void SongListToBBCode()
+        public void DGV2BBCode()
         {
             DoSomethingWithGrid((dataGrid, selection, colSel, ignoreColumns) =>
             {
                 var sbTXT = new StringBuilder();
                 string columns = String.Empty;
-                foreach (var c in dataGrid.Columns.Cast<DataGridViewColumn>())
+                var orderedCols = dataGrid.Columns.Cast<DataGridViewColumn>()
+                    .Where(c => !ignoreColumns.Contains(c.Index))
+                    .OrderBy(x => x.DisplayIndex).ToList();
+
+                foreach (var c in orderedCols)
                 {
-                    if (!ignoreColumns.Contains(c.Index))
-                        columns += c.HeaderText + ", ";
+                    columns += c.HeaderText + ", ";
                 }
 
                 sbTXT.AppendLine(columns.Trim(new char[] { ',', ' ' }));
@@ -493,13 +506,15 @@ namespace CustomsForgeSongManager.Forms
 
                 foreach (var row in selection)
                 {
-                    string s = "[*]";
-                    foreach (var col in row.Cells.Cast<DataGridViewCell>().Where(c => !ignoreColumns.Contains(c.ColumnIndex)))
+                    string s = "";
+                    foreach (var c in orderedCols)
                     {
-                        s += col.Value == null ? " , " : col.Value + ", ";
+                        s += row.Cells[c.Index].Value == null ? " , " : row.Cells[c.Index].Value.ToString() + ", ";
                     }
+
                     sbTXT.AppendLine(s.Trim(new char[] { ',', ' ' }) + "[/*]");
                 }
+
                 sbTXT.AppendLine("[/LIST]");
 
                 using (var noteViewer = new frmNoteViewer())
@@ -512,71 +527,13 @@ namespace CustomsForgeSongManager.Forms
             });
         }
 
-        public void SongListToCSV()
-        {
-            var path = Path.Combine(Constants.WorkFolder, "SongListCSV.csv");
-            using (var sfdSongListToCSV = new SaveFileDialog() { Filter = "csv files(*.csv)|*.csv|All files (*.*)|*.*", FileName = path })
-
-                if (sfdSongListToCSV.ShowDialog() == DialogResult.OK)
-                {
-                    path = sfdSongListToCSV.FileName;
-
-                    DoSomethingWithGrid((dataGrid, selection, colSel, ignoreColumns) =>
-                    {
-                        var sbCSV = new StringBuilder();
-
-                        const char csvSep = ';';
-                        sbCSV.AppendLine(String.Format(@"sep={0}", csvSep)); // used by Excel to recognize seperator if Encoding.Unicode is used
-                        string columns = String.Empty;
-                        foreach (var c in dataGrid.Columns.Cast<DataGridViewColumn>())
-                        {
-                            if (!ignoreColumns.Contains(c.Index))
-                                columns += c.HeaderText + csvSep;
-                        }
-
-                        sbCSV.AppendLine(columns.Trim(new char[] { csvSep, ' ' }));
-
-                        foreach (var row in selection)
-                        {
-                            string s = "[*]";
-                            foreach (var col in row.Cells.Cast<DataGridViewCell>().Where(c => !ignoreColumns.Contains(c.ColumnIndex)))
-                            {
-                                s += col.Value == null ? csvSep.ToString() : col.Value.ToString() + csvSep;
-                            }
-                            sbCSV.AppendLine(s.Trim(new char[] { ',', ' ' }));
-                        }
-
-                        //using (var noteViewer = new frmNoteViewer())
-                        //{
-                        //    noteViewer.Text = String.Format("{0} . . . {1}", noteViewer.Text, "Song list to CSV");
-
-                        //    noteViewer.PopulateText(sbCSV.ToString(), false);
-                        //    noteViewer.ShowDialog();
-                        //}
-
-                        try
-                        {
-                            using (StreamWriter file = new StreamWriter(path, false, Encoding.Unicode)) // Excel does not recognize UTF8
-                                file.Write(sbCSV.ToString());
-
-                            Globals.Log("Song list saved to:" + path);
-                        }
-                        catch (IOException ex)
-                        {
-                            Globals.Log("<Error>: " + ex.Message);
-                        }
-                    });
-                }
-        }
-
-        public void SongListToHTML()
+        public void DGV2HTML()
         {
             DoSomethingWithGrid((dataGrid, selection, colSel, ignoreColumns) =>
             {
                 //in the future maybe add some javascript to sort the html table by column
                 var sbTXT = new StringBuilder();
                 sbTXT.AppendLine("<html><head>");
-
                 sbTXT.AppendLine("<title>CFSM Songs</title>");
                 //add the style directly to so it can be saved correctly without external css.
                 sbTXT.AppendLine("<style>");
@@ -584,32 +541,38 @@ namespace CustomsForgeSongManager.Forms
                 sbTXT.AppendLine("</style>");
                 // sbTXT.AppendLine("<link rel='stylesheet' type='text/css' href='htmExport.css'>");
                 sbTXT.AppendLine("</head><body>");
-
                 sbTXT.AppendLine("<table id='CFMGrid'>");
                 sbTXT.AppendLine("<tr>");
                 var columns = String.Empty;
-                foreach (var c in dataGrid.Columns.Cast<DataGridViewColumn>())
+                var orderedCols = dataGrid.Columns.Cast<DataGridViewColumn>()
+                    .Where(c => !ignoreColumns.Contains(c.Index))
+                    .OrderBy(x => x.DisplayIndex).ToList();
+
+                foreach (var c in orderedCols)
                 {
-                    if (!ignoreColumns.Contains(c.Index))
-                        columns += ((char)9) + String.Format("<th>{0}</th>{1}", c.HeaderText, Environment.NewLine);
+                    columns += ((char)9) + String.Format("<th>{0}</th>{1}", c.HeaderText, Environment.NewLine);
                 }
+
                 sbTXT.AppendLine(columns.Trim());
                 sbTXT.AppendLine("</tr>");
                 bool altOn = false;
+
                 foreach (var row in selection)
                 {
                     sbTXT.AppendLine("<tr" + (altOn ? " class='alt'>" : ">"));
                     string s = string.Empty;
-                    foreach (var col in row.Cells.Cast<DataGridViewCell>().Where(c => !ignoreColumns.Contains(c.ColumnIndex)))
+                    foreach (var c in orderedCols)
                     {
-                        s += String.Format("<td>{0}</td>", col.Value == null ? "" : col.Value);
+                        s += String.Format("<td>{0}</td>", row.Cells[c.Index].Value == null ? "" : row.Cells[c.Index].Value.ToString());
                     }
                     sbTXT.AppendLine(s.Trim());
                     sbTXT.AppendLine("</tr>");
                     altOn = !altOn;
                 }
+
                 sbTXT.AppendLine("</table>");
                 sbTXT.AppendLine("</body></html>");
+
                 using (var noteViewer = new frmHtmlViewer())
                 {
                     noteViewer.Text = String.Format("{0} . . . {1}", noteViewer.Text, "Song list to HTML");
@@ -619,24 +582,194 @@ namespace CustomsForgeSongManager.Forms
             });
         }
 
-        private void SongListToJsonOrXml()
+        public void DGV2CSV()
         {
-            // TODO:
+            var fileName = String.Format("{0}Grid.csv", Globals.DgvCurrent.Name.Replace("dgv", ""));
+            var path = Path.Combine(Constants.WorkFolder, fileName);
+
+            using (var sfd = new SaveFileDialog())
+            {
+                sfd.Filter = "csv files(*.csv)|*.csv|All files (*.*)|*.*";
+                sfd.FileName = path;
+
+                if (sfd.ShowDialog() != DialogResult.OK)
+                    return;
+
+                path = sfd.FileName;
+            }
+
+            DoSomethingWithGrid((dataGrid, selection, colSel, ignoreColumns) =>
+            {
+                var sbCSV = new StringBuilder();
+
+                const char csvSep = ';';
+                sbCSV.AppendLine(String.Format(@"sep={0}", csvSep)); // used by Excel to recognize seperator if Encoding.Unicode is used
+                string columns = String.Empty;
+                var orderedCols = dataGrid.Columns.Cast<DataGridViewColumn>()
+                    .Where(c => !ignoreColumns.Contains(c.Index))
+                        .OrderBy(x => x.DisplayIndex).ToList();
+
+                foreach (var c in orderedCols)
+                {
+                    columns += c.HeaderText + csvSep;
+                }
+
+                sbCSV.AppendLine(columns.Trim(new char[] { csvSep, ' ' }));
+
+                foreach (var row in selection)
+                {
+                    string s = "";
+                    foreach (var c in orderedCols)
+                    {
+                        s += row.Cells[c.Index].Value == null ? csvSep.ToString() : row.Cells[c.Index].Value.ToString() + csvSep;
+                    }
+
+                    sbCSV.AppendLine(s.Trim(new char[] { ',', ' ' }));
+                }
+
+                //using (var noteViewer = new frmNoteViewer())
+                //{
+                //    noteViewer.Text = String.Format("{0} . . . {1}", noteViewer.Text, "Song list to CSV");
+
+                //    noteViewer.PopulateText(sbCSV.ToString(), false);
+                //    noteViewer.ShowDialog();
+                //}
+
+                try
+                {
+                    using (StreamWriter file = new StreamWriter(path, false, Encoding.Unicode)) // Excel does not recognize UTF8
+                        file.Write(sbCSV.ToString());
+
+                    Globals.Log(Globals.DgvCurrent.Name + " data saved to:" + path);
+                    GenExtensions.PromptOpen(Path.GetDirectoryName(path), Globals.DgvCurrent.Name + " data saved ...");
+                }
+                catch (IOException ex)
+                {
+                    Globals.Log("<Error>: " + ex.Message);
+                }
+            });
         }
+
+        public void DGV2XML()
+        {
+            var fileName = String.Format("{0}Grid.xml", Globals.DgvCurrent.Name.Replace("dgv", ""));
+            var path = Path.Combine(Constants.WorkFolder, fileName);
+
+            using (var sfd = new SaveFileDialog())
+            {
+                sfd.Filter = "xml files(*.xml)|*.xml|All files (*.*)|*.*";
+                sfd.FileName = path;
+
+                if (sfd.ShowDialog() != DialogResult.OK)
+                    return;
+
+                path = sfd.FileName;
+            }
+
+            DoSomethingWithGrid((dataGrid, selection, colSel, ignoreColumns) =>
+                {
+                    try
+                    {
+                        DataGridView dgvSelection = new DataGridView();
+                        foreach (DataGridViewColumn col in dataGrid.Columns)
+                            dgvSelection.Columns.Add((DataGridViewColumn)col.Clone());
+
+                        dgvSelection.Rows.Add(selection.Count());
+
+                        foreach (DataGridViewRow row in selection)
+                            foreach (DataGridViewColumn col in dataGrid.Columns)
+                                dgvSelection.Rows[row.Index].Cells[col.Index].Value = row.Cells[col.Index].Value == null ? DBNull.Value : row.Cells[col.Index].Value;
+
+                        DataTable dT = DgvConversion.DataGridViewToDataTable(dgvSelection, true);
+                        dT.TableName = "item"; // row node name
+                        DataSet dS = new DataSet();
+                        dS.DataSetName = Globals.DgvCurrent.Name; // root node name
+                        dS.Tables.Add(dT);
+                        using (StreamWriter fs = new StreamWriter(path))
+                            dS.WriteXml(fs);
+
+                        Globals.Log(Globals.DgvCurrent.Name + " data saved to:" + path);
+                        GenExtensions.PromptOpen(Path.GetDirectoryName(path), Globals.DgvCurrent.Name + " data saved ...");
+                    }
+                    catch (IOException ex)
+                    {
+                        Globals.Log("<Error>: " + ex.Message);
+                    }
+                });
+        }
+
+        public void DGV2JSON()
+        {
+            var fileName = String.Format("{0}Grid.json", Globals.DgvCurrent.Name.Replace("dgv", ""));
+            var path = Path.Combine(Constants.WorkFolder, fileName);
+
+            using (var sfd = new SaveFileDialog())
+            {
+                sfd.Filter = "json files(*.json)|*.json|All files (*.*)|*.*";
+                sfd.FileName = path;
+
+                if (sfd.ShowDialog() != DialogResult.OK)
+                    return;
+
+                path = sfd.FileName;
+            }
+
+            DoSomethingWithGrid((dataGrid, selection, colSel, ignoreColumns) =>
+            {
+                try
+                {
+                    DataGridView dgvSelection = new DataGridView();
+                    foreach (DataGridViewColumn col in dataGrid.Columns)
+                        dgvSelection.Columns.Add((DataGridViewColumn)col.Clone());
+
+                    dgvSelection.Rows.Add(selection.Count());
+
+                    foreach (DataGridViewRow row in selection)
+                        foreach (DataGridViewColumn col in dataGrid.Columns)
+                            dgvSelection.Rows[row.Index].Cells[col.Index].Value = row.Cells[col.Index].Value == null ? DBNull.Value : row.Cells[col.Index].Value;
+
+                    DataTable dT = DgvConversion.DataGridViewToDataTable(dgvSelection, true);
+                    dT.TableName = Globals.DgvCurrent.Name;
+                    DataSet dS = new DataSet();
+                    dS.Tables.Add(dT);
+                    JToken serializedJson = JsonConvert.SerializeObject(dS, Formatting.Indented, new JsonSerializerSettings { });
+                    using (StreamWriter fs = new StreamWriter(path))
+                        fs.Write(serializedJson.ToString());
+
+                    Globals.Log(Globals.DgvCurrent.Name + " data saved to:" + path);
+                    GenExtensions.PromptOpen(Path.GetDirectoryName(path), Globals.DgvCurrent.Name + " data saved ...");
+                }
+                catch (IOException ex)
+                {
+                    Globals.Log("<Error>: " + ex.Message);
+                }
+            });
+        }
+
+        private void tsmiJSON_Click(object sender, EventArgs e)
+        {
+            DGV2JSON();
+        }
+
+        private void tsmiXML_Click(object sender, EventArgs e)
+        {
+            DGV2XML();
+        }
+
 
         private void tsmiBBCode_Click(object sender, EventArgs e)
         {
-            SongListToBBCode();
+            DGV2BBCode();
         }
 
         private void tsmiCSV_Click(object sender, EventArgs e)
         {
-            SongListToCSV();
+            DGV2CSV();
         }
 
         private void tsmiHTML_Click(object sender, EventArgs e)
         {
-            SongListToHTML();
+            DGV2HTML();
         }
 
         private void closeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -728,220 +861,8 @@ namespace CustomsForgeSongManager.Forms
             return this;
         }
 
-        private class StatPair
-        {
-            public Dictionary<string, string> GeneralStats { get; set; }
-            public Dictionary<string, int> ChordNums { get; set; }
-        }
-
-        private class AnalyzerInfo
-        {
-            public Dictionary<string, List<StatPair>> SongInfo { get; set; }
-        }
-
-        private void AnalyzerExport(string format)
-        {
-            var path = Path.Combine(Constants.WorkFolder, "Analyzer.csv");
-            var filter = "csv files(*.csv)|*.csv|All files (*.*)|*.*";
-
-            if (format == "json")
-            {
-                path = path.Replace("csv", "json");
-                filter = filter.Replace("csv", "json");
-            }
-
-            using (var sfdSongListToCSV = new SaveFileDialog() { Filter = filter, FileName = path })
-                if (sfdSongListToCSV.ShowDialog() == DialogResult.OK)
-                {
-                    path = sfdSongListToCSV.FileName;
-
-                    string outputJSON = "";
-                    var sbCSV = new StringBuilder();
-
-                    const char csvSep = ';';
-                    sbCSV.AppendLine(String.Format(@"sep={0}", csvSep));
-
-                    string[] columns = { "Artist","Song name", "Path", "Notes", "Hammer-ons", "Pulloffs", "Harmonics", "Pinch harmonics", "Frethand mutes", "Palm mutes",
-                                         "Plucks", "Slaps", "Slides", "Unpitched slides", "Tremolos", "Taps", "Vibratos", "Sustains", "Bends", "Highest Fret Used"};
-
-                    int maxChordNumber = 0;
-                    var dgvSelection = new List<DataGridViewRow>();
-                    DoSomethingWithGrid((dataGrid, selection, colSel, ignoreColumns) =>
-                    {
-                        dgvSelection = selection.ToList();
-                    });
-
-                    string columnsCSV = "sep=" + csvSep.ToString();
-
-                    var allInfo = new List<AnalyzerInfo>();
-
-                    foreach (var songRow in dgvSelection)
-                    {
-                        var song = DataGridViewTools.DgvExtensions.GetObjectFromRow<SongData>(songRow);
-
-                        string s = song.Artist + " - " + song.Title;
-                        var statPairList = new List<StatPair>();
-
-                        if (!song.ExtraMetaDataScanned && song.NoteCount == 0)
-                        {
-                            Globals.Log("Parsing Analyzer Data From: " + s);
-
-                            int sngIndex = Globals.SongCollection.IndexOf(song);
-
-                            using (var browser = new PsarcBrowser(song.FilePath))
-                            {
-                                var songInfo = browser.GetSongData(true);
-
-                                // TODO: should songs.psarc and custom song packs be addressed too
-                                if (song.FilePath.ToLower().Contains("rs1comp"))
-                                    song = songInfo.FirstOrDefault(i => i.Title == song.Title);
-                                else
-                                    song = songInfo.First();
-
-                                song.ExtraMetaDataScanned = true;
-                                Globals.SongCollection[sngIndex] = song;
-                            }
-                        }
-
-                        var arrangements = song.Arrangements2D;
-
-                        try
-                        {
-                            var arrangementsWithChords = arrangements.Where(a => a.ChordCounts != null).ToList();
-
-                            if (arrangementsWithChords != null && arrangementsWithChords.Count != 0) //Just an extra check
-                            {
-                                int nrOfDifferentChords = arrangementsWithChords.Max(ar => (int?)ar.ChordCounts.Count() ?? 0);
-
-                                if (nrOfDifferentChords > maxChordNumber)
-                                    maxChordNumber = nrOfDifferentChords;
-                            }
-                        }
-                        catch (ArgumentNullException)
-                        {
-                            Globals.Log("<ERROR> Could not get Analyzer Data for: " + song.Title + " by " + song.Artist);
-                        }
-
-                        foreach (var arr in song.Arrangements2D)
-                        {
-                            if (arr.Name == "Vocals")
-                                continue;
-
-                            if (format == "csv")
-                            {
-                                //this Replace is used in order not to have to convert every one of these to string
-
-                                s = song.Artist + csvSep + song.Title + csvSep + arr.Name + csvSep + " " + arr.NoteCount + csvSep + arr.HammerOnCount + csvSep + arr.PullOffCount + csvSep + arr.HarmonicCount
-                                    + csvSep + arr.HarmonicPinchCount + csvSep + arr.FretHandMuteCount + csvSep + arr.PalmMuteCount + csvSep + arr.PluckCount + csvSep + arr.SlapCount + csvSep + arr.SlideCount
-                                    + csvSep + arr.UnpitchedSlideCount + csvSep + arr.TremoloCount + csvSep + arr.TapCount + csvSep + arr.VibratoCount + csvSep + arr.SustainCount + csvSep + arr.BendCount + csvSep + arr.HighestFretUsed + csvSep;
-
-                                if (arr.ChordNames != null && arr.ChordNames.Count() == 0)
-                                    s +=
-                                        "no chords";
-                                else
-                                    for (int i = 0; i < arr.ChordNames.Count(); i++)
-                                        s += arr.ChordNames[i] + csvSep + arr.ChordCounts[i] + csvSep;
-
-                                sbCSV.AppendLine(s.Trim(new char[] { ',', ' ' }));
-                            }
-                            else if (format == "json")
-                            {
-                                var statPair = new StatPair();
-                                statPair.GeneralStats = new Dictionary<string, string>();
-
-                                statPair.GeneralStats.Add("Arrangement", arr.Name);
-                                statPair.GeneralStats.Add("Note Count", arr.NoteCount.ToString());
-                                statPair.GeneralStats.Add("Hammer-ons", arr.HammerOnCount.ToString());
-                                statPair.GeneralStats.Add("Pulloffs", arr.PullOffCount.ToString());
-                                statPair.GeneralStats.Add("Harmonics", arr.HarmonicCount.ToString());
-                                statPair.GeneralStats.Add("Pinch harmonics", arr.HarmonicPinchCount.ToString());
-                                statPair.GeneralStats.Add("Frethand mutes", arr.FretHandMuteCount.ToString());
-                                statPair.GeneralStats.Add("Palm mutes", arr.PalmMuteCount.ToString());
-                                statPair.GeneralStats.Add("Plucks", arr.PluckCount.ToString());
-                                statPair.GeneralStats.Add("Slaps", arr.SlapCount.ToString());
-                                statPair.GeneralStats.Add("Slides", arr.SlideCount.ToString());
-                                statPair.GeneralStats.Add("Unpitched slides", arr.UnpitchedSlideCount.ToString());
-                                statPair.GeneralStats.Add("Tremolos", arr.TremoloCount.ToString());
-                                statPair.GeneralStats.Add("Vibratos", arr.VibratoCount.ToString());
-                                statPair.GeneralStats.Add("Sustains", arr.SustainCount.ToString());
-                                statPair.GeneralStats.Add("Bends", arr.BendCount.ToString());
-                                statPair.GeneralStats.Add("Highest Fret Used", arr.HighestFretUsed.ToString());
-
-                                statPair.ChordNums = new Dictionary<string, int>();
-                                for (int i = 0; i < arr.ChordNames.Count; i++)
-                                    statPair.ChordNums.Add(arr.ChordNames[i], arr.ChordCounts[i]);
-
-                                statPairList.Add(statPair);
-                            }
-                        }
-
-                        if (format == "json")
-                        {
-                            var analyzerInfo = new AnalyzerInfo();
-                            analyzerInfo.SongInfo = new Dictionary<string, List<StatPair>>();
-                            analyzerInfo.SongInfo.Add(s, statPairList);
-                            allInfo.Add(analyzerInfo);
-                        }
-                        else
-                            sbCSV.AppendLine("");
-                    }
-
-
-                    if (format == "csv")
-                    {
-                        string chordColumns = "Chord" + csvSep + "# of chord" + csvSep;
-                        columnsCSV += Environment.NewLine + String.Join(csvSep.ToString(), columns);
-                        columnsCSV += csvSep + string.Concat((Enumerable.Repeat(chordColumns, maxChordNumber)));
-                        sbCSV.Insert(0, columnsCSV.Trim(new char[] { ',', ' ' }));
-                    }
-
-                    try
-                    {
-                        using (StreamWriter file = new StreamWriter(path, false, Encoding.Unicode))
-                        {
-                            if (format == "json")
-                            {
-                                JToken serializedJson = JsonConvert.SerializeObject(allInfo, Formatting.Indented);
-                                outputJSON = Regex.Unescape(serializedJson.ToString());
-                                file.Write(outputJSON);
-                            }
-                            else if (format == "csv")
-                                file.Write(sbCSV.ToString());
-                        }
-
-                        Globals.Log("Analyzer Data Saved: " + path);
-                    }
-                    catch (IOException ex)
-                    {
-                        Globals.Log("<Error>: " + ex.Message);
-                    }
-
-
-                    try
-                    {
-                        if (File.Exists(path))
-                        {
-                            if (MessageBox.Show("Do you want to open the exported file?", "Open the exported file", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
-                                Process.Start(path);
-                        }
-                    }
-                    catch (Win32Exception)
-                    {
-                        Globals.Log("No suitable application detected!");
-                    }
-                }
-        }
-
-        private void tsmiAnalyzerCSV_Click(object sender, EventArgs e)
-        {
-            AnalyzerExport("csv");
-        }
-
-        private void tsmiAnalyzerJSON_Click(object sender, EventArgs e)
-        {
-            AnalyzerExport("json");
-        }
-
-
     }
 }
+
+
+

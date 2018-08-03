@@ -23,6 +23,7 @@ namespace CustomsForgeSongManager.SongEditor
 
         public frmSongEditor()
         {
+            throw new Exception("Improper Usage");
         }
 
         public frmSongEditor(string songPath)
@@ -31,14 +32,15 @@ namespace CustomsForgeSongManager.SongEditor
             {
                 if (String.IsNullOrEmpty(songPath))
                     return;
-                this.Icon = Properties.Resources.cfsm_48x48;
-
+ 
                 Globals.Log("Loading song information from: " + Path.GetFileName(songPath));
                 Cursor.Current = Cursors.WaitCursor;
                 Globals.TsProgressBar_Main.Value = 10;
                 Globals.TsProgressBar_Main.Value = 20;
 
                 InitializeComponent();
+                this.Icon = Properties.Resources.cfsm_48x48;
+                tslExit.Alignment = ToolStripItemAlignment.Right;  
 
                 var psarc = new PsarcPackage();
                 packageData = psarc.ReadPackage(songPath);
@@ -71,7 +73,9 @@ namespace CustomsForgeSongManager.SongEditor
         {
             Globals.Log("Saving song information for: " + Path.GetFileName(outputPath));
             Cursor.Current = Cursors.WaitCursor;
-            tsProgressBar.Value = 30;
+            tsProgressBar.Value = 30;              
+            tsMsg.Text = "Working ...";
+            statusStripMain.Refresh();
 
             // force validation of user controls
             this.ValidateChildren();
@@ -91,7 +95,7 @@ namespace CustomsForgeSongManager.SongEditor
 
                 var msg = "The song information has been changed." + Environment.NewLine + "Do you want to update the 'Persistent ID'?" + Environment.NewLine + "Answering 'Yes' will reduce the risk of CDLC" + Environment.NewLine + "in game hanging and song stats will be reset.  ";
                 //only ask if it's a new filename.
-                bool updateArrangmentID = (outputPath != filePath) ? MessageBox.Show(msg, "Song Editor ...", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes : false;
+                bool updateArrangementID = (outputPath != filePath) ? MessageBox.Show(msg, "Song Editor ...", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes : false;
 
                 // Update Xml arrangements song info
                 foreach (var arr in packageData.Arrangements)
@@ -100,7 +104,7 @@ namespace CustomsForgeSongManager.SongEditor
                     if (arr.ArrangementType == ArrangementType.Guitar || arr.ArrangementType == ArrangementType.Bass)
                         arr.XmlComments = Song2014.ReadXmlComments(arr.SongXml.File);
 
-                    UpdateXml(arr, packageData, updateArrangmentID);
+                    UpdateXml(arr, packageData, updateArrangementID);
 
                     if (arr.ArrangementType == ArrangementType.Guitar || arr.ArrangementType == ArrangementType.Bass)
                     {
@@ -151,6 +155,8 @@ namespace CustomsForgeSongManager.SongEditor
             finally
             {
                 tsProgressBar.Value = 100;
+                tsMsg.Text = "Done ...";
+                statusStripMain.Refresh();
                 Cursor.Current = Cursors.Default;
                 Globals.Log("Song information saved ... ");
                 // changed update behaviour ... only update this CDLC

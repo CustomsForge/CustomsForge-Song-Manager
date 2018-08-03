@@ -57,13 +57,6 @@ Source: {#BuildPath}Antlr4.StringTemplate.dll; DestDir: {app}; Flags: ignorevers
 Source: {#BuildPath}DF_DDSImage.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#BuildPath}MiscUtil.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#BuildPath}7z.dll; DestDir: {app}; Flags: ignoreversion
-Source: {#BuildPath}oggCut.exe; DestDir: {app}; Flags: ignoreversion; Permissions: everyone-full
-Source: {#BuildPath}oggdec.exe; DestDir: {app}; Flags: ignoreversion; Permissions: everyone-full
-Source: {#BuildPath}oggenc.exe; DestDir: {app}; Flags: ignoreversion; Permissions: everyone-full
-Source: {#BuildPath}packed_codebooks.bin; DestDir: {app}; Flags: ignoreversion
-Source: {#BuildPath}packed_codebooks_aoTuV_603.bin; DestDir: {app}; Flags: ignoreversion
-Source: {#BuildPath}revorb.exe; DestDir: {app}; Flags: ignoreversion; Permissions: everyone-full
-Source: {#BuildPath}ww2ogg.exe; DestDir: {app}; Flags: ignoreversion; Permissions: everyone-full
 Source: {#BuildPath}SevenZipSharp.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#BuildPath}Newtonsoft.Json.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#BuildPath}ReleaseNotes.txt; DestDir: {app}; Flags: ignoreversion; Permissions: everyone-full
@@ -74,6 +67,7 @@ Source: {#BuildPath}zlib.net.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#BuildPath}D3DX9_42.dll.old; DestDir: {app}; Flags: ignoreversion
 Source: {#BuildPath}D3DX9_42.dll.new; DestDir: {app}; Flags: ignoreversion
 Source: {#BuildPath}ReleaseNotes.txt; DestDir: {app}; Flags: ignoreversion
+Source: "{#BuildPath}tools\*"; DestDir: "{app}\tools"; Flags: ignoreversion recursesubdirs createallsubdirs; Permissions: everyone-full
 Source: "{#BuildPath}ddc\*"; DestDir: "{app}\ddc"; Flags: ignoreversion recursesubdirs createallsubdirs; Permissions: everyone-full
 Source: {srcexe}; DestDir: {app}; DestName: {#InstallerName}.exe; Flags: ignoreversion external; Permissions: everyone-full
 Source: unrar.exe; DestDir: {tmp}; Flags: dontcopy

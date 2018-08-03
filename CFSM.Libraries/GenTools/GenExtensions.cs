@@ -138,13 +138,6 @@ namespace GenTools
                     subDirectory.Delete(true);
         }
 
-        public static string CleanForAPI(this string text)
-        {
-            //return text.Replace("/", "_"); //.Replace("\\","");
-            var result = text.Replace("/", "_1_").Replace("\\", "_2_"); //WebUtility.HtmlEncode(text);
-            return result; //WebUtility.HtmlDecode(text);
-        }
-
         public static void CleanLocalTemp()
         {
             var di = new DirectoryInfo(Path.GetTempPath());
@@ -212,31 +205,6 @@ namespace GenTools
                 ClearFolder(di.FullName);
                 di.Delete();
             }
-        }
-
-        public static DataTable ConvertList<T>(IEnumerable<T> objectList)
-        {
-            Type type = typeof(T);
-            var typeproperties = type.GetProperties();
-
-            DataTable list2DataTable = new DataTable();
-            foreach (PropertyInfo propInfo in typeproperties)
-            {
-                list2DataTable.Columns.Add(new DataColumn(propInfo.Name, propInfo.PropertyType));
-            }
-
-            foreach (T listItem in objectList)
-            {
-                object[] values = new object[typeproperties.Length];
-                for (int i = 0; i < typeproperties.Length; i++)
-                {
-                    values[i] = typeproperties[i].GetValue(listItem, null);
-                }
-
-                list2DataTable.Rows.Add(values);
-            }
-
-            return list2DataTable;
         }
 
         public static bool CopyDir(string srcFolder, string destFolder, bool isRecursive = true)
@@ -715,10 +683,10 @@ namespace GenTools
                     select date.AddDays(i)).First();
         }
 
-        public static bool PromptOpen(string destDir, string msgText, string windowTitle)
+        public static bool PromptOpen(string destDir, string msgText, string windowTitle = "CustomsForge Song Manager")
         {
             if (BetterDialog.ShowDialog(msgText + Environment.NewLine +
-                                        "Would you like to open the folder?", @"Information: Prompt Open Message",
+                                        "Would you like to open the folder?", @"Open Directory/File Location",
                                         MessageBoxButtons.YesNo, Bitmap.FromHicon(SystemIcons.Information.Handle),
                                         "Information ...", 150, 150) == DialogResult.Yes)
             {
@@ -778,7 +746,7 @@ namespace GenTools
         public static List<string> RsFilesList(string path, bool includeRs1Packs = false, bool includeSongPacks = false, bool includeSubfolders = true)
         {
             if (String.IsNullOrEmpty(path))
-                throw new Exception("<ERROR>: No path provided for file scanning");
+                throw new Exception("<ERROR> No path provided for file scanning");
 
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);

@@ -27,7 +27,7 @@ namespace CustomsForgeSongManager.UITheme
             this.Icon = Properties.Resources.cfsm_48x48;
             tscbTaggerThemes.SelectedIndex = 0;
             tspbAudioPosition.Value = 50;
-            dgvSongsMaster.DataSource = new BindingSource {DataSource = new FilteredBindingList<SongData>(Globals.SongCollection)};
+            dgvSongsMaster.DataSource = new BindingSource {DataSource = new FilteredBindingList<SongData>(Globals.MasterCollection)};
         }
 
         public override void ApplyTheme(Theme sender)
@@ -75,7 +75,7 @@ namespace CustomsForgeSongManager.UITheme
                 var x = (SongData) dgvSongsMaster.Rows[e.RowIndex].DataBoundItem;
                 if (x != null)
                 {
-                    string arrInit = x.Arrangements.ToUpper();
+                    string arrInit = x.Arrangements1D.ToUpper();
 
                     if (e.ColumnIndex == colBass.Index)
                         e.CellStyle.BackColor = arrInit.Contains("BASS") ? _Enabled : _Disabled;

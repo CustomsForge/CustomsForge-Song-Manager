@@ -18,10 +18,9 @@ using GenTools;
 using DataGridViewTools;
 using Newtonsoft.Json;
 using System.Xml;
+using CustomsForgeSongManager.Properties;
+using System.Net.Cache;
 
-// TODO: apply Lovro's SongCollection rescan/updated as a generic method to
-// replace usages of Globals.ReloadSongManager or RescanSongManager = true
-// see comment about databinding in DeleteSelection method
 
 namespace CustomsForgeSongManager.UControls
 {
@@ -37,52 +36,63 @@ namespace CustomsForgeSongManager.UControls
         private bool bindingCompleted = false;
         private Stopwatch counterStopwatch = new Stopwatch();
         private bool dgvPainted = false;
+        private int firstIndex = 0;
         private bool ignoreCheckStateChanged = false;
-        private string lastSelectedSongPath = string.Empty;
-        private BindingList<SongData> masterSongCollection = new BindingList<SongData>();
+        private bool keepOpen;
+        private string lastSelectedSongPath = String.Empty;
         private int numberOfDLCPendingUpdate = 0;
         private int numberOfDisabledDLC = 0;
-        private int firstIndex = 0;
+        private List<SongData> songList = new List<SongData>(); // prevents filtering from being inherited
 
         public SongManager()
         {
             InitializeComponent();
-
             Globals.TsLabel_StatusMsg.Click += lnkShowAll_Click;
             dgvSongsDetail.Visible = false;
 
+            tsmiDevDebugUse.Visible = GenExtensions.IsInDesignMode ? true : false;
+            cmsCheckForUpdate.Visible = GenExtensions.IsInDesignMode ? true : false;
+            cmsOpenSongLocation.Visible = GenExtensions.IsInDesignMode ? true : false;
+
             PopulateTagger();
-            PopulateSongManager();
             cmsTaggerPreview.Visible = true; // ???
+            PopulateSongManager();
             InitializeRepairMenu();
         }
 
         public void PlaySelectedSong()
         {
-            var sng = DgvExtensions.GetObjectFromFirstSelectedRow<SongData>(dgvSongsMaster);
-            if (sng != null)
+            var song = DgvExtensions.GetObjectFromFirstSelectedRow<SongData>(dgvSongsMaster);
+            if (song != null)
             {
-                if (String.IsNullOrEmpty(sng.AudioCache))
+                if (song.FileName.ToLower().EndsWith(Constants.BASESONGS) ||
+                    song.FileName.ToLower().Contains(Constants.RS1COMP) ||
+                    song.FileName.ToLower().Contains(Constants.SONGPACK) ||
+                    song.FileName.ToLower().Contains(Constants.ABVSONGPACK))
                 {
-                    sng.AudioCache = string.Format("{0}_{1}", Guid.NewGuid().ToString().Replace("-", ""), sng.FileSize);
+                    Globals.Log("<WARNING> Audio from SongPacks is not available for playback ...");
+                    return;
                 }
+
+                if (String.IsNullOrEmpty(song.AudioCache))
+                    song.AudioCache = string.Format("{0}_{1}", Guid.NewGuid().ToString().Replace("-", ""), song.FileSize);
 
                 var audioCacheDir = Constants.AudioCacheFolder;
                 if (!Directory.Exists(audioCacheDir))
                     Directory.CreateDirectory(audioCacheDir);
 
-                var fullname = Path.Combine(audioCacheDir, sng.AudioCache + ".ogg");
+                var fullname = Path.Combine(audioCacheDir, song.AudioCache + ".ogg");
 
                 if (File.Exists(fullname))
                 {
                     bool canDelete = false;
                     //check if it needs to be updated using song filesize,
-                    if (!sng.AudioCache.Contains("_"))
+                    if (!song.AudioCache.Contains("_"))
                         canDelete = true;
                     else
                     {
-                        var ss = sng.AudioCache.Split('_');
-                        if (ss[1] != sng.FileSize.ToString())
+                        var ss = song.AudioCache.Split('_');
+                        if (ss[1] != song.FileSize.ToString())
                             canDelete = true;
                     }
                     if (canDelete)
@@ -92,17 +102,17 @@ namespace CustomsForgeSongManager.UControls
                 if (!File.Exists(fullname))
                 {
                     //extract the audio...
-                    if (!PsarcBrowser.ExtractAudio(sng.FilePath, fullname, ""))
+                    if (!PsarcBrowser.ExtractAudio(song.FilePath, fullname, ""))
                     {
                         Globals.Log(Properties.Resources.CouldNotExtractTheAudio);
-                        sng.AudioCache = String.Empty;
+                        song.AudioCache = String.Empty;
                         return;
                     }
                 }
 
                 if (!File.Exists(fullname))
                 {
-                    sng.AudioCache = String.Empty;
+                    song.AudioCache = String.Empty;
                     return;
                 }
 
@@ -112,7 +122,7 @@ namespace CustomsForgeSongManager.UControls
                     //Globals.AudioEngine.SetVolume(1.0f - sng.SongVolume);
 
                     Globals.AudioEngine.Play();
-                    Globals.Log(String.Format("Playing {0} by {1} ... ({2})", sng.Title, sng.Artist, Path.GetFileName(sng.FilePath)));
+                    Globals.Log(String.Format("Playing {0} by {1} ... ({2})", song.Title, song.Artist, Path.GetFileName(song.FilePath)));
                 }
                 else
                     Globals.Log("Unable to open audio file.");
@@ -121,14 +131,13 @@ namespace CustomsForgeSongManager.UControls
 
         public void PopulateSongManager()
         {
+            Globals.Log("Populating SongManager GUI ...");
             // Hide main dgvSongsMaster until load completes
             dgvSongsMaster.Visible = false;
             //Load Song Collection from file must be called before
-            LoadSongCollectionFromFile();
+            if (!LoadSongCollectionFromFile()) return;
 
-            Globals.Log("Populating SongManager GUI ...");
-
-            //Worker actually does the sorting after parsing, this is just to tell the grid that it is sorted.
+            // Worker actually does the sorting after parsing, this is just to tell the grid that it is sorted.
             if (!String.IsNullOrEmpty(AppSettings.Instance.SortColumn))
             {
                 var colX = dgvSongsMaster.Columns.Cast<DataGridViewColumn>().Where(col => col.DataPropertyName == AppSettings.Instance.SortColumn).FirstOrDefault();
@@ -136,69 +145,48 @@ namespace CustomsForgeSongManager.UControls
                     dgvSongsMaster.Sort(colX, AppSettings.Instance.SortAscending ? ListSortDirection.Ascending : ListSortDirection.Descending);
             }
 
+            // TODO: maybe reapply previous filtering and search here
+
             UpdateToolStrip();
         }
 
         public void SaveSongCollectionToFile()
         {
-            var filterStatus = DataGridViewAutoFilterColumnHeaderCell.GetFilterStatus(dgvSongsMaster);
-            //only save when not filtered
-            if (String.IsNullOrEmpty(filterStatus))
+            var dom = Globals.MasterCollection.XmlSerializeToDom();
+            XmlElement versionNode = dom.CreateElement("SongDataList");
+            versionNode.SetAttribute("version", SongData.SongDataListVersion);
+            versionNode.SetAttribute("AppVersion", Constants.CustomVersion());
+            dom.DocumentElement.AppendChild(versionNode);
+
+            foreach (XmlElement songData in dom.GetElementsByTagName("ArrayOfSongData")[0].ChildNodes)
             {
-                //save with some version info
-                var dom = masterSongCollection.XmlSerializeToDom();
-                XmlElement versionNode = dom.CreateElement("SongDataList");
-                versionNode.SetAttribute("version", SongData.SongDataListCurrentVersion);
-                versionNode.SetAttribute("AppVersion", Constants.CustomVersion());
-                dom.DocumentElement.AppendChild(versionNode);
-
-                var arrDom = new XmlDocument();
-                var allArrsNode = arrDom.CreateElement("AnalyzerData");
-                string keptInfo = "persistentid_dmax_name_dd_tuning_tonebase_tonebase_sectioncount"; //don't move these to ArrInfo file
-
-                foreach (XmlElement songData in dom.GetElementsByTagName("ArrayOfSongData")[0].ChildNodes)
+                // reduce songInfo.xml file size by removing extraneous/null/empty elements
+                var arrangementsNode = songData.GetElementsByTagName("Arrangements")[0];
+                if (arrangementsNode != null)
                 {
-                    var arrangementsNode = songData.GetElementsByTagName("Arrangements")[0];
-                    if (arrangementsNode != null)
+                    var arrNodes = arrangementsNode.ChildNodes.OfType<XmlNode>().ToList();
+
+                    foreach (var arrNode in arrNodes)
                     {
-                        string dlcKey = songData.SelectSingleNode("DLCKey").ChildNodes[0].Value.ToString();
-                        ((XmlElement)arrangementsNode).SetAttribute("DLCKey", dlcKey);
+                        var isVocals = arrNode.InnerXml.Contains("<Name>Vocals</Name>");
+                        var innerNodes = arrNode.ChildNodes.OfType<XmlNode>().ToList();
 
-                        var extraMetaDataScanned = Convert.ToBoolean(songData.SelectSingleNode("ExtraMetaDataScanned").ChildNodes[0].Value);
-                        if (extraMetaDataScanned)
-                            allArrsNode.AppendChild(arrDom.ImportNode(arrangementsNode, true));
-
-                        var arrNodes = arrangementsNode.ChildNodes.OfType<XmlNode>().ToList();
-                        arrNodes.ForEach(arr =>
+                        foreach (var n in innerNodes)
                         {
-                            arr.ChildNodes.OfType<XmlNode>().ToList().ForEach(n =>
-                            {
-                                if (!keptInfo.Contains(n.Name.ToLower()))
-                                    arr.RemoveChild(n);
-                            });
-                        });
+                            // remove analyzer data from vocals
+                            if (n.InnerText == "0" && isVocals)
+                                arrNode.RemoveChild(n);
+
+                            // remove null/empty data
+                            if (String.IsNullOrEmpty(n.InnerText))
+                                arrNode.RemoveChild(n);
+                        }
                     }
                 }
-
-                // save analyzerData.xml
-                if (AppSettings.Instance.IncludeAnalyzerData && !allArrsNode.IsEmpty)
-                {
-                    arrDom.AppendChild(allArrsNode);
-                    arrDom.Save(Constants.AnalyzerDataPath);
-                    Globals.Log("Saved File: " + Path.GetFileName(Constants.AnalyzerDataPath));
-                }
-                //else // remove old anlayzer data
-                //{
-                //    if (GenExtensions.DeleteFile(Constants.AnalyzerDataPath))
-                //    {
-                //        Globals.Log("User Disabled Analyzer ...");
-                //        Globals.Log("Deleted File: " + Path.GetFileName(Constants.AnalyzerDataPath));
-                //    }
-                //}
-
-                dom.Save(Constants.SongsInfoPath);
-                Globals.Log("Saved File: " + Path.GetFileName(Constants.SongsInfoPath));
             }
+
+            dom.Save(Constants.SongsInfoPath);
+            Globals.Log("Saved File: " + Path.GetFileName(Constants.SongsInfoPath));
         }
 
         public RepairOptions SetRepairOptions()
@@ -223,7 +211,9 @@ namespace CustomsForgeSongManager.UControls
             ro.RemoveMetronome = tsmiRemoveMetronome.Checked;
             ro.IgnoreStopLimit = tsmiIgnoreStopLimit.Checked;
             ro.RemoveSections = tsmiRemoveSections.Checked;
+            ro.FixLowBass = tsmiFixLowBass.Checked;
             ro.ProcessDLFolder = tsmiProcessDLFolder.Checked;
+            ro.MonitorDLFolder = tsmiMonitorDLFolder.Checked;
 
             AppSettings.Instance.RepairOptions = ro;
             return ro;
@@ -233,33 +223,36 @@ namespace CustomsForgeSongManager.UControls
         {
             if (Globals.RescanSongManager)
             {
-                Globals.RescanSongManager = false;
-                Globals.ReloadRenamer = true;
-                Globals.ReloadSetlistManager = true;
-                Globals.ReloadDuplicates = true;
                 // full rescan of song collection
                 Rescan(true);
                 PopulateDataGridView();
             }
-
-            if (Globals.ReloadSongManager)
+            else if (Globals.ReloadSongManager)
             {
-                Globals.ReloadSongManager = false;
-                // smart scan of song collection
+                // smart quick rescan of song collection
                 Rescan(false);
                 PopulateDataGridView();
             }
 
-            Globals.TsLabel_MainMsg.Text = string.Format("Rocksmith Song Count: {0}", masterSongCollection.Count);
+            Globals.RescanSongManager = false;
+            Globals.RescanArrangements = false;
+            Globals.ReloadSongManager = false;
+                Globals.ReloadArrangements = false; // testing w/ 'false' faster load of ArrangementAnalyzer 
+            Globals.ReloadRenamer = true;
+            Globals.ReloadSetlistManager = true;
+            Globals.ReloadDuplicates = true;
+
+
+            Globals.TsLabel_MainMsg.Text = string.Format("Rocksmith Song Count: {0}", songList.Count);
             Globals.TsLabel_MainMsg.Visible = true;
-            numberOfDisabledDLC = masterSongCollection.Where(song => song.Enabled == "No").ToList().Count();
+            numberOfDisabledDLC = songList.Where(song => song.Enabled == "No").ToList().Count();
             numberOfDLCPendingUpdate = 0;
             var tsldcMsg = String.Format("Outdated: {0} | Disabled CDLC: {1}", numberOfDLCPendingUpdate, numberOfDisabledDLC);
             Globals.TsLabel_DisabledCounter.Alignment = ToolStripItemAlignment.Right;
             Globals.TsLabel_DisabledCounter.Text = tsldcMsg;
             Globals.TsLabel_DisabledCounter.Visible = true;
             Globals.TsLabel_StatusMsg.Visible = false;
-            TemporaryDisableDatabindEvent(() => { dgvSongsMaster.Refresh(); });
+            // TemporaryDisableDatabindEvent(() => { dgvSongsMaster.Refresh(); });
         }
 
         private void CheckForUpdatesEvent(object o, DoWorkEventArgs args)
@@ -270,7 +263,6 @@ namespace CustomsForgeSongManager.UControls
                     if (dgvSongsMaster.SelectedRows.Count > 0)
                     {
                         CheckRowForUpdate(dgvSongsMaster.SelectedRows[0]);
-                        SaveSongCollectionToFile();
                     }
                 });
         }
@@ -278,56 +270,56 @@ namespace CustomsForgeSongManager.UControls
         private void CheckRowForUpdate(DataGridViewRow dataGridViewRow)
         {
             // part of ContextMenuStrip action
-            if (!bWorker.CancellationPending)
+            if (bWorker.CancellationPending)
+                return;
+
+            var sd = DgvExtensions.GetObjectFromRow<SongData>(dataGridViewRow);
+            if (sd == null || sd.IsOfficialDLC || sd.IsRsCompPack)
+                return;
+
+            //currentSong.IgnitionVersion = Ignition.GetDLCInfoFromURL(currentSong.GetInfoURL(), "version");
+            string url = sd.GetInfoURL();
+            //string response = String.Empty;
+            //string cfUrl = String.Empty;
+            //int version = 0;
+
+            string auth_token = String.Empty;
+
+            var body = new { grant_type = "client_credentials", client_id = "CFSM", client_secret = "snIsh4bir9Il4woTh1aG6jiD5Ag8An" };
+            using (var client = new WebClient())
             {
-                var currentSong = DgvExtensions.GetObjectFromRow<SongData>(dataGridViewRow);
-                if (currentSong != null)
-                {
-                    //currentSong.IgnitionVersion = Ignition.GetDLCInfoFromURL(currentSong.GetInfoURL(), "version");
-                    string url = currentSong.GetInfoURL();
-                    //string response = String.Empty;
-                    //string cfUrl = String.Empty;
-                    //int version = 0;
+                var dataString = JsonConvert.SerializeObject(body);
+                client.Headers.Add(HttpRequestHeader.ContentType, "application/json");
+                string authresponse = client.UploadString(new Uri(Constants.DefaultAuthURL), "POST", dataString);
+                dynamic deserialized = JsonConvert.DeserializeObject(authresponse);
+                auth_token = deserialized.access_token;
+            }
 
-                    string auth_token = String.Empty;
+            using (WebClient client = new WebClient())
+            {
+                const string myParametersTemplate = "filters[artist]={artist}&filters[album]={album}&filters[title]={title}&per_page=1";
+                string myParameters = myParametersTemplate.Replace("{artist}", sd.Artist).Replace("{album}", sd.Album).Replace("{title}", sd.Title);
 
-                    var body = new { grant_type = "client_credentials", client_id = "CFSM", client_secret = "snIsh4bir9Il4woTh1aG6jiD5Ag8An" };
-                    using (var client = new WebClient())
-                    {
-                        var dataString = JsonConvert.SerializeObject(body);
-                        client.Headers.Add(HttpRequestHeader.ContentType, "application/json");
-                        string authresponse = client.UploadString(new Uri(Constants.DefaultAuthURL), "POST", dataString);
-                        dynamic deserialized = JsonConvert.DeserializeObject(authresponse);
-                        auth_token = deserialized.access_token;
-                    }
+                string clientURL = string.Concat(url, "?", myParameters);
 
-                    using (WebClient client = new WebClient())
-                    {
-                        const string myParametersTemplate = "filters[artist]={artist}&filters[album]={album}&filters[title]={title}&per_page=1";
-                        string myParameters = myParametersTemplate.Replace("{artist}", currentSong.Artist).Replace("{album}", currentSong.Album).Replace("{title}", currentSong.Title);
+                string authHeader = string.Concat("Bearer ", auth_token);
 
-                        string clientURL = string.Concat(url, "?", myParameters);
+                client.Headers[HttpRequestHeader.ContentType] = "Content-Type: application/json";
+                client.Headers.Add("Authorization", authHeader);
 
-                        string authHeader = string.Concat("Bearer ", auth_token);
+                if (client.Headers["Authorization"] == null)
+                    throw new Exception("Cannot add auth header");
+                else if (string.IsNullOrEmpty(client.Headers["Authorization"]))
+                    throw new Exception("Header auth value is empty");
 
-                        client.Headers[HttpRequestHeader.ContentType] = "Content-Type: application/json";
-                        client.Headers.Add("Authorization", authHeader);
+                client.CachePolicy = new RequestCachePolicy(RequestCacheLevel.NoCacheNoStore);
 
-                        if (client.Headers["Authorization"] == null)
-                            throw new Exception("Cannot add auth header");
-                        else if (string.IsNullOrEmpty(client.Headers["Authorization"]))
-                            throw new Exception("Header auth value is empty");
+                dynamic HtmlResult = client.UploadString(clientURL, string.Empty);
 
-                        client.CachePolicy = new System.Net.Cache.RequestCachePolicy(System.Net.Cache.RequestCacheLevel.NoCacheNoStore);
-
-                        dynamic HtmlResult = client.UploadString(clientURL, string.Empty);
-
-                        //currentSong.IgnitionID = HtmlResult.data.id;
-                        //currentSong.IgnitionUpdated = HtmlResult.data.updated;
-                        //currentSong.IgnitionVersion = HtmlResult.data.version;
-                        //currentSong.IgnitionAuthor = HtmlResult.data.name;
-                    }
-                }
+                //currentSong.IgnitionID = HtmlResult.data.id;
+                //currentSong.IgnitionUpdated = HtmlResult.data.updated;
+                //currentSong.IgnitionVersion = HtmlResult.data.version;
+                //currentSong.IgnitionAuthor = HtmlResult.data.name;                    
             }
         }
 
@@ -350,45 +342,11 @@ namespace CustomsForgeSongManager.UControls
                             currentContextMenuItem.Checked = columnSetting.Visible;
                         }
                     }
-
                 }
             }
         }
 
-        private void DeleteSelection()
-        {
-            // INFORMATION - deleting data from the dgv is the same as deleting data
-            // from the SongCollection because the dgv and the SongCollection are bound
-            // similarly deleting data from the SongCollection is the same as deleting data
-            // from the dgv after it is refreshed because the two are bound to each other
-            var stopHere = Globals.SongCollection; // for debugging
-
-            var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster);
-            if (!selection.Any()) return;
-
-            var diaMsg = "You are about to delete CDLC file(s)." + Environment.NewLine +
-                         "Deletion is permenant and can not be undone." + Environment.NewLine +
-                         "Do you want to continue?";
-
-            if (DialogResult.No == BetterDialog2.ShowDialog(diaMsg, "Delete CDLC ...", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning", 0, 150))
-                return;
-
-            for (int ndx = dgvSongsMaster.Rows.Count - 1; ndx >= 0; ndx--)
-            {
-                DataGridViewRow row = dgvSongsMaster.Rows[ndx];
-
-                if (Convert.ToBoolean(row.Cells["colSelect"].Value) || row.Selected)
-                    TemporaryDisableDatabindEvent(() => dgvSongsMaster.Rows.Remove(row));
-            }
-
-            var stopHere2 = Globals.SongCollection; // for debugging
-
-            FileTools.DeleteFiles(selection);
-            Globals.RescanSongManager = false; // stops full rescan set by worker
-            UpdateToolStrip();
-        }
-
-        private void DoWork(string workDescription, dynamic workerParm1 = null, dynamic workerParm2 = null, dynamic workerParm3 = null)
+        public void DoWork(string workDescription, dynamic workerParm1 = null, dynamic workerParm2 = null, dynamic workerParm3 = null)
         {
             using (var gWorker = new GenericWorker())
             {
@@ -408,6 +366,7 @@ namespace CustomsForgeSongManager.UControls
             tsmiSkipRemastered.Checked = AppSettings.Instance.RepairOptions.SkipRemastered;
             tsmiRepairsMastery.Checked = AppSettings.Instance.RepairOptions.RepairMastery;
             tsmiRepairsPreserveStats.Checked = AppSettings.Instance.RepairOptions.PreserveStats;
+            tsmiModsPreserveStats.Checked = AppSettings.Instance.RepairOptions.PreserveStats;
             tsmiRepairsUsingOrg.Checked = AppSettings.Instance.RepairOptions.UsingOrgFiles;
             tsmiRepairsMultitone.Checked = AppSettings.Instance.RepairOptions.IgnoreMultitone;
             tsmiRepairsMaxFive.Checked = AppSettings.Instance.RepairOptions.RepairMaxFive;
@@ -418,6 +377,7 @@ namespace CustomsForgeSongManager.UControls
             tsmiRemoveMetronome.Checked = AppSettings.Instance.RepairOptions.RemoveMetronome;
             tsmiIgnoreStopLimit.Checked = AppSettings.Instance.RepairOptions.IgnoreStopLimit;
             tsmiRemoveSections.Checked = AppSettings.Instance.RepairOptions.RemoveSections;
+            tsmiFixLowBass.Checked = AppSettings.Instance.RepairOptions.FixLowBass;
             tsmiProcessDLFolder.Checked = AppSettings.Instance.RepairOptions.ProcessDLFolder;
             tsmiRepairsAddDD.Checked = AppSettings.Instance.RepairOptions.AddDD;
             tsmiOverwriteDD.Checked = AppSettings.Instance.RepairOptions.OverwriteDD;
@@ -433,6 +393,9 @@ namespace CustomsForgeSongManager.UControls
                 tsmiAddDDRampUpPath.Text = Path.GetFileName(tsmiAddDDRampUpPath.Tag.ToString());
 
             ignoreCheckStateChanged = false;
+
+            // starts/stops DL folder monitoring
+            tsmiMonitorDLFolder.Checked = AppSettings.Instance.RepairOptions.MonitorDLFolder;
         }
 
         private void InitializeRepairMenu()
@@ -459,10 +422,9 @@ namespace CustomsForgeSongManager.UControls
             dgvSongsMaster.DataSource = bs;
         }
 
-        private void LoadSongCollectionFromFile()
+        private bool LoadSongCollectionFromFile()
         {
             chkSubFolders.Checked = true;
-            masterSongCollection.Clear();
             bool correctVersion = false;
 
             try
@@ -474,31 +436,6 @@ namespace CustomsForgeSongManager.UControls
                     dom.Load(Constants.SongsInfoPath);
                     Globals.Log("Loaded File: " + Path.GetFileName(Constants.SongsInfoPath));
 
-                    // load analyzerData.xml
-                    XmlDocument arrDom = new XmlDocument();
-                    if (AppSettings.Instance.IncludeAnalyzerData && File.Exists(Constants.AnalyzerDataPath))
-                    {
-                        arrDom.Load(Constants.AnalyzerDataPath);
-                        Globals.Log("Loaded File: " + Path.GetFileName(Constants.AnalyzerDataPath));
-                    }
-                    //else // remove old anlayzer data
-                    //    GenExtensions.DeleteFile(Constants.AnalyzerDataPath);
-
-                    foreach (XmlElement songData in dom.GetElementsByTagName("ArrayOfSongData")[0].ChildNodes)
-                    {
-                        if (songData.Name == "SongDataList")
-                            continue;
-
-                        string dlcKey = songData.SelectSingleNode("DLCKey").ChildNodes[0].Value.ToString();
-                        XmlElement arrangementsNode = null;
-                        if (arrDom.HasChildNodes)
-                        {
-                            arrangementsNode = arrDom.DocumentElement.ChildNodes.OfType<XmlElement>().FirstOrDefault(n => n.Attributes["DLCKey"].Value == dlcKey);
-                            var originalArrNode = songData.SelectSingleNode("Arrangements");
-                            originalArrNode.ParentNode.ReplaceChild(dom.ImportNode(arrangementsNode, true), originalArrNode);
-                        }
-                    }
-
                     // remove version info node
                     var listNode = dom["ArrayOfSongData"];
                     if (listNode != null)
@@ -507,38 +444,41 @@ namespace CustomsForgeSongManager.UControls
                         if (versionNode != null)
                         {
                             if (versionNode.HasAttribute("version"))
-                                correctVersion = (versionNode.GetAttribute("version") == SongData.SongDataListCurrentVersion);
+                                correctVersion = (versionNode.GetAttribute("version") == SongData.SongDataListVersion);
 
                             listNode.RemoveChild(versionNode);
                         }
 
-                        masterSongCollection = SerialExtensions.XmlDeserialize<BindingList<SongData>>(listNode.OuterXml);
+                        songList = SerialExtensions.XmlDeserialize<List<SongData>>(listNode.OuterXml);
 
-                        if (masterSongCollection == null || masterSongCollection.Count == 0)
-                            throw new SongCollectionException(masterSongCollection == null ? "Master Collection = null" : "Master Collection.Count = 0");
+                        if (songList == null || songList.Count == 0)
+                            throw new SongCollectionException(songList == null ? "Master Collection = null" : "Master Collection.Count = 0");
+
+                        Globals.MasterCollection = new BindingList<SongData>(songList);
                     }
                 }
 
-                // load song collection into memory
+                // smart scan
                 if (correctVersion)
                 {
-                    Globals.SongCollection = masterSongCollection;
-                    Rescan(false); // smart scan
+                    Globals.Log("Performing quick rescan of song collection ...");
+                    Rescan(false);
                 }
                 else
                 {
+                    var hdrMsg = "CFSM First Run ...";
                     if (File.Exists(Constants.SongsInfoPath))
+                    {
+                        hdrMsg = "CFSM New SongData Version ...";
                         Globals.Log("<WARNING> Incorrect song collection version found ...");
-
-                    Globals.Log("Performing full scan of song collection ...");
+                    }
 
                     try
                     {
                         // DO NOT use the bulldozer here
                         // 'My Documents/CFSM' may contain some original files
-                        GenExtensions.DeleteFile(Constants.LogFilePath);
+                        ZipUtilities.RemoveReadOnlyAttribute(Constants.WorkFolder);
                         GenExtensions.DeleteFile(Constants.SongsInfoPath);
-                        GenExtensions.DeleteFile(Constants.AnalyzerDataPath);
                         GenExtensions.DeleteFile(Constants.AppSettingsPath);
                         GenExtensions.DeleteDirectory(Constants.GridSettingsFolder);
                     }
@@ -547,13 +487,27 @@ namespace CustomsForgeSongManager.UControls
                         Globals.Log("<ERROR> Cleaning " + Path.GetFileName(Constants.WorkFolder) + " : " + ex.Message);
                     }
 
-                    // full scan
-                    Rescan(true);
+                    // switch to Setting tab so user can customize first run settings
+                    var diaMsg = Environment.NewLine +
+                        "CFSM will now switch to the Settings menu." + Environment.NewLine +
+                        "Please customize the CFSM Settings options" + Environment.NewLine +
+                        "before returning to the Song Manager tab.";
+
+                    BetterDialog2.ShowDialog(diaMsg, hdrMsg, null, null, "Ok", Bitmap.FromHicon(SystemIcons.Information.Handle), "", 0, 150);
+                    Globals.DgvCurrent = dgvSongsMaster;
+                    Globals.RescanSongManager = true;
+                    Globals.MainForm.tcMain.SelectedIndex = 6;
+                    Globals.Log("Customize the CFSM Settings options ...");
+
+                    // halt loading SongManger
+                    return false;
                 }
 
+                // Rescan calls BackgroundScan/ParseSongs and loads Globals.MasterCollection
+                // and local songCollection is loaded with Globals.MasterCollection
                 PopulateDataGridView();
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
                 // failsafe ... delete My Documents/CFSM folder and files with option not to delete
                 var diaMsg = "A fatal CFSM application error has occured." + Environment.NewLine +
@@ -568,12 +522,12 @@ namespace CustomsForgeSongManager.UControls
                     Environment.Exit(0);
                 }
 
-                string err = e.Message;
-                if (e.InnerException != null)
-                    err += ", Inner: " + e.InnerException.Message;
+                string err = ex.Message;
+                if (ex.InnerException != null)
+                    err += ", Inner: " + ex.InnerException.Message;
 
-                Globals.Log("<Error>: " + e.Message);
-                // log needs to written before it is deleted ... Bazinga
+                // log message needs to written before it is deleted ... Bazinga
+                Globals.Log("<Error>: " + ex.Message);
                 Globals.Log("Deleted CFSM folder and subfolders from My Documents ...");
 
                 // use the bulldozer
@@ -585,49 +539,45 @@ namespace CustomsForgeSongManager.UControls
                 Environment.Exit(0);
             }
 
-            // var debugMe = masterSongCollection;
+            return true;
         }
 
-        private void PopulateDataGridView() // binding data to grid
+        private void PopulateDataGridView()
         {
             // respect processing order
             DgvExtensions.DoubleBuffered(dgvSongsMaster);
-            LoadFilteredBindingList(masterSongCollection);
+            LoadFilteredBindingList(songList);
             CFSMTheme.InitializeDgvAppearance(dgvSongsMaster);
             // reload column order, width, visibility
-            Globals.Settings.LoadSettingsFromFile(dgvSongsMaster);
+            Globals.Settings.LoadSettingsFromFile(dgvSongsMaster, true);
+
             if (RAExtensions.ManagerGridSettings != null)
                 dgvSongsMaster.ReLoadColumnOrder(RAExtensions.ManagerGridSettings.ColumnOrder);
+            else
+                Globals.Settings.SaveSettingsToFile(dgvSongsMaster);
 
             // lock OfficialDLC from being selected
             foreach (DataGridViewRow row in dgvSongsMaster.Rows)
             {
-                var sng = DgvExtensions.GetObjectFromRow<SongData>(row);
-                if (sng.OfficialDLC)
+                var sd = DgvExtensions.GetObjectFromRow<SongData>(row);
+                if (sd.IsOfficialDLC)
                 {
                     row.Cells["colSelect"].Value = false;
-                    row.Cells["colSelect"].ReadOnly = sng.OfficialDLC;
-                    sng.Selected = false;
+                    row.Cells["colSelect"].ReadOnly = sd.IsOfficialDLC;
+                    sd.Selected = false;
                 }
             }
         }
 
         private void PopulateMenuWithColumnHeaders(ContextMenuStrip contextMenuStrip)
         {
-            // fixes contextual menu bug 'Object reference not set to an instance of an object.' 
+            // fix for contextual menu bug 'Object reference not set to an instance of an object.' 
             // that occur on startup when dgv settings have not yet been saved       
             if (RAExtensions.ManagerGridSettings == null)
             {
-                if (Globals.DgvCurrent == null)
-                    Globals.DgvCurrent = dgvSongsMaster;
-
                 Globals.Settings.SaveSettingsToFile(dgvSongsMaster);
                 Globals.Settings.LoadSettingsFromFile(dgvSongsMaster);
-
-                if (RAExtensions.ManagerGridSettings != null)
-                    dgvSongsMaster.ReLoadColumnOrder(RAExtensions.ManagerGridSettings.ColumnOrder);
-                else
-                    return;
+                dgvSongsMaster.ReLoadColumnOrder(RAExtensions.ManagerGridSettings.ColumnOrder);
             }
 
             contextMenuStrip.Items.Clear();
@@ -636,6 +586,7 @@ namespace CustomsForgeSongManager.UControls
                 var cn = dgvSongsMaster.Columns[columnOrderItem.ColumnIndex].Name;
                 if (cn.ToLower().StartsWith("col"))
                     cn = cn.Remove(0, 3);
+
                 ToolStripMenuItem columnsMenuItem = new ToolStripMenuItem(cn, null, ColumnMenuItemClick) { Checked = dgvSongsMaster.Columns[columnOrderItem.ColumnIndex].Visible, Tag = dgvSongsMaster.Columns[columnOrderItem.ColumnIndex].Name };
                 contextMenuStrip.Items.Add(columnsMenuItem);
             }
@@ -693,42 +644,31 @@ namespace CustomsForgeSongManager.UControls
             }
         }
 
-        private void RefreshDgv(bool fullRescan, bool parseExtraData = false)
+        private void RefreshDgv(bool fullRescan)
         {
             bindingCompleted = false;
             dgvPainted = false;
-            Rescan(fullRescan, parseExtraData);
+            Rescan(fullRescan);
             PopulateDataGridView();
             UpdateToolStrip();
-            Globals.ReloadDuplicates = true;
-            Globals.ReloadSetlistManager = true;
-            Globals.ReloadRenamer = true;
         }
 
         private void RemoveFilter()
         {
-            Globals.Settings.SaveSettingsToFile(dgvSongsMaster);
-            tsmiModsMyCDLC.Checked = false;
+            // save current sorting before removing filter
+            DgvExtensions.SaveSorting(dgvSongsMaster);
+
+            // remove the filter
             DataGridViewAutoFilterTextBoxColumn.RemoveFilter(dgvSongsMaster);
             ResetDetail();
-
-            if (!chkSubFolders.Checked)
-            {
-                var results = masterSongCollection.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList();
-                LoadFilteredBindingList(results);
-            }
-            else
-                LoadFilteredBindingList(masterSongCollection);
-
-            // reset alternating row color
-            foreach (DataGridViewRow row in dgvSongsMaster.Rows)
-                row.DefaultCellStyle.BackColor = Color.Empty;
-
-            dgvSongsMaster.AlternatingRowsDefaultCellStyle = new DataGridViewCellStyle() { BackColor = Color.LightSteelBlue };
             UpdateToolStrip();
+
+            // reapply sort direction to reselect the filtered song
+            DgvExtensions.RestoreSorting(dgvSongsMaster);
+            this.Refresh();
         }
 
-        private void Rescan(bool fullRescan, bool parseExtraData = false)
+        private void Rescan(bool fullRescan)
         {
             dgvSongsMaster.DataSource = null;
             dgvSongsDetail.Visible = false;
@@ -736,7 +676,7 @@ namespace CustomsForgeSongManager.UControls
             // this should never happen
             if (String.IsNullOrEmpty(AppSettings.Instance.RSInstalledDir))
             {
-                MessageBox.Show("<Error>: Rocksmith 2014 Installation Directory setting is null or empty.", Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("<ERROR> Rocksmith 2014 Installation Directory setting is null or empty ...", Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -763,53 +703,37 @@ namespace CustomsForgeSongManager.UControls
             }
 
             ToggleUIControls(false);
-            if (dgvSongsMaster.DataSource != null)
-                Globals.Settings.SaveSettingsToFile(dgvSongsMaster);
 
             if (fullRescan)
-                Globals.SongCollection.Clear();
-
-            var sw = new Stopwatch();
-            sw.Restart();
+            {
+                // force full rescan by clearing MasterCollection before calling BackgroundScan
+                Globals.MasterCollection.Clear();
+                // force reload
+                Globals.ReloadSetlistManager = true;
+                Globals.ReloadDuplicates = true;
+                Globals.ReloadRenamer = true;
+                Globals.ReloadArrangements = true;
+            }
 
             // run new worker
             using (Worker worker = new Worker())
             {
-                if (parseExtraData || (AppSettings.Instance.IncludeAnalyzerData))
-                {
-                    string oldName = dgvSongsMaster.Name; //TODO: replace this with a more suitable/less hacky way to the bigger rescan
-                    dgvSongsMaster.Name = "Analyzer";
-                    worker.BackgroundScan(dgvSongsMaster, bWorker);
-                    dgvSongsMaster.Name = oldName;
-                }
-                else
-                    worker.BackgroundScan(dgvSongsMaster, bWorker);
+                worker.BackgroundScan(this, bWorker);
 
                 while (Globals.WorkerFinished == Globals.Tristate.False)
-                {
                     Application.DoEvents();
-                }
             }
 
             ToggleUIControls(true);
 
             if (Globals.WorkerFinished == Globals.Tristate.Cancelled)
+            {
+                Globals.Log(Resources.UserCancelledProcess);
                 return;
-            // throw new Exception("User canceled scanning");
+            }
 
-            // background worker populated the Globals.SongCollection
-            masterSongCollection = Globals.SongCollection;
-            // -- CRITCAL -- this populates Arrangment DLCKey info in Arrangements2D
-            masterSongCollection.ToList().ForEach(a => a.Arrangements2D.ToList().ForEach(arr => arr.Parent = a));
-
-            sw.Stop();
-            Globals.Log(String.Format("Parsing archives from {0} took: {1} (msec)", Constants.Rs2DlcFolder, sw.ElapsedMilliseconds));
-            Globals.RescanSetlistManager = false;
-            Globals.RescanDuplicates = false;
-            Globals.RescanSongManager = false;
-            Globals.RescanRenamer = false;
-            Globals.ReloadSongManager = false;
-
+            // BackgroundScan populates Globals.MasterCollection
+            songList = Globals.MasterCollection.ToList();
             SaveSongCollectionToFile();
         }
 
@@ -829,7 +753,19 @@ namespace CustomsForgeSongManager.UControls
         private void SearchCDLC(string criteria)
         {
             var lowerCriteria = criteria.ToLower();
-            var results = masterSongCollection.Where(x => x.ArtistTitleAlbum.ToLower().Contains(lowerCriteria) || x.Tuning.ToLower().Contains(lowerCriteria) || x.Arrangements.ToLower().Contains(lowerCriteria) || x.CharterName.ToLower().Contains(lowerCriteria) || (x.IgnitionAuthor != null && x.IgnitionAuthor.ToLower().Contains(lowerCriteria) || (x.IgnitionID != null && x.IgnitionID.ToLower().Contains(lowerCriteria)) || x.SongYear.ToString().Contains(criteria) || x.FilePath.ToLower().Contains(lowerCriteria))).ToList();
+            AppSettings.Instance.SearchString = lowerCriteria;
+
+            var results = songList
+                .Where(x => x.ArtistTitleAlbum.ToLower().Contains(lowerCriteria) ||
+                    x.Tunings1D.ToLower().Contains(lowerCriteria) ||
+                    x.Arrangements1D.ToLower().Contains(lowerCriteria) ||
+                    x.PackageAuthor.ToLower().Contains(lowerCriteria) ||
+                    (x.IgnitionAuthor != null &&
+                    x.IgnitionAuthor.ToLower().Contains(lowerCriteria) ||
+                    (x.IgnitionID != null &&
+                    x.IgnitionID.ToLower().Contains(lowerCriteria)) ||
+                    x.SongYear.ToString().Contains(criteria) ||
+                    x.FilePath.ToLower().Contains(lowerCriteria))).ToList();
 
             if (!chkSubFolders.Checked)
                 results = results.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList();
@@ -847,6 +783,86 @@ namespace CustomsForgeSongManager.UControls
 
             allSelected = !allSelected;
             dgvSongsMaster.Refresh();
+        }
+
+        private void SelectionDeleteBackup(DataGridView dgvCurrent, bool modeDelete = false)
+        {
+            // user must check Select to Delete/Move
+            var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvCurrent);
+            if (!selection.Any()) return;
+
+            if (modeDelete)
+            {
+                var diaMsg = "You are about to delete CDLC file(s)." + Environment.NewLine + "Deletion is permenant and can not be undone." + Environment.NewLine + "Do you want to continue?";
+                if (DialogResult.No == BetterDialog2.ShowDialog(diaMsg, "Delete CDLC ...", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning", 0, 150))
+                    return;
+            }
+
+            if (!modeDelete)
+                FileTools.CreateBackupOfType(selection, Constants.BackupsFolder, "");
+            else
+            {
+                for (int ndx = dgvCurrent.Rows.Count - 1; ndx >= 0; ndx--)
+                {
+                    DataGridViewRow row = dgvCurrent.Rows[ndx];
+                    if (Convert.ToBoolean(row.Cells["colSelect"].Value))
+                        dgvCurrent.Rows.Remove(row);
+                }
+
+                FileTools.DeleteFiles(selection);
+            }
+
+            // force reload/rescan
+            Globals.RescanDuplicates = true;
+            Globals.ReloadSongManager = true;
+            Globals.ReloadRenamer = true;
+            Globals.ReloadSetlistManager = true;
+            UpdateToolStrip();
+        }
+
+        private void SelectionEnableDisable(DataGridView dgvCurrent)
+        {
+            // user must check Select to Enable/Disable
+            var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvCurrent);
+            if (!selection.Any()) return;
+
+            for (int ndx = dgvCurrent.Rows.Count - 1; ndx >= 0; ndx--)
+            {
+                var sd = DgvExtensions.GetObjectFromRow<SongData>(dgvCurrent, ndx);
+                var originalPath = sd.FilePath;
+                if (!originalPath.ToLower().Contains(Constants.RS1COMP))
+                {
+                    DataGridViewRow row = dgvCurrent.Rows[ndx];
+                    if (Convert.ToBoolean(row.Cells["colSelect"].Value))
+                    {
+                        try
+                        {
+                            if (sd.Enabled == "Yes")
+                            {
+                                var disabledPath = originalPath.Replace(Constants.PsarcExtension, Constants.DisabledPsarcExtension);
+                                File.Move(originalPath, disabledPath);
+                                sd.FilePath = disabledPath;
+                                sd.Enabled = "No";
+                            }
+                            else
+                            {
+                                var enabledPath = originalPath.Replace(Constants.DisabledPsarcExtension, Constants.PsarcExtension);
+                                File.Move(originalPath, enabledPath);
+                                sd.FilePath = enabledPath;
+                                sd.Enabled = "Yes";
+                            }
+                        }
+                        catch (IOException ex)
+                        {
+                            MessageBox.Show(string.Format(Properties.Resources.UnableToEnableDisableSongX0InDlcFolderX1Er, Path.GetFileName(originalPath), Environment.NewLine, ex.Message));
+                        }
+                    }
+                }
+                else
+                    Globals.Log(String.Format(Properties.Resources.ThisIsARocksmith1CompatiblitySongX0RS1Comp, Environment.NewLine));
+            }
+
+            dgvCurrent.Refresh();
         }
 
         private void ShowSongInfo()
@@ -927,11 +943,11 @@ namespace CustomsForgeSongManager.UControls
         {
             try
             {
-                var currentSong = DgvExtensions.GetObjectFromRow<SongData>(selectedRow);
-                if (currentSong != null)
+                var sd = DgvExtensions.GetObjectFromRow<SongData>(selectedRow);
+                if (sd != null)
                 {
-                    currentSong.IgnitionAuthor = Ignition.GetDLCInfoFromURL(currentSong.GetInfoURL(), "name");
-                    selectedRow.Cells["IgnitionAuthor"].Value = currentSong.IgnitionAuthor;
+                    sd.IgnitionAuthor = Ignition.GetSongInfoFromURL(sd.GetInfoURL(), "name");
+                    selectedRow.Cells["IgnitionAuthor"].Value = sd.IgnitionAuthor;
                 }
             }
             catch (Exception)
@@ -966,7 +982,7 @@ namespace CustomsForgeSongManager.UControls
             if (!String.IsNullOrEmpty(charterName))
             {
                 if (tsmiModsMyCDLC.Checked)
-                    LoadFilteredBindingList(masterSongCollection.Where(x => x.CharterName == charterName).ToList());
+                    LoadFilteredBindingList(songList.Where(x => x.PackageAuthor == charterName).ToList());
                 else
                     PopulateDataGridView();
             }
@@ -975,6 +991,15 @@ namespace CustomsForgeSongManager.UControls
                 Globals.Log("To use this feature, go to 'Settings' menu and enter a charter name ...");
                 tsmiModsMyCDLC.Checked = false;
             }
+        }
+
+        private void ModsPitchShift_CheckStateChanged(object sender, EventArgs e)
+        {
+            if (ignoreCheckStateChanged)
+                return;
+
+            tsmiMods.ShowDropDown();
+            menuStrip.Focus();
         }
 
         private void RepairsAddDDSettings_Click(object sender, EventArgs e)
@@ -1011,6 +1036,35 @@ namespace CustomsForgeSongManager.UControls
             menuStrip.Focus();
         }
 
+        private void SongManager_Resize(object sender, EventArgs e)
+        {
+            if (dgvSongsMaster.DataSource == null || dgvSongsMaster.RowCount == 0)
+                return;
+
+            ResetDetail();
+
+            // alternate method: maintains SongsDetail visiblity while resizing
+            //if (dgvSongsDetail.Visible)
+            //{
+            //    var vertScrollWidth = 0;
+            //    if (dgvSongsMaster.Controls.OfType<VScrollBar>().First().Visible)
+            //        vertScrollWidth = SystemInformation.VerticalScrollBarWidth;
+
+            //    dgvSongsDetail.Width = dgvSongsMaster.Width - vertScrollWidth - dgvSongsDetail.Location.X + 5; // tweak
+
+            //    var indexAfter = dgvSongsMaster.FirstDisplayedCell.RowIndex;
+            //    var indexOffset = firstIndex - indexAfter;
+            //    var rowHeight = dgvSongsMaster.Rows[dgvSongsMaster.FirstDisplayedCell.RowIndex].Height;
+            //    var vertOffset = rowHeight * indexOffset;
+            //    var vertLocation = dgvSongsDetail.Location.Y;
+            //    var horizLocation = dgvSongsDetail.Location.X;
+            //    dgvSongsDetail.Location = new Point(horizLocation, vertLocation + vertOffset);
+            //    dgvSongsDetail.Invalidate();
+            //}
+
+            firstIndex = dgvSongsMaster.FirstDisplayedCell.RowIndex;
+        }
+
         private void TagStyle_Click(object sender, EventArgs e)
         {
             var clickedItem = (ToolStripEnhancedMenuItem)sender;
@@ -1035,7 +1089,7 @@ namespace CustomsForgeSongManager.UControls
             Application.DoEvents();
         }
 
-        private void checkAllForUpdates(object sender, DoWorkEventArgs e)
+        private void CheckAllForUpdates(object sender, DoWorkEventArgs e)
         {
             if (Globals.TsLabel_Cancel.Visible)
             {
@@ -1053,22 +1107,18 @@ namespace CustomsForgeSongManager.UControls
 
             GenExtensions.InvokeIfRequired(dgvSongsMaster, delegate
                 {
-                    if (!bWorker.CancellationPending)
+                    foreach (DataGridViewRow row in dgvSongsMaster.Rows)
                     {
-                        foreach (DataGridViewRow row in dgvSongsMaster.Rows)
+                        if (bWorker.CancellationPending)
                         {
-                            //string songname = row.Cells[3].Value.ToString();
-                            if (!bWorker.CancellationPending)
-                            {
-                                DataGridViewRow currentRow = (DataGridViewRow)row;
-                                if (!currentRow.Cells["FileName"].Value.ToString().Contains("rs1comp"))
-                                    CheckRowForUpdate(currentRow);
-                            }
-                            else
-                                bWorker.Abort();
+                            bWorker.Abort();
+                            Globals.Log("<WARNING> User aborted checking for updates on CF ...");
+                            break;
                         }
+
+                        DataGridViewRow currentRow = (DataGridViewRow)row;
+                        CheckRowForUpdate(currentRow);
                     }
-                    SaveSongCollectionToFile();
                 });
 
             counterStopwatch.Stop();
@@ -1077,83 +1127,48 @@ namespace CustomsForgeSongManager.UControls
         private void chkSubFolders_MouseUp(object sender, MouseEventArgs e)
         {
             cueSearch.Text = String.Empty;
+            songList = Globals.MasterCollection.ToList();
 
             if (!chkSubFolders.Checked)
             {
-                var results = masterSongCollection.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList();
+                var results = songList.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList();
                 LoadFilteredBindingList(results);
             }
             else
-                RemoveFilter();
+                LoadFilteredBindingList(songList);
         }
 
-        private void cmsBackupSelection_Click(object sender, EventArgs e)
+        private void cmsBackup_Click(object sender, EventArgs e)
         {
-            var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster);
-            if (!selection.Any()) return;
-
-            FileTools.CreateBackupOfType(selection, Constants.BackupsFolder, "");
+            SelectionDeleteBackup(dgvSongsMaster, false);
         }
 
         private void cmsCheckForUpdate_Click(object sender, EventArgs e)
         {
-            //bWorker = new AbortableBackgroundWorker();
-            //bWorker.SetDefaults();
-            //bWorker.DoWork += CheckForUpdatesEvent;
-            //// don't run bWorker more than once
-            //if (!bWorker.IsBusy)
-            //    bWorker.RunWorkerAsync();
+            // TODO: need to remove RS1 Compatiblity DLCs from this check
+            GenExtensions.InvokeIfRequired(this, delegate { Globals.TsLabel_Cancel.Enabled = true; });
+            bWorker = new AbortableBackgroundWorker();
+            bWorker.SetDefaults();
+            bWorker.DoWork += CheckAllForUpdates; // check all rows
+            // bWorker.DoWork += CheckForUpdateEvent; // check single row
+
+            if (!bWorker.IsBusy)
+                bWorker.RunWorkerAsync();
+
+            GenExtensions.InvokeIfRequired(this, delegate { Globals.TsLabel_Cancel.Visible = false; });
         }
 
-        private void cmsDeleteSong_Click(object sender, EventArgs e)
+        private void cmsDelete_Click(object sender, EventArgs e)
         {
-            DeleteSelection();
+            SelectionDeleteBackup(dgvSongsMaster, true);
         }
 
-        private void cmsDisableEnableToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var selection = DgvExtensions.GetObjectFromRow<SongData>(dgvSongsMaster.SelectedRows[0]);
-            var originalPath = selection.FilePath;
-            var originalFile = selection.FileName;
-
-            if (!originalPath.ToLower().Contains(Constants.RS1COMP))
-            {
-                try
-                {
-                    if (selection.Enabled == "Yes")
-                    {
-                        var disabledPath = originalPath.Replace(Constants.PsarcExtension, Constants.DisabledPsarcExtension);
-                        File.Move(originalPath, disabledPath);
-                        dgvSongsMaster.SelectedRows[0].Cells["colFilePath"].Value = disabledPath;
-                        dgvSongsMaster.SelectedRows[0].Cells["colFileName"].Value = originalFile.Replace(Constants.PsarcExtension, Constants.DisabledPsarcExtension);
-                        dgvSongsMaster.SelectedRows[0].Cells["colEnabled"].Value = "No";
-                    }
-                    else
-                    {
-                        var enabledPath = originalPath.Replace(Constants.DisabledPsarcExtension, Constants.PsarcExtension);
-                        File.Move(originalPath, enabledPath);
-                        dgvSongsMaster.SelectedRows[0].Cells["colFilePath"].Value = enabledPath;
-                        dgvSongsMaster.SelectedRows[0].Cells["colFileName"].Value = originalFile.Replace(Constants.DisabledPsarcExtension, Constants.PsarcExtension);
-                        dgvSongsMaster.SelectedRows[0].Cells["colEnabled"].Value = "Yes";
-                    }
-
-                    UpdateToolStrip();
-                }
-                catch (IOException ex)
-                {
-                    MessageBox.Show(string.Format(Properties.Resources.UnableToEnableDisableSongX0InDlcFolderX1Er, Path.GetFileName(originalPath), Environment.NewLine, ex.Message));
-                }
-            }
-            else
-                Globals.Log(String.Format(Properties.Resources.ThisIsARocksmith1CompatiblitySongX0RS1Comp, Environment.NewLine));
-        }
-
-        private void cmsEditSong_Click(object sender, EventArgs e)
+        private void cmsEdit_Click(object sender, EventArgs e)
         {
             DgvExtensions.SaveSorting(dgvSongsMaster);
-            var selection = DgvExtensions.GetObjectFromRow<SongData>(dgvSongsMaster.SelectedRows[0]);
-            var filePath = selection.FilePath;
-            var enabled = selection.Enabled == "Yes";
+            var sd = DgvExtensions.GetObjectFromRow<SongData>(dgvSongsMaster.SelectedRows[0]);
+            var filePath = sd.FilePath;
+            var enabled = sd.Enabled == "Yes";
 
             // DO NOT edit/modify/repair disabled CDLC
             if (!enabled)
@@ -1175,6 +1190,11 @@ namespace CustomsForgeSongManager.UControls
             DgvExtensions.RestoreSorting(dgvSongsMaster);
         }
 
+        private void cmsEnableDisable_Click(object sender, EventArgs e)
+        {
+            SelectionEnableDisable(dgvSongsMaster);
+        }
+
         private void cmsGetCharterName_Click(object sender, EventArgs e)
         {
             // TODO: add image for GetCharterName to Context Menu Strip item
@@ -1193,25 +1213,25 @@ namespace CustomsForgeSongManager.UControls
                 Process.Start("explorer.exe", string.Format("/select,\"{0}\"", directory.FullName));
         }
 
-        private void cmsOpenDLCPage_Click(object sender, EventArgs e)
+        private void cmsOpenSongPage_Click(object sender, EventArgs e)
         {
             if (dgvSongsMaster.SelectedRows.Count == 1)
             {
-                var song = DgvExtensions.GetObjectFromRow<SongData>(dgvSongsMaster.SelectedRows[0]);
-                if (song != null)
+                var sd = DgvExtensions.GetObjectFromRow<SongData>(dgvSongsMaster.SelectedRows[0]);
+                if (sd != null)
                 {
-                    if (song.IgnitionID == null || song.IgnitionID == "No Results")
-                        song.IgnitionID = Ignition.GetDLCInfoFromURL(song.GetInfoURL(), "id");
+                    if (sd.IgnitionID == null || sd.IgnitionID == "No Results")
+                        sd.IgnitionID = Ignition.GetSongInfoFromURL(sd.GetInfoURL(), "id");
 
-                    if (song.IgnitionID == null || song.IgnitionID == "No Results")
-                        Globals.Log("<ERROR>: Song doesn't exist in Ignition anymore.");
+                    if (sd.IgnitionID == null || sd.IgnitionID == "No Results")
+                        Globals.Log("<ERROR> Song doesn't exist in Ignition anymore ...");
                     else
-                        Process.Start(string.Format("{0}/{1}", Constants.DefaultDetailsURL, song.IgnitionID));
+                        Process.Start(string.Format("{0}/{1}", Constants.DefaultDetailsURL, sd.IgnitionID));
                 }
             }
         }
 
-        private void cmsPlaySelectedSongToolStripMenuItem_Click(object sender, EventArgs e)
+        private void cmsPlaySelected_Click(object sender, EventArgs e)
         {
             if (lastSelectedSongPath != string.Empty && lastSelectedSongPath != dgvSongsMaster.SelectedRows[0].Cells["colFilePath"].Value.ToString())
                 Globals.AudioEngine.Stop();
@@ -1219,19 +1239,43 @@ namespace CustomsForgeSongManager.UControls
             PlaySongFunction.DynamicInvoke();
         }
 
-        private void cmsShowDLCInfo_Click(object sender, EventArgs e)
+        private void cmsShowSongInfo_Click(object sender, EventArgs e)
         {
             ShowSongInfo();
         }
 
+        private void cmsSongManager_Closing(object sender, ToolStripDropDownClosingEventArgs e)
+        {
+            if (keepOpen && e.CloseReason == ToolStripDropDownCloseReason.ItemClicked)
+                e.Cancel = true;
+
+        }
+
+        private void cmsSongManager_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+            // keeps cms open if Actions clicked
+            if (e.ClickedItem == cmsSongManager.Items["cmsActions"])
+                keepOpen = true;
+            else
+                keepOpen = false;
+        }
+
         private void cueSearch_KeyUp(object sender, KeyEventArgs e)
         {
+            // debounce KeyUp to eliminate intermittent NullReferenceException
+            Thread.Sleep(50);
+
+            // save current sort
+            DgvExtensions.SaveSorting(dgvSongsMaster);
             ResetDetail();
 
             if (cueSearch.Text.Length > 0) // && e.KeyCode == Keys.Enter)
                 SearchCDLC(cueSearch.Text);
             else
-                LoadFilteredBindingList(masterSongCollection);
+                LoadFilteredBindingList(songList);
+
+            // restore current sort
+            DgvExtensions.RestoreSorting(dgvSongsMaster);
         }
 
         private void dgvSongsMaster_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -1260,7 +1304,7 @@ namespace CustomsForgeSongManager.UControls
 
                 if (String.IsNullOrEmpty(dgvSongsMaster.Rows[e.RowIndex].Cells["colShowDetail"].Tag as String))
                 {
-                    var songDetails = masterSongCollection.Where(master => (master.DLCKey == songKey)).ToList();
+                    var songDetails = songList.Where(master => (master.DLCKey == songKey)).ToList();
                     if (!songDetails.Any())
                         MessageBox.Show("No Song Details Found");
                     else
@@ -1271,6 +1315,8 @@ namespace CustomsForgeSongManager.UControls
                         // CRITICAL EXECUTION ORDER - Workaround for intermitent bug not displaying horizscrollbar when last row is selected
                         dgvSongsDetail.Visible = true;
                         dgvSongsDetail.ScrollBars = ScrollBars.Horizontal;
+                        // keep column headers on single line
+                        dgvSongsDetail.ColumnHeadersDefaultCellStyle.WrapMode = DataGridViewTriState.False;
 
                         // CRITICAL CODE AREA - CAREFUL - No Filtering KISS
                         dgvSongsDetail.AutoGenerateColumns = false;
@@ -1279,7 +1325,6 @@ namespace CustomsForgeSongManager.UControls
 
                         // apply some fixed formatting
                         // any column/row sizing triggers SubclassedDataGridView
-                        dgvSongsDetail.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
                         dgvSongsDetail.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
 
                         foreach (DataGridViewColumn col in dgvSongsDetail.Columns)
@@ -1293,8 +1338,12 @@ namespace CustomsForgeSongManager.UControls
                         dgvSongsDetail.Columns["colDetailKey"].Width = dgvSongsMaster.Columns["colKey"].Width - 1;
                         dgvSongsDetail.Columns["colDetailPID"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
                         dgvSongsDetail.Columns["colDetailPID"].Width = 220;
-                        dgvSongsDetail.Columns["colDetailChords"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
-                        dgvSongsDetail.Columns["colDetailChords"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells; // work around forces horiz scroll to display
+
+                        // allow user to resize the column after it has been autosized
+                        var width = dgvSongsDetail.Columns["colDetailArrangement"].Width;
+                        dgvSongsDetail.Columns["colDetailArrangement"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None; // work around forces horiz scroll to display
+                        dgvSongsDetail.Columns["colDetailArrangement"].Width = width;
+                        dgvSongsDetail.Columns["colDetailArrangement"].Resizable = DataGridViewTriState.True;
 
                         // calculate the height and width of dgvSongsDetail
                         var colHeaderHeight = dgvSongsMaster.Columns[e.ColumnIndex].HeaderCell.Size.Height;
@@ -1307,18 +1356,19 @@ namespace CustomsForgeSongManager.UControls
                             vertScrollWidth = SystemInformation.VerticalScrollBarWidth;
 
                         dgvSongsDetail.Width = dgvSongsMaster.Width - vertScrollWidth - dgvSongsDetail.Location.X + 5; // tweak
-                        dgvSongsDetail.Height = dgvSongsDetail.Rows.Cast<DataGridViewRow>().Sum(row => row.Height + 1) + colHeaderHeight + horizScrollHeight;
+                        dgvSongsDetail.Height = dgvSongsDetail.Rows.Cast<DataGridViewRow>().Sum(row => row.Height + 1) + horizScrollHeight + colHeaderHeight + 2;
 
                         // height tweak
                         if (dgvSongsDetail.RowCount < 3)
-                            dgvSongsDetail.Height = dgvSongsDetail.Height + 4;
+                            dgvSongsDetail.Height = dgvSongsDetail.Height + 3;
 
                         // given current formatting what is the real width
                         //var rowsWidth = dgvSongsDetail.Rows.Cast<DataGridViewRow>().Sum(row => row.Height);
                         var colsWidth = dgvSongsDetail.Columns.Cast<DataGridViewColumn>().Sum(col => col.Width);
                         if (colsWidth < dgvSongsDetail.Width)
                         {
-                            dgvSongsDetail.Columns["colDetailChords"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                            Debug.WriteLine("Resize colDetailDDMax");
+                            dgvSongsDetail.Columns["colDetailDDMax"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                         }
 
                         firstIndex = dgvSongsMaster.FirstDisplayedCell.RowIndex;
@@ -1333,7 +1383,7 @@ namespace CustomsForgeSongManager.UControls
                         else // display SongsDetail above selected row
                             dgvSongsDetail.Location = new Point(colWidth + 7, cellRectangle.Bottom - dgvSongsDetail.Height - 4); // tweaked
 
-                        // required here to refresh the scrollbar                       
+                        // required here to refresh the scrollbar   
                         dgvSongsDetail.Invalidate();
                     }
                 }
@@ -1370,7 +1420,7 @@ namespace CustomsForgeSongManager.UControls
 
             if (song != null)
             {
-                if (song.OfficialDLC)
+                if (song.IsOfficialDLC)
                 {
                     e.CellStyle.Font = Constants.OfficialDLCFont;
                     // prevent checking (selecting) ODCL all together ... evil genious code
@@ -1384,7 +1434,7 @@ namespace CustomsForgeSongManager.UControls
 
                 if (e.ColumnIndex == colBass.Index || e.ColumnIndex == colVocals.Index || e.ColumnIndex == colLead.Index || e.ColumnIndex == colRhythm.Index)
                 {
-                    string arrInit = song.Arrangements.ToUpper();
+                    string arrInit = song.Arrangements1D.ToUpper();
 
                     if (e.ColumnIndex == colBass.Index)
                         e.CellStyle.BackColor = arrInit.Contains("BASS") ? _Enabled : _Disabled;
@@ -1419,8 +1469,8 @@ namespace CustomsForgeSongManager.UControls
                 // select a single row by Ctrl-Click
                 if (ModifierKeys == Keys.Control)
                 {
-                    var s = DgvExtensions.GetObjectFromRow<SongData>(dgvSongsMaster, e.RowIndex);
-                    s.Selected = !s.Selected;
+                    var sd = DgvExtensions.GetObjectFromRow<SongData>(dgvSongsMaster, e.RowIndex);
+                    sd.Selected = !sd.Selected;
                 }
                 // select multiple rows by Shift-Click two outer rows
                 else if (ModifierKeys == Keys.Shift)
@@ -1463,10 +1513,10 @@ namespace CustomsForgeSongManager.UControls
                 if (rowIndex != -1)
                 {
                     grid.Rows[e.RowIndex].Selected = true;
-                    var sng = DgvExtensions.GetObjectFromRow<SongData>(dgvSongsMaster, e.RowIndex);
-                    cmsEditSong.Enabled = !sng.OfficialDLC;
-                    cmsDeleteSong.Enabled = !sng.OfficialDLC;
-                    cmsTaggerPreview.Enabled = !sng.OfficialDLC;
+                    var sd = DgvExtensions.GetObjectFromRow<SongData>(dgvSongsMaster, e.RowIndex);
+                    cmsEdit.Enabled = !sd.IsOfficialDLC;
+                    cmsDelete.Enabled = !sd.IsOfficialDLC;
+                    cmsTaggerPreview.Enabled = !sd.IsOfficialDLC;
                     cmsSongManager.Show(Cursor.Position);
                 }
                 else
@@ -1485,7 +1535,7 @@ namespace CustomsForgeSongManager.UControls
             // programmatic left clicking on colSelect
             if (e.Button == MouseButtons.Left && e.RowIndex != -1 && e.ColumnIndex == colSelect.Index)
             {
-                // beyound current scope of CFM
+                // beyound current scope of CFSM
                 if (grid.Rows[e.RowIndex].Cells["colSelect"].Value.ToString().ToLower().Contains(Constants.RS1COMP))
                     Globals.Log(Properties.Resources.CanNotSelectIndividualRS1CompatiblityDLC);
                 else // required to force selected row change
@@ -1517,9 +1567,12 @@ namespace CustomsForgeSongManager.UControls
                 bindingCompleted = true;
             }
 
+            if (!dgvPainted) // speed hack
+                return;
+
             var filterStatus = DataGridViewAutoFilterColumnHeaderCell.GetFilterStatus(dgvSongsMaster);
             // filter applied
-            if (!String.IsNullOrEmpty(filterStatus) && dgvPainted)
+            if (!String.IsNullOrEmpty(filterStatus))
             {
                 Globals.TsLabel_StatusMsg.Alignment = ToolStripItemAlignment.Right;
                 Globals.TsLabel_StatusMsg.Text = "Show &All";
@@ -1533,12 +1586,16 @@ namespace CustomsForgeSongManager.UControls
             }
 
             // filter removed
-            if (String.IsNullOrEmpty(filterStatus) && dgvPainted && this.dgvSongsMaster.CurrentCell != null)
+            if (String.IsNullOrEmpty(filterStatus) && this.dgvSongsMaster.CurrentCell != null && String.IsNullOrEmpty(cueSearch.Text))
                 RemoveFilter();
+
+            // save filter - future use
+            AppSettings.Instance.FilterString = DataGridViewAutoFilterColumnHeaderCell.GetFilterString(dgvSongsMaster);
         }
 
         private void dgvSongsMaster_KeyDown(object sender, KeyEventArgs e)
         {
+            // shortcut keys to show column filter dropdown
             if (e.Alt && (e.KeyCode == Keys.Down || e.KeyCode == Keys.Up))
             {
                 DataGridViewAutoFilterColumnHeaderCell filterCell = this.dgvSongsMaster.CurrentCell.OwningColumn.HeaderCell as DataGridViewAutoFilterColumnHeaderCell;
@@ -1557,14 +1614,12 @@ namespace CustomsForgeSongManager.UControls
                 {
                     if (dgvSongsMaster.Rows[i].Selected)
                     {
-                        var sng = DgvExtensions.GetObjectFromRow<SongData>(dgvSongsMaster, i);
-                        // beyound current scope of CFM
-                        if (sng.IsRsCompPack)
+                        var song = DgvExtensions.GetObjectFromRow<SongData>(dgvSongsMaster, i);
+                        // beyound current scope of CFSM
+                        if (song.IsRsCompPack)
                             Globals.Log(Properties.Resources.CanNotSelectIndividualRS1CompatiblityDLC);
                         else
-                        {
-                            sng.Selected = !sng.Selected;
-                        }
+                            song.Selected = !song.Selected;
                     }
                 }
             }
@@ -1572,6 +1627,7 @@ namespace CustomsForgeSongManager.UControls
 
         private void dgvSongsMaster_KeyUp(object sender, KeyEventArgs e)
         {
+            // TODO: fix cludgy action of this selection method
             if (e.Modifiers == Keys.Control && e.KeyCode == Keys.A)
             {
                 TemporaryDisableDatabindEvent(() =>
@@ -1581,6 +1637,7 @@ namespace CustomsForgeSongManager.UControls
                             DgvExtensions.GetObjectFromRow<SongData>(dgvSongsMaster, i).Selected = allSelected;
                         }
                     });
+
                 allSelected = !allSelected;
             }
         }
@@ -1597,6 +1654,29 @@ namespace CustomsForgeSongManager.UControls
             }
         }
 
+        private void dgvSongsMaster_Scroll(object sender, ScrollEventArgs e)
+        {
+            if (dgvSongsMaster.DataSource == null || dgvSongsMaster.RowCount == 0)
+                return;
+
+            if (dgvSongsDetail.Visible)
+            {
+                if (e.ScrollOrientation == ScrollOrientation.VerticalScroll)
+                {
+                    var indexAfter = dgvSongsMaster.FirstDisplayedCell.RowIndex;
+                    var indexOffset = firstIndex - indexAfter;
+                    var rowHeight = dgvSongsMaster.Rows[dgvSongsMaster.FirstDisplayedCell.RowIndex].Height;
+                    var vertOffset = rowHeight * indexOffset;
+                    var vertLocation = dgvSongsDetail.Location.Y;
+                    var horizLocation = dgvSongsDetail.Location.X;
+                    dgvSongsDetail.Location = new Point(horizLocation, vertLocation + vertOffset);
+                    dgvSongsDetail.Invalidate();
+                }
+            }
+
+            firstIndex = dgvSongsMaster.FirstDisplayedCell.RowIndex;
+        }
+
         private void dgvSongsMaster_Sorted(object sender, EventArgs e)
         {
             if (dgvSongsMaster.SortedColumn != null)
@@ -1604,19 +1684,48 @@ namespace CustomsForgeSongManager.UControls
                 AppSettings.Instance.SortColumn = dgvSongsMaster.SortedColumn.DataPropertyName;
                 AppSettings.Instance.SortAscending = dgvSongsMaster.SortOrder == SortOrder.Ascending ? true : false;
 
-                if (lastSelectedSongPath != string.Empty) //Reselect last selected row after sorting
+                // refresh is necessary to avoid exceptions when row has been deleted
+                dgvSongsMaster.Refresh();
+
+                // Reselect last selected row after sorting
+                if (lastSelectedSongPath != string.Empty)
                 {
                     int newRowIndex = dgvSongsMaster.Rows.Cast<DataGridViewRow>().FirstOrDefault(r => r.Cells["colFilePath"].Value.ToString() == lastSelectedSongPath).Index;
                     dgvSongsMaster.Rows[newRowIndex].Selected = true;
                     dgvSongsMaster.FirstDisplayedScrollingRowIndex = newRowIndex;
                 }
+                else
+                    lastSelectedSongPath = String.Empty;
             }
+
+            dgvSongsMaster.Refresh();
         }
 
         private void lnkClearSearch_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
+            // RemoveFilter();
+
             cueSearch.Text = String.Empty;
-            RemoveFilter();
+            tsmiModsMyCDLC.Checked = false;
+
+            // save current sorting before clearing search
+            DgvExtensions.SaveSorting(dgvSongsMaster);
+
+            songList = Globals.MasterCollection.ToList();
+            if (!chkSubFolders.Checked)
+            {
+                var results = songList.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList();
+                LoadFilteredBindingList(results);
+            }
+            else
+                LoadFilteredBindingList(songList);
+
+            UpdateToolStrip();
+
+            DgvExtensions.RestoreSorting(dgvSongsMaster);
+
+            AppSettings.Instance.FilterString = String.Empty;
+            AppSettings.Instance.SearchString = String.Empty;
         }
 
         private void lnkLblSelectAll_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -1707,14 +1816,6 @@ namespace CustomsForgeSongManager.UControls
             DoWork(Constants.GWORKER_ACHRIVE, Constants.EXT_ORG, Constants.RemasteredOrgFolder, tsmiFilesArcDeleteAfter.Checked);
         }
 
-        private void tsmiFilesBackup_Click(object sender, EventArgs e)
-        {
-            var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster);
-            if (!selection.Any()) return;
-
-            FileTools.CreateBackupOfType(selection, Constants.BackupsFolder, Constants.EXT_BAK);
-        }
-
         private void tsmiFilesCheckODLC_Click(object sender, EventArgs e)
         {
             using (var ODlcCheckForm = new frmCODLCDuplicates())
@@ -1726,73 +1827,9 @@ namespace CustomsForgeSongManager.UControls
             }
         }
 
-        private void tsmiFilesCheckUpdates_Click(object sender, EventArgs e)
-        {
-            // TODO: need to remove RS1 Compatiblity DLCs from this check
-            GenExtensions.InvokeIfRequired(this, delegate { Globals.TsLabel_Cancel.Enabled = true; });
-            bWorker = new AbortableBackgroundWorker();
-            bWorker.SetDefaults();
-            bWorker.DoWork += checkAllForUpdates;
-
-            if (!bWorker.IsBusy)
-                bWorker.RunWorkerAsync();
-
-            GenExtensions.InvokeIfRequired(this, delegate { Globals.TsLabel_Cancel.Visible = false; });
-        }
-
         private void tsmiFilesCleanDlc_Click(object sender, EventArgs e)
         {
             FileTools.CleanDlcFolder();
-        }
-
-        private void tsmiFilesDelete_Click(object sender, EventArgs e)
-        {
-            // reset safety interlock ... must come first
-            tsmiFilesSafetyInterlock.Checked = false;
-            DeleteSelection();
-        }
-
-        private void tsmiFilesDisableEnable_Click(object sender, EventArgs e)
-        {
-            foreach (DataGridViewRow row in dgvSongsMaster.Rows)
-            {
-                if (Convert.ToBoolean(row.Cells["colSelect"].Value) || row.Selected)
-                {
-                    var originalPath = row.Cells["colFilePath"].Value.ToString();
-                    var originalFile = row.Cells["colFileName"].Value.ToString();
-
-                    if (!originalPath.ToLower().Contains(Constants.RS1COMP))
-                    {
-                        try
-                        {
-                            if (row.Cells["colEnabled"].Value.ToString() == "Yes")
-                            {
-                                var disabledPath = originalPath.Replace(Constants.PsarcExtension, Constants.DisabledPsarcExtension);
-                                File.Move(originalPath, disabledPath);
-                                row.Cells["colFilePath"].Value = disabledPath;
-                                row.Cells["colFileName"].Value = originalFile.Replace(Constants.PsarcExtension, Constants.DisabledPsarcExtension);
-                                row.Cells["colEnabled"].Value = "No";
-                            }
-                            else
-                            {
-                                var enabledPath = originalPath.Replace(Constants.PsarcExtension, Constants.DisabledPsarcExtension);
-                                File.Move(originalPath, enabledPath);
-                                row.Cells["colFilePath"].Value = enabledPath;
-                                row.Cells["colFileName"].Value = originalFile.Replace(Constants.DisabledPsarcExtension, Constants.PsarcExtension);
-                                row.Cells["colEnabled"].Value = "Yes";
-                            }
-
-                            UpdateToolStrip();
-                        }
-                        catch (IOException ex)
-                        {
-                            MessageBox.Show(string.Format(Properties.Resources.UnableToEnableDisableSongX0InDlcFolderX1Er, Path.GetFileName(originalPath), Environment.NewLine, ex.Message));
-                        }
-                    }
-                    else
-                        Globals.Log(String.Format(Properties.Resources.ThisIsARocksmith1CompatiblitySongX0RS1Comp, Environment.NewLine));
-                }
-            }
         }
 
         private void tsmiFilesIncludeODLC_Click(object sender, EventArgs e)
@@ -1807,15 +1844,21 @@ namespace CustomsForgeSongManager.UControls
 
             if (tsmiFilesIncludeODLC.Checked)
             {
-                selection.AddRange(Globals.SongCollection.Where(x => x.CharterName == "Ubisoft").ToList());
+                selection.AddRange(songList.Where(x => x.PackageAuthor == "Ubisoft").ToList());
                 // prevent double selecting ODLC files
                 selection = selection.GroupBy(x => x.FilePath).Select(s => s.First()).ToList();
             }
 
             // never try to rename dlc compatibility files ... doh!
             selection = selection.Where(fi => !fi.FileName.ToLower().Contains(Constants.RS1COMP) && !fi.FileName.ToLower().Contains(Constants.SONGPACK) && !fi.FileName.ToLower().Contains(Constants.ABVSONGPACK)).ToList();
+            if (!selection.Any())
+            {
+                var diaMsg = Environment.NewLine + "First select some songs using the 'Select' checkbox" + Environment.NewLine +
+                     "then try using the organize feature again.";
 
-            if (!selection.Any()) return;
+                BetterDialog2.ShowDialog(diaMsg, "Organize ArtistName Subfolders ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Hand.Handle), "", 0, 150);
+                return;
+            }
 
             // start new generic worker
             DoWork(Constants.GWORKER_ORGANIZE, Constants.Rs2DlcFolder, selection, false);
@@ -1846,26 +1889,13 @@ namespace CustomsForgeSongManager.UControls
             RefreshDgv(false);
         }
 
-        private void tsmiFilesSafetyInterlock_CheckStateChanged(object sender, EventArgs e)
-        {
-            tsmiFilesDelete.Enabled = tsmiFilesSafetyInterlock.Checked;
-
-            if (tsmiFilesDelete.Enabled)
-                tsmiFilesDelete.BackColor = Color.Red;
-            else
-                tsmiFilesDelete.BackColor = SystemColors.Control;
-
-            tsmiFiles.ShowDropDown();
-            menuStrip.Focus();
-        }
-
         private void tsmiFilesUnorganize_Click(object sender, EventArgs e)
         {
             var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster);
 
             if (tsmiFilesIncludeODLC.Checked)
             {
-                selection.AddRange(Globals.SongCollection.Where(x => x.CharterName == "Ubisoft").ToList());
+                selection.AddRange(songList.Where(x => x.PackageAuthor == "Ubisoft").ToList());
                 // prevent double selecting ODLC files
                 selection = selection.GroupBy(x => x.FilePath).Select(s => s.First()).ToList();
             }
@@ -1892,6 +1922,16 @@ namespace CustomsForgeSongManager.UControls
             frmNoteViewer.ViewResourcesFile("CustomsForgeSongManager.Resources.HelpRepairs.rtf", "Repairs Help");
         }
 
+        private void tsmiModPreserveStats_Click(object sender, EventArgs e)
+        {
+            // prevents flicker
+            ignoreCheckStateChanged = true;
+            // syncronize PreserveStats checkboxes
+            tsmiRepairsPreserveStats.Checked = tsmiModsPreserveStats.Checked;
+            ignoreCheckStateChanged = false;
+            AppSettings.Instance.RepairOptions.PreserveStats = tsmiModsPreserveStats.Checked;
+        }
+
         private void tsmiModsChangeAppId_Click(object sender, EventArgs e)
         {
             // TODO: consider using this type of method for other mods and repairs
@@ -1908,7 +1948,7 @@ namespace CustomsForgeSongManager.UControls
             if (!String.IsNullOrEmpty(charterName))
             {
                 if (tsmiModsMyCDLC.Checked)
-                    LoadFilteredBindingList(masterSongCollection.Where(x => x.CharterName == charterName).ToList());
+                    LoadFilteredBindingList(songList.Where(x => x.PackageAuthor == charterName).ToList());
                 else
                     PopulateDataGridView();
             }
@@ -1930,15 +1970,7 @@ namespace CustomsForgeSongManager.UControls
 
             this.Refresh();
             DoWork(Constants.GWORKER_PITCHSHIFT, selection, tsmiModsPitchShiftOverwrite.Checked, tsmiModsPitchShiftStandard.Checked);
-
-            // quickly reload the SongCollection to the dgv
-            if (Globals.ReloadSongManager)
-            {
-                LoadFilteredBindingList(Globals.SongCollection);
-                Globals.ReloadSongManager = false;
-            }
-
-            dgvSongsMaster.Refresh();
+            UpdateToolStrip();
         }
 
         private void tsmiModsTagArtwork_Click(object sender, EventArgs e)
@@ -2010,17 +2042,40 @@ namespace CustomsForgeSongManager.UControls
             }
         }
 
-        private void tsmiModsPitchShifterCheckbox_Click(object sender, EventArgs e)
+        private void tsmiRepairsPreserveStats_Click(object sender, EventArgs e)
         {
-            tsmiMods.ShowDropDown();
-            tsmiModsPitchShifter.ShowDropDown();
-            menuStrip.Focus();
+            // prevents flicker
+            ignoreCheckStateChanged = true;
+            // syncronize PreserveStats checkboxes
+            tsmiModsPreserveStats.Checked = tsmiRepairsPreserveStats.Checked;
+            ignoreCheckStateChanged = false;
+            AppSettings.Instance.RepairOptions.PreserveStats = tsmiRepairsPreserveStats.Checked;
         }
 
         private void tsmiRepairsRun_Click(object sender, EventArgs e)
         {
+            if (tsmiMonitorDLFolder.Checked)
+            {
+                var diaMsg = Environment.NewLine + "Please uncheck 'Auto Monitor Downloads Folder'" + Environment.NewLine +
+                    "before using the 'Run Selected Repair Optons'";
+                BetterDialog2.ShowDialog(diaMsg, "Repair Options ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "", 0, 150);
+                return;
+            }
+
+            if (tsmiProcessDLFolder.Checked && !FileTools.ValidateDownloadsDir())
+            {
+                var diaMsg = Environment.NewLine + "Please select a valid 'Downloads' folder and try again.";
+                BetterDialog2.ShowDialog(diaMsg, "Repair Options ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "", 0, 150);
+                return;
+            }
+
             var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster);
-            if (!selection.Any()) return;
+            if (!selection.Any() && !tsmiProcessDLFolder.Checked)
+            {
+                var diaMsg = Environment.NewLine + "Please select some CDLC to repair using the 'Select' column.";
+                BetterDialog2.ShowDialog(diaMsg, "Repair Options ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "", 0, 150);
+                return;
+            }
 
             var items = tsmiRepairs.DropDownItems;
             var repairString = String.Empty;
@@ -2034,55 +2089,65 @@ namespace CustomsForgeSongManager.UControls
             repairString = repairString.Trim();
 
             if (String.IsNullOrEmpty(repairString))
+            {
+                var diaMsg = Environment.NewLine + "Please select some repair options and try again.";
+                BetterDialog2.ShowDialog(diaMsg, "Repair Options ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "", 0, 150);
                 return;
+            }
 
             // RepairsMaxFive Remove
             if (repairString.Contains("RepairsMaxFive") && !repairString.Contains("Remove"))
             {
-                var diaMsg = Environment.NewLine + "Max Five Arrangements was selected" + Environment.NewLine + "but no removal options were checked." + Environment.NewLine + "Please choose removal optons and try again.";
-
+                var diaMsg = Environment.NewLine + "Max Five Arrangements was selected" + Environment.NewLine +
+                    "but no removal options were checked." + Environment.NewLine + "Please choose removal optons and try again.";
                 BetterDialog2.ShowDialog(diaMsg, "Repair Options ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "", 0, 150);
                 return;
             }
 
             this.Refresh();
 
-            if (tsmiProcessDLFolder.Checked)
-                FileTools.ValidateDownloadsDir();
-
             // start new generic worker
             DoWork(Constants.GWORKER_REPAIR, selection, SetRepairOptions());
-
-            // new 'Downloads' CDLC added or corrupt CDLC were removed
-            // quickly reload the SongCollection to the dgv
-            if (Globals.ReloadSongManager)
-            {
-                LoadFilteredBindingList(Globals.SongCollection);
-                Globals.ReloadSongManager = false;
-            }
-
-            // deselect the repaired songs
-            //allSelected = true;
-            //SelectAllNone();
+            UpdateToolStrip();
         }
 
         private void tsmiRescanFull_Click(object sender, EventArgs e)
         {
-            if (AppSettings.Instance.IncludeAnalyzerData)
-            {
-                if (MessageBox.Show("You are about to run a full rescan with extra metadata, " +
-                    "which is fairly longer than the normal scan?" + Environment.NewLine +
-                    "Do you want to proceed?", "Include Analyzer Data", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.No)
+            // just for fun ... estimate parsing time
+            // based on machine specs (speed, cores and OS) (P4 2500 C1 5) (i7 3500 C4 10)                       
+            float psarcFactor = 4100.0f; // adjust as needed (lower factor => less time)
+            if (AppSettings.Instance.IncludeArrangementData)
+                psarcFactor = 41000.0f;
 
-                    return;
-            }
+            var osMajor = Environment.OSVersion.Version.Major;
+            var processorSpeed = SysExtensions.GetProcessorSpeed();
+            var coreCount = SysExtensions.GetCoreCount();
+            var secsPerSong = (float)Math.Round(psarcFactor / (processorSpeed * coreCount * osMajor), 2);
+            var songsCount = songList.Count;
+            var secsEPT = songsCount * secsPerSong; // estimated pasing time (secs)
+            var diaMsg = "You are about to run a full rescan of (" + songsCount + ") songs." + Environment.NewLine +
+                "Operation will take approximately (" + secsEPT + ") seconds  " + Environment.NewLine +
+                "to complete." + Environment.NewLine + Environment.NewLine + "Do you want to proceed?";
 
-            RefreshDgv(true, AppSettings.Instance.IncludeAnalyzerData);
+            if (DialogResult.No == BetterDialog2.ShowDialog(diaMsg, "Full Rescan", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Question.Handle), "INFO", 0, 150))
+                return;
+
+            Globals.Log("OS Version: " + osMajor);
+            Globals.Log("Processor Speed (MHz): " + processorSpeed);
+            Globals.Log("Processor Cores: " + coreCount);
+            Globals.Log("Songs Count: " + songsCount);
+            Globals.Log("Estimate Parsing Time (secs): " + secsEPT);
+
+            Stopwatch sw = new Stopwatch();
+            sw.Restart();
+            RefreshDgv(true);
+            Globals.Log("Actual Parsing Time (secs): " + sw.ElapsedMilliseconds / 1000f);
+            sw.Stop();
         }
 
         private void tsmiRescanQuick_Click(object sender, EventArgs e)
         {
-            RefreshDgv(false, AppSettings.Instance.IncludeAnalyzerData);
+            RefreshDgv(false);
         }
 
         public DataGridView GetGrid()
@@ -2092,91 +2157,49 @@ namespace CustomsForgeSongManager.UControls
 
         public void TabEnter()
         {
-            Globals.Log("SongManager GUI TabEnter ...");
             Globals.DgvCurrent = dgvSongsMaster;
-
-            // fixed bug ... index 0 has no value is thrown when flipping between tabs and back
-            // is caused by method TabEnter() with call to PopulateSongManager();
+            Globals.Log("Song Manager GUI Activated ...");
         }
 
         public void TabLeave()
         {
-            SetRepairOptions();
-            Globals.Settings.SaveSettingsToFile(dgvSongsMaster);
-            Globals.Log("SongManager GUI TabLeave ...");
+            SetRepairOptions(); // saves current repair options
+            if (songList.Any())
+                Globals.Settings.SaveSettingsToFile(dgvSongsMaster);
+
+            Globals.Log("Song Manager GUI Deactivated ...");
         }
 
-
-        private void SongManager_Resize(object sender, EventArgs e)
+        private void tsmiDevsDebugUse_Click(object sender, EventArgs e)
         {
-            if (dgvSongsMaster.DataSource == null || dgvSongsMaster.RowCount == 0)
-                return;
-
-            ResetDetail();
-
-            // alternate method: maintains SongsDetail visiblity while resizing
-            //if (dgvSongsDetail.Visible)
-            //{
-            //    var vertScrollWidth = 0;
-            //    if (dgvSongsMaster.Controls.OfType<VScrollBar>().First().Visible)
-            //        vertScrollWidth = SystemInformation.VerticalScrollBarWidth;
-
-            //    dgvSongsDetail.Width = dgvSongsMaster.Width - vertScrollWidth - dgvSongsDetail.Location.X + 5; // tweak
-
-            //    var indexAfter = dgvSongsMaster.FirstDisplayedCell.RowIndex;
-            //    var indexOffset = firstIndex - indexAfter;
-            //    var rowHeight = dgvSongsMaster.Rows[dgvSongsMaster.FirstDisplayedCell.RowIndex].Height;
-            //    var vertOffset = rowHeight * indexOffset;
-            //    var vertLocation = dgvSongsDetail.Location.Y;
-            //    var horizLocation = dgvSongsDetail.Location.X;
-            //    dgvSongsDetail.Location = new Point(horizLocation, vertLocation + vertOffset);
-            //    dgvSongsDetail.Invalidate();
-            //}
-
-            firstIndex = dgvSongsMaster.FirstDisplayedCell.RowIndex;
+            // temporarily debugging some things here
+            var stopHere = songList;
+            var stopHere2 = Globals.MasterCollection;
+            var stopHere3 = AppSettings.Instance.FilterString;
         }
 
-        private void dgvSongsMaster_Scroll(object sender, ScrollEventArgs e)
+        private void tsmiMonitorDLFolder_CheckStateChanged(object sender, EventArgs e)
         {
-            if (dgvSongsMaster.DataSource == null || dgvSongsMaster.RowCount == 0)
-                return;
+            var items = tsmiRepairs.DropDownItems;
+            var repairString = String.Empty;
 
-            if (dgvSongsDetail.Visible)
+            foreach (var item in items.OfType<ToolStripEnhancedMenuItem>())
             {
-                if (e.ScrollOrientation == ScrollOrientation.VerticalScroll)
-                {
-                    var indexAfter = dgvSongsMaster.FirstDisplayedCell.RowIndex;
-                    var indexOffset = firstIndex - indexAfter;
-                    var rowHeight = dgvSongsMaster.Rows[dgvSongsMaster.FirstDisplayedCell.RowIndex].Height;
-                    var vertOffset = rowHeight * indexOffset;
-                    var vertLocation = dgvSongsDetail.Location.Y;
-                    var horizLocation = dgvSongsDetail.Location.X;
-                    dgvSongsDetail.Location = new Point(horizLocation, vertLocation + vertOffset);
-                    dgvSongsDetail.Invalidate();
-                }
+                if (item.Checked)
+                    repairString += item.Name.Replace("tsmi", " ");
             }
 
-            firstIndex = dgvSongsMaster.FirstDisplayedCell.RowIndex;
-        }
+            repairString = repairString.Trim();
 
-        private void cmsGetAnalyzerData_Click(object sender, EventArgs e)
-        {
-            var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster);
-            if (!selection.Any())
+            if (String.IsNullOrEmpty(repairString))
             {
-                // get analyzer data for a single highlighted ODLC/CDLC
-                var selected = DgvExtensions.GetObjectFromFirstSelectedRow<SongData>(dgvSongsMaster);
-                if (selected == null)
-                    return;
-                else
-                    selection.Add(selected);
+                var diaMsg = Environment.NewLine + "Please select some repair options and try again.";
+                BetterDialog2.ShowDialog(diaMsg, "Repair Options ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "", 0, 150);
+                return;
             }
 
-            Globals.Log("Please wait ...");
-            Globals.Log("Getting Analyzer Data for selected songs ...");
-            DoWork(Constants.GWORKER_ANALYZE, selection);
-
-            dgvSongsMaster.Refresh();
+            AppSettings.Instance.RepairOptions.MonitorDLFolder = tsmiMonitorDLFolder.Checked;
+            RepairTools.MonitorDLFolder(SetRepairOptions());
         }
 
 

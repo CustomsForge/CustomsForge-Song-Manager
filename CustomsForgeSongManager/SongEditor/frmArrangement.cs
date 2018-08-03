@@ -39,7 +39,7 @@ namespace CustomsForgeSongManager.SongEditor
                 //Song XML File
                 XmlFilePath.Text = _arrangement.SongXml.File;
 
-                //Arrangment Information
+                //Arrangement Information
                 arrangementTypeCombo.SelectedItem = _arrangement.ArrangementType;
                 arrangementNameCombo.SelectedItem = _arrangement.Name;
                 if (!String.IsNullOrEmpty(_arrangement.Tuning))
@@ -487,7 +487,7 @@ namespace CustomsForgeSongManager.SongEditor
                     {
                         MessageBox.Show(@"Unable to get information from XML arrangement:  " + Environment.NewLine +
                             Path.GetFileName(xmlFilePath) + Environment.NewLine +
-                            @"It may not be a valid arrangment or " + Environment.NewLine +
+                            @"It may not be a valid arrangement or " + Environment.NewLine +
                             @"your version of the EOF may be out of date." + Environment.NewLine +
                             ex.Message, Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return false;
@@ -654,7 +654,7 @@ namespace CustomsForgeSongManager.SongEditor
             {
                 MessageBox.Show(@"Unable to get information from XML arrangement:  " + Environment.NewLine +
                     Path.GetFileName(xmlFilePath) + Environment.NewLine +
-                    @"It may not be a valid arrangment or " + Environment.NewLine +
+                    @"It may not be a valid arrangement or " + Environment.NewLine +
                     @"your version of the EOF may be out of date." + Environment.NewLine +
                     ex.Message, Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
@@ -717,7 +717,7 @@ namespace CustomsForgeSongManager.SongEditor
                 }
             }
 
-            //Arrangment Information
+            //Arrangement Information
             Arrangement.Name = (ArrangementName)arrangementNameCombo.SelectedItem;
             Arrangement.ArrangementType = (ArrangementType)arrangementTypeCombo.SelectedItem;
             Arrangement.ScrollSpeed = scrollSpeedTrackBar.Value;

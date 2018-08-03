@@ -836,6 +836,13 @@ namespace CustomsForgeSongManager.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap rescan1 {
+            get {
+                object obj = ResourceManager.GetObject("rescan1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap restorebackup {
             get {
                 object obj = ResourceManager.GetObject("restorebackup", resourceCulture);
@@ -930,6 +937,13 @@ namespace CustomsForgeSongManager.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap shift {
+            get {
+                object obj = ResourceManager.GetObject("shift", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to Show &amp;All.
         /// </summary>
@@ -995,6 +1009,13 @@ namespace CustomsForgeSongManager.Properties {
         internal static System.Drawing.Bitmap StartRs {
             get {
                 object obj = ResourceManager.GetObject("StartRs", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap tag {
+            get {
+                object obj = ResourceManager.GetObject("tag", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1116,20 +1137,20 @@ namespace CustomsForgeSongManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User Canceled.
+        ///   Looks up a localized string similar to User Cancelled.
         /// </summary>
-        internal static string UserCanceled {
+        internal static string UserCancelled {
             get {
-                return ResourceManager.GetString("UserCanceled", resourceCulture);
+                return ResourceManager.GetString("UserCancelled", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User canceled process ....
+        ///   Looks up a localized string similar to &lt;WARNING&gt; User cancelled process ....
         /// </summary>
-        internal static string UserCanceledProcess {
+        internal static string UserCancelledProcess {
             get {
-                return ResourceManager.GetString("UserCanceledProcess", resourceCulture);
+                return ResourceManager.GetString("UserCancelledProcess", resourceCulture);
             }
         }
         

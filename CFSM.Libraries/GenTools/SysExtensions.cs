@@ -9,6 +9,8 @@ using System.Runtime.InteropServices;
 using System.Security.Principal;
 using Microsoft.Win32;
 using System.IO;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace GenTools
 {
@@ -637,6 +639,35 @@ namespace GenTools
             get { return Environment.Version.ToString(); }
         }
 
+        /// <summary>
+        /// Checks if .Net 4.0.30319 is installed
+        /// </summary>
+        /// <param name="conditionalCheckResult">[Optional] Result of some preliminary conditional check</param>
+        /// <returns></returns>
+        public static bool IsDotNet4(bool conditionalCheckResult = true)
+        {
+            if (!DotNetVersion.Contains("4.0.30319") && conditionalCheckResult)
+            {
+                var envMsg = "This application runs best with .NET 4.0.30319 installed." + Environment.NewLine +
+                    "You are currently running .NET " + DotNetVersion + Environment.NewLine +
+                    "Install the correct version if you experinece problems running this application.   " + Environment.NewLine + Environment.NewLine +
+                    "Click 'Yes' to download and install the correct version now from:" + Environment.NewLine +
+                    "https://www.microsoft.com/en-us/download/confirmation.aspx?id=17718";
+
+                if (MessageBox.Show(envMsg, "Incorrect .NET Version ...", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                {
+                    Process.Start("https://www.microsoft.com/en-us/download/confirmation.aspx?id=17718");
+                    Thread.Sleep(500);
+                    Process.Start("https://www.howtogeek.com/118869/how-to-easily-install-previous-versions-of-the-.net-framework-in-windows-8");
+                    Environment.Exit(0);
+                }
+
+                return false;
+            }
+
+            return true;
+        }
+
         #endregion
 
         #region MAC
@@ -733,6 +764,10 @@ namespace GenTools
                         else if (vs.Minor == 3)
                             operatingSystem = "Windows 8.1";
                         break;
+                    case 10:
+                        if (vs.Minor == 0)
+                            operatingSystem = "Windows 10";
+                        break;
                     default:
                         break;
                 }
@@ -774,6 +809,24 @@ namespace GenTools
             ram = (Math.Sign(size) * num).ToString() + suf[place];
 
             return ram;
+        }
+
+        public static int GetProcessorSpeed()
+        {
+            using (RegistryKey regKey = Registry.LocalMachine.OpenSubKey(@"HARDWARE\DESCRIPTION\System\CentralProcessor\0"))
+                return (int)regKey.GetValue("~MHz", 0);
+        }
+
+        public static int GetCoreCount()
+        {
+            int coreCount = 0;
+            using (ManagementObjectSearcher mos = new ManagementObjectSearcher("root\\CIMV2", "SELECT * FROM Win32_Processor"))
+            {
+                foreach (ManagementObject mo in mos.Get())
+                    coreCount += int.Parse(mo["NumberOfCores"].ToString());
+            }
+
+            return coreCount;
         }
 
 
@@ -905,7 +958,7 @@ namespace GenTools
             }
 
             if (version == null)
-                return "N/A";
+                return "Null";
             else
                 return version.ToString();
         }

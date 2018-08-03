@@ -15,7 +15,7 @@ namespace CustomsForgeSongManager.LocalTools
     {
         public static void ArchiveFiles(string srcExt, string srcFolder, bool srcDelete = false)
         {
-            Globals.Log("Archiving  (" + srcExt + ") files ...");
+            Globals.Log("Archiving  [" + srcExt + "] files ...");
 
             var srcFilePaths = Directory.EnumerateFiles(srcFolder, "*" + srcExt + "*").ToList();
             if (!srcFilePaths.Any())
@@ -71,22 +71,6 @@ namespace CustomsForgeSongManager.LocalTools
             }
         }
 
-        public static void GetExtraSongData(List<SongData> selectedSongs)
-        {
-            if (selectedSongs.Count == 0)
-                return;
-
-            foreach (var song in selectedSongs)
-            {
-                using (var browser = new PsarcBrowser(song.FilePath))
-                {
-                    var data = browser.GetSongData(true);
-                    int index = Globals.SongCollection.IndexOf(song);
-                    Globals.SongCollection[index] = data.First();
-                }
-            }
-        }
-
         public static void ArtistFolders(string dlcDir, List<SongData> selectedSongs, bool isUndo)
         {
 
@@ -113,21 +97,21 @@ namespace CustomsForgeSongManager.LocalTools
                 string destFilePath;
                 if (isUndo)
                 {
-                    if (songInfo.CharterName == "Ubisoft")
+                    if (songInfo.PackageAuthor == "Ubisoft")
                         destFilePath = Path.Combine(Constants.Rs2DlcFolder, Path.GetFileName(srcFilePath));
                     else
                         destFilePath = Path.Combine(Constants.Rs2CdlcFolder, Path.GetFileName(srcFilePath));
                 }
                 else
                 {
-                    var version = songInfo.Version;
+                    var version = songInfo.PackageVersion;
 
                     // workaround for old toolkit behavior
-                    if (String.IsNullOrEmpty(version))
+                    if (String.IsNullOrEmpty(version) || version == "Null")
                         version = "1";
 
                     // workaround to identify ODLC
-                    if (songInfo.CharterName == "Ubisoft")
+                    if (songInfo.PackageAuthor == "Ubisoft")
                         version = "0";
 
                     var artistName = songInfo.Artist;
@@ -147,10 +131,10 @@ namespace CustomsForgeSongManager.LocalTools
                     if (srcFilePath != destFilePath)
                     {
                         // update Global SongCollection
-                        var song = Globals.SongCollection.FirstOrDefault(s => s.FilePath == srcFilePath);
-                        int index = Globals.SongCollection.IndexOf(song);
-                        Globals.SongCollection[index].FilePath = destFilePath;
-                        GenExtensions.MoveFile(srcFilePath, destFilePath);
+                        var song = Globals.MasterCollection.FirstOrDefault(s => s.FilePath == srcFilePath);
+                        int index = Globals.MasterCollection.IndexOf(song);
+                        Globals.MasterCollection[index].FilePath = destFilePath;
+                        GenExtensions.MoveFile(srcFilePath, destFilePath, false);
                     }
                     else
                         skipped++;
@@ -271,7 +255,7 @@ namespace CustomsForgeSongManager.LocalTools
             catch (Exception ex)
             {
                 // it is critical that backup of originals was successful before proceeding
-                Globals.Log(" - <ERROR> Backup failed"); // a bad thing
+                Globals.Log(" - <ERROR> Backup failed ..."); // a bad thing
                 Globals.Log(ex.Message);
                 return false;
             }
@@ -279,9 +263,13 @@ namespace CustomsForgeSongManager.LocalTools
             return true;
         }
 
-        public static bool CreateBackupOfType(List<SongData> songs, string destFolder, string backupExt)
+        public static bool CreateBackupOfType(List<SongData> songs, string destFolder, string backupExt, bool isBackup = true)
         {
-            Globals.Log("Backing up selected CDLC files ...");
+            if (isBackup)
+                Globals.Log("Backing up selected CDLC files ...");
+            else
+                Globals.Log("Moving selected CDLC files ...");
+
             VerifyCfsmFolders();
             var srcFilePaths = SongFilePaths(songs);
             var total = srcFilePaths.Count;
@@ -301,24 +289,24 @@ namespace CustomsForgeSongManager.LocalTools
 
                     if (srcFilePath.Contains(Constants.RS1COMP))
                     {
-                        Globals.Log(" - Can not backup individual RS1 Compatiblity DLC");
+                        Globals.Log(" - Can not process individual RS1 Compatiblity DLC");
                         ++skipped;
                     }
                     else if (!File.Exists(destFilePath))
                     {
                         GenExtensions.CopyFile(srcFilePath, destFilePath, false);
-                        Globals.Log(" - Successfully created backup"); // a good thing
+                        Globals.Log(" - Successfully processed file"); // a good thing
                     }
                     else
                     {
-                        Globals.Log(" - Backup already exists"); // also a good thing
+                        Globals.Log(" - File already exists"); // also a good thing
                         skipped++;
                     }
                 }
                 catch (Exception ex)
                 {
                     // it is critical that backup of originals was successful before proceeding
-                    Globals.Log(" - <ERROR> Backup failed"); // a bad thing
+                    Globals.Log(" - <ERROR> CreateBackupOfType method failed ..."); // a bad thing
                     Globals.Log(ex.Message);
                     failed++;
                 }
@@ -331,18 +319,24 @@ namespace CustomsForgeSongManager.LocalTools
 
             if (processed > 0)
             {
-                Globals.Log("Finished backing up selected files ...");
-                Globals.Log("Backups saved to: " + destFolder);
+                if (isBackup)
+                    Globals.Log("Finished backing up selected files ...");
+                else
+                    Globals.Log("Finished moving selected files ...");
+
+                Globals.Log("Files saved to: " + destFolder);
                 return true;
             }
 
-            Globals.Log("No files backed up ...");
+            Globals.Log("No files processed ...");
             return false;
         }
 
-        public static void DeleteFiles(List<SongData> songs)
+        public static void DeleteFiles(List<SongData> songs, bool verbose = true)
         {
-            Globals.Log("Deleting selected CDLC files ...");
+            if (verbose)
+                Globals.Log("Deleting selected CDLC files ...");
+
             var srcFilePaths = SongFilePaths(songs);
             var total = srcFilePaths.Count;
             int processed = 0, failed = 0, skipped = 0;
@@ -350,18 +344,22 @@ namespace CustomsForgeSongManager.LocalTools
 
             foreach (var srcFilePath in srcFilePaths)
             {
-                Globals.Log("Processing File: " + Path.GetFileName(srcFilePath));
+                if (verbose)
+                    Globals.Log("Processing File: " + Path.GetFileName(srcFilePath));
+
                 processed++;
                 GenericWorker.ReportProgress(processed, total, skipped, failed);
 
                 try
                 {
                     GenExtensions.DeleteFile(srcFilePath);
-                    Globals.Log(" - Successfully deleted file"); // a good thing
+
+                    if (verbose)
+                        Globals.Log(" - Successfully deleted file"); // a good thing
                 }
                 catch (IOException ex)
                 {
-                    Globals.Log(" - <ERROR> Deletion failed"); // a bad thing
+                    Globals.Log(" - <ERROR> Deletion failed ..."); // a bad thing
                     Globals.Log(ex.Message);
                     failed++;
                 }
@@ -369,33 +367,42 @@ namespace CustomsForgeSongManager.LocalTools
 
             GenericWorker.ReportProgress(processed, total, skipped, failed);
 
-            if (processed > 0)
-                Globals.Log("Finished deleting files ...");
-            else
-                Globals.Log("No files deleted ...");
+            if (verbose)
+            {
+                if (processed > 0)
+                    Globals.Log("Finished deleting files ...");
+                else
+                    Globals.Log("No files deleted ...");
+            }
         }
 
-        public static string GetOriginal(string srcFilePath)
+        public static string RestoreOriginal(string srcFilePath)
         {
-            var dlcFileName = Path.GetFileName(srcFilePath).Replace(Constants.EXT_ORG, "");
-            var dlcFilePath = Path.Combine(Constants.Rs2DlcFolder, dlcFileName);
+            var srcFileName = Path.GetFileName(srcFilePath).Replace(Constants.EXT_ORG, "");
+            var destFilePath = Path.Combine(Constants.Rs2DlcFolder, srcFileName);
             try
             {
-                // make sure (.org) file gets put back into the correct 'dlc' subfolder
-                // if CDLC is not found then (.org) file is renamed and put into default 'dlc' folder
-                var remasteredFilePath = Globals.SongCollection.FirstOrDefault(s => s.FilePath.Contains(dlcFileName)).FilePath;
+                // make sure [.org] file gets put back into the correct 'dlc' subfolder
+                // if CDLC is not found then [.org] file is renamed and put into default 'dlc' folder
+                var remasteredFilePath = Globals.MasterCollection.FirstOrDefault(s => s.FilePath.Contains(srcFileName)).FilePath;
                 if (remasteredFilePath.Any())
-                    dlcFilePath = Path.Combine(Path.GetDirectoryName(remasteredFilePath), dlcFileName);
+                    destFilePath = Path.Combine(Path.GetDirectoryName(remasteredFilePath), srcFileName);
 
-                // copy but don't delete (.org)
-                GenExtensions.CopyFile(srcFilePath, dlcFilePath, true, false);
-                Globals.Log(" - Successfully restored backup");
-                return dlcFilePath;
+                // copy but don't delete [.org]
+                if (GenExtensions.CopyFile(srcFilePath, destFilePath, true, false))
+                    Globals.Log(" - Successfully restored file: " + Path.GetFileName(srcFilePath));
+                else
+                {
+                    Globals.Log(" - <ERROR> Could not restore file: " + Path.GetFileName(srcFilePath));
+                    destFilePath = String.Empty;
+                }
+
+                return destFilePath;
             }
             catch (Exception ex)
             {
                 // this should never happen but just in case
-                Globals.Log(" - <ERROR> Restore (" + Constants.EXT_ORG + ") failed");
+                Globals.Log(" - <ERROR> Restore [" + Constants.EXT_ORG + "] failed ...");
                 Globals.Log(ex.Message);
                 return String.Empty;
             }
@@ -514,13 +521,12 @@ namespace CustomsForgeSongManager.LocalTools
             return srcFilePaths;
         }
 
-        public static void ValidateDownloadsDir()
+        public static bool ValidateDownloadsDir()
         {
-            var downloadsDir = AppSettings.Instance.DownloadsDir;
+            var dlDirectory = AppSettings.Instance.DownloadsDir;
 
-            if (String.IsNullOrEmpty(downloadsDir) || !Directory.Exists(downloadsDir))
+            if (String.IsNullOrEmpty(dlDirectory) || !Directory.Exists(dlDirectory))
             {
-                Globals.Log("Select CDLC 'Downloads' directory ...");
                 using (var fbd = new FolderBrowserDialog())
                 {
                     // set valid initial default speical folder path
@@ -528,12 +534,15 @@ namespace CustomsForgeSongManager.LocalTools
                     fbd.Description = "Select the folder where new CDLC 'Downloads' are stored.";
 
                     if (fbd.ShowDialog() != DialogResult.OK)
-                        return;
+                        return false;
 
-                    downloadsDir = fbd.SelectedPath;
-                    AppSettings.Instance.DownloadsDir = downloadsDir;
+                    dlDirectory = fbd.SelectedPath;
+                    AppSettings.Instance.DownloadsDir = dlDirectory;
                 }
             }
+
+            Globals.Log("Validated Downloads Directory: " + dlDirectory + " ...");
+            return true;
         }
 
         public static void VerifyCfsmFolders()

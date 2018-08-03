@@ -38,6 +38,7 @@
             this.tpArrangements = new System.Windows.Forms.TabPage();
             this.tpTones = new System.Windows.Forms.TabPage();
             this.tpAlbumArt = new System.Windows.Forms.TabPage();
+            this.tsMsg = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStripMain.SuspendLayout();
             this.tcMain.SuspendLayout();
             this.SuspendLayout();
@@ -48,6 +49,7 @@
             this.tslSave,
             this.tslSaveAs,
             this.tsProgressBar,
+            this.tsMsg,
             this.tslExit});
             this.statusStripMain.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
             this.statusStripMain.Location = new System.Drawing.Point(0, 459);
@@ -59,13 +61,13 @@
             // 
             // tslSave
             // 
-            this.tslSave.AutoSize = false;
             this.tslSave.Font = new System.Drawing.Font("Trebuchet MS", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tslSave.IsLink = true;
             this.tslSave.LinkColor = System.Drawing.SystemColors.ActiveCaption;
+            this.tslSave.Margin = new System.Windows.Forms.Padding(20, 3, 0, 2);
             this.tslSave.Name = "tslSave";
             this.tslSave.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
-            this.tslSave.Size = new System.Drawing.Size(68, 18);
+            this.tslSave.Size = new System.Drawing.Size(40, 18);
             this.tslSave.Text = "Save";
             this.tslSave.Click += new System.EventHandler(this.tslSave_Click);
             // 
@@ -77,7 +79,7 @@
             this.tslSaveAs.LinkColor = System.Drawing.SystemColors.ActiveCaption;
             this.tslSaveAs.Name = "tslSaveAs";
             this.tslSaveAs.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
-            this.tslSaveAs.Size = new System.Drawing.Size(68, 18);
+            this.tslSaveAs.Size = new System.Drawing.Size(60, 18);
             this.tslSaveAs.Text = "Save As";
             this.tslSaveAs.Click += new System.EventHandler(this.tslSaveAs_Click);
             // 
@@ -94,6 +96,7 @@
             this.tslExit.LinkColor = System.Drawing.SystemColors.ActiveCaption;
             this.tslExit.Name = "tslExit";
             this.tslExit.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
+            this.tslExit.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.tslExit.Size = new System.Drawing.Size(68, 18);
             this.tslExit.Text = "Exit";
             this.tslExit.Click += new System.EventHandler(this.tslExit_Click);
@@ -118,8 +121,8 @@
             // tpSongInfo
             // 
             this.tpSongInfo.Location = new System.Drawing.Point(4, 25);
+            this.tpSongInfo.Margin = new System.Windows.Forms.Padding(0);
             this.tpSongInfo.Name = "tpSongInfo";
-            this.tpSongInfo.Padding = new System.Windows.Forms.Padding(3);
             this.tpSongInfo.Size = new System.Drawing.Size(717, 402);
             this.tpSongInfo.TabIndex = 6;
             this.tpSongInfo.Text = "Song Info";
@@ -154,6 +157,15 @@
             this.tpAlbumArt.Text = "Album Art";
             this.tpAlbumArt.UseVisualStyleBackColor = true;
             // 
+            // tsMsg
+            // 
+            this.tsMsg.AutoSize = false;
+            this.tsMsg.Margin = new System.Windows.Forms.Padding(10, 3, 0, 2);
+            this.tsMsg.Name = "tsMsg";
+            this.tsMsg.Size = new System.Drawing.Size(150, 18);
+            this.tsMsg.Text = "...";
+            this.tsMsg.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // frmSongEditor
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -187,6 +199,7 @@
         public System.Windows.Forms.ToolStripStatusLabel tslSaveAs;
         public System.Windows.Forms.ToolStripStatusLabel tslExit;
         private System.Windows.Forms.ToolStripProgressBar tsProgressBar;
+        private System.Windows.Forms.ToolStripStatusLabel tsMsg;
 
     }
 }

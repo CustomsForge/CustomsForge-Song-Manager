@@ -161,6 +161,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataObjects\ArrangementData.cs" />
     <Compile Include="DataObjects\OfficialSong.cs" />
     <Compile Include="Forms\frmCODLCDuplicates.cs">
       <SubType>Form</SubType>
@@ -307,6 +308,12 @@
     <Compile Include="SongEditor\ucTones.Designer.cs">
       <DependentUpon>ucTones.cs</DependentUpon>
     </Compile>
+    <Compile Include="UControls\ArrangementAnalyzer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UControls\ArrangementAnalyzer.Designer.cs">
+      <DependentUpon>ArrangementAnalyzer.cs</DependentUpon>
+    </Compile>
     <Compile Include="UControls\SongPacks.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -431,11 +438,16 @@
     <EmbeddedResource Include="SongEditor\ucTones.resx">
       <DependentUpon>ucTones.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UControls\ArrangementAnalyzer.resx">
+      <DependentUpon>ArrangementAnalyzer.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="UControls\SongPacks.resx">
       <DependentUpon>SongPacks.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UControls\Duplicates.resx">
       <DependentUpon>Duplicates.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UControls\Renamer.resx">
       <DependentUpon>Renamer.cs</DependentUpon>
@@ -478,6 +490,8 @@
     <None Include="app.manifest">
       <SubType>Designer</SubType>
     </None>
+    <EmbeddedResource Include="Resources\HelpDuplicates.rtf" />
+    <EmbeddedResource Include="Resources\HelpArrangements.rtf" />
     <None Include="Resources\logo_black.png" />
   </ItemGroup>
   <ItemGroup>
@@ -565,6 +579,9 @@
     <None Include="Resources\rescan_plus.png" />
     <None Include="Resources\extra_data.png" />
     <Content Include="Resources\darkseph.png" />
+    <None Include="Resources\shift.png" />
+    <None Include="Resources\rescan1.png" />
+    <None Include="Resources\tag.png" />
     <Content Include="Resources\TaggerHelp.html" />
     <None Include="Resources\trashcan.png" />
     <None Include="Resources\Unleashed2k.png" />
@@ -703,64 +720,54 @@ REM spacing around == and ( is important
 REM upper lower case is important for Directory and File names
 
 if $(ConfigurationName) ==InnoRelease (
-  CD "$(SolutionDir)ThirdParty\CFSM_Setup_Release\"
-  DEL /Q *.txt
-  DEL /Q *.exe
-  DEL /Q *.rar
-
-  DEL /S /Q " "$(ProjectDir)bin\ConfuserEx\*"
-  RD /S /Q "$(ProjectDir)bin\ConfuserEx\"
-  MKDIR "$(ProjectDir)bin\ConfuserEx\"
-  XCOPY /Y /E /D "$(TargetDir)*.*" "$(ProjectDir)bin\ConfuserEx\*.*"
-
-  CD "$(SolutionDir)ThirdParty\ConfuserEx_bin\"
-  "Confuser.CLI.exe" "$(SolutionDir)ThirdParty\ConfuserExScripts\ConfuserExInno.crproj"
-
+CD "$(SolutionDir)ThirdParty\CFSM_Setup_Release\"
+DEL /Q *.txt
+DEL /Q *.exe
+DEL /Q *.rar
+DEL /S /Q " "$(ProjectDir)bin\ConfuserEx\*"
+RD /S /Q "$(ProjectDir)bin\ConfuserEx\"
+MKDIR "$(ProjectDir)bin\ConfuserEx\"
+XCOPY /Y /E /D "$(TargetDir)*.*" "$(ProjectDir)bin\ConfuserEx\*.*"
+CD "$(SolutionDir)ThirdParty\ConfuserEx_bin\"
+"Confuser.CLI.exe" "$(SolutionDir)ThirdParty\ConfuserExScripts\ConfuserExInno.crproj"
 rem must be connected to internet for signtool to work properly
 rem CD "$(ProjectDir)bin\ConfuserEx\"
 rem "%25programfiles%25\Microsoft SDKs\Windows\v7.0A\bin\signtool.exe"  sign /f CFSM_Certificate.pfx /p cozylov /t http://timestamp.verisign.com/scripts/timstamp.dll CustomsForgeSongManager.exe
-
-  CD "$(SolutionDir)ThirdParty\Inno_bin\"
- "ISCC.exe" "$(SolutionDir)ThirdParty\InnoScripts\genericInstaller.iss"
-
-  CD "$(SolutionDir)ThirdParty\CFSM_Setup_Release\"   
-  "D:\Program Files\WinRAR\WinRar.exe" a -r "CFSMSetup.rar" "CFSMSetup.exe"
-  COPY /Y "$(TargetDir)ReleaseNotes.txt" "ReleaseNotes.txt"
-  COPY /Y "$(SolutionDir)ThirdParty\VersionInfo.txt" "VersionInfo.txt"
+CD "$(SolutionDir)ThirdParty\Inno_bin\"
+"ISCC.exe" "$(SolutionDir)ThirdParty\InnoScripts\genericInstaller.iss"
+CD "$(SolutionDir)ThirdParty\CFSM_Setup_Release\"   
+"D:\Program Files\WinRAR\WinRar.exe" a -r "CFSMSetup.rar" "CFSMSetup.exe"
+COPY /Y "$(TargetDir)ReleaseNotes.txt" "ReleaseNotes.txt"
+COPY /Y "$(SolutionDir)ThirdParty\VersionInfo.txt" "VersionInfo.txt"
 )
 
 if $(ConfigurationName) ==InnoBeta (
-  CD "$(SolutionDir)ThirdParty\CFSM_Setup_Beta\"
-  DEL /Q *.txt
-  DEL /Q *.exe
-  DEL /Q *.rar
- 
-  DEL /S /Q " "$(ProjectDir)bin\ConfuserEx\*"
-  RD /S /Q "$(ProjectDir)bin\ConfuserEx\"
-  MKDIR "$(ProjectDir)bin\ConfuserEx\"
-  XCOPY /Y /E /D "$(TargetDir)*.*" "$(ProjectDir)bin\ConfuserEx\*.*"
-
-  CD "$(SolutionDir)ThirdParty\ConfuserEx_bin\"
-  "Confuser.CLI.exe" "$(SolutionDir)ThirdParty\ConfuserExScripts\ConfuserExInno.crproj"
-
+CD "$(SolutionDir)ThirdParty\CFSM_Setup_Beta\"
+DEL /Q *.txt
+DEL /Q *.exe
+DEL /Q *.rar
+DEL /S /Q " "$(ProjectDir)bin\ConfuserEx\*"
+RD /S /Q "$(ProjectDir)bin\ConfuserEx\"
+MKDIR "$(ProjectDir)bin\ConfuserEx\"
+XCOPY /Y /E /D "$(TargetDir)*.*" "$(ProjectDir)bin\ConfuserEx\*.*"
+CD "$(SolutionDir)ThirdParty\ConfuserEx_bin\"
+"Confuser.CLI.exe" "$(SolutionDir)ThirdParty\ConfuserExScripts\ConfuserExInno.crproj"
 rem must be connected to internet for signtool to work properly
 rem CD "$(ProjectDir)bin\ConfuserEx\"
 rem "%25programfiles%25\Microsoft SDKs\Windows\v7.0A\bin\signtool.exe"  sign /f CFSM_Certificate.pfx /p cozylov /t http://timestamp.verisign.com/scripts/timstamp.dll CustomsForgeSongManager.exe
-
-  CD "$(SolutionDir)ThirdParty\Inno_bin\"
- "ISCC.exe" /DBETA "$(SolutionDir)ThirdParty\InnoScripts\genericInstaller.iss"
-
-  CD "$(SolutionDir)ThirdParty\CFSM_Setup_Beta\"   
-  "D:\Program Files\WinRAR\WinRar.exe" a -r "CFSMSetupBeta.rar" "CFSMSetup.exe"
-  COPY /Y "$(TargetDir)ReleaseNotes.txt" "ReleaseNotes.txt"
-  COPY /Y "$(SolutionDir)ThirdParty\VersionInfo.txt" "VersionInfo.txt"
+CD "$(SolutionDir)ThirdParty\Inno_bin\"
+"ISCC.exe" /DBETA "$(SolutionDir)ThirdParty\InnoScripts\genericInstaller.iss"
+CD "$(SolutionDir)ThirdParty\CFSM_Setup_Beta\"   
+"D:\Program Files\WinRAR\WinRar.exe" a -r "CFSMSetupBeta.rar" "CFSMSetup.exe"
+COPY /Y "$(TargetDir)ReleaseNotes.txt" "ReleaseNotes.txt"
+COPY /Y "$(SolutionDir)ThirdParty\VersionInfo.txt" "VersionInfo.txt"
 )
 
 rem if $(ConfigurationName This line will throw an error for post build debugging purposes purposes</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>XCOPY /Y /D "$(SolutionDir)libs\*.xml" "$(TargetDir)*.xml" 
-XCOPY /Y /E /D "$(SolutionDir)libs\ww2ogg\*.*" "$(TargetDir)*.*"
+XCOPY /Y /E /D "$(SolutionDir)libs\tools\*.*" "$(TargetDir)tools\*.*"
 XCOPY /Y /E /D "$(SolutionDir)libs\ddc\*.*" "$(TargetDir)ddc\*.*"
 
 REM if $(ConfigurationName This line will throw an error for debugging</PreBuildEvent>

@@ -14,6 +14,7 @@ using CustomsForgeSongManager.LocalTools;
 using CustomsForgeSongManager.UITheme;
 using GenTools;
 using DataGridViewTools;
+using CustomsForgeSongManager.Properties;
 
 // cache.psarc may not be renamed
 
@@ -38,7 +39,7 @@ namespace CustomsForgeSongManager.UControls
         private string rs1CompDlcPath;
         private DataGridViewRow selectedRow;
         private Color setlistColor = Color.Yellow;
-        private BindingList<SongData> setlistCollection = new BindingList<SongData>();
+        private List<SongData> setlistList = new List<SongData>(); // prevents filtering from being inherited
         private List<SongData> songSearch = new List<SongData>();
 
         public SetlistManager()
@@ -52,7 +53,7 @@ namespace CustomsForgeSongManager.UControls
         {
             Globals.Log("Populating SetlistManager GUI ...");
             DgvExtensions.DoubleBuffered(dgvSetlistMaster);
-            Globals.Settings.LoadSettingsFromFile(dgvSetlistMaster);
+            Globals.Settings.LoadSettingsFromFile(dgvSetlistMaster, true);
             chkShowSetlistSongs.Checked = AppSettings.Instance.ShowSetlistSongs;
 
             // theoretically this error condition should never exist
@@ -84,19 +85,15 @@ namespace CustomsForgeSongManager.UControls
         {
             if (Globals.RescanSetlistManager)
             {
-                Globals.RescanSetlistManager = false;
                 Rescan();
                 PopulateSetlistManager();
             }
-
-            if (Globals.ReloadSetlistManager)
-            {
-                Globals.ReloadSetlistManager = false;
+            else if (Globals.ReloadSetlistManager)
                 PopulateSetlistManager();
-            }
 
-            Globals.DgvCurrent = dgvSetlistMaster;
-            Globals.TsLabel_MainMsg.Text = string.Format(Properties.Resources.RocksmithSongsCountFormat, setlistCollection.Count);
+            Globals.RescanSetlistManager = false;
+            Globals.ReloadSetlistManager = false;
+            Globals.TsLabel_MainMsg.Text = string.Format(Properties.Resources.RocksmithSongsCountFormat, setlistList.Count);
             Globals.TsLabel_MainMsg.Visible = true;
             Globals.TsLabel_DisabledCounter.Alignment = ToolStripItemAlignment.Right;
             Globals.TsLabel_DisabledCounter.Text = String.Format("Songs in '{0}' Setlist: {1}", curSetlistName, dgvSetlistSongs.Rows.Count);
@@ -260,7 +257,7 @@ namespace CustomsForgeSongManager.UControls
                                 newSong.GetType().GetProperty(item.Name).SetValue(newSong, item.GetValue(song, null), null);
 
                         newSong.FilePath = destPath;
-                        setlistCollection.Add(newSong);
+                        setlistList.Add(newSong);
 
                         if (!isSrcDisabled && mode == "copy")
                         {
@@ -291,10 +288,11 @@ namespace CustomsForgeSongManager.UControls
             UpdateToolStrip();
             RefreshAllDgv(false);
 
-            //TODO: we mainly change paths here, so why don't we just change paths in the SongCollection list instead of doing full rescans (which can be rather lengthy)
-            Globals.RescanSongManager = true;
+            // force reload/rescan
             Globals.RescanDuplicates = true;
-            Globals.RescanRenamer = true;
+            Globals.ReloadSongManager = true;
+            Globals.ReloadRenamer = true;
+            Globals.ReloadSetlistManager = true;
         }
 
         private void LoadFilteredBindingList(dynamic list)
@@ -376,8 +374,8 @@ namespace CustomsForgeSongManager.UControls
             //}
 
             // local setlistCollection is loaded with Globals SongCollection
-            setlistCollection = Globals.SongCollection;
-            LoadFilteredBindingList(setlistCollection);
+            setlistList = Globals.MasterCollection.ToList();
+            LoadFilteredBindingList(setlistList);
             CFSMTheme.InitializeDgvAppearance(dgvSetlistMaster);
 
             return true;
@@ -406,7 +404,7 @@ namespace CustomsForgeSongManager.UControls
 
                 // CAREFUL - brain damage area
                 // the use of LINQ 'Select' defeats the FilteredBindingList feature and locks data                
-                var setlistSongs = setlistCollection.Where(sng => (sng.ArtistTitleAlbum.ToLower().Contains(search) || sng.Tuning.ToLower().Contains(search) || sng.FilePath.ToLower().Contains(search)) && Path.GetDirectoryName(sng.FilePath) == setlistPath).ToList();
+                var setlistSongs = setlistList.Where(sng => (sng.ArtistTitleAlbum.ToLower().Contains(search) || sng.Tunings1D.ToLower().Contains(search) || sng.FilePath.ToLower().Contains(search)) && Path.GetDirectoryName(sng.FilePath) == setlistPath).ToList();
 
                 // the use of .Select breaks binding
                 // .Select(x => new { x.Selected, x.Enabled, x.Artist, x.Song, x.Album, x.Tuning, x.Path }).ToList();
@@ -453,7 +451,7 @@ namespace CustomsForgeSongManager.UControls
             // uncheck (deselect)
             if (unSelectAll)
             {
-                foreach (var song in setlistCollection)
+                foreach (var song in setlistList)
                     song.Selected = false;
 
                 foreach (DataGridViewRow row in dgvSongPacks.Rows)
@@ -470,7 +468,7 @@ namespace CustomsForgeSongManager.UControls
         {
             Globals.Settings.SaveSettingsToFile(dgvSetlistMaster);
             DataGridViewAutoFilterTextBoxColumn.RemoveFilter(dgvSetlistMaster);
-            LoadFilteredBindingList(setlistCollection);
+            LoadFilteredBindingList(setlistList);
 
             // reset alternating row color
             foreach (DataGridViewRow row in dgvSetlistMaster.Rows)
@@ -497,23 +495,23 @@ namespace CustomsForgeSongManager.UControls
                     Application.DoEvents();
             }
 
-            if (Globals.WorkerFinished == Globals.Tristate.Cancelled)
-                return;
-
-            Globals.ReloadSetlistManager = false;
-            Globals.RescanDuplicates = false;
-            Globals.RescanSongManager = false;
-            Globals.RescanRenamer = false;
-            Globals.ReloadSetlistManager = true;
+            // force reload
+            //Globals.ReloadSetlistManager = true;
             Globals.ReloadDuplicates = true;
             Globals.ReloadRenamer = true;
             Globals.ReloadSongManager = true;
+
+            if (Globals.WorkerFinished == Globals.Tristate.Cancelled)
+            {
+                Globals.Log(Resources.UserCancelledProcess);
+                return;
+            }
         }
 
         private void SearchCDLC(string criteria)
         {
             var lowerCriteria = criteria.ToLower();
-            var results = setlistCollection.Where(x => x.ArtistTitleAlbum.ToLower().Contains(lowerCriteria) || x.Tuning.ToLower().Contains(lowerCriteria) && Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList();
+            var results = setlistList.Where(x => x.ArtistTitleAlbum.ToLower().Contains(lowerCriteria) || x.Tunings1D.ToLower().Contains(lowerCriteria) && Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList();
 
             LoadFilteredBindingList(results);
             songSearch.Clear();
@@ -589,7 +587,7 @@ namespace CustomsForgeSongManager.UControls
                         File.Copy(songPath, newSongPath);
                         Globals.Log("Copied: " + oldSong.FilePath);
                         Globals.Log("To: " + newSong.FilePath);
-                        setlistCollection.Add(newSong);
+                        setlistList.Add(newSong);
                     }
                 }
             }
@@ -935,7 +933,7 @@ namespace CustomsForgeSongManager.UControls
         {
             if (!chkShowSetlistSongs.Checked)
             {
-                var results = setlistCollection.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList();
+                var results = setlistList.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList();
 
                 LoadFilteredBindingList(results);
             }
@@ -1026,7 +1024,7 @@ namespace CustomsForgeSongManager.UControls
             if (cueSearch.Text.Length > 0) // && e.KeyCode == Keys.Enter)
                 SearchCDLC(cueSearch.Text);
             else
-                LoadFilteredBindingList(setlistCollection);
+                LoadFilteredBindingList(setlistList);
         }
 
         private void dgvSetlistMaster_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
@@ -1035,7 +1033,6 @@ namespace CustomsForgeSongManager.UControls
             var grid = (DataGridView)sender;
             if (grid.Name != "dgvSetlistMaster")
                 return;
-
 
             // speed hacks ...
             if (e.RowIndex == -1)
@@ -1059,7 +1056,7 @@ namespace CustomsForgeSongManager.UControls
 
             if (song != null && song.DLCKey != null)
             {
-                if (song.OfficialDLC)
+                if (song.IsOfficialDLC)
                 {
                     e.CellStyle.Font = Constants.OfficialDLCFont;
                     // prevent checking (selecting) ODCL all together ... evil genious code
@@ -1159,8 +1156,8 @@ namespace CustomsForgeSongManager.UControls
                     {
                         var sng = DgvExtensions.GetObjectFromRow<SongData>(dgvSetlistMaster, e.RowIndex);
                         // cmsCopy.Enabled = !sng.OfficialDLC;
-                        cmsMove.Enabled = !sng.OfficialDLC;
-                        cmsDelete.Enabled = !sng.OfficialDLC;
+                        cmsMove.Enabled = !sng.IsOfficialDLC;
+                        cmsDelete.Enabled = !sng.IsOfficialDLC;
                     }
 
                     // known VS bug .. SourceControl returns null .. using tag for work around
@@ -1403,14 +1400,14 @@ namespace CustomsForgeSongManager.UControls
 
         public void TabEnter()
         {
-            Globals.Log("Setlist Manager GUI Activated...");
             Globals.DgvCurrent = dgvSetlistMaster;
+            Globals.Log("Setlist Manager GUI Activated...");
         }
 
         public void TabLeave()
         {
-            Globals.Log("Leaving Setlist Manager GUI ...");
             Globals.Settings.SaveSettingsToFile(dgvSetlistMaster);
+            Globals.Log("Setlist Manager GUI Deactivated ...");
         }
 
     }

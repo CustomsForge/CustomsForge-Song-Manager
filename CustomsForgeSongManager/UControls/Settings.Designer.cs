@@ -50,15 +50,16 @@ namespace CustomsForgeSongManager.UControls
             this.btnSettingsLoad = new System.Windows.Forms.Button();
             this.btnEmptyLogs = new System.Windows.Forms.Button();
             this.btnResetDownloads = new System.Windows.Forms.Button();
-            this.chkIncludeRS1CompSongs = new System.Windows.Forms.CheckBox();
-            this.chkIncludeRS2BaseSongs = new System.Windows.Forms.CheckBox();
             this.chkIncludeCustomPacks = new System.Windows.Forms.CheckBox();
-            this.chkIncludeAnalyzerData = new System.Windows.Forms.CheckBox();
-            this.chkValidateD3D = new System.Windows.Forms.CheckBox();
-            this.chkEnableNotifications = new System.Windows.Forms.CheckBox();
-            this.chkEnableAutoUpdate = new System.Windows.Forms.CheckBox();
             this.txtCharterName = new CustomControls.CueTextBox();
             this.chkMacMode = new System.Windows.Forms.CheckBox();
+            this.chkValidateD3D = new System.Windows.Forms.CheckBox();
+            this.chkEnableQuarantine = new System.Windows.Forms.CheckBox();
+            this.chkEnableNotifications = new System.Windows.Forms.CheckBox();
+            this.chkEnableAutoUpdate = new System.Windows.Forms.CheckBox();
+            this.chkIncludeArrangementData = new System.Windows.Forms.CheckBox();
+            this.chkIncludeRS1CompSongs = new System.Windows.Forms.CheckBox();
+            this.chkIncludeRS2BaseSongs = new System.Windows.Forms.CheckBox();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.tlpSettings_Wrapper.SuspendLayout();
             this.panel5.SuspendLayout();
@@ -73,24 +74,25 @@ namespace CustomsForgeSongManager.UControls
             this.tlpSettings_Wrapper.Controls.Add(this.panel5, 2, 1);
             this.tlpSettings_Wrapper.Controls.Add(this.cueRsDir, 2, 0);
             this.tlpSettings_Wrapper.Controls.Add(this.lblSettingsRSDir, 0, 0);
-            this.tlpSettings_Wrapper.Controls.Add(this.rbCleanOnClosing, 0, 12);
-            this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsSave, 1, 15);
-            this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsLoad, 0, 15);
-            this.tlpSettings_Wrapper.Controls.Add(this.btnEmptyLogs, 0, 14);
-            this.tlpSettings_Wrapper.Controls.Add(this.btnResetDownloads, 1, 14);
-            this.tlpSettings_Wrapper.Controls.Add(this.chkIncludeRS1CompSongs, 0, 2);
-            this.tlpSettings_Wrapper.Controls.Add(this.chkIncludeRS2BaseSongs, 0, 3);
+            this.tlpSettings_Wrapper.Controls.Add(this.rbCleanOnClosing, 0, 13);
+            this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsSave, 1, 16);
+            this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsLoad, 0, 16);
+            this.tlpSettings_Wrapper.Controls.Add(this.btnEmptyLogs, 0, 15);
+            this.tlpSettings_Wrapper.Controls.Add(this.btnResetDownloads, 1, 15);
             this.tlpSettings_Wrapper.Controls.Add(this.chkIncludeCustomPacks, 0, 4);
-            this.tlpSettings_Wrapper.Controls.Add(this.chkIncludeAnalyzerData, 0, 5);
-            this.tlpSettings_Wrapper.Controls.Add(this.chkValidateD3D, 0, 8);
+            this.tlpSettings_Wrapper.Controls.Add(this.txtCharterName, 0, 11);
+            this.tlpSettings_Wrapper.Controls.Add(this.chkMacMode, 0, 10);
+            this.tlpSettings_Wrapper.Controls.Add(this.chkValidateD3D, 0, 9);
+            this.tlpSettings_Wrapper.Controls.Add(this.chkEnableQuarantine, 0, 8);
             this.tlpSettings_Wrapper.Controls.Add(this.chkEnableNotifications, 0, 7);
             this.tlpSettings_Wrapper.Controls.Add(this.chkEnableAutoUpdate, 0, 6);
-            this.tlpSettings_Wrapper.Controls.Add(this.txtCharterName, 0, 11);
-            this.tlpSettings_Wrapper.Controls.Add(this.chkMacMode, 0, 9);
+            this.tlpSettings_Wrapper.Controls.Add(this.chkIncludeArrangementData, 0, 5);
+            this.tlpSettings_Wrapper.Controls.Add(this.chkIncludeRS1CompSongs, 0, 3);
+            this.tlpSettings_Wrapper.Controls.Add(this.chkIncludeRS2BaseSongs, 0, 2);
             this.tlpSettings_Wrapper.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpSettings_Wrapper.Location = new System.Drawing.Point(0, 0);
             this.tlpSettings_Wrapper.Name = "tlpSettings_Wrapper";
-            this.tlpSettings_Wrapper.RowCount = 17;
+            this.tlpSettings_Wrapper.RowCount = 18;
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
@@ -101,8 +103,9 @@ namespace CustomsForgeSongManager.UControls
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
-            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 14F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
+            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
+            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 8F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 45F));
@@ -119,7 +122,7 @@ namespace CustomsForgeSongManager.UControls
             this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel5.Location = new System.Drawing.Point(347, 28);
             this.panel5.Name = "panel5";
-            this.tlpSettings_Wrapper.SetRowSpan(this.panel5, 16);
+            this.tlpSettings_Wrapper.SetRowSpan(this.panel5, 17);
             this.panel5.Size = new System.Drawing.Size(516, 459);
             this.panel5.TabIndex = 4;
             // 
@@ -131,7 +134,7 @@ namespace CustomsForgeSongManager.UControls
             this.lnkSelectAll.Size = new System.Drawing.Size(98, 13);
             this.lnkSelectAll.TabIndex = 6;
             this.lnkSelectAll.TabStop = true;
-            this.lnkSelectAll.Text = "Select/Deselect All";
+            this.lnkSelectAll.Text = "Deselect/Select All";
             this.lnkSelectAll.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkSelectAll_LinkClicked);
             // 
             // lblDgvColumns
@@ -209,13 +212,13 @@ namespace CustomsForgeSongManager.UControls
             this.lblSettingsRSDir.AutoSize = true;
             this.tlpSettings_Wrapper.SetColumnSpan(this.lblSettingsRSDir, 2);
             this.lblSettingsRSDir.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSettingsRSDir.Location = new System.Drawing.Point(126, 3);
+            this.lblSettingsRSDir.Location = new System.Drawing.Point(141, 3);
             this.lblSettingsRSDir.Margin = new System.Windows.Forms.Padding(3);
             this.lblSettingsRSDir.Name = "lblSettingsRSDir";
             this.lblSettingsRSDir.Padding = new System.Windows.Forms.Padding(3);
-            this.lblSettingsRSDir.Size = new System.Drawing.Size(215, 19);
+            this.lblSettingsRSDir.Size = new System.Drawing.Size(200, 19);
             this.lblSettingsRSDir.TabIndex = 7;
-            this.lblSettingsRSDir.Text = "Rocksmith Installation Directory:";
+            this.lblSettingsRSDir.Text = "RS2014 Installation Directory:";
             this.lblSettingsRSDir.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // rbCleanOnClosing
@@ -224,7 +227,7 @@ namespace CustomsForgeSongManager.UControls
             this.rbCleanOnClosing.AutoSize = true;
             this.tlpSettings_Wrapper.SetColumnSpan(this.rbCleanOnClosing, 2);
             this.rbCleanOnClosing.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rbCleanOnClosing.Location = new System.Drawing.Point(3, 323);
+            this.rbCleanOnClosing.Location = new System.Drawing.Point(3, 345);
             this.rbCleanOnClosing.Name = "rbCleanOnClosing";
             this.rbCleanOnClosing.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
             this.rbCleanOnClosing.Size = new System.Drawing.Size(166, 19);
@@ -294,43 +297,10 @@ namespace CustomsForgeSongManager.UControls
             this.btnResetDownloads.TabIndex = 13;
             this.btnResetDownloads.Text = "Reset DL Folder";
             this.btnResetDownloads.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.toolTip.SetToolTip(this.btnResetDownloads, "Reset the \'Downloads\' folder path to\r\nspecify where new CDLC are stored.");
+            this.toolTip.SetToolTip(this.btnResetDownloads, "Reset the \'Downloads\' folder path to empty.\r\nYou will be asked later on to specif" +
+                    "y the new path\r\nof the \'Downloads\' folder when it is needed.");
             this.btnResetDownloads.UseVisualStyleBackColor = true;
             this.btnResetDownloads.Click += new System.EventHandler(this.btnResetDownloads_Click);
-            // 
-            // chkIncludeRS1CompSongs
-            // 
-            this.chkIncludeRS1CompSongs.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.chkIncludeRS1CompSongs.AutoSize = true;
-            this.tlpSettings_Wrapper.SetColumnSpan(this.chkIncludeRS1CompSongs, 2);
-            this.chkIncludeRS1CompSongs.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkIncludeRS1CompSongs.Location = new System.Drawing.Point(3, 57);
-            this.chkIncludeRS1CompSongs.Name = "chkIncludeRS1CompSongs";
-            this.chkIncludeRS1CompSongs.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
-            this.chkIncludeRS1CompSongs.Size = new System.Drawing.Size(211, 19);
-            this.chkIncludeRS1CompSongs.TabIndex = 3;
-            this.chkIncludeRS1CompSongs.Text = "Include RS1 Compatibility Packs";
-            this.chkIncludeRS1CompSongs.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.toolTip.SetToolTip(this.chkIncludeRS1CompSongs, "If checked, include RS1 Compatibility \r\nPacks with the scanned data.");
-            this.chkIncludeRS1CompSongs.UseVisualStyleBackColor = true;
-            this.chkIncludeRS1CompSongs.Click += new System.EventHandler(this.chkIncludeRS1CompSongs_Click);
-            // 
-            // chkIncludeRS2BaseSongs
-            // 
-            this.chkIncludeRS2BaseSongs.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.chkIncludeRS2BaseSongs.AutoSize = true;
-            this.tlpSettings_Wrapper.SetColumnSpan(this.chkIncludeRS2BaseSongs, 2);
-            this.chkIncludeRS2BaseSongs.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.chkIncludeRS2BaseSongs.Location = new System.Drawing.Point(3, 85);
-            this.chkIncludeRS2BaseSongs.Name = "chkIncludeRS2BaseSongs";
-            this.chkIncludeRS2BaseSongs.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
-            this.chkIncludeRS2BaseSongs.Size = new System.Drawing.Size(192, 19);
-            this.chkIncludeRS2BaseSongs.TabIndex = 15;
-            this.chkIncludeRS2BaseSongs.Text = "Include RS2014 Base Songs";
-            this.chkIncludeRS2BaseSongs.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.toolTip.SetToolTip(this.chkIncludeRS2BaseSongs, "If checked, include RS2014 Base\r\nSongs with the scanned data.");
-            this.chkIncludeRS2BaseSongs.UseVisualStyleBackColor = true;
-            this.chkIncludeRS2BaseSongs.Click += new System.EventHandler(this.chkIncludeRS2BaseSongs_Click);
             // 
             // chkIncludeCustomPacks
             // 
@@ -349,23 +319,38 @@ namespace CustomsForgeSongManager.UControls
             this.chkIncludeCustomPacks.UseVisualStyleBackColor = true;
             this.chkIncludeCustomPacks.Click += new System.EventHandler(this.chkIncludeCustomPacks_Click);
             // 
-            // chkIncludeAnalyzerData
+            // txtCharterName
             // 
-            this.chkIncludeAnalyzerData.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.chkIncludeAnalyzerData.AutoSize = true;
-            this.tlpSettings_Wrapper.SetColumnSpan(this.chkIncludeAnalyzerData, 2);
-            this.chkIncludeAnalyzerData.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkIncludeAnalyzerData.Location = new System.Drawing.Point(3, 141);
-            this.chkIncludeAnalyzerData.Name = "chkIncludeAnalyzerData";
-            this.chkIncludeAnalyzerData.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
-            this.chkIncludeAnalyzerData.Size = new System.Drawing.Size(153, 19);
-            this.chkIncludeAnalyzerData.TabIndex = 17;
-            this.chkIncludeAnalyzerData.Text = "Include Analyzer Data";
-            this.chkIncludeAnalyzerData.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.toolTip.SetToolTip(this.chkIncludeAnalyzerData, "If check, include Anayzer Data, such as,\r\nnotes count, chords count, chord names\r" +
-                    "\nwith the scanned data.\r\n\r\nNOTE: \r\nThis scan takes much longer to complete.");
-            this.chkIncludeAnalyzerData.UseVisualStyleBackColor = true;
-            this.chkIncludeAnalyzerData.Click += new System.EventHandler(this.chkIncludeAnalyzerData_Click);
+            this.txtCharterName.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.tlpSettings_Wrapper.SetColumnSpan(this.txtCharterName, 2);
+            this.txtCharterName.Cue = "Enter a CDLC Charter\'s Name";
+            this.txtCharterName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.txtCharterName.ForeColor = System.Drawing.Color.Gray;
+            this.txtCharterName.Location = new System.Drawing.Point(12, 309);
+            this.txtCharterName.Margin = new System.Windows.Forms.Padding(12, 3, 3, 3);
+            this.txtCharterName.Name = "txtCharterName";
+            this.txtCharterName.Size = new System.Drawing.Size(179, 20);
+            this.txtCharterName.TabIndex = 9;
+            this.toolTip.SetToolTip(this.txtCharterName, "Enter your charter name or the name\r\nof any charter you would like to show \r\nquic" +
+                    "kly when checkbox \'Show My CDLC\' \r\nis checked in Song Manager, Custom Mods.\r\n");
+            this.txtCharterName.TextChanged += new System.EventHandler(this.tbCreator_TextChanged);
+            // 
+            // chkMacMode
+            // 
+            this.chkMacMode.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.chkMacMode.AutoSize = true;
+            this.tlpSettings_Wrapper.SetColumnSpan(this.chkMacMode, 2);
+            this.chkMacMode.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkMacMode.Location = new System.Drawing.Point(3, 281);
+            this.chkMacMode.Name = "chkMacMode";
+            this.chkMacMode.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
+            this.chkMacMode.Size = new System.Drawing.Size(164, 19);
+            this.chkMacMode.TabIndex = 20;
+            this.chkMacMode.Text = "Mac Compatiblity Mode";
+            this.chkMacMode.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.toolTip.SetToolTip(this.chkMacMode, resources.GetString("chkMacMode.ToolTip"));
+            this.chkMacMode.UseVisualStyleBackColor = true;
+            this.chkMacMode.Click += new System.EventHandler(this.chkMacMode_Click);
             // 
             // chkValidateD3D
             // 
@@ -373,7 +358,7 @@ namespace CustomsForgeSongManager.UControls
             this.chkValidateD3D.AutoSize = true;
             this.tlpSettings_Wrapper.SetColumnSpan(this.chkValidateD3D, 2);
             this.chkValidateD3D.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkValidateD3D.Location = new System.Drawing.Point(3, 225);
+            this.chkValidateD3D.Location = new System.Drawing.Point(3, 253);
             this.chkValidateD3D.Name = "chkValidateD3D";
             this.chkValidateD3D.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
             this.chkValidateD3D.Size = new System.Drawing.Size(159, 19);
@@ -383,6 +368,24 @@ namespace CustomsForgeSongManager.UControls
             this.toolTip.SetToolTip(this.chkValidateD3D, "If checked, CFSM will validate the\r\nuser\'s \'D3DX9_42.dll\' file installation.");
             this.chkValidateD3D.UseVisualStyleBackColor = true;
             this.chkValidateD3D.Click += new System.EventHandler(this.chkValidateD3D_Click);
+            // 
+            // chkEnableQuarantine
+            // 
+            this.chkEnableQuarantine.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.chkEnableQuarantine.AutoSize = true;
+            this.tlpSettings_Wrapper.SetColumnSpan(this.chkEnableQuarantine, 2);
+            this.chkEnableQuarantine.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkEnableQuarantine.Location = new System.Drawing.Point(3, 225);
+            this.chkEnableQuarantine.Name = "chkEnableQuarantine";
+            this.chkEnableQuarantine.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
+            this.chkEnableQuarantine.Size = new System.Drawing.Size(165, 19);
+            this.chkEnableQuarantine.TabIndex = 21;
+            this.chkEnableQuarantine.Text = "Enable Auto Quarantine";
+            this.chkEnableQuarantine.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.toolTip.SetToolTip(this.chkEnableQuarantine, "If checked, corrupt CDLC will \r\nautomatically be moved to quarantine\r\nand be remo" +
+                    "ved from the \'dlc\' folder.");
+            this.chkEnableQuarantine.UseVisualStyleBackColor = true;
+            this.chkEnableQuarantine.Click += new System.EventHandler(this.chkEnableQuarantine_Click);
             // 
             // chkEnableNotifications
             // 
@@ -397,7 +400,7 @@ namespace CustomsForgeSongManager.UControls
             this.chkEnableNotifications.TabIndex = 16;
             this.chkEnableNotifications.Text = "Enable Notifications";
             this.chkEnableNotifications.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.toolTip.SetToolTip(this.chkEnableNotifications, "If checked, shows popup notification\r\nballon messages on system task bar.");
+            this.toolTip.SetToolTip(this.chkEnableNotifications, "If checked, shows popup notification\r\nballon messages in the System Tray.");
             this.chkEnableNotifications.UseVisualStyleBackColor = true;
             this.chkEnableNotifications.Click += new System.EventHandler(this.chkEnableNotifications_Click);
             // 
@@ -419,38 +422,59 @@ namespace CustomsForgeSongManager.UControls
             this.chkEnableAutoUpdate.UseVisualStyleBackColor = true;
             this.chkEnableAutoUpdate.Click += new System.EventHandler(this.chkEnableAutoUpdate_Click);
             // 
-            // txtCharterName
+            // chkIncludeArrangementData
             // 
-            this.txtCharterName.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.tlpSettings_Wrapper.SetColumnSpan(this.txtCharterName, 2);
-            this.txtCharterName.Cue = "Enter CDLC Charter Name";
-            this.txtCharterName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.txtCharterName.ForeColor = System.Drawing.Color.Gray;
-            this.txtCharterName.Location = new System.Drawing.Point(12, 295);
-            this.txtCharterName.Margin = new System.Windows.Forms.Padding(12, 3, 3, 3);
-            this.txtCharterName.Name = "txtCharterName";
-            this.txtCharterName.Size = new System.Drawing.Size(179, 20);
-            this.txtCharterName.TabIndex = 9;
-            this.toolTip.SetToolTip(this.txtCharterName, "Enter your charter name or the name\r\nof any charter you would like to show \r\nquic" +
-                    "kly when checkbox \'My CDLC Only\' \r\nis checked in Song Manager.\r\n");
-            this.txtCharterName.TextChanged += new System.EventHandler(this.tbCreator_TextChanged);
+            this.chkIncludeArrangementData.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.chkIncludeArrangementData.AutoSize = true;
+            this.tlpSettings_Wrapper.SetColumnSpan(this.chkIncludeArrangementData, 2);
+            this.chkIncludeArrangementData.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.chkIncludeArrangementData.Location = new System.Drawing.Point(3, 141);
+            this.chkIncludeArrangementData.Name = "chkIncludeArrangementData";
+            this.chkIncludeArrangementData.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
+            this.chkIncludeArrangementData.Size = new System.Drawing.Size(227, 19);
+            this.chkIncludeArrangementData.TabIndex = 22;
+            this.chkIncludeArrangementData.Text = "Include Arrangement Analyzer Data";
+            this.chkIncludeArrangementData.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.toolTip.SetToolTip(this.chkIncludeArrangementData, "If checked, include complete\r\narrangement data with scan.  \r\n\r\nNOTE:  A full resc" +
+                    "an of CDLC \r\ntakes 5x longer when checked.");
+            this.chkIncludeArrangementData.UseVisualStyleBackColor = true;
+            this.chkIncludeArrangementData.Click += new System.EventHandler(this.chkIncludeArrangementData_Click);
             // 
-            // chkMacMode
+            // chkIncludeRS1CompSongs
             // 
-            this.chkMacMode.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.chkMacMode.AutoSize = true;
-            this.tlpSettings_Wrapper.SetColumnSpan(this.chkMacMode, 2);
-            this.chkMacMode.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkMacMode.Location = new System.Drawing.Point(3, 253);
-            this.chkMacMode.Name = "chkMacMode";
-            this.chkMacMode.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
-            this.chkMacMode.Size = new System.Drawing.Size(167, 19);
-            this.chkMacMode.TabIndex = 20;
-            this.chkMacMode.Text = "Mac Compatibility Mode";
-            this.chkMacMode.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.toolTip.SetToolTip(this.chkMacMode, resources.GetString("chkMacMode.ToolTip"));
-            this.chkMacMode.UseVisualStyleBackColor = true;
-            this.chkMacMode.Click += new System.EventHandler(this.chkMacMode_Click);
+            this.chkIncludeRS1CompSongs.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.chkIncludeRS1CompSongs.AutoSize = true;
+            this.tlpSettings_Wrapper.SetColumnSpan(this.chkIncludeRS1CompSongs, 2);
+            this.chkIncludeRS1CompSongs.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkIncludeRS1CompSongs.Location = new System.Drawing.Point(3, 85);
+            this.chkIncludeRS1CompSongs.Name = "chkIncludeRS1CompSongs";
+            this.chkIncludeRS1CompSongs.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
+            this.chkIncludeRS1CompSongs.Size = new System.Drawing.Size(211, 19);
+            this.chkIncludeRS1CompSongs.TabIndex = 3;
+            this.chkIncludeRS1CompSongs.Text = "Include RS1 Compatibility Packs";
+            this.chkIncludeRS1CompSongs.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.toolTip.SetToolTip(this.chkIncludeRS1CompSongs, "If checked, include RS1 Compatibility \r\nPacks with the scanned data.\r\n\r\nNOTE: Ini" +
+                    "tial load is very slow.");
+            this.chkIncludeRS1CompSongs.UseVisualStyleBackColor = true;
+            this.chkIncludeRS1CompSongs.Click += new System.EventHandler(this.chkIncludeRS1CompSongs_Click);
+            // 
+            // chkIncludeRS2BaseSongs
+            // 
+            this.chkIncludeRS2BaseSongs.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.chkIncludeRS2BaseSongs.AutoSize = true;
+            this.tlpSettings_Wrapper.SetColumnSpan(this.chkIncludeRS2BaseSongs, 2);
+            this.chkIncludeRS2BaseSongs.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.chkIncludeRS2BaseSongs.Location = new System.Drawing.Point(3, 57);
+            this.chkIncludeRS2BaseSongs.Name = "chkIncludeRS2BaseSongs";
+            this.chkIncludeRS2BaseSongs.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
+            this.chkIncludeRS2BaseSongs.Size = new System.Drawing.Size(192, 19);
+            this.chkIncludeRS2BaseSongs.TabIndex = 15;
+            this.chkIncludeRS2BaseSongs.Text = "Include RS2014 Base Songs";
+            this.chkIncludeRS2BaseSongs.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.toolTip.SetToolTip(this.chkIncludeRS2BaseSongs, "If checked, include RS2014 Base\r\nSongs with the scanned data.\r\n\r\nNOTE: Initial lo" +
+                    "ad is very slow.");
+            this.chkIncludeRS2BaseSongs.UseVisualStyleBackColor = true;
+            this.chkIncludeRS2BaseSongs.Click += new System.EventHandler(this.chkIncludeRS2BaseSongs_Click);
             // 
             // toolTip
             // 
@@ -498,9 +522,10 @@ namespace CustomsForgeSongManager.UControls
         private Button btnResetDownloads;
         private CheckBox chkEnableNotifications;
         public CheckBox chkIncludeRS2BaseSongs;
-        private CheckBox chkIncludeAnalyzerData;
         public CheckBox chkIncludeCustomPacks;
         private CheckBox chkValidateD3D;
         private CheckBox chkMacMode;
+        private CheckBox chkEnableQuarantine;
+        public CheckBox chkIncludeArrangementData;
     }
 }

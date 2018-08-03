@@ -25,9 +25,7 @@ namespace DataGridViewTools
     // aka FilteredBindingList but better
     public class FilteredBindingList<T> : BindingList<T>, IBindingListView, IFilteredBindingList
     {
-        public FilteredBindingList()
-        {
-        }
+        public FilteredBindingList() { }
 
         // Cozy mod added IList constructor
         public FilteredBindingList(IList<T> list)
@@ -110,8 +108,7 @@ namespace DataGridViewTools
             // Check the properties for a property with the specified name.
             PropertyDescriptor prop = TypeDescriptor.GetProperties(typeof(T))[propertyName];
 
-            // If there is not a match, return -1 otherwise pass search to
-            // FindCore method.
+            // If there is not a match, return -1 otherwise pass search to FindCore method.
             if (prop == null)
                 throw new ArgumentException(propertyName + " is not a valid property for type:" + typeof(T).Name);
             else
@@ -125,6 +122,18 @@ namespace DataGridViewTools
             // Check to see if the property type we are sorting by implements
             // the IComparable interface.
             Type interfaceType = prop.PropertyType.GetInterface("IComparable");
+
+            // Added this code to allow sorting of nullable types
+            // Interface not found on the property's type. Maybe the property was nullable?
+            // For that to happen, it must be value type.
+            if (interfaceType == null && prop.PropertyType.IsValueType)
+            {
+                Type underlyingType = Nullable.GetUnderlyingType(prop.PropertyType);
+                // Nullable.GetUnderlyingType only returns a non-null value
+                // if the supplied type was indeed a nullable type.
+                if (underlyingType != null)
+                    interfaceType = underlyingType.GetInterface("IComparable");
+            }
 
             if (interfaceType != null)
             {
@@ -144,17 +153,39 @@ namespace DataGridViewTools
                     }
                 }
 
-                // Call Sort on the ArrayList.
+                // Call Sort on the ArrayList (put nullable last)
                 try
                 {
+                    // group nullables and sort all others having values
                     sortedList.Sort((x1, x2) =>
-                        {
-                            var c1 = (prop.GetValue(x1) as IComparable);
-                            var c2 = (prop.GetValue(x2) as IComparable);
-                            if (c1 == null || c2 == null)
-                                return -1;
-                            return c1.CompareTo(c2);
-                        });
+                       {
+                           var c1 = (prop.GetValue(x1) as IComparable);
+                           var c2 = (prop.GetValue(x2) as IComparable);
+
+                           if (c1 == null)
+                           {
+                               if (c2 == null) return 0; // equal
+                               else return -1; // x2 is greater
+                           }
+                           else
+                           {
+                               if (c2 == null) return 1; // x1 is greater
+                               if (c1 == c2) return 0; // equal
+
+                               return c1.CompareTo(c2); // let IComparable decide
+                           }
+                       });
+
+                    // original sort does not group nullables
+                    //sortedList.Sort((x1, x2) =>
+                    //   {
+                    //       var c1 = (prop.GetValue(x1) as IComparable);
+                    //       var c2 = (prop.GetValue(x2) as IComparable);
+                    //       if (c1 == null || c2 == null)
+                    //           return  -1;
+
+                    //       return c1.CompareTo(c2);
+                    //   });
                 }
                 catch (Exception)
                 {
@@ -185,12 +216,12 @@ namespace DataGridViewTools
                 // If the list does not have a filter applied, 
                 // raise the ListChanged event so bound controls refresh their
                 // values. Pass -1 for the index since this is a Reset.
-                if (String.IsNullOrEmpty(Filter))
-                    OnListChanged(new ListChangedEventArgs(ListChangedType.Reset, -1));
+
+                // prevents sort glyph to be shown in columns so commented out
+                // if (String.IsNullOrEmpty(Filter))
+                OnListChanged(new ListChangedEventArgs(ListChangedType.Reset, -1));
             }
-            else
-                // If the property type does not implement IComparable, let the user
-                // know.
+            else // If the property type does not implement IComparable, let the user know.
                 throw new InvalidOperationException("Cannot sort by " + prop.Name + ". This" + prop.PropertyType.ToString() + " does not implement IComparable");
         }
 
@@ -214,8 +245,7 @@ namespace DataGridViewTools
                 }
                 isSortedValue = false;
                 this.RaiseListChangedEvents = true;
-                // Raise the list changed event, indicating a reset, and index
-                // of -1.
+                // Raise the list changed event, indicating a reset, and index of -1.
                 OnListChanged(new ListChangedEventArgs(ListChangedType.Reset, -1));
             }
         }
@@ -474,8 +504,20 @@ namespace DataGridViewTools
             // the IComparable interface.
             Type interfaceType = TypeDescriptor.GetProperties(typeof(T))[filterParts.PropName].PropertyType.GetInterface("IComparable");
 
-            if (interfaceType == null)
-                throw new InvalidOperationException("Filtered property" + " must implement IComparable.");
+            // Added this code to allow filtering of nullable types
+            // Interface not found on the property's type. Maybe the property was nullable?
+            // For that to happen, it must be value type.
+            if (interfaceType == null && TypeDescriptor.GetProperties(typeof(T))[filterParts.PropName].PropertyType.IsValueType)
+            {
+                Type underlyingType = Nullable.GetUnderlyingType(TypeDescriptor.GetProperties(typeof(T))[filterParts.PropName].PropertyType);
+                // Nullable.GetUnderlyingType only returns a non-null value
+                // if the supplied type was indeed a nullable type.
+                if (underlyingType != null)
+                    interfaceType = underlyingType.GetInterface("IComparable");
+            }
+
+            //if (interfaceType == null)
+            //    throw new InvalidOperationException("Filtered property" + " must implement IComparable.");
 
             List<T> results = new List<T>();
 
