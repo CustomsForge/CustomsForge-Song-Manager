@@ -553,13 +553,13 @@ may be reset from the 'Settings' tab menu.</value>
     <value>If checked, automatically monitor the
 'Downloads' folder for new CDLC then
 process/repair any new CDLC and 
-move them to 'dlc/donwloads' folder.
+move them to 'dlc/downloads' folder.
 
 Note: Must be unchecked before using
 the 'Run Selected Repair Options'.
 
 Make a donation at https://goo.gl/iTPfRU
-if you would like to have this feature added.</value>
+and show your support for this feature.</value>
   </data>
   <data name="tsmiRepairs.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>

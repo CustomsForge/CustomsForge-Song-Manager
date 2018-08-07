@@ -13,6 +13,11 @@ until you can confirm it is safe by working directly with your AV provider.
 ========================================================================
 
 CFSM Release Notes
+
+1.4.6.4
+- improved duplicate CDLC finder (initial check for duplicate DLCKey and duplicate PID)
+- added feature to 'Auto Monitor the Downloads Folder' (see 'Repairs' menu)
+
 1.4.6.3
 - updated RockmsithToolkitLib.dll
 

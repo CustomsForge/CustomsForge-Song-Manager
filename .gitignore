@@ -68,9 +68,7 @@ packages/
 *.testsettings 
 
 #others
-CleanupBeforeGitPullRequest.bat
-index*.html
 dev*.bat
-BeerMoneyCode.txt
+dev*.txt
 
 

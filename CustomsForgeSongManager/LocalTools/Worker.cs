@@ -255,11 +255,11 @@ namespace CustomsForgeSongManager.LocalTools
             {
                 // move to Quarantine folder
                 if (ex.Message.StartsWith("Error reading JObject"))
-                    Globals.Log(String.Format("<ERROR> {0}  -  CDLC is corrupt!", filePath));
+                    Globals.Log(String.Format("<ERROR> {0} - CDLC is corrupt!", filePath));
                 else if (ex.Message.StartsWith("Object reference not set"))
-                    Globals.Log(String.Format("<ERROR> {0}  -  CDLC is missing data!", filePath));
+                    Globals.Log(String.Format("<ERROR> {0} - CDLC is missing data!", filePath));
                 else
-                    Globals.Log(String.Format("<ERROR> {0}  -  {1}", filePath, ex.Message));
+                    Globals.Log(String.Format("<ERROR> {0} - {1}", filePath, ex.Message));
 
                 if (AppSettings.Instance.EnableQuarantine)
                 {
@@ -270,7 +270,7 @@ namespace CustomsForgeSongManager.LocalTools
                         Directory.CreateDirectory(Constants.QuarantineFolder);
 
                     File.Move(filePath, corFilePath);
-                    Globals.Log(String.Format("File has been quarantined to: {0}", Constants.QuarantineFolder));
+                    Globals.Log(String.Format("File has been moved to: {0}", Constants.QuarantineFolder));
                 }
                 else
                 {

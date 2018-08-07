@@ -15,6 +15,7 @@ namespace CustomsForgeSongManager.DataObjects
     {
         private string _rsInstalledDir = String.Empty;
         private string _rsProfileDir = String.Empty;
+        private string _downloadsDir = String.Empty;
         private bool _includeRS1CompSongs;
         private bool _includeRS2BaseSongs;
         private bool _includeCustomPacks;
@@ -39,7 +40,6 @@ namespace CustomsForgeSongManager.DataObjects
         private string _sortColumn = "Artist"; // set default sort column (retains selection)
         private bool _sortAscending = true;
         private bool _showSetlistSongs;
-        private string _downloadsDir;
         private DateTime _lastODLCCheckDate;
         private RepairOptions _repairOptions;
 
@@ -321,8 +321,6 @@ namespace CustomsForgeSongManager.DataObjects
             RAExtensions.ManagerGridSettings = new RADataGridViewSettings();
             Instance.EnableQuarantine = false; // false because users like using corrupt CDLC
             Instance.LogFilePath = Constants.LogFilePath;
-            Instance.RSProfileDir = String.Empty;
-            Instance.DownloadsDir = String.Empty;
             Instance.IncludeRS1CompSongs = false; // false for fewer new user issues
             Instance.IncludeRS2BaseSongs = false;
             Instance.IncludeCustomPacks = false;
@@ -337,6 +335,10 @@ namespace CustomsForgeSongManager.DataObjects
 
             if (String.IsNullOrEmpty(Instance.RSInstalledDir))
                 Instance.RSInstalledDir = LocalExtensions.GetSteamDirectory();
+            
+            // intentionally omitted from RestoreDefaults to prevent resetting user selections
+            // Instance.RSProfileDir = String.Empty;
+            // Instance.DownloadsDir = String.Empty; 
         }
 
         /// Initialise settings with default values

@@ -47,7 +47,7 @@ namespace CFSM.RSTKLib.PSARC
         {
             if (disposing)
                 if (_deleteOnClose)
-                    DirectoryExtension.SafeDelete(packageDir);
+                    IOExtension.DeleteDirectory(packageDir);
         }
 
         public void Dispose()

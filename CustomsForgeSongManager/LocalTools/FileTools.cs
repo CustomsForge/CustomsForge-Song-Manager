@@ -538,13 +538,14 @@ namespace CustomsForgeSongManager.LocalTools
 
                     dlDirectory = fbd.SelectedPath;
                     AppSettings.Instance.DownloadsDir = dlDirectory;
+                    Globals.Settings.SaveSettingsToFile(Globals.DgvCurrent);
                 }
             }
 
             Globals.Log("Validated Downloads Directory: " + dlDirectory + " ...");
             return true;
         }
-
+        
         public static void VerifyCfsmFolders()
         {
             try

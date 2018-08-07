@@ -2199,7 +2199,14 @@ namespace CustomsForgeSongManager.UControls
             }
 
             AppSettings.Instance.RepairOptions.MonitorDLFolder = tsmiMonitorDLFolder.Checked;
-            RepairTools.MonitorDLFolder(SetRepairOptions());
+            RepairTools.MonitorDLFolder(SetRepairOptions());  
+            
+            // continue to show dropdown
+            if (!tsmiMonitorDLFolder.Checked)
+            {
+                tsmiRepairs.ShowDropDown();
+                menuStrip.Focus();
+            }
         }
 
 

@@ -35,13 +35,28 @@ namespace CustomsForgeSongManager.UControls
         private bool keyEnabled;
         private string lastSelectedSongPath = string.Empty;
         private bool olderVersionsSelected;
+        private bool dupPidSelected;
 
         public Duplicates()
         {
+            // this only gets called once
             InitializeComponent();
             Globals.TsLabel_StatusMsg.Click += lnkShowAll_Click;
             ErrorStyle = new DataGridViewCellStyle() { Font = new Font("Arial", 8, FontStyle.Italic), ForeColor = ErrorStyleForeColor, BackColor = ErrorStyleBackColor };
-            PopulateDuplicates();
+            // test for duplicate DLCKey
+            dupPidSelected = false;
+            PopulateDuplicates(dupPidSelected);
+
+            // test for duplicate PID
+            if (!duplicateList.Any())
+            {
+                dupPidSelected = true;
+                PopulateDuplicates(dupPidSelected);
+
+                // switch back
+                if (!duplicateList.Any())
+                    dupPidSelected = false;
+            }
         }
 
         public void PopulateDuplicates(bool findDupPIDs = false)
@@ -61,6 +76,7 @@ namespace CustomsForgeSongManager.UControls
 
             if (findDupPIDs)
             {
+                Globals.Log("Showing CDLC with duplicate PID (GAME CRASHERS) ...");
                 var pidList = new List<SongData>();
 
                 // assuming every song has at least one arrangement
@@ -95,6 +111,8 @@ namespace CustomsForgeSongManager.UControls
             }
             else
             {
+                Globals.Log("Showing CDLC with duplicate DLCKey ...");
+
                 if (chkSubFolders.Checked)
                     duplicateList = Globals.MasterCollection.GroupBy(x => x.ArtistTitleAlbum).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
                 else
@@ -118,8 +136,6 @@ namespace CustomsForgeSongManager.UControls
 
                     Globals.Log("Showing duplicate disabled songs ...");
                 }
-                else
-                    Globals.Log("Showing duplicate CDLC ...");
             }
 
             duplicateList.RemoveAll(x => x.FileName.ToLower().Contains(Constants.RS1COMP));
@@ -143,7 +159,6 @@ namespace CustomsForgeSongManager.UControls
             {
                 colPID.Visible = true;
                 colPIDArrangement.Visible = true;
-                Globals.Log("Showing CDLC with duplicate PID's ... GAME CRASHERS!");
             }
             else
             {
@@ -158,10 +173,10 @@ namespace CustomsForgeSongManager.UControls
             {
                 // AppSettings.Instance.FilterString = String.Empty;
                 Rescan();
-                PopulateDuplicates();
+                PopulateDuplicates(dupPidSelected);
             }
             else if (Globals.ReloadDuplicates)
-                PopulateDuplicates();
+                PopulateDuplicates(dupPidSelected);
 
             Globals.RescanDuplicates = false;
             Globals.ReloadDuplicates = false;
@@ -174,8 +189,16 @@ namespace CustomsForgeSongManager.UControls
             {
                 if (String.IsNullOrEmpty(AppSettings.Instance.FilterString))
                 {
-                    Globals.Log("Good news, no duplicates found ...");
-                    txtNoDuplicates.Text = "\r\nGood News ...\r\nNo Duplicates Found";
+                    if (dupPidSelected)
+                    {
+                        Globals.Log("Good news, no duplicate PID found ...");
+                        txtNoDuplicates.Text = "\r\nGood News ...\r\nNo Duplicate PID Found";
+                    }
+                    else
+                    {
+                        Globals.Log("Good news, no duplicate DLCKey found ...");
+                        txtNoDuplicates.Text = "\r\nGood News ...\r\nNo Duplicate DLCKey Found";
+                    }
                 }
                 else
                 {
@@ -717,7 +740,7 @@ namespace CustomsForgeSongManager.UControls
             {
                 // refresh is necessary to avoid exceptions when row has been deleted
                 dgvDuplicates.Refresh();
-                
+
                 // Reselect last selected row after sorting
                 if (lastSelectedSongPath != string.Empty)
                 {
@@ -747,7 +770,17 @@ namespace CustomsForgeSongManager.UControls
 
         private void lnkPersistentId_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            PopulateDuplicates(!dgvDuplicates.Columns["colPID"].Visible);
+            if (dupPidSelected)
+            {
+                PopulateDuplicates(false);
+                dupPidSelected = false;
+            }
+            else
+            {
+                PopulateDuplicates(true);
+                dupPidSelected = true;
+            }
+
             UpdateToolStrip();
         }
 
@@ -760,7 +793,6 @@ namespace CustomsForgeSongManager.UControls
                 DgvExtensions.RowsCheckboxValue(dgvDuplicates, false);
                 olderVersionsSelected = false;
             }
-
             else
             {
                 SelectOlderVersions();
