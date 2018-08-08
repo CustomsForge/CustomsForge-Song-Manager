@@ -17,6 +17,7 @@ using RocksmithToolkitLib;
 using Arrangement = RocksmithToolkitLib.DLCPackage.Arrangement;
 using System.Threading;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 // DO NOT USE RESHAPER SORT ON THIS METHOD IT RUINS REPAIR OPTIONS OBJECT ORDER
 namespace CustomsForgeSongManager.LocalTools
@@ -509,15 +510,16 @@ namespace CustomsForgeSongManager.LocalTools
         }
 
         #region Monitor Downloads Folder
+        // TODO: cleanup code after debugging/testing is finished
 
         // Watch user specified 'Downloads' Folder, Auto Repair, and Move to 'dlc' folder          
         public static void MonitorDLFolder(RepairOptions repairOptions)
         {
-            if (!FileTools.ValidateDownloadsDir())
-                return;
-
             if (repairOptions.MonitorDLFolder)
             {
+                if (!FileTools.ValidateDownloadsDir())
+                    return;
+
                 // Create a new FileSystemWatcher and set its properties
                 watcher = new FileSystemWatcher();
                 watcher.Path = AppSettings.Instance.DownloadsDir;
@@ -530,10 +532,10 @@ namespace CustomsForgeSongManager.LocalTools
                 watcher.IncludeSubdirectories = true;
 
                 // Add event handlers
-                watcher.Changed += new FileSystemEventHandler(OnChanged);
+                // watcher.Changed += new FileSystemEventHandler(OnChanged);
                 watcher.Created += new FileSystemEventHandler(OnChanged);
-                watcher.Deleted += new FileSystemEventHandler(OnChanged);
-                watcher.Renamed += new RenamedEventHandler(OnRenamed);
+                // watcher.Deleted += new FileSystemEventHandler(OnChanged);
+                // watcher.Renamed += new RenamedEventHandler(OnRenamed);
 
                 // Begin watching
                 watcher.EnableRaisingEvents = true;
@@ -544,6 +546,7 @@ namespace CustomsForgeSongManager.LocalTools
                 if (watcher != null)
                 {
                     watcher.EnableRaisingEvents = false;
+                    watcher.Created -= new FileSystemEventHandler(OnChanged);
                     watcher.Dispose();
                     watcher = null;
                 }
@@ -556,9 +559,7 @@ namespace CustomsForgeSongManager.LocalTools
         private static void OnChanged(object source, FileSystemEventArgs e)
         {
             // Specify what is done when a file is changed, created, or deleted.
-            Globals.Log(" - File " + e.ChangeType + ": " + e.FullPath);
-            // let the system settle down
-            Thread.Sleep(200);
+            // Globals.Log(" - File " + e.ChangeType + ": " + e.FullPath);
 
             // only interested in new file creation
             if (e.ChangeType == WatcherChangeTypes.Created)
@@ -566,20 +567,28 @@ namespace CustomsForgeSongManager.LocalTools
                 Globals.Log(" - New File Downloaded/Created: " + e.FullPath);
 
                 // temporarily disable the FileSystemWatcher
-                watcher.EnableRaisingEvents = false;
-                watcher.Created -= new FileSystemEventHandler(OnChanged);
-                Globals.Log(" - Temporarily Stopped Watching 'Downloads' Folder ...");
+                // watcher.EnableRaisingEvents = false;
+                // watcher.Created -= new FileSystemEventHandler(OnChanged);
+                // Globals.Log(" - Temporarily Stopped Watching 'Downloads' Folder ...");
                 // let the system settle down
-                Thread.Sleep(200);
+                // Thread.Sleep(200);
+
                 try
                 {
                     // run repairs on all psarc in 'Downloads' folder and move to 'dlc/downloads' folder
-                    RepairTools.RepairSongs(new List<SongData>(), AppSettings.Instance.RepairOptions);
+                    Task task = Task.Factory.StartNew(() =>
+                        {
+                            RepairTools.RepairSongs(new List<SongData>(), AppSettings.Instance.RepairOptions);
+                            GenExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate
+                                { Globals.SongManager.UpdateToolStrip(); });
+                        });
 
-                    GenExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate
+                    // this method may not be desirable but at least the GUI stays responsive during task
+                    while (!task.IsCompleted)
                     {
-                        Globals.SongManager.UpdateToolStrip();
-                    });
+                        Application.DoEvents();
+                        Thread.Sleep(100);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -587,11 +596,12 @@ namespace CustomsForgeSongManager.LocalTools
                 }
 
                 // re-enable the FileSystemWatcher
-                watcher.Created += new FileSystemEventHandler(OnChanged);
-                watcher.EnableRaisingEvents = true;
+                // watcher.Created += new FileSystemEventHandler(OnChanged);
+                // watcher.EnableRaisingEvents = true;
                 // let the system come up to speed
-                Thread.Sleep(200);
-                Globals.Log(" - Restarted Watching 'Downloads' Folder ...");
+                // Thread.Sleep(200);
+                // Globals.Log(" - Restarted Watching 'Downloads' Folder ...");
+
                 Globals.Log(" - Please consider making a donation at https://goo.gl/iTPfRU (copy/paste link to your browser)");
                 Globals.Log("   and show your support for the 'Auto Monitor Downloads Folder' feature ...");
             }
