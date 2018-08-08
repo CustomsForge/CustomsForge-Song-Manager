@@ -15,6 +15,7 @@ using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Runtime.InteropServices;
 
 namespace CustomControls
 {
@@ -23,6 +24,15 @@ namespace CustomControls
     /// </summary>
     public partial class BetterDialog2 : Form
     {
+        private static readonly IntPtr HWND_TOPMOST = new IntPtr(-1);
+        private const UInt32 SWP_NOSIZE = 0x0001;
+        private const UInt32 SWP_NOMOVE = 0x0002;
+        private const UInt32 TOPMOST_FLAGS = SWP_NOMOVE | SWP_NOSIZE;
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
+
         // System Icons example: Bitmap.FromHicon(SystemIcons.Exclamation.Handle)
         // Resource PNG Icons/Images example: Properties.Resources.LedGuitar
         //
@@ -37,9 +47,9 @@ namespace CustomControls
         /// <param name="dialogIcon">Image displayed left side</param>
         /// <param name="iconMessage">Promenent bold message displayed to right of icon</param>
         /// <param name="dialogMessage">Main dialog message, if 'null' then not displayed</param>
-        /// <param name="textDialogButton1">Message box 1 button text, if 'null' then not displayed</param>
-        /// <param name="textDialogButton2">Message box 2 button text, if 'null' then not displayed</param>
-        /// <param name="textDialogButton3">Message box 3 button text, if 'null' then not displayed</param>
+        /// <param name="textDialogButton1">Message box 1 left button text, if 'null' then not displayed</param>
+        /// <param name="textDialogButton2">Message box 2 middle button text, if 'null' then not displayed</param>
+        /// <param name="textDialogButton3">Message box 3 right (first) button text, if 'null' then not displayed</param>
         /// <param name="topFromCenter">Positive pixel distance up from screen center, default location is centered on screen</param>
         /// <param name="leftFromCenter">Positive pixel distance left from screen center, default location is centered on screen</param>
         public static DialogResult ShowDialog(string dialogMessage, string dialogTitle,
@@ -324,6 +334,11 @@ namespace CustomControls
                 if (this.Height < maxIconHeight)
                     this.Height = maxIconHeight;
             }
+        }
+
+        private void BetterDialog2_Load(object sender, EventArgs e)
+        {
+            SetWindowPos(this.Handle, HWND_TOPMOST, 0, 0, 0, 0, TOPMOST_FLAGS);
         }
 
 

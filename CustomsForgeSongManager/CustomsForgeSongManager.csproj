@@ -582,6 +582,7 @@
     <None Include="Resources\shift.png" />
     <None Include="Resources\rescan1.png" />
     <None Include="Resources\tag.png" />
+    <None Include="Resources\dollarsign.png" />
     <Content Include="Resources\TaggerHelp.html" />
     <None Include="Resources\trashcan.png" />
     <None Include="Resources\Unleashed2k.png" />

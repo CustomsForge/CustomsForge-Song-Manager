@@ -58,6 +58,21 @@ namespace CustomsForgeSongManager.UControls
             cmsTaggerPreview.Visible = true; // ???
             PopulateSongManager();
             InitializeRepairMenu();
+            tsmiRepairs.HideDropDown();            
+        }
+
+        public void DoWork(string workDescription, dynamic workerParm1 = null, dynamic workerParm2 = null, dynamic workerParm3 = null)
+        {
+            using (var gWorker = new GenericWorker())
+            {
+                gWorker.WorkDescription = workDescription;
+                gWorker.WorkParm1 = workerParm1;
+                gWorker.WorkParm2 = workerParm2;
+                gWorker.WorkParm3 = workerParm3;
+                gWorker.BackgroundProcess(this);
+                while (Globals.WorkerFinished == Globals.Tristate.False)
+                    Application.DoEvents();
+            }
         }
 
         public void PlaySelectedSong()
@@ -212,8 +227,8 @@ namespace CustomsForgeSongManager.UControls
             ro.IgnoreStopLimit = tsmiIgnoreStopLimit.Checked;
             ro.RemoveSections = tsmiRemoveSections.Checked;
             ro.FixLowBass = tsmiFixLowBass.Checked;
-            ro.ProcessDLFolder = tsmiProcessDLFolder.Checked;
-            ro.MonitorDLFolder = tsmiMonitorDLFolder.Checked;
+            ro.DLFolderProcess = tsmiDLFolderProcess.Checked;
+            ro.DLFolderMonitor = tsmiDLFolderMonitor.Checked;
 
             AppSettings.Instance.RepairOptions = ro;
             return ro;
@@ -237,7 +252,7 @@ namespace CustomsForgeSongManager.UControls
             Globals.RescanSongManager = false;
             Globals.RescanArrangements = false;
             Globals.ReloadSongManager = false;
-                Globals.ReloadArrangements = false; // testing w/ 'false' faster load of ArrangementAnalyzer 
+            Globals.ReloadArrangements = false; // testing w/ 'false' faster load of ArrangementAnalyzer 
             Globals.ReloadRenamer = true;
             Globals.ReloadSetlistManager = true;
             Globals.ReloadDuplicates = true;
@@ -346,20 +361,6 @@ namespace CustomsForgeSongManager.UControls
             }
         }
 
-        public void DoWork(string workDescription, dynamic workerParm1 = null, dynamic workerParm2 = null, dynamic workerParm3 = null)
-        {
-            using (var gWorker = new GenericWorker())
-            {
-                gWorker.WorkDescription = workDescription;
-                gWorker.WorkParm1 = workerParm1;
-                gWorker.WorkParm2 = workerParm2;
-                gWorker.WorkParm3 = workerParm3;
-                gWorker.BackgroundProcess(this);
-                while (Globals.WorkerFinished == Globals.Tristate.False)
-                    Application.DoEvents();
-            }
-        }
-
         private void GetRepairOptions()
         {
             ignoreCheckStateChanged = true;
@@ -378,7 +379,7 @@ namespace CustomsForgeSongManager.UControls
             tsmiIgnoreStopLimit.Checked = AppSettings.Instance.RepairOptions.IgnoreStopLimit;
             tsmiRemoveSections.Checked = AppSettings.Instance.RepairOptions.RemoveSections;
             tsmiFixLowBass.Checked = AppSettings.Instance.RepairOptions.FixLowBass;
-            tsmiProcessDLFolder.Checked = AppSettings.Instance.RepairOptions.ProcessDLFolder;
+            tsmiDLFolderProcess.Checked = AppSettings.Instance.RepairOptions.DLFolderProcess;
             tsmiRepairsAddDD.Checked = AppSettings.Instance.RepairOptions.AddDD;
             tsmiOverwriteDD.Checked = AppSettings.Instance.RepairOptions.OverwriteDD;
             tsmiAddDDNumericUpDown.Value = AppSettings.Instance.RepairOptions.PhraseLength;
@@ -395,7 +396,7 @@ namespace CustomsForgeSongManager.UControls
             ignoreCheckStateChanged = false;
 
             // starts/stops DL folder monitoring
-            tsmiMonitorDLFolder.Checked = AppSettings.Instance.RepairOptions.MonitorDLFolder;
+            tsmiDLFolderMonitor.Checked = AppSettings.Instance.RepairOptions.DLFolderMonitor;
         }
 
         private void InitializeRepairMenu()
@@ -993,6 +994,41 @@ namespace CustomsForgeSongManager.UControls
             }
         }
 
+        private void CheckAllForUpdates(object sender, DoWorkEventArgs e)
+        {
+            if (Globals.TsLabel_Cancel.Visible)
+            {
+                if (bWorker.IsBusy)
+                {
+                    bWorker.CancelAsync();
+                    bWorker.Abort();
+                }
+
+                GenExtensions.InvokeIfRequired(this, delegate { Globals.TsLabel_Cancel.Visible = false; });
+            }
+
+            //Thread.Sleep(3000);
+            counterStopwatch.Restart();
+
+            GenExtensions.InvokeIfRequired(dgvSongsMaster, delegate
+                {
+                    foreach (DataGridViewRow row in dgvSongsMaster.Rows)
+                    {
+                        if (bWorker.CancellationPending)
+                        {
+                            bWorker.Abort();
+                            Globals.Log("<WARNING> User aborted checking for updates on CF ...");
+                            break;
+                        }
+
+                        DataGridViewRow currentRow = (DataGridViewRow)row;
+                        CheckRowForUpdate(currentRow);
+                    }
+                });
+
+            counterStopwatch.Stop();
+        }
+
         private void ModsPitchShift_CheckStateChanged(object sender, EventArgs e)
         {
             if (ignoreCheckStateChanged)
@@ -1022,11 +1058,11 @@ namespace CustomsForgeSongManager.UControls
             // set the RadioButtonGroupName for each RadioButton to a unique name
             if (tsmiRepairsUsingOrg.Checked)
             {
-                tsmiProcessDLFolder.Enabled = false;
-                tsmiProcessDLFolder.Checked = false;
+                tsmiDLFolderProcess.Enabled = false;
+                tsmiDLFolderProcess.Checked = false;
             }
             else
-                tsmiProcessDLFolder.Enabled = true;
+                tsmiDLFolderProcess.Enabled = true;
 
             // hide the Repairs dropdown menu on startup
             if (ignoreCheckStateChanged)
@@ -1087,41 +1123,6 @@ namespace CustomsForgeSongManager.UControls
         {
             Globals.TsProgressBar_Main.Value = e.Progress;
             Application.DoEvents();
-        }
-
-        private void CheckAllForUpdates(object sender, DoWorkEventArgs e)
-        {
-            if (Globals.TsLabel_Cancel.Visible)
-            {
-                if (bWorker.IsBusy)
-                {
-                    bWorker.CancelAsync();
-                    bWorker.Abort();
-                }
-
-                GenExtensions.InvokeIfRequired(this, delegate { Globals.TsLabel_Cancel.Visible = false; });
-            }
-
-            //Thread.Sleep(3000);
-            counterStopwatch.Restart();
-
-            GenExtensions.InvokeIfRequired(dgvSongsMaster, delegate
-                {
-                    foreach (DataGridViewRow row in dgvSongsMaster.Rows)
-                    {
-                        if (bWorker.CancellationPending)
-                        {
-                            bWorker.Abort();
-                            Globals.Log("<WARNING> User aborted checking for updates on CF ...");
-                            break;
-                        }
-
-                        DataGridViewRow currentRow = (DataGridViewRow)row;
-                        CheckRowForUpdate(currentRow);
-                    }
-                });
-
-            counterStopwatch.Stop();
         }
 
         private void chkSubFolders_MouseUp(object sender, MouseEventArgs e)
@@ -1785,6 +1786,47 @@ namespace CustomsForgeSongManager.UControls
             tsmiAddDDSettings.ShowDropDown();
             menuStrip.Focus();
         }
+
+        private void tsmiDLFolderMonitor_CheckStateChanged(object sender, EventArgs e)
+        {
+            var items = tsmiRepairs.DropDownItems;
+            var repairString = String.Empty;
+
+            foreach (var item in items.OfType<ToolStripEnhancedMenuItem>())
+            {
+                if (item.Checked)
+                    repairString += item.Name.Replace("tsmi", " ");
+            }
+
+            repairString = repairString.Trim();
+
+            if (String.IsNullOrEmpty(repairString))
+            {
+                var diaMsg = Environment.NewLine + "Please select some repair options and try again.";
+                BetterDialog2.ShowDialog(diaMsg, "Repair Options ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "", 0, 150);
+                return;
+            }
+
+            AppSettings.Instance.RepairOptions.DLFolderMonitor = tsmiDLFolderMonitor.Checked;
+            RepairTools.DLFolderWatcher(SetRepairOptions());
+
+            tsmiRepairs.ShowDropDown();
+            menuStrip.Focus();
+        }
+
+        private void tsmiDLFolderSupport_Click(object sender, EventArgs e)
+        {
+            Process.Start("https://goo.gl/iTPfRU");
+        }
+
+        private void tsmiDevsDebugUse_Click(object sender, EventArgs e)
+        {
+            // temporarily debugging some things here
+            var stopHere = songList;
+            var stopHere2 = Globals.MasterCollection;
+            var stopHere3 = AppSettings.Instance.FilterString;
+        }
+
         private void tsmiFilesArcBak_Click(object sender, EventArgs e)
         {
             this.Refresh();
@@ -2054,7 +2096,7 @@ namespace CustomsForgeSongManager.UControls
 
         private void tsmiRepairsRun_Click(object sender, EventArgs e)
         {
-            if (tsmiMonitorDLFolder.Checked)
+            if (tsmiDLFolderMonitor.Checked)
             {
                 var diaMsg = Environment.NewLine + "Please uncheck 'Auto Monitor Downloads Folder'" + Environment.NewLine +
                     "before using the 'Run Selected Repair Optons'";
@@ -2062,7 +2104,7 @@ namespace CustomsForgeSongManager.UControls
                 return;
             }
 
-            if (tsmiProcessDLFolder.Checked && !FileTools.ValidateDownloadsDir())
+            if (tsmiDLFolderProcess.Checked && !FileTools.ValidateDownloadsDir())
             {
                 var diaMsg = Environment.NewLine + "Please select a valid 'Downloads' folder and try again.";
                 BetterDialog2.ShowDialog(diaMsg, "Repair Options ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "", 0, 150);
@@ -2070,7 +2112,7 @@ namespace CustomsForgeSongManager.UControls
             }
 
             var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster);
-            if (!selection.Any() && !tsmiProcessDLFolder.Checked)
+            if (!selection.Any() && !tsmiDLFolderProcess.Checked)
             {
                 var diaMsg = Environment.NewLine + "Please select some CDLC to repair using the 'Select' column.";
                 BetterDialog2.ShowDialog(diaMsg, "Repair Options ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "", 0, 150);
@@ -2169,47 +2211,6 @@ namespace CustomsForgeSongManager.UControls
 
             Globals.Log("Song Manager GUI Deactivated ...");
         }
-
-        private void tsmiDevsDebugUse_Click(object sender, EventArgs e)
-        {
-            // temporarily debugging some things here
-            var stopHere = songList;
-            var stopHere2 = Globals.MasterCollection;
-            var stopHere3 = AppSettings.Instance.FilterString;
-        }
-
-        private void tsmiMonitorDLFolder_CheckStateChanged(object sender, EventArgs e)
-        {
-            var items = tsmiRepairs.DropDownItems;
-            var repairString = String.Empty;
-
-            foreach (var item in items.OfType<ToolStripEnhancedMenuItem>())
-            {
-                if (item.Checked)
-                    repairString += item.Name.Replace("tsmi", " ");
-            }
-
-            repairString = repairString.Trim();
-
-            if (String.IsNullOrEmpty(repairString))
-            {
-                var diaMsg = Environment.NewLine + "Please select some repair options and try again.";
-                BetterDialog2.ShowDialog(diaMsg, "Repair Options ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "", 0, 150);
-                return;
-            }
-
-            AppSettings.Instance.RepairOptions.MonitorDLFolder = tsmiMonitorDLFolder.Checked;
-            RepairTools.MonitorDLFolder(SetRepairOptions());  
-            
-            // continue to show dropdown
-            if (!tsmiMonitorDLFolder.Checked)
-            {
-                tsmiRepairs.ShowDropDown();
-                menuStrip.Focus();
-            }
-        }
-
-
     }
 }
 

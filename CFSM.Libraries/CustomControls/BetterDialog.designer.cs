@@ -166,6 +166,7 @@
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Dialog Title";
+            this.Load += new System.EventHandler(this.BetterDialog_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pbIcon)).EndInit();
             this.tlpDialog.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pbLine)).EndInit();

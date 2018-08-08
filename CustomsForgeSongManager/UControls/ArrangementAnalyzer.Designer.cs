@@ -113,7 +113,7 @@ namespace CustomsForgeSongManager.UControls
             this.colVibratoCount = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colArtistTitleAlbum = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colArtistTitleAlbumDate = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
-            this.colHopoCount = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.colThumbCount = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.cmsArrangementsColumns = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.testToolStripMenuItem = new CustomControls.ToolStripEnhancedMenuItem();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
@@ -322,6 +322,7 @@ namespace CustomsForgeSongManager.UControls
             this.colSlideUnpitchToCount,
             this.colSustainCount,
             this.colTapCount,
+            this.colThumbCount,
             this.colTremoloCount,
             this.colVibratoCount,
             this.colArtistTitleAlbum,
@@ -939,13 +940,14 @@ namespace CustomsForgeSongManager.UControls
             this.colArtistTitleAlbumDate.Name = "colArtistTitleAlbumDate";
             this.colArtistTitleAlbumDate.ReadOnly = true;
             // 
-            // colHopoCount
+            // colThumbCount
             // 
-            this.colHopoCount.DataPropertyName = "HopoCount";
-            this.colHopoCount.DefaultCellStyle = dataGridViewCellStyle3;
-            this.colHopoCount.HeaderText = "HopoCount";
-            this.colHopoCount.Name = "colHopoCount";
-            this.colHopoCount.Visible = false;
+            this.colThumbCount.DataPropertyName = "ThumbCount";
+            this.colThumbCount.DefaultCellStyle = dataGridViewCellStyle3;
+            this.colThumbCount.HeaderText = "ThumbCount";
+            this.colThumbCount.Name = "colThumbCount";
+            this.colThumbCount.Visible = false;
+            this.colThumbCount.ReadOnly = true;
             // 
             // cmsArrangementsColumns
             // 
@@ -1132,7 +1134,7 @@ namespace CustomsForgeSongManager.UControls
         private DataGridViewAutoFilterTextBoxColumn colHarmonicCount;
         private DataGridViewAutoFilterTextBoxColumn colHarmonicPinchCount;
         private DataGridViewAutoFilterTextBoxColumn colHighestFretUsed;
-        private DataGridViewAutoFilterTextBoxColumn colHopoCount;
+        private DataGridViewAutoFilterTextBoxColumn colThumbCount;
         private DataGridViewAutoFilterTextBoxColumn colIgnoreCount;
         private DataGridViewAutoFilterTextBoxColumn colLinkNextCount;
         private DataGridViewAutoFilterTextBoxColumn colOctaveCount;

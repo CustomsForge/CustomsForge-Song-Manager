@@ -266,7 +266,7 @@ namespace CustomsForgeSongManager.LocalTools
                 else
                     Globals.Log(" - Repair was successful, but DD could not be applied");
 
-                if (!options.ProcessDLFolder)
+                if (!options.DLFolderProcess)
                 {
                     // update/rescan just one CDLC in the bound SongCollection
                     // gets contents of archive after it has been repaired
@@ -345,7 +345,7 @@ namespace CustomsForgeSongManager.LocalTools
                     Globals.Log("<ERROR> Did not find any [.org] files ...");
                 }
             }
-            else if (options.ProcessDLFolder)
+            else if (options.DLFolderProcess)
             {
                 // TODO: maybe make sure new CDLC have been unzipped/unrar'd first
                 // AppSettings.Instance.DownloadsDir is (must be) validated before being used by the bWorker
@@ -429,7 +429,7 @@ namespace CustomsForgeSongManager.LocalTools
                 }
 
                 // move new CDLC from the 'Downloads' folder to the 'dlc/downloads' folder
-                if (options.ProcessDLFolder)
+                if (options.DLFolderProcess)
                 {
                     var downloadsFolder = Path.Combine(Constants.Rs2DlcFolder, "downloads");
                     if (!Directory.Exists(downloadsFolder))
@@ -509,13 +509,12 @@ namespace CustomsForgeSongManager.LocalTools
             }
         }
 
-        #region Monitor Downloads Folder
-        // TODO: cleanup code after debugging/testing is finished
+        #region Watch Downloads Folder
 
         // Watch user specified 'Downloads' Folder, Auto Repair, and Move to 'dlc' folder          
-        public static void MonitorDLFolder(RepairOptions repairOptions)
+        public static void DLFolderWatcher(RepairOptions repairOptions)
         {
-            if (repairOptions.MonitorDLFolder)
+            if (repairOptions.DLFolderMonitor)
             {
                 if (!FileTools.ValidateDownloadsDir())
                     return;
@@ -565,43 +564,8 @@ namespace CustomsForgeSongManager.LocalTools
             if (e.ChangeType == WatcherChangeTypes.Created)
             {
                 Globals.Log(" - New File Downloaded/Created: " + e.FullPath);
-
-                // temporarily disable the FileSystemWatcher
-                // watcher.EnableRaisingEvents = false;
-                // watcher.Created -= new FileSystemEventHandler(OnChanged);
-                // Globals.Log(" - Temporarily Stopped Watching 'Downloads' Folder ...");
-                // let the system settle down
-                // Thread.Sleep(200);
-
-                try
-                {
-                    // run repairs on all psarc in 'Downloads' folder and move to 'dlc/downloads' folder
-                    Task task = Task.Factory.StartNew(() =>
-                        {
-                            RepairTools.RepairSongs(new List<SongData>(), AppSettings.Instance.RepairOptions);
-                            GenExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate
-                                { Globals.SongManager.UpdateToolStrip(); });
-                        });
-
-                    // this method may not be desirable but at least the GUI stays responsive during task
-                    while (!task.IsCompleted)
-                    {
-                        Application.DoEvents();
-                        Thread.Sleep(100);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception("<ERROR> Watching/Repairing/Moving 'Downloads' Folder Failed ..." + Environment.NewLine + ex.Message);
-                }
-
-                // re-enable the FileSystemWatcher
-                // watcher.Created += new FileSystemEventHandler(OnChanged);
-                // watcher.EnableRaisingEvents = true;
-                // let the system come up to speed
-                // Thread.Sleep(200);
-                // Globals.Log(" - Restarted Watching 'Downloads' Folder ...");
-
+                RepairTools.RepairSongs(new List<SongData>(), AppSettings.Instance.RepairOptions);
+                GenExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate { Globals.SongManager.UpdateToolStrip(); });
                 Globals.Log(" - Please consider making a donation at https://goo.gl/iTPfRU (copy/paste link to your browser)");
                 Globals.Log("   and show your support for the 'Auto Monitor Downloads Folder' feature ...");
             }
@@ -673,8 +637,8 @@ namespace CustomsForgeSongManager.LocalTools
         public bool RemoveSections { get; set; }
         public bool FixLowBass { get; set; }
         //
-        public bool ProcessDLFolder { get; set; }
-        public bool MonitorDLFolder { get; set; }
+        public bool DLFolderProcess { get; set; }
+        public bool DLFolderMonitor { get; set; }
 
     }
 

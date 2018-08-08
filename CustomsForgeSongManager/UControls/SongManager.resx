@@ -540,7 +540,7 @@ are used for the selected repair options.
 This option may not be combined with
 the "Process 'downloads' Folder" button</value>
   </data>
-  <data name="tsmiProcessDLFolder.ToolTipText" xml:space="preserve">
+  <data name="tsmiDLFolderProcess.ToolTipText" xml:space="preserve">
     <value>Process new CDLC from 'Downloads' 
 folder and move them to 'dlc/downloads' 
 folder.  When selected, only the files in the 
@@ -549,7 +549,7 @@ folder.  When selected, only the files in the
 NOTE: The 'Downloads' folder location
 may be reset from the 'Settings' tab menu.</value>
   </data>
-  <data name="tsmiMonitorDLFolder.ToolTipText" xml:space="preserve">
+  <data name="tsmiDLFolderMonitor.ToolTipText" xml:space="preserve">
     <value>If checked, automatically monitor the
 'Downloads' folder for new CDLC then
 process/repair any new CDLC and 
@@ -559,7 +559,8 @@ Note: Must be unchecked before using
 the 'Run Selected Repair Options'.
 
 Make a donation at https://goo.gl/iTPfRU
-and show your support for this feature.</value>
+and show your support for this feature
+or just use the 'Click to Donate' button.</value>
   </data>
   <data name="tsmiRepairs.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>

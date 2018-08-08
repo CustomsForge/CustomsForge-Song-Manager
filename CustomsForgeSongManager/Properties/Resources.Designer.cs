@@ -342,6 +342,13 @@ namespace CustomsForgeSongManager.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap dollarsign {
+            get {
+                object obj = ResourceManager.GetObject("dollarsign", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to Do you really want to remove this CDLC?  {0}Warning:  This cannot be undone!.
         /// </summary>
@@ -519,7 +526,7 @@ namespace CustomsForgeSongManager.Properties {
         ///    border-bottom: 1px solid rgb(30, 139, 195);
         ///}
         ///
-        ///#CFMGrid tr.alt td { background-color [rest of string was truncated]&quot;;.
+        ///#CFMGrid tr.alt td { background-color: rgb(34, 49, 63); }.
         /// </summary>
         internal static string htmExport {
             get {
@@ -654,7 +661,8 @@ namespace CustomsForgeSongManager.Properties {
         ///  },
         ///  {
         ///    &quot;Title&quot;: &quot;Hate to Say I Told You So&quot;,
-        ///    &quot;Artist&quot;: &quot;The Hives&quot;, [rest of string was truncated]&quot;;.
+        ///    &quot;Artist&quot;: &quot;The Hives&quot;,
+        ///    &quot;ReleaseDate [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string OfficialSongs {
             get {
