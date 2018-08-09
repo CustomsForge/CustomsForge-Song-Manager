@@ -70,5 +70,6 @@ packages/
 #others
 dev*.bat
 dev*.txt
+dev*.html
 
 

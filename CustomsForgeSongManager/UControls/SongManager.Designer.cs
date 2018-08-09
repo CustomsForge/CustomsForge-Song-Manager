@@ -35,8 +35,8 @@ namespace CustomsForgeSongManager.UControls
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SongManager));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle(); // N2 Decimal Format
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle(); // Null Whole Number and Date Format
             this.panelSearch = new System.Windows.Forms.Panel();
             this.chkSubFolders = new System.Windows.Forms.CheckBox();
             this.lnkClearSearch = new System.Windows.Forms.LinkLabel();
@@ -86,7 +86,7 @@ namespace CustomsForgeSongManager.UControls
             this.colSongLength = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colSongAverageTempo = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colSongVolume = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
-            this.colConversionDate = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.colLastConversionDateTime = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colDD = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colArrangements = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colTunings = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
@@ -586,7 +586,7 @@ namespace CustomsForgeSongManager.UControls
             this.colSongLength,
             this.colSongAverageTempo,
             this.colSongVolume,
-            this.colConversionDate,
+            this.colLastConversionDateTime,
             this.colDD,
             this.colArrangements,
             this.colTunings,
@@ -754,9 +754,9 @@ namespace CustomsForgeSongManager.UControls
             // colSongYear
             // 
             this.colSongYear.DataPropertyName = "SongYear";
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle3.NullValue = null;
-            this.colSongYear.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle4.NullValue = null;
+            this.colSongYear.DefaultCellStyle = dataGridViewCellStyle4;
             this.colSongYear.HeaderText = "Year";
             this.colSongYear.Name = "colSongYear";
             this.colSongYear.ReadOnly = true;
@@ -767,10 +767,10 @@ namespace CustomsForgeSongManager.UControls
             // colSongLength
             // 
             this.colSongLength.DataPropertyName = "SongLength";
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle4.Format = "N2";
-            dataGridViewCellStyle4.NullValue = null;
-            this.colSongLength.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle3.Format = "N2";
+            dataGridViewCellStyle3.NullValue = null;
+            this.colSongLength.DefaultCellStyle = dataGridViewCellStyle3;
             this.colSongLength.HeaderText = "SongLength (secs)";
             this.colSongLength.Name = "colSongLength";
             this.colSongLength.ReadOnly = true;
@@ -795,15 +795,15 @@ namespace CustomsForgeSongManager.UControls
             this.colSongVolume.ToolTipText = "(Loudness Factor)";
             this.colSongVolume.Visible = false;
             // 
-            // colConversionDate
+            // colLastConversionDateTime
             // 
-            this.colConversionDate.DataPropertyName = "LastConversionDateTime";
-            this.colConversionDate.DefaultCellStyle = dataGridViewCellStyle4;
-            this.colConversionDate.HeaderText = "ConversionDate";
-            this.colConversionDate.Name = "colConversionDate";
-            this.colConversionDate.ReadOnly = true;
-            this.colConversionDate.Visible = false;
-            this.colConversionDate.Width = 50;
+            this.colLastConversionDateTime.DataPropertyName = "LastConversionDateTime";
+            this.colLastConversionDateTime.DefaultCellStyle = dataGridViewCellStyle4;
+            this.colLastConversionDateTime.HeaderText = "ConversionDate";
+            this.colLastConversionDateTime.Name = "colLastConversionDateTime";
+            this.colLastConversionDateTime.ReadOnly = true;
+            this.colLastConversionDateTime.Visible = false;
+            this.colLastConversionDateTime.Width = 50;
             // 
             // colDD
             // 
@@ -2084,7 +2084,7 @@ namespace CustomsForgeSongManager.UControls
         private DataGridViewAutoFilterTextBoxColumn colFileDate;
         private DataGridViewAutoFilterTextBoxColumn colFileSize;
         private DataGridViewAutoFilterTextBoxColumn colStatus;
-        private DataGridViewAutoFilterTextBoxColumn colConversionDate;
+        private DataGridViewAutoFilterTextBoxColumn colLastConversionDateTime;
         private DataGridViewAutoFilterTextBoxColumn colToolkitVersion;
         private DataGridViewAutoFilterTextBoxColumn colPackageAuthor;
         private DataGridViewAutoFilterTextBoxColumn colPackageVersion;
