@@ -35,8 +35,8 @@ namespace CustomsForgeSongManager.UControls
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SongManager));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle(); // N2 Decimal Format
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle(); // Null Whole Number and Date Format
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panelSearch = new System.Windows.Forms.Panel();
             this.chkSubFolders = new System.Windows.Forms.CheckBox();
             this.lnkClearSearch = new System.Windows.Forms.LinkLabel();
@@ -220,7 +220,7 @@ namespace CustomsForgeSongManager.UControls
             this.chkSubFolders.AutoSize = true;
             this.chkSubFolders.Checked = true;
             this.chkSubFolders.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkSubFolders.Location = new System.Drawing.Point(522, 8);
+            this.chkSubFolders.Location = new System.Drawing.Point(540, 7);
             this.chkSubFolders.Name = "chkSubFolders";
             this.chkSubFolders.Size = new System.Drawing.Size(197, 17);
             this.chkSubFolders.TabIndex = 24;
@@ -237,10 +237,10 @@ namespace CustomsForgeSongManager.UControls
             this.lnkClearSearch.LinkColor = System.Drawing.SystemColors.ActiveCaption;
             this.lnkClearSearch.Location = new System.Drawing.Point(411, 8);
             this.lnkClearSearch.Name = "lnkClearSearch";
-            this.lnkClearSearch.Size = new System.Drawing.Size(68, 13);
+            this.lnkClearSearch.Size = new System.Drawing.Size(100, 13);
             this.lnkClearSearch.TabIndex = 3;
             this.lnkClearSearch.TabStop = true;
-            this.lnkClearSearch.Text = "Clear Search";
+            this.lnkClearSearch.Text = "Clear Filters/Search";
             this.toolTip.SetToolTip(this.lnkClearSearch, "HINT:\r\nQuickly clears any Filters, \r\nas well as, any Search, \r\nand preserves exis" +
                     "ting sort.");
             this.lnkClearSearch.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkClearSearch_LinkClicked);
@@ -754,9 +754,9 @@ namespace CustomsForgeSongManager.UControls
             // colSongYear
             // 
             this.colSongYear.DataPropertyName = "SongYear";
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle4.NullValue = null;
-            this.colSongYear.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle3.NullValue = null;
+            this.colSongYear.DefaultCellStyle = dataGridViewCellStyle3;
             this.colSongYear.HeaderText = "Year";
             this.colSongYear.Name = "colSongYear";
             this.colSongYear.ReadOnly = true;
@@ -767,10 +767,10 @@ namespace CustomsForgeSongManager.UControls
             // colSongLength
             // 
             this.colSongLength.DataPropertyName = "SongLength";
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle3.Format = "N2";
-            dataGridViewCellStyle3.NullValue = null;
-            this.colSongLength.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle4.Format = "N2";
+            dataGridViewCellStyle4.NullValue = null;
+            this.colSongLength.DefaultCellStyle = dataGridViewCellStyle4;
             this.colSongLength.HeaderText = "SongLength (secs)";
             this.colSongLength.Name = "colSongLength";
             this.colSongLength.ReadOnly = true;
@@ -779,7 +779,7 @@ namespace CustomsForgeSongManager.UControls
             // colSongAverageTempo
             // 
             this.colSongAverageTempo.DataPropertyName = "SongAverageTempo";
-            this.colSongAverageTempo.DefaultCellStyle = dataGridViewCellStyle3;
+            this.colSongAverageTempo.DefaultCellStyle = dataGridViewCellStyle4;
             this.colSongAverageTempo.HeaderText = "BPM";
             this.colSongAverageTempo.Name = "colSongAverageTempo";
             this.colSongAverageTempo.Resizable = System.Windows.Forms.DataGridViewTriState.True;
@@ -788,7 +788,7 @@ namespace CustomsForgeSongManager.UControls
             // colSongVolume
             // 
             this.colSongVolume.DataPropertyName = "SongVolume";
-            this.colSongVolume.DefaultCellStyle = dataGridViewCellStyle3;
+            this.colSongVolume.DefaultCellStyle = dataGridViewCellStyle4;
             this.colSongVolume.HeaderText = "SongVolume (LF)";
             this.colSongVolume.Name = "colSongVolume";
             this.colSongVolume.Resizable = System.Windows.Forms.DataGridViewTriState.True;
@@ -798,7 +798,7 @@ namespace CustomsForgeSongManager.UControls
             // colLastConversionDateTime
             // 
             this.colLastConversionDateTime.DataPropertyName = "LastConversionDateTime";
-            this.colLastConversionDateTime.DefaultCellStyle = dataGridViewCellStyle4;
+            this.colLastConversionDateTime.DefaultCellStyle = dataGridViewCellStyle3;
             this.colLastConversionDateTime.HeaderText = "ConversionDate";
             this.colLastConversionDateTime.Name = "colLastConversionDateTime";
             this.colLastConversionDateTime.ReadOnly = true;
@@ -808,7 +808,7 @@ namespace CustomsForgeSongManager.UControls
             // colDD
             // 
             this.colDD.DataPropertyName = "DD";
-            this.colDD.DefaultCellStyle = dataGridViewCellStyle4;
+            this.colDD.DefaultCellStyle = dataGridViewCellStyle3;
             this.colDD.HeaderText = "DDMax";
             this.colDD.Name = "colDD";
             this.colDD.ReadOnly = true;
@@ -859,7 +859,7 @@ namespace CustomsForgeSongManager.UControls
             // colFileDate
             // 
             this.colFileDate.DataPropertyName = "FileDate";
-            this.colFileDate.DefaultCellStyle = dataGridViewCellStyle4;
+            this.colFileDate.DefaultCellStyle = dataGridViewCellStyle3;
             this.colFileDate.HeaderText = "FileDate";
             this.colFileDate.Name = "colFileDate";
             this.colFileDate.Resizable = System.Windows.Forms.DataGridViewTriState.True;
@@ -868,7 +868,7 @@ namespace CustomsForgeSongManager.UControls
             // colFileSize
             // 
             this.colFileSize.DataPropertyName = "FileSize";
-            this.colFileSize.DefaultCellStyle = dataGridViewCellStyle4;
+            this.colFileSize.DefaultCellStyle = dataGridViewCellStyle3;
             this.colFileSize.HeaderText = "FileSize (bytes)";
             this.colFileSize.Name = "colFileSize";
             this.colFileSize.Visible = false;
@@ -886,7 +886,7 @@ namespace CustomsForgeSongManager.UControls
             // colAppID
             // 
             this.colAppID.DataPropertyName = "AppID";
-            this.colAppID.DefaultCellStyle = dataGridViewCellStyle3;
+            this.colAppID.DefaultCellStyle = dataGridViewCellStyle4;
             this.colAppID.HeaderText = "AppID";
             this.colAppID.Name = "colAppID";
             this.colAppID.ReadOnly = true;
@@ -947,7 +947,7 @@ namespace CustomsForgeSongManager.UControls
             // colIgnitionDate
             // 
             this.colIgnitionDate.DataPropertyName = "IgnitionDate";
-            this.colIgnitionDate.DefaultCellStyle = dataGridViewCellStyle3;
+            this.colIgnitionDate.DefaultCellStyle = dataGridViewCellStyle4;
             this.colIgnitionDate.HeaderText = "IgnitionDate";
             this.colIgnitionDate.Name = "colIgnitionDate";
             this.colIgnitionDate.ReadOnly = true;

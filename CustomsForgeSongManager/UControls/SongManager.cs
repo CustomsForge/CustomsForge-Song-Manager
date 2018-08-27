@@ -58,7 +58,7 @@ namespace CustomsForgeSongManager.UControls
             cmsTaggerPreview.Visible = true; // ???
             PopulateSongManager();
             InitializeRepairMenu();
-            tsmiRepairs.HideDropDown();            
+            tsmiRepairs.HideDropDown();
         }
 
         public void DoWork(string workDescription, dynamic workerParm1 = null, dynamic workerParm2 = null, dynamic workerParm3 = null)

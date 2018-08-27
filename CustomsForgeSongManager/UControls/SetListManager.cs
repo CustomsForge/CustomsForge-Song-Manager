@@ -154,7 +154,7 @@ namespace CustomsForgeSongManager.UControls
             var selectedDisabled = dgvCurrent.Rows.Cast<DataGridViewRow>().Count(r => Convert.ToBoolean(r.Cells[colNdxSelected].Value) && r.Cells[colNdxEnabled].Value.ToString() == "No" && Path.GetFileName(Path.GetDirectoryName(r.Cells[colNdxPath].Value.ToString().ToLower())).Contains("dlc"));
 
             if (dgvCurrent.Name == "dgvSetlistMaster" && selectedDisabled > 0)
-                if (MessageBox.Show("Enabling Master DLC/CDLC songs can cause Setlists   " + Environment.NewLine + "to not work as expected.  Do you want to continue?", "Enable Master DLC/CDLC ...", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.No)
+                if (MessageBox.Show("Enabling Master Songs DLC/CDLC can cause Setlists   " + Environment.NewLine + "to not work as expected.  Do you want to continue?", "Enable Master Songs DLC/CDLC ...", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.No)
                     return;
 
             foreach (DataGridViewRow row in dgvCurrent.Rows)

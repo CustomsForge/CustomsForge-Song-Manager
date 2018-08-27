@@ -14,6 +14,10 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.4.6.8
+- upgraded RockmsithToolkitLib.dll
+- Reminder: 'Setlist Manager' can be used to enable/disable ODLC and CDLC
+
 1.4.6.7
 - fixed datagrid column formatting issues
 

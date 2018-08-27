@@ -325,6 +325,10 @@ namespace GenTools
                 {
                     return false;
                 }
+                catch (ArgumentNullException)
+                {
+                    return false;
+                }
                 catch (IOException)
                 {
                     // System.IO.IOException: The directory is not empty so delete as many files as possible
@@ -377,6 +381,10 @@ namespace GenTools
                 catch (FileNotFoundException)
                 {
                     return false; // file does not exist
+                }
+                catch (ArgumentNullException)
+                {
+                    return false;
                 }
                 catch (IOException)
                 {
