@@ -780,7 +780,7 @@ namespace CustomsForgeSongManager.UControls
 
                 this.Enabled = false;
                 Globals.TsProgressBar_Main.Value = 50;
-                Packer.Unpack(Constants.CachePsarcPath, Constants.SongPacksFolder);
+                var unpackedDir = Packer.Unpack(Constants.CachePsarcPath, Constants.SongPacksFolder);
                 Globals.TsProgressBar_Main.Value = 75;
                 ExtractSongsHsan();
                 ConditionalBackup(Constants.CachePsarcPath, Path.Combine(Constants.Rs2OriginalsFolder, Path.ChangeExtension(Path.GetFileName(Constants.CachePsarcPath), ".org.psarc")));
