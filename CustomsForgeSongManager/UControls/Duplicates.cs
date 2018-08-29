@@ -74,7 +74,7 @@ namespace CustomsForgeSongManager.UControls
             duplicateList.Clear();
             distinctPIDS.Clear();
 
-            if (findDupPIDs)
+            if (findDupPIDs) // NOTE: duplicate PID cause in-game lockup
             {
                 Globals.Log("Showing CDLC with duplicate PID (GAME CRASHERS) ...");
                 var pidList = new List<SongData>();
@@ -109,31 +109,26 @@ namespace CustomsForgeSongManager.UControls
 
                 distinctPIDS = duplicateList.Select(x => x.PID).Distinct().ToList();
             }
-            else
+            else // NOTE: duplicate ATA and/or DLCKey will only appear once in-game setlist
             {
-                Globals.Log("Showing CDLC with duplicate DLCKey ...");
+                Globals.Log("Showing CDLC with duplicate DLCKey and/or duplicate ArtistTitleAlbum ...");
+                
+                var dupDlcKey = Globals.MasterCollection.GroupBy(x => x.DLCKey).Where(g => g.Count() > 1).SelectMany(g => g);
+                var dupATA = Globals.MasterCollection.GroupBy(x => x.ArtistTitleAlbum).Where(group => group.Count() > 1).SelectMany(group => group);
+                duplicateList = dupATA.Union(dupDlcKey).ToList();
 
-                if (chkSubFolders.Checked)
-                    duplicateList = Globals.MasterCollection.GroupBy(x => x.ArtistTitleAlbum).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
-                else
-                    duplicateList = Globals.MasterCollection.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").GroupBy(x => x.ArtistTitleAlbum).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
-
+                if (!chkSubFolders.Checked)
+                    duplicateList = duplicateList.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList();
+                
                 if (keyEnabled)
                 {
-                    if (chkSubFolders.Checked)
-                        duplicateList = Globals.MasterCollection.Where(x => !Path.GetFileName(x.FilePath).Contains("disabled")).GroupBy(x => x.ArtistTitleAlbum).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
-                    else
-                        duplicateList = Globals.MasterCollection.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc" && !Path.GetFileName(x.FilePath).Contains("disabled")).GroupBy(x => x.ArtistTitleAlbum).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
-
+                    duplicateList = duplicateList.Where(x => !Path.GetFileName(x.FilePath).Contains("disabled")).ToList();
                     Globals.Log("Showing duplicate enabled songs ...");
                 }
-                else if (keyDisabled)
-                {
-                    if (chkSubFolders.Checked)
-                        duplicateList = Globals.MasterCollection.Where(x => Path.GetFileName(x.FilePath).Contains("disabled")).GroupBy(x => x.ArtistTitleAlbum).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
-                    else
-                        duplicateList = Globals.MasterCollection.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc" && Path.GetFileName(x.FilePath).Contains("disabled")).GroupBy(x => x.ArtistTitleAlbum).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
 
+                if (keyDisabled)
+                {
+                    duplicateList = duplicateList.Where(x => Path.GetFileName(x.FilePath).Contains("disabled")).ToList();
                     Globals.Log("Showing duplicate disabled songs ...");
                 }
             }
@@ -196,8 +191,8 @@ namespace CustomsForgeSongManager.UControls
                     }
                     else
                     {
-                        Globals.Log("Good news, no duplicate DLCKey found ...");
-                        txtNoDuplicates.Text = "\r\nGood News ...\r\nNo Duplicate DLCKey Found";
+                        Globals.Log("Good news, no duplicate DLCKey and/or duplicate ArtistTitleAlbum found ...");
+                        txtNoDuplicates.Text = "\r\nGood News ...\r\nNo Duplicate DLCKey and/or\r\n Duplicate ArtistTitleAlbum Found";
                     }
                 }
                 else

@@ -488,7 +488,7 @@ namespace CustomsForgeSongManager.Forms
             this.tspbAudioPosition.Size = new System.Drawing.Size(100, 20);
             this.tspbAudioPosition.Step = 5;
             this.tspbAudioPosition.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
-            this.tspbAudioPosition.ToolTipText = "Click anywhere on progress bar to seek to song positon";
+            this.tspbAudioPosition.ToolTipText = "Click anywhere on progress bar to seek to song position";
             this.tspbAudioPosition.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tspbAudioPosition_MouseDown);
             // 
             // tslblTimer
