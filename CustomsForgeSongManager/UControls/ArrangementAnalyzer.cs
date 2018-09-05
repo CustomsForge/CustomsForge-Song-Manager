@@ -181,7 +181,7 @@ namespace CustomsForgeSongManager.UControls
                             // calculated content taken from SongData
                             ChordNamesCounts = songArr.ChordNamesCounts,
                             Selected = song.Selected,
-                            IsOfficialDLC = song.IsOfficialDLC,
+                            IsOfficialDLC = song.IsODLC,
                             IsRsCompPack = song.IsRsCompPack,
                             IsBassPick = songArr.IsBassPick,
                             ArtistTitleAlbum = song.ArtistTitleAlbum,
@@ -537,12 +537,11 @@ namespace CustomsForgeSongManager.UControls
                 if (arr.IsOfficialDLC)
                 {
                     e.CellStyle.Font = Constants.OfficialDLCFont;
-                    // prevent checking (selecting) ODCL all together ... evil genious code
-                    DataGridViewCell cell = dgvArrangements.Rows[e.RowIndex].Cells["colSelect"];
-                    DataGridViewCheckBoxCell chkCell = cell as DataGridViewCheckBoxCell;
-                    chkCell.Value = false;
-                    chkCell.FlatStyle = FlatStyle.Flat;
-                    chkCell.Style.ForeColor = Color.DarkGray;
+                    // DataGridViewCell cell = dgvDuplicates.Rows[e.RowIndex].Cells["colSelect"];
+                    // DataGridViewCheckBoxCell chkCell = cell as DataGridViewCheckBoxCell;
+                    // chkCell.Style.ForeColor = Color.DarkGray;
+                    // chkCell.FlatStyle = FlatStyle.Flat;
+                    // chkCell.Value = false;
                     // cell.ReadOnly = true;
                 }
             }
@@ -845,7 +844,7 @@ namespace CustomsForgeSongManager.UControls
         {
             Globals.DgvCurrent = dgvArrangements;
             Globals.Log("Arrangements GUI Activated ...");
-            
+
             if (Globals.RescanArrangements && AppSettings.Instance.IncludeArrangementData)
                 RefreshDgv(true);
             else if (Globals.ReloadArrangements)

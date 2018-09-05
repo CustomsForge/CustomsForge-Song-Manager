@@ -34,6 +34,8 @@ namespace DataGridViewTools
 
         public static T GetObjectFromRow<T>(DataGridView dgvCurrent, int rowIndex)
         {
+            var debugMe = dgvCurrent.Name;
+
             if (rowIndex == -1)
                 return default(T);
 

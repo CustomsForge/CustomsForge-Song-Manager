@@ -54,7 +54,7 @@ namespace CustomsForgeSongManager.DataObjects
     {
         // version 0 - 9: recyclable version number is the current Assembly Revision number
         // incrementing version forces songInfo.xml and appSettings.xml to reset/update to defaults
-        public const string SongDataListVersion = "3"; // devs change only when needed to force user update
+        public const string SongDataListVersion = "5"; // devs change only when needed to force user update
 
         // Unique Song Key
         public string DLCKey { get; set; }
@@ -99,7 +99,7 @@ namespace CustomsForgeSongManager.DataObjects
         // these elements are not serialized only used to display data in datagridview
         //
         [XmlIgnore]
-        public bool IsOfficialDLC
+        public bool IsODLC
         {
             get { return PackageAuthor == "Ubisoft" ? true : false; }
         }
@@ -135,19 +135,18 @@ namespace CustomsForgeSongManager.DataObjects
         {
             get
             {
-                // TODO: handle ODLC decisions at the datagrid level
                 // allow non dgvMasterSongs ODLC to be deleted/moved/selected
-                if (Globals.DgvCurrent.Name == "dgvMasterSongs")
-                    return IsOfficialDLC ? false : _selected;
+                //if (Globals.DgvCurrent.Name == "dgvMasterSongs")
+                //    return IsOfficialDLC ? false : _selected;
 
                 return _selected;
             }
             set
             {
-                if (!IsOfficialDLC || Globals.DgvCurrent.Name != "dgvMasterSongs")
-                    SetPropertyField("Selected", ref _selected, value); // _selected = value;          
-                else
-                    SetPropertyField("Selected", ref _selected, false); //_selected = false;
+                //if (!IsOfficialDLC || Globals.DgvCurrent.Name != "dgvMasterSongs")
+                SetPropertyField("Selected", ref _selected, value); // _selected = value;          
+                //else
+                //    SetPropertyField("Selected", ref _selected, false); //_selected = false;
             }
         }
 

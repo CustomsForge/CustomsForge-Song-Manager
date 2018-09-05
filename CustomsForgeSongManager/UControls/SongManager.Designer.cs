@@ -37,8 +37,17 @@ namespace CustomsForgeSongManager.UControls
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panelSearch = new System.Windows.Forms.Panel();
-            this.chkSubFolders = new System.Windows.Forms.CheckBox();
+            this.chkProtectODLC = new System.Windows.Forms.CheckBox();
+            this.chkShowSetlistSongs = new System.Windows.Forms.CheckBox();
             this.lnkClearSearch = new System.Windows.Forms.LinkLabel();
             this.lbl_Search = new System.Windows.Forms.Label();
             this.cueSearch = new DataGridViewTools.CueTextBox();
@@ -56,7 +65,7 @@ namespace CustomsForgeSongManager.UControls
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.cmsShowSongInfo = new CustomControls.ToolStripEnhancedMenuItem();
             this.cmsOpenSongLocation = new CustomControls.ToolStripEnhancedMenuItem();
-            this.cmsEnableDisable = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmsEnableDisable = new CustomControls.ToolStripEnhancedMenuItem();
             this.cmsDelete = new CustomControls.ToolStripEnhancedMenuItem();
             this.cmsBackup = new CustomControls.ToolStripEnhancedMenuItem();
             this.lnkLblSelectAll = new System.Windows.Forms.LinkLabel();
@@ -205,7 +214,8 @@ namespace CustomsForgeSongManager.UControls
             this.panelSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelSearch.Controls.Add(this.chkSubFolders);
+            this.panelSearch.Controls.Add(this.chkProtectODLC);
+            this.panelSearch.Controls.Add(this.chkShowSetlistSongs);
             this.panelSearch.Controls.Add(this.lnkClearSearch);
             this.panelSearch.Controls.Add(this.lbl_Search);
             this.panelSearch.Controls.Add(this.cueSearch);
@@ -214,20 +224,39 @@ namespace CustomsForgeSongManager.UControls
             this.panelSearch.Size = new System.Drawing.Size(879, 33);
             this.panelSearch.TabIndex = 5;
             // 
-            // chkSubFolders
+            // chkProtectODLC
             // 
-            this.chkSubFolders.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.chkSubFolders.AutoSize = true;
-            this.chkSubFolders.Checked = true;
-            this.chkSubFolders.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkSubFolders.Location = new System.Drawing.Point(540, 7);
-            this.chkSubFolders.Name = "chkSubFolders";
-            this.chkSubFolders.Size = new System.Drawing.Size(197, 17);
-            this.chkSubFolders.TabIndex = 24;
-            this.chkSubFolders.Text = "Include Organized and Setlist Songs";
-            this.toolTip.SetToolTip(this.chkSubFolders, "If checked, search \'dlc\' folder and \r\nsubfolders for any matching songs.");
-            this.chkSubFolders.UseVisualStyleBackColor = true;
-            this.chkSubFolders.MouseUp += new System.Windows.Forms.MouseEventHandler(this.chkSubFolders_MouseUp);
+            this.chkProtectODLC.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.chkProtectODLC.AutoSize = true;
+            this.chkProtectODLC.BackColor = System.Drawing.Color.LightGray;
+            this.chkProtectODLC.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkProtectODLC.ForeColor = System.Drawing.Color.Red;
+            this.chkProtectODLC.Location = new System.Drawing.Point(741, 4);
+            this.chkProtectODLC.Name = "chkProtectODLC";
+            this.chkProtectODLC.Padding = new System.Windows.Forms.Padding(3, 3, 0, 3);
+            this.chkProtectODLC.Size = new System.Drawing.Size(122, 23);
+            this.chkProtectODLC.TabIndex = 51;
+            this.chkProtectODLC.Text = "Protect Official DLC";
+            this.toolTip.SetToolTip(this.chkProtectODLC, "If checked, prevents ODLC from\r\naccidently being selected, enabled,\r\ndisabled, de" +
+                    "leted, or backed up.");
+            this.chkProtectODLC.UseVisualStyleBackColor = false;
+            this.chkProtectODLC.CheckedChanged += new System.EventHandler(this.chkProtectODLC_CheckedChanged);
+            // 
+            // chkShowSetlistSongs
+            // 
+            this.chkShowSetlistSongs.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.chkShowSetlistSongs.AutoSize = true;
+            this.chkShowSetlistSongs.Checked = true;
+            this.chkShowSetlistSongs.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkShowSetlistSongs.Location = new System.Drawing.Point(538, 7);
+            this.chkShowSetlistSongs.Name = "chkShowSetlistSongs";
+            this.chkShowSetlistSongs.Size = new System.Drawing.Size(197, 17);
+            this.chkShowSetlistSongs.TabIndex = 24;
+            this.chkShowSetlistSongs.Text = "Include Organized and Setlist Songs";
+            this.toolTip.SetToolTip(this.chkShowSetlistSongs, "If checked, search \'dlc\' folder and \r\nsubfolders for any matching songs.");
+            this.chkShowSetlistSongs.UseVisualStyleBackColor = true;
+            this.chkShowSetlistSongs.CheckedChanged += new System.EventHandler(this.chkShowSetlistSongs_CheckedChanged);
+            this.chkShowSetlistSongs.MouseUp += new System.Windows.Forms.MouseEventHandler(this.chkShowSetlistSongs_MouseUp);
             // 
             // lnkClearSearch
             // 
@@ -407,14 +436,17 @@ namespace CustomsForgeSongManager.UControls
             this.cmsOpenSongLocation.RadioButtonGroupName = null;
             this.cmsOpenSongLocation.Size = new System.Drawing.Size(209, 22);
             this.cmsOpenSongLocation.Text = "Open Song Location";
-            this.cmsOpenSongLocation.Click += new System.EventHandler(this.cmsOpenDLCLocation_Click);
+            this.cmsOpenSongLocation.Click += new System.EventHandler(this.cmsOpenSongLocation_Click);
             // 
             // cmsEnableDisable
             // 
-            this.cmsEnableDisable.Image = ((System.Drawing.Image)(resources.GetObject("cmsEnableDisable.Image")));
+            this.cmsEnableDisable.AssociatedEnumValue = null;
+            this.cmsEnableDisable.Image = global::CustomsForgeSongManager.Properties.Resources.enabledisable;
             this.cmsEnableDisable.Name = "cmsEnableDisable";
+            this.cmsEnableDisable.RadioButtonGroupName = null;
             this.cmsEnableDisable.Size = new System.Drawing.Size(209, 22);
             this.cmsEnableDisable.Text = "Enable/Disable Songs";
+            this.cmsEnableDisable.ToolTipText = "Select must be checked.";
             this.cmsEnableDisable.Click += new System.EventHandler(this.cmsEnableDisable_Click);
             // 
             // cmsDelete
@@ -779,7 +811,10 @@ namespace CustomsForgeSongManager.UControls
             // colSongAverageTempo
             // 
             this.colSongAverageTempo.DataPropertyName = "SongAverageTempo";
-            this.colSongAverageTempo.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle5.Format = "N2";
+            dataGridViewCellStyle5.NullValue = null;
+            this.colSongAverageTempo.DefaultCellStyle = dataGridViewCellStyle5;
             this.colSongAverageTempo.HeaderText = "BPM";
             this.colSongAverageTempo.Name = "colSongAverageTempo";
             this.colSongAverageTempo.Resizable = System.Windows.Forms.DataGridViewTriState.True;
@@ -788,7 +823,10 @@ namespace CustomsForgeSongManager.UControls
             // colSongVolume
             // 
             this.colSongVolume.DataPropertyName = "SongVolume";
-            this.colSongVolume.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle6.Format = "N2";
+            dataGridViewCellStyle6.NullValue = null;
+            this.colSongVolume.DefaultCellStyle = dataGridViewCellStyle6;
             this.colSongVolume.HeaderText = "SongVolume (LF)";
             this.colSongVolume.Name = "colSongVolume";
             this.colSongVolume.Resizable = System.Windows.Forms.DataGridViewTriState.True;
@@ -798,7 +836,9 @@ namespace CustomsForgeSongManager.UControls
             // colLastConversionDateTime
             // 
             this.colLastConversionDateTime.DataPropertyName = "LastConversionDateTime";
-            this.colLastConversionDateTime.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle7.NullValue = null;
+            this.colLastConversionDateTime.DefaultCellStyle = dataGridViewCellStyle7;
             this.colLastConversionDateTime.HeaderText = "ConversionDate";
             this.colLastConversionDateTime.Name = "colLastConversionDateTime";
             this.colLastConversionDateTime.ReadOnly = true;
@@ -808,7 +848,9 @@ namespace CustomsForgeSongManager.UControls
             // colDD
             // 
             this.colDD.DataPropertyName = "DD";
-            this.colDD.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle8.NullValue = null;
+            this.colDD.DefaultCellStyle = dataGridViewCellStyle8;
             this.colDD.HeaderText = "DDMax";
             this.colDD.Name = "colDD";
             this.colDD.ReadOnly = true;
@@ -859,7 +901,9 @@ namespace CustomsForgeSongManager.UControls
             // colFileDate
             // 
             this.colFileDate.DataPropertyName = "FileDate";
-            this.colFileDate.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle9.NullValue = null;
+            this.colFileDate.DefaultCellStyle = dataGridViewCellStyle9;
             this.colFileDate.HeaderText = "FileDate";
             this.colFileDate.Name = "colFileDate";
             this.colFileDate.Resizable = System.Windows.Forms.DataGridViewTriState.True;
@@ -868,7 +912,9 @@ namespace CustomsForgeSongManager.UControls
             // colFileSize
             // 
             this.colFileSize.DataPropertyName = "FileSize";
-            this.colFileSize.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle10.NullValue = null;
+            this.colFileSize.DefaultCellStyle = dataGridViewCellStyle10;
             this.colFileSize.HeaderText = "FileSize (bytes)";
             this.colFileSize.Name = "colFileSize";
             this.colFileSize.Visible = false;
@@ -886,7 +932,10 @@ namespace CustomsForgeSongManager.UControls
             // colAppID
             // 
             this.colAppID.DataPropertyName = "AppID";
-            this.colAppID.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle11.Format = "N2";
+            dataGridViewCellStyle11.NullValue = null;
+            this.colAppID.DefaultCellStyle = dataGridViewCellStyle11;
             this.colAppID.HeaderText = "AppID";
             this.colAppID.Name = "colAppID";
             this.colAppID.ReadOnly = true;
@@ -947,7 +996,10 @@ namespace CustomsForgeSongManager.UControls
             // colIgnitionDate
             // 
             this.colIgnitionDate.DataPropertyName = "IgnitionDate";
-            this.colIgnitionDate.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle12.Format = "N2";
+            dataGridViewCellStyle12.NullValue = null;
+            this.colIgnitionDate.DefaultCellStyle = dataGridViewCellStyle12;
             this.colIgnitionDate.HeaderText = "IgnitionDate";
             this.colIgnitionDate.Name = "colIgnitionDate";
             this.colIgnitionDate.ReadOnly = true;
@@ -1966,7 +2018,7 @@ namespace CustomsForgeSongManager.UControls
         private CustomControls.ToolStripEnhancedMenuItem cmsTaggerPreview;
         private CustomControls.ToolStripEnhancedMenuItem tsmiModsChangeAppId;
         private System.Windows.Forms.LinkLabel lnklblToggle;
-        private System.Windows.Forms.CheckBox chkSubFolders;
+        private System.Windows.Forms.CheckBox chkShowSetlistSongs;
         private CustomControls.ToolStripEnhancedMenuItem tsmiModsPitchShifter;
         private System.Windows.Forms.MenuStrip menuStrip;
         private CustomControls.ToolStripEnhancedMenuItem tsmiRescan;
@@ -2032,7 +2084,7 @@ namespace CustomsForgeSongManager.UControls
         private CustomControls.ToolStripEnhancedMenuItem tsmiFilesArcBak;
         private CustomControls.ToolStripEnhancedMenuItem tsmiModsPitchShiftOverwrite;
         private CustomControls.ToolStripEnhancedMenuItem tsmiFilesCheckODLC;
-        private System.Windows.Forms.ToolStripMenuItem cmsEnableDisable;
+        private CustomControls.ToolStripEnhancedMenuItem cmsEnableDisable;
         private System.Windows.Forms.ToolStripMenuItem cmsPlaySelected;
         private CustomControls.ToolStripEnhancedMenuItem tsmiFilesOrganize;
         private CustomControls.ToolStripEnhancedMenuItem tsmiFilesUnorganize;
@@ -2058,6 +2110,8 @@ namespace CustomsForgeSongManager.UControls
         private DataGridViewTextBoxColumn colDetailPitch;
         private DataGridViewTextBoxColumn colDetailToneBase;
         private DataGridViewTextBoxColumn colDetailDDMax;
+        private ToolStripMenuItem tsmiDLFolderSupport;
+        private CheckBox chkProtectODLC;
         private DataGridViewImageColumn colShowDetail;
         private DataGridViewAutoFilterTextBoxColumn colKey;
         private DataGridViewCheckBoxColumn colSelect;
@@ -2071,20 +2125,20 @@ namespace CustomsForgeSongManager.UControls
         private DataGridViewAutoFilterTextBoxColumn colTitle;
         private DataGridViewAutoFilterTextBoxColumn colAlbum;
         private DataGridViewAutoFilterTextBoxColumn colSongYear;
-        private DataGridViewAutoFilterTextBoxColumn colArrangements;
-        private DataGridViewAutoFilterTextBoxColumn colTunings;
-        private DataGridViewAutoFilterTextBoxColumn colTones;
-        private DataGridViewAutoFilterTextBoxColumn colDD;
         private DataGridViewAutoFilterTextBoxColumn colSongLength;
         private DataGridViewAutoFilterTextBoxColumn colSongAverageTempo;
         private DataGridViewAutoFilterTextBoxColumn colSongVolume;
-        private DataGridViewAutoFilterTextBoxColumn colAppID;
+        private DataGridViewAutoFilterTextBoxColumn colLastConversionDateTime;
+        private DataGridViewAutoFilterTextBoxColumn colDD;
+        private DataGridViewAutoFilterTextBoxColumn colArrangements;
+        private DataGridViewAutoFilterTextBoxColumn colTunings;
+        private DataGridViewAutoFilterTextBoxColumn colTones;
         private DataGridViewAutoFilterTextBoxColumn colFileName;
         private DataGridViewAutoFilterTextBoxColumn colFilePath;
         private DataGridViewAutoFilterTextBoxColumn colFileDate;
         private DataGridViewAutoFilterTextBoxColumn colFileSize;
         private DataGridViewAutoFilterTextBoxColumn colStatus;
-        private DataGridViewAutoFilterTextBoxColumn colLastConversionDateTime;
+        private DataGridViewAutoFilterTextBoxColumn colAppID;
         private DataGridViewAutoFilterTextBoxColumn colToolkitVersion;
         private DataGridViewAutoFilterTextBoxColumn colPackageAuthor;
         private DataGridViewAutoFilterTextBoxColumn colPackageVersion;
@@ -2099,7 +2153,6 @@ namespace CustomsForgeSongManager.UControls
         private DataGridViewAutoFilterTextBoxColumn colArtistSort;
         private DataGridViewAutoFilterTextBoxColumn colTitleSort;
         private DataGridViewAutoFilterTextBoxColumn colAlbumSort;
-        private ToolStripMenuItem tsmiDLFolderSupport;
 
     }
 }

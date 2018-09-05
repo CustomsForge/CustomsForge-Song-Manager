@@ -29,13 +29,13 @@ namespace CustomsForgeSongManager.UControls
         private bool bindingCompleted;
         private bool dgvPainted;
         private List<string> distinctPIDS = new List<string>();
+        private bool dupPidSelected;
         private List<SongData> duplicateList = new List<SongData>(); // prevents filtering from being inherited
         private bool keepOpen;
         private bool keyDisabled;
         private bool keyEnabled;
         private string lastSelectedSongPath = string.Empty;
         private bool olderVersionsSelected;
-        private bool dupPidSelected;
 
         public Duplicates()
         {
@@ -112,14 +112,14 @@ namespace CustomsForgeSongManager.UControls
             else // NOTE: duplicate ATA and/or DLCKey will only appear once in-game setlist
             {
                 Globals.Log("Showing CDLC with duplicate DLCKey and/or duplicate ArtistTitleAlbum ...");
-                
+
                 var dupDlcKey = Globals.MasterCollection.GroupBy(x => x.DLCKey).Where(g => g.Count() > 1).SelectMany(g => g);
                 var dupATA = Globals.MasterCollection.GroupBy(x => x.ArtistTitleAlbum).Where(group => group.Count() > 1).SelectMany(group => group);
                 duplicateList = dupATA.Union(dupDlcKey).ToList();
 
                 if (!chkSubFolders.Checked)
                     duplicateList = duplicateList.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList();
-                
+
                 if (keyEnabled)
                 {
                     duplicateList = duplicateList.Where(x => !Path.GetFileName(x.FilePath).Contains("disabled")).ToList();
@@ -354,12 +354,16 @@ namespace CustomsForgeSongManager.UControls
         {
             // user must check Select to Delete/Move
             var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvCurrent);
-            if (!selection.Any()) return;
+            if (!selection.Any())
+            {
+                MessageBox.Show("Please select the checkbox next to song(s)." + Environment.NewLine + "First left mouse click the row to select it then" + Environment.NewLine + "right mouse click to quickly Move or Delete.  ", Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
 
             if (modeDelete)
             {
-                var diaMsg = "You are about to delete CDLC file(s)." + Environment.NewLine + "Deletion is permenant and can not be undone." + Environment.NewLine + "Do you want to continue?";
-                if (DialogResult.No == BetterDialog2.ShowDialog(diaMsg, "Delete CDLC ...", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning", 0, 150))
+                var diaMsg = "You are about to delete file(s)." + Environment.NewLine + "Deletion is permenant and can not be undone." + Environment.NewLine + "Do you want to continue?";
+                if (DialogResult.No == BetterDialog2.ShowDialog(diaMsg, "Delete File(s) ...", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning", 0, 150))
                     return;
             }
 
@@ -392,7 +396,11 @@ namespace CustomsForgeSongManager.UControls
         {
             // user must check Select to Enable/Disable
             var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvCurrent);
-            if (!selection.Any()) return;
+            if (!selection.Any())
+            {
+                MessageBox.Show("Please select the checkbox next to song(s)." + Environment.NewLine + "First left mouse click the row to select it then" + Environment.NewLine + "right mouse click to quickly Enable/Disable.  ", Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
 
             for (int ndx = dgvCurrent.Rows.Count - 1; ndx >= 0; ndx--)
             {
@@ -560,16 +568,15 @@ namespace CustomsForgeSongManager.UControls
 
                 if (song != null)
                 {
-                    if (song.IsOfficialDLC)
+                    if (song.IsODLC)
                     {
                         e.CellStyle.Font = Constants.OfficialDLCFont;
-                        DataGridViewCell cell = dgvDuplicates.Rows[e.RowIndex].Cells["colSelect"];
-                        DataGridViewCheckBoxCell chkCell = cell as DataGridViewCheckBoxCell;
-                        chkCell.FlatStyle = FlatStyle.Flat;
-                        chkCell.Style.ForeColor = Color.DarkGray;
-                        // allow deletion of ODLC duplicates
-                        //chkCell.Value = false;
-                        //cell.ReadOnly = true;
+                        // DataGridViewCell cell = dgvDuplicates.Rows[e.RowIndex].Cells["colSelect"];
+                        // DataGridViewCheckBoxCell chkCell = cell as DataGridViewCheckBoxCell;
+                        // chkCell.Style.ForeColor = Color.DarkGray;
+                        // chkCell.FlatStyle = FlatStyle.Flat;
+                        // chkCell.Value = false;
+                        // cell.ReadOnly = true;
                     }
 
                     if (distinctPIDS.Contains(song.PID))
@@ -637,14 +644,14 @@ namespace CustomsForgeSongManager.UControls
         {
             // has precedent over a ColumnHeader_MouseClick
             // MouseUp detection is more reliable than MouseDown
-            var grid = (DataGridView)sender;
+            var dgvCurrent = (DataGridView)sender;
             var rowIndex = e.RowIndex;
-
+             
             if (e.Button == MouseButtons.Right)
             {
                 if (rowIndex != -1)
                 {
-                    grid.Rows[e.RowIndex].Selected = true;
+                    dgvCurrent.Rows[e.RowIndex].Selected = true;
                     cmsDuplicates.Show(Cursor.Position);
                 }
                 else
@@ -654,14 +661,19 @@ namespace CustomsForgeSongManager.UControls
                 }
             }
 
-            // programmatic left clicking on colSelect
-            if (e.Button == MouseButtons.Left && e.RowIndex != -1 && e.ColumnIndex == colSelect.Index)
+            // programmatic left clicking row to check/uncheck 'Select'
+            if (e.Button == MouseButtons.Left && e.RowIndex != -1)
             {
-                TemporaryDisableDatabindEvent(() => { dgvDuplicates.EndEdit(); });
+                try
+                {
+                    dgvCurrent.Rows[e.RowIndex].Cells["colSelect"].Value = !(bool)(dgvCurrent.Rows[e.RowIndex].Cells["colSelect"].Value);
+                }
+                catch
+                {
+                    // debounce clicking
+                    TemporaryDisableDatabindEvent(() => { dgvCurrent.EndEdit(); });
+                }
             }
-
-            Thread.Sleep(50); // debounce multiple clicks
-            dgvDuplicates.Refresh();
         }
 
         private void dgvDuplicates_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)

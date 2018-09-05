@@ -228,22 +228,6 @@ three File IO related 'Actions'.</value>
         AABJRU5ErkJggg==
 </value>
   </data>
-  <data name="cmsEnableDisable.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAkJJREFUOE9j/P//
-        PwMMGJfPZGBkZARxVaCYDygPEvgEpG//+/fvDhAzXOrLgethABkAw0ZlMxiBhphHT1ybceDqwzVP3n07
-        cvXxx70bTt1eGtKzMku/eKqlbuFkRmQ96AaoATVnffz26+bLDz+uPHz99fSRG292rT35ZNvNp59Ohfas
-        yNMpmKSB0wCDkml+J2493fj644/rT99+O/v4zbczJ26/3bvo4IN1W88927Hv8sP1WnkTQnAaoFc0Jf7N
-        5x9XgBrBmm89/3xs96UX2+bvv792/amnm4Bip9Sze9NwGgB0XgLQ2SBb94Fs3n3p5bbFhx6uX3zw4bpd
-        F19se/zm63GVjK4MnAYAnee35OCVhXsvvzoIcjbIZpDmzWefbb744MORNceuLFdMbQ/FaQDQebLWlTNy
-        rj95f3zj6adb1518uhFo89bTd97tffj682nT4oklckktCvgMYAA60Saqd3ndw9ffLp2683bP+fvv9z17
-        //1KWOfiFun4RkfZxGaUmEPhKKS0MQAxM9CW2BWHL62++ezT8RtPPx1ddvDCGomYuiQgZgZi3AYAbWCA
-        Yq2Y3mWND15/vXj/1dcLUV2LW8SianREI6sZQBinF8SjaxmgmEsxqan60Ztvl4Gxckk+vqFOOLySG4gZ
-        QBinAWYRmQwwrKurm7Zly5b//f39/5mZmWdwatswwDBOA0JDQxlgGGTA3bt3/q9btwtsACL3MOB2AboB
-        J0+e+D9//lLyDNDW1hYDZu2dQHwZaLssLhcAANOsUruQGin5AAAAAElFTkSuQmCC
-</value>
-  </data>
   <data name="cmsDelete.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8

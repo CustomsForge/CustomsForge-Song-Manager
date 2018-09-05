@@ -48,7 +48,7 @@ namespace CustomsForgeSongManager.Forms
 
             foreach (SongData song in Globals.MasterCollection)
             {
-                if (song.IsOfficialDLC)
+                if (song.IsODLC)
                     continue;
 
                 foreach (OfficialDLCSong officialSong in Globals.OfficialDLCSongList)

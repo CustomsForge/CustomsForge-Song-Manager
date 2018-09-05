@@ -40,6 +40,7 @@ namespace CustomsForgeSongManager.DataObjects
         private string _sortColumn = "Artist"; // set default sort column (retains selection)
         private bool _sortAscending = true;
         private bool _showSetlistSongs;
+        private bool _protectODLC;
         private DateTime _lastODLCCheckDate;
         private RepairOptions _repairOptions;
 
@@ -234,6 +235,12 @@ namespace CustomsForgeSongManager.DataObjects
             set { SetPropertyField("ShowSetlistSongs", ref _showSetlistSongs, value); }
         }
 
+        public bool ProtectODLC
+        {
+            get { return _protectODLC; }
+            set { SetPropertyField("ProtectODLC", ref _protectODLC, value); }
+        }
+
         [XmlArray("CustomSettings")] // provides proper xml serialization
         [XmlArrayItem("CustomSetting")] // provides proper xml serialization
         public List<CustomSetting> CustomSettings { get; set; }
@@ -332,6 +339,8 @@ namespace CustomsForgeSongManager.DataObjects
             Instance.CleanOnClosing = false;
             Instance.ShowLogWindow = Constants.DebugMode;
             Instance.RepairOptions = new RepairOptions();
+            Instance.ProtectODLC = true;
+            Instance.ShowSetlistSongs = true;
 
             if (String.IsNullOrEmpty(Instance.RSInstalledDir))
                 Instance.RSInstalledDir = LocalExtensions.GetSteamDirectory();

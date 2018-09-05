@@ -14,6 +14,14 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.4.7.1
+- added new 'Protect ODLC' checkbox to Song Manager and Setlist Manager
+- Song Manager can now be used to enable/disable, backup or delete ODLC
+- improved Setlist Manager function and action (right mouse click for contextual menu actions)
+- fixed Setlist Manager contextual menu 'Show' option
+- added RepairStatus column to Setlist Manager to allow users to search/filter for ODLC
+- show DLCKey column by default in Duplicates data grid
+
 1.4.7.0
 - fixed Duplicates find by DLCKey and/or ArtistTitleAlbum feature
 
