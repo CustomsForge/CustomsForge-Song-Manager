@@ -785,7 +785,7 @@ namespace CustomsForgeSongManager.UControls
             var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvCurrent);
             if (!selection.Any())
             {
-                MessageBox.Show("Please select the checkbox next to song(s)." + Environment.NewLine + "First left mouse click the row to select it then" + Environment.NewLine + "right mouse click to quickly delete or make backup.", Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Please select the checkbox next to song(s)." + Environment.NewLine + "First left mouse click the select checkbox and" + Environment.NewLine + "then right mouse click to quickly delete or make backup.", Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
 
@@ -824,7 +824,7 @@ namespace CustomsForgeSongManager.UControls
             var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvCurrent);
             if (!selection.Any())
             {
-                MessageBox.Show("Please select the checkbox next to song(s)." + Environment.NewLine + "First left mouse click the row to select it then" + Environment.NewLine + "right mouse click to quickly Enable/Disable.  ", Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Please select the checkbox next to song(s)." + Environment.NewLine + "First left mouse click the select checkbox and" + Environment.NewLine + "then right mouse click to quickly Enable/Disable.  ", Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
 
@@ -1576,8 +1576,9 @@ namespace CustomsForgeSongManager.UControls
                 }
             }
 
-            // programmatic left clicking row to check/uncheck 'Select'
-            if (e.Button == MouseButtons.Left && e.RowIndex != -1)
+            // user complained that clicking a row should not autocheck select
+            // programmatic left clicking on colSelect
+            if (e.Button == MouseButtons.Left && e.RowIndex != -1 && e.ColumnIndex == colSelect.Index)
             {
                 // beyound current scope of CFSM
                 if (dgvCurrent.Rows[e.RowIndex].Cells["colSelect"].Value.ToString().ToLower().Contains(Constants.RS1COMP))

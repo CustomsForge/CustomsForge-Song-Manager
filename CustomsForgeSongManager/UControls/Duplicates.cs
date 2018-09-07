@@ -661,8 +661,9 @@ namespace CustomsForgeSongManager.UControls
                 }
             }
 
-            // programmatic left clicking row to check/uncheck 'Select'
-            if (e.Button == MouseButtons.Left && e.RowIndex != -1)
+            // user complained that clicking a row should not autocheck select
+            // programmatic left clicking on colSelect
+            if (e.Button == MouseButtons.Left && e.RowIndex != -1 && e.ColumnIndex == colSelect.Index)
             {
                 try
                 {

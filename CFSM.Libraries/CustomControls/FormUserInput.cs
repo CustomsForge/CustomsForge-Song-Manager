@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using System.Drawing;
 
 namespace CustomControls
 {
@@ -8,9 +9,14 @@ namespace CustomControls
     {
         public bool IsProfileId = false;
 
-        public string FrmHeaderText
+        public FormUserInput(bool validateInput = false)
         {
-            set { this.Text = value; }
+            InitializeComponent();
+            if (validateInput)
+            {
+                txtCustomInput.TextChanged += CustomInputText_TextChanged;
+                txtCustomInput.KeyDown += CustomInputText_KeyDown;
+            }
         }
 
         public string BtnText
@@ -29,26 +35,14 @@ namespace CustomControls
             set { txtCustomInput.Text = value; }
         }
 
-        public FormUserInput()
+        public string FrmHeaderText
         {
-            InitializeComponent();
+            set { this.Text = value; }
         }
 
-        private void btnOk_Click(object sender, System.EventArgs e)
+        private void CustomInputText_KeyDown(object sender, KeyEventArgs e)
         {
-            this.DialogResult = DialogResult.OK;
-            Close();
-        }
-
-        private void txtCustomInput_TextChanged(object sender, EventArgs e)
-        {
-            CustomInputText = txtCustomInput.Text;
-            // move cursor to end
-            txtCustomInput.SelectionStart = txtCustomInput.Text.Length;
-        }
-
-        private void txtCustomInput_KeyDown(object sender, KeyEventArgs e)
-        {
+            // modify this as needed
             if (e.KeyCode == Keys.Delete)
                 txtCustomInput.Text = "";
             if ((e.KeyCode == Keys.Back) || (e.KeyCode == Keys.Delete))
@@ -70,6 +64,32 @@ namespace CustomControls
             }
         }
 
+        private void CustomInputText_TextChanged(object sender, EventArgs e)
+        {
+            CustomInputText = txtCustomInput.Text;
+            // move cursor to end
+            txtCustomInput.SelectionStart = txtCustomInput.Text.Length;
+        }
+
+        private void FormUserInput_Load(object sender, EventArgs e)
+        {
+            // autoadjust the width of the UserInput form
+            Font f = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular);
+            Bitmap b = new Bitmap(2200, 2200);
+            Graphics g = Graphics.FromImage(b);
+            SizeF sizeOfString = new SizeF();
+            sizeOfString = g.MeasureString(lblCustomInput.Text, f);
+            this.Width = (int)sizeOfString.Width;
+        }
+
+        private void btnOk_Click(object sender, System.EventArgs e)
+        {
+            this.DialogResult = DialogResult.OK;
+            Close();
+        }
+
+        #region Class Methods
+
         public static string ValidateProfileId(string userInput)
         {
             string okOutput = String.Empty;
@@ -90,5 +110,6 @@ namespace CustomControls
             return okOutput;
         }
 
+        #endregion
     }
 }
