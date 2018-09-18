@@ -47,6 +47,8 @@ namespace CustomsForgeSongManager.UControls
         {
             InitializeComponent();
             Globals.TsLabel_StatusMsg.Click += lnkShowAll_Click;
+            chkShowSetlistSongs.Checked = AppSettings.Instance.ShowSetlistSongs;
+            chkProtectODLC.Checked = AppSettings.Instance.ProtectODLC;
             PopulateSetlistManager();
         }
 
@@ -218,7 +220,16 @@ namespace CustomsForgeSongManager.UControls
 
             // local setlistMaster is loaded with Globals MasterCollection
             setlistMaster = Globals.MasterCollection;
-            LoadFilteredBindingList(setlistMaster);
+            DgvExtensions.DoubleBuffered(dgvSetlistMaster);
+
+            if (!chkShowSetlistSongs.Checked)
+            {
+                var results = setlistMaster.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList();
+                LoadFilteredBindingList(results);
+            }
+            else
+                LoadFilteredBindingList(setlistMaster);
+
             CFSMTheme.InitializeDgvAppearance(dgvSetlistMaster);
 
             return true;

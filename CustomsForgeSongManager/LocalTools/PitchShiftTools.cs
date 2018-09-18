@@ -11,6 +11,8 @@ using RocksmithToolkitLib.PsarcLoader;
 using RocksmithToolkitLib.Sng;
 using RocksmithToolkitLib.ToolkitTone;
 using RocksmithToolkitLib.XML;
+using RocksmithToolkitLib.XmlRepository;
+using RocksmithToolkitLib;
 
 namespace CustomsForgeSongManager.LocalTools
 {
@@ -77,6 +79,10 @@ namespace CustomsForgeSongManager.LocalTools
 
                 if (arr.ArrangementType == ArrangementType.Vocal || arr.ArrangementType == ArrangementType.ShowLight)
                     continue;
+
+                // Toolkit was fixed and NullException should no longer happen
+                if (arr.Tuning == null)
+                    arr.Tuning = TuningDefinitionRepository.Instance.Detect(arr.TuningStrings, GameVersion.RS2014, false).UIName;
 
                 // TODO: see customsforge.com/topic/41503-1416-pitch-shifter-mod-wrong-pitch-for-drop-tuning/#entry268144
                 if (!arr.Tuning.Contains("Bonus") && arr.ArrangementType != ArrangementType.Bass)

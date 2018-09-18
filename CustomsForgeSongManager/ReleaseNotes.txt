@@ -14,6 +14,11 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.4.7.3
+- fixed ShowSetlistSongs checkbox action
+- upgraded ToolkitLib
+- fixed PitchShifter bug
+ 
 1.4.7.2
 - force user to click the 'Select' checkbox to make row selections per user request
 - fixed some issues, and improved functions and action of Setlist Manager

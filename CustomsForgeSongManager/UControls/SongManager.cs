@@ -52,7 +52,8 @@ namespace CustomsForgeSongManager.UControls
             tsmiDevDebugUse.Visible = GenExtensions.IsInDesignMode ? true : false;
             cmsCheckForUpdate.Visible = GenExtensions.IsInDesignMode ? true : false;
             cmsOpenSongLocation.Visible = GenExtensions.IsInDesignMode ? true : false;
-
+            chkShowSetlistSongs.Checked = AppSettings.Instance.ShowSetlistSongs;
+            chkProtectODLC.Checked = AppSettings.Instance.ProtectODLC;
             PopulateTagger();
             cmsTaggerPreview.Visible = true; // ???
             PopulateSongManager();
@@ -539,7 +540,14 @@ namespace CustomsForgeSongManager.UControls
         {
             // respect processing order
             DgvExtensions.DoubleBuffered(dgvSongsMaster);
-            LoadFilteredBindingList(songList);
+            if (!chkShowSetlistSongs.Checked)
+            {
+                var results = songList.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList();
+                LoadFilteredBindingList(results);
+            }
+            else
+                LoadFilteredBindingList(songList);
+
             CFSMTheme.InitializeDgvAppearance(dgvSongsMaster);
             // reload column order, width, visibility
             Globals.Settings.LoadSettingsFromFile(dgvSongsMaster, true);
@@ -871,10 +879,10 @@ namespace CustomsForgeSongManager.UControls
         {
             if (dgvSongsMaster.SelectedRows.Count > 0)
             {
-                var song = DgvExtensions.GetObjectFromFirstSelectedRow<SongData>(dgvSongsMaster);
-                if (song != null)
+                var sd = DgvExtensions.GetObjectFromFirstSelectedRow<SongData>(dgvSongsMaster);
+                if (sd != null)
                 {
-                    frmSongInfo infoWindow = new frmSongInfo(song);
+                    frmSongInfo infoWindow = new frmSongInfo(sd);
                     infoWindow.Show();
                 }
             }

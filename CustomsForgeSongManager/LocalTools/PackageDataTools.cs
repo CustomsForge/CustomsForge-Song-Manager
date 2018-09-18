@@ -59,23 +59,21 @@ namespace CustomsForgeSongManager.LocalTools
         #endregion
 
         #region Tone Fixing
-        // TODO: FIXME ... this is not changing tuning for DropD
-
+ 
         public static DLCPackageData GetDataWithFixedTones(string srcFilePath)
         {
 
             var packageData = new DLCPackageData();
             var fnameWithoutExt = Path.GetFileNameWithoutExtension(srcFilePath);
             Platform platform = Packer.GetPlatform(srcFilePath);
-            string unpackedDir = Path.Combine(Path.GetTempPath(), String.Format("{0}_{1}", fnameWithoutExt, platform.platform));
-
-            string songVersion = string.Empty, songName = string.Empty;
+            var unpackedDir = Path.Combine(Path.GetTempPath(), String.Format("{0}_{1}", fnameWithoutExt, platform.platform));
+            var songVersion = string.Empty;
+            var songName = string.Empty;
             var psarcOld = new PsarcPackager();
 
             try
             {
-                // using (var psarcOld = new PsarcPackager())
-                packageData = psarcOld.ReadPackage(srcFilePath);
+                 packageData = psarcOld.ReadPackage(srcFilePath);
             }
             catch (InvalidDataException ex)
             {
@@ -98,7 +96,7 @@ namespace CustomsForgeSongManager.LocalTools
                     packageData = DLCPackageData.LoadFromFolder(workingDir, platform, platform);
                 }
             }
-
+            
             return packageData;
         }
 
