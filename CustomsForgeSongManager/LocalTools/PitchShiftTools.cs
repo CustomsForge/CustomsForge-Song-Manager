@@ -80,8 +80,8 @@ namespace CustomsForgeSongManager.LocalTools
                 if (arr.ArrangementType == ArrangementType.Vocal || arr.ArrangementType == ArrangementType.ShowLight)
                     continue;
 
-                // Toolkit was fixed and NullException should no longer happen
-                if (arr.Tuning == null)
+                // Toolkit was fixed and NullException should never happen
+                if (arr.Tuning == null) // conditional check is just in case
                     arr.Tuning = TuningDefinitionRepository.Instance.Detect(arr.TuningStrings, GameVersion.RS2014, false).UIName;
 
                 // TODO: see customsforge.com/topic/41503-1416-pitch-shifter-mod-wrong-pitch-for-drop-tuning/#entry268144

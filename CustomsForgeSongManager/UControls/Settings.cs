@@ -25,7 +25,8 @@ namespace CustomsForgeSongManager.UControls
             {
                 Globals.DgvCurrent = dgvCurrent;
                 AppSettings.Instance.LoadFromFile(Constants.AppSettingsPath, verbose);
-
+                var debugMe = AppSettings.Instance.IncludeSubfolders;
+                
                 cueRsDir.Text = AppSettings.Instance.RSInstalledDir;
                 chkIncludeRS1CompSongs.Checked = AppSettings.Instance.IncludeRS1CompSongs;
                 chkIncludeRS2BaseSongs.Checked = AppSettings.Instance.IncludeRS2BaseSongs;
@@ -90,7 +91,7 @@ namespace CustomsForgeSongManager.UControls
                         Globals.Log("Saved File: " + Path.GetFileName(Constants.AppSettingsPath));
                 }
 
-                if (String.IsNullOrEmpty(dgvCurrent.Name))
+                if (String.IsNullOrEmpty(dgvCurrent.Name) || dgvCurrent.RowCount == 0)
                     return;
 
                 if (!Directory.Exists(Constants.GridSettingsFolder))

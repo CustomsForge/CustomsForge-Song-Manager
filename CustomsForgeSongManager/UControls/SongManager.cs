@@ -42,7 +42,7 @@ namespace CustomsForgeSongManager.UControls
         private string lastSelectedSongPath = String.Empty;
         private int numberOfDLCPendingUpdate = 0;
         private int numberOfDisabledDLC = 0;
-        private List<SongData> songList = new List<SongData>(); // prevents filtering from being inherited
+        private List<SongData> songList = new List<SongData>(); // non-binding prevents filtering from being inherited
 
         public SongManager()
         {
@@ -52,8 +52,6 @@ namespace CustomsForgeSongManager.UControls
             tsmiDevDebugUse.Visible = GenExtensions.IsInDesignMode ? true : false;
             cmsCheckForUpdate.Visible = GenExtensions.IsInDesignMode ? true : false;
             cmsOpenSongLocation.Visible = GenExtensions.IsInDesignMode ? true : false;
-            chkShowSetlistSongs.Checked = AppSettings.Instance.ShowSetlistSongs;
-            chkProtectODLC.Checked = AppSettings.Instance.ProtectODLC;
             PopulateTagger();
             cmsTaggerPreview.Visible = true; // ???
             PopulateSongManager();
@@ -150,7 +148,8 @@ namespace CustomsForgeSongManager.UControls
             // Hide main dgvSongsMaster until load completes
             dgvSongsMaster.Visible = false;
             //Load Song Collection from file must be called before
-            if (!LoadSongCollectionFromFile()) return;
+            if (!LoadSongCollectionFromFile())
+                return;
 
             // Worker actually does the sorting after parsing, this is just to tell the grid that it is sorted.
             if (!String.IsNullOrEmpty(AppSettings.Instance.SortColumn))
@@ -392,6 +391,20 @@ namespace CustomsForgeSongManager.UControls
             tsmiDLFolderMonitor.Checked = AppSettings.Instance.RepairOptions.DLFolderMonitor;
         }
 
+        private void IncludeSubfolders()
+        {
+            cueSearch.Text = String.Empty;
+            songList = Globals.MasterCollection.ToList();
+
+            if (!chkIncludeSubfolders.Checked)
+            {
+                var results = songList.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList();
+                LoadFilteredBindingList(results);
+            }
+            else
+                LoadFilteredBindingList(songList);
+        }
+
         private void InitializeRepairMenu()
         {
             // restore saved repair options
@@ -418,7 +431,6 @@ namespace CustomsForgeSongManager.UControls
 
         private bool LoadSongCollectionFromFile()
         {
-            chkShowSetlistSongs.Checked = true;
             bool correctVersion = false;
 
             try
@@ -540,17 +552,12 @@ namespace CustomsForgeSongManager.UControls
         {
             // respect processing order
             DgvExtensions.DoubleBuffered(dgvSongsMaster);
-            if (!chkShowSetlistSongs.Checked)
-            {
-                var results = songList.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList();
-                LoadFilteredBindingList(results);
-            }
-            else
-                LoadFilteredBindingList(songList);
-
             CFSMTheme.InitializeDgvAppearance(dgvSongsMaster);
             // reload column order, width, visibility
             Globals.Settings.LoadSettingsFromFile(dgvSongsMaster, true);
+            chkIncludeSubfolders.Checked = AppSettings.Instance.IncludeSubfolders;
+            chkProtectODLC.Checked = AppSettings.Instance.ProtectODLC;
+            IncludeSubfolders();
 
             if (RAExtensions.ManagerGridSettings != null)
                 dgvSongsMaster.ReLoadColumnOrder(RAExtensions.ManagerGridSettings.ColumnOrder);
@@ -567,7 +574,7 @@ namespace CustomsForgeSongManager.UControls
             //        row.Cells["colSelect"].ReadOnly = sd.IsOfficialDLC;
             //        sd.Selected = false;
             //    }
-            //}
+            //}          
         }
 
         private void PopulateMenuWithColumnHeaders(ContextMenuStrip contextMenuStrip)
@@ -769,7 +776,7 @@ namespace CustomsForgeSongManager.UControls
                     x.SongYear.ToString().Contains(criteria) ||
                     x.FilePath.ToLower().Contains(lowerCriteria))).ToList();
 
-            if (!chkShowSetlistSongs.Checked)
+            if (!chkIncludeSubfolders.Checked)
                 results = results.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList();
 
             LoadFilteredBindingList(results);
@@ -1134,7 +1141,13 @@ namespace CustomsForgeSongManager.UControls
             Application.DoEvents();
         }
 
-        private void chkProtectODLC_CheckedChanged(object sender, EventArgs e)
+        private void chkIncludeSubfolders_MouseUp(object sender, MouseEventArgs e)
+        {
+            AppSettings.Instance.IncludeSubfolders = chkIncludeSubfolders.Checked;
+            IncludeSubfolders();
+        }
+
+        private void chkProtectODLC_MouseUp(object sender, MouseEventArgs e)
         {
             AppSettings.Instance.ProtectODLC = chkProtectODLC.Checked;
 
@@ -1156,25 +1169,6 @@ namespace CustomsForgeSongManager.UControls
                 chkProtectODLC.ForeColor = Color.Red;
                 chkProtectODLC.BackColor = Color.LightGray;
             }
-        }
-
-        private void chkShowSetlistSongs_CheckedChanged(object sender, EventArgs e)
-        {
-            AppSettings.Instance.ShowSetlistSongs = chkShowSetlistSongs.Checked;
-        }
-
-        private void chkShowSetlistSongs_MouseUp(object sender, MouseEventArgs e)
-        {
-            cueSearch.Text = String.Empty;
-            songList = Globals.MasterCollection.ToList();
-
-            if (!chkShowSetlistSongs.Checked)
-            {
-                var results = songList.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList();
-                LoadFilteredBindingList(results);
-            }
-            else
-                LoadFilteredBindingList(songList);
         }
 
         private void cmsBackup_Click(object sender, EventArgs e)
@@ -1765,27 +1759,17 @@ namespace CustomsForgeSongManager.UControls
 
         private void lnkClearSearch_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            // RemoveFilter();
-
-            cueSearch.Text = String.Empty;
             tsmiModsMyCDLC.Checked = false;
+            cueSearch.Text = String.Empty;
+            cueSearch.Cue = "Search";
+            RemoveFilter();
 
             // save current sorting before clearing search
             DgvExtensions.SaveSorting(dgvSongsMaster);
 
-            songList = Globals.MasterCollection.ToList();
-            if (!chkShowSetlistSongs.Checked)
-            {
-                var results = songList.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList();
-                LoadFilteredBindingList(results);
-            }
-            else
-                LoadFilteredBindingList(songList);
-
+            IncludeSubfolders();
             UpdateToolStrip();
-
             DgvExtensions.RestoreSorting(dgvSongsMaster);
-
             AppSettings.Instance.FilterString = String.Empty;
             AppSettings.Instance.SearchString = String.Empty;
         }
@@ -2266,16 +2250,14 @@ namespace CustomsForgeSongManager.UControls
         {
             Globals.DgvCurrent = dgvSongsMaster;
             Globals.Log("Song Manager GUI Activated ...");
-            chkShowSetlistSongs.Checked = AppSettings.Instance.ShowSetlistSongs;
-            chkProtectODLC.Checked = AppSettings.Instance.ProtectODLC;
         }
 
         public void TabLeave()
         {
             SetRepairOptions(); // saves current repair options
-            if (songList.Any())
-                Globals.Settings.SaveSettingsToFile(dgvSongsMaster);
-
+            AppSettings.Instance.IncludeSubfolders = chkIncludeSubfolders.Checked;
+            AppSettings.Instance.ProtectODLC = chkProtectODLC.Checked;
+            Globals.Settings.SaveSettingsToFile(dgvSongsMaster);
             Globals.Log("Song Manager GUI Deactivated ...");
         }
     }

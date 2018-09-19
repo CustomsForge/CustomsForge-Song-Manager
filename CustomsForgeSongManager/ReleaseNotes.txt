@@ -14,8 +14,12 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.4.7.4
+- made checkbox 'Include Subfolders' action consistent across tab menus
+- made searching and filtering actions consistent across tab menus
+- added exception handler for potential RemoveFilter error on closing.
+
 1.4.7.3
-- fixed ShowSetlistSongs checkbox action
 - upgraded ToolkitLib
 - fixed PitchShifter bug
  

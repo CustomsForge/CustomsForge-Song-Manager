@@ -47,7 +47,7 @@ namespace CustomsForgeSongManager.UControls
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panelSearch = new System.Windows.Forms.Panel();
             this.chkProtectODLC = new System.Windows.Forms.CheckBox();
-            this.chkShowSetlistSongs = new System.Windows.Forms.CheckBox();
+            this.chkIncludeSubfolders = new System.Windows.Forms.CheckBox();
             this.lnkClearSearch = new System.Windows.Forms.LinkLabel();
             this.lbl_Search = new System.Windows.Forms.Label();
             this.cueSearch = new DataGridViewTools.CueTextBox();
@@ -215,7 +215,7 @@ namespace CustomsForgeSongManager.UControls
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.panelSearch.Controls.Add(this.chkProtectODLC);
-            this.panelSearch.Controls.Add(this.chkShowSetlistSongs);
+            this.panelSearch.Controls.Add(this.chkIncludeSubfolders);
             this.panelSearch.Controls.Add(this.lnkClearSearch);
             this.panelSearch.Controls.Add(this.lbl_Search);
             this.panelSearch.Controls.Add(this.cueSearch);
@@ -231,32 +231,29 @@ namespace CustomsForgeSongManager.UControls
             this.chkProtectODLC.BackColor = System.Drawing.Color.LightGray;
             this.chkProtectODLC.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chkProtectODLC.ForeColor = System.Drawing.Color.Red;
-            this.chkProtectODLC.Location = new System.Drawing.Point(741, 4);
+            this.chkProtectODLC.Location = new System.Drawing.Point(739, 4);
             this.chkProtectODLC.Name = "chkProtectODLC";
-            this.chkProtectODLC.Padding = new System.Windows.Forms.Padding(3, 3, 0, 3);
-            this.chkProtectODLC.Size = new System.Drawing.Size(122, 23);
+            this.chkProtectODLC.Padding = new System.Windows.Forms.Padding(5, 3, 0, 3);
+            this.chkProtectODLC.Size = new System.Drawing.Size(124, 23);
             this.chkProtectODLC.TabIndex = 51;
             this.chkProtectODLC.Text = "Protect Official DLC";
             this.toolTip.SetToolTip(this.chkProtectODLC, "If checked, prevents ODLC from\r\naccidently being selected, enabled,\r\ndisabled, de" +
                     "leted, or backed up.");
             this.chkProtectODLC.UseVisualStyleBackColor = false;
-            this.chkProtectODLC.CheckedChanged += new System.EventHandler(this.chkProtectODLC_CheckedChanged);
+            this.chkProtectODLC.MouseUp += new System.Windows.Forms.MouseEventHandler(this.chkProtectODLC_MouseUp);
             // 
-            // chkShowSetlistSongs
+            // chkIncludeSubfolders
             // 
-            this.chkShowSetlistSongs.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.chkShowSetlistSongs.AutoSize = true;
-            this.chkShowSetlistSongs.Checked = true;
-            this.chkShowSetlistSongs.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkShowSetlistSongs.Location = new System.Drawing.Point(538, 7);
-            this.chkShowSetlistSongs.Name = "chkShowSetlistSongs";
-            this.chkShowSetlistSongs.Size = new System.Drawing.Size(197, 17);
-            this.chkShowSetlistSongs.TabIndex = 24;
-            this.chkShowSetlistSongs.Text = "Include Organized and Setlist Songs";
-            this.toolTip.SetToolTip(this.chkShowSetlistSongs, "If checked, search \'dlc\' folder and \r\nsubfolders for any matching songs.");
-            this.chkShowSetlistSongs.UseVisualStyleBackColor = true;
-            this.chkShowSetlistSongs.CheckedChanged += new System.EventHandler(this.chkShowSetlistSongs_CheckedChanged);
-            this.chkShowSetlistSongs.MouseUp += new System.Windows.Forms.MouseEventHandler(this.chkShowSetlistSongs_MouseUp);
+            this.chkIncludeSubfolders.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.chkIncludeSubfolders.AutoSize = true;
+            this.chkIncludeSubfolders.Location = new System.Drawing.Point(538, 7);
+            this.chkIncludeSubfolders.Name = "chkIncludeSubfolders";
+            this.chkIncludeSubfolders.Size = new System.Drawing.Size(114, 17);
+            this.chkIncludeSubfolders.TabIndex = 24;
+            this.chkIncludeSubfolders.Text = "Include Subfolders";
+            this.toolTip.SetToolTip(this.chkIncludeSubfolders, "If checked, search \'dlc\' folder and \r\nsubfolders for any matching songs.");
+            this.chkIncludeSubfolders.UseVisualStyleBackColor = true;
+            this.chkIncludeSubfolders.MouseUp += new System.Windows.Forms.MouseEventHandler(this.chkIncludeSubfolders_MouseUp);
             // 
             // lnkClearSearch
             // 
@@ -2018,7 +2015,7 @@ namespace CustomsForgeSongManager.UControls
         private CustomControls.ToolStripEnhancedMenuItem cmsTaggerPreview;
         private CustomControls.ToolStripEnhancedMenuItem tsmiModsChangeAppId;
         private System.Windows.Forms.LinkLabel lnklblToggle;
-        private System.Windows.Forms.CheckBox chkShowSetlistSongs;
+        private System.Windows.Forms.CheckBox chkIncludeSubfolders;
         private CustomControls.ToolStripEnhancedMenuItem tsmiModsPitchShifter;
         private System.Windows.Forms.MenuStrip menuStrip;
         private CustomControls.ToolStripEnhancedMenuItem tsmiRescan;

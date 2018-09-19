@@ -47,8 +47,6 @@ namespace CustomsForgeSongManager.UControls
         {
             InitializeComponent();
             Globals.TsLabel_StatusMsg.Click += lnkShowAll_Click;
-            chkShowSetlistSongs.Checked = AppSettings.Instance.ShowSetlistSongs;
-            chkProtectODLC.Checked = AppSettings.Instance.ProtectODLC;
             PopulateSetlistManager();
         }
 
@@ -58,7 +56,7 @@ namespace CustomsForgeSongManager.UControls
             DgvExtensions.DoubleBuffered(dgvSetlistMaster);
             Globals.Settings.LoadSettingsFromFile(dgvSetlistMaster, true);
 
-            // theoretically this error condition should never exist
+            // theoretically this error condition should not exist
             if (String.IsNullOrEmpty(AppSettings.Instance.RSInstalledDir) || !Directory.Exists(AppSettings.Instance.RSInstalledDir))
             {
                 MessageBox.Show(@"Please fix the Rocksmith installation directory!  " + Environment.NewLine + @"This can be changed in the 'Settings' menu tab.", MESSAGE_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Stop);
@@ -166,6 +164,20 @@ namespace CustomsForgeSongManager.UControls
             return newSetlistName;
         }
 
+        private void IncludeSubfolders()
+        {
+            cueSearch.Text = String.Empty;
+            setlistMaster = Globals.MasterCollection;
+
+            if (!chkIncludeSubfolders.Checked)
+            {
+                var results = setlistMaster.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList();
+                LoadFilteredBindingList(results);
+            }
+            else
+                LoadFilteredBindingList(setlistMaster);
+        }
+
         private void LoadFilteredBindingList(dynamic list)
         {
             bindingCompleted = false;
@@ -218,18 +230,8 @@ namespace CustomsForgeSongManager.UControls
                 return false;
             }
 
-            // local setlistMaster is loaded with Globals MasterCollection
-            setlistMaster = Globals.MasterCollection;
             DgvExtensions.DoubleBuffered(dgvSetlistMaster);
-
-            if (!chkShowSetlistSongs.Checked)
-            {
-                var results = setlistMaster.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList();
-                LoadFilteredBindingList(results);
-            }
-            else
-                LoadFilteredBindingList(setlistMaster);
-
+            IncludeSubfolders();
             CFSMTheme.InitializeDgvAppearance(dgvSetlistMaster);
 
             return true;
@@ -322,7 +324,6 @@ namespace CustomsForgeSongManager.UControls
         {
             Globals.Settings.SaveSettingsToFile(dgvSetlistMaster);
             DataGridViewAutoFilterTextBoxColumn.RemoveFilter(dgvSetlistMaster);
-            LoadFilteredBindingList(setlistMaster);
 
             // reset alternating row color
             foreach (DataGridViewRow row in dgvSetlistMaster.Rows)
@@ -939,7 +940,13 @@ namespace CustomsForgeSongManager.UControls
             }
         }
 
-        private void chkProtectODLC_CheckedChanged(object sender, EventArgs e)
+        private void chkIncludeSubfolders_MouseUp(object sender, MouseEventArgs e)
+        {
+            AppSettings.Instance.IncludeSubfolders = chkIncludeSubfolders.Checked;
+            IncludeSubfolders();
+        }
+
+        private void chkProtectODLC_MouseUp(object sender, MouseEventArgs e)
         {
             AppSettings.Instance.ProtectODLC = chkProtectODLC.Checked;
 
@@ -970,22 +977,6 @@ namespace CustomsForgeSongManager.UControls
                 chkProtectODLC.ForeColor = Color.Red;
                 chkProtectODLC.BackColor = Color.LightGray;
             }
-        }
-
-        private void chkShowSetlistSongs_CheckedChanged(object sender, EventArgs e)
-        {
-            AppSettings.Instance.ShowSetlistSongs = chkShowSetlistSongs.Checked;
-        }
-
-        private void chkShowSetlistSongs_MouseUp(object sender, MouseEventArgs e)
-        {
-            if (!chkShowSetlistSongs.Checked)
-            {
-                var results = setlistMaster.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList();
-                LoadFilteredBindingList(results);
-            }
-            else
-                RemoveFilter();
         }
 
         private void cmsCopy_Click(object sender, EventArgs e)
@@ -1350,6 +1341,12 @@ namespace CustomsForgeSongManager.UControls
             cueSearch.Text = String.Empty;
             cueSearch.Cue = "Search";
             RemoveFilter();
+
+            // save current sorting before clearing search
+            DgvExtensions.SaveSorting(dgvSetlistMaster);
+            IncludeSubfolders();
+            UpdateToolStrip();
+            DgvExtensions.RestoreSorting(dgvSetlistMaster);
         }
 
         private void lnkSetlistMgrHelp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -1369,14 +1366,16 @@ namespace CustomsForgeSongManager.UControls
 
         public void TabEnter()
         {
+            chkIncludeSubfolders.Checked = AppSettings.Instance.IncludeSubfolders;
+            chkProtectODLC.Checked = AppSettings.Instance.ProtectODLC;
             Globals.DgvCurrent = dgvSetlistMaster;
             Globals.Log("Setlist Manager GUI Activated...");
-            chkShowSetlistSongs.Checked = AppSettings.Instance.ShowSetlistSongs;
-            chkProtectODLC.Checked = AppSettings.Instance.ProtectODLC;
         }
 
         public void TabLeave()
         {
+            AppSettings.Instance.IncludeSubfolders = chkIncludeSubfolders.Checked;
+            AppSettings.Instance.ProtectODLC = chkProtectODLC.Checked;
             Globals.Settings.SaveSettingsToFile(dgvSetlistMaster);
             Globals.Log("Setlist Manager GUI Deactivated ...");
         }

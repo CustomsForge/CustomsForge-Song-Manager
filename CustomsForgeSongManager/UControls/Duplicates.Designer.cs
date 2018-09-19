@@ -33,17 +33,17 @@ namespace CustomsForgeSongManager.UControls
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Duplicates));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             this.cmsDuplicateColumns = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.cmsColumnHeaders = new System.Windows.Forms.ToolStripMenuItem();
             this.linkSelectOlderVersions = new System.Windows.Forms.LinkLabel();
-            this.chkSubFolders = new System.Windows.Forms.CheckBox();
+            this.chkIncludeSubfolders = new System.Windows.Forms.CheckBox();
             this.lnkPersistentId = new System.Windows.Forms.LinkLabel();
             this.gbResults = new System.Windows.Forms.GroupBox();
             this.lnkLblSelectAll = new System.Windows.Forms.LinkLabel();
@@ -117,7 +117,7 @@ namespace CustomsForgeSongManager.UControls
             this.linkSelectOlderVersions.AutoSize = true;
             this.linkSelectOlderVersions.ForeColor = System.Drawing.Color.Black;
             this.linkSelectOlderVersions.LinkColor = System.Drawing.SystemColors.ActiveCaption;
-            this.linkSelectOlderVersions.Location = new System.Drawing.Point(216, 492);
+            this.linkSelectOlderVersions.Location = new System.Drawing.Point(218, 492);
             this.linkSelectOlderVersions.Name = "linkSelectOlderVersions";
             this.linkSelectOlderVersions.Size = new System.Drawing.Size(122, 13);
             this.linkSelectOlderVersions.TabIndex = 26;
@@ -127,19 +127,18 @@ namespace CustomsForgeSongManager.UControls
             this.linkSelectOlderVersions.VisitedLinkColor = System.Drawing.SystemColors.ActiveCaption;
             this.linkSelectOlderVersions.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkSelectOlderVersions_LinkClicked);
             // 
-            // chkSubFolders
+            // chkIncludeSubfolders
             // 
-            this.chkSubFolders.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.chkSubFolders.AutoSize = true;
-            this.chkSubFolders.Checked = true;
-            this.chkSubFolders.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkSubFolders.Location = new System.Drawing.Point(522, 492);
-            this.chkSubFolders.Name = "chkSubFolders";
-            this.chkSubFolders.Size = new System.Drawing.Size(114, 17);
-            this.chkSubFolders.TabIndex = 25;
-            this.chkSubFolders.Text = "Include Subfolders";
-            this.chkSubFolders.UseVisualStyleBackColor = true;
-            this.chkSubFolders.MouseUp += new System.Windows.Forms.MouseEventHandler(this.chkSubFolders_MouseUp);
+            this.chkIncludeSubfolders.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.chkIncludeSubfolders.AutoSize = true;
+            this.chkIncludeSubfolders.Location = new System.Drawing.Point(547, 491);
+            this.chkIncludeSubfolders.Name = "chkIncludeSubfolders";
+            this.chkIncludeSubfolders.Size = new System.Drawing.Size(114, 17);
+            this.chkIncludeSubfolders.TabIndex = 25;
+            this.chkIncludeSubfolders.Text = "Include Subfolders";
+            this.toolTip.SetToolTip(this.chkIncludeSubfolders, resources.GetString("chkIncludeSubfolders.ToolTip"));
+            this.chkIncludeSubfolders.UseVisualStyleBackColor = true;
+            this.chkIncludeSubfolders.MouseUp += new System.Windows.Forms.MouseEventHandler(this.chkIncludeSubfolders_MouseUp);
             // 
             // lnkPersistentId
             // 
@@ -147,7 +146,7 @@ namespace CustomsForgeSongManager.UControls
             this.lnkPersistentId.AutoSize = true;
             this.lnkPersistentId.ForeColor = System.Drawing.Color.Black;
             this.lnkPersistentId.LinkColor = System.Drawing.SystemColors.ActiveCaption;
-            this.lnkPersistentId.Location = new System.Drawing.Point(351, 492);
+            this.lnkPersistentId.Location = new System.Drawing.Point(354, 492);
             this.lnkPersistentId.Name = "lnkPersistentId";
             this.lnkPersistentId.Size = new System.Drawing.Size(142, 13);
             this.lnkPersistentId.TabIndex = 18;
@@ -165,7 +164,7 @@ namespace CustomsForgeSongManager.UControls
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.gbResults.Controls.Add(this.lnkLblSelectAll);
             this.gbResults.Controls.Add(this.lnklblToggle);
-            this.gbResults.Controls.Add(this.chkSubFolders);
+            this.gbResults.Controls.Add(this.chkIncludeSubfolders);
             this.gbResults.Controls.Add(this.linkSelectOlderVersions);
             this.gbResults.Controls.Add(this.lnkPersistentId);
             this.gbResults.Controls.Add(this.txtNoDuplicates);
@@ -199,7 +198,7 @@ namespace CustomsForgeSongManager.UControls
             this.lnklblToggle.AutoSize = true;
             this.lnklblToggle.ForeColor = System.Drawing.Color.Black;
             this.lnklblToggle.LinkColor = System.Drawing.SystemColors.ActiveCaption;
-            this.lnklblToggle.Location = new System.Drawing.Point(116, 492);
+            this.lnklblToggle.Location = new System.Drawing.Point(117, 492);
             this.lnklblToggle.Name = "lnklblToggle";
             this.lnklblToggle.Size = new System.Drawing.Size(87, 13);
             this.lnklblToggle.TabIndex = 28;
@@ -224,19 +223,19 @@ namespace CustomsForgeSongManager.UControls
             // 
             // dgvDuplicates
             // 
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.dgvDuplicates.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.dgvDuplicates.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle7;
             this.dgvDuplicates.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvDuplicates.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvDuplicates.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle8;
             this.dgvDuplicates.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colPID,
             this.colPIDArrangement,
@@ -364,9 +363,9 @@ namespace CustomsForgeSongManager.UControls
             // colSongLength
             // 
             this.colSongLength.DataPropertyName = "SongLength";
-            dataGridViewCellStyle3.Format = "N2";
-            dataGridViewCellStyle3.NullValue = null;
-            this.colSongLength.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle9.Format = "N2";
+            dataGridViewCellStyle9.NullValue = null;
+            this.colSongLength.DefaultCellStyle = dataGridViewCellStyle9;
             this.colSongLength.HeaderText = "Length Seconds";
             this.colSongLength.Name = "colSongLength";
             this.colSongLength.ReadOnly = true;
@@ -375,9 +374,9 @@ namespace CustomsForgeSongManager.UControls
             // colAvgTempo
             // 
             this.colAvgTempo.DataPropertyName = "SongAverageTempo";
-            dataGridViewCellStyle4.Format = "N2";
-            dataGridViewCellStyle4.NullValue = null;
-            this.colAvgTempo.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle10.Format = "N2";
+            dataGridViewCellStyle10.NullValue = null;
+            this.colAvgTempo.DefaultCellStyle = dataGridViewCellStyle10;
             this.colAvgTempo.HeaderText = "BPM";
             this.colAvgTempo.Name = "colAvgTempo";
             this.colAvgTempo.ReadOnly = true;
@@ -431,8 +430,8 @@ namespace CustomsForgeSongManager.UControls
             // colUpdated
             // 
             this.colUpdated.DataPropertyName = "LastConversionDateTime";
-            dataGridViewCellStyle5.NullValue = null;
-            this.colUpdated.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle11.NullValue = null;
+            this.colUpdated.DefaultCellStyle = dataGridViewCellStyle11;
             this.colUpdated.HeaderText = "Updated";
             this.colUpdated.Name = "colUpdated";
             this.colUpdated.ReadOnly = true;
@@ -479,8 +478,8 @@ namespace CustomsForgeSongManager.UControls
             // colIgnitionUpdated
             // 
             this.colIgnitionUpdated.DataPropertyName = "IgnitionUpdated";
-            dataGridViewCellStyle6.NullValue = null;
-            this.colIgnitionUpdated.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle12.NullValue = null;
+            this.colIgnitionUpdated.DefaultCellStyle = dataGridViewCellStyle12;
             this.colIgnitionUpdated.HeaderText = "Ignition Updated";
             this.colIgnitionUpdated.Name = "colIgnitionUpdated";
             this.colIgnitionUpdated.ReadOnly = true;
@@ -538,7 +537,7 @@ namespace CustomsForgeSongManager.UControls
             this.cmsDelete,
             this.cmsMove});
             this.cmsDuplicates.Name = "contextMenuStrip_MainManager";
-            this.cmsDuplicates.Size = new System.Drawing.Size(188, 164);
+            this.cmsDuplicates.Size = new System.Drawing.Size(188, 142);
             this.cmsDuplicates.Closing += new System.Windows.Forms.ToolStripDropDownClosingEventHandler(this.cmsDuplicates_Closing);
             this.cmsDuplicates.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.cmsDuplicates_ItemClicked);
             // 
@@ -691,7 +690,7 @@ namespace CustomsForgeSongManager.UControls
         private TextBox txtNoDuplicates;
         private RADataGridView dgvDuplicates;
         private ToolTip toolTip;
-        private CheckBox chkSubFolders;
+        private CheckBox chkIncludeSubfolders;
         private LinkLabel linkSelectOlderVersions;
         private ContextMenuStrip cmsDuplicates;
         private CustomControls.ToolStripEnhancedMenuItem cmsOpenLocation;

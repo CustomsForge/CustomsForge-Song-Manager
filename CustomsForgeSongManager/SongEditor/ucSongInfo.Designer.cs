@@ -401,9 +401,10 @@
             this.label4.ForeColor = System.Drawing.SystemColors.ActiveCaption;
             this.label4.Location = new System.Drawing.Point(372, 192);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(20, 13);
+            this.label4.Size = new System.Drawing.Size(25, 13);
             this.label4.TabIndex = 3;
-            this.label4.Text = "dB";
+            this.label4.Text = "(LF)";
+            this.toolTip.SetToolTip(this.label4, "Loudness Factor");
             // 
             // cmbPreviewVolume
             // 
@@ -471,9 +472,10 @@
             this.label3.ForeColor = System.Drawing.SystemColors.ActiveCaption;
             this.label3.Location = new System.Drawing.Point(168, 192);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(20, 13);
+            this.label3.Size = new System.Drawing.Size(25, 13);
             this.label3.TabIndex = 63;
-            this.label3.Text = "dB";
+            this.label3.Text = "(LF)";
+            this.toolTip.SetToolTip(this.label3, "Loudness Factor");
             // 
             // toolTip
             // 

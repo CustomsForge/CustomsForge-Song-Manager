@@ -95,6 +95,19 @@ namespace CustomsForgeSongManager.UControls
             }
         }
 
+        private void IncludeSubfolders()
+        {
+            cueSearch.Text = String.Empty;
+
+            if (!chkIncludeSubfolders.Checked)
+            {
+                var results = arrangementList.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList();
+                LoadFilteredBindingList(results);
+            }
+            else
+                LoadFilteredBindingList(arrangementList);
+        }
+
         private void LoadArrangements()
         {
             if (Globals.MasterCollection.Count == 0)
@@ -245,7 +258,7 @@ namespace CustomsForgeSongManager.UControls
         {
             // respect processing order
             DgvExtensions.DoubleBuffered(dgvArrangements);
-            LoadFilteredBindingList(arrangementList);
+            IncludeSubfolders();
             CFSMTheme.InitializeDgvAppearance(dgvArrangements);
             // reload column order, width, visibility
             Globals.Settings.LoadSettingsFromFile(dgvArrangements);
@@ -479,6 +492,11 @@ namespace CustomsForgeSongManager.UControls
                 return;
 
             firstIndex = dgvArrangements.FirstDisplayedCell.RowIndex;
+        }
+
+        private void chkIncludeSubfolders_MouseUp(object sender, MouseEventArgs e)
+        {
+            IncludeSubfolders();
         }
 
         private void cueSearch_KeyUp(object sender, KeyEventArgs e)
@@ -753,10 +771,13 @@ namespace CustomsForgeSongManager.UControls
         private void lnkClearSearch_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             cueSearch.Text = String.Empty;
+            cueSearch.Cue = "Search";
+            RemoveFilter();
 
             // save current sorting before clearing search
             DgvExtensions.SaveSorting(dgvArrangements);
-            LoadFilteredBindingList(arrangementList);
+
+            IncludeSubfolders();
             UpdateToolStrip();
             DgvExtensions.RestoreSorting(dgvArrangements);
             AppSettings.Instance.FilterString = String.Empty;
@@ -844,6 +865,7 @@ namespace CustomsForgeSongManager.UControls
         {
             Globals.DgvCurrent = dgvArrangements;
             Globals.Log("Arrangements GUI Activated ...");
+            chkIncludeSubfolders.Checked = AppSettings.Instance.IncludeSubfolders;
 
             if (Globals.RescanArrangements && AppSettings.Instance.IncludeArrangementData)
                 RefreshDgv(true);
@@ -870,9 +892,8 @@ namespace CustomsForgeSongManager.UControls
 
         public void TabLeave()
         {
-            if (arrangementList.Any())
-                Globals.Settings.SaveSettingsToFile(dgvArrangements);
-
+            AppSettings.Instance.IncludeSubfolders = chkIncludeSubfolders.Checked;
+            Globals.Settings.SaveSettingsToFile(dgvArrangements);
             Globals.Log("Arrangements GUI Deactivated ...");
         }
     }

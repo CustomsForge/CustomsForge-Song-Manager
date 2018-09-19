@@ -130,7 +130,7 @@ namespace CustomsForgeSongManager.Forms
             Globals.Log("+ " + Constants.AppTitle);
             Globals.Log("+ .NET (v" + SysExtensions.DotNetVersion + ")");
             Globals.Log("+ RocksmithToolkitLib (v" + ToolkitVersion.RSTKLibVersion() + ")");
-         
+
             // load settings
             Globals.Settings.LoadSettingsFromFile();
 
@@ -223,8 +223,16 @@ namespace CustomsForgeSongManager.Forms
                 // do not SaveSongCollectionToFile when changing compatibility mode
                 if (File.Exists(Constants.SongsInfoPath))
                 {
-                    DataGridViewAutoFilterColumnHeaderCell.RemoveFilter(Globals.SongManager.GetGrid());
-                    Globals.SongManager.SaveSongCollectionToFile();
+                    try
+                    {
+                        DataGridViewAutoFilterColumnHeaderCell.RemoveFilter(Globals.SongManager.GetGrid());
+                        Globals.SongManager.SaveSongCollectionToFile();
+                    }
+                    catch (Exception ex)
+                    {
+                        // catch RemoveFilter error on closing (system timing issue???)
+                        Debug.WriteLine(ex.Message);
+                    }
                 }
             }
         }

@@ -102,10 +102,10 @@ namespace CustomsForgeSongManager.UControls
                     }
                 }
 
-                if (chkSubFolders.Checked)
-                    duplicateList = pidList.GroupBy(x => x.PID).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
-                else
-                    duplicateList = pidList.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").GroupBy(x => x.PID).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
+                duplicateList = pidList.GroupBy(x => x.PID).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
+
+                if (!chkIncludeSubfolders.Checked)
+                    duplicateList = duplicateList.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").GroupBy(x => x.PID).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
 
                 distinctPIDS = duplicateList.Select(x => x.PID).Distinct().ToList();
             }
@@ -117,7 +117,7 @@ namespace CustomsForgeSongManager.UControls
                 var dupATA = Globals.MasterCollection.GroupBy(x => x.ArtistTitleAlbum).Where(group => group.Count() > 1).SelectMany(group => group);
                 duplicateList = dupATA.Union(dupDlcKey).ToList();
 
-                if (!chkSubFolders.Checked)
+                if (!chkIncludeSubfolders.Checked)
                     duplicateList = duplicateList.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList();
 
                 if (keyEnabled)
@@ -241,6 +241,14 @@ namespace CustomsForgeSongManager.UControls
                     //        dgvDuplicates.InvalidateCell(item.HeaderCell);
                 }
             }
+        }
+
+        private void IncludeSubfolders()
+        {
+            if (dgvDuplicates.Columns["colPID"].Visible)
+                PopulateDuplicates(true);
+            else
+                PopulateDuplicates();
         }
 
         private void LoadFilteredBindingList(dynamic list)
@@ -481,12 +489,10 @@ namespace CustomsForgeSongManager.UControls
             txtNoDuplicates.Location = p;
         }
 
-        private void chkSubFolders_MouseUp(object sender, MouseEventArgs e)
+        private void chkIncludeSubfolders_MouseUp(object sender, MouseEventArgs e)
         {
-            if (dgvDuplicates.Columns["colPID"].Visible)
-                PopulateDuplicates(true);
-            else
-                PopulateDuplicates();
+            AppSettings.Instance.IncludeSubfolders = chkIncludeSubfolders.Checked;
+            IncludeSubfolders();
         }
 
         private void cmsDelete_Click(object sender, EventArgs e)
@@ -646,7 +652,7 @@ namespace CustomsForgeSongManager.UControls
             // MouseUp detection is more reliable than MouseDown
             var dgvCurrent = (DataGridView)sender;
             var rowIndex = e.RowIndex;
-             
+
             if (e.Button == MouseButtons.Right)
             {
                 if (rowIndex != -1)
@@ -874,16 +880,17 @@ namespace CustomsForgeSongManager.UControls
 
         public void TabEnter()
         {
+            chkIncludeSubfolders.Checked = AppSettings.Instance.IncludeSubfolders;
             Globals.DgvCurrent = dgvDuplicates;
             Globals.Log("Duplicate GUI Activated...");
         }
 
         public void TabLeave()
         {
-            if (duplicateList.Any())
-                Globals.Settings.SaveSettingsToFile(dgvDuplicates);
-
+            AppSettings.Instance.IncludeSubfolders = chkIncludeSubfolders.Checked;
+            Globals.Settings.SaveSettingsToFile(dgvDuplicates);
             Globals.Log("Duplicates GUI Deactivated ...");
         }
+
     }
 }

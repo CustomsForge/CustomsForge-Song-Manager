@@ -123,6 +123,17 @@
   <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>508, 6</value>
   </metadata>
+  <data name="chkIncludeSubfolders.ToolTip" xml:space="preserve">
+    <value>If checked, search 'dlc' folder and 
+subfolders for any matching songs.
+
+NOTE: 
+Duplicate finder always searches
+for duplicates in 'dlc' folder and 
+subfolders regardless of checkbox
+condition, but it only displays those
+duplicates according to selection.</value>
+  </data>
   <metadata name="colPID.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -248,6 +259,18 @@ three File I/O related 'Actions'.</value>
   <metadata name="menuStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>33, 6</value>
   </metadata>
+  <data name="tsmiRescan.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAShJREFUOE9jYBgs
+        wAjokCYgbkXCzUC2LTEOFAEq2gzEIEO0kLAekD0fiC2AWAELlocZbg5klOKwyRIo3gPE/VhwH1CMB6QP
+        ZEAJHqfGAOVq0XANkG+F7AKYAZxAQZCXYDgAyL4CxOex4JNAMW5kFzgBOdeA+AYSBvGxaYaJiSMb0IJN
+        MRsb20Y+Pr54bm7uLB4enhygmjNI6lAMAEUbhm2CgoLRUJddYGZmXgE0CBQeWF2AYQATE9MZXl7ebGSD
+        +fn504k2AKQQ6IJwoNM7ODk5W4CaK4DseKBL9kANIewFRkbGfVxcXFmsrKz5LCwsVcLCwjZiYmLu7Ozs
+        y4GGoBhQRiDEL0HljwFdEAP03jIgnxcUC3JA7AHEwkBcD8TtRGBQjNmDNFMMAMK7Y7LorC+/AAAAAElF
+        TkSuQmCC
+</value>
+  </data>
   <data name="tsmiRescanAll.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
@@ -278,18 +301,6 @@ three File I/O related 'Actions'.</value>
         d5Dmwhsu8BhCCQNsBoCiFtnmkluu/zMu2GPGAnLUoKfO7reB4LgH+Tv7suP/+JPWmAaAFIASCbIrYDa3
         vvAFp0xQLCWdtsGdEtGTKcyA2kdeKP5GDlyMvADLNMgBB/N37HErDFeiGIDsd5BXkHMgLFGhJy4AhUFl
         BYyb8vkAAAAASUVORK5CYII=
-</value>
-  </data>
-  <data name="tsmiRescan.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAShJREFUOE9jYBgs
-        wAjokCYgbkXCzUC2LTEOFAEq2gzEIEO0kLAekD0fiC2AWAELlocZbg5klOKwyRIo3gPE/VhwH1CMB6QP
-        ZEAJHqfGAOVq0XANkG+F7AKYAZxAQZCXYDgAyL4CxOex4JNAMW5kFzgBOdeA+AYSBvGxaYaJiSMb0IJN
-        MRsb20Y+Pr54bm7uLB4enhygmjNI6lAMAEUbhm2CgoLRUJddYGZmXgE0CBQeWF2AYQATE9MZXl7ebGSD
-        +fn504k2AKQQ6IJwoNM7ODk5W4CaK4DseKBL9kANIewFRkbGfVxcXFmsrKz5LCwsVcLCwjZiYmLu7Ozs
-        y4GGoBhQRiDEL0HljwFdEAP03jIgnxcUC3JA7AHEwkBcD8TtRGBQjNmDNFMMAMK7Y7LorC+/AAAAAElF
-        TkSuQmCC
 </value>
   </data>
   <data name="tsmiHelp.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">

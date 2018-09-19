@@ -10,7 +10,7 @@ using System.Reflection;
 
 namespace CustomsForgeSongManager.LocalTools
 {
-     static class PackageDataTools
+    static class PackageDataTools
     {
         #region Package Info
         public static DLCPackageData AddPackageComment(this DLCPackageData packageData, string packageComment)
@@ -59,7 +59,6 @@ namespace CustomsForgeSongManager.LocalTools
         #endregion
 
         #region Tone Fixing
- 
         public static DLCPackageData GetDataWithFixedTones(string srcFilePath)
         {
 
@@ -73,7 +72,7 @@ namespace CustomsForgeSongManager.LocalTools
 
             try
             {
-                 packageData = psarcOld.ReadPackage(srcFilePath);
+                packageData = psarcOld.ReadPackage(srcFilePath);
             }
             catch (InvalidDataException ex)
             {
@@ -81,9 +80,7 @@ namespace CustomsForgeSongManager.LocalTools
                 {
                     var field = typeof(PsarcPackager).GetField("packageDir", BindingFlags.NonPublic | BindingFlags.GetField | BindingFlags.Instance);
                     var workingDir = field.GetValue(psarcOld).ToString();
-
-                    //packageData = DLCPackageData.LoadFromFolder(workingDir, platform, platform);
-
+         
                     //foreach (var arr in packageData.Arrangements)
                     //    FixMissingTonesInXML(arr.SongXml.File);
 
@@ -96,7 +93,7 @@ namespace CustomsForgeSongManager.LocalTools
                     packageData = DLCPackageData.LoadFromFolder(workingDir, platform, platform);
                 }
             }
-            
+
             return packageData;
         }
 
@@ -114,6 +111,7 @@ namespace CustomsForgeSongManager.LocalTools
 
             xmlDoc.Save(xmlPath);
         }
+
         #endregion
     }
 }

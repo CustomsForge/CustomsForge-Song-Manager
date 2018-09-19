@@ -38,6 +38,7 @@ namespace CustomsForgeSongManager.UControls
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ArrangementAnalyzer));
             this.panelSearch = new System.Windows.Forms.Panel();
+            this.chkIncludeSubfolders = new System.Windows.Forms.CheckBox();
             this.lnkClearSearch = new System.Windows.Forms.LinkLabel();
             this.lbl_Search = new System.Windows.Forms.Label();
             this.cueSearch = new DataGridViewTools.CueTextBox();
@@ -109,11 +110,11 @@ namespace CustomsForgeSongManager.UControls
             this.colSlideUnpitchToCount = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colSustainCount = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colTapCount = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.colThumbCount = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colTremoloCount = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colVibratoCount = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colArtistTitleAlbum = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colArtistTitleAlbumDate = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
-            this.colThumbCount = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.cmsArrangementsColumns = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.testToolStripMenuItem = new CustomControls.ToolStripEnhancedMenuItem();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
@@ -136,6 +137,7 @@ namespace CustomsForgeSongManager.UControls
             this.panelSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelSearch.Controls.Add(this.chkIncludeSubfolders);
             this.panelSearch.Controls.Add(this.lnkClearSearch);
             this.panelSearch.Controls.Add(this.lbl_Search);
             this.panelSearch.Controls.Add(this.cueSearch);
@@ -143,6 +145,19 @@ namespace CustomsForgeSongManager.UControls
             this.panelSearch.Name = "panelSearch";
             this.panelSearch.Size = new System.Drawing.Size(879, 33);
             this.panelSearch.TabIndex = 5;
+            // 
+            // chkIncludeSubfolders
+            // 
+            this.chkIncludeSubfolders.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.chkIncludeSubfolders.AutoSize = true;
+            this.chkIncludeSubfolders.Location = new System.Drawing.Point(501, 8);
+            this.chkIncludeSubfolders.Name = "chkIncludeSubfolders";
+            this.chkIncludeSubfolders.Size = new System.Drawing.Size(114, 17);
+            this.chkIncludeSubfolders.TabIndex = 25;
+            this.chkIncludeSubfolders.Text = "Include Subfolders";
+            this.toolTip.SetToolTip(this.chkIncludeSubfolders, "If checked, search \'dlc\' folder and \r\nsubfolders for any matching songs.");
+            this.chkIncludeSubfolders.UseVisualStyleBackColor = true;
+            this.chkIncludeSubfolders.MouseUp += new System.Windows.Forms.MouseEventHandler(this.chkIncludeSubfolders_MouseUp);
             // 
             // lnkClearSearch
             // 
@@ -907,6 +922,15 @@ namespace CustomsForgeSongManager.UControls
             this.colTapCount.ReadOnly = true;
             this.colTapCount.Visible = false;
             // 
+            // colThumbCount
+            // 
+            this.colThumbCount.DataPropertyName = "ThumbCount";
+            this.colThumbCount.DefaultCellStyle = dataGridViewCellStyle3;
+            this.colThumbCount.HeaderText = "ThumbCount";
+            this.colThumbCount.Name = "colThumbCount";
+            this.colThumbCount.ReadOnly = true;
+            this.colThumbCount.Visible = false;
+            // 
             // colTremoloCount
             // 
             this.colTremoloCount.DataPropertyName = "TremoloCount";
@@ -939,15 +963,6 @@ namespace CustomsForgeSongManager.UControls
             this.colArtistTitleAlbumDate.HeaderText = "ArtistTitleAlbumDate";
             this.colArtistTitleAlbumDate.Name = "colArtistTitleAlbumDate";
             this.colArtistTitleAlbumDate.ReadOnly = true;
-            // 
-            // colThumbCount
-            // 
-            this.colThumbCount.DataPropertyName = "ThumbCount";
-            this.colThumbCount.DefaultCellStyle = dataGridViewCellStyle3;
-            this.colThumbCount.HeaderText = "ThumbCount";
-            this.colThumbCount.Name = "colThumbCount";
-            this.colThumbCount.Visible = false;
-            this.colThumbCount.ReadOnly = true;
             // 
             // cmsArrangementsColumns
             // 
@@ -1155,6 +1170,7 @@ namespace CustomsForgeSongManager.UControls
         private CustomControls.ToolStripEnhancedMenuItem tsmiRescanFull;
         private CustomControls.ToolStripEnhancedMenuItem tsmiHelp;
         private CustomControls.ToolStripEnhancedMenuItem tsmiHelpGeneral;
+        private CheckBox chkIncludeSubfolders;
 
     }
 }
