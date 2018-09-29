@@ -145,6 +145,7 @@ namespace CustomsForgeSongManager.UControls
                             PackageAuthor = song.PackageAuthor,
                             PackageVersion = song.PackageVersion,
                             PackageComment = song.PackageComment,
+                            PackageRating = song.PackageRating,
                             IgnitionID = song.IgnitionID,
                             IgnitionVersion = song.IgnitionVersion,
                             IgnitionAuthor = song.IgnitionAuthor,

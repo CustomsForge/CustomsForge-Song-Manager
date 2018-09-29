@@ -436,8 +436,8 @@ namespace CustomsForgeSongManager.UControls
             this.chkIncludeSubfolders.Size = new System.Drawing.Size(119, 23);
             this.chkIncludeSubfolders.TabIndex = 49;
             this.chkIncludeSubfolders.Text = "Include Subfolders";
-            this.toolTip.SetToolTip(this.chkIncludeSubfolders, "If checked, highlight songs\r\nin the Master Songs grid that\r\nare from setlists/sub" +
-                    "folders.");
+            this.toolTip.SetToolTip(this.chkIncludeSubfolders, "If checked, show and highlight\r\nsongs in the Master Songs grid\r\nthat are from set" +
+                    "list subfolders.");
             this.chkIncludeSubfolders.UseVisualStyleBackColor = true;
             this.chkIncludeSubfolders.MouseUp += new System.Windows.Forms.MouseEventHandler(this.chkIncludeSubfolders_MouseUp);
             // 

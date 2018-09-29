@@ -145,7 +145,7 @@
             this.lblInstructions.Location = new System.Drawing.Point(10, 147);
             this.lblInstructions.Name = "lblInstructions";
             this.lblInstructions.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.lblInstructions.Size = new System.Drawing.Size(349, 143);
+            this.lblInstructions.Size = new System.Drawing.Size(376, 143);
             this.lblInstructions.TabIndex = 1;
             this.lblInstructions.Text = resources.GetString("lblInstructions.Text");
             // 

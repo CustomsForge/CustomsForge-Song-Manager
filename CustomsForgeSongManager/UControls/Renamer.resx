@@ -138,7 +138,7 @@ You can add/create directories as seen above using: "\\".
 If the song has Dynamic Difficulty then 'DD' will be generated.
 Ex. &lt;title&gt;_&lt;dd&gt; and Dynamic Difficulty exists:  Space Time_DD_p.psarc
 
-If the song does not have Dynamic Difficulty then:  Space Time_p.psarc</value>
+If the song does not have Dynamic Difficulty then:  Space Time_NDD_p.psarc</value>
   </data>
   <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>322, 6</value>

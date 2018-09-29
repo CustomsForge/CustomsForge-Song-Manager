@@ -8,6 +8,7 @@ using DataGridViewTools;
 using System.Collections.Generic;
 using System.ComponentModel;
 using Newtonsoft.Json;
+using System.Drawing;
 
 // DO NOT USE RESHAPER TO SORT THIS CLASS -- HAND SORT ONLY
 // TODO: CLEANUP SONGDATA OBJECT - DEPRICATE OLD/UNUSED STUFF
@@ -54,7 +55,7 @@ namespace CustomsForgeSongManager.DataObjects
     {
         // version 0 - 9: recyclable version number is the current Assembly Revision number
         // incrementing version forces songInfo.xml and appSettings.xml to reset/update to defaults
-        public const string SongDataListVersion = "8"; // devs change only when needed to force user update
+        public const string SongDataListVersion = "9"; // devs change only when needed to force user update
 
         // Unique Song Key
         public string DLCKey { get; set; }
@@ -75,6 +76,7 @@ namespace CustomsForgeSongManager.DataObjects
         public string PackageAuthor { get; set; }
         public string PackageVersion { get; set; }
         public string PackageComment { get; set; }
+        public string PackageRating { get; set; }
         public string FilePath { get; set; }
         public DateTime FileDate { get; set; }
         public int FileSize { get; set; }
@@ -87,7 +89,8 @@ namespace CustomsForgeSongManager.DataObjects
         public SongDataStatus Status { get; set; }
         public SongTaggerStatus Tagged { get; set; }
         public RepairStatus RepairStatus { get; set; }
-
+        public bool NeedsUpdate { get; set; }
+         
         // used by detail table
         [XmlArray("Arrangements")] // provides proper xml serialization
         [XmlArrayItem("Arrangement")] // provides proper xml serialization
@@ -165,25 +168,39 @@ namespace CustomsForgeSongManager.DataObjects
                 string result = string.Empty;
                 foreach (string arrangement in Arrangements2D.Select(x => x.Name.ToLower()).ToArray())
                 {
-                    if (arrangement.Contains("lead") && !arrangement.Contains("lead2"))
-                        result += "L";
-                    if (arrangement.Contains("lead2"))
-                        result += "l";
-                    if (arrangement.Contains("rhythm") && !arrangement.Contains("rhythm2"))
-                        result += "R";
-                    if (arrangement.Contains("rhythm2"))
-                        result = "r";
-                    if (arrangement.Contains("bass") && !arrangement.Contains("bass2"))
+                    // create BLRV short acronym
+                    if (arrangement.ToLower().Contains("bass") && !result.Contains("B"))
                         result += "B";
-                    if (arrangement.Contains("bass2"))
-                        result += "b";
-                    if (arrangement.Contains("vocals"))
+                    else if (arrangement.ToLower().Contains("lead") && !result.Contains("L"))
+                        result += "L";
+                    else if ((arrangement.ToLower().Contains("rhythm") || arrangement.ToLower().Contains("combo")) && !result.Contains("R"))
+                        result += "R";
+                    else if (arrangement.ToLower().Contains("vocals"))
                         result += "V";
-                    if (arrangement.Contains("combo"))
-                        result += "C";
                 }
+
                 return result;
             }
+        }
+
+        private int? _ratingStars;
+        [XmlIgnore]
+        public int RatingStars  // { get; set; }
+        {
+            get
+            {
+                if (_ratingStars == null)
+                {
+                    if (String.IsNullOrEmpty(PackageRating) || PackageRating.ToLower().Contains("null"))
+                        _ratingStars = 0;
+                    else
+                        _ratingStars = int.Parse(PackageRating);
+                }
+
+                return (int)_ratingStars;
+            }
+
+            set { _ratingStars = value; }
         }
 
         // preserves 1D display methods

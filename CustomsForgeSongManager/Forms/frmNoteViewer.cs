@@ -37,6 +37,19 @@ namespace CustomsForgeSongManager.Forms
                 rtbText.LoadFile(streamRtfNotes, RichTextBoxStreamType.RichText);
             }
         }
+      
+        public void PopulateAsciiText(string textNotes = "")
+        {
+            if (String.IsNullOrEmpty(textNotes))
+            {
+                this.Size = new Size(550, 132);
+                rtbText.Text = "Additional help will be displayed here when available.";
+            }
+            else
+            {
+                rtbText.Text = textNotes;
+            }
+        }
 
         private void RemoveButtonHandler()
         {

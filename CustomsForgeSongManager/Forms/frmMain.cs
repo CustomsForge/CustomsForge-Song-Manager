@@ -19,6 +19,7 @@ using DataGridViewTools;
 using CustomControls;
 using RocksmithToolkitLib;
 using System.Data;
+using System.Threading;
 
 // NOTE: the app is designed for default user screen resolution of 1024x768
 // dev screen resolution should be set to this when designing forms and controls
@@ -184,13 +185,23 @@ namespace CustomsForgeSongManager.Forms
 
         private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
+            if (Globals.PackageRatingNeedsUpdate && !Globals.UpdateInProgress)
+                PackageDataTools.UpdatePackageRating();
+
+            // always wait for any PackageRating updates to finish
+            while (Globals.UpdateInProgress)
+            {
+                Application.DoEvents();
+                Thread.Sleep(200);
+            }
+
             AppSettings.Instance.FullScreen = WindowState == FormWindowState.Maximized;
             AppSettings.Instance.WindowWidth = this.Width;
             AppSettings.Instance.WindowHeight = this.Height;
             AppSettings.Instance.WindowTop = this.Location.Y;
             AppSettings.Instance.WindowLeft = this.Location.X;
 
-            Globals.Log("Application is Closing");
+            Globals.Log("Application is closing ...");
             Globals.CancelBackgroundScan = true;
 
             if (Globals.Settings == null || Globals.SongManager == null)
@@ -235,6 +246,8 @@ namespace CustomsForgeSongManager.Forms
                     }
                 }
             }
+
+            Globals.Log("Application closed normally ...");
         }
 
         private void frmMain_KeyDown(object sender, KeyEventArgs e)

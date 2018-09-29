@@ -14,6 +14,15 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.4.7.5
+- minor changes to Renamer (key/description) restore NDD naming
+- added a much requested and highly anticipated ... User CDLC Rating System
+  ** LOOK ** for the new 5-Star PackageRating column in Song Manager
+  rating are applied and maintained to the user's local CDLC collection
+  CDLC Charters may use CFSM to pre-rate their CDLC before posting to Ignition
+- included a safety feature which prevents CFSM from closing while PackageRating
+  updates are being processed in order to reduce the risk of severe CDLC damage 
+  
 1.4.7.4
 - made checkbox 'Include Subfolders' action consistent across tab menus
 - made searching and filtering actions consistent across tab menus

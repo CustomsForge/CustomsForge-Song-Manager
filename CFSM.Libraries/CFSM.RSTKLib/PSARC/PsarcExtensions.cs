@@ -73,14 +73,18 @@ namespace CFSM.RSTKLib.PSARC
                 return false;
 
             using (PSARC archive = new PSARC(true))
+            using (var psarcStream = File.OpenRead(psarcPath))
             {
-                using (var psarcStream = File.OpenRead(psarcPath))
-                    archive.Read(psarcStream);
+                archive.Read(psarcStream);
+                psarcStream.Dispose(); // CRITICAL
 
                 var tocEntry = archive.TOC.FirstOrDefault(entry => entry.Name == entryName);
 
                 if (tocEntry == null)
+                {
+                    archive.Dispose(); // CRITICAL
                     return true;
+                }
 
                 archive.TOC.Remove(tocEntry);
                 archive.TOC.Insert(0, new Entry() { Name = "NamesBlock.bin" });
@@ -88,25 +92,14 @@ namespace CFSM.RSTKLib.PSARC
                 using (var fs = File.Create(psarcPath))
                     archive.Write(fs, true);
 
+                archive.Dispose(); // CRITICAL
                 return true;
             }
         }
-
-        public static bool InjectArchiveEntry(string psarcPath, string entryName, string sourcePath, bool updateToolkitVersion = false, string appVersion = "", string charterName = "")
+        public static bool InjectArchiveEntry(string psarcPath, string entryName, string sourcePath)
         {
             if (!File.Exists(psarcPath))
                 return false;
-
-            int injectionCount = 2;
-            if (!updateToolkitVersion)
-                injectionCount = 1;
-            else
-            {
-                if (String.IsNullOrEmpty(appVersion))
-                    appVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-                if (String.IsNullOrEmpty(charterName))
-                    charterName = Assembly.GetExecutingAssembly().GetName().ToString();
-            }
 
             using (PSARC archive = new PSARC(true))
             using (var psarcStream = File.OpenRead(psarcPath))
@@ -114,51 +107,87 @@ namespace CFSM.RSTKLib.PSARC
                 try
                 {
                     archive.Read(psarcStream);
-                    psarcStream.Dispose();
+                    psarcStream.Dispose(); // CRITICAL
 
-                    for (int i = 0; i < injectionCount; i++)
+                    var entryStream = new MemoryStream();
+
+                    using (var sourceStream = File.OpenRead(sourcePath))
+                        sourceStream.CopyTo(entryStream);
+
+                    entryStream.Position = 0;
+                    Entry tocEntry = archive.TOC.FirstOrDefault(x => x.Name == entryName);
+
+                    if (tocEntry != null)
                     {
-                        var entryStream = new MemoryStream();
+                        tocEntry.Data.Dispose(); // CRITICAL
+                        tocEntry.Data = null;
+                        tocEntry.Data = entryStream;
+                    }
+                    else
+                    {
+                        archive.AddEntry(entryName, entryStream);
 
-                        switch (i)
-                        {
-                            case 0:
-                                using (var sourceStream = File.OpenRead(sourcePath))
-                                    sourceStream.CopyTo(entryStream);
-                                break;
-                            case 1:
-                                var version = String.Format("CFSM v{0}", appVersion);
-                                DLCPackageCreator.GenerateToolkitVersion(entryStream, charterName, version);
-                                entryName = "toolkit.version";
-                                break;
-                        }
-
-                        entryStream.Position = 0;
-                        Entry tocEntry = archive.TOC.FirstOrDefault(x => x.Name == entryName);
-
-                        if (tocEntry != null)
-                        {
-                            tocEntry.Data.Dispose();
-                            tocEntry.Data = null;
-                            tocEntry.Data = entryStream;
-                        }
-                        else
-                        {
-                            archive.AddEntry(entryName, entryStream);
-
-                            // evil genius ... ;) => forces archive update
-                            archive.TOC.Insert(0, new Entry() { Name = "NamesBlock.bin" });
-                        }
+                        // evil genius ... ;) => forces archive update
+                        archive.TOC.Insert(0, new Entry() { Name = "NamesBlock.bin" });
                     }
                 }
                 catch
                 {
+                    archive.Dispose(); // CRITICAL
                     return false;
                 }
 
                 using (var fs = File.Create(psarcPath))
                     archive.Write(fs, true);
 
+                archive.Dispose(); // CRITICAL
+                return true;
+            }
+        }
+
+        public static bool InjectArchiveEntry(string psarcPath, string entryName, Stream sourceStream)
+        {
+            if (!File.Exists(psarcPath))
+                return false;
+
+            using (PSARC archive = new PSARC(true))
+            using (var psarcStream = File.OpenRead(psarcPath))
+            {
+                try
+                {
+                    archive.Read(psarcStream);
+                    psarcStream.Dispose(); // CRITICAL
+
+                    var entryStream = new MemoryStream();
+                    sourceStream.CopyTo(entryStream);
+                    entryStream.Position = 0;
+                    Entry tocEntry = archive.TOC.FirstOrDefault(x => x.Name == entryName);
+
+                    if (tocEntry != null)
+                    {
+                        tocEntry.Data.Dispose(); // CRITICAL
+                        tocEntry.Data = null;
+                        tocEntry.Data = entryStream;
+                    }
+                    else
+                    {
+                        archive.AddEntry(entryName, entryStream);
+
+                        // evil genius ... ;) => forces archive update
+                        archive.TOC.Insert(0, new Entry() { Name = "NamesBlock.bin" });
+                    }
+
+                }
+                catch
+                {
+                    archive.Dispose(); // CRITICAL
+                    return false;
+                }
+
+                using (var fs = File.Create(psarcPath))
+                    archive.Write(fs, true);
+
+                archive.Dispose(); // CRITICAL
                 return true;
             }
         }
@@ -181,7 +210,7 @@ namespace CFSM.RSTKLib.PSARC
 
                     archive.InflateEntry(tocEntry, Path.Combine(outputDir, Path.GetFileName(tocEntry.ToString())));
 
-                    return tocEntry.ToString();
+                    return Path.Combine(outputDir, tocEntry.ToString());
                 }
 
                 return "";
@@ -208,7 +237,6 @@ namespace CFSM.RSTKLib.PSARC
 
             return null;
         }
-
 
         public static bool ReplaceData(this PSARC p, Func<Entry, bool> dataEntry, Stream newData)
         {
@@ -251,7 +279,7 @@ namespace CFSM.RSTKLib.PSARC
             }
         }
 
- 
+
         public static Stream GetData(this PSARC p, Func<Entry, bool> dataEntry)
         {
             var de = p.TOC.Where(dataEntry).FirstOrDefault();
@@ -262,6 +290,7 @@ namespace CFSM.RSTKLib.PSARC
 
                 return de.Data;
             }
+
             return null;
         }
 

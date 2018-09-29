@@ -79,10 +79,11 @@ namespace CustomsForgeSongManager.LocalTools
 
             var songsData = new List<SongData>();
             var fInfo = new FileInfo(_filePath);
+            var toolkitVersion = String.Empty;
             var packageAuthor = String.Empty;
             var packageVersion = String.Empty;
             var packageComment = String.Empty;
-            var toolkitVersion = String.Empty;
+            var packageRating = String.Empty;
             var appId = String.Empty;
 
             var tagged = _archive.TOC.Any(entry => entry.Name == "tagger.org");
@@ -92,10 +93,11 @@ namespace CustomsForgeSongManager.LocalTools
             {
                 _archive.InflateEntry(toolkitVersionFile);
                 ToolkitInfo tkInfo = GeneralExtensions.GetToolkitInfo(new StreamReader(toolkitVersionFile.Data));
+                toolkitVersion = tkInfo.ToolkitVersion ?? "Null";
                 packageAuthor = tkInfo.PackageAuthor ?? "Null";
                 packageVersion = tkInfo.PackageVersion ?? "Null";
                 packageComment = tkInfo.PackageComment ?? "Null";
-                toolkitVersion = tkInfo.ToolkitVersion ?? "Null";
+                packageRating = tkInfo.PackageRating ?? "Null";
             }
 
             var appIdFile = _archive.TOC.FirstOrDefault(x => (x.Name.Equals("appid.appid")));
@@ -107,12 +109,12 @@ namespace CustomsForgeSongManager.LocalTools
             }
 
             // every song contains gamesxblock but may not contain showlights.xml
-            var xblockEntries = _archive.TOC.Where(x => x.Name.StartsWith("gamexblocks/nsongs") && x.Name.EndsWith(".xblock"));
+            var xblockEntries = _archive.TOC.Where(x => x.Name.StartsWith("gamexblocks/nsongs") && x.Name.EndsWith(".xblock")).ToList();
             if (!xblockEntries.Any())
                 throw new Exception("Could not find valid xblock file : " + _filePath);
 
             if (_filePath.ToLower().EndsWith(Constants.BASESONGS))
-                xblockEntries = xblockEntries.Where(s => !s.Name.Contains("rs2"));
+                xblockEntries = xblockEntries.Where(s => !s.Name.Contains("rs2")).ToList();
 
             var jsonData = new List<Manifest2014<Attributes2014>>();
             // this foreach loop addresses song packs otherwise it is only done one time
@@ -122,10 +124,11 @@ namespace CustomsForgeSongManager.LocalTools
                 bool gotSongInfo = false;
                 var song = new SongData
                     {
+                        ToolkitVersion = toolkitVersion,
                         PackageAuthor = packageAuthor,
                         PackageVersion = packageVersion,
                         PackageComment = packageComment,
-                        ToolkitVersion = toolkitVersion,
+                        PackageRating = packageRating,
                         AppID = appId,
                         FilePath = _filePath,
                         FileDate = fInfo.LastWriteTimeUtc,

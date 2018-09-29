@@ -11,6 +11,7 @@ using DLogNet;
 using System;
 using RocksmithToolkitLib.XmlRepository;
 using System.Reflection;
+using System.Threading.Tasks;
 
 
 namespace CustomsForgeSongManager.DataObjects
@@ -243,6 +244,9 @@ namespace CustomsForgeSongManager.DataObjects
             get { return false; }
 #endif
         }
+
+        public static bool PackageRatingNeedsUpdate { get; set; }
+        public static bool UpdateInProgress { get; set; }
 
     }
 }

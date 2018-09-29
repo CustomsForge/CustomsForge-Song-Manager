@@ -57,6 +57,7 @@
     <Compile Include="ComboBoxEditingControl.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="DataGridViewRatingColumn.cs" />
     <Compile Include="CueTextBox.cs">
       <SubType>Component</SubType>
     </Compile>

@@ -39,6 +39,7 @@ namespace CustomsForgeSongManager.DataObjects
         public string PackageAuthor { get; set; }
         public string PackageVersion { get; set; }
         public string PackageComment { get; set; }
+        public string PackageRating { get; set; }
         public string FilePath { get; set; }
         public DateTime FileDate { get; set; }
         public int FileSize { get; set; }

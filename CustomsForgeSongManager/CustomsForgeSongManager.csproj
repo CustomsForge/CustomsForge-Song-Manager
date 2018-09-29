@@ -492,6 +492,7 @@
     </None>
     <EmbeddedResource Include="Resources\HelpDuplicates.rtf" />
     <EmbeddedResource Include="Resources\HelpArrangements.rtf" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="Resources\logo_black.png" />
   </ItemGroup>
   <ItemGroup>

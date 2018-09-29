@@ -64,10 +64,26 @@ namespace CustomControls
             }
         }
 
+        public void LoadDialog(string dialogMessage, string dialogTitle,
+            string textDialogButton1, string textDialogButton2, string textDialogButton3, Image dialogIcon, string iconMessage,
+            int topFromCenter = 0, int leftFromCenter = 0)
+        {
+            dialogMessage = dialogMessage;
+            dialogTitle = dialogTitle;
+            textDialogButton1 = textDialogButton1;
+            textDialogButton2 = textDialogButton2;
+            textDialogButton3 = textDialogButton3;
+            dialogIcon = dialogIcon;
+            iconMessage = dialogMessage;
+            topFromCenter = topFromCenter;
+            leftFromCenter = leftFromCenter;
+            this.Refresh();
+        }
+
         /// <summary>
-        /// The private constructor. This is only called by the static method ShowDialog.
+        /// The constructor. This called by the static method ShowDialog or may be used as popup window.
         /// </summary>
-        private BetterDialog2(string dialogMessage, string dialogTitle, string textDialogButton1, string textDialogButton2,
+        public BetterDialog2(string dialogMessage, string dialogTitle, string textDialogButton1, string textDialogButton2,
             string textDialogButton3, Image dialogIcon, string iconMessage, int topFromCenter, int leftFromCenter)
         {
             InitializeComponent();
@@ -277,12 +293,13 @@ namespace CustomControls
                     this.Width = bigger + minIconWidth + widthTweak;
             }
 
-            int buttonCount = 1;
+            int buttonCount = 0;
+            if (!String.IsNullOrEmpty(textDialogButton3))
+                buttonCount++;
             if (!String.IsNullOrEmpty(textDialogButton2))
                 buttonCount++;
             if (!String.IsNullOrEmpty(textDialogButton1))
                 buttonCount++;
-
 
             // setup buttons
             switch (buttonCount)
@@ -311,7 +328,7 @@ namespace CustomControls
                     this.AcceptButton = btn2;
                     buttonWidth = buttonWidth * 2;
                     break;
-                default:  // 1 button                  
+                case 1:  // 1 button                  
                     btn3.Text = textDialogButton3;
                     btn1.Visible = false;
                     btn2.Visible = false;
@@ -319,6 +336,14 @@ namespace CustomControls
                     btn3.DialogResult = DialogResult.OK;
                     this.AcceptButton = btn3;
                     buttonWidth = buttonWidth * 2; // double wide
+                    break;
+                case 0:  // 0 button                  
+                    btn1.Visible = false;
+                    btn2.Visible = false;
+                    btn3.Visible = false;
+                    pbLine.Dispose();
+                    this.Height -= 30;
+                    tlpDialog.Dock = DockStyle.Fill;
                     break;
             }
 
