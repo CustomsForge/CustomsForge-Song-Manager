@@ -166,7 +166,7 @@ namespace CustomsForgeSongManager.LocalTools
 
         private void ShowTaggerError()
         {
-            MessageBox.Show(string.Format("Make sure that you have all required files in the CFM\tags folder: \n" + "-Tagger/templates/{0}/Background.png \n" + "-Tagger/templates/{0}/Lead.png \n" + "-Tagger/templates/{0}/Lead Bonus.png \n" + "-Tagger/templates/{0}/Rhythm.png \n" + "-Tagger/templates/{0}/Rhythm Bonus.png \n" + "-Tagger/templates/{0}/Custom.png \n" + "-Tagger/templates/{0}/Vocal.png", ThemeName));
+            MessageBox.Show(string.Format("Make sure that you have all required files in the CFSM\\Tagger\\templates folder: \n" + "-Tagger/templates/{0}/Background.png \n" + "-Tagger/templates/{0}/Lead.png \n" + "-Tagger/templates/{0}/Lead Bonus.png \n" + "-Tagger/templates/{0}/Rhythm.png \n" + "-Tagger/templates/{0}/Rhythm Bonus.png \n" + "-Tagger/templates/{0}/Custom.png \n" + "-Tagger/templates/{0}/Vocal.png", ThemeName));
         }
 
         private string tagsFolderFullPath

@@ -2018,6 +2018,7 @@ namespace CustomsForgeSongManager.UControls
                 return;
 
             frmModAppId.BatchEdit(selection.ToArray());
+            dgvSongsMaster.Refresh();
         }
 
         private void tsmiModsMyCDLC_CheckStateChanged(object sender, EventArgs e)

@@ -50,6 +50,9 @@ namespace CustomsForgeSongManager.Forms
 
             foreach (var song in DataFiles)
             {
+                if (song.IsODLC)
+                    continue;
+
                 NoCloseStream dataStream = null;
                 using (PSARC p = new PSARC(true))
                 {

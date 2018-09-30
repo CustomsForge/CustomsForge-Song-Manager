@@ -29,9 +29,9 @@ namespace CFSM.RSTKLib.PSARC
             DLCPackageData info = new DLCPackageData();
             var packagePlatform = inputPath.GetPlatform();
             info = DLCPackageData.LoadFromFolder(packageDir, packagePlatform, packagePlatform);
-            var foundShowlights = Directory.EnumerateFiles(packageDir, "*_showlights.xml", SearchOption.AllDirectories).Any();
 
             // toolkit will generate showlights if none was found
+            var foundShowlights = Directory.EnumerateFiles(packageDir, "*_showlights.xml", SearchOption.AllDirectories).Any();
             if (!foundShowlights)
                 info.DefaultShowlights = true;
 
