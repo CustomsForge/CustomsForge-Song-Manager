@@ -56,10 +56,12 @@ namespace CustomsForgeSongManager.UControls
             Globals.TsLabel_StatusMsg.Click += lnkShowAll_Click;
             dgvSongsDetail.Visible = false;
             tsmiDevDebugUse.Visible = GenExtensions.IsInDesignMode ? true : false;
+            // TODO: future get Ignition based API data
             cmsCheckForUpdate.Visible = GenExtensions.IsInDesignMode ? true : false;
             cmsOpenSongLocation.Visible = GenExtensions.IsInDesignMode ? true : false;
+            cmsGetCharterName.Visible = GenExtensions.IsInDesignMode ? true : false;
+
             PopulateTagger();
-            cmsTaggerPreview.Visible = true; // ???
             PopulateSongManager();
             InitializeRepairMenu();
             tsmiRepairs.HideDropDown();
@@ -714,8 +716,6 @@ namespace CustomsForgeSongManager.UControls
                 Globals.MasterCollection.Clear();
                 // force reload
                 Globals.ReloadSetlistManager = true;
-                Globals.ReloadDuplicates = true;
-                Globals.ReloadRenamer = true;
                 Globals.ReloadArrangements = true;
             }
 
@@ -954,7 +954,6 @@ namespace CustomsForgeSongManager.UControls
             catch (Exception)
             {
                 MessageBox.Show(string.Format("Please connect to the internet  {0}to use this feature.", Environment.NewLine), Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
-
                 Globals.Log("Need to be connected to the internet to use this feature");
             }
         }

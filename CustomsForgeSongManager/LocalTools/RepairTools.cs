@@ -179,7 +179,7 @@ namespace CustomsForgeSongManager.LocalTools
                     songXml.AlbumName = packageData.SongInfo.Album.GetValidAtaSpaceName();
                     songXml.ArtistNameSort = packageData.SongInfo.ArtistSort.GetValidSortableName();
                     songXml.SongNameSort = packageData.SongInfo.SongDisplayNameSort.GetValidSortableName();
-                    songXml.AlbumNameSort = packageData.SongInfo.AlbumSort.GetValidSortableName();
+                    songXml.AlbumNameSort = packageData.SongInfo.AlbumSort.GetValidSortableName();                    
                     songXml.AverageTempo = Convert.ToSingle(packageData.SongInfo.AverageTempo.ToString().GetValidTempo());
 
                     // write updated xml arrangement

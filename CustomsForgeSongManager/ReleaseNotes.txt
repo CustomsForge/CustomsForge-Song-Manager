@@ -14,6 +14,11 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.4.7.7
+- code efficiency improvements
+- updated RocksmithToolkitLib.dll
+- updated Arrangement Editor
+ 
 1.4.7.6
 - updated RocksmithToolkitLib.dll to get rid of a bug in Song Info Editor
 

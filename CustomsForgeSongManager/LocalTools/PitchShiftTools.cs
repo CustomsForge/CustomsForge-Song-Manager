@@ -142,7 +142,7 @@ namespace CustomsForgeSongManager.LocalTools
                 var isOfficialRepairedDisabled = FileTools.IsOfficialRepairedDisabled(srcFilePath);
                 if (!String.IsNullOrEmpty(isOfficialRepairedDisabled))
                 {
-                    if (isOfficialRepairedDisabled.Contains("Official") && Globals.PublicRelease) // developer testing mode
+                    if (isOfficialRepairedDisabled.Contains("Official")) // && Globals.PublicRelease) // developer testing mode
                     {
                         Globals.Log(" - Skipped ODLC File");
                         skipped++;
@@ -157,31 +157,29 @@ namespace CustomsForgeSongManager.LocalTools
                     }
                 }
 
-                try
+                if (!isSkipped)
                 {
-                    var ext = string.Empty;
-                    var finalPath = srcFilePath;
-                    Globals.Log(" - Extracting CDLC artifacts");
-                    DLCPackageData packageData;
-
-                    // TODO: consider using tone exception handler from RepairTools
-                    // Try unpacking and if it throws InvalidDataException - fix arrangement XMLs
-                    packageData = PackageDataTools.GetDataWithFixedTones(srcFilePath);
-
-                    // this allows user to reapply pitch shifter using latest code
-                    if (!isSkipped && !overwriteFile)
+                    try
                     {
-                        var packageComment = packageData.ToolkitInfo.PackageComment;
-                        if (!String.IsNullOrEmpty(packageComment) && packageComment.Contains(Constants.TKI_PITCHSHIFT))
+                        // TODO: consider using tone exception handler from RepairTools
+                        // Try unpacking and if it throws InvalidDataException - fix arrangement XMLs
+                        Globals.Log(" - Extracting CDLC artifacts");
+                        DLCPackageData packageData = PackageDataTools.GetDataWithFixedTones(srcFilePath);
+
+                        // this allows user to reapply pitch shifter using latest code
+                        if (!overwriteFile)
                         {
-                            Globals.Log(" - Song is already pitch shifted");
-                            skipped++;
-                            isSkipped = true;
+                            var packageComment = packageData.ToolkitInfo.PackageComment;
+                            if (!String.IsNullOrEmpty(packageComment) && packageComment.Contains(Constants.TKI_PITCHSHIFT))
+                            {
+                                Globals.Log(" - Song is already pitch shifted");
+                                skipped++;
+                                isSkipped = true;
+                            }
                         }
-                    }
 
-                    if (!isSkipped)
-                    {
+                        var ext = string.Empty;
+                        var finalPath = srcFilePath;
                         var gitShift = 0;
                         var bassShift = 0;
                         const int mix = 100;
@@ -211,7 +209,7 @@ namespace CustomsForgeSongManager.LocalTools
                             Globals.Log(" - Adding pitch shifting effect to existing file");
 
                         Globals.Log(" - Repackaging");
-                        Globals.Log(" - Please wait this could take a couple of minutes ...");
+                        Globals.Log(" - Please wait this could take a minute ...");
 
                         using (var psarcNew = new PsarcPackager(true))
                             psarcNew.WritePackage(finalPath, packageData, srcFilePath);
@@ -229,11 +227,12 @@ namespace CustomsForgeSongManager.LocalTools
 
                         Globals.Log(" - Pitch shifting was successful");
                     }
-                }
-                catch (Exception ex)
-                {
-                    Globals.Log(" - Pitch shifting failed: " + ex.Message);
-                    failed++;
+
+                    catch (Exception ex)
+                    {
+                        Globals.Log(" - Pitch shifting failed: " + ex.Message);
+                        failed++;
+                    }
                 }
             }
 

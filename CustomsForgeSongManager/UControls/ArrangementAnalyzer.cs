@@ -369,7 +369,6 @@ namespace CustomsForgeSongManager.UControls
                 // force reload
                 Globals.ReloadSetlistManager = true;
                 Globals.ReloadDuplicates = true;
-                Globals.ReloadRenamer = true;
                 Globals.ReloadSongManager = true;
                 AppSettings.Instance.IncludeArrangementData = true;
                 Globals.Settings.SaveSettingsToFile(Globals.DgvCurrent);

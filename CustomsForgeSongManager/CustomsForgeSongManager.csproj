@@ -240,14 +240,14 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="SongEditor\DLCPackageEditorControlBase.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="SongEditor\frmArrangement.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SongEditor\frmArrangement.designer.cs">
+    <Compile Include="SongEditor\frmArrangement.Designer.cs">
       <DependentUpon>frmArrangement.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SongEditor\DLCPackageEditorControlBase.cs">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="SongEditor\ToneControl.cs">
       <SubType>UserControl</SubType>
@@ -495,7 +495,6 @@
     </None>
     <EmbeddedResource Include="Resources\HelpDuplicates.rtf" />
     <EmbeddedResource Include="Resources\HelpArrangements.rtf" />
-    <None Include="ClassDiagram1.cd" />
     <None Include="Resources\logo_black.png" />
   </ItemGroup>
   <ItemGroup>

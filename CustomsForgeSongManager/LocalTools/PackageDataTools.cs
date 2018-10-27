@@ -167,16 +167,21 @@ namespace CustomsForgeSongManager.LocalTools
             }
             catch (Exception ex)
             {
+                CloseUpdaterWindow();
                 Globals.Log("<ERROR> PackageRating updates failed ...");
                 Globals.Log(" - " + ex.Message);
                 Globals.UpdateInProgress = false;
-                CloseUpdaterWindow();
                 return;
             }
 
+            CloseUpdaterWindow();
             Globals.Log("PackageRating updates completed successfully ...");
             Globals.UpdateInProgress = false;
-            CloseUpdaterWindow();
+            // force reload
+            Globals.ReloadSetlistManager = true;
+            Globals.ReloadDuplicates = true;
+            Globals.ReloadSongManager = true;
+
             return;
         }
 

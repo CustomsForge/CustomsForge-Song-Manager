@@ -31,7 +31,7 @@ namespace CustomsForgeSongManager.SongEditor
         private void InitializeComponent()
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.dgvArrangements = new RADataGridView();
+            this.dgvArrangements = new DataGridViewTools.RADataGridView();
             this.colName = new System.Windows.Forms.DataGridViewLinkColumn();
             this.colArrangementType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colRouteMask = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -78,7 +78,7 @@ namespace CustomsForgeSongManager.SongEditor
             // 
             // colName
             // 
-            this.colName.DataPropertyName = "Name";
+            this.colName.DataPropertyName = "ArrangementName";
             this.colName.HeaderText = "Name";
             this.colName.Name = "colName";
             this.colName.ReadOnly = true;
