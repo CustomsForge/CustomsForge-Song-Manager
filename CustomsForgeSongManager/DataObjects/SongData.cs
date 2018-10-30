@@ -90,7 +90,7 @@ namespace CustomsForgeSongManager.DataObjects
         public SongTaggerStatus Tagged { get; set; }
         public RepairStatus RepairStatus { get; set; }
         public bool NeedsUpdate { get; set; }
-         
+
         // used by detail table
         [XmlArray("Arrangements")] // provides proper xml serialization
         [XmlArrayItem("Arrangement")] // provides proper xml serialization
@@ -281,6 +281,11 @@ namespace CustomsForgeSongManager.DataObjects
         public int? TremoloCount { get; set; }
         public int? VibratoCount { get; set; }
         public int? ThumbCount { get; set; }
+        public int? PitchedChordSlideCount { get; set; }
+        public int? TimeSignatureChangeCount { get; set; }
+        public int? BPMChangeCount { get; set; }
+        public float? MinBPM { get; set; }
+        public float? MaxBPM { get; set; }
 
         // TODO: future expansion analyzer Arrangement Properties
         // Arrangement Properties 

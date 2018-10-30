@@ -13,6 +13,8 @@ until you can confirm it is safe by working directly with your AV provider.
 ========================================================================
 
 CFSM Release Notes
+1.4.7.9
+- added 'BPM Change Count', 'Time Signature Change Count', as well as 'Min' and 'Max BPM' to Analyzer 
 
 1.4.7.8
 - added 'Tagger' templates for Rating Stars (only), and Rating Stars with Custom Tags

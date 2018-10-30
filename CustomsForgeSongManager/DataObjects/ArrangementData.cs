@@ -90,6 +90,11 @@ namespace CustomsForgeSongManager.DataObjects
         public int? TremoloCount { get; set; }
         public int? VibratoCount { get; set; }
         public int? ThumbCount { get; set; }
+        public int? PitchedChordSlideCount { get; set; }
+        public int? TimeSignatureChangeCount { get; set; }
+        public int? BPMChangeCount { get; set; }
+        public float? MinBPM { get; set; }
+        public float? MaxBPM { get; set; }
         // useful calculated content taken from SongData
         public bool Selected { get; set; }
         public string ChordNamesCounts { get; set; }

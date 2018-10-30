@@ -123,17 +123,17 @@ namespace CustomsForgeSongManager.LocalTools
                 var arrangements = new List<Arrangement>();
                 bool gotSongInfo = false;
                 var song = new SongData
-                    {
-                        ToolkitVersion = toolkitVersion,
-                        PackageAuthor = packageAuthor,
-                        PackageVersion = packageVersion,
-                        PackageComment = packageComment,
-                        PackageRating = packageRating,
-                        AppID = appId,
-                        FilePath = _filePath,
-                        FileDate = fInfo.LastWriteTimeUtc,
-                        FileSize = (int)fInfo.Length
-                    };
+                {
+                    ToolkitVersion = toolkitVersion,
+                    PackageAuthor = packageAuthor,
+                    PackageVersion = packageVersion,
+                    PackageComment = packageComment,
+                    PackageRating = packageRating,
+                    AppID = appId,
+                    FilePath = _filePath,
+                    FileDate = fInfo.LastWriteTimeUtc,
+                    FileSize = (int)fInfo.Length
+                };
 
                 if (toolkitVersionFile == null || packageAuthor == "Ubisoft")
                 {
@@ -173,6 +173,11 @@ namespace CustomsForgeSongManager.LocalTools
                 var jsonEntries = _archive.TOC.Where(x => x.Name.StartsWith("manifests/songs") && x.Name.EndsWith(".json") && x.Name.Contains(strippedName)).OrderBy(x => x.Name).ToList();
                 if (jsonEntries.Count > 6) // Remastered CDLC max with vocals
                     Debug.WriteLine("<WARNING> Manifest Count > 6 : " + _filePath);
+
+                int songBPMChangeCount = -1;
+                float songMinBPM = -1;
+                float songMaxBPM = -1;
+                int songTimeSignatureChangeCount = -1;
 
                 // looping through song multiple times gathering each arrangement
                 foreach (var jsonEntry in jsonEntries)
@@ -300,6 +305,7 @@ namespace CustomsForgeSongManager.LocalTools
                             var chordTemplates = song2014.ChordTemplates;
                             var arrProperties = song2014.ArrangementProperties;
                             var allLevelData = song2014.Levels;
+                            var eBeats = song2014.Ebeats;
                             var maxLevelNotes = new List<SongNote2014>();
                             var maxLevelChords = new List<SongChord2014>();
                             var maxLevelHandShapes = new List<SongHandShape>();
@@ -307,6 +313,11 @@ namespace CustomsForgeSongManager.LocalTools
                             var chordCounts = new List<int>();
                             int bassPick = 0;
                             int thumbCount = 0;
+                            int pitchedChordSlideCount = 0;
+                            int bpmChangeCount = 0;
+                            float maxBPM = 0;
+                            float minBPM = 999;
+                            int timeSignatureChangeCount = 0;
 
                             if (song2014.ArrangementProperties.PathBass == 1)
                                 bassPick = (int)song2014.ArrangementProperties.BassPick;
@@ -340,6 +351,75 @@ namespace CustomsForgeSongManager.LocalTools
                                     if (!maxLevelHandShapes.Any(h => h.StartTime == hs.StartTime))
                                         maxLevelHandShapes.Add(hs);
                                 }
+                            }
+
+                            pitchedChordSlideCount = maxLevelChords.Count(c => c.LinkNext == 1);
+
+
+                            if (songTimeSignatureChangeCount == -1 && eBeats.Count(b => b.Measure != -1) > 1) //no need to rescan for each arrangement, because songs should have same beatmap for all of them
+                            {
+                                var secondMeasure = eBeats.Skip(1).FirstOrDefault(b => b.Measure != -1);
+                                int? secondMeasureIdx = Array.IndexOf(eBeats, secondMeasure);
+                                int difference = (int)secondMeasureIdx;
+                                int currentIdx = (int)secondMeasureIdx;
+                                int beatCount = eBeats.Count();
+                                int nextIdx = currentIdx + difference;
+
+                                var third = eBeats[currentIdx + difference * 2];
+
+                                var currentMeasure = eBeats[0];
+                                var nextMeasure = secondMeasure;
+
+                                float currentBPM = 0;
+                                float oldBPM = 0;
+
+
+                                while (nextIdx < beatCount)
+                                {
+
+                                    if (nextIdx != -1 && eBeats[nextIdx].Measure == -1)
+                                    {
+                                        nextMeasure = eBeats.FirstOrDefault(b => b.Time > nextMeasure.Time && b.Measure != -1);
+                                        nextIdx = Array.IndexOf(eBeats, nextMeasure);
+                                        currentIdx = Array.IndexOf(eBeats, currentMeasure);
+                                        difference = nextIdx - currentIdx;
+
+                                        if (nextMeasure == null) //should mean we are out of bounds (or that the song doesn't end on a full measure)
+                                            break;
+
+                                        timeSignatureChangeCount++;
+                                    }
+
+                                    if (nextIdx == -1)
+                                        minBPM = 0;
+
+                                    currentBPM = (60 / ((nextMeasure.Time - currentMeasure.Time) / difference));
+
+                                    if (currentBPM != oldBPM && Math.Abs(currentBPM - oldBPM) > AppSettings.Instance.BPMThreshold)
+                                    {
+                                        oldBPM = currentBPM;
+                                        bpmChangeCount++;
+                                    }
+
+                                    if (currentBPM < 1000)
+                                        maxBPM = Math.Max(currentBPM, maxBPM);
+
+                                    if (currentBPM > 0)
+                                        minBPM = Math.Min(currentBPM, minBPM);
+
+                                    currentMeasure = nextMeasure;
+                                    nextMeasure = eBeats[nextIdx];
+
+
+                                    nextIdx += difference;
+                                }
+
+                                //BPM = 60 / ( (next - current) / beatNum - 1 )  
+
+                                songBPMChangeCount = bpmChangeCount;
+                                songMaxBPM = maxBPM;
+                                songMinBPM = minBPM;
+                                songTimeSignatureChangeCount = timeSignatureChangeCount;
                             }
 
                             foreach (var chord in maxLevelChords)
@@ -426,6 +506,11 @@ namespace CustomsForgeSongManager.LocalTools
                             arr.TremoloCount = maxLevelNotes.Count(n => n.Tremolo > 0);
                             arr.VibratoCount = maxLevelNotes.Count(n => n.Vibrato > 0);
                             arr.ThumbCount = thumbCount;
+                            arr.PitchedChordSlideCount = pitchedChordSlideCount;
+                            arr.TimeSignatureChangeCount = songTimeSignatureChangeCount;
+                            arr.BPMChangeCount = songBPMChangeCount;
+                            arr.MaxBPM = songMaxBPM;
+                            arr.MinBPM = songMinBPM;
 
                             // Arrangement Properties
                             if (arrName.ToLower().Equals("bass"))

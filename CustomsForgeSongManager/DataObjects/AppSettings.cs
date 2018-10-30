@@ -32,6 +32,7 @@ namespace CustomsForgeSongManager.DataObjects
         private int _windowHeight;
         private int _windowTop;
         private int _windowLeft;
+        private int _bpmThreshold = 0;
         private bool _showLogWindow;
         private string _charterName = String.Empty;
         private string _renameTemplate = String.Empty;
@@ -135,6 +136,12 @@ namespace CustomsForgeSongManager.DataObjects
         {
             get { return _lastODLCCheckDate; }
             set { SetPropertyField("LastODLCCheckDate", ref _lastODLCCheckDate, value); }
+        }
+
+        public int BPMThreshold
+        {
+            get { return _bpmThreshold; }
+            set { SetPropertyField("BPMThreshold", ref _bpmThreshold, value); }
         }
 
         //[XmlArray("UISettings")] // provides proper xml serialization
