@@ -125,85 +125,88 @@ namespace CustomsForgeSongManager.UControls
             {
                 foreach (var songArr in song.Arrangements2D)
                 {
+                    if (songArr.Name.Contains("Vocals") && !chkIncludeVocals.Checked)
+                        continue;
+
                     var arr = new ArrangementData
-                        {
-                            // Song Attributes
-                            DLCKey = song.DLCKey,
-                            Artist = song.Artist,
-                            ArtistSort = song.ArtistSort,
-                            Title = song.Title,
-                            TitleSort = song.TitleSort,
-                            Album = song.Album,
-                            AlbumSort = song.AlbumSort,
-                            SongYear = song.SongYear,
-                            SongLength = song.SongLength,
-                            SongAverageTempo = song.SongAverageTempo,
-                            SongVolume = song.SongVolume,
-                            LastConversionDateTime = song.LastConversionDateTime,
-                            AppID = song.AppID,
-                            ToolkitVersion = song.ToolkitVersion,
-                            PackageAuthor = song.PackageAuthor,
-                            PackageVersion = song.PackageVersion,
-                            PackageComment = song.PackageComment,
-                            PackageRating = song.PackageRating,
-                            IgnitionID = song.IgnitionID,
-                            IgnitionVersion = song.IgnitionVersion,
-                            IgnitionAuthor = song.IgnitionAuthor,
-                            IgnitionDate = song.IgnitionDate,
-                            FilePath = song.FilePath,
-                            FileDate = song.FileDate,
-                            FileSize = song.FileSize,
+                       {
+                           // Song Attributes
+                           DLCKey = song.DLCKey,
+                           Artist = song.Artist,
+                           ArtistSort = song.ArtistSort,
+                           Title = song.Title,
+                           TitleSort = song.TitleSort,
+                           Album = song.Album,
+                           AlbumSort = song.AlbumSort,
+                           SongYear = song.SongYear,
+                           SongLength = song.SongLength,
+                           SongAverageTempo = song.SongAverageTempo,
+                           SongVolume = song.SongVolume,
+                           LastConversionDateTime = song.LastConversionDateTime,
+                           AppID = song.AppID,
+                           ToolkitVersion = song.ToolkitVersion,
+                           PackageAuthor = song.PackageAuthor,
+                           PackageVersion = song.PackageVersion,
+                           PackageComment = song.PackageComment,
+                           PackageRating = song.PackageRating,
+                           IgnitionID = song.IgnitionID,
+                           IgnitionVersion = song.IgnitionVersion,
+                           IgnitionAuthor = song.IgnitionAuthor,
+                           IgnitionDate = song.IgnitionDate,
+                           FilePath = song.FilePath,
+                           FileDate = song.FileDate,
+                           FileSize = song.FileSize,
 
-                            // Arrangement Attributes
-                            PersistentID = songArr.PersistentID,
-                            Name = songArr.Name,
-                            CapoFret = songArr.CapoFret,
-                            DDMax = songArr.DDMax,
-                            TuningPitch = songArr.TuningPitch,
-                            Tuning = songArr.Tuning,
-                            ToneBase = songArr.ToneBase,
-                            Tones = songArr.Tones,
-                            SectionsCount = songArr.SectionsCount,
-                            TonesCount = songArr.TonesCount,
+                           // Arrangement Attributes
+                           PersistentID = songArr.PersistentID,
+                           Name = songArr.Name,
+                           CapoFret = songArr.CapoFret,
+                           DDMax = songArr.DDMax,
+                           TuningPitch = songArr.TuningPitch,
+                           Tuning = songArr.Tuning,
+                           ToneBase = songArr.ToneBase,
+                           Tones = songArr.Tones,
+                           SectionsCount = songArr.SectionsCount,
+                           TonesCount = songArr.TonesCount,
 
-                            // Arrangement Levels
-                            ChordCount = songArr.ChordCount,
-                            NoteCount = songArr.NoteCount,
-                            AccentCount = songArr.AccentCount,
-                            BendCount = songArr.BendCount,
-                            FretHandMuteCount = songArr.FretHandMuteCount,
-                            HammerOnCount = songArr.HammerOnCount,
-                            HarmonicCount = songArr.HarmonicCount,
-                            HarmonicPinchCount = songArr.HarmonicPinchCount,
-                            HighestFretUsed = songArr.HighestFretUsed,
-                            HopoCount = songArr.HopoCount,
-                            IgnoreCount = songArr.IgnoreCount,
-                            LinkNextCount = songArr.LinkNextCount,
-                            OctaveCount = songArr.OctaveCount,
-                            PalmMuteCount = songArr.PalmMuteCount,
-                            PluckCount = songArr.PluckCount,
-                            PullOffCount = songArr.PullOffCount,
-                            SlapCount = songArr.SlapCount,
-                            SlideCount = songArr.SlideCount,
-                            SlideUnpitchToCount = songArr.SlideUnpitchToCount,
-                            SustainCount = songArr.SustainCount,
-                            TapCount = songArr.TapCount,
-                            TremoloCount = songArr.TremoloCount,
-                            VibratoCount = songArr.VibratoCount,
-                            ThumbCount = songArr.ThumbCount,
+                           // Arrangement Levels
+                           ChordCount = songArr.ChordCount,
+                           NoteCount = songArr.NoteCount,
+                           AccentCount = songArr.AccentCount,
+                           BendCount = songArr.BendCount,
+                           FretHandMuteCount = songArr.FretHandMuteCount,
+                           HammerOnCount = songArr.HammerOnCount,
+                           HarmonicCount = songArr.HarmonicCount,
+                           HarmonicPinchCount = songArr.HarmonicPinchCount,
+                           HighestFretUsed = songArr.HighestFretUsed,
+                           HopoCount = songArr.HopoCount,
+                           IgnoreCount = songArr.IgnoreCount,
+                           LinkNextCount = songArr.LinkNextCount,
+                           OctaveCount = songArr.OctaveCount,
+                           PalmMuteCount = songArr.PalmMuteCount,
+                           PluckCount = songArr.PluckCount,
+                           PullOffCount = songArr.PullOffCount,
+                           SlapCount = songArr.SlapCount,
+                           SlideCount = songArr.SlideCount,
+                           SlideUnpitchToCount = songArr.SlideUnpitchToCount,
+                           SustainCount = songArr.SustainCount,
+                           TapCount = songArr.TapCount,
+                           TremoloCount = songArr.TremoloCount,
+                           VibratoCount = songArr.VibratoCount,
+                           ThumbCount = songArr.ThumbCount,
 
-                            // calculated content taken from SongData
-                            ChordNamesCounts = songArr.ChordNamesCounts,
-                            Selected = song.Selected,
-                            IsOfficialDLC = song.IsODLC,
-                            IsRsCompPack = song.IsRsCompPack,
-                            IsBassPick = songArr.IsBassPick,
-                            ArtistTitleAlbum = song.ArtistTitleAlbum,
-                            ArtistTitleAlbumDate = song.ArtistTitleAlbumDate,
-                            FileName = song.FileName,
-                            Tagged = song.Tagged,
-                            RepairStatus = song.RepairStatus
-                        };
+                           // calculated content taken from SongData
+                           ChordNamesCounts = songArr.ChordNamesCounts,
+                           Selected = song.Selected,
+                           IsOfficialDLC = song.IsODLC,
+                           IsRsCompPack = song.IsRsCompPack,
+                           IsBassPick = songArr.IsBassPick,
+                           ArtistTitleAlbum = song.ArtistTitleAlbum,
+                           ArtistTitleAlbumDate = song.ArtistTitleAlbumDate,
+                           FileName = song.FileName,
+                           Tagged = song.Tagged,
+                           RepairStatus = song.RepairStatus
+                       };
 
                     arrangementList.Add(arr);
                 }
@@ -895,6 +898,11 @@ namespace CustomsForgeSongManager.UControls
             AppSettings.Instance.IncludeSubfolders = chkIncludeSubfolders.Checked;
             Globals.Settings.SaveSettingsToFile(dgvArrangements);
             Globals.Log("Arrangements GUI Deactivated ...");
+        }
+
+        private void chkIncludeVocals_CheckedChanged(object sender, EventArgs e)
+        {
+            RefreshDgv(false);
         }
     }
 }

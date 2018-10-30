@@ -88,7 +88,7 @@ namespace CustomsForgeSongManager.LocalTools
 
             var tagged = _archive.TOC.Any(entry => entry.Name == "tagger.org");
 
-            var toolkitVersionFile = _archive.TOC.FirstOrDefault(x => (x.Name.Equals("toolkit.version")));
+            var toolkitVersionFile = _archive.TOC.FirstOrDefault(x => x.Name.Equals("toolkit.version"));
             if (toolkitVersionFile != null)
             {
                 _archive.InflateEntry(toolkitVersionFile);
@@ -135,11 +135,14 @@ namespace CustomsForgeSongManager.LocalTools
                         FileSize = (int)fInfo.Length
                     };
 
-                if (toolkitVersionFile == null)
+                if (toolkitVersionFile == null || packageAuthor == "Ubisoft")
                 {
                     song.PackageAuthor = "Ubisoft";
                     song.Tagged = SongTaggerStatus.ODLC;
                     song.RepairStatus = RepairStatus.ODLC;
+
+                    if (String.IsNullOrEmpty(packageRating) || packageRating == "Null")
+                        song.PackageRating = "5";
                 }
                 else
                 {
@@ -216,7 +219,7 @@ namespace CustomsForgeSongManager.LocalTools
                                     throw new Exception("Could not find valid bnk file : " + _filePath);
 
                                 _archive.InflateEntry(bnkEntry);
-                                
+
                                 var bnkPath = Path.GetTempFileName();
                                 using (var fs = File.Create(bnkPath))
                                 {

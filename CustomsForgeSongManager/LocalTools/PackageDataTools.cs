@@ -177,6 +177,7 @@ namespace CustomsForgeSongManager.LocalTools
             CloseUpdaterWindow();
             Globals.Log("PackageRating updates completed successfully ...");
             Globals.UpdateInProgress = false;
+            Globals.PackageRatingNeedsUpdate = false;
             // force reload
             Globals.ReloadSetlistManager = true;
             Globals.ReloadDuplicates = true;

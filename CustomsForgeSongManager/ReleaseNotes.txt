@@ -14,6 +14,14 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.4.7.8
+- added 'Tagger' templates for Rating Stars (only), and Rating Stars with Custom Tags
+  see 'CFSM\Tagger\templates\default_tags_stars' folder for how to make Tags and Ratings
+  artwork that you can submit to the CFSM Devs for inclusion with future revisions
+- fixed Tagger Preview of album artwork that is already tagged
+- added 'Include Vocals' checkbox to 'Arrangement Analyzer' to toggle Vocal Arrangements
+- all ODLC have default 5-Star Rating until user modifies
+
 1.4.7.7
 - code efficiency improvements
 - updated RocksmithToolkitLib.dll

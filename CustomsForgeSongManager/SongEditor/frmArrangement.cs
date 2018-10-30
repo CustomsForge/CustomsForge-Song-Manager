@@ -119,7 +119,7 @@ namespace CustomsForgeSongManager.SongEditor
                     btnEditTuning.Enabled = guitarebass;
 
                     // Vocal/ShowLights Edit
-                    btnEditType.Enabled = !guitarebass;
+                    // btnEditType.Enabled = !guitarebass;
 
                     // Update tuningComboBox
                     FillTuningCombo(_gameVersion);

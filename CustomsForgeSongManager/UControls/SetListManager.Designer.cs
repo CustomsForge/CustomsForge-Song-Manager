@@ -111,6 +111,9 @@ namespace CustomsForgeSongManager.UControls
             this.cmsSelectAllNone = new System.Windows.Forms.ToolStripMenuItem();
             this.cmsShow = new System.Windows.Forms.ToolStripMenuItem();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.cmsActions = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.gbSetlistSongs.SuspendLayout();
@@ -850,15 +853,18 @@ namespace CustomsForgeSongManager.UControls
             // cmsSetlistManager
             // 
             this.cmsSetlistManager.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.cmsCopy,
-            this.cmsMove,
-            this.cmsDelete,
-            this.cmsEnableDisable,
+            this.cmsActions,
+            this.toolStripSeparator2,
             this.cmsToggle,
             this.cmsSelectAllNone,
-            this.cmsShow});
+            this.toolStripSeparator1,
+            this.cmsShow,
+            this.cmsEnableDisable,
+            this.cmsDelete,
+            this.cmsMove,
+            this.cmsCopy});
             this.cmsSetlistManager.Name = "contextMenuStrip_MainManager";
-            this.cmsSetlistManager.Size = new System.Drawing.Size(158, 158);
+            this.cmsSetlistManager.Size = new System.Drawing.Size(158, 214);
             // 
             // cmsCopy
             // 
@@ -926,6 +932,23 @@ namespace CustomsForgeSongManager.UControls
             this.toolTip.AutoPopDelay = 8000;
             this.toolTip.InitialDelay = 100;
             this.toolTip.ReshowDelay = 50;
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(154, 6);
+            // 
+            // cmsActions
+            // 
+            this.cmsActions.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmsActions.Name = "cmsActions";
+            this.cmsActions.Size = new System.Drawing.Size(157, 22);
+            this.cmsActions.Text = "Actions:";
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(154, 6);
             // 
             // SetlistManager
             // 
@@ -1021,6 +1044,9 @@ namespace CustomsForgeSongManager.UControls
         private DataGridViewTextBoxColumn colSongPackEnabled;
         private DataGridViewTextBoxColumn colSongPackPath;
         private DataGridViewTextBoxColumn colSongPackFileName;
+        private ToolStripSeparator toolStripSeparator1;
+        private ToolStripMenuItem cmsActions;
+        private ToolStripSeparator toolStripSeparator2;
 
 
 

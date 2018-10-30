@@ -32,48 +32,49 @@ namespace CustomsForgeSongManager.UControls
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle41 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle42 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle43 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle44 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle45 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle46 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle47 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle48 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle49 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle50 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle51 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle52 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle53 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle54 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle55 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle56 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle57 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle58 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle59 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle60 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle61 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle62 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle63 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle64 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle65 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle66 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle67 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle68 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle69 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle70 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle71 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle72 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle73 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle74 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle75 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle76 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle77 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle78 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle79 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle80 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ArrangementAnalyzer));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle25 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle26 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle27 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle28 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle29 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle30 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle31 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle32 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle33 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle34 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle35 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle36 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle37 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle38 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle39 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle40 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panelSearch = new System.Windows.Forms.Panel();
+            this.chkIncludeVocals = new System.Windows.Forms.CheckBox();
             this.chkIncludeSubfolders = new System.Windows.Forms.CheckBox();
             this.lnkClearSearch = new System.Windows.Forms.LinkLabel();
             this.lbl_Search = new System.Windows.Forms.Label();
@@ -83,15 +84,6 @@ namespace CustomsForgeSongManager.UControls
             this.gb_Main_Grid = new System.Windows.Forms.GroupBox();
             this.lnklblToggle = new System.Windows.Forms.LinkLabel();
             this.dgvArrangements = new DataGridViewTools.RADataGridView();
-            this.cmsArrangementsColumns = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.testToolStripMenuItem = new CustomControls.ToolStripEnhancedMenuItem();
-            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.menuStrip = new System.Windows.Forms.MenuStrip();
-            this.tsmiRescan = new CustomControls.ToolStripEnhancedMenuItem();
-            this.tsmiRescanQuick = new CustomControls.ToolStripEnhancedMenuItem();
-            this.tsmiRescanFull = new CustomControls.ToolStripEnhancedMenuItem();
-            this.tsmiHelp = new CustomControls.ToolStripEnhancedMenuItem();
-            this.tsmiHelpGeneral = new CustomControls.ToolStripEnhancedMenuItem();
             this.colDLCKey = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.colPersistentID = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
@@ -161,6 +153,15 @@ namespace CustomsForgeSongManager.UControls
             this.colVibratoCount = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colArtistTitleAlbum = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colArtistTitleAlbumDate = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.cmsArrangementsColumns = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.testToolStripMenuItem = new CustomControls.ToolStripEnhancedMenuItem();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.menuStrip = new System.Windows.Forms.MenuStrip();
+            this.tsmiRescan = new CustomControls.ToolStripEnhancedMenuItem();
+            this.tsmiRescanQuick = new CustomControls.ToolStripEnhancedMenuItem();
+            this.tsmiRescanFull = new CustomControls.ToolStripEnhancedMenuItem();
+            this.tsmiHelp = new CustomControls.ToolStripEnhancedMenuItem();
+            this.tsmiHelpGeneral = new CustomControls.ToolStripEnhancedMenuItem();
             this.panelSearch.SuspendLayout();
             this.gb_Main_Search.SuspendLayout();
             this.gb_Main_Grid.SuspendLayout();
@@ -174,6 +175,7 @@ namespace CustomsForgeSongManager.UControls
             this.panelSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelSearch.Controls.Add(this.chkIncludeVocals);
             this.panelSearch.Controls.Add(this.chkIncludeSubfolders);
             this.panelSearch.Controls.Add(this.lnkClearSearch);
             this.panelSearch.Controls.Add(this.lbl_Search);
@@ -182,6 +184,19 @@ namespace CustomsForgeSongManager.UControls
             this.panelSearch.Name = "panelSearch";
             this.panelSearch.Size = new System.Drawing.Size(879, 33);
             this.panelSearch.TabIndex = 5;
+            // 
+            // chkIncludeVocals
+            // 
+            this.chkIncludeVocals.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.chkIncludeVocals.AutoSize = true;
+            this.chkIncludeVocals.Location = new System.Drawing.Point(769, 8);
+            this.chkIncludeVocals.Name = "chkIncludeVocals";
+            this.chkIncludeVocals.Size = new System.Drawing.Size(96, 17);
+            this.chkIncludeVocals.TabIndex = 26;
+            this.chkIncludeVocals.Text = "Include Vocals";
+            this.toolTip.SetToolTip(this.chkIncludeVocals, "If checked, include vocal arrangements.");
+            this.chkIncludeVocals.UseVisualStyleBackColor = true;
+            this.chkIncludeVocals.CheckedChanged += new System.EventHandler(this.chkIncludeVocals_CheckedChanged);
             // 
             // chkIncludeSubfolders
             // 
@@ -297,19 +312,19 @@ namespace CustomsForgeSongManager.UControls
             // 
             // dgvArrangements
             // 
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.dgvArrangements.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle41.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.dgvArrangements.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle41;
             this.dgvArrangements.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvArrangements.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle42.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle42.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle42.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle42.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle42.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle42.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle42.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvArrangements.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle42;
             this.dgvArrangements.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colDLCKey,
             this.colSelect,
@@ -394,6 +409,696 @@ namespace CustomsForgeSongManager.UControls
             this.dgvArrangements.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvArrangements_ColumnHeaderMouseClick);
             this.dgvArrangements.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvArrangements_KeyDown);
             this.dgvArrangements.KeyUp += new System.Windows.Forms.KeyEventHandler(this.dgvArrangements_KeyUp);
+            // 
+            // colDLCKey
+            // 
+            this.colDLCKey.DataPropertyName = "DLCKey";
+            this.colDLCKey.HeaderText = "DLCKey";
+            this.colDLCKey.Name = "colDLCKey";
+            this.colDLCKey.ReadOnly = true;
+            this.colDLCKey.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colDLCKey.Width = 95;
+            // 
+            // colSelect
+            // 
+            this.colSelect.DataPropertyName = "Selected";
+            this.colSelect.FalseValue = "false";
+            this.colSelect.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.colSelect.HeaderText = "Select";
+            this.colSelect.IndeterminateValue = "false";
+            this.colSelect.Name = "colSelect";
+            this.colSelect.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.colSelect.TrueValue = "true";
+            this.colSelect.Width = 50;
+            // 
+            // colPersistentID
+            // 
+            this.colPersistentID.DataPropertyName = "PersistentID";
+            this.colPersistentID.HeaderText = "PersistentID";
+            this.colPersistentID.Name = "colPersistentID";
+            this.colPersistentID.ReadOnly = true;
+            // 
+            // colArrangementName
+            // 
+            this.colArrangementName.DataPropertyName = "Name";
+            this.colArrangementName.HeaderText = "Arrangement";
+            this.colArrangementName.Name = "colArrangementName";
+            this.colArrangementName.ReadOnly = true;
+            // 
+            // colArtist
+            // 
+            this.colArtist.DataPropertyName = "Artist";
+            this.colArtist.HeaderText = "Artist";
+            this.colArtist.Name = "colArtist";
+            this.colArtist.ReadOnly = true;
+            this.colArtist.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // colTitle
+            // 
+            this.colTitle.DataPropertyName = "Title";
+            this.colTitle.HeaderText = "Title";
+            this.colTitle.Name = "colTitle";
+            this.colTitle.ReadOnly = true;
+            this.colTitle.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // colAlbum
+            // 
+            this.colAlbum.DataPropertyName = "Album";
+            this.colAlbum.HeaderText = "Album";
+            this.colAlbum.Name = "colAlbum";
+            this.colAlbum.ReadOnly = true;
+            this.colAlbum.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colAlbum.Visible = false;
+            // 
+            // colArtistSort
+            // 
+            this.colArtistSort.DataPropertyName = "ArtistSort";
+            this.colArtistSort.HeaderText = "ArtistSort";
+            this.colArtistSort.Name = "colArtistSort";
+            this.colArtistSort.ReadOnly = true;
+            this.colArtistSort.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colArtistSort.Visible = false;
+            // 
+            // colTitleSort
+            // 
+            this.colTitleSort.DataPropertyName = "TitleSort";
+            this.colTitleSort.HeaderText = "SongTitleSort";
+            this.colTitleSort.Name = "colTitleSort";
+            this.colTitleSort.ReadOnly = true;
+            this.colTitleSort.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colTitleSort.Visible = false;
+            // 
+            // colAlbumSort
+            // 
+            this.colAlbumSort.DataPropertyName = "AlbumSort";
+            this.colAlbumSort.HeaderText = "AlbumSort";
+            this.colAlbumSort.Name = "colAlbumSort";
+            this.colAlbumSort.ReadOnly = true;
+            this.colAlbumSort.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colAlbumSort.Visible = false;
+            // 
+            // colSongYear
+            // 
+            this.colSongYear.DataPropertyName = "SongYear";
+            dataGridViewCellStyle43.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle43.NullValue = null;
+            this.colSongYear.DefaultCellStyle = dataGridViewCellStyle43;
+            this.colSongYear.HeaderText = "Year";
+            this.colSongYear.Name = "colSongYear";
+            this.colSongYear.ReadOnly = true;
+            this.colSongYear.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colSongYear.Visible = false;
+            this.colSongYear.Width = 50;
+            // 
+            // colSongLength
+            // 
+            this.colSongLength.DataPropertyName = "SongLength";
+            dataGridViewCellStyle44.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle44.Format = "N2";
+            dataGridViewCellStyle44.NullValue = null;
+            this.colSongLength.DefaultCellStyle = dataGridViewCellStyle44;
+            this.colSongLength.HeaderText = "SongLength (secs)";
+            this.colSongLength.Name = "colSongLength";
+            this.colSongLength.ReadOnly = true;
+            this.colSongLength.Visible = false;
+            // 
+            // colSongAverageTempo
+            // 
+            this.colSongAverageTempo.DataPropertyName = "SongAverageTempo";
+            dataGridViewCellStyle45.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle45.Format = "N2";
+            dataGridViewCellStyle45.NullValue = null;
+            this.colSongAverageTempo.DefaultCellStyle = dataGridViewCellStyle45;
+            this.colSongAverageTempo.HeaderText = "BPM";
+            this.colSongAverageTempo.Name = "colSongAverageTempo";
+            this.colSongAverageTempo.ReadOnly = true;
+            // 
+            // colSongVolume
+            // 
+            this.colSongVolume.DataPropertyName = "SongVolume";
+            dataGridViewCellStyle46.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle46.Format = "N2";
+            dataGridViewCellStyle46.NullValue = null;
+            this.colSongVolume.DefaultCellStyle = dataGridViewCellStyle46;
+            this.colSongVolume.HeaderText = "SongVolume (LF)";
+            this.colSongVolume.Name = "colSongVolume";
+            this.colSongVolume.ReadOnly = true;
+            this.colSongVolume.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colSongVolume.ToolTipText = "(Loudness Factor)";
+            this.colSongVolume.Visible = false;
+            // 
+            // colLastConversionDateTime
+            // 
+            this.colLastConversionDateTime.DataPropertyName = "LastConversionDateTime";
+            dataGridViewCellStyle47.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle47.NullValue = null;
+            this.colLastConversionDateTime.DefaultCellStyle = dataGridViewCellStyle47;
+            this.colLastConversionDateTime.HeaderText = "ConversionDate";
+            this.colLastConversionDateTime.Name = "colLastConversionDateTime";
+            this.colLastConversionDateTime.ReadOnly = true;
+            this.colLastConversionDateTime.Visible = false;
+            this.colLastConversionDateTime.Width = 50;
+            // 
+            // colAppID
+            // 
+            this.colAppID.DataPropertyName = "AppID";
+            dataGridViewCellStyle48.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle48.NullValue = null;
+            this.colAppID.DefaultCellStyle = dataGridViewCellStyle48;
+            this.colAppID.HeaderText = "AppID";
+            this.colAppID.Name = "colAppID";
+            this.colAppID.ReadOnly = true;
+            this.colAppID.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colAppID.Visible = false;
+            this.colAppID.Width = 80;
+            // 
+            // colToolkitVersion
+            // 
+            this.colToolkitVersion.DataPropertyName = "ToolkitVersion";
+            this.colToolkitVersion.HeaderText = "ToolkitVersion";
+            this.colToolkitVersion.Name = "colToolkitVersion";
+            this.colToolkitVersion.ReadOnly = true;
+            this.colToolkitVersion.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colToolkitVersion.Visible = false;
+            this.colToolkitVersion.Width = 110;
+            // 
+            // colPackageAuthor
+            // 
+            this.colPackageAuthor.DataPropertyName = "PackageAuthor";
+            this.colPackageAuthor.HeaderText = "PackageAuthor";
+            this.colPackageAuthor.Name = "colPackageAuthor";
+            this.colPackageAuthor.ReadOnly = true;
+            this.colPackageAuthor.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colPackageAuthor.Visible = false;
+            // 
+            // colPackageVersion
+            // 
+            this.colPackageVersion.DataPropertyName = "PackageVersion";
+            this.colPackageVersion.HeaderText = "PackageVersion";
+            this.colPackageVersion.Name = "colPackageVersion";
+            this.colPackageVersion.ReadOnly = true;
+            this.colPackageVersion.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colPackageVersion.Visible = false;
+            // 
+            // colPackageComment
+            // 
+            this.colPackageComment.DataPropertyName = "PackageComment";
+            this.colPackageComment.HeaderText = "PackageComment";
+            this.colPackageComment.Name = "colPackageComment";
+            this.colPackageComment.ReadOnly = true;
+            this.colPackageComment.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colPackageComment.Visible = false;
+            // 
+            // colPackageRating
+            // 
+            this.colPackageRating.DataPropertyName = "PackageRating";
+            dataGridViewCellStyle49.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.colPackageRating.DefaultCellStyle = dataGridViewCellStyle49;
+            this.colPackageRating.HeaderText = "PackageRating";
+            this.colPackageRating.Name = "colPackageRating";
+            this.colPackageRating.ToolTipText = "Use Song Manager if you want\r\nthe 5-Star Rating look and feel.";
+            this.colPackageRating.Visible = false;
+            // 
+            // colFilePath
+            // 
+            this.colFilePath.DataPropertyName = "FilePath";
+            this.colFilePath.HeaderText = "FilePath";
+            this.colFilePath.Name = "colFilePath";
+            this.colFilePath.ReadOnly = true;
+            this.colFilePath.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colFilePath.Visible = false;
+            this.colFilePath.Width = 150;
+            // 
+            // colFileName
+            // 
+            this.colFileName.DataPropertyName = "FileName";
+            this.colFileName.HeaderText = "FileName";
+            this.colFileName.Name = "colFileName";
+            this.colFileName.ReadOnly = true;
+            this.colFileName.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colFileName.Visible = false;
+            this.colFileName.Width = 50;
+            // 
+            // colFileDate
+            // 
+            this.colFileDate.DataPropertyName = "FileDate";
+            dataGridViewCellStyle50.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle50.NullValue = null;
+            this.colFileDate.DefaultCellStyle = dataGridViewCellStyle50;
+            this.colFileDate.HeaderText = "FileDate";
+            this.colFileDate.Name = "colFileDate";
+            this.colFileDate.ReadOnly = true;
+            this.colFileDate.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colFileDate.Visible = false;
+            // 
+            // colFileSize
+            // 
+            this.colFileSize.DataPropertyName = "FileSize";
+            dataGridViewCellStyle51.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle51.NullValue = null;
+            this.colFileSize.DefaultCellStyle = dataGridViewCellStyle51;
+            this.colFileSize.HeaderText = "FileSize (bytes)";
+            this.colFileSize.Name = "colFileSize";
+            this.colFileSize.ReadOnly = true;
+            this.colFileSize.Visible = false;
+            // 
+            // colIgnitionID
+            // 
+            this.colIgnitionID.DataPropertyName = "IgnitionID";
+            this.colIgnitionID.HeaderText = "IgnitionID";
+            this.colIgnitionID.Name = "colIgnitionID";
+            this.colIgnitionID.ReadOnly = true;
+            this.colIgnitionID.ToolTipText = "For Future Expansion";
+            this.colIgnitionID.Visible = false;
+            this.colIgnitionID.Width = 50;
+            // 
+            // colIgnitionVersion
+            // 
+            this.colIgnitionVersion.DataPropertyName = "IgnitionVersion";
+            this.colIgnitionVersion.HeaderText = "IgnitionVersion";
+            this.colIgnitionVersion.Name = "colIgnitionVersion";
+            this.colIgnitionVersion.ReadOnly = true;
+            this.colIgnitionVersion.ToolTipText = "For Future Expansion";
+            this.colIgnitionVersion.Visible = false;
+            this.colIgnitionVersion.Width = 50;
+            // 
+            // colIgnitionAuthor
+            // 
+            this.colIgnitionAuthor.DataPropertyName = "IgnitionAuthor";
+            this.colIgnitionAuthor.HeaderText = "IgnitionAuthor";
+            this.colIgnitionAuthor.Name = "colIgnitionAuthor";
+            this.colIgnitionAuthor.ReadOnly = true;
+            this.colIgnitionAuthor.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colIgnitionAuthor.ToolTipText = "For Future Expansion";
+            this.colIgnitionAuthor.Visible = false;
+            this.colIgnitionAuthor.Width = 50;
+            // 
+            // colIgnitionDate
+            // 
+            this.colIgnitionDate.DataPropertyName = "IgnitionDate";
+            dataGridViewCellStyle52.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle52.NullValue = null;
+            this.colIgnitionDate.DefaultCellStyle = dataGridViewCellStyle52;
+            this.colIgnitionDate.HeaderText = "IgnitionDate";
+            this.colIgnitionDate.Name = "colIgnitionDate";
+            this.colIgnitionDate.ReadOnly = true;
+            this.colIgnitionDate.ToolTipText = "For Future Expansion";
+            this.colIgnitionDate.Visible = false;
+            this.colIgnitionDate.Width = 50;
+            // 
+            // colStatus
+            // 
+            this.colStatus.DataPropertyName = "Status";
+            this.colStatus.HeaderText = "Status";
+            this.colStatus.Name = "colStatus";
+            this.colStatus.Visible = false;
+            // 
+            // colTagged
+            // 
+            this.colTagged.DataPropertyName = "Tagged";
+            this.colTagged.HeaderText = "Tagged";
+            this.colTagged.Name = "colTagged";
+            this.colTagged.ReadOnly = true;
+            this.colTagged.Visible = false;
+            // 
+            // colRepairStatus
+            // 
+            this.colRepairStatus.DataPropertyName = "RepairStatus";
+            this.colRepairStatus.HeaderText = "RepairStatus";
+            this.colRepairStatus.Name = "colRepairStatus";
+            this.colRepairStatus.ReadOnly = true;
+            this.colRepairStatus.Visible = false;
+            // 
+            // colIsOfficialDLC
+            // 
+            this.colIsOfficialDLC.DataPropertyName = "IsOfficialDLC";
+            this.colIsOfficialDLC.HeaderText = "IsOfficialDLC";
+            this.colIsOfficialDLC.Name = "colIsOfficialDLC";
+            this.colIsOfficialDLC.ReadOnly = true;
+            this.colIsOfficialDLC.Visible = false;
+            // 
+            // colIsRsCompPack
+            // 
+            this.colIsRsCompPack.DataPropertyName = "IsRsCompPack";
+            this.colIsRsCompPack.HeaderText = "IsRsCompPack";
+            this.colIsRsCompPack.Name = "colIsRsCompPack";
+            this.colIsRsCompPack.ReadOnly = true;
+            this.colIsRsCompPack.Visible = false;
+            // 
+            // colBassPick
+            // 
+            this.colBassPick.DataPropertyName = "IsBassPick";
+            this.colBassPick.HeaderText = "BassPickedFingered";
+            this.colBassPick.Name = "colBassPick";
+            this.colBassPick.ReadOnly = true;
+            this.colBassPick.Visible = false;
+            // 
+            // colCapoFret
+            // 
+            this.colCapoFret.DataPropertyName = "CapoFret";
+            dataGridViewCellStyle53.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle53.NullValue = null;
+            this.colCapoFret.DefaultCellStyle = dataGridViewCellStyle53;
+            this.colCapoFret.HeaderText = "CapoFret";
+            this.colCapoFret.Name = "colCapoFret";
+            this.colCapoFret.ReadOnly = true;
+            this.colCapoFret.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colCapoFret.Visible = false;
+            // 
+            // colDDMax
+            // 
+            this.colDDMax.DataPropertyName = "DDMax";
+            dataGridViewCellStyle54.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle54.NullValue = null;
+            this.colDDMax.DefaultCellStyle = dataGridViewCellStyle54;
+            this.colDDMax.HeaderText = "DDMaxLevel";
+            this.colDDMax.Name = "colDDMax";
+            this.colDDMax.ReadOnly = true;
+            this.colDDMax.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // colTuning
+            // 
+            this.colTuning.DataPropertyName = "Tuning";
+            this.colTuning.HeaderText = "Tuning";
+            this.colTuning.Name = "colTuning";
+            this.colTuning.ReadOnly = true;
+            this.colTuning.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // colTuningPitch
+            // 
+            this.colTuningPitch.DataPropertyName = "TuningPitch";
+            dataGridViewCellStyle55.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle55.Format = "N2";
+            dataGridViewCellStyle55.NullValue = null;
+            this.colTuningPitch.DefaultCellStyle = dataGridViewCellStyle55;
+            this.colTuningPitch.HeaderText = "TuningPitch";
+            this.colTuningPitch.Name = "colTuningPitch";
+            // 
+            // colToneBase
+            // 
+            this.colToneBase.DataPropertyName = "ToneBase";
+            this.colToneBase.HeaderText = "ToneBase";
+            this.colToneBase.Name = "colToneBase";
+            // 
+            // colTones
+            // 
+            this.colTones.DataPropertyName = "Tones";
+            this.colTones.HeaderText = "Tones";
+            this.colTones.Name = "colTones";
+            this.colTones.ReadOnly = true;
+            // 
+            // colTonesCount
+            // 
+            this.colTonesCount.DataPropertyName = "TonesCount";
+            dataGridViewCellStyle56.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle56.NullValue = null;
+            this.colTonesCount.DefaultCellStyle = dataGridViewCellStyle56;
+            this.colTonesCount.HeaderText = "ToneSwitchCount";
+            this.colTonesCount.Name = "colTonesCount";
+            this.colTonesCount.ReadOnly = true;
+            this.colTonesCount.ToolTipText = "Number of tone changes\r\nin the arrangement.";
+            // 
+            // colSectionsCount
+            // 
+            this.colSectionsCount.DataPropertyName = "SectionsCount";
+            dataGridViewCellStyle57.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle57.NullValue = null;
+            this.colSectionsCount.DefaultCellStyle = dataGridViewCellStyle57;
+            this.colSectionsCount.HeaderText = "SectionsCount";
+            this.colSectionsCount.Name = "colSectionsCount";
+            this.colSectionsCount.ReadOnly = true;
+            // 
+            // colNoteCount
+            // 
+            this.colNoteCount.DataPropertyName = "NoteCount";
+            dataGridViewCellStyle58.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle58.NullValue = null;
+            this.colNoteCount.DefaultCellStyle = dataGridViewCellStyle58;
+            this.colNoteCount.HeaderText = "NoteCount";
+            this.colNoteCount.Name = "colNoteCount";
+            this.colNoteCount.ReadOnly = true;
+            // 
+            // colChordCount
+            // 
+            this.colChordCount.DataPropertyName = "ChordCount";
+            dataGridViewCellStyle59.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle59.NullValue = null;
+            this.colChordCount.DefaultCellStyle = dataGridViewCellStyle59;
+            this.colChordCount.HeaderText = "ChordCount";
+            this.colChordCount.Name = "colChordCount";
+            this.colChordCount.ReadOnly = true;
+            // 
+            // colChordNamesCounts
+            // 
+            this.colChordNamesCounts.DataPropertyName = "ChordNamesCounts";
+            this.colChordNamesCounts.HeaderText = "ChordNamesCounts";
+            this.colChordNamesCounts.Name = "colChordNamesCounts";
+            this.colChordNamesCounts.ReadOnly = true;
+            // 
+            // colAccentCount
+            // 
+            this.colAccentCount.DataPropertyName = "AccentCount";
+            dataGridViewCellStyle60.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle60.NullValue = null;
+            this.colAccentCount.DefaultCellStyle = dataGridViewCellStyle60;
+            this.colAccentCount.HeaderText = "AccentCount";
+            this.colAccentCount.Name = "colAccentCount";
+            this.colAccentCount.ReadOnly = true;
+            this.colAccentCount.Visible = false;
+            // 
+            // colBendCount
+            // 
+            this.colBendCount.DataPropertyName = "BendCount";
+            dataGridViewCellStyle61.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle61.NullValue = null;
+            this.colBendCount.DefaultCellStyle = dataGridViewCellStyle61;
+            this.colBendCount.HeaderText = "BendCount";
+            this.colBendCount.Name = "colBendCount";
+            this.colBendCount.ReadOnly = true;
+            this.colBendCount.Visible = false;
+            // 
+            // colFretHandMuteCount
+            // 
+            this.colFretHandMuteCount.DataPropertyName = "FretHandMuteCount";
+            dataGridViewCellStyle62.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle62.NullValue = null;
+            this.colFretHandMuteCount.DefaultCellStyle = dataGridViewCellStyle62;
+            this.colFretHandMuteCount.HeaderText = "FrethandMuteCount";
+            this.colFretHandMuteCount.Name = "colFretHandMuteCount";
+            this.colFretHandMuteCount.ReadOnly = true;
+            this.colFretHandMuteCount.Visible = false;
+            // 
+            // colHammerOnCount
+            // 
+            this.colHammerOnCount.DataPropertyName = "HammerOnCount";
+            dataGridViewCellStyle63.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle63.NullValue = null;
+            this.colHammerOnCount.DefaultCellStyle = dataGridViewCellStyle63;
+            this.colHammerOnCount.HeaderText = "HammerOnCount";
+            this.colHammerOnCount.Name = "colHammerOnCount";
+            this.colHammerOnCount.ReadOnly = true;
+            this.colHammerOnCount.Visible = false;
+            // 
+            // colHarmonicCount
+            // 
+            this.colHarmonicCount.DataPropertyName = "HarmonicCount";
+            dataGridViewCellStyle64.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle64.NullValue = null;
+            this.colHarmonicCount.DefaultCellStyle = dataGridViewCellStyle64;
+            this.colHarmonicCount.HeaderText = "HarmonicCount";
+            this.colHarmonicCount.Name = "colHarmonicCount";
+            this.colHarmonicCount.ReadOnly = true;
+            this.colHarmonicCount.Visible = false;
+            // 
+            // colHarmonicPinchCount
+            // 
+            this.colHarmonicPinchCount.DataPropertyName = "HarmonicPinchCount";
+            dataGridViewCellStyle65.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle65.NullValue = null;
+            this.colHarmonicPinchCount.DefaultCellStyle = dataGridViewCellStyle65;
+            this.colHarmonicPinchCount.HeaderText = "HarmonicPinchCount";
+            this.colHarmonicPinchCount.Name = "colHarmonicPinchCount";
+            this.colHarmonicPinchCount.ReadOnly = true;
+            this.colHarmonicPinchCount.Visible = false;
+            // 
+            // colHighestFretUsed
+            // 
+            this.colHighestFretUsed.DataPropertyName = "HighestFretUsed";
+            dataGridViewCellStyle66.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle66.NullValue = null;
+            this.colHighestFretUsed.DefaultCellStyle = dataGridViewCellStyle66;
+            this.colHighestFretUsed.HeaderText = "HighestFretUsed";
+            this.colHighestFretUsed.Name = "colHighestFretUsed";
+            this.colHighestFretUsed.ReadOnly = true;
+            this.colHighestFretUsed.Visible = false;
+            // 
+            // colIgnoreCount
+            // 
+            this.colIgnoreCount.DataPropertyName = "IgnoreCount";
+            dataGridViewCellStyle67.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle67.NullValue = null;
+            this.colIgnoreCount.DefaultCellStyle = dataGridViewCellStyle67;
+            this.colIgnoreCount.HeaderText = "IgnoreCount";
+            this.colIgnoreCount.Name = "colIgnoreCount";
+            this.colIgnoreCount.ReadOnly = true;
+            this.colIgnoreCount.Visible = false;
+            // 
+            // colLinkNextCount
+            // 
+            this.colLinkNextCount.DataPropertyName = "LinkNextCount";
+            dataGridViewCellStyle68.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle68.NullValue = null;
+            this.colLinkNextCount.DefaultCellStyle = dataGridViewCellStyle68;
+            this.colLinkNextCount.HeaderText = "LinkNextCount";
+            this.colLinkNextCount.Name = "colLinkNextCount";
+            this.colLinkNextCount.Visible = false;
+            // 
+            // colOctaveCount
+            // 
+            this.colOctaveCount.DataPropertyName = "OctaveCount";
+            dataGridViewCellStyle69.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle69.NullValue = null;
+            this.colOctaveCount.DefaultCellStyle = dataGridViewCellStyle69;
+            this.colOctaveCount.HeaderText = "OctaveCount";
+            this.colOctaveCount.Name = "colOctaveCount";
+            this.colOctaveCount.ReadOnly = true;
+            this.colOctaveCount.Visible = false;
+            // 
+            // colPalmMuteCount
+            // 
+            this.colPalmMuteCount.DataPropertyName = "PalmMuteCount";
+            dataGridViewCellStyle70.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle70.NullValue = null;
+            this.colPalmMuteCount.DefaultCellStyle = dataGridViewCellStyle70;
+            this.colPalmMuteCount.HeaderText = "PalmMuteCount";
+            this.colPalmMuteCount.Name = "colPalmMuteCount";
+            this.colPalmMuteCount.ReadOnly = true;
+            this.colPalmMuteCount.Visible = false;
+            // 
+            // colPluckCount
+            // 
+            this.colPluckCount.DataPropertyName = "PluckCount";
+            dataGridViewCellStyle71.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle71.NullValue = null;
+            this.colPluckCount.DefaultCellStyle = dataGridViewCellStyle71;
+            this.colPluckCount.HeaderText = "PluckCount";
+            this.colPluckCount.Name = "colPluckCount";
+            this.colPluckCount.ReadOnly = true;
+            this.colPluckCount.Visible = false;
+            // 
+            // colPullOffCount
+            // 
+            this.colPullOffCount.DataPropertyName = "PullOffCount";
+            dataGridViewCellStyle72.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle72.NullValue = null;
+            this.colPullOffCount.DefaultCellStyle = dataGridViewCellStyle72;
+            this.colPullOffCount.HeaderText = "PullOffCount";
+            this.colPullOffCount.Name = "colPullOffCount";
+            this.colPullOffCount.ReadOnly = true;
+            this.colPullOffCount.Visible = false;
+            // 
+            // colSlapCount
+            // 
+            this.colSlapCount.DataPropertyName = "SlapCount";
+            dataGridViewCellStyle73.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle73.NullValue = null;
+            this.colSlapCount.DefaultCellStyle = dataGridViewCellStyle73;
+            this.colSlapCount.HeaderText = "SlapCount";
+            this.colSlapCount.Name = "colSlapCount";
+            this.colSlapCount.ReadOnly = true;
+            this.colSlapCount.Visible = false;
+            // 
+            // colSlideCount
+            // 
+            this.colSlideCount.DataPropertyName = "SlideCount";
+            dataGridViewCellStyle74.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle74.NullValue = null;
+            this.colSlideCount.DefaultCellStyle = dataGridViewCellStyle74;
+            this.colSlideCount.HeaderText = "SlideCount";
+            this.colSlideCount.Name = "colSlideCount";
+            this.colSlideCount.ReadOnly = true;
+            this.colSlideCount.Visible = false;
+            // 
+            // colSlideUnpitchToCount
+            // 
+            this.colSlideUnpitchToCount.DataPropertyName = "SlideUnpitchToCount";
+            dataGridViewCellStyle75.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle75.NullValue = null;
+            this.colSlideUnpitchToCount.DefaultCellStyle = dataGridViewCellStyle75;
+            this.colSlideUnpitchToCount.HeaderText = "SlideUnpitchToCount";
+            this.colSlideUnpitchToCount.Name = "colSlideUnpitchToCount";
+            this.colSlideUnpitchToCount.ReadOnly = true;
+            this.colSlideUnpitchToCount.Visible = false;
+            // 
+            // colSustainCount
+            // 
+            this.colSustainCount.DataPropertyName = "SustainCount";
+            dataGridViewCellStyle76.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle76.NullValue = null;
+            this.colSustainCount.DefaultCellStyle = dataGridViewCellStyle76;
+            this.colSustainCount.HeaderText = "SustainCount";
+            this.colSustainCount.Name = "colSustainCount";
+            this.colSustainCount.ReadOnly = true;
+            this.colSustainCount.Visible = false;
+            // 
+            // colTapCount
+            // 
+            this.colTapCount.DataPropertyName = "TapCount";
+            dataGridViewCellStyle77.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle77.NullValue = null;
+            this.colTapCount.DefaultCellStyle = dataGridViewCellStyle77;
+            this.colTapCount.HeaderText = "TapCount";
+            this.colTapCount.Name = "colTapCount";
+            this.colTapCount.ReadOnly = true;
+            this.colTapCount.Visible = false;
+            // 
+            // colThumbCount
+            // 
+            this.colThumbCount.DataPropertyName = "ThumbCount";
+            dataGridViewCellStyle78.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle78.NullValue = null;
+            this.colThumbCount.DefaultCellStyle = dataGridViewCellStyle78;
+            this.colThumbCount.HeaderText = "ThumbCount";
+            this.colThumbCount.Name = "colThumbCount";
+            this.colThumbCount.ReadOnly = true;
+            this.colThumbCount.Visible = false;
+            // 
+            // colTremoloCount
+            // 
+            this.colTremoloCount.DataPropertyName = "TremoloCount";
+            dataGridViewCellStyle79.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle79.NullValue = null;
+            this.colTremoloCount.DefaultCellStyle = dataGridViewCellStyle79;
+            this.colTremoloCount.HeaderText = "TremoloCount";
+            this.colTremoloCount.Name = "colTremoloCount";
+            this.colTremoloCount.ReadOnly = true;
+            this.colTremoloCount.Visible = false;
+            // 
+            // colVibratoCount
+            // 
+            this.colVibratoCount.DataPropertyName = "VibratoCount";
+            dataGridViewCellStyle80.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle80.NullValue = null;
+            this.colVibratoCount.DefaultCellStyle = dataGridViewCellStyle80;
+            this.colVibratoCount.HeaderText = "VibratoCount";
+            this.colVibratoCount.Name = "colVibratoCount";
+            this.colVibratoCount.ReadOnly = true;
+            this.colVibratoCount.Visible = false;
+            // 
+            // colArtistTitleAlbum
+            // 
+            this.colArtistTitleAlbum.DataPropertyName = "ArtistTitleAlbum";
+            this.colArtistTitleAlbum.HeaderText = "ArtistTitleAlbum";
+            this.colArtistTitleAlbum.Name = "colArtistTitleAlbum";
+            this.colArtistTitleAlbum.ReadOnly = true;
+            this.colArtistTitleAlbum.Visible = false;
+            // 
+            // colArtistTitleAlbumDate
+            // 
+            this.colArtistTitleAlbumDate.DataPropertyName = "ArtistTitleAlbumDate";
+            this.colArtistTitleAlbumDate.HeaderText = "ArtistTitleAlbumDate";
+            this.colArtistTitleAlbumDate.Name = "colArtistTitleAlbumDate";
+            this.colArtistTitleAlbumDate.ReadOnly = true;
             // 
             // cmsArrangementsColumns
             // 
@@ -489,696 +1194,6 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiHelpGeneral.Size = new System.Drawing.Size(146, 22);
             this.tsmiHelpGeneral.Text = "General Help";
             this.tsmiHelpGeneral.Click += new System.EventHandler(this.tsmiHelpGeneral_Click);
-            // 
-            // colDLCKey
-            // 
-            this.colDLCKey.DataPropertyName = "DLCKey";
-            this.colDLCKey.HeaderText = "DLCKey";
-            this.colDLCKey.Name = "colDLCKey";
-            this.colDLCKey.ReadOnly = true;
-            this.colDLCKey.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colDLCKey.Width = 95;
-            // 
-            // colSelect
-            // 
-            this.colSelect.DataPropertyName = "Selected";
-            this.colSelect.FalseValue = "false";
-            this.colSelect.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.colSelect.HeaderText = "Select";
-            this.colSelect.IndeterminateValue = "false";
-            this.colSelect.Name = "colSelect";
-            this.colSelect.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.colSelect.TrueValue = "true";
-            this.colSelect.Width = 50;
-            // 
-            // colPersistentID
-            // 
-            this.colPersistentID.DataPropertyName = "PersistentID";
-            this.colPersistentID.HeaderText = "PersistentID";
-            this.colPersistentID.Name = "colPersistentID";
-            this.colPersistentID.ReadOnly = true;
-            // 
-            // colArrangementName
-            // 
-            this.colArrangementName.DataPropertyName = "Name";
-            this.colArrangementName.HeaderText = "Arrangement";
-            this.colArrangementName.Name = "colArrangementName";
-            this.colArrangementName.ReadOnly = true;
-            // 
-            // colArtist
-            // 
-            this.colArtist.DataPropertyName = "Artist";
-            this.colArtist.HeaderText = "Artist";
-            this.colArtist.Name = "colArtist";
-            this.colArtist.ReadOnly = true;
-            this.colArtist.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            // 
-            // colTitle
-            // 
-            this.colTitle.DataPropertyName = "Title";
-            this.colTitle.HeaderText = "Title";
-            this.colTitle.Name = "colTitle";
-            this.colTitle.ReadOnly = true;
-            this.colTitle.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            // 
-            // colAlbum
-            // 
-            this.colAlbum.DataPropertyName = "Album";
-            this.colAlbum.HeaderText = "Album";
-            this.colAlbum.Name = "colAlbum";
-            this.colAlbum.ReadOnly = true;
-            this.colAlbum.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colAlbum.Visible = false;
-            // 
-            // colArtistSort
-            // 
-            this.colArtistSort.DataPropertyName = "ArtistSort";
-            this.colArtistSort.HeaderText = "ArtistSort";
-            this.colArtistSort.Name = "colArtistSort";
-            this.colArtistSort.ReadOnly = true;
-            this.colArtistSort.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colArtistSort.Visible = false;
-            // 
-            // colTitleSort
-            // 
-            this.colTitleSort.DataPropertyName = "TitleSort";
-            this.colTitleSort.HeaderText = "SongTitleSort";
-            this.colTitleSort.Name = "colTitleSort";
-            this.colTitleSort.ReadOnly = true;
-            this.colTitleSort.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colTitleSort.Visible = false;
-            // 
-            // colAlbumSort
-            // 
-            this.colAlbumSort.DataPropertyName = "AlbumSort";
-            this.colAlbumSort.HeaderText = "AlbumSort";
-            this.colAlbumSort.Name = "colAlbumSort";
-            this.colAlbumSort.ReadOnly = true;
-            this.colAlbumSort.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colAlbumSort.Visible = false;
-            // 
-            // colSongYear
-            // 
-            this.colSongYear.DataPropertyName = "SongYear";
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle3.NullValue = null;
-            this.colSongYear.DefaultCellStyle = dataGridViewCellStyle3;
-            this.colSongYear.HeaderText = "Year";
-            this.colSongYear.Name = "colSongYear";
-            this.colSongYear.ReadOnly = true;
-            this.colSongYear.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colSongYear.Visible = false;
-            this.colSongYear.Width = 50;
-            // 
-            // colSongLength
-            // 
-            this.colSongLength.DataPropertyName = "SongLength";
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle4.Format = "N2";
-            dataGridViewCellStyle4.NullValue = null;
-            this.colSongLength.DefaultCellStyle = dataGridViewCellStyle4;
-            this.colSongLength.HeaderText = "SongLength (secs)";
-            this.colSongLength.Name = "colSongLength";
-            this.colSongLength.ReadOnly = true;
-            this.colSongLength.Visible = false;
-            // 
-            // colSongAverageTempo
-            // 
-            this.colSongAverageTempo.DataPropertyName = "SongAverageTempo";
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle5.Format = "N2";
-            dataGridViewCellStyle5.NullValue = null;
-            this.colSongAverageTempo.DefaultCellStyle = dataGridViewCellStyle5;
-            this.colSongAverageTempo.HeaderText = "BPM";
-            this.colSongAverageTempo.Name = "colSongAverageTempo";
-            this.colSongAverageTempo.ReadOnly = true;
-            // 
-            // colSongVolume
-            // 
-            this.colSongVolume.DataPropertyName = "SongVolume";
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle6.Format = "N2";
-            dataGridViewCellStyle6.NullValue = null;
-            this.colSongVolume.DefaultCellStyle = dataGridViewCellStyle6;
-            this.colSongVolume.HeaderText = "SongVolume (LF)";
-            this.colSongVolume.Name = "colSongVolume";
-            this.colSongVolume.ReadOnly = true;
-            this.colSongVolume.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colSongVolume.ToolTipText = "(Loudness Factor)";
-            this.colSongVolume.Visible = false;
-            // 
-            // colLastConversionDateTime
-            // 
-            this.colLastConversionDateTime.DataPropertyName = "LastConversionDateTime";
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle7.NullValue = null;
-            this.colLastConversionDateTime.DefaultCellStyle = dataGridViewCellStyle7;
-            this.colLastConversionDateTime.HeaderText = "ConversionDate";
-            this.colLastConversionDateTime.Name = "colLastConversionDateTime";
-            this.colLastConversionDateTime.ReadOnly = true;
-            this.colLastConversionDateTime.Visible = false;
-            this.colLastConversionDateTime.Width = 50;
-            // 
-            // colAppID
-            // 
-            this.colAppID.DataPropertyName = "AppID";
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle8.NullValue = null;
-            this.colAppID.DefaultCellStyle = dataGridViewCellStyle8;
-            this.colAppID.HeaderText = "AppID";
-            this.colAppID.Name = "colAppID";
-            this.colAppID.ReadOnly = true;
-            this.colAppID.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colAppID.Visible = false;
-            this.colAppID.Width = 80;
-            // 
-            // colToolkitVersion
-            // 
-            this.colToolkitVersion.DataPropertyName = "ToolkitVersion";
-            this.colToolkitVersion.HeaderText = "ToolkitVersion";
-            this.colToolkitVersion.Name = "colToolkitVersion";
-            this.colToolkitVersion.ReadOnly = true;
-            this.colToolkitVersion.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colToolkitVersion.Visible = false;
-            this.colToolkitVersion.Width = 110;
-            // 
-            // colPackageAuthor
-            // 
-            this.colPackageAuthor.DataPropertyName = "PackageAuthor";
-            this.colPackageAuthor.HeaderText = "PackageAuthor";
-            this.colPackageAuthor.Name = "colPackageAuthor";
-            this.colPackageAuthor.ReadOnly = true;
-            this.colPackageAuthor.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colPackageAuthor.Visible = false;
-            // 
-            // colPackageVersion
-            // 
-            this.colPackageVersion.DataPropertyName = "PackageVersion";
-            this.colPackageVersion.HeaderText = "PackageVersion";
-            this.colPackageVersion.Name = "colPackageVersion";
-            this.colPackageVersion.ReadOnly = true;
-            this.colPackageVersion.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colPackageVersion.Visible = false;
-            // 
-            // colPackageComment
-            // 
-            this.colPackageComment.DataPropertyName = "PackageComment";
-            this.colPackageComment.HeaderText = "PackageComment";
-            this.colPackageComment.Name = "colPackageComment";
-            this.colPackageComment.ReadOnly = true;
-            this.colPackageComment.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colPackageComment.Visible = false;
-            // 
-            // colPackageRating
-            // 
-            this.colPackageRating.DataPropertyName = "PackageRating";
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.colPackageRating.DefaultCellStyle = dataGridViewCellStyle9;
-            this.colPackageRating.HeaderText = "PackageRating";
-            this.colPackageRating.Name = "colPackageRating";
-            this.colPackageRating.ToolTipText = "Use Song Manager if you want\r\nthe 5-Star Rating look and feel.";
-            this.colPackageRating.Visible = false;
-            // 
-            // colFilePath
-            // 
-            this.colFilePath.DataPropertyName = "FilePath";
-            this.colFilePath.HeaderText = "FilePath";
-            this.colFilePath.Name = "colFilePath";
-            this.colFilePath.ReadOnly = true;
-            this.colFilePath.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colFilePath.Visible = false;
-            this.colFilePath.Width = 150;
-            // 
-            // colFileName
-            // 
-            this.colFileName.DataPropertyName = "FileName";
-            this.colFileName.HeaderText = "FileName";
-            this.colFileName.Name = "colFileName";
-            this.colFileName.ReadOnly = true;
-            this.colFileName.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colFileName.Visible = false;
-            this.colFileName.Width = 50;
-            // 
-            // colFileDate
-            // 
-            this.colFileDate.DataPropertyName = "FileDate";
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle10.NullValue = null;
-            this.colFileDate.DefaultCellStyle = dataGridViewCellStyle10;
-            this.colFileDate.HeaderText = "FileDate";
-            this.colFileDate.Name = "colFileDate";
-            this.colFileDate.ReadOnly = true;
-            this.colFileDate.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colFileDate.Visible = false;
-            // 
-            // colFileSize
-            // 
-            this.colFileSize.DataPropertyName = "FileSize";
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle11.NullValue = null;
-            this.colFileSize.DefaultCellStyle = dataGridViewCellStyle11;
-            this.colFileSize.HeaderText = "FileSize (bytes)";
-            this.colFileSize.Name = "colFileSize";
-            this.colFileSize.ReadOnly = true;
-            this.colFileSize.Visible = false;
-            // 
-            // colIgnitionID
-            // 
-            this.colIgnitionID.DataPropertyName = "IgnitionID";
-            this.colIgnitionID.HeaderText = "IgnitionID";
-            this.colIgnitionID.Name = "colIgnitionID";
-            this.colIgnitionID.ReadOnly = true;
-            this.colIgnitionID.ToolTipText = "For Future Expansion";
-            this.colIgnitionID.Visible = false;
-            this.colIgnitionID.Width = 50;
-            // 
-            // colIgnitionVersion
-            // 
-            this.colIgnitionVersion.DataPropertyName = "IgnitionVersion";
-            this.colIgnitionVersion.HeaderText = "IgnitionVersion";
-            this.colIgnitionVersion.Name = "colIgnitionVersion";
-            this.colIgnitionVersion.ReadOnly = true;
-            this.colIgnitionVersion.ToolTipText = "For Future Expansion";
-            this.colIgnitionVersion.Visible = false;
-            this.colIgnitionVersion.Width = 50;
-            // 
-            // colIgnitionAuthor
-            // 
-            this.colIgnitionAuthor.DataPropertyName = "IgnitionAuthor";
-            this.colIgnitionAuthor.HeaderText = "IgnitionAuthor";
-            this.colIgnitionAuthor.Name = "colIgnitionAuthor";
-            this.colIgnitionAuthor.ReadOnly = true;
-            this.colIgnitionAuthor.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colIgnitionAuthor.ToolTipText = "For Future Expansion";
-            this.colIgnitionAuthor.Visible = false;
-            this.colIgnitionAuthor.Width = 50;
-            // 
-            // colIgnitionDate
-            // 
-            this.colIgnitionDate.DataPropertyName = "IgnitionDate";
-            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle12.NullValue = null;
-            this.colIgnitionDate.DefaultCellStyle = dataGridViewCellStyle12;
-            this.colIgnitionDate.HeaderText = "IgnitionDate";
-            this.colIgnitionDate.Name = "colIgnitionDate";
-            this.colIgnitionDate.ReadOnly = true;
-            this.colIgnitionDate.ToolTipText = "For Future Expansion";
-            this.colIgnitionDate.Visible = false;
-            this.colIgnitionDate.Width = 50;
-            // 
-            // colStatus
-            // 
-            this.colStatus.DataPropertyName = "Status";
-            this.colStatus.HeaderText = "Status";
-            this.colStatus.Name = "colStatus";
-            this.colStatus.Visible = false;
-            // 
-            // colTagged
-            // 
-            this.colTagged.DataPropertyName = "Tagged";
-            this.colTagged.HeaderText = "Tagged";
-            this.colTagged.Name = "colTagged";
-            this.colTagged.ReadOnly = true;
-            this.colTagged.Visible = false;
-            // 
-            // colRepairStatus
-            // 
-            this.colRepairStatus.DataPropertyName = "RepairStatus";
-            this.colRepairStatus.HeaderText = "RepairStatus";
-            this.colRepairStatus.Name = "colRepairStatus";
-            this.colRepairStatus.ReadOnly = true;
-            this.colRepairStatus.Visible = false;
-            // 
-            // colIsOfficialDLC
-            // 
-            this.colIsOfficialDLC.DataPropertyName = "IsOfficialDLC";
-            this.colIsOfficialDLC.HeaderText = "IsOfficialDLC";
-            this.colIsOfficialDLC.Name = "colIsOfficialDLC";
-            this.colIsOfficialDLC.ReadOnly = true;
-            this.colIsOfficialDLC.Visible = false;
-            // 
-            // colIsRsCompPack
-            // 
-            this.colIsRsCompPack.DataPropertyName = "IsRsCompPack";
-            this.colIsRsCompPack.HeaderText = "IsRsCompPack";
-            this.colIsRsCompPack.Name = "colIsRsCompPack";
-            this.colIsRsCompPack.ReadOnly = true;
-            this.colIsRsCompPack.Visible = false;
-            // 
-            // colBassPick
-            // 
-            this.colBassPick.DataPropertyName = "IsBassPick";
-            this.colBassPick.HeaderText = "BassPickedFingered";
-            this.colBassPick.Name = "colBassPick";
-            this.colBassPick.ReadOnly = true;
-            this.colBassPick.Visible = false;
-            // 
-            // colCapoFret
-            // 
-            this.colCapoFret.DataPropertyName = "CapoFret";
-            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle13.NullValue = null;
-            this.colCapoFret.DefaultCellStyle = dataGridViewCellStyle13;
-            this.colCapoFret.HeaderText = "CapoFret";
-            this.colCapoFret.Name = "colCapoFret";
-            this.colCapoFret.ReadOnly = true;
-            this.colCapoFret.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colCapoFret.Visible = false;
-            // 
-            // colDDMax
-            // 
-            this.colDDMax.DataPropertyName = "DDMax";
-            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle14.NullValue = null;
-            this.colDDMax.DefaultCellStyle = dataGridViewCellStyle14;
-            this.colDDMax.HeaderText = "DDMaxLevel";
-            this.colDDMax.Name = "colDDMax";
-            this.colDDMax.ReadOnly = true;
-            this.colDDMax.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            // 
-            // colTuning
-            // 
-            this.colTuning.DataPropertyName = "Tuning";
-            this.colTuning.HeaderText = "Tuning";
-            this.colTuning.Name = "colTuning";
-            this.colTuning.ReadOnly = true;
-            this.colTuning.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            // 
-            // colTuningPitch
-            // 
-            this.colTuningPitch.DataPropertyName = "TuningPitch";
-            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle15.Format = "N2";
-            dataGridViewCellStyle15.NullValue = null;
-            this.colTuningPitch.DefaultCellStyle = dataGridViewCellStyle15;
-            this.colTuningPitch.HeaderText = "TuningPitch";
-            this.colTuningPitch.Name = "colTuningPitch";
-            // 
-            // colToneBase
-            // 
-            this.colToneBase.DataPropertyName = "ToneBase";
-            this.colToneBase.HeaderText = "ToneBase";
-            this.colToneBase.Name = "colToneBase";
-            // 
-            // colTones
-            // 
-            this.colTones.DataPropertyName = "Tones";
-            this.colTones.HeaderText = "Tones";
-            this.colTones.Name = "colTones";
-            this.colTones.ReadOnly = true;
-            // 
-            // colTonesCount
-            // 
-            this.colTonesCount.DataPropertyName = "TonesCount";
-            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle16.NullValue = null;
-            this.colTonesCount.DefaultCellStyle = dataGridViewCellStyle16;
-            this.colTonesCount.HeaderText = "ToneSwitchCount";
-            this.colTonesCount.Name = "colTonesCount";
-            this.colTonesCount.ReadOnly = true;
-            this.colTonesCount.ToolTipText = "Number of tone changes\r\nin the arrangement.";
-            // 
-            // colSectionsCount
-            // 
-            this.colSectionsCount.DataPropertyName = "SectionsCount";
-            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle17.NullValue = null;
-            this.colSectionsCount.DefaultCellStyle = dataGridViewCellStyle17;
-            this.colSectionsCount.HeaderText = "SectionsCount";
-            this.colSectionsCount.Name = "colSectionsCount";
-            this.colSectionsCount.ReadOnly = true;
-            // 
-            // colNoteCount
-            // 
-            this.colNoteCount.DataPropertyName = "NoteCount";
-            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle18.NullValue = null;
-            this.colNoteCount.DefaultCellStyle = dataGridViewCellStyle18;
-            this.colNoteCount.HeaderText = "NoteCount";
-            this.colNoteCount.Name = "colNoteCount";
-            this.colNoteCount.ReadOnly = true;
-            // 
-            // colChordCount
-            // 
-            this.colChordCount.DataPropertyName = "ChordCount";
-            dataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle19.NullValue = null;
-            this.colChordCount.DefaultCellStyle = dataGridViewCellStyle19;
-            this.colChordCount.HeaderText = "ChordCount";
-            this.colChordCount.Name = "colChordCount";
-            this.colChordCount.ReadOnly = true;
-            // 
-            // colChordNamesCounts
-            // 
-            this.colChordNamesCounts.DataPropertyName = "ChordNamesCounts";
-            this.colChordNamesCounts.HeaderText = "ChordNamesCounts";
-            this.colChordNamesCounts.Name = "colChordNamesCounts";
-            this.colChordNamesCounts.ReadOnly = true;
-            // 
-            // colAccentCount
-            // 
-            this.colAccentCount.DataPropertyName = "AccentCount";
-            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle20.NullValue = null;
-            this.colAccentCount.DefaultCellStyle = dataGridViewCellStyle20;
-            this.colAccentCount.HeaderText = "AccentCount";
-            this.colAccentCount.Name = "colAccentCount";
-            this.colAccentCount.ReadOnly = true;
-            this.colAccentCount.Visible = false;
-            // 
-            // colBendCount
-            // 
-            this.colBendCount.DataPropertyName = "BendCount";
-            dataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle21.NullValue = null;
-            this.colBendCount.DefaultCellStyle = dataGridViewCellStyle21;
-            this.colBendCount.HeaderText = "BendCount";
-            this.colBendCount.Name = "colBendCount";
-            this.colBendCount.ReadOnly = true;
-            this.colBendCount.Visible = false;
-            // 
-            // colFretHandMuteCount
-            // 
-            this.colFretHandMuteCount.DataPropertyName = "FretHandMuteCount";
-            dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle22.NullValue = null;
-            this.colFretHandMuteCount.DefaultCellStyle = dataGridViewCellStyle22;
-            this.colFretHandMuteCount.HeaderText = "FrethandMuteCount";
-            this.colFretHandMuteCount.Name = "colFretHandMuteCount";
-            this.colFretHandMuteCount.ReadOnly = true;
-            this.colFretHandMuteCount.Visible = false;
-            // 
-            // colHammerOnCount
-            // 
-            this.colHammerOnCount.DataPropertyName = "HammerOnCount";
-            dataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle23.NullValue = null;
-            this.colHammerOnCount.DefaultCellStyle = dataGridViewCellStyle23;
-            this.colHammerOnCount.HeaderText = "HammerOnCount";
-            this.colHammerOnCount.Name = "colHammerOnCount";
-            this.colHammerOnCount.ReadOnly = true;
-            this.colHammerOnCount.Visible = false;
-            // 
-            // colHarmonicCount
-            // 
-            this.colHarmonicCount.DataPropertyName = "HarmonicCount";
-            dataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle24.NullValue = null;
-            this.colHarmonicCount.DefaultCellStyle = dataGridViewCellStyle24;
-            this.colHarmonicCount.HeaderText = "HarmonicCount";
-            this.colHarmonicCount.Name = "colHarmonicCount";
-            this.colHarmonicCount.ReadOnly = true;
-            this.colHarmonicCount.Visible = false;
-            // 
-            // colHarmonicPinchCount
-            // 
-            this.colHarmonicPinchCount.DataPropertyName = "HarmonicPinchCount";
-            dataGridViewCellStyle25.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle25.NullValue = null;
-            this.colHarmonicPinchCount.DefaultCellStyle = dataGridViewCellStyle25;
-            this.colHarmonicPinchCount.HeaderText = "HarmonicPinchCount";
-            this.colHarmonicPinchCount.Name = "colHarmonicPinchCount";
-            this.colHarmonicPinchCount.ReadOnly = true;
-            this.colHarmonicPinchCount.Visible = false;
-            // 
-            // colHighestFretUsed
-            // 
-            this.colHighestFretUsed.DataPropertyName = "HighestFretUsed";
-            dataGridViewCellStyle26.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle26.NullValue = null;
-            this.colHighestFretUsed.DefaultCellStyle = dataGridViewCellStyle26;
-            this.colHighestFretUsed.HeaderText = "HighestFretUsed";
-            this.colHighestFretUsed.Name = "colHighestFretUsed";
-            this.colHighestFretUsed.ReadOnly = true;
-            this.colHighestFretUsed.Visible = false;
-            // 
-            // colIgnoreCount
-            // 
-            this.colIgnoreCount.DataPropertyName = "IgnoreCount";
-            dataGridViewCellStyle27.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle27.NullValue = null;
-            this.colIgnoreCount.DefaultCellStyle = dataGridViewCellStyle27;
-            this.colIgnoreCount.HeaderText = "IgnoreCount";
-            this.colIgnoreCount.Name = "colIgnoreCount";
-            this.colIgnoreCount.ReadOnly = true;
-            this.colIgnoreCount.Visible = false;
-            // 
-            // colLinkNextCount
-            // 
-            this.colLinkNextCount.DataPropertyName = "LinkNextCount";
-            dataGridViewCellStyle28.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle28.NullValue = null;
-            this.colLinkNextCount.DefaultCellStyle = dataGridViewCellStyle28;
-            this.colLinkNextCount.HeaderText = "LinkNextCount";
-            this.colLinkNextCount.Name = "colLinkNextCount";
-            this.colLinkNextCount.Visible = false;
-            // 
-            // colOctaveCount
-            // 
-            this.colOctaveCount.DataPropertyName = "OctaveCount";
-            dataGridViewCellStyle29.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle29.NullValue = null;
-            this.colOctaveCount.DefaultCellStyle = dataGridViewCellStyle29;
-            this.colOctaveCount.HeaderText = "OctaveCount";
-            this.colOctaveCount.Name = "colOctaveCount";
-            this.colOctaveCount.ReadOnly = true;
-            this.colOctaveCount.Visible = false;
-            // 
-            // colPalmMuteCount
-            // 
-            this.colPalmMuteCount.DataPropertyName = "PalmMuteCount";
-            dataGridViewCellStyle30.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle30.NullValue = null;
-            this.colPalmMuteCount.DefaultCellStyle = dataGridViewCellStyle30;
-            this.colPalmMuteCount.HeaderText = "PalmMuteCount";
-            this.colPalmMuteCount.Name = "colPalmMuteCount";
-            this.colPalmMuteCount.ReadOnly = true;
-            this.colPalmMuteCount.Visible = false;
-            // 
-            // colPluckCount
-            // 
-            this.colPluckCount.DataPropertyName = "PluckCount";
-            dataGridViewCellStyle31.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle31.NullValue = null;
-            this.colPluckCount.DefaultCellStyle = dataGridViewCellStyle31;
-            this.colPluckCount.HeaderText = "PluckCount";
-            this.colPluckCount.Name = "colPluckCount";
-            this.colPluckCount.ReadOnly = true;
-            this.colPluckCount.Visible = false;
-            // 
-            // colPullOffCount
-            // 
-            this.colPullOffCount.DataPropertyName = "PullOffCount";
-            dataGridViewCellStyle32.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle32.NullValue = null;
-            this.colPullOffCount.DefaultCellStyle = dataGridViewCellStyle32;
-            this.colPullOffCount.HeaderText = "PullOffCount";
-            this.colPullOffCount.Name = "colPullOffCount";
-            this.colPullOffCount.ReadOnly = true;
-            this.colPullOffCount.Visible = false;
-            // 
-            // colSlapCount
-            // 
-            this.colSlapCount.DataPropertyName = "SlapCount";
-            dataGridViewCellStyle33.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle33.NullValue = null;
-            this.colSlapCount.DefaultCellStyle = dataGridViewCellStyle33;
-            this.colSlapCount.HeaderText = "SlapCount";
-            this.colSlapCount.Name = "colSlapCount";
-            this.colSlapCount.ReadOnly = true;
-            this.colSlapCount.Visible = false;
-            // 
-            // colSlideCount
-            // 
-            this.colSlideCount.DataPropertyName = "SlideCount";
-            dataGridViewCellStyle34.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle34.NullValue = null;
-            this.colSlideCount.DefaultCellStyle = dataGridViewCellStyle34;
-            this.colSlideCount.HeaderText = "SlideCount";
-            this.colSlideCount.Name = "colSlideCount";
-            this.colSlideCount.ReadOnly = true;
-            this.colSlideCount.Visible = false;
-            // 
-            // colSlideUnpitchToCount
-            // 
-            this.colSlideUnpitchToCount.DataPropertyName = "SlideUnpitchToCount";
-            dataGridViewCellStyle35.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle35.NullValue = null;
-            this.colSlideUnpitchToCount.DefaultCellStyle = dataGridViewCellStyle35;
-            this.colSlideUnpitchToCount.HeaderText = "SlideUnpitchToCount";
-            this.colSlideUnpitchToCount.Name = "colSlideUnpitchToCount";
-            this.colSlideUnpitchToCount.ReadOnly = true;
-            this.colSlideUnpitchToCount.Visible = false;
-            // 
-            // colSustainCount
-            // 
-            this.colSustainCount.DataPropertyName = "SustainCount";
-            dataGridViewCellStyle36.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle36.NullValue = null;
-            this.colSustainCount.DefaultCellStyle = dataGridViewCellStyle36;
-            this.colSustainCount.HeaderText = "SustainCount";
-            this.colSustainCount.Name = "colSustainCount";
-            this.colSustainCount.ReadOnly = true;
-            this.colSustainCount.Visible = false;
-            // 
-            // colTapCount
-            // 
-            this.colTapCount.DataPropertyName = "TapCount";
-            dataGridViewCellStyle37.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle37.NullValue = null;
-            this.colTapCount.DefaultCellStyle = dataGridViewCellStyle37;
-            this.colTapCount.HeaderText = "TapCount";
-            this.colTapCount.Name = "colTapCount";
-            this.colTapCount.ReadOnly = true;
-            this.colTapCount.Visible = false;
-            // 
-            // colThumbCount
-            // 
-            this.colThumbCount.DataPropertyName = "ThumbCount";
-            dataGridViewCellStyle38.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle38.NullValue = null;
-            this.colThumbCount.DefaultCellStyle = dataGridViewCellStyle38;
-            this.colThumbCount.HeaderText = "ThumbCount";
-            this.colThumbCount.Name = "colThumbCount";
-            this.colThumbCount.ReadOnly = true;
-            this.colThumbCount.Visible = false;
-            // 
-            // colTremoloCount
-            // 
-            this.colTremoloCount.DataPropertyName = "TremoloCount";
-            dataGridViewCellStyle39.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle39.NullValue = null;
-            this.colTremoloCount.DefaultCellStyle = dataGridViewCellStyle39;
-            this.colTremoloCount.HeaderText = "TremoloCount";
-            this.colTremoloCount.Name = "colTremoloCount";
-            this.colTremoloCount.ReadOnly = true;
-            this.colTremoloCount.Visible = false;
-            // 
-            // colVibratoCount
-            // 
-            this.colVibratoCount.DataPropertyName = "VibratoCount";
-            dataGridViewCellStyle40.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle40.NullValue = null;
-            this.colVibratoCount.DefaultCellStyle = dataGridViewCellStyle40;
-            this.colVibratoCount.HeaderText = "VibratoCount";
-            this.colVibratoCount.Name = "colVibratoCount";
-            this.colVibratoCount.ReadOnly = true;
-            this.colVibratoCount.Visible = false;
-            // 
-            // colArtistTitleAlbum
-            // 
-            this.colArtistTitleAlbum.DataPropertyName = "ArtistTitleAlbum";
-            this.colArtistTitleAlbum.HeaderText = "ArtistTitleAlbum";
-            this.colArtistTitleAlbum.Name = "colArtistTitleAlbum";
-            this.colArtistTitleAlbum.ReadOnly = true;
-            this.colArtistTitleAlbum.Visible = false;
-            // 
-            // colArtistTitleAlbumDate
-            // 
-            this.colArtistTitleAlbumDate.DataPropertyName = "ArtistTitleAlbumDate";
-            this.colArtistTitleAlbumDate.HeaderText = "ArtistTitleAlbumDate";
-            this.colArtistTitleAlbumDate.Name = "colArtistTitleAlbumDate";
-            this.colArtistTitleAlbumDate.ReadOnly = true;
             // 
             // ArrangementAnalyzer
             // 
@@ -1293,6 +1308,7 @@ namespace CustomsForgeSongManager.UControls
         private DataGridViewAutoFilterTextBoxColumn colVibratoCount;
         private DataGridViewAutoFilterTextBoxColumn colArtistTitleAlbum;
         private DataGridViewAutoFilterTextBoxColumn colArtistTitleAlbumDate;
+        private CheckBox chkIncludeVocals;
 
     }
 }

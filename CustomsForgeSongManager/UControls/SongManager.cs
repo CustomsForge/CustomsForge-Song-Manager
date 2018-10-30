@@ -61,8 +61,8 @@ namespace CustomsForgeSongManager.UControls
             cmsOpenSongLocation.Visible = GenExtensions.IsInDesignMode ? true : false;
             cmsGetCharterName.Visible = GenExtensions.IsInDesignMode ? true : false;
 
+            PopulateSongManager(); // check SongData version first
             PopulateTagger();
-            PopulateSongManager();
             InitializeRepairMenu();
             tsmiRepairs.HideDropDown();
         }
@@ -173,7 +173,7 @@ namespace CustomsForgeSongManager.UControls
         {
             var dom = Globals.MasterCollection.XmlSerializeToDom();
             XmlElement versionNode = dom.CreateElement("SongDataList");
-            versionNode.SetAttribute("version", SongData.SongDataListVersion);
+            versionNode.SetAttribute("version", SongData.SongDataVersion);
             versionNode.SetAttribute("AppVersion", Constants.CustomVersion());
             dom.DocumentElement.AppendChild(versionNode);
 
@@ -454,7 +454,7 @@ namespace CustomsForgeSongManager.UControls
                         if (versionNode != null)
                         {
                             if (versionNode.HasAttribute("version"))
-                                correctVersion = (versionNode.GetAttribute("version") == SongData.SongDataListVersion);
+                                correctVersion = (versionNode.GetAttribute("version") == SongData.SongDataVersion);
 
                             listNode.RemoveChild(versionNode);
                         }
@@ -491,6 +491,7 @@ namespace CustomsForgeSongManager.UControls
                         GenExtensions.DeleteFile(Constants.SongsInfoPath);
                         GenExtensions.DeleteFile(Constants.AppSettingsPath);
                         GenExtensions.DeleteDirectory(Constants.GridSettingsFolder);
+                        GenExtensions.DeleteDirectory(Constants.TaggerWorkingFolder);
                     }
                     catch (Exception ex)
                     {
@@ -602,6 +603,7 @@ namespace CustomsForgeSongManager.UControls
             tsmiTagStyle.DropDownItems.Clear();
             var tagStyle = Globals.Tagger.Themes;
             var items = new ToolStripEnhancedMenuItem[tagStyle.Count];
+
             for (int i = 0; i < tagStyle.Count; i++)
             {
                 items[i] = new ToolStripEnhancedMenuItem();
@@ -611,41 +613,49 @@ namespace CustomsForgeSongManager.UControls
                 items[i].CheckMarkDisplayStyle = CheckMarkDisplayStyle.RadioButton;
                 items[i].CheckOnClick = true;
                 items[i].RadioButtonGroupName = null;
-                // items[i].Size = new Size(173, 22);
                 items[i].Click += TagStyle_Click;
             }
-            tsmiTagStyle.DropDownItems.AddRange(items);
 
+            tsmiTagStyle.DropDownItems.AddRange(items);
+            // select DefaultThemeName
+            ((ToolStripMenuItem)tsmiTagStyle.DropDownItems[TaggerTools.DefaultThemeName]).Checked = true;
             cmsTaggerPreview.DropDownItems.Clear();
+
             foreach (string tagPreview in Globals.Tagger.Themes)
             {
                 var tsi = cmsTaggerPreview.DropDownItems.Add(tagPreview);
                 tsi.Click += (s, e) =>
+                {
+                    // apply rating star updates before tag preview
+                    if (Globals.Tagger.ThemeName.Contains("_stars"))
+                        if (Globals.PackageRatingNeedsUpdate && !Globals.UpdateInProgress)
+                            PackageDataTools.UpdatePackageRating();
+
+                    var sd = DgvExtensions.GetObjectFromFirstSelectedRow<SongData>(dgvSongsMaster);
+                    if (sd != null)
                     {
-                        var sel = DgvExtensions.GetObjectFromFirstSelectedRow<SongData>(dgvSongsMaster);
-                        if (sel != null)
+                        var tagTheme = ((ToolStripItem)s).Text;
+                        var img = Globals.Tagger.Preview(sd, tagTheme);
+
+                        if (img != null)
                         {
-                            string ATheme = ((ToolStripItem)s).Text;
-                            var img = Globals.Tagger.Preview(sel, ATheme);
-                            if (img != null)
+                            using (Form f = new Form())
                             {
-                                using (Form f = new Form())
-                                {
-                                    f.Text = "Tagger Preview of " + ATheme;
-                                    f.StartPosition = FormStartPosition.CenterParent;
-                                    f.ShowIcon = false;
-                                    f.MaximizeBox = false;
-                                    f.MinimizeBox = false;
-                                    f.AutoSize = true;
-                                    PictureBox pb = new PictureBox() { SizeMode = PictureBoxSizeMode.CenterImage, Dock = DockStyle.Fill, Image = img };
-                                    f.Controls.Add(pb);
-                                    f.ShowDialog(this.FindForm());
-                                }
+                                f.Text = "Tag Theme Preview: " + tagTheme;
+                                f.StartPosition = FormStartPosition.CenterParent;
+                                f.ShowIcon = false;
+                                f.MaximizeBox = false;
+                                f.MinimizeBox = false;
+                                f.AutoSize = true;
+                                PictureBox pb = new PictureBox() { SizeMode = PictureBoxSizeMode.CenterImage, Dock = DockStyle.Fill, Image = img };
+                                f.Controls.Add(pb);
+                                f.ShowDialog(this.FindForm());
                             }
-                            else
-                                Globals.Log(String.Format("<Error>: Previewing '{0}' ...", sel.Title));
                         }
-                    };
+                        else
+                            Globals.Log(String.Format("<Error>: Previewing '{0}' ...", sd.Title));
+                    }
+                };
             }
         }
 
@@ -2054,11 +2064,21 @@ namespace CustomsForgeSongManager.UControls
 
         private void tsmiModsTagArtwork_Click(object sender, EventArgs e)
         {
+            // apply rating star updates before tagging
+            if (Globals.Tagger.ThemeName.Contains("_stars"))
+                if (Globals.PackageRatingNeedsUpdate && !Globals.UpdateInProgress)
+                    PackageDataTools.UpdatePackageRating();
+
             var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster); //.Where(sd => sd.Tagged == false);
             if (!selection.Any())
-                return;
+            {
+                var diaMsg = Environment.NewLine + "Please select some CDLC to Tag using the 'Select' column.";
+                BetterDialog2.ShowDialog(diaMsg, "Tag Artwork ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "ReadMe", 0, 150);
 
-            // should not occure because tagger is defaulting to frack theme
+                return;
+            }
+
+            // should not occure because tagger is defaulting to a theme
             if (String.IsNullOrEmpty(Globals.Tagger.ThemeName))
             {
                 MessageBox.Show("Please select a tag style first");
@@ -2107,7 +2127,12 @@ namespace CustomsForgeSongManager.UControls
         {
             var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster); //.Where(sd => sd.Tagged);
             if (!selection.Any())
+            {
+                var diaMsg = Environment.NewLine + "Please select some CDLC to Un-Tag using the 'Select' column.";
+                BetterDialog2.ShowDialog(diaMsg, "Un-Tag Artwork...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "ReadMe", 0, 150);
+
                 return;
+            }
 
             Globals.Tagger.OnProgress += TaggerProgress;
             try
@@ -2269,6 +2294,7 @@ namespace CustomsForgeSongManager.UControls
                 }
             }
         }
+
 
     }
 }

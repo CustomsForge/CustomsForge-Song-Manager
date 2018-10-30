@@ -12,15 +12,18 @@ using CustomsForgeSongManager.DataObjects;
 using GenTools;
 using CFSM.ImageTools;
 using CFSM.NCalc;
+using RocksmithToolkitLib.DLCPackage;
+using RocksmithToolkitLib.Extensions;
 
 namespace CustomsForgeSongManager.LocalTools
 {
     public class TaggerTools
-    {       
-        private string[] defaultTagFolders =
-            {
-                "frackDefault", "motive_bl_", "motive_nv_", "motive_ws_", "motive1"
-            };
+    {
+        // set global default theme name (folder) here
+        public static string DefaultThemeName
+        {
+            get { return "default_tags_stars"; }
+        }
 
         public List<String> Themes { get; private set; }
         private List<XmlThemeStorage> XmlThemes { get; set; }
@@ -39,7 +42,7 @@ namespace CustomsForgeSongManager.LocalTools
 
         public TaggerTools()
         {
-            ThemeName = defaultTagFolders[0];
+            ThemeName = DefaultThemeName;
             Themes = new List<string>();
             XmlThemes = new List<XmlThemeStorage>();
             Populate();
@@ -49,6 +52,9 @@ namespace CustomsForgeSongManager.LocalTools
 
         private void Populate()
         {
+            // for debugging (always start fresh)
+            GenExtensions.DeleteDirectory(Constants.TaggerWorkingFolder);
+
             if (!Directory.Exists(Constants.TaggerTemplatesFolder) || GenExtensions.IsDirectoryEmpty(Constants.TaggerTemplatesFolder) || !File.Exists(Path.Combine(Constants.TaggerTemplatesFolder, "Default.tagtheme")))
                 CreateDefaultFolders();
 
@@ -56,13 +62,14 @@ namespace CustomsForgeSongManager.LocalTools
                 File.Copy(Path.Combine(Constants.TaggerTemplatesFolder, "Default.tagtheme"), Path.Combine(Constants.TaggerTemplatesFolder, "User.Default.tagtheme"));
 
             Themes.Clear();
-            foreach (string tagPreview in
-                Directory.EnumerateFiles(Constants.TaggerTemplatesFolder, "*.png").Where(file => file.ToLower().Contains("prev")))
-                Themes.Add(Path.GetFileName(tagPreview).Replace(@"Tagger\", "").Replace("prev.png", ""));
 
-            foreach (string tagPreview in
-                Directory.EnumerateFiles(Constants.TaggerTemplatesFolder, "*.tagtheme", SearchOption.AllDirectories).Where(file => !file.ToLower().Contains("default") && !file.ToLower().Contains("example")))
-                XmlThemes.Add(new XmlThemeStorage(Path.GetFileNameWithoutExtension(tagPreview), Path.GetDirectoryName(tagPreview)));
+            var tagPreviews = Directory.EnumerateFiles(Constants.TaggerTemplatesFolder, "*.png").Where(file => file.ToLower().Contains("_prev.png")).ToList();
+            foreach (string tagPreview in tagPreviews)
+                Themes.Add(Path.GetFileName(tagPreview).Replace(@"Tagger\", "").Replace("_prev.png", ""));
+
+            var tagThemes = Directory.EnumerateFiles(Constants.TaggerTemplatesFolder, "*.tagtheme", SearchOption.AllDirectories).Where(file => !file.ToLower().Contains("default") && !file.ToLower().Contains("example")).ToList();
+            foreach (string tagTheme in tagThemes)
+                XmlThemes.Add(new XmlThemeStorage(Path.GetFileNameWithoutExtension(tagTheme), Path.GetDirectoryName(tagTheme)));
 
             Themes.AddRange(XmlThemes.Select(f => f.Name));
         }
@@ -72,22 +79,8 @@ namespace CustomsForgeSongManager.LocalTools
             if (!Directory.Exists(Constants.TaggerWorkingFolder))
                 Directory.CreateDirectory(Constants.TaggerWorkingFolder);
 
-            // this creates the necessary directories
+            // create tagger directories and files
             GenExtensions.ExtractEmbeddedResources(Constants.TaggerTemplatesFolder, Assembly.GetExecutingAssembly(), "CustomsForgeSongManager.Resources.tags");
-
-            //foreach (string resourceDir in defaultTagFolders)
-            //{
-            //    string folderPath = Path.Combine(Constants.TaggerTemplatesFolder, resourceDir);
-
-            //    if (!Directory.Exists(folderPath))
-            //        Directory.CreateDirectory(folderPath);
-
-            //    UtilExtensions.ExtractEmbeddedResource(folderPath, "CustomsForgeSongManager.Resources.tags." + resourceDir, defaultFiles);
-            //}
-
-            //foreach (string previewFile in defaultTagFolders)
-            //    UtilExtensions.ExtractEmbeddedResource(Constants.TaggerTemplatesFolder,
-            //        "CustomsForgeSongManager.Resources.tags", new string[] { previewFile + "prev.png" });
         }
 
         public string ThemeName { get; set; }
@@ -97,6 +90,7 @@ namespace CustomsForgeSongManager.LocalTools
             string preview = Path.Combine(Constants.TaggerTemplatesFolder, themeName, "prev.png");
             if (File.Exists(preview))
                 return Bitmap.FromFile(preview);
+
             return null;
         }
 
@@ -105,6 +99,7 @@ namespace CustomsForgeSongManager.LocalTools
             string info = Path.Combine(Constants.TaggerTemplatesFolder, themeName, "info.txt");
             if (File.Exists(info))
                 return File.ReadAllText(info);
+
             return string.Empty;
         }
 
@@ -113,28 +108,31 @@ namespace CustomsForgeSongManager.LocalTools
             if (String.IsNullOrEmpty(themeName))
             {
                 if (ThemeName == String.Empty)
-                    ThemeName = defaultTagFolders[0];
+                    ThemeName = DefaultThemeName;
+
                 themeName = ThemeName;
             }
 
-            string aPath = Path.Combine(Constants.TaggerTemplatesFolder, themeName);
-
+            var themePath = Path.Combine(Constants.TaggerTemplatesFolder, themeName);
             var xTheme = XmlThemes.Find(x => x.Name == themeName);
             if (xTheme != null)
-            {
-                aPath = xTheme.Folder;
-            }
+                themePath = xTheme.Folder;
+
             try
             {
-                using (var images = new BitmapHolder(aPath))
+                using (var images = new BitmapHolder(themePath))
                 {
-                    string songPath = sd.FilePath;
+                    var songPath = sd.FilePath;
                     using (CFSM.RSTKLib.PSARC.PSARC archive = new CFSM.RSTKLib.PSARC.PSARC(true))
                     using (var fs = File.OpenRead(songPath))
                     {
                         archive.Read(fs, true);
 
-                        var imgEntry = archive.TOC.FirstOrDefault(entry => entry.Name.EndsWith("256.dds"));
+                        CFSM.RSTKLib.PSARC.Entry imgEntry;
+                        if (sd.Tagged == SongTaggerStatus.True)
+                            imgEntry = archive.TOC.FirstOrDefault(entry => entry.Name.Equals("tagger.org"));
+                        else
+                            imgEntry = archive.TOC.FirstOrDefault(entry => entry.Name.EndsWith("256.dds"));
 
                         if (imgEntry != null)
                         {
@@ -147,26 +145,33 @@ namespace CustomsForgeSongManager.LocalTools
 
                             imgEntry.Data.Position = 0;
                             var albumArtDDS = new DDSImage(imgEntry.Data);
-                            var AlbumArt = albumArtDDS.images[0];
+                            var albumArt = albumArtDDS.images[0];
 
-                            TagDrawImage(sd, images, xTheme, archive, AlbumArt, aPath);
+                            TagDrawImage(sd, images, xTheme, archive, albumArt, themePath);
 
-                            return AlbumArt;
+                            return albumArt;
                         }
                     }
                 }
             }
-            catch (ArgumentException)
+            catch (Exception ex)
             {
-                ShowTaggerError();
+                ShowTaggerError(ex.Message);
             }
 
             return null;
         }
 
-        private void ShowTaggerError()
+        private void ShowTaggerError(string errMsg)
         {
-            MessageBox.Show(string.Format("Make sure that you have all required files in the CFSM\\Tagger\\templates folder: \n" + "-Tagger/templates/{0}/Background.png \n" + "-Tagger/templates/{0}/Lead.png \n" + "-Tagger/templates/{0}/Lead Bonus.png \n" + "-Tagger/templates/{0}/Rhythm.png \n" + "-Tagger/templates/{0}/Rhythm Bonus.png \n" + "-Tagger/templates/{0}/Custom.png \n" + "-Tagger/templates/{0}/Vocal.png", ThemeName));
+            GenExtensions.DeleteDirectory(Constants.TaggerWorkingFolder);
+            Populate();
+
+            MessageBox.Show(
+                "<ERROR> Tagger encountered an critical error ..." + Environment.NewLine +
+                errMsg + "  " + Environment.NewLine +
+                "CFSM has restored all tagger template files in an" + Environment.NewLine +
+                "attempt to fix the error.  Please try tagger again.  ", "Album Artwork Tagger", MessageBoxButtons.OK, MessageBoxIcon.Hand);
         }
 
         private string tagsFolderFullPath
@@ -180,40 +185,53 @@ namespace CustomsForgeSongManager.LocalTools
             }
         }
 
-        private void TagDrawImage(SongData song, BitmapHolder images, XmlThemeStorage xTheme, CFSM.RSTKLib.PSARC.PSARC archive, Bitmap bigAlbumArt, String FolderFullPath)
+        private void TagDrawImage(SongData song, BitmapHolder images, XmlThemeStorage xTheme, CFSM.RSTKLib.PSARC.PSARC archive, Bitmap bigAlbumArt, String folderFullPath)
         {
-            bool lead = false;
-            bool rhythm = false;
-            bool bass = false;
-            bool vocals = false;
-            bool bonusLead = false;
-            bool bonusRhythm = false;
-            bool bonusBass = false;
-            bool DD = song.DD > 0;
+            var lead = false;
+            var rhythm = false;
+            var bass = false;
+            var vocals = false;
+            var bonusLead = false;
+            var bonusRhythm = false;
+            var bonusBass = false;
+            var DD = song.DD > 0;
+            var arrangements = archive.TOC.Where(entry => entry.Name.ToLower().EndsWith(".json")).Select(entry => entry.Name).ToList();
 
-            var arrangements = archive.TOC.Where(entry => entry.Name.ToLower().EndsWith(".json")).Select(entry => entry.Name);
-
-            foreach (string arrangement in arrangements)
+            foreach (string arr in arrangements)
             {
-                if (arrangement.Contains("lead") && !arrangement.Contains("lead2"))
+                // TODO: improve accuracy ... use Represent and Bonus properties
+                if (arr.Contains("lead") && !arr.Contains("lead2"))
                     lead = true;
-                if (arrangement.Contains("lead2"))
+                if (arr.Contains("lead2"))
                     bonusLead = true;
-                if (arrangement.Contains("rhythm") && !arrangement.Contains("rhythm2"))
+                if (arr.Contains("rhythm") && !arr.Contains("rhythm2"))
                     rhythm = true;
-                if (arrangement.Contains("rhythm2"))
+                if (arr.Contains("rhythm2"))
                     bonusRhythm = true;
-                if (arrangement.Contains("bass") && !arrangement.Contains("bass2"))
+                if (arr.Contains("bass") && !arr.Contains("bass2"))
                     bass = true;
-                if (arrangement.Contains("bass2"))
+                if (arr.Contains("bass2"))
                     bonusBass = true;
-                if (arrangement.Contains("vocals"))
+                if (arr.Contains("vocals"))
                     vocals = true;
-                if (arrangement.Contains("combo"))
+                if (arr.Contains("combo"))
                 {
                     lead = true;
                     rhythm = true;
                 }
+            }
+
+            var rating = 0;
+            var tkEntry = archive.TOC.FirstOrDefault(x => x.Name.Equals("toolkit.version"));
+            if (tkEntry != null)
+            {
+                if (tkEntry.Data != null)
+                    tkEntry.Data.Position = 0;
+                else
+                    archive.InflateEntry(tkEntry);
+
+                ToolkitInfo tkInfo = GeneralExtensions.GetToolkitInfo(new StreamReader(tkEntry.Data));
+                rating = int.Parse(tkInfo.PackageRating == null ? "0" : tkInfo.PackageRating);
             }
 
             SongTaggerTheme tt = null;
@@ -223,9 +241,9 @@ namespace CustomsForgeSongManager.LocalTools
                 using (FileStream fs1 = File.OpenRead(Path.Combine(xTheme.Folder, xTheme.Name + ".tagtheme")))
                     tt = SongTaggerTheme.Create(fs1);
             }
-            else if (File.Exists(Path.Combine(FolderFullPath, "Default.tagtheme")))
+            else if (File.Exists(Path.Combine(folderFullPath, "Default.tagtheme")))
             {
-                using (FileStream fs1 = File.OpenRead(Path.Combine(FolderFullPath, "Default.tagtheme")))
+                using (FileStream fs1 = File.OpenRead(Path.Combine(folderFullPath, "Default.tagtheme")))
                     tt = SongTaggerTheme.Create(fs1);
             }
             else if (File.Exists(Path.Combine(Constants.TaggerTemplatesFolder, "User.Default.tagtheme")))
@@ -238,44 +256,63 @@ namespace CustomsForgeSongManager.LocalTools
                 using (FileStream fs1 = File.OpenRead(Path.Combine(Constants.TaggerTemplatesFolder, "Default.tagtheme")))
                     tt = SongTaggerTheme.Create(fs1);
             }
+
             if (tt != null)
                 tt.Data = song;
+
             GenExtensions.TempChangeDirectory(ttpath, () =>
+            {
+                //Add layers to big album art
+                using (Graphics gra = Graphics.FromImage(bigAlbumArt))
                 {
-                    //Add layers to big album art
-                    using (Graphics gra = Graphics.FromImage(bigAlbumArt))
+                    // Arrangement Layers
+                    if (images.BackgroundLayer != null)
+                        gra.DrawImage(images.BackgroundLayer, 0, 0.5f);
+                    if (vocals && images.VocalLayer != null)
+                        gra.DrawImage(images.VocalLayer, 0, 0.5f);
+                    if (bass && images.BassLayer != null)
+                        gra.DrawImage(images.BassLayer, 0, 0.5f);
+                    if (bonusBass && images.BassBonusLayer != null)
+                        gra.DrawImage(images.BassBonusLayer, 0, 0.5f);
+                    if (rhythm && images.RhythmLayer != null)
+                        gra.DrawImage(images.RhythmLayer, 0, 0.5f);
+                    if (bonusRhythm && images.RhythmBonusLayer != null)
+                        gra.DrawImage(images.RhythmBonusLayer, 0, 0.5f);
+                    if (lead && images.LeadLayer != null)
+                        gra.DrawImage(images.LeadLayer, 0, 0.5f);
+                    if (bonusLead && images.LeadBonusLayer != null)
+                        gra.DrawImage(images.LeadBonusLayer, 0, 0.5f);
+                    if (images.CustomTagsLayer != null)
+                        gra.DrawImage(images.CustomTagsLayer, 0, 0.5f);
+                    if (DD && images.DDLayer != null)
+                        gra.DrawImage(images.DDLayer, 0, 0.5f);
+
+                    // Rating Layers
+                    if (images.CustomStarsLayer != null)
+                        gra.DrawImage(images.CustomStarsLayer, 0, 0.5f);
+                    if (rating > 0 && images.CustomStarsLayer != null)
+                        gra.DrawImage(images.Stars1Layer, 0, 0.5f);
+                    if (rating > 1 && images.CustomStarsLayer != null)
+                        gra.DrawImage(images.Stars2Layer, 0, 0.5f);
+                    if (rating > 2 && images.CustomStarsLayer != null)
+                        gra.DrawImage(images.Stars3Layer, 0, 0.5f);
+                    if (rating > 3 && images.CustomStarsLayer != null)
+                        gra.DrawImage(images.Stars4Layer, 0, 0.5f);
+                    if (rating > 4 && images.CustomStarsLayer != null)
+                        gra.DrawImage(images.Stars5Layer, 0, 0.5f);
+
+                    //Apply the xml theme
+                    if (tt != null)
                     {
-                        if (images.backgroundLayer != null)
-                            gra.DrawImage(images.backgroundLayer, 0, 0.5f);
-                        if (vocals && images.vocalLayer != null)
-                            gra.DrawImage(images.vocalLayer, 0, 0.5f);
-                        if (bass && images.bassLayer != null)
-                            gra.DrawImage(images.bassLayer, 0, 0.5f);
-                        if (bonusBass && images.bassBonusLayer != null)
-                            gra.DrawImage(images.bassBonusLayer, 0, 0.5f);
-                        if (rhythm && images.rhythmLayer != null)
-                            gra.DrawImage(images.rhythmLayer, 0, 0.5f);
-                        if (bonusRhythm && images.rhythmBonusLayer != null)
-                            gra.DrawImage(images.rhythmBonusLayer, 0, 0.5f);
-                        if (lead && images.leadLayer != null)
-                            gra.DrawImage(images.leadLayer, 0, 0.5f);
-                        if (bonusLead && images.leadBonusLayer != null)
-                            gra.DrawImage(images.leadBonusLayer, 0, 0.5f);
-                        if (images.customTagLayer != null)
-                            gra.DrawImage(images.customTagLayer, 0, 0.5f);
-                        if (DD && images.DDLayer != null)
-                            gra.DrawImage(images.DDLayer, 0, 0.5f);
-                        //Apply the xml theme
-                        if (tt != null)
-                        {
-                            if (DD)
-                                tt.DD.Draw(gra, bigAlbumArt);
-                            else
-                                tt.NDD.Draw(gra, bigAlbumArt);
-                            tt.Custom.Draw(gra, bigAlbumArt);
-                        }
+                        if (DD)
+                            tt.DD.Draw(gra, bigAlbumArt);
+                        else
+                            tt.NDD.Draw(gra, bigAlbumArt);
+
+                        tt.Custom.Draw(gra, bigAlbumArt);
                     }
-                });
+                }
+            });
         }
 
         private bool AllowEditingOfODLC
@@ -289,9 +326,11 @@ namespace CustomsForgeSongManager.LocalTools
                 return;
 
             if (ThemeName == String.Empty)
-                ThemeName = defaultTagFolders[0];
+                ThemeName = DefaultThemeName;
+
             if (!Directory.Exists(Constants.TaggerTemplatesFolder) || !Directory.Exists(tagsFolderFullPath))
                 CreateDefaultFolders();
+
             var xTheme = XmlThemes.Find(x => x.Name == ThemeName);
 
             //   songTagged = songTagged || File.GetCreationTime(song.Path) == new DateTime(1990, 1, 1) ? true : false;
@@ -524,7 +563,7 @@ namespace CustomsForgeSongManager.LocalTools
 
         public TaggerDrawer DD { get; set; }
         public TaggerDrawer NDD { get; set; }
-        public TaggerDrawer Custom { get; set; }
+        public TaggerDrawer Custom { get; set; } // Tag and Rating
 
         [XmlAttribute]
         public string Name { get; set; }
@@ -543,9 +582,9 @@ namespace CustomsForgeSongManager.LocalTools
             Drawers = new List<TaggerDrawer> { DD, NDD, Custom };
         }
 
-        public static SongTaggerTheme Create(Stream AStream)
+        public static SongTaggerTheme Create(Stream stream)
         {
-            var result = AStream.DeserializeXml<SongTaggerTheme>(TagThemeRegistar.DrawTypes);
+            var result = stream.DeserializeXml<SongTaggerTheme>(TagThemeRegistar.DrawTypes);
             result.Loaded();
             return result;
         }
@@ -610,9 +649,9 @@ namespace CustomsForgeSongManager.LocalTools
     [Serializable, XmlRoot("XmlDrawer")]
     public class TaggerDrawer : SerializableObj, IDrawInstructionsHolder
     {
-        public static TaggerDrawer Create(Stream AStream)
+        public static TaggerDrawer Create(Stream stream)
         {
-            var result = AStream.DeserializeXml<TaggerDrawer>(TagThemeRegistar.DrawTypes);
+            var result = stream.DeserializeXml<TaggerDrawer>(TagThemeRegistar.DrawTypes);
             result.Loaded();
             return result;
         }
@@ -628,15 +667,14 @@ namespace CustomsForgeSongManager.LocalTools
             }
         }
 
-        private SongData FSongData;
-
+        private SongData songData;
         [XmlIgnore]
         public SongData Data
         {
-            get { return FSongData; }
+            get { return songData; }
             set
             {
-                FSongData = value;
+                songData = value;
                 Drawing.Instructions.ForEach(di => di.Data = value);
             }
         }
@@ -676,15 +714,15 @@ namespace CustomsForgeSongManager.LocalTools
             Size = new Point(-1, -1);
         }
 
-        private TaggerDrawer FParent;
+        private TaggerDrawer mParent;
 
         [XmlIgnore]
         public TaggerDrawer Parent
         {
-            get { return FParent; }
+            get { return mParent; }
             set
             {
-                FParent = value;
+                mParent = value;
                 Instructions.ForEach(i => i.Instructions = this);
             }
         }
@@ -822,6 +860,7 @@ namespace CustomsForgeSongManager.LocalTools
                     e.Parameters.Add(x.Key, x.Value);
                 e.Parameters["dd"] = Data.DD > 0;
                 e.Parameters.Add("Data", Data);
+
                 return Convert.ToBoolean(e.Evaluate());
             }
             catch (Exception)
@@ -868,6 +907,7 @@ namespace CustomsForgeSongManager.LocalTools
             template.Add("arrangements", String.IsNullOrEmpty(arrInit) ? "" : arrInit);
             template.Add("\\n", Environment.NewLine);
             template.Add("\\t", (char)9);
+
             return template;
         }
 
@@ -883,6 +923,7 @@ namespace CustomsForgeSongManager.LocalTools
 
                 return s;
             }
+
             return format;
         }
     }
@@ -1361,134 +1402,205 @@ namespace CustomsForgeSongManager.LocalTools
 
     internal sealed class BitmapHolder : IDisposable
     {
-        public Bitmap backgroundLayer { get; private set; }
-        public Bitmap customTagLayer { get; private set; }
-        public Bitmap vocalLayer { get; private set; }
-        public Bitmap leadLayer { get; private set; }
-        public Bitmap rhythmLayer { get; private set; }
-        public Bitmap bassLayer { get; private set; }
-        public Bitmap leadBonusLayer { get; private set; }
-        public Bitmap rhythmBonusLayer { get; private set; }
-        public Bitmap bassBonusLayer { get; private set; }
+        // Arrangement Layers
+        public Bitmap BackgroundLayer { get; private set; }
+        public Bitmap CustomTagsLayer { get; private set; }
+        public Bitmap VocalLayer { get; private set; }
+        public Bitmap LeadLayer { get; private set; }
+        public Bitmap RhythmLayer { get; private set; }
+        public Bitmap BassLayer { get; private set; }
+        public Bitmap LeadBonusLayer { get; private set; }
+        public Bitmap RhythmBonusLayer { get; private set; }
+        public Bitmap BassBonusLayer { get; private set; }
         public Bitmap DDLayer { get; private set; }
+        // Rating Layers
+        public Bitmap CustomStarsLayer { get; private set; }
+        public Bitmap Stars1Layer { get; private set; }
+        public Bitmap Stars2Layer { get; private set; }
+        public Bitmap Stars3Layer { get; private set; }
+        public Bitmap Stars4Layer { get; private set; }
+        public Bitmap Stars5Layer { get; private set; }
 
         public BitmapHolder(string tagsFolderFullPath)
         {
-            var p = Path.Combine(tagsFolderFullPath, "DD.png");
+            // Arrangement Layers
+            var p = Path.Combine(tagsFolderFullPath, "Background.png");
+            if (File.Exists(p))
+                BackgroundLayer = new Bitmap(p);
+            else
+                BackgroundLayer = null;
+
+            p = Path.Combine(tagsFolderFullPath, "Custom_Tags.png");
+            if (File.Exists(p))
+                CustomTagsLayer = new Bitmap(p);
+            else
+                CustomTagsLayer = null;
+
+            p = Path.Combine(tagsFolderFullPath, "DD.png");
             if (!File.Exists(p))
                 p = Path.Combine(Constants.TaggerTemplatesFolder, "DD.png");
-
             if (File.Exists(p))
                 DDLayer = new Bitmap(p);
             else
                 DDLayer = null;
 
-            p = Path.Combine(tagsFolderFullPath, "Background.png");
+            p = Path.Combine(tagsFolderFullPath, "Bass.png");
             if (File.Exists(p))
-                backgroundLayer = new Bitmap(p);
+                BassLayer = new Bitmap(p);
             else
-                backgroundLayer = null;
+                BassLayer = null;
 
-            p = Path.Combine(tagsFolderFullPath, "Custom.png");
+            p = Path.Combine(tagsFolderFullPath, "Bass_Bonus.png");
             if (File.Exists(p))
-                customTagLayer = new Bitmap(p);
+                BassBonusLayer = new Bitmap(p);
             else
-                customTagLayer = null;
-
-            p = Path.Combine(tagsFolderFullPath, "Vocal.png");
-            if (File.Exists(p))
-                vocalLayer = new Bitmap(p);
-            else
-                vocalLayer = null;
+                BassBonusLayer = null;
 
             p = Path.Combine(tagsFolderFullPath, "Lead.png");
             if (File.Exists(p))
-                leadLayer = new Bitmap(p);
+                LeadLayer = new Bitmap(p);
             else
-                leadLayer = null;
+                LeadLayer = null;
+
+            p = Path.Combine(tagsFolderFullPath, "Lead_Bonus.png");
+            if (File.Exists(p))
+                LeadBonusLayer = new Bitmap(p);
+            else
+                LeadBonusLayer = null;
 
             p = Path.Combine(tagsFolderFullPath, "Rhythm.png");
             if (File.Exists(p))
-                rhythmLayer = new Bitmap(p);
+                RhythmLayer = new Bitmap(p);
             else
-                rhythmLayer = null;
+                RhythmLayer = null;
 
-            p = Path.Combine(tagsFolderFullPath, "Bass.png");
+            p = Path.Combine(tagsFolderFullPath, "Rhythm_Bonus.png");
             if (File.Exists(p))
-                bassLayer = new Bitmap(p);
+                RhythmBonusLayer = new Bitmap(p);
             else
-                bassLayer = null;
+                RhythmBonusLayer = null;
 
-            p = Path.Combine(tagsFolderFullPath, "Lead Bonus.png");
+            p = Path.Combine(tagsFolderFullPath, "Vocals.png");
             if (File.Exists(p))
-                leadBonusLayer = new Bitmap(p);
+                VocalLayer = new Bitmap(p);
             else
-                leadBonusLayer = null;
+                VocalLayer = null;
 
-            p = Path.Combine(tagsFolderFullPath, "Rhythm Bonus.png");
+            // Rating Layers
+            p = Path.Combine(tagsFolderFullPath, "Custom_Stars.png");
             if (File.Exists(p))
-                rhythmBonusLayer = new Bitmap(p);
+                CustomStarsLayer = new Bitmap(p);
             else
-                rhythmBonusLayer = null;
-
-            p = Path.Combine(tagsFolderFullPath, "Bass Bonus.png");
+                CustomStarsLayer = null;
+            p = Path.Combine(tagsFolderFullPath, "Stars_1.png");
             if (File.Exists(p))
-                bassBonusLayer = new Bitmap(p);
+                Stars1Layer = new Bitmap(p);
             else
-                bassBonusLayer = null;
+                Stars1Layer = null;
+            p = Path.Combine(tagsFolderFullPath, "Stars_2.png");
+            if (File.Exists(p))
+                Stars2Layer = new Bitmap(p);
+            else
+                Stars2Layer = null;
+            p = Path.Combine(tagsFolderFullPath, "Stars_3.png");
+            if (File.Exists(p))
+                Stars3Layer = new Bitmap(p);
+            else
+                Stars3Layer = null;
+            p = Path.Combine(tagsFolderFullPath, "Stars_4.png");
+            if (File.Exists(p))
+                Stars4Layer = new Bitmap(p);
+            else
+                Stars4Layer = null;
+            p = Path.Combine(tagsFolderFullPath, "Stars_5.png");
+            if (File.Exists(p))
+                Stars5Layer = new Bitmap(p);
+            else
+                Stars5Layer = null;
         }
 
         private void ClearImages()
         {
-            if (backgroundLayer != null)
+            if (BackgroundLayer != null)
             {
-                backgroundLayer.Dispose();
-                backgroundLayer = null;
+                BackgroundLayer.Dispose();
+                BackgroundLayer = null;
             }
-            if (customTagLayer != null)
+            if (CustomTagsLayer != null)
             {
-                customTagLayer.Dispose();
-                customTagLayer = null;
+                CustomTagsLayer.Dispose();
+                CustomTagsLayer = null;
             }
-            if (vocalLayer != null)
+            if (VocalLayer != null)
             {
-                vocalLayer.Dispose();
-                vocalLayer = null;
+                VocalLayer.Dispose();
+                VocalLayer = null;
             }
-            if (leadLayer != null)
+            if (LeadLayer != null)
             {
-                leadLayer.Dispose();
-                leadLayer = null;
+                LeadLayer.Dispose();
+                LeadLayer = null;
             }
-            if (rhythmLayer != null)
+            if (RhythmLayer != null)
             {
-                rhythmLayer.Dispose();
-                rhythmLayer = null;
+                RhythmLayer.Dispose();
+                RhythmLayer = null;
             }
-            if (bassLayer != null)
+            if (BassLayer != null)
             {
-                bassLayer.Dispose();
-                bassLayer = null;
+                BassLayer.Dispose();
+                BassLayer = null;
             }
-            if (leadBonusLayer != null)
+            if (LeadBonusLayer != null)
             {
-                leadBonusLayer.Dispose();
-                leadBonusLayer = null;
+                LeadBonusLayer.Dispose();
+                LeadBonusLayer = null;
             }
-            if (rhythmBonusLayer != null)
+            if (RhythmBonusLayer != null)
             {
-                rhythmBonusLayer.Dispose();
-                rhythmBonusLayer = null;
+                RhythmBonusLayer.Dispose();
+                RhythmBonusLayer = null;
             }
-            if (bassBonusLayer != null)
+            if (BassBonusLayer != null)
             {
-                bassBonusLayer.Dispose();
-                bassBonusLayer = null;
+                BassBonusLayer.Dispose();
+                BassBonusLayer = null;
             }
             if (DDLayer != null)
             {
                 DDLayer.Dispose();
                 DDLayer = null;
+            }
+
+            if (CustomStarsLayer != null)
+            {
+                CustomStarsLayer.Dispose();
+                CustomStarsLayer = null;
+            }
+            if (Stars1Layer != null)
+            {
+                Stars1Layer.Dispose();
+                Stars1Layer = null;
+            }
+            if (Stars2Layer != null)
+            {
+                Stars2Layer.Dispose();
+                Stars2Layer = null;
+            }
+            if (Stars3Layer != null)
+            {
+                Stars3Layer.Dispose();
+                Stars3Layer = null;
+            }
+            if (Stars4Layer != null)
+            {
+                Stars4Layer.Dispose();
+                Stars4Layer = null;
+            }
+            if (Stars5Layer != null)
+            {
+                Stars5Layer.Dispose();
+                Stars5Layer = null;
             }
         }
 
