@@ -874,6 +874,7 @@ namespace CustomsForgeSongManager.UControls
             Globals.DgvCurrent = dgvArrangements;
             Globals.Log("Arrangements GUI Activated ...");
             chkIncludeSubfolders.Checked = AppSettings.Instance.IncludeSubfolders;
+            chkIncludeVocals.Checked = AppSettings.Instance.IncludeVocals;
 
             if (Globals.RescanArrangements && AppSettings.Instance.IncludeArrangementData)
                 RefreshDgv(true);
@@ -901,6 +902,7 @@ namespace CustomsForgeSongManager.UControls
         public void TabLeave()
         {
             AppSettings.Instance.IncludeSubfolders = chkIncludeSubfolders.Checked;
+            AppSettings.Instance.IncludeVocals = chkIncludeVocals.Checked;
             Globals.Settings.SaveSettingsToFile(dgvArrangements);
             Globals.Log("Arrangements GUI Deactivated ...");
         }

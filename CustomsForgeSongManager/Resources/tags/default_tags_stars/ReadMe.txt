@@ -3,6 +3,8 @@ Tagger_Example.psd Usage:
 
 Use Tagger_Example.psd as the template for new Tags and Ratings
 256 x 256 pixels, 72 pixels/inch, transparent background images
+Tags are positioned on album artwork background to minimize
+obscuring original album title and any other album cover text
 
 Rating Template Naming Format/Order (Top-most to Bottom-most):
 ==============================================================

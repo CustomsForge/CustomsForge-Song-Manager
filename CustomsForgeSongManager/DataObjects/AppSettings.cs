@@ -42,6 +42,7 @@ namespace CustomsForgeSongManager.DataObjects
         private bool _sortAscending = true;
         private bool _includeSubfolders;
         private bool _protectODLC;
+        private bool _includeVocals;
         private DateTime _lastODLCCheckDate;
         private RepairOptions _repairOptions;
 
@@ -248,6 +249,12 @@ namespace CustomsForgeSongManager.DataObjects
             set { SetPropertyField("ProtectODLC", ref _protectODLC, value); }
         }
 
+        public bool IncludeVocals
+        {
+            get { return _includeVocals; }
+            set { SetPropertyField("IncludeVocals", ref _includeVocals, value); }
+        }
+
         [XmlArray("CustomSettings")] // provides proper xml serialization
         [XmlArrayItem("CustomSetting")] // provides proper xml serialization
         public List<CustomSetting> CustomSettings { get; set; }
@@ -349,6 +356,7 @@ namespace CustomsForgeSongManager.DataObjects
             Instance.RepairOptions = new RepairOptions();
             Instance.ProtectODLC = true;
             Instance.IncludeSubfolders = true;
+            Instance.IncludeVocals = false;
 
             if (String.IsNullOrEmpty(Instance.RSInstalledDir))
                 Instance.RSInstalledDir = LocalExtensions.GetSteamDirectory();
