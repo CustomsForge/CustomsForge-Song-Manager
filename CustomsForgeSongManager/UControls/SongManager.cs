@@ -1963,7 +1963,7 @@ namespace CustomsForgeSongManager.UControls
             }
 
             // start new generic worker
-            DoWork(Constants.GWORKER_TAG, Constants.Rs2DlcFolder, selection, false);
+            DoWork(Constants.GWORKER_ORGANIZE, Constants.Rs2DlcFolder, selection, false);
             dgvSongsMaster.Refresh();
         }
 
@@ -2006,7 +2006,7 @@ namespace CustomsForgeSongManager.UControls
                 return;
 
             // start new generic worker
-            DoWork(Constants.GWORKER_TAG, Constants.Rs2DlcFolder, selection, true);
+            DoWork(Constants.GWORKER_ORGANIZE, Constants.Rs2DlcFolder, selection, true);
             dgvSongsMaster.Refresh();
         }
 

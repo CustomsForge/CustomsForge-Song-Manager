@@ -14,6 +14,9 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.4.8.2
+- hotfix Constants typo
+
 1.4.8.1
 - improved appearance of UserInputForm so that it auto sizes to fit contents
 - fixed Tagger progress display and added tagged file display counter
@@ -25,7 +28,7 @@ CFSM Release Notes
 - modified default Tagger positioning on album artwork to minimize
   obscuring original album cover text
 
-  1.4.7.9
+1.4.7.9
 - added 'BPM Change Count', 'Time Signature Change Count', as well as 'Min'
   and 'Max BPM' to Analyzer   
 
