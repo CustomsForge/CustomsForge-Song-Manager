@@ -8,7 +8,7 @@ obscuring original album title and any other album cover text
 
 Rating Template Naming Format/Order (Top-most to Bottom-most):
 ==============================================================
-Stars 1 = One Stars
+Stars 1 = One Star
 Stars 2 = Two Stars
 Stars 3 = Three Stars
 Stars 4 = Four Stars

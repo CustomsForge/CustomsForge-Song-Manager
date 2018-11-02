@@ -1689,6 +1689,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiModsTagArtwork.RadioButtonGroupName = null;
             this.tsmiModsTagArtwork.Size = new System.Drawing.Size(203, 22);
             this.tsmiModsTagArtwork.Text = "Tag Album Artwork";
+            this.tsmiModsTagArtwork.ToolTipText = "Note: CFSM does not tag ODLC.";
             this.tsmiModsTagArtwork.Click += new System.EventHandler(this.tsmiModsTagArtwork_Click);
             // 
             // tsmiModsUntagArtwork

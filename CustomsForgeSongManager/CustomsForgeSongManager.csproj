@@ -480,6 +480,8 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\tags\default_tags_stars\info.txt" />
+    <EmbeddedResource Include="Resources\tags\default_stars\info.txt" />
     <EmbeddedResource Include="Resources\tags\default_stars\Background.png" />
     <EmbeddedResource Include="Resources\tags\default_stars\Custom_Stars.png" />
     <EmbeddedResource Include="Resources\tags\default_stars\Stars_1.png" />

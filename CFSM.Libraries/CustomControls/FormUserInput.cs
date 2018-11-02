@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Drawing;
 
+
 namespace CustomControls
 {
     public partial class FormUserInput : Form
@@ -73,13 +74,33 @@ namespace CustomControls
 
         private void FormUserInput_Load(object sender, EventArgs e)
         {
-            // autoadjust the width of the UserInput form
-            Font f = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular);
+            // auto adjust the width and height of the UserInput form
+            //int lineCount = 1;
+            //int len = lblCustomInput.Text.Length;
+
+            //for (int i = 0; i < len; i++)
+            //{
+            //    switch (lblCustomInput.Text[i])
+            //    {
+            //        case '\r':
+            //            lineCount++;
+            //            if (i + 1 != len && lblCustomInput.Text[i + 1] == '\n')
+            //                i++;
+            //            break;
+            //        case '\n':
+            //            lineCount++;
+            //            break;
+            //    }
+            //}
+
+            Font f = new Font("Microsoft Sans Serif", 10F, FontStyle.Regular);
             Bitmap b = new Bitmap(2200, 2200);
             Graphics g = Graphics.FromImage(b);
             SizeF sizeOfString = new SizeF();
             sizeOfString = g.MeasureString(lblCustomInput.Text, f);
             this.Width = (int)sizeOfString.Width;
+            // sizeOfString.Height smartly accounts for the number of lines
+            this.Height += (int)sizeOfString.Height - 15; // minus approx height of one line
         }
 
         private void btnOk_Click(object sender, System.EventArgs e)
@@ -87,8 +108,6 @@ namespace CustomControls
             this.DialogResult = DialogResult.OK;
             Close();
         }
-
-        #region Class Methods
 
         public static string ValidateProfileId(string userInput)
         {
@@ -110,6 +129,5 @@ namespace CustomControls
             return okOutput;
         }
 
-        #endregion
     }
 }

@@ -37,7 +37,7 @@ namespace CustomsForgeSongManager.Forms
                 rtbText.LoadFile(streamRtfNotes, RichTextBoxStreamType.RichText);
             }
         }
-      
+
         public void PopulateAsciiText(string textNotes = "")
         {
             if (String.IsNullOrEmpty(textNotes))
@@ -112,8 +112,21 @@ namespace CustomsForgeSongManager.Forms
             }
         }
 
-
-
+        public static void ViewExternalImageFile(string filePath, string windowText = "")
+        {
+            using (Form f = new Form())
+            {
+                f.Text = windowText;
+                f.StartPosition = FormStartPosition.CenterParent;
+                f.ShowIcon = false;
+                f.MaximizeBox = false;
+                f.MinimizeBox = false;
+                f.AutoSize = true;
+                PictureBox pb = new PictureBox() { SizeMode = PictureBoxSizeMode.CenterImage, Dock = DockStyle.Fill, Image = new Bitmap(filePath) };
+                f.Controls.Add(pb);
+                f.ShowDialog();
+            }
+        }
 
     }
 }

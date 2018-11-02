@@ -14,6 +14,8 @@ using CFSM.ImageTools;
 using CFSM.NCalc;
 using RocksmithToolkitLib.DLCPackage;
 using RocksmithToolkitLib.Extensions;
+using System.Diagnostics;
+using CustomsForgeSongManager.Forms;
 
 namespace CustomsForgeSongManager.LocalTools
 {
@@ -48,12 +50,11 @@ namespace CustomsForgeSongManager.LocalTools
             Populate();
         }
 
-        public event EventHandler<TaggerProgress> OnProgress;
-
         private void Populate()
         {
-            // for debugging (always start fresh)
-            GenExtensions.DeleteDirectory(Constants.TaggerWorkingFolder);
+            // start fresh for debugging
+            if (Constants.DebugMode)
+                GenExtensions.DeleteDirectory(Constants.TaggerWorkingFolder);
 
             if (!Directory.Exists(Constants.TaggerTemplatesFolder) || GenExtensions.IsDirectoryEmpty(Constants.TaggerTemplatesFolder) || !File.Exists(Path.Combine(Constants.TaggerTemplatesFolder, "Default.tagtheme")))
                 CreateDefaultFolders();
@@ -85,22 +86,28 @@ namespace CustomsForgeSongManager.LocalTools
 
         public string ThemeName { get; set; }
 
-        public Image GetThemePreview(string themeName)
+        /// <summary>
+        /// Opens the Tagger Theme *_prev.png file
+        /// </summary>
+        /// <param name="themeName"></param>
+        /// <returns></returns>
+        public void GetThemePreview(string themeName)
         {
-            string preview = Path.Combine(Constants.TaggerTemplatesFolder, themeName, "prev.png");
-            if (File.Exists(preview))
-                return Bitmap.FromFile(preview);
-
-            return null;
+            var previewPath = Path.Combine(Constants.TaggerTemplatesFolder, themeName) + "_prev.png";
+            if (File.Exists(previewPath))
+                frmNoteViewer.ViewExternalImageFile(previewPath, "Tag Example: " + themeName);
         }
 
-        public string GetThemeText(string themeName)
+        /// <summary>
+        /// Opens the Tagger Theme info.txt file
+        /// </summary>
+        /// <param name="themeName"></param>
+        /// <returns></returns>
+        public void GetThemeInfo(string themeName)
         {
-            string info = Path.Combine(Constants.TaggerTemplatesFolder, themeName, "info.txt");
-            if (File.Exists(info))
-                return File.ReadAllText(info);
-
-            return string.Empty;
+            var infoPath = Path.Combine(Constants.TaggerTemplatesFolder, themeName, "info.txt");
+            if (File.Exists(infoPath))
+                frmNoteViewer.ViewExternalFile(infoPath, "Tag Theme Info: " + themeName);
         }
 
         public Image Preview(SongData sd, string themeName = "")
@@ -174,13 +181,14 @@ namespace CustomsForgeSongManager.LocalTools
                 "attempt to fix the error.  Please try tagger again.  ", "Album Artwork Tagger", MessageBoxButtons.OK, MessageBoxIcon.Hand);
         }
 
-        private string tagsFolderFullPath
+        private string TagsFolderFullPath
         {
             get
             {
                 var xTheme = XmlThemes.Find(x => x.Name == ThemeName);
                 if (xTheme != null)
                     return xTheme.Folder;
+
                 return Path.Combine(Constants.TaggerTemplatesFolder, ThemeName);
             }
         }
@@ -235,7 +243,7 @@ namespace CustomsForgeSongManager.LocalTools
             }
 
             SongTaggerTheme tt = null;
-            var ttpath = tagsFolderFullPath;
+            var ttpath = TagsFolderFullPath;
             if (xTheme != null)
             {
                 using (FileStream fs1 = File.OpenRead(Path.Combine(xTheme.Folder, xTheme.Name + ".tagtheme")))
@@ -328,12 +336,10 @@ namespace CustomsForgeSongManager.LocalTools
             if (ThemeName == String.Empty)
                 ThemeName = DefaultThemeName;
 
-            if (!Directory.Exists(Constants.TaggerTemplatesFolder) || !Directory.Exists(tagsFolderFullPath))
+            if (!Directory.Exists(Constants.TaggerTemplatesFolder) || !Directory.Exists(TagsFolderFullPath))
                 CreateDefaultFolders();
 
             var xTheme = XmlThemes.Find(x => x.Name == ThemeName);
-
-            //   songTagged = songTagged || File.GetCreationTime(song.Path) == new DateTime(1990, 1, 1) ? true : false;
 
             if (File.Exists(song.FilePath)) //Just to be sure :)
             {
@@ -362,7 +368,7 @@ namespace CustomsForgeSongManager.LocalTools
 
                         var toolKitEntry = archive.TOC.FirstOrDefault(entry => entry.Name == "toolkit.version");
 
-                        // CFSM does not tag Official DLC songs
+                        // do not tag Official DLC songs
                         if (!AllowEditingOfODLC && toolKitEntry == null)
                         {
                             Globals.Log("CFSM can not be used to tag Official DLC songs.");
@@ -375,7 +381,6 @@ namespace CustomsForgeSongManager.LocalTools
                         var albumBigArtEntry = archive.TOC.FirstOrDefault(entry => entry.Name.EndsWith("256.dds"));
                         albumBigArtEntry.Data.Position = 0;
 
-                        //var albumArtDDS = new DDSImage(albumBigArtEntry.Data);
                         var bigAlbumArt = ImageExtensions.DDStoBitmap(albumBigArtEntry.Data); // albumArtDDS.images[0];
                         var orginalArtStream = new MemoryStream();
                         albumBigArtEntry.Data.Position = 0;
@@ -383,7 +388,7 @@ namespace CustomsForgeSongManager.LocalTools
                         orginalArtStream.Position = 0;
 
                         //Check which arrangements it contains
-                        TagDrawImage(song, images, xTheme, archive, bigAlbumArt, tagsFolderFullPath);
+                        TagDrawImage(song, images, xTheme, archive, bigAlbumArt, TagsFolderFullPath);
 
                         var largeDDS = bigAlbumArt.ToDDS(256, 256);
                         var midDDS = bigAlbumArt.ToDDS(128, 128);
@@ -404,7 +409,7 @@ namespace CustomsForgeSongManager.LocalTools
                         largeDDS.Position = 0;
                         albumBigArtEntry.Data = largeDDS;
 
-                        //     archive.TOC.Insert(0, new Entry() { Name = "NamesBlock.bin" });
+                        // archive.TOC.Insert(0, new Entry() { Name = "NamesBlock.bin" });
                         archive.AddEntry("tagger.org", orginalArtStream);
                         songPath = song.FilePath;
 
@@ -414,12 +419,9 @@ namespace CustomsForgeSongManager.LocalTools
                         song.FilePath = songPath;
                         song.FileDate = File.GetLastWriteTimeUtc(song.FilePath);
                         song.Tagged = SongTaggerStatus.True;
-
-                        //  counter++;
-                        //  gbTags.Text = string.Format("Tagged: {0}/{1}", counter, songCount);                            
                     }
 
-                    Globals.Log("Finished tagging song ...");
+                    // Globals.Log("Finished tagging song ...");
                 }
                 catch (Exception ex)
                 {
@@ -433,7 +435,7 @@ namespace CustomsForgeSongManager.LocalTools
 
         public void TagSong(SongData song)
         {
-            using (var images = new BitmapHolder(tagsFolderFullPath))
+            using (var images = new BitmapHolder(TagsFolderFullPath))
                 TagSong(song, images);
         }
 
@@ -466,7 +468,7 @@ namespace CustomsForgeSongManager.LocalTools
                 }
 
                 song.Tagged = SongTaggerStatus.False;
-                Globals.Log("Finished untagging song ...");
+                // Globals.Log("Finished untagging song ...");
             }
         }
 
@@ -493,52 +495,50 @@ namespace CustomsForgeSongManager.LocalTools
             }
         }
 
-        public void TagSongs(SongData[] songs)
+        public void TagUntagSongs(List<SongData> selectedSongs, bool isUnTag = false)
         {
-            if (songs == null || songs.Length == 0)
+            if (!selectedSongs.Any())
                 return;
 
-            TaggerProgress tp = new TaggerProgress(0, songs.Length);
-            using (var images = new BitmapHolder(tagsFolderFullPath))
-                for (int i = 0; i < songs.Length; i++)
+            if (!isUnTag)
+                Globals.Log("Tagging selected CDLC files ...");
+            else
+                Globals.Log("Untagging selected CDLC files ...");
+
+            var total = selectedSongs.Count(); // (sd => !sd.IsODLC);
+            int processed = 0, failed = 0, skipped = 0;
+            GenericWorker.InitReportProgress();
+
+            using (var images = new BitmapHolder(TagsFolderFullPath))
+            {
+                foreach (var song in selectedSongs)
                 {
-                    if (OnProgress != null)
+                    processed++;
+                    GenericWorker.ReportProgress(processed, total, skipped, failed);
+
+                    // skip ODLC
+                    if (song.IsODLC)
                     {
-                        tp.SetPos(i);
-                        tp.CurrentSong = songs[i];
-                        OnProgress(this, tp);
+                        skipped++;
+                        continue;
                     }
-                    TagSong(songs[i], images);
+
+                    try
+                    {
+                        if (isUnTag)
+                            UntagSong(song);
+                        else
+                            TagSong(song, images);
+                    }
+                    catch (Exception ex)
+                    {
+                        failed++;
+                        Debug.WriteLine(String.Format("<ERROR>: Could not {0} CDLC file {1}", isUnTag ? "UnTag" : "Tag", song.FileName + Environment.NewLine + ex.Message));
+                    }
                 }
-            if (OnProgress != null)
-            {
-                tp.SetPos(songs.Length);
-                OnProgress(this, tp);
             }
-        }
 
-        public void UntagSongs(SongData[] songs)
-        {
-            if (songs == null || songs.Length == 0)
-                return;
-
-            TaggerProgress tp = new TaggerProgress(0, songs.Length);
-            for (int i = 0; i < songs.Length; i++)
-            {
-                if (OnProgress != null)
-                {
-                    tp.SetPos(i);
-                    tp.CurrentSong = songs[i];
-                    OnProgress(this, tp);
-                }
-
-                UntagSong(songs[i]);
-            }
-            if (OnProgress != null)
-            {
-                tp.SetPos(songs.Length);
-                OnProgress(this, tp);
-            }
+            GenericWorker.ReportProgress(processed, total, skipped, failed);
         }
     }
 
@@ -621,6 +621,7 @@ namespace CustomsForgeSongManager.LocalTools
                 w = Convert.ToInt32(x[2]);
             if (x.Count() > 3)
                 h = Convert.ToInt32(x[3]);
+
             return new Rectangle(left, top, w, h);
         }
 
@@ -749,6 +750,7 @@ namespace CustomsForgeSongManager.LocalTools
         {
             if (Size.X > -1 && Size.Y > -1)
                 g.SetClip(new Rectangle(0, 0, Size.X, Size.Y));
+
             Instructions.ForEach(d =>
                 {
                     if (d.CanDraw())
@@ -758,6 +760,7 @@ namespace CustomsForgeSongManager.LocalTools
                         d.AfterDraw(g, b);
                     }
                 });
+
             if (Size.X > -1 && Size.Y > -1)
                 g.ResetClip();
         }
@@ -853,11 +856,13 @@ namespace CustomsForgeSongManager.LocalTools
                 return true;
 
             var e = new Expression(Condition.Trim());
+
             try
             {
                 Dictionary<string, object> template = GetTemplateDict();
                 foreach (var x in template)
                     e.Parameters.Add(x.Key, x.Value);
+
                 e.Parameters["dd"] = Data.DD > 0;
                 e.Parameters.Add("Data", Data);
 
@@ -1375,30 +1380,6 @@ namespace CustomsForgeSongManager.LocalTools
     #endregion
 
     #endregion
-
-    public class TaggerProgress : EventArgs
-    {
-        private int max;
-
-        public TaggerProgress(int Current, int Max)
-        {
-            max = Max;
-            SetCurMax(Current, Max);
-        }
-
-        public SongData CurrentSong { get; set; }
-        public int Progress { get; private set; }
-
-        public void SetCurMax(int Current, int Max)
-        {
-            this.Progress = (Current / Max) * 100;
-        }
-
-        public void SetPos(int Current)
-        {
-            SetCurMax(Current, max);
-        }
-    }
 
     internal sealed class BitmapHolder : IDisposable
     {

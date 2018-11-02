@@ -623,37 +623,57 @@ namespace CustomsForgeSongManager.UControls
 
             foreach (string tagPreview in Globals.Tagger.Themes)
             {
-                var tsi = cmsTaggerPreview.DropDownItems.Add(tagPreview);
-                tsi.Click += (s, e) =>
+                var tsmi = new ToolStripEnhancedMenuItem();
+                tsmi.Name = tagPreview;
+                tsmi.Text = tagPreview;
+                tsmi.ToolTipText = "Left Mouse Click to preview tagged album arwork." + Environment.NewLine +
+                                   "Right Mouse Click to see tag template information." + Environment.NewLine +
+                                   "Ctrl + Right Mouse Click to see tag example image.";
+
+                cmsTaggerPreview.DropDownItems.Add(tsmi);
+
+                tsmi.MouseUp += (s, e) =>
                 {
-                    // apply rating star updates before tag preview
-                    if (Globals.Tagger.ThemeName.Contains("_stars"))
-                        if (Globals.PackageRatingNeedsUpdate && !Globals.UpdateInProgress)
-                            PackageDataTools.UpdatePackageRating();
-
-                    var sd = DgvExtensions.GetObjectFromFirstSelectedRow<SongData>(dgvSongsMaster);
-                    if (sd != null)
+                    // get/show tag theme preview or info
+                    if (e.Button == MouseButtons.Right)
                     {
-                        var tagTheme = ((ToolStripItem)s).Text;
-                        var img = Globals.Tagger.Preview(sd, tagTheme);
-
-                        if (img != null)
-                        {
-                            using (Form f = new Form())
-                            {
-                                f.Text = "Tag Theme Preview: " + tagTheme;
-                                f.StartPosition = FormStartPosition.CenterParent;
-                                f.ShowIcon = false;
-                                f.MaximizeBox = false;
-                                f.MinimizeBox = false;
-                                f.AutoSize = true;
-                                PictureBox pb = new PictureBox() { SizeMode = PictureBoxSizeMode.CenterImage, Dock = DockStyle.Fill, Image = img };
-                                f.Controls.Add(pb);
-                                f.ShowDialog(this.FindForm());
-                            }
-                        }
+                        if (ModifierKeys == Keys.Control)
+                            Globals.Tagger.GetThemePreview(tsmi.Text);
                         else
-                            Globals.Log(String.Format("<Error>: Previewing '{0}' ...", sd.Title));
+                            Globals.Tagger.GetThemeInfo(tsmi.Text);
+
+                    }
+                    else // get/show actual album artwork tag preview
+                    {
+                        // apply rating star updates before tag preview
+                        if (Globals.Tagger.ThemeName.Contains("_stars"))
+                            if (Globals.PackageRatingNeedsUpdate && !Globals.UpdateInProgress)
+                                PackageDataTools.UpdatePackageRating();
+
+                        var sd = DgvExtensions.GetObjectFromFirstSelectedRow<SongData>(dgvSongsMaster);
+                        if (sd != null)
+                        {
+                            var tagTheme = ((ToolStripItem)s).Text;
+                            var img = Globals.Tagger.Preview(sd, tagTheme);
+
+                            if (img != null)
+                            {
+                                using (Form f = new Form())
+                                {
+                                    f.Text = "Tag Theme Preview: " + tagTheme;
+                                    f.StartPosition = FormStartPosition.CenterParent;
+                                    f.ShowIcon = false;
+                                    f.MaximizeBox = false;
+                                    f.MinimizeBox = false;
+                                    f.AutoSize = true;
+                                    PictureBox pb = new PictureBox() { SizeMode = PictureBoxSizeMode.CenterImage, Dock = DockStyle.Fill, Image = img };
+                                    f.Controls.Add(pb);
+                                    f.ShowDialog(this.FindForm());
+                                }
+                            }
+                            else
+                                Globals.Log(String.Format("<Error>: Previewing '{0}' ...", sd.Title));
+                        }
                     }
                 };
             }
@@ -834,7 +854,9 @@ namespace CustomsForgeSongManager.UControls
             var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvCurrent);
             if (!selection.Any())
             {
-                MessageBox.Show("Please select the checkbox next to song(s)." + Environment.NewLine + "First left mouse click the select checkbox and" + Environment.NewLine + "then right mouse click to quickly Enable/Disable.  ", Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Please select the checkbox next to song(s)." + Environment.NewLine +
+                                "First left mouse click the select checkbox and" + Environment.NewLine +
+                                "then right mouse click to quickly Enable/Disable.  ", Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
 
@@ -1126,12 +1148,6 @@ namespace CustomsForgeSongManager.UControls
             tsmiMods.ShowDropDown();
             tsmiTagStyle.ShowDropDown();
             menuStrip.Focus();
-        }
-
-        private void TaggerProgress(object sender, TaggerProgress e)
-        {
-            Globals.TsProgressBar_Main.Value = e.Progress;
-            Application.DoEvents();
         }
 
         private void chkIncludeSubfolders_MouseUp(object sender, MouseEventArgs e)
@@ -1947,7 +1963,7 @@ namespace CustomsForgeSongManager.UControls
             }
 
             // start new generic worker
-            DoWork(Constants.GWORKER_ORGANIZE, Constants.Rs2DlcFolder, selection, false);
+            DoWork(Constants.GWORKER_TAG, Constants.Rs2DlcFolder, selection, false);
             dgvSongsMaster.Refresh();
         }
 
@@ -1990,7 +2006,7 @@ namespace CustomsForgeSongManager.UControls
                 return;
 
             // start new generic worker
-            DoWork(Constants.GWORKER_ORGANIZE, Constants.Rs2DlcFolder, selection, true);
+            DoWork(Constants.GWORKER_TAG, Constants.Rs2DlcFolder, selection, true);
             dgvSongsMaster.Refresh();
         }
 
@@ -2078,25 +2094,17 @@ namespace CustomsForgeSongManager.UControls
                 return;
             }
 
-            // should not occure because tagger is defaulting to a theme
+            // should not occure because tagger has default theme
             if (String.IsNullOrEmpty(Globals.Tagger.ThemeName))
             {
                 MessageBox.Show("Please select a tag style first");
                 return;
             }
 
-            Globals.Tagger.OnProgress += TaggerProgress;
-            try
-            {
-                Globals.Tagger.TagSongs(selection.ToArray());
-            }
-            finally
-            {
-                Globals.Tagger.OnProgress -= TaggerProgress;
-                // force dgvSongsMaster data to refresh after Tagging
-                GetGrid().Invalidate();
-                GetGrid().Refresh();
-            }
+            DoWork(Constants.GWORKER_TAG, selection, false);
+            // force dgvSongsMaster data to refresh after Tagging
+            GetGrid().Invalidate();
+            GetGrid().Refresh();
         }
 
         private void tsmiModsTheMover_CheckStateChanged(object sender, EventArgs e)
@@ -2134,18 +2142,10 @@ namespace CustomsForgeSongManager.UControls
                 return;
             }
 
-            Globals.Tagger.OnProgress += TaggerProgress;
-            try
-            {
-                Globals.Tagger.UntagSongs(selection.ToArray());
-            }
-            finally
-            {
-                Globals.Tagger.OnProgress -= TaggerProgress;
-                // force dgvSongsMaster data to refresh after Untagging
-                GetGrid().Invalidate();
-                GetGrid().Refresh();
-            }
+            DoWork(Constants.GWORKER_UNTAG, selection, true);
+            // force dgvSongsMaster data to refresh after Untagging
+            GetGrid().Invalidate();
+            GetGrid().Refresh();
         }
 
         private void tsmiRepairsPreserveStats_Click(object sender, EventArgs e)
@@ -2229,9 +2229,12 @@ namespace CustomsForgeSongManager.UControls
             var secsPerSong = (float)Math.Round(psarcFactor / (processorSpeed * coreCount * osMajor), 2);
             var songsCount = songList.Count;
             var secsEPT = songsCount * secsPerSong; // estimated pasing time (secs)
-            var diaMsg = "You are about to run a full rescan of (" + songsCount + ") songs." + Environment.NewLine + "Operation will take approximately (" + secsEPT + ") seconds  " + Environment.NewLine + "to complete." + Environment.NewLine + Environment.NewLine + "Do you want to proceed?";
+            var diaMsg = "You are about to run a full rescan of (" + songsCount + ") songs." + Environment.NewLine +
+                         "Operation will take approximately (" + secsEPT + ") seconds  " + Environment.NewLine +
+                         "to complete." + Environment.NewLine + Environment.NewLine +
+                         "Do you want to proceed?";
 
-            if (DialogResult.No == BetterDialog2.ShowDialog(diaMsg, "Full Rescan", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Question.Handle), "INFO", 0, 150))
+            if (DialogResult.Yes != BetterDialog2.ShowDialog(diaMsg, "Full Rescan", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Question.Handle), "INFO", 0, 150))
                 return;
 
             Globals.Log("OS Version: " + osMajor);

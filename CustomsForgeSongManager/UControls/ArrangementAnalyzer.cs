@@ -832,9 +832,10 @@ namespace CustomsForgeSongManager.UControls
             var secsEPT = songsCount * secsPerSong; // estimated pasing time (secs)
             var diaMsg = "You are about to run a full rescan of (" + songsCount + ") songs." + Environment.NewLine +
                          "Operation will take approximately (" + secsEPT + ") seconds  " + Environment.NewLine +
-                         "to complete." + Environment.NewLine + Environment.NewLine + "Do you want to proceed?";
+                         "to complete." + Environment.NewLine + Environment.NewLine + 
+                         "Do you want to proceed?";
 
-            if (DialogResult.No == BetterDialog2.ShowDialog(diaMsg, "Full Rescan", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Question.Handle), "INFO", 0, 150))
+            if (DialogResult.Yes != BetterDialog2.ShowDialog(diaMsg, "Full Rescan", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Question.Handle), "INFO", 0, 150))
                 return;
 
             Globals.Log("OS Version: " + osMajor);
@@ -918,7 +919,8 @@ namespace CustomsForgeSongManager.UControls
 
             using (var userInput = new FormUserInput(false))
             {
-                userInput.CustomInputLabel = "Enter BPM difference (number only) that will trigger BPM change counter";
+                userInput.CustomInputLabel = "Enter BPM difference as an integer" + Environment.NewLine +
+                                             "that will trigger BPM change counter";
                 userInput.FrmHeaderText = "Change BPM change threshold ...";
                 userInput.CustomInputText = Convert.ToString(AppSettings.Instance.BPMThreshold);
 
@@ -929,13 +931,18 @@ namespace CustomsForgeSongManager.UControls
                     return;
             }
 
-            AppSettings.Instance.BPMThreshold = newThreshold;
-
-            string diaMsg = "In order for this changes to take effect, you will have to do a full rescan. Do you want to proceed?";
-
-            if (DialogResult.No == BetterDialog2.ShowDialog(diaMsg, "Full Rescan", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Question.Handle), "INFO", 0, 150))
+            // continue only if threshold has changed
+            if (AppSettings.Instance.BPMThreshold == newThreshold)
                 return;
 
+            var diaMsg = "In order for this changes to take effect, " + Environment.NewLine +
+                         "you will have to do a full rescan. " + Environment.NewLine + Environment.NewLine +
+                         "Do you want to proceed?";
+
+            if (DialogResult.Yes != BetterDialog2.ShowDialog(diaMsg, "Full Rescan", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Question.Handle), "INFO", 0, 150))
+                return;
+
+            AppSettings.Instance.BPMThreshold = newThreshold;
             RefreshDgv(true);
         }
     }

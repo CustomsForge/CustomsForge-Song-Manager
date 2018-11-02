@@ -1,0 +1,20 @@
+Rating Tags Info:
+=============================
+Stars 1 = One Star
+Stars 2 = Two Stars
+Stars 3 = Three Stars
+Stars 4 = Four Stars
+Stars 5 = Five Stars
+Custom Stars = Stars Purple Background
+
+Custom Tag Info:
+================
+Vocals = Yellow Stripe on Tag Bottom Boarder
+Rhythm Bonus = Rhythm Green Arrow Head with White Stripe
+Rhythm = Green Arrow Head
+Lead Bonus = Lead Orange Arrow Head with White Stripe
+Lead = Orange Arrow Head
+Bass Bonus = Bass Blue Arrow Head with White Stripe
+Bass = Blue Arrow Head
+DD = CDLC Purple Background with DD and White Board Around Tag (Optional)
+Custom Tags = CDLC Purple Background
