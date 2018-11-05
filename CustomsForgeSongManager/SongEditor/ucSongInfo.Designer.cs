@@ -33,7 +33,6 @@
             this.txtAlbumSort = new System.Windows.Forms.TextBox();
             this.label16 = new System.Windows.Forms.Label();
             this.cbLowBass = new System.Windows.Forms.CheckBox();
-            this.label15 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.txtCharter = new System.Windows.Forms.TextBox();
             this.txtKey = new System.Windows.Forms.TextBox();
@@ -73,7 +72,6 @@
             this.gbSongInfo.Controls.Add(this.txtAlbumSort);
             this.gbSongInfo.Controls.Add(this.label16);
             this.gbSongInfo.Controls.Add(this.cbLowBass);
-            this.gbSongInfo.Controls.Add(this.label15);
             this.gbSongInfo.Controls.Add(this.label14);
             this.gbSongInfo.Controls.Add(this.txtCharter);
             this.gbSongInfo.Controls.Add(this.txtKey);
@@ -141,16 +139,6 @@
                     "e low bass tuning fix.");
             this.cbLowBass.UseVisualStyleBackColor = true;
             // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.ForeColor = System.Drawing.SystemColors.ActiveCaption;
-            this.label15.Location = new System.Drawing.Point(292, 279);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(74, 13);
-            this.label15.TabIndex = 5;
-            this.label15.Text = "(Non Editable)";
-            // 
             // label14
             // 
             this.label14.AutoSize = true;
@@ -167,7 +155,6 @@
             // 
             this.txtCharter.Location = new System.Drawing.Point(102, 276);
             this.txtCharter.Name = "txtCharter";
-            this.txtCharter.ReadOnly = true;
             this.txtCharter.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtCharter.Size = new System.Drawing.Size(183, 20);
             this.txtCharter.TabIndex = 13;
@@ -529,7 +516,6 @@
         private System.Windows.Forms.TextBox txtKey;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.TextBox txtCharter;
-        private System.Windows.Forms.Label label15;
         private System.Windows.Forms.CheckBox cbLowBass;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.TextBox txtAlbumSort;

@@ -14,6 +14,10 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.4.8.3
+- added high quality default tags, ratings, and tags and ratings templates
+- improved Edit Song Information
+
 1.4.8.2
 - hotfix Constants typo
 

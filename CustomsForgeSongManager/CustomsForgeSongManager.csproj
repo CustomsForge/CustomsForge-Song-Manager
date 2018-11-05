@@ -408,6 +408,15 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Resources\tags\default_stars\Background.png" />
+    <EmbeddedResource Include="Resources\tags\default_stars\Custom_Stars.png" />
+    <EmbeddedResource Include="Resources\tags\default_stars\Default.tagtheme" />
+    <EmbeddedResource Include="Resources\tags\default_stars\info.txt" />
+    <EmbeddedResource Include="Resources\tags\default_stars\Stars_1.png" />
+    <EmbeddedResource Include="Resources\tags\default_stars\Stars_2.png" />
+    <EmbeddedResource Include="Resources\tags\default_stars\Stars_3.png" />
+    <EmbeddedResource Include="Resources\tags\default_stars\Stars_4.png" />
+    <EmbeddedResource Include="Resources\tags\default_stars\Stars_5.png" />
     <EmbeddedResource Include="SongEditor\frmArrangement.resx">
       <DependentUpon>frmArrangement.cs</DependentUpon>
     </EmbeddedResource>
@@ -480,35 +489,37 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\tags\default_tags_stars\info.txt" />
-    <EmbeddedResource Include="Resources\tags\default_stars\info.txt" />
-    <EmbeddedResource Include="Resources\tags\default_stars\Background.png" />
-    <EmbeddedResource Include="Resources\tags\default_stars\Custom_Stars.png" />
-    <EmbeddedResource Include="Resources\tags\default_stars\Stars_1.png" />
-    <EmbeddedResource Include="Resources\tags\default_stars\Stars_2.png" />
-    <EmbeddedResource Include="Resources\tags\default_stars\Stars_3.png" />
-    <EmbeddedResource Include="Resources\tags\default_stars\Stars_4.png" />
-    <EmbeddedResource Include="Resources\tags\default_stars\Stars_5.png" />
+    <EmbeddedResource Include="Resources\tags\default_stars_prev.png" />
+    <EmbeddedResource Include="Resources\tags\default_tags_prev.png" />
+    <EmbeddedResource Include="Resources\tags\default_tags_stars_prev.png" />
     <EmbeddedResource Include="Resources\tags\default_tags_stars\Background.png" />
     <EmbeddedResource Include="Resources\tags\default_tags_stars\Bass.png" />
     <EmbeddedResource Include="Resources\tags\default_tags_stars\Bass_Bonus.png" />
-    <EmbeddedResource Include="Resources\tags\default_tags_stars\Custom_Stars.png" />
-    <EmbeddedResource Include="Resources\tags\default_tags_stars\Custom_Tags.png" />
-    <EmbeddedResource Include="Resources\tags\default_tags_stars\DD.png" />
+    <EmbeddedResource Include="Resources\tags\default_tags_stars\Custom_Tags_Stars.png" />
+    <EmbeddedResource Include="Resources\tags\default_tags_stars\info.txt" />
     <EmbeddedResource Include="Resources\tags\default_tags_stars\Lead.png" />
     <EmbeddedResource Include="Resources\tags\default_tags_stars\Lead_Bonus.png" />
     <EmbeddedResource Include="Resources\tags\default_tags_stars\Photoshop-Export-Layers-to-Files-Fast\Export Layers To Files %28Fast%29.jsx" />
     <EmbeddedResource Include="Resources\tags\default_tags_stars\ReadMe.txt" />
     <EmbeddedResource Include="Resources\tags\default_tags_stars\Rhythm.png" />
-    <EmbeddedResource Include="Resources\tags\default_tags_stars\Rhythum_Bonus.png" />
+    <EmbeddedResource Include="Resources\tags\default_tags_stars\Rhythm_Bonus.png" />
     <EmbeddedResource Include="Resources\tags\default_tags_stars\Stars_1.png" />
     <EmbeddedResource Include="Resources\tags\default_tags_stars\Stars_2.png" />
     <EmbeddedResource Include="Resources\tags\default_tags_stars\Stars_3.png" />
     <EmbeddedResource Include="Resources\tags\default_tags_stars\Stars_4.png" />
     <EmbeddedResource Include="Resources\tags\default_tags_stars\Stars_5.png" />
     <EmbeddedResource Include="Resources\tags\default_tags_stars\Vocals.png" />
-    <EmbeddedResource Include="Resources\tags\default_stars_prev.png" />
-    <EmbeddedResource Include="Resources\tags\default_tags_stars_prev.png" />
+    <EmbeddedResource Include="Resources\tags\default_tags\Background.png" />
+    <EmbeddedResource Include="Resources\tags\default_tags\Bass.png" />
+    <EmbeddedResource Include="Resources\tags\default_tags\Bass_Bonus.png" />
+    <EmbeddedResource Include="Resources\tags\default_tags\Custom_Tags.png" />
+    <EmbeddedResource Include="Resources\tags\default_tags\info.txt" />
+    <EmbeddedResource Include="Resources\tags\default_tags\Lead.png" />
+    <EmbeddedResource Include="Resources\tags\default_tags\Lead_Bonus.png" />
+    <EmbeddedResource Include="Resources\tags\default_tags\ReadMe.txt" />
+    <EmbeddedResource Include="Resources\tags\default_tags\Rhythm.png" />
+    <EmbeddedResource Include="Resources\tags\default_tags\Rhythm_Bonus.png" />
+    <EmbeddedResource Include="Resources\tags\default_tags\Vocals.png" />
     <EmbeddedResource Include="Resources\tags\frack\Background.png" />
     <EmbeddedResource Include="Resources\tags\frack\Bass.png" />
     <EmbeddedResource Include="Resources\tags\frack\Bass_Bonus.png" />
@@ -614,13 +625,13 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\tags\zagatozee\Default.tagtheme" />
-    <EmbeddedResource Include="Resources\tags\default_stars\Default.tagtheme" />
+    <EmbeddedResource Include="Resources\tags\default_tags\Default.tagtheme" />
     <EmbeddedResource Include="Resources\tags\default_tags_stars\Default.tagtheme" />
     <EmbeddedResource Include="Resources\tags\default_tags_stars\Photoshop-Export-Layers-to-Files-Fast\Export Layers To Files %28Fast%29-dialog.json" />
     <EmbeddedResource Include="Resources\tags\default_tags_stars\Photoshop-Export-Layers-to-Files-Fast\Export Layers To Files %28Fast%29-progress_bar.json" />
     <EmbeddedResource Include="Resources\tags\default_tags_stars\Photoshop-Export-Layers-to-Files-Fast\LICENSE" />
     <EmbeddedResource Include="Resources\tags\default_tags_stars\Photoshop-Export-Layers-to-Files-Fast\README.md" />
-    <EmbeddedResource Include="Resources\tags\default_tags_stars\TaggerExample.psd" />
+    <EmbeddedResource Include="Resources\tags\default_tags_stars\Template Example.psd" />
     <None Include="Resources\zip.png" />
     <None Include="Licenses.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

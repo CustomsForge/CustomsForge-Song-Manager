@@ -499,9 +499,11 @@ namespace CustomsForgeSongManager.UControls
                     }
 
                     // switch to Setting tab so user can customize first run settings
-                    var diaMsg = Environment.NewLine + "CFSM will now switch to the Settings menu." + Environment.NewLine + "Please customize the CFSM Settings options" + Environment.NewLine + "before returning to the Song Manager tab.";
+                    var diaMsg = "CFSM will now switch to the Settings menu." + Environment.NewLine + 
+                                 "Please customize the CFSM Settings options" + Environment.NewLine +
+                                 "before returning to the Song Manager tab." + Environment.NewLine;
 
-                    BetterDialog2.ShowDialog(diaMsg, hdrMsg, null, null, "Ok", Bitmap.FromHicon(SystemIcons.Information.Handle), "", 0, 150);
+                    BetterDialog2.ShowDialog(diaMsg, hdrMsg, null, null, "Ok", Bitmap.FromHicon(SystemIcons.Information.Handle), "ReadMe", 0, 150);
                     Globals.DgvCurrent = dgvSongsMaster;
                     Globals.RescanSongManager = true;
                     Globals.MainForm.tcMain.SelectedIndex = 6;
@@ -1212,17 +1214,25 @@ namespace CustomsForgeSongManager.UControls
             if (sd.IsODLC)
                 return;
 
-            var filePath = sd.FilePath;
-            var enabled = sd.Enabled == "Yes";
-
             // DO NOT edit/modify/repair disabled CDLC
-            if (!enabled)
+            if (sd.Enabled != "Yes")
             {
-                var diaMsg = Environment.NewLine + "Disabled CDLC may not be edited." + Environment.NewLine + "Please enable the CLDC and then edit it.";
-                BetterDialog2.ShowDialog(diaMsg, "Disabled CDLC ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "", 0, 150);
+                var diaMsg = "Disabled CDLC may not be edited ..." + Environment.NewLine +
+                             "Please enable the CLDC and then edit it." + Environment.NewLine;
+                BetterDialog2.ShowDialog(diaMsg, "Disabled CDLC ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "ReadMe", 0, 150);
                 return;
             }
 
+            // DO NOT edit/modify/repair tagged CDLC - artifact data will be lost
+            if (sd.Tagged == SongTaggerStatus.True)
+            {
+                var diaMsg = "Taggeded CDLC may not be edited ..." + Environment.NewLine +
+                             "Please untag the CLDC and then edit it." + Environment.NewLine;
+                BetterDialog2.ShowDialog(diaMsg, "Tagged CDLC ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "ReadMe", 0, 150);
+                return;
+            }
+
+            var filePath = sd.FilePath;
             using (var songEditor = new frmSongEditor(filePath))
             {
                 songEditor.Text = String.Format("{0}{1}", "Song Editor ... Loaded: ", Path.GetFileName(filePath));
@@ -1861,8 +1871,8 @@ namespace CustomsForgeSongManager.UControls
 
             if (String.IsNullOrEmpty(repairString))
             {
-                var diaMsg = Environment.NewLine + "Please select some repair options and try again.";
-                BetterDialog2.ShowDialog(diaMsg, "Repair Options ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "", 0, 150);
+                var diaMsg = "Please select some repair options and try again.";
+                BetterDialog2.ShowDialog(diaMsg, "Repair Options ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "ReadMe", 0, 150);
                 return;
             }
 
@@ -1956,9 +1966,10 @@ namespace CustomsForgeSongManager.UControls
             selection = selection.Where(fi => !fi.FileName.ToLower().Contains(Constants.RS1COMP) && !fi.FileName.ToLower().Contains(Constants.SONGPACK) && !fi.FileName.ToLower().Contains(Constants.ABVSONGPACK)).ToList();
             if (!selection.Any())
             {
-                var diaMsg = Environment.NewLine + "First select some songs using the 'Select' checkbox" + Environment.NewLine + "then try using the organize feature again.";
+                var diaMsg = "First select some songs using the 'Select' checkbox" + Environment.NewLine +
+                             "then try using the organize feature again." + Environment.NewLine;
 
-                BetterDialog2.ShowDialog(diaMsg, "Organize ArtistName Subfolders ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Hand.Handle), "", 0, 150);
+                BetterDialog2.ShowDialog(diaMsg, "Organize ArtistName Subfolders ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Hand.Handle), "ReadMe", 0, 150);
                 return;
             }
 
@@ -2088,7 +2099,7 @@ namespace CustomsForgeSongManager.UControls
             var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster); //.Where(sd => sd.Tagged == false);
             if (!selection.Any())
             {
-                var diaMsg = Environment.NewLine + "Please select some CDLC to Tag using the 'Select' column.";
+                var diaMsg = "Please select some CDLC to Tag using the 'Select' column." + Environment.NewLine;
                 BetterDialog2.ShowDialog(diaMsg, "Tag Artwork ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "ReadMe", 0, 150);
 
                 return;
@@ -2136,7 +2147,7 @@ namespace CustomsForgeSongManager.UControls
             var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster); //.Where(sd => sd.Tagged);
             if (!selection.Any())
             {
-                var diaMsg = Environment.NewLine + "Please select some CDLC to Un-Tag using the 'Select' column.";
+                var diaMsg = "Please select some CDLC to Un-Tag using the 'Select' column." + Environment.NewLine;
                 BetterDialog2.ShowDialog(diaMsg, "Un-Tag Artwork...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "ReadMe", 0, 150);
 
                 return;
@@ -2162,23 +2173,24 @@ namespace CustomsForgeSongManager.UControls
         {
             if (tsmiDLFolderMonitor.Checked)
             {
-                var diaMsg = Environment.NewLine + "Please uncheck 'Auto Monitor Downloads Folder'" + Environment.NewLine + "before using the 'Run Selected Repair Optons'";
-                BetterDialog2.ShowDialog(diaMsg, "Repair Options ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "", 0, 150);
+                var diaMsg = "Please uncheck 'Auto Monitor Downloads Folder'" + Environment.NewLine +
+                             "before using the 'Run Selected Repair Optons'" + Environment.NewLine;
+                BetterDialog2.ShowDialog(diaMsg, "Repair Options ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "ReadMe", 0, 150);
                 return;
             }
 
             if (tsmiDLFolderProcess.Checked && !FileTools.ValidateDownloadsDir())
             {
-                var diaMsg = Environment.NewLine + "Please select a valid 'Downloads' folder and try again.";
-                BetterDialog2.ShowDialog(diaMsg, "Repair Options ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "", 0, 150);
+                var diaMsg = "Please select a valid 'Downloads' folder and try again." + Environment.NewLine;
+                BetterDialog2.ShowDialog(diaMsg, "Repair Options ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "ReadMe", 0, 150);
                 return;
             }
 
             var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster);
             if (!selection.Any() && !tsmiDLFolderProcess.Checked)
             {
-                var diaMsg = Environment.NewLine + "Please select some CDLC to repair using the 'Select' column.";
-                BetterDialog2.ShowDialog(diaMsg, "Repair Options ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "", 0, 150);
+                var diaMsg = "Please select some CDLC to repair using the 'Select' column." + Environment.NewLine;
+                BetterDialog2.ShowDialog(diaMsg, "Repair Options ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "ReadMe", 0, 150);
                 return;
             }
 
@@ -2195,16 +2207,18 @@ namespace CustomsForgeSongManager.UControls
 
             if (String.IsNullOrEmpty(repairString))
             {
-                var diaMsg = Environment.NewLine + "Please select some repair options and try again.";
-                BetterDialog2.ShowDialog(diaMsg, "Repair Options ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "", 0, 150);
+                var diaMsg = "Please select some repair options and try again." + Environment.NewLine;
+                BetterDialog2.ShowDialog(diaMsg, "Repair Options ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "ReadMe", 0, 150);
                 return;
             }
 
             // RepairsMaxFive Remove
             if (repairString.Contains("RepairsMaxFive") && !repairString.Contains("Remove"))
             {
-                var diaMsg = Environment.NewLine + "Max Five Arrangements was selected" + Environment.NewLine + "but no removal options were checked." + Environment.NewLine + "Please choose removal optons and try again.";
-                BetterDialog2.ShowDialog(diaMsg, "Repair Options ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "", 0, 150);
+                var diaMsg = "Max Five Arrangements was selected" + Environment.NewLine + 
+                             "but no removal options were checked." + Environment.NewLine +
+                             "Please choose removal optons and try again." + Environment.NewLine;
+                BetterDialog2.ShowDialog(diaMsg, "Repair Options ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "ReadMe", 0, 150);
                 return;
             }
 

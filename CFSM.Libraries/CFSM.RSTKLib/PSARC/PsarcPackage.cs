@@ -20,6 +20,7 @@ namespace CFSM.RSTKLib.PSARC
         public DLCPackageData ReadPackage(string inputPath)
         {
             // UNPACK
+            // method does not unpack tagger.org artifact - org artwork will be lost
             packageDir = Packer.Unpack(inputPath, Path.GetTempPath(), decodeAudio: true);
 
             // REORGANIZE

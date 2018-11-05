@@ -163,7 +163,7 @@ namespace CustomsForgeSongManager.LocalTools
             }
             catch (Exception ex)
             {
-                ShowTaggerError(ex.Message);
+                ShowTaggerError(ex.Message + Environment.NewLine + ex.StackTrace + Environment.NewLine);
             }
 
             return null;
@@ -273,40 +273,44 @@ namespace CustomsForgeSongManager.LocalTools
                 //Add layers to big album art
                 using (Graphics gra = Graphics.FromImage(bigAlbumArt))
                 {
-                    // Arrangement Layers
+                    // Background Layers
                     if (images.BackgroundLayer != null)
                         gra.DrawImage(images.BackgroundLayer, 0, 0.5f);
+                    if (images.CustomStarsLayer != null)
+                        gra.DrawImage(images.CustomStarsLayer, 0, 0.5f);
+                    if (images.CustomTagsLayer != null)
+                        gra.DrawImage(images.CustomTagsLayer, 0, 0.5f);
+                    if (images.CustomTagsStarsLayer != null)
+                        gra.DrawImage(images.CustomTagsStarsLayer, 0, 0.5f);
+
+                    // Arrangement Layers
                     if (vocals && images.VocalLayer != null)
                         gra.DrawImage(images.VocalLayer, 0, 0.5f);
-                    if (bass && images.BassLayer != null)
-                        gra.DrawImage(images.BassLayer, 0, 0.5f);
-                    if (bonusBass && images.BassBonusLayer != null)
-                        gra.DrawImage(images.BassBonusLayer, 0, 0.5f);
-                    if (rhythm && images.RhythmLayer != null)
-                        gra.DrawImage(images.RhythmLayer, 0, 0.5f);
-                    if (bonusRhythm && images.RhythmBonusLayer != null)
-                        gra.DrawImage(images.RhythmBonusLayer, 0, 0.5f);
                     if (lead && images.LeadLayer != null)
                         gra.DrawImage(images.LeadLayer, 0, 0.5f);
                     if (bonusLead && images.LeadBonusLayer != null)
                         gra.DrawImage(images.LeadBonusLayer, 0, 0.5f);
-                    if (images.CustomTagsLayer != null)
-                        gra.DrawImage(images.CustomTagsLayer, 0, 0.5f);
+                    if (rhythm && images.RhythmLayer != null)
+                        gra.DrawImage(images.RhythmLayer, 0, 0.5f);
+                    if (bonusRhythm && images.RhythmBonusLayer != null)
+                        gra.DrawImage(images.RhythmBonusLayer, 0, 0.5f);
+                    if (bass && images.BassLayer != null)
+                        gra.DrawImage(images.BassLayer, 0, 0.5f);
+                    if (bonusBass && images.BassBonusLayer != null)
+                        gra.DrawImage(images.BassBonusLayer, 0, 0.5f);
                     if (DD && images.DDLayer != null)
                         gra.DrawImage(images.DDLayer, 0, 0.5f);
 
                     // Rating Layers
-                    if (images.CustomStarsLayer != null)
-                        gra.DrawImage(images.CustomStarsLayer, 0, 0.5f);
-                    if (rating > 0 && images.CustomStarsLayer != null)
+                    if (rating > 0 && images.Stars1Layer != null)
                         gra.DrawImage(images.Stars1Layer, 0, 0.5f);
-                    if (rating > 1 && images.CustomStarsLayer != null)
+                    if (rating > 1 && images.Stars2Layer != null)
                         gra.DrawImage(images.Stars2Layer, 0, 0.5f);
-                    if (rating > 2 && images.CustomStarsLayer != null)
+                    if (rating > 2 && images.Stars3Layer != null)
                         gra.DrawImage(images.Stars3Layer, 0, 0.5f);
-                    if (rating > 3 && images.CustomStarsLayer != null)
+                    if (rating > 3 && images.Stars4Layer != null)
                         gra.DrawImage(images.Stars4Layer, 0, 0.5f);
-                    if (rating > 4 && images.CustomStarsLayer != null)
+                    if (rating > 4 && images.Stars5Layer != null)
                         gra.DrawImage(images.Stars5Layer, 0, 0.5f);
 
                     //Apply the xml theme
@@ -1383,19 +1387,21 @@ namespace CustomsForgeSongManager.LocalTools
 
     internal sealed class BitmapHolder : IDisposable
     {
-        // Arrangement Layers
+        // Background Layers
         public Bitmap BackgroundLayer { get; private set; }
         public Bitmap CustomTagsLayer { get; private set; }
-        public Bitmap VocalLayer { get; private set; }
+        public Bitmap CustomStarsLayer { get; private set; }
+        public Bitmap CustomTagsStarsLayer { get; private set; }
+        // Arrangement Layers
         public Bitmap LeadLayer { get; private set; }
         public Bitmap RhythmLayer { get; private set; }
         public Bitmap BassLayer { get; private set; }
         public Bitmap LeadBonusLayer { get; private set; }
         public Bitmap RhythmBonusLayer { get; private set; }
         public Bitmap BassBonusLayer { get; private set; }
-        public Bitmap DDLayer { get; private set; }
+        public Bitmap VocalLayer { get; private set; }
+        public Bitmap DDLayer { get; private set; } // (optional) all Remastered CDLC must have DD
         // Rating Layers
-        public Bitmap CustomStarsLayer { get; private set; }
         public Bitmap Stars1Layer { get; private set; }
         public Bitmap Stars2Layer { get; private set; }
         public Bitmap Stars3Layer { get; private set; }
@@ -1403,13 +1409,21 @@ namespace CustomsForgeSongManager.LocalTools
         public Bitmap Stars5Layer { get; private set; }
 
         public BitmapHolder(string tagsFolderFullPath)
-        {
-            // Arrangement Layers
+        {         
+            ClearImages();
+
+            // Background Layers
             var p = Path.Combine(tagsFolderFullPath, "Background.png");
             if (File.Exists(p))
                 BackgroundLayer = new Bitmap(p);
             else
                 BackgroundLayer = null;
+
+            p = Path.Combine(tagsFolderFullPath, "Custom_Stars.png");
+            if (File.Exists(p))
+                CustomStarsLayer = new Bitmap(p);
+            else
+                CustomStarsLayer = null;
 
             p = Path.Combine(tagsFolderFullPath, "Custom_Tags.png");
             if (File.Exists(p))
@@ -1417,26 +1431,14 @@ namespace CustomsForgeSongManager.LocalTools
             else
                 CustomTagsLayer = null;
 
-            p = Path.Combine(tagsFolderFullPath, "DD.png");
-            if (!File.Exists(p))
-                p = Path.Combine(Constants.TaggerTemplatesFolder, "DD.png");
+            p = Path.Combine(tagsFolderFullPath, "Custom_Tags_Stars.png");
             if (File.Exists(p))
-                DDLayer = new Bitmap(p);
+                CustomTagsStarsLayer = new Bitmap(p);
             else
-                DDLayer = null;
+                CustomTagsStarsLayer = null;
 
-            p = Path.Combine(tagsFolderFullPath, "Bass.png");
-            if (File.Exists(p))
-                BassLayer = new Bitmap(p);
-            else
-                BassLayer = null;
 
-            p = Path.Combine(tagsFolderFullPath, "Bass_Bonus.png");
-            if (File.Exists(p))
-                BassBonusLayer = new Bitmap(p);
-            else
-                BassBonusLayer = null;
-
+            // Arrangement Layers             
             p = Path.Combine(tagsFolderFullPath, "Lead.png");
             if (File.Exists(p))
                 LeadLayer = new Bitmap(p);
@@ -1461,38 +1463,58 @@ namespace CustomsForgeSongManager.LocalTools
             else
                 RhythmBonusLayer = null;
 
+            p = Path.Combine(tagsFolderFullPath, "Bass.png");
+            if (File.Exists(p))
+                BassLayer = new Bitmap(p);
+            else
+                BassLayer = null;
+
+            p = Path.Combine(tagsFolderFullPath, "Bass_Bonus.png");
+            if (File.Exists(p))
+                BassBonusLayer = new Bitmap(p);
+            else
+                BassBonusLayer = null;
+
+
             p = Path.Combine(tagsFolderFullPath, "Vocals.png");
             if (File.Exists(p))
                 VocalLayer = new Bitmap(p);
             else
                 VocalLayer = null;
 
-            // Rating Layers
-            p = Path.Combine(tagsFolderFullPath, "Custom_Stars.png");
+            p = Path.Combine(tagsFolderFullPath, "DD.png");
+            if (!File.Exists(p))
+                p = Path.Combine(Constants.TaggerTemplatesFolder, "DD.png");
             if (File.Exists(p))
-                CustomStarsLayer = new Bitmap(p);
+                DDLayer = new Bitmap(p);
             else
-                CustomStarsLayer = null;
+                DDLayer = null;
+
+            // Rating Layers           
             p = Path.Combine(tagsFolderFullPath, "Stars_1.png");
             if (File.Exists(p))
                 Stars1Layer = new Bitmap(p);
             else
                 Stars1Layer = null;
+
             p = Path.Combine(tagsFolderFullPath, "Stars_2.png");
             if (File.Exists(p))
                 Stars2Layer = new Bitmap(p);
             else
                 Stars2Layer = null;
+
             p = Path.Combine(tagsFolderFullPath, "Stars_3.png");
             if (File.Exists(p))
                 Stars3Layer = new Bitmap(p);
             else
                 Stars3Layer = null;
+
             p = Path.Combine(tagsFolderFullPath, "Stars_4.png");
             if (File.Exists(p))
                 Stars4Layer = new Bitmap(p);
             else
                 Stars4Layer = null;
+
             p = Path.Combine(tagsFolderFullPath, "Stars_5.png");
             if (File.Exists(p))
                 Stars5Layer = new Bitmap(p);
@@ -1502,6 +1524,7 @@ namespace CustomsForgeSongManager.LocalTools
 
         private void ClearImages()
         {
+            // Background Layers
             if (BackgroundLayer != null)
             {
                 BackgroundLayer.Dispose();
@@ -1512,40 +1535,52 @@ namespace CustomsForgeSongManager.LocalTools
                 CustomTagsLayer.Dispose();
                 CustomTagsLayer = null;
             }
-            if (VocalLayer != null)
+            if (CustomStarsLayer != null)
             {
-                VocalLayer.Dispose();
-                VocalLayer = null;
+                CustomStarsLayer.Dispose();
+                CustomStarsLayer = null;
             }
+            if (CustomTagsStarsLayer != null)
+            {
+                CustomTagsStarsLayer.Dispose();
+                CustomTagsStarsLayer = null;
+            }
+
+            // Arrangement Layers
             if (LeadLayer != null)
             {
                 LeadLayer.Dispose();
                 LeadLayer = null;
-            }
-            if (RhythmLayer != null)
-            {
-                RhythmLayer.Dispose();
-                RhythmLayer = null;
-            }
-            if (BassLayer != null)
-            {
-                BassLayer.Dispose();
-                BassLayer = null;
             }
             if (LeadBonusLayer != null)
             {
                 LeadBonusLayer.Dispose();
                 LeadBonusLayer = null;
             }
+            if (RhythmLayer != null)
+            {
+                RhythmLayer.Dispose();
+                RhythmLayer = null;
+            }
             if (RhythmBonusLayer != null)
             {
                 RhythmBonusLayer.Dispose();
                 RhythmBonusLayer = null;
             }
+            if (BassLayer != null)
+            {
+                BassLayer.Dispose();
+                BassLayer = null;
+            }
             if (BassBonusLayer != null)
             {
                 BassBonusLayer.Dispose();
                 BassBonusLayer = null;
+            }
+            if (VocalLayer != null)
+            {
+                VocalLayer.Dispose();
+                VocalLayer = null;
             }
             if (DDLayer != null)
             {
@@ -1553,11 +1588,7 @@ namespace CustomsForgeSongManager.LocalTools
                 DDLayer = null;
             }
 
-            if (CustomStarsLayer != null)
-            {
-                CustomStarsLayer.Dispose();
-                CustomStarsLayer = null;
-            }
+            // Ratings Layers
             if (Stars1Layer != null)
             {
                 Stars1Layer.Dispose();

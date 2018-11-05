@@ -36,7 +36,7 @@ namespace CustomsForgeSongManager.SongEditor
             txtAvgTempo.Text = SongData.SongInfo.AverageTempo.ToString();
             cmbSongVolume.Value = Convert.ToDecimal(SongData.Volume);
             cmbPreviewVolume.Value = Convert.ToDecimal(SongData.PreviewVolume);
-            txtCharter.Text = song.PackageAuthor; // not editable
+            txtCharter.Text = song.PackageAuthor;
 
             //set up events
             PopulateAppIdCombo(SongData.AppId, GameVersion.RS2014);
@@ -49,10 +49,11 @@ namespace CustomsForgeSongManager.SongEditor
             txtTitleSort.Validating += ValidateSort;
             txtAlbum.Validating += ValidateName;
             txtAlbumSort.Validating += ValidateSort;
-            txtAppId.Validating += ValidateVersion;
+            txtAppId.Validating += ValidateAppId;
             txtVersion.Validating += ValidateVersion;
-            txtYear.Validating += ValidateVersion;
+            txtYear.Validating += ValidateYear;
             txtAvgTempo.Validating += ValidateTempo;
+            txtCharter.Validating += ValidateName;
             cmbSongVolume.Validating += ValidateText;
             cmbPreviewVolume.Validating += ValidateText;
             cbLowBass.Validating += ValidateText;
@@ -103,12 +104,32 @@ namespace CustomsForgeSongManager.SongEditor
             }
         }
 
+        private void ValidateAppId(object sender, CancelEventArgs e)
+        {
+            var tb = sender as TextBox;
+            if (tb != null)
+            {
+                tb.Text = tb.Text.Trim().GetValidAppIdSixDigits();
+                this.Dirty = true;
+            }
+        }
+
         private void ValidateVersion(object sender, CancelEventArgs e)
         {
             var tb = sender as TextBox;
             if (tb != null)
             {
                 tb.Text = tb.Text.Trim().GetValidVersion();
+                this.Dirty = true;
+            }
+        }
+
+        private void ValidateYear(object sender, CancelEventArgs e)
+        {
+            var tb = sender as TextBox;
+            if (tb != null)
+            {
+                tb.Text = tb.Text.Trim().GetValidYear();
                 this.Dirty = true;
             }
         }
@@ -141,6 +162,9 @@ namespace CustomsForgeSongManager.SongEditor
             SongData.SongInfo.AverageTempo = Convert.ToInt32(txtAvgTempo.Text);
             SongData.Volume = Convert.ToSingle(cmbSongVolume.Value);
             SongData.PreviewVolume = Convert.ToSingle(cmbPreviewVolume.Value);
+            // many CDLC authors do not enter their charter name so permit user to edit the name
+            SongData.ToolkitInfo.PackageAuthor = txtCharter.Text;
+
             base.Save();
         }
 
