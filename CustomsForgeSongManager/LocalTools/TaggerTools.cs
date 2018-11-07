@@ -273,6 +273,7 @@ namespace CustomsForgeSongManager.LocalTools
                 //Add layers to big album art
                 using (Graphics gra = Graphics.FromImage(bigAlbumArt))
                 {
+                    // Image Layers are BottomMost to TopMost Order
                     // Background Layers
                     if (images.BackgroundLayer != null)
                         gra.DrawImage(images.BackgroundLayer, 0, 0.5f);
@@ -282,37 +283,37 @@ namespace CustomsForgeSongManager.LocalTools
                         gra.DrawImage(images.CustomTagsLayer, 0, 0.5f);
                     if (images.CustomTagsStarsLayer != null)
                         gra.DrawImage(images.CustomTagsStarsLayer, 0, 0.5f);
+                    if (DD && images.DDLayer != null)
+                        gra.DrawImage(images.DDLayer, 0, 0.5f);
 
                     // Arrangement Layers
                     if (vocals && images.VocalLayer != null)
                         gra.DrawImage(images.VocalLayer, 0, 0.5f);
-                    if (lead && images.LeadLayer != null)
-                        gra.DrawImage(images.LeadLayer, 0, 0.5f);
-                    if (bonusLead && images.LeadBonusLayer != null)
-                        gra.DrawImage(images.LeadBonusLayer, 0, 0.5f);
+                      if (bass && images.BassLayer != null)
+                        gra.DrawImage(images.BassLayer, 0, 0.5f);
+                    if (bonusBass && images.BassBonusLayer != null)
+                        gra.DrawImage(images.BassBonusLayer, 0, 0.5f);
                     if (rhythm && images.RhythmLayer != null)
                         gra.DrawImage(images.RhythmLayer, 0, 0.5f);
                     if (bonusRhythm && images.RhythmBonusLayer != null)
                         gra.DrawImage(images.RhythmBonusLayer, 0, 0.5f);
-                    if (bass && images.BassLayer != null)
-                        gra.DrawImage(images.BassLayer, 0, 0.5f);
-                    if (bonusBass && images.BassBonusLayer != null)
-                        gra.DrawImage(images.BassBonusLayer, 0, 0.5f);
-                    if (DD && images.DDLayer != null)
-                        gra.DrawImage(images.DDLayer, 0, 0.5f);
-
+                    if (lead && images.LeadLayer != null)
+                        gra.DrawImage(images.LeadLayer, 0, 0.5f);
+                    if (bonusLead && images.LeadBonusLayer != null)
+                        gra.DrawImage(images.LeadBonusLayer, 0, 0.5f);
+ 
                     // Rating Layers
-                    if (rating > 0 && images.Stars1Layer != null)
-                        gra.DrawImage(images.Stars1Layer, 0, 0.5f);
-                    if (rating > 1 && images.Stars2Layer != null)
-                        gra.DrawImage(images.Stars2Layer, 0, 0.5f);
-                    if (rating > 2 && images.Stars3Layer != null)
-                        gra.DrawImage(images.Stars3Layer, 0, 0.5f);
-                    if (rating > 3 && images.Stars4Layer != null)
-                        gra.DrawImage(images.Stars4Layer, 0, 0.5f);
                     if (rating > 4 && images.Stars5Layer != null)
                         gra.DrawImage(images.Stars5Layer, 0, 0.5f);
-
+                    if (rating > 3 && images.Stars4Layer != null)
+                        gra.DrawImage(images.Stars4Layer, 0, 0.5f);
+                    if (rating > 2 && images.Stars3Layer != null)
+                        gra.DrawImage(images.Stars3Layer, 0, 0.5f);
+                    if (rating > 1 && images.Stars2Layer != null)
+                        gra.DrawImage(images.Stars2Layer, 0, 0.5f);
+                    if (rating > 0 && images.Stars1Layer != null)
+                        gra.DrawImage(images.Stars1Layer, 0, 0.5f);
+                 
                     //Apply the xml theme
                     if (tt != null)
                     {

@@ -499,7 +499,7 @@ namespace CustomsForgeSongManager.UControls
                     }
 
                     // switch to Setting tab so user can customize first run settings
-                    var diaMsg = "CFSM will now switch to the Settings menu." + Environment.NewLine + 
+                    var diaMsg = "CFSM will now switch to the Settings menu." + Environment.NewLine +
                                  "Please customize the CFSM Settings options" + Environment.NewLine +
                                  "before returning to the Song Manager tab." + Environment.NewLine;
 
@@ -1226,7 +1226,7 @@ namespace CustomsForgeSongManager.UControls
             // DO NOT edit/modify/repair tagged CDLC - artifact data will be lost
             if (sd.Tagged == SongTaggerStatus.True)
             {
-                var diaMsg = "Taggeded CDLC may not be edited ..." + Environment.NewLine +
+                var diaMsg = "Tagged CDLC may not be edited ..." + Environment.NewLine +
                              "Please untag the CLDC and then edit it." + Environment.NewLine;
                 BetterDialog2.ShowDialog(diaMsg, "Tagged CDLC ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "ReadMe", 0, 150);
                 return;
@@ -2194,6 +2194,15 @@ namespace CustomsForgeSongManager.UControls
                 return;
             }
 
+            // DO NOT repair tagged CDLC - artifact data will be lost
+            if (selection.Any(sd => sd.Tagged == SongTaggerStatus.True))
+            {
+                var diaMsg = "Tagged CDLC may not be repaired ..." + Environment.NewLine +
+                             "Please untag the CLDC and then repair it." + Environment.NewLine;
+                BetterDialog2.ShowDialog(diaMsg, "Tagged CDLC ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "ReadMe", 0, 150);
+                return;
+            }
+
             var items = tsmiRepairs.DropDownItems;
             var repairString = String.Empty;
 
@@ -2215,7 +2224,7 @@ namespace CustomsForgeSongManager.UControls
             // RepairsMaxFive Remove
             if (repairString.Contains("RepairsMaxFive") && !repairString.Contains("Remove"))
             {
-                var diaMsg = "Max Five Arrangements was selected" + Environment.NewLine + 
+                var diaMsg = "Max Five Arrangements was selected" + Environment.NewLine +
                              "but no removal options were checked." + Environment.NewLine +
                              "Please choose removal optons and try again." + Environment.NewLine;
                 BetterDialog2.ShowDialog(diaMsg, "Repair Options ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "ReadMe", 0, 150);

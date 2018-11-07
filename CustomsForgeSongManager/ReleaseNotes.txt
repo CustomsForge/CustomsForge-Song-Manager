@@ -14,6 +14,11 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.4.8.4
+- updated RockmsithToolkitLib
+- fixed some tag layer obscuration issues and reduced size of default tags
+- custom tags and ratings properly display in-game setlist now
+
 1.4.8.3
 - added high quality default tags, ratings, and tags and ratings templates
 - improved Edit Song Information

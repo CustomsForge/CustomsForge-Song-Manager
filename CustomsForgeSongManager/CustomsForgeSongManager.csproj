@@ -516,7 +516,6 @@
     <EmbeddedResource Include="Resources\tags\default_tags\info.txt" />
     <EmbeddedResource Include="Resources\tags\default_tags\Lead.png" />
     <EmbeddedResource Include="Resources\tags\default_tags\Lead_Bonus.png" />
-    <EmbeddedResource Include="Resources\tags\default_tags\ReadMe.txt" />
     <EmbeddedResource Include="Resources\tags\default_tags\Rhythm.png" />
     <EmbeddedResource Include="Resources\tags\default_tags\Rhythm_Bonus.png" />
     <EmbeddedResource Include="Resources\tags\default_tags\Vocals.png" />
@@ -632,6 +631,7 @@
     <EmbeddedResource Include="Resources\tags\default_tags_stars\Photoshop-Export-Layers-to-Files-Fast\LICENSE" />
     <EmbeddedResource Include="Resources\tags\default_tags_stars\Photoshop-Export-Layers-to-Files-Fast\README.md" />
     <EmbeddedResource Include="Resources\tags\default_tags_stars\Template Example.psd" />
+    <EmbeddedResource Include="Resources\tags\frack\Default.tagtheme" />
     <None Include="Resources\zip.png" />
     <None Include="Licenses.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
