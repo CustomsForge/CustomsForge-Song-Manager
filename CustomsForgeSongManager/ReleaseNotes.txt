@@ -14,6 +14,9 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.4.8.5
+- critical RockmsithToolkitLib update
+
 1.4.8.4
 - updated RockmsithToolkitLib
 - fixed some tag layer obscuration issues and reduced size of default tags
