@@ -189,7 +189,6 @@ namespace CustomsForgeSongManager.UControls
             this.lnkLblSelectAll.TabStop = true;
             this.lnkLblSelectAll.Text = "Select All/None";
             this.lnkLblSelectAll.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.toolTip.SetToolTip(this.lnkLblSelectAll, "ODLC are not selectable");
             this.lnkLblSelectAll.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkLblSelectAll_LinkClicked);
             // 
             // lnklblToggle
@@ -205,7 +204,6 @@ namespace CustomsForgeSongManager.UControls
             this.lnklblToggle.TabStop = true;
             this.lnklblToggle.Text = "Toggle Selection";
             this.lnklblToggle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.toolTip.SetToolTip(this.lnklblToggle, "ODLC are not toggleable");
             this.lnklblToggle.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnklblToggle_LinkClicked);
             // 
             // txtNoDuplicates

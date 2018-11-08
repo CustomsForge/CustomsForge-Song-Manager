@@ -101,6 +101,7 @@ namespace CustomsForgeSongManager.DataObjects
         public bool IsOfficialDLC { get; set; }
         public bool IsRsCompPack { get; set; }
         public string IsBassPick { get; set; }
+        public string IsDefaultBonusAlternate { get; set; }
         public string ArtistTitleAlbum { get; set; }
         public string ArtistTitleAlbumDate { get; set; }
         public string FileName { get; set; }

@@ -206,6 +206,7 @@ namespace CustomsForgeSongManager.UControls
                         IsOfficialDLC = song.IsODLC,
                         IsRsCompPack = song.IsRsCompPack,
                         IsBassPick = songArr.IsBassPick,
+                        IsDefaultBonusAlternate = songArr.IsDefaultBonusAlternate,
                         ArtistTitleAlbum = song.ArtistTitleAlbum,
                         ArtistTitleAlbumDate = song.ArtistTitleAlbumDate,
                         FileName = song.FileName,

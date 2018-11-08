@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -53,9 +54,9 @@ namespace CustomsForgeSongManager.DataObjects
     [Serializable]
     public class SongData : NotifyPropChangedBase
     {
-        // version 0 - 9: recyclable version number is the current Assembly Revision number
+        // version 0 - 9: recyclable version number
         // incrementing version forces songInfo.xml and appSettings.xml to reset/update to defaults
-        public const string SongDataVersion = "4"; // devs change only when needed to force user update
+        public const string SongDataVersion = "6"; // devs change only when needed to force user update
 
         // Unique Song Key
         public string DLCKey { get; set; }
@@ -293,7 +294,7 @@ namespace CustomsForgeSongManager.DataObjects
         public int? BassPick { get; set; }
         //public int? BarreChords { get; set; }
         //public int? Bends { get; set; }
-        //public int? BonusArr { get; set; }
+        public int? BonusArr { get; set; }
         //public int? DoubleStops { get; set; }
         //public int? DropDPower { get; set; }
         //public int? FifthsAndOctaves { get; set; }
@@ -311,7 +312,7 @@ namespace CustomsForgeSongManager.DataObjects
         //public int? PickDirection { get; set; }
         //public int? PinchHarmonics { get; set; }
         //public int? PowerChords { get; set; }
-        //public int? Represent { get; set; }
+        public int? Represent { get; set; }
         //public int? RouteMask { get; set; } // 0 = bass, 1 = lead, 2 = rhytmm
         //public int? SlapPop { get; set; }
         //public int? Slides { get; set; }
@@ -340,6 +341,31 @@ namespace CustomsForgeSongManager.DataObjects
                 return BassPick == 0 ? "Fingered" : "Picked";
             }
         }
+
+        [XmlIgnore]
+        public string IsDefaultBonusAlternate
+        {
+            // Default => represent is true and bonus is false 
+            // Bonus => represent is false and bonus is true     
+            // Alternate => both represent and bonus are false
+            // Unknown => both represent and bonus are true
+            get
+            {
+                if (Represent == null || BonusArr == null)
+                    return "Null";
+                else if (Represent == 1 && BonusArr == 0)
+                    return "Default";
+                else if (Represent == 0 && BonusArr == 1)
+                    return "Bonus";
+                else if (Represent == 0 && BonusArr == 0)
+                    return "Alternate";
+                else if (Represent == 1 && BonusArr == 1)
+                    return "Unknown"; // appears in-game as default arrangement
+                else
+                    throw new DataException("<ERROR> Invalid Represent/BonusArr condition ...");
+            }
+        }
+
 
         // concatinated string of chord names and cord counts
         private string _chordNamesCounts;

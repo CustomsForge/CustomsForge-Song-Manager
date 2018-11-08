@@ -516,6 +516,9 @@ namespace CustomsForgeSongManager.LocalTools
                             if (arrName.ToLower().Equals("bass"))
                                 arr.BassPick = bassPick;
 
+                            arr.Represent = arrProperties.Represent;
+                            arr.BonusArr = arrProperties.BonusArr;
+
                             // TODO: maybe extract all AP (not sure how useful data is though) 
 
                             arr.SectionsCount = song2014.Sections.ToList().Count();

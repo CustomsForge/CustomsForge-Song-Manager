@@ -109,7 +109,7 @@ namespace CustomsForgeSongManager.SongEditor
                     if (arr.ArrangementType == ArrangementType.Guitar || arr.ArrangementType == ArrangementType.Bass)
                     {
                         var isCommented = false;
-                        var cfsmComment = String.Format("CFSM v{0}", Constants.CustomVersion());
+                        var cfsmComment = String.Format("Modified with CFSM v{0} SongEditor", Constants.CustomVersion());
                         var commentNodes = arr.XmlComments as List<XComment> ?? arr.XmlComments.ToList();
 
                         foreach (var commentNode in commentNodes)
@@ -161,6 +161,7 @@ namespace CustomsForgeSongManager.SongEditor
                 Globals.Log("Song information saved ... ");
                 // changed update behaviour ... only update this CDLC
                 Globals.ReloadSongManager = true;
+                this.Close(); // need to prevent re-editing error
             }
         }
 

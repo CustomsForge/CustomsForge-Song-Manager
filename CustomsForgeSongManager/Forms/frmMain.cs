@@ -20,6 +20,7 @@ using CustomControls;
 using RocksmithToolkitLib;
 using System.Data;
 using System.Threading;
+using RocksmithToolkitLib.Extensions;
 
 // NOTE: the app is designed for default user screen resolution of 1024x768
 // dev screen resolution should be set to this when designing forms and controls
@@ -129,8 +130,9 @@ namespace CustomsForgeSongManager.Forms
 
             // log application environment
             Globals.Log("+ " + Constants.AppTitle);
-            Globals.Log("+ .NET (v" + SysExtensions.DotNetVersion + ")");
+            Globals.Log("+ .NET Framework (v" + SysExtensions.DotNetVersion + ")");
             Globals.Log("+ RocksmithToolkitLib (v" + ToolkitVersion.RSTKLibVersion() + ")");
+            Globals.Log("+ Dynamic Difficulty Creator (v" + FileVersionInfo.GetVersionInfo(Path.Combine(ExternalApps.TOOLKIT_ROOT, ExternalApps.APP_DDC)).ProductVersion+ ")");
 
             // load settings
             Globals.Settings.LoadSettingsFromFile();
