@@ -103,17 +103,17 @@ namespace CustomsForgeSongManager.UControls
             this.cueSearch = new DataGridViewTools.CueTextBox();
             this.lnkSetlistMgrHelp = new System.Windows.Forms.LinkLabel();
             this.cmsSetlistManager = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.cmsCopy = new System.Windows.Forms.ToolStripMenuItem();
-            this.cmsMove = new System.Windows.Forms.ToolStripMenuItem();
-            this.cmsDelete = new System.Windows.Forms.ToolStripMenuItem();
-            this.cmsEnableDisable = new System.Windows.Forms.ToolStripMenuItem();
-            this.cmsToggle = new System.Windows.Forms.ToolStripMenuItem();
-            this.cmsSelectAllNone = new System.Windows.Forms.ToolStripMenuItem();
-            this.cmsShow = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.cmsActions = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.cmsToggle = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmsSelectAllNone = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.cmsShow = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmsEnableDisable = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmsDelete = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmsMove = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmsCopy = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.gbSetlistSongs.SuspendLayout();
@@ -411,8 +411,8 @@ namespace CustomsForgeSongManager.UControls
             this.chkProtectODLC.Size = new System.Drawing.Size(124, 23);
             this.chkProtectODLC.TabIndex = 50;
             this.chkProtectODLC.Text = "Protect Official DLC";
-            this.toolTip.SetToolTip(this.chkProtectODLC, "If checked, prevents ODLC from\r\naccidently being selected, enabled,\r\ndisabled, co" +
-                    "pied, moved, or deleted.");
+            this.toolTip.SetToolTip(this.chkProtectODLC, "If checked, prevents ODLC\r\nfrom being selected, enabled,\r\ndisabled, copied, moved" +
+                    ", or deleted.");
             this.chkProtectODLC.UseVisualStyleBackColor = false;
             this.chkProtectODLC.MouseUp += new System.Windows.Forms.MouseEventHandler(this.chkProtectODLC_MouseUp);
             // 
@@ -866,41 +866,17 @@ namespace CustomsForgeSongManager.UControls
             this.cmsSetlistManager.Name = "contextMenuStrip_MainManager";
             this.cmsSetlistManager.Size = new System.Drawing.Size(158, 214);
             // 
-            // cmsCopy
+            // cmsActions
             // 
-            this.cmsCopy.Image = global::CustomsForgeSongManager.Properties.Resources.copy;
-            this.cmsCopy.Name = "cmsCopy";
-            this.cmsCopy.Size = new System.Drawing.Size(157, 22);
-            this.cmsCopy.Text = "Copy";
-            this.cmsCopy.ToolTipText = "Select must be checked.";
-            this.cmsCopy.Click += new System.EventHandler(this.cmsCopy_Click);
+            this.cmsActions.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmsActions.Name = "cmsActions";
+            this.cmsActions.Size = new System.Drawing.Size(157, 22);
+            this.cmsActions.Text = "Actions:";
             // 
-            // cmsMove
+            // toolStripSeparator2
             // 
-            this.cmsMove.Image = global::CustomsForgeSongManager.Properties.Resources.export;
-            this.cmsMove.Name = "cmsMove";
-            this.cmsMove.Size = new System.Drawing.Size(157, 22);
-            this.cmsMove.Text = "Move";
-            this.cmsMove.ToolTipText = "Select must be checked.";
-            this.cmsMove.Click += new System.EventHandler(this.cmsMove_Click);
-            // 
-            // cmsDelete
-            // 
-            this.cmsDelete.Image = global::CustomsForgeSongManager.Properties.Resources.delete;
-            this.cmsDelete.Name = "cmsDelete";
-            this.cmsDelete.Size = new System.Drawing.Size(157, 22);
-            this.cmsDelete.Text = "Delete";
-            this.cmsDelete.ToolTipText = "WARNING\r\nDeletion can not be undone.\r\nSelect must be checked.";
-            this.cmsDelete.Click += new System.EventHandler(this.cmsDelete_Click);
-            // 
-            // cmsEnableDisable
-            // 
-            this.cmsEnableDisable.Image = global::CustomsForgeSongManager.Properties.Resources.enabledisable;
-            this.cmsEnableDisable.Name = "cmsEnableDisable";
-            this.cmsEnableDisable.Size = new System.Drawing.Size(157, 22);
-            this.cmsEnableDisable.Text = "Enable/Disable";
-            this.cmsEnableDisable.ToolTipText = "Select must be checked.";
-            this.cmsEnableDisable.Click += new System.EventHandler(this.cmsEnableDisable_Click);
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(154, 6);
             // 
             // cmsToggle
             // 
@@ -918,6 +894,11 @@ namespace CustomsForgeSongManager.UControls
             this.cmsSelectAllNone.Text = "Select All/None";
             this.cmsSelectAllNone.Click += new System.EventHandler(this.cmsSelectAllNone_Click);
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(154, 6);
+            // 
             // cmsShow
             // 
             this.cmsShow.Image = global::CustomsForgeSongManager.Properties.Resources.Open;
@@ -926,29 +907,49 @@ namespace CustomsForgeSongManager.UControls
             this.cmsShow.Text = "Show";
             this.cmsShow.Click += new System.EventHandler(this.cmsShow_Click);
             // 
+            // cmsEnableDisable
+            // 
+            this.cmsEnableDisable.Image = global::CustomsForgeSongManager.Properties.Resources.enabledisable;
+            this.cmsEnableDisable.Name = "cmsEnableDisable";
+            this.cmsEnableDisable.Size = new System.Drawing.Size(157, 22);
+            this.cmsEnableDisable.Text = "Enable/Disable";
+            this.cmsEnableDisable.ToolTipText = "Select must be checked.";
+            this.cmsEnableDisable.Click += new System.EventHandler(this.cmsEnableDisable_Click);
+            // 
+            // cmsDelete
+            // 
+            this.cmsDelete.Image = global::CustomsForgeSongManager.Properties.Resources.delete;
+            this.cmsDelete.Name = "cmsDelete";
+            this.cmsDelete.Size = new System.Drawing.Size(157, 22);
+            this.cmsDelete.Text = "Delete";
+            this.cmsDelete.ToolTipText = "WARNING\r\nDeletion can not be undone.\r\nSelect must be checked.";
+            this.cmsDelete.Click += new System.EventHandler(this.cmsDelete_Click);
+            // 
+            // cmsMove
+            // 
+            this.cmsMove.Image = global::CustomsForgeSongManager.Properties.Resources.export;
+            this.cmsMove.Name = "cmsMove";
+            this.cmsMove.Size = new System.Drawing.Size(157, 22);
+            this.cmsMove.Text = "Move";
+            this.cmsMove.ToolTipText = "Select must be checked.";
+            this.cmsMove.Click += new System.EventHandler(this.cmsMove_Click);
+            // 
+            // cmsCopy
+            // 
+            this.cmsCopy.Image = global::CustomsForgeSongManager.Properties.Resources.copy;
+            this.cmsCopy.Name = "cmsCopy";
+            this.cmsCopy.Size = new System.Drawing.Size(157, 22);
+            this.cmsCopy.Text = "Copy";
+            this.cmsCopy.ToolTipText = "Select must be checked.";
+            this.cmsCopy.Click += new System.EventHandler(this.cmsCopy_Click);
+            // 
             // toolTip
             // 
             this.toolTip.AutomaticDelay = 100;
             this.toolTip.AutoPopDelay = 8000;
             this.toolTip.InitialDelay = 100;
+            this.toolTip.IsBalloon = true;
             this.toolTip.ReshowDelay = 50;
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(154, 6);
-            // 
-            // cmsActions
-            // 
-            this.cmsActions.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cmsActions.Name = "cmsActions";
-            this.cmsActions.Size = new System.Drawing.Size(157, 22);
-            this.cmsActions.Text = "Actions:";
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(154, 6);
             // 
             // SetlistManager
             // 

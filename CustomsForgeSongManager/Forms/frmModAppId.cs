@@ -64,6 +64,7 @@ namespace CustomsForgeSongManager.Forms
                     using (var FS = File.Create(song.FilePath))
                         p.Write(FS, true);
                 }
+
                 if (dataStream != null)
                     dataStream.CloseEx();
 

@@ -185,7 +185,7 @@ namespace CustomsForgeSongManager.SongEditor
                 // for alternate => both represent and bonus are false
                 if (value.Represent && value.BonusArr)
                 {
-                    var diaMsg = "Illegal Arrangement Default/Bonus/Alternate Conditon ...  " + Environment.NewLine + Environment.NewLine +
+                    var diaMsg = "Invalid Arrangement Default/Bonus/Alternate Conditon ...  " + Environment.NewLine + Environment.NewLine +
                                  "Toolkit will reset the arrangement to" + Environment.NewLine +
                                  "the default represent condition." + Environment.NewLine;
                     RocksmithToolkitLib.Extensions.BetterDialog2.ShowDialog(diaMsg, "<WARNING> Arrangement Represent", null, null, "OK", Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning", 150, 150);

@@ -14,6 +14,10 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.4.8.7
+- fixed initialization of 'Include Subfolders' and 'Protect ODLC' checkboxes
+- fixed Setlist Manager initialization
+
 1.4.8.6 
 - critical RockmsithToolkitLib update
 - added Represent column to Arrangement Analyzer

@@ -278,7 +278,7 @@ namespace CustomsForgeSongManager.DataObjects
             {
                 if (_instance == null)
                     _instance = new AppSettings();
-      
+
                 return _instance;
             }
         }
@@ -360,7 +360,7 @@ namespace CustomsForgeSongManager.DataObjects
 
             if (String.IsNullOrEmpty(Instance.RSInstalledDir))
                 Instance.RSInstalledDir = LocalExtensions.GetSteamDirectory();
-            
+
             // intentionally omitted from RestoreDefaults to prevent resetting user selections
             // Instance.RSProfileDir = String.Empty;
             // Instance.DownloadsDir = String.Empty; 

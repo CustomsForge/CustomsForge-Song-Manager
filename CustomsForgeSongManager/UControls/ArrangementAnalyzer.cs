@@ -505,6 +505,7 @@ namespace CustomsForgeSongManager.UControls
 
         private void chkIncludeSubfolders_MouseUp(object sender, MouseEventArgs e)
         {
+            AppSettings.Instance.IncludeSubfolders = chkIncludeSubfolders.Checked;
             IncludeSubfolders();
         }
 
@@ -903,14 +904,13 @@ namespace CustomsForgeSongManager.UControls
 
         public void TabLeave()
         {
-            AppSettings.Instance.IncludeSubfolders = chkIncludeSubfolders.Checked;
-            AppSettings.Instance.IncludeVocals = chkIncludeVocals.Checked;
             Globals.Settings.SaveSettingsToFile(dgvArrangements);
             Globals.Log("Arrangements GUI Deactivated ...");
         }
 
         private void chkIncludeVocals_CheckedChanged(object sender, EventArgs e)
         {
+            AppSettings.Instance.IncludeVocals = chkIncludeVocals.Checked;
             RefreshDgv(false);
         }
 

@@ -43,6 +43,8 @@ namespace CustomsForgeSongManager.UControls
             InitializeComponent();
             Globals.TsLabel_StatusMsg.Click += lnkShowAll_Click;
             ErrorStyle = new DataGridViewCellStyle() { Font = new Font("Arial", 8, FontStyle.Italic), ForeColor = ErrorStyleForeColor, BackColor = ErrorStyleBackColor };
+
+            //chkIncludeSubfolders.Checked = AppSettings.Instance.IncludeSubfolders;
             // test for duplicate DLCKey
             dupPidSelected = false;
             PopulateDuplicates(dupPidSelected);
@@ -492,6 +494,7 @@ namespace CustomsForgeSongManager.UControls
         private void chkIncludeSubfolders_MouseUp(object sender, MouseEventArgs e)
         {
             AppSettings.Instance.IncludeSubfolders = chkIncludeSubfolders.Checked;
+            Globals.Settings.SaveSettingsToFile(dgvDuplicates); // need to save here
             IncludeSubfolders();
         }
 
@@ -881,14 +884,14 @@ namespace CustomsForgeSongManager.UControls
         public void TabEnter()
         {
             chkIncludeSubfolders.Checked = AppSettings.Instance.IncludeSubfolders;
+            IncludeSubfolders();
+
             Globals.DgvCurrent = dgvDuplicates;
             Globals.Log("Duplicate GUI Activated...");
         }
 
         public void TabLeave()
         {
-            AppSettings.Instance.IncludeSubfolders = chkIncludeSubfolders.Checked;
-            Globals.Settings.SaveSettingsToFile(dgvDuplicates);
             Globals.Log("Duplicates GUI Deactivated ...");
         }
 

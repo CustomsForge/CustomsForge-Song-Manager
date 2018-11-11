@@ -256,6 +256,7 @@ namespace CustomsForgeSongManager.UControls
             Globals.ReloadSongManager = false;
             Globals.RescanSongManager = false;
             Globals.TsLabel_MainMsg.Text = string.Format("Rocksmith Song Count: {0}", songList.Count);
+            // Globals.TsLabel_MainMsg.Text = string.Format("Rocksmith Song Count: {0}", dgvSongsMaster.RowCount);
             Globals.TsLabel_MainMsg.Visible = true;
             numberOfDisabledDLC = songList.Where(song => song.Enabled == "No").ToList().Count();
             numberOfDLCPendingUpdate = 0;
@@ -556,8 +557,9 @@ namespace CustomsForgeSongManager.UControls
             // reload column order, width, visibility
             Globals.Settings.LoadSettingsFromFile(dgvSongsMaster, true);
             chkIncludeSubfolders.Checked = AppSettings.Instance.IncludeSubfolders;
-            chkProtectODLC.Checked = AppSettings.Instance.ProtectODLC;
             IncludeSubfolders();
+            chkProtectODLC.Checked = AppSettings.Instance.ProtectODLC;
+            ProtectODLC();
 
             if (RAExtensions.ManagerGridSettings != null)
                 dgvSongsMaster.ReLoadColumnOrder(RAExtensions.ManagerGridSettings.ColumnOrder);
@@ -1161,7 +1163,11 @@ namespace CustomsForgeSongManager.UControls
         private void chkProtectODLC_MouseUp(object sender, MouseEventArgs e)
         {
             AppSettings.Instance.ProtectODLC = chkProtectODLC.Checked;
+            ProtectODLC();
+        }
 
+        private void ProtectODLC()
+        {
             // deselect and protect ODLC 
             if (chkProtectODLC.Checked)
             {
@@ -2285,6 +2291,10 @@ namespace CustomsForgeSongManager.UControls
 
         public void TabEnter()
         {
+            chkIncludeSubfolders.Checked = AppSettings.Instance.IncludeSubfolders;
+            IncludeSubfolders();
+            chkProtectODLC.Checked = AppSettings.Instance.ProtectODLC;
+            ProtectODLC();
             Globals.DgvCurrent = dgvSongsMaster;
             Globals.Log("Song Manager GUI Activated ...");
         }
@@ -2292,8 +2302,6 @@ namespace CustomsForgeSongManager.UControls
         public void TabLeave()
         {
             SetRepairOptions(); // saves current repair options
-            AppSettings.Instance.IncludeSubfolders = chkIncludeSubfolders.Checked;
-            AppSettings.Instance.ProtectODLC = chkProtectODLC.Checked;
             Globals.Settings.SaveSettingsToFile(dgvSongsMaster);
 
             if (Globals.PackageRatingNeedsUpdate && !Globals.UpdateInProgress)

@@ -47,7 +47,6 @@ namespace CustomsForgeSongManager.UControls
         {
             InitializeComponent();
             Globals.TsLabel_StatusMsg.Click += lnkShowAll_Click;
-            PopulateSetlistManager();
         }
 
         public void PopulateSetlistManager()
@@ -187,6 +186,8 @@ namespace CustomsForgeSongManager.UControls
             var fbl = new FilteredBindingList<SongData>(list);
             var bs = new BindingSource { DataSource = fbl };
             dgvSetlistMaster.DataSource = bs;
+
+            var debugMe = dgvSetlistMaster.RowCount;
         }
 
         private void LoadSetLists()
@@ -209,7 +210,7 @@ namespace CustomsForgeSongManager.UControls
 
             if (dgvSetlists.Rows.Count > 0)
             {
-                //dgvSetlists.Rows[0].Selected = true; // this triggers selection change
+                // dgvSetlists.Rows[0].Selected = true; // this triggers selection change
                 dgvSetlists.Rows[0].Cells["colSetlistSelect"].Value = true;
                 curSetlistName = dgvSetlists.Rows[0].Cells["colSetlistName"].Value.ToString();
                 LoadSetlistSongs(curSetlistName);
@@ -231,7 +232,6 @@ namespace CustomsForgeSongManager.UControls
             }
 
             DgvExtensions.DoubleBuffered(dgvSetlistMaster);
-            IncludeSubfolders();
             CFSMTheme.InitializeDgvAppearance(dgvSetlistMaster);
 
             return true;
@@ -949,6 +949,11 @@ namespace CustomsForgeSongManager.UControls
         private void chkProtectODLC_MouseUp(object sender, MouseEventArgs e)
         {
             AppSettings.Instance.ProtectODLC = chkProtectODLC.Checked;
+            ProtectODLC();
+        }
+
+        private void ProtectODLC()
+        {
 
             // deselect and protect ODLC 
             if (chkProtectODLC.Checked)
@@ -1281,6 +1286,7 @@ namespace CustomsForgeSongManager.UControls
         private void dgvSetlists_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
             var dgvCurrent = (DataGridView)sender;
+            var debugMe = dgvCurrent.Name;
             // work around for Win10 right click header hang ... check seperate and first
             if (e.RowIndex == -1)
                 return;
@@ -1367,15 +1373,16 @@ namespace CustomsForgeSongManager.UControls
         public void TabEnter()
         {
             chkIncludeSubfolders.Checked = AppSettings.Instance.IncludeSubfolders;
+            IncludeSubfolders();
             chkProtectODLC.Checked = AppSettings.Instance.ProtectODLC;
+            ProtectODLC();
+            PopulateSetlistManager();
             Globals.DgvCurrent = dgvSetlistMaster;
             Globals.Log("Setlist Manager GUI Activated...");
         }
 
         public void TabLeave()
         {
-            AppSettings.Instance.IncludeSubfolders = chkIncludeSubfolders.Checked;
-            AppSettings.Instance.ProtectODLC = chkProtectODLC.Checked;
             Globals.Settings.SaveSettingsToFile(dgvSetlistMaster);
             Globals.Log("Setlist Manager GUI Deactivated ...");
         }
