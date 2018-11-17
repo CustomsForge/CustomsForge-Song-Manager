@@ -56,7 +56,7 @@ namespace CustomsForgeSongManager.DataObjects
     {
         // version 0 - 9: recyclable version number
         // incrementing version forces songInfo.xml and appSettings.xml to reset/update to defaults
-        public const string SongDataVersion = "6"; // devs change only when needed to force user update
+        public const string SongDataVersion = "7"; // devs change only when needed to force user update
 
         // Unique Song Key
         public string DLCKey { get; set; }

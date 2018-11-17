@@ -203,11 +203,10 @@ namespace CustomsForgeSongManager.LocalTools
             var bonusRhythm = false;
             var bonusBass = false;
             var DD = song.DD > 0;
-            var arrangements = archive.TOC.Where(entry => entry.Name.ToLower().EndsWith(".json")).Select(entry => entry.Name).ToList();
 
+            var arrangements = archive.TOC.Where(entry => entry.Name.ToLower().EndsWith(".json")).Select(entry => entry.Name).ToList();    
             foreach (string arr in arrangements)
             {
-                // TODO: improve accuracy ... use Represent and Bonus properties
                 if (arr.Contains("lead") && !arr.Contains("lead2"))
                     lead = true;
                 if (arr.Contains("lead2"))
@@ -222,10 +221,15 @@ namespace CustomsForgeSongManager.LocalTools
                     bonusBass = true;
                 if (arr.Contains("vocals"))
                     vocals = true;
-                if (arr.Contains("combo"))
+                if (arr.Contains("combo") && !arr.Contains("combo2"))
                 {
                     lead = true;
                     rhythm = true;
+                }
+                if (arr.Contains("combo2"))
+                {
+                    bonusLead = true;
+                    bonusRhythm = true;
                 }
             }
 
