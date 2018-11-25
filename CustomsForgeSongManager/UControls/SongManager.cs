@@ -855,8 +855,8 @@ namespace CustomsForgeSongManager.UControls
         private void SelectionEnableDisable(DataGridView dgvCurrent)
         {
             // user must check Select to Enable/Disable
-            var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvCurrent);
-            if (!selection.Any())
+            var selections = DgvExtensions.GetObjectsFromRows<SongData>(dgvCurrent);
+            if (!selections.Any())
             {
                 MessageBox.Show("Please select the checkbox next to song(s)." + Environment.NewLine +
                                 "First left mouse click the select checkbox and" + Environment.NewLine +
@@ -866,38 +866,31 @@ namespace CustomsForgeSongManager.UControls
 
             for (int ndx = dgvCurrent.Rows.Count - 1; ndx >= 0; ndx--)
             {
-                var sd = DgvExtensions.GetObjectFromRow<SongData>(dgvCurrent, ndx);
-                var originalPath = sd.FilePath;
-                if (!originalPath.ToLower().Contains(Constants.RS1COMP))
+                DataGridViewRow row = dgvCurrent.Rows[ndx];
+                if (!Convert.ToBoolean(row.Cells["colSelect"].Value))
+                    continue;
+
+                try
                 {
-                    DataGridViewRow row = dgvCurrent.Rows[ndx];
-                    if (Convert.ToBoolean(row.Cells["colSelect"].Value))
+                    var sd = DgvExtensions.GetObjectFromRow<SongData>(dgvCurrent, ndx);
+                    var originalPath = sd.FilePath;
+
+                    if (sd.Enabled == "Yes")
                     {
-                        try
-                        {
-                            if (sd.Enabled == "Yes")
-                            {
-                                var disabledPath = originalPath.Replace(Constants.PsarcExtension, Constants.DisabledPsarcExtension);
-                                File.Move(originalPath, disabledPath);
-                                sd.FilePath = disabledPath;
-                                sd.Enabled = "No";
-                            }
-                            else
-                            {
-                                var enabledPath = originalPath.Replace(Constants.DisabledPsarcExtension, Constants.PsarcExtension);
-                                File.Move(originalPath, enabledPath);
-                                sd.FilePath = enabledPath;
-                                sd.Enabled = "Yes";
-                            }
-                        }
-                        catch (IOException ex)
-                        {
-                            MessageBox.Show(string.Format(Properties.Resources.UnableToEnableDisableSongX0InDlcFolderX1Er, Path.GetFileName(originalPath), Environment.NewLine, ex.Message));
-                        }
+                        var disabledPath = originalPath.Replace(Constants.EnabledExtension, Constants.DisabledExtension);
+                        File.Move(originalPath, disabledPath);
+                        sd.FilePath = disabledPath;
+                        sd.Enabled = "No";
+                    }
+                    else
+                    {
+                        var enabledPath = originalPath.Replace(Constants.DisabledExtension, Constants.EnabledExtension);
+                        File.Move(originalPath, enabledPath);
+                        sd.FilePath = enabledPath;
+                        sd.Enabled = "Yes";
                     }
                 }
-                else
-                    Globals.Log(String.Format(Properties.Resources.ThisIsARocksmith1CompatiblitySongX0RS1Comp, Environment.NewLine));
+                catch {/* DO NOTHING */}
             }
 
             dgvCurrent.Refresh();
@@ -1480,7 +1473,7 @@ namespace CustomsForgeSongManager.UControls
             SongData sd = dgvSongsMaster.Rows[e.RowIndex].DataBoundItem as SongData;
             if (sd != null)
             {
-                if (sd.IsODLC)
+                if (sd.IsODLC || sd.IsRsCompPack || sd.IsSongsPsarc || sd.IsSongPack)
                 {
                     e.CellStyle.Font = Constants.OfficialDLCFont;
                     DataGridViewCell cell = dgvSongsMaster.Rows[e.RowIndex].Cells["colSelect"];
@@ -1604,13 +1597,24 @@ namespace CustomsForgeSongManager.UControls
                 }
             }
 
-            // user complained that clicking a row should not autocheck select
+            // user complained that clicking a row should not autocheck Select
             // programmatic left clicking on colSelect
             if (e.Button == MouseButtons.Left && rowIndex != -1 && colIndex == colSelect.Index)
             {
-                // beyound current scope of CFSM
-                if (dgvCurrent.Rows[rowIndex].Cells["colSelect"].Value.ToString().ToLower().Contains(Constants.RS1COMP))
-                    Globals.Log(Properties.Resources.CanNotSelectIndividualRS1CompatiblityDLC);
+                var sd = DgvExtensions.GetObjectFromRow<SongData>(dgvSongsMaster, rowIndex);
+                // use Setlist Manager or SongPacks tab menu
+                if (sd.IsRsCompPack || sd.IsSongsPsarc || sd.IsSongPack)
+                {
+                    var diaMsg = "Please use Setlist Manager feature to enable/disable " + Environment.NewLine +
+                                 "entire song pack quickly, or use Song Packs feature" + Environment.NewLine +
+                                 "to enable/disable individual songs from song packs." + Environment.NewLine;
+                    BetterDialog2.ShowDialog(diaMsg, "Song Packs ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "ReadMe", 0, 150);
+
+                    // programatically uncheck the select checkbox
+                    dgvCurrent.Rows[rowIndex].Cells["colSelect"].Value = !(bool)(dgvCurrent.Rows[rowIndex].Cells["colSelect"].Value);
+                    dgvCurrent.Rows[rowIndex].Cells["colSelect"].Value = false;
+                    dgvCurrent.Rows[rowIndex].Selected = true;
+                }
                 else
                 {
                     try

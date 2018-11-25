@@ -111,7 +111,7 @@ namespace CustomsForgeSongManager.DataObjects
         [XmlIgnore]
         public bool IsSongsPsarc
         {
-            get { return !String.IsNullOrEmpty(FilePath) && FileName.ToLower().Equals(Constants.BASESONGS); }
+            get { return !String.IsNullOrEmpty(FilePath) && FileName.ToLower().EndsWith(Constants.BASESONGS); }
         }
 
         [XmlIgnore]

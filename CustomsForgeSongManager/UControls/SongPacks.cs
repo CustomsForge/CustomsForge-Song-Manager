@@ -311,7 +311,7 @@ namespace CustomsForgeSongManager.UControls
         {
             using (var ofd = new OpenFileDialog())
             {
-                ofd.Filter = "Song Pack Files (*.psarc)|*_songpack_p.psarc; *_sp_p.psarc|All Files (*.psarc)|*.psarc";
+                ofd.Filter = "Song Pack Files (*.psarc)|*_songpack_*; *_sp_*|All Files (*.*)|*.*";
                 ofd.Title = "Select a Custom Song Pack File";
                 ofd.CheckPathExists = true;
                 ofd.Multiselect = false;
@@ -504,11 +504,11 @@ namespace CustomsForgeSongManager.UControls
                     LoadSongPackList(CacheSongCollection, CacheDisabledSongCollection);
                     break;
                 case 1: // rs1compatibilitydisc_p.psarc
-                    txtFileName.Text = " rs1compatibilitydisc" + Constants.PsarcExtension;
+                    txtFileName.Text = " rs1compatibilitydisc" + Constants.EnabledExtension;
                     LoadSongPackList(Rs1DiscSongCollection, Rs1DiscDisabledSongCollection);
                     break;
                 case 2: // rs1compatibilitydlc_p.psarc
-                    txtFileName.Text = "rs1compatibilitydlc" + Constants.PsarcExtension;
+                    txtFileName.Text = "rs1compatibilitydlc" + Constants.EnabledExtension;
                     LoadSongPackList(Rs1DlcSongCollection, Rs1DlcDisabledSongCollection);
                     break;
                 case 3: // custom song pack
@@ -564,8 +564,8 @@ namespace CustomsForgeSongManager.UControls
                 {
                     Globals.TsProgressBar_Main.Value = 20;
 
-                    if (File.Exists(Constants.Rs1DiscPsarcPath.Replace(Constants.PsarcExtension, Constants.DisabledPsarcExtension)))
-                        File.Delete(Constants.Rs1DiscPsarcPath.Replace(Constants.PsarcExtension, Constants.DisabledPsarcExtension));
+                    if (File.Exists(Constants.Rs1DiscPsarcPath.Replace(Constants.EnabledExtension, Constants.DisabledExtension)))
+                        File.Delete(Constants.Rs1DiscPsarcPath.Replace(Constants.EnabledExtension, Constants.DisabledExtension));
 
                     File.Copy(Constants.Rs1DiscPsarcBackupPath, Constants.Rs1DiscPsarcPath, true);
                     File.SetAttributes(Constants.Rs1DiscPsarcPath, FileAttributes.Normal);

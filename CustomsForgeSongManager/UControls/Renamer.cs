@@ -104,9 +104,9 @@ namespace CustomsForgeSongManager.UControls
 
             // renamed files could be enabled or disabled
             if (Path.GetFileName(oldFilePath).ToLower().Contains("disabled"))
-                newFileName = String.Format("{0}" + Constants.DisabledPsarcExtension, newFileName);
+                newFileName = String.Format("{0}" + Constants.DisabledExtension, newFileName);
             else
-                newFileName = String.Format("{0}" + Constants.PsarcExtension, newFileName);
+                newFileName = String.Format("{0}" + Constants.EnabledExtension, newFileName);
 
             // strip any user added a directory(s) from file name and add to file path
             var dirSeperator = new string[] { "\\" };

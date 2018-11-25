@@ -203,7 +203,7 @@ namespace CustomsForgeSongManager.LocalTools
                         if (!overwriteFile)
                         {
                             Globals.Log(" - Adding pitch shifting effect to a new CDLC file");
-                            finalPath = srcFilePath.Replace(Constants.PsarcExtension, ext + Constants.PsarcExtension);
+                            finalPath = srcFilePath.Replace(Constants.EnabledExtension, ext + Constants.EnabledExtension);
                         }
                         else
                             Globals.Log(" - Adding pitch shifting effect to existing file");

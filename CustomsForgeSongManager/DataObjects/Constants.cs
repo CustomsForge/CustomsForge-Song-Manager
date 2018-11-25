@@ -82,7 +82,7 @@ namespace CustomsForgeSongManager.DataObjects
             }
         }
 
-        public static string PsarcExtension
+        public static string EnabledExtension
         {
             get
             {
@@ -93,7 +93,7 @@ namespace CustomsForgeSongManager.DataObjects
             }
         }
 
-        public static string DisabledPsarcExtension
+        public static string DisabledExtension
         {
             get
             {
@@ -108,7 +108,7 @@ namespace CustomsForgeSongManager.DataObjects
         {
             get
             {
-                var rs1PackName = "rs1compatibilitydisc" + PsarcExtension;
+                var rs1PackName = "rs1compatibilitydisc" + EnabledExtension;
                 var dlcPath = Rs2DlcFolder;
 
                 // TODO: determine if GetFiles is case sensitive
@@ -123,7 +123,7 @@ namespace CustomsForgeSongManager.DataObjects
         {
             get
             {
-                var rs1DlcPackName = "rs1compatibilitydlc" + PsarcExtension;
+                var rs1DlcPackName = "rs1compatibilitydlc" + EnabledExtension;
                 var dlcPath = Rs2DlcFolder;
 
                 // TODO: determine if GetFiles is case sensitive

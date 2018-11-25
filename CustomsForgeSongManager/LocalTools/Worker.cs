@@ -111,14 +111,8 @@ namespace CustomsForgeSongManager.LocalTools
         private void ParseSongs(object sender, DoWorkEventArgs e)
         {
             Globals.IsScanning = true;
-            List<string> filesList;
-
-            // is this a full rescan
-            if (Globals.MasterCollection.Count == 0)
-                filesList = FilesList(Constants.Rs2DlcFolder, AppSettings.Instance.IncludeRS1CompSongs, AppSettings.Instance.IncludeRS2BaseSongs, AppSettings.Instance.IncludeCustomPacks);
-            else
-                filesList = FilesList(Constants.Rs2DlcFolder, false, false, false);
-
+            List<string> filesList = FilesList(Constants.Rs2DlcFolder, AppSettings.Instance.IncludeRS1CompSongs, AppSettings.Instance.IncludeRS2BaseSongs, AppSettings.Instance.IncludeCustomPacks);
+            // remove inlays
             filesList = filesList.Where(fi => !fi.ToLower().Contains("inlay")).ToList();
 
             // initialization
@@ -144,7 +138,7 @@ namespace CustomsForgeSongManager.LocalTools
                 .Where(x => !x.FileName.ToLower().Contains(Constants.RS1COMP) &&
                 !x.FileName.ToLower().Contains(Constants.SONGPACK) &&
                 !x.FileName.ToLower().Contains(Constants.ABVSONGPACK) &&
-                !x.FileName.ToLower().EndsWith(Constants.BASESONGS)) 
+                !x.FileName.ToLower().EndsWith(Constants.BASESONGS))
                 .ToList() as List<SongData>;
 
             // this is improbable ... two songs have same FilePath
@@ -285,11 +279,6 @@ namespace CustomsForgeSongManager.LocalTools
         {
         }
 
-        // Invoke Template if needed
-        // GenExtensions.InvokeIfRequired(workOrder, delegate
-        //    {
-        //    });
-
         public static List<string> FilesList(string filePath, bool includeRS1Pack = false, bool includeRS2014BaseSongs = false, bool includeCustomPacks = false)
         {
             if (String.IsNullOrEmpty(filePath))
@@ -298,8 +287,8 @@ namespace CustomsForgeSongManager.LocalTools
             if (!Directory.Exists(filePath))
                 Directory.CreateDirectory(filePath);
 
-            var files = Directory.EnumerateFiles(filePath, "*" + Constants.PsarcExtension, SearchOption.AllDirectories).ToList();
-            files.AddRange(Directory.EnumerateFiles(filePath, "*" + Constants.DisabledPsarcExtension, SearchOption.AllDirectories).ToList());
+            var files = Directory.EnumerateFiles(filePath, "*" + Constants.EnabledExtension, SearchOption.AllDirectories).ToList();
+            files.AddRange(Directory.EnumerateFiles(filePath, "*" + Constants.DisabledExtension, SearchOption.AllDirectories).ToList());
 
             if (!includeRS1Pack)
                 files = files.Where(file => !file.ToLower().Contains(Constants.RS1COMP)).ToList();

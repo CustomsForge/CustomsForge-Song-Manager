@@ -166,7 +166,8 @@ namespace CustomsForgeSongManager.UControls
         private void IncludeSubfolders()
         {
             cueSearch.Text = String.Empty;
-            setlistMaster = Globals.MasterCollection;
+            // filter out any SongPacks
+            setlistMaster = new BindingList<SongData>(Globals.MasterCollection.Where(x => !x.IsRsCompPack && !x.IsSongsPsarc && !x.IsSongPack).ToList());
 
             if (!chkIncludeSubfolders.Checked)
             {
@@ -222,12 +223,18 @@ namespace CustomsForgeSongManager.UControls
             bindingCompleted = false;
             dgvPainted = false;
 
-            if (AppSettings.Instance.IncludeRS1CompSongs)
+            // double check that SongPacks have been filtered out ... JIC
+            if (setlistMaster.Any(x => x.IsRsCompPack || x.IsSongsPsarc || x.IsSongPack))
             {
-                Globals.Settings.chkIncludeRS1CompSongs.Checked = false;
-                Globals.Settings.chkIncludeRS2BaseSongs.Checked = false;
-                // ask user to rescan song collection to remove all RS1 Compatibility songs
-                MessageBox.Show(Properties.Resources.CanNotIncludeRS1CompatibilityFiles, MESSAGE_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                AppSettings.Instance.IncludeRS1CompSongs = false;
+                AppSettings.Instance.IncludeRS2BaseSongs = false;
+                AppSettings.Instance.IncludeCustomPacks = false;
+                // ask user to rescan song collection to remove all Song Pack songs
+                var diaMsg = "Can not include RS2014 Base Song file or" + Environment.NewLine +
+                             "RS1 Compatibility files as individual songs" + Environment.NewLine +
+                             "in a setlist.  Please return to Song Manager " + Environment.NewLine +
+                             "and perform a Full Rescan before resuming." + Environment.NewLine;
+                BetterDialog2.ShowDialog(diaMsg, "Setlist Manager ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "ReadMe", 0, 150);
                 return false;
             }
 
@@ -260,7 +267,9 @@ namespace CustomsForgeSongManager.UControls
 
                 // CAREFUL - brain damage area
                 // the use of LINQ 'Select' defeats the FilteredBindingList feature and locks data                
-                var setlistSongs = setlistMaster.Where(sng => (sng.ArtistTitleAlbum.ToLower().Contains(search) || sng.Tunings1D.ToLower().Contains(search) || sng.FilePath.ToLower().Contains(search)) && Path.GetDirectoryName(sng.FilePath) == setlistPath).ToList();
+                var setlistSongs = setlistMaster.Where(sng => (sng.ArtistTitleAlbum.ToLower().Contains(search) ||
+                    sng.Tunings1D.ToLower().Contains(search) || sng.FilePath.ToLower().Contains(search)) && 
+                    Path.GetDirectoryName(sng.FilePath) == setlistPath).ToList();
 
                 // the use of .Select breaks binding
                 // .Select(x => new { x.Selected, x.Enabled, x.Artist, x.Song, x.Album, x.Tuning, x.Path }).ToList();
@@ -276,28 +285,23 @@ namespace CustomsForgeSongManager.UControls
 
         private void LoadSongPacks()
         {
-            // populate dgvSongPacks that can be enabled/disabled (not all can be)           
+            // populate dgvSongPacks that can be enabled/disabled
             dgvSongPacks.Rows.Clear();
 
-            // Directory.GetFiles is not case sensitive so pick up case through LINQ
-            string[] rs1CompDiscFiles = Directory.GetFiles(dlcDir, "rs1compatibilitydisc*.psarc");
-            if (rs1CompDiscFiles.Any())
-            {
-                rs1CompDiscPath = rs1CompDiscFiles.First(x => x.ToLower().Contains("rs1compatibilitydisc"));
-                dgvSongPacks.Rows.Add(false, rs1CompDiscPath.Contains("disabled") ? "No" : "Yes", rs1CompDiscPath, Path.GetFileName(rs1CompDlcPath));
-            }
+            var baseSongFiles = Directory.GetFiles(AppSettings.Instance.RSInstalledDir, "*").Where(file => file.ToLower().Contains("songs") && file.ToLower().EndsWith(".psarc")).ToList();
+            if (baseSongFiles.Any())
+                foreach (var baseSongFile in baseSongFiles)
+                    dgvSongPacks.Rows.Add(false, baseSongFile.Contains("disabled") ? "No" : "Yes", baseSongFile, Path.GetFileName(baseSongFile));
 
-            string[] rs1CompDlcFiles = Directory.GetFiles(dlcDir, "rs1compatibilitydlc*.psarc");
-            if (rs1CompDlcFiles.Any())
-            {
-                rs1CompDlcPath = rs1CompDlcFiles.First(x => x.ToLower().Contains("rs1compatibilitydlc"));
-                dgvSongPacks.Rows.Add(false, rs1CompDlcPath.Contains("disabled") ? "No" : "Yes", rs1CompDlcPath, Path.GetFileName(rs1CompDlcPath));
-            }
+            var rs1CompFiles = Directory.GetFiles(dlcDir, "*").Where(file => file.ToLower().Contains(Constants.RS1COMP)).ToList();
+            if (rs1CompFiles.Any())
+                foreach (var rs1CompFile in rs1CompFiles)
+                    dgvSongPacks.Rows.Add(false, rs1CompFile.Contains("disabled") ? "No" : "Yes", rs1CompFile, Path.GetFileName(rs1CompFile));
 
-            string[] customSongPacks = Directory.GetFiles(dlcDir, "*.*").Where(file => file.ToLower().EndsWith(".psarc") && file.ToLower().Contains("songpack")).ToArray();
-            if (customSongPacks.Any())
-                foreach (var customPackPath in customSongPacks)
-                    dgvSongPacks.Rows.Add(false, customPackPath.Contains("disabled") ? "No" : "Yes", customPackPath, Path.GetFileName(customPackPath));
+            var songPackFiles = Directory.GetFiles(dlcDir, "*", SearchOption.AllDirectories).Where(file => file.ToLower().Contains(Constants.SONGPACK) || file.ToLower().Contains(Constants.ABVSONGPACK)).ToList();
+            if (songPackFiles.Any())
+                foreach (var songPackFile in songPackFiles)
+                    dgvSongPacks.Rows.Add(false, songPackFile.Contains("disabled") ? "No" : "Yes", songPackFile, Path.GetFileName(songPackFile));
 
             dgvSongPacks.Columns["colSongPackPath"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
         }
@@ -362,7 +366,8 @@ namespace CustomsForgeSongManager.UControls
                 return;
             }
 
-            setlistMaster = Globals.MasterCollection;
+            // filter out any SongPacks
+            setlistMaster = new BindingList<SongData>(Globals.MasterCollection.Where(x => !x.IsRsCompPack && !x.IsSongsPsarc && !x.IsSongPack).ToList());
         }
 
         private void SearchCDLC(string criteria)
@@ -513,14 +518,18 @@ namespace CustomsForgeSongManager.UControls
                     {
                         if (row.Cells[colNdxEnabled].Value.ToString() == "Yes")
                         {
-                            var disabledPath = originalPath.Replace(Constants.PsarcExtension, Constants.DisabledPsarcExtension);
+                            var disabledPath = originalPath.Replace(Constants.EnabledExtension, Constants.DisabledExtension);
+                            if (originalPath.EndsWith(Constants.BASESONGS))
+                                disabledPath = originalPath.Replace(Constants.BASESONGS, "songs.disabled.psarc");
                             File.Move(originalPath, disabledPath);
                             row.Cells[colNdxPath].Value = disabledPath;
                             row.Cells[colNdxEnabled].Value = "No";
                         }
                         else
                         {
-                            var enabledPath = originalPath.Replace(Constants.DisabledPsarcExtension, Constants.PsarcExtension);
+                            var enabledPath = originalPath.Replace(Constants.DisabledExtension, Constants.EnabledExtension);
+                            if (originalPath.EndsWith("songs.disabled.psarc"))
+                                enabledPath = originalPath.Replace("songs.disabled.psarc", Constants.BASESONGS);
                             File.Move(originalPath, enabledPath);
                             row.Cells[colNdxPath].Value = enabledPath;
                             row.Cells[colNdxEnabled].Value = "Yes";
@@ -820,9 +829,9 @@ namespace CustomsForgeSongManager.UControls
                 var newSongName = String.Empty;
 
                 if (setlistEnabled)
-                    newSongName = songName.Replace(Constants.PsarcExtension, Constants.DisabledPsarcExtension);
+                    newSongName = songName.Replace(Constants.EnabledExtension, Constants.DisabledExtension);
                 else
-                    newSongName = songName.Replace(Constants.DisabledPsarcExtension, Constants.PsarcExtension);
+                    newSongName = songName.Replace(Constants.DisabledExtension, Constants.EnabledExtension);
 
                 var songPath = Path.Combine(newSetlistDir, songName);
                 var newSongPath = Path.Combine(newSetlistDir, newSongName);
@@ -904,7 +913,7 @@ namespace CustomsForgeSongManager.UControls
                 if (rs1DLCPack != "Select a setlist")
                     foreach (string rs1DLCFile in rs1DLCFiles)
                         if (Path.GetDirectoryName(rs1DLCFile) != Path.Combine(dlcDir, rs1DLCPack))
-                            File.Move(rs1DLCFile, rs1DLCFile.Replace(Constants.PsarcExtension, Constants.DisabledPsarcExtension));
+                            File.Move(rs1DLCFile, rs1DLCFile.Replace(Constants.EnabledExtension, Constants.DisabledExtension));
             }
 
             if (rs1Files.Count > 1)
@@ -927,7 +936,7 @@ namespace CustomsForgeSongManager.UControls
                 {
                     foreach (string rs1File in rs1Files)
                         if (Path.GetDirectoryName(rs1File) != Path.Combine(dlcDir, rs1MainPack))
-                            File.Move(rs1File, rs1File.Replace(Constants.PsarcExtension, Constants.DisabledPsarcExtension));
+                            File.Move(rs1File, rs1File.Replace(Constants.EnabledExtension, Constants.DisabledExtension));
                 }
             }
 

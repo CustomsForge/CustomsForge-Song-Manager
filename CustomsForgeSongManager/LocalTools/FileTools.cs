@@ -116,7 +116,7 @@ namespace CustomsForgeSongManager.LocalTools
 
                     var artistName = songInfo.Artist;
                     var titleName = songInfo.Title;
-                    var destFileName = String.Format("{0}_{1}_v{2}{3}", artistName, titleName, version, Constants.PsarcExtension);
+                    var destFileName = String.Format("{0}_{1}_v{2}{3}", artistName, titleName, version, Constants.EnabledExtension);
                     var destDir = Path.Combine(dlcDir, artistName);
                     destFilePath = Path.Combine(destDir, destFileName);
 

@@ -425,14 +425,14 @@ namespace CustomsForgeSongManager.UControls
                         {
                             if (sd.Enabled == "Yes")
                             {
-                                var disabledPath = originalPath.Replace(Constants.PsarcExtension, Constants.DisabledPsarcExtension);
+                                var disabledPath = originalPath.Replace(Constants.EnabledExtension, Constants.DisabledExtension);
                                 File.Move(originalPath, disabledPath);
                                 sd.FilePath = disabledPath;
                                 sd.Enabled = "No";
                             }
                             else
                             {
-                                var enabledPath = originalPath.Replace(Constants.DisabledPsarcExtension, Constants.PsarcExtension);
+                                var enabledPath = originalPath.Replace(Constants.DisabledExtension, Constants.EnabledExtension);
                                 File.Move(originalPath, enabledPath);
                                 sd.FilePath = enabledPath;
                                 sd.Enabled = "Yes";
