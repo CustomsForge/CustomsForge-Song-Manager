@@ -47,9 +47,9 @@ namespace CustomsForgeSongManager.Forms
         {
             InitializeComponent();
 
-            // TODO: future progress tracker feature
+            // TODO: future ProfileSongLists feature
             if (!Constants.DebugMode)
-                tcMain.TabPages.RemoveByKey("tpProgTracker");
+                tcMain.TabPages.RemoveByKey("tpProfileSongLists");
 
             // create VersionInfo.txt file
             VersionInfo.CreateVersionInfo();
@@ -336,7 +336,6 @@ namespace CustomsForgeSongManager.Forms
                     this.tpSetlistManager.Controls.Clear();
                     this.tpSetlistManager.Controls.Add(Globals.SetlistManager);
                     Globals.SetlistManager.Dock = DockStyle.Fill;
-                    Globals.SetlistManager.UpdateToolStrip();
                     Globals.SetlistManager.Location = UCLocation;
                     Globals.SetlistManager.Size = UCSize;
                     currentControl = Globals.SetlistManager;
@@ -365,6 +364,15 @@ namespace CustomsForgeSongManager.Forms
                     Globals.About.Location = UCLocation;
                     Globals.About.Size = UCSize;
                     currentControl = Globals.About;
+                    break;
+
+                case "Profile Song Lists":
+                    this.tpProfileSongLists.Controls.Clear();
+                    this.tpProfileSongLists.Controls.Add(Globals.ProfileSongLists);
+                    Globals.ProfileSongLists.Dock = DockStyle.Fill;
+                    Globals.ProfileSongLists.Location = UCLocation;
+                    Globals.ProfileSongLists.Size = UCSize;
+                    currentControl = Globals.ProfileSongLists;
                     break;
             }
 

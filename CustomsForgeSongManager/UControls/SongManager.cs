@@ -1900,6 +1900,11 @@ namespace CustomsForgeSongManager.UControls
 
         private void tsmiDevsDebugUse_Click(object sender, EventArgs e)
         {
+            var prfldbFile = RocksmithProfile.SelectPrfldb();
+            // reads the six setlists from a prfldb file
+            var setlists = RocksmithProfile.ReadProfileSongLists(prfldbFile);
+            return;
+
             PackageDataTools.ShowUpdaterWindow();
             return;
             // temporarily debugging some things here

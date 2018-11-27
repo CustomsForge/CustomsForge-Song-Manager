@@ -78,6 +78,7 @@ namespace CustomsForgeSongManager.UControls
             LoadSetLists(); // this generates a selection change
             // LoadSetlistSongs(); // so this is not needed
             LoadSongPacks();
+            UpdateToolStrip();
         }
 
         public void UpdateToolStrip()
@@ -85,10 +86,14 @@ namespace CustomsForgeSongManager.UControls
             if (Globals.RescanSetlistManager)
             {
                 Rescan();
+                IncludeSubfolders();
                 PopulateSetlistManager();
             }
             else if (Globals.ReloadSetlistManager)
+            {
+                IncludeSubfolders();
                 PopulateSetlistManager();
+            }
 
             Globals.RescanSetlistManager = false;
             Globals.ReloadSetlistManager = false;
@@ -476,8 +481,7 @@ namespace CustomsForgeSongManager.UControls
             Globals.RescanDuplicates = true;
             Globals.ReloadSongManager = true;
             Globals.ReloadRenamer = true;
-            LoadSetlistMaster();
-            LoadSetlistSongs(curSetlistName);
+            Globals.RescanSetlistManager = true;
             UpdateToolStrip();
             RefreshAllDgv(true);
         }

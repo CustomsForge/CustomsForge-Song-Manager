@@ -317,6 +317,12 @@
     <Compile Include="UControls\ArrangementAnalyzer.Designer.cs">
       <DependentUpon>ArrangementAnalyzer.cs</DependentUpon>
     </Compile>
+    <Compile Include="UControls\ProfileSongLists.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UControls\ProfileSongLists.Designer.cs">
+      <DependentUpon>ProfileSongLists.cs</DependentUpon>
+    </Compile>
     <Compile Include="UControls\SongPacks.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -454,6 +460,10 @@
       <DependentUpon>ArrangementAnalyzer.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="UControls\ProfileSongLists.resx">
+      <DependentUpon>ProfileSongLists.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="UControls\SongPacks.resx">
       <DependentUpon>SongPacks.cs</DependentUpon>
     </EmbeddedResource>
@@ -476,6 +486,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UControls\Blank.resx">
       <DependentUpon>Blank.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UControls\SongManager.resx">
       <DependentUpon>SongManager.cs</DependentUpon>

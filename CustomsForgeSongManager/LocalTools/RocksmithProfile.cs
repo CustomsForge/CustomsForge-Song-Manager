@@ -11,6 +11,10 @@ using GenTools;
 using Microsoft.Win32;
 using System.Globalization;
 using System.Management;
+using RocksmithToolkitLib.DLCPackage;
+using Newtonsoft.Json.Linq;
+using System.Diagnostics;
+using Newtonsoft.Json;
 
 namespace CustomsForgeSongManager.LocalTools
 {
@@ -55,7 +59,7 @@ namespace CustomsForgeSongManager.LocalTools
             return false;
         }
 
-        public static string GetRemoteDir()
+        public static string GetRemoteDir(bool confirmPath = true)
         {
             bool foundSteamDirPath = false;
             var remoteDirPath = String.Empty;
@@ -107,24 +111,27 @@ namespace CustomsForgeSongManager.LocalTools
             }
 
             // user should still confirm location of remoteDirPath
-            using (var fbd = new FolderBrowserDialog())
+            if (confirmPath)
             {
-                if (!String.IsNullOrEmpty(AppSettings.Instance.RSProfileDir.Trim()))
-                    fbd.SelectedPath = AppSettings.Instance.RSProfileDir;
-                else
+                using (var fbd = new FolderBrowserDialog())
                 {
-                    if (String.IsNullOrEmpty(remoteDirPath))
-                        fbd.SelectedPath = steamDirPath;
+                    if (!String.IsNullOrEmpty(AppSettings.Instance.RSProfileDir.Trim()))
+                        fbd.SelectedPath = AppSettings.Instance.RSProfileDir;
                     else
-                        fbd.SelectedPath = remoteDirPath;
+                    {
+                        if (String.IsNullOrEmpty(remoteDirPath))
+                            fbd.SelectedPath = steamDirPath;
+                        else
+                            fbd.SelectedPath = remoteDirPath;
+                    }
+
+                    fbd.Description = "Select the Rocksmith 2014 user profile directory location." + Environment.NewLine + "HINT: Do a Windows Search for '*_prfldb' files to find the path" + Environment.NewLine + "then back out of the subfolder and select the '221680' root folder.";
+
+                    if (fbd.ShowDialog() != DialogResult.OK)
+                        return null;
+
+                    remoteDirPath = fbd.SelectedPath;
                 }
-
-                fbd.Description = "Select the Rocksmith 2014 user profile directory location." + Environment.NewLine + "HINT: Do a Windows Search for '*_prfldb' files to find the path" + Environment.NewLine + "then back out of the subfolder and select the '221680' root folder.";
-
-                if (fbd.ShowDialog() != DialogResult.OK)
-                    return null;
-
-                remoteDirPath = fbd.SelectedPath;
             }
 
             AppSettings.Instance.RSProfileDir = remoteDirPath;
@@ -236,5 +243,71 @@ namespace CustomsForgeSongManager.LocalTools
 
             return backups;
         }
+
+        public static SongListsRoot ReadProfileSongLists(string profilePath)
+        {
+            if (String.IsNullOrEmpty(profilePath))
+                return null;
+
+            var songListsRoot = new SongListsRoot();
+
+            try
+            {
+                using (var input = File.OpenRead(profilePath))
+                using (var outMS = new MemoryStream())
+                using (var br = new StreamReader(outMS))
+                {
+                    RijndaelEncryptor.DecryptProfile(input, outMS);
+                    JToken profileToken = JObject.Parse(br.ReadToEnd());
+                    var slrToken = profileToken.SelectToken("SongListsRoot"); //"SongLists"
+                    songListsRoot = slrToken.ToObject<SongListsRoot>();
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("<ERROR> Unknown user profile file format. " + ex.Message);
+            }
+
+            return songListsRoot;
+        }
+
+        public static string SelectPrfldb()
+        {
+            using (var ofd = new OpenFileDialog())
+            {
+                var srcDir = GetRemoteDir(false);
+                if (string.IsNullOrEmpty(srcDir))
+                {
+                    srcDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
+                    if (Environment.OSVersion.Version.Major >= 6)
+                        srcDir = Directory.GetParent(srcDir).ToString();
+
+                    if (Constants.DebugMode)
+                        srcDir = "D:\\Temp"; // for testing
+                }
+
+                ofd.Filter = "Game Save Profiles (*_prfldb)|*_prfldb";
+                ofd.Title = "Select the Rocksmith 2014 ProfileDatabase file";
+                ofd.FilterIndex = 1;
+                ofd.InitialDirectory = srcDir;
+                ofd.CheckPathExists = true;
+                ofd.Multiselect = false;
+
+                if (ofd.ShowDialog() != DialogResult.OK)
+                    return null;
+
+                var fileName = ofd.FileName;
+                return fileName;
+            }
+        }
+
     }
+
+
+    public class SongListsRoot // new in Remastered
+    {
+        public List<List<string>> SongLists { get; set; }
+        // public string[][] SongLists { get; set; }
+    }
+
 }

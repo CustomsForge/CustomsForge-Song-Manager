@@ -14,6 +14,12 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+
+1.4.9.0
+- new Profile Song Lists tab under development
+- fixed SetlistManager copy/move/delete action
+- fixed error condition from being thrown when Setlist is emptied
+
 1.4.8.9
 - improved SongManager and SetlistManager handling of all types of SongPacks
 - fixed bug identifying Rocksmith Base Songs

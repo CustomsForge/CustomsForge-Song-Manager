@@ -395,7 +395,6 @@ namespace DataGridViewTools
             {
                 OriginalList.Add(this[e.NewIndex]);
                 if (!String.IsNullOrEmpty(Filter))
-                //if (Filter == null || Filter == "")
                 {
                     string cachedFilter = this.Filter;
                     this.Filter = String.Empty;
@@ -403,8 +402,9 @@ namespace DataGridViewTools
                 }
             }
             // Remove the new item from the original list.
-            if (e.ListChangedType == ListChangedType.ItemDeleted)
-                OriginalList.RemoveAt(e.NewIndex);
+            if (e.NewIndex < OriginalList.Count)
+                if (e.ListChangedType == ListChangedType.ItemDeleted)
+                    OriginalList.RemoveAt(e.NewIndex);
 
             base.OnListChanged(e);
         }

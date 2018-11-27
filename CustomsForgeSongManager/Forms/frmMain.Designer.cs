@@ -52,6 +52,7 @@ namespace CustomsForgeSongManager.Forms
             this.tpSongPacks = new System.Windows.Forms.TabPage();
             this.tpSettings = new System.Windows.Forms.TabPage();
             this.tpAbout = new System.Windows.Forms.TabPage();
+            this.tpProfileSongLists = new System.Windows.Forms.TabPage();
             this.tsUtilities = new System.Windows.Forms.ToolStrip();
             this.tsBtnLaunchRS = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -210,6 +211,7 @@ namespace CustomsForgeSongManager.Forms
             this.tcMain.Controls.Add(this.tpSongPacks);
             this.tcMain.Controls.Add(this.tpSettings);
             this.tcMain.Controls.Add(this.tpAbout);
+            this.tcMain.Controls.Add(this.tpProfileSongLists);
             this.tcMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tcMain.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tcMain.Location = new System.Drawing.Point(0, 0);
@@ -293,6 +295,16 @@ namespace CustomsForgeSongManager.Forms
             this.tpAbout.Text = "About";
             this.tpAbout.UseVisualStyleBackColor = true;
             // 
+            // tpProfileSongLists
+            // 
+            this.tpProfileSongLists.Location = new System.Drawing.Point(4, 25);
+            this.tpProfileSongLists.Name = "tpProfileSongLists";
+            this.tpProfileSongLists.Padding = new System.Windows.Forms.Padding(3);
+            this.tpProfileSongLists.Size = new System.Drawing.Size(1003, 472);
+            this.tpProfileSongLists.TabIndex = 10;
+            this.tpProfileSongLists.Text = "Profile Song Lists";
+            this.tpProfileSongLists.UseVisualStyleBackColor = true;
+            // 
             // tsUtilities
             // 
             this.tsUtilities.Dock = System.Windows.Forms.DockStyle.None;
@@ -363,14 +375,14 @@ namespace CustomsForgeSongManager.Forms
             // tsmiBBCode
             // 
             this.tsmiBBCode.Name = "tsmiBBCode";
-            this.tsmiBBCode.Size = new System.Drawing.Size(152, 22);
+            this.tsmiBBCode.Size = new System.Drawing.Size(125, 22);
             this.tsmiBBCode.Text = "BB Code";
             this.tsmiBBCode.Click += new System.EventHandler(this.tsmiBBCode_Click);
             // 
             // tsmiCSV
             // 
             this.tsmiCSV.Name = "tsmiCSV";
-            this.tsmiCSV.Size = new System.Drawing.Size(152, 22);
+            this.tsmiCSV.Size = new System.Drawing.Size(125, 22);
             this.tsmiCSV.Text = "CSV";
             this.tsmiCSV.ToolTipText = resources.GetString("tsmiCSV.ToolTipText");
             this.tsmiCSV.Click += new System.EventHandler(this.tsmiCSV_Click);
@@ -378,21 +390,21 @@ namespace CustomsForgeSongManager.Forms
             // tsmiHTML
             // 
             this.tsmiHTML.Name = "tsmiHTML";
-            this.tsmiHTML.Size = new System.Drawing.Size(152, 22);
+            this.tsmiHTML.Size = new System.Drawing.Size(125, 22);
             this.tsmiHTML.Text = "HTML";
             this.tsmiHTML.Click += new System.EventHandler(this.tsmiHTML_Click);
             // 
             // jSONToolStripMenuItem
             // 
             this.jSONToolStripMenuItem.Name = "jSONToolStripMenuItem";
-            this.jSONToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.jSONToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
             this.jSONToolStripMenuItem.Text = "JSON";
             this.jSONToolStripMenuItem.Click += new System.EventHandler(this.tsmiJSON_Click);
             // 
             // xMLToolStripMenuItem
             // 
             this.xMLToolStripMenuItem.Name = "xMLToolStripMenuItem";
-            this.xMLToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.xMLToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
             this.xMLToolStripMenuItem.Text = "XML";
             this.xMLToolStripMenuItem.Click += new System.EventHandler(this.tsmiXML_Click);
             // 
@@ -720,5 +732,6 @@ namespace CustomsForgeSongManager.Forms
         private ToolStripMenuItem jSONToolStripMenuItem;
         private ToolStripMenuItem xMLToolStripMenuItem;
         public TabControl tcMain;
+        private TabPage tpProfileSongLists;
     }
 }

@@ -43,6 +43,7 @@ namespace CustomsForgeSongManager.DataObjects
         private static Dictionary<string, SongData> _outdatedSongList;
         private static Renamer _renamer;
         private static SetlistManager _setlistManager;
+        private static ProfileSongLists _profileSongLists;
         private static SongPacks _songPacks;
         private static Settings _settings;
         private static BindingList<SongData> _masterCollection;
@@ -56,18 +57,18 @@ namespace CustomsForgeSongManager.DataObjects
 
         public static event EventHandler<ScannerEventHandler> OnScanEvent;
 
-        private static bool FIsScanning;
+        private static bool _isScanning;
 
         public static bool IsScanning
         {
-            get { return FIsScanning; }
+            get { return _isScanning; }
             set
             {
-                if (FIsScanning != value)
+                if (_isScanning != value)
                 {
-                    FIsScanning = value;
+                    _isScanning = value;
                     if (OnScanEvent != null)
-                        OnScanEvent(null, new ScannerEventHandler(FIsScanning));
+                        OnScanEvent(null, new ScannerEventHandler(_isScanning));
                 }
             }
         }
@@ -141,11 +142,13 @@ namespace CustomsForgeSongManager.DataObjects
         public static bool RescanDuplicates { get; set; }
         public static bool RescanRenamer { get; set; }
         public static bool RescanSetlistManager { get; set; }
+        public static bool RescanProfileSongLists { get; set; }
         public static bool RescanSongManager { get; set; }
         public static bool RescanArrangements { get; set; }
         public static bool ReloadDuplicates { get; set; }
         public static bool ReloadRenamer { get; set; }
         public static bool ReloadSetlistManager { get; set; }
+        public static bool ReloadProfileSongLists { get; set; }
         public static bool ReloadSongManager { get; set; }
         public static bool ReloadArrangements { get; set; }
         public static bool ReloadSongPacks { get; set; }
@@ -154,6 +157,12 @@ namespace CustomsForgeSongManager.DataObjects
         {
             get { return _setlistManager ?? (_setlistManager = new SetlistManager()); }
             set { _setlistManager = value; }
+        }
+
+        public static ProfileSongLists ProfileSongLists
+        {
+            get { return _profileSongLists ?? (_profileSongLists = new ProfileSongLists()); }
+            set { _profileSongLists = value; }
         }
 
         public static Settings Settings
