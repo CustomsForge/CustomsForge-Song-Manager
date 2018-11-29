@@ -11,10 +11,11 @@ using GenTools;
 using Microsoft.Win32;
 using System.Globalization;
 using System.Management;
-using RocksmithToolkitLib.DLCPackage;
 using Newtonsoft.Json.Linq;
 using System.Diagnostics;
 using Newtonsoft.Json;
+using UserProfileLib;
+using System.Text;
 
 namespace CustomsForgeSongManager.LocalTools
 {
@@ -244,33 +245,6 @@ namespace CustomsForgeSongManager.LocalTools
             return backups;
         }
 
-        public static SongListsRoot ReadProfileSongLists(string profilePath)
-        {
-            if (String.IsNullOrEmpty(profilePath))
-                return null;
-
-            var songListsRoot = new SongListsRoot();
-
-            try
-            {
-                using (var input = File.OpenRead(profilePath))
-                using (var outMS = new MemoryStream())
-                using (var br = new StreamReader(outMS))
-                {
-                    RijndaelEncryptor.DecryptProfile(input, outMS);
-                    JToken profileToken = JObject.Parse(br.ReadToEnd());
-                    var slrToken = profileToken.SelectToken("SongListsRoot"); //"SongLists"
-                    songListsRoot = slrToken.ToObject<SongListsRoot>();
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("<ERROR> Unknown user profile file format. " + ex.Message);
-            }
-
-            return songListsRoot;
-        }
-
         public static string SelectPrfldb()
         {
             using (var ofd = new OpenFileDialog())
@@ -302,12 +276,4 @@ namespace CustomsForgeSongManager.LocalTools
         }
 
     }
-
-
-    public class SongListsRoot // new in Remastered
-    {
-        public List<List<string>> SongLists { get; set; }
-        // public string[][] SongLists { get; set; }
-    }
-
 }

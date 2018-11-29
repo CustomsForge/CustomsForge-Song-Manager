@@ -15,6 +15,7 @@ using CustomsForgeSongManager.UITheme;
 using GenTools;
 using DataGridViewTools;
 using CustomsForgeSongManager.Properties;
+using UserProfileLib;
 
 // Profile Song Lists tab menu is under development
 // TODO Items:
@@ -42,6 +43,7 @@ namespace CustomsForgeSongManager.UControls
         private Color songListColor = Color.Yellow;
         private BindingList<SongData> songListMaster = new BindingList<SongData>(); // prevents filtering from being inherited
         private SongListsRoot songListsRoot = new SongListsRoot();
+        private List<SongData> songListSongs = new List<SongData>();
         private List<SongData> songSearch = new List<SongData>();
 
         public ProfileSongLists()
@@ -144,7 +146,6 @@ namespace CustomsForgeSongManager.UControls
             return true;
         }
 
-        // TODO: FIXME
         private void LoadSongListSongs(string songListName, string search = "")
         {
             var selectedRow = dgvSongListsRoot.Rows.Cast<DataGridViewRow>().Where(slr => Convert.ToBoolean(slr.Cells["colSongListsRootSelect"].Value)).FirstOrDefault();
@@ -159,15 +160,37 @@ namespace CustomsForgeSongManager.UControls
                 return;
             }
 
-            //
-            // TODO: populate Song List Songs based on user selection from SongListsRoot
-            //
+            // populate Song List Songs based on user selection from SongListsRoot
+            const string noMatchingSongs = "Unknown";
+            var ndx = selectedRow.Index;
+            songListSongs.Clear();
+            
+            foreach (var dlcKey in songListsRoot.SongLists[ndx])
+            {
+                SongData sd = songListMaster.FirstOrDefault(x => x.DLCKey == dlcKey);
+                // DLCKey in SongLists does not match any in songsListMaster 
+                if (sd == null)
+                {
+                     sd = new SongData()
+                        {
+                            DLCKey = dlcKey,
+                            Artist = noMatchingSongs,
+                            Album = noMatchingSongs,
+                            Title = noMatchingSongs,
+                            // define these to prevent data exceptions
+                            Arrangements2D = new List<Arrangement>(),
+                            FilePath = noMatchingSongs                            
+                        };
+                }
 
-            //dgvSongList.AutoGenerateColumns = false;
-            //dgvSongList.DataSource = new FilteredBindingList<SongData>(songListSongs);
+                songListSongs.Add(sd);
+            }
+
+            dgvSongListSongs.AutoGenerateColumns = false;
+            dgvSongListSongs.DataSource = new FilteredBindingList<SongData>(songListSongs);
 
             gbSongListSongs.Text = String.Format("Song List Songs: {0}", songListName);
-            Globals.TsLabel_DisabledCounter.Text = String.Format("Song List '{0}', Song Count: {1}", songListName, dgvSongListSongs.Rows.Count);
+            Globals.TsLabel_DisabledCounter.Text = String.Format("Song List '{0}', Song Count: {1}", songListName, songListSongs.Count);
             RefreshAllDgv(false);
         }
 
@@ -183,7 +206,7 @@ namespace CustomsForgeSongManager.UControls
             gbSongListsRoot.Text = String.Format("User Profile: {0}", Path.GetFileName(prfldbFile));
 
             // reads the six SongLists from a prfldb file
-            songListsRoot = RocksmithProfile.ReadProfileSongLists(prfldbFile);
+            songListsRoot = Extensions.ReadSongListsRoot(prfldbFile);
 
             dgvSongListsRoot.Rows.Clear();
 
@@ -844,6 +867,8 @@ namespace CustomsForgeSongManager.UControls
         {
             // TODO: Impliment
             var debugMe = songListsRoot;
+
+
         }
 
         private void lnkLoadPrfldb_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

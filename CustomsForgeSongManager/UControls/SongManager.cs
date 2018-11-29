@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -26,6 +27,7 @@ using RocksmithToolkitLib.PsarcLoader;
 using RocksmithToolkitLib.Extensions;
 using BetterDialog2 = CustomControls.BetterDialog2;
 using System.Threading.Tasks;
+using UserProfileLib;
 
 
 namespace CustomsForgeSongManager.UControls
@@ -1901,11 +1903,16 @@ namespace CustomsForgeSongManager.UControls
         private void tsmiDevsDebugUse_Click(object sender, EventArgs e)
         {
             var prfldbFile = RocksmithProfile.SelectPrfldb();
-            // reads the six setlists from a prfldb file
-            var setlists = RocksmithProfile.ReadProfileSongLists(prfldbFile);
+            // reads the six SongLists from a prfldb file
+            var songListsRoot = Extensions.ReadSongListsRoot(prfldbFile);
+            if (songListsRoot == null) // return;
+                throw new DataException("<ERROR> SongsListsRoot null data exception.");
+            
+            songListsRoot.SongLists[0] = new List<string>() { "Cozy1", "Was", "Here!" };
+            Extensions.WriteSongListsRoot(prfldbFile, songListsRoot);
             return;
 
-            PackageDataTools.ShowUpdaterWindow();
+            PackageDataTools.ShowPackageRatingWarning();
             return;
             // temporarily debugging some things here
             var stopHere = songList;

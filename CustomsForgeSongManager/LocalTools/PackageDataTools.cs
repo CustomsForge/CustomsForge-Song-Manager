@@ -134,7 +134,7 @@ namespace CustomsForgeSongManager.LocalTools
                 return;
             }
 
-            ShowUpdaterWindow();
+            ShowPackageRatingWarning();
             // always wait for any PackageRating updates to finish
             Globals.UpdateInProgress = true;
 
@@ -186,8 +186,9 @@ namespace CustomsForgeSongManager.LocalTools
             return;
         }
 
+        // use BetterDialog2 as popup window
         private static CustomControls.BetterDialog2 alert = null;
-        public static void ShowUpdaterWindow()
+        public static void ShowPackageRatingWarning()
         {
             // wait for any PackageRating updates to finish
             Globals.Log("<CRITICAL WARNING> CDLC PackageRating updates are in progress ...");
