@@ -289,7 +289,7 @@ namespace CustomsForgeSongManager.UControls
                 return;
 
             var sd = DgvExtensions.GetObjectFromRow<SongData>(dataGridViewRow);
-            if (sd == null || sd.IsODLC || sd.IsRsCompPack)
+            if (sd == null || sd.IsODLC || sd.IsRsCompPack || sd.IsSongsPsarc)
                 return;
 
             //currentSong.IgnitionVersion = Ignition.GetDLCInfoFromURL(currentSong.GetInfoURL(), "version");
@@ -712,8 +712,13 @@ namespace CustomsForgeSongManager.UControls
         private void Rescan(bool fullRescan)
         {
             Thread.Sleep(200); // debounce
-            dgvSongsMaster.DataSource = null;
-            dgvSongsDetail.Visible = false;
+            try
+            {
+                dgvSongsDetail.Visible = false;
+                dgvSongsMaster.DataSource = null;
+            }
+            catch {/* DO NOTHING */}
+
 
             // this should never happen
             if (String.IsNullOrEmpty(AppSettings.Instance.RSInstalledDir))
@@ -1169,7 +1174,7 @@ namespace CustomsForgeSongManager.UControls
                 foreach (DataGridViewRow row in dgvSongsMaster.Rows)
                 {
                     var sd = DgvExtensions.GetObjectFromRow<SongData>(dgvSongsMaster, row.Index);
-                    if (sd != null && sd.IsODLC)
+                    if (sd != null && (sd.IsODLC || sd.IsRsCompPack || sd.IsSongsPsarc))
                         dgvSongsMaster.Rows[row.Index].Cells["colSelect"].Value = false;
                 }
 
@@ -1212,7 +1217,7 @@ namespace CustomsForgeSongManager.UControls
         {
             DgvExtensions.SaveSorting(dgvSongsMaster);
             var sd = DgvExtensions.GetObjectFromRow<SongData>(dgvSongsMaster.SelectedRows[0]);
-            if (sd.IsODLC)
+            if (sd.IsODLC || sd.IsRsCompPack || sd.IsSongsPsarc)
                 return;
 
             // DO NOT edit/modify/repair disabled CDLC
@@ -1475,7 +1480,7 @@ namespace CustomsForgeSongManager.UControls
             SongData sd = dgvSongsMaster.Rows[e.RowIndex].DataBoundItem as SongData;
             if (sd != null)
             {
-                if (sd.IsODLC || sd.IsRsCompPack || sd.IsSongsPsarc || sd.IsSongPack)
+                if (sd.IsODLC || sd.IsRsCompPack || sd.IsSongsPsarc)
                 {
                     e.CellStyle.Font = Constants.OfficialDLCFont;
                     DataGridViewCell cell = dgvSongsMaster.Rows[e.RowIndex].Cells["colSelect"];
@@ -1571,23 +1576,26 @@ namespace CustomsForgeSongManager.UControls
             var rowIndex = e.RowIndex;
             var colIndex = e.ColumnIndex;
 
+            var sd = DgvExtensions.GetObjectFromRow<SongData>(dgvSongsMaster, rowIndex);
+            if (sd == null)
+                return;
+
             if (e.Button == MouseButtons.Right)
             {
                 if (rowIndex != -1)
                 {
-                    var sd = DgvExtensions.GetObjectFromRow<SongData>(dgvSongsMaster, rowIndex);
                     dgvCurrent.Rows[rowIndex].Selected = true;
                     cmsDelete.Enabled = true;
                     cmsBackup.Enabled = true;
                     cmsEnableDisable.Enabled = true;
-                    cmsEdit.Enabled = !sd.IsODLC;
-                    cmsTaggerPreview.Enabled = !sd.IsODLC;
+                    cmsEdit.Enabled = !sd.IsODLC && !sd.IsRsCompPack && !sd.IsSongsPsarc && !sd.IsSongPack;
+                    cmsTaggerPreview.Enabled = !sd.IsODLC && !sd.IsRsCompPack && !sd.IsSongsPsarc;
 
-                    if (sd != null && sd.IsODLC)
+                    if (chkProtectODLC.Checked && (sd.IsODLC || sd.IsRsCompPack || sd.IsSongsPsarc))
                     {
-                        cmsDelete.Enabled = !chkProtectODLC.Checked;
-                        cmsBackup.Enabled = !chkProtectODLC.Checked;
-                        cmsEnableDisable.Enabled = !chkProtectODLC.Checked;
+                        cmsDelete.Enabled = false;
+                        cmsBackup.Enabled = false;
+                        cmsEnableDisable.Enabled = false;
                     }
 
                     cmsSongManager.Show(Cursor.Position);
@@ -1603,7 +1611,6 @@ namespace CustomsForgeSongManager.UControls
             // programmatic left clicking on colSelect
             if (e.Button == MouseButtons.Left && rowIndex != -1 && colIndex == colSelect.Index)
             {
-                var sd = DgvExtensions.GetObjectFromRow<SongData>(dgvSongsMaster, rowIndex);
                 // use Setlist Manager or SongPacks tab menu
                 if (sd.IsRsCompPack || sd.IsSongsPsarc || sd.IsSongPack)
                 {
@@ -1780,11 +1787,18 @@ namespace CustomsForgeSongManager.UControls
                 dgvSongsMaster.Refresh();
 
                 // Reselect last selected row after sorting
-                if (lastSelectedSongPath != string.Empty)
+                if (!String.IsNullOrEmpty(lastSelectedSongPath))
                 {
-                    int newRowIndex = dgvSongsMaster.Rows.Cast<DataGridViewRow>().FirstOrDefault(r => r.Cells["colFilePath"].Value.ToString() == lastSelectedSongPath).Index;
-                    dgvSongsMaster.Rows[newRowIndex].Selected = true;
-                    dgvSongsMaster.FirstDisplayedScrollingRowIndex = newRowIndex;
+                    try
+                    {
+                        int newRowIndex = dgvSongsMaster.Rows.Cast<DataGridViewRow>().FirstOrDefault(r => r.Cells["colFilePath"].Value.ToString() == lastSelectedSongPath).Index;
+                        dgvSongsMaster.Rows[newRowIndex].Selected = true;
+                        dgvSongsMaster.FirstDisplayedScrollingRowIndex = newRowIndex;
+                    }
+                    catch
+                    {
+                        lastSelectedSongPath = String.Empty;
+                    }
                 }
                 else
                     lastSelectedSongPath = String.Empty;
@@ -1903,13 +1917,15 @@ namespace CustomsForgeSongManager.UControls
         private void tsmiDevsDebugUse_Click(object sender, EventArgs e)
         {
             var prfldbFile = RocksmithProfile.SelectPrfldb();
-            // reads the six SongLists from a prfldb file
             var songListsRoot = Extensions.ReadSongListsRoot(prfldbFile);
+            Globals.Log(" - User Profile SongListsRoot Loaded ...");
+
             if (songListsRoot == null) // return;
                 throw new DataException("<ERROR> SongsListsRoot null data exception.");
-            
+
             songListsRoot.SongLists[0] = new List<string>() { "Cozy1", "Was", "Here!" };
-            Extensions.WriteSongListsRoot(prfldbFile, songListsRoot);
+            Extensions.WriteSongListsRoot(songListsRoot, prfldbFile);
+            Globals.Log(" - User Profile SongListsRoot Updated ...");
             return;
 
             PackageDataTools.ShowPackageRatingWarning();

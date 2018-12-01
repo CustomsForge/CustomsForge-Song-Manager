@@ -135,8 +135,12 @@ namespace CustomsForgeSongManager.LocalTools
                 }
             }
 
-            AppSettings.Instance.RSProfileDir = remoteDirPath;
-            Globals.Log("User Profile Directory changed to: " + remoteDirPath);
+            if (!String.IsNullOrEmpty(remoteDirPath))
+            {
+                AppSettings.Instance.RSProfileDir = remoteDirPath;
+                Globals.Log("User Profile Directory changed to: " + remoteDirPath);
+            }
+
             return remoteDirPath;
         }
 
@@ -250,6 +254,10 @@ namespace CustomsForgeSongManager.LocalTools
             using (var ofd = new OpenFileDialog())
             {
                 var srcDir = GetRemoteDir(false);
+               
+                if (string.IsNullOrEmpty(srcDir))
+                    srcDir = AppSettings.Instance.RSProfileDir;
+
                 if (string.IsNullOrEmpty(srcDir))
                 {
                     srcDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
@@ -271,6 +279,11 @@ namespace CustomsForgeSongManager.LocalTools
                     return null;
 
                 var fileName = ofd.FileName;
+
+                var remoteDirPath = Path.GetDirectoryName(fileName);
+                AppSettings.Instance.RSProfileDir = remoteDirPath;
+                Globals.Log("User Profile Directory changed to: " + remoteDirPath);
+
                 return fileName;
             }
         }

@@ -572,7 +572,7 @@ namespace CustomsForgeSongManager.UControls
             foreach (DataGridViewRow row in dgvCurrent.Rows)
             {
                 var sd = DgvExtensions.GetObjectFromRow<SongData>(dgvCurrent, row.Index);
-                if (sd != null && sd.IsODLC && chkProtectODLC.Checked)
+                if (sd != null && (sd.IsODLC || sd.IsRsCompPack || sd.IsSongsPsarc) && chkProtectODLC.Checked)
                     dgvCurrent.Rows[row.Index].Cells[colSelect.Index].Value = false;
                 else if (dgvCurrent == dgvSongPacks && chkProtectODLC.Checked)
                     dgvCurrent.Rows[row.Index].Cells[colSelect.Index].Value = false;
@@ -1147,6 +1147,10 @@ namespace CustomsForgeSongManager.UControls
             if (dgvCurrent.Rows.Count == 0)
                 return;
 
+            var sd = DgvExtensions.GetObjectFromRow<SongData>(dgvCurrent, e.RowIndex);
+            if (sd == null)
+                return;
+
             if (e.Button == MouseButtons.Right)
             {
                 dgvCurrent.Rows[e.RowIndex].Selected = true;
@@ -1154,7 +1158,10 @@ namespace CustomsForgeSongManager.UControls
                 cmsDelete.Enabled = true;
                 cmsMove.Enabled = true;
                 cmsEnableDisable.Enabled = true;
-
+                // known VS bug .. SourceControl returns null ... using tag for work around
+                cmsSetlistManager.Tag = dgvCurrent;
+                cmsSetlistManager.Show(Cursor.Position);
+         
                 if (dgvCurrent == dgvSongPacks)
                 {
                     cmsCopy.Enabled = false;
@@ -1166,19 +1173,14 @@ namespace CustomsForgeSongManager.UControls
                 }
                 else
                 {
-                    var sd = DgvExtensions.GetObjectFromRow<SongData>(dgvCurrent, e.RowIndex);
-                    if (sd != null && sd.IsODLC)
+                    if (chkProtectODLC.Checked && (sd.IsODLC || sd.IsRsCompPack || sd.IsSongsPsarc))
                     {
-                        cmsCopy.Enabled = !chkProtectODLC.Checked;
-                        cmsDelete.Enabled = !chkProtectODLC.Checked;
-                        cmsMove.Enabled = !chkProtectODLC.Checked;
-                        cmsEnableDisable.Enabled = !chkProtectODLC.Checked;
+                        cmsCopy.Enabled = false;
+                        cmsDelete.Enabled = false;
+                        cmsMove.Enabled = false;
+                        cmsEnableDisable.Enabled = false;
                     }
                 }
-
-                // known VS bug .. SourceControl returns null ... using tag for work around
-                cmsSetlistManager.Tag = dgvCurrent;
-                cmsSetlistManager.Show(Cursor.Position);
             }
 
             // user complained that clicking a row should not autocheck select
@@ -1187,8 +1189,7 @@ namespace CustomsForgeSongManager.UControls
             {
                 try
                 {
-                    var sd = DgvExtensions.GetObjectFromRow<SongData>(dgvCurrent, e.RowIndex);
-                    if (sd != null && sd.IsODLC && chkProtectODLC.Checked)
+                    if (chkProtectODLC.Checked && (sd.IsODLC || sd.IsRsCompPack || sd.IsSongsPsarc))
                         dgvCurrent.Rows[e.RowIndex].Cells[colSelect.Index].Value = false;
                     else if (dgvCurrent == dgvSongPacks && chkProtectODLC.Checked)
                         dgvCurrent.Rows[e.RowIndex].Cells[colSelect.Index].Value = false;
@@ -1245,11 +1246,6 @@ namespace CustomsForgeSongManager.UControls
                     }
                 }
             }
-        }
-
-        private void dgvSetlistMaster_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            //dgvSetlistMaster.Invalidate();
         }
 
         private void dgvSetlistMaster_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)

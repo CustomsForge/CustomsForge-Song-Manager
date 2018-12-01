@@ -187,6 +187,9 @@ namespace CustomsForgeSongManager.Forms
 
         private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
+            if (Globals.PrfldbNeedsUpdate)
+                Globals.ProfileSongLists.UpdateProfileSongLists();
+
             if (Globals.PackageRatingNeedsUpdate && !Globals.UpdateInProgress)
                 PackageDataTools.UpdatePackageRating();
 
