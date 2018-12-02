@@ -946,45 +946,7 @@ namespace CustomsForgeSongManager.UControls
             Globals.Log("Profile Song Lists GUI Deactivated ...");
         }
 
-        private void dgvGameSongLists_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
-        {
-
-            if (dgvGameSongLists.CurrentCell.ColumnIndex == 2 && e.Control is ComboBox)
-            {
-                ComboBox comboBox = e.Control as ComboBox;
-                comboBox.SelectedIndexChanged -= LastColumnComboSelectionChanged;
-                comboBox.SelectedIndexChanged += LastColumnComboSelectionChanged;
-            }
-        }
-
-        private void LastColumnComboSelectionChanged(object sender, EventArgs e)
-        {
-            string setlistName = dgvGameSongLists.Rows[0].Cells["colSetlistManager"].Value.ToString();
-            string inGameSetlist = dgvGameSongLists.Rows[0].Cells["colGameSongLists"].Value.ToString();
-
-            if (setlistName == "-")
-                return;
-
-            var msg = "Do you really want to add songs from your actual (made by CFSM) setlist '" + setlistName + "' to the in-game setlist: '" + inGameSetlist + "'";
-
-            if (DialogResult.No == BetterDialog2.ShowDialog(msg, "Add songs to the in-game setlist?", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning", 0, 150))
-                return;
-
-            var setlistSongs = new List<SongData>();
-            string dlcDir = Constants.Rs2DlcFolder;
-            string setlistPath = Path.Combine(dlcDir, setlistName);
-
-            foreach (var songPath in Directory.GetFiles(setlistPath, "*.psarc"))
-            {
-                var song = Globals.MasterCollection.FirstOrDefault(s => s.FilePath == songPath);
-
-                if (song != null)
-                    setlistSongs.Add(song);
-            }
-
-            SelectionAddRemove("add", null, setlistSongs);
-        }
-
+ 
         private void dgvGameSongLists_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex == -1)
