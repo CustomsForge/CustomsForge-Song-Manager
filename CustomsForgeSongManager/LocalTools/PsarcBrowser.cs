@@ -252,13 +252,14 @@ namespace CustomsForgeSongManager.LocalTools
                     if (Char.IsNumber(jsonEntry.Name[jsonEntry.Name.IndexOf(".json") - 1]))
                         arrName = arrName + jsonEntry.Name[jsonEntry.Name.IndexOf(".json") - 1];
 
-
                     if (!arrName.ToLower().EndsWith("vocals"))
                     {
                         // Arrangement Attributes used by SongManager            
                         arr.Tuning = PsarcExtensions.TuningToName(attributes.Tuning, Globals.TuningXml);
                         arr.TuningPitch = Convert.ToDouble(attributes.CentOffset).Cents2Frequency();
                         arr.DDMax = attributes.MaxPhraseDifficulty;
+                        // ScrollSpeed as defined by toolkit
+                        arr.ScrollSpeed = attributes.DynamicVisualDensity.Last(); 
 
                         if (!String.IsNullOrEmpty(attributes.Tone_Base))
                         {

@@ -162,6 +162,7 @@ namespace CustomsForgeSongManager.UControls
                         Name = songArr.Name,
                         CapoFret = songArr.CapoFret,
                         DDMax = songArr.DDMax,
+                        ScrollSpeed = songArr.ScrollSpeed,
                         TuningPitch = songArr.TuningPitch,
                         Tuning = songArr.Tuning,
                         ToneBase = songArr.ToneBase,

@@ -967,7 +967,6 @@ namespace CustomsForgeSongManager.UControls
 
         private void ProtectODLC()
         {
-
             // deselect and protect ODLC 
             if (chkProtectODLC.Checked)
             {
@@ -979,7 +978,7 @@ namespace CustomsForgeSongManager.UControls
                     foreach (DataGridViewRow row in dgvCurrent.Rows)
                     {
                         var sd = DgvExtensions.GetObjectFromRow<SongData>(dgvCurrent, row.Index);
-                        if (sd != null && sd.IsODLC)
+                        if (sd != null && (sd.IsODLC || sd.IsRsCompPack || sd.IsSongsPsarc))
                             dgvCurrent.Rows[row.Index].Cells[colSelect.Index].Value = false;
 
                         if (dgvCurrent == dgvSongPacks)
@@ -1381,14 +1380,14 @@ namespace CustomsForgeSongManager.UControls
 
         public void TabEnter()
         {
+            Globals.DgvCurrent = dgvSetlistMaster;
+            Globals.Log("Setlist Manager GUI Activated...");
             chkIncludeSubfolders.Checked = AppSettings.Instance.IncludeSubfolders;
             IncludeSubfolders();
             chkProtectODLC.Checked = AppSettings.Instance.ProtectODLC;
             ProtectODLC();
             PopulateSetlistManager();
-            Globals.DgvCurrent = dgvSetlistMaster;
-            Globals.Log("Setlist Manager GUI Activated...");
-        }
+         }
 
         public void TabLeave()
         {

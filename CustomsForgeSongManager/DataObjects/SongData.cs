@@ -56,7 +56,7 @@ namespace CustomsForgeSongManager.DataObjects
     {
         // version 0 - 9: recyclable version number
         // incrementing version forces songInfo.xml and appSettings.xml to reset/update to defaults
-        public const string SongDataVersion = "7"; // devs change only when needed to force user update
+        public const string SongDataVersion = "9"; // devs change only when needed to force user update
 
         // Unique Song Key
         public string DLCKey { get; set; }
@@ -250,12 +250,13 @@ namespace CustomsForgeSongManager.DataObjects
         public string Name { get; set; } // arrangement name
         public int? CapoFret { get; set; }
         public int? DDMax { get; set; }
+        public float? ScrollSpeed { get; set; } // stored as int in toolkit (x10)
         public string Tuning { get; set; }
         public double? TuningPitch { get; set; } // tuning frequency, see Cents2Frequency method
         public string ToneBase { get; set; }
         public string Tones { get; set; } // concatinated string of the tones used in arrangement
-        public int? SectionsCount { get; set; }
         public int? TonesCount { get; set; }
+        public int? SectionsCount { get; set; }
 
         // Arrangement Levels
         public int? ChordCount { get; set; }

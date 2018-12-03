@@ -278,13 +278,14 @@ namespace CustomsForgeSongManager.LocalTools
                 if (ofd.ShowDialog() != DialogResult.OK)
                     return null;
 
-                var fileName = ofd.FileName;
+                var profilePath = ofd.FileName;
 
-                var remoteDirPath = Path.GetDirectoryName(fileName);
+                var remoteDirPath = Path.GetDirectoryName(profilePath);
                 AppSettings.Instance.RSProfileDir = remoteDirPath;
                 Globals.Log("User Profile Directory changed to: " + remoteDirPath);
 
-                return fileName;
+                AppSettings.Instance.RSProfilePath = profilePath;
+                return profilePath;
             }
         }
 

@@ -34,7 +34,6 @@ namespace CustomsForgeSongManager.UControls
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ArrangementAnalyzer));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -73,6 +72,8 @@ namespace CustomsForgeSongManager.UControls
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle38 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle39 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle40 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle41 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ArrangementAnalyzer));
             this.panelSearch = new System.Windows.Forms.Panel();
             this.chkIncludeVocals = new System.Windows.Forms.CheckBox();
             this.chkIncludeSubfolders = new System.Windows.Forms.CheckBox();
@@ -85,15 +86,6 @@ namespace CustomsForgeSongManager.UControls
             this.lnklblChangeBPMThreshold = new System.Windows.Forms.LinkLabel();
             this.lnklblToggle = new System.Windows.Forms.LinkLabel();
             this.dgvArrangements = new DataGridViewTools.RADataGridView();
-            this.cmsArrangementsColumns = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.testToolStripMenuItem = new CustomControls.ToolStripEnhancedMenuItem();
-            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.menuStrip = new System.Windows.Forms.MenuStrip();
-            this.tsmiRescan = new CustomControls.ToolStripEnhancedMenuItem();
-            this.tsmiRescanQuick = new CustomControls.ToolStripEnhancedMenuItem();
-            this.tsmiRescanFull = new CustomControls.ToolStripEnhancedMenuItem();
-            this.tsmiHelp = new CustomControls.ToolStripEnhancedMenuItem();
-            this.tsmiHelpGeneral = new CustomControls.ToolStripEnhancedMenuItem();
             this.colDLCKey = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.colPersistentID = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
@@ -132,6 +124,7 @@ namespace CustomsForgeSongManager.UControls
             this.colCapoFret = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colDDMax = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colRepresent = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.colScrollSpeed = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colTuning = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colTuningPitch = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colToneBase = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
@@ -169,6 +162,15 @@ namespace CustomsForgeSongManager.UControls
             this.colBPMChangeCount = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colMaxBPM = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colMinBPM = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.cmsArrangementsColumns = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.testToolStripMenuItem = new CustomControls.ToolStripEnhancedMenuItem();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.menuStrip = new System.Windows.Forms.MenuStrip();
+            this.tsmiRescan = new CustomControls.ToolStripEnhancedMenuItem();
+            this.tsmiRescanQuick = new CustomControls.ToolStripEnhancedMenuItem();
+            this.tsmiRescanFull = new CustomControls.ToolStripEnhancedMenuItem();
+            this.tsmiHelp = new CustomControls.ToolStripEnhancedMenuItem();
+            this.tsmiHelpGeneral = new CustomControls.ToolStripEnhancedMenuItem();
             this.panelSearch.SuspendLayout();
             this.gb_Main_Search.SuspendLayout();
             this.gb_Main_Grid.SuspendLayout();
@@ -385,6 +387,7 @@ namespace CustomsForgeSongManager.UControls
             this.colCapoFret,
             this.colDDMax,
             this.colRepresent,
+            this.colScrollSpeed,
             this.colTuning,
             this.colTuningPitch,
             this.colToneBase,
@@ -428,6 +431,7 @@ namespace CustomsForgeSongManager.UControls
             this.dgvArrangements.Size = new System.Drawing.Size(879, 348);
             this.dgvArrangements.TabIndex = 1;
             this.dgvArrangements.Tag = "Arrangement Analyzer";
+            this.toolTip.SetToolTip(this.dgvArrangements, "Click on the \'Select\' checkbox to load an in-game song list");
             this.dgvArrangements.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvArrangements_CellContentClick);
             this.dgvArrangements.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvArrangements_CellDoubleClick);
             this.dgvArrangements.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvArrangements_CellFormatting);
@@ -436,103 +440,6 @@ namespace CustomsForgeSongManager.UControls
             this.dgvArrangements.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvArrangements_ColumnHeaderMouseClick);
             this.dgvArrangements.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvArrangements_KeyDown);
             this.dgvArrangements.KeyUp += new System.Windows.Forms.KeyEventHandler(this.dgvArrangements_KeyUp);
-            // 
-            // cmsArrangementsColumns
-            // 
-            this.cmsArrangementsColumns.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.cmsArrangementsColumns.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.testToolStripMenuItem});
-            this.cmsArrangementsColumns.Name = "cmsSongManagerColumns";
-            this.cmsArrangementsColumns.Size = new System.Drawing.Size(107, 26);
-            // 
-            // testToolStripMenuItem
-            // 
-            this.testToolStripMenuItem.AssociatedEnumValue = null;
-            this.testToolStripMenuItem.Checked = true;
-            this.testToolStripMenuItem.CheckOnClick = true;
-            this.testToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.testToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.testToolStripMenuItem.Name = "testToolStripMenuItem";
-            this.testToolStripMenuItem.RadioButtonGroupName = null;
-            this.testToolStripMenuItem.Size = new System.Drawing.Size(106, 22);
-            this.testToolStripMenuItem.Text = "Test";
-            // 
-            // toolTip
-            // 
-            this.toolTip.AutomaticDelay = 200;
-            this.toolTip.AutoPopDelay = 12000;
-            this.toolTip.InitialDelay = 200;
-            this.toolTip.IsBalloon = true;
-            this.toolTip.ReshowDelay = 100;
-            // 
-            // menuStrip
-            // 
-            this.menuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiRescan,
-            this.tsmiHelp});
-            this.menuStrip.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(899, 28);
-            this.menuStrip.TabIndex = 11;
-            this.menuStrip.Text = "menuStrip1";
-            // 
-            // tsmiRescan
-            // 
-            this.tsmiRescan.AssociatedEnumValue = null;
-            this.tsmiRescan.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiRescanQuick,
-            this.tsmiRescanFull});
-            this.tsmiRescan.Image = ((System.Drawing.Image)(resources.GetObject("tsmiRescan.Image")));
-            this.tsmiRescan.Name = "tsmiRescan";
-            this.tsmiRescan.RadioButtonGroupName = null;
-            this.tsmiRescan.Size = new System.Drawing.Size(74, 24);
-            this.tsmiRescan.Text = "Rescan";
-            this.tsmiRescan.ToolTipText = "See \'Settings\' menu for additional\r\ndata rescan and inclusion options.";
-            // 
-            // tsmiRescanQuick
-            // 
-            this.tsmiRescanQuick.AssociatedEnumValue = null;
-            this.tsmiRescanQuick.Image = ((System.Drawing.Image)(resources.GetObject("tsmiRescanQuick.Image")));
-            this.tsmiRescanQuick.Name = "tsmiRescanQuick";
-            this.tsmiRescanQuick.RadioButtonGroupName = null;
-            this.tsmiRescanQuick.Size = new System.Drawing.Size(111, 22);
-            this.tsmiRescanQuick.Text = "Quick";
-            this.tsmiRescanQuick.ToolTipText = "Quick reload of previously scanned data.\r\nOnly rescans data if necessary.";
-            this.tsmiRescanQuick.Click += new System.EventHandler(this.tsmiRescanQuick_Click);
-            // 
-            // tsmiRescanFull
-            // 
-            this.tsmiRescanFull.AssociatedEnumValue = null;
-            this.tsmiRescanFull.Image = ((System.Drawing.Image)(resources.GetObject("tsmiRescanFull.Image")));
-            this.tsmiRescanFull.Name = "tsmiRescanFull";
-            this.tsmiRescanFull.RadioButtonGroupName = null;
-            this.tsmiRescanFull.Size = new System.Drawing.Size(111, 22);
-            this.tsmiRescanFull.Text = "Full";
-            this.tsmiRescanFull.ToolTipText = "Preliminary scan or after significant changes.\r\n\r\nHint:\r\nTry running a \'Full\' res" +
-                "can if the CDLC\r\ncollection does not look as expected.";
-            this.tsmiRescanFull.Click += new System.EventHandler(this.tsmiRescanFull_Click);
-            // 
-            // tsmiHelp
-            // 
-            this.tsmiHelp.AssociatedEnumValue = null;
-            this.tsmiHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiHelpGeneral});
-            this.tsmiHelp.Image = ((System.Drawing.Image)(resources.GetObject("tsmiHelp.Image")));
-            this.tsmiHelp.Name = "tsmiHelp";
-            this.tsmiHelp.RadioButtonGroupName = null;
-            this.tsmiHelp.Size = new System.Drawing.Size(60, 24);
-            this.tsmiHelp.Text = "Help";
-            // 
-            // tsmiHelpGeneral
-            // 
-            this.tsmiHelpGeneral.AssociatedEnumValue = null;
-            this.tsmiHelpGeneral.Image = ((System.Drawing.Image)(resources.GetObject("tsmiHelpGeneral.Image")));
-            this.tsmiHelpGeneral.Name = "tsmiHelpGeneral";
-            this.tsmiHelpGeneral.RadioButtonGroupName = null;
-            this.tsmiHelpGeneral.Size = new System.Drawing.Size(146, 22);
-            this.tsmiHelpGeneral.Text = "General Help";
-            this.tsmiHelpGeneral.Click += new System.EventHandler(this.tsmiHelpGeneral_Click);
             // 
             // colDLCKey
             // 
@@ -552,6 +459,7 @@ namespace CustomsForgeSongManager.UControls
             this.colSelect.IndeterminateValue = "false";
             this.colSelect.Name = "colSelect";
             this.colSelect.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.colSelect.ToolTipText = "Left mouse click the \'Select\' checkbox to select a row";
             this.colSelect.TrueValue = "true";
             this.colSelect.Width = 50;
             // 
@@ -906,6 +814,15 @@ namespace CustomsForgeSongManager.UControls
             this.colRepresent.HeaderText = "Represent";
             this.colRepresent.Name = "colRepresent";
             // 
+            // colScrollSpeed
+            // 
+            this.colScrollSpeed.DataPropertyName = "ScrollSpeed";
+            dataGridViewCellStyle15.Format = "N1";
+            dataGridViewCellStyle15.NullValue = null;
+            this.colScrollSpeed.DefaultCellStyle = dataGridViewCellStyle15;
+            this.colScrollSpeed.HeaderText = "ScrollSpeed";
+            this.colScrollSpeed.Name = "colScrollSpeed";
+            // 
             // colTuning
             // 
             this.colTuning.DataPropertyName = "Tuning";
@@ -917,10 +834,10 @@ namespace CustomsForgeSongManager.UControls
             // colTuningPitch
             // 
             this.colTuningPitch.DataPropertyName = "TuningPitch";
-            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle15.Format = "N2";
-            dataGridViewCellStyle15.NullValue = null;
-            this.colTuningPitch.DefaultCellStyle = dataGridViewCellStyle15;
+            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle16.Format = "N2";
+            dataGridViewCellStyle16.NullValue = null;
+            this.colTuningPitch.DefaultCellStyle = dataGridViewCellStyle16;
             this.colTuningPitch.HeaderText = "TuningPitch";
             this.colTuningPitch.Name = "colTuningPitch";
             // 
@@ -940,9 +857,9 @@ namespace CustomsForgeSongManager.UControls
             // colTonesCount
             // 
             this.colTonesCount.DataPropertyName = "TonesCount";
-            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle16.NullValue = null;
-            this.colTonesCount.DefaultCellStyle = dataGridViewCellStyle16;
+            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle17.NullValue = null;
+            this.colTonesCount.DefaultCellStyle = dataGridViewCellStyle17;
             this.colTonesCount.HeaderText = "ToneSwitchCount";
             this.colTonesCount.Name = "colTonesCount";
             this.colTonesCount.ReadOnly = true;
@@ -951,9 +868,9 @@ namespace CustomsForgeSongManager.UControls
             // colSectionsCount
             // 
             this.colSectionsCount.DataPropertyName = "SectionsCount";
-            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle17.NullValue = null;
-            this.colSectionsCount.DefaultCellStyle = dataGridViewCellStyle17;
+            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle18.NullValue = null;
+            this.colSectionsCount.DefaultCellStyle = dataGridViewCellStyle18;
             this.colSectionsCount.HeaderText = "SectionsCount";
             this.colSectionsCount.Name = "colSectionsCount";
             this.colSectionsCount.ReadOnly = true;
@@ -961,9 +878,9 @@ namespace CustomsForgeSongManager.UControls
             // colNoteCount
             // 
             this.colNoteCount.DataPropertyName = "NoteCount";
-            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle18.NullValue = null;
-            this.colNoteCount.DefaultCellStyle = dataGridViewCellStyle18;
+            dataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle19.NullValue = null;
+            this.colNoteCount.DefaultCellStyle = dataGridViewCellStyle19;
             this.colNoteCount.HeaderText = "NoteCount";
             this.colNoteCount.Name = "colNoteCount";
             this.colNoteCount.ReadOnly = true;
@@ -971,9 +888,9 @@ namespace CustomsForgeSongManager.UControls
             // colChordCount
             // 
             this.colChordCount.DataPropertyName = "ChordCount";
-            dataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle19.NullValue = null;
-            this.colChordCount.DefaultCellStyle = dataGridViewCellStyle19;
+            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle20.NullValue = null;
+            this.colChordCount.DefaultCellStyle = dataGridViewCellStyle20;
             this.colChordCount.HeaderText = "ChordCount";
             this.colChordCount.Name = "colChordCount";
             this.colChordCount.ReadOnly = true;
@@ -988,9 +905,9 @@ namespace CustomsForgeSongManager.UControls
             // colAccentCount
             // 
             this.colAccentCount.DataPropertyName = "AccentCount";
-            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle20.NullValue = null;
-            this.colAccentCount.DefaultCellStyle = dataGridViewCellStyle20;
+            dataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle21.NullValue = null;
+            this.colAccentCount.DefaultCellStyle = dataGridViewCellStyle21;
             this.colAccentCount.HeaderText = "AccentCount";
             this.colAccentCount.Name = "colAccentCount";
             this.colAccentCount.ReadOnly = true;
@@ -999,9 +916,9 @@ namespace CustomsForgeSongManager.UControls
             // colBendCount
             // 
             this.colBendCount.DataPropertyName = "BendCount";
-            dataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle21.NullValue = null;
-            this.colBendCount.DefaultCellStyle = dataGridViewCellStyle21;
+            dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle22.NullValue = null;
+            this.colBendCount.DefaultCellStyle = dataGridViewCellStyle22;
             this.colBendCount.HeaderText = "BendCount";
             this.colBendCount.Name = "colBendCount";
             this.colBendCount.ReadOnly = true;
@@ -1010,9 +927,9 @@ namespace CustomsForgeSongManager.UControls
             // colFretHandMuteCount
             // 
             this.colFretHandMuteCount.DataPropertyName = "FretHandMuteCount";
-            dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle22.NullValue = null;
-            this.colFretHandMuteCount.DefaultCellStyle = dataGridViewCellStyle22;
+            dataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle23.NullValue = null;
+            this.colFretHandMuteCount.DefaultCellStyle = dataGridViewCellStyle23;
             this.colFretHandMuteCount.HeaderText = "FrethandMuteCount";
             this.colFretHandMuteCount.Name = "colFretHandMuteCount";
             this.colFretHandMuteCount.ReadOnly = true;
@@ -1021,9 +938,9 @@ namespace CustomsForgeSongManager.UControls
             // colHammerOnCount
             // 
             this.colHammerOnCount.DataPropertyName = "HammerOnCount";
-            dataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle23.NullValue = null;
-            this.colHammerOnCount.DefaultCellStyle = dataGridViewCellStyle23;
+            dataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle24.NullValue = null;
+            this.colHammerOnCount.DefaultCellStyle = dataGridViewCellStyle24;
             this.colHammerOnCount.HeaderText = "HammerOnCount";
             this.colHammerOnCount.Name = "colHammerOnCount";
             this.colHammerOnCount.ReadOnly = true;
@@ -1032,9 +949,9 @@ namespace CustomsForgeSongManager.UControls
             // colHarmonicCount
             // 
             this.colHarmonicCount.DataPropertyName = "HarmonicCount";
-            dataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle24.NullValue = null;
-            this.colHarmonicCount.DefaultCellStyle = dataGridViewCellStyle24;
+            dataGridViewCellStyle25.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle25.NullValue = null;
+            this.colHarmonicCount.DefaultCellStyle = dataGridViewCellStyle25;
             this.colHarmonicCount.HeaderText = "HarmonicCount";
             this.colHarmonicCount.Name = "colHarmonicCount";
             this.colHarmonicCount.ReadOnly = true;
@@ -1043,9 +960,9 @@ namespace CustomsForgeSongManager.UControls
             // colHarmonicPinchCount
             // 
             this.colHarmonicPinchCount.DataPropertyName = "HarmonicPinchCount";
-            dataGridViewCellStyle25.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle25.NullValue = null;
-            this.colHarmonicPinchCount.DefaultCellStyle = dataGridViewCellStyle25;
+            dataGridViewCellStyle26.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle26.NullValue = null;
+            this.colHarmonicPinchCount.DefaultCellStyle = dataGridViewCellStyle26;
             this.colHarmonicPinchCount.HeaderText = "HarmonicPinchCount";
             this.colHarmonicPinchCount.Name = "colHarmonicPinchCount";
             this.colHarmonicPinchCount.ReadOnly = true;
@@ -1054,9 +971,9 @@ namespace CustomsForgeSongManager.UControls
             // colHighestFretUsed
             // 
             this.colHighestFretUsed.DataPropertyName = "HighestFretUsed";
-            dataGridViewCellStyle26.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle26.NullValue = null;
-            this.colHighestFretUsed.DefaultCellStyle = dataGridViewCellStyle26;
+            dataGridViewCellStyle27.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle27.NullValue = null;
+            this.colHighestFretUsed.DefaultCellStyle = dataGridViewCellStyle27;
             this.colHighestFretUsed.HeaderText = "HighestFretUsed";
             this.colHighestFretUsed.Name = "colHighestFretUsed";
             this.colHighestFretUsed.ReadOnly = true;
@@ -1065,9 +982,9 @@ namespace CustomsForgeSongManager.UControls
             // colIgnoreCount
             // 
             this.colIgnoreCount.DataPropertyName = "IgnoreCount";
-            dataGridViewCellStyle27.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle27.NullValue = null;
-            this.colIgnoreCount.DefaultCellStyle = dataGridViewCellStyle27;
+            dataGridViewCellStyle28.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle28.NullValue = null;
+            this.colIgnoreCount.DefaultCellStyle = dataGridViewCellStyle28;
             this.colIgnoreCount.HeaderText = "IgnoreCount";
             this.colIgnoreCount.Name = "colIgnoreCount";
             this.colIgnoreCount.ReadOnly = true;
@@ -1076,9 +993,9 @@ namespace CustomsForgeSongManager.UControls
             // colLinkNextCount
             // 
             this.colLinkNextCount.DataPropertyName = "LinkNextCount";
-            dataGridViewCellStyle28.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle28.NullValue = null;
-            this.colLinkNextCount.DefaultCellStyle = dataGridViewCellStyle28;
+            dataGridViewCellStyle29.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle29.NullValue = null;
+            this.colLinkNextCount.DefaultCellStyle = dataGridViewCellStyle29;
             this.colLinkNextCount.HeaderText = "LinkNextCount";
             this.colLinkNextCount.Name = "colLinkNextCount";
             this.colLinkNextCount.Visible = false;
@@ -1086,9 +1003,9 @@ namespace CustomsForgeSongManager.UControls
             // colOctaveCount
             // 
             this.colOctaveCount.DataPropertyName = "OctaveCount";
-            dataGridViewCellStyle29.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle29.NullValue = null;
-            this.colOctaveCount.DefaultCellStyle = dataGridViewCellStyle29;
+            dataGridViewCellStyle30.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle30.NullValue = null;
+            this.colOctaveCount.DefaultCellStyle = dataGridViewCellStyle30;
             this.colOctaveCount.HeaderText = "OctaveCount";
             this.colOctaveCount.Name = "colOctaveCount";
             this.colOctaveCount.ReadOnly = true;
@@ -1097,9 +1014,9 @@ namespace CustomsForgeSongManager.UControls
             // colPalmMuteCount
             // 
             this.colPalmMuteCount.DataPropertyName = "PalmMuteCount";
-            dataGridViewCellStyle30.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle30.NullValue = null;
-            this.colPalmMuteCount.DefaultCellStyle = dataGridViewCellStyle30;
+            dataGridViewCellStyle31.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle31.NullValue = null;
+            this.colPalmMuteCount.DefaultCellStyle = dataGridViewCellStyle31;
             this.colPalmMuteCount.HeaderText = "PalmMuteCount";
             this.colPalmMuteCount.Name = "colPalmMuteCount";
             this.colPalmMuteCount.ReadOnly = true;
@@ -1108,9 +1025,9 @@ namespace CustomsForgeSongManager.UControls
             // colPluckCount
             // 
             this.colPluckCount.DataPropertyName = "PluckCount";
-            dataGridViewCellStyle31.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle31.NullValue = null;
-            this.colPluckCount.DefaultCellStyle = dataGridViewCellStyle31;
+            dataGridViewCellStyle32.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle32.NullValue = null;
+            this.colPluckCount.DefaultCellStyle = dataGridViewCellStyle32;
             this.colPluckCount.HeaderText = "PluckCount";
             this.colPluckCount.Name = "colPluckCount";
             this.colPluckCount.ReadOnly = true;
@@ -1119,9 +1036,9 @@ namespace CustomsForgeSongManager.UControls
             // colPullOffCount
             // 
             this.colPullOffCount.DataPropertyName = "PullOffCount";
-            dataGridViewCellStyle32.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle32.NullValue = null;
-            this.colPullOffCount.DefaultCellStyle = dataGridViewCellStyle32;
+            dataGridViewCellStyle33.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle33.NullValue = null;
+            this.colPullOffCount.DefaultCellStyle = dataGridViewCellStyle33;
             this.colPullOffCount.HeaderText = "PullOffCount";
             this.colPullOffCount.Name = "colPullOffCount";
             this.colPullOffCount.ReadOnly = true;
@@ -1130,9 +1047,9 @@ namespace CustomsForgeSongManager.UControls
             // colSlapCount
             // 
             this.colSlapCount.DataPropertyName = "SlapCount";
-            dataGridViewCellStyle33.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle33.NullValue = null;
-            this.colSlapCount.DefaultCellStyle = dataGridViewCellStyle33;
+            dataGridViewCellStyle34.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle34.NullValue = null;
+            this.colSlapCount.DefaultCellStyle = dataGridViewCellStyle34;
             this.colSlapCount.HeaderText = "SlapCount";
             this.colSlapCount.Name = "colSlapCount";
             this.colSlapCount.ReadOnly = true;
@@ -1141,9 +1058,9 @@ namespace CustomsForgeSongManager.UControls
             // colSlideCount
             // 
             this.colSlideCount.DataPropertyName = "SlideCount";
-            dataGridViewCellStyle34.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle34.NullValue = null;
-            this.colSlideCount.DefaultCellStyle = dataGridViewCellStyle34;
+            dataGridViewCellStyle35.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle35.NullValue = null;
+            this.colSlideCount.DefaultCellStyle = dataGridViewCellStyle35;
             this.colSlideCount.HeaderText = "SlideCount";
             this.colSlideCount.Name = "colSlideCount";
             this.colSlideCount.ReadOnly = true;
@@ -1152,9 +1069,9 @@ namespace CustomsForgeSongManager.UControls
             // colSlideUnpitchToCount
             // 
             this.colSlideUnpitchToCount.DataPropertyName = "SlideUnpitchToCount";
-            dataGridViewCellStyle35.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle35.NullValue = null;
-            this.colSlideUnpitchToCount.DefaultCellStyle = dataGridViewCellStyle35;
+            dataGridViewCellStyle36.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle36.NullValue = null;
+            this.colSlideUnpitchToCount.DefaultCellStyle = dataGridViewCellStyle36;
             this.colSlideUnpitchToCount.HeaderText = "SlideUnpitchToCount";
             this.colSlideUnpitchToCount.Name = "colSlideUnpitchToCount";
             this.colSlideUnpitchToCount.ReadOnly = true;
@@ -1163,9 +1080,9 @@ namespace CustomsForgeSongManager.UControls
             // colSustainCount
             // 
             this.colSustainCount.DataPropertyName = "SustainCount";
-            dataGridViewCellStyle36.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle36.NullValue = null;
-            this.colSustainCount.DefaultCellStyle = dataGridViewCellStyle36;
+            dataGridViewCellStyle37.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle37.NullValue = null;
+            this.colSustainCount.DefaultCellStyle = dataGridViewCellStyle37;
             this.colSustainCount.HeaderText = "SustainCount";
             this.colSustainCount.Name = "colSustainCount";
             this.colSustainCount.ReadOnly = true;
@@ -1174,9 +1091,9 @@ namespace CustomsForgeSongManager.UControls
             // colTapCount
             // 
             this.colTapCount.DataPropertyName = "TapCount";
-            dataGridViewCellStyle37.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle37.NullValue = null;
-            this.colTapCount.DefaultCellStyle = dataGridViewCellStyle37;
+            dataGridViewCellStyle38.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle38.NullValue = null;
+            this.colTapCount.DefaultCellStyle = dataGridViewCellStyle38;
             this.colTapCount.HeaderText = "TapCount";
             this.colTapCount.Name = "colTapCount";
             this.colTapCount.ReadOnly = true;
@@ -1185,9 +1102,9 @@ namespace CustomsForgeSongManager.UControls
             // colThumbCount
             // 
             this.colThumbCount.DataPropertyName = "ThumbCount";
-            dataGridViewCellStyle38.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle38.NullValue = null;
-            this.colThumbCount.DefaultCellStyle = dataGridViewCellStyle38;
+            dataGridViewCellStyle39.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle39.NullValue = null;
+            this.colThumbCount.DefaultCellStyle = dataGridViewCellStyle39;
             this.colThumbCount.HeaderText = "ThumbCount";
             this.colThumbCount.Name = "colThumbCount";
             this.colThumbCount.ReadOnly = true;
@@ -1196,9 +1113,9 @@ namespace CustomsForgeSongManager.UControls
             // colTremoloCount
             // 
             this.colTremoloCount.DataPropertyName = "TremoloCount";
-            dataGridViewCellStyle39.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle39.NullValue = null;
-            this.colTremoloCount.DefaultCellStyle = dataGridViewCellStyle39;
+            dataGridViewCellStyle40.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle40.NullValue = null;
+            this.colTremoloCount.DefaultCellStyle = dataGridViewCellStyle40;
             this.colTremoloCount.HeaderText = "TremoloCount";
             this.colTremoloCount.Name = "colTremoloCount";
             this.colTremoloCount.ReadOnly = true;
@@ -1207,9 +1124,9 @@ namespace CustomsForgeSongManager.UControls
             // colVibratoCount
             // 
             this.colVibratoCount.DataPropertyName = "VibratoCount";
-            dataGridViewCellStyle40.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle40.NullValue = null;
-            this.colVibratoCount.DefaultCellStyle = dataGridViewCellStyle40;
+            dataGridViewCellStyle41.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle41.NullValue = null;
+            this.colVibratoCount.DefaultCellStyle = dataGridViewCellStyle41;
             this.colVibratoCount.HeaderText = "VibratoCount";
             this.colVibratoCount.Name = "colVibratoCount";
             this.colVibratoCount.ReadOnly = true;
@@ -1272,6 +1189,103 @@ namespace CustomsForgeSongManager.UControls
             this.colMinBPM.Name = "colMinBPM";
             this.colMinBPM.ReadOnly = true;
             this.colMinBPM.Visible = false;
+            // 
+            // cmsArrangementsColumns
+            // 
+            this.cmsArrangementsColumns.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.cmsArrangementsColumns.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.testToolStripMenuItem});
+            this.cmsArrangementsColumns.Name = "cmsSongManagerColumns";
+            this.cmsArrangementsColumns.Size = new System.Drawing.Size(107, 26);
+            // 
+            // testToolStripMenuItem
+            // 
+            this.testToolStripMenuItem.AssociatedEnumValue = null;
+            this.testToolStripMenuItem.Checked = true;
+            this.testToolStripMenuItem.CheckOnClick = true;
+            this.testToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.testToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.testToolStripMenuItem.Name = "testToolStripMenuItem";
+            this.testToolStripMenuItem.RadioButtonGroupName = null;
+            this.testToolStripMenuItem.Size = new System.Drawing.Size(106, 22);
+            this.testToolStripMenuItem.Text = "Test";
+            // 
+            // toolTip
+            // 
+            this.toolTip.AutomaticDelay = 200;
+            this.toolTip.AutoPopDelay = 12000;
+            this.toolTip.InitialDelay = 200;
+            this.toolTip.IsBalloon = true;
+            this.toolTip.ReshowDelay = 100;
+            // 
+            // menuStrip
+            // 
+            this.menuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiRescan,
+            this.tsmiHelp});
+            this.menuStrip.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip.Name = "menuStrip";
+            this.menuStrip.Size = new System.Drawing.Size(899, 28);
+            this.menuStrip.TabIndex = 11;
+            this.menuStrip.Text = "menuStrip1";
+            // 
+            // tsmiRescan
+            // 
+            this.tsmiRescan.AssociatedEnumValue = null;
+            this.tsmiRescan.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiRescanQuick,
+            this.tsmiRescanFull});
+            this.tsmiRescan.Image = ((System.Drawing.Image)(resources.GetObject("tsmiRescan.Image")));
+            this.tsmiRescan.Name = "tsmiRescan";
+            this.tsmiRescan.RadioButtonGroupName = null;
+            this.tsmiRescan.Size = new System.Drawing.Size(74, 24);
+            this.tsmiRescan.Text = "Rescan";
+            this.tsmiRescan.ToolTipText = "See \'Settings\' menu for additional\r\ndata rescan and inclusion options.";
+            // 
+            // tsmiRescanQuick
+            // 
+            this.tsmiRescanQuick.AssociatedEnumValue = null;
+            this.tsmiRescanQuick.Image = ((System.Drawing.Image)(resources.GetObject("tsmiRescanQuick.Image")));
+            this.tsmiRescanQuick.Name = "tsmiRescanQuick";
+            this.tsmiRescanQuick.RadioButtonGroupName = null;
+            this.tsmiRescanQuick.Size = new System.Drawing.Size(111, 22);
+            this.tsmiRescanQuick.Text = "Quick";
+            this.tsmiRescanQuick.ToolTipText = "Quick reload of previously scanned data.\r\nOnly rescans data if necessary.";
+            this.tsmiRescanQuick.Click += new System.EventHandler(this.tsmiRescanQuick_Click);
+            // 
+            // tsmiRescanFull
+            // 
+            this.tsmiRescanFull.AssociatedEnumValue = null;
+            this.tsmiRescanFull.Image = ((System.Drawing.Image)(resources.GetObject("tsmiRescanFull.Image")));
+            this.tsmiRescanFull.Name = "tsmiRescanFull";
+            this.tsmiRescanFull.RadioButtonGroupName = null;
+            this.tsmiRescanFull.Size = new System.Drawing.Size(111, 22);
+            this.tsmiRescanFull.Text = "Full";
+            this.tsmiRescanFull.ToolTipText = "Preliminary scan or after significant changes.\r\n\r\nHint:\r\nTry running a \'Full\' res" +
+                "can if the CDLC\r\ncollection does not look as expected.";
+            this.tsmiRescanFull.Click += new System.EventHandler(this.tsmiRescanFull_Click);
+            // 
+            // tsmiHelp
+            // 
+            this.tsmiHelp.AssociatedEnumValue = null;
+            this.tsmiHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiHelpGeneral});
+            this.tsmiHelp.Image = ((System.Drawing.Image)(resources.GetObject("tsmiHelp.Image")));
+            this.tsmiHelp.Name = "tsmiHelp";
+            this.tsmiHelp.RadioButtonGroupName = null;
+            this.tsmiHelp.Size = new System.Drawing.Size(60, 24);
+            this.tsmiHelp.Text = "Help";
+            // 
+            // tsmiHelpGeneral
+            // 
+            this.tsmiHelpGeneral.AssociatedEnumValue = null;
+            this.tsmiHelpGeneral.Image = ((System.Drawing.Image)(resources.GetObject("tsmiHelpGeneral.Image")));
+            this.tsmiHelpGeneral.Name = "tsmiHelpGeneral";
+            this.tsmiHelpGeneral.RadioButtonGroupName = null;
+            this.tsmiHelpGeneral.Size = new System.Drawing.Size(146, 22);
+            this.tsmiHelpGeneral.Text = "General Help";
+            this.tsmiHelpGeneral.Click += new System.EventHandler(this.tsmiHelpGeneral_Click);
             // 
             // ArrangementAnalyzer
             // 
@@ -1357,6 +1371,7 @@ namespace CustomsForgeSongManager.UControls
         private DataGridViewAutoFilterTextBoxColumn colCapoFret;
         private DataGridViewAutoFilterTextBoxColumn colDDMax;
         private DataGridViewAutoFilterTextBoxColumn colRepresent;
+        private DataGridViewAutoFilterTextBoxColumn colScrollSpeed;
         private DataGridViewAutoFilterTextBoxColumn colTuning;
         private DataGridViewAutoFilterTextBoxColumn colTuningPitch;
         private DataGridViewAutoFilterTextBoxColumn colToneBase;

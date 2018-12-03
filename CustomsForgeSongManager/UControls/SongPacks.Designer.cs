@@ -224,6 +224,7 @@ namespace CustomsForgeSongManager.UControls
             this.colSelect.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.colSelect.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.colSelect.TrueValue = "true";
+            this.colSelect.ToolTipText = "Left mouse click the \'Select\' checkbox to select a row\r\nRight mouse click on row to show file operation options";
             this.colSelect.Width = 52;
             // 
             // colEnabled

@@ -509,7 +509,7 @@ namespace CustomsForgeSongManager.UControls
                     BetterDialog2.ShowDialog(diaMsg, hdrMsg, null, null, "Ok", Bitmap.FromHicon(SystemIcons.Information.Handle), "ReadMe", 0, 150);
                     Globals.DgvCurrent = dgvSongsMaster;
                     Globals.RescanSongManager = true;
-                    Globals.MainForm.tcMain.SelectedIndex = 6;
+                    Globals.MainForm.tcMain.SelectedIndex = 7;
                     Globals.Log("Customize the CFSM Settings options ...");
 
                     // halt loading SongManger
@@ -2323,12 +2323,12 @@ namespace CustomsForgeSongManager.UControls
 
         public void TabEnter()
         {
+            Globals.DgvCurrent = dgvSongsMaster;
+            Globals.Log("Song Manager GUI Activated ...");
             chkIncludeSubfolders.Checked = AppSettings.Instance.IncludeSubfolders;
             IncludeSubfolders();
             chkProtectODLC.Checked = AppSettings.Instance.ProtectODLC;
             ProtectODLC();
-            Globals.DgvCurrent = dgvSongsMaster;
-            Globals.Log("Song Manager GUI Activated ...");
         }
 
         public void TabLeave()

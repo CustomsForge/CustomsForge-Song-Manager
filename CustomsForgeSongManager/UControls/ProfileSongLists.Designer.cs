@@ -51,10 +51,6 @@ namespace CustomsForgeSongManager.UControls
             this.cmsRemove = new System.Windows.Forms.ToolStripMenuItem();
             this.cmsAdd = new System.Windows.Forms.ToolStripMenuItem();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.dgvGameSongLists = new DataGridViewTools.RADataGridView();
-            this.colGameSongListsSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.colGameSongLists = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSetlistManager = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.lnkClearSearch = new System.Windows.Forms.LinkLabel();
             this.chkProtectODLC = new System.Windows.Forms.CheckBox();
             this.chkIncludeSubfolders = new System.Windows.Forms.CheckBox();
@@ -84,29 +80,33 @@ namespace CustomsForgeSongManager.UControls
             this.colArtistTitleAlbum = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colFileName = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colRepairStatus = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.gbSongListSongs = new System.Windows.Forms.GroupBox();
+            this.gbSongListMaster = new System.Windows.Forms.GroupBox();
+            this.gbSongLists = new System.Windows.Forms.GroupBox();
+            this.dgvGameSongLists = new DataGridViewTools.RADataGridView();
+            this.colGameSongListsSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.colGameSongLists = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSetlistManager = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
-            this.gbSongListSongs = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
-            this.gbSongListMaster = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel7 = new System.Windows.Forms.TableLayoutPanel();
             this.gbButtons = new System.Windows.Forms.GroupBox();
             this.lnkLoadPrfldb = new System.Windows.Forms.LinkLabel();
             this.lnkSongListsHelp = new System.Windows.Forms.LinkLabel();
             this.cueSearch = new DataGridViewTools.CueTextBox();
-            this.gbSongLists = new System.Windows.Forms.GroupBox();
             this.cmsProfileSongLists.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvGameSongLists)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSongListSongs)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSongListMaster)).BeginInit();
+            this.gbSongListSongs.SuspendLayout();
+            this.gbSongListMaster.SuspendLayout();
+            this.gbSongLists.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvGameSongLists)).BeginInit();
             this.tableLayoutPanel4.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
-            this.gbSongListSongs.SuspendLayout();
             this.tableLayoutPanel6.SuspendLayout();
-            this.gbSongListMaster.SuspendLayout();
             this.tableLayoutPanel7.SuspendLayout();
             this.gbButtons.SuspendLayout();
-            this.gbSongLists.SuspendLayout();
             this.SuspendLayout();
             // 
             // cmsProfileSongLists
@@ -122,25 +122,25 @@ namespace CustomsForgeSongManager.UControls
             this.cmsRemove,
             this.cmsAdd});
             this.cmsProfileSongLists.Name = "contextMenuStrip_MainManager";
-            this.cmsProfileSongLists.Size = new System.Drawing.Size(157, 170);
+            this.cmsProfileSongLists.Size = new System.Drawing.Size(158, 170);
             // 
             // cmsActions
             // 
             this.cmsActions.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmsActions.Name = "cmsActions";
-            this.cmsActions.Size = new System.Drawing.Size(156, 22);
+            this.cmsActions.Size = new System.Drawing.Size(157, 22);
             this.cmsActions.Text = "Actions:";
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(153, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(154, 6);
             // 
             // cmsToggle
             // 
             this.cmsToggle.Image = global::CustomsForgeSongManager.Properties.Resources.onoff;
             this.cmsToggle.Name = "cmsToggle";
-            this.cmsToggle.Size = new System.Drawing.Size(156, 22);
+            this.cmsToggle.Size = new System.Drawing.Size(157, 22);
             this.cmsToggle.Text = "Toggle";
             this.cmsToggle.Click += new System.EventHandler(this.cmsToggle_Click);
             // 
@@ -148,20 +148,20 @@ namespace CustomsForgeSongManager.UControls
             // 
             this.cmsSelectAllNone.Image = global::CustomsForgeSongManager.Properties.Resources.SelectCol;
             this.cmsSelectAllNone.Name = "cmsSelectAllNone";
-            this.cmsSelectAllNone.Size = new System.Drawing.Size(156, 22);
+            this.cmsSelectAllNone.Size = new System.Drawing.Size(157, 22);
             this.cmsSelectAllNone.Text = "Select All/None";
             this.cmsSelectAllNone.Click += new System.EventHandler(this.cmsSelectAllNone_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(153, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(154, 6);
             // 
             // cmsShow
             // 
             this.cmsShow.Image = global::CustomsForgeSongManager.Properties.Resources.Open;
             this.cmsShow.Name = "cmsShow";
-            this.cmsShow.Size = new System.Drawing.Size(156, 22);
+            this.cmsShow.Size = new System.Drawing.Size(157, 22);
             this.cmsShow.Text = "Show";
             this.cmsShow.Click += new System.EventHandler(this.cmsShow_Click);
             // 
@@ -169,7 +169,7 @@ namespace CustomsForgeSongManager.UControls
             // 
             this.cmsEnableDisable.Image = global::CustomsForgeSongManager.Properties.Resources.enabledisable;
             this.cmsEnableDisable.Name = "cmsEnableDisable";
-            this.cmsEnableDisable.Size = new System.Drawing.Size(156, 22);
+            this.cmsEnableDisable.Size = new System.Drawing.Size(157, 22);
             this.cmsEnableDisable.Text = "Enable/Disable";
             this.cmsEnableDisable.ToolTipText = "Select must be checked.";
             this.cmsEnableDisable.Click += new System.EventHandler(this.cmsEnableDisable_Click);
@@ -178,7 +178,7 @@ namespace CustomsForgeSongManager.UControls
             // 
             this.cmsRemove.Image = global::CustomsForgeSongManager.Properties.Resources.delete;
             this.cmsRemove.Name = "cmsRemove";
-            this.cmsRemove.Size = new System.Drawing.Size(156, 22);
+            this.cmsRemove.Size = new System.Drawing.Size(157, 22);
             this.cmsRemove.Text = "Remove";
             this.cmsRemove.ToolTipText = "WARNING\r\nDeletion can not be undone.\r\nSelect must be checked.";
             this.cmsRemove.Click += new System.EventHandler(this.cmsRemove_Click);
@@ -187,7 +187,7 @@ namespace CustomsForgeSongManager.UControls
             // 
             this.cmsAdd.Image = global::CustomsForgeSongManager.Properties.Resources.copy;
             this.cmsAdd.Name = "cmsAdd";
-            this.cmsAdd.Size = new System.Drawing.Size(156, 22);
+            this.cmsAdd.Size = new System.Drawing.Size(157, 22);
             this.cmsAdd.Text = "Add";
             this.cmsAdd.ToolTipText = "Select must be checked.";
             this.cmsAdd.Click += new System.EventHandler(this.cmsAdd_Click);
@@ -199,64 +199,6 @@ namespace CustomsForgeSongManager.UControls
             this.toolTip.InitialDelay = 100;
             this.toolTip.IsBalloon = true;
             this.toolTip.ReshowDelay = 50;
-            // 
-            // dgvGameSongLists
-            // 
-            this.dgvGameSongLists.AllowUserToAddRows = false;
-            this.dgvGameSongLists.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.dgvGameSongLists.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.dgvGameSongLists.BackgroundColor = System.Drawing.SystemColors.InactiveBorder;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvGameSongLists.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
-            this.dgvGameSongLists.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.colGameSongListsSelect,
-            this.colGameSongLists,
-            this.colSetlistManager});
-            this.dgvGameSongLists.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvGameSongLists.Location = new System.Drawing.Point(3, 16);
-            this.dgvGameSongLists.MultiSelect = false;
-            this.dgvGameSongLists.Name = "dgvGameSongLists";
-            this.dgvGameSongLists.RowHeadersVisible = false;
-            this.dgvGameSongLists.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvGameSongLists.Size = new System.Drawing.Size(328, 208);
-            this.dgvGameSongLists.TabIndex = 35;
-            this.toolTip.SetToolTip(this.dgvGameSongLists, "Left mouse click on row to select or check \'Select\' checkbox");
-            this.dgvGameSongLists.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongLists_CellMouseUp);
-            this.dgvGameSongLists.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvGameSongLists_CellValueChanged);
-            this.dgvGameSongLists.CurrentCellDirtyStateChanged += new System.EventHandler(this.dgvGameSongLists_CurrentCellDirtyStateChanged);
-            this.dgvGameSongLists.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.dgvGameSongLists_EditingControlShowing);
-            // 
-            // colGameSongListsSelect
-            // 
-            this.colGameSongListsSelect.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.colGameSongListsSelect.FalseValue = "false";
-            this.colGameSongListsSelect.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.colGameSongListsSelect.HeaderText = "Select";
-            this.colGameSongListsSelect.IndeterminateValue = "false";
-            this.colGameSongListsSelect.Name = "colGameSongListsSelect";
-            this.colGameSongListsSelect.TrueValue = "true";
-            this.colGameSongListsSelect.Width = 43;
-            // 
-            // colGameSongLists
-            // 
-            this.colGameSongLists.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.colGameSongLists.HeaderText = "Game Song Lists";
-            this.colGameSongLists.Name = "colGameSongLists";
-            this.colGameSongLists.ReadOnly = true;
-            this.colGameSongLists.Width = 112;
-            // 
-            // colSetlistManager
-            // 
-            this.colSetlistManager.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colSetlistManager.HeaderText = "Setlist Manager";
-            this.colSetlistManager.Name = "colSetlistManager";
             // 
             // lnkClearSearch
             // 
@@ -271,7 +213,7 @@ namespace CustomsForgeSongManager.UControls
             this.lnkClearSearch.TabStop = true;
             this.lnkClearSearch.Text = "Clear Search";
             this.toolTip.SetToolTip(this.lnkClearSearch, "HINT:\r\nQuickly clears any Filters, \r\nas well as, any Search, \r\nand preserves exis" +
-        "ting sort.");
+                    "ting sort.");
             this.lnkClearSearch.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkClearSearch_LinkClicked);
             // 
             // chkProtectODLC
@@ -288,7 +230,7 @@ namespace CustomsForgeSongManager.UControls
             this.chkProtectODLC.TabIndex = 50;
             this.chkProtectODLC.Text = "Protect Official DLC";
             this.toolTip.SetToolTip(this.chkProtectODLC, "If checked, prevents ODLC\r\nfrom being selected, enabled,\r\ndisabled, copied, moved" +
-        ", or deleted.");
+                    ", or deleted.");
             this.chkProtectODLC.UseVisualStyleBackColor = false;
             this.chkProtectODLC.MouseUp += new System.Windows.Forms.MouseEventHandler(this.chkProtectODLC_MouseUp);
             // 
@@ -303,7 +245,7 @@ namespace CustomsForgeSongManager.UControls
             this.chkIncludeSubfolders.TabIndex = 49;
             this.chkIncludeSubfolders.Text = "Include Subfolders";
             this.toolTip.SetToolTip(this.chkIncludeSubfolders, "If checked, show and highlight\r\nsongs in the Master Songs grid\r\nthat are from set" +
-        "list subfolders.");
+                    "list subfolders.");
             this.chkIncludeSubfolders.UseVisualStyleBackColor = true;
             this.chkIncludeSubfolders.MouseUp += new System.Windows.Forms.MouseEventHandler(this.chkIncludeSubfolders_MouseUp);
             // 
@@ -311,17 +253,17 @@ namespace CustomsForgeSongManager.UControls
             // 
             this.dgvSongListSongs.AllowUserToAddRows = false;
             this.dgvSongListSongs.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.dgvSongListSongs.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.dgvSongListSongs.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvSongListSongs.BackgroundColor = System.Drawing.SystemColors.InactiveBorder;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvSongListSongs.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvSongListSongs.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dgvSongListSongs.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colSongListSongsSelect,
             this.colKey,
@@ -344,9 +286,9 @@ namespace CustomsForgeSongManager.UControls
             this.dgvSongListSongs.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvSongListSongs.Size = new System.Drawing.Size(423, 459);
             this.dgvSongListSongs.TabIndex = 34;
-            this.toolTip.SetToolTip(this.dgvSongListSongs, "Left mouse click on row to select or check \'Select\' checkbox\r\nRight mouse click o" +
-        "n row to show file operation options");
             this.dgvSongListSongs.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvCurrent_CellFormatting);
+            this.dgvSongListSongs.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvCurrent_CellMouseEnter);
+            this.dgvSongListSongs.CellMouseLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvCurrent_CellMouseLeave);
             this.dgvSongListSongs.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvCurrent_CellMouseUp);
             // 
             // colSongListSongsSelect
@@ -371,8 +313,8 @@ namespace CustomsForgeSongManager.UControls
             // colSongListSongsEnabled
             // 
             this.colSongListSongsEnabled.DataPropertyName = "Enabled";
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.colSongListSongsEnabled.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.colSongListSongsEnabled.DefaultCellStyle = dataGridViewCellStyle3;
             this.colSongListSongsEnabled.HeaderText = "Enabled";
             this.colSongListSongsEnabled.Name = "colSongListSongsEnabled";
             this.colSongListSongsEnabled.ReadOnly = true;
@@ -452,19 +394,19 @@ namespace CustomsForgeSongManager.UControls
             this.dgvSongListMaster.AllowUserToAddRows = false;
             this.dgvSongListMaster.AllowUserToDeleteRows = false;
             this.dgvSongListMaster.AllowUserToResizeRows = false;
-            dataGridViewCellStyle6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.dgvSongListMaster.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle6;
-            this.dgvSongListMaster.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvSongListMaster.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.dgvSongListMaster.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
+            this.dgvSongListMaster.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvSongListMaster.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             this.dgvSongListMaster.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colSelect,
             this.colEnabled,
@@ -486,10 +428,10 @@ namespace CustomsForgeSongManager.UControls
             this.dgvSongListMaster.Size = new System.Drawing.Size(529, 213);
             this.dgvSongListMaster.TabIndex = 32;
             this.dgvSongListMaster.Tag = "Song List Master";
-            this.toolTip.SetToolTip(this.dgvSongListMaster, "Left mouse click on row to select or check \'Select\' checkbox\r\nRight mouse click o" +
-        "n row to show file operation options");
             this.dgvSongListMaster.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvCurrent_CellFormatting);
             this.dgvSongListMaster.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongListMaster_CellMouseDown);
+            this.dgvSongListMaster.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvCurrent_CellMouseEnter);
+            this.dgvSongListMaster.CellMouseLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvCurrent_CellMouseLeave);
             this.dgvSongListMaster.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvCurrent_CellMouseUp);
             this.dgvSongListMaster.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgvSongListMaster_DataBindingComplete);
             this.dgvSongListMaster.Paint += new System.Windows.Forms.PaintEventHandler(this.dgvSongListMaster_Paint);
@@ -509,8 +451,8 @@ namespace CustomsForgeSongManager.UControls
             // colEnabled
             // 
             this.colEnabled.DataPropertyName = "Enabled";
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.colEnabled.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.colEnabled.DefaultCellStyle = dataGridViewCellStyle6;
             this.colEnabled.HeaderText = "Enabled";
             this.colEnabled.Name = "colEnabled";
             this.colEnabled.ReadOnly = true;
@@ -599,6 +541,99 @@ namespace CustomsForgeSongManager.UControls
             this.colRepairStatus.HeaderText = "RepairStatus";
             this.colRepairStatus.Name = "colRepairStatus";
             // 
+            // gbSongListSongs
+            // 
+            this.gbSongListSongs.Controls.Add(this.dgvSongListSongs);
+            this.gbSongListSongs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gbSongListSongs.Location = new System.Drawing.Point(552, 3);
+            this.gbSongListSongs.Name = "gbSongListSongs";
+            this.gbSongListSongs.Size = new System.Drawing.Size(429, 478);
+            this.gbSongListSongs.TabIndex = 6;
+            this.gbSongListSongs.TabStop = false;
+            this.gbSongListSongs.Text = "Song List Songs";
+            // 
+            // gbSongListMaster
+            // 
+            this.gbSongListMaster.Controls.Add(this.dgvSongListMaster);
+            this.gbSongListMaster.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gbSongListMaster.Location = new System.Drawing.Point(1, 240);
+            this.gbSongListMaster.Margin = new System.Windows.Forms.Padding(1);
+            this.gbSongListMaster.Name = "gbSongListMaster";
+            this.gbSongListMaster.Size = new System.Drawing.Size(541, 237);
+            this.gbSongListMaster.TabIndex = 9;
+            this.gbSongListMaster.TabStop = false;
+            this.gbSongListMaster.Text = "Master Songs";
+            // 
+            // gbSongLists
+            // 
+            this.gbSongLists.Controls.Add(this.dgvGameSongLists);
+            this.gbSongLists.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gbSongLists.Location = new System.Drawing.Point(3, 3);
+            this.gbSongLists.Name = "gbSongLists";
+            this.gbSongLists.Size = new System.Drawing.Size(334, 227);
+            this.gbSongLists.TabIndex = 5;
+            this.gbSongLists.TabStop = false;
+            this.gbSongLists.Text = "Song Lists";
+            // 
+            // dgvGameSongLists
+            // 
+            this.dgvGameSongLists.AllowUserToAddRows = false;
+            this.dgvGameSongLists.AllowUserToDeleteRows = false;
+            dataGridViewCellStyle7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.dgvGameSongLists.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle7;
+            this.dgvGameSongLists.BackgroundColor = System.Drawing.SystemColors.InactiveBorder;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvGameSongLists.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle8;
+            this.dgvGameSongLists.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colGameSongListsSelect,
+            this.colGameSongLists,
+            this.colSetlistManager});
+            this.dgvGameSongLists.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvGameSongLists.Location = new System.Drawing.Point(3, 16);
+            this.dgvGameSongLists.MultiSelect = false;
+            this.dgvGameSongLists.Name = "dgvGameSongLists";
+            this.dgvGameSongLists.RowHeadersVisible = false;
+            this.dgvGameSongLists.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvGameSongLists.Size = new System.Drawing.Size(328, 208);
+            this.dgvGameSongLists.TabIndex = 35;
+            this.dgvGameSongLists.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvCurrent_CellMouseEnter);
+            this.dgvGameSongLists.CellMouseLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvCurrent_CellMouseLeave);
+            this.dgvGameSongLists.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvGameSongLists_CellMouseUp);
+            this.dgvGameSongLists.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvGameSongLists_CellValueChanged);
+            this.dgvGameSongLists.CurrentCellDirtyStateChanged += new System.EventHandler(this.dgvGameSongLists_CurrentCellDirtyStateChanged);
+            // 
+            // colGameSongListsSelect
+            // 
+            this.colGameSongListsSelect.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.colGameSongListsSelect.FalseValue = "false";
+            this.colGameSongListsSelect.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.colGameSongListsSelect.HeaderText = "Select";
+            this.colGameSongListsSelect.IndeterminateValue = "false";
+            this.colGameSongListsSelect.Name = "colGameSongListsSelect";
+            this.colGameSongListsSelect.TrueValue = "true";
+            this.colGameSongListsSelect.Width = 43;
+            // 
+            // colGameSongLists
+            // 
+            this.colGameSongLists.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.colGameSongLists.HeaderText = "In-Game Song Lists";
+            this.colGameSongLists.Name = "colGameSongLists";
+            this.colGameSongLists.ReadOnly = true;
+            this.colGameSongLists.Width = 124;
+            // 
+            // colSetlistManager
+            // 
+            this.colSetlistManager.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colSetlistManager.HeaderText = "Setlist Manager Setlists";
+            this.colSetlistManager.Name = "colSetlistManager";
+            this.colSetlistManager.ToolTipText = "Add Setlist Manager created setlist to an in-game song list.";
+            // 
             // tableLayoutPanel4
             // 
             this.tableLayoutPanel4.ColumnCount = 1;
@@ -627,17 +662,6 @@ namespace CustomsForgeSongManager.UControls
             this.tableLayoutPanel5.Size = new System.Drawing.Size(984, 484);
             this.tableLayoutPanel5.TabIndex = 0;
             // 
-            // gbSongListSongs
-            // 
-            this.gbSongListSongs.Controls.Add(this.dgvSongListSongs);
-            this.gbSongListSongs.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gbSongListSongs.Location = new System.Drawing.Point(552, 3);
-            this.gbSongListSongs.Name = "gbSongListSongs";
-            this.gbSongListSongs.Size = new System.Drawing.Size(429, 478);
-            this.gbSongListSongs.TabIndex = 6;
-            this.gbSongListSongs.TabStop = false;
-            this.gbSongListSongs.Text = "Song List Songs";
-            // 
             // tableLayoutPanel6
             // 
             this.tableLayoutPanel6.ColumnCount = 1;
@@ -652,18 +676,6 @@ namespace CustomsForgeSongManager.UControls
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel6.Size = new System.Drawing.Size(543, 478);
             this.tableLayoutPanel6.TabIndex = 0;
-            // 
-            // gbSongListMaster
-            // 
-            this.gbSongListMaster.Controls.Add(this.dgvSongListMaster);
-            this.gbSongListMaster.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gbSongListMaster.Location = new System.Drawing.Point(1, 240);
-            this.gbSongListMaster.Margin = new System.Windows.Forms.Padding(1);
-            this.gbSongListMaster.Name = "gbSongListMaster";
-            this.gbSongListMaster.Size = new System.Drawing.Size(541, 237);
-            this.gbSongListMaster.TabIndex = 9;
-            this.gbSongListMaster.TabStop = false;
-            this.gbSongListMaster.Text = "Master Songs";
             // 
             // tableLayoutPanel7
             // 
@@ -735,17 +747,6 @@ namespace CustomsForgeSongManager.UControls
             this.cueSearch.Size = new System.Drawing.Size(144, 20);
             this.cueSearch.TabIndex = 44;
             // 
-            // gbSongLists
-            // 
-            this.gbSongLists.Controls.Add(this.dgvGameSongLists);
-            this.gbSongLists.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gbSongLists.Location = new System.Drawing.Point(3, 3);
-            this.gbSongLists.Name = "gbSongLists";
-            this.gbSongLists.Size = new System.Drawing.Size(334, 227);
-            this.gbSongLists.TabIndex = 5;
-            this.gbSongLists.TabStop = false;
-            this.gbSongLists.Text = "Song Lists";
-            // 
             // ProfileSongLists
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -753,18 +754,18 @@ namespace CustomsForgeSongManager.UControls
             this.Name = "ProfileSongLists";
             this.Size = new System.Drawing.Size(990, 490);
             this.cmsProfileSongLists.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvGameSongLists)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSongListSongs)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSongListMaster)).EndInit();
+            this.gbSongListSongs.ResumeLayout(false);
+            this.gbSongListMaster.ResumeLayout(false);
+            this.gbSongLists.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvGameSongLists)).EndInit();
             this.tableLayoutPanel4.ResumeLayout(false);
             this.tableLayoutPanel5.ResumeLayout(false);
-            this.gbSongListSongs.ResumeLayout(false);
             this.tableLayoutPanel6.ResumeLayout(false);
-            this.gbSongListMaster.ResumeLayout(false);
             this.tableLayoutPanel7.ResumeLayout(false);
             this.gbButtons.ResumeLayout(false);
             this.gbButtons.PerformLayout();
-            this.gbSongLists.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

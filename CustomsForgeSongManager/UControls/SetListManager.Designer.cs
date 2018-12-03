@@ -212,8 +212,8 @@ namespace CustomsForgeSongManager.UControls
             this.dgvSetlistSongs.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvSetlistSongs.Size = new System.Drawing.Size(525, 201);
             this.dgvSetlistSongs.TabIndex = 34;
-            this.toolTip.SetToolTip(this.dgvSetlistSongs, "Left mouse click on row to select or check \'Select\' checkbox\r\nRight mouse click o" +
-                    "n row to show file operation options");
+            this.toolTip.SetToolTip(this.dgvSetlistSongs, "Left mouse click the \'Select\' checkbox to select a row\r\nRight mouse click on row " +
+                    "to show file operation options");
             this.dgvSetlistSongs.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvCurrent_CellFormatting);
             this.dgvSetlistSongs.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvCurrent_CellMouseUp);
             // 
@@ -345,7 +345,7 @@ namespace CustomsForgeSongManager.UControls
             this.dgvSetlists.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvSetlists.Size = new System.Drawing.Size(196, 201);
             this.dgvSetlists.TabIndex = 35;
-            this.toolTip.SetToolTip(this.dgvSetlists, "Left mouse click on row to select or check \'Select\' checkbox");
+            this.toolTip.SetToolTip(this.dgvSetlists, "Click on the \'Select\' checkbox to load a Setlist");
             this.dgvSetlists.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSetlists_CellMouseUp);
             this.dgvSetlists.SelectionChanged += new System.EventHandler(this.dgvSetlists_SelectionChanged);
             // 
@@ -583,8 +583,8 @@ namespace CustomsForgeSongManager.UControls
             this.dgvSetlistMaster.Size = new System.Drawing.Size(552, 234);
             this.dgvSetlistMaster.TabIndex = 32;
             this.dgvSetlistMaster.Tag = "Setlist Manager";
-            this.toolTip.SetToolTip(this.dgvSetlistMaster, "Left mouse click on row to select or check \'Select\' checkbox\r\nRight mouse click o" +
-                    "n row to show file operation options");
+            this.toolTip.SetToolTip(this.dgvSetlistMaster, "Left mouse click the \'Select\' checkbox to select a row\r\nRight mouse click on row " +
+                    "to show file operation options");
             this.dgvSetlistMaster.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvCurrent_CellFormatting);
             this.dgvSetlistMaster.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSetlistMaster_CellMouseDown);
             this.dgvSetlistMaster.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvCurrent_CellMouseUp);
@@ -600,6 +600,8 @@ namespace CustomsForgeSongManager.UControls
             this.colSelect.HeaderText = "Select";
             this.colSelect.IndeterminateValue = "false";
             this.colSelect.Name = "colSelect";
+            this.colSelect.ToolTipText = "Left mouse click the \'Select\' checkbox to select a row\r\nRight mouse click on row " +
+                "to show file operation options";
             this.colSelect.TrueValue = "true";
             this.colSelect.Width = 43;
             // 
@@ -736,7 +738,8 @@ namespace CustomsForgeSongManager.UControls
             this.dgvSongPacks.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvSongPacks.Size = new System.Drawing.Size(241, 232);
             this.dgvSongPacks.TabIndex = 34;
-            this.toolTip.SetToolTip(this.dgvSongPacks, "Left mouse click on row to select or check \'Select\' checkbox");
+            this.toolTip.SetToolTip(this.dgvSongPacks, "Left mouse click the \'Select\' checkbox to select a row\r\nRight mouse click on row " +
+                    "to show file operation options");
             this.dgvSongPacks.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvCurrent_CellFormatting);
             this.dgvSongPacks.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvCurrent_CellMouseUp);
             this.dgvSongPacks.CurrentCellDirtyStateChanged += new System.EventHandler(this.dgvSongPacks_CurrentCellDirtyStateChanged);
@@ -863,7 +866,7 @@ namespace CustomsForgeSongManager.UControls
             this.cmsMove,
             this.cmsCopy});
             this.cmsSetlistManager.Name = "contextMenuStrip_MainManager";
-            this.cmsSetlistManager.Size = new System.Drawing.Size(158, 214);
+            this.cmsSetlistManager.Size = new System.Drawing.Size(158, 192);
             // 
             // cmsActions
             // 

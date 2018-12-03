@@ -19,6 +19,8 @@ CFSM Release Notes
 - new Profile Song Lists tab under development
 - fixed SetlistManager copy/move/delete action
 - fixed error condition from being thrown when Setlist is emptied
+- added ScrollSpeed column to Arrangement Analyzer
+- added new 'In-Game Song Lists' tabmenu to quickly add/edit/remove in-game song lists
 
 1.4.8.9
 - improved SongManager and SetlistManager handling of all types of SongPacks

@@ -42,6 +42,7 @@ namespace CustomsForgeSongManager.UControls
         private List<List<string>> gameSongLists;
         private int curSongListsIndex = -1;
         private string curSongListsName;
+        private List<string> cfsmSetlists;
 
 
         public ProfileSongLists()
@@ -58,7 +59,6 @@ namespace CustomsForgeSongManager.UControls
 
             dlcDir = Constants.Rs2DlcFolder;
             cdlcDir = Path.Combine(dlcDir, "CDLC").ToLower();
-
             LoadSongListMaster();
             LoadGameSongLists();
             UpdateToolStrip();
@@ -78,8 +78,8 @@ namespace CustomsForgeSongManager.UControls
                 PopulateProfileSongLists();
             }
 
-            Globals.RescanSetlistManager = false;
-            Globals.ReloadSetlistManager = false;
+            Globals.RescanProfileSongLists = false;
+            Globals.ReloadProfileSongLists = false;
             Globals.TsLabel_MainMsg.Text = string.Format(Properties.Resources.RocksmithSongsCountFormat, songListMaster.Count);
             Globals.TsLabel_MainMsg.Visible = true;
             Globals.TsLabel_DisabledCounter.Alignment = ToolStripItemAlignment.Right;
@@ -182,24 +182,31 @@ namespace CustomsForgeSongManager.UControls
 
         private void LoadGameSongLists()
         {
+            prfldbFile = AppSettings.Instance.RSProfilePath;
+
             if (String.IsNullOrEmpty(prfldbFile))
                 prfldbFile = RocksmithProfile.SelectPrfldb();
 
             if (String.IsNullOrEmpty(prfldbFile))
                 return;
 
-            // make backup of prfldbFile
+            Globals.Log("Loading User Profile In-Game Song Lists ...");
+            Globals.Log(" - " + prfldbFile);
+            // make backup of prfldbFile in case something goes wrong
             FileTools.CreateBackupOfType(prfldbFile, Constants.ProfileBackupsFolder, Constants.EXT_BAK);
 
             // display current _prfldb file name in groupbox title
             gbSongLists.Text = String.Format("User Profile: {0}", Path.GetFileName(prfldbFile));
+
             // read FavoritesListRoot from prfldb file
             favoritesListRoot = Extensions.ReadFavoritesListRoot(prfldbFile);
+
             // read SongListsRoots from a prfldb file
             songListsRoot = Extensions.ReadSongListsRoot(prfldbFile);
-            // create composite songLists
+
+            // create composite gameSongLists
             gameSongLists = new List<List<string>>();
-            gameSongLists.Add(favoritesListRoot.FavoritesList); // index 0 is always FavoritesList
+            gameSongLists.Add(favoritesListRoot.FavoritesList); // index 0 will always be used for FavoritesList             
             foreach (var songList in songListsRoot.SongLists)
                 gameSongLists.Add(songList);
 
@@ -216,8 +223,9 @@ namespace CustomsForgeSongManager.UControls
             // constant names of gameSongLists
             var gameSongListsNames = new string[] { "Favorites", "Song List 1", "Song List 2", "Song List 3", "Song List 4", "Song List 5", "Song List 6" };
 
-            var setlists = GetManagerSetlists();
-            ((DataGridViewComboBoxColumn)dgvGameSongLists.Columns["colSetlistManager"]).DataSource = setlists;
+            // populate the SetlistManager comboboxcolumn
+            cfsmSetlists = GetSetlistManagerLists();
+            ((DataGridViewComboBoxColumn)dgvGameSongLists.Columns["colSetlistManager"]).DataSource = cfsmSetlists;
 
             // populate dgvGameSongLists
             dgvGameSongLists.Rows.Clear();
@@ -236,7 +244,7 @@ namespace CustomsForgeSongManager.UControls
             }
         }
 
-        private string[] GetManagerSetlists()
+        private List<string> GetSetlistManagerLists()
         {
             var setlistDirs = Directory.GetDirectories(dlcDir, "*", SearchOption.TopDirectoryOnly).ToList();
             setlistDirs = setlistDirs.Where(x => !x.ToLower().Contains("inlay")).ToList();
@@ -250,7 +258,7 @@ namespace CustomsForgeSongManager.UControls
                     setlists.Add(new DirectoryInfo(dir).Name);
             }
 
-            return setlists.ToArray();
+            return setlists;
         }
 
         private void ProtectODLC()
@@ -266,7 +274,7 @@ namespace CustomsForgeSongManager.UControls
                     foreach (DataGridViewRow row in dgvCurrent.Rows)
                     {
                         var sd = DgvExtensions.GetObjectFromRow<SongData>(dgvCurrent, row.Index);
-                        if (sd != null && sd.IsODLC)
+                        if (sd != null && (sd.IsODLC || sd.IsRsCompPack || sd.IsSongsPsarc))
                             dgvCurrent.Rows[row.Index].Cells[colSelect.Index].Value = false;
                     }
                 }
@@ -329,6 +337,7 @@ namespace CustomsForgeSongManager.UControls
             Globals.ReloadDuplicates = true;
             Globals.ReloadRenamer = true;
             Globals.ReloadSongManager = true;
+            Globals.ReloadSetlistManager = true;
 
             if (Globals.WorkerFinished == Globals.Tristate.Cancelled)
             {
@@ -452,17 +461,16 @@ namespace CustomsForgeSongManager.UControls
             var selectedCount = dgvCurrent.Rows.Cast<DataGridViewRow>().Count(r => Convert.ToBoolean(r.Cells[colNdxSelected].Value));
             if (selectedCount == 0)
             {
-                MessageBox.Show("Please select the checkbox next to song(s)." + Environment.NewLine + "First left mouse click the select checkbox and" + Environment.NewLine + "then right mouse click to quickly Enable/Disable.  ", Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Please select the checkbox next to song(s)." + Environment.NewLine +
+                                "First left mouse click the select checkbox and" + Environment.NewLine +
+                                "then right mouse click to quickly Enable/Disable.  ",
+                                Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
 
             var colNdxEnabled = DgvExtensions.GetDataPropertyColumnIndex(dgvCurrent, "Enabled");
             var colNdxPath = DgvExtensions.GetDataPropertyColumnIndex(dgvCurrent, "FilePath");
             var selectedDisabled = dgvCurrent.Rows.Cast<DataGridViewRow>().Count(r => Convert.ToBoolean(r.Cells[colNdxSelected].Value) && r.Cells[colNdxEnabled].Value.ToString() == "No" && Path.GetFileName(Path.GetDirectoryName(r.Cells[colNdxPath].Value.ToString().ToLower())).Contains("dlc"));
-
-            if (dgvCurrent.Name == "dgvSongListsMaster" && selectedDisabled > 0)
-                if (MessageBox.Show("Enabling Master Songs DLC/CDLC can cause Setlists   " + Environment.NewLine + "to not work as expected.  Do you want to continue?", "Enable Master Songs DLC/CDLC ...", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.No)
-                    return;
 
             foreach (DataGridViewRow row in dgvCurrent.Rows)
             {
@@ -842,7 +850,7 @@ namespace CustomsForgeSongManager.UControls
             }
         }
 
-        private void dgvSongLists_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
+        private void dgvGameSongLists_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
             var dgvCurrent = (DataGridView)sender;
             var debugMe = dgvCurrent.Name;
@@ -853,11 +861,15 @@ namespace CustomsForgeSongManager.UControls
                 return;
 
             // programmatic left clicking on Select 
-            if (e.Button == MouseButtons.Left && e.RowIndex != -1 && e.ColumnIndex == colSelect.Index && e.ColumnIndex != 2)
+            if (e.Button == MouseButtons.Left && e.RowIndex != -1 && e.ColumnIndex == colSelect.Index)
             {
                 // limit to a single song list selection
                 foreach (DataGridViewRow row in dgvCurrent.Rows)
+                {
                     row.Cells["colGameSongListsSelect"].Value = false;
+                    // reset the combobox column
+                    row.Cells["colSetlistManager"].Value = "-";
+                }
 
                 try
                 {
@@ -908,6 +920,7 @@ namespace CustomsForgeSongManager.UControls
 
         private void lnkLoadPrfldb_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
+            AppSettings.Instance.RSProfilePath = String.Empty;
             prfldbFile = String.Empty;
             LoadGameSongLists();
         }
@@ -930,13 +943,13 @@ namespace CustomsForgeSongManager.UControls
 
         public void TabEnter()
         {
+            Globals.DgvCurrent = dgvSongListMaster;
+            Globals.Log("Profile Song Lists GUI Activated ...");
             chkIncludeSubfolders.Checked = AppSettings.Instance.IncludeSubfolders;
             IncludeSubfolders();
             chkProtectODLC.Checked = AppSettings.Instance.ProtectODLC;
             ProtectODLC();
             PopulateProfileSongLists();
-            Globals.DgvCurrent = dgvSongListMaster;
-            Globals.Log("Profile Song Lists GUI Activated...");
         }
 
         public void TabLeave()
@@ -946,22 +959,30 @@ namespace CustomsForgeSongManager.UControls
             Globals.Log("Profile Song Lists GUI Deactivated ...");
         }
 
- 
+
         private void dgvGameSongLists_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex == -1)
                 return;
+            if (e.ColumnIndex != 2)
+                return;
 
-            string setlistName = dgvGameSongLists.Rows[e.RowIndex].Cells["colSetlistManager"].Value.ToString();
-            string inGameSetlist = dgvGameSongLists.Rows[0].Cells["colGameSongLists"].Value.ToString();
-
+            var setlistName = dgvGameSongLists.Rows[e.RowIndex].Cells["colSetlistManager"].Value.ToString();
             if (setlistName == "-")
                 return;
 
-            var msg = "Do you really want to add songs from your actual (made by CFSM) setlist '" + setlistName + "' to the in-game setlist: '" + inGameSetlist + "'";
+            var inGameSetlist = dgvGameSongLists.Rows[0].Cells["colGameSongLists"].Value.ToString();
+            var diaMsg = "Songs from CFSM SetlistManager created setlist: '" + setlistName + "'" + Environment.NewLine +
+                         "will be added to the Rocksmith in-game setlist: '" + inGameSetlist + "'" + Environment.NewLine + Environment.NewLine +
+                         "Do you want to continue?";
 
-            if (DialogResult.No == BetterDialog2.ShowDialog(msg, "Add songs to the in-game setlist?", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning", 0, 150))
+            if (DialogResult.Yes != BetterDialog2.ShowDialog(diaMsg, "Add songs to the in-game song list?", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning", 0, 150))
+            {
+                // reset the combobox column
+                // dgvGameSongLists.Rows[e.RowIndex].Cells["colSetlistManager"].Value = ((DataGridViewComboBoxColumn)dgvGameSongLists.Columns["colSetlistManager"]).Items[0];
+                dgvGameSongLists.Rows[e.RowIndex].Cells["colSetlistManager"].Value = "-";
                 return;
+            }
 
             var setlistSongs = new List<SongData>();
             string dlcDir = Constants.Rs2DlcFolder;
@@ -982,6 +1003,71 @@ namespace CustomsForgeSongManager.UControls
         {
             if (dgvGameSongLists.IsCurrentCellDirty)
                 dgvGameSongLists.CommitEdit(DataGridViewDataErrorContexts.Commit);
+
+            // resets the dgv combobox cell
+            if (dgvGameSongLists.IsCurrentCellInEditMode)
+                dgvGameSongLists.EndEdit();
+
+            dgvGameSongLists.Invalidate();
         }
+
+        private void dgvCurrent_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            // create some nicer tooltips  
+            var dgvCurrent = (DataGridView)sender;
+            var tt = String.Empty;
+            var duration = 5000;
+            dgvCurrent.ShowCellToolTips = false;
+
+            if (dgvCurrent == dgvGameSongLists)
+            {
+                if (e.RowIndex == -1) // header
+                {
+                    if (e.ColumnIndex == 0)
+                        tt = "Click on the 'Select' checkbox" + Environment.NewLine +
+                             "to load an in-game song list";
+
+                    if (e.ColumnIndex == 2)
+                        tt = "These are the user defined" + Environment.NewLine +
+                             "CFSM Setlist Manager setlists";
+                }
+                else
+                {
+                    DataGridViewCell cell = dgvCurrent.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                    if (e.ColumnIndex == 0 && cell.Value.Equals(false))
+                        tt = "Click on the 'Select' checkbox" + Environment.NewLine +
+                             "to load an in-game song list";
+
+                    if (e.ColumnIndex == 2 && cell.Value.Equals("-"))
+                        tt = "Click on dropdown arrow to select an existing" + Environment.NewLine +
+                             "CFSM setlist to add to an in-game song list";
+                }
+            }
+            else
+            {
+                if (e.ColumnIndex == 0)
+                    tt = "Left mouse click the 'Select' checkbox to select a row" + Environment.NewLine +
+                         "Right mouse click on row to show file operation options";
+            }
+
+            if (!String.IsNullOrEmpty(tt))
+            {
+                // whacky work around prevents ballons that are too small for the tip
+                toolTip.IsBalloon = true;
+                toolTip.Show(tt, dgvCurrent, dgvCurrent.PointToClient(new Point(Control.MousePosition.X, Control.MousePosition.Y)), duration);
+            }
+            else
+                toolTip.SetToolTip(dgvCurrent, null); // part of work around
+        }
+
+        private void dgvCurrent_CellMouseLeave(object sender, DataGridViewCellEventArgs e)
+        {
+            var dgvCurrent = (DataGridView)sender;
+            toolTip.Hide(dgvCurrent);
+            toolTip.SetToolTip(dgvCurrent, null); // part of work around
+            toolTip.IsBalloon = false;
+            dgvCurrent.ShowCellToolTips = true;
+        }
+
     }
 }

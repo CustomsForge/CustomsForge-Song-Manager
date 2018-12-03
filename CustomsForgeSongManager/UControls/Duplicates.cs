@@ -883,11 +883,10 @@ namespace CustomsForgeSongManager.UControls
 
         public void TabEnter()
         {
-            chkIncludeSubfolders.Checked = AppSettings.Instance.IncludeSubfolders;
-            IncludeSubfolders();
-
             Globals.DgvCurrent = dgvDuplicates;
             Globals.Log("Duplicate GUI Activated...");
+            chkIncludeSubfolders.Checked = AppSettings.Instance.IncludeSubfolders;
+            IncludeSubfolders();
         }
 
         public void TabLeave()
