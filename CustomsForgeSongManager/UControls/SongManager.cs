@@ -509,7 +509,8 @@ namespace CustomsForgeSongManager.UControls
                     BetterDialog2.ShowDialog(diaMsg, hdrMsg, null, null, "Ok", Bitmap.FromHicon(SystemIcons.Information.Handle), "ReadMe", 0, 150);
                     Globals.DgvCurrent = dgvSongsMaster;
                     Globals.RescanSongManager = true;
-                    Globals.MainForm.tcMain.SelectedIndex = 7;
+                    // select Settings tabmenu even if tab order is changed
+                    Globals.MainForm.tcMain.SelectedIndex = Globals.MainForm.tcMain.TabPages.IndexOf(Globals.MainForm.tpSettings); 
                     Globals.Log("Customize the CFSM Settings options ...");
 
                     // halt loading SongManger

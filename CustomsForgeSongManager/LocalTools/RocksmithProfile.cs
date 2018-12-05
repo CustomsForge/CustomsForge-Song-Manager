@@ -50,7 +50,7 @@ namespace CustomsForgeSongManager.LocalTools
             if (!Directory.Exists(profileBackupsDir))
                 return false;
 
-            string[] filePatterns = new string[] { "ProfilesBackup.*.zip" };
+            string[] filePatterns = new string[] { "ProfileBackup_*.zip" };
             foreach (var filePattern in filePatterns)
             {
                 if (Directory.EnumerateFiles(profileBackupsDir, filePattern, SearchOption.TopDirectoryOnly).Any())
@@ -158,7 +158,7 @@ namespace CustomsForgeSongManager.LocalTools
                 if (DialogResult.Yes == BetterDialog2.ShowDialog("Backup or restore a Rocksmith 2014 user profile?", "User Profile Backup/Restore", null, "Backup", "Restore", Bitmap.FromHicon(SystemIcons.Question.Handle), "Pick One", 150, 150))
                 {
                     var timestamp = DateTime.Now.ToString("yyyyMMddTHHmmss"); // use ISO8601 format
-                    var backupFileName = String.Format("ProfilesBackup.{0}.zip", timestamp);
+                    var backupFileName = String.Format("ProfileBackup_{0}.zip", timestamp);
                     var backupPath = Path.Combine(Constants.ProfileBackupsFolder, backupFileName);
                     BackupProfiles(AppSettings.Instance.RSProfileDir, backupPath);
                 }
@@ -183,28 +183,40 @@ namespace CustomsForgeSongManager.LocalTools
 
         public static void BackupProfiles(string remoteDirPath, string backupPath)
         {
-            // backup the entire 221680 folder/subfolders which includes important remotecache.vdf
-            if (remoteDirPath.Contains("221680\\remote")) // official steam dir
-                remoteDirPath = Path.GetDirectoryName(remoteDirPath);
+            if (!Directory.Exists(Constants.ProfileBackupsFolder))
+                Directory.CreateDirectory(Constants.ProfileBackupsFolder);
+
+            // backup the entire 221680 folder/subfolders which includes remotecache.vdf file
+            var ndx221680 = remoteDirPath.IndexOf("221680", StringComparison.OrdinalIgnoreCase);
+            if (ndx221680 != -1)
+                remoteDirPath = remoteDirPath.Substring(0, ndx221680 + 6);
 
             if (Directory.Exists(remoteDirPath))
             {
-                if (!Directory.Exists(Constants.ProfileBackupsFolder))
-                    Directory.CreateDirectory(Constants.ProfileBackupsFolder);
-
-                Globals.Log("Backup user profile ...");
-
-                if (ZipUtilities.ZipDirectory(remoteDirPath, backupPath, preserveRoot: true))
-                {
-                    Globals.Log("From: " + remoteDirPath);
-                    Globals.Log("To: " + backupPath);
-                    Globals.Log("User profile backup ... SUCCESSFUL");
-                }
+                if (File.Exists(backupPath))
+                    Globals.Log(" - Official User Profile Backup already exists ...");
                 else
-                    Globals.Log("User profile backup ... FAILED");
+                {
+                    var vdfFile = Directory.EnumerateFiles(remoteDirPath, "remotecache.vdf", SearchOption.AllDirectories).ToList();
+                    if (!vdfFile.Any())
+                        Globals.Log("<WARNING> Did not find remotecache.vdf file ...");
+
+                    if (ZipUtilities.ZipDirectory(remoteDirPath, backupPath, preserveRoot: true))
+                    {
+                        Globals.Log(" - Successfully Created Official User Profile Backup ...");
+                        Globals.Log(" - From: " + remoteDirPath);
+                        Globals.Log(" - To: " + backupPath);
+                    }
+                    else
+                        Globals.Log(" - <ERROR> Backup FAILED ...");
+                }
             }
             else
-                Globals.Log("Rocksmith 2014 user profile ... NOT FOUND");
+            {
+                Globals.Log(" - Detected Unofficial User Profile Path ...");
+                // simple backup of unofficial profile path (missing 221680 directory) internally checks if backup already exists
+                FileTools.CreateBackupOfType(remoteDirPath, Constants.ProfileBackupsFolder, Constants.EXT_BAK);
+            }
         }
 
         public static void RestoreBackup(string backupPath, string steamProfileDir)
@@ -233,9 +245,9 @@ namespace CustomsForgeSongManager.LocalTools
         {
             List<ProfileData> backups = new List<ProfileData>();
 
-            foreach (string backupPath in Directory.EnumerateFiles(Constants.ProfileBackupsFolder, "ProfilesBackup.*.zip", SearchOption.TopDirectoryOnly).ToList())
+            foreach (string backupPath in Directory.EnumerateFiles(Constants.ProfileBackupsFolder, "ProfileBackup_*.zip", SearchOption.TopDirectoryOnly).ToList())
             {
-                var dateString = Path.GetFileName(backupPath).Replace("ProfilesBackup.", "").Replace(".zip", "");
+                var dateString = Path.GetFileName(backupPath).Replace("ProfileBackup_", "").Replace(".zip", "");
                 var dateTime = DateTime.ParseExact(dateString, "yyyyMMddTHHmmss", CultureInfo.InvariantCulture);
 
                 ProfileData backup = new ProfileData();
@@ -254,7 +266,7 @@ namespace CustomsForgeSongManager.LocalTools
             using (var ofd = new OpenFileDialog())
             {
                 var srcDir = GetRemoteDir(false);
-               
+
                 if (string.IsNullOrEmpty(srcDir))
                     srcDir = AppSettings.Instance.RSProfileDir;
 
@@ -268,8 +280,8 @@ namespace CustomsForgeSongManager.LocalTools
                         srcDir = "D:\\Temp"; // for testing
                 }
 
-                ofd.Filter = "Game Save Profiles (*_prfldb)|*_prfldb";
-                ofd.Title = "Select the Rocksmith 2014 ProfileDatabase file";
+                ofd.Filter = "User Profiles (*_prfldb)|*_prfldb";
+                ofd.Title = "Select a Rocksmith 2014 User Profile file (HINT: search for *_prfldb)";
                 ofd.FilterIndex = 1;
                 ofd.InitialDirectory = srcDir;
                 ofd.CheckPathExists = true;
@@ -279,12 +291,11 @@ namespace CustomsForgeSongManager.LocalTools
                     return null;
 
                 var profilePath = ofd.FileName;
-
                 var remoteDirPath = Path.GetDirectoryName(profilePath);
                 AppSettings.Instance.RSProfileDir = remoteDirPath;
                 Globals.Log("User Profile Directory changed to: " + remoteDirPath);
-
                 AppSettings.Instance.RSProfilePath = profilePath;
+
                 return profilePath;
             }
         }

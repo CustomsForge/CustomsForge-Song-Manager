@@ -111,7 +111,7 @@ namespace CustomsForgeSongManager.UControls
 
                 distinctPIDS = duplicateList.Select(x => x.PID).Distinct().ToList();
             }
-            else // NOTE: duplicate ATA and/or DLCKey will only appear once in-game setlist
+            else 
             {
                 Globals.Log("Showing CDLC with duplicate DLCKey and/or duplicate ArtistTitleAlbum ...");
 

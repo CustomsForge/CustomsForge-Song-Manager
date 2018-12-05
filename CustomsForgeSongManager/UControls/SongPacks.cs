@@ -614,6 +614,7 @@ namespace CustomsForgeSongManager.UControls
             Globals.RescanSongManager = true;
             Globals.RescanDuplicates = true;
             Globals.RescanSetlistManager = true;
+            Globals.RescanProfileSongLists = true;
             Globals.RescanRenamer = true;
         }
 

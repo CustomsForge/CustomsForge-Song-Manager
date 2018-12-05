@@ -47,6 +47,7 @@ namespace CustomsForgeSongManager.UControls
         {
             InitializeComponent();
             Globals.TsLabel_StatusMsg.Click += lnkShowAll_Click;
+            PopulateSetlistManager();
         }
 
         public void PopulateSetlistManager()
@@ -72,13 +73,16 @@ namespace CustomsForgeSongManager.UControls
 
             dlcDir = Constants.Rs2DlcFolder;
             cdlcDir = Path.Combine(dlcDir, "CDLC").ToLower();
+
+            IncludeSubfolders();
+            ProtectODLC();
+
             if (!LoadSetlistMaster())
                 return;
 
             LoadSetLists(); // this generates a selection change
             // LoadSetlistSongs(); // so this is not needed
             LoadSongPacks();
-            UpdateToolStrip();
         }
 
         public void UpdateToolStrip()
@@ -86,12 +90,10 @@ namespace CustomsForgeSongManager.UControls
             if (Globals.RescanSetlistManager)
             {
                 Rescan();
-                IncludeSubfolders();
                 PopulateSetlistManager();
             }
             else if (Globals.ReloadSetlistManager)
             {
-                IncludeSubfolders();
                 PopulateSetlistManager();
             }
 
@@ -100,7 +102,7 @@ namespace CustomsForgeSongManager.UControls
             Globals.TsLabel_MainMsg.Text = string.Format(Properties.Resources.RocksmithSongsCountFormat, setlistMaster.Count);
             Globals.TsLabel_MainMsg.Visible = true;
             Globals.TsLabel_DisabledCounter.Alignment = ToolStripItemAlignment.Right;
-            Globals.TsLabel_DisabledCounter.Text = String.Format("Songs in '{0}' Setlist: {1}", curSetlistName, dgvSetlistSongs.Rows.Count);
+            Globals.TsLabel_DisabledCounter.Text = String.Format("Songs in Setlist '{0}': {1}", curSetlistName, dgvSetlistSongs.Rows.Count);
             Globals.TsLabel_DisabledCounter.Visible = true;
             Globals.TsLabel_StatusMsg.Visible = false;
         }
@@ -284,7 +286,7 @@ namespace CustomsForgeSongManager.UControls
             }
 
             gbSetlistSongs.Text = String.Format("Setlist Songs from: {0}", setlistName);
-            Globals.TsLabel_DisabledCounter.Text = String.Format("Songs in '{0}' Setlist: {1}", setlistName, dgvSetlistSongs.Rows.Count);
+            Globals.TsLabel_DisabledCounter.Text = String.Format("Songs in Setlist '{0}': {1}", setlistName, dgvSetlistSongs.Rows.Count);
             RefreshAllDgv(false);
         }
 
@@ -478,10 +480,11 @@ namespace CustomsForgeSongManager.UControls
             }
 
             // force reload/rescan
+            Globals.ReloadSongManager = true; // full reload here
             Globals.RescanDuplicates = true;
-            Globals.ReloadSongManager = true;
             Globals.ReloadRenamer = true;
             Globals.RescanSetlistManager = true;
+            Globals.RescanProfileSongLists = true;
             UpdateToolStrip();
             RefreshAllDgv(true);
         }
@@ -572,7 +575,9 @@ namespace CustomsForgeSongManager.UControls
             foreach (DataGridViewRow row in dgvCurrent.Rows)
             {
                 var sd = DgvExtensions.GetObjectFromRow<SongData>(dgvCurrent, row.Index);
-                if (sd != null && (sd.IsODLC || sd.IsRsCompPack || sd.IsSongsPsarc) && chkProtectODLC.Checked)
+                if (sd == null)
+                    continue;
+                else if((sd.IsODLC || sd.IsRsCompPack || sd.IsSongsPsarc) && chkProtectODLC.Checked)
                     dgvCurrent.Rows[row.Index].Cells[colSelect.Index].Value = false;
                 else if (dgvCurrent == dgvSongPacks && chkProtectODLC.Checked)
                     dgvCurrent.Rows[row.Index].Cells[colSelect.Index].Value = false;
@@ -1383,11 +1388,8 @@ namespace CustomsForgeSongManager.UControls
             Globals.DgvCurrent = dgvSetlistMaster;
             Globals.Log("Setlist Manager GUI Activated...");
             chkIncludeSubfolders.Checked = AppSettings.Instance.IncludeSubfolders;
-            IncludeSubfolders();
             chkProtectODLC.Checked = AppSettings.Instance.ProtectODLC;
-            ProtectODLC();
-            PopulateSetlistManager();
-         }
+        }
 
         public void TabLeave()
         {

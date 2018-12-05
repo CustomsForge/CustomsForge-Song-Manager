@@ -132,7 +132,7 @@ namespace CustomsForgeSongManager.Forms
             Globals.Log("+ " + Constants.AppTitle);
             Globals.Log("+ .NET Framework (v" + SysExtensions.DotNetVersion + ")");
             Globals.Log("+ RocksmithToolkitLib (v" + ToolkitVersion.RSTKLibVersion() + ")");
-            Globals.Log("+ Dynamic Difficulty Creator (v" + FileVersionInfo.GetVersionInfo(Path.Combine(ExternalApps.TOOLKIT_ROOT, ExternalApps.APP_DDC)).ProductVersion+ ")");
+            Globals.Log("+ Dynamic Difficulty Creator (v" + FileVersionInfo.GetVersionInfo(Path.Combine(ExternalApps.TOOLKIT_ROOT, ExternalApps.APP_DDC)).ProductVersion + ")");
 
             // load settings
             Globals.Settings.LoadSettingsFromFile();
@@ -339,6 +339,7 @@ namespace CustomsForgeSongManager.Forms
                     this.tpSetlistManager.Controls.Clear();
                     this.tpSetlistManager.Controls.Add(Globals.SetlistManager);
                     Globals.SetlistManager.Dock = DockStyle.Fill;
+                    Globals.SetlistManager.UpdateToolStrip();
                     Globals.SetlistManager.Location = UCLocation;
                     Globals.SetlistManager.Size = UCSize;
                     currentControl = Globals.SetlistManager;
@@ -894,6 +895,7 @@ namespace CustomsForgeSongManager.Forms
         {
             return this;
         }
+
 
     }
 }

@@ -49,10 +49,10 @@ namespace CustomsForgeSongManager.Forms
             this.tpDuplicates = new System.Windows.Forms.TabPage();
             this.tpRenamer = new System.Windows.Forms.TabPage();
             this.tpSetlistManager = new System.Windows.Forms.TabPage();
+            this.tpProfileSongLists = new System.Windows.Forms.TabPage();
             this.tpSongPacks = new System.Windows.Forms.TabPage();
             this.tpSettings = new System.Windows.Forms.TabPage();
             this.tpAbout = new System.Windows.Forms.TabPage();
-            this.tpProfileSongLists = new System.Windows.Forms.TabPage();
             this.tsUtilities = new System.Windows.Forms.ToolStrip();
             this.tsBtnLaunchRS = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -267,6 +267,17 @@ namespace CustomsForgeSongManager.Forms
             this.tpSetlistManager.Text = "Setlist Manager";
             this.tpSetlistManager.UseVisualStyleBackColor = true;
             // 
+            // tpProfileSongLists
+            // 
+            this.tpProfileSongLists.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.tpProfileSongLists.Location = new System.Drawing.Point(4, 25);
+            this.tpProfileSongLists.Name = "tpProfileSongLists";
+            this.tpProfileSongLists.Padding = new System.Windows.Forms.Padding(3);
+            this.tpProfileSongLists.Size = new System.Drawing.Size(1003, 472);
+            this.tpProfileSongLists.TabIndex = 10;
+            this.tpProfileSongLists.Text = "Profile Song Lists";
+            this.tpProfileSongLists.UseVisualStyleBackColor = true;
+            // 
             // tpSongPacks
             // 
             this.tpSongPacks.Location = new System.Drawing.Point(4, 25);
@@ -294,16 +305,6 @@ namespace CustomsForgeSongManager.Forms
             this.tpAbout.TabIndex = 8;
             this.tpAbout.Text = "About";
             this.tpAbout.UseVisualStyleBackColor = true;
-            // 
-            // tpProfileSongLists
-            // 
-            this.tpProfileSongLists.Location = new System.Drawing.Point(4, 25);
-            this.tpProfileSongLists.Name = "tpProfileSongLists";
-            this.tpProfileSongLists.Padding = new System.Windows.Forms.Padding(3);
-            this.tpProfileSongLists.Size = new System.Drawing.Size(1003, 472);
-            this.tpProfileSongLists.TabIndex = 10;
-            this.tpProfileSongLists.Text = "Profile Song Lists";
-            this.tpProfileSongLists.UseVisualStyleBackColor = true;
             // 
             // tsUtilities
             // 
@@ -459,7 +460,7 @@ namespace CustomsForgeSongManager.Forms
             this.tspbAudioPosition,
             this.tslblTimer});
             this.tsAudioPlayer.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
-            this.tsAudioPlayer.Location = new System.Drawing.Point(682, 0);
+            this.tsAudioPlayer.Location = new System.Drawing.Point(713, 0);
             this.tsAudioPlayer.Name = "tsAudioPlayer";
             this.tsAudioPlayer.Padding = new System.Windows.Forms.Padding(0);
             this.tsAudioPlayer.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
@@ -699,7 +700,6 @@ namespace CustomsForgeSongManager.Forms
         private TabPage tpDuplicates;
         private TabPage tpRenamer;
         private TabPage tpSetlistManager;
-        private TabPage tpSettings;
         private TabPage tpAbout;
         private ToolStrip tsUtilities;
         private ToolStripButton tsBtnLaunchRS;
@@ -733,5 +733,6 @@ namespace CustomsForgeSongManager.Forms
         private ToolStripMenuItem xMLToolStripMenuItem;
         public TabControl tcMain;
         private TabPage tpProfileSongLists;
+        public TabPage tpSettings;
     }
 }
