@@ -18,13 +18,14 @@ using DataGridViewTools;
 using CustomsForgeSongManager.Properties;
 using UserProfileLib;
 using System.Security.Principal;
+using System.Reflection;
 
 
 namespace CustomsForgeSongManager.UControls
 {
     public partial class ProfileSongLists : UserControl, IDataGridViewHolder, INotifyTabChanged
     {
-        private const string MESSAGE_CAPTION = "Profile Song Lists";
+        private string MESSAGE_CAPTION = MethodBase.GetCurrentMethod().DeclaringType.Name;
         private bool allSelected = false;
         private bool bindingCompleted = false;
         private Color cdlcColor = Color.Cyan;
@@ -48,6 +49,7 @@ namespace CustomsForgeSongManager.UControls
         {
             InitializeComponent();
             Globals.TsLabel_StatusMsg.Click += lnkShowAll_Click;
+            PopulateProfileSongLists();
         }
 
         public void PopulateProfileSongLists()
@@ -58,6 +60,9 @@ namespace CustomsForgeSongManager.UControls
 
             dlcDir = Constants.Rs2DlcFolder;
             cdlcDir = Path.Combine(dlcDir, "CDLC").ToLower();
+            IncludeSubfolders();
+            ProtectODLC();
+
             LoadSongListMaster();
             LoadGameSongLists();
             UpdateToolStrip();
@@ -88,18 +93,16 @@ namespace CustomsForgeSongManager.UControls
         {
             if (Globals.RescanProfileSongLists)
             {
+                Globals.RescanProfileSongLists = false;
                 Rescan();
-                IncludeSubfolders();
                 PopulateProfileSongLists();
             }
             else if (Globals.ReloadProfileSongLists)
             {
-                IncludeSubfolders();
+                Globals.ReloadProfileSongLists = false;
                 PopulateProfileSongLists();
             }
 
-            Globals.RescanProfileSongLists = false;
-            Globals.ReloadProfileSongLists = false;
             Globals.TsLabel_MainMsg.Text = string.Format(Properties.Resources.RocksmithSongsCountFormat, songListMaster.Count);
             Globals.TsLabel_MainMsg.Visible = true;
             Globals.TsLabel_DisabledCounter.Alignment = ToolStripItemAlignment.Right;
@@ -535,7 +538,8 @@ namespace CustomsForgeSongManager.UControls
                     }
                     catch (IOException ex)
                     {
-                        MessageBox.Show(@"Unable to enable/disable " + dgvCurrent.Name + ": " + Path.GetFileName(originalPath) + Environment.NewLine + "<Error>: " + ex.Message, MESSAGE_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show(@"Unable to enable/disable " + dgvCurrent.Name + ": " + Path.GetFileName(originalPath) + Environment.NewLine + 
+                            "<Error>: " + ex.Message, MESSAGE_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
@@ -1063,10 +1067,7 @@ namespace CustomsForgeSongManager.UControls
             Globals.DgvCurrent = dgvSongListMaster;
             Globals.Log("Profile Song Lists GUI Activated ...");
             chkIncludeSubfolders.Checked = AppSettings.Instance.IncludeSubfolders;
-            IncludeSubfolders();
             chkProtectODLC.Checked = AppSettings.Instance.ProtectODLC;
-            ProtectODLC();
-            PopulateProfileSongLists(); // fires everytime tab is entered to refresh data
         }
 
         public void TabLeave()

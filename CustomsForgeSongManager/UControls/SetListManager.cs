@@ -15,6 +15,7 @@ using CustomsForgeSongManager.UITheme;
 using GenTools;
 using DataGridViewTools;
 using CustomsForgeSongManager.Properties;
+using System.Reflection;
 
 // cache.psarc may not be renamed
 
@@ -22,12 +23,7 @@ namespace CustomsForgeSongManager.UControls
 {
     public partial class SetlistManager : UserControl, IDataGridViewHolder, INotifyTabChanged
     {
-        #region Constants
-
-        private const string MESSAGE_CAPTION = "Setlist Manager";
-
-        #endregion
-
+        private string MESSAGE_CAPTION = MethodBase.GetCurrentMethod().DeclaringType.Name;
         private bool allSelected = false;
         private bool bindingCompleted = false;
         private Color cdlcColor = Color.Cyan;
@@ -73,7 +69,6 @@ namespace CustomsForgeSongManager.UControls
 
             dlcDir = Constants.Rs2DlcFolder;
             cdlcDir = Path.Combine(dlcDir, "CDLC").ToLower();
-
             IncludeSubfolders();
             ProtectODLC();
 
@@ -83,22 +78,23 @@ namespace CustomsForgeSongManager.UControls
             LoadSetLists(); // this generates a selection change
             // LoadSetlistSongs(); // so this is not needed
             LoadSongPacks();
+            UpdateToolStrip();
         }
 
         public void UpdateToolStrip()
         {
             if (Globals.RescanSetlistManager)
             {
+                Globals.RescanSetlistManager = false;
                 Rescan();
                 PopulateSetlistManager();
             }
             else if (Globals.ReloadSetlistManager)
             {
+                Globals.ReloadSetlistManager = false;
                 PopulateSetlistManager();
             }
 
-            Globals.RescanSetlistManager = false;
-            Globals.ReloadSetlistManager = false;
             Globals.TsLabel_MainMsg.Text = string.Format(Properties.Resources.RocksmithSongsCountFormat, setlistMaster.Count);
             Globals.TsLabel_MainMsg.Visible = true;
             Globals.TsLabel_DisabledCounter.Alignment = ToolStripItemAlignment.Right;
@@ -275,7 +271,7 @@ namespace CustomsForgeSongManager.UControls
                 // CAREFUL - brain damage area
                 // the use of LINQ 'Select' defeats the FilteredBindingList feature and locks data                
                 var setlistSongs = setlistMaster.Where(sng => (sng.ArtistTitleAlbum.ToLower().Contains(search) ||
-                    sng.Tunings1D.ToLower().Contains(search) || sng.FilePath.ToLower().Contains(search)) && 
+                    sng.Tunings1D.ToLower().Contains(search) || sng.FilePath.ToLower().Contains(search)) &&
                     Path.GetDirectoryName(sng.FilePath) == setlistPath).ToList();
 
                 // the use of .Select breaks binding
@@ -311,6 +307,37 @@ namespace CustomsForgeSongManager.UControls
                     dgvSongPacks.Rows.Add(false, songPackFile.Contains("disabled") ? "No" : "Yes", songPackFile, Path.GetFileName(songPackFile));
 
             dgvSongPacks.Columns["colSongPackPath"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+        }
+
+        private void ProtectODLC()
+        {
+            // deselect and protect ODLC 
+            if (chkProtectODLC.Checked)
+            {
+                var dgvList = new List<DataGridView>() { dgvSetlistMaster, dgvSetlistSongs, dgvSongPacks };
+                foreach (var dgvCurrent in dgvList)
+                {
+                    var debugMe = dgvCurrent.Name;
+
+                    foreach (DataGridViewRow row in dgvCurrent.Rows)
+                    {
+                        var sd = DgvExtensions.GetObjectFromRow<SongData>(dgvCurrent, row.Index);
+                        if (sd != null && (sd.IsODLC || sd.IsRsCompPack || sd.IsSongsPsarc))
+                            dgvCurrent.Rows[row.Index].Cells[colSelect.Index].Value = false;
+
+                        if (dgvCurrent == dgvSongPacks)
+                            dgvCurrent.Rows[row.Index].Cells[colSelect.Index].Value = false;
+                    }
+                }
+
+                chkProtectODLC.ForeColor = Color.Green;
+                chkProtectODLC.BackColor = Color.LightGray;
+            }
+            else
+            {
+                chkProtectODLC.ForeColor = Color.Red;
+                chkProtectODLC.BackColor = Color.LightGray;
+            }
         }
 
         private void RefreshAllDgv(bool unSelectAll)
@@ -362,10 +389,10 @@ namespace CustomsForgeSongManager.UControls
             }
 
             // force reload
-            //Globals.ReloadSetlistManager = true;
             Globals.ReloadDuplicates = true;
             Globals.ReloadRenamer = true;
             Globals.ReloadSongManager = true;
+            Globals.ReloadProfileSongLists = true;
 
             if (Globals.WorkerFinished == Globals.Tristate.Cancelled)
             {
@@ -483,8 +510,8 @@ namespace CustomsForgeSongManager.UControls
             Globals.ReloadSongManager = true; // full reload here
             Globals.RescanDuplicates = true;
             Globals.ReloadRenamer = true;
+            Globals.ReloadProfileSongLists = true;
             Globals.RescanSetlistManager = true;
-            Globals.RescanProfileSongLists = true;
             UpdateToolStrip();
             RefreshAllDgv(true);
         }
@@ -577,7 +604,7 @@ namespace CustomsForgeSongManager.UControls
                 var sd = DgvExtensions.GetObjectFromRow<SongData>(dgvCurrent, row.Index);
                 if (sd == null)
                     continue;
-                else if((sd.IsODLC || sd.IsRsCompPack || sd.IsSongsPsarc) && chkProtectODLC.Checked)
+                else if ((sd.IsODLC || sd.IsRsCompPack || sd.IsSongsPsarc) && chkProtectODLC.Checked)
                     dgvCurrent.Rows[row.Index].Cells[colSelect.Index].Value = false;
                 else if (dgvCurrent == dgvSongPacks && chkProtectODLC.Checked)
                     dgvCurrent.Rows[row.Index].Cells[colSelect.Index].Value = false;
@@ -970,37 +997,6 @@ namespace CustomsForgeSongManager.UControls
             ProtectODLC();
         }
 
-        private void ProtectODLC()
-        {
-            // deselect and protect ODLC 
-            if (chkProtectODLC.Checked)
-            {
-                var dgvList = new List<DataGridView>() { dgvSetlistMaster, dgvSetlistSongs, dgvSongPacks };
-                foreach (var dgvCurrent in dgvList)
-                {
-                    var debugMe = dgvCurrent.Name;
-
-                    foreach (DataGridViewRow row in dgvCurrent.Rows)
-                    {
-                        var sd = DgvExtensions.GetObjectFromRow<SongData>(dgvCurrent, row.Index);
-                        if (sd != null && (sd.IsODLC || sd.IsRsCompPack || sd.IsSongsPsarc))
-                            dgvCurrent.Rows[row.Index].Cells[colSelect.Index].Value = false;
-
-                        if (dgvCurrent == dgvSongPacks)
-                            dgvCurrent.Rows[row.Index].Cells[colSelect.Index].Value = false;
-                    }
-                }
-
-                chkProtectODLC.ForeColor = Color.Green;
-                chkProtectODLC.BackColor = Color.LightGray;
-            }
-            else
-            {
-                chkProtectODLC.ForeColor = Color.Red;
-                chkProtectODLC.BackColor = Color.LightGray;
-            }
-        }
-
         private void cmsCopy_Click(object sender, EventArgs e)
         {
             // know VS bug SourceControl returns null
@@ -1165,7 +1161,7 @@ namespace CustomsForgeSongManager.UControls
                 // known VS bug .. SourceControl returns null ... using tag for work around
                 cmsSetlistManager.Tag = dgvCurrent;
                 cmsSetlistManager.Show(Cursor.Position);
-         
+
                 if (dgvCurrent == dgvSongPacks)
                 {
                     cmsCopy.Enabled = false;

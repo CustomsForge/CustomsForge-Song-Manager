@@ -208,8 +208,9 @@ namespace CustomsForgeSongManager.UControls
             // 
             // txtNoDuplicates
             // 
-            this.txtNoDuplicates.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.txtNoDuplicates.BackColor = System.Drawing.Color.White;
             this.txtNoDuplicates.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtNoDuplicates.ForeColor = System.Drawing.Color.Black;
             this.txtNoDuplicates.Location = new System.Drawing.Point(248, 200);
             this.txtNoDuplicates.Multiline = true;
             this.txtNoDuplicates.Name = "txtNoDuplicates";

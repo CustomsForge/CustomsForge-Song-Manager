@@ -178,6 +178,8 @@ namespace CustomsForgeSongManager.LocalTools
             Globals.Log("PackageRating updates completed successfully ...");
             Globals.UpdateInProgress = false;
             Globals.PackageRatingNeedsUpdate = false;
+            // only need to reload the grid where PackageRating is displayed
+            Globals.ReloadSongManager = true;
 
             return;
         }

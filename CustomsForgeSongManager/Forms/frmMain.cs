@@ -47,9 +47,9 @@ namespace CustomsForgeSongManager.Forms
         {
             InitializeComponent();
 
-            // TODO: future ProfileSongLists feature
-            if (!Constants.DebugMode)
-                tcMain.TabPages.RemoveByKey("tpProfileSongLists");
+            // enable/disable ProfileSongLists feature
+            //if (!Constants.DebugMode)
+            //    tcMain.TabPages.RemoveByKey("tpProfileSongLists");
 
             // create VersionInfo.txt file
             VersionInfo.CreateVersionInfo();
@@ -344,6 +344,15 @@ namespace CustomsForgeSongManager.Forms
                     Globals.SetlistManager.Size = UCSize;
                     currentControl = Globals.SetlistManager;
                     break;
+                case "Profile Song Lists":
+                    this.tpProfileSongLists.Controls.Clear();
+                    this.tpProfileSongLists.Controls.Add(Globals.ProfileSongLists);
+                    Globals.ProfileSongLists.Dock = DockStyle.Fill;
+                   Globals.ProfileSongLists.UpdateToolStrip();
+                    Globals.ProfileSongLists.Location = UCLocation;
+                    Globals.ProfileSongLists.Size = UCSize;
+                    currentControl = Globals.ProfileSongLists;
+                    break;
                 case "Song Packs":
                     this.tpSongPacks.Controls.Clear();
                     this.tpSongPacks.Controls.Add(Globals.SongPacks);
@@ -368,15 +377,6 @@ namespace CustomsForgeSongManager.Forms
                     Globals.About.Location = UCLocation;
                     Globals.About.Size = UCSize;
                     currentControl = Globals.About;
-                    break;
-
-                case "Profile Song Lists":
-                    this.tpProfileSongLists.Controls.Clear();
-                    this.tpProfileSongLists.Controls.Add(Globals.ProfileSongLists);
-                    Globals.ProfileSongLists.Dock = DockStyle.Fill;
-                    Globals.ProfileSongLists.Location = UCLocation;
-                    Globals.ProfileSongLists.Size = UCSize;
-                    currentControl = Globals.ProfileSongLists;
                     break;
             }
 

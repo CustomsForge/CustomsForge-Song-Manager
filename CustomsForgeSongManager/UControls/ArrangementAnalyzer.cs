@@ -66,6 +66,21 @@ namespace CustomsForgeSongManager.UControls
 
         public void UpdateToolStrip()
         {
+            if (Globals.RescanArrangements)
+            {
+                // full rescan
+                Globals.RescanArrangements = false;
+                Rescan(true);
+                PopulateArrangementManager();
+            }
+            else if (Globals.ReloadArrangements)
+            {
+                // smart quick rescan
+                Globals.ReloadArrangements = false;
+                Rescan(false);
+                PopulateArrangementManager();
+            }
+
             Globals.TsLabel_MainMsg.Text = string.Format("Rocksmith Arrangements Count: {0}", arrangementList.Count);
             Globals.TsLabel_MainMsg.Visible = true;
             Globals.TsLabel_DisabledCounter.Visible = false;
@@ -510,6 +525,12 @@ namespace CustomsForgeSongManager.UControls
             IncludeSubfolders();
         }
 
+        private void chkIncludeVocals_CheckedChanged(object sender, EventArgs e)
+        {
+            AppSettings.Instance.IncludeVocals = chkIncludeVocals.Checked;
+            RefreshDgv(false);
+        }
+
         private void cueSearch_KeyUp(object sender, KeyEventArgs e)
         {
             // debounce KeyUp to eliminate intermittent NullReferenceException
@@ -805,6 +826,39 @@ namespace CustomsForgeSongManager.UControls
             RemoveFilter();
         }
 
+        private void lnklblChangeBPMThreshold_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            int newThreshold = AppSettings.Instance.BPMThreshold;
+
+            using (var userInput = new FormUserInput(false))
+            {
+                userInput.CustomInputLabel = "Enter BPM difference as an integer" + Environment.NewLine +
+                                             "that will trigger BPM change counter";
+                userInput.FrmHeaderText = "Change BPM change threshold ...";
+                userInput.CustomInputText = Convert.ToString(AppSettings.Instance.BPMThreshold);
+
+                if (DialogResult.OK != userInput.ShowDialog())
+                    return;
+
+                if (!int.TryParse(userInput.CustomInputText, out newThreshold))
+                    return;
+            }
+
+            // continue only if threshold has changed
+            if (AppSettings.Instance.BPMThreshold == newThreshold)
+                return;
+
+            var diaMsg = "In order for this changes to take effect, " + Environment.NewLine +
+                         "you will have to do a full rescan. " + Environment.NewLine + Environment.NewLine +
+                         "Do you want to proceed?";
+
+            if (DialogResult.Yes != BetterDialog2.ShowDialog(diaMsg, "Full Rescan", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Question.Handle), "INFO", 0, 150))
+                return;
+
+            AppSettings.Instance.BPMThreshold = newThreshold;
+            RefreshDgv(true);
+        }
+
         private void lnklblToggle_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             TemporaryDisableDatabindEvent(() =>
@@ -907,45 +961,6 @@ namespace CustomsForgeSongManager.UControls
         {
             Globals.Settings.SaveSettingsToFile(dgvArrangements);
             Globals.Log("Arrangements GUI Deactivated ...");
-        }
-
-        private void chkIncludeVocals_CheckedChanged(object sender, EventArgs e)
-        {
-            AppSettings.Instance.IncludeVocals = chkIncludeVocals.Checked;
-            RefreshDgv(false);
-        }
-
-        private void lnklblChangeBPMThreshold_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            int newThreshold = AppSettings.Instance.BPMThreshold;
-
-            using (var userInput = new FormUserInput(false))
-            {
-                userInput.CustomInputLabel = "Enter BPM difference as an integer" + Environment.NewLine +
-                                             "that will trigger BPM change counter";
-                userInput.FrmHeaderText = "Change BPM change threshold ...";
-                userInput.CustomInputText = Convert.ToString(AppSettings.Instance.BPMThreshold);
-
-                if (DialogResult.OK != userInput.ShowDialog())
-                    return;
-
-                if (!int.TryParse(userInput.CustomInputText, out newThreshold))
-                    return;
-            }
-
-            // continue only if threshold has changed
-            if (AppSettings.Instance.BPMThreshold == newThreshold)
-                return;
-
-            var diaMsg = "In order for this changes to take effect, " + Environment.NewLine +
-                         "you will have to do a full rescan. " + Environment.NewLine + Environment.NewLine +
-                         "Do you want to proceed?";
-
-            if (DialogResult.Yes != BetterDialog2.ShowDialog(diaMsg, "Full Rescan", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Question.Handle), "INFO", 0, 150))
-                return;
-
-            AppSettings.Instance.BPMThreshold = newThreshold;
-            RefreshDgv(true);
         }
     }
 }

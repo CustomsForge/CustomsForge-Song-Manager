@@ -145,7 +145,7 @@ namespace CustomsForgeSongManager.UControls
             LoadFilteredBindingList(duplicateList);
             CFSMTheme.InitializeDgvAppearance(dgvDuplicates);
             // reload column order, width, visibility
-            Globals.Settings.LoadSettingsFromFile(dgvDuplicates, false);
+            Globals.Settings.LoadSettingsFromFile(dgvDuplicates);
 
             if (RAExtensions.ManagerGridSettings != null)
                 dgvDuplicates.ReLoadColumnOrder(RAExtensions.ManagerGridSettings.ColumnOrder);
@@ -169,18 +169,15 @@ namespace CustomsForgeSongManager.UControls
             if (Globals.RescanDuplicates) // || !String.IsNullOrEmpty(AppSettings.Instance.FilterString))
             {
                 // AppSettings.Instance.FilterString = String.Empty;
+                Globals.RescanDuplicates = false;
                 Rescan();
                 PopulateDuplicates(dupPidSelected);
             }
             else if (Globals.ReloadDuplicates)
+            {
+                Globals.ReloadDuplicates = false;
                 PopulateDuplicates(dupPidSelected);
-
-            Globals.RescanDuplicates = false;
-            Globals.ReloadDuplicates = false;
-            Globals.ReloadRenamer = true;
-            Globals.ReloadSetlistManager = true;
-            Globals.ReloadSongManager = true;
-            Globals.ReloadArrangements = true;
+            }
 
             if (!duplicateList.Any())
             {
@@ -315,12 +312,6 @@ namespace CustomsForgeSongManager.UControls
                     Application.DoEvents();
             }
 
-            // force reload
-            //Globals.ReloadSetlistManager = true;
-            //Globals.ReloadDuplicates = true;
-            //Globals.ReloadRenamer = true;
-            //Globals.ReloadSongManager = true;
-
             if (Globals.WorkerFinished == Globals.Tristate.Cancelled)
             {
                 Globals.Log(Resources.UserCancelledProcess);
@@ -393,11 +384,12 @@ namespace CustomsForgeSongManager.UControls
             else
                 FileTools.DeleteFiles(selection);
 
-            // force reload/rescan
+            // force reload
             Globals.RescanDuplicates = true;
             Globals.ReloadSongManager = true;
             Globals.ReloadRenamer = true;
             Globals.ReloadSetlistManager = true;
+            Globals.ReloadProfileSongLists = true;
             UpdateToolStrip();
         }
 
@@ -891,6 +883,7 @@ namespace CustomsForgeSongManager.UControls
 
         public void TabLeave()
         {
+            Globals.Settings.SaveSettingsToFile(dgvDuplicates);
             Globals.Log("Duplicates GUI Deactivated ...");
         }
 

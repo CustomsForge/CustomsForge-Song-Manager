@@ -62,9 +62,11 @@ namespace CustomsForgeSongManager.UControls
         public void UpdateToolStrip()
         {
             if (Globals.ReloadSongPacks)
+            {
+                Globals.ReloadSongPacks = false;
                 InitializeSongPacks();
+            }
 
-            Globals.ReloadSongPacks = false;
             Globals.TsLabel_MainMsg.Text = string.Format("Song Count: {0}", dgvSongPacks.Rows.Count);
             Globals.TsLabel_MainMsg.Visible = true;
             var tsldcMsg = String.Format("Disabled CDLC: {0}", DisabledSongColorizerCounter());

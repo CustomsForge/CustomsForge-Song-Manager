@@ -28,50 +28,6 @@ namespace CustomsForgeSongManager.UControls
                 txtRenameTemplate.Text = AppSettings.Instance.RenameTemplate;
         }
 
-        public void PopulateRenamer()
-        {
-            Globals.Log("Populating Renamer GUI ...");
-            try
-            {
-                Assembly assembly = Assembly.GetExecutingAssembly();
-                Stream stream = assembly.GetManifestResourceStream("CustomsForgeSongManager.Resources.renamer_properties.json");
-                using (StreamReader reader = new StreamReader(stream))
-                {
-                    string json = reader.ReadToEnd();
-                    renamerPropertyDataSet = new DataSet();
-                    renamerPropertyDataSet = (DataSet)JsonConvert.DeserializeObject(json, (typeof(DataSet)));
-                    dgvRenamer.AutoGenerateColumns = true;
-                    dgvRenamer.DataSource = renamerPropertyDataSet.Tables[0];
-                }
-                Globals.Log("Loaded renamer_properties.json template ...");
-            }
-            catch (Exception e)
-            {
-                Globals.Log(e.Message);
-            }
-        }
-
-        public void ShowRenamePreview()
-        {
-            SongData sd = null;
-            List<SongData> List = renSongList.Count > 0 ? renSongList : Globals.MasterCollection.ToList();
-            if (List.Count == 0)
-                Globals.Log("No songs found for rename preview.");
-            int x = Globals.random.Next(List.Count() - 1);
-            sd = List[x];
-            if (sd != null)
-                Globals.Log(String.Format("Renamer preview : {0}", GetNewSongName(sd)));
-        }
-
-        private void btnPreview_Click(object sender, EventArgs e)
-        {
-            if (!ValidateInput())
-                return;
-
-            AppSettings.Instance.ShowLogWindow = true;
-            ShowRenamePreview();
-        }
-
         public string GetNewSongName(SongData data)
         {
             if (chkTheMover.Checked)
@@ -141,6 +97,29 @@ namespace CustomsForgeSongManager.UControls
             return newFilePath;
         }
 
+        public void PopulateRenamer()
+        {
+            Globals.Log("Populating Renamer GUI ...");
+            try
+            {
+                Assembly assembly = Assembly.GetExecutingAssembly();
+                Stream stream = assembly.GetManifestResourceStream("CustomsForgeSongManager.Resources.renamer_properties.json");
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    string json = reader.ReadToEnd();
+                    renamerPropertyDataSet = new DataSet();
+                    renamerPropertyDataSet = (DataSet)JsonConvert.DeserializeObject(json, (typeof(DataSet)));
+                    dgvRenamer.AutoGenerateColumns = true;
+                    dgvRenamer.DataSource = renamerPropertyDataSet.Tables[0];
+                }
+                Globals.Log("Loaded renamer_properties.json template ...");
+            }
+            catch (Exception e)
+            {
+                Globals.Log(e.Message);
+            }
+        }
+
         public void RenameSongs()
         {
             foreach (SongData data in renSongList)
@@ -170,6 +149,18 @@ namespace CustomsForgeSongManager.UControls
                     Globals.Log(String.Format("<ERROR> {0}", e.Message));
                 }
             }
+        }
+
+        public void ShowRenamePreview()
+        {
+            SongData sd = null;
+            List<SongData> List = renSongList.Count > 0 ? renSongList : Globals.MasterCollection.ToList();
+            if (List.Count == 0)
+                Globals.Log("No songs found for rename preview.");
+            int x = Globals.random.Next(List.Count() - 1);
+            sd = List[x];
+            if (sd != null)
+                Globals.Log(String.Format("Renamer preview : {0}", GetNewSongName(sd)));
         }
 
         public void UpdateToolStrip()
@@ -261,6 +252,15 @@ namespace CustomsForgeSongManager.UControls
         private void btnClearTemplate_Click(object sender, EventArgs e)
         {
             txtRenameTemplate.Text = String.Empty;
+        }
+
+        private void btnPreview_Click(object sender, EventArgs e)
+        {
+            if (!ValidateInput())
+                return;
+
+            AppSettings.Instance.ShowLogWindow = true;
+            ShowRenamePreview();
         }
 
         private void btnRenameAll_Click(object sender, System.EventArgs e)
