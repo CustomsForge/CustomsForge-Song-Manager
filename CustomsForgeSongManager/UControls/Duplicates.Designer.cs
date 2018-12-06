@@ -138,7 +138,7 @@ namespace CustomsForgeSongManager.UControls
             this.chkIncludeSubfolders.Text = "Include Subfolders";
             this.toolTip.SetToolTip(this.chkIncludeSubfolders, resources.GetString("chkIncludeSubfolders.ToolTip"));
             this.chkIncludeSubfolders.UseVisualStyleBackColor = true;
-            this.chkIncludeSubfolders.MouseUp += new System.Windows.Forms.MouseEventHandler(this.chkIncludeSubfolders_MouseUp);
+            this.chkIncludeSubfolders.CheckedChanged += new System.EventHandler(this.chkIncludeSubfolders_CheckedChanged);
             // 
             // lnkPersistentId
             // 
@@ -208,7 +208,7 @@ namespace CustomsForgeSongManager.UControls
             // 
             // txtNoDuplicates
             // 
-            this.txtNoDuplicates.BackColor = System.Drawing.Color.White;
+            this.txtNoDuplicates.BackColor = System.Drawing.Color.Chartreuse;
             this.txtNoDuplicates.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtNoDuplicates.ForeColor = System.Drawing.Color.Black;
             this.txtNoDuplicates.Location = new System.Drawing.Point(248, 200);

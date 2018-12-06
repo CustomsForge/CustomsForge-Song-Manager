@@ -168,6 +168,7 @@ namespace CustomsForgeSongManager.Forms
                 this.tpSongManager.Controls.Add(Globals.SongManager);
                 Globals.SongManager.PlaySongFunction = playFunction;
                 Globals.SongManager.Dock = DockStyle.Fill;
+                Globals.SongManager.UpdateToolStrip();
                 Globals.SongManager.Location = UCLocation;
                 Globals.SongManager.Size = UCSize;
             }
@@ -306,7 +307,6 @@ namespace CustomsForgeSongManager.Forms
                 // passing variables(objects) by value to UControl
                 case "Song Manager":
                     LoadSongManager();
-                    Globals.SongManager.UpdateToolStrip();
                     break;
                 case "Arrangement Analyzer":
                     this.tpArrangements.Controls.Clear();
@@ -348,7 +348,7 @@ namespace CustomsForgeSongManager.Forms
                     this.tpProfileSongLists.Controls.Clear();
                     this.tpProfileSongLists.Controls.Add(Globals.ProfileSongLists);
                     Globals.ProfileSongLists.Dock = DockStyle.Fill;
-                   Globals.ProfileSongLists.UpdateToolStrip();
+                    Globals.ProfileSongLists.UpdateToolStrip();
                     Globals.ProfileSongLists.Location = UCLocation;
                     Globals.ProfileSongLists.Size = UCSize;
                     currentControl = Globals.ProfileSongLists;

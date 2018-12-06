@@ -40,7 +40,7 @@ namespace CustomsForgeSongManager.UControls
         {
             InitializeComponent();
             Globals.TsLabel_StatusMsg.Click += lnkShowAll_Click;
-            PopulateArrangementManager();
+            PopulateArrangementManager(); // done once on initial load
         }
 
         public void PopulateArrangementManager()
@@ -51,6 +51,9 @@ namespace CustomsForgeSongManager.UControls
             LoadArrangements();
             PopulateDataGridView();
 
+            // bind datasource to grid
+            IncludeSubfolders();
+
             // Worker actually does the sorting after parsing, this is just to tell the grid that it is sorted.
             if (!String.IsNullOrEmpty(AppSettings.Instance.SortColumn))
             {
@@ -59,32 +62,40 @@ namespace CustomsForgeSongManager.UControls
                     dgvArrangements.Sort(colX, AppSettings.Instance.SortAscending ? ListSortDirection.Ascending : ListSortDirection.Descending);
             }
 
-            // TODO: maybe reapply previous filtering and search here
-
-            UpdateToolStrip();
+            // TODO: maybe reapply previous filtering and search
         }
 
         public void UpdateToolStrip()
         {
-            if (Globals.RescanArrangements)
+            if (Globals.RescanArrangements && AppSettings.Instance.IncludeArrangementData)
             {
-                // full rescan
                 Globals.RescanArrangements = false;
                 Rescan(true);
                 PopulateArrangementManager();
             }
             else if (Globals.ReloadArrangements)
             {
-                // smart quick rescan
                 Globals.ReloadArrangements = false;
                 Rescan(false);
                 PopulateArrangementManager();
             }
 
+            chkIncludeSubfolders.Checked = AppSettings.Instance.IncludeSubfolders;
+            chkIncludeVocals.Checked = AppSettings.Instance.IncludeVocals;
+
             Globals.TsLabel_MainMsg.Text = string.Format("Rocksmith Arrangements Count: {0}", arrangementList.Count);
             Globals.TsLabel_MainMsg.Visible = true;
             Globals.TsLabel_DisabledCounter.Visible = false;
             Globals.TsLabel_StatusMsg.Visible = false;
+
+            if (!AppSettings.Instance.IncludeArrangementData)
+            {
+                var diaMsg = "Arrangement data has not been fully parsed" + Environment.NewLine +
+                             "from the CDLC archives.  Use 'Rescan Full'" + Environment.NewLine +
+                             "to display the complete Arrangement data.";
+
+                BetterDialog2.ShowDialog(diaMsg, "Rescan Full Required", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "WARNING", 0, 150);
+            }
         }
 
         private void ColumnMenuItemClick(object sender, EventArgs eventArgs)
@@ -284,7 +295,6 @@ namespace CustomsForgeSongManager.UControls
         {
             // respect processing order
             DgvExtensions.DoubleBuffered(dgvArrangements);
-            IncludeSubfolders();
             CFSMTheme.InitializeDgvAppearance(dgvArrangements);
             // reload column order, width, visibility
             Globals.Settings.LoadSettingsFromFile(dgvArrangements);
@@ -342,11 +352,9 @@ namespace CustomsForgeSongManager.UControls
         {
             // save current sorting before removing filter
             DgvExtensions.SaveSorting(dgvArrangements);
-
             // remove the filter
             DataGridViewAutoFilterTextBoxColumn.RemoveFilter(dgvArrangements);
             UpdateToolStrip();
-
             // reapply sort direction to reselect the filtered song
             DgvExtensions.RestoreSorting(dgvArrangements);
             this.Refresh();
@@ -467,6 +475,12 @@ namespace CustomsForgeSongManager.UControls
             GenExtensions.InvokeIfRequired(lnkClearSearch, delegate { lnkClearSearch.Enabled = enable; });
         }
 
+        private void chkIncludeSubfolders_MouseUp(object sender, MouseEventArgs e)
+        {
+            AppSettings.Instance.IncludeSubfolders = chkIncludeSubfolders.Checked;
+            IncludeSubfolders();
+        }
+
         private void dgvArrangements_Paint(object sender, PaintEventArgs e)
         {
             // need to wait for DataBinding and DataGridView Paint to complete before  
@@ -519,7 +533,7 @@ namespace CustomsForgeSongManager.UControls
             firstIndex = dgvArrangements.FirstDisplayedCell.RowIndex;
         }
 
-        private void chkIncludeSubfolders_MouseUp(object sender, MouseEventArgs e)
+        private void chkIncludeSubfolders_CheckedChanged(object sender, EventArgs e)
         {
             AppSettings.Instance.IncludeSubfolders = chkIncludeSubfolders.Checked;
             IncludeSubfolders();
@@ -544,6 +558,7 @@ namespace CustomsForgeSongManager.UControls
             else
                 LoadFilteredBindingList(arrangementList);
 
+            UpdateToolStrip();
             // restore current sort
             DgvExtensions.RestoreSorting(dgvArrangements);
         }
@@ -808,8 +823,6 @@ namespace CustomsForgeSongManager.UControls
 
             // save current sorting before clearing search
             DgvExtensions.SaveSorting(dgvArrangements);
-
-            IncludeSubfolders();
             UpdateToolStrip();
             DgvExtensions.RestoreSorting(dgvArrangements);
             AppSettings.Instance.FilterString = String.Empty;
@@ -889,7 +902,7 @@ namespace CustomsForgeSongManager.UControls
             var secsEPT = songsCount * secsPerSong; // estimated pasing time (secs)
             var diaMsg = "You are about to run a full rescan of (" + songsCount + ") songs." + Environment.NewLine +
                          "Operation will take approximately (" + secsEPT + ") seconds  " + Environment.NewLine +
-                         "to complete." + Environment.NewLine + Environment.NewLine + 
+                         "to complete." + Environment.NewLine + Environment.NewLine +
                          "Do you want to proceed?";
 
             if (DialogResult.Yes != BetterDialog2.ShowDialog(diaMsg, "Full Rescan", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Question.Handle), "INFO", 0, 150))
@@ -931,30 +944,6 @@ namespace CustomsForgeSongManager.UControls
         {
             Globals.DgvCurrent = dgvArrangements;
             Globals.Log("Arrangements GUI Activated ...");
-            chkIncludeSubfolders.Checked = AppSettings.Instance.IncludeSubfolders;
-            chkIncludeVocals.Checked = AppSettings.Instance.IncludeVocals;
-
-            if (Globals.RescanArrangements && AppSettings.Instance.IncludeArrangementData)
-                RefreshDgv(true);
-            else if (Globals.ReloadArrangements)
-                RefreshDgv(false);
-
-            Globals.ReloadArrangements = false;
-            Globals.RescanArrangements = false;
-
-            // work around for menu strip display glitch in IDE mode
-            this.Invalidate();
-            this.Update();
-            this.Refresh();
-
-            if (!AppSettings.Instance.IncludeArrangementData)
-            {
-                var diaMsg = "Arrangement data has not been fully parsed" + Environment.NewLine +
-                             "from the CDLC archives.  Use 'Rescan Full'" + Environment.NewLine +
-                             "to display the complete Arrangement data.";
-
-                BetterDialog2.ShowDialog(diaMsg, "Rescan Full Required", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "WARNING", 0, 150);
-            }
         }
 
         public void TabLeave()

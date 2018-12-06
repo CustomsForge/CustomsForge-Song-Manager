@@ -18,6 +18,7 @@ using CustomsForgeSongManager.Properties;
 using System.Reflection;
 
 // cache.psarc may not be renamed
+// TODO: please rewrite SetlistMaster code completely ...
 
 namespace CustomsForgeSongManager.UControls
 {
@@ -37,6 +38,7 @@ namespace CustomsForgeSongManager.UControls
         private Color setlistColor = Color.Yellow;
         // setlistMaster declared as BindingList causes update when dgv is edited
         private BindingList<SongData> setlistMaster = new BindingList<SongData>(); // prevents filtering from being inherited
+        private List<SongData> setlistSongs;
         private List<SongData> songSearch = new List<SongData>();
 
         public SetlistManager()
@@ -69,16 +71,16 @@ namespace CustomsForgeSongManager.UControls
 
             dlcDir = Constants.Rs2DlcFolder;
             cdlcDir = Path.Combine(dlcDir, "CDLC").ToLower();
+
+            // bind datasource to grid
             IncludeSubfolders();
             ProtectODLC();
 
             if (!LoadSetlistMaster())
                 return;
 
-            LoadSetLists(); // this generates a selection change
-            // LoadSetlistSongs(); // so this is not needed
+            LoadSetLists(); // call LoadSetlistSongs
             LoadSongPacks();
-            UpdateToolStrip();
         }
 
         public void UpdateToolStrip()
@@ -94,6 +96,9 @@ namespace CustomsForgeSongManager.UControls
                 Globals.ReloadSetlistManager = false;
                 PopulateSetlistManager();
             }
+
+            chkIncludeSubfolders.Checked = AppSettings.Instance.IncludeSubfolders;
+            chkProtectODLC.Checked = AppSettings.Instance.ProtectODLC;
 
             Globals.TsLabel_MainMsg.Text = string.Format(Properties.Resources.RocksmithSongsCountFormat, setlistMaster.Count);
             Globals.TsLabel_MainMsg.Visible = true;
@@ -148,6 +153,7 @@ namespace CustomsForgeSongManager.UControls
                         dgvSetlists.Rows.Add(true, "Yes", newSetlistName);
                         dgvSetlists.Rows[dgvSetlists.Rows.Count - 1].Selected = true;
                         curSetlistName = dgvSetlists.Rows[dgvSetlists.Rows.Count - 1].Cells["colSetlistName"].Value.ToString();
+                        dgvSetlists.Sort(dgvSetlists.Columns["colSetlistName"], ListSortDirection.Ascending);
                         LoadSetlistSongs(curSetlistName);
                     }
                 }
@@ -173,12 +179,9 @@ namespace CustomsForgeSongManager.UControls
             setlistMaster = new BindingList<SongData>(Globals.MasterCollection.Where(x => !x.IsRsCompPack && !x.IsSongsPsarc && !x.IsSongPack).ToList());
 
             if (!chkIncludeSubfolders.Checked)
-            {
-                var results = setlistMaster.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList();
-                LoadFilteredBindingList(results);
-            }
-            else
-                LoadFilteredBindingList(setlistMaster);
+                setlistMaster = new BindingList<SongData>(setlistMaster.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList());
+
+            LoadFilteredBindingList(setlistMaster);
         }
 
         private void LoadFilteredBindingList(dynamic list)
@@ -190,8 +193,6 @@ namespace CustomsForgeSongManager.UControls
             var fbl = new FilteredBindingList<SongData>(list);
             var bs = new BindingSource { DataSource = fbl };
             dgvSetlistMaster.DataSource = bs;
-
-            var debugMe = dgvSetlistMaster.RowCount;
         }
 
         private void LoadSetLists()
@@ -199,9 +200,10 @@ namespace CustomsForgeSongManager.UControls
             dgvSetlists.Rows.Clear();
 
             // find all existing Setlists (directories) in the dlc directory
-            string[] setlistDirs = Directory.GetDirectories(dlcDir, "*", SearchOption.TopDirectoryOnly);
+            var setlistDirs = Directory.GetDirectories(dlcDir, "*", SearchOption.TopDirectoryOnly).ToList();
             // ignore the inlay(s) folder
-            setlistDirs = setlistDirs.Where(x => !x.ToLower().Contains("inlay")).ToArray();
+            setlistDirs = setlistDirs.Where(x => !x.ToLower().Contains("inlay")).ToList();
+            setlistDirs = setlistDirs.OrderBy(x => x).ToList();
 
             // populate dgvSetlists
             foreach (var setlistDir in setlistDirs)
@@ -261,22 +263,21 @@ namespace CustomsForgeSongManager.UControls
                 return;
             }
 
-            // var setlistName = selectedRows.First().Cells["colSetlistName"].Value.ToString();
             var setlistPath = Path.Combine(dlcDir, setlistName);
-
             if (Directory.Exists(setlistPath))
             {
-                // var setlistSongs = Directory.EnumerateFiles(setlistPath, "*.psarc", SearchOption.AllDirectories).ToList();
+                var availableSongs = new BindingList<SongData>(Globals.MasterCollection.Where(x => !x.IsRsCompPack && !x.IsSongsPsarc && !x.IsSongPack).ToList());
 
                 // CAREFUL - brain damage area
                 // the use of LINQ 'Select' defeats the FilteredBindingList feature and locks data                
-                var setlistSongs = setlistMaster.Where(sng => (sng.ArtistTitleAlbum.ToLower().Contains(search) ||
-                    sng.Tunings1D.ToLower().Contains(search) || sng.FilePath.ToLower().Contains(search)) &&
-                    Path.GetDirectoryName(sng.FilePath) == setlistPath).ToList();
+                setlistSongs = availableSongs.Where(sng => (sng.ArtistTitleAlbum.ToLower().Contains(search) ||
+                sng.Tunings1D.ToLower().Contains(search) || sng.FilePath.ToLower().Contains(search)) &&
+                Path.GetDirectoryName(sng.FilePath) == setlistPath).ToList();
 
-                // the use of .Select breaks binding
+                // FYI the use of .Select breaks the binding
                 // .Select(x => new { x.Selected, x.Enabled, x.Artist, x.Song, x.Album, x.Tuning, x.Path }).ToList();
 
+                dgvSetlistSongs.Rows.Clear();
                 dgvSetlistSongs.AutoGenerateColumns = false;
                 dgvSetlistSongs.DataSource = new FilteredBindingList<SongData>(setlistSongs);
             }
@@ -417,6 +418,8 @@ namespace CustomsForgeSongManager.UControls
 
         private void SelectionCopyMoveDelete(string mode, DataGridView dgvCurrent)
         {
+            // TODO: this method needs to be completely rewritten
+
             if (dgvCurrent == null || dgvCurrent.Rows.Count == 0)
                 return;
 
@@ -475,8 +478,16 @@ namespace CustomsForgeSongManager.UControls
                         if (item.CanWrite)
                             newSong.GetType().GetProperty(item.Name).SetValue(newSong, item.GetValue(song, null), null);
 
-                    newSong.FilePath = destPath; // triggers update of dgvSetlistSongs
-                    setlistMaster.Add(newSong);
+                    newSong.FilePath = destPath; 
+
+                    setlistSongs.Add(newSong);
+                    if (mode == "copy")
+                        setlistMaster.Add(newSong);
+
+                    // reset bound DataSource to refesh dgvSongListSongs
+                    dgvSetlistSongs.DataSource = null;
+                    dgvSetlistSongs.AutoGenerateColumns = false;
+                    dgvSetlistSongs.DataSource = new FilteredBindingList<SongData>(setlistSongs);
                 }
 
                 if (mode == "delete" || mode == "move")
@@ -506,14 +517,16 @@ namespace CustomsForgeSongManager.UControls
                 }
             }
 
-            // force reload/rescan
-            Globals.ReloadSongManager = true; // full reload here
-            Globals.RescanDuplicates = true;
-            Globals.ReloadRenamer = true;
-            Globals.ReloadProfileSongLists = true;
-            Globals.RescanSetlistManager = true;
-            UpdateToolStrip();
+            // reset bound DataSource to refesh dgvSetlistMaster
+            LoadFilteredBindingList(setlistMaster);
             RefreshAllDgv(true);
+            UpdateToolStrip();
+ 
+              // force rescan
+            Globals.RescanDuplicates = true;
+            Globals.RescanSongManager = true;
+            Globals.RescanRenamer = true;
+            Globals.RescanProfileSongLists = true;
         }
 
         private void SelectionEnableDisable(DataGridView dgvCurrent)
@@ -668,6 +681,18 @@ namespace CustomsForgeSongManager.UControls
         private void btnToggleSetlistSongs_Click(object sender, EventArgs e)
         {
             ToggleSongs(dgvSetlistSongs);
+        }
+
+        private void chkIncludeSubfolders_MouseUp(object sender, MouseEventArgs e)
+        {
+            AppSettings.Instance.IncludeSubfolders = chkIncludeSubfolders.Checked;
+            IncludeSubfolders();
+        }
+
+        private void chkProtectODLC_MouseUp(object sender, MouseEventArgs e)
+        {
+            AppSettings.Instance.ProtectODLC = chkProtectODLC.Checked;
+            ProtectODLC();
         }
 
         private void btnCombineSetlists_Click(object sender, EventArgs e)
@@ -887,6 +912,12 @@ namespace CustomsForgeSongManager.UControls
             RefreshAllDgv(false);
         }
 
+        private void btnRescan_Click(object sender, EventArgs e)
+        {
+            Globals.RescanSetlistManager = true;
+            UpdateToolStrip();
+        }
+
         private void btnRunRSWithSetlist_Click(object sender, EventArgs e)
         {
             // TODO: confirm this method works correctly and then enable button
@@ -985,13 +1016,13 @@ namespace CustomsForgeSongManager.UControls
             }
         }
 
-        private void chkIncludeSubfolders_MouseUp(object sender, MouseEventArgs e)
+        private void chkIncludeSubfolders_CheckedChanged(object sender, EventArgs e)
         {
             AppSettings.Instance.IncludeSubfolders = chkIncludeSubfolders.Checked;
             IncludeSubfolders();
         }
 
-        private void chkProtectODLC_MouseUp(object sender, MouseEventArgs e)
+        private void chkProtectODLC_CheckedChanged(object sender, EventArgs e)
         {
             AppSettings.Instance.ProtectODLC = chkProtectODLC.Checked;
             ProtectODLC();
@@ -1359,7 +1390,6 @@ namespace CustomsForgeSongManager.UControls
 
             // save current sorting before clearing search
             DgvExtensions.SaveSorting(dgvSetlistMaster);
-            IncludeSubfolders();
             UpdateToolStrip();
             DgvExtensions.RestoreSorting(dgvSetlistMaster);
         }
@@ -1383,8 +1413,6 @@ namespace CustomsForgeSongManager.UControls
         {
             Globals.DgvCurrent = dgvSetlistMaster;
             Globals.Log("Setlist Manager GUI Activated...");
-            chkIncludeSubfolders.Checked = AppSettings.Instance.IncludeSubfolders;
-            chkProtectODLC.Checked = AppSettings.Instance.ProtectODLC;
         }
 
         public void TabLeave()
@@ -1392,6 +1420,5 @@ namespace CustomsForgeSongManager.UControls
             Globals.Settings.SaveSettingsToFile(dgvSetlistMaster);
             Globals.Log("Setlist Manager GUI Deactivated ...");
         }
-
     }
 }

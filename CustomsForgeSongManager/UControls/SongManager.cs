@@ -154,10 +154,16 @@ namespace CustomsForgeSongManager.UControls
             Globals.Log("Populating SongManager GUI ...");
             // Hide main dgvSongsMaster until load completes
             dgvSongsMaster.Visible = false;
-            
-            //Load Song Collection from file must be called before
+
+            //Load Song Collection from file
             if (!LoadSongCollectionFromFile())
                 return;
+        
+            PopulateDataGridView();
+        
+            // bind datasource to grid
+            IncludeSubfolders();
+            ProtectODLC();
 
             // Worker actually does the sorting after parsing, this is just to tell the grid that it is sorted.
             if (!String.IsNullOrEmpty(AppSettings.Instance.SortColumn))
@@ -167,10 +173,7 @@ namespace CustomsForgeSongManager.UControls
                     dgvSongsMaster.Sort(colX, AppSettings.Instance.SortAscending ? ListSortDirection.Ascending : ListSortDirection.Descending);
             }
 
-            // TODO: maybe reapply previous filtering and search here
-            IncludeSubfolders();
-            ProtectODLC();
-            UpdateToolStrip();
+            // TODO: maybe reapply previous filtering and search
         }
 
         public void SaveSongCollectionToFile()
@@ -243,7 +246,7 @@ namespace CustomsForgeSongManager.UControls
         }
 
         public void UpdateToolStrip()
-        {
+        {            
             if (Globals.RescanSongManager)
             {
                 // full rescan of song collection
@@ -259,6 +262,9 @@ namespace CustomsForgeSongManager.UControls
                 PopulateDataGridView();
             }
 
+            chkIncludeSubfolders.Checked = AppSettings.Instance.IncludeSubfolders;
+            chkProtectODLC.Checked = AppSettings.Instance.ProtectODLC;
+         
             Globals.TsLabel_MainMsg.Text = string.Format("Rocksmith Song Count: {0}", songList.Count);
             // Globals.TsLabel_MainMsg.Text = string.Format("Rocksmith Song Count: {0}", dgvSongsMaster.RowCount);
             Globals.TsLabel_MainMsg.Visible = true;
@@ -407,12 +413,9 @@ namespace CustomsForgeSongManager.UControls
             songList = Globals.MasterCollection.ToList();
 
             if (!chkIncludeSubfolders.Checked)
-            {
-                var results = songList.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList();
-                LoadFilteredBindingList(results);
-            }
-            else
-                LoadFilteredBindingList(songList);
+                songList = songList.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList();
+
+            LoadFilteredBindingList(songList);
         }
 
         private void InitializeRepairMenu()
@@ -512,7 +515,7 @@ namespace CustomsForgeSongManager.UControls
                     Globals.DgvCurrent = dgvSongsMaster;
                     Globals.RescanSongManager = true;
                     // selects Settings tabmenu even if tab order is changed
-                    Globals.MainForm.tcMain.SelectedIndex = Globals.MainForm.tcMain.TabPages.IndexOf(Globals.MainForm.tpSettings); 
+                    Globals.MainForm.tcMain.SelectedIndex = Globals.MainForm.tcMain.TabPages.IndexOf(Globals.MainForm.tpSettings);
                     Globals.Log("Customize the CFSM Settings options ...");
 
                     // halt loading SongManger
@@ -521,7 +524,6 @@ namespace CustomsForgeSongManager.UControls
 
                 // Rescan calls BackgroundScan/ParseSongs and loads Globals.MasterCollection
                 // and local songCollection is loaded with Globals.MasterCollection
-                PopulateDataGridView();
             }
             catch (Exception ex)
             {
@@ -561,27 +563,11 @@ namespace CustomsForgeSongManager.UControls
             CFSMTheme.InitializeDgvAppearance(dgvSongsMaster);
             // reload column order, width, visibility
             Globals.Settings.LoadSettingsFromFile(dgvSongsMaster, true);
-            chkIncludeSubfolders.Checked = AppSettings.Instance.IncludeSubfolders;
-            IncludeSubfolders();
-            chkProtectODLC.Checked = AppSettings.Instance.ProtectODLC;
-            ProtectODLC();
 
             if (RAExtensions.ManagerGridSettings != null)
                 dgvSongsMaster.ReLoadColumnOrder(RAExtensions.ManagerGridSettings.ColumnOrder);
             else
                 Globals.Settings.SaveSettingsToFile(dgvSongsMaster);
-
-            // lock OfficialDLC from being selected
-            //foreach (DataGridViewRow row in dgvSongsMaster.Rows)
-            //{
-            //    var sd = DgvExtensions.GetObjectFromRow<SongData>(row);
-            //    if (sd.IsOfficialDLC)
-            //    {
-            //        row.Cells["colSelect"].Value = false;
-            //        row.Cells["colSelect"].ReadOnly = sd.IsOfficialDLC;
-            //        sd.Selected = false;
-            //    }
-            //}          
         }
 
         private void PopulateMenuWithColumnHeaders(ContextMenuStrip contextMenuStrip)
@@ -781,8 +767,11 @@ namespace CustomsForgeSongManager.UControls
                 // force full rescan by clearing MasterCollection before calling BackgroundScan
                 Globals.MasterCollection.Clear();
                 // force reload
-                Globals.ReloadSetlistManager = true;
                 Globals.ReloadArrangements = true;
+                Globals.ReloadDuplicates = true;
+                Globals.ReloadSetlistManager = true;
+                // do not reload ProfileSongLists
+                //Globals.ReloadProfileSongLists = true;
             }
 
             // run new worker
@@ -1019,6 +1008,18 @@ namespace CustomsForgeSongManager.UControls
             }
         }
 
+        private void chkIncludeSubfolders_MouseUp(object sender, MouseEventArgs e)
+        {
+            //AppSettings.Instance.IncludeSubfolders = chkIncludeSubfolders.Checked;
+            //IncludeSubfolders();
+        }
+
+        private void chkProtectODLC_MouseUp(object sender, MouseEventArgs e)
+        {
+            //AppSettings.Instance.ProtectODLC = chkProtectODLC.Checked;
+            //ProtectODLC();
+        }
+
         private void dgvSongsMaster_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             // right mouse click anywhere popup Context Control
@@ -1179,13 +1180,13 @@ namespace CustomsForgeSongManager.UControls
             menuStrip.Focus();
         }
 
-        private void chkIncludeSubfolders_MouseUp(object sender, MouseEventArgs e)
+        private void chkIncludeSubfolders_CheckedChanged(object sender, EventArgs e)
         {
             AppSettings.Instance.IncludeSubfolders = chkIncludeSubfolders.Checked;
             IncludeSubfolders();
         }
 
-        private void chkProtectODLC_MouseUp(object sender, MouseEventArgs e)
+        private void chkProtectODLC_CheckedChanged(object sender, EventArgs e)
         {
             AppSettings.Instance.ProtectODLC = chkProtectODLC.Checked;
             ProtectODLC();
@@ -1838,8 +1839,6 @@ namespace CustomsForgeSongManager.UControls
 
             // save current sorting before clearing search
             DgvExtensions.SaveSorting(dgvSongsMaster);
-
-            IncludeSubfolders();
             UpdateToolStrip();
             DgvExtensions.RestoreSorting(dgvSongsMaster);
             AppSettings.Instance.FilterString = String.Empty;
@@ -2347,8 +2346,6 @@ namespace CustomsForgeSongManager.UControls
         {
             Globals.DgvCurrent = dgvSongsMaster;
             Globals.Log("Song Manager GUI Activated ...");
-            chkIncludeSubfolders.Checked = AppSettings.Instance.IncludeSubfolders;
-            chkProtectODLC.Checked = AppSettings.Instance.ProtectODLC;
         }
 
         public void TabLeave()

@@ -232,7 +232,7 @@ namespace CustomsForgeSongManager.UControls
             this.toolTip.SetToolTip(this.chkProtectODLC, "If checked, prevents ODLC\r\nfrom being selected, enabled,\r\ndisabled, copied, moved" +
                     ", or deleted.");
             this.chkProtectODLC.UseVisualStyleBackColor = false;
-            this.chkProtectODLC.MouseUp += new System.Windows.Forms.MouseEventHandler(this.chkProtectODLC_MouseUp);
+            this.chkProtectODLC.CheckedChanged += new System.EventHandler(this.chkProtectODLC_CheckedChanged);
             // 
             // chkIncludeSubfolders
             // 
@@ -244,10 +244,10 @@ namespace CustomsForgeSongManager.UControls
             this.chkIncludeSubfolders.Size = new System.Drawing.Size(119, 23);
             this.chkIncludeSubfolders.TabIndex = 49;
             this.chkIncludeSubfolders.Text = "Include Subfolders";
-            this.toolTip.SetToolTip(this.chkIncludeSubfolders, "If checked, show and highlight\r\nsongs in the Master Songs grid\r\nthat are from set" +
-                    "list subfolders.");
+            this.toolTip.SetToolTip(this.chkIncludeSubfolders, "If checked, shows and highlights\r\nsongs in the Master Songs grid\r\nthat are from s" +
+                    "etlist subfolders.");
             this.chkIncludeSubfolders.UseVisualStyleBackColor = true;
-            this.chkIncludeSubfolders.MouseUp += new System.Windows.Forms.MouseEventHandler(this.chkIncludeSubfolders_MouseUp);
+            this.chkIncludeSubfolders.CheckStateChanged += new System.EventHandler(this.chkIncludeSubfolders_CheckedChanged);
             // 
             // dgvSongListSongs
             // 

@@ -60,6 +60,8 @@ namespace CustomsForgeSongManager.UControls
 
             dlcDir = Constants.Rs2DlcFolder;
             cdlcDir = Path.Combine(dlcDir, "CDLC").ToLower();
+
+            // bind datasource to grid
             IncludeSubfolders();
             ProtectODLC();
 
@@ -103,7 +105,10 @@ namespace CustomsForgeSongManager.UControls
                 PopulateProfileSongLists();
             }
 
-            Globals.TsLabel_MainMsg.Text = string.Format(Properties.Resources.RocksmithSongsCountFormat, songListMaster.Count);
+            chkIncludeSubfolders.Checked = AppSettings.Instance.IncludeSubfolders;
+            chkProtectODLC.Checked = AppSettings.Instance.ProtectODLC;
+
+            Globals.TsLabel_MainMsg.Text = string.Format(Properties.Resources.RocksmithSongsCountFormat, dgvSongListMaster.Rows.Count);
             Globals.TsLabel_MainMsg.Visible = true;
             Globals.TsLabel_DisabledCounter.Alignment = ToolStripItemAlignment.Right;
             Globals.TsLabel_DisabledCounter.Text = String.Format("Songs In-Game Song List '{0}': {1}", curSongListsName, dgvSongListSongs.Rows.Count);
@@ -115,6 +120,7 @@ namespace CustomsForgeSongManager.UControls
         {
             var setlistDirs = Directory.GetDirectories(dlcDir, "*", SearchOption.TopDirectoryOnly).ToList();
             setlistDirs = setlistDirs.Where(x => !x.ToLower().Contains("inlay")).ToList();
+            setlistDirs = setlistDirs.OrderBy(x => x).ToList();
 
             var setlists = new List<string>();
             setlists.Add("-");
@@ -135,12 +141,9 @@ namespace CustomsForgeSongManager.UControls
             songListMaster = new BindingList<SongData>(Globals.MasterCollection);
 
             if (!chkIncludeSubfolders.Checked)
-            {
-                var results = songListMaster.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList();
-                LoadFilteredBindingList(results);
-            }
-            else
-                LoadFilteredBindingList(songListMaster);
+                songListMaster = new BindingList<SongData>(songListMaster.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList());
+
+            LoadFilteredBindingList(songListMaster);
         }
 
         private void LoadFilteredBindingList(dynamic list)
@@ -152,8 +155,6 @@ namespace CustomsForgeSongManager.UControls
             var fbl = new FilteredBindingList<SongData>(list);
             var bs = new BindingSource { DataSource = fbl };
             dgvSongListMaster.DataSource = bs;
-
-            var debugMe = dgvSongListMaster.RowCount;
         }
 
         private void LoadGameSongLists()
@@ -264,7 +265,7 @@ namespace CustomsForgeSongManager.UControls
             // gameSongLists zero index is always FavoritesList
             foreach (var dlcKey in gameSongLists[curSongListsIndex])
             {
-                SongData sd = songListMaster.FirstOrDefault(x => x.DLCKey == dlcKey);
+                SongData sd = Globals.MasterCollection.FirstOrDefault(x => x.DLCKey == dlcKey);
                 // DLCKey in combinedSongList[ndx] may not match any in songsListMaster 
                 if (sd == null)
                 {
@@ -443,9 +444,10 @@ namespace CustomsForgeSongManager.UControls
                         if (item.CanWrite)
                             newSong.GetType().GetProperty(item.Name).SetValue(newSong, item.GetValue(song, null), null);
 
+                    songListSongs.Add(newSong);
+
                     // reset bound DataSource to refesh dgvSongListSongs
                     dgvSongListSongs.DataSource = null;
-                    songListSongs.Add(newSong);
                     dgvSongListSongs.AutoGenerateColumns = false;
                     dgvSongListSongs.DataSource = new FilteredBindingList<SongData>(songListSongs);
                 }
@@ -466,10 +468,9 @@ namespace CustomsForgeSongManager.UControls
                 }
             }
 
+            RefreshAllDgv(true);
             UpdateToolStrip();
             gbSongListSongs.Text = String.Format("In-Game Song List Songs: {0}", curSongListsName);
-            Globals.TsLabel_DisabledCounter.Text = String.Format("Songs In-Game Song List '{0}': {1}", curSongListsName, songListSongs.Count);
-            RefreshAllDgv(true);
 
             // update local gameSongList
             var songList = songListSongs.Select(x => x.DLCKey).ToList();
@@ -538,7 +539,7 @@ namespace CustomsForgeSongManager.UControls
                     }
                     catch (IOException ex)
                     {
-                        MessageBox.Show(@"Unable to enable/disable " + dgvCurrent.Name + ": " + Path.GetFileName(originalPath) + Environment.NewLine + 
+                        MessageBox.Show(@"Unable to enable/disable " + dgvCurrent.Name + ": " + Path.GetFileName(originalPath) + Environment.NewLine +
                             "<Error>: " + ex.Message, MESSAGE_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
@@ -587,6 +588,18 @@ namespace CustomsForgeSongManager.UControls
         }
 
         private void chkProtectODLC_MouseUp(object sender, MouseEventArgs e)
+        {
+            AppSettings.Instance.ProtectODLC = chkProtectODLC.Checked;
+            ProtectODLC();
+        }
+
+        private void chkIncludeSubfolders_CheckedChanged(object sender, EventArgs e)
+        {
+            AppSettings.Instance.IncludeSubfolders = chkIncludeSubfolders.Checked;
+            IncludeSubfolders();
+        }
+
+        private void chkProtectODLC_CheckedChanged(object sender, EventArgs e)
         {
             AppSettings.Instance.ProtectODLC = chkProtectODLC.Checked;
             ProtectODLC();
@@ -1035,7 +1048,6 @@ namespace CustomsForgeSongManager.UControls
 
             // save current sorting before clearing search
             DgvExtensions.SaveSorting(dgvSongListMaster);
-            IncludeSubfolders();
             UpdateToolStrip();
             DgvExtensions.RestoreSorting(dgvSongListMaster);
         }
@@ -1066,8 +1078,6 @@ namespace CustomsForgeSongManager.UControls
         {
             Globals.DgvCurrent = dgvSongListMaster;
             Globals.Log("Profile Song Lists GUI Activated ...");
-            chkIncludeSubfolders.Checked = AppSettings.Instance.IncludeSubfolders;
-            chkProtectODLC.Checked = AppSettings.Instance.ProtectODLC;
         }
 
         public void TabLeave()

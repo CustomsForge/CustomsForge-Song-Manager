@@ -66,6 +66,7 @@ namespace CustomsForgeSongManager.UControls
             // NOTE: do not add SongData.Arrangements to the datagridview
             Globals.Log("Populating Duplicates GUI ...");
             dgvDuplicates.Visible = false;
+            dgvDuplicates.AllowUserToAddRows = false; // ensures row count = 0    
 
             if (Globals.WorkerFinished == Globals.Tristate.Cancelled)
             {
@@ -111,7 +112,7 @@ namespace CustomsForgeSongManager.UControls
 
                 distinctPIDS = duplicateList.Select(x => x.PID).Distinct().ToList();
             }
-            else 
+            else
             {
                 Globals.Log("Showing CDLC with duplicate DLCKey and/or duplicate ArtistTitleAlbum ...");
 
@@ -178,9 +179,15 @@ namespace CustomsForgeSongManager.UControls
                 Globals.ReloadDuplicates = false;
                 PopulateDuplicates(dupPidSelected);
             }
+  
+            chkIncludeSubfolders.Checked = AppSettings.Instance.IncludeSubfolders;
 
             if (!duplicateList.Any())
             {
+                // reset the grid
+                dgvDuplicates.Rows.Clear();
+                dgvDuplicates.DataSource = null;
+
                 if (String.IsNullOrEmpty(AppSettings.Instance.FilterString))
                 {
                     if (dupPidSelected)
@@ -209,7 +216,7 @@ namespace CustomsForgeSongManager.UControls
             Globals.TsLabel_MainMsg.Text = string.Format(Properties.Resources.RocksmithSongsCountFormat, Globals.MasterCollection.Count);
             Globals.TsLabel_MainMsg.Visible = true;
             Globals.TsLabel_DisabledCounter.Alignment = ToolStripItemAlignment.Right;
-            Globals.TsLabel_DisabledCounter.Text = String.Format(Properties.Resources.DuplicatesCountFormat, dgvDuplicates.Rows.Count);
+            Globals.TsLabel_DisabledCounter.Text = String.Format("Duplicates Count: {0}", dgvDuplicates.Rows.Count);
             Globals.TsLabel_DisabledCounter.Visible = true;
             Globals.TsLabel_StatusMsg.Visible = false;
         }
@@ -385,11 +392,11 @@ namespace CustomsForgeSongManager.UControls
                 FileTools.DeleteFiles(selection);
 
             // force reload
-            Globals.RescanDuplicates = true;
             Globals.ReloadSongManager = true;
             Globals.ReloadRenamer = true;
             Globals.ReloadSetlistManager = true;
             Globals.ReloadProfileSongLists = true;
+            Globals.RescanDuplicates = true;
             UpdateToolStrip();
         }
 
@@ -471,6 +478,13 @@ namespace CustomsForgeSongManager.UControls
             }
         }
 
+        private void chkIncludeSubfolders_MouseUp(object sender, MouseEventArgs e)
+        {
+            AppSettings.Instance.IncludeSubfolders = chkIncludeSubfolders.Checked;
+            Globals.Settings.SaveSettingsToFile(dgvDuplicates); // need to save here
+            IncludeSubfolders();
+        }
+
         private void Duplicates_Resize(object sender, EventArgs e)
         {
             var p = new Point() { X = (Width - txtNoDuplicates.Width) / 2, Y = (Height - txtNoDuplicates.Height) / 2 };
@@ -483,10 +497,9 @@ namespace CustomsForgeSongManager.UControls
             txtNoDuplicates.Location = p;
         }
 
-        private void chkIncludeSubfolders_MouseUp(object sender, MouseEventArgs e)
+        private void chkIncludeSubfolders_CheckedChanged(object sender, EventArgs e)
         {
             AppSettings.Instance.IncludeSubfolders = chkIncludeSubfolders.Checked;
-            Globals.Settings.SaveSettingsToFile(dgvDuplicates); // need to save here
             IncludeSubfolders();
         }
 
@@ -877,15 +890,13 @@ namespace CustomsForgeSongManager.UControls
         {
             Globals.DgvCurrent = dgvDuplicates;
             Globals.Log("Duplicate GUI Activated...");
-            chkIncludeSubfolders.Checked = AppSettings.Instance.IncludeSubfolders;
-            IncludeSubfolders();
         }
 
         public void TabLeave()
         {
+            txtNoDuplicates.Visible = false;
             Globals.Settings.SaveSettingsToFile(dgvDuplicates);
             Globals.Log("Duplicates GUI Deactivated ...");
         }
-
     }
 }
