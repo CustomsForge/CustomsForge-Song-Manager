@@ -111,7 +111,7 @@ namespace CustomsForgeSongManager.UControls
             Globals.TsLabel_MainMsg.Text = string.Format(Properties.Resources.RocksmithSongsCountFormat, dgvSongListMaster.Rows.Count);
             Globals.TsLabel_MainMsg.Visible = true;
             Globals.TsLabel_DisabledCounter.Alignment = ToolStripItemAlignment.Right;
-            Globals.TsLabel_DisabledCounter.Text = String.Format("Songs In-Game Song List '{0}': {1}", curSongListsName, dgvSongListSongs.Rows.Count);
+            Globals.TsLabel_DisabledCounter.Text = String.Format("Song List Song Count: {0}", dgvSongListSongs.Rows.Count);
             Globals.TsLabel_DisabledCounter.Visible = true;
             Globals.TsLabel_StatusMsg.Visible = false;
         }
@@ -249,7 +249,7 @@ namespace CustomsForgeSongManager.UControls
                 dgvSongListSongs.AutoGenerateColumns = false;
                 dgvSongListSongs.DataSource = null;
                 gbSongListSongs.Text = "In-Game Song List Songs";
-                Globals.TsLabel_DisabledCounter.Text = "Songs In-Game Song List: 0";
+                Globals.TsLabel_DisabledCounter.Text = "Song List Song Count: 0";
                 curSongListsName = String.Empty;
                 curSongListsIndex = -1;
                 return;
@@ -288,9 +288,9 @@ namespace CustomsForgeSongManager.UControls
             dgvSongListSongs.AutoGenerateColumns = false;
             dgvSongListSongs.DataSource = new FilteredBindingList<SongData>(songListSongs);
 
-            gbSongListSongs.Text = String.Format("In-Game Song List Songs: {0}", songListName);
-            Globals.TsLabel_DisabledCounter.Text = String.Format("Songs In-Game Song List '{0}': {1}", songListName, songListSongs.Count);
             RefreshAllDgv(false);
+            gbSongListSongs.Text = String.Format("In-Game Song List Songs: {0}", songListName);
+            Globals.TsLabel_DisabledCounter.Text = String.Format("Song List Song Count: {0}", songListSongs.Count);
         }
 
         private void ProtectODLC()

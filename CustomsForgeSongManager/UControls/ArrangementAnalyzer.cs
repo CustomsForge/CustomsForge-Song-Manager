@@ -346,6 +346,7 @@ namespace CustomsForgeSongManager.UControls
             dgvPainted = false;
             Rescan(fullRescan);
             PopulateArrangementManager();
+            UpdateToolStrip();
         }
 
         private void RemoveFilter()

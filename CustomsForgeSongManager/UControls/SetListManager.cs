@@ -103,7 +103,7 @@ namespace CustomsForgeSongManager.UControls
             Globals.TsLabel_MainMsg.Text = string.Format(Properties.Resources.RocksmithSongsCountFormat, setlistMaster.Count);
             Globals.TsLabel_MainMsg.Visible = true;
             Globals.TsLabel_DisabledCounter.Alignment = ToolStripItemAlignment.Right;
-            Globals.TsLabel_DisabledCounter.Text = String.Format("Songs in Setlist '{0}': {1}", curSetlistName, dgvSetlistSongs.Rows.Count);
+            Globals.TsLabel_DisabledCounter.Text = String.Format("Setlist Song Count: {0}", setlistSongs.Count);
             Globals.TsLabel_DisabledCounter.Visible = true;
             Globals.TsLabel_StatusMsg.Visible = false;
         }
@@ -258,8 +258,8 @@ namespace CustomsForgeSongManager.UControls
                 dgvSetlistSongs.AutoGenerateColumns = false;
                 dgvSetlistSongs.DataSource = null;
                 gbSetlistSongs.Text = "Setlist Songs";
-                Globals.TsLabel_DisabledCounter.Text = "Setlist Songs: 0";
                 curSetlistName = String.Empty;
+                Globals.TsLabel_DisabledCounter.Text = "Setlist Song Count: 0";
                 return;
             }
 
@@ -282,9 +282,9 @@ namespace CustomsForgeSongManager.UControls
                 dgvSetlistSongs.DataSource = new FilteredBindingList<SongData>(setlistSongs);
             }
 
-            gbSetlistSongs.Text = String.Format("Setlist Songs from: {0}", setlistName);
-            Globals.TsLabel_DisabledCounter.Text = String.Format("Songs in Setlist '{0}': {1}", setlistName, dgvSetlistSongs.Rows.Count);
             RefreshAllDgv(false);
+            gbSetlistSongs.Text = String.Format("Setlist Songs from: {0}", setlistName);
+            Globals.TsLabel_DisabledCounter.Text = String.Format("Setlist Song Count: {0}", setlistSongs.Count);
         }
 
         private void LoadSongPacks()
@@ -478,7 +478,7 @@ namespace CustomsForgeSongManager.UControls
                         if (item.CanWrite)
                             newSong.GetType().GetProperty(item.Name).SetValue(newSong, item.GetValue(song, null), null);
 
-                    newSong.FilePath = destPath; 
+                    newSong.FilePath = destPath;
 
                     setlistSongs.Add(newSong);
                     if (mode == "copy")
@@ -521,8 +521,8 @@ namespace CustomsForgeSongManager.UControls
             LoadFilteredBindingList(setlistMaster);
             RefreshAllDgv(true);
             UpdateToolStrip();
- 
-              // force rescan
+
+            // force rescan
             Globals.RescanDuplicates = true;
             Globals.RescanSongManager = true;
             Globals.RescanRenamer = true;
@@ -1371,9 +1371,7 @@ namespace CustomsForgeSongManager.UControls
 
         private void dgvSetlists_SelectionChanged(object sender, EventArgs e)
         {
-            return; // for testing
-
-            dgvSetlists.ClearSelection();
+            // UpdateToolStrip();
         }
 
         private void dgvSongPacks_CurrentCellDirtyStateChanged(object sender, EventArgs e)
