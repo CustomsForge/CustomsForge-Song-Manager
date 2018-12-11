@@ -174,6 +174,7 @@ namespace CustomsForgeSongManager.Forms
             {
                 Globals.RescanSongManager = true;
                 Globals.RescanSetlistManager = true;
+                Globals.RescanProfileSongLists = true;
                 Globals.RescanDuplicates = true;
                 Globals.RescanRenamer = true;
             }

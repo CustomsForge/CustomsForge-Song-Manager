@@ -99,6 +99,7 @@ namespace CustomsForgeSongManager.LocalTools
                 Globals.WorkerFinished = Globals.Tristate.True;
             }
 
+            Globals.RescanProfileSongLists = false;
             Globals.RescanSetlistManager = false;
             Globals.RescanDuplicates = false;
             Globals.RescanSongManager = false;
@@ -107,6 +108,7 @@ namespace CustomsForgeSongManager.LocalTools
             Globals.ReloadDuplicates = true;
             Globals.ReloadRenamer = true;
             Globals.ReloadSongManager = true;
+            Globals.ReloadProfileSongLists = true;
         }
 
         private void WorkerRepairSongs(object sender, DoWorkEventArgs e)

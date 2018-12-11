@@ -15,6 +15,7 @@ namespace CustomsForgeSongManager.DataObjects
     {
         private string _rsInstalledDir = String.Empty;
         private string _rsProfileDir = String.Empty;
+        private string _rsProfilePath = String.Empty;
         private string _downloadsDir = String.Empty;
         private bool _includeRS1CompSongs;
         private bool _includeRS2BaseSongs;
@@ -59,6 +60,12 @@ namespace CustomsForgeSongManager.DataObjects
         {
             get { return _rsProfileDir; }
             set { SetPropertyField("RSProfileDir", ref _rsProfileDir, value); }
+        }
+
+        public string RSProfilePath
+        {
+            get { return _rsProfilePath; }
+            set { SetPropertyField("RSProfilePath", ref _rsProfilePath, value); }
         }
 
         public string DownloadsDir

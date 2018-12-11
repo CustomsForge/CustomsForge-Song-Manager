@@ -66,6 +66,7 @@ namespace CustomsForgeSongManager.UControls
             // NOTE: do not add SongData.Arrangements to the datagridview
             Globals.Log("Populating Duplicates GUI ...");
             dgvDuplicates.Visible = false;
+            dgvDuplicates.AllowUserToAddRows = false; // ensures row count = 0    
 
             if (Globals.WorkerFinished == Globals.Tristate.Cancelled)
             {
@@ -111,7 +112,7 @@ namespace CustomsForgeSongManager.UControls
 
                 distinctPIDS = duplicateList.Select(x => x.PID).Distinct().ToList();
             }
-            else // NOTE: duplicate ATA and/or DLCKey will only appear once in-game setlist
+            else
             {
                 Globals.Log("Showing CDLC with duplicate DLCKey and/or duplicate ArtistTitleAlbum ...");
 
@@ -145,7 +146,7 @@ namespace CustomsForgeSongManager.UControls
             LoadFilteredBindingList(duplicateList);
             CFSMTheme.InitializeDgvAppearance(dgvDuplicates);
             // reload column order, width, visibility
-            Globals.Settings.LoadSettingsFromFile(dgvDuplicates, false);
+            Globals.Settings.LoadSettingsFromFile(dgvDuplicates);
 
             if (RAExtensions.ManagerGridSettings != null)
                 dgvDuplicates.ReLoadColumnOrder(RAExtensions.ManagerGridSettings.ColumnOrder);
@@ -169,21 +170,24 @@ namespace CustomsForgeSongManager.UControls
             if (Globals.RescanDuplicates) // || !String.IsNullOrEmpty(AppSettings.Instance.FilterString))
             {
                 // AppSettings.Instance.FilterString = String.Empty;
+                Globals.RescanDuplicates = false;
                 Rescan();
                 PopulateDuplicates(dupPidSelected);
             }
             else if (Globals.ReloadDuplicates)
+            {
+                Globals.ReloadDuplicates = false;
                 PopulateDuplicates(dupPidSelected);
-
-            Globals.RescanDuplicates = false;
-            Globals.ReloadDuplicates = false;
-            Globals.ReloadRenamer = true;
-            Globals.ReloadSetlistManager = true;
-            Globals.ReloadSongManager = true;
-            Globals.ReloadArrangements = true;
+            }
+  
+            chkIncludeSubfolders.Checked = AppSettings.Instance.IncludeSubfolders;
 
             if (!duplicateList.Any())
             {
+                // reset the grid
+                dgvDuplicates.Rows.Clear();
+                dgvDuplicates.DataSource = null;
+
                 if (String.IsNullOrEmpty(AppSettings.Instance.FilterString))
                 {
                     if (dupPidSelected)
@@ -212,7 +216,7 @@ namespace CustomsForgeSongManager.UControls
             Globals.TsLabel_MainMsg.Text = string.Format(Properties.Resources.RocksmithSongsCountFormat, Globals.MasterCollection.Count);
             Globals.TsLabel_MainMsg.Visible = true;
             Globals.TsLabel_DisabledCounter.Alignment = ToolStripItemAlignment.Right;
-            Globals.TsLabel_DisabledCounter.Text = String.Format(Properties.Resources.DuplicatesCountFormat, dgvDuplicates.Rows.Count);
+            Globals.TsLabel_DisabledCounter.Text = String.Format("Duplicates Count: {0}", dgvDuplicates.Rows.Count);
             Globals.TsLabel_DisabledCounter.Visible = true;
             Globals.TsLabel_StatusMsg.Visible = false;
         }
@@ -315,12 +319,6 @@ namespace CustomsForgeSongManager.UControls
                     Application.DoEvents();
             }
 
-            // force reload
-            //Globals.ReloadSetlistManager = true;
-            //Globals.ReloadDuplicates = true;
-            //Globals.ReloadRenamer = true;
-            //Globals.ReloadSongManager = true;
-
             if (Globals.WorkerFinished == Globals.Tristate.Cancelled)
             {
                 Globals.Log(Resources.UserCancelledProcess);
@@ -393,11 +391,12 @@ namespace CustomsForgeSongManager.UControls
             else
                 FileTools.DeleteFiles(selection);
 
-            // force reload/rescan
-            Globals.RescanDuplicates = true;
+            // force reload
             Globals.ReloadSongManager = true;
             Globals.ReloadRenamer = true;
             Globals.ReloadSetlistManager = true;
+            Globals.ReloadProfileSongLists = true;
+            Globals.RescanDuplicates = true;
             UpdateToolStrip();
         }
 
@@ -479,6 +478,13 @@ namespace CustomsForgeSongManager.UControls
             }
         }
 
+        private void chkIncludeSubfolders_MouseUp(object sender, MouseEventArgs e)
+        {
+            AppSettings.Instance.IncludeSubfolders = chkIncludeSubfolders.Checked;
+            Globals.Settings.SaveSettingsToFile(dgvDuplicates); // need to save here
+            IncludeSubfolders();
+        }
+
         private void Duplicates_Resize(object sender, EventArgs e)
         {
             var p = new Point() { X = (Width - txtNoDuplicates.Width) / 2, Y = (Height - txtNoDuplicates.Height) / 2 };
@@ -491,10 +497,9 @@ namespace CustomsForgeSongManager.UControls
             txtNoDuplicates.Location = p;
         }
 
-        private void chkIncludeSubfolders_MouseUp(object sender, MouseEventArgs e)
+        private void chkIncludeSubfolders_CheckedChanged(object sender, EventArgs e)
         {
             AppSettings.Instance.IncludeSubfolders = chkIncludeSubfolders.Checked;
-            Globals.Settings.SaveSettingsToFile(dgvDuplicates); // need to save here
             IncludeSubfolders();
         }
 
@@ -653,14 +658,13 @@ namespace CustomsForgeSongManager.UControls
         {
             // has precedent over a ColumnHeader_MouseClick
             // MouseUp detection is more reliable than MouseDown
-            var dgvCurrent = (DataGridView)sender;
-            var rowIndex = e.RowIndex;
+            var grid = (DataGridView)sender;
 
             if (e.Button == MouseButtons.Right)
             {
-                if (rowIndex != -1)
+                if (e.RowIndex != -1)
                 {
-                    dgvCurrent.Rows[e.RowIndex].Selected = true;
+                    grid.Rows[e.RowIndex].Selected = true;
                     cmsDuplicates.Show(Cursor.Position);
                 }
                 else
@@ -676,12 +680,12 @@ namespace CustomsForgeSongManager.UControls
             {
                 try
                 {
-                    dgvCurrent.Rows[e.RowIndex].Cells["colSelect"].Value = !(bool)(dgvCurrent.Rows[e.RowIndex].Cells["colSelect"].Value);
+                    grid.Rows[e.RowIndex].Cells["colSelect"].Value = !(bool)(grid.Rows[e.RowIndex].Cells["colSelect"].Value);
                 }
                 catch
                 {
                     // debounce clicking
-                    TemporaryDisableDatabindEvent(() => { dgvCurrent.EndEdit(); });
+                    TemporaryDisableDatabindEvent(() => { grid.EndEdit(); });
                 }
             }
         }
@@ -883,17 +887,15 @@ namespace CustomsForgeSongManager.UControls
 
         public void TabEnter()
         {
-            chkIncludeSubfolders.Checked = AppSettings.Instance.IncludeSubfolders;
-            IncludeSubfolders();
-
             Globals.DgvCurrent = dgvDuplicates;
             Globals.Log("Duplicate GUI Activated...");
         }
 
         public void TabLeave()
         {
+            txtNoDuplicates.Visible = false;
+            Globals.Settings.SaveSettingsToFile(dgvDuplicates);
             Globals.Log("Duplicates GUI Deactivated ...");
         }
-
     }
 }

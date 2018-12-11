@@ -134,7 +134,7 @@ namespace CustomsForgeSongManager.LocalTools
                 return;
             }
 
-            ShowUpdaterWindow();
+            ShowPackageRatingWarning();
             // always wait for any PackageRating updates to finish
             Globals.UpdateInProgress = true;
 
@@ -178,16 +178,15 @@ namespace CustomsForgeSongManager.LocalTools
             Globals.Log("PackageRating updates completed successfully ...");
             Globals.UpdateInProgress = false;
             Globals.PackageRatingNeedsUpdate = false;
-            // force reload
-            Globals.ReloadSetlistManager = true;
-            Globals.ReloadDuplicates = true;
+            // only need to reload the grid where PackageRating is displayed
             Globals.ReloadSongManager = true;
 
             return;
         }
 
+        // use BetterDialog2 as popup window
         private static CustomControls.BetterDialog2 alert = null;
-        public static void ShowUpdaterWindow()
+        public static void ShowPackageRatingWarning()
         {
             // wait for any PackageRating updates to finish
             Globals.Log("<CRITICAL WARNING> CDLC PackageRating updates are in progress ...");

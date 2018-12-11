@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -26,6 +27,7 @@ using RocksmithToolkitLib.PsarcLoader;
 using RocksmithToolkitLib.Extensions;
 using BetterDialog2 = CustomControls.BetterDialog2;
 using System.Threading.Tasks;
+using UserProfileLib;
 
 
 namespace CustomsForgeSongManager.UControls
@@ -152,9 +154,16 @@ namespace CustomsForgeSongManager.UControls
             Globals.Log("Populating SongManager GUI ...");
             // Hide main dgvSongsMaster until load completes
             dgvSongsMaster.Visible = false;
-            //Load Song Collection from file must be called before
+
+            //Load Song Collection from file
             if (!LoadSongCollectionFromFile())
                 return;
+
+            PopulateDataGridView();
+
+            // bind datasource to grid
+            IncludeSubfolders();
+            ProtectODLC();
 
             // Worker actually does the sorting after parsing, this is just to tell the grid that it is sorted.
             if (!String.IsNullOrEmpty(AppSettings.Instance.SortColumn))
@@ -164,9 +173,7 @@ namespace CustomsForgeSongManager.UControls
                     dgvSongsMaster.Sort(colX, AppSettings.Instance.SortAscending ? ListSortDirection.Ascending : ListSortDirection.Descending);
             }
 
-            // TODO: maybe reapply previous filtering and search here
-
-            UpdateToolStrip();
+            // TODO: maybe reapply previous filtering and search
         }
 
         public void SaveSongCollectionToFile()
@@ -243,18 +250,21 @@ namespace CustomsForgeSongManager.UControls
             if (Globals.RescanSongManager)
             {
                 // full rescan of song collection
+                Globals.RescanSongManager = false;
                 Rescan(true);
                 PopulateDataGridView();
             }
             else if (Globals.ReloadSongManager)
             {
                 // smart quick rescan of song collection
+                Globals.ReloadSongManager = false;
                 Rescan(false);
                 PopulateDataGridView();
             }
 
-            Globals.ReloadSongManager = false;
-            Globals.RescanSongManager = false;
+            chkIncludeSubfolders.Checked = AppSettings.Instance.IncludeSubfolders;
+            chkProtectODLC.Checked = AppSettings.Instance.ProtectODLC;
+
             Globals.TsLabel_MainMsg.Text = string.Format("Rocksmith Song Count: {0}", songList.Count);
             // Globals.TsLabel_MainMsg.Text = string.Format("Rocksmith Song Count: {0}", dgvSongsMaster.RowCount);
             Globals.TsLabel_MainMsg.Visible = true;
@@ -287,7 +297,7 @@ namespace CustomsForgeSongManager.UControls
                 return;
 
             var sd = DgvExtensions.GetObjectFromRow<SongData>(dataGridViewRow);
-            if (sd == null || sd.IsODLC || sd.IsRsCompPack)
+            if (sd == null || sd.IsODLC || sd.IsRsCompPack || sd.IsSongsPsarc)
                 return;
 
             //currentSong.IgnitionVersion = Ignition.GetDLCInfoFromURL(currentSong.GetInfoURL(), "version");
@@ -403,12 +413,9 @@ namespace CustomsForgeSongManager.UControls
             songList = Globals.MasterCollection.ToList();
 
             if (!chkIncludeSubfolders.Checked)
-            {
-                var results = songList.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList();
-                LoadFilteredBindingList(results);
-            }
-            else
-                LoadFilteredBindingList(songList);
+                songList = songList.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList();
+
+            LoadFilteredBindingList(songList);
         }
 
         private void InitializeRepairMenu()
@@ -507,7 +514,8 @@ namespace CustomsForgeSongManager.UControls
                     BetterDialog2.ShowDialog(diaMsg, hdrMsg, null, null, "Ok", Bitmap.FromHicon(SystemIcons.Information.Handle), "ReadMe", 0, 150);
                     Globals.DgvCurrent = dgvSongsMaster;
                     Globals.RescanSongManager = true;
-                    Globals.MainForm.tcMain.SelectedIndex = 6;
+                    // selects Settings tabmenu even if tab order is changed
+                    Globals.MainForm.tcMain.SelectedIndex = Globals.MainForm.tcMain.TabPages.IndexOf(Globals.MainForm.tpSettings);
                     Globals.Log("Customize the CFSM Settings options ...");
 
                     // halt loading SongManger
@@ -516,7 +524,6 @@ namespace CustomsForgeSongManager.UControls
 
                 // Rescan calls BackgroundScan/ParseSongs and loads Globals.MasterCollection
                 // and local songCollection is loaded with Globals.MasterCollection
-                PopulateDataGridView();
             }
             catch (Exception ex)
             {
@@ -556,27 +563,11 @@ namespace CustomsForgeSongManager.UControls
             CFSMTheme.InitializeDgvAppearance(dgvSongsMaster);
             // reload column order, width, visibility
             Globals.Settings.LoadSettingsFromFile(dgvSongsMaster, true);
-            chkIncludeSubfolders.Checked = AppSettings.Instance.IncludeSubfolders;
-            IncludeSubfolders();
-            chkProtectODLC.Checked = AppSettings.Instance.ProtectODLC;
-            ProtectODLC();
 
             if (RAExtensions.ManagerGridSettings != null)
                 dgvSongsMaster.ReLoadColumnOrder(RAExtensions.ManagerGridSettings.ColumnOrder);
             else
                 Globals.Settings.SaveSettingsToFile(dgvSongsMaster);
-
-            // lock OfficialDLC from being selected
-            //foreach (DataGridViewRow row in dgvSongsMaster.Rows)
-            //{
-            //    var sd = DgvExtensions.GetObjectFromRow<SongData>(row);
-            //    if (sd.IsOfficialDLC)
-            //    {
-            //        row.Cells["colSelect"].Value = false;
-            //        row.Cells["colSelect"].ReadOnly = sd.IsOfficialDLC;
-            //        sd.Selected = false;
-            //    }
-            //}          
         }
 
         private void PopulateMenuWithColumnHeaders(ContextMenuStrip contextMenuStrip)
@@ -683,12 +674,34 @@ namespace CustomsForgeSongManager.UControls
             }
         }
 
+        private void ProtectODLC()
+        {
+            // deselect and protect ODLC 
+            if (chkProtectODLC.Checked)
+            {
+                foreach (DataGridViewRow row in dgvSongsMaster.Rows)
+                {
+                    var sd = DgvExtensions.GetObjectFromRow<SongData>(dgvSongsMaster, row.Index);
+                    if (sd != null && (sd.IsODLC || sd.IsRsCompPack || sd.IsSongsPsarc))
+                        dgvSongsMaster.Rows[row.Index].Cells["colSelect"].Value = false;
+                }
+
+                chkProtectODLC.ForeColor = Color.Green;
+                chkProtectODLC.BackColor = Color.LightGray;
+            }
+            else
+            {
+                chkProtectODLC.ForeColor = Color.Red;
+                chkProtectODLC.BackColor = Color.LightGray;
+            }
+        }
+
         private void RefreshDgv(bool fullRescan)
         {
             bindingCompleted = false;
             dgvPainted = false;
             Rescan(fullRescan);
-            PopulateDataGridView();
+            PopulateSongManager();
             UpdateToolStrip();
         }
 
@@ -710,8 +723,13 @@ namespace CustomsForgeSongManager.UControls
         private void Rescan(bool fullRescan)
         {
             Thread.Sleep(200); // debounce
-            dgvSongsMaster.DataSource = null;
-            dgvSongsDetail.Visible = false;
+            try
+            {
+                dgvSongsDetail.Visible = false;
+                dgvSongsMaster.DataSource = null;
+            }
+            catch {/* DO NOTHING */}
+
 
             // this should never happen
             if (String.IsNullOrEmpty(AppSettings.Instance.RSInstalledDir))
@@ -749,8 +767,11 @@ namespace CustomsForgeSongManager.UControls
                 // force full rescan by clearing MasterCollection before calling BackgroundScan
                 Globals.MasterCollection.Clear();
                 // force reload
-                Globals.ReloadSetlistManager = true;
                 Globals.ReloadArrangements = true;
+                Globals.ReloadDuplicates = true;
+                Globals.ReloadSetlistManager = true;
+                // do not reload ProfileSongLists
+                //Globals.ReloadProfileSongLists = true;
             }
 
             // run new worker
@@ -987,6 +1008,18 @@ namespace CustomsForgeSongManager.UControls
             }
         }
 
+        private void chkIncludeSubfolders_MouseUp(object sender, MouseEventArgs e)
+        {
+            //AppSettings.Instance.IncludeSubfolders = chkIncludeSubfolders.Checked;
+            //IncludeSubfolders();
+        }
+
+        private void chkProtectODLC_MouseUp(object sender, MouseEventArgs e)
+        {
+            //AppSettings.Instance.ProtectODLC = chkProtectODLC.Checked;
+            //ProtectODLC();
+        }
+
         private void dgvSongsMaster_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             // right mouse click anywhere popup Context Control
@@ -1147,38 +1180,16 @@ namespace CustomsForgeSongManager.UControls
             menuStrip.Focus();
         }
 
-        private void chkIncludeSubfolders_MouseUp(object sender, MouseEventArgs e)
+        private void chkIncludeSubfolders_CheckedChanged(object sender, EventArgs e)
         {
             AppSettings.Instance.IncludeSubfolders = chkIncludeSubfolders.Checked;
             IncludeSubfolders();
         }
 
-        private void chkProtectODLC_MouseUp(object sender, MouseEventArgs e)
+        private void chkProtectODLC_CheckedChanged(object sender, EventArgs e)
         {
             AppSettings.Instance.ProtectODLC = chkProtectODLC.Checked;
             ProtectODLC();
-        }
-
-        private void ProtectODLC()
-        {
-            // deselect and protect ODLC 
-            if (chkProtectODLC.Checked)
-            {
-                foreach (DataGridViewRow row in dgvSongsMaster.Rows)
-                {
-                    var sd = DgvExtensions.GetObjectFromRow<SongData>(dgvSongsMaster, row.Index);
-                    if (sd != null && sd.IsODLC)
-                        dgvSongsMaster.Rows[row.Index].Cells["colSelect"].Value = false;
-                }
-
-                chkProtectODLC.ForeColor = Color.Green;
-                chkProtectODLC.BackColor = Color.LightGray;
-            }
-            else
-            {
-                chkProtectODLC.ForeColor = Color.Red;
-                chkProtectODLC.BackColor = Color.LightGray;
-            }
         }
 
         private void cmsBackup_Click(object sender, EventArgs e)
@@ -1210,7 +1221,7 @@ namespace CustomsForgeSongManager.UControls
         {
             DgvExtensions.SaveSorting(dgvSongsMaster);
             var sd = DgvExtensions.GetObjectFromRow<SongData>(dgvSongsMaster.SelectedRows[0]);
-            if (sd.IsODLC)
+            if (sd.IsODLC || sd.IsRsCompPack || sd.IsSongsPsarc)
                 return;
 
             // DO NOT edit/modify/repair disabled CDLC
@@ -1473,7 +1484,7 @@ namespace CustomsForgeSongManager.UControls
             SongData sd = dgvSongsMaster.Rows[e.RowIndex].DataBoundItem as SongData;
             if (sd != null)
             {
-                if (sd.IsODLC || sd.IsRsCompPack || sd.IsSongsPsarc || sd.IsSongPack)
+                if (sd.IsODLC || sd.IsRsCompPack || sd.IsSongsPsarc)
                 {
                     e.CellStyle.Font = Constants.OfficialDLCFont;
                     DataGridViewCell cell = dgvSongsMaster.Rows[e.RowIndex].Cells["colSelect"];
@@ -1565,27 +1576,29 @@ namespace CustomsForgeSongManager.UControls
         {
             // has precedent over a ColumnHeader_MouseClick
             // MouseUp detection is more reliable than MouseDown
-            var dgvCurrent = (DataGridView)sender;
-            var rowIndex = e.RowIndex;
-            var colIndex = e.ColumnIndex;
+            var grid = (DataGridView)sender;
+ 
+            var sd = DgvExtensions.GetObjectFromRow<SongData>(grid, e.RowIndex);
+            if (sd == null && e.RowIndex != -1)
+                return;
+
 
             if (e.Button == MouseButtons.Right)
             {
-                if (rowIndex != -1)
+                if (e.RowIndex != -1)
                 {
-                    var sd = DgvExtensions.GetObjectFromRow<SongData>(dgvSongsMaster, rowIndex);
-                    dgvCurrent.Rows[rowIndex].Selected = true;
+                    grid.Rows[e.RowIndex].Selected = true;
                     cmsDelete.Enabled = true;
                     cmsBackup.Enabled = true;
                     cmsEnableDisable.Enabled = true;
-                    cmsEdit.Enabled = !sd.IsODLC;
-                    cmsTaggerPreview.Enabled = !sd.IsODLC;
+                    cmsEdit.Enabled = !sd.IsODLC && !sd.IsRsCompPack && !sd.IsSongsPsarc && !sd.IsSongPack;
+                    cmsTaggerPreview.Enabled = !sd.IsODLC && !sd.IsRsCompPack && !sd.IsSongsPsarc;
 
-                    if (sd != null && sd.IsODLC)
+                    if (chkProtectODLC.Checked && (sd.IsODLC || sd.IsRsCompPack || sd.IsSongsPsarc))
                     {
-                        cmsDelete.Enabled = !chkProtectODLC.Checked;
-                        cmsBackup.Enabled = !chkProtectODLC.Checked;
-                        cmsEnableDisable.Enabled = !chkProtectODLC.Checked;
+                        cmsDelete.Enabled = false;
+                        cmsBackup.Enabled = false;
+                        cmsEnableDisable.Enabled = false;
                     }
 
                     cmsSongManager.Show(Cursor.Position);
@@ -1599,9 +1612,8 @@ namespace CustomsForgeSongManager.UControls
 
             // user complained that clicking a row should not autocheck Select
             // programmatic left clicking on colSelect
-            if (e.Button == MouseButtons.Left && rowIndex != -1 && colIndex == colSelect.Index)
+            if (e.Button == MouseButtons.Left && e.RowIndex != -1 && e.ColumnIndex == colSelect.Index)
             {
-                var sd = DgvExtensions.GetObjectFromRow<SongData>(dgvSongsMaster, rowIndex);
                 // use Setlist Manager or SongPacks tab menu
                 if (sd.IsRsCompPack || sd.IsSongsPsarc || sd.IsSongPack)
                 {
@@ -1611,21 +1623,21 @@ namespace CustomsForgeSongManager.UControls
                     BetterDialog2.ShowDialog(diaMsg, "Song Packs ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "ReadMe", 0, 150);
 
                     // programatically uncheck the select checkbox
-                    dgvCurrent.Rows[rowIndex].Cells["colSelect"].Value = !(bool)(dgvCurrent.Rows[rowIndex].Cells["colSelect"].Value);
-                    dgvCurrent.Rows[rowIndex].Cells["colSelect"].Value = false;
-                    dgvCurrent.Rows[rowIndex].Selected = true;
+                    grid.Rows[e.RowIndex].Cells["colSelect"].Value = !(bool)(grid.Rows[e.RowIndex].Cells["colSelect"].Value);
+                    grid.Rows[e.RowIndex].Cells["colSelect"].Value = false;
+                    grid.Rows[e.RowIndex].Selected = true;
                 }
                 else
                 {
                     try
                     {
-                        dgvCurrent.Rows[rowIndex].Cells["colSelect"].Value = !(bool)(dgvCurrent.Rows[rowIndex].Cells["colSelect"].Value);
-                        dgvCurrent.Rows[rowIndex].Selected = true;
+                        grid.Rows[e.RowIndex].Cells["colSelect"].Value = !(bool)(grid.Rows[e.RowIndex].Cells["colSelect"].Value);
+                        grid.Rows[e.RowIndex].Selected = true;
                     }
                     catch
                     {
                         // debounce excess clicking
-                        TemporaryDisableDatabindEvent(() => { dgvCurrent.EndEdit(); });
+                        TemporaryDisableDatabindEvent(() => { grid.EndEdit(); });
                     }
                 }
             }
@@ -1633,9 +1645,26 @@ namespace CustomsForgeSongManager.UControls
             // makes checkbox mark appear correctly
             TemporaryDisableDatabindEvent(() =>
                 {
-                    dgvCurrent.EndEdit();
-                    dgvCurrent.Refresh();
+                    grid.EndEdit();
+                    grid.Refresh();
                 });
+        }
+
+        private void dgvSongsMaster_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            var grid = (DataGridView)sender;
+
+            if (e.RowIndex != -1 && e.ColumnIndex == colPackageRating.Index)
+            {
+                var sd = DgvExtensions.GetObjectFromRow<SongData>(grid, e.RowIndex);
+                if (sd != null)
+                {
+                    sd.RatingStars = (int)grid.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+                    sd.PackageRating = sd.RatingStars.ToString();
+                    sd.NeedsUpdate = true;
+                    Globals.PackageRatingNeedsUpdate = true;
+                }
+            }
         }
 
         private void dgvSongsMaster_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
@@ -1778,11 +1807,18 @@ namespace CustomsForgeSongManager.UControls
                 dgvSongsMaster.Refresh();
 
                 // Reselect last selected row after sorting
-                if (lastSelectedSongPath != string.Empty)
+                if (!String.IsNullOrEmpty(lastSelectedSongPath))
                 {
-                    int newRowIndex = dgvSongsMaster.Rows.Cast<DataGridViewRow>().FirstOrDefault(r => r.Cells["colFilePath"].Value.ToString() == lastSelectedSongPath).Index;
-                    dgvSongsMaster.Rows[newRowIndex].Selected = true;
-                    dgvSongsMaster.FirstDisplayedScrollingRowIndex = newRowIndex;
+                    try
+                    {
+                        int newRowIndex = dgvSongsMaster.Rows.Cast<DataGridViewRow>().FirstOrDefault(r => r.Cells["colFilePath"].Value.ToString() == lastSelectedSongPath).Index;
+                        dgvSongsMaster.Rows[newRowIndex].Selected = true;
+                        dgvSongsMaster.FirstDisplayedScrollingRowIndex = newRowIndex;
+                    }
+                    catch
+                    {
+                        lastSelectedSongPath = String.Empty;
+                    }
                 }
                 else
                     lastSelectedSongPath = String.Empty;
@@ -1800,8 +1836,6 @@ namespace CustomsForgeSongManager.UControls
 
             // save current sorting before clearing search
             DgvExtensions.SaveSorting(dgvSongsMaster);
-
-            IncludeSubfolders();
             UpdateToolStrip();
             DgvExtensions.RestoreSorting(dgvSongsMaster);
             AppSettings.Instance.FilterString = String.Empty;
@@ -1900,7 +1934,19 @@ namespace CustomsForgeSongManager.UControls
 
         private void tsmiDevsDebugUse_Click(object sender, EventArgs e)
         {
-            PackageDataTools.ShowUpdaterWindow();
+            var prfldbFile = RocksmithProfile.SelectPrfldb();
+            var songListsRoot = Extensions.ReadSongListsRoot(prfldbFile);
+            Globals.Log(" - User Profile SongListsRoot Loaded ...");
+
+            if (songListsRoot == null) // return;
+                throw new DataException("<ERROR> SongsListsRoot null data exception.");
+
+            songListsRoot.SongLists[0] = new List<string>() { "Cozy1", "Was", "Here!" };
+            Extensions.WriteSongListsRoot(songListsRoot, prfldbFile);
+            Globals.Log(" - User Profile SongListsRoot Updated ...");
+            return;
+
+            PackageDataTools.ShowPackageRatingWarning();
             return;
             // temporarily debugging some things here
             var stopHere = songList;
@@ -2295,10 +2341,6 @@ namespace CustomsForgeSongManager.UControls
 
         public void TabEnter()
         {
-            chkIncludeSubfolders.Checked = AppSettings.Instance.IncludeSubfolders;
-            IncludeSubfolders();
-            chkProtectODLC.Checked = AppSettings.Instance.ProtectODLC;
-            ProtectODLC();
             Globals.DgvCurrent = dgvSongsMaster;
             Globals.Log("Song Manager GUI Activated ...");
         }
@@ -2313,27 +2355,6 @@ namespace CustomsForgeSongManager.UControls
 
             Globals.Log("Song Manager GUI Deactivated ...");
         }
-
-        private void dgvSongsMaster_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-        {
-            var dgvCurrent = (DataGridView)sender;
-            var rowIndex = e.RowIndex;
-            var colIndex = e.ColumnIndex;
-
-            if (rowIndex != -1 && colIndex == colPackageRating.Index)
-            {
-                var sd = DgvExtensions.GetObjectFromRow<SongData>(dgvSongsMaster, rowIndex);
-                if (sd != null)
-                {
-                    sd.RatingStars = (int)dgvSongsMaster.Rows[rowIndex].Cells[colIndex].Value;
-                    sd.PackageRating = sd.RatingStars.ToString();
-                    sd.NeedsUpdate = true;
-                    Globals.PackageRatingNeedsUpdate = true;
-                }
-            }
-        }
-
-
     }
 }
 

@@ -131,9 +131,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\libs\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="NLog">
-      <HintPath>..\libs\NLog.dll</HintPath>
-    </Reference>
     <Reference Include="RocksmithToolkitLib, Version=2.6.1.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\libs\RocksmithToolkitLib.dll</HintPath>
@@ -155,6 +152,10 @@
     <Reference Include="System.Deployment" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="UserProfileLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\libs\UserProfileLib.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="X360">
       <HintPath>..\libs\X360.dll</HintPath>
@@ -317,6 +318,12 @@
     <Compile Include="UControls\ArrangementAnalyzer.Designer.cs">
       <DependentUpon>ArrangementAnalyzer.cs</DependentUpon>
     </Compile>
+    <Compile Include="UControls\ProfileSongLists.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UControls\ProfileSongLists.Designer.cs">
+      <DependentUpon>ProfileSongLists.cs</DependentUpon>
+    </Compile>
     <Compile Include="UControls\SongPacks.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -454,6 +461,10 @@
       <DependentUpon>ArrangementAnalyzer.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="UControls\ProfileSongLists.resx">
+      <DependentUpon>ProfileSongLists.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="UControls\SongPacks.resx">
       <DependentUpon>SongPacks.cs</DependentUpon>
     </EmbeddedResource>
@@ -476,6 +487,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UControls\Blank.resx">
       <DependentUpon>Blank.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UControls\SongManager.resx">
       <DependentUpon>SongManager.cs</DependentUpon>
@@ -599,6 +611,7 @@
     </None>
     <EmbeddedResource Include="Resources\HelpDuplicates.rtf" />
     <EmbeddedResource Include="Resources\HelpArrangements.rtf" />
+    <EmbeddedResource Include="Resources\HelpSongLists.rtf" />
     <None Include="Resources\logo_black.png" />
   </ItemGroup>
   <ItemGroup>

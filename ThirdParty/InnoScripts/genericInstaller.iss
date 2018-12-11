@@ -55,6 +55,7 @@ Source: {#BuildPath}X360.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#BuildPath}Antlr3.Runtime.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#BuildPath}Antlr4.StringTemplate.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#BuildPath}DF_DDSImage.dll; DestDir: {app}; Flags: ignoreversion
+Source: {#BuildPath}UserProfileLib.dll; DestDir: {app}; Flags: ignoreversion; Permissions: everyone-full
 Source: {#BuildPath}MiscUtil.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#BuildPath}7z.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#BuildPath}SevenZipSharp.dll; DestDir: {app}; Flags: ignoreversion

@@ -47,9 +47,9 @@ namespace CustomsForgeSongManager.Forms
         {
             InitializeComponent();
 
-            // TODO: future progress tracker feature
-            if (!Constants.DebugMode)
-                tcMain.TabPages.RemoveByKey("tpProgTracker");
+            // enable/disable ProfileSongLists feature here
+            //if (!Constants.DebugMode)
+            //    tcMain.TabPages.RemoveByKey("tpProfileSongLists");
 
             // create VersionInfo.txt file
             VersionInfo.CreateVersionInfo();
@@ -130,9 +130,9 @@ namespace CustomsForgeSongManager.Forms
 
             // log application environment
             Globals.Log("+ " + Constants.AppTitle);
-            Globals.Log("+ .NET Framework (v" + SysExtensions.DotNetVersion + ")");
             Globals.Log("+ RocksmithToolkitLib (v" + ToolkitVersion.RSTKLibVersion() + ")");
-            Globals.Log("+ Dynamic Difficulty Creator (v" + FileVersionInfo.GetVersionInfo(Path.Combine(ExternalApps.TOOLKIT_ROOT, ExternalApps.APP_DDC)).ProductVersion+ ")");
+            Globals.Log("+ Dynamic Difficulty Creator (v" + FileVersionInfo.GetVersionInfo(Path.Combine(ExternalApps.TOOLKIT_ROOT, ExternalApps.APP_DDC)).ProductVersion + ")");
+            Globals.Log("+ .NET Framework (v" + SysExtensions.DotNetVersion + ")");
 
             // load settings
             Globals.Settings.LoadSettingsFromFile();
@@ -187,6 +187,9 @@ namespace CustomsForgeSongManager.Forms
 
         private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
+            if (Globals.PrfldbNeedsUpdate)
+                Globals.ProfileSongLists.UpdateProfileSongLists();
+
             if (Globals.PackageRatingNeedsUpdate && !Globals.UpdateInProgress)
                 PackageDataTools.UpdatePackageRating();
 
@@ -301,6 +304,7 @@ namespace CustomsForgeSongManager.Forms
             switch (tcMain.SelectedTab.Text)
             {
                 // passing variables(objects) by value to UControl
+                // processing order is important to prevent flashing/jumping display
                 case "Song Manager":
                     LoadSongManager();
                     Globals.SongManager.UpdateToolStrip();
@@ -309,59 +313,68 @@ namespace CustomsForgeSongManager.Forms
                     this.tpArrangements.Controls.Clear();
                     this.tpArrangements.Controls.Add(Globals.ArrangementAnalyzer);
                     Globals.ArrangementAnalyzer.Dock = DockStyle.Fill;
-                    Globals.ArrangementAnalyzer.UpdateToolStrip();
                     Globals.ArrangementAnalyzer.Location = UCLocation;
                     Globals.ArrangementAnalyzer.Size = UCSize;
+                    Globals.ArrangementAnalyzer.UpdateToolStrip();
                     currentControl = Globals.ArrangementAnalyzer;
                     break;
                 case "Duplicates":
                     this.tpDuplicates.Controls.Clear();
                     this.tpDuplicates.Controls.Add(Globals.Duplicates);
                     Globals.Duplicates.Dock = DockStyle.Fill;
-                    Globals.Duplicates.UpdateToolStrip();
                     Globals.Duplicates.Location = UCLocation;
                     Globals.Duplicates.Size = UCSize;
+                    Globals.Duplicates.UpdateToolStrip();
                     currentControl = Globals.Duplicates;
                     break;
                 case "Renamer":
                     this.tpRenamer.Controls.Clear();
                     this.tpRenamer.Controls.Add(Globals.Renamer);
                     Globals.Renamer.Dock = DockStyle.Fill;
-                    Globals.Renamer.UpdateToolStrip();
                     Globals.Renamer.Location = UCLocation;
                     Globals.Renamer.Size = UCSize;
+                    Globals.Renamer.UpdateToolStrip();
                     currentControl = Globals.Renamer;
                     break;
                 case "Setlist Manager":
                     this.tpSetlistManager.Controls.Clear();
                     this.tpSetlistManager.Controls.Add(Globals.SetlistManager);
                     Globals.SetlistManager.Dock = DockStyle.Fill;
-                    Globals.SetlistManager.UpdateToolStrip();
                     Globals.SetlistManager.Location = UCLocation;
                     Globals.SetlistManager.Size = UCSize;
+                    Globals.SetlistManager.UpdateToolStrip();
                     currentControl = Globals.SetlistManager;
+                    break;
+                case "Profile Song Lists":
+                    this.tpProfileSongLists.Controls.Clear();
+                    this.tpProfileSongLists.Controls.Add(Globals.ProfileSongLists);
+                    Globals.ProfileSongLists.Dock = DockStyle.Fill;
+                    Globals.ProfileSongLists.Location = UCLocation;
+                    Globals.ProfileSongLists.Size = UCSize;
+                    Globals.ProfileSongLists.UpdateToolStrip();
+                    currentControl = Globals.ProfileSongLists;
                     break;
                 case "Song Packs":
                     this.tpSongPacks.Controls.Clear();
                     this.tpSongPacks.Controls.Add(Globals.SongPacks);
                     Globals.SongPacks.Dock = DockStyle.Fill;
-                    Globals.SongPacks.UpdateToolStrip();
                     Globals.SongPacks.Location = UCLocation;
                     Globals.SongPacks.Size = UCSize;
+                    Globals.SongPacks.UpdateToolStrip();
                     currentControl = Globals.SongPacks;
                     break;
                 case "Settings":
-                    this.tpSettings.Controls.Clear();
-                    this.tpSettings.Controls.Add(Globals.Settings);
+                    tpSettings.Controls.Clear();
+                    tpSettings.Controls.Add(Globals.Settings);
                     Globals.Settings.Dock = DockStyle.Fill;
-                    Globals.Settings.PopulateSettings(Globals.DgvCurrent);
                     Globals.Settings.Location = UCLocation;
                     Globals.Settings.Size = UCSize;
+                    Globals.Settings.PopulateSettings(Globals.DgvCurrent);
                     currentControl = Globals.Settings;
                     break;
                 case "About":
-                    if (!tpAbout.Controls.Contains(tpAbout))
-                        tpAbout.Controls.Add(Globals.About);
+                    tpAbout.Controls.Clear();
+                    tpAbout.Controls.Add(Globals.About);
                     Globals.About.Location = UCLocation;
                     Globals.About.Size = UCSize;
                     currentControl = Globals.About;
@@ -694,14 +707,37 @@ namespace CustomsForgeSongManager.Forms
                     try
                     {
                         DataGridView dgvSelection = new DataGridView();
-                        foreach (DataGridViewColumn col in dataGrid.Columns)
+
+                        // legacy code method produces undesirable results
+                        //foreach (DataGridViewColumn col in dataGrid.Columns)
+                        //        dgvSelection.Columns.Add((DataGridViewColumn)col.Clone());
+
+                        //dgvSelection.Rows.Add(selection.Count() - 1);
+
+                        //foreach (DataGridViewRow row in selection)
+                        //    foreach (DataGridViewColumn col in dataGrid.Columns)
+                        //                        dgvSelection.Rows[row.Index].Cells[col.Index].Value = row.Cells[col.Index].Value == null ? DBNull.Value : row.Cells[col.Index].Value;
+
+                        var orderedCols = dataGrid.Columns.Cast<DataGridViewColumn>()
+                            .Where(c => !ignoreColumns.Contains(c.Index))
+                            .OrderBy(x => x.DisplayIndex).ToList();
+
+                        foreach (DataGridViewColumn col in orderedCols)
                             dgvSelection.Columns.Add((DataGridViewColumn)col.Clone());
 
-                        dgvSelection.Rows.Add(selection.Count());
+                        dgvSelection.Rows.Add(selection.Count() - 1);
 
-                        foreach (DataGridViewRow row in selection)
-                            foreach (DataGridViewColumn col in dataGrid.Columns)
-                                dgvSelection.Rows[row.Index].Cells[col.Index].Value = row.Cells[col.Index].Value == null ? DBNull.Value : row.Cells[col.Index].Value;
+                        var rowNdx = 0;
+                        foreach (DataGridViewRow row in selection.Where(x => x.Visible))
+                        {
+                            var colNdx = 0;
+                            foreach (DataGridViewColumn col in orderedCols)
+                            {
+                                dgvSelection.Rows[rowNdx].Cells[colNdx].Value = row.Cells[col.Index].Value == null ? DBNull.Value : row.Cells[col.Index].Value;
+                                colNdx++;
+                            }
+                            rowNdx++;
+                        }
 
                         DataTable dT = DgvConversion.DataGridViewToDataTable(dgvSelection, true);
                         dT.TableName = "item"; // row node name
@@ -742,14 +778,27 @@ namespace CustomsForgeSongManager.Forms
                 try
                 {
                     DataGridView dgvSelection = new DataGridView();
-                    foreach (DataGridViewColumn col in dataGrid.Columns)
+
+                    var orderedCols = dataGrid.Columns.Cast<DataGridViewColumn>()
+                       .Where(c => !ignoreColumns.Contains(c.Index))
+                       .OrderBy(x => x.DisplayIndex).ToList();
+
+                    foreach (DataGridViewColumn col in orderedCols)
                         dgvSelection.Columns.Add((DataGridViewColumn)col.Clone());
 
-                    dgvSelection.Rows.Add(selection.Count());
+                    dgvSelection.Rows.Add(selection.Count() - 1);
 
-                    foreach (DataGridViewRow row in selection)
-                        foreach (DataGridViewColumn col in dataGrid.Columns)
-                            dgvSelection.Rows[row.Index].Cells[col.Index].Value = row.Cells[col.Index].Value == null ? DBNull.Value : row.Cells[col.Index].Value;
+                    var rowNdx = 0;
+                    foreach (DataGridViewRow row in selection.Where(x => x.Visible))
+                    {
+                        var colNdx = 0;
+                        foreach (DataGridViewColumn col in orderedCols)
+                        {
+                            dgvSelection.Rows[rowNdx].Cells[colNdx].Value = row.Cells[col.Index].Value == null ? DBNull.Value : row.Cells[col.Index].Value;
+                            colNdx++;
+                        }
+                        rowNdx++;
+                    }
 
                     DataTable dT = DgvConversion.DataGridViewToDataTable(dgvSelection, true);
                     dT.TableName = Globals.DgvCurrent.Name;
@@ -883,6 +932,7 @@ namespace CustomsForgeSongManager.Forms
         {
             return this;
         }
+
 
     }
 }

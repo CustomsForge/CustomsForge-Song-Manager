@@ -240,17 +240,17 @@ namespace CustomsForgeSongManager.LocalTools
 
                 if (srcFilePath.Contains(Constants.RS1COMP))
                 {
-                    Globals.Log(" - Can not backup individual RS1 Compatiblity DLC");
+                    Globals.Log(" - Can not backup individual RS1 Compatiblity DLC ...");
                     return false;
                 }
 
                 if (!File.Exists(destFilePath))
                 {
                     GenExtensions.CopyFile(srcFilePath, destFilePath, false);
-                    Globals.Log(" - Successfully created backup"); // a good thing
+                    Globals.Log(" - Successfully created backup ..."); // a good thing
                 }
                 else
-                    Globals.Log(" - Backup already exists"); // also a good thing
+                    Globals.Log(" - Backup already exists ..."); // also a good thing
             }
             catch (Exception ex)
             {

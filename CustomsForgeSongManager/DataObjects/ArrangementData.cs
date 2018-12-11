@@ -58,12 +58,13 @@ namespace CustomsForgeSongManager.DataObjects
         public string Name { get; set; } // arrangement name
         public int? CapoFret { get; set; }
         public int? DDMax { get; set; }
+        public float? ScrollSpeed { get; set; } // stored as int in toolkit (x10)
         public string Tuning { get; set; }
         public double? TuningPitch { get; set; } // tuning frequency, see Cents2Frequency method
         public string ToneBase { get; set; }
         public string Tones { get; set; } // concatinated string of the tones used in arrangement
-        public int? SectionsCount { get; set; }
         public int? TonesCount { get; set; }
+        public int? SectionsCount { get; set; }
 
         // Arrangement Levels
         public int? ChordCount { get; set; }

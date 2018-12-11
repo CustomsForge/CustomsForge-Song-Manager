@@ -263,7 +263,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(150, 13);
             this.label1.TabIndex = 29;
-            this.label1.Text = "In-Game Setlist Sortable Fields";
+            this.label1.Text = "In-Game Song List Sortable Fields";
             // 
             // txtAppId
             // 

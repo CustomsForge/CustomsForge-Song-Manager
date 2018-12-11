@@ -62,9 +62,11 @@ namespace CustomsForgeSongManager.UControls
         public void UpdateToolStrip()
         {
             if (Globals.ReloadSongPacks)
+            {
+                Globals.ReloadSongPacks = false;
                 InitializeSongPacks();
+            }
 
-            Globals.ReloadSongPacks = false;
             Globals.TsLabel_MainMsg.Text = string.Format("Song Count: {0}", dgvSongPacks.Rows.Count);
             Globals.TsLabel_MainMsg.Visible = true;
             var tsldcMsg = String.Format("Disabled CDLC: {0}", DisabledSongColorizerCounter());
@@ -614,6 +616,7 @@ namespace CustomsForgeSongManager.UControls
             Globals.RescanSongManager = true;
             Globals.RescanDuplicates = true;
             Globals.RescanSetlistManager = true;
+            Globals.RescanProfileSongLists = true;
             Globals.RescanRenamer = true;
         }
 
@@ -1108,11 +1111,10 @@ namespace CustomsForgeSongManager.UControls
             // has precedent over a ColumnHeader_MouseClick
             // MouseUp detection is more reliable than MouseDown
             var grid = (DataGridView)sender;
-            var rowIndex = e.RowIndex;
 
             if (e.Button == MouseButtons.Right)
             {
-                if (rowIndex != -1)
+                if (e.RowIndex != -1)
                 {
                     grid.Rows[e.RowIndex].Selected = true;
                     // TODO: impliment cmsDuplicates action menu consistent with other grids
