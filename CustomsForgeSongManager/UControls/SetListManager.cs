@@ -1116,26 +1116,26 @@ namespace CustomsForgeSongManager.UControls
         private void dgvCurrent_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             // HACK: data from other grids ends up here when filter is removed causing error ... figure out why?
-            var dgvCurrent = (DataGridView)sender;
-            var debugMe = dgvCurrent.Name;
+            var grid = (DataGridView)sender;
+            var debugMe = grid.Name;
 
             // speed hacks ...
             if (e.RowIndex == -1)
                 return;
-            if (dgvCurrent.Columns[e.ColumnIndex] is DataGridViewCheckBoxColumn)
+            if (grid.Columns[e.ColumnIndex] is DataGridViewCheckBoxColumn)
                 return;
-            if (dgvCurrent.Rows[e.RowIndex].IsNewRow) // || !dgvCurrent.IsCurrentRowDirty)
+            if (grid.Rows[e.RowIndex].IsNewRow) // || !dgvCurrent.IsCurrentRowDirty)
                 return;
-            if (dgvCurrent.Rows.Count < 1) // needed in case filter was set that returns no items
+            if (grid.Rows.Count < 1) // needed in case filter was set that returns no items
                 return;
 
-            var sd = dgvCurrent.Rows[e.RowIndex].DataBoundItem as SongData;
+            var sd = grid.Rows[e.RowIndex].DataBoundItem as SongData;
             if (sd != null)
             {
                 if (sd.IsODLC)
                 {
                     e.CellStyle.Font = Constants.OfficialDLCFont;
-                    DataGridViewCell cell = dgvCurrent.Rows[e.RowIndex].Cells[colSelect.Index];
+                    DataGridViewCell cell = grid.Rows[e.RowIndex].Cells[colSelect.Index];
                     DataGridViewCheckBoxCell chkCell = cell as DataGridViewCheckBoxCell;
                     if (chkProtectODLC.Checked)
                     {
@@ -1152,7 +1152,7 @@ namespace CustomsForgeSongManager.UControls
                     }
                 }
 
-                if (dgvCurrent == dgvSetlistMaster)
+                if (grid == dgvSetlistMaster)
                 {
                     // colorize the enabled and path columns depending on cdlc location
                     if (e.ColumnIndex == colEnabled.Index || e.ColumnIndex == colFilePath.Index)
@@ -1169,31 +1169,30 @@ namespace CustomsForgeSongManager.UControls
 
         private void dgvCurrent_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
-            var dgvCurrent = (DataGridView)sender;
-            var debugMe = dgvCurrent.Name;
+            var grid = (DataGridView)sender;
             // work around for Win10 right click header hang ... check seperate and first
             if (e.RowIndex == -1)
                 return;
 
-            if (dgvCurrent.Rows.Count == 0)
+            if (grid.Rows.Count == 0)
                 return;
 
-            var sd = DgvExtensions.GetObjectFromRow<SongData>(dgvCurrent, e.RowIndex);
-            if (sd == null)
+            var sd = DgvExtensions.GetObjectFromRow<SongData>(grid, e.RowIndex);
+            if (sd == null && e.RowIndex != -1)
                 return;
 
             if (e.Button == MouseButtons.Right)
             {
-                dgvCurrent.Rows[e.RowIndex].Selected = true;
+                grid.Rows[e.RowIndex].Selected = true;
                 cmsCopy.Enabled = true;
                 cmsDelete.Enabled = true;
                 cmsMove.Enabled = true;
                 cmsEnableDisable.Enabled = true;
                 // known VS bug .. SourceControl returns null ... using tag for work around
-                cmsSetlistManager.Tag = dgvCurrent;
+                cmsSetlistManager.Tag = grid;
                 cmsSetlistManager.Show(Cursor.Position);
 
-                if (dgvCurrent == dgvSongPacks)
+                if (grid == dgvSongPacks)
                 {
                     cmsCopy.Enabled = false;
                     cmsDelete.Enabled = false;
@@ -1221,11 +1220,11 @@ namespace CustomsForgeSongManager.UControls
                 try
                 {
                     if (chkProtectODLC.Checked && (sd.IsODLC || sd.IsRsCompPack || sd.IsSongsPsarc))
-                        dgvCurrent.Rows[e.RowIndex].Cells[colSelect.Index].Value = false;
-                    else if (dgvCurrent == dgvSongPacks && chkProtectODLC.Checked)
-                        dgvCurrent.Rows[e.RowIndex].Cells[colSelect.Index].Value = false;
+                        grid.Rows[e.RowIndex].Cells[colSelect.Index].Value = false;
+                    else if (grid == dgvSongPacks && chkProtectODLC.Checked)
+                        grid.Rows[e.RowIndex].Cells[colSelect.Index].Value = false;
                     else
-                        dgvCurrent.Rows[e.RowIndex].Cells[colSelect.Index].Value = !(bool)(dgvCurrent.Rows[e.RowIndex].Cells[colSelect.Index].Value);
+                        grid.Rows[e.RowIndex].Cells[colSelect.Index].Value = !(bool)(grid.Rows[e.RowIndex].Cells[colSelect.Index].Value);
                 }
                 catch
                 {
@@ -1234,7 +1233,7 @@ namespace CustomsForgeSongManager.UControls
                 }
             }
 
-            TemporaryDisableDatabindEvent(() => { dgvCurrent.EndEdit(); });
+            TemporaryDisableDatabindEvent(() => { grid.EndEdit(); });
         }
 
         private void dgvSetlistMaster_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
@@ -1325,12 +1324,12 @@ namespace CustomsForgeSongManager.UControls
 
         private void dgvSetlists_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
-            var dgvCurrent = (DataGridView)sender;
-            var debugMe = dgvCurrent.Name;
+            var grid = (DataGridView)sender;
+            var debugMe = grid.Name;
             // work around for Win10 right click header hang ... check seperate and first
             if (e.RowIndex == -1)
                 return;
-            if (dgvCurrent.Rows.Count == 0)
+            if (grid.Rows.Count == 0)
                 return;
 
             // user complained that clicking a row should not autocheck select
@@ -1339,9 +1338,9 @@ namespace CustomsForgeSongManager.UControls
             {
                 try
                 {
-                    if (Convert.ToBoolean(dgvCurrent.Rows[e.RowIndex].Cells["colSetlistSelect"].Value))
+                    if (Convert.ToBoolean(grid.Rows[e.RowIndex].Cells["colSetlistSelect"].Value))
                     {
-                        dgvCurrent.Rows[e.RowIndex].Cells["colSetlistSelect"].Value = false;
+                        grid.Rows[e.RowIndex].Cells["colSetlistSelect"].Value = false;
                         var selected = dgvSetlists.Rows.Cast<DataGridViewRow>().FirstOrDefault(slr => Convert.ToBoolean(slr.Cells["colSetlistSelect"].Value));
 
                         if (selected == null)
@@ -1351,8 +1350,8 @@ namespace CustomsForgeSongManager.UControls
                     }
                     else
                     {
-                        dgvCurrent.Rows[e.RowIndex].Cells["colSetlistSelect"].Value = true;
-                        curSetlistName = dgvCurrent.Rows[e.RowIndex].Cells["colSetlistName"].Value.ToString();
+                        grid.Rows[e.RowIndex].Cells["colSetlistSelect"].Value = true;
+                        curSetlistName = grid.Rows[e.RowIndex].Cells["colSetlistName"].Value.ToString();
                     }
 
                     if (!String.IsNullOrEmpty(cueSearch.Text))
@@ -1366,7 +1365,7 @@ namespace CustomsForgeSongManager.UControls
                 }
             }
 
-            dgvCurrent.EndEdit();
+            grid.EndEdit();
         }
 
         private void dgvSetlists_SelectionChanged(object sender, EventArgs e)

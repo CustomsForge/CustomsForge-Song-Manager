@@ -658,14 +658,13 @@ namespace CustomsForgeSongManager.UControls
         {
             // has precedent over a ColumnHeader_MouseClick
             // MouseUp detection is more reliable than MouseDown
-            var dgvCurrent = (DataGridView)sender;
-            var rowIndex = e.RowIndex;
+            var grid = (DataGridView)sender;
 
             if (e.Button == MouseButtons.Right)
             {
-                if (rowIndex != -1)
+                if (e.RowIndex != -1)
                 {
-                    dgvCurrent.Rows[e.RowIndex].Selected = true;
+                    grid.Rows[e.RowIndex].Selected = true;
                     cmsDuplicates.Show(Cursor.Position);
                 }
                 else
@@ -681,12 +680,12 @@ namespace CustomsForgeSongManager.UControls
             {
                 try
                 {
-                    dgvCurrent.Rows[e.RowIndex].Cells["colSelect"].Value = !(bool)(dgvCurrent.Rows[e.RowIndex].Cells["colSelect"].Value);
+                    grid.Rows[e.RowIndex].Cells["colSelect"].Value = !(bool)(grid.Rows[e.RowIndex].Cells["colSelect"].Value);
                 }
                 catch
                 {
                     // debounce clicking
-                    TemporaryDisableDatabindEvent(() => { dgvCurrent.EndEdit(); });
+                    TemporaryDisableDatabindEvent(() => { grid.EndEdit(); });
                 }
             }
         }

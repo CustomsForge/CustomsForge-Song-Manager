@@ -158,9 +158,9 @@ namespace CustomsForgeSongManager.UControls
             //Load Song Collection from file
             if (!LoadSongCollectionFromFile())
                 return;
-        
+
             PopulateDataGridView();
-        
+
             // bind datasource to grid
             IncludeSubfolders();
             ProtectODLC();
@@ -246,7 +246,7 @@ namespace CustomsForgeSongManager.UControls
         }
 
         public void UpdateToolStrip()
-        {            
+        {
             if (Globals.RescanSongManager)
             {
                 // full rescan of song collection
@@ -264,7 +264,7 @@ namespace CustomsForgeSongManager.UControls
 
             chkIncludeSubfolders.Checked = AppSettings.Instance.IncludeSubfolders;
             chkProtectODLC.Checked = AppSettings.Instance.ProtectODLC;
-         
+
             Globals.TsLabel_MainMsg.Text = string.Format("Rocksmith Song Count: {0}", songList.Count);
             // Globals.TsLabel_MainMsg.Text = string.Format("Rocksmith Song Count: {0}", dgvSongsMaster.RowCount);
             Globals.TsLabel_MainMsg.Visible = true;
@@ -701,7 +701,7 @@ namespace CustomsForgeSongManager.UControls
             bindingCompleted = false;
             dgvPainted = false;
             Rescan(fullRescan);
-            PopulateDataGridView();
+            PopulateSongManager();
             UpdateToolStrip();
         }
 
@@ -1576,19 +1576,18 @@ namespace CustomsForgeSongManager.UControls
         {
             // has precedent over a ColumnHeader_MouseClick
             // MouseUp detection is more reliable than MouseDown
-            var dgvCurrent = (DataGridView)sender;
-            var rowIndex = e.RowIndex;
-            var colIndex = e.ColumnIndex;
-
-            var sd = DgvExtensions.GetObjectFromRow<SongData>(dgvSongsMaster, rowIndex);
-            if (sd == null)
+            var grid = (DataGridView)sender;
+ 
+            var sd = DgvExtensions.GetObjectFromRow<SongData>(grid, e.RowIndex);
+            if (sd == null && e.RowIndex != -1)
                 return;
+
 
             if (e.Button == MouseButtons.Right)
             {
-                if (rowIndex != -1)
+                if (e.RowIndex != -1)
                 {
-                    dgvCurrent.Rows[rowIndex].Selected = true;
+                    grid.Rows[e.RowIndex].Selected = true;
                     cmsDelete.Enabled = true;
                     cmsBackup.Enabled = true;
                     cmsEnableDisable.Enabled = true;
@@ -1613,7 +1612,7 @@ namespace CustomsForgeSongManager.UControls
 
             // user complained that clicking a row should not autocheck Select
             // programmatic left clicking on colSelect
-            if (e.Button == MouseButtons.Left && rowIndex != -1 && colIndex == colSelect.Index)
+            if (e.Button == MouseButtons.Left && e.RowIndex != -1 && e.ColumnIndex == colSelect.Index)
             {
                 // use Setlist Manager or SongPacks tab menu
                 if (sd.IsRsCompPack || sd.IsSongsPsarc || sd.IsSongPack)
@@ -1624,21 +1623,21 @@ namespace CustomsForgeSongManager.UControls
                     BetterDialog2.ShowDialog(diaMsg, "Song Packs ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "ReadMe", 0, 150);
 
                     // programatically uncheck the select checkbox
-                    dgvCurrent.Rows[rowIndex].Cells["colSelect"].Value = !(bool)(dgvCurrent.Rows[rowIndex].Cells["colSelect"].Value);
-                    dgvCurrent.Rows[rowIndex].Cells["colSelect"].Value = false;
-                    dgvCurrent.Rows[rowIndex].Selected = true;
+                    grid.Rows[e.RowIndex].Cells["colSelect"].Value = !(bool)(grid.Rows[e.RowIndex].Cells["colSelect"].Value);
+                    grid.Rows[e.RowIndex].Cells["colSelect"].Value = false;
+                    grid.Rows[e.RowIndex].Selected = true;
                 }
                 else
                 {
                     try
                     {
-                        dgvCurrent.Rows[rowIndex].Cells["colSelect"].Value = !(bool)(dgvCurrent.Rows[rowIndex].Cells["colSelect"].Value);
-                        dgvCurrent.Rows[rowIndex].Selected = true;
+                        grid.Rows[e.RowIndex].Cells["colSelect"].Value = !(bool)(grid.Rows[e.RowIndex].Cells["colSelect"].Value);
+                        grid.Rows[e.RowIndex].Selected = true;
                     }
                     catch
                     {
                         // debounce excess clicking
-                        TemporaryDisableDatabindEvent(() => { dgvCurrent.EndEdit(); });
+                        TemporaryDisableDatabindEvent(() => { grid.EndEdit(); });
                     }
                 }
             }
@@ -1646,23 +1645,21 @@ namespace CustomsForgeSongManager.UControls
             // makes checkbox mark appear correctly
             TemporaryDisableDatabindEvent(() =>
                 {
-                    dgvCurrent.EndEdit();
-                    dgvCurrent.Refresh();
+                    grid.EndEdit();
+                    grid.Refresh();
                 });
         }
 
         private void dgvSongsMaster_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            var dgvCurrent = (DataGridView)sender;
-            var rowIndex = e.RowIndex;
-            var colIndex = e.ColumnIndex;
+            var grid = (DataGridView)sender;
 
-            if (rowIndex != -1 && colIndex == colPackageRating.Index)
+            if (e.RowIndex != -1 && e.ColumnIndex == colPackageRating.Index)
             {
-                var sd = DgvExtensions.GetObjectFromRow<SongData>(dgvSongsMaster, rowIndex);
+                var sd = DgvExtensions.GetObjectFromRow<SongData>(grid, e.RowIndex);
                 if (sd != null)
                 {
-                    sd.RatingStars = (int)dgvSongsMaster.Rows[rowIndex].Cells[colIndex].Value;
+                    sd.RatingStars = (int)grid.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
                     sd.PackageRating = sd.RatingStars.ToString();
                     sd.NeedsUpdate = true;
                     Globals.PackageRatingNeedsUpdate = true;

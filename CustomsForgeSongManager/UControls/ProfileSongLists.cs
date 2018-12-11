@@ -686,27 +686,26 @@ namespace CustomsForgeSongManager.UControls
         private void dgvCurrent_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             // HACK: data from other grids ends up here when filter is removed causing error ... figure out why?
-            var dgvCurrent = (DataGridView)sender;
-            var debugMe = dgvCurrent.Name;
-
+            var grid = (DataGridView)sender;
+   
             // speed hacks ...
             if (e.RowIndex == -1)
                 return;
-            if (dgvCurrent.Columns[e.ColumnIndex] is DataGridViewCheckBoxColumn)
+            if (grid.Columns[e.ColumnIndex] is DataGridViewCheckBoxColumn)
                 return;
-            if (dgvCurrent.Rows[e.RowIndex].IsNewRow) // || !dgvCurrent.IsCurrentRowDirty)
+            if (grid.Rows[e.RowIndex].IsNewRow) // || !dgvCurrent.IsCurrentRowDirty)
                 return;
-            if (dgvCurrent.Rows.Count < 1) // needed in case filter was set that returns no items
+            if (grid.Rows.Count < 1) // needed in case filter was set that returns no items
                 return;
 
-            var sd = dgvCurrent.Rows[e.RowIndex].DataBoundItem as SongData;
+            var sd = grid.Rows[e.RowIndex].DataBoundItem as SongData;
             if (sd == null)
                 return;
 
             if (sd.IsODLC || sd.IsRsCompPack || sd.IsSongsPsarc)
             {
                 e.CellStyle.Font = Constants.OfficialDLCFont;
-                DataGridViewCell cell = dgvCurrent.Rows[e.RowIndex].Cells[colSelect.Index];
+                DataGridViewCell cell = grid.Rows[e.RowIndex].Cells[colSelect.Index];
                 DataGridViewCheckBoxCell chkCell = cell as DataGridViewCheckBoxCell;
                 if (chkProtectODLC.Checked)
                 {
@@ -723,7 +722,7 @@ namespace CustomsForgeSongManager.UControls
                 }
             }
 
-            if (dgvCurrent == dgvSongListMaster)
+            if (grid == dgvSongListMaster)
             {
                 // colorize the enabled and path columns depending on cdlc location
                 if (e.ColumnIndex == colEnabled.Index || e.ColumnIndex == colFilePath.Index)
@@ -740,12 +739,12 @@ namespace CustomsForgeSongManager.UControls
         private void dgvCurrent_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
         {
             // create some nicer tooltips  
-            var dgvCurrent = (DataGridView)sender;
+            var grid = (DataGridView)sender;
             var tt = String.Empty;
             var duration = 6000;
-            dgvCurrent.ShowCellToolTips = false;
+            grid.ShowCellToolTips = false;
 
-            if (dgvCurrent == dgvGameSongLists)
+            if (grid == dgvGameSongLists)
             {
                 if (e.RowIndex == -1) // header
                 {
@@ -759,7 +758,7 @@ namespace CustomsForgeSongManager.UControls
                 }
                 else
                 {
-                    DataGridViewCell cell = dgvCurrent.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                    DataGridViewCell cell = grid.Rows[e.RowIndex].Cells[e.ColumnIndex];
                     if (e.ColumnIndex == 0 && cell.Value.Equals(false))
                         tt = "Click on the 'Select' checkbox" + Environment.NewLine +
                              "to load an in-game song list";
@@ -783,44 +782,45 @@ namespace CustomsForgeSongManager.UControls
             {
                 // Cozy's whacky work around prevents ballons that are too small for the size of the tip
                 toolTip.IsBalloon = true;
-                toolTip.Show(tt, dgvCurrent, dgvCurrent.PointToClient(new Point(Control.MousePosition.X, Control.MousePosition.Y)), duration);
+                toolTip.Show(tt, grid, grid.PointToClient(new Point(Control.MousePosition.X, Control.MousePosition.Y)), duration);
             }
             else
-                toolTip.SetToolTip(dgvCurrent, null); // part of work around
+                toolTip.SetToolTip(grid, null); // part of work around
         }
 
         private void dgvCurrent_CellMouseLeave(object sender, DataGridViewCellEventArgs e)
         {
-            var dgvCurrent = (DataGridView)sender;
-            toolTip.Hide(dgvCurrent);
-            toolTip.SetToolTip(dgvCurrent, null); // part of work around
+            // part of nicer tooltips
+            var grid = (DataGridView)sender;
+            toolTip.Hide(grid);
+            toolTip.SetToolTip(grid, null); // part of work around
             toolTip.IsBalloon = false; // part of work around
-            dgvCurrent.ShowCellToolTips = true;
+            grid.ShowCellToolTips = true;
         }
 
         private void dgvCurrent_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
-            var dgvCurrent = (DataGridView)sender;
-            var debugMe = dgvCurrent.Name;
+            var grid = (DataGridView)sender;
+
             // work around for Win10 right click header hang ... check seperate and first
             if (e.RowIndex == -1)
                 return;
 
-            if (dgvCurrent.Rows.Count == 0)
+            if (grid.Rows.Count == 0)
                 return;
 
-            var sd = DgvExtensions.GetObjectFromRow<SongData>(dgvCurrent, e.RowIndex);
+            var sd = DgvExtensions.GetObjectFromRow<SongData>(grid, e.RowIndex);
             if (sd == null)
                 return;
 
             if (e.Button == MouseButtons.Right)
             {
-                dgvCurrent.Rows[e.RowIndex].Selected = true;
-                cmsAdd.Enabled = dgvCurrent == dgvSongListMaster ? true : false;
-                cmsRemove.Enabled = dgvCurrent == dgvSongListMaster ? false : true;
+                grid.Rows[e.RowIndex].Selected = true;
+                cmsAdd.Enabled = grid == dgvSongListMaster ? true : false;
+                cmsRemove.Enabled = grid == dgvSongListMaster ? false : true;
                 cmsEnableDisable.Enabled = true;
                 // known VS bug .. SourceControl returns null ... using tag for work around
-                cmsProfileSongLists.Tag = dgvCurrent;
+                cmsProfileSongLists.Tag = grid;
                 cmsProfileSongLists.Show(Cursor.Position);
 
                 if (chkProtectODLC.Checked && (sd.IsODLC || sd.IsRsCompPack || sd.IsSongsPsarc))
@@ -837,9 +837,9 @@ namespace CustomsForgeSongManager.UControls
                 try
                 {
                     if (chkProtectODLC.Checked && (sd.IsODLC || sd.IsRsCompPack || sd.IsSongsPsarc))
-                        dgvCurrent.Rows[e.RowIndex].Cells[colSelect.Index].Value = false;
+                        grid.Rows[e.RowIndex].Cells[colSelect.Index].Value = false;
                     else
-                        dgvCurrent.Rows[e.RowIndex].Cells[colSelect.Index].Value = !(bool)(dgvCurrent.Rows[e.RowIndex].Cells[colSelect.Index].Value);
+                        grid.Rows[e.RowIndex].Cells[colSelect.Index].Value = !(bool)(grid.Rows[e.RowIndex].Cells[colSelect.Index].Value);
                 }
                 catch
                 {
@@ -848,24 +848,23 @@ namespace CustomsForgeSongManager.UControls
                 }
             }
 
-            TemporaryDisableDatabindEvent(() => { dgvCurrent.EndEdit(); });
+            TemporaryDisableDatabindEvent(() => { grid.EndEdit(); });
         }
 
         private void dgvGameSongLists_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
-            var dgvCurrent = (DataGridView)sender;
-            var debugMe = dgvCurrent.Name;
+            var grid = (DataGridView)sender;
             // work around for Win10 right click header hang ... check seperate and first
             if (e.RowIndex == -1)
                 return;
-            if (dgvCurrent.Rows.Count == 0)
+            if (grid.Rows.Count == 0)
                 return;
 
             // programmatic left clicking on Select 
             if (e.Button == MouseButtons.Left && e.RowIndex != -1 && e.ColumnIndex == colSelect.Index)
             {
                 // limit to a single song list selection
-                foreach (DataGridViewRow row in dgvCurrent.Rows)
+                foreach (DataGridViewRow row in grid.Rows)
                 {
                     row.Cells["colGameSongListsSelect"].Value = false;
                     // reset the combobox column
@@ -874,9 +873,9 @@ namespace CustomsForgeSongManager.UControls
 
                 try
                 {
-                    if (Convert.ToBoolean(dgvCurrent.Rows[e.RowIndex].Cells["colGameSongListsSelect"].Value))
+                    if (Convert.ToBoolean(grid.Rows[e.RowIndex].Cells["colGameSongListsSelect"].Value))
                     {
-                        dgvCurrent.Rows[e.RowIndex].Cells["colGameSongListsSelect"].Value = false;
+                        grid.Rows[e.RowIndex].Cells["colGameSongListsSelect"].Value = false;
                         var selected = dgvGameSongLists.Rows.Cast<DataGridViewRow>().FirstOrDefault(slr => Convert.ToBoolean(slr.Cells["colGameSongListsSelect"].Value));
 
                         if (selected == null)
@@ -886,8 +885,8 @@ namespace CustomsForgeSongManager.UControls
                     }
                     else
                     {
-                        dgvCurrent.Rows[e.RowIndex].Cells["colGameSongListsSelect"].Value = true;
-                        curSongListsName = dgvCurrent.Rows[e.RowIndex].Cells["colGameSongLists"].Value.ToString();
+                        grid.Rows[e.RowIndex].Cells["colGameSongListsSelect"].Value = true;
+                        curSongListsName = grid.Rows[e.RowIndex].Cells["colGameSongLists"].Value.ToString();
                     }
 
                     curSongListsIndex = e.RowIndex;
@@ -898,7 +897,7 @@ namespace CustomsForgeSongManager.UControls
                     Thread.Sleep(50); // debounce multiple clicks
                 }
 
-                dgvCurrent.EndEdit();
+                grid.EndEdit();
             }
         }
 

@@ -130,9 +130,9 @@ namespace CustomsForgeSongManager.Forms
 
             // log application environment
             Globals.Log("+ " + Constants.AppTitle);
-            Globals.Log("+ .NET Framework (v" + SysExtensions.DotNetVersion + ")");
             Globals.Log("+ RocksmithToolkitLib (v" + ToolkitVersion.RSTKLibVersion() + ")");
             Globals.Log("+ Dynamic Difficulty Creator (v" + FileVersionInfo.GetVersionInfo(Path.Combine(ExternalApps.TOOLKIT_ROOT, ExternalApps.APP_DDC)).ProductVersion + ")");
+            Globals.Log("+ .NET Framework (v" + SysExtensions.DotNetVersion + ")");
 
             // load settings
             Globals.Settings.LoadSettingsFromFile();
