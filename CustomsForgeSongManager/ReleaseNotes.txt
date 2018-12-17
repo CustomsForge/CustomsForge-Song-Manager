@@ -14,6 +14,11 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.5.0.1
+- added full automode to 'Profile Song Lists' updater
+- added user popup GUI to permit selecting a User Profile by Player Name
+- improved user help and tooltips for Profile Song Lists
+
 1.5.0.0 
 EXTENSIVE REVISIONS AND ADDITIONS (Let the devs know if you find any bugs!)
 - added new 'Profile Song Lists' tabmenu to quickly add/edit/remove in-game song list songs

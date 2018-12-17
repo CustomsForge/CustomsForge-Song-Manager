@@ -261,7 +261,7 @@ namespace CustomsForgeSongManager.LocalTools
             return backups;
         }
 
-        public static string SelectPrfldb()
+        public static string SelectProfile()
         {
             using (var ofd = new OpenFileDialog())
             {
@@ -277,12 +277,12 @@ namespace CustomsForgeSongManager.LocalTools
                         srcDir = Directory.GetParent(srcDir).ToString();
 
                     if (Constants.DebugMode)
-                        srcDir = "D:\\Temp"; // for testing
+                        srcDir = "D:\\Temp"; // for dev testing
                 }
 
-                ofd.Filter = "User Profiles (*_prfldb)|*_prfldb";
-                ofd.Title = "Select a Rocksmith 2014 User Profile file (HINT: search for *_prfldb)";
-                ofd.FilterIndex = 1;
+                ofd.Filter = "All Files (*.*)|*.*|Game Save Profiles (*.json, *_prfldb, crd)|*.json; *_prfldb; crd";
+                ofd.Title = "Select the Rocksmith 2014 User Profile file";
+                ofd.FilterIndex = 2;
                 ofd.InitialDirectory = srcDir;
                 ofd.CheckPathExists = true;
                 ofd.Multiselect = false;

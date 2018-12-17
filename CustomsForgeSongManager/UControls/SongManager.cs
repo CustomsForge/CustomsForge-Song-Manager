@@ -57,7 +57,7 @@ namespace CustomsForgeSongManager.UControls
             InitializeComponent();
             Globals.TsLabel_StatusMsg.Click += lnkShowAll_Click;
             dgvSongsDetail.Visible = false;
-            tsmiDevDebugUse.Visible = GenExtensions.IsInDesignMode ? true : false;
+            tsmiDevDebugUse.Visible = true;
             // TODO: future get Ignition based API data
             cmsCheckForUpdate.Visible = GenExtensions.IsInDesignMode ? true : false;
             cmsOpenSongLocation.Visible = GenExtensions.IsInDesignMode ? true : false;
@@ -515,7 +515,7 @@ namespace CustomsForgeSongManager.UControls
                     Globals.DgvCurrent = dgvSongsMaster;
                     Globals.RescanSongManager = true;
                     // selects Settings tabmenu even if tab order is changed
-                    Globals.MainForm.tcMain.SelectedIndex = Globals.MainForm.tcMain.TabPages.IndexOf(Globals.MainForm.tpSettings);
+                    Globals.MainForm.tcMain.SelectedIndex = Globals.MainForm.tcMain.TabPages.IndexOf(Globals.MainForm.tpSongManager);
                     Globals.Log("Customize the CFSM Settings options ...");
 
                     // halt loading SongManger
@@ -1577,7 +1577,7 @@ namespace CustomsForgeSongManager.UControls
             // has precedent over a ColumnHeader_MouseClick
             // MouseUp detection is more reliable than MouseDown
             var grid = (DataGridView)sender;
- 
+
             var sd = DgvExtensions.GetObjectFromRow<SongData>(grid, e.RowIndex);
             if (sd == null && e.RowIndex != -1)
                 return;
@@ -1934,21 +1934,31 @@ namespace CustomsForgeSongManager.UControls
 
         private void tsmiDevsDebugUse_Click(object sender, EventArgs e)
         {
-            var prfldbFile = RocksmithProfile.SelectPrfldb();
-            var songListsRoot = Extensions.ReadSongListsRoot(prfldbFile);
+            // devs debugging sandbox area
+
+            Process[] processes = Process.GetProcesses();
+            foreach (var process in processes)
+            {
+                Globals.Log("process.ProcessName: " + process.ProcessName);
+                Globals.Log("process.Responding: " + process.Responding);
+            }
+            return;
+
+            var prfldbFile = RocksmithProfile.SelectProfile();
+            var songListsRoot = UserProfiles.ReadSongListsRoot(prfldbFile);
             Globals.Log(" - User Profile SongListsRoot Loaded ...");
 
             if (songListsRoot == null) // return;
                 throw new DataException("<ERROR> SongsListsRoot null data exception.");
 
             songListsRoot.SongLists[0] = new List<string>() { "Cozy1", "Was", "Here!" };
-            Extensions.WriteSongListsRoot(songListsRoot, prfldbFile);
+            UserProfiles.WriteSongListsRoot(songListsRoot, prfldbFile);
             Globals.Log(" - User Profile SongListsRoot Updated ...");
             return;
 
             PackageDataTools.ShowPackageRatingWarning();
             return;
-            // temporarily debugging some things here
+
             var stopHere = songList;
             var stopHere2 = Globals.MasterCollection;
             var stopHere3 = AppSettings.Instance.FilterString;

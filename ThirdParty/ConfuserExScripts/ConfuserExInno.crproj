@@ -16,6 +16,6 @@
 	<module path="CustomControls.dll" />
 	<module path="CFSM.RSTKLib.dll" />
 	<module path="DF.WinForms.ThemeLib.dll" />
-	<module path="DataGridViewTools.dll" />
+	<module path="DataGridViewTools.dll" />    
 	<module path="CustomsForgeSongManager.exe" />
 </project>

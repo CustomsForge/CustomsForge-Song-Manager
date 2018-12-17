@@ -123,6 +123,15 @@
   <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>167, 5</value>
   </metadata>
+  <data name="btnForceUpdate.ToolTip" xml:space="preserve">
+    <value>NOTE: User Profile Song Lists
+update automatically as needed.
+Update occures when another tab
+is opened or when CFSM is exited.
+
+This button will force an immediate
+update of User Profile Song Lists.</value>
+  </data>
   <metadata name="colKey.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>

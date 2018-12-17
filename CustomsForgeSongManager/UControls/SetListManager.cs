@@ -16,9 +16,10 @@ using GenTools;
 using DataGridViewTools;
 using CustomsForgeSongManager.Properties;
 using System.Reflection;
+using UserProfileLib;
 
 // cache.psarc may not be renamed
-// TODO: please rewrite SetlistMaster code completely ...
+// TODO: somebody please rewrite SetlistMaster code completely ...
 
 namespace CustomsForgeSongManager.UControls
 {
@@ -920,13 +921,15 @@ namespace CustomsForgeSongManager.UControls
 
         private void btnRunRSWithSetlist_Click(object sender, EventArgs e)
         {
-            // TODO: confirm this method works correctly and then enable button
+            if (!Constants.DebugMode)
+                return;
+
+            // TODO: confirm this method works correctly
             string rs2014Pack = String.Empty;
             string rs1MainPack = String.Empty;
             string rs1DLCPack = String.Empty;
             var rocksmithProcess = Process.GetProcessesByName("Rocksmith2014.exe");
 
-            // TODO: determine if EnumerateFiles is case insensitive
             List<string> rs1DLCFiles = Directory.EnumerateFiles(dlcDir, "rs1compatibilitydlc*", SearchOption.AllDirectories).Where(sp => !sp.Contains(".disabled")).ToList();
             List<string> rs1Files = Directory.EnumerateFiles(dlcDir, "rs1compatibilitydisc*", SearchOption.AllDirectories).Where(sp => !sp.Contains(".disabled")).ToList();
             List<string> rs2014Files = Directory.EnumerateFiles(dlcDir, "cache.psarc*", SearchOption.AllDirectories).Where(sp => !sp.Contains(".disabled")).ToList();
@@ -1012,7 +1015,13 @@ namespace CustomsForgeSongManager.UControls
             else
             {
                 Application.DoEvents();
-                Process.Start("steam://rungameid/221680");
+                // Process.Start("steam://rungameid/221680");
+
+                string output;
+                if (Steam.IsSteamInstallationValid(out output))
+                    Steam.RunSteamExecutable("-applaunch 221680");
+                else
+                    Globals.Log(output);
             }
         }
 

@@ -19,6 +19,8 @@ using CustomsForgeSongManager.Properties;
 using UserProfileLib;
 using System.Security.Principal;
 using System.Reflection;
+using UserProfileLib.Objects;
+using System.Text;
 
 
 namespace CustomsForgeSongManager.UControls
@@ -26,6 +28,12 @@ namespace CustomsForgeSongManager.UControls
     public partial class ProfileSongLists : UserControl, IDataGridViewHolder, INotifyTabChanged
     {
         private string MESSAGE_CAPTION = MethodBase.GetCurrentMethod().DeclaringType.Name;
+        private FavoritesListRoot _favoritesListRoot;
+        private List<List<string>> _gameSongLists;
+        private string _localProfilesPath;
+        private string _playerName;
+        private string _prfldbPath;
+        private SongListsRoot _songListsRoot;
         private bool allSelected = false;
         private bool bindingCompleted = false;
         private Color cdlcColor = Color.Cyan;
@@ -35,14 +43,10 @@ namespace CustomsForgeSongManager.UControls
         private string curSongListsName;
         private bool dgvPainted = false;
         private string dlcDir;
-        private FavoritesListRoot favoritesListRoot;
-        private List<List<string>> gameSongLists;
-        private string prfldbPath;
         private DataGridViewRow selectedRow;
         private Color songListColor = Color.Yellow;
         private BindingList<SongData> songListMaster = new BindingList<SongData>(); // prevents filtering from being inherited
         private List<SongData> songListSongs;
-        private SongListsRoot songListsRoot;
         private List<SongData> songSearch = new List<SongData>();
 
         public ProfileSongLists()
@@ -57,6 +61,7 @@ namespace CustomsForgeSongManager.UControls
             Globals.Log("Populating Profile Song Lists GUI ...");
             DgvExtensions.DoubleBuffered(dgvSongListMaster);
             Globals.Settings.LoadSettingsFromFile(dgvSongListMaster, true);
+            Globals.Log("Profile Song Lists GUI Activated ...");
 
             dlcDir = Constants.Rs2DlcFolder;
             cdlcDir = Path.Combine(dlcDir, "CDLC").ToLower();
@@ -72,23 +77,162 @@ namespace CustomsForgeSongManager.UControls
 
         public void UpdateProfileSongLists()
         {
-            if (Globals.PrfldbNeedsUpdate)
+            if (!Globals.PrfldbNeedsUpdate)
+                return;
+
+            // force ProfileSongLists to rescan
+            Globals.RescanProfileSongLists = true;
+            // reset now to prevent possible endless loop
+            Globals.PrfldbNeedsUpdate = false;
+            Globals.Log("Updating User Profile Song Lists ...");
+
+            // fully tested/working on Cozy's dev machines
+            // auto update the user profile song lists
+            string output = String.Empty;
+            string result = String.Empty;
+            if (Steam.IsSteamInstallationValid(out output))
             {
-                try
+                var steamExePath = output;
+                // shutdown steam if it is running
+                Process[] steamProcess = Process.GetProcessesByName("Steam");
+                if (steamProcess.Length > 0)
                 {
-                    Extensions.WriteFavoritesListRoot(favoritesListRoot, prfldbPath);
-                    Globals.Log(" - User Profile FavoriteListRoot has been updated ...");
-                    Extensions.WriteSongListsRoot(songListsRoot, prfldbPath);
-                    Globals.Log(" - User Profile SongListsRoot has been updated ...");
+                    result = " - Running Steam.exe 'shutdown' command ...";
+                    Globals.Log(result);
+                    output = result;
+                    result = Steam.RunSteamExecutable("-shutdown");
+                    Globals.Log(result);
+                    output += Environment.NewLine + result;
+
+                    // wait for steam shutdown
+                    for (int i = 1; i < 15; i++)
+                    {
+                        Thread.Sleep(1000);
+                        steamProcess = Process.GetProcessesByName("Steam");
+                        if (steamProcess.Length == 0)
+                        {
+                            result = " - Waited " + i + " seconds for Steam.exe to shutdown ...";
+                            Globals.Log(result);
+                            output += Environment.NewLine + result;
+                            break;
+                        }
+                    }
                 }
-                catch (Exception ex)
+                else
                 {
-                    Globals.Log("<ERROR> User Profile FavoriteListRoot and/or SongListsRoot failed to updated ...");
-                    Globals.Log(" - " + ex.Message);
+                    result = " - Steam.exe is not running ...";
+                    Globals.Log(result);
+                    output += Environment.NewLine + result;
                 }
 
-                Globals.PrfldbNeedsUpdate = false;
+                if (!output.Contains("<ERROR>") && File.Exists(_prfldbPath))
+                {
+                    if (String.IsNullOrEmpty(_localProfilesPath))
+                        _localProfilesPath = Path.Combine(Path.GetDirectoryName(_prfldbPath), "LocalProfiles.json");
+
+                    // update modified in-game SongLists
+                    result = " - Writing User Profile Song Lists ...";
+                    Globals.Log(result);
+                    output += Environment.NewLine + result;
+                    var results = WriteSongLists();
+                    var lines = results.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                    foreach (var line in lines)
+                        Globals.Log(line.TrimEnd());
+                    output += Environment.NewLine + results;
+                }
+                else
+                {
+                    result = "<ERROR> Invalid _prfldb path";
+                    Globals.Log(result);
+                    output += Environment.NewLine + result;
+                }
+
+                if (!output.Contains("<ERROR>") && File.Exists(_localProfilesPath))
+                {
+                    // sycronize LocalProfiles.json LastModified with RemoteCache.vdf
+                    result = " - Syncronizing Files ...";
+                    Globals.Log(result);
+                    output += Environment.NewLine + UserProfiles.SyncronizeFiles(_localProfilesPath);
+                }
+                else
+                {
+                    result = "<ERROR> Invalid LocalProfiles path";
+                    Globals.Log(result);
+                    output += Environment.NewLine + result;
+                }
+
+                // restart steam
+                if (!output.Contains("<ERROR>"))
+                {
+                    steamProcess = Process.GetProcessesByName("Steam");
+                    if (steamProcess.Length == 0)
+                    {
+                        result = " - Running Steam.exe 'offline' command ...";
+                        Globals.Log(result);
+                        output += Environment.NewLine + result;
+                        result = Steam.RunSteamExecutable("-offline");
+                        Globals.Log(result);
+                        output += Environment.NewLine + result;
+
+                        // wait for steam to startup
+                        for (int i = 1; i < 15; i++)
+                        {
+                            Thread.Sleep(1000);
+                            steamProcess = Process.GetProcessesByName("Steam");
+                            if (steamProcess != null && steamProcess[0].Responding)
+                            {
+                                result = " - Waited " + i + " seconds for Steam.exe to startup ...";
+                                Globals.Log(result);
+                                output += Environment.NewLine + result;
+                                break;
+                            }
+                        }
+
+                        Globals.Log("<README> Select 'START IN OFFLINE MODE' from the 'Steam - Downloads Disabled' dialog popup ...");
+                        Globals.Log("<README> Close ('X') any other Steam dialog popups ...");
+                    }
+                    else
+                    {
+                        result = "<ERROR> Steam.exe was never shutdown properly ...";
+                        Globals.Log(result);
+                        output += Environment.NewLine + result;
+                        result = "<WARNING> The User Profile may get reset by Steam the next time it is played ...";
+                        Globals.Log(result);
+                        output += Environment.NewLine + result;
+                    }
+                }
             }
+            else
+            {
+                var diaMsg = "CFSM did not find a valid Steam installation ..." + Environment.NewLine +
+                             "Did you remember to put Steam into offline mode," + Environment.NewLine +
+                             "and play Rocksmith while Steam was in offline mode?" + Environment.NewLine +
+                             "Did you remember to manually shut down and exit Steam?" + Environment.NewLine + Environment.NewLine +
+                             "Answer 'No' to leave ProfilesSongLists and get help.";
+
+                if (DialogResult.Yes != BetterDialog2.ShowDialog(diaMsg, "Manual Update Mode ...", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Hand.Handle), "Warning", 0, 150))
+                {
+                    // selects SongManager tabmenu even if tab order is changed
+                    Globals.MainForm.tcMain.SelectedIndex = Globals.MainForm.tcMain.TabPages.IndexOf(Globals.MainForm.tpSongManager);
+                    // show HelpManualSongLists
+                    frmNoteViewer.ViewResourcesFile("CustomsForgeSongManager.Resources.HelpSongListsManual.rtf", "Profile Song Lists - Manual Mode");
+                    return;
+                }
+
+                result = "<WARNING> User Profile Song Lists are in Manual Update Mode ...";
+                Globals.Log(result);
+                output += Environment.NewLine + result;
+                var results = WriteSongLists();
+                var lines = results.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                foreach (var line in lines)
+                    Globals.Log(line.TrimEnd());
+                output += Environment.NewLine + results;
+            }
+
+            if (output.Contains("<ERROR>"))
+                BetterDialog2.ShowDialog(output.TrimEnd(), "<ERROR> Updating User Profile Song Lists ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning", 0, 0);
+            else
+                Globals.Log("Completed Updating User Profile Song Lists ...");
         }
 
         public void UpdateToolStrip()
@@ -114,6 +258,9 @@ namespace CustomsForgeSongManager.UControls
             Globals.TsLabel_DisabledCounter.Text = String.Format("Song List Song Count: {0}", dgvSongListSongs.Rows.Count);
             Globals.TsLabel_DisabledCounter.Visible = true;
             Globals.TsLabel_StatusMsg.Visible = false;
+            // known tooltip bug workaround
+            toolTip.IsBalloon = true;
+            toolTip.Show(String.Empty, this, 0);
         }
 
         private List<string> GetSetlistManagerLists()
@@ -159,50 +306,58 @@ namespace CustomsForgeSongManager.UControls
 
         private void LoadGameSongLists()
         {
-            prfldbPath = AppSettings.Instance.RSProfilePath;
-
-            // first time user
-            if (String.IsNullOrEmpty(prfldbPath))
+            _prfldbPath = AppSettings.Instance.RSProfilePath;
+            if (!File.Exists(_prfldbPath) || !UserProfiles.IsPrfldbFile(_prfldbPath))
             {
-                // show ProfileSongList help
+                // show ProfileSongList help to noobie user
                 frmNoteViewer.ViewResourcesFile("CustomsForgeSongManager.Resources.HelpSongLists.rtf", "Profile Song Lists Help");
-                prfldbPath = RocksmithProfile.SelectPrfldb();
+                LoadLocalProfiles();
             }
 
-            if (String.IsNullOrEmpty(prfldbPath))
+            if (!File.Exists(_prfldbPath))
+            {
+                Globals.Log("<ERROR> Could not find In-Game Song Lists ...");
+                Globals.Log(" - " + _prfldbPath);
                 return;
+            }
 
-            Globals.Log("Loading User Profile In-Game Song Lists ...");
-            Globals.Log(" - " + prfldbPath);
+            if (String.IsNullOrEmpty(_playerName))
+            {
+                _localProfilesPath = Path.Combine(Path.GetDirectoryName(_prfldbPath), "LocalProfiles.json");
+                _playerName = UserProfiles.GetPlayerName(_localProfilesPath, _prfldbPath);
+            }
+
+            Globals.Log("Loading In-Game Song Lists ...");
+            Globals.Log(" - " + _prfldbPath);
             // make complete backup of user profile files in case something goes wrong
             var timestamp = DateTime.Now.ToString("yyyyMM"); // make monthly backups
             var backupFileName = String.Format("ProfileBackup_{0}.zip", timestamp);
             var backupPath = Path.Combine(Constants.ProfileBackupsFolder, backupFileName);
-            RocksmithProfile.BackupProfiles(prfldbPath, backupPath);
+            RocksmithProfile.BackupProfiles(_prfldbPath, backupPath);
 
-            // display current _prfldb file name in groupbox title
-            gbSongLists.Text = String.Format("User Profile: {0}", Path.GetFileName(prfldbPath));
+            // display current player name in groupbox title
+            gbSongLists.Text = String.Format("Player Name: {0}", _playerName);
 
             // read FavoritesListRoot from prfldb file
-            favoritesListRoot = Extensions.ReadFavoritesListRoot(prfldbPath);
+            _favoritesListRoot = UserProfiles.ReadFavoritesListRoot(_prfldbPath);
 
             // read SongListsRoots from a prfldb file
-            songListsRoot = Extensions.ReadSongListsRoot(prfldbPath);
+            _songListsRoot = UserProfiles.ReadSongListsRoot(_prfldbPath);
 
             // create composite gameSongLists
-            gameSongLists = new List<List<string>>();
-            gameSongLists.Add(favoritesListRoot.FavoritesList); // index 0 will always be used for FavoritesList             
-            foreach (var songList in songListsRoot.SongLists)
-                gameSongLists.Add(songList);
+            _gameSongLists = new List<List<string>>();
+            _gameSongLists.Add(_favoritesListRoot.FavoritesList); // index 0 will always be used for FavoritesList             
+            foreach (var songList in _songListsRoot.SongLists)
+                _gameSongLists.Add(songList);
 
             // count the songLists
-            var gameSongListsCount = gameSongLists.Count();
+            var gameSongListsCount = _gameSongLists.Count();
             if (gameSongListsCount != 7)
                 throw new DataException("<ERROR> User Profile In-Game Song Lists Count is incorrect ...");
 
             // count the songs in all lists
             var gameSongListsSongsCount = 0;
-            foreach (var songList in gameSongLists)
+            foreach (var songList in _gameSongLists)
                 gameSongListsSongsCount += songList.Count;
 
             // constant names of gameSongLists
@@ -227,6 +382,29 @@ namespace CustomsForgeSongManager.UControls
                 curSongListsIndex = dgvGameSongLists.Rows[0].Index;
                 LoadSongListSongs(curSongListsName);
             }
+        }
+
+        private void LoadLocalProfiles()
+        {
+            using (var form = new frmLocalProfiles(_localProfilesPath))
+            {
+                if (DialogResult.OK != form.ShowDialog())
+                    return;
+
+                _localProfilesPath = form.LocalProfilesPath;
+                _prfldbPath = form.PrfldbPath;
+                _playerName = form.PlayerName;
+            }
+
+            if (String.IsNullOrEmpty(_prfldbPath))
+                return;
+
+            var remoteDirPath = Path.GetDirectoryName(_prfldbPath);
+            AppSettings.Instance.RSProfileDir = remoteDirPath;
+            Globals.Log("User Profile Directory changed to: " + remoteDirPath);
+            AppSettings.Instance.RSProfilePath = _prfldbPath;
+            Globals.Log("Loading User Profile for PlayerName: " + _playerName);
+            LoadGameSongLists();
         }
 
         private bool LoadSongListMaster()
@@ -263,7 +441,7 @@ namespace CustomsForgeSongManager.UControls
             songListSongs = new List<SongData>();
 
             // gameSongLists zero index is always FavoritesList
-            foreach (var dlcKey in gameSongLists[curSongListsIndex])
+            foreach (var dlcKey in _gameSongLists[curSongListsIndex])
             {
                 SongData sd = Globals.MasterCollection.FirstOrDefault(x => x.DLCKey == dlcKey);
                 // DLCKey in combinedSongList[ndx] may not match any in songsListMaster 
@@ -327,6 +505,9 @@ namespace CustomsForgeSongManager.UControls
             if (unSelectAll)
             {
                 foreach (var song in songListMaster)
+                    song.Selected = false;
+
+                foreach (var song in songListSongs)
                     song.Selected = false;
             }
 
@@ -474,13 +655,13 @@ namespace CustomsForgeSongManager.UControls
 
             // update local gameSongList
             var songList = songListSongs.Select(x => x.DLCKey).ToList();
-            gameSongLists[curSongListsIndex] = songList;
+            _gameSongLists[curSongListsIndex] = songList;
 
             // update FavoritesListsRoot or SongListsRoot
             if (curSongListsIndex == 0)
-                favoritesListRoot.FavoritesList = songList;
+                _favoritesListRoot.FavoritesList = songList;
             else
-                songListsRoot.SongLists[curSongListsIndex - 1] = songList;
+                _songListsRoot.SongLists[curSongListsIndex - 1] = songList;
 
             Globals.PrfldbNeedsUpdate = true;
         }
@@ -581,6 +762,25 @@ namespace CustomsForgeSongManager.UControls
             }
         }
 
+        private string WriteSongLists()
+        {
+            var output = String.Empty;
+            try
+            {
+                UserProfiles.WriteFavoritesListRoot(_favoritesListRoot, _prfldbPath);
+                output = " - User Profile FavoriteListRoot has been updated ...";
+                UserProfiles.WriteSongListsRoot(_songListsRoot, _prfldbPath);
+                output += Environment.NewLine + " - User Profile SongListsRoot has been updated ...";
+            }
+            catch (Exception ex)
+            {
+                output = "<ERROR> User Profile FavoriteListRoot and/or SongListsRoot failed to updated ...";
+                output += Environment.NewLine + " - " + ex.Message;
+            }
+
+            return output;
+        }
+
         private void chkIncludeSubfolders_MouseUp(object sender, MouseEventArgs e)
         {
             AppSettings.Instance.IncludeSubfolders = chkIncludeSubfolders.Checked;
@@ -591,6 +791,14 @@ namespace CustomsForgeSongManager.UControls
         {
             AppSettings.Instance.ProtectODLC = chkProtectODLC.Checked;
             ProtectODLC();
+        }
+
+        private void btnForceUpdate_Click(object sender, EventArgs e)
+        {
+            btnForceUpdate.Enabled = false;
+            Globals.PrfldbNeedsUpdate = true;
+            UpdateProfileSongLists();
+            btnForceUpdate.Enabled = true;
         }
 
         private void chkIncludeSubfolders_CheckedChanged(object sender, EventArgs e)
@@ -687,7 +895,7 @@ namespace CustomsForgeSongManager.UControls
         {
             // HACK: data from other grids ends up here when filter is removed causing error ... figure out why?
             var grid = (DataGridView)sender;
-   
+
             // speed hacks ...
             if (e.RowIndex == -1)
                 return;
@@ -740,7 +948,7 @@ namespace CustomsForgeSongManager.UControls
         {
             // create some nicer tooltips  
             var grid = (DataGridView)sender;
-            var tt = String.Empty;
+            var ttMsg = String.Empty;
             var duration = 6000;
             grid.ShowCellToolTips = false;
 
@@ -749,40 +957,40 @@ namespace CustomsForgeSongManager.UControls
                 if (e.RowIndex == -1) // header
                 {
                     if (e.ColumnIndex == 0)
-                        tt = "Click on the 'Select' checkbox" + Environment.NewLine +
-                             "to load an in-game song list";
+                        ttMsg = "Click on the 'Select' checkbox" + Environment.NewLine +
+                                "to load an in-game song list";
 
                     if (e.ColumnIndex == 2)
-                        tt = "These are the user defined" + Environment.NewLine +
-                             "CFSM Setlist Manager setlists";
+                        ttMsg = "These are the user defined" + Environment.NewLine +
+                                "CFSM Setlist Manager setlists";
                 }
                 else
                 {
                     DataGridViewCell cell = grid.Rows[e.RowIndex].Cells[e.ColumnIndex];
                     if (e.ColumnIndex == 0 && cell.Value.Equals(false))
-                        tt = "Click on the 'Select' checkbox" + Environment.NewLine +
-                             "to load an in-game song list";
+                        ttMsg = "Click on the 'Select' checkbox" + Environment.NewLine +
+                                "to load an in-game song list";
 
                     if (e.ColumnIndex == 2 && cell.Value.Equals("-"))
-                        tt = "Click on dropdown arrow to select an existing" + Environment.NewLine +
-                             "CFSM setlist to add to an in-game song list." + Environment.NewLine +
-                             "Multiple setlist can be added by selecting" + Environment.NewLine +
-                             "a different setlist from one of the other" + Environment.NewLine +
-                             "available unused dropdown boxes.";
+                        ttMsg = "Click on dropdown arrow to select an existing" + Environment.NewLine +
+                                "CFSM setlist to add to an in-game song list." + Environment.NewLine +
+                                "Multiple setlist can be added by selecting" + Environment.NewLine +
+                                "a different setlist from one of the other" + Environment.NewLine +
+                                "available unused dropdown boxes.";
                 }
             }
             else
             {
                 if (e.ColumnIndex == 0)
-                    tt = "Left mouse click the 'Select' checkbox to select a row" + Environment.NewLine +
-                         "Right mouse click on row to show file operation options";
+                    ttMsg = "Left mouse click the 'Select' checkbox to select a row" + Environment.NewLine +
+                            "Right mouse click on row to show file operation options";
             }
 
-            if (!String.IsNullOrEmpty(tt))
+            if (!String.IsNullOrEmpty(ttMsg))
             {
-                // Cozy's whacky work around prevents ballons that are too small for the size of the tip
+                // Cozy's whacky work around prevents ballons that are too small for big tooltips
                 toolTip.IsBalloon = true;
-                toolTip.Show(tt, grid, grid.PointToClient(new Point(Control.MousePosition.X, Control.MousePosition.Y)), duration);
+                toolTip.Show(ttMsg, grid, grid.PointToClient(new Point(Control.MousePosition.X, Control.MousePosition.Y)), duration);
             }
             else
                 toolTip.SetToolTip(grid, null); // part of work around
@@ -1051,11 +1259,10 @@ namespace CustomsForgeSongManager.UControls
             DgvExtensions.RestoreSorting(dgvSongListMaster);
         }
 
-        private void lnkLoadPrfldb_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void lnkLoadProfile_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            AppSettings.Instance.RSProfilePath = String.Empty;
-            prfldbPath = String.Empty;
-            LoadGameSongLists();
+            _prfldbPath = String.Empty;
+            LoadLocalProfiles();
         }
 
         private void lnkShowAll_Click(object sender, EventArgs e)
@@ -1076,7 +1283,7 @@ namespace CustomsForgeSongManager.UControls
         public void TabEnter()
         {
             Globals.DgvCurrent = dgvSongListMaster;
-            Globals.Log("Profile Song Lists GUI Activated ...");
+            // Globals.Log("Profile Song Lists GUI Activated ...");
         }
 
         public void TabLeave()
@@ -1085,5 +1292,6 @@ namespace CustomsForgeSongManager.UControls
             Globals.Settings.SaveSettingsToFile(dgvSongListMaster);
             Globals.Log("Profile Song Lists GUI Deactivated ...");
         }
+
     }
 }

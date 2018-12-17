@@ -696,7 +696,6 @@ namespace CustomsForgeSongManager.Forms
         public ToolStripStatusLabel tsLabel_StatusMsg;
         public ToolStripStatusLabel tsLabel_Cancel;
         public ToolStripStatusLabel tsLabel_DisabledCounter;
-        private TabPage tpSongManager;
         private TabPage tpDuplicates;
         private TabPage tpRenamer;
         private TabPage tpSetlistManager;
@@ -734,5 +733,6 @@ namespace CustomsForgeSongManager.Forms
         public TabControl tcMain;
         private TabPage tpProfileSongLists;
         public TabPage tpSettings;
+        public TabPage tpSongManager;
     }
 }

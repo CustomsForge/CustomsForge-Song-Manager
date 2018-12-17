@@ -152,7 +152,7 @@
     <Reference Include="System.Deployment" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="UserProfileLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="UserProfileLib, Version=1.0.2.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\libs\UserProfileLib.dll</HintPath>
     </Reference>
@@ -167,6 +167,12 @@
   <ItemGroup>
     <Compile Include="DataObjects\ArrangementData.cs" />
     <Compile Include="DataObjects\OfficialSong.cs" />
+    <Compile Include="Forms\frmLocalProfiles.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmLocalProfiles.designer.cs">
+      <DependentUpon>frmLocalProfiles.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\frmCODLCDuplicates.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -387,6 +393,9 @@
       <DependentUpon>ThemePreview.cs</DependentUpon>
     </Compile>
     <Compile Include="LocalTools\Worker.cs" />
+    <EmbeddedResource Include="Forms\frmLocalProfiles.resx">
+      <DependentUpon>frmLocalProfiles.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmCODLCDuplicates.resx">
       <DependentUpon>frmCODLCDuplicates.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -612,6 +621,7 @@
     <EmbeddedResource Include="Resources\HelpDuplicates.rtf" />
     <EmbeddedResource Include="Resources\HelpArrangements.rtf" />
     <EmbeddedResource Include="Resources\HelpSongLists.rtf" />
+    <EmbeddedResource Include="Resources\HelpSongListsManual.rtf" />
     <None Include="Resources\logo_black.png" />
   </ItemGroup>
   <ItemGroup>
