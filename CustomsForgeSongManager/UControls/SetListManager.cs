@@ -921,10 +921,10 @@ namespace CustomsForgeSongManager.UControls
 
         private void btnRunRSWithSetlist_Click(object sender, EventArgs e)
         {
-            if (!Constants.DebugMode)
-                return;
+            //if (!Constants.DebugMode)
+            //    return;
 
-            // TODO: confirm this method works correctly
+            // TODO: Lovro, plz confirm this method works as intended
             string rs2014Pack = String.Empty;
             string rs1MainPack = String.Empty;
             string rs1DLCPack = String.Empty;

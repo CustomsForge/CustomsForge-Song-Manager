@@ -208,12 +208,13 @@ namespace CustomsForgeSongManager.UControls
                              "Did you remember to put Steam into offline mode," + Environment.NewLine +
                              "and play Rocksmith while Steam was in offline mode?" + Environment.NewLine +
                              "Did you remember to manually shut down and exit Steam?" + Environment.NewLine + Environment.NewLine +
-                             "Answer 'No' to leave ProfilesSongLists and get help.";
+                             "Answer 'No' to leave Profile Song Lists and get help.";
 
                 if (DialogResult.Yes != BetterDialog2.ShowDialog(diaMsg, "Manual Update Mode ...", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Hand.Handle), "Warning", 0, 150))
                 {
                     // selects SongManager tabmenu even if tab order is changed
-                    Globals.MainForm.tcMain.SelectedIndex = Globals.MainForm.tcMain.TabPages.IndexOf(Globals.MainForm.tpSongManager);
+                    var tabIndex = Globals.MainForm.tcMain.TabPages.IndexOf(Globals.MainForm.tpSongManager);
+                    Globals.MainForm.tcMain.SelectedIndex = tabIndex;
                     // show HelpManualSongLists
                     frmNoteViewer.ViewResourcesFile("CustomsForgeSongManager.Resources.HelpSongListsManual.rtf", "Profile Song Lists - Manual Mode");
                     return;

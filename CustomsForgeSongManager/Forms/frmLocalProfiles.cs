@@ -43,14 +43,15 @@ namespace CustomsForgeSongManager.Forms
                 var diaMsg = "CFSM did not find a valid Steam installation ..." + Environment.NewLine +
                              "Do you want to try the manual update method?" + Environment.NewLine +
                              "Did you manually shut down and exit Steam?" + Environment.NewLine + Environment.NewLine +
-                             "Answer 'No' to leave ProfilesSongLists.";
+                             "Answer 'No' to leave Profile Song Lists.";
 
                 if (DialogResult.Yes != BetterDialog2.ShowDialog(diaMsg, "Manual Update Mode ...", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Hand.Handle), "Warning", 0, 150))
                 {
                     DialogResult = DialogResult.Cancel;
                     this.Close();
                     // selects SongManager tabmenu even if tab order is changed
-                    Globals.MainForm.tcMain.SelectedIndex = Globals.MainForm.tcMain.TabPages.IndexOf(Globals.MainForm.tpSongManager);
+                    var tabIndex = Globals.MainForm.tcMain.TabPages.IndexOf(Globals.MainForm.tpSongManager);
+                    Globals.MainForm.tcMain.SelectedIndex = tabIndex;
                     // show HelpManualSongLists
                     frmNoteViewer.ViewResourcesFile("CustomsForgeSongManager.Resources.HelpSongListsManual.rtf", "Profile Song Lists - Manual Mode");
                     return null;

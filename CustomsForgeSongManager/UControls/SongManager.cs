@@ -57,7 +57,7 @@ namespace CustomsForgeSongManager.UControls
             InitializeComponent();
             Globals.TsLabel_StatusMsg.Click += lnkShowAll_Click;
             dgvSongsDetail.Visible = false;
-            tsmiDevDebugUse.Visible = true;
+            tsmiDevDebugUse.Visible = GenExtensions.IsInDesignMode ? true : false;
             // TODO: future get Ignition based API data
             cmsCheckForUpdate.Visible = GenExtensions.IsInDesignMode ? true : false;
             cmsOpenSongLocation.Visible = GenExtensions.IsInDesignMode ? true : false;
@@ -515,8 +515,9 @@ namespace CustomsForgeSongManager.UControls
                     Globals.DgvCurrent = dgvSongsMaster;
                     Globals.RescanSongManager = true;
                     // selects Settings tabmenu even if tab order is changed
-                    Globals.MainForm.tcMain.SelectedIndex = Globals.MainForm.tcMain.TabPages.IndexOf(Globals.MainForm.tpSongManager);
-                    Globals.Log("Customize the CFSM Settings options ...");
+                    var tabIndex = Globals.MainForm.tcMain.TabPages.IndexOf(Globals.MainForm.tpSettings);
+                    Globals.MainForm.tcMain.SelectedIndex = tabIndex;
+                    Globals.Log("Customize CFSM Settings options before returning to Song Manager ...");
 
                     // halt loading SongManger
                     return false;
