@@ -16,7 +16,6 @@ namespace CustomsForgeSongManager.UControls
         public Settings()
         {
             InitializeComponent();
-            Leave += Settings_Leave;
         }
 
         public void LoadSettingsFromFile(DataGridView dgvCurrent = null, bool verbose = false)

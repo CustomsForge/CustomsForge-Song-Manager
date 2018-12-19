@@ -55,7 +55,7 @@ namespace CustomsForgeSongManager.UControls
             Globals.TsLabel_StatusMsg.Click += lnkShowAll_Click;
             PopulateProfileSongLists();
 
-            // known tooltip bug workaround to force balloon tips
+            // workaround to force balloon tips for known tooltip bug
             toolTip.IsBalloon = false;
             toolTip.Show(String.Empty, this, 0);
             toolTip.IsBalloon = true;
