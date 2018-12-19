@@ -57,7 +57,6 @@ namespace CustomsForgeSongManager.UControls
             InitializeComponent();
             Globals.TsLabel_StatusMsg.Click += lnkShowAll_Click;
             dgvSongsDetail.Visible = false;
-            tsmiDevDebugUse.Visible = GenExtensions.IsInDesignMode ? true : false;
             // TODO: future get Ignition based API data
             cmsCheckForUpdate.Visible = GenExtensions.IsInDesignMode ? true : false;
             cmsOpenSongLocation.Visible = GenExtensions.IsInDesignMode ? true : false;
@@ -67,6 +66,8 @@ namespace CustomsForgeSongManager.UControls
             PopulateTagger();
             InitializeRepairMenu();
             tsmiRepairs.HideDropDown();
+            // developer sandbox
+            tsmiDevDebugUse.Visible = GenExtensions.IsInDesignMode ? true : false;
         }
 
         public void DoWork(string workDescription, dynamic workerParm1 = null, dynamic workerParm2 = null, dynamic workerParm3 = null)
@@ -247,26 +248,30 @@ namespace CustomsForgeSongManager.UControls
 
         public void UpdateToolStrip()
         {
+            chkIncludeSubfolders.Checked = AppSettings.Instance.IncludeSubfolders;
+            chkProtectODLC.Checked = AppSettings.Instance.ProtectODLC;
+
             if (Globals.RescanSongManager)
             {
                 // full rescan of song collection
                 Globals.RescanSongManager = false;
                 Rescan(true);
-                PopulateDataGridView();
+                PopulateSongManager();
             }
             else if (Globals.ReloadSongManager)
             {
                 // smart quick rescan of song collection
                 Globals.ReloadSongManager = false;
                 Rescan(false);
-                PopulateDataGridView();
+                PopulateSongManager();
+            }
+            else
+            {
+                IncludeSubfolders();
+                ProtectODLC();
             }
 
-            chkIncludeSubfolders.Checked = AppSettings.Instance.IncludeSubfolders;
-            chkProtectODLC.Checked = AppSettings.Instance.ProtectODLC;
-
-            Globals.TsLabel_MainMsg.Text = string.Format("Rocksmith Song Count: {0}", songList.Count);
-            // Globals.TsLabel_MainMsg.Text = string.Format("Rocksmith Song Count: {0}", dgvSongsMaster.RowCount);
+            Globals.TsLabel_MainMsg.Text = string.Format("Rocksmith Song Count: {0}", dgvSongsMaster.Rows.Count);
             Globals.TsLabel_MainMsg.Visible = true;
             numberOfDisabledDLC = songList.Where(song => song.Enabled == "No").ToList().Count();
             numberOfDLCPendingUpdate = 0;
@@ -1011,14 +1016,14 @@ namespace CustomsForgeSongManager.UControls
 
         private void chkIncludeSubfolders_MouseUp(object sender, MouseEventArgs e)
         {
-            //AppSettings.Instance.IncludeSubfolders = chkIncludeSubfolders.Checked;
-            //IncludeSubfolders();
+            AppSettings.Instance.IncludeSubfolders = chkIncludeSubfolders.Checked;
+            UpdateToolStrip();
         }
 
         private void chkProtectODLC_MouseUp(object sender, MouseEventArgs e)
         {
-            //AppSettings.Instance.ProtectODLC = chkProtectODLC.Checked;
-            //ProtectODLC();
+            AppSettings.Instance.ProtectODLC = chkProtectODLC.Checked;
+            ProtectODLC();
         }
 
         private void dgvSongsMaster_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
@@ -1179,18 +1184,6 @@ namespace CustomsForgeSongManager.UControls
             tsmiMods.ShowDropDown();
             tsmiTagStyle.ShowDropDown();
             menuStrip.Focus();
-        }
-
-        private void chkIncludeSubfolders_CheckedChanged(object sender, EventArgs e)
-        {
-            AppSettings.Instance.IncludeSubfolders = chkIncludeSubfolders.Checked;
-            IncludeSubfolders();
-        }
-
-        private void chkProtectODLC_CheckedChanged(object sender, EventArgs e)
-        {
-            AppSettings.Instance.ProtectODLC = chkProtectODLC.Checked;
-            ProtectODLC();
         }
 
         private void cmsBackup_Click(object sender, EventArgs e)
@@ -1935,13 +1928,19 @@ namespace CustomsForgeSongManager.UControls
 
         private void tsmiDevsDebugUse_Click(object sender, EventArgs e)
         {
-            // devs debugging sandbox area
-
+            // developer sandbox area
             Process[] processes = Process.GetProcesses();
             foreach (var process in processes)
             {
-                Globals.Log("process.ProcessName: " + process.ProcessName);
-                Globals.Log("process.Responding: " + process.Responding);
+                try
+                {
+                    var processMsg = String.Format("process.ProcessName: {0} <> process.Responding: {1} <> process.HasExited: {2}", process.ProcessName, process.Responding, process.HasExited);
+                    Globals.Log(processMsg);
+                }
+                catch (Exception ex)
+                {
+                    Globals.Log("process.ProcessName: " + process.ProcessName + " <> Exception: " + ex.Message);
+                }
             }
             return;
 
@@ -2366,6 +2365,7 @@ namespace CustomsForgeSongManager.UControls
 
             Globals.Log("Song Manager GUI Deactivated ...");
         }
+
     }
 }
 

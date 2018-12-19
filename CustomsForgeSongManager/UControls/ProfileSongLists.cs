@@ -54,6 +54,11 @@ namespace CustomsForgeSongManager.UControls
             InitializeComponent();
             Globals.TsLabel_StatusMsg.Click += lnkShowAll_Click;
             PopulateProfileSongLists();
+
+            // known tooltip bug workaround to force balloon tips
+            toolTip.IsBalloon = false;
+            toolTip.Show(String.Empty, this, 0);
+            toolTip.IsBalloon = true;
         }
 
         public void PopulateProfileSongLists()
@@ -238,6 +243,9 @@ namespace CustomsForgeSongManager.UControls
 
         public void UpdateToolStrip()
         {
+            chkIncludeSubfolders.Checked = AppSettings.Instance.IncludeSubfolders;
+            chkProtectODLC.Checked = AppSettings.Instance.ProtectODLC;
+            
             if (Globals.RescanProfileSongLists)
             {
                 Globals.RescanProfileSongLists = false;
@@ -249,9 +257,11 @@ namespace CustomsForgeSongManager.UControls
                 Globals.ReloadProfileSongLists = false;
                 PopulateProfileSongLists();
             }
-
-            chkIncludeSubfolders.Checked = AppSettings.Instance.IncludeSubfolders;
-            chkProtectODLC.Checked = AppSettings.Instance.ProtectODLC;
+            else
+            {
+                IncludeSubfolders();
+                ProtectODLC();
+            }
 
             Globals.TsLabel_MainMsg.Text = string.Format(Properties.Resources.RocksmithSongsCountFormat, dgvSongListMaster.Rows.Count);
             Globals.TsLabel_MainMsg.Visible = true;
@@ -259,9 +269,6 @@ namespace CustomsForgeSongManager.UControls
             Globals.TsLabel_DisabledCounter.Text = String.Format("Song List Song Count: {0}", dgvSongListSongs.Rows.Count);
             Globals.TsLabel_DisabledCounter.Visible = true;
             Globals.TsLabel_StatusMsg.Visible = false;
-            // known tooltip bug workaround
-            toolTip.IsBalloon = true;
-            toolTip.Show(String.Empty, this, 0);
         }
 
         private List<string> GetSetlistManagerLists()
@@ -785,7 +792,7 @@ namespace CustomsForgeSongManager.UControls
         private void chkIncludeSubfolders_MouseUp(object sender, MouseEventArgs e)
         {
             AppSettings.Instance.IncludeSubfolders = chkIncludeSubfolders.Checked;
-            IncludeSubfolders();
+            UpdateToolStrip();
         }
 
         private void chkProtectODLC_MouseUp(object sender, MouseEventArgs e)

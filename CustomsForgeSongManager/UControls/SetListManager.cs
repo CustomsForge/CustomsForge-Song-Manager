@@ -86,6 +86,9 @@ namespace CustomsForgeSongManager.UControls
 
         public void UpdateToolStrip()
         {
+            chkIncludeSubfolders.Checked = AppSettings.Instance.IncludeSubfolders;
+            chkProtectODLC.Checked = AppSettings.Instance.ProtectODLC;
+            
             if (Globals.RescanSetlistManager)
             {
                 Globals.RescanSetlistManager = false;
@@ -97,14 +100,16 @@ namespace CustomsForgeSongManager.UControls
                 Globals.ReloadSetlistManager = false;
                 PopulateSetlistManager();
             }
+            else
+            {
+                IncludeSubfolders();
+                ProtectODLC();
+            }
 
-            chkIncludeSubfolders.Checked = AppSettings.Instance.IncludeSubfolders;
-            chkProtectODLC.Checked = AppSettings.Instance.ProtectODLC;
-
-            Globals.TsLabel_MainMsg.Text = string.Format(Properties.Resources.RocksmithSongsCountFormat, setlistMaster.Count);
+            Globals.TsLabel_MainMsg.Text = string.Format(Properties.Resources.RocksmithSongsCountFormat, dgvSetlistMaster.Rows.Count);
             Globals.TsLabel_MainMsg.Visible = true;
             Globals.TsLabel_DisabledCounter.Alignment = ToolStripItemAlignment.Right;
-            Globals.TsLabel_DisabledCounter.Text = String.Format("Setlist Song Count: {0}", setlistSongs.Count);
+            Globals.TsLabel_DisabledCounter.Text = String.Format("Setlist Song Count: {0}", dgvSetlistSongs.Rows.Count);
             Globals.TsLabel_DisabledCounter.Visible = true;
             Globals.TsLabel_StatusMsg.Visible = false;
         }
@@ -687,7 +692,7 @@ namespace CustomsForgeSongManager.UControls
         private void chkIncludeSubfolders_MouseUp(object sender, MouseEventArgs e)
         {
             AppSettings.Instance.IncludeSubfolders = chkIncludeSubfolders.Checked;
-            IncludeSubfolders();
+            UpdateToolStrip();
         }
 
         private void chkProtectODLC_MouseUp(object sender, MouseEventArgs e)
@@ -1023,18 +1028,6 @@ namespace CustomsForgeSongManager.UControls
                 else
                     Globals.Log(output);
             }
-        }
-
-        private void chkIncludeSubfolders_CheckedChanged(object sender, EventArgs e)
-        {
-            AppSettings.Instance.IncludeSubfolders = chkIncludeSubfolders.Checked;
-            IncludeSubfolders();
-        }
-
-        private void chkProtectODLC_CheckedChanged(object sender, EventArgs e)
-        {
-            AppSettings.Instance.ProtectODLC = chkProtectODLC.Checked;
-            ProtectODLC();
         }
 
         private void cmsCopy_Click(object sender, EventArgs e)

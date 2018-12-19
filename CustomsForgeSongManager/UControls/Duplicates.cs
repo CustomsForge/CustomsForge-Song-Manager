@@ -44,7 +44,10 @@ namespace CustomsForgeSongManager.UControls
             Globals.TsLabel_StatusMsg.Click += lnkShowAll_Click;
             ErrorStyle = new DataGridViewCellStyle() { Font = new Font("Arial", 8, FontStyle.Italic), ForeColor = ErrorStyleForeColor, BackColor = ErrorStyleBackColor };
 
-            //chkIncludeSubfolders.Checked = AppSettings.Instance.IncludeSubfolders;
+            // always include subfolders when checking for duplicates
+            chkIncludeSubfolders.Hide();
+            chkIncludeSubfolders.Visible = false;
+
             // test for duplicate DLCKey
             dupPidSelected = false;
             PopulateDuplicates(dupPidSelected);
@@ -120,8 +123,10 @@ namespace CustomsForgeSongManager.UControls
                 var dupATA = Globals.MasterCollection.GroupBy(x => x.ArtistTitleAlbum).Where(group => group.Count() > 1).SelectMany(group => group);
                 duplicateList = dupATA.Union(dupDlcKey).ToList();
 
-                if (!chkIncludeSubfolders.Checked)
-                    duplicateList = duplicateList.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList();
+                // always include subfolders when checking for duplicates
+                if (chkIncludeSubfolders.Visible)
+                    if (!chkIncludeSubfolders.Checked)
+                        duplicateList = duplicateList.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList();
 
                 if (keyEnabled)
                 {
@@ -167,6 +172,8 @@ namespace CustomsForgeSongManager.UControls
 
         public void UpdateToolStrip()
         {
+            chkIncludeSubfolders.Checked = AppSettings.Instance.IncludeSubfolders;
+
             if (Globals.RescanDuplicates) // || !String.IsNullOrEmpty(AppSettings.Instance.FilterString))
             {
                 // AppSettings.Instance.FilterString = String.Empty;
@@ -179,8 +186,9 @@ namespace CustomsForgeSongManager.UControls
                 Globals.ReloadDuplicates = false;
                 PopulateDuplicates(dupPidSelected);
             }
-  
-            chkIncludeSubfolders.Checked = AppSettings.Instance.IncludeSubfolders;
+            else
+                IncludeSubfolders();
+
 
             if (!duplicateList.Any())
             {
@@ -213,7 +221,7 @@ namespace CustomsForgeSongManager.UControls
             else
                 txtNoDuplicates.Visible = false;
 
-            Globals.TsLabel_MainMsg.Text = string.Format(Properties.Resources.RocksmithSongsCountFormat, Globals.MasterCollection.Count);
+            Globals.TsLabel_MainMsg.Text = String.Format(Properties.Resources.RocksmithSongsCountFormat, Globals.MasterCollection.Count);
             Globals.TsLabel_MainMsg.Visible = true;
             Globals.TsLabel_DisabledCounter.Alignment = ToolStripItemAlignment.Right;
             Globals.TsLabel_DisabledCounter.Text = String.Format("Duplicates Count: {0}", dgvDuplicates.Rows.Count);
@@ -480,9 +488,12 @@ namespace CustomsForgeSongManager.UControls
 
         private void chkIncludeSubfolders_MouseUp(object sender, MouseEventArgs e)
         {
-            AppSettings.Instance.IncludeSubfolders = chkIncludeSubfolders.Checked;
-            Globals.Settings.SaveSettingsToFile(dgvDuplicates); // need to save here
-            IncludeSubfolders();
+            if (chkIncludeSubfolders.Visible)
+            {
+                AppSettings.Instance.IncludeSubfolders = chkIncludeSubfolders.Checked;
+                Globals.Settings.SaveSettingsToFile(dgvDuplicates); // need to save here
+                UpdateToolStrip();
+            }
         }
 
         private void Duplicates_Resize(object sender, EventArgs e)
@@ -495,12 +506,6 @@ namespace CustomsForgeSongManager.UControls
             if (p.Y < 3)
                 p.Y = 3;
             txtNoDuplicates.Location = p;
-        }
-
-        private void chkIncludeSubfolders_CheckedChanged(object sender, EventArgs e)
-        {
-            AppSettings.Instance.IncludeSubfolders = chkIncludeSubfolders.Checked;
-            IncludeSubfolders();
         }
 
         private void cmsDelete_Click(object sender, EventArgs e)
@@ -897,5 +902,6 @@ namespace CustomsForgeSongManager.UControls
             Globals.Settings.SaveSettingsToFile(dgvDuplicates);
             Globals.Log("Duplicates GUI Deactivated ...");
         }
+
     }
 }

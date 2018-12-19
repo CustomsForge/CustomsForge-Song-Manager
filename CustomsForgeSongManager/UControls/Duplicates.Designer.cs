@@ -138,7 +138,7 @@ namespace CustomsForgeSongManager.UControls
             this.chkIncludeSubfolders.Text = "Include Subfolders";
             this.toolTip.SetToolTip(this.chkIncludeSubfolders, resources.GetString("chkIncludeSubfolders.ToolTip"));
             this.chkIncludeSubfolders.UseVisualStyleBackColor = true;
-            this.chkIncludeSubfolders.CheckedChanged += new System.EventHandler(this.chkIncludeSubfolders_CheckedChanged);
+            this.chkIncludeSubfolders.MouseUp += new System.Windows.Forms.MouseEventHandler(this.chkIncludeSubfolders_MouseUp);
             // 
             // lnkPersistentId
             // 

@@ -67,6 +67,9 @@ namespace CustomsForgeSongManager.UControls
 
         public void UpdateToolStrip()
         {
+            chkIncludeSubfolders.Checked = AppSettings.Instance.IncludeSubfolders;
+            chkIncludeVocals.Checked = AppSettings.Instance.IncludeVocals;
+            
             if (Globals.RescanArrangements && AppSettings.Instance.IncludeArrangementData)
             {
                 Globals.RescanArrangements = false;
@@ -79,11 +82,10 @@ namespace CustomsForgeSongManager.UControls
                 Rescan(false);
                 PopulateArrangementManager();
             }
+            else 
+                IncludeSubfolders();
 
-            chkIncludeSubfolders.Checked = AppSettings.Instance.IncludeSubfolders;
-            chkIncludeVocals.Checked = AppSettings.Instance.IncludeVocals;
-
-            Globals.TsLabel_MainMsg.Text = string.Format("Rocksmith Arrangements Count: {0}", arrangementList.Count);
+            Globals.TsLabel_MainMsg.Text = string.Format("Rocksmith Arrangements Count: {0}", dgvArrangements.Rows.Count);
             Globals.TsLabel_MainMsg.Visible = true;
             Globals.TsLabel_DisabledCounter.Visible = false;
             Globals.TsLabel_StatusMsg.Visible = false;
@@ -479,7 +481,7 @@ namespace CustomsForgeSongManager.UControls
         private void chkIncludeSubfolders_MouseUp(object sender, MouseEventArgs e)
         {
             AppSettings.Instance.IncludeSubfolders = chkIncludeSubfolders.Checked;
-            IncludeSubfolders();
+            UpdateToolStrip();
         }
 
         private void dgvArrangements_Paint(object sender, PaintEventArgs e)
@@ -532,18 +534,6 @@ namespace CustomsForgeSongManager.UControls
                 return;
 
             firstIndex = dgvArrangements.FirstDisplayedCell.RowIndex;
-        }
-
-        private void chkIncludeSubfolders_CheckedChanged(object sender, EventArgs e)
-        {
-            AppSettings.Instance.IncludeSubfolders = chkIncludeSubfolders.Checked;
-            IncludeSubfolders();
-        }
-
-        private void chkIncludeVocals_CheckedChanged(object sender, EventArgs e)
-        {
-            AppSettings.Instance.IncludeVocals = chkIncludeVocals.Checked;
-            RefreshDgv(false);
         }
 
         private void cueSearch_KeyUp(object sender, KeyEventArgs e)
@@ -950,6 +940,12 @@ namespace CustomsForgeSongManager.UControls
         {
             Globals.Settings.SaveSettingsToFile(dgvArrangements);
             Globals.Log("Arrangements GUI Deactivated ...");
+        }
+
+        private void chkIncludeVocals_MouseUp(object sender, MouseEventArgs e)
+        {
+            AppSettings.Instance.IncludeVocals = chkIncludeVocals.Checked;
+            RefreshDgv(false);
         }
     }
 }

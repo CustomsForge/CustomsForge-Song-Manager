@@ -205,7 +205,7 @@ namespace CustomsForgeSongManager.UControls
             this.chkIncludeVocals.Text = "Include Vocals";
             this.toolTip.SetToolTip(this.chkIncludeVocals, "If checked, include vocal arrangements.");
             this.chkIncludeVocals.UseVisualStyleBackColor = true;
-            this.chkIncludeVocals.CheckedChanged += new System.EventHandler(this.chkIncludeVocals_CheckedChanged);
+            this.chkIncludeVocals.MouseUp += new System.Windows.Forms.MouseEventHandler(this.chkIncludeVocals_MouseUp);
             // 
             // chkIncludeSubfolders
             // 
@@ -218,7 +218,7 @@ namespace CustomsForgeSongManager.UControls
             this.chkIncludeSubfolders.Text = "Include Subfolders";
             this.toolTip.SetToolTip(this.chkIncludeSubfolders, "If checked, search \'dlc\' folder and \r\nsubfolders for any matching songs.");
             this.chkIncludeSubfolders.UseVisualStyleBackColor = true;
-            this.chkIncludeSubfolders.CheckedChanged += new System.EventHandler(this.chkIncludeSubfolders_CheckedChanged);
+            this.chkIncludeSubfolders.MouseUp += new System.Windows.Forms.MouseEventHandler(this.chkIncludeSubfolders_MouseUp);
             // 
             // lnkClearSearch
             // 

@@ -151,7 +151,7 @@ namespace CustomsForgeSongManager.Forms
 
             // load Song Manager Tab
             LoadSongManager();
-
+        
             //CustomsForgeSongManagerLib.Extensions.Benchmark(LoadSongManager, 1);
         }
 
@@ -162,15 +162,13 @@ namespace CustomsForgeSongManager.Forms
 
         private void LoadSongManager()
         {
-            if (!tpSongManager.Controls.Contains(Globals.SongManager))
-            {
-                this.tpSongManager.Controls.Clear();
-                this.tpSongManager.Controls.Add(Globals.SongManager);
-                Globals.SongManager.PlaySongFunction = playFunction;
-                Globals.SongManager.Dock = DockStyle.Fill;
-                Globals.SongManager.Location = UCLocation;
-                Globals.SongManager.Size = UCSize;
-            }
+            this.tpSongManager.Controls.Clear();
+            this.tpSongManager.Controls.Add(Globals.SongManager);
+            Globals.SongManager.PlaySongFunction = playFunction;
+            Globals.SongManager.Dock = DockStyle.Fill;
+            Globals.SongManager.Location = UCLocation;
+            Globals.SongManager.Size = UCSize;
+            Globals.SongManager.UpdateToolStrip();
 
             currentControl = Globals.SongManager;
         }
@@ -307,7 +305,6 @@ namespace CustomsForgeSongManager.Forms
                 // processing order is important to prevent flashing/jumping display
                 case "Song Manager":
                     LoadSongManager();
-                    Globals.SongManager.UpdateToolStrip();
                     break;
                 case "Arrangement Analyzer":
                     this.tpArrangements.Controls.Clear();
