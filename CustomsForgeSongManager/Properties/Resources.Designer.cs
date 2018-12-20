@@ -349,6 +349,13 @@ namespace CustomsForgeSongManager.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap download {
+            get {
+                object obj = ResourceManager.GetObject("download", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to Do you really want to remove this CDLC?  {0}Warning:  This cannot be undone!.
         /// </summary>

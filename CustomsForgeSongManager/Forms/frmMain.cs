@@ -39,9 +39,20 @@ namespace CustomsForgeSongManager.Forms
         private static Point UCLocation = new Point(5, 10);
         private static Size UCSize = new Size(990, 490);
         private Control currentControl = null;
-
         public delegate void PlayCall();
         private event PlayCall playFunction;
+        private const string APP_SETUP = "CFSMSetup.exe";
+        private const string APP_EXE = "CustomsForgeSongManager.exe";
+
+#if INNORELEASE
+            private const string SERVER_URL = "http://ignition.customsforge.com/cfsm_uploads";
+            private const string APP_ARCHIVE = "CFSMSetup.rar";
+#endif
+#if INNOBETA
+        private const string SERVER_URL = "http://ignition.customsforge.com/cfsm_uploads/beta";
+        private const string APP_ARCHIVE = "CFSMSetupBeta.rar";
+#endif
+
 
         public frmMain(DLogNet.DLogger myLog)
         {
@@ -438,50 +449,50 @@ namespace CustomsForgeSongManager.Forms
 
         private void frmMain_Load(object sender, EventArgs e) // done after frmMain()
         {
-            // be nice to the developers ... don't try to update in Debug mode
-#if AUTOUPDATE
-            //TODO: add Mac Autoupdate
-#if INNORELEASE
-            const string serverUrl = "http://ignition.customsforge.com/cfsm_uploads";
-            const string appArchive = "CFSMSetup.rar";
-#endif
-#if INNOBETA
-            const string serverUrl = "http://ignition.customsforge.com/cfsm_uploads/beta";
-            const string appArchive = "CFSMSetupBeta.rar";
-#endif
+            // be nice to the developers ... don't try to update
+            if (GenExtensions.IsInDesignMode)
+                return;
 
-            if (AppSettings.Instance.EnableAutoUpdate)
+            tsBtnUpdate.Visible = false;
+            var appExePath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), APP_EXE);
+            var versInfoUrl = String.Format("{0}/{1}", SERVER_URL, "VersionInfo.txt");
+
+            if (AutoUpdater.NeedsUpdate(appExePath, versInfoUrl))
             {
-                Globals.Log("Auto Update Enabled ...");
-                const string appSetup = "CFSMSetup.exe";
-                const string appExe = "CustomsForgeSongManager.exe";
-                var appExePath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), appExe);
-                var versInfoUrl = String.Format("{0}/{1}", serverUrl, "VersionInfo.txt");
-
-                if (AutoUpdater.NeedsUpdate(appExePath, versInfoUrl))
+                if (AppSettings.Instance.EnableAutoUpdate)
                 {
-                    Globals.Log("Downloading WebApp: " + appArchive + " ...");
-                    var tempDir = Constants.TempWorkFolder;
-                    var downloadUrl = String.Format("{0}/{1}", serverUrl, appArchive);
-
-                    if (AutoUpdater.DownloadWebApp(downloadUrl, appArchive, tempDir))
-                    {
-                        if (ZipUtilities.UnrarDir(Path.Combine(tempDir, appArchive), tempDir))
-                        {
-                            Process proc = new Process();
-                            proc.StartInfo.FileName = Path.Combine(tempDir, appSetup);
-                            proc.StartInfo.Arguments = "-appupdate";
-                            proc.Start();
-                            // Kill app abruptly so InnoSetup completes
-                            // DO NOT use Application.Exit     
-                            Environment.Exit(0);
-                        }
-                        else
-                            MessageBox.Show(appSetup + " not found ..." + Environment.NewLine + "Please manually download CFSM from the webpage.");
-                    }
+                    Globals.Log("CFSM Auto Update Enabled ...");
+                    UpdateCFSM();
+                }
+                else
+                {
+                    Globals.Log("CFSM Update Available ...");
+                    tsBtnUpdate.Visible = true;
                 }
             }
-#endif
+        }
+
+        private void UpdateCFSM()
+        {
+            Globals.Log("Downloading WebApp: " + APP_ARCHIVE + " ...");
+            var tempDir = Constants.TempWorkFolder;
+            var downloadUrl = String.Format("{0}/{1}", SERVER_URL, APP_ARCHIVE);
+
+            if (AutoUpdater.DownloadWebApp(downloadUrl, APP_ARCHIVE, tempDir))
+            {
+                if (ZipUtilities.UnrarDir(Path.Combine(tempDir, APP_ARCHIVE), tempDir))
+                {
+                    Process proc = new Process();
+                    proc.StartInfo.FileName = Path.Combine(tempDir, APP_SETUP);
+                    proc.StartInfo.Arguments = "-appupdate";
+                    proc.Start();
+                    // Kill app abruptly so InnoSetup completes
+                    // DO NOT use Application.Exit     
+                    Environment.Exit(0);
+                }
+                else
+                    MessageBox.Show(APP_SETUP + " not found ..." + Environment.NewLine + "Please manually download CFSM from the webpage.");
+            }
         }
 
         private delegate void DoSomethingWithGridSelectionAction(DataGridView dg, IEnumerable<DataGridViewRow> selected, DataGridViewColumn colSel, List<int> IgnoreColums);
@@ -933,6 +944,13 @@ namespace CustomsForgeSongManager.Forms
         public Control GetControl()
         {
             return this;
+        }
+
+        private void tsBtnUpdate_Click(object sender, EventArgs e)
+        {
+            tsBtnUpdate.Enabled = false;
+            UpdateCFSM();
+            tsBtnUpdate.Enabled = true;
         }
 
 

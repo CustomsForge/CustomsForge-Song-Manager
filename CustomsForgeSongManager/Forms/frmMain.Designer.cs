@@ -66,9 +66,12 @@ namespace CustomsForgeSongManager.Forms
             this.xMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.tsBtnUpload = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.tsBtnRequest = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.tsBtnHelp = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsBtnUpdate = new System.Windows.Forms.ToolStripButton();
             this.tsAudioPlayer = new System.Windows.Forms.ToolStrip();
             this.tsbPlay = new System.Windows.Forms.ToolStripButton();
             this.tsbStop = new System.Windows.Forms.ToolStripButton();
@@ -88,6 +91,7 @@ namespace CustomsForgeSongManager.Forms
             this.LeftToolStripPanel = new System.Windows.Forms.ToolStripPanel();
             this.ContentPanel = new System.Windows.Forms.ToolStripContentPanel();
             this.timerAudioProgress = new System.Windows.Forms.Timer(this.components);
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.gbLog.SuspendLayout();
             this.contextMenuStrip_Tray.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.scMain)).BeginInit();
@@ -318,14 +322,17 @@ namespace CustomsForgeSongManager.Forms
             this.tsBtnExport,
             this.toolStripSeparator2,
             this.tsBtnUpload,
+            this.toolStripSeparator5,
             this.tsBtnRequest,
             this.toolStripSeparator4,
-            this.tsBtnHelp});
+            this.tsBtnHelp,
+            this.toolStripSeparator3,
+            this.tsBtnUpdate});
             this.tsUtilities.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
             this.tsUtilities.Location = new System.Drawing.Point(3, 0);
             this.tsUtilities.Name = "tsUtilities";
             this.tsUtilities.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.tsUtilities.Size = new System.Drawing.Size(428, 25);
+            this.tsUtilities.Size = new System.Drawing.Size(494, 25);
             this.tsUtilities.TabIndex = 0;
             // 
             // tsBtnLaunchRS
@@ -424,6 +431,11 @@ namespace CustomsForgeSongManager.Forms
             this.tsBtnUpload.ToolTipText = "Upload CDLC to CustomsForge";
             this.tsBtnUpload.Click += new System.EventHandler(this.tsBtnUpload_Click);
             // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 25);
+            // 
             // tsBtnRequest
             // 
             this.tsBtnRequest.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
@@ -450,6 +462,22 @@ namespace CustomsForgeSongManager.Forms
             this.tsBtnHelp.Text = "Help";
             this.tsBtnHelp.Click += new System.EventHandler(this.tsBtnHelp_Click);
             // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+            // 
+            // tsBtnUpdate
+            // 
+            this.tsBtnUpdate.BackColor = System.Drawing.Color.Gold;
+            this.tsBtnUpdate.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsBtnUpdate.Image = global::CustomsForgeSongManager.Properties.Resources.download;
+            this.tsBtnUpdate.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsBtnUpdate.Name = "tsBtnUpdate";
+            this.tsBtnUpdate.Size = new System.Drawing.Size(23, 22);
+            this.tsBtnUpdate.ToolTipText = "CFSM Update Available\r\nClick to download now!";
+            this.tsBtnUpdate.Click += new System.EventHandler(this.tsBtnUpdate_Click);
+            // 
             // tsAudioPlayer
             // 
             this.tsAudioPlayer.Dock = System.Windows.Forms.DockStyle.None;
@@ -460,7 +488,7 @@ namespace CustomsForgeSongManager.Forms
             this.tspbAudioPosition,
             this.tslblTimer});
             this.tsAudioPlayer.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
-            this.tsAudioPlayer.Location = new System.Drawing.Point(713, 0);
+            this.tsAudioPlayer.Location = new System.Drawing.Point(715, 0);
             this.tsAudioPlayer.Name = "tsAudioPlayer";
             this.tsAudioPlayer.Padding = new System.Windows.Forms.Padding(0);
             this.tsAudioPlayer.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
@@ -639,6 +667,14 @@ namespace CustomsForgeSongManager.Forms
             this.timerAudioProgress.Interval = 400;
             this.timerAudioProgress.Tick += new System.EventHandler(this.timerAudioProgress_Tick);
             // 
+            // toolTip
+            // 
+            this.toolTip.AutomaticDelay = 200;
+            this.toolTip.AutoPopDelay = 5000;
+            this.toolTip.InitialDelay = 200;
+            this.toolTip.IsBalloon = true;
+            this.toolTip.ReshowDelay = 40;
+            // 
             // frmMain
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -734,5 +770,9 @@ namespace CustomsForgeSongManager.Forms
         private TabPage tpProfileSongLists;
         public TabPage tpSettings;
         public TabPage tpSongManager;
+        private ToolStripButton tsBtnUpdate;
+        private ToolStripSeparator toolStripSeparator3;
+        private ToolStripSeparator toolStripSeparator5;
+        private ToolTip toolTip;
     }
 }

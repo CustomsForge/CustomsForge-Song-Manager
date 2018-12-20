@@ -354,7 +354,7 @@ namespace CustomsForgeSongManager.DataObjects
             Instance.IncludeRS2BaseSongs = false;
             Instance.IncludeCustomPacks = false;
             Instance.IncludeArrangementData = false; // false for 5X faster initial parsing
-            Instance.EnableAutoUpdate = true; // false until D3DX9_42.dll is stable
+            Instance.EnableAutoUpdate = false; // let user decide
             Instance.EnableNotifications = false; // false for fewer notfication issues
             Instance.MacMode = false; // true for testing Mac dev
             Instance.ValidateD3D = true; // false until D3DX9_42.dll is stable

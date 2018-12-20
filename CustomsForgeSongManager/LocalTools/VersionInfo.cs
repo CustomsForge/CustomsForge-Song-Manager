@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using GenTools;
+using CustomsForgeSongManager.DataObjects;
 
 namespace CustomsForgeSongManager.LocalTools
 {
@@ -12,12 +13,9 @@ namespace CustomsForgeSongManager.LocalTools
         /// </summary>
         public static void CreateVersionInfo()
         {
-            // only is performed when IDE Mode is running
+            // return if not IDE Mode
             if (!GenExtensions.IsInDesignMode)
-            {
-                // MessageBox.Show("The debugger is not attached");
                 return;
-            }
 
             const string relNotesFile = "ReleaseNotes.txt";
             const string verInfoFile = "VersionInfo.txt";
@@ -27,15 +25,15 @@ namespace CustomsForgeSongManager.LocalTools
             var verInfoPath = Path.Combine(Path.GetDirectoryName(projectDir), "ThirdParty", verInfoFile);
 
             if (!Directory.Exists(Path.GetDirectoryName(verInfoPath)))
-                throw new Exception("Directory: " + Path.GetDirectoryName(projectDir)+ "\\ThirdParty can not be found");
+                throw new Exception("<ERROR> Could not find: " + Path.GetDirectoryName(verInfoPath));
 
             if (!File.Exists(relNotesPath))
-                throw new Exception("ReleaseNotes not found");
+                throw new Exception("<ERROR> Could not find: " + relNotesPath);
 
             var txt = GenExtensions.GetFullAppVersion();
-            Debug.WriteLine("Current Application Version: " + txt);
+            Globals.Log("<DEV ONLY> Current CFSM Version: " + txt);
             File.WriteAllText(verInfoPath, txt);
-            Debug.WriteLine("CreateVersionInfo was sucessful");
+            Globals.Log("<DEV ONLY> CreateVersionInfo was sucessful: " + verInfoPath);
         }
     }
 }

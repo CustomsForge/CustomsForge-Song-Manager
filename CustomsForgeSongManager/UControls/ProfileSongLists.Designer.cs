@@ -257,7 +257,7 @@ namespace CustomsForgeSongManager.UControls
             // btnForceUpdate
             // 
             this.btnForceUpdate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnForceUpdate.Image = global::CustomsForgeSongManager.Properties.Resources.upload;
+            this.btnForceUpdate.Image = global::CustomsForgeSongManager.Properties.Resources.load;
             this.btnForceUpdate.Location = new System.Drawing.Point(160, 199);
             this.btnForceUpdate.Name = "btnForceUpdate";
             this.btnForceUpdate.Size = new System.Drawing.Size(27, 26);
