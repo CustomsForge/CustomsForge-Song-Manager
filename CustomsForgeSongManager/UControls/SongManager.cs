@@ -511,6 +511,9 @@ namespace CustomsForgeSongManager.UControls
                         Globals.Log("<ERROR> Cleaning " + Path.GetFileName(Constants.WorkFolder) + " : " + ex.Message);
                     }
 
+                    // auto show rev notes when there are significant revisions
+                    frmNoteViewer.ViewExternalFile("ReleaseNotes.txt", "Release Notes");
+
                     // switch to Setting tab so user can customize first run settings
                     var diaMsg = "CFSM will now switch to the Settings menu." + Environment.NewLine +
                                  "Please customize the CFSM Settings options" + Environment.NewLine +
@@ -519,6 +522,7 @@ namespace CustomsForgeSongManager.UControls
                     BetterDialog2.ShowDialog(diaMsg, hdrMsg, null, null, "Ok", Bitmap.FromHicon(SystemIcons.Information.Handle), "ReadMe", 0, 150);
                     Globals.DgvCurrent = dgvSongsMaster;
                     Globals.RescanSongManager = true; // force initial scan
+                    AppSettings.Instance.RestoreDefaults();
                     // selects Settings tabmenu even if tab order is changed
                     var tabIndex = Globals.MainForm.tcMain.TabPages.IndexOf(Globals.MainForm.tpSettings);
                     Globals.MainForm.tcMain.SelectedIndex = tabIndex;

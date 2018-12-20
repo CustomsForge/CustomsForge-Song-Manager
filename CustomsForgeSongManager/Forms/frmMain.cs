@@ -452,6 +452,7 @@ namespace CustomsForgeSongManager.Forms
 
             if (AppSettings.Instance.EnableAutoUpdate)
             {
+                Globals.Log("Auto Update Enabled ...");
                 const string appSetup = "CFSMSetup.exe";
                 const string appExe = "CustomsForgeSongManager.exe";
                 var appExePath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), appExe);

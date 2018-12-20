@@ -1,7 +1,7 @@
 ﻿DEVELOPER NOTE TO USERS:  THIS RELEASE CONTAINS NO VIRUSES OR TROJANS
 Any such report from your AV is a false positive and is due to how
 the installer and application updater works.  You must manually add 
-CFSMSetup.exe and CustomsForgeSongManager.exe to you AV's whitelist
+CFSMSetup.exe and CustomsForgeSongManager.exe to your AV's whitelist
 of approved/excluded applications.
 
 IT IS A WASTE OF BOTH YOUR TIME, AND THE CF ADMINS AND DEVELOPERS TIME
@@ -14,8 +14,12 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.5.0.5
+- changed CFSM default Settings to 'Enable Auto Updates' and to 'Validate D3DX9_42.dll'
+- auto show CFSM 'ReleaseNotes.txt' when there are significant revisions
+
 1.5.0.4
-- fixed initial parsing of song data so that it happens after a visit to the Settings menu
+- fixed initial parsing of song data to come after Settings menu popup
 
 1.5.0.3
 - bug fixes

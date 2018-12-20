@@ -354,10 +354,10 @@ namespace CustomsForgeSongManager.DataObjects
             Instance.IncludeRS2BaseSongs = false;
             Instance.IncludeCustomPacks = false;
             Instance.IncludeArrangementData = false; // false for 5X faster initial parsing
-            Instance.EnableAutoUpdate = false; // false when D3DX9_42.dll is stable
+            Instance.EnableAutoUpdate = true; // false until D3DX9_42.dll is stable
             Instance.EnableNotifications = false; // false for fewer notfication issues
             Instance.MacMode = false; // true for testing Mac dev
-            Instance.ValidateD3D = false; // false when D3DX9_42.dll is stable
+            Instance.ValidateD3D = true; // false until D3DX9_42.dll is stable
             Instance.CleanOnClosing = false;
             Instance.ShowLogWindow = Constants.DebugMode;
             Instance.RepairOptions = new RepairOptions();
@@ -367,7 +367,7 @@ namespace CustomsForgeSongManager.DataObjects
 
             if (String.IsNullOrEmpty(Instance.RSInstalledDir))
                 Instance.RSInstalledDir = LocalExtensions.GetSteamDirectory();
-
+ 
             // intentionally omitted from RestoreDefaults to prevent resetting user selections
             // Instance.RSProfileDir = String.Empty;
             // Instance.DownloadsDir = String.Empty; 

@@ -54,11 +54,6 @@ namespace CustomsForgeSongManager.UControls
             InitializeComponent();
             Globals.TsLabel_StatusMsg.Click += lnkShowAll_Click;
             PopulateProfileSongLists();
-
-            // workaround to force balloon tips for known tooltip bug
-            toolTip.IsBalloon = false;
-            toolTip.Show(String.Empty, this, 0);
-            toolTip.IsBalloon = true;
         }
 
         public void PopulateProfileSongLists()
@@ -245,7 +240,7 @@ namespace CustomsForgeSongManager.UControls
         {
             chkIncludeSubfolders.Checked = AppSettings.Instance.IncludeSubfolders;
             chkProtectODLC.Checked = AppSettings.Instance.ProtectODLC;
-            
+
             if (Globals.RescanProfileSongLists)
             {
                 Globals.RescanProfileSongLists = false;
@@ -1291,7 +1286,11 @@ namespace CustomsForgeSongManager.UControls
         public void TabEnter()
         {
             Globals.DgvCurrent = dgvSongListMaster;
-            // Globals.Log("Profile Song Lists GUI Activated ...");
+
+            // workaround to force balloon tips for known tooltip bug
+            toolTip.IsBalloon = false;
+            toolTip.Show(String.Empty, this, 0);
+            toolTip.IsBalloon = true;  
         }
 
         public void TabLeave()
