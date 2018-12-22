@@ -50,8 +50,8 @@ namespace GenTools
         #region Class Methods
 
         public static bool AddShortcut(Environment.SpecialFolder destDirectory,
-                                       string exeShortcutLink, string exePath, string destSubDirectory = "",
-                                       string shortcutDescription = "", string exeIconPath = "") // e.g. "OutlookGoogleCalendarSync.lnk"
+                                              string exeShortcutLink, string exePath, string destSubDirectory = "",
+                                              string shortcutDescription = "", string exeIconPath = "") // e.g. "OutlookGoogleCalendarSync.lnk"
         {
             Debug.WriteLine("AddShortcut: directory=" + destDirectory.ToString() + "; subdir=" + destSubDirectory);
             if (destSubDirectory != "") destSubDirectory = "\\" + destSubDirectory;
@@ -650,6 +650,28 @@ namespace GenTools
                     MESSAGEBOX_CAPTION, MessageBoxButtons.OK, Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning ...", 150, 150);
                 return false;
             }
+        }
+
+        public static string MakeValidDirFileName(string name, string replaceWith = "")
+        {
+            return MakeValidFileName(MakeValidDirName(name, replaceWith), replaceWith);
+        }
+
+        public static string MakeValidDirName(string dirName, string replaceWith = "")
+        {
+            string invalidChars = Regex.Escape(new string(Path.GetInvalidPathChars()));
+            // remove forward slashes from a directory name, e.g. AC/DC
+            string invalidRegStr = string.Format(@"([{0}]*\.+$)|([{0}/]+)", invalidChars);
+
+            return Regex.Replace(dirName, invalidRegStr, replaceWith);
+        }
+
+        public static string MakeValidFileName(string fileName, string replaceWith = "")
+        {
+            string invalidChars = Regex.Escape(new string(Path.GetInvalidFileNameChars()));
+            string invalidRegStr = string.Format(@"([{0}]*\.+$)|([{0}]+)", invalidChars);
+
+            return Regex.Replace(fileName, invalidRegStr, replaceWith);
         }
 
         public static bool MoveFile(string fileFrom, string fileTo, bool verbose = true)

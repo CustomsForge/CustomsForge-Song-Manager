@@ -52,6 +52,10 @@ namespace CustomsForgeSongManager.Forms
         private const string SERVER_URL = "http://ignition.customsforge.com/cfsm_uploads/beta";
         private const string APP_ARCHIVE = "CFSMSetupBeta.rar";
 #endif
+#if INNOBUILD // the default build method
+        private const string SERVER_URL = "http://ignition.customsforge.com/cfsm_uploads/build";
+        private const string APP_ARCHIVE = "CFSMSetupBuild.rar";
+#endif
 
 
         public frmMain(DLogNet.DLogger myLog)
@@ -126,12 +130,16 @@ namespace CustomsForgeSongManager.Forms
 
             // set app title
             var strFormatVersion = "{0} (v{1} - {2})";
-#if INNOBETA
-            strFormatVersion = "{0} (v{1} - {2} BETA VERSION)";
-#endif
 #if INNORELEASE
-            strFormatVersion = "{0} (v{1} - {2} RELEASE VERSION)";
+            strFormatVersion = "{0} (v{1} - {2} RELEASE)";
 #endif
+#if INNOBETA
+            strFormatVersion = "{0} (v{1} - {2} BETA)";
+#endif
+#if INNOBUILD
+            strFormatVersion = "{0} (v{1} - {2} BUILD)";
+#endif
+
 
             if (Constants.DebugMode)
                 strFormatVersion = "{0} (v{1} - {2} DEBUG)";
@@ -449,7 +457,7 @@ namespace CustomsForgeSongManager.Forms
 
         private void frmMain_Load(object sender, EventArgs e) // done after frmMain()
         {
-            // be nice to the developers ... don't try to update
+            // be nice to devs don't check for updates
             if (GenExtensions.IsInDesignMode)
                 return;
 

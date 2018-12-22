@@ -211,14 +211,14 @@ namespace CustomsForgeSongManager.LocalTools
             if (versOnline != versInstalled && versOnline != NO_INTERNET)
             {
                 Globals.Log(Path.GetFileName(appExePath) + " [" + versInstalled + "] needs updating ...");
-                Globals.Log("OnlineVers: " + versOnline + "  <>  InstalledVers: " + versInstalled);
+                Debug.WriteLine("OnlineVers: " + versOnline + "  <>  InstalledVers: " + versInstalled);
                 return true;
             }
 
             if (versOnline == versInstalled)
             {
                 Globals.Log(Path.GetFileName(appExePath) + " [" + versInstalled + "] does not need updating ...");
-                Globals.Log("OnlineVers: " + versOnline + "  <>  InstalledVers: " + versInstalled);
+                Debug.WriteLine("OnlineVers: " + versOnline + "  <>  InstalledVers: " + versInstalled);
                 return false;
             }
 

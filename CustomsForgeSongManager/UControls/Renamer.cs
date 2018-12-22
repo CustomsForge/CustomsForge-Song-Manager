@@ -63,21 +63,22 @@ namespace CustomsForgeSongManager.UControls
                 newFileName = String.Format("{0}" + Constants.DisabledExtension, newFileName);
             else
                 newFileName = String.Format("{0}" + Constants.EnabledExtension, newFileName);
-
+          
             // strip any user added a directory(s) from file name and add to file path
             var dirSeperator = new string[] { "\\" };
             var parts = newFileName.Split(dirSeperator, StringSplitOptions.None);
             if (parts.Any())
             {
                 for (int i = 0; i < parts.Count() - 1; i++)
-                    dlcDir = Path.Combine(dlcDir, parts[i]);
+                {
+                    // validate each directory name before concatination
+                    dlcDir = Path.Combine(dlcDir, GenExtensions.MakeValidDirName(parts[i]));
+                }
 
                 newFileName = parts[parts.Count() - 1];
             }
 
-            // file name, path and file path length validations
-            dlcDir = String.Join("", dlcDir.Split(Path.GetInvalidPathChars()));
-            newFileName = String.Join("", newFileName.Split(Path.GetInvalidFileNameChars()));
+            newFileName = GenExtensions.MakeValidFileName(newFileName);
             newFileName = newFileName.Replace("__", "_");
 
             if (chkRemoveSpaces.Checked)

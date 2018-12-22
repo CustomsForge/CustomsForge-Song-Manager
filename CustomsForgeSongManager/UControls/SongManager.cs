@@ -511,7 +511,7 @@ namespace CustomsForgeSongManager.UControls
                         Globals.Log("<ERROR> Cleaning " + Path.GetFileName(Constants.WorkFolder) + " : " + ex.Message);
                     }
 
-                    // auto show rev notes when there are significant revisions
+                    // auto show rev notes when there are significant or SongData revisions
                     frmNoteViewer.ViewExternalFile("ReleaseNotes.txt", "Release Notes");
 
                     // switch to Setting tab so user can customize first run settings

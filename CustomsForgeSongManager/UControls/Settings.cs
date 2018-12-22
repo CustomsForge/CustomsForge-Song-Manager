@@ -16,6 +16,8 @@ namespace CustomsForgeSongManager.UControls
         public Settings()
         {
             InitializeComponent();
+            // save AppSettings.Instance
+            Leave += Settings_Leave; 
         }
 
         public void LoadSettingsFromFile(DataGridView dgvCurrent = null, bool verbose = false)
@@ -25,7 +27,7 @@ namespace CustomsForgeSongManager.UControls
                 Globals.DgvCurrent = dgvCurrent;
                 AppSettings.Instance.LoadFromFile(Constants.AppSettingsPath, verbose);
                 var debugMe = AppSettings.Instance.IncludeSubfolders;
-                
+
                 cueRsDir.Text = AppSettings.Instance.RSInstalledDir;
                 chkIncludeRS1CompSongs.Checked = AppSettings.Instance.IncludeRS1CompSongs;
                 chkIncludeRS2BaseSongs.Checked = AppSettings.Instance.IncludeRS2BaseSongs;

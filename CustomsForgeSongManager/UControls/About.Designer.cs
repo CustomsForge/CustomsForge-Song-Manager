@@ -123,7 +123,7 @@ namespace CustomsForgeSongManager.UControls
             this.linkLabel4.Size = new System.Drawing.Size(489, 24);
             this.linkLabel4.TabIndex = 10;
             this.linkLabel4.TabStop = true;
-            this.linkLabel4.Text = "Copyright 2017 - CustomsForge Song Manager";
+            this.linkLabel4.Text = "Copyright 2017 - 2019, CustomsForge Song Manager";
             this.linkLabel4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.linkLabel4.VisitedLinkColor = System.Drawing.Color.Black;
             // 
@@ -583,8 +583,8 @@ namespace CustomsForgeSongManager.UControls
             this.linkLabel2.Size = new System.Drawing.Size(227, 72);
             this.linkLabel2.TabIndex = 2;
             this.linkLabel2.TabStop = true;
-            this.linkLabel2.Text = "ZagatoZee, DarkSeph, ForgeOn,\r\nrummhamm87, and\r\nCustomsForge Staff and Beta " +
-                "Testers";
+            this.linkLabel2.Text = "ZagatoZee, DarkSeph, ForgeOn,\r\nrummhamm87, and\r\nCustomsForge Staff and Beta Teste" +
+                "rs";
             this.linkLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.linkLabel2.UseCompatibleTextRendering = true;
             this.linkLabel2.VisitedLinkColor = System.Drawing.Color.Black;

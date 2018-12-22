@@ -37,7 +37,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;WINDOWS;TAGGER;INNOBETA</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;WINDOWS;TAGGER;INNOBUILD</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <RunCodeAnalysis>true</RunCodeAnalysis>
@@ -48,7 +48,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;WINDOWS;TAGGER;INNORELEASE</DefineConstants>
+    <DefineConstants>TRACE;WINDOWS;TAGGER;INNOBUILD</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>none</DebugType>
     <PlatformTarget>x86</PlatformTarget>
@@ -74,13 +74,13 @@
   <PropertyGroup />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'InnoBeta|x86'">
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>WINDOWS;TAGGER;INNOBETA;AUTOUPDATE</DefineConstants>
+    <DefineConstants>WINDOWS;TAGGER;INNOBETA</DefineConstants>
     <PlatformTarget>x86</PlatformTarget>
     <Optimize>true</Optimize>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'InnoRelease|x86'">
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>WINDOWS;TAGGER;INNORELEASE;AUTOUPDATE</DefineConstants>
+    <DefineConstants>WINDOWS;TAGGER;INNORELEASE</DefineConstants>
     <PlatformTarget>x86</PlatformTarget>
     <Optimize>true</Optimize>
     <DebugType>none</DebugType>
@@ -102,6 +102,14 @@
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'InnoBuild|x86'">
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>WINDOWS;TAGGER;INNOBUILD</DefineConstants>
+    <Optimize>true</Optimize>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Antlr3.Runtime">
@@ -809,11 +817,11 @@ rem must be connected to internet for signtool to work properly
 rem CD "$(ProjectDir)bin\ConfuserEx\"
 rem "%25programfiles%25\Microsoft SDKs\Windows\v7.0A\bin\signtool.exe"  sign /f CFSM_Certificate.pfx /p cozylov /t http://timestamp.verisign.com/scripts/timstamp.dll CustomsForgeSongManager.exe
 CD "$(SolutionDir)ThirdParty\Inno_bin\"
-"ISCC.exe" "$(SolutionDir)ThirdParty\InnoScripts\genericInstaller.iss"
+"ISCC.exe" /DRELEASE "$(SolutionDir)ThirdParty\InnoScripts\genericInstaller.iss"
 CD "$(SolutionDir)ThirdParty\CFSM_Setup_Release\"   
-"D:\Program Files\WinRAR\WinRar.exe" a -r "CFSMSetup.rar" "CFSMSetup.exe"
 COPY /Y "$(TargetDir)ReleaseNotes.txt" "ReleaseNotes.txt"
 COPY /Y "$(SolutionDir)ThirdParty\VersionInfo.txt" "VersionInfo.txt"
+"D:\Program Files\WinRAR\WinRar.exe" a -r "CFSMSetup.rar" "CFSMSetup.exe" "ReleaseNotes.txt"
 )
 
 if $(ConfigurationName) ==InnoBeta (
@@ -833,9 +841,31 @@ rem "%25programfiles%25\Microsoft SDKs\Windows\v7.0A\bin\signtool.exe"  sign /f 
 CD "$(SolutionDir)ThirdParty\Inno_bin\"
 "ISCC.exe" /DBETA "$(SolutionDir)ThirdParty\InnoScripts\genericInstaller.iss"
 CD "$(SolutionDir)ThirdParty\CFSM_Setup_Beta\"   
-"D:\Program Files\WinRAR\WinRar.exe" a -r "CFSMSetupBeta.rar" "CFSMSetup.exe"
 COPY /Y "$(TargetDir)ReleaseNotes.txt" "ReleaseNotes.txt"
 COPY /Y "$(SolutionDir)ThirdParty\VersionInfo.txt" "VersionInfo.txt"
+"D:\Program Files\WinRAR\WinRar.exe" a -r "CFSMSetupBeta.rar" "CFSMSetup.exe"  "ReleaseNotes.txt"
+)
+
+if $(ConfigurationName) ==InnoBuild (
+CD "$(SolutionDir)ThirdParty\CFSM_Setup_Build\"
+DEL /Q *.txt
+DEL /Q *.exe
+DEL /Q *.rar
+DEL /S /Q " "$(ProjectDir)bin\ConfuserEx\*"
+RD /S /Q "$(ProjectDir)bin\ConfuserEx\"
+MKDIR "$(ProjectDir)bin\ConfuserEx\"
+XCOPY /Y /E /D "$(TargetDir)*.*" "$(ProjectDir)bin\ConfuserEx\*.*"
+CD "$(SolutionDir)ThirdParty\ConfuserEx_bin\"
+"Confuser.CLI.exe" "$(SolutionDir)ThirdParty\ConfuserExScripts\ConfuserExInno.crproj"
+rem must be connected to internet for signtool to work properly
+rem CD "$(ProjectDir)bin\ConfuserEx\"
+rem "%25programfiles%25\Microsoft SDKs\Windows\v7.0A\bin\signtool.exe"  sign /f CFSM_Certificate.pfx /p cozylov /t http://timestamp.verisign.com/scripts/timstamp.dll CustomsForgeSongManager.exe
+CD "$(SolutionDir)ThirdParty\Inno_bin\"
+"ISCC.exe" /DBUILD "$(SolutionDir)ThirdParty\InnoScripts\genericInstaller.iss"
+CD "$(SolutionDir)ThirdParty\CFSM_Setup_Build\"   
+COPY /Y "$(TargetDir)ReleaseNotes.txt" "ReleaseNotes.txt"
+COPY /Y "$(SolutionDir)ThirdParty\VersionInfo.txt" "VersionInfo.txt"
+"D:\Program Files\WinRAR\WinRar.exe" a -r "CFSMSetupBuild.rar" "CFSMSetup.exe" "ReleaseNotes.txt"
 )
 
 rem if $(ConfigurationName This line will throw an error for post build debugging purposes purposes</PostBuildEvent>

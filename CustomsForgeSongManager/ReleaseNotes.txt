@@ -14,8 +14,20 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.5.0.8
+- restored saving Settings when leaving tab 
+- improved Renamer directory and file naming validation
+
+1.5.0.7
+- updated copyright
+- switched from 'Beta' to 'Build' version terminology
+- CFSM Installer must be run as Administrator and installer will display message
+  "You must be logged in as an administrator when installing this program" if 
+  the user is not an Administrator.
+
 1.5.0.6
-- improved AutoUpdate action (CFSM Update Available) button is visible when download is available 
+- improved Auto Update action, and make 'CFSM Update Available' button visible 
+  on top toolstrip when a download is available.
 
 1.5.0.5
 - changed CFSM default Settings to 'Enable Auto Updates' and to 'Validate D3DX9_42.dll'

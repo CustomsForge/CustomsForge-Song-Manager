@@ -7,6 +7,7 @@
 [Setup]
 ; TODO: SignTool=signtool
 ; SignedUninstaller=yes
+PrivilegesRequired=admin
 DirExistsWarning=no
 RestartIfNeededByRun=False
 SetupLogging=yes
@@ -82,7 +83,8 @@ Name: quicklaunchicon; Description: {cm:CreateQuickLaunchIcon}; GroupDescription
 
 ///////////////////////////////////////////////////////////////////// 
 [Run]
-Filename: {app}\{#AppExeName}; Description: "{cm:LaunchProgram, {%AppName}}"; Flags: nowait postinstall skipifsilent
+; Filename: {app}\{#AppExeName}; Description: "{cm:LaunchProgram, {%AppName}}"; Flags: nowait postinstall skipifsilent
+Filename: {app}\{#AppExeName}; Description: "{cm:LaunchProgram, {%AppName}}"; Flags: nowait postinstall shellexec skipifsilent
 
 /////////////////////////////////////////////////////////////////////
 [Icons]
