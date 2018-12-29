@@ -45,8 +45,8 @@ namespace CustomsForgeSongManager.Forms
         private const string APP_EXE = "CustomsForgeSongManager.exe";
 
 #if INNORELEASE
-            private const string SERVER_URL = "http://ignition.customsforge.com/cfsm_uploads";
-            private const string APP_ARCHIVE = "CFSMSetup.rar";
+        private const string SERVER_URL = "http://ignition.customsforge.com/cfsm_uploads";
+        private const string APP_ARCHIVE = "CFSMSetup.rar";
 #endif
 #if INNOBETA
         private const string SERVER_URL = "http://ignition.customsforge.com/cfsm_uploads/beta";
@@ -78,7 +78,7 @@ namespace CustomsForgeSongManager.Forms
             tsUtilities.AutoSize = false; // a key to preventing movement
             tsAudioPlayer.AutoSize = false; // a key to preventing movement
             tsUtilities.Location = new Point(0, 0); // force location
-            tsAudioPlayer.Location = new Point(tsUtilities.Width + 20, 0); // force location
+            tsAudioPlayer.Location = new Point(tsUtilities.Width + 40, 0); // force location
 
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);
 
@@ -433,6 +433,13 @@ namespace CustomsForgeSongManager.Forms
             Ignition.RequestSongOnCustomsForge();
         }
 
+        private void tsBtnUpdate_Click(object sender, EventArgs e)
+        {
+            tsBtnUpdate.Enabled = false;
+            UpdateCFSM();
+            tsBtnUpdate.Enabled = true;
+        }
+
         private void tsBtnUpload_Click(object sender, EventArgs e)
         {
             Ignition.UploadToCustomsForge();
@@ -467,6 +474,12 @@ namespace CustomsForgeSongManager.Forms
 
             if (AutoUpdater.NeedsUpdate(appExePath, versInfoUrl))
             {
+                if (Constants.OnMac) // checks AppSettings.Instance.MacMode
+                {
+                    Globals.Log("<WARNING> CFSM Mac versions must be manually updated ...");
+                    return;
+                }
+
                 if (AppSettings.Instance.EnableAutoUpdate)
                 {
                     Globals.Log("CFSM Auto Update Enabled ...");
@@ -952,13 +965,6 @@ namespace CustomsForgeSongManager.Forms
         public Control GetControl()
         {
             return this;
-        }
-
-        private void tsBtnUpdate_Click(object sender, EventArgs e)
-        {
-            tsBtnUpdate.Enabled = false;
-            UpdateCFSM();
-            tsBtnUpdate.Enabled = true;
         }
 
 

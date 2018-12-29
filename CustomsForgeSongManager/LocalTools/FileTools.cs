@@ -73,7 +73,6 @@ namespace CustomsForgeSongManager.LocalTools
 
         public static void ArtistFolders(string dlcDir, List<SongData> selectedSongs, bool isUndo)
         {
-
             if (isUndo)
             {
                 Globals.Log("Restoring CDLC files to 'dlc/cdlc' folder ...");
@@ -81,7 +80,7 @@ namespace CustomsForgeSongManager.LocalTools
                     Directory.CreateDirectory(Constants.Rs2CdlcFolder);
             }
             else
-                Globals.Log("Organizing CDLC into ArtistName Folders ...");
+                Globals.Log("Organizing CDLC into artist name folders ...");
 
             var total = selectedSongs.Count();
             int processed = 0, failed = 0, skipped = 0;
@@ -116,11 +115,12 @@ namespace CustomsForgeSongManager.LocalTools
 
                     var artistName = songInfo.Artist;
                     var titleName = songInfo.Title;
-                    var destFileName = String.Format("{0}_{1}_v{2}{3}", artistName, titleName, version, Constants.EnabledExtension);
-                    var destDir = Path.Combine(dlcDir, artistName);
+                    // validate file and directory names
+                    var destFileName = GenExtensions.MakeValidFileName(String.Format("{0}_{1}_v{2}{3}", artistName, titleName, version, Constants.EnabledExtension));
+                    var destDir = GenExtensions.MakeValidDirName(Path.Combine(dlcDir, artistName));
                     destFilePath = Path.Combine(destDir, destFileName);
 
-                    // create new ArtistName folder for song files
+                    // create new artist name folder for song files
                     if (!Directory.Exists(destDir))
                         Directory.CreateDirectory(destDir);
                 }
@@ -139,13 +139,14 @@ namespace CustomsForgeSongManager.LocalTools
                     else
                         skipped++;
                 }
-                catch
+                catch (Exception ex)
                 {
                     if (isUndo)
                         Globals.Log("<ERROR> Failed to restore CDLC: " + srcFilePath);
                     else
                         Globals.Log("<ERROR> Failed to organized CDLC: " + srcFilePath);
 
+                    Globals.Log(" - " + ex.Message);
                     failed++;
                 }
             }
@@ -158,9 +159,9 @@ namespace CustomsForgeSongManager.LocalTools
                 new DirectoryInfo(dlcDir).DeleteEmptyDirs();
 
                 if (isUndo)
-                    Globals.Log("Sucessully restored CDLC files to 'dlc/cdlc' folder and removed empty ArtistName folders ...");
+                    Globals.Log("Sucessully restored CDLC files to 'dlc/cdlc' folder and removed empty artist name folders ...");
                 else
-                    Globals.Log("Sucessully organized and renamed CDLC into ArtistName Folders ...");
+                    Globals.Log("Sucessully organized and renamed CDLC into artist name folders ...");
             }
         }
 
@@ -545,7 +546,7 @@ namespace CustomsForgeSongManager.LocalTools
             Globals.Log("Validated Downloads Directory: " + dlDirectory + " ...");
             return true;
         }
-        
+
         public static void VerifyCfsmFolders()
         {
             try

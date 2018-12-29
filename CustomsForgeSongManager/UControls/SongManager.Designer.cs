@@ -1756,7 +1756,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiFilesCheckODLC.Image = global::CustomsForgeSongManager.Properties.Resources.rescan;
             this.tsmiFilesCheckODLC.Name = "tsmiFilesCheckODLC";
             this.tsmiFilesCheckODLC.RadioButtonGroupName = null;
-            this.tsmiFilesCheckODLC.Size = new System.Drawing.Size(238, 22);
+            this.tsmiFilesCheckODLC.Size = new System.Drawing.Size(241, 22);
             this.tsmiFilesCheckODLC.Text = "Check CDLC/ODLC";
             this.tsmiFilesCheckODLC.ToolTipText = "Determines if any of your CDLC\r\nhave been replaced by ODLC.";
             this.tsmiFilesCheckODLC.Click += new System.EventHandler(this.tsmiFilesCheckODLC_Click);
@@ -1764,7 +1764,7 @@ namespace CustomsForgeSongManager.UControls
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(235, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(238, 6);
             // 
             // tsmiFilesCleanDlc
             // 
@@ -1772,7 +1772,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiFilesCleanDlc.Image = ((System.Drawing.Image)(resources.GetObject("tsmiFilesCleanDlc.Image")));
             this.tsmiFilesCleanDlc.Name = "tsmiFilesCleanDlc";
             this.tsmiFilesCleanDlc.RadioButtonGroupName = null;
-            this.tsmiFilesCleanDlc.Size = new System.Drawing.Size(238, 22);
+            this.tsmiFilesCleanDlc.Size = new System.Drawing.Size(241, 22);
             this.tsmiFilesCleanDlc.Text = "Clean \'dlc\' Folder";
             this.tsmiFilesCleanDlc.ToolTipText = "Remove any [.org] [.max] or [.cor]\r\nbackup files from the \'dlc\' folder and\r\nsubfo" +
                 "lders.";
@@ -1789,7 +1789,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiFilesRestore.Image = ((System.Drawing.Image)(resources.GetObject("tsmiFilesRestore.Image")));
             this.tsmiFilesRestore.Name = "tsmiFilesRestore";
             this.tsmiFilesRestore.RadioButtonGroupName = null;
-            this.tsmiFilesRestore.Size = new System.Drawing.Size(238, 22);
+            this.tsmiFilesRestore.Size = new System.Drawing.Size(241, 22);
             this.tsmiFilesRestore.Text = "Restore";
             // 
             // tsmiFilesRestoreBak
@@ -1840,7 +1840,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiFilesArchive.Image = ((System.Drawing.Image)(resources.GetObject("tsmiFilesArchive.Image")));
             this.tsmiFilesArchive.Name = "tsmiFilesArchive";
             this.tsmiFilesArchive.RadioButtonGroupName = null;
-            this.tsmiFilesArchive.Size = new System.Drawing.Size(238, 22);
+            this.tsmiFilesArchive.Size = new System.Drawing.Size(241, 22);
             this.tsmiFilesArchive.Text = "Archive";
             // 
             // tsmiFilesArcBak
@@ -1894,15 +1894,15 @@ namespace CustomsForgeSongManager.UControls
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(235, 6);
+            this.toolStripSeparator6.Size = new System.Drawing.Size(238, 6);
             // 
             // tsmiFilesOrganize
             // 
             this.tsmiFilesOrganize.AssociatedEnumValue = null;
             this.tsmiFilesOrganize.Name = "tsmiFilesOrganize";
             this.tsmiFilesOrganize.RadioButtonGroupName = null;
-            this.tsmiFilesOrganize.Size = new System.Drawing.Size(238, 22);
-            this.tsmiFilesOrganize.Text = "Organize ArtistName Subfolders";
+            this.tsmiFilesOrganize.Size = new System.Drawing.Size(241, 22);
+            this.tsmiFilesOrganize.Text = "Organize Artist Name Subfolders";
             this.tsmiFilesOrganize.ToolTipText = resources.GetString("tsmiFilesOrganize.ToolTipText");
             this.tsmiFilesOrganize.Click += new System.EventHandler(this.tsmiFilesOrganize_Click);
             // 
@@ -1911,7 +1911,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiFilesUnorganize.AssociatedEnumValue = null;
             this.tsmiFilesUnorganize.Name = "tsmiFilesUnorganize";
             this.tsmiFilesUnorganize.RadioButtonGroupName = null;
-            this.tsmiFilesUnorganize.Size = new System.Drawing.Size(238, 22);
+            this.tsmiFilesUnorganize.Size = new System.Drawing.Size(241, 22);
             this.tsmiFilesUnorganize.Text = "Restore CDLC to the \'dlc\' Folder";
             this.tsmiFilesUnorganize.ToolTipText = resources.GetString("tsmiFilesUnorganize.ToolTipText");
             this.tsmiFilesUnorganize.Click += new System.EventHandler(this.tsmiFilesUnorganize_Click);
@@ -1924,7 +1924,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiFilesIncludeODLC.ForeColor = System.Drawing.Color.Red;
             this.tsmiFilesIncludeODLC.Name = "tsmiFilesIncludeODLC";
             this.tsmiFilesIncludeODLC.RadioButtonGroupName = null;
-            this.tsmiFilesIncludeODLC.Size = new System.Drawing.Size(238, 22);
+            this.tsmiFilesIncludeODLC.Size = new System.Drawing.Size(241, 22);
             this.tsmiFilesIncludeODLC.Text = "Include ODLC Files";
             this.tsmiFilesIncludeODLC.ToolTipText = "If checked, ODLC files will be organized\r\ntoo, even though they are not selectabl" +
                 "e.";

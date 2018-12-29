@@ -128,7 +128,7 @@ namespace CustomsForgeSongManager.UControls
                 return false;
             }
 
-            if (AppSettings.Instance.MacMode)
+            if (Constants.OnMac)
             {
                 Globals.Log("Send the 'debug.log' file to CFSM Developer, Cozy1 for analysis ...");
                 Globals.Log("<WARNING> 'D3DX9_42.dll' file validation is disabled while in MacMode ...");

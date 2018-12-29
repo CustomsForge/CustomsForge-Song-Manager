@@ -74,7 +74,7 @@ namespace CustomsForgeSongManager.DataObjects
                     return true;
                 }
 
-                // run Mac compatiblity mode when on a PC
+                // run Mac compatiblity mode even when on a PC
                 if (AppSettings.Instance.MacMode)
                     return true;
 

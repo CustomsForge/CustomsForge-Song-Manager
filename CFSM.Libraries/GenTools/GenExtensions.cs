@@ -51,8 +51,9 @@ namespace GenTools
 
         public static bool AddShortcut(Environment.SpecialFolder destDirectory,
                                               string exeShortcutLink, string exePath, string destSubDirectory = "",
-                                              string shortcutDescription = "", string exeIconPath = "") // e.g. "OutlookGoogleCalendarSync.lnk"
+                                              string shortcutDescription = "", string exeIconPath = "")
         {
+            // e.g. "OutlookGoogleCalendarSync.lnk"
             Debug.WriteLine("AddShortcut: directory=" + destDirectory.ToString() + "; subdir=" + destSubDirectory);
             if (destSubDirectory != "") destSubDirectory = "\\" + destSubDirectory;
             var shortcutDir = Environment.GetFolderPath(destDirectory) + destSubDirectory;
@@ -659,17 +660,23 @@ namespace GenTools
 
         public static string MakeValidDirName(string dirName, string replaceWith = "")
         {
-            string invalidChars = Regex.Escape(new string(Path.GetInvalidPathChars()));
-            // remove forward slashes from a directory name, e.g. AC/DC
-            string invalidRegStr = string.Format(@"([{0}]*\.+$)|([{0}/]+)", invalidChars);
+            string invalidChars = new string(Path.GetInvalidPathChars());
+            if (!String.IsNullOrEmpty(replaceWith) && invalidChars.Contains(replaceWith))
+                throw new InvalidDataException("<ERROR> DirName replaceWith charater is invalid ...");
+
+            // remove forward slashes from a directory name, e.g. AC/DC becomes ACDC
+            string invalidRegStr = string.Format(@"([{0}]*\.+$)|([{0}/]+)", Regex.Escape(invalidChars));
 
             return Regex.Replace(dirName, invalidRegStr, replaceWith);
         }
 
         public static string MakeValidFileName(string fileName, string replaceWith = "")
         {
-            string invalidChars = Regex.Escape(new string(Path.GetInvalidFileNameChars()));
-            string invalidRegStr = string.Format(@"([{0}]*\.+$)|([{0}]+)", invalidChars);
+            string invalidChars = new string(Path.GetInvalidFileNameChars());
+            if (!String.IsNullOrEmpty(replaceWith) && invalidChars.Contains(replaceWith))
+                throw new InvalidDataException("<ERROR> FileName replaceWith charater is invalid ...");
+
+            string invalidRegStr = string.Format(@"([{0}]*\.+$)|([{0}]+)", Regex.Escape(invalidChars));
 
             return Regex.Replace(fileName, invalidRegStr, replaceWith);
         }
@@ -701,9 +708,8 @@ namespace GenTools
             }
             catch (IOException e)
             {
-                BetterDialog.ShowDialog(
-                    "Could not move the file " + fileFrom + "  Error Code: " + e.Message,
-                    MESSAGEBOX_CAPTION, MessageBoxButtons.OK, Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning ...", 150, 150);
+                var errMsg = "Could not move the file " + fileFrom + "  Error Code: " + e.Message;
+                BetterDialog.ShowDialog(SplitString(errMsg, 50),MESSAGEBOX_CAPTION, MessageBoxButtons.OK, Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning ...", 150, 150);
                 return false;
             }
         }

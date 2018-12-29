@@ -511,7 +511,7 @@ namespace CustomsForgeSongManager.UControls
                         Globals.Log("<ERROR> Cleaning " + Path.GetFileName(Constants.WorkFolder) + " : " + ex.Message);
                     }
 
-                    // auto show rev notes when there are significant or SongData revisions
+                    // auto show release notes when there are significant or SongData revisions
                     frmNoteViewer.ViewExternalFile("ReleaseNotes.txt", "Release Notes");
 
                     // switch to Setting tab so user can customize first run settings
@@ -2040,7 +2040,7 @@ namespace CustomsForgeSongManager.UControls
                 var diaMsg = "First select some songs using the 'Select' checkbox" + Environment.NewLine +
                              "then try using the organize feature again." + Environment.NewLine;
 
-                BetterDialog2.ShowDialog(diaMsg, "Organize ArtistName Subfolders ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Hand.Handle), "ReadMe", 0, 150);
+                BetterDialog2.ShowDialog(diaMsg, "Organize Artist Name Subfolders ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Hand.Handle), "ReadMe", 0, 150);
                 return;
             }
 
