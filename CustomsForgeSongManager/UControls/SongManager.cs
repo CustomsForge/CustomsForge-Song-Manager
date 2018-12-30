@@ -522,7 +522,9 @@ namespace CustomsForgeSongManager.UControls
                     BetterDialog2.ShowDialog(diaMsg, hdrMsg, null, null, "Ok", Bitmap.FromHicon(SystemIcons.Information.Handle), "ReadMe", 0, 150);
                     Globals.DgvCurrent = dgvSongsMaster;
                     Globals.RescanSongManager = true; // force initial scan
+                    var macMode = AppSettings.Instance.MacMode;
                     AppSettings.Instance.RestoreDefaults();
+                    AppSettings.Instance.MacMode = macMode;
                     // selects Settings tabmenu even if tab order is changed
                     var tabIndex = Globals.MainForm.tcMain.TabPages.IndexOf(Globals.MainForm.tpSettings);
                     Globals.MainForm.tcMain.SelectedIndex = tabIndex;

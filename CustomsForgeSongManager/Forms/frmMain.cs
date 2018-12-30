@@ -155,7 +155,6 @@ namespace CustomsForgeSongManager.Forms
 
             // load settings
             Globals.Settings.LoadSettingsFromFile();
-
             this.Show();
             this.WindowState = AppSettings.Instance.FullScreen ? FormWindowState.Maximized : FormWindowState.Normal;
 
@@ -165,7 +164,6 @@ namespace CustomsForgeSongManager.Forms
                 Globals.MyLog.RemoveTargetNotifyIcon(Globals.Notifier);
 
             tsAudioPlayer.Visible = true;
-
             playFunction += new PlayCall(PlaySong);
 
             // load Song Manager Tab
@@ -465,8 +463,8 @@ namespace CustomsForgeSongManager.Forms
         private void frmMain_Load(object sender, EventArgs e) // done after frmMain()
         {
             // be nice to devs don't check for updates
-            if (GenExtensions.IsInDesignMode)
-                return;
+            //if (GenExtensions.IsInDesignMode)
+            //    return;
 
             tsBtnUpdate.Visible = false;
             var appExePath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), APP_EXE);
@@ -474,12 +472,6 @@ namespace CustomsForgeSongManager.Forms
 
             if (AutoUpdater.NeedsUpdate(appExePath, versInfoUrl))
             {
-                if (Constants.OnMac) // checks AppSettings.Instance.MacMode
-                {
-                    Globals.Log("<WARNING> CFSM Mac versions must be manually updated ...");
-                    return;
-                }
-
                 if (AppSettings.Instance.EnableAutoUpdate)
                 {
                     Globals.Log("CFSM Auto Update Enabled ...");
@@ -490,6 +482,18 @@ namespace CustomsForgeSongManager.Forms
                     Globals.Log("CFSM Update Available ...");
                     tsBtnUpdate.Visible = true;
                 }
+            }
+
+            if (Constants.OnMac) // checks AppSettings.Instance.MacMode
+            {
+                Globals.Log("<WARNING> Running in Mac Mode ...");
+                Globals.Log("Send the 'debug.log' file to CFSM Developer, Cozy1 for analysis ...");
+                Globals.Log("<WARNING> 'D3DX9_42.dll' file validation is disabled while in MacMode ...");
+                Globals.Log("AppSettings.Instance.RSInstalledDir = " + AppSettings.Instance.RSInstalledDir);
+                Globals.Log("Application.ExecutablePath = " + Application.ExecutablePath);
+                Globals.Log("Path.GetDirectoryName(Application.ExecutablePath) = " + Path.GetDirectoryName(Application.ExecutablePath));
+                Globals.Log("Constants.ApplicationFolder = " + Constants.ApplicationFolder);
+                tsBtnUpdate.Visible = true;
             }
         }
 
