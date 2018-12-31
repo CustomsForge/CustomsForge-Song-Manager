@@ -141,22 +141,22 @@ namespace CustomsForgeSongManager.Forms
 #endif
 
 
+            // load settings
+            Globals.Settings.LoadSettingsFromFile();
+
             if (Constants.DebugMode)
                 strFormatVersion = "{0} (v{1} - {2} DEBUG)";
 
             Constants.AppTitle = String.Format(strFormatVersion, Constants.ApplicationName, Constants.CustomVersion(), Constants.OnMac ? "MAC" : "PC");
             this.Text = Constants.AppTitle;
+            this.WindowState = AppSettings.Instance.FullScreen ? FormWindowState.Maximized : FormWindowState.Normal;
+            this.Show();
 
             // log application environment
             Globals.Log("+ " + Constants.AppTitle);
             Globals.Log("+ RocksmithToolkitLib (v" + ToolkitVersion.RSTKLibVersion() + ")");
             Globals.Log("+ Dynamic Difficulty Creator (v" + FileVersionInfo.GetVersionInfo(Path.Combine(ExternalApps.TOOLKIT_ROOT, ExternalApps.APP_DDC)).ProductVersion + ")");
             Globals.Log("+ .NET Framework (v" + SysExtensions.DotNetVersion + ")");
-
-            // load settings
-            Globals.Settings.LoadSettingsFromFile();
-            this.Show();
-            this.WindowState = AppSettings.Instance.FullScreen ? FormWindowState.Maximized : FormWindowState.Normal;
 
             if (AppSettings.Instance.EnableNotifications)
                 Globals.MyLog.AddTargetNotifyIcon(Globals.Notifier);
@@ -463,8 +463,8 @@ namespace CustomsForgeSongManager.Forms
         private void frmMain_Load(object sender, EventArgs e) // done after frmMain()
         {
             // be nice to devs don't check for updates
-            //if (GenExtensions.IsInDesignMode)
-            //    return;
+            if (GenExtensions.IsInDesignMode)
+                return;
 
             tsBtnUpdate.Visible = false;
             var appExePath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), APP_EXE);
@@ -488,11 +488,13 @@ namespace CustomsForgeSongManager.Forms
             {
                 Globals.Log("<WARNING> Running in Mac Mode ...");
                 Globals.Log("Send the 'debug.log' file to CFSM Developer, Cozy1 for analysis ...");
-                Globals.Log("<WARNING> 'D3DX9_42.dll' file validation is disabled while in MacMode ...");
+                Globals.Log("<WARNING> 'D3DX9_42.dll' file validation is disabled while in Mac Mode ...");
                 Globals.Log("AppSettings.Instance.RSInstalledDir = " + AppSettings.Instance.RSInstalledDir);
                 Globals.Log("Application.ExecutablePath = " + Application.ExecutablePath);
                 Globals.Log("Path.GetDirectoryName(Application.ExecutablePath) = " + Path.GetDirectoryName(Application.ExecutablePath));
                 Globals.Log("Constants.ApplicationFolder = " + Constants.ApplicationFolder);
+                Globals.Log("Found 'Application Support' folder: " + Constants.Rs2DlcFolder.Contains("Application Support"));
+
                 tsBtnUpdate.Visible = true;
             }
         }
