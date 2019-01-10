@@ -45,16 +45,18 @@ namespace CustomsForgeSongManager.Forms
         private const string APP_EXE = "CustomsForgeSongManager.exe";
 
 #if INNORELEASE
-        private const string SERVER_URL = "http://ignition.customsforge.com/cfsm_uploads";
-        private const string APP_ARCHIVE = "CFSMSetup.rar";
+        // depricated method
+        private const string SERVER_URL = "http://ignition.customsforge.com/cfsm_uploads/release";
+        private const string APP_ARCHIVE = "CFSMSetupRelease.rar";
 #endif
 #if INNOBETA
+        // depricated method
         private const string SERVER_URL = "http://ignition.customsforge.com/cfsm_uploads/beta";
         private const string APP_ARCHIVE = "CFSMSetupBeta.rar";
 #endif
 #if INNOBUILD // the default build method
-        private const string SERVER_URL = "http://ignition.customsforge.com/cfsm_uploads/build";
-        private const string APP_ARCHIVE = "CFSMSetupBuild.rar";
+        private const string SERVER_URL = "http://ignition.customsforge.com/cfsm_uploads";
+        private const string APP_ARCHIVE = "CFSMSetup.rar";
 #endif
 
 

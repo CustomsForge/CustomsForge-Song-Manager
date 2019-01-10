@@ -69,6 +69,7 @@ Source: {#BuildPath}zlib.net.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#BuildPath}D3DX9_42.dll.old; DestDir: {app}; Flags: ignoreversion
 Source: {#BuildPath}D3DX9_42.dll.new; DestDir: {app}; Flags: ignoreversion
 Source: {#BuildPath}ReleaseNotes.txt; DestDir: {app}; Flags: ignoreversion
+Source: {#BuildPath}VersionInfo.txt; DestDir: {app}; Flags: ignoreversion
 Source: "{#BuildPath}tools\*"; DestDir: "{app}\tools"; Flags: ignoreversion recursesubdirs createallsubdirs; Permissions: everyone-full
 Source: "{#BuildPath}ddc\*"; DestDir: "{app}\ddc"; Flags: ignoreversion recursesubdirs createallsubdirs; Permissions: everyone-full
 Source: {srcexe}; DestDir: {app}; DestName: {#InstallerName}.exe; Flags: ignoreversion external; Permissions: everyone-full

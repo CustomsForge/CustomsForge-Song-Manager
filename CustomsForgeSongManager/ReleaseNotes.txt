@@ -14,6 +14,13 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.5.1.3
+- fixed PackageRating column export
+
+1.5.1.2
+- fixed Profile Song Lists tooltip display
+- fixed Mac Wineskin detection
+
 1.5.1.1
 - fixed CFSM title bar build display
 

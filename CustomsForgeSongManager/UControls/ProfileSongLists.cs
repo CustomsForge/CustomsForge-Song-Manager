@@ -1006,7 +1006,8 @@ namespace CustomsForgeSongManager.UControls
             toolTip.Hide(grid);
             toolTip.SetToolTip(grid, null); // part of work around
             toolTip.IsBalloon = false; // part of work around
-            grid.ShowCellToolTips = true;
+            grid.ShowCellToolTips = true; // part of work around
+            toolTip.IsBalloon = true; // part of work around
         }
 
         private void dgvCurrent_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
@@ -1286,11 +1287,6 @@ namespace CustomsForgeSongManager.UControls
         public void TabEnter()
         {
             Globals.DgvCurrent = dgvSongListMaster;
-
-            // workaround to force balloon tips for known tooltip bug
-            toolTip.IsBalloon = false;
-            toolTip.Show(String.Empty, this, 0);
-            toolTip.IsBalloon = true;  
         }
 
         public void TabLeave()

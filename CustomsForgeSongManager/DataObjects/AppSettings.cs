@@ -365,9 +365,15 @@ namespace CustomsForgeSongManager.DataObjects
             Instance.IncludeSubfolders = true;
             Instance.IncludeVocals = false;
 
+            if (Environment.OSVersion.Platform == PlatformID.MacOSX || Constants.OnMac)
+            {
+                Instance.MacMode = true;
+                Instance.ValidateD3D = false;
+            }
+
             if (String.IsNullOrEmpty(Instance.RSInstalledDir))
                 Instance.RSInstalledDir = LocalExtensions.GetSteamDirectory();
- 
+
             // intentionally omitted from RestoreDefaults to prevent resetting user selections
             // Instance.RSProfileDir = String.Empty;
             // Instance.DownloadsDir = String.Empty; 

@@ -518,6 +518,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="VersionInfo.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <EmbeddedResource Include="Resources\tags\default_stars_prev.png" />
     <EmbeddedResource Include="Resources\tags\default_tags_prev.png" />
     <EmbeddedResource Include="Resources\tags\default_tags_stars_prev.png" />
@@ -820,8 +823,8 @@ CD "$(SolutionDir)ThirdParty\Inno_bin\"
 "ISCC.exe" /DRELEASE "$(SolutionDir)ThirdParty\InnoScripts\genericInstaller.iss"
 CD "$(SolutionDir)ThirdParty\CFSM_Setup_Release\"   
 COPY /Y "$(TargetDir)ReleaseNotes.txt" "ReleaseNotes.txt"
-COPY /Y "$(SolutionDir)ThirdParty\VersionInfo.txt" "VersionInfo.txt"
-"D:\Program Files\WinRAR\WinRar.exe" a -r "CFSMSetup.rar" "CFSMSetup.exe" "ReleaseNotes.txt"
+COPY /Y "$(TargetDir)VersionInfo.txt" "VersionInfo.txt"
+"D:\Program Files\WinRAR\WinRar.exe" a -r "CFSMSetupRelease.rar" "CFSMSetup.exe" "ReleaseNotes.txt"
 )
 
 if $(ConfigurationName) ==InnoBeta (
@@ -842,12 +845,12 @@ CD "$(SolutionDir)ThirdParty\Inno_bin\"
 "ISCC.exe" /DBETA "$(SolutionDir)ThirdParty\InnoScripts\genericInstaller.iss"
 CD "$(SolutionDir)ThirdParty\CFSM_Setup_Beta\"   
 COPY /Y "$(TargetDir)ReleaseNotes.txt" "ReleaseNotes.txt"
-COPY /Y "$(SolutionDir)ThirdParty\VersionInfo.txt" "VersionInfo.txt"
+COPY /Y "$(TargetDir)VersionInfo.txt" "VersionInfo.txt"
 "D:\Program Files\WinRAR\WinRar.exe" a -r "CFSMSetupBeta.rar" "CFSMSetup.exe"  "ReleaseNotes.txt"
 )
 
 if $(ConfigurationName) ==InnoBuild (
-CD "$(SolutionDir)ThirdParty\CFSM_Setup_Build\"
+CD "$(SolutionDir)ThirdParty\CFSM_Setup\"
 DEL /Q *.txt
 DEL /Q *.exe
 DEL /Q *.rar
@@ -862,10 +865,10 @@ rem CD "$(ProjectDir)bin\ConfuserEx\"
 rem "%25programfiles%25\Microsoft SDKs\Windows\v7.0A\bin\signtool.exe"  sign /f CFSM_Certificate.pfx /p cozylov /t http://timestamp.verisign.com/scripts/timstamp.dll CustomsForgeSongManager.exe
 CD "$(SolutionDir)ThirdParty\Inno_bin\"
 "ISCC.exe" /DBUILD "$(SolutionDir)ThirdParty\InnoScripts\genericInstaller.iss"
-CD "$(SolutionDir)ThirdParty\CFSM_Setup_Build\"   
+CD "$(SolutionDir)ThirdParty\CFSM_Setup\"   
 COPY /Y "$(TargetDir)ReleaseNotes.txt" "ReleaseNotes.txt"
-COPY /Y "$(SolutionDir)ThirdParty\VersionInfo.txt" "VersionInfo.txt"
-"D:\Program Files\WinRAR\WinRar.exe" a -r "CFSMSetupBuild.rar" "CFSMSetup.exe" "ReleaseNotes.txt"
+COPY /Y "$(TargetDir)VersionInfo.txt" "VersionInfo.txt"
+"D:\Program Files\WinRAR\WinRar.exe" a -r "CFSMSetup.rar" "CFSMSetup.exe" "ReleaseNotes.txt" "VersionInfo.txt"
 )
 
 rem if $(ConfigurationName This line will throw an error for post build debugging purposes purposes</PostBuildEvent>

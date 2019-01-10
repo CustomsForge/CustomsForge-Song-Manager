@@ -69,10 +69,10 @@ namespace CustomsForgeSongManager.DataObjects
             get
             {
                 if (Rs2DlcFolder.Contains("Application Support")) //Rather unreliable, but other methods have been proven not to work in all cases on Wineskin
-                {
-                    AppSettings.Instance.MacMode = true;
                     return true;
-                }
+
+                if (Environment.GetEnvironmentVariable("WINE_INSTALLED") == "1")
+                    return true;
 
                 // run Mac compatiblity mode even when on a PC
                 if (AppSettings.Instance.MacMode)

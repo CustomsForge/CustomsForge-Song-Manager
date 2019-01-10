@@ -40,8 +40,10 @@ namespace DataGridViewTools
                         col.ValueType = typeof(string);
                     else if (col.CellType.Name == "DataGridViewImageCell")
                         col.ValueType = typeof(Bitmap);
+                    else if (col.CellType.Name == "DataGridViewRatingCell")
+                        col.ValueType = typeof(int);
                     else
-                        throw new DataException("Column ValueType is not defined");
+                        throw new DataException("Column ValueType is not defined: " + col.CellType.Name);
                 }
 
                 // proper handling of nullables

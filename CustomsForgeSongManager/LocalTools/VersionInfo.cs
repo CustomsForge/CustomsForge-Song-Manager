@@ -21,14 +21,14 @@ namespace CustomsForgeSongManager.LocalTools
             const string verInfoFile = "VersionInfo.txt";
 
             var projectDir = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
+            var verInfoPath = Path.Combine(projectDir, verInfoFile);
             var relNotesPath = Path.Combine(projectDir, relNotesFile);
-            var verInfoPath = Path.Combine(Path.GetDirectoryName(projectDir), "ThirdParty", verInfoFile);
 
             if (!Directory.Exists(Path.GetDirectoryName(verInfoPath)))
-                throw new Exception("<ERROR> Could not find: " + Path.GetDirectoryName(verInfoPath));
+                throw new Exception("<ERROR> Could not find directory: " + Path.GetDirectoryName(verInfoPath));
 
             if (!File.Exists(relNotesPath))
-                throw new Exception("<ERROR> Could not find: " + relNotesPath);
+                throw new Exception("<ERROR> Could not find file: " + relNotesPath);
 
             var txt = GenExtensions.GetFullAppVersion();
             Globals.Log("<DEV ONLY> Current CFSM Version: " + txt);

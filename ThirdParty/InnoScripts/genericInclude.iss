@@ -12,10 +12,10 @@
 
 /////////////////////////////////////////////////////////////////////
 #ifdef BUILD
-#define BaseUpdateURL "http://ignition.customsforge.com/cfsm_uploads/build"
-#define OutputDirExe SourcePath + "..\..\ThirdParty\CFSM_Setup_Build\"
+#define BaseUpdateURL "http://ignition.customsforge.com/cfsm_uploads"
+#define OutputDirExe SourcePath + "..\..\ThirdParty\CFSM_Setup\"
 #define AppTitle "CustomsForge Song Manager - Latest Build"
-#define LatestVersionDownload BaseUpdateURL + "/CFSMSetupBuild.rar"
+#define LatestVersionDownload BaseUpdateURL + "/CFSMSetup.rar"
 #endif
 #ifdef BETA
 #define BaseUpdateURL "http://ignition.customsforge.com/cfsm_uploads/beta"
@@ -24,10 +24,10 @@
 #define LatestVersionDownload BaseUpdateURL + "/CFSMSetupBeta.rar"
 #endif
 #ifdef RELEASE
-#define BaseUpdateURL "http://ignition.customsforge.com/cfsm_uploads"
+#define BaseUpdateURL "http://ignition.customsforge.com/cfsm_uploads/release"
 #define OutputDirExe SourcePath +"..\..\ThirdParty\CFSM_Setup_Release\"
 #define AppTitle "CustomsForge Song Manager - Release Version"
-#define LatestVersionDownload BaseUpdateURL + "/CFSMSetup.rar"
+#define LatestVersionDownload BaseUpdateURL + "/CFSMSetupRelease.rar"
 #endif
 
 /////////////////////////////////////////////////////////////////////
