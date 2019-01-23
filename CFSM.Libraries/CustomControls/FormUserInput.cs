@@ -96,11 +96,17 @@ namespace CustomControls
             Font f = new Font("Microsoft Sans Serif", 10F, FontStyle.Regular);
             Bitmap b = new Bitmap(2200, 2200);
             Graphics g = Graphics.FromImage(b);
-            SizeF sizeOfString = new SizeF();
-            sizeOfString = g.MeasureString(lblCustomInput.Text, f);
-            this.Width = (int)sizeOfString.Width;
+            SizeF sizeOfInput = new SizeF();
+            sizeOfInput = g.MeasureString(lblCustomInput.Text, f);
+            
+            SizeF sizeOfHeader = new SizeF();
+            sizeOfHeader = g.MeasureString(this.Text, f);
+            if (sizeOfHeader.Width > sizeOfInput.Width)
+                sizeOfInput.Width = sizeOfHeader.Width;
+
+            this.Width = (int)sizeOfInput.Width;
             // sizeOfString.Height smartly accounts for the number of lines
-            this.Height += (int)sizeOfString.Height - 15; // minus approx height of one line
+            this.Height += (int)sizeOfInput.Height - 15; // minus approx height of one line
         }
 
         private void btnOk_Click(object sender, System.EventArgs e)

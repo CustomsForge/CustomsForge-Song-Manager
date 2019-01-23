@@ -426,7 +426,7 @@ namespace CustomsForgeSongManager.LocalTools
                             archive.Write(FS, true);
 
                         song.FilePath = songPath;
-                        song.FileDate = File.GetLastWriteTimeUtc(song.FilePath);
+                        song.FileDate = File.GetLastWriteTime(song.FilePath);
                         song.Tagged = SongTaggerStatus.True;
                     }
 
@@ -499,7 +499,7 @@ namespace CustomsForgeSongManager.LocalTools
                     using (var FS = File.Create(song.FilePath))
                         archive.Write(FS, true);
 
-                    song.FileDate = File.GetLastWriteTimeUtc(song.FilePath);
+                    song.FileDate = File.GetLastWriteTime(song.FilePath);
                 }
             }
         }

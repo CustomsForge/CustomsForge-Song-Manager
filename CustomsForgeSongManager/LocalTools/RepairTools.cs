@@ -28,6 +28,7 @@ namespace CustomsForgeSongManager.LocalTools
         private static bool addedDD;
         private static bool ddError;
         private static bool fixedMax5;
+
         private static RepairOptions options;
         private static ProgressStatus repairStatus;
         private static StringBuilder sbErrors;
@@ -141,7 +142,7 @@ namespace CustomsForgeSongManager.LocalTools
                 addedDD = false;
                 ddError = false;
                 fixedMax5 = false;
-
+                
                 DLCPackageData packageData;
                 using (var psarcOld = new PsarcPackager())
                     packageData = psarcOld.ReadPackage(srcFilePath, options.IgnoreMultitone, options.FixLowBass);
@@ -179,7 +180,7 @@ namespace CustomsForgeSongManager.LocalTools
                     songXml.AlbumName = packageData.SongInfo.Album.GetValidAtaSpaceName();
                     songXml.ArtistNameSort = packageData.SongInfo.ArtistSort.GetValidSortableName();
                     songXml.SongNameSort = packageData.SongInfo.SongDisplayNameSort.GetValidSortableName();
-                    songXml.AlbumNameSort = packageData.SongInfo.AlbumSort.GetValidSortableName();                    
+                    songXml.AlbumNameSort = packageData.SongInfo.AlbumSort.GetValidSortableName();
                     songXml.AverageTempo = Convert.ToSingle(packageData.SongInfo.AverageTempo.ToString().GetValidTempo());
 
                     // write updated xml arrangement
@@ -216,21 +217,32 @@ namespace CustomsForgeSongManager.LocalTools
                         }
                     }
 
+                    if (options.AdjustScrollSpeed)
+                         arr.ScrollSpeed = (int)(options.ScrollSpeed * 10);
+  
                     // put arrangement comments in correct order
                     Song2014.WriteXmlComments(arr.SongXml.File);
                 }
 
+                // add comments to ToolkitInfo to identify repairs made by CFSM
                 if (!options.PreserveStats)
                     packageData = packageData.AddPackageComment(Constants.TKI_ARRID);
 
-                if (options.RepairMaxFive && fixedMax5)
-                    packageData = packageData.AddPackageComment(Constants.TKI_MAX5);
-
                 if (options.AddDD && addedDD)
                     packageData = packageData.AddPackageComment(Constants.TKI_DDC);
+                
+                if (options.RepairMaxFive && fixedMax5)
+                    packageData = packageData.AddPackageComment(Constants.TKI_MAX5);
+               
+                if (options.AdjustScrollSpeed)
+                    packageData = packageData.AddPackageComment(Constants.TKI_SCROLLSPEED);
 
-                // add comment to ToolkitInfo to identify Remastered CDLC
+                // always repaired by default regardless of selection
                 packageData = packageData.AddPackageComment(Constants.TKI_REMASTER);
+           
+                if (options.AdjustScrollSpeed)
+                    packageData = packageData.AddPackageComment(Constants.TKI_SCROLLSPEED);
+               
                 // add default package version if missing
                 if (String.IsNullOrEmpty(packageData.ToolkitInfo.PackageVersion))
                     packageData.ToolkitInfo.PackageVersion = "1";
@@ -281,7 +293,7 @@ namespace CustomsForgeSongManager.LocalTools
             }
             catch (CustomException ex)
             {
-                Globals.Log(" - Repair failed ... " + ex.Message);
+                Globals.Log(" - Repair failed ... cex:" + ex.Message);
                 Globals.Log(" - See '" + Path.GetFileName(Constants.RepairsErrorLogPath) + "' file");
 
                 if (ex.Message.Contains("Maximum"))
@@ -302,7 +314,7 @@ namespace CustomsForgeSongManager.LocalTools
             }
             catch (Exception ex)
             {
-                Globals.Log(" - Repair failed ... " + ex.Message);
+                Globals.Log(" - Repair failed ... ex:" + ex.Message);
                 Globals.Log(" - See '" + Path.GetFileName(Constants.RepairsErrorLogPath) + "' file");
 
                 //  copy (org) to corrupt (cor), delete backup (org), delete original
@@ -417,8 +429,6 @@ namespace CustomsForgeSongManager.LocalTools
 
                         failed++;
 
-
-
                         // remove corrupt CDLC from SongCollection
                         var song = Globals.MasterCollection.FirstOrDefault(s => s.FilePath == srcFilePath);
                         int index = Globals.MasterCollection.IndexOf(song);
@@ -509,7 +519,7 @@ namespace CustomsForgeSongManager.LocalTools
             }
         }
 
-        #region Watch Downloads Folder
+        #region Watch 'Downloads' Folder
 
         // Watch user specified 'Downloads' Folder, Auto Repair, and Move to 'dlc' folder          
         public static void DLFolderWatcher(RepairOptions repairOptions)
@@ -538,7 +548,7 @@ namespace CustomsForgeSongManager.LocalTools
 
                 // Begin watching
                 watcher.EnableRaisingEvents = true;
-                Globals.Log(" - Started Watching 'Downloads' Folder for new incomming '*.psarc' files ...");
+                Globals.Log(" - Started watching 'Downloads' folder for new incomming '*.psarc' files ...");
             }
             else
             {
@@ -550,7 +560,7 @@ namespace CustomsForgeSongManager.LocalTools
                     watcher = null;
                 }
 
-                Globals.Log(" - Stopped Watching 'Downloads' Folder ...");
+                Globals.Log(" - Stopped watching 'Downloads' folder ...");
             }
         }
 
@@ -564,10 +574,28 @@ namespace CustomsForgeSongManager.LocalTools
             if (e.ChangeType == WatcherChangeTypes.Created)
             {
                 Globals.Log(" - New File Downloaded/Created: " + e.FullPath);
-                RepairTools.RepairSongs(new List<SongData>(), AppSettings.Instance.RepairOptions);
-                GenExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate { Globals.SongManager.UpdateToolStrip(); });
-                Globals.Log(" - Please consider making a donation at https://goo.gl/iTPfRU (copy/paste link to your browser)");
-                Globals.Log("   and show your support for the 'Auto Monitor Downloads Folder' feature ...");
+
+                try
+                {
+                    // using threading to eliminate inconsistent hard crashes and errors
+                    Task task = Task.Factory.StartNew(() =>
+                        {
+                            var result = RepairTools.RepairSongs(new List<SongData>(), AppSettings.Instance.RepairOptions).ToString();
+                            if (!String.IsNullOrEmpty(result))
+                                Globals.Log("<ERROR> " + result);
+                        });
+
+                    // this method may not be desirable but at least the GUI stays responsive during task
+                    while (!task.IsCompleted)
+                    {
+                        Application.DoEvents();
+                        Thread.Sleep(100);
+                    }
+
+                    task.Dispose();
+                    GenExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate { Globals.SongManager.UpdateToolStrip(); });
+                }
+                catch {/* DO NOTHING ... process the DL next time around */}
             }
         }
 
@@ -595,6 +623,7 @@ namespace CustomsForgeSongManager.LocalTools
         private string _cfgPath;
         private int _phraseLen;
         private string _rampUpPath;
+        private decimal _scrollSpeed;
 
         public bool SkipRemastered { get; set; }
         public bool UsingOrgFiles { get; set; }
@@ -633,6 +662,13 @@ namespace CustomsForgeSongManager.LocalTools
         public bool RemoveBonus { get; set; }
         public bool RemoveMetronome { get; set; }
         public bool IgnoreStopLimit { get; set; }
+        //
+        public bool AdjustScrollSpeed { get; set; }
+        public decimal ScrollSpeed
+        {
+            get { return _scrollSpeed; }
+            set { _scrollSpeed = value; }
+        }
         //
         public bool RemoveSections { get; set; }
         public bool FixLowBass { get; set; }

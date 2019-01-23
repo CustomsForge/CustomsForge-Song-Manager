@@ -171,7 +171,7 @@ namespace CustomsForgeSongManager.LocalTools
                 if (sInfo != null)
                 {
                     var fInfo = new FileInfo(file);
-                    if ((int)fInfo.Length == sInfo.FileSize && fInfo.LastWriteTimeUtc == sInfo.FileDate)
+                    if ((int)fInfo.Length == sInfo.FileSize && fInfo.LastWriteTime == sInfo.FileDate)
                         canScan = false;
                     else
                         bwSongCollection.Remove(sInfo);

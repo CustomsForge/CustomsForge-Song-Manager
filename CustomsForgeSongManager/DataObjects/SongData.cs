@@ -237,7 +237,7 @@ namespace CustomsForgeSongManager.DataObjects
         public void UpdateFileInfo()
         {
             var fi = new FileInfo(FilePath);
-            FileDate = fi.LastWriteTimeUtc;
+            FileDate = fi.LastWriteTime;
             FileSize = (int)fi.Length;
         }
     }

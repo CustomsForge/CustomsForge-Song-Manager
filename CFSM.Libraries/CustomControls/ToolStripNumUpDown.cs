@@ -4,7 +4,6 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
 
-// from DualityEditor ... see GitHub
 
 namespace CustomControls
 {
@@ -36,6 +35,7 @@ namespace CustomControls
                 this.UpdateAutoSize();
             }
         }
+        
         public override string Text
         {
             get { return this.txt.Text; }
@@ -45,6 +45,7 @@ namespace CustomControls
                 this.UpdateAutoSize();
             }
         }
+        
         public override Size Size
         {
             get { return base.Size; }
@@ -57,6 +58,7 @@ namespace CustomControls
                 }
             }
         }
+        
         [DefaultValue(50)]
         public int NumericWidth
         {
@@ -67,49 +69,64 @@ namespace CustomControls
                 this.UpdateAutoSize();
             }
         }
+        
         [DefaultValue(typeof(decimal), "100")]
         public decimal Maximum
         {
             get { return this.num.Maximum; }
             set { this.num.Maximum = value; }
         }
+        
         [DefaultValue(typeof(decimal), "0")]
         public decimal Minimum
         {
             get { return this.num.Minimum; }
             set { this.num.Minimum = value; }
         }
-      
+
         [DefaultValue(typeof(decimal), "0")]
         public decimal Value
         {
             get { return this.num.Value; }
-            set { this.num.Value = value; }
+            set
+            {                
+                if (value < Minimum)
+                    this.num.Value = Minimum;
+                else if (value > Maximum)
+                    this.num.Value = Maximum;
+                else
+                    this.num.Value = value;
+            }
         }
-        [DefaultValue(1)]
+
+        [DefaultValue(0)]
         public int DecimalPlaces
         {
             get { return this.num.DecimalPlaces; }
             set { this.num.DecimalPlaces = value; }
         }
+
         [DefaultValue(typeof(decimal), "1")]
         public decimal Increment
         {
             get { return this.num.Increment; }
             set { this.num.Increment = value; }
         }
+
         [DefaultValue(false)]
         public bool Hexadecimal
         {
             get { return this.num.Hexadecimal; }
             set { this.num.Hexadecimal = value; }
         }
+
         [DefaultValue(typeof(HorizontalAlignment), "Center")]
         public HorizontalAlignment NumericTextAlign
         {
             get { return this.num.TextAlign; }
             set { this.num.TextAlign = value; }
         }
+
         public Color NumBackColor
         {
             get { return this.num.BackColor; }
@@ -139,7 +156,7 @@ namespace CustomControls
             this.num.Hexadecimal = false;
             this.num.TextAlign = HorizontalAlignment.Center;
             this.num.Visible = true;
- 
+
             this.txt = new Label();
             this.txt.Text = "NumericUpDown";
             this.txt.TextAlign = ContentAlignment.MiddleRight;
@@ -157,6 +174,7 @@ namespace CustomControls
             this.AutoSize = false;
             this.AutoSize = true;
         }
+
         protected void OnSizeChanged()
         {
             if (this.num != null && this.controlPanel != null && this.txt != null)
@@ -166,5 +184,11 @@ namespace CustomControls
         }
     }
 }
+
+
+
+
+
+
 
 

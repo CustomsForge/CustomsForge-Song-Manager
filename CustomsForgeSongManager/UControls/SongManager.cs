@@ -237,6 +237,8 @@ namespace CustomsForgeSongManager.UControls
             ro.RemoveBonus = tsmiRemoveBonus.Checked;
             ro.RemoveMetronome = tsmiRemoveMetronome.Checked;
             ro.IgnoreStopLimit = tsmiIgnoreStopLimit.Checked;
+            ro.AdjustScrollSpeed = tsmiAdjustScrollSpeed.Checked;
+            ro.ScrollSpeed = tsmiNudScrollSpeed.Value;
             ro.RemoveSections = tsmiRemoveSections.Checked;
             ro.FixLowBass = tsmiFixLowBass.Checked;
             ro.DLFolderProcess = tsmiDLFolderProcess.Checked;
@@ -390,6 +392,8 @@ namespace CustomsForgeSongManager.UControls
             tsmiRemoveBonus.Checked = AppSettings.Instance.RepairOptions.RemoveBonus;
             tsmiRemoveMetronome.Checked = AppSettings.Instance.RepairOptions.RemoveMetronome;
             tsmiIgnoreStopLimit.Checked = AppSettings.Instance.RepairOptions.IgnoreStopLimit;
+            tsmiAdjustScrollSpeed.Checked = AppSettings.Instance.RepairOptions.AdjustScrollSpeed;
+            tsmiNudScrollSpeed.Value = AppSettings.Instance.RepairOptions.ScrollSpeed;
             tsmiRemoveSections.Checked = AppSettings.Instance.RepairOptions.RemoveSections;
             tsmiFixLowBass.Checked = AppSettings.Instance.RepairOptions.FixLowBass;
             tsmiDLFolderProcess.Checked = AppSettings.Instance.RepairOptions.DLFolderProcess;
@@ -1115,7 +1119,7 @@ namespace CustomsForgeSongManager.UControls
         private void RepairsAddDDSettings_Click(object sender, EventArgs e)
         {
             tsmiRepairs.ShowDropDown();
-            tsmiAddDDSettings.ShowDropDown();
+            tsmiDDSettings.ShowDropDown();
             menuStrip.Focus();
         }
 
@@ -1879,7 +1883,7 @@ namespace CustomsForgeSongManager.UControls
             }
 
             tsmiRepairs.ShowDropDown();
-            tsmiAddDDSettings.ShowDropDown();
+            tsmiDDSettings.ShowDropDown();
             menuStrip.Focus();
         }
 
@@ -1897,14 +1901,22 @@ namespace CustomsForgeSongManager.UControls
             }
 
             tsmiRepairs.ShowDropDown();
-            tsmiAddDDSettings.ShowDropDown();
+            tsmiDDSettings.ShowDropDown();
             menuStrip.Focus();
         }
 
         private void tsmiDLFolderMonitor_CheckStateChanged(object sender, EventArgs e)
         {
-            var items = tsmiRepairs.DropDownItems;
+            AppSettings.Instance.RepairOptions.DLFolderMonitor = tsmiDLFolderMonitor.Checked;
+
+            if (!tsmiDLFolderMonitor.Checked)
+            {
+                AppSettings.Instance.IsDonor = false;
+                return;
+            }
+
             var repairString = String.Empty;
+            var items = tsmiRepairs.DropDownItems;
 
             foreach (var item in items.OfType<ToolStripEnhancedMenuItem>())
             {
@@ -1912,8 +1924,7 @@ namespace CustomsForgeSongManager.UControls
                     repairString += item.Name.Replace("tsmi", " ");
             }
 
-            repairString = repairString.Trim();
-
+            repairString = repairString.Replace("DLFolderProcess", "").Replace("DLFolderMonitor", "").Trim();
             if (String.IsNullOrEmpty(repairString))
             {
                 var diaMsg = "Please select some repair options and try again.";
@@ -1921,11 +1932,41 @@ namespace CustomsForgeSongManager.UControls
                 return;
             }
 
-            AppSettings.Instance.RepairOptions.DLFolderMonitor = tsmiDLFolderMonitor.Checked;
             RepairTools.DLFolderWatcher(SetRepairOptions());
-
             tsmiRepairs.ShowDropDown();
             menuStrip.Focus();
+
+            if (!AppSettings.Instance.IsDonor)
+            {
+                Globals.Log(" - Please consider making a donation at https://goo.gl/iTPfRU");
+                Globals.Log("   and show your support for the 'Auto Monitor Downloads Folder' feature ...");
+
+                // message only shown if the users is actively using the feature
+                var diaDonor = "You are using the 'Auto Monitor Downloads Folder'" + Environment.NewLine +
+                               "feature.  Your donation is needed to support" + Environment.NewLine +
+                               "future updates and bug fixes for the feature.";
+                if (DialogResult.Yes == BetterDialog2.ShowDialog(diaDonor, "Help Fix Me ...", null, "I'm a donor", "I'll donate", Bitmap.FromHicon(SystemIcons.Warning.Handle), "ReadMe", 0, 150))
+                {
+                    using (var userInput = new FormUserInput(false))
+                    {
+                        userInput.FrmHeaderText = "The donation thank you message was for?";
+                        userInput.CustomInputLabel = "HINT: xxxxxxx beer (seven letters type of beer)";
+
+                        if (DialogResult.OK == userInput.ShowDialog())
+                        {
+                            var userResponse = userInput.CustomInputText;
+                            if (userResponse.ToLower().Contains("virtual"))
+                            {
+                                AppSettings.Instance.IsDonor = true;
+                                Globals.Log(" - Thank you for your support ...");
+                            }
+                        }
+                    }
+                }
+
+                if (!AppSettings.Instance.IsDonor)
+                    Process.Start("https://goo.gl/iTPfRU");
+            }
         }
 
         private void tsmiDLFolderSupport_Click(object sender, EventArgs e)
@@ -2372,6 +2413,7 @@ namespace CustomsForgeSongManager.UControls
 
             Globals.Log("Song Manager GUI Deactivated ...");
         }
+
 
     }
 }

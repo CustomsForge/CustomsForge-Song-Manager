@@ -44,6 +44,7 @@ namespace CustomsForgeSongManager.DataObjects
         private bool _includeSubfolders;
         private bool _protectODLC;
         private bool _includeVocals;
+        private bool _isDonor;
         private DateTime _lastODLCCheckDate;
         private RepairOptions _repairOptions;
 
@@ -260,6 +261,12 @@ namespace CustomsForgeSongManager.DataObjects
         {
             get { return _includeVocals; }
             set { SetPropertyField("IncludeVocals", ref _includeVocals, value); }
+        }
+
+        public bool IsDonor
+        {
+            get { return _isDonor; }
+            set { SetPropertyField("IsDonor", ref _isDonor, value); }
         }
 
         [XmlArray("CustomSettings")] // provides proper xml serialization

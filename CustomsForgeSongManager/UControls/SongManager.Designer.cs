@@ -131,9 +131,9 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiRescanFull = new CustomControls.ToolStripEnhancedMenuItem();
             this.tsmiRepairs = new CustomControls.ToolStripEnhancedMenuItem();
             this.tsmiSkipRemastered = new CustomControls.ToolStripEnhancedMenuItem();
-            this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator16 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiRepairsAddDD = new CustomControls.ToolStripEnhancedMenuItem();
-            this.tsmiAddDDSettings = new CustomControls.ToolStripEnhancedMenuItem();
+            this.tsmiDDSettings = new CustomControls.ToolStripEnhancedMenuItem();
             this.tsmiAddDDNumericUpDown = new CustomControls.ToolStripNumericUpDown();
             this.tsmiAddDDRemoveSustain = new CustomControls.ToolStripEnhancedMenuItem();
             this.tsmiAddDDCfgPath = new CustomControls.ToolStripSpringTextBox();
@@ -153,6 +153,10 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiRemoveMetronome = new CustomControls.ToolStripEnhancedMenuItem();
             this.tsmiIgnoreStopLimit = new CustomControls.ToolStripEnhancedMenuItem();
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsmiAdjustScrollSpeed = new CustomControls.ToolStripEnhancedMenuItem();
+            this.tsmiSSSettings = new CustomControls.ToolStripEnhancedMenuItem();
+            this.tsmiNudScrollSpeed = new CustomControls.ToolStripNumericUpDown();
+            this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiRemoveSections = new CustomControls.ToolStripEnhancedMenuItem();
             this.tsmiFixLowBass = new CustomControls.ToolStripEnhancedMenuItem();
             this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
@@ -1179,9 +1183,9 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiRepairs.AssociatedEnumValue = null;
             this.tsmiRepairs.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiSkipRemastered,
-            this.toolStripSeparator12,
+            this.toolStripSeparator16,
             this.tsmiRepairsAddDD,
-            this.tsmiAddDDSettings,
+            this.tsmiDDSettings,
             this.tsmiOverwriteDD,
             this.toolStripSeparator9,
             this.tsmiRepairsMastery,
@@ -1197,6 +1201,9 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiRemoveMetronome,
             this.tsmiIgnoreStopLimit,
             this.toolStripSeparator7,
+            this.tsmiAdjustScrollSpeed,
+            this.tsmiSSSettings,
+            this.toolStripSeparator12,
             this.tsmiRemoveSections,
             this.tsmiFixLowBass,
             this.toolStripSeparator10,
@@ -1227,10 +1234,10 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiSkipRemastered.ToolTipText = "Skipping previously remastered CDLC\r\nwill greatly speed up the repair\r\nprocess.";
             this.tsmiSkipRemastered.Click += new System.EventHandler(this.RepairsButton_Click);
             // 
-            // toolStripSeparator12
+            // toolStripSeparator16
             // 
-            this.toolStripSeparator12.Name = "toolStripSeparator12";
-            this.toolStripSeparator12.Size = new System.Drawing.Size(243, 6);
+            this.toolStripSeparator16.Name = "toolStripSeparator16";
+            this.toolStripSeparator16.Size = new System.Drawing.Size(243, 6);
             // 
             // tsmiRepairsAddDD
             // 
@@ -1248,24 +1255,23 @@ namespace CustomsForgeSongManager.UControls
                 "gements that do not have DD";
             this.tsmiRepairsAddDD.Click += new System.EventHandler(this.RepairsButton_Click);
             // 
-            // tsmiAddDDSettings
+            // tsmiDDSettings
             // 
-            this.tsmiAddDDSettings.AssociatedEnumValue = null;
-            this.tsmiAddDDSettings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiDDSettings.AssociatedEnumValue = null;
+            this.tsmiDDSettings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiAddDDNumericUpDown,
             this.tsmiAddDDRemoveSustain,
             this.tsmiAddDDCfgPath,
             this.tsmiAddDDRampUpPath});
-            this.tsmiAddDDSettings.Name = "tsmiAddDDSettings";
-            this.tsmiAddDDSettings.RadioButtonGroupName = "AddDD";
-            this.tsmiAddDDSettings.Size = new System.Drawing.Size(246, 22);
-            this.tsmiAddDDSettings.Text = "Customizable DDC Settings";
-            this.tsmiAddDDSettings.ToolTipText = "Configuration settings for ddc.exe CLI";
+            this.tsmiDDSettings.Name = "tsmiDDSettings";
+            this.tsmiDDSettings.RadioButtonGroupName = "AddDD";
+            this.tsmiDDSettings.Size = new System.Drawing.Size(246, 22);
+            this.tsmiDDSettings.Text = "Customizable DD Settings";
+            this.tsmiDDSettings.ToolTipText = "Configuration settings for ddc.exe CLI";
             // 
             // tsmiAddDDNumericUpDown
             // 
             this.tsmiAddDDNumericUpDown.BackColor = System.Drawing.Color.Transparent;
-            this.tsmiAddDDNumericUpDown.DecimalPlaces = 0;
             this.tsmiAddDDNumericUpDown.Margin = new System.Windows.Forms.Padding(0, 1, 3, 1);
             this.tsmiAddDDNumericUpDown.Minimum = new decimal(new int[] {
             4,
@@ -1275,9 +1281,8 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiAddDDNumericUpDown.Name = "tsmiAddDDNumericUpDown";
             this.tsmiAddDDNumericUpDown.NumBackColor = System.Drawing.SystemColors.Window;
             this.tsmiAddDDNumericUpDown.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.tsmiAddDDNumericUpDown.Size = new System.Drawing.Size(53, 22);
+            this.tsmiAddDDNumericUpDown.Size = new System.Drawing.Size(135, 23);
             this.tsmiAddDDNumericUpDown.Text = "Phrase Length";
-            this.tsmiAddDDNumericUpDown.TextVisible = false;
             this.tsmiAddDDNumericUpDown.ToolTipText = "Set custom Phrase Length greater than eight";
             this.tsmiAddDDNumericUpDown.Value = new decimal(new int[] {
             8,
@@ -1292,7 +1297,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiAddDDRemoveSustain.CheckOnClick = true;
             this.tsmiAddDDRemoveSustain.Name = "tsmiAddDDRemoveSustain";
             this.tsmiAddDDRemoveSustain.RadioButtonGroupName = "AddDD";
-            this.tsmiAddDDRemoveSustain.Size = new System.Drawing.Size(260, 22);
+            this.tsmiAddDDRemoveSustain.Size = new System.Drawing.Size(205, 22);
             this.tsmiAddDDRemoveSustain.Text = "Remove Sustain";
             this.tsmiAddDDRemoveSustain.ToolTipText = "If checked, sustain will be removed.";
             this.tsmiAddDDRemoveSustain.Click += new System.EventHandler(this.RepairsAddDDSettings_Click);
@@ -1491,6 +1496,67 @@ namespace CustomsForgeSongManager.UControls
             this.toolStripSeparator7.Name = "toolStripSeparator7";
             this.toolStripSeparator7.Size = new System.Drawing.Size(243, 6);
             // 
+            // tsmiAdjustScrollSpeed
+            // 
+            this.tsmiAdjustScrollSpeed.AssociatedEnumValue = null;
+            this.tsmiAdjustScrollSpeed.AutoCheck = false;
+            this.tsmiAdjustScrollSpeed.CheckMarkDisplayStyle = CustomControls.CheckMarkDisplayStyle.RadioButton;
+            this.tsmiAdjustScrollSpeed.CheckOnClick = true;
+            this.tsmiAdjustScrollSpeed.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tsmiAdjustScrollSpeed.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.tsmiAdjustScrollSpeed.Name = "tsmiAdjustScrollSpeed";
+            this.tsmiAdjustScrollSpeed.RadioButtonGroupName = "ScrollSpeed";
+            this.tsmiAdjustScrollSpeed.Size = new System.Drawing.Size(246, 22);
+            this.tsmiAdjustScrollSpeed.Text = "Adjust Scroll Speed (SS)";
+            this.tsmiAdjustScrollSpeed.ToolTipText = "Adjust Scroll Speed";
+            this.tsmiAdjustScrollSpeed.Click += new System.EventHandler(this.RepairsButton_Click);
+            // 
+            // tsmiSSSettings
+            // 
+            this.tsmiSSSettings.AssociatedEnumValue = null;
+            this.tsmiSSSettings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiNudScrollSpeed});
+            this.tsmiSSSettings.Name = "tsmiSSSettings";
+            this.tsmiSSSettings.RadioButtonGroupName = "ScrollSpeed";
+            this.tsmiSSSettings.Size = new System.Drawing.Size(246, 22);
+            this.tsmiSSSettings.Text = "Customizable SS Setting";
+            // 
+            // tsmiNudScrollSpeed
+            // 
+            this.tsmiNudScrollSpeed.BackColor = System.Drawing.Color.Transparent;
+            this.tsmiNudScrollSpeed.DecimalPlaces = 1;
+            this.tsmiNudScrollSpeed.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.tsmiNudScrollSpeed.Maximum = new decimal(new int[] {
+            45,
+            0,
+            0,
+            65536});
+            this.tsmiNudScrollSpeed.Minimum = new decimal(new int[] {
+            5,
+            0,
+            0,
+            65536});
+            this.tsmiNudScrollSpeed.Name = "tsmiNudScrollSpeed";
+            this.tsmiNudScrollSpeed.NumBackColor = System.Drawing.SystemColors.Window;
+            this.tsmiNudScrollSpeed.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.tsmiNudScrollSpeed.Size = new System.Drawing.Size(128, 23);
+            this.tsmiNudScrollSpeed.Text = "(Default 1.3)";
+            this.tsmiNudScrollSpeed.TextVisible = false;
+            this.tsmiNudScrollSpeed.Value = new decimal(new int[] {
+            13,
+            0,
+            0,
+            65536});
+            // 
+            // toolStripSeparator12
+            // 
+            this.toolStripSeparator12.Name = "toolStripSeparator12";
+            this.toolStripSeparator12.Size = new System.Drawing.Size(243, 6);
+            // 
             // tsmiRemoveSections
             // 
             this.tsmiRemoveSections.AssociatedEnumValue = null;
@@ -1537,7 +1603,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiDLFolderProcess.Name = "tsmiDLFolderProcess";
             this.tsmiDLFolderProcess.RadioButtonGroupName = "ProcessDLFolder";
             this.tsmiDLFolderProcess.Size = new System.Drawing.Size(246, 22);
-            this.tsmiDLFolderProcess.Text = "Process \'Downloads\' Folder";
+            this.tsmiDLFolderProcess.Text = "Process Downloads Folder";
             this.tsmiDLFolderProcess.ToolTipText = resources.GetString("tsmiDLFolderProcess.ToolTipText");
             this.tsmiDLFolderProcess.Click += new System.EventHandler(this.RepairsButton_Click);
             // 
@@ -1553,7 +1619,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiDLFolderMonitor.Name = "tsmiDLFolderMonitor";
             this.tsmiDLFolderMonitor.RadioButtonGroupName = "ProcessDLFolder";
             this.tsmiDLFolderMonitor.Size = new System.Drawing.Size(246, 22);
-            this.tsmiDLFolderMonitor.Text = "Auto Monitor \'Downloads\' Folder";
+            this.tsmiDLFolderMonitor.Text = "Auto Monitor Downloads Folder";
             this.tsmiDLFolderMonitor.ToolTipText = resources.GetString("tsmiDLFolderMonitor.ToolTipText");
             this.tsmiDLFolderMonitor.CheckStateChanged += new System.EventHandler(this.tsmiDLFolderMonitor_CheckStateChanged);
             // 
@@ -2093,7 +2159,7 @@ namespace CustomsForgeSongManager.UControls
         private CustomControls.ToolStripEnhancedMenuItem tsmiAddDDRemoveSustain;
         private CustomControls.ToolStripSpringTextBox tsmiAddDDCfgPath;
         private CustomControls.ToolStripSpringTextBox tsmiAddDDRampUpPath;
-        private CustomControls.ToolStripEnhancedMenuItem tsmiAddDDSettings;
+        private CustomControls.ToolStripEnhancedMenuItem tsmiDDSettings;
         private CustomControls.ToolStripNumericUpDown tsmiAddDDNumericUpDown;
         private CustomControls.ToolStripEnhancedMenuItem tsmiDLFolderProcess;
         private CustomControls.ToolStripEnhancedMenuItem tsmiDLFolderMonitor;
@@ -2172,6 +2238,10 @@ namespace CustomsForgeSongManager.UControls
         private DataGridViewAutoFilterTextBoxColumn colArtistSort;
         private DataGridViewAutoFilterTextBoxColumn colTitleSort;
         private DataGridViewAutoFilterTextBoxColumn colAlbumSort;
+        private ToolStripSeparator toolStripSeparator16;
+        private CustomControls.ToolStripEnhancedMenuItem tsmiAdjustScrollSpeed;
+        private CustomControls.ToolStripEnhancedMenuItem tsmiSSSettings;
+        private CustomControls.ToolStripNumericUpDown tsmiNudScrollSpeed;
 
     }
 }

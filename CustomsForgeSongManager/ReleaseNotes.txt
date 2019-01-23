@@ -14,6 +14,12 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.5.1.4
+- fixed inconsistent hard crash issue with Auto Monitor Downloads Folder feature
+- fixed FileDate reporting
+- added Adjust Scroll Speed to Repairs Options (default value is 1.3)
+- updated RockmsithToolkitLib (fixes SongVolume parsing)
+
 1.5.1.3
 - fixed PackageRating column export
 

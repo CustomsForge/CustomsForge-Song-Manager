@@ -131,7 +131,7 @@ namespace CustomsForgeSongManager.LocalTools
                     PackageRating = packageRating,
                     AppID = appId,
                     FilePath = _filePath,
-                    FileDate = fInfo.LastWriteTimeUtc,
+                    FileDate = fInfo.LastWriteTime,
                     FileSize = (int)fInfo.Length
                 };
 
