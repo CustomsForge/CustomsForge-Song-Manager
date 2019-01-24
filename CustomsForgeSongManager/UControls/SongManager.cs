@@ -168,9 +168,9 @@ namespace CustomsForgeSongManager.UControls
 
             PopulateDataGridView();
 
-            // bind datasource to grid
-            IncludeSubfolders();
-            ProtectODLC();
+            // bind datasource to grid            
+            //IncludeSubfolders(); // this kills search
+            //ProtectODLC();
 
             // Worker actually does the sorting after parsing, this is just to tell the grid that it is sorted.
             if (!String.IsNullOrEmpty(AppSettings.Instance.SortColumn))
@@ -273,12 +273,31 @@ namespace CustomsForgeSongManager.UControls
                 Rescan(false);
                 PopulateSongManager();
             }
-            else if (!isCueSearch)
+
+            // reapply search and/or filter
+            if (!String.IsNullOrEmpty(AppSettings.Instance.SearchString) && !isCueSearch)
             {
-                IncludeSubfolders(); // this kills cueSearch_KeyUp
+                isCueSearch = true;
+                cueSearch.Text = AppSettings.Instance.SearchString;
+                SearchCDLC(AppSettings.Instance.SearchString);
+            }
+
+            if (!isCueSearch)
+            {
+                IncludeSubfolders(); // search killer
                 ProtectODLC();
             }
 
+            try
+            {
+                // must come after the data is bound
+                if (!String.IsNullOrEmpty(AppSettings.Instance.FilterString))
+                    DataGridViewAutoFilterColumnHeaderCell.SetFilter(dgvSongsMaster, AppSettings.Instance.FilterString);
+            }
+            catch { /* DO NOTHING */}
+
+
+            dgvSongsMaster.AllowUserToAddRows = false; // corrects initial Song Count
             Globals.TsLabel_MainMsg.Text = string.Format("Rocksmith Song Count: {0}", dgvSongsMaster.Rows.Count);
             Globals.TsLabel_MainMsg.Visible = true;
             numberOfDisabledDLC = songList.Where(song => song.Enabled == "No").ToList().Count();
@@ -424,7 +443,10 @@ namespace CustomsForgeSongManager.UControls
 
         private void IncludeSubfolders()
         {
+            // search killer
             cueSearch.Text = String.Empty;
+            AppSettings.Instance.SearchString = String.Empty;
+
             songList = Globals.MasterCollection.ToList();
 
             if (!chkIncludeSubfolders.Checked)
@@ -1844,14 +1866,14 @@ namespace CustomsForgeSongManager.UControls
             tsmiModsMyCDLC.Checked = false;
             cueSearch.Text = String.Empty;
             cueSearch.Cue = "Search";
+            AppSettings.Instance.SearchString = String.Empty;
+            AppSettings.Instance.FilterString = String.Empty;
             RemoveFilter();
 
             // save current sorting before clearing search
             DgvExtensions.SaveSorting(dgvSongsMaster);
             UpdateToolStrip();
             DgvExtensions.RestoreSorting(dgvSongsMaster);
-            // AppSettings.Instance.FilterString = String.Empty;
-            // AppSettings.Instance.SearchString = String.Empty;
         }
 
         private void lnkLblSelectAll_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -1983,6 +2005,16 @@ namespace CustomsForgeSongManager.UControls
 
         private void tsmiDevsDebugUse_Click(object sender, EventArgs e)
         {
+            var stopHere = songList;
+            var stopHere2 = Globals.MasterCollection;
+            var stopHere3 = AppSettings.Instance.FilterString;
+
+            if (!String.IsNullOrEmpty(AppSettings.Instance.FilterString))
+            {
+                DataGridViewAutoFilterColumnHeaderCell.SetFilter(dgvSongsMaster, AppSettings.Instance.FilterString);
+            }
+            return;
+
             // developer sandbox area
             Process[] processes = Process.GetProcesses();
             foreach (var process in processes)
@@ -2013,10 +2045,6 @@ namespace CustomsForgeSongManager.UControls
 
             PackageDataTools.ShowPackageRatingWarning();
             return;
-
-            var stopHere = songList;
-            var stopHere2 = Globals.MasterCollection;
-            var stopHere3 = AppSettings.Instance.FilterString;
         }
 
         private void tsmiFilesArcBak_Click(object sender, EventArgs e)
@@ -2360,7 +2388,7 @@ namespace CustomsForgeSongManager.UControls
                 Globals.Log(" - User did not select 'Repairs' option 'Mastery 100% Bug' ...");
                 Globals.Log(" - By default, CFSM will fix the bug and preserve the user stats ...");
             }
-            
+
             tsmiRepairs.HideDropDown();
             DoWork(Constants.GWORKER_REPAIR, selection, SetRepairOptions());
             UpdateToolStrip();

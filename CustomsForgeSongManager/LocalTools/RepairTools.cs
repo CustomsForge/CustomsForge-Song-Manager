@@ -155,7 +155,7 @@ namespace CustomsForgeSongManager.LocalTools
                 if (playableArrCount > 5)
                     throw new CustomException("Maximum playable arrangement limit exceeded");
 
-                // Update arrangement song info
+                // Update arrangement song info, i.e. always Remaster the CDLC (default)
                 foreach (Arrangement arr in packageData.Arrangements)
                 {
                     if (!options.PreserveStats)
@@ -224,6 +224,9 @@ namespace CustomsForgeSongManager.LocalTools
                     Song2014.WriteXmlComments(arr.SongXml.File);
                 }
 
+                // add comments to ToolkitInfo to identify Remastered CDLC
+                packageData = packageData.AddPackageComment(Constants.TKI_REMASTER);
+                
                 // add comments to ToolkitInfo to identify repairs made by CFSM
                 if (!options.PreserveStats)
                     packageData = packageData.AddPackageComment(Constants.TKI_ARRID);
@@ -233,16 +236,7 @@ namespace CustomsForgeSongManager.LocalTools
 
                 if (options.RepairMaxFive && fixedMax5)
                     packageData = packageData.AddPackageComment(Constants.TKI_MAX5);
-
-                if (options.AdjustScrollSpeed)
-                    packageData = packageData.AddPackageComment(Constants.TKI_SCROLLSPEED);
-
-                // always repaired by default regardless of selection
-                packageData = packageData.AddPackageComment(Constants.TKI_REMASTER);
-
-                if (options.AdjustScrollSpeed)
-                    packageData = packageData.AddPackageComment(Constants.TKI_SCROLLSPEED);
-
+                   
                 // add default package version if missing
                 if (String.IsNullOrEmpty(packageData.ToolkitInfo.PackageVersion))
                     packageData.ToolkitInfo.PackageVersion = "1";
@@ -251,6 +245,13 @@ namespace CustomsForgeSongManager.LocalTools
 
                 // validate packageData (important)
                 packageData.Name = packageData.Name.GetValidKey(); // DLC Key                 
+                
+                // log repair status
+                Globals.Log(String.Format(" - {0}", options.PreserveStats ? "Preserved Song Stats" : "Reset Song Stats"));
+
+                if (options.AdjustScrollSpeed)
+                    Globals.Log(" - Adjusted Scroll Speed: " + options.ScrollSpeed);
+
                 Globals.Log(" - Repackaging Remastered CDLC");
                 GenExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate
                 {
@@ -268,11 +269,9 @@ namespace CustomsForgeSongManager.LocalTools
                     throw new Exception("<ERROR> Writing Package: " + ex.Message);
                 }
 
-                Globals.Log(String.Format(" - {0}", options.PreserveStats ? "Preserved Song Stats" : "Reset Song Stats"));
                 if (options.UsingOrgFiles)
                     Globals.Log(" - Used [" + Constants.EXT_ORG + "] File");
-                if (addedDD)
-                    Globals.Log(" - Added Dynamic Difficulty");
+                
                 if (!ddError)
                     Globals.Log(" - Repair was successful");
                 else
@@ -470,7 +469,7 @@ namespace CustomsForgeSongManager.LocalTools
 
             if (processed > 0)
             {
-                Globals.Log("CDLC repair completed ...");
+                Globals.Log("CDLC repairs completed ...");
                 Globals.ReloadSongManager = true;
 
                 if (!Constants.DebugMode)

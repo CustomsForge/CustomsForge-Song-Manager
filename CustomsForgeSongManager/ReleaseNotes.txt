@@ -14,6 +14,11 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.5.1.6
+- improved Repairs message logging
+- save and restore the user search and/or filter from SongManager or ArrangementAnalyzer
+- corrected initial Song Count
+
 1.5.1.5
 - fixed some reoccurring Song Manager>Repairs options text visibility bugs
 - address resetting Song Manager>Repairs options to default values in >Settings>Reset CFSM On Closing 

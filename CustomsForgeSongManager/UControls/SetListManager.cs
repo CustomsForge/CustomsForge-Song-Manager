@@ -106,6 +106,7 @@ namespace CustomsForgeSongManager.UControls
                 ProtectODLC();
             }
 
+            dgvSetlistMaster.AllowUserToAddRows = false; // corrects initial Song Count
             Globals.TsLabel_MainMsg.Text = string.Format(Properties.Resources.RocksmithSongsCountFormat, dgvSetlistMaster.Rows.Count);
             Globals.TsLabel_MainMsg.Visible = true;
             Globals.TsLabel_DisabledCounter.Alignment = ToolStripItemAlignment.Right;

@@ -53,7 +53,7 @@ namespace CustomsForgeSongManager.UControls
             PopulateDataGridView();
 
             // bind datasource to grid
-            IncludeSubfolders();
+            // IncludeSubfolders(); // search killer
 
             // Worker actually does the sorting after parsing, this is just to tell the grid that it is sorted.
             if (!String.IsNullOrEmpty(AppSettings.Instance.SortColumn))
@@ -70,7 +70,7 @@ namespace CustomsForgeSongManager.UControls
         {
             chkIncludeSubfolders.Checked = AppSettings.Instance.IncludeSubfolders;
             chkIncludeVocals.Checked = AppSettings.Instance.IncludeVocals;
-            
+
             if (Globals.RescanArrangements && AppSettings.Instance.IncludeArrangementData)
             {
                 Globals.RescanArrangements = false;
@@ -83,9 +83,27 @@ namespace CustomsForgeSongManager.UControls
                 Rescan(false);
                 PopulateArrangementManager();
             }
-            else if (!isCueSearch)
-                IncludeSubfolders();
 
+            // reapply search and/or filter
+            if (!String.IsNullOrEmpty(AppSettings.Instance.SearchString) && !isCueSearch)
+            {
+                isCueSearch = true;
+                cueSearch.Text = AppSettings.Instance.SearchString;
+                SearchCDLC(AppSettings.Instance.SearchString);
+            }
+
+            if (!isCueSearch)
+                IncludeSubfolders(); // search killer
+
+            try
+            {
+                // must come after the data is bound
+                if (!String.IsNullOrEmpty(AppSettings.Instance.FilterString))
+                    DataGridViewAutoFilterColumnHeaderCell.SetFilter(dgvArrangements, AppSettings.Instance.FilterString);
+            }
+            catch { /* DO NOTHING */}
+
+            dgvArrangements.AllowUserToAddRows = false; // corrects initial Song Count
             Globals.TsLabel_MainMsg.Text = string.Format("Rocksmith Arrangements Count: {0}", dgvArrangements.Rows.Count);
             Globals.TsLabel_MainMsg.Visible = true;
             Globals.TsLabel_DisabledCounter.Visible = false;
@@ -126,7 +144,9 @@ namespace CustomsForgeSongManager.UControls
 
         private void IncludeSubfolders()
         {
+            // search killer
             cueSearch.Text = String.Empty;
+            AppSettings.Instance.SearchString = String.Empty;
 
             if (!chkIncludeSubfolders.Checked)
             {
@@ -481,7 +501,7 @@ namespace CustomsForgeSongManager.UControls
 
         private void chkIncludeSubfolders_MouseUp(object sender, MouseEventArgs e)
         {
-            AppSettings.Instance.IncludeSubfolders = chkIncludeSubfolders.Checked;            
+            AppSettings.Instance.IncludeSubfolders = chkIncludeSubfolders.Checked;
             UpdateToolStrip();
         }
 
@@ -665,7 +685,7 @@ namespace CustomsForgeSongManager.UControls
             // has precedent over a ColumnHeader_MouseClick
             // MouseUp detection is more reliable than MouseDown
             var grid = (DataGridView)sender;
-     
+
             if (e.Button == MouseButtons.Right)
             {
                 if (e.RowIndex != -1)
@@ -810,14 +830,14 @@ namespace CustomsForgeSongManager.UControls
         {
             cueSearch.Text = String.Empty;
             cueSearch.Cue = "Search";
+            AppSettings.Instance.SearchString = String.Empty;
+            AppSettings.Instance.FilterString = String.Empty;
             RemoveFilter();
 
             // save current sorting before clearing search
             DgvExtensions.SaveSorting(dgvArrangements);
             UpdateToolStrip();
             DgvExtensions.RestoreSorting(dgvArrangements);
-           // AppSettings.Instance.FilterString = String.Empty;
-           // AppSettings.Instance.SearchString = String.Empty;
         }
 
         private void lnkLblSelectAll_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

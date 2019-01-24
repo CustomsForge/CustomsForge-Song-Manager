@@ -17,11 +17,11 @@ namespace CustomsForgeSongManager.DataObjects
         public static bool DebugMode { get { return false; } }
 #endif
 
+        // AdjustScrollSpeed and FixLowBass are intentionally not tracked
+        public static readonly string TKI_REMASTER = "(Remastered by CFSM)";
         public static readonly string TKI_ARRID = "(Arrangement ID by CFSM)";
         public static readonly string TKI_DDC = "(DD by CFSM)";
         public static readonly string TKI_MAX5 = "(Max5 by CFSM)";
-        public static readonly string TKI_REMASTER = "(Remastered by CFSM)";
-        public static readonly string TKI_SCROLLSPEED = "(Scroll Speed by CFSM)";
         public static readonly string TKI_PITCHSHIFT = "(Pitch Shifted by CFSM)";
 
         public static string EXT_BAK = ".bak";
