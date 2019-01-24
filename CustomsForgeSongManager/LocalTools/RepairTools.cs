@@ -142,7 +142,7 @@ namespace CustomsForgeSongManager.LocalTools
                 addedDD = false;
                 ddError = false;
                 fixedMax5 = false;
-                
+
                 DLCPackageData packageData;
                 using (var psarcOld = new PsarcPackager())
                     packageData = psarcOld.ReadPackage(srcFilePath, options.IgnoreMultitone, options.FixLowBass);
@@ -218,8 +218,8 @@ namespace CustomsForgeSongManager.LocalTools
                     }
 
                     if (options.AdjustScrollSpeed)
-                         arr.ScrollSpeed = (int)(options.ScrollSpeed * 10);
-  
+                        arr.ScrollSpeed = (int)(options.ScrollSpeed * 10);
+
                     // put arrangement comments in correct order
                     Song2014.WriteXmlComments(arr.SongXml.File);
                 }
@@ -230,19 +230,19 @@ namespace CustomsForgeSongManager.LocalTools
 
                 if (options.AddDD && addedDD)
                     packageData = packageData.AddPackageComment(Constants.TKI_DDC);
-                
+
                 if (options.RepairMaxFive && fixedMax5)
                     packageData = packageData.AddPackageComment(Constants.TKI_MAX5);
-               
+
                 if (options.AdjustScrollSpeed)
                     packageData = packageData.AddPackageComment(Constants.TKI_SCROLLSPEED);
 
                 // always repaired by default regardless of selection
                 packageData = packageData.AddPackageComment(Constants.TKI_REMASTER);
-           
+
                 if (options.AdjustScrollSpeed)
                     packageData = packageData.AddPackageComment(Constants.TKI_SCROLLSPEED);
-               
+
                 // add default package version if missing
                 if (String.IsNullOrEmpty(packageData.ToolkitInfo.PackageVersion))
                     packageData.ToolkitInfo.PackageVersion = "1";
@@ -621,9 +621,9 @@ namespace CustomsForgeSongManager.LocalTools
         // DO NOT SORT THIS CLASS
 
         private string _cfgPath;
-        private int _phraseLen;
+        private int _phraseLen = 8;
         private string _rampUpPath;
-        private decimal _scrollSpeed;
+        private decimal _scrollSpeed = 1.3m;
 
         public bool SkipRemastered { get; set; }
         public bool UsingOrgFiles { get; set; }
@@ -666,7 +666,7 @@ namespace CustomsForgeSongManager.LocalTools
         public bool AdjustScrollSpeed { get; set; }
         public decimal ScrollSpeed
         {
-            get { return _scrollSpeed; }
+            get { return _scrollSpeed < 0.5m || _scrollSpeed > 4.5m ? (_scrollSpeed = 1.3m) : _scrollSpeed; }
             set { _scrollSpeed = value; }
         }
         //

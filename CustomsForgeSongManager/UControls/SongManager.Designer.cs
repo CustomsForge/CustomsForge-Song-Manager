@@ -1272,6 +1272,11 @@ namespace CustomsForgeSongManager.UControls
             // tsmiAddDDNumericUpDown
             // 
             this.tsmiAddDDNumericUpDown.BackColor = System.Drawing.Color.Transparent;
+            this.tsmiAddDDNumericUpDown.DecimalValue = new decimal(new int[] {
+            8,
+            0,
+            0,
+            0});
             this.tsmiAddDDNumericUpDown.Margin = new System.Windows.Forms.Padding(0, 1, 3, 1);
             this.tsmiAddDDNumericUpDown.Minimum = new decimal(new int[] {
             4,
@@ -1281,14 +1286,10 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiAddDDNumericUpDown.Name = "tsmiAddDDNumericUpDown";
             this.tsmiAddDDNumericUpDown.NumBackColor = System.Drawing.SystemColors.Window;
             this.tsmiAddDDNumericUpDown.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.tsmiAddDDNumericUpDown.Size = new System.Drawing.Size(135, 23);
+            this.tsmiAddDDNumericUpDown.Size = new System.Drawing.Size(53, 22);
             this.tsmiAddDDNumericUpDown.Text = "Phrase Length";
+            this.tsmiAddDDNumericUpDown.TextVisible = false;
             this.tsmiAddDDNumericUpDown.ToolTipText = "Set custom Phrase Length greater than eight";
-            this.tsmiAddDDNumericUpDown.Value = new decimal(new int[] {
-            8,
-            0,
-            0,
-            0});
             this.tsmiAddDDNumericUpDown.Click += new System.EventHandler(this.RepairsAddDDSettings_Click);
             // 
             // tsmiAddDDRemoveSustain
@@ -1297,7 +1298,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiAddDDRemoveSustain.CheckOnClick = true;
             this.tsmiAddDDRemoveSustain.Name = "tsmiAddDDRemoveSustain";
             this.tsmiAddDDRemoveSustain.RadioButtonGroupName = "AddDD";
-            this.tsmiAddDDRemoveSustain.Size = new System.Drawing.Size(205, 22);
+            this.tsmiAddDDRemoveSustain.Size = new System.Drawing.Size(260, 22);
             this.tsmiAddDDRemoveSustain.Text = "Remove Sustain";
             this.tsmiAddDDRemoveSustain.ToolTipText = "If checked, sustain will be removed.";
             this.tsmiAddDDRemoveSustain.Click += new System.EventHandler(this.RepairsAddDDSettings_Click);
@@ -1359,8 +1360,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiRepairsMastery.RadioButtonGroupName = "Mastery";
             this.tsmiRepairsMastery.Size = new System.Drawing.Size(246, 22);
             this.tsmiRepairsMastery.Text = "Mastery 100% Bug";
-            this.tsmiRepairsMastery.ToolTipText = "Mastery 100% Bug is repaired\r\nby default regardless of\r\nother selected options.\r\n" +
-                "\r\nOnce the Mastery Bug is repaired\r\nthe CDLC is considered to be\r\n\'Remastered\'.";
+            this.tsmiRepairsMastery.ToolTipText = resources.GetString("tsmiRepairsMastery.ToolTipText");
             this.tsmiRepairsMastery.Click += new System.EventHandler(this.RepairsButton_Click);
             // 
             // tsmiRepairsPreserveStats
@@ -1508,7 +1508,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiAdjustScrollSpeed.RadioButtonGroupName = "ScrollSpeed";
             this.tsmiAdjustScrollSpeed.Size = new System.Drawing.Size(246, 22);
             this.tsmiAdjustScrollSpeed.Text = "Adjust Scroll Speed (SS)";
-            this.tsmiAdjustScrollSpeed.ToolTipText = "Adjust Scroll Speed";
+            this.tsmiAdjustScrollSpeed.ToolTipText = "Use Arrangement Analyzer\r\nto view Scroll Speed values \r\nbefore and after repair.";
             this.tsmiAdjustScrollSpeed.Click += new System.EventHandler(this.RepairsButton_Click);
             // 
             // tsmiSSSettings
@@ -1520,11 +1520,17 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiSSSettings.RadioButtonGroupName = "ScrollSpeed";
             this.tsmiSSSettings.Size = new System.Drawing.Size(246, 22);
             this.tsmiSSSettings.Text = "Customizable SS Setting";
+            this.tsmiSSSettings.ToolTipText = "Minimum 0.5, Default 1.3, Maximum 4.5";
             // 
             // tsmiNudScrollSpeed
             // 
             this.tsmiNudScrollSpeed.BackColor = System.Drawing.Color.Transparent;
             this.tsmiNudScrollSpeed.DecimalPlaces = 1;
+            this.tsmiNudScrollSpeed.DecimalValue = new decimal(new int[] {
+            13,
+            0,
+            0,
+            65536});
             this.tsmiNudScrollSpeed.Increment = new decimal(new int[] {
             1,
             0,
@@ -1543,14 +1549,9 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiNudScrollSpeed.Name = "tsmiNudScrollSpeed";
             this.tsmiNudScrollSpeed.NumBackColor = System.Drawing.SystemColors.Window;
             this.tsmiNudScrollSpeed.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.tsmiNudScrollSpeed.Size = new System.Drawing.Size(128, 23);
+            this.tsmiNudScrollSpeed.Size = new System.Drawing.Size(53, 22);
             this.tsmiNudScrollSpeed.Text = "(Default 1.3)";
             this.tsmiNudScrollSpeed.TextVisible = false;
-            this.tsmiNudScrollSpeed.Value = new decimal(new int[] {
-            13,
-            0,
-            0,
-            65536});
             // 
             // toolStripSeparator12
             // 

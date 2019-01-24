@@ -28,6 +28,7 @@ namespace CustomsForgeSongManager.UControls
     public partial class ArrangementAnalyzer : UserControl, IDataGridViewHolder, INotifyTabChanged
     {
         private bool allSelected = false;
+        // changes made here are not reflected in other grids (its non-binding)
         private List<ArrangementData> arrangementList = new List<ArrangementData>();
         private AbortableBackgroundWorker bWorker;
         private bool bindingCompleted = false;
@@ -65,7 +66,7 @@ namespace CustomsForgeSongManager.UControls
             // TODO: maybe reapply previous filtering and search
         }
 
-        public void UpdateToolStrip()
+        public void UpdateToolStrip(bool isCueSearch = false)
         {
             chkIncludeSubfolders.Checked = AppSettings.Instance.IncludeSubfolders;
             chkIncludeVocals.Checked = AppSettings.Instance.IncludeVocals;
@@ -82,7 +83,7 @@ namespace CustomsForgeSongManager.UControls
                 Rescan(false);
                 PopulateArrangementManager();
             }
-            else 
+            else if (!isCueSearch)
                 IncludeSubfolders();
 
             Globals.TsLabel_MainMsg.Text = string.Format("Rocksmith Arrangements Count: {0}", dgvArrangements.Rows.Count);
@@ -90,7 +91,7 @@ namespace CustomsForgeSongManager.UControls
             Globals.TsLabel_DisabledCounter.Visible = false;
             Globals.TsLabel_StatusMsg.Visible = false;
 
-            if (!AppSettings.Instance.IncludeArrangementData)
+            if (!AppSettings.Instance.IncludeArrangementData && !isCueSearch)
             {
                 var diaMsg = "Arrangement data has not been fully parsed" + Environment.NewLine +
                              "from the CDLC archives.  Use 'Rescan Full'" + Environment.NewLine +
@@ -360,7 +361,7 @@ namespace CustomsForgeSongManager.UControls
             UpdateToolStrip();
             // reapply sort direction to reselect the filtered song
             DgvExtensions.RestoreSorting(dgvArrangements);
-            this.Refresh();
+            Refresh();
         }
 
         private void Rescan(bool fullRescan)
@@ -480,7 +481,7 @@ namespace CustomsForgeSongManager.UControls
 
         private void chkIncludeSubfolders_MouseUp(object sender, MouseEventArgs e)
         {
-            AppSettings.Instance.IncludeSubfolders = chkIncludeSubfolders.Checked;
+            AppSettings.Instance.IncludeSubfolders = chkIncludeSubfolders.Checked;            
             UpdateToolStrip();
         }
 
@@ -549,9 +550,9 @@ namespace CustomsForgeSongManager.UControls
             else
                 LoadFilteredBindingList(arrangementList);
 
-            UpdateToolStrip();
             // restore current sort
             DgvExtensions.RestoreSorting(dgvArrangements);
+            UpdateToolStrip(true);
         }
 
         private void dgvArrangements_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -815,8 +816,8 @@ namespace CustomsForgeSongManager.UControls
             DgvExtensions.SaveSorting(dgvArrangements);
             UpdateToolStrip();
             DgvExtensions.RestoreSorting(dgvArrangements);
-            AppSettings.Instance.FilterString = String.Empty;
-            AppSettings.Instance.SearchString = String.Empty;
+           // AppSettings.Instance.FilterString = String.Empty;
+           // AppSettings.Instance.SearchString = String.Empty;
         }
 
         private void lnkLblSelectAll_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

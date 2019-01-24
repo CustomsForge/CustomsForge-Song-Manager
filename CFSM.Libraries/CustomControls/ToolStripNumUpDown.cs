@@ -85,7 +85,7 @@ namespace CustomControls
         }
 
         [DefaultValue(typeof(decimal), "0")]
-        public decimal Value
+        public decimal DecimalValue
         {
             get { return this.num.Value; }
             set

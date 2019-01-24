@@ -505,6 +505,21 @@ three File IO related 'Actions'.</value>
         TkSuQmCC
 </value>
   </data>
+  <data name="tsmiRepairsMastery.ToolTipText" xml:space="preserve">
+    <value>Mastery 100% Bug is repaired
+by default regardless of
+other selected options.
+
+Once the Mastery Bug is repaired
+the CDLC is considered to be
+'Remastered'.
+
+NOTE: If user fails to specify sub
+options for this repair then stats
+are preserved by default, i.e.
+the user will be stuck at 100%
+mastery.</value>
+  </data>
   <data name="tsmiRepairsPreserveStats.ToolTipText" xml:space="preserve">
     <value>If checked, preserves in-game stats.
 

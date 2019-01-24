@@ -55,6 +55,12 @@ namespace CustomsForgeSongManager.UControls
         public SongManager()
         {
             InitializeComponent();
+            //  hard coded these because an VS IDE bug keeps deleting them
+            this.tsmiAddDDNumericUpDown.Text = "Phrase Length";
+            this.tsmiAddDDNumericUpDown.TextVisible = true;
+            this.tsmiNudScrollSpeed.Text = "(Default 1.3)";
+            this.tsmiNudScrollSpeed.TextVisible = true;
+
             Globals.TsLabel_StatusMsg.Click += lnkShowAll_Click;
             dgvSongsDetail.Visible = false;
             // TODO: future get Ignition based API data
@@ -221,7 +227,7 @@ namespace CustomsForgeSongManager.UControls
             var ro = new RepairOptions();
             ro.SkipRemastered = tsmiSkipRemastered.Checked;
             ro.AddDD = tsmiRepairsAddDD.Checked;
-            ro.PhraseLength = (int)tsmiAddDDNumericUpDown.Value;
+            ro.PhraseLength = (int)tsmiAddDDNumericUpDown.DecimalValue;
             ro.RemoveSustain = tsmiAddDDRemoveSustain.Checked;
             ro.CfgPath = tsmiAddDDCfgPath.Tag == null ? "" : tsmiAddDDCfgPath.Tag.ToString();
             ro.RampUpPath = tsmiAddDDRampUpPath.Tag == null ? "" : tsmiAddDDRampUpPath.Tag.ToString();
@@ -238,7 +244,7 @@ namespace CustomsForgeSongManager.UControls
             ro.RemoveMetronome = tsmiRemoveMetronome.Checked;
             ro.IgnoreStopLimit = tsmiIgnoreStopLimit.Checked;
             ro.AdjustScrollSpeed = tsmiAdjustScrollSpeed.Checked;
-            ro.ScrollSpeed = tsmiNudScrollSpeed.Value;
+            ro.ScrollSpeed = tsmiNudScrollSpeed.DecimalValue;
             ro.RemoveSections = tsmiRemoveSections.Checked;
             ro.FixLowBass = tsmiFixLowBass.Checked;
             ro.DLFolderProcess = tsmiDLFolderProcess.Checked;
@@ -248,7 +254,7 @@ namespace CustomsForgeSongManager.UControls
             return ro;
         }
 
-        public void UpdateToolStrip()
+        public void UpdateToolStrip(bool isCueSearch = false)
         {
             chkIncludeSubfolders.Checked = AppSettings.Instance.IncludeSubfolders;
             chkProtectODLC.Checked = AppSettings.Instance.ProtectODLC;
@@ -267,9 +273,9 @@ namespace CustomsForgeSongManager.UControls
                 Rescan(false);
                 PopulateSongManager();
             }
-            else
+            else if (!isCueSearch)
             {
-                IncludeSubfolders();
+                IncludeSubfolders(); // this kills cueSearch_KeyUp
                 ProtectODLC();
             }
 
@@ -393,13 +399,13 @@ namespace CustomsForgeSongManager.UControls
             tsmiRemoveMetronome.Checked = AppSettings.Instance.RepairOptions.RemoveMetronome;
             tsmiIgnoreStopLimit.Checked = AppSettings.Instance.RepairOptions.IgnoreStopLimit;
             tsmiAdjustScrollSpeed.Checked = AppSettings.Instance.RepairOptions.AdjustScrollSpeed;
-            tsmiNudScrollSpeed.Value = AppSettings.Instance.RepairOptions.ScrollSpeed;
+            tsmiNudScrollSpeed.DecimalValue = AppSettings.Instance.RepairOptions.ScrollSpeed;
             tsmiRemoveSections.Checked = AppSettings.Instance.RepairOptions.RemoveSections;
             tsmiFixLowBass.Checked = AppSettings.Instance.RepairOptions.FixLowBass;
             tsmiDLFolderProcess.Checked = AppSettings.Instance.RepairOptions.DLFolderProcess;
             tsmiRepairsAddDD.Checked = AppSettings.Instance.RepairOptions.AddDD;
             tsmiOverwriteDD.Checked = AppSettings.Instance.RepairOptions.OverwriteDD;
-            tsmiAddDDNumericUpDown.Value = AppSettings.Instance.RepairOptions.PhraseLength;
+            tsmiAddDDNumericUpDown.DecimalValue = AppSettings.Instance.RepairOptions.PhraseLength;
             tsmiAddDDRemoveSustain.Checked = AppSettings.Instance.RepairOptions.RemoveSustain;
 
             tsmiAddDDCfgPath.Tag = AppSettings.Instance.RepairOptions.CfgPath;
@@ -734,7 +740,7 @@ namespace CustomsForgeSongManager.UControls
 
             // reapply sort direction to reselect the filtered song
             DgvExtensions.RestoreSorting(dgvSongsMaster);
-            this.Refresh();
+            Refresh();
         }
 
         private void Rescan(bool fullRescan)
@@ -1346,6 +1352,7 @@ namespace CustomsForgeSongManager.UControls
 
             // restore current sort
             DgvExtensions.RestoreSorting(dgvSongsMaster);
+            UpdateToolStrip(true);
         }
 
         private void dgvSongsMaster_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -1843,8 +1850,8 @@ namespace CustomsForgeSongManager.UControls
             DgvExtensions.SaveSorting(dgvSongsMaster);
             UpdateToolStrip();
             DgvExtensions.RestoreSorting(dgvSongsMaster);
-            AppSettings.Instance.FilterString = String.Empty;
-            AppSettings.Instance.SearchString = String.Empty;
+            // AppSettings.Instance.FilterString = String.Empty;
+            // AppSettings.Instance.SearchString = String.Empty;
         }
 
         private void lnkLblSelectAll_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -2345,11 +2352,19 @@ namespace CustomsForgeSongManager.UControls
                 return;
             }
 
-            this.Refresh();
-
-            // start new generic worker
+            // preserve stats if the user fails to select tsmiRepairsMastery
+            if (!tsmiRepairsMastery.Checked)
+            {
+                tsmiRepairsMastery.Checked = true;
+                tsmiRepairsPreserveStats.Checked = true;
+                Globals.Log(" - User did not select 'Repairs' option 'Mastery 100% Bug' ...");
+                Globals.Log(" - By default, CFSM will fix the bug and preserve the user stats ...");
+            }
+            
+            tsmiRepairs.HideDropDown();
             DoWork(Constants.GWORKER_REPAIR, selection, SetRepairOptions());
             UpdateToolStrip();
+            this.Refresh();
         }
 
         private void tsmiRescanFull_Click(object sender, EventArgs e)

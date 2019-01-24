@@ -5,9 +5,9 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using System.IO;
-using UserProfileLib;
 using CustomControls;
 using CustomsForgeSongManager.DataObjects;
+using UserProfileLib;
 
 namespace CustomsForgeSongManager.Forms
 {

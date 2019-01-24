@@ -371,6 +371,8 @@ namespace CustomsForgeSongManager.DataObjects
             Instance.ProtectODLC = true;
             Instance.IncludeSubfolders = true;
             Instance.IncludeVocals = false;
+            Instance.RepairOptions.ScrollSpeed = 1.3m;
+            Instance.RepairOptions.PhraseLength = 8;
 
             if (Environment.OSVersion.Platform == PlatformID.MacOSX || Constants.OnMac)
             {
